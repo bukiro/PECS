@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
+<body>
+<div ng-app="charApp" ng-controller="charCtrl">
+<p data-ng-repeat="attribute in attributes">
+    {{attribute.name}}: <input type="text" data-ng-model="attribute.value">
+  	{{attribute.name}} mod: <input type="text" value="{{attribute.value | charModifier}}" disabled>
+  </p>
+  <p data-ng-repeat="skill in skills">
+    {{skill.name}}: <input type="text" value="{{skill | charSkill:this.level:this.attributes}}" disabled>
+  </p>
+</div>
+
+<script>
+var app = angular.module('charApp', []);
+app.filter('charModifier', function() {
+  return function(x) {
+    return Math.floor((x-10)/2);
+  };
+});
+app.filter('charSkill', function($filter) {
+  return function(x, $level, $attributes) {
+  var attPos = $attributes.map(function(e) {
+      return e.name;
+    }).indexOf(x.attribute);
+    var skillResult = $level + (x.level * 2) + x.itembonus + $filter('charModifier')($attributes[attPos].value);
+    return skillResult;
+  };
+});
+app.controller('charCtrl', function($scope) {
+  $scope.level = 7;
+  $scope.attributes = [
+    { name:'str', value:17 },
+    { name:'dex', value:13 },
+    { name:'con', value:14 },
+    { name:'int', value:10 },
+    { name:'wis', value:13 },
+    { name:'cha', value:9  }
+  ];
+  $scope.skills = [
+    { name:'acrobatics', level:1, itembonus:0, attribute:"dex"  },
+    { name:'athletics', level:1, itembonus:0, attribute:"str" }
+  ];
+});
+</script>
