@@ -1,46 +1,154 @@
 <!DOCTYPE html>
 <html>
 <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
+
+<style>
+  .profbox {
+    display:flex;
+    flex-direction: row;
+  }
+</style>
 <body>
 <div ng-app="charApp" ng-controller="charCtrl">
-<p data-ng-repeat="attribute in attributes">
-    {{attribute.name}}: <input type="text" data-ng-model="attribute.value">
-  	{{attribute.name}} mod: <input type="text" value="{{attribute.value | charModifier}}" disabled>
-  </p>
-  <p data-ng-repeat="skill in skills">
-    {{skill.name}}: <input type="text" value="{{skill | charSkill:this.level:this.attributes}}" disabled>
-  </p>
+  <div>
+    <p>level: <select ng-model="level">
+      <option ng-value="1">1</option>
+      <option ng-value="2">2</option>
+      <option ng-value="3">3</option>
+      <option ng-value="4">4</option>
+      <option ng-value="5">5</option>
+      <option ng-value="6">6</option>
+      <option ng-value="7">7</option>
+      <option ng-value="8">8</option>
+      <option ng-value="9">9</option>
+      <option ng-value="10">10</option>
+    </select></p>
+  </div>
+  <div>
+  <h2>Abilities</h2>
+    <div data-ng-repeat="ability in abilities">
+      {{ability.name}}: <input type="text" data-ng-model="ability.value">
+  	  {{ability.name}} mod: <input type="text" value="{{ability.value | charModifier}}" disabled>
+    </div>
+  </div>
+  <h2>Perception</h2>
+  <div data-ng-repeat="perception in perception">
+    <div>{{perception.name}}: <input type="text" value="{{perception | charSkill:this.level:this.abilities}}" disabled>
+      <div class="profbox">
+        <div>T:<input type="radio" name="{{perception.name}}.level" ng-value=2 data-ng-model="perception.level"></div>
+        <div>E:<input type="radio" name="{{perception.name}}.level" ng-value=4 data-ng-model="perception.level"></div>
+        <div>M:<input type="radio" name="{{perception.name}}.level" ng-value=6 data-ng-model="perception.level"></div>
+        <div>L:<input type="radio" name="{{perception.name}}.level" ng-value=8 data-ng-model="perception.level"></div>
+      </div>
+      <input type="checkbox" ng-model="perception.showNotes">show notes</input>
+      <input ng-show="perception.showNotes" ng-model="perception.note">
+    </div>
+  </div>
+  <h2>Skills</h2>
+  <div data-ng-repeat="skill in skills">
+    <div>{{(skill.lore) ? skill.lore + " lore" : skill.name}}: <input type="text" value="{{skill | charSkill:this.level:this.abilities:this.feats}}" disabled>
+      <div class="profbox">
+        <div>U:<input type="radio" name="{{skill.name}}.level" ng-value=0 data-ng-model="skill.level"></div>
+        <div>T:<input type="radio" name="{{skill.name}}.level" ng-value=2 data-ng-model="skill.level"></div>
+        <div>E:<input type="radio" name="{{skill.name}}.level" ng-value=4 data-ng-model="skill.level"></div>
+        <div>M:<input type="radio" name="{{skill.name}}.level" ng-value=6 data-ng-model="skill.level"></div>
+        <div>L:<input type="radio" name="{{skill.name}}.level" ng-value=8 data-ng-model="skill.level"></div>
+      </div>
+      <input type="checkbox"  ng-model="skill.showNotes">show notes</input>
+      <input ng-show="skill.showNotes" ng-model="skill.note">
+    </div>
+  </div>
+  <h2>Saves</h2>
+  <div data-ng-repeat="save in saves">
+    <div>{{save.name}}: <input type="text" value="{{save | charSkill:this.level:this.abilities}}" disabled>
+      <div class="profbox">
+        <div>T:<input type="radio" name="{{save.name}}.level" ng-value=2 data-ng-model="save.level"></div>
+        <div>E:<input type="radio" name="{{save.name}}.level" ng-value=4 data-ng-model="save.level"></div>
+        <div>M:<input type="radio" name="{{save.name}}.level" ng-value=6 data-ng-model="save.level"></div>
+        <div>L:<input type="radio" name="{{save.name}}.level" ng-value=8 data-ng-model="save.level"></div>
+      </div>
+      <input type="checkbox"  ng-model="save.showNotes">show notes</input>
+      <input ng-show="save.showNotes" ng-model="save.note">
+      <span ng-show="save.systemNote" title={{save.systemNote}} disabled style="font-size:2em;">&#8962;</span>
+    </div>
+  </div>
+  <h2>Feats</h2>
+  <div data-ng-repeat="feat in feats">
+    <div>{{feat.name}}:
+      <input type="checkbox" ng-model="feat.have" ng-change="updateFeats(this)"></input>
+      {{feat.desc}}
+    </div>
+  </div>
 </div>
 
 <script>
+
 var app = angular.module('charApp', []);
+app.config(function($compileProvider){
+  $compileProvider.aHrefSanitizationWhitelist(/^\s*(https?|ftp|mailto|file|javascript):/);
+});
 app.filter('charModifier', function() {
   return function(x) {
     return Math.floor((x-10)/2);
   };
 });
 app.filter('charSkill', function($filter) {
-  return function(x, $level, $attributes) {
-  var attPos = $attributes.map(function(e) {
+  return function(x, $level, $abilities, $feats) {
+  var attPos = $abilities.map(function(e) {
       return e.name;
-    }).indexOf(x.attribute);
-    var skillResult = $level + (x.level * 2) + x.itembonus + $filter('charModifier')($attributes[attPos].value);
+    }).indexOf(x.ability);
+    var skillResult = ((x.level > 0) ? $level : ($feats[0].have) && Math.floor($level/2)) + x.level + x.itembonus + $filter('charModifier')($abilities[attPos].value);
     return skillResult;
   };
 });
-app.controller('charCtrl', function($scope) {
+app.controller('charCtrl', function($scope,$filter) {
   $scope.level = 7;
-  $scope.attributes = [
+  $scope.abilities = [
     { name:'str', value:17 },
     { name:'dex', value:13 },
     { name:'con', value:14 },
     { name:'int', value:10 },
     { name:'wis', value:13 },
-    { name:'cha', value:9  }
+    { name:'cha', value:9  },
   ];
+  $scope.perception = [{ name:'perception', level:2, itembonus:0, ability:"wis", note:'+2 initiative'}];
   $scope.skills = [
-    { name:'acrobatics', level:1, itembonus:0, attribute:"dex"  },
-    { name:'athletics', level:1, itembonus:0, attribute:"str" }
+    { name:'acrobatics', lore:'', level:2, itembonus:0, ability:"dex", note:''},
+    { name:'athletics', lore:'', level:4, itembonus:0, ability:"str", note:'+2 jumping'},
+    { name:'lore1', lore:'alcohol', level:2, itembonus:0, ability:"str", note:''},
+    { name:'lore2', lore:'cartography', level:2, itembonus:0, ability:"str", note:''},
   ];
+  $scope.saves = [
+    fortitude = { name:'fortitude', level:2, itembonus:0, ability:"con", note:''  },
+    reflex = { name:'reflex', level:6, itembonus:0, ability:"dex", note:'' },
+    will = { name:'will', level:4, itembonus:0, ability:"wis", note:'+2 vs enchantment'  },
+  ];
+  $scope.feats = [
+    untrainedproficiency = { name:'untrained proficiency', desc:'use half your level for untrained skills', have:false},
+    willmastery = { name:'will mastery', desc:'will save success will become critical success', have:false},
+  ]
+  $scope.initNotes = function(objects) {
+    angular.forEach (objects, function (obj) {
+      obj.showNotes = obj.note ? true : false;
+    });
+  };
+  $scope.abilities.byName = function($name) {
+    return $filter('filter')($scope.abilities, {name:$name})[0];
+  };
+  $scope.skills.byName = function($name) {
+    return $filter('filter')($scope.skills, {name:$name})[0];
+  };
+  $scope.saves.byName = function($name) {
+    return $filter('filter')($scope.saves, {name:$name})[0];
+  };
+  $scope.feats.byName = function($name) {
+    return $filter('filter')($scope.feats, {name:$name})[0];
+  };
+  $scope.updateFeats = function($this) {
+    if ($this.feats.byName('will mastery').have) { $this.saves.byName('will').systemNote = $this.feats.byName('will mastery').desc; };
+  };
+  $scope.initNotes($scope.skills);
+  $scope.initNotes($scope.perception);
+  $scope.initNotes($scope.saves);
 });
 </script>
