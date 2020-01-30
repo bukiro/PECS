@@ -48,13 +48,11 @@
   <div data-ng-repeat="weapon in weapons">
     <div ng-show="weapon.melee">{{weapon.name}} melee: <input type="text" value="{{weapon | charAttack:this.level:this.abilities:this.weaponProfs:this.feats:'melee'}}" disabled>
     <div>Damage: {{weapon | charWeaponDamage:this.abilities:'melee'}}</div>
-    <cite ng-show="weapon.thrown">Thrown {{weapon.thrown}}ft</cite>
-    <cite ng-show="weapon.propulsive">Propulsive</cite>
+    <cite ng-show="weapon.traits" data-ng-repeat="trait in weapon.traits"> {{trait}} </cite>
     </div>
     <div ng-show="weapon.ranged||weapon.thrown">{{weapon.name}} ranged: <input type="text" value="{{weapon | charAttack:this.level:this.abilities:this.weaponProfs:this.feats:'ranged'}}" disabled>
     <div>Damage: {{weapon | charWeaponDamage:this.abilities:'ranged'}}</div>
-    <cite ng-show="weapon.thrown">Thrown: {{weapon.thrown}}ft</cite>
-    <cite ng-show="weapon.propulsive">Propulsive</cite>
+    <cite ng-show="weapon.traits" data-ng-repeat="trait in weapon.traits"> {{trait}} </cite>
     </div>
   </div>
   <div data-ng-repeat="prof in weaponProfs">
@@ -114,6 +112,11 @@ var app = angular.module('charApp', []);
 app.config(function($compileProvider){
   $compileProvider.aHrefSanitizationWhitelist(/^\s*(https?|ftp|mailto|file|javascript):/);
 });
+app.haveTrait = function($obj, $trait) {
+    return $obj.traits.findIndex(function (element) {
+      return element.indexOf($trait) === 0;
+    }) >= 0;
+}
 app.filter('halve', function() {
   return function(x) {
     return Math.floor((x)/2);
@@ -123,8 +126,9 @@ app.filter('charAttack', function($filter) {
   return function(x, $level, $abilities, $weaponProfs, $feats, $range) {
     var charLevel = (((x.level > 0) || ($weaponProfs.byName(x.prof).level > 0)) && $level);
     var profLevel = Math.max(x.level, $weaponProfs.byName(x.prof).level);
-    var ability = ($range == "ranged" || x.finesse) ? "dex" : "str";
-    var abilityMod = $abilities.byName(ability).mod();
+    var str = $abilities.byName("str").mod();
+    var dex = $abilities.byName("dex").mod();
+    var abilityMod = ($range == "ranged" || (app.haveTrait(x, "finesse") >= 0 && dex > str)) ? dex : str;
     var attackResult = charLevel + profLevel + x.itembonus + abilityMod;
     return attackResult;
   };
@@ -138,7 +142,7 @@ app.filter('charWeaponDamage', function($filter) {
         abilityDmg = " + " + $abilities.byName('str').mod();
         break;
       case 'ranged':
-        abilityDmg = (x.thrown) ? " + " + $abilities.byName('str').mod() : (x.propulsive) ? " + " + Math.floor($abilities.byName('str').mod() / 2) : "";
+        abilityDmg = (app.haveTrait(x,"thrown")) ? " + " + $abilities.byName('str').mod() : (app.haveTrait(x,"propulsive")) ? " + " + Math.floor($abilities.byName('str').mod() / 2) : "";
         break;
     }
     var dmgResult = baseDice + abilityDmg;
@@ -185,10 +189,10 @@ app.controller('charCtrl', function($scope,$filter) {
     { name:'unarmed', level:0 },
   ]
   $scope.weapons = [
-    { name:'dagger', level:0, prof:'simple', dicenum:1, dicesize:4, melee:5, itembonus:0, thrown:10 },
-    { name:'short sword', level:0, prof:'martial', dicenum:1, dicesize:6, melee:5, itembonus:0, },
-    { name:'longbow', level:0, prof:'martial', dicenum:1, dicesize:8, ranged:30, itembonus:0, },
-    { name:'composite longbow', level:0, prof:'martial', dicenum:1, dicesize:8, ranged:30, itembonus:0, propulsive:1},
+    { name:'dagger', level:0, prof:'simple', dicenum:1, dicesize:4, melee:5, itembonus:0, thrown:10, traits:["thrown 10ft", "agile", "finesse"] },
+    { name:'short sword', level:0, prof:'martial', dicenum:1, dicesize:6, melee:5, itembonus:0, traits:[], },
+    { name:'longbow', level:0, prof:'martial', dicenum:1, dicesize:8, ranged:30, itembonus:0, traits:[], },
+    { name:'composite longbow', level:0, prof:'martial', dicenum:1, dicesize:8, ranged:30, itembonus:0, propulsive:1, traits:["propulsive", "deadly d10", "volley 30ft"], },
   ]
   $scope.initNotes = function(objects) {
     angular.forEach (objects, function (obj) {
