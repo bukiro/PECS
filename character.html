@@ -145,7 +145,11 @@ app.controller('charCtrl', function($scope,$filter) {
     return $filter('filter')($scope.feats, {name:$name})[0];
   };
   $scope.updateFeats = function($this) {
-    if ($this.feats.byName('will mastery').have) { $this.saves.byName('will').systemNote = $this.feats.byName('will mastery').desc; };
+    if ($this.feats.byName('will mastery').have) {
+        $this.saves.byName('will').systemNote = $this.feats.byName('will mastery').desc;
+      } else {
+        $this.saves.byName('will').systemNote = "";
+      };
   };
   $scope.initNotes($scope.skills);
   $scope.initNotes($scope.perception);
