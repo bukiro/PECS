@@ -28,7 +28,7 @@
   <h2>Abilities</h2>
     <div data-ng-repeat="ability in abilities">
       {{ability.name}}: <input type="text" data-ng-model="ability.value">
-  	  {{ability.name}} mod: <input type="text" value="{{ability.value | charModifier}}" disabled>
+  	  {{ability.name}} mod: <input type="text" ng-value="ability.mod()" disabled>
     </div>
   </div>
   <h2>Perception</h2>
@@ -42,6 +42,33 @@
       </div>
       <input type="checkbox" ng-model="perception.showNotes">show notes</input>
       <input ng-show="perception.showNotes" ng-model="perception.note">
+    </div>
+  </div>
+  <h2>Attacks</h2>
+  <div data-ng-repeat="weapon in weapons">
+    <div ng-show="weapon.melee">{{weapon.name}} melee: <input type="text" value="{{weapon | charAttack:this.level:this.abilities:this.weaponProfs:this.feats:'melee'}}" disabled>
+    <div>Damage: {{weapon | charWeaponDamage:this.abilities:'melee'}}</div>
+    <cite ng-show="weapon.thrown">Thrown {{weapon.thrown}}ft</cite>
+    <cite ng-show="weapon.propulsive">Propulsive</cite>
+    </div>
+    <div ng-show="weapon.ranged||weapon.thrown">{{weapon.name}} ranged: <input type="text" value="{{weapon | charAttack:this.level:this.abilities:this.weaponProfs:this.feats:'ranged'}}" disabled>
+    <div>Damage: {{weapon | charWeaponDamage:this.abilities:'ranged'}}</div>
+    <cite ng-show="weapon.thrown">Thrown: {{weapon.thrown}}ft</cite>
+    <cite ng-show="weapon.propulsive">Propulsive</cite>
+    </div>
+  </div>
+  <div data-ng-repeat="prof in weaponProfs">
+    <div>{{prof.name}} weapons:
+      <div class="profbox">
+        <div>U:<input type="radio" name="{{prof.name}}.level" ng-value=0 data-ng-model="prof.level"></div>
+        <div>T:<input type="radio" name="{{prof.name}}.level" ng-value=2 data-ng-model="prof.level"></div>
+        <div>E:<input type="radio" name="{{prof.name}}.level" ng-value=4 data-ng-model="prof.level"></div>
+        <div>M:<input type="radio" name="{{prof.name}}.level" ng-value=6 data-ng-model="prof.level"></div>
+        <div>L:<input type="radio" name="{{prof.name}}.level" ng-value=8 data-ng-model="prof.level"></div>
+      </div>
+      <input type="checkbox"  ng-model="save.showNotes">show notes</input>
+      <input ng-show="save.showNotes" ng-model="save.note">
+      <span ng-show="save.systemNote" title={{save.systemNote}} disabled style="font-size:2em;">&#8962;</span>
     </div>
   </div>
   <h2>Skills</h2>
@@ -87,45 +114,81 @@ var app = angular.module('charApp', []);
 app.config(function($compileProvider){
   $compileProvider.aHrefSanitizationWhitelist(/^\s*(https?|ftp|mailto|file|javascript):/);
 });
-app.filter('charModifier', function() {
+app.filter('halve', function() {
   return function(x) {
-    return Math.floor((x-10)/2);
+    return Math.floor((x)/2);
+  };
+});
+app.filter('charAttack', function($filter) {
+  return function(x, $level, $abilities, $weaponProfs, $feats, $range) {
+    var charLevel = (((x.level > 0) || ($weaponProfs.byName(x.prof).level > 0)) && $level);
+    var profLevel = Math.max(x.level, $weaponProfs.byName(x.prof).level);
+    var ability = ($range == "ranged" || x.finesse) ? "dex" : "str";
+    var abilityMod = $abilities.byName(ability).mod();
+    var attackResult = charLevel + profLevel + x.itembonus + abilityMod;
+    return attackResult;
+  };
+});
+app.filter('charWeaponDamage', function($filter) {
+  return function(x, $abilities, $range) {
+    var baseDice = x.dicenum + "d" + x.dicesize;
+    var abilityDmg = "";
+    switch ( $range ) {
+      case 'melee':
+        abilityDmg = " + " + $abilities.byName('str').mod();
+        break;
+      case 'ranged':
+        abilityDmg = (x.thrown) ? " + " + $abilities.byName('str').mod() : (x.propulsive) ? " + " + Math.floor($abilities.byName('str').mod() / 2) : "";
+        break;
+    }
+    var dmgResult = baseDice + abilityDmg;
+    return dmgResult;
   };
 });
 app.filter('charSkill', function($filter) {
   return function(x, $level, $abilities, $feats) {
-  var attPos = $abilities.map(function(e) {
-      return e.name;
-    }).indexOf(x.ability);
-    var skillResult = ((x.level > 0) ? $level : ($feats[0].have) && Math.floor($level/2)) + x.level + x.itembonus + $filter('charModifier')($abilities[attPos].value);
+    var charLevel = ((x.level > 0) ? $level : ($feats.byName("untrained proficiency").have) && Math.floor($level/2));
+    var abilityMod = $abilities.byName(x.ability).mod();
+    var skillResult = charLevel + x.level + x.itembonus + abilityMod;
     return skillResult;
   };
 });
 app.controller('charCtrl', function($scope,$filter) {
   $scope.level = 7;
   $scope.abilities = [
-    { name:'str', value:17 },
-    { name:'dex', value:13 },
-    { name:'con', value:14 },
-    { name:'int', value:10 },
-    { name:'wis', value:13 },
-    { name:'cha', value:9  },
+    { name:'str', value:17, mod:function() { return Math.floor((this.value-10)/2) } },
+    { name:'dex', value:13, mod:function() { return Math.floor((this.value-10)/2) } },
+    { name:'con', value:14, mod:function() { return Math.floor((this.value-10)/2) } },
+    { name:'int', value:10, mod:function() { return Math.floor((this.value-10)/2) } },
+    { name:'wis', value:13, mod:function() { return Math.floor((this.value-10)/2) } },
+    { name:'cha', value:9, mod:function() { return Math.floor((this.value-10)/2) }  },
   ];
   $scope.perception = [{ name:'perception', level:2, itembonus:0, ability:"wis", note:'+2 initiative'}];
   $scope.skills = [
-    { name:'acrobatics', lore:'', level:2, itembonus:0, ability:"dex", note:''},
+    { name:'acrobatics', lore:'', level:0, itembonus:0, ability:"dex", note:''},
     { name:'athletics', lore:'', level:4, itembonus:0, ability:"str", note:'+2 jumping'},
-    { name:'lore1', lore:'alcohol', level:2, itembonus:0, ability:"str", note:''},
-    { name:'lore2', lore:'cartography', level:2, itembonus:0, ability:"str", note:''},
+    { name:'lore1', lore:'alcohol', level:2, itembonus:0, ability:"int", note:''},
+    { name:'lore2', lore:'cartography', level:2, itembonus:0, ability:"int", note:''},
   ];
   $scope.saves = [
-    fortitude = { name:'fortitude', level:2, itembonus:0, ability:"con", note:''  },
-    reflex = { name:'reflex', level:6, itembonus:0, ability:"dex", note:'' },
-    will = { name:'will', level:4, itembonus:0, ability:"wis", note:'+2 vs enchantment'  },
+    { name:'fortitude', level:2, itembonus:0, ability:"con", note:''  },
+    { name:'reflex', level:6, itembonus:0, ability:"dex", note:'' },
+    { name:'will', level:4, itembonus:0, ability:"wis", note:'+2 vs enchantment'  },
   ];
   $scope.feats = [
-    untrainedproficiency = { name:'untrained proficiency', desc:'use half your level for untrained skills', have:false},
-    willmastery = { name:'will mastery', desc:'will save success will become critical success', have:false},
+    { name:'untrained proficiency', desc:'use half your level for untrained skills', have:false},
+    { name:'will mastery', desc:'will save success will become critical success', have:false},
+  ]
+  $scope.weaponProfs = [
+    { name:'simple', level:2  },
+    { name:'martial', level:4 },
+    { name:'unarmed', level:0 },
+  ]
+  $scope.weapons = [
+    { name:'dagger', level:0, prof:'simple', dicenum:1, dicesize:4, melee:5, itembonus:0, thrown:10 },
+    { name:'short sword', level:0, prof:'martial', dicenum:1, dicesize:6, melee:5, itembonus:0, },
+    { name:'longbow', level:0, prof:'martial', dicenum:1, dicesize:8, ranged:30, itembonus:0, },
+    { name:'composite longbow', level:0, prof:'martial', dicenum:1, dicesize:8, ranged:30, itembonus:0, propulsive:1},
   ]
   $scope.initNotes = function(objects) {
     angular.forEach (objects, function (obj) {
@@ -143,6 +206,12 @@ app.controller('charCtrl', function($scope,$filter) {
   };
   $scope.feats.byName = function($name) {
     return $filter('filter')($scope.feats, {name:$name})[0];
+  };
+  $scope.weaponProfs.byName = function($name) {
+    return $filter('filter')($scope.weaponProfs, {name:$name})[0];
+  };
+  $scope.weapons.byName = function($name) {
+    return $filter('filter')($scope.weapon, {name:$name})[0];
   };
   $scope.updateFeats = function($this) {
     if ($this.feats.byName('will mastery').have) {
