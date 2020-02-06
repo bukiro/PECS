@@ -31,8 +31,8 @@
       {{ability.name}}: <input type="text" ng-value="ability.value()" disabled>
       {{ability.name}} mod: <input type="text" ng-value="ability.mod()" disabled>
       <cite ng-show="ability.effects" data-ng-repeat="effect in ability.effects|orderBy:'toString()'" ng-style="(effect[0] == '-') ? {'color':'red'} : {'color':'green'}"> {{effect}} </cite>
-      <span data-ng-repeat="feat in (feats|filter:{showon:ability.name, have:true})" title={{feat.desc}} disabled style="font-size:2em;">&#8962;</span>
-      <span data-ng-repeat="trait in (traits|filter:{showon:ability.name})" ng-show="trait.have()" title={{trait.desc}} disabled style="font-size:2em;">&#8962;</span>
+      <span data-ng-repeat="feat in (feat_db|filter:{showon:ability.name, have:true})" title={{feat.desc}} disabled style="font-size:2em;">&#8962;</span>
+      <span data-ng-repeat="trait in (trait_db|filter:{showon:ability.name})" ng-show="trait.have()" title={{trait.desc}} disabled style="font-size:2em;">&#8962;</span>
     </div>
   </div>
   <div id="effects">
@@ -59,21 +59,21 @@
         </div>
         <input type="checkbox" ng-model="perception.showNotes">show notes
         <input ng-show="perception.showNotes" ng-model="perception.note">
-        <span data-ng-repeat="feat in (feats|filter:{showon:perception.name, have:true})" title={{feat.desc}} disabled style="font-size:2em;">&#8962;</span>
-        <span data-ng-repeat="trait in (traits|filter:{showon:perception.name})" ng-show="trait.have()" title={{trait.desc}} disabled style="font-size:2em;">&#8962;</span>
+        <span data-ng-repeat="feat in (feat_db|filter:{showon:perception.name, have:true})" title={{feat.desc}} disabled style="font-size:2em;">&#8962;</span>
+        <span data-ng-repeat="trait in (trait_db|filter:{showon:perception.name})" ng-show="trait.have()" title={{trait.desc}} disabled style="font-size:2em;">&#8962;</span>
       </div>
     </div>
   </div>
   <div id="attacks"> 
     <h2>Attacks</h2>
     <div data-ng-repeat="weapon in items | filter:{ type:'weapon', equip:true} track by $index">
-      <div ng-show="weapon.melee && weapon.equip">{{weapon.name}} melee: <input type="text" value="{{weapon | charAttack:this.level:this.abilities:this.weaponProfs:this.traits:'Melee'}}" disabled>
-      <div>Damage: {{weapon | charWeaponDamage:this.abilities:this.traits:'Melee'}}</div>
-      <cite ng-show="weapon.traits" data-ng-repeat="trait in weapon.traits" title="{{traits.byName(trait).desc}}"> {{trait}} </cite>
+      <div ng-show="weapon.melee && weapon.equip">{{weapon.name}} melee: <input type="text" value="{{weapon | charAttack:this.level:this.abilities:this.weaponProfs:this.trait_db:'Melee'}}" disabled>
+      <div>Damage: {{weapon | charWeaponDamage:this.abilities:this.trait_db:'Melee'}}</div>
+      <cite ng-show="weapon.traits" data-ng-repeat="trait in weapon.traits" title="{{trait_db.byName(trait).desc}}"> {{trait}} </cite>
       </div>
-      <div ng-show="weapon.ranged && weapon.equip">{{weapon.name}} ranged: <input type="text" value="{{weapon | charAttack:this.level:this.abilities:this.weaponProfs:this.traits:'Ranged'}}" disabled>
-      <div>Damage: {{weapon | charWeaponDamage:this.abilities:this.traits:'Ranged'}}</div>
-      <cite ng-show="weapon.traits" data-ng-repeat="trait in weapon.traits" title="{{traits.byName(trait).desc}}"> {{trait}} </cite>
+      <div ng-show="weapon.ranged && weapon.equip">{{weapon.name}} ranged: <input type="text" value="{{weapon | charAttack:this.level:this.abilities:this.weaponProfs:this.trait_db:'Ranged'}}" disabled>
+      <div>Damage: {{weapon | charWeaponDamage:this.abilities:this.trait_db:'Ranged'}}</div>
+      <cite ng-show="weapon.traits" data-ng-repeat="trait in weapon.traits" title="{{trait_db.byName(trait).desc}}"> {{trait}} </cite>
       </div>
     </div>
   </div>
@@ -81,7 +81,7 @@
     <h2>Defense: {{AC.value()}}</h2>
     <div data-ng-repeat="armor in items | filter:{ type:'armor', equip:true} track by $index">
       <div ng-show="armor.equip">{{armor.name}} AC: <input type="text" name="armorAC" value="{{armor | charArmorDefense:this.level:this.abilities:this.armorProfs}}" disabled>
-      <cite ng-show="armor.traits" data-ng-repeat="trait in armor.traits" title="{{traits.byName(trait).desc}}"> {{trait}} </cite>
+      <cite ng-show="armor.traits" data-ng-repeat="trait in armor.traits" title="{{trait_db.byName(trait).desc}}"> {{trait}} </cite>
       </div>
     </div>
     <div data-ng-repeat="shield in items | filter:{ type:'shield', equip:true} track by $index">
@@ -133,7 +133,7 @@
     <div data-ng-repeat="weapon in items | filter:{ type:'weapon'}:true track by $index">
       <div>{{weapon.name}}
       <input type="checkbox" ng-model="weapon.equip" ng-click="equipBasics()">Equip
-      <cite ng-show="weapon.traits" data-ng-repeat="trait in weapon.traits" title="{{traits.byName(trait).desc}}"> {{trait}} </cite>
+      <cite ng-show="weapon.traits" data-ng-repeat="trait in weapon.traits" title="{{trait_db.byName(trait).desc}}"> {{trait}} </cite>
       <button ng-click="itemdrop(weapon)">Drop</button>
       </div>
     </div>
@@ -143,7 +143,7 @@
     <div data-ng-repeat="armor in items | filter:{ type:'armor'}:true track by $index">
       <div>{{armor.name}}
       <input type="checkbox" ng-model="armor.equip" ng-click="equipArmor(armor);equipBasics()">Equip
-      <cite ng-show="armor.traits" data-ng-repeat="trait in armor.traits" title="{{traits.byName(trait).desc}}"> {{trait}}</cite>
+      <cite ng-show="armor.traits" data-ng-repeat="trait in armor.traits" title="{{trait_db.byName(trait).desc}}"> {{trait}}</cite>
       <button ng-click="itemdrop(armor)">Drop</button>
       </div>
     </div>
@@ -159,7 +159,7 @@
     <h2><input type="checkbox" ng-model="weaponGet_show">Get Weapons</h2>
     <div ng-show="weaponGet_show" data-ng-repeat="weapon in item_db | filter:{ type:'weapon'}:true">
       <div>{{weapon.name}}
-      <cite ng-show="weapon.traits" data-ng-repeat="trait in weapon.traits" title="{{traits.byName(trait).desc}}"> {{trait}} </cite>
+      <cite ng-show="weapon.traits" data-ng-repeat="trait in weapon.traits" title="{{trait_db.byName(trait).desc}}"> {{trait}} </cite>
       <button ng-click="itemget(weapon)">Get</button>
       </div>
     </div>
@@ -168,7 +168,7 @@
     <h2><input type="checkbox" ng-model="armorGet_show">Get Armor</h2>
     <div ng-show="armorGet_show" data-ng-repeat="armor in item_db | filter:{ type:'armor'}:true">
       <div>{{armor.name}}
-      <cite ng-show="armor.traits" data-ng-repeat="trait in armor.traits" title="{{traits.byName(trait).desc}}"> {{trait}} </cite>
+      <cite ng-show="armor.traits" data-ng-repeat="trait in armor.traits" title="{{trait_db.byName(trait).desc}}"> {{trait}} </cite>
       <button ng-click="itemget(armor)">Get</button>
       </div>
     </div>
@@ -184,7 +184,7 @@
   <div id="skills">
     <h2>Skills</h2>
     <div data-ng-repeat="skill in skills">
-      <div>{{skill.name}}: <input type="text" value="{{skill | charSkill:this.level:this.abilities:this.feats:this.effectsData}}" disabled>
+      <div>{{skill.name}}: <input type="text" value="{{skill | charSkill:this.level:this.abilities:this.feat_db:this.effectsData}}" disabled>
         <cite ng-show="skill.effects" data-ng-repeat="effect in skill.effects|orderBy:'toString()'" ng-style="(effect[0] == '-') ? {'color':'red'} : {'color':'green'}"> {{effect}} </cite>
         <div class="profbox">
           <div>U:<input type="radio" name="{{skill.name}}.level" ng-value=0 data-ng-model="skill.level"></div>
@@ -195,8 +195,8 @@
         </div>
         <input type="checkbox" ng-model="skill.showNotes">show notes
         <input ng-show="skill.showNotes" ng-model="skill.note">
-        <span data-ng-repeat="feat in (feats|filter:{showon:skill.name, have:true})" title={{feat.desc}} disabled style="font-size:2em;">&#8962;</span>
-        <span data-ng-repeat="trait in (traits|filter:{showon:skill.name})" ng-show="trait.have()" title={{trait.desc}} disabled style="font-size:2em;">&#8962;</span>
+        <span data-ng-repeat="feat in (feat_db|filter:{showon:skill.name, have:true})" title={{feat.desc}} disabled style="font-size:2em;">&#8962;</span>
+        <span data-ng-repeat="trait in (trait_db|filter:{showon:skill.name})" ng-show="trait.have()" title={{trait.desc}} disabled style="font-size:2em;">&#8962;</span>
       </div>
     </div>
   </div>
@@ -212,14 +212,14 @@
         </div>
         <input type="checkbox"  ng-model="save.showNotes">show notes
         <input ng-show="save.showNotes" ng-model="save.note">
-        <span data-ng-repeat="feat in (feats|filter:{showon:save.name, have:true})" title={{feat.desc}} disabled style="font-size:2em;">&#8962;</span>
-        <span data-ng-repeat="trait in (traits|filter:{showon:save.name})" ng-show="trait.have()" title={{trait.desc}} disabled style="font-size:2em;">&#8962;</span>
+        <span data-ng-repeat="feat in (feat_db|filter:{showon:save.name, have:true})" title={{feat.desc}} disabled style="font-size:2em;">&#8962;</span>
+        <span data-ng-repeat="trait in (trait_db|filter:{showon:save.name})" ng-show="trait.have()" title={{trait.desc}} disabled style="font-size:2em;">&#8962;</span>
       </div>
     </div>
   </div>
   <div id="feats">
-    <h2>Feats</h2>
-    <div data-ng-repeat="feat in feats">
+    <h2><input type="checkbox" ng-model="featGet_show">Get Feats</h2>
+    <div ng-show="featGet_show" data-ng-repeat="feat in feat_db">
       <div>{{feat.name}}:
         <input type="checkbox" ng-model="feat.have">
         {{feat.desc}}
