@@ -11,176 +11,219 @@
   div {
     border: 1px solid black;
   }
+  #app {
+    display:flex;
+    flex-direction: row;
+    flex-wrap:wrap;
+  }
 </style>
 <body>
-<div ng-app="charApp" ng-controller="charCtrl">
+<div ng-app="charApp" ng-controller="charCtrl" id="app">
   <div>
     <p>level: <select ng-model="level">
-      <option ng-value="1">1</option>
-      <option ng-value="2">2</option>
-      <option ng-value="3">3</option>
-      <option ng-value="4">4</option>
-      <option ng-value="5">5</option>
-      <option ng-value="6">6</option>
-      <option ng-value="7">7</option>
-      <option ng-value="8">8</option>
-      <option ng-value="9">9</option>
-      <option ng-value="10">10</option>
+      <option ng-value="level" ng-repeat="level in [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,18,19,20]">{{level}}</option>
     </select></p>
   </div>
-  <div>
-  <h2>Abilities</h2>
-  <div data-ng-repeat="ability in abilities">
-    {{ability.name}} base: <input type="text" data-ng-model="ability.basevalue">
-    {{ability.name}}: <input type="text" ng-value="ability.value()" disabled>
-    {{ability.name}} mod: <input type="text" ng-value="ability.mod()" disabled>
-    <cite ng-show="ability.effects" data-ng-repeat="effect in ability.effects|orderBy:'toString()'" ng-style="(effect[0] == '-') ? {'color':'red'} : {'color':'green'}"> {{effect}} </cite>
-    <span data-ng-repeat="feat in (feats|filter:{showon:ability.name, have:true})" title={{feat.desc}} disabled style="font-size:2em;">&#8962;</span>
-    <span data-ng-repeat="trait in (traits|filter:{showon:ability.name})" ng-show="trait.have()" title={{trait.desc}} disabled style="font-size:2em;">&#8962;</span>
+  <div id="abilities">
+    <h2>Abilities</h2>
+    <div data-ng-repeat="ability in abilities">
+      {{ability.name}} base: <input type="text" data-ng-model="ability.basevalue">
+      {{ability.name}}: <input type="text" ng-value="ability.value()" disabled>
+      {{ability.name}} mod: <input type="text" ng-value="ability.mod()" disabled>
+      <cite ng-show="ability.effects" data-ng-repeat="effect in ability.effects|orderBy:'toString()'" ng-style="(effect[0] == '-') ? {'color':'red'} : {'color':'green'}"> {{effect}} </cite>
+      <span data-ng-repeat="feat in (feats|filter:{showon:ability.name, have:true})" title={{feat.desc}} disabled style="font-size:2em;">&#8962;</span>
+      <span data-ng-repeat="trait in (traits|filter:{showon:ability.name})" ng-show="trait.have()" title={{trait.desc}} disabled style="font-size:2em;">&#8962;</span>
+    </div>
   </div>
+  <div id="effects">
+    <h2>Effects</h2>
+    <div data-ng-repeat="effect in effects()|filter:{apply:true}|orderBy:'target'|orderBy:'value':true" ng-style="(effect.penalty) ? {'color':'red'} : {'color':'green'}">
+      {{effect.target}} {{effect.value}} ({{effect.source}})
+    </div>
+    <h3 ng-show="(effects()|filter:{apply:'!'+true}).length > 0">Not applied</h3>
+    <div data-ng-repeat="effect in effects()|filter:{apply:'!'+true}|orderBy:'target'|orderBy:'value':true" ng-style="(effect.penalty) ? {'color':'darkred'} : {'color':'darkgreen'}">
+
+      {{effect.target}} {{effect.value}} ({{effect.source}})
+    </div>
   </div>
-  <h2>Effects</h2>
-  <div data-ng-repeat="effect in effects()|filter:{apply:true}|orderBy:'target'|orderBy:'value':true" ng-style="(effect.penalty) ? {'color':'red'} : {'color':'green'}">
-    {{effect.target}} {{effect.value}} ({{effect.source}})
-  </div>
-  <h3 ng-show="(effects()|filter:{apply:'!'+true}).length > 0">Not applied</h3>
-  <div data-ng-repeat="effect in effects()|filter:{apply:'!'+true}|orderBy:'target'|orderBy:'value':true" ng-style="(effect.penalty) ? {'color':'darkred'} : {'color':'darkgreen'}">
-    {{effect.target}} {{effect.value}} ({{effect.source}})
-  </div>
-  <h2>Perception</h2>
-  <div data-ng-repeat="perception in perception">
-    <div>{{perception.name}}: <input type="text" value="{{perception | charSkill:this.level:this.abilities}}" disabled>
-      <cite ng-show="perception.effects" data-ng-repeat="effect in perception.effects|orderBy:'toString()'" ng-style="(effect[0] == '-') ? {'color':'red'} : {'color':'green'}"> {{effect}} </cite>
-      <div class="profbox">
-        <div>T:<input type="radio" name="{{perception.name}}.level" ng-value=2 data-ng-model="perception.level"></div>
-        <div>E:<input type="radio" name="{{perception.name}}.level" ng-value=4 data-ng-model="perception.level"></div>
-        <div>M:<input type="radio" name="{{perception.name}}.level" ng-value=6 data-ng-model="perception.level"></div>
-        <div>L:<input type="radio" name="{{perception.name}}.level" ng-value=8 data-ng-model="perception.level"></div>
+  <div id="perception">
+    <h2>Perception</h2>
+    <div data-ng-repeat="perception in perception">
+      <div>{{perception.name}}: <input type="text" value="{{perception | charSkill:this.level:this.abilities}}" disabled>
+        <cite ng-show="perception.effects" data-ng-repeat="effect in perception.effects|orderBy:'toString()'" ng-style="(effect[0] == '-') ? {'color':'red'} : {'color':'green'}"> {{effect}} </cite>
+        <div class="profbox">
+          <div>T:<input type="radio" name="{{perception.name}}.level" ng-value=2 data-ng-model="perception.level"></div>
+          <div>E:<input type="radio" name="{{perception.name}}.level" ng-value=4 data-ng-model="perception.level"></div>
+          <div>M:<input type="radio" name="{{perception.name}}.level" ng-value=6 data-ng-model="perception.level"></div>
+          <div>L:<input type="radio" name="{{perception.name}}.level" ng-value=8 data-ng-model="perception.level"></div>
+        </div>
+        <input type="checkbox" ng-model="perception.showNotes">show notes
+        <input ng-show="perception.showNotes" ng-model="perception.note">
+        <span data-ng-repeat="feat in (feats|filter:{showon:perception.name, have:true})" title={{feat.desc}} disabled style="font-size:2em;">&#8962;</span>
+        <span data-ng-repeat="trait in (traits|filter:{showon:perception.name})" ng-show="trait.have()" title={{trait.desc}} disabled style="font-size:2em;">&#8962;</span>
       </div>
-      <input type="checkbox" ng-model="perception.showNotes">show notes
-      <input ng-show="perception.showNotes" ng-model="perception.note">
-      <span data-ng-repeat="feat in (feats|filter:{showon:perception.name, have:true})" title={{feat.desc}} disabled style="font-size:2em;">&#8962;</span>
-      <span data-ng-repeat="trait in (traits|filter:{showon:perception.name})" ng-show="trait.have()" title={{trait.desc}} disabled style="font-size:2em;">&#8962;</span>
     </div>
   </div>
-  <h2>Attacks</h2>
-  <div data-ng-repeat="weapon in items | filter:{ type: 'weapon'}:true track by $index">
-    <div ng-show="weapon.melee && weapon.equip">{{weapon.name}} melee: <input type="text" value="{{weapon | charAttack:this.level:this.abilities:this.weaponProfs:'Melee'}}" disabled>
-    <div>Damage: {{weapon | charWeaponDamage:this.abilities:'Melee'}}</div>
-    <cite ng-show="weapon.traits" data-ng-repeat="trait in weapon.traits" title="{{traits.byName(trait).desc}}"> {{trait}} </cite>
-    </div>
-    <div ng-show="(weapon.ranged||weapon.thrown)&&weapon.equip">{{weapon.name}} ranged: <input type="text" value="{{weapon | charAttack:this.level:this.abilities:this.weaponProfs:'Ranged'}}" disabled>
-    <div>Damage: {{weapon | charWeaponDamage:this.abilities:'Ranged'}}</div>
-    <cite ng-show="weapon.traits" data-ng-repeat="trait in weapon.traits" title="{{traits.byName(trait).desc}}"> {{trait}} </cite>
-    </div>
-  </div>
-  <h2>Defense</h2>
-  <div data-ng-repeat="armor in items | filter:{ type: 'armor'}:true">
-    <div ng-show="armor.equip">{{armor.name}} AC: <input type="text" value="{{armor | charDefense:this.level:this.abilities:this.armorProfs}}" disabled>
-    <cite ng-show="armor.traits" data-ng-repeat="trait in armor.traits" title="{{traits.byName(trait).desc}}"> {{trait}} </cite>
+  <div id="attacks"> 
+    <h2>Attacks</h2>
+    <div data-ng-repeat="weapon in items | filter:{ type:'weapon', equip:true} track by $index">
+      <div ng-show="weapon.melee && weapon.equip">{{weapon.name}} melee: <input type="text" value="{{weapon | charAttack:this.level:this.abilities:this.weaponProfs:this.traits:'Melee'}}" disabled>
+      <div>Damage: {{weapon | charWeaponDamage:this.abilities:this.traits:'Melee'}}</div>
+      <cite ng-show="weapon.traits" data-ng-repeat="trait in weapon.traits" title="{{traits.byName(trait).desc}}"> {{trait}} </cite>
+      </div>
+      <div ng-show="weapon.ranged && weapon.equip">{{weapon.name}} ranged: <input type="text" value="{{weapon | charAttack:this.level:this.abilities:this.weaponProfs:this.traits:'Ranged'}}" disabled>
+      <div>Damage: {{weapon | charWeaponDamage:this.abilities:this.traits:'Ranged'}}</div>
+      <cite ng-show="weapon.traits" data-ng-repeat="trait in weapon.traits" title="{{traits.byName(trait).desc}}"> {{trait}} </cite>
+      </div>
     </div>
   </div>
-  <div data-ng-repeat="shield in items | filter:{ type: 'shield'}:true">
-    <div ng-show="shield.equip">{{shield.name}} AC: <input type="text" value="{{shield | charDefense:this.level:this.abilities:this.armorProfs}}" disabled>
-    <cite ng-show="shield.traits" data-ng-repeat="trait in shield.traits"> {{trait}} </cite>
+  <div id="defense">
+    <h2>Defense: {{AC.value()}}</h2>
+    <div data-ng-repeat="armor in items | filter:{ type:'armor', equip:true} track by $index">
+      <div ng-show="armor.equip">{{armor.name}} AC: <input type="text" name="armorAC" value="{{armor | charArmorDefense:this.level:this.abilities:this.armorProfs}}" disabled>
+      <cite ng-show="armor.traits" data-ng-repeat="trait in armor.traits" title="{{traits.byName(trait).desc}}"> {{trait}} </cite>
+      </div>
     </div>
+    <div data-ng-repeat="shield in items | filter:{ type:'shield', equip:true} track by $index">
+      <div ng-show="shield.equip">{{shield.name}} AC: <input type="text" ng-value="shield.itembonus" disabled>
+        <button ng-click="shield.raised = true;">Raise shield</button>
+      </div>
+    </div>
+    <div data-ng-repeat="parry in items | canParry:this.weaponProfs track by $index">
+      <div ng-show="parry.equip">{{parry.name}} Parry AC: <input type="text" value="1" disabled>
+        <button ng-click="parry.raised = true;">Raise weapon</button>
+      </div>
+    </div>
+    <cite ng-show="AC.effects" data-ng-repeat="effect in perception.effects|orderBy:'toString()'" ng-style="(effect[0] == '-') ? {'color':'red'} : {'color':'green'}"> {{effect}} </cite>
   </div>
+  <div id="weaponprofs">
   <h2>Weapon Proficiencies</h2>
-  <div data-ng-repeat="prof in weaponProfs">
-    <div>{{prof.name}} weapons:
-      <div class="profbox">
-        <div>U:<input type="radio" name="{{prof.name}}.level" ng-value=0 data-ng-model="prof.level"></div>
-        <div>T:<input type="radio" name="{{prof.name}}.level" ng-value=2 data-ng-model="prof.level"></div>
-        <div>E:<input type="radio" name="{{prof.name}}.level" ng-value=4 data-ng-model="prof.level"></div>
-        <div>M:<input type="radio" name="{{prof.name}}.level" ng-value=6 data-ng-model="prof.level"></div>
-        <div>L:<input type="radio" name="{{prof.name}}.level" ng-value=8 data-ng-model="prof.level"></div>
+    <div data-ng-repeat="prof in weaponProfs">
+      <div>{{prof.name}} weapons:
+        <div class="profbox">
+          <div>U:<input type="radio" name="{{prof.name}}.level" ng-value=0 data-ng-model="prof.level"></div>
+          <div>T:<input type="radio" name="{{prof.name}}.level" ng-value=2 data-ng-model="prof.level"></div>
+          <div>E:<input type="radio" name="{{prof.name}}.level" ng-value=4 data-ng-model="prof.level"></div>
+          <div>M:<input type="radio" name="{{prof.name}}.level" ng-value=6 data-ng-model="prof.level"></div>
+          <div>L:<input type="radio" name="{{prof.name}}.level" ng-value=8 data-ng-model="prof.level"></div>
+        </div>
+        <input type="checkbox"  ng-model="save.showNotes">show notes
+        <input ng-show="save.showNotes" ng-model="save.note">
       </div>
-      <input type="checkbox"  ng-model="save.showNotes">show notes
-      <input ng-show="save.showNotes" ng-model="save.note">
     </div>
   </div>
-  <h2>Armor Proficiencies</h2>
-  <div data-ng-repeat="prof in armorProfs">
-    <div>{{(prof.name == "unarmored") ? prof.name : prof.name + " armor"}}:
-      <div class="profbox">
-        <div>U:<input type="radio" name="{{prof.name}}.level" ng-value=0 data-ng-model="prof.level"></div>
-        <div>T:<input type="radio" name="{{prof.name}}.level" ng-value=2 data-ng-model="prof.level"></div>
-        <div>E:<input type="radio" name="{{prof.name}}.level" ng-value=4 data-ng-model="prof.level"></div>
-        <div>M:<input type="radio" name="{{prof.name}}.level" ng-value=6 data-ng-model="prof.level"></div>
-        <div>L:<input type="radio" name="{{prof.name}}.level" ng-value=8 data-ng-model="prof.level"></div>
+  <div id="armorprofs">
+    <h2>Armor Proficiencies</h2>
+    <div data-ng-repeat="prof in armorProfs">
+      <div>{{(prof.name == "unarmored") ? prof.name : prof.name + " armor"}}:
+        <div class="profbox">
+          <div>U:<input type="radio" name="{{prof.name}}.level" ng-value=0 data-ng-model="prof.level"></div>
+          <div>T:<input type="radio" name="{{prof.name}}.level" ng-value=2 data-ng-model="prof.level"></div>
+          <div>E:<input type="radio" name="{{prof.name}}.level" ng-value=4 data-ng-model="prof.level"></div>
+          <div>M:<input type="radio" name="{{prof.name}}.level" ng-value=6 data-ng-model="prof.level"></div>
+          <div>L:<input type="radio" name="{{prof.name}}.level" ng-value=8 data-ng-model="prof.level"></div>
+        </div>
+        <input type="checkbox" ng-model="save.showNotes">show notes
+        <input ng-show="save.showNotes" ng-model="save.note">
       </div>
-      <input type="checkbox" ng-model="save.showNotes">show notes
-      <input ng-show="save.showNotes" ng-model="save.note">
     </div>
   </div>
-  <h2>Weapons</h2>
-  <cite ng-show="(filtered = (items | filter:{ type: 'weapon'}:true)).length == 0">no weapons equipped</cite>
-  <div data-ng-repeat="weapon in items | filter:{ type: 'weapon'}:true track by $index">
-    <div>{{weapon.name}}
-    <input type="checkbox" ng-model="weapon.equip">Equip
-    <cite ng-show="weapon.traits" data-ng-repeat="trait in weapon.traits" title="{{traits.byName(trait).desc}}"> {{trait}} </cite>
-    <button ng-click="unequip(weapon)">unequip</button>
-    </div>
-  </div>
-  <h2>Armor</h2>
-  <cite ng-show="(filtered = (items | filter:{ type: 'armor'}:true)).length == 0">no armor equipped</cite>
-  <div data-ng-repeat="armor in items | filter:{ type:'armor', equip:true}:true">
-    <div>{{armor.name}}
-    <cite ng-show="armor.traits" data-ng-repeat="trait in armor.traits" title="{{traits.byName(trait).desc}}"> {{trait}}</cite>
-    <button ng-click="unequip(armor)">unequip</button>
-    </div>
-  </div>
-  <h2><input type="checkbox" ng-model="weaponEquip_show">Equip Weapons</h2>
-  <div ng-show="weaponEquip_show" data-ng-repeat="weapon in item_db | filter:{ type:'weapon'}:true">
-    <div>{{weapon.name}}
-    <cite ng-show="weapon.traits" data-ng-repeat="trait in weapon.traits" title="{{traits.byName(trait).desc}}"> {{trait}} </cite>
-    <button ng-click="equipWeapon(weapon)">equip</button>
-    </div>
-  </div>
-  <h2><input type="checkbox" ng-model="armorEquip_show">Equip Armor</h2>
-  <div ng-show="armorEquip_show" data-ng-repeat="armor in item_db | filter:{ type:'armor'}:true">
-    <div>{{armor.name}}
-    <cite ng-show="armor.traits" data-ng-repeat="trait in armor.traits" title="{{traits.byName(trait).desc}}"> {{trait}} </cite>
-    <button ng-click="equipArmor(armor)">equip</button>
-    </div>
-  </div>
-  <h2>Skills</h2>
-  <div data-ng-repeat="skill in skills">
-    <div>{{skill.name}}: <input type="text" value="{{skill | charSkill:this.level:this.abilities:this.feats:this.effectsData}}" disabled>
-      <cite ng-show="skill.effects" data-ng-repeat="effect in skill.effects|orderBy:'toString()'" ng-style="(effect[0] == '-') ? {'color':'red'} : {'color':'green'}"> {{effect}} </cite>
-      <div class="profbox">
-        <div>U:<input type="radio" name="{{skill.name}}.level" ng-value=0 data-ng-model="skill.level"></div>
-        <div>T:<input type="radio" name="{{skill.name}}.level" ng-value=2 data-ng-model="skill.level"></div>
-        <div>E:<input type="radio" name="{{skill.name}}.level" ng-value=4 data-ng-model="skill.level"></div>
-        <div>M:<input type="radio" name="{{skill.name}}.level" ng-value=6 data-ng-model="skill.level"></div>
-        <div>L:<input type="radio" name="{{skill.name}}.level" ng-value=8 data-ng-model="skill.level"></div>
+  <div id="weapons">
+    <h2>Weapons</h2>
+    <div data-ng-repeat="weapon in items | filter:{ type:'weapon'}:true track by $index">
+      <div>{{weapon.name}}
+      <input type="checkbox" ng-model="weapon.equip" ng-click="equipBasics()">Equip
+      <cite ng-show="weapon.traits" data-ng-repeat="trait in weapon.traits" title="{{traits.byName(trait).desc}}"> {{trait}} </cite>
+      <button ng-click="itemdrop(weapon)">Drop</button>
       </div>
-      <input type="checkbox" ng-model="skill.showNotes">show notes
-      <input ng-show="skill.showNotes" ng-model="skill.note">
-      <span data-ng-repeat="feat in (feats|filter:{showon:skill.name, have:true})" title={{feat.desc}} disabled style="font-size:2em;">&#8962;</span>
-      <span data-ng-repeat="trait in (traits|filter:{showon:skill.name})" ng-show="trait.have()" title={{trait.desc}} disabled style="font-size:2em;">&#8962;</span>
     </div>
   </div>
-  <h2>Saves</h2>
-  <div data-ng-repeat="save in saves">
-    <div>{{save.name}}: <input type="text" value="{{save | charSkill:this.level:this.abilities}}" disabled>
-      <div class="profbox">
-        <div>T:<input type="radio" name="{{save.name}}.level" ng-value=2 data-ng-model="save.level"></div>
-        <div>E:<input type="radio" name="{{save.name}}.level" ng-value=4 data-ng-model="save.level"></div>
-        <div>M:<input type="radio" name="{{save.name}}.level" ng-value=6 data-ng-model="save.level"></div>
-        <div>L:<input type="radio" name="{{save.name}}.level" ng-value=8 data-ng-model="save.level"></div>
+  <div id="armor">
+    <h2>Armor</h2>
+    <div data-ng-repeat="armor in items | filter:{ type:'armor'}:true track by $index">
+      <div>{{armor.name}}
+      <input type="checkbox" ng-model="armor.equip" ng-click="equipArmor(armor);equipBasics()">Equip
+      <cite ng-show="armor.traits" data-ng-repeat="trait in armor.traits" title="{{traits.byName(trait).desc}}"> {{trait}}</cite>
+      <button ng-click="itemdrop(armor)">Drop</button>
       </div>
-      <input type="checkbox"  ng-model="save.showNotes">show notes
-      <input ng-show="save.showNotes" ng-model="save.note">
-      <span data-ng-repeat="feat in (feats|filter:{showon:save.name, have:true})" title={{feat.desc}} disabled style="font-size:2em;">&#8962;</span>
-      <span data-ng-repeat="trait in (traits|filter:{showon:save.name})" ng-show="trait.have()" title={{trait.desc}} disabled style="font-size:2em;">&#8962;</span>
+    </div>
+    <h2>Shield</h2>
+    <div data-ng-repeat="shield in items | filter:{ type:'shield'}:true track by $index">
+      <div>{{shield.name}}
+      <input type="checkbox" ng-model="shield.equip" ng-click="equipArmor(shield);equipBasics()">Equip
+      <button ng-click="itemdrop(shield)">Drop</button>
+      </div>
     </div>
   </div>
-  <h2>Feats</h2>
-  <div data-ng-repeat="feat in feats">
-    <div>{{feat.name}}:
-      <input type="checkbox" ng-model="feat.have">
-      {{feat.desc}}
+  <div id="getweapons">
+    <h2><input type="checkbox" ng-model="weaponGet_show">Get Weapons</h2>
+    <div ng-show="weaponGet_show" data-ng-repeat="weapon in item_db | filter:{ type:'weapon'}:true">
+      <div>{{weapon.name}}
+      <cite ng-show="weapon.traits" data-ng-repeat="trait in weapon.traits" title="{{traits.byName(trait).desc}}"> {{trait}} </cite>
+      <button ng-click="itemget(weapon)">Get</button>
+      </div>
+    </div>
+  </div>
+  <div id="getarmor">
+    <h2><input type="checkbox" ng-model="armorGet_show">Get Armor</h2>
+    <div ng-show="armorGet_show" data-ng-repeat="armor in item_db | filter:{ type:'armor'}:true">
+      <div>{{armor.name}}
+      <cite ng-show="armor.traits" data-ng-repeat="trait in armor.traits" title="{{traits.byName(trait).desc}}"> {{trait}} </cite>
+      <button ng-click="itemget(armor)">Get</button>
+      </div>
+    </div>
+  </div>
+  <div id="getshield">
+    <h2><input type="checkbox" ng-model="shieldGet_show">Get Shield</h2>
+    <div ng-show="shieldGet_show" data-ng-repeat="shield in item_db | filter:{ type:'shield'}:true">
+      <div>{{shield.name}}
+      <button ng-click="itemget(shield)">Get</button>
+      </div>
+    </div>
+  </div>
+  <div id="skills">
+    <h2>Skills</h2>
+    <div data-ng-repeat="skill in skills">
+      <div>{{skill.name}}: <input type="text" value="{{skill | charSkill:this.level:this.abilities:this.feats:this.effectsData}}" disabled>
+        <cite ng-show="skill.effects" data-ng-repeat="effect in skill.effects|orderBy:'toString()'" ng-style="(effect[0] == '-') ? {'color':'red'} : {'color':'green'}"> {{effect}} </cite>
+        <div class="profbox">
+          <div>U:<input type="radio" name="{{skill.name}}.level" ng-value=0 data-ng-model="skill.level"></div>
+          <div>T:<input type="radio" name="{{skill.name}}.level" ng-value=2 data-ng-model="skill.level"></div>
+          <div>E:<input type="radio" name="{{skill.name}}.level" ng-value=4 data-ng-model="skill.level"></div>
+          <div>M:<input type="radio" name="{{skill.name}}.level" ng-value=6 data-ng-model="skill.level"></div>
+          <div>L:<input type="radio" name="{{skill.name}}.level" ng-value=8 data-ng-model="skill.level"></div>
+        </div>
+        <input type="checkbox" ng-model="skill.showNotes">show notes
+        <input ng-show="skill.showNotes" ng-model="skill.note">
+        <span data-ng-repeat="feat in (feats|filter:{showon:skill.name, have:true})" title={{feat.desc}} disabled style="font-size:2em;">&#8962;</span>
+        <span data-ng-repeat="trait in (traits|filter:{showon:skill.name})" ng-show="trait.have()" title={{trait.desc}} disabled style="font-size:2em;">&#8962;</span>
+      </div>
+    </div>
+  </div>
+  <div id="saves">
+    <h2>Saves</h2>
+    <div data-ng-repeat="save in saves">
+      <div>{{save.name}}: <input type="text" value="{{save | charSkill:this.level:this.abilities}}" disabled>
+        <div class="profbox">
+          <div>T:<input type="radio" name="{{save.name}}.level" ng-value=2 data-ng-model="save.level"></div>
+          <div>E:<input type="radio" name="{{save.name}}.level" ng-value=4 data-ng-model="save.level"></div>
+          <div>M:<input type="radio" name="{{save.name}}.level" ng-value=6 data-ng-model="save.level"></div>
+          <div>L:<input type="radio" name="{{save.name}}.level" ng-value=8 data-ng-model="save.level"></div>
+        </div>
+        <input type="checkbox"  ng-model="save.showNotes">show notes
+        <input ng-show="save.showNotes" ng-model="save.note">
+        <span data-ng-repeat="feat in (feats|filter:{showon:save.name, have:true})" title={{feat.desc}} disabled style="font-size:2em;">&#8962;</span>
+        <span data-ng-repeat="trait in (traits|filter:{showon:save.name})" ng-show="trait.have()" title={{trait.desc}} disabled style="font-size:2em;">&#8962;</span>
+      </div>
+    </div>
+  </div>
+  <div id="feats">
+    <h2>Feats</h2>
+    <div data-ng-repeat="feat in feats">
+      <div>{{feat.name}}:
+        <input type="checkbox" ng-model="feat.have">
+        {{feat.desc}}
+      </div>
     </div>
   </div>
 </div>
