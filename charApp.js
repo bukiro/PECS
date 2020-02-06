@@ -17,6 +17,20 @@ app.filter('halve', function($filter) {
     return Math.floor((x)/2);
   };
 });
+app.filter('unique', function() {
+  return function(array, property) {
+    var output = [];
+    keys = [];
+    angular.forEach(array, function(object) {
+      var key = object[property];
+      if (keys.indexOf(key) === -1) {
+        keys.push(key);
+        output.push(object);
+      }
+    });
+    return output;
+  };
+});
 app.filter('charAttack', function($filter) {
   return function(x, $level, $abilities, $weaponProfs, $range) {
     var charLevel = (((x.level > 0) || ($weaponProfs.byName(x.prof).level > 0)) && $level);
@@ -61,11 +75,11 @@ app.filter('charSkill', function($filter) {
     var abilityMod = $abilities.byName(x.ability).mod();
     itembonus=0;
     x.effects.length = 0;
-    angular.forEach ($filter('filter')($effects, {target:x.name}), function(effect) {
-        itembonus += parseInt(effect.value, 10);
+    angular.forEach ($filter('filter')($effects, {target:x.name,apply:true}), function(effect) {
+        itembonus += parseInt(effect.value);
         x.effects.push(effect.value + " (" + effect.source + ")");
     });
-    var skillResult = charLevel + x.level + abilityMod + parseInt(itembonus,10);
+    var skillResult = charLevel + x.level + abilityMod + parseInt(itembonus);
     return skillResult;
   };
 });
@@ -111,8 +125,7 @@ app.controller('charCtrl', function($scope,$filter) {
     { name:'Heavy', level:0 },
     { name:'Unarmored', level:4 },
   ]
-  $scope.items = [
-  ]
+  $scope.items = []
   $scope.item_db = [
     { type:'weapon', name:'dagger', equip:true, level:0, prof:'Simple', dicenum:1, dicesize:4, melee:5, itembonus:0, thrown:10, traits:["Thrown 10ft", "Agile", "Finesse"] },
     { type:'weapon', name:'+1 short sword of Strength', equip:true, level:0, prof:'Martial', dicenum:1, dicesize:6, melee:5, itembonus:1, traits:[], effects:["Strength +10"], },
@@ -165,7 +178,7 @@ app.controller('charCtrl', function($scope,$filter) {
     { name:'Flexible', showon:'', desc:'The armor is flexible enough that it doesn\'t hinder most actions. You don\'t apply its check penalty to Acrobatics or Athletics checks.', have:function() { return $scope.traits.have(this) }, },
     { name:'Noisy', showon:'', desc:'This armor is loud and likely to alert others to your presence. The armor\'s check penalty applies to Stealth checks even if you meet the required Strength score.', have:function() { return $scope.traits.have(this) }, },  ]
   $scope.effectsData = [];
-
+    $scope.effectsTargets = [];
   $scope.count = 0;
   $scope.myFunc = function(armor) {
       $scope.count++;
@@ -191,11 +204,11 @@ app.controller('charCtrl', function($scope,$filter) {
   $scope.abilities.effectiveAbility = function(ability) {
     itembonus=0;
     ability.effects.length = 0;
-    angular.forEach ($filter('filter')($scope.effectsData, {target:ability.name}), function(effect) {
-        itembonus += parseInt(effect.value, 10);
+    angular.forEach ($filter('filter')($scope.effectsData, {target:ability.name,apply:true}), function(effect) {
+        itembonus += parseInt(effect.value);
         ability.effects.push(effect.value + " (" + effect.source + ")");
     });
-    return parseInt(ability.basevalue,10) + parseInt(itembonus,10);
+    return parseInt(ability.basevalue) + parseInt(itembonus);
   };
   $scope.abilities.mod = function(ability) {
     return Math.floor((ability.value()-10)/2)
@@ -226,40 +239,75 @@ app.controller('charCtrl', function($scope,$filter) {
     return itemsEquipped.some(function(item){return app.haveTrait(item,trait.name)}) && true;
   };
   $scope.effects = function() {
+      effects = [];
       itemeffects = [];
       angular.forEach ($filter('filter')($scope.items, {equip:true}), function(item) {
         angular.forEach (item.effects, function(effect) {
           split = effect.split(" ");
-          itemeffects.push({target:split[0], value:split[1], source:item.name})
+          itemeffects.push({type:'item', target:split[0], value:split[1], source:item.name, penalty:(parseInt(split[1]) < 0) ? true : false})
         });
         if (item.skillpenalty || item.speedpenalty) {
             Strength = $scope.abilities.byName("Strength").value();
             if (item.skillpenalty) {
                 if (item.Strength > Strength) {
                     if (app.haveTrait(item,"Flexible")) {
-                        itemeffects.push({target:"Acrobatics", value:"-0", source:item.name + " (Flexible)"});
-                        itemeffects.push({target:"Athletics", value:"-0", source:item.name + " (Flexible)"});
+                        itemeffects.push({type:'item', target:"Acrobatics", value:item.skillpenalty, source:item.name + " (Flexible)", penalty:true, apply:false});
+                        itemeffects.push({type:'item', target:"Athletics", value:item.skillpenalty, source:item.name + " (Flexible)", penalty:true, apply:false});
                     } else {
-                        itemeffects.push({target:"Acrobatics", value:item.skillpenalty, source:item.name});
-                        itemeffects.push({target:"Athletics", value:item.skillpenalty, source:item.name});
+                        itemeffects.push({type:'item', target:"Acrobatics", value:item.skillpenalty, source:item.name, penalty:true});
+                        itemeffects.push({type:'item', target:"Athletics", value:item.skillpenalty, source:item.name, penalty:true});
                     }
-                    itemeffects.push({target:"Stealth", value:item.skillpenalty, source:item.name});
-                    itemeffects.push({target:"Thievery", value:item.skillpenalty, source:item.name});
+                    itemeffects.push({type:'item', target:"Stealth", value:item.skillpenalty, source:item.name, penalty:true});
+                    itemeffects.push({type:'item', target:"Thievery", value:item.skillpenalty, source:item.name, penalty:true});
                 } else {
+                    itemeffects.push({type:'item', target:"Acrobatics", value:item.skillpenalty, source:item.name + " (Strength)", penalty:true, apply:false});
+                    itemeffects.push({type:'item', target:"Athletics", value:item.skillpenalty, source:item.name + " (Strength)", penalty:true, apply:false});
                     if (app.haveTrait(item,"Noisy")) {
-                        itemeffects.push({target:"Stealth", value:item.skillpenalty, source:item.name + " (Noisy)"});
+                      itemeffects.push({type:'item', target:"Stealth", value:item.skillpenalty, source:item.name + " (Noisy)", penalty:true});
+                    } else {
+                      itemeffects.push({type:'item', target:"Stealth", value:item.skillpenalty, source:item.name + " (Strength)", penalty:true, apply:false});
                     }
+                    itemeffects.push({type:'item', target:"Thievery", value:item.skillpenalty, source:item.name + " (Strength)", penalty:true, apply:false});
                 }
             }
             if (item.speedpenalty) {
                 if (item.Strength > Strength) {
-                    itemeffects.push({target:"Speed", value:item.speedpenalty, source:item.name});
+                    itemeffects.push({type:'item', target:"Speed", value:item.speedpenalty, source:item.name, penalty:true});
+                } else {
+                  if (parseInt(item.speedpenalty) < -5) {
+                    itemeffects.push({type:'item', target:"Speed", value:(item.speedpenalty+5), source:item.name, penalty:true});
+                    itemeffects.push({type:'item', target:"Speed", value:item.speedpenalty, source:item.name + " (Strength)", penalty:true, apply:false});
+                  } else {
+                    itemeffects.push({type:'item', target:"Speed", value:item.speedpenalty, source:item.name + " (Strength)", penalty:true, apply:false});
+                  }
                 }
             }
         }
       });
-      effects = itemeffects;
-      if ($scope.effectsData.toString() === effects.toString()) {
+      effects.push.apply(effects,itemeffects);
+      types = $filter('unique')(itemeffects, 'type').map(function(x){return x.type});
+      targets = $filter('unique')(itemeffects, 'target').map(function(x){return x.target});
+      angular.forEach(types, function($type) {
+        if ($type == 'untyped') {
+          angular.forEach($filter('filter')(effects, {type:'untyped'}),function(effect){
+            effect.apply = true;
+          });
+        } else {
+          angular.forEach(targets, function($target){
+            bonuses = $filter('filter')(effects, {type:$type, target:$target, penalty:false, apply:'!'+false});
+            if (bonuses.length > 0) {
+              maxvalue = Math.max.apply(Math, bonuses.map(function(x){return parseInt(x.value)}));
+              $filter('filter')(bonuses, {value:maxvalue})[0].apply = true;
+            }
+            penalties = $filter('filter')(effects, {type:$type, target:$target, penalty:true, apply:'!'+false});
+            if (penalties.length > 0) {
+              minvalue = Math.min.apply(Math, penalties.map(function(x){return parseInt(x.value)}));
+              $filter('filter')(penalties, {value:minvalue})[0].apply = true;
+            }
+          });
+        }
+      });
+      if (angular.toJson($scope.effectsData) === angular.toJson(effects)) {
         return $scope.effectsData;
       } else {
         $scope.effectsData = effects;
@@ -267,26 +315,18 @@ app.controller('charCtrl', function($scope,$filter) {
       }
   };
   $scope.equipArmor = function(armor) {
-    for (var i = 0; i < $scope.items.length; i++) {
-      if ($scope.items.length > 0 && $scope.items[i].type == 'armor') {
-        $scope.items.splice(i, 1);
-        i--;
-      }
-    }
-    armor.id = Date.now();
+    angular.forEach($filter('filter')($scope.items, {type:'armor'}), function(item) {
+      $scope.items.splice($scope.items.indexOf(item), 1)
+    });
+    //armor.id = Date.now();
     $scope.items.push(armor);
   };
   $scope.equipWeapon = function(weapon) {
-    weapon.id = Date.now();
+    //weapon.id = Date.now();
     $scope.items.push(weapon);
   };
   $scope.unequip = function(item) {
-    for (var i = 0; i < $scope.items.length; i++) {
-      if ($scope.items[i].id == item.id) {
-        $scope.items.splice(i, 1);
-        i--;
-      }
-    }
+    $scope.items.splice($scope.items.indexOf(item), 1)
   };
   $scope.initNotes($scope.skills);
   $scope.initNotes($scope.perception);
