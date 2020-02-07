@@ -86,12 +86,16 @@
     </div>
     <div data-ng-repeat="shield in items | filter:{ type:'shield', equip:true} track by $index">
       <div ng-show="shield.equip">{{shield.name}} AC: <input type="text" ng-value="shield.itembonus" disabled>
-        <button ng-click="shield.raised = true;">Raise shield</button>
+        <button ng-show="!shield.raised" ng-click="shield.raised = true;">Raise shield</button>
+        <button ng-show="shield.raised" ng-click="shield.raised = false; shield.takecover = false;">Lower shield</button>
+        <button ng-show="shield.raised && shield.coverbonus && !shield.takecover" ng-click="shield.takecover = true;">Take cover</button>
+        <button ng-show="shield.raised && shield.coverbonus && shield.takecover" ng-click="shield.takecover = false;">End cover</button>
       </div>
     </div>
     <div data-ng-repeat="parry in items | canParry:this.weaponProfs track by $index">
       <div ng-show="parry.equip">{{parry.name}} Parry AC: <input type="text" value="1" disabled>
-        <button ng-click="parry.raised = true;">Raise weapon</button>
+        <button ng-show="!parry.raised" ng-click="parry.raised = true;">Raise weapon</button>
+        <button ng-show="parry.raised" ng-click="parry.raised = false;">Lower weapon</button>
       </div>
     </div>
     <cite ng-show="AC.effects" data-ng-repeat="effect in perception.effects|orderBy:'toString()'" ng-style="(effect[0] == '-') ? {'color':'red'} : {'color':'green'}"> {{effect}} </cite>

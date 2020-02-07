@@ -312,7 +312,7 @@ app.controller('charCtrl', function($scope,$filter) {
     { type:'shield', name:'Buckler', equip:false, itembonus:1, },
     { type:'shield', name:'Wooden Shield', equip:false, itembonus:2, },
     { type:'shield', name:'Steel Shield', equip:false, itembonus:2, },
-    { type:'shield', name:'Tower Shield', equip:false, itembonus:2, effects:["Speed -5"], },
+    { type:'shield', name:'Tower Shield', equip:false, speedpenalty:-5, itembonus:2, coverbonus:2, effects:[], },
   ]
   $scope.trait_db = [
     { name:'Agile', showon:'', desc:'The multiple attack penalty you take with this weapon on the second attack on your turn is -4 instead of -5, and -8 instead of -10 on the third and subsequent attacks in the turn.', have:function() { return $scope.trait_db.have(this) }, },
@@ -434,7 +434,11 @@ app.controller('charCtrl', function($scope,$filter) {
           itemeffects.push({type:'item', target:split[0], value:split[1], source:item.name, penalty:(parseInt(split[1]) < 0) ? true : false})
         });
         if (item.type == "shield" && item.raised) {
-          itemeffects.push({type:'circumstance', target:"AC", value:"+"+item.itembonus, source:item.name, penalty:false})
+          shieldbonus = item.itembonus;
+          if (item.takecover) {
+            shieldbonus += item.coverbonus;
+          }
+          itemeffects.push({type:'circumstance', target:"AC", value:"+"+shieldbonus, source:item.name, penalty:false})
         }
         if (item.type == "weapon" && item.raised) {
           itemeffects.push({type:'circumstance', target:"AC", value:"+1", source:item.name, penalty:false})
@@ -464,14 +468,14 @@ app.controller('charCtrl', function($scope,$filter) {
                 }
             }
             if (item.speedpenalty) {
-                if (item.strength > Strength) {
-                    itemeffects.push({type:'item', target:"Speed", value:item.speedpenalty, source:item.name, penalty:true});
+                if (item.strength > Strength || item.type == "shield") {
+                    itemeffects.push({type:'untyped', target:"Speed", value:item.speedpenalty, source:item.name, penalty:true});
                 } else {
                   if (parseInt(item.speedpenalty) < -5) {
-                    itemeffects.push({type:'item', target:"Speed", value:(item.speedpenalty+5), source:item.name, penalty:true});
-                    itemeffects.push({type:'item', target:"Speed", value:item.speedpenalty, source:item.name + " (Strength)", penalty:true, apply:false});
+                    itemeffects.push({type:'untyped', target:"Speed", value:(item.speedpenalty+5), source:item.name, penalty:true});
+                    itemeffects.push({type:'untyped', target:"Speed", value:item.speedpenalty, source:item.name + " (Strength)", penalty:true, apply:false});
                   } else {
-                    itemeffects.push({type:'item', target:"Speed", value:item.speedpenalty, source:item.name + " (Strength)", penalty:true, apply:false});
+                    itemeffects.push({type:'untyped', target:"Speed", value:item.speedpenalty, source:item.name + " (Strength)", penalty:true, apply:false});
                   }
                 }
             }
@@ -482,7 +486,7 @@ app.controller('charCtrl', function($scope,$filter) {
       targets = $filter('unique')(itemeffects, 'target').map(function(x){return x.target});
       angular.forEach(types, function($type) {
         if ($type == 'untyped') {
-          angular.forEach($filter('filter')(effects, {type:'untyped'}),function(effect){
+          angular.forEach($filter('filter')(effects, {type:'untyped', apply:'!'+false}),function(effect){
             effect.apply = true;
           });
         } else {
