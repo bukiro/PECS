@@ -40,16 +40,15 @@
     <div data-ng-repeat="effect in effects()|filter:{apply:true}|orderBy:'target'|orderBy:'value':true" ng-style="(effect.penalty) ? {'color':'red'} : {'color':'green'}">
       {{effect.target}} {{effect.value}} ({{effect.source}})
     </div>
-    <h3 ng-show="(effects()|filter:{apply:'!'+true}).length > 0">Not applied</h3>
-    <div data-ng-repeat="effect in effects()|filter:{apply:'!'+true}|orderBy:'target'|orderBy:'value':true" ng-style="(effect.penalty) ? {'color':'darkred'} : {'color':'darkgreen'}">
-
+    <h3 ng-show="(effectsData|filter:{apply:'!'+true}).length > 0">Not applied</h3>
+    <div data-ng-repeat="effect in effectsData|filter:{apply:'!'+true}|orderBy:'target'|orderBy:'value':true" ng-style="(effect.penalty) ? {'color':'darkred'} : {'color':'darkgreen'}">
       {{effect.target}} {{effect.value}} ({{effect.source}})
     </div>
   </div>
   <div id="perception">
     <h2>Perception</h2>
-    <div data-ng-repeat="perception in perception">
-      <div>{{perception.name}}: <input type="text" value="{{perception | charSkill:this.level:this.abilities}}" disabled>
+    <div data-ng-repeat="perception in skills | filter:{ name:'Perception'}">
+      <div>{{perception.name}}: <input type="text" value="{{perception | charSkill:this.level:this.abilities:this.feat_db:this.effectsData}}" disabled>
         <cite ng-show="perception.effects" data-ng-repeat="effect in perception.effects|orderBy:'toString()'" ng-style="(effect[0] == '-') ? {'color':'red'} : {'color':'green'}"> {{effect}} </cite>
         <div class="profbox">
           <div>T:<input type="radio" name="{{perception.name}}.level" ng-value=2 data-ng-model="perception.level"></div>
@@ -66,7 +65,7 @@
   </div>
   <div id="attacks"> 
     <h2>Attacks</h2>
-    <div data-ng-repeat="weapon in items | filter:{ type:'weapon', equip:true} track by $index">
+    <div data-ng-repeat="weapon in items | filter:{ type:'weapon', equip:true}">
       <div ng-show="weapon.melee && weapon.equip">{{weapon.name}} melee: <input type="text" value="{{weapon | charAttack:this.level:this.abilities:this.weaponProfs:this.trait_db:'Melee'}}" disabled>
       <div>Damage: {{weapon | charWeaponDamage:this.abilities:this.trait_db:'Melee'}}</div>
       <cite ng-show="weapon.traits" data-ng-repeat="trait in weapon.traits" title="{{trait_db.byName(trait).desc}}"> {{trait}} </cite>
@@ -79,12 +78,12 @@
   </div>
   <div id="defense">
     <h2>Defense: {{AC.value()}}</h2>
-    <div data-ng-repeat="armor in items | filter:{ type:'armor', equip:true} track by $index">
+    <div data-ng-repeat="armor in items | filter:{ type:'armor', equip:true}">
       <div ng-show="armor.equip">{{armor.name}} AC: <input type="text" name="armorAC" value="{{armor | charArmorDefense:this.level:this.abilities:this.armorProfs}}" disabled>
       <cite ng-show="armor.traits" data-ng-repeat="trait in armor.traits" title="{{trait_db.byName(trait).desc}}"> {{trait}} </cite>
       </div>
     </div>
-    <div data-ng-repeat="shield in items | filter:{ type:'shield', equip:true} track by $index">
+    <div data-ng-repeat="shield in items | filter:{ type:'shield', equip:true}">
       <div ng-show="shield.equip">{{shield.name}} AC: <input type="text" ng-value="shield.itembonus" disabled>
         <button ng-show="!shield.raised" ng-click="shield.raised = true;">Raise shield</button>
         <button ng-show="shield.raised" ng-click="shield.raised = false; shield.takecover = false;">Lower shield</button>
@@ -92,13 +91,13 @@
         <button ng-show="shield.raised && shield.coverbonus && shield.takecover" ng-click="shield.takecover = false;">End cover</button>
       </div>
     </div>
-    <div data-ng-repeat="parry in items | canParry:this.weaponProfs track by $index">
+    <div data-ng-repeat="parry in items | canParry:this.weaponProfs">
       <div ng-show="parry.equip">{{parry.name}} Parry AC: <input type="text" value="1" disabled>
         <button ng-show="!parry.raised" ng-click="parry.raised = true;">Raise weapon</button>
         <button ng-show="parry.raised" ng-click="parry.raised = false;">Lower weapon</button>
       </div>
     </div>
-    <cite ng-show="AC.effects" data-ng-repeat="effect in perception.effects|orderBy:'toString()'" ng-style="(effect[0] == '-') ? {'color':'red'} : {'color':'green'}"> {{effect}} </cite>
+    <cite ng-show="AC.effects" data-ng-repeat="effect in AC.effects|orderBy:'toString()'" ng-style="(effect[0] == '-') ? {'color':'red'} : {'color':'green'}"> {{effect}} </cite>
   </div>
   <div id="weaponprofs">
   <h2>Weapon Proficiencies</h2>
@@ -187,7 +186,7 @@
   </div>
   <div id="skills">
     <h2>Skills</h2>
-    <div data-ng-repeat="skill in skills">
+    <div data-ng-repeat="skill in skills|filter:{name:'!Perception'}|filter:{name:'!Lore'}:true|orderBy:'name'">
       <div>{{skill.name}}: <input type="text" value="{{skill | charSkill:this.level:this.abilities:this.feat_db:this.effectsData}}" disabled>
         <cite ng-show="skill.effects" data-ng-repeat="effect in skill.effects|orderBy:'toString()'" ng-style="(effect[0] == '-') ? {'color':'red'} : {'color':'green'}"> {{effect}} </cite>
         <div class="profbox">
@@ -197,12 +196,16 @@
           <div>M:<input type="radio" name="{{skill.name}}.level" ng-value=6 data-ng-model="skill.level"></div>
           <div>L:<input type="radio" name="{{skill.name}}.level" ng-value=8 data-ng-model="skill.level"></div>
         </div>
+        <button ng-show="skill.name.indexOf('Lore') >= 0" ng-click="removeLore(skill)">Remove</button>
         <input type="checkbox" ng-model="skill.showNotes">show notes
         <input ng-show="skill.showNotes" ng-model="skill.note">
         <span data-ng-repeat="feat in (feat_db|filter:{showon:skill.name, have:true})" title={{feat.desc}} disabled style="font-size:2em;">&#8962;</span>
         <span data-ng-repeat="trait in (trait_db|filter:{showon:skill.name})" ng-show="trait.have()" title={{trait.desc}} disabled style="font-size:2em;">&#8962;</span>
       </div>
     </div>
+    <form name="newLoreForm">Add Lore skill: <input type="text" name="newlore" ng-model="newLore" ng-init="">Lore <button ng-click="generateLore(newLore)">Add</button></form>
+    <span ng-show="newLoreForm.newlore.$touched && skills.byName('Lore: '+newLore+' Lore')">You already have this lore</span>
+    <span ng-show="newLore == ''">Lore must be named</span>
   </div>
   <div id="saves">
     <h2>Saves</h2>
@@ -223,7 +226,7 @@
   </div>
   <div id="feats">
     <h2><input type="checkbox" ng-model="featGet_show">Get Feats</h2>
-    <div ng-show="featGet_show" data-ng-repeat="feat in feat_db">
+    <div ng-show="featGet_show && feat.canChoose()" data-ng-repeat="feat in feat_db | orderBy:'name'">
       <div>{{feat.name}}:
         <input type="checkbox" ng-model="feat.have">
         {{feat.desc}}

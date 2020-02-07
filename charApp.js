@@ -137,28 +137,30 @@ app.filter('charWeaponDamage', function($filter) {
 });
 app.filter('charSkill', function($filter) {
   //Calculates the effective bonus of the given Skill
-  //$scope.Level, $scope.Abilities, $scope.feat_db and $scope.Effects() must be passed
+  //$scope.Level, $scope.Abilities, $scope.feat_db and $scope.effectsData) must be passed
   return function(x, $level, $abilities, $feats, $effects) {
     effectBonus=0;
     x.effects.length = 0;
     //Add character level if the character is trained or better with the Skill
-    var charLevel = ((x.level > 0) ? $level : ($feats.byName("Untrained Proficiency").have) && Math.floor($level/2));
+    var charLevel = ((x.level > 0) ? $level : ($feats.byName("Untrained Improvisation").have) && Math.floor($level/2));
     //Add the Ability modifier identified by the skill's ability property
     var abilityMod = $abilities.byName(x.ability).mod();
-    //If any effect in $scope.Effects() has this skill as a target and is marked as applicable, add it to the effect bonus and list its value and source in the skill's own effects property
-    //parseInt the effect's value in case it's a "+1" string
+    //If any effect in $scope.effectsData has this skill as a target and is marked as applicable, add it to the effect bonus and list its value and source in the skill's own effects property
+    //parseInt the effect's value in case it's a string like "+1"
     angular.forEach ($filter('filter')($effects, {target:x.name,apply:true}), function(effect) {
         effectBonus += parseInt(effect.value);
         x.effects.push(effect.value + " (" + effect.source + ")");
     });
-    //Add up all modifiers and the skill proficiency, parseInt the effect bonus just in case, then return the sum
+    //Add up all modifiers and the skill proficiency, parseInt the effect bonus again just in case, write the result into the skill object for easy access, then return the sum
     var skillResult = charLevel + x.level + abilityMod + parseInt(effectBonus);
+    x.value = skillResult;
     return skillResult;
   };
 });
 
 //controller
 app.controller('charCtrl', function($scope,$filter) {
+  $scope.character = { name:"Dudebro", class:"Monk", subclass:"", deity:"God" }
   $scope.level = 7;
   //The effective AC is called as a function and includes the worn armor and all raised shields and Parry weapons.
   $scope.AC = {name:'AC', value:function() {return $scope.AC.effectiveAC()}, effects:[] }
@@ -171,10 +173,10 @@ app.controller('charCtrl', function($scope,$filter) {
     { name:'Wisdom', basevalue:13, value:function() {return $scope.abilities.effectiveAbility(this)}, mod:function() { return $scope.abilities.mod(this) }, effects:[] },
     { name:'Charisma', basevalue:9, value:function() {return $scope.abilities.effectiveAbility(this)}, mod:function() { return $scope.abilities.mod(this) }, effects:[] },
   ];
-  //There is only one perception skill, but by making it an array we can apply the same calculations as with the other skills
+  //We are counting Perception as a regular skill
   //All proficiencies are directly named as 0,2,4,6,8, which is their real modifier
-  $scope.perception = [{ name:'Perception', level:2, ability:"Wisdom", note:'+2 initiative', effects:[],}];
   $scope.skills = [
+    { name:'Perception', level:2, ability:"Wisdom", note:'+2 initiative', effects:[], },
     { name:'Acrobatics', level:0, ability:"Dexterity", note:'', effects:[], },
     { name:'Arcana', level:0, ability:"Intelligence", note:'', effects:[], },
     { name:'Athletics', level:4, ability:"Strength", note:'+2 jumping', effects:[], },
@@ -182,7 +184,6 @@ app.controller('charCtrl', function($scope,$filter) {
     { name:'Deception', level:0, ability:"Charisma", note:'', effects:[], },
     { name:'Diplomacy', level:0, ability:"Charisma", note:'', effects:[], },
     { name:'Intimidation', level:0, ability:"Charisma", note:'', effects:[], },
-    { name:'Lore', level:2, ability:"Intelligence", note:'', effects:[], },
     { name:'Lore', level:0, ability:"Intelligence", note:'', effects:[], },
     { name:'Medicine', level:0, ability:"Wisdom", note:'', effects:[], },
     { name:'Nature', level:0, ability:"Wisdom", note:'', effects:[], },
@@ -358,11 +359,167 @@ app.controller('charCtrl', function($scope,$filter) {
   ]
   //The feats list is still very basic
   $scope.feat_db = [
-      { name:'Untrained Proficiency', desc:'use half your level for untrained skills', have:false},
-      { name:'Will Mastery', showon:'Will', desc:'will save success will become critical success', have:true},
-    ]
+    { name:'Adopted Ancestry', desc:'Gain access to ancestry feats from another ancestry.', levelreq:1, traits:['General'], effects:[], have:false, canChoose:function(){return $scope.feat_db.canChoose(this);} },
+    { name:'Armor Proficiency: Light armor', desc:'Become trained in a type of armor.', levelreq:1, showon:'light', traits:['General'], effects:[], have:false, canChoose:function(){return $scope.feat_db.canChoose(this);} },
+    { name:'Armor Proficiency: Medium armor', desc:'Become trained in a type of armor.', levelreq:1, armorreq:'Light, 2', showon:'medium', traits:['General'], effects:[], have:false, canChoose:function(){return $scope.feat_db.canChoose(this);} },
+    { name:'Armor Proficiency: Heavy armor', desc:'Become trained in a type of armor.', levelreq:1, armorreq:'Medium, 2', showon:'heavy', traits:['General'], effects:[], have:false, canChoose:function(){return $scope.feat_db.canChoose(this);} },
+    { name:'Breath Control', desc:'Hold your breath longer and gain benefits against inhaled threats.', levelreq:1, showon:'fortitude', traits:['General'], effects:[], have:false, canChoose:function(){return $scope.feat_db.canChoose(this);} },
+    { name:'Canny Acumen: Perception', desc:'Become an expert in a saving throw or Perception.', levelreq:1, traits:['General'], effects:[], have:false, canChoose:function(){return $scope.feat_db.canChoose(this);} },
+    { name:'Canny Acumen: Fortitude', desc:'Become an expert in a saving throw or Perception.', levelreq:1, traits:['General'], effects:[], have:false, canChoose:function(){return $scope.feat_db.canChoose(this);} },
+    { name:'Canny Acumen: Reflex', desc:'Become an expert in a saving throw or Perception.', levelreq:1, traits:['General'], effects:[], have:false, canChoose:function(){return $scope.feat_db.canChoose(this);} },
+    { name:'Canny Acumen: Will', desc:'Become an expert in a saving throw or Perception.', levelreq:1, traits:['General'], effects:[], have:false, canChoose:function(){return $scope.feat_db.canChoose(this);} },
+    { name:'Diehard', desc:'Die at dying 5, rather than dying 4.', levelreq:1, showon:'health', traits:['General'], effects:[], have:false, canChoose:function(){return $scope.feat_db.canChoose(this);} },
+    { name:'Fleet', desc:'Increase your Speed by 5 feet.', levelreq:1, showon:'speed', traits:['General'], effects:['speed +5'], have:false, canChoose:function(){return $scope.feat_db.canChoose(this);} },
+    { name:'Incredible Initiative', desc:'+2 to initiative rolls.', levelreq:1, showon:'perception', traits:['General'], effects:[], have:false, canChoose:function(){return $scope.feat_db.canChoose(this);} },
+    { name:'Ride', desc:'Automatically succeed at commanding your mount to move.', levelreq:1, showon:'nature', traits:['General'], effects:[], have:false, canChoose:function(){return $scope.feat_db.canChoose(this);} },
+    { name:'Shield Block', desc:'Ward off a blow with your shield.', levelreq:1, showon:'defense', traits:['General'], effects:[], have:false, canChoose:function(){return $scope.feat_db.canChoose(this);} },
+    { name:'Toughness', desc:'Increase your maximum HP and reduce the DCs of recovery checks.', levelreq:1, showon:'health', traits:['General'], effects:[], have:false, canChoose:function(){return $scope.feat_db.canChoose(this);} },
+    { name:'Weapon Proficiency: Simple Weapons', desc:'Become trained in a weapon type.', levelreq:1, showon:'weaponProfs', traits:['General'], effects:[], have:false, canChoose:function(){return $scope.feat_db.canChoose(this);} },
+    { name:'Weapon Proficiency: Martial Weapons', desc:'Become trained in a weapon type.', levelreq:1, weaponreq:'Simple, 2', showon:'simple', traits:['General'], effects:[], have:false, canChoose:function(){return $scope.feat_db.canChoose(this);} },
+    { name:'Weapon Proficiency: Advanced Weapon', desc:'Become trained in a weapon type.', levelreq:1, weaponreq:'Martial, 2', showon:'martial', traits:['General'], effects:[], todo:'generate for each advanced weapon', have:false, canChoose:function(){return $scope.feat_db.canChoose(this);} },
+    { name:'Ancestral Paragon', desc:'Gain a 1st-level ancestry feat.', levelreq:3, traits:['General'], effects:[], have:false, canChoose:function(){return $scope.feat_db.canChoose(this);} },
+    { name:'Untrained Improvisation', desc:'Become more adept at using untrained skills.', levelreq:3, traits:['General'], effects:[], have:false, canChoose:function(){return $scope.feat_db.canChoose(this);} },
+    { name:'Different Worlds', desc:'Create a second identity for yourself with a different name, history, and background.', levelreq:1, traits:['General', 'Uncommon'], effects:[], have:false, canChoose:function(){return $scope.feat_db.canChoose(this);} },
+    { name:'Godless Healing', desc:'With limited access to divine healing magic, Rahadoumi often become adept at using ordinary medicine for when dangerous situations arise.', levelreq:2, featreq:'Battle Medicine', specialreq:'$scope.character.deity==""', showon:'medicine', traits:['General', 'Skill'], effects:[], have:false, canChoose:function(){return $scope.feat_db.canChoose(this);} },
+    { name:'Incredible Investiture', desc:'Invest up to 12 magic items.', levelreq:11, abilityreq:'Charisma, 16', showon:'items', traits:['General'], effects:[], have:false, canChoose:function(){return $scope.feat_db.canChoose(this);} },
+    { name:'Fast Recovery', desc:'Regain more HP from rest, recover faster from disease and poisons.', levelreq:1, abilityreq:'Constitution, 14', showon:'health, fortitude', traits:['General'], effects:[], have:false, canChoose:function(){return $scope.feat_db.canChoose(this);} },
+    { name:'Feather Step', desc:'Step into difficult terrain.', levelreq:1, abilityreq:'Dexterity, 14', showon:'speed', traits:['General'], effects:[], have:false, canChoose:function(){return $scope.feat_db.canChoose(this);} },
+    { name:'Automatic Knowledge: Arcana', desc:'Recall Knowledge as a free action once per round.', levelreq:2, skillreq:'Arcana, 4', featreq:'Assurance: Arcana', showon:'arcana', traits:['General', 'Skill'], effects:[], have:false, canChoose:function(){return $scope.feat_db.canChoose(this);} },
+    { name:'Automatic Knowledge: Crafting', desc:'Recall Knowledge as a free action once per round.', levelreq:2, skillreq:'Crafting, 4', featreq:'Assurance: Crafting', showon:'crafting', traits:['General', 'Skill'], effects:[], have:false, canChoose:function(){return $scope.feat_db.canChoose(this);} },
+    { name:'Automatic Knowledge: Lore', desc:'Recall Knowledge as a free action once per round.', levelreq:2, lorebase:true, skillreq:'Lore, 4', featreq:'Assurance: Lore', showon:'Lore', traits:['General', 'Skill'], effects:[], todo:'generate for each lore', have:false, canChoose:function(){return $scope.feat_db.canChoose(this);} },
+    { name:'Automatic Knowledge: Medicine', desc:'Recall Knowledge as a free action once per round.', levelreq:2, skillreq:'Medicine, 4', featreq:'Assurance: Medicine', showon:'medicine', traits:['General', 'Skill'], effects:[], have:false, canChoose:function(){return $scope.feat_db.canChoose(this);} },
+    { name:'Automatic Knowledge: Nature', desc:'Recall Knowledge as a free action once per round.', levelreq:2, skillreq:'Nature, 4', featreq:'Assurance: Nature', showon:'nature', traits:['General', 'Skill'], effects:[], have:false, canChoose:function(){return $scope.feat_db.canChoose(this);} },
+    { name:'Automatic Knowledge: Occultism', desc:'Recall Knowledge as a free action once per round.', levelreq:2, skillreq:'Occultism, 4', featreq:'Assurance: Occultism', showon:'occultism', traits:['General', 'Skill'], effects:[], have:false, canChoose:function(){return $scope.feat_db.canChoose(this);} },
+    { name:'Automatic Knowledge: Religion', desc:'Recall Knowledge as a free action once per round.', levelreq:2, skillreq:'Religion, 4', featreq:'Assurance: Religion', showon:'religion', traits:['General', 'Skill'], effects:[], have:false, canChoose:function(){return $scope.feat_db.canChoose(this);} },
+    { name:'Automatic Knowledge: Society', desc:'Recall Knowledge as a free action once per round.', levelreq:2, skillreq:'Society, 4', featreq:'Assurance: Society', showon:'society', traits:['General', 'Skill'], effects:[], have:false, canChoose:function(){return $scope.feat_db.canChoose(this);} },
+    { name:'Nimble Crawl', desc:'Crawl at a faster rate.', levelreq:2, skillreq:'Acrobatics, 4', showon:'acrobatics', traits:['General', 'Skill'], effects:[], have:false, canChoose:function(){return $scope.feat_db.canChoose(this);} },
+    { name:'Eye of the Arclords', desc:'The Arclords of Nex have achieved a unique mastery of magic.', levelreq:2, skillreq:'Arcana, 4', featreq:'Arcane Sense', showon:'arcana', traits:['General', 'Skill', 'Uncommon'], effects:[], have:false, canChoose:function(){return $scope.feat_db.canChoose(this);} },
+    { name:'Magical Shorthand', desc:'Expert in Arcana, Nature, Occultism, Learn spells quickly and at a reduced cost.', levelreq:2, skillreq:'Arcana, 4|Nature, 4|Occultism, 4|Religion, 4', showon:'arcana, nature, occultism, religion', traits:['General', 'Skill'], effects:[], have:false, canChoose:function(){return $scope.feat_db.canChoose(this);} },
+    { name:'Powerful Leap', desc:'Jump farther and higher.', levelreq:2, skillreq:'Athletics, 4', showon:'athletics', traits:['General', 'Skill'], effects:[], have:false, canChoose:function(){return $scope.feat_db.canChoose(this);} },
+    { name:'Rapid Mantel', desc:'Pull yourself onto ledges quickly.', levelreq:2, skillreq:'Athletics, 4', showon:'athletics', traits:['General', 'Skill'], effects:[], have:false, canChoose:function(){return $scope.feat_db.canChoose(this);} },
+    { name:'Magical Crafting', desc:'Craft magic items.', levelreq:2, skillreq:'Crafting, 4', showon:'crafting', traits:['General', 'Skill'], effects:[], have:false, canChoose:function(){return $scope.feat_db.canChoose(this);} },
+    { name:'Tweak Appearances', desc:'You can alter a creature\'s clothing to improve their social impact.', levelreq:2, skillreq:'Crafting, 4', showon:'crafting', traits:['General', 'Skill', 'Uncommon'], effects:[], have:false, canChoose:function(){return $scope.feat_db.canChoose(this);} },
+    { name:'Backup Disguise', desc:'You have a specific disguise that you keep at the ready, worn underneath your outer garment.', levelreq:2, skillreq:'Deception, 4', showon:'deception', traits:['General', 'Skill', 'Uncommon'], effects:[], have:false, canChoose:function(){return $scope.feat_db.canChoose(this);} },
+    { name:'Confabulator', desc:'Reduce the bonuses against your repeated lies.', levelreq:2, skillreq:'Deception, 4', showon:'deception', traits:['General', 'Skill'], effects:[], have:false, canChoose:function(){return $scope.feat_db.canChoose(this);} },
+    { name:'Quick Disguise', desc:'Set up a disguise in only half the time.', levelreq:2, skillreq:'Deception, 4', showon:'deception', traits:['General', 'Skill'], effects:[], have:false, canChoose:function(){return $scope.feat_db.canChoose(this);} },
+    { name:'Sow Rumor', desc:'You spread rumors, which may or may not be true, about a specific subject.', levelreq:2, skillreq:'Deception, 4', showon:'deception', traits:['General', 'Secret', 'Skill', 'Uncommon'], effects:[], have:false, canChoose:function(){return $scope.feat_db.canChoose(this);} },
+    { name:'Glad-Hand', desc:'Make an Impression on a target you\'ve just met.', levelreq:2, skillreq:'Diplomacy, 4', showon:'diplomacy', traits:['General', 'Skill'], effects:[], have:false, canChoose:function(){return $scope.feat_db.canChoose(this);} },
+    { name:'Lasting Coercion', desc:'Coerce a target into helping you longer.', levelreq:2, skillreq:'Intimidation, 4', showon:'intimidation', traits:['General', 'Skill'], effects:[], have:false, canChoose:function(){return $scope.feat_db.canChoose(this);} },
+    { name:'Unmistakable Lore', desc:'Recall Knowledge about your Lore more effectively.', levelreq:2, skillreq:"Lore, 2", showon:'Lore', traits:['General', 'Skill'], effects:[], have:false, canChoose:function(){return $scope.feat_db.canChoose(this);} },
+    { name:'Continual Recovery', desc:'Treat Wounds on a patient more often.', levelreq:2, skillreq:'Medicine, 4', showon:'medicine', traits:['General', 'Skill'], effects:[], have:false, canChoose:function(){return $scope.feat_db.canChoose(this);} },
+    { name:'Robust Recovery', desc:'Greater benefits from Treat Disease and Treat Poison.', levelreq:2, skillreq:'Medicine, 4', showon:'medicine', traits:['General', 'Skill'], effects:[], have:false, canChoose:function(){return $scope.feat_db.canChoose(this);} },
+    { name:'Ward Medic', desc:'Treat several patients at once.', levelreq:2, skillreq:'Medicine, 4', showon:'medicine', traits:['General', 'Skill'], effects:[], have:false, canChoose:function(){return $scope.feat_db.canChoose(this);} },
+    { name:'Bonded Animal', desc:'An animal becomes permanently helpful to you.', levelreq:2, skillreq:'Nature, 4', showon:'nature', traits:['General', 'Downtime', 'Skill'], effects:[], have:false, canChoose:function(){return $scope.feat_db.canChoose(this);} },
+    { name:'Connections', desc:'Leverage your connections for favors and meetings.', levelreq:2, skillreq:'Society, 4', featreq:'Courtly Graces', showon:'society', traits:['General', 'Skill'], effects:[], have:false, canChoose:function(){return $scope.feat_db.canChoose(this);} },
+    { name:'Quiet Allies', desc:'Roll a single Stealth check when sneaking with allies.', levelreq:2, skillreq:'Stealth, 4', showon:'stealth', traits:['General', 'Skill'], effects:[], have:false, canChoose:function(){return $scope.feat_db.canChoose(this);} },
+    { name:'Wilderness Spotter', desc:'Use Survival for your Initiative when in a specific terrain.', levelreq:2, skillreq:'Survival, 4', showon:'survival', traits:['General', 'Skill', 'Uncommon'], effects:[], have:false, canChoose:function(){return $scope.feat_db.canChoose(this);} },
+    { name:'Wary Disarmament', desc:'+2 to AC or saves against devices or traps you trigger while disarming.', levelreq:2, skillreq:'Thievery, 4', showon:'thievery', traits:['General', 'Skill'], effects:[], have:false, canChoose:function(){return $scope.feat_db.canChoose(this);} },
+    { name:'Skill Training', desc:'Become trained in a skill.', levelreq:1, abilityreq:'Intelligence, 12', traits:['General', 'Skill'], effects:[], have:false, canChoose:function(){return $scope.feat_db.canChoose(this);} },
+    { name:'Unified Theory', desc:'Use Arcana for checks for all magical traditions.', levelreq:15, skillreq:'Arcana, 8', showon:'arcana', traits:['General', 'Skill'], effects:[], have:false, canChoose:function(){return $scope.feat_db.canChoose(this);} },
+    { name:'Cloud Jump', desc:'Jump impossible distances.', levelreq:15, skillreq:'Athletics, 8', showon:'athletics', traits:['General', 'Skill'], effects:[], have:false, canChoose:function(){return $scope.feat_db.canChoose(this);} },
+    { name:'Craft Anything', desc:'Ignore most requirements for crafting items.', levelreq:15, skillreq:'Crafting, 8', showon:'crafting', traits:['General', 'Skill'], effects:[], have:false, canChoose:function(){return $scope.feat_db.canChoose(this);} },
+    { name:'Reveal Machinations', desc:'You convince a creature that you played a minor but recurring role in its life.', levelreq:15, skillreq:'Deception, 8', showon:'deception', traits:['General', 'Rare', 'Skill'], effects:[], have:false, canChoose:function(){return $scope.feat_db.canChoose(this);} },
+    { name:'Legendary Negotiation', desc:'Quickly parley with foes.', levelreq:15, skillreq:'Diplomacy, 8', showon:'diplomacy', traits:['General', 'Skill'], effects:[], have:false, canChoose:function(){return $scope.feat_db.canChoose(this);} },
+    { name:'Scare to Death', desc:'Scare a target so much, they might die.', levelreq:15, skillreq:'Intimidation, 8', showon:'intimidation', traits:['General', 'Death', 'Emotion', 'Fear', 'Incapacitation', 'Skill'], effects:[], have:false, canChoose:function(){return $scope.feat_db.canChoose(this);} },
+    { name:'Legendary Professional', desc:'Gain renown for your Lore.', levelreq:15, skillreq:"Lore, 8", showon:'lore', traits:['General', 'Skill'], effects:[], have:false, canChoose:function(){return $scope.feat_db.canChoose(this);} },
+    { name:'Legendary Medic', desc:'Remove disease or the blinded, deafened, doomed, or drained condition.', levelreq:15, skillreq:'Medicine, 8', showon:'medicine', traits:['General', 'Skill'], effects:[], have:false, canChoose:function(){return $scope.feat_db.canChoose(this);} },
+    { name:'Legendary Performer', desc:'Gain renown for your Performance Virtuosic Performer.', levelreq:15, skillreq:'Performance, 8', featreq:'Virtuosic Performer', showon:'performer', traits:['General', 'Skill'], effects:[], have:false, canChoose:function(){return $scope.feat_db.canChoose(this);} },
+    { name:'Divine Guidance', desc:'Find guidance in the writings of your faith.', levelreq:15, skillreq:'Religion, 8', showon:'religion', traits:['General', 'Skill'], effects:[], have:false, canChoose:function(){return $scope.feat_db.canChoose(this);} },
+    { name:'Legendary Codebreaker', desc:'Quickly Decipher Writing using Society.', levelreq:15, skillreq:'Society, 8', showon:'society', traits:['General', 'Skill'], effects:[], have:false, canChoose:function(){return $scope.feat_db.canChoose(this);} },
+    { name:'Legendary Linguist', desc:'Create pidgin languages to communicate with anyone.', levelreq:15, skillreq:'Society, 8', featreq:'Multilingual', showon:'society', traits:['General', 'Skill'], effects:[], have:false, canChoose:function(){return $scope.feat_db.canChoose(this);} },
+    { name:'Legendary Sneak', desc:'Hide and Sneak without cover or being concealed.', levelreq:15, skillreq:'Stealth, 8', featreq:'Swift Sneak', showon:'stealth', traits:['General', 'Skill'], effects:[], have:false, canChoose:function(){return $scope.feat_db.canChoose(this);} },
+    { name:'Legendary Survivalist', desc:'Survive extreme conditions.', levelreq:15, skillreq:'Survival, 8', showon:'survival', traits:['General', 'Skill'], effects:[], have:false, canChoose:function(){return $scope.feat_db.canChoose(this);} },
+    { name:'Legendary Thief', desc:'Steal what would normally be impossible to steal.', levelreq:15, skillreq:'Thievery, 8', featreq:'Pickpocket', showon:'thievery', traits:['General', 'Skill'], effects:[], have:false, canChoose:function(){return $scope.feat_db.canChoose(this);} },
+    { name:'Kip Up', desc:'Stand up for free without triggering reactions.', levelreq:7, skillreq:'Acrobatics, 6', showon:'acrobatics', traits:['General', 'Skill'], effects:[], have:false, canChoose:function(){return $scope.feat_db.canChoose(this);} },
+    { name:'Quick Recognition', desc:'Master in Arcana, Nature, Occultism, Identify spells as a free action.', levelreq:7, skillreq:'Arcana, 6 OR Nature, 6 OR Occultism, 6 OR Religion, 6', featreq:'Recognize Spell', showon:'arcana, nature, occultism, religion', traits:['General', 'Skill'], effects:[], have:false, canChoose:function(){return $scope.feat_db.canChoose(this);} },
+    { name:'Quick Climber', desc:'Climb swiftly.', levelreq:7, skillreq:'Athletics, 6', showon:'athletics', traits:['General', 'Skill'], effects:[], have:false, canChoose:function(){return $scope.feat_db.canChoose(this);} },
+    { name:'Quick Swim', desc:'Swim quickly.', levelreq:7, skillreq:'Athletics, 6', showon:'athletics', traits:['General', 'Skill'], effects:[], have:false, canChoose:function(){return $scope.feat_db.canChoose(this);} },
+    { name:'Wall Jump', desc:'Jump of walls.', levelreq:7, skillreq:'Athletics, 6', showon:'athletics', traits:['General', 'Skill'], effects:[], have:false, canChoose:function(){return $scope.feat_db.canChoose(this);} },
+    { name:'Inventor', desc:'Use Crafting to create item formulas.', levelreq:7, skillreq:'Crafting, 6', showon:'crafting', traits:['General', 'Downtime', 'Skill'], effects:[], have:false, canChoose:function(){return $scope.feat_db.canChoose(this);} },
+    { name:'Impeccable Crafter', desc:'Specialty Crafting Craft items more efficiently.', levelreq:7, skillreq:'Crafting, 6', featreq:'Specialty Crafting', showon:'crafting', traits:['General', 'Skill'], effects:[], have:false, canChoose:function(){return $scope.feat_db.canChoose(this);} },
+    { name:'Slippery Secrets', desc:'Evade attempts to uncover your true nature.', levelreq:7, skillreq:'Deception, 6', showon:'deception', traits:['General', 'Skill'], effects:[], have:false, canChoose:function(){return $scope.feat_db.canChoose(this);} },
+    { name:'Shameless Request', desc:'Make Requests of others with lesser consequences.', levelreq:7, skillreq:'Diplomacy, 6', showon:'diplomacy', traits:['General', 'Skill'], effects:[], have:false, canChoose:function(){return $scope.feat_db.canChoose(this);} },
+    { name:'Entourage', desc:'You have a small group of admirers who tend to follow you around while you’re in civilized settlements.', levelreq:7, skillreq:'Diplomacy, 6', featreq:'Hobnobber', showon:'diplomacy', traits:['General', 'Rare', 'Skill'], effects:[], have:false, canChoose:function(){return $scope.feat_db.canChoose(this);} },
+    { name:'Battle Cry', desc:'Demoralizes foes when you roll for initiative.', levelreq:7, skillreq:'Intimidation, 6', showon:'intimidation', traits:['General', 'Skill'], effects:[], have:false, canChoose:function(){return $scope.feat_db.canChoose(this);} },
+    { name:'Terrified Retreat', desc:'Cause foes you Demoralize to flee.', levelreq:7, skillreq:'Intimidation, 6', showon:'intimidation', traits:['General', 'Skill'], effects:[], have:false, canChoose:function(){return $scope.feat_db.canChoose(this);} },
+    { name:'Bizarre Magic', desc:'Your magic becomes more difficult to identify.', levelreq:7, skillreq:'Occultism, 6', showon:'occultism', traits:['General', 'Skill'], effects:[], have:false, canChoose:function(){return $scope.feat_db.canChoose(this);} },
+    { name:'Expeditious Search', desc:'Search areas in half the time.', levelreq:7, skillreq:'Perception, 6', showon:'perception', traits:['General'], effects:[], have:false, canChoose:function(){return $scope.feat_db.canChoose(this);} },
+    { name:'Foil Senses', desc:'Take precautions against special senses.', levelreq:7, skillreq:'Stealth, 6', showon:'stealth', traits:['General', 'Skill'], effects:[], have:false, canChoose:function(){return $scope.feat_db.canChoose(this);} },
+    { name:'Swift Sneak', desc:'Move your full Speed while you Sneak.', levelreq:7, skillreq:'Stealth, 6', showon:'stealth', traits:['General', 'Skill'], effects:[], have:false, canChoose:function(){return $scope.feat_db.canChoose(this);} },
+    { name:'Planar Survival', desc:'Use Survival to Subsist on different planes.', levelreq:7, skillreq:'Survival, 6', showon:'survival', traits:['General', 'Skill'], effects:[], have:false, canChoose:function(){return $scope.feat_db.canChoose(this);} },
+    { name:'Quick Unlock', desc:'Pick a Lock with 1 action.', levelreq:7, skillreq:'Thievery, 6', showon:'thievery', traits:['General', 'Skill'], effects:[], have:false, canChoose:function(){return $scope.feat_db.canChoose(this);} },
+    { name:'Intimidating Prowess', desc:'Gain a bonus to physically Demoralize a target.', levelreq:2, abilityreq:'Strength, 16', skillreq:'Intimidation, 4', showon:'intimidation', traits:['General', 'Skill'], effects:[], have:false, canChoose:function(){return $scope.feat_db.canChoose(this);} },
+    { name:'Dubious Knowledge', desc:'Learn true and erroneous knowledge on failed check.', levelreq:1, skillreq:'Arcana, 2|Crafting, 2|Lore, 2|Medicine, 2|Nature, 2|Occultism, 2|Religion, 2|Society, 2', showon:'arcana, crafting, lore, medicine, nature, occultism, religion, society', traits:['General', 'Skill'], effects:[], have:false, canChoose:function(){return $scope.feat_db.canChoose(this);} },
+    { name:'Cat Fall', desc:'Treat falls as shorter than they are.', levelreq:1, skillreq:'Acrobatics, 2', showon:'acrobatics', traits:['General', 'Skill'], effects:[], have:false, canChoose:function(){return $scope.feat_db.canChoose(this);} },
+    { name:'Quick Squeeze', desc:'Move swiftly as you Squeeze.', levelreq:1, skillreq:'Acrobatics, 2', showon:'acrobatics', traits:['General', 'Skill'], effects:[], have:false, canChoose:function(){return $scope.feat_db.canChoose(this);} },
+    { name:'Steady Balance', desc:'Maintain your balance in adverse conditions.', levelreq:1, skillreq:'Acrobatics, 2', showon:'acrobatics', traits:['General', 'Skill'], effects:[], have:false, canChoose:function(){return $scope.feat_db.canChoose(this);} },
+    { name:'Arcane Sense', desc:'Cast detect magic at will as an arcane innate spell.', levelreq:1, skillreq:'Arcana, 2', showon:'arcana', traits:['General', 'Skill'], effects:[], have:false, canChoose:function(){return $scope.feat_db.canChoose(this);} },
+    { name:'Quick Identification', desc:'Identify Magic in 1 minute or less.', levelreq:1, skillreq:'Arcana, 2|Nature, 2|Occultism, 2|Religion, 2', showon:'arcana, nature, occultism, religion', traits:['General', 'Skill'], effects:[], have:false, canChoose:function(){return $scope.feat_db.canChoose(this);} },
+    { name:'Recognize Spell', desc:'Identify a spell as a reaction as it\'s being cast.', levelreq:1, skillreq:'Arcana, 2|Nature, 2|Occultism, 2|Religion, 2', showon:'arcana, nature, occultism, religion', traits:['General', 'Secret', 'Skill'], effects:[], have:false, canChoose:function(){return $scope.feat_db.canChoose(this);} },
+    { name:'Trick Magic Item', desc:'Activate a magic item you normally can\'t activate.', levelreq:1, skillreq:'Arcana, 2|Nature, 2|Occultism, 2|Religion, 2', showon:'arcana, nature, occultism, religion', traits:['General', 'Manipulate', 'Skill'], effects:[], have:false, canChoose:function(){return $scope.feat_db.canChoose(this);} },
+    { name:'Assurance: Acrobatics', desc:'Receive a fixed result on a skill check.', levelreq:1, skillreq:'Acrobatics, 2', showon:'acrobatics', traits:['General', 'Fortune', 'Skill'], effects:[], have:false, canChoose:function(){return $scope.feat_db.canChoose(this);} },
+    { name:'Assurance: Arcana', desc:'Receive a fixed result on a skill check.', levelreq:1, skillreq:'Arcana, 2', showon:'arcana', traits:['General', 'Fortune', 'Skill'], effects:[], have:false, canChoose:function(){return $scope.feat_db.canChoose(this);} },
+    { name:'Assurance: Athletics', desc:'Receive a fixed result on a skill check.', levelreq:1, skillreq:'Athletics, 2', showon:'athletics', traits:['General', 'Fortune', 'Skill'], effects:[], have:false, canChoose:function(){return $scope.feat_db.canChoose(this);} },
+    { name:'Assurance: Crafting', desc:'Receive a fixed result on a skill check.', levelreq:1, skillreq:'Crafting, 2', showon:'crafting', traits:['General', 'Fortune', 'Skill'], effects:[], have:false, canChoose:function(){return $scope.feat_db.canChoose(this);} },
+    { name:'Assurance: Deception', desc:'Receive a fixed result on a skill check.', levelreq:1, skillreq:'Deception, 2', showon:'deception', traits:['General', 'Fortune', 'Skill'], effects:[], have:false, canChoose:function(){return $scope.feat_db.canChoose(this);} },
+    { name:'Assurance: Diplomacy', desc:'Receive a fixed result on a skill check.', levelreq:1, skillreq:'Diplomacy, 2', showon:'diplomacy', traits:['General', 'Fortune', 'Skill'], effects:[], have:false, canChoose:function(){return $scope.feat_db.canChoose(this);} },
+    { name:'Assurance: Intimidation', desc:'Receive a fixed result on a skill check.', levelreq:1, skillreq:'Intimidation, 2', showon:'intimidation', traits:['General', 'Fortune', 'Skill'], effects:[], have:false, canChoose:function(){return $scope.feat_db.canChoose(this);} },
+    { name:'Assurance: Lore', desc:'Receive a fixed result on a skill check.', levelreq:1, lorebase:true, skillreq:'Lore, 2', showon:'Lore', traits:['General', 'Fortune', 'Skill'], effects:[], have:false, canChoose:function(){return $scope.feat_db.canChoose(this);} },
+    { name:'Assurance: Medicine', desc:'Receive a fixed result on a skill check.', levelreq:1, skillreq:'Medicine, 2', showon:'medicine', traits:['General', 'Fortune', 'Skill'], effects:[], have:false, canChoose:function(){return $scope.feat_db.canChoose(this);} },
+    { name:'Assurance: Nature', desc:'Receive a fixed result on a skill check.', levelreq:1, skillreq:'Nature, 2', showon:'nature', traits:['General', 'Fortune', 'Skill'], effects:[], have:false, canChoose:function(){return $scope.feat_db.canChoose(this);} },
+    { name:'Assurance: Occultism', desc:'Receive a fixed result on a skill check.', levelreq:1, skillreq:'Occultism, 2', showon:'occultism', traits:['General', 'Fortune', 'Skill'], effects:[], have:false, canChoose:function(){return $scope.feat_db.canChoose(this);} },
+    { name:'Assurance: Performance', desc:'Receive a fixed result on a skill check.', levelreq:1, skillreq:'Performance, 2', showon:'performance', traits:['General', 'Fortune', 'Skill'], effects:[], have:false, canChoose:function(){return $scope.feat_db.canChoose(this);} },
+    { name:'Assurance: Religion', desc:'Receive a fixed result on a skill check.', levelreq:1, skillreq:'Religion, 2', showon:'religion', traits:['General', 'Fortune', 'Skill'], effects:[], have:false, canChoose:function(){return $scope.feat_db.canChoose(this);} },
+    { name:'Assurance: Society', desc:'Receive a fixed result on a skill check.', levelreq:1, skillreq:'Society, 2', showon:'society', traits:['General', 'Fortune', 'Skill'], effects:[], have:false, canChoose:function(){return $scope.feat_db.canChoose(this);} },
+    { name:'Assurance: Stealth', desc:'Receive a fixed result on a skill check.', levelreq:1, skillreq:'Stealth, 2', showon:'stealth', traits:['General', 'Fortune', 'Skill'], effects:[], have:false, canChoose:function(){return $scope.feat_db.canChoose(this);} },
+    { name:'Assurance: Survival', desc:'Receive a fixed result on a skill check.', levelreq:1, skillreq:'Survival, 2', showon:'survival', traits:['General', 'Fortune', 'Skill'], effects:[], have:false, canChoose:function(){return $scope.feat_db.canChoose(this);} },
+    { name:'Assurance: Thievery', desc:'Receive a fixed result on a skill check.', levelreq:1, skillreq:'Thievery, 2', showon:'thievery', traits:['General', 'Fortune', 'Skill'], effects:[], have:false, canChoose:function(){return $scope.feat_db.canChoose(this);} },
+    { name:'Combat Climber', desc:'Fight more effectively as you Climb.', levelreq:1, skillreq:'Athletics, 2', showon:'athletics', traits:['General', 'Skill'], effects:[], have:false, canChoose:function(){return $scope.feat_db.canChoose(this);} },
+    { name:'Hefty Hauler', desc:'Increase your Bulk limits by 2.', levelreq:1, skillreq:'Athletics, 2', showon:'athletics', traits:['General', 'Skill'], effects:[], have:false, canChoose:function(){return $scope.feat_db.canChoose(this);} },
+    { name:'Quick Jump', desc:'High Jump or Long Jump as a single action.', levelreq:1, skillreq:'Athletics, 2', showon:'athletics', traits:['General', 'Skill'], effects:[], have:false, canChoose:function(){return $scope.feat_db.canChoose(this);} },
+    { name:'Titan Wrestler', desc:'Disarm, Grapple, Shove, or Trip larger creatures.', levelreq:1, skillreq:'Athletics, 2', showon:'athletics', traits:['General', 'Skill'], effects:[], have:false, canChoose:function(){return $scope.feat_db.canChoose(this);} },
+    { name:'Underwater Marauder', desc:'Fight more effectively underwater.', levelreq:1, skillreq:'Athletics, 2', showon:'athletics', traits:['General', 'Skill'], effects:[], have:false, canChoose:function(){return $scope.feat_db.canChoose(this);} },
+    { name:'Alchemical Crafting', desc:'Craft alchemical items.', levelreq:1, skillreq:'Crafting, 2', showon:'crafting', traits:['General', 'Skill'], effects:[], have:false, canChoose:function(){return $scope.feat_db.canChoose(this);} },
+    { name:'Quick Repair', desc:'Repair items quickly.', levelreq:1, skillreq:'Crafting, 2', showon:'crafting', traits:['General', 'Skill'], effects:[], have:false, canChoose:function(){return $scope.feat_db.canChoose(this);} },
+    { name:'Snare Crafting', desc:'Craft snares.', levelreq:1, skillreq:'Crafting, 2', showon:'crafting', traits:['General', 'Skill'], effects:[], have:false, canChoose:function(){return $scope.feat_db.canChoose(this);} },
+    { name:'Specialty Crafting', desc:'Gain bonuses to Craft certain items.', levelreq:1, skillreq:'Crafting, 2', showon:'crafting', traits:['General', 'Skill'], effects:[], have:false, canChoose:function(){return $scope.feat_db.canChoose(this);} },
+    { name:'Charming Liar', desc:'Improve a target\'s attitude with your lies.', levelreq:1, skillreq:'Deception, 2', showon:'deception', traits:['General', 'Skill'], effects:[], have:false, canChoose:function(){return $scope.feat_db.canChoose(this);} },
+    { name:'Lengthy Diversion', desc:'Remain hidden after you Create a Diversion.', levelreq:1, skillreq:'Deception, 2', showon:'deception', traits:['General', 'Skill'], effects:[], have:false, canChoose:function(){return $scope.feat_db.canChoose(this);} },
+    { name:'Lie to Me', desc:'Use Deception to detect lies.', levelreq:1, skillreq:'Deception, 2', showon:'deception', traits:['General', 'Skill'], effects:[], have:false, canChoose:function(){return $scope.feat_db.canChoose(this);} },
+    { name:'Secret Speech', desc:'Learn the secret language of a society.', levelreq:1, skillreq:'Deception, 2', showon:'deception', traits:['General', 'Skill', 'Uncommon'], effects:[], have:false, canChoose:function(){return $scope.feat_db.canChoose(this);} },
+    { name:'Bargain Hunter', desc:'Earn Income by searching for deals.', levelreq:1, skillreq:'Diplomacy, 2', showon:'diplomacy', traits:['General', 'Skill'], effects:[], have:false, canChoose:function(){return $scope.feat_db.canChoose(this);} },
+    { name:'Group Impression', desc:'Make an Impression on multiple targets at once.', levelreq:1, skillreq:'Diplomacy, 2', showon:'diplomacy', traits:['General', 'Skill'], effects:[], have:false, canChoose:function(){return $scope.feat_db.canChoose(this);} },
+    { name:'Hobnobber', desc:'Gather Information rapidly.', levelreq:1, skillreq:'Diplomacy, 2', showon:'diplomacy', traits:['General', 'Skill'], effects:[], have:false, canChoose:function(){return $scope.feat_db.canChoose(this);} },
+    { name:'Group Coercion', desc:'Coerce multiple targets simultaneously.', levelreq:1, skillreq:'Intimidation, 2', showon:'intimidation', traits:['General', 'Skill'], effects:[], have:false, canChoose:function(){return $scope.feat_db.canChoose(this);} },
+    { name:'Intimidating Glare', desc:'Demoralize a creature without speaking.', levelreq:1, skillreq:'Intimidation, 2', showon:'intimidation', traits:['General', 'Skill'], effects:[], have:false, canChoose:function(){return $scope.feat_db.canChoose(this);} },
+    { name:'Quick Coercion', desc:'Coerce a creature quickly.', levelreq:1, skillreq:'Intimidation, 2', showon:'intimidation', traits:['General', 'Skill'], effects:[], have:false, canChoose:function(){return $scope.feat_db.canChoose(this);} },
+    { name:'Additional Lore', desc:'Become trained in another Lore subcategory.', levelreq:1, skillreq:'Lore, 2', showon:'', traits:['General', 'Skill'], effects:[], have:false, canChoose:function(){return $scope.feat_db.canChoose(this);} },
+    { name:'Experienced Professional', desc:'Prevent critical failures when Earning Income.', levelreq:1, skillreq:'Lore, 2', showon:'lore', traits:['General', 'Skill'], effects:[], have:false, canChoose:function(){return $scope.feat_db.canChoose(this);} },
+    { name:'Battle Medicine', desc:'Heal yourself or an ally in battle.', levelreq:1, skillreq:'Medicine, 2', showon:'medicine', traits:['General', 'Healing', 'Manipulate', 'Skill'], effects:[], have:false, canChoose:function(){return $scope.feat_db.canChoose(this);} },
+    { name:'Natural Medicine', desc:'Use Nature to Treat Wounds.', levelreq:1, skillreq:'Nature, 2', showon:'nature', traits:['General', 'Skill'], effects:[], have:false, canChoose:function(){return $scope.feat_db.canChoose(this);} },
+    { name:'Train Animal', desc:'Teach an animal a trick.', levelreq:1, skillreq:'Nature, 2', showon:'nature', traits:['General', 'Downtime', 'Manipulate', 'Skill'], effects:[], have:false, canChoose:function(){return $scope.feat_db.canChoose(this);} },
+    { name:'Oddity Identification', desc:'+2 to Occultism checks to Identify Magic with certain traits.', levelreq:1, skillreq:'Occultism, 2', showon:'occultism', traits:['General', 'Skill'], effects:[], have:false, canChoose:function(){return $scope.feat_db.canChoose(this);} },
+    { name:'Fascinating Performance', desc:'Perform to fascinate observers.', levelreq:1, skillreq:'Performance, 2', showon:'performance', traits:['General', 'Skill'], effects:[], have:false, canChoose:function(){return $scope.feat_db.canChoose(this);} },
+    { name:'Impressive Performance', desc:'Make an Impression with Performance.', levelreq:1, skillreq:'Performance, 2', showon:'performance', traits:['General', 'Skill'], effects:[], have:false, canChoose:function(){return $scope.feat_db.canChoose(this);} },
+    { name:'Virtuosic Performer', desc:'+1 with a certain type of performance.', levelreq:1, skillreq:'Performance, 2', showon:'performance', traits:['General', 'Skill'], effects:[], have:false, canChoose:function(){return $scope.feat_db.canChoose(this);} },
+    { name:'Student of the Canon', desc:'More accurately recognize the tenets of your faith or philosophy.', levelreq:1, skillreq:'Religion, 2', showon:'religion', traits:['General', 'Skill'], effects:[], have:false, canChoose:function(){return $scope.feat_db.canChoose(this);} },
+    { name:'Courtly Graces', desc:'Use Society to get along in noble society.', levelreq:1, skillreq:'Society, 2', showon:'society', traits:['General', 'Skill'], effects:[], have:false, canChoose:function(){return $scope.feat_db.canChoose(this);} },
+    { name:'Multilingual', desc:'Learn two new languages.', levelreq:1, skillreq:'Society, 2', showon:'society', traits:['General', 'Skill'], effects:[], have:false, canChoose:function(){return $scope.feat_db.canChoose(this);} },
+    { name:'Read Lips', desc:'Read the lips of people you can see.', levelreq:1, skillreq:'Society, 2', showon:'society', traits:['General', 'Skill'], effects:[], have:false, canChoose:function(){return $scope.feat_db.canChoose(this);} },
+    { name:'Sign Language', desc:'Learn sign languages.', levelreq:1, skillreq:'Society, 2', showon:'society', traits:['General', 'Skill'], effects:[], have:false, canChoose:function(){return $scope.feat_db.canChoose(this);} },
+    { name:'Streetwise', desc:'Use Society to Gather Information and Recall Knowledge.', levelreq:1, skillreq:'Society, 2', showon:'society', traits:['General', 'Skill'], effects:[], have:false, canChoose:function(){return $scope.feat_db.canChoose(this);} },
+    { name:'Experienced Smuggler', desc:'Conceal items from observers more effectively.', levelreq:1, skillreq:'Stealth, 2', showon:'stealth', traits:['General', 'Skill'], effects:[], have:false, canChoose:function(){return $scope.feat_db.canChoose(this);} },
+    { name:'Terrain Stalker', desc:'Sneak in certain terrain without attempting a check.', levelreq:1, skillreq:'Stealth, 2', showon:'stealth', traits:['General', 'Skill'], effects:[], have:false, canChoose:function(){return $scope.feat_db.canChoose(this);} },
+    { name:'Experienced Tracker', desc:'Track at your full Speed at a –5 penalty.', levelreq:1, skillreq:'Survival, 2', showon:'survival', traits:['General', 'Skill'], effects:[], have:false, canChoose:function(){return $scope.feat_db.canChoose(this);} },
+    { name:'Forager', desc:'Forage for supplies to provide for multiple creatures.', levelreq:1, skillreq:'Survival, 2', showon:'survival', traits:['General', 'Skill'], effects:[], have:false, canChoose:function(){return $scope.feat_db.canChoose(this);} },
+    { name:'Survey Wildlife', desc:'Identify nearby creatures through signs and clues.', levelreq:1, skillreq:'Survival, 2', showon:'survival', traits:['General', 'Skill'], effects:[], have:false, canChoose:function(){return $scope.feat_db.canChoose(this);} },
+    { name:'Terrain Expertise', desc:'+1 to Survival checks in certain terrain.', levelreq:1, skillreq:'Survival, 2', showon:'survival', traits:['General', 'Skill'], effects:[], have:false, canChoose:function(){return $scope.feat_db.canChoose(this);} },
+    { name:'Pickpocket', desc:'Steal or Palm an Object more effectively.', levelreq:1, skillreq:'Thievery, 2', showon:'thievery', traits:['General', 'Skill'], effects:[], have:false, canChoose:function(){return $scope.feat_db.canChoose(this);} },
+    { name:'Subtle Theft', desc:'Your thefts are harder to notice.', levelreq:1, skillreq:'Thievery, 2', showon:'thievery', traits:['General', 'Skill'], effects:[], have:false, canChoose:function(){return $scope.feat_db.canChoose(this);} },
+  ]
+  $scope.newLore = "";
   $scope.effectsData = [];
-    $scope.effectsTargets = [];
+  $scope.effectsTargets = [];
 
 //scope functions
   $scope.initNotes = function(objects) {
@@ -425,9 +582,26 @@ app.controller('charCtrl', function($scope,$filter) {
     itemsEquipped = $filter('filter')($scope.items, {equip:true})
     return itemsEquipped.some(function(item){return app.haveTrait(item,trait.name)}) && true;
   };
+  $scope.feat_db.canChoose = function(feat) {
+    //never show basic lore feats - they have to be regenerated in $scope.generateLore() individually for every unique lore
+    if (feat.showon == "Lore") {
+      return false;
+    }
+    levelreq = (feat.levelreq) ? ($scope.level >= feat.levelreq) : true;
+    abilityreq = (feat.abilityreq) ? ($scope.abilities.byName(feat.abilityreq.split(",")[0]).value() >= parseInt(feat.abilityreq.split(",")[1])) : true;
+    if (feat.skillreq) {
+      skillreqs = feat.skillreq.split("|");
+      skillreq = skillreqs.some(function(requirement){return $scope.skills.byName(requirement.split(",")[0]).level >= parseInt(requirement.split(",")[1])}) ? true : false;
+    } else {skillreq = true;}
+    weaponreq = (feat.weaponreq) ? ($scope.weaponProfs.byName(feat.weaponreq.split(",")[0]).level >= parseInt(feat.weaponreq.split(",")[1])) : true;
+    armorreq = (feat.armorreq) ? ($scope.armorProfs.byName(feat.armorreq.split(",")[0]).level >= parseInt(feat.armorreq.split(",")[1])) : true;
+    specialreq = (feat.specialreq) ? (eval(feat.specialreq)) : true;
+    return levelreq && abilityreq && skillreq && weaponreq && armorreq && specialreq;
+  }
   $scope.effects = function() {
       effects = [];
       itemeffects = [];
+      feateffects = [];
       angular.forEach ($filter('filter')($scope.items, {equip:true}), function(item) {
         angular.forEach (item.effects, function(effect) {
           split = effect.split(" ");
@@ -481,9 +655,16 @@ app.controller('charCtrl', function($scope,$filter) {
             }
         }
       });
+      angular.forEach ($filter('filter')($scope.feat_db, {have:true}), function(feat) {
+        angular.forEach (feat.effects, function(effect) {
+          split = effect.split(" ");
+          feateffects.push({type:'untyped', target:split[0], value:split[1], source:feat.name, penalty:(parseInt(split[1]) < 0) ? true : false})
+        });
+      });
       effects.push.apply(effects,itemeffects);
-      types = $filter('unique')(itemeffects, 'type').map(function(x){return x.type});
-      targets = $filter('unique')(itemeffects, 'target').map(function(x){return x.target});
+      effects.push.apply(effects,feateffects);
+      types = ["item", "circumstance", "status", "proficiency", "untyped"]// $filter('unique')(itemeffects, 'type').map(function(x){return x.type});
+      targets = $filter('unique')(effects, 'target').map(function(x){return x.target});
       angular.forEach(types, function($type) {
         if ($type == 'untyped') {
           angular.forEach($filter('filter')(effects, {type:'untyped', apply:'!'+false}),function(effect){
@@ -521,7 +702,7 @@ app.controller('charCtrl', function($scope,$filter) {
   };
   $scope.itemget = function(item) {
     var newitem = {};
-    Object.assign(newitem,item);
+    angular.copy(item, newitem);
     newitem.id = Date.now();
     newitem.equip = true;
     if (newitem.type == "armor" || newitem.type == "shield") {$scope.equipArmor(newitem)};
@@ -546,8 +727,55 @@ app.controller('charCtrl', function($scope,$filter) {
       $scope.items.byName("Fist").equip = true;
     }
   }
+  $scope.generateLore = function(newLore) {
+    newLoreName = "Lore: "+newLore+" Lore";
+    if (newLore != "" && !$scope.skills.byName(newLoreName)) {
+      $scope.skills.push({ name:newLoreName, level:0, ability:"Intelligence", note:'', effects:[], })
+      angular.forEach($filter('filter')($scope.feat_db, {skillreq:"Lore",lorebase:'!'+true}), function(feat){
+        skillreqs = feat.skillreq.split("|");
+        angular.forEach(skillreqs, function(requirement) {
+          if (requirement.split(",")[0] == "Lore") {
+            feat.skillreq += "|"+newLoreName+","+requirement.split(",")[1];
+          }
+        });
+      });
+      angular.forEach($filter('filter')($scope.feat_db, {showon:"Lore",lorebase:'!'+true}), function(feat){
+        feat.showon += ", "+newLoreName;
+      });
+      newFeats = [];
+      angular.forEach($filter('filter')($scope.feat_db, {lorebase:true}), function(feat){
+        newFeat = {};
+        angular.copy(feat, newFeat);
+        newFeat.name = newFeat.name.replace("Lore", newLoreName)
+        newFeat.skillreq = (newFeat.skillreq) ? newFeat.skillreq.replace("Lore", newLoreName) : "";
+        newFeat.featreq = (newFeat.featreq) ? newFeat.featreq.replace("Lore", newLoreName) : "";
+        newFeat.showon = newFeat.showon.replace("Lore", newLoreName);
+        newFeat.lorebase = false;
+        newFeats.push(newFeat);
+      });
+      if (newFeats.length > 0) {
+        $scope.feat_db.push.apply($scope.feat_db,newFeats);
+      }
+    }
+  }
+  $scope.removeLore = function(oldLore) {
+    angular.forEach($filter('filter')($scope.feat_db, {skillreq:oldLore.name}), function(feat){
+      skillreqs = feat.skillreq.split("|");
+      angular.forEach(skillreqs, function(requirement) {
+        if (requirement.split(",")[0] == oldLore.name) {
+          feat.skillreq = feat.skillreq.replace("|"+oldLore.name+","+requirement.split(",")[1],"");
+        }
+      });
+    });
+    angular.forEach($filter('filter')($scope.feat_db, {showon:oldLore.name}), function(feat){
+      feat.showon = feat.showon.replace(", "+oldLore.name,"");
+    });
+    angular.forEach($filter('filter')($scope.feat_db, {name:oldLore.name}), function(feat){
+      $scope.feat_db.splice($scope.feat_db.indexOf(feat),1);
+    });
+    $scope.skills.splice($scope.skills.indexOf(oldLore),1);
+  }
   $scope.initNotes($scope.skills);
-  $scope.initNotes($scope.perception);
   $scope.initNotes($scope.saves);
   $scope.equipBasics();
 });
