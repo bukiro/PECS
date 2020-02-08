@@ -1,13 +1,13 @@
 export class Ability {
     effects: string[] = [];
-    baseValue: number = 10;
     constructor (
     public name: string = "",
+    public baseValue: number = 10
     ) {}
     value() {
         //Calculates the ability with all active effects
         //Get all active effects on the ability
-        let itembonus = 4; //$scope.getEffects(this);
+        let itembonus = 0; //$scope.getEffects(this);
         //Add the effect bonus to the base value - parseInt'ed because it's from a textbox - and return it
         return this.baseValue + itembonus;
     }

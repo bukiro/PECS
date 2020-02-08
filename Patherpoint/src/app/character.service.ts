@@ -23,7 +23,7 @@ update_Abilities() {
     this.abilities = [];
     
     setTimeout(() => this.abilities_loader.forEach(element => {
-        this.abilities.push(new Ability(element.name));
+        this.abilities.push(new Ability(element.name, element.baseValue));
     }), 0);
 }
 
@@ -33,7 +33,9 @@ initialize_Abilities() {
 }
 
 load_Abilities(): Observable<Attribute[]>{
-    return this.http.get<Attribute[]>('/assets/abilities.json')
+    let savefile='/assets/Ohm.json';
+    let defaultvalues='/asset/abilities.json';
+    return this.http.get<Attribute[]>(savefile)
     .pipe(tap(_ => this.update_Abilities()))
 }
 

@@ -1,0 +1,8 @@
+[
+    { "name":"Strength", "baseValue":17 },
+    { "name":"Dexterity", "baseValue":16},
+    { "name":"Constitution", "baseValue":14 },
+    { "name":"Intelligence", "baseValue":11 },
+    { "name":"Wisdom", "baseValue":14 },
+    { "name":"Charisma", "baseValue":11 }
+]
