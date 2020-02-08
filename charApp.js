@@ -1,3 +1,5 @@
+// import Weapon from './weapon.ts'
+
 var app = angular.module('charApp', []);
 
 app.config(function($compileProvider){
@@ -25,22 +27,26 @@ app.haveModifiers = function($list, $obj, $affected) {
 //Example: haveModifiers($scope.trait_db, some_Weapon, damageBonus)
 
   results = 0;
-  angular.forEach($obj.traits, function(trait) {
-    if ( $list.byName(trait) && typeof $list.byName(trait)[$affected] === "function" ) {
-      effect = eval("$list.byName(trait)." + $affected + "()");
-      if (effect) {results += effect};      
-    }
-  });
+  // TODO
+  // angular.forEach($obj.traits, function(trait) {
+  //   if ( $list.byName(trait) && typeof $list.byName(trait)[$affected] === "function" ) {
+  //     effect = eval("$list.byName(trait)." + $affected + "()");
+  //     if (effect) {results += effect};      
+  //   }
+  // });
   return results;
+}
+
+function halve(x) {
+  return Math.floor(x/2);
 }
 
 //filter
 app.filter('halve', function($filter) {
 //halves and rounds down the value - standard for Pathfinder
-  return function(x) {
-    return Math.floor((x)/2);
-  };
+  return halve(x);
 });
+
 app.filter('unique', function() {
 //This filter was stolen and I don't fully understand all of its methods.
 //It basically lists up every item in the array, so long as the value of a certain property hasn't already been listed.
@@ -64,39 +70,43 @@ app.filter('unique', function() {
     return output;
   };
 });
+
+
 app.filter('charAttack', function($filter) {
 //Calculates the attack bonus for a melee or ranged attack with this weapon.
 //Makes references to $scope.Level, $scope.Abilities, $scope.weaponProfs (weapon category proficiencies) and $scope.trait_db, which must be passed, as well as whether the attack is Ranged or Melee
   return function(x, $level, $abilities, $weaponProfs, $traits, $range) {
-    var str = $abilities.byName("Strength").mod();
-    var dex = $abilities.byName("Dexterity").mod();
-    //Add character level if the character is trained or better with either the weapon category or the weapon itself
-    var charLevel = (((x.level > 0) || ($weaponProfs.byName(x.prof).level > 0)) && $level);
-    //Add either the weapon category proficiency or the weapon proficiency, whichever is better
-    var profLevel = Math.max(x.level, $weaponProfs.byName(x.prof).level);
-    //Check if the weapon has any traits that affect its Ability bonus to attack, such as Finesse or Brutal, and run those calculations.
-    var traitMod = app.haveModifiers($traits, x, "attack");
-    //If the previous step has resulted in a value, use that as the Ability bonus. If not, and the attack is ranged, use Dexterity, otherwise Strength
-    var abilityMod = (traitMod) ? (traitMod) : ($range == "Ranged") ? dex : str;
-    //Add up all modifiers and return the attack bonus for this attack
-    var attackResult = charLevel + profLevel + x.itembonus + abilityMod;
-    return attackResult;
+    // var str = $scope.abilities.strength.mod();
+    // var dex = $scope.abilities.dexterity.mod();
+    // //Add character level if the character is trained or better with either the weapon category or the weapon itself
+    // var charLevel = (((x.level > 0) || ($weaponProfs.byName(x.prof).level > 0)) && $level);
+    // //Add either the weapon category proficiency or the weapon proficiency, whichever is better
+    // var profLevel = Math.max(x.level, $weaponProfs.byName(x.prof).level);
+    // //Check if the weapon has any traits that affect its Ability bonus to attack, such as Finesse or Brutal, and run those calculations.
+    // var traitMod = app.haveModifiers($traits, x, "attack");
+    // //If the previous step has resulted in a value, use that as the Ability bonus. If not, and the attack is ranged, use Dexterity, otherwise Strength
+    // var abilityMod = (traitMod) ? (traitMod) : ($range == "Ranged") ? dex : str;
+    // //Add up all modifiers and return the attack bonus for this attack
+    // var attackResult = charLevel + profLevel + x.itembonus + abilityMod;
+    // return attackResult;
+    return 10;
   };
 });
 app.filter('charArmorDefense', function($filter) {
 //Calculates the effective AC gained from wearing this armor.
 //Makes references to $scope.Level, $scope.Abilities and $scope.armorProfs (armor category proficiencies), which must be passed
     return function(x, $level, $abilities, $armorProfs) {
-      var dex = $abilities.byName("Dexterity").mod();
-      //Add character level if the character is trained or better with either the armor category or the armor itself
-      var charLevel = (((x.level > 0) || ($armorProfs.byName(x.prof).level > 0)) && $level);
-      //Add either the weapon category proficiency or the weapon proficiency, whichever is better
-      var profLevel = Math.max(x.level, $armorProfs.byName(x.prof).level);
-      //Add the dexterity modifier up to the armor's Dex Cap
-      var dexBonus = Math.min(dex, (x.dexcap)?x.dexcap:999)
-      //Add up all modifiers and return the AC gained from this armor
-      var defenseResult = 10 + charLevel + profLevel + dexBonus + x.itembonus;
-      return defenseResult;
+      // var dex = $scope.abilities.dexterity.mod();
+      // //Add character level if the character is trained or better with either the armor category or the armor itself
+      // var charLevel = (((x.level > 0) || ($armorProfs.byName(x.prof).level > 0)) && $level);
+      // //Add either the weapon category proficiency or the weapon proficiency, whichever is better
+      // var profLevel = Math.max(x.level, $armorProfs.byName(x.prof).level);
+      // //Add the dexterity modifier up to the armor's Dex Cap
+      // var dexBonus = Math.min(dex, (x.dexcap)?x.dexcap:999)
+      // //Add up all modifiers and return the AC gained from this armor
+      // var defenseResult = 10 + charLevel + profLevel + dexBonus + x.itembonus;
+      // return defenseResult;
+      return 20;
     };
   });
 app.filter('canParry', function($filter) {
@@ -118,52 +128,157 @@ app.filter('charWeaponDamage', function($filter) {
 //Abilities and Traits must be passed, as well as whether the attack is Melee or Ranged
 //Returns a string in the form of "1d6 +5"
 //Will get more complicated when runes are implemented
-  return function(x, $abilities, $traits, $range) {
+  return 1000;
+  // return function(x, $abilities, $traits, $range) {
+  //   // var abilityDmg = "";
+  //   // var str = $scope.abilities.strength.mod();
+  //   // //Get the basic "1d6" from the weapon's dice values
+  //   // var baseDice = x.dicenum + "d" + x.dicesize;
+  //   // //Check if the Weapon has any traits that affect its damage Bonus, such as Thrown or Propulsive, and run those calculations.
+  //   // var traitMod = app.haveModifiers($traits, x, "dmgbonus");
+  //   // //If the previous step has resulted in a value, use that as the Ability bonus to damage, otherwise use Strength for Melee attacks.
+  //   // //Ranged attacks don't get a damage bonus from Abilities without Traits.
+  //   // var abilityMod = (traitMod) ? (traitMod) : ($range == "Melee") && str;
+  //   // //Make a nice " +5" string from the Ability bonus if there is one, or else make it empty
+  //   // abilityDmg = (abilityMod) ? " +" + abilityMod : "";
+  //   // //Concatenate the strings for a readable damage die
+  //   // var dmgResult = baseDice + abilityDmg;
+  //   // return dmgResult;
+  //   return 100;
+  // };
+});
+app.filter('charSkill', function($filter) {
+  // //Calculates the effective bonus of the given Skill
+  // //$scope.Level, $scope.Abilities, $scope.feat_db and $scope.effectsData) must be passed
+  return function(x, $level, $abilities, $feats, $effects) {
+  //   effectBonus=0;
+  //   x.effects.length = 0;
+  //   //Add character level if the character is trained or better with the Skill
+  //   var charLevel = ((x.level > 0) ? $level : ($feats.byName("Untrained Improvisation").have) && Math.floor($level/2));
+  //   //Add the Ability modifier identified by the skill's ability property
+  //   // var abilityMod = $abilities.byName(x.ability).mod();
+  //   var abilityMod = $scope.abilities.strength.mod();
+  //   //If any effect in $scope.effectsData has this skill as a target and is marked as applicable, add it to the effect bonus and list its value and source in the skill's own effects property
+  //   //parseInt the effect's value in case it's a string like "+1"
+  //   angular.forEach ($filter('filter')($effects, {target:x.name,apply:true}), function(effect) {
+  //       effectBonus += parseInt(effect.value);
+  //       x.effects.push(effect.value + " (" + effect.source + ")");
+  //   });
+  //   //Add up all modifiers and the skill proficiency, parseInt the effect bonus again just in case, write the result into the skill object for easy access, then return the sum
+  //   var skillResult = charLevel + x.level + abilityMod + parseInt(effectBonus);
+  //   x.value = skillResult;
+    // return skillResult;
+    return 30;
+  };
+});
+
+app.factory('Ability', function() {
+    Ability = function(name, basevalue) { 
+        // Initialise scores
+        var _basevalue = basevalue;
+        var _value = effectiveAbility(basevalue);
+        var _mod = mod(_value);
+
+        this.name = name;
+
+        this.basevalue = function(newValue) {
+          // Recalculate other scores on value change ("setter")
+          if (arguments.length) {
+            _basevalue = newValue;
+            _value = effectiveAbility(_basevalue);
+            _mod = mod(_value);
+          }
+         return _basevalue;
+        }
+
+        this.value = function() { return _value };
+        this.mod = function() { return _mod };
+        this.modname = name.substring(0, 3).toUpperCase();
+    }
+
+    mod = function(score) { return Math.floor((score - 10)/2); }
+
+    // TODO make static?
+    // TODO calculate item bonus
+    effectiveAbility = function(basevalue) {
+      console.log('effective ability' ,basevalue);
+      return basevalue;
+    };
+
+    return Ability;
+});
+
+//controller
+app.controller('charCtrl', function($scope,$filter, Ability) {
+  $scope.character = { name:"Dudebro", class:"Monk", subclass:"", deity:"God" }
+  $scope.level = 7;
+
+  //The effective AC is called as a function and includes the worn armor and all raised shields and Parry weapons.
+  $scope.AC = {name:'AC', value:function() {return $scope.AC.effectiveAC()}, effects:[] }
+
+
+  $scope.strength = new Ability('Strength', 17);
+  $scope.dexterity = new Ability('Dexterity', 13);
+  $scope.constitution = new Ability('Constitution', 14);
+  $scope.wisdom = new Ability('Wisdom', 13);
+  $scope.intelligence = new Ability('Intelligence', 10);
+  $scope.charisma = new Ability('Charisma', 9);
+
+  $scope.abilities2 = [
+    $scope.strength,
+    $scope.dexterity,
+    $scope.constitution,
+    $scope.wisdom,
+    $scope.intelligence,
+    $scope.charisma
+  ];
+
+
+  //Calculates the attack bonus for a melee or ranged attack with this weapon.
+  //Makes references to $scope.Level, $scope.Abilities, $scope.weaponProfs (weapon category proficiencies) and $scope.trait_db, which must be passed, as well as whether the attack is Ranged or Melee
+  $scope.attack = function(weapon) {
+    var str = $scope.strength.mod();
+    var dex = $scope.strength.mod();
+
+    //Add character level if the character is trained or better with either the weapon category or the weapon itself
+    var charLevel = (((weapon.level > 0) || ($scope.weaponProfs2[weapon.prof].level > 0)) && $scope.level);
+    // Add either the weapon category proficiency or the weapon proficiency, whichever is better
+    var profLevel = Math.max(weapon.level, $scope.weaponProfs2[weapon.prof].level);
+    //Check if the weapon has any traits that affect its Ability bonus to attack, such as Finesse or Brutal, and run those calculations.
+    // var traitMod = app.haveModifiers($scope.traits, weapon, "attack");
+    //If the previous step has resulted in a value, use that as the Ability bonus. If not, and the attack is ranged, use Dexterity, otherwise Strength
+    // var abilityMod = (traitMod) ? (traitMod) : ($scope.range == "Ranged") ? dex : str;
+    var abilityMod = $scope.range == "Ranged" ? dex : str;
+    //Add up all modifiers and return the attack bonus for this attack
+    var attackResult = charLevel + profLevel + weapon.itembonus + abilityMod;
+    console.log('attack', attackResult);
+    console.log('for weapon', weapon);
+
+    return attackResult;
+  };
+
+  //Lists the damage dice and damage bonuses for a ranged or melee attack with this weapon.
+  //Abilities and Traits must be passed, as well as whether the attack is Melee or Ranged
+  //Returns a string in the form of "1d6 +5"
+  //Will get more complicated when runes are implemented
+  // ... did I hear ENCHANTMENT?!
+  $scope.damage = function(weapon) {
     var abilityDmg = "";
-    var str = $abilities.byName('Strength').mod();
+    var str = $scope.strength.mod();
     //Get the basic "1d6" from the weapon's dice values
-    var baseDice = x.dicenum + "d" + x.dicesize;
+    var baseDice = weapon.dicenum + "d" + weapon.dicesize;
     //Check if the Weapon has any traits that affect its damage Bonus, such as Thrown or Propulsive, and run those calculations.
-    var traitMod = app.haveModifiers($traits, x, "dmgbonus");
+    var traitMod = app.haveModifiers($scope.traits, weapon, "dmgbonus");
     //If the previous step has resulted in a value, use that as the Ability bonus to damage, otherwise use Strength for Melee attacks.
     //Ranged attacks don't get a damage bonus from Abilities without Traits.
-    var abilityMod = (traitMod) ? (traitMod) : ($range == "Melee") && str;
+    var abilityMod = (traitMod) ? (traitMod) : ($scope.range == "Melee") && str;
     //Make a nice " +5" string from the Ability bonus if there is one, or else make it empty
     abilityDmg = (abilityMod) ? " +" + abilityMod : "";
     //Concatenate the strings for a readable damage die
     var dmgResult = baseDice + abilityDmg;
     return dmgResult;
   };
-});
-app.filter('charSkill', function($filter) {
-  //Calculates the effective bonus of the given Skill
-  //$scope.Level, $scope.Abilities, $scope.feat_db and $scope.effectsData) must be passed
-  return function(x, $level, $abilities, $feats, $effects) {
-    effectBonus=0;
-    x.effects.length = 0;
-    //Add character level if the character is trained or better with the Skill
-    var charLevel = ((x.level > 0) ? $level : ($feats.byName("Untrained Improvisation").have) && Math.floor($level/2));
-    //Add the Ability modifier identified by the skill's ability property
-    var abilityMod = $abilities.byName(x.ability).mod();
-    //If any effect in $scope.effectsData has this skill as a target and is marked as applicable, add it to the effect bonus and list its value and source in the skill's own effects property
-    //parseInt the effect's value in case it's a string like "+1"
-    angular.forEach ($filter('filter')($effects, {target:x.name,apply:true}), function(effect) {
-        effectBonus += parseInt(effect.value);
-        x.effects.push(effect.value + " (" + effect.source + ")");
-    });
-    //Add up all modifiers and the skill proficiency, parseInt the effect bonus again just in case, write the result into the skill object for easy access, then return the sum
-    var skillResult = charLevel + x.level + abilityMod + parseInt(effectBonus);
-    x.value = skillResult;
-    return skillResult;
-  };
-});
 
-//controller
-app.controller('charCtrl', function($scope,$filter) {
-  $scope.character = { name:"Dudebro", class:"Monk", subclass:"", deity:"God" }
-  $scope.level = 7;
-  //The effective AC is called as a function and includes the worn armor and all raised shields and Parry weapons.
-  $scope.AC = {name:'AC', value:function() {return $scope.AC.effectiveAC()}, effects:[] }
   //The actual abilities with all modifiers are called as a function, as well as the Ability modifier (which is calculated from the value).
   $scope.abilities = [
     { name:'Strength', basevalue:17, value:function() {return $scope.abilities.effectiveAbility(this)}, mod:function() { return $scope.abilities.mod(this) }, effects:[] },
@@ -205,6 +320,12 @@ app.controller('charCtrl', function($scope,$filter) {
     { name:'Martial', level:4 },
     { name:'Unarmed', level:0 },
   ]
+  // TODO use trainedness instead of numeric constatnts
+  $scope.weaponProfs2 = {
+    'Simple': { level: 2 },
+    'Martial': { level: 4 },
+    'Unarmed': { level: 0 },
+  };
   $scope.armorProfs = [
     { name:'Light', level:4  },
     { name:'Medium', level:0 },
