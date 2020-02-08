@@ -5,6 +5,7 @@ The very latest in Assistive Technologies for Dungeon Master (ATDM)
 
 :x: Initialize basic Node.js app
 - [x] We are using AngularJS now
+- [x] We are using TypeScript now
 - [ ] Learn a language
 - [ ] Get SSH key working in VSC >:|
 - [ ] Fill character sheet
