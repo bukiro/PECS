@@ -1,0 +1,7 @@
+<div *ngFor="let ability of characterService.get_Abilities()">
+  Ability:
+  {{ability.name}}
+  <input type="number" [(ngModel)]="ability.baseValue">
+  {{ability.value()}}
+  {{ability.mod()}}
+</div>
