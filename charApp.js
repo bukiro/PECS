@@ -1,10 +1,7 @@
 var app = angular.module('charApp', []);
 
-app.config(function($compileProvider){
-  $compileProvider.aHrefSanitizationWhitelist(/^\s*(https?|ftp|mailto|file|javascript):/);
-});
-
-//app functions
+//App functions
+//Why are these app functions and not scope functions? I assume I did that so they could be called from anywhere.
 
 app.haveTrait = function($obj, $trait) {
 //Does this object have this trait (as String)?
@@ -23,7 +20,6 @@ app.haveModifiers = function($list, $obj, $affected) {
 //Returns the sum of all formulas that affect this information
 //Usage: haveModifiers(List_of_traits, Object, affected_information)
 //Example: haveModifiers($scope.trait_db, some_Weapon, damageBonus)
-
   results = 0;
   angular.forEach($obj.traits, function(trait) {
     if ( $list.byName(trait) && typeof $list.byName(trait)[$affected] === "function" ) {
@@ -34,7 +30,7 @@ app.haveModifiers = function($list, $obj, $affected) {
   return results;
 }
 
-//filter
+//Filters
 app.filter('halve', function($filter) {
 //halves and rounds down the value - standard for Pathfinder
   return function(x) {
@@ -42,7 +38,7 @@ app.filter('halve', function($filter) {
   };
 });
 app.filter('unique', function() {
-//This filter was stolen and I don't fully understand all of its methods.
+//This filter is stolen and I don't fully understand all of its methods.
 //It basically lists up every item in the array, so long as the value of a certain property hasn't already been listed.
 //Returns the array, minus all the items whose property already had that value.
 //Example: 
@@ -137,22 +133,16 @@ app.filter('charWeaponDamage', function($filter) {
 });
 app.filter('charSkill', function($filter) {
   //Calculates the effective bonus of the given Skill
-  //$scope.Level, $scope.Abilities, $scope.feat_db and $scope.effectsData) must be passed
+  //$scope.Level, $scope.Abilities, $scope.feat_db and $scope.getEffects(skill) must be passed
   return function(x, $level, $abilities, $feats, $effects) {
-    effectBonus=0;
-    x.effects.length = 0;
-    //Add character level if the character is trained or better with the Skill
+    //Add character level if the character is trained or better with the Skill; Add half the level if the skill is unlearned and the character has the Untrained Improvisation feat.
+    //Gets applied to saves and perception, but they are never untrained
     var charLevel = ((x.level > 0) ? $level : ($feats.byName("Untrained Improvisation").have) && Math.floor($level/2));
     //Add the Ability modifier identified by the skill's ability property
     var abilityMod = $abilities.byName(x.ability).mod();
-    //If any effect in $scope.effectsData has this skill as a target and is marked as applicable, add it to the effect bonus and list its value and source in the skill's own effects property
-    //parseInt the effect's value in case it's a string like "+1"
-    angular.forEach ($filter('filter')($effects, {target:x.name,apply:true}), function(effect) {
-        effectBonus += parseInt(effect.value);
-        x.effects.push(effect.value + " (" + effect.source + ")");
-    });
-    //Add up all modifiers and the skill proficiency, parseInt the effect bonus again just in case, write the result into the skill object for easy access, then return the sum
-    var skillResult = charLevel + x.level + abilityMod + parseInt(effectBonus);
+    //Add up all modifiers, the skill proficiency and all active effects, write the result into the skill object for easy access, then return the sum
+    //getEffects(skill) has actually already been called and passed into the filter as $effects
+    var skillResult = charLevel + x.level + abilityMod + $effects;
     x.value = skillResult;
     return skillResult;
   };
@@ -160,10 +150,10 @@ app.filter('charSkill', function($filter) {
 
 //controller
 app.controller('charCtrl', function($scope,$filter) {
-  $scope.character = { name:"Dudebro", class:"Monk", subclass:"", deity:"God" }
+  $scope.character = { name:"Dudebro", ancestry:"Human, Orc", class:"Monk", subclass:"", deity:"God" }
   $scope.level = 7;
   //The effective AC is called as a function and includes the worn armor and all raised shields and Parry weapons.
-  $scope.AC = {name:'AC', value:function() {return $scope.AC.effectiveAC()}, effects:[] }
+  $scope.AC = {name:'AC', value:function() {return $scope.AC.effectiveAC(this)}, effects:[] }
   //The actual abilities with all modifiers are called as a function, as well as the Ability modifier (which is calculated from the value).
   $scope.abilities = [
     { name:'Strength', basevalue:17, value:function() {return $scope.abilities.effectiveAbility(this)}, mod:function() { return $scope.abilities.mod(this) }, effects:[] },
@@ -201,17 +191,21 @@ app.controller('charCtrl', function($scope,$filter) {
     { name:'Will', level:4, ability:"Wisdom", note:'+2 vs enchantment', effects:[], },
   ];
   $scope.weaponProfs = [
-    { name:'Simple', level:2  },
-    { name:'Martial', level:4 },
-    { name:'Unarmed', level:0 },
+    { name:'Simple', level:2, effects:[], },
+    { name:'Martial', level:4, effects:[], },
+    { name:'Unarmed', level:0, effects:[], },
   ]
   $scope.armorProfs = [
-    { name:'Light', level:4  },
-    { name:'Medium', level:0 },
-    { name:'Heavy', level:0 },
-    { name:'Unarmored', level:4 },
+    { name:'Light', level:4, effects:[], },
+    { name:'Medium', level:0, effects:[], },
+    { name:'Heavy', level:0, effects:[], },
+    { name:'Unarmored', level:4, effects:[], },
   ]
+  //The inventory
   $scope.items = []
+  //All the feats you have
+  $scope.feats = []
+  //This immutable item list may be loaded from a database in the future. Every weapon you "get" is copied from here to $scope.items, where it can be modified.
   $scope.item_db = [
     { type:'weapon', name:'Fist', equip:false, level:0, prof:'Unarmed', dmgType:'B', dicenum:1, dicesize:4, melee:5, itembonus:0, traits:['Agile', 'Finesse', 'Nonlethal', 'Unarmed'], },
     { type:'weapon', name:'Clan Dagger', equip:false, level:0, prof:'Simple', dmgType:'P', dicenum:1, dicesize:4, melee:5, itembonus:0, traits:['Agile', 'Dwarf', 'Parry', 'Uncommon', 'Versatile B'], },
@@ -315,6 +309,8 @@ app.controller('charCtrl', function($scope,$filter) {
     { type:'shield', name:'Steel Shield', equip:false, itembonus:2, },
     { type:'shield', name:'Tower Shield', equip:false, speedpenalty:-5, itembonus:2, coverbonus:2, effects:[], },
   ]
+  //The trait list is immutable and may be loaded from a database in the future. Functions look up information from here in case an item has a trait.
+  //Some traits have special functions named after an information they affect, e.g. attack() or dmgbonus(). These get called by the haveModifiers() function.
   $scope.trait_db = [
     { name:'Agile', showon:'', desc:'The multiple attack penalty you take with this weapon on the second attack on your turn is -4 instead of -5, and -8 instead of -10 on the third and subsequent attacks in the turn.', have:function() { return $scope.trait_db.have(this) }, },
     { name:'Attached', showon:'', desc:'An attached weapon must be combined with another piece of gear to be used. The trait lists what type of item the weapon must be attached to. You must be wielding or wearing the item the weapon is attached to in order to attack with it. For example, shield spikes are attached to a shield, allowing you to attack with the spikes instead of a shield bash, but only if you\'re wielding the shield. An attached weapon is usually bolted onto or built into the item it\'s attached to, and typically an item can have only one weapon attached to it. An attached weapon can be affixed to an item with 10 minutes of work and a successful DC 10 Crafting check; this includes the time needed to remove the weapon from a previous item, if necessary. If an item is destroyed, its attached weapon can usually be salvaged.', have:function() { return $scope.trait_db.have(this) }, },
@@ -357,12 +353,19 @@ app.controller('charCtrl', function($scope,$filter) {
     { name:'Flexible', showon:'', desc:'The armor is flexible enough that it doesn\'t hinder most actions. You don\'t apply its check penalty to Acrobatics or Athletics checks.', have:function() { return $scope.trait_db.have(this) }, },
     { name:'Noisy', showon:'', desc:'This armor is loud and likely to alert others to your presence. The armor\'s check penalty applies to Stealth checks even if you meet the required Strength score.', have:function() { return $scope.trait_db.have(this) }, },
   ]
-  //The feats list is still very basic
+  //The feats list is full of feats that don't do anything yet. Others just add a little hint to a property like a skill or have an active effect.
+  //Feats that require or affect a Lore skill get expanded or copied when a new Lore skill gets added, so this list can vary in the runtime
+  //canChoose() is a function where all the -req fields are evaluated. specialreq is for feats that have uncommon requirements (such as "no Deity selected") and needs to be a string that contains a true/false evaluation
   $scope.feat_db = [
-    { name:'Adopted Ancestry', desc:'Gain access to ancestry feats from another ancestry.', levelreq:1, traits:['General'], effects:[], have:false, canChoose:function(){return $scope.feat_db.canChoose(this);} },
-    { name:'Armor Proficiency: Light armor', desc:'Become trained in a type of armor.', levelreq:1, showon:'light', traits:['General'], effects:[], have:false, canChoose:function(){return $scope.feat_db.canChoose(this);} },
-    { name:'Armor Proficiency: Medium armor', desc:'Become trained in a type of armor.', levelreq:1, armorreq:'Light, 2', showon:'medium', traits:['General'], effects:[], have:false, canChoose:function(){return $scope.feat_db.canChoose(this);} },
-    { name:'Armor Proficiency: Heavy armor', desc:'Become trained in a type of armor.', levelreq:1, armorreq:'Medium, 2', showon:'heavy', traits:['General'], effects:[], have:false, canChoose:function(){return $scope.feat_db.canChoose(this);} },
+    { name:'Adopted Ancestry: Dwarf', desc:'Gain access to ancestry feats from another ancestry.', levelreq:1, traits:['General'], effects:[], have:false, canChoose:function(){return $scope.feat_db.canChoose(this);} },
+    { name:'Adopted Ancestry: Elf', desc:'Gain access to ancestry feats from another ancestry.', levelreq:1, traits:['General'], effects:[], have:false, canChoose:function(){return $scope.feat_db.canChoose(this);} },
+    { name:'Adopted Ancestry: Gnome', desc:'Gain access to ancestry feats from another ancestry.', levelreq:1, traits:['General'], effects:[], have:false, canChoose:function(){return $scope.feat_db.canChoose(this);} },
+    { name:'Adopted Ancestry: Goblin', desc:'Gain access to ancestry feats from another ancestry.', levelreq:1, traits:['General'], effects:[], have:false, canChoose:function(){return $scope.feat_db.canChoose(this);} },
+    { name:'Adopted Ancestry: Halfling', desc:'Gain access to ancestry feats from another ancestry.', levelreq:1, traits:['General'], effects:[], have:false, canChoose:function(){return $scope.feat_db.canChoose(this);} },
+    { name:'Adopted Ancestry: Orc', desc:'Gain access to ancestry feats from another ancestry.', levelreq:1, traits:['General'], effects:[], have:false, canChoose:function(){return $scope.feat_db.canChoose(this);} },
+    { name:'Armor Proficiency: Light armor', desc:'Become trained in a type of armor.', levelreq:1, showon:'light', traits:['General'], effects:['Light =2'], have:false, canChoose:function(){return $scope.feat_db.canChoose(this);} },
+    { name:'Armor Proficiency: Medium armor', desc:'Become trained in a type of armor.', levelreq:1, armorreq:'Light, 2', showon:'medium', traits:['General'], effects:['Medium =2'], have:false, canChoose:function(){return $scope.feat_db.canChoose(this);} },
+    { name:'Armor Proficiency: Heavy armor', desc:'Become trained in a type of armor.', levelreq:1, armorreq:'Medium, 2', showon:'heavy', traits:['General'], effects:['Heavy =2'], have:false, canChoose:function(){return $scope.feat_db.canChoose(this);} },
     { name:'Breath Control', desc:'Hold your breath longer and gain benefits against inhaled threats.', levelreq:1, showon:'fortitude', traits:['General'], effects:[], have:false, canChoose:function(){return $scope.feat_db.canChoose(this);} },
     { name:'Canny Acumen: Perception', desc:'Become an expert in a saving throw or Perception.', levelreq:1, traits:['General'], effects:[], have:false, canChoose:function(){return $scope.feat_db.canChoose(this);} },
     { name:'Canny Acumen: Fortitude', desc:'Become an expert in a saving throw or Perception.', levelreq:1, traits:['General'], effects:[], have:false, canChoose:function(){return $scope.feat_db.canChoose(this);} },
@@ -374,9 +377,9 @@ app.controller('charCtrl', function($scope,$filter) {
     { name:'Ride', desc:'Automatically succeed at commanding your mount to move.', levelreq:1, showon:'nature', traits:['General'], effects:[], have:false, canChoose:function(){return $scope.feat_db.canChoose(this);} },
     { name:'Shield Block', desc:'Ward off a blow with your shield.', levelreq:1, showon:'defense', traits:['General'], effects:[], have:false, canChoose:function(){return $scope.feat_db.canChoose(this);} },
     { name:'Toughness', desc:'Increase your maximum HP and reduce the DCs of recovery checks.', levelreq:1, showon:'health', traits:['General'], effects:[], have:false, canChoose:function(){return $scope.feat_db.canChoose(this);} },
-    { name:'Weapon Proficiency: Simple Weapons', desc:'Become trained in a weapon type.', levelreq:1, showon:'weaponProfs', traits:['General'], effects:[], have:false, canChoose:function(){return $scope.feat_db.canChoose(this);} },
-    { name:'Weapon Proficiency: Martial Weapons', desc:'Become trained in a weapon type.', levelreq:1, weaponreq:'Simple, 2', showon:'simple', traits:['General'], effects:[], have:false, canChoose:function(){return $scope.feat_db.canChoose(this);} },
-    { name:'Weapon Proficiency: Advanced Weapon', desc:'Become trained in a weapon type.', levelreq:1, weaponreq:'Martial, 2', showon:'martial', traits:['General'], effects:[], todo:'generate for each advanced weapon', have:false, canChoose:function(){return $scope.feat_db.canChoose(this);} },
+    { name:'Weapon Proficiency: Simple Weapons', desc:'Become trained in a weapon type.', levelreq:1, showon:'weaponProfs', traits:['General'], effects:['Simple =2'], have:false, canChoose:function(){return $scope.feat_db.canChoose(this);} },
+    { name:'Weapon Proficiency: Martial Weapons', desc:'Become trained in a weapon type.', levelreq:1, weaponreq:'Simple, 2', showon:'', traits:['General'], effects:['Martial =2'], have:false, canChoose:function(){return $scope.feat_db.canChoose(this);} },
+    { name:'Weapon Proficiency: Advanced Weapon', desc:'Become trained in a weapon type.', levelreq:1, weaponreq:'Martial, 2', showon:'', traits:['General'], effects:[], todo:'generate for each advanced weapon', have:false, canChoose:function(){return $scope.feat_db.canChoose(this);} },
     { name:'Ancestral Paragon', desc:'Gain a 1st-level ancestry feat.', levelreq:3, traits:['General'], effects:[], have:false, canChoose:function(){return $scope.feat_db.canChoose(this);} },
     { name:'Untrained Improvisation', desc:'Become more adept at using untrained skills.', levelreq:3, traits:['General'], effects:[], have:false, canChoose:function(){return $scope.feat_db.canChoose(this);} },
     { name:'Different Worlds', desc:'Create a second identity for yourself with a different name, history, and background.', levelreq:1, traits:['General', 'Uncommon'], effects:[], have:false, canChoose:function(){return $scope.feat_db.canChoose(this);} },
@@ -386,7 +389,7 @@ app.controller('charCtrl', function($scope,$filter) {
     { name:'Feather Step', desc:'Step into difficult terrain.', levelreq:1, abilityreq:'Dexterity, 14', showon:'speed', traits:['General'], effects:[], have:false, canChoose:function(){return $scope.feat_db.canChoose(this);} },
     { name:'Automatic Knowledge: Arcana', desc:'Recall Knowledge as a free action once per round.', levelreq:2, skillreq:'Arcana, 4', featreq:'Assurance: Arcana', showon:'arcana', traits:['General', 'Skill'], effects:[], have:false, canChoose:function(){return $scope.feat_db.canChoose(this);} },
     { name:'Automatic Knowledge: Crafting', desc:'Recall Knowledge as a free action once per round.', levelreq:2, skillreq:'Crafting, 4', featreq:'Assurance: Crafting', showon:'crafting', traits:['General', 'Skill'], effects:[], have:false, canChoose:function(){return $scope.feat_db.canChoose(this);} },
-    { name:'Automatic Knowledge: Lore', desc:'Recall Knowledge as a free action once per round.', levelreq:2, lorebase:true, skillreq:'Lore, 4', featreq:'Assurance: Lore', showon:'Lore', traits:['General', 'Skill'], effects:[], todo:'generate for each lore', have:false, canChoose:function(){return $scope.feat_db.canChoose(this);} },
+    { name:'Automatic Knowledge: Lore', desc:'Recall Knowledge as a free action once per round.', levelreq:2, lorebase:true, skillreq:'Lore, 4', featreq:'Assurance: Lore', showon:'Lore', traits:['General', 'Skill'], effects:[], have:false, canChoose:function(){return $scope.feat_db.canChoose(this);} },
     { name:'Automatic Knowledge: Medicine', desc:'Recall Knowledge as a free action once per round.', levelreq:2, skillreq:'Medicine, 4', featreq:'Assurance: Medicine', showon:'medicine', traits:['General', 'Skill'], effects:[], have:false, canChoose:function(){return $scope.feat_db.canChoose(this);} },
     { name:'Automatic Knowledge: Nature', desc:'Recall Knowledge as a free action once per round.', levelreq:2, skillreq:'Nature, 4', featreq:'Assurance: Nature', showon:'nature', traits:['General', 'Skill'], effects:[], have:false, canChoose:function(){return $scope.feat_db.canChoose(this);} },
     { name:'Automatic Knowledge: Occultism', desc:'Recall Knowledge as a free action once per round.', levelreq:2, skillreq:'Occultism, 4', featreq:'Assurance: Occultism', showon:'occultism', traits:['General', 'Skill'], effects:[], have:false, canChoose:function(){return $scope.feat_db.canChoose(this);} },
@@ -517,180 +520,257 @@ app.controller('charCtrl', function($scope,$filter) {
     { name:'Pickpocket', desc:'Steal or Palm an Object more effectively.', levelreq:1, skillreq:'Thievery, 2', showon:'thievery', traits:['General', 'Skill'], effects:[], have:false, canChoose:function(){return $scope.feat_db.canChoose(this);} },
     { name:'Subtle Theft', desc:'Your thefts are harder to notice.', levelreq:1, skillreq:'Thievery, 2', showon:'thievery', traits:['General', 'Skill'], effects:[], have:false, canChoose:function(){return $scope.feat_db.canChoose(this);} },
   ]
-  $scope.newLore = "";
-  $scope.effectsData = [];
-  $scope.effectsTargets = [];
 
-//scope functions
+  $scope.newLore = "";
+  //The result of effects() is stored in effectsData to avoid infdig from stability checks (and running effects() too much).
+  //Only the effects list should call effects(), all other functions can use effectsData instead.
+  $scope.effectsData = [];
+
+  //scope functions
   $scope.initNotes = function(objects) {
+    //Only used when the page is loaded. In the given objects, if there is a note, enable showing the note.
     angular.forEach (objects, function (obj) {
       obj.showNotes = obj.note ? true : false;
     });
   };
+  //all these functions allow getting an entry from a list by its name instead of its index. This is always strict.
+  //If there are multiple entries with the same name, only the first is used, so make sure you don't use duplicate names or don't use them in functions that should affect all of them.
+  //Pathfinder avoids duplicate names, but you can add the same item to your inventory multiple times.
   $scope.abilities.byName = function($name) {
-    return $filter('filter')($scope.abilities, {name:$name})[0];
+    return $filter('filter')($scope.abilities, {name:$name}, true)[0];
   };
-  $scope.abilities.effectiveAbility = function(ability) {
-    itembonus=0;
-    ability.effects.length = 0;
-    angular.forEach ($filter('filter')($scope.effectsData, {target:ability.name,apply:true}), function(effect) {
-        itembonus += parseInt(effect.value);
-        ability.effects.push(effect.value + " (" + effect.source + ")");
-    });
-    return parseInt(ability.basevalue) + parseInt(itembonus);
-  };
-  $scope.abilities.mod = function(ability) {
-    return Math.floor((ability.value()-10)/2)
-  }
-  $scope.AC.effectiveAC = function() {
-    var ac = 0;
-    angular.forEach($filter('filter')($scope.items, {type:"armor",equip:true}), function(armor) {
-      ac += $filter('charArmorDefense')(armor, $scope.level, $scope.abilities, $scope.armorProfs);
-    });
-    $scope.AC.effects.length = 0;
-    angular.forEach ($filter('filter')($scope.effectsData, {target:"AC",apply:true}), function(effect) {
-        ac += parseInt(effect.value);
-        $scope.AC.effects.push(effect.value + " (" + effect.source + ")");
-    });
-    return ac;
-  }
   $scope.skills.byName = function($name) {
-    return $filter('filter')($scope.skills, {name:$name})[0];
+    return $filter('filter')($scope.skills, {name:$name}, true)[0];
   };
   $scope.saves.byName = function($name) {
-    return $filter('filter')($scope.saves, {name:$name})[0];
+    return $filter('filter')($scope.saves, {name:$name}, true)[0];
   };
   $scope.feat_db.byName = function($name) {
-    return $filter('filter')($scope.feat_db, {name:$name})[0];
+    return $filter('filter')($scope.feat_db, {name:$name}, true)[0];
   };
   $scope.weaponProfs.byName = function($name) {
-    return $filter('filter')($scope.weaponProfs, {name:$name})[0];
+    return $filter('filter')($scope.weaponProfs, {name:$name}, true)[0];
   };
   $scope.armorProfs.byName = function($name) {
-    return $filter('filter')($scope.armorProfs, {name:$name})[0];
+    return $filter('filter')($scope.armorProfs, {name:$name}, true)[0];
   };
   $scope.items.byName = function($name) {
-    return $filter('filter')($scope.items, {name:$name})[0];
+    return $filter('filter')($scope.items, {name:$name}, true)[0];
   };
   $scope.item_db.byName = function($name) {
-    return $filter('filter')($scope.item_db, {name:$name})[0];
+    return $filter('filter')($scope.item_db, {name:$name}, true)[0];
   };
   $scope.trait_db.byName = function($name) {
-    return $filter('filter')($scope.trait_db, {name:$name.split(" ")[0]})[0];
+  //When getting a Trait by name, only the first word is searched. Traits are always one word, but a weapon may have "Thrown 10ft" instead of just "Thrown".
+    return $filter('filter')($scope.trait_db, {name:$name.split(" ")[0]}, true)[0];
   };
+  $scope.abilities.effectiveAbility = function(ability) {
+  //Calculates the ability with all active effects
+    //Get all active effects on the ability
+    itembonus = $scope.getEffects(ability);
+    //Add the effect bonus to the base value - parseInt'ed because it's from a textbox - and return it
+    return parseInt(ability.basevalue) + itembonus;
+  };
+  $scope.abilities.mod = function(ability) {
+  //Calculates the ability modifier from the effective ability in the usual d20 fashion - 0-1 > -5; 2-3 > -4; ... 10-11 > 0; 12-13 > 1 etc.
+    return Math.floor((ability.value()-10)/2)
+  }
+  $scope.AC.effectiveAC = function(ac) {
+  //Calculates the armor class from armor and all effects gained from raised shields or weapons
+  //This is only called from the AC's value() method, and the AC is passed for easy function calls
+    //Applies the charArmorDefense filter to the first (and only) worn armor to get the basic passive armor class
+    armor = $filter('filter')($scope.items, {type:"armor",equip:true})[0];
+    acbonus = $filter('charArmorDefense')(armor, $scope.level, $scope.abilities, $scope.armorProfs);
+    //Adds all active effects on AC
+    acbonus += $scope.getEffects(ac);
+    return acbonus;
+  }
+  $scope.getEffects = function($affectedObj) {
+  //Gets the sum of all effects on this object and writes the list into its effects property
+  //Requires the passed object to have both a name and an effect property
+    result = 0;
+    //reset the object's effects property
+    $affectedObj.effects.length = 0;
+    //If any effect in $scope.effectsData has the object's name as a target and is marked as applicable, add it to the effect bonus and list its value and source in the object's own effects property
+    angular.forEach ($filter('filter')($scope.effectsData, {target:$affectedObj.name,apply:true}, true), function(effect) {
+      //parseInt the effect's value for the likely case it's a string like "+1"
+      result += parseInt(effect.value);
+      $affectedObj.effects.push(effect.value + " (" + effect.source + ")");
+    });
+    return result;
+  }
   $scope.trait_db.have = function(trait) {
+  //Is there any equipped item that has this trait? Incidentally uses the haveTrait() function that asks if that one item has this trait - you can see where this is going.
+  //Returns true if any ( some() ) of the equipped items can say yes to having the trait
     itemsEquipped = $filter('filter')($scope.items, {equip:true})
     return itemsEquipped.some(function(item){return app.haveTrait(item,trait.name)}) && true;
   };
   $scope.feat_db.canChoose = function(feat) {
-    //never show basic lore feats - they have to be regenerated in $scope.generateLore() individually for every unique lore
+  //This function evaluates ALL the possible requirements for taking a feat
+  //Returns true only if all the requirements are true. If the feat doesn't have a requirement, it is always true.
+    //First of all, never list feats that only show on the "Lore" skill - these are templates and never used directly
+    //Copies are made in $scope.generateLore() individually for every unique lore, and these may show up on this list
     if (feat.showon == "Lore") {
       return false;
     }
+    //If the feat has a levelreq, check if the level beats that.
     levelreq = (feat.levelreq) ? ($scope.level >= feat.levelreq) : true;
+    //If the feat has an abilityreq, split it into the ability and the requirement (they come in strings like "Dexterity, 12"), then check if that ability's value() meets the requirement. 
     abilityreq = (feat.abilityreq) ? ($scope.abilities.byName(feat.abilityreq.split(",")[0]).value() >= parseInt(feat.abilityreq.split(",")[1])) : true;
+    //If the feat has a skillreq, first split it into all different requirements (they come in strings like "Athletics, 2|Acrobatics, 2" or just "Acrobatics, 2")
+    //Then check if any one of these requirements (split into the skill and the number) are met by the skill's level
+    //These are always OR requirements, you never need two skills for a feat.
     if (feat.skillreq) {
       skillreqs = feat.skillreq.split("|");
-      skillreq = skillreqs.some(function(requirement){return $scope.skills.byName(requirement.split(",")[0]).level >= parseInt(requirement.split(",")[1])}) ? true : false;
+      skillreq = skillreqs.some(function(requirement){return $scope.skills.byName(requirement.split(",")[0]).level >= parseInt(requirement.split(",")[1])}) && true;
     } else {skillreq = true;}
+    //If the feat has a weaponreq, split it and check if the named weapon proficiency's level meets the number
     weaponreq = (feat.weaponreq) ? ($scope.weaponProfs.byName(feat.weaponreq.split(",")[0]).level >= parseInt(feat.weaponreq.split(",")[1])) : true;
+    //If the feat has an armorreq, split it and check if the named armor proficiency's level meets the number
     armorreq = (feat.armorreq) ? ($scope.armorProfs.byName(feat.armorreq.split(",")[0]).level >= parseInt(feat.armorreq.split(",")[1])) : true;
+    //Lastly, if the feat has a specialreq, it comes as a string that contains a condition. Evaluate the condition to find out if the requirement is met.
     specialreq = (feat.specialreq) ? (eval(feat.specialreq)) : true;
+    //Return true if all are true
     return levelreq && abilityreq && skillreq && weaponreq && armorreq && specialreq;
   }
   $scope.effects = function() {
-      effects = [];
-      itemeffects = [];
-      feateffects = [];
-      angular.forEach ($filter('filter')($scope.items, {equip:true}), function(item) {
-        angular.forEach (item.effects, function(effect) {
-          split = effect.split(" ");
-          itemeffects.push({type:'item', target:split[0], value:split[1], source:item.name, penalty:(parseInt(split[1]) < 0) ? true : false})
-        });
-        if (item.type == "shield" && item.raised) {
-          shieldbonus = item.itembonus;
-          if (item.takecover) {
-            shieldbonus += item.coverbonus;
-          }
-          itemeffects.push({type:'circumstance', target:"AC", value:"+"+shieldbonus, source:item.name, penalty:false})
-        }
-        if (item.type == "weapon" && item.raised) {
-          itemeffects.push({type:'circumstance', target:"AC", value:"+1", source:item.name, penalty:false})
-        }
-        if (item.skillpenalty || item.speedpenalty) {
-            Strength = $scope.abilities.byName("Strength").value();
-            if (item.skillpenalty) {
-                if (item.strength > Strength) {
-                    if (app.haveTrait(item,"Flexible")) {
-                        itemeffects.push({type:'item', target:"Acrobatics", value:item.skillpenalty, source:item.name + " (Flexible)", penalty:true, apply:false});
-                        itemeffects.push({type:'item', target:"Athletics", value:item.skillpenalty, source:item.name + " (Flexible)", penalty:true, apply:false});
-                    } else {
-                        itemeffects.push({type:'item', target:"Acrobatics", value:item.skillpenalty, source:item.name, penalty:true});
-                        itemeffects.push({type:'item', target:"Athletics", value:item.skillpenalty, source:item.name, penalty:true});
-                    }
-                    itemeffects.push({type:'item', target:"Stealth", value:item.skillpenalty, source:item.name, penalty:true});
-                    itemeffects.push({type:'item', target:"Thievery", value:item.skillpenalty, source:item.name, penalty:true});
-                } else {
-                    itemeffects.push({type:'item', target:"Acrobatics", value:item.skillpenalty, source:item.name + " (Strength)", penalty:true, apply:false});
-                    itemeffects.push({type:'item', target:"Athletics", value:item.skillpenalty, source:item.name + " (Strength)", penalty:true, apply:false});
-                    if (app.haveTrait(item,"Noisy")) {
-                      itemeffects.push({type:'item', target:"Stealth", value:item.skillpenalty, source:item.name + " (Noisy)", penalty:true});
-                    } else {
-                      itemeffects.push({type:'item', target:"Stealth", value:item.skillpenalty, source:item.name + " (Strength)", penalty:true, apply:false});
-                    }
-                    itemeffects.push({type:'item', target:"Thievery", value:item.skillpenalty, source:item.name + " (Strength)", penalty:true, apply:false});
-                }
-            }
-            if (item.speedpenalty) {
-                if (item.strength > Strength || item.type == "shield") {
-                    itemeffects.push({type:'untyped', target:"Speed", value:item.speedpenalty, source:item.name, penalty:true});
-                } else {
-                  if (parseInt(item.speedpenalty) < -5) {
-                    itemeffects.push({type:'untyped', target:"Speed", value:(item.speedpenalty+5), source:item.name, penalty:true});
-                    itemeffects.push({type:'untyped', target:"Speed", value:item.speedpenalty, source:item.name + " (Strength)", penalty:true, apply:false});
-                  } else {
-                    itemeffects.push({type:'untyped', target:"Speed", value:item.speedpenalty, source:item.name + " (Strength)", penalty:true, apply:false});
-                  }
-                }
-            }
-        }
+  //This is a terrible, horrible, no good, very bad function, but it is absolutely necessary.
+  //It goes over every equipped item and taken feat, reads their "effects" and turns them into standardized effect data that is ultimately stored in $scope.effectsData
+  //That wouldn't be so bad, but there are so many exceptions. Like skill penalties that don't apply if you meet a strength requirement, unless the item also has a certain trait,
+  // and speed penalties that still apply even then, but in a lessened form, and shield bonuses that only apply if the shield is raised, and get higher if you also take cover.
+  //These exceptions all need to be handled, and the function will likely become much longer as the application develops.
+  //For this reason, we are only calling it from the global effects list, and everybody else can go and check effectsData instead, where the result is stored.
+  //effectsData only gets updated if the data has changed, to avoid infinite digest.
+    effects = [];
+    itemeffects = [];
+    feateffects = [];
+    //Start off with checking ALL equipped items and push their standardized effects into itemeffects.
+    //All effects are stored as {type, target, value, source, penalty, (apply)}
+    //Apply is decided later according to bonus types and if there is a higher bonus of the same type,
+    // but if you set apply:false here, you can get an effect that is always listed as not applied (such as a skill penalty whose strength requirement has been met)
+    angular.forEach ($filter('filter')($scope.items, {equip:true}), function(item) {
+      //If an item has a simple instruction in effects, such as "Strength +2", split it into the affected target and the change (keeping the + or - in front),
+      // then mark the effect as a penalty if the change is negative.
+      angular.forEach (item.effects, function(effect) {
+        split = effect.split(" ");
+        itemeffects.push({type:'item', target:split[0], value:split[1], source:item.name, penalty:(parseInt(split[1]) < 0) ? true : false})
       });
-      angular.forEach ($filter('filter')($scope.feat_db, {have:true}), function(feat) {
-        angular.forEach (feat.effects, function(effect) {
-          split = effect.split(" ");
-          feateffects.push({type:'untyped', target:split[0], value:split[1], source:feat.name, penalty:(parseInt(split[1]) < 0) ? true : false})
-        });
-      });
-      effects.push.apply(effects,itemeffects);
-      effects.push.apply(effects,feateffects);
-      types = ["item", "circumstance", "status", "proficiency", "untyped"]// $filter('unique')(itemeffects, 'type').map(function(x){return x.type});
-      targets = $filter('unique')(effects, 'target').map(function(x){return x.target});
-      angular.forEach(types, function($type) {
-        if ($type == 'untyped') {
-          angular.forEach($filter('filter')(effects, {type:'untyped', apply:'!'+false}),function(effect){
-            effect.apply = true;
-          });
-        } else {
-          angular.forEach(targets, function($target){
-            bonuses = $filter('filter')(effects, {type:$type, target:$target, penalty:false, apply:'!'+false});
-            if (bonuses.length > 0) {
-              maxvalue = Math.max.apply(Math, bonuses.map(function(x){return parseInt(x.value)}));
-              $filter('filter')(bonuses, {value:maxvalue})[0].apply = true;
-            }
-            penalties = $filter('filter')(effects, {type:$type, target:$target, penalty:true, apply:'!'+false});
-            if (penalties.length > 0) {
-              minvalue = Math.min.apply(Math, penalties.map(function(x){return parseInt(x.value)}));
-              $filter('filter')(penalties, {value:minvalue})[0].apply = true;
-            }
-          });
+      //If an item is a shield that is raised, add its item bonus to AC with a + in front. If you are also taking cover while the shield is raised, add that bonus as well.
+      //Don't put the shield bonus into "effects"!
+      if (item.type == "shield" && item.raised) {
+        shieldbonus = item.itembonus;
+        if (item.takecover) {
+          shieldbonus += item.coverbonus;
         }
-      });
-      if (angular.toJson($scope.effectsData) === angular.toJson(effects)) {
-        return $scope.effectsData;
-      } else {
-        $scope.effectsData = effects;
-        return $scope.effectsData;
+        itemeffects.push({type:'circumstance', target:"AC", value:"+"+shieldbonus, source:item.name, penalty:false})
       }
+      //If an item is a weapon that is raised, add +1 to AC.
+      if (item.type == "weapon" && item.raised) {
+        itemeffects.push({type:'circumstance', target:"AC", value:"+1", source:item.name, penalty:false})
+      }
+      //Now the exceptions begin. If an item has a skillpenalty or a speedpenalty, check if Strength meets its strength requirement
+      //- unless it doesn't have a strength requirement, like a tower shield. In that case, the penalty just applies. Always.
+      Strength = $scope.abilities.byName("Strength").value();
+      if (item.skillpenalty) {
+        if (!item.strength || item.strength > Strength) {
+        //You are not strong enough to act freely in this armor.
+          //If the item has the Flexible trait, its penalty doesn't apply to Acrobatics and Athletics.
+          //We push this as an apply:false effect to each so you can see that (and why) you were spared from it.
+          //We also add a note to the source for clarity.
+          if (app.haveTrait(item,"Flexible")) {
+              itemeffects.push({type:'item', target:"Acrobatics", value:item.skillpenalty, source:item.name + " (Flexible)", penalty:true, apply:false});
+              itemeffects.push({type:'item', target:"Athletics", value:item.skillpenalty, source:item.name + " (Flexible)", penalty:true, apply:false});
+          } else {
+              itemeffects.push({type:'item', target:"Acrobatics", value:item.skillpenalty, source:item.name, penalty:true});
+              itemeffects.push({type:'item', target:"Athletics", value:item.skillpenalty, source:item.name, penalty:true});
+          }
+          //These two always apply unless you are strong enough.
+          itemeffects.push({type:'item', target:"Stealth", value:item.skillpenalty, source:item.name, penalty:true});
+          itemeffects.push({type:'item', target:"Thievery", value:item.skillpenalty, source:item.name, penalty:true});
+        } else {
+        //If you ARE strong enough, we push some not applying effects so you can feel good about that
+          itemeffects.push({type:'item', target:"Acrobatics", value:item.skillpenalty, source:item.name + " (Strength)", penalty:true, apply:false});
+          itemeffects.push({type:'item', target:"Athletics", value:item.skillpenalty, source:item.name + " (Strength)", penalty:true, apply:false});
+          itemeffects.push({type:'item', target:"Thievery", value:item.skillpenalty, source:item.name + " (Strength)", penalty:true, apply:false});
+          //UNLESS the item is also Noisy, in which case you do get the stealth penalty because you are dummy thicc and the clap of your ass cheeks keeps alerting the guards.
+          if (app.haveTrait(item,"Noisy")) {
+            itemeffects.push({type:'item', target:"Stealth", value:item.skillpenalty, source:item.name + " (Noisy)", penalty:true});
+          } else {
+            itemeffects.push({type:'item', target:"Stealth", value:item.skillpenalty, source:item.name + " (Strength)", penalty:true, apply:false});
+          }
+        }
+      }
+      if (item.speedpenalty) {
+        if (!item.strength || item.strength > Strength) {
+        //You are not strong enough to move unhindered in this armor. You get a speed penalty.
+          itemeffects.push({type:'untyped', target:"Speed", value:item.speedpenalty, source:item.name, penalty:true});
+        } else {
+          if (parseInt(item.speedpenalty) < -5) {
+          //You are strong enough, but if the armor is particularly heavy, your penalty is only lessened.
+          //In this case we push both the avoided and the actual effect so you can feel at least a little good about yourself.
+            itemeffects.push({type:'untyped', target:"Speed", value:(item.speedpenalty+5), source:item.name, penalty:true});
+            itemeffects.push({type:'untyped', target:"Speed", value:item.speedpenalty, source:item.name + " (Strength)", penalty:true, apply:false});
+          } else {
+          //If you are strong enough and the armor only gave -5ft penalty, you get a fully avoided effect to gaze at.
+            itemeffects.push({type:'untyped', target:"Speed", value:item.speedpenalty, source:item.name + " (Strength)", penalty:true, apply:false});
+          }
+        }
+      }
+    });
+    //Feat effects are thankfully simple - so far. We check the "effects" property of every taken feat, split it up and push it as a new feateffect,
+    // same as we did with items before the exceptions came.
+    angular.forEach ($filter('filter')($scope.feat_db, {have:true}), function(feat) {
+      angular.forEach (feat.effects, function(effect) {
+        split = effect.split(" ");
+        feateffects.push({type:'untyped', target:split[0], value:split[1], source:feat.name, penalty:(parseInt(split[1]) < 0) ? true : false})
+      });
+    });
+    //Now we push itemeffects and feateffects into effects together.
+    //Somehow, push.apply() gives us one array of objects, and push() gives us an array of two arrays of objects, so we use the former.
+    effects.push.apply(effects,itemeffects);
+    effects.push.apply(effects,feateffects);
+    //The bonus types are hardcoded. If Paizo ever adds a new bonus type, this is where we need to change it.
+    types = ["item", "circumstance", "status", "proficiency", "untyped"];
+    //This is what we built the unique filter for. From all the effects, get every target only once, so we know all the targets and don't get duplicates from the upcoming loops.
+    targets = $filter('unique')(effects, 'target').map(function(x){return x.target});
+    //Now go over all the bonus types. If one target is affected by two bonuses of the same type, only the bigger one is applied. The same goes for penalties.
+    angular.forEach(types, function($type) {
+      if ($type == 'untyped') {
+      //If a penalty is untyped, it always applies, unless we already marked it as apply:false. Only penalties can be untyped.
+      //We actually see untyped bonuses in feats, so we apply them here, too.
+        angular.forEach($filter('filter')(effects, {type:'untyped', apply:'!'+false}),function(effect){
+          effect.apply = true;
+        });
+      } else {
+      //For all bonus types except untyped, check all targets:
+        angular.forEach(targets, function($target){
+          //Get all the active effects for the target of the current bonus type
+          bonuseffects = $filter('filter')(effects, {type:$type, target:$target, penalty:false, apply:'!'+false});
+          if (bonuseffects.length > 0) {
+          //If we have any bonuses for this target and this type, figure out which one is the largest and only get that one.
+            maxvalue = Math.max.apply(Math, bonuseffects.map(function(x){return parseInt(x.value)}));
+            //Then apply the first effect with that value, that target and that type. The actual effect may vary if two of the same bonuses exist, but it doesn't matter.
+            $filter('filter')(bonuseffects, {value:maxvalue})[0].apply = true;
+          }
+          penaltyeffects = $filter('filter')(effects, {type:$type, target:$target, penalty:true, apply:'!'+false});
+          //If we have any PENALTIES for this target and this type, we proceed as with bonuses, only we pick the lowest number (that is, the worst penalty).
+          if (penaltyeffects.length > 0) {
+            minvalue = Math.min.apply(Math, penaltyeffects.map(function(x){return parseInt(x.value)}));
+            $filter('filter')(penaltyeffects, {value:minvalue})[0].apply = true;
+          }
+        });
+      }
+    });
+    //We are saving the result in effectsData to avoid infinite digest when this function is run from everywhere and always produces a new object.
+    //This also means we can't save effectsData every run, so we first check if there is any need to save it again.
+    //Since object === object, we need to compare the entire content of both effectsData and the newly generated effects list with toJson().
+    if (angular.toJson($scope.effectsData) !== angular.toJson(effects)) {
+      //If anything has changed, we write the new effects into effectsData
+      $scope.effectsData = effects;
+    }
+    //Lastly, we return effectsData, which is either completely unchanged by all this effort or is a whole new object
+    //(which means AngularJS will run this function again immediately to ensure stability, and then we will be thankful for our !== operator)
+    return $scope.effectsData;
   };
   $scope.equipArmor = function(armor) {
     if (armor.equip == true) {

@@ -18,6 +18,7 @@ The very latest in Assistive Technologies for Dungeon Master (ATDM)
 - [ ] - More equipment (worn magic items etc.) and effects
 - [ ] - Actions granted through equipment
 - [x] - Exclusive bonuses: Proficiency, Circumstance, Item, Status, untyped
+- [ ] - Classes and Levels
 - [ ] Style character sheet
 - [ ] Populate character sheet from database
 - [ ] import sortableJS
