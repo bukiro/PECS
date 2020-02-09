@@ -1,8 +1,21 @@
-[
-    { "name":"Strength", "baseValue":17 },
-    { "name":"Dexterity", "baseValue":16},
-    { "name":"Constitution", "baseValue":14 },
-    { "name":"Intelligence", "baseValue":11 },
-    { "name":"Wisdom", "baseValue":14 },
-    { "name":"Charisma", "baseValue":11 }
-]
+{
+    "name":"Ohm",
+    "level":7,
+    "lore": [
+        { "name":"Lore: Warfare", "ability":"Intelligence" }
+    ],
+    "abilityBoosts": [
+        { "name":"Strength", "type":"boost" },
+        { "name":"Constitution", "type":"boost" },
+        { "name":"Dexterity", "type":"boost" },
+        { "name":"Dexterity", "type":"boost" }
+    ],
+    "baseValues": [
+        { "name":"Strength", "value":17 },
+        { "name":"Dexterity", "value":16 },
+        { "name":"Constitution", "value":14 },
+        { "name":"Intelligence", "value":11 },
+        { "name":"Wisdom", "value":14 },
+        { "name":"Charisma", "value":11 }
+    ]
+}

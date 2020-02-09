@@ -1,3 +1,7 @@
 <a [routerLink]="['/']">
   <h1>Patherpoint</h1>
 </a>
+<div class="filler"></div>
+<a class="button fancy-button" [routerLink]="['/itemstore']" [routerLinkActive]="'activeRoute'">Items</a>
+<a class="button fancy-button loading" *ngIf="still_loading()">Loading</a>
+<a class="button fancy-button" [routerLink]="['/']" [routerLinkActive]="'activeRoute'" *ngIf="!still_loading()">{{get_Character().name}}</a>

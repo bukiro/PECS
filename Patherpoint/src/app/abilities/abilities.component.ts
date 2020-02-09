@@ -1,22 +1,29 @@
 import { Component, OnInit } from '@angular/core';
-import { CharacterService} from '../character.service';
+import { AbilitiesService} from '../abilities.service';
+import { CharacterService } from '../character.service';
 
 @Component({
-  selector: 'app-abilities',
-  templateUrl: './abilities.component.html',
-  styleUrls: ['./abilities.component.css']
+    selector: 'app-abilities',
+    templateUrl: './abilities.component.html',
+    styleUrls: ['./abilities.component.css']
 })
 export class AbilitiesComponent implements OnInit {
 
-  constructor(
-    public characterService: CharacterService
-  ) { }
-  get_Abilities() {
-    return this.characterService.get_Abilities();
-  }
+    constructor(
+       public abilitiesService: AbilitiesService,
+       public characterService: CharacterService
+    ) { }
+  
+    get_Abilities(key:string = "", value:string = "") {
+        return this.abilitiesService.get_Abilities();
+    }
+    
+    still_loading() {
+        return this.abilitiesService.still_loading();
+    }
 
-  ngOnInit() {
-    this.characterService.initialize_Abilities();
-  }
+    ngOnInit() {
+        this.abilitiesService.initialize();
+    }
 
 }

@@ -8,18 +8,26 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { AbilitiesComponent } from './abilities/abilities.component';
 import { TopBarComponent } from './top-bar/top-bar.component';
+import { SkillsComponent } from './skills/skills.component';
+import { SortByPipe } from './sortBy.pipe';
+import { ItemsComponent } from './items/items.component';
+import { CharacterSheetComponent } from './character-sheet/character-sheet.component';
 
 @NgModule({
    declarations: [
       AppComponent,
       AbilitiesComponent,
-      TopBarComponent
+      TopBarComponent,
+      SkillsComponent,
+      SortByPipe,
+      ItemsComponent,
+      CharacterSheetComponent
    ],
    imports: [
       BrowserModule,
       AppRoutingModule,
       HttpClientModule,
-      FormsModule,
+      FormsModule
    ],
    providers: [],
    bootstrap: [

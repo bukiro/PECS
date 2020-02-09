@@ -1,43 +1,61 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpResponse } from '@angular/common/http';
-import { Attribute } from './Attribute'
-import { Ability } from './Ability';
+import { HttpClient } from '@angular/common/http';
+import { Character } from './Character';
+import { Skill } from './Skill';
 import { Observable } from 'rxjs';
-import { tap } from 'rxjs/operators';
 
 @Injectable({
     providedIn: 'root'
 })
 export class CharacterService {
-public abilities: Ability[] = []; 
-private abilities_loader = []; 
+
+private me: Character = new Character();
+private loader = [];
+private loading: Boolean = false;
+
 constructor(
-    private http: HttpClient
+    private http: HttpClient,
 ) { }
 
-get_Abilities() {
-    return this.abilities;
+still_loading() {
+    return this.loading;
 }
 
-update_Abilities() {
-    this.abilities = [];
+get_Character() {
+    return this.me;
+}
+
+load_Character(charName): Observable<String[]>{
+    return this.http.get<String[]>('/assets/'+charName+'.json');
+    }
+
+initialize(charName) {
+    this.loading = true;
+    this.load_Character(charName)
+        .subscribe((results:String[]) => {
+            this.loader = results;
+            this.finish_loading()
+        });
+    }
+
+finish_loading() {
+    //setTimeout(() => {
+        if (this.loader) {
+            this.me = new Character();
+            this.me.name = this.loader["name"];
+            this.me.level = this.loader["level"];
+            this.me.boosts = this.loader["abilityBoosts"]
+            this.me.baseValues = this.loader["baseValues"]
+            this.loader["lore"].forEach(lore => {
+                this.me.lore.push(new Skill(lore.name, lore.ability));
+            });
+
+            this.loader = [];
+        }
+        if (this.loading) {this.loading = false;}
+    //}, 10)
     
-    setTimeout(() => this.abilities_loader.forEach(element => {
-        this.abilities.push(new Ability(element.name, element.baseValue));
-    }), 0);
-}
-
-initialize_Abilities() {
-    this.load_Abilities()
-        .subscribe(results => this.abilities_loader = results);
-}
-
-load_Abilities(): Observable<Attribute[]>{
-    let savefile='/assets/Ohm.json';
-    let defaultvalues='/asset/abilities.json';
-    return this.http.get<Attribute[]>(savefile)
-    .pipe(tap(_ => this.update_Abilities()))
-}
+  }
 
 ngOnInit() {
 

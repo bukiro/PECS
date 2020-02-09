@@ -17,6 +17,11 @@
     flex-direction: row;
   }
   
+  .characterSheet {
+    display: flex;
+    flex-direction: row;    
+  }
+
   router-outlet + *  {
     padding: 0 16px;
   }
@@ -59,6 +64,9 @@
     padding: 8px;
     margin-bottom: 16px;
     border: 1px solid #BDBDBD;
+  }
+  input.number {
+    width: 50px;
   }
   
   label {
@@ -122,22 +130,90 @@
     margin: 0;
   }
   
-  /* Checkout Cart, Shipping Prices */
-  
-  .cart-item, .shipping-item {
+  app-top-bar .filler {
+    flex-grow: 1;
+  }
+
+  app-top-bar a.button {
+    margin-left: 5px;
+    margin-right: 5px;
+  }
+  app-top-bar a.button:last-child {
+    margin-right: 0px;
+  }
+
+  .attributeBox {
+    min-width: 400px;
+    max-width: 450px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 16px 32px;
+    margin: 8px;
+    border-radius: 2px;
+    background-color: #EFEFEF;
+  }
+  .itemBox {
+    min-width: 800px;
+    max-width: 900px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 16px 32px;
+    margin: 8px;
+    border-radius: 2px;
+    background-color: #EFEFEF;
+  }
+
+  .list-item {
     width: 100%;
     min-width: 400px;
     max-width: 450px;
     display: flex;
     flex-direction: row;
-    justify-content: space-between;
+    justify-content: space-between ;
     padding: 16px 32px;
     margin-bottom: 8px;
     border-radius: 2px;
-    background-color: #EEEEEE;
+    background-color: #E0E0E0;
   }
-  
-  
+
+  .list-item button {
+    margin-left: auto;
+  }
+
+  .itemBox .list-item {
+    min-width: 800px;
+    max-width: 900px;
+    justify-content: flex-start;
+  }
+
+  .itemBox .fancybutton.list-item {
+    background-color: #1976d2;
+  }
+
+  #1976d2
+  @-webkit-keyframes altrclr{
+    0%{
+      color:#616161;
+    }
+    25%{
+      color:#EFEFEF;
+    }
+}
+
+  .loading {
+    margin:40%;
+    font-size:20px;
+    color:#616161;
+    -webkit-animation: altrclr 2s infinite;  
+    -webkit-transform:scale(4);
+  }
+  .button.loading {
+    margin:0px;
+    -webkit-transform:scale(1);
+  }
+
   /*
   Copyright Google LLC. All Rights Reserved.
   Use of this source code is governed by an MIT-style license that

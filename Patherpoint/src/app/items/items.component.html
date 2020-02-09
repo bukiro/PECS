@@ -1,0 +1,27 @@
+<div id="items" class="itemBox">
+    <div class="loading" *ngIf="still_loading()">Loading</div>
+    <button class="button fancybutton list-item" (click)="toggle('weapons')">Weapons</button>
+    <div *ngIf="showWeapons">
+        <div class="list-item" *ngFor="let weapon of itemsService.get_Items('type','weapon')">
+            {{weapon.name}}
+            <cite *ngFor="let trait of weapon.traits">&nbsp;{{trait}}</cite>
+            <button (click)="grant_Item(weapon)">Get</button>
+        </div>
+    </div>
+    <button class="button fancybutton list-item" (click)="toggle('armor')">Armor</button>
+    <div *ngIf="showArmor">
+        <div class="list-item" *ngFor="let armor of itemsService.get_Items('type','armor')">
+            {{armor.name}}
+            <cite *ngFor="let trait of armor.traits">&nbsp;{{trait}}</cite>
+            <button (click)="grant_Item(armor)">Get</button>
+        </div>
+    </div>
+    <button class="button fancybutton list-item" (click)="toggle('shields')">Shields</button>
+    <div *ngIf="showShields">
+        <div class="list-item" *ngFor="let shield of itemsService.get_Items('type','shield')">
+            {{shield.name}}
+            <cite *ngFor="let trait of shield.traits">&nbsp;{{trait}}</cite>
+            <button (click)="grant_Item(shield)">Get</button>
+        </div>
+    </div>
+</div>

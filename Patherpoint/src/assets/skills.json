@@ -1,0 +1,20 @@
+[
+    { "name":"Perception", "ability":"Wisdom"},
+    { "name":"Acrobatics", "ability":"Dexterity"},
+    { "name":"Arcana", "ability":"Intelligence"},
+    { "name":"Athletics", "ability":"Strength"},
+    { "name":"Crafting", "ability":"Intelligence"},
+    { "name":"Deception", "ability":"Charisma"},
+    { "name":"Diplomacy", "ability":"Charisma"},
+    { "name":"Intimidation", "ability":"Charisma"},
+    { "name":"Lore", "ability":"Intelligence"},
+    { "name":"Medicine", "ability":"Wisdom"},
+    { "name":"Nature", "ability":"Wisdom"},
+    { "name":"Occultism", "ability":"Intelligence"},
+    { "name":"Performance", "ability":"Charisma"},
+    { "name":"Religion", "ability":"Wisdom"},
+    { "name":"Society", "ability":"Intelligence"},
+    { "name":"Stealth", "ability":"Dexterity"},
+    { "name":"Survival", "ability":"Wisdom"},
+    { "name":"Thievery", "ability":"Dexterity"}
+  ]

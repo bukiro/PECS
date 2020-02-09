@@ -1,0 +1,9 @@
+<div id="skills" class="attributeBox">
+  <h3>Skills</h3>
+  <div class="loading" *ngIf="still_loading()">Loading</div>
+  <div class="list-item" *ngFor="let skill of skillsService.get_Skills()|sortBy:'asc':'name'">
+    {{skill.name}}
+    Level: <input class="number" type="number" [(ngModel)]="skill.level">
+    Value: <input class="number" type="number" value="{{skill.value(this.characterService,this.abilitiesService)}}" disabled>
+  </div>
+</div>

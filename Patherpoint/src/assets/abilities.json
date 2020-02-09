@@ -1,5 +1,5 @@
 [
-    { "name":"Strength", "baseValue":15 },
+    { "name":"Strength" },
     { "name":"Dexterity" },
     { "name":"Constitution" },
     { "name":"Intelligence" },

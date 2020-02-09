@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { CharacterService } from '../character.service';
 
 @Component({
   selector: 'app-top-bar',
@@ -7,9 +8,20 @@ import { Component, OnInit } from '@angular/core';
 })
 export class TopBarComponent implements OnInit {
 
-  constructor() { }
+  constructor(
+    private characterService: CharacterService
+  ) { }
+
+  get_Character() {
+    return this.characterService.get_Character()
+  }
+
+  still_loading() {
+    return this.characterService.still_loading();
+  }
 
   ngOnInit() {
+    this.characterService.initialize("Ohm");
   }
 
 }
