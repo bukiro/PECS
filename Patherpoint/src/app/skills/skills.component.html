@@ -1,9 +1,9 @@
 <div id="skills" class="attributeBox">
   <h3>Skills</h3>
   <div class="loading" *ngIf="still_loading()">Loading</div>
-  <div class="list-item" *ngFor="let skill of get_Skills()|sortBy:'asc':'name'">
+  <div class="list-item" *ngFor="let skill of get_Skills('type', 'skill')|sortBy:'asc':'name'">
     {{skill.name}}
-    Level: <input class="number" type="number" [(ngModel)]="skill.level">
+    Level: <input class="number" type="number" value="{{skill.level(this.characterService)}}" disabled>
     Value: <input class="number" type="number" value="{{skill.value(this.characterService,this.abilitiesService)}}" disabled>
     <button *ngIf="skill.name.match('Lore')" (click)="remove_Lore(skill)">Remove</button>
   </div>

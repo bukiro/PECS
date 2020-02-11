@@ -14,12 +14,11 @@ export class SkillsService {
     
     constructor(
         private http: HttpClient,
-        private characterService: CharacterService,
     ) { }
     
-    get_Skills(key:string = "", value = undefined, key2:string = "", value2 = undefined, key3:string = "", value3 = undefined) {
+    get_Skills(characterLore: Skill[], key:string = "", value = undefined, key2:string = "", value2 = undefined, key3:string = "", value3 = undefined) {
         if (!this.still_loading()) {
-            let skills = this.skills.concat(this.characterService.get_Character().lore)
+            let skills: Skill[] = this.skills.concat(characterLore);
             if (key == "" || value == undefined) {
                 return skills;
             } else {
@@ -69,7 +68,7 @@ export class SkillsService {
             this.skills = [];
 
             this.loader.forEach(element => {
-                this.skills.push(new Skill(element.name, element.ability)
+                this.skills.push(new Skill(element.name, element.type, element.ability)
                 )});
             this.loader = [];
         }

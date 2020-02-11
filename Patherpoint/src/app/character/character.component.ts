@@ -2,6 +2,10 @@ import { Component, OnInit } from '@angular/core';
 import { CharacterService } from '../character.service';
 import { ClassesService } from '../classes.service';
 import { Class } from '../Class';
+import { Level } from '../Level';
+import { Ability } from '../Ability';
+import { Skill } from '../Skill';
+import { AbilitiesService } from '../abilities.service';
 
 @Component({
     selector: 'app-character',
@@ -14,7 +18,8 @@ export class CharacterComponent implements OnInit {
 
     constructor(
         public characterService: CharacterService,
-        public classesService: ClassesService
+        public classesService: ClassesService,
+        public abilitiesService: AbilitiesService
     ) { }
 
     toggleCharacterMenu(position: string = "") {
@@ -29,24 +34,36 @@ export class CharacterComponent implements OnInit {
         return this.characterService.get_Character();
     }
 
-    get_Abilities(key:string = "", value = undefined) {
-        return this.characterService.get_Abilities(key, value)
+    get_Abilities(key: string = "", value = undefined, key2: string = "", value2 = undefined, key3: string = "", value3 = undefined) {
+        return this.characterService.get_Abilities(key, value, key2, value2, key3, value3)
+    }
+    
+    get_AbilityBoosts(minLevelNumber: number, maxLevelNumber: number, ability: Ability, source: string = "") {
+        return this.characterService.get_AbilityBoosts(minLevelNumber, maxLevelNumber, ability);
     }
 
-    get_AbilityBoosts(levelNumber: number, ability) {
-        return this.characterService.get_AbilityBoosts(levelNumber, ability);
+    onAbilityBoost(level: Level, ability: Ability, boost: boolean, source: string) {
+        this.characterService.boostAbility(level, ability, boost, source);
     }
 
-    onAbilityBoost(level, ability, boost) {
-        this.characterService.boostAbility(level, ability, boost);
+    get_Skills(key: string = "", value = undefined, key2: string = "", value2 = undefined, key3: string = "", value3 = undefined) {
+        return this.characterService.get_Skills(key, value, key2, value2, key3, value3)
     }
 
-    get_Classes() {
-        return this.classesService.get_Classes();
+    get_SkillIncreases(minLevelNumber: number, maxLevelNumber: number, skill: Skill, source: string = "") {
+        return this.characterService.get_SkillIncreases(minLevelNumber, maxLevelNumber, skill);
     }
 
-    onClassChange(event) {
-        this.characterService.changeClass(this.classesService.get_Classes(event)[0]);
+    onSkillIncrease(level: Level, skill: Skill, boost: boolean, source: string) {
+        this.characterService.increaseSkill(level, skill, boost, source);
+    }
+
+    get_Classes(name: string = "") {
+        return this.characterService.get_Classes(name);
+    }
+
+    onClassChange(name: string) {
+        this.characterService.changeClass(this.get_Classes(name)[0]);
     }
 
     ngOnInit() {

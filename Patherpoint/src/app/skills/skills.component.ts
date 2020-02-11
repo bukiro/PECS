@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { SkillsService } from '../skills.service';
 import { AbilitiesService } from '../abilities.service';
 import { CharacterService } from '../character.service';
+import { SkillsService } from '../skills.service';
 
 @Component({
     selector: 'app-skills',
@@ -11,13 +11,13 @@ import { CharacterService } from '../character.service';
 export class SkillsComponent implements OnInit {
 
     constructor(
-        public skillsService: SkillsService,
         public characterService: CharacterService,
-        public abilitiesService: AbilitiesService
+        public abilitiesService: AbilitiesService,
+        public skillsService: SkillsService
     ) { }
 
     get_Skills(key:string = "", value = undefined, key2:string = "", value2 = undefined, key3:string = "", value3 = undefined) {
-        return this.skillsService.get_Skills(key, value, key2, value2, key3, value3);
+        return this.characterService.get_Skills(key, value, key2, value2, key3, value3);
     }
 
     remove_Lore(skill) {

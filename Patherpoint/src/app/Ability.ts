@@ -4,13 +4,15 @@ export class Ability {
         public name: string = "",
     ) {}
     baseValue(characterService) {
+        let character = characterService.get_Character();
         //Get baseValues from the character if they exist, otherwise 10
-        let baseValue = characterService.get_Character().baseValues.filter(baseValue => baseValue.name == this.name)[0].value;
+        let baseValue = character.baseValues.filter(baseValue => baseValue.name == this.name)[0].value;
+        let level = character.level;
         //Get any boosts from the character and sum them up
         //Boosts are +2 until 18, then +1
         //Flaws are always -2
         let boostSum: number = 0;
-        let boosts = characterService.get_AbilityBoosts(0, this);
+        let boosts = characterService.get_AbilityBoosts(0, level, this);
         if (boosts) {
             boosts.forEach(boost => {
                 if (boost.type == "boost") {

@@ -11,7 +11,17 @@
                 <div class="list-item" *ngIf="level.abilityBoosts_available">Ability boosts available: {{level.abilityBoosts_available - level.abilityBoosts_applied}}/{{level.abilityBoosts_available}}
                     <div class="list-item" *ngFor="let ability of get_Abilities()">
                         {{ability.name}}: {{ability.value(this.characterService)}}
-                        <input type="checkbox" (change)="onAbilityBoost(level, ability, $event.target.checked)" [checked]="get_AbilityBoosts(level.number, ability).length" [disabled]="!get_AbilityBoosts(level.number, ability).length && (level.abilityBoosts_applied >= level.abilityBoosts_available)">Boost
+                        <input type="checkbox" (change)="onAbilityBoost(level, ability, $event.target.checked, 'level')"
+                            [checked]="get_AbilityBoosts(level.number, level.number, ability, 'level').length"
+                            [disabled]="!get_AbilityBoosts(level.number, level.number, ability, 'level').length && (level.abilityBoosts_applied >= level.abilityBoosts_available)">Boost
+                    </div>
+                </div>
+                <div class="list-item" *ngIf="level.skillIncreases_available">Skill increases available: {{level.skillIncreases_available - level.skillIncreases_applied}}/{{level.skillIncreases_available}}
+                    <div class="list-item" *ngFor="let skill of get_Skills('type', 'skill')">
+                        {{skill.name}}: {{skill.level(this.characterService)}}
+                        <input type="checkbox" (change)="onSkillIncrease(level, skill, $event.target.checked, 'level')"
+                            [checked]="get_SkillIncreases(level.number, level.number, skill, 'level').length"
+                            [disabled]="!get_SkillIncreases(level.number, level.number, skill, 'level').length && (level.skillIncreases_applied >= level.skillIncreases_available)">Increase
                     </div>
                 </div>
             </div>

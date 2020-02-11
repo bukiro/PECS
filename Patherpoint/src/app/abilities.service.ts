@@ -15,15 +15,32 @@ export class AbilitiesService {
         private http: HttpClient,
     ) { }
     
-    get_Abilities(key:string = "", value = undefined) {
+    get_Abilities(key:string = "", value = undefined, key2:string = "", value2 = undefined, key3:string = "", value3 = undefined) {
         if (!this.still_loading()) {
+            let abilities = this.abilities;
             if (key == "" || value == undefined) {
-                return this.abilities;
+                return abilities;
             } else {
-                return this.abilities.filter(
-                    ability => ability[key] == value);
+                abilities = abilities.filter(
+                    item => item[key] == value
+                    );
+                if (key2 == "" || value2 == undefined) {
+                    return abilities;
+                } else {
+                    abilities = abilities.filter(
+                        item => item[key2] == value2
+                        );
+                    if (key3 == "" || value3 == undefined) {
+                        return abilities;
+                    } else {
+                        abilities = abilities.filter(
+                            item => item[key] == value3
+                            );
+                        return abilities;
+                    }
+                }
             }
-        }        
+        }
     }
 
     still_loading() {

@@ -6,6 +6,10 @@ import { Observable } from 'rxjs';
 import { Item } from './Item';
 import { Class } from './Class';
 import { AbilitiesService } from './abilities.service';
+import { SkillsService } from './skills.service';
+import { Ability } from './Ability';
+import { Level } from './Level';
+import { ClassesService } from './classes.service';
 
 @Injectable({
     providedIn: 'root'
@@ -21,7 +25,9 @@ export class CharacterService {
 
     constructor(
         private http: HttpClient,
-        private abilitiesService: AbilitiesService
+        private abilitiesService: AbilitiesService,
+        private skillsService: SkillsService,
+        private classesService: ClassesService
     ) { }
 
     still_loading() {
@@ -44,16 +50,20 @@ export class CharacterService {
         return this.me;
     }
 
-    load_Character(charName): Observable<String[]>{
-        return this.http.get<String[]>('/assets/'+charName+'.json');
+    load_Character(charName: string): Observable<string[]>{
+        return this.http.get<string[]>('/assets/'+charName+'.json');
     }
 
-    changeClass($class) {
+    get_Classes(name: string) {
+        return this.classesService.get_Classes(name);
+    }
+
+    changeClass(newClass: Class) {
         this.me.class = new Class();
-        this.me.class = Object.assign({}, JSON.parse(JSON.stringify($class)));
+        this.me.class = Object.assign({}, JSON.parse(JSON.stringify(newClass)));
     }
 
-    get_InventoryItems(key:string = "", value = undefined, key2:string = "", value2 = undefined, key3:string = "", value3 = undefined) {
+    get_InventoryItems(key: string = "", value = undefined, key2: string = "", value2 = undefined, key3: string = "", value3 = undefined) {
         if (!this.still_loading()) {
             let items = this.me.inventory;
             if (items) {
@@ -83,20 +93,20 @@ export class CharacterService {
         }
     }
 
-    grant_InventoryItem(item) {
-        let newInventoryItem:Item;
+    grant_InventoryItem(item: Item) {
+        let newInventoryItem: Item;
         newInventoryItem = Object.assign({}, item);
         newInventoryItem.equip = true;
         let newInventoryLength = this.me.inventory.push(newInventoryItem);
         this.onEquipChange(this.me.inventory[newInventoryLength-1]);
     }
 
-    drop_InventoryItem(item) {
+    drop_InventoryItem(item: Item) {
         this.me.inventory = this.me.inventory.filter(any_item => any_item !== item);
         this.equip_basicItems();
     }
 
-    onEquipChange(item) {
+    onEquipChange(item: Item) {
         if (item.equip) {
             if (item.type == "armor"||item.type == "shield") {
                 let allOfType = this.get_InventoryItems("type", item.type);
@@ -143,51 +153,78 @@ export class CharacterService {
         }
     }
 
-    remove_Lore(skill) {
-        this.me.lore.splice(skill, 1);
+    remove_Lore(oldLore: Skill) {
+        this.me.lore = this.me.lore.filter(lore => lore !== oldLore);
     }
 
-    get_Abilities(key:string = "", value = undefined) {
-        return this.abilitiesService.get_Abilities(key, value)
+    get_Abilities(key: string = "", value = undefined, key2: string = "", value2 = undefined, key3: string = "", value3 = undefined) {
+        return this.abilitiesService.get_Abilities(key, value, key2, value2, key3, value3)
     }
 
-    get_AbilityBoosts(levelNumber: number, ability) {
+    get_AbilityBoosts(minLevelNumber: number, maxLevelNumber: number, ability: Ability, source: string = "") {
         if (this.me.class) {
             let boosts = [];
-            if (levelNumber == 0) {
-                let levels = this.me.class.levels;
-                levels.forEach(level => {
-                    level.abilityBoosts.filter(boost => boost.name == ability.name).forEach(boost => {
-                        boosts.push(boost);
-                    })
-                })
-            } else {
-                let singleLevel = this.me.class.levels.filter(level => level.number == levelNumber )[0]
-                singleLevel.abilityBoosts.filter(boost => boost.name == ability.name).forEach(boost => {
+            let levels = this.me.class.levels.filter(level => level.number >= minLevelNumber && level.number <= maxLevelNumber );
+            levels.forEach(level => {
+                level.abilityBoosts.filter(boost => boost.name == ability.name && (boost.source == source || source == "")).forEach(boost => {
                     boosts.push(boost);
                 })
-            }
+            })
             return boosts;
         }
     }
 
-    boostAbility(level, ability, boost) {
+    boostAbility(level: Level, ability: Ability, boost: boolean, source: string) {
         if (boost) {
-            if (level.abilityBoosts_applied < level.abilityBoosts_available) {
-                level.abilityBoosts.push({"name":ability.name, "type":"boost"});
+            level.abilityBoosts.push({"name":ability.name, "type":"boost", "source":source});
+            if (source == "level") {
                 level.abilityBoosts_applied += 1;
             }
         } else {
-            let oldBoost = level.abilityBoosts.filter(boost => boost.name == ability.name)[0];
+            let oldBoost = level.abilityBoosts.filter(boost => boost.name == ability.name && boost.type == "boost" && boost.source == source)[0];
             level.abilityBoosts = level.abilityBoosts.filter(boost => boost !== oldBoost);
-            level.abilityBoosts_applied -= 1;
+            if (source == "level") {
+                level.abilityBoosts_applied -= 1;
+            }
         }
     }
 
-    initialize(charName) {
+    get_Skills(key:string = "", value = undefined, key2:string = "", value2 = undefined, key3:string = "", value3 = undefined) {
+        return this.skillsService.get_Skills(this.me.lore, key, value, key2, value2, key3, value3)
+    }
+
+    get_SkillIncreases(minLevelNumber: number, maxLevelNumber: number, skill: Skill, source: string = "") {
+        if (this.me.class) {
+            let increases = [];
+            let levels = this.me.class.levels.filter(level => level.number >= minLevelNumber && level.number <= maxLevelNumber );
+            levels.forEach(level => {
+                level.skillIncreases.filter(increase => increase.name == skill.name && (increase.source == source || source == "")).forEach(increase => {
+                    increases.push(increase);
+                })
+            })
+            return increases;
+        }
+    }
+
+    increaseSkill(level: Level, skill: Skill, train: boolean, source: string) {
+        if (train) {
+            level.skillIncreases.push({"name":skill.name, "source":source});
+            if (source == "level") {
+                level.skillIncreases_applied += 1;
+            }
+        } else {
+            let oldIncrease = level.skillIncreases.filter(increase => increase.name == skill.name && increase.source == source)[0];
+            level.skillIncreases = level.skillIncreases.filter(increase => increase !== oldIncrease);
+            if (source == "level") {
+                level.skillIncreases_applied -= 1;
+            }
+        }
+    }
+
+    initialize(charName: string) {
         this.loading = true;
         this.load_Character(charName)
-            .subscribe((results:String[]) => {
+            .subscribe((results:string[]) => {
                 this.loader = results;
                 this.finish_loading()
             });
