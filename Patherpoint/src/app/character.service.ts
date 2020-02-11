@@ -195,6 +195,10 @@ export class CharacterService {
 
     get_SkillIncreases(minLevelNumber: number, maxLevelNumber: number, skill: Skill, source: string = "") {
         if (this.me.class) {
+            if (skill.name == "Acrobatics")
+            {
+                let c = 0;
+            }
             let increases = [];
             let levels = this.me.class.levels.filter(level => level.number >= minLevelNumber && level.number <= maxLevelNumber );
             levels.forEach(level => {

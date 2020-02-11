@@ -18,7 +18,7 @@
                 </div>
                 <div class="list-item" *ngIf="level.skillIncreases_available">Skill increases available: {{level.skillIncreases_available - level.skillIncreases_applied}}/{{level.skillIncreases_available}}
                     <div class="list-item" *ngFor="let skill of get_Skills('type', 'skill')">
-                        {{skill.name}}: {{skill.level(this.characterService)}}
+                        {{skill.name}}: {{skill.level(this.characterService, level.number)}}
                         <input type="checkbox" (change)="onSkillIncrease(level, skill, $event.target.checked, 'level')"
                             [checked]="get_SkillIncreases(level.number, level.number, skill, 'level').length"
                             [disabled]="!get_SkillIncreases(level.number, level.number, skill, 'level').length && (level.skillIncreases_applied >= level.skillIncreases_available)">Increase
