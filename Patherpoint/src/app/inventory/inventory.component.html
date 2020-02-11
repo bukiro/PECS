@@ -1,0 +1,28 @@
+<div id="items" class="itemBox">
+    <h3>Inventory</h3>
+    <div class="loading" *ngIf="still_loading()">Loading</div>
+    <div *ngIf="!still_loading()">
+        <button class="list-item" (click)="toggleItemsMenu()">Get Items</button>
+        <h3>Weapons</h3>
+        <div class="list-item" *ngFor="let weapon of get_InventoryItems('type','weapon')">
+            {{weapon.name}}
+            <cite *ngFor="let trait of weapon.traits">&nbsp;{{trait}}</cite>
+            <input type="checkbox" [(ngModel)]="weapon.equip" (ngModelChange)="onChange(weapon)">Equip
+            <button (click)="drop_InventoryItem(weapon)">Drop</button>
+        </div>
+        <h3>Armor</h3>
+        <div class="list-item" *ngFor="let armor of get_InventoryItems('type','armor')">
+            {{armor.name}}
+            <cite *ngFor="let trait of armor.traits">&nbsp;{{trait}}</cite>
+            <input type="checkbox" [(ngModel)]="armor.equip" (ngModelChange)="onChange(armor)">Equip
+            <button (click)="drop_InventoryItem(armor)">Drop</button>
+        </div>
+        <h3>Shields</h3>
+        <div class="list-item" *ngFor="let shield of get_InventoryItems('type','shield')">
+            {{shield.name}}
+            <cite *ngFor="let trait of shield.traits">&nbsp;{{trait}}</cite>
+            <input type="checkbox" [(ngModel)]="shield.equip" (ngModelChange)="onChange(shield)">Equip
+            <button (click)="drop_InventoryItem(shield)">Drop</button>
+        </div>
+    </div>
+</div>

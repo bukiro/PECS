@@ -15,5 +15,9 @@ export class Weapon implements Item {
         public itembonus: number = 0,
         public moddable: boolean = true,
         public traits: string[] = [],
+        public potencyRune: number = 0,
+        public strikingRune: number = 0,
+        public propertyRunes: string[] = [],
+        public material: string = ""
     ) {}
 }

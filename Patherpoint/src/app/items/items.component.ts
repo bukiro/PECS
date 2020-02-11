@@ -1,18 +1,17 @@
-import { Component, OnInit } from '@angular/core';
-import { ItemsService} from '../items.service';
-import { VirtualTimeScheduler } from 'rxjs';
+import { Component,  OnInit } from '@angular/core';
+import { ItemsService } from '../items.service';
 
 @Component({
     selector: 'app-items',
     templateUrl: './items.component.html',
-    styleUrls: ['./items.component.css']
+    styleUrls: ['./items.component.css'],
 })
 export class ItemsComponent implements OnInit {
 
     public showWeapons: Boolean = false;
     public showArmor: Boolean = false;
     public showShields: Boolean = false;
-    
+
     constructor(
         public itemsService: ItemsService
     ) { }
@@ -30,6 +29,10 @@ export class ItemsComponent implements OnInit {
             case "shields":
                 this.showShields = !this.showShields
         }
+    }
+
+    toggleItemsMenu(position: string = "") {
+        this.itemsService.toggleItemsMenu(position);
     }
 
     get_Items(key: string = "", value: string = "") {

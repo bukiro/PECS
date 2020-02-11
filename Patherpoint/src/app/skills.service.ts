@@ -17,13 +17,30 @@ export class SkillsService {
         private characterService: CharacterService,
     ) { }
     
-    get_Skills(key:string = "", value:string = "") {
+    get_Skills(key:string = "", value = undefined, key2:string = "", value2 = undefined, key3:string = "", value3 = undefined) {
         if (!this.still_loading()) {
-            if (key == "" || value == "") {
-                return this.skills.concat(this.characterService.get_Character().lore)
+            let skills = this.skills.concat(this.characterService.get_Character().lore)
+            if (key == "" || value == undefined) {
+                return skills;
             } else {
-                return this.skills.concat(this.characterService.get_Character().lore).filter(
-                    item => item[key] == value);
+                skills = skills.filter(
+                    item => item[key] == value
+                    );
+                if (key2 == "" || value2 == undefined) {
+                    return skills;
+                } else {
+                    skills = skills.filter(
+                        item => item[key2] == value2
+                        );
+                    if (key3 == "" || value3 == undefined) {
+                        return skills;
+                    } else {
+                        skills = skills.filter(
+                            item => item[key] == value3
+                            );
+                        return skills;
+                    }
+                }
             }
         }
     }

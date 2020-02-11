@@ -9,5 +9,6 @@ export class Shield implements Item {
         public itembonus: number = 0,
         public coverbonus: number = 0,
         public traits: string[] = [],
+        public material: string = "",
         ) {}
 }

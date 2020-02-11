@@ -1,0 +1,43 @@
+<div id="items" class="itemBox">
+    <button class="list-item" (click)="toggleCharacterMenu()">Close</button>
+    <div class="loading" *ngIf="still_loading()">Loading</div>
+    <div *ngIf="!still_loading()">
+        <select [(ngModel)]="newClass" (ngModelChange)="onClassChange($event)">
+            <option [value]="class.name" *ngFor="let class of get_Classes()">{{class.name}}</option>
+        </select>
+        <div *ngIf="get_Character().class">
+            <div *ngFor="let level of get_Character().class.levels">
+                Level {{level.number}}
+                <div class="list-item" *ngIf="level.abilityBoosts_available">Ability boosts available: {{level.abilityBoosts_available - level.abilityBoosts_applied}}/{{level.abilityBoosts_available}}
+                    <div class="list-item" *ngFor="let ability of get_Abilities()">
+                        {{ability.name}}: {{ability.value(this.characterService)}}
+                        <input type="checkbox" (change)="onAbilityBoost(level, ability, $event.target.checked)" [disabled]="!get_AbilityBoosts(level.number, ability).length && (level.abilityBoosts_applied >= level.abilityBoosts_available)">Boost
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--
+
+Name
+Level
+Deity
+
+
+Level 1
+Class
+Ancestry
+Heritage
+Background
+Ability Boosts
+Skill Training
+Class Feats
+
+Level 2
+
+
+
+
+-->

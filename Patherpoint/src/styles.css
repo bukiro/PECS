@@ -19,7 +19,8 @@
   
   .characterSheet {
     display: flex;
-    flex-direction: row;    
+    flex-direction: row;
+    flex-wrap: wrap; 
   }
 
   router-outlet + *  {
@@ -154,7 +155,7 @@
     background-color: #EFEFEF;
   }
   .itemBox {
-    min-width: 800px;
+    min-width: 400px;
     max-width: 900px;
     display: flex;
     flex-direction: column;
@@ -170,9 +171,10 @@
     min-width: 400px;
     max-width: 450px;
     display: flex;
+    flex-wrap: wrap;
     flex-direction: row;
     justify-content: space-between ;
-    padding: 16px 32px;
+    padding: 8px 16px;
     margin-bottom: 8px;
     border-radius: 2px;
     background-color: #E0E0E0;
@@ -183,7 +185,6 @@
   }
 
   .itemBox .list-item {
-    min-width: 800px;
     max-width: 900px;
     justify-content: flex-start;
   }

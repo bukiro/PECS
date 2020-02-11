@@ -5,6 +5,8 @@ import { Weapon } from './Weapon';
 import { Armor } from './Armor';
 import { Shield } from './Shield';
 import { Observable } from 'rxjs';
+import { CharacterService } from './character.service';
+import { ElementSchemaRegistry } from '@angular/compiler';
 
 @Injectable({
     providedIn: 'root'
@@ -14,10 +16,24 @@ export class ItemsService {
     private items: Item[];
     private loader = [];
     private loading: Boolean = false;
-    
+    itemsMenuState: string = 'out';
+
     constructor(
         private http: HttpClient,
+        public characterService: CharacterService
     ) { }
+
+    toggleItemsMenu(position: string = "") {
+        if (position) {
+            this.itemsMenuState = position;
+        } else {
+            this.itemsMenuState = (this.itemsMenuState == 'out') ? 'in' : 'out';
+        }
+    }
+
+    get_itemsMenuState() {
+        return this.itemsMenuState;
+    }
     
     get_Items(key:string = "", value:string = "") {
         if (!this.still_loading()) {
@@ -31,7 +47,7 @@ export class ItemsService {
     }
 
     grant_Item(item) {
-
+        this.characterService.grant_InventoryItem(item);
     }
 
     still_loading() {
@@ -72,7 +88,12 @@ export class ItemsService {
                             element.melee,
                             element.ranged,
                             element.itembonus,
-                            element.traits
+                            element.moddable,
+                            element.traits,
+                            element.potencyRune,
+                            element.strikingRune,
+                            element.propertyRunes,
+                            element.material
                         ));
                         break;
                     case "armor":
@@ -87,7 +108,12 @@ export class ItemsService {
                             element.speedpenalty,
                             element.strength,
                             element.itembonus,
-                            element.traits
+                            element.moddable,
+                            element.traits,
+                            element.potencyRune,
+                            element.resilientRune,
+                            element.propertyRunes,
+                            element.material
                             ));
                         break;
                     case "shield":
@@ -98,7 +124,8 @@ export class ItemsService {
                             element.speedpenalty,
                             element.itembonus,
                             element.coverbonus,
-                            element.traits
+                            element.traits,
+                            element.material
                         ));
                         break;
                 }
@@ -106,5 +133,8 @@ export class ItemsService {
             this.loader = [];
         }
         if (this.loading) {this.loading = false;}
+        let basicWeapon = this.get_Items("type", "weapon")[0];
+        let basicArmor = this.get_Items("type", "armor")[0];
+        this.characterService.grant_basicItems(basicWeapon, basicArmor);
     }
 }

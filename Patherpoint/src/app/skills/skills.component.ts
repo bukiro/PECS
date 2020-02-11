@@ -16,8 +16,12 @@ export class SkillsComponent implements OnInit {
         public abilitiesService: AbilitiesService
     ) { }
 
-    get_Skills(key:string = "", value:string = "") {
-        return this.skillsService.get_Skills();
+    get_Skills(key:string = "", value = undefined, key2:string = "", value2 = undefined, key3:string = "", value3 = undefined) {
+        return this.skillsService.get_Skills(key, value, key2, value2, key3, value3);
+    }
+
+    remove_Lore(skill) {
+        this.characterService.remove_Lore(skill);
     }
 
     still_loading() {

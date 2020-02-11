@@ -15,9 +15,9 @@ export class AbilitiesService {
         private http: HttpClient,
     ) { }
     
-    get_Abilities(key:string = "", value:string = "") {
+    get_Abilities(key:string = "", value = undefined) {
         if (!this.still_loading()) {
-            if (key == "" || value == "") {
+            if (key == "" || value == undefined) {
                 return this.abilities;
             } else {
                 return this.abilities.filter(

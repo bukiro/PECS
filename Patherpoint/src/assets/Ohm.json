@@ -4,12 +4,6 @@
     "lore": [
         { "name":"Lore: Warfare", "ability":"Intelligence" }
     ],
-    "abilityBoosts": [
-        { "name":"Strength", "type":"boost" },
-        { "name":"Constitution", "type":"boost" },
-        { "name":"Dexterity", "type":"boost" },
-        { "name":"Dexterity", "type":"boost" }
-    ],
     "baseValues": [
         { "name":"Strength", "value":17 },
         { "name":"Dexterity", "value":16 },

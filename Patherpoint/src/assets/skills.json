@@ -7,7 +7,6 @@
     { "name":"Deception", "ability":"Charisma"},
     { "name":"Diplomacy", "ability":"Charisma"},
     { "name":"Intimidation", "ability":"Charisma"},
-    { "name":"Lore", "ability":"Intelligence"},
     { "name":"Medicine", "ability":"Wisdom"},
     { "name":"Nature", "ability":"Wisdom"},
     { "name":"Occultism", "ability":"Intelligence"},
