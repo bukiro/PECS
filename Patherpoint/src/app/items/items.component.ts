@@ -20,14 +20,13 @@ export class ItemsComponent implements OnInit {
         switch (type) {
             case "weapons":
                 this.showWeapons = !this.showWeapons
-        }
-        switch (type) {
+                break;
             case "armor":
                 this.showArmor = !this.showArmor
-        }
-        switch (type) {
+                break;
             case "shields":
                 this.showShields = !this.showShields
+                break;
         }
     }
 
