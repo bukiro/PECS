@@ -51,6 +51,10 @@ export class TopBarComponent implements OnInit {
     return this.characterService.still_loading();
   }
 
+  print() {
+    this.characterService.print();
+  }
+
   ngOnInit() {
     this.characterService.initialize("Ohm");
   }

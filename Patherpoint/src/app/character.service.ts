@@ -196,18 +196,28 @@ export class CharacterService {
     finish_loading() {
         if (this.loader) {
             this.me = new Character();
-            this.me.name = this.loader["name"];
-            this.me.level = this.loader["level"];
-            this.me.class = this.loader["class"];
-            this.me.baseValues = this.loader["baseValues"];
-            this.loader["lore"].forEach(lore => {
-                this.me.lore.push(new Skill(lore.name, lore.ability));
-            });
+            this.me = Object.assign({}, JSON.parse(JSON.stringify(this.loader)))
+
+            let newLore = [];
+            this.me.lore.forEach(lore => {
+                newLore.push(new Skill(lore.name, lore.ability))
+            })
+            this.me.lore = newLore;
+
+            if (this.me.class) {
+                this.me.class = <Class> this.me.class;
+            } else {
+                this.me.class = new Class();
+            }
 
             this.loader = [];
         }
         if (this.loading) {this.loading = false;}
         this.equip_basicItems();
+    }
+
+    print() {
+        console.log(JSON.stringify(this.me));
     }
 
     ngOnInit() {

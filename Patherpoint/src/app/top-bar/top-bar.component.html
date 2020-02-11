@@ -5,5 +5,6 @@
 <a class="button fancy-button" (click)="toggleItemsMenu();toggleCharacterMenu('out')">Items</a>
 <a class="button fancy-button loading" *ngIf="still_loading()">Loading</a>
 <a class="button fancy-button" (click)="toggleCharacterMenu();toggleItemsMenu('out')" *ngIf="!still_loading()">{{get_Character().name}}</a>
+<a class="button fancy-button" (click)="print()" *ngIf="!still_loading()">Print</a>
 <app-items [@slideInOut]="get_itemsMenuState()"></app-items>
 <app-character [@slideInOut]="get_characterMenuState()"></app-character>
