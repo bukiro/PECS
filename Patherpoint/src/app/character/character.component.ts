@@ -46,8 +46,8 @@ export class CharacterComponent implements OnInit {
         this.characterService.get_Character().boostAbility(level, ability, boost, source);
     }
 
-    get_Skills(key: string = "", value = undefined, key2: string = "", value2 = undefined, key3: string = "", value3 = undefined) {
-        return this.characterService.get_Skills(key, value, key2, value2, key3, value3)
+    get_Skills(name: string = "", type: string = "") {
+        return this.characterService.get_Skills(name, type)
     }
 
     get_SkillIncreases(minLevelNumber: number, maxLevelNumber: number, skill: Skill, source: string = "") {

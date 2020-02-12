@@ -14,6 +14,7 @@ The very latest in Assistive Technologies for Dungeon Master (ATDM)
 - [ ] - Armor
 - [ ] - Attacks
 - [x] - Skills
+- [x] - Traits
 - [ ] - Feats -> Abilities, Attacks, Skills, Actions
 - [ ] - Feat requirements
 - [ ] - Equipment (weapons, armor, shields) -> Abilities, Armor, Attacks, Skills
@@ -22,7 +23,7 @@ The very latest in Assistive Technologies for Dungeon Master (ATDM)
 - [x] - Exclusive bonuses: Proficiency, Circumstance, Item, Status, untyped
 - [ ] - Classes and Levels
 - [ ] Style character sheet
-- [ ] Populate character sheet from JSON
+- [x] Populate character sheet from JSON
 - [ ] Use Database
 - [ ] Load/Save from/to Database
 - [ ] import sortableJS

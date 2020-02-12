@@ -7,9 +7,11 @@ import { Item } from './Item';
 import { Class } from './Class';
 import { AbilitiesService } from './abilities.service';
 import { SkillsService } from './skills.service';
-import { Ability } from './Ability';
 import { Level } from './Level';
 import { ClassesService } from './classes.service';
+import { ItemCollection } from './ItemCollection';
+import { Armor } from './Armor';
+import { Weapon } from './Weapon';
 
 @Injectable({
     providedIn: 'root'
@@ -63,53 +65,30 @@ export class CharacterService {
         this.me.class = Object.assign({}, JSON.parse(JSON.stringify(newClass)));
     }
 
-    get_InventoryItems(key: string = "", value = undefined, key2: string = "", value2 = undefined, key3: string = "", value3 = undefined) {
+    get_InventoryItems() {
         if (!this.still_loading()) {
-            let items = this.me.inventory;
-            if (items) {
-                if (key == "" || value == undefined) {
-                    return items;
-                } else {
-                    items = items.filter(
-                        item => item[key] == value
-                        );
-                    if (key2 == "" || value2 == undefined) {
-                        return items;
-                    } else {
-                        items = items.filter(
-                            item => item[key2] == value2
-                            );
-                        if (key3 == "" || value3 == undefined) {
-                            return items;
-                        } else {
-                            items = items.filter(
-                                item => item[key3] == value3
-                                );
-                            return items;
-                        }
-                    }
-                }
-            }
-        }
+            return this.me.inventory;
+        } else { return new ItemCollection() }
     }
 
     grant_InventoryItem(item: Item) {
         let newInventoryItem: Item;
         newInventoryItem = Object.assign({}, item);
         newInventoryItem.equip = true;
-        let newInventoryLength = this.me.inventory.push(newInventoryItem);
-        this.onEquipChange(this.me.inventory[newInventoryLength-1]);
+        let newInventoryLength = this.me.inventory[item.type].push(newInventoryItem);
+        this.onEquipChange(this.me.inventory[item.type][newInventoryLength-1]);
     }
 
     drop_InventoryItem(item: Item) {
-        this.me.inventory = this.me.inventory.filter(any_item => any_item !== item);
+
+        this.me.inventory[item.type] = this.me.inventory[item.type].filter(any_item => any_item !== item);
         this.equip_basicItems();
     }
 
     onEquipChange(item: Item) {
         if (item.equip) {
             if (item.type == "armor"||item.type == "shield") {
-                let allOfType = this.get_InventoryItems("type", item.type);
+                let allOfType = this.get_InventoryItems()[item.type];
                 allOfType.forEach(typeItem => {
                     typeItem.equip = false;
                 });
@@ -138,17 +117,17 @@ export class CharacterService {
     
     equip_basicItems() {
         if (!this.still_loading() && this.basicItems.length) {
-            if (!this.get_InventoryItems("type", "weapon").length) {
+            if (!this.get_InventoryItems().weapon.length) {
                 this.grant_InventoryItem(this.basicItems[0]);
             }
-            if (!this.get_InventoryItems("type", "armor").length) {
+            if (!this.get_InventoryItems().armor.length) {
                 this.grant_InventoryItem(this.basicItems[1]);
             }
-            if (!this.get_InventoryItems("type", "weapon", "equip", true).length) {
-                this.get_InventoryItems("type", "weapon")[0].equip = true;
+            if (!this.get_InventoryItems().weapon.filter(weapon => weapon.equip == true).length) {
+                this.get_InventoryItems().weapon[0].equip = true;
             }
-            if (!this.get_InventoryItems("type", "armor", "equip", true).length) {
-                this.get_InventoryItems("type", "armor")[0].equip = true;
+            if (!this.get_InventoryItems().armor.filter(armor => armor.equip == true).length) {
+                this.get_InventoryItems().armor[0].equip = true;
             }
         }
     }
@@ -161,8 +140,8 @@ export class CharacterService {
         return this.abilitiesService.get_Abilities(key, value, key2, value2, key3, value3)
     }
 
-    get_Skills(key:string = "", value = undefined, key2:string = "", value2 = undefined, key3:string = "", value3 = undefined) {
-        return this.skillsService.get_Skills(this.me.lore, key, value, key2, value2, key3, value3)
+    get_Skills(name: string = "", type: string = "") {
+        return this.skillsService.get_Skills(this.me.lore, name, type)
     }
 
     initialize(charName: string) {
@@ -185,6 +164,14 @@ export class CharacterService {
                 this.me.class.levels = this.me.class.levels.map(level => Object.assign(new Level(), level));
             } else {
                 this.me.class = new Class();
+            }
+            if (this.me.inventory) {
+                this.me.inventory = Object.assign(new ItemCollection(), this.me.inventory);
+                this.me.inventory.weapon = this.me.inventory.weapon.map(weapon => Object.assign(new Weapon(), weapon));
+                this.me.inventory.armor = this.me.inventory.armor.map(armor => Object.assign(new Armor(), armor));
+                this.me.inventory.shield = this.me.inventory.shield.map(shield => Object.assign(new Weapon(), shield));
+            } else {
+                this.me.inventory = new ItemCollection();
             }
 
             this.loader = [];

@@ -1,28 +1,61 @@
-<div id="items" class="itemBox">
+<div id="items" class="attributeBox">
     <h3>Inventory</h3>
     <div class="loading" *ngIf="still_loading()">Loading</div>
     <div *ngIf="!still_loading()">
         <button class="list-item" (click)="toggleItemsMenu()">Get Items</button>
         <h3>Weapons</h3>
-        <div class="list-item" *ngFor="let weapon of get_InventoryItems('type','weapon')">
-            {{weapon.name}}
-            <cite *ngFor="let trait of weapon.traits">&nbsp;{{trait}}</cite>
-            <input type="checkbox" [(ngModel)]="weapon.equip" (ngModelChange)="onChange(weapon)">Equip
-            <button (click)="drop_InventoryItem(weapon)">Drop</button>
+        <div class="list-item" *ngFor="let weapon of get_InventoryItems().weapon">
+                <strong>{{weapon.name}}</strong>&nbsp;{{weapon.prof}} Weapon
+                <input type="checkbox" [(ngModel)]="weapon.equip" (ngModelChange)="onChange(weapon)">Equip
+                <button (click)="drop_InventoryItem(weapon)">Drop</button>
+            <div class="row" *ngIf="weapon.traits.length">
+                <cite *ngFor="let trait of weapon.traits" title="{{get_Traits(trait)[0].description}}">&nbsp;{{trait}}</cite>
+            </div>
+            <div class="row">
+                <input type="checkbox" [(ngModel)]="weapon.showNotes">Notes
+                <input type="checkbox" [(ngModel)]="weapon.showRunes">Runes
+                <input type="checkbox" [(ngModel)]="weapon.showMaterial">Material
+                <input type="checkbox" [(ngModel)]="weapon.showDesc">Description
+            </div>
+            <div class="row">
+                <input type="textarea" class="fullwidth" [(ngModel)]="weapon.notes" *ngIf="weapon.showNotes">
+            </div>
         </div>
         <h3>Armor</h3>
-        <div class="list-item" *ngFor="let armor of get_InventoryItems('type','armor')">
-            {{armor.name}}
-            <cite *ngFor="let trait of armor.traits">&nbsp;{{trait}}</cite>
+        <div class="list-item" *ngFor="let armor of get_InventoryItems().armor">
+            <strong>{{armor.name}}</strong>&nbsp;{{armor.prof}}{{(armor.prof != "Unarmored") ? " Armor" : ""}}
             <input type="checkbox" [(ngModel)]="armor.equip" (ngModelChange)="onChange(armor)">Equip
             <button (click)="drop_InventoryItem(armor)">Drop</button>
+            <div class="row" *ngIf="armor.traits.length">
+                <cite *ngFor="let trait of armor.traits" title="{{get_Traits(trait)[0].description}}">&nbsp;{{trait}}</cite>
+            </div>
+            <div class="row">
+                <input type="checkbox" [(ngModel)]="armor.showNotes">Notes
+                <input type="checkbox" [(ngModel)]="armor.showRunes">Runes
+                <input type="checkbox" [(ngModel)]="armor.showMaterial">Material
+                <input type="checkbox" [(ngModel)]="armor.showDesc">Description
+            </div>
+            <div class="row">
+                <input type="textarea" class="fullwidth" [(ngModel)]="armor.notes" *ngIf="armor.showNotes">
+            </div>
         </div>
         <h3>Shields</h3>
-        <div class="list-item" *ngFor="let shield of get_InventoryItems('type','shield')">
-            {{shield.name}}
-            <cite *ngFor="let trait of shield.traits">&nbsp;{{trait}}</cite>
+        <div class="list-item" *ngFor="let shield of get_InventoryItems().shield">
+            <strong>{{shield.name}}</strong>
             <input type="checkbox" [(ngModel)]="shield.equip" (ngModelChange)="onChange(shield)">Equip
             <button (click)="drop_InventoryItem(shield)">Drop</button>
+            <div class="row" *ngIf="shield.traits.length">
+                <cite *ngFor="let trait of shield.traits" title="{{get_Traits(trait)[0].description}}">&nbsp;{{trait}}</cite>
+            </div>
+            <div class="row">
+                <input type="checkbox" [(ngModel)]="shield.showNotes">Notes
+                <input type="checkbox" [(ngModel)]="shield.showRunes">Runes
+                <input type="checkbox" [(ngModel)]="shield.showMaterial">Material
+                <input type="checkbox" [(ngModel)]="shield.showDesc">Description
+            </div>
+            <div class="row">
+                <input type="textarea" class="fullwidth" [(ngModel)]="shield.notes" *ngIf="shield.showNotes">
+            </div>
         </div>
     </div>
 </div>

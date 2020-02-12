@@ -2,7 +2,7 @@
   <h3>Abilities</h3>
   <div class="loading" *ngIf="still_loading()">Loading</div>
   <div class="list-item" *ngFor="let ability of abilitiesService.get_Abilities()">
-    {{ability.name}}
+    <strong>{{ability.name}}</strong>
     <input class="number" type="number" value="{{ability.value(this.characterService)}}" disabled>
     Base: <input class="number" type="number" value="{{ability.baseValue(this.characterService)}}" disabled>
     Mod: <input class="number" type="number" value="{{ability.mod(this.characterService)}}" disabled>

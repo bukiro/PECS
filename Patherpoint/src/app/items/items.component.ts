@@ -1,5 +1,6 @@
 import { Component,  OnInit } from '@angular/core';
 import { ItemsService } from '../items.service';
+import { TraitsService } from '../traits.service';
 
 @Component({
     selector: 'app-items',
@@ -13,7 +14,8 @@ export class ItemsComponent implements OnInit {
     public showShields: Boolean = false;
 
     constructor(
-        public itemsService: ItemsService
+        private itemsService: ItemsService,
+        private traitsService: TraitsService
     ) { }
 
     toggle(type) {
@@ -36,6 +38,10 @@ export class ItemsComponent implements OnInit {
 
     get_Items() {
         return this.itemsService.get_Items();
+    }
+
+    get_Traits(name: string = "") {
+        return this.traitsService.get_Traits(name);
     }
 
     grant_Item(item) {

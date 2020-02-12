@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { CharacterService } from '../character.service';
 import { ItemsService } from '../items.service';
+import { TraitsService } from '../traits.service';
+import { ItemCollection } from '../ItemCollection';
 
 @Component({
     selector: 'app-inventory',
@@ -11,7 +13,8 @@ export class InventoryComponent implements OnInit {
 
     constructor(
         public characterService: CharacterService,
-        public itemsService: ItemsService
+        public itemsService: ItemsService,
+        public traitsService: TraitsService
     ) { }
 
     still_loading() {
@@ -22,12 +25,16 @@ export class InventoryComponent implements OnInit {
         this.itemsService.toggleItemsMenu();
     }
 
-    get_InventoryItems(key:string = "", value:string = "") {
-        return this.characterService.get_InventoryItems(key, value);
+    get_InventoryItems() {
+        return this.characterService.get_InventoryItems();
     }
     
     drop_InventoryItem(item) {
         this.characterService.drop_InventoryItem(item);
+    }
+
+    get_Traits(traitName: string = "") {
+        return this.traitsService.get_Traits(traitName);
     }
 
     onChange(item) {

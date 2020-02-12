@@ -67,27 +67,27 @@ export class ItemsService {
     finish_loading() {
         if (this.loader) {
             this.items = new ItemCollection();
-            this.items.weapons = [];
+            this.items.weapon = [];
             this.items.armor = [];
-            this.items.shields = [];
+            this.items.shield = [];
 
             this.loader.forEach(element => {
                 switch (element.type) {
                     case "weapon":
-                        this.items.weapons.push(Object.assign(new Weapon(), element));
+                        this.items.weapon.push(Object.assign(new Weapon(), element));
                         break;
                     case "armor":
                         this.items.armor.push(Object.assign(new Armor(), element));
                         break;
                     case "shield":
-                        this.items.shields.push(Object.assign(new Shield(), element));
+                        this.items.shield.push(Object.assign(new Shield(), element));
                         break;
                 }
             });
             this.loader = [];
         }
         if (this.loading) {this.loading = false;}
-        let basicWeapon = this.get_Items().weapons[0];
+        let basicWeapon = this.get_Items().weapon[0];
         let basicArmor = this.get_Items().armor[0];
         this.characterService.grant_basicItems(basicWeapon, basicArmor);
     }

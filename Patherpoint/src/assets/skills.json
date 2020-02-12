@@ -19,4 +19,4 @@
     { "name":"Stealth", "type":"skill", "ability":"Dexterity"},
     { "name":"Survival", "type":"skill", "ability":"Wisdom"},
     { "name":"Thievery", "type":"skill", "ability":"Dexterity"}
-  ]
+]

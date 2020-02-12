@@ -16,6 +16,7 @@ import { CharacterSheetComponent } from './character-sheet/character-sheet.compo
 import { InventoryComponent } from './inventory/inventory.component';
 import { CharacterComponent } from './character/character.component';
 import { LevelComponent } from './level/level.component';
+import { AttacksComponent } from './attacks/attacks.component';
 
 
 @NgModule({
@@ -29,7 +30,8 @@ import { LevelComponent } from './level/level.component';
       CharacterSheetComponent,
       InventoryComponent,
       CharacterComponent,
-      LevelComponent
+      LevelComponent,
+      AttacksComponent
    ],
    imports: [
       BrowserModule,

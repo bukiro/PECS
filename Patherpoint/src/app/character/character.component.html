@@ -17,7 +17,7 @@
                     </div>
                 </div>
                 <div class="list-item" *ngIf="level.skillIncreases_available">Skill increases available: {{level.skillIncreases_available - level.skillIncreases_applied}}/{{level.skillIncreases_available}}
-                    <div class="list-item" *ngFor="let skill of get_Skills('type', 'skill')">
+                    <div class="list-item" *ngFor="let skill of get_Skills('', 'skill')">
                         {{skill.name}}:
                         <div><input type="radio" name="{{skill.name}}.level" [value]=0 [ngModel]="skill.level(this.characterService, level.number)" disabled>U</div>
                         <div><input type="radio" name="{{skill.name}}.level" [value]=2 [ngModel]="skill.level(this.characterService, level.number)" disabled>T</div>

@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { trigger, state, style, transition, animate } from '@angular/animations';
 import { CharacterService } from '../character.service';
 import { ItemsService } from '../items.service';
+import { TraitsService } from '../traits.service';
 
 @Component({
   selector: 'app-top-bar',
@@ -24,7 +25,8 @@ export class TopBarComponent implements OnInit {
 
   constructor(
     private characterService: CharacterService,
-    private itemsService: ItemsService
+    private itemsService: ItemsService,
+    private traitsService: TraitsService
   ) { }
 
   toggleItemsMenu(position: string = "") {
@@ -57,6 +59,7 @@ export class TopBarComponent implements OnInit {
 
   ngOnInit() {
     this.characterService.initialize("Ohm");
+    this.traitsService.initialize();
   }
 
 }

@@ -3,6 +3,7 @@ import { Item } from './Item';
 import { Level } from './Level';
 import { Class } from './Class';
 import { Ability } from './Ability';
+import { ItemCollection } from './ItemCollection';
 
 export class Character {
     public name: string = "";
@@ -10,7 +11,7 @@ export class Character {
     public class: Class = new Class();
     public lore: Skill[] = [];
     public baseValues = [];
-    public inventory: Item[] = [];
+    public inventory: ItemCollection = new ItemCollection();
     get_AbilityBoosts(minLevelNumber: number, maxLevelNumber: number, ability: Ability, source: string = "") {
         if (this.class) {
             let boosts = [];

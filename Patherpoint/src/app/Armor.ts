@@ -1,6 +1,8 @@
 import { Item } from './Item'
 
 export class Armor implements Item {
+    public notes: string = "";
+    public showNotes: boolean = false;
     constructor(
         public type: string = "armor",
         public name: string = "",

@@ -1,34 +1,58 @@
 <div id="skills" class="attributeBox">
-  <div class="loading" *ngIf="still_loading()">Loading</div>
-  <h3>Saves</h3>
-  <div class="list-item" *ngFor="let skill of get_Skills('type', 'save')|sortBy:'asc':'name'">
-    {{skill.name}}
-    <div><input type="radio" name="{{skill.name}}.level" [value]=2 [ngModel]="skill.level(this.characterService)" disabled>T</div>
-    <div><input type="radio" name="{{skill.name}}.level" [value]=4 [ngModel]="skill.level(this.characterService)" disabled>E</div>
-    <div><input type="radio" name="{{skill.name}}.level" [value]=6 [ngModel]="skill.level(this.characterService)" disabled>M</div>
-    <div><input type="radio" name="{{skill.name}}.level" [value]=8 [ngModel]="skill.level(this.characterService)" disabled>L</div>
-    Value: <input class="number" type="number" value="{{skill.value(this.characterService,this.abilitiesService)}}" disabled>
-    <button *ngIf="skill.name.match('Lore')" (click)="remove_Lore(skill)">Remove</button>
-  </div>
-  <h3>Perception</h3>
-  <div class="list-item" *ngFor="let skill of get_Skills('type', 'perception')|sortBy:'asc':'name'">
-    {{skill.name}}
-    <div><input type="radio" name="{{skill.name}}.level" [value]=2 [ngModel]="skill.level(this.characterService)" disabled>T</div>
-    <div><input type="radio" name="{{skill.name}}.level" [value]=4 [ngModel]="skill.level(this.characterService)" disabled>E</div>
-    <div><input type="radio" name="{{skill.name}}.level" [value]=6 [ngModel]="skill.level(this.characterService)" disabled>M</div>
-    <div><input type="radio" name="{{skill.name}}.level" [value]=8 [ngModel]="skill.level(this.characterService)" disabled>L</div>
-    Value: <input class="number" type="number" value="{{skill.value(this.characterService,this.abilitiesService)}}" disabled>
-    <button *ngIf="skill.name.match('Lore')" (click)="remove_Lore(skill)">Remove</button>
-  </div>
-  <h3>Skills</h3>
-  <div class="list-item" *ngFor="let skill of get_Skills('type', 'skill')|sortBy:'asc':'name'">
-    {{skill.name}}
-    <div><input type="radio" name="{{skill.name}}.level" [value]=0 [ngModel]="skill.level(this.characterService)" disabled>U</div>
-    <div><input type="radio" name="{{skill.name}}.level" [value]=2 [ngModel]="skill.level(this.characterService)" disabled>T</div>
-    <div><input type="radio" name="{{skill.name}}.level" [value]=4 [ngModel]="skill.level(this.characterService)" disabled>E</div>
-    <div><input type="radio" name="{{skill.name}}.level" [value]=6 [ngModel]="skill.level(this.characterService)" disabled>M</div>
-    <div><input type="radio" name="{{skill.name}}.level" [value]=8 [ngModel]="skill.level(this.characterService)" disabled>L</div>
-    Value: <input class="number" type="number" value="{{skill.value(this.characterService,this.abilitiesService)}}" disabled>
-    <button *ngIf="skill.name.match('Lore')" (click)="remove_Lore(skill)">Remove</button>
-  </div>
+    <div class="loading" *ngIf="still_loading()">Loading</div>
+    <h3>Saves</h3>
+    <div class="list-item" *ngFor="let skill of get_Skills('', 'save')|sortBy:'asc':'name'">
+        <strong>{{skill.name}}</strong>
+        <div><input type="radio" name="{{skill.name}}.level" [value]=2 [ngModel]="skill.level(this.characterService)" disabled>T</div>
+        <div><input type="radio" name="{{skill.name}}.level" [value]=4 [ngModel]="skill.level(this.characterService)" disabled>E</div>
+        <div><input type="radio" name="{{skill.name}}.level" [value]=6 [ngModel]="skill.level(this.characterService)" disabled>M</div>
+        <div><input type="radio" name="{{skill.name}}.level" [value]=8 [ngModel]="skill.level(this.characterService)" disabled>L</div>
+        Value: <input class="number" type="number" value="{{skill.value(this.characterService,this.abilitiesService)}}" disabled>
+        <div class="row" *ngIf="get_TraitsForThis(skill.name).length">
+            <cite *ngFor="let trait of get_TraitsForThis(skill.name)" title="{{trait.description}}">&nbsp;{{trait.name}} ({{trait.haveOn(this.characterService, true)}})</cite>
+        </div>
+        <div class="row">
+            <input type="checkbox" [(ngModel)]="skill.showNotes">Notes
+        </div>
+        <div class="row">
+            <input type="textarea" class="fullwidth" [(ngModel)]="skill.notes" *ngIf="skill.showNotes">
+        </div>
+    </div>
+    <h3>Perception</h3>
+    <div class="list-item" *ngFor="let skill of get_Skills('', 'perception')|sortBy:'asc':'name'">
+        <strong>{{skill.name}}</strong>
+        <div><input type="radio" name="{{skill.name}}.level" [value]=2 [ngModel]="skill.level(this.characterService)" disabled>T</div>
+        <div><input type="radio" name="{{skill.name}}.level" [value]=4 [ngModel]="skill.level(this.characterService)" disabled>E</div>
+        <div><input type="radio" name="{{skill.name}}.level" [value]=6 [ngModel]="skill.level(this.characterService)" disabled>M</div>
+        <div><input type="radio" name="{{skill.name}}.level" [value]=8 [ngModel]="skill.level(this.characterService)" disabled>L</div>
+        Value: <input class="number" type="number" value="{{skill.value(this.characterService,this.abilitiesService)}}" disabled>
+        <div class="row" *ngIf="get_TraitsForThis(skill.name).length">
+          <cite *ngFor="let trait of get_TraitsForThis(skill.name)" title="{{trait.description}}">&nbsp;{{trait.name}} ({{trait.haveOn(this.characterService, true)}})</cite>
+        </div>
+        <div class="row">
+            <input type="checkbox" [(ngModel)]="skill.showNotes">Notes
+        </div>
+        <div class="row">
+            <input type="textarea" class="fullwidth" [(ngModel)]="skill.notes" *ngIf="skill.showNotes">
+        </div>
+    </div>
+    <h3>Skills</h3>
+    <div class="list-item" *ngFor="let skill of get_Skills('', 'skill')|sortBy:'asc':'name'">
+        <strong>{{skill.name}}</strong>
+        <div><input type="radio" name="{{skill.name}}.level" [value]=0 [ngModel]="skill.level(this.characterService)" disabled>U</div>
+        <div><input type="radio" name="{{skill.name}}.level" [value]=2 [ngModel]="skill.level(this.characterService)" disabled>T</div>
+        <div><input type="radio" name="{{skill.name}}.level" [value]=4 [ngModel]="skill.level(this.characterService)" disabled>E</div>
+        <div><input type="radio" name="{{skill.name}}.level" [value]=6 [ngModel]="skill.level(this.characterService)" disabled>M</div>
+        <div><input type="radio" name="{{skill.name}}.level" [value]=8 [ngModel]="skill.level(this.characterService)" disabled>L</div>
+        Value: <input class="number" type="number" value="{{skill.value(this.characterService,this.abilitiesService)}}" disabled>
+        <div class="row" *ngIf="get_TraitsForThis(skill.name).length">
+          <cite *ngFor="let trait of get_TraitsForThis(skill.name)" title="{{trait.description}}">&nbsp;{{trait.name}} ({{trait.haveOn(this.characterService, true)}})</cite>
+        </div>
+        <div class="row">
+            <input type="checkbox" [(ngModel)]="skill.showNotes">Notes
+        </div>
+        <div class="row">
+            <input type="textarea" class="fullwidth" [(ngModel)]="skill.notes" *ngIf="skill.showNotes">
+        </div>
+    </div>
 </div>

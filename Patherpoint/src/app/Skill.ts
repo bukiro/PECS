@@ -3,6 +3,8 @@ import { AbilitiesService } from './abilities.service';
 
 export class Skill {
     public effects: string[] = [];
+    public notes: string = "";
+    public showNotes: boolean = false;
     constructor(
         public name: string = "",
         public type: string = "",

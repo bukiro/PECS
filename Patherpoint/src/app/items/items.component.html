@@ -3,26 +3,32 @@
     <div class="loading" *ngIf="still_loading()">Loading</div>
     <button class="button fancybutton list-item" (click)="toggle('weapons')">Weapons</button>
     <div *ngIf="showWeapons">
-        <div class="list-item" *ngFor="let weapon of get_Items().weapons">
-            {{weapon.name}}
-            <cite *ngFor="let trait of weapon.traits">&nbsp;{{trait}}</cite>
+        <div class="list-item" *ngFor="let weapon of get_Items().weapon">
+            <strong>{{weapon.name}}</strong>&nbsp;{{weapon.prof}} Weapon
             <button (click)="grant_Item(weapon)">Get</button>
+            <div class="row" *ngIf="weapon.traits.length">
+                <cite *ngFor="let trait of weapon.traits" title="{{get_Traits(trait)[0].description}}">&nbsp;{{trait}}</cite>
+            </div>
         </div>
     </div>
     <button class="button fancybutton list-item" (click)="toggle('armor')">Armor</button>
     <div *ngIf="showArmor">
         <div class="list-item" *ngFor="let armor of get_Items().armor">
-            {{armor.name}}
-            <cite *ngFor="let trait of armor.traits">&nbsp;{{trait}}</cite>
+            <strong>{{armor.name}}</strong>&nbsp;{{armor.prof}}{{(armor.prof != "Unarmored") ? " Armor" : ""}}
             <button (click)="grant_Item(armor)">Get</button>
+            <div class="row" *ngIf="armor.traits.length">
+                <cite *ngFor="let trait of armor.traits" title="{{get_Traits(trait)[0].description}}">&nbsp;{{trait}}</cite>
+            </div>
         </div>
     </div>
     <button class="button fancybutton list-item" (click)="toggle('shields')">Shields</button>
     <div *ngIf="showShields">
-        <div class="list-item" *ngFor="let shield of get_Items().shields">
-            {{shield.name}}
-            <cite *ngFor="let trait of shield.traits">&nbsp;{{trait}}</cite>
+        <div class="list-item" *ngFor="let shield of get_Items().shield">
+            <strong>{{shield.name}}</strong>
             <button (click)="grant_Item(shield)">Get</button>
+            <div class="row" *ngIf="shield.traits.length">
+                <cite *ngFor="let trait of shield.traits" title="{{get_Traits(trait)[0].description}}">&nbsp;{{trait}}</cite>
+            </div>
         </div>
     </div>
 </div>

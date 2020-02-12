@@ -180,6 +180,10 @@
     background-color: #E0E0E0;
   }
 
+  .list-item .row {
+    flex-basis: 100%;
+  }
+
   .list-item button {
     margin-left: auto;
   }
@@ -191,6 +195,10 @@
 
   .itemBox .fancybutton.list-item {
     background-color: #1976d2;
+  }
+
+  .fullwidth {
+    width: 100%;
   }
 
   #1976d2
