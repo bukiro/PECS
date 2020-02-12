@@ -1,9 +1,33 @@
 <div id="skills" class="attributeBox">
-  <h3>Skills</h3>
   <div class="loading" *ngIf="still_loading()">Loading</div>
+  <h3>Saves</h3>
+  <div class="list-item" *ngFor="let skill of get_Skills('type', 'save')|sortBy:'asc':'name'">
+    {{skill.name}}
+    <div><input type="radio" name="{{skill.name}}.level" [value]=2 [ngModel]="skill.level(this.characterService)" disabled>T</div>
+    <div><input type="radio" name="{{skill.name}}.level" [value]=4 [ngModel]="skill.level(this.characterService)" disabled>E</div>
+    <div><input type="radio" name="{{skill.name}}.level" [value]=6 [ngModel]="skill.level(this.characterService)" disabled>M</div>
+    <div><input type="radio" name="{{skill.name}}.level" [value]=8 [ngModel]="skill.level(this.characterService)" disabled>L</div>
+    Value: <input class="number" type="number" value="{{skill.value(this.characterService,this.abilitiesService)}}" disabled>
+    <button *ngIf="skill.name.match('Lore')" (click)="remove_Lore(skill)">Remove</button>
+  </div>
+  <h3>Perception</h3>
+  <div class="list-item" *ngFor="let skill of get_Skills('type', 'perception')|sortBy:'asc':'name'">
+    {{skill.name}}
+    <div><input type="radio" name="{{skill.name}}.level" [value]=2 [ngModel]="skill.level(this.characterService)" disabled>T</div>
+    <div><input type="radio" name="{{skill.name}}.level" [value]=4 [ngModel]="skill.level(this.characterService)" disabled>E</div>
+    <div><input type="radio" name="{{skill.name}}.level" [value]=6 [ngModel]="skill.level(this.characterService)" disabled>M</div>
+    <div><input type="radio" name="{{skill.name}}.level" [value]=8 [ngModel]="skill.level(this.characterService)" disabled>L</div>
+    Value: <input class="number" type="number" value="{{skill.value(this.characterService,this.abilitiesService)}}" disabled>
+    <button *ngIf="skill.name.match('Lore')" (click)="remove_Lore(skill)">Remove</button>
+  </div>
+  <h3>Skills</h3>
   <div class="list-item" *ngFor="let skill of get_Skills('type', 'skill')|sortBy:'asc':'name'">
     {{skill.name}}
-    Level: <input class="number" type="number" value="{{skill.level(this.characterService)}}" disabled>
+    <div><input type="radio" name="{{skill.name}}.level" [value]=0 [ngModel]="skill.level(this.characterService)" disabled>U</div>
+    <div><input type="radio" name="{{skill.name}}.level" [value]=2 [ngModel]="skill.level(this.characterService)" disabled>T</div>
+    <div><input type="radio" name="{{skill.name}}.level" [value]=4 [ngModel]="skill.level(this.characterService)" disabled>E</div>
+    <div><input type="radio" name="{{skill.name}}.level" [value]=6 [ngModel]="skill.level(this.characterService)" disabled>M</div>
+    <div><input type="radio" name="{{skill.name}}.level" [value]=8 [ngModel]="skill.level(this.characterService)" disabled>L</div>
     Value: <input class="number" type="number" value="{{skill.value(this.characterService,this.abilitiesService)}}" disabled>
     <button *ngIf="skill.name.match('Lore')" (click)="remove_Lore(skill)">Remove</button>
   </div>

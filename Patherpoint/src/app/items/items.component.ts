@@ -34,8 +34,8 @@ export class ItemsComponent implements OnInit {
         this.itemsService.toggleItemsMenu(position);
     }
 
-    get_Items(key: string = "", value: string = "") {
-        return this.itemsService.get_Items(key, value);
+    get_Items() {
+        return this.itemsService.get_Items();
     }
 
     grant_Item(item) {

@@ -8,7 +8,7 @@
         <div *ngIf="get_Character().class">
             <div *ngFor="let level of get_Character().class.levels">
                 Level {{level.number}}
-                <div class="list-item" *ngIf="level.abilityBoosts_available">Ability boosts available: {{level.abilityBoosts_available - level.abilityBoosts_applied}}/{{level.abilityBoosts_available}}
+                <div class="list-item" *ngIf="level.abilityBoosts_available && (characterService.get_Character().baseValues.length == 0)">Ability boosts available: {{level.abilityBoosts_available - level.abilityBoosts_applied}}/{{level.abilityBoosts_available}}
                     <div class="list-item" *ngFor="let ability of get_Abilities()">
                         {{ability.name}}: {{ability.value(this.characterService)}}
                         <input type="checkbox" (change)="onAbilityBoost(level, ability, $event.target.checked, 'level')"
@@ -18,10 +18,15 @@
                 </div>
                 <div class="list-item" *ngIf="level.skillIncreases_available">Skill increases available: {{level.skillIncreases_available - level.skillIncreases_applied}}/{{level.skillIncreases_available}}
                     <div class="list-item" *ngFor="let skill of get_Skills('type', 'skill')">
-                        {{skill.name}}: {{skill.level(this.characterService, level.number)}}
+                        {{skill.name}}:
+                        <div><input type="radio" name="{{skill.name}}.level" [value]=0 [ngModel]="skill.level(this.characterService, level.number)" disabled>U</div>
+                        <div><input type="radio" name="{{skill.name}}.level" [value]=2 [ngModel]="skill.level(this.characterService, level.number)" disabled>T</div>
+                        <div><input type="radio" name="{{skill.name}}.level" [value]=4 [ngModel]="skill.level(this.characterService, level.number)" disabled>E</div>
+                        <div><input type="radio" name="{{skill.name}}.level" [value]=6 [ngModel]="skill.level(this.characterService, level.number)" disabled>M</div>
+                        <div><input type="radio" name="{{skill.name}}.level" [value]=8 [ngModel]="skill.level(this.characterService, level.number)" disabled>L</div>
                         <input type="checkbox" (change)="onSkillIncrease(level, skill, $event.target.checked, 'level')"
                             [checked]="get_SkillIncreases(level.number, level.number, skill, 'level').length"
-                            [disabled]="!get_SkillIncreases(level.number, level.number, skill, 'level').length && (level.skillIncreases_applied >= level.skillIncreases_available)">Increase
+                            [disabled]="canIncrease(skill, level)">Increase
                     </div>
                 </div>
             </div>

@@ -9,10 +9,11 @@ export class Skill {
         public ability: string = "",
     ) {}
     level(characterService: CharacterService, charLevel: number = characterService.get_Character().level) {
-        let increaseSum: number = 0;
-        let increases = characterService.get_SkillIncreases(0, charLevel, this);
-        increaseSum = increases.length * 2;
-        return increaseSum;
+        if (characterService.still_loading()) { return 0; }
+        let level: number = 0;
+        let increases = characterService.get_Character().get_SkillIncreases(0, charLevel, this);
+        level = Math.min(increases.length * 2, 8);
+        return level;
     }
     canIncrease(characterService: CharacterService, level) {
         if (level >= 15) {
@@ -41,6 +42,6 @@ export class Skill {
         x.value = skillResult;
         return skillResult;
 */
-        return charLevelBonus + abilityMod;
+        return charLevelBonus + skillLevel + abilityMod;
     }
 }

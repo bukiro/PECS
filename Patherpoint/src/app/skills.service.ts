@@ -65,11 +65,8 @@ export class SkillsService {
 
     finish_loading() {
         if (this.loader) {
-            this.skills = [];
+            this.skills = this.loader.map(skill => Object.assign(new Skill(), skill));
 
-            this.loader.forEach(element => {
-                this.skills.push(new Skill(element.name, element.type, element.ability)
-                )});
             this.loader = [];
         }
         if (this.loading) {this.loading = false;}

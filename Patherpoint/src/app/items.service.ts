@@ -7,13 +7,14 @@ import { Shield } from './Shield';
 import { Observable } from 'rxjs';
 import { CharacterService } from './character.service';
 import { ElementSchemaRegistry } from '@angular/compiler';
+import { ItemCollection } from './ItemCollection';
 
 @Injectable({
     providedIn: 'root'
 })
 export class ItemsService {
 
-    private items: Item[];
+    private items: ItemCollection;
     private loader = [];
     private loading: Boolean = false;
     itemsMenuState: string = 'out';
@@ -35,14 +36,9 @@ export class ItemsService {
         return this.itemsMenuState;
     }
     
-    get_Items(key:string = "", value:string = "") {
+    get_Items() {
         if (!this.still_loading()) {
-            if (key == "" || value == "") {
-                return this.items;
-            } else {
-                return this.items.filter(
-                    item => item[key] == value);
-            }
+            return this.items;
         }
     }
 
@@ -68,73 +64,31 @@ export class ItemsService {
                 });
         }
     }
-
     finish_loading() {
         if (this.loader) {
-            this.items = [];
+            this.items = new ItemCollection();
+            this.items.weapons = [];
+            this.items.armor = [];
+            this.items.shields = [];
 
             this.loader.forEach(element => {
                 switch (element.type) {
                     case "weapon":
-                        this.items.push(new Weapon(
-                            element.type,
-                            element.name,
-                            element.equip,
-                            element.level,
-                            element.prof,
-                            element.dmgType,
-                            element.dicenum,
-                            element.dicesize,
-                            element.melee,
-                            element.ranged,
-                            element.itembonus,
-                            element.moddable,
-                            element.traits,
-                            element.potencyRune,
-                            element.strikingRune,
-                            element.propertyRunes,
-                            element.material
-                        ));
+                        this.items.weapons.push(Object.assign(new Weapon(), element));
                         break;
                     case "armor":
-                        this.items.push(new Armor(
-                            element.type,
-                            element.name,
-                            element.equip,
-                            element.level,
-                            element.prof,
-                            element.dexcap,
-                            element.skillpenalty,
-                            element.speedpenalty,
-                            element.strength,
-                            element.itembonus,
-                            element.moddable,
-                            element.traits,
-                            element.potencyRune,
-                            element.resilientRune,
-                            element.propertyRunes,
-                            element.material
-                            ));
+                        this.items.armor.push(Object.assign(new Armor(), element));
                         break;
                     case "shield":
-                        this.items.push(new Shield(
-                            element.type,
-                            element.name,
-                            element.equip,
-                            element.speedpenalty,
-                            element.itembonus,
-                            element.coverbonus,
-                            element.traits,
-                            element.material
-                        ));
+                        this.items.shields.push(Object.assign(new Shield(), element));
                         break;
                 }
-                });
+            });
             this.loader = [];
         }
         if (this.loading) {this.loading = false;}
-        let basicWeapon = this.get_Items("type", "weapon")[0];
-        let basicArmor = this.get_Items("type", "armor")[0];
+        let basicWeapon = this.get_Items().weapons[0];
+        let basicArmor = this.get_Items().armor[0];
         this.characterService.grant_basicItems(basicWeapon, basicArmor);
     }
 }

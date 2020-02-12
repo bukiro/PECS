@@ -112,7 +112,7 @@ export class CharacterService {
                 let allOfType = this.get_InventoryItems("type", item.type);
                 allOfType.forEach(typeItem => {
                     typeItem.equip = false;
-                })
+                });
                 item.equip = true;
             }
         } else {
@@ -161,68 +161,8 @@ export class CharacterService {
         return this.abilitiesService.get_Abilities(key, value, key2, value2, key3, value3)
     }
 
-    get_AbilityBoosts(minLevelNumber: number, maxLevelNumber: number, ability: Ability, source: string = "") {
-        if (this.me.class) {
-            let boosts = [];
-            let levels = this.me.class.levels.filter(level => level.number >= minLevelNumber && level.number <= maxLevelNumber );
-            levels.forEach(level => {
-                level.abilityBoosts.filter(boost => boost.name == ability.name && (boost.source == source || source == "")).forEach(boost => {
-                    boosts.push(boost);
-                })
-            })
-            return boosts;
-        }
-    }
-
-    boostAbility(level: Level, ability: Ability, boost: boolean, source: string) {
-        if (boost) {
-            level.abilityBoosts.push({"name":ability.name, "type":"boost", "source":source});
-            if (source == "level") {
-                level.abilityBoosts_applied += 1;
-            }
-        } else {
-            let oldBoost = level.abilityBoosts.filter(boost => boost.name == ability.name && boost.type == "boost" && boost.source == source)[0];
-            level.abilityBoosts = level.abilityBoosts.filter(boost => boost !== oldBoost);
-            if (source == "level") {
-                level.abilityBoosts_applied -= 1;
-            }
-        }
-    }
-
     get_Skills(key:string = "", value = undefined, key2:string = "", value2 = undefined, key3:string = "", value3 = undefined) {
         return this.skillsService.get_Skills(this.me.lore, key, value, key2, value2, key3, value3)
-    }
-
-    get_SkillIncreases(minLevelNumber: number, maxLevelNumber: number, skill: Skill, source: string = "") {
-        if (this.me.class) {
-            if (skill.name == "Acrobatics")
-            {
-                let c = 0;
-            }
-            let increases = [];
-            let levels = this.me.class.levels.filter(level => level.number >= minLevelNumber && level.number <= maxLevelNumber );
-            levels.forEach(level => {
-                level.skillIncreases.filter(increase => increase.name == skill.name && (increase.source == source || source == "")).forEach(increase => {
-                    increases.push(increase);
-                })
-            })
-            return increases;
-        }
-    }
-
-    increaseSkill(level: Level, skill: Skill, train: boolean, source: string) {
-        if (train) {
-            level.skillIncreases.push({"name":skill.name, "source":source});
-            if (source == "level") {
-                level.skillIncreases_applied += 1;
-            }
-        } else {
-            let oldIncrease = level.skillIncreases.filter(increase => increase.name == skill.name && increase.source == source)[0];
-            level.skillIncreases = level.skillIncreases.filter(increase => increase !== oldIncrease);
-            if (source == "level") {
-                level.skillIncreases_applied -= 1;
-            }
-        }
     }
 
     initialize(charName: string) {
@@ -236,17 +176,13 @@ export class CharacterService {
 
     finish_loading() {
         if (this.loader) {
-            this.me = new Character();
-            this.me = Object.assign({}, JSON.parse(JSON.stringify(this.loader)))
+            this.me = Object.assign(new Character(), JSON.parse(JSON.stringify(this.loader)));
 
-            let newLore = [];
-            this.me.lore.forEach(lore => {
-                newLore.push(new Skill(lore.name, lore.ability))
-            })
-            this.me.lore = newLore;
-
+            this.me.lore = this.me.lore.map(lore => Object.assign(new Skill(), lore));
+            
             if (this.me.class) {
-                this.me.class = <Class> this.me.class;
+                this.me.class = Object.assign(new Class(), this.me.class);
+                this.me.class.levels = this.me.class.levels.map(level => Object.assign(new Level(), level));
             } else {
                 this.me.class = new Class();
             }

@@ -35,7 +35,15 @@ export class ClassesService {
                 [],
                 0,
                 0,
-                [],
+                [
+                    { name:"Fortitude", source:"class" },
+                    { name:"Fortitude", source:"class" },
+                    { name:"Reflex", source:"class" },
+                    { name:"Reflex", source:"class" },
+                    { name:"Will", source:"class" },
+                    { name:"Will", source:"class" },
+                    { name:"Perception", source:"class" }
+                ],
                 4,
                 0
             ),
@@ -87,12 +95,7 @@ export class ClassesService {
 constructor() { }
 
     get_Classes(name: string = "") {
-        if (name == "") {
-            return this.classes;
-        } else {
-            return this.classes.filter($class => $class.name == name )
-        }
-        
+        return this.classes.filter($class => $class.name == name || name == "")
     }
 
 }
