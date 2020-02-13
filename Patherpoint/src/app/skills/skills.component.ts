@@ -4,6 +4,7 @@ import { CharacterService } from '../character.service';
 import { SkillsService } from '../skills.service';
 import { TraitsService } from '../traits.service';
 import { Skill } from '../Skill';
+import { EffectsService } from '../effects.service';
 
 @Component({
     selector: 'app-skills',
@@ -16,7 +17,8 @@ export class SkillsComponent implements OnInit {
         public characterService: CharacterService,
         public abilitiesService: AbilitiesService,
         public skillsService: SkillsService,
-        public traitsService: TraitsService
+        public traitsService: TraitsService,
+        public effectsService: EffectsService
     ) { }
 
     get_Skills(name: string = "", type: string = "") {

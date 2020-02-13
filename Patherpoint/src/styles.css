@@ -180,10 +180,6 @@
     background-color: #E0E0E0;
   }
 
-  .list-item .row {
-    flex-basis: 100%;
-  }
-
   .list-item button {
     margin-left: auto;
   }
@@ -197,8 +193,24 @@
     background-color: #1976d2;
   }
 
+  .row {
+    flex-basis: 100%;
+  }
+
   .fullwidth {
     width: 100%;
+  }
+
+  .bonus {
+    color:green;
+  }
+
+  .penalty {
+    color:red;
+  }
+
+  .notapplied {
+    opacity:75%
   }
 
   #1976d2

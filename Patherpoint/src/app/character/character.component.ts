@@ -26,6 +26,11 @@ export class CharacterComponent implements OnInit {
         this.characterService.toggleCharacterMenu(position);
     }
 
+    onLevelChange() {
+        //Despite all precautions, when we change the level, it gets turned into a string. So we turn it right back.
+        this.get_Character().level = parseInt(this.get_Character().level.toString());
+    }
+
     still_loading() {
         return this.characterService.still_loading();
     }
@@ -34,8 +39,8 @@ export class CharacterComponent implements OnInit {
         return this.characterService.get_Character();
     }
 
-    get_Abilities(key: string = "", value = undefined, key2: string = "", value2 = undefined, key3: string = "", value3 = undefined) {
-        return this.characterService.get_Abilities(key, value, key2, value2, key3, value3)
+    get_Abilities(name: string = "") {
+        return this.characterService.get_Abilities(name)
     }
     
     get_AbilityBoosts(minLevelNumber: number, maxLevelNumber: number, ability: Ability, source: string = "") {

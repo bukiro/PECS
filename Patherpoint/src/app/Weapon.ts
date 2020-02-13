@@ -3,6 +3,7 @@ import { Item } from './Item'
 export class Weapon implements Item {
     public notes: string = "";
     public showNotes: boolean = false;
+    public parrying: boolean = false;
     constructor(
         public type: string = "weapon",
         public name: string = "",
@@ -21,5 +22,6 @@ export class Weapon implements Item {
         public strikingRune: number = 0,
         public propertyRunes: string[] = [],
         public material: string = "",
+        public effects: string[] = []
     ) {}
 }

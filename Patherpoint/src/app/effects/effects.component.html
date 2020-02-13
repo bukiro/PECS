@@ -1,0 +1,15 @@
+<div id="items" class="itemBox">
+    <div>
+        <h3>Active Effects</h3>
+        <div *ngFor="let effect of get_AppliedEffects(true)">
+            <span [className]="effect.penalty ? 'penalty' : 'bonus'" title="{{effect.source}}">{{effect.target}} {{effect.value}}</span>
+        </div>
+    </div>
+    <button class="list-item" (click)="toggle_Effects()">{{(showEffects) ? "Hide not applied" : "Show not applied"}}</button>
+    <div *ngIf="showEffects">
+        <h3>Not Applied</h3>
+        <div *ngFor="let effect of get_NotAppliedEffects()">
+            <span [className]="effect.penalty ? 'penalty notapplied' : 'bonus notapplied'" title="{{effect.source}}">{{effect.target}} {{effect.value}}</span>
+        </div>
+    </div>
+</div>

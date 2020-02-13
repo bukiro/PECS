@@ -1,5 +1,7 @@
+import { EffectsService } from './effects.service';
+import { CharacterService } from './character.service';
+
 export class Ability {
-    public effects: string[] = [];
     constructor (
         public name: string = "",
     ) {}
@@ -7,7 +9,11 @@ export class Ability {
         if (characterService.still_loading()) { return 0; }
         let character = characterService.get_Character();
         //Get baseValues from the character if they exist, otherwise 10
-        let baseValue = character.baseValues.filter(baseValue => baseValue.name == this.name)[0].value;
+        let baseValue = 10;
+        let baseValues = character.baseValues.filter(baseValue => baseValue.name == this.name)
+        if (baseValues.length > 0) {
+            baseValue = baseValues[0].value
+        }
         let level = character.level;
         //Get any boosts from the character and sum them up
         //Boosts are +2 until 18, then +1
@@ -26,15 +32,34 @@ export class Ability {
         baseValue = (baseValue) ? baseValue : 10;
         return baseValue + boostSum
     }
-    value(characterService) {
-    //Calculates the ability with all active effects
-        //Get all active effects on the ability
-        let itembonus = 0; //$scope.getEffects(this);
-        //Add the effect bonus to the base value - parseInt'ed because it's from a textbox - and return it
-        return this.baseValue(characterService) + itembonus;
+    effects(effectsService: EffectsService) {
+        return effectsService.get_EffectsOnThis(this.name);
     }
-    mod(characterService) {
+    bonus(effectsService: EffectsService) {
+        let effects = this.effects(effectsService);
+        let bonus = 0;
+        effects.forEach(effect => {
+            if (parseInt(effect.value) >= 0) {
+                bonus += parseInt(effect.value);
+        }});
+        return bonus;
+    }
+    penalty(effectsService: EffectsService) {
+        let effects = this.effects(effectsService);
+        let penalty = 0;
+        effects.forEach(effect => {
+            if (parseInt(effect.value) < 0) {
+                penalty += parseInt(effect.value);
+        }});
+        return penalty;
+    }
+    value(characterService: CharacterService, effectsService: EffectsService) {
+    //Calculates the ability with all active effects
+        //Add all active bonuses and penalties to the base value
+        return this.baseValue(characterService) + this.bonus(effectsService) + this.penalty(effectsService);
+    }
+    mod(characterService: CharacterService, effectsService: EffectsService) {
         //Calculates the ability modifier from the effective ability in the usual d20 fashion - 0-1 > -5; 2-3 > -4; ... 10-11 > 0; 12-13 > 1 etc.
-        return Math.floor((this.value(characterService)-10)/2)
+        return Math.floor((this.value(characterService, effectsService)-10)/2)
     }
 }

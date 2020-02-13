@@ -5,6 +5,6 @@ export class Effect {
         public value: string = "",
         public source: string = "",
         public penalty: boolean = false,
-        public apply: boolean = true,
+        public apply: boolean = undefined,
     ) {}
 }

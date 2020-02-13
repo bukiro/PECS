@@ -136,8 +136,8 @@ export class CharacterService {
         this.me.lore = this.me.lore.filter(lore => lore !== oldLore);
     }
 
-    get_Abilities(key: string = "", value = undefined, key2: string = "", value2 = undefined, key3: string = "", value3 = undefined) {
-        return this.abilitiesService.get_Abilities(key, value, key2, value2, key3, value3)
+    get_Abilities(name: string = "") {
+        return this.abilitiesService.get_Abilities(name)
     }
 
     get_Skills(name: string = "", type: string = "") {

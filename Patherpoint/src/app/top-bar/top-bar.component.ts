@@ -3,6 +3,8 @@ import { trigger, state, style, transition, animate } from '@angular/animations'
 import { CharacterService } from '../character.service';
 import { ItemsService } from '../items.service';
 import { TraitsService } from '../traits.service';
+import { EffectsService } from '../effects.service';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-top-bar',
@@ -23,10 +25,13 @@ import { TraitsService } from '../traits.service';
 })
 export class TopBarComponent implements OnInit {
 
+  subscription: Subscription;
+
   constructor(
     private characterService: CharacterService,
     private itemsService: ItemsService,
-    private traitsService: TraitsService
+    private traitsService: TraitsService,
+    private effectsService: EffectsService
   ) { }
 
   toggleItemsMenu(position: string = "") {

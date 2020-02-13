@@ -19,6 +19,7 @@ export class Armor implements Item {
         public potencyRune:number = 0,
         public resilientRune:number = 0,
         public propertyRunes:string[] = [],
-        public material: string = ""
+        public material: string = "",
+        public effects: string[] = []
         ) {}
 }

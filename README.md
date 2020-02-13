@@ -15,6 +15,7 @@ The very latest in Assistive Technologies for Dungeon Master (ATDM)
 - [ ] - Attacks
 - [x] - Skills
 - [x] - Traits
+- [x] - Simple Item Effects on Abilities and Skills
 - [ ] - Feats -> Abilities, Attacks, Skills, Actions
 - [ ] - Feat requirements
 - [ ] - Equipment (weapons, armor, shields) -> Abilities, Armor, Attacks, Skills
