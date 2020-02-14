@@ -6,6 +6,7 @@ import { Level } from '../Level';
 import { Ability } from '../Ability';
 import { Skill } from '../Skill';
 import { AbilitiesService } from '../abilities.service';
+import { EffectsService } from '../effects.service';
 
 @Component({
     selector: 'app-character',
@@ -19,7 +20,8 @@ export class CharacterComponent implements OnInit {
     constructor(
         public characterService: CharacterService,
         public classesService: ClassesService,
-        public abilitiesService: AbilitiesService
+        public abilitiesService: AbilitiesService,
+        public effectsService: EffectsService
     ) { }
 
     toggleCharacterMenu(position: string = "") {
@@ -43,24 +45,24 @@ export class CharacterComponent implements OnInit {
         return this.characterService.get_Abilities(name)
     }
     
-    get_AbilityBoosts(minLevelNumber: number, maxLevelNumber: number, ability: Ability, source: string = "") {
-        return this.characterService.get_Character().get_AbilityBoosts(minLevelNumber, maxLevelNumber, ability);
+    get_AbilityBoosts(minLevelNumber: number, maxLevelNumber: number, abilityName: string, source: string = "") {
+        return this.characterService.get_Character().get_AbilityBoosts(minLevelNumber, maxLevelNumber, abilityName);
     }
 
-    onAbilityBoost(level: Level, ability: Ability, boost: boolean, source: string) {
-        this.characterService.get_Character().boostAbility(level, ability, boost, source);
+    onAbilityBoost(level: Level, abilityName: string, boost: boolean, source: string) {
+        this.characterService.get_Character().boostAbility(level, abilityName, boost, source);
     }
 
     get_Skills(name: string = "", type: string = "") {
         return this.characterService.get_Skills(name, type)
     }
 
-    get_SkillIncreases(minLevelNumber: number, maxLevelNumber: number, skill: Skill, source: string = "") {
-        return this.characterService.get_Character().get_SkillIncreases(minLevelNumber, maxLevelNumber, skill);
+    get_SkillIncreases(minLevelNumber: number, maxLevelNumber: number, skillName: string, source: string = "") {
+        return this.characterService.get_Character().get_SkillIncreases(minLevelNumber, maxLevelNumber, skillName);
     }
 
-    onSkillIncrease(level: Level, skill: Skill, boost: boolean, source: string) {
-        this.characterService.get_Character().increaseSkill(level, skill, boost, source);
+    onSkillIncrease(level: Level, skillName: string, boost: boolean, source: string) {
+        this.characterService.get_Character().increaseSkill(level, skillName, boost, source);
     }
 
     get_Classes(name: string = "") {
@@ -73,7 +75,7 @@ export class CharacterComponent implements OnInit {
 
     canIncrease(skill: Skill, level: Level)  {
         let canIncrease = skill.canIncrease(this.characterService, level);
-        let hasBeenIncreased = (this.characterService.get_Character().get_SkillIncreases(level.number, level.number, skill, 'level').length > 0);
+        let hasBeenIncreased = (this.characterService.get_Character().get_SkillIncreases(level.number, level.number, skill.name, 'level').length > 0);
         let allIncreasesApplied = (level.skillIncreases_applied >= level.skillIncreases_available);
         return canIncrease && !hasBeenIncreased && allIncreasesApplied;
     }

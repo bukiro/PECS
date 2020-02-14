@@ -6,7 +6,7 @@ export class Ability {
         public name: string = "",
     ) {}
     baseValue(characterService) {
-        if (characterService.still_loading()) { return 0; }
+        if (characterService.still_loading()) { return 10; }
         let character = characterService.get_Character();
         //Get baseValues from the character if they exist, otherwise 10
         let baseValue = 10;
@@ -19,7 +19,7 @@ export class Ability {
         //Boosts are +2 until 18, then +1
         //Flaws are always -2
         let boostSum: number = 0;
-        let boosts = character.get_AbilityBoosts(0, level, this);
+        let boosts = character.get_AbilityBoosts(0, level, this.name);
         if (boosts) {
             boosts.forEach(boost => {
                 if (boost.type == "boost") {
@@ -55,8 +55,13 @@ export class Ability {
     }
     value(characterService: CharacterService, effectsService: EffectsService) {
     //Calculates the ability with all active effects
+        if (characterService.still_loading()) {return 10;}
         //Add all active bonuses and penalties to the base value
-        return this.baseValue(characterService) + this.bonus(effectsService) + this.penalty(effectsService);
+        let result = this.baseValue(characterService) + this.bonus(effectsService) + this.penalty(effectsService);
+        if (this.name == "Strength") {
+            let c = 1;
+        }
+        return result;
     }
     mod(characterService: CharacterService, effectsService: EffectsService) {
         //Calculates the ability modifier from the effective ability in the usual d20 fashion - 0-1 > -5; 2-3 > -4; ... 10-11 > 0; 12-13 > 1 etc.

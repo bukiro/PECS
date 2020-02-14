@@ -1,5 +1,5 @@
-import { CharacterService } from './character.service';
 import { AbilitiesService } from './abilities.service';
+import { CharacterService } from './character.service';
 import { EffectsService } from './effects.service';
 
 export class Skill {
@@ -12,10 +12,10 @@ export class Skill {
     ) {}
     level(characterService: CharacterService, charLevel: number = characterService.get_Character().level) {
         if (characterService.still_loading()) { return 0; }
-        let level: number = 0;
-        let increases = characterService.get_Character().get_SkillIncreases(0, charLevel, this);
-        level = Math.min(increases.length * 2, 8);
-        return level;
+        let skillLevel: number = 0;
+        let increases = characterService.get_Character().get_SkillIncreases(0, charLevel, this.name);
+        skillLevel = Math.min(increases.length * 2, 8);
+        return skillLevel;
     }
     canIncrease(characterService: CharacterService, level) {
         if (level >= 15) {
@@ -62,7 +62,7 @@ export class Skill {
         //Get all active effects on this and sum them up
         let bonus = this.bonus(effectsService);
         let penalty = this.penalty(effectsService);
-        //Add up all modifiers, the skill proficiency and all active effects, then return the sum
+        //Add up all modifiers, the skill proficiency and all active effects and return the sum
         return charLevelBonus + skillLevel + abilityMod + bonus + penalty;
     }
 }

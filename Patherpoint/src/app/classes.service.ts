@@ -18,13 +18,6 @@ export class ClassesService {
                 [],
                 4,
                 0,
-                [
-                    { name:"simple", rank:2 },
-                    { name:"unarmed", rank:2 },
-                ],
-                [
-                    { name:"unarmored", rank:4}
-                ],
                 [{ name:"Monk", rank:2 }],
                 [ "Flurry of Blows" ],
                 1,
@@ -42,7 +35,11 @@ export class ClassesService {
                     { name:"Reflex", source:"class" },
                     { name:"Will", source:"class" },
                     { name:"Will", source:"class" },
-                    { name:"Perception", source:"class" }
+                    { name:"Perception", source:"class" },
+                    { name:"Simple", source:"class" },
+                    { name:"Unarmed", source:"class" },
+                    { name:"Unarmored", source:"class" },
+                    { name:"Unarmored", source:"class" }
                 ],
                 4,
                 0
@@ -52,8 +49,6 @@ export class ClassesService {
                 [],
                 0,
                 0,
-                [],
-                [],
                 [],
                 [],
                 1,
@@ -73,8 +68,6 @@ export class ClassesService {
                 [],
                 0,
                 0,
-                [],
-                [],
                 [],
                 [],
                 0,

@@ -18,5 +18,12 @@
     { "name":"Society", "type":"skill", "ability":"Intelligence"},
     { "name":"Stealth", "type":"skill", "ability":"Dexterity"},
     { "name":"Survival", "type":"skill", "ability":"Wisdom"},
-    { "name":"Thievery", "type":"skill", "ability":"Dexterity"}
+    { "name":"Thievery", "type":"skill", "ability":"Dexterity"},
+    { "name":"Simple", "type":"weaponProf", "ability":""},
+    { "name":"Martial", "type":"weaponProf", "ability":""},
+    { "name":"Unarmed", "type":"weaponProf", "ability":""},
+    { "name":"Light", "type":"armorProf", "ability":""},
+    { "name":"Medium", "type":"armorProf", "ability":""},
+    { "name":"Heavy", "type":"armorProf", "ability":""},
+    { "name":"Unarmored", "type":"armorProf", "ability":""}
 ]

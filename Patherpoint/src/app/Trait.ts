@@ -4,6 +4,7 @@ export class Trait {
     public name: string = "";
     public showon: string = "";
     public description: string = "";
+    public specialModifier: string[] = [];
     haveOn(characterService: CharacterService, namesOnly: boolean = false) { 
         let inventory = characterService.get_InventoryItems();
         let items: any[] = [].concat(inventory.weapon, inventory.armor, inventory.shield);
@@ -17,7 +18,6 @@ export class Trait {
         } else {
             return filteredItems;
         }
-        
     };
 }
 

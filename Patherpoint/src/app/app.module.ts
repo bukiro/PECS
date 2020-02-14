@@ -18,6 +18,7 @@ import { CharacterComponent } from './character/character.component';
 import { LevelComponent } from './level/level.component';
 import { AttacksComponent } from './attacks/attacks.component';
 import { EffectsComponent } from './effects/effects.component';
+import { DefenseComponent } from './defense/defense.component';
 
 
 @NgModule({
@@ -33,7 +34,8 @@ import { EffectsComponent } from './effects/effects.component';
       CharacterComponent,
       LevelComponent,
       AttacksComponent,
-      EffectsComponent
+      EffectsComponent,
+      DefenseComponent
    ],
    imports: [
       BrowserModule,

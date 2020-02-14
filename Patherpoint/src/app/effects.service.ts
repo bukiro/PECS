@@ -106,7 +106,8 @@ constructor(
                 simpleEffects = simpleEffects.concat(this.get_SimpleEffects(item));
             });
             
-            
+            //We finalize and export this first bunch of simple effects,
+            //because we are going to need to check Strength later in this function, and we don't want to have to run the function twice
             this.effects = Object.assign([], finalize_Effects(simpleEffects, this.bonusTypes));;
 
             let itemEffects: Effect[] = [];

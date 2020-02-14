@@ -12,6 +12,7 @@ import { ClassesService } from './classes.service';
 import { ItemCollection } from './ItemCollection';
 import { Armor } from './Armor';
 import { Weapon } from './Weapon';
+import { Shield } from './Shield';
 
 @Injectable({
     providedIn: 'root'
@@ -21,7 +22,7 @@ export class CharacterService {
     private me: Character = new Character();
     private loader = [];
     private loading: Boolean = false;
-    private basicItems: Item[] = []
+    private basicItems = []
 
     itemsMenuState: string = 'out';
 
@@ -72,8 +73,18 @@ export class CharacterService {
     }
 
     grant_InventoryItem(item: Item) {
-        let newInventoryItem: Item;
-        newInventoryItem = Object.assign({}, item);
+        let newInventoryItem;
+        switch (item.type) {
+            case "weapon":
+                newInventoryItem = Object.assign(new Weapon(), item);
+                break;
+            case "armor":
+                newInventoryItem = Object.assign(new Armor(), item);
+                break;
+            case "shield":
+                newInventoryItem = Object.assign(new Shield(), item);
+                break;
+        }
         newInventoryItem.equip = true;
         let newInventoryLength = this.me.inventory[item.type].push(newInventoryItem);
         this.onEquipChange(this.me.inventory[item.type][newInventoryLength-1]);
@@ -100,17 +111,25 @@ export class CharacterService {
             setTimeout(() => {
                 this.equip_basicItems();                
             });
-            
+            //If you are unequipping a shield, you should also be lowering it and losing cover
+            if (item.type == "shield") {
+                item["takingCover"] = false;
+                item["raised"] = false;
+            }
+            //Same with currently parrying weapons
+            if (item.type == "weapon") {
+                item["parrying"] = false;
+            }
         }
     }
 
-    grant_basicItems(weapon: Item, armor: Item) {
+    grant_basicItems(weapon: Weapon, armor: Armor) {
         this.basicItems = [];
-        let newBasicWeapon:Item;
-        newBasicWeapon = Object.assign({}, weapon);
+        let newBasicWeapon:Weapon;
+        newBasicWeapon = Object.assign(new Weapon(), weapon);
         this.basicItems.push(newBasicWeapon);
-        let newBasicArmor:Item;
-        newBasicArmor = Object.assign({}, armor);
+        let newBasicArmor:Armor;
+        newBasicArmor = Object.assign(new Armor(), armor);
         this.basicItems.push(newBasicArmor);
         this.equip_basicItems()
     }

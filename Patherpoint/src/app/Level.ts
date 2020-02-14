@@ -4,8 +4,6 @@ export class Level {
         public abilityBoosts = [],
         public abilityBoosts_available = 4,
         public abilityBoosts_applied = 0,
-        public weaponProfs = [],
-        public armorProfs = [],
         public classDC = [],
         public classFeats = [],
         public classFeats_available: number = 0,

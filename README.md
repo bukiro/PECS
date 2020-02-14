@@ -11,14 +11,13 @@ The very latest in Assistive Technologies for Dungeon Master (ATDM)
 - [x] Get SSH key working in VSC >:|
 - [ ] Fill character sheet
 - [x] - Abilities
-- [ ] - Armor
-- [ ] - Attacks
+- [x] - Armor
+- [x] - Attacks
 - [x] - Skills
 - [x] - Traits
-- [x] - Simple Item Effects on Abilities and Skills
 - [ ] - Feats -> Abilities, Attacks, Skills, Actions
 - [ ] - Feat requirements
-- [ ] - Equipment (weapons, armor, shields) -> Abilities, Armor, Attacks, Skills
+- [x] - Equipment (weapons, armor, shields) -> Abilities, Armor, Attacks, Skills
 - [ ] - More equipment (worn magic items etc.) and effects
 - [ ] - Actions granted through equipment
 - [x] - Exclusive bonuses: Proficiency, Circumstance, Item, Status, untyped

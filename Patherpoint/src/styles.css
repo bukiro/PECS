@@ -144,8 +144,7 @@
   }
 
   .attributeBox {
-    min-width: 400px;
-    max-width: 450px;
+    width: 450px;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
@@ -168,8 +167,8 @@
 
   .list-item {
     width: 100%;
-    min-width: 400px;
-    max-width: 450px;
+    min-width: 350px;
+    max-width: 400px;
     display: flex;
     flex-wrap: wrap;
     flex-direction: row;
@@ -205,8 +204,18 @@
     color:green;
   }
 
+  input.bonus {
+    background-color:lightgreen;
+    color:black;
+  }
+
   .penalty {
     color:red;
+  }
+
+  input.penalty {
+    background-color:lightcoral;
+    color:black;
   }
 
   .notapplied {
