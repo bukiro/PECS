@@ -39,7 +39,7 @@ export class ItemsService {
     get_Items() {
         if (!this.still_loading()) {
             return this.items;
-        }
+        } else { return new ItemCollection }
     }
 
     grant_Item(item) {

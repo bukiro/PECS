@@ -1,15 +1,15 @@
 import { Skill } from './Skill';
-import { Item } from './Item';
 import { Level } from './Level';
 import { Class } from './Class';
-import { Ability } from './Ability';
 import { ItemCollection } from './ItemCollection';
+import { Feat } from './Feat';
 
 export class Character {
     public name: string = "";
     public level: number = 1;
     public class: Class = new Class();
     public lore: Skill[] = [];
+    public loreFeats: Feat[] = [];
     public baseValues = [];
     public inventory: ItemCollection = new ItemCollection();
     get_AbilityBoosts(minLevelNumber: number, maxLevelNumber: number, abilityName: string, source: string = "") {
@@ -62,6 +62,26 @@ export class Character {
             if (source == "level") {
                 level.skillIncreases_applied -= 1;
             }
+        }
+    }
+    get_FeatsTaken(minLevelNumber: number, maxLevelNumber: number, source: string) {
+        if (this.class) {
+            let increases = [];
+            let levels = this.class.levels.filter(level => level.number >= minLevelNumber && level.number <= maxLevelNumber );
+            levels.forEach(level => {
+                level.feats.forEach(increase => {
+                    increases.push(increase);
+                })
+            })
+            return increases;
+        }
+    }
+    takeFeat(level: Level, featName: string, take: boolean, source: string) {
+        if (take) {
+            level.feats.push({"name":featName, "source":source});
+        } else {
+            let oldFeat = level.feats.filter(feat => feat.name == featName && feat.source == source)[0];
+            level.feats = level.feats.filter(feat => feat !== oldFeat);
         }
     }
 }

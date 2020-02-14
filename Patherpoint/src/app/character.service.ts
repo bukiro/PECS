@@ -50,7 +50,9 @@ export class CharacterService {
     }
 
     get_Character() {
-        return this.me;
+        if (!this.still_loading()) {
+            return this.me;
+        } else { return new Character() }
     }
 
     load_Character(charName: string): Observable<string[]>{

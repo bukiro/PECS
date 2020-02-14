@@ -5,6 +5,7 @@ import { ItemsService } from '../items.service';
 import { TraitsService } from '../traits.service';
 import { EffectsService } from '../effects.service';
 import { Subscription } from 'rxjs';
+import { FeatsService } from '../feats.service';
 
 @Component({
   selector: 'app-top-bar',
@@ -31,7 +32,7 @@ export class TopBarComponent implements OnInit {
     private characterService: CharacterService,
     private itemsService: ItemsService,
     private traitsService: TraitsService,
-    private effectsService: EffectsService
+    private featsService: FeatsService
   ) { }
 
   toggleItemsMenu(position: string = "") {
@@ -65,6 +66,7 @@ export class TopBarComponent implements OnInit {
   ngOnInit() {
     this.characterService.initialize("Ohm");
     this.traitsService.initialize();
+    this.featsService.initialize();
   }
 
 }

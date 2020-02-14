@@ -18,8 +18,11 @@ export class SkillsService {
     get_Skills(characterLore: Skill[], name: string = "", type: string = "") {
         if (!this.still_loading()) {
             let skills: Skill[] = this.skills.concat(characterLore);
+            if (name == "Lore") {
+                return skills.filter(skill => (skill.name.indexOf(name) > -1) && (skill.type == type || type == ""));
+            }
             return skills.filter(skill => (skill.name == name || name == "") && (skill.type == type || type == ""));
-        }
+        }// else { return [new Skill()] }
     }    
 
     still_loading() {

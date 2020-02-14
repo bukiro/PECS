@@ -22,6 +22,11 @@ export class SkillsComponent implements OnInit {
     ) { }
 
     get_Skills(name: string = "", type: string = "") {
+        if (type == "perception") {
+            let dummy = [new Skill("Perception", "perception", "Wisdom")];
+            //return dummy;
+            return this.characterService.get_Skills(name, type);
+        }
         return this.characterService.get_Skills(name, type);
     }
 

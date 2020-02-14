@@ -40,9 +40,9 @@ import { DefenseComponent } from './defense/defense.component';
    imports: [
       BrowserModule,
       BrowserAnimationsModule,
+      FormsModule,
       AppRoutingModule,
       HttpClientModule,
-      FormsModule
    ],
    providers: [],
    bootstrap: [
