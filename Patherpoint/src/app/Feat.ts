@@ -2,6 +2,7 @@ import { AbilitiesService } from './abilities.service';
 import { EffectsService } from './effects.service';
 import { CharacterService } from './character.service';
 import { Skill } from './Skill';
+import { FeatsService } from './feats.service';
 
 export class Feat {
     public name: string = "";
@@ -15,11 +16,12 @@ export class Feat {
     public specialreq: string = "";
     public showon: string = "";
     public traits: string[] = [];
+    public increase: string = "";
     public effects: string[] = [];
     canChoose(characterService: CharacterService, abilitiesService: AbilitiesService, effectsService: EffectsService, charLevel: number = characterService.get_Character().level) {
-    if (characterService.still_loading()) { return false }
     //This function evaluates ALL the possible requirements for taking a feat
     //Returns true only if all the requirements are true. If the feat doesn't have a requirement, it is always true.
+        if (characterService.still_loading()) { return false }
         //First of all, never list "lorebase" feats - these are templates and never used directly
         //Copies are made in in the character's loreFeats individually for every unique lore, and these may show up on this list
         if (this.lorebase) {
@@ -39,19 +41,33 @@ export class Feat {
                 let requiredSkillName: string = requirement.split(",")[0];
                 let requiredSkill: Skill[] = characterService.get_Skills(requiredSkillName);
                 let expected:number = parseInt(requirement.split(",")[1]);
-                if (requiredSkill) {
-                    if (requiredSkill[0].level(characterService) >= expected) {
+                if (requiredSkill.length > 0) {
+                    if (requiredSkill[0].level(characterService, charLevel) >= expected) {
                         skillreq = true;
-                    } 
-                } else console.log(this.name + " " + this.skillreq + ": " + requiredSkill[0]);
+                    }
+                }
             });
         } else {skillreq = true;}
-        //Lastly, if the feat has a specialreq, it comes as a string that contains a condition. Evaluate the condition to find out if the requirement is met.
+        let featreq: boolean = false;
+        if (this.featreq) {
+            let requiredFeat: Feat[] = characterService.get_Feats(this.featreq);
+            if (requiredFeat.length > 0) {
+                if (requiredFeat[0].have(characterService, charLevel)) {
+                    featreq = true;
+                }
+            }
+        } else {featreq = true;}
+        //If the feat has a specialreq, it comes as a string that contains a condition. Evaluate the condition to find out if the requirement is met.
         let specialreq = (this.specialreq) ? (eval(this.specialreq)) : true;
         //Return true if all are true
-        return levelreq && abilityreq && skillreq && specialreq;
+        return levelreq && abilityreq && skillreq && featreq && specialreq;
     }
-    have() {
-
+    have(characterService: CharacterService, charLevel: number = characterService.get_Character().level) {
+        if (characterService.still_loading()) { return false }
+        let have: boolean = false;
+        let character = characterService.get_Character();
+        let featsTaken = character.get_FeatsTaken(0, charLevel, this.name)
+        if (featsTaken.length > 0) {have = true}
+        return have;
     }
 }

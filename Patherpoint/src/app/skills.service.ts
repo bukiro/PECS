@@ -22,7 +22,10 @@ export class SkillsService {
                 return skills.filter(skill => (skill.name.indexOf(name) > -1) && (skill.type == type || type == ""));
             }
             return skills.filter(skill => (skill.name == name || name == "") && (skill.type == type || type == ""));
-        }// else { return [new Skill()] }
+        } // else { return [new Skill()] }
+        //BUGFIXING ISSUE
+        //if this returns [new Skill()], then the page loads forever. This seems to have something to do with using [ngModel] in Radiobuttons 
+        // in the Skills lists (app-skill, app-attacks, app-defense etc)
     }    
 
     still_loading() {

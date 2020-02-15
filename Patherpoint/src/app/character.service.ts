@@ -13,6 +13,7 @@ import { ItemCollection } from './ItemCollection';
 import { Armor } from './Armor';
 import { Weapon } from './Weapon';
 import { Shield } from './Shield';
+import { FeatsService } from './feats.service';
 
 @Injectable({
     providedIn: 'root'
@@ -30,7 +31,8 @@ export class CharacterService {
         private http: HttpClient,
         private abilitiesService: AbilitiesService,
         private skillsService: SkillsService,
-        private classesService: ClassesService
+        private classesService: ClassesService,
+        private featsService: FeatsService
     ) { }
 
     still_loading() {
@@ -163,6 +165,10 @@ export class CharacterService {
 
     get_Skills(name: string = "", type: string = "") {
         return this.skillsService.get_Skills(this.me.lore, name, type)
+    }
+
+    get_Feats(name: string = "", type: string = "") {
+        return this.featsService.get_Feats(this.me.loreFeats, name, type);
     }
 
     initialize(charName: string) {

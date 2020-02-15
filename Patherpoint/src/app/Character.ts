@@ -3,6 +3,7 @@ import { Level } from './Level';
 import { Class } from './Class';
 import { ItemCollection } from './ItemCollection';
 import { Feat } from './Feat';
+import { CharacterService } from './character.service';
 
 export class Character {
     public name: string = "";
@@ -64,24 +65,32 @@ export class Character {
             }
         }
     }
-    get_FeatsTaken(minLevelNumber: number, maxLevelNumber: number, source: string) {
+    get_FeatsTaken(minLevelNumber: number, maxLevelNumber: number, featName: string = "", source: string = "") {
         if (this.class) {
-            let increases = [];
+            let featsTaken = [];
             let levels = this.class.levels.filter(level => level.number >= minLevelNumber && level.number <= maxLevelNumber );
             levels.forEach(level => {
-                level.feats.forEach(increase => {
-                    increases.push(increase);
+                level.feats.filter(feat => (feat.name == featName || featName == "") && (feat.source == source || source == "")).forEach(feat => {
+                    featsTaken.push(feat);
                 })
             })
-            return increases;
+            return featsTaken;
         }
     }
-    takeFeat(level: Level, featName: string, take: boolean, source: string) {
+    takeFeat(characterService: CharacterService, level: Level, featName: string, take: boolean, source: string) {
         if (take) {
             level.feats.push({"name":featName, "source":source});
+            let feat = characterService.get_Feats(featName);
+            if (feat.length > 0 && feat[0].increase) {
+                this.increaseSkill(level, feat[0].increase, true, 'feat')
+            }
         } else {
             let oldFeat = level.feats.filter(feat => feat.name == featName && feat.source == source)[0];
             level.feats = level.feats.filter(feat => feat !== oldFeat);
+            let feat = characterService.get_Feats(featName);
+            if (feat.length > 0 && feat[0].increase) {
+                this.increaseSkill(level, feat[0].increase, false, 'feat')
+            }
         }
     }
 }

@@ -3,8 +3,8 @@
     <h3 *ngIf="!still_loading()">Perception</h3>
     <div class="list-item" *ngFor="let skill of get_Skills('', 'perception')">
         <strong>{{skill.name}}</strong>
-        <!--<div>
-        -->    <input type="radio" name="level" [value]=2 [ngModel]="skill.level0()" disabled>{{skill.name}}<!--
+        <div>
+            <input type="radio" name="{{skill.name}}.level" [value]=2 [ngModel]="skill.level(this.characterService)" disabled>
             <input type="radio" name="{{skill.name}}.level" [value]=4 [ngModel]="skill.level(this.characterService)" disabled>
             <input type="radio" name="{{skill.name}}.level" [value]=6 [ngModel]="skill.level(this.characterService)" disabled>
             <input type="radio" name="{{skill.name}}.level" [value]=8 [ngModel]="skill.level(this.characterService)" disabled>
@@ -21,7 +21,7 @@
         </div>
         <div class="row">
             <input type="textarea" class="fullwidth" [(ngModel)]="skill.notes" *ngIf="skill.showNotes">
-        </div>-->
+        </div>
     </div>
     <h3 *ngIf="!still_loading()">Skills</h3>
     <div class="list-item" *ngFor="let skill of get_Skills('', 'skill')|sortBy:'asc':'name'">

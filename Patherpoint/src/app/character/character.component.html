@@ -30,9 +30,19 @@
                             [checked]="get_SkillIncreases(level.number, level.number, skill.name, 'level').length">Increase
                     </div>
                 </div>
-                <div class="list-item" *ngIf="level.generalFeats_available">General Feat
-                    <div *ngFor="let feat of get_AvailableFeats('General', level)">
+                <div class="list-item" *ngIf="level.ancestryFeats_available">Ancestry Feat
+                    <div class="list-item"  *ngFor="let feat of get_AvailableFeats('Human', level)">
                         {{feat.name}}
+                    </div>
+                </div>
+                <div class="list-item" *ngIf="level.skillFeats_available">Skill Feat
+                    <div class="list-item"  *ngFor="let feat of get_AvailableFeats('Skill', level)|sortBy:'asc':'name'|sortBy:'asc':'skillreq'">
+                        {{feat.name}} ({{feat.skillreq}})
+                    </div>
+                </div>
+                <div class="list-item" *ngIf="level.generalFeats_available">General Feat
+                    <div class="list-item" *ngFor="let feat of get_AvailableFeats('General', level)|sortBy:'asc':'name'|sortBy:'asc':'skillreq'">
+                        {{feat.name}} ({{feat.skillreq}})
                     </div>
                 </div>
             </div>

@@ -22,11 +22,8 @@ export class SkillsComponent implements OnInit {
     ) { }
 
     get_Skills(name: string = "", type: string = "") {
-        if (type == "perception") {
-            let dummy = [new Skill("Perception", "perception", "Wisdom")];
-            //return dummy;
-            return this.characterService.get_Skills(name, type);
-        }
+        //BUGFIXING ISSUE
+        //if skills.component.html calls this function and receives [new Skill()] from the skillServcice (via the characterService), the page loads forever.
         return this.characterService.get_Skills(name, type);
     }
 
