@@ -1,76 +1,68 @@
 <div id="defense" class="attributeBox">
     <h3>Defense: {{get_EffectiveAC()}}</h3>
     <div class="loading" *ngIf="still_loading()">Loading</div>
-    <div class="row" *ngIf="get_AC().effects(this.effectsService).length">
-        <cite *ngFor="let effect of get_AC().effects(this.effectsService)" [className]="effect.penalty ? 'penalty' : 'bonus'">{{effect.value}} ({{effect.source}})&nbsp;</cite>
-    </div>
-    <div class="list-item" *ngFor="let armor of get_EquippedArmor()">
-        <div>{{armor.name}} AC: <input type="number" class="number" [ngModel]="get_ArmorBonus(armor)" disabled></div>
-        <div class="row" *ngIf="armor.traits.length">
-            <cite *ngFor="let trait of armor.traits" title="{{get_Traits(trait)[0].description}}">&nbsp;{{trait}}</cite>
+    <div *ngIf="!still_loading()">
+        <div class="row" *ngIf="get_AC().effects(this.effectsService).length">
+            <cite *ngFor="let effect of get_AC().effects(this.effectsService)" [className]="effect.penalty ? 'penalty' : 'bonus'">{{effect.value}} ({{effect.source}})&nbsp;</cite>
         </div>
-    </div>
-    <div class="list-item" *ngFor="let shield of get_EquippedShield()">
-        <div>{{shield.name}} AC: <input type="number" class="number" [ngModel]="shield.itembonus" disabled>
-            <div class="row">
-                <button *ngIf="!shield.raised" (click)="shield.raised = true;">Raise shield</button>
-                <button *ngIf="shield.raised" (click)="shield.raised = false; shield.takingCover = false;">Lower shield</button>
-                <button *ngIf="shield.raised && shield.coverbonus && !shield.takingCover" (click)="shield.takingCover = true;">Take cover</button>
-                <button *ngIf="shield.raised && shield.coverbonus && shield.takingCover" (click)="shield.takingCover = false;">End cover</button>
+        <div class="list-item" *ngFor="let armor of get_EquippedArmor()">
+            <div>{{armor.name}} AC: <input type="number" class="number" [ngModel]="get_ArmorBonus(armor)" disabled></div>
+            <div class="row" *ngIf="armor.traits.length">
+                <cite *ngFor="let trait of armor.traits" title="{{get_Traits(trait)[0].description}}">&nbsp;{{trait}}</cite>
             </div>
         </div>
-    </div>
-    <div class="list-item" *ngFor="let parry of get_ParryWeapons()">
-        <div>{{parry.name}} Parry AC: <input type="number" class="number" value="1" disabled>
-            <div class="row">
-                <button *ngIf="!parry.parrying" (click)="parry.parrying = true;">Raise weapon</button>
-                <button *ngIf="parry.parrying" (click)="parry.parrying = false;">Lower weapon</button>
+        <div class="list-item" *ngFor="let shield of get_EquippedShield()">
+            <div>{{shield.name}} AC: <input type="number" class="number" [ngModel]="shield.itembonus" disabled>
+                <div class="row">
+                    <button *ngIf="!shield.raised" (click)="shield.raised = true; set_CharacterChanged()">Raise shield</button>
+                    <button *ngIf="shield.raised" (click)="shield.raised = false; shield.takingCover = false; set_CharacterChanged()">Lower shield</button>
+                    <button *ngIf="shield.raised && shield.coverbonus && !shield.takingCover" (click)="shield.takingCover = true; set_CharacterChanged()">Take cover</button>
+                    <button *ngIf="shield.raised && shield.coverbonus && shield.takingCover" (click)="shield.takingCover = false; set_CharacterChanged()">End cover</button>
+                </div>
             </div>
         </div>
-    </div>
-    <h3 *ngIf="!still_loading()">Armor Proficiencies</h3>
-    <div class="list-item" *ngFor="let skill of get_Skills('', 'armorProf')">
-        <strong>{{skill.name}}</strong>
-        <div>
-            <input type="radio" name="{{skill.name}}.level" [value]=2 [ngModel]="skill.level(this.characterService)" disabled>
-            <input type="radio" name="{{skill.name}}.level" [value]=4 [ngModel]="skill.level(this.characterService)" disabled>
-            <input type="radio" name="{{skill.name}}.level" [value]=6 [ngModel]="skill.level(this.characterService)" disabled>
-            <input type="radio" name="{{skill.name}}.level" [value]=8 [ngModel]="skill.level(this.characterService)" disabled>
+        <div class="list-item" *ngFor="let parry of get_ParryWeapons()">
+            <div>{{parry.name}} Parry AC: <input type="number" class="number" value="1" disabled>
+                <div class="row">
+                    <button *ngIf="!parry.parrying" (click)="parry.parrying = true; set_CharacterChanged()">Raise weapon</button>
+                    <button *ngIf="parry.parrying" (click)="parry.parrying = false; set_CharacterChanged()">Lower weapon</button>
+                </div>
+            </div>
         </div>
-        <div class="row" *ngIf="get_TraitsForThis(skill.name).length">
-            <cite *ngFor="let trait of get_TraitsForThis(skill.name)" title="{{trait.description}}">&nbsp;{{trait.name}} ({{trait.haveOn(this.characterService, true)}})</cite>
+        <h3 *ngIf="!still_loading()">Armor Proficiencies</h3>
+        <div class="list-item" *ngFor="let skill of get_Skills('', 'armorProf')">
+            <strong>{{skill.name}}</strong>
+            <app-proficiency-form [skill]="skill" [characterService]="this.characterService"></app-proficiency-form>
+            <div class="row" *ngIf="get_TraitsForThis(skill.name).length">
+                <cite *ngFor="let trait of get_TraitsForThis(skill.name)" title="{{trait.description}}">&nbsp;{{trait.name}} ({{trait.haveOn(this.characterService, true)}})</cite>
+            </div>
+            <div class="row" *ngIf="skill.effects(this.effectsService).length">
+                <cite *ngFor="let effect of skill.effects(this.effectsService)" [className]="effect.penalty ? 'penalty' : 'bonus'">{{effect.value}} ({{effect.source}})&nbsp;</cite>
+            </div>
+            <div class="row">
+                <input type="checkbox" [(ngModel)]="skill.showNotes">Notes
+            </div>
+            <div class="row">
+                <input type="textarea" class="fullwidth" [(ngModel)]="skill.notes" *ngIf="skill.showNotes">
+            </div>
         </div>
-        <div class="row" *ngIf="skill.effects(this.effectsService).length">
-            <cite *ngFor="let effect of skill.effects(this.effectsService)" [className]="effect.penalty ? 'penalty' : 'bonus'">{{effect.value}} ({{effect.source}})&nbsp;</cite>
-        </div>
-        <div class="row">
-            <input type="checkbox" [(ngModel)]="skill.showNotes">Notes
-        </div>
-        <div class="row">
-            <input type="textarea" class="fullwidth" [(ngModel)]="skill.notes" *ngIf="skill.showNotes">
-        </div>
-    </div>
-    <h3 *ngIf="!still_loading()">Saves</h3>
-    <div class="list-item" *ngFor="let skill of get_Skills('', 'save')|sortBy:'asc':'name'">
-        <strong>{{skill.name}}</strong>
-        <div>
-            <input type="radio" name="{{skill.name}}.level" [value]=2 [ngModel]="skill.level(this.characterService)" disabled>
-            <input type="radio" name="{{skill.name}}.level" [value]=4 [ngModel]="skill.level(this.characterService)" disabled>
-            <input type="radio" name="{{skill.name}}.level" [value]=6 [ngModel]="skill.level(this.characterService)" disabled>
-            <input type="radio" name="{{skill.name}}.level" [value]=8 [ngModel]="skill.level(this.characterService)" disabled>
-        </div>
-        Value: <input class="number" [className]="(skill.penalty(this.effectsService) < 0) ? 'penalty' : (skill.bonus(this.effectsService) > 0) ? 'bonus' : ''" type="number" value="{{skill.value(this.characterService,this.abilitiesService,this.effectsService)}}" disabled>
-        <div class="row" *ngIf="get_TraitsForThis(skill.name).length">
-            <cite *ngFor="let trait of get_TraitsForThis(skill.name)" title="{{trait.description}}">&nbsp;{{trait.name}} ({{trait.haveOn(this.characterService, true)}})</cite>
-        </div>
-        <div class="row" *ngIf="skill.effects(this.effectsService).length">
-            <cite *ngFor="let effect of skill.effects(this.effectsService)" [className]="effect.penalty ? 'penalty' : 'bonus'">{{effect.value}} ({{effect.source}})&nbsp;</cite>
-        </div>
-        <div class="row">
-            <input type="checkbox" [(ngModel)]="skill.showNotes">Notes
-        </div>
-        <div class="row">
-            <input type="textarea" class="fullwidth" [(ngModel)]="skill.notes" *ngIf="skill.showNotes">
+        <h3 *ngIf="!still_loading()">Saves</h3>
+        <div class="list-item" *ngFor="let skill of get_Skills('', 'save')|sortBy:'asc':'name'">
+            <strong>{{skill.name}}</strong>
+            <app-proficiency-form [skill]="skill" [characterService]="this.characterService"></app-proficiency-form>
+            Value: <input class="number" [className]="(skill.penalty(this.effectsService) < 0) ? 'penalty' : (skill.bonus(this.effectsService) > 0) ? 'bonus' : ''" type="number" value="{{skill.value(this.characterService,this.abilitiesService,this.effectsService)}}" disabled>
+            <div class="row" *ngIf="get_TraitsForThis(skill.name).length">
+                <cite *ngFor="let trait of get_TraitsForThis(skill.name)" title="{{trait.description}}">&nbsp;{{trait.name}} ({{trait.haveOn(this.characterService, true)}})</cite>
+            </div>
+            <div class="row" *ngIf="skill.effects(this.effectsService).length">
+                <cite *ngFor="let effect of skill.effects(this.effectsService)" [className]="effect.penalty ? 'penalty' : 'bonus'">{{effect.value}} ({{effect.source}})&nbsp;</cite>
+            </div>
+            <div class="row">
+                <input type="checkbox" [(ngModel)]="skill.showNotes">Notes
+            </div>
+            <div class="row">
+                <input type="textarea" class="fullwidth" [(ngModel)]="skill.notes" *ngIf="skill.showNotes">
+            </div>
         </div>
     </div>
 </div>

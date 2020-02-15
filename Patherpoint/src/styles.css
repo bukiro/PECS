@@ -231,11 +231,22 @@
       color:#EFEFEF;
     }
 }
+@keyframes altrclr{
+  0%{
+    color:#616161;
+  }
+  25%{
+    color:#EFEFEF;
+  }
+}
+
 
   .loading {
     margin:40%;
     font-size:20px;
     color:#616161;
+    animation-name: altrclr;
+    animation-duration: 2s;
     -webkit-animation: altrclr 2s infinite;  
     -webkit-transform:scale(4);
   }

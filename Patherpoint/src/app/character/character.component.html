@@ -22,10 +22,7 @@
                 <div class="list-item" *ngIf="level.skillIncreases_available">Skill Training: {{level.skillIncreases_available - level.skillIncreases_applied}}/{{level.skillIncreases_available}}
                     <div class="list-item" *ngFor="let skill of get_AvailableSkills('skill', level)">
                         {{skill.name}}:
-                        <input type="radio" name="{{skill.name}}.level" [value]=2 [ngModel]="skill.level(this.characterService, level.number)" disabled>
-                        <input type="radio" name="{{skill.name}}.level" [value]=4 [ngModel]="skill.level(this.characterService, level.number)" disabled>
-                        <input type="radio" name="{{skill.name}}.level" [value]=6 [ngModel]="skill.level(this.characterService, level.number)" disabled>
-                        <input type="radio" name="{{skill.name}}.level" [value]=8 [ngModel]="skill.level(this.characterService, level.number)" disabled>
+                        <app-proficiency-form [skill]="skill" [characterService]="this.characterService"></app-proficiency-form>
                         <input type="checkbox" (change)="onSkillIncrease(level, skill.name, $event.target.checked, 'level')"
                             [checked]="get_SkillIncreases(level.number, level.number, skill.name, 'level').length">Increase
                     </div>

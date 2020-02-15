@@ -1,17 +1,18 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef, ChangeDetectionStrategy } from '@angular/core';
 import { CharacterService } from '../character.service';
 import { ItemsService } from '../items.service';
 import { TraitsService } from '../traits.service';
-import { ItemCollection } from '../ItemCollection';
 
 @Component({
     selector: 'app-inventory',
     templateUrl: './inventory.component.html',
-    styleUrls: ['./inventory.component.css']
+    styleUrls: ['./inventory.component.css'],
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class InventoryComponent implements OnInit {
 
     constructor(
+        private changeDetector: ChangeDetectorRef,
         public characterService: CharacterService,
         public itemsService: ItemsService,
         public traitsService: TraitsService
@@ -41,7 +42,21 @@ export class InventoryComponent implements OnInit {
         this.characterService.onEquipChange(item);
     }
 
-    ngOnInit() {
+    finish_Loading() {
+        if (this.still_loading()) {
+            setTimeout(() => this.finish_Loading(), 500)
+        } else {
+            this.characterService.get_Changed()
+            .subscribe(() => 
+            this.changeDetector.detectChanges()
+                )
+            return true;
+        }
     }
+
+    ngOnInit() {
+        this.finish_Loading();
+    }
+
 
 }

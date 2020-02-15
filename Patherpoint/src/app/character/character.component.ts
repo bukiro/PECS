@@ -62,7 +62,7 @@ export class CharacterComponent implements OnInit {
     }
 
     onAbilityBoost(level: Level, abilityName: string, boost: boolean, source: string) {
-        this.characterService.get_Character().boostAbility(level, abilityName, boost, source);
+        this.characterService.get_Character().boostAbility(this.characterService, level, abilityName, boost, source);
     }
 
     get_Skills(name: string = "", type: string = "") {
@@ -83,7 +83,7 @@ export class CharacterComponent implements OnInit {
     }
 
     onSkillIncrease(level: Level, skillName: string, boost: boolean, source: string) {
-        this.characterService.get_Character().increaseSkill(level, skillName, boost, source);
+        this.characterService.get_Character().increaseSkill(this.characterService, level, skillName, boost, source);
     }
 
     get_Feats(name: string = "", type: string = "") {

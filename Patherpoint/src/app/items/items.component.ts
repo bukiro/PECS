@@ -1,11 +1,13 @@
-import { Component,  OnInit } from '@angular/core';
+import { Component,  OnInit, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
 import { ItemsService } from '../items.service';
 import { TraitsService } from '../traits.service';
+import { CharacterService } from '../character.service';
 
 @Component({
     selector: 'app-items',
     templateUrl: './items.component.html',
     styleUrls: ['./items.component.css'],
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ItemsComponent implements OnInit {
 
@@ -14,8 +16,10 @@ export class ItemsComponent implements OnInit {
     public showShields: Boolean = false;
 
     constructor(
+        private changeDetector: ChangeDetectorRef,
         private itemsService: ItemsService,
-        private traitsService: TraitsService
+        private traitsService: TraitsService,
+        private characterService: CharacterService
     ) { }
 
     toggle(type) {
@@ -52,7 +56,20 @@ export class ItemsComponent implements OnInit {
         return this.itemsService.still_loading();
     }
 
+    finish_Loading() {
+        if (this.still_loading()) {
+            setTimeout(() => this.finish_Loading(), 500)
+        } else {
+            this.characterService.get_Changed()
+            .subscribe(() => 
+            this.changeDetector.detectChanges()
+                )
+            return true;
+        }
+    }
+
     ngOnInit() {
-        this.itemsService.initialize();
+        this.itemsService.initialize()
+        this.finish_Loading();
     }
 }

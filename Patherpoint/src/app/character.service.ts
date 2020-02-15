@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Character } from './Character';
 import { Skill } from './Skill';
-import { Observable } from 'rxjs';
+import { Observable, BehaviorSubject } from 'rxjs';
 import { Item } from './Item';
 import { Class } from './Class';
 import { AbilitiesService } from './abilities.service';
@@ -21,9 +21,11 @@ import { FeatsService } from './feats.service';
 export class CharacterService {
 
     private me: Character = new Character();
+    public characterChanged$: Observable<boolean>;
     private loader = [];
     private loading: Boolean = false;
     private basicItems = []
+    private changed: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(true);
 
     itemsMenuState: string = 'out';
 
@@ -37,6 +39,13 @@ export class CharacterService {
 
     still_loading() {
         return this.loading;
+    }
+
+    get_Changed(): Observable<boolean> {
+        return this.characterChanged$;
+    }
+    set_Changed() {
+        this.changed.next(true);
     }
 
     toggleCharacterMenu(position: string = "") {
@@ -68,6 +77,7 @@ export class CharacterService {
     changeClass(newClass: Class) {
         this.me.class = new Class();
         this.me.class = Object.assign({}, JSON.parse(JSON.stringify(newClass)));
+        this.set_Changed();
     }
 
     get_InventoryItems() {
@@ -92,12 +102,14 @@ export class CharacterService {
         newInventoryItem.equip = true;
         let newInventoryLength = this.me.inventory[item.type].push(newInventoryItem);
         this.onEquipChange(this.me.inventory[item.type][newInventoryLength-1]);
+        this.set_Changed();
     }
 
     drop_InventoryItem(item: Item) {
 
         this.me.inventory[item.type] = this.me.inventory[item.type].filter(any_item => any_item !== item);
         this.equip_basicItems();
+        this.set_Changed();
     }
 
     onEquipChange(item: Item) {
@@ -108,12 +120,14 @@ export class CharacterService {
                     typeItem.equip = false;
                 });
                 item.equip = true;
+                this.set_Changed();
             }
         } else {
             //If this is called by a checkbox, it finishes before the checkbox model finalizes - so if the unequipped item is the basic item, it will still end up unequipped.
             //We get around this by setting a miniscule timeout and letting the model finalize before equipping basic items.
             setTimeout(() => {
-                this.equip_basicItems();                
+                this.equip_basicItems();
+                this.set_Changed();
             });
             //If you are unequipping a shield, you should also be lowering it and losing cover
             if (item.type == "shield") {
@@ -124,7 +138,7 @@ export class CharacterService {
             if (item.type == "weapon") {
                 item["parrying"] = false;
             }
-        }
+        } this.set_Changed();
     }
 
     grant_basicItems(weapon: Weapon, armor: Armor) {
@@ -136,6 +150,7 @@ export class CharacterService {
         newBasicArmor = Object.assign(new Armor(), armor);
         this.basicItems.push(newBasicArmor);
         this.equip_basicItems()
+        this.set_Changed();
     }
     
     equip_basicItems() {
@@ -157,6 +172,7 @@ export class CharacterService {
 
     remove_Lore(oldLore: Skill) {
         this.me.lore = this.me.lore.filter(lore => lore !== oldLore);
+        this.set_Changed();
     }
 
     get_Abilities(name: string = "") {
@@ -184,8 +200,9 @@ export class CharacterService {
         if (this.loader) {
             this.me = Object.assign(new Character(), JSON.parse(JSON.stringify(this.loader)));
 
+            //We have loaded the entire character from the file, but everything is object Object.
+            //Let's recast all the typed objects:
             this.me.lore = this.me.lore.map(lore => Object.assign(new Skill(), lore));
-            
             if (this.me.class) {
                 this.me.class = Object.assign(new Class(), this.me.class);
                 this.me.class.levels = this.me.class.levels.map(level => Object.assign(new Level(), level));
@@ -205,14 +222,12 @@ export class CharacterService {
         }
         if (this.loading) {this.loading = false;}
         this.equip_basicItems();
+        this.characterChanged$ = this.changed.asObservable();
+        this.set_Changed();
     }
 
     print() {
         console.log(JSON.stringify(this.me));
-    }
-
-    ngOnInit() {
-
     }
 
 }

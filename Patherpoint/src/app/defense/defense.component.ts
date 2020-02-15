@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef, ChangeDetectionStrategy } from '@angular/core';
 import { DefenseService } from '../defense.service';
 import { TraitsService } from '../traits.service';
 import { Armor } from '../Armor';
@@ -9,15 +9,17 @@ import { AbilitiesService } from '../abilities.service';
 @Component({
     selector: 'app-defense',
     templateUrl: './defense.component.html',
-    styleUrls: ['./defense.component.css']
+    styleUrls: ['./defense.component.css'],
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class DefenseComponent implements OnInit {
 
     constructor(
+        private changeDetector: ChangeDetectorRef,
+        public characterService: CharacterService,
         private defenseService: DefenseService,
         private traitsService: TraitsService,
         public effectsService: EffectsService,
-        public characterService: CharacterService,
         public abilitiesService: AbilitiesService
     ) { }
 
@@ -61,7 +63,24 @@ export class DefenseComponent implements OnInit {
         return this.defenseService.get_ArmorBonus(armor);
     }
 
+    set_CharacterChanged() {
+        this.characterService.set_Changed();
+    }
+
+    finish_Loading() {
+        if (this.still_loading()) {
+            setTimeout(() => this.finish_Loading(), 500)
+        } else {
+            this.characterService.get_Changed()
+            .subscribe(() => 
+            this.changeDetector.detectChanges()
+                )
+            return true;
+        }
+    }
+
     ngOnInit() {
+        this.finish_Loading();
     }
 
 }

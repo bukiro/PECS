@@ -1,18 +1,21 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef, ChangeDetectionStrategy } from '@angular/core';
 import { EffectsService } from '../effects.service';
-import { VirtualTimeScheduler } from 'rxjs';
+import { CharacterService } from '../character.service';
 
 @Component({
     selector: 'app-effects',
     templateUrl: './effects.component.html',
-    styleUrls: ['./effects.component.css']
+    styleUrls: ['./effects.component.css'],
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class EffectsComponent implements OnInit {
 
     showEffects: boolean = false;
 
     constructor(
-        private effectsService: EffectsService
+        private changeDetector: ChangeDetectorRef,
+        private effectsService: EffectsService,
+        private characterService: CharacterService
     ) { }
 
     toggle_Effects() {
@@ -20,7 +23,8 @@ export class EffectsComponent implements OnInit {
     }
 
     get_Effects(regenerate: boolean = false) {
-        return this.effectsService.get_Effects(regenerate);
+        let effects = this.effectsService.get_Effects(regenerate);
+        return effects;
     }
 
     get_AppliedEffects(regenerate: boolean = false) {
@@ -33,7 +37,20 @@ export class EffectsComponent implements OnInit {
         return effects.filter(effect => effect.apply != true)
     }
 
+    finish_Loading() {
+        if (this.characterService.still_loading()) {
+            setTimeout(() => this.finish_Loading(), 500)
+        } else {
+            this.characterService.get_Changed()
+            .subscribe(() => 
+            this.changeDetector.detectChanges()
+                )
+            return true;
+        }
+    }
+
     ngOnInit() {
+        this.finish_Loading();
     }
 
 }

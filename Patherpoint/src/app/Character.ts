@@ -4,6 +4,7 @@ import { Class } from './Class';
 import { ItemCollection } from './ItemCollection';
 import { Feat } from './Feat';
 import { CharacterService } from './character.service';
+import { Subject } from 'rxjs';
 
 export class Character {
     public name: string = "";
@@ -13,6 +14,12 @@ export class Character {
     public loreFeats: Feat[] = [];
     public baseValues = [];
     public inventory: ItemCollection = new ItemCollection();
+    get_Changed(characterService: CharacterService, ) {
+        return characterService.get_Changed();
+    }
+    set_Changed(characterService: CharacterService, ) {
+        characterService.set_Changed();
+    }
     get_AbilityBoosts(minLevelNumber: number, maxLevelNumber: number, abilityName: string, source: string = "") {
         if (this.class) {
             let boosts = [];
@@ -25,11 +32,14 @@ export class Character {
             return boosts;
         }
     }
-    boostAbility(level: Level, abilityName: string, boost: boolean, source: string) {
+    boostAbility(characterService: CharacterService, level: Level, abilityName: string, boost: boolean, source: string) {
         if (boost) {
             level.abilityBoosts.push({"name":abilityName, "type":"boost", "source":source});
             if (source == "level") {
                 level.abilityBoosts_applied += 1;
+            }
+            if (abilityName == "Intelligence" && level.number <= 1) {
+                this.class.levels.filter($level => $level.number == 1)[0].skillIncreases_available += 1;
             }
         } else {
             let oldBoost = level.abilityBoosts.filter(boost => boost.name == abilityName && boost.type == "boost" && boost.source == source)[0];
@@ -37,7 +47,11 @@ export class Character {
             if (source == "level") {
                 level.abilityBoosts_applied -= 1;
             }
+            if (abilityName == "Intelligence" && level.number <= 1) {
+                this.class.levels.filter($level => $level.number == 1)[0].skillIncreases_available -= 1;
+            }
         }
+        this.set_Changed(characterService);
     }
     get_SkillIncreases(minLevelNumber: number, maxLevelNumber: number, skillName: string, source: string = "") {
         if (this.class) {
@@ -51,7 +65,7 @@ export class Character {
             return increases;
         }
     }
-    increaseSkill(level: Level, skillName: string, train: boolean, source: string) {
+    increaseSkill(characterService: CharacterService, level: Level, skillName: string, train: boolean, source: string) {
         if (train) {
             level.skillIncreases.push({"name":skillName, "source":source});
             if (source == "level") {
@@ -64,6 +78,7 @@ export class Character {
                 level.skillIncreases_applied -= 1;
             }
         }
+        this.set_Changed(characterService);
     }
     get_FeatsTaken(minLevelNumber: number, maxLevelNumber: number, featName: string = "", source: string = "") {
         if (this.class) {
@@ -82,15 +97,16 @@ export class Character {
             level.feats.push({"name":featName, "source":source});
             let feat = characterService.get_Feats(featName);
             if (feat.length > 0 && feat[0].increase) {
-                this.increaseSkill(level, feat[0].increase, true, 'feat')
+                this.increaseSkill(characterService, level, feat[0].increase, true, 'feat')
             }
         } else {
             let oldFeat = level.feats.filter(feat => feat.name == featName && feat.source == source)[0];
             level.feats = level.feats.filter(feat => feat !== oldFeat);
             let feat = characterService.get_Feats(featName);
             if (feat.length > 0 && feat[0].increase) {
-                this.increaseSkill(level, feat[0].increase, false, 'feat')
+                this.increaseSkill(characterService, level, feat[0].increase, false, 'feat')
             }
         }
+        this.set_Changed(characterService);
     }
 }

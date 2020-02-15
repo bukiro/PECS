@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
 import { Weapon } from '../Weapon';
 import { AbilitiesService } from '../abilities.service';
 import { TraitsService } from '../traits.service';
@@ -8,11 +8,13 @@ import { EffectsService } from '../effects.service';
 @Component({
     selector: 'app-attacks',
     templateUrl: './attacks.component.html',
-    styleUrls: ['./attacks.component.css']
+    styleUrls: ['./attacks.component.css'],
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class AttacksComponent implements OnInit {
 
     constructor(
+        private changeDetector: ChangeDetectorRef,
         private abilitiesService: AbilitiesService,
         private traitsService: TraitsService,
         public characterService: CharacterService,
@@ -48,7 +50,20 @@ export class AttacksComponent implements OnInit {
         return weapon.get_Damage(this.characterService, this.effectsService, this.traitsService, range);
     }
 
+    finish_Loading() {
+        if (this.still_loading()) {
+            setTimeout(() => this.finish_Loading(), 500)
+        } else {
+            this.characterService.get_Changed()
+            .subscribe(() => 
+            this.changeDetector.detectChanges()
+                )
+            return true;
+        }
+    }
+
     ngOnInit() {
+        this.finish_Loading();
     }
 
 }

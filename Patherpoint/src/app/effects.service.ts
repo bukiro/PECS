@@ -45,6 +45,10 @@ constructor(
         return objectEffects;
     }
 
+    set_CharacterChanged() {
+        this.characterService.set_Changed();
+    }
+
     get_Effects(regenerate: boolean = false) {
         if (regenerate) {
 
@@ -91,8 +95,6 @@ constructor(
                 return effectsCollection;
             }
 
-            let effects: Effect[] = [];
-            
             let simpleEffects: Effect[] = [];
             let items = this.characterService.get_InventoryItems();
             //Create simple effects from all equipped items first
@@ -109,7 +111,8 @@ constructor(
             //We finalize and export this first bunch of simple effects,
             //because we are going to need to check Strength later in this function, and we don't want to have to run the function twice
             this.effects = Object.assign([], finalize_Effects(simpleEffects, this.bonusTypes));;
-
+            //this.set_CharacterChanged();
+            
             let itemEffects: Effect[] = [];
 
             //Get parrying bonuses from raised weapons
@@ -183,7 +186,7 @@ constructor(
             let allEffects: Effect[] = [].concat(simpleEffects, itemEffects)
 
             this.effects = Object.assign([], finalize_Effects(allEffects, this.bonusTypes));
-
+            //this.set_CharacterChanged();
             /*if (JSON.stringify(this.effects) != JSON.stringify(effects)) {
                 this.effects = effects;
             }*/
