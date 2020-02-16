@@ -170,8 +170,12 @@ export class CharacterService {
         }
     }
 
-    remove_Lore(oldLore: Skill) {
-        this.me.lore = this.me.lore.filter(lore => lore !== oldLore);
+    add_customSkill(skillName: string, abilityName: string) {
+        this.me.customSkills.push(new Skill(skillName, abilityName));
+    }
+
+    remove_customSkill(oldSkill: Skill) {
+        this.me.customSkills = this.me.customSkills.filter(lore => lore !== oldSkill);
         this.set_Changed();
     }
 
@@ -180,11 +184,28 @@ export class CharacterService {
     }
 
     get_Skills(name: string = "", type: string = "") {
-        return this.skillsService.get_Skills(this.me.lore, name, type)
+        return this.skillsService.get_Skills(this.me.customSkills, name, type)
     }
 
     get_Feats(name: string = "", type: string = "") {
         return this.featsService.get_Feats(this.me.loreFeats, name, type);
+    }
+
+    get_FeatsShowingOn(objectName: string) {
+        let feats = this.me.get_FeatsTaken(0, this.me.level, "", "");
+        if (objectName.indexOf("Lore") > -1) {
+            objectName = "Lore";
+        }
+        let returnedFeats = []
+        if (feats.length) {
+            feats.forEach(feat => {
+                let returnedFeat = this.get_Feats(feat.name)[0];
+                if (returnedFeat.showon.indexOf(objectName) > -1) {
+                    returnedFeats.push(returnedFeat);
+                }
+            });
+        }
+        return returnedFeats;
     }
 
     initialize(charName: string) {
@@ -202,7 +223,7 @@ export class CharacterService {
 
             //We have loaded the entire character from the file, but everything is object Object.
             //Let's recast all the typed objects:
-            this.me.lore = this.me.lore.map(lore => Object.assign(new Skill(), lore));
+            this.me.customSkills = this.me.customSkills.map(skill => Object.assign(new Skill(), skill));
             if (this.me.class) {
                 this.me.class = Object.assign(new Class(), this.me.class);
                 this.me.class.levels = this.me.class.levels.map(level => Object.assign(new Level(), level));

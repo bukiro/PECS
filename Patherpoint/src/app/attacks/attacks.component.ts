@@ -4,6 +4,7 @@ import { AbilitiesService } from '../abilities.service';
 import { TraitsService } from '../traits.service';
 import { CharacterService } from '../character.service';
 import { EffectsService } from '../effects.service';
+import { Skill } from '../Skill';
 
 @Component({
     selector: 'app-attacks',
@@ -40,6 +41,10 @@ export class AttacksComponent implements OnInit {
 
     get_TraitsForThis(name: string) {
       return this.traitsService.get_TraitsForThis(this.characterService, name);
+    }
+
+    get_FeatsShowingOn(skillName: string) {
+        return this.characterService.get_FeatsShowingOn(skillName);
     }
 
     get_Attack(weapon: Weapon, range: string) {

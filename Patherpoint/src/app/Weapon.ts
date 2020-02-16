@@ -31,8 +31,15 @@ export class Weapon implements Item {
         let skillLevel: number = 0;
         let weaponIncreases = characterService.get_Character().get_SkillIncreases(0, charLevel, this.name);
         let profIncreases = characterService.get_Character().get_SkillIncreases(0, charLevel, this.prof);
+        //For Monk, Dwarf, Goblin etc. weapons, check if the character has any weapon proficiency that matches a trait of this weapon
+        let traitIncreases: number[] = [];
+        this.traits.forEach(trait => {
+            traitIncreases.push(characterService.get_Character().get_SkillIncreases(0, charLevel, trait).length)
+        })
+        //Only count the highest of these proficiency (e.g. in case you have Monk weapons +4 and Dwarf weapons +2)
+        let bestTraitIncreases: number = Math.max(...traitIncreases)
         //Add either the weapon category proficiency or the weapon proficiency, whichever is better
-        skillLevel = Math.max(Math.min(weaponIncreases.length * 2, 8),Math.min(profIncreases.length * 2, 8))
+        skillLevel = Math.max(Math.min(weaponIncreases.length * 2, 8),Math.min(profIncreases.length * 2, 8),Math.min(bestTraitIncreases * 2, 8))
         return skillLevel;
     }
     get_Attack(characterService: CharacterService, effectsService: EffectsService, traitsService: TraitsService, range: string) {

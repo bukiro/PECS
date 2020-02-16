@@ -4,13 +4,16 @@
         <h3>Perception</h3>
         <div class="list-item" *ngFor="let skill of get_Skills('', 'perception')">
             <strong>{{skill.name}}</strong>
-            <app-proficiency-form [skill]="skill" [characterService]="this.characterService"></app-proficiency-form>
+            <app-proficiency-form [skill]="skill" [characterService]="this.characterService" [level]="this.characterService.get_Character().level"></app-proficiency-form>
             Value: <input class="number" [className]="(skill.penalty(this.effectsService) < 0) ? 'penalty' : (skill.bonus(this.effectsService) > 0) ? 'bonus' : ''" type="number" value="{{skill.value(this.characterService,this.abilitiesService,this.effectsService)}}" disabled>
             <div class="row" *ngIf="get_TraitsForThis(skill.name).length">
-            <cite *ngFor="let trait of get_TraitsForThis(skill.name)" title="{{trait.description}}">&nbsp;{{trait.name}} ({{trait.haveOn(this.characterService, true)}})</cite>
+            <cite *ngFor="let trait of get_TraitsForThis(skill.name)" title="{{trait.description}}">{{trait.name}} ({{trait.haveOn(this.characterService, true)}})&nbsp;</cite>
             </div>
             <div class="row" *ngIf="skill.effects(this.effectsService).length">
                 <cite *ngFor="let effect of skill.effects(this.effectsService)" [className]="effect.penalty ? 'penalty' : 'bonus'">{{effect.value}} ({{effect.source}})&nbsp;</cite>
+            </div>
+            <div class="row" *ngIf="get_FeatsShowingOn(skill.name).length">
+                <cite *ngFor="let feat of get_FeatsShowingOn(skill.name)" [title]="feat.desc">{{feat.name}}&nbsp;</cite>
             </div>
             <div class="row">
                 <input type="checkbox" [(ngModel)]="skill.showNotes">Notes
@@ -22,13 +25,16 @@
         <h3>Skills</h3>
         <div class="list-item" *ngFor="let skill of get_Skills('', 'skill')|sortBy:'asc':'name'">
             <strong>{{skill.name}}</strong>
-            <app-proficiency-form [skill]="skill" [characterService]="this.characterService"></app-proficiency-form>
+            <app-proficiency-form [skill]="skill" [characterService]="this.characterService" [level]="this.characterService.get_Character().level"></app-proficiency-form>
             Value: <input class="number" [className]="(skill.penalty(this.effectsService) < 0) ? 'penalty' : (skill.bonus(this.effectsService) > 0) ? 'bonus' : ''" type="number" value="{{skill.value(this.characterService,this.abilitiesService,this.effectsService)}}" disabled>
             <div class="row" *ngIf="get_TraitsForThis(skill.name).length">
-            <cite *ngFor="let trait of get_TraitsForThis(skill.name)" title="{{trait.description}}">&nbsp;{{trait.name}} ({{trait.haveOn(this.characterService, true)}})</cite>
+            <cite *ngFor="let trait of get_TraitsForThis(skill.name)" title="{{trait.description}}">{{trait.name}} ({{trait.haveOn(this.characterService, true)}})&nbsp;</cite>
             </div>
             <div class="row" *ngIf="skill.effects(this.effectsService).length">
                 <cite *ngFor="let effect of skill.effects(this.effectsService)" [className]="effect.penalty ? 'penalty' : 'bonus'">{{effect.value}} ({{effect.source}})&nbsp;</cite>
+            </div>
+            <div class="row" *ngIf="get_FeatsShowingOn(skill.name).length">
+                <cite *ngFor="let feat of get_FeatsShowingOn(skill.name)" [title]="feat.desc">{{feat.name}}&nbsp;</cite>
             </div>
             <div class="row">
                 <input type="checkbox" [(ngModel)]="skill.showNotes">Notes

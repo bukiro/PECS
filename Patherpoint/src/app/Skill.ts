@@ -17,9 +17,6 @@ export class Skill {
         skillLevel = Math.min(increases.length * 2, 8);
         return skillLevel;
     }
-    level0() {
-        return 0;
-    }
     canIncrease(characterService: CharacterService, levelNumber: number) {
         if (levelNumber >= 15) {
             return (this.level(characterService, levelNumber) < 8)

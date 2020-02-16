@@ -213,6 +213,11 @@
     color:red;
   }
 
+  .problem {
+    color:red;
+    background-color: lightcoral;
+  }
+
   input.penalty {
     background-color:lightcoral;
     color:black;

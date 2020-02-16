@@ -19,7 +19,7 @@ export class ClassesService {
                 4,
                 0,
                 [{ name:"Monk", rank:2 }],
-                [ "Flurry of Blows" ],
+                [],
                 1,
                 0,
                 1,
@@ -39,7 +39,8 @@ export class ClassesService {
                     { name:"Simple", source:"class" },
                     { name:"Unarmed", source:"class" },
                     { name:"Unarmored", source:"class" },
-                    { name:"Unarmored", source:"class" }
+                    { name:"Unarmored", source:"class" },
+                    { name:"Monk", source:"feat", type:"weapon" }
                 ],
                 4,
                 0

@@ -5,6 +5,7 @@ import { Armor } from '../Armor';
 import { EffectsService } from '../effects.service';
 import { CharacterService } from '../character.service';
 import { AbilitiesService } from '../abilities.service';
+import { Skill } from '../Skill';
 
 @Component({
     selector: 'app-defense',
@@ -57,6 +58,10 @@ export class DefenseComponent implements OnInit {
 
     get_TraitsForThis(name: string) {
         return this.traitsService.get_TraitsForThis(this.characterService, name);
+    }
+
+    get_FeatsShowingOn(skillName: string) {
+        return this.characterService.get_FeatsShowingOn(skillName);
     }
 
     get_ArmorBonus(armor: Armor) {

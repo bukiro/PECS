@@ -1,5 +1,5 @@
 import { Component, OnInit, Input, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
-import { FormBuilder } from '@angular/forms';
+import { FormBuilder, FormGroup } from '@angular/forms';
 import { Skill } from '../Skill';
 import { CharacterService } from '../character.service';
 
@@ -15,7 +15,9 @@ export class ProficiencyFormComponent implements OnInit {
     skill: Skill;
     @Input()
     characterService: CharacterService;
-    proficiencyGroup;
+    @Input()
+    level: number;
+    proficiencyGroup: FormGroup;
     skillLevel:number = 0;
 
     constructor(
@@ -25,18 +27,13 @@ export class ProficiencyFormComponent implements OnInit {
 
     ngOnInit() {
         this.proficiencyGroup = this.formBuilder.group({
-            proficiencyLevel: [{value: this.skill.level(this.characterService), disabled: true}]
+            proficiencyLevel: [{value: this.skill.level(this.characterService, this.level), disabled: true}]
         });
         this.characterService.characterChanged$
         .subscribe(() => {
-        this.proficiencyGroup.patchValue({proficiencyLevel: this.skill.level(this.characterService)});
+        this.proficiencyGroup.patchValue({proficiencyLevel: this.skill.level(this.characterService, this.level)});
         this.changeDetector.detectChanges()
         })
     }
-
-onClick() {
-    let c = 1;
-    this.proficiencyGroup.patchValue({proficiencyLevel: this.skill.level(this.characterService)});
-}
 
 }

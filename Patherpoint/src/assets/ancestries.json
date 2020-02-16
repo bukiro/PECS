@@ -1,0 +1,3 @@
+[
+    { "":"Human", "traits":["Human", "Humanoid"], "heritages":["Half-Elf", "Half-Orc", "Skilled Heritage", "Versatile Heritage"], "hitpoints":8, "size":"medium", "abilityboosts":[], "freeabilityboosts":2, "abilityflaws":[], "languages":["Common"], "freelanguages":1 }
+]

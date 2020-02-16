@@ -10,7 +10,7 @@ export class Character {
     public name: string = "";
     public level: number = 1;
     public class: Class = new Class();
-    public lore: Skill[] = [];
+    public customSkills: Skill[] = [];
     public loreFeats: Feat[] = [];
     public baseValues = [];
     public inventory: ItemCollection = new ItemCollection();
@@ -92,12 +92,40 @@ export class Character {
             return featsTaken;
         }
     }
-    takeFeat(characterService: CharacterService, level: Level, featName: string, take: boolean, source: string) {
+    takeFeat(characterService: CharacterService, level: Level, featName: string, type: string, take: boolean, source: string) {
         if (take) {
             level.feats.push({"name":featName, "source":source});
             let feat = characterService.get_Feats(featName);
             if (feat.length > 0 && feat[0].increase) {
                 this.increaseSkill(characterService, level, feat[0].increase, true, 'feat')
+                if (characterService.get_Skills(feat[0].increase).length == 0 ) {
+                    characterService.add_customSkill(feat[0].increase, "bonusWeaponProf")
+                }
+            }
+            if (source == "level") {
+                switch (type) {
+                    case "General":
+                        level.generalFeats_applied += 1;
+                        break;
+                    case "Skill":
+                        level.skillFeats_applied += 1;
+                        break;
+                    case "Ancestry":
+                        level.ancestryFeats_applied += 1;
+                        break;
+                }
+            }
+            if (feat.length > 0 && feat[0].gainancestryfeat) {
+                characterService.get_Character().class.levels.filter(level => level.number == 1)[0].ancestryFeats_available += 1;
+            }
+            if (feat.length > 0 && feat[0].gaingeneralfeat) {
+                characterService.get_Character().class.levels.filter(level => level.number == 1)[0].generalFeats_available += 1;
+            }
+            if (feat.length > 0 && feat[0].gainclassfeat) {
+                characterService.get_Character().class.levels.filter(level => level.number == 1)[0].classFeats_available += 1;
+            }
+            if (feat.length > 0 && feat[0].gainskilltraining) {
+                characterService.get_Character().class.levels.filter(level => level.number == 1)[0].skillIncreases_available += 1;
             }
         } else {
             let oldFeat = level.feats.filter(feat => feat.name == featName && feat.source == source)[0];
@@ -105,6 +133,31 @@ export class Character {
             let feat = characterService.get_Feats(featName);
             if (feat.length > 0 && feat[0].increase) {
                 this.increaseSkill(characterService, level, feat[0].increase, false, 'feat')
+            }
+            if (source == "level") {
+                switch (type) {
+                    case "General":
+                        level.generalFeats_applied -= 1;
+                        break;
+                    case "Skill":
+                        level.skillFeats_applied -= 1;
+                        break;
+                    case "Ancestry":
+                        level.ancestryFeats_applied -= 1;
+                        break;
+                }
+            }
+            if (feat.length > 0 && feat[0].gainancestryfeat) {
+                characterService.get_Character().class.levels.filter(level => level.number == 1)[0].ancestryFeats_available -= 1;
+            }
+            if (feat.length > 0 && feat[0].gaingeneralfeat) {
+                characterService.get_Character().class.levels.filter(level => level.number == 1)[0].generalFeats_available -= 1;
+            }
+            if (feat.length > 0 && feat[0].gainclassfeat) {
+                characterService.get_Character().class.levels.filter(level => level.number == 1)[0].classFeats_available -= 1;
+            }
+            if (feat.length > 0 && feat[0].gainskilltraining) {
+                characterService.get_Character().class.levels.filter(level => level.number == 1)[0].skillIncreases_available -= 1;
             }
         }
         this.set_Changed(characterService);
