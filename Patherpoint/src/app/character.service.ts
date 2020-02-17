@@ -14,6 +14,12 @@ import { Armor } from './Armor';
 import { Weapon } from './Weapon';
 import { Shield } from './Shield';
 import { FeatsService } from './feats.service';
+import { TraitsService } from './traits.service';
+import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
+import { Ancestry } from './Ancestry';
+import { HistoryService } from './history.service';
+import { Heritage } from './Heritage';
+import { Background } from './Background';
 
 @Injectable({
     providedIn: 'root'
@@ -34,7 +40,9 @@ export class CharacterService {
         private abilitiesService: AbilitiesService,
         private skillsService: SkillsService,
         private classesService: ClassesService,
-        private featsService: FeatsService
+        private featsService: FeatsService,
+        private traitsService: TraitsService,
+        private historyService: HistoryService
     ) { }
 
     still_loading() {
@@ -66,17 +74,24 @@ export class CharacterService {
         } else { return new Character() }
     }
 
-    load_Character(charName: string): Observable<string[]>{
-        return this.http.get<string[]>('/assets/'+charName+'.json');
-    }
-
     get_Classes(name: string) {
         return this.classesService.get_Classes(name);
     }
 
-    changeClass(newClass: Class) {
+    get_Ancestries(name: string) {
+        this.historyService.get_Ancestries(name)
+    }
+
+    changeClass($class: Class) {
         this.me.class = new Class();
-        this.me.class = Object.assign({}, JSON.parse(JSON.stringify(newClass)));
+        this.me.class = Object.assign({}, JSON.parse(JSON.stringify($class)));
+        this.set_Changed();
+    }
+
+    change_Ancestry(ancestry: Ancestry) {
+        this.me.ancestry = new Ancestry();
+        this.me.ancestry = Object.assign(new Ancestry(), JSON.parse(JSON.stringify(ancestry)))
+        this.me.ancestry.on_Import();
         this.set_Changed();
     }
 
@@ -209,12 +224,19 @@ export class CharacterService {
     }
 
     initialize(charName: string) {
+        this.traitsService.initialize();
+        this.featsService.initialize();
+        this.historyService.initialize();
         this.loading = true;
         this.load_Character(charName)
             .subscribe((results:string[]) => {
                 this.loader = results;
                 this.finish_loading()
             });
+    }
+
+    load_Character(charName: string): Observable<string[]>{
+        return this.http.get<string[]>('/assets/'+charName+'.json');
     }
 
     finish_loading() {
@@ -237,6 +259,16 @@ export class CharacterService {
                 this.me.inventory.shield = this.me.inventory.shield.map(shield => Object.assign(new Weapon(), shield));
             } else {
                 this.me.inventory = new ItemCollection();
+            }
+            if (this.me.ancestry) {
+                this.me.ancestry = Object.assign(new Ancestry(), this.me.ancestry);
+                this.me.ancestry.on_Import();
+            }
+            if (this.me.heritage) {
+                this.me.heritage = Object.assign(new Heritage(), this.me.heritage);
+            }
+            if (this.me.background) {
+                this.me.background = Object.assign(new Background(), this.me.background);
             }
 
             this.loader = [];

@@ -19,9 +19,10 @@ import { LevelComponent } from './level/level.component';
 import { AttacksComponent } from './attacks/attacks.component';
 import { EffectsComponent } from './effects/effects.component';
 import { DefenseComponent } from './defense/defense.component';
-
 import { SortByPipe } from './sortBy.pipe';
 import { ProficiencyFormComponent } from './proficiency-form/proficiency-form.component';
+import { SkillComponent } from './skill/skill.component';
+import { FeatComponent } from './character/feat/feat.component';
 
 
 @NgModule({
@@ -39,7 +40,9 @@ import { ProficiencyFormComponent } from './proficiency-form/proficiency-form.co
       AttacksComponent,
       EffectsComponent,
       DefenseComponent,
-      ProficiencyFormComponent
+      ProficiencyFormComponent,
+      SkillComponent,
+      FeatComponent
    ],
    imports: [
       BrowserModule,

@@ -18,7 +18,7 @@ export class AbilitiesComponent implements OnInit {
         public effectsService: EffectsService
     ) { }
   
-    get_Abilities(key:string = "", value:string = "") {
+    get_Abilities() {
         return this.abilitiesService.get_Abilities();
     }
     

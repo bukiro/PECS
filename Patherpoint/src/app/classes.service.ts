@@ -8,7 +8,6 @@ import { Level } from './Level';
 export class ClassesService {
 
     classes: Class[] = [
-        new Class("---", []),
         new Class(
             "Monk",
             [ "Strength", "Dexterity" ],

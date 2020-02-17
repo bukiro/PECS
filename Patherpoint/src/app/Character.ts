@@ -5,10 +5,16 @@ import { ItemCollection } from './ItemCollection';
 import { Feat } from './Feat';
 import { CharacterService } from './character.service';
 import { Subject } from 'rxjs';
+import { Ancestry } from './Ancestry';
+import { Background } from './Background';
+import { Heritage } from './Heritage';
 
 export class Character {
     public name: string = "";
     public level: number = 1;
+    public ancestry: Ancestry = new Ancestry;
+    public heritage: Heritage = new Heritage;
+    public background: Background = new Background;
     public class: Class = new Class();
     public customSkills: Skill[] = [];
     public loreFeats: Feat[] = [];
@@ -27,28 +33,28 @@ export class Character {
             levels.forEach(level => {
                 level.abilityBoosts.filter(boost => boost.name == abilityName && (boost.source == source || source == "")).forEach(boost => {
                     boosts.push(boost);
-                })
-            })
+                });
+            });
+            if (minLevelNumber == 0) {
+                let ancestryBoosts = this.ancestry.level.abilityBoosts;
+                ancestryBoosts.filter(boost => boost.name == abilityName && (boost.source == source || source == "")).forEach(boost => {
+                    boosts.push(boost);
+                });
+            }
             return boosts;
         }
     }
     boostAbility(characterService: CharacterService, level: Level, abilityName: string, boost: boolean, source: string) {
         if (boost) {
             level.abilityBoosts.push({"name":abilityName, "type":"boost", "source":source});
-            if (source == "level") {
+            if (source == "level" || source == 'free') {
                 level.abilityBoosts_applied += 1;
-            }
-            if (abilityName == "Intelligence" && level.number <= 1) {
-                this.class.levels.filter($level => $level.number == 1)[0].skillIncreases_available += 1;
             }
         } else {
             let oldBoost = level.abilityBoosts.filter(boost => boost.name == abilityName && boost.type == "boost" && boost.source == source)[0];
             level.abilityBoosts = level.abilityBoosts.filter(boost => boost !== oldBoost);
-            if (source == "level") {
+            if (source == "level" || source == 'free') {
                 level.abilityBoosts_applied -= 1;
-            }
-            if (abilityName == "Intelligence" && level.number <= 1) {
-                this.class.levels.filter($level => $level.number == 1)[0].skillIncreases_available -= 1;
             }
         }
         this.set_Changed(characterService);
@@ -107,6 +113,9 @@ export class Character {
                     case "General":
                         level.generalFeats_applied += 1;
                         break;
+                    case "Class":
+                        level.classFeats_applied += 1;
+                        break;
                     case "Skill":
                         level.skillFeats_applied += 1;
                         break;
@@ -138,6 +147,9 @@ export class Character {
                 switch (type) {
                     case "General":
                         level.generalFeats_applied -= 1;
+                        break;
+                    case "Class":
+                        level.classFeats_applied -= 1;
                         break;
                     case "Skill":
                         level.skillFeats_applied -= 1;

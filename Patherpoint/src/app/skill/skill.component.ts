@@ -1,27 +1,43 @@
-import { Component, OnInit, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
-import { AbilitiesService } from '../abilities.service';
-import { CharacterService } from '../character.service';
+import { Component, OnInit, Input, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
 import { SkillsService } from '../skills.service';
+import { CharacterService } from '../character.service';
 import { TraitsService } from '../traits.service';
+import { AbilitiesService } from '../abilities.service';
 import { EffectsService } from '../effects.service';
 import { Skill } from '../Skill';
 
 @Component({
-    selector: 'app-skills',
-    templateUrl: './skills.component.html',
-    styleUrls: ['./skills.component.css'],
+    selector: 'app-skill',
+    templateUrl: './skill.component.html',
+    styleUrls: ['./skill.component.css'],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class SkillsComponent implements OnInit {
+export class SkillComponent implements OnInit {
+
+    @Input()
+    skill: Skill;
+    @Input()
+    showValue: boolean = true;
 
     constructor(
         private changeDetector: ChangeDetectorRef,
         public characterService: CharacterService,
+        public abilitiesService: AbilitiesService,
         public skillsService: SkillsService,
+        public traitsService: TraitsService,
+        public effectsService: EffectsService,
     ) { }
 
     get_Skills(name: string = "", type: string = "") {
         return this.characterService.get_Skills(name, type);
+    }
+
+    get_TraitsForThis(name: string) {
+        return this.traitsService.get_TraitsForThis(this.characterService, name);
+    }
+
+    get_FeatsShowingOn(skillName: string) {
+        return this.characterService.get_FeatsShowingOn(skillName);
     }
 
     still_loading() {
@@ -41,7 +57,6 @@ export class SkillsComponent implements OnInit {
     }
 
     ngOnInit() {
-        this.skillsService.initialize()
         this.finish_Loading();
     }
 

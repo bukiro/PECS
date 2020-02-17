@@ -69,15 +69,11 @@
   input.number {
     width: 50px;
   }
-  
+
   label {
-    font-size: 12px;
-    font-weight: bold;
-    margin-bottom: 4px;
-    display: block;
-    text-transform: uppercase;
+    display: inherit;
   }
-  
+
   /* Button */
   .button, button {
     display: inline-flex;
@@ -154,8 +150,7 @@
     background-color: #EFEFEF;
   }
   .itemBox {
-    min-width: 400px;
-    max-width: 900px;
+    width: 900px;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
@@ -190,6 +185,10 @@
 
   .itemBox .fancybutton.list-item {
     background-color: #1976d2;
+  }
+
+  .list-item :last-child {
+    margin-bottom:0;
   }
 
   .row {

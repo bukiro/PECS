@@ -5,7 +5,7 @@ export class Ability {
     constructor (
         public name: string = "",
     ) {}
-    baseValue(characterService) {
+    baseValue(characterService, charLevel: number = characterService.get_Character().level) {
         if (characterService.still_loading()) { return 10; }
         let character = characterService.get_Character();
         //Get baseValues from the character if they exist, otherwise 10
@@ -14,12 +14,11 @@ export class Ability {
         if (baseValues.length > 0) {
             baseValue = baseValues[0].value
         }
-        let level = character.level;
         //Get any boosts from the character and sum them up
         //Boosts are +2 until 18, then +1
         //Flaws are always -2
         let boostSum: number = 0;
-        let boosts = character.get_AbilityBoosts(0, level, this.name);
+        let boosts = character.get_AbilityBoosts(0, charLevel, this.name);
         if (boosts) {
             boosts.forEach(boost => {
                 if (boost.type == "boost") {
@@ -58,9 +57,6 @@ export class Ability {
         if (characterService.still_loading()) {return 10;}
         //Add all active bonuses and penalties to the base value
         let result = this.baseValue(characterService) + this.bonus(effectsService) + this.penalty(effectsService);
-        if (this.name == "Strength") {
-            let c = 1;
-        }
         return result;
     }
     mod(characterService: CharacterService, effectsService: EffectsService) {

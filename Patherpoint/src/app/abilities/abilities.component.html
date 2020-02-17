@@ -3,12 +3,18 @@
     <div class="loading" *ngIf="still_loading()">Loading</div>
     <div *ngIf="!still_loading()">
         <div class="list-item" *ngFor="let ability of abilitiesService.get_Abilities()">
-        <strong>{{ability.name}}</strong>
-        <input class="number" type="number" [className]="(ability.penalty(this.effectsService) < 0) ? 'penalty' : (ability.bonus(this.effectsService) > 0) ? 'bonus' : ''" value="{{ability.value(this.characterService, this.effectsService)}}" disabled>
-        Modifier: <input class="number" type="number" [className]="(ability.penalty(this.effectsService) < 0) ? 'penalty' : (ability.bonus(this.effectsService) > 0) ? 'bonus' : ''" value="{{ability.mod(this.characterService, this.effectsService)}}" disabled>
-        <div class="row" *ngIf="ability.effects(this.effectsService).length">
-            <cite *ngFor="let effect of ability.effects(this.effectsService)" [className]="effect.penalty ? 'penalty' : 'bonus'">{{effect.value}} ({{effect.source}})&nbsp;</cite>
-        </div>
-    </div> 
+            <strong>{{ability.name}}</strong>
+            <input class="number" type="number"
+                [className]="(ability.penalty(this.effectsService) < 0) ? 'penalty' : (ability.bonus(this.effectsService) > 0) ? 'bonus' : ''"
+                value="{{ability.value(this.characterService, this.effectsService)}}" disabled>
+            Modifier: <input class="number" type="number"
+                [className]="(ability.penalty(this.effectsService) < 0) ? 'penalty' : (ability.bonus(this.effectsService) > 0) ? 'bonus' : ''"
+                value="{{ability.mod(this.characterService, this.effectsService)}}" disabled>
+            <div class="row" *ngIf="ability.effects(this.effectsService).length">
+                <cite *ngFor="let effect of ability.effects(this.effectsService)"
+                    [className]="effect.penalty ? 'penalty' : 'bonus'">{{effect.value}} ({{effect.source}})&nbsp;
+                </cite>
+            </div>
+        </div> 
     </div>
 </div>
