@@ -25,5 +25,17 @@
     { "name":"Light", "type":"armorProf" },
     { "name":"Medium", "type":"armorProf" },
     { "name":"Heavy", "type":"armorProf" },
-    { "name":"Unarmored", "type":"armorProf" }
+    { "name":"Unarmored", "type":"armorProf" },
+    { "name":"Alchemy class DC", "type":"classDC" },
+    { "name":"Barbarian class DC", "type":"classDC" },
+    { "name":"Bard class DC", "type":"classDC" },
+    { "name":"Champion class DC", "type":"classDC" },
+    { "name":"Cleric class DC", "type":"classDC" },
+    { "name":"Druid class DC", "type":"classDC" },
+    { "name":"Fighter class DC", "type":"classDC" },
+    { "name":"Monk class DC", "type":"classDC" },
+    { "name":"Ranger class DC", "type":"classDC" },
+    { "name":"Rogue class DC", "type":"classDC" },
+    { "name":"Sorcerer class DC", "type":"classDC" },
+    { "name":"Wizard class DC", "type":"classDC" }
 ]

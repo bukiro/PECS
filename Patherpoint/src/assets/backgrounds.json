@@ -1,5 +1,5 @@
 [
-    { "name":"Acolyte", "abilities":["Intelligence", "Wisdom"], "freeabilityboosts":1, "skill":"Religion", "lore":"Scribing", "feat":"Student of the Canon" },
-    { "name":"Acrobat", "abilities":["Strength", "Dexterity"], "freeabilityboosts":1, "skill":"Acrobatics", "lore":"Circus", "feat":"Steady Balance" },
-    { "name":"Animal Whisperer", "abilities":["Wisdom", "Charisma"], "freeabilityboosts":1, "skill":"Nature", "lore":"Special:Terrain", "feat":"Train Animal" }
+    { "name":"Acolyte", "abilityChoices":["Intelligence", "Wisdom"], "abilityBoosts_available":1, "skill":"Religion", "lore":"Scribing", "feat":"Student of the Canon" },
+    { "name":"Acrobat", "abilityChoices":["Strength", "Dexterity"], "abilityBoosts_available":1, "skill":"Acrobatics", "lore":"Circus", "feat":"Steady Balance" },
+    { "name":"Animal Whisperer", "abilityChoices":["Wisdom", "Charisma"], "abilityBoosts_available":1, "skill":"Nature", "lore":"Special:Terrain", "feat":"Train Animal" }
 ]

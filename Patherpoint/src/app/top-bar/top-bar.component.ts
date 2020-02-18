@@ -55,7 +55,6 @@ export class TopBarComponent implements OnInit {
     }
 
     print() {
-        this.characterService.get_Character().ancestry.prepare_Export();
         this.characterService.print();
     }
 

@@ -1,94 +1,57 @@
 import { Injectable } from '@angular/core';
 import { Class } from './Class';
 import { Level } from './Level';
+import { HttpClient } from '@angular/common/http';
+import { Observable } from 'rxjs';
 
 @Injectable({
     providedIn: 'root'
 })
 export class ClassesService {
 
-    classes: Class[] = [
-        new Class(
-            "Monk",
-            [ "Strength", "Dexterity" ],
-            "",
-            [new Level(
-                1,
-                [],
-                4,
-                0,
-                [{ name:"Monk", rank:2 }],
-                [],
-                1,
-                0,
-                1,
-                0,
-                0,
-                0,
-                0,
-                0,
-                [
-                    { name:"Fortitude", source:"class" },
-                    { name:"Fortitude", source:"class" },
-                    { name:"Reflex", source:"class" },
-                    { name:"Reflex", source:"class" },
-                    { name:"Will", source:"class" },
-                    { name:"Will", source:"class" },
-                    { name:"Perception", source:"class" },
-                    { name:"Simple", source:"class" },
-                    { name:"Unarmed", source:"class" },
-                    { name:"Unarmored", source:"class" },
-                    { name:"Unarmored", source:"class" },
-                    { name:"Monk", source:"feat", type:"weapon" }
-                ],
-                4,
-                0
-            ),
-            new Level(
-                2,
-                [],
-                0,
-                0,
-                [],
-                [],
-                0,
-                0,
-                1,
-                0,
-                1,
-                0,
-                0,
-                0,
-                [],
-                0,
-                0
-            ),
-            new Level(
-                3,
-                [],
-                0,
-                0,
-                [],
-                [],
-                0,
-                0,
-                0,
-                0,
-                0,
-                0,
-                1,
-                0,
-                [],
-                1,
-                0
-            )]
-        )
-    ]
-
-constructor() { }
+    classes: Class[];
+    private loader; 
+    private loading: boolean = false;
+    
+    constructor(
+        private http: HttpClient,
+    ) { }
 
     get_Classes(name: string = "") {
-        return this.classes.filter($class => $class.name == name || name == "")
+        if (!this.still_loading()) {
+            return this.classes.filter($class => $class.name == name || name == "")
+        } else { return [new Class()] }
+    }
+
+    still_loading() {
+        return (this.loading);
+    }
+  
+    load_Classes(): Observable<String[]>{
+        return this.http.get<String[]>('/assets/classes.json');
+    }
+  
+    initialize() {
+        if (!this.classes) {
+        this.loading = true;
+        this.load_Classes()
+            .subscribe((results:String[]) => {
+                this.loader = results;
+                this.finish_loading()
+            });
+        }
+    }
+  
+    finish_loading() {
+        if (this.loader) {
+            this.classes = this.loader.map($class => Object.assign(new Class(), $class));
+            this.classes.forEach($class => {
+                $class.levels = $class.levels.map(level => Object.assign(new Level(), level));
+            });
+  
+            this.loader = [];
+        }
+        if (this.loading) {this.loading = false;}
     }
 
 }

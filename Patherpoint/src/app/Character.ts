@@ -12,9 +12,6 @@ import { Heritage } from './Heritage';
 export class Character {
     public name: string = "";
     public level: number = 1;
-    public ancestry: Ancestry = new Ancestry;
-    public heritage: Heritage = new Heritage;
-    public background: Background = new Background;
     public class: Class = new Class();
     public customSkills: Skill[] = [];
     public loreFeats: Feat[] = [];
@@ -26,35 +23,75 @@ export class Character {
     set_Changed(characterService: CharacterService, ) {
         characterService.set_Changed();
     }
-    get_AbilityBoosts(minLevelNumber: number, maxLevelNumber: number, abilityName: string, source: string = "") {
+    get_AbilityBoosts(minLevelNumber: number, maxLevelNumber: number, abilityName: string = "", source: string = "") {
         if (this.class) {
             let boosts = [];
             let levels = this.class.levels.filter(level => level.number >= minLevelNumber && level.number <= maxLevelNumber );
             levels.forEach(level => {
-                level.abilityBoosts.filter(boost => boost.name == abilityName && (boost.source == source || source == "")).forEach(boost => {
+                level.abilityBoosts.filter(boost => (boost.name == abilityName || abilityName == "") && (boost.source == source || source == "")).forEach(boost => {
                     boosts.push(boost);
                 });
             });
-            if (minLevelNumber == 0) {
-                let ancestryBoosts = this.ancestry.level.abilityBoosts;
-                ancestryBoosts.filter(boost => boost.name == abilityName && (boost.source == source || source == "")).forEach(boost => {
-                    boosts.push(boost);
-                });
-            }
             return boosts;
         }
     }
     boostAbility(characterService: CharacterService, level: Level, abilityName: string, boost: boolean, source: string) {
         if (boost) {
+            let background = characterService.get_Character().class.background;
             level.abilityBoosts.push({"name":abilityName, "type":"boost", "source":source});
-            if (source == "level" || source == 'free') {
-                level.abilityBoosts_applied += 1;
+            switch (source) {
+                case "level":
+                    level.abilityBoosts_applied += 1;
+                    break;
+                case "freeAncestry":
+                    level.ancestryAbilityBoosts_applied += 1;
+                    break;
+                case "keyAbility":
+                    level.keyAbilityBoosts_applied += 1;
+                    break;
+                case "background":
+                    level.backgroundAbilityBoosts_applied += 1;
+                    background.freeAbilityChoices = [];
+                    characterService.get_Abilities().forEach(ability => {
+                        if (ability.name != abilityName) {
+                            background.freeAbilityChoices.push(ability.name)
+                        }
+                    });
+                    if (this.get_AbilityBoosts(1, 1, abilityName, "freeBackground").length) {
+                        this.boostAbility(characterService, level, abilityName, false, "freeBackground");
+                    }
+                    break;
+                case "freeBackground":
+                    level.freeBackgroundAbilityBoosts_applied += 1;
+                    if (this.get_AbilityBoosts(1, 1, abilityName, "background").length) {
+                        this.boostAbility(characterService, level, abilityName, false, "background");
+                    }
+                    break;
             }
         } else {
+            let background = characterService.get_Character().class.background;
             let oldBoost = level.abilityBoosts.filter(boost => boost.name == abilityName && boost.type == "boost" && boost.source == source)[0];
             level.abilityBoosts = level.abilityBoosts.filter(boost => boost !== oldBoost);
-            if (source == "level" || source == 'free') {
-                level.abilityBoosts_applied -= 1;
+            switch (source) {
+                case "level":
+                    level.abilityBoosts_applied -= 1;
+                    break;
+                case "freeAncestry":
+                    level.ancestryAbilityBoosts_applied -= 1;
+                    break;
+                case "keyAbility":
+                    level.keyAbilityBoosts_applied -= 1;
+                    break;
+                case "background":
+                    level.backgroundAbilityBoosts_applied -= 1;
+                    background.freeAbilityChoices = [];
+                    characterService.get_Abilities().forEach(ability => {
+                        background.freeAbilityChoices.push(ability.name)
+                    });
+                    break;
+                case "freeBackground":
+                    level.freeBackgroundAbilityBoosts_applied -= 1;
+                    break;
             }
         }
         this.set_Changed(characterService);

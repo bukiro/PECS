@@ -10,6 +10,9 @@ import { FeatsService } from '../feats.service';
 import { Feat } from '../Feat';
 import { HistoryService } from '../history.service';
 import { Ancestry } from '../Ancestry';
+import { Heritage } from '../Heritage';
+import { ItemsService } from '../items.service';
+import { Background } from '../Background';
 
 @Component({
     selector: 'app-character',
@@ -30,7 +33,8 @@ export class CharacterComponent implements OnInit {
         public abilitiesService: AbilitiesService,
         public effectsService: EffectsService,
         public featsService: FeatsService,
-        public historyService: HistoryService
+        public historyService: HistoryService,
+        private itemsService: ItemsService
     ) { }
 
     toggleCharacterMenu(position: string = "") {
@@ -52,6 +56,10 @@ export class CharacterComponent implements OnInit {
         }
     }
 
+    get_Level(number: number) {
+        return this.characterService.get_Character().class.levels[number];
+    }
+
     get_showItem() {
         return this.showItem;
     }
@@ -69,16 +77,19 @@ export class CharacterComponent implements OnInit {
         return this.characterService.get_Abilities(name)
     }
 
-    get_AvailableAbilities(level: Level, source: string = 'level') {
+    get_AvailableAbilities(level: Level, source: string = 'level', filter:string[] = [], applied: number = level.abilityBoosts_applied, available: number = level.abilityBoosts_available) {
         let abilities = this.get_Abilities('');
+        if (filter.length) {
+            abilities = abilities.filter(ability => filter.indexOf(ability.name) > -1)
+        }
         if (abilities) {
             return abilities.filter(ability => (
-                this.get_AbilityBoosts(level.number, level.number, ability.name, source).length || (level.abilityBoosts_applied < level.abilityBoosts_available)
+                this.get_AbilityBoosts(level.number, level.number, ability.name, source).length || (applied < available)
             ))
         }
     }
     
-    get_AbilityBoosts(minLevelNumber: number, maxLevelNumber: number, abilityName: string, source: string = "") {
+    get_AbilityBoosts(minLevelNumber: number, maxLevelNumber: number, abilityName: string = "", source: string = "") {
         return this.characterService.get_Character().get_AbilityBoosts(minLevelNumber, maxLevelNumber, abilityName, source);
     }
 
@@ -146,9 +157,33 @@ export class CharacterComponent implements OnInit {
 
     onAncestryChange(ancestry: Ancestry, taken: boolean) {
         if (taken) {
-            this.characterService.change_Ancestry(ancestry);
+            this.characterService.change_Ancestry(ancestry, this.itemsService);
         } else {
-            this.characterService.change_Ancestry(new Ancestry());
+            this.characterService.change_Ancestry(new Ancestry(), this.itemsService);
+        }
+    }
+
+    get_Heritages(name: string = "", ancestryName: string = "") {
+        return this.historyService.get_Heritages(name, ancestryName);
+    }
+
+    onHeritageChange(heritage: Heritage, taken: boolean) {
+        if (taken) {
+            this.characterService.change_Heritage(heritage);
+        } else {
+            this.characterService.change_Heritage(new Heritage());
+        }
+    }
+
+    get_Backgrounds(name: string = "") {
+        return this.historyService.get_Backgrounds(name);
+    }
+    
+    onBackgroundChange(background: Background, taken: boolean) {
+        if (taken) {
+            this.characterService.change_Background(background);
+        } else {
+            this.characterService.change_Background(new Background());
         }
     }
 

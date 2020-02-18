@@ -1,0 +1,48 @@
+[
+    {
+        "name":"Monk",
+        "levels":[
+            {
+                "number":0
+            },
+            {
+                "number":1,
+                "keyAbilityChoices":[ "Strength", "Dexterity"],
+                "keyAbilityBoosts_available":1,
+                "abilityBoosts_available":4,
+                "ancestryFeats_available":1,
+                "classFeats_available":1,
+                "skillIncreases":[
+                    { "name":"Fortitude", "source":"class" },
+                    { "name":"Fortitude", "source":"class" },
+                    { "name":"Reflex", "source":"class" },
+                    { "name":"Reflex", "source":"class" },
+                    { "name":"Will", "source":"class" },
+                    { "name":"Will", "source":"class" },
+                    { "name":"Perception", "source":"class" },
+                    { "name":"Simple", "source":"class" },
+                    { "name":"Unarmed", "source":"class" },
+                    { "name":"Unarmored", "source":"class" },
+                    { "name":"Unarmored", "source":"class" },
+                    { "name":"Monk class DC", "source":"class" }
+                ],
+                "skillIncreases_available":4
+            },
+            {
+                "number":2,
+                "classFeats_available":1,
+                "skillFeats_available":1
+            },
+            {
+                "number":3,
+                "generalFeats_available":1,
+                "skillIncreases_available":1
+            },
+            {
+                "number":4,
+                "classFeats_available":1,
+                "skillFeats_available":1
+            }
+        ]
+    }
+]

@@ -20,6 +20,7 @@ import { Ancestry } from './Ancestry';
 import { HistoryService } from './history.service';
 import { Heritage } from './Heritage';
 import { Background } from './Background';
+import { ItemsService } from './items.service';
 
 @Injectable({
     providedIn: 'root'
@@ -84,14 +85,29 @@ export class CharacterService {
 
     changeClass($class: Class) {
         this.me.class = new Class();
-        this.me.class = Object.assign({}, JSON.parse(JSON.stringify($class)));
+        this.me.class = Object.assign(new Class(), JSON.parse(JSON.stringify($class)));
         this.set_Changed();
     }
 
-    change_Ancestry(ancestry: Ancestry) {
-        this.me.ancestry = new Ancestry();
-        this.me.ancestry = Object.assign(new Ancestry(), JSON.parse(JSON.stringify(ancestry)))
-        this.me.ancestry.on_Import();
+    change_Ancestry(ancestry: Ancestry, itemsService: ItemsService) {
+        this.me.class.on_ChangeAncestry(this);
+        this.me.class.ancestry = new Ancestry();
+        this.me.class.ancestry = Object.assign(new Ancestry(), JSON.parse(JSON.stringify(ancestry)))
+        this.me.class.on_NewAncestry(this, itemsService);
+        this.set_Changed();
+    }
+
+    change_Heritage(heritage: Heritage) {
+        this.me.class.heritage = new Heritage();
+        this.me.class.heritage = Object.assign(new Heritage(), JSON.parse(JSON.stringify(heritage)))
+        this.set_Changed();
+    }
+
+    change_Background(background: Background) {
+        this.me.class.on_ChangeBackground();
+        this.me.class.background = new Background();
+        this.me.class.background = Object.assign(new Background(), JSON.parse(JSON.stringify(background)));
+        this.me.class.on_NewBackground();
         this.set_Changed();
     }
 
@@ -121,7 +137,6 @@ export class CharacterService {
     }
 
     drop_InventoryItem(item: Item) {
-
         this.me.inventory[item.type] = this.me.inventory[item.type].filter(any_item => any_item !== item);
         this.equip_basicItems();
         this.set_Changed();
@@ -227,6 +242,7 @@ export class CharacterService {
         this.traitsService.initialize();
         this.featsService.initialize();
         this.historyService.initialize();
+        this.classesService.initialize();
         this.loading = true;
         this.load_Character(charName)
             .subscribe((results:string[]) => {
@@ -260,15 +276,14 @@ export class CharacterService {
             } else {
                 this.me.inventory = new ItemCollection();
             }
-            if (this.me.ancestry) {
-                this.me.ancestry = Object.assign(new Ancestry(), this.me.ancestry);
-                this.me.ancestry.on_Import();
+            if (this.me.class.ancestry) {
+                this.me.class.ancestry = Object.assign(new Ancestry(), this.me.class.ancestry);
             }
-            if (this.me.heritage) {
-                this.me.heritage = Object.assign(new Heritage(), this.me.heritage);
+            if (this.me.class.heritage) {
+                this.me.class.heritage = Object.assign(new Heritage(), this.me.class.heritage);
             }
-            if (this.me.background) {
-                this.me.background = Object.assign(new Background(), this.me.background);
+            if (this.me.class.background) {
+                this.me.class.background = Object.assign(new Background(), this.me.class.background);
             }
 
             this.loader = [];
