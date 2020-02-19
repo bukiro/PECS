@@ -21,9 +21,9 @@ export class Ability {
         let boosts = character.get_AbilityBoosts(0, charLevel, this.name);
         if (boosts) {
             boosts.forEach(boost => {
-                if (boost.type == "boost") {
+                if (boost.type == "Boost") {
                     boostSum += (boostSum < 8) ? 2 : 1;
-                } else if (boost.type == "flaw") {
+                } else if (boost.type == "Flaw") {
                     boostSum -= 2; 
                 }
             })

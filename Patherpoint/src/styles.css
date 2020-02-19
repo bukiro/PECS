@@ -22,6 +22,12 @@
     flex-direction: row;
     flex-wrap: wrap; 
   }
+  
+  .characterSheetColumn {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: nowrap;
+  }
 
   router-outlet + *  {
     padding: 0 16px;
@@ -68,6 +74,7 @@
   }
   input.number {
     width: 50px;
+    margin-bottom: 0px;
   }
 
   label {

@@ -77,7 +77,7 @@ export class CharacterComponent implements OnInit {
         return this.characterService.get_Abilities(name)
     }
 
-    get_AvailableAbilities(level: Level, source: string = 'level', filter:string[] = [], applied: number = level.abilityBoosts_applied, available: number = level.abilityBoosts_available) {
+    get_AvailableAbilities(level: Level, source: string = 'Level', filter:string[] = [], applied: number = level.abilityBoosts_applied, available: number = level.abilityBoosts_available) {
         let abilities = this.get_Abilities('');
         if (filter.length) {
             abilities = abilities.filter(ability => filter.indexOf(ability.name) > -1)
@@ -101,29 +101,38 @@ export class CharacterComponent implements OnInit {
         return this.characterService.get_Skills(name, type)
     }
 
-    get_AvailableSkills(type: string = "", level: Level) {
+    get_AvailableSkills(level: Level, type: string = "", applied: number = level.skillIncreases_applied, available: number = level.skillIncreases_available, highestLevel: number = 6) {
         let skills = this.get_Skills('', type);
         if (skills) {
             return skills.filter(skill => (
-                this.canIncrease(skill, level) || (this.get_SkillIncreases(level.number, level.number, skill.name, 'level').length > 0)
+                this.canIncrease(skill, level, applied, available, highestLevel) || (this.get_SkillIncreases(level.number, level.number, skill.name, '').length > 0)
                 ));
         }
     }
 
     get_SkillIncreases(minLevelNumber: number, maxLevelNumber: number, skillName: string, source: string = "") {
-        return this.characterService.get_Character().get_SkillIncreases(minLevelNumber, maxLevelNumber, skillName);
+        return this.characterService.get_Character().get_SkillIncreases(minLevelNumber, maxLevelNumber, skillName, source);
     }
 
     onSkillIncrease(level: Level, skillName: string, boost: boolean, source: string) {
         this.characterService.get_Character().increaseSkill(this.characterService, level, skillName, boost, source);
     }
 
+    on_LoreChange(level: Level, skillName: string, boost: boolean, source: string) {
+        if (boost) {
+            this.characterService.get_Character().class.add_Lore(this.characterService, level, skillName, source);
+        } else {
+            this.characterService.get_Character().class.remove_Lore(this.characterService, skillName);
+        }
+        
+    }
+
     get_Feats(name: string = "", type: string = "") {
-        return this.featsService.get_Feats(this.characterService.get_Character().loreFeats, name, type);
+        return this.featsService.get_Feats(this.characterService.get_Character().customFeats, name, type);
     }
 
     get_AvailableFeats(type: string = "", level: Level, source: string = "") {
-        let feats = this.featsService.get_Feats(this.characterService.get_Character().loreFeats, "", type);
+        let feats = this.featsService.get_Feats(this.characterService.get_Character().customFeats, "", type);
         if (feats) {
             return feats.filter(feat => 
                 (this.canChoose(feat, type, level) || this.get_FeatsTaken(level.number, level.number, feat.name, source).length > 0)
@@ -193,17 +202,21 @@ export class CharacterComponent implements OnInit {
         return INT;
     }
 
-    canIncrease(skill: Skill, level: Level)  {
+    canIncrease(skill: Skill, level: Level, applied: number = level.skillIncreases_applied, available: number = level.skillIncreases_available, highestLevel: number = 6) {
         let canIncrease = skill.canIncrease(this.characterService, level.number);
-        let hasBeenIncreased = (this.characterService.get_Character().get_SkillIncreases(level.number, level.number, skill.name, 'level').length > 0);
-        //At level 1, allow INT more skills
+        let hasBeenIncreased = (this.characterService.get_Character().get_SkillIncreases(level.number, level.number, skill.name, '').length > 0);
+        //At class level 1, allow INT more skills
         let allIncreasesApplied = false;
-        if (level.number == 1) {
-            allIncreasesApplied = (level.skillIncreases_applied >= level.skillIncreases_available + this.get_INT(level.number));
+        if (level.number == 1 && available == level.skillIncreases_available) {
+            allIncreasesApplied = (applied >= available + this.get_INT(level.number));
         } else {
-            allIncreasesApplied = (level.skillIncreases_applied >= level.skillIncreases_available);
+            allIncreasesApplied = (applied >= available);
         }
-        return canIncrease && !hasBeenIncreased && !allIncreasesApplied;
+        //If this skill was learned by a feat on a higher level, it can't be raised on this level
+        let trainedOnHigherLevel = (this.characterService.get_Character().get_SkillIncreases(level.number+1, 20, skill.name, 'Feat').length > 0);
+        //Sometimes you can only raise skills that haven't reached a certain level yet (like when you're learning a new one)
+        let highestLevelReached = (this.characterService.get_Character().get_SkillIncreases(0, level.number, skill.name, '').length * 2 > highestLevel)
+        return canIncrease && !hasBeenIncreased && !allIncreasesApplied && !trainedOnHigherLevel && !highestLevelReached;
     }
 
     canChoose(feat: Feat, type: string, level: Level) {
@@ -219,6 +232,9 @@ export class CharacterComponent implements OnInit {
                 break;
             case "Ancestry":
                 allFeatsTaken = (level.ancestryFeats_applied >= level.ancestryFeats_available)
+                break;
+            case "Class":
+                allFeatsTaken = (level.classFeats_applied >= level.classFeats_available)
                 break;
         }
         return canChoose && !hasBeenTaken && !allFeatsTaken;

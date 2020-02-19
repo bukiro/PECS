@@ -1,5 +1,5 @@
-<input id="{{level.number}}{{feat.name}}_take" type="checkbox" (change)="onFeatTaken(level, feat.name, this.type, $event.target.checked, 'level')"
-    [checked]="get_FeatsTaken(level.number, level.number, feat.name, 'level').length">
+<input id="{{level.number}}{{feat.name}}_take" type="checkbox" (change)="onFeatTaken(level, feat.name, this.type, $event.target.checked, 'Level')"
+    [checked]="get_FeatsTaken(level.number, level.number, feat.name, 'Level').length">
 <label for="{{level.number}}{{feat.name}}_take"><strong>{{feat.name}}</strong> (Level: {{feat.levelreq}}{{(feat.skillreq) ? ", "+feat.skillreq : ""}})</label>
 <button class="button fancybutton" (click)="toggle_Item(level.number+'generalFeats'+feat.name)">
     Show Description

@@ -69,6 +69,10 @@ export class CharacterService {
         return this.itemsMenuState;
     }
 
+    get_Level(number: number) {
+        return this.get_Character().class.levels[number];
+    }
+
     get_Character() {
         if (!this.still_loading()) {
             return this.me;
@@ -104,10 +108,10 @@ export class CharacterService {
     }
 
     change_Background(background: Background) {
-        this.me.class.on_ChangeBackground();
+        this.me.class.on_ChangeBackground(this);
         this.me.class.background = new Background();
         this.me.class.background = Object.assign(new Background(), JSON.parse(JSON.stringify(background)));
-        this.me.class.on_NewBackground();
+        this.me.class.on_NewBackground(this);
         this.set_Changed();
     }
 
@@ -200,11 +204,12 @@ export class CharacterService {
         }
     }
 
-    add_customSkill(skillName: string, abilityName: string) {
-        this.me.customSkills.push(new Skill(skillName, abilityName));
+    add_CustomSkill(skillName: string, type: string, abilityName: string) {
+        this.me.customSkills.push(new Skill(skillName, type, abilityName));
+        this.set_Changed();
     }
 
-    remove_customSkill(oldSkill: Skill) {
+    remove_CustomSkill(oldSkill: Skill) {
         this.me.customSkills = this.me.customSkills.filter(lore => lore !== oldSkill);
         this.set_Changed();
     }
@@ -218,7 +223,7 @@ export class CharacterService {
     }
 
     get_Feats(name: string = "", type: string = "") {
-        return this.featsService.get_Feats(this.me.loreFeats, name, type);
+        return this.featsService.get_Feats(this.me.customFeats, name, type);
     }
 
     get_FeatsShowingOn(objectName: string) {

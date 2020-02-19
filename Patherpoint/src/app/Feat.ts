@@ -19,10 +19,12 @@ export class Feat {
     public traits: string[] = [];
     public increase: string = "";
     public effects: string[] = [];
-    public gainancestryfeat: number = 0;
-    public gaingeneralfeat: number = 0;
-    public gainclassfeat: number = 0;
-    public gainskilltraining: number = 0;
+    public specialEffect: boolean = false;
+    public gainAncestryFeat: number = 0;
+    public gainGeneralFeat: number = 0;
+    public gainClassFeat: number = 0;
+    public gainSkillTraining: number = 0;
+    public gainLore: true;
     canChoose(characterService: CharacterService, abilitiesService: AbilitiesService, effectsService: EffectsService, charLevel: number = characterService.get_Character().level, ignoreCurrentLevel: boolean = false) {
     //This function evaluates ALL the possible requirements for taking a feat
     //Returns true only if all the requirements are true. If the feat doesn't have a requirement, it is always true.

@@ -28,6 +28,22 @@ export class Level {
         public skillIncreases_applied: number = 0,
         public classSkillChoices = [],
         public classSkillIncreases_available: number = 0,
-        public classSkillIncreases_applied: number = 0
+        public classSkillIncreases_applied: number = 0,
+        public backgroundSkillIncreases_available: number = 0,
+        public backgroundSkillIncreases_applied: number = 0,
+        public backgroundLore_available: number = 0,
+        public backgroundLore_applied: number = 0,
+        public featLoreName: string = "",
+        public featLore_available: number = 0,
+        public featLore_applied: number = 0,
+        public featAncestryFeats_available: number = 0,
+        public featAncestryFeats_applied: number = 0,
+        public featClassFeats_available: number = 0,
+        public featClassFeats_applied: number = 0,
+        public featSkillFeats_available: number = 0,
+        public featSkillFeats_applied: number = 0,
+        public featSkillChoices = [],
+        public featSkillIncreases_available: number = 0,
+        public featSkillIncreases_applied: number = 0,
     ) { }
 }
