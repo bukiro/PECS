@@ -1,22 +1,12 @@
 import { SkillIncrease } from './SkillIncrease';
 import { LoreIncrease } from './LoreIncrease';
+import { AbilityBoost } from './AbilityBoost';
 
 export class Level {
     constructor (
         public number: number = 0,
         public abilityBoosts = [],
-        public keyAbilityChoices = [],
-        public keyAbilityBoosts_available = 0,
-        public keyAbilityBoosts_applied = 0,
-        public ancestryAbilityBoosts_available = 0,
-        public ancestryAbilityBoosts_applied = 0,
-        public backgroundAbilityBoosts_available = 0,
-        public backgroundAbilityBoosts_applied = 0,
-        public freeBackgroundAbilityBoosts_available = 0,
-        public freeBackgroundAbilityBoosts_applied = 0,
-        public abilityBoosts_available = 0,
-        public abilityBoosts_applied = 0,
-        public classDC = [],
+        public availableAbilityBoosts: AbilityBoost[] = [],
         public feats = [],
         public ancestryFeats_available: number = 0,
         public ancestryFeats_applied: number = 0,
@@ -29,15 +19,11 @@ export class Level {
         public skillIncreases = [],
         public availableSkillIncreases: SkillIncrease[] = [],
         public availableLoreIncreases: LoreIncrease[] = [],
-        public classSkillChoices = [],
-        public classSkillIncreases_available: number = 0,
-        public classSkillIncreases_applied: number = 0,
         public featAncestryFeats_available: number = 0,
         public featAncestryFeats_applied: number = 0,
         public featClassFeats_available: number = 0,
         public featClassFeats_applied: number = 0,
         public featSkillFeats_available: number = 0,
         public featSkillFeats_applied: number = 0,
-        public featSkillChoices = [],
     ) { }
 }

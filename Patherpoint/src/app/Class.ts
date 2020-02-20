@@ -5,7 +5,6 @@ import { Background } from './Background';
 import { CharacterService } from './character.service';
 import { ItemsService } from './items.service';
 import { Item } from './Item';
-import { APP_BOOTSTRAP_LISTENER } from '@angular/core';
 import { Skill } from './Skill';
 import { Feat } from './Feat';
 import { SkillIncrease } from './SkillIncrease';
@@ -20,20 +19,23 @@ export class Class {
         public background: Background = new Background()
     ) { }
     on_ChangeAncestry(characterService: CharacterService) {
-        this.levels[1].abilityBoosts = this.levels[1].abilityBoosts.filter(boost => boost.source != "Ancestry" && boost.source != "freeAncestry")
-        this.levels[1].ancestryAbilityBoosts_applied = 0;
-        if (this.ancestry.freeItems.length) {
-            this.ancestry.freeItems.forEach(freeItem => {
-                let item: Item = characterService.get_InventoryItems()[freeItem.type].filter(item => item.name == freeItem.name)[0];
-                if (item) {
-                    characterService.drop_InventoryItem(item);
-                }
-            });            
+        if (this.ancestry.name)
+        {
+            this.levels[1].abilityBoosts = this.levels[1].abilityBoosts.filter(boost => boost.source != "Ancestry" && boost.source != "freeAncestry")
+            this.levels[1].availableAbilityBoosts = this.levels[1].availableAbilityBoosts.filter(availableBoost => availableBoost.source != "Ancestry")
+            if (this.ancestry.freeItems.length) {
+                this.ancestry.freeItems.forEach(freeItem => {
+                    let item: Item = characterService.get_InventoryItems()[freeItem.type].filter(item => item.name == freeItem.name)[0];
+                    if (item) {
+                        characterService.drop_InventoryItem(item);
+                    }
+                });            
+            }
         }
     }
     on_NewAncestry(characterService: CharacterService, itemsService: ItemsService) {
         this.levels[1].abilityBoosts.push(...this.ancestry.abilityBoosts);
-        this.levels[1].ancestryAbilityBoosts_available = this.ancestry.abilityBoosts_available;
+        this.levels[1].availableAbilityBoosts.push(...this.ancestry.availableAbilityBoosts);
         if (this.ancestry.freeItems.length) {
             this.ancestry.freeItems.forEach(freeItem => {
                 let item: Item = itemsService.get_Items()[freeItem.type].filter(item => item.name == freeItem.name)[0];
@@ -49,43 +51,46 @@ export class Class {
 
     }
     on_ChangeBackground(characterService: CharacterService) {
-        this.levels[1].abilityBoosts = this.levels[1].abilityBoosts.filter(boost => boost.source != "Background" && boost.source != "Free Background")
-        this.levels[1].skillIncreases = this.levels[1].skillIncreases.filter(increase => increase.source != "Background")
-        this.levels[1].availableSkillIncreases = this.levels[1].availableSkillIncreases.filter(increase => increase.source != "Background")
-        this.levels[1].backgroundAbilityBoosts_applied = 0;
-        this.levels[1].freeBackgroundAbilityBoosts_applied = 0;
-        if (this.background.loreName) {
-            let temporarySource: LoreIncrease = {available:1, applied:1, loreName:this.background.loreName, loreDesc:"", source:'Background'};
-            this.remove_Lore(characterService, this.levels[1], this.background.loreName, temporarySource );
+        if (this.background.name)
+        {
+            this.levels[1].abilityBoosts = this.levels[1].abilityBoosts.filter(boost => boost.source != "Background" && boost.source != "Free Background")
+            this.levels[1].skillIncreases = this.levels[1].skillIncreases.filter(increase => increase.source != "Background")
+            this.levels[1].availableAbilityBoosts = this.levels[1].availableAbilityBoosts.filter(availableBoost => availableBoost.source != "Background" && availableBoost.source != "Free Background")
+            if (this.background.loreName) {
+                let temporaryAvailableIncrease: LoreIncrease = {available:1, applied:1, loreName:this.background.loreName, loreDesc:"", source:'Background'};
+                this.remove_Lore(characterService, this.levels[1], this.background.loreName, temporaryAvailableIncrease );
+            }
+            if (this.background.specialLore) {
+                let oldAvailableIncrease = this.levels[1].availableLoreIncreases.filter(availableIncrease => availableIncrease.source == "Background")[0]
+                this.remove_Lore(characterService, this.levels[1], oldAvailableIncrease.loreName, oldAvailableIncrease );
+            }
+            this.levels[1].availableLoreIncreases = this.levels[1].availableLoreIncreases.filter(increase => increase.source != "Background")
         }
-        if (this.background.specialLore) {
-            let source = this.levels[1].availableLoreIncreases.filter(increase => increase.source == "Background")[0]
-            this.remove_Lore(characterService, this.levels[1], source.loreName, source );
-        }
-        this.levels[1].availableLoreIncreases = this.levels[1].availableLoreIncreases.filter(increase => increase.source != "Background")
     }
     on_NewBackground(characterService: CharacterService) {
-        this.levels[1].backgroundAbilityBoosts_available = this.background.abilityBoosts_available;
-        this.levels[1].freeBackgroundAbilityBoosts_available = this.background.freeAbilityBoosts_available;
+        this.levels[1].availableAbilityBoosts.push(...this.background.availableAbilityBoosts);
         if (this.background.skill) {
+            //If the background grants a skill training, buy you have already trained this skill:
+            //Check if it is a free training (not locked). If so, remove it and reimburse the skill point, then replace it with the background's.
+            //If it is locked, we better not replace it. Instead, you get a free Background skill increase.
             if (characterService.get_Character().get_SkillIncreases(1, 1, this.background.skill, '').length) {
                 let firstOldIncrease = characterService.get_Character().get_SkillIncreases(1, 1, this.background.skill, '')[0];
-                if (firstOldIncrease.source == "Level") {
-                    let oldIncreaseSource: SkillIncrease = this.levels[1].availableSkillIncreases.filter(increase => increase.source == "Level")[0]
-                    let temporarySource: SkillIncrease = {available:1, applied:0, type:"Skill", maxRank:8, source:"Background"};
-                    characterService.get_Character().increase_Skill(characterService, this.levels[1], firstOldIncrease.name, false, oldIncreaseSource, firstOldIncrease.locked);
-                    characterService.get_Character().increase_Skill(characterService, this.levels[1], this.background.skill, true, temporarySource, true)
+                if (!firstOldIncrease.locked) {
+                    let oldAvailableIncrease: SkillIncrease = this.levels[1].availableSkillIncreases.filter(availableIncrease => availableIncrease.source == firstOldIncrease.source)[0]
+                    characterService.get_Character().increase_Skill(characterService, this.levels[1], firstOldIncrease.name, false, oldAvailableIncrease, false);
+                    let temporaryAvailableIncrease: SkillIncrease = {available:1, applied:0, type:"Skill", maxRank:8, source:"Background"};
+                    characterService.get_Character().increase_Skill(characterService, this.levels[1], this.background.skill, true, temporaryAvailableIncrease, true)
                 } else {
                     this.levels[1].availableSkillIncreases.push({available:1, applied:0, type:"Skill", maxRank:2, source:'Background'})
                 }
             } else {
-                let temporarySource: SkillIncrease = {available:1, applied:0, type:"Skill", maxRank:8, source:'Background'};
-                characterService.get_Character().increase_Skill(characterService, this.levels[1], this.background.skill, true, temporarySource, true)
+                let temporaryAvailableIncrease: SkillIncrease = {available:1, applied:0, type:"Skill", maxRank:8, source:'Background'};
+                characterService.get_Character().increase_Skill(characterService, this.levels[1], this.background.skill, true, temporaryAvailableIncrease, true)
             }
         }
         if (this.background.loreName) {
-                let temporarySource: LoreIncrease = {available:1, applied:0, loreName:this.background.loreName, loreDesc:"", source:'Background'};
-                this.add_Lore(characterService, this.levels[1], temporarySource.loreName, temporarySource);
+                let temporaryAvailableIncrease: LoreIncrease = {available:1, applied:0, loreName:this.background.loreName, loreDesc:"", source:'Background'};
+                this.add_Lore(characterService, this.levels[1], temporaryAvailableIncrease.loreName, temporaryAvailableIncrease);
         }
         if (this.background.specialLore) {
             this.levels[1].availableLoreIncreases.push({available:1, applied:0, loreName:"", loreDesc:this.background.specialLore, source:'Background'})
@@ -114,7 +119,7 @@ export class Class {
                 let levelLoreIncreases = level.skillIncreases.filter(increase => increase.name == 'Lore: '+loreName);
                 levelLoreIncreases.forEach(increase => {
                     let skillIncrease = level.availableSkillIncreases.filter(
-                        availableIncrease => availableIncrease.type == "Skill" && increase.source == increase.source
+                        availableIncrease => availableIncrease.type == "Skill" && availableIncrease.source == increase.source
                         )[0];
                     characterService.get_Character().increase_Skill(characterService, level, increase.name, false, skillIncrease, increase.locked);
                 });

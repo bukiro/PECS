@@ -1,9 +1,9 @@
+import { AbilityBoost } from './AbilityBoost';
+
 export class Background {
     public name: string = "";
     public abilityChoices: string[] = [];
-    public freeAbilityChoices: string[] = [];
-    public abilityBoosts_available: number = 1;
-    public freeAbilityBoosts_available: number = 1;
+    public availableAbilityBoosts: AbilityBoost[] = [];
     public skill: string = "";
     public loreName: string = "";
     public specialLore: string = "";

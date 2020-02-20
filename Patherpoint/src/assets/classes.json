@@ -7,9 +7,6 @@
             },
             {
                 "number":1,
-                "keyAbilityChoices":[ "Strength", "Dexterity"],
-                "keyAbilityBoosts_available":1,
-                "abilityBoosts_available":4,
                 "ancestryFeats_available":1,
                 "classFeats_available":1,
                 "skillIncreases":[
@@ -34,7 +31,22 @@
                     "maxRank":2,
                     "source":"Class"
                 }],
-                "skillIncreases_available":4
+                "availableAbilityBoosts":[
+                    {
+                        "available":1,
+                        "applied":0,
+                        "filter":["Strength", "Dexterity"],
+                        "baseValuesLost":0,
+                        "source":"Class Key Ability"
+                    },
+                    {
+                        "available":4,
+                        "applied":0,
+                        "filter":[],
+                        "baseValuesLost":4,
+                        "source":"Character Creation"
+                    }
+                ]
             },
             {
                 "number":2,
@@ -50,8 +62,7 @@
                     "type":"Skill",
                     "maxRank":4,
                     "source":"Class"
-                }],
-                "skillIncreases_available":1
+                }]
             },
             {
                 "number":4,
@@ -60,7 +71,6 @@
             },
             {
                 "number":5,
-                "abilityBoosts_available":4,
                 "ancestryFeats_available":1,
                 "availableSkillIncreases":[{
                     "available":1,
@@ -69,7 +79,13 @@
                     "maxRank":4,
                     "source":"Class"
                 }],
-                "skillIncreases_available":1
+                "availableAbilityBoosts":[{
+                    "available":4,
+                    "applied":0,
+                    "filter":[],
+                    "baseValuesLost":0,
+                    "source":"Class"
+                }]
             },
             {
                 "number":6,

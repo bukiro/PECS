@@ -14,22 +14,21 @@ export class Ability {
         if (baseValues.length > 0) {
             baseValue = baseValues[0].value
         }
+        baseValue = (baseValue) ? baseValue : 10;
         //Get any boosts from the character and sum them up
         //Boosts are +2 until 18, then +1
         //Flaws are always -2
-        let boostSum: number = 0;
         let boosts = character.get_AbilityBoosts(0, charLevel, this.name);
         if (boosts) {
             boosts.forEach(boost => {
                 if (boost.type == "Boost") {
-                    boostSum += (boostSum < 8) ? 2 : 1;
+                    baseValue += (baseValue < 18) ? 2 : 1;
                 } else if (boost.type == "Flaw") {
-                    boostSum -= 2; 
+                    baseValue -= 2;
                 }
             })
         }
-        baseValue = (baseValue) ? baseValue : 10;
-        return baseValue + boostSum
+        return baseValue;
     }
     effects(effectsService: EffectsService) {
         return effectsService.get_EffectsOnThis(this.name);

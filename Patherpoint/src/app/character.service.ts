@@ -88,6 +88,8 @@ export class CharacterService {
     }
 
     changeClass($class: Class) {
+        this.me.class.on_ChangeAncestry(this);
+        this.me.class.on_ChangeBackground(this);
         this.me.class = new Class();
         this.me.class = Object.assign(new Class(), JSON.parse(JSON.stringify($class)));
         this.set_Changed();

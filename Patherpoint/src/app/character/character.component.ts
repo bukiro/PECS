@@ -15,6 +15,8 @@ import { ItemsService } from '../items.service';
 import { Background } from '../Background';
 import { SkillIncrease } from '../SkillIncrease';
 import { LoreIncrease } from '../LoreIncrease';
+import { Ability } from '../Ability';
+import { AbilityBoost } from '../AbilityBoost';
 
 @Component({
     selector: 'app-character',
@@ -79,24 +81,61 @@ export class CharacterComponent implements OnInit {
         return this.characterService.get_Abilities(name)
     }
 
-    get_AvailableAbilities(level: Level, source: string = 'Level', filter:string[] = [], applied: number = level.abilityBoosts_applied, available: number = level.abilityBoosts_available) {
+    get_AvailableAbilities(level: Level, source: string, filter:string[], applied: number, available: number) {
         let abilities = this.get_Abilities('');
         if (filter.length) {
             abilities = abilities.filter(ability => filter.indexOf(ability.name) > -1)
         }
         if (abilities) {
             return abilities.filter(ability => (
-                this.get_AbilityBoosts(level.number, level.number, ability.name, source).length || (applied < available)
+                this.get_AbilityBoosts(level.number, level.number, ability.name, source, "Boost").length || (applied < available)
             ))
         }
     }
     
-    get_AbilityBoosts(minLevelNumber: number, maxLevelNumber: number, abilityName: string = "", source: string = "") {
-        return this.characterService.get_Character().get_AbilityBoosts(minLevelNumber, maxLevelNumber, abilityName, source);
+    cannotBoost(ability: Ability, level: Level, boost: AbilityBoost) {
+        //Returns a string of reasons why the abiliyt cannot be boosted, or "". Test the length of the return if you need a boolean.
+            let reasons: string[] = [];
+            let sameBoostsThisLevel = this.get_AbilityBoosts(level.number, level.number, ability.name, boost.source, "Boost");
+            //The ability may have been boosted by the same source, but as a fixed rule (e.g. fixed ancestry boosts vs. free ancestry boosts).
+            //This does not apply to flaws - you can boost a flawed ability.
+            if (sameBoostsThisLevel.length > 0 && sameBoostsThisLevel[0].source == boost.source && sameBoostsThisLevel[0].locked) {
+                let locked = "Fixed boost by "+sameBoostsThisLevel[0].source+".";
+                reasons.push(locked);
+            };
+            //Background ability boosts are an exception:
+            //If an ability has been raised by "Background", it cannot be raised by "Free Background" (and vice versa).
+            if (boost.source == "Background") {
+                let boostsThisLevel = this.get_AbilityBoosts(level.number, level.number, ability.name, "Free Background", "Boost");
+                if (boostsThisLevel.length) {
+                    let exclusive = "Boosted by "+boostsThisLevel[0].source+".";
+                    reasons.push(exclusive);
+                }
+            }
+            if (boost.source == "Free Background") {
+                let boostsThisLevel = this.get_AbilityBoosts(level.number, level.number, ability.name, "Background", "Boost");
+                if (boostsThisLevel.length) {
+                    let exclusive = "Boosted by "+boostsThisLevel[0].source+".";
+                    reasons.push(exclusive);
+                }
+            }
+            //On level 1, boosts are not allowed to raise the ability above 18.
+            //This is only relevant if you haven't boosted the ability on this level yet.
+            //If you have, we don't want to hear that it couldn't be boosted again right away.
+            let cannotBoostHigher = "";
+            if (level.number == 1 && ability.baseValue(this.characterService, level.number) > 16 && sameBoostsThisLevel.length == 0) {
+                cannotBoostHigher = "Cannot boost above 18 on this level.";
+                reasons.push(cannotBoostHigher);
+            }
+            return reasons;
+        }
+
+    get_AbilityBoosts(minLevelNumber: number, maxLevelNumber: number, abilityName: string = "", source: string = "", type: string = "", locked: boolean = undefined) {
+        return this.characterService.get_Character().get_AbilityBoosts(minLevelNumber, maxLevelNumber, abilityName, source, type, locked);
     }
 
-    onAbilityBoost(level: Level, abilityName: string, boost: boolean, source: string) {
-        this.characterService.get_Character().boostAbility(this.characterService, level, abilityName, boost, source);
+    on_AbilityBoost(level: Level, abilityName: string, boost: boolean, source: AbilityBoost, locked: boolean) {
+        this.characterService.get_Character().boost_Ability(this.characterService, level, abilityName, boost, source, locked);
     }
 
     get_Skills(name: string = "", type: string = "") {
@@ -122,13 +161,19 @@ export class CharacterComponent implements OnInit {
         }
     }
 
-    cannotIncrease(skill: Skill, level: Level, increase: SkillIncrease, maxRank: number = 9) {
+    cannotIncrease(skill: Skill, level: Level, increase: SkillIncrease) {
     //Returns a string of reasons why the skill cannot be increased, or "". Test the length of the return if you need a boolean.
+        let maxRank: number = increase.maxRank;
         let reasons: string[] = [];
-        let increasesThisLevel = this.characterService.get_Character().get_SkillIncreases(level.number, level.number, skill.name, '')
+        let increasesThisLevel = this.get_SkillIncreases(level.number, level.number, skill.name, '')
         //This skill may have been trained already by another source, like a feat or the background or the class
         if (increasesThisLevel.length > 0 && increasesThisLevel[0].source != increase.source ) {
-            let increasedByOtherThisLevel = "Increased by "+increasesThisLevel[0].source+".";
+            let increasedByOtherThisLevel = "";
+            if (increasesThisLevel[0].locked) {
+                increasedByOtherThisLevel = "Fixed increase by "+increasesThisLevel[0].source+".";
+            } else {
+                increasedByOtherThisLevel = "Increased by "+increasesThisLevel[0].source+".";
+            }
             reasons.push(increasedByOtherThisLevel);
         };
         //The skill may have been raised by the same source, but as a fixed rule (e.g. class skills as opposed to free class skills)
@@ -138,7 +183,7 @@ export class CharacterComponent implements OnInit {
         };
         //If this skill was raised by a feat on a higher level, it can't be raised on this level.
         //This prevents losing the feat bonus or raising the skill too high - feats never give +2, but always set the level
-        let allIncreases = this.characterService.get_Character().get_SkillIncreases(level.number+1, 20, skill.name, '');
+        let allIncreases = this.get_SkillIncreases(level.number+1, 20, skill.name, '');
         if (allIncreases.length > 0) {
             if (allIncreases[0].source.indexOf("Feat: ") > -1) {
                 let trainedOnHigherLevel = "Raised on a higher level by "+allIncreases[0].source+".";
@@ -150,6 +195,7 @@ export class CharacterComponent implements OnInit {
         //This is only relevant if you haven't raised the skill on this level yet.
         //If you have, we don't want to hear that it couldn't be raised again right away
         let cannotIncreaseHigher = "";
+        //You can never raise a skill higher than Legendary (8)
         if (skill.level(this.characterService, level.number) == 8 && increasesThisLevel.length == 0) {
             cannotIncreaseHigher = "Cannot increase any higher.";
             reasons.push(cannotIncreaseHigher);
@@ -161,7 +207,6 @@ export class CharacterComponent implements OnInit {
             }
             reasons.push(cannotIncreaseHigher);
         }
-        //You can never raise a skill higher than Legendary (8)
         return reasons;
     }
 
