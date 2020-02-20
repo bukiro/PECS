@@ -13,20 +13,27 @@
                 "ancestryFeats_available":1,
                 "classFeats_available":1,
                 "skillIncreases":[
-                    { "name":"Fortitude", "source":"Class" },
-                    { "name":"Fortitude", "source":"Class" },
-                    { "name":"Reflex", "source":"Class" },
-                    { "name":"Reflex", "source":"Class" },
-                    { "name":"Will", "source":"Class" },
-                    { "name":"Will", "source":"Class" },
-                    { "name":"Perception", "source":"Class" },
-                    { "name":"Simple", "source":"Class" },
-                    { "name":"Unarmed", "source":"Class" },
-                    { "name":"Unarmored", "source":"Class" },
-                    { "name":"Unarmored", "source":"Class" },
-                    { "name":"Monk class DC", "source":"Class" },
-                    { "name":"Religion", "source":"Class" }
+                    { "name":"Fortitude", "source":"Class", "locked":true },
+                    { "name":"Fortitude", "source":"Class", "locked":true },
+                    { "name":"Reflex", "source":"Class", "locked":true },
+                    { "name":"Reflex", "source":"Class", "locked":true },
+                    { "name":"Will", "source":"Class", "locked":true },
+                    { "name":"Will", "source":"Class", "locked":true },
+                    { "name":"Perception", "source":"Class", "locked":true },
+                    { "name":"Simple", "source":"Class", "locked":true },
+                    { "name":"Unarmed", "source":"Class", "locked":true },
+                    { "name":"Unarmored", "source":"Class", "locked":true },
+                    { "name":"Unarmored", "source":"Class", "locked":true },
+                    { "name":"Monk class DC", "source":"Class", "locked":true },
+                    { "name":"Religion", "source":"Class", "locked":true }
                 ],
+                "availableSkillIncreases":[{
+                    "available":4,
+                    "applied":0,
+                    "type":"Skill",
+                    "maxRank":2,
+                    "source":"Class"
+                }],
                 "skillIncreases_available":4
             },
             {
@@ -37,10 +44,35 @@
             {
                 "number":3,
                 "generalFeats_available":1,
+                "availableSkillIncreases":[{
+                    "available":1,
+                    "applied":0,
+                    "type":"Skill",
+                    "maxRank":4,
+                    "source":"Class"
+                }],
                 "skillIncreases_available":1
             },
             {
                 "number":4,
+                "classFeats_available":1,
+                "skillFeats_available":1
+            },
+            {
+                "number":5,
+                "abilityBoosts_available":4,
+                "ancestryFeats_available":1,
+                "availableSkillIncreases":[{
+                    "available":1,
+                    "applied":0,
+                    "type":"Skill",
+                    "maxRank":4,
+                    "source":"Class"
+                }],
+                "skillIncreases_available":1
+            },
+            {
+                "number":6,
                 "classFeats_available":1,
                 "skillFeats_available":1
             }

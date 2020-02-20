@@ -17,10 +17,10 @@
             </div>
         </div>
         <h3 *ngIf="!still_loading()">Weapon Proficiencies</h3>
-        <div *ngFor="let skill of get_Skills('', 'weaponProf')">
+        <div *ngFor="let skill of get_Skills('', 'Weapon Proficiency')">
             <app-skill class="list-item" [skill]=skill [showValue]=false></app-skill>
         </div>
-        <div *ngFor="let skill of get_Skills('', 'bonusWeaponProf')">
+        <div *ngFor="let skill of get_Skills('', 'Specific Weapon Proficiency')">
             <app-skill *ngIf="skill.level(this.characterService)" class="list-item" [skill]=skill [showValue]=false></app-skill>
         </div>
     </div>

@@ -163,56 +163,6 @@
                 </div>
             </div>
         </div>
-<!--Background Skill Training-->
-        <div *ngIf="get_Character().class.background.name">
-            <div class="list-item" *ngFor="let skillIncrease of get_SkillIncreases(1, 1, '', 'Background')">
-                <button class="row button fancy-button" disabled>
-                    Background {{(skillIncrease.name.indexOf("Lore:") > -1) ? "Lore " : ""}}Skill Training: {{skillIncrease.name}}
-                </button>
-            </div>
-        </div>
-<!--Free Background Skill Training-->
-        <div *ngIf="get_Character().class.background.name">
-            <div class="list-item" *ngIf="get_Level(1).backgroundSkillIncreases_available"
-            [className]="(get_Level(1).backgroundSkillIncreases_applied > get_Level(1).backgroundSkillIncreases_available) ? 'problem' : ''">
-                <button class="row button" [className]="(get_Level(1).backgroundSkillIncreases_available == get_Level(1).backgroundSkillIncreases_applied) ? 'fancy-button' : ''" (click)="toggle_List('backgroundskillIncreases')">
-                    Free Background Skill Training: {{(get_SkillIncreases(1, 1, '', 'Free Background').length) ? get_SkillIncreases(1, 1, '', 'Free Background')[0].name : ""}} 
-                </button>
-                <div class="row" *ngIf="this.showList=='backgroundskillIncreases'">
-                    <div class="list-item" *ngFor="let skill of get_AvailableSkills(get_Level(1), 'skill', get_Level(1).backgroundSkillIncreases_applied, get_Level(1).backgroundSkillIncreases_available)">
-                        <input id="background{{skill.name}}_increase" type="checkbox" (change)="onSkillIncrease(get_Level(1), skill.name, $event.target.checked, 'Free Background')"
-                        [checked]="get_SkillIncreases(1, 1, skill.name, '').length"
-                        [disabled]="get_SkillIncreases(1, 1, skill.name, '').length && get_SkillIncreases(1, 1, skill.name, '')[0].source != 'Free Background'">
-                        <label for="background{{skill.name}}_increase">
-                            <strong>{{skill.name}}:</strong>
-                            <app-proficiency-form [skill]="skill" [characterService]="this.characterService" [level]="1"></app-proficiency-form>
-                            <cite *ngIf="get_SkillIncreases(1, 1, skill.name, '').length && get_SkillIncreases(1, 1, skill.name, '')[0].source != 'Free Background'">
-                                Taken by: {{get_SkillIncreases(1, 1, skill.name, '')[0].source}}
-                            </cite>
-                        </label>
-                    </div>
-                </div>
-            </div>
-        </div>
-<!--Free Background Lore Skill Training-->
-        <div *ngIf="get_Character().class.background.name">
-            <div class="list-item" *ngIf="get_Level(1).backgroundLore_available">
-                <button class="row button" [className]="(get_Level(1).backgroundLore_available == get_Level(1).backgroundLore_applied) ? 'fancy-button' : ''" (click)="toggle_List('backgroundLoreIncrease')">
-                    Free Background Lore Training: {{(get_SkillIncreases(1, 1, 'Lore: '+get_Character().class.background.loreName, 'Free Background').length) ? get_SkillIncreases(1, 1, 'Lore: '+get_Character().class.background.loreName, 'Free Background')[0].name : ""}} 
-                </button>
-                <div class="row" *ngIf="this.showList=='backgroundLoreIncrease'">
-                    <div class="list-item">
-                        <input id="backgroundLore_increase" type="checkbox" (change)="on_LoreChange(get_Level(1), get_Character().class.background.loreName, $event.target.checked, 'Free Background')"
-                        [checked]="get_SkillIncreases(1, 1, 'Lore: '+get_Character().class.background.loreName, 'Free Background').length"
-                        [disabled]="get_Character().class.background.loreName == ''">
-                        <label for="backgroundLore_increase">
-                            <strong>Lore: <input type="text" [(ngModel)]="get_Character().class.background.loreName" [disabled]="get_SkillIncreases(1, 1, 'Lore: '+get_Character().class.background.loreName, 'Free Background').length" (ngModelChange)=this.characterService.set_Changed()></strong>
-                            <cite>{{get_Character().class.background.specialLore}}</cite>
-                        </label>
-                    </div>
-                </div>
-            </div>
-        </div>
 <!--Levels-->
         <div *ngIf="get_Character().class">
             <div *ngFor="let level of get_Character().class.levels">
@@ -233,23 +183,62 @@
                         </div>
                     </div>
                 </div>
-<!--Class Skill increases-->
-                <div class="list-item" *ngIf="level.skillIncreases_available"
-                [className]="(level.skillIncreases_applied > level.skillIncreases_available + ((level.number == 1) ? get_INT(level.number) : 0) ) ? 'problem' : ''">
-                    <button class="row button" [className]="((level.skillIncreases_available + ((level.number == 1) ? get_INT(level.number) : 0) == level.skillIncreases_applied)) ? 'fancy-button' : ''" (click)="toggle_List(level.number+'skillIncreases')">
-                        Skill Training: {{level.skillIncreases_applied}}/{{level.skillIncreases_available + ((level.number == 1) ? get_INT(level.number) : 0) }}
+<!--Fixed Skill Increases-->
+                <div class="list-item" *ngFor="let skillIncrease of get_SkillIncreases(level.number, level.number, '', '', true)">
+                    <button class="row button fancy-button" disabled>
+                        {{(skillIncrease.name.indexOf("Lore:") > -1) ? "Lore " : ""}}Skill Training ({{skillIncrease.source}}): {{skillIncrease.name}}
                     </button>
-                    <div class="row" *ngIf="this.showList==level.number+'skillIncreases'">
-                        <div class="list-item" *ngFor="let skill of get_AvailableSkills(level, 'skill')">
-                            <input id="{{level.number}}{{skill.name}}_increase" type="checkbox" (change)="onSkillIncrease(level, skill.name, $event.target.checked, 'Level')"
-                            [checked]="get_SkillIncreases(level.number, level.number, skill.name, '').length"
-                            [disabled]="get_SkillIncreases(level.number, level.number, skill.name, '').length && get_SkillIncreases(level.number, level.number, skill.name, '')[0].source != 'Level'">
-                            <label for="{{level.number}}{{skill.name}}_increase">
+                </div>
+<!--Skill Increases-->
+                <div class="list-item" *ngFor="let increase of level.availableSkillIncreases"
+                [className]="(increase.applied > increase.available + get_SkillINTBonus(increase, level)) ? 'problem' : ''">
+                    <button class="row button" [className]="(increase.available + get_SkillINTBonus(increase, level) == increase.applied ) ? 'fancy-button' : ''"
+                        (click)="toggle_List(increase.source+increase.type+'Increase'+level.number)">
+                        Skill Training ({{increase.source}}): 
+                        {{(increase.available + get_SkillINTBonus(increase, level) > 1) ?
+                            (increase.applied +"/"+ (increase.available + get_SkillINTBonus(increase, level)) ) : 
+                                (get_SkillIncreases(level.number, level.number, '', increase.source, false).length) ?
+                                    get_SkillIncreases(level.number, level.number, '', increase.source, false)[0].name :
+                                        ""}}
+                    </button>
+                    <div class="row" *ngIf="this.showList==increase.source+increase.type+'Increase'+level.number">
+                        <div class="list-item"  *ngFor="let skill of get_AvailableSkills(level, increase.type, increase.applied, increase.available + get_SkillINTBonus(increase, level), increase.source)"
+                            [className]="(skill.level(this.characterService, level.number) > increase.maxRank) ? 'problem' : ''">
+                            <input id="{{increase.source+increase.type+skill.name+'Increase'+level.number}}" type="checkbox" (change)="on_SkillIncrease(level, skill.name, $event.target.checked, increase, false)"
+                                [checked]="get_SkillIncreases(level.number, level.number, skill.name).length"
+                                [disabled]="cannotIncrease(skill, level, increase, increase.maxRank).length">
+                            <label for="{{increase.source+increase.type+skill.name+'Increase'+level.number}}">
                                 <strong>{{skill.name}}:</strong>
                                 <app-proficiency-form [skill]="skill" [characterService]="this.characterService" [level]="level.number"></app-proficiency-form>
-                                <cite *ngIf="get_SkillIncreases(level.number, level.number, skill.name, '').length && get_SkillIncreases(level.number, level.number, skill.name, '')[0].source != 'Level'">
-                                    Taken by: {{get_SkillIncreases(level.number, level.number, skill.name, '')[0].source}}
+                                <cite *ngFor="let reason of cannotIncrease(skill, level, increase, increase.maxRank)">
+                                    {{reason}}&nbsp;
                                 </cite>
+                                <cite *ngIf="(skill.level(this.characterService, level.number) > increase.maxRank)">
+                                    This skill was raised higher than allowed!&nbsp;
+                                </cite>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+<!--New Generic Lore Training-->
+                <div class="list-item" *ngFor="let increase of level.availableLoreIncreases"
+                [className]="(increase.applied > increase.available) ? 'problem' : ''">
+                    <button class="row button" [className]="(increase.available == increase.applied ) ? 'fancy-button' : ''"
+                        (click)="toggle_List(increase.source+'LoreIncrease'+level.number)">
+                        New Lore Training ({{increase.source}}): {{(get_SkillIncreases(level.number, level.number, 'Lore: '+increase.loreName, increase.source).length) ? get_SkillIncreases(level.number, level.number, 'Lore: '+increase.loreName, increase.source)[0].name : ""}}
+                    </button>
+                    <div class="row" *ngIf="this.showList==increase.source+'LoreIncrease'+level.number">
+                        <div class="list-item">
+                            <input id="{{increase.source+'LoreIncreaseBox'+level.number}}" type="checkbox" (change)="on_LoreChange(level, increase.loreName, $event.target.checked, increase)"
+                            [checked]="get_SkillIncreases(level.number, level.number, 'Lore: '+increase.loreName, increase.source).length"
+                            [disabled]="increase.loreName == ''">
+                            <label for="{{increase.source+'LoreIncreaseBox'+level.number}}">
+                                <strong>Lore:
+                                    <input type="text" [(ngModel)]="increase.loreName"
+                                        [disabled]="get_SkillIncreases(level.number, level.number, 'Lore: '+increase.loreName, increase.source).length"
+                                        (ngModelChange)=this.characterService.set_Changed()>
+                                </strong>
+                                <cite>{{increase.loreDesc}}</cite>
                             </label>
                         </div>
                     </div>
@@ -310,68 +299,7 @@
                         </div>
                     </div>
                 </div>
-<!--Feat Lore Skill Training-->
-                <div class="list-item" *ngIf="level.featLore_available">
-                    <button class="row button" [className]="(level.featLore_available == level.featLore_applied) ? 'fancy-button' : ''" (click)="toggle_List(level.number+'featLoreIncrease')">
-                        Feat Lore Training: {{(get_SkillIncreases(level, level, 'Lore: '+level.featLoreName, 'Feat').length) ? get_SkillIncreases(level, level, 'Lore: '+level.featLoreName, 'Feat')[0].name : ""}} 
-                    </button>
-                    <div class="row" *ngIf="this.showList==level.number+'featLoreIncrease'">
-                        <div class="list-item">
-                            <input id="{{level.number}}featLore_increase" type="checkbox" (change)="on_LoreChange(level, level.featLoreName, $event.target.checked, 'Feat')"
-                            [checked]="get_SkillIncreases(level.number, level.number, 'Lore: '+level.featLoreName, 'Feat').length"
-                            [disabled]="level.featLoreName == ''">
-                            <label for="{{level.number}}featLore_increase">
-                                <strong>Lore: <input type="text" [(ngModel)]="level.featLoreName" [disabled]="get_SkillIncreases(level.number, level.number, 'Lore: '+level.featLoreName, 'Feat').length" (ngModelChange)=this.characterService.set_Changed()></strong>
-                                <cite>{{get_Character().class.background.specialLore}}</cite>
-                            </label>
-                        </div>
-                    </div>
-                </div>
-<!--Feat Skill increases-->
-                <div class="list-item" *ngIf="level.featSkillIncreases_available"
-                [className]="(level.featSkillIncreases_applied > level.featSkillIncreases_available + ((level.number == 1) ? get_INT(level.number) : 0) ) ? 'problem' : ''">
-                    <button class="row button" [className]="((level.featSkillIncreases_available + ((level.number == 1) ? get_INT(level.number) : 0) == level.featSkillIncreases_applied)) ? 'fancy-button' : ''" (click)="toggle_List(level.number+'featSkillIncreases')">
-                        Skill Training: {{level.featSkillIncreases_applied}}/{{level.featSkillIncreases_available + ((level.number == 1) ? get_INT(level.number) : 0) }}
-                    </button>
-                    <div class="row" *ngIf="this.showList==level.number+'featSkillIncreases'">
-                        <div class="list-item" *ngFor="let skill of get_AvailableSkills(level, 'skill', level.featSkillIncreases_applied, level.featSkillIncreases_available, 0)">
-                            <input id="{{level.number}}feat{{skill.name}}_increase" type="checkbox" (change)="onSkillIncrease(level, skill.name, $event.target.checked, 'Feat')"
-                            [checked]="get_SkillIncreases(level.number, level.number, skill.name, '').length"
-                            [disabled]="get_SkillIncreases(level.number, level.number, skill.name, '').length && get_SkillIncreases(level.number, level.number, skill.name, '')[0].source != 'Feat'">
-                            <label for="{{level.number}}feat{{skill.name}}_increase">
-                                <strong>{{skill.name}}:</strong>
-                                <app-proficiency-form [skill]="skill" [characterService]="this.characterService" [level]="level.number"></app-proficiency-form>
-                                <cite *ngIf="get_SkillIncreases(level.number, level.number, skill.name, '').length && get_SkillIncreases(level.number, level.number, skill.name, '')[0].source != 'Feat'">
-                                    Taken by: {{get_SkillIncreases(level.number, level.number, skill.name, '')[0].source}}
-                                </cite>
-                            </label>
-                        </div>
-                    </div>
-                </div>
             </div>
         </div>
     </div>
 </div>
-
-<!--
-
-Name
-Level
-Deity
-
-
-Level 1
-Class
-Ancestry
-Heritage
-Background
-Ability Boosts
-Skill Training
-Class Feats
-
-Level 2
-
-
-
-
--->

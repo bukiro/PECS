@@ -17,15 +17,15 @@ export class Skill {
         skillLevel = Math.min(increases.length * 2, 8);
         return skillLevel;
     }
-    canIncrease(characterService: CharacterService, levelNumber: number) {
+    canIncrease(characterService: CharacterService, levelNumber: number, maxRank: number = 8) {
         if (levelNumber >= 15) {
-            return (this.level(characterService, levelNumber) < 8)
+            return (this.level(characterService, levelNumber) < Math.min(8, maxRank))
         } else if (levelNumber >= 7) {
-            return (this.level(characterService, levelNumber) < 6)
+            return (this.level(characterService, levelNumber) < Math.min(6, maxRank))
         } else if (levelNumber >= 3) {
-            return (this.level(characterService, levelNumber) < 4)
+            return (this.level(characterService, levelNumber) < Math.min(4, maxRank))
         } else {
-            return (this.level(characterService, levelNumber) < 2)
+            return (this.level(characterService, levelNumber) < Math.min(2, maxRank))
         }
     }
     effects(effectsService: EffectsService) {

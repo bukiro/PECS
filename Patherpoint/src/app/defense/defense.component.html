@@ -33,11 +33,11 @@
             </div>
         </div>
         <h3 *ngIf="!still_loading()">Armor Proficiencies</h3>
-        <div *ngFor="let skill of get_Skills('', 'armorProf')">
+        <div *ngFor="let skill of get_Skills('', 'Armor Proficiency')">
             <app-skill class="list-item" [skill]=skill [showValue]=false></app-skill>
         </div>
         <h3 *ngIf="!still_loading()">Saves</h3>
-        <div *ngFor="let skill of get_Skills('', 'save')|sortBy:'asc':'name'">
+        <div *ngFor="let skill of get_Skills('', 'Save')|sortBy:'asc':'name'">
             <app-skill class="list-item" [skill]=skill></app-skill>
         </div>
     </div>

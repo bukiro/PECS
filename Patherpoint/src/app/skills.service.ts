@@ -15,9 +15,9 @@ export class SkillsService {
         private http: HttpClient,
     ) { }
 
-    get_Skills(characterLore: Skill[], name: string = "", type: string = "") {
+    get_Skills(customSkills: Skill[], name: string = "", type: string = "") {
         if (!this.still_loading()) {
-            let skills: Skill[] = this.skills.concat(characterLore);
+            let skills: Skill[] = this.skills.concat(customSkills);
             if (name == "Lore") {
                 return skills.filter(skill => (skill.name.indexOf(name) > -1) && (skill.type == type || type == ""));
             }

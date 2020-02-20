@@ -52,9 +52,11 @@ export class Feat {
                 let requiredSkill: Skill[] = characterService.get_Skills(requiredSkillName);
                 let expected:number = parseInt(requirement.split(",")[1]);
                 if (requiredSkill.length > 0) {
-                    if (requiredSkill[0].level(characterService, charLevel) >= expected) {
-                        skillreq = true;
-                    }
+                    requiredSkill.forEach(skill => {
+                        if (skill.level(characterService, charLevel) >= expected) {
+                            skillreq = true;
+                        }
+                    })
                 }
             });
         } else {skillreq = true;}

@@ -3,6 +3,7 @@ import { Class } from './Class';
 import { Level } from './Level';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { SkillIncrease } from './SkillIncrease';
 
 @Injectable({
     providedIn: 'root'
@@ -48,6 +49,7 @@ export class ClassesService {
             this.classes.forEach($class => {
                 $class.levels = $class.levels.map(level => Object.assign(new Level(), level));
             });
+
   
             this.loader = [];
         }

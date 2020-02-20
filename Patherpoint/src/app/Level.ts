@@ -1,3 +1,6 @@
+import { SkillIncrease } from './SkillIncrease';
+import { LoreIncrease } from './LoreIncrease';
+
 export class Level {
     constructor (
         public number: number = 0,
@@ -24,18 +27,11 @@ export class Level {
         public generalFeats_available: number = 0,
         public generalFeats_applied: number = 0,
         public skillIncreases = [],
-        public skillIncreases_available: number = 0,
-        public skillIncreases_applied: number = 0,
+        public availableSkillIncreases: SkillIncrease[] = [],
+        public availableLoreIncreases: LoreIncrease[] = [],
         public classSkillChoices = [],
         public classSkillIncreases_available: number = 0,
         public classSkillIncreases_applied: number = 0,
-        public backgroundSkillIncreases_available: number = 0,
-        public backgroundSkillIncreases_applied: number = 0,
-        public backgroundLore_available: number = 0,
-        public backgroundLore_applied: number = 0,
-        public featLoreName: string = "",
-        public featLore_available: number = 0,
-        public featLore_applied: number = 0,
         public featAncestryFeats_available: number = 0,
         public featAncestryFeats_applied: number = 0,
         public featClassFeats_available: number = 0,
@@ -43,7 +39,5 @@ export class Level {
         public featSkillFeats_available: number = 0,
         public featSkillFeats_applied: number = 0,
         public featSkillChoices = [],
-        public featSkillIncreases_available: number = 0,
-        public featSkillIncreases_applied: number = 0,
     ) { }
 }

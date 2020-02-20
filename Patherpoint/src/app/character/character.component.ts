@@ -13,6 +13,8 @@ import { Ancestry } from '../Ancestry';
 import { Heritage } from '../Heritage';
 import { ItemsService } from '../items.service';
 import { Background } from '../Background';
+import { SkillIncrease } from '../SkillIncrease';
+import { LoreIncrease } from '../LoreIncrease';
 
 @Component({
     selector: 'app-character',
@@ -101,28 +103,81 @@ export class CharacterComponent implements OnInit {
         return this.characterService.get_Skills(name, type)
     }
 
-    get_AvailableSkills(level: Level, type: string = "", applied: number = level.skillIncreases_applied, available: number = level.skillIncreases_available, highestLevel: number = 6) {
+    get_SkillINTBonus(increase: SkillIncrease, level: Level) {
+        //At class level 1, allow INT more skills
+        let INT: number = 0;
+        if (increase.source == "Class" && level.number == 1) {
+            let intelligence: number = this.get_Abilities("Intelligence")[0].baseValue(this.characterService, level.number);
+            INT = Math.floor((intelligence-10)/2);
+        }
+        return INT;
+    }
+
+    get_AvailableSkills(level: Level, type: string = "", applied: number, available: number, source: string) {
         let skills = this.get_Skills('', type);
         if (skills) {
             return skills.filter(skill => (
-                this.canIncrease(skill, level, applied, available, highestLevel) || (this.get_SkillIncreases(level.number, level.number, skill.name, '').length > 0)
+                applied < available || (this.get_SkillIncreases(level.number, level.number, skill.name, source, false).length > 0)
                 ));
         }
     }
 
-    get_SkillIncreases(minLevelNumber: number, maxLevelNumber: number, skillName: string, source: string = "") {
-        return this.characterService.get_Character().get_SkillIncreases(minLevelNumber, maxLevelNumber, skillName, source);
+    cannotIncrease(skill: Skill, level: Level, increase: SkillIncrease, maxRank: number = 9) {
+    //Returns a string of reasons why the skill cannot be increased, or "". Test the length of the return if you need a boolean.
+        let reasons: string[] = [];
+        let increasesThisLevel = this.characterService.get_Character().get_SkillIncreases(level.number, level.number, skill.name, '')
+        //This skill may have been trained already by another source, like a feat or the background or the class
+        if (increasesThisLevel.length > 0 && increasesThisLevel[0].source != increase.source ) {
+            let increasedByOtherThisLevel = "Increased by "+increasesThisLevel[0].source+".";
+            reasons.push(increasedByOtherThisLevel);
+        };
+        //The skill may have been raised by the same source, but as a fixed rule (e.g. class skills as opposed to free class skills)
+        if (increasesThisLevel.length > 0 && increasesThisLevel[0].source == increase.source && increasesThisLevel[0].locked) {
+            let locked = "Fixed increase by "+increasesThisLevel[0].source+".";
+            reasons.push(locked);
+        };
+        //If this skill was raised by a feat on a higher level, it can't be raised on this level.
+        //This prevents losing the feat bonus or raising the skill too high - feats never give +2, but always set the level
+        let allIncreases = this.characterService.get_Character().get_SkillIncreases(level.number+1, 20, skill.name, '');
+        if (allIncreases.length > 0) {
+            if (allIncreases[0].source.indexOf("Feat: ") > -1) {
+                let trainedOnHigherLevel = "Raised on a higher level by "+allIncreases[0].source+".";
+                reasons.push(trainedOnHigherLevel);
+            }
+        }
+        //Check if this skill cannot be raised higher at this level, or if this method only allows a certain rank
+        // (e.g. for Feats that TRAIN a skill)
+        //This is only relevant if you haven't raised the skill on this level yet.
+        //If you have, we don't want to hear that it couldn't be raised again right away
+        let cannotIncreaseHigher = "";
+        if (skill.level(this.characterService, level.number) == 8 && increasesThisLevel.length == 0) {
+            cannotIncreaseHigher = "Cannot increase any higher.";
+            reasons.push(cannotIncreaseHigher);
+        } else if (!skill.canIncrease(this.characterService, level.number, maxRank) && increasesThisLevel.length == 0) {
+            if (increase.source == "Class") {
+                cannotIncreaseHigher = "Cannot increase any higher on this level.";
+            } else {
+                cannotIncreaseHigher = "Cannot increase any higher with this method.";
+            }
+            reasons.push(cannotIncreaseHigher);
+        }
+        //You can never raise a skill higher than Legendary (8)
+        return reasons;
     }
 
-    onSkillIncrease(level: Level, skillName: string, boost: boolean, source: string) {
-        this.characterService.get_Character().increaseSkill(this.characterService, level, skillName, boost, source);
+    get_SkillIncreases(minLevelNumber: number, maxLevelNumber: number, skillName: string, source: string = "", locked: boolean = undefined) {
+        return this.characterService.get_Character().get_SkillIncreases(minLevelNumber, maxLevelNumber, skillName, source, locked);
     }
 
-    on_LoreChange(level: Level, skillName: string, boost: boolean, source: string) {
+    on_SkillIncrease(level: Level, skillName: string, boost: boolean, source: SkillIncrease|LoreIncrease, locked: boolean = false) {
+        this.characterService.get_Character().increase_Skill(this.characterService, level, skillName, boost, source, locked);
+    }
+
+    on_LoreChange(level: Level, loreName: string, boost: boolean, source: LoreIncrease) {
         if (boost) {
-            this.characterService.get_Character().class.add_Lore(this.characterService, level, skillName, source);
+            this.characterService.get_Character().class.add_Lore(this.characterService, level, loreName, source);
         } else {
-            this.characterService.get_Character().class.remove_Lore(this.characterService, skillName);
+            this.characterService.get_Character().class.remove_Lore(this.characterService, level, loreName, source);
         }
         
     }
@@ -200,23 +255,6 @@ export class CharacterComponent implements OnInit {
         let intelligence: number = this.get_Abilities("Intelligence")[0].baseValue(this.characterService, levelNumber);
         let INT: number = Math.floor((intelligence-10)/2);
         return INT;
-    }
-
-    canIncrease(skill: Skill, level: Level, applied: number = level.skillIncreases_applied, available: number = level.skillIncreases_available, highestLevel: number = 6) {
-        let canIncrease = skill.canIncrease(this.characterService, level.number);
-        let hasBeenIncreased = (this.characterService.get_Character().get_SkillIncreases(level.number, level.number, skill.name, '').length > 0);
-        //At class level 1, allow INT more skills
-        let allIncreasesApplied = false;
-        if (level.number == 1 && available == level.skillIncreases_available) {
-            allIncreasesApplied = (applied >= available + this.get_INT(level.number));
-        } else {
-            allIncreasesApplied = (applied >= available);
-        }
-        //If this skill was learned by a feat on a higher level, it can't be raised on this level
-        let trainedOnHigherLevel = (this.characterService.get_Character().get_SkillIncreases(level.number+1, 20, skill.name, 'Feat').length > 0);
-        //Sometimes you can only raise skills that haven't reached a certain level yet (like when you're learning a new one)
-        let highestLevelReached = (this.characterService.get_Character().get_SkillIncreases(0, level.number, skill.name, '').length * 2 > highestLevel)
-        return canIncrease && !hasBeenIncreased && !allIncreasesApplied && !trainedOnHigherLevel && !highestLevelReached;
     }
 
     canChoose(feat: Feat, type: string, level: Level) {

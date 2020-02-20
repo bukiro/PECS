@@ -4,6 +4,8 @@ import { Class } from './Class';
 import { ItemCollection } from './ItemCollection';
 import { Feat } from './Feat';
 import { CharacterService } from './character.service';
+import { SkillIncrease } from './SkillIncrease';
+import { LoreIncrease } from './LoreIncrease';
 
 export class Character {
     public name: string = "";
@@ -92,58 +94,30 @@ export class Character {
         }
         this.set_Changed(characterService);
     }
-    get_SkillIncreases(minLevelNumber: number, maxLevelNumber: number, skillName: string = "", source: string = "") {
+    get_SkillIncreases(minLevelNumber: number, maxLevelNumber: number, skillName: string = "", source: string = "", locked: boolean = undefined) {
         if (this.class) {
             let increases = [];
             let levels = this.class.levels.filter(level => level.number >= minLevelNumber && level.number <= maxLevelNumber );
             levels.forEach(level => {
-                level.skillIncreases.filter(increase => (increase.name == skillName || skillName == "") && (increase.source == source || source == "")).forEach(increase => {
+                level.skillIncreases.filter(increase => 
+                    (increase.name == skillName || skillName == "") &&
+                    (increase.source == source || increase.source.indexOf(source) > -1 || source == "") &&
+                    (increase.locked == locked || locked == undefined)
+                    ).forEach(increase => {
                     increases.push(increase);
                 })
             })
             return increases;
         }
     }
-    increaseSkill(characterService: CharacterService, level: Level, skillName: string, train: boolean, source: string) {
+    increase_Skill(characterService: CharacterService, level: Level, skillName: string, train: boolean, source: SkillIncrease|LoreIncrease, locked: boolean) {
         if (train) {
-            level.skillIncreases.push({"name":skillName, "source":source});
-            if (source == "Level") {
-                level.skillIncreases_applied += 1;
-            }
-            if (source == "Free Background") {
-                if (skillName.indexOf("Lore:") > -1) {
-                    level.backgroundLore_applied += 1;
-                } else {
-                    level.backgroundSkillIncreases_applied += 1;
-                }
-            }
-            if (source == "Feat") {
-                if (skillName.indexOf("Lore:") > -1) {
-                    level.featLore_applied += 1;
-                } else if (characterService.get_Skills(skillName)[0].type == "skill") {
-                    level.featSkillIncreases_applied += 1;
-                }
-            }
+            level.skillIncreases.push({"name":skillName, "source":source.source, "locked":locked});
+            source.applied += 1;
         } else {
-            let oldIncrease = level.skillIncreases.filter(increase => increase.name == skillName && increase.source == source)[0];
+            let oldIncrease = level.skillIncreases.filter(increase => increase.name == skillName && increase.source == source.source && increase.locked == increase.locked)[0];
             level.skillIncreases = level.skillIncreases.filter(increase => increase !== oldIncrease);
-            if (source == "Level") {
-                level.skillIncreases_applied -= 1;
-            }
-            if (source == "Free Background") {
-                if (skillName.indexOf("Lore:") > -1) {
-                    level.backgroundLore_applied -= 1;
-                } else {
-                    level.backgroundSkillIncreases_applied -= 1;
-                }
-            }
-            if (source == "Feat") {
-                if (skillName.indexOf("Lore:") > -1) {
-                    level.featLore_applied -= 1;
-                } else if (characterService.get_Skills(skillName)[0].type == "skill") {
-                    level.featSkillIncreases_applied -= 1;
-                }
-            }
+            source.applied -= 1;
         }
         this.set_Changed(characterService);
     }
@@ -164,11 +138,12 @@ export class Character {
             level.feats.push({"name":featName, "source":source});
             let feat = characterService.get_Feats(featName);
             if (feat.length > 0 && feat[0].increase) {
-                this.increaseSkill(characterService, level, feat[0].increase, true, 'Feat')
+                let temporarySource: SkillIncrease = {available:1, applied:1, type:type, maxRank:8, source:'Feat: '+featName};
+                this.increase_Skill(characterService, level, feat[0].increase, true, temporarySource, true)
                 //If a feat trains you in a skill you don't already have, it's usually a weapon proficiency
                 //We have to create that skill here then
                 if (characterService.get_Skills(feat[0].increase).length == 0 ) {
-                    characterService.add_CustomSkill(feat[0].increase, "bonusWeaponProf", "")
+                    characterService.add_CustomSkill(feat[0].increase, "Specific Weapon Proficiency", "")
                 }
             }
             if (source == "Level") {
@@ -197,17 +172,18 @@ export class Character {
                 characterService.get_Character().class.levels.filter(level => level.number == 1)[0].classFeats_available += 1;
             }
             if (feat.length > 0 && feat[0].gainSkillTraining) {
-                level.featSkillIncreases_available += 1;
+                level.availableSkillIncreases.push({available:1, applied:0, type:"Skill", maxRank:2, source:'Feat: '+featName})
             }
             if (feat.length > 0 && feat[0].gainLore) {
-                level.featLore_available += 1;
+                level.availableLoreIncreases.push({available:1, applied:0, loreName:"", loreDesc:"", source:'Feat: '+featName})
             }
         } else {
             let oldFeat = level.feats.filter(feat => feat.name == featName && feat.source == source)[0];
             level.feats = level.feats.filter(feat => feat !== oldFeat);
             let feat = characterService.get_Feats(featName);
             if (feat.length > 0 && feat[0].increase) {
-                this.increaseSkill(characterService, level, feat[0].increase, false, 'Feat')
+                let temporarySource: SkillIncrease = {available:1, applied:1, type:type, maxRank:8, source:'Feat: '+featName};
+                this.increase_Skill(characterService, level, feat[0].increase, false, temporarySource, true)
             }
             if (source == "Level") {
                 switch (type) {
@@ -235,13 +211,16 @@ export class Character {
                 characterService.get_Character().class.levels.filter(level => level.number == 1)[0].classFeats_available -= 1;
             }
             if (feat.length > 0 && feat[0].gainSkillTraining) {
-                level.featSkillIncreases_available -= 1;
+                level.skillIncreases = level.skillIncreases.filter(increase => increase.source != 'Feat: '+featName)
+                level.availableSkillIncreases = level.availableSkillIncreases.filter(increase => 
+                    (increase.type != "Skill" || increase.source != 'Feat: '+featName));
             }
             if (feat.length > 0 && feat[0].gainLore) {
-                level.featLore_available -= 1;
-                if (level.featLoreName) {
-                    characterService.get_Character().class.remove_Lore(characterService, level.featLoreName)
+                let oldAvailableLoreIncrease = level.availableLoreIncreases.filter(increase => increase.source == 'Feat: '+featName)[0];
+                if (oldAvailableLoreIncrease.loreName) {
+                    characterService.get_Character().class.remove_Lore(characterService, level, oldAvailableLoreIncrease.loreName, oldAvailableLoreIncrease );
                 }
+                level.availableLoreIncreases = level.availableLoreIncreases.filter(increase => increase.source != 'Feat: '+featName);
             }
         }
         this.set_Changed(characterService);
