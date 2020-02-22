@@ -1,4 +1,4 @@
-import { AbilityBoost } from './AbilityBoost';
+import { AbilityChoice } from './AbilityChoice';
 
 export class Ancestry {
     public name: string = "";
@@ -7,8 +7,7 @@ export class Ancestry {
     public hitpoints: number = 0;
     public size: string = "medium";
     public speed: number = 0;
-    public abilityBoosts = [];
-    public availableAbilityBoosts: AbilityBoost[] = [];
+    public abilityChoices: AbilityChoice[] = [];
     public languages: string[] = [];
     public freeLanguages: number = 0;
     public freeLanguages_applied: number = 0;

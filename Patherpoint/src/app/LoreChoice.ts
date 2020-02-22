@@ -1,7 +1,8 @@
-export interface LoreIncrease {
+export interface LoreChoice {
     available: number;
-    applied: number;
+    increases: any[];
     loreName: string;
     loreDesc: string;
     source: string;
+    id: number;
 }

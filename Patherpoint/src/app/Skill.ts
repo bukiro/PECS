@@ -28,6 +28,17 @@ export class Skill {
             return (this.level(characterService, levelNumber) < Math.min(2, maxRank))
         }
     }
+    isLegal(characterService: CharacterService, levelNumber: number, maxRank: number = 8) {
+        if (levelNumber >= 15) {
+            return (this.level(characterService, levelNumber) <= Math.min(8, maxRank))
+        } else if (levelNumber >= 7) {
+            return (this.level(characterService, levelNumber) <= Math.min(6, maxRank))
+        } else if (levelNumber >= 3) {
+            return (this.level(characterService, levelNumber) <= Math.min(4, maxRank))
+        } else {
+            return (this.level(characterService, levelNumber) <= Math.min(2, maxRank))
+        }
+    }
     effects(effectsService: EffectsService) {
         return effectsService.get_EffectsOnThis(this.name);
     }

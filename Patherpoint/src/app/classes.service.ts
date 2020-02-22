@@ -3,7 +3,6 @@ import { Class } from './Class';
 import { Level } from './Level';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { SkillIncrease } from './SkillIncrease';
 
 @Injectable({
     providedIn: 'root'

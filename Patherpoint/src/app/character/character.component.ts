@@ -13,10 +13,10 @@ import { Ancestry } from '../Ancestry';
 import { Heritage } from '../Heritage';
 import { ItemsService } from '../items.service';
 import { Background } from '../Background';
-import { SkillIncrease } from '../SkillIncrease';
-import { LoreIncrease } from '../LoreIncrease';
+import { SkillChoice } from '../SkillChoice';
+import { LoreChoice } from '../LoreChoice';
 import { Ability } from '../Ability';
-import { AbilityBoost } from '../AbilityBoost';
+import { AbilityChoice } from '../AbilityChoice';
 
 @Component({
     selector: 'app-character',
@@ -93,29 +93,21 @@ export class CharacterComponent implements OnInit {
         }
     }
     
-    cannotBoost(ability: Ability, level: Level, boost: AbilityBoost) {
+    cannotBoost(ability: Ability, level: Level, boost: AbilityChoice) {
         //Returns a string of reasons why the abiliyt cannot be boosted, or "". Test the length of the return if you need a boolean.
             let reasons: string[] = [];
             let sameBoostsThisLevel = this.get_AbilityBoosts(level.number, level.number, ability.name, boost.source, "Boost");
-            //The ability may have been boosted by the same source, but as a fixed rule (e.g. fixed ancestry boosts vs. free ancestry boosts).
-            //This does not apply to flaws - you can boost a flawed ability.
-            if (sameBoostsThisLevel.length > 0 && sameBoostsThisLevel[0].source == boost.source && sameBoostsThisLevel[0].locked) {
-                let locked = "Fixed boost by "+sameBoostsThisLevel[0].source+".";
-                reasons.push(locked);
-            };
-            //Background ability boosts are an exception:
-            //If an ability has been raised by "Background", it cannot be raised by "Free Background" (and vice versa).
-            if (boost.source == "Background") {
-                let boostsThisLevel = this.get_AbilityBoosts(level.number, level.number, ability.name, "Free Background", "Boost");
-                if (boostsThisLevel.length) {
-                    let exclusive = "Boosted by "+boostsThisLevel[0].source+".";
-                    reasons.push(exclusive);
-                }
-            }
-            if (boost.source == "Free Background") {
-                let boostsThisLevel = this.get_AbilityBoosts(level.number, level.number, ability.name, "Background", "Boost");
-                if (boostsThisLevel.length) {
-                    let exclusive = "Boosted by "+boostsThisLevel[0].source+".";
+            if (sameBoostsThisLevel.length > 0 && sameBoostsThisLevel[0].source == boost.source) {
+                //The ability may have been boosted by the same source, but as a fixed rule (e.g. fixed ancestry boosts vs. free ancestry boosts).
+                //This does not apply to flaws - you can boost a flawed ability.
+                if (sameBoostsThisLevel[0].locked) {
+                    let locked = "Fixed boost by "+sameBoostsThisLevel[0].source+".";
+                    reasons.push(locked);
+                } else
+                //If an ability has been raised by a source of the same name, but not the same id, it cannot be raised again.
+                //This is the case with backgrounds: You get a choice of two abilities, and then a free one.
+                 if (sameBoostsThisLevel[0].sourceId != boost.id) {
+                    let exclusive = "Boosted by "+sameBoostsThisLevel[0].source+".";
                     reasons.push(exclusive);
                 }
             }
@@ -134,15 +126,15 @@ export class CharacterComponent implements OnInit {
         return this.characterService.get_Character().get_AbilityBoosts(minLevelNumber, maxLevelNumber, abilityName, source, type, locked);
     }
 
-    on_AbilityBoost(level: Level, abilityName: string, boost: boolean, source: AbilityBoost, locked: boolean) {
-        this.characterService.get_Character().boost_Ability(this.characterService, level, abilityName, boost, source, locked);
+    on_AbilityBoost(abilityName: string, boost: boolean, source: AbilityChoice, locked: boolean) {
+        this.characterService.get_Character().boost_Ability(this.characterService, abilityName, boost, source, locked);
     }
 
     get_Skills(name: string = "", type: string = "") {
         return this.characterService.get_Skills(name, type)
     }
 
-    get_SkillINTBonus(increase: SkillIncrease, level: Level) {
+    get_SkillINTBonus(increase: SkillChoice, level: Level) {
         //At class level 1, allow INT more skills
         let INT: number = 0;
         if (increase.source == "Class" && level.number == 1) {
@@ -161,13 +153,14 @@ export class CharacterComponent implements OnInit {
         }
     }
 
-    cannotIncrease(skill: Skill, level: Level, increase: SkillIncrease) {
+    cannotIncrease(skill: Skill, level: Level, choice: SkillChoice) {
     //Returns a string of reasons why the skill cannot be increased, or "". Test the length of the return if you need a boolean.
-        let maxRank: number = increase.maxRank;
+        let maxRank: number = choice.maxRank;
         let reasons: string[] = [];
         let increasesThisLevel = this.get_SkillIncreases(level.number, level.number, skill.name, '')
         //This skill may have been trained already by another source, like a feat or the background or the class
-        if (increasesThisLevel.length > 0 && increasesThisLevel[0].source != increase.source ) {
+        //The source is identified by "source" and "id" - the same source name may exist several times (like with class skills and free class skills)
+        if (increasesThisLevel.length > 0 && (increasesThisLevel[0].source != choice.source || increasesThisLevel[0].sourceId != choice.id) ) {
             let increasedByOtherThisLevel = "";
             if (increasesThisLevel[0].locked) {
                 increasedByOtherThisLevel = "Fixed increase by "+increasesThisLevel[0].source+".";
@@ -175,11 +168,6 @@ export class CharacterComponent implements OnInit {
                 increasedByOtherThisLevel = "Increased by "+increasesThisLevel[0].source+".";
             }
             reasons.push(increasedByOtherThisLevel);
-        };
-        //The skill may have been raised by the same source, but as a fixed rule (e.g. class skills as opposed to free class skills)
-        if (increasesThisLevel.length > 0 && increasesThisLevel[0].source == increase.source && increasesThisLevel[0].locked) {
-            let locked = "Fixed increase by "+increasesThisLevel[0].source+".";
-            reasons.push(locked);
         };
         //If this skill was raised by a feat on a higher level, it can't be raised on this level.
         //This prevents losing the feat bonus or raising the skill too high - feats never give +2, but always set the level
@@ -200,7 +188,7 @@ export class CharacterComponent implements OnInit {
             cannotIncreaseHigher = "Cannot increase any higher.";
             reasons.push(cannotIncreaseHigher);
         } else if (!skill.canIncrease(this.characterService, level.number, maxRank) && increasesThisLevel.length == 0) {
-            if (increase.source == "Class") {
+            if (choice.source == "Class") {
                 cannotIncreaseHigher = "Cannot increase any higher on this level.";
             } else {
                 cannotIncreaseHigher = "Cannot increase any higher with this method.";
@@ -214,15 +202,15 @@ export class CharacterComponent implements OnInit {
         return this.characterService.get_Character().get_SkillIncreases(minLevelNumber, maxLevelNumber, skillName, source, locked);
     }
 
-    on_SkillIncrease(level: Level, skillName: string, boost: boolean, source: SkillIncrease|LoreIncrease, locked: boolean = false) {
-        this.characterService.get_Character().increase_Skill(this.characterService, level, skillName, boost, source, locked);
+    on_SkillIncrease(skillName: string, boost: boolean, choice: SkillChoice|LoreChoice, locked: boolean = false) {
+        this.characterService.get_Character().increase_Skill(this.characterService, skillName, boost, choice, locked);
     }
 
-    on_LoreChange(level: Level, loreName: string, boost: boolean, source: LoreIncrease) {
+    on_LoreChange(level: Level, boost: boolean, choice: LoreChoice) {
         if (boost) {
-            this.characterService.get_Character().class.add_Lore(this.characterService, level, loreName, source);
+            this.characterService.get_Character().add_Lore(this.characterService, level, choice);
         } else {
-            this.characterService.get_Character().class.remove_Lore(this.characterService, level, loreName, source);
+            this.characterService.get_Character().remove_Lore(this.characterService, level, choice);
         }
         
     }

@@ -9,42 +9,54 @@
                 "number":1,
                 "ancestryFeats_available":1,
                 "classFeats_available":1,
-                "skillIncreases":[
-                    { "name":"Fortitude", "source":"Class", "locked":true },
-                    { "name":"Fortitude", "source":"Class", "locked":true },
-                    { "name":"Reflex", "source":"Class", "locked":true },
-                    { "name":"Reflex", "source":"Class", "locked":true },
-                    { "name":"Will", "source":"Class", "locked":true },
-                    { "name":"Will", "source":"Class", "locked":true },
-                    { "name":"Perception", "source":"Class", "locked":true },
-                    { "name":"Simple", "source":"Class", "locked":true },
-                    { "name":"Unarmed", "source":"Class", "locked":true },
-                    { "name":"Unarmored", "source":"Class", "locked":true },
-                    { "name":"Unarmored", "source":"Class", "locked":true },
-                    { "name":"Monk class DC", "source":"Class", "locked":true },
-                    { "name":"Religion", "source":"Class", "locked":true }
-                ],
-                "availableSkillIncreases":[{
-                    "available":4,
-                    "applied":0,
-                    "type":"Skill",
-                    "maxRank":2,
-                    "source":"Class"
-                }],
-                "availableAbilityBoosts":[
+                "skillChoices":[
                     {
-                        "available":1,
-                        "applied":0,
-                        "filter":["Strength", "Dexterity"],
-                        "baseValuesLost":0,
-                        "source":"Class Key Ability"
+                        "available":0,
+                        "increases":[
+                            { "name":"Fortitude", "source":"Class", "locked":true, "sourceId":0 },
+                            { "name":"Fortitude", "source":"Class", "locked":true, "sourceId":0 },
+                            { "name":"Reflex", "source":"Class", "locked":true, "sourceId":0 },
+                            { "name":"Reflex", "source":"Class", "locked":true, "sourceId":0 },
+                            { "name":"Will", "source":"Class", "locked":true, "sourceId":0 },
+                            { "name":"Will", "source":"Class", "locked":true, "sourceId":0 },
+                            { "name":"Perception", "source":"Class", "locked":true, "sourceId":0 },
+                            { "name":"Simple", "source":"Class", "locked":true, "sourceId":0 },
+                            { "name":"Unarmed", "source":"Class", "locked":true, "sourceId":0 },
+                            { "name":"Unarmored", "source":"Class", "locked":true, "sourceId":0 },
+                            { "name":"Unarmored", "source":"Class", "locked":true, "sourceId":0 },
+                            { "name":"Monk class DC", "source":"Class", "locked":true, "sourceId":0 },
+                            { "name":"Religion", "source":"Class", "locked":true, "sourceId":0 }
+                        ],
+                        "type":"Any",
+                        "maxRank":2,
+                        "source":"Class",
+                        "id":0
                     },
                     {
                         "available":4,
-                        "applied":0,
+                        "increases":[],
+                        "type":"Skill",
+                        "maxRank":2,
+                        "source":"Class",
+                        "id":1
+                    }
+                ],
+                "abilityChoices":[
+                    {
+                        "available":1,
+                        "boosts":[],
+                        "filter":["Strength", "Dexterity"],
+                        "baseValuesLost":0,
+                        "source":"Class Key Ability",
+                        "id":0
+                    },
+                    {
+                        "available":4,
+                        "boosts":[],
                         "filter":[],
                         "baseValuesLost":4,
-                        "source":"Character Creation"
+                        "source":"Character Creation",
+                        "id":0
                     }
                 ]
             },
@@ -56,13 +68,16 @@
             {
                 "number":3,
                 "generalFeats_available":1,
-                "availableSkillIncreases":[{
-                    "available":1,
-                    "applied":0,
-                    "type":"Skill",
-                    "maxRank":4,
-                    "source":"Class"
-                }]
+                "skillChoices":[
+                    {
+                        "available":1,
+                        "increases":[],
+                        "type":"Skill",
+                        "maxRank":4,
+                        "source":"Class",
+                        "id":0
+                    }
+                ]
             },
             {
                 "number":4,
@@ -72,20 +87,26 @@
             {
                 "number":5,
                 "ancestryFeats_available":1,
-                "availableSkillIncreases":[{
-                    "available":1,
-                    "applied":0,
-                    "type":"Skill",
-                    "maxRank":4,
-                    "source":"Class"
-                }],
-                "availableAbilityBoosts":[{
-                    "available":4,
-                    "applied":0,
-                    "filter":[],
-                    "baseValuesLost":0,
-                    "source":"Class"
-                }]
+                "skillChoices":[
+                    {
+                        "available":1,
+                        "increases":[],
+                        "type":"Skill",
+                        "maxRank":4,
+                        "source":"Class",
+                        "id":0
+                    }
+                ],
+                "abilityChoices":[
+                    {
+                        "available":4,
+                        "boosts":[],
+                        "filter":[],
+                        "baseValuesLost":0,
+                        "source":"Class",
+                        "id":0
+                    }
+                ]
             },
             {
                 "number":6,

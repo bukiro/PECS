@@ -6,18 +6,26 @@
         "hitpoints":10,
         "size":"medium",
         "speed":20,
-        "abilityBoosts":[
-            {"name":"Constitution", "type":"Boost", "source":"Ancestry", "locked":true},
-            {"name":"Wisdom", "type":"Boost", "source":"Ancestry", "locked":true},
-            {"name":"Charisma", "type":"Flaw", "source":"Ancestry", "locked":true}
-        ],
-        "availableAbilityBoosts":[
+        "abilityChoices":[
             {
-                "available":1,
-                "applied":0,
+                "available":0,
+                "boosts":[
+                    {"name":"Constitution", "type":"Boost", "source":"Ancestry", "locked":true, "sourceId":0},
+                    {"name":"Wisdom", "type":"Boost", "source":"Ancestry", "locked":true, "sourceId":0},
+                    {"name":"Charisma", "type":"Flaw", "source":"Ancestry", "locked":true, "sourceId":0}
+                ],
                 "filter":[],
                 "baseValuesLost":1,
-                "source":"Ancestry"
+                "source":"Ancestry",
+                "id":0
+            },
+            {
+                "available":1,
+                "boosts":[],
+                "filter":[],
+                "baseValuesLost":1,
+                "source":"Ancestry",
+                "id":1
             }
         ],
         "languages":["Common", "Dwarven"],
@@ -33,18 +41,26 @@
         "hitpoints":6,
         "size":"medium",
         "speed":30,
-        "abilityBoosts":[
-            {"name":"Dexterity", "type":"Boost", "source":"Ancestry", "locked":true},
-            {"name":"Wisdom", "type":"Boost", "source":"Ancestry","locked":true},
-            {"name":"Constitution", "type":"Flaw", "source":"Ancestry", "locked":true}
-        ],
-        "availableAbilityBoosts":[
+        "abilityChoices":[
             {
-                "available":1,
-                "applied":0,
+                "available":0,
+                "boosts":[
+                    {"name":"Dexterity", "type":"Boost", "source":"Ancestry", "locked":true, "sourceId":0},
+                    {"name":"Wisdom", "type":"Boost", "source":"Ancestry","locked":true, "sourceId":0},
+                    {"name":"Constitution", "type":"Flaw", "source":"Ancestry", "locked":true, "sourceId":0}
+                ],
                 "filter":[],
                 "baseValuesLost":1,
-                "source":"Ancestry"
+                "source":"Ancestry",
+                "id":0
+            },
+            {
+                "available":1,
+                "boosts":[],
+                "filter":[],
+                "baseValuesLost":1,
+                "source":"Ancestry",
+                "id":1
             }
         ],
         "languages":["Common", "Elven"],
@@ -58,13 +74,14 @@
         "hitpoints":8,
         "size":"medium",
         "speed":25,
-        "availableAbilityBoosts":[
+        "abilityChoices":[
             {
                 "available":2,
-                "applied":0,
+                "boosts":[],
                 "filter":[],
                 "baseValuesLost":1,
-                "source":"Ancestry"
+                "source":"Ancestry",
+                "id":0
             }
         ],
         "languages":["Common"],

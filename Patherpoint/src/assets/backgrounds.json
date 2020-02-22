@@ -1,21 +1,22 @@
 [
     {
         "name":"Acolyte",
-        "abilityChoices":["Intelligence", "Wisdom"], "abilityBoosts_available":1,
-        "availableAbilityBoosts":[
+        "abilityChoices":[
             {
                 "available":1,
-                "applied":0,
+                "boosts":[],
                 "filter":["Intelligence", "Wisdom"],
                 "baseValuesLost":0,
-                "source":"Background"
+                "source":"Background",
+                "id":0
             },
             {
                 "available":1,
-                "applied":0,
+                "boosts":[],
                 "filter":[],
                 "baseValuesLost":1,
-                "source":"Free Background"
+                "source":"Background",
+                "id":1
             }
         ],
         "skill":"Religion",
@@ -25,21 +26,22 @@
     },
     {
         "name":"Acrobat",
-        "abilityChoices":["Strength", "Dexterity"], "abilityBoosts_available":1, "skill":"Acrobatics",
-        "availableAbilityBoosts":[
+        "abilityChoices":[
             {
-                    "available":1,
-                    "applied":0,
-                    "filter":["Strength", "Dexterity"],
-                    "baseValuesLost":0,
-                    "source":"Background"
+                "available":1,
+                "boosts":[],
+                "filter":["Strength", "Dexterity"],
+                "baseValuesLost":0,
+                "source":"Background",
+                "id":0
             },
             {
-                    "available":1,
-                    "applied":0,
-                    "filter":[],
-                    "baseValuesLost":1,
-                    "source":"Free Background"
+                "available":1,
+                "boosts":[],
+                "filter":[],
+                "baseValuesLost":1,
+                "source":"Background",
+                "id":1
             }
         ],
         "loreName":"Circus",
@@ -48,21 +50,22 @@
     },
     {
         "name":"Animal Whisperer",
-        "abilityChoices":["Wisdom", "Charisma"], "abilityBoosts_available":1, "skill":"Nature",
-        "availableAbilityBoosts":[
+        "abilityChoices":[
             {
                 "available":1,
-                "applied":0,
+                "boosts":[],
                 "filter":["Wisdom", "Charisma"],
                 "baseValuesLost":0,
-                "source":"Background"
+                "source":"Background",
+                "id":0
             },
             {
                 "available":1,
-                "applied":0,
+                "boosts":[],
                 "filter":[],
                 "baseValuesLost":1,
-                "source":"Free Background"
+                "source":"Background",
+                "id":1
             }
         ],
         "specialLore":"A Lore skill related to one terrain inhabited by animals you like",
