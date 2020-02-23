@@ -3,5 +3,5 @@ export interface FeatChoice {
     feats: any[];
     type: string;
     source: string;
-    id: 0
+    id: string;
 }

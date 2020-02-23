@@ -10,14 +10,14 @@
             {
                 "available":0,
                 "boosts":[
-                    {"name":"Constitution", "type":"Boost", "source":"Ancestry", "locked":true, "sourceId":0},
-                    {"name":"Wisdom", "type":"Boost", "source":"Ancestry", "locked":true, "sourceId":0},
-                    {"name":"Charisma", "type":"Flaw", "source":"Ancestry", "locked":true, "sourceId":0}
+                    {"name":"Constitution", "type":"Boost", "source":"Ancestry", "locked":true, "sourceId":"1-Ability-Ancestry-0"},
+                    {"name":"Wisdom", "type":"Boost", "source":"Ancestry", "locked":true, "sourceId":"1-Ability-Ancestry-0"},
+                    {"name":"Charisma", "type":"Flaw", "source":"Ancestry", "locked":true, "sourceId":"1-Ability-Ancestry-0"}
                 ],
                 "filter":[],
                 "baseValuesLost":1,
                 "source":"Ancestry",
-                "id":0
+                "id":"1-Ability-Ancestry-0"
             },
             {
                 "available":1,
@@ -25,7 +25,7 @@
                 "filter":[],
                 "baseValuesLost":1,
                 "source":"Ancestry",
-                "id":1
+                "id":"1-Ability-Ancestry-1"
             }
         ],
         "languages":["Common", "Dwarven"],
@@ -45,14 +45,14 @@
             {
                 "available":0,
                 "boosts":[
-                    {"name":"Dexterity", "type":"Boost", "source":"Ancestry", "locked":true, "sourceId":0},
-                    {"name":"Wisdom", "type":"Boost", "source":"Ancestry","locked":true, "sourceId":0},
-                    {"name":"Constitution", "type":"Flaw", "source":"Ancestry", "locked":true, "sourceId":0}
+                    {"name":"Dexterity", "type":"Boost", "source":"Ancestry", "locked":true, "sourceId":"1-Ability-Ancestry-0"},
+                    {"name":"Wisdom", "type":"Boost", "source":"Ancestry","locked":true, "sourceId":"1-Ability-Ancestry-0"},
+                    {"name":"Constitution", "type":"Flaw", "source":"Ancestry", "locked":true, "sourceId":"1-Ability-Ancestry-0"}
                 ],
                 "filter":[],
                 "baseValuesLost":1,
                 "source":"Ancestry",
-                "id":0
+                "id":"1-Ability-Ancestry-0"
             },
             {
                 "available":1,
@@ -60,7 +60,7 @@
                 "filter":[],
                 "baseValuesLost":1,
                 "source":"Ancestry",
-                "id":1
+                "id":"1-Ability-Ancestry-1"
             }
         ],
         "languages":["Common", "Elven"],
@@ -81,7 +81,7 @@
                 "filter":[],
                 "baseValuesLost":1,
                 "source":"Ancestry",
-                "id":0
+                "id":"1-Ability-Ancestry-0"
             }
         ],
         "languages":["Common"],

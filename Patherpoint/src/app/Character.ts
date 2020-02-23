@@ -23,7 +23,7 @@ export class Character {
     set_Changed(characterService: CharacterService, ) {
         characterService.set_Changed();
     }
-    get_AbilityBoosts(minLevelNumber: number, maxLevelNumber: number, abilityName: string = "", type: string = "", source: string = "", sourceId: number = -1, locked: boolean = undefined ) {
+    get_AbilityBoosts(minLevelNumber: number, maxLevelNumber: number, abilityName: string = "", type: string = "", source: string = "", sourceId: string = "", locked: boolean = undefined ) {
         if (this.class) {
             let boosts = [];
             let levels = this.class.levels.filter(level => level.number >= minLevelNumber && level.number <= maxLevelNumber );
@@ -33,7 +33,7 @@ export class Character {
                         (boost.name == abilityName || abilityName == "") &&
                         (boost.type == type || type == "") &&
                         (boost.source == source || source == "") &&
-                        (boost.sourceId == sourceId || sourceId == -1) &&
+                        (boost.sourceId == sourceId || sourceId == "") &&
                         (boost.locked == locked || locked == undefined)
                     ).forEach(boost => {
                         boosts.push(boost);
@@ -58,28 +58,41 @@ export class Character {
         }
         this.set_Changed(characterService);
     }
-    add_SkillChoice(level, newChoice: SkillChoice) {
+    get_AbilityChoice(sourceId: string) {
+        let levelNumber = parseInt(sourceId[0]);
+        return this.class.levels[levelNumber].abilityChoices.filter(choice => choice.id == sourceId)[0];
+    }
+    add_SkillChoice(level: Level, newChoice: SkillChoice) {
         let existingChoices = level.skillChoices.filter(choice => choice.source == newChoice.source);
-        newChoice.id += existingChoices.length;
+        newChoice.id = level.number +"-Skill-"+ newChoice.source +"-"+ existingChoices.length;
         let newId: number = level.skillChoices.push(newChoice);
         return level.skillChoices[newId-1];
     }
-    get_SkillIncreaseSource(level, skillIncrease) {
-        return level.skillChoices.filter(choice => choice.source == skillIncrease.source && choice.id == skillIncrease.sourceId)[0];
+    get_SkillChoice(sourceId: string) {
+        let levelNumber = parseInt(sourceId[0]);
+        return this.class.levels[levelNumber].skillChoices.filter(choice => choice.id == sourceId)[0];
     }
-    add_LoreChoice(level, newChoice: LoreChoice) {
+    add_LoreChoice(level: Level, newChoice: LoreChoice) {
         let existingChoices = level.loreChoices.filter(choice => choice.source == newChoice.source);
-        newChoice.id += 100 + existingChoices.length;
+        newChoice.id = level.number +"-Lore-"+ newChoice.source +"-"+ existingChoices.length;
         let newId: number = level.loreChoices.push(newChoice);
         return level.loreChoices[newId-1];
     }
-    add_FeatChoice(level, newChoice: FeatChoice) {
+    get_LoreChoice(sourceId: string) {
+        let levelNumber = parseInt(sourceId[0]);
+        return this.class.levels[levelNumber].loreChoices.filter(choice => choice.id == sourceId)[0];
+    }
+    add_FeatChoice(level: Level, newChoice: FeatChoice) {
         let existingChoices = level.featChoices.filter(choice => choice.source == newChoice.source);
-        newChoice.id += existingChoices.length;
+        newChoice.id = level.number +"-Feat-"+ newChoice.source +"-"+ existingChoices.length;
         let newId: number = level.featChoices.push(newChoice);
         return level.featChoices[newId-1];
     }
-    get_SkillIncreases(minLevelNumber: number, maxLevelNumber: number, skillName: string = "", source: string = "", sourceId: number = -1, locked: boolean = undefined) {
+    get_FeatChoice(sourceId: string) {
+        let levelNumber = parseInt(sourceId[0]);
+        return this.class.levels[levelNumber].featChoices.filter(choice => choice.id == sourceId)[0];
+    }
+    get_SkillIncreases(minLevelNumber: number, maxLevelNumber: number, skillName: string = "", source: string = "", sourceId: string = "", locked: boolean = undefined) {
         if (this.class) {
             let increases = [];
             let levels = this.class.levels.filter(level => level.number >= minLevelNumber && level.number <= maxLevelNumber );
@@ -88,7 +101,7 @@ export class Character {
                     choice.increases.filter(increase => 
                         (increase.name == skillName || skillName == "") &&
                         (increase.source == source || increase.source.indexOf(source) > -1 || source == "") &&
-                        (increase.sourceId == sourceId || sourceId == -1) &&
+                        (increase.sourceId == sourceId || sourceId == "") &&
                         (increase.locked == locked || locked == undefined)
                         ).forEach(increase => {
                         increases.push(increase);
@@ -98,7 +111,7 @@ export class Character {
                     choice.increases.filter(increase => 
                         (increase.name == skillName || skillName == "") &&
                         (increase.source == source || increase.source.indexOf(source) > -1 || source == "") &&
-                        (increase.sourceId == sourceId || sourceId == -1) &&
+                        (increase.sourceId == sourceId || sourceId == "") &&
                         (increase.locked == locked || locked == undefined)
                         ).forEach(increase => {
                         increases.push(increase);
@@ -122,7 +135,7 @@ export class Character {
         }
         this.set_Changed(characterService);
     }
-    get_FeatsTaken(minLevelNumber: number, maxLevelNumber: number, featName: string = "", source: string = "", sourceId: number = -1, locked: boolean = undefined) {
+    get_FeatsTaken(minLevelNumber: number, maxLevelNumber: number, featName: string = "", source: string = "", sourceId: string = "", locked: boolean = undefined) {
         if (this.class) {
             let featsTaken = [];
             let levels = this.class.levels.filter(level => level.number >= minLevelNumber && level.number <= maxLevelNumber );
@@ -131,7 +144,7 @@ export class Character {
                     choice.feats.filter(feat => 
                         (feat.name == featName || featName == "") &&
                         (feat.source == source || source == "") &&
-                        (feat.sourceId == sourceId || sourceId == -1) &&
+                        (feat.sourceId == sourceId || sourceId == "") &&
                         (feat.locked == locked || locked == undefined)
                         ).forEach(feat => {
                         featsTaken.push(feat);
@@ -141,7 +154,8 @@ export class Character {
             return featsTaken;
         }
     }
-    take_Feat(characterService: CharacterService, featName: string, taken: boolean, level: Level, choice: FeatChoice, locked: boolean) {
+    take_Feat(characterService: CharacterService, featName: string, taken: boolean, choice: FeatChoice, locked: boolean) {
+        let level: Level = characterService.get_Level(parseInt(choice.id[0]));
         if (taken) {
             choice.feats.push({"name":featName, "source":choice.source, "locked":locked, "sourceId":choice.id});
             characterService.process_Feat(featName, level, taken);

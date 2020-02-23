@@ -92,22 +92,22 @@
                     </button>
                     <div class="list-item sublist row fancy-list" *ngIf="this.showList=='showFixedChanges'+level.number">
 <!--Fixed Ability boosts-->
-                        <div class="list-item" *ngFor="let boost of get_AbilityBoosts(level.number, level.number, '', '', '', -1, true)">
+                        <div class="list-item" *ngFor="let boost of get_AbilityBoosts(level.number, level.number, '', '', '', '', true)">
                             Ability {{(boost.type == 'Flaw') ? 'Flaw' : 'Boost'}} ({{boost.source}}): {{boost.name}}
                         </div>
 <!--Fixed Skill Increases-->
-                        <div class="list-item" *ngFor="let skillIncrease of get_SkillIncreases(level.number, level.number, '', '', -1, true)">
+                        <div class="list-item" *ngFor="let skillIncrease of get_SkillIncreases(level.number, level.number, '', '', '', true)">
                             {{(skillIncrease.name.indexOf("Lore:") > -1) ? "Lore " : ""}}Skill Training ({{skillIncrease.source}}): {{skillIncrease.name}}
                         </div>
                     </div>
                 </div>
 <!--Ability boosts-->
                 <div *ngFor="let choice of level.abilityChoices">
-                    <div class="list-item" *ngIf="choice.available"
+                    <div class="list-item" *ngIf="choice.available - ((get_Character().baseValues.length > 0) ? choice.baseValuesLost : 0)"
                         [className]="(choice.boosts.length > choice.available - ((get_Character().baseValues.length > 0) ? choice.baseValuesLost : 0)) ? 'problem' : ''">
                         <button class="row button"
                             [className]="(choice.boosts.length == choice.available - ((get_Character().baseValues.length > 0) ? choice.baseValuesLost : 0)) ? 'fancy-button' : ''"
-                            (click)="toggle_List(choice.source+choice.id+'AbilityChoices'+level.number)">
+                            (click)="toggle_List(choice.id)">
                             Ability Boosts
                                 ({{choice.source}}){{(choice.available > 1) ?
                                 ": "+ choice.boosts.length + "/" + (choice.available - ((get_Character().baseValues.length > 0) ? choice.baseValuesLost : 0)) :
@@ -115,13 +115,13 @@
                         </button>
                         <div class="list-item sublist row"
                             [className]="(choice.boosts.length == choice.available - ((get_Character().baseValues.length > 0) ? choice.baseValuesLost : 0)) ? 'fancy-list' : ''"
-                            *ngIf="this.showList==choice.source+choice.id+'AbilityChoices'+level.number">
-                            <div class="list-item" *ngFor="let ability of get_AvailableAbilities(level, choice.filter, choice.boosts.length, choice.available, choice.source, choice.id)">
-                                <input id="{{choice.source+choice.id+'AbilityChoices'+ability.name+level.number}}" type="checkbox"
+                            *ngIf="this.showList==choice.id">
+                            <div class="list-item" *ngFor="let ability of get_AvailableAbilities(choice)">
+                                <input id="{{choice.id+ability.name}}" type="checkbox"
                                     (change)="on_AbilityBoost(ability.name, $event.target.checked, choice, false)"
                                     [checked]="get_AbilityBoosts(level.number, level.number, ability.name, 'Boost', choice.source).length"
                                     [disabled]="cannotBoost(ability, level, choice).length">
-                                <label for="{{choice.source+choice.id+'AbilityChoices'+ability.name+level.number}}">
+                                <label for="{{choice.id+ability.name}}">
                                     <strong>{{ability.name}}:</strong> {{ability.baseValue(this.characterService)}}&nbsp;
                                     <cite style="color:darkred" *ngFor="let reason of cannotBoost(ability, level, choice)">
                                         {{reason}}&nbsp;
@@ -134,33 +134,33 @@
 <!--Skill Increases-->
                 <div *ngFor="let choice of level.skillChoices">
                     <div class="list-item" *ngIf="choice.available"
-                        [className]="(choice.increases.length > choice.available + get_SkillINTBonus(choice, level)) ? 'problem' : ''">
+                        [className]="(choice.increases.length > choice.available + get_SkillINTBonus(choice)) ? 'problem' : ''">
                         <button class="row button"
-                            [className]="(choice.available + get_SkillINTBonus(choice, level) == choice.increases.length ) ? 'fancy-button' : ''"
-                            (click)="toggle_List(choice.source+choice.id+choice.type+'Increase'+level.number)">
+                            [className]="(choice.available + get_SkillINTBonus(choice) == choice.increases.length ) ? 'fancy-button' : ''"
+                            (click)="toggle_List(choice.id)">
                             Skill Training
-                            ({{choice.source}}){{(choice.available + get_SkillINTBonus(choice, level) > 1) ?
-                                (": "+ choice.increases.length +"/"+ (choice.available + get_SkillINTBonus(choice, level)) ) : 
+                            ({{choice.source}}){{(choice.available + get_SkillINTBonus(choice) > 1) ?
+                                (": "+ choice.increases.length +"/"+ (choice.available + get_SkillINTBonus(choice)) ) : 
                                 (choice.increases.length) ? ": "+ choice.increases[0].name : ""}}
                         </button>
                         <div class="list-item sublist row"
-                            [className]="(choice.available + get_SkillINTBonus(choice, level) == choice.increases.length ) ? 'fancy-list' : ''"
-                            *ngIf="this.showList==choice.source+choice.id+choice.type+'Increase'+level.number">
-                            <div class="list-item"  *ngFor="let skill of get_AvailableSkills(level, choice.type, choice.increases.length, choice.available + get_SkillINTBonus(choice, level), choice.source, choice.sourceId)|sortBy:'asc':'name'"
+                            [className]="(choice.available + get_SkillINTBonus(choice) == choice.increases.length ) ? 'fancy-list' : ''"
+                            *ngIf="this.showList==choice.id">
+                            <div class="list-item"  *ngFor="let skill of get_AvailableSkills(choice)|sortBy:'asc':'name'"
                                 [className]="(!skill.isLegal(this.characterService, level.number) || (
                                     !skill.isLegal(this.characterService, level.number, choice.maxRank) &&
                                     get_SkillIncreases(level.number, level.number, skill.name, choice.source).length)) ? 'problem' : ''">
-                                <input id="{{choice.source+choice.id+choice.type+skill.name+'Increase'+level.number}}" type="checkbox"
-                                    (change)="on_SkillIncrease(skill.name, $event.target.checked, choice, false, level)"
+                                <input id="{{choice.id+skill.name}}" type="checkbox"
+                                    (change)="on_SkillIncrease(skill.name, $event.target.checked, choice, false)"
                                     [checked]="get_SkillIncreases(level.number, level.number, skill.name).length"
-                                    [disabled]="cannotIncrease(skill, level, choice).length && !get_SkillIncreases(level.number, level.number, skill.name, choice.source, choice.sourceId, false).length">
-                                <label for="{{choice.source+choice.id+choice.type+skill.name+'Increase'+level.number}}">
+                                    [disabled]="cannotIncrease(skill, level, choice).length && !skillIncreasedByThis(skill, choice)">
+                                <label for="{{choice.id+skill.name}}">
                                     <strong>{{skill.name}}:</strong>
                                     <app-proficiency-form [skill]="skill" [characterService]="this.characterService" [level]="level.number"></app-proficiency-form>
                                     <cite style="color:darkred" *ngFor="let reason of cannotIncrease(skill, level, choice)">
                                         {{reason}}&nbsp;
                                     </cite>
-                                    <cite style="color:darkred" *ngIf="!skill.isLegal(this.characterService, level.number, choice.maxRank) && get_SkillIncreases(level.number, level.number, skill.name, choice.source).length">
+                                    <cite style="color:darkred" *ngIf="!skill.isLegal(this.characterService, level.number, choice.maxRank) && skillIncreasedByThis(skill, choice)">
                                         This skill was raised higher than allowed!&nbsp;
                                     </cite>
                                     <cite style="color:darkred" *ngIf="!skill.isLegal(this.characterService, level.number)">
@@ -203,7 +203,7 @@
 <!--Feat choices-->
                 <div *ngFor="let choice of level.featChoices">
                     <div class="list-item" *ngIf="choice.available"
-                        [className]="(choice.feats.length > choice.available || cannotTakeSome(level, choice)) ? 'problem' : ''">
+                        [className]="(choice.feats.length > choice.available || cannotTakeSome(choice)) ? 'problem' : ''">
                         <button class="row button"
                             [className]="(choice.available == choice.feats.length) ? 'fancy-button' : ''"
                             (click)="toggle_List(choice.source+choice.id+choice.type+'Feat'+level.number)">
@@ -213,19 +213,19 @@
                                 (choice.feats.length) ? ": "+ choice.feats[0].name : ""}}
                         </button>
                         <div class="list-item sublist row"
-                            [className]="(choice.available + get_SkillINTBonus(choice, level) == choice.feats.length ) ? 'fancy-list' : ''"
+                            [className]="(choice.available == choice.feats.length ) ? 'fancy-list' : ''"
                             *ngIf="this.showList==choice.source+choice.id+choice.type+'Feat'+level.number">
-                            <div class="list-item" *ngFor="let feat of get_AvailableFeats(choice.type, level, choice.feats.length, choice.available, choice.source, choice.sourceId)|sortBy:'asc':'name'"
+                            <div class="list-item" *ngFor="let feat of get_AvailableFeats(choice)|sortBy:'asc':'name'"
                                 [className]="(!feat.canChoose(this.characterService, this.abilitiesService, this.effectsService, level.number)
                                 || (get_FeatsTaken(1, level.number, feat.name).length > 1 && !feat.unlimited)) ? 'problem' : ''">
                                 <input id="{{choice.source+choice.id+choice.type+feat.name+level.number}}" type="checkbox"
-                                    (change)="on_FeatTaken(feat.name, $event.target.checked, level, choice, false)"
-                                    [checked]="get_FeatsTaken(level.number, level.number, feat.name, choice.source, choice.sourceId).length"
-                                    [disabled]="cannotTake(feat, level, choice).length && !get_FeatsTaken(level.number, level.number, feat.name, choice.source, choice.sourceId, false).length">
+                                    (change)="on_FeatTaken(feat.name, $event.target.checked, choice, false)"
+                                    [checked]="featTakenByThis(feat, choice)"
+                                    [disabled]="cannotTake(feat, choice).length && !featTakenByThis(feat, choice)">
                                 <label for="{{choice.source+choice.id+choice.type+feat.name+level.number}}">
                                     <strong>{{feat.name}}</strong> (Level: {{feat.levelreq}}{{(feat.skillreq) ? ", "+feat.skillreq : ""}})
                                 </label>
-                                <cite style="color:darkred" *ngFor="let reason of cannotTake(feat, level, choice)">
+                                <cite style="color:darkred" *ngFor="let reason of cannotTake(feat, choice)">
                                     {{reason}}&nbsp;
                                 </cite>
                                 <button class="button fancybutton" (click)="toggle_Item(choice.source+choice.id+choice.type+feat.name+level.number+'desc')">

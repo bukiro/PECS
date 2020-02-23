@@ -6,5 +6,5 @@ export interface SkillChoice {
     //This means that only skills are allowed which currently have maxRank - 2 !
     maxRank: number;
     source: string;
-    id: number;
+    id: string;
 }

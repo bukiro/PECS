@@ -84,15 +84,15 @@ export class CharacterComponent implements OnInit {
         return this.characterService.get_Abilities(name)
     }
 
-    get_AvailableAbilities(level: Level, filter:string[], applied: number, available: number, source: string, sourceId: number) {
+    get_AvailableAbilities(choice: AbilityChoice) {
         let abilities = this.get_Abilities('');
-        if (filter.length) {
-            abilities = abilities.filter(ability => filter.indexOf(ability.name) > -1)
+        if (choice.filter.length) {
+            abilities = abilities.filter(ability => choice.filter.indexOf(ability.name) > -1)
         }
         if (abilities) {
             return abilities.filter(ability => (
-                this.get_AbilityBoosts(level.number, level.number, ability.name, "Boost", source, sourceId).length || (applied < available)
-            ))
+                this.abilityBoostedByThis(ability, choice) || (choice.boosts.length < choice.available)
+            ));
         }
     }
     
@@ -125,7 +125,12 @@ export class CharacterComponent implements OnInit {
             return reasons;
         }
 
-    get_AbilityBoosts(minLevelNumber: number, maxLevelNumber: number, abilityName: string = "", type: string = "", source: string = "", sourceId: number = -1, locked: boolean = undefined) {
+    abilityBoostedByThis(ability: Ability, choice: AbilityChoice) {
+            let levelNumber = parseInt(choice.id[0]);
+            return this.get_AbilityBoosts(levelNumber, levelNumber, ability.name, "Boost", choice.source, choice.id).length > 0;
+        }
+
+    get_AbilityBoosts(minLevelNumber: number, maxLevelNumber: number, abilityName: string = "", type: string = "", source: string = "", sourceId: string = "", locked: boolean = undefined) {
         return this.characterService.get_Character().get_AbilityBoosts(minLevelNumber, maxLevelNumber, abilityName, type, source, sourceId, locked);
     }
 
@@ -138,21 +143,22 @@ export class CharacterComponent implements OnInit {
         return this.characterService.get_Skills(name, type)
     }
 
-    get_SkillINTBonus(increase: SkillChoice|LoreChoice, level: Level) {
+    get_SkillINTBonus(choice: SkillChoice|LoreChoice) {
         //At class level 1, allow INT more skills
+        let levelNumber = parseInt(choice.id[0]);
         let INT: number = 0;
-        if (increase.source == "Class" && level.number == 1) {
-            let intelligence: number = this.get_Abilities("Intelligence")[0].baseValue(this.characterService, level.number);
+        if (choice.source == "Class" && levelNumber == 1) {
+            let intelligence: number = this.get_Abilities("Intelligence")[0].baseValue(this.characterService, levelNumber);
             INT = Math.floor((intelligence-10)/2);
         }
         return INT;
     }
 
-    get_AvailableSkills(level: Level, type: string = "", applied: number, available: number, source: string, sourceId: number) {
-        let skills = this.get_Skills('', type);
+    get_AvailableSkills(choice) {
+        let skills = this.get_Skills('', choice.type);
         if (skills) {
             return skills.filter(skill => (
-                applied < available || (this.get_SkillIncreases(level.number, level.number, skill.name, source, sourceId, false).length > 0)
+                this.skillIncreasedByThis(skill, choice) || choice.increases.length < choice.available + this.get_SkillINTBonus(choice)
                 ));
         }
     }
@@ -202,12 +208,17 @@ export class CharacterComponent implements OnInit {
         return reasons;
     }
 
-    get_SkillIncreases(minLevelNumber: number, maxLevelNumber: number, skillName: string, source: string = "", sourceId: number = -1, locked: boolean = undefined) {
+    skillIncreasedByThis(skill: Skill, choice: SkillChoice|LoreChoice) {
+        let levelNumber = parseInt(choice.id[0]);
+        return this.get_SkillIncreases(levelNumber, levelNumber, skill.name, choice.source, choice.id).length > 0;
+    }
+
+    get_SkillIncreases(minLevelNumber: number, maxLevelNumber: number, skillName: string, source: string = "", sourceId: string = "", locked: boolean = undefined) {
         return this.characterService.get_Character().get_SkillIncreases(minLevelNumber, maxLevelNumber, skillName, source, sourceId, locked);
     }
 
-    on_SkillIncrease(skillName: string, boost: boolean, choice: SkillChoice|LoreChoice, locked: boolean = false, level: Level) {
-        if (boost && (choice.increases.length == choice.available + this.get_SkillINTBonus(choice, level) - 1)) { this.showList=""; }
+    on_SkillIncrease(skillName: string, boost: boolean, choice: SkillChoice|LoreChoice, locked: boolean = false) {
+        if (boost && (choice.increases.length == choice.available + this.get_SkillINTBonus(choice) - 1)) { this.showList=""; }
         this.characterService.get_Character().increase_Skill(this.characterService, skillName, boost, choice, locked);
     }
 
@@ -224,12 +235,12 @@ export class CharacterComponent implements OnInit {
         return this.featsService.get_Feats(this.characterService.get_Character().customFeats, name, type);
     }
 
-    get_AvailableFeats(type: string, level: Level, applied: number, available: number, source: string = "", sourceId: number = -1) {
-        let allFeats = this.featsService.get_Feats(this.characterService.get_Character().customFeats);
+    get_AvailableFeats(choice: FeatChoice) {
+        let levelNumber = parseInt(choice.id[0]);
         let character = this.characterService.get_Character()
-        let choice = level.featChoices.filter(choice => choice.source == source )
+        let allFeats = this.featsService.get_Feats(this.characterService.get_Character().customFeats);
         let feats: Feat[] = [];
-        switch (type) {
+        switch (choice.type) {
             case "Class":
                 feats.push(...allFeats.filter(feat => feat.traits.indexOf(character.class.name) > -1));
                 break;
@@ -239,47 +250,59 @@ export class CharacterComponent implements OnInit {
                 })
                 break;
             default:
-                feats.push(...allFeats.filter(feat => feat.traits.indexOf(type) > -1));
+                feats.push(...allFeats.filter(feat => feat.traits.indexOf(choice.type) > -1));
                 break;
         }
         if (feats) {
             return feats.filter(feat => 
-                (feat.canChoose(this.characterService, this.abilitiesService, this.effectsService, level.number) && applied < available) ||
-                this.get_FeatsTaken(level.number, level.number, feat.name, source, sourceId).length
+                (feat.canChoose(this.characterService, this.abilitiesService, this.effectsService, levelNumber) && choice.feats.length < choice.available) ||
+                this.featTakenByThis(feat, choice)
             );
         }
     }
 
-    cannotTakeSome(level: Level, choice: FeatChoice) {
+    cannotTakeSome(choice: FeatChoice) {
         let anytrue = 0;
         choice.feats.forEach(feat => {
-            if (this.cannotTake(this.get_Feats(feat.name)[0], level, choice).length) {
+            if (this.cannotTake(this.get_Feats(feat.name)[0], choice).length) {
                 anytrue += 1;
             }
         });
         return anytrue;
     }
 
-    cannotTake(feat: Feat, level: Level, choice: FeatChoice) {
+    cannotTake(feat: Feat, choice: FeatChoice) {
+        let levelNumber = parseInt(choice.id[0]);
         let reasons: string[] = [];
-        if (!feat.canChoose(this.characterService, this.abilitiesService, this.effectsService, level.number)) {
+        //Are the basic requirements (level, ability, feat etc) not met?
+        if (!feat.canChoose(this.characterService, this.abilitiesService, this.effectsService, levelNumber)) {
             reasons.push("The requirements are not met.")
         }
-        if ((this.get_FeatsTaken(1, level.number, feat.name).length > this.get_FeatsTaken(level.number, level.number, feat.name, choice.source, choice.id).length) && !feat.unlimited) {
-            reasons.push("This feat cannot be taken more than once.")
-        }
-        if ((this.get_FeatsTaken(level.number + 1, 20, feat.name).length > this.get_FeatsTaken(level.number, level.number, feat.name, choice.source, choice.id).length) && !feat.unlimited) {
-            reasons.push("This feat has been taken on a higher level.")
+        //Unless the feat can be taken repeatedly:
+        if (!feat.unlimited) {
+            //Has it already been taken up to this level, and was that not by this FeatChoice?
+            if (feat.have(this.characterService, levelNumber) && !this.featTakenByThis(feat, choice)) {
+                reasons.push("This feat cannot be taken more than once.");
+            }
+            //Has it been taken on a higher level (that is, not up to now, but up to Level 20)?
+            if (!feat.have(this.characterService, levelNumber) && feat.have(this.characterService, 20)) {
+                reasons.push("This feat has been taken on a higher level.");
+            }
         }
         return reasons;
     }
 
-    get_FeatsTaken(minLevelNumber: number, maxLevelNumber: number, featName: string, source: string = "", sourceId: number = -1, locked: boolean = undefined) {
+    featTakenByThis(feat: Feat, choice: FeatChoice) {
+        let levelNumber = parseInt(choice.id[0]);
+        return this.get_FeatsTaken(levelNumber, levelNumber, feat.name, choice.source, choice.id).length > 0;
+    }
+
+    get_FeatsTaken(minLevelNumber: number, maxLevelNumber: number, featName: string, source: string = "", sourceId: string = "", locked: boolean = undefined) {
         return this.characterService.get_Character().get_FeatsTaken(minLevelNumber, maxLevelNumber, featName, source, sourceId, locked);
     }
 
-    on_FeatTaken(featName: string, taken: boolean, level: Level, choice: FeatChoice, locked: boolean) {
-        this.characterService.get_Character().take_Feat(this.characterService, featName, taken, level, choice, locked);
+    on_FeatTaken(featName: string, taken: boolean, choice: FeatChoice, locked: boolean) {
+        this.characterService.get_Character().take_Feat(this.characterService, featName, taken, choice, locked);
     }
 
     get_Classes(name: string = "") {

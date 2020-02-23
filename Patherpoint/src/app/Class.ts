@@ -79,7 +79,7 @@ export class Class {
             let existingIncreases = character.get_SkillIncreases(1, 1, this.background.skillChoices[0].increases[0].name, '');
             if (existingIncreases.length) {
                 let existingIncrease = existingIncreases[0];
-                let existingSkillChoice: SkillChoice = character.get_SkillIncreaseSource(this.levels[1], existingIncrease);
+                let existingSkillChoice: SkillChoice = character.get_SkillChoice(existingIncrease.sourceId);
                 //If you have already trained this skill from another source:
                 //Check if it is a free training (not locked). If so, remove it and reimburse the skill point, then replace it with the background's.
                 //If it is locked, we better not replace it. Instead, you get a free Background skill increase.

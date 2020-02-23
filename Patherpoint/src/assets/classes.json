@@ -7,46 +7,44 @@
             },
             {
                 "number":1,
-                "ancestryFeats_available":1,
-                "classFeats_available":1,
                 "featChoices":[
                     {
                         "available":1,
                         "feats":[],
                         "type":"Ancestry",
                         "source":"Class",
-                        "id":0
+                        "id":"1-Feat-Class-0"
                     },
                     {
                         "available":1,
                         "feats":[],
                         "type":"Class",
                         "source":"Class",
-                        "id":1
+                        "id":"1-Feat-Class-1"
                     }
                 ],
                 "skillChoices":[
                     {
                         "available":0,
                         "increases":[
-                            { "name":"Fortitude", "source":"Class", "locked":true, "sourceId":0 },
-                            { "name":"Fortitude", "source":"Class", "locked":true, "sourceId":0 },
-                            { "name":"Reflex", "source":"Class", "locked":true, "sourceId":0 },
-                            { "name":"Reflex", "source":"Class", "locked":true, "sourceId":0 },
-                            { "name":"Will", "source":"Class", "locked":true, "sourceId":0 },
-                            { "name":"Will", "source":"Class", "locked":true, "sourceId":0 },
-                            { "name":"Perception", "source":"Class", "locked":true, "sourceId":0 },
-                            { "name":"Simple", "source":"Class", "locked":true, "sourceId":0 },
-                            { "name":"Unarmed", "source":"Class", "locked":true, "sourceId":0 },
-                            { "name":"Unarmored", "source":"Class", "locked":true, "sourceId":0 },
-                            { "name":"Unarmored", "source":"Class", "locked":true, "sourceId":0 },
-                            { "name":"Monk class DC", "source":"Class", "locked":true, "sourceId":0 },
-                            { "name":"Religion", "source":"Class", "locked":true, "sourceId":0 }
+                            { "name":"Fortitude", "source":"Class", "locked":true, "sourceId":"1-Skill-Class-0" },
+                            { "name":"Fortitude", "source":"Class", "locked":true, "sourceId":"1-Skill-Class-0" },
+                            { "name":"Reflex", "source":"Class", "locked":true, "sourceId":"1-Skill-Class-0" },
+                            { "name":"Reflex", "source":"Class", "locked":true, "sourceId":"1-Skill-Class-0" },
+                            { "name":"Will", "source":"Class", "locked":true, "sourceId":"1-Skill-Class-0" },
+                            { "name":"Will", "source":"Class", "locked":true, "sourceId":"1-Skill-Class-0" },
+                            { "name":"Perception", "source":"Class", "locked":true, "sourceId":"1-Skill-Class-0" },
+                            { "name":"Simple", "source":"Class", "locked":true, "sourceId":"1-Skill-Class-0" },
+                            { "name":"Unarmed", "source":"Class", "locked":true, "sourceId":"1-Skill-Class-0" },
+                            { "name":"Unarmored", "source":"Class", "locked":true, "sourceId":"1-Skill-Class-0" },
+                            { "name":"Unarmored", "source":"Class", "locked":true, "sourceId":"1-Skill-Class-0" },
+                            { "name":"Monk class DC", "source":"Class", "locked":true, "sourceId":"1-Skill-Class-0" },
+                            { "name":"Religion", "source":"Class", "locked":true, "sourceId":"1-Skill-Class-0" }
                         ],
                         "type":"",
                         "maxRank":2,
                         "source":"Class",
-                        "id":0
+                        "id":"1-Skill-Class-0"
                     },
                     {
                         "available":4,
@@ -54,7 +52,7 @@
                         "type":"Skill",
                         "maxRank":2,
                         "source":"Class",
-                        "id":1
+                        "id":"1-Skill-Class-1"
                     }
                 ],
                 "abilityChoices":[
@@ -64,7 +62,7 @@
                         "filter":["Strength", "Dexterity"],
                         "baseValuesLost":0,
                         "source":"Class Key Ability",
-                        "id":0
+                        "id":"1-Ability-Class Key Ability-0"
                     },
                     {
                         "available":4,
@@ -72,41 +70,38 @@
                         "filter":[],
                         "baseValuesLost":4,
                         "source":"Character Creation",
-                        "id":0
+                        "id":"1-Ability-Character Creation-0"
                     }
                 ]
             },
             {
                 "number":2,
-                "classFeats_available":1,
-                "skillFeats_available":1,
                 "featChoices":[
                     {
                         "available":1,
                         "feats":[],
                         "type":"Class",
                         "source":"Class",
-                        "id":0
+                        "id":"2-Feat-Class-0"
                     },
                     {
                         "available":1,
                         "feats":[],
                         "type":"Skill",
                         "source":"Class",
-                        "id":1
+                        "id":"2-Feat-Class-1"
                     }
                 ]
             },
             {
                 "number":3,
-                "generalFeats_available":1,
                 "featChoices":[
                     {
                         "available":1,
                         "feats":[],
                         "type":"General",
                         "source":"Class",
-                        "id":0
+                        "id":"3-Feat-Class-0"
                     }
                 ],
                 "skillChoices":[
@@ -116,41 +111,38 @@
                         "type":"Skill",
                         "maxRank":4,
                         "source":"Class",
-                        "id":0
+                        "id":"3-Skill-Class-1"
                     }
                 ]
             },
             {
                 "number":4,
-                "classFeats_available":1,
-                "skillFeats_available":1,
                 "featChoices":[
                     {
                         "available":1,
                         "feats":[],
                         "type":"Class",
                         "source":"Class",
-                        "id":0
+                        "id":"4-Feat-Class-0"
                     },
                     {
                         "available":1,
                         "feats":[],
                         "type":"Skill",
                         "source":"Class",
-                        "id":1
+                        "id":"4-Feat-Class-1"
                     }
                 ]
             },
             {
                 "number":5,
-                "ancestryFeats_available":1,
                 "featChoices":[
                     {
                         "available":1,
                         "feats":[],
                         "type":"Ancestry",
                         "source":"Class",
-                        "id":0
+                        "id":"5-Feat-Class-0"
                     }
                 ],
                 "skillChoices":[
@@ -160,7 +152,7 @@
                         "type":"Skill",
                         "maxRank":4,
                         "source":"Class",
-                        "id":0
+                        "id":"5-Skill-Class-0"
                     }
                 ],
                 "abilityChoices":[
@@ -170,28 +162,33 @@
                         "filter":[],
                         "baseValuesLost":0,
                         "source":"Class",
-                        "id":0
+                        "id":"5-Ability-Class-0"
                     }
                 ]
             },
             {
                 "number":6,
-                "classFeats_available":1,
-                "skillFeats_available":1,
                 "featChoices":[
                     {
                         "available":1,
                         "feats":[],
                         "type":"Class",
                         "source":"Class",
-                        "id":0
+                        "id":"6-Feat-Class-0"
                     },
                     {
                         "available":1,
                         "feats":[],
                         "type":"Skill",
                         "source":"Class",
-                        "id":1
+                        "id":"6-Feat-Class-1"
+                    },
+                    {
+                        "available":1,
+                        "feats":[],
+                        "type":"General",
+                        "source":"Class",
+                        "id":"6-Feat-Class-2"
                     }
                 ]
             }

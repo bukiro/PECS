@@ -4,5 +4,5 @@ export interface LoreChoice {
     loreName: string;
     loreDesc: string;
     source: string;
-    id: number;
+    id: string;
 }

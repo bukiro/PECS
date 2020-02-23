@@ -5,5 +5,5 @@ export interface AbilityChoice {
     //How many of the available ability boosts are lost if you rolled your ability scores?
     baseValuesLost: number;
     source: string;
-    id: number;
+    id: string;
 }
