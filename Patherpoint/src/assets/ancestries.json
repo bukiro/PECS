@@ -3,7 +3,7 @@
         "name":"Dwarf",
         "traits":["Dwarf", "Humanoid"],
         "heritages":["Ancient-Blooded Dwarf", "Anvil Dwarf", "Death Warden Dwarf", "Elemental Heart Dwarf", "Forge Dwarf", "Oathkeeper Dwarf", "Rock Dwarf", "Strong-Blooded Dwarf"],
-        "hitpoints":10,
+        "hitPoints":10,
         "size":"medium",
         "speed":20,
         "abilityChoices":[
@@ -15,7 +15,7 @@
                     {"name":"Charisma", "type":"Flaw", "source":"Ancestry", "locked":true, "sourceId":"1-Ability-Ancestry-0"}
                 ],
                 "filter":[],
-                "baseValuesLost":1,
+                "baseValuesLost":0,
                 "source":"Ancestry",
                 "id":"1-Ability-Ancestry-0"
             },
@@ -38,7 +38,7 @@
         "name":"Elf",
         "traits":["Elf", "Humanoid"],
         "heritages":["Ancient Elf", "Arctic Elf", "Cavern Elf", "Desert Elf", "Seer Elf", "Whisper Elf", "Woodland Elf"],
-        "hitpoints":6,
+        "hitPoints":6,
         "size":"medium",
         "speed":30,
         "abilityChoices":[
@@ -50,7 +50,7 @@
                     {"name":"Constitution", "type":"Flaw", "source":"Ancestry", "locked":true, "sourceId":"1-Ability-Ancestry-0"}
                 ],
                 "filter":[],
-                "baseValuesLost":1,
+                "baseValuesLost":0,
                 "source":"Ancestry",
                 "id":"1-Ability-Ancestry-0"
             },
@@ -71,7 +71,7 @@
         "name":"Human",
         "traits":["Human", "Humanoid"],
         "heritages":["Half-Elf", "Half-Orc", "Skilled Heritage", "Versatile Heritage"],
-        "hitpoints":8,
+        "hitPoints":8,
         "size":"medium",
         "speed":25,
         "abilityChoices":[

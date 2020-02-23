@@ -14,7 +14,8 @@ export class Class {
         public levels: Level[] = [],
         public ancestry: Ancestry = new Ancestry(),
         public heritage: Heritage = new Heritage(),
-        public background: Background = new Background()
+        public background: Background = new Background(),
+        public hitPoints: number = 0
     ) { }
     on_ChangeAncestry(characterService: CharacterService) {
         if (this.ancestry.name)

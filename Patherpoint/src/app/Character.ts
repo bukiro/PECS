@@ -8,11 +8,13 @@ import { SkillChoice } from './SkillChoice';
 import { LoreChoice } from './LoreChoice';
 import { AbilityChoice } from './AbilityChoice';
 import { FeatChoice } from './FeatChoice';
+import { Health } from './Health';
 
 export class Character {
     public name: string = "";
     public level: number = 1;
     public class: Class = new Class();
+    public health: Health = new Health();
     public customSkills: Skill[] = [];
     public customFeats: Feat[] = [];
     public baseValues = [];

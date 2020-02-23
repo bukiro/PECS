@@ -7,6 +7,26 @@
         <select [(ngModel)]="get_Character().level" (ngModelChange)="onLevelChange()">
             <option *ngFor="let level of [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20]" [value]="level">{{level}}</option>
         </select>
+<!--BaseValues-->
+        <div class="list-item">
+            <button class="row button fancy-button" (click)="toggle_List('alternateBaseValues')">
+                Alternate Ability Values: {{(get_Character().baseValues.length) ? "Used" : "Not used"}}
+            </button>
+            <div class="list-item sublist fancy-list row" *ngIf="this.showList=='alternateBaseValues'">
+                <div class="list-item">
+                    <input id="useAlternateBaseValues" type="checkbox"
+                        (change)="onBaseValueChange()"
+                        [checked]="get_Character().baseValues.length">
+                    <label for="useAlternateBaseValues">
+                        <strong>Enter your own Ability values</strong>
+                    </label>
+                </div>
+                <div class="list-item" *ngFor="let ability of get_Character().baseValues">
+                    {{ability.name}}
+                    <input type="number" class="number" [(ngModel)]="ability.baseValue" (ngModelChange)=this.characterService.set_Changed()>
+                </div>
+            </div>
+        </div>
         <h3>History</h3>
 <!--Class-->
         <div class="list-item">
@@ -109,7 +129,7 @@
                             [className]="(choice.boosts.length == choice.available - ((get_Character().baseValues.length > 0) ? choice.baseValuesLost : 0)) ? 'fancy-button' : ''"
                             (click)="toggle_List(choice.id)">
                             Ability Boosts
-                                ({{choice.source}}){{(choice.available > 1) ?
+                                ({{choice.source}}){{(choice.available - ((get_Character().baseValues.length > 0) ? choice.baseValuesLost : 0) > 1) ?
                                 ": "+ choice.boosts.length + "/" + (choice.available - ((get_Character().baseValues.length > 0) ? choice.baseValuesLost : 0)) :
                                 (choice.boosts.length) ? ": "+ choice.boosts[0].name : ""}}
                         </button>
@@ -122,7 +142,7 @@
                                     [checked]="get_AbilityBoosts(level.number, level.number, ability.name, 'Boost', choice.source).length"
                                     [disabled]="cannotBoost(ability, level, choice).length">
                                 <label for="{{choice.id+ability.name}}">
-                                    <strong>{{ability.name}}:</strong> {{ability.baseValue(this.characterService)}}&nbsp;
+                                    <strong>{{ability.name}}:</strong> {{ability.baseValue(this.characterService, level.number)}}&nbsp;
                                     <cite style="color:darkred" *ngFor="let reason of cannotBoost(ability, level, choice)">
                                         {{reason}}&nbsp;
                                     </cite>

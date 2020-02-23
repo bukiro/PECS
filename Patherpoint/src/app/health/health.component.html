@@ -1,0 +1,48 @@
+<div id="health" class="attributeBox">
+    <h3>Health: {{get_Health().currentHP(this.characterService)}} Hit Points</h3>
+    <div class="loading" *ngIf="still_loading()">Loading</div>
+    <div *ngIf="!still_loading()">
+        <div class="list-item">
+            <strong>Max HP</strong>
+            <input class="number" type="number"
+                [className]="(get_Health().penalty(this.effectsService) < 0) ? 'penalty' : (get_Health().bonus(this.effectsService) > 0) ? 'bonus' : ''"
+                value="{{get_Health().maxHP(this.characterService)}}" disabled>
+            Temp HP: <input class="number" type="number"
+                [className]="(get_Health().penalty(this.effectsService) < 0) ? 'penalty' : (get_Health().bonus(this.effectsService) > 0) ? 'bonus' : ''"
+                value="{{get_Health().temporaryHP}}" disabled>
+            <div class="row" *ngIf="get_Health().effects(this.effectsService).length">
+                <cite *ngFor="let effect of get_Health().effects(this.effectsService)"
+                    [className]="effect.penalty ? 'penalty' : 'bonus'">{{effect.value}} ({{effect.source}})&nbsp;
+                </cite>
+            </div>
+        </div> 
+        <div class="list-item">
+            <strong>Dying</strong><input class="number" type="number"
+                [className]="(get_Health().dying > 0) ? 'penalty' : ''"
+                value="{{get_Health().dying}}" disabled>
+            / {{get_Health().maxDying}}
+            <button *ngIf="get_Health().dying > 0" (click)="on_DyingSave(true)">Save</button>
+            <button *ngIf="get_Health().dying > 0" (click)="on_DyingSave(false)">Fail Save</button>
+        </div>
+        <div class="list-item">
+            <strong>Wounded</strong><input class="number" type="number"
+            [className]="(get_Health().wounded > 0) ? 'penalty' : ''"
+            value="{{get_Health().wounded}}" disabled>
+            <button *ngIf="get_Health().wounded > 0" (click)="get_Health().wounded = 0">Heal</button>
+        </div>
+        <div class="list-item">
+            <strong>Take Damage</strong><input class="number" type="number"
+            [(ngModel)]="this.damage">
+            <button [disabled]="this.damage <= 0" (click)="get_Health().takeDamage(this.characterService, this.damage)">Ouch!</button>
+        </div>
+        <div class="list-item">
+            <strong>Heal Damage</strong><input class="number" type="number"
+            [(ngModel)]="this.healing">
+            <button [disabled]="this.healing <= 0" (click)="get_Health().heal(this.characterService, this.healing)">Heal</button>
+        </div>
+        <h3>Resistances</h3>
+        <div class="list-item" *ngFor="let resistance of get_Health().resistances">
+            {{resistance.name}}: {{resistance.value}}
+        </div>
+    </div>
+</div>

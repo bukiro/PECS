@@ -18,8 +18,6 @@ import { LoreChoice } from '../LoreChoice';
 import { Ability } from '../Ability';
 import { AbilityChoice } from '../AbilityChoice';
 import { FeatChoice } from '../FeatChoice';
-import { ChildrenOutletContexts } from '@angular/router';
-import { compileComponentFromMetadata } from '@angular/compiler';
 
 @Component({
     selector: 'app-character',
@@ -71,9 +69,21 @@ export class CharacterComponent implements OnInit {
         return this.showItem;
     }
 
+    onBaseValueChange() {
+        let baseValues = this.get_Character().baseValues;
+        if (baseValues.length) {
+            baseValues.length = 0;
+        } else {
+            this.get_Abilities().forEach(ability => {
+                baseValues.push({name:ability.name, baseValue:10})
+            });
+        }
+    }
+
     onLevelChange() {
         //Despite all precautions, when we change the level, it gets turned into a string. So we turn it right back.
         this.get_Character().level = parseInt(this.get_Character().level.toString());
+        this.characterService.set_Changed();
     }
 
     get_Character() {
@@ -91,7 +101,7 @@ export class CharacterComponent implements OnInit {
         }
         if (abilities) {
             return abilities.filter(ability => (
-                this.abilityBoostedByThis(ability, choice) || (choice.boosts.length < choice.available)
+                this.abilityBoostedByThis(ability, choice) || (choice.boosts.length < choice.available - ((this.get_Character().baseValues.length > 0) ? choice.baseValuesLost : 0))
             ));
         }
     }
@@ -134,9 +144,9 @@ export class CharacterComponent implements OnInit {
         return this.characterService.get_Character().get_AbilityBoosts(minLevelNumber, maxLevelNumber, abilityName, type, source, sourceId, locked);
     }
 
-    on_AbilityBoost(abilityName: string, boost: boolean, source: AbilityChoice, locked: boolean) {
-        if (boost && source.boosts.length == source.available - 1) { this.showList=""; }
-        this.characterService.get_Character().boost_Ability(this.characterService, abilityName, boost, source, locked);
+    on_AbilityBoost(abilityName: string, boost: boolean, choice: AbilityChoice, locked: boolean) {
+        if (boost && choice.boosts.length == choice.available - ((this.get_Character().baseValues.length > 0) ? choice.baseValuesLost : 0) - 1) { this.showList=""; }
+        this.characterService.get_Character().boost_Ability(this.characterService, abilityName, boost, choice, locked);
     }
 
     get_Skills(name: string = "", type: string = "") {

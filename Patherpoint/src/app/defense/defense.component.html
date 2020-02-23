@@ -36,7 +36,7 @@
         <div *ngFor="let skill of get_Skills('', 'Armor Proficiency')">
             <app-skill class="list-item" [skill]=skill [showValue]=false></app-skill>
         </div>
-        <h3 *ngIf="!still_loading()">Saves</h3>
+        <h3 *ngIf="!still_loading()">Saving Throws</h3>
         <div *ngFor="let skill of get_Skills('', 'Save')|sortBy:'asc':'name'">
             <app-skill class="list-item" [skill]=skill></app-skill>
         </div>

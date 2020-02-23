@@ -22,6 +22,7 @@ import { DefenseComponent } from './defense/defense.component';
 import { SortByPipe } from './sortBy.pipe';
 import { ProficiencyFormComponent } from './proficiency-form/proficiency-form.component';
 import { SkillComponent } from './skill/skill.component';
+import { HealthComponent } from './health/health.component';
 
 
 @NgModule({
@@ -41,6 +42,7 @@ import { SkillComponent } from './skill/skill.component';
       DefenseComponent,
       ProficiencyFormComponent,
       SkillComponent,
+      HealthComponent
    ],
    imports: [
       BrowserModule,

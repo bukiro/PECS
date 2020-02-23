@@ -1,6 +1,7 @@
 [
     {
         "name":"Monk",
+        "hitPoints":10,
         "levels":[
             {
                 "number":0
@@ -38,8 +39,7 @@
                             { "name":"Unarmed", "source":"Class", "locked":true, "sourceId":"1-Skill-Class-0" },
                             { "name":"Unarmored", "source":"Class", "locked":true, "sourceId":"1-Skill-Class-0" },
                             { "name":"Unarmored", "source":"Class", "locked":true, "sourceId":"1-Skill-Class-0" },
-                            { "name":"Monk class DC", "source":"Class", "locked":true, "sourceId":"1-Skill-Class-0" },
-                            { "name":"Religion", "source":"Class", "locked":true, "sourceId":"1-Skill-Class-0" }
+                            { "name":"Monk class DC", "source":"Class", "locked":true, "sourceId":"1-Skill-Class-0" }
                         ],
                         "type":"",
                         "maxRank":2,
@@ -182,13 +182,6 @@
                         "type":"Skill",
                         "source":"Class",
                         "id":"6-Feat-Class-1"
-                    },
-                    {
-                        "available":1,
-                        "feats":[],
-                        "type":"General",
-                        "source":"Class",
-                        "id":"6-Feat-Class-2"
                     }
                 ]
             }

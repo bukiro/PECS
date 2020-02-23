@@ -4,7 +4,7 @@ export class Ancestry {
     public name: string = "";
     public traits: string[] = [];
     public heritages: string[] = [];
-    public hitpoints: number = 0;
+    public hitPoints: number = 0;
     public size: string = "medium";
     public speed: number = 0;
     public abilityChoices: AbilityChoice[] = [];

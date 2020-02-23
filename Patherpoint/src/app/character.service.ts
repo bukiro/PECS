@@ -15,7 +15,6 @@ import { Weapon } from './Weapon';
 import { Shield } from './Shield';
 import { FeatsService } from './feats.service';
 import { TraitsService } from './traits.service';
-import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
 import { Ancestry } from './Ancestry';
 import { HistoryService } from './history.service';
 import { Heritage } from './Heritage';
@@ -238,6 +237,10 @@ export class CharacterService {
 
     get_Feats(name: string = "", type: string = "") {
         return this.featsService.get_Feats(this.me.customFeats, name, type);
+    }
+
+    get_Health() {
+        return this.me.health;
     }
 
     process_Feat(featName: string, level: Level, taken: boolean) {

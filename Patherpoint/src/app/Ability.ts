@@ -12,7 +12,7 @@ export class Ability {
         let baseValue = 10;
         let baseValues = character.baseValues.filter(baseValue => baseValue.name == this.name)
         if (baseValues.length > 0) {
-            baseValue = baseValues[0].value
+            baseValue = baseValues[0].baseValue
         }
         baseValue = (baseValue) ? baseValue : 10;
         //Get any boosts from the character and sum them up
