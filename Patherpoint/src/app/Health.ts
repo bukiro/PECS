@@ -51,11 +51,9 @@ export class Health {
     }
     heal(characterService: CharacterService, amount: number) {
         this.damage = Math.max(0, this.damage - amount);
-        if (this.currentHP(characterService) == amount) {
-            if (this.dying > 0) {
-                this.dying = 0;
-                this.wounded++
-            }
+        if (this.currentHP(characterService) > 0 && this.dying > 0) {
+            this.dying = 0;
+            this.wounded++
         }
         characterService.set_Changed();
     }
