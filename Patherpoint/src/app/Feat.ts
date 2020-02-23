@@ -25,7 +25,7 @@ export class Feat {
     public gainClassFeat: number = 0;
     public gainSkillTraining: number = 0;
     public gainLore: true;
-    canChoose(characterService: CharacterService, abilitiesService: AbilitiesService, effectsService: EffectsService, charLevel: number = characterService.get_Character().level, ignoreCurrentLevel: boolean = false) {
+    canChoose(characterService: CharacterService, abilitiesService: AbilitiesService, effectsService: EffectsService, charLevel: number = characterService.get_Character().level) {
     //This function evaluates ALL the possible requirements for taking a feat
     //Returns true only if all the requirements are true. If the feat doesn't have a requirement, it is always true.
         if (characterService.still_loading()) { return false }
@@ -34,9 +34,6 @@ export class Feat {
         if (this.lorebase) {
             return false;
         }
-        //Unless the feat has unlimited=true, it cannot be taken more than once
-        //This check is done for one level lower than the current, so that a feat that you just took does not immediately count as unavailable
-        let notyettaken = (characterService.get_Character().get_FeatsTaken(0, charLevel - 1, this.name).length == 0) || this.unlimited;
         //If the feat has a levelreq, check if the level beats that.
         let levelreq: boolean = (this.levelreq) ? (charLevel >= this.levelreq) : true;
         //If the feat has an abilityreq, split it into the ability and the requirement (they come in strings like "Dexterity, 12"), then check if that ability's value() meets the requirement. 
@@ -72,7 +69,7 @@ export class Feat {
         //If the feat has a specialreq, it comes as a string that contains a condition. Evaluate the condition to find out if the requirement is met.
         let specialreq = (this.specialreq) ? (eval(this.specialreq)) : true;
         //Return true if all are true
-        return notyettaken && levelreq && abilityreq && skillreq && featreq && specialreq;
+        return levelreq && abilityreq && skillreq && featreq && specialreq;
     }
     have(characterService: CharacterService, charLevel: number = characterService.get_Character().level) {
         if (characterService.still_loading()) { return false }

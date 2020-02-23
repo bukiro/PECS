@@ -21,6 +21,7 @@ import { HistoryService } from './history.service';
 import { Heritage } from './Heritage';
 import { Background } from './Background';
 import { ItemsService } from './items.service';
+import { Feat } from './Feat';
 
 @Injectable({
     providedIn: 'root'
@@ -212,7 +213,18 @@ export class CharacterService {
     }
 
     remove_CustomSkill(oldSkill: Skill) {
-        this.me.customSkills = this.me.customSkills.filter(lore => lore !== oldSkill);
+        this.me.customSkills = this.me.customSkills.filter(skill => skill !== oldSkill);
+        this.set_Changed();
+    }
+
+    add_CustomFeat(oldFeat: Feat) {
+        let newLength = this.me.customFeats.push(Object.assign(new Feat(), oldFeat));
+        this.set_Changed();
+        return newLength;
+    }
+
+    remove_CustomFeat(oldFeat: Feat) {
+        this.me.customFeats = this.me.customFeats.filter(skill => skill !== oldFeat);
         this.set_Changed();
     }
 
@@ -226,6 +238,10 @@ export class CharacterService {
 
     get_Feats(name: string = "", type: string = "") {
         return this.featsService.get_Feats(this.me.customFeats, name, type);
+    }
+
+    process_Feat(featName: string, level: Level, taken: boolean) {
+        this.featsService.process_Feat(this, featName, level, taken);
     }
 
     get_FeatsShowingOn(objectName: string) {

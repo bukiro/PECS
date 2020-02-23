@@ -22,7 +22,6 @@ import { DefenseComponent } from './defense/defense.component';
 import { SortByPipe } from './sortBy.pipe';
 import { ProficiencyFormComponent } from './proficiency-form/proficiency-form.component';
 import { SkillComponent } from './skill/skill.component';
-import { FeatComponent } from './character/feat/feat.component';
 
 
 @NgModule({
@@ -42,7 +41,6 @@ import { FeatComponent } from './character/feat/feat.component';
       DefenseComponent,
       ProficiencyFormComponent,
       SkillComponent,
-      FeatComponent
    ],
    imports: [
       BrowserModule,

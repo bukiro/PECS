@@ -9,6 +9,22 @@
                 "number":1,
                 "ancestryFeats_available":1,
                 "classFeats_available":1,
+                "featChoices":[
+                    {
+                        "available":1,
+                        "feats":[],
+                        "type":"Ancestry",
+                        "source":"Class",
+                        "id":0
+                    },
+                    {
+                        "available":1,
+                        "feats":[],
+                        "type":"Class",
+                        "source":"Class",
+                        "id":1
+                    }
+                ],
                 "skillChoices":[
                     {
                         "available":0,
@@ -27,7 +43,7 @@
                             { "name":"Monk class DC", "source":"Class", "locked":true, "sourceId":0 },
                             { "name":"Religion", "source":"Class", "locked":true, "sourceId":0 }
                         ],
-                        "type":"Any",
+                        "type":"",
                         "maxRank":2,
                         "source":"Class",
                         "id":0
@@ -63,11 +79,36 @@
             {
                 "number":2,
                 "classFeats_available":1,
-                "skillFeats_available":1
+                "skillFeats_available":1,
+                "featChoices":[
+                    {
+                        "available":1,
+                        "feats":[],
+                        "type":"Class",
+                        "source":"Class",
+                        "id":0
+                    },
+                    {
+                        "available":1,
+                        "feats":[],
+                        "type":"Skill",
+                        "source":"Class",
+                        "id":1
+                    }
+                ]
             },
             {
                 "number":3,
                 "generalFeats_available":1,
+                "featChoices":[
+                    {
+                        "available":1,
+                        "feats":[],
+                        "type":"General",
+                        "source":"Class",
+                        "id":0
+                    }
+                ],
                 "skillChoices":[
                     {
                         "available":1,
@@ -82,11 +123,36 @@
             {
                 "number":4,
                 "classFeats_available":1,
-                "skillFeats_available":1
+                "skillFeats_available":1,
+                "featChoices":[
+                    {
+                        "available":1,
+                        "feats":[],
+                        "type":"Class",
+                        "source":"Class",
+                        "id":0
+                    },
+                    {
+                        "available":1,
+                        "feats":[],
+                        "type":"Skill",
+                        "source":"Class",
+                        "id":1
+                    }
+                ]
             },
             {
                 "number":5,
                 "ancestryFeats_available":1,
+                "featChoices":[
+                    {
+                        "available":1,
+                        "feats":[],
+                        "type":"Ancestry",
+                        "source":"Class",
+                        "id":0
+                    }
+                ],
                 "skillChoices":[
                     {
                         "available":1,
@@ -111,7 +177,23 @@
             {
                 "number":6,
                 "classFeats_available":1,
-                "skillFeats_available":1
+                "skillFeats_available":1,
+                "featChoices":[
+                    {
+                        "available":1,
+                        "feats":[],
+                        "type":"Class",
+                        "source":"Class",
+                        "id":0
+                    },
+                    {
+                        "available":1,
+                        "feats":[],
+                        "type":"Skill",
+                        "source":"Class",
+                        "id":1
+                    }
+                ]
             }
         ]
     }

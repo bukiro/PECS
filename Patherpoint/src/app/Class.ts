@@ -47,48 +47,51 @@ export class Class {
 
     }
     on_ChangeBackground(characterService: CharacterService) {
-        if (this.background.name)
-        {
+        if (this.background.name) {
             this.levels[1].skillChoices = this.levels[1].skillChoices.filter(choice => choice.source != "Background");
             this.levels[1].abilityChoices = this.levels[1].abilityChoices.filter(availableBoost => availableBoost.source != "Background");
             if (this.background.loreName || this.background.specialLore) {
                 let oldChoices: LoreChoice[] = this.levels[1].loreChoices.filter(choice => choice.source == "Background");
                 let oldChoice = oldChoices[oldChoices.length - 1];
-                characterService.get_Character().remove_Lore(characterService, this.levels[1], oldChoice );
+                characterService.get_Character().remove_Lore(characterService, oldChoice );
             }
             this.levels[1].loreChoices = this.levels[1].loreChoices.filter(choice => choice.source != "Background");
         }
     }
     on_NewBackground(characterService: CharacterService) {
-        let character = characterService.get_Character();
-        this.levels[1].abilityChoices.push(...this.background.abilityChoices);
-        if (this.background.skill) {
-            //If the background grants a skill training, buy you have already trained this skill:
-            //Check if it is a free training (not locked). If so, remove it and reimburse the skill point, then replace it with the background's.
-            //If it is locked, we better not replace it. Instead, you get a free Background skill increase.
-            let existingIncreases = characterService.get_Character().get_SkillIncreases(1, 1, this.background.skill, '');
+        if (this.background.name) {
+            let character = characterService.get_Character();
+            this.levels[1].abilityChoices.push(...this.background.abilityChoices);
+            this.levels[1].skillChoices.push(...this.background.skillChoices);
+            this.levels[1].loreChoices.push(...this.background.loreChoices);
+            if (this.background.loreChoices[0].loreName) {
+                characterService.add_CustomSkill('Lore: '+this.background.loreChoices[0].loreName, "Skill", "Intelligence");
+                characterService.get_Feats().filter(feat => feat.lorebase).forEach(lorebase =>{
+                    let newLength = characterService.add_CustomFeat(lorebase);
+                    let newFeat = characterService.get_Character().customFeats[newLength -1];
+                    newFeat.name = newFeat.name.replace('Lore', 'Lore: '+this.background.loreChoices[0].loreName);
+                    newFeat.skillreq = newFeat.skillreq.replace('Lore', 'Lore: '+this.background.loreChoices[0].loreName);
+                    newFeat.showon = newFeat.showon.replace('Lore', 'Lore: '+this.background.loreChoices[0].loreName);
+                    newFeat.featreq = newFeat.featreq.replace('Lore', 'Lore: '+this.background.loreChoices[0].loreName);
+                    newFeat.lorebase = false;
+                })
+            }
+            let existingIncreases = character.get_SkillIncreases(1, 1, this.background.skillChoices[0].increases[0].name, '');
             if (existingIncreases.length) {
                 let existingIncrease = existingIncreases[0];
-                if (!existingIncrease.locked) {
-                    let existingSkillChoice: SkillChoice = characterService.get_Character().get_SkillIncreaseSource(this.levels[1], existingIncrease);
-                    characterService.get_Character().increase_Skill(characterService, existingIncrease.name, false, existingSkillChoice, false);
-                    let newSkillChoice = characterService.get_Character().add_SkillChoice(this.levels[1], {available:0, increases:[], type:"Skill", maxRank:2, source:'Background', id:0});
-                    characterService.get_Character().increase_Skill(characterService, this.background.skill, true, newSkillChoice, true)
-                } else {
-                    characterService.get_Character().add_SkillChoice(this.levels[1], {available:1, increases:[], type:"Skill", maxRank:2, source:'Background', id:0})
+                let existingSkillChoice: SkillChoice = character.get_SkillIncreaseSource(this.levels[1], existingIncrease);
+                //If you have already trained this skill from another source:
+                //Check if it is a free training (not locked). If so, remove it and reimburse the skill point, then replace it with the background's.
+                //If it is locked, we better not replace it. Instead, you get a free Background skill increase.
+                if (existingSkillChoice !== this.background.skillChoices[0]) {
+                    if (!existingIncrease.locked) {
+                        character.increase_Skill(characterService, existingIncrease.name, false, existingSkillChoice, false);
+                    } else {
+                        this.background.skillChoices[0].increases.pop();
+                        this.background.skillChoices[0].available = 1;
+                    }
                 }
-            } else {
-                let newSkillChoice = characterService.get_Character().add_SkillChoice(this.levels[1], {available:0, increases:[], type:"Skill", maxRank:2, source:'Background', id:0});
-                characterService.get_Character().increase_Skill(characterService, this.background.skill, true, newSkillChoice, true)
             }
         }
-        if (this.background.loreName) {
-                let newLoreChoice = characterService.get_Character().add_LoreChoice(this.levels[1], {available:0, increases:[], loreName:this.background.loreName, loreDesc:"", source:'Background', id:0});
-                character.add_Lore(characterService, this.levels[1], newLoreChoice);
-        }
-        if (this.background.specialLore) {
-            characterService.get_Character().add_LoreChoice(this.levels[1], {available:1, increases:[], loreName:"", loreDesc:this.background.specialLore, source:'Background', id:0})
-        }
     }
-    
 }
