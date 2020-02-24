@@ -38,8 +38,24 @@ export class HealthComponent implements OnInit {
                 this.get_Health().wounded++
             }
         } else {
-            this.get_Health().dying = Math.min(this.get_Health().dying + 1, this.get_Health().maxDying)
+            this.get_Health().dying = Math.min(this.get_Health().dying + 1, this.get_Health().maxDying(this.effectsService))
         }
+    }
+
+    get_EffectsOnThis(name: string) {
+        return this.effectsService.get_EffectsOnThis(name);
+    }
+
+    get_BonusesOnThis(name: string) {
+        return this.effectsService.get_BonusesOnThis(name);
+    }
+
+    get_PenaltiesOnThis(name: string) {
+        return this.effectsService.get_PenaltiesOnThis(name);
+    }
+
+    get_FeatsShowingOn(name: string) {
+        return this.characterService.get_FeatsShowingOn(name);
     }
 
     set_CharacterChanged() {

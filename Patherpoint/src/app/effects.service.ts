@@ -3,13 +3,14 @@ import { Effect } from './Effect';
 import { Item } from './Item';
 import { CharacterService } from './character.service';
 import { TraitsService } from './traits.service';
+import { EffectCollection } from './EffectCollection';
 
 @Injectable({
     providedIn: 'root'
 })
 export class EffectsService {
 
-    private effects: Effect[] = [];
+    private effects: EffectCollection = new EffectCollection();
     //The bonus types are hardcoded. If Paizo ever adds a new bonus type, this is where we need to change them.
     private bonusTypes: string[] = ["item", "circumstance", "status", "proficiency", "untyped"];
 
@@ -23,7 +24,17 @@ constructor(
     }
 
     get_EffectsOnThis(ObjectName: String) {
-        let effects = this.get_Effects();
+        let effects = this.get_Effects().all;
+        return effects.filter(effect => effect.target == ObjectName && effect.apply);
+    }
+
+    get_BonusesOnThis(ObjectName: String) {
+        let effects = this.get_Effects().bonuses;
+        return effects.filter(effect => effect.target == ObjectName && effect.apply);
+    }
+
+    get_PenaltiesOnThis(ObjectName: String) {
+        let effects = this.get_Effects().penalties;
         return effects.filter(effect => effect.target == ObjectName && effect.apply);
     }
 
@@ -33,14 +44,18 @@ constructor(
         //Try to get the type, too - items will always have an item type bonus
         //Return an array of Effect objects
         let objectEffects: Effect[] = [];
+        //Define characterService as we may need it in some specialEffects
+        let characterService = this.characterService;
         let type: string = 'untyped';
         if ( this.instanceOfItem(object) ) {
             type = 'item';
         }
         object.effects.forEach(effect => {
-            let affected = effect.split(" ")[0];
-            let value = effect.split(" ")[1];
-            objectEffects.push(new Effect(type, affected, value, object.name, (parseInt(value) < 0) ? true : false));
+            objectEffects.push(new Effect(type, effect.affected, effect.value, object.name, (parseInt(effect.value) < 0) ? true : false));
+        });
+        object.specialEffects.forEach(effect => {
+            let value = eval(effect.value);
+            objectEffects.push(new Effect(type, effect.affected, value, object.name, (parseInt(value) < 0) ? true : false));
         });
         return objectEffects;
     }
@@ -52,7 +67,7 @@ constructor(
     get_Effects(regenerate: boolean = false) {
         if (regenerate) {
 
-            this.effects = [];
+            this.effects = new EffectCollection();
 
             function finalize_Effects(effectsCollection: Effect[], bonusTypes) {
                 //Now we need to go over all the effects.  If one target is affected by two bonuses of the same type,
@@ -107,10 +122,15 @@ constructor(
             items.shield.filter(item => item.equip && item.effects).forEach(item => {
                 simpleEffects = simpleEffects.concat(this.get_SimpleEffects(item));
             });
+            let character = this.characterService.get_Character();
+            let feats = character.get_FeatsTaken(1, character.level)
+            feats.forEach(feat => {
+                simpleEffects = simpleEffects.concat(this.get_SimpleEffects(this.characterService.get_Feats(feat.name)[0]));
+            });
             
             //We finalize and export this first bunch of simple effects,
             //because we are going to need to check Strength later in this function, and we don't want to have to run the function twice
-            this.effects = Object.assign([], finalize_Effects(simpleEffects, this.bonusTypes));;
+            this.effects.all = Object.assign([], finalize_Effects(simpleEffects, this.bonusTypes));;
             //this.set_CharacterChanged();
             
             let itemEffects: Effect[] = [];
@@ -185,13 +205,12 @@ constructor(
 
             let allEffects: Effect[] = [].concat(simpleEffects, itemEffects)
 
-            this.effects = Object.assign([], finalize_Effects(allEffects, this.bonusTypes));
-            //this.set_CharacterChanged();
-            /*if (JSON.stringify(this.effects) != JSON.stringify(effects)) {
-                this.effects = effects;
-            }*/
+            this.effects.all = Object.assign([], finalize_Effects(allEffects, this.bonusTypes));
+            this.effects.penalties = this.effects.all.filter(effect => parseInt(effect.value) < 0);
+            this.effects.bonuses = this.effects.all.filter(effect => parseInt(effect.value) > 0);
         }
         return this.effects;
+
     }
 
 }

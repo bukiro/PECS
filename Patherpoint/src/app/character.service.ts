@@ -21,6 +21,7 @@ import { Heritage } from './Heritage';
 import { Background } from './Background';
 import { ItemsService } from './items.service';
 import { Feat } from './Feat';
+import { Health } from './Health';
 
 @Injectable({
     providedIn: 'root'
@@ -293,6 +294,12 @@ export class CharacterService {
                 this.me.class.levels = this.me.class.levels.map(level => Object.assign(new Level(), level));
             } else {
                 this.me.class = new Class();
+            }
+            if (this.me.health) {
+                this.me.health = Object.assign(new Health(), this.me.health);
+            }
+            if (this.me.customFeats) {
+                this.me.customFeats = this.me.customFeats.map(feat => Object.assign(new Feat(), feat));
             }
             if (this.me.inventory) {
                 this.me.inventory = Object.assign(new ItemCollection(), this.me.inventory);

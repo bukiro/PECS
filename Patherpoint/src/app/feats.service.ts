@@ -62,7 +62,7 @@ export class FeatsService {
             //Gain Ancestry Feat
             if (feat.gainAncestryFeat) {
                 if (taken) {
-                    character.add_FeatChoice(level, {available:1, feats:[], type:"Ancestry", source:'Feat: '+featName, id:""});
+                    character.add_FeatChoice(level, {available:1, feats:[], filter:[], type:"Ancestry", source:'Feat: '+featName, id:""});
                 } else {
                     let a = level.featChoices;
                     a.splice(a.indexOf(a.filter(choice => choice.source == 'Feat: '+featName && choice.type == "Ancestry")[0]), 1)
@@ -72,7 +72,7 @@ export class FeatsService {
             //Gain General Feat
             if (feat.gainGeneralFeat) {
                 if (taken) {
-                    character.add_FeatChoice(level, {available:1, feats:[], type:"General", source:'Feat: '+featName, id:""});
+                    character.add_FeatChoice(level, {available:1, feats:[], filter:[], type:"General", source:'Feat: '+featName, id:""});
                 } else {
                     let a = level.featChoices;
                     a.splice(a.indexOf(a.filter(choice => choice.source == 'Feat: '+featName && choice.type == "General")[0]), 1)
@@ -82,7 +82,7 @@ export class FeatsService {
             //Gain Class Feat
             if (feat.gainClassFeat) {
                 if (taken) {
-                    character.add_FeatChoice(level, {available:1, feats:[], type:"Class", source:'Feat: '+featName, id:""});
+                    character.add_FeatChoice(level, {available:1, feats:[], filter:[], type:"Class", source:'Feat: '+featName, id:""});
                 } else {
                     let a = level.featChoices;
                     a.splice(a.indexOf(a.filter(choice => choice.source == 'Feat: '+featName && choice.type == "Class")[0]), 1)

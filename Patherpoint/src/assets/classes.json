@@ -12,6 +12,7 @@
                     {
                         "available":1,
                         "feats":[],
+                        "filter":[],
                         "type":"Ancestry",
                         "source":"Class",
                         "id":"1-Feat-Class-0"
@@ -19,6 +20,7 @@
                     {
                         "available":1,
                         "feats":[],
+                        "filter":[],
                         "type":"Class",
                         "source":"Class",
                         "id":"1-Feat-Class-1"
@@ -80,6 +82,7 @@
                     {
                         "available":1,
                         "feats":[],
+                        "filter":[],
                         "type":"Class",
                         "source":"Class",
                         "id":"2-Feat-Class-0"
@@ -87,6 +90,7 @@
                     {
                         "available":1,
                         "feats":[],
+                        "filter":[],
                         "type":"Skill",
                         "source":"Class",
                         "id":"2-Feat-Class-1"
@@ -99,6 +103,7 @@
                     {
                         "available":1,
                         "feats":[],
+                        "filter":[],
                         "type":"General",
                         "source":"Class",
                         "id":"3-Feat-Class-0"
@@ -121,6 +126,7 @@
                     {
                         "available":1,
                         "feats":[],
+                        "filter":[],
                         "type":"Class",
                         "source":"Class",
                         "id":"4-Feat-Class-0"
@@ -128,6 +134,7 @@
                     {
                         "available":1,
                         "feats":[],
+                        "filter":[],
                         "type":"Skill",
                         "source":"Class",
                         "id":"4-Feat-Class-1"
@@ -140,6 +147,7 @@
                     {
                         "available":1,
                         "feats":[],
+                        "filter":[],
                         "type":"Ancestry",
                         "source":"Class",
                         "id":"5-Feat-Class-0"
@@ -172,6 +180,7 @@
                     {
                         "available":1,
                         "feats":[],
+                        "filter":[],
                         "type":"Class",
                         "source":"Class",
                         "id":"6-Feat-Class-0"
@@ -179,9 +188,33 @@
                     {
                         "available":1,
                         "feats":[],
+                        "filter":[],
                         "type":"Skill",
                         "source":"Class",
                         "id":"6-Feat-Class-1"
+                    }
+                ]
+            },
+            {
+                "number":7,
+                "featChoices":[
+                    {
+                        "available":1,
+                        "feats":[],
+                        "filter":[],
+                        "type":"General",
+                        "source":"Class",
+                        "id":"7-Feat-Class-0"
+                    }
+                ],
+                "skillChoices":[
+                    {
+                        "available":1,
+                        "increases":[],
+                        "type":"Skill",
+                        "maxRank":6,
+                        "source":"Class",
+                        "id":"7-Skill-Class-0"
                     }
                 ]
             }

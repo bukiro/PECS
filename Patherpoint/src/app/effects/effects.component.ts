@@ -29,12 +29,12 @@ export class EffectsComponent implements OnInit {
 
     get_AppliedEffects(regenerate: boolean = false) {
         let effects = this.get_Effects(regenerate);
-        return effects.filter(effect => effect.apply)
+        return effects.all.filter(effect => effect.apply)
     }
 
     get_NotAppliedEffects() {
         let effects = this.get_Effects();
-        return effects.filter(effect => effect.apply != true)
+        return effects.all.filter(effect => effect.apply != true)
     }
 
     finish_Loading() {

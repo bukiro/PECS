@@ -19,7 +19,7 @@ export class Feat {
     public traits: string[] = [];
     public increase: string = "";
     public effects: string[] = [];
-    public specialEffect: boolean = false;
+    public specialEffects: string[] = [];
     public gainAncestryFeat: number = 0;
     public gainGeneralFeat: number = 0;
     public gainClassFeat: number = 0;

@@ -14,6 +14,7 @@ export class Shield implements Item {
         public coverbonus: number = 0,
         public traits: string[] = [],
         public material: string = "",
-        public effects: string[] = []
+        public effects: string[] = [],
+        public specialEffects: string[] = []
         ) {}
 }

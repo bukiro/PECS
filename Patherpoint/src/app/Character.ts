@@ -200,12 +200,13 @@ export class Character {
     add_Lore(characterService: CharacterService, source: LoreChoice) {
         characterService.add_CustomSkill('Lore: '+source.loreName, "Skill", "Intelligence");
         characterService.get_Character().increase_Skill(characterService, 'Lore: '+source.loreName, true, source, true)
-        characterService.get_Feats().filter(feat => feat.lorebase).forEach(lorebase =>{
-            let newLength = characterService.add_CustomFeat(lorebase);
+        characterService.get_Feats().filter(feat => feat.lorebase).forEach(lorebaseFeat =>{
+            let newLength = characterService.add_CustomFeat(lorebaseFeat);
             let newFeat = characterService.get_Character().customFeats[newLength -1];
             newFeat.name = newFeat.name.replace('Lore', 'Lore: '+source.loreName);
             newFeat.skillreq = newFeat.skillreq.replace('Lore', 'Lore: '+source.loreName);
             newFeat.showon = newFeat.showon.replace('Lore', 'Lore: '+source.loreName);
+            newFeat.featreq = newFeat.featreq.replace('Lore', 'Lore: '+source.loreName);
             newFeat.lorebase = false;
         })
         characterService.set_Changed();

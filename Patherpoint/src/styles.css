@@ -251,6 +251,17 @@
     opacity:75%
   }
 
+  cite {
+    background-color: #bbbbbb;
+    padding: 4px;
+    margin: 4px;
+    float: left;
+  }
+  
+  cite.penalty, cite.bonus {
+    background-color: inherit;
+  }
+
   #1976d2
   @-webkit-keyframes altrclr{
     0%{

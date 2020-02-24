@@ -249,6 +249,9 @@ export class CharacterComponent implements OnInit {
         let levelNumber = parseInt(choice.id[0]);
         let character = this.characterService.get_Character()
         let allFeats = this.featsService.get_Feats(this.characterService.get_Character().customFeats);
+        if (choice.filter.length) {
+            allFeats = allFeats.filter(feat => choice.filter.indexOf(feat.name) > -1)
+        }
         let feats: Feat[] = [];
         switch (choice.type) {
             case "Class":
@@ -263,7 +266,7 @@ export class CharacterComponent implements OnInit {
                 feats.push(...allFeats.filter(feat => feat.traits.indexOf(choice.type) > -1));
                 break;
         }
-        if (feats) {
+        if (feats.length) {
             return feats.filter(feat => 
                 (feat.canChoose(this.characterService, this.abilitiesService, this.effectsService, levelNumber) && choice.feats.length < choice.available) ||
                 this.featTakenByThis(feat, choice)

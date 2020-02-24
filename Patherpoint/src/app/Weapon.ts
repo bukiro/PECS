@@ -24,7 +24,8 @@ export class Weapon implements Item {
         public strikingRune: number = 0,
         public propertyRunes: string[] = [],
         public material: string = "",
-        public effects: string[] = []
+        public effects: string[] = [],
+        public specialEffects: string[] = []
     ) {}
     level(characterService: CharacterService, charLevel: number = characterService.get_Character().level) {
         if (characterService.still_loading()) { return 0; }
