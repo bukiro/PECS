@@ -149,6 +149,11 @@ constructor(
                 }
                 itemEffects.push(new Effect('circumstance', "AC", "+"+shieldBonus, item.name, false));
             });
+            //Get cover bonuses (these are taken from the currently worn armor)
+            items.armor.filter(item => item.equip && item.cover > 0).forEach(item => {
+                let coverBonus = item.cover;
+                itemEffects.push(new Effect('circumstance', "AC", "+"+coverBonus, "Cover", false));
+            });
             //Get skill and speed penalties from armor
             //If an armor has a skillpenalty or a speedpenalty, check if Strength meets its strength requirement.
             let Strength = this.characterService.get_Abilities("Strength")[0].value(this.characterService, this);

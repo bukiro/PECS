@@ -128,7 +128,18 @@
     { "name":"Alchemical Crafting", "desc":"Craft alchemical items.", "levelreq":1, "skillreq":"Crafting, 2", "showon":"Crafting", "traits":["General", "Skill"], "effects":[]},
     { "name":"Quick Repair", "desc":"Repair items quickly.", "levelreq":1, "skillreq":"Crafting, 2", "showon":"Crafting", "traits":["General", "Skill"], "effects":[]},
     { "name":"Snare Crafting", "desc":"Craft snares.", "levelreq":1, "skillreq":"Crafting, 2", "showon":"Crafting", "traits":["General", "Skill"], "effects":[]},
-    { "name":"Specialty Crafting", "desc":"Gain bonuses to Craft certain items.", "levelreq":1, "skillreq":"Crafting, 2", "showon":"Crafting", "traits":["General", "Skill"], "effects":[]},
+    { "name":"Specialty Crafting: Alchemy", "desc":"Gain bonuses to Craft certain items.", "levelreq":1, "featreq":"Alchemical Crafting", "skillreq":"Crafting, 2", "showon":"Crafting", "traits":["General", "Skill"], "effects":[]},
+    { "name":"Specialty Crafting: Artistry", "desc":"Gain bonuses to Craft certain items.", "levelreq":1, "skillreq":"Crafting, 2", "showon":"Crafting", "traits":["General", "Skill"], "effects":[]},
+    { "name":"Specialty Crafting: Blacksmithing", "desc":"Gain bonuses to Craft certain items.", "levelreq":1, "skillreq":"Crafting, 2", "showon":"Crafting", "traits":["General", "Skill"], "effects":[]},
+    { "name":"Specialty Crafting: Bookmaking", "desc":"Gain bonuses to Craft certain items.", "levelreq":1, "skillreq":"Crafting, 2", "showon":"Crafting", "traits":["General", "Skill"], "effects":[]},
+    { "name":"Specialty Crafting: Glassmaking", "desc":"Gain bonuses to Craft certain items.", "levelreq":1, "skillreq":"Crafting, 2", "showon":"Crafting", "traits":["General", "Skill"], "effects":[]},
+    { "name":"Specialty Crafting: Leatherworking", "desc":"Gain bonuses to Craft certain items.", "levelreq":1, "skillreq":"Crafting, 2", "showon":"Crafting", "traits":["General", "Skill"], "effects":[]},
+    { "name":"Specialty Crafting: Pottery", "desc":"Gain bonuses to Craft certain items.", "levelreq":1, "skillreq":"Crafting, 2", "showon":"Crafting", "traits":["General", "Skill"], "effects":[]},
+    { "name":"Specialty Crafting: Shipbuilding", "desc":"Gain bonuses to Craft certain items.", "levelreq":1, "skillreq":"Crafting, 2", "showon":"Crafting", "traits":["General", "Skill"], "effects":[]},
+    { "name":"Specialty Crafting: Stonemasonry", "desc":"Gain bonuses to Craft certain items.", "levelreq":1, "skillreq":"Crafting, 2", "showon":"Crafting", "traits":["General", "Skill"], "effects":[]},
+    { "name":"Specialty Crafting: Tailoring", "desc":"Gain bonuses to Craft certain items.", "levelreq":1, "skillreq":"Crafting, 2", "showon":"Crafting", "traits":["General", "Skill"], "effects":[]},
+    { "name":"Specialty Crafting: Weaving", "desc":"Gain bonuses to Craft certain items.", "levelreq":1, "skillreq":"Crafting, 2", "showon":"Crafting", "traits":["General", "Skill"], "effects":[]},
+    { "name":"Specialty Crafting: Woodworking", "desc":"Gain bonuses to Craft certain items.", "levelreq":1, "skillreq":"Crafting, 2", "showon":"Crafting", "traits":["General", "Skill"], "effects":[]},
     { "name":"Charming Liar", "desc":"Improve a target's attitude with your lies.", "levelreq":1, "skillreq":"Deception, 2", "showon":"Deception", "traits":["General", "Skill"], "effects":[]},
     { "name":"Lengthy Diversion", "desc":"Remain hidden after you Create a Diversion.", "levelreq":1, "skillreq":"Deception, 2", "showon":"Deception", "traits":["General", "Skill"], "effects":[]},
     { "name":"Lie to Me", "desc":"Use Deception to detect lies.", "levelreq":1, "skillreq":"Deception, 2", "showon":"Deception", "traits":["General", "Skill"], "effects":[]},
@@ -162,5 +173,106 @@
     { "name":"Terrain Expertise", "desc":"+1 to Survival checks in certain terrain.", "levelreq":1, "skillreq":"Survival, 2", "showon":"Survival", "traits":["General", "Skill"], "effects":[]},
     { "name":"Pickpocket", "desc":"Steal or Palm an Object more effectively.", "levelreq":1, "skillreq":"Thievery, 2", "showon":"Thievery", "traits":["General", "Skill"], "effects":[]},
     { "name":"Subtle Theft", "desc":"Your thefts are harder to notice.", "levelreq":1, "skillreq":"Thievery, 2", "showon":"Thievery", "traits":["General", "Skill"], "effects":[]},
-    { "name":"Monastic Weaponry", "desc":"You have trained with the traditional weaponry of your monastery or school.", "levelreq":1, "traits":["Monk"], "increase":"Monk", "effects":[]}
-  ]
+    {
+        "name":"Monastic Weaponry",
+        "traits":["Monk"],
+        "desc":"You have trained with the traditional weaponry of your monastery or school.",
+        "levelreq":1,
+        "increase":"Monk"
+    },
+    {
+        "name":"Death Warden Dwarf Resistance",
+        "desc":"If you roll a success on a saving throw against a necromancy effect, you get a critical success instead.",
+        "showon":"Saving Throws"
+    },
+    {
+        "name":"Forge Dwarf Lessened Heat",
+        "desc":"You treat environmental heat effects as if they were one step less extreme (incredible heat becomes extreme, extreme heat becomes severe, and so on).",
+        "showon":"Resistances"
+    },
+    {
+        "name":"Forge Dwarf Fire Resistance",
+        "desc":"You gain fire resistance equal to half your level (minimum 1).",
+        "specialEffects":[{"affected":"Fire Resistance", "value":"'+'+Math.max(Math.floor(characterService.get_Character().level / 2), 1)"}]
+    },
+    {
+        "name":"Oathkeeper Dwarf Perception",
+        "desc":"You gain a +1 circumstance bonus to Perception checks to Sense Motive and to Perception DCs against attempts to Lie to you.",
+        "showon":"Perception"
+    },
+    {
+        "name":"Oathkeeper Dwarf Diplomacy",
+        "desc":"You gain a +2 circumstance bonus to Diplomacy checks to convince others you speak the truth when you are telling the truth.",
+        "showon":"Diplomacy"
+    },
+    {
+        "name":"Oathkeeper Dwarf Deception",
+        "desc":"You take a –4 circumstance penalty to Lie and to your Deception DC against Sense Motive.",
+        "showon":"Deception"
+    },
+    {
+        "name":"Rock Dwarf Stability",
+        "desc":"You gain a +2 circumstance bonus to your Fortitude or Reflex DC against attempts to Shove or Trip you. This bonus also applies to saving throws against spells or effects that attempt to knock you prone.\n\nIn addition, if any effect would force you to move 10 feet or more, you are moved only half the distance.",
+        "showon":"Fortitude, Reflex"
+    },
+    {
+        "name":"Strong-Blooded Dwarf Fortitude",
+        "desc":"Each of your successful saving throws against a poison affliction reduces its stage by 2, or by 1 for a virulent poison. Each critical success against an ongoing poison reduces its stage by 3, or by 2 for a virulent poison.",
+        "showon":"Fortitude"
+    },
+    {
+        "name":"Strong-Blooded Dwarf Poison Resistance",
+        "desc":"You gain poison resistance equal to half your level (minimum 1).",
+        "specialEffects":[{"affected":"Poison Resistance", "value":"'+'+Math.max(Math.floor(characterService.get_Character().level / 2), 1)"}]
+    },
+    {
+        "name":"Arctic Elf Lessened Cold",
+        "desc":"You treat environmental cold effects as if they were one step less extreme (incredible cold becomes extreme, extreme cold becomes severe, and so on).",
+        "showon":"Resistances"
+    },
+    {
+        "name":"Arctic Elf Cold Resistance",
+        "desc":"You gain cold resistance equal to half your level (minimum 1).",
+        "specialEffects":[{"affected":"Cold Resistance", "value":"'+'+Math.max(Math.floor(characterService.get_Character().level / 2), 1)"}]
+    },
+    {
+        "name":"Desert Elf Lessened Heat",
+        "desc":"Environmental heat effects are one step less extreme for you (incredible heat becomes extreme, extreme heat becomes severe, and so on).",
+        "showon":"Resistances"
+    },
+    {
+        "name":"Desert Elf Fire Resistance",
+        "desc":"You gain fire resistance equal to half your level (minimum 1).",
+        "specialEffects":[{"affected":"Fire Resistance", "value":"'+'+Math.max(Math.floor(characterService.get_Character().level / 2), 1)"}]
+    },
+    {
+        "name":"Seer Elf Insight",
+        "desc":"You gain a +1 circumstance bonus to checks to Identify Magic and to Decipher Writing of a magical nature. These skill actions typically use the Arcana, Nature, Occultism, or Religion skill.",
+        "showon":"Arcana, Nature, Occultism, Religion"
+    },
+    {
+        "name":"Whisper Elf Hearing",
+        "desc":"As long as you can hear normally, you can use the Seek action to sense undetected creatures in a 60-foot cone instead of a 30-foot cone. You also gain a +2 circumstance bonus to locate undetected creatures that you could hear within 30 feet with a Seek action.",
+        "showon":"Perception"
+    },
+    {
+        "name":"Woodland Elf Climbing",
+        "desc":"When Climbing trees, vines, and other foliage, you move at half your Speed on a success and at full Speed on a critical success (and you move at full Speed on a success if you have Quick Climb). This doesn’t affect you if you’re using a climb Speed.",
+        "showon":"Movement"
+    },
+    {
+        "name":"Woodland Elf Cover",
+        "desc":"You can always use the Take Cover action when you are within forest terrain to gain cover, even if you’re not next to an obstacle you can Take Cover behind.",
+        "showon":"Defense"
+    },
+    {
+        "name":"Wintertouched Human Lessened Cold",
+        "desc":"You gain poison resistance equal to half your level (minimum 1).",
+        "specialEffects":[{"affected":"Poison Resistance", "value":"'+'+Math.max(Math.floor(characterService.get_Character().level / 2), 1)"}]
+    },
+    {
+        "name":"Wintertouched Human Cold Resistance",
+        "desc":"You gain poison resistance equal to half your level (minimum 1).",
+        "specialEffects":[{"affected":"Cold Resistance", "value":"'+'+Math.max(Math.floor(characterService.get_Character().level / 2), 1)"}]
+    }
+]

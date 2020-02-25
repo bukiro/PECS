@@ -105,8 +105,10 @@ export class CharacterService {
     }
 
     change_Heritage(heritage: Heritage) {
+        this.me.class.on_ChangeHeritage();
         this.me.class.heritage = new Heritage();
         this.me.class.heritage = Object.assign(new Heritage(), JSON.parse(JSON.stringify(heritage)))
+        this.me.class.on_NewHeritage(this);
         this.set_Changed();
     }
 
@@ -157,7 +159,6 @@ export class CharacterService {
                     typeItem.equip = false;
                 });
                 item.equip = true;
-                this.set_Changed();
             }
         } else {
             //If this is called by a checkbox, it finishes before the checkbox model finalizes - so if the unequipped item is the basic item, it will still end up unequipped.
@@ -175,7 +176,12 @@ export class CharacterService {
             if (item.type == "weapon") {
                 item["parrying"] = false;
             }
-        } this.set_Changed();
+            //Also armor, even though cover is independent from armor (but we are tracking cover on the armor and we don't want it to change between equipment changes)
+            if (item.type == "armor") {
+                item["cover"] = 0;
+            }
+        }
+        this.set_Changed();
     }
 
     grant_basicItems(weapon: Weapon, armor: Armor) {

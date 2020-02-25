@@ -2,6 +2,7 @@
     {
         "name":"Dwarf",
         "traits":["Dwarf", "Humanoid"],
+        "ancestries":["Dwarf"],
         "heritages":["Ancient-Blooded Dwarf", "Anvil Dwarf", "Death Warden Dwarf", "Elemental Heart Dwarf", "Forge Dwarf", "Oathkeeper Dwarf", "Rock Dwarf", "Strong-Blooded Dwarf"],
         "hitPoints":10,
         "size":"medium",
@@ -37,6 +38,7 @@
     {
         "name":"Elf",
         "traits":["Elf", "Humanoid"],
+        "ancestries":["Elf"],
         "heritages":["Ancient Elf", "Arctic Elf", "Cavern Elf", "Desert Elf", "Seer Elf", "Whisper Elf", "Woodland Elf"],
         "hitPoints":6,
         "size":"medium",
@@ -70,6 +72,7 @@
     {
         "name":"Human",
         "traits":["Human", "Humanoid"],
+        "ancestries":["Human"],
         "heritages":["Half-Elf", "Half-Orc", "Skilled Heritage", "Versatile Heritage"],
         "hitPoints":8,
         "size":"medium",

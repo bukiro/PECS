@@ -42,10 +42,43 @@ export class Class {
         }
     }
     on_ChangeHeritage() {
-
+        this.heritage.ancestries.forEach(ancestryListing => {
+            this.ancestry.ancestries = this.ancestry.ancestries.filter(ancestry => ancestry != ancestryListing)
+        })
+        this.heritage.traits.forEach(traitListing => {
+            this.ancestry.traits = this.ancestry.traits.filter(trait => trait != traitListing)
+        })
+        this.levels[1].featChoices = this.levels[1].featChoices.filter(choice => choice.source != "Heritage");
+        this.levels[1].skillChoices = this.levels[1].skillChoices.filter(choice => choice.source != "Heritage" && choice.source != "Skilled Heritage");
+        //Also remove the 5th level skill increase from Skilled Heritage
+        this.levels[5].skillChoices = this.levels[5].skillChoices.filter(choice => choice.source != "Skilled Heritage");
     }
-    on_NewHeritage() {
-
+    on_NewHeritage(characterService: CharacterService) {
+        if (this.heritage.name) {
+            this.ancestry.traits.push(...this.heritage.traits)
+            this.ancestry.ancestries.push(...this.heritage.ancestries);
+            let character = characterService.get_Character();
+            this.levels[1].featChoices.push(...this.heritage.featChoices);
+            this.levels[1].skillChoices.push(...this.heritage.skillChoices);
+            if (this.heritage.skillChoices.length && this.heritage.skillChoices[0].increases.length) {
+                let existingIncreases = character.get_SkillIncreases(1, 1, this.heritage.skillChoices[0].increases[0].name, '');
+                if (existingIncreases.length) {
+                    let existingIncrease = existingIncreases[0];
+                    let existingSkillChoice: SkillChoice = character.get_SkillChoice(existingIncrease.sourceId);
+                    //If you have already trained this skill from another source:
+                    //Check if it is a free training (not locked). If so, remove it and reimburse the skill point, then replace it with the heritage's.
+                    //If it is locked, we better not replace it. Instead, you get a free Heritage skill increase.
+                    if (existingSkillChoice !== this.heritage.skillChoices[0]) {
+                        if (!existingIncrease.locked) {
+                            character.increase_Skill(characterService, existingIncrease.name, false, existingSkillChoice, false);
+                        } else {
+                            this.heritage.skillChoices[0].increases.pop();
+                            this.heritage.skillChoices[0].available = 1;
+                        }
+                    }
+                }
+            }
+        }
     }
     on_ChangeBackground(characterService: CharacterService) {
         if (this.background.name) {
@@ -69,19 +102,21 @@ export class Class {
             if (this.background.loreChoices[0].loreName) {
                 character.add_Lore(characterService, this.background.loreChoices[0])
             }
-            let existingIncreases = character.get_SkillIncreases(1, 1, this.background.skillChoices[0].increases[0].name, '');
-            if (existingIncreases.length) {
-                let existingIncrease = existingIncreases[0];
-                let existingSkillChoice: SkillChoice = character.get_SkillChoice(existingIncrease.sourceId);
-                //If you have already trained this skill from another source:
-                //Check if it is a free training (not locked). If so, remove it and reimburse the skill point, then replace it with the background's.
-                //If it is locked, we better not replace it. Instead, you get a free Background skill increase.
-                if (existingSkillChoice !== this.background.skillChoices[0]) {
-                    if (!existingIncrease.locked) {
-                        character.increase_Skill(characterService, existingIncrease.name, false, existingSkillChoice, false);
-                    } else {
-                        this.background.skillChoices[0].increases.pop();
-                        this.background.skillChoices[0].available = 1;
+            if (this.background.skillChoices[0].increases.length) {
+                let existingIncreases = character.get_SkillIncreases(1, 1, this.background.skillChoices[0].increases[0].name, '');
+                if (existingIncreases.length) {
+                    let existingIncrease = existingIncreases[0];
+                    let existingSkillChoice: SkillChoice = character.get_SkillChoice(existingIncrease.sourceId);
+                    //If you have already trained this skill from another source:
+                    //Check if it is a free training (not locked). If so, remove it and reimburse the skill point, then replace it with the background's.
+                    //If it is locked, we better not replace it. Instead, you get a free Background skill increase.
+                    if (existingSkillChoice !== this.background.skillChoices[0]) {
+                        if (!existingIncrease.locked) {
+                            character.increase_Skill(characterService, existingIncrease.name, false, existingSkillChoice, false);
+                        } else {
+                            this.background.skillChoices[0].increases.pop();
+                            this.background.skillChoices[0].available = 1;
+                        }
                     }
                 }
             }

@@ -19,6 +19,7 @@ export class Character {
     public customFeats: Feat[] = [];
     public baseValues = [];
     public inventory: ItemCollection = new ItemCollection();
+    public deity: string = "";
     get_Changed(characterService: CharacterService, ) {
         return characterService.get_Changed();
     }
@@ -126,6 +127,19 @@ export class Character {
     increase_Skill(characterService: CharacterService, skillName: string, train: boolean, choice: SkillChoice|LoreChoice, locked: boolean) {
         if (train) {
             choice.increases.push({"name":skillName, "source":choice.source, "locked":locked, "sourceId":choice.id});
+            //The skill that you increase with Skilled Heritage at level 1 automatically gets increased at level 5 as well.
+            let level = parseInt(choice.id[0]);
+            if (level == 1 && choice.source == "Skilled Heritage") {
+                let newChoice = this.add_SkillChoice(characterService.get_Level(5), {
+                    available:0,
+                    increases:[],
+                    type:"Skill",
+                    maxRank:8,
+                    source:"Skilled Heritage",
+                    id:""
+                });
+                this.increase_Skill(characterService, skillName, true, newChoice, true);
+            }
         } else {
             let oldIncrease = choice.increases.filter(
                 increase => increase.name == skillName &&
@@ -134,6 +148,11 @@ export class Character {
                 increase.locked == locked
                 )[0];
             choice.increases = choice.increases.filter(increase => increase !== oldIncrease);
+            //If you are deselecting a skill that you increased with Skilled Heritage at level 1, you also lose the skill increase at level 5.
+            let level = parseInt(choice.id[0]);
+            if (level == 1 && choice.source == "Skilled Heritage") {
+                characterService.get_Level(5).skillChoices = characterService.get_Level(5).skillChoices.filter(choice => choice.source != "Skilled Heritage");
+            }
         }
         this.set_Changed(characterService);
     }

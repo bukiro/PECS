@@ -3,6 +3,7 @@ import { AbilityChoice } from './AbilityChoice';
 export class Ancestry {
     public name: string = "";
     public traits: string[] = [];
+    public ancestries: string[] = [];
     public heritages: string[] = [];
     public hitPoints: number = 0;
     public size: string = "medium";

@@ -1,0 +1,29 @@
+<div id="General" class="attributeBox">
+    <h3>General information</h3>
+    <div class="loading" *ngIf="still_loading()">Loading</div>
+    <div *ngIf="!still_loading()">
+        <div class="list-item">
+            <strong>Character Name</strong>
+            {{get_Character().name}}
+        </div>
+        <div class="list-item" *ngIf="get_Character().class.ancestry.name">
+            <strong>Ancestry:</strong>
+            {{get_Character().class.ancestry.name}}{{(get_Character().class.heritage.name) ? " - " + get_Character().class.heritage.name : ""}}
+            <div class="row" *ngIf="get_Character().class.ancestry.traits.length">
+                <cite *ngFor="let trait of get_Character().class.ancestry.traits">{{trait}}&nbsp;</cite>
+            </div>
+        </div>
+        <div class="list-item" *ngIf="get_Character().class.background.name">
+            <strong>Background:</strong>
+            {{get_Character().class.background.name}}
+        </div>
+        <div class="list-item" *ngIf="get_Character().class.name">
+            <strong>Class:</strong>
+            {{get_Character().class.name}}
+        </div>
+        <div class="list-item" *ngIf="get_Character().deity.length">
+            <strong>Deity:</strong>
+            {{get_Character().deity}}
+        </div>
+    </div>
+</div>

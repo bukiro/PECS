@@ -97,7 +97,17 @@ export class CharacterComponent implements OnInit {
     get_AvailableAbilities(choice: AbilityChoice) {
         let abilities = this.get_Abilities('');
         if (choice.filter.length) {
-            abilities = abilities.filter(ability => choice.filter.indexOf(ability.name) > -1)
+            let cannotBoost = 0;
+            if (choice.id[0] == "1") {
+                choice.filter.forEach(filter => {
+                    if (this.cannotBoost(this.get_Abilities(filter)[0], this.get_Level(1), choice).length) {
+                        cannotBoost += 1;
+                    }
+                });
+            }
+            if (cannotBoost < choice.filter.length) {
+                abilities = abilities.filter(ability => choice.filter.indexOf(ability.name) > -1 || this.abilityBoostedByThis(ability, choice))
+            }
         }
         if (abilities) {
             return abilities.filter(ability => (
@@ -106,11 +116,29 @@ export class CharacterComponent implements OnInit {
         }
     }
     
-    cannotBoost(ability: Ability, level: Level, boost: AbilityChoice) {
+    someAbilitiesIllegal(choice: AbilityChoice) {
+        let anytrue = 0;
+        choice.boosts.forEach(boost => {
+            if (this.abilityIllegal(parseInt(choice.id[0]), this.get_Abilities(boost.name)[0])) {
+                anytrue += 1;
+            }
+        });
+        return anytrue;
+    }
+
+    abilityIllegal(levelNumber, ability) {
+        let illegal = false;
+        if (levelNumber == 1 && ability.baseValue(this.characterService, levelNumber) > 18) {
+            illegal = true;
+        }
+        return illegal;
+    }
+
+    cannotBoost(ability: Ability, level: Level, choice: AbilityChoice) {
         //Returns a string of reasons why the abiliyt cannot be boosted, or "". Test the length of the return if you need a boolean.
             let reasons: string[] = [];
-            let sameBoostsThisLevel = this.get_AbilityBoosts(level.number, level.number, ability.name, "Boost", boost.source);
-            if (sameBoostsThisLevel.length > 0 && sameBoostsThisLevel[0].source == boost.source) {
+            let sameBoostsThisLevel = this.get_AbilityBoosts(level.number, level.number, ability.name, "Boost", choice.source);
+            if (sameBoostsThisLevel.length > 0 && sameBoostsThisLevel[0].source == choice.source) {
                 //The ability may have been boosted by the same source, but as a fixed rule (e.g. fixed ancestry boosts vs. free ancestry boosts).
                 //This does not apply to flaws - you can boost a flawed ability.
                 if (sameBoostsThisLevel[0].locked) {
@@ -119,7 +147,7 @@ export class CharacterComponent implements OnInit {
                 } else
                 //If an ability has been raised by a source of the same name, but not the same id, it cannot be raised again.
                 //This is the case with backgrounds: You get a choice of two abilities, and then a free one.
-                 if (sameBoostsThisLevel[0].sourceId != boost.id) {
+                 if (sameBoostsThisLevel[0].sourceId != choice.id) {
                     let exclusive = "Boosted by "+sameBoostsThisLevel[0].source+".";
                     reasons.push(exclusive);
                 }
@@ -129,7 +157,7 @@ export class CharacterComponent implements OnInit {
             //If you have, we don't want to hear that it couldn't be boosted again right away.
             let cannotBoostHigher = "";
             if (level.number == 1 && ability.baseValue(this.characterService, level.number) > 16 && sameBoostsThisLevel.length == 0) {
-                cannotBoostHigher = "Cannot boost above 18 on this level.";
+                cannotBoostHigher = "Cannot boost above 18 on level 1.";
                 reasons.push(cannotBoostHigher);
             }
             return reasons;
@@ -171,6 +199,16 @@ export class CharacterComponent implements OnInit {
                 this.skillIncreasedByThis(skill, choice) || choice.increases.length < choice.available + this.get_SkillINTBonus(choice)
                 ));
         }
+    }
+
+    someIllegal(choice: SkillChoice) {
+        let anytrue = 0;
+        choice.increases.forEach(increase => {
+            if (!this.get_Skills(increase.name)[0].isLegal(this.characterService, parseInt(choice.id[0]), choice.maxRank)) {
+                anytrue += 1;
+            }
+        });
+        return anytrue;
     }
 
     cannotIncrease(skill: Skill, level: Level, choice: SkillChoice) {
@@ -296,6 +334,10 @@ export class CharacterComponent implements OnInit {
             //Has it already been taken up to this level, and was that not by this FeatChoice?
             if (feat.have(this.characterService, levelNumber) && !this.featTakenByThis(feat, choice)) {
                 reasons.push("This feat cannot be taken more than once.");
+            }
+            //Has it generally been taken more than once, and this is one time?
+            if (feat.have(this.characterService, levelNumber) > 1 && this.featTakenByThis(feat, choice)) {
+                reasons.push("This feat cannot be taken more than once!");
             }
             //Has it been taken on a higher level (that is, not up to now, but up to Level 20)?
             if (!feat.have(this.characterService, levelNumber) && feat.have(this.characterService, 20)) {

@@ -52,8 +52,13 @@
             <button [disabled]="this.healing <= 0" (click)="get_Health().heal(this.characterService, this.effectsService, this.healing)">Heal</button>
         </div>
         <h3>Resistances</h3>
-        <div class="list-item" *ngFor="let resistance of get_Health().resistances">
-            {{resistance.name}}: {{resistance.value}}
-        </div>
+        <div class="list-item" *ngIf="get_Resistances().length">
+            <div class="row" *ngFor="let resistance of get_Resistances()">
+                <span title="{{resistance.source}}" [className]="(resistance.value < 0) ? 'penalty' : 'bonus'">{{resistance.target}}: {{resistance.value}}{{(resistance.exception) ? " /"+resistance.exception : ""}}</span>
+            </div>
+            <div class="row" *ngIf="get_FeatsShowingOn('Resistances').length">
+                <cite *ngFor="let feat of get_FeatsShowingOn('Resistances')" [title]="feat.desc">{{feat.name}}&nbsp;</cite>
+            </div>
+        </div> 
     </div>
 </div>

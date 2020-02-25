@@ -42,6 +42,30 @@ export class HealthComponent implements OnInit {
         }
     }
 
+    get_Resistances() {
+        let effects = this.effectsService.get_Effects().all.filter(effect => effect.target.indexOf("Resistance") > -1);
+        let resistances: any[] = [];
+        effects.forEach(effect => {
+            let value = effect.value.split("/");
+            if (value.length == 1) {
+                value.push("");
+            }
+            if (resistances.filter(res => res.target == effect.target && res.exception == value[1]).length) {
+                let resistance = resistances.filter(res => res.target == effect.target && res.exception == value[1])[0];
+                resistance.value += parseInt(value[0]);
+                resistance.source += ", "+effect.source;
+            } else {
+                resistances.push({target:effect.target, value:parseInt(value[0]), exception:value[1], source:effect.source});
+            }
+        });
+        resistances.forEach(res => {
+            if (res.value < 0) {
+                res.target = res.target.replace("Resistance", "Weakness");
+            }
+        });
+        return resistances;
+    }
+
     get_EffectsOnThis(name: string) {
         return this.effectsService.get_EffectsOnThis(name);
     }

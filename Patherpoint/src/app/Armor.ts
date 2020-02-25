@@ -15,6 +15,7 @@ export class Armor implements Item {
         public speedpenalty: number = 0,
         public strength: number = 0,
         public itembonus: number = 0,
+        public cover: number = 0,
         public moddable: boolean = true,
         public traits: string[] = [],
         public potencyRune:number = 0,

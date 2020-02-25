@@ -73,10 +73,8 @@ export class Feat {
     }
     have(characterService: CharacterService, charLevel: number = characterService.get_Character().level) {
         if (characterService.still_loading()) { return false }
-        let have: boolean = false;
         let character = characterService.get_Character();
-        let featsTaken = character.get_FeatsTaken(0, charLevel, this.name)
-        if (featsTaken.length > 0) {have = true}
-        return have;
+        let featsTaken = character.get_FeatsTaken(1, charLevel, this.name)
+        return featsTaken.length;
     }
 }

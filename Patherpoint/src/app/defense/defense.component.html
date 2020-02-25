@@ -10,17 +10,28 @@
             <div class="row" *ngIf="armor.traits.length">
                 <cite *ngFor="let trait of armor.traits" title="{{get_Traits(trait)[0].description}}">&nbsp;{{trait}}</cite>
             </div>
+            <div class=row>
+                <button *ngIf="armor.cover != 1" (click)="armor.cover = 1; set_CharacterChanged()">Lesser cover</button>
+                <button *ngIf="armor.cover == 1" (click)="armor.cover = 0; set_CharacterChanged()">End cover</button>
+                <button *ngIf="armor.cover != 2" (click)="armor.cover = 2; set_CharacterChanged()">Behind cover</button>
+                <button *ngIf="armor.cover == 2" (click)="armor.cover = 0; set_CharacterChanged()">End cover</button>
+                <button *ngIf="armor.cover != 4" (click)="armor.cover = 4; set_CharacterChanged()">Take cover</button>
+                <button *ngIf="armor.cover == 4" (click)="armor.cover = 0; set_CharacterChanged()">End cover</button>
+            </div>
+            <div class="row" *ngIf="get_FeatsShowingOn('Defense').length">
+                <cite *ngFor="let feat of get_FeatsShowingOn('Defense')" [title]="feat.desc">{{feat.name}}&nbsp;</cite>
+            </div>
         </div>
         <div class="list-item" *ngFor="let shield of get_EquippedShield()">
             <div>{{shield.name}} AC: <input type="number" class="number" [ngModel]="shield.itembonus" disabled>
                 <div class="row">
-                    <button *ngIf="!shield.raised" (click)="shield.raised = true; set_CharacterChanged()">Raise shield</button>
+                    <button *ngIf="!shield.cover" (click)="shield.raised = true; set_CharacterChanged()">Raise shield</button>
                     <button *ngIf="shield.raised" (click)="shield.raised = false; shield.takingCover = false; set_CharacterChanged()">Lower shield</button>
                     <button *ngIf="shield.raised && shield.coverbonus && !shield.takingCover" (click)="shield.takingCover = true; set_CharacterChanged()">Take cover</button>
                     <button *ngIf="shield.raised && shield.coverbonus && shield.takingCover" (click)="shield.takingCover = false; set_CharacterChanged()">End cover</button>
                 </div>
                 <div class="row" *ngIf="get_FeatsShowingOn('Shield').length">
-                    <a href="" *ngFor="let feat of get_FeatsShowingOn('Shield')" [title]="feat.desc">{{feat.name}}&nbsp;</a>
+                    <cite *ngFor="let feat of get_FeatsShowingOn('Shield')" [title]="feat.desc">{{feat.name}}&nbsp;</cite>
                 </div>
             </div>
         </div>
@@ -39,6 +50,12 @@
         <h3 *ngIf="!still_loading()">Saving Throws</h3>
         <div *ngFor="let skill of get_Skills('', 'Save')|sortBy:'asc':'name'">
             <app-skill class="list-item" [skill]=skill></app-skill>
+            <div class="row" *ngIf="get_FeatsShowingOn('skill.name').length">
+                <cite *ngFor="let feat of get_FeatsShowingOn('skill.name')" [title]="feat.desc">{{feat.name}}&nbsp;</cite>
+            </div>
+        </div>
+        <div class="row" *ngIf="get_FeatsShowingOn('Saving Throws').length">
+            <cite *ngFor="let feat of get_FeatsShowingOn('Saving Throws')" [title]="feat.desc">{{feat.name}}&nbsp;</cite>
         </div>
     </div>
 </div>
