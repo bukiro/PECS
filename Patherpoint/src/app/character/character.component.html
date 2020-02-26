@@ -77,7 +77,7 @@
                             Show Description
                         </button>
                         <div *ngIf="this.get_showItem()==heritage.name+'desc'" class="row">
-                            {{heritage.desc}}
+                            <p *ngFor="let desc of heritage.desc.split('\n')">{{desc}}</p>
                         </div>
                     </div>
                 </div>
@@ -100,7 +100,7 @@
                             Show Description
                         </button>
                         <div *ngIf="this.get_showItem()=='background'+background.name" class="row">
-                            {{(background.longDesc) ? background.longDesc : background.desc}}
+                            <p *ngFor="let desc of background.desc.split('\n')">{{desc}}</p>
                         </div>
                     </div>
                 </div>
@@ -224,7 +224,7 @@
                                             [disabled]="get_SkillIncreases(level.number, level.number, 'Lore: '+choice.loreName, choice.source).length"
                                             (ngModelChange)=this.characterService.set_Changed()>
                                     </strong>
-                                    <cite>{{choice.loreDesc}}</cite>
+                                    <span>&nbsp;{{choice.loreDesc}}</span>
                                 </label>
                             </div>
                         </div>
@@ -272,7 +272,7 @@
                                         <span *ngIf="feat.specialreqdesc">, {{feat.specialreqdesc}}</span>
                                     </div>
                                     <div class="row">
-                                        {{feat.desc}}
+                                        <p *ngFor="let desc of feat.desc.split('\n')">{{desc}}</p>
                                     </div>
                                 </div>
                             </div>
@@ -296,7 +296,7 @@
                                         <span *ngIf="feat.specialreqdesc">, {{feat.specialreqdesc}}</span>
                                     </div>
                                     <div class="row">
-                                        {{feat.desc}}
+                                        <p *ngFor="let desc of feat.desc.split('\n')">{{desc}}</p>
                                     </div>
                                 </div>
                             </div>

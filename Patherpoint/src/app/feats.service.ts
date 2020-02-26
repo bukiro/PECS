@@ -4,6 +4,7 @@ import { Feat } from './Feat';
 import { Observable } from 'rxjs';
 import { Level } from './Level';
 import { CharacterService } from './character.service';
+import { FeatChoice } from './FeatChoice';
 
 @Injectable({
     providedIn: 'root'
@@ -59,13 +60,35 @@ export class FeatsService {
                 }
             }
 
-            //Gain Ancestry Feat
+            //Gain First Level Ancestry Feat
             if (feat.gainAncestryFeat) {
                 if (taken) {
-                    character.add_FeatChoice(level, {available:1, feats:[], filter:[], type:"Ancestry", source:'Feat: '+featName, id:""});
+                    character.add_FeatChoice(character.class.levels[1], {available:1, feats:[], filter:[], type:"Ancestry", source:'Feat: '+featName, id:""});
                 } else {
-                    let a = level.featChoices;
-                    a.splice(a.indexOf(a.filter(choice => choice.source == 'Feat: '+featName && choice.type == "Ancestry")[0]), 1)
+                    //You might have taken this feat multiple times on the same level, so we are only removing one instance of it
+                    let a: FeatChoice[] = character.class.levels[1].featChoices;
+                    let b: FeatChoice = a.filter(choice => choice.source == 'Feat: '+featName && choice.type == "Ancestry")[0];
+                    //Feats must explicitly be un-taken instead of just removed from the array, in case they made fixed changes
+                    b.feats.forEach(feat => {
+                        character.take_Feat(characterService, feat.name, false, b, false);
+                    });
+                    a.splice(a.indexOf(b), 1)
+                }
+            }
+
+            //Gain First Level Class Feat
+            if (feat.gainClassFeat) {
+                if (taken) {
+                    character.add_FeatChoice(character.class.levels[1], {available:1, feats:[], filter:[], type:"Class", source:'Feat: '+featName, id:""});
+                } else {
+                    //You might have taken this feat multiple times on the same level, so we are only removing one instance of it
+                    let a: FeatChoice[] = character.class.levels[1].featChoices;
+                    let b: FeatChoice = a.filter(choice => choice.source == 'Feat: '+featName && choice.type == "Class")[0];
+                    //Feats must explicitly be un-taken instead of just removed from the array, in case they made fixed changes
+                    b.feats.forEach(feat => {
+                        character.take_Feat(characterService, feat.name, false, b, false);
+                    });
+                    a.splice(a.indexOf(b), 1)
                 }
             }
 
@@ -74,18 +97,14 @@ export class FeatsService {
                 if (taken) {
                     character.add_FeatChoice(level, {available:1, feats:[], filter:[], type:"General", source:'Feat: '+featName, id:""});
                 } else {
-                    let a = level.featChoices;
-                    a.splice(a.indexOf(a.filter(choice => choice.source == 'Feat: '+featName && choice.type == "General")[0]), 1)
-                }
-            }
-
-            //Gain Class Feat
-            if (feat.gainClassFeat) {
-                if (taken) {
-                    character.add_FeatChoice(level, {available:1, feats:[], filter:[], type:"Class", source:'Feat: '+featName, id:""});
-                } else {
-                    let a = level.featChoices;
-                    a.splice(a.indexOf(a.filter(choice => choice.source == 'Feat: '+featName && choice.type == "Class")[0]), 1)
+                    //You might have taken this feat multiple times on the same level, so we are only removing one instance of it
+                    let a: FeatChoice[] = level.featChoices;
+                    let b: FeatChoice = a.filter(choice => choice.source == 'Feat: '+featName && choice.type == "General")[0];
+                    //Feats must explicitly be un-taken instead of just removed from the array, in case they made fixed changes
+                    b.feats.forEach(feat => {
+                        character.take_Feat(characterService, feat.name, false, b, false);
+                    });
+                    a.splice(a.indexOf(b), 1)
                 }
             }
 

@@ -64,7 +64,7 @@ export class CharacterComponent implements OnInit {
     }
 
     get_Level(number: number) {
-        return this.characterService.get_Character().class.levels[number];
+        return this.get_Character().class.levels[number];
     }
 
     get_showItem() {
@@ -79,6 +79,11 @@ export class CharacterComponent implements OnInit {
             this.get_Abilities().forEach(ability => {
                 baseValues.push({name:ability.name, baseValue:10})
             });
+            //Remove all Level 1 ability boosts that are now illegal
+            this.get_Character().class.levels[1].abilityChoices.filter(choice => choice.available).forEach(choice => {
+                choice.boosts.length = choice.available - choice.baseValuesLost;
+            });
+            this.characterService.set_Changed();
         }
     }
 
@@ -122,7 +127,12 @@ export class CharacterComponent implements OnInit {
         let anytrue = 0;
         choice.boosts.forEach(boost => {
             if (this.abilityIllegal(parseInt(choice.id[0]), this.get_Abilities(boost.name)[0])) {
-                anytrue += 1;
+                if (!boost.locked) {
+                    this.get_Character().boost_Ability(this.characterService, boost.name, false, choice, boost.locked);
+                    this.characterService.set_Changed();
+                } else {
+                    anytrue += 1;
+                }
             }
         });
         return anytrue;
@@ -171,12 +181,12 @@ export class CharacterComponent implements OnInit {
         }
 
     get_AbilityBoosts(minLevelNumber: number, maxLevelNumber: number, abilityName: string = "", type: string = "", source: string = "", sourceId: string = "", locked: boolean = undefined) {
-        return this.characterService.get_Character().get_AbilityBoosts(minLevelNumber, maxLevelNumber, abilityName, type, source, sourceId, locked);
+        return this.get_Character().get_AbilityBoosts(minLevelNumber, maxLevelNumber, abilityName, type, source, sourceId, locked);
     }
 
     on_AbilityBoost(abilityName: string, boost: boolean, choice: AbilityChoice, locked: boolean) {
         if (boost && choice.boosts.length == choice.available - ((this.get_Character().baseValues.length > 0) ? choice.baseValuesLost : 0) - 1) { this.showList=""; }
-        this.characterService.get_Character().boost_Ability(this.characterService, abilityName, boost, choice, locked);
+        this.get_Character().boost_Ability(this.characterService, abilityName, boost, choice, locked);
     }
 
     get_Skills(name: string = "", type: string = "") {
@@ -220,7 +230,12 @@ export class CharacterComponent implements OnInit {
         let anytrue = 0;
         choice.increases.forEach(increase => {
             if (!this.get_Skills(increase.name)[0].isLegal(this.characterService, parseInt(choice.id[0]), choice.maxRank)) {
-                anytrue += 1;
+                if (!increase.locked) {
+                    this.get_Character().increase_Skill(this.characterService, increase.name, false, choice, increase.locked);
+                    this.characterService.set_Changed();
+                } else {
+                    anytrue += 1;
+                }
             }
         });
         return anytrue;
@@ -277,30 +292,30 @@ export class CharacterComponent implements OnInit {
     }
 
     get_SkillIncreases(minLevelNumber: number, maxLevelNumber: number, skillName: string, source: string = "", sourceId: string = "", locked: boolean = undefined) {
-        return this.characterService.get_Character().get_SkillIncreases(minLevelNumber, maxLevelNumber, skillName, source, sourceId, locked);
+        return this.get_Character().get_SkillIncreases(minLevelNumber, maxLevelNumber, skillName, source, sourceId, locked);
     }
 
     on_SkillIncrease(skillName: string, boost: boolean, choice: SkillChoice|LoreChoice, locked: boolean = false) {
         if (boost && (choice.increases.length == choice.available + this.get_SkillINTBonus(choice) - 1)) { this.showList=""; }
-        this.characterService.get_Character().increase_Skill(this.characterService, skillName, boost, choice, locked);
+        this.get_Character().increase_Skill(this.characterService, skillName, boost, choice, locked);
     }
 
     on_LoreChange(boost: boolean, choice: LoreChoice) {
         if (boost) {
             if (choice.increases.length == choice.available - 1) { this.showList=""; }
-            this.characterService.get_Character().add_Lore(this.characterService, choice);
+            this.get_Character().add_Lore(this.characterService, choice);
         } else {
-            this.characterService.get_Character().remove_Lore(this.characterService, choice);
+            this.get_Character().remove_Lore(this.characterService, choice);
         }
     }
 
     get_Feats(name: string = "", type: string = "") {
-        return this.featsService.get_Feats(this.characterService.get_Character().customFeats, name, type);
+        return this.featsService.get_Feats(this.get_Character().customFeats, name, type);
     }
 
     get_AvailableFeats(choice: FeatChoice, get_unavailable: boolean = false) {
-        let character = this.characterService.get_Character()
-        let allFeats = this.featsService.get_Feats(this.characterService.get_Character().customFeats);
+        let character = this.get_Character()
+        let allFeats = this.featsService.get_Feats(this.get_Character().customFeats);
         if (choice.filter.length) {
             allFeats = allFeats.filter(feat => choice.filter.indexOf(feat.name) > -1)
         }
@@ -337,7 +352,12 @@ export class CharacterComponent implements OnInit {
         let anytrue = 0;
         choice.feats.forEach(feat => {
             if (this.cannotTake(this.get_Feats(feat.name)[0], choice).length) {
-                anytrue += 1;
+                if (!feat.locked) {
+                    this.get_Character().take_Feat(this.characterService, feat.name, false, choice, feat.locked);
+                    this.characterService.set_Changed();
+                } else {
+                    anytrue += 1;
+                }
             }
         });
         return anytrue;
@@ -374,11 +394,11 @@ export class CharacterComponent implements OnInit {
     }
 
     get_FeatsTaken(minLevelNumber: number, maxLevelNumber: number, featName: string, source: string = "", sourceId: string = "", locked: boolean = undefined) {
-        return this.characterService.get_Character().get_FeatsTaken(minLevelNumber, maxLevelNumber, featName, source, sourceId, locked);
+        return this.get_Character().get_FeatsTaken(minLevelNumber, maxLevelNumber, featName, source, sourceId, locked);
     }
 
     on_FeatTaken(featName: string, taken: boolean, choice: FeatChoice, locked: boolean) {
-        this.characterService.get_Character().take_Feat(this.characterService, featName, taken, choice, locked);
+        this.get_Character().take_Feat(this.characterService, featName, taken, choice, locked);
     }
 
     get_Classes(name: string = "") {
