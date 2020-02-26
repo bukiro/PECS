@@ -8,6 +8,7 @@ import { Observable } from 'rxjs';
 import { CharacterService } from './character.service';
 import { ElementSchemaRegistry } from '@angular/compiler';
 import { ItemCollection } from './ItemCollection';
+import { FeatsService } from './feats.service';
 
 @Injectable({
     providedIn: 'root'
@@ -21,7 +22,7 @@ export class ItemsService {
 
     constructor(
         private http: HttpClient,
-        public characterService: CharacterService
+        public characterService: CharacterService,
     ) { }
 
     toggleItemsMenu(position: string = "") {
@@ -89,6 +90,10 @@ export class ItemsService {
         if (this.loading) {this.loading = false;}
         let basicWeapon = this.get_Items().weapon[0];
         let basicArmor = this.get_Items().armor[0];
-        this.characterService.grant_basicItems(basicWeapon, basicArmor);
+        this.characterService.grant_BasicItems(basicWeapon, basicArmor);
+        if (!this.characterService.still_loading()) {
+            let advancedWeapons = this.items.weapon.filter(weapon => weapon.prof == "Advanced Weapons");
+            this.characterService.create_AdvancedWeaponFeats(advancedWeapons);
+        }
     }
 }

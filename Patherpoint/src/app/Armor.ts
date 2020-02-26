@@ -10,7 +10,7 @@ export class Armor implements Item {
         public name: string = "",
         public equip: boolean = false,
         public prof: string = "",
-        public dexcap: number = 999,
+        public dexcap: number = -1,
         public skillpenalty: number = 0,
         public speedpenalty: number = 0,
         public strength: number = 0,
@@ -31,7 +31,7 @@ export class Armor implements Item {
         let armorIncreases = characterService.get_Character().get_SkillIncreases(0, charLevel, this.name);
         let profIncreases = characterService.get_Character().get_SkillIncreases(0, charLevel, this.prof);
         //Add either the armor category proficiency or the armor proficiency, whichever is better
-        skillLevel = Math.max(Math.min(armorIncreases.length * 2, 8),Math.min(profIncreases.length * 2, 8))
+        skillLevel = Math.min(Math.max(armorIncreases.length * 2, profIncreases.length * 2), 8)
         return skillLevel;
     }
     armorBonus(characterService: CharacterService, effectsService: EffectsService) {
@@ -44,7 +44,7 @@ export class Armor implements Item {
         //Add character level if the character is trained or better with either the armor category or the armor itself
         let charLevelBonus = ((skillLevel > 0) ? charLevel: 0);
         //Add the dexterity modifier up to the armor's dex cap, unless there is no cap
-        var dexBonus = (this.dexcap) ? Math.min(dex, (this.dexcap)) : dex;
+        var dexBonus = (this.dexcap > -1) ? Math.min(dex, (this.dexcap)) : dex;
         //Add up all modifiers and return the AC gained from this armor
         //Also adding any item bonus
         var defenseResult = 10 + charLevelBonus + skillLevel + this.itembonus + dexBonus;

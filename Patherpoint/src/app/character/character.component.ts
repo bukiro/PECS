@@ -18,6 +18,7 @@ import { LoreChoice } from '../LoreChoice';
 import { Ability } from '../Ability';
 import { AbilityChoice } from '../AbilityChoice';
 import { FeatChoice } from '../FeatChoice';
+import { SortByPipe } from '../sortBy.pipe';
 
 @Component({
     selector: 'app-character',
@@ -39,7 +40,8 @@ export class CharacterComponent implements OnInit {
         public effectsService: EffectsService,
         public featsService: FeatsService,
         public historyService: HistoryService,
-        private itemsService: ItemsService
+        private itemsService: ItemsService,
+        private sortByPipe: SortByPipe
     ) { }
 
     toggleCharacterMenu(position: string = "") {
@@ -181,6 +183,19 @@ export class CharacterComponent implements OnInit {
         return this.characterService.get_Skills(name, type)
     }
 
+    prof(skillLevel: number) {
+        switch (skillLevel) {
+            case 2:
+                return "T"
+            case 4:
+                return "E"
+            case 6:
+                return "M"
+            case 8:
+                return "L"
+        }
+    }
+
     get_SkillINTBonus(choice: SkillChoice|LoreChoice) {
         //At class level 1, allow INT more skills
         let levelNumber = parseInt(choice.id[0]);
@@ -283,8 +298,7 @@ export class CharacterComponent implements OnInit {
         return this.featsService.get_Feats(this.characterService.get_Character().customFeats, name, type);
     }
 
-    get_AvailableFeats(choice: FeatChoice) {
-        let levelNumber = parseInt(choice.id[0]);
+    get_AvailableFeats(choice: FeatChoice, get_unavailable: boolean = false) {
         let character = this.characterService.get_Character()
         let allFeats = this.featsService.get_Feats(this.characterService.get_Character().customFeats);
         if (choice.filter.length) {
@@ -305,10 +319,17 @@ export class CharacterComponent implements OnInit {
                 break;
         }
         if (feats.length) {
-            return feats.filter(feat => 
-                (feat.canChoose(this.characterService, this.abilitiesService, this.effectsService, levelNumber) && choice.feats.length < choice.available) ||
-                this.featTakenByThis(feat, choice)
-            );
+            if (get_unavailable) {
+                let unavailableFeats: Feat[] = feats.filter(feat => 
+                    (this.cannotTake(feat, choice).length > 0 && choice.feats.length < choice.available)
+                )
+                return this.sortByPipe.transform(unavailableFeats, "asc", "name");
+            } else {
+                let availableFeats: Feat[] = feats.filter(feat => 
+                    (this.cannotTake(feat, choice).length == 0 && choice.feats.length < choice.available) || this.featTakenByThis(feat, choice)
+                )
+               return this.sortByPipe.transform(availableFeats, "asc", "name");
+            }
         }
     }
 
@@ -326,7 +347,7 @@ export class CharacterComponent implements OnInit {
         let levelNumber = parseInt(choice.id[0]);
         let reasons: string[] = [];
         //Are the basic requirements (level, ability, feat etc) not met?
-        if (!feat.canChoose(this.characterService, this.abilitiesService, this.effectsService, levelNumber)) {
+        if (!feat.canChoose(this.characterService, levelNumber)) {
             reasons.push("The requirements are not met.")
         }
         //Unless the feat can be taken repeatedly:

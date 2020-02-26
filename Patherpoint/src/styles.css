@@ -44,7 +44,7 @@
   }
   
   h3 {
-    clear:left;
+    clear:both;
   }
 
   h1, h2 {
@@ -216,12 +216,13 @@
     background-color: #1976d2;
   }
 
-  .list-item :last-child {
+  .list-item div:last-child {
     margin-bottom:0;
   }
 
   .row {
     flex-basis: 100%;
+    clear: both;
   }
 
   .fullwidth {
@@ -257,8 +258,8 @@
 
   cite {
     background-color: #bbbbbb;
-    padding: 4px;
-    margin: 4px;
+    padding: 1px;
+    margin: 0 2px auto 2px;
     float: left;
   }
   

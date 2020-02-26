@@ -245,15 +245,14 @@
                         <div class="list-item sublist row"
                             [className]="(choice.available == choice.feats.length ) ? 'fancy-list' : ''"
                             *ngIf="this.showList==choice.source+choice.id">
-                            <div title="{{feat.shortDesc}}" class="list-item" *ngFor="let feat of get_AvailableFeats(choice)|sortBy:'asc':'name'"
-                                [className]="(!feat.canChoose(this.characterService, this.abilitiesService, this.effectsService, level.number) ||
-                                (get_FeatsTaken(1, level.number, feat.name).length > 1 && !feat.unlimited)) ? 'problem' : ''">
+                            <div title="{{feat.shortDesc}}" class="list-item" *ngFor="let feat of get_AvailableFeats(choice)"
+                                [className]="(cannotTake(feat, choice).length) ? 'problem' : ''">
                                 <input id="{{choice.id+feat.name}}" type="checkbox"
                                     (change)="on_FeatTaken(feat.name, $event.target.checked, choice, false)"
                                     [checked]="featTakenByThis(feat, choice)"
                                     [disabled]="cannotTake(feat, choice).length && !featTakenByThis(feat, choice)">
                                 <label for="{{choice.id+feat.name}}">
-                                    <strong>{{feat.name}}</strong> (Level: {{feat.levelreq}}{{(feat.skillreq) ? ", "+feat.skillreq : ""}})
+                                    <strong>{{feat.name}}&nbsp;</strong><cite>Level {{feat.levelreq}}</cite>
                                 </label>
                                 <cite style="color:darkred" *ngFor="let reason of cannotTake(feat, choice)">
                                     {{reason}}&nbsp;
@@ -262,7 +261,43 @@
                                     Show Description
                                 </button>
                                 <div *ngIf="this.get_showItem()==choice.id+feat.name+'desc'" class="row">
-                                    {{feat.desc}}
+                                    <cite *ngFor="let trait of feat.traits">
+                                        {{trait}}&nbsp;
+                                    </cite>
+                                    <div class="row"><strong>Requirements:</strong>&nbsp;
+                                        <span *ngIf="feat.levelreq">Level {{feat.levelreq}}</span>
+                                        <span *ngFor="let req of feat.abilityreq">, {{req.ability}} {{req.value}}</span>
+                                        <span *ngFor="let req of feat.skillreq">, {{req.skill}} {{prof(req.value)}}</span>
+                                        <span *ngIf="feat.featreq">, {{feat.featreq}}</span>
+                                        <span *ngIf="feat.specialreqdesc">, {{feat.specialreqdesc}}</span>
+                                    </div>
+                                    <div class="row">
+                                        {{feat.desc}}
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="problem" title="{{feat.shortDesc}}" class="list-item" *ngFor="let feat of get_AvailableFeats(choice, true)">
+                                <strong>{{feat.name}}&nbsp;</strong><cite>Level {{feat.levelreq}}</cite>
+                                <cite style="color:darkred" *ngFor="let reason of cannotTake(feat, choice)">
+                                    {{reason}}&nbsp;
+                                </cite>
+                                <button class="button fancybutton" (click)="toggle_Item(choice.id+feat.name+'desc')">
+                                    Show Description
+                                </button>
+                                <div *ngIf="this.get_showItem()==choice.id+feat.name+'desc'">
+                                    <cite *ngFor="let trait of feat.traits">
+                                        {{trait}}&nbsp;
+                                    </cite>
+                                    <div class="row"><strong>Requirements:</strong>&nbsp;
+                                        <span *ngIf="feat.levelreq">Level {{feat.levelreq}}</span>
+                                        <span *ngFor="let req of feat.abilityreq">, {{req.ability}} {{req.value}}</span>
+                                        <span *ngFor="let req of feat.skillreq">, {{req.skill}} {{prof(req.value)}}</span>
+                                        <span *ngIf="feat.featreq">, {{feat.featreq}}</span>
+                                        <span *ngIf="feat.specialreqdesc">, {{feat.specialreqdesc}}</span>
+                                    </div>
+                                    <div class="row">
+                                        {{feat.desc}}
+                                    </div>
                                 </div>
                             </div>
                         </div>

@@ -22,6 +22,7 @@ import { Background } from './Background';
 import { ItemsService } from './items.service';
 import { Feat } from './Feat';
 import { Health } from './Health';
+import { async } from '@angular/core/testing';
 
 @Injectable({
     providedIn: 'root'
@@ -126,6 +127,30 @@ export class CharacterService {
         } else { return new ItemCollection() }
     }
 
+    create_AdvancedWeaponFeats(advancedWeapons: Weapon[]) {
+        //This function depends on the feats being loaded, and it will wait forever for them!
+        if(this.featsService.still_loading()) {
+            setTimeout(() => {
+                this.create_AdvancedWeaponFeats(advancedWeapons);
+            }, 2000)
+        } else {
+            let advancedWeaponFeats = this.get_Feats().filter(feat => feat.advancedweaponbase);
+            advancedWeapons.forEach(weapon => {
+                advancedWeaponFeats.forEach(feat => {
+                    if (this.me.customFeats.filter(customFeat => customFeat.name == feat.name.replace('Advanced Weapon', weapon.name)).length == 0) {
+                        let newLength = this.add_CustomFeat(feat);
+                        let newFeat = this.get_Character().customFeats[newLength -1];
+                        newFeat.name = newFeat.name.replace('Advanced Weapon', weapon.name);
+                        newFeat.specialreqdesc = newFeat.specialreqdesc.replace('Advanced Weapon', weapon.name);
+                        newFeat.specialreq = newFeat.specialreq.replace('Advanced Weapon', weapon.name);
+                        newFeat.hide = false;
+                    }
+                })
+            })
+            this.set_Changed();
+        }
+    }
+
     grant_InventoryItem(item: Item) {
         let newInventoryItem;
         switch (item.type) {
@@ -147,7 +172,7 @@ export class CharacterService {
 
     drop_InventoryItem(item: Item) {
         this.me.inventory[item.type] = this.me.inventory[item.type].filter(any_item => any_item !== item);
-        this.equip_basicItems();
+        this.equip_BasicItems();
         this.set_Changed();
     }
 
@@ -164,7 +189,7 @@ export class CharacterService {
             //If this is called by a checkbox, it finishes before the checkbox model finalizes - so if the unequipped item is the basic item, it will still end up unequipped.
             //We get around this by setting a miniscule timeout and letting the model finalize before equipping basic items.
             setTimeout(() => {
-                this.equip_basicItems();
+                this.equip_BasicItems();
                 this.set_Changed();
             });
             //If you are unequipping a shield, you should also be lowering it and losing cover
@@ -184,7 +209,7 @@ export class CharacterService {
         this.set_Changed();
     }
 
-    grant_basicItems(weapon: Weapon, armor: Armor) {
+    grant_BasicItems(weapon: Weapon, armor: Armor) {
         this.basicItems = [];
         let newBasicWeapon:Weapon;
         newBasicWeapon = Object.assign(new Weapon(), weapon);
@@ -192,11 +217,11 @@ export class CharacterService {
         let newBasicArmor:Armor;
         newBasicArmor = Object.assign(new Armor(), armor);
         this.basicItems.push(newBasicArmor);
-        this.equip_basicItems()
+        this.equip_BasicItems()
         this.set_Changed();
     }
     
-    equip_basicItems() {
+    equip_BasicItems() {
         if (!this.still_loading() && this.basicItems.length) {
             if (!this.get_InventoryItems().weapon.length) {
                 this.grant_InventoryItem(this.basicItems[0]);
@@ -328,7 +353,7 @@ export class CharacterService {
             this.loader = [];
         }
         if (this.loading) {this.loading = false;}
-        this.equip_basicItems();
+        this.equip_BasicItems();
         this.characterChanged$ = this.changed.asObservable();
         this.set_Changed();
     }

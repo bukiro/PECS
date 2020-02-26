@@ -52,10 +52,20 @@ export class Skill {
     //Calculates the effective bonus of the given Skill
     //$scope.Level, $scope.Abilities, $scope.feat_db and $scope.getEffects(skill) must be passed
         if (characterService.still_loading()) { return 0; }
-        //Add character level if the character is trained or better with the Skill; Add half the level if the skill is unlearned and the character has the Untrained Improvisation feat.
+        //Add character level if the character is trained or better with the Skill
+        //Add half the level if the skill is unlearned and the character has the Untrained Improvisation feat (full level from 7 on).
         //Gets applied to saves and perception, but they are never untrained
         let skillLevel = this.level(characterService, charLevel);
-        var charLevelBonus = ((skillLevel > 0) ? charLevel : 0); // ($feats.byName("Untrained Improvisation").have) && Math.floor(charLevel/2));
+        var charLevelBonus = 0;
+        if (skillLevel > 0) {
+            charLevelBonus = charLevel;
+        } else if (characterService.get_Feats("Untrained Improvisation")[0].have(characterService)) {
+            if (charLevel >= 7) {
+                charLevelBonus = charLevel;
+            } else {
+                charLevelBonus = Math.floor(charLevel/2);
+            }
+        }
         //Add the Ability modifier identified by the skill's ability property
         var abilityMod = abilitiesService.get_Abilities(this.ability)[0].mod(characterService, effectsService);
         //Get all active effects on this and sum them up

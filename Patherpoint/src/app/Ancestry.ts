@@ -6,7 +6,7 @@ export class Ancestry {
     public ancestries: string[] = [];
     public heritages: string[] = [];
     public hitPoints: number = 0;
-    public size: string = "medium";
+    public size: string = "Medium Armor";
     public speed: number = 0;
     public abilityChoices: AbilityChoice[] = [];
     public languages: string[] = [];

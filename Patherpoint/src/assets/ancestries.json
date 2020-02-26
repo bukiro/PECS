@@ -5,7 +5,7 @@
         "ancestries":["Dwarf"],
         "heritages":["Ancient-Blooded Dwarf", "Anvil Dwarf", "Death Warden Dwarf", "Elemental Heart Dwarf", "Forge Dwarf", "Oathkeeper Dwarf", "Rock Dwarf", "Strong-Blooded Dwarf"],
         "hitPoints":10,
-        "size":"medium",
+        "size":"Medium Armor",
         "speed":20,
         "abilityChoices":[
             {
@@ -41,7 +41,7 @@
         "ancestries":["Elf"],
         "heritages":["Ancient Elf", "Arctic Elf", "Cavern Elf", "Desert Elf", "Seer Elf", "Whisper Elf", "Woodland Elf"],
         "hitPoints":6,
-        "size":"medium",
+        "size":"Medium Armor",
         "speed":30,
         "abilityChoices":[
             {
@@ -75,7 +75,7 @@
         "ancestries":["Human"],
         "heritages":["Half-Elf", "Half-Orc", "Skilled Heritage", "Versatile Heritage"],
         "hitPoints":8,
-        "size":"medium",
+        "size":"Medium Armor",
         "speed":25,
         "abilityChoices":[
             {

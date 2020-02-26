@@ -54,7 +54,9 @@ import { GeneralComponent } from './general/general.component';
       AppRoutingModule,
       HttpClientModule
    ],
-   providers: [],
+   providers: [
+      SortByPipe
+   ],
    bootstrap: [
       AppComponent
    ]

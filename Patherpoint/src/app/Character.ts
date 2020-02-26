@@ -223,7 +223,9 @@ export class Character {
             let newLength = characterService.add_CustomFeat(lorebaseFeat);
             let newFeat = characterService.get_Character().customFeats[newLength -1];
             newFeat.name = newFeat.name.replace('Lore', 'Lore: '+source.loreName);
-            newFeat.skillreq = newFeat.skillreq.replace('Lore', 'Lore: '+source.loreName);
+            newFeat.skillreq.forEach(requirement => {
+                requirement.skill = requirement.skill.replace('Lore', 'Lore: '+source.loreName);
+            })
             newFeat.showon = newFeat.showon.replace('Lore', 'Lore: '+source.loreName);
             newFeat.featreq = newFeat.featreq.replace('Lore', 'Lore: '+source.loreName);
             newFeat.lorebase = false;
