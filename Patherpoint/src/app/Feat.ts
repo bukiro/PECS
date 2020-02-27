@@ -7,11 +7,14 @@ import { Ability } from './Ability';
 
 export class Feat {
     public name: string = "";
+    public superType: string = "";
+    public subTypes: boolean = false;
+    public subType: string = "";
     public desc: string = "";
     public shortdesc: string = "";
     public hide: boolean = false;
     public lorebase: boolean = false;
-    public advancedweaponbase: boolean = false;    
+    public advancedweaponbase: boolean = false;
     public unlimited: boolean = false;
     public levelreq: number = 0;
     public abilityreq: any[] = [];

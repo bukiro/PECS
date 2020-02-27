@@ -31,6 +31,7 @@ export class CharacterComponent implements OnInit {
     public newClass: Class = new Class();
     public showItem: string = "";
     public showList: string = "";
+    JSON = JSON;
 
     constructor(
         private changeDetector:ChangeDetectorRef,
@@ -313,9 +314,22 @@ export class CharacterComponent implements OnInit {
         return this.featsService.get_Feats(this.get_Character().customFeats, name, type);
     }
 
+    get_SubFeats(feat: Feat, choice: FeatChoice) {
+        if (feat.subTypes) {
+            let feats = this.get_Feats().filter(subfeat => subfeat.superType == feat.name);
+            let subfeats = feats.filter(feat =>
+                (choice.feats.length < choice.available) || this.featTakenByThis(feat, choice)
+                )
+            return this.sortByPipe.transform(subfeats, "asc", "name");
+        } else {
+            return [];
+        }
+    }
+
     get_AvailableFeats(choice: FeatChoice, get_unavailable: boolean = false) {
         let character = this.get_Character()
-        let allFeats = this.featsService.get_Feats(this.get_Character().customFeats);
+        //Get all Feats, but no subtype Feats - those get built within their supertype
+        let allFeats = this.featsService.get_Feats(this.get_Character().customFeats).filter(feat => !feat.superType);
         if (choice.filter.length) {
             allFeats = allFeats.filter(feat => choice.filter.indexOf(feat.name) > -1)
         }
@@ -341,7 +355,7 @@ export class CharacterComponent implements OnInit {
                 return this.sortByPipe.transform(unavailableFeats, "asc", "name");
             } else {
                 let availableFeats: Feat[] = feats.filter(feat => 
-                    (this.cannotTake(feat, choice).length == 0 && choice.feats.length < choice.available) || this.featTakenByThis(feat, choice)
+                    (this.cannotTake(feat, choice).length == 0 && choice.feats.length < choice.available) || this.featTakenByThis(feat, choice) || this.subFeatTakenByThis(feat, choice)
                 )
                return this.sortByPipe.transform(availableFeats, "asc", "name");
             }
@@ -391,6 +405,13 @@ export class CharacterComponent implements OnInit {
     featTakenByThis(feat: Feat, choice: FeatChoice) {
         let levelNumber = parseInt(choice.id[0]);
         return this.get_FeatsTaken(levelNumber, levelNumber, feat.name, choice.source, choice.id).length > 0;
+    }
+
+    subFeatTakenByThis(feat: Feat, choice: FeatChoice) {
+        let levelNumber = parseInt(choice.id[0]);
+        return this.get_FeatsTaken(levelNumber, levelNumber, "", choice.source, choice.id).filter(
+            takenfeat => this.get_Feats(takenfeat.name)[0].superType == feat.name
+            ).length > 0;
     }
 
     get_FeatsTaken(minLevelNumber: number, maxLevelNumber: number, featName: string, source: string = "", sourceId: string = "", locked: boolean = undefined) {

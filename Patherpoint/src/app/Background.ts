@@ -5,6 +5,8 @@ import { FeatChoice } from './FeatChoice';
 
 export class Background {
     public name: string = "";
+    public subTypes: Background[] = [];
+    public subType: string = "";
     public abilityChoices: AbilityChoice[] = [];
     public skillChoices: SkillChoice[] = [];
     public featChoices: FeatChoice[] = [];

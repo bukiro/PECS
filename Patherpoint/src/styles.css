@@ -120,6 +120,15 @@
     padding-right: 4px;
   }
   
+  .button.lower {
+    padding: 1px 6px;
+  }
+
+  .button.left {
+    margin-left: 0px;
+    margin-bottom: auto;
+  }
+
   /* Top Bar */
   
   app-top-bar {
@@ -185,6 +194,17 @@
     margin-bottom: 8px;
     border-radius: 2px;
     background-color: #E0E0E0;
+  }
+
+  .list-item.lower {
+    padding: 4px 8px;
+    margin-bottom: 2px;
+    border-radius: 2px;
+    background-color: #EEEEEE;
+  }
+  
+  .list-item.lower input{
+    margin-bottom: 4px;
   }
 
   .itemBox .list-item.sublist {

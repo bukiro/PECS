@@ -69,15 +69,25 @@
                 </button>
                 <div class="list-item sublist row" [className]="((get_Character().class.heritage.name)) ? 'fancy-list' : ''" *ngIf="this.showList=='heritage'">
                     <div class="list-item" *ngFor="let heritage of get_Heritages('', get_Character().class.ancestry.name)">
-                        <input id="{{heritage.name}}" type="checkbox" (change)="onHeritageChange(heritage, $event.target.checked)"
+                        <input *ngIf="!heritage.subTypes.length" id="{{heritage.name}}" type="checkbox" (change)="onHeritageChange(heritage, $event.target.checked)"
                         [checked]="heritage.name === get_Character().class.heritage.name">
+                        <button class="button lower left" *ngIf="heritage.subTypes.length" id="{{heritage.name}}" (click)="toggle_Item(heritage.name+'desc')">v</button>
                         <label for="{{heritage.name}}">
                             <strong>{{heritage.name}}</strong>
                         </label>
-                        <button class="button fancybutton" (click)="toggle_Item(heritage.name+'desc')">
+                        <button class="button" (click)="toggle_Item(heritage.name+'desc')">
                             Show Description
                         </button>
                         <div *ngIf="this.get_showItem()==heritage.name+'desc'" class="row">
+<!--Subheritages-->
+                            <div class="list-item lower" *ngFor="let subheritage of heritage.subTypes">
+                                <input id="{{subheritage.name}}" type="checkbox" (change)="onHeritageChange(subheritage, $event.target.checked)"
+                                [checked]="subheritage.name === get_Character().class.heritage.name">
+                                <label for="{{subheritage.name}}">
+                                    <strong>{{subheritage.subType}}</strong>
+                                </label>
+                            </div>
+<!--End Subheritages-->
                             <p *ngFor="let desc of heritage.desc.split('\n')">{{desc}}</p>
                         </div>
                     </div>
@@ -92,15 +102,25 @@
                 </button>
                 <div class="list-item sublist row" [className]="((get_Character().class.background.name)) ? 'fancy-list' : ''" *ngIf="this.showList=='background'">
                     <div class="list-item" *ngFor="let background of get_Backgrounds()">
-                        <input id="{{background.name}}" type="checkbox" (change)="onBackgroundChange(background, $event.target.checked)"
+                        <input *ngIf="!background.subTypes.length" id="{{background.name}}" type="checkbox" (change)="onBackgroundChange(background, $event.target.checked)"
                         [checked]="background.name === get_Character().class.background.name">
+                        <button class="button lower left" *ngIf="background.subTypes.length" id="{{background.name}}" (click)="toggle_Item('background'+background.name)">v</button>
                         <label for="{{background.name}}">
                             <strong>{{background.name}}</strong>
                         </label>
-                        <button class="button fancybutton" (click)="toggle_Item('background'+background.name)">
+                        <button class="button" (click)="toggle_Item('background'+background.name)">
                             Show Description
                         </button>
                         <div *ngIf="this.get_showItem()=='background'+background.name" class="row">
+<!--Subbackgrounds-->
+                            <div class="list-item lower" *ngFor="let subbackground of background.subTypes">
+                                <input id="{{subbackground.name}}" type="checkbox" (change)="onBackgroundChange(subbackground, $event.target.checked)"
+                                [checked]="subbackground.name === get_Character().class.background.name">
+                                <label for="{{subbackground.name}}">
+                                    <strong>{{subbackground.subType}}</strong>
+                                </label>
+                            </div>
+<!--End Subbackgrounds-->
                             <p *ngFor="let desc of background.desc.split('\n')">{{desc}}</p>
                         </div>
                     </div>
@@ -248,20 +268,46 @@
                             *ngIf="this.showList==choice.source+choice.id">
                             <div title="{{feat.shortDesc}}" class="list-item" *ngFor="let feat of get_AvailableFeats(choice)"
                                 [className]="(cannotTake(feat, choice).length) ? 'problem' : ''">
-                                <input id="{{choice.id+feat.name}}" type="checkbox"
+                                <input *ngIf="!feat.subTypes" id="{{choice.id+feat.name}}" type="checkbox"
                                     (change)="on_FeatTaken(feat.name, $event.target.checked, choice, false)"
                                     [checked]="featTakenByThis(feat, choice)"
                                     [disabled]="cannotTake(feat, choice).length && !featTakenByThis(feat, choice)">
+                                <button class="button lower left" *ngIf="feat.subTypes" id="{{choice.id+feat.name}}" (click)="toggle_Item(choice.id+feat.name+'desc')">v</button>
                                 <label for="{{choice.id+feat.name}}">
                                     <strong>{{feat.name}}&nbsp;</strong><cite>Level {{feat.levelreq}}</cite>
                                 </label>
                                 <cite style="color:darkred" *ngFor="let reason of cannotTake(feat, choice)">
                                     {{reason}}&nbsp;
                                 </cite>
-                                <button class="button fancybutton" (click)="toggle_Item(choice.id+feat.name+'desc')">
+                                <button class="button" (click)="toggle_Item(choice.id+feat.name+'desc')">
                                     Show Description
                                 </button>
                                 <div *ngIf="this.get_showItem()==choice.id+feat.name+'desc'" class="row">
+<!--Subfeats-->
+                                    <div class="list-item lower" *ngFor="let subfeat of get_SubFeats(feat, choice)"
+                                    [className]="(cannotTake(subfeat, choice).length) ? 'problem' : ''">
+                                    <input id="{{choice.id+subfeat.name}}" type="checkbox"
+                                        (change)="on_FeatTaken(subfeat.name, $event.target.checked, choice, false)"
+                                        [checked]="featTakenByThis(subfeat, choice)"
+                                        [disabled]="cannotTake(subfeat, choice).length && !featTakenByThis(subfeat, choice)">
+                                    <label for="{{choice.id+subfeat.name}}">
+                                        <strong>{{subfeat.subType}}&nbsp;</strong>
+                                        <span *ngIf="subfeat.levelreq != feat.levelreq ||
+                                        JSON.stringify(subfeat.abilityreq) != JSON.stringify(feat.abilityreq) ||
+                                        JSON.stringify(subfeat.skillreq) != JSON.stringify(feat.skillreq) ||
+                                        subfeat.featreq != feat.featreq ||
+                                        subfeat.specialreqdesc != feat.specialreqdesc">requires&nbsp;</span>
+                                        <span *ngIf="subfeat.levelreq && subfeat.levelreq != feat.levelreq">Level {{subfeat.levelreq}}</span>
+                                        <span *ngIf="JSON.stringify(subfeat.abilityreq) != JSON.stringify(feat.abilityreq)"><span *ngFor="let req of subfeat.abilityreq">, {{req.ability}} {{req.value}}</span></span>
+                                        <span *ngIf="JSON.stringify(subfeat.skillreq) != JSON.stringify(feat.skillreq)"><span *ngFor="let req of subfeat.skillreq">, {{req.skill}} {{prof(req.value)}}</span></span>
+                                        <span *ngIf="subfeat.featreq && subfeat.featreq != feat.featreq">, {{subfeat.featreq}}</span>
+                                        <span *ngIf="subfeat.specialreqdesc && subfeat.specialreqdesc != feat.specialreqdesc">, {{subfeat.specialreqdesc}}</span>
+                                        <cite style="color:darkred" *ngFor="let reason of cannotTake(subfeat, choice)">
+                                            {{reason}}&nbsp;
+                                        </cite>
+                                    </label>
+                                    </div>
+<!--End Subfeats-->
                                     <cite *ngFor="let trait of feat.traits">
                                         {{trait}}&nbsp;
                                     </cite>
@@ -277,12 +323,13 @@
                                     </div>
                                 </div>
                             </div>
+<!--UnavailableFeats-->
                             <div class="problem" title="{{feat.shortDesc}}" class="list-item" *ngFor="let feat of get_AvailableFeats(choice, true)">
                                 <strong>{{feat.name}}&nbsp;</strong><cite>Level {{feat.levelreq}}</cite>
                                 <cite style="color:darkred" *ngFor="let reason of cannotTake(feat, choice)">
                                     {{reason}}&nbsp;
                                 </cite>
-                                <button class="button fancybutton" (click)="toggle_Item(choice.id+feat.name+'desc')">
+                                <button class="button" (click)="toggle_Item(choice.id+feat.name+'desc')">
                                     Show Description
                                 </button>
                                 <div *ngIf="this.get_showItem()==choice.id+feat.name+'desc'">

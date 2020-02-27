@@ -23,18 +23,7 @@
                 "available":2,
                 "feats":[],
                 "filter":[
-                    "Specialty Crafting: Alchemy",
-                    "Specialty Crafting: Artistry",
-                    "Specialty Crafting: Blacksmithing",
-                    "Specialty Crafting: Bookmaking",
-                    "Specialty Crafting: Glassmaking",
-                    "Specialty Crafting: Leatherworking",
-                    "Specialty Crafting: Pottery",
-                    "Specialty Crafting: Shipbuilding",
-                    "Specialty Crafting: Stonemasonry",
-                    "Specialty Crafting: Tailoring",
-                    "Specialty Crafting: Weaving",
-                    "Specialty Crafting: Woodworking"
+                    "Specialty Crafting"
                 ],
                 "type":"Skill",
                 "source":"Heritage",
@@ -49,7 +38,7 @@
             {
                 "available":0,
                 "feats":[
-                    {"name":"Death Warden Dwarf", "source":"Heritage", "locked":true, "sourceId":"1-Feat-Heritage-0"}
+                    {"name":"Death Warden Dwarf Resistance", "source":"Heritage", "locked":true, "sourceId":"1-Feat-Heritage-0"}
                 ],
                 "filter":[],
                 "type":"",
@@ -61,7 +50,12 @@
     },
     {
         "name":"Elemental Heart Dwarf",
-        "actionChoices":"Elemental Heart Dwarf",
+        "subTypes":[
+            {"name":"Elemental Heart Dwarf (Acid)", "subType":"Acid", "actionChoices":"Elemental Heart Dwarf"},
+            {"name":"Elemental Heart Dwarf (Cold)", "subType":"Cold", "actionChoices":"Elemental Heart Dwarf"},
+            {"name":"Elemental Heart Dwarf (Electricity)", "subType":"Electricity", "actionChoices":"Elemental Heart Dwarf"},
+            {"name":"Elemental Heart Dwarf (Fire)", "subType":"Fire", "actionChoices":"Elemental Heart Dwarf"}
+        ],
         "desc":"Whether through a connection to Torag’s forge, the azers of the Plane of Fire, or another source, you can exude a burst of energy. Mbe’ke and Taralu dwarves of the Mwangi Expanse believe this heritage is a gift from dragons or elemental spirits. Choose one of the following damage types: acid, cold, electricity, or fire. Once chosen, this can’t be changed. You gain the Energy Emanation activity."
     },
     {
