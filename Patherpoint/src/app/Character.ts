@@ -9,6 +9,7 @@ import { LoreChoice } from './LoreChoice';
 import { AbilityChoice } from './AbilityChoice';
 import { FeatChoice } from './FeatChoice';
 import { Health } from './Health';
+import { Speed } from './Speed';
 
 export class Character {
     public name: string = "";
@@ -20,6 +21,7 @@ export class Character {
     public baseValues = [];
     public inventory: ItemCollection = new ItemCollection();
     public deity: string = "";
+    public speeds: Speed[] = [new Speed("Speed"), new Speed("Land Speed")];
     get_Changed(characterService: CharacterService, ) {
         return characterService.get_Changed();
     }

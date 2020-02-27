@@ -22,19 +22,16 @@ export class EffectsComponent implements OnInit {
         this.showEffects = !this.showEffects;
     }
 
-    get_Effects(regenerate: boolean = false) {
-        let effects = this.effectsService.get_Effects(regenerate);
-        return effects;
+    get_Effects() {
+        return this.effectsService.get_Effects();
     }
 
-    get_AppliedEffects(regenerate: boolean = false) {
-        let effects = this.get_Effects(regenerate);
-        return effects.all.filter(effect => effect.apply)
+    get_AppliedEffects() {
+        return this.get_Effects().all.filter(effect => effect.apply);
     }
 
     get_NotAppliedEffects() {
-        let effects = this.get_Effects();
-        return effects.all.filter(effect => effect.apply != true)
+        return this.get_Effects().all.filter(effect => effect.apply != true);
     }
 
     finish_Loading() {

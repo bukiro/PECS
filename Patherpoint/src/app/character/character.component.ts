@@ -83,8 +83,8 @@ export class CharacterComponent implements OnInit {
             this.get_Character().class.levels[1].abilityChoices.filter(choice => choice.available).forEach(choice => {
                 choice.boosts.length = choice.available - choice.baseValuesLost;
             });
-            this.characterService.set_Changed();
         }
+        this.characterService.set_Changed();
     }
 
     onLevelChange() {

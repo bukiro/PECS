@@ -18,6 +18,8 @@ export class SkillComponent implements OnInit {
     skill: Skill;
     @Input()
     showValue: boolean = true;
+    @Input()
+    isDC: boolean = false;
 
     constructor(
         private changeDetector: ChangeDetectorRef,

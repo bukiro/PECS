@@ -25,5 +25,29 @@
             <strong>Deity:</strong>
             {{get_Character().deity}}
         </div>
+        <h3>Class DC:</h3>
+        <div *ngFor="let skill of get_ClassDCs()">
+            <app-skill class="list-item" [skill]=skill [isDC]=true></app-skill>
+        </div>
+        <h3>Movement:</h3>
+        <div *ngFor="let speed of get_Speeds()">
+            <div class="list-item">
+                <div>
+                    <strong>{{(speed.name=="Speed") ? "All Speeds" : speed.name}}</strong>
+                </div>
+                <div>
+                    Value: <input class="number" [className]="(speed.penalty(effectsService).length) ? 'penalty' : (speed.bonus(effectsService).length) ? 'bonus' : ''" type="number" value="{{speed.value(characterService, effectsService)}}" disabled>
+                </div>
+                <div class="row" *ngIf="get_TraitsForThis(speed.name).length">
+                <cite *ngFor="let trait of get_TraitsForThis(speed.name)" title="{{trait.description}}">{{trait.name}} ({{trait.haveOn(this.characterService, true)}})&nbsp;</cite>
+                </div>
+                <div class="row" *ngIf="get_EffectsOnThis(speed.name).length">
+                    <cite *ngFor="let effect of get_EffectsOnThis(speed.name)" [className]="effect.penalty ? 'penalty' : 'bonus'">{{effect.value}} ({{effect.source}})&nbsp;</cite>
+                </div>
+                <div class="row" *ngIf="get_FeatsShowingOn(speed.name).length">
+                    <cite *ngFor="let feat of get_FeatsShowingOn(speed.name)" [title]="feat.desc">{{feat.name}}&nbsp;</cite>
+                </div>
+            </div>
+        </div>
     </div>
 </div>

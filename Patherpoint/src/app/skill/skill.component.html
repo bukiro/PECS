@@ -1,7 +1,7 @@
     <strong>{{skill.name}}</strong>
     <app-proficiency-form [skill]="skill" [characterService]="this.characterService" [level]="this.characterService.get_Character().level"></app-proficiency-form>
     <span *ngIf="showValue">
-        Value: <input class="number" [className]="(skill.penalty(this.effectsService).length) ? 'penalty' : (skill.bonus(this.effectsService).length) ? 'bonus' : ''" type="number" value="{{skill.value(this.characterService,this.abilitiesService,this.effectsService)}}" disabled>
+        Value: <input class="number" [className]="(skill.penalty(this.effectsService).length) ? 'penalty' : (skill.bonus(this.effectsService).length) ? 'bonus' : ''" type="number" value="{{skill.value(this.characterService,this.abilitiesService,this.effectsService) + ((isDC) ? 10 : 0)}}" disabled>
         </span>
     <div class="row" *ngIf="get_TraitsForThis(skill.name).length">
     <cite *ngFor="let trait of get_TraitsForThis(skill.name)" title="{{trait.description}}">{{trait.name}} ({{trait.haveOn(this.characterService, true)}})&nbsp;</cite>

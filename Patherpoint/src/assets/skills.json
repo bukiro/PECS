@@ -26,16 +26,12 @@
     { "name":"Medium Armor", "type":"Armor Proficiency" },
     { "name":"Heavy Armor", "type":"Armor Proficiency" },
     { "name":"Unarmored", "type":"Armor Proficiency" },
-    { "name":"Alchemy class DC", "type":"Class DC" },
+    { "name":"Alchemist class DC", "type":"Class DC"},
     { "name":"Barbarian class DC", "type":"Class DC" },
-    { "name":"Bard class DC", "type":"Class DC" },
     { "name":"Champion class DC", "type":"Class DC" },
-    { "name":"Cleric class DC", "type":"Class DC" },
     { "name":"Druid class DC", "type":"Class DC" },
     { "name":"Fighter class DC", "type":"Class DC" },
     { "name":"Monk class DC", "type":"Class DC" },
     { "name":"Ranger class DC", "type":"Class DC" },
-    { "name":"Rogue class DC", "type":"Class DC" },
-    { "name":"Sorcerer class DC", "type":"Class DC" },
-    { "name":"Wizard class DC", "type":"Class DC" }
+    { "name":"Rogue class DC", "type":"Class DC" }
 ]

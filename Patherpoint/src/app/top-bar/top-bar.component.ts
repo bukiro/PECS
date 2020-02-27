@@ -3,6 +3,7 @@ import { trigger, state, style, transition, animate } from '@angular/animations'
 import { CharacterService } from '../character.service';
 import { ItemsService } from '../items.service';
 import { Subscription } from 'rxjs';
+import { EffectsService } from '../effects.service';
 
 @Component({
     selector: 'app-top-bar',
@@ -28,6 +29,7 @@ export class TopBarComponent implements OnInit {
     constructor(
         private characterService: CharacterService,
         private itemsService: ItemsService,
+        private effectsService: EffectsService
     ) { }
 
     toggleItemsMenu(position: string = "") {
@@ -60,6 +62,7 @@ export class TopBarComponent implements OnInit {
 
     ngOnInit() {
        this.characterService.initialize("save");
+       this.effectsService.initialize();
     }
 
 }

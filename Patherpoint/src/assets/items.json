@@ -15,7 +15,7 @@
     { "type":"weapon", "name":"Staff", "prof":"Simple Weapons", "dmgType":"B", "dicenum":1, "dicesize":4, "melee":5, "itembonus":0, "moddable":true, "traits":["Two-Hand d8"] },
     { "type":"weapon", "name":"Bastard Sword", "prof":"Martial Weapons", "dmgType":"S", "dicenum":1, "dicesize":8, "melee":5, "itembonus":0, "moddable":true, "traits":["Two-Hand d12"] },
     { "type":"weapon", "name":"Battle Axe", "prof":"Martial Weapons", "dmgType":"S", "dicenum":1, "dicesize":8, "melee":5, "itembonus":0, "moddable":true, "traits":["Sweep"] },
-    { "type":"weapon", "name":"Bo Staff", "prof":"Martial Weapons", "dmgType":"B", "dicenum":1, "dicesize":8, "melee":10, "itembonus":0, "moddable":true, "traits":["Monk", "Parry", "Reach", "Trip"], "effects":[{"affected":"Strength", "value":"+5"}] },
+    { "type":"weapon", "name":"Bo Staff", "prof":"Martial Weapons", "dmgType":"B", "dicenum":1, "dicesize":8, "melee":10, "itembonus":0, "moddable":true, "traits":["Monk", "Parry", "Reach", "Trip"], "effects":[{"affected":"Strength", "value":"+5", "type":"item"}] },
     { "type":"weapon", "name":"Dogslicer", "prof":"Martial Weapons", "dmgType":"S", "dicenum":1, "dicesize":6, "melee":5, "itembonus":0, "moddable":true, "traits":["Agile", "Backstabber", "Finesse", "Goblin", "Uncommon"] },
     { "type":"weapon", "name":"Elven Curve Blade", "prof":"Martial Weapons", "dmgType":"S", "dicenum":1, "dicesize":8, "melee":5, "itembonus":0, "moddable":true, "traits":["Elf", "Finesse", "Forceful", "Uncommon"] },
     { "type":"weapon", "name":"Falchion", "prof":"Martial Weapons", "dmgType":"S", "dicenum":1, "dicesize":10, "melee":5, "itembonus":0, "moddable":true, "traits":["Forceful", "Sweep"] },

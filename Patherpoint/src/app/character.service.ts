@@ -23,6 +23,7 @@ import { ItemsService } from './items.service';
 import { Feat } from './Feat';
 import { Health } from './Health';
 import { async } from '@angular/core/testing';
+import { Speed } from './Speed';
 
 @Injectable({
     providedIn: 'root'
@@ -87,6 +88,10 @@ export class CharacterService {
 
     get_Ancestries(name: string) {
         this.historyService.get_Ancestries(name)
+    }
+
+    get_Speeds(name: string = "") {
+        return this.me.speeds.filter(speed => speed.name == name || name == "");
     }
 
     changeClass($class: Class) {
@@ -342,6 +347,9 @@ export class CharacterService {
                 this.me.inventory.shield = this.me.inventory.shield.map(shield => Object.assign(new Weapon(), shield));
             } else {
                 this.me.inventory = new ItemCollection();
+            }
+            if (this.me.speeds) {
+                this.me.speeds = this.me.speeds.map(speed => Object.assign(new Speed(), speed));
             }
             if (this.me.class.ancestry) {
                 this.me.class.ancestry = Object.assign(new Ancestry(), this.me.class.ancestry);
