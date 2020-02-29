@@ -8,6 +8,7 @@
                     {"name":"Student of the Canon", "source":"Background", "locked":true, "sourceId":"1-Feat-Background-0"}
                 ],
                 "filter":[],
+                "level":"",
                 "type":"",
                 "source":"Background",
                 "id":"1-Feat-Background-0"
@@ -37,6 +38,7 @@
                 "increases":[
                     { "name":"Religion", "source":"Background", "locked":true, "sourceId":"1-Skill-Background-0" }
                 ],
+                "filter":[],
                 "type":"Skill",
                 "maxRank":2,
                 "source":"Background",
@@ -64,6 +66,7 @@
                     {"name":"Steady Balance", "source":"Background", "locked":true, "sourceId":"1-Feat-Background-0"}
                 ],
                 "filter":[],
+                "level":"",
                 "type":"",
                 "source":"Background",
                 "id":"1-Feat-Background-0"
@@ -93,6 +96,7 @@
                 "increases":[
                     { "name":"Acrobatics", "source":"Background", "locked":true, "sourceId":"1-Skill-Background-0" }
                 ],
+                "filter":[],
                 "type":"Skill",
                 "maxRank":2,
                 "source":"Background",
@@ -120,6 +124,7 @@
                     {"name":"Train Animal", "source":"Background", "locked":true, "sourceId":"1-Feat-Background-0"}
                 ],
                 "filter":[],
+                "level":"",
                 "type":"",
                 "source":"Background",
                 "id":"1-Feat-Background-0"
@@ -149,6 +154,7 @@
                 "increases":[
                     { "name":"Nature", "source":"Background", "locked":true, "sourceId":"1-Skill-Background-0" }
                 ],
+                "filter":[],
                 "type":"Skill",
                 "maxRank":2,
                 "source":"Background",
@@ -181,6 +187,7 @@
                             {"name":"Cat Fall", "source":"Background", "locked":true, "sourceId":"1-Feat-Background-0"}
                         ],
                         "filter":[],
+                        "level":"",
                         "type":"",
                         "source":"Background",
                         "id":"1-Feat-Background-0"
@@ -210,6 +217,7 @@
                         "increases":[
                             { "name":"Acrobatics", "source":"Background", "locked":true, "sourceId":"1-Skill-Background-0" }
                         ],
+                        "filter":[],
                         "type":"Skill",
                         "maxRank":2,
                         "source":"Background",
@@ -238,6 +246,7 @@
                             {"name":"Quick Jump", "source":"Background", "locked":true, "sourceId":"1-Feat-Background-0"}
                         ],
                         "filter":[],
+                        "level":"",
                         "type":"",
                         "source":"Background",
                         "id":"1-Feat-Background-0"
@@ -267,6 +276,7 @@
                         "increases":[
                             { "name":"Athletics", "source":"Background", "locked":true, "sourceId":"1-Skill-Background-0" }
                         ],
+                        "filter":[],
                         "type":"Skill",
                         "maxRank":2,
                         "source":"Background",

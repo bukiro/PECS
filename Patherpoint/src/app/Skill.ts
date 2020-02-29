@@ -71,7 +71,7 @@ export class Skill {
         if (this.ability) {
             abilityMod = abilitiesService.get_Abilities(this.ability)[0].mod(characterService, effectsService);
         } else {
-            if (this.type == "Class DC") {
+            if (this.name == characterService.get_Character().class.name+" class DC") {
                 let keyAbilities = characterService.get_Character().get_AbilityBoosts(1,1,"","","Class Key Ability");
                 if (keyAbilities.length) {
                     abilityMod = abilitiesService.get_Abilities(keyAbilities[0].name)[0].mod(characterService, effectsService);

@@ -73,7 +73,7 @@
         "name":"Human",
         "traits":["Human", "Humanoid"],
         "ancestries":["Human"],
-        "heritages":["Half-Elf", "Half-Orc", "Skilled Heritage", "Versatile Heritage"],
+        "heritages":["Half-Elf", "Half-Orc", "Skilled Heritage", "Versatile Heritage", "Wintertouched Human"],
         "hitPoints":8,
         "size":"Medium Armor",
         "speed":25,

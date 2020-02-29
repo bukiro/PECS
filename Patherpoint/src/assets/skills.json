@@ -25,13 +25,5 @@
     { "name":"Light Armor", "type":"Armor Proficiency" },
     { "name":"Medium Armor", "type":"Armor Proficiency" },
     { "name":"Heavy Armor", "type":"Armor Proficiency" },
-    { "name":"Unarmored", "type":"Armor Proficiency" },
-    { "name":"Alchemist class DC", "type":"Class DC"},
-    { "name":"Barbarian class DC", "type":"Class DC" },
-    { "name":"Champion class DC", "type":"Class DC" },
-    { "name":"Druid class DC", "type":"Class DC" },
-    { "name":"Fighter class DC", "type":"Class DC" },
-    { "name":"Monk class DC", "type":"Class DC" },
-    { "name":"Ranger class DC", "type":"Class DC" },
-    { "name":"Rogue class DC", "type":"Class DC" }
+    { "name":"Unarmored", "type":"Armor Proficiency" }
 ]

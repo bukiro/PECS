@@ -98,8 +98,14 @@ export class CharacterService {
         this.me.class.on_ChangeHeritage(this);
         this.me.class.on_ChangeAncestry(this);
         this.me.class.on_ChangeBackground(this);
+        this.me.class.customSkills.forEach(skill => {
+            this.me.customSkills = this.me.customSkills.filter(customSkill => customSkill.name != skill.name);
+        });
         this.me.class = new Class();
         this.me.class = Object.assign(new Class(), JSON.parse(JSON.stringify($class)));
+        this.me.class.customSkills.forEach(skill => {
+            this.me.customSkills.push(Object.assign(new Skill(), skill));
+        });
         this.set_Changed();
     }
 

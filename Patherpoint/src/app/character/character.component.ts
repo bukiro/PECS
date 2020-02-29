@@ -105,6 +105,7 @@ export class CharacterComponent implements OnInit {
     get_AvailableAbilities(choice: AbilityChoice) {
         let abilities = this.get_Abilities('');
         if (choice.filter.length) {
+            //If there is a filter, we need to find out if any of the filtered Abilities can actually be boosted.
             let cannotBoost = 0;
             if (choice.id[0] == "1") {
                 choice.filter.forEach(filter => {
@@ -113,11 +114,13 @@ export class CharacterComponent implements OnInit {
                     }
                 });
             }
+            //If any can be boosted, filter the list by the filter (and show the already selected abilities so you can unselect them if you like).
+            //If none can be boosted, the list just does not get filtered.
             if (cannotBoost < choice.filter.length) {
                 abilities = abilities.filter(ability => choice.filter.indexOf(ability.name) > -1 || this.abilityBoostedByThis(ability, choice))
             }
         }
-        if (abilities) {
+        if (abilities.length) {
             return abilities.filter(ability => (
                 this.abilityBoostedByThis(ability, choice) || (choice.boosts.length < choice.available - ((this.get_Character().baseValues.length > 0) ? choice.baseValuesLost : 0))
             ));
@@ -220,7 +223,10 @@ export class CharacterComponent implements OnInit {
 
     get_AvailableSkills(choice) {
         let skills = this.get_Skills('', choice.type);
-        if (skills) {
+        if (choice.filter.length) {
+            skills = skills.filter(skill => choice.filter.indexOf(skill.name) > -1)
+        }
+        if (skills.length) {
             return skills.filter(skill => (
                 this.skillIncreasedByThis(skill, choice) || choice.increases.length < choice.available + this.get_SkillINTBonus(choice)
                 ));
@@ -246,24 +252,12 @@ export class CharacterComponent implements OnInit {
     //Returns a string of reasons why the skill cannot be increased, or "". Test the length of the return if you need a boolean.
         let maxRank: number = choice.maxRank;
         let reasons: string[] = [];
-        let increasesThisLevel = this.get_SkillIncreases(level.number, level.number, skill.name, '')
-        //This skill may have been trained already by another source, like a feat or the background or the class
-        //The source is identified by "source" and "id" - the same source name may exist several times (like with class skills and free class skills)
-        if (increasesThisLevel.length > 0 && (increasesThisLevel[0].source != choice.source || increasesThisLevel[0].sourceId != choice.id) ) {
-            let increasedByOtherThisLevel = "";
-            if (increasesThisLevel[0].locked) {
-                increasedByOtherThisLevel = "Fixed increase by "+increasesThisLevel[0].source+".";
-            } else {
-                increasedByOtherThisLevel = "Increased by "+increasesThisLevel[0].source+".";
-            }
-            reasons.push(increasedByOtherThisLevel);
-        };
         //If this skill was raised by a feat on a higher level, it can't be raised on this level.
         //This prevents losing the feat bonus or raising the skill too high - feats never give +2, but always set the level
         let allIncreases = this.get_SkillIncreases(level.number+1, 20, skill.name, '');
         if (allIncreases.length > 0) {
-            if (allIncreases[0].source.indexOf("Feat: ") > -1) {
-                let trainedOnHigherLevel = "Raised on a higher level by "+allIncreases[0].source+".";
+            if (allIncreases[0].locked && allIncreases[0].source.indexOf("Feat: ") > -1) {
+                let trainedOnHigherLevel = "Trained on a higher level by "+allIncreases[0].source+".";
                 reasons.push(trainedOnHigherLevel);
             }
         }
@@ -273,11 +267,11 @@ export class CharacterComponent implements OnInit {
         //If you have, we don't want to hear that it couldn't be raised again right away
         let cannotIncreaseHigher = "";
         //You can never raise a skill higher than Legendary (8)
-        if (skill.level(this.characterService, level.number) == 8 && increasesThisLevel.length == 0) {
+        if (skill.level(this.characterService, level.number) == 8 && !this.skillIncreasedByThis(skill, choice)) {
             cannotIncreaseHigher = "Cannot increase any higher.";
             reasons.push(cannotIncreaseHigher);
-        } else if (!skill.canIncrease(this.characterService, level.number, maxRank) && increasesThisLevel.length == 0) {
-            if (choice.source == "Class") {
+        } else if (!skill.canIncrease(this.characterService, level.number, maxRank) && !this.skillIncreasedByThis(skill, choice)) {
+            if (!skill.canIncrease(this.characterService, level.number)) {
                 cannotIncreaseHigher = "Cannot increase any higher on this level.";
             } else {
                 cannotIncreaseHigher = "Cannot increase any higher with this method.";
@@ -329,7 +323,7 @@ export class CharacterComponent implements OnInit {
     get_AvailableFeats(choice: FeatChoice, get_unavailable: boolean = false) {
         let character = this.get_Character()
         //Get all Feats, but no subtype Feats - those get built within their supertype
-        let allFeats = this.featsService.get_Feats(this.get_Character().customFeats).filter(feat => !feat.superType);
+        let allFeats = this.featsService.get_Feats(this.get_Character().customFeats).filter(feat => !feat.superType && !feat.hide);
         if (choice.filter.length) {
             allFeats = allFeats.filter(feat => choice.filter.indexOf(feat.name) > -1)
         }
@@ -339,7 +333,7 @@ export class CharacterComponent implements OnInit {
                 feats.push(...allFeats.filter(feat => feat.traits.indexOf(character.class.name) > -1));
                 break;
             case "Ancestry":
-                character.class.ancestry.traits.forEach(trait => {
+                character.class.ancestry.ancestries.forEach(trait => {
                     feats.push(...allFeats.filter(feat => feat.traits.indexOf(trait) > -1));
                 })
                 break;
@@ -379,9 +373,15 @@ export class CharacterComponent implements OnInit {
 
     cannotTake(feat: Feat, choice: FeatChoice) {
         let levelNumber = parseInt(choice.id[0]);
+        let featLevel = 0;
+        if (choice.level) {
+            featLevel = parseInt(choice.level);
+        } else {
+            featLevel = levelNumber;
+        }
         let reasons: string[] = [];
         //Are the basic requirements (level, ability, feat etc) not met?
-        if (!feat.canChoose(this.characterService, levelNumber)) {
+        if (!feat.canChoose(this.characterService, featLevel)) {
             reasons.push("The requirements are not met.")
         }
         //Unless the feat can be taken repeatedly:
@@ -418,7 +418,72 @@ export class CharacterComponent implements OnInit {
         return this.get_Character().get_FeatsTaken(minLevelNumber, maxLevelNumber, featName, source, sourceId, locked);
     }
 
+    print_FeatRequirements(feat: Feat, compare: Feat = undefined) {
+        let pre: string = "";
+        let result: string = "";
+        if (compare) {
+            if (feat.levelreq != compare.levelreq ||
+                JSON.stringify(feat.abilityreq) != JSON.stringify(compare.abilityreq) ||
+                JSON.stringify(feat.skillreq) != JSON.stringify(compare.skillreq) ||
+                feat.featreq != compare.featreq ||
+                feat.specialreqdesc != compare.specialreqdesc
+                ) {
+                pre += "requires "
+                if (feat.levelreq && feat.levelreq != compare.levelreq) {
+                    result += "Level "+feat.levelreq;
+                }
+                if (JSON.stringify(feat.abilityreq) != JSON.stringify(compare.abilityreq)) {
+                    feat.abilityreq.forEach(req => {
+                        result += ", "+req.ability+" "+req.value;
+                    });
+                }
+                if (JSON.stringify(feat.skillreq) != JSON.stringify(compare.skillreq)) {
+                    feat.skillreq.forEach((req,index) => {
+                        if (index == 0) {
+                            result += ", "
+                        } else {
+                            result += " or "
+                        }
+                        result += req.skill+" "+this.prof(req.value);
+                    });
+                }
+                if (feat.featreq && feat.featreq != compare.featreq) {
+                    result += ", "+feat.featreq;
+                }
+                if (feat.specialreqdesc && feat.specialreqdesc != compare.specialreqdesc) {
+                    result += ", "+feat.specialreqdesc
+                }
+            }
+        } else {
+            if (feat.levelreq) {
+                result += "Level "+feat.levelreq;
+            }
+            feat.abilityreq.forEach(req => {
+                result += ", "+req.ability+" "+req.value;
+            });
+            feat.skillreq.forEach((req,index) => {
+                if (index == 0) {
+                    result += ", "
+                } else {
+                    result += " or "
+                }
+                result += req.skill+" "+this.prof(req.value);
+            });
+            if (feat.featreq) {
+                result += ", "+feat.featreq;
+            }
+            if (feat.specialreqdesc) {
+                result += ", "+feat.specialreqdesc
+            }
+        }
+        if (result[0] == ",") {
+            result = result.substr(2);
+        }
+        return pre + result;
+    }
+
     on_FeatTaken(featName: string, taken: boolean, choice: FeatChoice, locked: boolean) {
+        if (taken && (choice.feats.length == choice.available - 1)) { this.showList=""; }
         this.get_Character().take_Feat(this.characterService, featName, taken, choice, locked);
     }
 

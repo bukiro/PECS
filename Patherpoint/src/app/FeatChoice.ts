@@ -3,6 +3,7 @@ export interface FeatChoice {
     feats: any[];
     filter: string[];
     type: string;
+    level: string;
     source: string;
     id: string;
 }

@@ -5,6 +5,7 @@ import { Observable } from 'rxjs';
 import { Level } from './Level';
 import { CharacterService } from './character.service';
 import { FeatChoice } from './FeatChoice';
+import { SkillChoice } from './SkillChoice';
 
 @Injectable({
     providedIn: 'root'
@@ -21,7 +22,7 @@ export class FeatsService {
     get_Feats(loreFeats: Feat[], name: string = "", type: string = "") {
         if (!this.still_loading()) {
             let feats: Feat[] = this.feats.concat(loreFeats);
-            return feats.filter(feat => ((feat.name == name || name == "") && (feat.traits.indexOf(type) > -1 || type == "")));
+            return feats.filter(feat => ((feat.name.indexOf(name) > -1 || name == "") && (feat.traits.indexOf(type) > -1 || type == "")));
         } else { return [new Feat()]; }
     }
 
@@ -43,12 +44,33 @@ export class FeatsService {
             if (feat.increase) {
                 if (taken) {
                     //Add a new Skill Choice and immediately increase the required skill
-                    let newSkillChoice = character.add_SkillChoice(level, {available:0, increases:[], type:"Any", maxRank:2, source:'Feat: '+featName, id:""});
+                    let newSkillChoice = character.add_SkillChoice(level, {available:0, filter:[], increases:[], type:"Any", maxRank:2, source:'Feat: '+featName, id:""});
                     character.increase_Skill(characterService, feat.increase, true, newSkillChoice, true);
-                    //If a feat trains you in a skill you don't already know, it's usually a weapon proficiency
+                    //If a feat trains you in a skill you don't already know, it's usually a weapon proficiency or a class DC.
                     //We have to create that skill here then
                     if (characterService.get_Skills(feat.increase).length == 0 ) {
-                        characterService.add_CustomSkill(feat.increase, "Specific Weapon Proficiency", "");
+                        if (feat.increase.indexOf("class DC") > -1) {
+                            switch (feat.increase) {
+                                case "Alchemist class DC": 
+                                    characterService.add_CustomSkill(feat.increase, "Class DC", "Intelligence");
+                                    break;
+                                case "Barbarian class DC": 
+                                    characterService.add_CustomSkill(feat.increase, "Class DC", "Strength");
+                                    break;
+                                case "Bard class DC": 
+                                    characterService.add_CustomSkill(feat.increase, "Class DC", "Charisma");
+                                    break;
+                                case "Bard class DC": 
+                                    characterService.add_CustomSkill(feat.increase, "Class DC", "Dexterity");
+                                    break;
+                                default: 
+                                    characterService.add_CustomSkill(feat.increase, "Class DC", feat.subType);
+                                    break;
+                            }
+                        } else {
+                            characterService.add_CustomSkill(feat.increase, "Specific Weapon Proficiency", "");
+                        }
+                        
                     }
                 } else {
                     //Remove associated Skill Choice
@@ -60,13 +82,15 @@ export class FeatsService {
                 }
             }
 
-            //Gain First Level Ancestry Feat
-            if (feat.gainAncestryFeat) {
+            //Gain Feat
+            if (feat.gainFeatChoice.length) {
                 if (taken) {
-                    character.add_FeatChoice(character.class.levels[1], {available:1, feats:[], filter:[], type:"Ancestry", source:'Feat: '+featName, id:""});
+                    feat.gainFeatChoice.forEach(newFeatChoice => {
+                        character.add_FeatChoice(level, newFeatChoice);
+                    });
                 } else {
                     //You might have taken this feat multiple times on the same level, so we are only removing one instance of it
-                    let a: FeatChoice[] = character.class.levels[1].featChoices;
+                    let a: FeatChoice[] = level.featChoices;
                     let b: FeatChoice = a.filter(choice => choice.source == 'Feat: '+featName && choice.type == "Ancestry")[0];
                     //Feats must explicitly be un-taken instead of just removed from the array, in case they made fixed changes
                     b.feats.forEach(feat => {
@@ -76,42 +100,12 @@ export class FeatsService {
                 }
             }
 
-            //Gain First Level Class Feat
-            if (feat.gainClassFeat) {
-                if (taken) {
-                    character.add_FeatChoice(character.class.levels[1], {available:1, feats:[], filter:[], type:"Class", source:'Feat: '+featName, id:""});
-                } else {
-                    //You might have taken this feat multiple times on the same level, so we are only removing one instance of it
-                    let a: FeatChoice[] = character.class.levels[1].featChoices;
-                    let b: FeatChoice = a.filter(choice => choice.source == 'Feat: '+featName && choice.type == "Class")[0];
-                    //Feats must explicitly be un-taken instead of just removed from the array, in case they made fixed changes
-                    b.feats.forEach(feat => {
-                        character.take_Feat(characterService, feat.name, false, b, false);
-                    });
-                    a.splice(a.indexOf(b), 1)
-                }
-            }
-
-            //Gain General Feat
-            if (feat.gainGeneralFeat) {
-                if (taken) {
-                    character.add_FeatChoice(level, {available:1, feats:[], filter:[], type:"General", source:'Feat: '+featName, id:""});
-                } else {
-                    //You might have taken this feat multiple times on the same level, so we are only removing one instance of it
-                    let a: FeatChoice[] = level.featChoices;
-                    let b: FeatChoice = a.filter(choice => choice.source == 'Feat: '+featName && choice.type == "General")[0];
-                    //Feats must explicitly be un-taken instead of just removed from the array, in case they made fixed changes
-                    b.feats.forEach(feat => {
-                        character.take_Feat(characterService, feat.name, false, b, false);
-                    });
-                    a.splice(a.indexOf(b), 1)
-                }
-            }
-
             //Train free Skill
-            if (feat.gainSkillTraining) {
+            if (feat.gainSkillChoice.length) {
                 if (taken) {
-                    character.add_SkillChoice(level, {available:1, increases:[], type:"Skill", maxRank:2, source:'Feat: '+featName, id:""});
+                    feat.gainSkillChoice.forEach(newSkillChoice => {
+                        character.add_SkillChoice(level, newSkillChoice);
+                    });
                 } else {
                     let a = level.skillChoices;
                     a.splice(a.indexOf(a.filter(choice => choice.source == 'Feat: '+featName && choice.type == "Skill")[0]), 1)
@@ -129,6 +123,16 @@ export class FeatsService {
                         character.remove_Lore(characterService, oldChoice);
                     }
                     a.splice(a.indexOf(oldChoice), 1);
+                }
+            }
+
+            //Adopted Ancestry
+            if (feat.superType=="Adopted Ancestry") {
+                if (taken) {
+                    character.class.ancestry.ancestries.push(feat.subType);
+                } else {
+                    let a = character.class.ancestry.ancestries;
+                    a.splice(a.indexOf(feat.subType), 1);
                 }
             }
         }

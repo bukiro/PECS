@@ -69,8 +69,11 @@ export class Character {
     }
     add_SkillChoice(level: Level, newChoice: SkillChoice) {
         let existingChoices = level.skillChoices.filter(choice => choice.source == newChoice.source);
-        newChoice.id = level.number +"-Skill-"+ newChoice.source +"-"+ existingChoices.length;
-        let newId: number = level.skillChoices.push(newChoice);
+        let tempChoice = Object.assign({}, newChoice)
+        tempChoice.increases = Object.assign([], newChoice.increases);
+        tempChoice.filter = Object.assign([], newChoice.filter);
+        tempChoice.id = level.number +"-Skill-"+ tempChoice.source +"-"+ existingChoices.length;
+        let newId: number = level.skillChoices.push(Object.assign([], tempChoice));
         return level.skillChoices[newId-1];
     }
     get_SkillChoice(sourceId: string) {
@@ -79,8 +82,10 @@ export class Character {
     }
     add_LoreChoice(level: Level, newChoice: LoreChoice) {
         let existingChoices = level.loreChoices.filter(choice => choice.source == newChoice.source);
-        newChoice.id = level.number +"-Lore-"+ newChoice.source +"-"+ existingChoices.length;
-        let newId: number = level.loreChoices.push(newChoice);
+        let tempChoice = Object.assign({}, newChoice)
+        tempChoice.increases = Object.assign([], newChoice.increases);
+        tempChoice.id = level.number +"-Lore-"+ tempChoice.source +"-"+ existingChoices.length;
+        let newId: number = level.loreChoices.push(tempChoice);
         return level.loreChoices[newId-1];
     }
     get_LoreChoice(sourceId: string) {
@@ -90,6 +95,10 @@ export class Character {
     add_FeatChoice(level: Level, newChoice: FeatChoice) {
         let existingChoices = level.featChoices.filter(choice => choice.source == newChoice.source);
         newChoice.id = level.number +"-Feat-"+ newChoice.source +"-"+ existingChoices.length;
+        //convert things like "level.number / 2"
+        if (newChoice.level) {
+            newChoice.level = eval(newChoice.level).toString();
+        }
         let newId: number = level.featChoices.push(newChoice);
         return level.featChoices[newId-1];
     }
@@ -134,6 +143,7 @@ export class Character {
             if (level == 1 && choice.source == "Skilled Heritage") {
                 let newChoice = this.add_SkillChoice(characterService.get_Level(5), {
                     available:0,
+                    filter:[],
                     increases:[],
                     type:"Skill",
                     maxRank:8,
@@ -193,11 +203,20 @@ export class Character {
         this.set_Changed(characterService);
     }
     remove_Lore(characterService: CharacterService, source: LoreChoice) {
+        //Remove the original Lore training
+        characterService.get_Character().increase_Skill(characterService, 'Lore: '+source.loreName, false, source, true);
+        //Go through all levels and remove skill increases for this lore from their respective sources
+        //Also remove all Skill Choices that were added for this lore (as happens with the Additional Lore Feat).
+        this.class.levels.forEach(level => {
+            level.skillChoices.forEach(choice => {
+                choice.increases = choice.increases.filter(increase => increase.name != 'Lore: '+source.loreName);
+            })
+            level.skillChoices = level.skillChoices.filter(choice => choice.filter.filter(filter => filter == 'Lore: '+source.loreName).length == 0);
+        });
         let loreSkills: Skill[] = [];
         let loreFeats: Feat[] = [];
         loreSkills.push(...characterService.get_Character().customSkills.filter(skill => skill.name == 'Lore: '+source.loreName));
         loreFeats.push(...characterService.get_Character().customFeats.filter(feat => feat.showon == 'Lore: '+source.loreName));
-
         if (loreSkills.length) {
             loreSkills.forEach(loreSkill => {
                 characterService.remove_CustomSkill(loreSkill);
@@ -208,19 +227,17 @@ export class Character {
                 characterService.remove_CustomFeat(loreFeat);
             })
         }
-        //Remove the original Lore training
-        characterService.get_Character().increase_Skill(characterService, 'Lore: '+source.loreName, false, source, true);
-        //Go through all levels and remove skill increases for this lore from their respective sources
-        this.class.levels.forEach(level => {
-            level.skillChoices.forEach(choice => {
-                choice.increases = choice.increases.filter(increase => increase.name != 'Lore: '+source.loreName);
-            })
-        });
         characterService.set_Changed();
     }
     add_Lore(characterService: CharacterService, source: LoreChoice) {
         characterService.add_CustomSkill('Lore: '+source.loreName, "Skill", "Intelligence");
         characterService.get_Character().increase_Skill(characterService, 'Lore: '+source.loreName, true, source, true)
+        //The Additional Lore feat grants a skill increase on Levels 3, 7 and 15 that can only be applied to this lore.
+        if (source.source == "Feat: Additional Lore") {
+            this.add_SkillChoice(characterService.get_Level(3), {available:1, increases:[], filter:['Lore: '+source.loreName], type:"Skill", maxRank:8, source:"Feat: Additional Lore", id:""})
+            this.add_SkillChoice(characterService.get_Level(7), {available:1, increases:[], filter:['Lore: '+source.loreName], type:"Skill", maxRank:8, source:"Feat: Additional Lore", id:""})
+            //this.add_SkillChoice(characterService.get_Level(15), {available:1, increases:[], filter:['Lore: '+source.loreName], type:"Skill", maxRank:8, source:"Feat: Additional Lore", id:""})
+        }
         characterService.get_Feats().filter(feat => feat.lorebase).forEach(lorebaseFeat =>{
             let newLength = characterService.add_CustomFeat(lorebaseFeat);
             let newFeat = characterService.get_Character().customFeats[newLength -1];

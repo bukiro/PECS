@@ -1,9 +1,8 @@
-import { AbilitiesService } from './abilities.service';
-import { EffectsService } from './effects.service';
 import { CharacterService } from './character.service';
 import { Skill } from './Skill';
-import { FeatsService } from './feats.service';
 import { Ability } from './Ability';
+import { FeatChoice } from './FeatChoice';
+import { SkillChoice } from './SkillChoice';
 
 export class Feat {
     public name: string = "";
@@ -27,20 +26,13 @@ export class Feat {
     public increase: string = "";
     public effects: string[] = [];
     public specialEffects: string[] = [];
-    public gainAncestryFeat: number = 0;
-    public gainGeneralFeat: number = 0;
-    public gainClassFeat: number = 0;
-    public gainSkillTraining: number = 0;
+    public gainFeatChoice: FeatChoice[] = [];
+    public gainSkillChoice: SkillChoice[] = [];
     public gainLore: true;
     canChoose(characterService: CharacterService, charLevel: number = characterService.get_Character().level) {
     //This function evaluates ALL the possible requirements for taking a feat
     //Returns true only if all the requirements are true. If the feat doesn't have a requirement, it is always true.
         if (characterService.still_loading()) { return false }
-        //First of all, never list "lorebase" feats - these are templates and never used directly
-        //Copies are made in in the character's loreFeats individually for every unique lore, and these may show up on this list
-        if (this.hide) {
-            return false;
-        }
         //If the feat has a levelreq, check if the level beats that.
         let levelreq: boolean = (this.levelreq) ? (charLevel >= this.levelreq) : true;
         //If the feat has an abilityreq, split it into the ability and the requirement (they come in objects {ability, value}), then check if that ability's baseValue() meets the requirement.
@@ -87,8 +79,9 @@ export class Feat {
             }
         } else {featreq = true;}
         //If the feat has a specialreq, it comes as a string that contains a condition. Evaluate the condition to find out if the requirement is met.
-        //These special requirements are often broken as soon as the feat is taken. So we allow the feat if it has already been taken.
-        let specialreq = (this.specialreq) ? (eval(this.specialreq)) || this.have(characterService) : true;
+        //When writing the condition, take care that it only uses variables known in this method,
+        //and that it remains true even after you take the feat (or it will be automatically removed.)
+        let specialreq = (this.specialreq) ? (eval(this.specialreq)) : true;
         //Return true if all are true
         return levelreq && abilityreq && skillreq && featreq && specialreq;
     }

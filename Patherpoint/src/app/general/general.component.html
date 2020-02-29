@@ -13,6 +13,12 @@
                 <cite *ngFor="let trait of get_Character().class.ancestry.traits">{{trait}}&nbsp;</cite>
             </div>
         </div>
+        <div class="list-item" *ngIf="get_Character().class.ancestry.name">
+            <strong>Available Ancestry Feats:</strong>
+            <div class="row" *ngIf="get_Character().class.ancestry.ancestries.length">
+                <cite *ngFor="let trait of get_Character().class.ancestry.ancestries">{{trait}}&nbsp;</cite>
+            </div>
+        </div>
         <div class="list-item" *ngIf="get_Character().class.background.name">
             <strong>Background:</strong>
             {{get_Character().class.background.name}}

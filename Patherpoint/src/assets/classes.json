@@ -2,6 +2,7 @@
     {
         "name":"Monk",
         "hitPoints":10,
+        "customSkills": [{ "name":"Monk class DC", "type":"Class DC" }],
         "levels":[
             {
                 "number":0
@@ -13,6 +14,7 @@
                         "available":1,
                         "feats":[],
                         "filter":[],
+                        "level":"",
                         "type":"Ancestry",
                         "source":"Class",
                         "id":"1-Feat-Class-0"
@@ -21,6 +23,7 @@
                         "available":1,
                         "feats":[],
                         "filter":[],
+                        "level":"",
                         "type":"Class",
                         "source":"Class",
                         "id":"1-Feat-Class-1"
@@ -43,6 +46,7 @@
                             { "name":"Unarmored", "source":"Class", "locked":true, "sourceId":"1-Skill-Class-0" },
                             { "name":"Monk class DC", "source":"Class", "locked":true, "sourceId":"1-Skill-Class-0" }
                         ],
+                        "filter":[],
                         "type":"",
                         "maxRank":2,
                         "source":"Class",
@@ -51,6 +55,7 @@
                     {
                         "available":4,
                         "increases":[],
+                        "filter":[],
                         "type":"Skill",
                         "maxRank":2,
                         "source":"Class",
@@ -83,6 +88,7 @@
                         "available":1,
                         "feats":[],
                         "filter":[],
+                        "level":"",
                         "type":"Class",
                         "source":"Class",
                         "id":"2-Feat-Class-0"
@@ -91,6 +97,7 @@
                         "available":1,
                         "feats":[],
                         "filter":[],
+                        "level":"",
                         "type":"Skill",
                         "source":"Class",
                         "id":"2-Feat-Class-1"
@@ -104,6 +111,7 @@
                         "available":1,
                         "feats":[],
                         "filter":[],
+                        "level":"",
                         "type":"General",
                         "source":"Class",
                         "id":"3-Feat-Class-0"
@@ -113,6 +121,7 @@
                     {
                         "available":1,
                         "increases":[],
+                        "filter":[],
                         "type":"Skill",
                         "maxRank":4,
                         "source":"Class",
@@ -127,6 +136,7 @@
                         "available":1,
                         "feats":[],
                         "filter":[],
+                        "level":"",
                         "type":"Class",
                         "source":"Class",
                         "id":"4-Feat-Class-0"
@@ -135,6 +145,7 @@
                         "available":1,
                         "feats":[],
                         "filter":[],
+                        "level":"",
                         "type":"Skill",
                         "source":"Class",
                         "id":"4-Feat-Class-1"
@@ -148,6 +159,7 @@
                         "available":1,
                         "feats":[],
                         "filter":[],
+                        "level":"",
                         "type":"Ancestry",
                         "source":"Class",
                         "id":"5-Feat-Class-0"
@@ -157,6 +169,7 @@
                     {
                         "available":1,
                         "increases":[],
+                        "filter":[],
                         "type":"Skill",
                         "maxRank":4,
                         "source":"Class",
@@ -181,6 +194,7 @@
                         "available":1,
                         "feats":[],
                         "filter":[],
+                        "level":"",
                         "type":"Class",
                         "source":"Class",
                         "id":"6-Feat-Class-0"
@@ -189,6 +203,7 @@
                         "available":1,
                         "feats":[],
                         "filter":[],
+                        "level":"",
                         "type":"Skill",
                         "source":"Class",
                         "id":"6-Feat-Class-1"
@@ -202,6 +217,7 @@
                         "available":1,
                         "feats":[],
                         "filter":[],
+                        "level":"",
                         "type":"General",
                         "source":"Class",
                         "id":"7-Feat-Class-0"
@@ -211,6 +227,7 @@
                     {
                         "available":1,
                         "increases":[],
+                        "filter":[],
                         "type":"Skill",
                         "maxRank":6,
                         "source":"Class",

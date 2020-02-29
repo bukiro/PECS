@@ -206,7 +206,7 @@
                                     (!skill.isLegal(this.characterService, level.number, choice.maxRank) && skillIncreasedByThis(skill, choice))) ? 'problem' : ''">
                                 <input id="{{choice.id+skill.name}}" type="checkbox"
                                     (change)="on_SkillIncrease(skill.name, $event.target.checked, choice, false)"
-                                    [checked]="get_SkillIncreases(level.number, level.number, skill.name).length"
+                                    [checked]="skillIncreasedByThis(skill, choice)"
                                     [disabled]="cannotIncrease(skill, level, choice).length && !skillIncreasedByThis(skill, choice)">
                                 <label for="{{choice.id+skill.name}}">
                                     <strong>{{skill.name}}:</strong>
@@ -237,12 +237,12 @@
                             <div class="list-item">
                                 <input id="{{choice.id+'LoreIncreaseBox'}}" type="checkbox"
                                     (change)="on_LoreChange($event.target.checked, choice)"
-                                    [checked]="get_SkillIncreases(level.number, level.number, 'Lore: '+choice.loreName, choice.source, choice.sourceId).length"
-                                    [disabled]="choice.loreName == ''">
+                                    [checked]="get_SkillIncreases(level.number, level.number, 'Lore: '+choice.loreName, choice.source, choice.id).length"
+                                    [disabled]="choice.loreName == ''||get_Skills('Lore: '+choice.loreName).length && !get_SkillIncreases(level.number, level.number, 'Lore: '+choice.loreName, choice.source, choice.id).length">
                                 <label for="{{choice.id+'LoreIncreaseBox'}}">
                                     <strong>Lore:
                                         <input type="text" [(ngModel)]="choice.loreName"
-                                            [disabled]="get_SkillIncreases(level.number, level.number, 'Lore: '+choice.loreName, choice.source).length"
+                                            [disabled]="get_SkillIncreases(level.number, level.number, 'Lore: '+choice.loreName, choice.source, choice.id).length"
                                             (ngModelChange)=this.characterService.set_Changed()>
                                     </strong>
                                     <span>&nbsp;{{choice.loreDesc}}</span>
@@ -258,7 +258,7 @@
                         <button class="row button"
                             [className]="(choice.available == choice.feats.length) ? 'fancy-button' : ''"
                             (click)="toggle_List(choice.source+choice.id)">
-                            {{choice.type}} Feats
+                            {{(choice.level) ? "Level "+choice.level+" " : ""}}{{choice.type}} Feats
                             ({{choice.source}}){{(choice.available > 1) ?
                                 ": "+ choice.feats.length +"/"+ choice.available : 
                                 (choice.feats.length) ? ": "+ choice.feats[0].name : ""}}
@@ -292,16 +292,7 @@
                                         [disabled]="cannotTake(subfeat, choice).length && !featTakenByThis(subfeat, choice)">
                                     <label for="{{choice.id+subfeat.name}}">
                                         <strong>{{subfeat.subType}}&nbsp;</strong>
-                                        <span *ngIf="subfeat.levelreq != feat.levelreq ||
-                                        JSON.stringify(subfeat.abilityreq) != JSON.stringify(feat.abilityreq) ||
-                                        JSON.stringify(subfeat.skillreq) != JSON.stringify(feat.skillreq) ||
-                                        subfeat.featreq != feat.featreq ||
-                                        subfeat.specialreqdesc != feat.specialreqdesc">requires&nbsp;</span>
-                                        <span *ngIf="subfeat.levelreq && subfeat.levelreq != feat.levelreq">Level {{subfeat.levelreq}}</span>
-                                        <span *ngIf="JSON.stringify(subfeat.abilityreq) != JSON.stringify(feat.abilityreq)"><span *ngFor="let req of subfeat.abilityreq">, {{req.ability}} {{req.value}}</span></span>
-                                        <span *ngIf="JSON.stringify(subfeat.skillreq) != JSON.stringify(feat.skillreq)"><span *ngFor="let req of subfeat.skillreq">, {{req.skill}} {{prof(req.value)}}</span></span>
-                                        <span *ngIf="subfeat.featreq && subfeat.featreq != feat.featreq">, {{subfeat.featreq}}</span>
-                                        <span *ngIf="subfeat.specialreqdesc && subfeat.specialreqdesc != feat.specialreqdesc">, {{subfeat.specialreqdesc}}</span>
+                                        <span >{{print_FeatRequirements(subfeat, feat)}}</span>
                                         <cite style="color:darkred" *ngFor="let reason of cannotTake(subfeat, choice)">
                                             {{reason}}&nbsp;
                                         </cite>
@@ -312,11 +303,7 @@
                                         {{trait}}&nbsp;
                                     </cite>
                                     <div class="row"><strong>Requirements:</strong>&nbsp;
-                                        <span *ngIf="feat.levelreq">Level {{feat.levelreq}}</span>
-                                        <span *ngFor="let req of feat.abilityreq">, {{req.ability}} {{req.value}}</span>
-                                        <span *ngFor="let req of feat.skillreq">, {{req.skill}} {{prof(req.value)}}</span>
-                                        <span *ngIf="feat.featreq">, {{feat.featreq}}</span>
-                                        <span *ngIf="feat.specialreqdesc">, {{feat.specialreqdesc}}</span>
+                                        <span >{{print_FeatRequirements(feat)}}</span>
                                     </div>
                                     <div class="row">
                                         <p *ngFor="let desc of feat.desc.split('\n')">{{desc}}</p>

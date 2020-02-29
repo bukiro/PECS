@@ -7,16 +7,16 @@ import { ItemsService } from './items.service';
 import { Item } from './Item';
 import { SkillChoice } from './SkillChoice';
 import { LoreChoice } from './LoreChoice';
+import { Skill } from './Skill';
 
 export class Class {
-    constructor (
-        public name: string = "",
-        public levels: Level[] = [],
-        public ancestry: Ancestry = new Ancestry(),
-        public heritage: Heritage = new Heritage(),
-        public background: Background = new Background(),
-        public hitPoints: number = 0
-    ) { }
+    public name: string = "";
+    public levels: Level[] = [];
+    public ancestry: Ancestry = new Ancestry();
+    public heritage: Heritage = new Heritage();
+    public background: Background = new Background();
+    public hitPoints: number = 0;
+    public customSkills: Skill[] = [];
     on_ChangeAncestry(characterService: CharacterService) {
         if (this.ancestry.name) {
             this.levels[1].abilityChoices = this.levels[1].abilityChoices.filter(availableBoost => availableBoost.source != "Ancestry")
@@ -28,6 +28,11 @@ export class Class {
                     }
                 });
             }
+            this.levels.forEach(level => {
+                level.featChoices.filter(choice => choice.feats.filter(feat => feat.name.indexOf("Adopted Ancestry") > -1).forEach(feat => {
+                    characterService.get_Character().take_Feat(characterService, feat.name, false, choice, feat.locked)
+                }));
+            });
         }
     }
     on_NewAncestry(characterService: CharacterService, itemsService: ItemsService) {
