@@ -267,6 +267,21 @@
     background-color: lightcoral;
   }
 
+  span.problem {
+    color: darkred;
+    background-color: inherit;
+  }
+
+  .unavailable, .lower.unavailable {
+    background-color:#CCCCCC;
+  }
+  
+  .lower span {
+    font-size: 90%;
+    margin-top: auto;
+    margin-bottom: auto;
+  }
+
   input.penalty {
     background-color:lightcoral;
     color:black;

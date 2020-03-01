@@ -1,4 +1,4 @@
-import { Component, OnInit, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy, ChangeDetectorRef, ɵNOT_FOUND_CHECK_ONLY_ELEMENT_INJECTOR } from '@angular/core';
 import { CharacterService } from '../character.service';
 import { ClassesService } from '../classes.service';
 import { Class } from '../Class';
@@ -308,16 +308,25 @@ export class CharacterComponent implements OnInit {
         return this.featsService.get_Feats(this.get_Character().customFeats, name, type);
     }
 
-    get_SubFeats(feat: Feat, choice: FeatChoice) {
+    get_SubFeats(feat: Feat, choice: FeatChoice, get_unavailable: boolean = false) {
         if (feat.subTypes) {
             let feats = this.get_Feats().filter(subfeat => subfeat.superType == feat.name && !subfeat.hide);
-            let availableSubfeats = feats.filter(feat => 
-                (this.cannotTake(feat, choice).length == 0 && choice.feats.length < choice.available) || this.featTakenByThis(feat, choice)
-            )
-            let unavailableSubfeats = feats.filter(feat => 
-                (this.cannotTake(feat, choice).length > 0 && choice.feats.length < choice.available)
-            )
-            return this.sortByPipe.transform(availableSubfeats, "asc", "name").concat(this.sortByPipe.transform(unavailableSubfeats, "asc", "name"));
+            if (get_unavailable && choice.feats.length < choice.available) {
+                let unavailableSubfeats = feats.filter(feat => 
+                    this.cannotTake(feat, choice).length > 0
+                )
+                return this.sortByPipe.transform(unavailableSubfeats, "asc", "name");
+            } else if (!get_unavailable &&choice.feats.length < choice.available) {
+                let availableSubfeats = feats.filter(feat => 
+                    this.cannotTake(feat, choice).length == 0 || this.featTakenByThis(feat, choice)
+                )
+                return this.sortByPipe.transform(availableSubfeats, "asc", "name");
+            } else if (!get_unavailable) {
+                let availableSubfeats = feats.filter(feat => 
+                    this.featTakenByThis(feat, choice)
+                )
+                return this.sortByPipe.transform(availableSubfeats, "asc", "name");
+            }
         } else {
             return [];
         }
@@ -345,14 +354,19 @@ export class CharacterComponent implements OnInit {
                 break;
         }
         if (feats.length) {
-            if (get_unavailable) {
+            if (get_unavailable && choice.feats.length < choice.available) {
                 let unavailableFeats: Feat[] = feats.filter(feat => 
-                    (this.cannotTake(feat, choice).length > 0 && choice.feats.length < choice.available)
+                    (this.cannotTake(feat, choice).length > 0)
                 )
                 return this.sortByPipe.transform(unavailableFeats, "asc", "name")
-            } else {
+            } else if (!get_unavailable && choice.feats.length < choice.available) {
                 let availableFeats: Feat[] = feats.filter(feat => 
-                    (this.cannotTake(feat, choice).length == 0 && choice.feats.length < choice.available) || this.featTakenByThis(feat, choice) || this.subFeatTakenByThis(feat, choice)
+                    this.cannotTake(feat, choice).length == 0 || this.featTakenByThis(feat, choice) || this.subFeatTakenByThis(feat, choice)
+                )
+                return this.sortByPipe.transform(availableFeats, "asc", "name")
+            } else if (!get_unavailable) {
+                let availableFeats: Feat[] = feats.filter(feat => 
+                    this.featTakenByThis(feat, choice) || this.subFeatTakenByThis(feat, choice)
                 )
                 return this.sortByPipe.transform(availableFeats, "asc", "name")
             }
@@ -431,9 +445,15 @@ export class CharacterComponent implements OnInit {
         return this.get_Character().get_FeatsTaken(minLevelNumber, maxLevelNumber, featName, source, sourceId, locked);
     }
 
-    print_FeatRequirements(feat: Feat, compare: Feat = undefined) {
-        let pre: string = "";
-        let result: string = "";
+    get_FeatRequirements(choice: FeatChoice, feat: Feat, compare: Feat = undefined) {
+        let levelNumber = parseInt(choice.id.split("-")[0]);
+        let featLevel = 0;
+        if (choice.level) {
+            featLevel = parseInt(choice.level);
+        } else {
+            featLevel = levelNumber;
+        }
+        let result: Array<{met?:boolean, desc?:string}> = [];
         if (compare) {
             if (feat.levelreq != compare.levelreq ||
                 JSON.stringify(feat.abilityreq) != JSON.stringify(compare.abilityreq) ||
@@ -441,58 +461,59 @@ export class CharacterComponent implements OnInit {
                 feat.featreq != compare.featreq ||
                 feat.specialreqdesc != compare.specialreqdesc
                 ) {
-                pre += "requires "
+                result.push({met:true, desc:"requires "});
                 if (feat.levelreq && feat.levelreq != compare.levelreq) {
-                    result += "Level "+feat.levelreq;
+                    result.push(feat.meetsLevelReq(this.characterService, featLevel));
                 }
                 if (JSON.stringify(feat.abilityreq) != JSON.stringify(compare.abilityreq)) {
-                    feat.abilityreq.forEach(req => {
-                        result += ", "+req.ability+" "+req.value;
-                    });
+                    result.push({met:true, desc:", "});
+                    result.push(...feat.meetsAbilityReq(this.characterService, featLevel));
                 }
                 if (JSON.stringify(feat.skillreq) != JSON.stringify(compare.skillreq)) {
-                    feat.skillreq.forEach((req,index) => {
-                        if (index == 0) {
-                            result += ", "
-                        } else {
-                            result += " or "
-                        }
-                        result += req.skill+" "+this.prof(req.value);
-                    });
+                    result.push({met:true, desc:", "});
+                    result.push(...feat.meetsSkillReq(this.characterService, featLevel));
                 }
+
                 if (feat.featreq && feat.featreq != compare.featreq) {
-                    result += ", "+feat.featreq;
+                    result.push({met:true, desc:", "});
+                    result.push(feat.meetsFeatReq(this.characterService, featLevel));
                 }
+                
                 if (feat.specialreqdesc && feat.specialreqdesc != compare.specialreqdesc) {
-                    result += ", "+feat.specialreqdesc
+                    result.push({met:true, desc:", "});                    
+                    result.push(feat.meetsSpecialReq(this.characterService, featLevel));
                 }
             }
         } else {
             if (feat.levelreq) {
-                result += "Level "+feat.levelreq;
+                result.push(feat.meetsLevelReq(this.characterService, featLevel));
             }
-            feat.abilityreq.forEach(req => {
-                result += ", "+req.ability+" "+req.value;
-            });
-            feat.skillreq.forEach((req,index) => {
-                if (index == 0) {
-                    result += ", "
-                } else {
-                    result += " or "
-                }
-                result += req.skill+" "+this.prof(req.value);
-            });
+            if (feat.abilityreq.length) {
+                result.push({met:true, desc:", "});
+                result.push(...feat.meetsAbilityReq(this.characterService, featLevel));
+            }
+            if (feat.skillreq.length) {
+                result.push({met:true, desc:", "});
+                result.push(...feat.meetsSkillReq(this.characterService, featLevel));
+            }
             if (feat.featreq) {
-                result += ", "+feat.featreq;
+                result.push({met:true, desc:", "});
+                result.push(feat.meetsFeatReq(this.characterService, featLevel));
             }
             if (feat.specialreqdesc) {
-                result += ", "+feat.specialreqdesc
+                result.push({met:true, desc:", "});
+                result.push(feat.meetsSpecialReq(this.characterService, featLevel));
             }
         }
-        if (result[0] == ",") {
-            result = result.substr(2);
+        if (result.length > 1) {
+            if (result[0].desc == ", ") {
+                result.shift();
+            }
+            if (result[0].desc == "requires " && result[1].desc == ", ") {
+                result.splice(1,1);
+            }
         }
-        return pre + result;
+        return result;
     }
 
     on_FeatTaken(featName: string, taken: boolean, choice: FeatChoice, locked: boolean) {

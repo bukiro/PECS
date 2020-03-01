@@ -151,14 +151,14 @@ export class CharacterService {
             advancedWeapons.forEach(weapon => {
                 advancedWeaponFeats.forEach(feat => {
                     if (this.me.customFeats.filter(customFeat => customFeat.name == feat.name.replace('Advanced Weapon', weapon.name)).length == 0) {
-                        let regex = /Advanced Weapon/gi;
                         let newLength = this.add_CustomFeat(feat);
                         let newFeat = this.get_Character().customFeats[newLength -1];
-                        newFeat.name = newFeat.name.replace(regex, weapon.name);
-                        newFeat.specialreqdesc = newFeat.specialreqdesc.replace(regex, weapon.name);
-                        newFeat.specialreq = newFeat.specialreq.replace(regex, weapon.name);
-                        newFeat.increase = newFeat.increase.replace(regex, weapon.name);
+                        newFeat.name = newFeat.name.replace("Advanced Weapon", weapon.name);
                         newFeat.hide = false;
+                        newFeat.subType = newFeat.subType.replace("Advanced Weapon", weapon.name);
+                        newFeat.desc = newFeat.subType.replace("Advanced Weapon", weapon.name);
+                        newFeat.specialreqdesc = newFeat.specialreqdesc.replace("Advanced Weapon", weapon.name);
+                        newFeat.increase = newFeat.increase.replace("Advanced Weapon", weapon.name);
                     }
                 })
             })
