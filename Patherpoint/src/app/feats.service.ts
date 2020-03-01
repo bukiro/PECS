@@ -46,39 +46,16 @@ export class FeatsService {
                     //Add a new Skill Choice and immediately increase the required skill
                     let newSkillChoice = character.add_SkillChoice(level, {available:0, filter:[], increases:[], type:"Any", maxRank:2, source:'Feat: '+featName, id:""});
                     character.increase_Skill(characterService, feat.increase, true, newSkillChoice, true);
-                    //If a feat trains you in a skill you don't already know, it's usually a weapon proficiency or a class DC.
-                    //We have to create that skill here then
-                    if (characterService.get_Skills(feat.increase).length == 0 ) {
-                        if (feat.increase.indexOf("class DC") > -1) {
-                            switch (feat.increase) {
-                                case "Alchemist class DC": 
-                                    characterService.add_CustomSkill(feat.increase, "Class DC", "Intelligence");
-                                    break;
-                                case "Barbarian class DC": 
-                                    characterService.add_CustomSkill(feat.increase, "Class DC", "Strength");
-                                    break;
-                                case "Bard class DC": 
-                                    characterService.add_CustomSkill(feat.increase, "Class DC", "Charisma");
-                                    break;
-                                case "Bard class DC": 
-                                    characterService.add_CustomSkill(feat.increase, "Class DC", "Dexterity");
-                                    break;
-                                default: 
-                                    characterService.add_CustomSkill(feat.increase, "Class DC", feat.subType);
-                                    break;
-                            }
-                        } else {
-                            characterService.add_CustomSkill(feat.increase, "Specific Weapon Proficiency", "");
-                        }
-                        
-                    }
                 } else {
                     //Remove associated Skill Choice
-                    let a = level.skillChoices;
-                    a.splice(a.indexOf(a.filter(choice => choice.source == 'Feat: '+featName)[0]), 1)
-                    //Remove custom skill if previously created
-                    let b = character.customSkills;
-                    b.splice(b.indexOf(b.filter(skill => skill.name == feat.increase)[0]), 1)
+                    let oldSkillChoices = level.skillChoices.filter(choice => choice.source == 'Feat: '+featName);
+                    if (oldSkillChoices.length) {
+                        //First remove all Skill Increases from the Skill Choice
+                        oldSkillChoices[0].increases.forEach(increase => {
+                            character.increase_Skill(characterService, increase.name, false, oldSkillChoices[0], increase.locked)
+                        });
+                        character.remove_SkillChoice(oldSkillChoices[0], level)
+                    }
                 }
             }
 
@@ -133,6 +110,19 @@ export class FeatsService {
                 } else {
                     let a = character.class.ancestry.ancestries;
                     a.splice(a.indexOf(feat.subType), 1);
+                }
+            }
+
+            //Adopted Ancestry
+            if (feat.name=="Bargain Hunter") {
+                if (taken) {
+                    if (level.number == 1) {
+                        character.cash[1] += 2;
+                    };
+                } else {
+                    if (level.number == 1) {
+                        character.cash[1] -= 2;
+                    };
                 }
             }
         }

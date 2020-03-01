@@ -3,6 +3,8 @@ import { Skill } from './Skill';
 import { Ability } from './Ability';
 import { FeatChoice } from './FeatChoice';
 import { SkillChoice } from './SkillChoice';
+import { SpellChoice } from './SpellChoice';
+import { FormulaChoice } from 'src/FormulaChoice';
 
 export class Feat {
     public name: string = "";
@@ -28,6 +30,8 @@ export class Feat {
     public specialEffects: string[] = [];
     public gainFeatChoice: FeatChoice[] = [];
     public gainSkillChoice: SkillChoice[] = [];
+    public gainSpellChoice: SpellChoice[] = [];
+    public gainFormulaChoice: FormulaChoice[] = [];
     public gainLore: true;
     canChoose(characterService: CharacterService, charLevel: number = characterService.get_Character().level) {
     //This function evaluates ALL the possible requirements for taking a feat

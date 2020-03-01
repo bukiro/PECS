@@ -1,6 +1,7 @@
 import { AbilitiesService } from './abilities.service';
 import { CharacterService } from './character.service';
 import { EffectsService } from './effects.service';
+import { ProficiencyFormComponent } from './proficiency-form/proficiency-form.component';
 
 export class Skill {
     public notes: string = "";
@@ -52,29 +53,41 @@ export class Skill {
     //Calculates the effective bonus of the given Skill
     //$scope.Level, $scope.Abilities, $scope.feat_db and $scope.getEffects(skill) must be passed
         if (characterService.still_loading()) { return 0; }
+        let explain: string = "";
         //Add character level if the character is trained or better with the Skill
         //Add half the level if the skill is unlearned and the character has the Untrained Improvisation feat (full level from 7 on).
         //Gets applied to saves and perception, but they are never untrained
         let skillLevel = this.level(characterService, charLevel);
+        if (skillLevel) {
+            explain += "\nProficiency: "+skillLevel;
+        }
         var charLevelBonus = 0;
         if (skillLevel > 0) {
             charLevelBonus = charLevel;
+            explain += "\nCharacter Level: "+charLevelBonus;
         } else if (characterService.get_Feats("Untrained Improvisation")[0].have(characterService)) {
             if (charLevel >= 7) {
                 charLevelBonus = charLevel;
             } else {
                 charLevelBonus = Math.floor(charLevel/2);
             }
+            explain += "\nCharacter Level (Untrained Improvisation): "+charLevelBonus;
         }
         //Add the Ability modifier identified by the skill's ability property
         var abilityMod = 0;
         if (this.ability) {
             abilityMod = abilitiesService.get_Abilities(this.ability)[0].mod(characterService, effectsService);
+            if (abilityMod) {
+                explain += "\n"+this.ability+" Modifier: "+abilityMod;
+            }
         } else {
             if (this.name == characterService.get_Character().class.name+" class DC") {
                 let keyAbilities = characterService.get_Character().get_AbilityBoosts(1,1,"","","Class Key Ability");
                 if (keyAbilities.length) {
                     abilityMod = abilitiesService.get_Abilities(keyAbilities[0].name)[0].mod(characterService, effectsService);
+                    if (abilityMod) {
+                        explain += "\n"+keyAbilities[0].name+" Modifier: "+abilityMod;
+                    }
                 }
             }
         }
@@ -83,8 +96,10 @@ export class Skill {
         let effectsSum = 0;
         effects.forEach(effect => {
             effectsSum += parseInt(effect.value);
+            explain += "\n"+effect.source+": "+parseInt(effect.value);
         });
+        explain = explain.substr(1);
         //Add up all modifiers, the skill proficiency and all active effects and return the sum
-        return charLevelBonus + skillLevel + abilityMod + effectsSum;
+        return [charLevelBonus + skillLevel + abilityMod + effectsSum, explain];
     }
 }

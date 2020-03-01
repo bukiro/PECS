@@ -42,7 +42,7 @@
                     <strong>{{(speed.name=="Speed") ? "All Speeds" : speed.name}}</strong>
                 </div>
                 <div>
-                    Value: <input class="number" [className]="(speed.penalty(effectsService).length) ? 'penalty' : (speed.bonus(effectsService).length) ? 'bonus' : ''" type="number" value="{{speed.value(characterService, effectsService)}}" disabled>
+                    Value: <input class="number" title="{{speed.value(characterService, effectsService)[1]}}" [className]="(speed.penalty(effectsService).length) ? 'penalty' : (speed.bonus(effectsService).length) ? 'bonus' : ''" type="number" value="{{speed.value(characterService, effectsService)[0]}}" disabled>
                 </div>
                 <div class="row" *ngIf="get_TraitsForThis(speed.name).length">
                 <cite *ngFor="let trait of get_TraitsForThis(speed.name)" title="{{trait.description}}">{{trait.name}} ({{trait.haveOn(this.characterService, true)}})&nbsp;</cite>
@@ -54,6 +54,9 @@
                     <cite *ngFor="let feat of get_FeatsShowingOn(speed.name)" [title]="feat.desc">{{feat.name}}&nbsp;</cite>
                 </div>
             </div>
+        </div>
+        <div class="row" *ngIf="get_FeatsShowingOn('Movement').length">
+            <cite *ngFor="let feat of get_FeatsShowingOn('Movement')" [title]="feat.desc">{{feat.name}}&nbsp;</cite>
         </div>
     </div>
 </div>

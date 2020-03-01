@@ -16,7 +16,6 @@ export class AttacksComponent implements OnInit {
 
     constructor(
         private changeDetector: ChangeDetectorRef,
-        private abilitiesService: AbilitiesService,
         private traitsService: TraitsService,
         public characterService: CharacterService,
         public effectsService: EffectsService

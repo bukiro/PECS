@@ -37,17 +37,35 @@ export class Armor implements Item {
     armorBonus(characterService: CharacterService, effectsService: EffectsService) {
     //Calculates the full AC bonus when wearing this armor
     //We assume that only one armor is worn at a time
+        let explain: string = "AC Basis: 10";
         let charLevel = characterService.get_Character().level;
         let dex = characterService.get_Abilities("Dexterity")[0].mod(characterService, effectsService);
         //Get the profiency with either this armor or its category
         let skillLevel = this.level(characterService);
+        if (skillLevel) {
+            explain += "\nProficiency: "+skillLevel;
+        }
         //Add character level if the character is trained or better with either the armor category or the armor itself
         let charLevelBonus = ((skillLevel > 0) ? charLevel: 0);
+        if (charLevelBonus) {
+            explain += "\nCharacter Level: "+charLevelBonus;
+        }
         //Add the dexterity modifier up to the armor's dex cap, unless there is no cap
-        var dexBonus = (this.dexcap > -1) ? Math.min(dex, (this.dexcap)) : dex;
+        let dexBonus = (this.dexcap > -1) ? Math.min(dex, (this.dexcap)) : dex;
+        if (dexBonus) {
+            if (this.dexcap < dex) {
+                explain += "\nDexterity Modifier (capped): "+dexBonus;
+            } else {
+                explain += "\nDexterity Modifier: "+dexBonus;
+            }
+        }
         //Add up all modifiers and return the AC gained from this armor
         //Also adding any item bonus
-        var defenseResult = 10 + charLevelBonus + skillLevel + this.itembonus + dexBonus;
-        return defenseResult;
+        let defenseResult: number = 10 + charLevelBonus + skillLevel + this.itembonus + dexBonus;
+        if (this.itembonus) {
+            explain += "\nArmor Bonus: "+this.itembonus;
+        }
+        let endresult: [number, string] = [defenseResult, explain]
+        return endresult;
     }
 }

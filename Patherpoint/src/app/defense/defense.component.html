@@ -1,12 +1,12 @@
 <div id="defense" class="attributeBox">
-    <h3>Defense: {{get_EffectiveAC()}}</h3>
+    <h3 title="{{get_EffectiveAC()[1]}}">Defense: {{get_EffectiveAC()[0]}}</h3>
     <div class="loading" *ngIf="still_loading()">Loading</div>
     <div *ngIf="!still_loading()">
         <div class="row" *ngIf="get_AC().effects(this.effectsService).length">
             <cite *ngFor="let effect of get_AC().effects(this.effectsService)" [className]="effect.penalty ? 'penalty' : 'bonus'">{{effect.value}} ({{effect.source}})&nbsp;</cite>
         </div>
         <div class="list-item" *ngFor="let armor of get_EquippedArmor()">
-            <div>{{armor.name}} AC: <input type="number" class="number" [ngModel]="get_ArmorBonus(armor)" disabled></div>
+            <div>{{armor.name}} AC: <input type="number" class="number" title="{{get_ArmorBonus(armor)[1]}}" [ngModel]="get_ArmorBonus(armor)[0]" disabled></div>
             <div class="row" *ngIf="armor.traits.length">
                 <cite *ngFor="let trait of armor.traits" title="{{get_Traits(trait)[0].description}}">&nbsp;{{trait}}</cite>
             </div>

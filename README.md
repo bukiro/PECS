@@ -8,7 +8,7 @@ The very latest in Assistive Technologies for Dungeon Master (ATDM)
 - [x] We are using TypeScript now
 - [x] Recreate everything in Angular
 - [x] We are using Angular now
-- [ ] Learn a language
+- [x] Learn a language
 - [x] Get SSH key working in VSC >:|
 - [ ] Fill character sheet
 - [x] - Abilities
@@ -21,6 +21,9 @@ The very latest in Assistive Technologies for Dungeon Master (ATDM)
 - [ ] - So many results of Classes, Ancestries, Heritages, Backgrounds
 - [x] -- Adding skills and lore through Feats and Backgrounds
 - [ ] - Actions granted through class and feats
+- [ ] - Implement all General and Skill Feats
+- [ ] - Implement all Ancestry Feats
+- [ ] - Implement one full Class with Feats and Features
 - [x] - Feat requirements
 - [x] - Equipment (weapons, armor, shields) -> Abilities, Armor, Attacks, Skills
 - [ ] - More equipment (worn magic items etc.) and effects

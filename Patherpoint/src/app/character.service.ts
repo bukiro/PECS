@@ -157,6 +157,7 @@ export class CharacterService {
                         newFeat.name = newFeat.name.replace(regex, weapon.name);
                         newFeat.specialreqdesc = newFeat.specialreqdesc.replace(regex, weapon.name);
                         newFeat.specialreq = newFeat.specialreq.replace(regex, weapon.name);
+                        newFeat.increase = newFeat.increase.replace(regex, weapon.name);
                         newFeat.hide = false;
                     }
                 })
@@ -263,7 +264,7 @@ export class CharacterService {
     }
 
     add_CustomFeat(oldFeat: Feat) {
-        let newLength = this.me.customFeats.push(Object.assign(new Feat(), oldFeat));
+        let newLength = this.me.customFeats.push(Object.assign(new Feat(), JSON.parse(JSON.stringify(oldFeat))));
         this.set_Changed();
         return newLength;
     }

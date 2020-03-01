@@ -2,6 +2,21 @@
     <h3>Inventory</h3>
     <div class="loading" *ngIf="still_loading()">Loading</div>
     <div *ngIf="!still_loading()">
+        <h3>Cash</h3>
+        <div class="list-item">
+            <strong>P</strong>
+            <input class="number" type="number"
+                value="{{this.characterService.get_Character().cash[0]}}" disabled>
+            <strong>G</strong>
+            <input class="number" type="number"
+                value="{{this.characterService.get_Character().cash[1]}}" disabled>
+            <strong>S</strong>
+            <input class="number" type="number"
+                value="{{this.characterService.get_Character().cash[2]}}" disabled>
+            <strong>C</strong>
+            <input class="number" type="number"
+                value="{{this.characterService.get_Character().cash[3]}}" disabled>
+        </div> 
         <button class="list-item" (click)="toggleItemsMenu()">Get Items</button>
         <h3>Weapons</h3>
         <div class="list-item" *ngFor="let weapon of get_InventoryItems().weapon">

@@ -53,7 +53,7 @@ export class GeneralComponent implements OnInit {
                 speeds.push(new Speed(effect.target))
             } 
         });
-        return speeds.filter(speed => speed.value(this.characterService, this.effectsService) != 0);
+        return speeds.filter(speed => speed.value(this.characterService, this.effectsService)[0] != 0);
     }
 
     finish_Loading() {

@@ -22,6 +22,7 @@ export class Character {
     public inventory: ItemCollection = new ItemCollection();
     public deity: string = "";
     public speeds: Speed[] = [new Speed("Speed"), new Speed("Land Speed")];
+    public cash: number[] = [0,15,0,0];
     get_Changed(characterService: CharacterService, ) {
         return characterService.get_Changed();
     }
@@ -69,16 +70,17 @@ export class Character {
     }
     add_SkillChoice(level: Level, newChoice: SkillChoice) {
         let existingChoices = level.skillChoices.filter(choice => choice.source == newChoice.source);
-        let tempChoice = Object.assign({}, newChoice)
-        tempChoice.increases = Object.assign([], newChoice.increases);
-        tempChoice.filter = Object.assign([], newChoice.filter);
+        let tempChoice = Object.assign({}, JSON.parse(JSON.stringify(newChoice)))
         tempChoice.id = level.number +"-Skill-"+ tempChoice.source +"-"+ existingChoices.length;
-        let newId: number = level.skillChoices.push(Object.assign([], tempChoice));
-        return level.skillChoices[newId-1];
+        let newIndex: number = level.skillChoices.push(Object.assign([], tempChoice));
+        return level.skillChoices[newIndex-1];
     }
     get_SkillChoice(sourceId: string) {
         let levelNumber = parseInt(sourceId[0]);
         return this.class.levels[levelNumber].skillChoices.filter(choice => choice.id == sourceId)[0];
+    }
+    remove_SkillChoice(oldChoice: SkillChoice, level: Level) {
+        level.skillChoices = level.skillChoices.filter(choice => choice !== oldChoice);
     }
     add_LoreChoice(level: Level, newChoice: LoreChoice) {
         let existingChoices = level.loreChoices.filter(choice => choice.source == newChoice.source);
@@ -94,13 +96,14 @@ export class Character {
     }
     add_FeatChoice(level: Level, newChoice: FeatChoice) {
         let existingChoices = level.featChoices.filter(choice => choice.source == newChoice.source);
-        newChoice.id = level.number +"-Feat-"+ newChoice.source +"-"+ existingChoices.length;
-        //convert things like "level.number / 2"
-        if (newChoice.level) {
-            newChoice.level = eval(newChoice.level).toString();
+        let tempChoice = Object.assign({}, JSON.parse(JSON.stringify(newChoice)));
+        tempChoice.id = level.number +"-Feat-"+ tempChoice.source +"-"+ existingChoices.length;
+        //eval the level string to convert things like "level.number / 2". "1" is still "1".
+        if (tempChoice.level) {
+            tempChoice.level = eval(tempChoice.level).toString();
         }
-        let newId: number = level.featChoices.push(newChoice);
-        return level.featChoices[newId-1];
+        let newIndex: number = level.featChoices.push(tempChoice);
+        return level.featChoices[newIndex-1];
     }
     get_FeatChoice(sourceId: string) {
         let levelNumber = parseInt(sourceId[0]);
@@ -139,7 +142,7 @@ export class Character {
         if (train) {
             choice.increases.push({"name":skillName, "source":choice.source, "locked":locked, "sourceId":choice.id});
             //The skill that you increase with Skilled Heritage at level 1 automatically gets increased at level 5 as well.
-            let level = parseInt(choice.id[0]);
+            let level = parseInt(choice.id.split("-")[0]);
             if (level == 1 && choice.source == "Skilled Heritage") {
                 let newChoice = this.add_SkillChoice(characterService.get_Level(5), {
                     available:0,
@@ -152,6 +155,55 @@ export class Character {
                 });
                 this.increase_Skill(characterService, skillName, true, newChoice, true);
             }
+            //The skill/save that you increase with Canny Acumen automatically gets increased at level 17 as well.
+            if (choice.source.indexOf("Feat: Canny Acumen") > -1) {
+                //First check if this has already been done: Is there a Skill Choice at level 17 with this source and this type?
+                //We are naming the type "Automatic" - it doesn't matter because it's a locked choice,
+                //but it allows us to distinguish this increase from the original if you take Canny Acumen at level 17
+                let existingChoices = characterService.get_Level(17).skillChoices.filter(skillChoice =>
+                    skillChoice.source == choice.source && skillChoice.type == "Automatic"
+                    );
+                //If there isn't one, go ahead and create one, then immediately increase this skill in it.
+                if (existingChoices.length == 0) {
+                    let newChoice = this.add_SkillChoice(characterService.get_Level(17), {
+                        available:0,
+                        filter:[],
+                        increases:[],
+                        type:"Automatic",
+                        maxRank:6,
+                        source:choice.source,
+                        id:""
+                    });
+                    this.increase_Skill(characterService, skillName, true, newChoice, true);
+                }
+            }
+            //If you are getting trained in a skill you don't already know, it's usually a weapon proficiency or a class DC.
+            //We have to create that skill here then
+            if (characterService.get_Skills(skillName).length == 0) {
+                if (skillName.indexOf("class DC") > -1) {
+                    switch (skillName) {
+                        case "Alchemist class DC": 
+                            characterService.add_CustomSkill(skillName, "Class DC", "Intelligence");
+                            break;
+                        case "Barbarian class DC": 
+                            characterService.add_CustomSkill(skillName, "Class DC", "Strength");
+                            break;
+                        case "Bard class DC": 
+                            characterService.add_CustomSkill(skillName, "Class DC", "Charisma");
+                            break;
+                        case "Bard class DC": 
+                            characterService.add_CustomSkill(skillName, "Class DC", "Dexterity");
+                            break;
+                        default: 
+                            //The Ability is the subtype of the taken feat.
+                            //The taken feat is found in the source as "Feat: [name]", so we remove the "Feat: " part with substr to find it and its subType.
+                            characterService.add_CustomSkill(skillName, "Class DC", characterService.get_Feats(choice.source.substr(6))[0].subType);
+                            break;
+                    }
+                } else {
+                    characterService.add_CustomSkill(skillName, "Specific Weapon Proficiency", "");
+                }
+            }
         } else {
             let oldIncrease = choice.increases.filter(
                 increase => increase.name == skillName &&
@@ -161,9 +213,21 @@ export class Character {
                 )[0];
             choice.increases = choice.increases.filter(increase => increase !== oldIncrease);
             //If you are deselecting a skill that you increased with Skilled Heritage at level 1, you also lose the skill increase at level 5.
-            let level = parseInt(choice.id[0]);
+            let level = parseInt(choice.id.split("-")[0]);
             if (level == 1 && choice.source == "Skilled Heritage") {
                 characterService.get_Level(5).skillChoices = characterService.get_Level(5).skillChoices.filter(choice => choice.source != "Skilled Heritage");
+            }
+            //If you are deselecting Canny Acumen, you also lose the skill increase at level 17.
+            if (choice.source.indexOf("Feat: Canny Acumen") > -1) {
+                let oldChoices = characterService.get_Level(17).skillChoices.filter(skillChoice => skillChoice.source == choice.source);
+                if (oldChoices.length) {
+                    this.remove_SkillChoice(oldChoices[0], characterService.get_Level(17));
+                }
+            }
+            //Remove custom skill if previously created and this was the last increase of it
+            let customSkills = characterService.get_Character().customSkills.filter(skill => skill.name == skillName);
+            if (customSkills.length && this.get_SkillIncreases(1, 20, skillName).length == 0) {
+                characterService.remove_CustomSkill(customSkills[0]);
             }
         }
         this.set_Changed(characterService);
@@ -188,7 +252,7 @@ export class Character {
         }
     }
     take_Feat(characterService: CharacterService, featName: string, taken: boolean, choice: FeatChoice, locked: boolean) {
-        let level: Level = characterService.get_Level(parseInt(choice.id[0]));
+        let level: Level = characterService.get_Level(parseInt(choice.id.split("-")[0]));
         if (taken) {
             choice.feats.push({"name":featName, "source":choice.source, "locked":locked, "sourceId":choice.id});
             characterService.process_Feat(featName, level, taken);
@@ -242,12 +306,14 @@ export class Character {
             let newLength = characterService.add_CustomFeat(lorebaseFeat);
             let newFeat = characterService.get_Character().customFeats[newLength -1];
             newFeat.name = newFeat.name.replace('Lore', 'Lore: '+source.loreName);
+            newFeat.subType = newFeat.subType.replace('Lore', 'Lore: '+source.loreName);
             newFeat.skillreq.forEach(requirement => {
                 requirement.skill = requirement.skill.replace('Lore', 'Lore: '+source.loreName);
             })
             newFeat.showon = newFeat.showon.replace('Lore', 'Lore: '+source.loreName);
             newFeat.featreq = newFeat.featreq.replace('Lore', 'Lore: '+source.loreName);
             newFeat.lorebase = false;
+            newFeat.hide = false;
         })
         characterService.set_Changed();
     }

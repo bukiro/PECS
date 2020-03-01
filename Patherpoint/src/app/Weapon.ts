@@ -45,25 +45,43 @@ export class Weapon implements Item {
     }
     get_Attack(characterService: CharacterService, effectsService: EffectsService, traitsService: TraitsService, range: string) {
     //Calculates the attack bonus for a melee or ranged attack with this weapon.
+        let explain: string = "";
         let charLevel = characterService.get_Character().level;
         let str  = characterService.get_Abilities("Strength")[0].mod(characterService, effectsService);
         let dex = characterService.get_Abilities("Dexterity")[0].mod(characterService, effectsService);
         let skillLevel = this.level(characterService);
+        if (skillLevel) {
+            explain += "\nProficiency: "+skillLevel;
+        }
         //Add character level if the character is trained or better with either the weapon category or the weapon itself
         let charLevelBonus = ((skillLevel > 0) ? charLevel : 0);
+        if (charLevelBonus) {
+            explain += "\nCharacter Level: "+charLevelBonus;
+        }
         //Check if the weapon has any traits that affect its Ability bonus to attack, such as Finesse or Brutal, and run those calculations.
         let traitMod = traitsService.get_specialModifier(this, "attack", str, dex);
         //If the previous step has resulted in a value, use that as the Ability bonus. If not, and the attack is ranged, use Dexterity, otherwise Strength
         let abilityMod = (traitMod) ? (traitMod) : (range == "ranged") ? dex : str;
+        if (traitMod) {
+            explain += "\nAbility Modifier: "+traitMod;
+        } else {
+            if (range == "ranged" && dex) {
+                explain += "\nAbility Modifier: "+dex;
+            } else if (range == "melee" && str) {
+                explain += "\nAbility Modifier: "+str;
+            }
+        }
         //Add up all modifiers and return the attack bonus for this attack
         let attackResult = charLevelBonus + skillLevel + this.itembonus + abilityMod;
-        return attackResult;
+        explain = explain.substr(1);
+        return [attackResult, explain];
     }
     get_Damage(characterService: CharacterService, effectsService: EffectsService, traitsService: TraitsService, range: string) {
     //Lists the damage dice and damage bonuses for a ranged or melee attack with this weapon.
     //Returns a string in the form of "1d6 +5"
     //Will get more complicated when runes are implemented
-        let abilityDmg = "";
+        let explain: string = "";
+        let abilityDmg: string = "";
         let str = characterService.get_Abilities("Strength")[0].mod(characterService, effectsService);
         //Get the basic "1d6" from the weapon's dice values
         var baseDice = this.dicenum + "d" + this.dicesize;
@@ -72,11 +90,18 @@ export class Weapon implements Item {
         //If the previous step has resulted in a value, use that as the Ability bonus to damage, otherwise use Strength for Melee attacks.
         //Ranged attacks don't get a damage bonus from Abilities without Traits.
         let abilityMod = (traitMod) ? (traitMod) : (range == "melee") && str;
+        if (traitMod) {
+            explain += "\nAbility Modifier: "+traitMod;
+        } else {
+            if (range == "melee" && str) {
+                explain += "\nAbility Modifier: "+str;
+            }
+        }
         //Make a nice "+5" string from the Ability bonus if there is one, or else make it empty
         abilityDmg = (abilityMod) ? ((abilityMod >= 0) && "+") + abilityMod : "";
         //Concatenate the strings for a readable damage die
         var dmgResult = baseDice + abilityDmg;
-        return dmgResult;
+        explain = explain.substr(1);
+        return [dmgResult, explain];
     }
-
 }

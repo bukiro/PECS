@@ -107,7 +107,7 @@ export class CharacterComponent implements OnInit {
         if (choice.filter.length) {
             //If there is a filter, we need to find out if any of the filtered Abilities can actually be boosted.
             let cannotBoost = 0;
-            if (choice.id[0] == "1") {
+            if (choice.id.split("-")[0] == "1") {
                 choice.filter.forEach(filter => {
                     if (this.cannotBoost(this.get_Abilities(filter)[0], this.get_Level(1), choice).length) {
                         cannotBoost += 1;
@@ -130,7 +130,7 @@ export class CharacterComponent implements OnInit {
     someAbilitiesIllegal(choice: AbilityChoice) {
         let anytrue = 0;
         choice.boosts.forEach(boost => {
-            if (this.abilityIllegal(parseInt(choice.id[0]), this.get_Abilities(boost.name)[0])) {
+            if (this.abilityIllegal(parseInt(choice.id.split("-")[0]), this.get_Abilities(boost.name)[0])) {
                 if (!boost.locked) {
                     this.get_Character().boost_Ability(this.characterService, boost.name, false, choice, boost.locked);
                     this.characterService.set_Changed();
@@ -180,7 +180,7 @@ export class CharacterComponent implements OnInit {
         }
 
     abilityBoostedByThis(ability: Ability, choice: AbilityChoice) {
-            let levelNumber = parseInt(choice.id[0]);
+            let levelNumber = parseInt(choice.id.split("-")[0]);
             return this.get_AbilityBoosts(levelNumber, levelNumber, ability.name, "Boost", choice.source, choice.id).length > 0;
         }
 
@@ -212,7 +212,7 @@ export class CharacterComponent implements OnInit {
 
     get_SkillINTBonus(choice: SkillChoice|LoreChoice) {
         //At class level 1, allow INT more skills
-        let levelNumber = parseInt(choice.id[0]);
+        let levelNumber = parseInt(choice.id.split("-")[0]);
         let INT: number = 0;
         if (choice.source == "Class" && levelNumber == 1) {
             let intelligence: number = this.get_Abilities("Intelligence")[0].baseValue(this.characterService, levelNumber);
@@ -236,7 +236,7 @@ export class CharacterComponent implements OnInit {
     someIllegal(choice: SkillChoice) {
         let anytrue = 0;
         choice.increases.forEach(increase => {
-            if (!this.get_Skills(increase.name)[0].isLegal(this.characterService, parseInt(choice.id[0]), choice.maxRank)) {
+            if (!this.get_Skills(increase.name)[0].isLegal(this.characterService, parseInt(choice.id.split("-")[0]), choice.maxRank)) {
                 if (!increase.locked) {
                     this.get_Character().increase_Skill(this.characterService, increase.name, false, choice, increase.locked);
                     this.characterService.set_Changed();
@@ -282,7 +282,7 @@ export class CharacterComponent implements OnInit {
     }
 
     skillIncreasedByThis(skill: Skill, choice: SkillChoice|LoreChoice) {
-        let levelNumber = parseInt(choice.id[0]);
+        let levelNumber = parseInt(choice.id.split("-")[0]);
         return this.get_SkillIncreases(levelNumber, levelNumber, skill.name, choice.source, choice.id).length > 0;
     }
 
@@ -310,11 +310,14 @@ export class CharacterComponent implements OnInit {
 
     get_SubFeats(feat: Feat, choice: FeatChoice) {
         if (feat.subTypes) {
-            let feats = this.get_Feats().filter(subfeat => subfeat.superType == feat.name);
-            let subfeats = feats.filter(feat =>
-                (choice.feats.length < choice.available) || this.featTakenByThis(feat, choice)
-                )
-            return this.sortByPipe.transform(subfeats, "asc", "name");
+            let feats = this.get_Feats().filter(subfeat => subfeat.superType == feat.name && !subfeat.hide);
+            let availableSubfeats = feats.filter(feat => 
+                (this.cannotTake(feat, choice).length == 0 && choice.feats.length < choice.available) || this.featTakenByThis(feat, choice)
+            )
+            let unavailableSubfeats = feats.filter(feat => 
+                (this.cannotTake(feat, choice).length > 0 && choice.feats.length < choice.available)
+            )
+            return this.sortByPipe.transform(availableSubfeats, "asc", "name").concat(this.sortByPipe.transform(unavailableSubfeats, "asc", "name"));
         } else {
             return [];
         }
@@ -346,12 +349,12 @@ export class CharacterComponent implements OnInit {
                 let unavailableFeats: Feat[] = feats.filter(feat => 
                     (this.cannotTake(feat, choice).length > 0 && choice.feats.length < choice.available)
                 )
-                return this.sortByPipe.transform(unavailableFeats, "asc", "name");
+                return this.sortByPipe.transform(unavailableFeats, "asc", "name")
             } else {
                 let availableFeats: Feat[] = feats.filter(feat => 
                     (this.cannotTake(feat, choice).length == 0 && choice.feats.length < choice.available) || this.featTakenByThis(feat, choice) || this.subFeatTakenByThis(feat, choice)
                 )
-               return this.sortByPipe.transform(availableFeats, "asc", "name");
+                return this.sortByPipe.transform(availableFeats, "asc", "name")
             }
         }
     }
@@ -372,7 +375,7 @@ export class CharacterComponent implements OnInit {
     }
 
     cannotTake(feat: Feat, choice: FeatChoice) {
-        let levelNumber = parseInt(choice.id[0]);
+        let levelNumber = parseInt(choice.id.split("-")[0]);
         let featLevel = 0;
         if (choice.level) {
             featLevel = parseInt(choice.level);
@@ -399,16 +402,26 @@ export class CharacterComponent implements OnInit {
                 reasons.push("This feat has been taken on a higher level.");
             }
         }
+        //If this feat has any subtypes, check if any of them can be taken. If not, this cannot be taken either.
+        if (feat.subTypes) {
+            let subfeats = this.get_Feats().filter(subfeat => subfeat.superType == feat.name && !subfeat.hide);
+            let availableSubfeats = subfeats.filter(feat => 
+                this.cannotTake(feat, choice).length == 0 || this.featTakenByThis(feat, choice)
+            );
+            if (availableSubfeats.length == 0) {
+                reasons.push("No option has its requirements met.")
+            }
+        }
         return reasons;
     }
 
     featTakenByThis(feat: Feat, choice: FeatChoice) {
-        let levelNumber = parseInt(choice.id[0]);
+        let levelNumber = parseInt(choice.id.split("-")[0]);
         return this.get_FeatsTaken(levelNumber, levelNumber, feat.name, choice.source, choice.id).length > 0;
     }
 
     subFeatTakenByThis(feat: Feat, choice: FeatChoice) {
-        let levelNumber = parseInt(choice.id[0]);
+        let levelNumber = parseInt(choice.id.split("-")[0]);
         return this.get_FeatsTaken(levelNumber, levelNumber, "", choice.source, choice.id).filter(
             takenfeat => this.get_Feats(takenfeat.name)[0].superType == feat.name
             ).length > 0;
