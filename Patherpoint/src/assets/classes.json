@@ -11,6 +11,15 @@
                 "number":1,
                 "featChoices":[
                     {
+                        "available":0,
+                        "feats":[{"name":"Powerful Fist", "source":"Monk", "locked":true, "sourceId":"1-Feature-Monk-0"}],
+                        "filter":[],
+                        "level":"",
+                        "type":"Feature",
+                        "source":"Monk",
+                        "id":"1-Feature-Monk-0"
+                    },
+                    {
                         "available":1,
                         "feats":[],
                         "filter":[],
@@ -33,18 +42,18 @@
                     {
                         "available":0,
                         "increases":[
-                            { "name":"Fortitude", "source":"Class", "locked":true, "sourceId":"1-Skill-Class-0" },
-                            { "name":"Fortitude", "source":"Class", "locked":true, "sourceId":"1-Skill-Class-0" },
-                            { "name":"Reflex", "source":"Class", "locked":true, "sourceId":"1-Skill-Class-0" },
-                            { "name":"Reflex", "source":"Class", "locked":true, "sourceId":"1-Skill-Class-0" },
-                            { "name":"Will", "source":"Class", "locked":true, "sourceId":"1-Skill-Class-0" },
-                            { "name":"Will", "source":"Class", "locked":true, "sourceId":"1-Skill-Class-0" },
-                            { "name":"Perception", "source":"Class", "locked":true, "sourceId":"1-Skill-Class-0" },
-                            { "name":"Simple Weapons", "source":"Class", "locked":true, "sourceId":"1-Skill-Class-0" },
-                            { "name":"Unarmed", "source":"Class", "locked":true, "sourceId":"1-Skill-Class-0" },
-                            { "name":"Unarmored", "source":"Class", "locked":true, "sourceId":"1-Skill-Class-0" },
-                            { "name":"Unarmored", "source":"Class", "locked":true, "sourceId":"1-Skill-Class-0" },
-                            { "name":"Monk class DC", "source":"Class", "locked":true, "sourceId":"1-Skill-Class-0" }
+                            { "name":"Fortitude", "source":"Class", "maxRank":2, "locked":true, "sourceId":"1-Skill-Class-0" },
+                            { "name":"Fortitude", "source":"Class", "maxRank":4, "locked":true, "sourceId":"1-Skill-Class-0" },
+                            { "name":"Reflex", "source":"Class", "maxRank":2, "locked":true, "sourceId":"1-Skill-Class-0" },
+                            { "name":"Reflex", "source":"Class", "maxRank":4, "locked":true, "sourceId":"1-Skill-Class-0" },
+                            { "name":"Will", "source":"Class", "maxRank":2, "locked":true, "sourceId":"1-Skill-Class-0" },
+                            { "name":"Will", "source":"Class", "maxRank":4, "locked":true, "sourceId":"1-Skill-Class-0" },
+                            { "name":"Perception", "source":"Class", "maxRank":2, "locked":true, "sourceId":"1-Skill-Class-0" },
+                            { "name":"Simple Weapons", "source":"Class", "maxRank":2, "locked":true, "sourceId":"1-Skill-Class-0" },
+                            { "name":"Unarmed", "source":"Class", "maxRank":2, "locked":true, "sourceId":"1-Skill-Class-0" },
+                            { "name":"Unarmored", "source":"Class", "maxRank":2, "locked":true, "sourceId":"1-Skill-Class-0" },
+                            { "name":"Unarmored", "source":"Class", "maxRank":4, "locked":true, "sourceId":"1-Skill-Class-0" },
+                            { "name":"Monk class DC", "source":"Class", "maxRank":2, "locked":true, "sourceId":"1-Skill-Class-0" }
                         ],
                         "filter":[],
                         "type":"",
@@ -108,6 +117,18 @@
                 "number":3,
                 "featChoices":[
                     {
+                        "available":0,
+                        "feats":[
+                            {"name":"Incredible Movement", "source":"Monk", "locked":true, "sourceId":"3-Feature-Monk-0"},
+                            {"name":"Mystic Strikes", "source":"Monk", "locked":true, "sourceId":"3-Feature-Monk-0"}
+                        ],
+                        "filter":[],
+                        "level":"",
+                        "type":"Feature",
+                        "source":"Monk",
+                        "id":"3-Feature-Monk-0"
+                    },
+                    {
                         "available":1,
                         "feats":[],
                         "filter":[],
@@ -163,9 +184,42 @@
                         "type":"Ancestry",
                         "source":"Class",
                         "id":"5-Feat-Class-0"
+                    },
+                    {
+                        "available":0,
+                        "feats":[
+                            {"name":"Alertness", "source":"Monk", "locked":true, "sourceId":"5-Feature-Monk-0"},
+                            {"name":"Expert Strikes", "source":"Monk", "locked":true, "sourceId":"5-Feature-Monk-0"}
+                        ],
+                        "filter":[],
+                        "level":"",
+                        "type":"Feature",
+                        "source":"Monk",
+                        "id":"5-Feature-Monk-0"
                     }
                 ],
                 "skillChoices":[
+                    {
+                        "available":0,
+                        "increases":[{"name":"Perception", "source":"Alertness", "maxRank":4, "locked":true, "sourceId":"5-Perception-Alertness-0"}],
+                        "filter":[],
+                        "type":"Perception",
+                        "maxRank":4,
+                        "source":"Alertness",
+                        "id":"5-Perception-Alertness-0"
+                    },
+                    {
+                        "available":0,
+                        "increases":[
+                            {"name":"Unarmed", "source":"Expert Strikes", "maxRank":4, "locked":true, "sourceId":"5-Weapon Proficiency-Expert Strikes-0"},
+                            {"name":"Simple Weapons", "source":"Expert Strikes", "maxRank":4, "locked":true, "sourceId":"5-Weapon Proficiency-Expert Strikes-0"}
+                        ],
+                        "filter":[],
+                        "type":"Weapon Proficiency",
+                        "maxRank":4,
+                        "source":"Expert Strikes",
+                        "id":"5-Weapon Proficiency-Expert Strikes-0"
+                    },
                     {
                         "available":1,
                         "increases":[],
@@ -214,6 +268,18 @@
                 "number":7,
                 "featChoices":[
                     {
+                        "available":0,
+                        "feats":[
+                            {"name":"Path to Perfection", "source":"Monk", "locked":true, "sourceId":"7-Feature-Monk-0"},
+                            {"name":"Weapon Specialization", "source":"Monk", "locked":true, "sourceId":"7-Feature-Monk-0"}
+                        ],
+                        "filter":[],
+                        "level":"",
+                        "type":"Feature",
+                        "source":"Monk",
+                        "id":"7-Feature-Monk-0"
+                    },
+                    {
                         "available":1,
                         "feats":[],
                         "filter":[],
@@ -224,6 +290,15 @@
                     }
                 ],
                 "skillChoices":[
+                    {
+                        "available":1,
+                        "increases":[],
+                        "filter":[],
+                        "type":"Save",
+                        "maxRank":6,
+                        "source":"Path to Perfection",
+                        "id":"7-Save-Path to Perfection-0"
+                    },
                     {
                         "available":1,
                         "increases":[],
@@ -262,6 +337,18 @@
                 "number":9,
                 "featChoices":[
                     {
+                        "available":0,
+                        "feats":[
+                            {"name":"Metal Strikes", "source":"Monk", "locked":true, "sourceId":"9-Feature-Monk-0"},
+                            {"name":"Monk Expertise", "source":"Monk", "locked":true, "sourceId":"9-Feature-Monk-0"}
+                        ],
+                        "filter":[],
+                        "level":"",
+                        "type":"Feature",
+                        "source":"Monk",
+                        "id":"9-Feature-Monk-0"
+                    },
+                    {
                         "available":1,
                         "feats":[],
                         "filter":[],
@@ -272,6 +359,28 @@
                     }
                 ],
                 "skillChoices":[
+                    {
+                        "available":0,
+                        "increases":[
+                            {"name":"Monk class DC", "source":"Monk Expertise", "maxRank":4, "locked":true, "sourceId":"9-Class DC-Monk Expertise-0"}
+                        ],
+                        "filter":[],
+                        "type":"Class DC",
+                        "maxRank":4,
+                        "source":"Monk Expertise",
+                        "id":"9-Class DC-Monk Expertise-0"
+                    },
+                    {
+                        "available":0,
+                        "increases":[
+                            {"name":"Monk spell DC", "source":"Monk Expertise", "maxRank":4, "locked":true, "sourceId":"9-Spell DC-Monk Expertise-1"}
+                        ],
+                        "filter":[],
+                        "type":"Spell DC",
+                        "maxRank":4,
+                        "source":"Monk Expertise",
+                        "id":"9-Spell DC-Monk Expertise-1"
+                    },
                     {
                         "available":1,
                         "increases":[],
@@ -320,6 +429,17 @@
                 "number":11,
                 "featChoices":[
                     {
+                        "available":0,
+                        "feats":[
+                            {"name":"Second Path to Perfection", "source":"Monk", "locked":true, "sourceId":"11-Feature-Monk-0"}
+                        ],
+                        "filter":[],
+                        "level":"",
+                        "type":"Feature",
+                        "source":"Monk",
+                        "id":"11-Feature-Monk-0"
+                    },
+                    {
                         "available":1,
                         "feats":[],
                         "filter":[],
@@ -330,6 +450,15 @@
                     }
                 ],
                 "skillChoices":[
+                    {
+                        "available":1,
+                        "increases":[],
+                        "filter":[],
+                        "type":"Save",
+                        "maxRank":8,
+                        "source":"Second Path to Perfection",
+                        "id":"11-Save-Second Path to Perfection-0"
+                    },
                     {
                         "available":1,
                         "increases":[],
@@ -368,6 +497,18 @@
                 "number":13,
                 "featChoices":[
                     {
+                        "available":0,
+                        "feats":[
+                            {"name":"Graceful Mastery", "source":"Monk", "locked":true, "sourceId":"13-Feature-Monk-0"},
+                            {"name":"Master Strikes", "source":"Monk", "locked":true, "sourceId":"13-Feature-Monk-0"}
+                        ],
+                        "filter":[],
+                        "level":"",
+                        "type":"Feature",
+                        "source":"Monk",
+                        "id":"13-Feature-Monk-0"
+                    },
+                    {
                         "available":1,
                         "feats":[],
                         "filter":[],
@@ -378,6 +519,29 @@
                     }
                 ],
                 "skillChoices":[
+                    {
+                        "available":0,
+                        "increases":[
+                            {"name":"Unarmored", "source":"Graceful Mastery", "maxRank":6, "locked":true, "sourceId":"13-Armor Proficiency-Graceful Mastery-0"}
+                        ],
+                        "filter":[],
+                        "type":"Armor Proficiency",
+                        "maxRank":6,
+                        "source":"Graceful Mastery",
+                        "id":"13-Armor Proficiency-Graceful Mastery-0"
+                    },
+                    {
+                        "available":0,
+                        "increases":[
+                            {"name":"Unarmed", "source":"Master Strikes", "maxRank":6, "locked":true, "sourceId":"13-Weapon Proficiency-Master Strikes-0"},
+                            {"name":"Simple Weapons", "source":"Master Strikes", "maxRank":6, "locked":true, "sourceId":"13-Weapon Proficiency-Master Strikes-0"}
+                        ],
+                        "filter":[],
+                        "type":"Weapon Proficiency",
+                        "maxRank":6,
+                        "source":"Master Strikes",
+                        "id":"13-Weapon Proficiency-Master Strikes-0"
+                    },
                     {
                         "available":1,
                         "increases":[],
@@ -416,6 +580,18 @@
                 "number":15,
                 "featChoices":[
                     {
+                        "available":0,
+                        "feats":[
+                            {"name":"Greater Weapon Specialization", "source":"Monk", "locked":true, "sourceId":"15-Feature-Monk-0"},
+                            {"name":"Third Path to Perfection", "source":"Monk", "locked":true, "sourceId":"15-Feature-Monk-0"}
+                        ],
+                        "filter":[],
+                        "level":"",
+                        "type":"Feature",
+                        "source":"Monk",
+                        "id":"15-Feature-Monk-0"
+                    },
+                    {
                         "available":1,
                         "feats":[],
                         "filter":[],
@@ -426,6 +602,15 @@
                     }
                 ],
                 "skillChoices":[
+                    {
+                        "available":1,
+                        "increases":[],
+                        "filter":["none"],
+                        "type":"Save",
+                        "maxRank":8,
+                        "source":"Third Path to Perfection",
+                        "id":"15-Save-Third Path to Perfection-0"
+                    },
                     {
                         "available":1,
                         "increases":[],
@@ -474,6 +659,18 @@
                 "number":17,
                 "featChoices":[
                     {
+                        "available":0,
+                        "feats":[
+                            {"name":"Adamantine Strikes", "source":"Monk", "locked":true, "sourceId":"17-Feature-Monk-0"},
+                            {"name":"Graceful Legend", "source":"Monk", "locked":true, "sourceId":"17-Feature-Monk-0"}
+                        ],
+                        "filter":[],
+                        "level":"",
+                        "type":"Feature",
+                        "source":"Monk",
+                        "id":"17-Feature-Monk-0"
+                    },
+                    {
                         "available":1,
                         "feats":[],
                         "filter":[],
@@ -484,6 +681,39 @@
                     }
                 ],
                 "skillChoices":[
+                    {
+                        "available":0,
+                        "increases":[
+                            {"name":"Unarmored", "source":"Graceful Legend", "maxRank":8, "locked":true, "sourceId":"17-Armor Proficiency-Graceful Legend-0"}
+                        ],
+                        "filter":[],
+                        "type":"Armor Proficiency",
+                        "maxRank":8,
+                        "source":"Graceful Legend",
+                        "id":"17-Armor Proficiency-Graceful Legend-0"
+                    },
+                    {
+                        "available":0,
+                        "increases":[
+                            {"name":"Monk class DC", "source":"Graceful Legend", "maxRank":6, "locked":true, "sourceId":"17-Class DC-Graceful Legend-0"}
+                        ],
+                        "filter":[],
+                        "type":"Class DC",
+                        "maxRank":6,
+                        "source":"Graceful Legend",
+                        "id":"17-Class DC-Graceful Legend-0"
+                    },
+                    {
+                        "available":0,
+                        "increases":[
+                            {"name":"Monk spell DC", "source":"Graceful Legend", "maxRank":6, "locked":true, "sourceId":"17-Spell DC-Graceful Legend-1"}
+                        ],
+                        "filter":[],
+                        "type":"Spell DC",
+                        "maxRank":6,
+                        "source":"Graceful Legend",
+                        "id":"17-Spell DC-Graceful Legend-1"
+                    },
                     {
                         "available":1,
                         "increases":[],
@@ -521,6 +751,17 @@
             {
                 "number":19,
                 "featChoices":[
+                    {
+                        "available":0,
+                        "feats":[
+                            {"name":"Perfected Form", "source":"Monk", "locked":true, "sourceId":"19-Feature-Monk-0"}
+                        ],
+                        "filter":[],
+                        "level":"",
+                        "type":"Feature",
+                        "source":"Monk",
+                        "id":"19-Feature-Monk-0"
+                    },
                     {
                         "available":1,
                         "feats":[],

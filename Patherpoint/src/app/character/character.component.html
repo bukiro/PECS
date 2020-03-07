@@ -147,7 +147,7 @@
                             {{(skillIncrease.name.indexOf("Lore:") > -1) ? "Lore " : ""}}Skill Training ({{skillIncrease.source}}): {{skillIncrease.name}}
                         </div>
 <!--Fixed Feats-->
-                        <div title="{{get_Feats(feat.name)[0].desc}}" class="list-item" *ngFor="let feat of get_FeatsTaken(level.number, level.number, '', '', '', true)">
+                        <div title="{{get_FeatsAndFeatures(feat.name)[0].desc}}" class="list-item" *ngFor="let feat of get_FeatsTaken(level.number, level.number, '', '', '', true)">
                             Feat ({{feat.source}}): {{feat.name}}
                         </div>
                     </div>

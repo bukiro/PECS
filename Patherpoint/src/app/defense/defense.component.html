@@ -50,9 +50,6 @@
         <h3 *ngIf="!still_loading()">Saving Throws</h3>
         <div *ngFor="let skill of get_Skills('', 'Save')|sortBy:'asc':'name'">
             <app-skill class="list-item" [skill]=skill></app-skill>
-            <div class="row" *ngIf="get_FeatsShowingOn('skill.name').length">
-                <cite *ngFor="let feat of get_FeatsShowingOn('skill.name')" [title]="feat.desc">{{feat.name}}&nbsp;</cite>
-            </div>
         </div>
         <div class="row" *ngIf="get_FeatsShowingOn('Saving Throws').length">
             <cite *ngFor="let feat of get_FeatsShowingOn('Saving Throws')" [title]="feat.desc">{{feat.name}}&nbsp;</cite>

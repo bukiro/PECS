@@ -29,6 +29,12 @@
             {{feat.name}}&nbsp;
         </cite>
     </div>
+    <div class="row" *ngFor="let name of get_specialShowon(skill)">
+        <cite *ngFor="let feat of get_FeatsShowingOn(name)"
+            [title]="feat.desc">
+            {{feat.name}}&nbsp;
+        </cite>
+    </div>
     <div class="row">
         <input type="checkbox" [(ngModel)]="skill.showNotes">Notes
     </div>

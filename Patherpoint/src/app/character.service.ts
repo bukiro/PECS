@@ -158,7 +158,13 @@ export class CharacterService {
                         newFeat.subType = newFeat.subType.replace("Advanced Weapon", weapon.name);
                         newFeat.desc = newFeat.subType.replace("Advanced Weapon", weapon.name);
                         newFeat.specialreqdesc = newFeat.specialreqdesc.replace("Advanced Weapon", weapon.name);
-                        newFeat.increase = newFeat.increase.replace("Advanced Weapon", weapon.name);
+                        newFeat.gainSkillChoice.forEach(choice => {
+                            choice.source = choice.source.replace("Advanced Weapon", weapon.name);
+                            choice.increases.forEach(increase => {
+                                increase.name = increase.name.replace("Advanced Weapon", weapon.name);
+                                increase.source = increase.source.replace("Advanced Weapon", weapon.name);
+                            })
+                        })
                     }
                 })
             })
@@ -285,6 +291,14 @@ export class CharacterService {
     get_Feats(name: string = "", type: string = "") {
         return this.featsService.get_Feats(this.me.customFeats, name, type);
     }
+    
+    get_Features(name: string = "") {
+        return this.featsService.get_Features(name);
+    }
+
+    get_FeatsAndFeatures(name: string = "", type: string = "") {
+        return this.featsService.get_All(this.me.customFeats, name, type);
+    }
 
     get_Health() {
         return this.me.health;
@@ -302,10 +316,12 @@ export class CharacterService {
         let returnedFeats = []
         if (feats.length) {
             feats.forEach(feat => {
-                let returnedFeat = this.get_Feats(feat.name)[0];
-                if (returnedFeat.showon.indexOf(objectName) > -1) {
-                    returnedFeats.push(returnedFeat);
-                }
+                let returnedFeat = this.get_FeatsAndFeatures(feat.name)[0];
+                returnedFeat.showon.split(",").forEach(showon => {
+                    if (showon == objectName || showon.substr(1) == objectName || (objectName == "Lore" && returnedFeat.showon.indexOf(objectName) > -1)) {
+                        returnedFeats.push(returnedFeat);
+                    }
+                })
             });
         }
         return returnedFeats;

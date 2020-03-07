@@ -2,6 +2,7 @@ import { Item } from './Item'
 import { CharacterService } from './character.service';
 import { EffectsService } from './effects.service';
 import { TraitsService } from './traits.service';
+import { Character } from './Character';
 
 export class Weapon implements Item {
     public notes: string = "";
@@ -33,14 +34,17 @@ export class Weapon implements Item {
         let weaponIncreases = characterService.get_Character().get_SkillIncreases(0, charLevel, this.name);
         let profIncreases = characterService.get_Character().get_SkillIncreases(0, charLevel, this.prof);
         //For Monk, Dwarf, Goblin etc. weapons, check if the character has any weapon proficiency that matches a trait of this weapon
-        let traitIncreases: number[] = [];
+        let traitLevels: number[] = [];
         this.traits.forEach(trait => {
-            traitIncreases.push(characterService.get_Character().get_SkillIncreases(0, charLevel, trait).length)
+            let skill = characterService.get_Skills(trait);
+            if (skill.length) {
+                traitLevels.push(skill[0].level(characterService));
+            }
         })
         //Only count the highest of these proficiency (e.g. in case you have Monk weapons +4 and Dwarf weapons +2)
-        let bestTraitIncreases: number = Math.max(...traitIncreases)
+        let bestTraitLevel: number = Math.max(...traitLevels)
         //Add either the weapon category proficiency or the weapon proficiency, whichever is better
-        skillLevel = Math.max(Math.min(weaponIncreases.length * 2, 8),Math.min(profIncreases.length * 2, 8),Math.min(bestTraitIncreases * 2, 8))
+        skillLevel = Math.max(Math.min(weaponIncreases.length * 2, 8),Math.min(profIncreases.length * 2, 8),Math.min(bestTraitLevel, 8))
         return skillLevel;
     }
     get_Attack(characterService: CharacterService, effectsService: EffectsService, traitsService: TraitsService, range: string) {
@@ -81,10 +85,15 @@ export class Weapon implements Item {
     //Returns a string in the form of "1d6 +5"
     //Will get more complicated when runes are implemented
         let explain: string = "";
-        let abilityDmg: string = "";
         let str = characterService.get_Abilities("Strength")[0].mod(characterService, effectsService);
+        //Monks get 1d6 for unarmed attacks instead of 1d4
+        let dicesize = this.dicesize;
+        if ((this.name == "Fist" || this.name == "Handwraps of Mighty Blows") && characterService.get_Features("Powerful Fist")[0].have(characterService)) {
+            dicesize = 6;
+            explain += "\nPowerful Fist: Dice size d6";
+        }
         //Get the basic "1d6" from the weapon's dice values
-        var baseDice = this.dicenum + "d" + this.dicesize;
+        var baseDice = this.dicenum + "d" + dicesize;
         //Check if the Weapon has any traits that affect its damage Bonus, such as Thrown or Propulsive, and run those calculations.
         let traitMod = traitsService.get_specialModifier(this, "dmgBonus", str, 0);
         //If the previous step has resulted in a value, use that as the Ability bonus to damage, otherwise use Strength for Melee attacks.
@@ -97,10 +106,47 @@ export class Weapon implements Item {
                 explain += "\nAbility Modifier: "+str;
             }
         }
+        let featBonus: number = 0;
+        if (characterService.get_Features("Weapon Specialization")[0].have(characterService)) {
+            let greaterWeaponSpecialization = false;
+            if (characterService.get_Features("Greater Weapon Specialization")[0].have(characterService)) {
+                greaterWeaponSpecialization = true;
+            }
+           switch (this.level(characterService)) {
+                case 4:
+                    if (greaterWeaponSpecialization) {
+                        featBonus += 4;
+                        explain += "\nGreater Weapon Specialization: 4";
+                    } else {
+                        featBonus += 2;
+                        explain += "\nWeapon Specialization: 2";
+                    }
+                    break;
+                case 6:
+                    if (greaterWeaponSpecialization) {
+                        featBonus += 6;
+                        explain += "\nGreater Weapon Specialization: 4";
+                    } else {
+                        featBonus += 3;
+                        explain += "\nWeapon Specialization: 2";
+                    }
+                    break;
+                case 8:
+                    if (greaterWeaponSpecialization) {
+                        featBonus += 8;
+                        explain += "\nGreater Weapon Specialization: 4";
+                    } else {
+                        featBonus += 4;
+                        explain += "\nWeapon Specialization: 2";
+                    }
+                    break;
+            }
+        }
+        let dmgBonus: number = abilityMod + featBonus;
         //Make a nice "+5" string from the Ability bonus if there is one, or else make it empty
-        abilityDmg = (abilityMod) ? ((abilityMod >= 0) && "+") + abilityMod : "";
+        let dmgBonusTotal: string = (dmgBonus) ? ((dmgBonus >= 0) && "+") + dmgBonus : "";
         //Concatenate the strings for a readable damage die
-        var dmgResult = baseDice + abilityDmg;
+        var dmgResult = baseDice + dmgBonusTotal;
         explain = explain.substr(1);
         return [dmgResult, explain];
     }

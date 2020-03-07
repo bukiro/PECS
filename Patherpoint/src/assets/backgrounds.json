@@ -36,7 +36,7 @@
             {
                 "available":0,
                 "increases":[
-                    { "name":"Religion", "source":"Background", "locked":true, "sourceId":"1-Skill-Background-0" }
+                    { "name":"Religion", "source":"Background", "maxRank":2, "locked":true, "sourceId":"1-Skill-Background-0" }
                 ],
                 "filter":[],
                 "type":"Skill",
@@ -49,6 +49,7 @@
             {
                 "available":0,
                 "increases":[],
+                "maxRank":2,
                 "loreName":"Scribing",
                 "loreDesc":"",
                 "source":"Background",
@@ -94,7 +95,7 @@
             {
                 "available":0,
                 "increases":[
-                    { "name":"Acrobatics", "source":"Background", "locked":true, "sourceId":"1-Skill-Background-0" }
+                    { "name":"Acrobatics", "source":"Background", "maxRank":2, "locked":true, "sourceId":"1-Skill-Background-0" }
                 ],
                 "filter":[],
                 "type":"Skill",
@@ -107,6 +108,7 @@
             {
                 "available":0,
                 "increases":[],
+                "maxRank":2,
                 "loreName":"Circus",
                 "loreDesc":"",
                 "source":"Background",
@@ -152,7 +154,7 @@
             {
                 "available":0,
                 "increases":[
-                    { "name":"Nature", "source":"Background", "locked":true, "sourceId":"1-Skill-Background-0" }
+                    { "name":"Nature", "source":"Background", "maxRank":2, "locked":true, "sourceId":"1-Skill-Background-0" }
                 ],
                 "filter":[],
                 "type":"Skill",
@@ -165,6 +167,7 @@
             {
                 "available":1,
                 "increases":[],
+                "maxRank":2,
                 "loreName":"",
                 "loreDesc":"A Lore skill related to one terrain inhabited by animals you like",
                 "source":"Background",
@@ -215,7 +218,7 @@
                     {
                         "available":0,
                         "increases":[
-                            { "name":"Acrobatics", "source":"Background", "locked":true, "sourceId":"1-Skill-Background-0" }
+                            { "name":"Acrobatics", "source":"Background", "maxRank":2, "locked":true, "sourceId":"1-Skill-Background-0" }
                         ],
                         "filter":[],
                         "type":"Skill",
@@ -228,6 +231,7 @@
                     {
                         "available":0,
                         "increases":[],
+                        "maxRank":2,
                         "loreName":"Warfare",
                         "loreDesc":"",
                         "source":"Background",
@@ -274,7 +278,7 @@
                     {
                         "available":0,
                         "increases":[
-                            { "name":"Athletics", "source":"Background", "locked":true, "sourceId":"1-Skill-Background-0" }
+                            { "name":"Athletics", "source":"Background", "maxRank":2, "locked":true, "sourceId":"1-Skill-Background-0" }
                         ],
                         "filter":[],
                         "type":"Skill",
@@ -287,6 +291,7 @@
                     {
                         "available":0,
                         "increases":[],
+                        "maxRank":2,
                         "loreName":"Warfare",
                         "loreDesc":"",
                         "source":"Background",

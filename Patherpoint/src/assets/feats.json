@@ -138,7 +138,15 @@
         "specialreqdesc":"Light Armor < T",
         "specialreq":"characterService.get_Skills(this.subType)[0].level(characterService, charLevel) < 2 || (this.have(characterService, charLevel) && characterService.get_Skills(this.subType)[0].level(characterService, charLevel) < 4)",
         "traits":["General"],
-        "increase":"Light Armor"
+        "gainSkillChoice":[{
+            "available":0,
+            "increases":[{"name":"Light Armor", "source":"Feat: Armor Proficiency: Light armor", "maxRank":2, "locked":true, "sourceId":""}],
+            "filter":[],
+            "type":"Armor Proficiency",
+            "maxRank":2,
+            "source":"Feat: Armor Proficiency: Light armor",
+            "id":""
+        }]
     },
     {
         "name":"Armor Proficiency: Medium armor",
@@ -151,7 +159,15 @@
         "specialreqdesc":"Medium Armor < T",
         "specialreq":"characterService.get_Skills(this.subType)[0].level(characterService, charLevel) < 2 || (this.have(characterService, charLevel) && characterService.get_Skills(this.subType)[0].level(characterService, charLevel) < 4)",
         "traits":["General"],
-        "increase":"Medium Armor"
+        "gainSkillChoice":[{
+            "available":0,
+            "increases":[{"name":"Medium Armor", "source":"Feat: Armor Proficiency: Medium armor", "maxRank":2, "locked":true, "sourceId":""}],
+            "filter":[],
+            "type":"Armor Proficiency",
+            "maxRank":2,
+            "source":"Feat: Armor Proficiency: Medium armor",
+            "id":""
+        }]
     },
     {
         "name":"Armor Proficiency: Heavy armor",
@@ -164,7 +180,15 @@
         "specialreqdesc":"Heavy Armor < T",
         "specialreq":"characterService.get_Skills(this.subType)[0].level(characterService, charLevel) < 2 || (this.have(characterService, charLevel) && characterService.get_Skills(this.subType)[0].level(characterService, charLevel) < 4)",
         "traits":["General"],
-        "increase":"Heavy Armor"
+        "gainSkillChoice":[{
+            "available":0,
+            "increases":[{"name":"Heavy Armor", "source":"Feat: Armor Proficiency: Heavy armor", "maxRank":2, "locked":true, "sourceId":""}],
+            "filter":[],
+            "type":"Armor Proficiency",
+            "maxRank":2,
+            "source":"Feat: Armor Proficiency: Heavy armor",
+            "id":""
+        }]
     },
     {
         "name":"Assurance",
@@ -554,7 +578,15 @@
         "specialreqdesc":"Perception < E",
         "specialreq":"characterService.get_Skills(this.subType)[0].level(characterService, charLevel) < 4 || (this.have(characterService, charLevel) && characterService.get_Skills(this.subType)[0].level(characterService, charLevel) < 6)",
         "traits":["General"],
-        "increase":"Perception"
+        "gainSkillChoice":[{
+            "available":0,
+            "increases":[{"name":"Perception", "source":"Feat: Canny Acumen: Perception", "maxRank":4, "locked":true, "sourceId":""}],
+            "filter":[],
+            "type":"Perception",
+            "maxRank":4,
+            "source":"Feat: Canny Acumen: Perception",
+            "id":""
+        }]
     },
     {
         "name":"Canny Acumen: Fortitude",
@@ -566,7 +598,15 @@
         "specialreqdesc":"Fortitude < E",
         "specialreq":"characterService.get_Skills(this.subType)[0].level(characterService, charLevel) < 4 || (this.have(characterService, charLevel) && characterService.get_Skills(this.subType)[0].level(characterService, charLevel) < 6)",
         "traits":["General"],
-        "increase":"Fortitude"
+        "gainSkillChoice":[{
+            "available":0,
+            "increases":[{"name":"Fortitude", "source":"Feat: Canny Acumen: Fortitude", "maxRank":4, "locked":true, "sourceId":""}],
+            "filter":[],
+            "type":"Save",
+            "maxRank":4,
+            "source":"Feat: Canny Acumen: Fortitude",
+            "id":""
+        }]
     },
     {
         "name":"Canny Acumen: Reflex",
@@ -578,7 +618,15 @@
         "specialreqdesc":"Reflex < E",
         "specialreq":"characterService.get_Skills(this.subType)[0].level(characterService, charLevel) < 4 || (this.have(characterService, charLevel) && characterService.get_Skills(this.subType)[0].level(characterService, charLevel) < 6)",
         "traits":["General"],
-        "increase":"Reflex"
+        "gainSkillChoice":[{
+            "available":0,
+            "increases":[{"name":"Reflex", "source":"Feat: Canny Acumen: Reflex", "maxRank":4, "locked":true, "sourceId":""}],
+            "filter":[],
+            "type":"Save",
+            "maxRank":4,
+            "source":"Feat: Canny Acumen: Reflex",
+            "id":""
+        }]
     },
     {
         "name":"Canny Acumen: Will",
@@ -590,7 +638,15 @@
         "specialreqdesc":"Will < E",
         "specialreq":"characterService.get_Skills(this.subType)[0].level(characterService, charLevel) < 4 || (this.have(characterService, charLevel) && characterService.get_Skills(this.subType)[0].level(characterService, charLevel) < 6)",
         "traits":["General"],
-        "increase":"Will"
+        "gainSkillChoice":[{
+            "available":0,
+            "increases":[{"name":"Will", "source":"Feat: Canny Acumen: Will", "maxRank":4, "locked":true, "sourceId":""}],
+            "filter":[],
+            "type":"Save",
+            "maxRank":4,
+            "source":"Feat: Canny Acumen: Will",
+            "id":""
+        }]
     },
     {   
         "name":"Cat Fall",
@@ -644,7 +700,15 @@
         "specialreqdesc":"Simple Weapons < T",
         "specialreq":"characterService.get_Skills(this.subType)[0].level(characterService, charLevel) < 2 || (this.have(characterService, charLevel) && characterService.get_Skills(this.subType)[0].level(characterService, charLevel) < 4)",
         "traits":["General"],
-        "increase":"Simple Weapons"
+        "gainSkillChoice":[{
+            "available":0,
+            "increases":[{"name":"Simple Weapons", "source":"Feat: Weapon Proficiency: Simple Weapons", "maxRank":2, "locked":true, "sourceId":""}],
+            "filter":[],
+            "type":"Weapon Proficiency",
+            "maxRank":2,
+            "source":"Feat: Weapon Proficiency: Simple Weapons",
+            "id":""
+        }]
     },
     {
         "name":"Weapon Proficiency: Martial Weapons",
@@ -656,7 +720,15 @@
         "specialreqdesc":"Martial Weapons < T",
         "specialreq":"characterService.get_Skills(this.subType)[0].level(characterService, charLevel) < 2 || (this.have(characterService, charLevel) && characterService.get_Skills(this.subType)[0].level(characterService, charLevel) < 4)",
         "traits":["General"],
-        "increase":"Martial Weapons"
+        "gainSkillChoice":[{
+            "available":0,
+            "increases":[{"name":"Martial Weapons", "source":"Feat: Weapon Proficiency: Martial Weapons", "maxRank":2, "locked":true, "sourceId":""}],
+            "filter":[],
+            "type":"Weapon Proficiency",
+            "maxRank":2,
+            "source":"Feat: Weapon Proficiency: Martial Weapons",
+            "id":""
+        }]
     },
     {
         "name":"Weapon Proficiency: Advanced Weapon",
@@ -671,7 +743,15 @@
         "specialreqdesc":"Advanced Weapon < T",
         "specialreq":"!characterService.get_Skills(this.subType).length || characterService.get_Skills(this.subType)[0].level(characterService) < 2 || (this.have(characterService, charLevel) && characterService.get_Skills(this.subType)[0].level(characterService, charLevel) < 4)",
         "traits":["General"],
-        "increase":"Advanced Weapon"
+        "gainSkillChoice":[{
+            "available":0,
+            "increases":[{"name":"Advanced Weapon", "source":"Feat: Weapon Proficiency: Advanced Weapon", "maxRank":2, "locked":true, "sourceId":""}],
+            "filter":[],
+            "type":"Specific Weapon Proficiency",
+            "maxRank":2,
+            "source":"Feat: Weapon Proficiency: Advanced Weapon",
+            "id":""
+        }]
     },
     { "name":"Untrained Improvisation", "desc":"Become more adept at using untrained skills.", "levelreq":3, "traits":["General"]},
     { "name":"Different Worlds", "desc":"Create a second identity for yourself with a different name, history, and background.", "levelreq":1, "showon":"Deception", "traits":["General", "Uncommon"]},
@@ -718,7 +798,7 @@
     { "name":"Quick Recognition", "desc":"Master in Arcana, Nature, Occultism, Identify spells as a free action.", "levelreq":7, "skillreq":[{"skill":"Arcana, 6 OR Nature, 6 OR Occultism, 6 OR Religion", "value":6}], "featreq":"Recognize Spell", "showon":"Arcana, Nature, Occultism, Religion", "traits":["General", "Skill"]},
     { "name":"Quick Climber", "desc":"Climb swiftly.", "levelreq":7, "skillreq":[{"skill":"Athletics", "value":6}], "showon":"Athletics", "traits":["General", "Skill"]},
     { "name":"Quick Swim", "desc":"Swim quickly.", "levelreq":7, "skillreq":[{"skill":"Athletics", "value":6}], "showon":"Athletics", "traits":["General", "Skill"]},
-    { "name":"Wall Jump", "desc":"Jump of walls.", "levelreq":7, "skillreq":[{"skill":"Athletics", "value":6}], "showon":"Athletics", "traits":["General", "Skill"]},
+    { "name":"Wall Jump", "desc":"Jump off walls.", "levelreq":7, "skillreq":[{"skill":"Athletics", "value":6}], "showon":"Athletics", "traits":["General", "Skill"]},
     { "name":"Inventor", "desc":"Use Crafting to create item formulas.", "levelreq":7, "skillreq":[{"skill":"Crafting", "value":6}], "showon":"Crafting", "traits":["General", "Downtime", "Skill"]},
     { "name":"Impeccable Crafter", "desc":"Specialty Crafting Craft items more efficiently.", "levelreq":7, "skillreq":[{"skill":"Crafting", "value":6}], "featreq":"Specialty Crafting", "showon":"Crafting", "traits":["General", "Skill"]},
     { "name":"Slippery Secrets", "desc":"Evade attempts to uncover your true nature.", "levelreq":7, "skillreq":[{"skill":"Deception", "value":6}], "showon":"Deception", "traits":["General", "Skill"]},
@@ -791,7 +871,15 @@
         "traits":["Monk"],
         "desc":"You have trained with the traditional weaponry of your monastery or school.",
         "levelreq":1,
-        "increase":"Monk"
+        "gainSkillChoice":[{
+            "available":0,
+            "increases":[{"name":"Monk", "source":"Feat: Monastic Weaponry", "maxRank":2, "locked":true, "sourceId":""}],
+            "filter":[],
+            "type":"Specific Weapon Proficiency",
+            "maxRank":2,
+            "source":"Feat: Monastic Weaponry",
+            "id":""
+        }]
     },
     {
         "name":"Death Warden Dwarf Resistance",
@@ -888,8 +976,6 @@
         "desc":"You gain cold resistance equal to half your level (minimum 1).",
         "specialEffects":[{"affected":"Cold Resistance", "value":"'+'+Math.max(Math.floor(characterService.get_Character().level / 2), 1)"}]
     },
-    { "name":"Half-Orc Ancestry Feat", "desc":"This feat is only available for Half-Orcs", "levelreq":1, "traits":["Half-Orc"]},
-    { "name":"Dwarf Ancestry Feat", "desc":"This feat is only available for Dwarves", "levelreq":1, "traits":["Dwarf"]},
     { 
         "name":"General Training",
         "unlimited":true,

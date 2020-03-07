@@ -12,8 +12,11 @@ import { SkillChoice } from './SkillChoice';
 })
 export class FeatsService {
     private feats: Feat[]; 
-    private loader; 
-    private loading: boolean = false;
+    private features: Feat[]; 
+    private loader_Feats; 
+    private loader_Features; 
+    private loading_Feats: boolean = false;
+    private loading_Features: boolean = false;
 
     constructor(
         private http: HttpClient,
@@ -26,38 +29,25 @@ export class FeatsService {
         } else { return [new Feat()]; }
     }
 
-    still_loading() {
-    return (this.loading);
+    get_Features(name: string = "") {
+        if (!this.still_loading()) {
+            return this.features.filter(feature => (feature.name.indexOf(name) > -1 || name == ""));
+        } else { return [new Feat()]; }
     }
 
-    load_Skills(): Observable<String[]>{
-    return this.http.get<String[]>('/assets/feats.json');
+    get_All(loreFeats: Feat[], name: string = "", type: string = "") {
+        if (!this.still_loading()) {
+            let feats: Feat[] = this.feats.concat(loreFeats).concat(this.features);
+            return feats.filter(feat => ((feat.name.indexOf(name) > -1 || name == "") && (feat.traits.indexOf(type) > -1 || type == "")));
+        } else { return [new Feat()]; }
     }
 
     process_Feat(characterService: CharacterService, featName: string, level: Level, taken: boolean) {
         let character = characterService.get_Character();
-        let feats = characterService.get_Feats(featName);
+        //Get feats and features via the characterService in order to include custom feats
+        let feats = characterService.get_FeatsAndFeatures(featName);
         if (feats.length) {
             let feat = feats[0];
-            
-            //Trains specific Skill
-            if (feat.increase) {
-                if (taken) {
-                    //Add a new Skill Choice and immediately increase the required skill
-                    let newSkillChoice = character.add_SkillChoice(level, {available:0, filter:[], increases:[], type:"Any", maxRank:2, source:'Feat: '+featName, id:""});
-                    character.increase_Skill(characterService, feat.increase, true, newSkillChoice, true);
-                } else {
-                    //Remove associated Skill Choice
-                    let oldSkillChoices = level.skillChoices.filter(choice => choice.source == 'Feat: '+featName);
-                    if (oldSkillChoices.length) {
-                        //First remove all Skill Increases from the Skill Choice
-                        oldSkillChoices[0].increases.forEach(increase => {
-                            character.increase_Skill(characterService, increase.name, false, oldSkillChoices[0], increase.locked)
-                        });
-                        character.remove_SkillChoice(oldSkillChoices[0], level)
-                    }
-                }
-            }
 
             //Gain Feat
             if (feat.gainFeatChoice.length) {
@@ -77,22 +67,34 @@ export class FeatsService {
                 }
             }
 
-            //Train free Skill
+            //Train free Skill or increase existing Skill
             if (feat.gainSkillChoice.length) {
                 if (taken) {
                     feat.gainSkillChoice.forEach(newSkillChoice => {
-                        character.add_SkillChoice(level, newSkillChoice);
+                        let newChoice = character.add_SkillChoice(level, newSkillChoice);
+                        //Apply any included Skill increases
+                        newChoice.increases.length = 0;
+                        newSkillChoice.increases.forEach(increase => {
+                            character.increase_Skill(characterService, increase.name, true, newChoice, true);
+                        })
                     });
                 } else {
                     let a = level.skillChoices;
-                    a.splice(a.indexOf(a.filter(choice => choice.source == 'Feat: '+featName && choice.type == "Skill")[0]), 1)
+                    feat.gainSkillChoice.forEach(oldSkillChoice => {
+                        let oldChoice = a.filter(choice => choice.source == oldSkillChoice.source)[0];
+                        //Process and undo included Skill increases
+                        oldChoice.increases.forEach(increase => {
+                            character.increase_Skill(characterService, increase.name, false, oldChoice, increase.locked);
+                        })
+                        a.splice(a.indexOf(oldChoice), 1)
+                    })
                 }
             }
             
             //Gain free Lore
             if (feat.gainLore) {
                 if (taken) {
-                    character.add_LoreChoice(level, {available:1, increases:[], loreName:"", loreDesc:"", source:'Feat: '+featName, id:""});
+                    character.add_LoreChoice(level, {available:1, increases:[], maxRank:2, loreName:"", loreDesc:"", source:'Feat: '+featName, id:""});
                 } else {
                     let a = level.loreChoices;
                     let oldChoice = a.filter(choice => choice.source == 'Feat: '+featName)[0];
@@ -128,23 +130,52 @@ export class FeatsService {
         }
     }
 
+    still_loading() {
+        return (this.loading_Feats || this.loading_Features);
+    }
+    
+    load_Feats(): Observable<String[]>{
+        return this.http.get<String[]>('/assets/feats.json');
+    }
+
+    load_Features(): Observable<String[]>{
+        return this.http.get<String[]>('/assets/features.json');
+    }
+
     initialize() {
         if (!this.feats) {
-        this.loading = true;
-        this.load_Skills()
+        this.loading_Feats = true;
+        this.load_Feats()
             .subscribe((results:String[]) => {
-                this.loader = results;
-                this.finish_loading()
+                this.loader_Feats = results;
+                this.finish_loading_Feats()
+            });
+        }
+        if (!this.features) {
+            this.loading_Features = true;
+        this.load_Features()
+            .subscribe((results:String[]) => {
+                this.loader_Features = results;
+                this.finish_loading_Features()
             });
         }
     }
 
-    finish_loading() {
-        if (this.loader) {
-            this.feats = this.loader.map(feat => Object.assign(new Feat(), feat));
+    finish_loading_Feats() {
+        if (this.loader_Feats) {
+            this.feats = this.loader_Feats.map(feat => Object.assign(new Feat(), feat));
 
-            this.loader = [];
+            this.loader_Feats = [];
         }
-        if (this.loading) {this.loading = false;}
+        if (this.loading_Feats) {this.loading_Feats = false;}
+    }
+
+    finish_loading_Features() {
+        if (this.loader_Features) {
+            this.features = this.loader_Features.map(feature => Object.assign(new Feat(), feature));
+
+            this.loader_Features = [];
+        }
+        if (this.loading_Features) {this.loading_Features = false;}
     }
 }

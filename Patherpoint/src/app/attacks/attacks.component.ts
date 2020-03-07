@@ -46,6 +46,17 @@ export class AttacksComponent implements OnInit {
         return this.characterService.get_FeatsShowingOn(skillName);
     }
 
+    get_specialShowon(weapon: Weapon) {
+        //Under certain circumstances, some Feats apply to Weapons independently of their name.
+        //Return names that get_FeatsShowingOn should run on
+        let character = this.characterService.get_Character();
+        let specialNames: string[] = []
+        if (weapon.traits.indexOf("Monk") > -1 && this.characterService.get_Feats("Monastic Weaponry")[0].have(this.characterService)) {
+            specialNames.push("Fist");
+        }
+        return specialNames;
+    }
+
     get_Attack(weapon: Weapon, range: string) {
         return weapon.get_Attack(this.characterService, this.effectsService, this.traitsService, range);
     }

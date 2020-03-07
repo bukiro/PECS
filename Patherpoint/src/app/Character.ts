@@ -117,7 +117,7 @@ export class Character {
                 level.skillChoices.forEach(choice => {
                     choice.increases.filter(increase => 
                         (increase.name == skillName || skillName == "") &&
-                        (increase.source == source || increase.source.indexOf(source) > -1 || source == "") &&
+                        (increase.source == source || source == "") &&
                         (increase.sourceId == sourceId || sourceId == "") &&
                         (increase.locked == locked || locked == undefined)
                         ).forEach(increase => {
@@ -127,7 +127,7 @@ export class Character {
                 level.loreChoices.forEach(choice => {
                     choice.increases.filter(increase => 
                         (increase.name == skillName || skillName == "") &&
-                        (increase.source == source || increase.source.indexOf(source) > -1 || source == "") &&
+                        (increase.source == source || source == "") &&
                         (increase.sourceId == sourceId || sourceId == "") &&
                         (increase.locked == locked || locked == undefined)
                         ).forEach(increase => {
@@ -140,7 +140,7 @@ export class Character {
     }
     increase_Skill(characterService: CharacterService, skillName: string, train: boolean, choice: SkillChoice|LoreChoice, locked: boolean) {
         if (train) {
-            choice.increases.push({"name":skillName, "source":choice.source, "locked":locked, "sourceId":choice.id});
+            choice.increases.push({"name":skillName, "source":choice.source, "maxRank":choice.maxRank, "locked":locked, "sourceId":choice.id});
             //The skill that you increase with Skilled Heritage at level 1 automatically gets increased at level 5 as well.
             let level = parseInt(choice.id.split("-")[0]);
             if (level == 1 && choice.source == "Skilled Heritage") {
@@ -177,6 +177,14 @@ export class Character {
                     this.increase_Skill(characterService, skillName, true, newChoice, true);
                 }
             }
+            //The save that you increase with Path to Perfection is added to the filter of Third Path to Perfection
+            if (choice.source == "Path to Perfection" || choice.source == "Second Path to Perfection") {
+                let a = characterService.get_Level(15).skillChoices.filter(choice => choice.source == "Third Path to Perfection")[0];
+                if (a.filter.indexOf("none") > -1) {
+                    a.filter.splice(a.filter.indexOf("none"),1);
+                }
+                a.filter.push(skillName);
+            }
             //If you are getting trained in a skill you don't already know, it's usually a weapon proficiency or a class DC.
             //We have to create that skill here then
             if (characterService.get_Skills(skillName).length == 0) {
@@ -201,7 +209,7 @@ export class Character {
                             break;
                     }
                 } else {
-                    characterService.add_CustomSkill(skillName, "Specific Weapon Proficiency", "");
+                    characterService.add_CustomSkill(skillName, choice["type"], "");
                 }
             }
         } else {
@@ -222,6 +230,17 @@ export class Character {
                 let oldChoices = characterService.get_Level(17).skillChoices.filter(skillChoice => skillChoice.source == choice.source);
                 if (oldChoices.length) {
                     this.remove_SkillChoice(oldChoices[0], characterService.get_Level(17));
+                }
+            }
+            //If you are deselecting Path to Perfection, the selected skill is removed from the filter of Third Path to Perfection.
+            //Also add a blank filter if nothing else is left.
+            if (choice.source == "Path to Perfection" || choice.source == "Second Path to Perfection") {
+                let a = characterService.get_Level(15).skillChoices.filter(choice => choice.source == "Third Path to Perfection")[0];
+                if (a.filter.indexOf(skillName) > -1) {
+                    a.filter.splice(a.filter.indexOf(skillName),1);
+                }
+                if (a.filter.length == 0) {
+                    a.filter.push("none");
                 }
             }
             //Remove custom skill if previously created and this was the last increase of it
@@ -298,9 +317,9 @@ export class Character {
         characterService.get_Character().increase_Skill(characterService, 'Lore: '+source.loreName, true, source, true)
         //The Additional Lore feat grants a skill increase on Levels 3, 7 and 15 that can only be applied to this lore.
         if (source.source == "Feat: Additional Lore") {
-            this.add_SkillChoice(characterService.get_Level(3), {available:1, increases:[], filter:['Lore: '+source.loreName], type:"Skill", maxRank:8, source:"Feat: Additional Lore", id:""})
-            this.add_SkillChoice(characterService.get_Level(7), {available:1, increases:[], filter:['Lore: '+source.loreName], type:"Skill", maxRank:8, source:"Feat: Additional Lore", id:""})
-            //this.add_SkillChoice(characterService.get_Level(15), {available:1, increases:[], filter:['Lore: '+source.loreName], type:"Skill", maxRank:8, source:"Feat: Additional Lore", id:""})
+            this.add_SkillChoice(characterService.get_Level(3), {available:1, increases:[], filter:['Lore: '+source.loreName], type:"Skill", maxRank:4, source:"Feat: Additional Lore", id:""})
+            this.add_SkillChoice(characterService.get_Level(7), {available:1, increases:[], filter:['Lore: '+source.loreName], type:"Skill", maxRank:6, source:"Feat: Additional Lore", id:""})
+            this.add_SkillChoice(characterService.get_Level(15), {available:1, increases:[], filter:['Lore: '+source.loreName], type:"Skill", maxRank:8, source:"Feat: Additional Lore", id:""})
         }
         characterService.get_Feats().filter(feat => feat.lorebase).forEach(lorebaseFeat =>{
             let newLength = characterService.add_CustomFeat(lorebaseFeat);

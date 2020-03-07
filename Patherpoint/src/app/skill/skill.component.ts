@@ -42,6 +42,25 @@ export class SkillComponent implements OnInit {
         return this.characterService.get_FeatsShowingOn(skillName);
     }
 
+    get_specialShowon(skill: Skill) {
+        //Under certain circumstances, some Feats apply to skills independently of their name.
+        //Return names that get_FeatsShowingOn should run on
+        let character = this.characterService.get_Character();
+        let specialNames: string[] = []
+        if (skill.type == "Save") {
+            if (character.get_SkillIncreases(1, character.level, skill.name, "Path to Perfection").length) {
+                specialNames.push("Path to Perfection");
+            }
+            if (character.get_SkillIncreases(1, character.level, skill.name, "Second Path to Perfection").length) {
+                specialNames.push("Second Path to Perfection");
+            }
+            if (character.get_SkillIncreases(1, character.level, skill.name, "Third Path to Perfection").length) {
+                specialNames.push("Third Path to Perfection");
+            }
+        }
+        return specialNames;
+    }
+
     still_loading() {
         return this.skillsService.still_loading() || this.characterService.still_loading();
     }

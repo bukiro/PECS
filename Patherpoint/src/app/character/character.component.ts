@@ -81,9 +81,11 @@ export class CharacterComponent implements OnInit {
                 baseValues.push({name:ability.name, baseValue:10})
             });
             //Remove all Level 1 ability boosts that are now illegal
-            this.get_Character().class.levels[1].abilityChoices.filter(choice => choice.available).forEach(choice => {
-                choice.boosts.length = choice.available - choice.baseValuesLost;
-            });
+            if (this.get_Character().class.name) {
+                this.get_Character().class.levels[1].abilityChoices.filter(choice => choice.available).forEach(choice => {
+                    choice.boosts.length = choice.available - choice.baseValuesLost;
+                });
+            }
         }
         this.characterService.set_Changed();
     }
@@ -306,6 +308,10 @@ export class CharacterComponent implements OnInit {
 
     get_Feats(name: string = "", type: string = "") {
         return this.featsService.get_Feats(this.get_Character().customFeats, name, type);
+    }
+
+    get_FeatsAndFeatures(name: string = "", type: string = "") {
+        return this.featsService.get_All(this.get_Character().customFeats, name, type);
     }
 
     get_SubFeats(feat: Feat, choice: FeatChoice, get_unavailable: boolean = false) {

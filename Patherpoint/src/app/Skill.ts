@@ -1,7 +1,6 @@
 import { AbilitiesService } from './abilities.service';
 import { CharacterService } from './character.service';
 import { EffectsService } from './effects.service';
-import { ProficiencyFormComponent } from './proficiency-form/proficiency-form.component';
 
 export class Skill {
     public notes: string = "";
@@ -15,7 +14,17 @@ export class Skill {
         if (characterService.still_loading()) { return 0; }
         let skillLevel: number = 0;
         let increases = characterService.get_Character().get_SkillIncreases(0, charLevel, this.name);
-        skillLevel = Math.min(increases.length * 2, 8);
+        // Add 2 for each increase, but keep them to their max Rank
+        increases.forEach(increase => {
+            skillLevel = Math.min(skillLevel + 2, increase.maxRank);
+        })
+        //If you have Monastic Weaponry, you can use your unarmed proficiency (up to Master) for Monk weapons
+        if (this.name == "Monk" && characterService.get_Feats("Monastic Weaponry")[0].have(characterService)) {
+            let unarmedLevel = characterService.get_Skills("Unarmed")[0].level(characterService);
+            unarmedLevel = Math.min(unarmedLevel, 6);
+            skillLevel = Math.max(skillLevel, unarmedLevel);
+        }
+        skillLevel = Math.min(skillLevel, 8);
         return skillLevel;
     }
     canIncrease(characterService: CharacterService, levelNumber: number, maxRank: number = 8) {

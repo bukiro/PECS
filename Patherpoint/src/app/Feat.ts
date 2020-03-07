@@ -12,6 +12,7 @@ export class Feat {
     public subTypes: boolean = false;
     public subType: string = "";
     public desc: string = "";
+    public hint: string = "";
     public shortdesc: string = "";
     public specialdesc: string = "";
     public hide: boolean = false;
@@ -26,13 +27,13 @@ export class Feat {
     public specialreq: string = "";
     public showon: string = "";
     public traits: string[] = [];
-    public increase: string = "";
     public effects: string[] = [];
     public specialEffects: string[] = [];
     public gainFeatChoice: FeatChoice[] = [];
     public gainSkillChoice: SkillChoice[] = [];
     public gainSpellChoice: SpellChoice[] = [];
     public gainFormulaChoice: FormulaChoice[] = [];
+    public gainAction: string = "";
     public gainLore: true;
     prof(skillLevel: number) {
         switch (skillLevel) {
@@ -116,7 +117,7 @@ export class Feat {
         //Returns [requirement met, requirement description]
         let result: {met:boolean, desc:string};
         if (this.featreq) {
-            let requiredFeat: Feat[] = characterService.get_Feats(this.featreq);
+            let requiredFeat: Feat[] = characterService.get_FeatsAndFeatures(this.featreq);
             if (requiredFeat.length > 0) {
                 if (requiredFeat[0].have(characterService, charLevel)) {
                     result = {met:true, desc:this.featreq};
