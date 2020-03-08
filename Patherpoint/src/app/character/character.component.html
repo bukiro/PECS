@@ -2,7 +2,7 @@
     <button class="list-item" (click)="toggleCharacterMenu()">Close</button>
     <div class="loading" *ngIf="still_loading()">Loading</div>
     <div *ngIf="!still_loading()">
-        Name: <input type="text" name="name" [(ngModel)]="get_Character().name" (ngModelChange)="this.characterService.set_Changed()">
+        Name: <input type="text" name="name" [(ngModel)]="get_Character().name" (ngModelChange)="this.characterService.set_Changed()" maxLength="30">
         Level
         <select [(ngModel)]="get_Character().level" (ngModelChange)="onLevelChange()">
             <option *ngFor="let level of [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20]" [value]="level">{{level}}</option>
@@ -32,7 +32,7 @@
 <!--Class-->
         <div class="list-item">
             <button class="row button" [className]="(get_Character().class.name) ? 'fancy-button' : ''" (click)="toggle_List('class')">
-                Class: {{get_Character().class.name}}
+                Class{{(get_Character().class.name) ? ": "+ get_Character().class.name : ""}}
             </button>
             <div class="list-item sublist row" [className]="(get_Character().class.name) ? 'fancy-list' : ''" *ngIf="this.showList=='class'">
                 <div class="list-item" *ngFor="let class of get_Classes()">
@@ -48,7 +48,7 @@
         <div *ngIf="get_Character().class.name">
             <div class="list-item list-header">
                 <button class="row button" [className]="((get_Character().class.ancestry.name)) ? 'fancy-button' : ''" (click)="toggle_List('ancestry')">
-                    Ancestry: {{get_Character().class.ancestry.name}}
+                    Ancestry{{(get_Character().class.ancestry.name) ? ": "+ get_Character().class.ancestry.name : ""}}
                 </button>
                 <div class="list-item sublist row" [className]="((get_Character().class.ancestry.name)) ? 'fancy-list' : ''" *ngIf="this.showList=='ancestry'">
                     <div class="list-item" *ngFor="let ancestry of get_Ancestries()">
@@ -65,7 +65,7 @@
         <div *ngIf="get_Character().class.ancestry.name">
             <div class="list-item">
                 <button class="row button" [className]="((get_Character().class.heritage.name)) ? 'fancy-button' : ''" (click)="toggle_List('heritage')">
-                    Heritage: {{get_Character().class.heritage.name}}
+                    Heritage{{(get_Character().class.heritage.name) ? ": "+ get_Character().class.heritage.name : ""}}
                 </button>
                 <div class="list-item sublist row" [className]="((get_Character().class.heritage.name)) ? 'fancy-list' : ''" *ngIf="this.showList=='heritage'">
                     <div class="list-item" *ngFor="let heritage of get_Heritages('', get_Character().class.ancestry.name)">
@@ -98,7 +98,7 @@
         <div *ngIf="get_Character().class.name">
             <div class="list-item">
                 <button class="row button" [className]="((get_Character().class.background.name)) ? 'fancy-button' : ''" (click)="toggle_List('background')">
-                    Background: {{get_Character().class.background.name}}
+                    Background{{(get_Character().class.background.name) ? ": "+ get_Character().class.background.name : ""}}
                 </button>
                 <div class="list-item sublist row" [className]="((get_Character().class.background.name)) ? 'fancy-list' : ''" *ngIf="this.showList=='background'">
                     <div class="list-item" *ngFor="let background of get_Backgrounds()">
@@ -149,6 +149,60 @@
 <!--Fixed Feats-->
                         <div title="{{get_FeatsAndFeatures(feat.name)[0].desc}}" class="list-item" *ngFor="let feat of get_FeatsTaken(level.number, level.number, '', '', '', true)">
                             Feat ({{feat.source}}): {{feat.name}}
+                        </div>
+                    </div>
+                </div>
+<!--Different Worlds-->
+                <div *ngFor="let feat of get_DifferentWorldsFeat(level.number)">
+<!--Different Worlds Name-->
+                    <div class="list-item">
+                        <button class="row button" [className]="(feat.data.name != '') ? 'fancy-button' : ''"
+                            (click)="toggle_List('differentWorlds_Name')">
+                            Alternative Name (Different Worlds){{(feat.data.name) ? ": "+ feat.data.name : ""}}
+                        </button>
+                        <div class="list-item sublist row"
+                            [className]="(feat.data.name != '') ? 'fancy-list' : ''"
+                            *ngIf="this.showList=='differentWorlds_Name'">
+                            <div class="list-item">
+                                <strong>Name:
+                                    <input type="text" [(ngModel)]="feat.data.name"
+                                        (ngModelChange)=this.characterService.set_Changed()
+                                        maxLength="30">
+                                </strong>
+                            </div>
+                        </div>
+                    </div>
+<!--Different Worlds Background-->
+                    <div class="list-item">
+                        <button class="row button" [className]="(feat.data.background) ? 'fancy-button' : ''" (click)="toggle_List('differentWorlds_Background')">
+                            Alternative Background (Different Worlds){{(feat.data.background) ? ": "+ feat.data.background : ""}}
+                        </button>
+                        <div class="list-item sublist row" [className]="((feat.data.background)) ? 'fancy-list' : ''" *ngIf="this.showList=='differentWorlds_Background'">
+                            <div class="list-item" *ngFor="let background of get_Backgrounds()">
+                                <input *ngIf="!background.subTypes.length" id="{{background.name}}" type="checkbox" (change)="onDifferentWorldsBackgroundChange(level, feat, background, $event.target.checked)"
+                                [checked]="background.name === feat.data.background || background.name === get_Character().class.background.name"
+                                [disabled]="background.name === get_Character().class.background.name">
+                                <button class="button lower left" *ngIf="background.subTypes.length" id="{{background.name}}" (click)="toggle_Item('differentWorlds_Background'+background.name)">v</button>
+                                <label for="{{background.name}}">
+                                    <strong>{{background.name}}</strong>
+                                </label>
+                                <button class="button" (click)="toggle_Item('differentWorlds_Background'+background.name)">
+                                    Show Description
+                                </button>
+                                <div *ngIf="this.get_showItem()=='differentWorlds_Background'+background.name" class="row">
+<!--Subbackgrounds-->
+                                    <div class="list-item lower" *ngFor="let subbackground of background.subTypes">
+                                        <input id="{{subbackground.name}}" type="checkbox" (change)="onDifferentWorldsBackgroundChange(level, feat, subbackground, $event.target.checked)"
+                                        [checked]="subbackground.name === feat.data.background || subbackground.name === get_Character().class.background.name"
+                                        [disabled]="subbackground.name === get_Character().class.background.name || subbackground.superType == get_Character().class.background.superType">
+                                        <label for="{{subbackground.name}}">
+                                            <strong>{{subbackground.subType}}</strong>
+                                        </label>
+                                    </div>
+<!--End Subbackgrounds-->
+                                    <p *ngFor="let desc of background.desc.split('\n')">{{desc}}</p>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -238,15 +292,21 @@
                                 <input id="{{choice.id+'LoreIncreaseBox'}}" type="checkbox"
                                     (change)="on_LoreChange($event.target.checked, choice)"
                                     [checked]="get_SkillIncreases(level.number, level.number, 'Lore: '+choice.loreName, choice.source, choice.id).length"
-                                    [disabled]="choice.loreName == ''||get_Skills('Lore: '+choice.loreName).length && !get_SkillIncreases(level.number, level.number, 'Lore: '+choice.loreName, choice.source, choice.id).length">
-                                <label for="{{choice.id+'LoreIncreaseBox'}}">
+                                    [disabled]="choice.loreName == '' || get_Skills('Lore: '+choice.loreName).length && !get_SkillIncreases(level.number, level.number, 'Lore: '+choice.loreName, choice.source, choice.id).length">
+                                <label style="display:initial" for="{{choice.id+'LoreIncreaseBox'}}">
                                     <strong>Lore:
                                         <input type="text" [(ngModel)]="choice.loreName"
-                                            [disabled]="get_SkillIncreases(level.number, level.number, 'Lore: '+choice.loreName, choice.source, choice.id).length"
-                                            (ngModelChange)=this.characterService.set_Changed()>
+                                                [disabled]="get_SkillIncreases(level.number, level.number, 'Lore: '+choice.loreName, choice.source, choice.id).length"
+                                                (ngModelChange)=this.characterService.set_Changed()
+                                                maxLength="20">
                                     </strong>
-                                    <span>&nbsp;{{choice.loreDesc}}</span>
                                 </label>
+                                <cite style="color:darkred" *ngIf="get_Skills('Lore: '+choice.loreName).length && !get_SkillIncreases(level.number, level.number, 'Lore: '+choice.loreName, choice.source, choice.id).length">
+                                    You are already trained in this Lore!
+                                </cite>
+                                <div class="row">
+                                    {{choice.loreDesc}}
+                                </div>
                             </div>
                         </div>
                     </div>

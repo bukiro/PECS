@@ -25,13 +25,13 @@
     </div>
     <div class="row" *ngIf="get_FeatsShowingOn(skill.name).length">
         <cite *ngFor="let feat of get_FeatsShowingOn(skill.name)"
-            [title]="feat.desc">
+            [title]="(feat.hint) ? feat.hint : feat.desc">
             {{feat.name}}&nbsp;
         </cite>
     </div>
     <div class="row" *ngFor="let name of get_specialShowon(skill)">
         <cite *ngFor="let feat of get_FeatsShowingOn(name)"
-            [title]="feat.desc">
+            [title]="(feat.hint) ? feat.hint : feat.desc">
             {{feat.name}}&nbsp;
         </cite>
     </div>

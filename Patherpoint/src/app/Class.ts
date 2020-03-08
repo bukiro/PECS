@@ -122,7 +122,9 @@ export class Class {
             //Remove all Lores
             let oldChoices: LoreChoice[] = this.levels[1].loreChoices.filter(choice => choice.source == "Background");
             let oldChoice = oldChoices[oldChoices.length - 1];
-            characterService.get_Character().remove_Lore(characterService, oldChoice );
+            if (oldChoice.increases.length) {
+                character.remove_Lore(characterService, oldChoice);
+            }
             this.levels[1].loreChoices = this.levels[1].loreChoices.filter(choice => choice.source != "Background");
         }
     }
@@ -143,6 +145,17 @@ export class Class {
             });
             this.levels[1].loreChoices.push(...this.background.loreChoices);
             if (this.background.loreChoices[0].loreName) {
+                if (characterService.get_Skills('Lore: '+this.background.loreChoices[0].loreName).length) {
+                    let increases = character.get_SkillIncreases(1, 20, 'Lore: '+this.background.loreChoices[0].loreName).filter(increase => 
+                        increase.sourceId.indexOf("-Lore-") > -1
+                        );
+                    if (increases.length) {
+                        let oldChoice = character.get_LoreChoice(increases[0].sourceId)
+                        if (oldChoice.available == 1) {
+                            character.remove_Lore(characterService, oldChoice);
+                        }
+                    }
+                }
                 character.add_Lore(characterService, this.background.loreChoices[0])
             }
             if (this.background.skillChoices[0].increases.length) {

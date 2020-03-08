@@ -6,6 +6,7 @@ import { Level } from './Level';
 import { CharacterService } from './character.service';
 import { FeatChoice } from './FeatChoice';
 import { SkillChoice } from './SkillChoice';
+import { LoreChoice } from './LoreChoice';
 
 @Injectable({
     providedIn: 'root'
@@ -98,7 +99,7 @@ export class FeatsService {
                 } else {
                     let a = level.loreChoices;
                     let oldChoice = a.filter(choice => choice.source == 'Feat: '+featName)[0];
-                    if (oldChoice.loreName) {
+                    if (oldChoice.increases.length) {
                         character.remove_Lore(characterService, oldChoice);
                     }
                     a.splice(a.indexOf(oldChoice), 1);
@@ -125,6 +126,29 @@ export class FeatsService {
                     if (level.number == 1) {
                         character.cash[1] -= 2;
                     };
+                }
+            }
+
+            //Different Worlds
+            //Here we copy the original feat so that we can change the included data property persistently
+            if (feat.name=="Different Worlds") {
+                if (taken) {
+                    if (character.customFeats.filter(customFeat => customFeat.name == "Different Worlds").length == 0) {
+                        let newLength = characterService.add_CustomFeat(feat);
+                        let newFeat = character.customFeats[newLength -1];
+                        newFeat.hide = true;
+                    }
+                } else {
+                    let oldChoices: LoreChoice[] = level.loreChoices.filter(choice => choice.source == "Different Worlds");
+                    let oldChoice = oldChoices[oldChoices.length - 1];
+                    if (oldChoice.increases.length) {
+                        character.remove_Lore(characterService, oldChoice);
+                    }
+                    level.loreChoices = level.loreChoices.filter(choice => choice.source != "Different Worlds");
+                    let oldFeats = character.customFeats.filter(customFeat => customFeat.name == "Different Worlds")
+                    if (oldFeats.length) {
+                        character.customFeats.splice(character.customFeats.indexOf(oldFeats[0], 1));
+                    }
                 }
             }
         }

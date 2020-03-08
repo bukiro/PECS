@@ -379,6 +379,47 @@ export class CharacterComponent implements OnInit {
         }
     }
 
+    get_DifferentWorldsFeat(levelNumber) {
+        if (this.get_Character().get_FeatsTaken(levelNumber, levelNumber, "Different Worlds").length) {
+            return this.get_Character().customFeats.filter(feat => feat.name == "Different Worlds");
+        }
+    }
+    
+    onDifferentWorldsBackgroundChange(level: Level, feat: Feat, background: Background, taken: boolean) {
+        let character = this.get_Character();
+        feat.data["background"] = "";
+        let oldChoices: LoreChoice[] = level.loreChoices.filter(choice => choice.source == "Different Worlds");
+        if (oldChoices.length) {
+            let oldChoice = oldChoices[oldChoices.length - 1];
+            if (oldChoice.increases.length) {
+                character.remove_Lore(this.characterService, oldChoice);
+            }
+            level.loreChoices = level.loreChoices.filter(choice => choice.source != "Different Worlds");
+        }
+        if (taken) {
+            this.showList="";
+            feat.data["background"] = background.name;
+            background.loreChoices.forEach(choice => {
+                let newChoice: LoreChoice = character.add_LoreChoice(level, choice);
+                newChoice.source = "Different Worlds";
+                if (newChoice.loreName) {
+                    if (this.characterService.get_Skills('Lore: '+newChoice.loreName).length) {
+                        let increases = character.get_SkillIncreases(1, 20, 'Lore: '+newChoice.loreName).filter(increase => 
+                            increase.sourceId.indexOf("-Lore-") > -1
+                            );
+                        if (increases.length) {
+                            let oldChoice = character.get_LoreChoice(increases[0].sourceId);
+                            if (oldChoice.available == 1) {
+                                character.remove_Lore(this.characterService, oldChoice);
+                            }
+                        }
+                    }
+                    character.add_Lore(this.characterService, newChoice);
+                }
+            })
+        }
+    }
+
     cannotTakeSome(choice: FeatChoice) {
         let anytrue = 0;
         choice.feats.forEach(feat => {

@@ -31,6 +31,10 @@
             <strong>Deity:</strong>
             {{get_Character().deity}}
         </div>
+        <div class="list-item" *ngFor="let feat of get_DifferentWorldsFeat()">
+            <strong>Alternative Identity (Different Worlds):</strong>
+            {{feat.data.name}} {{(feat.data.background) ? "("+feat.data.background+")" : ""}}
+        </div>
         <h3>Class DC:</h3>
         <div *ngFor="let skill of get_ClassDCs()">
             <app-skill class="list-item" [skill]=skill [isDC]=true></app-skill>

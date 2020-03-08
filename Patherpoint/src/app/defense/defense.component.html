@@ -19,7 +19,7 @@
                 <button *ngIf="armor.cover == 4" (click)="armor.cover = 0; set_CharacterChanged()">End cover</button>
             </div>
             <div class="row" *ngIf="get_FeatsShowingOn('Defense').length">
-                <cite *ngFor="let feat of get_FeatsShowingOn('Defense')" [title]="feat.desc">{{feat.name}}&nbsp;</cite>
+                <cite *ngFor="let feat of get_FeatsShowingOn('Defense')" [title]="(feat.hint) ? feat.hint : feat.desc">{{feat.name}}&nbsp;</cite>
             </div>
         </div>
         <div class="list-item" *ngFor="let shield of get_EquippedShield()">
@@ -31,7 +31,7 @@
                     <button *ngIf="shield.raised && shield.coverbonus && shield.takingCover" (click)="shield.takingCover = false; set_CharacterChanged()">End cover</button>
                 </div>
                 <div class="row" *ngIf="get_FeatsShowingOn('Shield').length">
-                    <cite *ngFor="let feat of get_FeatsShowingOn('Shield')" [title]="feat.desc">{{feat.name}}&nbsp;</cite>
+                    <cite *ngFor="let feat of get_FeatsShowingOn('Shield')" [title]="(feat.hint) ? feat.hint : feat.desc">{{feat.name}}&nbsp;</cite>
                 </div>
             </div>
         </div>
@@ -52,7 +52,7 @@
             <app-skill class="list-item" [skill]=skill></app-skill>
         </div>
         <div class="row" *ngIf="get_FeatsShowingOn('Saving Throws').length">
-            <cite *ngFor="let feat of get_FeatsShowingOn('Saving Throws')" [title]="feat.desc">{{feat.name}}&nbsp;</cite>
+            <cite *ngFor="let feat of get_FeatsShowingOn('Saving Throws')" [title]="(feat.hint) ? feat.hint : feat.desc">{{feat.name}}&nbsp;</cite>
         </div>
     </div>
 </div>

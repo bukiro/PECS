@@ -169,7 +169,7 @@
                 "increases":[],
                 "maxRank":2,
                 "loreName":"",
-                "loreDesc":"A Lore skill related to one terrain inhabited by animals you like",
+                "loreDesc":"A Lore skill related to one terrain inhabited by animals you like (such as Plains Lore or Swamp Lore).",
                 "source":"Background",
                 "id":"1-Lore-Background-0"
             }
@@ -177,11 +177,140 @@
         "desc":"You have always felt a connection to animals, and it was only a small leap to learn to train them. As you travel, you continuously encounter different creatures, befriending them along the way.\n\nChoose two ability boosts. One must be to Wisdom or Charisma, and one is a free ability boost.\n\nYou're trained in the Nature skill and a Lore skill related to one terrain inhabited by animals you like (such as Plains Lore or Swamp Lore). You gain the Train Animal skill feat."
     },
     {
+        "name":"Hermit",
+        "desc":"In an isolated place—like a cave, remote oasis, or secluded mansion—you lived a life of solitude. Adventuring might represent your first foray out among other people in some time. This might be a welcome reprieve from solitude or an unwanted change, but in either case, you’re likely still rough around the edges.\n\nChoose two ability boosts. One must be to Constitution or Intelligence, and one is a free ability boost.\n\nYou're trained in your choice of either the Nature or Occultism skill, as well as a Lore skill related to the terrain you lived in as a hermit (such as Cave Lore or Desert Lore). You gain the Dubious Knowledge skill feat.",
+        "subTypes":[
+            {
+                "name":"Hermit (Nature)",
+                "subType":"Nature",
+                "superType":"Hermit",
+                "featChoices":[
+                    {
+                        "available":0,
+                        "feats":[
+                            {"name":"Dubious Knowledge", "source":"Background", "locked":true, "sourceId":"1-Feat-Background-0"}
+                        ],
+                        "filter":[],
+                        "level":"",
+                        "type":"",
+                        "source":"Background",
+                        "id":"1-Feat-Background-0"
+                    }
+                ],
+                "abilityChoices":[
+                    {
+                        "available":1,
+                        "boosts":[],
+                        "filter":["Constitution", "Intelligence"],
+                        "baseValuesLost":0,
+                        "source":"Background",
+                        "id":"1-Ability-Background-0"
+                    },
+                    {
+                        "available":1,
+                        "boosts":[],
+                        "filter":[],
+                        "baseValuesLost":1,
+                        "source":"Background",
+                        "id":"1-Ability-Background-1"
+                    }
+                ],
+                "skillChoices":[
+                    {
+                        "available":0,
+                        "increases":[
+                            { "name":"Nature", "source":"Background", "maxRank":2, "locked":true, "sourceId":"1-Skill-Background-0" }
+                        ],
+                        "filter":[],
+                        "type":"Skill",
+                        "maxRank":2,
+                        "source":"Background",
+                        "id":"1-Skill-Background-0"
+                    }
+                ],
+                "loreChoices":[
+                    {
+                        "available":1,
+                        "increases":[],
+                        "maxRank":2,
+                        "loreName":"",
+                        "loreDesc":"A Lore skill related to the terrain you lived in as a hermit (such as Cave Lore or Desert Lore).",
+                        "source":"Background",
+                        "id":"1-Lore-Background-0"
+                    }
+                ],
+                "desc":"In an isolated place—like a cave, remote oasis, or secluded mansion—you lived a life of solitude. Adventuring might represent your first foray out among other people in some time. This might be a welcome reprieve from solitude or an unwanted change, but in either case, you’re likely still rough around the edges.\n\nChoose two ability boosts. One must be to Constitution or Intelligence, and one is a free ability boost.\n\nYou're trained in your choice of either the Nature or Occultism skill, as well as a Lore skill related to the terrain you lived in as a hermit (such as Cave Lore or Desert Lore). You gain the Dubious Knowledge skill feat."
+            },
+            {
+                "name":"Hermit (Occultism)",
+                "subType":"Occultism",
+                "superType":"Hermit",
+                "featChoices":[
+                    {
+                        "available":0,
+                        "feats":[
+                            {"name":"Dubious Knowledge", "source":"Background", "locked":true, "sourceId":"1-Feat-Background-0"}
+                        ],
+                        "filter":[],
+                        "level":"",
+                        "type":"",
+                        "source":"Background",
+                        "id":"1-Feat-Background-0"
+                    }
+                ],
+                "abilityChoices":[
+                    {
+                        "available":1,
+                        "boosts":[],
+                        "filter":["Constitution", "Intelligence"],
+                        "baseValuesLost":0,
+                        "source":"Background",
+                        "id":"1-Ability-Background-0"
+                    },
+                    {
+                        "available":1,
+                        "boosts":[],
+                        "filter":[],
+                        "baseValuesLost":1,
+                        "source":"Background",
+                        "id":"1-Ability-Background-1"
+                    }
+                ],
+                "skillChoices":[
+                    {
+                        "available":0,
+                        "increases":[
+                            { "name":"Occultism", "source":"Background", "maxRank":2, "locked":true, "sourceId":"1-Skill-Background-0" }
+                        ],
+                        "filter":[],
+                        "type":"Skill",
+                        "maxRank":2,
+                        "source":"Background",
+                        "id":"1-Skill-Background-0"
+                    }
+                ],
+                "loreChoices":[
+                    {
+                        "available":1,
+                        "increases":[],
+                        "maxRank":2,
+                        "loreName":"",
+                        "loreDesc":"A Lore skill related to the terrain you lived in as a hermit (such as Cave Lore or Desert Lore).",
+                        "source":"Background",
+                        "id":"1-Lore-Background-0"
+                    }
+                ],
+                "desc":"In an isolated place—like a cave, remote oasis, or secluded mansion—you lived a life of solitude. Adventuring might represent your first foray out among other people in some time. This might be a welcome reprieve from solitude or an unwanted change, but in either case, you’re likely still rough around the edges.\n\nChoose two ability boosts. One must be to Constitution or Intelligence, and one is a free ability boost.\n\nYou're trained in your choice of either the Nature or Occultism skill, as well as a Lore skill related to the terrain you lived in as a hermit (such as Cave Lore or Desert Lore). You gain the Dubious Knowledge skill feat."
+            }
+        ]
+    },
+    {
         "name":"Martial Disciple",
         "desc":"You dedicated yourself to intense training and rigorous study to become a great warrior. The school you attended might have been a traditionalist monastery, an elite military academy, or the local branch of a prestigious mercenary organization.\n\nChoose two ability boosts. One must be to Strength or Dexterity, and one is a free ability boost.\n\nYou're trained in your choice of either the Acrobatics or Athletics skill, as well as the Warfare Lore skill. You gain a skill feat: Cat Fall if you chose Acrobatics or Quick Jump if you chose Athletics.",
         "subTypes":[
             {
                 "name":"Martial Disciple (Acrobatics)",
+                "superType":"Martial Disciple",
                 "subType":"Acrobatics",
                 "featChoices":[
                     {
@@ -242,6 +371,7 @@
             },
             {
                 "name":"Martial Disciple (Athletics)",
+                "superType":"Martial Disciple",
                 "subType":"Athletics",
                 "featChoices":[
                     {

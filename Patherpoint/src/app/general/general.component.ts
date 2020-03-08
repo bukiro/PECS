@@ -41,6 +41,12 @@ export class GeneralComponent implements OnInit {
         return this.effectsService.get_EffectsOnThis(name);
     }
 
+    get_DifferentWorldsFeat() {
+        if (this.get_Character().get_FeatsTaken(1, this.get_Character().level, "Different Worlds").length) {
+            return this.get_Character().customFeats.filter(feat => feat.name == "Different Worlds");
+        }
+    }
+
     get_ClassDCs() {
         return this.characterService.get_Skills("", "Class DC").filter(skill => skill.level(this.characterService) > 0);
     }

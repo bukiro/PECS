@@ -7,6 +7,7 @@ export class Background {
     public name: string = "";
     public subTypes: Background[] = [];
     public subType: string = "";
+    public superType: string = "";
     public abilityChoices: AbilityChoice[] = [];
     public skillChoices: SkillChoice[] = [];
     public featChoices: FeatChoice[] = [];

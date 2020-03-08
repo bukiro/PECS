@@ -35,6 +35,7 @@ export class Feat {
     public gainFormulaChoice: FormulaChoice[] = [];
     public gainAction: string = "";
     public gainLore: true;
+    public data: {} = {};
     prof(skillLevel: number) {
         switch (skillLevel) {
             case 2:

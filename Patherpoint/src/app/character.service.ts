@@ -318,7 +318,7 @@ export class CharacterService {
             feats.forEach(feat => {
                 let returnedFeat = this.get_FeatsAndFeatures(feat.name)[0];
                 returnedFeat.showon.split(",").forEach(showon => {
-                    if (showon == objectName || showon.substr(1) == objectName || (objectName == "Lore" && returnedFeat.showon.indexOf(objectName) > -1)) {
+                    if (showon == objectName || showon.substr(1) == objectName || (objectName == "Lore" && showon.indexOf(objectName) > -1)) {
                         returnedFeats.push(returnedFeat);
                     }
                 })
