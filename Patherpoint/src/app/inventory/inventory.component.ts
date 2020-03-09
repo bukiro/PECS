@@ -2,6 +2,7 @@ import { Component, OnInit, ChangeDetectorRef, ChangeDetectionStrategy } from '@
 import { CharacterService } from '../character.service';
 import { ItemsService } from '../items.service';
 import { TraitsService } from '../traits.service';
+import { EffectsService } from '../effects.service';
 
 @Component({
     selector: 'app-inventory',
@@ -15,7 +16,8 @@ export class InventoryComponent implements OnInit {
         private changeDetector: ChangeDetectorRef,
         public characterService: CharacterService,
         public itemsService: ItemsService,
-        public traitsService: TraitsService
+        public traitsService: TraitsService,
+        public effectsService: EffectsService
     ) { }
 
     still_loading() {
@@ -36,6 +38,23 @@ export class InventoryComponent implements OnInit {
 
     get_Traits(traitName: string = "") {
         return this.traitsService.get_Traits(traitName);
+    }
+
+    get_Bulk() {
+        let bulk = this.characterService.get_Character().bulk;
+        bulk.calculate(this.characterService, this.effectsService);
+        if (bulk.$current > bulk.$encumbered.value && this.characterService.get_ActiveConditions("Encumbered", "Bulk").length == 0) {
+            this.characterService.add_Condition("Encumbered", 0, "Bulk")
+        }
+        return [bulk];
+    }
+
+    get_FeatsShowingOn(skillName: string) {
+        return this.characterService.get_FeatsShowingOn(skillName);
+    }
+
+    get_ConditionsShowingOn(skillName: string) {
+        return this.characterService.get_ConditionsShowingOn(skillName);
     }
 
     onChange(item) {

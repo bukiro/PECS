@@ -7,6 +7,7 @@ export class Shield implements Item {
     public takingCover: boolean = false;
     constructor(
         public type: string = "shield",
+        public bulk: string = "-",
         public name: string = "",
         public equip: boolean = false,
         public speedpenalty: number = 0,

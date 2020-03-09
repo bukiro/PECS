@@ -1,0 +1,28 @@
+[
+    {
+        "name":"Blinded",
+        "desc":"You can’t see. All normal terrain is difficult terrain to you. You can’t detect anything using vision. You automatically critically fail Perception checks that require you to be able to see, and if vision is your only precise sense, you take a –4 status penalty to Perception checks. You are immune to visual effects. Blinded overrides dazzled.",
+        "override":"Dazzled",
+        "showon":"Perception, Movement"
+    },
+    {
+        "name":"Clumsy",
+        "desc":"Your movements become clumsy and inexact. Clumsy always includes a value. You take a status penalty equal to the condition value to Dexterity-based checks and DCs, including AC, Reflex saves, ranged attack rolls, and skill checks using Acrobatics, Stealth, and Thievery.",
+        "showon":"Dexterity, AC, Reflex, Attacks, Acrobatics, Stealth, Thievery",
+        "specialEffects":[
+            {"affected":"AC", "value":"-(object.level)", "type":"status"},
+            {"affected":"Reflex", "value":"-(object.level)", "type":"status"},
+            {"affected":"Dexterity Attacks", "value":"-(object.level)", "type":"status"},
+            {"affected":"Acrobatics", "value":"-(object.level)", "type":"status"},
+            {"affected":"Stealth", "value":"-(object.level)", "type":"status"},
+            {"affected":"Thievery", "value":"-(object.level)", "type":"status"}
+        ]
+    },
+    {
+        "name":"Encumbered",
+        "desc":"You are carrying more weight than you can manage. While you’re encumbered, you’re clumsy 1 and take a 10-foot penalty to all your Speeds. As with all penalties to your Speed, this can’t reduce your Speed below 5 feet.",
+        "showon":"Movement, Bulk",
+        "gainCondition":[{"name":"Clumsy", "level":2}],
+        "effects":[{"affected":"Speed", "value":"-10"}]
+    }
+]

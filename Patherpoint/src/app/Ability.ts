@@ -30,11 +30,11 @@ export class Ability {
         }
         return baseValue;
     }
-    effects(effectsService: EffectsService) {
-        return effectsService.get_EffectsOnThis(this.name);
+    effects(effectsService: EffectsService, name: string) {
+        return effectsService.get_EffectsOnThis(name);
     }
-    bonus(effectsService: EffectsService) {
-        let effects = this.effects(effectsService);
+    bonus(effectsService: EffectsService, name: string) {
+        let effects = this.effects(effectsService, name);
         let bonus = 0;
         effects.forEach(effect => {
             if (parseInt(effect.value) >= 0) {
@@ -42,8 +42,8 @@ export class Ability {
         }});
         return bonus;
     }
-    penalty(effectsService: EffectsService) {
-        let effects = this.effects(effectsService);
+    penalty(effectsService: EffectsService, name: string) {
+        let effects = this.effects(effectsService, name);
         let penalty = 0;
         effects.forEach(effect => {
             if (parseInt(effect.value) < 0) {
@@ -55,11 +55,14 @@ export class Ability {
     //Calculates the ability with all active effects
         if (characterService.still_loading()) {return 10;}
         //Add all active bonuses and penalties to the base value
-        let result = this.baseValue(characterService) + this.bonus(effectsService) + this.penalty(effectsService);
+        let result = this.baseValue(characterService) + this.bonus(effectsService, this.name) + this.penalty(effectsService, this.name);
         return result;
     }
     mod(characterService: CharacterService, effectsService: EffectsService) {
         //Calculates the ability modifier from the effective ability in the usual d20 fashion - 0-1 > -5; 2-3 > -4; ... 10-11 > 0; 12-13 > 1 etc.
-        return Math.floor((this.value(characterService, effectsService)-10)/2)
+        let modifier = Math.floor((this.value(characterService, effectsService)-10)/2);
+        //Add active bonuses and penalties to the ability modifier
+        let result = modifier + this.bonus(effectsService, this.name+" Modifier") + this.penalty(effectsService, this.name+" Modifier");
+        return result;
     }
 }

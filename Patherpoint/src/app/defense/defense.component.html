@@ -2,7 +2,9 @@
     <h3 title="{{get_EffectiveAC()[1]}}">Defense: {{get_EffectiveAC()[0]}}</h3>
     <div class="loading" *ngIf="still_loading()">Loading</div>
     <div *ngIf="!still_loading()">
-        <div class="row" *ngIf="get_AC().effects(this.effectsService).length">
+        <div class="row">
+            <cite *ngFor="let feat of get_FeatsShowingOn('AC')" [title]="feat.desc">{{feat.name}}&nbsp;</cite>
+            <cite *ngFor="let condition of get_ConditionsShowingOn('AC')" [className]="(condition.buff) ? 'bonus' : 'penalty'" [title]="condition.desc">{{condition.name}}&nbsp;</cite>
             <cite *ngFor="let effect of get_AC().effects(this.effectsService)" [className]="effect.penalty ? 'penalty' : 'bonus'">{{effect.value}} ({{effect.source}})&nbsp;</cite>
         </div>
         <div class="list-item" *ngFor="let armor of get_EquippedArmor()">
@@ -18,9 +20,11 @@
                 <button *ngIf="armor.cover != 4" (click)="armor.cover = 4; set_CharacterChanged()">Take cover</button>
                 <button *ngIf="armor.cover == 4" (click)="armor.cover = 0; set_CharacterChanged()">End cover</button>
             </div>
-            <div class="row" *ngIf="get_FeatsShowingOn('Defense').length">
-                <cite *ngFor="let feat of get_FeatsShowingOn('Defense')" [title]="(feat.hint) ? feat.hint : feat.desc">{{feat.name}}&nbsp;</cite>
+            <div class="row">
+                <cite *ngFor="let feat of get_FeatsShowingOn('Defense')" [title]="feat.desc">{{feat.name}}&nbsp;</cite>
+                <cite *ngFor="let condition of get_ConditionsShowingOn('Defense')" [className]="(condition.buff) ? 'bonus' : 'penalty'" [title]="condition.desc">{{condition.name}}&nbsp;</cite>
             </div>
+            
         </div>
         <div class="list-item" *ngFor="let shield of get_EquippedShield()">
             <div>{{shield.name}} AC: <input type="number" class="number" [ngModel]="shield.itembonus" disabled>
@@ -30,8 +34,9 @@
                     <button *ngIf="shield.raised && shield.coverbonus && !shield.takingCover" (click)="shield.takingCover = true; set_CharacterChanged()">Take cover</button>
                     <button *ngIf="shield.raised && shield.coverbonus && shield.takingCover" (click)="shield.takingCover = false; set_CharacterChanged()">End cover</button>
                 </div>
-                <div class="row" *ngIf="get_FeatsShowingOn('Shield').length">
+                <div class="row">
                     <cite *ngFor="let feat of get_FeatsShowingOn('Shield')" [title]="(feat.hint) ? feat.hint : feat.desc">{{feat.name}}&nbsp;</cite>
+                    <cite *ngFor="let condition of get_ConditionsShowingOn('Shield')" [className]="(condition.buff) ? 'bonus' : 'penalty'" [title]="condition.desc">{{condition.name}}&nbsp;</cite>
                 </div>
             </div>
         </div>
@@ -51,8 +56,9 @@
         <div *ngFor="let skill of get_Skills('', 'Save')|sortBy:'asc':'name'">
             <app-skill class="list-item" [skill]=skill></app-skill>
         </div>
-        <div class="row" *ngIf="get_FeatsShowingOn('Saving Throws').length">
+        <div class="row">
             <cite *ngFor="let feat of get_FeatsShowingOn('Saving Throws')" [title]="(feat.hint) ? feat.hint : feat.desc">{{feat.name}}&nbsp;</cite>
+            <cite *ngFor="let condition of get_ConditionsShowingOn('Shield')" [className]="(condition.buff) ? 'bonus' : 'penalty'" [title]="condition.desc">{{condition.name}}&nbsp;</cite>
         </div>
     </div>
 </div>

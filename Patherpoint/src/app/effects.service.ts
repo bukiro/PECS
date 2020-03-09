@@ -98,9 +98,13 @@ constructor(
             simpleEffects = simpleEffects.concat(this.get_SimpleEffects(item));
         });
         let character = this.characterService.get_Character();
-        let feats = character.get_FeatsTaken(1, character.level)
+        let feats = character.get_FeatsTaken(1, character.level);
         feats.forEach(feat => {
             simpleEffects = simpleEffects.concat(this.get_SimpleEffects(this.characterService.get_FeatsAndFeatures(feat.name)[0]));
+        });
+        let activeConditions = this.characterService.get_ActiveConditions();
+        activeConditions.forEach(condition => {
+            simpleEffects = simpleEffects.concat(this.get_SimpleEffects(condition));
         });
         
         //We finalize and export this first bunch of simple effects,

@@ -26,6 +26,10 @@ export class EffectsComponent implements OnInit {
         return this.effectsService.get_Effects();
     }
 
+    get_Conditions() {
+        return this.characterService.get_ActiveConditions();
+    }
+
     get_AppliedEffects() {
         return this.get_Effects().all.filter(effect => effect.apply);
     }
@@ -34,6 +38,10 @@ export class EffectsComponent implements OnInit {
         return this.get_Effects().all.filter(effect => effect.apply != true);
     }
 
+    get_ActiveConditions(name: string = "", source: string = "") {
+        return this.characterService.get_ActiveConditions(name, source);
+    }
+    
     finish_Loading() {
         if (this.characterService.still_loading()) {
             setTimeout(() => this.finish_Loading(), 500)

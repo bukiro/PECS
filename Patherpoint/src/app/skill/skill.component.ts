@@ -42,11 +42,20 @@ export class SkillComponent implements OnInit {
         return this.characterService.get_FeatsShowingOn(skillName);
     }
 
+    get_EffectsOnThis(ObjectName: String) {
+        return this.effectsService.get_EffectsOnThis(ObjectName);
+    }
+
+    get_ConditionsShowingOn(name: string) {
+        return this.characterService.get_ConditionsShowingOn(name);
+    }
+
     get_specialShowon(skill: Skill) {
         //Under certain circumstances, some Feats apply to skills independently of their name.
         //Return names that get_FeatsShowingOn should run on
         let character = this.characterService.get_Character();
         let specialNames: string[] = []
+        //Show Path to Perfection notices on a save if any skill increases with that PtP as its source can be found
         if (skill.type == "Save") {
             if (character.get_SkillIncreases(1, character.level, skill.name, "Path to Perfection").length) {
                 specialNames.push("Path to Perfection");

@@ -64,6 +64,10 @@ export class DefenseComponent implements OnInit {
         return this.characterService.get_FeatsShowingOn(skillName);
     }
 
+    get_ConditionsShowingOn(name: string) {
+        return this.characterService.get_ConditionsShowingOn(name);
+    }
+
     get_ArmorBonus(armor: Armor) {
         return this.defenseService.get_ArmorBonus(armor);
     }

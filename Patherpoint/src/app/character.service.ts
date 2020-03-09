@@ -24,6 +24,9 @@ import { Feat } from './Feat';
 import { Health } from './Health';
 import { async } from '@angular/core/testing';
 import { Speed } from './Speed';
+import { Bulk } from './Bulk';
+import { Condition } from './Condition';
+import { ConditionsService } from './Conditions.service';
 
 @Injectable({
     providedIn: 'root'
@@ -46,7 +49,8 @@ export class CharacterService {
         private classesService: ClassesService,
         private featsService: FeatsService,
         private traitsService: TraitsService,
-        private historyService: HistoryService
+        private historyService: HistoryService,
+        private conditionsService: ConditionsService
     ) { }
 
     still_loading() {
@@ -280,6 +284,34 @@ export class CharacterService {
         this.set_Changed();
     }
 
+    get_Conditions(name: string = "") {
+        return this.conditionsService.get_Conditions(name);
+    }
+
+    get_ActiveConditions(name: string = "", source: string = "") {
+        return this.me.conditions.filter(condition =>
+            (condition.name == name || name == "") &&
+            (condition.source == source || source == "")
+            );
+    }
+
+    add_Condition(condition: string, level: number, source: string) {
+        let oldCondition = this.get_Conditions(condition)[0];
+        let newLength = this.me.conditions.push(Object.assign(new Condition(), JSON.parse(JSON.stringify(oldCondition))));
+        let newCondition = this.me.conditions[newLength -1];
+        newCondition.level = level;
+        newCondition.source = source;
+        newCondition.gainCondition.forEach(extraCondition => {
+            this.add_Condition(extraCondition.name, extraCondition.level, newCondition.name)
+        })
+        this.set_Changed();
+        return newLength;
+    }
+
+    have_Trait(object: any, traitName: string) {
+        return this.traitsService.have_Trait(object, traitName);
+    }
+
     get_Abilities(name: string = "") {
         return this.abilitiesService.get_Abilities(name)
     }
@@ -327,11 +359,30 @@ export class CharacterService {
         return returnedFeats;
     }
 
+    get_ConditionsShowingOn(objectName: string) {
+        let conditions = this.me.conditions;
+        if (objectName.indexOf("Lore") > -1) {
+            objectName = "Lore";
+        }
+        let returnedConditions = []
+        if (conditions.length) {
+            conditions.forEach(condition => {
+                condition.showon.split(",").forEach(showon => {
+                    if (showon == objectName || showon.substr(1) == objectName || (objectName == "Lore" && showon.indexOf(objectName) > -1)) {
+                        returnedConditions.push(condition);
+                    }
+                })
+            });
+        }
+        return returnedConditions;
+    }
+
     initialize(charName: string) {
         this.traitsService.initialize();
         this.featsService.initialize();
         this.historyService.initialize();
         this.classesService.initialize();
+        this.conditionsService.initialize();
         this.loading = true;
         this.load_Character(charName)
             .subscribe((results:string[]) => {
@@ -363,6 +414,9 @@ export class CharacterService {
             if (this.me.customFeats) {
                 this.me.customFeats = this.me.customFeats.map(feat => Object.assign(new Feat(), feat));
             }
+            if (this.me.conditions) {
+                this.me.conditions = this.me.conditions.map(condition => Object.assign(new Condition(), condition));
+            }
             if (this.me.inventory) {
                 this.me.inventory = Object.assign(new ItemCollection(), this.me.inventory);
                 this.me.inventory.weapon = this.me.inventory.weapon.map(weapon => Object.assign(new Weapon(), weapon));
@@ -373,6 +427,9 @@ export class CharacterService {
             }
             if (this.me.speeds) {
                 this.me.speeds = this.me.speeds.map(speed => Object.assign(new Speed(), speed));
+            }
+            if (this.me.bulk) {
+                this.me.bulk = Object.assign(new Bulk(), this.me.bulk);
             }
             if (this.me.class.ancestry) {
                 this.me.class.ancestry = Object.assign(new Ancestry(), this.me.class.ancestry);

@@ -17,6 +17,43 @@
             <input class="number" type="number"
                 value="{{this.characterService.get_Character().cash[3]}}" disabled>
         </div> 
+        <h3>Bulk</h3>
+        <div *ngFor="let bulk of get_Bulk()">
+            <div class="list-item">
+                <strong>Bulk</strong>
+                <input class="number" type="number"
+                    value="{{bulk.$current}}" disabled>
+                <div class="row" *ngIf="get_ConditionsShowingOn('Bulk').length">
+                    <cite [className]="(condition.buff) ? 'bonus' : 'penalty'" *ngFor="let condition of get_ConditionsShowingOn('Bulk')" [title]="condition.desc">{{condition.name}}&nbsp;</cite>
+                    <cite class="penalty" *ngIf="bulk.$current > bulk.$max.value" title="You can't carry this much Bulk.">Overencumbered&nbsp;</cite>
+                </div>
+            </div>
+            <div class="list-item">
+                <strong>Encumbrance</strong>
+                <input class="number" type="number"
+                [className]="(bulk.$penalty.length) ? 'penalty' : (bulk.$bonus.length) ? 'bonus' : ''"
+                    value="{{bulk.$encumbered.value}}"
+                    title="{{bulk.$encumbered.desc}}"
+                    disabled>
+                <strong>Maximum</strong>
+                <input class="number" type="number"
+                [className]="(bulk.$penalty.length) ? 'penalty' : (bulk.$bonus.length) ? 'bonus' : ''"
+                    value="{{bulk.$max.value}}"
+                    title="{{bulk.$max.desc}}"
+                    disabled>
+                <div class="row" *ngIf="bulk.$effects.length">
+                    <cite *ngFor="let effect of bulk.$effects"
+                        [className]="effect.penalty ? 'penalty' : 'bonus'">
+                        {{effect.value}} ({{effect.source}})&nbsp;
+                    </cite>
+                </div>
+                <div class="row">
+                    <cite *ngFor="let feat of get_FeatsShowingOn('Max Bulk')" [title]="feat.desc">{{feat.name}}&nbsp;</cite>
+                    <cite *ngFor="let condition of get_ConditionsShowingOn('Max Bulk')" [className]="(condition.buff) ? 'bonus' : 'penalty'" [title]="condition.desc">{{condition.name}}&nbsp;</cite>
+                </div>
+            </div>
+        </div>
+        <h3>Items</h3>
         <button class="list-item" (click)="toggleItemsMenu()">Get Items</button>
         <h3>Weapons</h3>
         <div class="list-item" *ngFor="let weapon of get_InventoryItems().weapon">

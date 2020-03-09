@@ -25,6 +25,7 @@ export class Feat {
     public featreq: string = "";
     public specialreqdesc: string = "";
     public specialreq: string = "";
+    public access: string = "";
     public showon: string = "";
     public traits: string[] = [];
     public effects: string[] = [];

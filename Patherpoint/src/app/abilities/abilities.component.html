@@ -10,10 +10,9 @@
             Modifier: <input class="number" type="number"
                 [className]="(ability.penalty(this.effectsService) < 0) ? 'penalty' : (ability.bonus(this.effectsService) > 0) ? 'bonus' : ''"
                 value="{{ability.mod(this.characterService, this.effectsService)}}" disabled>
-            <div class="row" *ngIf="ability.effects(this.effectsService).length">
-                <cite *ngFor="let effect of ability.effects(this.effectsService)"
-                    [className]="effect.penalty ? 'penalty' : 'bonus'">{{effect.value}} ({{effect.source}})&nbsp;
-                </cite>
+            <div class="row">
+                <cite *ngFor="let condition of get_ConditionsShowingOn(ability.name)" [className]="(condition.buff) ? 'bonus' : 'penalty'" [title]="condition.desc">{{condition.name}}&nbsp;</cite>
+                <cite *ngFor="let effect of ability.effects(this.effectsService)" [className]="effect.penalty ? 'penalty' : 'bonus'">{{effect.value}} ({{effect.source}})&nbsp;</cite>
             </div>
         </div> 
     </div>

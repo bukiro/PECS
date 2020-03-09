@@ -39,7 +39,7 @@ export class TraitsService {
     }
 
     have_Trait(object: any, traitName: string) {
-        return (object.traits.indexOf(traitName) > -1) ? true : false;
+        return (object.traits.filter(trait => trait.indexOf(traitName) > -1).length) ? true : false;
     }
 
     still_loading() {
@@ -48,20 +48,6 @@ export class TraitsService {
 
     load_Traits(): Observable<String[]>{
         return this.http.get<String[]>('/assets/traits.json');
-    }
-
-    get_specialModifier(object: any, affected: string, str: number, dex: number) {
-    //Do any traits of this object affect this information? This basically looks up every one of the object's traits,
-    //checks if that trait that has a specialModifier that applies to this word (like "attack"), then evals it, and adds up the results.
-    //Returns the sum of all formulas that affect this information
-        let results = 0;
-        object.traits.forEach(traitName => {
-            let trait = this.get_Traits(traitName)[0];
-            if (trait.specialModifier && trait.specialModifier["applyTo"] == affected) {
-                results += eval(trait.specialModifier["formula"]);
-            }
-        });
-        return results;
     }
 
     initialize() {

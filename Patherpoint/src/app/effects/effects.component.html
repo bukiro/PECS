@@ -1,5 +1,9 @@
 <div id="items" class="attributeBox">
     <div>
+        <h3>Active Conditions</h3>
+        <div *ngFor="let condition of get_ActiveConditions()">
+            <span [className]="condition.buff ? 'bonus' : 'penalty'" title="{{condition.source}}">{{condition.name}} {{(condition.level) ? condition.level : ""}}</span>
+        </div>
         <h3>Active Effects</h3>
         <div *ngFor="let effect of get_AppliedEffects()">
             <span [className]="effect.penalty ? 'penalty' : 'bonus'" title="{{effect.source}}">{{effect.target}} {{effect.value}}</span>

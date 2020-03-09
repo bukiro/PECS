@@ -82,6 +82,10 @@ export class HealthComponent implements OnInit {
         return this.characterService.get_FeatsShowingOn(name);
     }
 
+    get_ConditionsShowingOn(name: string) {
+        return this.characterService.get_ConditionsShowingOn(name);
+    }
+
     set_CharacterChanged() {
         this.characterService.set_Changed();
     }

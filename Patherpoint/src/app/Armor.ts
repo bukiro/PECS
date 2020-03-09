@@ -7,6 +7,7 @@ export class Armor implements Item {
     public showNotes: boolean = false;
     constructor(
         public type: string = "armor",
+        public bulk: string = "-",
         public name: string = "",
         public equip: boolean = false,
         public prof: string = "",

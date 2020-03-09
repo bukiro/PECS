@@ -10,6 +10,7 @@ export class Weapon implements Item {
     public parrying: boolean = false;
     constructor(
         public type: string = "weapon",
+        public bulk: string = "-",
         public name: string = "",
         public equip: boolean = false,
         public prof: string = "",
@@ -36,7 +37,7 @@ export class Weapon implements Item {
         //For Monk, Dwarf, Goblin etc. weapons, check if the character has any weapon proficiency that matches a trait of this weapon
         let traitLevels: number[] = [];
         this.traits.forEach(trait => {
-            let skill = characterService.get_Skills(trait);
+            let skill = characterService.get_Skills(trait, "Specific Weapon Proficiency");
             if (skill.length) {
                 traitLevels.push(skill[0].level(characterService));
             }
@@ -62,18 +63,43 @@ export class Weapon implements Item {
         if (charLevelBonus) {
             explain += "\nCharacter Level: "+charLevelBonus;
         }
+        //The Clumsy condition affects all Dexterity attacks
+        let effects = effectsService.get_EffectsOnThis("Dexterity Attacks");
+        let dexPenalty = 0;
+        let dexExplain = "";
+        effects.forEach(effect => {
+            dexPenalty += parseInt(effect.value);
+            dexExplain += "\n"+effect.source+": "+dexPenalty;
+        });
         //Check if the weapon has any traits that affect its Ability bonus to attack, such as Finesse or Brutal, and run those calculations.
-        let traitMod = traitsService.get_specialModifier(this, "attack", str, dex);
-        //If the previous step has resulted in a value, use that as the Ability bonus. If not, and the attack is ranged, use Dexterity, otherwise Strength
-        let abilityMod = (traitMod) ? (traitMod) : (range == "ranged") ? dex : str;
-        if (traitMod) {
-            explain += "\nAbility Modifier: "+traitMod;
-        } else {
-            if (range == "ranged" && dex) {
-                explain += "\nAbility Modifier: "+dex;
-            } else if (range == "melee" && str) {
-                explain += "\nAbility Modifier: "+str;
+        let abilityMod: number = 0;
+        if (range == "ranged") {
+            if (characterService.have_Trait(this, "Brutal")) {
+                abilityMod = str;
+                explain += "\nStrength Modifier (Brutal): "+abilityMod;
+            } else {
+                abilityMod = dex;
+                explain += "\nDexterity Modifier: "+abilityMod;
+                if (dexPenalty != 0) {
+                    abilityMod += dexPenalty;
+                    explain += dexExplain;
+                }
             }
+        } else {
+            if (characterService.have_Trait(this, "Finesse") && dex + dexPenalty > str) {
+                abilityMod = dex;
+                explain += "\nDexterity Modifier (Finesse): "+abilityMod;
+                if (dexPenalty != 0) {
+                    abilityMod += dexPenalty;
+                    explain += dexExplain;
+                }
+            } else {
+                abilityMod = str;
+            explain += "\nStrength Modifier: "+abilityMod;
+            }
+        }
+        if (this.itembonus) {
+            explain += "\nItem Bonus: "+this.itembonus;
         }
         //Add up all modifiers and return the attack bonus for this attack
         let attackResult = charLevelBonus + skillLevel + this.itembonus + abilityMod;
@@ -95,16 +121,23 @@ export class Weapon implements Item {
         //Get the basic "1d6" from the weapon's dice values
         var baseDice = this.dicenum + "d" + dicesize;
         //Check if the Weapon has any traits that affect its damage Bonus, such as Thrown or Propulsive, and run those calculations.
-        let traitMod = traitsService.get_specialModifier(this, "dmgBonus", str, 0);
-        //If the previous step has resulted in a value, use that as the Ability bonus to damage, otherwise use Strength for Melee attacks.
-        //Ranged attacks don't get a damage bonus from Abilities without Traits.
-        let abilityMod = (traitMod) ? (traitMod) : (range == "melee") && str;
-        if (traitMod) {
-            explain += "\nAbility Modifier: "+traitMod;
-        } else {
-            if (range == "melee" && str) {
-                explain += "\nAbility Modifier: "+str;
+        let abilityMod: number = 0;
+        if (range == "ranged") {
+            if (characterService.have_Trait(this, "Propulsive")) {
+                if (str > 0) {
+                    abilityMod = Math.floor(str / 2);
+                    explain += "\nStrength Modifier (Propulsive): "+abilityMod;
+                } else if (str < 0) {
+                    abilityMod = str;
+                    explain += "\nStrength Modifier (Propulsive): "+abilityMod;
+                }
+            } else if (characterService.have_Trait(this, "Thrown")) {
+                abilityMod = str;
+                explain += "\nStrength Modifier (Thrown): "+abilityMod;
             }
+        } else {
+            abilityMod = str;
+            explain += "\nStrength Modifier: "+abilityMod;
         }
         let featBonus: number = 0;
         if (characterService.get_Features("Weapon Specialization")[0].have(characterService)) {
