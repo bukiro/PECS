@@ -161,9 +161,11 @@
 
   .attributeBox {
     width: 450px;
+    height: 450px;
+    overflow-y: auto;
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
+    justify-content: flex-start;
     padding: 16px 32px;
     margin: 8px;
     border-radius: 2px;

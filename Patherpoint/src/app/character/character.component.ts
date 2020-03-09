@@ -513,12 +513,16 @@ export class CharacterComponent implements OnInit {
                     result.push(feat.meetsLevelReq(this.characterService, featLevel));
                 }
                 if (JSON.stringify(feat.abilityreq) != JSON.stringify(compare.abilityreq)) {
-                    result.push({met:true, desc:", "});
-                    result.push(...feat.meetsAbilityReq(this.characterService, featLevel));
+                    feat.meetsAbilityReq(this.characterService, featLevel).forEach(req => {
+                        result.push({met:true, desc:", "});
+                        result.push(req);
+                    })
                 }
                 if (JSON.stringify(feat.skillreq) != JSON.stringify(compare.skillreq)) {
-                    result.push({met:true, desc:", "});
-                    result.push(...feat.meetsSkillReq(this.characterService, featLevel));
+                    feat.meetsSkillReq(this.characterService, featLevel).forEach(req => {
+                        result.push({met:true, desc:", "});
+                        result.push(req);
+                    })
                 }
 
                 if (feat.featreq && feat.featreq != compare.featreq) {
@@ -536,12 +540,16 @@ export class CharacterComponent implements OnInit {
                 result.push(feat.meetsLevelReq(this.characterService, featLevel));
             }
             if (feat.abilityreq.length) {
-                result.push({met:true, desc:", "});
-                result.push(...feat.meetsAbilityReq(this.characterService, featLevel));
+                feat.meetsAbilityReq(this.characterService, featLevel).forEach(req => {
+                    result.push({met:true, desc:", "});
+                    result.push(req);
+                })
             }
             if (feat.skillreq.length) {
-                result.push({met:true, desc:", "});
-                result.push(...feat.meetsSkillReq(this.characterService, featLevel));
+                feat.meetsSkillReq(this.characterService, featLevel).forEach(req => {
+                    result.push({met:true, desc:", "});
+                    result.push(req);
+                })
             }
             if (feat.featreq) {
                 result.push({met:true, desc:", "});
