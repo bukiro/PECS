@@ -74,21 +74,22 @@ export class Character {
     }
     add_SkillChoice(level: Level, newChoice: SkillChoice) {
         let existingChoices = level.skillChoices.filter(choice => choice.source == newChoice.source);
-        let tempChoice = Object.assign({}, JSON.parse(JSON.stringify(newChoice)))
+        let tempChoice = Object.assign(new SkillChoice, JSON.parse(JSON.stringify(newChoice)))
         tempChoice.id = level.number +"-Skill-"+ tempChoice.source +"-"+ existingChoices.length;
-        let newIndex: number = level.skillChoices.push(Object.assign([], tempChoice));
+        let newIndex: number = level.skillChoices.push(tempChoice);
         return level.skillChoices[newIndex-1];
     }
     get_SkillChoice(sourceId: string) {
         let levelNumber = parseInt(sourceId[0]);
         return this.class.levels[levelNumber].skillChoices.filter(choice => choice.id == sourceId)[0];
     }
-    remove_SkillChoice(oldChoice: SkillChoice, level: Level) {
-        level.skillChoices = level.skillChoices.filter(choice => choice !== oldChoice);
+    remove_SkillChoice(oldChoice: SkillChoice) {
+        let levelNumber = parseInt(oldChoice.id[0]);
+        this.class.levels[levelNumber].skillChoices = this.class.levels[levelNumber].skillChoices.filter(choice => choice !== oldChoice);
     }
     add_LoreChoice(level: Level, newChoice: LoreChoice) {
         let existingChoices = level.loreChoices.filter(choice => choice.source == newChoice.source);
-        let tempChoice = Object.assign({}, newChoice)
+        let tempChoice = Object.assign(new LoreChoice, JSON.parse(JSON.stringify(newChoice)))
         tempChoice.increases = Object.assign([], newChoice.increases);
         tempChoice.id = level.number +"-Lore-"+ tempChoice.source +"-"+ existingChoices.length;
         let newId: number = level.loreChoices.push(tempChoice);
@@ -100,7 +101,7 @@ export class Character {
     }
     add_FeatChoice(level: Level, newChoice: FeatChoice) {
         let existingChoices = level.featChoices.filter(choice => choice.source == newChoice.source);
-        let tempChoice = Object.assign({}, JSON.parse(JSON.stringify(newChoice)));
+        let tempChoice = Object.assign(new FeatChoice, JSON.parse(JSON.stringify(newChoice)));
         tempChoice.id = level.number +"-Feat-"+ tempChoice.source +"-"+ existingChoices.length;
         //eval the level string to convert things like "level.number / 2". "1" is still "1".
         if (tempChoice.level) {
@@ -233,7 +234,7 @@ export class Character {
             if (choice.source.indexOf("Feat: Canny Acumen") > -1) {
                 let oldChoices = characterService.get_Level(17).skillChoices.filter(skillChoice => skillChoice.source == choice.source);
                 if (oldChoices.length) {
-                    this.remove_SkillChoice(oldChoices[0], characterService.get_Level(17));
+                    this.remove_SkillChoice(oldChoices[0]);
                 }
             }
             //If you are deselecting Path to Perfection, the selected skill is removed from the filter of Third Path to Perfection.

@@ -27,6 +27,10 @@ import { Speed } from './Speed';
 import { Bulk } from './Bulk';
 import { Condition } from './Condition';
 import { ConditionsService } from './Conditions.service';
+import { AbilityChoice } from './AbilityChoice';
+import { FeatChoice } from './FeatChoice';
+import { LoreChoice } from './LoreChoice';
+import { SkillChoice } from './SkillChoice';
 
 @Injectable({
     providedIn: 'root'
@@ -99,6 +103,7 @@ export class CharacterService {
     }
 
     changeClass($class: Class) {
+        //Cleanup Heritage, Ancestry, Background and class skills
         this.me.class.on_ChangeHeritage(this);
         this.me.class.on_ChangeAncestry(this);
         this.me.class.on_ChangeBackground(this);
@@ -107,6 +112,7 @@ export class CharacterService {
         });
         this.me.class = new Class();
         this.me.class = Object.assign(new Class(), JSON.parse(JSON.stringify($class)));
+        this.me.class.reassign();
         this.me.class.customSkills.forEach(skill => {
             this.me.customSkills.push(Object.assign(new Skill(), skill));
         });
@@ -404,7 +410,7 @@ export class CharacterService {
             this.me.customSkills = this.me.customSkills.map(skill => Object.assign(new Skill(), skill));
             if (this.me.class) {
                 this.me.class = Object.assign(new Class(), this.me.class);
-                this.me.class.levels = this.me.class.levels.map(level => Object.assign(new Level(), level));
+                this.me.class.reassign();
             } else {
                 this.me.class = new Class();
             }
@@ -433,12 +439,15 @@ export class CharacterService {
             }
             if (this.me.class.ancestry) {
                 this.me.class.ancestry = Object.assign(new Ancestry(), this.me.class.ancestry);
+                this.me.class.ancestry.reassign();
             }
             if (this.me.class.heritage) {
                 this.me.class.heritage = Object.assign(new Heritage(), this.me.class.heritage);
+                this.me.class.heritage.reassign();
             }
             if (this.me.class.background) {
                 this.me.class.background = Object.assign(new Background(), this.me.class.background);
+                this.me.class.background.reassign();
             }
 
             this.loader = [];

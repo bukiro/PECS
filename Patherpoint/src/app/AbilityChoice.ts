@@ -1,9 +1,11 @@
-export interface AbilityChoice {
-    available: number;
-    boosts: any[];
-    filter: string[];
-    //How many of the available ability boosts are lost if you rolled your ability scores?
-    baseValuesLost: number;
-    source: string;
-    id: string;
+import { AbilityBoost } from './AbilityBoost';
+
+export class AbilityChoice {
+    public available: number = 0;
+    public boosts: AbilityBoost[] = [];
+    public filter: string[] = [];
+    //How many of the available ability boosts are lost if you rolled your own ability scores?
+    public baseValuesLost: number = 0;
+    public source: string = "";
+    public id: string = "";
 }

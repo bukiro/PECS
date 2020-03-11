@@ -217,7 +217,6 @@
         ],
         "gainSkillChoice": [
             {
-                "available": 0,
                 "increases": [
                     {
                         "name": "Light Armor",
@@ -227,11 +226,9 @@
                         "sourceId": ""
                     }
                 ],
-                "filter": [],
                 "type": "Armor Proficiency",
                 "maxRank": 2,
-                "source": "Feat: Armor Proficiency: Light armor",
-                "id": ""
+                "source": "Feat: Armor Proficiency: Light armor"
             }
         ]
     },
@@ -256,7 +253,6 @@
         ],
         "gainSkillChoice": [
             {
-                "available": 0,
                 "increases": [
                     {
                         "name": "Medium Armor",
@@ -266,11 +262,9 @@
                         "sourceId": ""
                     }
                 ],
-                "filter": [],
                 "type": "Armor Proficiency",
                 "maxRank": 2,
-                "source": "Feat: Armor Proficiency: Medium armor",
-                "id": ""
+                "source": "Feat: Armor Proficiency: Medium armor"
             }
         ]
     },
@@ -295,7 +289,6 @@
         ],
         "gainSkillChoice": [
             {
-                "available": 0,
                 "increases": [
                     {
                         "name": "Heavy Armor",
@@ -305,11 +298,9 @@
                         "sourceId": ""
                     }
                 ],
-                "filter": [],
                 "type": "Armor Proficiency",
                 "maxRank": 2,
-                "source": "Feat: Armor Proficiency: Heavy armor",
-                "id": ""
+                "source": "Feat: Armor Proficiency: Heavy armor"
             }
         ]
     },
@@ -1018,7 +1009,6 @@
         ],
         "gainSkillChoice": [
             {
-                "available": 0,
                 "increases": [
                     {
                         "name": "Perception",
@@ -1028,11 +1018,9 @@
                         "sourceId": ""
                     }
                 ],
-                "filter": [],
                 "type": "Perception",
                 "maxRank": 4,
-                "source": "Feat: Canny Acumen: Perception",
-                "id": ""
+                "source": "Feat: Canny Acumen: Perception"
             }
         ]
     },
@@ -1051,7 +1039,6 @@
         ],
         "gainSkillChoice": [
             {
-                "available": 0,
                 "increases": [
                     {
                         "name": "Fortitude",
@@ -1061,11 +1048,9 @@
                         "sourceId": ""
                     }
                 ],
-                "filter": [],
                 "type": "Save",
                 "maxRank": 4,
-                "source": "Feat: Canny Acumen: Fortitude",
-                "id": ""
+                "source": "Feat: Canny Acumen: Fortitude"
             }
         ]
     },
@@ -1084,7 +1069,6 @@
         ],
         "gainSkillChoice": [
             {
-                "available": 0,
                 "increases": [
                     {
                         "name": "Reflex",
@@ -1094,11 +1078,9 @@
                         "sourceId": ""
                     }
                 ],
-                "filter": [],
                 "type": "Save",
                 "maxRank": 4,
-                "source": "Feat: Canny Acumen: Reflex",
-                "id": ""
+                "source": "Feat: Canny Acumen: Reflex"
             }
         ]
     },
@@ -1117,7 +1099,6 @@
         ],
         "gainSkillChoice": [
             {
-                "available": 0,
                 "increases": [
                     {
                         "name": "Will",
@@ -1127,11 +1108,9 @@
                         "sourceId": ""
                     }
                 ],
-                "filter": [],
                 "type": "Save",
                 "maxRank": 4,
-                "source": "Feat: Canny Acumen: Will",
-                "id": ""
+                "source": "Feat: Canny Acumen: Will"
             }
         ]
     },
@@ -1764,7 +1743,6 @@
         ],
         "gainSkillChoice": [
             {
-                "available": 0,
                 "increases": [
                     {
                         "name": "Simple Weapons",
@@ -1774,11 +1752,9 @@
                         "sourceId": ""
                     }
                 ],
-                "filter": [],
                 "type": "Weapon Proficiency",
                 "maxRank": 2,
-                "source": "Feat: Weapon Proficiency: Simple Weapons",
-                "id": ""
+                "source": "Feat: Weapon Proficiency: Simple Weapons"
             }
         ]
     },
@@ -1796,7 +1772,6 @@
         ],
         "gainSkillChoice": [
             {
-                "available": 0,
                 "increases": [
                     {
                         "name": "Martial Weapons",
@@ -1806,11 +1781,9 @@
                         "sourceId": ""
                     }
                 ],
-                "filter": [],
                 "type": "Weapon Proficiency",
                 "maxRank": 2,
-                "source": "Feat: Weapon Proficiency: Martial Weapons",
-                "id": ""
+                "source": "Feat: Weapon Proficiency: Martial Weapons"
             }
         ]
     },
@@ -1836,7 +1809,6 @@
         ],
         "gainSkillChoice": [
             {
-                "available": 0,
                 "increases": [
                     {
                         "name": "Advanced Weapon",
@@ -1846,11 +1818,9 @@
                         "sourceId": ""
                     }
                 ],
-                "filter": [],
                 "type": "Specific Weapon Proficiency",
                 "maxRank": 2,
-                "source": "Feat: Weapon Proficiency: Advanced Weapon",
-                "id": ""
+                "source": "Feat: Weapon Proficiency: Advanced Weapon"
             }
         ]
     },
@@ -2151,12 +2121,9 @@
         "gainSkillChoice": [
             {
                 "available": 1,
-                "filter": [],
-                "increases": [],
                 "type": "Skill",
                 "maxRank": 2,
-                "source": "Feat: Skill Training",
-                "id": ""
+                "source": "Feat: Skill Training"
             }
         ]
     },
@@ -3373,7 +3340,6 @@
         "levelreq": 1,
         "gainSkillChoice": [
             {
-                "available": 0,
                 "increases": [
                     {
                         "name": "Monk",
@@ -3383,11 +3349,9 @@
                         "sourceId": ""
                     }
                 ],
-                "filter": [],
                 "type": "Specific Weapon Proficiency",
                 "maxRank": 2,
-                "source": "Feat: Monastic Weaponry",
-                "id": ""
+                "source": "Feat: Monastic Weaponry"
             }
         ]
     },

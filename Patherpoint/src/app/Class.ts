@@ -8,6 +8,8 @@ import { Item } from './Item';
 import { SkillChoice } from './SkillChoice';
 import { LoreChoice } from './LoreChoice';
 import { Skill } from './Skill';
+import { AbilityChoice } from './AbilityChoice';
+import { FeatChoice } from './FeatChoice';
 
 export class Class {
     public name: string = "";
@@ -17,6 +19,17 @@ export class Class {
     public background: Background = new Background();
     public hitPoints: number = 0;
     public customSkills: Skill[] = [];
+    reassign() {
+        //Re-Assign levels
+        this.levels = this.levels.map(level => Object.assign(new Level(), level));
+        //Re-Assign all Choices
+        this.levels.forEach(level => {
+            level.abilityChoices = level.abilityChoices.map(choice => Object.assign(new AbilityChoice(), JSON.parse(JSON.stringify(choice))));
+            level.featChoices = level.featChoices.map(choice => Object.assign(new FeatChoice(), JSON.parse(JSON.stringify(choice))));
+            level.loreChoices = level.loreChoices.map(choice => Object.assign(new LoreChoice(), JSON.parse(JSON.stringify(choice))));
+            level.skillChoices = level.skillChoices.map(choice => Object.assign(new SkillChoice(), JSON.parse(JSON.stringify(choice))));
+        })
+    }
     on_ChangeAncestry(characterService: CharacterService) {
         if (this.ancestry.name) {
             this.levels[1].abilityChoices = this.levels[1].abilityChoices.filter(availableBoost => availableBoost.source != "Ancestry")
@@ -37,18 +50,19 @@ export class Class {
     }
     on_NewAncestry(characterService: CharacterService, itemsService: ItemsService) {
         if (this.ancestry.name) {
+            this.ancestry.reassign();
             this.levels[1].abilityChoices.push(...this.ancestry.abilityChoices);
             if (this.ancestry.freeItems.length) {
                 this.ancestry.freeItems.forEach(freeItem => {
                     let item: Item = itemsService.get_Items()[freeItem.type].filter(item => item.name == freeItem.name)[0];
                     characterService.grant_InventoryItem(item);
                 });
-                
             }
         }
     }
     on_ChangeHeritage(characterService: CharacterService) {
         if (this.heritage.name) {
+            let level = this.levels[1];
             let character = characterService.get_Character();
             this.heritage.ancestries.forEach(ancestryListing => {
                 this.ancestry.ancestries = this.ancestry.ancestries.filter(ancestry => ancestry != ancestryListing)
@@ -63,28 +77,31 @@ export class Class {
                     character.take_Feat(characterService, feat.name, false, choice, false);
                 });
             });
-            this.levels[1].featChoices = this.levels[1].featChoices.filter(choice => choice.source != "Heritage");
-            this.levels[1].skillChoices = this.levels[1].skillChoices.filter(choice => choice.source != "Heritage" && choice.source != "Skilled Heritage");
+            level.featChoices = level.featChoices.filter(choice => choice.source != "Heritage");
+            level.skillChoices = level.skillChoices.filter(choice => choice.source != "Heritage" && choice.source != "Skilled Heritage");
             //Also remove the 5th level skill increase from Skilled Heritage
             this.levels[5].skillChoices = this.levels[5].skillChoices.filter(choice => choice.source != "Skilled Heritage");
         }
     }
     on_NewHeritage(characterService: CharacterService) {
         if (this.heritage.name) {
+            let character = characterService.get_Character();
+            let level = this.levels[1];
+            this.heritage.reassign();
             this.ancestry.traits.push(...this.heritage.traits)
             this.ancestry.ancestries.push(...this.heritage.ancestries);
-            let character = characterService.get_Character();
-            this.levels[1].featChoices.push(...this.heritage.featChoices);
+            level.featChoices.push(...this.heritage.featChoices);
+            level.skillChoices.push(...this.heritage.skillChoices);
+            
             //Some feats get specially processed when taken.
             //We have to explicitly take these feats to process them.
             //So we remove them and then "take" them again.
-            this.levels[1].featChoices.filter(choice => choice.source == "Heritage").forEach(choice => {
+            level.featChoices.filter(choice => choice.source == "Heritage").forEach(choice => {
                 choice.feats.forEach(feat => {
                     choice.feats.splice(choice.feats.indexOf(feat), 1);
                     character.take_Feat(characterService, feat.name, true, choice, feat.locked);
                 });
             });
-            this.levels[1].skillChoices.push(...this.heritage.skillChoices);
             //You may get a skill training from a heritage.
             //If you have already trained this skill from another source:
             //Check if it is a free training (not locked). If so, remove it and reimburse the skill point, then replace it with the heritage's.
@@ -108,42 +125,45 @@ export class Class {
     }
     on_ChangeBackground(characterService: CharacterService) {
         if (this.background.name) {
+            let level = this.levels[1];
             let character = characterService.get_Character();
-            this.levels[1].skillChoices = this.levels[1].skillChoices.filter(choice => choice.source != "Background");
-            this.levels[1].abilityChoices = this.levels[1].abilityChoices.filter(availableBoost => availableBoost.source != "Background");
+            level.skillChoices = level.skillChoices.filter(choice => choice.source != "Background");
+            level.abilityChoices = level.abilityChoices.filter(availableBoost => availableBoost.source != "Background");
             //Some feats get specially processed when taken.
             //We can't just delete these feats, but must specifically un-take them to undo their effects.
-            this.levels[1].featChoices.filter(choice => choice.source == "Background").forEach(choice => {
+            level.featChoices.filter(choice => choice.source == "Background").forEach(choice => {
                 choice.feats.forEach(feat => {
                 character.take_Feat(characterService, feat.name, false, choice, feat.locked);
                 });
             });
-            this.levels[1].featChoices = this.levels[1].featChoices.filter(availableBoost => availableBoost.source != "Background");
+            level.featChoices = level.featChoices.filter(availableBoost => availableBoost.source != "Background");
             //Remove all Lores
-            let oldChoices: LoreChoice[] = this.levels[1].loreChoices.filter(choice => choice.source == "Background");
+            let oldChoices: LoreChoice[] = level.loreChoices.filter(choice => choice.source == "Background");
             let oldChoice = oldChoices[oldChoices.length - 1];
             if (oldChoice.increases.length) {
                 character.remove_Lore(characterService, oldChoice);
             }
-            this.levels[1].loreChoices = this.levels[1].loreChoices.filter(choice => choice.source != "Background");
+            level.loreChoices = level.loreChoices.filter(choice => choice.source != "Background");
         }
     }
     on_NewBackground(characterService: CharacterService) {
         if (this.background.name) {
+            let level = this.levels[1];
             let character = characterService.get_Character();
-            this.levels[1].abilityChoices.push(...this.background.abilityChoices);
-            this.levels[1].skillChoices.push(...this.background.skillChoices);
-            this.levels[1].featChoices.push(...this.background.featChoices);
+            this.background.reassign();
+            level.abilityChoices.push(...this.background.abilityChoices);
+            level.skillChoices.push(...this.background.skillChoices);
+            level.featChoices.push(...this.background.featChoices);
+            level.loreChoices.push(...this.background.loreChoices);
             //Some feats get specially processed when taken.
             //We have to explicitly take these feats to process them.
             //So we remove them and then "take" them again.
-            this.levels[1].featChoices.filter(choice => choice.source == "Background").forEach(choice => {
+            level.featChoices.filter(choice => choice.source == "Background").forEach(choice => {
                 choice.feats.forEach(feat => {
                     choice.feats.splice(choice.feats.indexOf(feat), 1);
                     character.take_Feat(characterService, feat.name, true, choice, feat.locked);
                 });
             });
-            this.levels[1].loreChoices.push(...this.background.loreChoices);
             if (this.background.loreChoices[0].loreName) {
                 if (characterService.get_Skills('Lore: '+this.background.loreChoices[0].loreName).length) {
                     let increases = character.get_SkillIncreases(1, 20, 'Lore: '+this.background.loreChoices[0].loreName).filter(increase => 

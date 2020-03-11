@@ -48,7 +48,6 @@ export class ClassesService {
             this.classes.forEach($class => {
                 $class.levels = $class.levels.map(level => Object.assign(new Level(), level));
             });
-
   
             this.loader = [];
         }

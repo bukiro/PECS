@@ -15,4 +15,7 @@ export class Ancestry {
     public recommendedLanguages: string[] = [];
     public vision: string = "";
     public freeItems = [];
+    reassign() {
+        this.abilityChoices = this.abilityChoices.map(choice => Object.assign(new AbilityChoice(), JSON.parse(JSON.stringify(choice))));
+    }
 }
