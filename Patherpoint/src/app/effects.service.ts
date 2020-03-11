@@ -19,11 +19,6 @@ constructor(
         private traitsService: TraitsService
     ) { }
 
-    //This works, even though object is marked as never used
-    instanceOfItem(object: any): object is Item {
-        return true;
-    }
-
     get_Effects() {
         return this.effects;
     }
@@ -102,9 +97,11 @@ constructor(
         feats.forEach(feat => {
             simpleEffects = simpleEffects.concat(this.get_SimpleEffects(this.characterService.get_FeatsAndFeatures(feat.name)[0]));
         });
-        let activeConditions = this.characterService.get_ActiveConditions();
+        let activeConditions = this.characterService.get_ActiveConditions().filter(condition => condition.apply);
         activeConditions.forEach(condition => {
-            simpleEffects = simpleEffects.concat(this.get_SimpleEffects(condition));
+            let originalCondition = this.characterService.get_Conditions(condition.name)[0];
+            let effectsObject = {name:condition.name, level:condition.level, effects:originalCondition.effects, specialEffects:originalCondition.specialEffects}
+            simpleEffects = simpleEffects.concat(this.get_SimpleEffects(effectsObject));
         });
         
         //We finalize and export this first bunch of simple effects,

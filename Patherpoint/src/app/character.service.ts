@@ -22,15 +22,11 @@ import { Background } from './Background';
 import { ItemsService } from './items.service';
 import { Feat } from './Feat';
 import { Health } from './Health';
-import { async } from '@angular/core/testing';
 import { Speed } from './Speed';
 import { Bulk } from './Bulk';
 import { Condition } from './Condition';
 import { ConditionsService } from './Conditions.service';
-import { AbilityChoice } from './AbilityChoice';
-import { FeatChoice } from './FeatChoice';
-import { LoreChoice } from './LoreChoice';
-import { SkillChoice } from './SkillChoice';
+import { ConditionGain } from './ConditionGain';
 
 @Injectable({
     providedIn: 'root'
@@ -295,23 +291,38 @@ export class CharacterService {
     }
 
     get_ActiveConditions(name: string = "", source: string = "") {
-        return this.me.conditions.filter(condition =>
+        //Returns ConditionGain[] with apply=true/false for each
+        return this.conditionsService.get_AppliedConditions(this.me.conditions).filter(condition =>
             (condition.name == name || name == "") &&
             (condition.source == source || source == "")
             );
     }
 
-    add_Condition(condition: string, level: number, source: string) {
-        let oldCondition = this.get_Conditions(condition)[0];
-        let newLength = this.me.conditions.push(Object.assign(new Condition(), JSON.parse(JSON.stringify(oldCondition))));
+    add_Condition(condition: ConditionGain, original: boolean = false) {
+        let originalCondition = this.get_Conditions(condition.name)[0];
+        let newLength = this.me.conditions.push(condition);
         let newCondition = this.me.conditions[newLength -1];
-        newCondition.level = level;
-        newCondition.source = source;
-        newCondition.gainCondition.forEach(extraCondition => {
-            this.add_Condition(extraCondition.name, extraCondition.level, newCondition.name)
+        originalCondition.gainConditions.forEach(extraCondition => {
+            this.add_Condition({name:extraCondition.name, level:extraCondition.level, source:newCondition.name, apply:true}, false)
         })
-        this.set_Changed();
+        if (original) {
+            this.set_Changed();
+        }
         return newLength;
+    }
+
+    remove_Condition(condition: ConditionGain, original: boolean = false) {
+        let oldCondition = this.me.conditions.filter($condition => $condition.name == condition.name && $condition.level == condition.level && $condition.source == condition.source);
+        let originalCondition = this.get_Conditions(condition.name)[0];
+        if (oldCondition.length) {
+            originalCondition.gainConditions.forEach(extraCondition => {
+                this.remove_Condition({name:extraCondition.name, level:extraCondition.level, source:oldCondition[0].name, apply:true}, false)
+            })
+            this.me.conditions.splice(this.me.conditions.indexOf(oldCondition[0]))
+            if (original) {
+                this.set_Changed();
+            }
+        }
     }
 
     have_Trait(object: any, traitName: string) {
@@ -366,18 +377,19 @@ export class CharacterService {
     }
 
     get_ConditionsShowingOn(objectName: string) {
-        let conditions = this.me.conditions;
+        let conditions = this.get_ActiveConditions().filter(condition => condition.apply);
         if (objectName.indexOf("Lore") > -1) {
             objectName = "Lore";
         }
-        let returnedConditions = []
+        let returnedConditions = [];
         if (conditions.length) {
             conditions.forEach(condition => {
-                condition.showon.split(",").forEach(showon => {
+                let originalCondition: Condition = this.get_Conditions(condition.name)[0];
+                originalCondition.showon.split(",").forEach(showon => {
                     if (showon == objectName || showon.substr(1) == objectName || (objectName == "Lore" && showon.indexOf(objectName) > -1)) {
-                        returnedConditions.push(condition);
+                        returnedConditions.push(originalCondition);
                     }
-                })
+                });
             });
         }
         return returnedConditions;

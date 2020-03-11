@@ -24,6 +24,7 @@ import { ProficiencyFormComponent } from './proficiency-form/proficiency-form.co
 import { SkillComponent } from './skill/skill.component';
 import { HealthComponent } from './health/health.component';
 import { GeneralComponent } from './general/general.component';
+import { ActivitiesComponent } from './activities/activities.component';
 
 
 @NgModule({
@@ -44,7 +45,8 @@ import { GeneralComponent } from './general/general.component';
       ProficiencyFormComponent,
       SkillComponent,
       HealthComponent,
-      GeneralComponent
+      GeneralComponent,
+      ActivitiesComponent
    ],
    imports: [
       BrowserModule,

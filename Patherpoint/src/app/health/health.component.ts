@@ -12,6 +12,7 @@ export class HealthComponent implements OnInit {
 
     public damage: number = 0;
     public healing: number = 0;
+    public Math = Math;
 
     constructor(
         private changeDetector:ChangeDetectorRef,

@@ -1,7 +1,7 @@
 <div id="items" class="attributeBox">
     <div>
         <h3>Active Conditions</h3>
-        <div *ngFor="let condition of get_ActiveConditions()">
+        <div *ngFor="let condition of get_AppliedConditions()">
             <span [className]="condition.buff ? 'bonus' : 'penalty'" title="{{condition.source}}">{{condition.name}} {{(condition.level) ? condition.level : ""}}</span>
         </div>
         <h3>Active Effects</h3>
@@ -12,6 +12,11 @@
     <button class="list-item" (click)="toggle_Effects()">{{(showEffects) ? "Hide not applied" : "Show not applied"}}</button>
     <div *ngIf="showEffects">
         <h3>Not Applied</h3>
+        <h3>Conditions</h3>
+        <div *ngFor="let condition of get_NotAppliedConditions()">
+            <span [className]="condition.buff ? 'bonus notapplied' : 'penalty notapplied'" title="{{condition.source}}">{{condition.name}} {{(condition.level) ? condition.level : ""}}</span>
+        </div>
+        <h3>Effects</h3>
         <div *ngFor="let effect of get_NotAppliedEffects()">
             <span [className]="effect.penalty ? 'penalty notapplied' : 'bonus notapplied'" title="{{effect.source}}">{{effect.target}} {{effect.value}}</span>
         </div>

@@ -1,3 +1,5 @@
+import { ConditionGain } from './ConditionGain';
+
 export class Condition {
     public name: string = "";
     public buff: boolean = false;
@@ -6,6 +8,7 @@ export class Condition {
     public showon: string = "";
     public effects: string[] = [];
     public specialEffects: string[] = [];
-    public gainCondition: any[] = [];
+    public gainConditions: ConditionGain[] = [];
+    public overrideConditions: string[] = [];
     public source: string = "";
 }

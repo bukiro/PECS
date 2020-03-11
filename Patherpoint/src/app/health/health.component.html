@@ -52,7 +52,7 @@
         <h3>Resistances</h3>
         <div class="list-item" *ngIf="get_Resistances().length">
             <div class="row" *ngFor="let resistance of get_Resistances()">
-                <span title="{{resistance.source}}" [className]="(resistance.value < 0) ? 'penalty' : 'bonus'">{{resistance.target}}: {{resistance.value}}{{(resistance.exception) ? " /"+resistance.exception : ""}}</span>
+                <span title="{{resistance.source}}" [className]="(resistance.value < 0) ? 'penalty' : 'bonus'">{{resistance.target}}: {{Math.abs(resistance.value)}}{{(resistance.exception) ? " /"+resistance.exception : ""}}</span>
             </div>
             <div class="row">
                 <cite *ngFor="let effect of get_EffectsOnThis('Resistances')" [className]="effect.penalty ? 'penalty' : 'bonus'">{{effect.value}} ({{effect.source}})&nbsp;</cite>

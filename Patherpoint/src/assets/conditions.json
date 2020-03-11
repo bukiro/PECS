@@ -2,7 +2,7 @@
     {
         "name":"Blinded",
         "desc":"You can’t see. All normal terrain is difficult terrain to you. You can’t detect anything using vision. You automatically critically fail Perception checks that require you to be able to see, and if vision is your only precise sense, you take a –4 status penalty to Perception checks. You are immune to visual effects. Blinded overrides dazzled.",
-        "override":"Dazzled",
+        "overrideConditions":"Dazzled",
         "showon":"Perception, Movement"
     },
     {
@@ -22,7 +22,7 @@
         "name":"Encumbered",
         "desc":"You are carrying more weight than you can manage. While you’re encumbered, you’re clumsy 1 and take a 10-foot penalty to all your Speeds. As with all penalties to your Speed, this can’t reduce your Speed below 5 feet.",
         "showon":"Movement, Bulk",
-        "gainCondition":[{"name":"Clumsy", "level":1}],
+        "gainConditions":[{"name":"Clumsy", "level":1, "source":"Encumbered", "applied":true}],
         "effects":[{"affected":"Speed", "value":"-10"}]
     }
 ]

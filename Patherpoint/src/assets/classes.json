@@ -12,7 +12,10 @@
                 "featChoices":[
                     {
                         
-                        "feats":[{"name":"Powerful Fist", "source":"Monk", "locked":true, "sourceId":"1-Feature-Monk-0"}],
+                        "feats":[
+                            {"name":"Powerful Fist", "source":"Monk", "locked":true, "sourceId":"1-Feature-Monk-0"},
+                            {"name":"Flurry of Blows", "source":"Monk", "locked":true, "sourceId":"1-Feature-Monk-0"}
+                        ],
                         "type":"Feature",
                         "source":"Monk",
                         "id":"1-Feature-Monk-0"

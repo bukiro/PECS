@@ -38,10 +38,18 @@ export class EffectsComponent implements OnInit {
         return this.get_Effects().all.filter(effect => effect.apply != true);
     }
 
-    get_ActiveConditions(name: string = "", source: string = "") {
-        return this.characterService.get_ActiveConditions(name, source);
+    get_ActiveConditions() {
+        return this.characterService.get_ActiveConditions();
     }
     
+    get_AppliedConditions() {
+        return this.get_ActiveConditions().filter(condition => condition.apply);
+    }
+
+    get_NotAppliedConditions() {
+        return this.get_ActiveConditions().filter(condition => condition.apply != true);
+    }
+
     finish_Loading() {
         if (this.characterService.still_loading()) {
             setTimeout(() => this.finish_Loading(), 500)
@@ -55,6 +63,7 @@ export class EffectsComponent implements OnInit {
     }
 
     ngOnInit() {
+        this.effectsService.initialize();
         this.finish_Loading();
     }
 

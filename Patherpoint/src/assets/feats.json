@@ -3496,5 +3496,45 @@
         "traits": [
             "Human"
         ]
+    },
+    {
+        "name": "Stunning Fist",
+        "shortDesc":"The focused power of your flurry threatens to overwhelm your opponent.",
+        "desc":"The focused power of your flurry threatens to overwhelm your opponent. When you target the same creature with two Strikes from your Flurry of Blows, you can try to stun the creature. If either Strike hits and deals damage, the target must succeed at a Fortitude save against your class DC or be stunned 1 (or stunned 3 on a critical failure). This is an incapacitation effect.",
+        "hint":"When you target the same creature with two Strikes from your Flurry of Blows, you can try to stun the creature. If either Strike hits and deals damage, the target must succeed at a Fortitude save against your class DC or be stunned 1 (or stunned 3 on a critical failure). This is an incapacitation effect.",
+        "featreq": "Flurry of Blows",
+        "levelreq": 2,
+        "showon": "Flurry of Blows",
+        "traits": [
+            "Monk"
+        ]
+    },
+    {
+        "name": "Flurry of Maneuvers",
+        "shortDesc":"Your flurry is a combination of maneuvers.",
+        "desc":"Your flurry is a combination of maneuvers. You can replace one or both of your attacks during a Flurry of Blows with Grapples, Shoves, or Trips.",
+        "hint":"Your can replace one or both of your attacks during a Flurry of Blows with Grapples, Shoves, or Trips.",
+        "levelreq": 4,
+        "skillreq": [
+            {
+                "skill": "Athletics",
+                "value": 4
+            }
+        ],
+        "showon": "Flurry of Blows, Athletics",
+        "traits": [
+            "Monk"
+        ]
+    },
+    {
+        "name": "Whirling Throw",
+        "shortDesc":"You propel your grabbed or restrained foe a great distance.",
+        "desc":"You propel your grabbed or restrained foe a great distance. You can throw the creature any distance up to 10 feet, plus 5 feet × your Strength modifier. If you successfully throw the creature, it takes bludgeoning damage equal to your Strength modifier plus 1d6 per 10 feet you threw it.\n\nAttempt an Athletics check against the foe’s Fortitude DC. You take a –2 circumstance penalty to your check if the target is one size larger than you and a –4 circumstance penalty if it’s larger than that. You gain a +2 circumstance bonus to your check if the target is one size smaller than you and a +4 circumstance bonus if it’s smaller than that.",
+        "levelreq": 6,
+        "gainAction":"Whirling Throw",
+        "traits": [
+            "Monk"
+        ],
+        "effects":[{"affected":"All Damage Resistance", "value":"-2"}]
     }
 ]

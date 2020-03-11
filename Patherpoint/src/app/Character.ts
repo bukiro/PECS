@@ -11,7 +11,7 @@ import { FeatChoice } from './FeatChoice';
 import { Health } from './Health';
 import { Speed } from './Speed';
 import { Bulk } from './Bulk';
-import { Condition } from './Condition';
+import { ConditionGain } from './ConditionGain';
 
 export class Character {
     public name: string = "";
@@ -20,7 +20,7 @@ export class Character {
     public health: Health = new Health();
     public customSkills: Skill[] = [];
     public customFeats: Feat[] = [];
-    public conditions: Condition[] = [];
+    public conditions: ConditionGain[] = [];
     public baseValues = [];
     public inventory: ItemCollection = new ItemCollection();
     public deity: string = "";

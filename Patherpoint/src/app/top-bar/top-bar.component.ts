@@ -62,7 +62,6 @@ export class TopBarComponent implements OnInit {
 
     ngOnInit() {
        this.characterService.initialize("save");
-       this.effectsService.initialize();
     }
 
 }
