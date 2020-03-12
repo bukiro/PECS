@@ -49,6 +49,10 @@ export class SkillComponent implements OnInit {
     get_ConditionsShowingOn(name: string) {
         return this.characterService.get_ConditionsShowingOn(name);
     }
+    
+    get_ActivitiesShowingOn(name: string) {
+        return this.characterService.get_ActivitiesShowingOn(name);
+    }
 
     get_specialShowon(skill: Skill) {
         //Under certain circumstances, some Feats apply to skills independently of their name.

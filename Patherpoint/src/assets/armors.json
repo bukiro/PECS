@@ -1,0 +1,16 @@
+[
+    { "type":"armor", "bulk":"-", "name":"Unarmored", "prof":"Unarmored", "itembonus":0, "moddable":"", "traits":[] },
+    { "type":"armor", "bulk":"L", "name":"Explorer's Clothing", "prof":"Unarmored", "dexcap":5, "itembonus":0, "traits":["Comfort"] },
+    { "type":"armor", "bulk":"L", "name":"Padded Armor", "prof":"Light Armor", "dexcap":3, "strength":10, "itembonus":1, "traits":["Comfort"] },
+    { "type":"armor", "bulk":"1", "name":"Leather Armor", "prof":"Light Armor", "dexcap":4, "skillpenalty":-1, "strength":10, "itembonus":1, "traits":[] },
+    { "type":"armor", "bulk":"1", "name":"Studded Leather Armor", "prof":"Light Armor", "dexcap":3, "skillpenalty":-1, "strength":12, "itembonus":2, "traits":[] },
+    { "type":"armor", "bulk":"1", "name":"Chain Shirt", "prof":"Light Armor", "dexcap":3, "skillpenalty":-1, "strength":12, "itembonus":2, "traits":["Flexible", "Noisy"] },
+    { "type":"armor", "bulk":"2", "name":"Hide Armor", "group":"Leather", "prof":"Medium Armor", "dexcap":2, "skillpenalty":-2, "speedpenalty":-5, "strength":14, "itembonus":3, "traits":[] },
+    { "type":"armor", "bulk":"2", "name":"Scale Mail", "group":"Composite", "prof":"Medium Armor", "dexcap":2, "skillpenalty":-2, "speedpenalty":-5, "strength":14, "itembonus":3, "traits":[] },
+    { "type":"armor", "bulk":"2", "name":"Chain Mail", "group":"Chain", "prof":"Medium Armor", "dexcap":1, "skillpenalty":-2, "speedpenalty":-5, "strength":16, "itembonus":4, "traits":["Flexible", "Noisy"] },
+    { "type":"armor", "bulk":"2", "name":"Breastplate", "group":"Plate", "prof":"Medium Armor", "dexcap":1, "skillpenalty":-2, "speedpenalty":-5, "strength":16, "itembonus":4, "traits":[] },
+    { "type":"armor", "bulk":"3", "name":"Splint Mail", "group":"Composite", "prof":"Heavy Armor", "dexcap":1, "skillpenalty":-3, "speedpenalty":-10, "strength":16, "itembonus":5, "traits":[] },
+    { "type":"armor", "bulk":"3", "name":"Half Plate", "group":"Plate", "prof":"Heavy Armor", "dexcap":1, "skillpenalty":-3, "speedpenalty":-10, "strength":16, "itembonus":5, "traits":[] },
+    { "type":"armor", "bulk":"4", "name":"Full Plate", "group":"Plate", "prof":"Heavy Armor", "dexcap":0, "skillpenalty":-3, "speedpenalty":-10, "strength":18, "itembonus":6, "traits":["Bulwark"] },
+    { "type":"armor", "bulk":"4", "name":"Hellknight Plate", "group":"Plate", "prof":"Heavy Armor", "dexcap":0, "skillpenalty":-3, "speedpenalty":-10, "strength":18, "itembonus":6, "traits":["Bulwark", "Uncommon"] }
+]

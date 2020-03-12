@@ -7,6 +7,8 @@ import { CharacterService } from './character.service';
 import { FeatChoice } from './FeatChoice';
 import { SkillChoice } from './SkillChoice';
 import { LoreChoice } from './LoreChoice';
+import { ActivityGain } from './ActivityGain';
+import { ActivitiesService } from './activities.service';
 
 @Injectable({
     providedIn: 'root'
@@ -87,7 +89,7 @@ export class FeatsService {
                         oldChoice.increases.forEach(increase => {
                             character.increase_Skill(characterService, increase.name, false, oldChoice, increase.locked);
                         })
-                        a.splice(a.indexOf(oldChoice), 1)
+                        character.remove_SkillChoice(oldChoice);
                     })
                 }
             }
@@ -106,6 +108,24 @@ export class FeatsService {
                 }
             }
 
+            //Gain Action or Activity
+            if (feat.gainActivity.length) {
+                if (taken) {
+                    feat.gainActivity.forEach(gainActivity => {
+                        character.gain_Activity(Object.assign(new ActivityGain(), {name:gainActivity, source:feat.name}));
+                    });
+                    
+                } else {
+                    feat.gainActivity.forEach(gainActivity => {
+                        let oldGain = character.class.activities.filter(gain => gain.name == gainActivity && gain.source == feat.name);
+                        if (oldGain.length) {
+                            character.lose_Activity(characterService, characterService.itemsService, characterService.activitiesService, oldGain[0]);
+                        }
+                    });
+                    
+                }
+            }
+
             //Adopted Ancestry
             if (feat.superType=="Adopted Ancestry") {
                 if (taken) {
@@ -116,7 +136,7 @@ export class FeatsService {
                 }
             }
 
-            //Adopted Ancestry
+            //Bargain Hunter
             if (feat.name=="Bargain Hunter") {
                 if (taken) {
                     if (level.number == 1) {

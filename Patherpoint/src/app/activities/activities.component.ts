@@ -4,6 +4,9 @@ import { ActivitiesService } from '../activities.service';
 import { TraitsService } from '../traits.service';
 import { EffectsService } from '../effects.service';
 import { Activity } from '../Activity';
+import { ActivityGain } from '../ActivityGain';
+import { ItemsService } from '../items.service';
+import { Trait } from '../Trait';
 
 @Component({
     selector: 'app-activities',
@@ -20,7 +23,8 @@ export class ActivitiesComponent implements OnInit {
         public characterService: CharacterService,
         public activitiesService: ActivitiesService,
         public effectsService: EffectsService,
-        public traitsService: TraitsService
+        public traitsService: TraitsService,
+        public itemsService: ItemsService
     ) { }
 
     toggle_Action(name: string) {
@@ -40,7 +44,7 @@ export class ActivitiesComponent implements OnInit {
     }
     
     still_loading() {
-        return this.activitiesService.still_loading();
+        return this.activitiesService.still_loading() || this.characterService.still_loading();
     }
 
     get_Activities(name: string = "") {
@@ -48,12 +52,12 @@ export class ActivitiesComponent implements OnInit {
     }
 
     get_OwnedActivities() {
-        let character = this.characterService.get_Character();
-        let activities: Activity[] = [];
-        character.get_FeatsTaken(0, character.level).forEach(feat => {
-            let originalFeat = this.characterService.get_FeatsAndFeatures(feat.name)[0];
-            if (originalFeat.gainAction) {
-                activities.push(this.get_Activities(originalFeat.gainAction)[0]);
+        let activities: ActivityGain[] = [];
+        let unique: string[] = [];
+        this.characterService.get_Character().class.activities.forEach(activity => {
+            if (unique.indexOf(activity.name) == -1) {
+                unique.push(activity.name);
+                activities.push(activity);
             }
         })
         return activities;
@@ -61,6 +65,19 @@ export class ActivitiesComponent implements OnInit {
 
     get_Traits(traitName: string = "") {
         return this.traitsService.get_Traits(traitName);
+    }
+
+    get_ActivationTraits(activity: Activity) {
+        switch (activity.activationType) {
+            case "Command": 
+                return ["Auditory", "Concentrate"];
+            case "Envision": 
+                return ["Concentrate"];
+            case "Interact": 
+                return ["Manipulate"];
+            default:
+                return [];
+        }
     }
 
     get_TraitsForThis(name: string) {
@@ -77,6 +94,10 @@ export class ActivitiesComponent implements OnInit {
 
     get_ConditionsShowingOn(name: string) {
         return this.characterService.get_ConditionsShowingOn(name);
+    }
+
+    on_Activate(gain: ActivityGain, activity: Activity, activated: boolean) {
+        this.activitiesService.activate_Activity(this.characterService, this.itemsService, gain, activity, activated);
     }
 
     finish_Loading() {

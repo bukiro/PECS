@@ -34,7 +34,7 @@ export class Feat {
     public gainSkillChoice: SkillChoice[] = [];
     public gainSpellChoice: SpellChoice[] = [];
     public gainFormulaChoice: FormulaChoice[] = [];
-    public gainAction: string = "";
+    public gainActivity: string[] = [];
     public gainLore: true;
     public data: {} = {};
     prof(skillLevel: number) {
@@ -137,7 +137,10 @@ export class Feat {
     meetsSpecialReq(characterService: CharacterService, charLevel: number = characterService.get_Character().level) {
         //If the feat has a specialreq, it comes as a string that contains a condition. Evaluate the condition to find out if the requirement is met.
         //When writing the condition, take care that it only uses variables known in this method,
-        //and that it remains true even after you take the feat (or it will be automatically removed.)
+        //and that it must remain true even after you take the feat (or the will be automatically removed.)
+        //e.g. if the requirement is (Athletics < 2), also allow (Athletics < 4 && Feat Taken)
+        //
+        //charLevel is often needed for special requirements, so we keep it defined even if we don't use it in the function.
         let result: {met:boolean, desc:string};
         if (this.specialreq) {
             if (eval(this.specialreq)) {

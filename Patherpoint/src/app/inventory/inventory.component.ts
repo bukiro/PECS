@@ -3,6 +3,8 @@ import { CharacterService } from '../character.service';
 import { ItemsService } from '../items.service';
 import { TraitsService } from '../traits.service';
 import { EffectsService } from '../effects.service';
+import { Weapon } from '../Weapon';
+import { Armor } from '../Armor';
 
 @Component({
     selector: 'app-inventory',
@@ -28,8 +30,21 @@ export class InventoryComponent implements OnInit {
         this.itemsService.toggleItemsMenu();
     }
 
-    get_InventoryItems() {
-        return this.characterService.get_InventoryItems();
+    toggleCharacterMenu(position: string = "") {
+        this.characterService.toggleCharacterMenu(position);
+    }
+
+    get_InventoryItems(type: string) {
+        switch (type) {
+            case "Weapons":
+                return this.characterService.get_InventoryItems().weapons;
+            case "Armor":
+                return this.characterService.get_InventoryItems().armors;
+            case "Shields":
+                return this.characterService.get_InventoryItems().shields;
+            case "Worn Items":
+                return this.characterService.get_InventoryItems().wornitems;
+        }
     }
     
     drop_InventoryItem(item) {
@@ -60,8 +75,42 @@ export class InventoryComponent implements OnInit {
         return this.characterService.get_ConditionsShowingOn(skillName);
     }
 
+    can_Invest(item) {
+        return (item.traits.indexOf("Invested") > -1);
+    }
+
+    get_maxInvested() {
+        let maxInvest = 10;
+        this.effectsService.get_EffectsOnThis("Invest").forEach(effect => {
+            maxInvest += parseInt(effect.value);
+        });
+        return maxInvest;
+    }
+
+    get_InvestedItems() {
+        return this.characterService.get_InvestedItems().filter(item => item.traits.indexOf("Invested") > -1);
+    }
+
     onChange(item) {
         this.characterService.onEquipChange(item);
+    }
+
+    onInvest(item) {
+        this.characterService.onInvestChange(item);
+    }
+
+    onWeaponRuneChange(weapon: Weapon) {
+        //When we change the runes, the attributes get turned into strings, we have to turn them back into numbers.
+        weapon.potencyRune = parseInt(weapon.potencyRune.toString());
+        weapon.strikingRune = parseInt(weapon.strikingRune.toString());
+        this.characterService.set_Changed();
+    }
+    
+    onArmorRuneChange(armor: Armor) {
+        //When we change the runes, the attributes get turned into strings, we have to turn them back into numbers.
+        armor.potencyRune = parseInt(armor.potencyRune.toString());
+        armor.resilientRune = parseInt(armor.resilientRune.toString());
+        this.characterService.set_Changed();
     }
 
     finish_Loading() {

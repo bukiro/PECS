@@ -26,17 +26,17 @@ export class DefenseService {
     }
 
     get_EquippedArmor() {
-        let armor = this.characterService.get_InventoryItems().armor;
+        let armor = this.characterService.get_InventoryItems().armors;
         return armor.filter(armor => armor.equip);
     }
 
     get_EquippedShield() {
-        let shield = this.characterService.get_InventoryItems().shield;
+        let shield = this.characterService.get_InventoryItems().shields;
         return shield.filter(shield => shield.equip);
     }
 
     get_ParryWeapons() {
-        let weapons = this.characterService.get_InventoryItems().weapon;
+        let weapons = this.characterService.get_InventoryItems().weapons;
         return weapons.filter(weapon => weapon.traits.indexOf("Parry") > -1);
     }
 

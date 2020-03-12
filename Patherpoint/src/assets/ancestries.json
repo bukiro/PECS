@@ -33,7 +33,7 @@
         "freeLanguages":0,
         "recommendedLanguages":["Gnomish", "Goblin", "Jotun", "Orcish", "Terran", "Undercommon"],
         "vision":"Darkvision",
-        "freeItems":[{"name":"Clan Dagger", "type":"weapon"}]
+        "gainItems":[{"name":"Clan Dagger", "type":"weapon"}]
     },
     {
         "name":"Elf",

@@ -12,6 +12,9 @@ import { Health } from './Health';
 import { Speed } from './Speed';
 import { Bulk } from './Bulk';
 import { ConditionGain } from './ConditionGain';
+import { ActivityGain } from './ActivityGain';
+import { ActivitiesService } from './activities.service';
+import { ItemsService } from './items.service';
 
 export class Character {
     public name: string = "";
@@ -85,7 +88,8 @@ export class Character {
     }
     remove_SkillChoice(oldChoice: SkillChoice) {
         let levelNumber = parseInt(oldChoice.id[0]);
-        this.class.levels[levelNumber].skillChoices = this.class.levels[levelNumber].skillChoices.filter(choice => choice !== oldChoice);
+        let a = this.class.levels[levelNumber].skillChoices;
+        a.splice(a.indexOf(oldChoice), 1);
     }
     add_LoreChoice(level: Level, newChoice: LoreChoice) {
         let existingChoices = level.loreChoices.filter(choice => choice.source == newChoice.source);
@@ -113,6 +117,15 @@ export class Character {
     get_FeatChoice(sourceId: string) {
         let levelNumber = parseInt(sourceId[0]);
         return this.class.levels[levelNumber].featChoices.filter(choice => choice.id == sourceId)[0];
+    }
+    gain_Activity(newGain: ActivityGain) {
+        let newIndex = this.class.activities.push(newGain);
+        return this.class.activities[newIndex-1];
+    }
+    lose_Activity(characterService: CharacterService, itemsService: ItemsService, activitiesService: ActivitiesService, oldGain: ActivityGain) {
+        let a = this.class.activities;
+        activitiesService.activate_Activity(characterService, itemsService, oldGain, activitiesService.get_Activities(oldGain.name)[0], false);
+        a.splice(a.indexOf(oldGain), 1);
     }
     get_SkillIncreases(minLevelNumber: number, maxLevelNumber: number, skillName: string = "", source: string = "", sourceId: string = "", locked: boolean = undefined) {
         if (this.class) {

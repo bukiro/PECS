@@ -15,5 +15,42 @@
         "failure":"You don’t throw the creature.",
         "critfailure":"You don’t throw the creature, and it’s no longer grabbed or restrained by you.",
         "traits":["Flourish", "Monk"]
+    },
+    {
+        "name":"Crane Stance",
+        "actions":"1",
+        "requirements":"You are unarmored.",
+        "desc":"You enter the stance of a crane, holding your arms in an imitation of a crane’s wings and using flowing, defensive motions. You gain a +1 circumstance bonus to AC, but the only Strikes you can make are crane wing attacks. These deal 1d6 bludgeoning damage; are in the brawling group; and have the agile, finesse, nonlethal, and unarmed traits.\n\nWhile in Crane Stance, reduce the DC for High Jump and Long Jump by 5, and when you Leap, you can move an additional 5 feet horizontally or 2 feet vertically.",
+        "hint":"While in Crane Stance, reduce the DC for High Jump and Long Jump by 5, and when you Leap, you can move an additional 5 feet horizontally or 2 feet vertically.",
+        "gainItems":[{"name":"Crane Wing", "type":"weapon"}],
+        "showon":"Athletics",
+        "traits":["Monk", "Stance"]
+    },
+    {
+        "name":"Lifting Belt",
+        "actions":"2",
+        "activationType":"Interact",
+        "desc":"You lift an object of up to 8 Bulk as though it were weightless. This requires two hands, and if the object is locked or otherwise held in place, you can attempt to Force it Open using Athletics as part of this activation. The object still has its full weight and Bulk for all other purposes—you just ignore that weight. The effect lasts until the end of your next turn.",
+        "traits":["Invested", "Magical", "Transmutation"]
+    },
+    {
+        "name":"Twining Staff: Staff",
+        "actions":"1",
+        "activationType":"Interact",
+        "desc":"You cause the twigs to rapidly grow or contract, reshaping into a +1 striking staff, a +1 striking bo staff, or its disc form. In its disc form, it has negligible Bulk and must be held in one hand to be activated. In the other forms, it has the same Bulk as a normal weapon of its type. You can switch your grip as part of the activation.\n\nWhen you expand the item, you can use the force of the expansion to High Jump or to try to Force Open a door or the like by wedging the disc into a gap before activation. The staff makes the Athletics check with a +15 modifier.",
+        "hint":"When you expand the Twining Staff, you can use the force of the expansion to High Jump or to try to Force Open a door or the like by wedging the disc into a gap before activation. The staff makes the Athletics check with a +15 modifier.",
+        "showon":"Athletics",
+        "gainItems":[{"name":"Staff (Twining Staff)", "type":"weapon"}],
+        "traits":["Magical", "Transmutation"]
+    },
+    {
+        "name":"Twining Staff: Bo Staff",
+        "actions":"1",
+        "activationType":"Interact",
+        "desc":"You cause the twigs to rapidly grow or contract, reshaping into a +1 striking staff, a +1 striking bo staff, or its disc form. In its disc form, it has negligible Bulk and must be held in one hand to be activated. In the other forms, it has the same Bulk as a normal weapon of its type. You can switch your grip as part of the activation.\n\nWhen you expand the item, you can use the force of the expansion to High Jump or to try to Force Open a door or the like by wedging the disc into a gap before activation. The staff makes the Athletics check with a +15 modifier.",
+        "hint":"When you expand the Twining Staff, you can use the force of the expansion to High Jump or to try to Force Open a door or the like by wedging the disc into a gap before activation. The staff makes the Athletics check with a +15 modifier.",
+        "showon":"Athletics",
+        "gainItems":[{"name":"Bo Staff (Twining Staff)", "type":"weapon"}],
+        "traits":["Magical", "Transmutation"]
     }
 ]

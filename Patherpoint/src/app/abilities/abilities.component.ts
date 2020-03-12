@@ -23,7 +23,7 @@ export class AbilitiesComponent implements OnInit {
     }
     
     still_loading() {
-        return this.abilitiesService.still_loading();
+        return this.abilitiesService.still_loading() || this.characterService.still_loading();
     }
 
     get_ConditionsShowingOn(name: string) {

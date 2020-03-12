@@ -18,16 +18,17 @@ The very latest in Assistive Technologies for Dungeon Master (ATDM)
 - [x] - Traits
 - [x] - Feats -> Abilities, Attacks, Skills
 - [x] - Classes, Ancestries, Heritages, Backgrounds
-- [ ] - So many results of Classes, Ancestries, Heritages, Backgrounds
+- [x] - So many results of Classes, Ancestries, Heritages, Backgrounds
 - [x] -- Adding skills and lore through Feats and Backgrounds
-- [ ] - Actions granted through class and feats
+- [x] - Actions granted through class and feats
 - [ ] - Implement all General and Skill Feats
 - [ ] - Implement all Ancestry Feats
 - [ ] - Implement one full Class with Feats and Features
 - [x] - Feat requirements
 - [x] - Equipment (weapons, armor, shields) -> Abilities, Armor, Attacks, Skills
-- [ ] - More equipment (worn magic items etc.) and effects
-- [ ] - Actions granted through equipment
+- [x] - More equipment (worn magic items etc.) and effects
+- [x] - Runes
+- [x] - Actions granted through equipment
 - [x] - Exclusive bonuses: Proficiency, Circumstance, Item, Status, untyped
 - [x] - Classes and Levels
 - [ ] Style character sheet

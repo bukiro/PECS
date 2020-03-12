@@ -10,6 +10,7 @@ import { LoreChoice } from './LoreChoice';
 import { Skill } from './Skill';
 import { AbilityChoice } from './AbilityChoice';
 import { FeatChoice } from './FeatChoice';
+import { ActivityGain } from './ActivityGain';
 
 export class Class {
     public name: string = "";
@@ -18,6 +19,7 @@ export class Class {
     public heritage: Heritage = new Heritage();
     public background: Background = new Background();
     public hitPoints: number = 0;
+    public activities: ActivityGain[] = [];
     public customSkills: Skill[] = [];
     reassign() {
         //Re-Assign levels
@@ -33,9 +35,9 @@ export class Class {
     on_ChangeAncestry(characterService: CharacterService) {
         if (this.ancestry.name) {
             this.levels[1].abilityChoices = this.levels[1].abilityChoices.filter(availableBoost => availableBoost.source != "Ancestry")
-            if (this.ancestry.freeItems.length) {
-                this.ancestry.freeItems.forEach(freeItem => {
-                    let items: Item[] = characterService.get_InventoryItems()[freeItem.type].filter(item => item.name == freeItem.name);
+            if (this.ancestry.gainItems.length) {
+                this.ancestry.gainItems.forEach(freeItem => {
+                    let items: Item[] = characterService.get_InventoryItems()[freeItem.type+"s"].filter(item => item.name == freeItem.name);
                     if (items.length) {
                         characterService.drop_InventoryItem(items[0]);
                     }
@@ -52,8 +54,8 @@ export class Class {
         if (this.ancestry.name) {
             this.ancestry.reassign();
             this.levels[1].abilityChoices.push(...this.ancestry.abilityChoices);
-            if (this.ancestry.freeItems.length) {
-                this.ancestry.freeItems.forEach(freeItem => {
+            if (this.ancestry.gainItems.length) {
+                this.ancestry.gainItems.forEach(freeItem => {
                     let item: Item = itemsService.get_Items()[freeItem.type].filter(item => item.name == freeItem.name)[0];
                     characterService.grant_InventoryItem(item);
                 });
@@ -92,15 +94,16 @@ export class Class {
             this.ancestry.ancestries.push(...this.heritage.ancestries);
             level.featChoices.push(...this.heritage.featChoices);
             level.skillChoices.push(...this.heritage.skillChoices);
-            
             //Some feats get specially processed when taken.
             //We have to explicitly take these feats to process them.
             //So we remove them and then "take" them again.
             level.featChoices.filter(choice => choice.source == "Heritage").forEach(choice => {
+                let count: number = 0;
                 choice.feats.forEach(feat => {
-                    choice.feats.splice(choice.feats.indexOf(feat), 1);
+                    count++;
                     character.take_Feat(characterService, feat.name, true, choice, feat.locked);
                 });
+                choice.feats.splice(0, count);
             });
             //You may get a skill training from a heritage.
             //If you have already trained this skill from another source:
@@ -159,10 +162,12 @@ export class Class {
             //We have to explicitly take these feats to process them.
             //So we remove them and then "take" them again.
             level.featChoices.filter(choice => choice.source == "Background").forEach(choice => {
+                let count: number = 0;
                 choice.feats.forEach(feat => {
-                    choice.feats.splice(choice.feats.indexOf(feat), 1);
+                    count++;
                     character.take_Feat(characterService, feat.name, true, choice, feat.locked);
                 });
+                choice.feats.splice(0, count);
             });
             if (this.background.loreChoices[0].loreName) {
                 if (characterService.get_Skills('Lore: '+this.background.loreChoices[0].loreName).length) {

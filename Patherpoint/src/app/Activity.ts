@@ -1,6 +1,7 @@
 export class Activity {
     public name: string = "";
     public actions: string = "1";
+    public activationType: string = "";
     public frequency: string = "";
     public trigger: string = "";
     public requirements: string = "";
@@ -10,6 +11,10 @@ export class Activity {
     public failure: string = "";
     public critfailure: string = "";
     public traits: string[] = [];
+    public gainItems = [];
+    public showon: string = "";
+    public effects: string[] = [];
+    public specialEffects: string[] = [];
     get_Actions() {
         switch (this.actions) {
             case "Free":
@@ -23,5 +28,9 @@ export class Activity {
             case "3":
                 return "(3 Actions)"
         }
+    }
+    can_Activate() {
+        let isStance: boolean = (this.traits.indexOf("Stance") > -1)
+        return isStance || this.gainItems.length;
     }
 }

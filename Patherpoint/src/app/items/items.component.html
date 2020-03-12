@@ -3,7 +3,7 @@
     <div class="loading" *ngIf="still_loading()">Loading</div>
     <button class="button fancybutton list-item" (click)="toggle('weapons')">Weapons</button>
     <div *ngIf="showWeapons">
-        <div class="list-item" *ngFor="let weapon of get_Items().weapon">
+        <div class="list-item" *ngFor="let weapon of get_Weapons()">
             <strong>{{weapon.name}}</strong>&nbsp;{{weapon.prof}} Weapon
             <button (click)="grant_Item(weapon)">Get</button>
             <div class="row" *ngIf="weapon.traits.length">
@@ -11,9 +11,9 @@
             </div>
         </div>
     </div>
-    <button class="button fancybutton list-item" (click)="toggle('armor')">Armor</button>
-    <div *ngIf="showArmor">
-        <div class="list-item" *ngFor="let armor of get_Items().armor">
+    <button class="button fancybutton list-item" (click)="toggle('armors')">Armor</button>
+    <div *ngIf="showArmors">
+        <div class="list-item" *ngFor="let armor of get_Armors()">
             <strong>{{armor.name}}</strong>&nbsp;{{armor.prof}}{{(armor.prof != "Unarmored") ? " Armor" : ""}}
             <button (click)="grant_Item(armor)">Get</button>
             <div class="row" *ngIf="armor.traits.length">
@@ -23,11 +23,21 @@
     </div>
     <button class="button fancybutton list-item" (click)="toggle('shields')">Shields</button>
     <div *ngIf="showShields">
-        <div class="list-item" *ngFor="let shield of get_Items().shield">
+        <div class="list-item" *ngFor="let shield of get_Shields()">
             <strong>{{shield.name}}</strong>
             <button (click)="grant_Item(shield)">Get</button>
             <div class="row" *ngIf="shield.traits.length">
                 <cite *ngFor="let trait of shield.traits" title="{{get_Traits(trait)[0].description}}">&nbsp;{{trait}}</cite>
+            </div>
+        </div>
+    </div>
+    <button class="button fancybutton list-item" (click)="toggle('wornitems')">Worn Items</button>
+    <div *ngIf="showWornItems">
+        <div class="list-item" *ngFor="let wornItem of get_WornItems()">
+            <strong>{{wornItem.name}}</strong>
+            <button (click)="grant_Item(wornItem)">Get</button>
+            <div class="row" *ngIf="wornItem.traits.length">
+                <cite *ngFor="let trait of wornItem.traits" title="{{get_Traits(trait)[0].description}}">&nbsp;{{trait}}</cite>
             </div>
         </div>
     </div>

@@ -8,32 +8,38 @@
         </div>
         <div *ngFor="let weapon of get_EquippedWeapons()">
             <div class="list-item" *ngIf="weapon.melee">
-                {{weapon.name}}{{weapon.ranged ? " melee" : ""}}:
-                <input type="number" class="number" title="{{get_Attack(weapon, 'melee')[1]}}" [ngModel]="get_Attack(weapon, 'melee')[0]" disabled>
-                <div title="{{get_Damage(weapon, 'melee')[1]}}">Damage: {{get_Damage(weapon, 'melee')[0]}} {{weapon.dmgType}}</div>
+                <strong>{{weapon.get_Name()}}{{weapon.ranged ? " melee" : ""}}</strong>
                 <div class="row">
-                    <cite *ngFor="let trait of weapon.traits" title="{{get_Traits(trait)[0].description}}">&nbsp;{{trait}}</cite>
-                    <cite *ngFor="let feat of get_FeatsShowingOn(weapon.name)" [title]="(feat.hint) ? feat.hint : feat.desc">{{feat.name}}&nbsp;</cite>
-                    <div *ngFor="let name of get_specialShowon(weapon)">
-                        <cite *ngFor="let feat of get_FeatsShowingOn(name)"
-                            [title]="(feat.hint) ? feat.hint : feat.desc">
-                            {{feat.name}}&nbsp;
-                        </cite>
+                    Attack:
+                    <input type="number" class="number" title="{{get_Attack(weapon, 'melee')[1]}}" [ngModel]="get_Attack(weapon, 'melee')[0]" disabled>
+                    <span title="{{get_Damage(weapon, 'melee')[1]}}">&nbsp;Damage: {{get_Damage(weapon, 'melee')[0]}}</span>
+                    <div class="row">
+                        <cite *ngFor="let trait of weapon.traits" title="{{get_Traits(trait)[0].description}}">&nbsp;{{trait}}</cite>
+                        <cite *ngFor="let feat of get_FeatsShowingOn(weapon.name)" [title]="(feat.hint) ? feat.hint : feat.desc">{{feat.name}}&nbsp;</cite>
+                        <div *ngFor="let name of get_specialShowon(weapon)">
+                            <cite *ngFor="let feat of get_FeatsShowingOn(name)"
+                                [title]="(feat.hint) ? feat.hint : feat.desc">
+                                {{feat.name}}&nbsp;
+                            </cite>
+                        </div>
                     </div>
                 </div>
             </div>
             <div class="list-item" *ngIf="weapon.ranged">
-                {{weapon.name}}{{weapon.melee ? " ranged" : ""}}:
-                <input type="number" class="number" title="{{get_Attack(weapon, 'ranged')[1]}}" [ngModel]="get_Attack(weapon, 'ranged')[0]" disabled>
-                <div title="{{get_Damage(weapon, 'ranged')[1]}}">Damage: {{get_Damage(weapon, 'ranged')[0]}} {{weapon.dmgType}}</div>
+                <strong>{{weapon.name}}{{weapon.melee ? " ranged" : ""}}:</strong>
                 <div class="row">
-                    <cite *ngFor="let trait of weapon.traits" title="{{get_Traits(trait)[0].description}}">&nbsp;{{trait}}</cite>
-                    <cite *ngFor="let feat of get_FeatsShowingOn(weapon.name)" [title]="(feat.hint) ? feat.hint : feat.desc">{{feat.name}}&nbsp;</cite>
-                    <div *ngFor="let name of get_specialShowon(weapon)">
-                        <cite *ngFor="let feat of get_FeatsShowingOn(name)"
-                            [title]="(feat.hint) ? feat.hint : feat.desc">
-                            {{feat.name}}&nbsp;
-                        </cite>
+                    Attack:
+                    <input type="number" class="number" title="{{get_Attack(weapon, 'ranged')[1]}}" [ngModel]="get_Attack(weapon, 'ranged')[0]" disabled>
+                    <span title="{{get_Damage(weapon, 'ranged')[1]}}">&nbsp;Damage: {{get_Damage(weapon, 'ranged')[0]}}</span>
+                    <div class="row">
+                        <cite *ngFor="let trait of weapon.traits" title="{{get_Traits(trait)[0].description}}">&nbsp;{{trait}}</cite>
+                        <cite *ngFor="let feat of get_FeatsShowingOn(weapon.name)" [title]="(feat.hint) ? feat.hint : feat.desc">{{feat.name}}&nbsp;</cite>
+                        <div *ngFor="let name of get_specialShowon(weapon)">
+                            <cite *ngFor="let feat of get_FeatsShowingOn(name)"
+                                [title]="(feat.hint) ? feat.hint : feat.desc">
+                                {{feat.name}}&nbsp;
+                            </cite>
+                        </div>
                     </div>
                 </div>
             </div>

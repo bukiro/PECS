@@ -24,38 +24,26 @@ export class HistoryService {
     ) { }
 
     get_Ancestries(name: string = "") {
-        if (!this.still_loading_Ancestries()) {
+        if (!this.loading_Ancestries) {
             return this.ancestries.filter(ancestry => (ancestry.name == name || name == ""));
         } else { return [new Ancestry()] }
     }
 
     get_Heritages(name: string = "", ancestryName: string = "") {
-        if (!this.still_loading_Heritages()) {
+        if (!this.loading_Heritages) {
             return this.heritages.filter(heritage => (heritage.name == name || name == "" )
              && (ancestryName == "" || this.get_Ancestries(ancestryName)[0].heritages.indexOf(heritage.name) > -1) );
         } else { return [new Heritage()] }
     }
 
     get_Backgrounds(name: string = "") {
-        if (!this.still_loading_Backgrounds()) {
+        if (!this.loading_Backgrounds) {
             return this.backgrounds.filter(background => (background.name == name || name == ""));
         } else { return [new Background()] }
     }
 
     still_loading() {
-        return (this.still_loading_Ancestries() || this.still_loading_Heritages() || this.still_loading_Backgrounds())
-    }
-
-    still_loading_Ancestries() {
-        return (this.loading_Ancestries);
-    }
-
-    still_loading_Heritages() {
-        return (this.loading_Heritages);
-    }
-
-    still_loading_Backgrounds() {
-        return (this.loading_Backgrounds);
+        return (this.loading_Ancestries || this.loading_Heritages || this.loading_Backgrounds)
     }
 
     load_Ancestries(): Observable<String[]>{

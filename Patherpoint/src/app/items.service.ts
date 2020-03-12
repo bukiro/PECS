@@ -1,14 +1,11 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Item } from './Item';
 import { Weapon } from './Weapon';
 import { Armor } from './Armor';
 import { Shield } from './Shield';
 import { Observable } from 'rxjs';
 import { CharacterService } from './character.service';
-import { ElementSchemaRegistry } from '@angular/compiler';
 import { ItemCollection } from './ItemCollection';
-import { FeatsService } from './feats.service';
 
 @Injectable({
     providedIn: 'root'
@@ -16,13 +13,18 @@ import { FeatsService } from './feats.service';
 export class ItemsService {
 
     private items: ItemCollection;
-    private loader = [];
-    private loading: Boolean = false;
+    private loader_Weapons = [];
+    private loading_Weapons: Boolean = false;
+    private loader_Armors = [];
+    private loading_Armors: Boolean = false;
+    private loader_Shields = [];
+    private loading_Shields: Boolean = false;
+    private loader_WornItems = [];
+    private loading_WornItems: Boolean = false;
     itemsMenuState: string = 'out';
 
     constructor(
         private http: HttpClient,
-        public characterService: CharacterService,
     ) { }
 
     toggleItemsMenu(position: string = "") {
@@ -36,64 +38,120 @@ export class ItemsService {
     get_itemsMenuState() {
         return this.itemsMenuState;
     }
-    
+
     get_Items() {
         if (!this.still_loading()) {
             return this.items;
         } else { return new ItemCollection }
     }
 
-    grant_Item(item) {
-        this.characterService.grant_InventoryItem(item);
+    get_Weapons(name: string = "") {
+        if (!this.still_loading()) {
+            return this.items.weapons.filter(weapon => weapon.name == name || name == "");
+        } else { return [] }
+    }
+
+    get_Armors(name: string = "") {
+        if (!this.still_loading()) {
+            return this.items.armors.filter(armor => armor.name == name || name == "");
+        } else { return [] }
+    }
+
+    get_Shields(name: string = "") {
+        if (!this.still_loading()) {
+            return this.items.shields.filter(shield => shield.name == name || name == "");
+        } else { return [] }
+    }
+
+    get_WornItems(name: string = "") {
+        if (!this.still_loading()) {
+            return this.items.wornitems.filter(wornitem => wornitem.name == name || name == "");
+        } else { return [] }
+    }
+
+    grant_Item(characterService: CharacterService, item) {
+        characterService.grant_InventoryItem(item);
     }
 
     still_loading() {
-        return (this.loading);
+        return (this.loading_Weapons || this.loading_Armors || this.loading_Shields || this.loading_WornItems);
     }
 
-    load_Items(): Observable<String[]>{
-        return this.http.get<String[]>('/assets/items.json');
+    load_Weapons(): Observable<String[]>{
+        return this.http.get<String[]>('/assets/weapons.json');
+    }
+
+    load_Armors(): Observable<String[]>{
+        return this.http.get<String[]>('/assets/armors.json');
+    }
+
+    load_Shields(): Observable<String[]>{
+        return this.http.get<String[]>('/assets/shields.json');
+    }
+
+    load_WornItems(): Observable<String[]>{
+        return this.http.get<String[]>('/assets/wornitems.json');
     }
 
     initialize() {
         if (!this.items) {
-            this.loading = true;
-            this.load_Items()
+            this.items = new ItemCollection();
+            this.loading_Weapons = true;
+            this.load_Weapons()
                 .subscribe((results:String[]) => {
-                    this.loader = results;
-                    this.finish_loading()
+                    this.loader_Weapons = results;
+                    this.finish_Weapons()
+                });
+            this.loading_Armors = true;
+            this.load_Armors()
+                .subscribe((results:String[]) => {
+                    this.loader_Armors = results;
+                    this.finish_Armors()
+                });
+            this.loading_Shields = true;
+            this.load_Shields()
+                .subscribe((results:String[]) => {
+                    this.loader_Shields = results;
+                    this.finish_Shields()
+                });
+            this.load_WornItems()
+                .subscribe((results:String[]) => {
+                    this.loader_WornItems = results;
+                    this.finish_WornItems()
                 });
         }
     }
-    finish_loading() {
-        if (this.loader) {
-            this.items = new ItemCollection();
-            this.items.weapon = [];
-            this.items.armor = [];
-            this.items.shield = [];
 
-            this.loader.forEach(element => {
-                switch (element.type) {
-                    case "weapon":
-                        this.items.weapon.push(Object.assign(new Weapon(), element));
-                        break;
-                    case "armor":
-                        this.items.armor.push(Object.assign(new Armor(), element));
-                        break;
-                    case "shield":
-                        this.items.shield.push(Object.assign(new Shield(), element));
-                        break;
-                }
-            });
-            this.loader = [];
+    finish_Weapons() {
+        if (this.loader_Weapons) {
+            this.items.weapons = this.loader_Weapons.map(element => Object.assign(new Weapon(), element));
+            this.loader_Weapons = [];
         }
-        if (this.loading) {this.loading = false;}
-        let basicWeapon = this.get_Items().weapon[0];
-        let basicArmor = this.get_Items().armor[0];
-        this.characterService.grant_BasicItems(basicWeapon, basicArmor);
-        if (!this.characterService.still_loading()) {
-            let advancedWeapons = this.items.weapon.filter(weapon => weapon.prof == "Advanced Weapons");
-            this.characterService.create_AdvancedWeaponFeats(advancedWeapons);
-        }
+        if (this.loading_Weapons) {this.loading_Weapons = false;}
     }
+
+    finish_Armors() {
+        if (this.loader_Armors) {
+            this.items.armors = this.loader_Armors.map(element => Object.assign(new Armor(), element));
+            this.loader_Armors = [];
+        }
+        if (this.loading_Armors) {this.loading_Armors = false;}
+    }
+
+    finish_Shields() {
+        if (this.loader_Shields) {
+            this.items.shields = this.loader_Shields.map(element => Object.assign(new Shield(), element));
+            this.loader_Shields = [];
+        }
+        if (this.loading_Shields) {this.loading_Shields = false;}
+    }
+
+    finish_WornItems() {
+        if (this.loader_WornItems) {
+            this.items.wornitems = this.loader_WornItems.map(element => Object.assign(new Shield(), element));
+            this.loader_WornItems = [];
+        }
+        if (this.loading_WornItems) {this.loading_WornItems = false;}
+    }
+
 }

@@ -4,6 +4,7 @@ import { Armor } from './Armor';
 import { Shield } from './Shield';
 import { Weapon } from './Weapon';
 import { Effect } from './Effect';
+import { Item } from './Item';
 
 export class Bulk {
     public $effects: Effect[];
@@ -34,7 +35,7 @@ export class Bulk {
     current(characterService: CharacterService) {
         let sum: number = 0;
         let inventory = characterService.get_InventoryItems();
-        function addup(item: Armor|Shield|Weapon) {
+        function addup(item: Item) {
             switch (item.bulk) {
                 case "-": 
                     break;
@@ -46,13 +47,7 @@ export class Bulk {
                     break;
             }
         }
-        inventory.armor.forEach(item => {
-            addup(item);
-        })
-        inventory.shield.forEach(item => {
-            addup(item);
-        })
-        inventory.weapon.forEach(item => {
+        inventory.all().forEach(item => {
             addup(item);
         })
         return Math.floor(sum);

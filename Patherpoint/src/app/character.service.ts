@@ -27,6 +27,10 @@ import { Bulk } from './Bulk';
 import { Condition } from './Condition';
 import { ConditionsService } from './Conditions.service';
 import { ConditionGain } from './ConditionGain';
+import { ActivitiesService } from './activities.service';
+import { Activity } from './Activity';
+import { WornItem } from './WornItem';
+import { ActivityGain } from './ActivityGain';
 
 @Injectable({
     providedIn: 'root'
@@ -50,7 +54,9 @@ export class CharacterService {
         private featsService: FeatsService,
         private traitsService: TraitsService,
         private historyService: HistoryService,
-        private conditionsService: ConditionsService
+        private conditionsService: ConditionsService,
+        public activitiesService: ActivitiesService,
+        public itemsService: ItemsService
     ) { }
 
     still_loading() {
@@ -103,12 +109,34 @@ export class CharacterService {
         this.me.class.on_ChangeHeritage(this);
         this.me.class.on_ChangeAncestry(this);
         this.me.class.on_ChangeBackground(this);
+        //Some feats get specially processed when taken.
+        //We can't just delete these feats, but must specifically un-take them to undo their effects.
+        this.me.class.levels.forEach(level => {
+            level.featChoices.filter(choice => choice.available).forEach(choice => {
+                choice.feats.forEach(feat => {
+                    this.me.take_Feat(this, feat.name, false, choice, false);
+                });
+            });
+        });
         this.me.class.customSkills.forEach(skill => {
             this.me.customSkills = this.me.customSkills.filter(customSkill => customSkill.name != skill.name);
         });
         this.me.class = new Class();
         this.me.class = Object.assign(new Class(), JSON.parse(JSON.stringify($class)));
         this.me.class.reassign();
+        //Some feats get specially processed when taken.
+        //We have to explicitly take these feats to process them.
+        //So we remove them and then "take" them again.
+        this.me.class.levels.forEach(level => {
+            level.featChoices.forEach(choice => {
+                let count: number = 0;
+                choice.feats.forEach(feat => {
+                    count++;
+                    this.me.take_Feat(this, feat.name, true, choice, feat.locked);
+                });
+                choice.feats.splice(0, count);
+            });
+        });
         this.me.class.customSkills.forEach(skill => {
             this.me.customSkills.push(Object.assign(new Skill(), skill));
         });
@@ -146,13 +174,18 @@ export class CharacterService {
         } else { return new ItemCollection() }
     }
 
+    get_InvestedItems() {
+        return this.me.inventory.all().filter(item => item.invested)
+    }
+
     create_AdvancedWeaponFeats(advancedWeapons: Weapon[]) {
-        //This function depends on the feats being loaded, and it will wait forever for them!
-        if(this.featsService.still_loading()) {
+        //This function depends on the feats and items being loaded, and it will wait forever for them!
+        if(this.featsService.still_loading() || this.itemsService.still_loading()) {
             setTimeout(() => {
                 this.create_AdvancedWeaponFeats(advancedWeapons);
-            }, 2000)
+            }, 500)
         } else {
+            let advancedWeapons = this.itemsService.get_Weapons().filter(weapon => weapon.prof == "Advanced Weapons");
             let advancedWeaponFeats = this.get_Feats().filter(feat => feat.advancedweaponbase);
             advancedWeapons.forEach(weapon => {
                 advancedWeaponFeats.forEach(feat => {
@@ -190,15 +223,26 @@ export class CharacterService {
             case "shield":
                 newInventoryItem = Object.assign(new Shield(), item);
                 break;
+            case "wornitem":
+                newInventoryItem = Object.assign(new WornItem(), item);
+                break;
         }
         newInventoryItem.equip = true;
-        let newInventoryLength = this.me.inventory[item.type].push(newInventoryItem);
-        this.onEquipChange(this.me.inventory[item.type][newInventoryLength-1]);
+        let newInventoryLength = this.me.inventory[item.type+"s"].push(newInventoryItem);
+        this.onEquipChange(this.me.inventory[item.type+"s"][newInventoryLength-1]);
         this.set_Changed();
     }
 
     drop_InventoryItem(item: Item) {
-        this.me.inventory[item.type] = this.me.inventory[item.type].filter(any_item => any_item !== item);
+        if (item.equip) {
+            item.equip = false;
+            this.onEquipChange(item);
+        }
+        if (item.invested) {
+            item.invested = false;
+            this.onInvestChange(item);
+        }
+        this.me.inventory[item.type+"s"] = this.me.inventory[item.type+"s"].filter(any_item => any_item !== item);
         this.equip_BasicItems();
         this.set_Changed();
     }
@@ -206,11 +250,15 @@ export class CharacterService {
     onEquipChange(item: Item) {
         if (item.equip) {
             if (item.type == "armor"||item.type == "shield") {
-                let allOfType = this.get_InventoryItems()[item.type];
+                let allOfType = this.get_InventoryItems()[item.type+"s"];
                 allOfType.forEach(typeItem => {
                     typeItem.equip = false;
                 });
                 item.equip = true;
+            }
+            if (item.gainActivity && item.traits.indexOf("Invested") == -1) {
+                item.invested = true;
+                this.onInvestChange(item);
             }
         } else {
             //If this is called by a checkbox, it finishes before the checkbox model finalizes - so if the unequipped item is the basic item, it will still end up unequipped.
@@ -232,35 +280,66 @@ export class CharacterService {
             if (item.type == "armor") {
                 item["cover"] = 0;
             }
+            //If the item was invested, it isn't now.
+            if (item.invested) {
+                item.invested = false;
+                this.onInvestChange(item);
+            }
         }
         this.set_Changed();
     }
 
-    grant_BasicItems(weapon: Weapon, armor: Armor) {
-        this.basicItems = [];
-        let newBasicWeapon:Weapon;
-        newBasicWeapon = Object.assign(new Weapon(), weapon);
-        this.basicItems.push(newBasicWeapon);
-        let newBasicArmor:Armor;
-        newBasicArmor = Object.assign(new Armor(), armor);
-        this.basicItems.push(newBasicArmor);
-        this.equip_BasicItems()
+    onInvestChange(item: Item) {
+        if (item.invested) {
+            item.gainActivity.forEach(gainActivity => {
+                this.me.gain_Activity(Object.assign(new ActivityGain(), {name:gainActivity, source:item.name}));
+            });
+            if (!item.equip) {
+                item.equip = true;
+                this.onEquipChange(item);
+            }
+        } else {
+            item.gainActivity.forEach(gainActivity => {
+                let oldGain = this.me.class.activities.filter(gain => gain.name == gainActivity && gain.source == item.name);
+                if (oldGain.length) {
+                    this.me.lose_Activity(this, this.itemsService, this.activitiesService, oldGain[0]);
+                }
+            });
+        }
         this.set_Changed();
+    }
+
+    grant_BasicItems() {
+        //This function depends on the items being loaded, and it will wait forever for them!
+        if(this.itemsService.still_loading()) {
+            setTimeout(() => {
+                this.grant_BasicItems();
+            }, 500)
+        } else {
+            this.basicItems = [];
+            let newBasicWeapon:Weapon = Object.assign(new Weapon(), this.itemsService.get_Weapons("Fist")[0]);
+            this.basicItems.push(newBasicWeapon);
+            let newBasicArmor:Armor;
+            newBasicArmor = Object.assign(new Armor(), this.itemsService.get_Armors("Unarmored")[0]);
+            this.basicItems.push(newBasicArmor);
+            this.equip_BasicItems()
+            this.set_Changed();
+        }
     }
     
     equip_BasicItems() {
         if (!this.still_loading() && this.basicItems.length) {
-            if (!this.get_InventoryItems().weapon.length) {
+            if (!this.get_InventoryItems().weapons.length) {
                 this.grant_InventoryItem(this.basicItems[0]);
             }
-            if (!this.get_InventoryItems().armor.length) {
+            if (!this.get_InventoryItems().armors.length) {
                 this.grant_InventoryItem(this.basicItems[1]);
             }
-            if (!this.get_InventoryItems().weapon.filter(weapon => weapon.equip == true).length) {
-                this.get_InventoryItems().weapon[0].equip = true;
+            if (!this.get_InventoryItems().weapons.filter(weapon => weapon.equip == true).length) {
+                this.get_InventoryItems().weapons[0].equip = true;
             }
-            if (!this.get_InventoryItems().armor.filter(armor => armor.equip == true).length) {
-                this.get_InventoryItems().armor[0].equip = true;
+            if (!this.get_InventoryItems().armors.filter(armor => armor.equip == true).length) {
+                this.get_InventoryItems().armors[0].equip = true;
             }
         }
     }
@@ -395,6 +474,25 @@ export class CharacterService {
         return returnedConditions;
     }
 
+    get_Activities() {
+        return this.me.class.activities;
+    }
+
+    get_ActivitiesShowingOn(objectName: string) {
+        let activityGains = this.me.class.activities.filter(gain => gain.active);
+        let returnedActivities: Activity[] = [];
+        activityGains.forEach(gain => {
+            this.activitiesService.get_Activities(gain.name).forEach(activity => {
+                activity.showon.split(",").forEach(showon => {
+                    if (showon == objectName || showon.substr(1) == objectName || (objectName == "Lore" && showon.indexOf(objectName) > -1)) {
+                        returnedActivities.push(activity);
+                    }
+                });
+            });
+        });
+        return returnedActivities;
+    }
+
     initialize(charName: string) {
         this.traitsService.initialize();
         this.featsService.initialize();
@@ -437,9 +535,10 @@ export class CharacterService {
             }
             if (this.me.inventory) {
                 this.me.inventory = Object.assign(new ItemCollection(), this.me.inventory);
-                this.me.inventory.weapon = this.me.inventory.weapon.map(weapon => Object.assign(new Weapon(), weapon));
-                this.me.inventory.armor = this.me.inventory.armor.map(armor => Object.assign(new Armor(), armor));
-                this.me.inventory.shield = this.me.inventory.shield.map(shield => Object.assign(new Weapon(), shield));
+                this.me.inventory.weapons = this.me.inventory.weapons.map(weapon => Object.assign(new Weapon(), weapon));
+                this.me.inventory.armors = this.me.inventory.armors.map(armor => Object.assign(new Armor(), armor));
+                this.me.inventory.shields = this.me.inventory.shields.map(shield => Object.assign(new Weapon(), shield));
+                this.me.inventory.wornitems = this.me.inventory.wornitems.map(wornitem => Object.assign(new WornItem(), wornitem));
             } else {
                 this.me.inventory = new ItemCollection();
             }
@@ -465,7 +564,7 @@ export class CharacterService {
             this.loader = [];
         }
         if (this.loading) {this.loading = false;}
-        this.equip_BasicItems();
+        this.grant_BasicItems();
         this.characterChanged$ = this.changed.asObservable();
         this.set_Changed();
     }

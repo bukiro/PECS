@@ -1,94 +1,96 @@
 [
     {
-        "name":"Flurry of Blows",
-        "desc":"You can attack rapidly with fists, feet, elbows, knees, and other unarmed attacks. You gain the Flurry of Blows action.",
-        "specialdesc":"You can attack rapidly with fists, feet, elbows, knees, and other unarmed attacks. You gain the Flurry of Blows action.",
-        "gainAction":"Flurry of Blows"
+        "name": "Flurry of Blows",
+        "desc": "You can attack rapidly with fists, feet, elbows, knees, and other unarmed attacks. You gain the Flurry of Blows action.",
+        "specialdesc": "You can attack rapidly with fists, feet, elbows, knees, and other unarmed attacks. You gain the Flurry of Blows action.",
+        "gainActivity": [
+            "Flurry of Blows"
+        ]
     },
     {
-        "name":"Powerful Fist",
-        "desc":"You know how to wield your fists as deadly weapons. The damage die for your fist increases to 1d6 instead of 1d4. Most people take a –2 circumstance penalty when making a lethal attack with nonlethal unarmed attacks, because they find it hard to use their fists with deadly force. You don’t take this penalty when making a lethal attack with your fist or any other unarmed attacks.",
-        "hint":"You don’t take the usual –2 circumstance penalty when making a lethal attack with your fist or any other unarmed attacks.",
-        "showon":"Fist, Handwraps of Mighty Blows"
+        "name": "Powerful Fist",
+        "desc": "You know how to wield your fists as deadly weapons. The damage die for your fist increases to 1d6 instead of 1d4. Most people take a –2 circumstance penalty when making a lethal attack with nonlethal unarmed attacks, because they find it hard to use their fists with deadly force. You don’t take this penalty when making a lethal attack with your fist or any other unarmed attacks.",
+        "hint": "You don’t take the usual –2 circumstance penalty when making a lethal attack with your fist or any other unarmed attacks.",
+        "showon": "Unarmed"
     },
     {
-        "name":"Incredible Movement",
-        "desc":"You move like the wind. You gain a +10-foot status bonus to your Speed whenever you’re not wearing armor. The bonus increases by 5 feet for every 4 levels you have beyond 3rd.",
-        "hint":"You gain a +10-foot status bonus to your Speed whenever you’re not wearing armor. The bonus increases by 5 feet for every 4 levels you have beyond 3rd.",
-        "showon":"Land Speed"
+        "name": "Incredible Movement",
+        "desc": "You move like the wind. You gain a +10-foot status bonus to your Speed whenever you’re not wearing armor. The bonus increases by 5 feet for every 4 levels you have beyond 3rd.",
+        "hint": "You gain a +10-foot status bonus to your Speed whenever you’re not wearing armor. The bonus increases by 5 feet for every 4 levels you have beyond 3rd.",
+        "showon": "Land Speed"
     },
     {
-        "name":"Mystic Strikes",
-        "desc":"Focusing your will into your physical attacks imbues them with mystical energy. Your unarmed attacks become magical, allowing them to get past resistances to non-magical attacks. However, you still need an item such as handwraps of mighty blows to gain an item bonus to attack rolls or increase your attacks’ weapon damage dice.",
-        "hint":"Your unarmed attacks become magical, allowing them to get past resistances to non-magical attacks.",
-        "showon":"Fist, Handwraps of Mighty Blows"
+        "name": "Mystic Strikes",
+        "desc": "Focusing your will into your physical attacks imbues them with mystical energy. Your unarmed attacks become magical, allowing them to get past resistances to non-magical attacks. However, you still need an item such as handwraps of mighty blows to gain an item bonus to attack rolls or increase your attacks’ weapon damage dice.",
+        "hint": "Your unarmed attacks become magical, allowing them to get past resistances to non-magical attacks.",
+        "showon": "Unarmed"
     },
     {
-        "name":"Alertness",
-        "desc":"You remain alert to threats around you. Your proficiency rank for Perception increases to expert."
+        "name": "Alertness",
+        "desc": "You remain alert to threats around you. Your proficiency rank for Perception increases to expert."
     },
     {
-        "name":"Expert Strikes",
-        "desc":"You’ve practiced martial arts and have now surpassed your former skill. Your proficiency ranks for unarmed attacks and simple weapons increase to expert."
+        "name": "Expert Strikes",
+        "desc": "You’ve practiced martial arts and have now surpassed your former skill. Your proficiency ranks for unarmed attacks and simple weapons increase to expert."
     },
     {
-        "name":"Path to Perfection",
-        "desc":"You have progressed along your own path to enlightenment. Choose your Fortitude, Reflex, or Will saving throw. Your proficiency rank for the chosen saving throw increases to master. When you roll a success on the chosen saving throw, you get a critical success instead.",
-        "hint":"When you roll a success on this saving throw, you get a critical success instead.",
-        "showon":"Path to Perfection"
+        "name": "Path to Perfection",
+        "desc": "You have progressed along your own path to enlightenment. Choose your Fortitude, Reflex, or Will saving throw. Your proficiency rank for the chosen saving throw increases to master. When you roll a success on the chosen saving throw, you get a critical success instead.",
+        "hint": "When you roll a success on this saving throw, you get a critical success instead.",
+        "showon": "Path to Perfection"
     },
     {
-        "name":"Weapon Specialization",
-        "desc":"You’ve learned how to inflict greater injuries with the weapons you know best. You deal 2 additional damage with weapons and unarmed attacks in which you are an expert. This damage increases to 3 if you’re a master, and 4 if you’re legendary."
+        "name": "Weapon Specialization",
+        "desc": "You’ve learned how to inflict greater injuries with the weapons you know best. You deal 2 additional damage with weapons and unarmed attacks in which you are an expert. This damage increases to 3 if you’re a master, and 4 if you’re legendary."
     },
     {
-        "name":"Metal Strikes",
-        "desc":"You can adjust your body to make unarmed attacks infused with the mystic energy of rare metals. Your unarmed attacks are treated as cold iron and silver. This allows you to deal more damage to a variety of supernatural creatures, such as demons, devils, and fey.",
-        "hint":"Your unarmed attacks are treated as cold iron and silver. This allows you to deal more damage to a variety of supernatural creatures, such as demons, devils, and fey.",
-        "showon":"Fist, Handwraps of Mighty Blows"
+        "name": "Metal Strikes",
+        "desc": "You can adjust your body to make unarmed attacks infused with the mystic energy of rare metals. Your unarmed attacks are treated as cold iron and silver. This allows you to deal more damage to a variety of supernatural creatures, such as demons, devils, and fey.",
+        "hint": "Your unarmed attacks are treated as cold iron and silver. This allows you to deal more damage to a variety of supernatural creatures, such as demons, devils, and fey.",
+        "showon": "Unarmed"
     },
     {
-        "name":"Monk Expertise",
-        "desc":"Your proficiency rank for your monk class DC increases to expert. If you have ki spells, your proficiency rank for spell attacks and spell DCs with the tradition of magic you use for your ki spells increases to expert."
+        "name": "Monk Expertise",
+        "desc": "Your proficiency rank for your monk class DC increases to expert. If you have ki spells, your proficiency rank for spell attacks and spell DCs with the tradition of magic you use for your ki spells increases to expert."
     },
     {
-        "name":"Second Path to Perfection",
-        "desc":"You’ve learned to find perfection in every success. Choose a different saving throw than the one you chose for your path to perfection. Your proficiency rank for the chosen saving throw increases to master. If you roll a success with the chosen saving throw, you instead critically succeed.",
-        "hint":"If you roll a success with this saving throw, you instead critically succeed.",
-        "showon":"Second Path to Perfection"
+        "name": "Second Path to Perfection",
+        "desc": "You’ve learned to find perfection in every success. Choose a different saving throw than the one you chose for your path to perfection. Your proficiency rank for the chosen saving throw increases to master. If you roll a success with the chosen saving throw, you instead critically succeed.",
+        "hint": "If you roll a success with this saving throw, you instead critically succeed.",
+        "showon": "Second Path to Perfection"
     },
     {
-        "name":"Graceful Mastery",
-        "desc":"You move with perpetual grace in battle, eluding and turning aside blows. Your proficiency rank for unarmored defense increases to master."
+        "name": "Graceful Mastery",
+        "desc": "You move with perpetual grace in battle, eluding and turning aside blows. Your proficiency rank for unarmored defense increases to master."
     },
     {
-        "name":"Master Strikes",
-        "desc":"You have honed your skill in using your body as a weapon. Your proficiency ranks for unarmed attacks and simple weapons increase to master."
+        "name": "Master Strikes",
+        "desc": "You have honed your skill in using your body as a weapon. Your proficiency ranks for unarmed attacks and simple weapons increase to master."
     },
     {
-        "name":"Greater Weapon Specialization",
-        "desc":"Your damage from weapon specialization increases to 4 with weapons and unarmed attacks in which you’re an expert, 6 if you’re a master, and 8 if you’re legendary."
+        "name": "Greater Weapon Specialization",
+        "desc": "Your damage from weapon specialization increases to 4 with weapons and unarmed attacks in which you’re an expert, 6 if you’re a master, and 8 if you’re legendary."
     },
     {
-        "name":"Third Path to Perfection",
-        "desc":"You have made great progress in your personal studies of enlightenment. Choose one of the saving throws you selected for path to perfection or second path to perfection. Your proficiency rank for the chosen type of save increases to legendary. When you roll a critical failure on the chosen type of save, you get a failure instead. When you roll a failure on the chosen type of save against an effect that deals damage, you take half damage.",
-        "hint":"When you roll a critical failure on this type of save, you get a failure instead. When you roll a failure on this type of save against an effect that deals damage, you take half damage.",
-        "showon":"Third Path to Perfection"
+        "name": "Third Path to Perfection",
+        "desc": "You have made great progress in your personal studies of enlightenment. Choose one of the saving throws you selected for path to perfection or second path to perfection. Your proficiency rank for the chosen type of save increases to legendary. When you roll a critical failure on the chosen type of save, you get a failure instead. When you roll a failure on the chosen type of save against an effect that deals damage, you take half damage.",
+        "hint": "When you roll a critical failure on this type of save, you get a failure instead. When you roll a failure on this type of save against an effect that deals damage, you take half damage.",
+        "showon": "Third Path to Perfection"
     },
     {
-        "name":"Adamantine Strikes",
-        "desc":"When you focus your will into your limbs, your blows are as unyielding as the hardest of metals. Your unarmed attacks are treated as adamantine.",
-        "hint":"Your unarmed attacks are treated as adamantine.",
-        "showon":"Fist, Handwraps of Mighty Blows"
+        "name": "Adamantine Strikes",
+        "desc": "When you focus your will into your limbs, your blows are as unyielding as the hardest of metals. Your unarmed attacks are treated as adamantine.",
+        "hint": "Your unarmed attacks are treated as adamantine.",
+        "showon": "Unarmed"
     },
     {
-        "name":"Graceful Legend",
-        "desc":"Your sublime movement grants you unparalleled protection and offense. Your proficiency rank for unarmored defense increases to legendary, and your proficiency rank for your monk class DC increases to master. If you have ki spells, your proficiency rank for spell attack rolls and spell DCs with the tradition of magic you use for your ki spells increases to master."
+        "name": "Graceful Legend",
+        "desc": "Your sublime movement grants you unparalleled protection and offense. Your proficiency rank for unarmored defense increases to legendary, and your proficiency rank for your monk class DC increases to master. If you have ki spells, your proficiency rank for spell attack rolls and spell DCs with the tradition of magic you use for your ki spells increases to master."
     },
     {
-        "name":"Perfected Form",
-        "desc":"You have purged incompetence from your techniques. On your first Strike of your turn, if you roll lower than 10, you can treat the attack roll as a 10. This is a fortune effect.",
-        "hint":"On your first Strike of your turn, if you roll lower than 10, you can treat the attack roll as a 10. This is a fortune effect.",
-        "showon":"Attacks"
+        "name": "Perfected Form",
+        "desc": "You have purged incompetence from your techniques. On your first Strike of your turn, if you roll lower than 10, you can treat the attack roll as a 10. This is a fortune effect.",
+        "hint": "On your first Strike of your turn, if you roll lower than 10, you can treat the attack roll as a 10. This is a fortune effect.",
+        "showon": "Attacks"
     }
 ]

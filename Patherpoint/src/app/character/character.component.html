@@ -2,7 +2,7 @@
     <button class="list-item" (click)="toggleCharacterMenu()">Close</button>
     <div class="loading" *ngIf="still_loading()">Loading</div>
     <div *ngIf="!still_loading()">
-        Name: <input type="text" name="name" [(ngModel)]="get_Character().name" (ngModelChange)="this.characterService.set_Changed()" maxLength="30">
+        Name: <input type="text" name="name" [(ngModel)]="get_Character().name" (blur)="this.characterService.set_Changed()" maxLength="30">
         Level
         <select [(ngModel)]="get_Character().level" (ngModelChange)="onLevelChange()">
             <option *ngFor="let level of [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20]" [value]="level">{{level}}</option>
@@ -297,7 +297,7 @@
                                     <strong>Lore:
                                         <input type="text" [(ngModel)]="choice.loreName"
                                                 [disabled]="get_SkillIncreases(level.number, level.number, 'Lore: '+choice.loreName, choice.source, choice.id).length"
-                                                (ngModelChange)=this.characterService.set_Changed()
+                                                (blur)=this.characterService.set_Changed()
                                                 maxLength="20">
                                     </strong>
                                 </label>

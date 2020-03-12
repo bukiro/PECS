@@ -12,7 +12,7 @@
                 value="{{get_Health().temporaryHP}}" disabled>
             <div class="row">
                 <cite *ngFor="let effect of get_EffectsOnThis('Max HP')" [className]="effect.penalty ? 'penalty' : 'bonus'">{{effect.value}} ({{effect.source}})&nbsp;</cite>
-                <cite *ngFor="let feat of get_FeatsShowingOn('Health')" [title]="feat.desc">{{feat.name}}&nbsp;</cite>
+                <cite *ngFor="let feat of get_FeatsShowingOn('Health')" [title]="(feat.hint) ? feat.hint : feat.desc">{{feat.name}}&nbsp;</cite>
                 <cite *ngFor="let condition of get_ConditionsShowingOn('Health')" [className]="(condition.buff) ? 'bonus' : 'penalty'" [title]="condition.desc">{{condition.name}}&nbsp;</cite>
             </div>
         </div> 
@@ -29,7 +29,7 @@
             <button *ngIf="get_Health().dying > 0" (click)="on_DyingSave(false)">Fail Save</button>
             <div class="row">
                 <cite *ngFor="let effect of get_EffectsOnThis('Max Dying')" [className]="effect.penalty ? 'penalty' : 'bonus'">{{effect.value}} ({{effect.source}})&nbsp;</cite>
-                <cite *ngFor="let feat of get_FeatsShowingOn('Dying')" [title]="feat.desc">{{feat.name}}&nbsp;</cite>
+                <cite *ngFor="let feat of get_FeatsShowingOn('Dying')" [title]="(feat.hint) ? feat.hint : feat.desc">{{feat.name}}&nbsp;</cite>
                 <cite *ngFor="let condition of get_ConditionsShowingOn('Dying')" [className]="(condition.buff) ? 'bonus' : 'penalty'" [title]="condition.desc">{{condition.name}}&nbsp;</cite>
             </div>
         </div>
@@ -56,7 +56,7 @@
             </div>
             <div class="row">
                 <cite *ngFor="let effect of get_EffectsOnThis('Resistances')" [className]="effect.penalty ? 'penalty' : 'bonus'">{{effect.value}} ({{effect.source}})&nbsp;</cite>
-                <cite *ngFor="let feat of get_FeatsShowingOn('Resistances')" [title]="feat.desc">{{feat.name}}&nbsp;</cite>
+                <cite *ngFor="let feat of get_FeatsShowingOn('Resistances')" [title]="(feat.hint) ? feat.hint : feat.desc">{{feat.name}}&nbsp;</cite>
                 <cite *ngFor="let condition of get_ConditionsShowingOn('Resistances')" [className]="(condition.buff) ? 'bonus' : 'penalty'" [title]="condition.desc">{{condition.name}}&nbsp;</cite>
             </div>
         </div> 

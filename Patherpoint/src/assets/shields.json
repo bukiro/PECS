@@ -1,0 +1,6 @@
+[
+    { "type":"shield", "bulk":"L", "name":"Buckler", "itembonus":1 },
+    { "type":"shield", "bulk":"1", "name":"Wooden Shield", "itembonus":2 },
+    { "type":"shield", "bulk":"1", "name":"Steel Shield", "itembonus":2 },
+    { "type":"shield", "bulk":"4", "name":"Tower Shield", "speedpenalty":-5, "itembonus":2, "coverbonus":2 }
+]

@@ -1478,7 +1478,9 @@
             }
         ],
         "featreq": "Arcane Sense",
-        "gainAction": "Eye of the Arclords",
+        "gainActivity": [
+            "Eye of the Arclords"
+        ],
         "showon": "Arcana",
         "traits": [
             "General",
@@ -1843,6 +1845,12 @@
             }
         ],
         "showon": "Worn Items",
+        "effects": [
+            {
+                "affected": "Invest",
+                "value": "+2"
+            }
+        ],
         "traits": [
             "General"
         ]
@@ -3336,7 +3344,10 @@
         "traits": [
             "Monk"
         ],
-        "desc": "You have trained with the traditional weaponry of your monastery or school.",
+        "shortDesc": "You have trained with the traditional weaponry of your monastery or school.",
+        "desc": "You have trained with the traditional weaponry of your monastery or school. You gain access to uncommon weapons that have the monk trait and become trained in simple and martial monk weapons. When your proficiency rank for unarmed attacks increases to expert or master, your proficiency rank for these weapons increases to expert or master as well.\n\nYou can use melee monk weapons with any of your monk feats or monk abilities that normally require unarmed attacks, though not if the feat or ability requires you to use a single specific type of attack, such as Crane Stance.",
+        "hint": "You can use melee monk weapons with any of your monk feats or monk abilities that normally require unarmed attacks, though not if the feat or ability requires you to use a single specific type of attack, such as Crane Stance.",
+        "showon":"Monk",
         "levelreq": 1,
         "gainSkillChoice": [
             {
@@ -3499,9 +3510,9 @@
     },
     {
         "name": "Stunning Fist",
-        "shortDesc":"The focused power of your flurry threatens to overwhelm your opponent.",
-        "desc":"The focused power of your flurry threatens to overwhelm your opponent. When you target the same creature with two Strikes from your Flurry of Blows, you can try to stun the creature. If either Strike hits and deals damage, the target must succeed at a Fortitude save against your class DC or be stunned 1 (or stunned 3 on a critical failure). This is an incapacitation effect.",
-        "hint":"When you target the same creature with two Strikes from your Flurry of Blows, you can try to stun the creature. If either Strike hits and deals damage, the target must succeed at a Fortitude save against your class DC or be stunned 1 (or stunned 3 on a critical failure). This is an incapacitation effect.",
+        "shortDesc": "The focused power of your flurry threatens to overwhelm your opponent.",
+        "desc": "The focused power of your flurry threatens to overwhelm your opponent. When you target the same creature with two Strikes from your Flurry of Blows, you can try to stun the creature. If either Strike hits and deals damage, the target must succeed at a Fortitude save against your class DC or be stunned 1 (or stunned 3 on a critical failure). This is an incapacitation effect.",
+        "hint": "When you target the same creature with two Strikes from your Flurry of Blows, you can try to stun the creature. If either Strike hits and deals damage, the target must succeed at a Fortitude save against your class DC or be stunned 1 (or stunned 3 on a critical failure). This is an incapacitation effect.",
         "featreq": "Flurry of Blows",
         "levelreq": 2,
         "showon": "Flurry of Blows",
@@ -3511,9 +3522,9 @@
     },
     {
         "name": "Flurry of Maneuvers",
-        "shortDesc":"Your flurry is a combination of maneuvers.",
-        "desc":"Your flurry is a combination of maneuvers. You can replace one or both of your attacks during a Flurry of Blows with Grapples, Shoves, or Trips.",
-        "hint":"Your can replace one or both of your attacks during a Flurry of Blows with Grapples, Shoves, or Trips.",
+        "shortDesc": "Your flurry is a combination of maneuvers.",
+        "desc": "Your flurry is a combination of maneuvers. You can replace one or both of your attacks during a Flurry of Blows with Grapples, Shoves, or Trips.",
+        "hint": "Your can replace one or both of your attacks during a Flurry of Blows with Grapples, Shoves, or Trips.",
         "levelreq": 4,
         "skillreq": [
             {
@@ -3528,13 +3539,47 @@
     },
     {
         "name": "Whirling Throw",
-        "shortDesc":"You propel your grabbed or restrained foe a great distance.",
-        "desc":"You propel your grabbed or restrained foe a great distance. You can throw the creature any distance up to 10 feet, plus 5 feet × your Strength modifier. If you successfully throw the creature, it takes bludgeoning damage equal to your Strength modifier plus 1d6 per 10 feet you threw it.\n\nAttempt an Athletics check against the foe’s Fortitude DC. You take a –2 circumstance penalty to your check if the target is one size larger than you and a –4 circumstance penalty if it’s larger than that. You gain a +2 circumstance bonus to your check if the target is one size smaller than you and a +4 circumstance bonus if it’s smaller than that.",
+        "shortDesc": "You propel your grabbed or restrained foe a great distance.",
+        "desc": "You propel your grabbed or restrained foe a great distance. You can throw the creature any distance up to 10 feet, plus 5 feet × your Strength modifier. If you successfully throw the creature, it takes bludgeoning damage equal to your Strength modifier plus 1d6 per 10 feet you threw it.\n\nAttempt an Athletics check against the foe’s Fortitude DC. You take a –2 circumstance penalty to your check if the target is one size larger than you and a –4 circumstance penalty if it’s larger than that. You gain a +2 circumstance bonus to your check if the target is one size smaller than you and a +4 circumstance bonus if it’s smaller than that.",
         "levelreq": 6,
-        "gainAction":"Whirling Throw",
+        "gainActivity": [
+            "Whirling Throw"
+        ],
         "traits": [
             "Monk"
+        ]
+    },
+    {
+        "name": "Crane Stance",
+        "shortDesc": "You enter the stance of a crane, holding your arms in an imitation of a crane’s wings.",
+        "desc": "You enter the stance of a crane, holding your arms in an imitation of a crane’s wings and using flowing, defensive motions. You gain a +1 circumstance bonus to AC, but the only Strikes you can make are crane wing attacks. These deal 1d6 bludgeoning damage; are in the brawling group; and have the agile, finesse, nonlethal, and unarmed traits.\n\nWhile in Crane Stance, reduce the DC for High Jump and Long Jump by 5, and when you Leap, you can move an additional 5 feet horizontally or 2 feet vertically.",
+        "levelreq": 1,
+        "gainActivity": [
+            "Crane Stance"
         ],
-        "effects":[{"affected":"All Damage Resistance", "value":"-2"}]
+        "traits": [
+            "Monk",
+            "Stance"
+        ]
+    },
+    {
+        "name": "Natural Ambition",
+        "shortdesc": "You were raised to be ambitious and always reach for the stars, leading you to progress quickly in your chosen field.",
+        "desc": "You were raised to be ambitious and always reach for the stars, leading you to progress quickly in your chosen field. You gain a 1st-level class feat for your class. You must meet the prerequisites, but you can select the feat later in the character creation process in order to determine which prerequisites you meet.",
+        "levelreq": 1,
+        "gainFeatChoice": [
+            {
+                "available": 1,
+                "feats": [],
+                "filter": [],
+                "level": "1",
+                "type": "Class",
+                "source": "Feat: Natural Ambition",
+                "id": ""
+            }
+        ],
+        "traits": [
+            "Human"
+        ]
     }
 ]

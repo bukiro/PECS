@@ -51,13 +51,13 @@
                 <div class="row">
                     <cite *ngFor="let trait of get_TraitsForThis(speed.name)" title="{{trait.description}}">{{trait.name}} ({{trait.haveOn(this.characterService, true)}})&nbsp;</cite>
                     <cite *ngFor="let effect of get_EffectsOnThis(speed.name)" [className]="effect.penalty ? 'penalty' : 'bonus'">{{effect.value}} ({{effect.source}})&nbsp;</cite>
-                    <cite *ngFor="let feat of get_FeatsShowingOn(speed.name)" [title]="feat.desc">{{feat.name}}&nbsp;</cite>
+                    <cite *ngFor="let feat of get_FeatsShowingOn(speed.name)" [title]="(feat.hint) ? feat.hint : feat.desc">{{feat.name}}&nbsp;</cite>
                     <cite *ngFor="let condition of get_ConditionsShowingOn(speed.name)" [className]="(condition.buff) ? 'bonus' : 'penalty'" [title]="condition.desc">{{condition.name}}&nbsp;</cite>
                 </div>
             </div>
         </div>
         <div class="row">
-            <cite *ngFor="let feat of get_FeatsShowingOn('Movement')" [title]="feat.desc">{{feat.name}}&nbsp;</cite>
+            <cite *ngFor="let feat of get_FeatsShowingOn('Movement')" [title]="(feat.hint) ? feat.hint : feat.desc">{{feat.name}}&nbsp;</cite>
             <cite *ngFor="let condition of get_ConditionsShowingOn('Movement')" [className]="(condition.buff) ? 'bonus' : 'penalty'" [title]="condition.desc">{{condition.name}}&nbsp;</cite>
         </div>
     </div>

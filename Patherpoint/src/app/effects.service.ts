@@ -83,15 +83,9 @@ constructor(
         let simpleEffects: Effect[] = [];
         let items = this.characterService.get_InventoryItems();
         //Create simple effects from all equipped items first
-        items.weapon.filter(item => item.equip && item.effects).forEach(item => {
+        items.all().filter(item => item.invested && item.effects).forEach(item => {
             simpleEffects = simpleEffects.concat(this.get_SimpleEffects(item));
             });
-        items.armor.filter(item => item.equip && item.effects).forEach(item => {
-            simpleEffects = simpleEffects.concat(this.get_SimpleEffects(item));
-        });
-        items.shield.filter(item => item.equip && item.effects).forEach(item => {
-            simpleEffects = simpleEffects.concat(this.get_SimpleEffects(item));
-        });
         let character = this.characterService.get_Character();
         let feats = character.get_FeatsTaken(1, character.level);
         feats.forEach(feat => {
@@ -112,12 +106,12 @@ constructor(
 
         //Get parrying bonuses from raised weapons
         //If an item is a weapon that is raised, add +1 to AC.
-        items.weapon.filter(item => item.equip && item.parrying).forEach(item => {
+        items.weapons.filter(item => item.equip && item.parrying).forEach(item => {
             itemEffects.push(new Effect('circumstance', "AC", "+1", item.name, false));
         })
         //Get shield bonuses from raised shields
         //IF a shield is raised, add its item bonus to AC with a + in front. If you are also taking cover while the shield is raised, add that bonus as well.
-        items.shield.filter(item => item.equip && item.raised).forEach(item => {
+        items.shields.filter(item => item.equip && item.raised).forEach(item => {
             let shieldBonus = item.itembonus;
             if (item.takingCover) {
                 shieldBonus += item.coverbonus;
@@ -125,14 +119,14 @@ constructor(
             itemEffects.push(new Effect('circumstance', "AC", "+"+shieldBonus, item.name, false));
         });
         //Get cover bonuses (these are taken from the currently worn armor)
-        items.armor.filter(item => item.equip && item.cover > 0).forEach(item => {
+        items.armors.filter(item => item.equip && item.cover > 0).forEach(item => {
             let coverBonus = item.cover;
             itemEffects.push(new Effect('circumstance', "AC", "+"+coverBonus, "Cover", false));
         });
         //Get skill and speed penalties from armor
         //If an armor has a skillpenalty or a speedpenalty, check if Strength meets its strength requirement.
         let Strength = this.characterService.get_Abilities("Strength")[0].value(this.characterService, this);
-        items.armor.filter(item => item.equip && item.skillpenalty).forEach(item => {
+        items.armors.filter(item => item.equip && item.skillpenalty).forEach(item => {
             if (Strength < item.strength) {
                 //You are not strong enough to act freely in this armor.
                 //If the item has the Flexible trait, its penalty doesn't apply to Acrobatics and Athletics.
@@ -161,7 +155,7 @@ constructor(
                 }
             }
         });
-        items.armor.filter(item => item.equip && item.speedpenalty).forEach(item => {
+        items.armors.filter(item => item.equip && item.speedpenalty).forEach(item => {
             if (Strength < item.strength) {
                 //You are not strong enough to move unhindered in this armor. You get a speed penalty.
                 itemEffects.push(new Effect('untyped', "Speed", item.speedpenalty.toString(), item.name, true));
@@ -177,7 +171,7 @@ constructor(
                 }
             }
         });
-        items.shield.filter(item => item.equip && item.speedpenalty).forEach(item => {
+        items.shields.filter(item => item.equip && item.speedpenalty).forEach(item => {
             //Shields don't have a strength requirement for speed penalties. In this case, the penalty just alwas applies.
             itemEffects.push(new Effect('untyped', "Speed", item.speedpenalty.toString(), item.name, true));
         });
