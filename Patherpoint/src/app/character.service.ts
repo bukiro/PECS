@@ -31,6 +31,9 @@ import { ActivitiesService } from './activities.service';
 import { Activity } from './Activity';
 import { WornItem } from './WornItem';
 import { ActivityGain } from './ActivityGain';
+import { SpellsService } from './spells.service';
+import { EffectsService } from './effects.service';
+import { Effect } from './Effect';
 
 @Injectable({
     providedIn: 'root'
@@ -45,6 +48,8 @@ export class CharacterService {
     private changed: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(true);
 
     itemsMenuState: string = 'out';
+    characterMenuState: string = 'out';
+    spellMenuState: string = 'out';
 
     constructor(
         private http: HttpClient,
@@ -56,7 +61,9 @@ export class CharacterService {
         private historyService: HistoryService,
         private conditionsService: ConditionsService,
         public activitiesService: ActivitiesService,
-        public itemsService: ItemsService
+        public itemsService: ItemsService,
+        public spellsService: SpellsService,
+        public effectsService: EffectsService
     ) { }
 
     still_loading() {
@@ -70,16 +77,36 @@ export class CharacterService {
         this.changed.next(true);
     }
 
-    toggleCharacterMenu(position: string = "") {
-        if (position) {
-            this.itemsMenuState = position;
-        } else {
-            this.itemsMenuState = (this.itemsMenuState == 'out') ? 'in' : 'out';
+    toggleMenu(menu: string = "") {
+        switch (menu) {
+            case "items": 
+                this.itemsMenuState = (this.itemsMenuState == 'out') ? 'in' : 'out';
+                this.characterMenuState = 'out';
+                this.spellMenuState = 'out';
+                break;
+            case "character": 
+                this.characterMenuState = (this.characterMenuState == 'out') ? 'in' : 'out';
+                this.itemsMenuState = 'out';
+                this.spellMenuState = 'out';
+                break;
+            case "spells": 
+                this.spellMenuState = (this.spellMenuState == 'out') ? 'in' : 'out';
+                this.itemsMenuState = 'out';
+                this.characterMenuState = 'out';
+                break;
         }
     }
 
-    get_characterMenuState() {
+    get_CharacterMenuState() {
+        return this.characterMenuState;
+    }
+
+    get_ItemsMenuState() {
         return this.itemsMenuState;
+    }
+
+    get_SpellMenuState() {
+        return this.spellMenuState;
     }
 
     get_Level(number: number) {
@@ -256,6 +283,7 @@ export class CharacterService {
                 });
                 item.equip = true;
             }
+            //If you get an Activity from an item that doesn't need to be invested, immediately invest it in secret so the Activity is gained
             if (item.gainActivity && item.traits.indexOf("Invested") == -1) {
                 item.invested = true;
                 this.onInvestChange(item);
@@ -493,13 +521,25 @@ export class CharacterService {
         return returnedActivities;
     }
 
+    get_MaxFocusPoints() {
+        let effects: Effect[] = this.effectsService.get_EffectsOnThis("Focus");
+        let focusPoints: number = 0;
+        effects.forEach(effect => {
+            focusPoints += parseInt(effect.value);
+        })
+        return Math.min(focusPoints, 3);
+    }
+
     initialize(charName: string) {
+        this.loading = true;
         this.traitsService.initialize();
         this.featsService.initialize();
         this.historyService.initialize();
         this.classesService.initialize();
         this.conditionsService.initialize();
-        this.loading = true;
+        this.spellsService.initialize();
+        this.itemsService.initialize();
+        this.effectsService.initialize(this);
         this.load_Character(charName)
             .subscribe((results:string[]) => {
                 this.loader = results;

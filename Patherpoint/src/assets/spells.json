@@ -1,0 +1,15 @@
+[
+    {
+        "name":"Ki Strike",
+        "traits":["Uncommon", "Monk", "Transmutation"],
+        "levelreq":1,
+        "actions":"1",
+        "castType":["verbal"],
+        "shortDesc":"You focus your ki into magical attacks.",
+        "desc1":[{"type":"text", "value":"You focus your ki into magical attacks. Make an unarmed Strike or Flurry of Blows (this doesn't change the limit on using only one flourish per turn). You gain a +1 status bonus to your attack rolls with the Strikes, and the Strikes deal "}, {"type":"variable", "value":"1d6"}, {"type":"text", "value":" extra damage. This damage can be any of the following types of your choice, chosen each time you Strike: force, lawful (only if you're lawful), negative, or positive."}],
+        "desc5":[{"type":"text", "value":"You focus your ki into magical attacks. Make an unarmed Strike or Flurry of Blows (this doesn't change the limit on using only one flourish per turn). You gain a +1 status bonus to your attack rolls with the Strikes, and the Strikes deal "}, {"type":"variable", "value":"2d6"}, {"type":"text", "value":" extra damage. This damage can be any of the following types of your choice, chosen each time you Strike: force, lawful (only if you're lawful), negative, or positive."}],
+        "desc9":[{"type":"text", "value":"You focus your ki into magical attacks. Make an unarmed Strike or Flurry of Blows (this doesn't change the limit on using only one flourish per turn). You gain a +1 status bonus to your attack rolls with the Strikes, and the Strikes deal "}, {"type":"variable", "value":"3d6"}, {"type":"text", "value":" extra damage. This damage can be any of the following types of your choice, chosen each time you Strike: force, lawful (only if you're lawful), negative, or positive."}],
+        "heightenedLevel":"(+4)",
+        "heightened":"The extra damage increases by 1d6."
+    }
+]

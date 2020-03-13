@@ -3563,6 +3563,32 @@
         ]
     },
     {
+        "name": "Ki Strike",
+        "shortDesc": "Your study of the flow of mystical energy allows you to harness it into your physical strikes.",
+        "desc": "Your study of the flow of mystical energy allows you to harness it into your physical strikes. You gain the ki strike ki spell and a focus pool of 1 Focus Point. The rules for ki spells are summarized in the sidebar on page 157, and the full rules for focus spells appear on page 300.",
+        "levelreq": 1,
+        "gainSpellChoice":[
+            {
+                "spells":[
+                    {"name":"Ki Strike", "source":"Feat: Ki Strike", "className":"Monk", "tradition":"Focus", "locked":true, "sourceId":"1-Spell-Ki Strike-0"}
+                ],
+                "tradition":"Focus",
+                "className":"Monk",
+                "source":"Feat: Ki Strike",
+                "id":"1-Spell-Feat: Ki Strike-0"
+            }
+        ],
+        "traits": [
+            "Monk"
+        ],
+        "effects":[
+            {
+                "affected":"Focus",
+                "value":"+1"
+            }
+        ]
+    },
+    {
         "name": "Natural Ambition",
         "shortdesc": "You were raised to be ambitious and always reach for the stars, leading you to progress quickly in your chosen field.",
         "desc": "You were raised to be ambitious and always reach for the stars, leading you to progress quickly in your chosen field. You gain a 1st-level class feat for your class. You must meet the prerequisites, but you can select the feat later in the character creation process in order to determine which prerequisites you meet.",

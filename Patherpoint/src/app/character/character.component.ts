@@ -31,7 +31,6 @@ export class CharacterComponent implements OnInit {
     public newClass: Class = new Class();
     public showItem: string = "";
     public showList: string = "";
-    JSON = JSON;
 
     constructor(
         private changeDetector:ChangeDetectorRef,
@@ -45,8 +44,8 @@ export class CharacterComponent implements OnInit {
         private sortByPipe: SortByPipe
     ) { }
 
-    toggleCharacterMenu(position: string = "") {
-        this.characterService.toggleCharacterMenu(position);
+    toggleCharacterMenu() {
+        this.characterService.toggleMenu("character");
     }
 
     toggle_Item(name: string) {
@@ -56,6 +55,7 @@ export class CharacterComponent implements OnInit {
             this.showItem = name;
         }
     }
+
     toggle_List(name: string) {
         if (this.showList == name) {
             this.showList = "";
@@ -64,12 +64,16 @@ export class CharacterComponent implements OnInit {
         }
     }
 
-    get_Level(number: number) {
-        return this.get_Character().class.levels[number];
-    }
-
     get_showItem() {
         return this.showItem;
+    }
+
+    get_showList() {
+        return this.showList;
+    }
+
+    get_Level(number: number) {
+        return this.get_Character().class.levels[number];
     }
 
     onBaseValueChange() {

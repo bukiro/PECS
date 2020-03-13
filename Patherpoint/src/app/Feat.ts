@@ -28,7 +28,7 @@ export class Feat {
     public access: string = "";
     public showon: string = "";
     public traits: string[] = [];
-    public effects: string[] = [];
+    public effects: any[] = [];
     public specialEffects: string[] = [];
     public gainFeatChoice: FeatChoice[] = [];
     public gainSkillChoice: SkillChoice[] = [];

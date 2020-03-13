@@ -27,25 +27,23 @@ export class TopBarComponent implements OnInit {
     subscription: Subscription;
 
     constructor(
-        private characterService: CharacterService,
-        private itemsService: ItemsService,
-        private effectsService: EffectsService
+        private characterService: CharacterService
     ) { }
 
-    toggleItemsMenu(position: string = "") {
-        this.itemsService.toggleItemsMenu(position);
+    toggleMenu(menu: string) {
+        this.characterService.toggleMenu(menu);
     }
 
-    get_itemsMenuState() {
-      return this.itemsService.get_itemsMenuState();
+    get_ItemsMenuState() {
+      return this.characterService.get_ItemsMenuState();
     }
 
-    toggleCharacterMenu(position: string = "") {
-      this.characterService.toggleCharacterMenu(position);
+    get_CharacterMenuState() {
+      return this.characterService.get_CharacterMenuState();
     }
 
-    get_characterMenuState() {
-      return this.characterService.get_characterMenuState();
+    get_SpellMenuState() {
+    return this.characterService.get_SpellMenuState();
     }
 
     get_Character() {

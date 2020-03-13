@@ -15,6 +15,7 @@ import { ConditionGain } from './ConditionGain';
 import { ActivityGain } from './ActivityGain';
 import { ActivitiesService } from './activities.service';
 import { ItemsService } from './items.service';
+import { SpellChoice } from './SpellChoice';
 
 export class Character {
     public name: string = "";
@@ -117,6 +118,13 @@ export class Character {
     get_FeatChoice(sourceId: string) {
         let levelNumber = parseInt(sourceId[0]);
         return this.class.levels[levelNumber].featChoices.filter(choice => choice.id == sourceId)[0];
+    }
+    add_SpellChoice(level: Level, newChoice: SpellChoice) {
+        let existingChoices = level.spellChoices.filter(choice => choice.source == newChoice.source);
+        let tempChoice = Object.assign(new SpellChoice, JSON.parse(JSON.stringify(newChoice)));
+        tempChoice.id = level.number +"-Feat-"+ tempChoice.source +"-"+ existingChoices.length;
+        let newIndex: number = level.spellChoices.push(tempChoice);
+        return level.spellChoices[newIndex-1];
     }
     gain_Activity(newGain: ActivityGain) {
         let newIndex = this.class.activities.push(newGain);
@@ -300,6 +308,41 @@ export class Character {
                 feat.locked == locked
             )[0]), 1)
             characterService.process_Feat(featName, level, taken);
+        }
+        this.set_Changed(characterService);
+    }
+    get_SpellsTaken(minLevelNumber: number, maxLevelNumber: number, spellName: string = "", className: string = "", tradition: string = "", source: string = "", sourceId: string = "", locked: boolean = undefined) {
+        if (this.class) {
+            let spellsTaken = [];
+            let levels = this.class.levels.filter(level => level.number >= minLevelNumber && level.number <= maxLevelNumber );
+            levels.forEach(level => {
+                level.spellChoices.forEach(choice => {
+                    choice.spells.filter(gain => 
+                        (gain.name == spellName || spellName == "") &&
+                        (gain.className == className || className == "") &&
+                        (gain.tradition == tradition || tradition == "") &&
+                        (gain.source == source || source == "") &&
+                        (gain.sourceId == sourceId || sourceId == "") &&
+                        (gain.locked == locked || locked == undefined)
+                        ).forEach(gain => {
+                        spellsTaken.push(gain);
+                    })
+                })
+            })
+            return spellsTaken;
+        }
+    }
+    take_Spell(characterService: CharacterService, spellName: string, taken: boolean, choice: SpellChoice, locked: boolean) {
+        let level: Level = characterService.get_Level(parseInt(choice.id.split("-")[0]));
+        if (taken) {
+            choice.spells.push({"name":spellName, "source":choice.source, "className":choice.className, "tradition":choice.tradition, "locked":locked, "sourceId":choice.id});
+            characterService.process_Feat(spellName, level, taken);
+        } else {
+            let a = choice.spells;
+            a.splice(a.indexOf(a.filter(gain => 
+                gain.name == spellName &&
+                gain.locked == locked
+            )[0]), 1)
         }
         this.set_Changed(characterService);
     }

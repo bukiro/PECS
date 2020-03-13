@@ -5,10 +5,9 @@ import { Observable } from 'rxjs';
 import { Level } from './Level';
 import { CharacterService } from './character.service';
 import { FeatChoice } from './FeatChoice';
-import { SkillChoice } from './SkillChoice';
 import { LoreChoice } from './LoreChoice';
 import { ActivityGain } from './ActivityGain';
-import { ActivitiesService } from './activities.service';
+import { SpellChoice } from './SpellChoice';
 
 @Injectable({
     providedIn: 'root'
@@ -61,10 +60,27 @@ export class FeatsService {
                 } else {
                     //You might have taken this feat multiple times on the same level, so we are only removing one instance of it
                     let a: FeatChoice[] = level.featChoices;
-                    let b: FeatChoice = a.filter(choice => choice.source == 'Feat: '+featName && choice.type == "Ancestry")[0];
+                    let b: FeatChoice = a.filter(choice => choice.source == 'Feat: '+featName)[0];
                     //Feats must explicitly be un-taken instead of just removed from the array, in case they made fixed changes
                     b.feats.forEach(feat => {
                         character.take_Feat(characterService, feat.name, false, b, false);
+                    });
+                    a.splice(a.indexOf(b), 1)
+                }
+            }
+
+            //Gain Spell
+            if (feat.gainSpellChoice.length) {
+                if (taken) {
+                    feat.gainSpellChoice.forEach(newSpellChoice => {
+                        character.add_SpellChoice(level, newSpellChoice);
+                    });
+                } else {
+                    let a: SpellChoice[] = level.spellChoices;
+                    let b: SpellChoice = a.filter(choice => choice.source == 'Feat: '+featName)[0];
+                    //Feats must explicitly be un-taken instead of just removed from the array, in case they made fixed changes
+                    b.spells.forEach(spell => {
+                        character.take_Spell(characterService, spell.name, false, b, false);
                     });
                     a.splice(a.indexOf(b), 1)
                 }
@@ -168,6 +184,20 @@ export class FeatsService {
                     let oldFeats = character.customFeats.filter(customFeat => customFeat.name == "Different Worlds")
                     if (oldFeats.length) {
                         character.customFeats.splice(character.customFeats.indexOf(oldFeats[0], 1));
+                    }
+                }
+            }
+
+            //For feats that grant Max Focus, add one Focus Point
+            if (feat.effects.filter(effect => effect.affected == "Focus")) {
+                if (taken) {
+                    feat.effects.filter(effect => effect.affected == "Focus").forEach(effect => {
+                        if (characterService.get_MaxFocusPoints() < 3)
+                        character.class.focusPoints += parseInt(effect.value)
+                    })
+                } else {
+                    if (character.class.focusPoints >= characterService.get_MaxFocusPoints()) {
+                        character.class.focusPoints = characterService.get_MaxFocusPoints() - 1
                     }
                 }
             }

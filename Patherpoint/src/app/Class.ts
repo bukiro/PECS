@@ -21,6 +21,7 @@ export class Class {
     public hitPoints: number = 0;
     public activities: ActivityGain[] = [];
     public customSkills: Skill[] = [];
+    public focusPoints: number = 0;
     reassign() {
         //Re-Assign levels
         this.levels = this.levels.map(level => Object.assign(new Level(), level));

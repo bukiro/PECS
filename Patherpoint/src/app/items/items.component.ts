@@ -40,8 +40,8 @@ export class ItemsComponent implements OnInit {
         }
     }
 
-    toggleItemsMenu(position: string = "") {
-        this.itemsService.toggleItemsMenu(position);
+    toggleItemsMenu() {
+        this.characterService.toggleMenu("items");
     }
 
     get_Items() {
@@ -85,7 +85,6 @@ export class ItemsComponent implements OnInit {
     }
 
     ngOnInit() {
-        this.itemsService.initialize()
         this.finish_Loading();
     }
 }

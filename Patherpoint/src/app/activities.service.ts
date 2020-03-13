@@ -63,8 +63,8 @@ export class ActivitiesService {
         }
 
         //Exclusive Twining Staff Activation
-        //If there are more activated Twining Stavess than you own Twining Staves, deactivate one of the type that you haven't just activated.
-        //This basically means you switch between staves when activating one.
+        //If there are more activated Twining Staves than you own Twining Staves, deactivate one of the type that you haven't just activated.
+        //This basically means you switch between staves when activating one (unless you own more than one).
         if (activity.name == "Twining Staff: Staff" || activity.name == "Twining Staff: Bo Staff") {
             if (activated) {
                 let typeone: string;
@@ -76,10 +76,10 @@ export class ActivitiesService {
                     typeone = "Twining Staff: Bo Staff";
                     typetwo = "Twining Staff: Staff";
                 }
-                let twiningstaves: number = characterService.get_InventoryItems().weapons.filter(weapon => weapon.name == "Twining Staff (Disc)").length;
+                let twiningstaves: number = characterService.get_InventoryItems().weapons.filter(weapon => weapon.name == "Twining Staff").length;
                 let typeonegains: ActivityGain[] = characterService.get_Activities().filter(gain => gain.name == typeone && gain.active == true);
                 let typetwogains: ActivityGain[] = characterService.get_Activities().filter(gain => gain.name == typetwo && gain.active == true);
-                if (typetwogains.length && typeonegains.length + typetwogains.length >= twiningstaves) {
+                if (typetwogains.length && typeonegains.length + typetwogains.length > twiningstaves) {
                     this.activate_Activity(characterService, itemsService, typetwogains[0], this.get_Activities(typetwo)[0], false);
                 }
             }

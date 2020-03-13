@@ -3,21 +3,21 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { DebugElement } from '@angular/core';
 
-import { LevelComponent } from './level.component';
+import { SpellbookComponent } from './spellbook.component';
 
-describe('LevelComponent', () => {
-  let component: LevelComponent;
-  let fixture: ComponentFixture<LevelComponent>;
+describe('SpellbookComponent', () => {
+  let component: SpellbookComponent;
+  let fixture: ComponentFixture<SpellbookComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ LevelComponent ]
+      declarations: [ SpellbookComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(LevelComponent);
+    fixture = TestBed.createComponent(SpellbookComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

@@ -2,9 +2,11 @@
   <h1>Patherpoint</h1>
 </a>
 <div class="filler"></div>
-<a class="button fancy-button" (click)="toggleItemsMenu();toggleCharacterMenu('out')">Items</a>
 <a class="button fancy-button loading" *ngIf="still_loading()">Loading</a>
-<a class="button fancy-button" (click)="toggleCharacterMenu();toggleItemsMenu('out')" *ngIf="!still_loading()">{{get_Character().name}}</a>
+<a class="button fancy-button" (click)="toggleMenu('character')" *ngIf="!still_loading()">{{get_Character().name}}</a>
+<a class="button fancy-button" (click)="toggleMenu('items')">Items</a>
+<a class="button fancy-button" (click)="toggleMenu('spells')" *ngIf="!still_loading()">Spells</a>
 <a class="button fancy-button" (click)="print()" *ngIf="!still_loading()">Print</a>
-<app-items [@slideInOut]="get_itemsMenuState()"></app-items>
-<app-character [@slideInOut]="get_characterMenuState()"></app-character>
+<app-items [@slideInOut]="get_ItemsMenuState()"></app-items>
+<app-spells [@slideInOut]="get_SpellMenuState()"></app-spells>
+<app-character [@slideInOut]="get_CharacterMenuState()"></app-character>

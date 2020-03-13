@@ -63,7 +63,6 @@ export class EffectsComponent implements OnInit {
     }
 
     ngOnInit() {
-        this.effectsService.initialize();
         this.finish_Loading();
     }
 

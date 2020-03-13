@@ -15,7 +15,6 @@ export class EffectsService {
     private bonusTypes: string[] = ["item", "circumstance", "status", "proficiency", "untyped"];
 
 constructor(
-        private characterService: CharacterService,
         private traitsService: TraitsService
     ) { }
 
@@ -38,17 +37,17 @@ constructor(
         return effects.filter(effect => effect.target == ObjectName && effect.apply);
     }
 
-    get_SimpleEffects(object: any) {
+    get_SimpleEffects(characterService, object: any) {
         //If an item has a simple instruction in effects, such as "Strength +2", split it into the affected target and the change (keeping the + or - in front),
         // then mark the effect as a penalty if the change is negative.
         //Try to get the type, too - items will always have an item type bonus
         //Return an array of Effect objects
         let objectEffects: Effect[] = [];
-        //Define characterService and effectsService as we need them in some specialEffects
+        //Define effectsService as we need them in some specialEffects
+        //Use them once so Visual Studio doesn't think they're unused and I don't delete them
         let effectsService = this;
-        let characterService = effectsService.characterService;
-        //Use characterService once BECAUSE I ALMOST DELETED THE ABOVE LINE when it was marked as never used
-        characterService.get_Level(0);
+        effectsService = effectsService;
+        characterService = characterService;
         let type: string = "";
         object.effects.forEach(effect => {
             if (effect.type) {
@@ -72,30 +71,31 @@ constructor(
         return objectEffects;
     }
 
-    set_CharacterChanged() {
-        this.characterService.set_Changed();
+    set_CharacterChanged(characterService) {
+        characterService.set_Changed();
     }
 
-    generate_Effects() {
+    generate_Effects(characterService) {
         //NEVER call this function.
         //It gets called by this.initialize whenever the character has changed.
         //Every other function can skip the whole process and just do get_Effects().
         let simpleEffects: Effect[] = [];
-        let items = this.characterService.get_InventoryItems();
+        let items = characterService.get_InventoryItems();
         //Create simple effects from all equipped items first
         items.all().filter(item => item.invested && item.effects).forEach(item => {
-            simpleEffects = simpleEffects.concat(this.get_SimpleEffects(item));
+            simpleEffects = simpleEffects.concat(this.get_SimpleEffects(characterService, item));
             });
-        let character = this.characterService.get_Character();
+        let character = characterService.get_Character();
         let feats = character.get_FeatsTaken(1, character.level);
         feats.forEach(feat => {
-            simpleEffects = simpleEffects.concat(this.get_SimpleEffects(this.characterService.get_FeatsAndFeatures(feat.name)[0]));
+            simpleEffects = simpleEffects.concat(this.get_SimpleEffects(characterService, characterService.get_FeatsAndFeatures(feat.name)[0]));
         });
-        let activeConditions = this.characterService.get_ActiveConditions().filter(condition => condition.apply);
+        let activeConditions = characterService.get_ActiveConditions().filter(condition => condition.apply);
         activeConditions.forEach(condition => {
-            let originalCondition = this.characterService.get_Conditions(condition.name)[0];
+            let originalCondition = characterService.get_Conditions(condition.name)[0];
+            //Fit the condition effects into the box defined by feat effects
             let effectsObject = {name:condition.name, level:condition.level, effects:originalCondition.effects, specialEffects:originalCondition.specialEffects}
-            simpleEffects = simpleEffects.concat(this.get_SimpleEffects(effectsObject));
+            simpleEffects = simpleEffects.concat(this.get_SimpleEffects(characterService, effectsObject));
         });
         
         //We finalize and export this first bunch of simple effects,
@@ -125,7 +125,7 @@ constructor(
         });
         //Get skill and speed penalties from armor
         //If an armor has a skillpenalty or a speedpenalty, check if Strength meets its strength requirement.
-        let Strength = this.characterService.get_Abilities("Strength")[0].value(this.characterService, this);
+        let Strength = characterService.get_Abilities("Strength")[0].value(characterService, this);
         items.armors.filter(item => item.equip && item.skillpenalty).forEach(item => {
             if (Strength < item.strength) {
                 //You are not strong enough to act freely in this armor.
@@ -225,17 +225,17 @@ constructor(
             this.effects.all = Object.assign([], allEffects);
             this.effects.penalties = this.effects.all.filter(effect => parseInt(effect.value) < 0);
             this.effects.bonuses = this.effects.all.filter(effect => parseInt(effect.value) > 0);
-            this.set_CharacterChanged();    
+            this.set_CharacterChanged(characterService);    
         }
     }
 
-    initialize() {
-        if (this.characterService.still_loading()) {
-            setTimeout(() => this.initialize(), 500)
+    initialize(characterService: CharacterService) {
+        if (characterService.still_loading()) {
+            setTimeout(() => this.initialize(characterService), 500)
         } else {
-        this.characterService.get_Changed()
+        characterService.get_Changed()
         .subscribe(() => 
-        this.generate_Effects()
+        this.generate_Effects(characterService)
             )
         return true;
         }

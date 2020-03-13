@@ -26,12 +26,8 @@ export class InventoryComponent implements OnInit {
         return this.characterService.still_loading();
     }
 
-    toggleItemsMenu() {
-        this.itemsService.toggleItemsMenu();
-    }
-
-    toggleCharacterMenu(position: string = "") {
-        this.characterService.toggleCharacterMenu(position);
+    toggleMenu(menu: string = "") {
+        this.characterService.toggleMenu(menu);
     }
 
     get_InventoryItems(type: string) {

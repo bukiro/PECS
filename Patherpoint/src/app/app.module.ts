@@ -15,7 +15,6 @@ import { ItemsComponent } from './items/items.component';
 import { CharacterSheetComponent } from './character-sheet/character-sheet.component';
 import { InventoryComponent } from './inventory/inventory.component';
 import { CharacterComponent } from './character/character.component';
-import { LevelComponent } from './level/level.component';
 import { AttacksComponent } from './attacks/attacks.component';
 import { EffectsComponent } from './effects/effects.component';
 import { DefenseComponent } from './defense/defense.component';
@@ -25,6 +24,8 @@ import { SkillComponent } from './skill/skill.component';
 import { HealthComponent } from './health/health.component';
 import { GeneralComponent } from './general/general.component';
 import { ActivitiesComponent } from './activities/activities.component';
+import { SpellsComponent } from './spells/spells.component';
+import { SpellbookComponent } from './spellbook/spellbook.component';
 
 
 @NgModule({
@@ -38,7 +39,6 @@ import { ActivitiesComponent } from './activities/activities.component';
       CharacterSheetComponent,
       InventoryComponent,
       CharacterComponent,
-      LevelComponent,
       AttacksComponent,
       EffectsComponent,
       DefenseComponent,
@@ -46,7 +46,9 @@ import { ActivitiesComponent } from './activities/activities.component';
       SkillComponent,
       HealthComponent,
       GeneralComponent,
-      ActivitiesComponent
+      ActivitiesComponent,
+      SpellsComponent,
+      SpellbookComponent
    ],
    imports: [
       BrowserModule,
