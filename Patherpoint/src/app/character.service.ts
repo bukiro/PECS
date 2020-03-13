@@ -409,8 +409,9 @@ export class CharacterService {
         let originalCondition = this.get_Conditions(condition.name)[0];
         let newLength = this.me.conditions.push(condition);
         let newCondition = this.me.conditions[newLength -1];
+        this.conditionsService.process_Condition(this, this.conditionsService.get_Conditions(condition.name)[0], true);
         originalCondition.gainConditions.forEach(extraCondition => {
-            this.add_Condition({name:extraCondition.name, level:extraCondition.level, source:newCondition.name, apply:true}, false)
+            this.add_Condition(Object.assign(new ConditionGain, {name:extraCondition.name, level:extraCondition.level, source:newCondition.name, apply:true}), false)
         })
         if (original) {
             this.set_Changed();
@@ -423,7 +424,7 @@ export class CharacterService {
         let originalCondition = this.get_Conditions(condition.name)[0];
         if (oldCondition.length) {
             originalCondition.gainConditions.forEach(extraCondition => {
-                this.remove_Condition({name:extraCondition.name, level:extraCondition.level, source:oldCondition[0].name, apply:true}, false)
+                this.remove_Condition(Object.assign(new ConditionGain, {name:extraCondition.name, level:extraCondition.level, source:oldCondition[0].name, apply:true}), false)
             })
             this.me.conditions.splice(this.me.conditions.indexOf(oldCondition[0]))
             if (original) {
@@ -522,7 +523,7 @@ export class CharacterService {
     }
 
     get_MaxFocusPoints() {
-        let effects: Effect[] = this.effectsService.get_EffectsOnThis("Focus");
+        let effects: Effect[] = this.effectsService.get_EffectsOnThis("Focus Pool");
         let focusPoints: number = 0;
         effects.forEach(effect => {
             focusPoints += parseInt(effect.value);

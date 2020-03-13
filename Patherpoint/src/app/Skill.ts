@@ -103,11 +103,12 @@ export class Skill {
         //For Saving Throws, add any resilient runes on the equipped armor
         let armor = characterService.get_InventoryItems().armors.filter(armor => armor.equip);
         let resilient: number = 0;
-        if (armor.length) {
-            if (armor[0].resilientRune > 0)
-            resilient = armor[0].resilientRune;
-            explain += "\n"+armor[0].get_Resilient(armor[0].resilientRune)+": +"+armor[0].resilientRune;
-            explain += "\n("+armor[0].get_Name()+")";
+        if (this.type == "Save" || armor.length) {
+            if (armor[0].resilientRune > 0) {
+                resilient = armor[0].resilientRune;
+                explain += "\n"+armor[0].get_Resilient(armor[0].resilientRune)+": +"+armor[0].resilientRune;
+                explain += "\n("+armor[0].get_Name()+")";
+            }
         }
         //Get all active effects on this and sum them up
         let effects = this.effects(effectsService)

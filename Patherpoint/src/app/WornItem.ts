@@ -10,6 +10,7 @@ export class WornItem implements Item {
     public displayName: string = "";
     public usage: string = "";
     public equip: boolean = false;
+    public equippable: boolean = false;
     public invested: boolean = false;
     public moddable: string = "";
     public potencyRune: number = 0;

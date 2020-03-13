@@ -15,6 +15,7 @@ export class ItemsComponent implements OnInit {
     public showArmors: Boolean = false;
     public showShields: Boolean = false;
     public showWornItems: Boolean = false;
+    public showAlchemicalElixirs: Boolean = false;
 
     constructor(
         private changeDetector: ChangeDetectorRef,
@@ -37,6 +38,9 @@ export class ItemsComponent implements OnInit {
             case "wornitems":
                 this.showWornItems = !this.showWornItems
                 break;
+            case "alchemicalelixirs":
+                this.showAlchemicalElixirs = !this.showAlchemicalElixirs
+                break;
         }
     }
 
@@ -58,6 +62,9 @@ export class ItemsComponent implements OnInit {
     }
     get_WornItems() {
         return this.itemsService.get_WornItems();
+    }
+    get_AlchemicalElixirs() {
+        return this.itemsService.get_AlchemicalElixirs();
     }
 
     get_Traits(name: string = "") {

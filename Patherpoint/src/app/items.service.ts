@@ -6,6 +6,8 @@ import { Shield } from './Shield';
 import { Observable } from 'rxjs';
 import { CharacterService } from './character.service';
 import { ItemCollection } from './ItemCollection';
+import { WornItem } from './WornItem';
+import { AlchemicalElixir } from './AlchemicalElixir';
 
 @Injectable({
     providedIn: 'root'
@@ -21,6 +23,8 @@ export class ItemsService {
     private loading_Shields: Boolean = false;
     private loader_WornItems = [];
     private loading_WornItems: Boolean = false;
+    private loader_AlchemicalElixirs = [];
+    private loading_AlchemicalElixirs: Boolean = false;
     itemsMenuState: string = 'out';
 
     constructor(
@@ -69,12 +73,18 @@ export class ItemsService {
         } else { return [] }
     }
 
+    get_AlchemicalElixirs(name: string = "") {
+        if (!this.still_loading()) {
+            return this.items.alchemicalelixirs.filter(alchemicalelixir => alchemicalelixir.name == name || name == "");
+        } else { return [] }
+    }
+
     grant_Item(characterService: CharacterService, item) {
         characterService.grant_InventoryItem(item);
     }
 
     still_loading() {
-        return (this.loading_Weapons || this.loading_Armors || this.loading_Shields || this.loading_WornItems);
+        return (this.loading_Weapons || this.loading_Armors || this.loading_Shields || this.loading_WornItems || this.loading_AlchemicalElixirs);
     }
 
     load_Weapons(): Observable<String[]>{
@@ -91,6 +101,10 @@ export class ItemsService {
 
     load_WornItems(): Observable<String[]>{
         return this.http.get<String[]>('/assets/wornitems.json');
+    }
+
+    load_AlchemicalElixirs(): Observable<String[]>{
+        return this.http.get<String[]>('/assets/alchemicalelixirs.json');
     }
 
     initialize() {
@@ -114,10 +128,17 @@ export class ItemsService {
                     this.loader_Shields = results;
                     this.finish_Shields()
                 });
+            this.loading_WornItems = true;
             this.load_WornItems()
                 .subscribe((results:String[]) => {
                     this.loader_WornItems = results;
                     this.finish_WornItems()
+                });
+            this.loading_AlchemicalElixirs = true;
+            this.load_AlchemicalElixirs()
+                .subscribe((results:String[]) => {
+                    this.loader_AlchemicalElixirs = results;
+                    this.finish_AlchemicalElixirs()
                 });
         }
     }
@@ -148,10 +169,18 @@ export class ItemsService {
 
     finish_WornItems() {
         if (this.loader_WornItems) {
-            this.items.wornitems = this.loader_WornItems.map(element => Object.assign(new Shield(), element));
+            this.items.wornitems = this.loader_WornItems.map(element => Object.assign(new WornItem(), element));
             this.loader_WornItems = [];
         }
         if (this.loading_WornItems) {this.loading_WornItems = false;}
+    }
+
+    finish_AlchemicalElixirs() {
+        if (this.loader_AlchemicalElixirs) {
+            this.items.alchemicalelixirs = this.loader_AlchemicalElixirs.map(element => Object.assign(new AlchemicalElixir(), element));
+            this.loader_AlchemicalElixirs = [];
+        }
+        if (this.loader_AlchemicalElixirs) {this.loading_AlchemicalElixirs = false;}
     }
 
 }

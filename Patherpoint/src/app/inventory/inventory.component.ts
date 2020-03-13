@@ -5,6 +5,7 @@ import { TraitsService } from '../traits.service';
 import { EffectsService } from '../effects.service';
 import { Weapon } from '../Weapon';
 import { Armor } from '../Armor';
+import { ConditionGain } from '../ConditionGain';
 
 @Component({
     selector: 'app-inventory',
@@ -55,10 +56,10 @@ export class InventoryComponent implements OnInit {
         let bulk = this.characterService.get_Character().bulk;
         bulk.calculate(this.characterService, this.effectsService);
         if (bulk.$current > bulk.$encumbered.value && this.characterService.get_ActiveConditions("Encumbered", "Bulk").length == 0) {
-            this.characterService.add_Condition({name:"Encumbered", level:0, source:"Bulk", apply:true}, true)
+            this.characterService.add_Condition(Object.assign(new ConditionGain, {name:"Encumbered", level:0, source:"Bulk", apply:true}), true)
         }
         if (bulk.$current <= bulk.$encumbered.value && this.characterService.get_ActiveConditions("Encumbered", "Bulk").length > 0) {
-            this.characterService.remove_Condition({name:"Encumbered", level:0, source:"Bulk", apply:true}, true)
+            this.characterService.remove_Condition(Object.assign(new ConditionGain, {name:"Encumbered", level:0, source:"Bulk", apply:true}), true)
         }
         return [bulk];
     }

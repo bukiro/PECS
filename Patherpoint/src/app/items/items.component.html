@@ -41,4 +41,14 @@
             </div>
         </div>
     </div>
+    <button class="button fancybutton list-item" (click)="toggle('alchemicalelixirs')">Alchemical Elixirs</button>
+    <div *ngIf="showAlchemicalElixirs">
+        <div class="list-item" *ngFor="let alchemicalElixir of get_AlchemicalElixirs()">
+            <strong>{{alchemicalElixir.name}}</strong>
+            <button (click)="grant_Item(alchemicalElixir)">Get</button>
+            <div class="row" *ngIf="alchemicalElixir.traits.length">
+                <cite *ngFor="let trait of alchemicalElixir.traits" title="{{get_Traits(trait)[0].description}}">&nbsp;{{trait}}</cite>
+            </div>
+        </div>
+    </div>
 </div>

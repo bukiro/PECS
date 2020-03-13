@@ -3583,6 +3583,12 @@
         ],
         "effects":[
             {
+                "affected":"Focus Pool",
+                "value":"+1"
+            }
+        ],
+        "onceEffects":[
+            {
                 "affected":"Focus",
                 "value":"+1"
             }

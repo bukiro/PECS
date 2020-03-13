@@ -1,6 +1,5 @@
 [
     { "type":"weapon", "bulk":"-", "name":"Fist", "group":"Brawling", "prof":"Unarmed", "dmgType":"B", "dicenum":1, "dicesize":4, "melee":5, "itembonus":0, "moddable":"", "traits":["Agile", "Finesse", "Nonlethal", "Unarmed"] },
-    { "type":"weapon", "bulk":"-", "name":"Handwraps of Mighty Blows", "group":"Brawling", "prof":"Unarmed", "dmgType":"B", "dicenum":1, "dicesize":4, "melee":5, "itembonus":0, "moddable":"weapon", "traits":["Agile", "Finesse", "Nonlethal", "Unarmed"] },
     { "type":"weapon", "bulk":"-", "name":"Crane Wing", "group":"Brawling", "prof":"Unarmed", "dmgType":"B", "dicenum":1, "dicesize":6, "melee":5, "itembonus":0, "moddable":"", "traits":["Agile", "Finesse", "Nonlethal", "Unarmed"] },
     { "type":"weapon", "bulk":"-", "name":"Dragon Tail", "group":"Brawling", "prof":"Unarmed", "dmgType":"B", "dicenum":1, "dicesize":10, "melee":5, "itembonus":0, "moddable":"", "traits":["Backswing", "Nonlethal", "Unarmed"] },
     { "type":"weapon", "bulk":"-", "name":"Falling Stone", "group":"Brawling", "prof":"Unarmed", "dmgType":"B", "dicenum":1, "dicesize":8, "melee":5, "itembonus":0, "moddable":"", "traits":["Forceful", "Nonlethal", "Unarmed"] },

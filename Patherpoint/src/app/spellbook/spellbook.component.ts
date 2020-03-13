@@ -57,7 +57,7 @@ export class SpellbookComponent implements OnInit {
     }
 
     get_FocusPoints() {
-        return this.characterService.get_Character().class.focusPoints;
+        return Math.min(this.characterService.get_Character().class.focusPoints, this.get_MaxFocusPoints());
     }
 
     get_SpellDescription(spell: Spell, levelNumber?:number) {
@@ -68,12 +68,7 @@ export class SpellbookComponent implements OnInit {
     }
 
     get_MaxFocusPoints() {
-        let effects: Effect[] = this.effectsService.get_EffectsOnThis("Focus");
-        let focusPoints: number = 0;
-        effects.forEach(effect => {
-            focusPoints += parseInt(effect.value);
-        })
-        return focusPoints;
+        return this.characterService.get_MaxFocusPoints();
     }
 
     refocus() {
@@ -84,6 +79,8 @@ export class SpellbookComponent implements OnInit {
 
     on_Cast(gain: SpellGain, spell: Spell) {
         if (gain.tradition.indexOf("Focus") > -1){
+            let focusPoints = this.characterService.get_Character().class.focusPoints;
+            this.characterService.get_Character().class.focusPoints = Math.min(focusPoints, this.get_MaxFocusPoints());
             this.characterService.get_Character().class.focusPoints -= 1;
         };
         this.characterService.set_Changed();

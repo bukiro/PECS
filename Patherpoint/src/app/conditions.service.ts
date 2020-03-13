@@ -3,6 +3,7 @@ import { Condition } from './Condition';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { ConditionGain } from './ConditionGain';
+import { CharacterService } from './character.service';
 
 @Injectable({
     providedIn: 'root'
@@ -39,6 +40,25 @@ export class ConditionsService {
             }
         })
         return conditions;
+    }
+
+    process_Condition(characterService: CharacterService, condition: Condition, taken: boolean) {
+
+        let character = characterService.get_Character();
+
+            //One time effects
+            if (condition.onceEffects) {
+                if (taken) {
+                    condition.onceEffects.forEach(effect => {
+                        switch (effect.affected) {
+                            case "Temporary HP":
+                                character.health.temporaryHP += parseInt(eval(effect.value));
+                                break;
+                        }
+                    })
+                }
+            }
+
     }
 
     still_loading() {

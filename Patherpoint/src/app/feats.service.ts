@@ -8,6 +8,7 @@ import { FeatChoice } from './FeatChoice';
 import { LoreChoice } from './LoreChoice';
 import { ActivityGain } from './ActivityGain';
 import { SpellChoice } from './SpellChoice';
+import { parseHostBindings } from '@angular/compiler';
 
 @Injectable({
     providedIn: 'root'
@@ -142,6 +143,19 @@ export class FeatsService {
                 }
             }
 
+            //One time effects
+            if (feat.onceEffects) {
+                if (taken) {
+                    feat.onceEffects.forEach(effect => {
+                        switch (effect.affected) {
+                            case "Temporary HP":
+                                character.health.temporaryHP += parseInt(eval(effect.value));
+                                break;
+                        }
+                    })
+                }
+            }
+
             //Adopted Ancestry
             if (feat.superType=="Adopted Ancestry") {
                 if (taken) {
@@ -188,19 +202,6 @@ export class FeatsService {
                 }
             }
 
-            //For feats that grant Max Focus, add one Focus Point
-            if (feat.effects.filter(effect => effect.affected == "Focus")) {
-                if (taken) {
-                    feat.effects.filter(effect => effect.affected == "Focus").forEach(effect => {
-                        if (characterService.get_MaxFocusPoints() < 3)
-                        character.class.focusPoints += parseInt(effect.value)
-                    })
-                } else {
-                    if (character.class.focusPoints >= characterService.get_MaxFocusPoints()) {
-                        character.class.focusPoints = characterService.get_MaxFocusPoints() - 1
-                    }
-                }
-            }
         }
     }
 

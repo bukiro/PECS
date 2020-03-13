@@ -38,3 +38,16 @@ The very latest in Assistive Technologies for Dungeon Master (ATDM)
 - [ ] import sortableJS
 - [ ] (documentation) :)
 - [ ] Initiative tracker, battles, being a battle member, GM-Player-Communication.......
+
+In progress:
+
+Temporary Conditions from consumables
+- Created AlchemicalElixir class
+- Prepared lesser Juggernaut Potion: Item, Condition, Effects
+- Created Time Service files
+To do:
+- Activate consumable
+- Consumable amounts (stack, reduce, remove if empty - or don't?)
+- Time jumps: start turn, end turn, 1 minute, 10 minutes, 1 hour, 8 hours
+- repeated one-time effects (see Juggernaut Elixir - only instance ever?)
+

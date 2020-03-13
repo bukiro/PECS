@@ -6,8 +6,9 @@ export class Condition {
     public level: number = 0;
     public desc: string = "";
     public showon: string = "";
-    public effects: string[] = [];
-    public specialEffects: string[] = [];
+    public onceEffects: any[] = [];
+    public effects: any[] = [];
+    public specialEffects: any[] = [];
     public gainConditions: ConditionGain[] = [];
     public overrideConditions: string[] = [];
     public source: string = "";

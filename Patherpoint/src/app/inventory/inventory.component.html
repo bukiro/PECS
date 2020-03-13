@@ -56,7 +56,7 @@
         <h3>Items</h3>
         <span [className]="(get_InvestedItems().length > get_maxInvested()) ? 'problem' : ''">Invested: {{get_InvestedItems().length}}/{{get_maxInvested()}}</span>
         <button class="list-item" (click)="toggleMenu('items')">Get Items</button>
-        <div *ngFor="let itemSet of ['Weapons','Armor','Shields','Worn Items']">
+        <div *ngFor="let itemSet of ['Weapons','Armor','Shields','Worn Items','Alchemical Elixirs']">
             <h3>{{itemSet}}</h3>
             <div class="list-item" *ngFor="let item of get_InventoryItems(itemSet)">
                 <strong>{{item.get_Name()}}</strong>&nbsp;<input type="checkbox" [(ngModel)]="item.showName">CN
@@ -64,7 +64,7 @@
                     <input type="textarea" class="fullwidth" [(ngModel)]="item.displayName" (blur)="onChange(item)">
                 </div>
                 <div class="row">{{item.prof}} {{item.group}}
-                    <span *ngIf="item.equippable">
+                    <span *ngIf="item.equippable == true">
                         <input type="checkbox" [(ngModel)]="item.equip" (ngModelChange)="onChange(item)">Equip
                     </span>
                     <span *ngIf="can_Invest(item)">
