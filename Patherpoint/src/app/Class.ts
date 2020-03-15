@@ -38,7 +38,7 @@ export class Class {
             this.levels[1].abilityChoices = this.levels[1].abilityChoices.filter(availableBoost => availableBoost.source != "Ancestry")
             if (this.ancestry.gainItems.length) {
                 this.ancestry.gainItems.forEach(freeItem => {
-                    let items: Item[] = characterService.get_InventoryItems()[freeItem.type+"s"].filter(item => item.name == freeItem.name);
+                    let items: Item[] = characterService.get_InventoryItems()[freeItem.type].filter(item => item.name == freeItem.name);
                     if (items.length) {
                         characterService.drop_InventoryItem(items[0]);
                     }

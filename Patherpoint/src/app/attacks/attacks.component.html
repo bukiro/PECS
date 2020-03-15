@@ -7,12 +7,18 @@
             <cite *ngFor="let condition of get_ConditionsShowingOn('Attacks')" [className]="(condition.buff) ? 'bonus' : 'penalty'" [title]="condition.desc">{{condition.name}}&nbsp;</cite>
         </div>
         <div *ngFor="let weapon of get_EquippedWeapons()">
-            <div class="list-item" *ngIf="weapon.melee">
-                <strong>{{weapon.get_Name()}}{{weapon.ranged ? " melee" : ""}}</strong>
+            <div class="list-item" *ngFor="let attack of get_Attacks(weapon)">
+                <strong>{{weapon.get_Name()}}{{(attack[0] == 'melee') ? (weapon.ranged ? " melee" : "") : (weapon.melee ? " ranged" : "")}}</strong>
                 <div class="row">
                     Attack:
-                    <input type="number" class="number" title="{{get_Attack(weapon, 'melee')[1]}}" [ngModel]="get_Attack(weapon, 'melee')[0]" disabled>
-                    <span title="{{get_Damage(weapon, 'melee')[1]}}">&nbsp;Damage: {{get_Damage(weapon, 'melee')[0]}}</span>
+                    <input
+                        [className]="(attack[3].length) ? 'penalty' : (attack[4].length) ? 'bonus' : ''"
+                        type="number"
+                        class="number"
+                        title="{{attack[2]}}"
+                        [ngModel]="attack[1]"
+                        disabled>
+                    <span title="{{get_Damage(weapon, attack)[1]}}">&nbsp;Damage: {{get_Damage(weapon, attack[0])[0]}}</span>
                     <div class="row">
                         <cite *ngFor="let trait of weapon.traits" title="{{get_Traits(trait)[0].description}}">&nbsp;{{trait}}</cite>
                         <cite *ngFor="let feat of get_FeatsShowingOn(weapon.name)" [title]="(feat.hint) ? feat.hint : feat.desc">{{feat.name}}&nbsp;</cite>
@@ -22,24 +28,7 @@
                                 {{feat.name}}&nbsp;
                             </cite>
                         </div>
-                    </div>
-                </div>
-            </div>
-            <div class="list-item" *ngIf="weapon.ranged">
-                <strong>{{weapon.name}}{{weapon.melee ? " ranged" : ""}}</strong>
-                <div class="row">
-                    Attack:
-                    <input type="number" class="number" title="{{get_Attack(weapon, 'ranged')[1]}}" [ngModel]="get_Attack(weapon, 'ranged')[0]" disabled>
-                    <span title="{{get_Damage(weapon, 'ranged')[1]}}">&nbsp;Damage: {{get_Damage(weapon, 'ranged')[0]}}</span>
-                    <div class="row">
-                        <cite *ngFor="let trait of weapon.traits" title="{{get_Traits(trait)[0].description}}">&nbsp;{{trait}}</cite>
-                        <cite *ngFor="let feat of get_FeatsShowingOn(weapon.name)" [title]="(feat.hint) ? feat.hint : feat.desc">{{feat.name}}&nbsp;</cite>
-                        <div *ngFor="let name of get_specialShowon(weapon)">
-                            <cite *ngFor="let feat of get_FeatsShowingOn(name)"
-                                [title]="(feat.hint) ? feat.hint : feat.desc">
-                                {{feat.name}}&nbsp;
-                            </cite>
-                        </div>
+                        <cite *ngFor="let penalty of attack[3]" class="penalty">{{penalty.value}} ({{penalty.source}})&nbsp;</cite>
                     </div>
                 </div>
             </div>

@@ -18,9 +18,12 @@ export class ConditionsService {
         private http: HttpClient
     ) { }
 
-    get_Conditions(name: string = "") {
+    get_Conditions(name: string = "", type: string = "") {
         if (!this.still_loading()) {
-            return this.conditions.filter(condition => condition.name == name || name == "");
+            return this.conditions.filter(condition =>
+                (condition.name == name || name == "") &&
+                (condition.type == type || type == "")
+                );
         } else {
             return [new Condition()];
         }

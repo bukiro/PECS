@@ -45,6 +45,7 @@ Temporary Conditions from consumables
 - Created AlchemicalElixir class
 - Prepared lesser Juggernaut Potion: Item, Condition, Effects
 - Created Time Service files
+- Added condition library to add manually
 To do:
 - Activate consumable
 - Consumable amounts (stack, reduce, remove if empty - or don't?)

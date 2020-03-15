@@ -34,6 +34,7 @@ import { ActivityGain } from './ActivityGain';
 import { SpellsService } from './spells.service';
 import { EffectsService } from './effects.service';
 import { Effect } from './Effect';
+import { AlchemicalElixir } from './AlchemicalElixir';
 
 @Injectable({
     providedIn: 'root'
@@ -50,6 +51,7 @@ export class CharacterService {
     itemsMenuState: string = 'out';
     characterMenuState: string = 'out';
     spellMenuState: string = 'out';
+    conditionsMenuState: string = 'out';
 
     constructor(
         private http: HttpClient,
@@ -80,19 +82,28 @@ export class CharacterService {
     toggleMenu(menu: string = "") {
         switch (menu) {
             case "items": 
-                this.itemsMenuState = (this.itemsMenuState == 'out') ? 'in' : 'out';
                 this.characterMenuState = 'out';
+                this.itemsMenuState = (this.itemsMenuState == 'out') ? 'in' : 'out';
                 this.spellMenuState = 'out';
+                this.conditionsMenuState = 'out';
                 break;
             case "character": 
                 this.characterMenuState = (this.characterMenuState == 'out') ? 'in' : 'out';
                 this.itemsMenuState = 'out';
                 this.spellMenuState = 'out';
+                this.conditionsMenuState = 'out';
                 break;
             case "spells": 
-                this.spellMenuState = (this.spellMenuState == 'out') ? 'in' : 'out';
-                this.itemsMenuState = 'out';
                 this.characterMenuState = 'out';
+                this.itemsMenuState = 'out';
+                this.spellMenuState = (this.spellMenuState == 'out') ? 'in' : 'out';
+                this.conditionsMenuState = 'out';
+                break;
+            case "conditions": 
+                this.characterMenuState = 'out';
+                this.itemsMenuState = 'out';
+                this.spellMenuState = 'out';
+                this.conditionsMenuState = (this.conditionsMenuState == 'out') ? 'in' : 'out';
                 break;
         }
     }
@@ -107,6 +118,10 @@ export class CharacterService {
 
     get_SpellMenuState() {
         return this.spellMenuState;
+    }
+
+    get_ConditionsMenuState() {
+        return this.conditionsMenuState;
     }
 
     get_Level(number: number) {
@@ -241,22 +256,25 @@ export class CharacterService {
     grant_InventoryItem(item: Item) {
         let newInventoryItem;
         switch (item.type) {
-            case "weapon":
+            case "weapons":
                 newInventoryItem = Object.assign(new Weapon(), item);
                 break;
-            case "armor":
+            case "armors":
                 newInventoryItem = Object.assign(new Armor(), item);
                 break;
-            case "shield":
+            case "shields":
                 newInventoryItem = Object.assign(new Shield(), item);
                 break;
-            case "wornitem":
+            case "wornitems":
                 newInventoryItem = Object.assign(new WornItem(), item);
+                break;
+            case "alchemicalelixirs":
+                newInventoryItem = Object.assign(new AlchemicalElixir(), item);
                 break;
         }
         newInventoryItem.equip = true;
-        let newInventoryLength = this.me.inventory[item.type+"s"].push(newInventoryItem);
-        this.onEquipChange(this.me.inventory[item.type+"s"][newInventoryLength-1]);
+        let newInventoryLength = this.me.inventory[item.type].push(newInventoryItem);
+        this.onEquipChange(this.me.inventory[item.type][newInventoryLength-1]);
         this.set_Changed();
     }
 
@@ -269,15 +287,15 @@ export class CharacterService {
             item.invested = false;
             this.onInvestChange(item);
         }
-        this.me.inventory[item.type+"s"] = this.me.inventory[item.type+"s"].filter(any_item => any_item !== item);
+        this.me.inventory[item.type] = this.me.inventory[item.type].filter(any_item => any_item !== item);
         this.equip_BasicItems();
         this.set_Changed();
     }
 
     onEquipChange(item: Item) {
         if (item.equip) {
-            if (item.type == "armor"||item.type == "shield") {
-                let allOfType = this.get_InventoryItems()[item.type+"s"];
+            if (item.type == "armors"||item.type == "shields") {
+                let allOfType = this.get_InventoryItems()[item.type];
                 allOfType.forEach(typeItem => {
                     typeItem.equip = false;
                 });
@@ -296,16 +314,16 @@ export class CharacterService {
                 this.set_Changed();
             });
             //If you are unequipping a shield, you should also be lowering it and losing cover
-            if (item.type == "shield") {
+            if (item.type == "shields") {
                 item["takingCover"] = false;
                 item["raised"] = false;
             }
             //Same with currently parrying weapons
-            if (item.type == "weapon") {
+            if (item.type == "weapons") {
                 item["parrying"] = false;
             }
             //Also armor, even though cover is independent from armor (but we are tracking cover on the armor and we don't want it to change between equipment changes)
-            if (item.type == "armor") {
+            if (item.type == "armors") {
                 item["cover"] = 0;
             }
             //If the item was invested, it isn't now.
@@ -393,8 +411,8 @@ export class CharacterService {
         this.set_Changed();
     }
 
-    get_Conditions(name: string = "") {
-        return this.conditionsService.get_Conditions(name);
+    get_Conditions(name: string = "", type: string = "") {
+        return this.conditionsService.get_Conditions(name, type);
     }
 
     get_ActiveConditions(name: string = "", source: string = "") {
@@ -411,7 +429,7 @@ export class CharacterService {
         let newCondition = this.me.conditions[newLength -1];
         this.conditionsService.process_Condition(this, this.conditionsService.get_Conditions(condition.name)[0], true);
         originalCondition.gainConditions.forEach(extraCondition => {
-            this.add_Condition(Object.assign(new ConditionGain, {name:extraCondition.name, level:extraCondition.level, source:newCondition.name, apply:true}), false)
+            this.add_Condition(Object.assign(new ConditionGain, {name:extraCondition.name, value:extraCondition.value, source:newCondition.name, apply:true}), false)
         })
         if (original) {
             this.set_Changed();
@@ -420,11 +438,11 @@ export class CharacterService {
     }
 
     remove_Condition(condition: ConditionGain, original: boolean = false) {
-        let oldCondition = this.me.conditions.filter($condition => $condition.name == condition.name && $condition.level == condition.level && $condition.source == condition.source);
+        let oldCondition = this.me.conditions.filter($condition => $condition.name == condition.name && $condition.value == condition.value && $condition.source == condition.source);
         let originalCondition = this.get_Conditions(condition.name)[0];
         if (oldCondition.length) {
             originalCondition.gainConditions.forEach(extraCondition => {
-                this.remove_Condition(Object.assign(new ConditionGain, {name:extraCondition.name, level:extraCondition.level, source:oldCondition[0].name, apply:true}), false)
+                this.remove_Condition(Object.assign(new ConditionGain, {name:extraCondition.name, value:extraCondition.value, source:oldCondition[0].name, apply:true}), false)
             })
             this.me.conditions.splice(this.me.conditions.indexOf(oldCondition[0]))
             if (original) {

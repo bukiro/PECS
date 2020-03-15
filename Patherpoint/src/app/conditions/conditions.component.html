@@ -1,0 +1,37 @@
+<div id="conditions" class="itemBox">
+    <button class="list-item" (click)="toggleConditionsMenu()">Close</button>
+    <div class="loading" *ngIf="still_loading()">Loading</div>
+    <div *ngIf="!still_loading()">
+        <div *ngFor="let set of ['Generic','Alchemical Elixirs']">
+            <button class="button fancybutton list-item" (click)="toggle(set)">{{set}}</button>
+            <div *ngIf="get_ShowItem()==set">
+                <div class="list-item" *ngFor="let condition of get_ConditionsSet(set)">
+                    <strong>{{condition.name}}</strong>
+                    <div class="row" *ngIf="condition.hasValue">
+                        Value:
+                        <select [(ngModel)]="value" >
+                            <option *ngFor="let valueNumber of [1,2,3,4,5]" [value]="valueNumber">{{valueNumber}}</option>
+                        </select><br>
+                    </div>
+                    <div class="row">
+                        Get:
+                        <button (click)="add_Condition(condition, -1)">Permanent</button>
+                        <button (click)="add_Condition(condition, 1)">1 Turn</button>
+                        <button (click)="add_Condition(condition, 5)">5 Turns</button>
+                        <button (click)="add_Condition(condition, 10)">1 Min</button>
+                        <button (click)="add_Condition(condition, 50)">5 Min</button>
+                        <button (click)="add_Condition(condition, 100)">10 Min</button>
+                        <button (click)="add_Condition(condition, 600)">1 Hour</button>
+                        <button (click)="add_Condition(condition, 4800)">8 Hours</button>
+                        <button (click)="add_Condition(condition, 14400)">1 Day</button>
+                    </div>
+                    <div class="row">
+                        <p *ngFor="let desc of condition.desc.split('\n')">
+                            {{desc}}
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

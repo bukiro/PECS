@@ -5,7 +5,7 @@ export class Shield implements Item {
     public showNotes: boolean = false;
     public raised: boolean = false;
     public takingCover: boolean = false;
-    public type: string = "shield";
+    public type: string = "shields";
     public bulk: string = "-";
     public name: string = "";
     public displayName: string = "";

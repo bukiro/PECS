@@ -1,8 +1,8 @@
 <div id="items" class="attributeBox">
     <div>
         <h3>Active Conditions</h3>
-        <div *ngFor="let condition of get_AppliedConditions()">
-            <span [className]="condition.buff ? 'bonus' : 'penalty'" title="{{condition.source}}">{{condition.name}} {{(condition.level) ? condition.level : ""}}</span>
+        <div class="list-item" *ngFor="let condition of get_AppliedConditions()">
+            <span [className]="condition.buff ? 'bonus' : 'penalty'" title="{{condition.source}}">{{condition.name}} {{(condition.value) ? condition.value : ""}} {{(condition.duration != -1) ? condition.duration + " Turns" : ""}}</span>
         </div>
         <h3>Active Effects</h3>
         <div *ngFor="let effect of get_AppliedEffects()">
@@ -13,8 +13,8 @@
     <div *ngIf="showEffects">
         <h3>Not Applied</h3>
         <h3>Conditions</h3>
-        <div *ngFor="let condition of get_NotAppliedConditions()">
-            <span [className]="condition.buff ? 'bonus notapplied' : 'penalty notapplied'" title="{{condition.source}}">{{condition.name}} {{(condition.level) ? condition.level : ""}}</span>
+        <div class="list-item" *ngFor="let condition of get_NotAppliedConditions()">
+            <span [className]="condition.buff ? 'bonus notapplied' : 'penalty notapplied'" title="{{condition.source}}">{{condition.name}} {{(condition.value) ? condition.value : ""}} {{(condition.duration != -1) ? condition.duration + " Turns" : ""}}</span>
         </div>
         <h3>Effects</h3>
         <div *ngFor="let effect of get_NotAppliedEffects()">

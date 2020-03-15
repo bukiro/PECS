@@ -46,6 +46,10 @@ export class TopBarComponent implements OnInit {
     return this.characterService.get_SpellMenuState();
     }
 
+    get_ConditionsMenuState() {
+        return this.characterService.get_ConditionsMenuState();
+        }
+
     get_Character() {
         return this.characterService.get_Character();
     }

@@ -41,6 +41,8 @@ export class InventoryComponent implements OnInit {
                 return this.characterService.get_InventoryItems().shields;
             case "Worn Items":
                 return this.characterService.get_InventoryItems().wornitems;
+            case "Alchemical Elixirs":
+                return this.characterService.get_InventoryItems().alchemicalelixirs;
         }
     }
     
@@ -56,10 +58,10 @@ export class InventoryComponent implements OnInit {
         let bulk = this.characterService.get_Character().bulk;
         bulk.calculate(this.characterService, this.effectsService);
         if (bulk.$current > bulk.$encumbered.value && this.characterService.get_ActiveConditions("Encumbered", "Bulk").length == 0) {
-            this.characterService.add_Condition(Object.assign(new ConditionGain, {name:"Encumbered", level:0, source:"Bulk", apply:true}), true)
+            this.characterService.add_Condition(Object.assign(new ConditionGain, {name:"Encumbered", value:0, source:"Bulk", apply:true}), true)
         }
         if (bulk.$current <= bulk.$encumbered.value && this.characterService.get_ActiveConditions("Encumbered", "Bulk").length > 0) {
-            this.characterService.remove_Condition(Object.assign(new ConditionGain, {name:"Encumbered", level:0, source:"Bulk", apply:true}), true)
+            this.characterService.remove_Condition(Object.assign(new ConditionGain, {name:"Encumbered", value:0, source:"Bulk", apply:true}), true)
         }
         return [bulk];
     }

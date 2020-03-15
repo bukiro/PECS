@@ -5,7 +5,7 @@ import { EffectsService } from './effects.service';
 export class Armor implements Item {
     public notes: string = "";
     public showNotes: boolean = false;
-    public type: string = "armor";
+    public type: string = "armors";
     public bulk: string = "-";
     public name: string = "";
     public displayName: string = "";

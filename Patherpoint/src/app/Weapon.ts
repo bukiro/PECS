@@ -9,7 +9,7 @@ export class Weapon implements Item {
     public showNotes: boolean = false;
     public showName: boolean = false;
     public parrying: boolean = false;
-    public type: string = "weapon";
+    public type: string = "weapons";
     public bulk: string = "-";
     public name: string = "";
     public hide: boolean = false;
@@ -94,13 +94,18 @@ export class Weapon implements Item {
         if (charLevelBonus) {
             explain += "\nCharacter Level: "+charLevelBonus;
         }
+        let penalty: [{value?:number, source?:string}] = [{}];
+        penalty.splice(0,1);
+        let bonus: [{value?:number, source?:string}] = [{}];
+        bonus.splice(0,1);
         //The Clumsy condition affects all Dexterity attacks
         let effects = effectsService.get_EffectsOnThis("Dexterity Attacks");
-        let dexPenalty = 0;
-        let dexExplain = "";
+        let dexPenalty: [{value?:number, source?:string}] = [{}];
+        dexPenalty.splice(0,1);
+        let dexPenaltySum: number = 0;
         effects.forEach(effect => {
-            dexPenalty += parseInt(effect.value);
-            dexExplain += "\n"+effect.source+": "+dexPenalty;
+            dexPenalty.push({value:parseInt(effect.value), source:effect.source});
+            dexPenaltySum += parseInt(effect.value);
         });
         //Check if the weapon has any traits that affect its Ability bonus to attack, such as Finesse or Brutal, and run those calculations.
         let abilityMod: number = 0;
@@ -111,18 +116,24 @@ export class Weapon implements Item {
             } else {
                 abilityMod = dex;
                 explain += "\nDexterity Modifier: "+abilityMod;
-                if (dexPenalty != 0) {
-                    abilityMod += dexPenalty;
-                    explain += dexExplain;
+                if (dexPenalty.length) {
+                    dexPenalty.forEach(singleDexPenalty => {
+                        penalty.push(singleDexPenalty);
+                        abilityMod += singleDexPenalty.value;
+                        explain += "\n"+singleDexPenalty.source+": "+singleDexPenalty.value;
+                    });
                 }
             }
         } else {
-            if (characterService.have_Trait(this, "Finesse") && dex + dexPenalty > str) {
+            if (characterService.have_Trait(this, "Finesse") && dex + dexPenaltySum > str) {
                 abilityMod = dex;
                 explain += "\nDexterity Modifier (Finesse): "+abilityMod;
-                if (dexPenalty != 0) {
-                    abilityMod += dexPenalty;
-                    explain += dexExplain;
+                if (dexPenalty.length) {
+                    dexPenalty.forEach(singleDexPenalty => {
+                        penalty.push(singleDexPenalty);
+                        abilityMod += singleDexPenalty.value;
+                        explain += "\n"+singleDexPenalty.source+": "+singleDexPenalty.value;
+                    });
                 }
             } else {
                 abilityMod = str;
@@ -148,7 +159,7 @@ export class Weapon implements Item {
         //Add up all modifiers and return the attack bonus for this attack
         let attackResult = charLevelBonus + skillLevel + this.itembonus + abilityMod + me.potencyRune;
         explain = explain.substr(1);
-        return [attackResult, explain];
+        return [range, attackResult, explain, penalty, bonus];
     }
     get_Damage(characterService: CharacterService, effectsService: EffectsService, range: string) {
     //Lists the damage dice and damage bonuses for a ranged or melee attack with this weapon.

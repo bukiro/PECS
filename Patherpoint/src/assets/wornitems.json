@@ -1,4 +1,4 @@
 [
-    { "type":"wornitem", "bulk":"-", "name":"Handwraps of Mighty Blows", "usage":"Worn Gloves", "moddable":"weapon", "traits":["Invested", "Magical", "Transmutation"] },
-    { "type":"wornitem", "bulk":"L", "name":"Lifting Belt", "usage":"Worn Belt", "gainActivity":["Lifting Belt"], "traits":["Invested", "Magical", "Transmutation"], "effects": [{ "affected": "Athletics", "value": "+1", "type":"item" }, { "affected": "Max Bulk", "value": "+1", "type":"item" }] }
+    { "type":"wornitems", "bulk":"-", "name":"Handwraps of Mighty Blows", "usage":"Worn Gloves", "moddable":"weapon", "traits":["Invested", "Magical", "Transmutation"] },
+    { "type":"wornitems", "bulk":"L", "name":"Lifting Belt", "usage":"Worn Belt", "gainActivity":["Lifting Belt"], "traits":["Invested", "Magical", "Transmutation"], "effects": [{ "affected": "Athletics", "value": "+1", "type":"item" }, { "affected": "Max Bulk", "value": "+1", "type":"item" }] }
 ]

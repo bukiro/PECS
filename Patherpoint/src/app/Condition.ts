@@ -2,8 +2,10 @@ import { ConditionGain } from './ConditionGain';
 
 export class Condition {
     public name: string = "";
+    public type: string = "";
     public buff: boolean = false;
-    public level: number = 0;
+    public hasValue: boolean = false;
+    public value: number = 0;
     public desc: string = "";
     public showon: string = "";
     public onceEffects: any[] = [];

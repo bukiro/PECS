@@ -1,7 +1,7 @@
 [
     {
         "name":"Juggernaut Mutagen (Lesser)",
-        "type":"alchemicalelixir",
+        "type":"alchemicalelixirs",
         "bulk":"L",
         "actions":"1",
         "activationType":"Interact",

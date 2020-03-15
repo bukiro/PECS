@@ -26,6 +26,7 @@ import { GeneralComponent } from './general/general.component';
 import { ActivitiesComponent } from './activities/activities.component';
 import { SpellsComponent } from './spells/spells.component';
 import { SpellbookComponent } from './spellbook/spellbook.component';
+import { ConditionsComponent } from './conditions/conditions.component';
 
 
 @NgModule({
@@ -48,7 +49,8 @@ import { SpellbookComponent } from './spellbook/spellbook.component';
       GeneralComponent,
       ActivitiesComponent,
       SpellsComponent,
-      SpellbookComponent
+      SpellbookComponent,
+      ConditionsComponent
    ],
    imports: [
       BrowserModule,

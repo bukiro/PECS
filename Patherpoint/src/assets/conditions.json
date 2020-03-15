@@ -1,55 +1,59 @@
 [
     {
         "name": "Blinded",
+        "type": "generic",
         "desc": "You can’t see. All normal terrain is difficult terrain to you. You can’t detect anything using vision. You automatically critically fail Perception checks that require you to be able to see, and if vision is your only precise sense, you take a –4 status penalty to Perception checks. You are immune to visual effects. Blinded overrides dazzled.",
         "overrideConditions": "Dazzled",
         "showon": "Perception, Movement"
     },
     {
         "name": "Clumsy",
+        "hasValue": true,
+        "type": "generic",
         "desc": "Your movements become clumsy and inexact. Clumsy always includes a value. You take a status penalty equal to the condition value to Dexterity-based checks and DCs, including AC, Reflex saves, ranged attack rolls, and skill checks using Acrobatics, Stealth, and Thievery.",
-        "showon": "Dexterity, AC, Reflex, Attacks, Acrobatics, Stealth, Thievery",
+        "showon": "Dexterity",
         "specialEffects": [
             {
                 "affected": "AC",
-                "value": "-(object.level)",
+                "value": "-(object.value)",
                 "type": "status"
             },
             {
                 "affected": "Reflex",
-                "value": "-(object.level)",
+                "value": "-(object.value)",
                 "type": "status"
             },
             {
                 "affected": "Dexterity Attacks",
-                "value": "-(object.level)",
+                "value": "-(object.value)",
                 "type": "status"
             },
             {
                 "affected": "Acrobatics",
-                "value": "-(object.level)",
+                "value": "-(object.value)",
                 "type": "status"
             },
             {
                 "affected": "Stealth",
-                "value": "-(object.level)",
+                "value": "-(object.value)",
                 "type": "status"
             },
             {
                 "affected": "Thievery",
-                "value": "-(object.level)",
+                "value": "-(object.value)",
                 "type": "status"
             }
         ]
     },
     {
         "name": "Encumbered",
+        "type": "generic",
         "desc": "You are carrying more weight than you can manage. While you’re encumbered, you’re clumsy 1 and take a 10-foot penalty to all your Speeds. As with all penalties to your Speed, this can’t reduce your Speed below 5 feet.",
         "showon": "Movement, Bulk",
         "gainConditions": [
             {
                 "name": "Clumsy",
-                "level": 1,
+                "value": 1,
                 "source": "Encumbered",
                 "applied": true
             }
@@ -63,6 +67,7 @@
     },
     {
         "name": "Juggernaut Mutagen (Lesser)",
+        "type": "alchemicalelixirs",
         "desc": "You gain an item bonus of +1 to Fortitude saves and 5 temporary Hit Points.\n\nYou take a –2 penalty to Will saves, Perception checks, and initiative rolls.",
         "effects": [
             {

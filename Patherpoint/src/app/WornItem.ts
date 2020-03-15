@@ -4,7 +4,7 @@ export class WornItem implements Item {
     public notes: string = "";
     public showNotes: boolean = false;
     public showName: boolean = false;
-    public type: string = "wornitem";
+    public type: string = "wornitems";
     public bulk: string = "-";
     public name: string = "";
     public displayName: string = "";
