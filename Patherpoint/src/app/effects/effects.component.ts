@@ -1,6 +1,7 @@
 import { Component, OnInit, ChangeDetectorRef, ChangeDetectionStrategy } from '@angular/core';
 import { EffectsService } from '../effects.service';
 import { CharacterService } from '../character.service';
+import { ConditionGain } from '../ConditionGain';
 
 @Component({
     selector: 'app-effects',
@@ -11,12 +12,25 @@ import { CharacterService } from '../character.service';
 export class EffectsComponent implements OnInit {
 
     showEffects: boolean = false;
+    showItem: string = "";
 
     constructor(
         private changeDetector: ChangeDetectorRef,
         private effectsService: EffectsService,
         private characterService: CharacterService
     ) { }
+
+    toggle_Item(name: string) {
+        if (this.showItem == name) {
+            this.showItem = "";
+        } else {
+            this.showItem = name;
+        }
+    }
+
+    get_ShowItem() {
+        return this.showItem;
+    }
 
     toggle_Effects() {
         this.showEffects = !this.showEffects;
@@ -26,8 +40,8 @@ export class EffectsComponent implements OnInit {
         return this.effectsService.get_Effects();
     }
 
-    get_Conditions() {
-        return this.characterService.get_ActiveConditions();
+    get_Conditions(name: string = "") {
+        return this.characterService.get_Conditions(name);
     }
 
     get_AppliedEffects() {
@@ -38,16 +52,12 @@ export class EffectsComponent implements OnInit {
         return this.get_Effects().all.filter(effect => effect.apply != true);
     }
 
-    get_ActiveConditions() {
-        return this.characterService.get_ActiveConditions();
-    }
-    
-    get_AppliedConditions() {
-        return this.get_ActiveConditions().filter(condition => condition.apply);
+    get_AppliedConditions(apply: boolean) {
+        return this.characterService.get_AppliedConditions().filter(condition => condition.apply == apply);
     }
 
-    get_NotAppliedConditions() {
-        return this.get_ActiveConditions().filter(condition => condition.apply != true);
+    remove_Condition(conditionGain: ConditionGain) {
+        this.characterService.remove_Condition(conditionGain, true);
     }
 
     finish_Loading() {

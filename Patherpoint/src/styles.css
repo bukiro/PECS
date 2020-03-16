@@ -277,7 +277,7 @@
     color:red;
   }
 
-  .problem {
+  .problem, .lower.problem {
     color:red;
     background-color: lightcoral;
   }

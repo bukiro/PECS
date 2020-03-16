@@ -415,7 +415,7 @@ export class CharacterService {
         return this.conditionsService.get_Conditions(name, type);
     }
 
-    get_ActiveConditions(name: string = "", source: string = "") {
+    get_AppliedConditions(name: string = "", source: string = "") {
         //Returns ConditionGain[] with apply=true/false for each
         return this.conditionsService.get_AppliedConditions(this.me.conditions).filter(condition =>
             (condition.name == name || name == "") &&
@@ -423,13 +423,13 @@ export class CharacterService {
             );
     }
 
-    add_Condition(condition: ConditionGain, original: boolean = false) {
-        let originalCondition = this.get_Conditions(condition.name)[0];
-        let newLength = this.me.conditions.push(condition);
-        let newCondition = this.me.conditions[newLength -1];
-        this.conditionsService.process_Condition(this, this.conditionsService.get_Conditions(condition.name)[0], true);
+    add_Condition(conditionGain: ConditionGain, original: boolean = true) {
+        let originalCondition = this.get_Conditions(conditionGain.name)[0];
+        let newLength = this.me.conditions.push(conditionGain);
+        let newConditionGain = this.me.conditions[newLength -1];
+        this.conditionsService.process_Condition(this, conditionGain, this.conditionsService.get_Conditions(conditionGain.name)[0], true);
         originalCondition.gainConditions.forEach(extraCondition => {
-            this.add_Condition(Object.assign(new ConditionGain, {name:extraCondition.name, value:extraCondition.value, source:newCondition.name, apply:true}), false)
+            this.add_Condition(Object.assign(new ConditionGain, {name:extraCondition.name, value:extraCondition.value, source:newConditionGain.name, apply:true}), false)
         })
         if (original) {
             this.set_Changed();
@@ -437,14 +437,14 @@ export class CharacterService {
         return newLength;
     }
 
-    remove_Condition(condition: ConditionGain, original: boolean = false) {
-        let oldCondition = this.me.conditions.filter($condition => $condition.name == condition.name && $condition.value == condition.value && $condition.source == condition.source);
-        let originalCondition = this.get_Conditions(condition.name)[0];
-        if (oldCondition.length) {
+    remove_Condition(conditionGain: ConditionGain, original: boolean = true) {
+        let oldConditionGain = this.me.conditions.filter($condition => $condition.name == conditionGain.name && $condition.value == conditionGain.value && $condition.source == conditionGain.source);
+        let originalCondition = this.get_Conditions(conditionGain.name)[0];
+        if (oldConditionGain.length) {
             originalCondition.gainConditions.forEach(extraCondition => {
-                this.remove_Condition(Object.assign(new ConditionGain, {name:extraCondition.name, value:extraCondition.value, source:oldCondition[0].name, apply:true}), false)
+                this.remove_Condition(Object.assign(new ConditionGain, {name:extraCondition.name, value:extraCondition.value, source:oldConditionGain[0].name}), false)
             })
-            this.me.conditions.splice(this.me.conditions.indexOf(oldCondition[0]))
+            this.me.conditions.splice(this.me.conditions.indexOf(oldConditionGain[0]), 1)
             if (original) {
                 this.set_Changed();
             }
@@ -503,7 +503,7 @@ export class CharacterService {
     }
 
     get_ConditionsShowingOn(objectName: string) {
-        let conditions = this.get_ActiveConditions().filter(condition => condition.apply);
+        let conditions = this.get_AppliedConditions().filter(condition => condition.apply);
         if (objectName.indexOf("Lore") > -1) {
             objectName = "Lore";
         }

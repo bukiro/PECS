@@ -90,8 +90,8 @@ constructor(
         feats.forEach(feat => {
             simpleEffects = simpleEffects.concat(this.get_SimpleEffects(characterService, characterService.get_FeatsAndFeatures(feat.name)[0]));
         });
-        let activeConditions = characterService.get_ActiveConditions().filter(condition => condition.apply);
-        activeConditions.forEach(condition => {
+        let appliedConditions = characterService.get_AppliedConditions().filter(condition => condition.apply);
+        appliedConditions.forEach(condition => {
             let originalCondition = characterService.get_Conditions(condition.name)[0];
             //Fit the condition effects into the box defined by feat effects
             let effectsObject = {name:condition.name, value:condition.value, effects:originalCondition.effects, specialEffects:originalCondition.specialEffects}

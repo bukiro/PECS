@@ -57,10 +57,10 @@ export class InventoryComponent implements OnInit {
     get_Bulk() {
         let bulk = this.characterService.get_Character().bulk;
         bulk.calculate(this.characterService, this.effectsService);
-        if (bulk.$current > bulk.$encumbered.value && this.characterService.get_ActiveConditions("Encumbered", "Bulk").length == 0) {
+        if (bulk.$current > bulk.$encumbered.value && this.characterService.get_AppliedConditions("Encumbered", "Bulk").length == 0) {
             this.characterService.add_Condition(Object.assign(new ConditionGain, {name:"Encumbered", value:0, source:"Bulk", apply:true}), true)
         }
-        if (bulk.$current <= bulk.$encumbered.value && this.characterService.get_ActiveConditions("Encumbered", "Bulk").length > 0) {
+        if (bulk.$current <= bulk.$encumbered.value && this.characterService.get_AppliedConditions("Encumbered", "Bulk").length > 0) {
             this.characterService.remove_Condition(Object.assign(new ConditionGain, {name:"Encumbered", value:0, source:"Bulk", apply:true}), true)
         }
         return [bulk];

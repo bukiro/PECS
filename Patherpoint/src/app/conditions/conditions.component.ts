@@ -72,17 +72,7 @@ export class ConditionsComponent implements OnInit {
             newGain.value = this.value;
         }
         newGain.source = "Manual";
-        let conditions = this.characterService.get_Character().conditions.filter(existingCondition => 
-            (existingCondition.name == newGain.name) &&
-            (existingCondition.value == newGain.value) &&
-            ( (newGain.duration != -1) ? (existingCondition.duration != -1) : true )
-            );
-        if (conditions.length) {
-            conditions[0].duration += duration;
-            conditions[0].source = "Manual";
-        } else {
-            this.characterService.add_Condition(newGain, true);
-        }
+        this.characterService.add_Condition(newGain, true);
     }
 
     finish_Loading() {

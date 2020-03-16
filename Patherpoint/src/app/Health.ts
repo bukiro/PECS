@@ -9,6 +9,14 @@ export class Health {
     public lessenedEffects: any[] = [];
     public dying: number = 0;
     public wounded: number = 0;
+    public $maxHP: number = 1;
+    public $currentHP: number = 1;
+    public $maxDying: number = 4;
+    calculate(characterService: CharacterService, effectsService: EffectsService) {
+        this.$maxHP = this.maxHP(characterService, effectsService);
+        this.$currentHP = this.currentHP(characterService, effectsService);
+        this.$maxDying = this.maxDying(effectsService);
+    }
     maxHP(characterService: CharacterService, effectsService: EffectsService) {
         let character = characterService.get_Character();
         let classHP = 0;
@@ -47,25 +55,33 @@ export class Health {
         });
         return defaultMaxDying + effectsSum;
     }
-    takeDamage(characterService: CharacterService, effectsService: EffectsService, amount: number) {
+    takeDamage(characterService: CharacterService, effectsService: EffectsService, amount: number, nonlethal: boolean = false) {
         this.temporaryHP -= amount;
         if (this.temporaryHP < 0) {
             this.damage = Math.min(this.damage - this.temporaryHP, this.maxHP(characterService, effectsService));
             this.temporaryHP = 0;
         }
-        if (this.currentHP(characterService, effectsService) == 0) {
+        if (!nonlethal && this.currentHP(characterService, effectsService) == 0) {
             if (this.dying == 0) {
                 this.dying += 1 + this.wounded;
             }
         }
+        if (this.currentHP(characterService, effectsService) > 0) {
+            characterService.get_AppliedConditions("Unconscious").forEach(gain => {
+                characterService.remove_Condition(gain);
+            });
+        }
         characterService.set_Changed();
     }
-    heal(characterService: CharacterService, effectsService: EffectsService, amount: number) {
+    heal(characterService: CharacterService, effectsService: EffectsService, amount: number, wake: boolean = true) {
         this.damage = Math.max(0, this.damage - amount);
         if (this.currentHP(characterService, effectsService) > 0 && this.dying > 0) {
             this.dying = 0;
             this.wounded++
         }
+        characterService.get_AppliedConditions("Unconscious", "0 Hit Points").forEach(gain => {
+            characterService.remove_Condition(gain);
+        });
         characterService.set_Changed();
     }
 }

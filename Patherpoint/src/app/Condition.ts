@@ -8,6 +8,7 @@ export class Condition {
     public value: number = 0;
     public desc: string = "";
     public showon: string = "";
+    public inputRequired: string = "";
     public onceEffects: any[] = [];
     public effects: any[] = [];
     public specialEffects: any[] = [];

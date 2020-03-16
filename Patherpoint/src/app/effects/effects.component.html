@@ -1,8 +1,29 @@
 <div id="items" class="attributeBox">
     <div>
         <h3>Active Conditions</h3>
-        <div class="list-item" *ngFor="let condition of get_AppliedConditions()">
-            <span [className]="condition.buff ? 'bonus' : 'penalty'" title="{{condition.source}}">{{condition.name}} {{(condition.value) ? condition.value : ""}} {{(condition.duration != -1) ? condition.duration + " Turns" : ""}}</span>
+        <div class="list-item" *ngFor="let conditionGain of get_AppliedConditions(true)">
+            <span><strong [className]="conditionGain.buff ? 'bonus' : 'penalty'" title="{{conditionGain.source}}">{{conditionGain.name}} {{(conditionGain.value) ? conditionGain.value : ""}}</strong> {{(conditionGain.duration != -1) ? conditionGain.duration + " turns" : "permanent"}}</span>
+            <div *ngFor="let condition of [get_Conditions(conditionGain.name)[0]]">
+                <div class="list-item lower row problem" *ngIf="condition.inputRequired">
+                    <strong>Player input required:</strong>
+                    <p *ngFor="let inputRequired of condition.inputRequired.split('\n')">
+                        {{inputRequired}}
+                    </p>
+                </div>
+                <div class="row">
+                    <button class="button" (click)="toggle_Item(conditionGain.name+conditionGain.source+conditionGain.value+conditionGain.duration+'applied')">
+                        Show Description
+                    </button>
+                    <button class="button" (click)="remove_Condition(conditionGain)">
+                        Remove
+                    </button>
+                </div>
+                <div class="row" *ngIf="this.get_ShowItem()==conditionGain.name+conditionGain.source+conditionGain.value+conditionGain.duration+'applied'">
+                    <p *ngFor="let desc of condition.desc.split('\n')">
+                        {{desc}}
+                    </p>
+                </div>
+            </div>
         </div>
         <h3>Active Effects</h3>
         <div *ngFor="let effect of get_AppliedEffects()">
@@ -13,8 +34,23 @@
     <div *ngIf="showEffects">
         <h3>Not Applied</h3>
         <h3>Conditions</h3>
-        <div class="list-item" *ngFor="let condition of get_NotAppliedConditions()">
-            <span [className]="condition.buff ? 'bonus notapplied' : 'penalty notapplied'" title="{{condition.source}}">{{condition.name}} {{(condition.value) ? condition.value : ""}} {{(condition.duration != -1) ? condition.duration + " Turns" : ""}}</span>
+        <div class="list-item notapplied" *ngFor="let conditionGain of get_AppliedConditions(false)">
+            <span><strong [className]="conditionGain.buff ? 'bonus' : 'penalty'" title="{{conditionGain.source}}">{{conditionGain.name}} {{(conditionGain.value) ? conditionGain.value : ""}}</strong> {{(conditionGain.duration != -1) ? conditionGain.duration + " turns" : "permanent"}}</span>
+            <div *ngFor="let condition of [get_Conditions(conditionGain.name)[0]]">
+                <div class="row">
+                    <button class="button" (click)="toggle_Item(conditionGain.name+conditionGain.source+conditionGain.value+conditionGain.duration+'notapplied')">
+                        Show Description
+                    </button>
+                    <button class="button" (click)="remove_Condition(conditionGain)">
+                        Remove
+                    </button>
+                </div>
+                <div class="row" *ngIf="this.get_ShowItem()==conditionGain.name+conditionGain.source+conditionGain.value+conditionGain.duration+'notapplied'">
+                    <p *ngFor="let desc of condition.desc.split('\n')">
+                        {{desc}}
+                    </p>
+                </div>
+            </div>
         </div>
         <h3>Effects</h3>
         <div *ngFor="let effect of get_NotAppliedEffects()">

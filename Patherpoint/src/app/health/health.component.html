@@ -1,15 +1,15 @@
-<div id="health" class="attributeBox">
-    <h3>Health: {{get_Health().currentHP(this.characterService, this.effectsService)}} Hit Points</h3>
+<div id="health" class="attributeBox" *ngFor="let health of [calculate_Health(true)]">
+    <h3>Health: {{health.$currentHP}} Hit Points</h3>
     <div class="loading" *ngIf="still_loading()">Loading</div>
     <div *ngIf="!still_loading()">
         <div class="list-item">
             <strong>Max HP</strong>
             <input class="number" type="number"
                 [className]="(get_PenaltiesOnThis('Health').length) ? 'penalty' : (get_BonusesOnThis('Health').length) ? 'bonus' : ''"
-                value="{{get_Health().maxHP(this.characterService, this.effectsService)}}" disabled>
+                value="{{health.$maxHP}}" disabled>
             Temp HP: <input class="number" type="number"
-                [className]="(get_Health().temporaryHP < 0) ? 'penalty' : (get_Health().temporaryHP > 0) ? 'bonus' : ''"
-                value="{{get_Health().temporaryHP}}" disabled>
+                [className]="(health.temporaryHP < 0) ? 'penalty' : (health.temporaryHP > 0) ? 'bonus' : ''"
+                value="{{health.temporaryHP}}" disabled>
             <div class="row">
                 <cite *ngFor="let effect of get_EffectsOnThis('Max HP')" [className]="effect.penalty ? 'penalty' : 'bonus'">{{effect.value}} ({{effect.source}})&nbsp;</cite>
                 <cite *ngFor="let feat of get_FeatsShowingOn('Health')" [title]="(feat.hint) ? feat.hint : feat.desc">{{feat.name}}&nbsp;</cite>
@@ -18,15 +18,15 @@
         </div> 
         <div class="list-item">
             <strong>Dying</strong><input class="number" type="number"
-                [className]="(get_Health().dying > 0) ? 'penalty' : ''"
-                value="{{get_Health().dying}}" disabled>
+                [className]="(health.dying > 0) ? 'penalty' : ''"
+                value="{{health.dying}}" disabled>
             /
             <span
                 [className]="(get_PenaltiesOnThis('Max Dying').length) ? 'penalty' : (get_BonusesOnThis('Health').length) ? 'bonus' : ''">
-                {{get_Health().maxDying(this.effectsService)}}
+                {{health.$maxDying}}
             </span>
-            <button *ngIf="get_Health().dying > 0" (click)="on_DyingSave(true)">Save</button>
-            <button *ngIf="get_Health().dying > 0" (click)="on_DyingSave(false)">Fail Save</button>
+            <button *ngIf="health.dying > 0" (click)="on_DyingSave(true)">Save</button>
+            <button *ngIf="health.dying > 0" (click)="on_DyingSave(false)">Fail Save</button>
             <div class="row">
                 <cite *ngFor="let effect of get_EffectsOnThis('Max Dying')" [className]="effect.penalty ? 'penalty' : 'bonus'">{{effect.value}} ({{effect.source}})&nbsp;</cite>
                 <cite *ngFor="let feat of get_FeatsShowingOn('Dying')" [title]="(feat.hint) ? feat.hint : feat.desc">{{feat.name}}&nbsp;</cite>
@@ -35,19 +35,25 @@
         </div>
         <div class="list-item">
             <strong>Wounded</strong><input class="number" type="number"
-            [className]="(get_Health().wounded > 0) ? 'penalty' : ''"
-            value="{{get_Health().wounded}}" disabled>
-            <button *ngIf="get_Health().wounded > 0" (click)="get_Health().wounded = 0">Heal</button>
+            [className]="(health.wounded > 0) ? 'penalty' : ''"
+            value="{{health.wounded}}" disabled>
+            <button *ngIf="health.wounded > 0" (click)="health.wounded = 0">Heal</button>
         </div>
         <div class="list-item">
             <strong>Take Damage</strong><input class="number" type="number"
             [(ngModel)]="this.damage">
-            <button [disabled]="this.damage <= 0" (click)="get_Health().takeDamage(this.characterService, this.effectsService, this.damage)">Ouch!</button>
+            <input type="checkbox" [(ngModel)]="this.nonlethal">nonlethal
+            <button [disabled]="this.damage <= 0" (click)="health.takeDamage(this.characterService, this.effectsService, this.damage, this.nonlethal)">Ouch!</button>
         </div>
         <div class="list-item">
             <strong>Heal Damage</strong><input class="number" type="number"
             [(ngModel)]="this.healing">
-            <button [disabled]="this.healing <= 0" (click)="get_Health().heal(this.characterService, this.effectsService, this.healing)">Heal</button>
+            <button [disabled]="this.healing <= 0" (click)="health.heal(this.characterService, this.effectsService, this.healing)">Heal</button>
+        </div>
+        <div class="list-item">
+            <strong>Add Temp HP</strong><input class="number" type="number"
+            [(ngModel)]="this.addTempHP">
+            <button [disabled]="this.addTempHP == 0" (click)="add_TempHP(this.addTempHP)">Add</button>
         </div>
         <h3>Resistances</h3>
         <div class="list-item" *ngIf="get_Resistances().length">
