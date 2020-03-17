@@ -78,7 +78,7 @@ export class ConditionsComponent implements OnInit {
     }
 
     add_Condition(condition: Condition, duration: number) {
-        let newGain = new ConditionGain;
+        let newGain = new ConditionGain();
         newGain.name = condition.name;
         newGain.duration = duration;
         if (condition.hasValue) {

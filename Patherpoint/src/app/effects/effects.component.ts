@@ -11,8 +11,9 @@ import { ConditionGain } from '../ConditionGain';
 })
 export class EffectsComponent implements OnInit {
 
-    showEffects: boolean = false;
-    showItem: string = "";
+    public showNotApplied: boolean = false;
+    public showHidden: boolean = false;
+    public showItem: string = "";
 
     constructor(
         private changeDetector: ChangeDetectorRef,
@@ -32,8 +33,12 @@ export class EffectsComponent implements OnInit {
         return this.showItem;
     }
 
-    toggle_Effects() {
-        this.showEffects = !this.showEffects;
+    toggle_NotApplied() {
+        this.showNotApplied = !this.showNotApplied;
+    }
+
+    toggle_Hidden() {
+        this.showHidden = !this.showHidden;
     }
 
     get_Effects() {
@@ -45,11 +50,19 @@ export class EffectsComponent implements OnInit {
     }
 
     get_AppliedEffects() {
-        return this.get_Effects().all.filter(effect => effect.apply);
+        return this.get_Effects().all.filter(effect => effect.apply && !effect.hide);
     }
 
     get_NotAppliedEffects() {
-        return this.get_Effects().all.filter(effect => effect.apply != true);
+        return this.get_Effects().all.filter(effect => !effect.apply && !effect.hide);
+    }
+
+    get_HiddenEffects() {
+        return this.get_Effects().all.filter(effect => effect.apply && effect.hide);
+    }
+
+    get_HiddenNotAppliedEffects() {
+        return this.get_Effects().all.filter(effect => !effect.apply && effect.hide);
     }
 
     get_AppliedConditions(apply: boolean) {

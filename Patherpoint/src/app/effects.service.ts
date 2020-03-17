@@ -4,6 +4,7 @@ import { Item } from './Item';
 import { CharacterService } from './character.service';
 import { TraitsService } from './traits.service';
 import { EffectCollection } from './EffectCollection';
+import { Feat } from './Feat';
 
 @Injectable({
     providedIn: 'root'
@@ -43,19 +44,21 @@ constructor(
         //Try to get the type, too - items will always have an item type bonus
         //Return an array of Effect objects
         let objectEffects: Effect[] = [];
+        let hide: boolean = false;
+        if (object instanceof Feat) {
+            hide = true;
+        }
         //Define effectsService as we need them in some specialEffects
         //Use them once so Visual Studio doesn't think they're unused and I don't delete them
         let effectsService = this;
         effectsService = effectsService;
         characterService = characterService;
-        let type: string = "";
+        let type: string = "untyped";
         object.effects.forEach(effect => {
             if (effect.type) {
                 type = effect.type;
-            } else {
-                type = "untyped";
             }
-            objectEffects.push(new Effect(type, effect.affected, effect.value, object.name, (parseInt(effect.value) < 0) ? true : false));
+            objectEffects.push(new Effect(type, effect.affected, effect.value, object.name, ((parseInt(effect.value) < 0) ? true : false), undefined, hide));
         });
         //specialEffects come as {affected, value} where value is a string that contains a condition.
         //This condition is eval'd here. The condition can use characterService to check level, skills, abilities etc.
@@ -63,10 +66,8 @@ constructor(
             let value = eval(effect.value);
             if (effect.type) {
                 type = effect.type;
-            } else {
-                type = "untyped";
             }
-            objectEffects.push(new Effect(type, effect.affected, value, object.name, (parseInt(value) < 0) ? true : false));
+            objectEffects.push(new Effect(type, effect.affected, value, object.name, ((parseInt(value) < 0) ? true : false), undefined, hide));
         });
         return objectEffects;
     }

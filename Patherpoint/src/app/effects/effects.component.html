@@ -3,7 +3,7 @@
         <h3>Active Conditions</h3>
         <div class="list-item" *ngFor="let conditionGain of get_AppliedConditions(true)">
             <div class="row">
-                <span><strong [className]="conditionGain.buff ? 'bonus' : 'penalty'" title="{{conditionGain.source}}">{{conditionGain.name}} {{(conditionGain.value) ? conditionGain.value : ""}}</strong> {{(conditionGain.duration != -1) ? conditionGain.duration + " turns" : "permanent"}}</span>
+                <span><strong [className]="conditionGain.buff ? 'bonus' : 'penalty'" title="{{conditionGain.source}}">{{conditionGain.name}} {{(conditionGain.value) ? conditionGain.value : ""}}</strong> {{(conditionGain.duration != -1) ? conditionGain.duration + " turns" : "permanent"}} ({{conditionGain.source}})</span>
             </div>
             <div *ngFor="let condition of [get_Conditions(conditionGain.name)[0]]">
                 <div class="list-item lower row problem" *ngIf="condition.inputRequired">
@@ -31,16 +31,15 @@
             </div>
         </div>
         <h3>Active Effects</h3>
-        <div *ngFor="let effect of get_AppliedEffects()">
-            <span [className]="effect.penalty ? 'penalty' : 'bonus'" title="{{effect.source}}">{{effect.target}} {{effect.value}}</span>
+        <div class="list-item lower" *ngFor="let effect of get_AppliedEffects()">
+            <span><strong [className]="effect.penalty ? 'penalty' : 'bonus'" title="{{effect.source}}">{{effect.target}} {{effect.value}}</strong> {{effect.type}} {{(effect.penalty) ? 'penalty' : 'bonus'}} ({{effect.source}})</span>
         </div>
     </div>
-    <button class="list-item" (click)="toggle_Effects()">{{(showEffects) ? "Hide not applied" : "Show not applied"}}</button>
-    <div *ngIf="showEffects">
-        <h3>Not Applied</h3>
-        <h3>Conditions</h3>
+    <button class="list-item" (click)="toggle_NotApplied()">{{(showNotApplied) ? "Hide not applied" : "Show not applied"}}</button>
+    <div *ngIf="showNotApplied">
+        <h3>Not Applied Conditions</h3>
         <div class="list-item notapplied" *ngFor="let conditionGain of get_AppliedConditions(false)">
-            <span><strong [className]="conditionGain.buff ? 'bonus' : 'penalty'" title="{{conditionGain.source}}">{{conditionGain.name}} {{(conditionGain.value) ? conditionGain.value : ""}}</strong> {{(conditionGain.duration != -1) ? conditionGain.duration + " turns" : "permanent"}}</span>
+            <span><strong [className]="conditionGain.buff ? 'bonus' : 'penalty'" title="{{conditionGain.source}}">{{conditionGain.name}} {{(conditionGain.value) ? conditionGain.value : ""}}</strong> {{(conditionGain.duration != -1) ? conditionGain.duration + " turns" : "permanent"}} ({{conditionGain.source}})</span>
             <div *ngFor="let condition of [get_Conditions(conditionGain.name)[0]]">
                 <div class="row">
                     <button class="button" (click)="toggle_Item(conditionGain.name+conditionGain.source+conditionGain.value+conditionGain.duration+'notapplied')">
@@ -57,9 +56,16 @@
                 </div>
             </div>
         </div>
-        <h3>Effects</h3>
-        <div *ngFor="let effect of get_NotAppliedEffects()">
-            <span [className]="effect.penalty ? 'penalty notapplied' : 'bonus notapplied'" title="{{effect.source}}">{{effect.target}} {{effect.value}}</span>
+        <h3>Not Applied Effects</h3>
+        <div class="list-item notapplied lower" *ngFor="let effect of get_NotAppliedEffects()">
+            <span><strong [className]="effect.penalty ? 'penalty' : 'bonus'" title="{{effect.source}}">{{effect.target}} {{effect.value}}</strong> {{effect.type}} {{(effect.penalty) ? 'penalty' : 'bonus'}} ({{effect.source}})</span>
+        </div>
+    </div>
+    <button class="list-item" (click)="toggle_Hidden()">{{(showHidden) ? "Hide feat effects" : "Show feat effects"}}</button>
+    <div *ngIf="showHidden">
+        <h3>Hidden Feat Effects</h3>
+        <div class="list-item lower" *ngFor="let effect of get_HiddenEffects()">
+            <span><strong [className]="effect.penalty ? 'penalty' : 'bonus'" title="{{effect.source}}">{{effect.target}} {{effect.value}}</strong> ({{effect.source}})</span>
         </div>
     </div>
 </div>

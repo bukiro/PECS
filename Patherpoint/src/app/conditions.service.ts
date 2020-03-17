@@ -5,6 +5,7 @@ import { Observable } from 'rxjs';
 import { ConditionGain } from './ConditionGain';
 import { CharacterService } from './character.service';
 import { EffectsService } from './effects.service';
+import { SortByPipe } from './sortBy.pipe';
 
 @Injectable({
     providedIn: 'root'
@@ -14,9 +15,11 @@ export class ConditionsService {
     private conditions: Condition[];
     private loader;
     private loading: boolean = false;
+    private appliedConditions: ConditionGain[] = [];
 
     constructor(
-        private http: HttpClient
+        private http: HttpClient,
+        private sortByPipe: SortByPipe
     ) { }
 
     get_Conditions(name: string = "", type: string = "") {
@@ -31,52 +34,58 @@ export class ConditionsService {
     }
 
     get_AppliedConditions(characterService: CharacterService, activeConditions: ConditionGain[]) {
-        let overrides: string[] = [];
-        activeConditions.forEach(gain => {
-            let originalCondition = this.get_Conditions(gain.name);
-            if (originalCondition.length) {
-                overrides.push(...originalCondition[0].overrideConditions);
-            }
-        });
-        activeConditions.forEach(gain => {
-            let condition = this.get_Conditions(gain.name)[0];
-            //Mark any conditions for deletion that can have a value if their value is 0 or lower
-            //Only process the rest
-            if (condition.hasValue && gain.value <= 0) {
-                gain.value = -1;
-            } else {
-                gain.apply = true;
-                if (overrides.indexOf(gain.name) > -1 || (overrides.indexOf("All") > -1 && condition.overrideConditions.indexOf("All") == -1)) {
-                    gain.apply = false;
+        if (JSON.stringify(activeConditions) == JSON.stringify(this.appliedConditions)) {
+            return this.sortByPipe.transform(activeConditions, "asc", "duration");
+        } else {
+            let overrides: string[] = [];
+            activeConditions.forEach(gain => {
+                let originalCondition = this.get_Conditions(gain.name);
+                if (originalCondition.length) {
+                    overrides.push(...originalCondition[0].overrideConditions);
                 }
-                //We compare this condition with all others that have the same name and deactivate it under certain circumstances
-                //Are there any other conditions with this name and value that have not been deactivated yet?
-                activeConditions.filter(otherGain => 
-                    (otherGain !== gain) &&
-                    (otherGain.name == gain.name) &&
-                    (otherGain.apply)
-                    ).forEach(otherGain => {
-                        //Higher value conditions remain.
-                        if (otherGain.value > gain.value) {
-                            gain.apply = false;
-                        } else if (otherGain.value == gain.value || (!otherGain.value && !gain.value)) {
-                            //If the value is the same:
-                            //Deactivate this condition if the other one has a longer duration (and this one is not permanent), or is permanent (no matter if this one is)
-                            //The other condition will not be deactivated because it only gets compared to the ones that aren't deactivated yet
-                            if (otherGain.duration == -1 || (gain.duration >= 0 && otherGain.duration >= gain.duration)) {
+            });
+            activeConditions.forEach(gain => {
+                let condition = this.get_Conditions(gain.name)[0];
+                //Mark any conditions for deletion that can have a value if their value is 0 or lower
+                //Only process the rest
+                if (condition.hasValue && gain.value <= 0) {
+                    gain.value = -1;
+                } else {
+                    gain.apply = true;
+                    if (overrides.indexOf(gain.name) > -1 || (overrides.indexOf("All") > -1 && condition.overrideConditions.indexOf("All") == -1)) {
+                        gain.apply = false;
+                    }
+                    //We compare this condition with all others that have the same name and deactivate it under certain circumstances
+                    //Are there any other conditions with this name and value that have not been deactivated yet?
+                    activeConditions.filter(otherGain => 
+                        (otherGain !== gain) &&
+                        (otherGain.name == gain.name) &&
+                        (otherGain.apply)
+                        ).forEach(otherGain => {
+                            //Higher value conditions remain.
+                            if (otherGain.value > gain.value) {
                                 gain.apply = false;
+                            } else if (otherGain.value == gain.value || (!otherGain.value && !gain.value)) {
+                                //If the value is the same:
+                                //Deactivate this condition if the other one has a longer duration (and this one is not permanent), or is permanent (no matter if this one is)
+                                //The other condition will not be deactivated because it only gets compared to the ones that aren't deactivated yet
+                                if (otherGain.duration == -1 || (gain.duration >= 0 && otherGain.duration >= gain.duration)) {
+                                    gain.apply = false;
+                                }
                             }
-                        }
-                    })
+                        })
+                }
+            })
+            for (let index = activeConditions.length; index > 0; index--) {
+                let gain = activeConditions[index-1];
+                if (gain.value == -1) {
+                    characterService.remove_Condition(gain, false);
+                }
             }
-        })
-        for (let index = activeConditions.length; index > 0; index--) {
-            let gain = activeConditions[index-1];
-            if (gain.value == -1) {
-                characterService.remove_Condition(gain, false);
-            }
+            this.appliedConditions = [];
+            this.appliedConditions = activeConditions.map(gain => Object.assign(new ConditionGain(), gain));
+            return this.sortByPipe.transform(activeConditions, "asc", "duration");
         }
-        return activeConditions;
     }
 
     process_Condition(characterService: CharacterService, effectsService: EffectsService, gain: ConditionGain, condition: Condition, taken: boolean) {
