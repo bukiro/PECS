@@ -31,59 +31,9 @@ export class HealthComponent implements OnInit {
         return this.characterService.get_Character();
     }
 
-    calculate_Health(check_dying: boolean = false) {
+    calculate_Health() {
         let health = this.get_Health();
         health.calculate(this.characterService, this.effectsService);
-        if (check_dying) {
-            let changed: boolean = false;
-            let deads = this.characterService.get_AppliedConditions("Dead");
-            let dyings = this.characterService.get_AppliedConditions("Dying");
-            let unconsciouses = this.characterService.get_AppliedConditions("Unconscious");
-            let woundeds = this.characterService.get_AppliedConditions("Wounded")
-            if (health.dying > 0 && dyings.filter(gain => gain.value == health.dying).length == 0) {
-                dyings.forEach(gain => {
-                    this.characterService.remove_Condition(gain, false);
-                });
-                unconsciouses.forEach(gain => {
-                    this.characterService.remove_Condition(gain, false);
-                });
-                
-                this.characterService.add_Condition(Object.assign(new ConditionGain, {name:"Dying", value:health.dying, source:"0 Hit Points"}), false)
-                changed = true;
-            }
-            if (health.dying >= health.$maxDying && deads.length == 0) {
-                this.characterService.add_Condition(Object.assign(new ConditionGain, {name:"Dead", source:"Dying"}), false)
-                changed = true;
-            }
-            if (health.dying == 0 ) {
-                dyings.forEach(gain => {
-                    this.characterService.remove_Condition(gain, false);
-                    changed = true;
-                });
-                if (health.$currentHP == 0 && unconsciouses.length == 0) {
-                    if (this.characterService.get_AppliedConditions("Unconscious", "0 Hit Points").length == 0) {
-                        this.characterService.add_Condition(Object.assign(new ConditionGain, {name:"Unconscious", source:"0 Hit Points"}), false)
-                    }
-                    changed = true;
-                }
-            }
-            if (health.wounded > 0 && woundeds.filter(gain => gain.value == health.wounded).length == 0) {
-                woundeds.forEach(gain => {
-                    this.characterService.remove_Condition(gain, false);
-                });
-                this.characterService.add_Condition(Object.assign(new ConditionGain, {name:"Wounded", value:health.wounded, source:"Health"}), false)
-                changed = true;
-            }
-            if (health.wounded == 0) {
-                woundeds.forEach(gain => {
-                    this.characterService.remove_Condition(gain, false);
-                    changed = true;
-                });
-            }
-            if (changed) {
-                this.characterService.set_Changed();
-            }
-        }
         return this.get_Health()
     }
     
@@ -92,14 +42,32 @@ export class HealthComponent implements OnInit {
     }
 
     on_DyingSave(success) {
+        let maxDying = this.get_Health().$maxDying;
         if (success) {
-            this.get_Health().dying--;
-            if (this.get_Health().dying == 0) {
-                this.get_Health().wounded++
-            }
+            //Reduce all dying conditions by 1
+            //Conditions with Value 0 get cleaned up in the conditions Service
+            //Wounded is added automatically when Dying is removed
+            this.characterService.get_AppliedConditions("Dying").forEach(gain => {
+                gain.value = Math.max(gain.value - 1, 0);
+            })
         } else {
-            this.get_Health().dying = Math.min(this.get_Health().dying + 1, this.get_Health().maxDying(this.effectsService))
+            this.characterService.get_AppliedConditions("Dying").forEach(gain => {
+                gain.value = Math.min(gain.value + 1, maxDying);
+            })
+            if (this.get_Health().dying(this.characterService) >= maxDying) {
+                if (this.characterService.get_AppliedConditions("Dead").length == 0) {
+                    this.characterService.add_Condition(Object.assign(new ConditionGain, {name:"Dead", source:"Failed Dying Save"}), false)
+                }
+            }
         }
+        this.characterService.set_Changed();
+    }
+
+    on_HealWounded() {
+        this.characterService.get_AppliedConditions("Wounded").forEach(gain => {
+            this.characterService.remove_Condition(gain, false);
+        })
+        this.characterService.set_Changed();
     }
 
     add_TempHP(amount: number) {

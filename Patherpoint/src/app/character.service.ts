@@ -417,27 +417,32 @@ export class CharacterService {
 
     get_AppliedConditions(name: string = "", source: string = "") {
         //Returns ConditionGain[] with apply=true/false for each
-        return this.conditionsService.get_AppliedConditions(this.me.conditions).filter(condition =>
+        return this.conditionsService.get_AppliedConditions(this, this.me.conditions).filter(condition =>
             (condition.name == name || name == "") &&
             (condition.source == source || source == "")
             );
     }
 
-    add_Condition(conditionGain: ConditionGain, original: boolean = true) {
+    add_Condition(conditionGain: ConditionGain, reload: boolean = true) {
         let originalCondition = this.get_Conditions(conditionGain.name)[0];
+        //Select boxes turn numbers into strings. We have to turn them back into numbers, but we can't parseInt a number (which Typescript believes this still is)
+        //So we turn it into a JSON string and back into a number.
+        if (conditionGain.value) {
+            conditionGain.value = parseInt(JSON.parse(JSON.stringify(conditionGain.value)));
+        }
         let newLength = this.me.conditions.push(conditionGain);
         let newConditionGain = this.me.conditions[newLength -1];
-        this.conditionsService.process_Condition(this, conditionGain, this.conditionsService.get_Conditions(conditionGain.name)[0], true);
+        this.conditionsService.process_Condition(this, this.effectsService, conditionGain, this.conditionsService.get_Conditions(conditionGain.name)[0], true);
         originalCondition.gainConditions.forEach(extraCondition => {
             this.add_Condition(Object.assign(new ConditionGain, {name:extraCondition.name, value:extraCondition.value, source:newConditionGain.name, apply:true}), false)
         })
-        if (original) {
+        if (reload) {
             this.set_Changed();
         }
         return newLength;
     }
 
-    remove_Condition(conditionGain: ConditionGain, original: boolean = true) {
+    remove_Condition(conditionGain: ConditionGain, reload: boolean = true) {
         let oldConditionGain = this.me.conditions.filter($condition => $condition.name == conditionGain.name && $condition.value == conditionGain.value && $condition.source == conditionGain.source);
         let originalCondition = this.get_Conditions(conditionGain.name)[0];
         if (oldConditionGain.length) {
@@ -445,7 +450,8 @@ export class CharacterService {
                 this.remove_Condition(Object.assign(new ConditionGain, {name:extraCondition.name, value:extraCondition.value, source:oldConditionGain[0].name}), false)
             })
             this.me.conditions.splice(this.me.conditions.indexOf(oldConditionGain[0]), 1)
-            if (original) {
+            this.conditionsService.process_Condition(this, this.effectsService, conditionGain, this.conditionsService.get_Conditions(conditionGain.name)[0], false);
+            if (reload) {
                 this.set_Changed();
             }
         }

@@ -3,8 +3,8 @@
     <div class="loading" *ngIf="still_loading()">Loading</div>
     <div *ngIf="!still_loading()">
         <div *ngFor="let set of ['Generic','Alchemical Elixirs']">
-            <button class="button fancybutton list-item" (click)="toggle(set)">{{set}}</button>
-            <div *ngIf="get_ShowItem()==set">
+            <button class="button fancybutton list-item" (click)="toggleList(set)">{{set}}</button>
+            <div *ngIf="get_ShowList()==set">
                 <div class="list-item" *ngFor="let condition of get_ConditionsSet(set)">
                     <strong>{{condition.name}}</strong>
                     <div class="row" *ngIf="condition.hasValue">
@@ -26,9 +26,15 @@
                         <button (click)="add_Condition(condition, 14400)">1 Day</button>
                     </div>
                     <div class="row">
-                        <p *ngFor="let desc of condition.desc.split('\n')">
-                            {{desc}}
-                        </p>
+                        <button (click)="toggleItem(set+condition.name)">Show Description</button>
+                    </div>
+                    <div class="row" *ngIf="get_ShowItem()==set+condition.name">
+                        <div *ngFor="let desc of condition.desc.split('\n\n')">
+                            <p *ngIf="desc.split('\n').length == 1">{{desc}}</p>
+                            <ul *ngIf="desc.split('\n').length > 1">
+                                <li *ngFor="let line of desc.split('\n')">{{line}}</li>
+                            </ul>
+                        </div>
                     </div>
                 </div>
             </div>

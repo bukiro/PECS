@@ -1,5 +1,6 @@
 import { CharacterService } from './character.service';
 import { EffectsService } from './effects.service';
+import { ConditionGain } from './ConditionGain';
 
 export class Health {
     public damage: number = 0;
@@ -7,14 +8,16 @@ export class Health {
     public resistances: any[] = [];
     public immunities: any[] = [];
     public lessenedEffects: any[] = [];
-    public dying: number = 0;
-    public wounded: number = 0;
     public $maxHP: number = 1;
     public $currentHP: number = 1;
+    public $wounded: number = 0;
+    public $dying: number = 0;
     public $maxDying: number = 4;
     calculate(characterService: CharacterService, effectsService: EffectsService) {
         this.$maxHP = this.maxHP(characterService, effectsService);
         this.$currentHP = this.currentHP(characterService, effectsService);
+        this.$wounded = this.wounded(characterService);
+        this.$dying = this.dying(characterService);
         this.$maxDying = this.maxDying(effectsService);
     }
     maxHP(characterService: CharacterService, effectsService: EffectsService) {
@@ -38,14 +41,27 @@ export class Health {
     currentHP(characterService: CharacterService, effectsService: EffectsService) {
         let sum = this.maxHP(characterService, effectsService) + this.temporaryHP - this.damage;
         if (sum < 0) {
-            if (this.dying == 0) {
-                this.dying += 1 + this.wounded;
-            }
             this.damage += sum;
             sum = 0;
             characterService.set_Changed();
         }
         return sum;
+    }
+    wounded(characterService: CharacterService) {
+        let woundeds = 0;
+        let conditions = characterService.get_AppliedConditions("Wounded");
+        if (conditions.length) {
+            woundeds = Math.max.apply(Math, conditions.map(function(gain) {return gain.value}));
+        }
+        return Math.max(woundeds, 0)
+    }
+    dying(characterService: CharacterService) {
+        let dying = 0;
+        let conditions = characterService.get_AppliedConditions("Dying");
+        if (conditions.length) {
+            dying = Math.max.apply(Math, conditions.map(function(gain) {return gain.value}));
+        }
+        return Math.max(dying, 0)
     }
     maxDying(effectsService: EffectsService) {
         let defaultMaxDying: number = 4;
@@ -61,24 +77,42 @@ export class Health {
             this.damage = Math.min(this.damage - this.temporaryHP, this.maxHP(characterService, effectsService));
             this.temporaryHP = 0;
         }
+        //If you have reached 0 HP with lethal damage, get dying 1+wounded
+        //Dying and maxDying are compared in the Conditions service when Dying is added
         if (!nonlethal && this.currentHP(characterService, effectsService) == 0) {
-            if (this.dying == 0) {
-                this.dying += 1 + this.wounded;
+            if (this.$dying == 0) {
+                characterService.add_Condition(Object.assign(new ConditionGain, {name:"Dying", value:this.$wounded+1, source:"0 Hit Points"}), false)
             }
         }
+        if (nonlethal && this.currentHP(characterService, effectsService) == 0) {
+            if (characterService.get_AppliedConditions("Unconscious", "0 Hit Points").length == 0) {
+                characterService.add_Condition(Object.assign(new ConditionGain, {name:"Unconscious", source:"0 Hit Points"}), false)
+            }
+        }
+        //Wake up if you are unconscious and take damage (without falling under 1 HP)
         if (this.currentHP(characterService, effectsService) > 0) {
             characterService.get_AppliedConditions("Unconscious").forEach(gain => {
-                characterService.remove_Condition(gain);
+                characterService.remove_Condition(gain, false);
             });
         }
         characterService.set_Changed();
     }
     heal(characterService: CharacterService, effectsService: EffectsService, amount: number, wake: boolean = true) {
         this.damage = Math.max(0, this.damage - amount);
-        if (this.currentHP(characterService, effectsService) > 0 && this.dying > 0) {
-            this.dying = 0;
-            this.wounded++
+        //Recover from Dying and get Wounded++
+        if (this.currentHP(characterService, effectsService) > 0 && this.$dying > 0) {
+            characterService.get_AppliedConditions("Dying").forEach(gain => {
+                characterService.remove_Condition(gain, false);
+            });
+            if (this.$wounded > 0) {
+                characterService.get_AppliedConditions("Wounded").forEach(gain => {
+                    gain.value += 1
+                });
+            } else {
+                characterService.add_Condition(Object.assign(new ConditionGain, {name:"Wounded", value:1, source:"Recovered from Dying"}), false)
+            }
         }
+        //Wake up from Healing
         characterService.get_AppliedConditions("Unconscious", "0 Hit Points").forEach(gain => {
             characterService.remove_Condition(gain);
         });

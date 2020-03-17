@@ -2,7 +2,9 @@
     <div>
         <h3>Active Conditions</h3>
         <div class="list-item" *ngFor="let conditionGain of get_AppliedConditions(true)">
-            <span><strong [className]="conditionGain.buff ? 'bonus' : 'penalty'" title="{{conditionGain.source}}">{{conditionGain.name}} {{(conditionGain.value) ? conditionGain.value : ""}}</strong> {{(conditionGain.duration != -1) ? conditionGain.duration + " turns" : "permanent"}}</span>
+            <div class="row">
+                <span><strong [className]="conditionGain.buff ? 'bonus' : 'penalty'" title="{{conditionGain.source}}">{{conditionGain.name}} {{(conditionGain.value) ? conditionGain.value : ""}}</strong> {{(conditionGain.duration != -1) ? conditionGain.duration + " turns" : "permanent"}}</span>
+            </div>
             <div *ngFor="let condition of [get_Conditions(conditionGain.name)[0]]">
                 <div class="list-item lower row problem" *ngIf="condition.inputRequired">
                     <strong>Player input required:</strong>
@@ -19,9 +21,12 @@
                     </button>
                 </div>
                 <div class="row" *ngIf="this.get_ShowItem()==conditionGain.name+conditionGain.source+conditionGain.value+conditionGain.duration+'applied'">
-                    <p *ngFor="let desc of condition.desc.split('\n')">
-                        {{desc}}
-                    </p>
+                    <div *ngFor="let desc of condition.desc.split('\n\n')">
+                        <p *ngIf="desc.split('\n').length == 1">{{desc}}</p>
+                        <ul *ngIf="desc.split('\n').length > 1">
+                            <li *ngFor="let line of desc.split('\n')">{{line}}</li>
+                        </ul>
+                    </div>
                 </div>
             </div>
         </div>

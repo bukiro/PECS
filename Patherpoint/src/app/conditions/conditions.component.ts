@@ -18,6 +18,7 @@ import { Condition } from '../Condition';
 export class ConditionsComponent implements OnInit {
 
     public value: number = 1;
+    public showList: string = "";
     public showItem: string = "";
 
     constructor(
@@ -27,12 +28,24 @@ export class ConditionsComponent implements OnInit {
         private conditionsService: ConditionsService
     ) { }
 
-    toggle(type) {
+    toggleList(type) {
+        if (this.showList == type) {
+            this.showList = "";
+        } else {
+            this.showList = type;
+        }
+    }
+
+    toggleItem(type) {
         if (this.showItem == type) {
             this.showItem = "";
         } else {
             this.showItem = type;
         }
+    }
+    
+    get_ShowList() {
+        return this.showList;
     }
 
     get_ShowItem() {

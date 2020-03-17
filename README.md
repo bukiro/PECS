@@ -46,9 +46,9 @@ Temporary Conditions from consumables
 - Prepared lesser Juggernaut Potion: Item, Condition, Effects
 - Created Time Service files
 - Added condition library to add manually
+
 To do:
 - Activate consumable
 - Consumable amounts (stack, reduce, remove if empty - or don't?)
 - Time jumps: start turn, end turn, 1 minute, 10 minutes, 1 hour, 8 hours
 - repeated one-time effects (see Juggernaut Elixir - only instance ever?)
-
