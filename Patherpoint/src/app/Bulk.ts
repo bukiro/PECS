@@ -5,6 +5,7 @@ import { Shield } from './Shield';
 import { Weapon } from './Weapon';
 import { Effect } from './Effect';
 import { Item } from './Item';
+import { Consumable } from './Consumable';
 
 export class Bulk {
     public $effects: Effect[];
@@ -35,19 +36,30 @@ export class Bulk {
     current(characterService: CharacterService) {
         let sum: number = 0;
         let inventory = characterService.get_InventoryItems();
-        function addup(item: Item) {
+        function addup(item: Item|Consumable) {
             switch (item.bulk) {
                 case "-": 
                     break;
                 case "L":
-                    sum += 0.1;
+                    if (item["amount"]) {
+                        sum += 0.1 * Math.floor(item["amount"] / item["stack"]);
+                    } else {
+                        sum += 0.1;
+                    }
                     break;
                 default:
-                    sum += parseInt(item.bulk)
+                    if (item["amount"]) {
+                        sum += parseInt(item.bulk) * Math.floor(item["amount"] / item["stack"]);
+                    } else {
+                        sum += parseInt(item.bulk);
+                    }
                     break;
             }
         }
-        inventory.all().forEach(item => {
+        inventory.allEquipment().forEach(item => {
+            addup(item);
+        })
+        inventory.allConsumables().forEach(item => {
             addup(item);
         })
         return Math.floor(sum);

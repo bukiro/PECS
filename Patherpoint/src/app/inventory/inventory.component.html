@@ -1,138 +1,141 @@
-<div id="items" class="attributeBox">
-    <h3>Inventory</h3>
-    <div class="loading" *ngIf="still_loading()">Loading</div>
-    <div *ngIf="!still_loading()">
-        <h3>Cash</h3>
+<h3>Inventory</h3>
+<div class="loading" *ngIf="still_loading()">Loading</div>
+<div *ngIf="!still_loading()">
+    <h3>Cash</h3>
+    <div class="list-item">
+        <strong>P</strong>
+        <input class="number" type="number"
+            value="{{this.characterService.get_Character().cash[0]}}" disabled>
+        <strong>G</strong>
+        <input class="number" type="number"
+            value="{{this.characterService.get_Character().cash[1]}}" disabled>
+        <strong>S</strong>
+        <input class="number" type="number"
+            value="{{this.characterService.get_Character().cash[2]}}" disabled>
+        <strong>C</strong>
+        <input class="number" type="number"
+            value="{{this.characterService.get_Character().cash[3]}}" disabled>
+    </div> 
+    <h3>Bulk</h3>
+    <div *ngFor="let bulk of get_Bulk()">
         <div class="list-item">
-            <strong>P</strong>
+            <strong>Bulk</strong>
             <input class="number" type="number"
-                value="{{this.characterService.get_Character().cash[0]}}" disabled>
-            <strong>G</strong>
-            <input class="number" type="number"
-                value="{{this.characterService.get_Character().cash[1]}}" disabled>
-            <strong>S</strong>
-            <input class="number" type="number"
-                value="{{this.characterService.get_Character().cash[2]}}" disabled>
-            <strong>C</strong>
-            <input class="number" type="number"
-                value="{{this.characterService.get_Character().cash[3]}}" disabled>
-        </div> 
-        <h3>Bulk</h3>
-        <div *ngFor="let bulk of get_Bulk()">
-            <div class="list-item">
-                <strong>Bulk</strong>
-                <input class="number" type="number"
-                    value="{{bulk.$current}}" disabled>
-                <div class="row" *ngIf="get_ConditionsShowingOn('Bulk').length">
-                    <cite [className]="(condition.buff) ? 'bonus' : 'penalty'" *ngFor="let condition of get_ConditionsShowingOn('Bulk')" [title]="condition.desc">{{condition.name}}&nbsp;</cite>
-                    <cite class="penalty" *ngIf="bulk.$current > bulk.$max.value" title="You can't carry this much Bulk.">Overencumbered&nbsp;</cite>
-                </div>
-            </div>
-            <div class="list-item">
-                <strong>Encumbrance</strong>
-                <input class="number" type="number"
-                [className]="(bulk.$penalty.length) ? 'penalty' : (bulk.$bonus.length) ? 'bonus' : ''"
-                    value="{{bulk.$encumbered.value}}"
-                    title="{{bulk.$encumbered.desc}}"
-                    disabled>
-                <strong>Maximum</strong>
-                <input class="number" type="number"
-                [className]="(bulk.$penalty.length) ? 'penalty' : (bulk.$bonus.length) ? 'bonus' : ''"
-                    value="{{bulk.$max.value}}"
-                    title="{{bulk.$max.desc}}"
-                    disabled>
-                <div class="row" *ngIf="bulk.$effects.length">
-                    <cite *ngFor="let effect of bulk.$effects"
-                        [className]="effect.penalty ? 'penalty' : 'bonus'">
-                        {{effect.value}} ({{effect.source}})&nbsp;
-                    </cite>
-                </div>
-                <div class="row">
-                    <cite *ngFor="let feat of get_FeatsShowingOn('Max Bulk')" [title]="(feat.hint) ? feat.hint : feat.desc">{{feat.name}}&nbsp;</cite>
-                    <cite *ngFor="let condition of get_ConditionsShowingOn('Max Bulk')" [className]="(condition.buff) ? 'bonus' : 'penalty'" [title]="condition.desc">{{condition.name}}&nbsp;</cite>
-                </div>
+                value="{{bulk.$current}}" disabled>
+            <div class="row left-aligned" *ngIf="get_ConditionsShowingOn('Bulk').length">
+                <cite [className]="(condition.buff) ? 'bonus' : 'penalty'" *ngFor="let condition of get_ConditionsShowingOn('Bulk')" [title]="condition.desc">{{condition.name}}&nbsp;</cite>
+                <cite class="penalty" *ngIf="bulk.$current > bulk.$max.value" title="You can't carry this much Bulk.">Overencumbered&nbsp;</cite>
             </div>
         </div>
-        <h3>Items</h3>
-        <span [className]="(get_InvestedItems().length > get_maxInvested()) ? 'problem' : ''">Invested: {{get_InvestedItems().length}}/{{get_maxInvested()}}</span>
-        <button class="list-item" (click)="toggleMenu('items')">Get Items</button>
-        <div *ngFor="let itemSet of ['Weapons','Armor','Shields','Worn Items','Alchemical Elixirs']">
-            <h3>{{itemSet}}</h3>
-            <div class="list-item" *ngFor="let item of get_InventoryItems(itemSet)">
-                <strong>{{item.get_Name()}}</strong>&nbsp;<input type="checkbox" [(ngModel)]="item.showName">CN
-                <div class="row" *ngIf="item.showName">
-                    <input type="textarea" class="fullwidth" [(ngModel)]="item.displayName" (blur)="onChange(item)">
+        <div class="list-item">
+            <strong>Encumbrance</strong>
+            <input class="number" type="number"
+            [className]="(bulk.$penalty.length) ? 'penalty' : (bulk.$bonus.length) ? 'bonus' : ''"
+                value="{{bulk.$encumbered.value}}"
+                title="{{bulk.$encumbered.desc}}"
+                disabled>
+            <strong>Maximum</strong>
+            <input class="number" type="number"
+            [className]="(bulk.$penalty.length) ? 'penalty' : (bulk.$bonus.length) ? 'bonus' : ''"
+                value="{{bulk.$max.value}}"
+                title="{{bulk.$max.desc}}"
+                disabled>
+            <div class="row left-aligned">
+                <cite *ngFor="let feat of get_FeatsShowingOn('Max Bulk')" [title]="(feat.hint) ? feat.hint : feat.desc">{{feat.name}}&nbsp;</cite>
+                <cite *ngFor="let condition of get_ConditionsShowingOn('Max Bulk')" [className]="(condition.buff) ? 'bonus' : 'penalty'" [title]="condition.desc">{{condition.name}}&nbsp;</cite>
+                <cite *ngFor="let effect of bulk.$effects"
+                    [className]="effect.penalty ? 'penalty' : 'bonus'">
+                    {{effect.value}} ({{effect.source}})&nbsp;
+                </cite>
+            </div>
+        </div>
+    </div>
+    <h3>Items</h3>
+    <div class="list-item" *ngFor="let maxInvested of [get_maxInvested()]">
+        <strong>Invested</strong><input type="number" class="number" [className]="(get_InvestedItems().length > maxInvested.value) ? 'problem' : ''" [ngModel]="get_InvestedItems().length" disabled>
+        <strong>Max Invested</strong><input type="number" class="number" title="{{maxInvested.explain}}" [className]="(maxInvested.penalty) ? 'penalty' : (maxInvested.bonus) ? 'bonus' : ''" [ngModel]="get_maxInvested().value" disabled>
+        <div class="row left-aligned">
+            <cite *ngFor="let effect of maxInvested.effects" [className]="effect.penalty ? 'penalty' : 'bonus'">{{effect.value}} ({{effect.source}})&nbsp;</cite>
+        </div>
+    </div>
+    
+    <button class="list-item" (click)="toggleMenu('items')">Get Items</button>
+    <div *ngFor="let itemSet of ['Weapons','Armor','Shields','Worn Items','Alchemical Elixirs']">
+        <h3>{{itemSet}}</h3>
+        <div class="list-item" *ngFor="let item of get_InventoryItems(itemSet)">
+            <strong>{{item.get_Name()}}</strong>&nbsp;<input type="checkbox" [(ngModel)]="item.showName">CN
+            <div class="row" *ngIf="item.showName">
+                <input type="textarea fullwidth" class="" [(ngModel)]="item.displayName" (blur)="onChange(item)">
+            </div>
+            <div class="row">{{item.prof}} {{item.group}}
+                <span *ngIf="item.equippable == true">
+                    <input type="checkbox" [(ngModel)]="item.equip" (ngModelChange)="onChange(item)">Equip
+                </span>
+                <span *ngIf="can_Invest(item)">
+                    <input type="checkbox" [(ngModel)]="item.invested" (ngModelChange)="onInvest(item)" [disabled]="get_InvestedItems().length >= get_maxInvested()[0] && !item.invested">Invest
+                </span>
+                <button (click)="drop_InventoryItem(item)">Drop</button>
+            </div>
+            <div class="row left-aligned" *ngIf="item.traits.length">
+                <cite *ngFor="let trait of item.traits" title="{{get_Traits(trait)[0].description}}">&nbsp;{{trait}}</cite>
+            </div>
+            <div class="row">
+                <input type="checkbox" [(ngModel)]="item.showNotes">N
+                <span *ngIf="item.moddable && item.type != 'shield'"><input type="checkbox" [(ngModel)]="item.showRunes">R</span>
+                <span *ngIf="item.moddable"><input type="checkbox" [(ngModel)]="item.showMaterial">M</span>
+                <input type="checkbox" [(ngModel)]="item.showDesc">D
+            </div>
+            <div class="row" *ngIf="item.showNotes">
+                <input type="textarea" class="fullwidth" [(ngModel)]="item.notes">
+            </div>
+            <div class="row" *ngIf="item.showRunes">
+                <div *ngIf="item.moddable=='weapon'"> 
+                    Potency Rune:
+                    <select [(ngModel)]="item.potencyRune" (ngModelChange)="onWeaponRuneChange(item)">
+                        <option *ngFor="let potency of [0,1,2,3]" [value]="potency">{{item.get_Potency(potency)}}</option>
+                    </select><br>
                 </div>
-                <div class="row">{{item.prof}} {{item.group}}
-                    <span *ngIf="item.equippable == true">
-                        <input type="checkbox" [(ngModel)]="item.equip" (ngModelChange)="onChange(item)">Equip
-                    </span>
-                    <span *ngIf="can_Invest(item)">
-                        <input type="checkbox" [(ngModel)]="item.invested" (ngModelChange)="onInvest(item)" [disabled]="get_InvestedItems().length >= get_maxInvested() && !item.invested">Invest
-                    </span>
-                    <button (click)="drop_InventoryItem(item)">Drop</button>
+                <div *ngIf="item.potencyRune > 0 && item.moddable=='weapon'"> 
+                    Striking Rune:
+                    <select [(ngModel)]="item.strikingRune" (ngModelChange)="onWeaponRuneChange(item)">
+                        <option *ngFor="let striking of [0,1,2,3]" [value]="striking">{{item.get_Striking(striking)}}</option>
+                    </select><br>
+                    Property Runes:<br>
+                    <select [(ngModel)]="item.propertyRunes[1]" (ngModelChange)="onWeaponRuneChange(item)" *ngIf="item.potencyRune > 0">
+                        <option *ngFor="let property of []" [value]="property"></option>
+                    </select>
+                    <br *ngIf="item.potencyRune > 1">
+                    <select [(ngModel)]="item.propertyRunes[0]" (ngModelChange)="onWeaponRuneChange(item)" *ngIf="item.potencyRune > 1">
+                        <option *ngFor="let property of []" [value]="property"></option>
+                    </select>
+                    <br *ngIf="item.potencyRune > 2">
+                    <select [(ngModel)]="item.propertyRunes[2]" (ngModelChange)="onWeaponRuneChange(item)" *ngIf="item.potencyRune > 2">
+                        <option *ngFor="let property of []" [value]="property"></option>
+                    </select>
                 </div>
-                <div class="row" *ngIf="item.traits.length">
-                    <cite *ngFor="let trait of item.traits" title="{{get_Traits(trait)[0].description}}">&nbsp;{{trait}}</cite>
+                <div *ngIf="item.moddable=='armor'"> 
+                    Potency Rune:
+                    <select [(ngModel)]="item.potencyRune" (ngModelChange)="onArmorRuneChange(item)">
+                        <option *ngFor="let potency of [0,1,2,3]" [value]="potency">{{item.get_Potency(potency)}}</option>
+                    </select><br>
                 </div>
-                <div class="row">
-                    <input type="checkbox" [(ngModel)]="item.showNotes">N
-                    <span *ngIf="item.moddable && item.type != 'shield'"><input type="checkbox" [(ngModel)]="item.showRunes">R</span>
-                    <span *ngIf="item.moddable"><input type="checkbox" [(ngModel)]="item.showMaterial">M</span>
-                    <input type="checkbox" [(ngModel)]="item.showDesc">D
-                </div>
-                <div class="row" *ngIf="item.showNotes">
-                    <input type="textarea" class="fullwidth" [(ngModel)]="item.notes">
-                </div>
-                <div class="row" *ngIf="item.showRunes">
-                    <div *ngIf="item.moddable=='weapon'"> 
-                        Potency Rune:
-                        <select [(ngModel)]="item.potencyRune" (ngModelChange)="onWeaponRuneChange(item)">
-                            <option *ngFor="let potency of [0,1,2,3]" [value]="potency">{{item.get_Potency(potency)}}</option>
-                        </select><br>
-                    </div>
-                    <div *ngIf="item.potencyRune > 0 && item.moddable=='weapon'"> 
-                        Striking Rune:
-                        <select [(ngModel)]="item.strikingRune" (ngModelChange)="onWeaponRuneChange(item)">
-                            <option *ngFor="let striking of [0,1,2,3]" [value]="striking">{{item.get_Striking(striking)}}</option>
-                        </select><br>
-                        Property Runes:<br>
-                        <select [(ngModel)]="item.propertyRunes[1]" (ngModelChange)="onWeaponRuneChange(item)" *ngIf="item.potencyRune > 0">
-                            <option *ngFor="let property of []" [value]="property"></option>
-                        </select>
-                        <br *ngIf="item.potencyRune > 1">
-                        <select [(ngModel)]="item.propertyRunes[0]" (ngModelChange)="onWeaponRuneChange(item)" *ngIf="item.potencyRune > 1">
-                            <option *ngFor="let property of []" [value]="property"></option>
-                        </select>
-                        <br *ngIf="item.potencyRune > 2">
-                        <select [(ngModel)]="item.propertyRunes[2]" (ngModelChange)="onWeaponRuneChange(item)" *ngIf="item.potencyRune > 2">
-                            <option *ngFor="let property of []" [value]="property"></option>
-                        </select>
-                    </div>
-                    <div *ngIf="item.moddable=='armor'"> 
-                        Potency Rune:
-                        <select [(ngModel)]="item.potencyRune" (ngModelChange)="onArmorRuneChange(item)">
-                            <option *ngFor="let potency of [0,1,2,3]" [value]="potency">{{item.get_Potency(potency)}}</option>
-                        </select><br>
-                    </div>
-                    <div *ngIf="item.potencyRune > 0 && item.moddable=='armor'"> 
-                        Resilient Rune:
-                        <select [(ngModel)]="item.resilientRune" (ngModelChange)="onArmorRuneChange(item)">
-                            <option *ngFor="let resilient of [0,1,2,3]" [value]="resilient">{{item.get_Resilient(resilient)}}</option>
-                        </select><br>
-                        Property Runes:<br>
-                        <select [(ngModel)]="item.propertyRunes[1]" (ngModelChange)="onWeaponRuneChange(item)" *ngIf="item.potencyRune > 0">
-                            <option *ngFor="let property of []" [value]="property"></option>
-                        </select>
-                        <br *ngIf="item.potencyRune > 1">
-                        <select [(ngModel)]="item.propertyRunes[0]" (ngModelChange)="onWeaponRuneChange(item)" *ngIf="item.potencyRune > 1">
-                            <option *ngFor="let property of []" [value]="property"></option>
-                        </select>
-                        <br *ngIf="item.potencyRune > 2">
-                        <select [(ngModel)]="item.propertyRunes[2]" (ngModelChange)="onWeaponRuneChange(item)" *ngIf="item.potencyRune > 2">
-                            <option *ngFor="let property of []" [value]="property"></option>
-                        </select>
-                    </div>
+                <div *ngIf="item.potencyRune > 0 && item.moddable=='armor'"> 
+                    Resilient Rune:
+                    <select [(ngModel)]="item.resilientRune" (ngModelChange)="onArmorRuneChange(item)">
+                        <option *ngFor="let resilient of [0,1,2,3]" [value]="resilient">{{item.get_Resilient(resilient)}}</option>
+                    </select><br>
+                    Property Runes:<br>
+                    <select [(ngModel)]="item.propertyRunes[1]" (ngModelChange)="onWeaponRuneChange(item)" *ngIf="item.potencyRune > 0">
+                        <option *ngFor="let property of []" [value]="property"></option>
+                    </select>
+                    <br *ngIf="item.potencyRune > 1">
+                    <select [(ngModel)]="item.propertyRunes[0]" (ngModelChange)="onWeaponRuneChange(item)" *ngIf="item.potencyRune > 1">
+                        <option *ngFor="let property of []" [value]="property"></option>
+                    </select>
+                    <br *ngIf="item.potencyRune > 2">
+                    <select [(ngModel)]="item.propertyRunes[2]" (ngModelChange)="onWeaponRuneChange(item)" *ngIf="item.potencyRune > 2">
+                        <option *ngFor="let property of []" [value]="property"></option>
+                    </select>
                 </div>
             </div>
         </div>

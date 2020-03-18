@@ -6,7 +6,6 @@ import { CharacterSheetComponent } from './character-sheet/character-sheet.compo
 
 const routes: Routes = [
    { path: '', component: CharacterSheetComponent },
-   { path: 'itemstore', component: ItemsComponent },
 ];
 
 @NgModule({

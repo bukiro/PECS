@@ -1844,10 +1844,9 @@
                 "value": 16
             }
         ],
-        "showon": "Worn Items",
         "effects": [
             {
-                "affected": "Invest",
+                "affected": "Max Invested",
                 "value": "+2"
             }
         ],

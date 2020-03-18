@@ -6,6 +6,7 @@ import { EffectsService } from '../effects.service';
 import { Weapon } from '../Weapon';
 import { Armor } from '../Armor';
 import { ConditionGain } from '../ConditionGain';
+import { Effect } from '../Effect';
 
 @Component({
     selector: 'app-inventory',
@@ -78,12 +79,31 @@ export class InventoryComponent implements OnInit {
         return (item.traits.indexOf("Invested") > -1);
     }
 
+    get_EffectsOnThis(name: string) {
+        return this.effectsService.get_EffectsOnThis(name)
+    }
+
     get_maxInvested() {
         let maxInvest = 10;
-        this.effectsService.get_EffectsOnThis("Invest").forEach(effect => {
+        let effects: Effect[] = [];
+        let penalty: boolean = false;
+        let bonus: boolean = false;
+        let explain: string = "Base limit: 10"
+        this.get_EffectsOnThis("Max Invested").forEach(effect => {
             maxInvest += parseInt(effect.value);
+            if (parseInt(effect.value) < 0) {
+                penalty = true;
+            } else {
+                bonus = true;
+            }
+            explain += "\n"+effect.source+": "+effect.value;
+            effects.push(effect);
         });
-        return maxInvest;
+        return {value:maxInvest, explain:explain, effects:effects, penalty:penalty, bonus:bonus};
+    }
+
+    test(object) {
+        return object;
     }
 
     get_InvestedItems() {

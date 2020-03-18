@@ -49,7 +49,7 @@
                                 <button class="button" (click)="toggle_Item(choice.id+spell.name+'desc')">
                                     Show Description
                                 </button>
-                                <div *ngIf="this.get_showItem()==choice.id+spell.name+'desc'" class="row">
+                                <div class="row left-aligned" *ngIf="this.get_showItem()==choice.id+spell.name+'desc'">
                                     <cite *ngFor="let trait of spell.traits">
                                         {{trait}}&nbsp;
                                     </cite>

@@ -30,7 +30,7 @@
   }
 
   router-outlet + *  {
-    padding: 0 16px;
+    padding: 0;
   }
   
   /* Text */
@@ -82,7 +82,7 @@
   }
 
   label {
-    display: inherit;
+    display: inline-flex;
   }
 
   /* Button */
@@ -160,7 +160,7 @@
   }
 
   .attributeBox {
-    width: 450px;
+    width: calc(25% - 16px);
     height: 450px;
     overflow-y: auto;
     display: flex;
@@ -183,10 +183,18 @@
     background-color: #EFEFEF;
   }
 
+  .topBox {
+    width: 100%;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 16px 32px;
+    background-color: #EFEFEF;
+  }
+
   .list-item {
     width: 100%;
-    min-width: 350px;
-    max-width: 400px;
     position: relative;
     display: flex;
     flex-wrap: wrap;
@@ -197,6 +205,13 @@
     border-radius: 2px;
     background-color: #E0E0E0;
   }
+
+
+  button.list-item {
+    background-color: #1976d2;
+    color: white;
+  }
+
 
   .list-item.lower {
     padding: 4px 8px;
@@ -216,7 +231,7 @@
     top: 36px;
     width: 338px;
     min-width: initial;
-    max-height: initial;
+    max-height: 450px;
     overflow-y: auto;
     padding: 4px;
     z-index: 100;
@@ -224,22 +239,22 @@
 
   .itemBox .list-item.sublist {
     width: 788px;
-    min-width: initial;
-    max-height: initial;
     padding: 0px;
   }
 
   .itemBox .list-item.sublist.fancy-list {
     border-color: white;
   }
-  
-  .list-item button {
-    margin-left: auto;
-  }
 
+  button:hover ~ .list-item.sublist {
+    border-color: rgba(25, 118, 210, 0.8);
+  }
+  button:hover ~ .list-item.sublist.fancy-list {
+    border-color: rgba(255, 255, 255, 0.8);
+  }
+  
   .itemBox .list-item {
     max-width: 900px;
-    justify-content: flex-start;
   }
 
   .itemBox .fancybutton.list-item {
@@ -253,10 +268,45 @@
   .row {
     flex-basis: 100%;
     clear: both;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-between;
+  }
+
+  .left-aligned {
+    justify-content: flex-start;
+  }
+
+  .center-aligned {
+    justify-content: center;
   }
 
   .fullwidth {
     width: 100%;
+  }
+
+  .turn-indicator {
+    display: flex;
+    justify-content: center;
+    width: 12em;
+  }
+  
+  .turn-indicator strong {
+    align-items: center;
+    text-align: center;
+    padding: 6px 16px;
+  }
+
+  .turn-indicator strong.yourTurn {
+    font-size: 2em;
+    color: green;
+    padding: 0px;
+    margin-top: -.1em;
+    margin-bottom: -.1em;
+    animation-name: turnaltrclr;
+    animation-duration: 2s;
+    -webkit-animation: turnaltrclr 2s infinite;  
   }
 
   .bonus {
@@ -310,7 +360,6 @@
     background-color: #bbbbbb;
     padding: 1px;
     margin: 0 2px auto 2px;
-    float: left;
   }
   
   cite.penalty, cite.bonus {
@@ -333,6 +382,23 @@
   25%{
     color:#EFEFEF;
   }
+}
+
+@-webkit-keyframes turnaltrclr{
+  0%{
+    color:green;
+  }
+  25%{
+    color:#E0E0E0;
+  }
+}
+@keyframes turnaltrclr{
+0%{
+  color:green;
+}
+25%{
+  color:#E0E0E0;
+}
 }
 
 

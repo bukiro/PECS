@@ -1,13 +1,11 @@
-<div id="skills" class="attributeBox">
-    <div class="loading" *ngIf="still_loading()">Loading</div>
-    <div *ngIf="!still_loading()">
-        <h3>Perception</h3>
-        <div *ngFor="let skill of get_Skills('', 'Perception')|sortBy:'asc':'name'">
-            <app-skill class="list-item" [skill]=skill></app-skill>
-        </div>
-        <h3>Skills</h3>
-        <div *ngFor="let skill of get_Skills('', 'Skill')|sortBy:'asc':'name'">
-            <app-skill class="list-item" [skill]=skill></app-skill>
-        </div>
+<div class="loading" *ngIf="still_loading()">Loading</div>
+<div *ngIf="!still_loading()">
+    <h3>Perception</h3>
+    <div *ngFor="let skill of get_Skills('', 'Perception')|sortBy:'asc':'name'">
+        <app-skill class="list-item" [skill]=skill></app-skill>
+    </div>
+    <h3>Skills</h3>
+    <div *ngFor="let skill of get_Skills('', 'Skill')|sortBy:'asc':'name'">
+        <app-skill class="list-item" [skill]=skill></app-skill>
     </div>
 </div>

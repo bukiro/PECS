@@ -217,7 +217,7 @@ export class CharacterService {
     }
 
     get_InvestedItems() {
-        return this.me.inventory.all().filter(item => item.invested)
+        return this.me.inventory.allEquipment().filter(item => item.invested)
     }
 
     create_AdvancedWeaponFeats(advancedWeapons: Weapon[]) {

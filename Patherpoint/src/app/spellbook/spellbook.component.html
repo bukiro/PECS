@@ -1,34 +1,32 @@
-<div id="spellbook" class="attributeBox">
-    <h3>Inventory</h3>
-    <div class="loading" *ngIf="still_loading()">Loading</div>
-    <div *ngIf="!still_loading()">
-        <h3>Items</h3>
-        <button class="list-item" (click)="toggleSpellsMenu()">Get Spells</button>
-        <h3>Focus Spells</h3>
-        <div class="list-item row" [className]="(get_FocusPoints() > get_MaxFocusPoints()) ? 'problem' : ''">Focus Points: {{get_FocusPoints()}}/{{get_MaxFocusPoints()}}
-            <button class="button" (click)="refocus()" [disabled]="get_FocusPoints() >= get_MaxFocusPoints()">
-                Refocus
-            </button>
-        </div>
-        <div *ngFor="let spellGain of get_FocusSpells()">
-            <div class="list-item" *ngFor="let spell of get_Spells(spellGain.name)">
-                <button class="row button" (click)="toggle_Spell('Focus'+spell.name)">{{spell.name}} {{spell.get_Action()}}{{spell.cast}}</button>
-                <div class="list-item sublist lower row" *ngIf="this.get_showSpell()=='Focus'+spell.name">
-                    <div class="row" *ngIf="spell.traits.length">
-                        <cite *ngFor="let trait of spell.traits" title="{{get_Traits(trait)[0].description}}">&nbsp;{{trait}}</cite>
-                    </div>
-                    <div class="row">
-                        <button class="row button" (click)="on_Cast(spellGain, spell)" *ngIf="spell.can_Cast(characterService, spellGain)">
-                            Cast
-                        </button>
-                        <p *ngIf="get_SpellDescription(spell).length">
-                            <span [className]="(desc.type == 'variable') ? 'variable' : ''" *ngFor="let desc of get_SpellDescription(spell)">{{desc.value}}</span>
-                        </p>
-                        <p *ngIf="spell.heightenedLevel">
-                            <strong>Heightened {{spell.heightenedLevel}}</strong>
-                            {{spell.heightened}}
-                        </p>
-                    </div>
+<h3>Inventory</h3>
+<div class="loading" *ngIf="still_loading()">Loading</div>
+<div *ngIf="!still_loading()">
+    <h3>Items</h3>
+    <button class="list-item" (click)="toggleSpellsMenu()">Get Spells</button>
+    <h3>Focus Spells</h3>
+    <div class="list-item row" [className]="(get_FocusPoints() > get_MaxFocusPoints()) ? 'problem' : ''">Focus Points: {{get_FocusPoints()}}/{{get_MaxFocusPoints()}}
+        <button class="button" (click)="refocus()" [disabled]="get_FocusPoints() >= get_MaxFocusPoints()">
+            Refocus
+        </button>
+    </div>
+    <div *ngFor="let spellGain of get_FocusSpells()">
+        <div class="list-item" *ngFor="let spell of get_Spells(spellGain.name)">
+            <button class="row button" (click)="toggle_Spell('Focus'+spell.name)">{{spell.name}} {{spell.get_Action()}}{{spell.cast}}</button>
+            <div class="list-item sublist lower row" *ngIf="this.get_showSpell()=='Focus'+spell.name">
+                <div class="row left-aligned" *ngIf="spell.traits.length">
+                    <cite *ngFor="let trait of spell.traits" title="{{get_Traits(trait)[0].description}}">&nbsp;{{trait}}</cite>
+                </div>
+                <div class="row">
+                    <button class="row button" (click)="on_Cast(spellGain, spell)" *ngIf="spell.can_Cast(characterService, spellGain)">
+                        Cast
+                    </button>
+                    <p *ngIf="get_SpellDescription(spell).length">
+                        <span [className]="(desc.type == 'variable') ? 'variable' : ''" *ngFor="let desc of get_SpellDescription(spell)">{{desc.value}}</span>
+                    </p>
+                    <p *ngIf="spell.heightenedLevel">
+                        <strong>Heightened {{spell.heightenedLevel}}</strong>
+                        {{spell.heightened}}
+                    </p>
                 </div>
             </div>
         </div>

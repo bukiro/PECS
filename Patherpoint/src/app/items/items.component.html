@@ -6,7 +6,7 @@
         <div class="list-item" *ngFor="let weapon of get_Weapons()">
             <strong>{{weapon.name}}</strong>&nbsp;{{weapon.prof}} Weapon
             <button (click)="grant_Item(weapon)">Get</button>
-            <div class="row" *ngIf="weapon.traits.length">
+            <div class="row left-aligned" *ngIf="weapon.traits.length">
                 <cite *ngFor="let trait of weapon.traits" title="{{get_Traits(trait)[0].description}}">&nbsp;{{trait}}</cite>
             </div>
         </div>
@@ -16,7 +16,7 @@
         <div class="list-item" *ngFor="let armor of get_Armors()">
             <strong>{{armor.name}}</strong>&nbsp;{{armor.prof}}{{(armor.prof != "Unarmored") ? " Armor" : ""}}
             <button (click)="grant_Item(armor)">Get</button>
-            <div class="row" *ngIf="armor.traits.length">
+            <div class="row left-aligned" *ngIf="armor.traits.length">
                 <cite *ngFor="let trait of armor.traits" title="{{get_Traits(trait)[0].description}}">&nbsp;{{trait}}</cite>
             </div>
         </div>
@@ -26,7 +26,7 @@
         <div class="list-item" *ngFor="let shield of get_Shields()">
             <strong>{{shield.name}}</strong>
             <button (click)="grant_Item(shield)">Get</button>
-            <div class="row" *ngIf="shield.traits.length">
+            <div class="row left-aligned" *ngIf="shield.traits.length">
                 <cite *ngFor="let trait of shield.traits" title="{{get_Traits(trait)[0].description}}">&nbsp;{{trait}}</cite>
             </div>
         </div>
@@ -36,7 +36,7 @@
         <div class="list-item" *ngFor="let wornItem of get_WornItems()">
             <strong>{{wornItem.name}}</strong>
             <button (click)="grant_Item(wornItem)">Get</button>
-            <div class="row" *ngIf="wornItem.traits.length">
+            <div class="row left-aligned" *ngIf="wornItem.traits.length">
                 <cite *ngFor="let trait of wornItem.traits" title="{{get_Traits(trait)[0].description}}">&nbsp;{{trait}}</cite>
             </div>
         </div>
@@ -46,7 +46,7 @@
         <div class="list-item" *ngFor="let alchemicalElixir of get_AlchemicalElixirs()">
             <strong>{{alchemicalElixir.name}}</strong>
             <button (click)="grant_Item(alchemicalElixir)">Get</button>
-            <div class="row" *ngIf="alchemicalElixir.traits.length">
+            <div class="row left-aligned" *ngIf="alchemicalElixir.traits.length">
                 <cite *ngFor="let trait of alchemicalElixir.traits" title="{{get_Traits(trait)[0].description}}">&nbsp;{{trait}}</cite>
             </div>
         </div>

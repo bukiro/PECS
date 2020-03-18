@@ -3,5 +3,6 @@ export interface Consumable {
     type: string;
     name: string;
     bulk: string;
+    stack: number;
     traits: string[];
 }

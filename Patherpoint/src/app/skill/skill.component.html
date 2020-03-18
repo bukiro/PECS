@@ -11,7 +11,7 @@
             title="{{((isDC) ? 'DC basis: 10\n' : '')+skill.value(this.characterService,this.abilitiesService,this.effectsService)[1]}}"
             value="{{skill.value(this.characterService,this.abilitiesService,this.effectsService)[0] + ((isDC) ? 10 : 0)}}" disabled>
         </span>
-    <div class="row">
+    <div class="row left-aligned">
         <cite *ngFor="let trait of get_TraitsForThis(skill.name)" [title]="trait.description">{{trait.name}} ({{trait.haveOn(this.characterService, true)}})&nbsp;</cite>
         <div *ngFor="let name of get_specialShowon(skill)"><cite *ngFor="let feat of get_FeatsShowingOn(name)" [title]="(feat.hint) ? feat.hint : feat.desc">{{feat.name}}&nbsp;</cite></div>
         <cite *ngFor="let feat of get_FeatsShowingOn(skill.name)" [title]="(feat.hint) ? feat.hint : feat.desc">{{feat.name}}&nbsp;</cite>
@@ -20,7 +20,7 @@
         <cite *ngFor="let effect of get_EffectsOnThis(skill.name)" [className]="effect.penalty ? 'penalty' : 'bonus'">{{effect.value}} ({{effect.source}})&nbsp;</cite>
     </div>
     <div class="row">
-        <input type="checkbox" [(ngModel)]="skill.showNotes">Notes
+        <span><input type="checkbox" [(ngModel)]="skill.showNotes">Notes</span>
     </div>
     <div class="row">
         <input type="textarea" class="fullwidth" [(ngModel)]="skill.notes" *ngIf="skill.showNotes">

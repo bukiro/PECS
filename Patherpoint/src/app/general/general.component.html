@@ -1,64 +1,62 @@
-<div id="General" class="attributeBox">
-    <h3>General information</h3>
-    <div class="loading" *ngIf="still_loading()">Loading</div>
-    <div *ngIf="!still_loading()">
+<h3>General information</h3>
+<div class="loading" *ngIf="still_loading()">Loading</div>
+<div *ngIf="!still_loading()">
+    <div class="list-item">
+        <strong>Character Name</strong>
+        {{get_Character().name}}
+    </div>
+    <div class="list-item" *ngIf="get_Character().class.ancestry.name">
+        <strong>Ancestry:</strong>
+        {{get_Character().class.ancestry.name}}{{(get_Character().class.heritage.name) ? " - " + get_Character().class.heritage.name : ""}}
+        <div class="row left-aligned" *ngIf="get_Character().class.ancestry.traits.length">
+            <cite *ngFor="let trait of get_Character().class.ancestry.traits">{{trait}}&nbsp;</cite>
+        </div>
+    </div>
+    <div class="list-item" *ngIf="get_Character().class.ancestry.name">
+        <strong>Available Ancestry Feats:</strong>
+        <div class="row left-aligned" *ngIf="get_Character().class.ancestry.ancestries.length">
+            <cite *ngFor="let trait of get_Character().class.ancestry.ancestries">{{trait}}&nbsp;</cite>
+        </div>
+    </div>
+    <div class="list-item" *ngIf="get_Character().class.background.name">
+        <strong>Background:</strong>
+        {{get_Character().class.background.name}}
+    </div>
+    <div class="list-item" *ngIf="get_Character().class.name">
+        <strong>Class:</strong>
+        {{get_Character().class.name}}
+    </div>
+    <div class="list-item" *ngIf="get_Character().deity.length">
+        <strong>Deity:</strong>
+        {{get_Character().deity}}
+    </div>
+    <div class="list-item" *ngFor="let feat of get_DifferentWorldsFeat()">
+        <strong>Alternative Identity (Different Worlds):</strong>
+        {{feat.data.name}} {{(feat.data.background) ? "("+feat.data.background+")" : ""}}
+    </div>
+    <h3>Class DC:</h3>
+    <div *ngFor="let skill of get_ClassDCs()">
+        <app-skill class="list-item" [skill]=skill [isDC]=true></app-skill>
+    </div>
+    <h3>Movement:</h3>
+    <div *ngFor="let speed of get_Speeds()">
         <div class="list-item">
-            <strong>Character Name</strong>
-            {{get_Character().name}}
-        </div>
-        <div class="list-item" *ngIf="get_Character().class.ancestry.name">
-            <strong>Ancestry:</strong>
-            {{get_Character().class.ancestry.name}}{{(get_Character().class.heritage.name) ? " - " + get_Character().class.heritage.name : ""}}
-            <div class="row" *ngIf="get_Character().class.ancestry.traits.length">
-                <cite *ngFor="let trait of get_Character().class.ancestry.traits">{{trait}}&nbsp;</cite>
+            <div>
+                <strong>{{(speed.name=="Speed") ? "All Speeds" : speed.name}}</strong>
+            </div>
+            <div>
+                Value: <input class="number" title="{{speed.value(characterService, effectsService)[1]}}" [className]="(speed.penalty(effectsService).length) ? 'penalty' : (speed.bonus(effectsService).length) ? 'bonus' : ''" type="number" value="{{speed.value(characterService, effectsService)[0]}}" disabled>
+            </div>
+            <div class="row left-aligned">
+                <cite *ngFor="let trait of get_TraitsForThis(speed.name)" title="{{trait.description}}">{{trait.name}} ({{trait.haveOn(this.characterService, true)}})&nbsp;</cite>
+                <cite *ngFor="let effect of get_EffectsOnThis(speed.name)" [className]="effect.penalty ? 'penalty' : 'bonus'">{{effect.value}} ({{effect.source}})&nbsp;</cite>
+                <cite *ngFor="let feat of get_FeatsShowingOn(speed.name)" [title]="(feat.hint) ? feat.hint : feat.desc">{{feat.name}}&nbsp;</cite>
+                <cite *ngFor="let condition of get_ConditionsShowingOn(speed.name)" [className]="(condition.buff) ? 'bonus' : 'penalty'" [title]="condition.desc">{{condition.name}}&nbsp;</cite>
             </div>
         </div>
-        <div class="list-item" *ngIf="get_Character().class.ancestry.name">
-            <strong>Available Ancestry Feats:</strong>
-            <div class="row" *ngIf="get_Character().class.ancestry.ancestries.length">
-                <cite *ngFor="let trait of get_Character().class.ancestry.ancestries">{{trait}}&nbsp;</cite>
-            </div>
-        </div>
-        <div class="list-item" *ngIf="get_Character().class.background.name">
-            <strong>Background:</strong>
-            {{get_Character().class.background.name}}
-        </div>
-        <div class="list-item" *ngIf="get_Character().class.name">
-            <strong>Class:</strong>
-            {{get_Character().class.name}}
-        </div>
-        <div class="list-item" *ngIf="get_Character().deity.length">
-            <strong>Deity:</strong>
-            {{get_Character().deity}}
-        </div>
-        <div class="list-item" *ngFor="let feat of get_DifferentWorldsFeat()">
-            <strong>Alternative Identity (Different Worlds):</strong>
-            {{feat.data.name}} {{(feat.data.background) ? "("+feat.data.background+")" : ""}}
-        </div>
-        <h3>Class DC:</h3>
-        <div *ngFor="let skill of get_ClassDCs()">
-            <app-skill class="list-item" [skill]=skill [isDC]=true></app-skill>
-        </div>
-        <h3>Movement:</h3>
-        <div *ngFor="let speed of get_Speeds()">
-            <div class="list-item">
-                <div>
-                    <strong>{{(speed.name=="Speed") ? "All Speeds" : speed.name}}</strong>
-                </div>
-                <div>
-                    Value: <input class="number" title="{{speed.value(characterService, effectsService)[1]}}" [className]="(speed.penalty(effectsService).length) ? 'penalty' : (speed.bonus(effectsService).length) ? 'bonus' : ''" type="number" value="{{speed.value(characterService, effectsService)[0]}}" disabled>
-                </div>
-                <div class="row">
-                    <cite *ngFor="let trait of get_TraitsForThis(speed.name)" title="{{trait.description}}">{{trait.name}} ({{trait.haveOn(this.characterService, true)}})&nbsp;</cite>
-                    <cite *ngFor="let effect of get_EffectsOnThis(speed.name)" [className]="effect.penalty ? 'penalty' : 'bonus'">{{effect.value}} ({{effect.source}})&nbsp;</cite>
-                    <cite *ngFor="let feat of get_FeatsShowingOn(speed.name)" [title]="(feat.hint) ? feat.hint : feat.desc">{{feat.name}}&nbsp;</cite>
-                    <cite *ngFor="let condition of get_ConditionsShowingOn(speed.name)" [className]="(condition.buff) ? 'bonus' : 'penalty'" [title]="condition.desc">{{condition.name}}&nbsp;</cite>
-                </div>
-            </div>
-        </div>
-        <div class="row">
-            <cite *ngFor="let feat of get_FeatsShowingOn('Movement')" [title]="(feat.hint) ? feat.hint : feat.desc">{{feat.name}}&nbsp;</cite>
-            <cite *ngFor="let condition of get_ConditionsShowingOn('Movement')" [className]="(condition.buff) ? 'bonus' : 'penalty'" [title]="condition.desc">{{condition.name}}&nbsp;</cite>
-        </div>
+    </div>
+    <div class="row left-aligned">
+        <cite *ngFor="let feat of get_FeatsShowingOn('Movement')" [title]="(feat.hint) ? feat.hint : feat.desc">{{feat.name}}&nbsp;</cite>
+        <cite *ngFor="let condition of get_ConditionsShowingOn('Movement')" [className]="(condition.buff) ? 'bonus' : 'penalty'" [title]="condition.desc">{{condition.name}}&nbsp;</cite>
     </div>
 </div>

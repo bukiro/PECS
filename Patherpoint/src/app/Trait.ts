@@ -7,7 +7,7 @@ export class Trait {
     public specialModifier: string[] = [];
     haveOn(characterService: CharacterService, namesOnly: boolean = false) { 
         let inventory = characterService.get_InventoryItems();
-        let items: any[] = [].concat(inventory.all());
+        let items: any[] = [].concat(inventory.allEquipment());
         let filteredItems = items.filter(item => item.equip && item.traits.indexOf(this.name) > -1 );
         if (namesOnly) {
             let filteredNames: string[] = [];

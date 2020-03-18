@@ -83,7 +83,7 @@ constructor(
         let simpleEffects: Effect[] = [];
         let items = characterService.get_InventoryItems();
         //Create simple effects from all equipped items first
-        items.all().filter(item => item.invested && item.effects).forEach(item => {
+        items.allEquipment().filter(item => item.invested && (item.effects || item.specialEffects)).forEach(item => {
             simpleEffects = simpleEffects.concat(this.get_SimpleEffects(characterService, item));
             });
         let character = characterService.get_Character();

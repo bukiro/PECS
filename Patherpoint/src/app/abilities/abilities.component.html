@@ -1,4 +1,4 @@
-<div id="abilities" class="attributeBox">
+<div>
     <h3>Abilities</h3>
     <div class="loading" *ngIf="still_loading()">Loading</div>
     <div *ngIf="!still_loading()">
@@ -10,7 +10,7 @@
             Modifier: <input class="number" type="number"
                 [className]="(ability.penalty(this.effectsService) < 0) ? 'penalty' : (ability.bonus(this.effectsService) > 0) ? 'bonus' : ''"
                 value="{{ability.mod(this.characterService, this.effectsService)}}" disabled>
-            <div class="row">
+            <div class="row left-aligned">
                 <cite *ngFor="let condition of get_ConditionsShowingOn(ability.name)" [className]="(condition.buff) ? 'bonus' : 'penalty'" [title]="condition.desc">{{condition.name}}&nbsp;</cite>
                 <cite *ngFor="let effect of ability.effects(this.effectsService)" [className]="effect.penalty ? 'penalty' : 'bonus'">{{effect.value}} ({{effect.source}})&nbsp;</cite>
             </div>

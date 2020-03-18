@@ -6,16 +6,16 @@
         <div class="list-item">
             <div class="row">
                 <button (click)="add_Duration(-1)">{{(get_Duration() == "Permanent") ? "Permanent" : "Reset"}}</button>
-                <button (click)="add_Duration(10)">+1 Turn</button>
-                <button (click)="add_Duration(50)">+5 Turns</button>
-                <button (click)="add_Duration(100)">+1 Min</button>
-                <button (click)="add_Duration(500)">+5 Min</button>
-                <button (click)="add_Duration(1000)">+10 Min</button>
-                <button (click)="add_Duration(6000)">+1 Hour</button>
-                <button (click)="add_Duration(48000)">+8 Hours</button>
-                <button (click)="add_Duration(144000)">+1 Day</button>
+                <button (click)="add_Duration(10)">{{(get_Duration() == "Permanent") ? "" : "+"}}1 Turn</button>
+                <button (click)="add_Duration(50)">{{(get_Duration() == "Permanent") ? "" : "+"}}5 Turns</button>
+                <button (click)="add_Duration(100)">{{(get_Duration() == "Permanent") ? "" : "+"}}1 Min</button>
+                <button (click)="add_Duration(500)">{{(get_Duration() == "Permanent") ? "" : "+"}}5 Min</button>
+                <button (click)="add_Duration(1000)">{{(get_Duration() == "Permanent") ? "" : "+"}}10 Min</button>
+                <button (click)="add_Duration(6000)">{{(get_Duration() == "Permanent") ? "" : "+"}}1 Hour</button>
+                <button (click)="add_Duration(48000)">{{(get_Duration() == "Permanent") ? "" : "+"}}8 Hours</button>
+                <button (click)="add_Duration(144000)">{{(get_Duration() == "Permanent") ? "" : "+"}}1 Day</button>
             </div>
-            <div class="row">
+            <div class="row left-aligned">
                 End on:<br>
                 <input type="radio" [(ngModel)]="endOn" [value]="5">Turn Start<br>
                 <input type="radio" [(ngModel)]="endOn" [value]="0">Turn End
