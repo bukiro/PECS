@@ -67,16 +67,16 @@ export class AttacksComponent implements OnInit {
     get_Attacks(weapon: Weapon) {
         let attacks = []
         if (weapon.melee) {
-            attacks.push(weapon.get_Attack(this.characterService, this.effectsService, 'melee'));
+            attacks.push(weapon.attack(this.characterService, this.effectsService, 'melee'));
         }
         if (weapon.ranged) {
-            attacks.push(weapon.get_Attack(this.characterService, this.effectsService, 'ranged'));
+            attacks.push(weapon.attack(this.characterService, this.effectsService, 'ranged'));
         }
         return attacks;
     }
 
     get_Damage(weapon: Weapon, range: string) {
-        return weapon.get_Damage(this.characterService, this.effectsService, range);
+        return weapon.damage(this.characterService, this.effectsService, range);
     }
 
     finish_Loading() {

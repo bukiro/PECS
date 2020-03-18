@@ -8,6 +8,8 @@ import { Armor } from '../Armor';
 import { ConditionGain } from '../ConditionGain';
 import { ConditionsService } from '../Conditions.service';
 import { Condition } from '../Condition';
+import { platformBrowserDynamicTesting } from '@angular/platform-browser-dynamic/testing';
+import { TimeService } from '../time.service';
 
 @Component({
     selector: 'app-conditions',
@@ -17,7 +19,9 @@ import { Condition } from '../Condition';
 })
 export class ConditionsComponent implements OnInit {
 
+    public endOn: number = 0;
     public value: number = 1;
+    public duration: string = "Permanent";
     public showList: string = "";
     public showItem: string = "";
 
@@ -25,7 +29,8 @@ export class ConditionsComponent implements OnInit {
         private changeDetector: ChangeDetectorRef,
         private characterService: CharacterService,
         private traitsService: TraitsService,
-        private conditionsService: ConditionsService
+        private conditionsService: ConditionsService,
+        private timeService: TimeService
     ) { }
 
     toggleList(type) {
@@ -46,6 +51,10 @@ export class ConditionsComponent implements OnInit {
     
     get_ShowList() {
         return this.showList;
+    }
+
+    get_EndOn() {
+        return this.endOn;
     }
 
     get_ShowItem() {
@@ -77,10 +86,54 @@ export class ConditionsComponent implements OnInit {
         return this.conditionsService.get_Conditions(name, type);
     }
 
-    add_Condition(condition: Condition, duration: number) {
+    add_Duration(turns: number) {
+        if (turns == -1) {
+            this.duration = "Permanent";
+        } else {
+            if (this.duration == "Permanent") {
+                this.duration = turns.toString();
+            } else {
+                this.duration = (parseInt(this.duration) + turns).toString();
+            }
+        }
+        this.characterService.set_Changed();
+    }
+
+    get_Duration() {
+        if (this.duration == "Permanent") {
+            return this.duration;
+        } else {
+            let duration = parseInt(this.duration);
+            let returnString: string = ""
+            if (duration / 144000 >= 1) {
+                returnString += Math.floor(duration / 144000)+" Days"
+                duration %= 144000;
+            }
+            if (duration / 6000 >= 1) {
+                returnString += " "+Math.floor(duration / 6000)+" Hours"
+                duration %= 6000;
+            }
+            if (duration / 100 >= 1) {
+                returnString += " "+Math.floor(duration / 100)+" Minutes"
+                duration %= 100;
+            }
+            if (duration >= 10) {
+                returnString += " "+Math.floor(duration / 10)+" Turns"
+                duration %= 10;
+            }
+            return returnString;
+        }
+    }
+
+    add_Condition(condition: Condition) {
         let newGain = new ConditionGain();
         newGain.name = condition.name;
-        newGain.duration = duration;
+        newGain.decreasingValue = condition.decreasingValue;
+        if (this.duration == "Permanent") {
+            newGain.duration = -1;
+        } else {
+            newGain.duration = parseInt(this.duration) + ((this.endOn + this.timeService.get_YourTurn()) % 10);
+        }
         if (condition.hasValue) {
             newGain.value = this.value;
         }

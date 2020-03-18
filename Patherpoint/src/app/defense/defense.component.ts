@@ -32,8 +32,9 @@ export class DefenseComponent implements OnInit {
         return this.defenseService.get_AC();
     }
 
-    get_EffectiveAC() {
-        return this.defenseService.get_EffectiveAC();
+    get_CalculatedAC() {
+        this.get_AC().calculate(this.characterService, this.defenseService, this.effectsService);;
+        return this.get_AC();
     }
 
     get_EquippedArmor() {

@@ -21,10 +21,6 @@ export class DefenseService {
         return this.AC;
     }
 
-    get_EffectiveAC() {
-        return this.AC.value(this.characterService, this, this.effectsService);
-    }
-
     get_EquippedArmor() {
         let armor = this.characterService.get_InventoryItems().armors;
         return armor.filter(armor => armor.equip);

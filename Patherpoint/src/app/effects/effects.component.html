@@ -3,7 +3,10 @@
         <h3>Active Conditions</h3>
         <div class="list-item" *ngFor="let conditionGain of get_AppliedConditions(true)">
             <div class="row">
-                <span><strong [className]="conditionGain.buff ? 'bonus' : 'penalty'" title="{{conditionGain.source}}">{{conditionGain.name}} {{(conditionGain.value) ? conditionGain.value : ""}}</strong> {{(conditionGain.duration != -1) ? conditionGain.duration + " turns" : "permanent"}} ({{conditionGain.source}})</span>
+                <span><strong [className]="conditionGain.buff ? 'bonus' : 'penalty'" title="{{conditionGain.source}}">{{conditionGain.name}} {{(conditionGain.value) ? conditionGain.value : ""}}</strong> ({{conditionGain.source}})</span>
+            </div>
+            <div class="row">
+                <span>{{get_Duration(conditionGain.duration)}}</span>
             </div>
             <div *ngFor="let condition of [get_Conditions(conditionGain.name)[0]]">
                 <div class="list-item lower row problem" *ngIf="condition.inputRequired">
@@ -39,7 +42,7 @@
     <div *ngIf="showNotApplied">
         <h3>Not Applied Conditions</h3>
         <div class="list-item notapplied" *ngFor="let conditionGain of get_AppliedConditions(false)">
-            <span><strong [className]="conditionGain.buff ? 'bonus' : 'penalty'" title="{{conditionGain.source}}">{{conditionGain.name}} {{(conditionGain.value) ? conditionGain.value : ""}}</strong> {{(conditionGain.duration != -1) ? conditionGain.duration + " turns" : "permanent"}} ({{conditionGain.source}})</span>
+            <span><strong [className]="conditionGain.buff ? 'bonus' : 'penalty'" title="{{conditionGain.source}}">{{conditionGain.name}} {{(conditionGain.value) ? conditionGain.value : ""}}</strong> {{(conditionGain.duration != -1) ? conditionGain.duration / 10 + " turns" : "permanent"}} ({{conditionGain.source}})</span>
             <div *ngFor="let condition of [get_Conditions(conditionGain.name)[0]]">
                 <div class="row">
                     <button class="button" (click)="toggle_Item(conditionGain.name+conditionGain.source+conditionGain.value+conditionGain.duration+'notapplied')">

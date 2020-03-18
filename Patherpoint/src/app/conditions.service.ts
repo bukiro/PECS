@@ -46,9 +46,9 @@ export class ConditionsService {
             });
             activeConditions.forEach(gain => {
                 let condition = this.get_Conditions(gain.name)[0];
-                //Mark any conditions for deletion that can have a value if their value is 0 or lower
+                //Mark any conditions for deletion that can have a value if their value is 0 or lower, or if their duration is 0
                 //Only process the rest
-                if (condition.hasValue && gain.value <= 0) {
+                if ((condition.hasValue && gain.value <= 0) || gain.duration == 0) {
                     gain.value = -1;
                 } else {
                     gain.apply = true;
@@ -131,6 +131,44 @@ export class ConditionsService {
             }
         }
 
+    }
+
+    tick_Conditions(characterService: CharacterService, turns: number = 10, yourTurn: number) {
+        let activeConditions = characterService.get_Character().conditions;
+        while (turns > 0) {
+            let activeConditions = characterService.get_Character().conditions;
+            activeConditions = this.sortByPipe.transform(activeConditions, "asc", "duration");
+            if (activeConditions.filter(gain => gain.duration > 0).length || activeConditions.filter(gain => gain.decreasingValue).length) {
+                //Get the first condition that will run out
+                let first: number;
+                if (activeConditions.filter(gain => gain.duration > 0).length) {
+                    first = activeConditions.filter(gain => gain.duration > 0)[0].duration;
+                }
+                //If any condition has a decreasing Value per round, step 5 (to the end of the Turn) if it is your Turn or 10 (1 turn) at most
+                if (activeConditions.filter(gain => gain.decreasingValue).length) {
+                    if (yourTurn == 5) {
+                        first = 5;
+                    } else {
+                        first = 10;
+                    }
+                }
+                //Either to the next condition to run out or decrease their value or step the given turns, whichever comes first
+                let difference = Math.min(first, turns);
+                activeConditions.filter(gain => gain.duration > 0).forEach(gain => {
+                    gain.duration -= difference;
+                });
+                //If any conditions have their value decreasing, do this now.
+                if ((yourTurn == 5 && difference == 5) || (yourTurn == 0 && difference == 10)) {
+                    activeConditions.filter(gain => gain.decreasingValue).forEach(gain => {
+                        gain.value--;
+                    });
+                }
+                turns -= difference;
+            } else {
+                turns = 0;
+            }
+        }
+        characterService.get_Character().conditions = activeConditions;
     }
 
     still_loading() {

@@ -50,13 +50,13 @@ export class Skill {
         }
     }
     effects(effectsService: EffectsService) {
-        return effectsService.get_EffectsOnThis(this.name);
+        return effectsService.get_EffectsOnThis(this.name).concat(effectsService.get_EffectsOnThis("All Checks"));
     }
     bonus(effectsService: EffectsService) {
-        return effectsService.get_BonusesOnThis(this.name);
+        return effectsService.get_BonusesOnThis(this.name).concat(effectsService.get_BonusesOnThis("All Checks"));;
     }
     penalty(effectsService: EffectsService) {
-        return effectsService.get_PenaltiesOnThis(this.name);
+        return effectsService.get_PenaltiesOnThis(this.name).concat(effectsService.get_PenaltiesOnThis("All Checks"));;
     }
     value(characterService: CharacterService, abilitiesService: AbilitiesService, effectsService: EffectsService, charLevel: number = characterService.get_Character().level) {
     //Calculates the effective bonus of the given Skill
@@ -115,7 +115,7 @@ export class Skill {
         let effectsSum = 0;
         effects.forEach(effect => {
             effectsSum += parseInt(effect.value);
-            explain += "\n"+effect.source+": "+parseInt(effect.value);
+            explain += "\n"+effect.source+": "+effect.value;
         });
         explain = explain.substr(1);
         //Add up all modifiers, the skill proficiency and all active effects and return the sum

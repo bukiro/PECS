@@ -1,38 +1,31 @@
 import { EffectsService } from './effects.service';
 import { DefenseService } from './defense.service';
 import { CharacterService } from './character.service';
+import { Effect } from './Effect';
 
 export class AC {
     public name: string = "AC"
+    public $effects: Effect[] = [];
+    public $bonus: Effect[] = [];
+    public $penalty: Effect[] = [];
+    public $value: any[];
+    calculate(characterService: CharacterService, defenseService: DefenseService, effectsService: EffectsService) {
+        this.$effects = this.effects(effectsService);
+        this.$bonus = this.bonus(effectsService);
+        this.$penalty = this.penalty(effectsService);
+        this.$value = this.value(characterService, defenseService, effectsService);
+    }
     effects(effectsService: EffectsService) {
-        return effectsService.get_EffectsOnThis(this.name);
+        return effectsService.get_EffectsOnThis(this.name).concat(effectsService.get_EffectsOnThis("All Checks"));
     }
     bonus(effectsService: EffectsService) {
-        let effects = this.effects(effectsService);
-        let bonus = 0;
-        let explain: string = "";
-        effects.forEach(effect => {
-            if (parseInt(effect.value) >= 0) {
-                bonus += parseInt(effect.value);
-                explain += "\n"+effect.source+": "+parseInt(effect.value);
-        }});
-        let endresult: [number, string] = [bonus, explain]
-        return endresult;
+        return effectsService.get_BonusesOnThis(this.name).concat(effectsService.get_BonusesOnThis("All Checks"));;
     }
     penalty(effectsService: EffectsService) {
-        let effects = this.effects(effectsService);
-        let penalty = 0;
-        let explain: string = "";
-        effects.forEach(effect => {
-            if (parseInt(effect.value) < 0) {
-                penalty += parseInt(effect.value);
-                explain += "\n"+effect.source+": "+parseInt(effect.value);
-        }});
-        let endresult: [number, string] = [penalty, explain]
-        return endresult;
+        return effectsService.get_PenaltiesOnThis(this.name).concat(effectsService.get_PenaltiesOnThis("All Checks"));;
     }
     value(characterService: CharacterService, defenseService: DefenseService, effectsService: EffectsService) {
-        if (characterService.still_loading()) { return 0; }
+        if (characterService.still_loading()) { return [0, ""]; }
         //Get the bonus from the worn armor. This includes the basic 10
         let armorBonus: number = 10;
         let explain: string = "";
@@ -42,12 +35,13 @@ export class AC {
             explain = armor[0].armorBonus(characterService, effectsService)[1];
         }
         //Get all active effects on this and sum them up
-        let bonus = this.bonus(effectsService)[0];
-        explain += this.bonus(effectsService)[1];
-        let penalty = this.penalty(effectsService)[0];
-        explain += this.penalty(effectsService)[1];
+        let effects = this.effects(effectsService)
+        let effectsSum = 0;
+        effects.forEach(effect => {
+            effectsSum += parseInt(effect.value);
+            explain += "\n"+effect.source+": "+effect.value;
+        });
         //Add up the armor bonus and all active effects and return the sum
-        let endresult: [number, string] = [armorBonus + bonus + penalty, explain];
-        return endresult;
+        return [armorBonus + effectsSum, explain];
     }
 }

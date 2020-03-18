@@ -1,11 +1,11 @@
-<div id="defense" class="attributeBox">
-    <h3 title="{{get_EffectiveAC()[1]}}">Defense: {{get_EffectiveAC()[0]}}</h3>
+<div id="defense" class="attributeBox" *ngFor="let AC of [get_CalculatedAC()]">
+    <h3 title="{{AC.$value[1]}}">Defense: <span [className]="(AC.$penalty.length) ? 'penalty' : (AC.$bonus.length) ? 'bonus' : ''">{{AC.$value[0]}}</span></h3>
     <div class="loading" *ngIf="still_loading()">Loading</div>
     <div *ngIf="!still_loading()">
         <div class="row">
             <cite *ngFor="let feat of get_FeatsShowingOn('AC')" [title]="(feat.hint) ? feat.hint : feat.desc">{{feat.name}}&nbsp;</cite>
             <cite *ngFor="let condition of get_ConditionsShowingOn('AC')" [className]="(condition.buff) ? 'bonus' : 'penalty'" [title]="condition.desc">{{condition.name}}&nbsp;</cite>
-            <cite *ngFor="let effect of get_AC().effects(this.effectsService)" [className]="effect.penalty ? 'penalty' : 'bonus'">{{effect.value}} ({{effect.source}})&nbsp;</cite>
+            <cite *ngFor="let effect of AC.$effects" [className]="effect.penalty ? 'penalty' : 'bonus'">{{effect.value}} ({{effect.source}})&nbsp;</cite>
         </div>
         <div class="list-item" *ngFor="let armor of get_EquippedArmor()">
             <div>{{armor.name}} AC: <input type="number" class="number" title="{{get_ArmorBonus(armor)[1]}}" [ngModel]="get_ArmorBonus(armor)[0]" disabled></div>

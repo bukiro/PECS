@@ -1,0 +1,18 @@
+<div id="time" class="attributeBox">
+    <div class="loading" *ngIf="still_loading()">Loading</div>
+    <div *ngIf="!still_loading()">
+        <div class="list-item row">
+            <button class="button fancybutton" style="margin-left:initial" (click)="tick(5)" [disabled]="get_YourTurn()==5">Start Turn</button>
+            <strong style="margin:auto" [className]="(get_YourTurn() == 5) ? 'bonus' : ''">{{(get_YourTurn() == 5) ? "Your Turn" : "Not your Turn"}}</strong>
+            <button class="button fancybutton" (click)="tick(5)" [disabled]="get_YourTurn()==0">End Turn</button>
+        </div>
+        <button class="button fancybutton" (click)="tick(10)">Tick 1 Turn</button>
+        <button class="button fancybutton" (click)="tick(50)">Tick 5 Turns</button><br>
+        <button class="button fancybutton" (click)="tick(100)">Tick 1 Minute</button>
+        <button class="button fancybutton" (click)="tick(500)">Tick 5 Minutes</button>
+        <button class="button fancybutton" (click)="tick(1000)">Tick 10 Minutes</button><br>
+        <button class="button fancybutton" (click)="tick(6000)">Tick 1 Hour</button>
+        <button class="button fancybutton" (click)="tick(48000)">Tick 8 Hours</button>
+        <button class="button fancybutton" (click)="tick(144000)">Tick 24 Hours</button>
+    </div>
+</div>

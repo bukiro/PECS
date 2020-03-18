@@ -4,4 +4,5 @@ export class ConditionGain {
     public source: string = "";
     public apply: boolean = true;
     public duration: number = -1;
+    public decreasingValue: boolean = false;
 }

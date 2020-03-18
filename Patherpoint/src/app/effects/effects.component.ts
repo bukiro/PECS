@@ -2,6 +2,7 @@ import { Component, OnInit, ChangeDetectorRef, ChangeDetectionStrategy } from '@
 import { EffectsService } from '../effects.service';
 import { CharacterService } from '../character.service';
 import { ConditionGain } from '../ConditionGain';
+import { TimeService } from '../time.service';
 
 @Component({
     selector: 'app-effects',
@@ -14,11 +15,13 @@ export class EffectsComponent implements OnInit {
     public showNotApplied: boolean = false;
     public showHidden: boolean = false;
     public showItem: string = "";
+    public Math = Math;
 
     constructor(
         private changeDetector: ChangeDetectorRef,
         private effectsService: EffectsService,
-        private characterService: CharacterService
+        private characterService: CharacterService,
+        private timeService: TimeService
     ) { }
 
     toggle_Item(name: string) {
@@ -67,6 +70,41 @@ export class EffectsComponent implements OnInit {
 
     get_AppliedConditions(apply: boolean) {
         return this.characterService.get_AppliedConditions().filter(condition => condition.apply == apply);
+    }
+
+    get_Duration(duration: number) {
+        if (duration == -1) {
+            return "Permanent";
+        } else {
+            let returnString: string = ""
+            if (duration == this.timeService.get_YourTurn()) {
+                return "Rest of turn"
+            }
+            if (duration >= 144000) {
+                returnString += Math.floor(duration / 144000)+" Day"
+                if (duration / 144000 > 1) { returnString += "s" }
+                duration %= 144000;
+            }
+            if (duration >= 6000) {
+                returnString += " "+Math.floor(duration / 6000)+" Hour"
+                if (duration / 6000 > 1) { returnString += "s" }
+                duration %= 6000;
+            }
+            if (duration >= 100) {
+                returnString += " "+Math.floor(duration / 100)+" Minute"
+                if (duration / 100 > 1) { returnString += "s" }
+                duration %= 100;
+            }
+            if (duration >= 10) {
+                returnString += " "+Math.floor(duration / 10)+" Turn"
+                if (duration / 10 > 1) { returnString += "s" }
+                duration %= 10;
+            }
+            if (duration == this.timeService.get_YourTurn()) {
+                returnString += " to end of turn"
+            }
+            return returnString;
+        }
     }
 
     remove_Condition(conditionGain: ConditionGain) {

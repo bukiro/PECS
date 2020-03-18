@@ -27,6 +27,7 @@ import { ActivitiesComponent } from './activities/activities.component';
 import { SpellsComponent } from './spells/spells.component';
 import { SpellbookComponent } from './spellbook/spellbook.component';
 import { ConditionsComponent } from './conditions/conditions.component';
+import { TimeComponent } from './time/time.component';
 
 
 @NgModule({
@@ -50,7 +51,8 @@ import { ConditionsComponent } from './conditions/conditions.component';
       ActivitiesComponent,
       SpellsComponent,
       SpellbookComponent,
-      ConditionsComponent
+      ConditionsComponent,
+      TimeComponent
    ],
    imports: [
       BrowserModule,

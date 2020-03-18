@@ -2,6 +2,7 @@ import { Item } from './Item'
 import { CharacterService } from './character.service';
 import { EffectsService } from './effects.service';
 import { WornItem } from './WornItem';
+import { Effect } from './Effect';
 
 export class Weapon implements Item {
     public displayName: string = "";
@@ -79,7 +80,7 @@ export class Weapon implements Item {
         skillLevel = Math.max(Math.min(weaponIncreases.length * 2, 8),Math.min(profIncreases.length * 2, 8),Math.min(bestTraitLevel, 8))
         return skillLevel;
     }
-    get_Attack(characterService: CharacterService, effectsService: EffectsService, range: string) {
+    attack(characterService: CharacterService, effectsService: EffectsService, range: string) {
     //Calculates the attack bonus for a melee or ranged attack with this weapon.
         let explain: string = "";
         let charLevel = characterService.get_Character().level;
@@ -99,11 +100,11 @@ export class Weapon implements Item {
         let bonus: [{value?:number, source?:string}] = [{}];
         bonus.splice(0,1);
         //The Clumsy condition affects all Dexterity attacks
-        let effects = effectsService.get_EffectsOnThis("Dexterity Attacks");
+        let dexEffects = effectsService.get_EffectsOnThis("Dexterity Attacks");
         let dexPenalty: [{value?:number, source?:string}] = [{}];
         dexPenalty.splice(0,1);
         let dexPenaltySum: number = 0;
-        effects.forEach(effect => {
+        dexEffects.forEach(effect => {
             dexPenalty.push({value:parseInt(effect.value), source:effect.source});
             dexPenaltySum += parseInt(effect.value);
         });
@@ -156,12 +157,23 @@ export class Weapon implements Item {
                 explain += "\n("+me.get_Name()+")";
             }
         }
+        //Add all effects for this weapon
+        let effects: Effect[] = effectsService.get_EffectsOnThis(this.name).concat(effectsService.get_EffectsOnThis("All Checks"));
+        let effectsSum: number = 0;
+        effects.forEach(effect => {
+            if (parseInt(effect.value) < 0) {
+                penalty.push({value:parseInt(effect.value), source:effect.source});
+            } else {
+                bonus.push({value:parseInt(effect.value), source:effect.source});
+            }
+            effectsSum += parseInt(effect.value);
+        });
         //Add up all modifiers and return the attack bonus for this attack
-        let attackResult = charLevelBonus + skillLevel + this.itembonus + abilityMod + me.potencyRune;
+        let attackResult = charLevelBonus + skillLevel + this.itembonus + abilityMod + me.potencyRune + effectsSum;
         explain = explain.substr(1);
         return [range, attackResult, explain, penalty, bonus];
     }
-    get_Damage(characterService: CharacterService, effectsService: EffectsService, range: string) {
+    damage(characterService: CharacterService, effectsService: EffectsService, range: string) {
     //Lists the damage dice and damage bonuses for a ranged or melee attack with this weapon.
     //Returns a string in the form of "1d6 +5"
         let explain: string = "";

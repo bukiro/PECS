@@ -5,6 +5,7 @@ export class Condition {
     public type: string = "";
     public buff: boolean = false;
     public hasValue: boolean = false;
+    public decreasingValue: boolean = false;
     public value: number = 0;
     public desc: string = "";
     public showon: string = "";
