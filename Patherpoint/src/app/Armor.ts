@@ -4,12 +4,10 @@ import { EffectsService } from './effects.service';
 
 export class Armor implements Item {
     public notes: string = "";
+    public desc: string = "";
     public showNotes: boolean = false;
     public type: string = "armors";
     public bulk: string = "-";
-    public amount: number = 1;
-    //stack: How many do you buy at once - this is also how many make up one bulk unit
-    public stack: number = 1;
     public name: string = "";
     public displayName: string = "";
     public hide: boolean = false;

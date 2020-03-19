@@ -98,7 +98,12 @@
                                 </span>
                             </div>
 <!--End Subheritages-->
-                            <p *ngFor="let desc of heritage.desc.split('\n')">{{desc}}</p>
+                            <div *ngFor="let desc of heritage.desc.split('\n\n')">
+                                <p *ngIf="desc.split('\n').length == 1">{{desc}}</p>
+                                <ul *ngIf="desc.split('\n').length > 1">
+                                    <li *ngFor="let line of desc.split('\n')">{{line}}</li>
+                                </ul>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -135,7 +140,12 @@
                                 </span>
                             </div>
 <!--End Subbackgrounds-->
-                            <p *ngFor="let desc of background.desc.split('\n')">{{desc}}</p>
+                            <div *ngFor="let desc of background.desc.split('\n\n')">
+                                <p *ngIf="desc.split('\n').length == 1">{{desc}}</p>
+                                <ul *ngIf="desc.split('\n').length > 1">
+                                    <li *ngFor="let line of desc.split('\n')">{{line}}</li>
+                                </ul>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -218,7 +228,12 @@
                                         </span>
                                     </div>
 <!--End Subbackgrounds-->
-                                    <p *ngFor="let desc of background.desc.split('\n')">{{desc}}</p>
+                                    <div *ngFor="let desc of background.desc.split('\n\n')">
+                                        <p *ngIf="desc.split('\n').length == 1">{{desc}}</p>
+                                        <ul *ngIf="desc.split('\n').length > 1">
+                                            <li *ngFor="let line of desc.split('\n')">{{line}}</li>
+                                        </ul>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -408,9 +423,12 @@
                                         </p>
                                     </div>
                                     <div class="row">
-                                        <p *ngFor="let desc of feat.desc.split('\n')">
-                                            {{desc}}
-                                        </p>
+                                        <div *ngFor="let desc of feat.desc.split('\n\n')">
+                                            <p *ngIf="desc.split('\n').length == 1">{{desc}}</p>
+                                            <ul *ngIf="desc.split('\n').length > 1">
+                                                <li *ngFor="let line of desc.split('\n')">{{line}}</li>
+                                            </ul>
+                                        </div>
                                         <p *ngIf="feat.specialdesc.length">
                                             <strong>Special</strong>
                                             {{feat.specialdesc}}
@@ -462,9 +480,12 @@
                                         </p>
                                     </div>
                                     <div class="row">
-                                        <p *ngFor="let desc of feat.desc.split('\n')">
-                                            {{desc}}
-                                        </p>
+                                        <div *ngFor="let desc of feat.desc.split('\n\n')">
+                                            <p *ngIf="desc.split('\n').length == 1">{{desc}}</p>
+                                            <ul *ngIf="desc.split('\n').length > 1">
+                                                <li *ngFor="let line of desc.split('\n')">{{line}}</li>
+                                            </ul>
+                                        </div>
                                         <p *ngIf="feat.specialdesc.length">
                                             <strong>Special</strong>
                                             {{feat.specialdesc}}

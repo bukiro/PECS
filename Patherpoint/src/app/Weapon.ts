@@ -6,6 +6,7 @@ import { Effect } from './Effect';
 
 export class Weapon implements Item {
     public displayName: string = "";
+    public desc: string = "";
     public notes: string = "";
     public showNotes: boolean = false;
     public showName: boolean = false;

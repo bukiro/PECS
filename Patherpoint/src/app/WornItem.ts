@@ -2,6 +2,7 @@ import { Item } from './Item'
 
 export class WornItem implements Item {
     public notes: string = "";
+    public desc: string = "";
     public showNotes: boolean = false;
     public showName: boolean = false;
     public type: string = "wornitems";

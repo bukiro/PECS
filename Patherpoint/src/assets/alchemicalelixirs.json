@@ -6,14 +6,14 @@
         "actions":"1",
         "activationType":"Interact",
         "desc":"After you drink this mutagen, your body becomes thick and sturdy. You exhibit a healthy glow, though you tend to be ponderous and unobservant.",
-        "benefit":"You gain an item bonus of +1 to Fortitude saves and 5 temporary Hit Points.",
+        "benefit":"You gain an item bonus of +1 to Fortitude saves and 5 temporary Hit Points. Whenever you are at maximum Hit Points for at least 1 full minute, you regain the temporary Hit Points.",
         "drawback":"You take a –2 penalty to Will saves, Perception checks, and initiative rolls.",
         "traits":["Alchemical", "Consumable", "Elixir", "Mutagen", "Polymorph"],
         "gainCondition":[
             {
                 "name":"Juggernaut Mutagen (Lesser)",
                 "source":"Juggernaut Mutagen (Lesser)",
-                "duration":10
+                "duration":100
             }
         ]
     }

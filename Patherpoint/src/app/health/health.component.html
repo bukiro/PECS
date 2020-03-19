@@ -1,5 +1,5 @@
 <div *ngFor="let health of [calculate_Health()]">
-    <h3>Health: {{health.$currentHP}} Hit Points</h3>
+    <h3>Health: <span [className]="(health.$currentHP <= 0) ? 'penalty' : (health.$currentHP > health.$maxHP) ? 'bonus' : ''">{{health.$currentHP}}</span> Hit Points</h3>
     <div class="loading" *ngIf="still_loading()">Loading</div>
     <div *ngIf="!still_loading()">
         <div class="list-item">
@@ -40,9 +40,13 @@
             <button *ngIf="health.$wounded > 0" (click)="on_HealWounded()">Heal</button>
         </div>
         <div class="list-item">
-            <strong>Take Damage</strong><input class="number" type="number"
+            <span>
+                <strong>Take Damage</strong>
+                <br>
+                <span style="position:absolute"><input type="checkbox" [(ngModel)]="this.nonlethal">nonlethal</span>
+            </span>
+            <input class="number" type="number"
             [(ngModel)]="this.damage">
-            <input type="checkbox" [(ngModel)]="this.nonlethal">nonlethal
             <button [disabled]="this.damage <= 0" (click)="health.takeDamage(this.characterService, this.effectsService, this.damage, this.nonlethal)">Ouch!</button>
         </div>
         <div class="list-item">

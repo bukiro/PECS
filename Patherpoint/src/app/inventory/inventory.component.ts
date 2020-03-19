@@ -7,6 +7,8 @@ import { Weapon } from '../Weapon';
 import { Armor } from '../Armor';
 import { ConditionGain } from '../ConditionGain';
 import { Effect } from '../Effect';
+import { Item } from '../Item';
+import { Consumable } from '../Consumable';
 
 @Component({
     selector: 'app-inventory',
@@ -16,6 +18,9 @@ import { Effect } from '../Effect';
 })
 export class InventoryComponent implements OnInit {
 
+    private id: number = 0;
+    private showItem: number = 0;
+    
     constructor(
         private changeDetector: ChangeDetectorRef,
         public characterService: CharacterService,
@@ -32,17 +37,39 @@ export class InventoryComponent implements OnInit {
         this.characterService.toggleMenu(menu);
     }
 
+    toggleItem(id: number) {
+        if (this.showItem == id) {
+            this.showItem = 0;
+        } else {
+            this.showItem = id;
+        }
+    }
+
+    get_ShowItem() {
+        return this.showItem;
+    }
+
+    get_ID() {
+        this.id++;
+        return this.id;
+    }
+
     get_InventoryItems(type: string) {
         switch (type) {
             case "Weapons":
+                this.id = 1000;
                 return this.characterService.get_InventoryItems().weapons;
             case "Armor":
+                this.id = 2000;
                 return this.characterService.get_InventoryItems().armors;
             case "Shields":
+                this.id = 3000;
                 return this.characterService.get_InventoryItems().shields;
             case "Worn Items":
+                this.id = 4000;
                 return this.characterService.get_InventoryItems().wornitems;
             case "Alchemical Elixirs":
+                this.id = 5000;
                 return this.characterService.get_InventoryItems().alchemicalelixirs;
         }
     }
@@ -102,20 +129,25 @@ export class InventoryComponent implements OnInit {
         return {value:maxInvest, explain:explain, effects:effects, penalty:penalty, bonus:bonus};
     }
 
-    test(object) {
-        return object;
-    }
-
     get_InvestedItems() {
         return this.characterService.get_InvestedItems().filter(item => item.traits.indexOf("Invested") > -1);
     }
 
-    onChange(item) {
-        this.characterService.onEquipChange(item);
+    onEquip(item: Item, equipped: boolean) {
+        this.characterService.onEquip(item, equipped);
     }
 
-    onInvest(item) {
-        this.characterService.onInvestChange(item);
+    onInvest(item: Item, invested: boolean) {
+        this.characterService.onInvest(item, invested);
+    }
+
+    onNameChange() {
+        this.characterService.set_Changed();
+    }
+
+    onAmountChange(item: Consumable, amount: number) {
+        item.amount += amount;
+        this.characterService.set_Changed();
     }
 
     onWeaponRuneChange(weapon: Weapon) {
@@ -130,6 +162,25 @@ export class InventoryComponent implements OnInit {
         armor.potencyRune = parseInt(armor.potencyRune.toString());
         armor.resilientRune = parseInt(armor.resilientRune.toString());
         this.characterService.set_Changed();
+    }
+
+    on_ConsumableUse(item: Consumable) {
+        this.characterService.on_ConsumableUse(item);
+    }
+
+    get_Actions(item) {
+        switch (item.actions) {
+            case "Free":
+                return ""
+            case "Reaction":
+                return "(Reaction)"
+            case "1":
+                return "(1 Action)"
+            case "2":
+                return "(2 Actions)"
+            case "3":
+                return "(3 Actions)"
+        }
     }
 
     finish_Loading() {

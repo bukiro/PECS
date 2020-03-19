@@ -3,8 +3,8 @@
 <div *ngIf="!still_loading()">
     <div *ngFor="let gain of get_OwnedActivities()">
         <div class="list-item" *ngFor="let activity of get_Activities(gain.name)">
-            <button class="row button" (click)="toggle_Action(activity.name)">{{activity.name}} {{activity.get_Actions()}}{{(activity.activationType) ? " - " + activity.activationType : ""}}</button>
-            <div class="list-item sublist lower row" *ngIf="this.get_showAction()==activity.name">
+            <button class="row button" [className]="(gain.active) ? 'fancy-button' : ''" (click)="toggle_Action(activity.name)">{{activity.name}} {{activity.get_Actions()}}{{(activity.activationType) ? " - " + activity.activationType : ""}}</button>
+            <div class="list-item sublist lower row" [className]="(gain.active) ? 'fancy-list' : ''" *ngIf="this.get_showAction()==activity.name">
                 <div class="row left-aligned">
                     <cite *ngFor="let trait of activity.traits" title="{{get_Traits(trait)[0].description}}">&nbsp;{{trait}}</cite>
                     <cite *ngFor="let trait of get_ActivationTraits(activity)" title="{{get_Traits(trait)[0].description}}">&nbsp;{{trait}}</cite>
@@ -25,9 +25,12 @@
                     <p *ngIf="activity.requirements">
                         <strong>Requirements&nbsp;</strong>{{activity.requirements}}
                     </p>
-                    <p *ngFor="let desc of activity.desc.split('\n')">
-                        {{desc}}
-                    </p>
+                    <div *ngFor="let desc of activity.desc.split('\n\n')">
+                        <p *ngIf="desc.split('\n').length == 1">{{desc}}</p>
+                        <ul *ngIf="desc.split('\n').length > 1">
+                            <li *ngFor="let line of desc.split('\n')">{{line}}</li>
+                        </ul>
+                    </div>
                     <p *ngIf="activity.critsuccess">
                         <strong>Critical Success&nbsp;</strong>{{activity.critsuccess}}
                     </p>
@@ -41,10 +44,13 @@
                         <strong>Critical Failure&nbsp;</strong>{{activity.critfailure}}
                     </p>
                 </div>
-                <div class="row" *ngFor="let feat of get_FeatsShowingOn(activity.name)"><cite>{{feat.name}}&nbsp;</cite>
-                    <p *ngFor="let desc of feat.desc.split('\n')">
-                        {{desc}}
-                    </p>
+                <div class="row" *ngFor="let feat of get_FeatsShowingOn(activity.name)"><strong>Feat: {{feat.name}}</strong>
+                    <div *ngFor="let desc of feat.desc.split('\n\n')">
+                        <p *ngIf="desc.split('\n').length == 1">{{desc}}</p>
+                        <ul *ngIf="desc.split('\n').length > 1">
+                            <li *ngFor="let line of desc.split('\n')">{{line}}</li>
+                        </ul>
+                    </div>
                 </div>
                 <div class="row left-aligned">
                     <cite *ngFor="let trait of get_TraitsForThis(activity.name)" [title]="trait.description">{{trait.name}} ({{trait.haveOn(this.characterService, true)}})&nbsp;</cite>

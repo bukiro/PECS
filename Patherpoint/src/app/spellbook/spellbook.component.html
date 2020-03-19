@@ -1,11 +1,14 @@
-<h3>Inventory</h3>
+<h3>Spells</h3>
 <div class="loading" *ngIf="still_loading()">Loading</div>
 <div *ngIf="!still_loading()">
-    <h3>Items</h3>
     <button class="list-item" (click)="toggleSpellsMenu()">Get Spells</button>
     <h3>Focus Spells</h3>
-    <div class="list-item row" [className]="(get_FocusPoints() > get_MaxFocusPoints()) ? 'problem' : ''">Focus Points: {{get_FocusPoints()}}/{{get_MaxFocusPoints()}}
-        <button class="button" (click)="refocus()" [disabled]="get_FocusPoints() >= get_MaxFocusPoints()">
+    <div class="list-item" [className]="(get_FocusPoints() > get_MaxFocusPoints()) ? 'problem' : ''">
+        <strong>Focus Points</strong>
+        <input type="number" class="number" [ngModel]="get_FocusPoints()" disabled>
+        <strong>Focus Pool</strong>
+        <input type="number" class="number" [ngModel]="get_MaxFocusPoints()" disabled>
+        <button class="button row" (click)="refocus()" [disabled]="get_FocusPoints() >= get_MaxFocusPoints()">
             Refocus
         </button>
     </div>

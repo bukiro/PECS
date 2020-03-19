@@ -35,6 +35,7 @@ import { SpellsService } from './spells.service';
 import { EffectsService } from './effects.service';
 import { Effect } from './Effect';
 import { AlchemicalElixir } from './AlchemicalElixir';
+import { Consumable } from './Consumable';
 
 @Injectable({
     providedIn: 'root'
@@ -249,7 +250,6 @@ export class CharacterService {
                     }
                 })
             })
-            this.set_Changed();
         }
     }
 
@@ -272,27 +272,31 @@ export class CharacterService {
                 newInventoryItem = Object.assign(new AlchemicalElixir(), item);
                 break;
         }
-        newInventoryItem.equip = true;
-        let newInventoryLength = this.me.inventory[item.type].push(newInventoryItem);
-        this.onEquipChange(this.me.inventory[item.type][newInventoryLength-1]);
-        this.set_Changed();
+        let existingItems = this.me.inventory[item.type].filter(existing => existing.name == item.name && existing.amount != undefined);
+        if (existingItems.length) {
+            existingItems.forEach(existing => {
+                existing.amount++
+                this.set_Changed()
+            })
+        } else {
+            let newInventoryLength = this.me.inventory[item.type].push(newInventoryItem);
+            this.onEquip(this.me.inventory[item.type][newInventoryLength-1], true, true);
+        }
     }
 
     drop_InventoryItem(item: Item) {
         if (item.equip) {
-            item.equip = false;
-            this.onEquipChange(item);
-        }
-        if (item.invested) {
-            item.invested = false;
-            this.onInvestChange(item);
+            this.onEquip(item, false, false);
+        } else if (item.invested) {
+            this.onInvest(item, false, false);
         }
         this.me.inventory[item.type] = this.me.inventory[item.type].filter(any_item => any_item !== item);
         this.equip_BasicItems();
         this.set_Changed();
     }
 
-    onEquipChange(item: Item) {
+    onEquip(item: Item, equipped: boolean = true, changeAfter: boolean = true) {
+        item.equip = equipped;
         if (item.equip) {
             if (item.type == "armors"||item.type == "shields") {
                 let allOfType = this.get_InventoryItems()[item.type];
@@ -303,16 +307,11 @@ export class CharacterService {
             }
             //If you get an Activity from an item that doesn't need to be invested, immediately invest it in secret so the Activity is gained
             if (item.gainActivity && item.traits.indexOf("Invested") == -1) {
-                item.invested = true;
-                this.onInvestChange(item);
+                this.onInvest(item, true, false);
             }
         } else {
-            //If this is called by a checkbox, it finishes before the checkbox model finalizes - so if the unequipped item is the basic item, it will still end up unequipped.
-            //We get around this by setting a miniscule timeout and letting the model finalize before equipping basic items.
-            setTimeout(() => {
-                this.equip_BasicItems();
-                this.set_Changed();
-            });
+            this.equip_BasicItems();
+            this.set_Changed();
             //If you are unequipping a shield, you should also be lowering it and losing cover
             if (item.type == "shields") {
                 item["takingCover"] = false;
@@ -328,21 +327,22 @@ export class CharacterService {
             }
             //If the item was invested, it isn't now.
             if (item.invested) {
-                item.invested = false;
-                this.onInvestChange(item);
+                this.onInvest(item, false, false);
             }
         }
-        this.set_Changed();
+        if (changeAfter) {
+            this.set_Changed();
+        }
     }
 
-    onInvestChange(item: Item) {
+    onInvest(item: Item, invested: boolean = true, changeAfter: boolean = true) {
+        item.invested = invested;
         if (item.invested) {
             item.gainActivity.forEach(gainActivity => {
                 this.me.gain_Activity(Object.assign(new ActivityGain(), {name:gainActivity, source:item.name}));
             });
             if (!item.equip) {
-                item.equip = true;
-                this.onEquipChange(item);
+                this.onEquip(item, true, false);
             }
         } else {
             item.gainActivity.forEach(gainActivity => {
@@ -352,6 +352,14 @@ export class CharacterService {
                 }
             });
         }
+        if (changeAfter) {
+            this.set_Changed();
+        }
+    }
+
+    on_ConsumableUse(item: Consumable) {
+        item.amount--
+        this.itemsService.process_Consumable(this, item);
         this.set_Changed();
     }
 
@@ -368,12 +376,11 @@ export class CharacterService {
             let newBasicArmor:Armor;
             newBasicArmor = Object.assign(new Armor(), this.itemsService.get_Armors("Unarmored")[0]);
             this.basicItems.push(newBasicArmor);
-            this.equip_BasicItems()
-            this.set_Changed();
+            this.equip_BasicItems(false)
         }
     }
     
-    equip_BasicItems() {
+    equip_BasicItems(changeAfter: boolean = true) {
         if (!this.still_loading() && this.basicItems.length) {
             if (!this.get_InventoryItems().weapons.length) {
                 this.grant_InventoryItem(this.basicItems[0]);
@@ -382,10 +389,10 @@ export class CharacterService {
                 this.grant_InventoryItem(this.basicItems[1]);
             }
             if (!this.get_InventoryItems().weapons.filter(weapon => weapon.equip == true).length) {
-                this.get_InventoryItems().weapons[0].equip = true;
+                this.onEquip(this.get_InventoryItems().weapons[0], true, changeAfter);
             }
             if (!this.get_InventoryItems().armors.filter(armor => armor.equip == true).length) {
-                this.get_InventoryItems().armors[0].equip = true;
+                this.onEquip(this.get_InventoryItems().armors[0], true, changeAfter);
             }
         }
     }

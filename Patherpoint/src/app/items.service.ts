@@ -8,6 +8,8 @@ import { CharacterService } from './character.service';
 import { ItemCollection } from './ItemCollection';
 import { WornItem } from './WornItem';
 import { AlchemicalElixir } from './AlchemicalElixir';
+import { Consumable } from './Consumable';
+import { ConditionGain } from './ConditionGain';
 
 @Injectable({
     providedIn: 'root'
@@ -81,6 +83,17 @@ export class ItemsService {
 
     grant_Item(characterService: CharacterService, item) {
         characterService.grant_InventoryItem(item);
+    }
+
+    process_Consumable(characterService: CharacterService, item: Consumable) {
+
+        //Apply conditions.
+        if (item["gainCondition"]) {
+            item["gainCondition"].forEach(gain => {
+                let newConditionGain = Object.assign(new ConditionGain(), gain);
+                characterService.add_Condition(newConditionGain, false);
+            });
+        }
     }
 
     still_loading() {

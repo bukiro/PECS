@@ -2,6 +2,7 @@ import { Item } from './Item'
 
 export class Shield implements Item {
     public notes: string = "";
+    public desc: string = "";
     public showNotes: boolean = false;
     public raised: boolean = false;
     public takingCover: boolean = false;
