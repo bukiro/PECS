@@ -11,11 +11,9 @@ import { CharacterService } from '../character.service';
 })
 export class ItemsComponent implements OnInit {
 
-    public showWeapons: Boolean = false;
-    public showArmors: Boolean = false;
-    public showShields: Boolean = false;
-    public showWornItems: Boolean = false;
-    public showAlchemicalElixirs: Boolean = false;
+    private showList: string = "";
+    private showItem: number = 0;
+    private id: number = 0;
 
     constructor(
         private changeDetector: ChangeDetectorRef,
@@ -24,55 +22,92 @@ export class ItemsComponent implements OnInit {
         private characterService: CharacterService
     ) { }
 
-    toggle(type) {
-        switch (type) {
-            case "weapons":
-                this.showWeapons = !this.showWeapons
-                break;
-            case "armors":
-                this.showArmors = !this.showArmors
-                break;
-            case "shields":
-                this.showShields = !this.showShields
-                break;
-            case "wornitems":
-                this.showWornItems = !this.showWornItems
-                break;
-            case "alchemicalelixirs":
-                this.showAlchemicalElixirs = !this.showAlchemicalElixirs
-                break;
+    toggle_List(type) {
+        if (this.showList == type) {
+            this.showList = "";
+        } else {
+            this.showList = type;
         }
+    }
+
+    get_ShowList() {
+        return this.showList;
+    }
+
+    toggle_Item(id: number) {
+        if (this.showItem == id) {
+            this.showItem = 0;
+        } else {
+            this.showItem = id;
+        }
+    }
+
+    get_ShowItem() {
+        return this.showItem;
+    }
+
+    get_ID() {
+        this.id++;
+        return this.id;
     }
 
     toggleItemsMenu() {
         this.characterService.toggleMenu("items");
     }
 
-    get_Items() {
-        return this.itemsService.get_Items();
-    }
-    get_Weapons() {
-        return this.itemsService.get_Weapons().filter(item => !item.hide);
-    }
-    get_Armors() {
-        return this.itemsService.get_Armors().filter(item => !item.hide);
-    }
-    get_Shields() {
-        return this.itemsService.get_Shields().filter(item => !item.hide);
-    }
-    get_WornItems() {
-        return this.itemsService.get_WornItems();
-    }
-    get_AlchemicalElixirs() {
-        return this.itemsService.get_AlchemicalElixirs();
+    get_Items(type: string) {
+        let items = this.itemsService.get_Items();
+        switch (type) {
+            case "Weapons":
+                this.id = 1000;
+                return items.weapons.filter(item => !item.hide);
+            case "Armor":
+                this.id = 2000;
+                return items.armors.filter(item => !item.hide);
+            case "Shields":
+                this.id = 3000;
+                return items.shields.filter(item => !item.hide);
+            case "Worn Items":
+                this.id = 4000;
+                return items.wornitems;
+            case "Alchemical Elixirs":
+                this.id = 5000;
+                return items.alchemicalelixirs;
+        }
     }
 
     get_Traits(name: string = "") {
         return this.traitsService.get_Traits(name);
     }
 
+    get_Price(item) {
+        if (item.price) {
+            if (item.price == "-") {
+                return "-";
+            } else {
+                let price: number = parseInt(item.price);
+                let priceString: string = "";
+                if (price >= 100) {
+                    priceString += Math.floor(price / 100)+"gp ";
+                    price %= 100;
+                }
+                if (price >= 10) {
+                    priceString += Math.floor(price / 10)+"sp ";
+                    price %= 10;
+                }
+                if (price >= 1) {
+                    priceString += price+"cp";
+                }
+                return priceString;
+            }
+        } else {
+            return "-"
+        }
+    }
+
     grant_Item(item) {
-        return this.itemsService.grant_Item(this.characterService, item);
+        this.characterService.grant_InventoryItem(item);
+        this.characterService.set_Changed();
     }
 
     still_loading() {

@@ -16,6 +16,7 @@ import { ActivityGain } from './ActivityGain';
 import { ActivitiesService } from './activities.service';
 import { ItemsService } from './items.service';
 import { SpellChoice } from './SpellChoice';
+import { Settings } from './Settings';
 
 export class Character {
     public name: string = "";
@@ -31,6 +32,7 @@ export class Character {
     public speeds: Speed[] = [new Speed("Speed"), new Speed("Land Speed")];
     public cash: number[] = [0,15,0,0];
     public bulk: Bulk = new Bulk();
+    public settings: Settings = new Settings();
     get_Changed(characterService: CharacterService, ) {
         return characterService.get_Changed();
     }

@@ -54,6 +54,10 @@ export class TopBarComponent implements OnInit {
         return this.characterService.get_Character();
     }
 
+    get_Accent() {
+        return this.characterService.get_Accent();
+    }
+
     still_loading() {
       return this.characterService.still_loading();
     }

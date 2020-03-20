@@ -1,3 +1,4 @@
+<div id="top-bar" class="row" [ngStyle]="{'background-color':get_Accent()}">
 <a [routerLink]="['/']">
   <h1>Patherpoint</h1>
 </a>
@@ -8,6 +9,7 @@
 <a class="button fancy-button" (click)="toggleMenu('spells')" *ngIf="!still_loading()">Spells</a>
 <a class="button fancy-button" (click)="toggleMenu('conditions')" *ngIf="!still_loading()">Conditions</a>
 <a class="button fancy-button" (click)="print()" *ngIf="!still_loading()">Print</a>
+</div>
 <app-items [@slideInOut]="get_ItemsMenuState()"></app-items>
 <app-spells [@slideInOut]="get_SpellMenuState()"></app-spells>
 <app-conditions [@slideInOut]="get_ConditionsMenuState()"></app-conditions>

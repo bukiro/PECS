@@ -6,14 +6,19 @@ import { Effect } from './Effect';
 
 export class Weapon implements Item {
     public displayName: string = "";
+    public name: string = "";
     public desc: string = "";
+    public level: string = "-";
+    public price: string = "";
+    public hands: string = "";
+    public reload: string = "";
+    public ammunition: string = "";
     public notes: string = "";
     public showNotes: boolean = false;
     public showName: boolean = false;
     public parrying: boolean = false;
     public type: string = "weapons";
     public bulk: string = "-";
-    public name: string = "";
     public hide: boolean = false;
     public equippable: boolean = true;
     public equip: boolean = false;
@@ -62,7 +67,7 @@ export class Weapon implements Item {
             return (potency + " " + (striking + " " + this.name).trim()).trim();
         }
     }
-    level(characterService: CharacterService, charLevel: number = characterService.get_Character().level) {
+    profLevel(characterService: CharacterService, charLevel: number = characterService.get_Character().level) {
         if (characterService.still_loading()) { return 0; }
         let skillLevel: number = 0;
         let weaponIncreases = characterService.get_Character().get_SkillIncreases(0, charLevel, this.name);
@@ -87,7 +92,7 @@ export class Weapon implements Item {
         let charLevel = characterService.get_Character().level;
         let str  = characterService.get_Abilities("Strength")[0].mod(characterService, effectsService);
         let dex = characterService.get_Abilities("Dexterity")[0].mod(characterService, effectsService);
-        let skillLevel = this.level(characterService);
+        let skillLevel = this.profLevel(characterService);
         if (skillLevel) {
             explain += "\nProficiency: "+skillLevel;
         }
@@ -228,7 +233,7 @@ export class Weapon implements Item {
             if (characterService.get_Features("Greater Weapon Specialization")[0].have(characterService)) {
                 greaterWeaponSpecialization = true;
             }
-           switch (this.level(characterService)) {
+           switch (this.profLevel(characterService)) {
                 case 4:
                     if (greaterWeaponSpecialization) {
                         featBonus += 4;

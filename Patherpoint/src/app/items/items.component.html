@@ -1,53 +1,131 @@
 <div id="items" class="itemBox">
     <button class="list-item" (click)="toggleItemsMenu()">Close</button>
     <div class="loading" *ngIf="still_loading()">Loading</div>
-    <button class="button fancybutton list-item" (click)="toggle('weapons')">Weapons</button>
-    <div *ngIf="showWeapons">
-        <div class="list-item" *ngFor="let weapon of get_Weapons()">
-            <strong>{{weapon.name}}</strong>&nbsp;{{weapon.prof}} Weapon
-            <button (click)="grant_Item(weapon)">Get</button>
-            <div class="row left-aligned" *ngIf="weapon.traits.length">
-                <cite *ngFor="let trait of weapon.traits" title="{{get_Traits(trait)[0].description}}">&nbsp;{{trait}}</cite>
-            </div>
-        </div>
-    </div>
-    <button class="button fancybutton list-item" (click)="toggle('armors')">Armor</button>
-    <div *ngIf="showArmors">
-        <div class="list-item" *ngFor="let armor of get_Armors()">
-            <strong>{{armor.name}}</strong>&nbsp;{{armor.prof}}{{(armor.prof != "Unarmored") ? " Armor" : ""}}
-            <button (click)="grant_Item(armor)">Get</button>
-            <div class="row left-aligned" *ngIf="armor.traits.length">
-                <cite *ngFor="let trait of armor.traits" title="{{get_Traits(trait)[0].description}}">&nbsp;{{trait}}</cite>
-            </div>
-        </div>
-    </div>
-    <button class="button fancybutton list-item" (click)="toggle('shields')">Shields</button>
-    <div *ngIf="showShields">
-        <div class="list-item" *ngFor="let shield of get_Shields()">
-            <strong>{{shield.name}}</strong>
-            <button (click)="grant_Item(shield)">Get</button>
-            <div class="row left-aligned" *ngIf="shield.traits.length">
-                <cite *ngFor="let trait of shield.traits" title="{{get_Traits(trait)[0].description}}">&nbsp;{{trait}}</cite>
-            </div>
-        </div>
-    </div>
-    <button class="button fancybutton list-item" (click)="toggle('wornitems')">Worn Items</button>
-    <div *ngIf="showWornItems">
-        <div class="list-item" *ngFor="let wornItem of get_WornItems()">
-            <strong>{{wornItem.name}}</strong>
-            <button (click)="grant_Item(wornItem)">Get</button>
-            <div class="row left-aligned" *ngIf="wornItem.traits.length">
-                <cite *ngFor="let trait of wornItem.traits" title="{{get_Traits(trait)[0].description}}">&nbsp;{{trait}}</cite>
-            </div>
-        </div>
-    </div>
-    <button class="button fancybutton list-item" (click)="toggle('alchemicalelixirs')">Alchemical Elixirs</button>
-    <div *ngIf="showAlchemicalElixirs">
-        <div class="list-item" *ngFor="let alchemicalElixir of get_AlchemicalElixirs()">
-            <strong>{{alchemicalElixir.name}}</strong>
-            <button (click)="grant_Item(alchemicalElixir)">Get</button>
-            <div class="row left-aligned" *ngIf="alchemicalElixir.traits.length">
-                <cite *ngFor="let trait of alchemicalElixir.traits" title="{{get_Traits(trait)[0].description}}">&nbsp;{{trait}}</cite>
+    <h3>Get Items</h3>
+    <div *ngFor="let itemSet of ['Weapons','Armor','Shields','Worn Items','Alchemical Elixirs']">
+        <button class="button fancybutton list-item" (click)="toggle_List(itemSet)">
+            <strong>{{itemSet}}</strong>
+        </button>
+        <div *ngIf="get_ShowList()==itemSet">
+            <div *ngFor="let item of get_Items(itemSet)">
+                <div class="list-item" *ngFor="let inventoryID of [get_ID()]">
+                    <button class="row" (click)="toggle_Item(inventoryID)">
+                        <span>{{item.name}}</span>
+                        <span *ngIf="item.type == 'armors'">{{(item.prof == 'Unarmored') ? item.prof : item.prof.substr(0, item.prof.length - 6)}} {{item.group}} {{(item.type=="armors" && item.prof != "Unarmored") ? "Armor" : ""}}</span>
+                        <span *ngIf="item.type == 'weapons'">{{(item.prof == 'Unarmed') ? item.prof : item.prof.substr(0, item.prof.length - 8)}} {{item.group}}</span>
+                        <span>Level {{item.level}}</span>
+                    </button>
+                    <div class="list-item sublist lower" *ngIf="get_ShowItem()==inventoryID">
+                        <div class="row left-aligned" *ngIf="item.traits.length">
+                            <cite *ngFor="let trait of item.traits" title="{{get_Traits(trait)[0].description}}">&nbsp;{{trait}}</cite>
+                        </div>
+                        <button class="row" (click)="grant_Item(item)">
+                            Get
+                        </button>
+                        <div class="row left-aligned" *ngIf="item.type == 'armors'">
+                            <span>
+                                <strong>Price</strong>
+                                {{get_Price(item)}}&nbsp;
+                            </span>
+                            <span>
+                                <strong>AC Bonus</strong>
+                                {{item.itembonus}}&nbsp;
+                            </span>
+                            <span>
+                                <strong>Dex Cap</strong>
+                                {{item.dexcap}}&nbsp;
+                            </span>
+                            <span>
+                                <strong>Check Penalty</strong>
+                                {{item.skillpenalty}}&nbsp;
+                            </span>
+                            <span>
+                                <strong>Speed Penalty</strong>
+                                {{item.skillpenalty}}&nbsp;
+                            </span>
+                        </div>
+                        <div class="row left-aligned" *ngIf="item.type == 'armors'">
+                            <span>
+                                <strong>Strength</strong>
+                                {{item.strength}}&nbsp;
+                            </span>
+                            <span>
+                                <strong>Bulk</strong>
+                                {{item.bulk}}&nbsp;
+                            </span>
+                        </div>
+                        <div class="row left-aligned" *ngIf="item.type == 'weapons'">
+                            <span>
+                                <strong>Price</strong>
+                                {{get_Price(item)}}&nbsp;
+                            </span>
+                            <span>
+                                <strong>Damage</strong>
+                                {{item.dicenum}}d{{item.dicesize}} {{item.dmgType}}&nbsp;
+                            </span>
+                            <span>
+                                <strong>Bulk</strong>
+                                {{item.bulk}}&nbsp;
+                            </span>
+                        </div>
+                        <div class="row left-aligned" *ngIf="item.type == 'weapons'">
+                            <span>
+                                <strong>Hands</strong>
+                                {{item.hands}}&nbsp;
+                            </span>
+                            <span *ngIf="item.ranged">
+                                <strong>Range</strong>
+                                {{item.ranged}} ft.&nbsp;
+                            </span>
+                            <span *ngIf="item.ranged">
+                                <strong>Reload</strong>
+                                {{item.reload}}&nbsp;
+                            </span>
+                        </div>
+                        <div class="row left-aligned" *ngIf="item.type == 'weapons'">
+                            <span *ngIf="item.ammunition">
+                                <strong>Ammunition</strong>
+                                {{item.ammunition}}&nbsp;
+                            </span>
+                        </div>
+                        <div class="row" >
+                            <div *ngFor="let desc of item.desc.split('\n\n')">
+                                <p *ngIf="desc.split('\n').length == 1">{{desc}}</p>
+                                <ul *ngIf="desc.split('\n').length > 1">
+                                    <li *ngFor="let line of desc.split('\n')">{{line}}</li>
+                                </ul>
+                            </div>
+                            <p *ngIf="item.benefit">
+                                <strong>Benefit</strong>
+                                {{item.benefit}}
+                            </p>
+                            <p *ngIf="item.drawback">
+                                <strong>Drawback</strong>
+                                {{item.drawback}}
+                            </p>
+                        </div>
+                        <div class="row">
+                            <div *ngFor="let desc of item.desc.split('\n\n')">
+                                <p *ngIf="desc.split('\n').length == 1">{{desc}}</p>
+                                <ul *ngIf="desc.split('\n').length > 1">
+                                    <li *ngFor="let line of desc.split('\n')">{{line}}</li>
+                                </ul>
+                            </div>
+                            <p *ngIf="item.benefit">
+                                <strong>Benefit</strong>
+                                {{item.benefit}}
+                            </p>
+                            <p *ngIf="item.drawback">
+                                <strong>Drawback</strong>
+                                {{item.drawback}}
+                            </p>
+                            <p *ngIf="item.subType">
+                                <strong>{{item.subType}}</strong>
+                                {{item.subTypeDesc}}
+                            </p>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>

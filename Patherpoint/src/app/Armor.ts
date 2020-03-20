@@ -5,10 +5,12 @@ import { EffectsService } from './effects.service';
 export class Armor implements Item {
     public notes: string = "";
     public desc: string = "";
+    public name: string = "";
+    public level: string = "-";
     public showNotes: boolean = false;
+    public showName: boolean = false;
     public type: string = "armors";
     public bulk: string = "-";
-    public name: string = "";
     public displayName: string = "";
     public hide: boolean = false;
     public equippable: boolean = true;
@@ -28,6 +30,7 @@ export class Armor implements Item {
     public propertyRunes:string[] = [];
     public gainActivity: string[] = [];
     public material: string = "";
+    public gainItems = [];
     public effects: string[] = [];
     public specialEffects: string[] = []
     get_Potency(potency: number) {
@@ -58,7 +61,7 @@ export class Armor implements Item {
             return (potency + " " + (striking + " " + this.name).trim()).trim();
         }
     }
-    level(characterService: CharacterService, charLevel: number = characterService.get_Character().level) {
+    profLevel(characterService: CharacterService, charLevel: number = characterService.get_Character().level) {
         if (characterService.still_loading()) { return 0; }
         let skillLevel: number = 0;
         let armorIncreases = characterService.get_Character().get_SkillIncreases(0, charLevel, this.name);
@@ -74,7 +77,7 @@ export class Armor implements Item {
         let charLevel = characterService.get_Character().level;
         let dex = characterService.get_Abilities("Dexterity")[0].mod(characterService, effectsService);
         //Get the profiency with either this armor or its category
-        let skillLevel = this.level(characterService);
+        let skillLevel = this.profLevel(characterService);
         if (skillLevel) {
             explain += "\nProficiency: "+skillLevel;
         }

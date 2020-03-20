@@ -81,10 +81,6 @@ export class ItemsService {
         } else { return [] }
     }
 
-    grant_Item(characterService: CharacterService, item) {
-        characterService.grant_InventoryItem(item);
-    }
-
     process_Consumable(characterService: CharacterService, item: Consumable) {
 
         //Apply conditions.

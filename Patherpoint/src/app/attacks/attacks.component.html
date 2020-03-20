@@ -9,7 +9,7 @@
         <div class="list-item" *ngFor="let attack of get_Attacks(weapon)">
             <strong>{{weapon.get_Name()}}{{(attack[0] == 'melee') ? (weapon.ranged ? " melee" : "") : (weapon.melee ? " ranged" : "")}}</strong>
             <div class="row">
-                Attack:
+                Attack
                 <input
                     [className]="(attack[3].length) ? 'penalty' : (attack[4].length) ? 'bonus' : ''"
                     type="number"
@@ -17,7 +17,13 @@
                     title="{{attack[2]}}"
                     [ngModel]="attack[1]"
                     disabled>
-                <span title="{{get_Damage(weapon, attack)[1]}}">&nbsp;Damage: {{get_Damage(weapon, attack[0])[0]}}</span>
+                Damage
+                <input *ngFor="let damage of [get_Damage(weapon, attack)]"
+                    type="text"
+                    size="{{damage[0].length}}"
+                    title="{{damage[1]}}"
+                    [ngModel]="damage[0]"
+                    disabled>
                 <div class="row left-aligned">
                     <cite *ngFor="let trait of weapon.traits" title="{{get_Traits(trait)[0].description}}">&nbsp;{{trait}}</cite>
                     <cite *ngFor="let feat of get_FeatsShowingOn(weapon.name)" [title]="(feat.hint) ? feat.hint : feat.desc">{{feat.name}}&nbsp;</cite>

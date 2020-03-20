@@ -10,7 +10,7 @@
                     <button class="row button fancy-button" (click)="toggle_List('showFixedChanges'+level.number)">
                         Show fixed changes
                     </button>
-                    <div class="list-item sublist row fancy-list"
+                    <div class="list-item sublist fancy-list"
                         *ngIf="this.showList=='showFixedChanges'+level.number">
                         <!--Fixed Spells gained-->
                         <div class="list-item"
@@ -31,7 +31,7 @@
                                 ": "+ choice.spells.length +"/"+ choice.available : 
                                 (choice.spells.length) ? ": "+ choice.spells[0].name : ""}}
                         </button>
-                        <div class="list-item sublist row"
+                        <div class="list-item sublist"
                             [className]="(choice.available == choice.spells.length ) ? 'fancy-list' : ''"
                             *ngIf="this.showList==choice.source+choice.id">
                             <div title="{{(this.get_showItem()==choice.id+spell.name+'desc') ? '' : spell.shortDesc}}"

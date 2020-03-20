@@ -1,0 +1,1970 @@
+[
+    {
+        "type": "weapons",
+        "bulk": "-",
+        "desc": "",
+        "name": "Fist",
+        "group": "Brawling",
+        "prof": "Unarmed",
+        "dmgType": "B",
+        "dicenum": 1,
+        "dicesize": 4,
+        "melee": 5,
+        "moddable": "",
+        "traits": [
+            "Agile",
+            "Finesse",
+            "Nonlethal",
+            "Unarmed"
+        ]
+    },
+    {
+        "type": "weapons",
+        "bulk": "-",
+        "desc": "",
+        "name": "Crane Wing",
+        "hide":true,
+        "group": "Brawling",
+        "prof": "Unarmed",
+        "dmgType": "B",
+        "dicenum": 1,
+        "dicesize": 6,
+        "melee": 5,
+        "moddable": "",
+        "traits": [
+            "Agile",
+            "Finesse",
+            "Nonlethal",
+            "Unarmed"
+        ]
+    },
+    {
+        "type": "weapons",
+        "bulk": "-",
+        "desc": "",
+        "name": "Dragon Tail",
+        "hide":true,
+        "group": "Brawling",
+        "prof": "Unarmed",
+        "dmgType": "B",
+        "dicenum": 1,
+        "dicesize": 10,
+        "melee": 5,
+        "moddable": "",
+        "traits": [
+            "Backswing",
+            "Nonlethal",
+            "Unarmed"
+        ]
+    },
+    {
+        "type": "weapons",
+        "bulk": "-",
+        "desc": "",
+        "name": "Falling Stone",
+        "hide":true,
+        "group": "Brawling",
+        "prof": "Unarmed",
+        "dmgType": "B",
+        "dicenum": 1,
+        "dicesize": 8,
+        "melee": 5,
+        "moddable": "",
+        "traits": [
+            "Forceful",
+            "Nonlethal",
+            "Unarmed"
+        ]
+    },
+    {
+        "type": "weapons",
+        "bulk": "-",
+        "desc": "",
+        "name": "Fire Talon",
+        "hide":true,
+        "group": "Brawling",
+        "prof": "Unarmed",
+        "dmgType": "F",
+        "dicenum": 1,
+        "dicesize": 4,
+        "melee": 5,
+        "moddable": "",
+        "traits": [
+            "Agile",
+            "Finesse",
+            "Fire",
+            "Nonlethal",
+            "Unarmed"
+        ]
+    },
+    {
+        "type": "weapons",
+        "bulk": "-",
+        "desc": "",
+        "name": "Iron Sweep",
+        "hide":true,
+        "group": "Brawling",
+        "prof": "Unarmed",
+        "dmgType": "B",
+        "dicenum": 1,
+        "dicesize": 8,
+        "melee": 5,
+        "moddable": "",
+        "traits": [
+            "Nonlethal",
+            "Parry",
+            "Sweep",
+            "Unarmed"
+        ]
+    },
+    {
+        "type": "weapons",
+        "bulk": "-",
+        "desc": "",
+        "name": "Lashing Branch",
+        "hide":true,
+        "group": "Brawling",
+        "prof": "Unarmed",
+        "dmgType": "S",
+        "dicenum": 1,
+        "dicesize": 8,
+        "melee": 5,
+        "moddable": "",
+        "traits": [
+            "Agile",
+            "Finesse",
+            "Nonlethal",
+            "Unarmed"
+        ]
+    },
+    {
+        "type": "weapons",
+        "bulk": "-",
+        "desc": "",
+        "name": "Tiger Claw",
+        "hide":true,
+        "group": "Brawling",
+        "prof": "Unarmed",
+        "dmgType": "S",
+        "dicenum": 1,
+        "dicesize": 8,
+        "melee": 5,
+        "moddable": "",
+        "traits": [
+            "Agile",
+            "Finesse",
+            "Nonlethal",
+            "Unarmed"
+        ]
+    },
+    {
+        "type": "weapons",
+        "bulk": "-",
+        "desc": "",
+        "name": "Wind Crash",
+        "hide":true,
+        "group": "Brawling",
+        "prof": "Unarmed",
+        "dmgType": "S",
+        "dicenum": 1,
+        "dicesize": 6,
+        "melee": 5,
+        "moddable": "",
+        "traits": [
+            "Agile",
+            "Nonlethal",
+            "Propulsive",
+            "Unarmed"
+        ]
+    },
+    {
+        "type": "weapons",
+        "bulk": "-",
+        "desc": "",
+        "name": "Wolf Jaw",
+        "hide":true,
+        "group": "Brawling",
+        "prof": "Unarmed",
+        "dmgType": "P",
+        "dicenum": 1,
+        "dicesize": 8,
+        "melee": 5,
+        "moddable": "",
+        "traits": [
+            "Agile",
+            "Backstabber",
+            "Finesse",
+            "Nonlethal",
+            "Unarmed"
+        ]
+    },
+    {
+        "type": "weapons",
+        "bulk": "L",
+        "desc": "This broad dagger is carried by dwarves as a weapon, tool, and designation of clan. Losing or having to surrender a clan dagger is considered a mark of embarrassment to most dwarves.",
+        "name": "Clan Dagger",
+        "group": "Knife",
+        "prof": "Simple Weapons",
+        "dmgType": "PB",
+        "dicenum": 1,
+        "dicesize": 4,
+        "melee": 5,
+        "moddable": "weapon",
+        "traits": [
+            "Agile",
+            "Dwarf",
+            "Parry",
+            "Uncommon",
+            "Versatile B"
+        ]
+    },
+    {
+        "type": "weapons",
+        "bulk": "1",
+        "desc": "This is a piece of stout wood shaped or repurposed to bludgeon an enemy. Clubs can be intricately carved pieces of martial art or as simple as a tree branch or piece of wood.",
+        "name": "Club",
+        "group": "Club",
+        "prof": "Simple Weapons",
+        "dmgType": "B",
+        "dicenum": 1,
+        "dicesize": 6,
+        "melee": 5,
+        "moddable": "weapon",
+        "traits": [
+            "Thrown 10 ft."
+        ]
+    },
+    {
+        "type": "weapons",
+        "bulk": "L",
+        "desc": "This small, bladed weapon is held in one hand and used to stab a creature in close combat. It can also be thrown.",
+        "name": "Dagger",
+        "group": "Knife",
+        "prof": "Simple Weapons",
+        "dmgType": "PS",
+        "dicenum": 1,
+        "dicesize": 4,
+        "melee": 5,
+        "ranged": 10,
+        "moddable": "weapon",
+        "traits": [
+            "Agile",
+            "Finesse",
+            "Thrown 10 ft.",
+            "Versatile S"
+        ]
+    },
+    {
+        "type": "weapons",
+        "bulk": "L",
+        "desc": "A pair of these metal gloves comes with full plate, half plate, and splint armor; they can also be purchased separately and worn with other types of armor. They not only protect your hands but also transform your hands into lethal weapons.",
+        "name": "Gauntlet",
+        "group": "Brawling",
+        "prof": "Simple Weapons",
+        "dmgType": "B",
+        "dicenum": 1,
+        "dicesize": 4,
+        "melee": 5,
+        "moddable": "weapon",
+        "traits": [
+            "Agile",
+            "Free-Hand"
+        ]
+    },
+    {
+        "type": "weapons",
+        "bulk": "L",
+        "desc": "A juggling club is lighter than a typical club and balanced to be easily caught and thrown again by a juggler. While a juggling club deals less damage, the extra throwing distance its light weight allows is important for Juggling.",
+        "name": "Juggling Club",
+        "group": "Club",
+        "prof": "Simple Weapons",
+        "dmgType": "B",
+        "dicenum": 1,
+        "dicesize": 4,
+        "melee": 5,
+        "ranged": 20,
+        "moddable": "weapon",
+        "traits": [
+            "Agile",
+            "Nonlethal",
+            "Thrown 20 ft.",
+            "Uncommon"
+        ]
+    },
+    {
+        "type": "weapons",
+        "bulk": "L",
+        "desc": "Also known as punching daggers, katars are characterized by their H-shaped hand grip that allows the blade to jut out from the knuckles.",
+        "name": "Katar",
+        "group": "Knife",
+        "prof": "Simple Weapons",
+        "dmgType": "P",
+        "dicenum": 1,
+        "dicesize": 4,
+        "melee": 5,
+        "moddable": "weapon",
+        "traits": [
+            "Agile",
+            "Deadly d6",
+            "Monk",
+            "Uncommon"
+        ]
+    },
+    {
+        "type": "weapons",
+        "bulk": "L",
+        "desc": "A light mace has a short wooden or metal shaft ending with a dense metal head. Used much like a club, it delivers heavy bludgeoning blows, but with extra power derived from the head’s metal ridges or spikes.",
+        "name": "Light Mace",
+        "group": "Club",
+        "prof": "Simple Weapons",
+        "dmgType": "B",
+        "dicenum": 1,
+        "dicesize": 4,
+        "melee": 5,
+        "moddable": "weapon",
+        "traits": [
+            "Agile",
+            "Finesse",
+            "Shove"
+        ]
+    },
+    {
+        "type": "weapons",
+        "bulk": "2",
+        "desc": "This very long spear, sometimes called a pike, is purely for thrusting rather than throwing. Used by many soldiers and city watch for crowd control and defense against charging enemies, it must be wielded with two hands.",
+        "name": "Longspear",
+        "group": "Spear",
+        "prof": "Simple Weapons",
+        "dmgType": "P",
+        "dicenum": 1,
+        "dicesize": 8,
+        "melee": 10,
+        "moddable": "weapon",
+        "traits": [
+            "Reach"
+        ]
+    },
+    {
+        "type": "weapons",
+        "bulk": "1",
+        "desc": "With a stout haft and a heavy metal head, a mace is sturdy and allows its wielder to deliver powerful blows and dent armor.",
+        "name": "Mace",
+        "group": "Club",
+        "prof": "Simple Weapons",
+        "dmgType": "B",
+        "dicenum": 1,
+        "dicesize": 6,
+        "melee": 5,
+        "moddable": "weapon",
+        "traits": [
+            "Shove"
+        ]
+    },
+    {
+        "type": "weapons",
+        "bulk": "1",
+        "desc": "This weapon has a short shaft ending in a metal ball studded with spikes.",
+        "name": "Morningstar",
+        "group": "Club",
+        "prof": "Simple Weapons",
+        "dmgType": "BP",
+        "dicenum": 1,
+        "dicesize": 6,
+        "melee": 5,
+        "moddable": "weapon",
+        "traits": [
+            "Versatile P"
+        ]
+    },
+    {
+        "type": "weapons",
+        "bulk": "L",
+        "desc": "Poi are light weights tethered to ropes or chains. Performers swing the weights, usually one in each hand, in rhythmic patterns.",
+        "name": "Poi",
+        "group": "Flail",
+        "prof": "Simple Weapons",
+        "dmgType": "B",
+        "dicenum": 1,
+        "dicesize": 4,
+        "melee": 5,
+        "moddable": "weapon",
+        "traits": [
+            "Agile",
+            "Backswing",
+            "Finesse",
+            "Nonlethal",
+            "Uncommon"
+        ]
+    },
+    {
+        "type": "weapons",
+        "bulk": "L",
+        "desc": "Originally a farming tool used for reaping grain, this one-handed weapon has a short wooden handle ending in a curved blade, sometimes sharpened on both sides.",
+        "name": "Sickle",
+        "group": "Knife",
+        "prof": "Simple Weapons",
+        "dmgType": "S",
+        "dicenum": 1,
+        "dicesize": 4,
+        "melee": 5,
+        "moddable": "weapon",
+        "traits": [
+            "Agile",
+            "Finesse",
+            "Trip"
+        ]
+    },
+    {
+        "type": "weapons",
+        "bulk": "1",
+        "desc": "A long metal shaft ending with a metal spike, a spear can be used one-handed as a melee weapon and can be thrown.",
+        "name": "Spear",
+        "group": "Spear",
+        "prof": "Simple Weapons",
+        "dmgType": "P",
+        "dicenum": 1,
+        "dicesize": 6,
+        "melee": 5,
+        "ranged": 20,
+        "moddable": "weapon",
+        "traits": [
+            "Thrown 20 ft."
+        ]
+    },
+    {
+        "type": "weapons",
+        "bulk": "L",
+        "desc": "Providing the same defensive function as a standard gauntlet, this version has a group of spikes protruding from the knuckles to deliver piercing damage with a punch.",
+        "name": "Spiked Gauntlet",
+        "group": "Brawling",
+        "prof": "Simple Weapons",
+        "dmgType": "P",
+        "dicenum": 1,
+        "dicesize": 4,
+        "melee": 5,
+        "moddable": "weapon",
+        "traits": [
+            "Agile",
+            "Free-Hand"
+        ]
+    },
+    {
+        "type": "weapons",
+        "bulk": "1",
+        "desc": "This long piece of wood can aid in walking and deliver a mighty blow.",
+        "name": "Staff",
+        "group": "Club",
+        "prof": "Simple Weapons",
+        "dmgType": "B",
+        "dicenum": 1,
+        "dicesize": 4,
+        "melee": 5,
+        "moddable": "weapon",
+        "traits": [
+            "Two-Hand d8"
+        ]
+    },
+    {
+        "type": "weapons",
+        "bulk": "L",
+        "desc": "This light knife is optimally balanced to be thrown accurately at a greater distance than a common dagger. While this comes at the cost of a significant cutting edge, the difference is worth it for characters focused on thrown weapons.",
+        "name": "Throwing Knife",
+        "group": "Knife",
+        "prof": "Simple Weapons",
+        "dmgType": "P",
+        "dicenum": 1,
+        "dicesize": 4,
+        "melee": 5,
+        "ranged": 20,
+        "moddable": "weapon",
+        "traits": [
+            "Agile",
+            "Finesse",
+            "Thrown 20 ft.",
+            "Twin",
+            "Uncommon"
+        ]
+    },
+    {
+        "type": "weapons",
+        "bulk": "1",
+        "desc": "This broad-bladed sword, sometimes called the hand‑and‑a‑half sword, has a longer grip so it can be held in one hand or used with two hands to provide extra piercing or slashing power.",
+        "name": "Bastard Sword",
+        "group": "Sword",
+        "prof": "Martial Weapons",
+        "dmgType": "S",
+        "dicenum": 1,
+        "dicesize": 8,
+        "melee": 5,
+        "moddable": "weapon",
+        "traits": [
+            "Two-Hand d12"
+        ]
+    },
+    {
+        "type": "weapons",
+        "bulk": "1",
+        "desc": "These axes are designed explicitly as weapons, rather than tools. They typically weigh less, with a shaft reinforced with metal bands or bolts, and have a sharper blade, making them ideal for chopping limbs rather than wood.",
+        "name": "Battle Axe",
+        "group": "Axe",
+        "prof": "Martial Weapons",
+        "dmgType": "S",
+        "dicenum": 1,
+        "dicesize": 8,
+        "melee": 5,
+        "moddable": "weapon",
+        "traits": [
+            "Sweep"
+        ]
+    },
+    {
+        "type": "weapons",
+        "bulk": "1",
+        "desc": "The thin metal plates interwoven throughout this long scarf turn a fashion accessory into a deadly weapon.",
+        "name": "Bladed Scarf",
+        "group": "Flail",
+        "prof": "Martial Weapons",
+        "dmgType": "S",
+        "dicenum": 1,
+        "dicesize": 8,
+        "melee": 10,
+        "moddable": "weapon",
+        "traits": [
+            "Monk",
+            "Parry",
+            "Reach",
+            "Trip"
+        ]
+    },
+    {
+        "type": "weapons",
+        "bulk": "2",
+        "desc": "This strong but slender staff is tapered at the ends and well balanced. It’s designed to be an offensive and defensive weapon.",
+        "name": "Bo Staff",
+        "group": "Club",
+        "prof": "Martial Weapons",
+        "dmgType": "B",
+        "dicenum": 1,
+        "dicesize": 8,
+        "melee": 10,
+        "moddable": "weapon",
+        "traits": [
+            "Monk",
+            "Parry",
+            "Reach",
+            "Trip"
+        ]
+    },
+    {
+        "type": "weapons",
+        "bulk": "L",
+        "desc": "This short, curved, and crude makeshift blade often has holes drilled into it to reduce its weight. It’s a favored weapon of goblins. ",
+        "name": "Dogslicer",
+        "group": "Sword",
+        "prof": "Martial Weapons",
+        "dmgType": "S",
+        "dicenum": 1,
+        "dicesize": 6,
+        "melee": 5,
+        "moddable": "weapon",
+        "traits": [
+            "Agile",
+            "Backstabber",
+            "Finesse",
+            "Goblin",
+            "Uncommon"
+        ]
+    },
+    {
+        "type": "weapons",
+        "bulk": "2",
+        "desc": "Essentially a longer version of the scimitar, this traditional elven weapon has a thinner blade than its cousin. ",
+        "name": "Elven Curve Blade",
+        "group": "Sword",
+        "prof": "Martial Weapons",
+        "dmgType": "S",
+        "dicenum": 1,
+        "dicesize": 8,
+        "melee": 5,
+        "moddable": "weapon",
+        "traits": [
+            "Elf",
+            "Finesse",
+            "Forceful",
+            "Uncommon"
+        ]
+    },
+    {
+        "type": "weapons",
+        "bulk": "2",
+        "desc": "This weapon is a heavier, two-handed version of the curved-bladed scimitar. It is weighted toward the blade’s end, making it a powerful slashing weapon.",
+        "name": "Falchion",
+        "group": "Sword",
+        "prof": "Martial Weapons",
+        "dmgType": "S",
+        "dicenum": 1,
+        "dicesize": 10,
+        "melee": 5,
+        "moddable": "weapon",
+        "traits": [
+            "Forceful",
+            "Sweep"
+        ]
+    },
+    {
+        "type": "weapons",
+        "bulk": "2",
+        "desc": "A fauchard is similar to a glaive, save that its cutting edge is along the concave side. Fauchards are favored by Crimson Reclaimers for hacking through waves of zombies. The fauchard is a martial melee weapon.",
+        "name": "Fauchard",
+        "group": "Polearm",
+        "prof": "Martial Weapons",
+        "dmgType": "S",
+        "dicenum": 1,
+        "dicesize": 8,
+        "melee": 10,
+        "moddable": "weapon",
+        "traits": [
+            "Deadly d8",
+            "Reach",
+            "Sweep",
+            "Trip"
+        ]
+    },
+    {
+        "type": "weapons",
+        "bulk": "L",
+        "desc": "This fan is useful for elegant dances as well as for slicing unsuspecting foes with the blades along its outer edge. If used in performances, it might be disguised as a frilly accessory, or it might be an obvious, though elegant, weapon.",
+        "name": "Fighting Fan",
+        "group": "Knife",
+        "prof": "Martial Weapons",
+        "dmgType": "S",
+        "dicenum": 1,
+        "dicesize": 4,
+        "melee": 10,
+        "moddable": "weapon",
+        "traits": [
+            "Agile",
+            "Backstabber",
+            "Deadly d6",
+            "Finesse",
+            "Monk",
+            "Uncommon"
+        ]
+    },
+    {
+        "type": "weapons",
+        "bulk": "L",
+        "desc": "This halfling weapon looks like a long, two-pronged fork and is used as both a weapon and a cooking implement.",
+        "name": "Filcher's Fork",
+        "group": "Spear",
+        "prof": "Martial Weapons",
+        "dmgType": "P",
+        "dicenum": 1,
+        "dicesize": 4,
+        "melee": 5,
+        "ranged": 20,
+        "moddable": "weapon",
+        "traits": [
+            "Agile",
+            "Backstabber",
+            "Deadly d6",
+            "Finesse",
+            "Halfling",
+            "Thrown 20 ft.",
+            "Uncommon"
+        ]
+    },
+    {
+        "type": "weapons",
+        "bulk": "1",
+        "desc": "This weapon consists of a wooden handle attached to a spiked ball or cylinder by a chain, rope, or strap of leather. ",
+        "name": "Flail",
+        "group": "Flail",
+        "prof": "Martial Weapons",
+        "dmgType": "B",
+        "dicenum": 1,
+        "dicesize": 6,
+        "melee": 5,
+        "moddable": "weapon",
+        "traits": [
+            "Disarm",
+            "Sweep",
+            "Trip"
+        ]
+    },
+    {
+        "type": "weapons",
+        "bulk": "2",
+        "desc": "This polearm consists of a long, single-edged blade on the end of a 7-foot pole. It is extremely effective at delivering lethal cuts at a distance.",
+        "name": "Glaive",
+        "group": "Polearm",
+        "prof": "Martial Weapons",
+        "dmgType": "S",
+        "dicenum": 1,
+        "dicesize": 8,
+        "melee": 10,
+        "moddable": "weapon",
+        "traits": [
+            "Deadly d8",
+            "Forceful",
+            "Reach"
+        ]
+    },
+    {
+        "type": "weapons",
+        "bulk": "1",
+        "desc": "This gnome tool and weapon features a hammer at one end and a curved pick on the other. It’s such a strange and awkward weapon that others think the gnomes are slightly erratic for using it.",
+        "name": "Gnome Hooked Hammer",
+        "group": "Hammer",
+        "prof": "Martial Weapons",
+        "dmgType": "BP",
+        "dicenum": 1,
+        "dicesize": 6,
+        "melee": 5,
+        "moddable": "weapon",
+        "traits": [
+            "Gnome",
+            "Trip",
+            "Two-Hand d10",
+            "Uncommon",
+            "Versatile P"
+        ]
+    },
+    {
+        "type": "weapons",
+        "bulk": "2",
+        "desc": "This large battle axe is too heavy to wield with only one hand. Many greataxes incorporate two blades, and they are often “bearded,” having a hook at the bottom to increase the strength of their chopping power. ",
+        "name": "Greataxe",
+        "group": "Axe",
+        "prof": "Martial Weapons",
+        "dmgType": "S",
+        "dicenum": 1,
+        "dicesize": 12,
+        "melee": 5,
+        "moddable": "weapon",
+        "traits": [
+            "Sweep"
+        ]
+    },
+    {
+        "type": "weapons",
+        "bulk": "2",
+        "desc": "While many greatclubs are intricately carved, others are little more than a sturdy tree branch. These massive clubs are too heavy to wield with only one hand.",
+        "name": "Greatclub",
+        "group": "Club",
+        "prof": "Martial Weapons",
+        "dmgType": "B",
+        "dicenum": 1,
+        "dicesize": 10,
+        "melee": 5,
+        "moddable": "weapon",
+        "traits": [
+            "Backswing",
+            "Shove"
+        ]
+    },
+    {
+        "type": "weapons",
+        "bulk": "2",
+        "desc": "This pick has a longer handle and broader head than a regular pick. It is too heavy to wield in one hand.",
+        "name": "Greatpick",
+        "group": "Pick",
+        "prof": "Martial Weapons",
+        "dmgType": "P",
+        "dicenum": 1,
+        "dicesize": 10,
+        "melee": 5,
+        "moddable": "weapon",
+        "traits": [
+            "Fatal d12"
+        ]
+    },
+    {
+        "type": "weapons",
+        "bulk": "2",
+        "desc": "This immense two-handed sword is nearly as tall as its wielder. Its lower blade is often somewhat dulled to allow it to be gripped for extra leverage in close-quarter fights.",
+        "name": "Greatsword",
+        "group": "Sword",
+        "prof": "Martial Weapons",
+        "dmgType": "SP",
+        "dicenum": 1,
+        "dicesize": 12,
+        "melee": 5,
+        "moddable": "weapon",
+        "traits": [
+            "Versatile P"
+        ]
+    },
+    {
+        "type": "weapons",
+        "bulk": "2",
+        "desc": "This polearm bears a long, often one‑sided, curved blade with a hook protruding from the blunt side of the blade, which can allow its wielder to trip opponents at a distance. Its shaft is usually 8 feet long.",
+        "name": "Guisarme",
+        "group": "Polearm",
+        "prof": "Martial Weapons",
+        "dmgType": "S",
+        "dicenum": 1,
+        "dicesize": 10,
+        "melee": 10,
+        "moddable": "weapon",
+        "traits": [
+            "Reach",
+            "Trip"
+        ]
+    },
+    {
+        "type": "weapons",
+        "bulk": "2",
+        "desc": "This polearm has a relatively short, 5-foot shaft. The business end is a long spike with an axe blade attached. ",
+        "name": "Halberd",
+        "group": "Polearm",
+        "prof": "Martial Weapons",
+        "dmgType": "PS",
+        "dicenum": 1,
+        "dicesize": 10,
+        "melee": 10,
+        "moddable": "weapon",
+        "traits": [
+            "Reach",
+            "Versatile S"
+        ]
+    },
+    {
+        "type": "weapons",
+        "bulk": "L",
+        "desc": "This small axe can be used in close combat or thrown.",
+        "name": "Hatchet",
+        "group": "Axe",
+        "prof": "Martial Weapons",
+        "dmgType": "S",
+        "dicenum": 1,
+        "dicesize": 6,
+        "melee": 5,
+        "ranged": 10,
+        "moddable": "weapon",
+        "traits": [
+            "Agile",
+            "Sweep",
+            "Thrown 10 ft."
+        ]
+    },
+    {
+        "type": "weapons",
+        "bulk": "2",
+        "desc": "Created by goblins to battle horses, this weapon is essentially a long shaft ending in a blade with a large hook.",
+        "name": "Horsechopper",
+        "group": "Polearm",
+        "prof": "Martial Weapons",
+        "dmgType": "SP",
+        "dicenum": 1,
+        "dicesize": 8,
+        "melee": 10,
+        "moddable": "weapon",
+        "traits": [
+            "Goblin",
+            "Reach",
+            "Trip",
+            "Uncommon",
+            "Versatile P"
+        ]
+    },
+    {
+        "type": "weapons",
+        "bulk": "L",
+        "desc": "Similar to a sickle and used in some regions to reap grain, a kama has a short, slightly curved blade and a wooden handle.",
+        "name": "Kama",
+        "group": "Knife",
+        "prof": "Martial Weapons",
+        "dmgType": "S",
+        "dicenum": 1,
+        "dicesize": 6,
+        "melee": 5,
+        "moddable": "weapon",
+        "traits": [
+            "Agile",
+            "Monk",
+            "Trip",
+            "Uncommon"
+        ]
+    },
+    {
+        "type": "weapons",
+        "bulk": "1",
+        "desc": "A katana is a curved, single-edged sword known for its wickedly sharped blade. ",
+        "name": "Katana",
+        "group": "Sword",
+        "prof": "Martial Weapons",
+        "dmgType": "SP",
+        "dicenum": 1,
+        "dicesize": 6,
+        "melee": 5,
+        "moddable": "weapon",
+        "traits": [
+            "Deadly d8",
+            "Two-Hand d10",
+            "Uncommon",
+            "Versatile P"
+        ]
+    },
+    {
+        "type": "weapons",
+        "bulk": "1",
+        "desc": "This curved sickle sword has a pointed tip, allowing it to be swung like a handaxe or thrust like a short sword. The tip of a khopesh is usually hooked so that it can be used to disarm an opponent’s shield or weapon.",
+        "name": "Khopesh",
+        "group": "Sword",
+        "prof": "Martial Weapons",
+        "dmgType": "S",
+        "dicenum": 1,
+        "dicesize": 8,
+        "melee": 5,
+        "moddable": "weapon",
+        "traits": [
+            "Trip",
+            "Uncommon"
+        ]
+    },
+    {
+        "type": "weapons",
+        "bulk": "L",
+        "desc": "The blade of this foot-long knife curves inward and lacks a cross guard at the hilt. ",
+        "name": "Kukri",
+        "group": "Knife",
+        "prof": "Martial Weapons",
+        "dmgType": "S",
+        "dicenum": 1,
+        "dicesize": 6,
+        "melee": 5,
+        "moddable": "weapon",
+        "traits": [
+            "Agile",
+            "Finesse",
+            "Trip",
+            "Uncommon"
+        ]
+    },
+    {
+        "type": "weapons",
+        "bulk": "2",
+        "desc": "This spear-like weapon is used by a mounted creature to deal a great deal of damage.",
+        "name": "Lance",
+        "group": "Spear",
+        "prof": "Martial Weapons",
+        "dmgType": "P",
+        "dicenum": 1,
+        "dicesize": 8,
+        "melee": 10,
+        "moddable": "weapon",
+        "traits": [
+            "Deadly d8",
+            "Jousting d6",
+            "Reach"
+        ]
+    },
+    {
+        "type": "weapons",
+        "bulk": "L",
+        "desc": "This smaller version of the warhammer has a wooden or metal shaft ending in a metal head. Unlike its heavier cousin, it is light enough to throw.",
+        "name": "Light Hammer",
+        "group": "Hammer",
+        "prof": "Martial Weapons",
+        "dmgType": "B",
+        "dicenum": 1,
+        "dicesize": 6,
+        "melee": 5,
+        "ranged": 20,
+        "moddable": "weapon",
+        "traits": [
+            "Agile",
+            "Thrown 20 ft."
+        ]
+    },
+    {
+        "type": "weapons",
+        "bulk": "L",
+        "desc": "A light pick is a modified mining implement with a wooden shaft ending in a pick head crafted more to pierce armor and flesh than chip rocks.",
+        "name": "Light Pick",
+        "group": "Pick",
+        "prof": "Martial Weapons",
+        "dmgType": "P",
+        "dicenum": 1,
+        "dicesize": 4,
+        "melee": 5,
+        "moddable": "weapon",
+        "traits": [
+            "Agile",
+            "Fatal d8"
+        ]
+    },
+    {
+        "type": "weapons",
+        "bulk": "1",
+        "desc": "Longswords can be one-edged or two‑edged swords. Their blades are heavy and they’re between 3 and 4 feet in length. ",
+        "name": "Longsword",
+        "group": "Sword",
+        "prof": "Martial Weapons",
+        "dmgType": "SP",
+        "dicenum": 1,
+        "dicesize": 8,
+        "melee": 5,
+        "moddable": "weapon",
+        "traits": [
+            "Versatile P"
+        ]
+    },
+    {
+        "type": "weapons",
+        "bulk": "L",
+        "desc": "This medium-length sword has a wide blade and long grip. Though it is typically used to hack through heavy foliage, the machete can also be used as a deadly weapon.",
+        "name": "Machete",
+        "group": "Sword",
+        "prof": "Martial Weapons",
+        "dmgType": "S",
+        "dicenum": 1,
+        "dicesize": 8,
+        "melee": 5,
+        "moddable": "weapon",
+        "traits": [
+            "Deadly d8",
+            "Sweep"
+        ]
+    },
+    {
+        "type": "weapons",
+        "bulk": "L",
+        "desc": "This parrying dagger features a robust guard to protect the wielder’s hand. ",
+        "name": "Main-gauche",
+        "group": "Knife",
+        "prof": "Martial Weapons",
+        "dmgType": "PS",
+        "dicenum": 1,
+        "dicesize": 4,
+        "melee": 5,
+        "moddable": "weapon",
+        "traits": [
+            "Agile",
+            "Disarm",
+            "Finesse",
+            "Parry",
+            "Versatile S"
+        ]
+    },
+    {
+        "type": "weapons",
+        "bulk": "1",
+        "desc": "Also known as a hunga munga or danisco, this hybrid knife-axe consists of a hilt and a blade that curves backward toward the wielder. The curve of the blade is such that after a victim has been struck by a mambele, more damage is dealt as the weapon is extracted from the victim’s body.",
+        "name": "Mambele",
+        "group": "Axe",
+        "prof": "Martial Weapons",
+        "dmgType": "S",
+        "dicenum": 1,
+        "dicesize": 6,
+        "melee": 5,
+        "ranged": 20,
+        "moddable": "weapon",
+        "traits": [
+            "Deadly d8",
+            "Disarm",
+            "Thrown 20 ft.",
+            "Uncommon"
+        ]
+    },
+    {
+        "type": "weapons",
+        "bulk": "2",
+        "desc": "Mauls are massive warhammers that must be swung with two hands.",
+        "name": "Maul",
+        "group": "Hammer",
+        "prof": "Martial Weapons",
+        "dmgType": "B",
+        "dicenum": 1,
+        "dicesize": 12,
+        "melee": 5,
+        "moddable": "weapon",
+        "traits": [
+            "Shove"
+        ]
+    },
+    {
+        "type": "weapons",
+        "bulk": "2",
+        "desc": "This weapon consists of a long chain connected to a heavy weight at one end. When a wielder swings the weight by the chain, it builds momentum and can serve as a deadly bludgeon with incredible reach.",
+        "name": "Meteor Hammer",
+        "group": "Flail",
+        "prof": "Martial Weapons",
+        "dmgType": "B",
+        "dicenum": 1,
+        "dicesize": 8,
+        "melee": 10,
+        "moddable": "weapon",
+        "traits": [
+            "Backswing",
+            "Disarm",
+            "Reach",
+            "Trip"
+        ]
+    },
+    {
+        "type": "weapons",
+        "bulk": "2",
+        "desc": "This 6-foot staff has a 2-foot-long, slightly curved, swordlike blade attached at one end. The long pole helps keep the wielder out of reach of swords and shorter weapons.",
+        "name": "Naginata",
+        "group": "Polearm",
+        "prof": "Martial Weapons",
+        "dmgType": "S",
+        "dicenum": 1,
+        "dicesize": 8,
+        "melee": 10,
+        "moddable": "weapon",
+        "traits": [
+            "Deadly d8",
+            "Reach",
+            "Uncommon",
+            "Versatile P"
+        ]
+    },
+    {
+        "type": "weapons",
+        "bulk": "1",
+        "desc": "This sword has a broad blade, along which are threaded nine heavy metal rings. The rings add weight to the weapon for downward swings, as well as clashing together to make noise.",
+        "name": "Nine-Ring Sword",
+        "group": "Sword",
+        "prof": "Martial Weapons",
+        "dmgType": "S",
+        "dicenum": 1,
+        "dicesize": 8,
+        "melee": 5,
+        "moddable": "weapon",
+        "traits": [
+            "Disarm",
+            "Uncommon"
+        ]
+    },
+    {
+        "type": "weapons",
+        "bulk": "L",
+        "desc": "The nunchaku is constructed of two wooden or metal bars connected by a short length of rope or chain.",
+        "name": "Nunchaku",
+        "group": "Club",
+        "prof": "Martial Weapons",
+        "dmgType": "B",
+        "dicenum": 1,
+        "dicesize": 6,
+        "melee": 5,
+        "moddable": "weapon",
+        "traits": [
+            "Backswing",
+            "Disarm",
+            "Finesse",
+            "Monk",
+            "Uncommon"
+        ]
+    },
+    {
+        "type": "weapons",
+        "bulk": "L",
+        "desc": "This stout, metal blade of orc design has a horizontal basket hilt with blades jutting from each end, or sometimes one blade like that of a katar.",
+        "name": "Orc Knuckle Dagger",
+        "group": "Knife",
+        "prof": "Martial Weapons",
+        "dmgType": "P",
+        "dicenum": 1,
+        "dicesize": 6,
+        "melee": 5,
+        "moddable": "weapon",
+        "traits": [
+            "Agile",
+            "Disarm",
+            "Orc",
+            "Uncommon"
+        ]
+    },
+    {
+        "type": "weapons",
+        "bulk": "1",
+        "desc": "A pick designed solely for combat has a sturdy wooden shaft and a heavy, pointed head to deliver devastating blows.",
+        "name": "Pick",
+        "group": "Pick",
+        "prof": "Martial Weapons",
+        "dmgType": "P",
+        "dicenum": 1,
+        "dicesize": 6,
+        "melee": 5,
+        "moddable": "weapon",
+        "traits": [
+            "Fatal d10"
+        ]
+    },
+    {
+        "type": "weapons",
+        "bulk": "1",
+        "desc": "The polytool is a small metal rod with a number of simple tools folded inside. The user can extend a long ceramic blade, as well as an awl, a chisel, a file, flint and steel, a hook, an inkpen, a magnifying glass, pliers, scissors, and a small saw. The flint and steel can be used up to 10 times before needing to be replaced. Though inspired by advanced Numerian technology, the polytool is a simple enough feat of metalworking that any blacksmith could produce it— perfect for the goddess Casandalee to spread innovation farther than actual Numerian tech could reach.\n\nCharacters from Numeria have access to the polytool.",
+        "name": "Polytool",
+        "group": "Sword",
+        "prof": "Martial Weapons",
+        "dmgType": "modular",
+        "dicenum": 1,
+        "dicesize": 6,
+        "melee": 5,
+        "moddable": "weapon",
+        "traits": [
+            "Agile",
+            "Modular P, B or S",
+            "Uncommon"
+        ]
+    },
+    {
+        "type": "weapons",
+        "bulk": "2",
+        "desc": "This polearm is a long trident with a central prong that’s longer than the other two.",
+        "name": "Ranseur",
+        "group": "Polearm",
+        "prof": "Martial Weapons",
+        "dmgType": "P",
+        "dicenum": 1,
+        "dicesize": 10,
+        "melee": 10,
+        "moddable": "weapon",
+        "traits": [
+            "Disarm",
+            "Reach"
+        ]
+    },
+    {
+        "type": "weapons",
+        "bulk": "1",
+        "desc": "The rapier is a long and thin piercing blade with a basket hilt. It is prized among many as a dueling weapon. ",
+        "name": "Rapier",
+        "group": "Sword",
+        "prof": "Martial Weapons",
+        "dmgType": "P",
+        "dicenum": 1,
+        "dicesize": 6,
+        "melee": 5,
+        "moddable": "weapon",
+        "traits": [
+            "Deadly d8",
+            "Disarm",
+            "Finesse"
+        ]
+    },
+    {
+        "type": "weapons",
+        "bulk": "L",
+        "desc": "This piercing dagger is a metal spike flanked by a pair of prongs that can be used to trap an enemy’s weapon.",
+        "name": "Sai",
+        "group": "Knife",
+        "prof": "Martial Weapons",
+        "dmgType": "PB",
+        "dicenum": 1,
+        "dicesize": 4,
+        "melee": 5,
+        "moddable": "weapon",
+        "traits": [
+            "Agile",
+            "Disarm",
+            "Finesse",
+            "Monk",
+            "Uncommon",
+            "Versatile B"
+        ]
+    },
+    {
+        "type": "weapons",
+        "bulk": "L",
+        "desc": "A sap has a soft wrapping around a dense core, typically a leather sheath around a lead rod. Its head is wider than its grip to disperse the force of a blow, as the weapon’s purpose is to knock out its victim rather than to draw blood. ",
+        "name": "Sap",
+        "group": "Club",
+        "prof": "Martial Weapons",
+        "dmgType": "B",
+        "dicenum": 1,
+        "dicesize": 6,
+        "melee": 5,
+        "moddable": "weapon",
+        "traits": [
+            "Agile",
+            "Nonlethal"
+        ]
+    },
+    {
+        "type": "weapons",
+        "bulk": "1",
+        "desc": "This one-handed curved blade is sharp on one side.",
+        "name": "Scimitar",
+        "group": "Sword",
+        "prof": "Martial Weapons",
+        "dmgType": "S",
+        "dicenum": 1,
+        "dicesize": 6,
+        "melee": 5,
+        "moddable": "weapon",
+        "traits": [
+            "Forceful",
+            "Sweep"
+        ]
+    },
+    {
+        "type": "weapons",
+        "bulk": "L",
+        "desc": "A scorpion whip has a series of razor-sharp blades set along its tip. Unlike ordinary whips, a scorpion whip doesn’t have the nonlethal trait, making it deadlier in combat but less effective when the wielder seeks to bring in foes alive.",
+        "name": "Scorpion Whip",
+        "group": "Flail",
+        "prof": "Martial Weapons",
+        "dmgType": "S",
+        "dicenum": 1,
+        "dicesize": 4,
+        "melee": 10,
+        "moddable": "weapon",
+        "traits": [
+            "Disarm",
+            "Finesse",
+            "Reach",
+            "Trip",
+            "Uncommon"
+        ]
+    },
+    {
+        "type": "weapons",
+        "bulk": "1",
+        "desc": "",
+        "name": "Scourge",
+        "group": "Flail",
+        "prof": "Martial Weapons",
+        "dmgType": "S",
+        "dicenum": 1,
+        "dicesize": 4,
+        "melee": 5,
+        "moddable": "weapon",
+        "traits": [
+            "Agile",
+            "Disarm",
+            "Finesse",
+            "Nonlethal",
+            "Sweep"
+        ]
+    },
+    {
+        "type": "weapons",
+        "bulk": "2",
+        "desc": "",
+        "name": "Scythe",
+        "group": "Polearm",
+        "prof": "Martial Weapons",
+        "dmgType": "S",
+        "dicenum": 1,
+        "dicesize": 10,
+        "melee": 5,
+        "moddable": "weapon",
+        "traits": [
+            "Deadly d10",
+            "Trip"
+        ]
+    },
+    {
+        "type": "weapons",
+        "bulk": "-",
+        "desc": "",
+        "name": "Shield Bash",
+        "group": "Shield",
+        "prof": "Martial Weapons",
+        "dmgType": "B",
+        "dicenum": 1,
+        "dicesize": 4,
+        "melee": 5,
+        "moddable": "weapon",
+        "traits": []
+    },
+    {
+        "type": "weapons",
+        "bulk": "-",
+        "desc": "",
+        "name": "Shield Boss",
+        "group": "Shield",
+        "prof": "Martial Weapons",
+        "dmgType": "B",
+        "dicenum": 1,
+        "dicesize": 6,
+        "melee": 5,
+        "moddable": "weapon",
+        "traits": [
+            "Attached to Shield"
+        ]
+    },
+    {
+        "type": "weapons",
+        "bulk": "-",
+        "desc": "",
+        "name": "Shield Spikes",
+        "group": "Shield",
+        "prof": "Martial Weapons",
+        "dmgType": "P",
+        "dicenum": 1,
+        "dicesize": 6,
+        "melee": 5,
+        "moddable": "weapon",
+        "traits": [
+            "Attached to Shield"
+        ]
+    },
+    {
+        "type": "weapons",
+        "bulk": "L",
+        "desc": "",
+        "name": "Shortsword",
+        "group": "Sword",
+        "prof": "Martial Weapons",
+        "dmgType": "PS",
+        "dicenum": 1,
+        "dicesize": 6,
+        "melee": 5,
+        "moddable": "weapon",
+        "traits": [
+            "Agile",
+            "Finesse",
+            "Versatile S"
+        ]
+    },
+    {
+        "type": "weapons",
+        "bulk": "1",
+        "desc": "",
+        "name": "Spiked Chain",
+        "group": "Flail",
+        "prof": "Martial Weapons",
+        "dmgType": "S",
+        "dicenum": 1,
+        "dicesize": 8,
+        "melee": 5,
+        "moddable": "weapon",
+        "traits": [
+            "Disarm",
+            "Finesse",
+            "Trip",
+            "Uncommon"
+        ]
+    },
+    {
+        "type": "weapons",
+        "bulk": "L",
+        "desc": "",
+        "name": "Starknife",
+        "group": "Knife",
+        "prof": "Martial Weapons",
+        "dmgType": "PS",
+        "dicenum": 1,
+        "dicesize": 4,
+        "melee": 5,
+        "ranged": 20,
+        "moddable": "weapon",
+        "traits": [
+            "Agile",
+            "Deadly d6",
+            "Finesse",
+            "Thrown 20 ft.",
+            "Versatile S"
+        ]
+    },
+    {
+        "type": "weapons",
+        "bulk": "1",
+        "desc": "",
+        "name": "Temple Sword",
+        "group": "Sword",
+        "prof": "Martial Weapons",
+        "dmgType": "S",
+        "dicenum": 1,
+        "dicesize": 8,
+        "melee": 5,
+        "moddable": "weapon",
+        "traits": [
+            "Monk",
+            "Trip",
+            "Uncommon"
+        ]
+    },
+    {
+        "type": "weapons",
+        "bulk": "1",
+        "desc": "",
+        "name": "Trident",
+        "group": "Spear",
+        "prof": "Martial Weapons",
+        "dmgType": "P",
+        "dicenum": 1,
+        "dicesize": 8,
+        "melee": 5,
+        "ranged": 20,
+        "moddable": "weapon",
+        "traits": [
+            "Thrown 20 ft."
+        ]
+    },
+    {
+        "type": "weapons",
+        "bulk": "2",
+        "desc": "",
+        "name": "War Flail",
+        "group": "Flail",
+        "prof": "Martial Weapons",
+        "dmgType": "B",
+        "dicenum": 1,
+        "dicesize": 10,
+        "melee": 5,
+        "moddable": "weapon",
+        "traits": [
+            "Disarm",
+            "Sweep",
+            "Trip"
+        ]
+    },
+    {
+        "type": "weapons",
+        "bulk": "1",
+        "desc": "",
+        "name": "Warhammer",
+        "group": "Hammer",
+        "prof": "Martial Weapons",
+        "dmgType": "B",
+        "dicenum": 1,
+        "dicesize": 8,
+        "melee": 5,
+        "moddable": "weapon",
+        "traits": [
+            "Shove"
+        ]
+    },
+    {
+        "type": "weapons",
+        "bulk": "1",
+        "desc": "",
+        "name": "Whip",
+        "group": "Flail",
+        "prof": "Martial Weapons",
+        "dmgType": "S",
+        "dicenum": 1,
+        "dicesize": 4,
+        "melee": 10,
+        "moddable": "weapon",
+        "traits": [
+            "Disarm",
+            "Finesse",
+            "Nonlethal",
+            "Reach",
+            "Trip"
+        ]
+    },
+    {
+        "type": "weapons",
+        "bulk": "1",
+        "desc": "",
+        "name": "Aklys",
+        "group": "Club",
+        "prof": "Advanced Weapons",
+        "dmgType": "B",
+        "dicenum": 1,
+        "dicesize": 6,
+        "melee": 5,
+        "ranged": 20,
+        "moddable": "weapon",
+        "traits": [
+            "Ranged Trip",
+            "Tethered",
+            "Thrown 20 ft.",
+            "Trip",
+            "Uncommon"
+        ]
+    },
+    {
+        "type": "weapons",
+        "bulk": "1",
+        "desc": "",
+        "name": "Aldori Dueling Sword",
+        "group": "Sword",
+        "prof": "Advanced Weapons",
+        "dmgType": "SP",
+        "dicenum": 1,
+        "dicesize": 8,
+        "melee": 5,
+        "moddable": "weapon",
+        "traits": [
+            "Finesse",
+            "Uncommon",
+            "Versatile P"
+        ]
+    },
+    {
+        "type": "weapons",
+        "bulk": "2",
+        "desc": "",
+        "name": "Dwarven War Axe",
+        "group": "Axe",
+        "prof": "Advanced Weapons",
+        "dmgType": "S",
+        "dicenum": 1,
+        "dicesize": 8,
+        "melee": 5,
+        "moddable": "weapon",
+        "traits": [
+            "Dwarf",
+            "Sweep",
+            "Two-Hand d12",
+            "Uncommon"
+        ]
+    },
+    {
+        "type": "weapons",
+        "bulk": "2",
+        "desc": "",
+        "name": "Gnome Flickmace",
+        "group": "Flail",
+        "prof": "Advanced Weapons",
+        "dmgType": "B",
+        "dicenum": 1,
+        "dicesize": 8,
+        "melee": 10,
+        "moddable": "weapon",
+        "traits": [
+            "Gnome",
+            "Reach",
+            "Uncommon"
+        ]
+    },
+    {
+        "type": "weapons",
+        "bulk": "2",
+        "desc": "",
+        "name": "Ogre Hook",
+        "group": "Pick",
+        "prof": "Advanced Weapons",
+        "dmgType": "P",
+        "dicenum": 1,
+        "dicesize": 10,
+        "melee": 5,
+        "moddable": "weapon",
+        "traits": [
+            "Deadly 1d10",
+            "Trip",
+            "Uncommon"
+        ]
+    },
+    {
+        "type": "weapons",
+        "bulk": "1",
+        "desc": "",
+        "name": "Orc Necksplitter",
+        "group": "Axe",
+        "prof": "Advanced Weapons",
+        "dmgType": "S",
+        "dicenum": 1,
+        "dicesize": 8,
+        "melee": 5,
+        "moddable": "weapon",
+        "traits": [
+            "Forceful",
+            "Orc",
+            "Sweep",
+            "Uncommon"
+        ]
+    },
+    {
+        "type": "weapons",
+        "bulk": "L",
+        "desc": "",
+        "name": "Sawtooth Saber",
+        "group": "Sword",
+        "prof": "Advanced Weapons",
+        "dmgType": "S",
+        "dicenum": 1,
+        "dicesize": 6,
+        "melee": 5,
+        "moddable": "weapon",
+        "traits": [
+            "Agile",
+            "Finesse",
+            "Twin",
+            "Uncommon"
+        ]
+    },
+    {
+        "type": "weapons",
+        "bulk": "L",
+        "desc": "",
+        "name": "Blowgun",
+        "group": "Dart",
+        "prof": "Simple Weapons",
+        "dmgType": "P",
+        "dicenum": 1,
+        "dicesize": 1,
+        "ranged": 20,
+        "moddable": "weapon",
+        "traits": [
+            "Agile",
+            "Nonlethal"
+        ]
+    },
+    {
+        "type": "weapons",
+        "bulk": "1",
+        "desc": "",
+        "name": "Crossbow",
+        "group": "Bow",
+        "prof": "Simple Weapons",
+        "dmgType": "P",
+        "dicenum": 1,
+        "dicesize": 8,
+        "ranged": 120,
+        "moddable": "weapon",
+        "traits": []
+    },
+    {
+        "type": "weapons",
+        "bulk": "L",
+        "desc": "",
+        "name": "Dart",
+        "group": "Dart",
+        "prof": "Simple Weapons",
+        "dmgType": "P",
+        "dicenum": 1,
+        "dicesize": 4,
+        "ranged": 20,
+        "moddable": "weapon",
+        "traits": [
+            "Agile",
+            "Thrown 20 ft."
+        ]
+    },
+    {
+        "type": "weapons",
+        "bulk": "L",
+        "desc": "",
+        "name": "Hand Crossbow",
+        "group": "Bow",
+        "prof": "Simple Weapons",
+        "dmgType": "P",
+        "dicenum": 1,
+        "dicesize": 6,
+        "ranged": 60,
+        "moddable": "weapon",
+        "traits": []
+    },
+    {
+        "type": "weapons",
+        "bulk": "2",
+        "desc": "",
+        "name": "Heavy Crossbow",
+        "group": "Bow",
+        "prof": "Simple Weapons",
+        "dmgType": "P",
+        "dicenum": 1,
+        "dicesize": 10,
+        "ranged": 120,
+        "moddable": "weapon",
+        "traits": []
+    },
+    {
+        "type": "weapons",
+        "bulk": "L",
+        "desc": "",
+        "name": "Javelin",
+        "group": "Dart",
+        "prof": "Simple Weapons",
+        "dmgType": "P",
+        "dicenum": 1,
+        "dicesize": 6,
+        "ranged": 30,
+        "moddable": "weapon",
+        "traits": [
+            "Thrown 30 ft."
+        ]
+    },
+    {
+        "type": "weapons",
+        "bulk": "L",
+        "desc": "",
+        "name": "Sling",
+        "group": "Sling",
+        "prof": "Simple Weapons",
+        "dmgType": "B",
+        "dicenum": 1,
+        "dicesize": 6,
+        "ranged": 50,
+        "moddable": "weapon",
+        "traits": [
+            "Propulsive"
+        ]
+    },
+    {
+        "type": "weapons",
+        "bulk": "2",
+        "desc": "",
+        "name": "Composite Longbow",
+        "group": "Bow",
+        "prof": "Martial Weapons",
+        "dmgType": "P",
+        "dicenum": 1,
+        "dicesize": 8,
+        "ranged": 100,
+        "moddable": "weapon",
+        "traits": [
+            "Deadly d10",
+            "Propulsive",
+            "Volley 30 ft."
+        ]
+    },
+    {
+        "type": "weapons",
+        "bulk": "1",
+        "desc": "",
+        "name": "Composite Shortbow",
+        "group": "Bow",
+        "prof": "Martial Weapons",
+        "dmgType": "P",
+        "dicenum": 1,
+        "dicesize": 6,
+        "ranged": 60,
+        "moddable": "weapon",
+        "traits": [
+            "Deadly d10",
+            "Propulsive"
+        ]
+    },
+    {
+        "type": "weapons",
+        "bulk": "1",
+        "desc": "",
+        "name": "Halfling Sling Staff",
+        "group": "Sling",
+        "prof": "Martial Weapons",
+        "dmgType": "B",
+        "dicenum": 1,
+        "dicesize": 10,
+        "ranged": 80,
+        "moddable": "weapon",
+        "traits": [
+            "Halfling",
+            "Propulsive",
+            "Uncommon"
+        ]
+    },
+    {
+        "type": "weapons",
+        "bulk": "2",
+        "desc": "",
+        "name": "Longbow",
+        "group": "Bow",
+        "prof": "Martial Weapons",
+        "dmgType": "P",
+        "dicenum": 1,
+        "dicesize": 8,
+        "ranged": 100,
+        "moddable": "weapon",
+        "traits": [
+            "Deadly d10",
+            "Volley 30 ft."
+        ]
+    },
+    {
+        "type": "weapons",
+        "bulk": "1",
+        "desc": "",
+        "name": "Shortbow",
+        "group": "Bow",
+        "prof": "Martial Weapons",
+        "dmgType": "P",
+        "dicenum": 1,
+        "dicesize": 6,
+        "ranged": 60,
+        "moddable": "weapon",
+        "traits": [
+            "Deadly d10"
+        ]
+    },
+    {
+        "type": "weapons",
+        "bulk": "-",
+        "desc": "",
+        "name": "Shuriken",
+        "group": "Dart",
+        "prof": "Martial Weapons",
+        "dmgType": "P",
+        "dicenum": 1,
+        "dicesize": 4,
+        "ranged": 20,
+        "moddable": "weapon",
+        "traits": [
+            "Agile",
+            "Monk",
+            "Thrown 20 ft.",
+            "Uncommon"
+        ]
+    },
+    {
+        "type": "weapons",
+        "bulk": "-",
+        "displayName": "Twining Staff (Disc)",
+        "desc": "",
+        "name": "Twining Staff",
+        "group": "Brawling",
+        "prof": "Unarmed",
+        "dmgType": "B",
+        "dicenum": 1,
+        "dicesize": 4,
+        "melee": 5,
+        "equippable": false,
+        "moddable": "",
+        "gainActivity": [
+            "Twining Staff: Staff",
+            "Twining Staff: Bo Staff"
+        ],
+        "traits": [
+            "Magical",
+            "Transmutation"
+        ]
+    },
+    {
+        "type": "weapons",
+        "bulk": "2",
+        "displayName": "Twining Staff (+1 Striking Bo Staff)",
+        "desc": "",
+        "name": "Bo Staff (Twining Staff)",
+        "group": "Club",
+        "prof": "Martial Weapons",
+        "dmgType": "B",
+        "dicenum": 1,
+        "dicesize": 8,
+        "melee": 10,
+        "hide": true,
+        "moddable": "",
+        "potencyRune": 1,
+        "strikingRune": 1,
+        "traits": [
+            "Magical",
+            "Monk",
+            "Parry",
+            "Reach",
+            "Transmutation",
+            "Trip"
+        ]
+    },
+    {
+        "type": "weapons",
+        "bulk": "1",
+        "displayName": "Twining Staff (+1 Striking Staff)",
+        "desc": "",
+        "name": "Staff (Twining Staff)",
+        "group": "Club",
+        "prof": "Simple Weapons",
+        "dmgType": "B",
+        "dicenum": 1,
+        "dicesize": 4,
+        "melee": 5,
+        "hide": true,
+        "moddable": "",
+        "potencyRune": 1,
+        "strikingRune": 1,
+        "traits": [
+            "Magical",
+            "Two-Hand d8",
+            "Transmutation"
+        ]
+    }
+]

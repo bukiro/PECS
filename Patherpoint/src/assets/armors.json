@@ -9,8 +9,8 @@
     { "type":"armors", "bulk":"2", "name":"Scale Mail", "group":"Composite", "prof":"Medium Armor", "dexcap":2, "skillpenalty":-2, "speedpenalty":-5, "strength":14, "itembonus":3, "traits":[] },
     { "type":"armors", "bulk":"2", "name":"Chain Mail", "group":"Chain", "prof":"Medium Armor", "dexcap":1, "skillpenalty":-2, "speedpenalty":-5, "strength":16, "itembonus":4, "traits":["Flexible", "Noisy"] },
     { "type":"armors", "bulk":"2", "name":"Breastplate", "group":"Plate", "prof":"Medium Armor", "dexcap":1, "skillpenalty":-2, "speedpenalty":-5, "strength":16, "itembonus":4, "traits":[] },
-    { "type":"armors", "bulk":"3", "name":"Splint Mail", "group":"Composite", "prof":"Heavy Armor", "dexcap":1, "skillpenalty":-3, "speedpenalty":-10, "strength":16, "itembonus":5, "traits":[] },
-    { "type":"armors", "bulk":"3", "name":"Half Plate", "group":"Plate", "prof":"Heavy Armor", "dexcap":1, "skillpenalty":-3, "speedpenalty":-10, "strength":16, "itembonus":5, "traits":[] },
-    { "type":"armors", "bulk":"4", "name":"Full Plate", "group":"Plate", "prof":"Heavy Armor", "dexcap":0, "skillpenalty":-3, "speedpenalty":-10, "strength":18, "itembonus":6, "traits":["Bulwark"] },
-    { "type":"armors", "bulk":"4", "name":"Hellknight Plate", "group":"Plate", "prof":"Heavy Armor", "dexcap":0, "skillpenalty":-3, "speedpenalty":-10, "strength":18, "itembonus":6, "traits":["Bulwark", "Uncommon"] }
+    { "type":"armors", "bulk":"3", "name":"Splint Mail", "group":"Composite", "prof":"Heavy Armor", "dexcap":1, "skillpenalty":-3, "speedpenalty":-10, "strength":16, "itembonus":5, "gainItems":[{"name":"Gauntlet", "type":"weapons"}], "traits":[] },
+    { "type":"armors", "bulk":"3", "name":"Half Plate", "group":"Plate", "prof":"Heavy Armor", "dexcap":1, "skillpenalty":-3, "speedpenalty":-10, "strength":16, "itembonus":5, "gainItems":[{"name":"Gauntlet", "type":"weapons"}], "traits":[] },
+    { "type":"armors", "bulk":"4", "name":"Full Plate", "group":"Plate", "prof":"Heavy Armor", "dexcap":0, "skillpenalty":-3, "speedpenalty":-10, "strength":18, "itembonus":6, "gainItems":[{"name":"Gauntlet", "type":"weapons"}], "traits":["Bulwark"] },
+    { "type":"armors", "bulk":"4", "name":"Hellknight Plate", "group":"Plate", "prof":"Heavy Armor", "dexcap":0, "skillpenalty":-3, "speedpenalty":-10, "strength":18, "itembonus":6, "gainItems":[{"name":"Gauntlet", "type":"weapons"}], "traits":["Bulwark", "Uncommon"] }
 ]

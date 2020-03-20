@@ -3,11 +3,12 @@ import { Item } from './Item'
 export class WornItem implements Item {
     public notes: string = "";
     public desc: string = "";
+    public name: string = "";
+    public level: string = "-";
     public showNotes: boolean = false;
     public showName: boolean = false;
     public type: string = "wornitems";
     public bulk: string = "-";
-    public name: string = "";
     public displayName: string = "";
     public usage: string = "";
     public equip: boolean = false;

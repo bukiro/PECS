@@ -8,6 +8,8 @@
         "desc":"After you drink this mutagen, your body becomes thick and sturdy. You exhibit a healthy glow, though you tend to be ponderous and unobservant.",
         "benefit":"You gain an item bonus of +1 to Fortitude saves and 5 temporary Hit Points. Whenever you are at maximum Hit Points for at least 1 full minute, you regain the temporary Hit Points.",
         "drawback":"You take a –2 penalty to Will saves, Perception checks, and initiative rolls.",
+        "subType":"Lesser",
+        "subTypeDesc":"The bonus is +1, you gain 5 temporary Hit Points, and the duration is 1 minute.",
         "traits":["Alchemical", "Consumable", "Elixir", "Mutagen", "Polymorph"],
         "gainCondition":[
             {

@@ -14,8 +14,11 @@
     </div>
     <div *ngFor="let spellGain of get_FocusSpells()">
         <div class="list-item" *ngFor="let spell of get_Spells(spellGain.name)">
-            <button class="row button" (click)="toggle_Spell('Focus'+spell.name)">{{spell.name}} {{spell.get_Action()}}{{spell.cast}}</button>
-            <div class="list-item sublist lower row" *ngIf="this.get_showSpell()=='Focus'+spell.name">
+            <button class="row button" (click)="toggle_Spell('Focus'+spell.name)">
+                <span>{{spell.name}}</span>
+                <span>{{spell.get_Action()}}{{spell.cast}}</span>
+            </button>
+            <div class="list-item sublist lower" *ngIf="this.get_showSpell()=='Focus'+spell.name">
                 <div class="row left-aligned" *ngIf="spell.traits.length">
                     <cite *ngFor="let trait of spell.traits" title="{{get_Traits(trait)[0].description}}">&nbsp;{{trait}}</cite>
                 </div>

@@ -37,6 +37,10 @@ export class InventoryComponent implements OnInit {
         this.characterService.toggleMenu(menu);
     }
 
+    get_Accent() {
+        return this.characterService.get_Accent();
+    }
+
     toggleItem(id: number) {
         if (this.showItem == id) {
             this.showItem = 0;

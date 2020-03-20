@@ -135,6 +135,12 @@ export class CharacterService {
         } else { return new Character() }
     }
 
+    get_Accent() {
+        if (!this.still_loading()) {
+            return this.get_Character().settings.accent;
+        }
+    }
+
     get_Classes(name: string) {
         return this.classesService.get_Classes(name);
     }
@@ -253,7 +259,7 @@ export class CharacterService {
         }
     }
 
-    grant_InventoryItem(item: Item) {
+    grant_InventoryItem(item: Item, changeAfter: boolean = true) {
         let newInventoryItem;
         switch (item.type) {
             case "weapons":
@@ -276,15 +282,17 @@ export class CharacterService {
         if (existingItems.length) {
             existingItems.forEach(existing => {
                 existing.amount++
-                this.set_Changed()
             })
         } else {
             let newInventoryLength = this.me.inventory[item.type].push(newInventoryItem);
-            this.onEquip(this.me.inventory[item.type][newInventoryLength-1], true, true);
+            this.onEquip(this.me.inventory[item.type][newInventoryLength-1], true, false);
+        }
+        if (changeAfter) {
+            this.set_Changed();
         }
     }
 
-    drop_InventoryItem(item: Item) {
+    drop_InventoryItem(item: Item, changeAfter: boolean = true) {
         if (item.equip) {
             this.onEquip(item, false, false);
         } else if (item.invested) {
@@ -292,7 +300,9 @@ export class CharacterService {
         }
         this.me.inventory[item.type] = this.me.inventory[item.type].filter(any_item => any_item !== item);
         this.equip_BasicItems();
-        this.set_Changed();
+        if (changeAfter) {
+            this.set_Changed();
+        }
     }
 
     onEquip(item: Item, equipped: boolean = true, changeAfter: boolean = true) {
@@ -309,9 +319,14 @@ export class CharacterService {
             if (item.gainActivity && item.traits.indexOf("Invested") == -1) {
                 this.onInvest(item, true, false);
             }
+            if (item["gainItems"] && item["gainItems"].length) {
+                item["gainItems"].forEach(gainItem => {
+                    let item: Item = this.itemsService.get_Items()[gainItem.type].filter(item => item.name == gainItem.name)[0];
+                    this.grant_InventoryItem(item, false);
+                });
+            }
         } else {
             this.equip_BasicItems();
-            this.set_Changed();
             //If you are unequipping a shield, you should also be lowering it and losing cover
             if (item.type == "shields") {
                 item["takingCover"] = false;
@@ -328,6 +343,14 @@ export class CharacterService {
             //If the item was invested, it isn't now.
             if (item.invested) {
                 this.onInvest(item, false, false);
+            }
+            if (item["gainItems"] && item["gainItems"].length) {
+                item["gainItems"].forEach(gainItem => {
+                    let items: Item[] = this.get_InventoryItems()[gainItem.type].filter(item => item.name == gainItem.name);
+                    if (items.length) {
+                        this.drop_InventoryItem(items[0], false);
+                    }
+                });
             }
         }
         if (changeAfter) {
