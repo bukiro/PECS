@@ -21,6 +21,10 @@ export class AbilitiesComponent implements OnInit {
     get_Abilities() {
         return this.abilitiesService.get_Abilities();
     }
+
+    get_Accent() {
+        return this.characterService.get_Accent();
+    }
     
     still_loading() {
         return this.abilitiesService.still_loading() || this.characterService.still_loading();

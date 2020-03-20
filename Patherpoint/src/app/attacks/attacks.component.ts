@@ -25,6 +25,10 @@ export class AttacksComponent implements OnInit {
       return this.characterService.still_loading()
     }
 
+    get_Accent() {
+        return this.characterService.get_Accent();
+    }
+
     get_EquippedWeapons() {
         return this.characterService.get_InventoryItems().weapons.filter(weapon => weapon.equip && weapon.equippable);
     }

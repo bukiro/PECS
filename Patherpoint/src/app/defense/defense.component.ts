@@ -28,6 +28,10 @@ export class DefenseComponent implements OnInit {
         return this.characterService.still_loading()
     }
 
+    get_Accent() {
+        return this.characterService.get_Accent();
+    }
+
     get_AC() {
         return this.defenseService.get_AC();
     }

@@ -49,16 +49,20 @@ export class ConditionsComponent implements OnInit {
         }
     }
     
+    get_ShowItem() {
+        return this.showItem;
+    }
+
     get_ShowList() {
         return this.showList;
     }
 
-    get_EndOn() {
-        return this.endOn;
+    get_Accent() {
+        return this.characterService.get_Accent();
     }
 
-    get_ShowItem() {
-        return this.showItem;
+    get_EndOn() {
+        return this.endOn;
     }
 
     still_loading() {

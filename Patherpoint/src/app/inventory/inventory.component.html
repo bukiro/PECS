@@ -59,7 +59,12 @@
         </div>
     </div>
     
-    <button class="list-item" [ngStyle]="{'background-color':get_Accent()}" (click)="toggleMenu('items')">Get Items</button>
+    <button
+        class="list-item"
+        [ngStyle]="{'background-color':get_Accent()}"
+        (click)="toggleMenu('items')">
+        Get Items
+    </button>
     <div *ngFor="let itemSet of ['Weapons','Armor','Shields','Worn Items','Alchemical Elixirs']">
         <h3>{{itemSet}}</h3>
         <div *ngFor="let item of get_InventoryItems(itemSet)">

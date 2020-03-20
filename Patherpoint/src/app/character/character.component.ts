@@ -72,6 +72,10 @@ export class CharacterComponent implements OnInit {
         return this.showList;
     }
 
+    get_Accent() {
+        return this.characterService.get_Accent();
+    }
+
     get_Level(number: number) {
         return this.get_Character().class.levels[number];
     }

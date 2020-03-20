@@ -11,7 +11,7 @@
                         Show fixed changes
                     </button>
                     <div class="list-item sublist fancy-list"
-                        *ngIf="this.showList=='showFixedChanges'+level.number">
+                        *ngIf="get_ShowList()=='showFixedChanges'+level.number">
                         <!--Fixed Spells gained-->
                         <div class="list-item"
                             *ngFor="let spellGain of get_SpellsTaken(level.number, level.number, '', '', '', true)">
@@ -33,8 +33,8 @@
                         </button>
                         <div class="list-item sublist"
                             [className]="(choice.available == choice.spells.length ) ? 'fancy-list' : ''"
-                            *ngIf="this.showList==choice.source+choice.id">
-                            <div title="{{(this.get_showItem()==choice.id+spell.name+'desc') ? '' : spell.shortDesc}}"
+                            *ngIf="get_ShowList()==choice.source+choice.id">
+                            <div title="{{(this.get_ShowItem()==choice.id+spell.name+'desc') ? '' : spell.shortDesc}}"
                                 class="list-item" *ngFor="let spell of get_AvailableSpells(choice)">
                                 <input id="{{choice.id+spell.name}}" type="checkbox"
                                     (change)="on_SpellTaken(spell.name, $event.target.checked, choice, false)"
@@ -49,7 +49,7 @@
                                 <button class="button" (click)="toggle_Item(choice.id+spell.name+'desc')">
                                     Show Description
                                 </button>
-                                <div class="row left-aligned" *ngIf="this.get_showItem()==choice.id+spell.name+'desc'">
+                                <div class="row left-aligned" *ngIf="this.get_ShowItem()==choice.id+spell.name+'desc'">
                                     <cite *ngFor="let trait of spell.traits">
                                         {{trait}}&nbsp;
                                     </cite>
@@ -66,7 +66,7 @@
                             </div>
                             <!--UnavailableFeats-->
                             <div class="list-item unavailable"
-                                title="{{(this.get_showItem()==choice.id+spell.name+'desc') ? '' : spell.shortDesc}}"
+                                title="{{(this.get_ShowItem()==choice.id+spell.name+'desc') ? '' : spell.shortDesc}}"
                                 *ngFor="let spell of get_AvailableSpells(choice, true)">
                                 <strong>{{spell.name}}&nbsp;</strong><cite>Level {{spell.levelreq}}</cite>
                                 <cite style="color:darkred" *ngFor="let reason of cannotTake(spell, choice)">
@@ -75,7 +75,7 @@
                                 <button class="button" (click)="toggle_Item(choice.id+spell.name+'desc')">
                                     Show Description
                                 </button>
-                                <div *ngIf="this.get_showItem()==choice.id+spell.name+'desc'" class="row">
+                                <div *ngIf="this.get_ShowItem()==choice.id+spell.name+'desc'" class="row">
                                     <cite *ngFor="let trait of spell.traits">
                                         {{trait}}&nbsp;
                                     </cite>

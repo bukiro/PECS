@@ -17,6 +17,10 @@ export class TimeComponent implements OnInit {
     ngOnInit() {
     }
 
+    get_Accent() {
+        return this.characterService.get_Accent();
+    }
+    
     still_loading() {
         return this.characterService.still_loading()
     }

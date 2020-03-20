@@ -16,15 +16,15 @@ import { Trait } from '../Trait';
 })
 export class ActivitiesComponent implements OnInit {
 
-    public showAction: string = "";
+    private showAction: string = "";
     
     constructor(
         private changeDetector: ChangeDetectorRef,
         public characterService: CharacterService,
-        public activitiesService: ActivitiesService,
-        public effectsService: EffectsService,
-        public traitsService: TraitsService,
-        public itemsService: ItemsService
+        private activitiesService: ActivitiesService,
+        private effectsService: EffectsService,
+        private traitsService: TraitsService,
+        private itemsService: ItemsService
     ) { }
 
     toggle_Action(name: string) {
@@ -37,6 +37,10 @@ export class ActivitiesComponent implements OnInit {
 
     get_showAction() {
         return this.showAction;
+    }
+
+    get_Accent() {
+        return this.characterService.get_Accent();
     }
 
     get_Abilities() {

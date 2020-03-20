@@ -24,6 +24,10 @@ export class SkillsComponent implements OnInit {
         return this.characterService.get_Skills(name, type);
     }
 
+    get_Accent() {
+        return this.characterService.get_Accent();
+    }
+
     still_loading() {
         return this.skillsService.still_loading() || this.characterService.still_loading();
     }

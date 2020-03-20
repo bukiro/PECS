@@ -35,6 +35,10 @@ export class SpellbookComponent implements OnInit {
         return this.showSpell;
     }
 
+    get_Accent() {
+        return this.characterService.get_Accent();
+    }
+
     still_loading() {
         return this.characterService.still_loading();
     }

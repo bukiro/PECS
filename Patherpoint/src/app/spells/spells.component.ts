@@ -14,14 +14,14 @@ import { TraitsService } from '../traits.service';
 })
 export class SpellsComponent implements OnInit {
 
-    public showItem: string = "";
-    public showList: string = "";
+    private showItem: string = "";
+    private showList: string = "";
 
     constructor(
         private changeDetector:ChangeDetectorRef,
-        public characterService: CharacterService,
-        public spellsService: SpellsService,
-        public traitsService: TraitsService,
+        private characterService: CharacterService,
+        private spellsService: SpellsService,
+        private traitsService: TraitsService,
         private sortByPipe: SortByPipe
     ) { }
 
@@ -44,8 +44,16 @@ export class SpellsComponent implements OnInit {
         }
     }
 
-    get_showItem() {
+    get_ShowItem() {
         return this.showItem;
+    }
+
+    get_ShowList() {
+        return this.showList;
+    }
+
+    get_Accent() {
+        return this.characterService.get_Accent();
     }
 
     get_Character() {

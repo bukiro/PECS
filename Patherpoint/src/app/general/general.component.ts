@@ -25,6 +25,10 @@ export class GeneralComponent implements OnInit {
         return this.characterService.still_loading()
     }
 
+    get_Accent() {
+        return this.characterService.get_Accent();
+    }
+
     get_Character() {
         return this.characterService.get_Character();
     }

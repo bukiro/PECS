@@ -36,6 +36,10 @@ export class EffectsComponent implements OnInit {
         return this.showItem;
     }
 
+    get_Accent() {
+        return this.characterService.get_Accent();
+    }
+
     toggle_NotApplied() {
         this.showNotApplied = !this.showNotApplied;
     }

@@ -31,6 +31,10 @@ export class HealthComponent implements OnInit {
         return this.characterService.get_Character();
     }
 
+    get_Accent() {
+        return this.characterService.get_Accent();
+    }
+
     calculate_Health() {
         let health = this.get_Health();
         health.calculate(this.characterService, this.effectsService);

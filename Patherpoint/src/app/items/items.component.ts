@@ -34,6 +34,10 @@ export class ItemsComponent implements OnInit {
         return this.showList;
     }
 
+    get_Accent() {
+        return this.characterService.get_Accent();
+    }
+
     toggle_Item(id: number) {
         if (this.showItem == id) {
             this.showItem = 0;
