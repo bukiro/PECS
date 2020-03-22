@@ -4,11 +4,11 @@
 </a>
 <div class="filler"></div>
 <a class="button fancy-button loading" *ngIf="still_loading()">Loading</a>
-<a class="button fancy-button" (click)="toggleMenu('character')" *ngIf="!still_loading()">{{get_Character().name}}</a>
-<a class="button fancy-button" (click)="toggleMenu('items')" *ngIf="!still_loading()">Items</a>
-<a class="button fancy-button" (click)="toggleMenu('spells')" *ngIf="!still_loading()">Spells</a>
-<a class="button fancy-button" (click)="toggleMenu('conditions')" *ngIf="!still_loading()">Conditions</a>
-<a class="button fancy-button" (click)="print()" *ngIf="!still_loading()">Print</a>
+<a class="button fancy-button" [ngStyle]="{'color':get_Accent()}" (click)="toggleMenu('character')" *ngIf="!still_loading()">{{get_Character().name}}</a>
+<a class="button fancy-button" [ngStyle]="{'color':get_Accent()}" (click)="toggleMenu('items')" *ngIf="!still_loading()">Items</a>
+<a class="button fancy-button" [ngStyle]="{'color':get_Accent()}" (click)="toggleMenu('spells')" *ngIf="!still_loading()">Spells</a>
+<a class="button fancy-button" [ngStyle]="{'color':get_Accent()}" (click)="toggleMenu('conditions')" *ngIf="!still_loading()">Conditions</a>
+<a class="button fancy-button" [ngStyle]="{'color':get_Accent()}" (click)="print()" *ngIf="!still_loading()">Print</a>
 </div>
 <app-items [@slideInOut]="get_ItemsMenuState()"></app-items>
 <app-spells [@slideInOut]="get_SpellMenuState()"></app-spells>

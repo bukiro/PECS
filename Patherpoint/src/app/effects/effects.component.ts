@@ -86,22 +86,22 @@ export class EffectsComponent implements OnInit {
             }
             if (duration >= 144000) {
                 returnString += Math.floor(duration / 144000)+" Day"
-                if (duration / 144000 > 1) { returnString += "s" }
+                if (duration / 144000 >= 2) { returnString += "s" }
                 duration %= 144000;
             }
             if (duration >= 6000) {
                 returnString += " "+Math.floor(duration / 6000)+" Hour"
-                if (duration / 6000 > 1) { returnString += "s" }
+                if (duration / 6000 >= 2) { returnString += "s" }
                 duration %= 6000;
             }
             if (duration >= 100) {
                 returnString += " "+Math.floor(duration / 100)+" Minute"
-                if (duration / 100 > 1) { returnString += "s" }
+                if (duration / 100 >= 2) { returnString += "s" }
                 duration %= 100;
             }
             if (duration >= 10) {
                 returnString += " "+Math.floor(duration / 10)+" Turn"
-                if (duration / 10 > 1) { returnString += "s" }
+                if (duration / 10 >= 2) { returnString += "s" }
                 duration %= 10;
             }
             if (duration == this.timeService.get_YourTurn()) {

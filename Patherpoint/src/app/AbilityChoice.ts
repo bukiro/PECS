@@ -8,4 +8,11 @@ export class AbilityChoice {
     public baseValuesLost: number = 0;
     public source: string = "";
     public id: string = "";
+    maxAvailable(character) {
+        let lost = 0;
+        if (character.baseValues.length > 0) {
+            lost = this.baseValuesLost
+        }
+        return this.available - lost;
+    }
 }

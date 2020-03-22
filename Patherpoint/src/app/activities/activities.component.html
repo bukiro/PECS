@@ -3,20 +3,20 @@
 <div *ngIf="!still_loading()">
     <div *ngFor="let gain of get_OwnedActivities()">
         <div class="list-item" *ngFor="let activity of get_Activities(gain.name)">
-            <button class="row button" [className]="(gain.active) ? 'fancy-button' : ''" (click)="toggle_Action(activity.name)">
+            <button class="row button" [ngStyle]="(gain.active) ? {'color':get_Accent()} : {'background-color':get_Accent()}" [className]="(gain.active) ? 'fancy-button' : ''" (click)="toggle_Action(activity.name)">
                 <span>{{activity.name}}</span>
                 <span>{{activity.get_Actions()}}{{(activity.activationType) ? " - " + activity.activationType : ""}}</span>
             </button>
-            <div class="list-item sublist lower" [className]="(gain.active) ? 'fancy-list' : ''" *ngIf="this.get_showAction()==activity.name">
+            <div class="list-item sublist lower" [ngStyle]="(gain.active) ? {} : {'border-color':get_Accent()}"  [className]="(gain.active) ? 'fancy-list' : ''" *ngIf="this.get_showAction()==activity.name">
                 <div class="row left-aligned">
                     <cite *ngFor="let trait of activity.traits" title="{{get_Traits(trait)[0].description}}">&nbsp;{{trait}}</cite>
                     <cite *ngFor="let trait of get_ActivationTraits(activity)" title="{{get_Traits(trait)[0].description}}">&nbsp;{{trait}}</cite>
                 </div>
                 <div class="row">
-                    <button class="row button" (click)="on_Activate(gain, activity, true)" *ngIf="activity.can_Activate() && !gain.active">
+                    <button class="row button" [ngStyle]="{'background-color':get_Accent()}" (click)="on_Activate(gain, activity, true)" *ngIf="activity.can_Activate() && !gain.active">
                         Activate
                     </button>
-                    <button class="row button" (click)="on_Activate(gain, activity, false)" *ngIf="activity.can_Activate() && gain.active">
+                    <button class="row button" [ngStyle]="{'background-color':get_Accent()}" (click)="on_Activate(gain, activity, false)" *ngIf="activity.can_Activate() && gain.active">
                         Deactivate
                     </button>
                     <p *ngIf="activity.frequency">

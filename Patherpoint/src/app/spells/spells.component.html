@@ -1,5 +1,5 @@
 <div id="spells" class="itemBox">
-    <button class="list-item" (click)="toggleSpellMenu()">Close</button>
+    <button class="list-item" [ngStyle]="{'background-color':get_Accent()}" (click)="toggleSpellMenu()">Close</button>
     <div class="loading" *ngIf="still_loading()">Loading</div>
     <div *ngIf="!still_loading()">
         <div *ngIf="get_Character().class">
@@ -7,11 +7,11 @@
                 <h3 *ngIf="level.number > 0">Level {{level.number}}</h3>
                 <!--Fixed information-->
                 <div class="list-item fancy-button" *ngIf="level.number > 0">
-                    <button class="row button fancy-button" (click)="toggle_List('showFixedChanges'+level.number)">
+                    <button class="row button fancy-button" [ngStyle]="{'color':get_Accent()}"
+                        (click)="toggle_List('showFixedChanges'+level.number)">
                         Show fixed changes
                     </button>
-                    <div class="list-item sublist fancy-list"
-                        *ngIf="get_ShowList()=='showFixedChanges'+level.number">
+                    <div class="list-item sublist fancy-list" *ngIf="get_ShowList()=='showFixedChanges'+level.number">
                         <!--Fixed Spells gained-->
                         <div class="list-item"
                             *ngFor="let spellGain of get_SpellsTaken(level.number, level.number, '', '', '', true)">
@@ -24,6 +24,7 @@
                     <div class="list-item" *ngIf="choice.available"
                         [className]="(choice.spells.length > choice.available || cannotTakeSome(choice)) ? 'problem' : ''">
                         <button class="row button"
+                            [ngStyle]="(choice.available == choice.spells.length) ? {'color':get_Accent()} : {'background-color':get_Accent()}"
                             [className]="(choice.available == choice.spells.length) ? 'fancy-button' : ''"
                             (click)="toggle_List(choice.source+choice.id)">
                             {{(choice.level) ? "Level "+choice.level+" " : ""}}{{choice.type}} Feats
@@ -32,6 +33,7 @@
                                 (choice.spells.length) ? ": "+ choice.spells[0].name : ""}}
                         </button>
                         <div class="list-item sublist"
+                            [ngStyle]="(choice.available == choice.spells.length) ? {} : {'border-color':get_Accent()}"
                             [className]="(choice.available == choice.spells.length ) ? 'fancy-list' : ''"
                             *ngIf="get_ShowList()==choice.source+choice.id">
                             <div title="{{(this.get_ShowItem()==choice.id+spell.name+'desc') ? '' : spell.shortDesc}}"
@@ -46,7 +48,8 @@
                                 <cite style="color:darkred" *ngFor="let reason of cannotTake(spell, choice)">
                                     {{reason}}&nbsp;
                                 </cite>
-                                <button class="button" (click)="toggle_Item(choice.id+spell.name+'desc')">
+                                <button class="button" [ngStyle]="{'background-color':get_Accent()}"
+                                    (click)="toggle_Item(choice.id+spell.name+'desc')">
                                     Show Description
                                 </button>
                                 <div class="row left-aligned" *ngIf="this.get_ShowItem()==choice.id+spell.name+'desc'">
@@ -72,7 +75,8 @@
                                 <cite style="color:darkred" *ngFor="let reason of cannotTake(spell, choice)">
                                     {{reason}}&nbsp;
                                 </cite>
-                                <button class="button" (click)="toggle_Item(choice.id+spell.name+'desc')">
+                                <button class="button" [ngStyle]="{'background-color':get_Accent()}"
+                                    (click)="toggle_Item(choice.id+spell.name+'desc')">
                                     Show Description
                                 </button>
                                 <div *ngIf="this.get_ShowItem()==choice.id+spell.name+'desc'" class="row">

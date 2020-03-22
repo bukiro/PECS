@@ -1,25 +1,31 @@
 <div id="items" class="itemBox">
-    <button class="list-item" (click)="toggleItemsMenu()">Close</button>
+    <button class="list-item" [ngStyle]="{'background-color':get_Accent()}" (click)="toggleItemsMenu()">Close</button>
     <div class="loading" *ngIf="still_loading()">Loading</div>
     <h3>Get Items</h3>
     <div *ngFor="let itemSet of ['Weapons','Armor','Shields','Worn Items','Alchemical Elixirs']">
-        <button class="button fancybutton list-item" (click)="toggle_List(itemSet)">
+        <button class="button list-item" [ngStyle]="{'background-color':get_Accent()}" (click)="toggle_List(itemSet)">
             <strong>{{itemSet}}</strong>
         </button>
         <div *ngIf="get_ShowList()==itemSet">
             <div *ngFor="let item of get_Items(itemSet)">
                 <div class="list-item" *ngFor="let inventoryID of [get_ID()]">
-                    <button class="row" (click)="toggle_Item(inventoryID)">
+                    <button class="row" [ngStyle]="{'background-color':get_Accent()}"
+                        (click)="toggle_Item(inventoryID)">
                         <span>{{item.name}}</span>
-                        <span *ngIf="item.type == 'armors'">{{(item.prof == 'Unarmored') ? item.prof : item.prof.substr(0, item.prof.length - 6)}} {{item.group}} {{(item.type=="armors" && item.prof != "Unarmored") ? "Armor" : ""}}</span>
-                        <span *ngIf="item.type == 'weapons'">{{(item.prof == 'Unarmed') ? item.prof : item.prof.substr(0, item.prof.length - 8)}} {{item.group}}</span>
+                        <span
+                            *ngIf="item.type == 'armors'">{{(item.prof == 'Unarmored') ? item.prof : item.prof.substr(0, item.prof.length - 6)}}
+                            {{item.group}} {{(item.type=="armors" && item.prof != "Unarmored") ? "Armor" : ""}}</span>
+                        <span
+                            *ngIf="item.type == 'weapons'">{{(item.prof == 'Unarmed') ? item.prof : item.prof.substr(0, item.prof.length - 8)}}
+                            {{item.group}}</span>
                         <span>Level {{item.level}}</span>
                     </button>
                     <div class="list-item sublist lower" *ngIf="get_ShowItem()==inventoryID">
                         <div class="row left-aligned" *ngIf="item.traits.length">
-                            <cite *ngFor="let trait of item.traits" title="{{get_Traits(trait)[0].description}}">&nbsp;{{trait}}</cite>
+                            <cite *ngFor="let trait of item.traits"
+                                title="{{get_Traits(trait)[0].description}}">&nbsp;{{trait}}</cite>
                         </div>
-                        <button class="row" (click)="grant_Item(item)">
+                        <button class="row" [ngStyle]="{'background-color':get_Accent()}" (click)="grant_Item(item)">
                             Get
                         </button>
                         <div class="row left-aligned" *ngIf="item.type == 'armors'">
@@ -88,7 +94,7 @@
                                 {{item.ammunition}}&nbsp;
                             </span>
                         </div>
-                        <div class="row" >
+                        <div class="row">
                             <div *ngFor="let desc of item.desc.split('\n\n')">
                                 <p *ngIf="desc.split('\n').length == 1">{{desc}}</p>
                                 <ul *ngIf="desc.split('\n').length > 1">

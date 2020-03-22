@@ -21,7 +21,7 @@ export class ConditionsComponent implements OnInit {
 
     public endOn: number = 0;
     public value: number = 1;
-    public duration: string = "Permanent";
+    public duration: number = -1;
     public showList: string = "";
     public showItem: string = "";
 
@@ -91,39 +91,39 @@ export class ConditionsComponent implements OnInit {
     }
 
     add_Duration(turns: number) {
-        if (turns == -1) {
-            this.duration = "Permanent";
+        if (this.duration == -1 || turns == -1) {
+            this.duration = turns;
         } else {
-            if (this.duration == "Permanent") {
-                this.duration = turns.toString();
-            } else {
-                this.duration = (parseInt(this.duration) + turns).toString();
-            }
+            this.duration = this.duration + turns;
         }
-        this.characterService.set_Changed();
+        //this.characterService.set_Changed();
     }
 
-    get_Duration() {
-        if (this.duration == "Permanent") {
-            return this.duration;
+    get_Duration(duration: number = this.duration) {
+        if (duration == -1) {
+            return "Permanent";
         } else {
-            let duration = parseInt(this.duration);
+            let durationNum = duration;
             let returnString: string = ""
-            if (duration / 144000 >= 1) {
-                returnString += Math.floor(duration / 144000)+" Days"
-                duration %= 144000;
+            if (durationNum / 144000 >= 1) {
+                returnString += Math.floor(durationNum / 144000)+" Day"
+                if (durationNum / 144000 >= 2) { returnString += "s" }
+                durationNum %= 144000;
             }
-            if (duration / 6000 >= 1) {
-                returnString += " "+Math.floor(duration / 6000)+" Hours"
-                duration %= 6000;
+            if (durationNum / 6000 >= 1) {
+                returnString += " "+Math.floor(durationNum / 6000)+" Hour"
+                if (durationNum / 6000 >= 2) { returnString += "s" }
+                durationNum %= 6000;
             }
-            if (duration / 100 >= 1) {
-                returnString += " "+Math.floor(duration / 100)+" Minutes"
-                duration %= 100;
+            if (durationNum / 100 >= 1) {
+                returnString += " "+Math.floor(durationNum / 100)+" Minute"
+                if (durationNum / 100 >= 2) { returnString += "s" }
+                durationNum %= 100;
             }
-            if (duration >= 10) {
-                returnString += " "+Math.floor(duration / 10)+" Turns"
-                duration %= 10;
+            if (durationNum >= 10) {
+                returnString += " "+Math.floor(durationNum / 10)+" Turn"
+                if (durationNum / 10 > 1) { returnString += "s" }
+                durationNum %= 10;
             }
             return returnString;
         }
@@ -133,10 +133,10 @@ export class ConditionsComponent implements OnInit {
         let newGain = new ConditionGain();
         newGain.name = condition.name;
         newGain.decreasingValue = condition.decreasingValue;
-        if (this.duration == "Permanent") {
-            newGain.duration = -1;
+        if (this.duration == -1) {
+            newGain.duration = this.duration;
         } else {
-            newGain.duration = parseInt(this.duration) + ((this.endOn + this.timeService.get_YourTurn()) % 10);
+            newGain.duration = this.duration + ((this.endOn + this.timeService.get_YourTurn()) % 10);
         }
         if (condition.hasValue) {
             newGain.value = this.value;

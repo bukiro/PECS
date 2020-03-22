@@ -1,50 +1,79 @@
 <div *ngFor="let AC of [get_CalculatedAC()]">
-    <h3 title="{{AC.$value[1]}}">Defense: <span [className]="(AC.$penalty.length) ? 'penalty' : (AC.$bonus.length) ? 'bonus' : ''">{{AC.$value[0]}}</span></h3>
+    <h3 title="{{AC.$value[1]}}">Defense: <span
+            [className]="(AC.$penalty.length) ? 'penalty' : (AC.$bonus.length) ? 'bonus' : ''">{{AC.$value[0]}}</span>
+    </h3>
     <div class="loading" *ngIf="still_loading()">Loading</div>
     <div *ngIf="!still_loading()">
         <div class="row">
-            <cite *ngFor="let feat of get_FeatsShowingOn('AC')" [title]="(feat.hint) ? feat.hint : feat.desc">{{feat.name}}&nbsp;</cite>
-            <cite *ngFor="let condition of get_ConditionsShowingOn('AC')" [className]="(condition.buff) ? 'bonus' : 'penalty'" [title]="condition.desc">{{condition.name}}&nbsp;</cite>
-            <cite *ngFor="let effect of AC.$effects" [className]="effect.penalty ? 'penalty' : 'bonus'">{{effect.value}} ({{effect.source}})&nbsp;</cite>
+            <cite *ngFor="let feat of get_FeatsShowingOn('AC')"
+                [title]="(feat.hint) ? feat.hint : feat.desc">{{feat.name}}&nbsp;</cite>
+            <cite *ngFor="let condition of get_ConditionsShowingOn('AC')"
+                [className]="(condition.buff) ? 'bonus' : 'penalty'"
+                [title]="condition.desc">{{condition.name}}&nbsp;</cite>
+            <cite *ngFor="let effect of AC.$effects" [className]="effect.penalty ? 'penalty' : 'bonus'">{{effect.value}}
+                ({{effect.source}})&nbsp;</cite>
         </div>
         <div class="list-item" *ngFor="let armor of get_EquippedArmor()">
-            <div>{{armor.name}} AC: <input type="number" class="number" title="{{get_ArmorBonus(armor)[1]}}" [ngModel]="get_ArmorBonus(armor)[0]" disabled></div>
+            <div>{{armor.name}} AC: <input type="number" class="number" title="{{get_ArmorBonus(armor)[1]}}"
+                    [ngModel]="get_ArmorBonus(armor)[0]" disabled></div>
             <div class="row" *ngIf="armor.traits.length">
-                <cite *ngFor="let trait of armor.traits" title="{{get_Traits(trait)[0].description}}">&nbsp;{{trait}}</cite>
+                <cite *ngFor="let trait of armor.traits"
+                    title="{{get_Traits(trait)[0].description}}">&nbsp;{{trait}}</cite>
             </div>
             <div class=row>
-                <button *ngIf="armor.cover != 1" (click)="armor.cover = 1; set_CharacterChanged()">Lesser cover</button>
-                <button *ngIf="armor.cover == 1" (click)="armor.cover = 0; set_CharacterChanged()">End cover</button>
-                <button *ngIf="armor.cover != 2" (click)="armor.cover = 2; set_CharacterChanged()">Behind cover</button>
-                <button *ngIf="armor.cover == 2" (click)="armor.cover = 0; set_CharacterChanged()">End cover</button>
-                <button *ngIf="armor.cover != 4" (click)="armor.cover = 4; set_CharacterChanged()">Take cover</button>
-                <button *ngIf="armor.cover == 4" (click)="armor.cover = 0; set_CharacterChanged()">End cover</button>
+                <button [ngStyle]="{'background-color':get_Accent()}" *ngIf="armor.cover != 1"
+                    (click)="armor.cover = 1; set_CharacterChanged()">Lesser cover</button>
+                <button [ngStyle]="{'background-color':get_Accent()}" *ngIf="armor.cover == 1"
+                    (click)="armor.cover = 0; set_CharacterChanged()">End cover</button>
+                <button [ngStyle]="{'background-color':get_Accent()}" *ngIf="armor.cover != 2"
+                    (click)="armor.cover = 2; set_CharacterChanged()">Behind cover</button>
+                <button [ngStyle]="{'background-color':get_Accent()}" *ngIf="armor.cover == 2"
+                    (click)="armor.cover = 0; set_CharacterChanged()">End cover</button>
+                <button [ngStyle]="{'background-color':get_Accent()}" *ngIf="armor.cover != 4"
+                    (click)="armor.cover = 4; set_CharacterChanged()">Take cover</button>
+                <button [ngStyle]="{'background-color':get_Accent()}" *ngIf="armor.cover == 4"
+                    (click)="armor.cover = 0; set_CharacterChanged()">End cover</button>
             </div>
             <div class="row left-aligned">
-                <cite *ngFor="let feat of get_FeatsShowingOn('Defense')" [title]="(feat.hint) ? feat.hint : feat.desc">{{feat.name}}&nbsp;</cite>
-                <cite *ngFor="let condition of get_ConditionsShowingOn('Defense')" [className]="(condition.buff) ? 'bonus' : 'penalty'" [title]="condition.desc">{{condition.name}}&nbsp;</cite>
+                <cite *ngFor="let feat of get_FeatsShowingOn('Defense')"
+                    [title]="(feat.hint) ? feat.hint : feat.desc">{{feat.name}}&nbsp;</cite>
+                <cite *ngFor="let condition of get_ConditionsShowingOn('Defense')"
+                    [className]="(condition.buff) ? 'bonus' : 'penalty'"
+                    [title]="condition.desc">{{condition.name}}&nbsp;</cite>
             </div>
-            
+
         </div>
         <div class="list-item" *ngFor="let shield of get_EquippedShield()">
             <div>{{shield.name}} AC: <input type="number" class="number" [ngModel]="shield.itembonus" disabled>
                 <div class="row">
-                    <button *ngIf="!shield.cover" (click)="shield.raised = true; set_CharacterChanged()">Raise shield</button>
-                    <button *ngIf="shield.raised" (click)="shield.raised = false; shield.takingCover = false; set_CharacterChanged()">Lower shield</button>
-                    <button *ngIf="shield.raised && shield.coverbonus && !shield.takingCover" (click)="shield.takingCover = true; set_CharacterChanged()">Take cover</button>
-                    <button *ngIf="shield.raised && shield.coverbonus && shield.takingCover" (click)="shield.takingCover = false; set_CharacterChanged()">End cover</button>
+                    <button [ngStyle]="{'background-color':get_Accent()}" *ngIf="!shield.cover"
+                        (click)="shield.raised = true; set_CharacterChanged()">Raise shield</button>
+                    <button [ngStyle]="{'background-color':get_Accent()}" *ngIf="shield.raised"
+                        (click)="shield.raised = false; shield.takingCover = false; set_CharacterChanged()">Lower
+                        shield</button>
+                    <button [ngStyle]="{'background-color':get_Accent()}"
+                        *ngIf="shield.raised && shield.coverbonus && !shield.takingCover"
+                        (click)="shield.takingCover = true; set_CharacterChanged()">Take cover</button>
+                    <button [ngStyle]="{'background-color':get_Accent()}"
+                        *ngIf="shield.raised && shield.coverbonus && shield.takingCover"
+                        (click)="shield.takingCover = false; set_CharacterChanged()">End cover</button>
                 </div>
                 <div class="row left-aligned">
-                    <cite *ngFor="let feat of get_FeatsShowingOn('Shield')" [title]="(feat.hint) ? feat.hint : feat.desc">{{feat.name}}&nbsp;</cite>
-                    <cite *ngFor="let condition of get_ConditionsShowingOn('Shield')" [className]="(condition.buff) ? 'bonus' : 'penalty'" [title]="condition.desc">{{condition.name}}&nbsp;</cite>
+                    <cite *ngFor="let feat of get_FeatsShowingOn('Shield')"
+                        [title]="(feat.hint) ? feat.hint : feat.desc">{{feat.name}}&nbsp;</cite>
+                    <cite *ngFor="let condition of get_ConditionsShowingOn('Shield')"
+                        [className]="(condition.buff) ? 'bonus' : 'penalty'"
+                        [title]="condition.desc">{{condition.name}}&nbsp;</cite>
                 </div>
             </div>
         </div>
         <div class="list-item" *ngFor="let parry of get_ParryWeapons()">
             <div>{{parry.name}} Parry AC: <input type="number" class="number" value="1" disabled>
                 <div class="row">
-                    <button *ngIf="!parry.parrying" (click)="parry.parrying = true; set_CharacterChanged()">Raise weapon</button>
-                    <button *ngIf="parry.parrying" (click)="parry.parrying = false; set_CharacterChanged()">Lower weapon</button>
+                    <button [ngStyle]="{'background-color':get_Accent()}" *ngIf="!parry.parrying"
+                        (click)="parry.parrying = true; set_CharacterChanged()">Raise weapon</button>
+                    <button [ngStyle]="{'background-color':get_Accent()}" *ngIf="parry.parrying"
+                        (click)="parry.parrying = false; set_CharacterChanged()">Lower weapon</button>
                 </div>
             </div>
         </div>
@@ -57,8 +86,11 @@
             <app-skill class="list-item" [skill]=skill></app-skill>
         </div>
         <div class="row left-aligned">
-            <cite *ngFor="let feat of get_FeatsShowingOn('Saving Throws')" [title]="(feat.hint) ? feat.hint : feat.desc">{{feat.name}}&nbsp;</cite>
-            <cite *ngFor="let condition of get_ConditionsShowingOn('Shield')" [className]="(condition.buff) ? 'bonus' : 'penalty'" [title]="condition.desc">{{condition.name}}&nbsp;</cite>
+            <cite *ngFor="let feat of get_FeatsShowingOn('Saving Throws')"
+                [title]="(feat.hint) ? feat.hint : feat.desc">{{feat.name}}&nbsp;</cite>
+            <cite *ngFor="let condition of get_ConditionsShowingOn('Shield')"
+                [className]="(condition.buff) ? 'bonus' : 'penalty'"
+                [title]="condition.desc">{{condition.name}}&nbsp;</cite>
         </div>
     </div>
 </div>

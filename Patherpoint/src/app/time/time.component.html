@@ -1,21 +1,17 @@
 <div class="loading" *ngIf="still_loading()">Loading</div>
 <div *ngIf="!still_loading()">
     <div class="list-item row center-aligned">
-        <button class="button fancybutton" (click)="tick(5)" [disabled]="get_YourTurn()==5">Start Turn</button>
+        <button class="button" [ngStyle]="{'background-color':get_Accent()}" (click)="tick(5)" [disabled]="get_YourTurn()==5">Start Turn</button>
         <div class="turn-indicator">
             <strong *ngIf="get_YourTurn() == 0">Not your Turn</strong>
             <strong class="yourTurn" *ngIf="get_YourTurn() == 5">Your Turn</strong>
         </div>
-        <button class="button fancybutton" (click)="tick(5)" [disabled]="get_YourTurn()==0">End Turn</button>
+        <button class="button" [ngStyle]="{'background-color':get_Accent()}" (click)="tick(5)" [disabled]="get_YourTurn()==0">End Turn</button>
     </div>
     <div class="list-item row">
-        <button class="button fancybutton" (click)="tick(10)">Tick 1 Turn</button>
-        <button class="button fancybutton" (click)="tick(50)">Tick 5 Turns</button>
-        <button class="button fancybutton" (click)="tick(100)">Tick 1 Minute</button>
-        <button class="button fancybutton" (click)="tick(500)">Tick 5 Minutes</button>
-        <button class="button fancybutton" (click)="tick(1000)">Tick 10 Minutes</button>
-        <button class="button fancybutton" (click)="tick(6000)">Tick 1 Hour</button>
-        <button class="button fancybutton" (click)="tick(48000)">Tick 8 Hours</button>
-        <button class="button fancybutton" (click)="tick(144000)">Tick 24 Hours</button>
+        <button [ngStyle]="{'background-color':get_Accent()}" class="button fancybutton" (click)="tick(duration)"
+            *ngFor="let duration of [10, 50, 100, 500, 1000, 6000, 48000, 144000]">
+            Tick {{get_Duration(duration)}}
+        </button>
     </div>
 </div>

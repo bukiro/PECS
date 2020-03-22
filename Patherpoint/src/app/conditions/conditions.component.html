@@ -1,19 +1,13 @@
 <div id="conditions" class="itemBox">
-    <button class="list-item" (click)="toggleConditionsMenu()">Close</button>
+    <button class="list-item" [ngStyle]="{'background-color':get_Accent()}"
+        (click)="toggleConditionsMenu()">Close</button>
     <div class="loading" *ngIf="still_loading()">Loading</div>
     <div *ngIf="!still_loading()">
         <h3>Duration: {{get_Duration()}}</h3>
         <div class="list-item">
             <div class="row">
-                <button (click)="add_Duration(-1)">{{(get_Duration() == "Permanent") ? "Permanent" : "Reset"}}</button>
-                <button (click)="add_Duration(10)">{{(get_Duration() == "Permanent") ? "" : "+"}}1 Turn</button>
-                <button (click)="add_Duration(50)">{{(get_Duration() == "Permanent") ? "" : "+"}}5 Turns</button>
-                <button (click)="add_Duration(100)">{{(get_Duration() == "Permanent") ? "" : "+"}}1 Min</button>
-                <button (click)="add_Duration(500)">{{(get_Duration() == "Permanent") ? "" : "+"}}5 Min</button>
-                <button (click)="add_Duration(1000)">{{(get_Duration() == "Permanent") ? "" : "+"}}10 Min</button>
-                <button (click)="add_Duration(6000)">{{(get_Duration() == "Permanent") ? "" : "+"}}1 Hour</button>
-                <button (click)="add_Duration(48000)">{{(get_Duration() == "Permanent") ? "" : "+"}}8 Hours</button>
-                <button (click)="add_Duration(144000)">{{(get_Duration() == "Permanent") ? "" : "+"}}1 Day</button>
+                <button [ngStyle]="{'background-color':get_Accent()}" (click)="add_Duration(duration)"
+                    *ngFor="let duration of [-1, 10, 50, 100, 500, 1000, 6000, 48000, 144000]">{{get_Duration(duration)}}</button>
             </div>
             <div class="row left-aligned">
                 End on:<br>
@@ -23,18 +17,22 @@
         </div>
         <h3>Add Condition</h3>
         <div *ngFor="let set of ['Generic','Alchemical Elixirs']">
-            <button class="button fancybutton list-item" (click)="toggleList(set)">{{set}}</button>
+            <button class="button list-item" [ngStyle]="{'background-color':get_Accent()}"
+                (click)="toggleList(set)">{{set}}</button>
             <div *ngIf="get_ShowList()==set">
                 <div class="list-item" *ngFor="let condition of get_ConditionsSet(set)">
                     <strong>{{condition.name}}</strong>&nbsp;
                     <div *ngIf="condition.hasValue">
-                        Value: <select [(ngModel)]="value" >
-                            <option *ngFor="let valueNumber of [1,2,3,4,5]" [value]="valueNumber">{{valueNumber}}</option>
+                        Value: <select [(ngModel)]="value">
+                            <option *ngFor="let valueNumber of [1,2,3,4,5]" [value]="valueNumber">{{valueNumber}}
+                            </option>
                         </select><br>
                     </div>
                     <div class="row">
-                        <button (click)="add_Condition(condition)">Add ({{get_Duration()}})</button>
-                        <button (click)="toggleItem(set+condition.name)">Show Description</button>
+                        <button [ngStyle]="{'background-color':get_Accent()}" (click)="add_Condition(condition)">Add
+                            ({{get_Duration()}})</button>
+                        <button [ngStyle]="{'background-color':get_Accent()}"
+                            (click)="toggleItem(set+condition.name)">Show Description</button>
                     </div>
                     <div class="row" *ngIf="get_ShowItem()==set+condition.name">
                         <div *ngFor="let desc of condition.desc.split('\n\n')">

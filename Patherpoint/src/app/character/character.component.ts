@@ -108,6 +108,10 @@ export class CharacterComponent implements OnInit {
         return this.characterService.get_Character();
     }
 
+    get_MaxAvailable(choice: AbilityChoice) {
+        return choice.maxAvailable(this.get_Character());
+    }
+
     get_Abilities(name: string = "") {
         return this.characterService.get_Abilities(name)
     }
