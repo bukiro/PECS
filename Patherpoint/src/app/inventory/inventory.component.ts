@@ -20,6 +20,7 @@ export class InventoryComponent implements OnInit {
 
     private id: number = 0;
     private showItem: number = 0;
+    public hover: number = 0;
     
     constructor(
         private changeDetector: ChangeDetectorRef,
@@ -37,8 +38,8 @@ export class InventoryComponent implements OnInit {
         this.characterService.toggleMenu(menu);
     }
 
-    get_Accent() {
-        return this.characterService.get_Accent();
+    get_Accent(hover: number = -1) {
+        return this.characterService.get_Accent((hover == this.hover));
     }
 
     toggleItem(id: number) {

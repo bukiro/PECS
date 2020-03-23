@@ -9,8 +9,8 @@
         <div *ngIf="get_ShowList()==itemSet">
             <div *ngFor="let item of get_Items(itemSet)">
                 <div class="list-item" *ngFor="let inventoryID of [get_ID()]">
-                    <button class="row" [ngStyle]="{'background-color':get_Accent()}"
-                        (click)="toggle_Item(inventoryID)">
+                    <button class="row" (mouseover)="hover = inventoryID" (mouseout)="hover = 0"
+                        [ngStyle]="{'background-color':get_Accent()}" (click)="toggle_Item(inventoryID)">
                         <span>{{item.name}}</span>
                         <span
                             *ngIf="item.type == 'armors'">{{(item.prof == 'Unarmored') ? item.prof : item.prof.substr(0, item.prof.length - 6)}}
@@ -20,7 +20,8 @@
                             {{item.group}}</span>
                         <span>Level {{item.level}}</span>
                     </button>
-                    <div class="list-item sublist lower" *ngIf="get_ShowItem()==inventoryID">
+                    <div class="list-item sublist lower" [ngStyle]="{'border-color':get_Accent(inventoryID)}"
+                        *ngIf="get_ShowItem()==inventoryID">
                         <div class="row left-aligned" *ngIf="item.traits.length">
                             <cite *ngFor="let trait of item.traits"
                                 title="{{get_Traits(trait)[0].description}}">&nbsp;{{trait}}</cite>

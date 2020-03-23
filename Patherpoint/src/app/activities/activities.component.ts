@@ -16,7 +16,9 @@ import { Trait } from '../Trait';
 })
 export class ActivitiesComponent implements OnInit {
 
-    private showAction: string = "";
+    private id: number = 0;
+    private showAction: number = 0;
+    public hover: number = 0;
     
     constructor(
         private changeDetector: ChangeDetectorRef,
@@ -27,11 +29,11 @@ export class ActivitiesComponent implements OnInit {
         private itemsService: ItemsService
     ) { }
 
-    toggle_Action(name: string) {
-        if (this.showAction == name) {
-            this.showAction = "";
+    toggle_Action(id: number) {
+        if (this.showAction == id) {
+            this.showAction = 0;
         } else {
-            this.showAction = name;
+            this.showAction = id;
         }
     }
 
@@ -39,14 +41,15 @@ export class ActivitiesComponent implements OnInit {
         return this.showAction;
     }
 
-    get_Accent() {
-        return this.characterService.get_Accent();
+    get_ID() {
+        this.id++;
+        return this.id;
     }
 
-    get_Abilities() {
-       return this.activitiesService.get_Activities();
+    get_Accent(hover: number = -1) {
+        return this.characterService.get_Accent((hover == this.hover));
     }
-    
+
     still_loading() {
         return this.activitiesService.still_loading() || this.characterService.still_loading();
     }
@@ -56,6 +59,7 @@ export class ActivitiesComponent implements OnInit {
     }
 
     get_OwnedActivities() {
+        this.id = 0;
         let activities: ActivityGain[] = [];
         let unique: string[] = [];
         this.characterService.get_Character().class.activities.forEach(activity => {

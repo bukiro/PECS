@@ -135,9 +135,40 @@ export class CharacterService {
         } else { return new Character() }
     }
 
-    get_Accent() {
+    get_Accent(hover: boolean = false) {
         if (!this.still_loading()) {
-            return this.get_Character().settings.accent;
+            if (hover) {
+                function hexToRgb(hex) {
+                    if (hex.length == 4) {
+                        var result = /^#?([a-f\d]{1})([a-f\d]{1})([a-f\d]{1})$/i.exec(hex);
+                        return result ? {
+                            r: parseInt(result[1]+result[1], 16),
+                            g: parseInt(result[2]+result[2], 16),
+                            b: parseInt(result[3]+result[3], 16),
+                            a: 0.8
+                        } : null;
+                    } else if (hex.length == 7) {
+                        var result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+                        return result ? {
+                            r: parseInt(result[1], 16),
+                            g: parseInt(result[2], 16),
+                            b: parseInt(result[3], 16),
+                            a: 0.8
+                        } : null;
+                    }
+                }
+                let original = this.get_Character().settings.accent;
+                if (original.length == 4 || original.length == 7) {
+                    let rgba = hexToRgb(original)
+                    let result = "rgba("+rgba.r+","+rgba.g+","+rgba.b+","+rgba.a+")";
+                    return result;
+                } else {
+                    return this.get_Character().settings.accent;
+                }
+            } else {
+                return this.get_Character().settings.accent;
+            }
+            
         }
     }
 

@@ -1,6 +1,7 @@
 import { AbilitiesService } from './abilities.service';
 import { CharacterService } from './character.service';
 import { EffectsService } from './effects.service';
+import { SortByPipe } from './sortBy.pipe';
 
 export class Skill {
     public notes: string = "";
@@ -13,8 +14,12 @@ export class Skill {
     level(characterService: CharacterService, charLevel: number = characterService.get_Character().level) {
         if (characterService.still_loading()) { return 0; }
         let skillLevel: number = 0;
+        if (this.name == "Lore: asd") {
+            let c=1;
+        }
         let increases = characterService.get_Character().get_SkillIncreases(0, charLevel, this.name);
         // Add 2 for each increase, but keep them to their max Rank
+        increases = increases.sort((a, b) => (a.maxRank > b.maxRank) ? 1 : -1)
         increases.forEach(increase => {
             skillLevel = Math.min(skillLevel + 2, increase.maxRank);
         })
@@ -23,6 +28,9 @@ export class Skill {
             let unarmedLevel = characterService.get_Skills("Unarmed")[0].level(characterService);
             unarmedLevel = Math.min(unarmedLevel, 6);
             skillLevel = Math.max(skillLevel, unarmedLevel);
+        }
+        if (this.name == "Lore: asd") {
+            let c=1;
         }
         skillLevel = Math.min(skillLevel, 8);
         return skillLevel;

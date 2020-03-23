@@ -59,7 +59,6 @@
                 [className]="effect.penalty ? 'penalty' : 'bonus'">{{effect.value}} ({{effect.source}})&nbsp;</cite>
         </div>
     </div>
-
     <button class="list-item" [ngStyle]="{'background-color':get_Accent()}" (click)="toggleMenu('items')">
         Get Items
     </button>
@@ -67,7 +66,7 @@
         <h3>{{itemSet}}</h3>
         <div *ngFor="let item of get_InventoryItems(itemSet)">
             <div class="list-item" *ngFor="let inventoryID of [get_ID()]">
-                <button class="row"
+                <button class="row" (mouseover)="hover = inventoryID" (mouseout)="hover = 0"
                     [ngStyle]="((item.equippable && item.equip) || (can_Invest(item) && item.invested)) ? {'color':get_Accent()} : {'background-color':get_Accent()}"
                     [className]="((item.equippable && item.equip) || (can_Invest(item) && item.invested)) ? 'fancy-button' : ''"
                     (click)="toggleItem(inventoryID)">
@@ -75,7 +74,7 @@
                     {{(item['get_Name']) ? item.get_Name() : item.name}}
                 </button>
                 <div class="list-item sublist lower"
-                    [ngStyle]="((item.equippable && item.equip) || (can_Invest(item) && item.invested)) ? {} : {'border-color':get_Accent()}"
+                    [ngStyle]="((item.equippable && item.equip) || (can_Invest(item) && item.invested)) ? {} : {'border-color':get_Accent(inventoryID)}"
                     [className]="((item.equippable && item.equip) || (can_Invest(item) && item.invested)) ? 'fancy-list' : ''"
                     *ngIf="get_ShowItem()==inventoryID">
                     <div class="row">

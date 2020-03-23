@@ -14,6 +14,7 @@ export class ItemsComponent implements OnInit {
     private showList: string = "";
     private showItem: number = 0;
     private id: number = 0;
+    public hover: number = 0;
 
     constructor(
         private changeDetector: ChangeDetectorRef,
@@ -34,8 +35,8 @@ export class ItemsComponent implements OnInit {
         return this.showList;
     }
 
-    get_Accent() {
-        return this.characterService.get_Accent();
+    get_Accent(hover: number = -1) {
+        return this.characterService.get_Accent(hover == this.hover);
     }
 
     toggle_Item(id: number) {

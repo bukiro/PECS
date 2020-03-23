@@ -2,65 +2,82 @@
 <div class="loading" *ngIf="still_loading()">Loading</div>
 <div *ngIf="!still_loading()">
     <div *ngFor="let gain of get_OwnedActivities()">
-        <div class="list-item" *ngFor="let activity of get_Activities(gain.name)">
-            <button class="row button" [ngStyle]="(gain.active) ? {'color':get_Accent()} : {'background-color':get_Accent()}" [className]="(gain.active) ? 'fancy-button' : ''" (click)="toggle_Action(activity.name)">
-                <span>{{activity.name}}</span>
-                <span>{{activity.get_Actions()}}{{(activity.activationType) ? " - " + activity.activationType : ""}}</span>
-            </button>
-            <div class="list-item sublist lower" [ngStyle]="(gain.active) ? {} : {'border-color':get_Accent()}"  [className]="(gain.active) ? 'fancy-list' : ''" *ngIf="this.get_showAction()==activity.name">
-                <div class="row left-aligned">
-                    <cite *ngFor="let trait of activity.traits" title="{{get_Traits(trait)[0].description}}">&nbsp;{{trait}}</cite>
-                    <cite *ngFor="let trait of get_ActivationTraits(activity)" title="{{get_Traits(trait)[0].description}}">&nbsp;{{trait}}</cite>
-                </div>
-                <div class="row">
-                    <button class="row button" [ngStyle]="{'background-color':get_Accent()}" (click)="on_Activate(gain, activity, true)" *ngIf="activity.can_Activate() && !gain.active">
-                        Activate
-                    </button>
-                    <button class="row button" [ngStyle]="{'background-color':get_Accent()}" (click)="on_Activate(gain, activity, false)" *ngIf="activity.can_Activate() && gain.active">
-                        Deactivate
-                    </button>
-                    <p *ngIf="activity.frequency">
-                    <strong>Frequency&nbsp;</strong>{{activity.frequency}}
-                    </p>
-                    <p *ngIf="activity.trigger">
-                        <strong>Trigger&nbsp;</strong>{{activity.trigger}}
-                    </p>
-                    <p *ngIf="activity.requirements">
-                        <strong>Requirements&nbsp;</strong>{{activity.requirements}}
-                    </p>
-                    <div *ngFor="let desc of activity.desc.split('\n\n')">
-                        <p *ngIf="desc.split('\n').length == 1">{{desc}}</p>
-                        <ul *ngIf="desc.split('\n').length > 1">
-                            <li *ngFor="let line of desc.split('\n')">{{line}}</li>
-                        </ul>
+        <div *ngFor="let activity of get_Activities(gain.name)">
+            <div class="list-item" *ngFor="let activityID of [get_ID()]">
+                <button class="row button" (mouseover)="hover = activityID" (mouseout)="hover = 0"
+                    [ngStyle]="(gain.active) ? {'color':get_Accent()} : {'background-color':get_Accent()}"
+                    [className]="(gain.active) ? 'fancy-button' : ''" (click)="toggle_Action(activityID)">
+                    <span>{{activity.name}}</span>
+                    <span>{{activity.get_Actions()}}{{(activity.activationType) ? " - " + activity.activationType : ""}}</span>
+                </button>
+                <div class="list-item sublist lower"
+                    [ngStyle]="(gain.active) ? {} : {'border-color':get_Accent(activityID)}"
+                    [className]="(gain.active) ? 'fancy-list' : ''" *ngIf="get_showAction()==activityID">
+                    <div class="row left-aligned">
+                        <cite *ngFor="let trait of activity.traits"
+                            title="{{get_Traits(trait)[0].description}}">&nbsp;{{trait}}</cite>
+                        <cite *ngFor="let trait of get_ActivationTraits(activity)"
+                            title="{{get_Traits(trait)[0].description}}">&nbsp;{{trait}}</cite>
                     </div>
-                    <p *ngIf="activity.critsuccess">
-                        <strong>Critical Success&nbsp;</strong>{{activity.critsuccess}}
-                    </p>
-                    <p *ngIf="activity.success">
-                        <strong>Success&nbsp;</strong>{{activity.success}}
-                    </p>
-                    <p *ngIf="activity.failure">
-                        <strong>Failure&nbsp;</strong>{{activity.failure}}
-                    </p>
-                    <p *ngIf="activity.critfailure">
-                        <strong>Critical Failure&nbsp;</strong>{{activity.critfailure}}
-                    </p>
-                </div>
-                <div class="row" *ngFor="let feat of get_FeatsShowingOn(activity.name)"><strong>Feat: {{feat.name}}</strong>
-                    <div *ngFor="let desc of feat.desc.split('\n\n')">
-                        <p *ngIf="desc.split('\n').length == 1">{{desc}}</p>
-                        <ul *ngIf="desc.split('\n').length > 1">
-                            <li *ngFor="let line of desc.split('\n')">{{line}}</li>
-                        </ul>
+                    <div class="row">
+                        <button class="row button" [ngStyle]="{'background-color':get_Accent()}"
+                            (click)="on_Activate(gain, activity, true)" *ngIf="activity.can_Activate() && !gain.active">
+                            Activate
+                        </button>
+                        <button class="row button" [ngStyle]="{'background-color':get_Accent()}"
+                            (click)="on_Activate(gain, activity, false)" *ngIf="activity.can_Activate() && gain.active">
+                            Deactivate
+                        </button>
+                        <p *ngIf="activity.frequency">
+                            <strong>Frequency&nbsp;</strong>{{activity.frequency}}
+                        </p>
+                        <p *ngIf="activity.trigger">
+                            <strong>Trigger&nbsp;</strong>{{activity.trigger}}
+                        </p>
+                        <p *ngIf="activity.requirements">
+                            <strong>Requirements&nbsp;</strong>{{activity.requirements}}
+                        </p>
+                        <div *ngFor="let desc of activity.desc.split('\n\n')">
+                            <p *ngIf="desc.split('\n').length == 1">{{desc}}</p>
+                            <ul *ngIf="desc.split('\n').length > 1">
+                                <li *ngFor="let line of desc.split('\n')">{{line}}</li>
+                            </ul>
+                        </div>
+                        <p *ngIf="activity.critsuccess">
+                            <strong>Critical Success&nbsp;</strong>{{activity.critsuccess}}
+                        </p>
+                        <p *ngIf="activity.success">
+                            <strong>Success&nbsp;</strong>{{activity.success}}
+                        </p>
+                        <p *ngIf="activity.failure">
+                            <strong>Failure&nbsp;</strong>{{activity.failure}}
+                        </p>
+                        <p *ngIf="activity.critfailure">
+                            <strong>Critical Failure&nbsp;</strong>{{activity.critfailure}}
+                        </p>
                     </div>
-                </div>
-                <div class="row left-aligned">
-                    <cite *ngFor="let trait of get_TraitsForThis(activity.name)" [title]="trait.description">{{trait.name}} ({{trait.haveOn(this.characterService, true)}})&nbsp;</cite>
-                    <cite *ngFor="let condition of get_ConditionsShowingOn(activity.name)" [className]="(condition.buff) ? 'bonus' : 'penalty'" [title]="condition.desc">{{condition.name}}&nbsp;</cite>
-                    <cite *ngFor="let effect of get_EffectsOnThis(activity.name)" [className]="effect.penalty ? 'penalty' : 'bonus'">{{effect.value}} ({{effect.source}})&nbsp;</cite>
+                    <div class="row" *ngFor="let feat of get_FeatsShowingOn(activity.name)"><strong>Feat:
+                            {{feat.name}}</strong>
+                        <div *ngFor="let desc of feat.desc.split('\n\n')">
+                            <p *ngIf="desc.split('\n').length == 1">{{desc}}</p>
+                            <ul *ngIf="desc.split('\n').length > 1">
+                                <li *ngFor="let line of desc.split('\n')">{{line}}</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="row left-aligned">
+                        <cite *ngFor="let trait of get_TraitsForThis(activity.name)"
+                            [title]="trait.description">{{trait.name}}
+                            ({{trait.haveOn(this.characterService, true)}})&nbsp;</cite>
+                        <cite *ngFor="let condition of get_ConditionsShowingOn(activity.name)"
+                            [className]="(condition.buff) ? 'bonus' : 'penalty'"
+                            [title]="condition.desc">{{condition.name}}&nbsp;</cite>
+                        <cite *ngFor="let effect of get_EffectsOnThis(activity.name)"
+                            [className]="effect.penalty ? 'penalty' : 'bonus'">{{effect.value}}
+                            ({{effect.source}})&nbsp;</cite>
+                    </div>
                 </div>
             </div>
         </div>
-    </div> 
+    </div>
 </div>

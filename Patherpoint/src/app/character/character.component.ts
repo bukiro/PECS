@@ -29,8 +29,9 @@ import { SortByPipe } from '../sortBy.pipe';
 export class CharacterComponent implements OnInit {
 
     public newClass: Class = new Class();
-    public showItem: string = "";
-    public showList: string = "";
+    private showItem: string = "";
+    private showList: string = "";
+    public hover: string = '';
 
     constructor(
         private changeDetector:ChangeDetectorRef,
@@ -72,8 +73,8 @@ export class CharacterComponent implements OnInit {
         return this.showList;
     }
 
-    get_Accent() {
-        return this.characterService.get_Accent();
+    get_Accent(hover: string = "-") {
+        return this.characterService.get_Accent(hover == this.hover);
     }
 
     get_Level(number: number) {
@@ -268,9 +269,10 @@ export class CharacterComponent implements OnInit {
         let reasons: string[] = [];
         //If this skill was raised by a feat on a higher level, it can't be raised on this level.
         //This prevents losing the feat bonus or raising the skill too high - feats never give +2, but always set the level
+        //An exception is made for Additional Lore, which can be raised on Level 3, 7 and 15 no matter when you learned it
         let allIncreases = this.get_SkillIncreases(level.number+1, 20, skill.name, '');
         if (allIncreases.length > 0) {
-            if (allIncreases[0].locked && allIncreases[0].source.indexOf("Feat: ") > -1) {
+            if (allIncreases[0].locked && allIncreases[0].source.indexOf("Feat: ") > -1 && allIncreases[0].source != "Feat: Additional Lore") {
                 let trainedOnHigherLevel = "Trained on a higher level by "+allIncreases[0].source+".";
                 reasons.push(trainedOnHigherLevel);
             }

@@ -14,7 +14,9 @@ import { SpellGain } from '../SpellGain';
 })
 export class SpellbookComponent implements OnInit {
 
-    public showSpell: string = "";
+    private showSpell: number = 0;
+    private id: number = 0;
+    public hover: number = 0;
 
     constructor(
         public characterService: CharacterService,
@@ -23,11 +25,11 @@ export class SpellbookComponent implements OnInit {
         private spellsService: SpellsService
     ) { }
     
-    toggle_Spell(name: string) {
-        if (this.showSpell == name) {
-            this.showSpell = "";
+    toggle_Spell(id: number) {
+        if (this.showSpell == id) {
+            this.showSpell = 0;
         } else {
-            this.showSpell = name;
+            this.showSpell = id;
         }
     }
 
@@ -35,8 +37,13 @@ export class SpellbookComponent implements OnInit {
         return this.showSpell;
     }
 
-    get_Accent() {
-        return this.characterService.get_Accent();
+    get_Accent(hover: number = -1) {
+        return this.characterService.get_Accent(hover == this.hover);
+    }
+
+    get_ID() {
+        this.id++;
+        return this.id;
     }
 
     still_loading() {
@@ -52,6 +59,7 @@ export class SpellbookComponent implements OnInit {
     }
 
     get_FocusSpells() {
+        this.id = 1000;
         let character = this.characterService.get_Character();
         return character.get_SpellsTaken(1, character.level, "", "", "Focus");
     }

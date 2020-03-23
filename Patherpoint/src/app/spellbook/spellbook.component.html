@@ -15,30 +15,33 @@
         </button>
     </div>
     <div *ngFor="let spellGain of get_FocusSpells()">
-        <div class="list-item" *ngFor="let spell of get_Spells(spellGain.name)">
-            <button class="row button" [ngStyle]="{'background-color':get_Accent()}"
-                (click)="toggle_Spell('Focus'+spell.name)">
-                <span>{{spell.name}}</span>
-                <span>{{spell.get_Action()}}{{spell.cast}}</span>
-            </button>
-            <div class="list-item sublist lower" *ngIf="this.get_showSpell()=='Focus'+spell.name">
-                <div class="row left-aligned" *ngIf="spell.traits.length">
-                    <cite *ngFor="let trait of spell.traits"
-                        title="{{get_Traits(trait)[0].description}}">&nbsp;{{trait}}</cite>
-                </div>
-                <div class="row">
-                    <button class="row button" [ngStyle]="{'background-color':get_Accent()}"
-                        (click)="on_Cast(spellGain, spell)" *ngIf="spell.can_Cast(characterService, spellGain)">
-                        Cast
-                    </button>
-                    <p *ngIf="get_SpellDescription(spell).length">
-                        <span [className]="(desc.type == 'variable') ? 'variable' : ''"
-                            *ngFor="let desc of get_SpellDescription(spell)">{{desc.value}}</span>
-                    </p>
-                    <p *ngIf="spell.heightenedLevel">
-                        <strong>Heightened {{spell.heightenedLevel}}</strong>
-                        {{spell.heightened}}
-                    </p>
+        <div *ngFor="let spell of get_Spells(spellGain.name)">
+            <div class="list-item" *ngFor="let spellID of [get_ID()]">
+                <button class="row button" (mouseover)="hover = spellID" (mouseout)="hover = 0"
+                    [ngStyle]="{'background-color':get_Accent()}" (click)="toggle_Spell(spellID)">
+                    <span>{{spell.name}}</span>
+                    <span>{{spell.get_Action()}}{{spell.cast}}</span>
+                </button>
+                <div class="list-item sublist lower" [ngStyle]="{'border-color':get_Accent(spellID)}"
+                    *ngIf="this.get_showSpell()==spellID">
+                    <div class="row left-aligned" *ngIf="spell.traits.length">
+                        <cite *ngFor="let trait of spell.traits"
+                            title="{{get_Traits(trait)[0].description}}">&nbsp;{{trait}}</cite>
+                    </div>
+                    <div class="row">
+                        <button class="row button" [ngStyle]="{'background-color':get_Accent()}"
+                            (click)="on_Cast(spellGain, spell)" *ngIf="spell.can_Cast(characterService, spellGain)">
+                            Cast
+                        </button>
+                        <p *ngIf="get_SpellDescription(spell).length">
+                            <span [className]="(desc.type == 'variable') ? 'variable' : ''"
+                                *ngFor="let desc of get_SpellDescription(spell)">{{desc.value}}</span>
+                        </p>
+                        <p *ngIf="spell.heightenedLevel">
+                            <strong>Heightened {{spell.heightenedLevel}}</strong>
+                            {{spell.heightened}}
+                        </p>
+                    </div>
                 </div>
             </div>
         </div>

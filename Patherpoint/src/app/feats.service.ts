@@ -191,7 +191,7 @@ export class FeatsService {
                 } else {
                     let oldChoices: LoreChoice[] = level.loreChoices.filter(choice => choice.source == "Different Worlds");
                     let oldChoice = oldChoices[oldChoices.length - 1];
-                    if (oldChoice.increases.length) {
+                    if (oldChoice && oldChoice.increases.length) {
                         character.remove_Lore(characterService, oldChoice);
                     }
                     level.loreChoices = level.loreChoices.filter(choice => choice.source != "Different Worlds");
