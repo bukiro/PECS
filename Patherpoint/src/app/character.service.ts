@@ -36,6 +36,7 @@ import { EffectsService } from './effects.service';
 import { Effect } from './Effect';
 import { AlchemicalElixir } from './AlchemicalElixir';
 import { Consumable } from './Consumable';
+import { OtherConsumable } from './OtherConsumable';
 
 @Injectable({
     providedIn: 'root'
@@ -307,6 +308,9 @@ export class CharacterService {
                 break;
             case "alchemicalelixirs":
                 newInventoryItem = Object.assign(new AlchemicalElixir(), item);
+                break;
+            case "otherconsumables":
+                newInventoryItem = Object.assign(new OtherConsumable(), item);
                 break;
         }
         let existingItems = this.me.inventory[item.type].filter(existing => existing.name == item.name && existing.amount != undefined);

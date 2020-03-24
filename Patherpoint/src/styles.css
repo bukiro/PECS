@@ -245,11 +245,6 @@
     z-index: 100;
   }
 
-  .itemBox .list-item.sublist {
-    width: 788px;
-    padding: 4px;
-  }
-
   .list-item.sublist.fancy-list {
     border-color: white;
   }
@@ -263,10 +258,6 @@
     border-color: #FFFFFF50;
   }
   
-  .itemBox .list-item {
-    max-width: 900px;
-  }
-
   .itemBox .fancybutton.list-item {
     background-color: #1976d2;
   }

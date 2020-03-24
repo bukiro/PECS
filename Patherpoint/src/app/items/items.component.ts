@@ -78,6 +78,9 @@ export class ItemsComponent implements OnInit {
             case "Alchemical Elixirs":
                 this.id = 5000;
                 return items.alchemicalelixirs;
+            case "Other Consumables":
+                this.id = 6000;
+                return items.otherconsumables;
         }
     }
 

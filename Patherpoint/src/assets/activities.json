@@ -52,5 +52,15 @@
         "showon":"Athletics",
         "gainItems":[{"name":"Bo Staff (Twining Staff)", "type":"weapons"}],
         "traits":["Magical", "Transmutation"]
+    },
+    {
+        "name":"Skeleton Key",
+        "actions":"F",
+        "activationType":"Interact",
+        "frequency":"Once per day",
+        "trigger":"You attempt to Pick a Lock but haven’t rolled yet",
+        "desc":"The key casts knock on the lock you’re trying to pick.",
+        "castSpell":["Knock"],
+        "traits":["Magical", "Transmutation"]
     }
 ]

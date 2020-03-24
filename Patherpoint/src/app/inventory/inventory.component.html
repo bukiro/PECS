@@ -62,8 +62,8 @@
     <button class="list-item" [ngStyle]="{'background-color':get_Accent()}" (click)="toggleMenu('items')">
         Get Items
     </button>
-    <div *ngFor="let itemSet of ['Weapons','Armor','Shields','Worn Items','Alchemical Elixirs']">
-        <h3>{{itemSet}}</h3>
+    <div *ngFor="let itemSet of ['Weapons','Armor','Shields','Worn Items','Alchemical Elixirs','Other Consumables']">
+        <h3 *ngIf="get_InventoryItems(itemSet).length">{{itemSet}}</h3>
         <div *ngFor="let item of get_InventoryItems(itemSet)">
             <div class="list-item" *ngFor="let inventoryID of [get_ID()]">
                 <button class="row" (mouseover)="hover = inventoryID" (mouseout)="hover = 0"
@@ -194,26 +194,7 @@
                             </select>
                         </div>
                     </div>
-                    <div class="row">
-                        <div *ngFor="let desc of item.desc.split('\n\n')">
-                            <p *ngIf="desc.split('\n').length == 1">{{desc}}</p>
-                            <ul *ngIf="desc.split('\n').length > 1">
-                                <li *ngFor="let line of desc.split('\n')">{{line}}</li>
-                            </ul>
-                        </div>
-                        <p *ngIf="item.benefit">
-                            <strong>Benefit</strong>
-                            {{item.benefit}}
-                        </p>
-                        <p *ngIf="item.drawback">
-                            <strong>Drawback</strong>
-                            {{item.drawback}}
-                        </p>
-                        <p *ngIf="item.subType">
-                            <strong>{{item.subType}}</strong>
-                            {{item.subTypeDesc}}
-                        </p>
-                    </div>
+                    <app-item [item]=item></app-item>
                 </div>
             </div>
         </div>

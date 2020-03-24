@@ -10,6 +10,7 @@ import { WornItem } from './WornItem';
 import { AlchemicalElixir } from './AlchemicalElixir';
 import { Consumable } from './Consumable';
 import { ConditionGain } from './ConditionGain';
+import { OtherConsumable } from './OtherConsumable';
 
 @Injectable({
     providedIn: 'root'
@@ -27,6 +28,9 @@ export class ItemsService {
     private loading_WornItems: Boolean = false;
     private loader_AlchemicalElixirs = [];
     private loading_AlchemicalElixirs: Boolean = false;
+    private loader_OtherConsumables = [];
+    private loading_OtherConsumables: Boolean = false;
+    
     itemsMenuState: string = 'out';
 
     constructor(
@@ -81,6 +85,12 @@ export class ItemsService {
         } else { return [] }
     }
 
+    get_OtherConsumables(name: string = "") {
+        if (!this.still_loading()) {
+            return this.items.otherconsumables.filter(otherconsumable => otherconsumable.name == name || name == "");
+        } else { return [] }
+    }
+
     process_Consumable(characterService: CharacterService, item: Consumable) {
 
         //Apply conditions.
@@ -93,7 +103,7 @@ export class ItemsService {
     }
 
     still_loading() {
-        return (this.loading_Weapons || this.loading_Armors || this.loading_Shields || this.loading_WornItems || this.loading_AlchemicalElixirs);
+        return (this.loading_Weapons || this.loading_Armors || this.loading_Shields || this.loading_WornItems || this.loading_AlchemicalElixirs || this.loading_OtherConsumables);
     }
 
     load_Weapons(): Observable<String[]>{
@@ -114,6 +124,10 @@ export class ItemsService {
 
     load_AlchemicalElixirs(): Observable<String[]>{
         return this.http.get<String[]>('/assets/alchemicalelixirs.json');
+    }
+
+    load_OtherConsumables(): Observable<String[]>{
+        return this.http.get<String[]>('/assets/otherconsumables.json');
     }
 
     initialize() {
@@ -148,6 +162,12 @@ export class ItemsService {
                 .subscribe((results:String[]) => {
                     this.loader_AlchemicalElixirs = results;
                     this.finish_AlchemicalElixirs()
+                });
+            this.loading_OtherConsumables = true;
+            this.load_OtherConsumables()
+                .subscribe((results:String[]) => {
+                    this.loader_OtherConsumables = results;
+                    this.finish_OtherConsumables()
                 });
         }
     }
@@ -190,6 +210,14 @@ export class ItemsService {
             this.loader_AlchemicalElixirs = [];
         }
         if (this.loader_AlchemicalElixirs) {this.loading_AlchemicalElixirs = false;}
+    }
+
+    finish_OtherConsumables() {
+        if (this.loader_OtherConsumables) {
+            this.items.otherconsumables = this.loader_OtherConsumables.map(element => Object.assign(new OtherConsumable(), element));
+            this.loader_OtherConsumables = [];
+        }
+        if (this.loader_OtherConsumables) {this.loading_OtherConsumables = false;}
     }
 
 }

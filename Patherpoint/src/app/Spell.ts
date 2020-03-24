@@ -6,6 +6,9 @@ export class Spell {
     public name: string = "";
     public levelreq: number = 1;
     public traditions: string[] = [];
+    public duration: number = 0;
+    public range: number = 0;
+    public targets: string = "";
     public actions: string = "1";
     public castType: string[] = [];
     public shortDesc: string = "";

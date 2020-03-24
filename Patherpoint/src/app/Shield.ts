@@ -23,8 +23,8 @@ export class Shield implements Item {
     public traits: string[] = [];
     public material: string = "";
     public gainItems = [];
-    public effects: string[] = [];
-    public specialEffects: string[] = []
+    public effects = [];
+    public specialEffects = []
     get_Name() {
         if (this.displayName.length) {
             return this.displayName;

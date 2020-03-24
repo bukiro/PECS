@@ -19,7 +19,7 @@ export class ActivitiesComponent implements OnInit {
     private id: number = 0;
     private showAction: number = 0;
     public hover: number = 0;
-    
+
     constructor(
         private changeDetector: ChangeDetectorRef,
         public characterService: CharacterService,
@@ -75,19 +75,6 @@ export class ActivitiesComponent implements OnInit {
         return this.traitsService.get_Traits(traitName);
     }
 
-    get_ActivationTraits(activity: Activity) {
-        switch (activity.activationType) {
-            case "Command": 
-                return ["Auditory", "Concentrate"];
-            case "Envision": 
-                return ["Concentrate"];
-            case "Interact": 
-                return ["Manipulate"];
-            default:
-                return [];
-        }
-    }
-
     get_TraitsForThis(name: string) {
         return this.traitsService.get_TraitsForThis(this.characterService, name);
     }
@@ -113,8 +100,8 @@ export class ActivitiesComponent implements OnInit {
             setTimeout(() => this.finish_Loading(), 500)
         } else {
             this.characterService.get_Changed()
-            .subscribe(() => 
-            this.changeDetector.detectChanges()
+                .subscribe(() =>
+                    this.changeDetector.detectChanges()
                 )
             return true;
         }

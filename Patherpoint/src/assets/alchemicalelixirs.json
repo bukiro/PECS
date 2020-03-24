@@ -3,6 +3,8 @@
         "name":"Juggernaut Mutagen (Lesser)",
         "type":"alchemicalelixirs",
         "bulk":"L",
+        "price":400,
+        "level":1,
         "actions":"1",
         "activationType":"Interact",
         "desc":"After you drink this mutagen, your body becomes thick and sturdy. You exhibit a healthy glow, though you tend to be ponderous and unobservant.",

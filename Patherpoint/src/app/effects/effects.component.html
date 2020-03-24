@@ -1,37 +1,39 @@
 <div>
     <h3>Active Conditions</h3>
-    <div class="list-item" *ngFor="let conditionGain of get_AppliedConditions(true)">
-        <div class="row">
-            <span><strong [className]="conditionGain.buff ? 'bonus' : 'penalty'"
-                    title="{{conditionGain.source}}">{{conditionGain.name}}
-                    {{(conditionGain.value) ? conditionGain.value : ""}}</strong> ({{conditionGain.source}})</span>
-        </div>
-        <div class="row">
-            <span>{{get_Duration(conditionGain.duration)}}</span>
-        </div>
-        <div class="row" *ngFor="let condition of [get_Conditions(conditionGain.name)[0]]">
-            <div class="list-item lower row problem" *ngIf="condition.inputRequired">
-                <strong>Player input required:</strong>
-                <p *ngFor="let inputRequired of condition.inputRequired.split('\n')">
-                    {{inputRequired}}
-                </p>
+    <div *ngFor="let conditionGain of get_AppliedConditions(true)">
+        <div class="list-item" *ngFor="let condition of [get_Conditions(conditionGain.name)[0]]">
+            <div class="row">
+                <span><strong [className]="condition.buff ? 'bonus' : 'penalty'"
+                        title="{{conditionGain.source}}">{{conditionGain.name}}
+                        {{(conditionGain.value) ? conditionGain.value : ""}}</strong> ({{conditionGain.source}})</span>
             </div>
             <div class="row">
-                <button [ngStyle]="{'background-color':get_Accent()}" (click)="remove_Condition(conditionGain)">
-                    Remove
-                </button>
-                <button [ngStyle]="{'background-color':get_Accent()}"
-                    (click)="toggle_Item(conditionGain.name+conditionGain.source+conditionGain.value+conditionGain.duration+'applied')">
-                    Show Description
-                </button>
+                <span>{{get_Duration(conditionGain.duration)}}</span>
             </div>
-            <div class="row"
-                *ngIf="this.get_ShowItem()==conditionGain.name+conditionGain.source+conditionGain.value+conditionGain.duration+'applied'">
-                <div *ngFor="let desc of condition.desc.split('\n\n')">
-                    <p *ngIf="desc.split('\n').length == 1">{{desc}}</p>
-                    <ul *ngIf="desc.split('\n').length > 1">
-                        <li *ngFor="let line of desc.split('\n')">{{line}}</li>
-                    </ul>
+            <div class="row">
+                <div class="list-item lower row problem" *ngIf="condition.inputRequired">
+                    <strong>Player input required:</strong>
+                    <p *ngFor="let inputRequired of condition.inputRequired.split('\n')">
+                        {{inputRequired}}
+                    </p>
+                </div>
+                <div class="row">
+                    <button [ngStyle]="{'background-color':get_Accent()}" (click)="remove_Condition(conditionGain)">
+                        Remove
+                    </button>
+                    <button [ngStyle]="{'background-color':get_Accent()}"
+                        (click)="toggle_Item(conditionGain.name+conditionGain.source+conditionGain.value+conditionGain.duration+'applied')">
+                        Show Description
+                    </button>
+                </div>
+                <div class="row"
+                    *ngIf="this.get_ShowItem()==conditionGain.name+conditionGain.source+conditionGain.value+conditionGain.duration+'applied'">
+                    <div *ngFor="let desc of condition.desc.split('\n\n')">
+                        <p *ngIf="desc.split('\n').length == 1">{{desc}}</p>
+                        <ul *ngIf="desc.split('\n').length > 1">
+                            <li *ngFor="let line of desc.split('\n')">{{line}}</li>
+                        </ul>
+                    </div>
                 </div>
             </div>
         </div>

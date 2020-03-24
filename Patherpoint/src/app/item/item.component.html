@@ -1,0 +1,95 @@
+<div class="row left-aligned" *ngIf="item.traits.length">
+    <cite *ngFor="let trait of item.traits" title="{{get_Traits(trait)[0].description}}">&nbsp;{{trait}}</cite>
+</div>
+<div class="row left-aligned" *ngIf="item.type == 'armors'">
+    <span>
+        <strong>Price</strong>
+        {{get_Price(item)}}&nbsp;
+    </span>
+    <span>
+        <strong>AC Bonus</strong>
+        {{item.itembonus}}&nbsp;
+    </span>
+    <span>
+        <strong>Dex Cap</strong>
+        {{item.dexcap}}&nbsp;
+    </span>
+    <span>
+        <strong>Check Penalty</strong>
+        {{item.skillpenalty}}&nbsp;
+    </span>
+    <span>
+        <strong>Speed Penalty</strong>
+        {{item.skillpenalty}}&nbsp;
+    </span>
+</div>
+<div class="row left-aligned" *ngIf="item.type == 'armors'">
+    <span>
+        <strong>Strength</strong>
+        {{item.strength}}&nbsp;
+    </span>
+    <span>
+        <strong>Bulk</strong>
+        {{item.bulk}}&nbsp;
+    </span>
+</div>
+<div class="row left-aligned" *ngIf="item.type == 'weapons'">
+    <span>
+        <strong>Price</strong>
+        {{get_Price(item)}}&nbsp;
+    </span>
+    <span>
+        <strong>Damage</strong>
+        {{item.dicenum}}d{{item.dicesize}} {{item.dmgType}}&nbsp;
+    </span>
+    <span>
+        <strong>Bulk</strong>
+        {{item.bulk}}&nbsp;
+    </span>
+</div>
+<div class="row left-aligned" *ngIf="item.type == 'weapons'">
+    <span>
+        <strong>Hands</strong>
+        {{item.hands}}&nbsp;
+    </span>
+    <span *ngIf="item.ranged">
+        <strong>Range</strong>
+        {{item.ranged}} ft.&nbsp;
+    </span>
+    <span *ngIf="item.ranged">
+        <strong>Reload</strong>
+        {{item.reload}}&nbsp;
+    </span>
+</div>
+<div class="row left-aligned" *ngIf="item.type == 'weapons'">
+    <span *ngIf="item.ammunition">
+        <strong>Ammunition</strong>
+        {{item.ammunition}}&nbsp;
+    </span>
+</div>
+<div class="row">
+    <div *ngFor="let desc of item.desc.split('\n\n')">
+        <p *ngIf="desc.split('\n').length == 1">{{desc}}</p>
+        <ul *ngIf="desc.split('\n').length > 1">
+            <li *ngFor="let line of desc.split('\n')">{{line}}</li>
+        </ul>
+    </div>
+    <p *ngIf="item.benefit">
+        <strong>Benefit</strong>
+        {{item.benefit}}
+    </p>
+    <p *ngIf="item.drawback">
+        <strong>Drawback</strong>
+        {{item.drawback}}
+    </p>
+    <p *ngIf="item.subType">
+        <strong>{{item.subType}}</strong>
+        {{item.subTypeDesc}}
+    </p>
+</div>
+<div class="row" *ngFor="let gain of item.gainActivity">
+    <div *ngFor="let activity of get_Activities(gain)">
+        <strong>{{activity.name}} {{activity.get_Actions()}}{{(activity.activationType) ? " - " + activity.activationType : ""}}</strong>
+        <app-activity [activity]=activity></app-activity>
+    </div>
+</div>

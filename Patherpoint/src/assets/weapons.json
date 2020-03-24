@@ -15,8 +15,6 @@
       "price": "-1",
       "hands": "1",
       "reload": "-",
-      "gainActivity": [
-      ],
       "traits": [
          "Agile",
          "Finesse",
@@ -41,8 +39,6 @@
       "hands": "1",
       "reload": "-",
       "hide": true,
-      "gainActivity": [
-      ],
       "traits": [
          "Agile",
          "Finesse",
@@ -67,8 +63,6 @@
       "hands": "1",
       "reload": "-",
       "hide": true,
-      "gainActivity": [
-      ],
       "traits": [
          "Backswing",
          "Nonlethal",
@@ -92,8 +86,6 @@
       "hands": "1",
       "reload": "-",
       "hide": true,
-      "gainActivity": [
-      ],
       "traits": [
          "Forceful",
          "Nonlethal",
@@ -117,8 +109,6 @@
       "hands": "1",
       "reload": "-",
       "hide": true,
-      "gainActivity": [
-      ],
       "traits": [
          "Agile",
          "Finesse",
@@ -144,8 +134,6 @@
       "hands": "1",
       "reload": "-",
       "hide": true,
-      "gainActivity": [
-      ],
       "traits": [
          "Nonlethal",
          "Parry",
@@ -170,8 +158,6 @@
       "hands": "1",
       "reload": "-",
       "hide": true,
-      "gainActivity": [
-      ],
       "traits": [
          "Agile",
          "Finesse",
@@ -196,8 +182,6 @@
       "hands": "1",
       "reload": "-",
       "hide": true,
-      "gainActivity": [
-      ],
       "traits": [
          "Agile",
          "Finesse",
@@ -222,8 +206,6 @@
       "hands": "1",
       "reload": "-",
       "hide": true,
-      "gainActivity": [
-      ],
       "traits": [
          "Agile",
          "Nonlethal",
@@ -248,8 +230,6 @@
       "hands": "1",
       "reload": "-",
       "hide": true,
-      "gainActivity": [
-      ],
       "traits": [
          "Agile",
          "Backstabber",
@@ -274,8 +254,6 @@
       "price": "200",
       "hands": "1",
       "reload": "-",
-      "gainActivity": [
-      ],
       "traits": [
          "Agile",
          "Dwarf",
@@ -300,8 +278,6 @@
       "price": "0",
       "hands": "1",
       "reload": "-",
-      "gainActivity": [
-      ],
       "traits": [
          "Thrown 10 ft."
       ]
@@ -323,8 +299,6 @@
       "price": "20",
       "hands": "1",
       "reload": "-",
-      "gainActivity": [
-      ],
       "traits": [
          "Agile",
          "Finesse",
@@ -348,8 +322,6 @@
       "price": "20",
       "hands": "1",
       "reload": "-",
-      "gainActivity": [
-      ],
       "traits": [
          "Agile",
          "Free-Hand"
@@ -372,8 +344,6 @@
       "price": "10",
       "hands": "1",
       "reload": "-",
-      "gainActivity": [
-      ],
       "traits": [
          "Agile",
          "Nonlethal",
@@ -397,8 +367,6 @@
       "price": "30",
       "hands": "1",
       "reload": "-",
-      "gainActivity": [
-      ],
       "traits": [
          "Agile",
          "Deadly d6",
@@ -422,8 +390,6 @@
       "price": "40",
       "hands": "1",
       "reload": "-",
-      "gainActivity": [
-      ],
       "traits": [
          "Agile",
          "Finesse",
@@ -446,8 +412,6 @@
       "price": "50",
       "hands": "2",
       "reload": "-",
-      "gainActivity": [
-      ],
       "traits": [
          "Reach"
       ]
@@ -468,8 +432,6 @@
       "price": "100",
       "hands": "1",
       "reload": "-",
-      "gainActivity": [
-      ],
       "traits": [
          "Shove"
       ]
@@ -490,8 +452,6 @@
       "price": "100",
       "hands": "1",
       "reload": "-",
-      "gainActivity": [
-      ],
       "traits": [
          "Versatile P"
       ]
@@ -512,8 +472,6 @@
       "price": "20",
       "hands": "1",
       "reload": "-",
-      "gainActivity": [
-      ],
       "traits": [
          "Agile",
          "Backswing",
@@ -538,8 +496,6 @@
       "price": "20",
       "hands": "1",
       "reload": "-",
-      "gainActivity": [
-      ],
       "traits": [
          "Agile",
          "Finesse",
@@ -563,8 +519,6 @@
       "price": "10",
       "hands": "1",
       "reload": "-",
-      "gainActivity": [
-      ],
       "traits": [
          "Thrown 20 ft."
       ]
@@ -585,8 +539,6 @@
       "price": "30",
       "hands": "1",
       "reload": "-",
-      "gainActivity": [
-      ],
       "traits": [
          "Agile",
          "Free-Hand"
@@ -608,8 +560,6 @@
       "price": "0",
       "hands": "1",
       "reload": "-",
-      "gainActivity": [
-      ],
       "traits": [
          "Two-Hand d8"
       ]
@@ -631,8 +581,6 @@
       "price": "30",
       "hands": "1",
       "reload": "-",
-      "gainActivity": [
-      ],
       "traits": [
          "Agile",
          "Finesse",
@@ -657,8 +605,6 @@
       "price": "400",
       "hands": "1",
       "reload": "-",
-      "gainActivity": [
-      ],
       "traits": [
          "Two-Hand d12"
       ]
@@ -679,8 +625,6 @@
       "price": "10",
       "hands": "1",
       "reload": "-",
-      "gainActivity": [
-      ],
       "traits": [
          "Sweep"
       ]
@@ -701,8 +645,6 @@
       "price": "300",
       "hands": "2",
       "reload": "-",
-      "gainActivity": [
-      ],
       "traits": [
          "Monk",
          "Parry",
@@ -726,8 +668,6 @@
       "price": "20",
       "hands": "2",
       "reload": "-",
-      "gainActivity": [
-      ],
       "traits": [
          "Monk",
          "Parry",
@@ -751,8 +691,6 @@
       "price": "10",
       "hands": "1",
       "reload": "-",
-      "gainActivity": [
-      ],
       "traits": [
          "Agile",
          "Backstabber",
@@ -777,8 +715,6 @@
       "price": "400",
       "hands": "2",
       "reload": "-",
-      "gainActivity": [
-      ],
       "traits": [
          "Elf",
          "Finesse",
@@ -802,8 +738,6 @@
       "price": "300",
       "hands": "2",
       "reload": "-",
-      "gainActivity": [
-      ],
       "traits": [
          "Forceful",
          "Sweep"
@@ -825,8 +759,6 @@
       "price": "140",
       "hands": "2",
       "reload": "-",
-      "gainActivity": [
-      ],
       "traits": [
          "Deadly d8",
          "Reach",
@@ -850,8 +782,6 @@
       "price": "110",
       "hands": "1",
       "reload": "-",
-      "gainActivity": [
-      ],
       "traits": [
          "Agile",
          "Backstabber",
@@ -878,8 +808,6 @@
       "price": "100",
       "hands": "1",
       "reload": "-",
-      "gainActivity": [
-      ],
       "traits": [
          "Agile",
          "Backstabber",
@@ -906,8 +834,6 @@
       "price": "100",
       "hands": "1",
       "reload": "-",
-      "gainActivity": [
-      ],
       "traits": [
          "Disarm",
          "Sweep",
@@ -930,8 +856,6 @@
       "price": "200",
       "hands": "2",
       "reload": "-",
-      "gainActivity": [
-      ],
       "traits": [
          "Deadly d8",
          "Forceful",
@@ -954,8 +878,6 @@
       "price": "200",
       "hands": "1",
       "reload": "-",
-      "gainActivity": [
-      ],
       "traits": [
          "Gnome",
          "Trip",
@@ -980,8 +902,6 @@
       "price": "100",
       "hands": "2",
       "reload": "-",
-      "gainActivity": [
-      ],
       "traits": [
          "Sweep"
       ]
@@ -1002,8 +922,6 @@
       "price": "100",
       "hands": "2",
       "reload": "-",
-      "gainActivity": [
-      ],
       "traits": [
          "Backswing",
          "Shove"
@@ -1025,8 +943,6 @@
       "price": "200",
       "hands": "2",
       "reload": "-",
-      "gainActivity": [
-      ],
       "traits": [
          "Fatal d12"
       ]
@@ -1047,8 +963,6 @@
       "price": "200",
       "hands": "2",
       "reload": "-",
-      "gainActivity": [
-      ],
       "traits": [
          "Versatile P"
       ]
@@ -1069,8 +983,6 @@
       "price": "200",
       "hands": "2",
       "reload": "-",
-      "gainActivity": [
-      ],
       "traits": [
          "Reach",
          "Trip"
@@ -1092,8 +1004,6 @@
       "price": "200",
       "hands": "2",
       "reload": "-",
-      "gainActivity": [
-      ],
       "traits": [
          "Reach",
          "Versatile S"
@@ -1116,8 +1026,6 @@
       "price": "40",
       "hands": "1",
       "reload": "-",
-      "gainActivity": [
-      ],
       "traits": [
          "Agile",
          "Sweep",
@@ -1140,8 +1048,6 @@
       "price": "90",
       "hands": "2",
       "reload": "-",
-      "gainActivity": [
-      ],
       "traits": [
          "Goblin",
          "Reach",
@@ -1166,8 +1072,6 @@
       "price": "100",
       "hands": "1",
       "reload": "-",
-      "gainActivity": [
-      ],
       "traits": [
          "Agile",
          "Monk",
@@ -1191,8 +1095,6 @@
       "price": "200",
       "hands": "1",
       "reload": "-",
-      "gainActivity": [
-      ],
       "traits": [
          "Deadly d8",
          "Two-Hand d10",
@@ -1216,8 +1118,6 @@
       "price": "200",
       "hands": "1",
       "reload": "-",
-      "gainActivity": [
-      ],
       "traits": [
          "Trip",
          "Uncommon"
@@ -1239,8 +1139,6 @@
       "price": "60",
       "hands": "1",
       "reload": "-",
-      "gainActivity": [
-      ],
       "traits": [
          "Agile",
          "Finesse",
@@ -1264,8 +1162,6 @@
       "price": "100",
       "hands": "2",
       "reload": "-",
-      "gainActivity": [
-      ],
       "traits": [
          "Deadly d8",
          "Jousting d6",
@@ -1289,8 +1185,6 @@
       "price": "30",
       "hands": "1",
       "reload": "-",
-      "gainActivity": [
-      ],
       "traits": [
          "Agile",
          "Thrown 20 ft."
@@ -1312,8 +1206,6 @@
       "price": "40",
       "hands": "1",
       "reload": "-",
-      "gainActivity": [
-      ],
       "traits": [
          "Agile",
          "Fatal d8"
@@ -1335,8 +1227,6 @@
       "price": "100",
       "hands": "1",
       "reload": "-",
-      "gainActivity": [
-      ],
       "traits": [
          "Versatile P"
       ]
@@ -1357,8 +1247,6 @@
       "price": "70",
       "hands": "1",
       "reload": "-",
-      "gainActivity": [
-      ],
       "traits": [
          "Deadly d8",
          "Sweep"
@@ -1380,8 +1268,6 @@
       "price": "50",
       "hands": "1",
       "reload": "-",
-      "gainActivity": [
-      ],
       "traits": [
          "Agile",
          "Disarm",
@@ -1407,8 +1293,6 @@
       "price": "60",
       "hands": "1",
       "reload": "-",
-      "gainActivity": [
-      ],
       "traits": [
          "Deadly d8",
          "Disarm",
@@ -1432,8 +1316,6 @@
       "price": "300",
       "hands": "2",
       "reload": "-",
-      "gainActivity": [
-      ],
       "traits": [
          "Shove"
       ]
@@ -1454,8 +1336,6 @@
       "price": "300",
       "hands": "2",
       "reload": "-",
-      "gainActivity": [
-      ],
       "traits": [
          "Backswing",
          "Disarm",
@@ -1479,8 +1359,6 @@
       "price": "300",
       "hands": "2",
       "reload": "-",
-      "gainActivity": [
-      ],
       "traits": [
          "Deadly d8",
          "Reach",
@@ -1504,8 +1382,6 @@
       "price": "90",
       "hands": "1",
       "reload": "-",
-      "gainActivity": [
-      ],
       "traits": [
          "Disarm",
          "Uncommon"
@@ -1527,8 +1403,6 @@
       "price": "20",
       "hands": "1",
       "reload": "-",
-      "gainActivity": [
-      ],
       "traits": [
          "Backswing",
          "Disarm",
@@ -1553,8 +1427,6 @@
       "price": "70",
       "hands": "1",
       "reload": "-",
-      "gainActivity": [
-      ],
       "traits": [
          "Agile",
          "Disarm",
@@ -1578,8 +1450,6 @@
       "price": "70",
       "hands": "1",
       "reload": "-",
-      "gainActivity": [
-      ],
       "traits": [
          "Fatal d10"
       ]
@@ -1600,8 +1470,6 @@
       "price": "1000",
       "hands": "1",
       "reload": "-",
-      "gainActivity": [
-      ],
       "traits": [
          "Agile",
          "Modular P, B or S",
@@ -1624,8 +1492,6 @@
       "price": "200",
       "hands": "2",
       "reload": "-",
-      "gainActivity": [
-      ],
       "traits": [
          "Disarm",
          "Reach"
@@ -1647,8 +1513,6 @@
       "price": "200",
       "hands": "1",
       "reload": "-",
-      "gainActivity": [
-      ],
       "traits": [
          "Deadly d8",
          "Disarm",
@@ -1671,8 +1535,6 @@
       "price": "60",
       "hands": "1",
       "reload": "-",
-      "gainActivity": [
-      ],
       "traits": [
          "Agile",
          "Disarm",
@@ -1698,8 +1560,6 @@
       "price": "10",
       "hands": "1",
       "reload": "-",
-      "gainActivity": [
-      ],
       "traits": [
          "Agile",
          "Nonlethal"
@@ -1721,8 +1581,6 @@
       "price": "100",
       "hands": "1",
       "reload": "-",
-      "gainActivity": [
-      ],
       "traits": [
          "Forceful",
          "Sweep"
@@ -1744,8 +1602,6 @@
       "price": "50",
       "hands": "1",
       "reload": "-",
-      "gainActivity": [
-      ],
       "traits": [
          "Disarm",
          "Finesse",
@@ -1770,8 +1626,6 @@
       "price": "10",
       "hands": "1",
       "reload": "-",
-      "gainActivity": [
-      ],
       "traits": [
          "Agile",
          "Disarm",
@@ -1796,8 +1650,6 @@
       "price": "200",
       "hands": "2",
       "reload": "-",
-      "gainActivity": [
-      ],
       "traits": [
          "Deadly d10",
          "Trip"
@@ -1819,8 +1671,6 @@
       "price": "—",
       "hands": "1",
       "reload": "-",
-      "gainActivity": [
-      ],
       "traits": [
       ]
    },
@@ -1840,8 +1690,6 @@
       "price": "50",
       "hands": "1",
       "reload": "-",
-      "gainActivity": [
-      ],
       "traits": [
          "Attached to Shield"
       ]
@@ -1862,8 +1710,6 @@
       "price": "50",
       "hands": "1",
       "reload": "-",
-      "gainActivity": [
-      ],
       "traits": [
          "Attached to Shield"
       ]
@@ -1884,8 +1730,6 @@
       "price": "90",
       "hands": "1",
       "reload": "-",
-      "gainActivity": [
-      ],
       "traits": [
          "Agile",
          "Finesse",
@@ -1908,8 +1752,6 @@
       "price": "300",
       "hands": "2",
       "reload": "-",
-      "gainActivity": [
-      ],
       "traits": [
          "Disarm",
          "Finesse",
@@ -1934,8 +1776,6 @@
       "price": "200",
       "hands": "1",
       "reload": "-",
-      "gainActivity": [
-      ],
       "traits": [
          "Agile",
          "Deadly d6",
@@ -1960,8 +1800,6 @@
       "price": "20",
       "hands": "1",
       "reload": "-",
-      "gainActivity": [
-      ],
       "traits": [
          "Agile",
          "Disarm",
@@ -1987,8 +1825,6 @@
       "price": "200",
       "hands": "1",
       "reload": "-",
-      "gainActivity": [
-      ],
       "traits": [
          "Monk",
          "Trip",
@@ -2012,8 +1848,6 @@
       "price": "100",
       "hands": "1",
       "reload": "-",
-      "gainActivity": [
-      ],
       "traits": [
          "Thrown 20 ft."
       ]
@@ -2034,8 +1868,6 @@
       "price": "200",
       "hands": "1",
       "reload": "-",
-      "gainActivity": [
-      ],
       "traits": [
          "Deadly d10",
          "Sweep",
@@ -2058,8 +1890,6 @@
       "price": "200",
       "hands": "2",
       "reload": "-",
-      "gainActivity": [
-      ],
       "traits": [
          "Disarm",
          "Sweep",
@@ -2082,8 +1912,6 @@
       "price": "30",
       "hands": "1",
       "reload": "-",
-      "gainActivity": [
-      ],
       "traits": [
          "Agile",
          "Backstabber",
@@ -2107,8 +1935,6 @@
       "price": "100",
       "hands": "1",
       "reload": "-",
-      "gainActivity": [
-      ],
       "traits": [
          "Shove"
       ]
@@ -2129,8 +1955,6 @@
       "price": "10",
       "hands": "1",
       "reload": "-",
-      "gainActivity": [
-      ],
       "traits": [
          "Disarm",
          "Finesse",
@@ -2156,8 +1980,6 @@
       "price": "500",
       "hands": "1",
       "reload": "-",
-      "gainActivity": [
-      ],
       "traits": [
          "Ranged Trip",
          "Tethered",
@@ -2182,8 +2004,6 @@
       "price": "2000",
       "hands": "1",
       "reload": "-",
-      "gainActivity": [
-      ],
       "traits": [
          "Finesse",
          "Uncommon",
@@ -2207,8 +2027,6 @@
       "price": "200",
       "hands": "2",
       "reload": "-",
-      "gainActivity": [
-      ],
       "traits": [
          "Backswing",
          "Disarm",
@@ -2234,8 +2052,6 @@
       "price": "250",
       "hands": "0+",
       "reload": "-",
-      "gainActivity": [
-      ],
       "traits": [
          "Finesse",
          "Sweep",
@@ -2259,8 +2075,6 @@
       "price": "300",
       "hands": "1",
       "reload": "-",
-      "gainActivity": [
-      ],
       "traits": [
          "Dwarf",
          "Sweep",
@@ -2284,8 +2098,6 @@
       "price": "500",
       "hands": "1",
       "reload": "-",
-      "gainActivity": [
-      ],
       "traits": [
          "Agile",
          "Backswing",
@@ -2310,8 +2122,6 @@
       "price": "300",
       "hands": "1",
       "reload": "-",
-      "gainActivity": [
-      ],
       "traits": [
          "Gnome",
          "Reach",
@@ -2334,8 +2144,6 @@
       "price": "100",
       "hands": "2",
       "reload": "-",
-      "gainActivity": [
-      ],
       "traits": [
          "Deadly d10",
          "Trip",
@@ -2358,8 +2166,6 @@
       "price": "200",
       "hands": "1",
       "reload": "-",
-      "gainActivity": [
-      ],
       "traits": [
          "Forceful",
          "Orc",
@@ -2383,8 +2189,6 @@
       "price": "500",
       "hands": "1",
       "reload": "-",
-      "gainActivity": [
-      ],
       "traits": [
          "Agile",
          "Finesse",
@@ -2409,8 +2213,6 @@
       "price": "10",
       "hands": "1",
       "reload": "1",
-      "gainActivity": [
-      ],
       "traits": [
          "Agile",
          "Nonlethal"
@@ -2433,8 +2235,6 @@
       "price": "300",
       "hands": "2",
       "reload": "1",
-      "gainActivity": [
-      ],
       "traits": [
       ]
    },
@@ -2454,8 +2254,6 @@
       "price": "1",
       "hands": "1",
       "reload": "-",
-      "gainActivity": [
-      ],
       "traits": [
          "Agile",
          "Thrown 20 ft."
@@ -2478,8 +2276,6 @@
       "price": "300",
       "hands": "1",
       "reload": "1",
-      "gainActivity": [
-      ],
       "traits": [
       ]
    },
@@ -2500,8 +2296,6 @@
       "price": "400",
       "hands": "2",
       "reload": "2",
-      "gainActivity": [
-      ],
       "traits": [
       ]
    },
@@ -2521,8 +2315,6 @@
       "price": "10",
       "hands": "1",
       "reload": "-",
-      "gainActivity": [
-      ],
       "traits": [
          "Thrown 30 ft."
       ]
@@ -2544,8 +2336,6 @@
       "price": "0",
       "hands": "1",
       "reload": "1",
-      "gainActivity": [
-      ],
       "traits": [
          "Propulsive"
       ]
@@ -2566,8 +2356,6 @@
       "price": "50",
       "hands": "1",
       "reload": "-",
-      "gainActivity": [
-      ],
       "traits": [
          "Nonlethal",
          "Ranged Trip",
@@ -2592,8 +2380,6 @@
       "price": "2000",
       "hands": "1+",
       "reload": "0",
-      "gainActivity": [
-      ],
       "traits": [
          "Deadly d10",
          "Propulsive",
@@ -2617,8 +2403,6 @@
       "price": "1400",
       "hands": "1+",
       "reload": "0",
-      "gainActivity": [
-      ],
       "traits": [
          "Deadly d10",
          "Propulsive"
@@ -2641,8 +2425,6 @@
       "price": "500",
       "hands": "2",
       "reload": "1",
-      "gainActivity": [
-      ],
       "traits": [
          "Halfling",
          "Propulsive",
@@ -2666,8 +2448,6 @@
       "price": "600",
       "hands": "1+",
       "reload": "0",
-      "gainActivity": [
-      ],
       "traits": [
          "Deadly d10",
          "Volley 30 ft."
@@ -2690,8 +2470,6 @@
       "price": "300",
       "hands": "1+",
       "reload": "0",
-      "gainActivity": [
-      ],
       "traits": [
          "Deadly d10"
       ]
@@ -2712,8 +2490,6 @@
       "price": "1",
       "hands": "1",
       "reload": "0",
-      "gainActivity": [
-      ],
       "traits": [
          "Agile",
          "Monk",
@@ -2766,8 +2542,6 @@
       "reload": "-",
       "hide": true,
       "displayName": "Twining Staff (+1 Striking Bo Staff)",
-      "gainActivity": [
-      ],
       "potencyRune": 1,
       "strikingRune": 1,
       "traits": [
@@ -2797,8 +2571,6 @@
       "reload": "-",
       "hide": true,
       "displayName": "Twining Staff (+1 Striking Staff)",
-      "gainActivity": [
-      ],
       "potencyRune": 1,
       "strikingRune": 1,
       "traits": [

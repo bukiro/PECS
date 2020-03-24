@@ -5,6 +5,7 @@ import { Item } from './Item';
 import { WornItem } from './WornItem';
 import { AlchemicalElixir } from './AlchemicalElixir';
 import { Consumable } from './Consumable';
+import { OtherConsumable } from './OtherConsumable';
 
 export class ItemCollection {
     public weapons: Weapon[] = [];
@@ -12,6 +13,7 @@ export class ItemCollection {
     public shields: Shield[] = [];
     public wornitems: WornItem[] = [];
     public alchemicalelixirs: AlchemicalElixir[] = [];
+    public otherconsumables: OtherConsumable[] = [];
     allEquipment() {
         let items: Item[] = [];
         items.push(...this.weapons);
@@ -23,6 +25,7 @@ export class ItemCollection {
     allConsumables() {
         let items: Consumable[] = [];
         items.push(...this.alchemicalelixirs);
+        items.push(...this.otherconsumables);
         return items;
     }
 }

@@ -173,5 +173,11 @@
                 "value": "+5"
             }
         ]
+    },
+    {
+        "name": "Candle of Truth",
+        "type": "otherconsumables",
+        "desc": "Creatures within 10 feet of the candle receive a –4 status penalty to Lie.\n\nIn addition, when first entering the affected area, each creature (including you) must succeed at a DC 26 Will save or be unable to tell any deliberate lies while within 10 feet of the lit candle. This lasts for as long as the candle is lit.",
+        "showon": "Deception"
     }
 ]

@@ -31,8 +31,8 @@ export class Armor implements Item {
     public gainActivity: string[] = [];
     public material: string = "";
     public gainItems = [];
-    public effects: string[] = [];
-    public specialEffects: string[] = []
+    public effects = [];
+    public specialEffects = []
     get_Potency(potency: number) {
         if (potency > 0) {
             return "+"+potency;
