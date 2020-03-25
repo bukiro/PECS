@@ -23,6 +23,10 @@ export class HealthComponent implements OnInit {
         public effectsService: EffectsService
     ) { }
 
+    minimize() {
+        this.characterService.get_Character().settings.healthMinimized = !this.characterService.get_Character().settings.healthMinimized;
+    }
+
     still_loading() {
         return this.characterService.still_loading()
     }

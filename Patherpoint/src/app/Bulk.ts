@@ -38,7 +38,7 @@ export class Bulk {
         let inventory = characterService.get_InventoryItems();
         function addup(item: Item|Consumable) {
             switch (item.bulk) {
-                case "-": 
+                case "": 
                     break;
                 case "L":
                     if (item["amount"]) {

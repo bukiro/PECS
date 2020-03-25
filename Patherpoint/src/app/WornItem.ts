@@ -4,11 +4,12 @@ export class WornItem implements Item {
     public notes: string = "";
     public desc: string = "";
     public name: string = "";
-    public level: string = "-";
+    public level: number = 0;
+    public price: number = 0;
     public showNotes: boolean = false;
     public showName: boolean = false;
     public type: string = "wornitems";
-    public bulk: string = "-";
+    public bulk: string = "";
     public displayName: string = "";
     public usage: string = "";
     public equip: boolean = false;
@@ -19,6 +20,8 @@ export class WornItem implements Item {
     public strikingRune: number = 0;
     public propertyRunes: string[] = [];
     public gainActivity: string[] = [];
+    public showon: string = "";
+    public hint: string = "";
     public traits: string[] = [];
     public effects: string[] = [];
     public specialEffects: string[] = []

@@ -6,9 +6,9 @@
     <h3>Focus Spells</h3>
     <div class="list-item" [className]="(get_FocusPoints() > get_MaxFocusPoints()) ? 'problem' : ''">
         <strong>Focus Points</strong>
-        <input type="number" class="number" [ngModel]="get_FocusPoints()" disabled>
+        <input type="number" class="number2" [ngModel]="get_FocusPoints()" disabled>
         <strong>Focus Pool</strong>
-        <input type="number" class="number" [ngModel]="get_MaxFocusPoints()" disabled>
+        <input type="number" class="number2" [ngModel]="get_MaxFocusPoints()" disabled>
         <button class="button row" [ngStyle]="{'background-color':get_Accent()}" (click)="refocus()"
             [disabled]="get_FocusPoints() >= get_MaxFocusPoints()">
             Refocus
@@ -20,28 +20,15 @@
                 <button class="row button" (mouseover)="hover = spellID" (mouseout)="hover = 0"
                     [ngStyle]="{'background-color':get_Accent()}" (click)="toggle_Spell(spellID)">
                     <span>{{spell.name}}</span>
-                    <span>{{spell.get_Action()}}{{spell.cast}}</span>
+                    <span>{{spell.get_Actions()}} {{spell.castType.toString()}}</span>
                 </button>
                 <div class="list-item sublist lower" [ngStyle]="{'border-color':get_Accent(spellID)}"
                     *ngIf="this.get_showSpell()==spellID">
-                    <div class="row left-aligned" *ngIf="spell.traits.length">
-                        <cite *ngFor="let trait of spell.traits"
-                            title="{{get_Traits(trait)[0].description}}">&nbsp;{{trait}}</cite>
-                    </div>
-                    <div class="row">
-                        <button class="row button" [ngStyle]="{'background-color':get_Accent()}"
-                            (click)="on_Cast(spellGain, spell)" *ngIf="spell.can_Cast(characterService, spellGain)">
-                            Cast
-                        </button>
-                        <p *ngIf="get_SpellDescription(spell).length">
-                            <span [className]="(desc.type == 'variable') ? 'variable' : ''"
-                                *ngFor="let desc of get_SpellDescription(spell)">{{desc.value}}</span>
-                        </p>
-                        <p *ngIf="spell.heightenedLevel">
-                            <strong>Heightened {{spell.heightenedLevel}}</strong>
-                            {{spell.heightened}}
-                        </p>
-                    </div>
+                    <button class="row button" [ngStyle]="{'background-color':get_Accent()}"
+                        (click)="on_Cast(spellGain, spell)" *ngIf="spell.can_Cast(characterService, spellGain)">
+                        Cast
+                    </button>
+                    <app-spell [spell]=spell></app-spell>
                 </div>
             </div>
         </div>

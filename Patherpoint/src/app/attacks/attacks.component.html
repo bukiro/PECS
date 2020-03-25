@@ -1,11 +1,11 @@
 <h3>Attacks</h3>
 <div class="loading" *ngIf="still_loading()">Loading</div>
-<div *ngIf="!still_loading()">
+<ng-container *ngIf="!still_loading()">
     <div class="row">
-        <cite *ngFor="let feat of get_FeatsShowingOn('Attacks')" [title]="(feat.hint) ? feat.hint : feat.desc">{{feat.name}}&nbsp;</cite>
-        <cite *ngFor="let condition of get_ConditionsShowingOn('Attacks')" [className]="(condition.buff) ? 'bonus' : 'penalty'" [title]="condition.desc">{{condition.name}}&nbsp;</cite>
+        <cite *ngFor="let feat of get_FeatsShowingOn('Attacks')" [title]="(feat.hint) ? feat.hint : feat.desc">{{feat.name}}</cite>
+        <cite *ngFor="let condition of get_ConditionsShowingOn('Attacks')" [className]="(condition.buff) ? 'bonus' : 'penalty'" [title]="condition.desc">{{condition.name}}</cite>
     </div>
-    <div *ngFor="let weapon of get_EquippedWeapons()">
+    <ng-container *ngFor="let weapon of get_EquippedWeapons()">
         <div class="list-item" *ngFor="let attack of get_Attacks(weapon)">
             <strong>{{weapon.get_Name()}}{{(attack[0] == 'melee') ? (weapon.ranged ? " melee" : "") : (weapon.melee ? " ranged" : "")}}</strong>
             <div class="row">
@@ -13,7 +13,7 @@
                 <input
                     [className]="(attack[3].length) ? 'penalty' : (attack[4].length) ? 'bonus' : ''"
                     type="number"
-                    class="number"
+                    class="number2"
                     title="{{attack[2]}}"
                     [ngModel]="attack[1]"
                     disabled>
@@ -25,20 +25,20 @@
                     [ngModel]="damage[0]"
                     disabled>
                 <div class="row left-aligned">
-                    <cite *ngFor="let trait of weapon.traits" title="{{get_Traits(trait)[0].description}}">&nbsp;{{trait}}</cite>
-                    <cite *ngFor="let feat of get_FeatsShowingOn(weapon.name)" [title]="(feat.hint) ? feat.hint : feat.desc">{{feat.name}}&nbsp;</cite>
-                    <div *ngFor="let name of get_specialShowon(weapon)">
+                    <cite class="trait" *ngFor="let trait of weapon.traits" title="{{get_Traits(trait)[0].description}}">{{trait}}</cite>
+                    <cite *ngFor="let feat of get_FeatsShowingOn(weapon.name)" [title]="(feat.hint) ? feat.hint : feat.desc">{{feat.name}}</cite>
+                    <ng-container *ngFor="let name of get_specialShowon(weapon)">
                         <cite *ngFor="let feat of get_FeatsShowingOn(name)"
                             [title]="(feat.hint) ? feat.hint : feat.desc">
-                            {{feat.name}}&nbsp;
+                            {{feat.name}}
                         </cite>
-                    </div>
-                    <cite *ngFor="let penalty of attack[3]" class="penalty">{{penalty.value}} ({{penalty.source}})&nbsp;</cite>
-                    <cite *ngFor="let bonus of attack[4]" class="bonus">{{bonus.value}} ({{bonus.source}})&nbsp;</cite>
+                    </ng-container>
+                    <cite *ngFor="let penalty of attack[3]" class="penalty">{{penalty.value}} ({{penalty.source}})</cite>
+                    <cite *ngFor="let bonus of attack[4]" class="bonus">{{bonus.value}} ({{bonus.source}})</cite>
                 </div>
             </div>
         </div>
-    </div>
+    </ng-container>
     <h3 *ngIf="!still_loading()">Weapon Proficiencies</h3>
     <div *ngFor="let skill of get_Skills('', 'Weapon Proficiency')">
         <app-skill class="list-item" [skill]=skill [showValue]=false></app-skill>
@@ -46,4 +46,4 @@
     <div *ngFor="let skill of get_Skills('', 'Specific Weapon Proficiency')">
         <app-skill *ngIf="skill.level(this.characterService)" class="list-item" [skill]=skill [showValue]=false></app-skill>
     </div>
-</div>
+</ng-container>

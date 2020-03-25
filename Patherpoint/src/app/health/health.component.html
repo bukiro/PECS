@@ -1,15 +1,16 @@
-<div *ngFor="let health of [calculate_Health()]">
-    <h3>Health: <span
+<button class="minimizebutton lower" [ngStyle]="{'background-color':get_Accent()}" (click)="minimize()">&#8691;</button>
+<ng-container *ngFor="let health of [calculate_Health()]">
+    <h3><span class="fullsize-only">Health: </span><span
             [className]="(health.$currentHP <= 0) ? 'penalty' : (health.$currentHP > health.$maxHP) ? 'bonus' : ''">{{health.$currentHP}}</span>
         Hit Points</h3>
     <div class="loading" *ngIf="still_loading()">Loading</div>
-    <div *ngIf="!still_loading()">
-        <div class="list-item">
+    <ng-container *ngIf="!still_loading()">
+        <div class="fullsize-only list-item">
             <strong>Max HP</strong>
-            <input class="number" type="number"
+            <input class="number3" type="number"
                 [className]="(get_PenaltiesOnThis('Health').length) ? 'penalty' : (get_BonusesOnThis('Health').length) ? 'bonus' : ''"
                 value="{{health.$maxHP}}" disabled>
-            Temp HP: <input class="number" type="number"
+            Temp HP: <input class="number3" type="number"
                 [className]="(health.temporaryHP < 0) ? 'penalty' : (health.temporaryHP > 0) ? 'bonus' : ''"
                 value="{{health.temporaryHP}}" disabled>
             <div class="row left-aligned">
@@ -22,10 +23,10 @@
                     [title]="condition.desc">{{condition.name}}&nbsp;</cite>
             </div>
         </div>
-        <div class="list-item">
-            <strong>Dying</strong><input class="number" type="number" [className]="(health.$dying > 0) ? 'penalty' : ''"
+        <div class="list-item" [className]="(health.$dying > 0) ? '' : 'fullsize-only'">
+            <strong>Dying</strong><input class="number2" type="number" [className]="(health.$dying > 0) ? 'penalty' : ''"
                 value="{{health.$dying}}" disabled>
-            <strong>Max Dying</strong><input class="number" type="number"
+            <strong>Max Dying</strong><input class="number2" type="number"
                 [className]="(get_PenaltiesOnThis('Max Dying').length) ? 'penalty' : (get_BonusesOnThis('Health').length) ? 'bonus' : ''"
                 value="{{health.$maxDying}}" disabled>
             <div class="row">
@@ -34,7 +35,7 @@
                 <button [ngStyle]="{'background-color':get_Accent()}" *ngIf="health.$dying > 0"
                     (click)="on_DyingSave(false)">Fail Save</button>
             </div>
-            <div class="row left-aligned">
+            <div class="fullsize-only row left-aligned">
                 <cite *ngFor="let effect of get_EffectsOnThis('Max Dying')"
                     [className]="effect.penalty ? 'penalty' : 'bonus'">{{effect.value}} ({{effect.source}})&nbsp;</cite>
                 <cite *ngFor="let feat of get_FeatsShowingOn('Dying')"
@@ -44,8 +45,8 @@
                     [title]="condition.desc">{{condition.name}}&nbsp;</cite>
             </div>
         </div>
-        <div class="list-item">
-            <strong>Wounded</strong><input class="number" type="number"
+        <div class="list-item" [className]="(health.$wounded > 0) ? '' : 'fullsize-only'">
+            <strong>Wounded</strong><input class="number2" type="number"
                 [className]="(health.$wounded > 0) ? 'penalty' : ''" value="{{health.$wounded}}" disabled>
             <button [ngStyle]="{'background-color':get_Accent()}" *ngIf="health.$wounded > 0"
                 (click)="on_HealWounded()">Heal</button>
@@ -53,20 +54,19 @@
         <div class="list-item">
             <span>
                 <strong>Take Damage</strong>
-                <br>
-                <span style="position:absolute"><input type="checkbox" [(ngModel)]="this.nonlethal">nonlethal</span>
+                <input id="nonlethal" type="checkbox" [(ngModel)]="this.nonlethal"><label for="nonlethal">nonlethal</label>
             </span>
-            <input class="number" type="number" [(ngModel)]="this.damage">
+            <input class="number3" type="number" [(ngModel)]="this.damage" maxLength="3">
             <button [ngStyle]="{'background-color':get_Accent()}" [disabled]="this.damage <= 0"
                 (click)="health.takeDamage(this.characterService, this.effectsService, this.damage, this.nonlethal)">Ouch!</button>
         </div>
         <div class="list-item">
-            <strong>Heal Damage</strong><input class="number" type="number" [(ngModel)]="this.healing">
+            <strong>Heal Damage</strong><input class="number3" type="number" [(ngModel)]="this.healing" maxLength="3">
             <button [ngStyle]="{'background-color':get_Accent()}" [disabled]="this.healing <= 0"
                 (click)="health.heal(this.characterService, this.effectsService, this.healing)">Heal</button>
         </div>
-        <div class="list-item">
-            <strong>Add Temp HP</strong><input class="number" type="number" [(ngModel)]="this.addTempHP">
+        <div class="fullsize-only list-item">
+            <strong>Add Temp HP</strong><input class="number3" type="number" [(ngModel)]="this.addTempHP" maxLength="3">
             <button [ngStyle]="{'background-color':get_Accent()}" [disabled]="this.addTempHP == 0"
                 (click)="add_TempHP(this.addTempHP)">Add</button>
         </div>
@@ -77,7 +77,7 @@
                     [className]="(resistance.value < 0) ? 'penalty' : 'bonus'">{{resistance.target}}:
                     {{Math.abs(resistance.value)}}{{(resistance.exception) ? " /"+resistance.exception : ""}}</span>
             </div>
-            <div class="row left-aligned">
+            <div class="fullsize-only row left-aligned">
                 <cite *ngFor="let effect of get_EffectsOnThis('Resistances')"
                     [className]="effect.penalty ? 'penalty' : 'bonus'">{{effect.value}} ({{effect.source}})&nbsp;</cite>
                 <cite *ngFor="let feat of get_FeatsShowingOn('Resistances')"
@@ -87,5 +87,5 @@
                     [title]="condition.desc">{{condition.name}}&nbsp;</cite>
             </div>
         </div>
-    </div>
-</div>
+    </ng-container>
+</ng-container>

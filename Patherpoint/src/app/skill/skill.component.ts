@@ -58,6 +58,10 @@ export class SkillComponent implements OnInit {
         return this.characterService.get_ActivitiesShowingOn(name);
     }
 
+    get_ItemsShowingOn(name: string) {
+        return this.characterService.get_ItemsShowingOn(name);
+    }
+
     get_specialShowon(skill: Skill) {
         //Under certain circumstances, some Feats apply to skills independently of their name.
         //Return names that get_FeatsShowingOn should run on

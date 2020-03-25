@@ -21,6 +21,10 @@ export class GeneralComponent implements OnInit {
         public traitsService: TraitsService,
     ) { }
 
+    minimize() {
+        this.characterService.get_Character().settings.generalMinimized = !this.characterService.get_Character().settings.generalMinimized;
+    }
+
     still_loading() {
         return this.characterService.still_loading()
     }

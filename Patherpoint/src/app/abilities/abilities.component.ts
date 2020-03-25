@@ -17,7 +17,11 @@ export class AbilitiesComponent implements OnInit {
         public characterService: CharacterService,
         public effectsService: EffectsService
     ) { }
-  
+
+    minimize() {
+        this.characterService.get_Character().settings.abilitiesMinimized = !this.characterService.get_Character().settings.abilitiesMinimized;
+    }
+
     get_Abilities() {
         return this.abilitiesService.get_Abilities();
     }

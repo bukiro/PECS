@@ -22,29 +22,7 @@ export class TimeComponent implements OnInit {
     }
     
     get_Duration(duration) {
-        let durationNum = duration;
-        let returnString: string = ""
-        if (durationNum / 144000 >= 1) {
-            returnString += Math.floor(durationNum / 144000)+" Day"
-            if (durationNum / 144000 >= 2) { returnString += "s" }
-            durationNum %= 144000;
-        }
-        if (durationNum / 6000 >= 1) {
-            returnString += " "+Math.floor(durationNum / 6000)+" Hour"
-            if (durationNum / 6000 >= 2) { returnString += "s" }
-            durationNum %= 6000;
-        }
-        if (durationNum / 100 >= 1) {
-            returnString += " "+Math.floor(durationNum / 100)+" Minute"
-            if (durationNum / 100 >= 2) { returnString += "s" }
-            durationNum %= 100;
-        }
-        if (durationNum >= 10) {
-            returnString += " "+Math.floor(durationNum / 10)+" Turn"
-            if (durationNum / 10 > 1) { returnString += "s" }
-            durationNum %= 10;
-        }
-        return returnString;
+        return this.timeService.get_Duration(duration);
     }
 
     still_loading() {

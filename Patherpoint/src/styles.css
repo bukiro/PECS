@@ -16,17 +16,116 @@
     display: flex;
     flex-direction: row;
   }
-  
-  .characterSheet {
-    display: flex;
-    flex-direction: row;
-    flex-wrap: wrap; 
+
+  app-character-sheet {
+    width: 100%;
+  }
+
+  app-time {
+    grid-row: span 2;
+    grid-column: span 4;
+    position: relative;
+  }
+
+  app-general {
+    grid-row: span 10;
+    grid-column: span 1;
+    position: relative;
   }
   
-  .characterSheetColumn {
-    display: flex;
-    flex-direction: column;
-    flex-wrap: nowrap;
+  app-general.minimized {
+    grid-row: span 5;
+  }
+
+  app-effects {
+    grid-row: span 10;
+    grid-column: span 1;
+    position: relative;
+  }
+
+  app-effects.minimized {
+    grid-row: span 5;
+  }
+
+  app-abilities {
+    grid-row: span 10;
+    grid-column: span 1;
+    position: relative;
+  }
+
+  app-abilities.minimized {
+    grid-row: span 5;
+  }
+  
+  app-health {
+    grid-row: span 10;
+    grid-column: span 1;
+    position: relative;
+  }
+
+  app-health.minimized {
+    grid-row: span 5;
+  }
+
+  app-defense {
+    grid-row: span 10;
+    grid-column: span 1;
+    position: relative;
+  }
+
+  app-attacks {
+    grid-row: span 10;
+    grid-column: span 1;
+    position: relative;
+  }
+
+  app-skills {
+    grid-row: span 20;
+    grid-column: span 1;
+    position: relative;
+  }
+  
+  app-inventory {
+    grid-row: span 20;
+    grid-column: span 1;
+    position: relative;
+  }
+
+  app-activities {
+    grid-row: span 10;
+    grid-column: span 1;
+    position: relative;
+  }
+
+  app-spellbook {
+    grid-row: span 10;
+    grid-column: span 1;
+    position: relative;
+  }
+
+  .minimized .fullsize-only {
+    display:none;
+  }
+
+  .minimized h3 {
+    margin: 0px 0px;
+  }
+
+  .minimized input {
+    font-size: 90%;
+    border: none;
+    padding: 0px 2px;
+  }
+  
+  .characterSheet {
+    display: grid;
+    grid-gap: 0px;
+    width: 100%;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+    grid-auto-rows: 48px;
+    /*display: flex;
+    flex-direction: row;
+    flex-wrap: wrap; */
   }
 
   router-outlet + *  {
@@ -47,12 +146,21 @@
     clear:both;
   }
 
+  h4 {
+    width: 100%;
+    color: #cbc18f;
+    background-color: #522e2c;
+    padding: 2px;
+    margin: 8px 0px;
+  }
+
   h1, h2 {
     font-weight: lighter;
   }
   
   p {
-    font-size: 14px;
+    width: 100%;
+    margin: 8px 0px;
   }
 
   .row > p:last-child {
@@ -77,11 +185,21 @@
   input {
     font-size: 14px;
     border-radius: 2px;
-    padding: 8px;
+    padding: 4px;
     margin-bottom: 0px;
     border: 1px solid #BDBDBD;
   }
-  input.number {
+  input.number2 {
+    width: 30px;
+    margin-bottom: 0px;
+  }
+
+  input.number3 {
+    width: 30px;
+    margin-bottom: 0px;
+  }
+
+  input.number4 {
     width: 50px;
     margin-bottom: 0px;
   }
@@ -94,7 +212,7 @@
   .button, button {
     display: inline-flex;
     align-items: center;
-    padding: 8px 16px;
+    padding: 4px 8px;
     border-radius: 2px;
     font-size: 14px;
     cursor: pointer;
@@ -103,6 +221,18 @@
     border: none;
   }
   
+  button.minimizebutton {
+    position: absolute;
+    padding: 0px 2px;
+    top: 0;
+    right: 0;
+    z-index: 50;
+  }
+
+  .button.row:not(:last-child), button.row:not(:last-child){
+    margin-bottom:4px;
+  } 
+
   .button *, button * {
     color: inherit;
   }
@@ -142,9 +272,8 @@
   
   #top-bar {
     width: 100%;
-    height: 68px;
     background-color: #1976d2;
-    padding: 16px;
+    padding: 8px;
     display: flex;
     flex-direction: row;
     justify-content: space-between;
@@ -163,19 +292,20 @@
   #top-bar a.button {
     margin-left: 5px;
     margin-right: 5px;
+    padding: 8px 16px;
   }
   #top-bar a.button:last-child {
     margin-right: 0px;
   }
 
   .attributeBox {
-    width: calc(25% - 16px);
-    height: 450px;
+    /*width: calc(25% - 16px);
+    height: 450px;*/
     overflow-y: auto;
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
-    padding: 16px 32px;
+    padding: 4px 16px;
     margin: 8px;
     border-radius: 2px;
     background-color: #EFEFEF;
@@ -198,8 +328,9 @@
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    padding: 16px 32px;
+    padding: 8px 16px;
     background-color: #EFEFEF;
+    margin-bottom: 8px;
   }
 
   .list-item {
@@ -209,7 +340,7 @@
     flex-wrap: wrap;
     flex-direction: row;
     justify-content: space-between ;
-    padding: 8px 16px;
+    padding: 4px 8px;
     margin-bottom: 8px;
     border-radius: 2px;
     background-color: #E0E0E0;
@@ -222,14 +353,14 @@
   }
 
 
-  .list-item.lower {
+  .lower .list-item {
     padding: 4px 8px;
     margin-bottom: 2px;
     border-radius: 2px;
     background-color: #EEEEEE;
   }
   
-  .list-item.lower input{
+  .lower .list-item input{
     margin-bottom: 4px;
   }
 
@@ -237,9 +368,9 @@
     border: 4px solid #1976d2;
     border-radius: 2px;
     position: absolute;
-    top: 36px;
+    top: 24px;
     width: 90%;
-    width: calc(100% - 32px);
+    width: calc(100% - 16px);
     overflow-y: auto;
     padding: 4px;
     z-index: 100;
@@ -275,7 +406,7 @@
     justify-content: space-between;
   }
 
-  .row:not(:first-child) {
+  .row:not(:first-child):not(:empty) {
     margin-top: 4px;
 }
 
@@ -300,11 +431,11 @@
   .turn-indicator strong {
     align-items: center;
     text-align: center;
-    padding: 6px 16px;
+    padding: 2px 16px;
   }
 
   .turn-indicator strong.yourTurn {
-    font-size: 2em;
+    font-size: 1.5em;
     color: green;
     padding: 0px;
     margin-top: -.1em;
@@ -362,13 +493,22 @@
   }
 
   cite {
-    background-color: #bbbbbb;
-    padding: 1px;
-    margin: 0 2px auto 2px;
+    background-color: #666;
+    padding: 1px 2px;
+    font-size: .9em;
+    font-style: normal;
+    border-color: #d8c483;
+    border-style: double;
+    border-width: 2px;
+    color: white;
   }
   
-  cite.penalty, cite.bonus {
-    background-color: inherit;
+  cite.trait {
+    background-color: #522e2c;
+  }
+
+  cite.penalty, cite.bonus, cite.problem {
+    background-color: #ccc;
   }
 
   #1976d2

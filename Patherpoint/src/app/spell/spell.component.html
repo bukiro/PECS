@@ -1,0 +1,28 @@
+<div class="row">
+    <div class="row left-aligned" *ngIf="spell.traits.length">
+        <cite class="trait" *ngFor="let trait of spell.traits"
+            title="{{get_Traits(trait)[0].description}}">&nbsp;{{trait}}</cite>
+    </div>
+    <div class="row left-aligned"  *ngIf="spell.traditions">
+        <span>
+            <strong>Traditions</strong>
+            {{spell.traditions.toString()}}
+        </span>
+    </div>
+    <div class="row left-aligned"  *ngIf="spell.castType">
+        <span>
+            <strong>Cast</strong>
+            {{spell.get_Actions()}} {{spell.castType}}
+        </span>
+    </div>
+    <p *ngIf="get_SpellDescription(spell).length">
+        <span [className]="(desc.type == 'variable') ? 'variable' : ''"
+            *ngFor="let desc of get_SpellDescription(spell)">{{desc.value}}</span>
+    </p>
+    <div class="row left-aligned"  *ngIf="spell.heightenedLevel">
+        <span>
+            <strong>Heightened {{spell.heightenedLevel}}</strong>
+            {{spell.heightened}}
+        </span>
+    </div>
+</div>

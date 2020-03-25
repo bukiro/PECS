@@ -3497,7 +3497,7 @@
                 "available": 1,
                 "feats": [],
                 "filter": [],
-                "level": "1",
+                "level": 1,
                 "type": "General",
                 "source": "Feat: General Training",
                 "id": ""
@@ -3603,7 +3603,7 @@
                 "available": 1,
                 "feats": [],
                 "filter": [],
-                "level": "1",
+                "level": 1,
                 "type": "Class",
                 "source": "Feat: Natural Ambition",
                 "id": ""

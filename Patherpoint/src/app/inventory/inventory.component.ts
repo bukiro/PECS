@@ -59,27 +59,9 @@ export class InventoryComponent implements OnInit {
         return this.id;
     }
 
-    get_InventoryItems(type: string) {
-        switch (type) {
-            case "Weapons":
-                this.id = 1000;
-                return this.characterService.get_InventoryItems().weapons;
-            case "Armor":
-                this.id = 2000;
-                return this.characterService.get_InventoryItems().armors;
-            case "Shields":
-                this.id = 3000;
-                return this.characterService.get_InventoryItems().shields;
-            case "Worn Items":
-                this.id = 4000;
-                return this.characterService.get_InventoryItems().wornitems;
-            case "Alchemical Elixirs":
-                this.id = 5000;
-                return this.characterService.get_InventoryItems().alchemicalelixirs;
-            case "Other Consumables":
-                this.id = 6000;
-                return this.characterService.get_InventoryItems().otherconsumables;
-        }
+    get_InventoryItems() {
+        this.id = 0;
+        return this.characterService.get_InventoryItems();
     }
     
     drop_InventoryItem(item) {
@@ -156,6 +138,22 @@ export class InventoryComponent implements OnInit {
     onAmountChange(item: Consumable, amount: number) {
         item.amount += amount;
         this.characterService.set_Changed();
+    }
+
+    get_MaxRune(weapon: Weapon|Armor) {
+        switch (weapon.potencyRune) {
+            case 1:
+                return [0,1];
+                break;
+            case 2:
+                return [0,1,2];
+                break;
+            case 3:
+                return [0,1,2,3];
+                break;
+            default:
+                return [0];
+        }
     }
 
     onWeaponRuneChange(weapon: Weapon) {

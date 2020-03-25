@@ -136,7 +136,7 @@ export class FeatsService {
                     feat.gainActivity.forEach(gainActivity => {
                         let oldGain = character.class.activities.filter(gain => gain.name == gainActivity && gain.source == feat.name);
                         if (oldGain.length) {
-                            character.lose_Activity(characterService, characterService.itemsService, characterService.activitiesService, oldGain[0]);
+                            character.lose_Activity(characterService, characterService.timeService, characterService.itemsService, characterService.activitiesService, oldGain[0]);
                         }
                     });
                     

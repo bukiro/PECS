@@ -37,6 +37,8 @@ import { Effect } from './Effect';
 import { AlchemicalElixir } from './AlchemicalElixir';
 import { Consumable } from './Consumable';
 import { OtherConsumable } from './OtherConsumable';
+import { HeldItem } from './HeldItem';
+import { TimeService } from './time.service';
 
 @Injectable({
     providedIn: 'root'
@@ -67,7 +69,8 @@ export class CharacterService {
         public activitiesService: ActivitiesService,
         public itemsService: ItemsService,
         public spellsService: SpellsService,
-        public effectsService: EffectsService
+        public effectsService: EffectsService,
+        public timeService: TimeService
     ) { }
 
     still_loading() {
@@ -83,25 +86,25 @@ export class CharacterService {
 
     toggleMenu(menu: string = "") {
         switch (menu) {
-            case "items": 
+            case "items":
                 this.characterMenuState = 'out';
                 this.itemsMenuState = (this.itemsMenuState == 'out') ? 'in' : 'out';
                 this.spellMenuState = 'out';
                 this.conditionsMenuState = 'out';
                 break;
-            case "character": 
+            case "character":
                 this.characterMenuState = (this.characterMenuState == 'out') ? 'in' : 'out';
                 this.itemsMenuState = 'out';
                 this.spellMenuState = 'out';
                 this.conditionsMenuState = 'out';
                 break;
-            case "spells": 
+            case "spells":
                 this.characterMenuState = 'out';
                 this.itemsMenuState = 'out';
                 this.spellMenuState = (this.spellMenuState == 'out') ? 'in' : 'out';
                 this.conditionsMenuState = 'out';
                 break;
-            case "conditions": 
+            case "conditions":
                 this.characterMenuState = 'out';
                 this.itemsMenuState = 'out';
                 this.spellMenuState = 'out';
@@ -143,9 +146,9 @@ export class CharacterService {
                     if (hex.length == 4) {
                         var result = /^#?([a-f\d]{1})([a-f\d]{1})([a-f\d]{1})$/i.exec(hex);
                         return result ? {
-                            r: parseInt(result[1]+result[1], 16),
-                            g: parseInt(result[2]+result[2], 16),
-                            b: parseInt(result[3]+result[3], 16),
+                            r: parseInt(result[1] + result[1], 16),
+                            g: parseInt(result[2] + result[2], 16),
+                            b: parseInt(result[3] + result[3], 16),
                             a: 0.8
                         } : null;
                     } else if (hex.length == 7) {
@@ -161,7 +164,7 @@ export class CharacterService {
                 let original = this.get_Character().settings.accent;
                 if (original.length == 4 || original.length == 7) {
                     let rgba = hexToRgb(original)
-                    let result = "rgba("+rgba.r+","+rgba.g+","+rgba.b+","+rgba.a+")";
+                    let result = "rgba(" + rgba.r + "," + rgba.g + "," + rgba.b + "," + rgba.a + ")";
                     return result;
                 } else {
                     return this.get_Character().settings.accent;
@@ -169,7 +172,7 @@ export class CharacterService {
             } else {
                 return this.get_Character().settings.accent;
             }
-            
+
         }
     }
 
@@ -261,18 +264,18 @@ export class CharacterService {
 
     create_AdvancedWeaponFeats(advancedWeapons: Weapon[]) {
         //This function depends on the feats and items being loaded, and it will wait forever for them!
-        if(this.featsService.still_loading() || this.itemsService.still_loading()) {
+        if (this.featsService.still_loading() || this.itemsService.still_loading()) {
             setTimeout(() => {
                 this.create_AdvancedWeaponFeats(advancedWeapons);
             }, 500)
         } else {
-            let advancedWeapons = this.itemsService.get_Weapons().filter(weapon => weapon.prof == "Advanced Weapons");
+            let advancedWeapons = this.itemsService.get_ItemType("weapons").filter(weapon => weapon.prof == "Advanced Weapons");
             let advancedWeaponFeats = this.get_Feats().filter(feat => feat.advancedweaponbase);
             advancedWeapons.forEach(weapon => {
                 advancedWeaponFeats.forEach(feat => {
                     if (this.me.customFeats.filter(customFeat => customFeat.name == feat.name.replace('Advanced Weapon', weapon.name)).length == 0) {
                         let newLength = this.add_CustomFeat(feat);
-                        let newFeat = this.get_Character().customFeats[newLength -1];
+                        let newFeat = this.get_Character().customFeats[newLength - 1];
                         newFeat.name = newFeat.name.replace("Advanced Weapon", weapon.name);
                         newFeat.hide = false;
                         newFeat.subType = newFeat.subType.replace("Advanced Weapon", weapon.name);
@@ -306,6 +309,9 @@ export class CharacterService {
             case "wornitems":
                 newInventoryItem = Object.assign(new WornItem(), item);
                 break;
+            case "helditems":
+                newInventoryItem = Object.assign(new HeldItem(), item);
+                break;
             case "alchemicalelixirs":
                 newInventoryItem = Object.assign(new AlchemicalElixir(), item);
                 break;
@@ -320,7 +326,7 @@ export class CharacterService {
             })
         } else {
             let newInventoryLength = this.me.inventory[item.type].push(newInventoryItem);
-            this.onEquip(this.me.inventory[item.type][newInventoryLength-1], true, false);
+            this.onEquip(this.me.inventory[item.type][newInventoryLength - 1], true, false);
         }
         if (changeAfter) {
             this.set_Changed();
@@ -343,7 +349,7 @@ export class CharacterService {
     onEquip(item: Item, equipped: boolean = true, changeAfter: boolean = true) {
         item.equip = equipped;
         if (item.equip) {
-            if (item.type == "armors"||item.type == "shields") {
+            if (item.type == "armors" || item.type == "shields") {
                 let allOfType = this.get_InventoryItems()[item.type];
                 allOfType.forEach(typeItem => {
                     typeItem.equip = false;
@@ -397,7 +403,7 @@ export class CharacterService {
         item.invested = invested;
         if (item.invested) {
             item.gainActivity.forEach(gainActivity => {
-                this.me.gain_Activity(Object.assign(new ActivityGain(), {name:gainActivity, source:item.name}));
+                this.me.gain_Activity(Object.assign(new ActivityGain(), { name: gainActivity, source: item.name }));
             });
             if (!item.equip) {
                 this.onEquip(item, true, false);
@@ -406,7 +412,7 @@ export class CharacterService {
             item.gainActivity.forEach(gainActivity => {
                 let oldGain = this.me.class.activities.filter(gain => gain.name == gainActivity && gain.source == item.name);
                 if (oldGain.length) {
-                    this.me.lose_Activity(this, this.itemsService, this.activitiesService, oldGain[0]);
+                    this.me.lose_Activity(this, this.timeService, this.itemsService, this.activitiesService, oldGain[0]);
                 }
             });
         }
@@ -423,21 +429,21 @@ export class CharacterService {
 
     grant_BasicItems() {
         //This function depends on the items being loaded, and it will wait forever for them!
-        if(this.itemsService.still_loading()) {
+        if (this.itemsService.still_loading()) {
             setTimeout(() => {
                 this.grant_BasicItems();
             }, 500)
         } else {
             this.basicItems = [];
-            let newBasicWeapon:Weapon = Object.assign(new Weapon(), this.itemsService.get_Weapons("Fist")[0]);
+            let newBasicWeapon: Weapon = Object.assign(new Weapon(), this.itemsService.get_ItemType("weapons", "Fist")[0]);
             this.basicItems.push(newBasicWeapon);
-            let newBasicArmor:Armor;
-            newBasicArmor = Object.assign(new Armor(), this.itemsService.get_Armors("Unarmored")[0]);
+            let newBasicArmor: Armor;
+            newBasicArmor = Object.assign(new Armor(), this.itemsService.get_ItemType("armors", "Unarmored")[0]);
             this.basicItems.push(newBasicArmor);
             this.equip_BasicItems(false)
         }
     }
-    
+
     equip_BasicItems(changeAfter: boolean = true) {
         if (!this.still_loading() && this.basicItems.length) {
             if (!this.get_InventoryItems().weapons.length) {
@@ -485,7 +491,7 @@ export class CharacterService {
         return this.conditionsService.get_AppliedConditions(this, this.me.conditions).filter(condition =>
             (condition.name == name || name == "") &&
             (condition.source == source || source == "")
-            );
+        );
     }
 
     add_Condition(conditionGain: ConditionGain, reload: boolean = true) {
@@ -496,10 +502,10 @@ export class CharacterService {
             conditionGain.value = parseInt(JSON.parse(JSON.stringify(conditionGain.value)));
         }
         let newLength = this.me.conditions.push(conditionGain);
-        let newConditionGain = this.me.conditions[newLength -1];
+        let newConditionGain = this.me.conditions[newLength - 1];
         this.conditionsService.process_Condition(this, this.effectsService, conditionGain, this.conditionsService.get_Conditions(conditionGain.name)[0], true);
         originalCondition.gainConditions.forEach(extraCondition => {
-            this.add_Condition(Object.assign(new ConditionGain, {name:extraCondition.name, value:extraCondition.value, source:newConditionGain.name, apply:true}), false)
+            this.add_Condition(Object.assign(new ConditionGain, { name: extraCondition.name, value: extraCondition.value, source: newConditionGain.name, apply: true }), false)
         })
         if (reload) {
             this.set_Changed();
@@ -512,7 +518,7 @@ export class CharacterService {
         let originalCondition = this.get_Conditions(conditionGain.name)[0];
         if (oldConditionGain.length) {
             originalCondition.gainConditions.forEach(extraCondition => {
-                this.remove_Condition(Object.assign(new ConditionGain, {name:extraCondition.name, value:extraCondition.value, source:oldConditionGain[0].name}), false)
+                this.remove_Condition(Object.assign(new ConditionGain, { name: extraCondition.name, value: extraCondition.value, source: oldConditionGain[0].name }), false)
             })
             this.me.conditions.splice(this.me.conditions.indexOf(oldConditionGain[0]), 1)
             this.conditionsService.process_Condition(this, this.effectsService, conditionGain, this.conditionsService.get_Conditions(conditionGain.name)[0], false);
@@ -537,7 +543,7 @@ export class CharacterService {
     get_Feats(name: string = "", type: string = "") {
         return this.featsService.get_Feats(this.me.customFeats, name, type);
     }
-    
+
     get_Features(name: string = "") {
         return this.featsService.get_Features(name);
     }
@@ -611,6 +617,18 @@ export class CharacterService {
         return returnedActivities;
     }
 
+    get_ItemsShowingOn(objectName: string) {
+        let returnedItems: Item[] = [];
+        this.me.inventory.allEquipment().forEach(item => {
+            item.showon.split(",").forEach(showon => {
+                if (showon == objectName || showon.substr(1) == objectName || (objectName == "Lore" && showon.indexOf(objectName) > -1)) {
+                    returnedItems.push(item);
+                }
+            });
+        });
+        return returnedItems;
+    }
+
     get_MaxFocusPoints() {
         let effects: Effect[] = this.effectsService.get_EffectsOnThis("Focus Pool");
         let focusPoints: number = 0;
@@ -631,14 +649,14 @@ export class CharacterService {
         this.itemsService.initialize();
         this.effectsService.initialize(this);
         this.load_Character(charName)
-            .subscribe((results:string[]) => {
+            .subscribe((results: string[]) => {
                 this.loader = results;
                 this.finish_loading()
             });
     }
 
-    load_Character(charName: string): Observable<string[]>{
-        return this.http.get<string[]>('/assets/'+charName+'.json');
+    load_Character(charName: string): Observable<string[]> {
+        return this.http.get<string[]>('/assets/' + charName + '.json');
     }
 
     finish_loading() {
@@ -693,7 +711,7 @@ export class CharacterService {
 
             this.loader = [];
         }
-        if (this.loading) {this.loading = false;}
+        if (this.loading) { this.loading = false; }
         this.grant_BasicItems();
         this.characterChanged$ = this.changed.asObservable();
         this.set_Changed();

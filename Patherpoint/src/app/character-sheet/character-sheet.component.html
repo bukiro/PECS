@@ -1,9 +1,9 @@
 <div class="characterSheet">
     <app-time id="time" class="topBox"></app-time>
-    <app-general id="general" class="attributeBox"></app-general>
-    <app-effects id="effects" class="attributeBox"></app-effects>
-    <app-abilities id="abilities" class="attributeBox"></app-abilities>      
-    <app-health id="health" class="attributeBox"></app-health>
+    <app-general id="general" class="attributeBox" [className]="(get_GeneralMinimized()) ? 'minimized' : ''"></app-general>
+    <app-effects id="effects" class="attributeBox" [className]="(get_EffectsMinimized()) ? 'minimized' : ''"></app-effects>
+    <app-abilities id="abilities" class="attributeBox" [className]="(get_AbilitiesMinimized()) ? 'minimized' : ''"></app-abilities>
+    <app-health id="health" class="attributeBox" [className]="(get_HealthMinimized()) ? 'minimized' : ''"></app-health>
     <app-defense id="defense" class="attributeBox"></app-defense>
     <app-attacks id="attacks" class="attributeBox"></app-attacks>
     <app-skills id="skills" class="attributeBox"></app-skills>

@@ -6,22 +6,23 @@ export class Armor implements Item {
     public notes: string = "";
     public desc: string = "";
     public name: string = "";
-    public level: string = "-";
+    public level: number = 0;
+    public price: number = 0;
     public showNotes: boolean = false;
     public showName: boolean = false;
     public type: string = "armors";
-    public bulk: string = "-";
+    public bulk: string = "";
     public displayName: string = "";
     public hide: boolean = false;
     public equippable: boolean = true;
     public equip: boolean = false;
     public invested: boolean = false;
     public prof: string = "";
-    public dexcap: number = -1;
+    public dexcap: number = undefined;
     public skillpenalty: number = 0;
     public speedpenalty: number = 0;
     public strength: number = 0;
-    public itembonus: number = 0;
+    public acbonus: number = 0;
     public cover: number = 0;
     public moddable: string = "armor";
     public traits: string[] = [];
@@ -30,6 +31,8 @@ export class Armor implements Item {
     public propertyRunes:string[] = [];
     public gainActivity: string[] = [];
     public material: string = "";
+    public showon: string = "";
+    public hint: string = "";
     public gainItems = [];
     public effects = [];
     public specialEffects = []
@@ -87,9 +90,9 @@ export class Armor implements Item {
             explain += "\nCharacter Level: "+charLevelBonus;
         }
         //Add the dexterity modifier up to the armor's dex cap, unless there is no cap
-        let dexBonus = (this.dexcap > -1) ? Math.min(dex, (this.dexcap)) : dex;
+        let dexBonus = (this.dexcap != undefined) ? Math.min(dex, (this.dexcap)) : dex;
         if (dexBonus) {
-            if (this.dexcap > -1 && this.dexcap < dex) {
+            if (this.dexcap != undefined && this.dexcap < dex) {
                 explain += "\nDexterity Modifier (capped): "+dexBonus;
             } else {
                 explain += "\nDexterity Modifier: "+dexBonus;
@@ -100,9 +103,9 @@ export class Armor implements Item {
         }
         //Add up all modifiers and return the AC gained from this armor
         //Also adding any item bonus
-        let defenseResult: number = 10 + charLevelBonus + skillLevel + this.itembonus + dexBonus + this.potencyRune;
-        if (this.itembonus) {
-            explain += "\nArmor Bonus: "+this.itembonus;
+        let defenseResult: number = 10 + charLevelBonus + skillLevel + this.acbonus + dexBonus + this.potencyRune;
+        if (this.acbonus) {
+            explain += "\nArmor Bonus: "+this.acbonus;
         }
         let endresult: [number, string] = [defenseResult, explain]
         return endresult;

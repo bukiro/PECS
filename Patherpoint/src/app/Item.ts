@@ -8,4 +8,6 @@ export interface Item {
     traits: string[];
     effects: string[];
     specialEffects: string[];
+    showon: string;
+    hint: string;
 }

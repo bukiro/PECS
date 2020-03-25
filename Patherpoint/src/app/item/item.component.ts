@@ -25,18 +25,20 @@ export class ItemComponent implements OnInit {
 
     get_Price(item) {
         if (item.price) {
-            if (item.price == "-") {
-                return "-";
+            if (item.price == 0) {
+                return "";
             } else {
-                let price: number = parseInt(item.price);
+                let price: number = item.price;
                 let priceString: string = "";
                 if (price >= 100) {
-                    priceString += Math.floor(price / 100)+"gp ";
+                    priceString += Math.floor(price / 100)+"gp";
                     price %= 100;
+                    if (price >= 10) {priceString += " ";}
                 }
                 if (price >= 10) {
-                    priceString += Math.floor(price / 10)+"sp ";
+                    priceString += Math.floor(price / 10)+"sp";
                     price %= 10;
+                    if (price >= 1) {priceString += " ";}
                 }
                 if (price >= 1) {
                     priceString += price+"cp";
@@ -44,12 +46,27 @@ export class ItemComponent implements OnInit {
                 return priceString;
             }
         } else {
-            return "-"
+            return ""
         }
     }
 
     get_Activities(name: string = "") {
         return this.activitiesService.get_Activities(name);
+    }
+
+    get_Actions(item) {
+        switch (item.actions) {
+            case "Free":
+                return "(Free Action)"
+            case "Reaction":
+                return "(Reaction)"
+            case "1":
+                return "(1 Action)"
+            case "2":
+                return "(2 Actions)"
+            case "3":
+                return "(3 Actions)"
+        }
     }
 
     ngOnInit() {

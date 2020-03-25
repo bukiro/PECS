@@ -45,8 +45,8 @@
                                 <label for="{{choice.id+spell.name}}">
                                     <strong>{{spell.name}}&nbsp;</strong><cite>Level {{spell.levelreq}}</cite>
                                 </label>
-                                <cite style="color:darkred" *ngFor="let reason of cannotTake(spell, choice)">
-                                    {{reason}}&nbsp;
+                                <cite class="problem" *ngFor="let reason of cannotTake(spell, choice)">
+                                    {{reason}}
                                 </cite>
                                 <button class="button" [ngStyle]="{'background-color':get_Accent()}"
                                     (click)="toggle_Item(choice.id+spell.name+'desc')">
@@ -72,27 +72,14 @@
                                 title="{{(this.get_ShowItem()==choice.id+spell.name+'desc') ? '' : spell.shortDesc}}"
                                 *ngFor="let spell of get_AvailableSpells(choice, true)">
                                 <strong>{{spell.name}}&nbsp;</strong><cite>Level {{spell.levelreq}}</cite>
-                                <cite style="color:darkred" *ngFor="let reason of cannotTake(spell, choice)">
-                                    {{reason}}&nbsp;
+                                <cite class="problem" *ngFor="let reason of cannotTake(spell, choice)">
+                                    {{reason}}
                                 </cite>
                                 <button class="button" [ngStyle]="{'background-color':get_Accent()}"
                                     (click)="toggle_Item(choice.id+spell.name+'desc')">
                                     Show Description
                                 </button>
-                                <div *ngIf="this.get_ShowItem()==choice.id+spell.name+'desc'" class="row">
-                                    <cite *ngFor="let trait of spell.traits">
-                                        {{trait}}&nbsp;
-                                    </cite>
-                                    <div class="row">
-                                        <p *ngFor="let desc of spell.desc.split('\n')">
-                                            {{desc}}
-                                        </p>
-                                        <p *ngIf="spell.specialdesc.length">
-                                            <strong>Special</strong>
-                                            {{spell.specialdesc}}
-                                        </p>
-                                    </div>
-                                </div>
+                                <app-spell [spell]=spell></app-spell>
                             </div>
                         </div>
                     </div>

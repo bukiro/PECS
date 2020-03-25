@@ -1,8 +1,8 @@
 <h3>Actions and Activities</h3>
 <div class="loading" *ngIf="still_loading()">Loading</div>
-<div *ngIf="!still_loading()">
-    <div *ngFor="let gain of get_OwnedActivities()">
-        <div *ngFor="let activity of get_Activities(gain.name)">
+<ng-container *ngIf="!still_loading()">
+    <ng-container *ngFor="let gain of get_OwnedActivities()">
+        <ng-container *ngFor="let activity of get_Activities(gain.name)">
             <div class="list-item" *ngFor="let activityID of [get_ID()]">
                 <button class="row button" (mouseover)="hover = activityID" (mouseout)="hover = 0"
                     [ngStyle]="(gain.active) ? {'color':get_Accent()} : {'background-color':get_Accent()}"
@@ -15,37 +15,21 @@
                     [className]="(gain.active) ? 'fancy-list' : ''" *ngIf="get_showAction()==activityID">
                     <div class="row">
                         <button class="row button" [ngStyle]="{'background-color':get_Accent()}"
-                            (click)="on_Activate(gain, activity, true)" *ngIf="activity.can_Activate() && !gain.active">
+                            (click)="on_Activate(gain, activity, true)" *ngIf="activity.can_Activate() && !gain.active && !gain.cooldown">
                             Activate
                         </button>
                         <button class="row button" [ngStyle]="{'background-color':get_Accent()}"
                             (click)="on_Activate(gain, activity, false)" *ngIf="activity.can_Activate() && gain.active">
                             Deactivate
                         </button>
+                        <button class="row button" [ngStyle]="{'background-color':get_Accent()}"
+                            (click)="on_Activate(gain, activity, true)" *ngIf="gain.cooldown" disabled>
+                            Cannot activate for {{get_Duration(gain.cooldown)}}
+                        </button>
                     </div>
                     <app-activity [activity]=activity></app-activity>
-                    <div class="row" *ngFor="let feat of get_FeatsShowingOn(activity.name)"><strong>Feat:
-                            {{feat.name}}</strong>
-                        <div *ngFor="let desc of feat.desc.split('\n\n')">
-                            <p *ngIf="desc.split('\n').length == 1">{{desc}}</p>
-                            <ul *ngIf="desc.split('\n').length > 1">
-                                <li *ngFor="let line of desc.split('\n')">{{line}}</li>
-                            </ul>
-                        </div>
-                    </div>
-                    <div class="row left-aligned">
-                        <cite *ngFor="let trait of get_TraitsForThis(activity.name)"
-                            [title]="trait.description">{{trait.name}}
-                            ({{trait.haveOn(this.characterService, true)}})&nbsp;</cite>
-                        <cite *ngFor="let condition of get_ConditionsShowingOn(activity.name)"
-                            [className]="(condition.buff) ? 'bonus' : 'penalty'"
-                            [title]="condition.desc">{{condition.name}}&nbsp;</cite>
-                        <cite *ngFor="let effect of get_EffectsOnThis(activity.name)"
-                            [className]="effect.penalty ? 'penalty' : 'bonus'">{{effect.value}}
-                            ({{effect.source}})&nbsp;</cite>
-                    </div>
                 </div>
             </div>
-        </div>
-    </div>
-</div>
+        </ng-container>
+    </ng-container>
+</ng-container>

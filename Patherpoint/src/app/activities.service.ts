@@ -1,11 +1,12 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { Observable, TimeInterval } from 'rxjs';
 import { Activity } from './Activity';
 import { ActivityGain } from './ActivityGain';
 import { CharacterService } from './character.service';
 import { ItemsService } from './items.service';
 import { Item } from './Item';
+import { TimeService } from './time.service';
 
 @Injectable({
     providedIn: 'root'
@@ -36,14 +37,19 @@ export class ActivitiesService {
         return this.http.get<String[]>('/assets/activities.json');
     }
 
-    activate_Activity(characterService: CharacterService, itemsService: ItemsService, gain: ActivityGain, activity: Activity, activated: boolean) {
-        if (activated) {
+    activate_Activity(characterService: CharacterService, timeService: TimeService, itemsService: ItemsService, gain: ActivityGain, activity: Activity, activated: boolean) {
+        if (activated && activity.toggle) {
             gain.active = true;
         } else {
             gain.active = false;
         }
         
         //Process various results of activating the activity
+
+        //Start cooldown
+        if (activity.cooldown) {
+            gain.cooldown = activity.cooldown + timeService.get_YourTurn();
+        }
 
         //Gain Items on Activation
         if (activity.gainItems.length) {
@@ -80,10 +86,18 @@ export class ActivitiesService {
                 let typeonegains: ActivityGain[] = characterService.get_Activities().filter(gain => gain.name == typeone && gain.active == true);
                 let typetwogains: ActivityGain[] = characterService.get_Activities().filter(gain => gain.name == typetwo && gain.active == true);
                 if (typetwogains.length && typeonegains.length + typetwogains.length > twiningstaves) {
-                    this.activate_Activity(characterService, itemsService, typetwogains[0], this.get_Activities(typetwo)[0], false);
+                    this.activate_Activity(characterService, timeService, itemsService, typetwogains[0], this.get_Activities(typetwo)[0], false);
                 }
             }
         }
+    }
+
+    tick_Activities(characterService: CharacterService, turns: number = 10) {
+        
+        characterService.get_Activities().filter(gain => gain.cooldown).forEach(gain => {
+            gain.cooldown = Math.max(gain.cooldown - turns, 0)
+        });
+
     }
 
     initialize() {

@@ -1,19 +1,18 @@
-<div>
-    <h3>Abilities</h3>
-    <div class="loading" *ngIf="still_loading()">Loading</div>
-    <div *ngIf="!still_loading()">
-        <div class="list-item" *ngFor="let ability of abilitiesService.get_Abilities()">
-            <strong>{{ability.name}}</strong>
-            <input class="number" type="number"
-                [className]="(ability.penalty(this.effectsService) < 0) ? 'penalty' : (ability.bonus(this.effectsService) > 0) ? 'bonus' : ''"
-                value="{{ability.value(this.characterService, this.effectsService)}}" disabled>
-            Modifier: <input class="number" type="number"
-                [className]="(ability.penalty(this.effectsService) < 0) ? 'penalty' : (ability.bonus(this.effectsService) > 0) ? 'bonus' : ''"
-                value="{{ability.mod(this.characterService, this.effectsService)}}" disabled>
-            <div class="row left-aligned">
-                <cite *ngFor="let condition of get_ConditionsShowingOn(ability.name)" [className]="(condition.buff) ? 'bonus' : 'penalty'" [title]="condition.desc">{{condition.name}}&nbsp;</cite>
-                <cite *ngFor="let effect of ability.effects(this.effectsService)" [className]="effect.penalty ? 'penalty' : 'bonus'">{{effect.value}} ({{effect.source}})&nbsp;</cite>
-            </div>
-        </div> 
-    </div>
+<button class="minimizebutton lower" [ngStyle]="{'background-color':get_Accent()}" (click)="minimize()">&#8691;</button>
+<h3 class="fullsize-only">Abilities</h3>
+<div class="loading" *ngIf="still_loading()">Loading</div>
+<div *ngIf="!still_loading()">
+    <div class="list-item" *ngFor="let ability of abilitiesService.get_Abilities()">
+        <strong>{{ability.name}}</strong>
+        <input class="number2" type="number"
+            [className]="(ability.penalty(this.effectsService) < 0) ? 'penalty' : (ability.bonus(this.effectsService) > 0) ? 'bonus' : ''"
+            value="{{ability.value(this.characterService, this.effectsService)}}" disabled>
+        Modifier: <input class="number2" type="number"
+            [className]="(ability.penalty(this.effectsService) < 0) ? 'penalty' : (ability.bonus(this.effectsService) > 0) ? 'bonus' : ''"
+            value="{{ability.mod(this.characterService, this.effectsService)}}" disabled>
+        <div class="fullsize-only row left-aligned">
+            <cite *ngFor="let condition of get_ConditionsShowingOn(ability.name)" [className]="(condition.buff) ? 'bonus' : 'penalty'" [title]="condition.desc">{{condition.name}}</cite>
+            <cite *ngFor="let effect of ability.effects(this.effectsService)" [className]="effect.penalty ? 'penalty' : 'bonus'">{{effect.value}} ({{effect.source}})</cite>
+        </div>
+    </div> 
 </div>

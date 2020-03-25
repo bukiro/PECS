@@ -3,7 +3,7 @@
     [level]="this.characterService.get_Character().level">
 </app-proficiency-form>
 <span *ngIf="showValue">
-    Value: <input class="number"
+    Value: <input class="number2"
         [className]="(skill.penalty(this.effectsService).length) ? 'penalty' : (skill.bonus(this.effectsService).length) ? 'bonus' : ''"
         type="number"
         title="{{((isDC) ? 'DC basis: 10\n' : '')+skill.value(this.characterService,this.abilitiesService,this.effectsService)[1]}}"
@@ -11,14 +11,18 @@
         disabled>
 </span>
 <div class="row left-aligned">
-    <cite *ngFor="let trait of get_TraitsForThis(skill.name)" [title]="trait.description">{{trait.name}}
-        ({{trait.haveOn(this.characterService, true)}})&nbsp;</cite>
-    <div *ngFor="let name of get_specialShowon(skill)"><cite *ngFor="let feat of get_FeatsShowingOn(name)"
-            [title]="(feat.hint) ? feat.hint : feat.desc">{{feat.name}}&nbsp;</cite></div>
+    <cite class="trait" *ngFor="let trait of get_TraitsForThis(skill.name)" [title]="trait.description">{{trait.name}}
+        ({{trait.haveOn(this.characterService, true)}})</cite>
+    <div *ngFor="let name of get_specialShowon(skill)">
+        <cite *ngFor="let feat of get_FeatsShowingOn(name)"
+        [title]="(feat.hint) ? feat.hint : feat.desc">{{feat.name}}</cite>
+    </div>
     <cite *ngFor="let feat of get_FeatsShowingOn(skill.name)"
-        [title]="(feat.hint) ? feat.hint : feat.desc">{{feat.name}}&nbsp;</cite>
+        [title]="(feat.hint) ? feat.hint : feat.desc">{{feat.name}}</cite>
+    <cite *ngFor="let item of get_ItemsShowingOn(skill.name)"
+        [title]="item.hint">{{item.name}}</cite>
     <cite *ngFor="let activity of get_ActivitiesShowingOn(skill.name)"
-        [title]="activity.hint">{{activity.name}}&nbsp;</cite>
+        [title]="activity.hint">{{activity.name}}</cite>
     <cite *ngFor="let condition of get_ConditionsShowingOn(skill.name)"
         [className]="(condition.buff) ? 'bonus' : 'penalty'" [title]="condition.desc">{{condition.name}}&nbsp;</cite>
     <cite *ngFor="let effect of get_EffectsOnThis(skill.name)"

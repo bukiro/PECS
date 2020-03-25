@@ -3,6 +3,7 @@ export class Activity {
     public actions: string = "1";
     public activationType: string = "";
     public frequency: string = "";
+    public cooldown: number = 0;
     public trigger: string = "";
     public requirements: string = "";
     public desc: string = "";
@@ -12,13 +13,15 @@ export class Activity {
     public critfailure: string = "";
     public traits: string[] = [];
     public gainItems = [];
+    public castSpells: string[] = [];
     public showon: string = "";
-    public effects: string[] = [];
-    public specialEffects: string[] = [];
+    public toggle: boolean = false;
+    public effects = [];
+    public specialEffects = [];
     get_Actions() {
         switch (this.actions) {
             case "Free":
-                return ""
+                return "(Free Action)"
             case "Reaction":
                 return "(Reaction)"
             case "1":
@@ -30,7 +33,8 @@ export class Activity {
         }
     }
     can_Activate() {
+        //Test any circumstance under which this can be activated
         let isStance: boolean = (this.traits.indexOf("Stance") > -1)
-        return isStance || this.gainItems.length;
+        return isStance || this.gainItems.length || this.castSpells.length || this.cooldown;
     }
 }

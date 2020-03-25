@@ -41,6 +41,9 @@ The very latest in Assistive Technologies for Dungeon Master (ATDM)
 - [x] Populate character sheet from JSON
 - [ ] Use Database
 - [ ] Load/Save from/to Database
-- [ ] import sortableJS
+- [ ] import sortableJS or maybe Layout Grid
 - [ ] (documentation) :)
 - [ ] Initiative tracker, battles, being a battle member, GM-Player-Communication.......
+
+To do:
+Streamline "showingOnThis" elements, update to include ItemsShowingOnThis everywhere

@@ -87,7 +87,7 @@
       </div>
     </div>
     <div data-ng-repeat="shield in items | filter:{ type:'shield', equip:true}">
-      <div ng-show="shield.equip">{{shield.name}} AC: <input type="text" ng-value="shield.itembonus" disabled>
+      <div ng-show="shield.equip">{{shield.name}} AC: <input type="text" ng-value="shield.acbonus" disabled>
         <button ng-show="!shield.raised" ng-click="shield.raised = true;">Raise shield</button>
         <button ng-show="shield.raised" ng-click="shield.raised = false; shield.takecover = false;">Lower shield</button>
         <button ng-show="shield.raised && shield.coverbonus && !shield.takecover" ng-click="shield.takecover = true;">Take cover</button>

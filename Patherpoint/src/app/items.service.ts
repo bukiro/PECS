@@ -26,6 +26,8 @@ export class ItemsService {
     private loading_Shields: Boolean = false;
     private loader_WornItems = [];
     private loading_WornItems: Boolean = false;
+    private loader_HeldItems = [];
+    private loading_HeldItems: Boolean = false;
     private loader_AlchemicalElixirs = [];
     private loading_AlchemicalElixirs: Boolean = false;
     private loader_OtherConsumables = [];
@@ -55,39 +57,9 @@ export class ItemsService {
         } else { return new ItemCollection }
     }
 
-    get_Weapons(name: string = "") {
+    get_ItemType(type: string, name: string = "") {
         if (!this.still_loading()) {
-            return this.items.weapons.filter(weapon => weapon.name == name || name == "");
-        } else { return [] }
-    }
-
-    get_Armors(name: string = "") {
-        if (!this.still_loading()) {
-            return this.items.armors.filter(armor => armor.name == name || name == "");
-        } else { return [] }
-    }
-
-    get_Shields(name: string = "") {
-        if (!this.still_loading()) {
-            return this.items.shields.filter(shield => shield.name == name || name == "");
-        } else { return [] }
-    }
-
-    get_WornItems(name: string = "") {
-        if (!this.still_loading()) {
-            return this.items.wornitems.filter(wornitem => wornitem.name == name || name == "");
-        } else { return [] }
-    }
-
-    get_AlchemicalElixirs(name: string = "") {
-        if (!this.still_loading()) {
-            return this.items.alchemicalelixirs.filter(alchemicalelixir => alchemicalelixir.name == name || name == "");
-        } else { return [] }
-    }
-
-    get_OtherConsumables(name: string = "") {
-        if (!this.still_loading()) {
-            return this.items.otherconsumables.filter(otherconsumable => otherconsumable.name == name || name == "");
+            return this.items[type].filter(item => item.name == name || name == "");
         } else { return [] }
     }
 
@@ -120,6 +92,10 @@ export class ItemsService {
 
     load_WornItems(): Observable<String[]>{
         return this.http.get<String[]>('/assets/wornitems.json');
+    }
+    
+    load_HeldItems(): Observable<String[]>{
+        return this.http.get<String[]>('/assets/helditems.json');
     }
 
     load_AlchemicalElixirs(): Observable<String[]>{
@@ -156,6 +132,12 @@ export class ItemsService {
                 .subscribe((results:String[]) => {
                     this.loader_WornItems = results;
                     this.finish_WornItems()
+                });
+            this.loading_HeldItems = true;
+            this.load_HeldItems()
+                .subscribe((results:String[]) => {
+                    this.loader_HeldItems = results;
+                    this.finish_HeldItems()
                 });
             this.loading_AlchemicalElixirs = true;
             this.load_AlchemicalElixirs()
@@ -202,6 +184,14 @@ export class ItemsService {
             this.loader_WornItems = [];
         }
         if (this.loading_WornItems) {this.loading_WornItems = false;}
+    }
+
+    finish_HeldItems() {
+        if (this.loader_HeldItems) {
+            this.items.helditems = this.loader_HeldItems.map(element => Object.assign(new WornItem(), element));
+            this.loader_HeldItems = [];
+        }
+        if (this.loading_HeldItems) {this.loading_HeldItems = false;}
     }
 
     finish_AlchemicalElixirs() {

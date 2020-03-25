@@ -8,8 +8,8 @@ export class Weapon implements Item {
     public displayName: string = "";
     public name: string = "";
     public desc: string = "";
-    public level: string = "-";
-    public price: string = "";
+    public level: number = 0;
+    public price: number = 0;
     public hands: string = "";
     public reload: string = "";
     public ammunition: string = "";
@@ -18,7 +18,7 @@ export class Weapon implements Item {
     public showName: boolean = false;
     public parrying: boolean = false;
     public type: string = "weapons";
-    public bulk: string = "-";
+    public bulk: string = "";
     public hide: boolean = false;
     public equippable: boolean = true;
     public equip: boolean = false;
@@ -29,13 +29,14 @@ export class Weapon implements Item {
     public dicesize: number = 6;
     public melee: number = 0;
     public ranged: number = 0;
-    public itembonus: number = 0;
     public moddable: string = "weapon";
     public potencyRune: number = 0;
     public strikingRune: number = 0;
     public propertyRunes: string[] = [];
     public gainActivity: string[] = [];
     public material: string = "";
+    public showon: string = "";
+    public hint: string = "";
     public traits: string[] = [];
     public effects = [];
     public specialEffects = []
@@ -147,9 +148,6 @@ export class Weapon implements Item {
             explain += "\nStrength Modifier: "+abilityMod;
             }
         }
-        if (this.itembonus) {
-            explain += "\nItem Bonus: "+this.itembonus;
-        }
         let me: Weapon|WornItem = this;
         if (this.prof == "Unarmed") {
             let handwraps = characterService.get_InventoryItems().wornitems.filter(item => item.name == "Handwraps of Mighty Blows" && item.invested)
@@ -175,7 +173,7 @@ export class Weapon implements Item {
             effectsSum += parseInt(effect.value);
         });
         //Add up all modifiers and return the attack bonus for this attack
-        let attackResult = charLevelBonus + skillLevel + this.itembonus + abilityMod + me.potencyRune + effectsSum;
+        let attackResult = charLevelBonus + skillLevel + abilityMod + me.potencyRune + effectsSum;
         explain = explain.substr(1);
         return [range, attackResult, explain, penalty, bonus];
     }

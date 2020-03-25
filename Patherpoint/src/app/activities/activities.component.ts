@@ -6,7 +6,7 @@ import { EffectsService } from '../effects.service';
 import { Activity } from '../Activity';
 import { ActivityGain } from '../ActivityGain';
 import { ItemsService } from '../items.service';
-import { Trait } from '../Trait';
+import { TimeService } from '../time.service';
 
 @Component({
     selector: 'app-activities',
@@ -24,9 +24,8 @@ export class ActivitiesComponent implements OnInit {
         private changeDetector: ChangeDetectorRef,
         public characterService: CharacterService,
         private activitiesService: ActivitiesService,
-        private effectsService: EffectsService,
-        private traitsService: TraitsService,
-        private itemsService: ItemsService
+        private itemsService: ItemsService,
+        private timeService: TimeService
     ) { }
 
     toggle_Action(id: number) {
@@ -58,6 +57,10 @@ export class ActivitiesComponent implements OnInit {
         return this.activitiesService.get_Activities(name);
     }
 
+    get_Duration(duration) {
+        return this.timeService.get_Duration(duration);
+    }
+
     get_OwnedActivities() {
         this.id = 0;
         let activities: ActivityGain[] = [];
@@ -71,28 +74,8 @@ export class ActivitiesComponent implements OnInit {
         return activities;
     }
 
-    get_Traits(traitName: string = "") {
-        return this.traitsService.get_Traits(traitName);
-    }
-
-    get_TraitsForThis(name: string) {
-        return this.traitsService.get_TraitsForThis(this.characterService, name);
-    }
-
-    get_FeatsShowingOn(skillName: string) {
-        return this.characterService.get_FeatsShowingOn(skillName);
-    }
-
-    get_EffectsOnThis(ObjectName: String) {
-        return this.effectsService.get_EffectsOnThis(ObjectName);
-    }
-
-    get_ConditionsShowingOn(name: string) {
-        return this.characterService.get_ConditionsShowingOn(name);
-    }
-
     on_Activate(gain: ActivityGain, activity: Activity, activated: boolean) {
-        this.activitiesService.activate_Activity(this.characterService, this.itemsService, gain, activity, activated);
+        this.activitiesService.activate_Activity(this.characterService, this.timeService, this.itemsService, gain, activity, activated);
     }
 
     finish_Loading() {

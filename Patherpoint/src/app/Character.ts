@@ -17,6 +17,7 @@ import { ActivitiesService } from './activities.service';
 import { ItemsService } from './items.service';
 import { SpellChoice } from './SpellChoice';
 import { Settings } from './Settings';
+import { TimeService } from './time.service';
 
 export class Character {
     public name: string = "";
@@ -132,9 +133,9 @@ export class Character {
         let newIndex = this.class.activities.push(newGain);
         return this.class.activities[newIndex-1];
     }
-    lose_Activity(characterService: CharacterService, itemsService: ItemsService, activitiesService: ActivitiesService, oldGain: ActivityGain) {
+    lose_Activity(characterService: CharacterService, timeService: TimeService, itemsService: ItemsService, activitiesService: ActivitiesService, oldGain: ActivityGain) {
         let a = this.class.activities;
-        activitiesService.activate_Activity(characterService, itemsService, oldGain, activitiesService.get_Activities(oldGain.name)[0], false);
+        activitiesService.activate_Activity(characterService, timeService, itemsService, oldGain, activitiesService.get_Activities(oldGain.name)[0], false);
         a.splice(a.indexOf(oldGain), 1);
     }
     get_SkillIncreases(minLevelNumber: number, maxLevelNumber: number, skillName: string = "", source: string = "", sourceId: string = "", locked: boolean = undefined) {

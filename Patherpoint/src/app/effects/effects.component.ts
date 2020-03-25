@@ -23,6 +23,10 @@ export class EffectsComponent implements OnInit {
         private characterService: CharacterService,
         private timeService: TimeService
     ) { }
+    
+    minimize() {
+        this.characterService.get_Character().settings.effectsMinimized = !this.characterService.get_Character().settings.effectsMinimized;
+    }
 
     toggle_Item(name: string) {
         if (this.showItem == name) {

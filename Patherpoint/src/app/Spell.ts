@@ -25,7 +25,7 @@ export class Spell {
     public heightenedLevel: string = "";
     public heightened: string = "";
     public traits: string[] = [];
-    get_Action() {
+    get_Actions() {
         switch (this.actions) {
             case "Free":
                 return ""

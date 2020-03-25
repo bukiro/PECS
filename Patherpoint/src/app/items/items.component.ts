@@ -2,6 +2,9 @@ import { Component,  OnInit, ChangeDetectionStrategy, ChangeDetectorRef } from '
 import { ItemsService } from '../items.service';
 import { TraitsService } from '../traits.service';
 import { CharacterService } from '../character.service';
+import { ItemCollection } from '../ItemCollection';
+import { Consumable } from '../Consumable';
+import { Item } from '../Item';
 
 @Component({
     selector: 'app-items',
@@ -19,9 +22,13 @@ export class ItemsComponent implements OnInit {
     constructor(
         private changeDetector: ChangeDetectorRef,
         private itemsService: ItemsService,
-        private traitsService: TraitsService,
         private characterService: CharacterService
     ) { }
+
+    trackByFunction(index, item) {
+        if(!item) return null;
+        return index;
+    }
 
     toggle_List(type) {
         if (this.showList == type) {
@@ -60,57 +67,13 @@ export class ItemsComponent implements OnInit {
         this.characterService.toggleMenu("items");
     }
 
-    get_Items(type: string) {
-        let items = this.itemsService.get_Items();
-        switch (type) {
-            case "Weapons":
-                this.id = 1000;
-                return items.weapons.filter(item => !item.hide);
-            case "Armor":
-                this.id = 2000;
-                return items.armors.filter(item => !item.hide);
-            case "Shields":
-                this.id = 3000;
-                return items.shields.filter(item => !item.hide);
-            case "Worn Items":
-                this.id = 4000;
-                return items.wornitems;
-            case "Alchemical Elixirs":
-                this.id = 5000;
-                return items.alchemicalelixirs;
-            case "Other Consumables":
-                this.id = 6000;
-                return items.otherconsumables;
-        }
+    get_Items() {
+        this.id = 0;
+        return this.itemsService.get_Items();
     }
 
-    get_Traits(name: string = "") {
-        return this.traitsService.get_Traits(name);
-    }
-
-    get_Price(item) {
-        if (item.price) {
-            if (item.price == "-") {
-                return "-";
-            } else {
-                let price: number = parseInt(item.price);
-                let priceString: string = "";
-                if (price >= 100) {
-                    priceString += Math.floor(price / 100)+"gp ";
-                    price %= 100;
-                }
-                if (price >= 10) {
-                    priceString += Math.floor(price / 10)+"sp ";
-                    price %= 10;
-                }
-                if (price >= 1) {
-                    priceString += price+"cp";
-                }
-                return priceString;
-            }
-        } else {
-            return "-"
-        }
+    get_VisibleItems(items) {
+        return items.filter(item => !item.hide);
     }
 
     grant_Item(item) {

@@ -1,34 +1,88 @@
 <div class="row">
-  <div class="row left-aligned">
-    <cite *ngFor="let trait of activity.traits" title="{{get_Traits(trait)[0].description}}">&nbsp;{{trait}}</cite>
-    <cite *ngFor="let trait of get_ActivationTraits(activity)"
-      title="{{get_Traits(trait)[0].description}}">&nbsp;{{trait}}</cite>
-  </div>
-  <p *ngIf="activity.frequency">
-    <strong>Frequency&nbsp;</strong>{{activity.frequency}}
-  </p>
-  <p *ngIf="activity.trigger">
-    <strong>Trigger&nbsp;</strong>{{activity.trigger}}
-  </p>
-  <p *ngIf="activity.requirements">
-    <strong>Requirements&nbsp;</strong>{{activity.requirements}}
-  </p>
-  <div *ngFor="let desc of activity.desc.split('\n\n')">
-    <p *ngIf="desc.split('\n').length == 1">{{desc}}</p>
-    <ul *ngIf="desc.split('\n').length > 1">
-      <li *ngFor="let line of desc.split('\n')">{{line}}</li>
-    </ul>
-  </div>
-  <p *ngIf="activity.critsuccess">
-    <strong>Critical Success&nbsp;</strong>{{activity.critsuccess}}
-  </p>
-  <p *ngIf="activity.success">
-    <strong>Success&nbsp;</strong>{{activity.success}}
-  </p>
-  <p *ngIf="activity.failure">
-    <strong>Failure&nbsp;</strong>{{activity.failure}}
-  </p>
-  <p *ngIf="activity.critfailure">
-    <strong>Critical Failure&nbsp;</strong>{{activity.critfailure}}
-  </p>
+    <div class="row left-aligned">
+        <cite class="trait" *ngFor="let trait of activity.traits"
+            title="{{get_Traits(trait)[0].description}}">{{trait}}</cite>
+        <cite class="trait" *ngFor="let trait of get_ActivationTraits(activity)"
+            title="{{get_Traits(trait)[0].description}}">{{trait}}</cite>
+    </div>
+    <div class="row left-aligned" *ngIf="activity.frequency">
+        <span>
+            <strong>Frequency</strong>
+            {{activity.frequency}}
+        </span>
+    </div>
+    <div class="row left-aligned" *ngIf="activity.trigger">
+        <span>
+            <strong>Trigger</strong>
+            {{activity.trigger}}
+        </span>
+    </div>
+    <div class="row left-aligned" *ngIf="activity.requirements">
+        <span>
+            <strong>Requirements</strong>
+            {{activity.requirements}}
+        </span>
+    </div>
+    <div *ngFor="let desc of activity.desc.split('\n\n')">
+        <p *ngIf="desc.split('\n').length == 1">{{desc}}</p>
+        <ul *ngIf="desc.split('\n').length > 1">
+            <li *ngFor="let line of desc.split('\n')">{{line}}</li>
+        </ul>
+    </div>
+    <div class="row left-aligned" *ngIf="activity.critsuccess">
+        <span>
+            <strong>Critical Success</strong>
+            {{activity.critsuccess}}
+        </span>
+    </div>
+    <div class="row left-aligned" *ngIf="activity.success">
+        <span>
+            <strong>Success</strong>
+            {{activity.success}}
+        </span>
+    </div>
+    <div class="row left-aligned" *ngIf="activity.failure">
+        <span>
+            <strong>Failure</strong>
+            {{activity.failure}}
+        </span>
+    </div>
+    <div class="row left-aligned" *ngIf="activity.critfailure">
+        <span>
+            <strong>Critical Failure</strong>
+            {{activity.critfailure}}
+        </span>
+    </div>
+    <div class="row" *ngFor="let cast of activity.castSpells">
+        <div *ngFor="let spell of get_Spells(cast.name)">
+            <h4>{{spell.name}} {{spell.get_Actions()}} {{spell.castType.toString()}}
+            </h4>
+            <app-spell [spell]=spell></app-spell>
+        </div>
+    </div>
+    <div class="row" *ngFor="let feat of get_FeatsShowingOn(activity.name)">
+        <h4>{{feat.name}}</h4>
+        <div>
+            <div class="row left-aligned">
+                <cite class="trait" *ngFor="let trait of feat.traits"
+                    title="{{get_Traits(trait)[0].description}}">{{trait}}</cite>
+            </div>
+            <div *ngFor="let desc of feat.desc.split('\n\n')">
+                <p *ngIf="desc.split('\n').length == 1">{{desc}}</p>
+                <ul *ngIf="desc.split('\n').length > 1">
+                    <li *ngFor="let line of desc.split('\n')">{{line}}</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="row left-aligned">
+        <cite class="trait" *ngFor="let trait of get_TraitsForThis(activity.name)"
+            [title]="trait.description">{{trait.name}}
+            ({{trait.haveOn(this.characterService, true)}})</cite>
+        <cite *ngFor="let condition of get_ConditionsShowingOn(activity.name)"
+            [className]="(condition.buff) ? 'bonus' : 'penalty'" [title]="condition.desc">{{condition.name}}</cite>
+        <cite *ngFor="let effect of get_EffectsOnThis(activity.name)"
+            [className]="effect.penalty ? 'penalty' : 'bonus'">{{effect.value}}
+            ({{effect.source}})</cite>
+    </div>
 </div>
