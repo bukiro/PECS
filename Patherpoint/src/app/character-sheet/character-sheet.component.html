@@ -1,13 +1,11 @@
-<div class="characterSheet">
-    <app-time id="time" class="topBox"></app-time>
-    <app-general id="general" class="attributeBox" [className]="(get_GeneralMinimized()) ? 'minimized' : ''"></app-general>
-    <app-effects id="effects" class="attributeBox" [className]="(get_EffectsMinimized()) ? 'minimized' : ''"></app-effects>
-    <app-abilities id="abilities" class="attributeBox" [className]="(get_AbilitiesMinimized()) ? 'minimized' : ''"></app-abilities>
-    <app-health id="health" class="attributeBox" [className]="(get_HealthMinimized()) ? 'minimized' : ''"></app-health>
-    <app-defense id="defense" class="attributeBox"></app-defense>
-    <app-attacks id="attacks" class="attributeBox"></app-attacks>
-    <app-skills id="skills" class="attributeBox"></app-skills>
-    <app-inventory id="items" class="attributeBox"></app-inventory>
-    <app-activities id="activities" class="attributeBox"></app-activities>
-    <app-spellbook id="spellbook" class="attributeBox"></app-spellbook>
-</div>
+<app-time id="time" class="topBox" [className]="(get_TimeMinimized()) ? 'minimized' : ''" [ngStyle]="{'grid-row':'span '+get_Span('time-height')}"></app-time>
+<app-general id="general" class="attributeBox" [className]="(get_GeneralMinimized()) ? 'minimized' : ''" [ngStyle]="{'grid-row':'span '+get_Span('general-height')}"></app-general>
+<app-effects id="effects" class="attributeBox" [className]="(get_EffectsMinimized()) ? 'minimized' : ''" [ngStyle]="{'grid-row':'span '+get_Span('effects-height')}"></app-effects>
+<app-abilities id="abilities" class="attributeBox" [className]="(get_AbilitiesMinimized()) ? 'minimized' : ''" [ngStyle]="{'grid-row':'span '+get_Span('abilities-height')}"></app-abilities>
+<app-health id="health" class="attributeBox" [className]="(get_HealthMinimized()) ? 'minimized' : ''" [ngStyle]="{'grid-row':'span '+get_Span('health-height')}"></app-health>
+<app-defense id="defense" class="attributeBox" [className]="(get_DefenseMinimized()) ? 'minimized' : ''" [ngStyle]="{'grid-row':'span '+get_Span('defense-height')}"></app-defense>
+<app-attacks id="attacks" class="attributeBox" [className]="(get_AttacksMinimized()) ? 'minimized' : ''" [ngStyle]="{'grid-row':'span '+get_Span('attacks-height')}"></app-attacks>
+<app-skills id="skills" class="attributeBox" [className]="(get_SkillsMinimized()) ? 'minimized' : ''" [ngStyle]="{'grid-row':'span '+get_Span('skills-height')}"></app-skills>
+<app-inventory id="inventory" class="attributeBox" [className]="(get_InventoryMinimized()) ? 'minimized' : ''" [ngStyle]="{'grid-row':'span '+get_Span('inventory-height')}"></app-inventory>
+<app-activities id="activities" class="attributeBox" [className]="(get_ActivitiesMinimized()) ? 'minimized' : ''" [ngStyle]="{'grid-row':'span '+get_Span('activities-height')}"></app-activities>
+<app-spellbook id="spellbook" class="attributeBox" [className]="(get_SpellbookMinimized()) ? 'minimized' : ''" [ngStyle]="{'grid-row':'span '+get_Span('spellbook-height')}"></app-spellbook>

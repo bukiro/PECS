@@ -21,6 +21,10 @@ export class AttacksComponent implements OnInit {
         public effectsService: EffectsService
     ) { }
 
+    minimize() {
+        this.characterService.get_Character().settings.attacksMinimized = !this.characterService.get_Character().settings.attacksMinimized;
+    }
+
     still_loading() {
       return this.characterService.still_loading()
     }

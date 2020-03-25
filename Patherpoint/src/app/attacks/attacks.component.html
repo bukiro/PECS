@@ -1,7 +1,9 @@
+<button class="minimizebutton lower" [ngStyle]="{'background-color':get_Accent()}" (click)="minimize()">&#8691;</button>
+<div id="attacks-height">
 <h3>Attacks</h3>
 <div class="loading" *ngIf="still_loading()">Loading</div>
 <ng-container *ngIf="!still_loading()">
-    <div class="row">
+    <div class="fullsize-only row">
         <cite *ngFor="let feat of get_FeatsShowingOn('Attacks')" [title]="(feat.hint) ? feat.hint : feat.desc">{{feat.name}}</cite>
         <cite *ngFor="let condition of get_ConditionsShowingOn('Attacks')" [className]="(condition.buff) ? 'bonus' : 'penalty'" [title]="condition.desc">{{condition.name}}</cite>
     </div>
@@ -24,7 +26,7 @@
                     title="{{damage[1]}}"
                     [ngModel]="damage[0]"
                     disabled>
-                <div class="row left-aligned">
+                <div class="fullsize-only row left-aligned">
                     <cite class="trait" *ngFor="let trait of weapon.traits" title="{{get_Traits(trait)[0].description}}">{{trait}}</cite>
                     <cite *ngFor="let feat of get_FeatsShowingOn(weapon.name)" [title]="(feat.hint) ? feat.hint : feat.desc">{{feat.name}}</cite>
                     <ng-container *ngFor="let name of get_specialShowon(weapon)">
@@ -39,11 +41,12 @@
             </div>
         </div>
     </ng-container>
-    <h3 *ngIf="!still_loading()">Weapon Proficiencies</h3>
-    <div *ngFor="let skill of get_Skills('', 'Weapon Proficiency')">
-        <app-skill class="list-item" [skill]=skill [showValue]=false></app-skill>
-    </div>
-    <div *ngFor="let skill of get_Skills('', 'Specific Weapon Proficiency')">
-        <app-skill *ngIf="skill.level(this.characterService)" class="list-item" [skill]=skill [showValue]=false></app-skill>
-    </div>
+    <h3 class="fullsize-only" *ngIf="!still_loading()">Weapon Proficiencies</h3>
+    <ng-container *ngFor="let skill of get_Skills('', 'Weapon Proficiency')">
+        <app-skill class="fullsize-only" [skill]=skill [showValue]=false></app-skill>
+    </ng-container>
+    <ng-container *ngFor="let skill of get_Skills('', 'Specific Weapon Proficiency')">
+        <app-skill class="fullsize-only" [skill]=skill [showValue]=false></app-skill>
+    </ng-container>
 </ng-container>
+</div>

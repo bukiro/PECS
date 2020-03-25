@@ -1,17 +1,22 @@
-<div class="loading" *ngIf="still_loading()">Loading</div>
-<div *ngIf="!still_loading()">
-    <div class="list-item row center-aligned">
-        <button class="button" [ngStyle]="{'background-color':get_Accent()}" (click)="tick(5)" [disabled]="get_YourTurn()==5">Start Turn</button>
-        <div class="turn-indicator">
-            <strong *ngIf="get_YourTurn() == 0">Not your Turn</strong>
-            <strong class="yourTurn" *ngIf="get_YourTurn() == 5">Your Turn</strong>
+<button class="minimizebutton lower" [ngStyle]="{'background-color':get_Accent()}" (click)="minimize()">&#8691;</button>
+<div id="time-height">
+    <div class="loading" *ngIf="still_loading()">Loading</div>
+    <ng-container *ngIf="!still_loading()">
+        <div class="list-item row center-aligned">
+            <button class="button" [ngStyle]="{'background-color':get_Accent()}" (click)="tick(5)"
+                [disabled]="get_YourTurn()==5">Start Turn</button>
+            <div class="turn-indicator">
+                <strong *ngIf="get_YourTurn() == 0">Not your Turn</strong>
+                <strong class="yourTurn" *ngIf="get_YourTurn() == 5">Your Turn</strong>
+            </div>
+            <button class="button" [ngStyle]="{'background-color':get_Accent()}" (click)="tick(5)"
+                [disabled]="get_YourTurn()==0">End Turn</button>
         </div>
-        <button class="button" [ngStyle]="{'background-color':get_Accent()}" (click)="tick(5)" [disabled]="get_YourTurn()==0">End Turn</button>
-    </div>
-    <div class="list-item row">
-        <button [ngStyle]="{'background-color':get_Accent()}" class="button fancybutton" (click)="tick(duration)"
-            *ngFor="let duration of [10, 50, 100, 500, 1000, 6000, 48000, 144000]">
-            Tick {{get_Duration(duration)}}
-        </button>
-    </div>
+        <div class="fullsize-only list-item row">
+            <button [ngStyle]="{'background-color':get_Accent()}" class="button fancybutton" (click)="tick(duration)"
+                *ngFor="let duration of [10, 50, 100, 500, 1000, 6000, 48000, 144000]">
+                Tick {{get_Duration(duration)}}
+            </button>
+        </div>
+    </ng-container>
 </div>

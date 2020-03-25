@@ -1,7 +1,8 @@
 <button class="minimizebutton lower" [ngStyle]="{'background-color':get_Accent()}" (click)="minimize()">&#8691;</button>
-<h3 class="fullsize-only">Abilities</h3>
+<div id="abilities-height">
+<h3>Abilities</h3>
 <div class="loading" *ngIf="still_loading()">Loading</div>
-<div *ngIf="!still_loading()">
+<ng-container *ngIf="!still_loading()">
     <div class="list-item" *ngFor="let ability of abilitiesService.get_Abilities()">
         <strong>{{ability.name}}</strong>
         <input class="number2" type="number"
@@ -15,4 +16,5 @@
             <cite *ngFor="let effect of ability.effects(this.effectsService)" [className]="effect.penalty ? 'penalty' : 'bonus'">{{effect.value}} ({{effect.source}})</cite>
         </div>
     </div> 
+</ng-container>
 </div>

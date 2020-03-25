@@ -1,14 +1,9 @@
 import { Component, OnInit, ChangeDetectorRef, ChangeDetectionStrategy } from '@angular/core';
 import { CharacterService } from '../character.service';
-import { ItemsService } from '../items.service';
 import { TraitsService } from '../traits.service';
-import { EffectsService } from '../effects.service';
-import { Weapon } from '../Weapon';
-import { Armor } from '../Armor';
 import { ConditionGain } from '../ConditionGain';
 import { ConditionsService } from '../Conditions.service';
 import { Condition } from '../Condition';
-import { platformBrowserDynamicTesting } from '@angular/platform-browser-dynamic/testing';
 import { TimeService } from '../time.service';
 
 @Component({

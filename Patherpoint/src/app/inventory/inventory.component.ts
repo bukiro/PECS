@@ -29,6 +29,9 @@ export class InventoryComponent implements OnInit {
         public traitsService: TraitsService,
         public effectsService: EffectsService
     ) { }
+    minimize() {
+        this.characterService.get_Character().settings.inventoryMinimized = !this.characterService.get_Character().settings.inventoryMinimized;
+    }
 
     still_loading() {
         return this.characterService.still_loading();

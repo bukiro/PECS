@@ -11,6 +11,6 @@
 <a class="button fancy-button" [ngStyle]="{'color':get_Accent()}" (click)="print()" *ngIf="!still_loading()">Print</a>
 </div>
 <app-items [@slideInOut]="get_ItemsMenuState()"></app-items>
-<app-spells [@slideInOut]="get_SpellMenuState()"></app-spells>
+<app-spells [className]="(get_SpellsMinimized()) ? 'minimized' : ''" [@slideInOut]="get_SpellMenuState()"></app-spells>
 <app-conditions [@slideInOut]="get_ConditionsMenuState()"></app-conditions>
-<app-character [@slideInOut]="get_CharacterMenuState()"></app-character>
+<app-character [className]="(get_CharacterMinimized()) ? 'minimized' : ''" [@slideInOut]="get_CharacterMenuState()"></app-character>

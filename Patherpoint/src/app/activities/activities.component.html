@@ -1,4 +1,6 @@
+<button class="minimizebutton lower" [ngStyle]="{'background-color':get_Accent()}" (click)="minimize()">&#8691;</button>
 <h3>Actions and Activities</h3>
+<div id="activities-height">
 <div class="loading" *ngIf="still_loading()">Loading</div>
 <ng-container *ngIf="!still_loading()">
     <ng-container *ngFor="let gain of get_OwnedActivities()">
@@ -33,3 +35,4 @@
         </ng-container>
     </ng-container>
 </ng-container>
+</div>

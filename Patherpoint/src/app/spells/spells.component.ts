@@ -25,6 +25,10 @@ export class SpellsComponent implements OnInit {
         private sortByPipe: SortByPipe
     ) { }
 
+    minimize() {
+        this.characterService.get_Character().settings.spellsMinimized = !this.characterService.get_Character().settings.spellsMinimized;
+    }
+
     toggleSpellMenu() {
         this.characterService.toggleMenu("spells");
     }

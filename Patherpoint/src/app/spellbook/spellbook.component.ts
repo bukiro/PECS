@@ -25,6 +25,10 @@ export class SpellbookComponent implements OnInit {
         private spellsService: SpellsService
     ) { }
     
+    minimize() {
+        this.characterService.get_Character().settings.spellbookMinimized = !this.characterService.get_Character().settings.spellbookMinimized;
+    }
+
     toggle_Spell(id: number) {
         if (this.showSpell == id) {
             this.showSpell = 0;

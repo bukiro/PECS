@@ -1,9 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { trigger, state, style, transition, animate } from '@angular/animations';
 import { CharacterService } from '../character.service';
-import { ItemsService } from '../items.service';
 import { Subscription } from 'rxjs';
-import { EffectsService } from '../effects.service';
 
 @Component({
     selector: 'app-top-bar',
@@ -30,6 +28,14 @@ export class TopBarComponent implements OnInit {
         private characterService: CharacterService
     ) { }
 
+    get_CharacterMinimized() {
+        return this.characterService.get_Character().settings.characterMinimized;
+    }
+
+    get_SpellsMinimized() {
+        return this.characterService.get_Character().settings.spellsMinimized;
+    }
+    
     toggleMenu(menu: string) {
         this.characterService.toggleMenu(menu);
     }

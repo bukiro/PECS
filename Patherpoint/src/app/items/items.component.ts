@@ -25,11 +25,6 @@ export class ItemsComponent implements OnInit {
         private characterService: CharacterService
     ) { }
 
-    trackByFunction(index, item) {
-        if(!item) return null;
-        return index;
-    }
-
     toggle_List(type) {
         if (this.showList == type) {
             this.showList = "";

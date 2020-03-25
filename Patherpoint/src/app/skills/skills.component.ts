@@ -1,10 +1,6 @@
 import { Component, OnInit, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
-import { AbilitiesService } from '../abilities.service';
 import { CharacterService } from '../character.service';
 import { SkillsService } from '../skills.service';
-import { TraitsService } from '../traits.service';
-import { EffectsService } from '../effects.service';
-import { Skill } from '../Skill';
 
 @Component({
     selector: 'app-skills',
@@ -19,6 +15,10 @@ export class SkillsComponent implements OnInit {
         public characterService: CharacterService,
         public skillsService: SkillsService,
     ) { }
+
+    minimize() {
+        this.characterService.get_Character().settings.skillsMinimized = !this.characterService.get_Character().settings.skillsMinimized;
+    }
 
     get_Skills(name: string = "", type: string = "") {
         return this.characterService.get_Skills(name, type);

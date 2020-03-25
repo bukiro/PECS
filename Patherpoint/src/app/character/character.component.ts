@@ -45,6 +45,10 @@ export class CharacterComponent implements OnInit {
         private sortByPipe: SortByPipe
     ) { }
 
+    minimize() {
+        this.characterService.get_Character().settings.characterMinimized = !this.characterService.get_Character().settings.characterMinimized;
+    }
+
     toggleCharacterMenu() {
         this.characterService.toggleMenu("character");
     }

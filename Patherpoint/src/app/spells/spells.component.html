@@ -1,12 +1,13 @@
-<div id="spells" class="itemBox">
+<button class="minimizebutton lower" [ngStyle]="{'background-color':get_Accent()}" (click)="minimize()">&#8691;</button>
+<div id="spells-height" class="itemBox">
     <button class="list-item" [ngStyle]="{'background-color':get_Accent()}" (click)="toggleSpellMenu()">Close</button>
     <div class="loading" *ngIf="still_loading()">Loading</div>
-    <div *ngIf="!still_loading()">
-        <div *ngIf="get_Character().class">
-            <div *ngFor="let level of get_Character().class.levels">
+    <ng-container *ngIf="!still_loading()">
+        <ng-container *ngIf="get_Character().class">
+            <ng-container *ngFor="let level of get_Character().class.levels">
                 <h3 *ngIf="level.number > 0">Level {{level.number}}</h3>
                 <!--Fixed information-->
-                <div class="list-item fancy-button" *ngIf="level.number > 0">
+                <div class="fullsize-only list-item fancy-button" *ngIf="level.number > 0">
                     <button class="row button fancy-button" [ngStyle]="{'color':get_Accent()}"
                         (click)="toggle_List('showFixedChanges'+level.number)">
                         Show fixed changes
@@ -20,9 +21,9 @@
                     </div>
                 </div>
                 <!--Spell choices-->
-                <div *ngFor="let choice of level.spellChoices">
+                <ng-container *ngFor="let choice of level.spellChoices">
                     <div class="list-item" *ngIf="choice.available"
-                        [className]="(choice.spells.length > choice.available || cannotTakeSome(choice)) ? 'problem' : ''">
+                        [className]="((choice.spells.length > choice.available || cannotTakeSome(choice)) ? 'problem' : '') +' '+ ((choice.available == choice.spells.length) ? 'fullsize-only' : '')">
                         <button class="row button"
                             [ngStyle]="(choice.available == choice.spells.length) ? {'color':get_Accent()} : {'background-color':get_Accent()}"
                             [className]="(choice.available == choice.spells.length) ? 'fancy-button' : ''"
@@ -83,8 +84,8 @@
                             </div>
                         </div>
                     </div>
-                </div>
-            </div>
-        </div>
-    </div>
+                </ng-container>
+            </ng-container>
+        </ng-container>
+    </ng-container>
 </div>

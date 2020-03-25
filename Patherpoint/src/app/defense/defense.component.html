@@ -1,10 +1,12 @@
+<button class="minimizebutton lower" [ngStyle]="{'background-color':get_Accent()}" (click)="minimize()">&#8691;</button>
+<div id="defense-height">
 <ng-container *ngFor="let AC of [get_CalculatedAC()]">
-    <h3 title="{{AC.$value[1]}}">Defense: <span
+    <h3 title="{{AC.$value[1]}}">Defense: Armor Class <span
             [className]="(AC.$penalty.length) ? 'penalty' : (AC.$bonus.length) ? 'bonus' : ''">{{AC.$value[0]}}</span>
     </h3>
     <div class="loading" *ngIf="still_loading()">Loading</div>
     <ng-container *ngIf="!still_loading()">
-        <div class="row left-aligned">
+        <div class="fullsize-only row left-aligned">
             <cite *ngFor="let feat of get_FeatsShowingOn('AC')"
                 [title]="(feat.hint) ? feat.hint : feat.desc">{{feat.name}}</cite>
             <cite *ngFor="let condition of get_ConditionsShowingOn('AC')"
@@ -16,7 +18,7 @@
         <div class="list-item" *ngFor="let armor of get_EquippedArmor()">
             <div>{{armor.name}} AC: <input type="number" class="number2" title="{{get_ArmorBonus(armor)[1]}}"
                     [ngModel]="get_ArmorBonus(armor)[0]" disabled></div>
-            <div class="row left-aligned" *ngIf="armor.traits.length">
+            <div class="fullsize-only row left-aligned" *ngIf="armor.traits.length">
                 <cite class="trait" *ngFor="let trait of armor.traits"
                     title="{{get_Traits(trait)[0].description}}">{{trait}}</cite>
             </div>
@@ -34,7 +36,7 @@
                 <button [ngStyle]="{'background-color':get_Accent()}" *ngIf="armor.cover == 4"
                     (click)="armor.cover = 0; set_CharacterChanged()">End cover</button>
             </div>
-            <div class="row left-aligned">
+            <div class="fullsize-only row left-aligned">
                 <cite *ngFor="let feat of get_FeatsShowingOn('Defense')"
                     [title]="(feat.hint) ? feat.hint : feat.desc">{{feat.name}}</cite>
                 <cite *ngFor="let condition of get_ConditionsShowingOn('Defense')"
@@ -45,6 +47,10 @@
         </div>
         <div class="list-item" *ngFor="let shield of get_EquippedShield()">
             <div>{{shield.name}} AC: <input type="number" class="number2" [ngModel]="shield.acbonus" disabled>
+                <div class="fullsize-only row left-aligned" *ngIf="shield.traits.length">
+                    <cite class="trait" *ngFor="let trait of shield.traits"
+                        title="{{get_Traits(trait)[0].description}}">{{trait}}</cite>
+                </div>
                 <div class="row">
                     <button [ngStyle]="{'background-color':get_Accent()}" *ngIf="!shield.cover"
                         (click)="shield.raised = true; set_CharacterChanged()">Raise shield</button>
@@ -77,20 +83,21 @@
                 </div>
             </div>
         </div>
-        <h3 *ngIf="!still_loading()">Armor Proficiencies</h3>
-        <ng-container *ngFor="let skill of get_Skills('', 'Armor Proficiency')">
-            <app-skill class="list-item" [skill]=skill [showValue]=false></app-skill>
-        </ng-container>
-        <h3 *ngIf="!still_loading()">Saving Throws</h3>
+        <h3 class="fullsize-only" *ngIf="!still_loading()">Saving Throws</h3>
         <ng-container *ngFor="let skill of get_Skills('', 'Save')|sortBy:'asc':'name'">
-            <app-skill class="list-item" [skill]=skill></app-skill>
+            <app-skill [skill]=skill></app-skill>
         </ng-container>
-        <div class="row left-aligned">
+        <div class="fullsize-only row left-aligned">
             <cite *ngFor="let feat of get_FeatsShowingOn('Saving Throws')"
                 [title]="(feat.hint) ? feat.hint : feat.desc">{{feat.name}}</cite>
             <cite *ngFor="let condition of get_ConditionsShowingOn('Shield')"
                 [className]="(condition.buff) ? 'bonus' : 'penalty'"
                 [title]="condition.desc">{{condition.name}}</cite>
         </div>
+        <h3 class="fullsize-only" *ngIf="!still_loading()">Armor Proficiencies</h3>
+        <ng-container *ngFor="let skill of get_Skills('', 'Armor Proficiency')">
+            <app-skill class="fullsize-only" [skill]=skill [showValue]=false></app-skill>
+        </ng-container>
     </ng-container>
 </ng-container>
+</div>

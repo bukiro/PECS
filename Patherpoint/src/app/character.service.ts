@@ -714,7 +714,25 @@ export class CharacterService {
         if (this.loading) { this.loading = false; }
         this.grant_BasicItems();
         this.characterChanged$ = this.changed.asObservable();
-        this.set_Changed();
+        this.trigger_FinalChange();
+    }
+
+    trigger_FinalChange() {
+        if (
+            this.traitsService.still_loading() ||
+            this.featsService.still_loading() ||
+            this.historyService.still_loading() ||
+            this.classesService.still_loading() ||
+            this.conditionsService.still_loading() ||
+            this.spellsService.still_loading() ||
+            this.itemsService.still_loading()
+        ) {
+            setTimeout(() => {
+                this.trigger_FinalChange();
+            }, 500)
+        } else {
+            this.set_Changed();
+        }
     }
 
     print() {

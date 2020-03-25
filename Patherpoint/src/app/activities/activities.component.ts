@@ -28,6 +28,10 @@ export class ActivitiesComponent implements OnInit {
         private timeService: TimeService
     ) { }
 
+    minimize() {
+        this.characterService.get_Character().settings.activitiesMinimized = !this.characterService.get_Character().settings.activitiesMinimized;
+    }
+
     toggle_Action(id: number) {
         if (this.showAction == id) {
             this.showAction = 0;

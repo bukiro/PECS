@@ -14,6 +14,10 @@ export class TimeComponent implements OnInit {
         private timeService: TimeService
     ) { }
 
+    minimize() {
+        this.characterService.get_Character().settings.timeMinimized = !this.characterService.get_Character().settings.timeMinimized;
+    }
+
     ngOnInit() {
     }
 

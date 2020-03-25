@@ -19,87 +19,65 @@
 
   app-character-sheet {
     width: 100%;
+    display: grid;
+    grid-gap: 0px;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+    grid-template-rows: auto repeat(auto-fill, 50px);
+    grid-auto-flow: dense;
   }
 
   app-time {
-    grid-row: span 2;
-    grid-column: span 4;
+    grid-column: 1 / span 4;
     position: relative;
   }
 
   app-general {
-    grid-row: span 10;
-    grid-column: span 1;
+    grid-column: 1 / span 1;
     position: relative;
   }
   
-  app-general.minimized {
-    grid-row: span 5;
-  }
-
   app-effects {
-    grid-row: span 10;
-    grid-column: span 1;
+    grid-column: 2 / span 1;
     position: relative;
-  }
-
-  app-effects.minimized {
-    grid-row: span 5;
   }
 
   app-abilities {
-    grid-row: span 10;
-    grid-column: span 1;
+    grid-column: 3 / span 1;
     position: relative;
   }
 
-  app-abilities.minimized {
-    grid-row: span 5;
-  }
-  
   app-health {
-    grid-row: span 10;
-    grid-column: span 1;
+    grid-column: 4 / span 1;
     position: relative;
-  }
-
-  app-health.minimized {
-    grid-row: span 5;
   }
 
   app-defense {
-    grid-row: span 10;
-    grid-column: span 1;
+    grid-column: 1 / span 1;
     position: relative;
   }
 
   app-attacks {
-    grid-row: span 10;
-    grid-column: span 1;
+    grid-column: 2 / span 1;
     position: relative;
   }
 
   app-skills {
-    grid-row: span 20;
-    grid-column: span 1;
+    grid-column: 3 / span 1;
     position: relative;
   }
   
   app-inventory {
-    grid-row: span 20;
-    grid-column: span 1;
+    grid-column: 4 / span 1;
     position: relative;
   }
 
   app-activities {
-    grid-row: span 10;
-    grid-column: span 1;
+    grid-column: 1 / span 1;
     position: relative;
   }
 
   app-spellbook {
-    grid-row: span 10;
-    grid-column: span 1;
+    grid-column: 2 / span 1;
     position: relative;
   }
 
@@ -117,17 +95,6 @@
     padding: 0px 2px;
   }
   
-  .characterSheet {
-    display: grid;
-    grid-gap: 0px;
-    width: 100%;
-    grid-template-columns: 1fr 1fr 1fr 1fr;
-    grid-auto-rows: 48px;
-    /*display: flex;
-    flex-direction: row;
-    flex-wrap: wrap; */
-  }
-
   router-outlet + *  {
     padding: 0;
   }
@@ -153,6 +120,12 @@
     padding: 2px;
     margin: 8px 0px;
   }
+
+  h5 {
+    font-size: 90%;
+    margin: 8px 0px;
+  }
+
 
   h1, h2 {
     font-weight: lighter;
@@ -195,7 +168,7 @@
   }
 
   input.number3 {
-    width: 30px;
+    width: 40px;
     margin-bottom: 0px;
   }
 

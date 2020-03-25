@@ -5,7 +5,6 @@ import { Armor } from '../Armor';
 import { EffectsService } from '../effects.service';
 import { CharacterService } from '../character.service';
 import { AbilitiesService } from '../abilities.service';
-import { Skill } from '../Skill';
 
 @Component({
     selector: 'app-defense',
@@ -23,6 +22,10 @@ export class DefenseComponent implements OnInit {
         public effectsService: EffectsService,
         public abilitiesService: AbilitiesService
     ) { }
+
+    minimize() {
+        this.characterService.get_Character().settings.defenseMinimized = !this.characterService.get_Character().settings.defenseMinimized;
+    }
 
     still_loading() {
         return this.characterService.still_loading()

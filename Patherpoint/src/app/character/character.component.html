@@ -1,4 +1,5 @@
-<div id="character" class="itemBox" [ngStyle]="{'background-color':'#0080000 !important'}">
+<button class="minimizebutton lower" [ngStyle]="{'background-color':get_Accent()}" (click)="minimize()">&#8691;</button>
+<div id="character-height" class="itemBox">
     <button class="list-item" [ngStyle]="{'background-color':get_Accent()}" (click)="toggleCharacterMenu()">
         Close
     </button>
@@ -11,15 +12,23 @@
                     (blur)="this.characterService.set_Changed()" maxLength="7">
             </span>
         </div>
-        Name <input type="text" name="name" [(ngModel)]="get_Character().name"
-            (blur)="this.characterService.set_Changed()" maxLength="30">
-        Level
-        <select [(ngModel)]="get_Character().level" (ngModelChange)="onLevelChange()">
-            <option *ngFor="let level of [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20]" [value]="level">{{level}}
-            </option>
-        </select>
+        <div class="row">
+            Name
+            <input type="text" name="name" [(ngModel)]="get_Character().name"
+                (blur)="this.characterService.set_Changed()" maxLength="30">
+        </div>
+        <div class="row">
+            Level
+            <select [(ngModel)]="get_Character().level" (ngModelChange)="onLevelChange()">
+                <option *ngFor="let level of [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20]" [value]="level">
+                    {{level}}
+                </option>
+            </select>
+        </div>
+        <div class="row">
         Deity <input type="text" name="name" [(ngModel)]="get_Character().deity"
             (blur)="this.characterService.set_Changed()">
+        </div>
         <!--BaseValues-->
         <div class="list-item">
             <button class="row button fancy-button" [ngStyle]="{'color':get_Accent()}"
@@ -45,13 +54,14 @@
         </div>
         <h3>History</h3>
         <!--Class-->
-        <div class="list-item" *ngFor="let listID of ['class']">
+        <div class="list-item" [className]="(get_Character().class.name) ? 'fullsize-only' : ''" *ngFor="let listID of ['class']">
             <button class="row button" (mouseover)="hover = listID" (mouseout)="hover = ''"
                 [ngStyle]="(get_Character().class.name) ? {'color':get_Accent()} : {'background-color':get_Accent()}"
                 [className]="(get_Character().class.name) ? 'fancy-button' : ''" (click)="toggle_List(listID)">
                 Class{{(get_Character().class.name) ? ": "+ get_Character().class.name : ""}}
             </button>
-            <div class="list-item sublist" [ngStyle]="(get_Character().class.name) ? {} : {'border-color':get_Accent(listID)}"
+            <div class="list-item sublist"
+                [ngStyle]="(get_Character().class.name) ? {} : {'border-color':get_Accent(listID)}"
                 [className]="(get_Character().class.name) ? 'fancy-list' : ''" *ngIf="get_showList()==listID">
                 <div class="list-item" *ngFor="let class of get_Classes()">
                     <span>
@@ -67,7 +77,7 @@
         </div>
         <!--Ancestry-->
         <ng-container *ngIf="get_Character().class.name">
-            <div class="list-item list-header" *ngFor="let listID of ['ancestry']">
+            <div class="list-item list-header" [className]="(get_Character().class.ancestry.name) ? 'fullsize-only' : ''" *ngFor="let listID of ['ancestry']">
                 <button class="row button" (mouseover)="hover = listID" (mouseout)="hover = ''"
                     [ngStyle]="(get_Character().class.ancestry.name) ? {'color':get_Accent()} : {'background-color':get_Accent()}"
                     [className]="((get_Character().class.ancestry.name)) ? 'fancy-button' : ''"
@@ -93,7 +103,7 @@
         </ng-container>
         <!--Heritage-->
         <ng-container *ngIf="get_Character().class.ancestry.name">
-            <div class="list-item" *ngFor="let listID of ['heritage']">
+            <div class="list-item" [className]="(get_Character().class.heritage.name) ? 'fullsize-only' : ''" *ngFor="let listID of ['heritage']">
                 <button class="row button" (mouseover)="hover = listID" (mouseout)="hover = ''"
                     [ngStyle]="(get_Character().class.heritage.name) ? {'color':get_Accent()} : {'background-color':get_Accent()}"
                     [className]="((get_Character().class.heritage.name)) ? 'fancy-button' : ''"
@@ -147,7 +157,7 @@
         </ng-container>
         <!--Background-->
         <ng-container *ngIf="get_Character().class.name">
-            <div class="list-item" *ngFor="let listID of ['background']">
+            <div class="list-item" [className]="(get_Character().class.background.name) ? 'fullsize-only' : ''" *ngFor="let listID of ['background']">
                 <button class="row button" (mouseover)="hover = listID" (mouseout)="hover = ''"
                     [ngStyle]="(get_Character().class.background.name) ? {'color':get_Accent()} : {'background-color':get_Accent()}"
                     [className]="((get_Character().class.background.name)) ? 'fancy-button' : ''"
@@ -175,7 +185,7 @@
                                 (click)="toggle_Item(itemID)">
                                 Show Description
                             </button>
-                            <div class="row lower"*ngIf="this.get_showItem()==itemID">
+                            <div class="row lower" *ngIf="this.get_showItem()==itemID">
                                 <!--Subbackgrounds-->
                                 <div class="list-item" *ngFor="let subbackground of background.subTypes">
                                     <span>
@@ -206,13 +216,12 @@
                 <h3 *ngIf="level.number > 0">Level {{level.number}}</h3>
                 <!--Fixed information-->
                 <ng-container *ngIf="level.number > 0">
-                    <div class="list-item" *ngFor="let listID of ['showFixedChanges'+level.number]">
+                    <div class="fullsize-only list-item" *ngFor="let listID of ['showFixedChanges'+level.number]">
                         <button class="row button fancy-button" [ngStyle]="{'color':get_Accent()}"
                             (click)="toggle_List(listID)">
                             Show fixed changes
                         </button>
-                        <div class="list-item sublist fancy-list"
-                            *ngIf="get_showList()==listID">
+                        <div class="list-item sublist fancy-list" *ngIf="get_showList()==listID">
                             <!--Fixed Ability boosts-->
                             <div class="list-item"
                                 *ngFor="let boost of get_AbilityBoosts(level.number, level.number, '', '', '', '', true)">
@@ -235,16 +244,15 @@
                 <!--Different Worlds-->
                 <ng-container *ngFor="let feat of get_DifferentWorldsFeat(level.number)">
                     <!--Different Worlds Name-->
-                    <div class="list-item" *ngFor="let listID of ['differentWorlds_Name']">
+                    <div class="list-item" [className]="(feat.data.name != '') ? 'fullsize-only' : ''" *ngFor="let listID of ['differentWorlds_Name']">
                         <button class="row button" (mouseover)="hover = listID" (mouseout)="hover = ''"
                             [ngStyle]="(feat.data.name != '') ? {'color':get_Accent()} : {'background-color':get_Accent()}"
-                            [className]="(feat.data.name != '') ? 'fancy-button' : ''"
-                            (click)="toggle_List(listID)">
+                            [className]="(feat.data.name != '') ? 'fancy-button' : ''" (click)="toggle_List(listID)">
                             Alternative Name (Different Worlds){{(feat.data.name) ? ": "+ feat.data.name : ""}}
                         </button>
-                        <div class="list-item sublist" [ngStyle]="(feat.data.name) ? {} : {'border-color':get_Accent(listID)}"
-                            [className]="(feat.data.name != '') ? 'fancy-list' : ''"
-                            *ngIf="get_showList()==listID">
+                        <div class="list-item sublist"
+                            [ngStyle]="(feat.data.name) ? {} : {'border-color':get_Accent(listID)}"
+                            [className]="(feat.data.name != '') ? 'fancy-list' : ''" *ngIf="get_showList()==listID">
                             <div class="list-item">
                                 <strong>Name:
                                     <input type="text" [(ngModel)]="feat.data.name"
@@ -254,18 +262,16 @@
                         </div>
                     </div>
                     <!--Different Worlds Background-->
-                    <div class="list-item" *ngFor="let listID of ['differentWorlds_Background']">
+                    <div class="list-item" [className]="(feat.data.background != '') ? 'fullsize-only' : ''" *ngFor="let listID of ['differentWorlds_Background']">
                         <button class="row button" (mouseover)="hover = listID" (mouseout)="hover = ''"
                             [ngStyle]="(feat.data.background) ? {'color':get_Accent()} : {'background-color':get_Accent()}"
-                            [className]="(feat.data.background) ? 'fancy-button' : ''"
-                            (click)="toggle_List(listID)">
+                            [className]="(feat.data.background) ? 'fancy-button' : ''" (click)="toggle_List(listID)">
                             Alternative Background (Different
                             Worlds){{(feat.data.background) ? ": "+ feat.data.background : ""}}
                         </button>
                         <div class="list-item sublist"
                             [ngStyle]="(feat.data.background) ? {} : {'border-color':get_Accent(listID)}"
-                            [className]="((feat.data.background)) ? 'fancy-list' : ''"
-                            *ngIf="get_showList()==listID">
+                            [className]="((feat.data.background)) ? 'fancy-list' : ''" *ngIf="get_showList()==listID">
                             <div class="list-item" *ngFor="let background of get_Backgrounds()">
                                 <div class="row" *ngFor="let itemID of ['differentWorlds_Background'+background.name]">
                                     <span>
@@ -315,7 +321,7 @@
                 <ng-container *ngFor="let choice of level.abilityChoices">
                     <ng-container *ngFor="let listID of [choice.id]">
                         <div class="list-item" *ngIf="get_MaxAvailable(choice)"
-                            [className]="(choice.boosts.length > get_MaxAvailable(choice) || someAbilitiesIllegal(choice)) ? 'problem' : ''">
+                            [className]="((choice.boosts.length > get_MaxAvailable(choice) || someAbilitiesIllegal(choice)) ? 'problem' : '') +' '+ ((choice.boosts.length == get_MaxAvailable(choice)) ? 'fullsize-only' : '')">
                             <button class="row button" (mouseover)="hover = listID" (mouseout)="hover = ''"
                                 [ngStyle]="(choice.boosts.length == get_MaxAvailable(choice)) ? {'color':get_Accent()} : {'background-color':get_Accent()}"
                                 [className]="(choice.boosts.length == get_MaxAvailable(choice)) ? 'fancy-button' : ''"
@@ -359,7 +365,7 @@
                 <ng-container *ngFor="let choice of level.skillChoices">
                     <ng-container *ngFor="let listID of [choice.id]">
                         <div class="list-item" *ngIf="choice.available"
-                            [className]="(choice.increases.length > choice.available + get_SkillINTBonus(choice) || someIllegal(choice)) ? 'problem' : ''">
+                            [className]="((choice.increases.length > choice.available + get_SkillINTBonus(choice) || someIllegal(choice)) ? 'problem' : '') +' '+ ((choice.increases.length == choice.available + get_SkillINTBonus(choice)) ? 'fullsize-only' : '')">
                             <button class="row button" (mouseover)="hover = listID" (mouseout)="hover = ''"
                                 [ngStyle]="(choice.increases.length == choice.available + get_SkillINTBonus(choice)) ? {'color':get_Accent()} : {'background-color':get_Accent()}"
                                 [className]="(choice.increases.length == choice.available + get_SkillINTBonus(choice)) ? 'fancy-button' : ''"
@@ -373,7 +379,8 @@
                                 [ngStyle]="(choice.available + get_SkillINTBonus(choice) == choice.increases.length) ? {} : {'border-color':get_Accent(listID)}"
                                 [className]="(choice.available + get_SkillINTBonus(choice) == choice.increases.length) ? 'fancy-list' : ''"
                                 *ngIf="get_showList()==listID">
-                                <div class="list-item" *ngFor="let skill of get_AvailableSkills(choice)|sortBy:'asc':'name'"
+                                <div class="list-item"
+                                    *ngFor="let skill of get_AvailableSkills(choice)|sortBy:'asc':'name'"
                                     [className]="(!skill.isLegal(this.characterService, level.number) ||
                                         (!skill.isLegal(this.characterService, level.number, choice.maxRank) && skillIncreasedByThis(skill, choice))) ? 'problem' : ''">
                                     <div class="row" *ngFor="let itemID of [choice.id+skill.name]">
@@ -384,8 +391,9 @@
                                                 [disabled]="cannotIncrease(skill, level, choice).length && !skillIncreasedByThis(skill, choice)">
                                             <label for="{{itemID}}">
                                                 <strong>{{skill.name}}:</strong>
-                                                <app-proficiency-form [skill]="skill" [characterService]="this.characterService"
-                                                    [level]="level.number"></app-proficiency-form>
+                                                <app-proficiency-form [skill]="skill"
+                                                    [characterService]="this.characterService" [level]="level.number">
+                                                </app-proficiency-form>
                                                 <cite class="problem"
                                                     *ngFor="let reason of cannotIncrease(skill, level, choice)">
                                                     {{reason}}
@@ -406,7 +414,7 @@
                 <ng-container *ngFor="let choice of level.loreChoices">
                     <ng-container *ngFor="let listID of [choice.id]">
                         <div class="list-item" *ngIf="choice.available"
-                            [className]="(choice.increases.length > choice.available) ? 'problem' : ''">
+                            [className]="((choice.increases.length > choice.available) ? 'problem' : '') +' '+ ((choice.available == choice.increases.length) ? 'fullsize-only' : '')">
                             <button class="row button" (mouseover)="hover = listID" (mouseout)="hover = ''"
                                 [ngStyle]="(choice.available == choice.increases.length) ? {'color':get_Accent()} : {'background-color':get_Accent()}"
                                 [className]="(choice.available == choice.increases.length) ? 'fancy-button' : ''"
@@ -448,7 +456,7 @@
                 <ng-container *ngFor="let choice of level.featChoices">
                     <ng-container *ngFor="let listID of [choice.source+choice.id]">
                         <div class="list-item" *ngIf="choice.available"
-                            [className]="(choice.feats.length > choice.available || cannotTakeSome(choice)) ? 'problem' : ''">
+                            [className]="((choice.feats.length > choice.available || cannotTakeSome(choice)) ? 'problem' : '') +' '+ ((choice.available == choice.feats.length) ? 'fullsize-only' : '')">
                             <button class="row button" (mouseover)="hover = listID" (mouseout)="hover = ''"
                                 [ngStyle]="(choice.available == choice.feats.length) ? {'color':get_Accent()} : {'background-color':get_Accent()}"
                                 [className]="(choice.available == choice.feats.length) ? 'fancy-button' : ''"
@@ -471,9 +479,9 @@
                                                 (change)="on_FeatTaken(feat.name, $event.target.checked, choice, false)"
                                                 [checked]="featTakenByThis(feat, choice)"
                                                 [disabled]="cannotTake(feat, choice).length && !featTakenByThis(feat, choice)">
-                                            <button class="button lower left" [ngStyle]="{'background-color':get_Accent()}"
-                                                *ngIf="feat.subTypes" id="{{choice.id+feat.name}}"
-                                                (click)="toggle_Item(itemID)">v</button>
+                                            <button class="button lower left"
+                                                [ngStyle]="{'background-color':get_Accent()}" *ngIf="feat.subTypes"
+                                                id="{{choice.id+feat.name}}" (click)="toggle_Item(itemID)">v</button>
                                             <label for="{{choice.id+feat.name}}">
                                                 <strong>{{feat.name}}&nbsp;</strong><cite>Level {{feat.levelreq}}</cite>
                                             </label>
@@ -481,14 +489,13 @@
                                                 {{reason}}
                                             </cite>
                                         </span>
-                                        <button class="button" (mouseover)="hover = itemID" (mouseout)="hover = ''" [ngStyle]="{'background-color':get_Accent()}"
-                                            (click)="toggle_Item(itemID)">
+                                        <button class="button" (mouseover)="hover = itemID" (mouseout)="hover = ''"
+                                            [ngStyle]="{'background-color':get_Accent()}" (click)="toggle_Item(itemID)">
                                             Show Description
                                         </button>
-                                        <div class="row lower" *ngIf="this.get_showItem()==itemID" >
+                                        <div class="row lower" *ngIf="this.get_showItem()==itemID">
                                             <!--Subfeats-->
-                                            <div class="list-item"
-                                                *ngFor="let subfeat of get_SubFeats(feat, choice)"
+                                            <div class="list-item" *ngFor="let subfeat of get_SubFeats(feat, choice)"
                                                 [className]="(cannotTake(subfeat, choice).length) ? 'problem' : ''">
                                                 <span>
                                                     <input id="{{choice.id+subfeat.name}}" type="checkbox"
@@ -515,7 +522,8 @@
                                                         *ngFor="let req of get_FeatRequirements(choice, subfeat, feat)">{{(req.desc == ", ") ? req.desc : "&nbsp;"+req.desc }}</span>
                                                 </span>
                                                 <span>
-                                                    <cite class="problem" *ngFor="let reason of cannotTake(subfeat, choice)">
+                                                    <cite class="problem"
+                                                        *ngFor="let reason of cannotTake(subfeat, choice)">
                                                         {{reason}}
                                                     </cite>
                                                 </span>
@@ -526,11 +534,11 @@
                                                     {{trait}}
                                                 </cite>
                                             </div>
-                                                <p>
-                                                    <strong>Requirements&nbsp;</strong>
-                                                    <span [className]="(req.met == false) ? 'problem' : ''"
-                                                        *ngFor="let req of get_FeatRequirements(choice, feat)">{{req.desc}}</span>
-                                                </p>
+                                            <p>
+                                                <strong>Requirements&nbsp;</strong>
+                                                <span [className]="(req.met == false) ? 'problem' : ''"
+                                                    *ngFor="let req of get_FeatRequirements(choice, feat)">{{req.desc}}</span>
+                                            </p>
                                             <div *ngFor="let desc of feat.desc.split('\n\n')">
                                                 <p *ngIf="desc.split('\n').length == 1">{{desc}}</p>
                                                 <ul *ngIf="desc.split('\n').length > 1">
@@ -557,8 +565,8 @@
                                                 {{reason}}
                                             </cite>
                                         </span>
-                                        <button class="button" (mouseover)="hover = itemID" (mouseout)="hover = ''" [ngStyle]="{'background-color':get_Accent()}"
-                                            (click)="toggle_Item(itemID)">
+                                        <button class="button" (mouseover)="hover = itemID" (mouseout)="hover = ''"
+                                            [ngStyle]="{'background-color':get_Accent()}" (click)="toggle_Item(itemID)">
                                             Show Description
                                         </button>
                                         <div class="row lower" *ngIf="this.get_showItem()==itemID">
@@ -571,7 +579,8 @@
                                                         *ngFor="let req of get_FeatRequirements(choice, subfeat, feat)">{{(req.desc == ", ") ? req.desc : "&nbsp;"+req.desc }}</span>
                                                 </span>
                                                 <span>
-                                                    <cite class="problem" *ngFor="let reason of cannotTake(subfeat, choice)">
+                                                    <cite class="problem"
+                                                        *ngFor="let reason of cannotTake(subfeat, choice)">
                                                         {{reason}}
                                                     </cite>
                                                 </span>
@@ -585,7 +594,8 @@
                                                         *ngFor="let req of get_FeatRequirements(choice, subfeat, feat)">{{(req.desc == ", ") ? req.desc : "&nbsp;"+req.desc }}</span>
                                                 </span>
                                                 <span>
-                                                    <cite class="problem" *ngFor="let reason of cannotTake(subfeat, choice)">
+                                                    <cite class="problem"
+                                                        *ngFor="let reason of cannotTake(subfeat, choice)">
                                                         {{reason}}
                                                     </cite>
                                                 </span>

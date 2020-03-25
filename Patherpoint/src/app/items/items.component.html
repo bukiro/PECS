@@ -8,7 +8,7 @@
                 <strong>{{itemSet.name}}</strong>
             </button>
             <div *ngIf="get_ShowList()==itemSet.name">
-                <div *ngFor="let item of get_VisibleItems(items[itemSet.key]); trackBy: trackByFunction">
+                <div *ngFor="let item of get_VisibleItems(items[itemSet.key])">
                     <div class="list-item" *ngFor="let inventoryID of [get_ID()]">
                         <button class="row" (mouseover)="hover = inventoryID" (mouseout)="hover = 0"
                             [ngStyle]="{'background-color':get_Accent()}" (click)="toggle_Item(inventoryID)">
