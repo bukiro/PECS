@@ -154,7 +154,7 @@
             {
                 "name": "Gauntlet",
                 "type": "weapons",
-                "on": "equip"
+                "on": "grant"
             },
             {
                 "name": "Padded Armor",
@@ -182,7 +182,7 @@
             {
                 "name": "Gauntlet",
                 "type": "weapons",
-                "on": "equip"
+                "on": "grant"
             },
             {
                 "name": "Padded Armor",
@@ -210,7 +210,7 @@
             {
                 "name": "Gauntlet",
                 "type": "weapons",
-                "on": "equip"
+                "on": "grant"
             },
             {
                 "name": "Padded Armor",
@@ -240,7 +240,7 @@
             {
                 "name": "Gauntlet",
                 "type": "weapons",
-                "on": "equip"
+                "on": "grant"
             },
             {
                 "name": "Padded Armor",

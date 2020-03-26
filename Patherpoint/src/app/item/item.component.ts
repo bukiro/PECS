@@ -1,8 +1,7 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { Item } from '../Item';
-import { Consumable } from '../Consumable';
 import { TraitsService } from '../traits.service';
 import { ActivitiesService } from '../activities.service';
+import { AdventuringGear } from '../AdventuringGear';
 
 @Component({
     selector: 'app-item',
@@ -13,6 +12,8 @@ export class ItemComponent implements OnInit {
 
     @Input()
     item;
+    @Input()
+    armoredSkirt: AdventuringGear;
 
     constructor(
         private traitsService: TraitsService,

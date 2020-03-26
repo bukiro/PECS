@@ -1,10 +1,8 @@
 import { Injectable, ChangeDetectorRef } from '@angular/core';
 import { Effect } from './Effect';
-import { Item } from './Item';
 import { CharacterService } from './character.service';
 import { TraitsService } from './traits.service';
 import { EffectCollection } from './EffectCollection';
-import { Feat } from './Feat';
 
 @Injectable({
     providedIn: 'root'
@@ -45,9 +43,6 @@ constructor(
         //Return an array of Effect objects
         let objectEffects: Effect[] = [];
         let hide: boolean = false;
-        if (object instanceof Feat) {
-            hide = true;
-        }
         let name = (object.get_Name) ? object.get_Name() : object.name;
         //Define effectsService as we need them in some specialEffects
         //Use them once so Visual Studio doesn't think they're unused and I don't delete them
@@ -73,6 +68,9 @@ constructor(
                     penalty = true;
                 }
             }
+            if (type == "untyped" && !penalty) {
+                hide = true;
+            }
             objectEffects.push(new Effect(type, effect.affected, effect.value, name, penalty, undefined, hide));
         });
         //specialEffects come as {affected, value} where value is a string that contains a condition.
@@ -94,6 +92,9 @@ constructor(
                 } else {
                     penalty = true;
                 }
+            }
+            if (type == "untyped" && !penalty) {
+                hide = true;
             }
             objectEffects.push(new Effect(type, effect.affected, value, name, penalty, undefined, hide));
         });
@@ -155,39 +156,40 @@ constructor(
         //Get skill and speed penalties from armor
         //If an armor has a skillpenalty or a speedpenalty, check if Strength meets its strength requirement.
         let Strength = characterService.get_Abilities("Strength")[0].value(characterService, this);
-        items.armors.filter(item => item.equip && item.skillpenalty).forEach(item => {
+        items.armors.filter(item => item.equip && item.get_SkillPenalty()).forEach(item => {
+            item.get_ArmoredSkirt(characterService);
             let name = item.get_Name();
-            if (Strength < item.strength) {
+            if (Strength < item.get_Strength()) {
                 //You are not strong enough to act freely in this armor.
                 //If the item has the Flexible trait, its penalty doesn't apply to Acrobatics and Athletics.
                 //We push this as an apply:false effect to each so you can see that (and why) you were spared from it.
                 //We also add a note to the source for clarity.
                 if (this.traitsService.have_Trait(item,"Flexible")) {
-                    itemEffects.push(new Effect('item', "Acrobatics", item.skillpenalty.toString(), name + " (Flexible)", true, false));
-                    itemEffects.push(new Effect('item', "Athletics", item.skillpenalty.toString(), name + " (Flexible)", true, false));
+                    itemEffects.push(new Effect('item', "Acrobatics", item.get_SkillPenalty().toString(), name + " (Flexible)", true, false));
+                    itemEffects.push(new Effect('item', "Athletics", item.get_SkillPenalty().toString(), name + " (Flexible)", true, false));
                 } else {
-                    itemEffects.push(new Effect('item', "Acrobatics", item.skillpenalty.toString(), name, true));
-                    itemEffects.push(new Effect('item', "Athletics", item.skillpenalty.toString(), name, true));
+                    itemEffects.push(new Effect('item', "Acrobatics", item.get_SkillPenalty().toString(), name, true));
+                    itemEffects.push(new Effect('item', "Athletics", item.get_SkillPenalty().toString(), name, true));
                 }
                 //These two always apply unless you are strong enough.
-                    itemEffects.push(new Effect('item', "Stealth", item.skillpenalty.toString(), name, true));
-                    itemEffects.push(new Effect('item', "Thievery", item.skillpenalty.toString(), name, true));
+                    itemEffects.push(new Effect('item', "Stealth", item.get_SkillPenalty().toString(), name, true));
+                    itemEffects.push(new Effect('item', "Thievery", item.get_SkillPenalty().toString(), name, true));
             } else {
                 //If you ARE strong enough, we push some not applying effects so you can feel good about that
-                itemEffects.push(new Effect('item', "Acrobatics", item.skillpenalty.toString(), name + " (Strength)", true, false));
-                itemEffects.push(new Effect('item', "Athletics", item.skillpenalty.toString(), name + " (Strength)", true, false));
-                itemEffects.push(new Effect('item', "Thievery", item.skillpenalty.toString(), name + " (Strength)", true, false));
+                itemEffects.push(new Effect('item', "Acrobatics", item.get_SkillPenalty().toString(), name + " (Strength)", true, false));
+                itemEffects.push(new Effect('item', "Athletics", item.get_SkillPenalty().toString(), name + " (Strength)", true, false));
+                itemEffects.push(new Effect('item', "Thievery", item.get_SkillPenalty().toString(), name + " (Strength)", true, false));
                 //UNLESS the item is also Noisy, in which case you do get the stealth penalty because you are dummy thicc and the clap of your ass cheeks keeps alerting the guards.
                 if (this.traitsService.have_Trait(item, "Noisy")) {
-                    itemEffects.push(new Effect('item', "Stealth", item.skillpenalty.toString(), name + " (Noisy)", true))
+                    itemEffects.push(new Effect('item', "Stealth", item.get_SkillPenalty().toString(), name + " (Noisy)", true))
                 } else {
-                    itemEffects.push(new Effect('item', "Stealth", item.skillpenalty.toString(), name + " (Strength)", true, false));
+                    itemEffects.push(new Effect('item', "Stealth", item.get_SkillPenalty().toString(), name + " (Strength)", true, false));
                 }
             }
         });
         items.armors.filter(item => item.equip && item.speedpenalty).forEach(item => {
             let name = item.get_Name();
-            if (Strength < item.strength) {
+            if (Strength < item.get_Strength()) {
                 //You are not strong enough to move unhindered in this armor. You get a speed penalty.
                 itemEffects.push(new Effect('untyped', "Speed", item.speedpenalty.toString(), name, true));
             } else {

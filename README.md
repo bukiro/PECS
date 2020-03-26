@@ -27,6 +27,7 @@ The very latest in Assistive Technologies for Dungeon Master (ATDM)
 - [ ] - Implement all Armors
 - [ ] - Implement all Shields
 - [ ] - Implement all Consumables
+- [ ] - Implement all Adventuring Gear
 - [ ] - Implement one full Class with Feats and Features
 - [x] - Feat requirements
 - [x] - Equipment (weapons, armor, shields) -> Abilities, Armor, Attacks, Skills
@@ -48,4 +49,4 @@ The very latest in Assistive Technologies for Dungeon Master (ATDM)
 Immediate to do:
 Streamline "showingOnThis" elements, update to include ItemsShowingOnThis everywhere
 Adding and Dropping items when amount changes?
-Armored Skirts have extra effects on different armors
+Grid items change height in bad ways

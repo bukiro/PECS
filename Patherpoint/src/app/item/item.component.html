@@ -1,5 +1,5 @@
-<div class="row left-aligned" *ngIf="item.traits.length">
-    <cite class="trait" *ngFor="let trait of item.traits" title="{{get_Traits(trait)[0].description}}">&nbsp;{{trait}}</cite>
+<div class="row left-aligned" *ngIf="(item.get_Traits ? item.get_Traits() : item.traits).length">
+    <cite class="trait" *ngFor="let trait of (item.get_Traits ? item.get_Traits() : item.traits)" title="{{get_Traits(trait)[0].description}}">&nbsp;{{trait}}</cite>
 </div>
 <div class="row left-aligned">
     <span *ngIf="item.price">
@@ -10,25 +10,25 @@
         <strong>Damage</strong>
         {{item.dicenum}}d{{item.dicesize}} {{item.dmgType}}&nbsp;
     </span>
-    <span *ngIf="item.acbonus">
+    <span *ngIf="(item.get_ACBonus ? item.get_ACBonus() : item.acbonus)">
         <strong>AC Bonus</strong>
-        {{item.acbonus}}&nbsp;
+        {{item.get_ACBonus ? item.get_ACBonus() : item.acbonus}}&nbsp;
     </span>
-    <span *ngIf="item.dexcap">
+    <span *ngIf="(item.get_DexCap ? item.get_DexCap() : item.dexcap)">
         <strong>Dex Cap</strong>
-        {{item.dexcap}}&nbsp;
+        {{(item.get_DexCap ? item.get_DexCap() : item.dexcap)}}&nbsp;
     </span>
-    <span *ngIf="item.skillpenalty">
+    <span *ngIf="(item.get_SkillPenalty ? item.get_SkillPenalty() : item.skillpenalty)">
         <strong>Check Penalty</strong>
-        {{item.skillpenalty}}&nbsp;
+        {{(item.get_SkillPenalty ? item.get_SkillPenalty() : item.skillpenalty)}}&nbsp;
     </span>
     <span *ngIf="item.speedpenalty">
         <strong>Speed Penalty</strong>
         {{item.speedpenalty}}&nbsp;
     </span>
-    <span *ngIf="item.strength">
+    <span *ngIf="(item.get_Strength ? item.get_Strength() : item.strength)">
         <strong>Strength</strong>
-        {{item.strength}}&nbsp;
+        {{(item.get_Strength ? item.get_Strength() : item.strength)}}&nbsp;
     </span>
     <span *ngIf="item.storeBulk">
         <strong>Bulk</strong>
@@ -89,6 +89,10 @@
         <strong>{{item.subType}}</strong>
         {{item.subTypeDesc}}
     </p>
+</div>
+<div class="row" *ngIf="armoredSkirt">
+    <h4>Armored Skirt</h4>
+    <app-item [item]=armoredSkirt></app-item>
 </div>
 <div class="row" *ngFor="let gain of item.gainActivity">
     <div *ngFor="let activity of get_Activities(gain)">

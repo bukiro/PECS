@@ -80,13 +80,13 @@
                             [ngStyle]="((item.equippable && item.equip) || (can_Invest(item) && item.invested)) ? {} : {'border-color':get_Accent(inventoryID)}"
                             [className]="((item.equippable && item.equip) || (can_Invest(item) && item.invested)) ? 'fancy-list' : ''"
                             *ngIf="get_ShowItem()==inventoryID">
-                            <div class="row">
+                            <div class="row" *ngFor="let prof of [(item.get_Prof ? item.get_Prof() : item.prof)]">
                                 <span
-                                    *ngIf="item.type == 'armors'">{{(item.prof == 'Unarmored') ? item.prof : item.prof.substr(0, item.prof.length - 6)}}
+                                    *ngIf="item.type == 'armors'">{{(prof == 'Unarmored') ? prof : prof.substr(0, prof.length - 6)}}
                                     {{item.group}}
-                                    {{(item.type=="armors" && item.prof != "Unarmored") ? "Armor" : ""}}</span>
+                                    {{(item.type=="armors" && prof != "Unarmored") ? "Armor" : ""}}</span>
                                 <span
-                                    *ngIf="item.type == 'weapons'">{{(item.prof == 'Unarmed') ? item.prof : item.prof.substr(0, item.prof.length - 8)}}
+                                    *ngIf="item.type == 'weapons'">{{(prof == 'Unarmed') ? prof : prof.substr(0, prof.length - 8)}}
                                     {{item.group}}</span>
                             </div>
                             <button class="row" [ngStyle]="{'background-color':get_Accent()}" [disabled]="!item.amount"
@@ -178,16 +178,16 @@
                                     <select [(ngModel)]="item.potencyRune" (ngModelChange)="onArmorRuneChange(item)">
                                         <option *ngFor="let potency of [0,1,2,3]" [value]="potency">
                                             {{item.get_Potency(potency)}}</option>
-                                    </select><br>
+                                    </select>
                                 </div>
-                                <div *ngIf="item.potencyRune > 0 && item.moddable=='armor'">
+                                <div class="row" *ngIf="item.potencyRune > 0 && item.moddable=='armor'">
                                     <strong>Resilient Rune</strong>
                                     <select [(ngModel)]="item.resilientRune" (ngModelChange)="onArmorRuneChange(item)">
                                         <option *ngFor="let resilient of [0,1,2,3]" [value]="resilient">
                                             {{item.get_Resilient(resilient)}}</option>
                                     </select>
                                 </div>
-                                <div *ngIf="item.potencyRune > 0 && item.moddable=='armor'">
+                                <div class="row" *ngIf="item.potencyRune > 0 && item.moddable=='armor'">
                                     <strong>Property Runes</strong>
                                     <select [(ngModel)]="item.propertyRunes[1]"
                                         (ngModelChange)="onWeaponRuneChange(item)" *ngIf="item.potencyRune > 0">
@@ -209,7 +209,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <app-item [item]=item></app-item>
+                            <app-item [item]=item [armoredSkirt]="item.get_ArmoredSkirt ? item.get_ArmoredSkirt(characterService) : null"></app-item>
                         </div>
                     </div>
                 </ng-container>

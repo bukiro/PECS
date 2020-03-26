@@ -297,6 +297,7 @@ export class CharacterService {
 
     grant_InventoryItem(item: Item, changeAfter: boolean = true, equipAfter: boolean = true, amount: number = 1) {
         let newInventoryItem;
+        let returnedInventoryItem;
         switch (item.type) {
             case "weapons":
                 newInventoryItem = Object.assign(new Weapon(), item);
@@ -327,6 +328,7 @@ export class CharacterService {
         if (existingItems.length) {
             existingItems.forEach(existing => {
                 existing.amount += amount;
+                returnedInventoryItem = existing;
             })
         } else {
             let newInventoryLength = this.me.inventory[item.type].push(newInventoryItem);
@@ -337,6 +339,7 @@ export class CharacterService {
             if (equipAfter) {
                 this.onEquip(createdInventoryItem, true, false);
             }
+            returnedInventoryItem = createdInventoryItem;
         }
         //Add all Items that you get from being granted this one
         if (item["gainItems"] && item["gainItems"].length) {
@@ -351,12 +354,16 @@ export class CharacterService {
                 if (gainItem.amount) {
                     newAmount = gainItem.amount;
                 }
-                this.grant_InventoryItem(newItem, false, equip, newAmount);
+                let grantedItem = this.grant_InventoryItem(newItem, false, equip, newAmount);
+                if (grantedItem.get_Name) {
+                    grantedItem.displayName += grantedItem.name+" (granted by "+returnedInventoryItem.name+")"
+                };
             });
         }
         if (changeAfter) {
             this.set_Changed();
         }
+        return returnedInventoryItem;
     }
 
     drop_InventoryItem(item: Item, changeAfter: boolean = true, equipBasicItems: boolean = true) {
@@ -364,14 +371,6 @@ export class CharacterService {
             this.onEquip(item, false, false);
         } else if (item.invested) {
             this.onInvest(item, false, false);
-        }
-        if (item["gainItems"] && item["gainItems"].length) {
-            item["gainItems"].filter(gainItem => gainItem.on == "grant").forEach(gainItem => {
-                let items: Item[] = this.get_InventoryItems()[gainItem.type].filter(item => item.name == gainItem.name);
-                if (items.length) {
-                    this.drop_InventoryItem(items[0], false, false);
-                }
-            });
         }
         this.me.inventory[item.type] = this.me.inventory[item.type].filter(any_item => any_item !== item);
         if (equipBasicItems) {

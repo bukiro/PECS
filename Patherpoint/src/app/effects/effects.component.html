@@ -43,7 +43,8 @@
     <div class="row lower">
         <div class="list-item" *ngFor="let effect of get_AppliedEffects()">
             <span><strong [className]="effect.penalty ? 'penalty' : 'bonus'" title="{{effect.source}}">{{effect.target}}
-                    {{effect.value}}</strong> {{effect.type}} {{(effect.penalty) ? 'penalty' : 'bonus'}}
+                    {{effect.value}}</strong>
+                {{(effect.type != "untyped") ? effect.type+' ' : ''}}{{(effect.penalty) ? 'penalty' : 'bonus'}}
                 ({{effect.source}})</span>
         </div>
     </div>
@@ -53,11 +54,14 @@
     <div class="fullsize-only" *ngIf="showNotApplied">
         <h3>Not Applied Conditions</h3>
         <div class="list-item notapplied" *ngFor="let conditionGain of get_AppliedConditions(false)">
-            <span><strong [className]="conditionGain.buff ? 'bonus' : 'penalty'"
+            <span>
+                <strong [className]="conditionGain.buff ? 'bonus' : 'penalty'"
                     title="{{conditionGain.source}}">{{conditionGain.name}}
-                    {{(conditionGain.value) ? conditionGain.value : ""}}</strong>
+                    {{(conditionGain.value) ? conditionGain.value : ""}}
+                </strong>
                 {{(conditionGain.duration != -1) ? conditionGain.duration / 10 + " turns" : "permanent"}}
-                ({{conditionGain.source}})</span>
+                ({{conditionGain.source}})
+            </span>
             <ng-container *ngFor="let condition of [get_Conditions(conditionGain.name)[0]]">
                 <div class="row">
                     <button class="button" [ngStyle]="{'background-color':get_Accent()}"
@@ -80,21 +84,30 @@
         <h3>Not Applied Effects</h3>
         <div class="row lower">
             <div class="list-item notapplied" *ngFor="let effect of get_NotAppliedEffects()">
-                <span><strong [className]="effect.penalty ? 'penalty' : 'bonus'" title="{{effect.source}}">{{effect.target}}
-                        {{effect.value}}</strong> {{effect.type}} {{(effect.penalty) ? 'penalty' : 'bonus'}}
-                    ({{effect.source}})</span>
+                <span>
+                    <strong [className]="effect.penalty ? 'penalty' : 'bonus'"
+                        title="{{effect.source}}">{{effect.target}}
+                        {{effect.value}}
+                    </strong>
+                    {{(effect.type != "untyped") ? effect.type+' ' : ''}}{{(effect.penalty) ? 'penalty' : 'bonus'}}
+                    ({{effect.source}})
+                </span>
             </div>
         </div>
     </div>
     <button class="list-item fullsize-only" [ngStyle]="{'background-color':get_Accent()}"
-        (click)="toggle_Hidden()">{{(showHidden) ? "Hide feat effects" : "Show feat effects"}}</button>
+        (click)="toggle_Hidden()">{{(showHidden) ? "Hide hidden effects" : "Show hidden effects"}}</button>
     <div class="fullsize-only" *ngIf="showHidden">
-        <h3>Feat Effects</h3>
+        <h3>Hidden Effects</h3>
         <div class="row lower">
             <div class="list-item notapplied" *ngFor="let effect of get_HiddenEffects()">
-                <span><strong [className]="effect.penalty ? 'penalty' : 'bonus'" title="{{effect.source}}">{{effect.target}}
-                        {{effect.value}}</strong> {{effect.type}} {{(effect.penalty) ? 'penalty' : 'bonus'}}
-                    ({{effect.source}})</span>
+                <span>
+                    <strong [className]="effect.penalty ? 'penalty' : 'bonus'"
+                        title="{{effect.source}}">{{effect.target}}
+                        {{effect.value}}
+                    </strong>
+                    ({{effect.source}})
+                </span>
             </div>
         </div>
     </div>

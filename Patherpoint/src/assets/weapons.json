@@ -1508,8 +1508,7 @@
       "dicenum": 1,
       "dicesize": 4,
       "melee": 5,
-      "moddable": "weapon",
-      "price": "—",
+      "moddable": "-",
       "hands": "1",
       "traits": [
       ]

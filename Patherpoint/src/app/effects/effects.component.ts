@@ -69,11 +69,7 @@ export class EffectsComponent implements OnInit {
     }
 
     get_HiddenEffects() {
-        return this.get_Effects().all.filter(effect => effect.apply && effect.hide);
-    }
-
-    get_HiddenNotAppliedEffects() {
-        return this.get_Effects().all.filter(effect => !effect.apply && effect.hide);
+        return this.get_Effects().all.filter(effect => effect.hide);
     }
 
     get_AppliedConditions(apply: boolean) {

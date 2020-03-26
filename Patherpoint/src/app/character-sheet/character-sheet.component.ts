@@ -60,7 +60,7 @@ export class CharacterSheetComponent implements OnInit {
     
     get_Span(name: string) {
       let height = document.getElementById(name).offsetHeight;
-      let span = Math.ceil((height + 20) / 50)
+      let span = Math.ceil((height + 20) / 100)
       return span;
     }
 

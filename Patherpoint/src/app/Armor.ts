@@ -17,12 +17,12 @@ export class Armor implements Item {
     public equippable: boolean = true;
     public equip: boolean = false;
     public invested: boolean = false;
-    public prof: string = "";
+    private prof: string = "";
     public dexcap: number = undefined;
-    public skillpenalty: number = 0;
+    private skillpenalty: number = 0;
     public speedpenalty: number = 0;
-    public strength: number = 0;
-    public acbonus: number = 0;
+    private strength: number = 0;
+    private acbonus: number = 0;
     public cover: number = 0;
     public moddable: string = "armor";
     public traits: string[] = [];
@@ -35,7 +35,74 @@ export class Armor implements Item {
     public hint: string = "";
     public gainItems = [];
     public effects = [];
-    public specialEffects = []
+    public specialEffects = [];
+    //For certain medium and light armors, set 1 if an "Armored Skirt" is equipped; For certain heavy armors, set -1 instead
+    //This value influences 
+    public affectedByArmoredSkirt: -1|0|1 = 0;
+    get_ArmoredSkirt(characterService: CharacterService) {
+        if (["Breastplate","Chain Shirt","Chain Mail","Scale Mail"].indexOf(this.name) > -1 ) {
+            let armoredSkirt = characterService.get_InventoryItems().adventuringgear.filter(item => item.name == "Armored Skirt" && item.equip);
+            if (armoredSkirt.length) {
+                this.affectedByArmoredSkirt = 1;
+                return armoredSkirt[0];
+            } else {
+                this.affectedByArmoredSkirt = 0;
+                return null;
+            }
+        } else if (["Half Plate","Full Plate","Hellknight Plate"].indexOf(this.name) > -1 ) {
+            let armoredSkirt = characterService.get_InventoryItems().adventuringgear.filter(item => item.name == "Armored Skirt" && item.equip);
+            if (armoredSkirt.length) {
+                this.affectedByArmoredSkirt = -1;
+                return armoredSkirt[0];
+            } else {
+                this.affectedByArmoredSkirt = 0;
+                return null;
+            }
+        } else {
+            this.affectedByArmoredSkirt = 0;
+            return null;
+        }
+    }
+    get_ACBonus() {
+        return this.acbonus + this.affectedByArmoredSkirt;
+    }
+    get_SkillPenalty() {
+        return this.skillpenalty - this.affectedByArmoredSkirt;
+    }
+    get_DexCap() {
+        if (this.dexcap != undefined) {
+            return this.dexcap - this.affectedByArmoredSkirt;
+        } else {
+            return this.dexcap;
+        }
+        
+    }
+    get_Strength() {
+        return this.strength + this.affectedByArmoredSkirt;
+    }
+    get_Prof() {
+        if (this.affectedByArmoredSkirt == 1) {
+            switch (this.prof) {
+                case "Light Armor":
+                    return "Medium Armor";
+                case "Medium Armor":
+                    return "Heavy Armor";
+            }
+        } else {
+            return this.prof;
+        }
+    }
+    get_Traits() {
+        if (this.affectedByArmoredSkirt != 0) {
+            if (this.traits.indexOf("Noisy") == -1) {
+                return this.traits.concat("Noisy");
+            } else {
+                return this.traits;
+            }
+        } else {
+            return this.traits;
+        }
+    }
     get_Potency(potency: number) {
         if (potency > 0) {
             return "+"+potency;
@@ -66,9 +133,10 @@ export class Armor implements Item {
     }
     profLevel(characterService: CharacterService, charLevel: number = characterService.get_Character().level) {
         if (characterService.still_loading()) { return 0; }
+        this.get_ArmoredSkirt(characterService);
         let skillLevel: number = 0;
         let armorIncreases = characterService.get_Character().get_SkillIncreases(0, charLevel, this.name);
-        let profIncreases = characterService.get_Character().get_SkillIncreases(0, charLevel, this.prof);
+        let profIncreases = characterService.get_Character().get_SkillIncreases(0, charLevel, this.get_Prof());
         //Add either the armor category proficiency or the armor proficiency, whichever is better
         skillLevel = Math.min(Math.max(armorIncreases.length * 2, profIncreases.length * 2), 8)
         return skillLevel;
@@ -90,9 +158,9 @@ export class Armor implements Item {
             explain += "\nCharacter Level: "+charLevelBonus;
         }
         //Add the dexterity modifier up to the armor's dex cap, unless there is no cap
-        let dexBonus = (this.dexcap != undefined) ? Math.min(dex, (this.dexcap)) : dex;
+        let dexBonus = (this.dexcap != undefined) ? Math.min(dex, (this.get_DexCap())) : dex;
         if (dexBonus) {
-            if (this.dexcap != undefined && this.dexcap < dex) {
+            if (this.dexcap != undefined && this.get_DexCap() < dex) {
                 explain += "\nDexterity Modifier (capped): "+dexBonus;
             } else {
                 explain += "\nDexterity Modifier: "+dexBonus;
@@ -102,10 +170,10 @@ export class Armor implements Item {
             explain += "\nPotency: "+this.get_Potency(this.potencyRune);
         }
         //Add up all modifiers and return the AC gained from this armor
-        //Also adding any item bonus
-        let defenseResult: number = 10 + charLevelBonus + skillLevel + this.acbonus + dexBonus + this.potencyRune;
-        if (this.acbonus) {
-            explain += "\nArmor Bonus: "+this.acbonus;
+        //Also adding any inherent AC bonus
+        let defenseResult: number = 10 + charLevelBonus + skillLevel + this.get_ACBonus() + dexBonus + this.potencyRune;
+        if (this.get_ACBonus()) {
+            explain += "\nArmor Bonus: "+this.get_ACBonus();
         }
         let endresult: [number, string] = [defenseResult, explain]
         return endresult;
