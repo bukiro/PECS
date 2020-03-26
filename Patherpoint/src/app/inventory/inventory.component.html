@@ -90,7 +90,7 @@
                                     {{item.group}}</span>
                             </div>
                             <button class="row" [ngStyle]="{'background-color':get_Accent()}" [disabled]="!item.amount"
-                                (click)="on_ConsumableUse(item)" *ngIf="item.amount != undefined">
+                                (click)="on_ConsumableUse(item)" *ngIf="item.amount != undefined && item.actions">
                                 Use {{(item.actions) ? get_Actions(item) : ""}}
                             </button>
                             <div class="row">
@@ -107,7 +107,7 @@
                                     <button [ngStyle]="{'background-color':get_Accent()}" *ngIf="item.invested"
                                         (click)="onInvest(item, false)">Uninvest</button>
                                 </span>
-                                <span *ngIf="item.amount != undefined">
+                                <span *ngIf="item.amount != undefined && !item.equippable">
                                     <button [ngStyle]="{'background-color':get_Accent()}"
                                         (click)="onAmountChange(item, -1)" [disabled]="item.amount <= 0">-1</button>
                                     <button [ngStyle]="{'background-color':get_Accent()}"
@@ -125,9 +125,9 @@
                                 <span><input type="checkbox" [(ngModel)]="item.showNotes">Notes</span>
                                 <span *ngIf="item['get_Name']"><input type="checkbox"
                                         [(ngModel)]="item.showName">Name</span>
-                                <span *ngIf="item.moddable != '-' && item.type != 'shield'"><input type="checkbox"
+                                <span *ngIf="item.moddable && item.moddable != '-' && item.type != 'shield'"><input type="checkbox"
                                         [(ngModel)]="item.showRunes">Runes</span>
-                                <span *ngIf="item.moddable != '-'"><input type="checkbox"
+                                <span *ngIf="item.moddable && item.moddable != '-'"><input type="checkbox"
                                         [(ngModel)]="item.showMaterial">Material</span>
                             </div>
                             <div class="row" *ngIf="item.showNotes">

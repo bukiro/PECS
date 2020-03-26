@@ -2,13 +2,13 @@
     <button class="list-item" [ngStyle]="{'background-color':get_Accent()}" (click)="toggleItemsMenu()">Close</button>
     <div class="loading" *ngIf="still_loading()">Loading</div>
     <h3>Get Items</h3>
-    <div *ngFor="let items of [get_Items()]">
-        <div *ngFor="let itemSet of items.names">
+    <ng-container *ngFor="let items of [get_Items()]">
+        <ng-container *ngFor="let itemSet of items.names">
             <button class="button list-item" [ngStyle]="{'background-color':get_Accent()}" (click)="toggle_List(itemSet.name)">
                 <strong>{{itemSet.name}}</strong>
             </button>
-            <div *ngIf="get_ShowList()==itemSet.name">
-                <div *ngFor="let item of get_VisibleItems(items[itemSet.key])">
+            <ng-container *ngIf="get_ShowList()==itemSet.name">
+                <ng-container *ngFor="let item of get_VisibleItems(items[itemSet.key])">
                     <div class="list-item" *ngFor="let inventoryID of [get_ID()]">
                         <button class="row" (mouseover)="hover = inventoryID" (mouseout)="hover = 0"
                             [ngStyle]="{'background-color':get_Accent()}" (click)="toggle_Item(inventoryID)">
@@ -29,8 +29,8 @@
                             <app-item [item]=item></app-item>
                         </div>
                     </div>
-                </div>
-            </div>
-        </div>
-    </div>
+                </ng-container>
+            </ng-container>
+        </ng-container>
+    </ng-container>
 </div>

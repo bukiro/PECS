@@ -77,7 +77,7 @@
                 <button [ngStyle]="{'background-color':get_Accent()}" [disabled]="this.addTempHP == 0"
                     (click)="add_TempHP(this.addTempHP)">Add</button>
             </div>
-            <h3>Resistances</h3>
+            <h5>Resistances</h5>
             <div class="list-item" *ngIf="get_Resistances().length">
                 <div class="row" *ngFor="let resistance of get_Resistances()">
                     <span title="{{resistance.source}}"

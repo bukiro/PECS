@@ -21,15 +21,17 @@ export class Activity {
     get_Actions() {
         switch (this.actions) {
             case "Free":
-                return "(Free Action)"
+                return "(Free Action)";
             case "Reaction":
-                return "(Reaction)"
+                return "(Reaction)";
             case "1":
-                return "(1 Action)"
+                return "(1 Action)";
             case "2":
-                return "(2 Actions)"
+                return "(2 Actions)";
             case "3":
-                return "(3 Actions)"
+                return "(3 Actions)";
+            default:
+                return "("+this.actions+")";
         }
     }
     can_Activate() {

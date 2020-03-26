@@ -91,18 +91,37 @@
         "actions": "Free",
         "activationType": "Interact",
         "cooldown":144000,
-        "frequency": "Once per day",
+        "frequency": "once per day",
         "trigger": "You attempt to Pick a Lock but haven’t rolled yet",
         "desc": "The key casts knock on the lock you’re trying to pick.",
         "castSpells": [
             {
                 "name": "Knock",
-                "targetself": true
+                "level": 1
             }
         ],
         "traits": [
             "Magical",
             "Transmutation"
+        ]
+    },
+    {
+        "name": "Bountiful Cauldron",
+        "actions": "3",
+        "activationType": "Command, Interact",
+        "cooldown":144000,
+        "frequency": "once per day",
+        "desc": "You stir the cauldron, and it casts a 4th-level create food spell, filling itself with enough delicious vegetable stew to feed 12 Medium creatures.",
+        "castSpells": [
+            {
+                "name": "Create Food",
+                "level": 4
+            }
+        ],
+        "traits": [
+            "Conjuration",
+            "Magical",
+            "Uncommon"
         ]
     }
 ]

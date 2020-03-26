@@ -21,7 +21,7 @@
         <cite *ngFor="let feat of get_FeatsShowingOn(skill.name)"
             [title]="(feat.hint) ? feat.hint : feat.desc">{{feat.name}}</cite>
         <cite *ngFor="let item of get_ItemsShowingOn(skill.name)"
-            [title]="item.hint">{{item.name}}</cite>
+            [title]="(item.hint) ? item.hint : item.desc">{{item.name}}</cite>
         <cite *ngFor="let activity of get_ActivitiesShowingOn(skill.name)"
             [title]="activity.hint">{{activity.name}}</cite>
         <cite *ngFor="let condition of get_ConditionsShowingOn(skill.name)"

@@ -153,11 +153,13 @@
         "gainItems": [
             {
                 "name": "Gauntlet",
-                "type": "weapons"
+                "type": "weapons",
+                "on": "equip"
             },
             {
                 "name": "Padded Armor",
-                "type": "armors"
+                "type": "armors",
+                "on": "grant"
             }
         ],
         "traits": []
@@ -179,11 +181,13 @@
         "gainItems": [
             {
                 "name": "Gauntlet",
-                "type": "weapons"
+                "type": "weapons",
+                "on": "equip"
             },
             {
                 "name": "Padded Armor",
-                "type": "armors"
+                "type": "armors",
+                "on": "grant"
             }
         ],
         "traits": []
@@ -205,11 +209,13 @@
         "gainItems": [
             {
                 "name": "Gauntlet",
-                "type": "weapons"
+                "type": "weapons",
+                "on": "equip"
             },
             {
                 "name": "Padded Armor",
-                "type": "armors"
+                "type": "armors",
+                "on": "grant"
             }
         ],
         "traits": [
@@ -233,11 +239,13 @@
         "gainItems": [
             {
                 "name": "Gauntlet",
-                "type": "weapons"
+                "type": "weapons",
+                "on": "equip"
             },
             {
                 "name": "Padded Armor",
-                "type": "armors"
+                "type": "armors",
+                "on": "grant"
             }
         ],
         "traits": [

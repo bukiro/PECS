@@ -55,11 +55,25 @@ constructor(
         effectsService = effectsService;
         characterService = characterService;
         let type: string = "untyped";
+        let penalty: boolean = false;
         object.effects.forEach(effect => {
             if (effect.type) {
                 type = effect.type;
             }
-            objectEffects.push(new Effect(type, effect.affected, effect.value, name, ((parseInt(effect.value) < 0) ? true : false), undefined, hide));
+            if (parseInt(effect.value) < 0) {
+                if (effect.affected != "Bulk") {
+                    penalty = true;
+                } else {
+                    penalty = false;
+                }
+            } else {
+                if (effect.affected != "Bulk") {
+                    penalty = false;
+                } else {
+                    penalty = true;
+                }
+            }
+            objectEffects.push(new Effect(type, effect.affected, effect.value, name, penalty, undefined, hide));
         });
         //specialEffects come as {affected, value} where value is a string that contains a condition.
         //This condition is eval'd here. The condition can use characterService to check level, skills, abilities etc.
@@ -68,7 +82,20 @@ constructor(
             if (effect.type) {
                 type = effect.type;
             }
-            objectEffects.push(new Effect(type, effect.affected, value, name, ((parseInt(value) < 0) ? true : false), undefined, hide));
+            if (parseInt(effect.value) < 0) {
+                if (effect.affected != "Bulk") {
+                    penalty = true;
+                } else {
+                    penalty = false;
+                }
+            } else {
+                if (effect.affected != "Bulk") {
+                    penalty = false;
+                } else {
+                    penalty = true;
+                }
+            }
+            objectEffects.push(new Effect(type, effect.affected, value, name, penalty, undefined, hide));
         });
         return objectEffects;
     }

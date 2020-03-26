@@ -39,6 +39,7 @@ import { Consumable } from './Consumable';
 import { OtherConsumable } from './OtherConsumable';
 import { HeldItem } from './HeldItem';
 import { TimeService } from './time.service';
+import { AdventuringGear } from './AdventuringGear';
 
 @Injectable({
     providedIn: 'root'
@@ -294,7 +295,7 @@ export class CharacterService {
         }
     }
 
-    grant_InventoryItem(item: Item, changeAfter: boolean = true) {
+    grant_InventoryItem(item: Item, changeAfter: boolean = true, equipAfter: boolean = true, amount: number = 1) {
         let newInventoryItem;
         switch (item.type) {
             case "weapons":
@@ -318,41 +319,76 @@ export class CharacterService {
             case "otherconsumables":
                 newInventoryItem = Object.assign(new OtherConsumable(), item);
                 break;
+            case "adventuringgear":
+                newInventoryItem = Object.assign(new AdventuringGear(), item);
+                break;
         }
-        let existingItems = this.me.inventory[item.type].filter(existing => existing.name == item.name && existing.amount != undefined);
+        let existingItems = this.me.inventory[item.type].filter(existing => existing.name == item.name && existing.amount != undefined && !existing.equippable);
         if (existingItems.length) {
             existingItems.forEach(existing => {
-                existing.amount++
+                existing.amount += amount;
             })
         } else {
             let newInventoryLength = this.me.inventory[item.type].push(newInventoryItem);
-            this.onEquip(this.me.inventory[item.type][newInventoryLength - 1], true, false);
+            let createdInventoryItem = this.me.inventory[item.type][newInventoryLength - 1];
+            if (createdInventoryItem.amount && amount > 1) {
+                createdInventoryItem.amount += amount - 1;
+            }
+            if (equipAfter) {
+                this.onEquip(createdInventoryItem, true, false);
+            }
+        }
+        //Add all Items that you get from being granted this one
+        if (item["gainItems"] && item["gainItems"].length) {
+            item["gainItems"].filter(gainItem => gainItem.on == "grant").forEach(gainItem => {
+                let newItem: Item = this.itemsService.get_Items()[gainItem.type].filter(item => item.name == gainItem.name)[0];
+                let equip = true;
+                //Don't equip the new item if it's a shield or armor and this one is too - only one shield or armor can be equipped
+                if ((item.type == "armors" || item.type == "shields") && newItem.type == item.type) {
+                    equip = false;
+                }
+                let newAmount: number = 1;
+                if (gainItem.amount) {
+                    newAmount = gainItem.amount;
+                }
+                this.grant_InventoryItem(newItem, false, equip, newAmount);
+            });
         }
         if (changeAfter) {
             this.set_Changed();
         }
     }
 
-    drop_InventoryItem(item: Item, changeAfter: boolean = true) {
+    drop_InventoryItem(item: Item, changeAfter: boolean = true, equipBasicItems: boolean = true) {
         if (item.equip) {
             this.onEquip(item, false, false);
         } else if (item.invested) {
             this.onInvest(item, false, false);
         }
+        if (item["gainItems"] && item["gainItems"].length) {
+            item["gainItems"].filter(gainItem => gainItem.on == "grant").forEach(gainItem => {
+                let items: Item[] = this.get_InventoryItems()[gainItem.type].filter(item => item.name == gainItem.name);
+                if (items.length) {
+                    this.drop_InventoryItem(items[0], false, false);
+                }
+            });
+        }
         this.me.inventory[item.type] = this.me.inventory[item.type].filter(any_item => any_item !== item);
-        this.equip_BasicItems();
+        if (equipBasicItems) {
+            this.equip_BasicItems();
+        }
         if (changeAfter) {
             this.set_Changed();
         }
     }
 
-    onEquip(item: Item, equipped: boolean = true, changeAfter: boolean = true) {
+    onEquip(item: Item, equipped: boolean = true, changeAfter: boolean = true, equipBasicItems: boolean = true) {
         item.equip = equipped;
         if (item.equip) {
             if (item.type == "armors" || item.type == "shields") {
                 let allOfType = this.get_InventoryItems()[item.type];
                 allOfType.forEach(typeItem => {
-                    typeItem.equip = false;
+                    this.onEquip(typeItem, false, false, false);
                 });
                 item.equip = true;
             }
@@ -360,14 +396,22 @@ export class CharacterService {
             if (item.gainActivity && item.traits.indexOf("Invested") == -1) {
                 this.onInvest(item, true, false);
             }
+            //Add all Items that you get from equipping this one
             if (item["gainItems"] && item["gainItems"].length) {
-                item["gainItems"].forEach(gainItem => {
-                    let item: Item = this.itemsService.get_Items()[gainItem.type].filter(item => item.name == gainItem.name)[0];
-                    this.grant_InventoryItem(item, false);
+                item["gainItems"].filter(gainItem => gainItem.on == "equip").forEach(gainItem => {
+                    let newItem: Item = this.itemsService.get_Items()[gainItem.type].filter(item => item.name == gainItem.name)[0];
+                    let equip = true;
+                    //Don't equip the new item if it's a shield or armor and this one is too - only one shield or armor can be equipped
+                    if ((item.type == "armors" || item.type == "shields") && newItem.type == item.type) {
+                        equip = false;
+                    }
+                    this.grant_InventoryItem(newItem, false, equip);
                 });
             }
         } else {
-            this.equip_BasicItems();
+            if (equipBasicItems) {
+                this.equip_BasicItems();
+            }
             //If you are unequipping a shield, you should also be lowering it and losing cover
             if (item.type == "shields") {
                 item["takingCover"] = false;
@@ -386,7 +430,7 @@ export class CharacterService {
                 this.onInvest(item, false, false);
             }
             if (item["gainItems"] && item["gainItems"].length) {
-                item["gainItems"].forEach(gainItem => {
+                item["gainItems"].filter(gainItem => gainItem.on == "equip").forEach(gainItem => {
                     let items: Item[] = this.get_InventoryItems()[gainItem.type].filter(item => item.name == gainItem.name);
                     if (items.length) {
                         this.drop_InventoryItem(items[0], false);
@@ -683,10 +727,14 @@ export class CharacterService {
             }
             if (this.me.inventory) {
                 this.me.inventory = Object.assign(new ItemCollection(), this.me.inventory);
-                this.me.inventory.weapons = this.me.inventory.weapons.map(weapon => Object.assign(new Weapon(), weapon));
-                this.me.inventory.armors = this.me.inventory.armors.map(armor => Object.assign(new Armor(), armor));
-                this.me.inventory.shields = this.me.inventory.shields.map(shield => Object.assign(new Weapon(), shield));
-                this.me.inventory.wornitems = this.me.inventory.wornitems.map(wornitem => Object.assign(new WornItem(), wornitem));
+                this.me.inventory.weapons = this.me.inventory.weapons.map(item => Object.assign(new Weapon(), item));
+                this.me.inventory.armors = this.me.inventory.armors.map(item => Object.assign(new Armor(), item));
+                this.me.inventory.shields = this.me.inventory.shields.map(item => Object.assign(new Weapon(), item));
+                this.me.inventory.wornitems = this.me.inventory.wornitems.map(item => Object.assign(new WornItem(), item));
+                this.me.inventory.helditems = this.me.inventory.helditems.map(item => Object.assign(new HeldItem(), item));
+                this.me.inventory.alchemicalelixirs = this.me.inventory.alchemicalelixirs.map(item => Object.assign(new AlchemicalElixir(), item));
+                this.me.inventory.otherconsumables = this.me.inventory.otherconsumables.map(item => Object.assign(new OtherConsumable(), item));
+                this.me.inventory.adventuringgear = this.me.inventory.adventuringgear.map(item => Object.assign(new AdventuringGear(), item));
             } else {
                 this.me.inventory = new ItemCollection();
             }

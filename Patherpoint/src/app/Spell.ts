@@ -5,12 +5,12 @@ import { SpellGain } from './SpellGain';
 export class Spell {
     public name: string = "";
     public levelreq: number = 1;
-    public traditions: string[] = [];
+    public traditions: string = "";
     public duration: number = 0;
     public range: number = 0;
     public targets: string = "";
     public actions: string = "1";
-    public castType: string[] = [];
+    public castType: string = "";
     public shortDesc: string = "";
     public desc1: SpellDesc[] = [];
     public desc2: SpellDesc[] = [];
@@ -22,24 +22,26 @@ export class Spell {
     public desc8: SpellDesc[] = [];
     public desc9: SpellDesc[] = [];
     public desc10: SpellDesc[] = [];
-    public heightenedLevel: string = "";
-    public heightened: string = "";
+    public heightened = [];
     public traits: string[] = [];
     get_Actions() {
         switch (this.actions) {
             case "Free":
-                return ""
+                return "(Free Action)";
             case "Reaction":
-                return "(Reaction)"
+                return "(Reaction)";
             case "1":
-                return "(1 Action)"
+                return "(1 Action)";
             case "2":
-                return "(2 Actions)"
+                return "(2 Actions)";
             case "3":
-                return "(3 Actions)"
+                return "(3 Actions)";
+            default:
+                return "("+this.actions+")";
         }
     }
     get_Description(levelNumber: number) {
+        //This descends from levelnumber downwards and returns the first available description.
         switch (levelNumber) {
             case 10: 
                 if (this.desc10.length) {return this.desc10}

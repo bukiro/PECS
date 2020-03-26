@@ -30,6 +30,10 @@
         <strong>Strength</strong>
         {{item.strength}}&nbsp;
     </span>
+    <span *ngIf="item.storeBulk">
+        <strong>Bulk</strong>
+        {{item.storeBulk}}&nbsp;
+    </span>
     <span *ngIf="item.bulk">
         <strong>Bulk</strong>
         {{item.bulk}}&nbsp;

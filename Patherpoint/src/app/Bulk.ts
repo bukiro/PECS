@@ -19,7 +19,7 @@ export class Bulk {
         this.$effects = this.effects(effectsService);
         this.$bonus = this.bonus(effectsService);
         this.$penalty = this.penalty(effectsService);
-        this.$current = this.current(characterService);
+        this.$current = this.current(characterService, effectsService);
         this.$limit = this.limit(characterService, effectsService);
         this.$encumbered = this.encumbered();
         this.$max = this.max();
@@ -33,12 +33,18 @@ export class Bulk {
     penalty(effectsService: EffectsService) {
         return effectsService.get_PenaltiesOnThis("Max Bulk");
     }
-    current(characterService: CharacterService) {
+    current(characterService: CharacterService, effectsService: EffectsService) {
         let sum: number = 0;
         let inventory = characterService.get_InventoryItems();
         function addup(item: Item|Consumable) {
-            switch (item.bulk) {
-                case "": 
+            let bulk = item.bulk;
+            if (item["carryingBulk"] && !item["equip"]) {
+                bulk = item["carryingBulk"];
+            }
+            switch (bulk) {
+                case "":
+                    break;
+                case "-":
                     break;
                 case "L":
                     if (item["amount"]) {
@@ -49,9 +55,9 @@ export class Bulk {
                     break;
                 default:
                     if (item["amount"]) {
-                        sum += parseInt(item.bulk) * Math.floor(item["amount"] / item["stack"]);
+                        sum += parseInt(bulk) * Math.floor(item["amount"] / item["stack"]);
                     } else {
-                        sum += parseInt(item.bulk);
+                        sum += parseInt(bulk);
                     }
                     break;
             }
@@ -62,6 +68,11 @@ export class Bulk {
         inventory.allConsumables().forEach(item => {
             addup(item);
         })
+        let effects = effectsService.get_EffectsOnThis("Bulk");
+        effects.forEach(effect => {
+            sum += parseInt(effect.value);
+        });
+        sum = Math.max(0, sum);
         return Math.floor(sum);
     }
     limit(characterService: CharacterService, effectsService: EffectsService) {

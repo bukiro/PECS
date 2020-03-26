@@ -22,7 +22,7 @@
                     <button class="row button" (mouseover)="hover = spellID" (mouseout)="hover = 0"
                         [ngStyle]="{'background-color':get_Accent()}" (click)="toggle_Spell(spellID)">
                         <span>{{spell.name}}</span>
-                        <span>{{spell.get_Actions()}} {{spell.castType.toString()}}</span>
+                        <span>{{spell.get_Actions()}} {{spell.castType}}</span>
                     </button>
                     <div class="list-item sublist lower" [ngStyle]="{'border-color':get_Accent(spellID)}"
                         *ngIf="this.get_showSpell()==spellID">

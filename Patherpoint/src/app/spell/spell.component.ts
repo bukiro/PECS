@@ -12,6 +12,8 @@ export class SpellComponent implements OnInit {
 
     @Input()
     spell: Spell
+    @Input()
+    spellLevel: number
 
     constructor(
         private characterService: CharacterService,
@@ -24,7 +26,11 @@ export class SpellComponent implements OnInit {
 
     get_SpellDescription(spell: Spell, levelNumber?:number) {
         if (!levelNumber) {
-            levelNumber = Math.ceil(this.characterService.get_Character().level / 2);
+            if (this.spellLevel) {
+                levelNumber = this.spellLevel;
+            } else {
+                levelNumber = Math.ceil(this.characterService.get_Character().level / 2);
+            }
         }
         return spell.get_Description(levelNumber)
     }

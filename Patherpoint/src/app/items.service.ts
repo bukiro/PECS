@@ -11,6 +11,7 @@ import { AlchemicalElixir } from './AlchemicalElixir';
 import { Consumable } from './Consumable';
 import { ConditionGain } from './ConditionGain';
 import { OtherConsumable } from './OtherConsumable';
+import { AdventuringGear } from './AdventuringGear';
 
 @Injectable({
     providedIn: 'root'
@@ -32,6 +33,8 @@ export class ItemsService {
     private loading_AlchemicalElixirs: Boolean = false;
     private loader_OtherConsumables = [];
     private loading_OtherConsumables: Boolean = false;
+    private loader_AdventuringGear = [];
+    private loading_AdventuringGear: Boolean = false;
     
     itemsMenuState: string = 'out';
 
@@ -106,6 +109,10 @@ export class ItemsService {
         return this.http.get<String[]>('/assets/otherconsumables.json');
     }
 
+    load_AdventuringGear(): Observable<String[]>{
+        return this.http.get<String[]>('/assets/adventuringgear.json');
+    }
+
     initialize() {
         if (!this.items) {
             this.items = new ItemCollection();
@@ -150,6 +157,11 @@ export class ItemsService {
                 .subscribe((results:String[]) => {
                     this.loader_OtherConsumables = results;
                     this.finish_OtherConsumables()
+                });
+            this.load_AdventuringGear()
+                .subscribe((results:String[]) => {
+                    this.loader_AdventuringGear = results;
+                    this.finish_AdventuringGear()
                 });
         }
     }
@@ -199,7 +211,7 @@ export class ItemsService {
             this.items.alchemicalelixirs = this.loader_AlchemicalElixirs.map(element => Object.assign(new AlchemicalElixir(), element));
             this.loader_AlchemicalElixirs = [];
         }
-        if (this.loader_AlchemicalElixirs) {this.loading_AlchemicalElixirs = false;}
+        if (this.loading_AlchemicalElixirs) {this.loading_AlchemicalElixirs = false;}
     }
 
     finish_OtherConsumables() {
@@ -207,7 +219,15 @@ export class ItemsService {
             this.items.otherconsumables = this.loader_OtherConsumables.map(element => Object.assign(new OtherConsumable(), element));
             this.loader_OtherConsumables = [];
         }
-        if (this.loader_OtherConsumables) {this.loading_OtherConsumables = false;}
+        if (this.loading_OtherConsumables) {this.loading_OtherConsumables = false;}
+    }
+
+    finish_AdventuringGear() {
+        if (this.loader_AdventuringGear) {
+            this.items.adventuringgear = this.loader_AdventuringGear.map(element => Object.assign(new AdventuringGear(), element));
+            this.loader_AdventuringGear = [];
+        }
+        if (this.loading_AdventuringGear) {this.loading_AdventuringGear = false;}
     }
 
 }

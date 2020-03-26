@@ -1,6 +1,6 @@
 [
-    { "type":"shields", "bulk":"L", "name":"Buckler", "acbonus":1, "gainItems":[{"name":"Shield Bash", "type":"weapons"}] },
-    { "type":"shields", "bulk":"1", "name":"Wooden Shield", "acbonus":2, "gainItems":[{"name":"Shield Bash", "type":"weapons"}] },
-    { "type":"shields", "bulk":"1", "name":"Steel Shield", "acbonus":2, "gainItems":[{"name":"Shield Bash", "type":"weapons"}] },
-    { "type":"shields", "bulk":"4", "name":"Tower Shield", "speedpenalty":-5, "acbonus":2, "coverbonus":2, "gainItems":[{"name":"Shield Bash", "type":"weapons"}] }
+    { "type":"shields", "bulk":"L", "name":"Buckler", "acbonus":1, "gainItems":[{"name":"Shield Bash", "type":"weapons", "on":"equip"}] },
+    { "type":"shields", "bulk":"1", "name":"Wooden Shield", "acbonus":2, "gainItems":[{"name":"Shield Bash", "type":"weapons", "on":"equip"}] },
+    { "type":"shields", "bulk":"1", "name":"Steel Shield", "acbonus":2, "gainItems":[{"name":"Shield Bash", "type":"weapons", "on":"equip"}] },
+    { "type":"shields", "bulk":"4", "name":"Tower Shield", "speedpenalty":-5, "acbonus":2, "coverbonus":2, "gainItems":[{"name":"Shield Bash", "type":"weapons", "on":"equip"}] }
 ]

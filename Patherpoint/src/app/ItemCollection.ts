@@ -7,6 +7,7 @@ import { AlchemicalElixir } from './AlchemicalElixir';
 import { Consumable } from './Consumable';
 import { OtherConsumable } from './OtherConsumable';
 import { HeldItem } from './HeldItem';
+import { AdventuringGear } from './AdventuringGear';
 
 export class ItemCollection {
     public weapons: Weapon[] = [];
@@ -16,15 +17,19 @@ export class ItemCollection {
     public helditems: HeldItem[] = [];
     public alchemicalelixirs: AlchemicalElixir[] = [];
     public otherconsumables: OtherConsumable[] = [];
-    public names: {name: string, key: string}[] = [
-        {name:"Weapons",key:"weapons"},
-        {name:"Armors",key:"armors"},
-        {name:"Shields",key:"shields"},
-        {name:"Worn Items",key:"wornitems"},
-        {name:"Held Items",key:"helditems"},
-        {name:"Alchemical Elixirs",key:"alchemicalelixirs"},
-        {name:"Other Consumables",key:"otherconsumables"}
-    ]
+    public adventuringgear: AdventuringGear[] = [];
+    constructor(
+        public readonly names: {name: string, key: string}[] = [
+            {name:"Weapons",key:"weapons"},
+            {name:"Armors",key:"armors"},
+            {name:"Shields",key:"shields"},
+            {name:"Worn Items",key:"wornitems"},
+            {name:"Held Items",key:"helditems"},
+            {name:"Alchemical Elixirs",key:"alchemicalelixirs"},
+            {name:"Other Consumables",key:"otherconsumables"},
+            {name:"Adventuring Gear",key:"adventuringgear"}
+        ]
+    ) {}
     allEquipment() {
         let items: Item[] = [];
         items.push(...this.weapons);
@@ -32,6 +37,7 @@ export class ItemCollection {
         items.push(...this.shields);
         items.push(...this.wornitems);
         items.push(...this.helditems);
+        items.push(...this.adventuringgear);
         return items;
     }
     allConsumables() {

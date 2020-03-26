@@ -45,5 +45,7 @@ The very latest in Assistive Technologies for Dungeon Master (ATDM)
 - [ ] (documentation) :)
 - [ ] Initiative tracker, battles, being a battle member, GM-Player-Communication.......
 
-To do:
+Immediate to do:
 Streamline "showingOnThis" elements, update to include ItemsShowingOnThis everywhere
+Adding and Dropping items when amount changes?
+Armored Skirts have extra effects on different armors

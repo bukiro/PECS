@@ -68,6 +68,7 @@ export class InventoryComponent implements OnInit {
     }
     
     drop_InventoryItem(item) {
+        this.showItem = 0;
         this.characterService.drop_InventoryItem(item);
     }
 
@@ -180,15 +181,17 @@ export class InventoryComponent implements OnInit {
     get_Actions(item) {
         switch (item.actions) {
             case "Free":
-                return ""
+                return "(Free Action)";
             case "Reaction":
-                return "(Reaction)"
+                return "(Reaction)";
             case "1":
-                return "(1 Action)"
+                return "(1 Action)";
             case "2":
-                return "(2 Actions)"
+                return "(2 Actions)";
             case "3":
-                return "(3 Actions)"
+                return "(3 Actions)";
+            default:
+                return "("+item.actions+")";
         }
     }
 
