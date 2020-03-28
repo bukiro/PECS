@@ -46,7 +46,4 @@ The very latest in Assistive Technologies for Dungeon Master (ATDM)
 - [ ] (documentation) :)
 - [ ] Initiative tracker, battles, being a battle member, GM-Player-Communication.......
 
-Immediate to do:
-Streamline "showingOnThis" elements, update to include ItemsShowingOnThis everywhere
-Adding and Dropping items when amount changes?
-Grid items change height in bad ways
+remove remnants of old getShowingOn functions!!

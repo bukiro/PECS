@@ -1,6 +1,6 @@
 <button class="minimizebutton lower" [ngStyle]="{'background-color':get_Accent()}" (click)="minimize()">&#8691;</button>
-<div id="general-height">
-    <h3>General information</h3>
+<div id="general-height" class="attributeBox">
+    <h3 [ngStyle]="{'color':get_Accent()}">General information</h3>
     <div class="loading" *ngIf="still_loading()">Loading</div>
     <ng-container *ngIf="!still_loading()">
         <div class="fullsize-only list-item">
@@ -52,27 +52,12 @@
                         [className]="(speed.penalty(effectsService).length) ? 'penalty' : (speed.bonus(effectsService).length) ? 'bonus' : ''"
                         type="number" value="{{speed.value(characterService, effectsService)[0]}}" disabled>
                 </div>
-                <div class="fullsize-only row left-aligned">
-                    <cite class="trait" *ngFor="let trait of get_TraitsForThis(speed.name)"
-                        title="{{trait.description}}">{{trait.name}}
-                        ({{trait.haveOn(this.characterService, true)}})&nbsp;</cite>
-                    <cite *ngFor="let effect of get_EffectsOnThis(speed.name)"
-                        [className]="effect.penalty ? 'penalty' : 'bonus'">{{effect.value}}
-                        ({{effect.source}})&nbsp;</cite>
-                    <cite *ngFor="let feat of get_FeatsShowingOn(speed.name)"
-                        [title]="(feat.hint) ? feat.hint : feat.desc">{{feat.name}}&nbsp;</cite>
-                    <cite *ngFor="let condition of get_ConditionsShowingOn(speed.name)"
-                        [className]="(condition.buff) ? 'bonus' : 'penalty'"
-                        [title]="condition.desc">{{condition.name}}&nbsp;</cite>
-                </div>
+                <app-tags [objectName]=speed.name [showTraits]=true [showFeats]=true [showItems]=true [showActivities]=true
+                    [showConditions]=true [showEffects]=true></app-tags>
             </div>
         </ng-container>
-        <div class="fullsize-only row left-aligned">
-            <cite *ngFor="let feat of get_FeatsShowingOn('Movement')"
-                [title]="(feat.hint) ? feat.hint : feat.desc">{{feat.name}}&nbsp;</cite>
-            <cite *ngFor="let condition of get_ConditionsShowingOn('Movement')"
-                [className]="(condition.buff) ? 'bonus' : 'penalty'"
-                [title]="condition.desc">{{condition.name}}&nbsp;</cite>
-        </div>
+        <app-tags [objectName]="'Movement'" [showTraits]=true [showFeats]=true [showItems]=true [showActivities]=true
+                    [showConditions]=true [showEffects]=true></app-tags>
     </ng-container>
 </div>
+<div *ngIf="set_Span()"></div>

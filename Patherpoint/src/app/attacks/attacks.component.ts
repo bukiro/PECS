@@ -25,6 +25,12 @@ export class AttacksComponent implements OnInit {
         this.characterService.get_Character().settings.attacksMinimized = !this.characterService.get_Character().settings.attacksMinimized;
     }
 
+    set_Span() {
+        setTimeout(() => {
+            document.getElementById("attacks").style.gridRow = "span "+this.characterService.get_Span("attacks-height");
+        })
+    }
+
     still_loading() {
       return this.characterService.still_loading()
     }

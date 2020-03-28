@@ -15,55 +15,49 @@ export class CharacterSheetComponent implements OnInit {
     ) { }
 
     get_GeneralMinimized() {
-      return this.characterService.get_Character().settings.generalMinimized;
+       return this.characterService.get_Character().settings.generalMinimized;
     }
 
     get_EffectsMinimized() {
-      return this.characterService.get_Character().settings.effectsMinimized;
+        return this.characterService.get_Character().settings.effectsMinimized;
     }
 
     get_AbilitiesMinimized() {
-      return this.characterService.get_Character().settings.abilitiesMinimized;
+       return this.characterService.get_Character().settings.abilitiesMinimized;
     }
 
     get_HealthMinimized() {
-      return this.characterService.get_Character().settings.healthMinimized;
+       return this.characterService.get_Character().settings.healthMinimized;
     }
 
     get_DefenseMinimized() {
-      return this.characterService.get_Character().settings.defenseMinimized;
+       return this.characterService.get_Character().settings.defenseMinimized;
     }
     
     get_AttacksMinimized() {
-      return this.characterService.get_Character().settings.attacksMinimized;
+        return this.characterService.get_Character().settings.attacksMinimized;
     }
 
     get_SkillsMinimized() {
-      return this.characterService.get_Character().settings.skillsMinimized;
+        return this.characterService.get_Character().settings.skillsMinimized;
     }
     
     get_InventoryMinimized() {
-      return this.characterService.get_Character().settings.inventoryMinimized;
+       return this.characterService.get_Character().settings.inventoryMinimized;
     }
     
     get_ActivitiesMinimized() {
-      return this.characterService.get_Character().settings.activitiesMinimized;
+       return this.characterService.get_Character().settings.activitiesMinimized;
     }
     
     get_SpellbookMinimized() {
-      return this.characterService.get_Character().settings.spellbookMinimized;
+       return this.characterService.get_Character().settings.spellbookMinimized;
     }
 
     get_TimeMinimized() {
-      return this.characterService.get_Character().settings.timeMinimized;
+       return this.characterService.get_Character().settings.timeMinimized;
     }
     
-    get_Span(name: string) {
-      let height = document.getElementById(name).offsetHeight;
-      let span = Math.ceil((height + 20) / 100)
-      return span;
-    }
-
     finish_Loading() {
         if (this.characterService.still_loading()) {
             setTimeout(() => this.finish_Loading(), 500)
@@ -71,7 +65,7 @@ export class CharacterSheetComponent implements OnInit {
             this.characterService.get_Changed()
             .subscribe(() => 
             this.changeDetector.detectChanges()
-                )
+            )
             return true;
         }
     }

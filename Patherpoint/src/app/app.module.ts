@@ -31,6 +31,7 @@ import { TimeComponent } from './time/time.component';
 import { ActivityComponent } from './activity/activity.component';
 import { ItemComponent } from './item/item.component';
 import { SpellComponent } from './spell/spell.component';
+import { TagsComponent } from './tags/tags.component';
 
 @NgModule({
    declarations: [
@@ -57,7 +58,8 @@ import { SpellComponent } from './spell/spell.component';
       TimeComponent,
       ActivityComponent,
       ItemComponent,
-      SpellComponent
+      SpellComponent,
+      TagsComponent
    ],
    imports: [
       BrowserModule,

@@ -102,17 +102,17 @@ export class Weapon implements Item {
         if (charLevelBonus) {
             explain += "\nCharacter Level: "+charLevelBonus;
         }
-        let penalty: [{value?:number, source?:string}] = [{}];
+        let penalty: [{value?:number, source?:string, penalty?:boolean}] = [{}];
         penalty.splice(0,1);
-        let bonus: [{value?:number, source?:string}] = [{}];
+        let bonus: [{value?:number, source?:string, penalty?:boolean}] = [{}];
         bonus.splice(0,1);
         //The Clumsy condition affects all Dexterity attacks
         let dexEffects = effectsService.get_EffectsOnThis("Dexterity Attacks");
-        let dexPenalty: [{value?:number, source?:string}] = [{}];
+        let dexPenalty: [{value?:number, source?:string, penalty?:boolean}] = [{}];
         dexPenalty.splice(0,1);
         let dexPenaltySum: number = 0;
         dexEffects.forEach(effect => {
-            dexPenalty.push({value:parseInt(effect.value), source:effect.source});
+            dexPenalty.push({value:parseInt(effect.value), source:effect.source, penalty:true});
             dexPenaltySum += parseInt(effect.value);
         });
         //Check if the weapon has any traits that affect its Ability bonus to attack, such as Finesse or Brutal, and run those calculations.
@@ -166,16 +166,16 @@ export class Weapon implements Item {
         let effectsSum: number = 0;
         effects.forEach(effect => {
             if (parseInt(effect.value) < 0) {
-                penalty.push({value:parseInt(effect.value), source:effect.source});
+                penalty.push({value:parseInt(effect.value), source:effect.source, penalty:true});
             } else {
-                bonus.push({value:parseInt(effect.value), source:effect.source});
+                bonus.push({value:parseInt(effect.value), source:effect.source, penalty:false});
             }
             effectsSum += parseInt(effect.value);
         });
         //Add up all modifiers and return the attack bonus for this attack
         let attackResult = charLevelBonus + skillLevel + abilityMod + me.potencyRune + effectsSum;
         explain = explain.substr(1);
-        return [range, attackResult, explain, penalty, bonus];
+        return [range, attackResult, explain, penalty.concat(bonus), penalty, bonus];
     }
     damage(characterService: CharacterService, effectsService: EffectsService, range: string) {
     //Lists the damage dice and damage bonuses for a ranged or melee attack with this weapon.

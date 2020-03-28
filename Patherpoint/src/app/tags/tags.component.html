@@ -1,0 +1,20 @@
+<div class="fullsize-only row left-aligned">
+    <cite class="trait" *ngFor="let trait of get_TraitsForThis(objectName)" [title]="trait.description">{{trait.name}}
+        ({{trait.haveOn(this.characterService, true)}})</cite>
+    <cite class="feat" *ngFor="let feat of get_FeatsShowingOn(objectName, showFeats)"
+        [title]="(feat.hint) ? feat.hint : feat.desc">{{feat.name}}</cite>
+    <ng-container *ngFor="let featName of specialNames">
+        <cite class="feat" *ngFor="let feat of get_FeatsShowingOn(featName, true)"
+            [title]="(feat.hint) ? feat.hint : feat.desc">{{feat.name}}</cite>
+    </ng-container>
+    <cite class="item" *ngFor="let item of get_ItemsShowingOn(objectName)"
+        [title]="(item.hint) ? item.hint : item.desc">{{item.name}}</cite>
+    <cite class="activity" *ngFor="let activity of get_ActivitiesShowingOn(objectName)"
+        [title]="(activity.hint) ? activity.hint : activity.desc">{{activity.name}}</cite>
+    <cite class="condition" *ngFor="let condition of get_ConditionsShowingOn(objectName)"
+        [className]="(condition.buff) ? 'bonus' : 'penalty'" [title]="condition.desc">{{condition.name}}&nbsp;</cite>
+    <cite class="effect" *ngFor="let effect of get_EffectsOnThis(objectName)"
+        [className]="effect.penalty ? 'penalty' : 'bonus'">{{effect.value}} ({{effect.source}})&nbsp;</cite>
+    <cite class="effect" *ngFor="let effect of specialEffects"
+        [className]="effect.penalty ? 'penalty' : 'bonus'">{{effect.value}} ({{effect.source}})&nbsp;</cite>
+</div>

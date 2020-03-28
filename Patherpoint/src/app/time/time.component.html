@@ -1,8 +1,8 @@
 <button class="minimizebutton lower" [ngStyle]="{'background-color':get_Accent()}" (click)="minimize()">&#8691;</button>
-<div id="time-height">
+<div id="time-height" class="topBox">
     <div class="loading" *ngIf="still_loading()">Loading</div>
     <ng-container *ngIf="!still_loading()">
-        <div class="list-item row center-aligned">
+        <div class="list-item center-aligned">
             <button class="button" [ngStyle]="{'background-color':get_Accent()}" (click)="tick(5)"
                 [disabled]="get_YourTurn()==5">Start Turn</button>
             <div class="turn-indicator">
@@ -12,7 +12,7 @@
             <button class="button" [ngStyle]="{'background-color':get_Accent()}" (click)="tick(5)"
                 [disabled]="get_YourTurn()==0">End Turn</button>
         </div>
-        <div class="fullsize-only list-item row">
+        <div class="fullsize-only list-item">
             <button [ngStyle]="{'background-color':get_Accent()}" class="button fancybutton" (click)="tick(duration)"
                 *ngFor="let duration of [10, 50, 100, 500, 1000, 6000, 48000, 144000]">
                 Tick {{get_Duration(duration)}}
@@ -20,3 +20,4 @@
         </div>
     </ng-container>
 </div>
+<div *ngIf="set_Span()"></div>

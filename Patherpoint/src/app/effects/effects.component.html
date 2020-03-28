@@ -1,6 +1,6 @@
 <button class="minimizebutton lower" [ngStyle]="{'background-color':get_Accent()}" (click)="minimize()">&#8691;</button>
-<div id="effects-height">
-    <h3>Active Conditions</h3>
+<div id="effects-height" class="attributeBox">
+    <h3 [ngStyle]="{'color':get_Accent()}">Active Conditions</h3>
     <ng-container *ngFor="let conditionGain of get_AppliedConditions(true)">
         <div class="list-item" *ngFor="let condition of [get_Conditions(conditionGain.name)[0]]">
             <div class="row">
@@ -39,7 +39,7 @@
             </div>
         </div>
     </ng-container>
-    <h3>Active Effects</h3>
+    <h3 [ngStyle]="{'color':get_Accent()}">Active Effects</h3>
     <div class="row lower">
         <div class="list-item" *ngFor="let effect of get_AppliedEffects()">
             <span><strong [className]="effect.penalty ? 'penalty' : 'bonus'" title="{{effect.source}}">{{effect.target}}
@@ -52,7 +52,7 @@
     <button class="list-item fullsize-only" [ngStyle]="{'background-color':get_Accent()}"
         (click)="toggle_NotApplied()">{{(showNotApplied) ? "Hide not applied" : "Show not applied"}}</button>
     <div class="fullsize-only" *ngIf="showNotApplied">
-        <h3>Not Applied Conditions</h3>
+        <h3 [ngStyle]="{'color':get_Accent()}">Not Applied Conditions</h3>
         <div class="list-item notapplied" *ngFor="let conditionGain of get_AppliedConditions(false)">
             <span>
                 <strong [className]="conditionGain.buff ? 'bonus' : 'penalty'"
@@ -81,7 +81,7 @@
                 </div>
             </ng-container>
         </div>
-        <h3>Not Applied Effects</h3>
+        <h3 [ngStyle]="{'color':get_Accent()}">Not Applied Effects</h3>
         <div class="row lower">
             <div class="list-item notapplied" *ngFor="let effect of get_NotAppliedEffects()">
                 <span>
@@ -98,7 +98,7 @@
     <button class="list-item fullsize-only" [ngStyle]="{'background-color':get_Accent()}"
         (click)="toggle_Hidden()">{{(showHidden) ? "Hide hidden effects" : "Show hidden effects"}}</button>
     <div class="fullsize-only" *ngIf="showHidden">
-        <h3>Hidden Effects</h3>
+        <h3 [ngStyle]="{'color':get_Accent()}">Hidden Effects</h3>
         <div class="row lower">
             <div class="list-item notapplied" *ngFor="let effect of get_HiddenEffects()">
                 <span>
@@ -112,3 +112,4 @@
         </div>
     </div>
 </div>
+<div *ngIf="set_Span()"></div>

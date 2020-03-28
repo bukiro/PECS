@@ -27,6 +27,12 @@ export class DefenseComponent implements OnInit {
         this.characterService.get_Character().settings.defenseMinimized = !this.characterService.get_Character().settings.defenseMinimized;
     }
 
+    set_Span() {
+        setTimeout(() => {
+            document.getElementById("defense").style.gridRow = "span "+this.characterService.get_Span("defense-height");
+        })
+    }
+
     still_loading() {
         return this.characterService.still_loading()
     }

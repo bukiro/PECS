@@ -85,6 +85,16 @@ export class CharacterService {
         this.changed.next(true);
     }
 
+    get_Span(name: string, steps: number = 2) {
+        //Calculates the grid-row span according to the height of the element with id=name
+        //Returns a number, so don't forget to use "span "+get_Span(...)
+        //Steps is how many 50px-rows the element should grow by at once - I prefer 100px-steps for most
+        let height = document.getElementById(name).offsetHeight;
+        let margin: number = 16;
+        let span = Math.ceil((height + margin) / 50 / steps) * steps;
+        return span;
+    }
+
     toggleMenu(menu: string = "") {
         switch (menu) {
             case "items":
@@ -295,7 +305,7 @@ export class CharacterService {
         }
     }
 
-    grant_InventoryItem(item: Item, changeAfter: boolean = true, equipAfter: boolean = true, amount: number = 1) {
+    grant_InventoryItem(item: Item|Consumable, changeAfter: boolean = true, equipAfter: boolean = true, amount: number = 1) {
         let newInventoryItem;
         let returnedInventoryItem;
         switch (item.type) {
@@ -761,6 +771,7 @@ export class CharacterService {
         if (this.loading) { this.loading = false; }
         this.grant_BasicItems();
         this.characterChanged$ = this.changed.asObservable();
+        this.set_Changed();
         this.trigger_FinalChange();
     }
 

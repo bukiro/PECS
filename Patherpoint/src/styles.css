@@ -20,64 +20,75 @@
   app-character-sheet {
     width: 100%;
     display: grid;
-    grid-gap: 0px;
+    grid-gap: 0;
     grid-template-columns: 1fr 1fr 1fr 1fr;
-    grid-template-rows: auto 100px;
+    grid-auto-rows: 50px;
     grid-auto-flow: dense;
   }
 
   app-time {
     grid-column: 1 / span 4;
+    grid-row: span 2;
     position: relative;
   }
 
   app-general {
     grid-column: 1 / span 1;
+    grid-row: span 2;
     position: relative;
   }
   
   app-effects {
     grid-column: 2 / span 1;
+    grid-row: span 2;
     position: relative;
   }
 
   app-abilities {
     grid-column: 3 / span 1;
+    grid-row: span 2;
     position: relative;
   }
 
   app-health {
     grid-column: 4 / span 1;
+    grid-row: span 2;
     position: relative;
   }
 
   app-defense {
     grid-column: 1 / span 1;
+    grid-row: span 2;
     position: relative;
   }
 
   app-attacks {
     grid-column: 2 / span 1;
+    grid-row: span 2;
     position: relative;
   }
 
   app-skills {
     grid-column: 3 / span 1;
+    grid-row: span 2;
     position: relative;
   }
   
   app-inventory {
     grid-column: 4 / span 1;
+    grid-row: span 2;
     position: relative;
   }
 
   app-activities {
     grid-column: 1 / span 1;
+    grid-row: span 2;
     position: relative;
   }
 
   app-spellbook {
     grid-column: 2 / span 1;
+    grid-row: span 2;
     position: relative;
   }
 
@@ -271,16 +282,20 @@
     margin-right: 0px;
   }
 
+  .charactersheet-app {
+    background-color: #EFEFEF;
+    border-radius: 2px;
+    margin: 8px;
+  }
+
   .attributeBox {
     overflow-y: auto;
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
     padding: 4px 16px;
-    margin: 8px;
-    border-radius: 2px;
-    background-color: #EFEFEF;
   }
+
   .itemBox {
     width: 900px;
     overflow-y: scroll;
@@ -295,13 +310,40 @@
 
   .topBox {
     width: 100%;
+    max-height: 100px;
     overflow-y: auto;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    padding: 8px 16px;
-    background-color: #EFEFEF;
+    padding: 4px 16px;
+  }
+
+  .minimized .topBox {
+    padding: 0 16px;
+  }
+
+  .topBox .list-item {
+    margin:4px 0;
+  }
+
+  .minimized .topBox .list-item {
+    margin:0;
+  }
+
+  .topBox .list-item:first-child {
+    margin-top:0;
+  }
+
+  .list-item:last-child {
+    margin-bottom:0;
+  }
+
+  app-skill .list-item:last-child {
     margin-bottom: 8px;
+  }
+
+  app-tags {
+    width: 100%;
   }
 
   .list-item {
@@ -317,12 +359,10 @@
     background-color: #E0E0E0;
   }
 
-
   button.list-item {
     background-color: #1976d2;
     color: white;
   }
-
 
   .lower .list-item {
     padding: 4px 8px;
@@ -478,8 +518,35 @@
     background-color: #522e2c;
   }
 
-  cite.penalty, cite.bonus, cite.problem {
+  cite.feat {
+    background-color: #444;
+  }
+
+  cite.item {
+    background-color: #888;
+  }
+  
+  cite.activity {
     background-color: #ccc;
+    color: #616161
+  }
+
+  cite.condition {
+    background-color: #eee;
+    color: #616161
+  }
+
+  cite.effect {
+    background-color: #eee;
+    color: #616161
+  }
+
+  cite.trait {
+    background-color: #522e2c;
+  }
+
+  cite.penalty, cite.bonus, cite.problem {
+    background-color: #eee;
   }
 
   #1976d2

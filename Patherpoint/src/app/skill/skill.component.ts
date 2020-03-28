@@ -38,30 +38,6 @@ export class SkillComponent implements OnInit {
         return this.characterService.get_Accent();
     }
 
-    get_TraitsForThis(name: string) {
-        return this.traitsService.get_TraitsForThis(this.characterService, name);
-    }
-
-    get_FeatsShowingOn(skillName: string) {
-        return this.characterService.get_FeatsShowingOn(skillName);
-    }
-
-    get_EffectsOnThis(ObjectName: String) {
-        return this.effectsService.get_EffectsOnThis(ObjectName);
-    }
-
-    get_ConditionsShowingOn(name: string) {
-        return this.characterService.get_ConditionsShowingOn(name);
-    }
-    
-    get_ActivitiesShowingOn(name: string) {
-        return this.characterService.get_ActivitiesShowingOn(name);
-    }
-
-    get_ItemsShowingOn(name: string) {
-        return this.characterService.get_ItemsShowingOn(name);
-    }
-
     get_specialShowon(skill: Skill) {
         //Under certain circumstances, some Feats apply to skills independently of their name.
         //Return names that get_FeatsShowingOn should run on

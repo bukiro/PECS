@@ -1,6 +1,6 @@
 <button class="minimizebutton lower" [ngStyle]="{'background-color':get_Accent()}" (click)="minimize()">&#8691;</button>
-<div id="abilities-height">
-<h3>Abilities</h3>
+<div id="abilities-height" class="attributeBox">
+<h3 [ngStyle]="{'color':get_Accent()}">Abilities</h3>
 <div class="loading" *ngIf="still_loading()">Loading</div>
 <ng-container *ngIf="!still_loading()">
     <div class="list-item" *ngFor="let ability of abilitiesService.get_Abilities()">
@@ -18,3 +18,4 @@
     </div> 
 </ng-container>
 </div>
+<div *ngIf="set_Span()"></div>

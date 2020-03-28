@@ -32,6 +32,12 @@ export class ActivitiesComponent implements OnInit {
         this.characterService.get_Character().settings.activitiesMinimized = !this.characterService.get_Character().settings.activitiesMinimized;
     }
 
+    set_Span() {
+        setTimeout(() => {
+            document.getElementById("activities").style.gridRow = "span "+this.characterService.get_Span("activities-height");
+        })
+    }
+
     toggle_Action(id: number) {
         if (this.showAction == id) {
             this.showAction = 0;

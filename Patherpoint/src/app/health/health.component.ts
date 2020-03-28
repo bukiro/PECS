@@ -27,6 +27,12 @@ export class HealthComponent implements OnInit {
         this.characterService.get_Character().settings.healthMinimized = !this.characterService.get_Character().settings.healthMinimized;
     }
 
+    set_Span() {
+        setTimeout(() => {
+            document.getElementById("health").style.gridRow = "span "+this.characterService.get_Span("health-height");
+        })
+    }
+
     still_loading() {
         return this.characterService.still_loading()
     }

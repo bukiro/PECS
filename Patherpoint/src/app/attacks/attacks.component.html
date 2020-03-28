@@ -1,6 +1,6 @@
 <button class="minimizebutton lower" [ngStyle]="{'background-color':get_Accent()}" (click)="minimize()">&#8691;</button>
-<div id="attacks-height">
-<h3>Attacks</h3>
+<div id="attacks-height" class="attributeBox">
+<h3 [ngStyle]="{'color':get_Accent()}">Attacks</h3>
 <div class="loading" *ngIf="still_loading()">Loading</div>
 <ng-container *ngIf="!still_loading()">
     <div class="fullsize-only row">
@@ -13,7 +13,7 @@
             <div class="row">
                 Attack
                 <input
-                    [className]="(attack[3].length) ? 'penalty' : (attack[4].length) ? 'bonus' : ''"
+                    [className]="(attack[4].length) ? 'penalty' : (attack[5].length) ? 'bonus' : ''"
                     type="number"
                     class="number2"
                     title="{{attack[2]}}"
@@ -26,22 +26,13 @@
                     title="{{damage[1]}}"
                     [ngModel]="damage[0]"
                     disabled>
-                <div class="fullsize-only row left-aligned">
-                    <cite class="trait" *ngFor="let trait of weapon.traits" title="{{get_Traits(trait)[0].description}}">{{trait}}</cite>
-                    <cite *ngFor="let feat of get_FeatsShowingOn(weapon.name)" [title]="(feat.hint) ? feat.hint : feat.desc">{{feat.name}}</cite>
-                    <ng-container *ngFor="let name of get_specialShowon(weapon)">
-                        <cite *ngFor="let feat of get_FeatsShowingOn(name)"
-                            [title]="(feat.hint) ? feat.hint : feat.desc">
-                            {{feat.name}}
-                        </cite>
-                    </ng-container>
-                    <cite *ngFor="let penalty of attack[3]" class="penalty">{{penalty.value}} ({{penalty.source}})</cite>
-                    <cite *ngFor="let bonus of attack[4]" class="bonus">{{bonus.value}} ({{bonus.source}})</cite>
-                </div>
+                <app-tags [objectName]=weapon.name [showTraits]=true [showFeats]=true [showItems]=true [showActivities]=true
+                    [showConditions]=true [specialNames]=get_specialShowon(weapon) [specialEffects]=attack[3]>
+                </app-tags>
             </div>
         </div>
     </ng-container>
-    <h3 class="fullsize-only" *ngIf="!still_loading()">Weapon Proficiencies</h3>
+    <h3 class="fullsize-only" *ngIf="!still_loading()" [ngStyle]="{'color':get_Accent()}">Weapon Proficiencies</h3>
     <ng-container *ngFor="let skill of get_Skills('', 'Weapon Proficiency')">
         <app-skill class="fullsize-only" [skill]=skill [showValue]=false></app-skill>
     </ng-container>
@@ -50,3 +41,4 @@
     </ng-container>
 </ng-container>
 </div>
+<div *ngIf="set_Span()"></div>

@@ -29,6 +29,12 @@ export class SpellbookComponent implements OnInit {
         this.characterService.get_Character().settings.spellbookMinimized = !this.characterService.get_Character().settings.spellbookMinimized;
     }
 
+    set_Span() {
+        setTimeout(() => {
+            document.getElementById("spellbook").style.gridRow = "span "+this.characterService.get_Span("spellbook-height");
+        })
+    }
+
     toggle_Spell(id: number) {
         if (this.showSpell == id) {
             this.showSpell = 0;

@@ -22,18 +22,15 @@ constructor(
     }
 
     get_EffectsOnThis(ObjectName: String) {
-        let effects = this.get_Effects().all;
-        return effects.filter(effect => effect.target == ObjectName && effect.apply);
+        return this.effects.all.filter(effect => effect.target == ObjectName && effect.apply);
     }
 
     get_BonusesOnThis(ObjectName: String) {
-        let effects = this.get_Effects().bonuses;
-        return effects.filter(effect => effect.target == ObjectName && effect.apply);
+        return this.effects.bonuses.filter(effect => effect.target == ObjectName && effect.apply);
     }
 
     get_PenaltiesOnThis(ObjectName: String) {
-        let effects = this.get_Effects().penalties;
-        return effects.filter(effect => effect.target == ObjectName && effect.apply);
+        return this.effects.penalties.filter(effect => effect.target == ObjectName && effect.apply);
     }
 
     get_SimpleEffects(characterService, object: any) {
@@ -80,7 +77,7 @@ constructor(
             if (effect.type) {
                 type = effect.type;
             }
-            if (parseInt(effect.value) < 0) {
+            if (parseInt(value) < 0) {
                 if (effect.affected != "Bulk") {
                     penalty = true;
                 } else {

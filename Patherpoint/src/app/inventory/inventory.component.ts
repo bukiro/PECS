@@ -33,6 +33,12 @@ export class InventoryComponent implements OnInit {
         this.characterService.get_Character().settings.inventoryMinimized = !this.characterService.get_Character().settings.inventoryMinimized;
     }
 
+    set_Span() {
+        setTimeout(() => {
+            document.getElementById("inventory").style.gridRow = "span "+this.characterService.get_Span("inventory-height");
+        })
+    }
+
     still_loading() {
         return this.characterService.still_loading();
     }
@@ -140,8 +146,11 @@ export class InventoryComponent implements OnInit {
     }
 
     onAmountChange(item: Consumable, amount: number) {
-        item.amount += amount;
-        this.characterService.set_Changed();
+        if (amount > 0) {
+            this.characterService.grant_InventoryItem(item, false, false, amount)
+        } else if (amount < 0) {
+            item.amount += amount;
+        }
     }
 
     get_MaxRune(weapon: Weapon|Armor) {

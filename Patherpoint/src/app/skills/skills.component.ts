@@ -20,6 +20,12 @@ export class SkillsComponent implements OnInit {
         this.characterService.get_Character().settings.skillsMinimized = !this.characterService.get_Character().settings.skillsMinimized;
     }
 
+    set_Span() {
+        setTimeout(() => {
+            document.getElementById("skills").style.gridRow = "span "+this.characterService.get_Span("skills-height");
+        })
+    }
+
     get_Skills(name: string = "", type: string = "") {
         return this.characterService.get_Skills(name, type);
     }

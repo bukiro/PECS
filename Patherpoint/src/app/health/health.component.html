@@ -1,7 +1,7 @@
 <button class="minimizebutton lower" [ngStyle]="{'background-color':get_Accent()}" (click)="minimize()">&#8691;</button>
-<div id="health-height">
+<div id="health-height" class="attributeBox">
     <ng-container *ngFor="let health of [calculate_Health()]">
-        <h3>Health:
+        <h3 [ngStyle]="{'color':get_Accent()}">Health:
             <span [className]="(health.$currentHP <= 0) ? 'penalty' : (health.$currentHP > health.$maxHP) ? 'bonus' : ''">{{health.$currentHP}}</span>
             Hit Points
         </h3>
@@ -98,3 +98,4 @@
         </ng-container>
     </ng-container>
 </div>
+<div *ngIf="set_Span()"></div>

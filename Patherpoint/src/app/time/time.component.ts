@@ -17,6 +17,12 @@ export class TimeComponent implements OnInit {
     minimize() {
         this.characterService.get_Character().settings.timeMinimized = !this.characterService.get_Character().settings.timeMinimized;
     }
+    
+    set_Span() {
+        setTimeout(() => {
+            document.getElementById("time").style.gridRow = "span "+this.characterService.get_Span("time-height", 1);
+        })
+    }
 
     ngOnInit() {
     }

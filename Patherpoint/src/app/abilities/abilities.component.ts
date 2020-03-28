@@ -22,6 +22,12 @@ export class AbilitiesComponent implements OnInit {
         this.characterService.get_Character().settings.abilitiesMinimized = !this.characterService.get_Character().settings.abilitiesMinimized;
     }
 
+    set_Span() {
+        setTimeout(() => {
+            document.getElementById("abilities").style.gridRow = "span "+this.characterService.get_Span("abilities-height");
+        })
+    }
+
     get_Abilities() {
         return this.abilitiesService.get_Abilities();
     }

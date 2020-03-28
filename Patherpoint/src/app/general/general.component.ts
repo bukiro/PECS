@@ -25,6 +25,12 @@ export class GeneralComponent implements OnInit {
         this.characterService.get_Character().settings.generalMinimized = !this.characterService.get_Character().settings.generalMinimized;
     }
 
+    set_Span() {
+        setTimeout(() => {
+            document.getElementById("general").style.gridRow = "span "+this.characterService.get_Span("general-height");
+        })
+    }
+
     still_loading() {
         return this.characterService.still_loading()
     }

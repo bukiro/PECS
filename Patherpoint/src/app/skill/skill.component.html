@@ -1,34 +1,17 @@
-<div class="row list-item" [className]="(skill.$value.result <= 0) ? 'fullsize-only' : ''" *ngFor="let skill of [skill.calculate(this.characterService,this.abilitiesService,this.effectsService)]">
+<div class="row list-item" [className]="(skill.$value.result <= 0) ? 'fullsize-only' : ''"
+    *ngFor="let skill of [skill.calculate(this.characterService,this.abilitiesService,this.effectsService)]">
     <strong>{{skill.name}}</strong>
     <app-proficiency-form [skill]="skill" [characterService]="this.characterService"
         [level]="this.characterService.get_Character().level">
     </app-proficiency-form>
     <span *ngIf="showValue">
         Value: <input class="number2"
-            [className]="(skill.$penalty.length) ? 'penalty' : (skill.$bonus.length) ? 'bonus' : ''"
-            type="number"
+            [className]="(skill.$penalty.length) ? 'penalty' : (skill.$bonus.length) ? 'bonus' : ''" type="number"
             title="{{((isDC) ? 'DC basis: 10\n' : '')+skill.$value.explain}}"
-            value="{{skill.$value.result + ((isDC) ? 10 : 0)}}"
-            disabled>
+            value="{{skill.$value.result + ((isDC) ? 10 : 0)}}" disabled>
     </span>
-    <div class="fullsize-only row left-aligned">
-        <cite class="trait" *ngFor="let trait of get_TraitsForThis(skill.name)" [title]="trait.description">{{trait.name}}
-            ({{trait.haveOn(this.characterService, true)}})</cite>
-        <ng-container *ngFor="let name of get_specialShowon(skill)">
-            <cite *ngFor="let feat of get_FeatsShowingOn(name)"
-            [title]="(feat.hint) ? feat.hint : feat.desc">{{feat.name}}</cite>
-        </ng-container>
-        <cite *ngFor="let feat of get_FeatsShowingOn(skill.name)"
-            [title]="(feat.hint) ? feat.hint : feat.desc">{{feat.name}}</cite>
-        <cite *ngFor="let item of get_ItemsShowingOn(skill.name)"
-            [title]="(item.hint) ? item.hint : item.desc">{{item.name}}</cite>
-        <cite *ngFor="let activity of get_ActivitiesShowingOn(skill.name)"
-            [title]="activity.hint">{{activity.name}}</cite>
-        <cite *ngFor="let condition of get_ConditionsShowingOn(skill.name)"
-            [className]="(condition.buff) ? 'bonus' : 'penalty'" [title]="condition.desc">{{condition.name}}&nbsp;</cite>
-        <cite *ngFor="let effect of get_EffectsOnThis(skill.name)"
-            [className]="effect.penalty ? 'penalty' : 'bonus'">{{effect.value}} ({{effect.source}})&nbsp;</cite>
-    </div>
+    <app-tags [objectName]=skill.name [showTraits]=true [showFeats]=true [showItems]=true [showActivities]=true
+        [showConditions]=true [showEffects]=true [specialNames]=get_specialShowon(skill)></app-tags>
     <div class="fullsize-only row">
         <span><input type="checkbox" [(ngModel)]="skill.showNotes">Notes</span>
     </div>

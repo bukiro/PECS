@@ -75,14 +75,6 @@
             </div>
         </div>
     </div>
-    <div class="row left-aligned">
-        <cite class="trait" *ngFor="let trait of get_TraitsForThis(activity.name)"
-            [title]="trait.description">{{trait.name}}
-            ({{trait.haveOn(this.characterService, true)}})</cite>
-        <cite *ngFor="let condition of get_ConditionsShowingOn(activity.name)"
-            [className]="(condition.buff) ? 'bonus' : 'penalty'" [title]="condition.desc">{{condition.name}}</cite>
-        <cite *ngFor="let effect of get_EffectsOnThis(activity.name)"
-            [className]="effect.penalty ? 'penalty' : 'bonus'">{{effect.value}}
-            ({{effect.source}})</cite>
-    </div>
+    <app-tags [objectName]=activity.name [showTraits]=true [showFeats]=true [showItems]=true [showActivities]=true
+        [showConditions]=true [showEffects]=true></app-tags>
 </div>

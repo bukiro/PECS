@@ -1,6 +1,6 @@
 <button class="minimizebutton lower" [ngStyle]="{'background-color':get_Accent()}" (click)="minimize()">&#8691;</button>
-<div id="spellbook-height">
-    <h3>Spells</h3>
+<div id="spellbook-height" class="attributeBox">
+    <h3 [ngStyle]="{'color':get_Accent()}">Spells</h3>
     <div class="loading" *ngIf="still_loading()">Loading</div>
     <ng-container *ngIf="!still_loading()">
         <button class="fullsize-only list-item" [ngStyle]="{'background-color':get_Accent()}" (click)="toggleSpellsMenu()">Get
@@ -37,3 +37,4 @@
         </div>
     </ng-container>
 </div>
+<div *ngIf="set_Span()"></div>

@@ -28,6 +28,12 @@ export class EffectsComponent implements OnInit {
         this.characterService.get_Character().settings.effectsMinimized = !this.characterService.get_Character().settings.effectsMinimized;
     }
 
+    set_Span() {
+        setTimeout(() => {
+            document.getElementById("effects").style.gridRow = "span "+this.characterService.get_Span("effects-height");
+        })
+    }
+
     toggle_Item(name: string) {
         if (this.showItem == name) {
             this.showItem = "";
