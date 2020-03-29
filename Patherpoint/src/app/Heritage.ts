@@ -9,7 +9,7 @@ export class Heritage {
     public actionChoices: string = "";
     public featChoices: FeatChoice[] = [];
     public skillChoices: SkillChoice[] = [];
-    public vision: string = "";
+    public senses: string = "";
     public traits: string[] = [];
     public ancestries: string[] = [];
     public desc: string = "";

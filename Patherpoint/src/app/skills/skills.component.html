@@ -6,6 +6,10 @@
         <ng-container *ngFor="let skill of get_Skills('', 'Perception')|sortBy:'asc':'name'">
             <app-skill [skill]=skill></app-skill>
         </ng-container>
+        <h5>Senses</h5>
+        <div class="list-item lower" *ngFor="let sense of get_Senses()">
+            {{sense}}
+        </div>
         <h3 [ngStyle]="{'color':get_Accent()}">Skills</h3>
         <ng-container *ngFor="let skill of get_Skills('', 'Skill')|sortBy:'asc':'name'">
             <app-skill [skill]=skill></app-skill>

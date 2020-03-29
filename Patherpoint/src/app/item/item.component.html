@@ -65,13 +65,13 @@
         {{item.ammunition}}&nbsp;
     </span>
 </div>
-<div class="row">
-    <div *ngFor="let desc of item.desc.split('\n\n')">
+<div class="row left-aligned">
+    <ng-container *ngFor="let desc of item.desc.split('\n\n')">
         <p *ngIf="desc.split('\n').length == 1">{{desc}}</p>
         <ul *ngIf="desc.split('\n').length > 1">
             <li *ngFor="let line of desc.split('\n')">{{line}}</li>
         </ul>
-    </div>
+    </ng-container>
     <p *ngIf="item.benefit">
         <strong>Benefit</strong>
         {{item.benefit}}
@@ -90,13 +90,13 @@
         {{item.subTypeDesc}}
     </p>
 </div>
-<div class="row" *ngIf="armoredSkirt">
+<div class="row left-aligned" *ngIf="armoredSkirt">
     <h4>Armored Skirt</h4>
     <app-item [item]=armoredSkirt></app-item>
 </div>
-<div class="row" *ngFor="let gain of item.gainActivity">
-    <div *ngFor="let activity of get_Activities(gain)">
+<ng-container *ngFor="let gain of item.gainActivity">
+    <div class="row left-aligned" *ngFor="let activity of get_Activities(gain)">
         <h4>{{activity.name}} {{activity.get_Actions()}}{{(activity.activationType) ? " - " + activity.activationType : ""}}</h4>
         <app-activity [activity]=activity></app-activity>
     </div>
-</div>
+</ng-container>

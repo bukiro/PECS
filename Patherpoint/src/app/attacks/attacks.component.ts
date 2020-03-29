@@ -51,18 +51,6 @@ export class AttacksComponent implements OnInit {
         return this.traitsService.get_Traits(traitName);
     }
 
-    get_TraitsForThis(name: string) {
-        return this.traitsService.get_TraitsForThis(this.characterService, name);
-    }
-
-    get_FeatsShowingOn(skillName: string) {
-        return this.characterService.get_FeatsShowingOn(skillName);
-    }
-
-    get_ConditionsShowingOn(name: string) {
-        return this.characterService.get_ConditionsShowingOn(name);
-    }
-
     get_specialShowon(weapon: Weapon) {
         //Under certain circumstances, some Feats apply to Weapons independently of their name.
         //Return names that get_FeatsShowingOn should run on

@@ -134,7 +134,7 @@ constructor(
         //Get parrying bonuses from raised weapons
         //If an item is a weapon that is raised, add +1 to AC.
         items.weapons.filter(item => item.equip && item.parrying).forEach(item => {
-            itemEffects.push(new Effect('circumstance', "AC", "+1", item.get_Name(), false));
+            itemEffects.push(new Effect('circumstance', "AC", "+1", "Parrying", false));
         })
         //Get shield bonuses from raised shields
         //IF a shield is raised, add its item bonus to AC with a + in front. If you are also taking cover while the shield is raised, add that bonus as well.

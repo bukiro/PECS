@@ -1,34 +1,52 @@
 <div id="items" class="itemBox">
     <button class="list-item" [ngStyle]="{'background-color':get_Accent()}" (click)="toggleItemsMenu()">Close</button>
     <div class="loading" *ngIf="still_loading()">Loading</div>
+    <div class="list-item">
+        <strong>Find (in Name or Description)</strong>
+        <span>
+            <input type=text [(ngModel)]="wordFilter" (ngModelChange)=check_Filter()/>
+            <button (click)="set_Filter()" [disabled]="wordFilter.length < 5" [ngStyle]="{'background-color':get_Accent()}">Show All</button>
+            <button (click)="wordFilter='';check_Filter()" [ngStyle]="{'background-color':get_Accent()}">Clear</button>
+        </span>
+    </div>
+    <div class="list-item">
+        <strong>Sort</strong>
+        <select [(ngModel)]="sorting">
+            <option *ngFor="let sort of ['name','level']" [value]="sort">
+                {{sort}}
+            </option>
+        </select>
+    </div>
     <h3>Get Items</h3>
     <ng-container *ngFor="let items of [get_Items()]">
         <ng-container *ngFor="let itemSet of items.names">
-            <button class="button list-item" [ngStyle]="{'background-color':get_Accent()}" (click)="toggle_List(itemSet.name)">
-                <strong>{{itemSet.name}}</strong>
-            </button>
-            <ng-container *ngIf="get_ShowList()==itemSet.name">
-                <ng-container *ngFor="let item of get_VisibleItems(items[itemSet.key])">
-                    <div class="list-item" *ngFor="let inventoryID of [get_ID()]">
-                        <button class="row" (mouseover)="hover = inventoryID" (mouseout)="hover = 0"
-                            [ngStyle]="{'background-color':get_Accent()}" (click)="toggle_Item(inventoryID)">
-                            <span>{{(item.get_Name) ? item.get_Name() : item.name}}</span>
-                            <span
-                                *ngIf="item.type == 'armors'">{{(item.prof == 'Unarmored') ? item.prof : item.prof.substr(0, item.prof.length - 6)}}
-                                {{item.group}} {{(item.type=="armors" && item.prof != "Unarmored") ? "Armor" : ""}}</span>
-                            <span
-                                *ngIf="item.type == 'weapons'">{{(item.prof == 'Unarmed') ? item.prof : item.prof.substr(0, item.prof.length - 8)}}
-                                {{item.group}}</span>
-                            <span>{{(item.level) ? "Level "+item.level : "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"}}</span>
-                        </button>
-                        <div class="list-item sublist lower" [ngStyle]="{'border-color':get_Accent(inventoryID)}"
-                            *ngIf="get_ShowItem()==inventoryID">
-                            <button class="row" [ngStyle]="{'background-color':get_Accent()}" (click)="grant_Item(item)">
-                                Get
+            <ng-container *ngFor="let listID of [get_ID()*1000]">
+                <button id={{id}} class="button list-item" [ngStyle]="{'background-color':get_Accent(), 'display':!get_VisibleItems(items[itemSet.key]).length ? 'none' : 'flex' }" (click)="toggle_List(itemSet.name)">
+                    <strong>{{itemSet.name}}</strong>
+                </button>
+                <ng-container *ngIf="get_ShowList()==itemSet.name||get_ShowList()=='All'">
+                    <ng-container *ngFor="let item of get_VisibleItems(items[itemSet.key])|sortBy:'asc':sorting">
+                        <div class="list-item" *ngFor="let inventoryID of [listID+get_ID()]">
+                            <button class="row" (mouseover)="hover = inventoryID" (mouseout)="hover = 0"
+                                [ngStyle]="{'background-color':get_Accent()}" (click)="toggle_Item(inventoryID)">
+                                <span>{{(item.get_Name) ? item.get_Name() : item.name}}</span>
+                                <span
+                                    *ngIf="item.type == 'armors'">{{(item.prof == 'Unarmored') ? item.prof : item.prof.substr(0, item.prof.length - 6)}}
+                                    {{item.group}} {{(item.type=="armors" && item.prof != "Unarmored") ? "Armor" : ""}}</span>
+                                <span
+                                    *ngIf="item.type == 'weapons'">{{(item.prof == 'Unarmed') ? item.prof : item.prof.substr(0, item.prof.length - 8)}}
+                                    {{item.group}}</span>
+                                <span>{{(item.level) ? "Level "+item.level : "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"}}</span>
                             </button>
-                            <app-item [item]=item></app-item>
+                            <div class="list-item sublist lower" [ngStyle]="{'border-color':get_Accent(inventoryID)}"
+                                *ngIf="get_ShowItem()==inventoryID">
+                                <button class="row center-aligned" [ngStyle]="{'background-color':get_Accent()}" (click)="grant_Item(item)">
+                                    Get
+                                </button>
+                                <app-item [item]=item></app-item>
+                            </div>
                         </div>
-                    </div>
+                    </ng-container>
                 </ng-container>
             </ng-container>
         </ng-container>

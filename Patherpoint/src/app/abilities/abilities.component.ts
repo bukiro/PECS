@@ -40,10 +40,6 @@ export class AbilitiesComponent implements OnInit {
         return this.abilitiesService.still_loading() || this.characterService.still_loading();
     }
 
-    get_ConditionsShowingOn(name: string) {
-        return this.characterService.get_ConditionsShowingOn(name);
-    }
-
     finish_Loading() {
         if (this.still_loading()) {
             setTimeout(() => this.finish_Loading(), 500)

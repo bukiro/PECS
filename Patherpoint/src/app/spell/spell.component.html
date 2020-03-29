@@ -15,10 +15,12 @@
             {{spell.get_Actions()}} {{spell.castType}}
         </span>
     </div>
-    <p *ngIf="get_SpellDescription(spell).length">
-        <span [className]="(desc.type == 'variable') ? 'variable' : ''"
-            *ngFor="let desc of get_SpellDescription(spell)">{{desc.value}}</span>
-    </p>
+    <div class="row left-aligned" *ngIf="get_SpellDescription(spell).length">
+        <p>
+            <span [className]="(desc.type == 'variable') ? 'variable' : ''"
+                *ngFor="let desc of get_SpellDescription(spell)">{{desc.value}}</span>
+        </p>
+    </div>
     <div class="row left-aligned"  *ngFor="let heightened of spell.heightened">
         <span>
             <strong>Heightened {{heightened.level}}</strong>

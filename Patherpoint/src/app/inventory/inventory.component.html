@@ -3,7 +3,7 @@
     <h3 [ngStyle]="{'color':get_Accent()}">Inventory</h3>
     <div class="loading" *ngIf="still_loading()">Loading</div>
     <ng-container *ngIf="!still_loading()">
-        <button class="fullsize-only list-item" [ngStyle]="{'background-color':get_Accent()}" (click)="toggleMenu('items')">
+        <button class="fullsize-only list-item center-aligned" [ngStyle]="{'background-color':get_Accent()}" (click)="toggleMenu('items')">
             Get Items
         </button>
         <h5>Cash</h5>
@@ -22,13 +22,8 @@
             <div class="list-item">
                 <strong>Bulk</strong>
                 <input class="number2" type="number" value="{{bulk.$current}}" disabled>
-                <div class="fullsize-only row left-aligned" *ngIf="get_ConditionsShowingOn('Bulk').length">
-                    <cite [className]="(condition.buff) ? 'bonus' : 'penalty'"
-                        *ngFor="let condition of get_ConditionsShowingOn('Bulk')"
-                        [title]="condition.desc">{{condition.name}}&nbsp;</cite>
-                    <cite class="penalty" *ngIf="bulk.$current > bulk.$max.value"
-                        title="You can't carry this much Bulk.">Overencumbered&nbsp;</cite>
-                </div>
+                <app-tags [objectName]="'Bulk'" [showTraits]=true [showFeats]=true [showItems]=true [showActivities]=true
+                    [showConditions]=true [showEffects]=true></app-tags>
             </div>
             <div class="fullsize-only list-item">
                 <strong>Encumbrance</strong>
@@ -39,16 +34,8 @@
                 <input class="number2" type="number"
                     [className]="(bulk.$penalty.length) ? 'penalty' : (bulk.$bonus.length) ? 'bonus' : ''"
                     value="{{bulk.$max.value}}" title="{{bulk.$max.desc}}" disabled>
-                <div class="row left-aligned">
-                    <cite *ngFor="let feat of get_FeatsShowingOn('Max Bulk')"
-                        [title]="(feat.hint) ? feat.hint : feat.desc">{{feat.name}}&nbsp;</cite>
-                    <cite *ngFor="let condition of get_ConditionsShowingOn('Max Bulk')"
-                        [className]="(condition.buff) ? 'bonus' : 'penalty'"
-                        [title]="condition.desc">{{condition.name}}&nbsp;</cite>
-                    <cite *ngFor="let effect of bulk.$effects" [className]="effect.penalty ? 'penalty' : 'bonus'">
-                        {{effect.value}} ({{effect.source}})&nbsp;
-                    </cite>
-                </div>
+                <app-tags [objectName]="'Max Bulk'" [showTraits]=true [showFeats]=true [showItems]=true [showActivities]=true
+                    [showConditions]=true [showEffects]=true></app-tags>
             </div>
         </ng-container>
         <h3 class="fullsize-only" [ngStyle]="{'color':get_Accent()}">Items</h3>
@@ -59,10 +46,7 @@
             <strong>Max Invested</strong><input type="number" class="number2" title="{{maxInvested.explain}}"
                 [className]="(maxInvested.penalty) ? 'penalty' : (maxInvested.bonus) ? 'bonus' : ''"
                 [ngModel]="get_maxInvested().value" disabled>
-            <div class="row left-aligned">
-                <cite *ngFor="let effect of maxInvested.effects"
-                    [className]="effect.penalty ? 'penalty' : 'bonus'">{{effect.value}} ({{effect.source}})&nbsp;</cite>
-            </div>
+            <app-tags [specialEffects]=maxInvested.effects></app-tags>
         </div>
         <ng-container *ngFor="let items of [get_InventoryItems()]">
             <ng-container *ngFor="let itemSet of items.names">
@@ -91,7 +75,7 @@
                             </div>
                             <button class="row" [ngStyle]="{'background-color':get_Accent()}" [disabled]="!item.amount"
                                 (click)="on_ConsumableUse(item)" *ngIf="item.amount != undefined && item.actions">
-                                Use {{(item.actions) ? get_Actions(item) : ""}}
+                                <span>Use</span> <span>{{(item.actions) ? get_Actions(item) : ""}}</span>
                             </button>
                             <div class="row">
                                 <span *ngIf="item.equippable == true">
@@ -116,10 +100,12 @@
                                 <div class="placeholder"
                                     *ngIf="!item.equippable && !can_Invest(item) && item.amount == undefined">&nbsp;
                                 </div>
-                                <button (click)="drop_InventoryItem(item)"
-                                    [ngStyle]="{'background-color':get_Accent()}">
-                                    Drop
-                                </button>
+                                <span>
+                                    <button (click)="drop_InventoryItem(item)"
+                                        [ngStyle]="{'background-color':get_Accent()}">
+                                        Drop
+                                    </button>
+                                </span>
                             </div>
                             <div class="row left-aligned">
                                 <span><input type="checkbox" [(ngModel)]="item.showNotes">Notes</span>
@@ -131,10 +117,10 @@
                                         [(ngModel)]="item.showMaterial">Material</span>
                             </div>
                             <div class="row" *ngIf="item.showNotes">
-                                Notes: <input type="textarea" class="fullwidth" [(ngModel)]="item.notes">
+                                Notes <input type="textarea" class="fullwidth" [(ngModel)]="item.notes">
                             </div>
                             <div class="row" *ngIf="item.showName">
-                                Name: <input type="textarea" class="fullwidth" [(ngModel)]="item.displayName"
+                                Name <input type="textarea" class="fullwidth" [(ngModel)]="item.displayName"
                                     (blur)="onNameChange()">
                             </div>
                             <div class="row" *ngIf="item.showRunes">

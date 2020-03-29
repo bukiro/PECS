@@ -1890,7 +1890,7 @@
       "name": "Fire Poi",
       "group": "Flail",
       "prof": "Advanced Weapons",
-      "dmgType": "B +1d4F",
+      "dmgType": "B+1d4F",
       "dicenum": 1,
       "dicesize": 4,
       "melee": 5,

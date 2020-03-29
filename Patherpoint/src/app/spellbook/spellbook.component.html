@@ -11,30 +11,30 @@
             <input type="number" class="number2" [ngModel]="get_FocusPoints()" disabled>
             <strong>Focus Pool</strong>
             <input type="number" class="number2" [ngModel]="get_MaxFocusPoints()" disabled>
-            <button class="button row" [ngStyle]="{'background-color':get_Accent()}" (click)="refocus()"
+            <button class="row center-aligned" [ngStyle]="{'background-color':get_Accent()}" (click)="refocus()"
                 [disabled]="get_FocusPoints() >= get_MaxFocusPoints()">
                 Refocus
             </button>
         </div>
-        <div *ngFor="let spellGain of get_FocusSpells()">
-            <div *ngFor="let spell of get_Spells(spellGain.name)">
+        <ng-container *ngFor="let spellGain of get_FocusSpells()">
+            <ng-container *ngFor="let spell of get_Spells(spellGain.name)">
                 <div class="list-item" *ngFor="let spellID of [get_ID()]">
-                    <button class="row button" (mouseover)="hover = spellID" (mouseout)="hover = 0"
+                    <button class="row center-aligned" (mouseover)="hover = spellID" (mouseout)="hover = 0"
                         [ngStyle]="{'background-color':get_Accent()}" (click)="toggle_Spell(spellID)">
                         <span>{{spell.name}}</span>
                         <span>{{spell.get_Actions()}} {{spell.castType}}</span>
                     </button>
                     <div class="list-item sublist lower" [ngStyle]="{'border-color':get_Accent(spellID)}"
                         *ngIf="this.get_showSpell()==spellID">
-                        <button class="row button" [ngStyle]="{'background-color':get_Accent()}"
+                        <button class="row center-aligned" [ngStyle]="{'background-color':get_Accent()}"
                             (click)="on_Cast(spellGain, spell)" *ngIf="spell.can_Cast(characterService, spellGain)">
                             Cast
                         </button>
                         <app-spell [spell]=spell></app-spell>
                     </div>
                 </div>
-            </div>
-        </div>
+            </ng-container>
+        </ng-container>
     </ng-container>
 </div>
 <div *ngIf="set_Span()"></div>

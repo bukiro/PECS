@@ -5,6 +5,7 @@ import { CharacterService } from '../character.service';
 import { ItemCollection } from '../ItemCollection';
 import { Consumable } from '../Consumable';
 import { Item } from '../Item';
+import { SortByPipe } from '../sortBy.pipe';
 
 @Component({
     selector: 'app-items',
@@ -16,13 +17,16 @@ export class ItemsComponent implements OnInit {
 
     private showList: string = "";
     private showItem: number = 0;
-    private id: number = 0;
+    public id: number = 0;
     public hover: number = 0;
-
+    public wordFilter: string = "";
+    public sorting: string = "level";
+    
     constructor(
         private changeDetector: ChangeDetectorRef,
         private itemsService: ItemsService,
-        private characterService: CharacterService
+        private characterService: CharacterService,
+        public sortByPipe: SortByPipe
     ) { }
 
     toggle_List(type) {
@@ -53,6 +57,18 @@ export class ItemsComponent implements OnInit {
         return this.showItem;
     }
 
+    check_Filter() {
+        if (this.wordFilter.length < 5 && this.showList == "All") {
+            this.showList = "";
+        }
+    }
+
+    set_Filter() {
+        if (this.wordFilter) {
+            this.showList = "All";
+        }
+    }
+
     get_ID() {
         this.id++;
         return this.id;
@@ -68,7 +84,16 @@ export class ItemsComponent implements OnInit {
     }
 
     get_VisibleItems(items) {
-        return items.filter(item => !item.hide);
+        return items.filter(item =>
+            !item.hide && (
+                !this.wordFilter || (
+                    this.wordFilter && (
+                        item.name.toLowerCase().indexOf(this.wordFilter.toLowerCase()) > -1 ||
+                        item.desc.toLowerCase().indexOf(this.wordFilter.toLowerCase()) > -1
+                    )
+                )
+            )
+            );
     }
 
     grant_Item(item) {

@@ -113,24 +113,12 @@ export class HealthComponent implements OnInit {
         return resistances;
     }
 
-    get_EffectsOnThis(name: string) {
-        return this.effectsService.get_EffectsOnThis(name);
-    }
-
     get_BonusesOnThis(name: string) {
         return this.effectsService.get_BonusesOnThis(name);
     }
 
     get_PenaltiesOnThis(name: string) {
         return this.effectsService.get_PenaltiesOnThis(name);
-    }
-
-    get_FeatsShowingOn(name: string) {
-        return this.characterService.get_FeatsShowingOn(name);
-    }
-
-    get_ConditionsShowingOn(name: string) {
-        return this.characterService.get_ConditionsShowingOn(name);
     }
 
     set_CharacterChanged() {

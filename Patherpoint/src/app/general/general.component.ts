@@ -43,22 +43,6 @@ export class GeneralComponent implements OnInit {
         return this.characterService.get_Character();
     }
 
-    get_TraitsForThis(name: string) {
-        return this.traitsService.get_TraitsForThis(this.characterService, name);
-    }
-
-    get_FeatsShowingOn(name: string) {
-        return this.characterService.get_FeatsShowingOn(name);
-    }
-
-    get_ConditionsShowingOn(name: string) {
-        return this.characterService.get_ConditionsShowingOn(name);
-    }
-
-    get_EffectsOnThis(name: string) {
-        return this.effectsService.get_EffectsOnThis(name);
-    }
-
     get_DifferentWorldsFeat() {
         if (this.get_Character().get_FeatsTaken(1, this.get_Character().level, "Different Worlds").length) {
             return this.get_Character().customFeats.filter(feat => feat.name == "Different Worlds");

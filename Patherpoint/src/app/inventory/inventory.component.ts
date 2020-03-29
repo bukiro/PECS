@@ -94,20 +94,8 @@ export class InventoryComponent implements OnInit {
         return [bulk];
     }
 
-    get_FeatsShowingOn(skillName: string) {
-        return this.characterService.get_FeatsShowingOn(skillName);
-    }
-
-    get_ConditionsShowingOn(skillName: string) {
-        return this.characterService.get_ConditionsShowingOn(skillName);
-    }
-
     can_Invest(item) {
         return (item.traits.indexOf("Invested") > -1);
-    }
-
-    get_EffectsOnThis(name: string) {
-        return this.effectsService.get_EffectsOnThis(name)
     }
 
     get_maxInvested() {
@@ -116,7 +104,7 @@ export class InventoryComponent implements OnInit {
         let penalty: boolean = false;
         let bonus: boolean = false;
         let explain: string = "Base limit: 10"
-        this.get_EffectsOnThis("Max Invested").forEach(effect => {
+        this.effectsService.get_EffectsOnThis("Max Invested").forEach(effect => {
             maxInvest += parseInt(effect.value);
             if (parseInt(effect.value) < 0) {
                 penalty = true;

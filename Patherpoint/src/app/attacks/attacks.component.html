@@ -3,33 +3,36 @@
 <h3 [ngStyle]="{'color':get_Accent()}">Attacks</h3>
 <div class="loading" *ngIf="still_loading()">Loading</div>
 <ng-container *ngIf="!still_loading()">
-    <div class="fullsize-only row">
-        <cite *ngFor="let feat of get_FeatsShowingOn('Attacks')" [title]="(feat.hint) ? feat.hint : feat.desc">{{feat.name}}</cite>
-        <cite *ngFor="let condition of get_ConditionsShowingOn('Attacks')" [className]="(condition.buff) ? 'bonus' : 'penalty'" [title]="condition.desc">{{condition.name}}</cite>
-    </div>
+    <app-tags [objectName]="'Attacks'" [showTraits]=true [showFeats]=true [showItems]=true [showActivities]=true
+        [showConditions]=true [showEffects]=true></app-tags>
     <ng-container *ngFor="let weapon of get_EquippedWeapons()">
         <div class="list-item" *ngFor="let attack of get_Attacks(weapon)">
-            <strong>{{weapon.get_Name()}}{{(attack[0] == 'melee') ? (weapon.ranged ? " melee" : "") : (weapon.melee ? " ranged" : "")}}</strong>
             <div class="row">
-                Attack
-                <input
-                    [className]="(attack[4].length) ? 'penalty' : (attack[5].length) ? 'bonus' : ''"
-                    type="number"
-                    class="number2"
-                    title="{{attack[2]}}"
-                    [ngModel]="attack[1]"
-                    disabled>
-                Damage
-                <input *ngFor="let damage of [get_Damage(weapon, attack)]"
-                    type="text"
-                    size="{{damage[0].length}}"
-                    title="{{damage[1]}}"
-                    [ngModel]="damage[0]"
-                    disabled>
-                <app-tags [objectName]=weapon.name [showTraits]=true [showFeats]=true [showItems]=true [showActivities]=true
-                    [showConditions]=true [specialNames]=get_specialShowon(weapon) [specialEffects]=attack[3]>
-                </app-tags>
+                <strong style="flex-basis:initial">{{weapon.get_Name()}}{{(attack[0] == 'melee') ? (weapon.ranged ? " melee" : "") : (weapon.melee ? " ranged" : "")}}</strong>
+                <span style="flex-basis:initial">
+                    Attack
+                    <input
+                        [className]="(attack[4].length) ? 'penalty' : (attack[5].length) ? 'bonus' : ''"
+                        type="number"
+                        class="number2"
+                        title="{{attack[2]}}"
+                        [ngModel]="attack[1]"
+                        disabled>
+                    Damage
+                    <input *ngFor="let damage of [get_Damage(weapon, attack)]"
+                        type="text"
+                        size="{{damage[0].length}}"
+                        title="{{damage[1]}}"
+                        [ngModel]="damage[0]"
+                        disabled>
+                </span>
             </div>
+            <div class="fullsize-only row left-aligned" *ngIf="weapon.traits.length">
+                <cite class="trait" *ngFor="let trait of weapon.traits"
+                    title="{{get_Traits(trait)[0].description}}">{{trait}}</cite>
+            </div>
+            <app-tags [objectName]=weapon.name [showTraits]=true [showFeats]=true [showItems]=true [showActivities]=true
+                    [showConditions]=true [specialNames]=get_specialShowon(weapon) [specialEffects]=attack[3]></app-tags>
         </div>
     </ng-container>
     <h3 class="fullsize-only" *ngIf="!still_loading()" [ngStyle]="{'color':get_Accent()}">Weapon Proficiencies</h3>

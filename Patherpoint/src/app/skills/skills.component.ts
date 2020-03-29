@@ -1,6 +1,9 @@
 import { Component, OnInit, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
 import { CharacterService } from '../character.service';
 import { SkillsService } from '../skills.service';
+import { ChildrenOutletContexts } from '@angular/router';
+import { FeatsService } from '../feats.service';
+import { Feat } from '../Feat';
 
 @Component({
     selector: 'app-skills',
@@ -14,6 +17,7 @@ export class SkillsComponent implements OnInit {
         private changeDetector: ChangeDetectorRef,
         public characterService: CharacterService,
         public skillsService: SkillsService,
+        public featsService: FeatsService
     ) { }
 
     minimize() {
@@ -32,6 +36,23 @@ export class SkillsComponent implements OnInit {
 
     get_Accent() {
         return this.characterService.get_Accent();
+    }
+
+    get_Senses() {
+        let senses: string[] = [];
+        let character = this.characterService.get_Character()
+        let ancestrySenses = character.class.ancestry.senses
+        let heritageSenses = character.class.heritage.senses
+        if (ancestrySenses.length) {
+            senses.push(ancestrySenses)
+        }
+        if (heritageSenses.length) {
+            senses.push(heritageSenses)
+        }
+        this.characterService.get_Character().get_FeatsTaken(0, character.level).filter(feat => feat.senses).forEach(feat => {
+            senses.push(feat.senses)
+        });
+        return senses;
     }
 
     still_loading() {

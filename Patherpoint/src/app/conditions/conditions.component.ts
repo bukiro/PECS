@@ -91,7 +91,6 @@ export class ConditionsComponent implements OnInit {
         } else {
             this.duration = this.duration + turns;
         }
-        //this.characterService.set_Changed();
     }
 
     get_Duration(duration: number = this.duration) {

@@ -4,9 +4,13 @@
     <ng-container *ngFor="let conditionGain of get_AppliedConditions(true)">
         <div class="list-item" *ngFor="let condition of [get_Conditions(conditionGain.name)[0]]">
             <div class="row">
-                <span><strong [className]="condition.buff ? 'bonus' : 'penalty'"
+                <span>
+                    <strong [className]="condition.buff ? 'bonus' : 'penalty'"
                         title="{{conditionGain.source}}">{{conditionGain.name}}
-                        {{(conditionGain.value) ? conditionGain.value : ""}}</strong> ({{conditionGain.source}})</span>
+                        {{(conditionGain.value) ? conditionGain.value : ""}}
+                    </strong>
+                    ({{conditionGain.source}})
+                </span>
             </div>
             <div class="row fullsize-only">
                 <span>{{get_Duration(conditionGain.duration)}}</span>
@@ -14,42 +18,48 @@
             <div class="row fullsize-only">
                 <div class="list-item lower row problem" *ngIf="condition.inputRequired">
                     <strong>Player input required:</strong>
-                    <p *ngFor="let inputRequired of condition.inputRequired.split('\n')">
-                        {{inputRequired}}
-                    </p>
+                    <div class="row left-aligned">
+                        <p *ngFor="let inputRequired of condition.inputRequired.split('\n')">
+                            {{inputRequired}}
+                        </p>
+                    </div>
                 </div>
                 <div class="row">
-                    <button [ngStyle]="{'background-color':get_Accent()}" (click)="remove_Condition(conditionGain)">
-                        Remove
-                    </button>
-                    <button [ngStyle]="{'background-color':get_Accent()}"
-                        (click)="toggle_Item(conditionGain.name+conditionGain.source+conditionGain.value+conditionGain.duration+'applied')">
-                        Show Description
-                    </button>
+                    <span>
+                        <button [ngStyle]="{'background-color':get_Accent()}" (click)="remove_Condition(conditionGain)">
+                            Remove
+                        </button>
+                    </span>
+                    <span>
+                        <button [ngStyle]="{'background-color':get_Accent()}"
+                            (click)="toggle_Item(conditionGain.name+conditionGain.source+conditionGain.value+conditionGain.duration+'applied')">
+                            Show Description
+                        </button>
+                    </span>
                 </div>
-                <div class="row"
+                <ng-container
                     *ngIf="this.get_ShowItem()==conditionGain.name+conditionGain.source+conditionGain.value+conditionGain.duration+'applied'">
-                    <div *ngFor="let desc of condition.desc.split('\n\n')">
+                    <div class="row left-aligned" *ngFor="let desc of condition.desc.split('\n\n')">
                         <p *ngIf="desc.split('\n').length == 1">{{desc}}</p>
                         <ul *ngIf="desc.split('\n').length > 1">
                             <li *ngFor="let line of desc.split('\n')">{{line}}</li>
                         </ul>
                     </div>
-                </div>
+                </ng-container>
             </div>
         </div>
     </ng-container>
     <h3 [ngStyle]="{'color':get_Accent()}">Active Effects</h3>
-    <div class="row lower">
-        <div class="list-item" *ngFor="let effect of get_AppliedEffects()">
-            <span><strong [className]="effect.penalty ? 'penalty' : 'bonus'" title="{{effect.source}}">{{effect.target}}
-                    {{effect.value}}</strong>
-                {{(effect.type != "untyped") ? effect.type+' ' : ''}}{{(effect.penalty) ? 'penalty' : 'bonus'}}
-                ({{effect.source}})</span>
-        </div>
+    <div class="list-item row lower" *ngFor="let effect of get_AppliedEffects()">
+        <span>
+            <strong [className]="effect.penalty ? 'penalty' : 'bonus'" title="{{effect.source}}">{{effect.target}}
+                {{effect.value}}
+            </strong>
+            {{(effect.type != "untyped") ? effect.type+' ' : ''}}{{(effect.penalty) ? 'penalty' : 'bonus'}}
+            ({{effect.source}})
+        </span>
     </div>
-
-    <button class="list-item fullsize-only" [ngStyle]="{'background-color':get_Accent()}"
+    <button class="list-item fullsize-only center-aligned" [ngStyle]="{'background-color':get_Accent()}"
         (click)="toggle_NotApplied()">{{(showNotApplied) ? "Hide not applied" : "Show not applied"}}</button>
     <div class="fullsize-only" *ngIf="showNotApplied">
         <h3 [ngStyle]="{'color':get_Accent()}">Not Applied Conditions</h3>
@@ -95,7 +105,7 @@
             </div>
         </div>
     </div>
-    <button class="list-item fullsize-only" [ngStyle]="{'background-color':get_Accent()}"
+    <button class="list-item fullsize-only center-aligned" [ngStyle]="{'background-color':get_Accent()}"
         (click)="toggle_Hidden()">{{(showHidden) ? "Hide hidden effects" : "Show hidden effects"}}</button>
     <div class="fullsize-only" *ngIf="showHidden">
         <h3 [ngStyle]="{'color':get_Accent()}">Hidden Effects</h3>

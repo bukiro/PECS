@@ -6,7 +6,8 @@
         <h3>Duration: {{get_Duration()}}</h3>
         <div class="list-item">
             <div class="row">
-                <button [ngStyle]="{'background-color':get_Accent()}" (click)="add_Duration(duration)"
+                <button class="center-aligned" [ngStyle]="{'background-color':get_Accent()}"
+                    (click)="add_Duration(duration)"
                     *ngFor="let duration of [-1, 10, 50, 100, 500, 1000, 6000, 48000, 144000]">{{get_Duration(duration)}}</button>
             </div>
             <div class="row left-aligned">
@@ -29,10 +30,14 @@
                         </select><br>
                     </span>
                     <div class="row">
-                        <button [ngStyle]="{'background-color':get_Accent()}" (click)="add_Condition(condition)">Add
-                            ({{get_Duration()}})</button>
-                        <button [ngStyle]="{'background-color':get_Accent()}"
-                            (click)="toggleItem(set+condition.name)">Show Description</button>
+                        <span>
+                            <button [ngStyle]="{'background-color':get_Accent()}" (click)="add_Condition(condition)">Add
+                                ({{get_Duration()}})</button>
+                        </span>
+                        <span>
+                            <button [ngStyle]="{'background-color':get_Accent()}" (click)="toggleItem(set+condition.name)">
+                                Show Description</button>
+                        </span>
                     </div>
                     <div class="row" *ngIf="get_ShowItem()==set+condition.name">
                         <div *ngFor="let desc of condition.desc.split('\n\n')">

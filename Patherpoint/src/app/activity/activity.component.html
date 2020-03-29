@@ -23,7 +23,7 @@
             {{activity.requirements}}
         </span>
     </div>
-    <div *ngFor="let desc of activity.desc.split('\n\n')">
+    <div class="row left-aligned" *ngFor="let desc of activity.desc.split('\n\n')">
         <p *ngIf="desc.split('\n').length == 1">{{desc}}</p>
         <ul *ngIf="desc.split('\n').length > 1">
             <li *ngFor="let line of desc.split('\n')">{{line}}</li>
@@ -53,26 +53,24 @@
             {{activity.critfailure}}
         </span>
     </div>
-    <div class="row" *ngFor="let cast of activity.castSpells">
+    <div class="row left-aligned" *ngFor="let cast of activity.castSpells">
         <div *ngFor="let spell of get_Spells(cast.name)">
             <h4>{{spell.name}} {{spell.get_Actions()}} {{spell.castType.toString()}}
             </h4>
             <app-spell [spell]=spell [spellLevel]="(cast.level) ? cast.level : 0"></app-spell>
         </div>
     </div>
-    <div class="row" *ngFor="let feat of get_FeatsShowingOn(activity.name)">
+    <div class="row left-aligned" *ngFor="let feat of get_FeatsShowingOn(activity.name)">
         <h4>{{feat.name}}</h4>
-        <div>
-            <div class="row left-aligned">
-                <cite class="trait" *ngFor="let trait of feat.traits"
-                    title="{{get_Traits(trait)[0].description}}">{{trait}}</cite>
-            </div>
-            <div *ngFor="let desc of feat.desc.split('\n\n')">
-                <p *ngIf="desc.split('\n').length == 1">{{desc}}</p>
-                <ul *ngIf="desc.split('\n').length > 1">
-                    <li *ngFor="let line of desc.split('\n')">{{line}}</li>
-                </ul>
-            </div>
+        <div class="row left-aligned">
+            <cite class="trait" *ngFor="let trait of feat.traits"
+                title="{{get_Traits(trait)[0].description}}">{{trait}}</cite>
+        </div>
+        <div class="row left-aligned" *ngFor="let desc of feat.desc.split('\n\n')">
+            <p *ngIf="desc.split('\n').length == 1">{{desc}}</p>
+            <ul *ngIf="desc.split('\n').length > 1">
+                <li *ngFor="let line of desc.split('\n')">{{line}}</li>
+            </ul>
         </div>
     </div>
     <app-tags [objectName]=activity.name [showTraits]=true [showFeats]=true [showItems]=true [showActivities]=true

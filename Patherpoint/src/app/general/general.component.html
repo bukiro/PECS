@@ -38,20 +38,20 @@
             {{feat.data.name}} {{(feat.data.background) ? "("+feat.data.background+")" : ""}}
         </div>
         <h5 class="fullsize-only">Class DC</h5>
-        <div *ngFor="let skill of get_ClassDCs()">
-            <app-skill class="list-item" [skill]=skill [isDC]=true></app-skill>
-        </div>
+        <ng-container *ngFor="let skill of get_ClassDCs()">
+            <app-skill [skill]=skill [isDC]=true></app-skill>
+        </ng-container>
         <h5 class="fullsize-only">Movement</h5>
         <ng-container *ngFor="let speed of get_Speeds()">
             <div class="list-item">
-                <div>
+                <span>
                     <strong>{{(speed.name=="Speed") ? "All Speeds" : speed.name}}</strong>
-                </div>
-                <div>
+                </span>
+                <span>
                     Value: <input class="number3" title="{{speed.value(characterService, effectsService)[1]}}"
                         [className]="(speed.penalty(effectsService).length) ? 'penalty' : (speed.bonus(effectsService).length) ? 'bonus' : ''"
                         type="number" value="{{speed.value(characterService, effectsService)[0]}}" disabled>
-                </div>
+                </span>
                 <app-tags [objectName]=speed.name [showTraits]=true [showFeats]=true [showItems]=true [showActivities]=true
                     [showConditions]=true [showEffects]=true></app-tags>
             </div>

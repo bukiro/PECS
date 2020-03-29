@@ -5,29 +5,40 @@
     </button>
     <div class="loading" *ngIf="still_loading()">Loading</div>
     <ng-container *ngIf="!still_loading()">
-        <div class="row">
+        <div class="list-item row">
+            <span>Color Accent</span>
             <span>
-                Color Accent
                 <input type="text" name="name" [(ngModel)]="get_Character().settings.accent"
                     (blur)="this.characterService.set_Changed()" maxLength="7">
             </span>
         </div>
-        <div class="row">
-            Name
-            <input type="text" name="name" [(ngModel)]="get_Character().name"
-                (blur)="this.characterService.set_Changed()" maxLength="30">
+        <div class="list-item row">
+            <span>Name</span>
+            <span>
+                <input type="text" name="name" [(ngModel)]="get_Character().name"
+                    (blur)="this.characterService.set_Changed()" maxLength="30">
+            </span>
         </div>
-        <div class="row">
-            Level
-            <select [(ngModel)]="get_Character().level" (ngModelChange)="onLevelChange()">
-                <option *ngFor="let level of [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20]" [value]="level">
-                    {{level}}
-                </option>
-            </select>
+        <div class="list-item row">
+            <span>
+                Level
+            </span>
+            <span>
+                <select [(ngModel)]="get_Character().level" (ngModelChange)="onLevelChange()">
+                    <option *ngFor="let level of [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20]" [value]="level">
+                        {{level}}
+                    </option>
+                </select>
+            </span>
         </div>
-        <div class="row">
-        Deity <input type="text" name="name" [(ngModel)]="get_Character().deity"
-            (blur)="this.characterService.set_Changed()">
+        <div class="list-item row">
+            <span>
+                Deity
+            </span>
+            <span>
+                <input type="text" name="name" [(ngModel)]="get_Character().deity"
+                    (blur)="this.characterService.set_Changed()">
+            </span>
         </div>
         <!--BaseValues-->
         <div class="list-item">
@@ -54,7 +65,8 @@
         </div>
         <h3>History</h3>
         <!--Class-->
-        <div class="list-item" [className]="(get_Character().class.name) ? 'fullsize-only' : ''" *ngFor="let listID of ['class']">
+        <div class="list-item" [className]="(get_Character().class.name) ? 'fullsize-only' : ''"
+            *ngFor="let listID of ['class']">
             <button class="row button" (mouseover)="hover = listID" (mouseout)="hover = ''"
                 [ngStyle]="(get_Character().class.name) ? {'color':get_Accent()} : {'background-color':get_Accent()}"
                 [className]="(get_Character().class.name) ? 'fancy-button' : ''" (click)="toggle_List(listID)">
@@ -77,7 +89,9 @@
         </div>
         <!--Ancestry-->
         <ng-container *ngIf="get_Character().class.name">
-            <div class="list-item list-header" [className]="(get_Character().class.ancestry.name) ? 'fullsize-only' : ''" *ngFor="let listID of ['ancestry']">
+            <div class="list-item list-header"
+                [className]="(get_Character().class.ancestry.name) ? 'fullsize-only' : ''"
+                *ngFor="let listID of ['ancestry']">
                 <button class="row button" (mouseover)="hover = listID" (mouseout)="hover = ''"
                     [ngStyle]="(get_Character().class.ancestry.name) ? {'color':get_Accent()} : {'background-color':get_Accent()}"
                     [className]="((get_Character().class.ancestry.name)) ? 'fancy-button' : ''"
@@ -103,7 +117,8 @@
         </ng-container>
         <!--Heritage-->
         <ng-container *ngIf="get_Character().class.ancestry.name">
-            <div class="list-item" [className]="(get_Character().class.heritage.name) ? 'fullsize-only' : ''" *ngFor="let listID of ['heritage']">
+            <div class="list-item" [className]="(get_Character().class.heritage.name) ? 'fullsize-only' : ''"
+                *ngFor="let listID of ['heritage']">
                 <button class="row button" (mouseover)="hover = listID" (mouseout)="hover = ''"
                     [ngStyle]="(get_Character().class.heritage.name) ? {'color':get_Accent()} : {'background-color':get_Accent()}"
                     [className]="((get_Character().class.heritage.name)) ? 'fancy-button' : ''"
@@ -157,7 +172,8 @@
         </ng-container>
         <!--Background-->
         <ng-container *ngIf="get_Character().class.name">
-            <div class="list-item" [className]="(get_Character().class.background.name) ? 'fullsize-only' : ''" *ngFor="let listID of ['background']">
+            <div class="list-item" [className]="(get_Character().class.background.name) ? 'fullsize-only' : ''"
+                *ngFor="let listID of ['background']">
                 <button class="row button" (mouseover)="hover = listID" (mouseout)="hover = ''"
                     [ngStyle]="(get_Character().class.background.name) ? {'color':get_Accent()} : {'background-color':get_Accent()}"
                     [className]="((get_Character().class.background.name)) ? 'fancy-button' : ''"
@@ -244,7 +260,8 @@
                 <!--Different Worlds-->
                 <ng-container *ngFor="let feat of get_DifferentWorldsFeat(level.number)">
                     <!--Different Worlds Name-->
-                    <div class="list-item" [className]="(feat.data.name != '') ? 'fullsize-only' : ''" *ngFor="let listID of ['differentWorlds_Name']">
+                    <div class="list-item" [className]="(feat.data.name != '') ? 'fullsize-only' : ''"
+                        *ngFor="let listID of ['differentWorlds_Name']">
                         <button class="row button" (mouseover)="hover = listID" (mouseout)="hover = ''"
                             [ngStyle]="(feat.data.name != '') ? {'color':get_Accent()} : {'background-color':get_Accent()}"
                             [className]="(feat.data.name != '') ? 'fancy-button' : ''" (click)="toggle_List(listID)">
@@ -262,7 +279,8 @@
                         </div>
                     </div>
                     <!--Different Worlds Background-->
-                    <div class="list-item" [className]="(feat.data.background != '') ? 'fullsize-only' : ''" *ngFor="let listID of ['differentWorlds_Background']">
+                    <div class="list-item" [className]="(feat.data.background != '') ? 'fullsize-only' : ''"
+                        *ngFor="let listID of ['differentWorlds_Background']">
                         <button class="row button" (mouseover)="hover = listID" (mouseout)="hover = ''"
                             [ngStyle]="(feat.data.background) ? {'color':get_Accent()} : {'background-color':get_Accent()}"
                             [className]="(feat.data.background) ? 'fancy-button' : ''" (click)="toggle_List(listID)">

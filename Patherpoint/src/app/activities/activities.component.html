@@ -15,20 +15,18 @@
                 <div class="list-item sublist lower"
                     [ngStyle]="(gain.active) ? {} : {'border-color':get_Accent(activityID)}"
                     [className]="(gain.active) ? 'fancy-list' : ''" *ngIf="get_showAction()==activityID">
-                    <div class="row">
-                        <button class="row button" [ngStyle]="{'background-color':get_Accent()}"
-                            (click)="on_Activate(gain, activity, true)" *ngIf="activity.can_Activate() && !gain.active && !gain.cooldown">
-                            Activate
-                        </button>
-                        <button class="row button" [ngStyle]="{'background-color':get_Accent()}"
-                            (click)="on_Activate(gain, activity, false)" *ngIf="activity.can_Activate() && gain.active">
-                            Deactivate
-                        </button>
-                        <button class="row button" [ngStyle]="{'background-color':get_Accent()}"
-                            (click)="on_Activate(gain, activity, true)" *ngIf="gain.cooldown" disabled>
-                            Cannot activate for {{get_Duration(gain.cooldown)}}
-                        </button>
-                    </div>
+                    <button class="row center-aligned" [ngStyle]="{'background-color':get_Accent()}"
+                        (click)="on_Activate(gain, activity, true)" *ngIf="activity.can_Activate() && !gain.active && !gain.cooldown">
+                        Activate
+                    </button>
+                    <button class="row center-aligned" [ngStyle]="{'background-color':get_Accent()}"
+                        (click)="on_Activate(gain, activity, false)" *ngIf="activity.can_Activate() && gain.active">
+                        Deactivate
+                    </button>
+                    <button class="row center-aligned" [ngStyle]="{'background-color':get_Accent()}"
+                        (click)="on_Activate(gain, activity, true)" *ngIf="gain.cooldown" disabled>
+                        Cannot activate for {{get_Duration(gain.cooldown)}}
+                    </button>
                     <app-activity [activity]=activity></app-activity>
                 </div>
             </div>

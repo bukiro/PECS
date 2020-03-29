@@ -13,7 +13,7 @@ export class Ancestry {
     public freeLanguages: number = 0;
     public freeLanguages_applied: number = 0;
     public recommendedLanguages: string[] = [];
-    public vision: string = "";
+    public senses: string = "";
     public gainItems = [];
     reassign() {
         this.abilityChoices = this.abilityChoices.map(choice => Object.assign(new AbilityChoice(), JSON.parse(JSON.stringify(choice))));

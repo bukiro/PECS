@@ -39,20 +39,8 @@ export class ActivityComponent implements OnInit {
         return this.traitsService.get_Traits(traitName);
     }
 
-    get_TraitsForThis(name: string) {
-        return this.traitsService.get_TraitsForThis(this.characterService, name);
-    }
-
     get_FeatsShowingOn(skillName: string) {
         return this.characterService.get_FeatsShowingOn(skillName);
-    }
-
-    get_EffectsOnThis(ObjectName: String) {
-        return this.effectsService.get_EffectsOnThis(ObjectName);
-    }
-
-    get_ConditionsShowingOn(name: string) {
-        return this.characterService.get_ConditionsShowingOn(name);
     }
 
     get_Spells(name: string = "", type: string = "", tradition: string = "") {

@@ -32,7 +32,7 @@
         "languages":["Common", "Dwarven"],
         "freeLanguages":0,
         "recommendedLanguages":["Gnomish", "Goblin", "Jotun", "Orcish", "Terran", "Undercommon"],
-        "vision":"Darkvision",
+        "senses":"Darkvision",
         "gainItems":[{"name":"Clan Dagger", "type":"weapons"}]
     },
     {
@@ -68,7 +68,7 @@
         "languages":["Common", "Elven"],
         "freeLanguages":0,
         "recommendedLanguages":["Celestial", "Draconic", "Gnoll", "Gnomish", "Goblin", "Orcish", "Sylvan"],
-        "vision":"Low-Light Vision" },
+        "senses":"Low-Light Vision" },
     {
         "name":"Human",
         "traits":["Human", "Humanoid"],

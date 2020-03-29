@@ -1,16 +1,18 @@
-<div class="row list-item" [className]="(skill.$value.result <= 0) ? 'fullsize-only' : ''"
+<div class="list-item" [className]="(skill.$value.result <= 0) ? 'fullsize-only' : ''"
     *ngFor="let skill of [skill.calculate(this.characterService,this.abilitiesService,this.effectsService)]">
-    <strong>{{skill.name}}</strong>
-    <app-proficiency-form [skill]="skill" [characterService]="this.characterService"
-        [level]="this.characterService.get_Character().level">
-    </app-proficiency-form>
-    <span *ngIf="showValue">
-        Value: <input class="number2"
-            [className]="(skill.$penalty.length) ? 'penalty' : (skill.$bonus.length) ? 'bonus' : ''" type="number"
-            title="{{((isDC) ? 'DC basis: 10\n' : '')+skill.$value.explain}}"
-            value="{{skill.$value.result + ((isDC) ? 10 : 0)}}" disabled>
-    </span>
-    <app-tags [objectName]=skill.name [showTraits]=true [showFeats]=true [showItems]=true [showActivities]=true
+    <div class="row">
+        <strong>{{skill.name}}</strong>
+        <app-proficiency-form [skill]="skill" [characterService]="this.characterService"
+            [level]="this.characterService.get_Character().level">
+        </app-proficiency-form>
+        <span *ngIf="showValue">
+            Value: <input class="number2"
+                [className]="(skill.$penalty.length) ? 'penalty' : (skill.$bonus.length) ? 'bonus' : ''" type="number"
+                title="{{((isDC) ? 'DC basis: 10\n' : '')+skill.$value.explain}}"
+                value="{{skill.$value.result + ((isDC) ? 10 : 0)}}" disabled>
+        </span>
+    </div>
+        <app-tags [objectName]=skill.name [showTraits]=true [showFeats]=true [showItems]=true [showActivities]=true
         [showConditions]=true [showEffects]=true [specialNames]=get_specialShowon(skill)></app-tags>
     <div class="fullsize-only row">
         <span><input type="checkbox" [(ngModel)]="skill.showNotes">Notes</span>
