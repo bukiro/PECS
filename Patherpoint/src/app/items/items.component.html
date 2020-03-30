@@ -11,9 +11,9 @@
         </span>
     </div>
     <div class="list-item">
-        <strong>Sort</strong>
+        <strong>Sort by</strong>
         <select [(ngModel)]="sorting">
-            <option *ngFor="let sort of ['name','level']" [value]="sort">
+            <option *ngFor="let sort of ['Name','Level']" [value]="sort.toLowerCase()">
                 {{sort}}
             </option>
         </select>
@@ -57,7 +57,7 @@
         </ng-container>
     </ng-container>
     <h3>Create custom item</h3>
-    <button class="fancy-button" [ngStyle]="{'color':get_Accent()}" (click)="toggle_List('CreateNew')">Create custom
+    <button class="list-item" [ngStyle]="{'background-color':get_Accent()}" (click)="toggle_List('CreateNew')">Create custom
         item</button>
     <ng-container *ngIf="get_ShowList()=='CreateNew'">
         <ng-container *ngFor="let listID of [get_ID()*1000]">
@@ -65,7 +65,8 @@
                 <span><strong>Type</strong></span>
                 <span><select [(ngModel)]="newItemType" (ngModelChange)="initialize_NewItem()">
                         <option *ngFor="let name of [{name:'', key:''}].concat(get_Items().names)" [value]="name.key">
-                            {{name.name}}</option>
+                            {{name.name}}
+                        </option>
                     </select></span>
             </div>
             <ng-container *ngIf="newItem">
@@ -94,28 +95,83 @@
                         </div>
                     </div>
                 </div>
-                <div class="list-item" *ngFor="let property of get_NewItemProperties()|sortBy:'asc'">
-                    <strong>{{property}}</strong>
-                    <div class="row">
-                        <input class="row" type="textbox" [(ngModel)]="newItem[property]">
-                    </div>
-                    <div class="list-item" *ngFor="let inventoryID of [listID+get_ID()]">
-                        <button class="row center-aligned" (mouseover)="hover = inventoryID" (mouseout)="hover = 0"
-                            [ngStyle]="{'background-color':get_Accent()}" (click)="toggle_Item(inventoryID)">
-                            Show examples
-                        </button>
-                        <div class="list-item sublist lower" [ngStyle]="{'border-color':get_Accent(inventoryID)}"
-                            *ngIf="get_ShowItem()==inventoryID">
-                            <div class="list-item" *ngFor="let example of get_Examples(property, newItemType)">
-                                {{example}}
-                                <button class="row center-aligned" [ngStyle]="{'background-color':get_Accent()}"
-                                    (click)="newItem[property]=example;toggle_Item(0)">
-                                    Copy
-                                </button>
+                <ng-container *ngFor="let property of get_NewItemProperties()|sortBy:'asc'">
+                    <h5>{{property}}</h5>
+                    <ng-container *ngIf="get_IsObject(newItem[property])">
+                        <button [ngStyle]="{'background-color':get_Accent()}" (click)="add_NewItemObject(property)">Add</button>
+                        <div class="list-item" *ngFor="let object of newItem[property]; let i = index">
+                            {{i+1}}
+                            <button [ngStyle]="{'background-color':get_Accent()}" (click)="remove_NewItemObject(property, i)">Remove</button>
+                            <ng-container *ngIf="get_IsObject(object)">
+                                <ng-container *ngFor="let subProperty of get_NewItemSubProperties(property,i)">
+                                    <div class="row">
+                                        {{subProperty}}
+                                        <input class="row" type="textbox" [(ngModel)]="newItem[property][i][subProperty]">
+                                    </div>
+                                    <div class="list-item" style="margin: initial 0" *ngFor="let inventoryID of [listID+get_ID()]">
+                                        <button class="row center-aligned" (mouseover)="hover = inventoryID" (mouseout)="hover = 0"
+                                            [ngStyle]="{'background-color':get_Accent()}" (click)="toggle_Item(inventoryID)">
+                                            Show examples
+                                        </button>
+                                        <div class="list-item sublist lower" [ngStyle]="{'border-color':get_Accent(inventoryID)}"
+                                            *ngIf="get_ShowItem()==inventoryID">
+                                            <div class="list-item" *ngFor="let example of get_Examples(property, subProperty)|sortBy:'asc'">
+                                                {{example}}
+                                                <button class="row center-aligned" [ngStyle]="{'background-color':get_Accent()}"
+                                                    (click)="newItem[property][i][subProperty]=example;toggle_Item(0)">
+                                                    Copy
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </ng-container>
+                            </ng-container>
+                            <ng-container *ngIf="!get_IsObject(object)">
+                                <div class="row">
+                                    <input class="row" type="textbox" [(ngModel)]="newItem[property][i]">
+                                </div>
+                                <div class="list-item" style="margin: initial 0" *ngFor="let inventoryID of [listID+get_ID()]">
+                                    <button class="row center-aligned" (mouseover)="hover = inventoryID" (mouseout)="hover = 0"
+                                        [ngStyle]="{'background-color':get_Accent()}" (click)="toggle_Item(inventoryID)">
+                                        Show examples
+                                    </button>
+                                    <div class="list-item sublist lower" [ngStyle]="{'border-color':get_Accent(inventoryID)}"
+                                        *ngIf="get_ShowItem()==inventoryID">
+                                        <div class="list-item" *ngFor="let example of get_Examples(property)|sortBy:'asc'">
+                                            {{example}}
+                                            <button class="row center-aligned" [ngStyle]="{'background-color':get_Accent()}"
+                                                (click)="newItem[property][i]=example;toggle_Item(0)">
+                                                Copy
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </ng-container>
+                            
+                        </div>
+                    </ng-container>
+                    <ng-container *ngIf="!get_IsObject(newItem[property])">
+                        <div class="row">
+                            <input class="row" type="textbox" [(ngModel)]="newItem[property]">
+                        </div>
+                        <div class="list-item" style="margin: initial 0" *ngFor="let inventoryID of [listID+get_ID()]">
+                            <button class="row center-aligned" (mouseover)="hover = inventoryID" (mouseout)="hover = 0"
+                                [ngStyle]="{'background-color':get_Accent()}" (click)="toggle_Item(inventoryID)">
+                                Show examples
+                            </button>
+                            <div class="list-item sublist lower" [ngStyle]="{'border-color':get_Accent(inventoryID)}"
+                                *ngIf="get_ShowItem()==inventoryID">
+                                <div class="list-item" *ngFor="let example of get_Examples(property)|sortBy:'asc'">
+                                    {{example}}
+                                    <button class="row center-aligned" [ngStyle]="{'background-color':get_Accent()}"
+                                        (click)="newItem[property]=example;toggle_Item(0)">
+                                        Copy
+                                    </button>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                </div>
+                    </ng-container>
+                </ng-container>
                 <div class="list-item" *ngFor="let inventoryID of [listID+get_ID()]">
                     <button class="row center-aligned" [ngStyle]="{'background-color':get_Accent()}"
                         (click)="grant_CustomItem()">

@@ -1,13 +1,13 @@
 import { Weapon } from './Weapon';
 import { Armor } from './Armor';
 import { Shield } from './Shield';
-import { Item } from './Item';
 import { WornItem } from './WornItem';
 import { AlchemicalElixir } from './AlchemicalElixir';
 import { Consumable } from './Consumable';
 import { OtherConsumable } from './OtherConsumable';
 import { HeldItem } from './HeldItem';
 import { AdventuringGear } from './AdventuringGear';
+import { Equipment } from './Equipment';
 
 export class ItemCollection {
     public weapons: Weapon[] = [];
@@ -31,7 +31,7 @@ export class ItemCollection {
         ]
     ) {}
     allEquipment() {
-        let items: Item[] = [];
+        let items: Equipment[] = [];
         items.push(...this.weapons);
         items.push(...this.armors);
         items.push(...this.shields);

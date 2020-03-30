@@ -29,7 +29,7 @@ export class Speed {
         }
         //Incredible Movement adds 10 to Land Speed on Level 3 and 5 on every fourth level after, provided you are unarmored.
         if (this.name == "Land Speed" && character.get_FeatsTaken(1, character.level, "Incredible Movement").length) {
-            let equippedArmor = characterService.get_InventoryItems().armors.filter(armor => armor.equip)
+            let equippedArmor = characterService.get_InventoryItems().armors.filter(armor => armor.equipped)
             if (equippedArmor.length && equippedArmor[0].get_Prof() == "Unarmored") {
                 let incredibleMovementBonus = 5 + (character.level + 1 - ((character.level + 1) % 4)) / 4 * 5;
                 sum += incredibleMovementBonus;

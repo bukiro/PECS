@@ -6,6 +6,26 @@
     </h3>
     <div class="loading" *ngIf="still_loading()">Loading</div>
     <ng-container *ngIf="!still_loading()">
+        <div class="list-item row">
+            <span>
+                <button class="center-aligned" [ngStyle]="{'background-color':get_Accent()}" *ngIf="AC.cover != 1"
+                    (click)="AC.cover = 1; set_CharacterChanged()">Lesser cover</button>
+                <button class="center-aligned" [ngStyle]="{'background-color':get_Accent()}" *ngIf="AC.cover == 1"
+                    (click)="AC.cover = 0; set_CharacterChanged()">End cover</button>
+            </span>
+            <span>
+                <button class="center-aligned" [ngStyle]="{'background-color':get_Accent()}" *ngIf="AC.cover != 2"
+                    (click)="AC.cover = 2; set_CharacterChanged()">Behind cover</button>
+                <button class="center-aligned" [ngStyle]="{'background-color':get_Accent()}" *ngIf="AC.cover == 2"
+                    (click)="AC.cover = 0; set_CharacterChanged()">End cover</button>
+            </span>
+            <span>
+                <button class="center-aligned" [ngStyle]="{'background-color':get_Accent()}" *ngIf="AC.cover != 4"
+                    (click)="AC.cover = 4; set_CharacterChanged()">Take cover</button>
+                <button class="center-aligned" [ngStyle]="{'background-color':get_Accent()}" *ngIf="AC.cover == 4"
+                    (click)="AC.cover = 0; set_CharacterChanged()">End cover</button>
+            </span>
+        </div>
         <app-tags [objectName]="'AC'" [showTraits]=true [showFeats]=true [showItems]=true [showActivities]=true
                     [showConditions]=true [showEffects]=true></app-tags>
         <div class="list-item" *ngFor="let armor of get_EquippedArmor()">
@@ -14,26 +34,6 @@
             <div class="fullsize-only row left-aligned" *ngIf="armor.traits.length">
                 <cite class="trait" *ngFor="let trait of armor.traits"
                     title="{{get_Traits(trait)[0].description}}">{{trait}}</cite>
-            </div>
-            <div class=row>
-                <span>
-                    <button class="center-aligned" [ngStyle]="{'background-color':get_Accent()}" *ngIf="armor.cover != 1"
-                        (click)="armor.cover = 1; set_CharacterChanged()">Lesser cover</button>
-                    <button class="center-aligned" [ngStyle]="{'background-color':get_Accent()}" *ngIf="armor.cover == 1"
-                        (click)="armor.cover = 0; set_CharacterChanged()">End cover</button>
-                </span>
-                <span>
-                    <button class="center-aligned" [ngStyle]="{'background-color':get_Accent()}" *ngIf="armor.cover != 2"
-                        (click)="armor.cover = 2; set_CharacterChanged()">Behind cover</button>
-                    <button class="center-aligned" [ngStyle]="{'background-color':get_Accent()}" *ngIf="armor.cover == 2"
-                        (click)="armor.cover = 0; set_CharacterChanged()">End cover</button>
-                </span>
-                <span>
-                    <button class="center-aligned" [ngStyle]="{'background-color':get_Accent()}" *ngIf="armor.cover != 4"
-                        (click)="armor.cover = 4; set_CharacterChanged()">Take cover</button>
-                    <button class="center-aligned" [ngStyle]="{'background-color':get_Accent()}" *ngIf="armor.cover == 4"
-                        (click)="armor.cover = 0; set_CharacterChanged()">End cover</button>
-                </span>
             </div>
             <app-tags [objectName]="'Defense'" [showTraits]=true [showFeats]=true [showItems]=true [showActivities]=true
                 [showConditions]=true [showEffects]=true></app-tags>

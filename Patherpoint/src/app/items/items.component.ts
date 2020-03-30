@@ -12,6 +12,10 @@ import { OtherConsumable } from '../OtherConsumable';
 import { AdventuringGear } from '../AdventuringGear';
 import { Item } from '../Item';
 import { Consumable } from '../Consumable';
+import { Equipment } from '../Equipment';
+import { EffectGain } from '../EffectGain';
+import { ItemGain } from '../ItemGain';
+import { ConditionGain } from '../ConditionGain';
 
 @Component({
     selector: 'app-items',
@@ -28,8 +32,7 @@ export class ItemsComponent implements OnInit {
     public wordFilter: string = "";
     public sorting: string = "level";
     public newItemType: string = "";
-    public newItem: Item|Consumable = null;
-    public JSON = JSON;
+    public newItem: Equipment|Consumable = null;
     
     constructor(
         private changeDetector: ChangeDetectorRef,
@@ -38,7 +41,7 @@ export class ItemsComponent implements OnInit {
         public sortByPipe: SortByPipe
     ) { }
 
-    toggle_List(type) {
+    toggle_List(type: string) {
         if (this.showList == type) {
             this.showList = "";
         } else {
@@ -98,8 +101,8 @@ export class ItemsComponent implements OnInit {
         return this.characterService.get_InventoryItems();
     }
 
-    get_VisibleItems(items) {
-        return items.filter(item =>
+    get_VisibleItems(items: Item[]) {
+        return items.filter((item: Item) =>
             !item.hide && (
                 !this.wordFilter || (
                     this.wordFilter && (
@@ -111,7 +114,7 @@ export class ItemsComponent implements OnInit {
             );
     }
 
-    grant_Item(item) {
+    grant_Item(item: Item) {
         this.characterService.grant_InventoryItem(item);
         this.characterService.set_Changed();
     }
@@ -161,29 +164,42 @@ export class ItemsComponent implements OnInit {
             default:
                 this.newItem = null;
         }
-        
-        if (this.newItem != null) {
-            Object.keys(this.newItem).forEach(key => {
-                this.newItem[key] = JSON.stringify(this.newItem[key]);
-            });
+        if (this.newItem["effects"]) {
+            this.newItem["effects"] = this.newItem["effects"].map(effect => Object.assign(new EffectGain(), effect))
         }
+        if (this.newItem["specialEffects"]) {
+            this.newItem["specialEffects"] = this.newItem["specialEffects"].map(effect => Object.assign(new EffectGain(), effect))
+        }
+        if (this.newItem["gainItems"]) {
+            this.newItem["gainItems"] = this.newItem["gainItems"].map(effect => Object.assign(new ItemGain(), effect))
+        }
+        if (this.newItem["gainCondition"]) {
+            this.newItem["gainCondition"] = this.newItem["gainCondition"].map(effect => Object.assign(new ConditionGain(), effect))
+        }
+        /*if (this.newItem != null) {
+            Object.keys(this.newItem).forEach(key => {
+                if (this.get_IsObject(this.newItem[key])) {
+                    this.newItem[key].forEach(object => {
+                        Object.keys(object).forEach(subkey => {
+                            object[subkey] = JSON.stringify(object[subkey]);
+                        })
+                    })
+                } else {
+                    this.newItem[key] = JSON.stringify(this.newItem[key]);
+                }
+            });
+        }*/
     }
 
     get_NewItemProperties() {
         let hideProperties: string[] = [
-            "notes",
             "showNotes",
             "showName",
             "type",
             "hide",
-            "equip",
+            "equipped",
             "invested",
             "cover",
-            "potencyRune",
-            "resilientRune",
-            "strikingRune",
-            "propertyRunes",
-            "material",
             "affectedByArmoredSkirt",
             "parrying",
             "raised",
@@ -192,7 +208,15 @@ export class ItemsComponent implements OnInit {
         return Object.keys(this.newItem).filter(key => hideProperties.indexOf(key) == -1);
     }
 
-    copy_Item(item: Item|Consumable) {
+    get_IsObject(property) {
+        return (typeof property == 'object');
+    }
+
+    get_NewItemSubProperties(property: string, index: number) {
+        return Object.keys(this.newItem[property][index]);
+    }
+
+    copy_Item(item: Equipment|Consumable) {
         switch (item.type) {
             case "weapons":
                 this.newItem = Object.assign(new Weapon(), item);
@@ -219,33 +243,140 @@ export class ItemsComponent implements OnInit {
                 this.newItem = Object.assign(new AdventuringGear(), item);
                 break;
         }
-        if (this.newItem != null) {
-            Object.keys(this.newItem).forEach(key => {
-                this.newItem[key] = JSON.stringify(this.newItem[key]);
-            });
+        if (this.newItem["effects"]) {
+            this.newItem["effects"] = this.newItem["effects"].map(effect => Object.assign(new EffectGain(), effect))
         }
+        if (this.newItem["specialEffects"]) {
+            this.newItem["specialEffects"] = this.newItem["specialEffects"].map(effect => Object.assign(new EffectGain(), effect))
+        }
+        if (this.newItem["gainItems"]) {
+            this.newItem["gainItems"] = this.newItem["gainItems"].map(effect => Object.assign(new ItemGain(), effect))
+        }
+        if (this.newItem["gainCondition"]) {
+            this.newItem["gainCondition"] = this.newItem["gainCondition"].map(effect => Object.assign(new ConditionGain(), effect))
+        }
+        /*if (this.newItem != null) {
+            Object.keys(this.newItem).forEach(key => {
+                if (this.get_IsObject(this.newItem[key])) {
+                    this.newItem[key].forEach(object => {
+                        Object.keys(object).forEach(subkey => {
+                            object[subkey] = JSON.stringify(object[subkey]);
+                        })
+                    })
+                } else {
+                    this.newItem[key] = JSON.stringify(this.newItem[key]);
+                }
+            });
+        }*/
     }
 
-    get_Examples(propertyName: string, itemType: string) {
+    add_NewItemObject(property: string) {
+        switch (property) {
+            case "gainActivity": 
+                this.newItem[property].push("" as string)
+                break;
+            case "gainItems":
+                this.newItem[property].push(new ItemGain())
+                break;
+            case "effects":
+                this.newItem[property].push(new EffectGain())
+                break;
+            case "specialEffects":
+                this.newItem[property].push(new EffectGain())
+                break;
+            case "propertyRunes":
+                this.newItem[property].push("" as string)
+                break;
+            case "traits":
+                this.newItem[property].push("" as string)
+                break;
+            case "gainCondition": 
+                this.newItem[property].push(new ConditionGain())
+                break;
+        }
+        /*this.newItem[property].forEach(object => {
+            Object.keys(object).forEach(subkey => {
+                
+                object[subkey] = JSON.stringify(object[subkey]);
+            })
+        })*/
+    }
+
+    remove_NewItemObject(property: string, index: number) {
+        this.newItem[property].splice(index, 1);
+    }
+
+    get_Examples(propertyName: string, subPropertyName: string = "") {
         let examples = [];
-        this.get_Items()[itemType].concat(this.get_InventoryItems()[itemType]).forEach(item => {
+        this.get_Items().allEquipment().concat(this.get_InventoryItems().allEquipment()).forEach((item: Equipment) => {
             if (item[propertyName]) {
-                examples.push(JSON.stringify(item[propertyName]))
+                if (this.get_IsObject(item[propertyName])) {
+                    item[propertyName].forEach(element => {
+                        if (this.get_IsObject(element)) {
+                            if (element[subPropertyName]) {
+                                examples.push(element[subPropertyName])
+                            }
+                        } else {
+                            examples.push(element)
+                        }
+                    });
+                } else {
+                    examples.push(item[propertyName])
+                }
             }
-        })
+        });
+        this.get_Items().allConsumables().concat(this.get_InventoryItems().allConsumables()).forEach((item: Consumable) => {
+            if (item[propertyName]) {
+                if (this.get_IsObject(item[propertyName])) {
+                    item[propertyName].forEach(element => {
+                        if (this.get_IsObject(element)) {
+                            if (element[subPropertyName]) {
+                                examples.push(element[subPropertyName])
+                            }
+                        } else {
+                            examples.push(element)
+                        }
+                    });
+                } else {
+                    examples.push(item[propertyName])
+                }
+            }
+        });
         let uniqueExamples = Array.from(new Set(examples))
         return uniqueExamples;
     }
 
     grant_CustomItem() {
         if (this.newItem != null) {
-            Object.keys(this.newItem).forEach(key => {
-                this.newItem[key] = JSON.parse(this.newItem[key]);
-            });
+            /*Object.keys(this.newItem).forEach(key => {
+                if (this.get_IsObject(this.newItem[key])) {
+                    this.newItem[key].forEach(object => {
+                        Object.keys(object).forEach(subkey => {
+                            if (object[subkey] == null) {
+                                object[subkey] = "";
+                            }
+                            object[subkey] = JSON.parse(object[subkey]);
+                        })
+                    })
+                } else {
+                    if (this.newItem[key] == null) {
+                        this.newItem[key] = "";
+                    }
+                    this.newItem[key] = JSON.parse(this.newItem[key]);
+                }
+            });*/
             this.grant_Item(this.newItem);
-            Object.keys(this.newItem).forEach(key => {
-                this.newItem[key] = JSON.stringify(this.newItem[key]);
-            });
+            /*Object.keys(this.newItem).forEach(key => {
+                if (this.get_IsObject(this.newItem[key])) {
+                    this.newItem[key].forEach(object => {
+                        Object.keys(object).forEach(subkey => {
+                            object[subkey] = JSON.stringify(object[subkey]);
+                        })
+                    })
+                } else {
+                    this.newItem[key] = JSON.stringify(this.newItem[key]);
+                }
+            });*/
         }
     }
 

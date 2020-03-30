@@ -8,7 +8,7 @@ export class Trait {
     haveOn(characterService: CharacterService, namesOnly: boolean = false) { 
         let inventory = characterService.get_InventoryItems();
         let items: any[] = [].concat(inventory.allEquipment());
-        let filteredItems = items.filter(item => item.equip && item.traits.indexOf(this.name) > -1 );
+        let filteredItems = items.filter(item => item.equipped && item.traits.indexOf(this.name) > -1 );
         if (namesOnly) {
             let filteredNames: string[] = [];
             filteredItems.forEach(item => {

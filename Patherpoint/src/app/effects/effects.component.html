@@ -92,7 +92,7 @@
             </ng-container>
         </div>
         <h3 [ngStyle]="{'color':get_Accent()}">Not Applied Effects</h3>
-        <div class="list-item row lower notapplied" *ngFor="let effect of get_AppliedEffects()">
+        <div class="list-item row lower notapplied" *ngFor="let effect of get_NotAppliedEffects()">
             <span>
                 <strong [className]="effect.penalty ? 'penalty' : 'bonus'"
                     title="{{effect.source}}">{{effect.target}}
@@ -107,13 +107,13 @@
         (click)="toggle_Hidden()">{{(showHidden) ? "Hide hidden effects" : "Show hidden effects"}}</button>
     <div class="fullsize-only" *ngIf="showHidden">
         <h3 [ngStyle]="{'color':get_Accent()}">Hidden Effects</h3>
-        <div class="list-item row lower notapplied" *ngFor="let effect of get_AppliedEffects()">
+        <div class="list-item row lower" *ngFor="let effect of get_HiddenEffects()">
             <span>
                 <strong [className]="effect.penalty ? 'penalty' : 'bonus'"
                     title="{{effect.source}}">{{effect.target}}
                     {{effect.value}}
                 </strong>
-                {{(effect.type != "untyped") ? effect.type+' ' : ''}}{{(effect.penalty) ? 'penalty' : 'bonus'}}
+                {{(effect.type != "untyped") ? effect.type+' ' : ''}}
                 ({{effect.source}})
             </span>
         </div>

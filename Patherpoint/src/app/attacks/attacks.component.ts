@@ -40,7 +40,7 @@ export class AttacksComponent implements OnInit {
     }
 
     get_EquippedWeapons() {
-        return this.characterService.get_InventoryItems().weapons.filter(weapon => weapon.equip && weapon.equippable);
+        return this.characterService.get_InventoryItems().weapons.filter(weapon => weapon.equipped && weapon.equippable);
     }
 
     get_Skills(name: string = "", type: string = "") {

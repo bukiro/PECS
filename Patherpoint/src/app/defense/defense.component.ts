@@ -51,15 +51,15 @@ export class DefenseComponent implements OnInit {
     }
 
     get_EquippedArmor() {
-        return this.defenseService.get_EquippedArmor();
+        return this.defenseService.get_EquippedArmor(this.characterService);
     }
 
     get_EquippedShield() {
-        return this.defenseService.get_EquippedShield();
+        return this.defenseService.get_EquippedShield(this.characterService);
     }
 
     get_ParryWeapons() {
-        return this.defenseService.get_ParryWeapons();
+        return this.defenseService.get_ParryWeapons(this.characterService);
     }
 
     get_Skills(name: string = "", type: string = "") {
@@ -71,7 +71,7 @@ export class DefenseComponent implements OnInit {
     }
 
     get_ArmorBonus(armor: Armor) {
-        return this.defenseService.get_ArmorBonus(armor);
+        return this.defenseService.get_ArmorBonus(this.characterService, armor);
     }
 
     set_CharacterChanged() {

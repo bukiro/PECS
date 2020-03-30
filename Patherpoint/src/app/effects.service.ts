@@ -3,6 +3,7 @@ import { Effect } from './Effect';
 import { CharacterService } from './character.service';
 import { TraitsService } from './traits.service';
 import { EffectCollection } from './EffectCollection';
+import { DefenseService } from './defense.service';
 
 @Injectable({
     providedIn: 'root'
@@ -107,12 +108,12 @@ constructor(
         //It gets called by this.initialize whenever the character has changed.
         //Every other function can skip the whole process and just do get_Effects().
         let simpleEffects: Effect[] = [];
+        let character = characterService.get_Character();
         let items = characterService.get_InventoryItems();
         //Create simple effects from all equipped items first
         items.allEquipment().filter(item => item.invested && (item.effects || item.specialEffects)).forEach(item => {
             simpleEffects = simpleEffects.concat(this.get_SimpleEffects(characterService, item));
             });
-        let character = characterService.get_Character();
         let feats = character.get_FeatsTaken(1, character.level);
         feats.forEach(feat => {
             simpleEffects = simpleEffects.concat(this.get_SimpleEffects(characterService, characterService.get_FeatsAndFeatures(feat.name)[0]));
@@ -131,29 +132,29 @@ constructor(
         
         let itemEffects: Effect[] = [];
 
+        //Get cover bonuses
+        let coverBonus = characterService.get_AC().cover;
+        if (coverBonus > 0) {
+            itemEffects.push(new Effect('circumstance', "AC", "+"+coverBonus, "Cover", false));
+        }
         //Get parrying bonuses from raised weapons
         //If an item is a weapon that is raised, add +1 to AC.
-        items.weapons.filter(item => item.equip && item.parrying).forEach(item => {
+        items.weapons.filter(item => item.equipped && item.parrying).forEach(item => {
             itemEffects.push(new Effect('circumstance', "AC", "+1", "Parrying", false));
         })
         //Get shield bonuses from raised shields
         //IF a shield is raised, add its item bonus to AC with a + in front. If you are also taking cover while the shield is raised, add that bonus as well.
-        items.shields.filter(item => item.equip && item.raised).forEach(item => {
+        items.shields.filter(item => item.equipped && item.raised).forEach(item => {
             let shieldBonus = item.acbonus;
             if (item.takingCover) {
                 shieldBonus += item.coverbonus;
             }
             itemEffects.push(new Effect('circumstance', "AC", "+"+shieldBonus, item.get_Name(), false));
         });
-        //Get cover bonuses (these are taken from the currently worn armor)
-        items.armors.filter(item => item.equip && item.cover > 0).forEach(item => {
-            let coverBonus = item.cover;
-            itemEffects.push(new Effect('circumstance', "AC", "+"+coverBonus, "Cover", false));
-        });
         //Get skill and speed penalties from armor
         //If an armor has a skillpenalty or a speedpenalty, check if Strength meets its strength requirement.
         let Strength = characterService.get_Abilities("Strength")[0].value(characterService, this);
-        items.armors.filter(item => item.equip && item.get_SkillPenalty()).forEach(item => {
+        items.armors.filter(item => item.equipped && item.get_SkillPenalty()).forEach(item => {
             item.get_ArmoredSkirt(characterService);
             let name = item.get_Name();
             if (Strength < item.get_Strength()) {
@@ -184,7 +185,7 @@ constructor(
                 }
             }
         });
-        items.armors.filter(item => item.equip && item.speedpenalty).forEach(item => {
+        items.armors.filter(item => item.equipped && item.speedpenalty).forEach(item => {
             let name = item.get_Name();
             if (Strength < item.get_Strength()) {
                 //You are not strong enough to move unhindered in this armor. You get a speed penalty.
@@ -201,7 +202,7 @@ constructor(
                 }
             }
         });
-        items.shields.filter(item => item.equip && item.speedpenalty).forEach(item => {
+        items.shields.filter(item => item.equipped && item.speedpenalty).forEach(item => {
             //Shields don't have a strength requirement for speed penalties. In this case, the penalty just alwas applies.
             itemEffects.push(new Effect('untyped', "Speed", item.speedpenalty.toString(), item.get_Name(), true));
         });

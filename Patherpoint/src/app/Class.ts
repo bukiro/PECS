@@ -11,6 +11,7 @@ import { Skill } from './Skill';
 import { AbilityChoice } from './AbilityChoice';
 import { FeatChoice } from './FeatChoice';
 import { ActivityGain } from './ActivityGain';
+import { Equipment } from './Equipment';
 
 export class Class {
     public name: string = "";
@@ -38,7 +39,7 @@ export class Class {
             this.levels[1].abilityChoices = this.levels[1].abilityChoices.filter(availableBoost => availableBoost.source != "Ancestry")
             if (this.ancestry.gainItems.length) {
                 this.ancestry.gainItems.forEach(freeItem => {
-                    let items: Item[] = characterService.get_InventoryItems()[freeItem.type].filter(item => item.name == freeItem.name);
+                    let items: Equipment[] = characterService.get_InventoryItems()[freeItem.type].filter(item => item.name == freeItem.name);
                     if (items.length) {
                         characterService.drop_InventoryItem(items[0]);
                     }
@@ -57,7 +58,7 @@ export class Class {
             this.levels[1].abilityChoices.push(...this.ancestry.abilityChoices);
             if (this.ancestry.gainItems.length) {
                 this.ancestry.gainItems.forEach(freeItem => {
-                    let item: Item = itemsService.get_Items()[freeItem.type].filter(item => item.name == freeItem.name)[0];
+                    let item: Equipment = itemsService.get_Items()[freeItem.type].filter(item => item.name == freeItem.name)[0];
                     characterService.grant_InventoryItem(item);
                 });
             }

@@ -7,6 +7,7 @@ import { CharacterService } from './character.service';
 import { ItemsService } from './items.service';
 import { Item } from './Item';
 import { TimeService } from './time.service';
+import { Equipment } from './Equipment';
 
 @Injectable({
     providedIn: 'root'
@@ -55,12 +56,12 @@ export class ActivitiesService {
         if (activity.gainItems.length) {
             if (activated) {
                 activity.gainItems.forEach(gainItem => {
-                    let item: Item = itemsService.get_Items()[gainItem.type].filter(item => item.name == gainItem.name)[0];
+                    let item: Equipment = itemsService.get_Items()[gainItem.type].filter(item => item.name == gainItem.name)[0];
                     characterService.grant_InventoryItem(item);
                 });
             } else {
                 activity.gainItems.forEach(gainItem => {
-                    let items: Item[] = characterService.get_InventoryItems()[gainItem.type].filter(item => item.name == gainItem.name);
+                    let items: Equipment[] = characterService.get_InventoryItems()[gainItem.type].filter(item => item.name == gainItem.name);
                     if (items.length) {
                         characterService.drop_InventoryItem(items[0]);
                     }

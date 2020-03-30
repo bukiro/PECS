@@ -1,76 +1,37 @@
-import { Item } from './Item'
 import { CharacterService } from './character.service';
 import { EffectsService } from './effects.service';
 import { WornItem } from './WornItem';
 import { Effect } from './Effect';
-import { ItemGain } from './ItemGain';
-import { EffectGain } from './EffectGain';
+import { Equipment } from './Equipment';
 
-export class Weapon implements Item {
-    public displayName: string = "";
-    public name: string = "";
-    public desc: string = "";
-    public level: number = 0;
-    public price: number = 0;
+export class Weapon extends Equipment {
+    //How many hands are needed to wield this weapon?
     public hands: string = "";
+    //How many actions to reload this ranged weapon?
     public reload: string = "";
+    //What type of ammo is used? (Bolts, arrows...)
     public ammunition: string = "";
-    public notes: string = "";
-    public showNotes: boolean = false;
-    public showName: boolean = false;
+    //Is the weapon currently raised to parry?
     public parrying: boolean = false;
+    //Weapons should be type "weapons" to be found in the database
     public type: string = "weapons";
-    public bulk: string = "";
-    public hide: boolean = false;
-    public equippable: boolean = true;
-    public equip: boolean = false;
-    public invested: boolean = false;
+    //What proficiency is used? "Simple Weapons", "Unarmed"?
     public prof: string = "";
+    //What is the damage type? Usually S, B or P, but may include combinations"
     public dmgType: string = "";
+    //Some weapons add additional damage like +1d4F
+    public extraDamage: string = ""
+    //Number of dice for Damage: usually 1 for an unmodified weapon
     public dicenum: number = 1;
+    //Size of the damage dice: usually 4-12
     public dicesize: number = 6;
+    //Melee range in ft: 5 or 10 for weapons with Reach trait
     public melee: number = 0;
+    //Ranged range in ft - also add for thrown weapons
+    //Weapons can have a melee and a ranged value, e.g. Daggers that can thrown
     public ranged: number = 0;
-    public moddable: string = "weapon";
-    public potencyRune: number = 0;
-    public strikingRune: number = 0;
-    public propertyRunes: string[] = [];
-    public material: string = "";
-    public showon: string = "";
-    public hint: string = "";
-    public traits: string[] = [];
-    public gainActivity: string[] = [];
-    public gainItems: ItemGain[] = [];
-    public effects: EffectGain[] = [];
-    public specialEffects: EffectGain[] = [];
-    get_Potency(potency: number) {
-        if (potency > 0) {
-            return "+"+potency;
-        } else {
-            return "";
-        }
-    }
-    get_Striking(striking: number) {
-        switch (striking) {
-            case 0:
-                return "";
-            case 1:
-                return "Striking";
-            case 2:
-                return "Greater Striking";
-            case 3:
-                return "Major Striking";
-        }
-    }
-    get_Name() {
-        if (this.displayName.length) {
-            return this.displayName;
-        } else {
-            let potency = this.get_Potency(this.potencyRune);
-            let striking = this.get_Striking(this.strikingRune);
-            return (potency + " " + (striking + " " + this.name).trim()).trim();
-        }
-    }
+    //Weapons are usually moddable like a weapon. Weapons that cannot be modded should be set to ""
+    public moddable: ""|"weapon"|"armor"|"shield" = "weapon";
     profLevel(characterService: CharacterService, charLevel: number = characterService.get_Character().level) {
         if (characterService.still_loading()) { return 0; }
         let skillLevel: number = 0;

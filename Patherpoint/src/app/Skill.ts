@@ -121,7 +121,7 @@ export class Skill {
                 }
             }
             //For Saving Throws, add any resilient runes on the equipped armor
-            let armor = characterService.get_InventoryItems().armors.filter(armor => armor.equip);
+            let armor = characterService.get_InventoryItems().armors.filter(armor => armor.equipped);
             let resilient: number = 0;
             if (this.type == "Save" && armor.length) {
                 if (armor[0].resilientRune > 0) {

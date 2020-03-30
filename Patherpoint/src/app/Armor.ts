@@ -1,50 +1,33 @@
-import { Item } from './Item'
 import { CharacterService } from './character.service';
 import { EffectsService } from './effects.service';
-import { EffectGain } from './EffectGain';
-import { ActivityGain } from './ActivityGain';
-import { ItemGain } from './ItemGain';
+import { Equipment } from './Equipment';
 
-export class Armor implements Item {
-    public notes: string = "";
-    public desc: string = "";
-    public name: string = "";
-    public level: number = 0;
-    public price: number = 0;
-    public showNotes: boolean = false;
-    public showName: boolean = false;
+export class Armor extends Equipment {
+    //Armor should be type "armors" to be found in the database
     public type: string = "armors";
-    public bulk: string = "";
-    public displayName: string = "";
-    public hide: boolean = false;
-    public equippable: boolean = true;
-    public equip: boolean = false;
-    public invested: boolean = false;
+    //Armor are usually moddable like armor. Armor that cannot be modded should be set to ""
+    public moddable: ""|"weapon"|"armor"|"shield" = "armor";
+    //What proficiency is used? "Light Armor", "Medium Armor"?
     private prof: string = "";
+    //The highest dex bonus to AC you can get while wearing this armor.
+    //-1 is unlimited.
     public dexcap: number = -1;
+    //The penalty to certain skills if your strength is lower than the armors requirement
+    //Should be a negative number
     private skillpenalty: number = 0;
+    //The penalty to all speeds if your strength is lower than the armors requirement
+    //Should be a negative number and a multiple of -5
     public speedpenalty: number = 0;
+    //The strength requirement (strength, not STR) to overcome skill and speed penalties
     private strength: number = 0;
+    //The armor's inherent bonus to AC
     private acbonus: number = 0;
-    public cover: number = 0;
-    public moddable: string = "armor";
-    public traits: string[] = [];
-    public potencyRune:number = 0;
-    public resilientRune:number = 0;
-    public propertyRunes:string[] = [];
-    public material: string = "";
-    public showon: string = "";
-    public hint: string = "";
-    public gainActivity: string[] = [];
-    public gainItems: ItemGain[] = [];
-    public effects: EffectGain[] = [];
-    public specialEffects: EffectGain[] = [];
     //For certain medium and light armors, set 1 if an "Armored Skirt" is equipped; For certain heavy armors, set -1 instead
-    //This value influences 
+    //This value influences acbonus, skillpenalty, dexcap and strength
     public affectedByArmoredSkirt: -1|0|1 = 0;
     get_ArmoredSkirt(characterService: CharacterService) {
         if (["Breastplate","Chain Shirt","Chain Mail","Scale Mail"].indexOf(this.name) > -1 ) {
-            let armoredSkirt = characterService.get_InventoryItems().adventuringgear.filter(item => item.name == "Armored Skirt" && item.equip);
+            let armoredSkirt = characterService.get_InventoryItems().adventuringgear.filter(item => item.name == "Armored Skirt" && item.equipped);
             if (armoredSkirt.length) {
                 this.affectedByArmoredSkirt = 1;
                 return armoredSkirt[0];
@@ -53,7 +36,7 @@ export class Armor implements Item {
                 return null;
             }
         } else if (["Half Plate","Full Plate","Hellknight Plate"].indexOf(this.name) > -1 ) {
-            let armoredSkirt = characterService.get_InventoryItems().adventuringgear.filter(item => item.name == "Armored Skirt" && item.equip);
+            let armoredSkirt = characterService.get_InventoryItems().adventuringgear.filter(item => item.name == "Armored Skirt" && item.equipped);
             if (armoredSkirt.length) {
                 this.affectedByArmoredSkirt = -1;
                 return armoredSkirt[0];
@@ -104,34 +87,6 @@ export class Armor implements Item {
             }
         } else {
             return this.traits;
-        }
-    }
-    get_Potency(potency: number) {
-        if (potency > 0) {
-            return "+"+potency;
-        } else {
-            return "";
-        }
-    }
-    get_Resilient(resilient: number) {
-        switch (resilient) {
-            case 0:
-                return "";
-            case 1:
-                return "Resilient";
-            case 2:
-                return "Greater Resilient";
-            case 3:
-                return "Major Resilient";
-        }
-    }
-    get_Name() {
-        if (this.displayName.length) {
-            return this.displayName;
-        } else {
-            let potency = this.get_Potency(this.potencyRune);
-            let striking = this.get_Resilient(this.resilientRune);
-            return (potency + " " + (striking + " " + this.name).trim()).trim();
         }
     }
     profLevel(characterService: CharacterService, charLevel: number = characterService.get_Character().level) {

@@ -9,6 +9,7 @@ import { ConditionGain } from '../ConditionGain';
 import { Effect } from '../Effect';
 import { Item } from '../Item';
 import { Consumable } from '../Consumable';
+import { Equipment } from '../Equipment';
 
 @Component({
     selector: 'app-inventory',
@@ -94,10 +95,6 @@ export class InventoryComponent implements OnInit {
         return [bulk];
     }
 
-    can_Invest(item) {
-        return (item.traits.indexOf("Invested") > -1);
-    }
-
     get_maxInvested() {
         let maxInvest = 10;
         let effects: Effect[] = [];
@@ -121,11 +118,11 @@ export class InventoryComponent implements OnInit {
         return this.characterService.get_InvestedItems().filter(item => item.traits.indexOf("Invested") > -1);
     }
 
-    onEquip(item: Item, equipped: boolean) {
+    onEquip(item: Equipment, equipped: boolean) {
         this.characterService.onEquip(item, equipped);
     }
 
-    onInvest(item: Item, invested: boolean) {
+    onInvest(item: Equipment, invested: boolean) {
         this.characterService.onInvest(item, invested);
     }
 

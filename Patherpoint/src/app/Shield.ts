@@ -1,41 +1,18 @@
-import { Item } from './Item'
-import { ActivityGain } from './ActivityGain';
-import { ItemGain } from './ItemGain';
-import { EffectGain } from './EffectGain';
+import { Equipment } from './Equipment';
 
-export class Shield implements Item {
-    public notes: string = "";
-    public desc: string = "";
-    public name: string = "";
-    public level: number = 0;
-    public price: number = 0;
-    public displayName: string = "";
-    public showNotes: boolean = false;
-    public showName: boolean = false;
-    public raised: boolean = false;
-    public takingCover: boolean = false;
+export class Shield extends Equipment {
+    //Shields should be type "shields" to be found in the database
     public type: string = "shields";
-    public bulk: string = "";
-    public hide: boolean = false;
-    public equippable: boolean = true;
-    public equip: boolean = false;
-    public invested: boolean = false;
+    //Is the shield currently raised in order to deflect damage?
+    public raised: boolean = false;
+    //Are you currently taking cover behind the shield?
+    public takingCover: boolean = false;
+    //Shields are usually moddable as shield, which means they get material but no runes
+    public moddable: ""|"weapon"|"armor"|"shield" = "shield";
+    //The penalty to all speeds while equipping this shield
     public speedpenalty: number = 0;
+    //The shield's AC bonus received when raising it
     public acbonus: number = 0;
+    //The additional AC bonus received when taking cover behind the shield
     public coverbonus: number = 0;
-    public traits: string[] = [];
-    public material: string = "";
-    public showon: string = "";
-    public hint: string = "";
-    public gainActivity: string[] = [];
-    public gainItems: ItemGain[] = [];
-    public effects: EffectGain[] = [];
-    public specialEffects: EffectGain[] = [];
-    get_Name() {
-        if (this.displayName.length) {
-            return this.displayName;
-        } else {
-            return this.name;
-        }
-    }
 }

@@ -9,6 +9,8 @@ export class AC {
     public $bonus: Effect[] = [];
     public $penalty: Effect[] = [];
     public $value: any[];
+    //Are you currently taking cover? 
+    public cover: number = 0;
     calculate(characterService: CharacterService, defenseService: DefenseService, effectsService: EffectsService) {
         this.$effects = this.effects(effectsService);
         this.$bonus = this.bonus(effectsService);
@@ -29,7 +31,7 @@ export class AC {
         //Get the bonus from the worn armor. This includes the basic 10
         let armorBonus: number = 10;
         let explain: string = "";
-        let armor = defenseService.get_EquippedArmor();
+        let armor = defenseService.get_EquippedArmor(characterService);
         if (armor.length > 0) {
             armorBonus = armor[0].armorBonus(characterService, effectsService)[0];
             explain = armor[0].armorBonus(characterService, effectsService)[1];

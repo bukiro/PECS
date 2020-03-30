@@ -40,6 +40,10 @@ import { OtherConsumable } from './OtherConsumable';
 import { HeldItem } from './HeldItem';
 import { TimeService } from './time.service';
 import { AdventuringGear } from './AdventuringGear';
+import { DefenseService } from './defense.service';
+import { Equipment } from './Equipment';
+import { EffectGain } from './EffectGain';
+import { ItemGain } from './ItemGain';
 
 @Injectable({
     providedIn: 'root'
@@ -71,7 +75,8 @@ export class CharacterService {
         public itemsService: ItemsService,
         public spellsService: SpellsService,
         public effectsService: EffectsService,
-        public timeService: TimeService
+        public timeService: TimeService,
+        public defenseService: DefenseService
     ) { }
 
     still_loading() {
@@ -305,7 +310,7 @@ export class CharacterService {
         }
     }
 
-    grant_InventoryItem(item: Item|Consumable, changeAfter: boolean = true, equipAfter: boolean = true, amount: number = 1) {
+    grant_InventoryItem(item: Item, changeAfter: boolean = true, equipAfter: boolean = true, amount: number = 1) {
         let newInventoryItem;
         let returnedInventoryItem;
         switch (item.type) {
@@ -334,9 +339,21 @@ export class CharacterService {
                 newInventoryItem = Object.assign(new AdventuringGear(), item);
                 break;
         }
-        let existingItems = this.me.inventory[item.type].filter(existing => existing.name == item.name && existing.amount != undefined && !existing.equippable);
+        if (newInventoryItem["effects"]) {
+            newInventoryItem["effects"] = newInventoryItem["effects"].map(effect => Object.assign(new EffectGain(), effect))
+        }
+        if (newInventoryItem["specialEffects"]) {
+            newInventoryItem["specialEffects"] = newInventoryItem["specialEffects"].map(effect => Object.assign(new EffectGain(), effect))
+        }
+        if (newInventoryItem["gainItems"]) {
+            newInventoryItem["gainItems"] = newInventoryItem["gainItems"].map(effect => Object.assign(new ItemGain(), effect))
+        }
+        if (newInventoryItem["gainCondition"]) {
+            newInventoryItem["gainCondition"] = newInventoryItem["gainCondition"].map(effect => Object.assign(new ConditionGain(), effect))
+        }
+        let existingItems = this.me.inventory[item.type].filter((existing: Item) => existing.name == item.name && !existing.equippable && !item.can_Invest());
         if (existingItems.length) {
-            existingItems.forEach(existing => {
+            existingItems.forEach((existing: Item) => {
                 existing.amount += amount;
                 returnedInventoryItem = existing;
             })
@@ -376,8 +393,8 @@ export class CharacterService {
         return returnedInventoryItem;
     }
 
-    drop_InventoryItem(item: Item, changeAfter: boolean = true, equipBasicItems: boolean = true) {
-        if (item.equip) {
+    drop_InventoryItem(item: Equipment, changeAfter: boolean = true, equipBasicItems: boolean = true) {
+        if (item.equipped) {
             this.onEquip(item, false, false);
         } else if (item.invested) {
             this.onInvest(item, false, false);
@@ -391,15 +408,15 @@ export class CharacterService {
         }
     }
 
-    onEquip(item: Item, equipped: boolean = true, changeAfter: boolean = true, equipBasicItems: boolean = true) {
-        item.equip = equipped;
-        if (item.equip) {
+    onEquip(item: Equipment, equipped: boolean = true, changeAfter: boolean = true, equipBasicItems: boolean = true) {
+        item.equipped = equipped;
+        if (item.equipped) {
             if (item.type == "armors" || item.type == "shields") {
                 let allOfType = this.get_InventoryItems()[item.type];
                 allOfType.forEach(typeItem => {
                     this.onEquip(typeItem, false, false, false);
                 });
-                item.equip = true;
+                item.equipped = true;
             }
             //If you get an Activity from an item that doesn't need to be invested, immediately invest it in secret so the Activity is gained
             if (item.gainActivity && item.traits.indexOf("Invested") == -1) {
@@ -430,17 +447,13 @@ export class CharacterService {
             if (item.type == "weapons") {
                 item["parrying"] = false;
             }
-            //Also armor, even though cover is independent from armor (but we are tracking cover on the armor and we don't want it to change between equipment changes)
-            if (item.type == "armors") {
-                item["cover"] = 0;
-            }
             //If the item was invested, it isn't now.
             if (item.invested) {
                 this.onInvest(item, false, false);
             }
             if (item["gainItems"] && item["gainItems"].length) {
                 item["gainItems"].filter(gainItem => gainItem.on == "equip").forEach(gainItem => {
-                    let items: Item[] = this.get_InventoryItems()[gainItem.type].filter(item => item.name == gainItem.name);
+                    let items: Equipment[] = this.get_InventoryItems()[gainItem.type].filter(item => item.name == gainItem.name);
                     if (items.length) {
                         this.drop_InventoryItem(items[0], false);
                     }
@@ -452,13 +465,13 @@ export class CharacterService {
         }
     }
 
-    onInvest(item: Item, invested: boolean = true, changeAfter: boolean = true) {
+    onInvest(item: Equipment, invested: boolean = true, changeAfter: boolean = true) {
         item.invested = invested;
         if (item.invested) {
             item.gainActivity.forEach(gainActivity => {
                 this.me.gain_Activity(Object.assign(new ActivityGain(), { name: gainActivity, source: item.name }));
             });
-            if (!item.equip) {
+            if (!item.equipped) {
                 this.onEquip(item, true, false);
             }
         } else {
@@ -505,10 +518,10 @@ export class CharacterService {
             if (!this.get_InventoryItems().armors.length) {
                 this.grant_InventoryItem(this.basicItems[1]);
             }
-            if (!this.get_InventoryItems().weapons.filter(weapon => weapon.equip == true).length) {
+            if (!this.get_InventoryItems().weapons.filter(weapon => weapon.equipped == true).length) {
                 this.onEquip(this.get_InventoryItems().weapons[0], true, changeAfter);
             }
-            if (!this.get_InventoryItems().armors.filter(armor => armor.equip == true).length) {
+            if (!this.get_InventoryItems().armors.filter(armor => armor.equipped == true).length) {
                 this.onEquip(this.get_InventoryItems().armors[0], true, changeAfter);
             }
         }
@@ -691,6 +704,10 @@ export class CharacterService {
         return Math.min(focusPoints, 3);
     }
 
+    get_AC() {
+        return this.defenseService.get_AC();
+    }
+
     initialize(charName: string) {
         this.loading = true;
         this.traitsService.initialize();
@@ -744,6 +761,14 @@ export class CharacterService {
                 this.me.inventory.alchemicalelixirs = this.me.inventory.alchemicalelixirs.map(item => Object.assign(new AlchemicalElixir(), item));
                 this.me.inventory.otherconsumables = this.me.inventory.otherconsumables.map(item => Object.assign(new OtherConsumable(), item));
                 this.me.inventory.adventuringgear = this.me.inventory.adventuringgear.map(item => Object.assign(new AdventuringGear(), item));
+                this.me.inventory.allEquipment().forEach(item => {
+                    item.effects = item.effects.map(effect => Object.assign(new EffectGain(), effect))
+                    item.specialEffects = item.specialEffects.map(effect => Object.assign(new EffectGain(), effect))
+                    item.gainItems = item.gainItems.map(effect => Object.assign(new ItemGain(), effect))
+                })
+                this.me.inventory.allConsumables().forEach(item => {
+                    item.gainCondition = item.gainCondition.map(effect => Object.assign(new ConditionGain(), effect))
+                })
             } else {
                 this.me.inventory = new ItemCollection();
             }

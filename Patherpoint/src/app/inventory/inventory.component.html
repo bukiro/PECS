@@ -54,15 +54,15 @@
                 <ng-container *ngFor="let item of items[itemSet.key]">
                     <div class="fullsize-only list-item" *ngFor="let inventoryID of [get_ID()]">
                         <button class="row" (mouseover)="hover = inventoryID" (mouseout)="hover = 0"
-                            [ngStyle]="((item.equippable && item.equip) || (can_Invest(item) && item.invested)) ? {'color':get_Accent()} : {'background-color':get_Accent()}"
-                            [className]="((item.equippable && item.equip) || (can_Invest(item) && item.invested)) ? 'fancy-button' : ''"
+                            [ngStyle]="((item.equippable && item.equipped) || (item.can_Invest() && item.invested)) ? {'color':get_Accent()} : {'background-color':get_Accent()}"
+                            [className]="((item.equippable && item.equipped) || (item.can_Invest() && item.invested)) ? 'fancy-button' : ''"
                             (click)="toggleItem(inventoryID)">
                             {{(item.amount != undefined && item.amount != 1) ? item.amount+" " : ""}}
                             {{(item['get_Name']) ? item.get_Name() : item.name}}
                         </button>
                         <div class="list-item sublist lower"
-                            [ngStyle]="((item.equippable && item.equip) || (can_Invest(item) && item.invested)) ? {} : {'border-color':get_Accent(inventoryID)}"
-                            [className]="((item.equippable && item.equip) || (can_Invest(item) && item.invested)) ? 'fancy-list' : ''"
+                            [ngStyle]="((item.equippable && item.equipped) || (item.can_Invest() && item.invested)) ? {} : {'border-color':get_Accent(inventoryID)}"
+                            [className]="((item.equippable && item.equipped) || (item.can_Invest() && item.invested)) ? 'fancy-list' : ''"
                             *ngIf="get_ShowItem()==inventoryID">
                             <div class="row" *ngFor="let prof of [(item.get_Prof ? item.get_Prof() : item.prof)]">
                                 <span
@@ -79,27 +79,24 @@
                             </button>
                             <div class="row">
                                 <span *ngIf="item.equippable == true">
-                                    <button [ngStyle]="{'background-color':get_Accent()}" *ngIf="!item.equip"
+                                    <button [ngStyle]="{'background-color':get_Accent()}" *ngIf="!item.equipped"
                                         (click)="onEquip(item, true)">Equip</button>
-                                    <button [ngStyle]="{'background-color':get_Accent()}" *ngIf="item.equip"
+                                    <button [ngStyle]="{'background-color':get_Accent()}" *ngIf="item.equipped"
                                         (click)="onEquip(item, false)">Unequip</button>
                                 </span>
-                                <span *ngIf="can_Invest(item)">
+                                <span *ngIf="item.can_Invest()">
                                     <button [ngStyle]="{'background-color':get_Accent()}" *ngIf="!item.invested"
                                         (click)="onInvest(item, true)"
                                         [disabled]="get_InvestedItems().length >= get_maxInvested()[0] && !item.invested">Invest</button>
                                     <button [ngStyle]="{'background-color':get_Accent()}" *ngIf="item.invested"
                                         (click)="onInvest(item, false)">Uninvest</button>
                                 </span>
-                                <span *ngIf="item.amount != undefined && !item.equippable">
+                                <span *ngIf="!item.equippable && !item.can_Invest()">
                                     <button [ngStyle]="{'background-color':get_Accent()}"
                                         (click)="onAmountChange(item, -1)" [disabled]="item.amount <= 0">-1</button>
                                     <button [ngStyle]="{'background-color':get_Accent()}"
                                         (click)="onAmountChange(item, 1)">+1</button>
                                 </span>
-                                <div class="placeholder"
-                                    *ngIf="!item.equippable && !can_Invest(item) && item.amount == undefined">&nbsp;
-                                </div>
                                 <span>
                                     <button (click)="drop_InventoryItem(item)"
                                         [ngStyle]="{'background-color':get_Accent()}">

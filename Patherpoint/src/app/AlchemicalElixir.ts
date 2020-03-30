@@ -1,23 +1,11 @@
-import { ConditionGain } from './ConditionGain';
 import { Consumable } from './Consumable';
-import { ActivityGain } from './ActivityGain';
 
-export class AlchemicalElixir implements Consumable {
+export class AlchemicalElixir extends Consumable {
+    //Alchemical Elixirs should be type "alchemicalelixirs" to be found in the database
     public type: string = "alchemicalelixirs";
-    public name: string = "";
-    public level: number = 0;
-    public bulk: string = "";
-    public price: number = 0;
-    public amount: number = 1;
-    //stack: How many do you buy at once - this is also how many make up one bulk unit
-    public stack: number = 1;
-    public actions: string = "1";
-    public activationType: string = "";
-    public desc: string = "";
-    public subType: string = "";
-    public subTypeDesc: string = "";
+    //Alchemical Elixirs can have benefits and drawbacks. Describe them here.
+    //Will be shown as "Benefit":"..."
     public benefit: string = "";
+    //Will be shown as "Drawback":"..."
     public drawback: string = "";
-    public gainCondition: ConditionGain[];
-    public traits: string[] = [];
 }

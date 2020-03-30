@@ -1,28 +1,18 @@
-import { Item } from './Item';
+import { Equipment } from './Equipment';
 
-export class AdventuringGear implements Item {
+export class AdventuringGear extends Equipment {
+    //Adventuring Gear should be type "adventuringgear" to be found in the database
     public type: string = "adventuringgear";
-    public name: string = "";
-    public level: number = 0;
-    public bulk: string = "";
-    //Some items have a different bulk when you are carrying them instead of wearing them, like backpacks
-    public carryingBulk: string = "";
-    public price: number = 0;
+    //Number of items of this kind in your inventory. Many adventuring items can stack.
+    //Items that can be equipped or invested get duplicated and not stacked - the amount remains 1.
     public amount: number = 1;
+    //Some Items get bought in stacks. Stack defines how many you buy at once,
+    //and how many make up one instance of the items Bulk.
     public stack: number = 1;
-    public equip: boolean = false;
-    public invested: boolean = false;
+    //How is this item used/worn/applied? Example: held in 1 hand
     public usage: string = "";
+    //How many hands need to be free to use this item?
     public hands: string = "";
-    public desc: string = "";
-    public hint: string = "";
-    public showon: string = "";
+    //Adventuring Gear can usually not be equipped or invested, but with exceptions.
     public equippable: boolean = false;
-    public subType: string = "";
-    public subTypeDesc: string = "";
-    public gainItems = [];
-    public gainActivity = [];
-    public effects = [];
-    public specialEffects = [];
-    public traits: string[] = [];
 }

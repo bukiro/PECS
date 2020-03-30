@@ -82,35 +82,35 @@ export class ItemsService {
     }
 
     load_Weapons(): Observable<String[]>{
-        return this.http.get<String[]>('/assets/weapons.json');
+        return this.http.get<String[]>('/assets/items/weapons.json');
     }
 
     load_Armors(): Observable<String[]>{
-        return this.http.get<String[]>('/assets/armors.json');
+        return this.http.get<String[]>('/assets/items/armors.json');
     }
 
     load_Shields(): Observable<String[]>{
-        return this.http.get<String[]>('/assets/shields.json');
+        return this.http.get<String[]>('/assets/items/shields.json');
     }
 
     load_WornItems(): Observable<String[]>{
-        return this.http.get<String[]>('/assets/wornitems.json');
+        return this.http.get<String[]>('/assets/items/wornitems.json');
     }
     
     load_HeldItems(): Observable<String[]>{
-        return this.http.get<String[]>('/assets/helditems.json');
+        return this.http.get<String[]>('/assets/items/helditems.json');
     }
 
     load_AlchemicalElixirs(): Observable<String[]>{
-        return this.http.get<String[]>('/assets/alchemicalelixirs.json');
+        return this.http.get<String[]>('/assets/items/alchemicalelixirs.json');
     }
 
     load_OtherConsumables(): Observable<String[]>{
-        return this.http.get<String[]>('/assets/otherconsumables.json');
+        return this.http.get<String[]>('/assets/items/otherconsumables.json');
     }
 
     load_AdventuringGear(): Observable<String[]>{
-        return this.http.get<String[]>('/assets/adventuringgear.json');
+        return this.http.get<String[]>('/assets/items/adventuringgear.json');
     }
 
     initialize() {
