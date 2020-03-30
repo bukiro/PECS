@@ -1,3 +1,5 @@
+import { EffectGain } from './EffectGain';
+
 export class Activity {
     public name: string = "";
     public actions: string = "1";
@@ -16,8 +18,8 @@ export class Activity {
     public castSpells: string[] = [];
     public showon: string = "";
     public toggle: boolean = false;
-    public effects = [];
-    public specialEffects = [];
+    public effects: EffectGain[] = [];
+    public specialEffects: EffectGain[] = [];
     get_Actions() {
         switch (this.actions) {
             case "Free":

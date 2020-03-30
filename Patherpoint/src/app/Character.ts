@@ -27,7 +27,7 @@ export class Character {
     public customSkills: Skill[] = [];
     public customFeats: Feat[] = [];
     public conditions: ConditionGain[] = [];
-    public baseValues = [];
+    public baseValues: {name:string, baseValue:number}[] = [];
     public inventory: ItemCollection = new ItemCollection();
     public deity: string = "";
     public speeds: Speed[] = [new Speed("Speed"), new Speed("Land Speed")];

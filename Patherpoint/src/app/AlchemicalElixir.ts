@@ -1,8 +1,9 @@
 import { ConditionGain } from './ConditionGain';
 import { Consumable } from './Consumable';
+import { ActivityGain } from './ActivityGain';
 
 export class AlchemicalElixir implements Consumable {
-    public type: string = "consumable";
+    public type: string = "alchemicalelixirs";
     public name: string = "";
     public level: number = 0;
     public bulk: string = "";
@@ -17,7 +18,6 @@ export class AlchemicalElixir implements Consumable {
     public subTypeDesc: string = "";
     public benefit: string = "";
     public drawback: string = "";
-    public gainActivity: string[] = [];
     public gainCondition: ConditionGain[];
     public traits: string[] = [];
 }

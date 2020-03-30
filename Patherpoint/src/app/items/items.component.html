@@ -4,8 +4,9 @@
     <div class="list-item">
         <strong>Find (in Name or Description)</strong>
         <span>
-            <input type=text [(ngModel)]="wordFilter" (ngModelChange)=check_Filter()/>
-            <button (click)="set_Filter()" [disabled]="wordFilter.length < 5" [ngStyle]="{'background-color':get_Accent()}">Show All</button>
+            <input type=text [(ngModel)]="wordFilter" (ngModelChange)=check_Filter() />
+            <button (click)="set_Filter()" [disabled]="wordFilter.length < 5"
+                [ngStyle]="{'background-color':get_Accent()}">Show All</button>
             <button (click)="wordFilter='';check_Filter()" [ngStyle]="{'background-color':get_Accent()}">Clear</button>
         </span>
     </div>
@@ -18,10 +19,12 @@
         </select>
     </div>
     <h3>Get Items</h3>
-    <ng-container *ngFor="let items of [get_Items()]">
+    <ng-container *ngFor="let items of [get_Items(true)]">
         <ng-container *ngFor="let itemSet of items.names">
             <ng-container *ngFor="let listID of [get_ID()*1000]">
-                <button id={{id}} class="button list-item" [ngStyle]="{'background-color':get_Accent(), 'display':!get_VisibleItems(items[itemSet.key]).length ? 'none' : 'flex' }" (click)="toggle_List(itemSet.name)">
+                <button class="button list-item"
+                    [ngStyle]="{'background-color':get_Accent(), 'display':!get_VisibleItems(items[itemSet.key]).length ? 'none' : 'flex' }"
+                    (click)="toggle_List(itemSet.name)">
                     <strong>{{itemSet.name}}</strong>
                 </button>
                 <ng-container *ngIf="get_ShowList()==itemSet.name||get_ShowList()=='All'">
@@ -32,7 +35,8 @@
                                 <span>{{(item.get_Name) ? item.get_Name() : item.name}}</span>
                                 <span
                                     *ngIf="item.type == 'armors'">{{(item.prof == 'Unarmored') ? item.prof : item.prof.substr(0, item.prof.length - 6)}}
-                                    {{item.group}} {{(item.type=="armors" && item.prof != "Unarmored") ? "Armor" : ""}}</span>
+                                    {{item.group}}
+                                    {{(item.type=="armors" && item.prof != "Unarmored") ? "Armor" : ""}}</span>
                                 <span
                                     *ngIf="item.type == 'weapons'">{{(item.prof == 'Unarmed') ? item.prof : item.prof.substr(0, item.prof.length - 8)}}
                                     {{item.group}}</span>
@@ -40,7 +44,8 @@
                             </button>
                             <div class="list-item sublist lower" [ngStyle]="{'border-color':get_Accent(inventoryID)}"
                                 *ngIf="get_ShowItem()==inventoryID">
-                                <button class="row center-aligned" [ngStyle]="{'background-color':get_Accent()}" (click)="grant_Item(item)">
+                                <button class="row center-aligned" [ngStyle]="{'background-color':get_Accent()}"
+                                    (click)="grant_Item(item)">
                                     Get
                                 </button>
                                 <app-item [item]=item></app-item>
@@ -51,4 +56,74 @@
             </ng-container>
         </ng-container>
     </ng-container>
+    <h3>Create custom item</h3>
+    <button class="fancy-button" [ngStyle]="{'color':get_Accent()}" (click)="toggle_List('CreateNew')">Create custom
+        item</button>
+    <ng-container *ngIf="get_ShowList()=='CreateNew'">
+        <ng-container *ngFor="let listID of [get_ID()*1000]">
+            <div class="list-item">
+                <span><strong>Type</strong></span>
+                <span><select [(ngModel)]="newItemType" (ngModelChange)="initialize_NewItem()">
+                        <option *ngFor="let name of [{name:'', key:''}].concat(get_Items().names)" [value]="name.key">
+                            {{name.name}}</option>
+                    </select></span>
+            </div>
+            <ng-container *ngIf="newItem">
+                <div class="list-item" *ngFor="let inventoryID of [listID+get_ID()]">
+                    <button class="row center-aligned" (mouseover)="hover = inventoryID" (mouseout)="hover = 0"
+                        [ngStyle]="{'background-color':get_Accent()}" (click)="toggle_Item(inventoryID)">
+                        Copy existing item
+                    </button>
+                    <div class="list-item sublist lower" [ngStyle]="{'border-color':get_Accent(inventoryID)}"
+                        *ngIf="get_ShowItem()==inventoryID">
+                        <h5>New Items</h5>
+                        <div class="list-item" *ngFor="let item of get_Items()[newItemType]">
+                            {{(item.get_Name) ? item.get_Name() : item.name}}
+                            <button class="row center-aligned" [ngStyle]="{'background-color':get_Accent()}"
+                                (click)="copy_Item(item);toggle_Item(0)">
+                                Copy
+                            </button>
+                        </div>
+                        <h5>Inventory Items</h5>
+                        <div class="list-item" *ngFor="let item of get_InventoryItems()[newItemType]">
+                            {{(item.get_Name) ? item.get_Name() : item.name}}
+                            <button class="row center-aligned" [ngStyle]="{'background-color':get_Accent()}"
+                                (click)="copy_Item(item);toggle_Item(0)">
+                                Copy
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <div class="list-item" *ngFor="let property of get_NewItemProperties()|sortBy:'asc'">
+                    <strong>{{property}}</strong>
+                    <div class="row">
+                        <input class="row" type="textbox" [(ngModel)]="newItem[property]">
+                    </div>
+                    <div class="list-item" *ngFor="let inventoryID of [listID+get_ID()]">
+                        <button class="row center-aligned" (mouseover)="hover = inventoryID" (mouseout)="hover = 0"
+                            [ngStyle]="{'background-color':get_Accent()}" (click)="toggle_Item(inventoryID)">
+                            Show examples
+                        </button>
+                        <div class="list-item sublist lower" [ngStyle]="{'border-color':get_Accent(inventoryID)}"
+                            *ngIf="get_ShowItem()==inventoryID">
+                            <div class="list-item" *ngFor="let example of get_Examples(property, newItemType)">
+                                {{example}}
+                                <button class="row center-aligned" [ngStyle]="{'background-color':get_Accent()}"
+                                    (click)="newItem[property]=example;toggle_Item(0)">
+                                    Copy
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="list-item" *ngFor="let inventoryID of [listID+get_ID()]">
+                    <button class="row center-aligned" [ngStyle]="{'background-color':get_Accent()}"
+                        (click)="grant_CustomItem()">
+                        Get this item
+                    </button>
+                </div>
+            </ng-container>
+        </ng-container>
+    </ng-container>
+
 </div>

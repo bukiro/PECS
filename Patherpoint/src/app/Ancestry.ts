@@ -1,4 +1,5 @@
 import { AbilityChoice } from './AbilityChoice';
+import { ItemGain } from './ItemGain';
 
 export class Ancestry {
     public name: string = "";
@@ -14,7 +15,7 @@ export class Ancestry {
     public freeLanguages_applied: number = 0;
     public recommendedLanguages: string[] = [];
     public senses: string = "";
-    public gainItems = [];
+    public gainItems: ItemGain[] = [];
     reassign() {
         this.abilityChoices = this.abilityChoices.map(choice => Object.assign(new AbilityChoice(), JSON.parse(JSON.stringify(choice))));
     }

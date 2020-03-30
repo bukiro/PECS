@@ -1,8 +1,11 @@
 import { ConditionGain } from './ConditionGain';
 import { Item } from './Item';
+import { ActivityGain } from './ActivityGain';
+import { ItemGain } from './ItemGain';
+import { EffectGain } from './EffectGain';
 
 export class HeldItem implements Item {
-    public type: string = "consumable";
+    public type: string = "helditems";
     public name: string = "";
     public level: number = 0;
     public bulk: string = "";
@@ -17,9 +20,9 @@ export class HeldItem implements Item {
     public invested: boolean = false;
     public showon: string = "";
     public hint: string = "";
-    public effects = [];
-    public specialEffects = [];
     public gainActivity: string[] = [];
-    public gainCondition: ConditionGain[];
+    public gainItems: ItemGain[] = [];
+    public effects: EffectGain[] = [];
+    public specialEffects: EffectGain[] = [];
     public traits: string[] = [];
 }

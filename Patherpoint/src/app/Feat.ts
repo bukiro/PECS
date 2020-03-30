@@ -16,6 +16,7 @@ export class Feat {
     public shortdesc: string = "";
     public specialdesc: string = "";
     public hide: boolean = false;
+    public senses: string = "";
     public lorebase: boolean = false;
     public advancedweaponbase: boolean = false;
     public unlimited: boolean = false;

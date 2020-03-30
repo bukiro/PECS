@@ -1,8 +1,9 @@
 import { ConditionGain } from './ConditionGain';
 import { Consumable } from './Consumable';
+import { ActivityGain } from './ActivityGain';
 
 export class OtherConsumable implements Consumable {
-    public type: string = "consumable";
+    public type: string = "otherconsumables";
     public name: string = "";
     public level: number = 0;
     public bulk: string = "";
@@ -15,7 +16,7 @@ export class OtherConsumable implements Consumable {
     public desc: string = "";
     public subType: string = "";
     public subTypeDesc: string = "";
-    public gainActivity: string[] = [];
+    public gainActivity: ActivityGain[] = [];
     public gainCondition: ConditionGain[];
     public traits: string[] = [];
 }

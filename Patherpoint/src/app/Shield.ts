@@ -1,4 +1,7 @@
 import { Item } from './Item'
+import { ActivityGain } from './ActivityGain';
+import { ItemGain } from './ItemGain';
+import { EffectGain } from './EffectGain';
 
 export class Shield implements Item {
     public notes: string = "";
@@ -20,14 +23,14 @@ export class Shield implements Item {
     public speedpenalty: number = 0;
     public acbonus: number = 0;
     public coverbonus: number = 0;
-    public gainActivity: string[] = [];
     public traits: string[] = [];
     public material: string = "";
     public showon: string = "";
     public hint: string = "";
-    public gainItems = [];
-    public effects = [];
-    public specialEffects = []
+    public gainActivity: string[] = [];
+    public gainItems: ItemGain[] = [];
+    public effects: EffectGain[] = [];
+    public specialEffects: EffectGain[] = [];
     get_Name() {
         if (this.displayName.length) {
             return this.displayName;

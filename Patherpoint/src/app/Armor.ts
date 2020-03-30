@@ -1,6 +1,9 @@
 import { Item } from './Item'
 import { CharacterService } from './character.service';
 import { EffectsService } from './effects.service';
+import { EffectGain } from './EffectGain';
+import { ActivityGain } from './ActivityGain';
+import { ItemGain } from './ItemGain';
 
 export class Armor implements Item {
     public notes: string = "";
@@ -18,7 +21,7 @@ export class Armor implements Item {
     public equip: boolean = false;
     public invested: boolean = false;
     private prof: string = "";
-    public dexcap: number = undefined;
+    public dexcap: number = -1;
     private skillpenalty: number = 0;
     public speedpenalty: number = 0;
     private strength: number = 0;
@@ -29,13 +32,13 @@ export class Armor implements Item {
     public potencyRune:number = 0;
     public resilientRune:number = 0;
     public propertyRunes:string[] = [];
-    public gainActivity: string[] = [];
     public material: string = "";
     public showon: string = "";
     public hint: string = "";
-    public gainItems = [];
-    public effects = [];
-    public specialEffects = [];
+    public gainActivity: string[] = [];
+    public gainItems: ItemGain[] = [];
+    public effects: EffectGain[] = [];
+    public specialEffects: EffectGain[] = [];
     //For certain medium and light armors, set 1 if an "Armored Skirt" is equipped; For certain heavy armors, set -1 instead
     //This value influences 
     public affectedByArmoredSkirt: -1|0|1 = 0;
@@ -70,7 +73,7 @@ export class Armor implements Item {
         return this.skillpenalty - this.affectedByArmoredSkirt;
     }
     get_DexCap() {
-        if (this.dexcap != undefined) {
+        if (this.dexcap != -1) {
             return this.dexcap - this.affectedByArmoredSkirt;
         } else {
             return this.dexcap;
@@ -158,9 +161,9 @@ export class Armor implements Item {
             explain += "\nCharacter Level: "+charLevelBonus;
         }
         //Add the dexterity modifier up to the armor's dex cap, unless there is no cap
-        let dexBonus = (this.dexcap != undefined) ? Math.min(dex, (this.get_DexCap())) : dex;
+        let dexBonus = (this.dexcap != -1) ? Math.min(dex, (this.get_DexCap())) : dex;
         if (dexBonus) {
-            if (this.dexcap != undefined && this.get_DexCap() < dex) {
+            if (this.dexcap != -1 && this.get_DexCap() < dex) {
                 explain += "\nDexterity Modifier (capped): "+dexBonus;
             } else {
                 explain += "\nDexterity Modifier: "+dexBonus;

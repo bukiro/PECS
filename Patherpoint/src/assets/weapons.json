@@ -10,7 +10,7 @@
       "dicesize": 4,
       "melee": 5,
       "moddable": "-",
-      "price": "-1",
+      "price": 0,
       "hands": "1",
       "traits": [
          "Agile",
@@ -30,7 +30,7 @@
       "dicesize": 6,
       "melee": 5,
       "moddable": "-",
-      "price": "-1",
+      "price": 0,
       "hands": "1",
       "hide": true,
       "traits": [
@@ -51,7 +51,7 @@
       "dicesize": 10,
       "melee": 5,
       "moddable": "-",
-      "price": "-1",
+      "price": 0,
       "hands": "1",
       "hide": true,
       "traits": [
@@ -71,7 +71,7 @@
       "dicesize": 8,
       "melee": 5,
       "moddable": "-",
-      "price": "-1",
+      "price": 0,
       "hands": "1",
       "hide": true,
       "traits": [
@@ -91,7 +91,7 @@
       "dicesize": 4,
       "melee": 5,
       "moddable": "-",
-      "price": "-1",
+      "price": 0,
       "hands": "1",
       "hide": true,
       "traits": [
@@ -113,7 +113,7 @@
       "dicesize": 8,
       "melee": 5,
       "moddable": "-",
-      "price": "-1",
+      "price": 0,
       "hands": "1",
       "hide": true,
       "traits": [
@@ -134,7 +134,7 @@
       "dicesize": 8,
       "melee": 5,
       "moddable": "-",
-      "price": "-1",
+      "price": 0,
       "hands": "1",
       "hide": true,
       "traits": [
@@ -155,7 +155,7 @@
       "dicesize": 8,
       "melee": 5,
       "moddable": "-",
-      "price": "-1",
+      "price": 0,
       "hands": "1",
       "hide": true,
       "traits": [
@@ -176,7 +176,7 @@
       "dicesize": 6,
       "melee": 5,
       "moddable": "-",
-      "price": "-1",
+      "price": 0,
       "hands": "1",
       "hide": true,
       "traits": [
@@ -197,7 +197,7 @@
       "dicesize": 8,
       "melee": 5,
       "moddable": "-",
-      "price": "-1",
+      "price": 0,
       "hands": "1",
       "hide": true,
       "traits": [
@@ -220,7 +220,7 @@
       "dicesize": 4,
       "melee": 5,
       "moddable": "weapon",
-      "price": "200",
+      "price": 200,
       "hands": "1",
       "traits": [
          "Agile",
@@ -242,7 +242,7 @@
       "dicesize": 6,
       "melee": 5,
       "moddable": "weapon",
-      "price": "0",
+      "price": 0,
       "hands": "1",
       "traits": [
          "Thrown 10 ft."
@@ -261,7 +261,7 @@
       "melee": 5,
       "ranged": 10,
       "moddable": "weapon",
-      "price": "20",
+      "price": 20,
       "hands": "1",
       "traits": [
          "Agile",
@@ -282,7 +282,7 @@
       "dicesize": 4,
       "melee": 5,
       "moddable": "weapon",
-      "price": "20",
+      "price": 20,
       "hands": "1",
       "traits": [
          "Agile",
@@ -302,7 +302,7 @@
       "melee": 5,
       "ranged": 20,
       "moddable": "weapon",
-      "price": "10",
+      "price": 10,
       "hands": "1",
       "traits": [
          "Agile",
@@ -323,7 +323,7 @@
       "dicesize": 4,
       "melee": 5,
       "moddable": "weapon",
-      "price": "30",
+      "price": 30,
       "hands": "1",
       "traits": [
          "Agile",
@@ -344,7 +344,7 @@
       "dicesize": 4,
       "melee": 5,
       "moddable": "weapon",
-      "price": "40",
+      "price": 40,
       "hands": "1",
       "traits": [
          "Agile",
@@ -364,7 +364,7 @@
       "dicesize": 8,
       "melee": 10,
       "moddable": "weapon",
-      "price": "50",
+      "price": 50,
       "hands": "2",
       "traits": [
          "Reach"
@@ -382,7 +382,7 @@
       "dicesize": 6,
       "melee": 5,
       "moddable": "weapon",
-      "price": "100",
+      "price": 100,
       "hands": "1",
       "traits": [
          "Shove"
@@ -400,7 +400,7 @@
       "dicesize": 6,
       "melee": 5,
       "moddable": "weapon",
-      "price": "100",
+      "price": 100,
       "hands": "1",
       "traits": [
          "Versatile P"
@@ -418,7 +418,7 @@
       "dicesize": 4,
       "melee": 5,
       "moddable": "weapon",
-      "price": "20",
+      "price": 20,
       "hands": "1",
       "traits": [
          "Agile",
@@ -440,7 +440,7 @@
       "dicesize": 4,
       "melee": 5,
       "moddable": "weapon",
-      "price": "20",
+      "price": 20,
       "hands": "1",
       "traits": [
          "Agile",
@@ -461,7 +461,7 @@
       "melee": 5,
       "ranged": 20,
       "moddable": "weapon",
-      "price": "10",
+      "price": 10,
       "hands": "1",
       "traits": [
          "Thrown 20 ft."
@@ -479,7 +479,7 @@
       "dicesize": 4,
       "melee": 5,
       "moddable": "weapon",
-      "price": "30",
+      "price": 30,
       "hands": "1",
       "traits": [
          "Agile",
@@ -498,7 +498,7 @@
       "dicesize": 4,
       "melee": 5,
       "moddable": "weapon",
-      "price": "0",
+      "price": 0,
       "hands": "1",
       "traits": [
          "Two-Hand d8"
@@ -517,7 +517,7 @@
       "melee": 5,
       "ranged": 20,
       "moddable": "weapon",
-      "price": "30",
+      "price": 30,
       "hands": "1",
       "traits": [
          "Agile",
@@ -539,7 +539,7 @@
       "dicesize": 8,
       "melee": 5,
       "moddable": "weapon",
-      "price": "400",
+      "price": 400,
       "hands": "1",
       "traits": [
          "Two-Hand d12"
@@ -557,7 +557,7 @@
       "dicesize": 8,
       "melee": 5,
       "moddable": "weapon",
-      "price": "10",
+      "price": 10,
       "hands": "1",
       "traits": [
          "Sweep"
@@ -575,7 +575,7 @@
       "dicesize": 8,
       "melee": 10,
       "moddable": "weapon",
-      "price": "300",
+      "price": 300,
       "hands": "2",
       "traits": [
          "Monk",
@@ -596,7 +596,7 @@
       "dicesize": 8,
       "melee": 10,
       "moddable": "weapon",
-      "price": "20",
+      "price": 20,
       "hands": "2",
       "traits": [
          "Monk",
@@ -617,7 +617,7 @@
       "dicesize": 6,
       "melee": 5,
       "moddable": "weapon",
-      "price": "10",
+      "price": 10,
       "hands": "1",
       "traits": [
          "Agile",
@@ -639,7 +639,7 @@
       "dicesize": 8,
       "melee": 5,
       "moddable": "weapon",
-      "price": "400",
+      "price": 400,
       "hands": "2",
       "traits": [
          "Elf",
@@ -660,7 +660,7 @@
       "dicesize": 10,
       "melee": 5,
       "moddable": "weapon",
-      "price": "300",
+      "price": 300,
       "hands": "2",
       "traits": [
          "Forceful",
@@ -679,7 +679,7 @@
       "dicesize": 8,
       "melee": 10,
       "moddable": "weapon",
-      "price": "140",
+      "price": 140,
       "hands": "2",
       "traits": [
          "Deadly d8",
@@ -700,7 +700,7 @@
       "dicesize": 4,
       "melee": 10,
       "moddable": "weapon",
-      "price": "110",
+      "price": 110,
       "hands": "1",
       "traits": [
          "Agile",
@@ -724,7 +724,7 @@
       "melee": 5,
       "ranged": 20,
       "moddable": "weapon",
-      "price": "100",
+      "price": 100,
       "hands": "1",
       "traits": [
          "Agile",
@@ -748,7 +748,7 @@
       "dicesize": 6,
       "melee": 5,
       "moddable": "weapon",
-      "price": "100",
+      "price": 100,
       "hands": "1",
       "traits": [
          "Disarm",
@@ -768,7 +768,7 @@
       "dicesize": 8,
       "melee": 10,
       "moddable": "weapon",
-      "price": "200",
+      "price": 200,
       "hands": "2",
       "traits": [
          "Deadly d8",
@@ -788,7 +788,7 @@
       "dicesize": 6,
       "melee": 5,
       "moddable": "weapon",
-      "price": "200",
+      "price": 200,
       "hands": "1",
       "traits": [
          "Gnome",
@@ -810,7 +810,7 @@
       "dicesize": 12,
       "melee": 5,
       "moddable": "weapon",
-      "price": "100",
+      "price": 100,
       "hands": "2",
       "traits": [
          "Sweep"
@@ -828,7 +828,7 @@
       "dicesize": 10,
       "melee": 5,
       "moddable": "weapon",
-      "price": "100",
+      "price": 100,
       "hands": "2",
       "traits": [
          "Backswing",
@@ -847,7 +847,7 @@
       "dicesize": 10,
       "melee": 5,
       "moddable": "weapon",
-      "price": "200",
+      "price": 200,
       "hands": "2",
       "traits": [
          "Fatal d12"
@@ -865,7 +865,7 @@
       "dicesize": 12,
       "melee": 5,
       "moddable": "weapon",
-      "price": "200",
+      "price": 200,
       "hands": "2",
       "traits": [
          "Versatile P"
@@ -883,7 +883,7 @@
       "dicesize": 10,
       "melee": 10,
       "moddable": "weapon",
-      "price": "200",
+      "price": 200,
       "hands": "2",
       "traits": [
          "Reach",
@@ -902,7 +902,7 @@
       "dicesize": 10,
       "melee": 10,
       "moddable": "weapon",
-      "price": "200",
+      "price": 200,
       "hands": "2",
       "traits": [
          "Reach",
@@ -922,7 +922,7 @@
       "melee": 5,
       "ranged": 10,
       "moddable": "weapon",
-      "price": "40",
+      "price": 40,
       "hands": "1",
       "traits": [
          "Agile",
@@ -942,7 +942,7 @@
       "dicesize": 8,
       "melee": 10,
       "moddable": "weapon",
-      "price": "90",
+      "price": 90,
       "hands": "2",
       "traits": [
          "Goblin",
@@ -964,7 +964,7 @@
       "dicesize": 6,
       "melee": 5,
       "moddable": "weapon",
-      "price": "100",
+      "price": 100,
       "hands": "1",
       "traits": [
          "Agile",
@@ -985,7 +985,7 @@
       "dicesize": 6,
       "melee": 5,
       "moddable": "weapon",
-      "price": "200",
+      "price": 200,
       "hands": "1",
       "traits": [
          "Deadly d8",
@@ -1006,7 +1006,7 @@
       "dicesize": 8,
       "melee": 5,
       "moddable": "weapon",
-      "price": "200",
+      "price": 200,
       "hands": "1",
       "traits": [
          "Trip",
@@ -1025,7 +1025,7 @@
       "dicesize": 6,
       "melee": 5,
       "moddable": "weapon",
-      "price": "60",
+      "price": 60,
       "hands": "1",
       "traits": [
          "Agile",
@@ -1046,7 +1046,7 @@
       "dicesize": 8,
       "melee": 10,
       "moddable": "weapon",
-      "price": "100",
+      "price": 100,
       "hands": "2",
       "traits": [
          "Deadly d8",
@@ -1067,7 +1067,7 @@
       "melee": 5,
       "ranged": 20,
       "moddable": "weapon",
-      "price": "30",
+      "price": 30,
       "hands": "1",
       "traits": [
          "Agile",
@@ -1086,7 +1086,7 @@
       "dicesize": 4,
       "melee": 5,
       "moddable": "weapon",
-      "price": "40",
+      "price": 40,
       "hands": "1",
       "traits": [
          "Agile",
@@ -1105,7 +1105,7 @@
       "dicesize": 8,
       "melee": 5,
       "moddable": "weapon",
-      "price": "100",
+      "price": 100,
       "hands": "1",
       "traits": [
          "Versatile P"
@@ -1123,7 +1123,7 @@
       "dicesize": 8,
       "melee": 5,
       "moddable": "weapon",
-      "price": "70",
+      "price": 70,
       "hands": "1",
       "traits": [
          "Deadly d8",
@@ -1142,7 +1142,7 @@
       "dicesize": 4,
       "melee": 5,
       "moddable": "weapon",
-      "price": "50",
+      "price": 50,
       "hands": "1",
       "traits": [
          "Agile",
@@ -1165,7 +1165,7 @@
       "melee": 5,
       "ranged": 20,
       "moddable": "weapon",
-      "price": "60",
+      "price": 60,
       "hands": "1",
       "traits": [
          "Deadly d8",
@@ -1186,7 +1186,7 @@
       "dicesize": 12,
       "melee": 5,
       "moddable": "weapon",
-      "price": "300",
+      "price": 300,
       "hands": "2",
       "traits": [
          "Shove"
@@ -1204,7 +1204,7 @@
       "dicesize": 8,
       "melee": 10,
       "moddable": "weapon",
-      "price": "300",
+      "price": 300,
       "hands": "2",
       "traits": [
          "Backswing",
@@ -1225,7 +1225,7 @@
       "dicesize": 8,
       "melee": 10,
       "moddable": "weapon",
-      "price": "300",
+      "price": 300,
       "hands": "2",
       "traits": [
          "Deadly d8",
@@ -1246,7 +1246,7 @@
       "dicesize": 8,
       "melee": 5,
       "moddable": "weapon",
-      "price": "90",
+      "price": 90,
       "hands": "1",
       "traits": [
          "Disarm",
@@ -1265,7 +1265,7 @@
       "dicesize": 6,
       "melee": 5,
       "moddable": "weapon",
-      "price": "20",
+      "price": 20,
       "hands": "1",
       "traits": [
          "Backswing",
@@ -1287,7 +1287,7 @@
       "dicesize": 6,
       "melee": 5,
       "moddable": "weapon",
-      "price": "70",
+      "price": 70,
       "hands": "1",
       "traits": [
          "Agile",
@@ -1308,7 +1308,7 @@
       "dicesize": 6,
       "melee": 5,
       "moddable": "weapon",
-      "price": "70",
+      "price": 70,
       "hands": "1",
       "traits": [
          "Fatal d10"
@@ -1327,7 +1327,7 @@
       "melee": 5,
       "moddable": "weapon",
       "level": 1,
-      "price": "1000",
+      "price": 1000,
       "hands": "1",
       "traits": [
          "Agile",
@@ -1347,7 +1347,7 @@
       "dicesize": 10,
       "melee": 10,
       "moddable": "weapon",
-      "price": "200",
+      "price": 200,
       "hands": "2",
       "traits": [
          "Disarm",
@@ -1366,7 +1366,7 @@
       "dicesize": 6,
       "melee": 5,
       "moddable": "weapon",
-      "price": "200",
+      "price": 200,
       "hands": "1",
       "traits": [
          "Deadly d8",
@@ -1386,7 +1386,7 @@
       "dicesize": 4,
       "melee": 5,
       "moddable": "weapon",
-      "price": "60",
+      "price": 60,
       "hands": "1",
       "traits": [
          "Agile",
@@ -1409,7 +1409,7 @@
       "dicesize": 6,
       "melee": 5,
       "moddable": "weapon",
-      "price": "10",
+      "price": 10,
       "hands": "1",
       "traits": [
          "Agile",
@@ -1428,7 +1428,7 @@
       "dicesize": 6,
       "melee": 5,
       "moddable": "weapon",
-      "price": "100",
+      "price": 100,
       "hands": "1",
       "traits": [
          "Forceful",
@@ -1447,7 +1447,7 @@
       "dicesize": 4,
       "melee": 10,
       "moddable": "weapon",
-      "price": "50",
+      "price": 50,
       "hands": "1",
       "traits": [
          "Disarm",
@@ -1469,7 +1469,7 @@
       "dicesize": 4,
       "melee": 5,
       "moddable": "weapon",
-      "price": "10",
+      "price": 10,
       "hands": "1",
       "traits": [
          "Agile",
@@ -1491,7 +1491,7 @@
       "dicesize": 10,
       "melee": 5,
       "moddable": "weapon",
-      "price": "200",
+      "price": 200,
       "hands": "2",
       "traits": [
          "Deadly d10",
@@ -1524,7 +1524,7 @@
       "dicesize": 6,
       "melee": 5,
       "moddable": "weapon",
-      "price": "50",
+      "price": 50,
       "hands": "1",
       "traits": [
          "Attached to Shield"
@@ -1541,7 +1541,7 @@
       "dicesize": 6,
       "melee": 5,
       "moddable": "weapon",
-      "price": "50",
+      "price": 50,
       "hands": "1",
       "traits": [
          "Attached to Shield"
@@ -1559,7 +1559,7 @@
       "dicesize": 6,
       "melee": 5,
       "moddable": "weapon",
-      "price": "90",
+      "price": 90,
       "hands": "1",
       "traits": [
          "Agile",
@@ -1579,7 +1579,7 @@
       "dicesize": 8,
       "melee": 5,
       "moddable": "weapon",
-      "price": "300",
+      "price": 300,
       "hands": "2",
       "traits": [
          "Disarm",
@@ -1601,7 +1601,7 @@
       "melee": 5,
       "ranged": 20,
       "moddable": "weapon",
-      "price": "200",
+      "price": 200,
       "hands": "1",
       "traits": [
          "Agile",
@@ -1623,7 +1623,7 @@
       "dicesize": 4,
       "melee": 5,
       "moddable": "weapon",
-      "price": "20",
+      "price": 20,
       "hands": "1",
       "traits": [
          "Agile",
@@ -1646,7 +1646,7 @@
       "dicesize": 8,
       "melee": 5,
       "moddable": "weapon",
-      "price": "200",
+      "price": 200,
       "hands": "1",
       "traits": [
          "Monk",
@@ -1667,7 +1667,7 @@
       "melee": 5,
       "ranged": 20,
       "moddable": "weapon",
-      "price": "100",
+      "price": 100,
       "hands": "1",
       "traits": [
          "Thrown 20 ft."
@@ -1685,7 +1685,7 @@
       "dicesize": 6,
       "melee": 5,
       "moddable": "weapon",
-      "price": "200",
+      "price": 200,
       "hands": "1",
       "traits": [
          "Deadly d10",
@@ -1705,7 +1705,7 @@
       "dicesize": 10,
       "melee": 5,
       "moddable": "weapon",
-      "price": "200",
+      "price": 200,
       "hands": "2",
       "traits": [
          "Disarm",
@@ -1725,7 +1725,7 @@
       "dicesize": 4,
       "melee": 5,
       "moddable": "weapon",
-      "price": "30",
+      "price": 30,
       "hands": "1",
       "traits": [
          "Agile",
@@ -1746,7 +1746,7 @@
       "dicesize": 8,
       "melee": 5,
       "moddable": "weapon",
-      "price": "100",
+      "price": 100,
       "hands": "1",
       "traits": [
          "Shove"
@@ -1764,7 +1764,7 @@
       "dicesize": 4,
       "melee": 10,
       "moddable": "weapon",
-      "price": "10",
+      "price": 10,
       "hands": "1",
       "traits": [
          "Disarm",
@@ -1787,7 +1787,7 @@
       "melee": 5,
       "ranged": 20,
       "moddable": "weapon",
-      "price": "500",
+      "price": 500,
       "hands": "1",
       "traits": [
          "Ranged Trip",
@@ -1809,7 +1809,7 @@
       "dicesize": 8,
       "melee": 5,
       "moddable": "weapon",
-      "price": "2000",
+      "price": 2000,
       "hands": "1",
       "traits": [
          "Finesse",
@@ -1830,7 +1830,7 @@
       "melee": 5,
       "ranged": 40,
       "moddable": "weapon",
-      "price": "200",
+      "price": 200,
       "hands": "2",
       "traits": [
          "Backswing",
@@ -1853,7 +1853,7 @@
       "dicesize": 6,
       "melee": 5,
       "moddable": "weapon",
-      "price": "250",
+      "price": 250,
       "hands": "0+",
       "traits": [
          "Finesse",
@@ -1874,7 +1874,7 @@
       "dicesize": 8,
       "melee": 5,
       "moddable": "weapon",
-      "price": "300",
+      "price": 300,
       "hands": "1",
       "traits": [
          "Dwarf",
@@ -1895,7 +1895,7 @@
       "dicesize": 4,
       "melee": 5,
       "moddable": "weapon",
-      "price": "500",
+      "price": 500,
       "hands": "1",
       "traits": [
          "Agile",
@@ -1917,7 +1917,7 @@
       "dicesize": 8,
       "melee": 10,
       "moddable": "weapon",
-      "price": "300",
+      "price": 300,
       "hands": "1",
       "traits": [
          "Gnome",
@@ -1937,7 +1937,7 @@
       "dicesize": 10,
       "melee": 5,
       "moddable": "weapon",
-      "price": "100",
+      "price": 100,
       "hands": "2",
       "traits": [
          "Deadly d10",
@@ -1957,7 +1957,7 @@
       "dicesize": 8,
       "melee": 5,
       "moddable": "weapon",
-      "price": "200",
+      "price": 200,
       "hands": "1",
       "traits": [
          "Forceful",
@@ -1978,7 +1978,7 @@
       "dicesize": 6,
       "melee": 5,
       "moddable": "weapon",
-      "price": "500",
+      "price": 500,
       "hands": "1",
       "traits": [
          "Agile",
@@ -2000,7 +2000,7 @@
       "dicesize": 1,
       "ranged": 20,
       "moddable": "weapon",
-      "price": "10",
+      "price": 10,
       "hands": "1",
       "reload": "1",
       "traits": [
@@ -2021,7 +2021,7 @@
       "dicesize": 8,
       "ranged": 120,
       "moddable": "weapon",
-      "price": "300",
+      "price": 300,
       "hands": "2",
       "reload": "1",
       "traits": [
@@ -2039,7 +2039,7 @@
       "dicesize": 4,
       "ranged": 20,
       "moddable": "weapon",
-      "price": "1",
+      "price": 1,
       "hands": "1",
       "traits": [
          "Agile",
@@ -2059,7 +2059,7 @@
       "dicesize": 6,
       "ranged": 60,
       "moddable": "weapon",
-      "price": "300",
+      "price": 300,
       "hands": "1",
       "reload": "1",
       "traits": [
@@ -2078,7 +2078,7 @@
       "dicesize": 10,
       "ranged": 120,
       "moddable": "weapon",
-      "price": "400",
+      "price": 400,
       "hands": "2",
       "reload": "2",
       "traits": [
@@ -2096,7 +2096,7 @@
       "dicesize": 6,
       "ranged": 30,
       "moddable": "weapon",
-      "price": "10",
+      "price": 10,
       "hands": "1",
       "traits": [
          "Thrown 30 ft."
@@ -2115,7 +2115,7 @@
       "dicesize": 6,
       "ranged": 50,
       "moddable": "weapon",
-      "price": "0",
+      "price": 0,
       "hands": "1",
       "reload": "1",
       "traits": [
@@ -2134,7 +2134,7 @@
       "dicesize": 6,
       "ranged": 20,
       "moddable": "weapon",
-      "price": "50",
+      "price": 50,
       "hands": "1",
       "traits": [
          "Nonlethal",
@@ -2156,7 +2156,7 @@
       "dicesize": 8,
       "ranged": 100,
       "moddable": "weapon",
-      "price": "2000",
+      "price": 2000,
       "hands": "1+",
       "reload": "0",
       "traits": [
@@ -2178,7 +2178,7 @@
       "dicesize": 6,
       "ranged": 60,
       "moddable": "weapon",
-      "price": "1400",
+      "price": 1400,
       "hands": "1+",
       "reload": "0",
       "traits": [
@@ -2199,7 +2199,7 @@
       "dicesize": 10,
       "ranged": 80,
       "moddable": "weapon",
-      "price": "500",
+      "price": 500,
       "hands": "2",
       "reload": "1",
       "traits": [
@@ -2221,7 +2221,7 @@
       "dicesize": 8,
       "ranged": 100,
       "moddable": "weapon",
-      "price": "600",
+      "price": 600,
       "hands": "1+",
       "reload": "0",
       "traits": [
@@ -2242,7 +2242,7 @@
       "dicesize": 6,
       "ranged": 60,
       "moddable": "weapon",
-      "price": "300",
+      "price": 300,
       "hands": "1+",
       "reload": "0",
       "traits": [
@@ -2260,7 +2260,7 @@
       "dicesize": 4,
       "ranged": 20,
       "moddable": "weapon",
-      "price": "1",
+      "price": 1,
       "hands": "1",
       "reload": "0",
       "traits": [
@@ -2282,7 +2282,7 @@
       "melee": 5,
       "moddable": "-",
       "level": 6,
-      "price": "25000",
+      "price": 25000,
       "hands": "0",
       "displayName": "Twining Staff (Disc)",
       "equippable": false,
@@ -2309,7 +2309,7 @@
       "dicesize": 8,
       "melee": 10,
       "moddable": "-",
-      "price": "0",
+      "price": 0,
       "hands": "2",
       "hide": true,
       "displayName": "Twining Staff (+1 Striking Bo Staff)",
@@ -2336,7 +2336,7 @@
       "dicesize": 4,
       "melee": 5,
       "moddable": "-",
-      "price": "0",
+      "price": 0,
       "hands": "1",
       "hide": true,
       "displayName": "Twining Staff (+1 Striking Staff)",

@@ -27,7 +27,7 @@ The very latest in Assistive Technologies for Dungeon Master (ATDM)
 - [ ] - Implement all Armors
 - [ ] - Implement all Shields
 - [ ] - Implement all Consumables
-- [ ] - Implement all Adventuring Gear
+- [x] - Implement all Adventuring Gear
 - [ ] - Implement one full Class with Feats and Features
 - [x] - Feat requirements
 - [x] - Equipment (weapons, armor, shields) -> Abilities, Armor, Attacks, Skills
@@ -37,7 +37,10 @@ The very latest in Assistive Technologies for Dungeon Master (ATDM)
 - [x] - Exclusive bonuses: Proficiency, Circumstance, Item, Status, untyped
 - [x] - Classes and Levels
 - [x] - Conditions
+- [x] - Passing time
+- [x] - Resting
 - [x] - Using consumables
+- [ ] - Adding custom items
 - [ ] Style character sheet
 - [x] Populate character sheet from JSON
 - [ ] Use Database
@@ -46,4 +49,15 @@ The very latest in Assistive Technologies for Dungeon Master (ATDM)
 - [ ] (documentation) :)
 - [ ] Initiative tracker, battles, being a battle member, GM-Player-Communication.......
 
-remove remnants of old getShowingOn functions!!
+To do to finish Ohm:
+- Doubling Rings
+- Slippers of Spider Climbing
+- Lesser Leaper's Elixir
+- Moderate Eagle-Eye Elixir
+- Lesser Healing Potion
+- Orc Ferocity
+- Add custom Items:
+- SUPERNinja-Cloak by HAXNBAUER
+- Kassen's Blessing
+- Bruno's Nose Ring
+- Spell Key Ability

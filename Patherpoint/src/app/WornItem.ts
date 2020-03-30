@@ -1,4 +1,6 @@
 import { Item } from './Item'
+import { ItemGain } from './ItemGain';
+import { EffectGain } from './EffectGain';
 
 export class WornItem implements Item {
     public notes: string = "";
@@ -19,12 +21,13 @@ export class WornItem implements Item {
     public potencyRune: number = 0;
     public strikingRune: number = 0;
     public propertyRunes: string[] = [];
-    public gainActivity: string[] = [];
     public showon: string = "";
     public hint: string = "";
     public traits: string[] = [];
-    public effects: string[] = [];
-    public specialEffects: string[] = []
+    public gainActivity: string[] = [];
+    public gainItems: ItemGain[] = [];
+    public effects: EffectGain[] = [];
+    public specialEffects: EffectGain[] = [];
     get_Potency(potency: number) {
         if (potency > 0) {
             return "+"+potency;

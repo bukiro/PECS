@@ -3,6 +3,8 @@ import { CharacterService } from './character.service';
 import { EffectsService } from './effects.service';
 import { WornItem } from './WornItem';
 import { Effect } from './Effect';
+import { ItemGain } from './ItemGain';
+import { EffectGain } from './EffectGain';
 
 export class Weapon implements Item {
     public displayName: string = "";
@@ -33,13 +35,14 @@ export class Weapon implements Item {
     public potencyRune: number = 0;
     public strikingRune: number = 0;
     public propertyRunes: string[] = [];
-    public gainActivity: string[] = [];
     public material: string = "";
     public showon: string = "";
     public hint: string = "";
     public traits: string[] = [];
-    public effects = [];
-    public specialEffects = []
+    public gainActivity: string[] = [];
+    public gainItems: ItemGain[] = [];
+    public effects: EffectGain[] = [];
+    public specialEffects: EffectGain[] = [];
     get_Potency(potency: number) {
         if (potency > 0) {
             return "+"+potency;
