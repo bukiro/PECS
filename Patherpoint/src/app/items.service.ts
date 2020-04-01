@@ -12,6 +12,7 @@ import { Consumable } from './Consumable';
 import { ConditionGain } from './ConditionGain';
 import { OtherConsumable } from './OtherConsumable';
 import { AdventuringGear } from './AdventuringGear';
+import { ItemActivity } from './ItemActivity';
 
 @Injectable({
     providedIn: 'root'
@@ -169,6 +170,9 @@ export class ItemsService {
     finish_Weapons() {
         if (this.loader_Weapons) {
             this.items.weapons = this.loader_Weapons.map(element => Object.assign(new Weapon(), element));
+            this.items.weapons.forEach(item => {
+                item.activities = item.activities.map(element => Object.assign(new ItemActivity(), element))
+            })
             this.loader_Weapons = [];
         }
         if (this.loading_Weapons) {this.loading_Weapons = false;}
@@ -177,6 +181,9 @@ export class ItemsService {
     finish_Armors() {
         if (this.loader_Armors) {
             this.items.armors = this.loader_Armors.map(element => Object.assign(new Armor(), element));
+            this.items.armors.forEach(item => {
+                item.activities = item.activities.map(element => Object.assign(new ItemActivity(), element))
+            })
             this.loader_Armors = [];
         }
         if (this.loading_Armors) {this.loading_Armors = false;}
@@ -185,6 +192,9 @@ export class ItemsService {
     finish_Shields() {
         if (this.loader_Shields) {
             this.items.shields = this.loader_Shields.map(element => Object.assign(new Shield(), element));
+            this.items.shields.forEach(item => {
+                item.activities = item.activities.map(element => Object.assign(new ItemActivity(), element))
+            })
             this.loader_Shields = [];
         }
         if (this.loading_Shields) {this.loading_Shields = false;}
@@ -193,6 +203,9 @@ export class ItemsService {
     finish_WornItems() {
         if (this.loader_WornItems) {
             this.items.wornitems = this.loader_WornItems.map(element => Object.assign(new WornItem(), element));
+            this.items.wornitems.forEach(item => {
+                item.activities = item.activities.map(element => Object.assign(new ItemActivity(), element))
+            })
             this.loader_WornItems = [];
         }
         if (this.loading_WornItems) {this.loading_WornItems = false;}
@@ -201,6 +214,9 @@ export class ItemsService {
     finish_HeldItems() {
         if (this.loader_HeldItems) {
             this.items.helditems = this.loader_HeldItems.map(element => Object.assign(new WornItem(), element));
+            this.items.helditems.forEach(item => {
+                item.activities = item.activities.map(element => Object.assign(new ItemActivity(), element))
+            })
             this.loader_HeldItems = [];
         }
         if (this.loading_HeldItems) {this.loading_HeldItems = false;}

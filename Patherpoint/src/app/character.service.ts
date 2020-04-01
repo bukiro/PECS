@@ -44,6 +44,7 @@ import { DefenseService } from './defense.service';
 import { Equipment } from './Equipment';
 import { EffectGain } from './EffectGain';
 import { ItemGain } from './ItemGain';
+import { ItemActivity } from './ItemActivity';
 
 @Injectable({
     providedIn: 'root'
@@ -351,7 +352,19 @@ export class CharacterService {
         if (newInventoryItem["gainCondition"]) {
             newInventoryItem["gainCondition"] = newInventoryItem["gainCondition"].map(effect => Object.assign(new ConditionGain(), effect))
         }
-        let existingItems = this.me.inventory[item.type].filter((existing: Item) => existing.name == item.name && !existing.equippable && !item.can_Invest());
+        if (newInventoryItem["gainActivity"]) {
+            newInventoryItem["gainActivity"] = newInventoryItem["gainActivity"].map(effect => Object.assign(new ActivityGain(), effect))
+        }
+        if (newInventoryItem["activities"]) {
+            newInventoryItem["activities"] = newInventoryItem["activities"].map(effect => Object.assign(new ItemActivity(), effect))
+        }
+        let existingItems = this.me.inventory[item.type].filter((existing: Item) =>
+            existing.name == item.name &&
+            !existing.equippable &&
+            !item.can_Invest() &&
+            (item["gainActivity"] ? !item["gainActivity"].length : true) &&
+            (item["activities"] ? !item["activities"].length : true)
+        );
         if (existingItems.length) {
             existingItems.forEach((existing: Item) => {
                 existing.amount += amount;
@@ -383,7 +396,7 @@ export class CharacterService {
                 }
                 let grantedItem = this.grant_InventoryItem(newItem, false, equip, newAmount);
                 if (grantedItem.get_Name) {
-                    grantedItem.displayName += grantedItem.name+" (granted by "+returnedInventoryItem.name+")"
+                    grantedItem.displayName += grantedItem.name + " (granted by " + returnedInventoryItem.name + ")"
                 };
             });
         }
@@ -468,18 +481,12 @@ export class CharacterService {
     onInvest(item: Equipment, invested: boolean = true, changeAfter: boolean = true) {
         item.invested = invested;
         if (item.invested) {
-            item.gainActivity.forEach(gainActivity => {
-                this.me.gain_Activity(Object.assign(new ActivityGain(), { name: gainActivity, source: item.name }));
-            });
             if (!item.equipped) {
                 this.onEquip(item, true, false);
             }
         } else {
             item.gainActivity.forEach(gainActivity => {
-                let oldGain = this.me.class.activities.filter(gain => gain.name == gainActivity && gain.source == item.name);
-                if (oldGain.length) {
-                    this.me.lose_Activity(this, this.timeService, this.itemsService, this.activitiesService, oldGain[0]);
-                }
+                this.activitiesService.activate_Activity(this, this.timeService, this.itemsService, gainActivity, this.activitiesService.get_Activities(gainActivity.name)[0], false);
             });
         }
         if (changeAfter) {
@@ -664,12 +671,22 @@ export class CharacterService {
         return returnedConditions;
     }
 
-    get_Activities() {
-        return this.me.class.activities;
+    get_OwnedActivities() {
+        let activities: (ActivityGain | ItemActivity)[] = []
+        activities.push(...this.me.class.activities);
+        this.get_InventoryItems().allEquipment().filter(item => item.gainActivity.length || item.activities.length).forEach(item => {
+            if (item.gainActivity.length) {
+                activities.push(...item.gainActivity);
+            }
+            if (item.activities.length) {
+                activities.push(...item.activities);
+            }
+        })
+        return activities;
     }
 
     get_ActivitiesShowingOn(objectName: string) {
-        let activityGains = this.me.class.activities.filter(gain => gain.active);
+        let activityGains = this.get_OwnedActivities().filter(gain => gain.active);
         let returnedActivities: Activity[] = [];
         activityGains.forEach(gain => {
             this.activitiesService.get_Activities(gain.name).forEach(activity => {
@@ -765,6 +782,8 @@ export class CharacterService {
                     item.effects = item.effects.map(effect => Object.assign(new EffectGain(), effect))
                     item.specialEffects = item.specialEffects.map(effect => Object.assign(new EffectGain(), effect))
                     item.gainItems = item.gainItems.map(effect => Object.assign(new ItemGain(), effect))
+                    item.gainActivity = item.gainActivity.map(effect => Object.assign(new ActivityGain(), effect))
+                    item.activities = item.activities.map(effect => Object.assign(new ItemActivity(), effect))
                 })
                 this.me.inventory.allConsumables().forEach(item => {
                     item.gainCondition = item.gainCondition.map(effect => Object.assign(new ConditionGain(), effect))

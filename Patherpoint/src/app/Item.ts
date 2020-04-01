@@ -4,6 +4,8 @@ export class Item {
     //Base name of the item, may be expanded by rune names for equipment
     public name: string = "";
     //Number of items of this kind in your inventory.
+    //Items that can be equipped or invested, or come with an activity,
+    // get duplicated and not stacked - the amount remains 1.
     public amount: number = 1;
     //Bulk: Either "" or "L" or "<number>"
     public bulk: string = "";

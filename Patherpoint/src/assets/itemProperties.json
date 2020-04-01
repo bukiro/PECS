@@ -1,0 +1,299 @@
+[
+    {
+        "key":"name",
+        "priority":"0",
+        "group":"0-Name",
+        "name": "Name",
+        "desc": "The base name may be expanded by runes and will be shown on the item if no display name is set."
+    },
+    {
+        "key":"displayName",
+        "priority":"1",
+        "group":"0-Name",
+        "name": "Display name",
+        "desc": "The display name will be shown instead of the name if set. The display name can be changed later."
+    },
+    {
+        "key":"bulk",
+        "priority":"0",
+        "group":"1-Basics",
+        "name": "Bulk",
+        "desc": "The bulk of the item is usually either nothing (leave the field empty), L for light bulk or a number."
+    },
+    {
+        "key":"carryingBulk",
+        "priority":"1",
+        "group":"1-Basics",
+        "name": "Bulk when unequipped",
+        "desc": "Some items (like backpacks) are bulkier when carried or stowed than they are equipped. Set the bulk of the item when carried here, if different."
+    },
+    {
+        "key":"stack",
+        "priority":"3",
+        "group":"1-Basics",
+        "name": "Stack size",
+        "desc": "An item's bulk is only counted per full stack. For example, arrows come in stacks of 10. The stack size is 1 for most items.",
+        "type": "number"
+    },
+    {
+        "key":"price",
+        "priority":"4",
+        "group":"1-Basics",
+        "name": "Price",
+        "desc": "The money worth of the item in copper pieces (1SP is 10CP, 1GP is 100CP and 1PP is 1000CP)",
+        "type": "number"
+    },
+    {
+        "key":"desc",
+        "priority":"5",
+        "group":"1-Basics",
+        "name": "Description",
+        "desc": "The description will be shown on the item and can be as detailed as needed.",
+        "type": "textarea"
+    },
+    {
+        "key":"traits",
+        "priority":"6",
+        "group":"1-Basics",
+        "name": "Traits",
+        "desc": "The item's traits are listed on the item. An item must have the Invested trait to be invested.",
+        "locked":true,
+        "examples":"traits"
+    },
+    {
+        "key":"subType",
+        "priority":"7",
+        "group":"1-Basics",
+        "name": "Subtype",
+        "desc": "Items can come in different subtypes, like 'Lesser', 'Greater', etc."
+    },
+    {
+        "key":"subTypeDesc",
+        "priority":"8",
+        "group":"1-Basics",
+        "name": "Subtype Description",
+        "desc": "If the item has a subtype, describe the difference between this subtype and the regular item here."
+    },
+    {
+        "key":"notes",
+        "priority":"9",
+        "group":"1-Basics",
+        "name": "Notes",
+        "desc": "Notes that can be displayed on the item. The notes can be changed later."
+    },
+    {
+        "key":"prof",
+        "priority":"0",
+        "group":"2-Usage",
+        "name": "Proficiency",
+        "desc": "The proficiency used for this weapon or armor decides its effectiveness.",
+        "locked": true,
+        "examples":"prof"
+    },
+    {
+        "key":"hands",
+        "priority":"1",
+        "group":"2-Usage",
+        "name": "Hands",
+        "desc": "The number of free hands needed to effectively use this item.",
+        "type": "number",
+        "examples":"hands"
+    },
+    {
+        "key":"usage",
+        "priority":"2",
+        "group":"2-Usage",
+        "name": "Usage",
+        "desc": "The way that this item is used."
+    },
+    {
+        "key":"equippable",
+        "priority":"3",
+        "group":"2-Usage",
+        "name": "Equippable",
+        "desc": "If this is set, the item can be equipped and unequipped.",
+        "type": "checkbox"
+    },
+    {
+        "key":"moddable",
+        "priority":"4",
+        "group":"2-Usage",
+        "name": "Modification type",
+        "desc": "The modification type decides what, if any, runes and materials can be applied to this item.",
+        "locked": true,
+        "examples":"moddable"
+    },
+    {
+        "key":"activities",
+        "priority":"0",
+        "group":"3-Actions and Activities",
+        "name": "Individual actions or activities",
+        "desc": "Add a definition of what happens when this item is activated. It can include, for exmaple, numeral effects, casting spells or adding items for the duration."
+    },
+    {
+        "key":"gainActivity",
+        "priority":"1",
+        "group":"3-Actions and Activities",
+        "name": "Known actions or activities",
+        "desc": "Add a known action or activity that should be triggered when this item is activated."
+    },
+    {
+        "parent":"gainActivity",
+        "key":"name",
+        "priority":"0",
+        "group":"",
+        "name": "Activity",
+        "desc": "",
+        "locked":true,
+        "examples":"gainActivity-name"
+    },
+    {
+        "key":"actions",
+        "priority":"2",
+        "group":"3-Actions and Activities",
+        "name": "Time required to use",
+        "desc": "Number of actions to use this item. Can be free or reaction, or an individual amount of time, like 1 hour."
+    },
+    {
+        "key":"activationType",
+        "priority":"3",
+        "group":"3-Actions and Activities",
+        "name": "Activation type",
+        "desc": "Type of action used to activate this item.",
+        "locked":true,
+        "examples":"activationType"
+    },
+    {
+        "key":"showon",
+        "priority":"0",
+        "group":"4-Influence",
+        "name": "Influenced attributes",
+        "desc": "You can show a hint to this Item on specific parts of the character sheet, e.g. on individual skills.",
+        "locked":true
+    },
+    {
+        "key":"hint",
+        "priority":"1",
+        "group":"4-Influence",
+        "name": "Hint text",
+        "desc": "This text will be displayed on mouseover of the item hint. If no hint text is given, the item description will be shown instead.",
+        "type":"textarea"
+    },
+    {
+        "key":"effects",
+        "priority":"2",
+        "group":"4-Influence",
+        "name": "Numeral effects",
+        "desc": "These effects will be applied when the item is equipped, invested or activated."
+    },
+    {
+        "key":"affected",
+        "priority":"0",
+        "group":"",
+        "name": "Affected attribute",
+        "desc": "The effect will be applied to this attribute.",
+        "locked":true,
+        "examples":"affected"
+    },
+    {
+        "parent":"effects",
+        "key":"value",
+        "priority":"1",
+        "group":"",
+        "name": "Effect value",
+        "desc": "This is the number by which the attribute will change.",
+        "type":"number",
+        "examples":"value"
+    },
+    {
+        "key":"gainCondition",
+        "priority":"3",
+        "group":"4-Influence",
+        "name": "Cause condition",
+        "desc": "Add known conditions that will be caused by using this item."
+    },
+    {
+        "parent":"gainCondition",
+        "key":"name",
+        "priority":"0",
+        "group":"",
+        "name": "Condition",
+        "desc": "",
+        "locked":true,
+        "examples":"gainCondition-name"
+    },
+    {
+        "parent":"gainCondition",
+        "key":"value",
+        "priority":"1",
+        "group":"",
+        "name": "Condition value",
+        "desc": "Some conditions come with a value that influences how grave their effects are.",
+        "type":"number"
+    },
+    {
+        "parent":"gainCondition",
+        "key":"decreasingValue",
+        "priority":"2",
+        "group":"",
+        "name": "Decreasing Value",
+        "desc": "If this is set, the value decreases by 1 every turn until it is removed at 0.",
+        "type":"checkbox"
+    },
+    {
+        "parent":"gainCondition",
+        "key":"duration",
+        "priority":"3",
+        "group":"",
+        "name": "Condition duration",
+        "desc": "The duration of the condition upon activation, in turns*10 or -1 for permanent.",
+        "type":"number"
+    },
+    {
+        "parent":"gainCondition",
+        "key":"source",
+        "priority":"4",
+        "group":"",
+        "name": "Condition source",
+        "desc": "The condition will show this as its source. Should usually be the item name."
+    },
+    {
+        "key":"gainItems",
+        "priority":"4",
+        "group":"4-Influence",
+        "name": "Grant additional Items",
+        "desc": "Add a known condition that will be caused by using this item.",
+        "locked":true,
+        "examples":"gainCondition"
+    },
+    {
+        "parent":"gainItems",
+        "key":"name",
+        "priority":"0",
+        "group":"",
+        "name": "Item",
+        "desc": "Add a known item that will be granted when receiving or equipping this item.",
+        "locked":true,
+        "examples":"gainItems-name",
+        "todo":"if name is set, type must be set to the correct type automatically"
+    },
+    {
+        "parent":"gainItems",
+        "key":"on",
+        "priority":"0",
+        "group":"",
+        "name": "Grant condition",
+        "desc": "The extra item is either granted when receiving this item, or granted when equipping and lost when unequipping it.",
+        "locked":true,
+        "examples":"gainItems-on"
+    },
+    {
+        "parent":"gainItems",
+        "key":"amount",
+        "priority":"0",
+        "group":"",
+        "name": "Amount",
+        "desc": "The number of items of this type you will receive.",
+        "type":"number"
+    },
+]

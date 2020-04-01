@@ -8,6 +8,7 @@ import { ItemsService } from './items.service';
 import { Item } from './Item';
 import { TimeService } from './time.service';
 import { Equipment } from './Equipment';
+import { Weapon } from './Weapon';
 
 @Injectable({
     providedIn: 'root'
@@ -49,7 +50,7 @@ export class ActivitiesService {
 
         //Start cooldown
         if (activity.cooldown) {
-            gain.cooldown = activity.cooldown + timeService.get_YourTurn();
+            gain.activeCooldown = activity.cooldown + timeService.get_YourTurn();
         }
 
         //Gain Items on Activation
@@ -70,24 +71,24 @@ export class ActivitiesService {
         }
 
         //Exclusive Twining Staff Activation
-        //If there are more activated Twining Staves than you own Twining Staves, deactivate one of the type that you haven't just activated.
-        //This basically means you switch between staves when activating one (unless you own more than one).
+        //If you activate one type of Twining Staff, find the item that it belongs to and deactivate the other type on it.
         if (activity.name == "Twining Staff: Staff" || activity.name == "Twining Staff: Bo Staff") {
             if (activated) {
-                let typeone: string;
-                let typetwo: string;
-                if (activity.name == "Twining Staff: Staff") {
-                    typeone = "Twining Staff: Staff";
-                    typetwo = "Twining Staff: Bo Staff";
-                } else {
-                    typeone = "Twining Staff: Bo Staff";
-                    typetwo = "Twining Staff: Staff";
-                }
-                let twiningstaves: number = characterService.get_InventoryItems().weapons.filter(weapon => weapon.name == "Twining Staff").length;
-                let typeonegains: ActivityGain[] = characterService.get_Activities().filter(gain => gain.name == typeone && gain.active == true);
-                let typetwogains: ActivityGain[] = characterService.get_Activities().filter(gain => gain.name == typetwo && gain.active == true);
-                if (typetwogains.length && typeonegains.length + typetwogains.length > twiningstaves) {
-                    this.activate_Activity(characterService, timeService, itemsService, typetwogains[0], this.get_Activities(typetwo)[0], false);
+                let twiningstaves: Weapon[] = characterService.get_InventoryItems().weapons.filter(weapon => weapon.name == "Twining Staff");
+                let twiningstaff: Weapon = null;
+                twiningstaves.forEach(item => {
+                    item.gainActivity.forEach(activityGain => {
+                        if (activityGain === gain) {
+                            twiningstaff = item;
+                        }
+                    })
+                });
+                if (twiningstaff) {
+                    twiningstaff.gainActivity.forEach(activityGain => {
+                        if (activityGain !== gain) {
+                            this.activate_Activity(characterService, timeService, itemsService, activityGain, this.get_Activities(activityGain.name)[0], false)
+                        }
+                    })
                 }
             }
         }
@@ -95,8 +96,8 @@ export class ActivitiesService {
 
     tick_Activities(characterService: CharacterService, turns: number = 10) {
         
-        characterService.get_Activities().filter(gain => gain.cooldown).forEach(gain => {
-            gain.cooldown = Math.max(gain.cooldown - turns, 0)
+        characterService.get_OwnedActivities().filter(gain => gain.activeCooldown).forEach(gain => {
+            gain.activeCooldown = Math.max(gain.activeCooldown - turns, 0)
         });
 
     }

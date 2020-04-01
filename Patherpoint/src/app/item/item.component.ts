@@ -2,6 +2,14 @@ import { Component, OnInit, Input } from '@angular/core';
 import { TraitsService } from '../traits.service';
 import { ActivitiesService } from '../activities.service';
 import { AdventuringGear } from '../AdventuringGear';
+import { ActivityGain } from '../ActivityGain';
+import { Activity } from '../Activity';
+import { ItemActivity } from '../ItemActivity';
+import { TimeService } from '../time.service';
+import { CharacterService } from '../character.service';
+import { ItemsService } from '../items.service';
+import { Equipment } from '../Equipment';
+import { Consumable } from '../Consumable';
 
 @Component({
     selector: 'app-item',
@@ -13,12 +21,19 @@ export class ItemComponent implements OnInit {
     @Input()
     item;
     @Input()
+    allowActivate: boolean = false;
+    @Input()
     armoredSkirt: AdventuringGear;
 
     constructor(
         private traitsService: TraitsService,
-        private activitiesService: ActivitiesService
+        private activitiesService: ActivitiesService,
+        private characterService: CharacterService,
     ) { }
+
+    get_Accent() {
+        return this.characterService.get_Accent();
+    }
 
     get_Traits(name: string = "") {
         return this.traitsService.get_Traits(name);

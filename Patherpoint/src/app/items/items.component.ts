@@ -16,6 +16,8 @@ import { Equipment } from '../Equipment';
 import { EffectGain } from '../EffectGain';
 import { ItemGain } from '../ItemGain';
 import { ConditionGain } from '../ConditionGain';
+import { ActivityGain } from '../ActivityGain';
+import { ItemActivity } from '../ItemActivity';
 
 @Component({
     selector: 'app-items',
@@ -176,23 +178,18 @@ export class ItemsComponent implements OnInit {
         if (this.newItem["gainCondition"]) {
             this.newItem["gainCondition"] = this.newItem["gainCondition"].map(effect => Object.assign(new ConditionGain(), effect))
         }
-        /*if (this.newItem != null) {
-            Object.keys(this.newItem).forEach(key => {
-                if (this.get_IsObject(this.newItem[key])) {
-                    this.newItem[key].forEach(object => {
-                        Object.keys(object).forEach(subkey => {
-                            object[subkey] = JSON.stringify(object[subkey]);
-                        })
-                    })
-                } else {
-                    this.newItem[key] = JSON.stringify(this.newItem[key]);
-                }
-            });
-        }*/
+        if (this.newItem["gainActivity"]) {
+            this.newItem["gainActivity"] = this.newItem["gainActivity"].map(effect => Object.assign(new ActivityGain(), effect))
+        }
+        if (this.newItem["activities"]) {
+            this.newItem["activities"] = this.newItem["activities"].map(effect => Object.assign(new ItemActivity(), effect))
+        }
     }
 
     get_NewItemProperties() {
         let hideProperties: string[] = [
+            "amount",
+            "level",
             "showNotes",
             "showName",
             "type",
@@ -203,17 +200,14 @@ export class ItemsComponent implements OnInit {
             "affectedByArmoredSkirt",
             "parrying",
             "raised",
-            "takingCover"
+            "takingCover",
+            "potencyRune",
+            "strikingRune",
+            "resilientRune",
+            "propertyRunes",
+            "material"
         ]
         return Object.keys(this.newItem).filter(key => hideProperties.indexOf(key) == -1);
-    }
-
-    get_IsObject(property) {
-        return (typeof property == 'object');
-    }
-
-    get_NewItemSubProperties(property: string, index: number) {
-        return Object.keys(this.newItem[property][index]);
     }
 
     copy_Item(item: Equipment|Consumable) {
@@ -255,128 +249,11 @@ export class ItemsComponent implements OnInit {
         if (this.newItem["gainCondition"]) {
             this.newItem["gainCondition"] = this.newItem["gainCondition"].map(effect => Object.assign(new ConditionGain(), effect))
         }
-        /*if (this.newItem != null) {
-            Object.keys(this.newItem).forEach(key => {
-                if (this.get_IsObject(this.newItem[key])) {
-                    this.newItem[key].forEach(object => {
-                        Object.keys(object).forEach(subkey => {
-                            object[subkey] = JSON.stringify(object[subkey]);
-                        })
-                    })
-                } else {
-                    this.newItem[key] = JSON.stringify(this.newItem[key]);
-                }
-            });
-        }*/
-    }
-
-    add_NewItemObject(property: string) {
-        switch (property) {
-            case "gainActivity": 
-                this.newItem[property].push("" as string)
-                break;
-            case "gainItems":
-                this.newItem[property].push(new ItemGain())
-                break;
-            case "effects":
-                this.newItem[property].push(new EffectGain())
-                break;
-            case "specialEffects":
-                this.newItem[property].push(new EffectGain())
-                break;
-            case "propertyRunes":
-                this.newItem[property].push("" as string)
-                break;
-            case "traits":
-                this.newItem[property].push("" as string)
-                break;
-            case "gainCondition": 
-                this.newItem[property].push(new ConditionGain())
-                break;
-        }
-        /*this.newItem[property].forEach(object => {
-            Object.keys(object).forEach(subkey => {
-                
-                object[subkey] = JSON.stringify(object[subkey]);
-            })
-        })*/
-    }
-
-    remove_NewItemObject(property: string, index: number) {
-        this.newItem[property].splice(index, 1);
-    }
-
-    get_Examples(propertyName: string, subPropertyName: string = "") {
-        let examples = [];
-        this.get_Items().allEquipment().concat(this.get_InventoryItems().allEquipment()).forEach((item: Equipment) => {
-            if (item[propertyName]) {
-                if (this.get_IsObject(item[propertyName])) {
-                    item[propertyName].forEach(element => {
-                        if (this.get_IsObject(element)) {
-                            if (element[subPropertyName]) {
-                                examples.push(element[subPropertyName])
-                            }
-                        } else {
-                            examples.push(element)
-                        }
-                    });
-                } else {
-                    examples.push(item[propertyName])
-                }
-            }
-        });
-        this.get_Items().allConsumables().concat(this.get_InventoryItems().allConsumables()).forEach((item: Consumable) => {
-            if (item[propertyName]) {
-                if (this.get_IsObject(item[propertyName])) {
-                    item[propertyName].forEach(element => {
-                        if (this.get_IsObject(element)) {
-                            if (element[subPropertyName]) {
-                                examples.push(element[subPropertyName])
-                            }
-                        } else {
-                            examples.push(element)
-                        }
-                    });
-                } else {
-                    examples.push(item[propertyName])
-                }
-            }
-        });
-        let uniqueExamples = Array.from(new Set(examples))
-        return uniqueExamples;
     }
 
     grant_CustomItem() {
         if (this.newItem != null) {
-            /*Object.keys(this.newItem).forEach(key => {
-                if (this.get_IsObject(this.newItem[key])) {
-                    this.newItem[key].forEach(object => {
-                        Object.keys(object).forEach(subkey => {
-                            if (object[subkey] == null) {
-                                object[subkey] = "";
-                            }
-                            object[subkey] = JSON.parse(object[subkey]);
-                        })
-                    })
-                } else {
-                    if (this.newItem[key] == null) {
-                        this.newItem[key] = "";
-                    }
-                    this.newItem[key] = JSON.parse(this.newItem[key]);
-                }
-            });*/
             this.grant_Item(this.newItem);
-            /*Object.keys(this.newItem).forEach(key => {
-                if (this.get_IsObject(this.newItem[key])) {
-                    this.newItem[key].forEach(object => {
-                        Object.keys(object).forEach(subkey => {
-                            object[subkey] = JSON.stringify(object[subkey]);
-                        })
-                    })
-                } else {
-                    this.newItem[key] = JSON.stringify(this.newItem[key]);
-                }
-            });*/
         }
     }
 

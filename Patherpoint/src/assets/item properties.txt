@@ -1,0 +1,60 @@
+    Name
+
+name
+displayName
+
+    Basics
+
+bulk
+carryingBulk
+stack
+price
+desc
+traits
+subType
+subTypeDesc
+notes
+
+    Usage
+
+prof
+hands
+usage
+equippable
+moddable
+
+    Actions and Activities
+
+activities
+gainActivity
+actions
+activationType
+
+    Influence
+
+hint
+showon
+effects
+specialEffects
+gainCondition
+gainItems
+
+    Armor & Shields
+
+dexcap
+skillpenalty
+speedpenalty
+strength
+acbonus
+coverbonus
+
+    Weapons
+
+dicenum
+dicesize
+dmgType
+extraDamage
+melee
+ranged
+ammunition
+reload

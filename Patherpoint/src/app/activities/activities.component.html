@@ -4,7 +4,7 @@
 <div class="loading" *ngIf="still_loading()">Loading</div>
 <ng-container *ngIf="!still_loading()">
     <ng-container *ngFor="let gain of get_OwnedActivities()">
-        <ng-container *ngFor="let activity of get_Activities(gain.name)">
+        <ng-container *ngFor="let activity of (gain.can_Activate ? [gain] : get_Activities(gain.name))">
             <div class="list-item" *ngFor="let activityID of [get_ID()]">
                 <button class="row button" (mouseover)="hover = activityID" (mouseout)="hover = 0"
                     [ngStyle]="(gain.active) ? {'color':get_Accent()} : {'background-color':get_Accent()}"
@@ -15,19 +15,7 @@
                 <div class="list-item sublist lower"
                     [ngStyle]="(gain.active) ? {} : {'border-color':get_Accent(activityID)}"
                     [className]="(gain.active) ? 'fancy-list' : ''" *ngIf="get_showAction()==activityID">
-                    <button class="row center-aligned" [ngStyle]="{'background-color':get_Accent()}"
-                        (click)="on_Activate(gain, activity, true)" *ngIf="activity.can_Activate() && !gain.active && !gain.cooldown">
-                        Activate
-                    </button>
-                    <button class="row center-aligned" [ngStyle]="{'background-color':get_Accent()}"
-                        (click)="on_Activate(gain, activity, false)" *ngIf="activity.can_Activate() && gain.active">
-                        Deactivate
-                    </button>
-                    <button class="row center-aligned" [ngStyle]="{'background-color':get_Accent()}"
-                        (click)="on_Activate(gain, activity, true)" *ngIf="gain.cooldown" disabled>
-                        Cannot activate for {{get_Duration(gain.cooldown)}}
-                    </button>
-                    <app-activity [activity]=activity></app-activity>
+                    <app-activity [activity]=activity [gain]=gain [allowActivate]=true></app-activity>
                 </div>
             </div>
         </ng-container>

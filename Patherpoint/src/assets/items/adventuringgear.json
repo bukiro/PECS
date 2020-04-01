@@ -850,7 +850,9 @@
             "Magical"
         ],
         "gainActivity": [
-            "Bountiful Cauldron"
+            {
+                "name":"Bountiful Cauldron"
+            }
         ]
     },
     {

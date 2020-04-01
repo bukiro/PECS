@@ -1,6 +1,8 @@
 import { ItemGain } from './ItemGain';
 import { EffectGain } from './EffectGain';
 import { Item } from './Item';
+import { ItemActivity } from './ItemActivity';
+import { ActivityGain } from './ActivityGain';
 
 export class Equipment extends Item {
     //Is the name input visible in the inventory
@@ -9,13 +11,11 @@ export class Equipment extends Item {
     public displayName: string = "";
     //Any notes the player adds to the item
     public notes: string = "";
-    //Full description of the item, ideally unchanged from the source material
-    public desc: string = "";
     //Is the notes input shown in the inventory
     public showNotes: boolean = false;
     //Some items have a different bulk when you are carrying them instead of wearing them, like backpacks
     public carryingBulk: string = "";
-    //Consumables can normally be equipped.
+    //Equipment can normally be equipped.
     public equippable: boolean = true;
     //Is the item currently equipped - items with equippable==false are always equipped
     public equipped: boolean = false;
@@ -23,8 +23,6 @@ export class Equipment extends Item {
     public invested: boolean = false;
     //What kind of runes and material can be applied to this item? Some items that are not weapons can be modded like weapons, some weapons cannot be modded, etc.
     public moddable: ""|"weapon"|"armor"|"shield" = "";
-    //What traits does the item have? Can be expanded under certain circumstances
-    public traits: string[] = [];
     //Potency Rune level for weapons and armor
     public potencyRune:number = 0;
     //Striking Rune level for weapons
@@ -40,8 +38,10 @@ export class Equipment extends Item {
     //What hint should show up for this item? This allows to be more concise and not use the entire description.
     //If no hint is set, desc will show instead
     public hint: string = "";
-    //Name any activity that becomes available when you equip and invest this item
-    public gainActivity: string[] = [];
+    //Describe all activities that you gain from this item. The activity must be a fully described "Activity" type object
+    public activities: ItemActivity[] = [];
+    //Name any common activity that becomes available when you equip and invest this item
+    public gainActivity: ActivityGain[] = [];
     //List ItemGain for every Item that you receive when you get or equip this item (specified in the ItemGain)
     public gainItems: ItemGain[] = [];
     //List EffectGain for every Effect that comes from equipping and investing the item

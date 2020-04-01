@@ -1,5 +1,6 @@
 <div class="row left-aligned" *ngIf="(item.get_Traits ? item.get_Traits() : item.traits).length">
-    <cite class="trait" *ngFor="let trait of (item.get_Traits ? item.get_Traits() : item.traits)" title="{{get_Traits(trait)[0].description}}">&nbsp;{{trait}}</cite>
+    <cite class="trait" *ngFor="let trait of (item.get_Traits ? item.get_Traits() : item.traits)"
+        title="{{get_Traits(trait)[0].description}}">&nbsp;{{trait}}</cite>
 </div>
 <div class="row left-aligned">
     <span *ngIf="item.price">
@@ -94,9 +95,10 @@
     <h4>Armored Skirt</h4>
     <app-item [item]=armoredSkirt></app-item>
 </div>
-<ng-container *ngFor="let gain of item.gainActivity">
-    <div class="row left-aligned" *ngFor="let activity of get_Activities(gain)">
-        <h4>{{activity.name}} {{activity.get_Actions()}}{{(activity.activationType) ? " - " + activity.activationType : ""}}</h4>
-        <app-activity [activity]=activity></app-activity>
-    </div>
+<ng-container *ngFor="let gain of item.activities.concat(item.gainActivity)">
+    <ng-container *ngFor="let activity of (gain.can_Activate ? [gain] : get_Activities(gain.name))">
+        <h4>{{activity.name}}
+            {{activity.get_Actions()}}{{(activity.activationType) ? " - " + activity.activationType : ""}}</h4>
+        <app-activity [activity]=activity [gain]=gain [allowActivate]=allowActivate></app-activity>
+    </ng-container>
 </ng-container>

@@ -67,7 +67,7 @@ export class ActivitiesComponent implements OnInit {
         return this.activitiesService.get_Activities(name);
     }
 
-    get_Duration(duration) {
+    get_Duration(duration: number) {
         return this.timeService.get_Duration(duration);
     }
 
@@ -75,7 +75,7 @@ export class ActivitiesComponent implements OnInit {
         this.id = 0;
         let activities: ActivityGain[] = [];
         let unique: string[] = [];
-        this.characterService.get_Character().class.activities.forEach(activity => {
+        this.characterService.get_OwnedActivities().forEach(activity => {
             if (unique.indexOf(activity.name) == -1) {
                 unique.push(activity.name);
                 activities.push(activity);

@@ -1,0 +1,37 @@
+<h5 *ngIf="propertyName">{{propertyName}}</h5>
+    <ng-container *ngIf="get_IsObject(property)">
+        <button [ngStyle]="{'background-color':get_Accent()}" (click)="add_NewItemObject()">Add</button>
+        <div class="list-item row" *ngFor="let object of property; let i = index">
+            <div class="row">
+                {{i+1}}
+            </div>
+            <div class="row">
+                <button [ngStyle]="{'background-color':get_Accent()}" (click)="remove_NewItemObject(i)">Remove</button>
+            </div>
+            <ng-container *ngIf="get_IsObject(object)">
+                <ng-container *ngFor="let subProperty of get_NewItemSubProperties(object)|sortBy:'asc'">
+                    <div class="row">
+                        <app-newItemProperty [propertyName]=subProperty [property]="property[i][subProperty]" [parent]=propertyName></app-newItemProperty>
+                    </div>
+                </ng-container>
+            </ng-container>
+            <ng-container *ngIf="!get_IsObject(object)">
+                <div class="row">
+                    <app-newItemProperty [propertyName]='' [property]="property[i]" [parent]=propertyName></app-newItemProperty>
+                </div>
+            </ng-container>
+        </div>
+    </ng-container>
+    <ng-container *ngIf="!get_IsObject(property)">
+        <div class="row">
+            <input class="row" type="text" [(ngModel)]="property" *ngIf="propertyName!='desc'">
+            <textarea class="row" rows=3 [(ngModel)]="property" *ngIf="propertyName=='desc'"></textarea>
+        </div>
+        <div class="list-item" style="margin: initial 0" *ngIf="propertyName!='desc'">
+            <select class="row" [(ngModel)]="property">
+                <option *ngFor="let example of get_Examples(propertyName)|sortBy:'asc'" [value]="example" style="overflow:hidden; white-space: normal;">
+                    {{example}}
+                </option>
+            </select>
+        </div>
+    </ng-container>

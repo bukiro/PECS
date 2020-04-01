@@ -3,7 +3,8 @@
     <h3 [ngStyle]="{'color':get_Accent()}">Inventory</h3>
     <div class="loading" *ngIf="still_loading()">Loading</div>
     <ng-container *ngIf="!still_loading()">
-        <button class="fullsize-only list-item center-aligned" [ngStyle]="{'background-color':get_Accent()}" (click)="toggleMenu('items')">
+        <button class="fullsize-only list-item center-aligned" [ngStyle]="{'background-color':get_Accent()}"
+            (click)="toggleMenu('items')">
             Get Items
         </button>
         <h5>Cash</h5>
@@ -22,8 +23,8 @@
             <div class="list-item">
                 <strong>Bulk</strong>
                 <input class="number2" type="number" value="{{bulk.$current}}" disabled>
-                <app-tags [objectName]="'Bulk'" [showTraits]=true [showFeats]=true [showItems]=true [showActivities]=true
-                    [showConditions]=true [showEffects]=true></app-tags>
+                <app-tags [objectName]="'Bulk'" [showTraits]=true [showFeats]=true [showItems]=true
+                    [showActivities]=true [showConditions]=true [showEffects]=true></app-tags>
             </div>
             <div class="fullsize-only list-item">
                 <strong>Encumbrance</strong>
@@ -34,8 +35,8 @@
                 <input class="number2" type="number"
                     [className]="(bulk.$penalty.length) ? 'penalty' : (bulk.$bonus.length) ? 'bonus' : ''"
                     value="{{bulk.$max.value}}" title="{{bulk.$max.desc}}" disabled>
-                <app-tags [objectName]="'Max Bulk'" [showTraits]=true [showFeats]=true [showItems]=true [showActivities]=true
-                    [showConditions]=true [showEffects]=true></app-tags>
+                <app-tags [objectName]="'Max Bulk'" [showTraits]=true [showFeats]=true [showItems]=true
+                    [showActivities]=true [showConditions]=true [showEffects]=true></app-tags>
             </div>
         </ng-container>
         <h3 class="fullsize-only" [ngStyle]="{'color':get_Accent()}">Items</h3>
@@ -91,11 +92,17 @@
                                     <button [ngStyle]="{'background-color':get_Accent()}" *ngIf="item.invested"
                                         (click)="onInvest(item, false)">Uninvest</button>
                                 </span>
-                                <span *ngIf="!item.equippable && !item.can_Invest()">
+                                <span
+                                    *ngIf="!item.equippable && !item.can_Invest() && (item.gainActivity ? !item.gainActivity.length : true) && (item.activities ? !item.activities.length : true)">
                                     <button [ngStyle]="{'background-color':get_Accent()}"
                                         (click)="onAmountChange(item, -1)" [disabled]="item.amount <= 0">-1</button>
                                     <button [ngStyle]="{'background-color':get_Accent()}"
                                         (click)="onAmountChange(item, 1)">+1</button>
+                                </span>
+                                <span
+                                    *ngIf="item.equippable || item.can_Invest() || (item.gainActivity ? item.gainActivity.length : false) || (item.activities ? item.activities.length : false)">
+                                    &nbsp;
+                                    <!-- This span is a placeholder that appears if no other button is valid on the left to the Drop button -->
                                 </span>
                                 <span>
                                     <button (click)="drop_InventoryItem(item)"
@@ -108,8 +115,8 @@
                                 <span><input type="checkbox" [(ngModel)]="item.showNotes">Notes</span>
                                 <span *ngIf="item['get_Name']"><input type="checkbox"
                                         [(ngModel)]="item.showName">Name</span>
-                                <span *ngIf="item.moddable && item.moddable != '-' && item.type != 'shield'"><input type="checkbox"
-                                        [(ngModel)]="item.showRunes">Runes</span>
+                                <span *ngIf="item.moddable && item.moddable != '-' && item.type != 'shield'"><input
+                                        type="checkbox" [(ngModel)]="item.showRunes">Runes</span>
                                 <span *ngIf="item.moddable && item.moddable != '-'"><input type="checkbox"
                                         [(ngModel)]="item.showMaterial">Material</span>
                             </div>
@@ -192,7 +199,10 @@
                                     </div>
                                 </div>
                             </div>
-                            <app-item [item]=item [armoredSkirt]="item.get_ArmoredSkirt ? item.get_ArmoredSkirt(characterService) : null"></app-item>
+                            <app-item [item]=item
+                                [allowActivate]="(item.equippable ? item.equipped : true) && (item.can_Invest() ? item.invested : true)"
+                                [armoredSkirt]="item.get_ArmoredSkirt ? item.get_ArmoredSkirt(characterService) : null">
+                            </app-item>
                         </div>
                     </div>
                 </ng-container>

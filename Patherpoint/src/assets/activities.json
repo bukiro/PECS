@@ -87,25 +87,6 @@
         ]
     },
     {
-        "name": "Skeleton Key",
-        "actions": "Free",
-        "activationType": "Interact",
-        "cooldown":144000,
-        "frequency": "once per day",
-        "trigger": "You attempt to Pick a Lock but haven’t rolled yet",
-        "desc": "The key casts knock on the lock you’re trying to pick.",
-        "castSpells": [
-            {
-                "name": "Knock",
-                "level": 1
-            }
-        ],
-        "traits": [
-            "Magical",
-            "Transmutation"
-        ]
-    },
-    {
         "name": "Bountiful Cauldron",
         "actions": "3",
         "activationType": "Command, Interact",

@@ -379,6 +379,7 @@
     margin-bottom: 8px;
     border-radius: 2px;
     background-color: #E0E0E0;
+    background-color: rgba(50, 50, 50, 0.1)
   }
 
   button.list-item {
@@ -407,6 +408,7 @@
     overflow-y: auto;
     padding: 4px;
     z-index: 100;
+    background-color: #E0E0E0;
   }
 
   .list-item.sublist.fancy-list {

@@ -4,6 +4,11 @@ import { TraitsService } from '../traits.service';
 import { SpellsService } from '../spells.service';
 import { CharacterService } from '../character.service';
 import { EffectsService } from '../effects.service';
+import { ActivitiesService } from '../activities.service';
+import { TimeService } from '../time.service';
+import { ItemsService } from '../items.service';
+import { ActivityGain } from '../ActivityGain';
+import { ItemActivity } from '../ItemActivity';
 
 @Component({
     selector: 'app-activity',
@@ -13,14 +18,25 @@ import { EffectsService } from '../effects.service';
 export class ActivityComponent implements OnInit {
 
     @Input()
-    activity: Activity;
+    activity: Activity|ItemActivity;
+    @Input()
+    gain: ActivityGain|ItemActivity;
+    @Input()
+    allowActivate: boolean = false;
 
     constructor(
         public characterService: CharacterService,
         private traitsService: TraitsService,
         private spellsService: SpellsService,
-        private effectsService: EffectsService
+        private activitiesService: ActivitiesService,
+        private timeService: TimeService,
+        private itemsService: ItemsService
+        
     ) { }
+
+    get_Accent() {
+        return this.characterService.get_Accent();
+    }
 
     get_ActivationTraits(activity: Activity) {
         switch (activity.activationType) {
@@ -33,6 +49,14 @@ export class ActivityComponent implements OnInit {
             default:
                 return [];
         }
+    }
+
+    get_Duration(duration: number) {
+        return this.timeService.get_Duration(duration);
+    }
+
+    on_Activate(gain: ActivityGain|ItemActivity, activity: Activity|ItemActivity, activated: boolean) {
+        this.activitiesService.activate_Activity(this.characterService, this.timeService, this.itemsService, gain, activity, activated);
     }
 
     get_Traits(traitName: string = "") {

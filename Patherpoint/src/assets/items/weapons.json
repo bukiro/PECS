@@ -2289,8 +2289,12 @@
       "showon":"Athletics",
       "hint": "When you expand the Twining Staff, you can use the force of the expansion to High Jump or to try to Force Open a door or the like by wedging the disc into a gap before activation. The staff makes the Athletics check with a +15 modifier.",
       "gainActivity": [
-         "Twining Staff: Staff",
-         "Twining Staff: Bo Staff"
+         {
+            "name":"Twining Staff: Staff"
+         },
+         {
+            "name":"Twining Staff: Bo Staff"
+         }
       ],
       "traits": [
          "Magical",

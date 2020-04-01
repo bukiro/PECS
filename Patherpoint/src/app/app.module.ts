@@ -32,6 +32,7 @@ import { ActivityComponent } from './activity/activity.component';
 import { ItemComponent } from './item/item.component';
 import { SpellComponent } from './spell/spell.component';
 import { TagsComponent } from './tags/tags.component';
+import { NewItemPropertyComponent } from './items/newItemProperty/newItemProperty.component';
 
 @NgModule({
    declarations: [
@@ -59,7 +60,8 @@ import { TagsComponent } from './tags/tags.component';
       ActivityComponent,
       ItemComponent,
       SpellComponent,
-      TagsComponent
+      TagsComponent,
+      NewItemPropertyComponent
    ],
    imports: [
       BrowserModule,

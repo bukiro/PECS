@@ -1,4 +1,20 @@
 <div class="row">
+    <div class="row">
+        <button class="row center-aligned" [ngStyle]="{'background-color':get_Accent()}"
+            (click)="on_Activate(gain, activity, true)"
+            *ngIf="activity.can_Activate() && !gain.active && !gain.activeCooldown && allowActivate">
+            Activate
+        </button>
+        <button class="row center-aligned" [ngStyle]="{'background-color':get_Accent()}"
+            (click)="on_Activate(gain, activity, false)"
+            *ngIf="activity.can_Activate() && gain.active && allowActivate">
+            Deactivate
+        </button>
+        <button class="row center-aligned" [ngStyle]="{'background-color':get_Accent()}"
+            (click)="on_Activate(gain, activity, true)" *ngIf="gain.activeCooldown && allowActivate" disabled>
+            Cannot activate for {{get_Duration(gain.activeCooldown)}}
+        </button>
+    </div>
     <div class="row left-aligned">
         <cite class="trait" *ngFor="let trait of activity.traits"
             title="{{get_Traits(trait)[0].description}}">{{trait}}</cite>
