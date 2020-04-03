@@ -45,10 +45,8 @@ export class Equipment extends Item {
     //List ItemGain for every Item that you receive when you get or equip this item (specified in the ItemGain)
     public gainItems: ItemGain[] = [];
     //List EffectGain for every Effect that comes from equipping and investing the item
+    //effects get eval'ed, so can use values like "-characterService.get_Character().level"
     public effects: EffectGain[] = [];
-    //List EffectGain for every variable Effect that comes from equipping and investing the item
-    //specialEffects get eval'ed, so can use values like "-characterService.get_Character().level"
-    public specialEffects: EffectGain[] = [];
     get_Potency(potency: number) {
         if (potency > 0) {
             return "+"+potency;

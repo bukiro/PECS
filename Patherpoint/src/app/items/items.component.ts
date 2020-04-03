@@ -18,6 +18,7 @@ import { ItemGain } from '../ItemGain';
 import { ConditionGain } from '../ConditionGain';
 import { ActivityGain } from '../ActivityGain';
 import { ItemActivity } from '../ItemActivity';
+import { ItemProperty } from '../ItemProperty';
 
 @Component({
     selector: 'app-items',
@@ -169,9 +170,6 @@ export class ItemsComponent implements OnInit {
         if (this.newItem["effects"]) {
             this.newItem["effects"] = this.newItem["effects"].map(effect => Object.assign(new EffectGain(), effect))
         }
-        if (this.newItem["specialEffects"]) {
-            this.newItem["specialEffects"] = this.newItem["specialEffects"].map(effect => Object.assign(new EffectGain(), effect))
-        }
         if (this.newItem["gainItems"]) {
             this.newItem["gainItems"] = this.newItem["gainItems"].map(effect => Object.assign(new ItemGain(), effect))
         }
@@ -207,8 +205,13 @@ export class ItemsComponent implements OnInit {
             "propertyRunes",
             "material"
         ]
-        return Object.keys(this.newItem).filter(key => hideProperties.indexOf(key) == -1);
+        function get_PropertyData(key: string, itemsService: ItemsService) {
+            return itemsService.get_ItemProperties().filter(property => !property.parent && property.key == key)[0];
+        }
+        return Object.keys(this.newItem).filter(key => hideProperties.indexOf(key) == -1).map((key) => get_PropertyData(key, this.itemsService)).filter(property => property != undefined);
     }
+
+    
 
     copy_Item(item: Equipment|Consumable) {
         switch (item.type) {
@@ -240,14 +243,17 @@ export class ItemsComponent implements OnInit {
         if (this.newItem["effects"]) {
             this.newItem["effects"] = this.newItem["effects"].map(effect => Object.assign(new EffectGain(), effect))
         }
-        if (this.newItem["specialEffects"]) {
-            this.newItem["specialEffects"] = this.newItem["specialEffects"].map(effect => Object.assign(new EffectGain(), effect))
-        }
         if (this.newItem["gainItems"]) {
             this.newItem["gainItems"] = this.newItem["gainItems"].map(effect => Object.assign(new ItemGain(), effect))
         }
         if (this.newItem["gainCondition"]) {
             this.newItem["gainCondition"] = this.newItem["gainCondition"].map(effect => Object.assign(new ConditionGain(), effect))
+        }
+        if (this.newItem["gainActivity"]) {
+            this.newItem["gainActivity"] = this.newItem["gainActivity"].map(effect => Object.assign(new ActivityGain(), effect))
+        }
+        if (this.newItem["activities"]) {
+            this.newItem["activities"] = this.newItem["activities"].map(effect => Object.assign(new ItemActivity(), effect))
         }
     }
 

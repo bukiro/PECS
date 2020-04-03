@@ -1,25 +1,29 @@
 import { EffectGain } from './EffectGain';
+import { ItemGain } from './ItemGain';
+import { SpellCast } from './SpellCast';
 
 export class Activity {
     public name: string = "";
+    public desc: string = "";
+    public traits: string[] = [];
     public actions: string = "1";
     public activationType: string = "";
-    public frequency: string = "";
+    public toggle: boolean = false;
     public cooldown: number = 0;
+    public frequency: string = "";
     public trigger: string = "";
     public requirements: string = "";
-    public desc: string = "";
+    public gainItems: ItemGain[] = [];
+    public castSpells: SpellCast[] = [];
     public critsuccess: string = "";
     public success: string = "";
     public failure: string = "";
     public critfailure: string = "";
-    public traits: string[] = [];
-    public gainItems = [];
-    public castSpells: string[] = [];
     public showon: string = "";
-    public toggle: boolean = false;
+    public hint: string = "";
     public effects: EffectGain[] = [];
-    public specialEffects: EffectGain[] = [];
+    public onceEffects: EffectGain[] = [];
+    public inputRequired: string = "";
     get_Actions() {
         switch (this.actions) {
             case "Free":

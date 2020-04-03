@@ -343,9 +343,6 @@ export class CharacterService {
         if (newInventoryItem["effects"]) {
             newInventoryItem["effects"] = newInventoryItem["effects"].map(effect => Object.assign(new EffectGain(), effect))
         }
-        if (newInventoryItem["specialEffects"]) {
-            newInventoryItem["specialEffects"] = newInventoryItem["specialEffects"].map(effect => Object.assign(new EffectGain(), effect))
-        }
         if (newInventoryItem["gainItems"]) {
             newInventoryItem["gainItems"] = newInventoryItem["gainItems"].map(effect => Object.assign(new ItemGain(), effect))
         }
@@ -366,6 +363,12 @@ export class CharacterService {
             (item["activities"] ? !item["activities"].length : true)
         );
         if (existingItems.length) {
+            let intAmount: number = 1
+            try {
+                intAmount = parseInt(amount.toString())
+            } catch(error) {
+                intAmount = 1
+            }
             existingItems.forEach((existing: Item) => {
                 existing.amount += amount;
                 returnedInventoryItem = existing;
@@ -601,6 +604,30 @@ export class CharacterService {
         }
     }
 
+    process_OnceEffect(effect: EffectGain) {
+        let value: number = 0;
+        try {
+            value = parseInt(eval(effect.value));
+        } catch(error) {
+            value = 0;
+        }
+        switch (effect.affected) {
+            case "Focus":
+                this.me.class.focusPoints = Math.min(this.me.class.focusPoints + value, this.get_MaxFocusPoints());
+                break;
+            case "Temporary HP":
+                this.me.health.temporaryHP += value;
+                break;
+            case "HP":
+                if (value > 0) {
+                    this.me.health.heal(this, this.effectsService, value, true)
+                } else if (value < 0) {
+                    this.me.health.takeDamage(this, this.effectsService, value, false)
+                }
+                break;
+        }
+    }
+
     have_Trait(object: any, traitName: string) {
         return this.traitsService.have_Trait(object, traitName);
     }
@@ -780,7 +807,6 @@ export class CharacterService {
                 this.me.inventory.adventuringgear = this.me.inventory.adventuringgear.map(item => Object.assign(new AdventuringGear(), item));
                 this.me.inventory.allEquipment().forEach(item => {
                     item.effects = item.effects.map(effect => Object.assign(new EffectGain(), effect))
-                    item.specialEffects = item.specialEffects.map(effect => Object.assign(new EffectGain(), effect))
                     item.gainItems = item.gainItems.map(effect => Object.assign(new ItemGain(), effect))
                     item.gainActivity = item.gainActivity.map(effect => Object.assign(new ActivityGain(), effect))
                     item.activities = item.activities.map(effect => Object.assign(new ItemActivity(), effect))

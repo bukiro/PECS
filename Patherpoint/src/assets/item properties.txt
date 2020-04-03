@@ -35,7 +35,6 @@ activationType
 hint
 showon
 effects
-specialEffects
 gainCondition
 gainItems
 
@@ -58,3 +57,8 @@ melee
 ranged
 ammunition
 reload
+
+    Consumables
+
+benefit
+drawback

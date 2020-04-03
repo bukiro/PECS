@@ -31,7 +31,6 @@ export class Feat {
     public traits: string[] = [];
     public onceEffects: any[] = [];
     public effects: any[] = [];
-    public specialEffects: any[] = [];
     public gainFeatChoice: FeatChoice[] = [];
     public gainSkillChoice: SkillChoice[] = [];
     public gainSpellChoice: SpellChoice[] = [];

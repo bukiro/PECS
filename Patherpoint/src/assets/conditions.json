@@ -14,7 +14,7 @@
         "type": "generic",
         "desc": "Your movements become clumsy and inexact. Clumsy always includes a value. You take a status penalty equal to the condition value to Dexterity-based checks and DCs, including AC, Reflex saves, ranged attack rolls, and skill checks using Acrobatics, Stealth, and Thievery.",
         "showon": "Dexterity",
-        "specialEffects": [
+        "effects": [
             {
                 "affected": "AC",
                 "value": "-(object.value)",
@@ -98,7 +98,7 @@
         "decreasingValue": true,
         "type": "generic",
         "desc": "You’re gripped by fear and struggle to control your nerves. The frightened condition always includes a value. You take a status penalty equal to this value to all your checks and DCs. Unless specified otherwise, at the end of each of your turns, the value of your frightened condition decreases by 1.",
-        "specialEffects": [
+        "effects": [
             {
                 "affected": "All Checks",
                 "value": "-(object.value)"

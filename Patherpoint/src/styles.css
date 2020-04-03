@@ -92,6 +92,11 @@
     position: relative;
   }
 
+  app-newItemProperty {
+    flex-basis: 100%;
+    margin-bottom: 8px;
+  }
+
   .minimized .fullsize-only {
     display:none;
   }

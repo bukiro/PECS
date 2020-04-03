@@ -49,6 +49,9 @@ The very latest in Assistive Technologies for Dungeon Master (ATDM)
 - [ ] (documentation) :)
 - [ ] Initiative tracker, battles, being a battle member, GM-Player-Communication.......
 
+To do immediately:
+- Extensively test custom item creation
+
 To do to finish Ohm:
 - Doubling Rings
 - Slippers of Spider Climbing

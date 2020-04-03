@@ -95,10 +95,10 @@
                         </div>
                     </div>
                 </div>
-                <ng-container *ngFor="let property of get_NewItemProperties()|sortBy:'asc'">
-                    <app-newItemProperty [propertyName]=property [property]=newItem[property]></app-newItemProperty>
+                <ng-container *ngFor="let property of get_NewItemProperties()|sortBy:'asc':'priority'|sortBy:'asc':'group'">
+                    <app-newItemProperty [propertyData]=property [propertyKey]=property.key [newItem]=newItem></app-newItemProperty>
                 </ng-container>
-                <div class="list-item" *ngFor="let inventoryID of [listID+get_ID()]">
+                <div class="list-item row">
                     <button class="row center-aligned" [ngStyle]="{'background-color':get_Accent()}"
                         (click)="grant_CustomItem()">
                         Get this item

@@ -13,6 +13,7 @@ import { ConditionGain } from './ConditionGain';
 import { OtherConsumable } from './OtherConsumable';
 import { AdventuringGear } from './AdventuringGear';
 import { ItemActivity } from './ItemActivity';
+import { ItemProperty } from './ItemProperty';
 
 @Injectable({
     providedIn: 'root'
@@ -20,6 +21,9 @@ import { ItemActivity } from './ItemActivity';
 export class ItemsService {
 
     private items: ItemCollection;
+    private itemProperties: ItemProperty[];
+    private loader_ItemProperties = [];
+    private loading_ItemProperties: Boolean = false;
     private loader_Weapons = [];
     private loading_Weapons: Boolean = false;
     private loader_Armors = [];
@@ -37,6 +41,7 @@ export class ItemsService {
     private loader_AdventuringGear = [];
     private loading_AdventuringGear: Boolean = false;
     
+
     itemsMenuState: string = 'out';
 
     constructor(
@@ -61,6 +66,12 @@ export class ItemsService {
         } else { return new ItemCollection }
     }
 
+    get_ItemProperties() {
+        if (!this.still_loading()) {
+            return this.itemProperties;
+        } else { return [new ItemProperty] }
+    }
+
     get_ItemType(type: string, name: string = "") {
         if (!this.still_loading()) {
             return this.items[type].filter(item => item.name == name || name == "");
@@ -76,10 +87,21 @@ export class ItemsService {
                 characterService.add_Condition(newConditionGain, false);
             });
         }
+
+        //One time effects
+        if (item.onceEffects) {
+            item.onceEffects.forEach(effect => {
+                characterService.process_OnceEffect(effect);
+            })
+        }
     }
 
     still_loading() {
-        return (this.loading_Weapons || this.loading_Armors || this.loading_Shields || this.loading_WornItems || this.loading_AlchemicalElixirs || this.loading_OtherConsumables);
+        return (this.loading_ItemProperties || this.loading_Weapons || this.loading_Armors || this.loading_Shields || this.loading_WornItems || this.loading_AlchemicalElixirs || this.loading_OtherConsumables);
+    }
+
+    load_ItemProperties(): Observable<String[]>{
+        return this.http.get<String[]>('/assets/itemProperties.json');
     }
 
     load_Weapons(): Observable<String[]>{
@@ -117,6 +139,12 @@ export class ItemsService {
     initialize() {
         if (!this.items) {
             this.items = new ItemCollection();
+            this.loading_ItemProperties = true;
+            this.load_ItemProperties()
+                .subscribe((results:String[]) => {
+                    this.loader_ItemProperties = results;
+                    this.finish_ItemProperties()
+                });
             this.loading_Weapons = true;
             this.load_Weapons()
                 .subscribe((results:String[]) => {
@@ -165,6 +193,14 @@ export class ItemsService {
                     this.finish_AdventuringGear()
                 });
         }
+    }
+
+    finish_ItemProperties() {
+        if (this.loader_ItemProperties) {
+            this.itemProperties = this.loader_ItemProperties.map(element => Object.assign(new ItemProperty(), element));
+            this.loader_ItemProperties = [];
+        }
+        if (this.loading_ItemProperties) {this.loading_ItemProperties = false;}
     }
 
     finish_Weapons() {
@@ -241,6 +277,9 @@ export class ItemsService {
     finish_AdventuringGear() {
         if (this.loader_AdventuringGear) {
             this.items.adventuringgear = this.loader_AdventuringGear.map(element => Object.assign(new AdventuringGear(), element));
+            this.items.adventuringgear.forEach(item => {
+                item.activities = item.activities.map(element => Object.assign(new ItemActivity(), element))
+            })
             this.loader_AdventuringGear = [];
         }
         if (this.loading_AdventuringGear) {this.loading_AdventuringGear = false;}

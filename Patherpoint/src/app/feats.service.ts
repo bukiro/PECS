@@ -147,11 +147,7 @@ export class FeatsService {
             if (feat.onceEffects) {
                 if (taken) {
                     feat.onceEffects.forEach(effect => {
-                        switch (effect.affected) {
-                            case "Temporary HP":
-                                character.health.temporaryHP += parseInt(eval(effect.value));
-                                break;
-                        }
+                        characterService.process_OnceEffect(effect);
                     })
                 }
             }

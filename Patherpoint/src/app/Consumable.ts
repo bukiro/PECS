@@ -1,5 +1,6 @@
 import { ConditionGain } from './ConditionGain';
 import { Item } from './Item';
+import { EffectGain } from './EffectGain';
 
 export class Consumable extends Item {
     //Consumables can normally not be equipped.
@@ -14,4 +15,6 @@ export class Consumable extends Item {
     public activationType: string = "";
     //List ConditionGain for every condition that you gain from using this item
     public gainCondition: ConditionGain[] = [];
+    //List EffectGain for every effect that happens instantly when the item is used
+    public onceEffects: EffectGain[] = [];
 }

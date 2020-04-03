@@ -1,8 +1,8 @@
-export interface SpellGain {
-    name: string;
-    source: string;
-    className: string;
-    tradition: string;
-    locked: boolean;
-    sourceId: string;
+export class SpellGain {
+    public name: string;
+    public source: string;
+    public className: string;
+    public tradition: string;
+    public locked: boolean;
+    public sourceId: string;
 }

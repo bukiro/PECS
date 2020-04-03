@@ -1,4 +1,5 @@
 import { ConditionGain } from './ConditionGain';
+import { EffectGain } from './EffectGain';
 
 export class Condition {
     public name: string = "";
@@ -10,9 +11,8 @@ export class Condition {
     public desc: string = "";
     public showon: string = "";
     public inputRequired: string = "";
-    public onceEffects: any[] = [];
-    public effects: any[] = [];
-    public specialEffects: any[] = [];
+    public onceEffects: EffectGain[] = [];
+    public effects: EffectGain[] = [];
     public gainConditions: ConditionGain[] = [];
     public overrideConditions: string[] = [];
     public source: string = "";

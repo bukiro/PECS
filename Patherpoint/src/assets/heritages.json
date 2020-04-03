@@ -63,7 +63,7 @@
     },
     {
         "name":"Forge Dwarf",
-        "specialEffects":[
+        "effects":[
             {"affected":"Fire Resistance", "value":"Math.max(Math.floor(characterService.get_Character().level / 2),1)"}
         ],
         "featChoices":[

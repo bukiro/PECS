@@ -4,6 +4,7 @@ import { CharacterService } from './character.service';
 import { TraitsService } from './traits.service';
 import { EffectCollection } from './EffectCollection';
 import { DefenseService } from './defense.service';
+import { EffectGain } from './EffectGain';
 
 @Injectable({
     providedIn: 'root'
@@ -34,47 +35,40 @@ constructor(
         return this.effects.penalties.filter(effect => effect.target == ObjectName && effect.apply);
     }
 
-    get_SimpleEffects(characterService, object: any) {
-        //If an item has a simple instruction in effects, such as "Strength +2", split it into the affected target and the change (keeping the + or - in front),
-        // then mark the effect as a penalty if the change is negative.
-        //Try to get the type, too - items will always have an item type bonus
+    get_SimpleEffects(characterService: CharacterService, object: any) {
+        //If an item has a simple instruction in effects, such as "Strength", "+2", turn it into an effect,
+        // then mark the effect as a penalty if the change is negative (except for Bulk).
+        //Try to get the type, too - if no type is given, set it to untyped.
         //Return an array of Effect objects
         let objectEffects: Effect[] = [];
         let hide: boolean = false;
         let name = (object.get_Name) ? object.get_Name() : object.name;
-        //Define effectsService as we need them in some specialEffects
+        //Define effectsService as we need them in some effects
         //Use them once so Visual Studio doesn't think they're unused and I don't delete them
         let effectsService = this;
         effectsService = effectsService;
         characterService = characterService;
+        let Level: number = characterService.get_Character().level;
+        let STR: number = characterService.get_Abilities("Strength")[0].mod(characterService, effectsService)
+        let DEX: number = characterService.get_Abilities("Dexterity")[0].mod(characterService, effectsService)
+        let CON: number = characterService.get_Abilities("Constitution")[0].mod(characterService, effectsService)
+        let INT: number = characterService.get_Abilities("Intelligence")[0].mod(characterService, effectsService)
+        let WIS: number = characterService.get_Abilities("Wisdom")[0].mod(characterService, effectsService)
+        let CHA: number = characterService.get_Abilities("Charisma")[0].mod(characterService, effectsService)
         let type: string = "untyped";
         let penalty: boolean = false;
-        object.effects.forEach(effect => {
-            if (effect.type) {
-                type = effect.type;
+        //effects come as {affected, value} where value is a string that contains a statement.
+        //This statement is eval'd here. The condition can use characterService to check level, skills, abilities etc.
+        object.effects.forEach((effect: EffectGain) => {
+            let value: string = "0";
+            try {
+                value = eval(effect.value).toString();
+            } catch(error) {
+                value = "0";
+            };
+            if ((!parseInt(value) && !parseFloat(value)) || parseFloat(value) == Infinity ) {
+                value = "0";
             }
-            if (parseInt(effect.value) < 0) {
-                if (effect.affected != "Bulk") {
-                    penalty = true;
-                } else {
-                    penalty = false;
-                }
-            } else {
-                if (effect.affected != "Bulk") {
-                    penalty = false;
-                } else {
-                    penalty = true;
-                }
-            }
-            if (type == "untyped" && !penalty) {
-                hide = true;
-            }
-            objectEffects.push(new Effect(type, effect.affected, effect.value, name, penalty, undefined, hide));
-        });
-        //specialEffects come as {affected, value} where value is a string that contains a condition.
-        //This condition is eval'd here. The condition can use characterService to check level, skills, abilities etc.
-        object.specialEffects.forEach(effect => {
-            let value = eval(effect.value);
             if (effect.type) {
                 type = effect.type;
             }
@@ -99,11 +93,11 @@ constructor(
         return objectEffects;
     }
 
-    set_CharacterChanged(characterService) {
+    set_CharacterChanged(characterService: CharacterService) {
         characterService.set_Changed();
     }
 
-    generate_Effects(characterService) {
+    generate_Effects(characterService: CharacterService) {
         //NEVER call this function.
         //It gets called by this.initialize whenever the character has changed.
         //Every other function can skip the whole process and just do get_Effects().
@@ -111,7 +105,7 @@ constructor(
         let character = characterService.get_Character();
         let items = characterService.get_InventoryItems();
         //Create simple effects from all equipped items first
-        items.allEquipment().filter(item => item.invested && (item.effects || item.specialEffects)).forEach(item => {
+        items.allEquipment().filter(item => item.invested && (item.effects)).forEach(item => {
             simpleEffects = simpleEffects.concat(this.get_SimpleEffects(characterService, item));
             });
         let feats = character.get_FeatsTaken(1, character.level);
@@ -122,7 +116,7 @@ constructor(
         appliedConditions.forEach(condition => {
             let originalCondition = characterService.get_Conditions(condition.name)[0];
             //Fit the condition effects into the box defined by feat effects
-            let effectsObject = {name:condition.name, value:condition.value, effects:originalCondition.effects, specialEffects:originalCondition.specialEffects}
+            let effectsObject = {name:condition.name, value:condition.value, effects:originalCondition.effects}
             simpleEffects = simpleEffects.concat(this.get_SimpleEffects(characterService, effectsObject));
         });
         
