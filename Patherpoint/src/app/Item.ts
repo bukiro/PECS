@@ -27,6 +27,8 @@ export class Item {
     public subTypeDesc: string = "";
     //What traits does the item have? Can be expanded under certain circumstances
     public traits: string[] = [];
+    //Internal notes that get displayed when creating a custom item from a note.
+    public internalNote: string = "";
     can_Invest() {
         return (this.traits.indexOf("Invested") > -1);
     }

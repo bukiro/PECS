@@ -126,14 +126,14 @@ export class FeatsService {
             }
 
             //Gain Action or Activity
-            if (feat.gainActivity.length) {
+            if (feat.gainActivities.length) {
                 if (taken) {
-                    feat.gainActivity.forEach(gainActivity => {
+                    feat.gainActivities.forEach((gainActivity: string) => {
                         character.gain_Activity(Object.assign(new ActivityGain(), {name:gainActivity, source:feat.name}));
                     });
                     
                 } else {
-                    feat.gainActivity.forEach(gainActivity => {
+                    feat.gainActivities.forEach((gainActivity: string) => {
                         let oldGain = character.class.activities.filter(gain => gain.name == gainActivity && gain.source == feat.name);
                         if (oldGain.length) {
                             character.lose_Activity(characterService, characterService.timeService, characterService.itemsService, characterService.activitiesService, oldGain[0]);

@@ -176,8 +176,8 @@ export class ItemsComponent implements OnInit {
         if (this.newItem["gainCondition"]) {
             this.newItem["gainCondition"] = this.newItem["gainCondition"].map(effect => Object.assign(new ConditionGain(), effect))
         }
-        if (this.newItem["gainActivity"]) {
-            this.newItem["gainActivity"] = this.newItem["gainActivity"].map(effect => Object.assign(new ActivityGain(), effect))
+        if (this.newItem["gainActivities"]) {
+            this.newItem["gainActivities"] = this.newItem["gainActivities"].map(effect => Object.assign(new ActivityGain(), effect))
         }
         if (this.newItem["activities"]) {
             this.newItem["activities"] = this.newItem["activities"].map(effect => Object.assign(new ItemActivity(), effect))
@@ -203,7 +203,8 @@ export class ItemsComponent implements OnInit {
             "strikingRune",
             "resilientRune",
             "propertyRunes",
-            "material"
+            "material",
+            "data"
         ]
         function get_PropertyData(key: string, itemsService: ItemsService) {
             return itemsService.get_ItemProperties().filter(property => !property.parent && property.key == key)[0];
@@ -249,8 +250,8 @@ export class ItemsComponent implements OnInit {
         if (this.newItem["gainCondition"]) {
             this.newItem["gainCondition"] = this.newItem["gainCondition"].map(effect => Object.assign(new ConditionGain(), effect))
         }
-        if (this.newItem["gainActivity"]) {
-            this.newItem["gainActivity"] = this.newItem["gainActivity"].map(effect => Object.assign(new ActivityGain(), effect))
+        if (this.newItem["gainActivities"]) {
+            this.newItem["gainActivities"] = this.newItem["gainActivities"].map(effect => Object.assign(new ActivityGain(), effect))
         }
         if (this.newItem["activities"]) {
             this.newItem["activities"] = this.newItem["activities"].map(effect => Object.assign(new ItemActivity(), effect))

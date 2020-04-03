@@ -83,6 +83,18 @@ export class NewItemPropertyComponent implements OnInit {
 
     validate() {
         let value = this.get_Parent()[this.propertyKey]
+        if (this.propertyKey == "name" && !this.propertyData.parent) {
+            if (this.get_Parent()["activities"]) {
+                this.get_Parent()["activities"].forEach((activity: ItemActivity) => {
+                    activity.source = value;
+                })
+            }
+            if (this.get_Parent()["gainActivities"]) {
+                this.get_Parent()["gainActivities"].forEach((gain: ActivityGain) => {
+                    gain.source = value;
+                })
+            }
+        }
         if (this.propertyKey == "value" && (this.propertyData.parent == "effects" || this.propertyData.parent == "onceEffects")) {
             let effectGain = new EffectGain;
             effectGain.value = value;
@@ -137,12 +149,15 @@ export class NewItemPropertyComponent implements OnInit {
     }
 
     add_NewItemObject() {
+        let index = null;
         switch (this.propertyKey) {
             case "activities":
-                this.get_Parent()[this.propertyKey].push(new ItemActivity())
+                index = this.get_Parent()[this.propertyKey].push(new ItemActivity())
+                this.get_Parent()[this.propertyKey][index].source = this.get_Parent()["name"];
                 break;
-            case "gainActivity":
-                this.get_Parent()[this.propertyKey].push(new ActivityGain())
+            case "gainActivities":
+                index = this.get_Parent()[this.propertyKey].push(new ActivityGain())
+                this.get_Parent()[this.propertyKey][index].source = this.get_Parent()["name"];
                 break;
             case "gainItems":
                 this.get_Parent()[this.propertyKey].push(new ItemGain())
@@ -176,15 +191,10 @@ export class NewItemPropertyComponent implements OnInit {
     }
 
     get_NewItemSubProperties(object: object) {
-        let hideProperties: string[] = [
-            "active",
-            "activeCooldown",
-            "source"
-        ]
         function get_PropertyData(key: string, itemsService: ItemsService, propertyData: ItemProperty) {
             return itemsService.get_ItemProperties().filter(property => property.parent == propertyData.key && property.key == key)[0];
         }
-        return Object.keys(object).filter(key => hideProperties.indexOf(key) == -1).map((key) => get_PropertyData(key, this.itemsService, this.propertyData)).filter(property => property != undefined);
+        return Object.keys(object).map((key) => get_PropertyData(key, this.itemsService, this.propertyData)).filter(property => property != undefined);
     }
 
     get_Examples() {
@@ -274,6 +284,8 @@ export class NewItemPropertyComponent implements OnInit {
                 });
                 break;
             case "effects value":
+                examples.push(...this.characterService.get_Skills().map((skill: Skill) => {return skill.name}));
+                examples.push(...this.characterService.get_Abilities().map((ability: Ability) => {return ability.name}));
                 this.characterService.get_FeatsAndFeatures().filter(feat => feat.onceEffects.length).forEach(feat => {
                     examples.push(...feat.onceEffects.map(effect => { return effect.value; }))
                 });

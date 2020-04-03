@@ -27,7 +27,7 @@ export class Armor extends Equipment {
     public affectedByArmoredSkirt: -1|0|1 = 0;
     get_ArmoredSkirt(characterService: CharacterService) {
         if (["Breastplate","Chain Shirt","Chain Mail","Scale Mail"].indexOf(this.name) > -1 ) {
-            let armoredSkirt = characterService.get_InventoryItems().adventuringgear.filter(item => item.name == "Armored Skirt" && item.equipped);
+            let armoredSkirt = characterService.get_InventoryItems().adventuringgear.filter(item => item.isArmoredSkirt && item.equipped);
             if (armoredSkirt.length) {
                 this.affectedByArmoredSkirt = 1;
                 return armoredSkirt[0];
@@ -36,7 +36,7 @@ export class Armor extends Equipment {
                 return null;
             }
         } else if (["Half Plate","Full Plate","Hellknight Plate"].indexOf(this.name) > -1 ) {
-            let armoredSkirt = characterService.get_InventoryItems().adventuringgear.filter(item => item.name == "Armored Skirt" && item.equipped);
+            let armoredSkirt = characterService.get_InventoryItems().adventuringgear.filter(item => item.isArmoredSkirt && item.equipped);
             if (armoredSkirt.length) {
                 this.affectedByArmoredSkirt = -1;
                 return armoredSkirt[0];

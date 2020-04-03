@@ -9,6 +9,7 @@ import { Item } from './Item';
 import { TimeService } from './time.service';
 import { Equipment } from './Equipment';
 import { Weapon } from './Weapon';
+import { ItemActivity } from './ItemActivity';
 
 @Injectable({
     providedIn: 'root'
@@ -39,12 +40,23 @@ export class ActivitiesService {
         return this.http.get<String[]>('/assets/activities.json');
     }
 
-    activate_Activity(characterService: CharacterService, timeService: TimeService, itemsService: ItemsService, gain: ActivityGain, activity: Activity, activated: boolean) {
+    activate_Activity(characterService: CharacterService, timeService: TimeService, itemsService: ItemsService, gain: ActivityGain|ItemActivity, activity: Activity|ItemActivity, activated: boolean) {
         if (activated && activity.toggle) {
             gain.active = true;
         } else {
             gain.active = false;
         }
+
+        //Find item, if it exists
+        let item: Equipment = null;
+        characterService.get_InventoryItems().allEquipment().filter((equipment: Equipment) => equipment.name == gain.source).forEach((equipment: Equipment) => {
+            if (equipment.activities.filter((itemActivity: ItemActivity) => itemActivity === activity).length) {
+                item = equipment;
+            }
+            if (equipment.gainActivities.filter((activityGain: ActivityGain) => activityGain === gain).length) {
+                item = equipment;
+            }
+        })
         
         //Process various results of activating the activity
 
@@ -70,26 +82,16 @@ export class ActivitiesService {
             }
         }
 
-        //Exclusive Twining Staff Activation
-        //If you activate one type of Twining Staff, find the item that it belongs to and deactivate the other type on it.
-        if (activity.name == "Twining Staff: Staff" || activity.name == "Twining Staff: Bo Staff") {
-            if (activated) {
-                let twiningstaves: Weapon[] = characterService.get_InventoryItems().weapons.filter(weapon => weapon.name == "Twining Staff");
-                let twiningstaff: Weapon = null;
-                twiningstaves.forEach(item => {
-                    item.gainActivity.forEach(activityGain => {
-                        if (activityGain === gain) {
-                            twiningstaff = item;
-                        }
-                    })
-                });
-                if (twiningstaff) {
-                    twiningstaff.gainActivity.forEach(activityGain => {
-                        if (activityGain !== gain) {
-                            this.activate_Activity(characterService, timeService, itemsService, activityGain, this.get_Activities(activityGain.name)[0], false)
-                        }
-                    })
-                }
+        //Exclusive activity activation
+        //If you activate one activity of an Item, deactivate the other active activities on it.
+        if (item && activated && activity.toggle) {
+            if (item.activities.length + item.gainActivities.length > 1) {
+                item.gainActivities.filter((activityGain: ActivityGain) => activityGain !== gain && activityGain.active).forEach((activityGain: ActivityGain) => {
+                    this.activate_Activity(characterService, timeService, itemsService, activityGain, this.get_Activities(activityGain.name)[0], false)
+                })
+                item.activities.filter((itemActivity: ItemActivity) => itemActivity !== gain && itemActivity.active).forEach((itemActivity: ItemActivity) => {
+                    this.activate_Activity(characterService, timeService, itemsService, itemActivity, itemActivity, false)
+                })
             }
         }
     }

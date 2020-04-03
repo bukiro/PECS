@@ -7,4 +7,6 @@ export class WornItem extends Equipment {
     public usage: string = "";
     //Worn Items cannot be equipped or unequipped, but can be invested
     public equippable: boolean = false;
+    //Does this weapon count for the "Handwraps of Mighty Blows" functionality?
+    public isHandwrapsOfMightyBlows: boolean = false;
 }

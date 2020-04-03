@@ -13,15 +13,15 @@
     </span>
     <span *ngIf="(item.get_ACBonus ? item.get_ACBonus() : item.acbonus)">
         <strong>AC Bonus</strong>
-        {{item.get_ACBonus ? item.get_ACBonus() : item.acbonus}}&nbsp;
+        <span [className]="(item.affectedByArmoredSkirt == -1) ? 'penalty' : ((item.affectedByArmoredSkirt == 1) ? 'bonus' : '')">&nbsp;{{item.get_ACBonus ? item.get_ACBonus() : item.acbonus}}&nbsp;</span>
     </span>
     <span *ngIf="(item.get_DexCap ? item.get_DexCap() : item.dexcap)">
         <strong>Dex Cap</strong>
-        {{(item.get_DexCap ? item.get_DexCap() : item.dexcap)}}&nbsp;
+        <span [className]="(item.affectedByArmoredSkirt == 1) ? 'penalty' : ((item.affectedByArmoredSkirt == -1) ? 'bonus' : '')">&nbsp;{{(item.get_DexCap ? item.get_DexCap() : item.dexcap)}}&nbsp;</span>
     </span>
     <span *ngIf="(item.get_SkillPenalty ? item.get_SkillPenalty() : item.skillpenalty)">
         <strong>Check Penalty</strong>
-        {{(item.get_SkillPenalty ? item.get_SkillPenalty() : item.skillpenalty)}}&nbsp;
+        <span [className]="(item.affectedByArmoredSkirt == 1) ? 'penalty' : ((item.affectedByArmoredSkirt == -1) ? 'bonus' : '')">&nbsp;{{(item.get_SkillPenalty ? item.get_SkillPenalty() : item.skillpenalty)}}&nbsp;</span>
     </span>
     <span *ngIf="item.speedpenalty">
         <strong>Speed Penalty</strong>
@@ -29,7 +29,7 @@
     </span>
     <span *ngIf="(item.get_Strength ? item.get_Strength() : item.strength)">
         <strong>Strength</strong>
-        {{(item.get_Strength ? item.get_Strength() : item.strength)}}&nbsp;
+        <span [className]="(item.affectedByArmoredSkirt == 1) ? 'penalty' : ((item.affectedByArmoredSkirt == -1) ? 'bonus' : '')">&nbsp;{{(item.get_Strength ? item.get_Strength() : item.strength)}}&nbsp;</span>
     </span>
     <span *ngIf="item.storeBulk">
         <strong>Bulk</strong>
@@ -95,7 +95,7 @@
     <h4>Armored Skirt</h4>
     <app-item [item]=armoredSkirt></app-item>
 </div>
-<ng-container *ngFor="let gain of item.activities.concat(item.gainActivity)">
+<ng-container *ngFor="let gain of item.activities.concat(item.gainActivities)">
     <ng-container *ngFor="let activity of (gain.can_Activate ? [gain] : get_Activities(gain.name))">
         <h4>{{activity.name}}
             {{activity.get_Actions()}}{{(activity.activationType) ? " - " + activity.activationType : ""}}</h4>

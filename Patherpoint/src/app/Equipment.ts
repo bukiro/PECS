@@ -41,7 +41,7 @@ export class Equipment extends Item {
     //Describe all activities that you gain from this item. The activity must be a fully described "Activity" type object
     public activities: ItemActivity[] = [];
     //Name any common activity that becomes available when you equip and invest this item
-    public gainActivity: ActivityGain[] = [];
+    public gainActivities: ActivityGain[] = [];
     //List ItemGain for every Item that you receive when you get or equip this item (specified in the ItemGain)
     public gainItems: ItemGain[] = [];
     //List EffectGain for every Effect that comes from equipping and investing the item

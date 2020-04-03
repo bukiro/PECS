@@ -1478,7 +1478,7 @@
             }
         ],
         "featreq": "Arcane Sense",
-        "gainActivity": [
+        "gainActivities": [
             "Eye of the Arclords"
         ],
         "showon": "Arcana",
@@ -3541,7 +3541,7 @@
         "shortDesc": "You propel your grabbed or restrained foe a great distance.",
         "desc": "You propel your grabbed or restrained foe a great distance. You can throw the creature any distance up to 10 feet, plus 5 feet × your Strength modifier. If you successfully throw the creature, it takes bludgeoning damage equal to your Strength modifier plus 1d6 per 10 feet you threw it.\n\nAttempt an Athletics check against the foe’s Fortitude DC. You take a –2 circumstance penalty to your check if the target is one size larger than you and a –4 circumstance penalty if it’s larger than that. You gain a +2 circumstance bonus to your check if the target is one size smaller than you and a +4 circumstance bonus if it’s smaller than that.",
         "levelreq": 6,
-        "gainActivity": [
+        "gainActivities": [
             "Whirling Throw"
         ],
         "traits": [
@@ -3553,7 +3553,7 @@
         "shortDesc": "You enter the stance of a crane, holding your arms in an imitation of a crane’s wings.",
         "desc": "You enter the stance of a crane, holding your arms in an imitation of a crane’s wings and using flowing, defensive motions. You gain a +1 circumstance bonus to AC, but the only Strikes you can make are crane wing attacks. These deal 1d6 bludgeoning damage; are in the brawling group; and have the agile, finesse, nonlethal, and unarmed traits.\n\nWhile in Crane Stance, reduce the DC for High Jump and Long Jump by 5, and when you Leap, you can move an additional 5 feet horizontally or 2 feet vertically.",
         "levelreq": 1,
-        "gainActivity": [
+        "gainActivities": [
             "Crane Stance"
         ],
         "traits": [

@@ -39,7 +39,7 @@ export class TraitsService {
     }
 
     have_Trait(object: any, traitName: string) {
-        return (object.traits.filter(trait => trait.indexOf(traitName) > -1).length) ? true : false;
+        return ((object.get_Traits ? object.get_Traits() : object.traits).filter((trait: string) => trait.indexOf(traitName) > -1).length) ? true : false;
     }
 
     still_loading() {

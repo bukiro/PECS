@@ -12,4 +12,6 @@ export class AdventuringGear extends Equipment {
     public hands: string = "";
     //Adventuring Gear can usually not be equipped or invested, but with exceptions.
     public equippable: boolean = false;
+    //Does this weapon count for the "Armored Skirt" functionality?
+    public isArmoredSkirt: boolean = false;
 }

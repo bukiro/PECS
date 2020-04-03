@@ -35,7 +35,7 @@ export class Feat {
     public gainSkillChoice: SkillChoice[] = [];
     public gainSpellChoice: SpellChoice[] = [];
     public gainFormulaChoice: FormulaChoice[] = [];
-    public gainActivity: string[] = [];
+    public gainActivities: string[] = [];
     public gainLore: true;
     public data: {} = {};
     prof(skillLevel: number) {

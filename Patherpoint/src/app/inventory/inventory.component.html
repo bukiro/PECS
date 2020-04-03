@@ -93,14 +93,14 @@
                                         (click)="onInvest(item, false)">Uninvest</button>
                                 </span>
                                 <span
-                                    *ngIf="!item.equippable && !item.can_Invest() && (item.gainActivity ? !item.gainActivity.length : true) && (item.activities ? !item.activities.length : true)">
+                                    *ngIf="!item.equippable && !item.can_Invest() && (item.gainActivities ? !item.gainActivities.length : true) && (item.activities ? !item.activities.length : true)">
                                     <button [ngStyle]="{'background-color':get_Accent()}"
                                         (click)="onAmountChange(item, -1)" [disabled]="item.amount <= 0">-1</button>
                                     <button [ngStyle]="{'background-color':get_Accent()}"
                                         (click)="onAmountChange(item, 1)">+1</button>
                                 </span>
                                 <span
-                                    *ngIf="item.equippable || item.can_Invest() || (item.gainActivity ? item.gainActivity.length : false) || (item.activities ? item.activities.length : false)">
+                                    *ngIf="item.equippable || item.can_Invest() || (item.gainActivities ? item.gainActivities.length : false) || (item.activities ? item.activities.length : false)">
                                     &nbsp;
                                     <!-- This span is a placeholder that appears if no other button is valid on the left to the Drop button -->
                                 </span>

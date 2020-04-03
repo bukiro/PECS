@@ -349,8 +349,8 @@ export class CharacterService {
         if (newInventoryItem["gainCondition"]) {
             newInventoryItem["gainCondition"] = newInventoryItem["gainCondition"].map(effect => Object.assign(new ConditionGain(), effect))
         }
-        if (newInventoryItem["gainActivity"]) {
-            newInventoryItem["gainActivity"] = newInventoryItem["gainActivity"].map(effect => Object.assign(new ActivityGain(), effect))
+        if (newInventoryItem["gainActivities"]) {
+            newInventoryItem["gainActivities"] = newInventoryItem["gainActivities"].map(effect => Object.assign(new ActivityGain(), effect))
         }
         if (newInventoryItem["activities"]) {
             newInventoryItem["activities"] = newInventoryItem["activities"].map(effect => Object.assign(new ItemActivity(), effect))
@@ -359,7 +359,7 @@ export class CharacterService {
             existing.name == item.name &&
             !existing.equippable &&
             !item.can_Invest() &&
-            (item["gainActivity"] ? !item["gainActivity"].length : true) &&
+            (item["gainActivities"] ? !item["gainActivities"].length : true) &&
             (item["activities"] ? !item["activities"].length : true)
         );
         if (existingItems.length) {
@@ -435,7 +435,7 @@ export class CharacterService {
                 item.equipped = true;
             }
             //If you get an Activity from an item that doesn't need to be invested, immediately invest it in secret so the Activity is gained
-            if (item.gainActivity && item.traits.indexOf("Invested") == -1) {
+            if (item.gainActivities && item.traits.indexOf("Invested") == -1) {
                 this.onInvest(item, true, false);
             }
             //Add all Items that you get from equipping this one
@@ -488,7 +488,7 @@ export class CharacterService {
                 this.onEquip(item, true, false);
             }
         } else {
-            item.gainActivity.forEach(gainActivity => {
+            item.gainActivities.forEach((gainActivity: ActivityGain) => {
                 this.activitiesService.activate_Activity(this, this.timeService, this.itemsService, gainActivity, this.activitiesService.get_Activities(gainActivity.name)[0], false);
             });
         }
@@ -701,9 +701,9 @@ export class CharacterService {
     get_OwnedActivities() {
         let activities: (ActivityGain | ItemActivity)[] = []
         activities.push(...this.me.class.activities);
-        this.get_InventoryItems().allEquipment().filter(item => item.gainActivity.length || item.activities.length).forEach(item => {
-            if (item.gainActivity.length) {
-                activities.push(...item.gainActivity);
+        this.get_InventoryItems().allEquipment().filter(item => item.gainActivities.length || item.activities.length).forEach(item => {
+            if (item.gainActivities.length) {
+                activities.push(...item.gainActivities);
             }
             if (item.activities.length) {
                 activities.push(...item.activities);
@@ -808,7 +808,7 @@ export class CharacterService {
                 this.me.inventory.allEquipment().forEach(item => {
                     item.effects = item.effects.map(effect => Object.assign(new EffectGain(), effect))
                     item.gainItems = item.gainItems.map(effect => Object.assign(new ItemGain(), effect))
-                    item.gainActivity = item.gainActivity.map(effect => Object.assign(new ActivityGain(), effect))
+                    item.gainActivities = item.gainActivities.map(effect => Object.assign(new ActivityGain(), effect))
                     item.activities = item.activities.map(effect => Object.assign(new ItemActivity(), effect))
                 })
                 this.me.inventory.allConsumables().forEach(item => {

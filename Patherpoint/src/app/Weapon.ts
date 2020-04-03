@@ -114,14 +114,14 @@ export class Weapon extends Equipment {
         }
         let me: Weapon|WornItem = this;
         if (this.prof == "Unarmed") {
-            let handwraps = characterService.get_InventoryItems().wornitems.filter(item => item.name == "Handwraps of Mighty Blows" && item.invested)
+            let handwraps = characterService.get_InventoryItems().wornitems.filter(item => item.isHandwrapsOfMightyBlows && item.invested)
             if (handwraps.length) {
                 me = handwraps[0];
             }
         }
         if (me.potencyRune > 0) {
             explain += "\nPotency: "+me.get_Potency(me.potencyRune);
-            if (me.name == "Handwraps of Mighty Blows") {
+            if (me["isHandwrapsOfMightyBlows"]) {
                 explain += "\n("+me.get_Name()+")";
             }
         }
@@ -150,7 +150,7 @@ export class Weapon extends Equipment {
         //We replace "me" with the Handwraps and use "me" instead of "this" when runes are concerned.
         let me: Weapon|WornItem = this;
         if (this.prof == "Unarmed") {
-            let handwraps = characterService.get_InventoryItems().wornitems.filter(item => item.name == "Handwraps of Mighty Blows" && item.invested)
+            let handwraps = characterService.get_InventoryItems().wornitems.filter(item => item.isHandwrapsOfMightyBlows && item.invested)
             if (handwraps.length) {
                 me = handwraps[0];
             }
@@ -158,7 +158,7 @@ export class Weapon extends Equipment {
         let dicenum = this.dicenum + me.strikingRune;
         if (me.strikingRune > 0) {
             explain += "\n"+me.get_Striking(me.strikingRune)+": Dice number +"+me.strikingRune;
-            if (me.name == "Handwraps of Mighty Blows") {
+            if (me["isHandwrapsOfMightyBlows"]) {
                 explain += "\n("+me.get_Name()+")";
             }
         }
