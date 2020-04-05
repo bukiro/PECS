@@ -9,14 +9,12 @@ export class Equipment extends Item {
     public showName: boolean = false;
     //If this name is set, always show it instead of the expanded base name
     public displayName: string = "";
-    //Any notes the player adds to the item
-    public notes: string = "";
-    //Is the notes input shown in the inventory
-    public showNotes: boolean = false;
     //Some items have a different bulk when you are carrying them instead of wearing them, like backpacks
     public carryingBulk: string = "";
     //Equipment can normally be equipped.
-    public equippable: boolean = true;
+    equippable = true;
+    //Allow changing of "equippable" by custom item creation
+    allowEquippable = true;
     //Is the item currently equipped - items with equippable==false are always equipped
     public equipped: boolean = false;
     //Is the item currently invested - items without the Invested trait are always invested and don't count against the limit

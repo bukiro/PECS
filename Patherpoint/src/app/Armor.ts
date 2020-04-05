@@ -4,24 +4,26 @@ import { Equipment } from './Equipment';
 
 export class Armor extends Equipment {
     //Armor should be type "armors" to be found in the database
-    public type: string = "armors";
+    readonly type = "armors";
     //Armor are usually moddable like armor. Armor that cannot be modded should be set to ""
-    public moddable: ""|"weapon"|"armor"|"shield" = "armor";
+    moddable = "armor" as ""|"weapon"|"armor"|"shield";
+    //The armor group, needed for critical specialization effects
+    public group: string = "";
     //What proficiency is used? "Light Armor", "Medium Armor"?
-    private prof: string = "";
+    private prof: string = "Light Armor";
+    //The armor's inherent bonus to AC
+    private acbonus: number = 0;
+    //The penalty to all speeds if your strength is lower than the armors requirement
+    //Should be a negative number and a multiple of -5
+    public speedpenalty: number = 0;
     //The highest dex bonus to AC you can get while wearing this armor.
     //-1 is unlimited.
     public dexcap: number = -1;
     //The penalty to certain skills if your strength is lower than the armors requirement
     //Should be a negative number
     private skillpenalty: number = 0;
-    //The penalty to all speeds if your strength is lower than the armors requirement
-    //Should be a negative number and a multiple of -5
-    public speedpenalty: number = 0;
     //The strength requirement (strength, not STR) to overcome skill and speed penalties
     private strength: number = 0;
-    //The armor's inherent bonus to AC
-    private acbonus: number = 0;
     //For certain medium and light armors, set 1 if an "Armored Skirt" is equipped; For certain heavy armors, set -1 instead
     //This value influences acbonus, skillpenalty, dexcap and strength
     public affectedByArmoredSkirt: -1|0|1 = 0;

@@ -89,7 +89,8 @@
         "group": "3-Usage",
         "name": "Proficiency",
         "desc": "The proficiency used for this weapon or armor decides its effectiveness. All advanced weapons must be trained individually.",
-        "locked": true
+        "locked": true,
+        "examples": "prof"
     },
     {
         "key": "hands",
@@ -120,7 +121,7 @@
         "priority": "4",
         "group": "3-Usage",
         "name": "Modification type",
-        "desc": "The modification type decides what, if any, runes and materials can be applied to this item. Set - for no modifications or nothing for the default for this item type.",
+        "desc": "The modification type decides what, if any, runes and materials can be applied to this item. Set - for no modifications or nothing for the default for this item type. This option is only useful to restrict items and for special items like the Handwraps of Mighty Blows. Applying a resilient rune on a weapon, for example, will not grant any benefits.",
         "locked": true
     },
     {
@@ -244,7 +245,8 @@
         "priority": "0",
         "group": "",
         "name": "Spell name",
-        "examples": "spellname"
+        "examples": "spellname",
+        "locked": true
     },
     {
         "parent": "castSpells",
@@ -354,27 +356,11 @@
         "examples": "gainactivity name"
     },
     {
-        "key": "actions",
-        "priority": "2",
-        "group": "4-Actions and Activities",
-        "name": "Time required to use",
-        "desc": "Number of actions to use this item. Can be free or reaction, or an individual amount of time, like 1 hour.",
-        "examples": "actions"
-    },
-    {
-        "key": "activationType",
-        "priority": "3",
-        "group": "4-Actions and Activities",
-        "name": "Activation type",
-        "desc": "Type of action used to activate this item.",
-        "examples": "activity"
-    },
-    {
         "key": "showon",
         "priority": "0",
         "group": "5-Influence",
         "name": "Influenced attributes",
-        "desc": "You can show a hint to this Item on specific parts of the character sheet, e.g. on individual skills.",
+        "desc": "You can show a hint to this item on specific parts of the character sheet while the item is equipped or invested, e.g. on individual skills.",
         "locked": true,
         "examples": "showon"
     },
@@ -423,16 +409,221 @@
         "examples": "effect type"
     },
     {
-        "key": "onceEffects",
+        "key": "gainItems",
+        "priority": "5",
+        "group": "5-Influence",
+        "name": "Grant additional items",
+        "desc": "Add additional items when receiving or equipping this item."
+    },
+    {
+        "parent": "gainItems",
+        "key": "type",
+        "priority": "0",
+        "group": "",
+        "name": "Item type",
+        "desc": "Choose an item type to pick an item from.",
+        "locked": true,
+        "examples": "(gainItem type has its own function)"
+    },
+    {
+        "parent": "gainItems",
+        "key": "name",
+        "priority": "1",
+        "group": "",
+        "name": "Item",
+        "desc": "Choose a known item that will be granted when receiving or equipping this item.",
+        "locked": true,
+        "examples": "gainitems name"
+    },
+    {
+        "parent": "gainItems",
+        "key": "amount",
+        "priority": "2",
+        "group": "",
+        "name": "Amount",
+        "desc": "The number of items of this type you will receive.",
+        "type": "number",
+        "validation": "1plus"
+    },
+    {
+        "parent": "gainItems",
+        "key": "on",
         "priority": "3",
         "group": "",
+        "name": "Granting condition",
+        "desc": "The extra item is either granted when receiving this item, or granted when equipping and lost when unequipping it. The default is on grant, and the choice does not make a difference for an activity.",
+        "locked": true,
+        "examples": "gainitems on"
+    },
+    {
+        "key": "isHandwrapsOfMightyBlows",
+        "priority": "6",
+        "group": "5-Influence",
+        "name": "Act as Handwraps of Mighty Blows",
+        "desc": "Set if this item uses the 'Handwraps of Mighty Blows' functionality to enhance unarmed attacks with its own runes. The item's modification Type should be 'weapon'.",
+        "type": "checkbox"
+    },
+    {
+        "key": "isArmoredSkirt",
+        "priority": "6",
+        "group": "5-Influence",
+        "name": "Act as Armored Skirt",
+        "desc": "Set if this item uses the 'Armored Skirt' functionality to change the effectiveness and weight of certain armors.",
+        "type": "checkbox"
+    },
+    {
+        "key": "group",
+        "priority": "0",
+        "group": "6-Armor & Weapons",
+        "name": "Group",
+        "desc": "The armor or weapon group for this item. The group is relevant for specialization effects.",
+        "examples": "group"
+    },
+    {
+        "key": "acbonus",
+        "priority": "0",
+        "group": "7-Armor & Shields",
+        "name": "AC bonus",
+        "desc": "The armor's or shield's inherent bonus to armor class. A shield must be raised in order to apply its AC bonus.",
+        "type": "number",
+        "validation": "0plus"
+    },
+    {
+        "key": "dexcap",
+        "priority": "1",
+        "group": "7-Armor & Shields",
+        "name": "Dexterity Cap",
+        "desc": "The highest dexterity bonus you can receive while wearing this armor, -1 for unlimited.",
+        "type": "number",
+        "validation": "=1plus"
+    },
+    {
+        "key": "skillpenalty",
+        "priority": "2",
+        "group": "7-Armor & Shields",
+        "name": "Check penalty",
+        "desc": "Certain skills take this penalty while wearing this armor if your strength does not match the armor's strength requirement.",
+        "type": "number",
+        "validation": "0minus"
+    },
+    {
+        "key": "speedpenalty",
+        "priority": "3",
+        "group": "7-Armor & Shields",
+        "name": "Speed penalty",
+        "desc": "The penalty to speed (in steps of -5 ft) taken while wearing this armor or shield. The penalty can be reduced by 5 for armors by matching the strength requirement.",
+        "type": "number",
+        "validation": "0minus"
+    },
+    {
+        "key": "strength",
+        "priority": "4",
+        "group": "7-Armor & Shields",
+        "name": "Strength requirement",
+        "desc": "The minimum strength required to eliminate or lessen this armor's skill and speed penalties.",
+        "type": "number",
+        "validation": "0plus"
+    },
+    {
+        "key": "coverbonus",
+        "priority": "5",
+        "group": "7-Armor & Shields",
+        "name": "Shield cover bonus",
+        "desc": "If this shield has a cover bonus value, you can take cover behind it while it is raised and gain this additional bonus to AC.",
+        "type": "number",
+        "validation": "0plus"
+    },
+    {
+        "key": "dicenum",
+        "priority": "0",
+        "group": "8-Weapons",
+        "name": "Starting number of damage dice",
+        "desc": "Weapons usually start with 1 damage die.",
+        "type": "number",
+        "validation": "1plus"
+    },
+    {
+        "key": "dicesize",
+        "priority": "1",
+        "group": "8-Weapons",
+        "name": "Damage dice size",
+        "desc": "Most weapons have damage dice between 4 and 12.",
+        "locked": true,
+        "examples": "dicesize"
+    },
+    {
+        "key": "dmgType",
+        "priority": "2",
+        "group": "8-Weapons",
+        "name": "Damage Type",
+        "desc": "Usually B for blunt, P for piercing or S for slashing damage, but can vary for versatile or modular weapons."
+    },
+    {
+        "key": "extraDamage",
+        "priority": "3",
+        "group": "8-Weapons",
+        "name": "Additional damage",
+        "desc": "Some rare weapons do additional damage without any runes. You can add this damage here, e.g. '+1d4F' for an additional d4 of fire damage."
+    },
+    {
+        "key": "melee",
+        "priority": "4",
+        "group": "8-Weapons",
+        "name": "Melee range",
+        "desc": "The range of the weapon in melee in ft., usually 5 or 10 for weapons with the Reach trait. Weapons without a melee range will not show a melee attack.",
+        "type": "number",
+        "validation": "0plus"
+    },
+    {
+        "key": "ranged",
+        "priority": "5",
+        "group": "8-Weapons",
+        "name": "Ranged increment",
+        "desc": "The range increment of the ranged weapon in ft.. Thrown weapons should have a range increment matching their Thrown trait. Weapons can be both ranged and melee, e.g. daggers.",
+        "type": "number",
+        "validation": "0plus"
+    },
+    {
+        "key": "ammunition",
+        "priority": "6",
+        "group": "8-Weapons",
+        "name": "Ammunition type",
+        "desc": "The kind of ammunition used by this ranged weapon, e.g. 'arrows' or 'bolts'."
+    },
+    {
+        "key": "reload",
+        "priority": "7",
+        "group": "8-Weapons",
+        "name": "Reload duration",
+        "desc": "The amount of actions it takes to reload this ranged weapon. Bows usually have a reload duration of 0."
+    },
+    {
+        "key": "actions",
+        "priority": "0",
+        "group": "9-Consumables",
+        "name": "Time required to use",
+        "desc": "Number of actions to use this item. Can be free or reaction, or an individual amount of time, like 1 hour.",
+        "examples": "actions"
+    },
+    {
+        "key": "activationType",
+        "priority": "1",
+        "group": "9-Consumables",
+        "name": "Activation type",
+        "desc": "Type of action used to activate this item.",
+        "examples": "activity"
+    },
+    {
+        "key": "onceEffects",
+        "priority": "2",
+        "group": "9-Consumables",
         "name": "One-time numeral effects",
         "desc": "These bonuses or penalties will be applied immediately when the item is activated, like granting temporary HP. There are only a few properties that can be affected this way. Dice rolls should be handled by the player."
     },
     {
         "key": "gainCondition",
-        "priority": "4",
-        "group": "5-Influence",
+        "priority": "3",
+        "group": "9-Consumables",
         "name": "Cause condition",
         "desc": "Add known conditions that will be caused by using this item."
     },
@@ -484,197 +675,16 @@
         "desc": "The condition will show this as its source. Should usually be the item name."
     },
     {
-        "key": "gainItems",
-        "priority": "5",
-        "group": "5-Influence",
-        "name": "Grant additional items",
-        "desc": "Add additional items when receiving or equipping this item."
-    },
-    {
-        "parent": "gainItems",
-        "key": "type",
-        "priority": "0",
-        "group": "",
-        "name": "Item type",
-        "desc": "Choose an item type to pick an item from.",
-        "locked": true,
-        "examples": "(gainItem type has its own function)"
-    },
-    {
-        "parent": "gainItems",
-        "key": "name",
-        "priority": "1",
-        "group": "",
-        "name": "Item",
-        "desc": "Choose a known item that will be granted when receiving or equipping this item.",
-        "locked": true,
-        "examples": "gainitems name"
-    },
-    {
-        "parent": "gainItems",
-        "key": "amount",
-        "priority": "2",
-        "group": "",
-        "name": "Amount",
-        "desc": "The number of items of this type you will receive.",
-        "type": "number",
-        "validation": "1plus"
-    },
-    {
-        "parent": "gainItems",
-        "key": "on",
-        "priority": "3",
-        "group": "",
-        "name": "Granting condition",
-        "desc": "The extra item is either granted when receiving this item, or granted when equipping and lost when unequipping it.",
-        "locked": true,
-        "examples": "gainitems on"
-    },
-    {
-        "key": "isHandwrapsOfMightyBlows",
-        "priority": "6",
-        "group": "5-Influence",
-        "name": "Act as Handwraps of Mighty Blows",
-        "desc": "Set if this item uses the 'Handwraps of Mighty Blows' functionality to enhance unarmed attacks with its own runes. The item's modification Type should be 'weapon'.",
-        "type": "checkbox"
-    },
-    {
-        "key": "isArmoredSkirt",
-        "priority": "6",
-        "group": "5-Influence",
-        "name": "Act as Armored Skirt",
-        "desc": "Set if this item uses the 'Armored Skirt' functionality to change the effectiveness and weight of certain armors.",
-        "type": "checkbox"
-    },
-    {
-        "key": "dexcap",
-        "priority": "0",
-        "group": "6-Armor & Shields",
-        "name": "Dexterity Cap",
-        "desc": "The highest dexterity bonus you can receive while wearing this armor, -1 for unlimited.",
-        "type": "number",
-        "validation": "=1plus"
-    },
-    {
-        "key": "skillpenalty",
-        "priority": "1",
-        "group": "6-Armor & Shields",
-        "name": "Skill penalty",
-        "desc": "Certain skills take this penalty while wearing this armor if your strength does not match the armor's strength requirement.",
-        "type": "number",
-        "validation": "0minus"
-    },
-    {
-        "key": "speedpenalty",
-        "priority": "2",
-        "group": "6-Armor & Shields",
-        "name": "Speed penalty",
-        "desc": "The penalty to speed (in steps of -5 ft) taken while wearing this armor or shield. The penalty can be reduced by 5 for armors by matching the strength requirement.",
-        "type": "number",
-        "validation": "0minus"
-    },
-    {
-        "key": "strength",
-        "priority": "3",
-        "group": "6-Armor & Shields",
-        "name": "Strength requirement",
-        "desc": "The minimum strength required to eliminate or lessen this armor's skill and speed penalties.",
-        "type": "number",
-        "validation": "0plus"
-    },
-    {
-        "key": "acbonus",
-        "priority": "4",
-        "group": "6-Armor & Shields",
-        "name": "AC bonus",
-        "desc": "The armor's or shield's inherent bonus to armor class. A shield must be raised in order to apply its AC bonus.",
-        "type": "number",
-        "validation": "0plus"
-    },
-    {
-        "key": "coverbonus",
-        "priority": "5",
-        "group": "6-Armor & Shields",
-        "name": "Shield cover bonus",
-        "desc": "If this shield has a cover bonus value, you can take cover behind it while it is raised and gain this additional bonus to AC.",
-        "type": "number",
-        "validation": "0plus"
-    },
-    {
-        "key": "dicenum",
-        "priority": "0",
-        "group": "7-Weapons",
-        "name": "Starting number of damage dice",
-        "desc": "Weapons usually start with 1 damage die.",
-        "type": "number",
-        "validation": "1plus"
-    },
-    {
-        "key": "dicesize",
-        "priority": "1",
-        "group": "7-Weapons",
-        "name": "Damage dice size",
-        "desc": "Most weapons have damage dice between 4 and 12.",
-        "locked": true,
-        "examples": "dicesize"
-    },
-    {
-        "key": "dmgType",
-        "priority": "2",
-        "group": "7-Weapons",
-        "name": "Damage Type",
-        "desc": "Usually B for blunt, P for piercing or S for slashing damage, but can vary for versatile or modular weapons."
-    },
-    {
-        "key": "extraDamage",
-        "priority": "3",
-        "group": "7-Weapons",
-        "name": "Additional damage",
-        "desc": "Some rare weapons do additional damage without any runes. You can add this damage here, e.g. '+1d4F' for an additional d4 of fire damage."
-    },
-    {
-        "key": "melee",
-        "priority": "3",
-        "group": "7-Weapons",
-        "name": "Melee range",
-        "desc": "The range of the weapon in melee in ft., usually 5 or 10 for weapons with the Reach trait. Weapons without a melee range will not show a melee attack.",
-        "type": "number",
-        "validation": "0plus"
-    },
-    {
-        "key": "ranged",
-        "priority": "3",
-        "group": "7-Weapons",
-        "name": "Ranged increment",
-        "desc": "The range increment of the ranged weapon in ft.. Thrown weapons should have a range increment matching their Thrown trait. Weapons can be both ranged and melee, e.g. daggers.",
-        "type": "number",
-        "validation": "0plus"
-    },
-    {
-        "key": "ammunition",
-        "priority": "3",
-        "group": "7-Weapons",
-        "name": "Ammunition type",
-        "desc": "The kind of ammunition used by this ranged weapon, e.g. 'arrows' or 'bolts'"
-    },
-    {
-        "key": "reload",
-        "priority": "3",
-        "group": "7-Weapons",
-        "name": "Reload duration",
-        "desc": "The amount of actions it takes to reload this ranged weapon. Bows usually have a reload duration of 0."
-    },
-    {
         "key": "benefit",
-        "priority": "0",
-        "group": "8-Consumables",
+        "priority": "4",
+        "group": "9-Consumables",
         "name": "Benefit",
         "desc": "Describe the beneficial effects of consuming this item."
     },
     {
         "key": "drawback",
-        "priority": "1",
-        "group": "8-Consumables",
+        "priority": "5",
+        "group": "9-Consumables",
         "name": "Drawback",
         "desc": "Describe the undesirable side effects of consuming this item."
     }

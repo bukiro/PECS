@@ -3,8 +3,10 @@ import { Item } from './Item';
 import { EffectGain } from './EffectGain';
 
 export class Consumable extends Item {
-    //Consumables can normally not be equipped.
-    public equippable: boolean = false;
+    //Consumables can not be equipped.
+    readonly equippable = false;
+    //Allow changing of "equippable" by custom item creation
+    readonly allowEquippable = false;
     //Some Items get bought in stacks. Stack defines how many you buy at once,
     //and how many make up one instance of the items Bulk.
     public stack: number = 1;

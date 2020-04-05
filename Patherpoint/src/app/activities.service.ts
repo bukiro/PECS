@@ -69,14 +69,18 @@ export class ActivitiesService {
         if (activity.gainItems.length) {
             if (activated) {
                 activity.gainItems.forEach(gainItem => {
-                    let item: Equipment = itemsService.get_Items()[gainItem.type].filter(item => item.name == gainItem.name)[0];
-                    characterService.grant_InventoryItem(item);
+                    if (gainItem.type) {
+                        let item: Equipment = itemsService.get_Items()[gainItem.type].filter(item => item.name == gainItem.name)[0];
+                        characterService.grant_InventoryItem(item);
+                    }
                 });
             } else {
                 activity.gainItems.forEach(gainItem => {
-                    let items: Equipment[] = characterService.get_InventoryItems()[gainItem.type].filter(item => item.name == gainItem.name);
-                    if (items.length) {
-                        characterService.drop_InventoryItem(items[0]);
+                    if (gainItem.type) {
+                        let items: Equipment[] = characterService.get_InventoryItems()[gainItem.type].filter(item => item.name == gainItem.name);
+                        if (items.length) {
+                            characterService.drop_InventoryItem(items[0]);
+                        }
                     }
                 });
             }

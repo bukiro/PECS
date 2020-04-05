@@ -2,7 +2,7 @@ import { Consumable } from './Consumable';
 
 export class AlchemicalElixir extends Consumable {
     //Alchemical Elixirs should be type "alchemicalelixirs" to be found in the database
-    public type: string = "alchemicalelixirs";
+    readonly type = "alchemicalelixirs";
     //Alchemical Elixirs can have benefits and drawbacks. Describe them here.
     //Will be shown as "Benefit":"..."
     public benefit: string = "";

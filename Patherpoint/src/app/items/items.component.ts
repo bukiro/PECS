@@ -167,20 +167,22 @@ export class ItemsComponent implements OnInit {
             default:
                 this.newItem = null;
         }
-        if (this.newItem["effects"]) {
-            this.newItem["effects"] = this.newItem["effects"].map(effect => Object.assign(new EffectGain(), effect))
-        }
-        if (this.newItem["gainItems"]) {
-            this.newItem["gainItems"] = this.newItem["gainItems"].map(effect => Object.assign(new ItemGain(), effect))
-        }
-        if (this.newItem["gainCondition"]) {
-            this.newItem["gainCondition"] = this.newItem["gainCondition"].map(effect => Object.assign(new ConditionGain(), effect))
-        }
-        if (this.newItem["gainActivities"]) {
-            this.newItem["gainActivities"] = this.newItem["gainActivities"].map(effect => Object.assign(new ActivityGain(), effect))
-        }
-        if (this.newItem["activities"]) {
-            this.newItem["activities"] = this.newItem["activities"].map(effect => Object.assign(new ItemActivity(), effect))
+        if (this.newItem) {
+            if (this.newItem["effects"]) {
+                this.newItem["effects"] = this.newItem["effects"].map(effect => Object.assign(new EffectGain(), effect))
+            }
+            if (this.newItem["gainItems"]) {
+                this.newItem["gainItems"] = this.newItem["gainItems"].map(effect => Object.assign(new ItemGain(), effect))
+            }
+            if (this.newItem["gainCondition"]) {
+                this.newItem["gainCondition"] = this.newItem["gainCondition"].map(effect => Object.assign(new ConditionGain(), effect))
+            }
+            if (this.newItem["gainActivities"]) {
+                this.newItem["gainActivities"] = this.newItem["gainActivities"].map(effect => Object.assign(new ActivityGain(), effect))
+            }
+            if (this.newItem["activities"]) {
+                this.newItem["activities"] = this.newItem["activities"].map(effect => Object.assign(new ItemActivity(), effect))
+            }
         }
     }
 

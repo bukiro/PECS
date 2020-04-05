@@ -96,7 +96,9 @@
                     </div>
                 </div>
                 <ng-container *ngFor="let property of get_NewItemProperties()|sortBy:'asc':'priority'|sortBy:'asc':'group'">
-                    <app-newItemProperty [propertyData]=property [propertyKey]=property.key [newItem]=newItem></app-newItemProperty>
+                    <ng-container *ngIf="!(property.key == 'equippable' && !newItem['allowEquippable'])">
+                        <app-newItemProperty [propertyData]=property [propertyKey]=property.key [newItem]=newItem></app-newItemProperty>
+                    </ng-container>
                 </ng-container>
                 <div class="list-item row">
                     <button class="row center-aligned" [ngStyle]="{'background-color':get_Accent()}"

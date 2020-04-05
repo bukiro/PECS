@@ -95,8 +95,13 @@
     <h4>Armored Skirt</h4>
     <app-item [item]=armoredSkirt></app-item>
 </div>
-<ng-container *ngFor="let gain of item.activities.concat(item.gainActivities)">
-    <ng-container *ngFor="let activity of (gain.can_Activate ? [gain] : get_Activities(gain.name))">
+<ng-container *ngFor="let activity of item.activities">
+    <h4>{{activity.name}}
+        {{activity.get_Actions()}}{{(activity.activationType) ? " - " + activity.activationType : ""}}</h4>
+    <app-activity [activity]=activity [gain]=activity [allowActivate]=allowActivate></app-activity>
+</ng-container>
+<ng-container *ngFor="let gain of item.gainActivities">
+    <ng-container *ngFor="let activity of get_Activities(gain.name)">
         <h4>{{activity.name}}
             {{activity.get_Actions()}}{{(activity.activationType) ? " - " + activity.activationType : ""}}</h4>
         <app-activity [activity]=activity [gain]=gain [allowActivate]=allowActivate></app-activity>

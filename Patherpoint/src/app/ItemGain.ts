@@ -1,6 +1,6 @@
 export class ItemGain {
-    public name: string = "";
-    public type: string = "";
-    public on: "grant"|"equip"|"" = "";
+    public name: string = "Fist";
+    public type: string = "weapons";
+    public on: "grant"|"equip"|"" = "grant";
     public amount: number = 1;
 }

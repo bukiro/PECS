@@ -20,7 +20,7 @@
                     <app-newItemProperty [propertyData]=subProperty [propertyKey]=subProperty.key [parents]=parents.concat(propertyKey).concat(i) [newItem]=newItem></app-newItemProperty>
                 </ng-container>
             </ng-container>
-            <ng-container *ngIf="!get_IsObject(object)">
+            <ng-container *ngIf="!get_IsObject(object) ">
                 <app-newItemProperty class="row" [propertyData]=propertyData [propertyKey]=i [parents]=parents.concat(propertyKey) [noTitle]=true [newItem]=newItem></app-newItemProperty>
             </ng-container>
         </div>
@@ -41,14 +41,14 @@
         <div class="list-item" style="margin: initial 0" *ngIf="propertyData.type!='textarea' && propertyData.type!='checkbox' &&
         !(propertyData.parent == 'gainItems' && propertyData.key == 'type')">
             <select class="row" [(ngModel)]="get_Parent()[propertyKey]" [disabled]="!get_Examples().length">
-                <option *ngFor="let example of get_Examples()|sortBy:'asc'" [value]="example" style="overflow:hidden; white-space: normal;">
+                <option *ngFor="let example of get_Examples()|sortBy:'asc'" [value]="example">
                     {{example}}
                 </option>
             </select>
         </div>
         <div class="list-item" style="margin: initial 0" *ngIf="propertyData.parent == 'gainItems' && propertyData.key == 'type'">
-            <select class="row" [(ngModel)]="get_Parent()[propertyKey]">
-                <option *ngFor="let itemset of get_ItemSets()" [value]="itemset.key" style="overflow:hidden; white-space: normal;">
+            <select class="row" [(ngModel)]="get_Parent()[propertyKey]" (ngModelChange)="set_ItemType()">
+                <option *ngFor="let itemset of get_ItemSets()" [value]="itemset.key">
                     {{itemset.name}}
                 </option>
             </select>

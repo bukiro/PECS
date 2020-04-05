@@ -1,8 +1,12 @@
+import { v1 as uuidv1 } from 'uuid';
+
 export class Item {
     //Type of item - very important. Must be set by the specific Item class and decides which database is searched for the item
     public type: string;
     //Base name of the item, may be expanded by rune names for equipment
-    public name: string = "";
+    public name: string = "New Item";
+    //Every item gets an ID to reference in activities or other items.
+    public id = uuidv1();
     //Number of items of this kind in your inventory.
     //Items that can be equipped or invested, or come with an activity,
     // get duplicated and not stacked - the amount remains 1.
@@ -19,6 +23,8 @@ export class Item {
     public hide: boolean = false;
     //Can this item be equipped (and apply its effect only then)
     public equippable: boolean;
+    //Allow changing of "equippable" by custom item creation
+    public allowEquippable: boolean;
     //Does this item come in different types? Like lesser, greater, major...
     //If so, name the subtype here
     public subType: string = "";
@@ -27,8 +33,10 @@ export class Item {
     public subTypeDesc: string = "";
     //What traits does the item have? Can be expanded under certain circumstances
     public traits: string[] = [];
-    //Internal notes that get displayed when creating a custom item from a note.
-    public internalNote: string = "";
+    //Any notes the player adds to the item
+    public notes: string = "";
+    //Is the notes input shown in the inventory
+    public showNotes: boolean = false;
     can_Invest() {
         return (this.traits.indexOf("Invested") > -1);
     }

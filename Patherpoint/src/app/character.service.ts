@@ -45,6 +45,7 @@ import { Equipment } from './Equipment';
 import { EffectGain } from './EffectGain';
 import { ItemGain } from './ItemGain';
 import { ItemActivity } from './ItemActivity';
+import { v1 as uuidv1 } from 'uuid';
 
 @Injectable({
     providedIn: 'root'
@@ -340,6 +341,7 @@ export class CharacterService {
                 newInventoryItem = Object.assign(new AdventuringGear(), item);
                 break;
         }
+        newInventoryItem.id = uuidv1();
         if (newInventoryItem["effects"]) {
             newInventoryItem["effects"] = newInventoryItem["effects"].map(effect => Object.assign(new EffectGain(), effect))
         }
@@ -399,7 +401,7 @@ export class CharacterService {
                 }
                 let grantedItem = this.grant_InventoryItem(newItem, false, equip, newAmount);
                 if (grantedItem.get_Name) {
-                    grantedItem.displayName += grantedItem.name + " (granted by " + returnedInventoryItem.name + ")"
+                    grantedItem.displayName = grantedItem.name + " (granted by " + returnedInventoryItem.name + ")"
                 };
             });
         }

@@ -5,6 +5,12 @@ import { Effect } from './Effect';
 import { Equipment } from './Equipment';
 
 export class Weapon extends Equipment {
+    //Weapons should be type "weapons" to be found in the database
+    readonly type = "weapons";
+    //Weapons are usually moddable like a weapon. Weapons that cannot be modded should be set to ""
+    moddable = "weapon" as ""|"weapon"|"armor"|"shield";
+    //The weapon group, needed for critical specialization effects
+    public group: string = "";
     //How many hands are needed to wield this weapon?
     public hands: string = "";
     //How many actions to reload this ranged weapon?
@@ -13,10 +19,8 @@ export class Weapon extends Equipment {
     public ammunition: string = "";
     //Is the weapon currently raised to parry?
     public parrying: boolean = false;
-    //Weapons should be type "weapons" to be found in the database
-    public type: string = "weapons";
     //What proficiency is used? "Simple Weapons", "Unarmed"?
-    public prof: string = "";
+    public prof: string = "Simple Weapons";
     //What is the damage type? Usually S, B or P, but may include combinations"
     public dmgType: string = "";
     //Some weapons add additional damage like +1d4F
@@ -30,8 +34,6 @@ export class Weapon extends Equipment {
     //Ranged range in ft - also add for thrown weapons
     //Weapons can have a melee and a ranged value, e.g. Daggers that can thrown
     public ranged: number = 0;
-    //Weapons are usually moddable like a weapon. Weapons that cannot be modded should be set to ""
-    public moddable: ""|"weapon"|"armor"|"shield" = "weapon";
     profLevel(characterService: CharacterService, charLevel: number = characterService.get_Character().level) {
         if (characterService.still_loading()) { return 0; }
         let skillLevel: number = 0;
