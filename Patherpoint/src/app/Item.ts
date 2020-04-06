@@ -40,4 +40,10 @@ export class Item {
     can_Invest() {
         return (this.traits.indexOf("Invested") > -1);
     }
+    can_Stack() {
+        return (!this.equippable &&
+            !this.can_Invest() &&
+            (this["gainActivities"] ? !this["gainActivities"].length : true) &&
+            (this["activities"] ? !this["activities"].length : true))
+    }
 }

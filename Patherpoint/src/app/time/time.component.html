@@ -3,17 +3,17 @@
     <div class="loading" *ngIf="still_loading()">Loading</div>
     <ng-container *ngIf="!still_loading()">
         <div class="list-item center-aligned">
-            <button class="button" [ngStyle]="{'background-color':get_Accent()}" (click)="tick(5)"
+            <button [ngStyle]="{'background-color':get_Accent()}" (click)="tick(5)"
                 [disabled]="get_YourTurn()==5">Start Turn</button>
             <div class="turn-indicator">
                 <strong *ngIf="get_YourTurn() == 0">Not your Turn</strong>
                 <strong class="yourTurn" *ngIf="get_YourTurn() == 5">Your Turn</strong>
             </div>
-            <button class="button" [ngStyle]="{'background-color':get_Accent()}" (click)="tick(5)"
+            <button [ngStyle]="{'background-color':get_Accent()}" (click)="tick(5)"
                 [disabled]="get_YourTurn()==0">End Turn</button>
         </div>
         <div class="fullsize-only list-item">
-            <button [ngStyle]="{'background-color':get_Accent()}" class="button fancybutton" (click)="tick(duration)"
+            <button [ngStyle]="{'background-color':get_Accent()}" class="fancybutton" (click)="tick(duration)"
                 *ngFor="let duration of [10, 50, 100, 500, 1000, 6000, 48000, 144000]">
                 Tick {{get_Duration(duration)}}
             </button>

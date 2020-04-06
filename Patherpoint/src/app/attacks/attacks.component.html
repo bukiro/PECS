@@ -19,7 +19,7 @@
                         [ngModel]="attack[1]"
                         disabled>
                     Damage
-                    <input *ngFor="let damage of [get_Damage(weapon, attack)]"
+                    <input *ngFor="let damage of [get_Damage(weapon, attack[0])]"
                         type="text"
                         size="{{damage[0].length}}"
                         title="{{damage[1]}}"

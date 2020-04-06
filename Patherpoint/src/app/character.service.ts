@@ -45,7 +45,7 @@ import { Equipment } from './Equipment';
 import { EffectGain } from './EffectGain';
 import { ItemGain } from './ItemGain';
 import { ItemActivity } from './ItemActivity';
-import { v1 as uuidv1 } from 'uuid';
+import { SpellCast } from './SpellCast';
 
 @Injectable({
     providedIn: 'root'
@@ -313,57 +313,16 @@ export class CharacterService {
     }
 
     grant_InventoryItem(item: Item, changeAfter: boolean = true, equipAfter: boolean = true, amount: number = 1) {
-        let newInventoryItem;
+        let newInventoryItem = this.itemsService.initialize_Item(item);
         let returnedInventoryItem;
-        switch (item.type) {
-            case "weapons":
-                newInventoryItem = Object.assign(new Weapon(), item);
-                break;
-            case "armors":
-                newInventoryItem = Object.assign(new Armor(), item);
-                break;
-            case "shields":
-                newInventoryItem = Object.assign(new Shield(), item);
-                break;
-            case "wornitems":
-                newInventoryItem = Object.assign(new WornItem(), item);
-                break;
-            case "helditems":
-                newInventoryItem = Object.assign(new HeldItem(), item);
-                break;
-            case "alchemicalelixirs":
-                newInventoryItem = Object.assign(new AlchemicalElixir(), item);
-                break;
-            case "otherconsumables":
-                newInventoryItem = Object.assign(new OtherConsumable(), item);
-                break;
-            case "adventuringgear":
-                newInventoryItem = Object.assign(new AdventuringGear(), item);
-                break;
-        }
-        newInventoryItem.id = uuidv1();
-        if (newInventoryItem["effects"]) {
-            newInventoryItem["effects"] = newInventoryItem["effects"].map(effect => Object.assign(new EffectGain(), effect))
-        }
-        if (newInventoryItem["gainItems"]) {
-            newInventoryItem["gainItems"] = newInventoryItem["gainItems"].map(effect => Object.assign(new ItemGain(), effect))
-        }
-        if (newInventoryItem["gainCondition"]) {
-            newInventoryItem["gainCondition"] = newInventoryItem["gainCondition"].map(effect => Object.assign(new ConditionGain(), effect))
-        }
-        if (newInventoryItem["gainActivities"]) {
-            newInventoryItem["gainActivities"] = newInventoryItem["gainActivities"].map(effect => Object.assign(new ActivityGain(), effect))
-        }
-        if (newInventoryItem["activities"]) {
-            newInventoryItem["activities"] = newInventoryItem["activities"].map(effect => Object.assign(new ItemActivity(), effect))
-        }
+        //Check if this item already exists in the inventory, and if it is stackable.
         let existingItems = this.me.inventory[item.type].filter((existing: Item) =>
-            existing.name == item.name &&
-            !existing.equippable &&
-            !item.can_Invest() &&
-            (item["gainActivities"] ? !item["gainActivities"].length : true) &&
-            (item["activities"] ? !item["activities"].length : true)
+            existing.name == item.name && item.can_Stack()
         );
+        //If any existing, stackable items are found, try parsing the amount and set it to 1 if failed, then raise the amount on the first of the existing items.
+        //The amount must be parsed because it could be set to anything during custom item creation.
+        //If no items are found, add the new item to the inventory.
+        //Set returnedInventoryItem to either the found or the new item for further processing.
         if (existingItems.length) {
             let intAmount: number = 1
             try {
@@ -371,10 +330,8 @@ export class CharacterService {
             } catch(error) {
                 intAmount = 1
             }
-            existingItems.forEach((existing: Item) => {
-                existing.amount += amount;
-                returnedInventoryItem = existing;
-            })
+            existingItems[0].amount += intAmount;
+            returnedInventoryItem = existingItems[0];
         } else {
             let newInventoryLength = this.me.inventory[item.type].push(newInventoryItem);
             let createdInventoryItem = this.me.inventory[item.type][newInventoryLength - 1];

@@ -8,7 +8,7 @@
                 <h3 *ngIf="level.number > 0">Level {{level.number}}</h3>
                 <!--Fixed information-->
                 <div class="fullsize-only list-item fancy-button" *ngIf="level.number > 0">
-                    <button class="row button fancy-button" [ngStyle]="{'color':get_Accent()}"
+                    <button class="row sublist-toggle fancy-button" [ngStyle]="{'color':get_Accent()}"
                         (click)="toggle_List('showFixedChanges'+level.number)">
                         Show fixed changes
                     </button>
@@ -24,7 +24,7 @@
                 <ng-container *ngFor="let choice of level.spellChoices">
                     <div class="list-item" *ngIf="choice.available"
                         [className]="((choice.spells.length > choice.available || cannotTakeSome(choice)) ? 'problem' : '') +' '+ ((choice.available == choice.spells.length) ? 'fullsize-only' : '')">
-                        <button class="row button"
+                        <button class="row sublist-toggle"
                             [ngStyle]="(choice.available == choice.spells.length) ? {'color':get_Accent()} : {'background-color':get_Accent()}"
                             [className]="(choice.available == choice.spells.length) ? 'fancy-button' : ''"
                             (click)="toggle_List(choice.source+choice.id)">
@@ -49,7 +49,7 @@
                                 <cite class="problem" *ngFor="let reason of cannotTake(spell, choice)">
                                     {{reason}}
                                 </cite>
-                                <button class="button" [ngStyle]="{'background-color':get_Accent()}"
+                                <button [ngStyle]="{'background-color':get_Accent()}"
                                     (click)="toggle_Item(choice.id+spell.name+'desc')">
                                     Show Description
                                 </button>
@@ -76,7 +76,7 @@
                                 <cite class="problem" *ngFor="let reason of cannotTake(spell, choice)">
                                     {{reason}}
                                 </cite>
-                                <button class="button" [ngStyle]="{'background-color':get_Accent()}"
+                                <button [ngStyle]="{'background-color':get_Accent()}"
                                     (click)="toggle_Item(choice.id+spell.name+'desc')">
                                     Show Description
                                 </button>

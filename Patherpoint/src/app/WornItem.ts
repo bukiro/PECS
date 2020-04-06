@@ -9,6 +9,10 @@ export class WornItem extends Equipment {
     readonly allowEquippable = false;
     //How is this item worn? Example: "worn belt"
     public usage: string = "";
-    //Does this weapon count for the "Handwraps of Mighty Blows" functionality?
+    //Does this item count for the "Handwraps of Mighty Blows" functionality? If so, be sure to make it moddable like a weapon.
     public isHandwrapsOfMightyBlows: boolean = false;
+    //Does this item use the Doubling Rings functionality, and on which level?
+    public isDoublingRings: ""|"Doubling Rings"|"Doubling Rings (Greater)" = "";
+    //If this is a doubling rings item, this is the saved data.
+    public doublingRingsData: {gold:string, iron:string, propertyRunes:boolean} = {gold:"", iron:"", propertyRunes:false}
 }

@@ -87,15 +87,11 @@ export class NewItemPropertyComponent implements OnInit {
             if (!value) {
                 this.get_Parent()[this.propertyKey] = "New Item"
             }
-            if (this.get_Parent()["activities"]) {
-                this.get_Parent()["activities"].forEach((activity: ItemActivity) => {
-                    activity.source = value;
-                })
-            }
-            if (this.get_Parent()["gainActivities"]) {
-                this.get_Parent()["gainActivities"].forEach((gain: ActivityGain) => {
-                    gain.source = value;
-                })
+            let existingItems = this.characterService.get_InventoryItems()[this.newItem.type].filter((existing: Item) => existing.name == value && existing.can_Stack());
+            if (existingItems.length) {
+                this.validationError = "If you use this name, this item will be added to the "+existingItems[0].name+" stack in your inventory. All changes you make here will be lost.";
+            } else {
+                this.validationError = "";
             }
         }
         if (this.propertyKey == "value" && (this.propertyData.parent == "effects" || this.propertyData.parent == "onceEffects")) {
@@ -248,6 +244,9 @@ export class NewItemPropertyComponent implements OnInit {
                 break;
             case "traits":
                 examples = this.traitsService.get_Traits().map(trait => trait.name)
+                break;
+            case "isdoublingrings":
+                examples = ["", "Doubling Rings", "Doubling Rings (Greater)"];
                 break;
             case "activity":
                 examples.push(...this.get_Items().allConsumables().concat(this.get_InventoryItems().allConsumables())

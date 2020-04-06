@@ -13,15 +13,18 @@
     </span>
     <span *ngIf="(item.get_ACBonus ? item.get_ACBonus() : item.acbonus)">
         <strong>AC Bonus</strong>
-        <span [className]="(item.affectedByArmoredSkirt == -1) ? 'penalty' : ((item.affectedByArmoredSkirt == 1) ? 'bonus' : '')">&nbsp;{{item.get_ACBonus ? item.get_ACBonus() : item.acbonus}}&nbsp;</span>
+        <span
+            [className]="(item.affectedByArmoredSkirt == -1) ? 'penalty' : ((item.affectedByArmoredSkirt == 1) ? 'bonus' : '')">&nbsp;{{item.get_ACBonus ? item.get_ACBonus() : item.acbonus}}&nbsp;</span>
     </span>
     <span *ngIf="(item.get_DexCap ? item.get_DexCap() : item.dexcap)">
         <strong>Dex Cap</strong>
-        <span [className]="(item.affectedByArmoredSkirt == 1) ? 'penalty' : ((item.affectedByArmoredSkirt == -1) ? 'bonus' : '')">&nbsp;{{(item.get_DexCap ? item.get_DexCap() : item.dexcap)}}&nbsp;</span>
+        <span
+            [className]="(item.affectedByArmoredSkirt == 1) ? 'penalty' : ((item.affectedByArmoredSkirt == -1) ? 'bonus' : '')">&nbsp;{{(item.get_DexCap ? item.get_DexCap() : item.dexcap)}}&nbsp;</span>
     </span>
     <span *ngIf="(item.get_SkillPenalty ? item.get_SkillPenalty() : item.skillpenalty)">
         <strong>Check Penalty</strong>
-        <span [className]="(item.affectedByArmoredSkirt == 1) ? 'penalty' : ((item.affectedByArmoredSkirt == -1) ? 'bonus' : '')">&nbsp;{{(item.get_SkillPenalty ? item.get_SkillPenalty() : item.skillpenalty)}}&nbsp;</span>
+        <span
+            [className]="(item.affectedByArmoredSkirt == 1) ? 'penalty' : ((item.affectedByArmoredSkirt == -1) ? 'bonus' : '')">&nbsp;{{(item.get_SkillPenalty ? item.get_SkillPenalty() : item.skillpenalty)}}&nbsp;</span>
     </span>
     <span *ngIf="item.speedpenalty">
         <strong>Speed Penalty</strong>
@@ -29,7 +32,8 @@
     </span>
     <span *ngIf="(item.get_Strength ? item.get_Strength() : item.strength)">
         <strong>Strength</strong>
-        <span [className]="(item.affectedByArmoredSkirt == 1) ? 'penalty' : ((item.affectedByArmoredSkirt == -1) ? 'bonus' : '')">&nbsp;{{(item.get_Strength ? item.get_Strength() : item.strength)}}&nbsp;</span>
+        <span
+            [className]="(item.affectedByArmoredSkirt == 1) ? 'penalty' : ((item.affectedByArmoredSkirt == -1) ? 'bonus' : '')">&nbsp;{{(item.get_Strength ? item.get_Strength() : item.strength)}}&nbsp;</span>
     </span>
     <span *ngIf="item.storeBulk">
         <strong>Bulk</strong>
@@ -90,6 +94,27 @@
         <strong>{{item.subType}}</strong>
         {{item.subTypeDesc}}
     </p>
+</div>
+<div class="row" *ngIf="item.isDoublingRings && allowActivate">
+    <h4>Doubling Rings</h4>
+    <div class="row">
+        <strong>Weapon wielded in the gold ring hand</strong>
+        <select [(ngModel)]="item.doublingRingsData.gold" (ngModelChange)="set_Changed()">
+            <option *ngFor="let weapon of get_DoublingRingsOptions('gold')" [value]="weapon.id">
+                {{weapon.get_Name()}}</option>
+        </select>
+    </div>
+    <div class="row">
+        <strong>Weapon wielded in the iron ring hand</strong>
+        <select [(ngModel)]="item.doublingRingsData.iron" (ngModelChange)="set_Changed()">
+            <option *ngFor="let weapon of get_DoublingRingsOptions('iron')" [value]="weapon.id">
+                {{weapon.get_Name()}}</option>
+        </select>
+    </div>
+    <div class="row" *ngIf="item.isDoublingRings == 'Doubling Rings (Greater)'">
+        <strong>Apply property runes</strong>
+        <input type="checkbox" [(ngModel)]="item.doublingRingsData.propertyRunes" (ngModelChange)="set_Changed()">
+    </div>
 </div>
 <div class="row left-aligned" *ngIf="armoredSkirt">
     <h4>Armored Skirt</h4>

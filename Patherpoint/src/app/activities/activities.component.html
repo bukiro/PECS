@@ -6,7 +6,7 @@
     <ng-container *ngFor="let gain of get_OwnedActivities()">
         <ng-container *ngFor="let activity of (gain.can_Activate ? [gain] : get_Activities(gain.name))">
             <div class="list-item" *ngFor="let activityID of [get_ID()]">
-                <button class="row button" (mouseover)="hover = activityID" (mouseout)="hover = 0"
+                <button class="row sublist-toggle" (mouseover)="hover = activityID" (mouseout)="hover = 0"
                     [ngStyle]="(gain.active) ? {'color':get_Accent()} : {'background-color':get_Accent()}"
                     [className]="(gain.active) ? 'fancy-button' : ''" (click)="toggle_Action(activityID)">
                     <span>{{activity.name}}</span>

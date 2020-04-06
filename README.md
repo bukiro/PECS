@@ -40,7 +40,7 @@ The very latest in Assistive Technologies for Dungeon Master (ATDM)
 - [x] - Passing time
 - [x] - Resting
 - [x] - Using consumables
-- [ ] - Adding custom items
+- [x] - Adding custom items
 - [ ] Style character sheet
 - [x] Populate character sheet from JSON
 - [ ] Use Database
@@ -48,9 +48,6 @@ The very latest in Assistive Technologies for Dungeon Master (ATDM)
 - [ ] import sortableJS or maybe Layout Grid
 - [ ] (documentation) :)
 - [ ] Initiative tracker, battles, being a battle member, GM-Player-Communication.......
-
-To do immediately:
-- Extensively test custom item creation
 
 To do to finish Ohm:
 - Doubling Rings

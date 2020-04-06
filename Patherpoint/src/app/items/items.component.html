@@ -22,7 +22,7 @@
     <ng-container *ngFor="let items of [get_Items(true)]">
         <ng-container *ngFor="let itemSet of items.names">
             <ng-container *ngFor="let listID of [get_ID()*1000]">
-                <button class="button list-item"
+                <button class="list-item"
                     [ngStyle]="{'background-color':get_Accent(), 'display':!get_VisibleItems(items[itemSet.key]).length ? 'none' : 'flex' }"
                     (click)="toggle_List(itemSet.name)">
                     <strong>{{itemSet.name}}</strong>
@@ -30,7 +30,7 @@
                 <ng-container *ngIf="get_ShowList()==itemSet.name||get_ShowList()=='All'">
                     <ng-container *ngFor="let item of get_VisibleItems(items[itemSet.key])|sortBy:'asc':sorting">
                         <div class="list-item" *ngFor="let inventoryID of [listID+get_ID()]">
-                            <button class="row" (mouseover)="hover = inventoryID" (mouseout)="hover = 0"
+                            <button class="row sublist-toggle" (mouseover)="hover = inventoryID" (mouseout)="hover = 0"
                                 [ngStyle]="{'background-color':get_Accent()}" (click)="toggle_Item(inventoryID)">
                                 <span>{{(item.get_Name) ? item.get_Name() : item.name}}</span>
                                 <span
@@ -71,7 +71,7 @@
             </div>
             <ng-container *ngIf="newItem">
                 <div class="list-item" *ngFor="let inventoryID of [listID+get_ID()]">
-                    <button class="row center-aligned" (mouseover)="hover = inventoryID" (mouseout)="hover = 0"
+                    <button class="row sublist-toggle center-aligned" (mouseover)="hover = inventoryID" (mouseout)="hover = 0"
                         [ngStyle]="{'background-color':get_Accent()}" (click)="toggle_Item(inventoryID)">
                         Copy existing item
                     </button>

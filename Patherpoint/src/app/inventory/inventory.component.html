@@ -55,7 +55,7 @@
                     <h5 class="fullsize-only" *ngIf="items[itemSet.key].length">{{itemSet.name}}</h5>
                     <ng-container *ngFor="let item of items[itemSet.key]">
                         <div class="fullsize-only list-item" *ngFor="let inventoryID of [listID+get_ID()]">
-                            <button class="row" (mouseover)="hover = inventoryID" (mouseout)="hover = 0"
+                            <button class="row sublist-toggle" (mouseover)="hover = inventoryID" (mouseout)="hover = 0"
                                 [ngStyle]="((item.equippable && item.equipped) || (item.can_Invest() && item.invested)) ? {'color':get_Accent()} : {'background-color':get_Accent()}"
                                 [className]="((item.equippable && item.equipped) || (item.can_Invest() && item.invested)) ? 'fancy-button' : ''"
                                 (click)="toggleItem(inventoryID)">

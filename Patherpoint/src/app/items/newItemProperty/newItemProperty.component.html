@@ -40,7 +40,7 @@
         </div>
         <div class="list-item" style="margin: initial 0" *ngIf="propertyData.type!='textarea' && propertyData.type!='checkbox' &&
         !(propertyData.parent == 'gainItems' && propertyData.key == 'type')">
-            <select class="row" [(ngModel)]="get_Parent()[propertyKey]" [disabled]="!get_Examples().length">
+            <select class="row" [(ngModel)]="get_Parent()[propertyKey]" [disabled]="!get_Examples().length" (ngModelChange)="validate()">
                 <option *ngFor="let example of get_Examples()|sortBy:'asc'" [value]="example">
                     {{example}}
                 </option>

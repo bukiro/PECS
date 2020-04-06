@@ -14,6 +14,13 @@ import { OtherConsumable } from './OtherConsumable';
 import { AdventuringGear } from './AdventuringGear';
 import { ItemActivity } from './ItemActivity';
 import { ItemProperty } from './ItemProperty';
+import { Item } from './Item';
+import { HeldItem } from './HeldItem';
+import { SpellCast } from './SpellCast';
+import { EffectGain } from './EffectGain';
+import { ActivityGain } from './ActivityGain';
+import { ItemGain } from './ItemGain';
+import { v1 as uuidv1 } from 'uuid';
 
 @Injectable({
     providedIn: 'root'
@@ -76,6 +83,70 @@ export class ItemsService {
         if (!this.still_loading()) {
             return this.items[type].filter(item => item.name == name || name == "");
         } else { return [] }
+    }
+
+    initialize_Item(item: Item) {
+        //Every new item has to be re-assigned its class, receive an id and iterate over all its objects to reassign them as well.
+        //Typescript does not seem to have the option to keep object properties' classes when assigning.
+        let newItem;
+        switch (item.type) {
+            case "weapons":
+                newItem = Object.assign(new Weapon(), item);
+                break;
+            case "armors":
+                newItem = Object.assign(new Armor(), item);
+                break;
+            case "shields":
+                newItem = Object.assign(new Shield(), item);
+                break;
+            case "wornitems":
+                newItem = Object.assign(new WornItem(), item);
+                break;
+            case "helditems":
+                newItem = Object.assign(new HeldItem(), item);
+                break;
+            case "alchemicalelixirs":
+                newItem = Object.assign(new AlchemicalElixir(), item);
+                break;
+            case "otherconsumables":
+                newItem = Object.assign(new OtherConsumable(), item);
+                break;
+            case "adventuringgear":
+                newItem = Object.assign(new AdventuringGear(), item);
+                break;
+        }
+        newItem.id = uuidv1();
+        if (newItem.effects) {
+            newItem.effects = newItem.effects.map((effect: EffectGain) => Object.assign(new EffectGain(), effect))
+        }
+        if (newItem.onceEffects) {
+            newItem.onceEffects = newItem.onceEffects.map((effect: EffectGain) => Object.assign(new EffectGain(), effect))
+        }
+        if (newItem.gainItems) {
+            newItem.gainItems = newItem.gainItems.map((gain: ItemGain) => Object.assign(new ItemGain(), gain))
+        }
+        if (newItem.gainCondition) {
+            newItem.gainCondition = newItem.gainCondition.map((gain: ConditionGain) => Object.assign(new ConditionGain(), gain))
+        }
+        if (newItem.gainActivities) {
+            newItem.gainActivities = newItem.gainActivities.map((gain: ActivityGain) => Object.assign(new ActivityGain(), gain))
+            newItem.gainActivities.forEach((gain: ActivityGain) => {
+                gain.source = newItem.id;
+            });
+        }
+        if (newItem.activities) {
+            newItem.activities = newItem.activities.map((activity: ItemActivity) => Object.assign(new ItemActivity(), activity))
+            newItem.activities.forEach((activity: ItemActivity) => {
+                activity.source = newItem.id;
+                activity.castSpells = activity.castSpells.map((castSpell: SpellCast) => Object.assign(new SpellCast(), castSpell));
+                activity.effects = activity.effects.map((effect: EffectGain) => Object.assign(new EffectGain(), effect));
+                activity.onceEffects = activity.onceEffects.map((effect: EffectGain) => Object.assign(new EffectGain(), effect));
+            });
+        }
+        if (newItem.isHandwrapsOfMightyBlows) {
+            newItem.moddable = "weapon";
+        }
+        return newItem;
     }
 
     process_Consumable(characterService: CharacterService, item: Consumable) {
@@ -249,7 +320,7 @@ export class ItemsService {
 
     finish_HeldItems() {
         if (this.loader_HeldItems) {
-            this.items.helditems = this.loader_HeldItems.map(element => Object.assign(new WornItem(), element));
+            this.items.helditems = this.loader_HeldItems.map(element => Object.assign(new HeldItem(), element));
             this.items.helditems.forEach(item => {
                 item.activities = item.activities.map(element => Object.assign(new ItemActivity(), element))
             })

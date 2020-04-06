@@ -19,7 +19,7 @@
         <ng-container *ngFor="let spellGain of get_FocusSpells()">
             <ng-container *ngFor="let spell of get_Spells(spellGain.name)">
                 <div class="list-item" *ngFor="let spellID of [get_ID()]">
-                    <button class="row center-aligned" (mouseover)="hover = spellID" (mouseout)="hover = 0"
+                    <button class="row sublist-toggle center-aligned" (mouseover)="hover = spellID" (mouseout)="hover = 0"
                         [ngStyle]="{'background-color':get_Accent()}" (click)="toggle_Spell(spellID)">
                         <span>{{spell.name}}</span>
                         <span>{{spell.get_Actions()}} {{spell.castType}}</span>

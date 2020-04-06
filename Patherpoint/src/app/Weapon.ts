@@ -115,16 +115,30 @@ export class Weapon extends Equipment {
             }
         }
         let me: Weapon|WornItem = this;
+        let reference: Weapon|WornItem;
         if (this.prof == "Unarmed") {
             let handwraps = characterService.get_InventoryItems().wornitems.filter(item => item.isHandwrapsOfMightyBlows && item.invested)
             if (handwraps.length) {
                 me = handwraps[0];
+                reference = handwraps[0];
+            }
+        }
+        if (range == "melee" && this.moddable == "weapon") {
+            let doublingRings = characterService.get_InventoryItems().wornitems.filter(item => item.isDoublingRings && item.doublingRingsData.iron == this.id);
+            if (doublingRings.length) {
+                if (doublingRings[0].doublingRingsData.gold) {
+                    let goldItem = characterService.get_InventoryItems().weapons.filter(weapon => weapon.id == doublingRings[0].doublingRingsData.gold);
+                    if (goldItem.length) {
+                        me = goldItem[0];
+                        reference = doublingRings[0];
+                    }
+                }
             }
         }
         if (me.potencyRune > 0) {
             explain += "\nPotency: "+me.get_Potency(me.potencyRune);
-            if (me["isHandwrapsOfMightyBlows"]) {
-                explain += "\n("+me.get_Name()+")";
+            if (reference) {
+                explain += "\n("+reference.get_Name()+")";
             }
         }
         //Add all effects for this weapon
@@ -151,17 +165,31 @@ export class Weapon extends Equipment {
         //Apply Handwraps of Mighty Blows, if equipped, to unarmed attacks
         //We replace "me" with the Handwraps and use "me" instead of "this" when runes are concerned.
         let me: Weapon|WornItem = this;
+        let reference: Weapon|WornItem;
         if (this.prof == "Unarmed") {
             let handwraps = characterService.get_InventoryItems().wornitems.filter(item => item.isHandwrapsOfMightyBlows && item.invested)
             if (handwraps.length) {
                 me = handwraps[0];
+                reference = handwraps[0]
+            }
+        }
+        if (range == "melee" && this.moddable == "weapon") {
+            let doublingRings = characterService.get_InventoryItems().wornitems.filter(item => item.isDoublingRings && item.doublingRingsData.iron == this.id);
+            if (doublingRings.length) {
+                if (doublingRings[0].doublingRingsData.gold) {
+                    let goldItem = characterService.get_InventoryItems().weapons.filter(weapon => weapon.id == doublingRings[0].doublingRingsData.gold);
+                    if (goldItem.length && goldItem[0].potencyRune) {
+                        me = goldItem[0];
+                        reference = doublingRings[0];
+                    }
+                }
             }
         }
         let dicenum = this.dicenum + me.strikingRune;
         if (me.strikingRune > 0) {
             explain += "\n"+me.get_Striking(me.strikingRune)+": Dice number +"+me.strikingRune;
-            if (me["isHandwrapsOfMightyBlows"]) {
-                explain += "\n("+me.get_Name()+")";
+            if (reference) {
+                explain += "\n("+reference.get_Name()+")";
             }
         }
         let dicesize = this.dicesize;

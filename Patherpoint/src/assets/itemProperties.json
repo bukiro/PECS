@@ -4,7 +4,7 @@
         "priority": "0",
         "group": "1-Name",
         "name": "Name",
-        "desc": "The base name of equipment may be expanded by runes and will be shown on the item if no display name is set. The name of Consumables does not change."
+        "desc": "The base name of equipment may be expanded by runes and will be shown on the item if no display name is set. The name of Consumables does not change. Take care when you reuse item names: If the new item has the same name as one in your inventory, and that item is stackable (not equippable, not investable, no activities), the new item will be added to the stack and not gain any new properties."
     },
     {
         "key": "displayName",
@@ -460,8 +460,17 @@
         "priority": "6",
         "group": "5-Influence",
         "name": "Act as Handwraps of Mighty Blows",
-        "desc": "Set if this item uses the 'Handwraps of Mighty Blows' functionality to enhance unarmed attacks with its own runes. The item's modification Type should be 'weapon'.",
+        "desc": "Set if this item uses the 'Handwraps of Mighty Blows' functionality to enhance unarmed attacks with its own runes. The item's modification type will be set to 'weapon' automatically.",
         "type": "checkbox"
+    },
+    {
+        "key": "isDoublingRings",
+        "priority": "6",
+        "group": "5-Influence",
+        "name": "Act as Doubling Rings",
+        "desc": "Set if this item uses the 'Doubling Rings' functionality to copy runes from one item to the other.",
+        "locked": true,
+        "examples":"isdoublingrings"
     },
     {
         "key": "isArmoredSkirt",

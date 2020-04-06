@@ -241,6 +241,10 @@
     margin-bottom:4px;
   } 
 
+  .button.sublist-toggle.row:not(:last-child), button.sublist-toggle.row:not(:last-child){
+    margin-bottom:0;
+  } 
+
   .button *, button * {
     color: inherit;
   }

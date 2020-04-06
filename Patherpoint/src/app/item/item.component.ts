@@ -2,14 +2,7 @@ import { Component, OnInit, Input } from '@angular/core';
 import { TraitsService } from '../traits.service';
 import { ActivitiesService } from '../activities.service';
 import { AdventuringGear } from '../AdventuringGear';
-import { ActivityGain } from '../ActivityGain';
-import { Activity } from '../Activity';
-import { ItemActivity } from '../ItemActivity';
-import { TimeService } from '../time.service';
 import { CharacterService } from '../character.service';
-import { ItemsService } from '../items.service';
-import { Equipment } from '../Equipment';
-import { Consumable } from '../Consumable';
 
 @Component({
     selector: 'app-item',
@@ -33,6 +26,10 @@ export class ItemComponent implements OnInit {
 
     get_Accent() {
         return this.characterService.get_Accent();
+    }
+
+    set_Changed() {
+        this.characterService.set_Changed();
     }
 
     get_Traits(name: string = "") {
@@ -84,6 +81,15 @@ export class ItemComponent implements OnInit {
                 return "(3 Actions)";
             default:
                 return "("+item.actions+")";
+        }
+    }
+
+    get_DoublingRingsOptions(ring:string) {
+        switch (ring) {
+            case "gold":
+                return this.characterService.get_InventoryItems().weapons.filter(weapon => weapon.melee && weapon.potencyRune);
+            case "iron":
+                return this.characterService.get_InventoryItems().weapons.filter(weapon => weapon.melee && weapon.moddable == "weapon");
         }
     }
 

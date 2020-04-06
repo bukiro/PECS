@@ -74,11 +74,11 @@
             </span>
             <ng-container *ngFor="let condition of [get_Conditions(conditionGain.name)[0]]">
                 <div class="row">
-                    <button class="button" [ngStyle]="{'background-color':get_Accent()}"
+                    <button [ngStyle]="{'background-color':get_Accent()}"
                         (click)="toggle_Item(conditionGain.name+conditionGain.source+conditionGain.value+conditionGain.duration+'notapplied')">
                         Show Description
                     </button>
-                    <button class="button" [ngStyle]="{'background-color':get_Accent()}"
+                    <button [ngStyle]="{'background-color':get_Accent()}"
                         (click)="remove_Condition(conditionGain)">
                         Remove
                     </button>
