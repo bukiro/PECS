@@ -4,6 +4,7 @@ import { Item } from './Item';
 import { ItemActivity } from './ItemActivity';
 import { ActivityGain } from './ActivityGain';
 import { WeaponRune } from './WeaponRune';
+import { LoreChoice } from './LoreChoice';
 
 export class Equipment extends Item {
     //Is the name input visible in the inventory
@@ -43,6 +44,8 @@ export class Equipment extends Item {
     public gainActivities: ActivityGain[] = [];
     //List ItemGain for every Item that you receive when you get or equip this item (specified in the ItemGain)
     public gainItems: ItemGain[] = [];
+    //One rune trains a lore skill while equipped. The item takes over the rune's loreChoice as the rune is saved only as a string.
+    public loreChoices: LoreChoice[] = [];
     //List EffectGain for every Effect that comes from equipping and investing the item
     //effects get eval'ed, so can use values like "-characterService.get_Character().level"
     public effects: EffectGain[] = [];

@@ -138,7 +138,7 @@ export class Character {
         activitiesService.activate_Activity(characterService, timeService, itemsService, oldGain, activitiesService.get_Activities(oldGain.name)[0], false);
         a.splice(a.indexOf(oldGain), 1);
     }
-    get_SkillIncreases(minLevelNumber: number, maxLevelNumber: number, skillName: string = "", source: string = "", sourceId: string = "", locked: boolean = undefined) {
+    get_SkillIncreases(characterService: CharacterService, minLevelNumber: number, maxLevelNumber: number, skillName: string = "", source: string = "", sourceId: string = "", locked: boolean = undefined) {
         if (this.class) {
             let increases = [];
             let levels = this.class.levels.filter(level => level.number >= minLevelNumber && level.number <= maxLevelNumber );
@@ -154,6 +154,19 @@ export class Character {
                     })
                 })
                 level.loreChoices.forEach(choice => {
+                    choice.increases.filter(increase => 
+                        (increase.name == skillName || skillName == "") &&
+                        (increase.source == source || source == "") &&
+                        (increase.sourceId == sourceId || sourceId == "") &&
+                        (increase.locked == locked || locked == undefined)
+                        ).forEach(increase => {
+                        increases.push(increase);
+                    })
+                })
+            })
+            characterService.get_InventoryItems().allEquipment().filter(item => item.loreChoices.length && item.equipped && (item.can_Invest() ? item.invested : true ))
+            .forEach(item => {
+                item.loreChoices.forEach(choice => {
                     choice.increases.filter(increase => 
                         (increase.name == skillName || skillName == "") &&
                         (increase.source == source || source == "") &&
@@ -274,11 +287,11 @@ export class Character {
             }
             //Remove custom skill if previously created and this was the last increase of it
             let customSkills = characterService.get_Character().customSkills.filter(skill => skill.name == skillName);
-            if (customSkills.length && this.get_SkillIncreases(1, 20, skillName).length == 0) {
+            if (customSkills.length && this.get_SkillIncreases(characterService, 1, 20, skillName).length == 0) {
                 characterService.remove_CustomSkill(customSkills[0]);
             }
         }
-        this.set_Changed(characterService);
+        //this.set_Changed(characterService);
     }
     get_FeatsTaken(minLevelNumber: number, maxLevelNumber: number, featName: string = "", source: string = "", sourceId: string = "", locked: boolean = undefined) {
         if (this.class) {

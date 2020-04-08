@@ -7,7 +7,7 @@
         "unlimited": true,
         "levelreq": 1,
         "specialreqdesc": "Any Lore T",
-        "specialreq": "characterService.get_Character().get_SkillIncreases(1,charLevel).filter(increase => increase.name.indexOf('Lore') > -1).length",
+        "specialreq": "characterService.get_Character().get_SkillIncreases(characterService,1,charLevel).filter(increase => increase.name.indexOf('Lore') > -1).length",
         "traits": [
             "General",
             "Skill"

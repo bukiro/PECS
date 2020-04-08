@@ -28,7 +28,7 @@ export class Skill {
     level(characterService: CharacterService, charLevel: number = characterService.get_Character().level) {
         if (characterService.still_loading()) { return 0; }
         let skillLevel: number = 0;
-        let increases = characterService.get_Character().get_SkillIncreases(0, charLevel, this.name);
+        let increases = characterService.get_Character().get_SkillIncreases(characterService, 0, charLevel, this.name);
         // Add 2 for each increase, but keep them to their max Rank
         increases = increases.sort((a, b) => (a.maxRank > b.maxRank) ? 1 : -1)
         increases.forEach(increase => {

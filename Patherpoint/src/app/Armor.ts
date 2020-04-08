@@ -95,8 +95,8 @@ export class Armor extends Equipment {
         if (characterService.still_loading()) { return 0; }
         this.get_ArmoredSkirt(characterService);
         let skillLevel: number = 0;
-        let armorIncreases = characterService.get_Character().get_SkillIncreases(0, charLevel, this.name);
-        let profIncreases = characterService.get_Character().get_SkillIncreases(0, charLevel, this.get_Prof());
+        let armorIncreases = characterService.get_Character().get_SkillIncreases(characterService, 0, charLevel, this.name);
+        let profIncreases = characterService.get_Character().get_SkillIncreases(characterService, 0, charLevel, this.get_Prof());
         //Add either the armor category proficiency or the armor proficiency, whichever is better
         skillLevel = Math.min(Math.max(armorIncreases.length * 2, profIncreases.length * 2), 8)
         return skillLevel;

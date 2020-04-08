@@ -307,12 +307,13 @@ export class CharacterComponent implements OnInit {
     }
 
     get_SkillIncreases(minLevelNumber: number, maxLevelNumber: number, skillName: string, source: string = "", sourceId: string = "", locked: boolean = undefined) {
-        return this.get_Character().get_SkillIncreases(minLevelNumber, maxLevelNumber, skillName, source, sourceId, locked);
+        return this.get_Character().get_SkillIncreases(this.characterService, minLevelNumber, maxLevelNumber, skillName, source, sourceId, locked);
     }
 
     on_SkillIncrease(skillName: string, boost: boolean, choice: SkillChoice|LoreChoice, locked: boolean = false) {
         if (boost && (choice.increases.length == choice.available + this.get_SkillINTBonus(choice) - 1)) { this.showList=""; }
         this.get_Character().increase_Skill(this.characterService, skillName, boost, choice, locked);
+        this.characterService.set_Changed();
     }
 
     on_LoreChange(boost: boolean, choice: LoreChoice) {
@@ -422,7 +423,7 @@ export class CharacterComponent implements OnInit {
                 newChoice.source = "Different Worlds";
                 if (newChoice.loreName) {
                     if (this.characterService.get_Skills('Lore: '+newChoice.loreName).length) {
-                        let increases = character.get_SkillIncreases(1, 20, 'Lore: '+newChoice.loreName).filter(increase => 
+                        let increases = character.get_SkillIncreases(this.characterService, 1, 20, 'Lore: '+newChoice.loreName).filter(increase => 
                             increase.sourceId.indexOf("-Lore-") > -1
                             );
                         if (increases.length) {

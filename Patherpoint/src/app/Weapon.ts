@@ -65,8 +65,8 @@ export class Weapon extends Equipment {
     profLevel(characterService: CharacterService, charLevel: number = characterService.get_Character().level) {
         if (characterService.still_loading()) { return 0; }
         let skillLevel: number = 0;
-        let weaponIncreases = characterService.get_Character().get_SkillIncreases(0, charLevel, this.name);
-        let profIncreases = characterService.get_Character().get_SkillIncreases(0, charLevel, this.prof);
+        let weaponIncreases = characterService.get_Character().get_SkillIncreases(characterService, 0, charLevel, this.name);
+        let profIncreases = characterService.get_Character().get_SkillIncreases(characterService, 0, charLevel, this.prof);
         //For Monk, Dwarf, Goblin etc. weapons, check if the character has any weapon proficiency that matches a trait of this weapon
         let traitLevels: number[] = [];
         this.traits.forEach(trait => {

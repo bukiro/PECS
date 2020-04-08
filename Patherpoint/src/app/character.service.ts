@@ -274,7 +274,7 @@ export class CharacterService {
     get_Items() {
         return this.itemsService.get_Items();
     }
-    
+
 
     get_InventoryItems() {
         if (!this.still_loading()) {
@@ -333,7 +333,7 @@ export class CharacterService {
             let intAmount: number = 1
             try {
                 intAmount = parseInt(amount.toString())
-            } catch(error) {
+            } catch (error) {
                 intAmount = 1
             }
             existingItems[0].amount += intAmount;
@@ -362,7 +362,7 @@ export class CharacterService {
                     item["resilientRune"] = 0;
                 }
                 if (item["propertyRunes"]) {
-                    item["propertyRunes"] = ["","",""];
+                    item["propertyRunes"] = ["", "", ""];
                 }
             }
         }
@@ -396,6 +396,20 @@ export class CharacterService {
             this.onEquip(item as Equipment, false, false);
         } else if (item["invested"]) {
             this.onInvest(item as Equipment, false, false);
+        }
+        if (item["loreChoices"] && ["loreChoices"].length) {
+            item["loreChoices"].forEach(choice => {
+                if (this.get_InventoryItems().allEquipment()
+                    .filter(item => item.loreChoices
+                        .filter(otherchoice => otherchoice.loreName == choice.loreName)
+                        .length)
+                    .length == 1) {
+                    this.get_Character().remove_Lore(this, choice);
+                }
+                choice.increases.forEach(increase => {
+                    this.get_Character().increase_Skill(this, increase.name, false, choice, true);
+                })
+            })
         }
         this.me.inventory[item.type] = this.me.inventory[item.type].filter(any_item => any_item !== item);
         if (equipBasicItems) {
@@ -521,23 +535,23 @@ export class CharacterService {
 
     add_CustomSkill(skillName: string, type: string, abilityName: string) {
         this.me.customSkills.push(new Skill(skillName, type, abilityName));
-        this.set_Changed();
+        //this.set_Changed();
     }
 
     remove_CustomSkill(oldSkill: Skill) {
         this.me.customSkills = this.me.customSkills.filter(skill => skill !== oldSkill);
-        this.set_Changed();
+        //this.set_Changed();
     }
 
     add_CustomFeat(oldFeat: Feat) {
         let newLength = this.me.customFeats.push(Object.assign(new Feat(), JSON.parse(JSON.stringify(oldFeat))));
-        this.set_Changed();
+        //this.set_Changed();
         return newLength;
     }
 
     remove_CustomFeat(oldFeat: Feat) {
         this.me.customFeats = this.me.customFeats.filter(skill => skill !== oldFeat);
-        this.set_Changed();
+        //this.set_Changed();
     }
 
     get_Conditions(name: string = "", type: string = "") {
@@ -590,7 +604,7 @@ export class CharacterService {
         let value: number = 0;
         try {
             value = parseInt(eval(effect.value));
-        } catch(error) {
+        } catch (error) {
             value = 0;
         }
         switch (effect.affected) {
@@ -644,15 +658,12 @@ export class CharacterService {
 
     get_FeatsShowingOn(objectName: string) {
         let feats = this.me.get_FeatsTaken(0, this.me.level, "", "");
-        if (objectName.indexOf("Lore") > -1) {
-            objectName = "Lore";
-        }
         let returnedFeats = []
         if (feats.length) {
             feats.forEach(feat => {
                 let returnedFeat = this.get_FeatsAndFeatures(feat.name)[0];
                 returnedFeat.showon.split(",").forEach(showon => {
-                    if (showon == objectName || showon.substr(1) == objectName || (objectName == "Lore" && showon.indexOf(objectName) > -1)) {
+                    if (showon == objectName || showon.substr(1) == objectName || (objectName.indexOf("Lore") > -1 && (showon == "Lore" || showon.substr(1) == "Lore"))) {
                         returnedFeats.push(returnedFeat);
                     }
                 })

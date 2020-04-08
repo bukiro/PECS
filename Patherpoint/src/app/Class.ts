@@ -112,7 +112,7 @@ export class Class {
             //Check if it is a free training (not locked). If so, remove it and reimburse the skill point, then replace it with the heritage's.
             //If it is locked, we better not replace it. Instead, you get a free Heritage skill increase.
             if (this.heritage.skillChoices.length && this.heritage.skillChoices[0].increases.length) {
-                let existingIncreases = character.get_SkillIncreases(1, 1, this.heritage.skillChoices[0].increases[0].name, '');
+                let existingIncreases = character.get_SkillIncreases(characterService, 1, 1, this.heritage.skillChoices[0].increases[0].name, '');
                 if (existingIncreases.length) {
                     let existingIncrease = existingIncreases[0];
                     let existingSkillChoice: SkillChoice = character.get_SkillChoice(existingIncrease.sourceId);
@@ -173,7 +173,7 @@ export class Class {
             });
             if (this.background.loreChoices[0].loreName) {
                 if (characterService.get_Skills('Lore: '+this.background.loreChoices[0].loreName).length) {
-                    let increases = character.get_SkillIncreases(1, 20, 'Lore: '+this.background.loreChoices[0].loreName).filter(increase => 
+                    let increases = character.get_SkillIncreases(characterService, 1, 20, 'Lore: '+this.background.loreChoices[0].loreName).filter(increase => 
                         increase.sourceId.indexOf("-Lore-") > -1
                         );
                     if (increases.length) {
@@ -186,7 +186,7 @@ export class Class {
                 character.add_Lore(characterService, this.background.loreChoices[0])
             }
             if (this.background.skillChoices[0].increases.length) {
-                let existingIncreases = character.get_SkillIncreases(1, 1, this.background.skillChoices[0].increases[0].name, '');
+                let existingIncreases = character.get_SkillIncreases(characterService, 1, 1, this.background.skillChoices[0].increases[0].name, '');
                 if (existingIncreases.length) {
                     let existingIncrease = existingIncreases[0];
                     let existingSkillChoice: SkillChoice = character.get_SkillChoice(existingIncrease.sourceId);

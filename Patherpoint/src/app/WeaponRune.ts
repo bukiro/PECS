@@ -1,4 +1,5 @@
 import { Rune } from './Rune';
+import { LoreChoice } from './LoreChoice';
 
 export class WeaponRune extends Rune {
     //Weapon Runes should be type "weaponrunes" to be found in the database
@@ -17,6 +18,8 @@ export class WeaponRune extends Rune {
     public runeblock: string = "";
     public extraDamage: string = "";
     public criticalHint: string = "";
+    //One rune trains a lore skill while equipped.
+    public loreChoices: LoreChoice[] = [];
     //You are enfeebled 2 if your alignment contains this word.
     public enfeebled: string = "";
     public critsuccess: string = "";

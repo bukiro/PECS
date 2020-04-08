@@ -45,13 +45,13 @@ export class SkillComponent implements OnInit {
         let specialNames: string[] = []
         //Show Path to Perfection notices on a save if any skill increases with that PtP as its source can be found
         if (skill.type == "Save") {
-            if (character.get_SkillIncreases(1, character.level, skill.name, "Path to Perfection").length) {
+            if (character.get_SkillIncreases(this.characterService, 1, character.level, skill.name, "Path to Perfection").length) {
                 specialNames.push("Path to Perfection");
             }
-            if (character.get_SkillIncreases(1, character.level, skill.name, "Second Path to Perfection").length) {
+            if (character.get_SkillIncreases(this.characterService, 1, character.level, skill.name, "Second Path to Perfection").length) {
                 specialNames.push("Second Path to Perfection");
             }
-            if (character.get_SkillIncreases(1, character.level, skill.name, "Third Path to Perfection").length) {
+            if (character.get_SkillIncreases(this.characterService, 1, character.level, skill.name, "Third Path to Perfection").length) {
                 specialNames.push("Third Path to Perfection");
             }
         }
