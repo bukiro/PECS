@@ -48,7 +48,8 @@
                                     (click)="grant_Item(item)">
                                     Get
                                 </button>
-                                <app-item [item]=item></app-item>
+                                <app-itemRunes class="row" [item]=item [itemStore]=true></app-itemRunes>
+                                <app-item [item]=item [itemStore]=true></app-item>
                             </div>
                         </div>
                     </ng-container>

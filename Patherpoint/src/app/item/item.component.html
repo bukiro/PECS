@@ -14,7 +14,7 @@
     <span *ngIf="(item.get_ACBonus ? item.get_ACBonus() : item.acbonus)">
         <strong>AC Bonus</strong>
         <span
-            [className]="(item.affectedByArmoredSkirt == -1) ? 'penalty' : ((item.affectedByArmoredSkirt == 1) ? 'bonus' : '')">&nbsp;{{item.get_ACBonus ? item.get_ACBonus() : item.acbonus}}&nbsp;</span>
+            [className]="(item.affectedByArmoredSkirt == -1) ? 'penalty' : ((item.affectedByArmoredSkirt == 1) ? 'bonus' : '')">&nbsp;{{item.get_ACBonus ? item.get_ACBonus() : item.acbonus}}{{item.coverbonus ? " (" + (item.acbonus+item.coverbonus) + ")" : ""}}&nbsp;</span>
     </span>
     <span *ngIf="(item.get_DexCap ? item.get_DexCap() : item.dexcap)">
         <strong>Dex Cap</strong>
@@ -42,6 +42,14 @@
     <span *ngIf="item.bulk">
         <strong>Bulk</strong>
         {{item.bulk}}&nbsp;
+    </span>
+    <span *ngIf="item.hardness">
+        <strong>Hardness</strong>
+        {{item.hardness}}&nbsp;
+    </span>
+    <span *ngIf="item.hitpoints">
+        <strong>HP (BT)</strong>
+        {{item.hitpoints}} ({{item.breakpoint}})&nbsp;
     </span>
 </div>
 <div class="row left-aligned">
@@ -95,25 +103,25 @@
         {{item.subTypeDesc}}
     </p>
 </div>
-<div class="row" *ngIf="item.isDoublingRings && allowActivate">
+<div class="row" *ngIf="item.isDoublingRings && !itemStore">
     <h4>Doubling Rings</h4>
     <div class="row">
         <strong>Weapon wielded in the gold ring hand</strong>
-        <select [(ngModel)]="item.doublingRingsData.gold" (ngModelChange)="set_Changed()">
+        <select [(ngModel)]="item.data[0].value" (ngModelChange)="set_Changed()">
             <option *ngFor="let weapon of get_DoublingRingsOptions('gold')" [value]="weapon.id">
                 {{weapon.get_Name()}}</option>
         </select>
     </div>
     <div class="row">
         <strong>Weapon wielded in the iron ring hand</strong>
-        <select [(ngModel)]="item.doublingRingsData.iron" (ngModelChange)="set_Changed()">
+        <select [(ngModel)]="item.data[1].value" (ngModelChange)="set_Changed()">
             <option *ngFor="let weapon of get_DoublingRingsOptions('iron')" [value]="weapon.id">
                 {{weapon.get_Name()}}</option>
         </select>
     </div>
     <div class="row" *ngIf="item.isDoublingRings == 'Doubling Rings (Greater)'">
         <strong>Apply property runes</strong>
-        <input type="checkbox" [(ngModel)]="item.doublingRingsData.propertyRunes" (ngModelChange)="set_Changed()">
+        <input type="checkbox" [(ngModel)]="item.data[2]" (ngModelChange)="set_Changed()">
     </div>
 </div>
 <div class="row left-aligned" *ngIf="armoredSkirt">

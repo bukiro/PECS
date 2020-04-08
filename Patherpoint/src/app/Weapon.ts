@@ -3,6 +3,7 @@ import { EffectsService } from './effects.service';
 import { WornItem } from './WornItem';
 import { Effect } from './Effect';
 import { Equipment } from './Equipment';
+import { Shield } from './Shield';
 
 export class Weapon extends Equipment {
     //Weapons should be type "weapons" to be found in the database
@@ -34,6 +35,33 @@ export class Weapon extends Equipment {
     //Ranged range in ft - also add for thrown weapons
     //Weapons can have a melee and a ranged value, e.g. Daggers that can thrown
     public ranged: number = 0;
+    get_RuneSource(characterService: CharacterService, range: string) {
+        //Under certain circumstances, other items' runes are applied when calculating attack bonus or damage.
+        //[0] is the item whose fundamental runes will count, [1] is the item whose property runes will count, and [2] is the item that causes this change.
+        let runeSource: (Weapon|WornItem|Shield)[] = [this, this];
+        if (this.prof == "Unarmed") {
+            let handwraps = characterService.get_InventoryItems().wornitems.filter(item => item.isHandwrapsOfMightyBlows && item.invested)
+            if (handwraps.length) {
+                runeSource = [handwraps[0], handwraps[0], handwraps[0]];
+            }
+        }
+        if (range == "melee" && this.moddable == "weapon") {
+            let doublingRings = characterService.get_InventoryItems().wornitems.filter(item => item.isDoublingRings && item.data[1].value == this.id && item.invested);
+            if (doublingRings.length) {
+                if (doublingRings[0].data[0].value) {
+                    let goldItem = characterService.get_InventoryItems().weapons.filter(weapon => weapon.id == doublingRings[0].data[0].value);
+                    if (goldItem.length) {
+                        if (doublingRings[0].isDoublingRings == "Doubling Rings (Greater)" && doublingRings[0].data[2]) {
+                            runeSource = [goldItem[0], goldItem[0], doublingRings[0]];
+                        } else {
+                            runeSource = [goldItem[0], this, doublingRings[0]];
+                        }
+                    }
+                }
+            }
+        }
+        return runeSource;
+    }
     profLevel(characterService: CharacterService, charLevel: number = characterService.get_Character().level) {
         if (characterService.still_loading()) { return 0; }
         let skillLevel: number = 0;
@@ -114,31 +142,11 @@ export class Weapon extends Equipment {
             explain += "\nStrength Modifier: "+abilityMod;
             }
         }
-        let me: Weapon|WornItem = this;
-        let reference: Weapon|WornItem;
-        if (this.prof == "Unarmed") {
-            let handwraps = characterService.get_InventoryItems().wornitems.filter(item => item.isHandwrapsOfMightyBlows && item.invested)
-            if (handwraps.length) {
-                me = handwraps[0];
-                reference = handwraps[0];
-            }
-        }
-        if (range == "melee" && this.moddable == "weapon") {
-            let doublingRings = characterService.get_InventoryItems().wornitems.filter(item => item.isDoublingRings && item.doublingRingsData.iron == this.id);
-            if (doublingRings.length) {
-                if (doublingRings[0].doublingRingsData.gold) {
-                    let goldItem = characterService.get_InventoryItems().weapons.filter(weapon => weapon.id == doublingRings[0].doublingRingsData.gold);
-                    if (goldItem.length) {
-                        me = goldItem[0];
-                        reference = doublingRings[0];
-                    }
-                }
-            }
-        }
-        if (me.potencyRune > 0) {
-            explain += "\nPotency: "+me.get_Potency(me.potencyRune);
-            if (reference) {
-                explain += "\n("+reference.get_Name()+")";
+        let runeSource: (Weapon|WornItem|Shield)[] = this.get_RuneSource(characterService, range);
+        if (runeSource[0].potencyRune > 0) {
+            explain += "\nPotency: "+runeSource[0].get_Potency(runeSource[0].potencyRune);
+            if (runeSource[2]) {
+                explain += "\n("+runeSource[2].get_Name()+")";
             }
         }
         //Add all effects for this weapon
@@ -153,9 +161,22 @@ export class Weapon extends Equipment {
             effectsSum += parseInt(effect.value);
         });
         //Add up all modifiers and return the attack bonus for this attack
-        let attackResult = charLevelBonus + skillLevel + abilityMod + me.potencyRune + effectsSum;
+        let attackResult = charLevelBonus + skillLevel + abilityMod + runeSource[0].potencyRune + effectsSum;
         explain = explain.substr(1);
         return [range, attackResult, explain, penalty.concat(bonus), penalty, bonus];
+    }
+    get_ExtraDamage(characterService: CharacterService, range: string) {
+        let extraDamage: string = "";
+        if (this.extraDamage) {
+            extraDamage += "\n"+this.extraDamage;
+        }
+        this.get_RuneSource(characterService, range)[1].propertyRunes.filter(rune => rune && rune.substr(0,6) != "Locked")
+            .map(rune => characterService.get_Items().weaponrunes.filter(weaponRune => weaponRune.name == rune)[0])
+            .filter(weaponRune => weaponRune.extraDamage)
+            .forEach(weaponRune => {
+                extraDamage += "\n"+weaponRune.extraDamage;
+            });
+        return extraDamage;
     }
     damage(characterService: CharacterService, effectsService: EffectsService, range: string) {
     //Lists the damage dice and damage bonuses for a ranged or melee attack with this weapon.
@@ -164,32 +185,12 @@ export class Weapon extends Equipment {
         let str = characterService.get_Abilities("Strength")[0].mod(characterService, effectsService);
         //Apply Handwraps of Mighty Blows, if equipped, to unarmed attacks
         //We replace "me" with the Handwraps and use "me" instead of "this" when runes are concerned.
-        let me: Weapon|WornItem = this;
-        let reference: Weapon|WornItem;
-        if (this.prof == "Unarmed") {
-            let handwraps = characterService.get_InventoryItems().wornitems.filter(item => item.isHandwrapsOfMightyBlows && item.invested)
-            if (handwraps.length) {
-                me = handwraps[0];
-                reference = handwraps[0]
-            }
-        }
-        if (range == "melee" && this.moddable == "weapon") {
-            let doublingRings = characterService.get_InventoryItems().wornitems.filter(item => item.isDoublingRings && item.doublingRingsData.iron == this.id);
-            if (doublingRings.length) {
-                if (doublingRings[0].doublingRingsData.gold) {
-                    let goldItem = characterService.get_InventoryItems().weapons.filter(weapon => weapon.id == doublingRings[0].doublingRingsData.gold);
-                    if (goldItem.length && goldItem[0].potencyRune) {
-                        me = goldItem[0];
-                        reference = doublingRings[0];
-                    }
-                }
-            }
-        }
-        let dicenum = this.dicenum + me.strikingRune;
-        if (me.strikingRune > 0) {
-            explain += "\n"+me.get_Striking(me.strikingRune)+": Dice number +"+me.strikingRune;
-            if (reference) {
-                explain += "\n("+reference.get_Name()+")";
+        let runeSource: (Weapon|WornItem|Shield)[] = this.get_RuneSource(characterService, range);
+        let dicenum = this.dicenum + runeSource[0].strikingRune;
+        if (runeSource[0].strikingRune > 0) {
+            explain += "\n"+runeSource[0].get_Striking(runeSource[0].strikingRune)+": Dice number +"+runeSource[0].strikingRune;
+            if (runeSource[2]) {
+                explain += "\n("+runeSource[2].get_Name()+")";
             }
         }
         let dicesize = this.dicesize;
@@ -259,7 +260,7 @@ export class Weapon extends Equipment {
         //Make a nice "+5" string from the Ability bonus if there is one, or else make it empty
         let dmgBonusTotal: string = (dmgBonus) ? ((dmgBonus >= 0) && "+") + dmgBonus : "";
         //Concatenate the strings for a readable damage die
-        var dmgResult = baseDice + dmgBonusTotal + this.dmgType;
+        var dmgResult = baseDice + dmgBonusTotal + " " + this.dmgType + this.get_ExtraDamage(characterService, range);
         explain = explain.substr(1);
         return [dmgResult, explain];
     }

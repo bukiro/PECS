@@ -13,6 +13,4 @@ export class WornItem extends Equipment {
     public isHandwrapsOfMightyBlows: boolean = false;
     //Does this item use the Doubling Rings functionality, and on which level?
     public isDoublingRings: ""|"Doubling Rings"|"Doubling Rings (Greater)" = "";
-    //If this is a doubling rings item, this is the saved data.
-    public doublingRingsData: {gold:string, iron:string, propertyRunes:boolean} = {gold:"", iron:"", propertyRunes:false}
 }

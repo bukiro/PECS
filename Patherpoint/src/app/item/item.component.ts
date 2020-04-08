@@ -17,6 +17,8 @@ export class ItemComponent implements OnInit {
     allowActivate: boolean = false;
     @Input()
     armoredSkirt: AdventuringGear;
+    @Input()
+    itemStore: boolean = false;
 
     constructor(
         private traitsService: TraitsService,

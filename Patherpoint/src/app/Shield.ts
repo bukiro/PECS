@@ -15,4 +15,9 @@ export class Shield extends Equipment {
     public takingCover: boolean = false;
     //The additional AC bonus received when taking cover behind the shield
     public coverbonus: number = 0;
+    public hardness: number = 0;
+    public hitpoints: number = 0;
+    public brokenThreshold: number = 0;
+    public currentHitpoints: number = 0;
+    public get breakpoint() { return Math.max(1, Math.floor(this.hitpoints / 2)); };
 }

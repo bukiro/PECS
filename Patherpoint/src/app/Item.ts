@@ -37,6 +37,8 @@ export class Item {
     public notes: string = "";
     //Is the notes input shown in the inventory
     public showNotes: boolean = false;
+    //Some items need to store data - selected runes, spells, etc...
+    public data: {name:string, value:any}[] = [];
     can_Invest() {
         return (this.traits.indexOf("Invested") > -1);
     }

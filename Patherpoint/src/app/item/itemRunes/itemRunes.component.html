@@ -1,0 +1,52 @@
+<!--Changing Weapon Runes-->
+<div class="row" *ngIf="item.moddable=='weapon'">
+    <strong>Potency Rune</strong>
+    <ng-container *ngFor="let previousRune of [item.potencyRune]">
+        <select [(ngModel)]="item.potencyRune" (ngModelChange)="onWeaponRuneChange('potency', item, 0, previousRune)">
+            <option *ngFor="let potency of get_WeaponPotencyRunes(item)|sortBy:'asc'" [value]="potency">
+                {{item.get_Potency(potency)}}</option>
+        </select>
+    </ng-container>
+    
+</div>
+<div class="row" *ngIf="item.potencyRune > 0 && item.moddable=='weapon'">
+    <strong>Striking Rune</strong>
+    <ng-container *ngFor="let previousRune of [item.strikingRune]">
+        <select [(ngModel)]="item.strikingRune" (ngModelChange)="onWeaponRuneChange('striking', item, 0, previousRune)">
+            <option *ngFor="let striking of get_StrikingRunes(item)|sortBy:'asc'" [value]="striking">
+                {{item.get_Striking(striking)}}</option>
+        </select>
+    </ng-container>
+</div>
+<div class="row" *ngIf="item.potencyRune > 0 && item.moddable=='weapon'">
+    <strong>Property Runes</strong>
+    <ng-container *ngFor="let previousRune of [item.propertyRunes[0]]">
+        <select [(ngModel)]="item.propertyRunes[0]"
+            (ngModelChange)="onWeaponRuneChange('property', item, 0, previousRune)"
+            [disabled]="item.propertyRunes[0].substr(0,6) == 'Locked'">
+            <option *ngFor="let property of get_WeaponPropertyRunes(item, 0)" [value]="property">{{property}}</option>
+        </select>
+    </ng-container>
+    <div class="row" *ngIf="item.potencyRune > 1">
+        <span>&nbsp;</span>
+        <ng-container *ngFor="let previousRune of [item.propertyRunes[1]]">
+            <select [(ngModel)]="item.propertyRunes[1]"
+                (ngModelChange)="onWeaponRuneChange('property', item, 1, previousRune)"
+                [disabled]="item.propertyRunes[1].substr(0,6) == 'Locked'">
+                <option *ngFor="let property of get_WeaponPropertyRunes(item, 1)" [value]="property">{{property}}</option>
+            </select>
+        </ng-container>
+    </div>
+    <div class="row" *ngIf="item.potencyRune > 2">
+        <span>&nbsp;</span>
+        <ng-container *ngFor="let previousRune of [item.propertyRunes[2]]">
+            <select [(ngModel)]="item.propertyRunes[2]"
+                (ngModelChange)="onWeaponRuneChange('property', item, 2, previousRune)"
+                [disabled]="item.propertyRunes[2].substr(0,6) == 'Locked'">
+                <option *ngFor="let property of get_WeaponPropertyRunes(item, 2)" [value]="property">{{property}}</option>
+            </select>
+        </ng-container>
+    </div>
+</div>
+
+<!--insert armor runes and material here-->

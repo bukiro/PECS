@@ -412,6 +412,7 @@
     border-radius: 2px;
     position: absolute;
     top: 24px;
+    top: calc(100% - 8px);
     width: 90%;
     width: calc(100% - 16px);
     overflow-y: auto;
@@ -550,6 +551,10 @@
   
   cite.trait {
     background-color: #522e2c;
+  }
+
+  cite.rune {
+    background-color: #c45500;
   }
 
   cite.feat {

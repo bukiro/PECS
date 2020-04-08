@@ -498,8 +498,36 @@
         "validation": "0plus"
     },
     {
-        "key": "dexcap",
+        "key": "hardness",
         "priority": "1",
+        "group": "7-Armor & Shields",
+        "name": "Shield hardness",
+        "desc": "The amount of damage this shield can absorb from one attack before losing hit points.",
+        "type": "number",
+        "validation": "0plus"
+    },
+    {
+        "key": "hitpoints",
+        "priority": "2",
+        "group": "7-Armor & Shields",
+        "name": "Shield hit points",
+        "desc": "The maximum number of hit points this shield will have.",
+        "type": "number",
+        "validation": "0plus"
+    },
+    {
+        "key": "brokenThreshold",
+        "priority": "3",
+        "group": "7-Armor & Shields",
+        "name": "Shield broken threshold",
+        "desc": "If the shield has less than this amount of hit points, it becomes broken and unusable, but can still be repaired. The broken threshold is usually half the maximum hit points.",
+        "type": "number",
+        "validation": "0plus"
+    },
+    
+    {
+        "key": "dexcap",
+        "priority": "4",
         "group": "7-Armor & Shields",
         "name": "Dexterity Cap",
         "desc": "The highest dexterity bonus you can receive while wearing this armor, -1 for unlimited.",
@@ -508,7 +536,7 @@
     },
     {
         "key": "skillpenalty",
-        "priority": "2",
+        "priority": "5",
         "group": "7-Armor & Shields",
         "name": "Check penalty",
         "desc": "Certain skills take this penalty while wearing this armor if your strength does not match the armor's strength requirement.",
@@ -517,7 +545,7 @@
     },
     {
         "key": "speedpenalty",
-        "priority": "3",
+        "priority": "6",
         "group": "7-Armor & Shields",
         "name": "Speed penalty",
         "desc": "The penalty to speed (in steps of -5 ft) taken while wearing this armor or shield. The penalty can be reduced by 5 for armors by matching the strength requirement.",
@@ -526,7 +554,7 @@
     },
     {
         "key": "strength",
-        "priority": "4",
+        "priority": "7",
         "group": "7-Armor & Shields",
         "name": "Strength requirement",
         "desc": "The minimum strength required to eliminate or lessen this armor's skill and speed penalties.",
@@ -535,7 +563,7 @@
     },
     {
         "key": "coverbonus",
-        "priority": "5",
+        "priority": "8",
         "group": "7-Armor & Shields",
         "name": "Shield cover bonus",
         "desc": "If this shield has a cover bonus value, you can take cover behind it while it is raised and gain this additional bonus to AC.",

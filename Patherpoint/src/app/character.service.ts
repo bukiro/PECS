@@ -46,6 +46,7 @@ import { EffectGain } from './EffectGain';
 import { ItemGain } from './ItemGain';
 import { ItemActivity } from './ItemActivity';
 import { SpellCast } from './SpellCast';
+import { WeaponRune } from './WeaponRune';
 
 @Injectable({
     providedIn: 'root'
@@ -270,6 +271,11 @@ export class CharacterService {
         this.set_Changed();
     }
 
+    get_Items() {
+        return this.itemsService.get_Items();
+    }
+    
+
     get_InventoryItems() {
         if (!this.still_loading()) {
             return this.me.inventory;
@@ -312,7 +318,7 @@ export class CharacterService {
         }
     }
 
-    grant_InventoryItem(item: Item, changeAfter: boolean = true, equipAfter: boolean = true, amount: number = 1) {
+    grant_InventoryItem(item: Item, resetRunes: boolean = true, changeAfter: boolean = true, equipAfter: boolean = true, amount: number = 1) {
         let newInventoryItem = this.itemsService.initialize_Item(item);
         let returnedInventoryItem;
         //Check if this item already exists in the inventory, and if it is stackable.
@@ -342,6 +348,23 @@ export class CharacterService {
                 this.onEquip(createdInventoryItem, true, false);
             }
             returnedInventoryItem = createdInventoryItem;
+            if (item["prof"] == "Advanced Weapons") {
+                this.create_AdvancedWeaponFeats([returnedInventoryItem]);
+            }
+            if (resetRunes && item["moddable"]) {
+                if (item["potencyRune"]) {
+                    item["potencyRune"] = 0;
+                }
+                if (item["strikingRune"]) {
+                    item["strikingRune"] = 0;
+                }
+                if (item["resilientRune"]) {
+                    item["resilientRune"] = 0;
+                }
+                if (item["propertyRunes"]) {
+                    item["propertyRunes"] = ["","",""];
+                }
+            }
         }
         //Add all Items that you get from being granted this one
         if (item["gainItems"] && item["gainItems"].length) {
@@ -356,7 +379,7 @@ export class CharacterService {
                 if (gainItem.amount) {
                     newAmount = gainItem.amount;
                 }
-                let grantedItem = this.grant_InventoryItem(newItem, false, equip, newAmount);
+                let grantedItem = this.grant_InventoryItem(newItem, true, false, equip, newAmount);
                 if (grantedItem.get_Name) {
                     grantedItem.displayName = grantedItem.name + " (granted by " + returnedInventoryItem.name + ")"
                 };
@@ -368,11 +391,11 @@ export class CharacterService {
         return returnedInventoryItem;
     }
 
-    drop_InventoryItem(item: Equipment, changeAfter: boolean = true, equipBasicItems: boolean = true) {
-        if (item.equipped) {
-            this.onEquip(item, false, false);
-        } else if (item.invested) {
-            this.onInvest(item, false, false);
+    drop_InventoryItem(item: Item, changeAfter: boolean = true, equipBasicItems: boolean = true) {
+        if (item["equipped"]) {
+            this.onEquip(item as Equipment, false, false);
+        } else if (item["invested"]) {
+            this.onInvest(item as Equipment, false, false);
         }
         this.me.inventory[item.type] = this.me.inventory[item.type].filter(any_item => any_item !== item);
         if (equipBasicItems) {
@@ -756,23 +779,15 @@ export class CharacterService {
             }
             if (this.me.inventory) {
                 this.me.inventory = Object.assign(new ItemCollection(), this.me.inventory);
-                this.me.inventory.weapons = this.me.inventory.weapons.map(item => Object.assign(new Weapon(), item));
-                this.me.inventory.armors = this.me.inventory.armors.map(item => Object.assign(new Armor(), item));
-                this.me.inventory.shields = this.me.inventory.shields.map(item => Object.assign(new Weapon(), item));
-                this.me.inventory.wornitems = this.me.inventory.wornitems.map(item => Object.assign(new WornItem(), item));
-                this.me.inventory.helditems = this.me.inventory.helditems.map(item => Object.assign(new HeldItem(), item));
-                this.me.inventory.alchemicalelixirs = this.me.inventory.alchemicalelixirs.map(item => Object.assign(new AlchemicalElixir(), item));
-                this.me.inventory.otherconsumables = this.me.inventory.otherconsumables.map(item => Object.assign(new OtherConsumable(), item));
-                this.me.inventory.adventuringgear = this.me.inventory.adventuringgear.map(item => Object.assign(new AdventuringGear(), item));
-                this.me.inventory.allEquipment().forEach(item => {
-                    item.effects = item.effects.map(effect => Object.assign(new EffectGain(), effect))
-                    item.gainItems = item.gainItems.map(effect => Object.assign(new ItemGain(), effect))
-                    item.gainActivities = item.gainActivities.map(effect => Object.assign(new ActivityGain(), effect))
-                    item.activities = item.activities.map(effect => Object.assign(new ItemActivity(), effect))
-                })
-                this.me.inventory.allConsumables().forEach(item => {
-                    item.gainCondition = item.gainCondition.map(effect => Object.assign(new ConditionGain(), effect))
-                })
+                this.me.inventory.weapons = this.me.inventory.weapons.map(element => this.itemsService.initialize_Item(Object.assign(new Weapon(), element), true, false));
+                this.me.inventory.armors = this.me.inventory.armors.map(element => this.itemsService.initialize_Item(Object.assign(new Armor(), element), true, false));
+                this.me.inventory.shields = this.me.inventory.shields.map(element => this.itemsService.initialize_Item(Object.assign(new Shield(), element), true, false));
+                this.me.inventory.wornitems = this.me.inventory.wornitems.map(element => this.itemsService.initialize_Item(Object.assign(new WornItem(), element), true, false));
+                this.me.inventory.helditems = this.me.inventory.helditems.map(element => this.itemsService.initialize_Item(Object.assign(new HeldItem(), element), true, false));
+                this.me.inventory.alchemicalelixirs = this.me.inventory.alchemicalelixirs.map(element => this.itemsService.initialize_Item(Object.assign(new AlchemicalElixir(), element), true, false));
+                this.me.inventory.otherconsumables = this.me.inventory.otherconsumables.map(element => this.itemsService.initialize_Item(Object.assign(new OtherConsumable(), element), true, false));
+                this.me.inventory.adventuringgear = this.me.inventory.adventuringgear.map(element => this.itemsService.initialize_Item(Object.assign(new AdventuringGear(), element), true, false));
+                this.me.inventory.weaponrunes = this.me.inventory.weaponrunes.map(element => this.itemsService.initialize_Item(Object.assign(new WeaponRune(), element), true, false));
             } else {
                 this.me.inventory = new ItemCollection();
             }

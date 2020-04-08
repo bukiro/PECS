@@ -21,6 +21,7 @@ import { EffectGain } from './EffectGain';
 import { ActivityGain } from './ActivityGain';
 import { ItemGain } from './ItemGain';
 import { v1 as uuidv1 } from 'uuid';
+import { WeaponRune } from './WeaponRune';
 
 @Injectable({
     providedIn: 'root'
@@ -47,6 +48,8 @@ export class ItemsService {
     private loading_OtherConsumables: Boolean = false;
     private loader_AdventuringGear = [];
     private loading_AdventuringGear: Boolean = false;
+    private loader_WeaponRunes = [];
+    private loading_WeaponRunes: Boolean = false;
     
 
     itemsMenuState: string = 'out';
@@ -85,37 +88,46 @@ export class ItemsService {
         } else { return [] }
     }
 
-    initialize_Item(item: Item) {
+    initialize_Item(item: Item, preassigned: boolean = false, newID: boolean = true) {
         //Every new item has to be re-assigned its class, receive an id and iterate over all its objects to reassign them as well.
         //Typescript does not seem to have the option to keep object properties' classes when assigning.
         let newItem;
-        switch (item.type) {
-            case "weapons":
-                newItem = Object.assign(new Weapon(), item);
-                break;
-            case "armors":
-                newItem = Object.assign(new Armor(), item);
-                break;
-            case "shields":
-                newItem = Object.assign(new Shield(), item);
-                break;
-            case "wornitems":
-                newItem = Object.assign(new WornItem(), item);
-                break;
-            case "helditems":
-                newItem = Object.assign(new HeldItem(), item);
-                break;
-            case "alchemicalelixirs":
-                newItem = Object.assign(new AlchemicalElixir(), item);
-                break;
-            case "otherconsumables":
-                newItem = Object.assign(new OtherConsumable(), item);
-                break;
-            case "adventuringgear":
-                newItem = Object.assign(new AdventuringGear(), item);
-                break;
+        if (preassigned) {
+            newItem = item;
+        } else {
+            switch (item.type) {
+                case "weapons":
+                    newItem = Object.assign(new Weapon(), item);
+                    break;
+                case "armors":
+                    newItem = Object.assign(new Armor(), item);
+                    break;
+                case "shields":
+                    newItem = Object.assign(new Shield(), item);
+                    break;
+                case "wornitems":
+                    newItem = Object.assign(new WornItem(), item);
+                    break;
+                case "helditems":
+                    newItem = Object.assign(new HeldItem(), item);
+                    break;
+                case "alchemicalelixirs":
+                    newItem = Object.assign(new AlchemicalElixir(), item);
+                    break;
+                case "otherconsumables":
+                    newItem = Object.assign(new OtherConsumable(), item);
+                    break;
+                case "adventuringgear":
+                    newItem = Object.assign(new AdventuringGear(), item);
+                    break;
+                case "weaponrunes":
+                    newItem = Object.assign(new WeaponRune(), item);
+                    break;
+            }
         }
-        newItem.id = uuidv1();
+        if (newID) {
+            newItem.id = uuidv1();
+        }
         if (newItem.effects) {
             newItem.effects = newItem.effects.map((effect: EffectGain) => Object.assign(new EffectGain(), effect))
         }
@@ -142,6 +154,9 @@ export class ItemsService {
                 activity.effects = activity.effects.map((effect: EffectGain) => Object.assign(new EffectGain(), effect));
                 activity.onceEffects = activity.onceEffects.map((effect: EffectGain) => Object.assign(new EffectGain(), effect));
             });
+        }
+        if (newItem.propertyRunes) {
+            newItem.propertyRunes = [newItem.propertyRunes[0],newItem.propertyRunes[1],newItem.propertyRunes[2]];
         }
         if (newItem.isHandwrapsOfMightyBlows) {
             newItem.moddable = "weapon";
@@ -206,6 +221,10 @@ export class ItemsService {
     load_AdventuringGear(): Observable<String[]>{
         return this.http.get<String[]>('/assets/items/adventuringgear.json');
     }
+    
+    load_WeaponRunes(): Observable<String[]>{
+        return this.http.get<String[]>('/assets/items/weaponrunes.json');
+    }
 
     initialize() {
         if (!this.items) {
@@ -263,6 +282,11 @@ export class ItemsService {
                     this.loader_AdventuringGear = results;
                     this.finish_AdventuringGear()
                 });
+            this.load_WeaponRunes()
+                .subscribe((results:String[]) => {
+                    this.loader_WeaponRunes = results;
+                    this.finish_WeaponRunes()
+                });
         }
     }
 
@@ -276,10 +300,7 @@ export class ItemsService {
 
     finish_Weapons() {
         if (this.loader_Weapons) {
-            this.items.weapons = this.loader_Weapons.map(element => Object.assign(new Weapon(), element));
-            this.items.weapons.forEach(item => {
-                item.activities = item.activities.map(element => Object.assign(new ItemActivity(), element))
-            })
+            this.items.weapons = this.loader_Weapons.map(element => this.initialize_Item(Object.assign(new Weapon(), element), true));
             this.loader_Weapons = [];
         }
         if (this.loading_Weapons) {this.loading_Weapons = false;}
@@ -287,10 +308,7 @@ export class ItemsService {
 
     finish_Armors() {
         if (this.loader_Armors) {
-            this.items.armors = this.loader_Armors.map(element => Object.assign(new Armor(), element));
-            this.items.armors.forEach(item => {
-                item.activities = item.activities.map(element => Object.assign(new ItemActivity(), element))
-            })
+            this.items.armors = this.loader_Armors.map(element => this.initialize_Item(Object.assign(new Armor(), element), true));
             this.loader_Armors = [];
         }
         if (this.loading_Armors) {this.loading_Armors = false;}
@@ -298,10 +316,7 @@ export class ItemsService {
 
     finish_Shields() {
         if (this.loader_Shields) {
-            this.items.shields = this.loader_Shields.map(element => Object.assign(new Shield(), element));
-            this.items.shields.forEach(item => {
-                item.activities = item.activities.map(element => Object.assign(new ItemActivity(), element))
-            })
+            this.items.shields = this.loader_Shields.map(element => this.initialize_Item(Object.assign(new Shield(), element), true));
             this.loader_Shields = [];
         }
         if (this.loading_Shields) {this.loading_Shields = false;}
@@ -309,10 +324,7 @@ export class ItemsService {
 
     finish_WornItems() {
         if (this.loader_WornItems) {
-            this.items.wornitems = this.loader_WornItems.map(element => Object.assign(new WornItem(), element));
-            this.items.wornitems.forEach(item => {
-                item.activities = item.activities.map(element => Object.assign(new ItemActivity(), element))
-            })
+            this.items.wornitems = this.loader_WornItems.map(element => this.initialize_Item(Object.assign(new WornItem(), element), true));
             this.loader_WornItems = [];
         }
         if (this.loading_WornItems) {this.loading_WornItems = false;}
@@ -320,10 +332,7 @@ export class ItemsService {
 
     finish_HeldItems() {
         if (this.loader_HeldItems) {
-            this.items.helditems = this.loader_HeldItems.map(element => Object.assign(new HeldItem(), element));
-            this.items.helditems.forEach(item => {
-                item.activities = item.activities.map(element => Object.assign(new ItemActivity(), element))
-            })
+            this.items.helditems = this.loader_HeldItems.map(element => this.initialize_Item(Object.assign(new HeldItem(), element), true));
             this.loader_HeldItems = [];
         }
         if (this.loading_HeldItems) {this.loading_HeldItems = false;}
@@ -331,7 +340,7 @@ export class ItemsService {
 
     finish_AlchemicalElixirs() {
         if (this.loader_AlchemicalElixirs) {
-            this.items.alchemicalelixirs = this.loader_AlchemicalElixirs.map(element => Object.assign(new AlchemicalElixir(), element));
+            this.items.alchemicalelixirs = this.loader_AlchemicalElixirs.map(element => this.initialize_Item(Object.assign(new AlchemicalElixir(), element), true));
             this.loader_AlchemicalElixirs = [];
         }
         if (this.loading_AlchemicalElixirs) {this.loading_AlchemicalElixirs = false;}
@@ -339,7 +348,7 @@ export class ItemsService {
 
     finish_OtherConsumables() {
         if (this.loader_OtherConsumables) {
-            this.items.otherconsumables = this.loader_OtherConsumables.map(element => Object.assign(new OtherConsumable(), element));
+            this.items.otherconsumables = this.loader_OtherConsumables.map(element => this.initialize_Item(Object.assign(new OtherConsumable(), element), true));
             this.loader_OtherConsumables = [];
         }
         if (this.loading_OtherConsumables) {this.loading_OtherConsumables = false;}
@@ -347,13 +356,18 @@ export class ItemsService {
 
     finish_AdventuringGear() {
         if (this.loader_AdventuringGear) {
-            this.items.adventuringgear = this.loader_AdventuringGear.map(element => Object.assign(new AdventuringGear(), element));
-            this.items.adventuringgear.forEach(item => {
-                item.activities = item.activities.map(element => Object.assign(new ItemActivity(), element))
-            })
+            this.items.adventuringgear = this.loader_AdventuringGear.map(element => this.initialize_Item(Object.assign(new AdventuringGear(), element), true));
             this.loader_AdventuringGear = [];
         }
         if (this.loading_AdventuringGear) {this.loading_AdventuringGear = false;}
+    }
+
+    finish_WeaponRunes() {
+        if (this.loader_WeaponRunes) {
+            this.items.weaponrunes = this.loader_WeaponRunes.map(element => this.initialize_Item(Object.assign(new WeaponRune(), element), true));
+            this.loader_WeaponRunes = [];
+        }
+        if (this.loading_WeaponRunes) {this.loading_WeaponRunes = false;}
     }
 
 }

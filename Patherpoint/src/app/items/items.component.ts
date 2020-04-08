@@ -118,8 +118,7 @@ export class ItemsComponent implements OnInit {
     }
 
     grant_Item(item: Item) {
-        this.characterService.grant_InventoryItem(item);
-        this.characterService.set_Changed();
+        this.characterService.grant_InventoryItem(item, false);
     }
 
     still_loading() {

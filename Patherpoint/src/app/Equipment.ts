@@ -3,6 +3,7 @@ import { EffectGain } from './EffectGain';
 import { Item } from './Item';
 import { ItemActivity } from './ItemActivity';
 import { ActivityGain } from './ActivityGain';
+import { WeaponRune } from './WeaponRune';
 
 export class Equipment extends Item {
     //Is the name input visible in the inventory
@@ -28,7 +29,7 @@ export class Equipment extends Item {
     //Resilient Rune level for armor
     public resilientRune:number = 0;
     //Property Rune names for weapons and armor
-    public propertyRunes:string[] = [];
+    public propertyRunes:string[] = ["","",""];
     //Material for weapons, armor and shields
     public material: string = "";
     //Should this item show up on a skill, ability, etc.? If so, name the elements here as a comma separated string
@@ -82,12 +83,16 @@ export class Equipment extends Item {
         } else {
             let potency = this.get_Potency(this.potencyRune);
             let secondary: string = "";
+            let properties: string = "";
             if (this.moddable == "weapon") {
                 secondary = this.get_Striking(this.strikingRune);
             } else if (this.moddable == "armor") {
                 secondary = this.get_Resilient(this.resilientRune);
             }
-            return (potency + " " + (secondary + " " + this.name).trim()).trim();
+            this.propertyRunes.filter(rune => rune != "" && rune.substr(0,6) != "Locked").forEach(rune => {
+                properties += " " + rune;
+            })
+            return (potency + " " + (secondary + " " + (properties + " " + this.name).trim()).trim()).trim();
         }
     }
 }

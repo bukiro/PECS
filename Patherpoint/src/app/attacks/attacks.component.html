@@ -19,12 +19,11 @@
                         [ngModel]="attack[1]"
                         disabled>
                     Damage
-                    <input *ngFor="let damage of [get_Damage(weapon, attack[0])]"
-                        type="text"
-                        size="{{damage[0].length}}"
-                        title="{{damage[1]}}"
-                        [ngModel]="damage[0]"
-                        disabled>
+                    <ng-container *ngFor="let damage of [get_Damage(weapon, attack[0])]">
+                        <strong *ngFor="let line of damage[0].split('\n')" title="{{damage[1]}}">
+                            {{line}}<br>
+                        </strong>
+                    </ng-container>
                 </span>
             </div>
             <div class="fullsize-only row left-aligned" *ngIf="weapon.traits.length">

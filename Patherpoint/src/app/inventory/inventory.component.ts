@@ -3,13 +3,11 @@ import { CharacterService } from '../character.service';
 import { ItemsService } from '../items.service';
 import { TraitsService } from '../traits.service';
 import { EffectsService } from '../effects.service';
-import { Weapon } from '../Weapon';
-import { Armor } from '../Armor';
 import { ConditionGain } from '../ConditionGain';
 import { Effect } from '../Effect';
-import { Item } from '../Item';
 import { Consumable } from '../Consumable';
 import { Equipment } from '../Equipment';
+import { SortByPipe } from '../sortBy.pipe';
 
 @Component({
     selector: 'app-inventory',
@@ -28,7 +26,8 @@ export class InventoryComponent implements OnInit {
         public characterService: CharacterService,
         public itemsService: ItemsService,
         public traitsService: TraitsService,
-        public effectsService: EffectsService
+        public effectsService: EffectsService,
+        public sortByPipe: SortByPipe
     ) { }
     minimize() {
         this.characterService.get_Character().settings.inventoryMinimized = !this.characterService.get_Character().settings.inventoryMinimized;
@@ -69,11 +68,21 @@ export class InventoryComponent implements OnInit {
         return this.id;
     }
 
-    get_InventoryItems() {
-        this.id = 0;
+    get_Items() {
+        return this.itemsService.get_Items();
+    }
+
+    get_InventoryItems(newID: boolean = false) {
+        if (newID) {
+            this.id = 0;
+        }
         return this.characterService.get_InventoryItems();
     }
     
+    sort_ItemSet(itemSet) {
+        return this.sortByPipe.transform(itemSet, "asc", "name");
+    }
+
     drop_InventoryItem(item) {
         this.showItem = 0;
         this.characterService.drop_InventoryItem(item);
@@ -132,40 +141,10 @@ export class InventoryComponent implements OnInit {
 
     onAmountChange(item: Consumable, amount: number) {
         if (amount > 0) {
-            this.characterService.grant_InventoryItem(item, false, false, amount)
+            this.characterService.grant_InventoryItem(item, false, false, false, amount)
         } else if (amount < 0) {
             item.amount += amount;
         }
-    }
-
-    get_MaxRune(weapon: Weapon|Armor) {
-        switch (weapon.potencyRune) {
-            case 1:
-                return [0,1];
-                break;
-            case 2:
-                return [0,1,2];
-                break;
-            case 3:
-                return [0,1,2,3];
-                break;
-            default:
-                return [0];
-        }
-    }
-
-    onWeaponRuneChange(weapon: Weapon) {
-        //When we change the runes, the attributes get turned into strings, we have to turn them back into numbers.
-        weapon.potencyRune = parseInt(weapon.potencyRune.toString());
-        weapon.strikingRune = parseInt(weapon.strikingRune.toString());
-        this.characterService.set_Changed();
-    }
-    
-    onArmorRuneChange(armor: Armor) {
-        //When we change the runes, the attributes get turned into strings, we have to turn them back into numbers.
-        armor.potencyRune = parseInt(armor.potencyRune.toString());
-        armor.resilientRune = parseInt(armor.resilientRune.toString());
-        this.characterService.set_Changed();
     }
 
     on_ConsumableUse(item: Consumable) {
