@@ -4,6 +4,7 @@ import { WornItem } from './WornItem';
 import { Effect } from './Effect';
 import { Equipment } from './Equipment';
 import { Shield } from './Shield';
+import { Armor } from './Armor';
 
 export class Weapon extends Equipment {
     //Weapons should be type "weapons" to be found in the database
@@ -38,7 +39,7 @@ export class Weapon extends Equipment {
     get_RuneSource(characterService: CharacterService, range: string) {
         //Under certain circumstances, other items' runes are applied when calculating attack bonus or damage.
         //[0] is the item whose fundamental runes will count, [1] is the item whose property runes will count, and [2] is the item that causes this change.
-        let runeSource: (Weapon|WornItem|Shield)[] = [this, this];
+        let runeSource: (Weapon|WornItem)[] = [this, this];
         if (this.prof == "Unarmed") {
             let handwraps = characterService.get_InventoryItems().wornitems.filter(item => item.isHandwrapsOfMightyBlows && item.invested)
             if (handwraps.length) {
@@ -62,7 +63,7 @@ export class Weapon extends Equipment {
         }
         return runeSource;
     }
-    profLevel(characterService: CharacterService, charLevel: number = characterService.get_Character().level) {
+    profLevel(characterService: CharacterService, runeSource: Weapon|WornItem, charLevel: number = characterService.get_Character().level) {
         if (characterService.still_loading()) { return 0; }
         let skillLevel: number = 0;
         let weaponIncreases = characterService.get_Character().get_SkillIncreases(characterService, 0, charLevel, this.name);
@@ -79,7 +80,15 @@ export class Weapon extends Equipment {
         let bestTraitLevel: number = Math.max(...traitLevels)
         //Add either the weapon category proficiency or the weapon proficiency, whichever is better
         skillLevel = Math.max(Math.min(weaponIncreases.length * 2, 8),Math.min(profIncreases.length * 2, 8),Math.min(bestTraitLevel, 8))
-        return skillLevel;
+        //If you have an Ancestral Echoing rune on this weapon, you get to raise the item's proficiency by one level, up to the highest proficiency you have.
+        let bestSkillLevel: number = skillLevel;
+        if (runeSource.propertyRunes.filter(rune => rune == "Ancestral Echoing").length) {
+            //First, we get the highest proficiency...
+            let skills: number[] = characterService.get_Skills("", "Weapon Proficiency").map(skill => skill.level(characterService, charLevel));
+            skills.push(...characterService.get_Skills("", "Specific Weapon Proficiency").map(skill => skill.level(characterService, charLevel)));
+            bestSkillLevel = Math.min(skillLevel + 2, Math.max(...skills));
+        }
+        return bestSkillLevel;
     }
     attack(characterService: CharacterService, effectsService: EffectsService, range: string) {
     //Calculates the attack bonus for a melee or ranged attack with this weapon.
@@ -87,7 +96,8 @@ export class Weapon extends Equipment {
         let charLevel = characterService.get_Character().level;
         let str  = characterService.get_Abilities("Strength")[0].mod(characterService, effectsService);
         let dex = characterService.get_Abilities("Dexterity")[0].mod(characterService, effectsService);
-        let skillLevel = this.profLevel(characterService);
+        let runeSource: (Weapon|WornItem)[] = this.get_RuneSource(characterService, range);
+        let skillLevel = this.profLevel(characterService, runeSource[1]);
         if (skillLevel) {
             explain += "\nProficiency: "+skillLevel;
         }
@@ -109,12 +119,28 @@ export class Weapon extends Equipment {
             dexPenalty.push({value:parseInt(effect.value), source:effect.source, penalty:true});
             dexPenaltySum += parseInt(effect.value);
         });
+        //The Enfeebled condition affects all Strength attacks
+        let strEffects = effectsService.get_EffectsOnThis("Strength Attacks");
+        let strPenalty: [{value?:number, source?:string, penalty?:boolean}] = [{}];
+        strPenalty.splice(0,1);
+        let strPenaltySum: number = 0;
+        strEffects.forEach(effect => {
+            strPenalty.push({value:parseInt(effect.value), source:effect.source, penalty:true});
+            strPenaltySum += parseInt(effect.value);
+        });
         //Check if the weapon has any traits that affect its Ability bonus to attack, such as Finesse or Brutal, and run those calculations.
         let abilityMod: number = 0;
         if (range == "ranged") {
             if (characterService.have_Trait(this, "Brutal")) {
                 abilityMod = str;
                 explain += "\nStrength Modifier (Brutal): "+abilityMod;
+                if (strPenalty.length) {
+                    strPenalty.forEach(singleStrPenalty => {
+                        penalty.push(singleStrPenalty);
+                        abilityMod += singleStrPenalty.value;
+                        explain += "\n"+singleStrPenalty.source+": "+singleStrPenalty.value;
+                    });
+                }
             } else {
                 abilityMod = dex;
                 explain += "\nDexterity Modifier: "+abilityMod;
@@ -139,10 +165,17 @@ export class Weapon extends Equipment {
                 }
             } else {
                 abilityMod = str;
-            explain += "\nStrength Modifier: "+abilityMod;
+                explain += "\nStrength Modifier: "+abilityMod;
+                if (strPenalty.length) {
+                    strPenalty.forEach(singleStrPenalty => {
+                        penalty.push(singleStrPenalty);
+                        abilityMod += singleStrPenalty.value;
+                        explain += "\n"+singleStrPenalty.source+": "+singleStrPenalty.value;
+                    });
+                }
             }
         }
-        let runeSource: (Weapon|WornItem|Shield)[] = this.get_RuneSource(characterService, range);
+        
         if (runeSource[0].potencyRune > 0) {
             explain += "\nPotency: "+runeSource[0].get_Potency(runeSource[0].potencyRune);
             if (runeSource[2]) {
@@ -183,9 +216,11 @@ export class Weapon extends Equipment {
     //Returns a string in the form of "1d6 +5"
         let explain: string = "";
         let str = characterService.get_Abilities("Strength")[0].mod(characterService, effectsService);
+        let penalty: [{value?:number, source?:string, penalty?:boolean}] = [{}];
+        penalty.splice(0,1);
         //Apply Handwraps of Mighty Blows, if equipped, to unarmed attacks
         //We replace "me" with the Handwraps and use "me" instead of "this" when runes are concerned.
-        let runeSource: (Weapon|WornItem|Shield)[] = this.get_RuneSource(characterService, range);
+        let runeSource: (Weapon|WornItem)[] = this.get_RuneSource(characterService, range);
         let dicenum = this.dicenum + runeSource[0].strikingRune;
         if (runeSource[0].strikingRune > 0) {
             explain += "\n"+runeSource[0].get_Striking(runeSource[0].strikingRune)+": Dice number +"+runeSource[0].strikingRune;
@@ -201,6 +236,16 @@ export class Weapon extends Equipment {
         }
         //Get the basic "1d6" from the weapon's dice values
         var baseDice = dicenum + "d" + dicesize;
+        //The Enfeebled condition affects all Strength damage
+        let strEffects = effectsService.get_EffectsOnThis("Strength Attacks");
+        let strPenalty: [{value?:number, source?:string, penalty?:boolean}] = [{}];
+        strPenalty.splice(0,1);
+        let strPenaltySum: number = 0;
+        strEffects.forEach(effect => {
+            strPenalty.push({value:parseInt(effect.value), source:effect.source, penalty:true});
+            strPenaltySum += parseInt(effect.value);
+        });
+
         //Check if the Weapon has any traits that affect its damage Bonus, such as Thrown or Propulsive, and run those calculations.
         let abilityMod: number = 0;
         if (range == "ranged") {
@@ -208,17 +253,45 @@ export class Weapon extends Equipment {
                 if (str > 0) {
                     abilityMod = Math.floor(str / 2);
                     explain += "\nStrength Modifier (Propulsive): "+abilityMod;
+                    if (strPenalty.length) {
+                        strPenalty.forEach(singleStrPenalty => {
+                            penalty.push(singleStrPenalty);
+                            abilityMod += singleStrPenalty.value;
+                            explain += "\n"+singleStrPenalty.source+": "+singleStrPenalty.value;
+                        });
+                    }
                 } else if (str < 0) {
                     abilityMod = str;
                     explain += "\nStrength Modifier (Propulsive): "+abilityMod;
+                    if (strPenalty.length) {
+                        strPenalty.forEach(singleStrPenalty => {
+                            penalty.push(singleStrPenalty);
+                            abilityMod += singleStrPenalty.value;
+                            explain += "\n"+singleStrPenalty.source+": "+singleStrPenalty.value;
+                        });
+                    }
                 }
             } else if (characterService.have_Trait(this, "Thrown")) {
                 abilityMod = str;
                 explain += "\nStrength Modifier (Thrown): "+abilityMod;
+                if (strPenalty.length) {
+                    strPenalty.forEach(singleStrPenalty => {
+                        penalty.push(singleStrPenalty);
+                        abilityMod += singleStrPenalty.value;
+                        explain += "\n"+singleStrPenalty.source+": "+singleStrPenalty.value;
+                    });
+                }
             }
         } else {
             abilityMod = str;
             explain += "\nStrength Modifier: "+abilityMod;
+            if (strPenalty.length) {
+                strPenalty.forEach(singleStrPenalty => {
+                    penalty.push(singleStrPenalty);
+                    abilityMod += singleStrPenalty.value;
+                    explain += "\n"+singleStrPenalty.source+": "+singleStrPenalty.value;
+                });
+            }
         }
         let featBonus: number = 0;
         if (characterService.get_Features("Weapon Specialization")[0].have(characterService)) {
@@ -226,7 +299,7 @@ export class Weapon extends Equipment {
             if (characterService.get_Features("Greater Weapon Specialization")[0].have(characterService)) {
                 greaterWeaponSpecialization = true;
             }
-           switch (this.profLevel(characterService)) {
+            switch (this.profLevel(characterService, runeSource[1])) {
                 case 4:
                     if (greaterWeaponSpecialization) {
                         featBonus += 4;

@@ -72,7 +72,7 @@
         "usage": "etched onto a melee weapon",
         "rangereq": "melee",
         "desc": "A disrupting weapon pulses with positive energy, dealing an extra 1d6 positive damage to undead. On a critical hit, the undead is also enfeebled 1 until the end of your next turn.",
-        "extraDamage": "+1d6 Positive (against undead)",
+        "extraDamage": "+1d6 Positive\n(against undead)",
         "criticalHint": "On a critical hit on an undead, the undead is enfeebled 1 until the end of your next turn.",
         "traits": [
             "Magical",
@@ -122,7 +122,7 @@
         "usage": "etched onto a clan dagger",
         "namereq": "Clan Dagger",
         "desc": "A bloodbane clan dagger is especially vicious against the ancestral enemies of the clan. When you damage an appropriate type of creature with the weapon, that creature takes 1 persistent bleed damage. The type of creature depends on the clan that made the dagger, but is typically drow, duergar, giant, or orc.\\n\\nIn addition, whenever you inflict persistent bleed damage with a bloodbane weapon (whether from its innate ability or in some other way), the weapon leaves ragged wounds. The bleeding creature must succeed at a DC 25 Fortitude save or become sickened 1. The creature is then temporarily immune for 1 hour.",
-        "extraDamage": "+1 persistent bleed (against clan enemy)",
+        "extraDamage": "+1 persistent bleed\n(against clan enemy)",
         "hint": "Whenever you inflict persistent bleed damage with a bloodbane weapon, the bleeding creature must succeed at a DC 25 Fortitude save or become sickened 1. The creature is then temporarily immune for 1 hour.",
         "traits": [
             "Uncommon",
@@ -249,7 +249,7 @@
         "rangereq": "melee",
         "damagereq": "S",
         "desc": "A serrating weapon’s bladed edge separates into jagged, swirling shards that spin along the blade. When dealing slashing damage, the weapon deals an additional 1d4 damage.",
-        "extraDamage": "+1d4 (when slashing)",
+        "extraDamage": "+1d4\n(when slashing)",
         "activities": [
             {
                 "name": "Serrating Rune",
@@ -271,8 +271,8 @@
         "usage": "etched onto a weapon without an axiomatic rune",
         "runeblock": "Axiomatic",
         "desc": "An anarchic rune is jagged and asymmetrical, channeling chaotic energy. A weapon with this rune deals an additional 1d6 chaotic damage against lawful targets. If you are lawful, you are enfeebled 2 while carrying or wielding this weapon.\\n\\nWhen you critically succeed at a Strike with this weapon against a lawful creature, roll 1d6. On a 1 or 2, you deal double minimum damage; on a 3 or 4, double your damage normally; on a 5 or 6, you deal double maximum damage.",
-        "extraDamage": "+1d6 Chaotic (against lawful)",
-        "enfeebled": "Lawful",
+        "extraDamage": "+1d6 Chaotic\n(against lawful)",
+        "alignmentPenalty": "Lawful",
         "criticalHint": "On a critical hit against a lawful creature, roll 1d6. On a 1 or 2, you deal double minimum damage; on a 3 or 4, double your damage normally; on a 5 or 6, you deal double maximum damage.",
         "craftRequirement": "You are chaotic.",
         "traits": [
@@ -288,8 +288,8 @@
         "usage": "etched onto a weapon without an anarchic rune",
         "runeblock": "Anarchic",
         "desc": "Complex and symmetrical, an axiomatic rune imbues a weapon with lawful energy. A weapon with this rune deals an additional 1d6 lawful damage against chaotic targets. If you are chaotic, you are enfeebled 2 while carrying or wielding this weapon. \\n\\nWhen you critically succeed at an attack roll with this weapon against a chaotic creature, instead of rolling, count each weapon damage die as average damage rounded up (3 for d4, 4 for d6, 5 for d8, 6 for d10, 7 for d12).",
-        "extraDamage": "+1d6 Lawful (against chaotic)",
-        "enfeebled": "Chaotic",
+        "extraDamage": "+1d6 Lawful\n(against chaotic)",
+        "alignmentPenalty": "Chaotic",
         "criticalHint": "On a critical hit against a chaotic creature, instead of rolling, count each weapon damage die as average damage rounded up (3 for d4, 4 for d6, 5 for d8, 6 for d10, 7 for d12).",
         "craftRequirement": "You are lawful.",
         "traits": [
@@ -305,8 +305,8 @@
         "usage": "etched onto a weapon without an unholy rune",
         "runeblock": "Unholy",
         "desc": "Holy weapons command powerful celestial energy. A weapon with this rune deals an extra 1d6 good damage against evil targets. If you are evil, you are enfeebled 2 while carrying or wielding this weapon.",
-        "extraDamage": "+1d6 Good (against evil)",
-        "enfeebled": "Evil",
+        "extraDamage": "+1d6 Good\n(against evil)",
+        "alignmentPenalty": "Evil",
         "activities": [
             {
                 "name": "Holy Rune",
@@ -332,8 +332,8 @@
         "usage": "etched onto a weapon without a holy rune",
         "runeblock": "Holy",
         "desc": "An unholy rune instills fiendish power into the etched weapon. A weapon with this rune deals an additional 1d6 evil damage when it hits a good target. If you are good, you are enfeebled 2 while carrying or wielding this weapon.",
-        "extraDamage": "+1d6 Evil (against good)",
-        "enfeebled": "Good",
+        "extraDamage": "+1d6 Evil\n(against good)",
+        "alignmentPenalty": "Good",
         "activities": [
             {
                 "name": "Unholy Rune",
@@ -359,7 +359,8 @@
         "usage": "etched onto a weapon",
         "striking": 2,
         "desc": "A greater striking rune stores destructive magic in the weapon, increasing the weapon damage dice it deals to three instead of one. For instance, a +2 greater striking dagger would deal 3d4 damage instead of 1d4 damage.\n\nYou can upgrade the striking rune already etched on a weapon to a stronger version, increasing the values of the existing rune to those of the new rune. You must have the formula of the stronger rune to do so, and the Price of the upgrade is the difference between the two runes’ Prices.",
-        "greater": "The weapon deals three weapon damage dice.",
+        "subType": "Greater",
+        "subTypeDesc": "The weapon deals three weapon damage dice.",
         "traits": [
             "Evocation",
             "Magical"
@@ -422,8 +423,9 @@
         "usage": "etched onto a clan dagger",
         "namereq": "Clan Dagger",
         "desc": "A bloodbane clan dagger is especially vicious against the ancestral enemies of the clan. When you damage an appropriate type of creature with the weapon, that creature takes 1 persistent bleed damage. The type of creature depends on the clan that made the dagger, but is typically drow, duergar, giant, or orc.\\n\\nIn addition, whenever you inflict persistent bleed damage with a bloodbane weapon (whether from its innate ability or in some other way), the weapon leaves ragged wounds. The bleeding creature must succeed at a DC 25 Fortitude save or become sickened 1. The creature is then temporarily immune for 1 hour.",
-        "greater": "The weapon deals 1d4 bleed damage to creatures designated as the clan’s enemy, and the DC of the Fortitude save to avoid becoming sickened is 30.",
-        "extraDamage": "+1d4 persistent bleed (against clan enemy)",
+        "subType": "Greater",
+        "subTypeDesc": "The weapon deals 1d4 bleed damage to creatures designated as the clan’s enemy, and the DC of the Fortitude save to avoid becoming sickened is 30.",
+        "extraDamage": "+1d4 persistent bleed\n(against clan enemy)",
         "hint": "Whenever you inflict persistent bleed damage with a bloodbane weapon, the bleeding creature must succeed at a DC 30 Fortitude save or become sickened 1. The creature is then temporarily immune for 1 hour.",
         "traits": [
             "Uncommon",
@@ -454,8 +456,9 @@
         "usage": "etched onto a melee weapon",
         "rangereq": "melee",
         "desc": "A disrupting weapon pulses with positive energy, dealing an extra 1d6 positive damage to undead. On a critical hit, the undead is also enfeebled 1 until the end of your next turn.",
-        "greater": "Increase the extra damage to 2d6. On a critical hit, instead of being enfeebled 1, the undead creature must attempt a DC 34 Fortitude save with the following effects. This is an incapacitation effect.",
-        "extraDamage": "+2d6 Positive (against undead)",
+        "subType": "Greater",
+        "subTypeDesc": "Increase the extra damage to 2d6. On a critical hit, instead of being enfeebled 1, the undead creature must attempt a DC 34 Fortitude save with the following effects. This is an incapacitation effect.",
+        "extraDamage": "+2d6 Positive\n(against undead)",
         "criticalHint": "The undead creature must attempt a DC 34 Fortitude save with the following effects.",
         "critsuccess": "It’s enfeebled 1 until the end of your next turn.",
         "success": "It’s enfeebled 2 until the end of your next turn.",
@@ -473,8 +476,9 @@
         "price": 650000,
         "usage": "etched onto a weapon",
         "desc": "Acid sizzles across the surface of the weapon. When you hit with the weapon, add 1d6 acid damage to the damage dealt. In addition, on a critical hit, the target’s armor (if any) takes 3d6 acid damage (before applying Hardness); if the target has a shield raised, the shield takes this damage instead.",
-        "greater": "The acid damage dealt by this weapon ignores the target’s acid resistance. Increase the acid damage dealt to armor or a shield on a critical hit to 6d6.",
-        "extraDamage": "+1d6 Acid (ignores acid resistance)",
+        "subType": "Greater",
+        "subTypeDesc": "The acid damage dealt by this weapon ignores the target’s acid resistance. Increase the acid damage dealt to armor or a shield on a critical hit to 6d6.",
+        "extraDamage": "+1d6 Acid\n(ignores acid resistance)",
         "criticalHint": "The target's armor takes 6d6 acid damage before applying Hardness; if the target has a shield raised, the shield takes this damage instead.",
         "traits": [
             "Acid",
@@ -488,8 +492,9 @@
         "price": 650000,
         "usage": "etched onto a weapon",
         "desc": "This weapon is empowered by flickering flame. The weapon deals an additional 1d6 fire damage on a successful Strike, plus 1d10 persistent fire damage on a critical hit.",
-        "greater": "Increase the persistent damage on a critical hit to 2d10. Fire damage dealt by this weapon (including the persistent fire damage) ignores the target’s fire resistance.",
-        "extraDamage": "+1d6 Fire (ignores fire resistance)",
+        "subType": "Greater",
+        "subTypeDesc": "Increase the persistent damage on a critical hit to 2d10. Fire damage dealt by this weapon (including the persistent fire damage) ignores the target’s fire resistance.",
+        "extraDamage": "+1d6 Fire\n(ignores fire resistance)",
         "criticalHint": "The weapon deals 2d10 persistent fire damage, ignoring fire resistance..",
         "traits": [
             "Conjuration",
@@ -503,8 +508,9 @@
         "price": 650000,
         "usage": "etched onto a weapon",
         "desc": "This weapon is empowered with freezing ice. It deals an additional 1d6 cold damage on a successful Strike. On a critical hit, the target is also slowed 1 until the end of your next turn unless it succeeds at a DC 24 Fortitude save.",
-        "greater": "The save DC is 34. Cold damage dealt by this weapon ignores the target’s cold resistance.",
-        "extraDamage": "+1d6 Cold (ignores cold resistance)",
+        "subType": "Greater",
+        "subTypeDesc": "The save DC is 34. Cold damage dealt by this weapon ignores the target’s cold resistance.",
+        "extraDamage": "+1d6 Cold\n(ignores cold resistance)",
         "criticalHint": "The target is slowed 1 until the end of your next turn unless it succeeds at a DC 34 Fortitude save.",
         "traits": [
             "Cold",
@@ -518,8 +524,9 @@
         "price": 650000,
         "usage": "etched onto a weapon",
         "desc": "Electric arcs crisscross this weapon, dealing an extra 1d6 electricity damage on a hit. On a critical hit, electricity arcs out to deal an equal amount of electricity damage to up to two other creatures of your choice within 10 feet of the target.",
-        "greater": "Electricity damage dealt by this weapon ignores the target’s electricity resistance (and the other creatures’ on a critical hit).",
-        "extraDamage": "+1d6 Electricity (ignores electricity resistance)",
+        "subType": "Greater",
+        "subTypeDesc": "Electricity damage dealt by this weapon ignores the target’s electricity resistance (and the other creatures’ on a critical hit).",
+        "extraDamage": "+1d6 Electricity\n(ignores electricity resistance)",
         "criticalHint": "Electricity arcs out to deal an equal amount of electricity damage to up to two other creatures of your choice within 10 feet of the weapon target, ignoring the targets' electricity resistance.",
         "traits": [
             "Electricity",
@@ -533,8 +540,9 @@
         "price": 650000,
         "usage": "etched onto a weapon",
         "desc": "This weapon lets out a peal of thunder when it hits, dealing an extra 1d6 sonic damage on a successful Strike. On a critical hit, the target has to succeed at a DC 24 Fortitude save or be deafened for 1 minute (or 1 hour on a critical failure).",
-        "greater": "The save DC is 34, and the deafness is permanent. Sonic damage dealt by this weapon ignores the target’s sonic resistance.",
-        "extraDamage": "+1d6 Sonic (ignores sonic resistance)",
+        "subType": "Greater",
+        "subTypeDesc": "The save DC is 34, and the deafness is permanent. Sonic damage dealt by this weapon ignores the target’s sonic resistance.",
+        "extraDamage": "+1d6 Sonic\n(ignores sonic resistance)",
         "criticalHint": "The target has to succeed at a DC 34 Fortitude save or be permanently deafened.",
         "traits": [
             "Evocation",
@@ -550,9 +558,7 @@
         "desc": "The wisdom of this weapon’s past owners flows into your mind, amplifying your own abilities with the weapon. Your proficiency rank with this weapon is one step higher than normal, to a maximum of the highest proficiency rank you have in any weapon. For instance, if you had master proficieny with martial weapons and expert proficiency with advanced weapons, you would have master proficiency with advanced weapon that had this rune.\\n\\nIn addition, while wielding the ancestral echoing weapon, you have expert proficiency in one Lore skill relevant to one or more of the weapon’s previous owners. This is typically Dwarven Lore but is ultimately determined by the GM depending on the weapon’s history.",
         "loreChoices":[
             {
-                "increases":[
-                    { "name":"Lore: Ancestral Echoing", "source":"Ancestral Echoing Rune", "maxRank":4, "locked":true, "sourceId":"1-Skill-Background-0" }
-                ],
+                "initialIncreases":2,
                 "loreName":"Ancestral Echoing",
                 "maxRank":4,
                 "source":"Ancestral Echoing Rune",
@@ -623,8 +629,9 @@
         "price": 3106500,
         "usage": "etched onto a weapon",
         "striking": 3,
-        "desc": "A greater striking rune stores destructive magic in the weapon, increasing the weapon damage dice it deals to four instead of one. For instance, a +3 major striking dagger would deal 4d4 damage instead of 1d4 damage.\n\nYou can upgrade the striking rune already etched on a weapon to a stronger version, increasing the values of the existing rune to those of the new rune. You must have the formula of the stronger rune to do so, and the Price of the upgrade is the difference between the two runes’ Prices.",
-        "major": "The weapon deals four weapon damage dice.",
+        "desc": "A major striking rune stores destructive magic in the weapon, increasing the weapon damage dice it deals to four instead of one. For instance, a +3 major striking dagger would deal 4d4 damage instead of 1d4 damage.\n\nYou can upgrade the striking rune already etched on a weapon to a stronger version, increasing the values of the existing rune to those of the new rune. You must have the formula of the stronger rune to do so, and the Price of the upgrade is the difference between the two runes’ Prices.",
+        "subType": "Major",
+        "subTypeDesc": "The weapon deals four weapon damage dice.",
         "traits": [
             "Evocation",
             "Magical"

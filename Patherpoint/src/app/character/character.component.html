@@ -21,23 +21,35 @@
         </div>
         <div class="list-item row">
             <span>
-                Level
+                Deity
             </span>
             <span>
-                <select [(ngModel)]="get_Character().level" (ngModelChange)="onLevelChange()">
-                    <option *ngFor="let level of [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20]" [value]="level">
-                        {{level}}
+                <input type="text" name="name" [(ngModel)]="get_Character().deity"
+                    (blur)="this.characterService.set_Changed()">
+            </span>
+        </div>
+        <div class="list-item row">
+            <span>
+                Alignment
+            </span>
+            <span>
+                <select [(ngModel)]="get_Character().alignment" (ngModelChange)="on_AlignmentChange()">
+                    <option *ngFor="let alignment of ['Lawful Good','Neutral Good','Chaotic Good','Lawful Neutral','Neutral','Chaotic Neutral','Lawful Evil','Neutral Evil','Chaotic Evil']" [value]="alignment">
+                        {{alignment}}
                     </option>
                 </select>
             </span>
         </div>
         <div class="list-item row">
             <span>
-                Deity
+                Level
             </span>
             <span>
-                <input type="text" name="name" [(ngModel)]="get_Character().deity"
-                    (blur)="this.characterService.set_Changed()">
+                <select [(ngModel)]="get_Character().level" (ngModelChange)="on_LevelChange()">
+                    <option *ngFor="let level of [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20]" [value]="level">
+                        {{level}}
+                    </option>
+                </select>
             </span>
         </div>
         <!--BaseValues-->

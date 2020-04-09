@@ -26,9 +26,13 @@
                     </ng-container>
                 </span>
             </div>
-            <div class="fullsize-only row left-aligned" *ngIf="weapon.traits.length">
+            <div class="fullsize-only row left-aligned tags" *ngIf="weapon.traits.length">
                 <cite class="trait" *ngFor="let trait of weapon.traits"
                     title="{{get_Traits(trait)[0].description}}">{{trait}}</cite>
+            </div>
+            <div class="fullsize-only row left-aligned" *ngFor="let runes of [get_Runes(weapon, attack[0])]" style="margin-top:initial">
+                <cite class="rune" *ngFor="let rune of runes"
+                    title="{{rune.hint}}">{{rune.name}}</cite>
             </div>
             <app-tags [objectName]=weapon.name [showTraits]=true [showFeats]=true [showItems]=true [showActivities]=true
                     [showConditions]=true [specialNames]=get_specialShowon(weapon) [specialEffects]=attack[3]></app-tags>

@@ -76,6 +76,31 @@ export class InventoryComponent implements OnInit {
         if (newID) {
             this.id = 0;
         }
+        let speedRune: boolean = false;
+        let enfeebledRune: boolean = false;
+        this.characterService.get_InventoryItems().allEquipment().forEach(item => {
+            item.propertyRunes.filter(rune => rune != "" && rune.substr(0,6) != "Locked").forEach(rune => {
+                if (rune == "Speed" && (item.equipped || (item.can_Invest() && item.invested))) {
+                    speedRune = true;
+                }
+                let exampleRune = this.characterService.get_Items().weaponrunes.filter(weaponrune => weaponrune.name == rune);
+                if (exampleRune.length && exampleRune[0].alignmentPenalty) {
+                    if (this.characterService.get_Character().alignment.indexOf(exampleRune[0].alignmentPenalty) > -1) {
+                        enfeebledRune = true;
+                    }
+                }
+            })
+        })
+        if (speedRune && this.characterService.get_AppliedConditions("Quickened", "Speed Rune").length == 0) {
+            this.characterService.add_Condition(Object.assign(new ConditionGain, {name:"Quickened", value:0, source:"Speed Rune", apply:true}), true)
+        } else if (!speedRune && this.characterService.get_AppliedConditions("Quickened", "Speed Rune").length > 0) {
+            this.characterService.remove_Condition(Object.assign(new ConditionGain, {name:"Quickened", value:0, source:"Speed Rune", apply:true}), true)
+        }
+        if (enfeebledRune && this.characterService.get_AppliedConditions("Enfeebled", "Alignment Rune").length == 0) {
+            this.characterService.add_Condition(Object.assign(new ConditionGain, {name:"Enfeebled", value:2, source:"Alignment Rune", apply:true}), true)
+        } else if (!enfeebledRune && this.characterService.get_AppliedConditions("Enfeebled", "Alignment Rune").length > 0) {
+            this.characterService.remove_Condition(Object.assign(new ConditionGain, {name:"Enfeebled", value:2, source:"Alignment Rune", apply:true}), true)
+        }
         return this.characterService.get_InventoryItems();
     }
     

@@ -81,6 +81,25 @@
         ]
     },
     {
+        "name": "Enfeebled",
+        "hasValue": true,
+        "type": "generic",
+        "desc": "You’re physically weakened. Enfeebled always includes a value. When you are enfeebled, you take a status penalty equal to the condition value to Strength-based rolls and DCs, including Strength-based melee attack rolls, Strength-based damage rolls, and Athletics checks.",
+        "showon": "Strength",
+        "effects": [
+            {
+                "affected": "Strength Attacks",
+                "value": "-(object.value)",
+                "type": "status"
+            },
+            {
+                "affected": "Athletics",
+                "value": "-(object.value)",
+                "type": "status"
+            }            
+        ]
+    },
+    {
         "name": "Flat-Footed",
         "type": "generic",
         "desc": "You’re distracted or otherwise unable to focus your full attention on defense. You take a –2 circumstance penalty to AC. Some effects give you the flat-footed condition only to certain creatures or against certain attacks. Others—especially conditions—can make you universally flat-footed against everything. If a rule doesn’t specify that the condition applies only to certain circumstances, it applies to all of them; for example, many effects simply say “The target is flat-footed.”",
@@ -104,6 +123,12 @@
                 "value": "-(object.value)"
             }
         ]
+    },
+    {
+        "name": "Quickened",
+        "type": "generic",
+        "buff": true,
+        "desc": "You gain 1 additional action at the start of your turn each round. Many effects that make you quickened specify the types of actions you can use with this additional action. If you become quickened from multiple sources, you can use the extra action you’ve been granted for any single action allowed by any of the effects that made you quickened. Because quickened has its effect at the start of your turn, you don’t immediately gain actions if you become quickened during your turn."
     },
     {
         "name": "Unconscious",
@@ -156,6 +181,7 @@
         "type": "alchemicalelixirs",
         "desc": "You gain an item bonus of +1 to Fortitude saves and 5 temporary Hit Points.\n\nYou take a –2 penalty to Will saves, Perception checks, and initiative rolls. Whenever you are at maximum Hit Points for at least 1 full minute, you regain the temporary Hit Points.",
         "inputRequired": "Whenever you are at maximum Hit Points for at least 1 full minute, you regain the temporary Hit Points.",
+        "buff": true,
         "effects": [
             {
                 "affected": "Fortitude",

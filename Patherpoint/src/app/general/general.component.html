@@ -29,6 +29,10 @@
             <strong>Class:</strong>
             {{get_Character().class.name}}
         </div>
+        <div class="fullsize-only list-item" *ngIf="get_Character().alignment.length">
+            <strong>Alignment:</strong>
+            {{get_Character().alignment}}
+        </div>
         <div class="fullsize-only list-item" *ngIf="get_Character().deity.length">
             <strong>Deity:</strong>
             {{get_Character().deity}}

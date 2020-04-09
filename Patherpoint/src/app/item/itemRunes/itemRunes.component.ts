@@ -218,19 +218,7 @@ export class ItemRunesComponent implements OnInit {
                                 this.characterService.grant_InventoryItem(extractedRune, false, false);
                             }
                             if (extractedRune.loreChoices.length) {
-                                weapon.loreChoices.forEach(choice => {
-                                    if (this.characterService.get_InventoryItems().allEquipment()
-                                        .filter(item => item.loreChoices
-                                            .filter(otherchoice => otherchoice.loreName == choice.loreName)
-                                            .length)
-                                        .length == 1) {
-                                        this.characterService.get_Character().remove_Lore(this.characterService, choice);
-                                    }
-                                    choice.increases.forEach(increase => {
-                                        this.characterService.get_Character().increase_Skill(this.characterService, increase.name, false, choice, true);
-                                    })
-                                })
-                                weapon.loreChoices = [];
+                                this.characterService.remove_WeaponRuneLore(weapon);
                             }
                         }
                     }
@@ -260,21 +248,7 @@ export class ItemRunesComponent implements OnInit {
                                 this.characterService.drop_InventoryItem(insertedRune, false, false);
                             }
                             if (exampleRune.loreChoices.length) {
-                                weapon.loreChoices = exampleRune.loreChoices.map(choice => Object.assign(new LoreChoice(), choice));
-                                weapon.loreChoices.forEach(choice => {
-                                    if (this.characterService.get_InventoryItems().allEquipment()
-                                        .filter(item => item.loreChoices
-                                            .filter(otherchoice => otherchoice.loreName == choice.loreName)
-                                            .length)
-                                        .length == 1) {
-                                        this.characterService.get_Character().add_Lore(this.characterService, choice);
-                                    }
-                                    let length: number = choice.increases.length;
-                                    choice.increases.forEach(increase => {
-                                        this.characterService.get_Character().increase_Skill(this.characterService, increase.name, true, choice, true)
-                                    })
-                                    choice.increases.splice(0, length);
-                                })
+                                this.characterService.add_WeaponRuneLore(weapon, exampleRune);
                             }
                         }
                     }

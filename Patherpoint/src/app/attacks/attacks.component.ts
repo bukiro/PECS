@@ -5,6 +5,7 @@ import { TraitsService } from '../traits.service';
 import { CharacterService } from '../character.service';
 import { EffectsService } from '../effects.service';
 import { Skill } from '../Skill';
+import { WeaponRune } from '../WeaponRune';
 
 @Component({
     selector: 'app-attacks',
@@ -27,12 +28,12 @@ export class AttacksComponent implements OnInit {
 
     set_Span() {
         setTimeout(() => {
-            document.getElementById("attacks").style.gridRow = "span "+this.characterService.get_Span("attacks-height");
+            document.getElementById("attacks").style.gridRow = "span " + this.characterService.get_Span("attacks-height");
         })
     }
 
     still_loading() {
-      return this.characterService.still_loading()
+        return this.characterService.still_loading()
     }
 
     get_Accent() {
@@ -49,6 +50,17 @@ export class AttacksComponent implements OnInit {
 
     get_Traits(traitName: string = "") {
         return this.traitsService.get_Traits(traitName);
+    }
+
+    get_Runes(weapon: Weapon, range: string) {
+        let runeSource = weapon.get_RuneSource(this.characterService, range);
+        let runes: WeaponRune[] = [];
+        runeSource[1].propertyRunes.forEach((rune: string) => {
+            if (rune != "" && rune.substr(0,6) != "Locked") {
+                runes.push(...this.characterService.get_Items().weaponrunes.filter(weaponrune => weaponrune.name == rune && weaponrune.hint.length));
+            }
+        });
+        return runes;
     }
 
     get_specialShowon(weapon: Weapon) {
@@ -86,8 +98,8 @@ export class AttacksComponent implements OnInit {
             setTimeout(() => this.finish_Loading(), 500)
         } else {
             this.characterService.get_Changed()
-            .subscribe(() => 
-            this.changeDetector.detectChanges()
+                .subscribe(() =>
+                    this.changeDetector.detectChanges()
                 )
             return true;
         }

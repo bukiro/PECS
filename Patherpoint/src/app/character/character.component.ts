@@ -103,7 +103,11 @@ export class CharacterComponent implements OnInit {
         this.characterService.set_Changed();
     }
 
-    onLevelChange() {
+    on_AlignmentChange() {
+        this.characterService.set_Changed();
+    }
+
+    on_LevelChange() {
         //Despite all precautions, when we change the level, it gets turned into a string. So we turn it right back.
         this.get_Character().level = parseInt(this.get_Character().level.toString());
         this.characterService.set_Changed();

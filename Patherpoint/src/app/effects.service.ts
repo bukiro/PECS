@@ -93,10 +93,6 @@ constructor(
         return objectEffects;
     }
 
-    set_CharacterChanged(characterService: CharacterService) {
-        characterService.set_Changed();
-    }
-
     generate_Effects(characterService: CharacterService) {
         //NEVER call this function.
         //It gets called by this.initialize whenever the character has changed.
@@ -250,7 +246,7 @@ constructor(
             this.effects.all = Object.assign([], allEffects);
             this.effects.penalties = this.effects.all.filter(effect => parseInt(effect.value) < 0);
             this.effects.bonuses = this.effects.all.filter(effect => parseInt(effect.value) > 0);
-            this.set_CharacterChanged(characterService);    
+            characterService.set_Changed();
         }
     }
 

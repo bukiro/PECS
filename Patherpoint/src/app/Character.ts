@@ -29,6 +29,7 @@ export class Character {
     public conditions: ConditionGain[] = [];
     public baseValues: {name:string, baseValue:number}[] = [];
     public inventory: ItemCollection = new ItemCollection();
+    public alignment: string = "";
     public deity: string = "";
     public speeds: Speed[] = [new Speed("Speed"), new Speed("Land Speed")];
     public cash: number[] = [0,15,0,0];
@@ -364,7 +365,9 @@ export class Character {
     }
     remove_Lore(characterService: CharacterService, source: LoreChoice) {
         //Remove the original Lore training
-        characterService.get_Character().increase_Skill(characterService, 'Lore: '+source.loreName, false, source, true);
+        for (let increase = 0; increase < source.initialIncreases; increase++) {
+            characterService.get_Character().increase_Skill(characterService, 'Lore: '+source.loreName, false, source, true)
+        }
         //Go through all levels and remove skill increases for this lore from their respective sources
         //Also remove all Skill Choices that were added for this lore (as happens with the Additional Lore Feat).
         this.class.levels.forEach(level => {
@@ -390,8 +393,13 @@ export class Character {
         characterService.set_Changed();
     }
     add_Lore(characterService: CharacterService, source: LoreChoice) {
+        //Create the skill on the character
         characterService.add_CustomSkill('Lore: '+source.loreName, "Skill", "Intelligence");
-        characterService.get_Character().increase_Skill(characterService, 'Lore: '+source.loreName, true, source, true)
+        //Create as many skill increases as the source's initialIncreases value
+        for (let increase = 0; increase < source.initialIncreases; increase++) {
+            characterService.get_Character().increase_Skill(characterService, 'Lore: '+source.loreName, true, source, true)
+        }
+        
         //The Additional Lore feat grants a skill increase on Levels 3, 7 and 15 that can only be applied to this lore.
         if (source.source == "Feat: Additional Lore") {
             this.add_SkillChoice(characterService.get_Level(3), {available:1, increases:[], filter:['Lore: '+source.loreName], type:"Skill", maxRank:4, source:"Feat: Additional Lore", id:""})

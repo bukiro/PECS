@@ -121,10 +121,6 @@ export class HealthComponent implements OnInit {
         return this.effectsService.get_PenaltiesOnThis(name);
     }
 
-    set_CharacterChanged() {
-        this.characterService.set_Changed();
-    }
-
     finish_Loading() {
         if (this.still_loading()) {
             setTimeout(() => this.finish_Loading(), 500)

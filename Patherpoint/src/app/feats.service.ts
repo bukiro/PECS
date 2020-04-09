@@ -114,7 +114,7 @@ export class FeatsService {
             //Gain free Lore
             if (feat.gainLore) {
                 if (taken) {
-                    character.add_LoreChoice(level, {available:1, increases:[], maxRank:2, loreName:"", loreDesc:"", source:'Feat: '+featName, id:""});
+                    character.add_LoreChoice(level, {available:1, increases:[], initialIncreases:1, maxRank:2, loreName:"", loreDesc:"", source:'Feat: '+featName, id:""});
                 } else {
                     let a = level.loreChoices;
                     let oldChoice = a.filter(choice => choice.source == 'Feat: '+featName)[0];

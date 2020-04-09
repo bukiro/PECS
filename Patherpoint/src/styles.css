@@ -454,7 +454,11 @@
 
   .row:not(:first-child):not(:empty) {
     margin-top: 4px;
-}
+  }
+
+  .row.tags:not(:first-child):not(:empty) {
+    margin-top: initial;
+  }
 
   .left-aligned {
     justify-content: flex-start;

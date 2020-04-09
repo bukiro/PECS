@@ -21,7 +21,7 @@ export class WeaponRune extends Rune {
     //One rune trains a lore skill while equipped.
     public loreChoices: LoreChoice[] = [];
     //You are enfeebled 2 if your alignment contains this word.
-    public enfeebled: string = "";
+    public alignmentPenalty: string = "";
     public critsuccess: string = "";
     public success: string = "";
     public failure: string = "";
