@@ -5,6 +5,7 @@ import { WeaponRune } from 'src/app/WeaponRune';
 import { Equipment } from 'src/app/Equipment';
 import { LoreChoice } from 'src/app/LoreChoice';
 import { Rune } from 'src/app/Rune';
+import { ArmorRune } from 'src/app/ArmorRune';
 
 @Component({
     selector: 'app-itemRunes',
@@ -44,14 +45,13 @@ export class ItemRunesComponent implements OnInit {
     }
 
     get_ArmorPotencyRunes() {
-    /*    if (this.itemStore) {
+        if (this.itemStore) {
             return [0].concat(this.get_Items().armorrunes.filter(rune => rune.potency > 0).map(rune => rune.potency));
         } else {
             let runes: number[] = [0, this.item.potencyRune];
             runes.push(...this.get_InventoryItems().armorrunes.filter(rune => rune.potency > 0).map(rune => rune.potency));
             return Array.from(new Set(runes));
-        }*/
-        return [0,1,2,3]
+        }
     }
 
     get_StrikingRunes() {
@@ -65,14 +65,13 @@ export class ItemRunesComponent implements OnInit {
     }
 
     get_ResilientRunes() {
-    /*    if (this.itemStore) {
+        if (this.itemStore) {
             return [0].concat(this.get_Items().armorrunes.filter(rune => rune.resilient > 0 && rune.resilient <= this.item.potencyRune).map(rune => rune.resilient));
         } else {
             let runes: number[] = [0, this.item.resilientRune];
             runes.push(...this.get_InventoryItems().armorrunes.filter(rune => rune.resilient > 0 && rune.resilient <= this.item.potencyRune).map(rune => rune.resilient));
             return Array.from(new Set(runes));
-        }*/
-        return [0,1,2,3]
+        }
     }
 
     get_PropertyRunes() {
@@ -191,7 +190,6 @@ export class ItemRunesComponent implements OnInit {
 
     on_ArmorRuneChange(runeType: string, previousRune: number) {
         let armor: Equipment = this.item;
-        /*
         switch (runeType) {
             case "potency":
                 //When we change the runes, the attributes get turned into strings, we have to turn them back into numbers.    
@@ -259,7 +257,6 @@ export class ItemRunesComponent implements OnInit {
                 }
                 break;
         }
-        */
         this.characterService.set_Changed();
     }
 
@@ -318,6 +315,63 @@ export class ItemRunesComponent implements OnInit {
         if (extractedRune.loreChoices.length) {
             this.characterService.remove_RuneLore(oldRune);
         }
+    }
+
+    add_ArmorPropertyRune(insertedRuneName: string, index: number) {
+        /*let weapon = this.item;
+        if (!weapon.propertyRunes[index] || insertedRuneName != weapon.propertyRunes[index].name) {
+            //If there is a rune in this slot, return the old rune to the inventory, unless we are in the item store. Then remove it from the item.
+            if (weapon.propertyRunes[index]) {
+                if (!this.itemStore) {
+                    this.remove_WeaponPropertyRune(weapon.propertyRunes.length - 1);
+                }
+                weapon.propertyRunes.splice(weapon.propertyRunes.length - 1, 1);
+            }
+            //Then add the new rune to the item and (unless we are in the item store) remove it from the inventory.
+            if (insertedRuneName) {
+                let insertedRune: Rune = new Rune();
+                if (this.itemStore) {
+                    insertedRune = this.get_Items().weaponrunes.filter(rune => rune.name == insertedRuneName)[0];
+                } else {
+                    insertedRune = this.get_InventoryItems().weaponrunes.filter(rune => rune.name == insertedRuneName)[0];
+                }
+                //Add a copy of the rune to the item
+                let newLength = weapon.propertyRunes.push(Object.assign(new WeaponRune, insertedRune));
+                let newRune = weapon.propertyRunes[newLength - 1];
+                newRune.amount = 1;
+                newRune.loreChoices = newRune.loreChoices.map(choice => Object.assign(new LoreChoice(), choice));
+                //If we are not in the item store, remove the inserted rune from the inventory, either by decreasing the amount or by dropping the item.
+                //Also add the rune's lore if needed.
+                if (!this.itemStore) {
+                    if (insertedRune.amount > 1) {
+                        insertedRune.amount--;
+                    } else {
+                        this.characterService.drop_InventoryItem(insertedRune, false, false);
+                    }
+                    if (weapon.propertyRunes[newLength - 1]["loreChoices"].length) {
+                        this.characterService.add_RuneLore(weapon.propertyRunes[newLength - 1]);
+                    }
+                }
+            }
+        }
+        this.characterService.set_Changed();*/
+    }
+
+    remove_ArmorPropertyRune(index: number) {
+        /*let weapon: Equipment = this.item;
+        let oldRune: Rune = weapon.propertyRunes[index];
+        //Add the extracted rune to the inventory, either on an existing stack or as a new item.
+        let extractedRune: WeaponRune = this.get_Items().weaponrunes.filter(rune => rune.name == oldRune.name)[0];
+        let existingRunes: WeaponRune[] = this.get_InventoryItems().weaponrunes.filter(rune => rune.name == oldRune.name)
+        if (existingRunes.length) {
+            existingRunes[0].amount++;
+        } else {
+            this.characterService.grant_InventoryItem(extractedRune, false, false);
+        }
+        //Remove the Ancestral Echoing Lore if applicable.
+        if (extractedRune.loreChoices.length) {
+            this.characterService.remove_RuneLore(oldRune);
+        }*/
     }
 
     ngOnInit() {

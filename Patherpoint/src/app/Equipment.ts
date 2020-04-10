@@ -3,7 +3,6 @@ import { EffectGain } from './EffectGain';
 import { Item } from './Item';
 import { ItemActivity } from './ItemActivity';
 import { ActivityGain } from './ActivityGain';
-import { LoreChoice } from './LoreChoice';
 import { Rune } from './Rune';
 
 export class Equipment extends Item {

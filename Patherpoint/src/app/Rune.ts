@@ -9,6 +9,7 @@ export class Rune extends Item {
     public desc: string = "";
     public hint: string = "";
     public traits: string[] = [];
+    public potency: number = 0;
     public activities: ItemActivity[] = [];
     public craftRequirement: string = "";
     //One rune trains a lore skill while equipped.

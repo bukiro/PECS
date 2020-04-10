@@ -97,11 +97,7 @@ export class ConditionsService {
             if (condition.onceEffects) {
                 if (taken) {
                     condition.onceEffects.forEach(effect => {
-                        switch (effect.affected) {
-                            case "Temporary HP":
-                                character.health.temporaryHP += parseInt(eval(effect.value));
-                                break;
-                        }
+                        characterService.process_OnceEffect(effect);
                     })
                 }
             }
@@ -118,6 +114,7 @@ export class ConditionsService {
                     if (characterService.get_Health().wounded(characterService) > 0) {
                         characterService.get_AppliedConditions("Wounded").forEach(gain => {
                             gain.value += 1
+                            gain.source = "Recovered from Dying";
                         });
                     } else {
                         characterService.add_Condition(Object.assign(new ConditionGain, {name:"Wounded", value:1, source:"Recovered from Dying"}), false)

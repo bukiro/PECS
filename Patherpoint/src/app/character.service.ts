@@ -49,6 +49,7 @@ import { SpellCast } from './SpellCast';
 import { WeaponRune } from './WeaponRune';
 import { LoreChoice } from './LoreChoice';
 import { Rune } from './Rune';
+import { Potion } from './Potion';
 
 @Injectable({
     providedIn: 'root'
@@ -364,7 +365,7 @@ export class CharacterService {
                     returnedInventoryItem["resilientRune"] = 0;
                 }
                 if (returnedInventoryItem["propertyRunes"]) {
-                    returnedInventoryItem["propertyRunes"] = ["", "", ""];
+                    returnedInventoryItem["propertyRunes"].length = 0;
                 }
             }
             if (returnedInventoryItem["propertyRunes"] && returnedInventoryItem["propertyRunes"].length) {
@@ -603,16 +604,34 @@ export class CharacterService {
         if (conditionGain.value) {
             conditionGain.value = parseInt(JSON.parse(JSON.stringify(conditionGain.value)));
         }
-        let newLength = this.me.conditions.push(conditionGain);
-        let newConditionGain = this.me.conditions[newLength - 1];
-        this.conditionsService.process_Condition(this, this.effectsService, conditionGain, this.conditionsService.get_Conditions(conditionGain.name)[0], true);
-        originalCondition.gainConditions.forEach(extraCondition => {
-            this.add_Condition(Object.assign(new ConditionGain, { name: extraCondition.name, value: extraCondition.value, source: newConditionGain.name, apply: true }), false)
-        })
-        if (reload) {
-            this.set_Changed();
+        let newLength: number = 0;
+        if (conditionGain.addValue) {
+            let existingConditions = this.me.conditions.filter(gain => gain.name == conditionGain.name);
+            if (existingConditions.length) {
+                existingConditions.forEach(gain => {
+                    gain.value += conditionGain.addValue;
+                })
+            } else {
+                conditionGain.value = conditionGain.addValue;
+                newLength = this.me.conditions.push(conditionGain);
+            }
+        } else {
+            newLength = this.me.conditions.push(conditionGain);
         }
-        return newLength;
+        if (newLength) {
+            
+            let newConditionGain = this.me.conditions[newLength - 1];
+    
+            this.conditionsService.process_Condition(this, this.effectsService, conditionGain, this.conditionsService.get_Conditions(conditionGain.name)[0], true);
+    
+            originalCondition.gainConditions.forEach(extraCondition => {
+                this.add_Condition(Object.assign(new ConditionGain, { name: extraCondition.name, value: extraCondition.value, source: newConditionGain.name, apply: true }), false)
+            })
+            if (reload) {
+                this.set_Changed();
+            }
+            return newLength;
+        }
     }
 
     remove_Condition(conditionGain: ConditionGain, reload: boolean = true) {
@@ -632,6 +651,8 @@ export class CharacterService {
 
     process_OnceEffect(effect: EffectGain) {
         let value: number = 0;
+        //Prepare some values that can be used in an eval.
+        let currentHP = this.me.health.currentHP(this, this.effectsService);
         try {
             value = parseInt(eval(effect.value));
         } catch (error) {
@@ -648,7 +669,7 @@ export class CharacterService {
                 if (value > 0) {
                     this.me.health.heal(this, this.effectsService, value, true)
                 } else if (value < 0) {
-                    this.me.health.takeDamage(this, this.effectsService, value, false)
+                    this.me.health.takeDamage(this, this.effectsService, -value, false)
                 }
                 break;
         }
@@ -723,20 +744,22 @@ export class CharacterService {
 
     get_OwnedActivities() {
         let activities: (ActivityGain | ItemActivity)[] = []
-        activities.push(...this.me.class.activities);
-        this.get_InventoryItems().allEquipment().filter(item => item.gainActivities.length || item.activities.length).forEach(item => {
-            if (item.gainActivities.length) {
-                activities.push(...item.gainActivities);
-            }
-            if (item.activities.length) {
-                activities.push(...item.activities);
-            }
-        })
-        this.get_InventoryItems().allEquipment().filter(item => item.propertyRunes.filter(rune => rune.activities.length).length).forEach(item => {
-            item.propertyRunes.filter(rune => rune.activities.length).forEach(rune => {
-                activities.push(...rune.activities);
+        if (!this.still_loading()) {
+            activities.push(...this.me.class.activities);
+            this.get_InventoryItems().allEquipment().filter(item => item.equipped && (item.can_Invest() ? item.invested : true) && (item.gainActivities.length || item.activities.length)).forEach(item => {
+                if (item.gainActivities.length) {
+                    activities.push(...item.gainActivities);
+                }
+                if (item.activities.length) {
+                    activities.push(...item.activities);
+                }
             })
-        })
+            this.get_InventoryItems().allEquipment().filter(item => item.propertyRunes.filter(rune => item.equipped && (item.can_Invest() ? item.invested : true) && rune.activities.length).length).forEach(item => {
+                item.propertyRunes.filter(rune => rune.activities.length).forEach(rune => {
+                    activities.push(...rune.activities);
+                })
+            })
+        }
         return activities;
     }
 
@@ -831,6 +854,7 @@ export class CharacterService {
                 this.me.inventory.wornitems = this.me.inventory.wornitems.map(element => this.itemsService.initialize_Item(Object.assign(new WornItem(), element), true, false));
                 this.me.inventory.helditems = this.me.inventory.helditems.map(element => this.itemsService.initialize_Item(Object.assign(new HeldItem(), element), true, false));
                 this.me.inventory.alchemicalelixirs = this.me.inventory.alchemicalelixirs.map(element => this.itemsService.initialize_Item(Object.assign(new AlchemicalElixir(), element), true, false));
+                this.me.inventory.potions = this.me.inventory.potions.map(element => this.itemsService.initialize_Item(Object.assign(new Potion(), element), true, false));
                 this.me.inventory.otherconsumables = this.me.inventory.otherconsumables.map(element => this.itemsService.initialize_Item(Object.assign(new OtherConsumable(), element), true, false));
                 this.me.inventory.adventuringgear = this.me.inventory.adventuringgear.map(element => this.itemsService.initialize_Item(Object.assign(new AdventuringGear(), element), true, false));
                 this.me.inventory.weaponrunes = this.me.inventory.weaponrunes.map(element => this.itemsService.initialize_Item(Object.assign(new WeaponRune(), element), true, false));

@@ -127,6 +127,14 @@
         <strong>Critical Failure</strong>
         {{item.critfailure}}
     </p>
+    <div class="list-item lower row problem" *ngIf="item.inputRequired">
+        <strong>Player input required:</strong>
+        <div class="row left-aligned">
+            <p *ngFor="let inputRequired of item.inputRequired.split('\n')">
+                {{inputRequired}}
+            </p>
+        </div>
+    </div>
 </div>
 <div class="row" *ngIf="item.isDoublingRings && !itemStore">
     <h4>Doubling Rings</h4>

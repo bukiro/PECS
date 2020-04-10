@@ -5,6 +5,8 @@ import { FeatChoice } from './FeatChoice';
 import { SkillChoice } from './SkillChoice';
 import { SpellChoice } from './SpellChoice';
 import { FormulaChoice } from 'src/FormulaChoice';
+import { ItemActivity } from './ItemActivity';
+import { TraditionChoice } from './TraditionChoice';
 
 export class Feat {
     public name: string = "";
@@ -34,6 +36,7 @@ export class Feat {
     public gainFeatChoice: FeatChoice[] = [];
     public gainSkillChoice: SkillChoice[] = [];
     public gainSpellChoice: SpellChoice[] = [];
+    public gainTraditionChoice: TraditionChoice[] = [];
     public gainFormulaChoice: FormulaChoice[] = [];
     public gainActivities: string[] = [];
     public gainLore: true;

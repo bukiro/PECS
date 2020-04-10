@@ -42,67 +42,27 @@
         ]
     },
     {
-        "name": "Lifting Belt",
-        "actions": "2",
-        "activationType": "Interact",
-        "desc": "You lift an object of up to 8 Bulk as though it were weightless. This requires two hands, and if the object is locked or otherwise held in place, you can attempt to Force it Open using Athletics as part of this activation. The object still has its full weight and Bulk for all other purposes—you just ignore that weight. The effect lasts until the end of your next turn.",
-        "traits": [
-            "Invested",
-            "Magical",
-            "Transmutation"
-        ]
-    },
-    {
-        "name": "Twining Staff: Staff",
-        "actions": "1",
-        "activationType": "Interact",
-        "toggle":true,
-        "desc": "You cause the twigs to rapidly grow or contract, reshaping into a +1 striking staff, a +1 striking bo staff, or its disc form. In its disc form, it has negligible Bulk and must be held in one hand to be activated. In the other forms, it has the same Bulk as a normal weapon of its type. You can switch your grip as part of the activation.\n\nWhen you expand the item, you can use the force of the expansion to High Jump or to try to Force Open a door or the like by wedging the disc into a gap before activation. The staff makes the Athletics check with a +15 modifier.",
-        "gainItems": [
-            {
-                "name": "Staff (Twining Staff)",
-                "type": "weapons"
-            }
-        ],
-        "traits": [
-            "Magical",
-            "Transmutation"
-        ]
-    },
-    {
-        "name": "Twining Staff: Bo Staff",
-        "actions": "1",
-        "activationType": "Interact",
-        "toggle":true,
-        "desc": "You cause the twigs to rapidly grow or contract, reshaping into a +1 striking staff, a +1 striking bo staff, or its disc form. In its disc form, it has negligible Bulk and must be held in one hand to be activated. In the other forms, it has the same Bulk as a normal weapon of its type. You can switch your grip as part of the activation.\n\nWhen you expand the item, you can use the force of the expansion to High Jump or to try to Force Open a door or the like by wedging the disc into a gap before activation. The staff makes the Athletics check with a +15 modifier.",
-        "gainItems": [
-            {
-                "name": "Bo Staff (Twining Staff)",
-                "type": "weapons"
-            }
-        ],
-        "traits": [
-            "Magical",
-            "Transmutation"
-        ]
-    },
-    {
-        "name": "Bountiful Cauldron",
-        "actions": "3",
-        "activationType": "Command, Interact",
-        "cooldown":144000,
+        "name": "Orc Ferocity",
+        "actions": "Reaction",
         "frequency": "once per day",
-        "desc": "You stir the cauldron, and it casts a 4th-level create food spell, filling itself with enough delicious vegetable stew to feed 12 Medium creatures.",
-        "castSpells": [
+        "cooldown": 144000,
+        "desc": "Fierceness in battle runs through your blood, and you refuse to fall from your injuries. You avoid being knocked out and remain at 1 Hit Point, and your wounded condition increases by 1.",
+        "traits": [
+            "Orc"
+        ],
+        "gainConditions": [
             {
-                "name": "Create Food",
-                "level": 4
+                "name": "Wounded",
+                "addValue": 1,
+                "source": "Orc Ferocity"
             }
         ],
-        "traits": [
-            "Conjuration",
-            "Magical",
-            "Uncommon"
-        ]
+        "onceEffects": [
+            {
+                "affected": "HP",
+                "value": "-(currentHP - 1)"
+            }
+        ],
+        "source": "Orc Ferocity"
     }
 ]

@@ -24,6 +24,8 @@ import { v1 as uuidv1 } from 'uuid';
 import { WeaponRune } from './WeaponRune';
 import { Rune } from './Rune';
 import { LoreChoice } from './LoreChoice';
+import { ArmorRune } from './ArmorRune';
+import { Potion } from './Potion';
 
 @Injectable({
     providedIn: 'root'
@@ -46,10 +48,14 @@ export class ItemsService {
     private loading_HeldItems: Boolean = false;
     private loader_AlchemicalElixirs = [];
     private loading_AlchemicalElixirs: Boolean = false;
+    private loader_Potions = [];
+    private loading_Potions: Boolean = false;
     private loader_OtherConsumables = [];
     private loading_OtherConsumables: Boolean = false;
     private loader_AdventuringGear = [];
     private loading_AdventuringGear: Boolean = false;
+    private loader_ArmorRunes = [];
+    private loading_ArmorRunes: Boolean = false;
     private loader_WeaponRunes = [];
     private loading_WeaponRunes: Boolean = false;
     
@@ -93,7 +99,8 @@ export class ItemsService {
     initialize_Item(item: Item, preassigned: boolean = false, newID: boolean = true) {
         //Every new item has to be re-assigned its class, receive an id and iterate over all its objects to reassign them as well.
         //Typescript does not seem to have the option to keep object properties' classes when assigning.
-        let newItem;
+        let newItem: any;
+        //Set preassigned if you have already given the item a Class. Otherwise it will be determined by the item's type.
         if (preassigned) {
             newItem = item;
         } else {
@@ -116,11 +123,17 @@ export class ItemsService {
                 case "alchemicalelixirs":
                     newItem = Object.assign(new AlchemicalElixir(), item);
                     break;
+                case "potions":
+                    newItem = Object.assign(new Potion(), item);
+                    break;
                 case "otherconsumables":
                     newItem = Object.assign(new OtherConsumable(), item);
                     break;
                 case "adventuringgear":
                     newItem = Object.assign(new AdventuringGear(), item);
+                    break;
+                case "armorrunes":
+                    newItem = Object.assign(new ArmorRune(), item);
                     break;
                 case "weaponrunes":
                     newItem = Object.assign(new WeaponRune(), item);
@@ -139,8 +152,8 @@ export class ItemsService {
         if (newItem.gainItems) {
             newItem.gainItems = newItem.gainItems.map((gain: ItemGain) => Object.assign(new ItemGain(), gain))
         }
-        if (newItem.gainCondition) {
-            newItem.gainCondition = newItem.gainCondition.map((gain: ConditionGain) => Object.assign(new ConditionGain(), gain))
+        if (newItem.gainConditions) {
+            newItem.gainConditions = newItem.gainConditions.map((gain: ConditionGain) => Object.assign(new ConditionGain(), gain))
         }
         if (newItem.gainActivities) {
             newItem.gainActivities = newItem.gainActivities.map((gain: ActivityGain) => Object.assign(new ActivityGain(), gain))
@@ -155,12 +168,13 @@ export class ItemsService {
                 activity.castSpells = activity.castSpells.map((castSpell: SpellCast) => Object.assign(new SpellCast(), castSpell));
                 activity.effects = activity.effects.map((effect: EffectGain) => Object.assign(new EffectGain(), effect));
                 activity.onceEffects = activity.onceEffects.map((effect: EffectGain) => Object.assign(new EffectGain(), effect));
+                activity.gainConditions = activity.gainConditions.map((gainConditions: ConditionGain) => Object.assign(new ConditionGain(), gainConditions));
             });
         }
         if (newItem.propertyRunes) {
             newItem.propertyRunes = newItem.propertyRunes.map((rune: Rune) => {
                 if (rune.type == "weaponrunes") {return Object.assign(new WeaponRune(), rune);}
-                //if (rune.type == "armorrunes") {return Object.assign(new ArmorRune(), rune);}
+                if (rune.type == "armorrunes") {return Object.assign(new ArmorRune(), rune);}
             });
             newItem.propertyRunes.forEach((rune: Rune) => {
                 rune.loreChoices = rune.loreChoices.map(choice => Object.assign(new LoreChoice(), choice));
@@ -175,8 +189,8 @@ export class ItemsService {
     process_Consumable(characterService: CharacterService, item: Consumable) {
 
         //Apply conditions.
-        if (item["gainCondition"]) {
-            item["gainCondition"].forEach(gain => {
+        if (item["gainConditions"]) {
+            item["gainConditions"].forEach(gain => {
                 let newConditionGain = Object.assign(new ConditionGain(), gain);
                 characterService.add_Condition(newConditionGain, false);
             });
@@ -222,6 +236,10 @@ export class ItemsService {
         return this.http.get<String[]>('/assets/items/alchemicalelixirs.json');
     }
 
+    load_Potions(): Observable<String[]>{
+        return this.http.get<String[]>('/assets/items/potions.json');
+    }
+
     load_OtherConsumables(): Observable<String[]>{
         return this.http.get<String[]>('/assets/items/otherconsumables.json');
     }
@@ -230,6 +248,10 @@ export class ItemsService {
         return this.http.get<String[]>('/assets/items/adventuringgear.json');
     }
     
+    load_ArmorRunes(): Observable<String[]>{
+        return this.http.get<String[]>('/assets/items/armorrunes.json');
+    }
+
     load_WeaponRunes(): Observable<String[]>{
         return this.http.get<String[]>('/assets/items/weaponrunes.json');
     }
@@ -279,6 +301,12 @@ export class ItemsService {
                     this.loader_AlchemicalElixirs = results;
                     this.finish_AlchemicalElixirs()
                 });
+            this.loading_Potions = true;
+            this.load_Potions()
+                .subscribe((results:String[]) => {
+                    this.loader_Potions = results;
+                    this.finish_Potions()
+                });
             this.loading_OtherConsumables = true;
             this.load_OtherConsumables()
                 .subscribe((results:String[]) => {
@@ -289,6 +317,11 @@ export class ItemsService {
                 .subscribe((results:String[]) => {
                     this.loader_AdventuringGear = results;
                     this.finish_AdventuringGear()
+                });
+            this.load_ArmorRunes()
+                .subscribe((results:String[]) => {
+                    this.loader_ArmorRunes = results;
+                    this.finish_ArmorRunes()
                 });
             this.load_WeaponRunes()
                 .subscribe((results:String[]) => {
@@ -354,6 +387,14 @@ export class ItemsService {
         if (this.loading_AlchemicalElixirs) {this.loading_AlchemicalElixirs = false;}
     }
 
+    finish_Potions() {
+        if (this.loader_Potions) {
+            this.items.potions = this.loader_Potions.map(element => this.initialize_Item(Object.assign(new Potion(), element), true));
+            this.loader_Potions = [];
+        }
+        if (this.loading_Potions) {this.loading_Potions = false;}
+    }
+
     finish_OtherConsumables() {
         if (this.loader_OtherConsumables) {
             this.items.otherconsumables = this.loader_OtherConsumables.map(element => this.initialize_Item(Object.assign(new OtherConsumable(), element), true));
@@ -368,6 +409,14 @@ export class ItemsService {
             this.loader_AdventuringGear = [];
         }
         if (this.loading_AdventuringGear) {this.loading_AdventuringGear = false;}
+    }
+
+    finish_ArmorRunes() {
+        if (this.loader_ArmorRunes) {
+            this.items.armorrunes = this.loader_ArmorRunes.map(element => this.initialize_Item(Object.assign(new ArmorRune(), element), true));
+            this.loader_ArmorRunes = [];
+        }
+        if (this.loading_ArmorRunes) {this.loading_ArmorRunes = false;}
     }
 
     finish_WeaponRunes() {

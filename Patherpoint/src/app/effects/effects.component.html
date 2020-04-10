@@ -9,7 +9,7 @@
                         title="{{conditionGain.source}}">{{conditionGain.name}}
                         {{(conditionGain.value) ? conditionGain.value : ""}}
                     </strong>
-                    ({{conditionGain.source}})
+                    {{(conditionGain.name != conditionGain.source) ? "("+conditionGain.source+")" : ""}}
                 </span>
             </div>
             <div class="row fullsize-only">

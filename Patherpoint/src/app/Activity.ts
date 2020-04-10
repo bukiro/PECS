@@ -1,6 +1,7 @@
 import { EffectGain } from './EffectGain';
 import { ItemGain } from './ItemGain';
 import { SpellCast } from './SpellCast';
+import { ConditionGain } from './ConditionGain';
 
 export class Activity {
     public name: string = "";
@@ -14,6 +15,7 @@ export class Activity {
     public trigger: string = "";
     public requirements: string = "";
     public gainItems: ItemGain[] = [];
+    public gainConditions: ConditionGain[] = [];
     public castSpells: SpellCast[] = [];
     public critsuccess: string = "";
     public success: string = "";

@@ -1,6 +1,7 @@
 export class ConditionGain {
     public name: string = "";
     public value: number = 0;
+    public addValue: number = 0;
     public source: string = "";
     public apply: boolean = true;
     //duration in turns * 10 or -1 for permanent

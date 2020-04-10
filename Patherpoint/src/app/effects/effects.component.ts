@@ -88,7 +88,9 @@ export class EffectsComponent implements OnInit {
         } else {
             let returnString: string = ""
             if (duration == this.timeService.get_YourTurn()) {
-                return "Rest of turn"
+                return "Rest of turn";
+            } else if (duration == 5) {
+                return "To start of next turn";
             }
             if (duration >= 144000) {
                 returnString += Math.floor(duration / 144000)+" Day"

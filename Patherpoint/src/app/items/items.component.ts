@@ -19,6 +19,7 @@ import { ConditionGain } from '../ConditionGain';
 import { ActivityGain } from '../ActivityGain';
 import { ItemActivity } from '../ItemActivity';
 import { ItemProperty } from '../ItemProperty';
+import { Potion } from '../Potion';
 
 @Component({
     selector: 'app-items',
@@ -137,6 +138,10 @@ export class ItemsComponent implements OnInit {
         }
     }
 
+    get_NewItemFilter() {
+        return [{name:'', key:''}].concat(this.get_Items().names.filter(name => name.key != "weaponrunes" && name.key != "armorrunes"));
+    }
+    
     initialize_NewItem() {
         switch (this.newItemType) {
             case "weapons":
@@ -157,6 +162,9 @@ export class ItemsComponent implements OnInit {
             case "alchemicalelixirs":
                 this.newItem = new AlchemicalElixir();
                 break;
+            case "potions":
+                this.newItem = new Potion();
+                break;
             case "otherconsumables":
                 this.newItem = new OtherConsumable();
                 break;
@@ -167,96 +175,19 @@ export class ItemsComponent implements OnInit {
                 this.newItem = null;
         }
         if (this.newItem) {
-            if (this.newItem["effects"]) {
-                this.newItem["effects"] = this.newItem["effects"].map(effect => Object.assign(new EffectGain(), effect))
-            }
-            if (this.newItem["gainItems"]) {
-                this.newItem["gainItems"] = this.newItem["gainItems"].map(effect => Object.assign(new ItemGain(), effect))
-            }
-            if (this.newItem["gainCondition"]) {
-                this.newItem["gainCondition"] = this.newItem["gainCondition"].map(effect => Object.assign(new ConditionGain(), effect))
-            }
-            if (this.newItem["gainActivities"]) {
-                this.newItem["gainActivities"] = this.newItem["gainActivities"].map(effect => Object.assign(new ActivityGain(), effect))
-            }
-            if (this.newItem["activities"]) {
-                this.newItem["activities"] = this.newItem["activities"].map(effect => Object.assign(new ItemActivity(), effect))
-            }
+            this.newItem = this.itemsService.initialize_Item(this.newItem, true)
         }
     }
 
     get_NewItemProperties() {
-        let hideProperties: string[] = [
-            "amount",
-            "level",
-            "showNotes",
-            "showName",
-            "type",
-            "hide",
-            "equipped",
-            "invested",
-            "cover",
-            "affectedByArmoredSkirt",
-            "parrying",
-            "raised",
-            "takingCover",
-            "potencyRune",
-            "strikingRune",
-            "resilientRune",
-            "propertyRunes",
-            "material",
-            "data"
-        ]
         function get_PropertyData(key: string, itemsService: ItemsService) {
             return itemsService.get_ItemProperties().filter(property => !property.parent && property.key == key)[0];
         }
-        return Object.keys(this.newItem).filter(key => hideProperties.indexOf(key) == -1).map((key) => get_PropertyData(key, this.itemsService)).filter(property => property != undefined);
+        return Object.keys(this.newItem).map((key) => get_PropertyData(key, this.itemsService)).filter(property => property != undefined);
     }
 
-    
-
     copy_Item(item: Equipment|Consumable) {
-        switch (item.type) {
-            case "weapons":
-                this.newItem = Object.assign(new Weapon(), item);
-                break;
-            case "armors":
-                this.newItem = Object.assign(new Armor(), item);
-                break;
-            case "shields":
-                this.newItem = Object.assign(new Shield(), item as Shield);
-                break;
-            case "wornitems":
-                this.newItem = Object.assign(new WornItem(), item as WornItem);
-                break;
-            case "helditems":
-                this.newItem = Object.assign(new HeldItem(), item);
-                break;
-            case "alchemicalelixirs":
-                this.newItem = Object.assign(new AlchemicalElixir(), item);
-                break;
-            case "otherconsumables":
-                this.newItem = Object.assign(new OtherConsumable(), item);
-                break;
-            case "adventuringgear":
-                this.newItem = Object.assign(new AdventuringGear(), item);
-                break;
-        }
-        if (this.newItem["effects"]) {
-            this.newItem["effects"] = this.newItem["effects"].map(effect => Object.assign(new EffectGain(), effect))
-        }
-        if (this.newItem["gainItems"]) {
-            this.newItem["gainItems"] = this.newItem["gainItems"].map(effect => Object.assign(new ItemGain(), effect))
-        }
-        if (this.newItem["gainCondition"]) {
-            this.newItem["gainCondition"] = this.newItem["gainCondition"].map(effect => Object.assign(new ConditionGain(), effect))
-        }
-        if (this.newItem["gainActivities"]) {
-            this.newItem["gainActivities"] = this.newItem["gainActivities"].map(effect => Object.assign(new ActivityGain(), effect))
-        }
-        if (this.newItem["activities"]) {
-            this.newItem["activities"] = this.newItem["activities"].map(effect => Object.assign(new ItemActivity(), effect))
-        }
+        this.newItem = this.itemsService.initialize_Item(JSON.parse(JSON.stringify(item)))
     }
 
     grant_CustomItem() {

@@ -171,11 +171,13 @@
                                 </span>
                             </div>
                             <!--End Subheritages-->
-                            <div *ngFor="let desc of heritage.desc.split('\n\n')">
-                                <p *ngIf="desc.split('\n').length == 1">{{desc}}</p>
-                                <ul *ngIf="desc.split('\n').length > 1">
-                                    <li *ngFor="let line of desc.split('\n')">{{line}}</li>
-                                </ul>
+                            <div class="row left-aligned">
+                                <ng-container *ngFor="let desc of heritage.desc.split('\n\n')">
+                                    <p *ngIf="desc.split('\n').length == 1">{{desc}}</p>
+                                    <ul *ngIf="desc.split('\n').length > 1">
+                                        <li *ngFor="let line of desc.split('\n')">{{line}}</li>
+                                    </ul>
+                                </ng-container>
                             </div>
                         </div>
                     </div>
@@ -226,11 +228,13 @@
                                     </span>
                                 </div>
                                 <!--End Subbackgrounds-->
-                                <div *ngFor="let desc of background.desc.split('\n\n')">
-                                    <p *ngIf="desc.split('\n').length == 1">{{desc}}</p>
-                                    <ul *ngIf="desc.split('\n').length > 1">
-                                        <li *ngFor="let line of desc.split('\n')">{{line}}</li>
-                                    </ul>
+                                <div class="row left-aligned">
+                                    <ng-container *ngFor="let desc of background.desc.split('\n\n')">
+                                        <p *ngIf="desc.split('\n').length == 1">{{desc}}</p>
+                                        <ul *ngIf="desc.split('\n').length > 1">
+                                            <li *ngFor="let line of desc.split('\n')">{{line}}</li>
+                                        </ul>
+                                    </ng-container>
                                 </div>
                             </div>
                         </div>
@@ -335,12 +339,14 @@
                                             </span>
                                         </div>
                                         <!--End Subbackgrounds-->
-                                        <ng-container *ngFor="let desc of background.desc.split('\n\n')">
-                                            <p *ngIf="desc.split('\n').length == 1">{{desc}}</p>
-                                            <ul *ngIf="desc.split('\n').length > 1">
-                                                <li *ngFor="let line of desc.split('\n')">{{line}}</li>
-                                            </ul>
-                                        </ng-container>
+                                        <div class="row left-aligned">
+                                            <ng-container *ngFor="let desc of background.desc.split('\n\n')">
+                                                <p *ngIf="desc.split('\n').length == 1">{{desc}}</p>
+                                                <ul *ngIf="desc.split('\n').length > 1">
+                                                    <li *ngFor="let line of desc.split('\n')">{{line}}</li>
+                                                </ul>
+                                            </ng-container>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -564,21 +570,23 @@
                                                     {{trait}}
                                                 </cite>
                                             </div>
-                                            <p>
-                                                <strong>Requirements&nbsp;</strong>
-                                                <span [className]="(req.met == false) ? 'problem' : ''"
-                                                    *ngFor="let req of get_FeatRequirements(choice, feat)">{{req.desc}}</span>
-                                            </p>
-                                            <div *ngFor="let desc of feat.desc.split('\n\n')">
-                                                <p *ngIf="desc.split('\n').length == 1">{{desc}}</p>
-                                                <ul *ngIf="desc.split('\n').length > 1">
-                                                    <li *ngFor="let line of desc.split('\n')">{{line}}</li>
-                                                </ul>
+                                            <div class="row left-aligned">
+                                                <p>
+                                                    <strong>Requirements&nbsp;</strong>
+                                                    <span [className]="(req.met == false) ? 'problem' : ''"
+                                                        *ngFor="let req of get_FeatRequirements(choice, feat)">{{req.desc}}</span>
+                                                </p>
+                                                <ng-container *ngFor="let desc of feat.desc.split('\n\n')">
+                                                    <p *ngIf="desc.split('\n').length == 1">{{desc}}</p>
+                                                    <ul *ngIf="desc.split('\n').length > 1">
+                                                        <li *ngFor="let line of desc.split('\n')">{{line}}</li>
+                                                    </ul>
+                                                </ng-container>
+                                                <p *ngIf="feat.specialdesc.length">
+                                                    <strong>Special</strong>
+                                                    {{feat.specialdesc}}
+                                                </p>
                                             </div>
-                                            <p *ngIf="feat.specialdesc.length">
-                                                <strong>Special</strong>
-                                                {{feat.specialdesc}}
-                                            </p>
                                         </div>
                                     </div>
                                 </div>
@@ -636,21 +644,23 @@
                                                     {{trait}}
                                                 </cite>
                                             </div>
-                                            <p>
-                                                <strong>Requirements&nbsp;</strong>
-                                                <span [className]="(req.met == false) ? 'problem' : ''"
-                                                    *ngFor="let req of get_FeatRequirements(choice, feat)">{{req.desc}}</span>
-                                            </p>
-                                            <div *ngFor="let desc of feat.desc.split('\n\n')">
-                                                <p *ngIf="desc.split('\n').length == 1">{{desc}}</p>
-                                                <ul *ngIf="desc.split('\n').length > 1">
-                                                    <li *ngFor="let line of desc.split('\n')">{{line}}</li>
-                                                </ul>
+                                            <div class="row left-aligned">
+                                                <p>
+                                                    <strong>Requirements&nbsp;</strong>
+                                                    <span [className]="(req.met == false) ? 'problem' : ''"
+                                                        *ngFor="let req of get_FeatRequirements(choice, feat)">{{req.desc}}</span>
+                                                </p>
+                                                <ng-container *ngFor="let desc of feat.desc.split('\n\n')">
+                                                    <p *ngIf="desc.split('\n').length == 1">{{desc}}</p>
+                                                    <ul *ngIf="desc.split('\n').length > 1">
+                                                        <li *ngFor="let line of desc.split('\n')">{{line}}</li>
+                                                    </ul>
+                                                </ng-container>
+                                                <p *ngIf="feat.specialdesc.length">
+                                                    <strong>Special</strong>
+                                                    {{feat.specialdesc}}
+                                                </p>
                                             </div>
-                                            <p *ngIf="feat.specialdesc.length">
-                                                <strong>Special</strong>
-                                                {{feat.specialdesc}}
-                                            </p>
                                         </div>
                                     </div>
                                 </div>

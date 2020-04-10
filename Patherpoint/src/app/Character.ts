@@ -165,9 +165,9 @@ export class Character {
                     })
                 })
             })
-            characterService.get_InventoryItems().allEquipment().filter(item => item.propertyRunes.filter(rune => rune.loreChoices.length).length && item.equipped && (item.can_Invest() ? item.invested : true ))
+            characterService.get_InventoryItems().allEquipment().filter(item => item.propertyRunes.filter(rune => rune.loreChoices && rune.loreChoices.length).length && item.equipped && (item.can_Invest() ? item.invested : true ))
             .forEach(item => {
-                item.propertyRunes.filter(rune => rune.loreChoices.length).forEach(rune => {
+                item.propertyRunes.filter(rune => rune.loreChoices && rune.loreChoices.length).forEach(rune => {
                     rune.loreChoices.forEach(choice => {
                         choice.increases.filter(increase => 
                             (increase.name == skillName || skillName == "") &&

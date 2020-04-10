@@ -59,7 +59,7 @@ export class Class {
             if (this.ancestry.gainItems.length) {
                 this.ancestry.gainItems.forEach(freeItem => {
                     let item: Equipment = itemsService.get_Items()[freeItem.type].filter(item => item.name == freeItem.name)[0];
-                    characterService.grant_InventoryItem(item);
+                    characterService.grant_InventoryItem(item, false, false, true, freeItem.amount);
                 });
             }
         }

@@ -54,13 +54,4 @@ Active issues:
 When switching weapon runes from Ancestral Echoing to Speed, the showing item in the inventory stops showing until the inventory is refreshed.
 
 To do to finish Ohm:
-- Slippers of Spider Climbing
-- Lesser Leaper's Elixir
-- Moderate Eagle-Eye Elixir
-- Lesser Healing Potion
-- Orc Ferocity
-- Add custom Items:
-- SUPERNinja-Cloak by HAXNBAUER
-- Kassen's Blessing
-- Bruno's Nose Ring
 - Spell Key Ability

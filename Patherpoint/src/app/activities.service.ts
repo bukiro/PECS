@@ -10,6 +10,7 @@ import { TimeService } from './time.service';
 import { Equipment } from './Equipment';
 import { Weapon } from './Weapon';
 import { ItemActivity } from './ItemActivity';
+import { ConditionGain } from './ConditionGain';
 
 @Injectable({
     providedIn: 'root'
@@ -65,13 +66,20 @@ export class ActivitiesService {
             gain.activeCooldown = activity.cooldown + timeService.get_YourTurn();
         }
 
+        //One time effects
+        if (activity.onceEffects) {
+            activity.onceEffects.forEach(effect => {
+                characterService.process_OnceEffect(effect);
+            })
+        }
+
         //Gain Items on Activation
         if (activity.gainItems.length) {
             if (activated) {
                 activity.gainItems.forEach(gainItem => {
                     if (gainItem.type) {
                         let item: Equipment = itemsService.get_Items()[gainItem.type].filter(item => item.name == gainItem.name)[0];
-                        characterService.grant_InventoryItem(item);
+                        characterService.grant_InventoryItem(item, false, false);
                     }
                 });
             } else {
@@ -84,6 +92,14 @@ export class ActivitiesService {
                     }
                 });
             }
+        }
+
+        //Apply conditions.
+        if (activity.gainConditions) {
+            activity.gainConditions.forEach(gain => {
+                let newConditionGain = Object.assign(new ConditionGain(), gain);
+                characterService.add_Condition(newConditionGain, false);
+            });
         }
 
         //Exclusive activity activation

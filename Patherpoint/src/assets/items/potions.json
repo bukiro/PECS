@@ -1,0 +1,23 @@
+[
+    {
+        "name": "Healing Potion (Lesser)",
+        "type": "potions",
+        "usage": "held in 1 hand",
+        "bulk": "L",
+        "price": 1200,
+        "level": 3,
+        "actions": "1",
+        "activationType": "Interact",
+        "desc": "A healing potion is a vial of a ruby-red liquid that imparts a tingling sensation as the drinker’s wounds heal rapidly. When you drink a healing potion, you regain the listed number of Hit Points.",
+        "subType": "Lesser",
+        "subTypeDesc": "The potion restores 2d8+5 Hit Points.",
+        "traits": [
+            "Consumable",
+            "Healing",
+            "Magical",
+            "Necromancy",
+            "Potion"
+        ],
+        "inputRequired": "Restore 2d8+5 Hit Points."
+    }
+]

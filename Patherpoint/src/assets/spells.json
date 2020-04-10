@@ -1,45 +1,163 @@
 [
     {
-        "name":"Ki Strike",
-        "traits":["Uncommon", "Monk", "Transmutation"],
-        "levelreq":1,
-        "actions":"1",
-        "castType":"verbal",
-        "shortDesc":"You focus your ki into magical attacks.",
-        "desc1":[{"type":"text", "value":"You focus your ki into magical attacks. Make an unarmed Strike or Flurry of Blows (this doesn't change the limit on using only one flourish per turn). You gain a +1 status bonus to your attack rolls with the Strikes, and the Strikes deal "}, {"type":"variable", "value":"1d6"}, {"type":"text", "value":" extra damage. This damage can be any of the following types of your choice, chosen each time you Strike: force, lawful (only if you're lawful), negative, or positive."}],
-        "desc5":[{"type":"text", "value":"You focus your ki into magical attacks. Make an unarmed Strike or Flurry of Blows (this doesn't change the limit on using only one flourish per turn). You gain a +1 status bonus to your attack rolls with the Strikes, and the Strikes deal "}, {"type":"variable", "value":"2d6"}, {"type":"text", "value":" extra damage. This damage can be any of the following types of your choice, chosen each time you Strike: force, lawful (only if you're lawful), negative, or positive."}],
-        "desc9":[{"type":"text", "value":"You focus your ki into magical attacks. Make an unarmed Strike or Flurry of Blows (this doesn't change the limit on using only one flourish per turn). You gain a +1 status bonus to your attack rolls with the Strikes, and the Strikes deal "}, {"type":"variable", "value":"3d6"}, {"type":"text", "value":" extra damage. This damage can be any of the following types of your choice, chosen each time you Strike: force, lawful (only if you're lawful), negative, or positive."}],
-        "heightened":[{"level":"(+4)", "desc":"The extra damage increases by 1d6."}]
+        "name": "Ki Strike",
+        "traits": [
+            "Uncommon",
+            "Monk",
+            "Transmutation"
+        ],
+        "levelreq": 1,
+        "actions": "1",
+        "castType": "verbal",
+        "shortDesc": "You focus your ki into magical attacks.",
+        "desc1": [
+            {
+                "type": "text",
+                "value": "You focus your ki into magical attacks. Make an unarmed Strike or Flurry of Blows (this doesn't change the limit on using only one flourish per turn). You gain a +1 status bonus to your attack rolls with the Strikes, and the Strikes deal "
+            },
+            {
+                "type": "variable",
+                "value": "1d6"
+            },
+            {
+                "type": "text",
+                "value": " extra damage. This damage can be any of the following types of your choice, chosen each time you Strike: force, lawful (only if you're lawful), negative, or positive."
+            }
+        ],
+        "desc5": [
+            {
+                "type": "text",
+                "value": "You focus your ki into magical attacks. Make an unarmed Strike or Flurry of Blows (this doesn't change the limit on using only one flourish per turn). You gain a +1 status bonus to your attack rolls with the Strikes, and the Strikes deal "
+            },
+            {
+                "type": "variable",
+                "value": "2d6"
+            },
+            {
+                "type": "text",
+                "value": " extra damage. This damage can be any of the following types of your choice, chosen each time you Strike: force, lawful (only if you're lawful), negative, or positive."
+            }
+        ],
+        "desc9": [
+            {
+                "type": "text",
+                "value": "You focus your ki into magical attacks. Make an unarmed Strike or Flurry of Blows (this doesn't change the limit on using only one flourish per turn). You gain a +1 status bonus to your attack rolls with the Strikes, and the Strikes deal "
+            },
+            {
+                "type": "variable",
+                "value": "3d6"
+            },
+            {
+                "type": "text",
+                "value": " extra damage. This damage can be any of the following types of your choice, chosen each time you Strike: force, lawful (only if you're lawful), negative, or positive."
+            }
+        ],
+        "heightened": [
+            {
+                "level": "(+4)",
+                "desc": "The extra damage increases by 1d6."
+            }
+        ]
     },
     {
-        "name":"Knock",
-        "traditions":"arcane, occult",
-        "traits":["Transmutation"],
-        "range":30,
-        "targets":"1 door, lock or container",
-        "duration":100,
-        "levelreq":2,
-        "actions":"2",
-        "castType":"somatic, verbal",
-        "shortDesc":"Make a door, lock, or container easier to open, and possibly open it immediately.",
-        "desc1":[{"type":"text", "value":"You make the target easier to open. Knock grants a +4 status bonus to any creature that tries to open the target door, lock, or container with an Athletics or a Thievery check. You can attempt a Thievery check to open the target as part of casting knock, and you add your level even if you're untrained.\n\nKnock counteracts lock."}]
+        "name": "Knock",
+        "traditions": "arcane, occult",
+        "traits": [
+            "Transmutation"
+        ],
+        "range": 30,
+        "targets": "1 door, lock or container",
+        "duration": 100,
+        "levelreq": 2,
+        "actions": "2",
+        "castType": "somatic, verbal",
+        "shortDesc": "Make a door, lock, or container easier to open, and possibly open it immediately.",
+        "desc1": [
+            {
+                "type": "text",
+                "value": "You make the target easier to open. Knock grants a +4 status bonus to any creature that tries to open the target door, lock, or container with an Athletics or a Thievery check. You can attempt a Thievery check to open the target as part of casting knock, and you add your level even if you're untrained.\n\nKnock counteracts lock."
+            }
+        ]
     },
     {
-        "name":"Create Food",
-        "traditions":"arcane, divine, primal",
-        "traits":["Conjuration"],
-        "levelreq":2,
-        "actions":"1 hour",
-        "castType":"somatic, verbal",
-        "shortDesc":"Conjure food that can feed multiple creatures.",
-        "desc2":[{"type":"text", "value":"You create enough food to feed "}, {"type":"variable", "value":"six"}, {"type":"text", "value":" Medium creatures for a day. This food is bland and unappealing, but it is nourishing. After 1 day, if no one has eaten the food, it decays and becomes inedible. Most Small creatures eat one-quarter as much as a Medium creature (one-sixteenth as much for most Tiny creatures), and most Large creatures eat 10 times as much (100 times as much for Huge creatures and so on)."}],
-        "desc4":[{"type":"text", "value":"You create enough food to feed "}, {"type":"variable", "value":"12"}, {"type":"text", "value":" Medium creatures for a day. This food is bland and unappealing, but it is nourishing. After 1 day, if no one has eaten the food, it decays and becomes inedible. Most Small creatures eat one-quarter as much as a Medium creature (one-sixteenth as much for most Tiny creatures), and most Large creatures eat 10 times as much (100 times as much for Huge creatures and so on)."}],
-        "desc6":[{"type":"text", "value":"You create enough food to feed "}, {"type":"variable", "value":"50"}, {"type":"text", "value":" Medium creatures for a day. This food is bland and unappealing, but it is nourishing. After 1 day, if no one has eaten the food, it decays and becomes inedible. Most Small creatures eat one-quarter as much as a Medium creature (one-sixteenth as much for most Tiny creatures), and most Large creatures eat 10 times as much (100 times as much for Huge creatures and so on)."}],
-        "desc8":[{"type":"text", "value":"You create enough food to feed "}, {"type":"variable", "value":"200"}, {"type":"text", "value":" Medium creatures for a day. This food is bland and unappealing, but it is nourishing. After 1 day, if no one has eaten the food, it decays and becomes inedible. Most Small creatures eat one-quarter as much as a Medium creature (one-sixteenth as much for most Tiny creatures), and most Large creatures eat 10 times as much (100 times as much for Huge creatures and so on)."}],
-        "heightened":[
-            {"level":"(4th)", "desc":"You can feed 12 Medium creatures."},
-            {"level":"(6th)", "desc":"You can feed 50 Medium creatures."},
-            {"level":"(8th)", "desc":"You can feed 200 Medium creatures."}
+        "name": "Create Food",
+        "traditions": "arcane, divine, primal",
+        "traits": [
+            "Conjuration"
+        ],
+        "levelreq": 2,
+        "actions": "1 hour",
+        "castType": "somatic, verbal",
+        "shortDesc": "Conjure food that can feed multiple creatures.",
+        "desc2": [
+            {
+                "type": "text",
+                "value": "You create enough food to feed "
+            },
+            {
+                "type": "variable",
+                "value": "six"
+            },
+            {
+                "type": "text",
+                "value": " Medium creatures for a day. This food is bland and unappealing, but it is nourishing. After 1 day, if no one has eaten the food, it decays and becomes inedible. Most Small creatures eat one-quarter as much as a Medium creature (one-sixteenth as much for most Tiny creatures), and most Large creatures eat 10 times as much (100 times as much for Huge creatures and so on)."
+            }
+        ],
+        "desc4": [
+            {
+                "type": "text",
+                "value": "You create enough food to feed "
+            },
+            {
+                "type": "variable",
+                "value": "12"
+            },
+            {
+                "type": "text",
+                "value": " Medium creatures for a day. This food is bland and unappealing, but it is nourishing. After 1 day, if no one has eaten the food, it decays and becomes inedible. Most Small creatures eat one-quarter as much as a Medium creature (one-sixteenth as much for most Tiny creatures), and most Large creatures eat 10 times as much (100 times as much for Huge creatures and so on)."
+            }
+        ],
+        "desc6": [
+            {
+                "type": "text",
+                "value": "You create enough food to feed "
+            },
+            {
+                "type": "variable",
+                "value": "50"
+            },
+            {
+                "type": "text",
+                "value": " Medium creatures for a day. This food is bland and unappealing, but it is nourishing. After 1 day, if no one has eaten the food, it decays and becomes inedible. Most Small creatures eat one-quarter as much as a Medium creature (one-sixteenth as much for most Tiny creatures), and most Large creatures eat 10 times as much (100 times as much for Huge creatures and so on)."
+            }
+        ],
+        "desc8": [
+            {
+                "type": "text",
+                "value": "You create enough food to feed "
+            },
+            {
+                "type": "variable",
+                "value": "200"
+            },
+            {
+                "type": "text",
+                "value": " Medium creatures for a day. This food is bland and unappealing, but it is nourishing. After 1 day, if no one has eaten the food, it decays and becomes inedible. Most Small creatures eat one-quarter as much as a Medium creature (one-sixteenth as much for most Tiny creatures), and most Large creatures eat 10 times as much (100 times as much for Huge creatures and so on)."
+            }
+        ],
+        "heightened": [
+            {
+                "level": "(4th)",
+                "desc": "You can feed 12 Medium creatures."
+            },
+            {
+                "level": "(6th)",
+                "desc": "You can feed 50 Medium creatures."
+            },
+            {
+                "level": "(8th)",
+                "desc": "You can feed 200 Medium creatures."
+            }
         ]
     }
 ]

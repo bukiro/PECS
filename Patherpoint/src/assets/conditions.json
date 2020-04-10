@@ -177,6 +177,20 @@
         ]
     },
     {
+        "name": "Eagle-Eye Elixir (Moderate)",
+        "type": "alchemicalelixirs",
+        "desc": "You gain an item bonus of +2 to Perception checks that is +3 when attempting to find secret doors and traps. ",
+        "buff": true,
+        "effects": [
+            {
+                "affected": "Perception",
+                "value": "+2",
+                "type": "item"
+            }
+        ],
+        "showon": "Perception"
+    },
+    {
         "name": "Juggernaut Mutagen (Lesser)",
         "type": "alchemicalelixirs",
         "desc": "You gain an item bonus of +1 to Fortitude saves and 5 temporary Hit Points.\n\nYou take a –2 penalty to Will saves, Perception checks, and initiative rolls. Whenever you are at maximum Hit Points for at least 1 full minute, you regain the temporary Hit Points.",
@@ -201,9 +215,29 @@
         ]
     },
     {
+        "name": "Leaper's Elixir (Lesser)",
+        "type": "alchemicalelixirs",
+        "desc": "You can High Jump or Long Jump as a single action instead of 2 actions. If you do, you don’t perform the initial Stride (nor do you fail if you don’t Stride 10 feet).",
+        "buff": true,
+        "showon": "Athletics"
+    },
+    {
         "name": "Candle of Truth",
         "type": "otherconsumables",
         "desc": "Creatures within 10 feet of the candle receive a –4 status penalty to Lie.\n\nIn addition, when first entering the affected area, each creature (including you) must succeed at a DC 26 Will save or be unable to tell any deliberate lies while within 10 feet of the lit candle. This lasts for as long as the candle is lit.",
         "showon": "Deception"
+    },
+    {
+        "name": "Slippers of Spider Climbing",
+        "type": "wornitems",
+        "desc": "You gain a 20-foot climb Speed and you don’t need to use your hands to Climb. However, the slippers require decent traction for you to walk on a wall, so they provide no benefit when you’re moving across greased, icy, or oiled surfaces.",
+        "effects": [
+            {
+                "affected": "Climb Speed",
+                "value": "+20"
+            }
+        ],
+        "buff": true,
+        "showon": "Movement"
     }
 ]

@@ -186,7 +186,7 @@ export class NewItemPropertyComponent implements OnInit {
             case "traits":
                 this.get_Parent()[this.propertyKey].push("" as string)
                 break;
-            case "gainCondition":
+            case "gainConditions":
                 this.get_Parent()[this.propertyKey].push(new ConditionGain())
                 break;
             case "castSpells":

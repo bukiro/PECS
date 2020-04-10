@@ -850,9 +850,26 @@
             "Conjuration",
             "Magical"
         ],
-        "gainActivities": [
+        "activities": [
             {
-                "name":"Bountiful Cauldron"
+                "name": "Bountiful Cauldron",
+                "actions": "3",
+                "activationType": "Command, Interact",
+                "cooldown":144000,
+                "frequency": "once per day",
+                "desc": "You stir the cauldron, and it casts a 4th-level create food spell, filling itself with enough delicious vegetable stew to feed 12 Medium creatures.",
+                "castSpells": [
+                    {
+                        "name": "Create Food",
+                        "level": 4
+                    }
+                ],
+                "traits": [
+                    "Conjuration",
+                    "Magical",
+                    "Uncommon"
+                ],
+                "source": "Bountiful Cauldron"
             }
         ]
     },

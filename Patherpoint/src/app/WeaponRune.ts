@@ -1,10 +1,8 @@
 import { Rune } from './Rune';
-import { LoreChoice } from './LoreChoice';
 
 export class WeaponRune extends Rune {
     //Weapon Runes should be type "weaponrunes" to be found in the database
     readonly type = "weaponrunes";
-    public potency: number = 0;
     public striking: number = 0;
     //Can only be applied to a weapon with this name
     public namereq: string = "";

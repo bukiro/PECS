@@ -260,8 +260,16 @@
     },
     {
         "parent": "activities",
-        "key": "critsuccess",
+        "key": "gainConditions",
         "priority": "12",
+        "group": "",
+        "name": "Cause condition",
+        "desc": "Add known conditions that will be caused when this item is activated."
+    },
+    {
+        "parent": "activities",
+        "key": "critsuccess",
+        "priority": "13",
         "group": "",
         "name": "Critical success effect",
         "desc": "If you or the target must roll to decide the outcome of the item's activation, describe what happens at a critical success.",
@@ -270,7 +278,7 @@
     {
         "parent": "activities",
         "key": "success",
-        "priority": "13",
+        "priority": "14",
         "group": "",
         "name": "Success effect",
         "desc": "If you or the target must roll to decide the outcome of the item's activation, describe what happens at a success.",
@@ -279,7 +287,7 @@
     {
         "parent": "activities",
         "key": "failure",
-        "priority": "14",
+        "priority": "15",
         "group": "",
         "name": "Failure effect",
         "desc": "If you or the target must roll to decide the outcome of the item's activation, describe what happens at a failure.",
@@ -288,7 +296,7 @@
     {
         "parent": "activities",
         "key": "critfailure",
-        "priority": "15",
+        "priority": "16",
         "group": "",
         "name": "Critical failure effect",
         "desc": "If you or the target must roll to decide the outcome of the item's activation, describe what happens at a critical failure.",
@@ -297,7 +305,7 @@
     {
         "parent": "activities",
         "key": "effects",
-        "priority": "16",
+        "priority": "17",
         "group": "",
         "name": "Permanent numeral effects",
         "desc": "These bonuses or penalties will be applied while the item is activated."
@@ -305,7 +313,7 @@
     {
         "parent": "activities",
         "key": "onceEffects",
-        "priority": "16",
+        "priority": "18",
         "group": "",
         "name": "One-time numeral effects",
         "desc": "These bonuses or penalties will be applied immediately when the item is activated, like granting temporary HP. There are only a few properties that can be affected this way. Dice rolls should be handled by the player."
@@ -658,14 +666,22 @@
         "desc": "These bonuses or penalties will be applied immediately when the item is activated, like granting temporary HP. There are only a few properties that can be affected this way. Dice rolls should be handled by the player."
     },
     {
-        "key": "gainCondition",
+        "key": "inputRequired",
         "priority": "3",
+        "group": "9-Consumables",
+        "name": "Player input required",
+        "desc": "Certain effects are not automated, such as repeated effects under complicated circumstances, or anything that requires a dice roll. If this item requires the player to perform a certain action after activating it, you can describe the expectations here.",
+        "examples": "inputRequired"
+    },
+    {
+        "key": "gainConditions",
+        "priority": "4",
         "group": "9-Consumables",
         "name": "Cause condition",
         "desc": "Add known conditions that will be caused by using this item."
     },
     {
-        "parent": "gainCondition",
+        "parent": "gainConditions",
         "key": "name",
         "priority": "0",
         "group": "",
@@ -675,7 +691,7 @@
         "examples": "gaincondition name"
     },
     {
-        "parent": "gainCondition",
+        "parent": "gainConditions",
         "key": "value",
         "priority": "1",
         "group": "",
@@ -685,7 +701,7 @@
         "validation": "0plus"
     },
     {
-        "parent": "gainCondition",
+        "parent": "gainConditions",
         "key": "decreasingValue",
         "priority": "2",
         "group": "",
@@ -694,7 +710,7 @@
         "type": "checkbox"
     },
     {
-        "parent": "gainCondition",
+        "parent": "gainConditions",
         "key": "duration",
         "priority": "3",
         "group": "",
@@ -704,7 +720,7 @@
         "validation": "=1plus"
     },
     {
-        "parent": "gainCondition",
+        "parent": "gainConditions",
         "key": "source",
         "priority": "4",
         "group": "",
@@ -713,16 +729,16 @@
     },
     {
         "key": "benefit",
-        "priority": "4",
+        "priority": "5",
         "group": "9-Consumables",
         "name": "Benefit",
         "desc": "Describe the beneficial effects of consuming this item."
     },
     {
         "key": "drawback",
-        "priority": "5",
+        "priority": "6",
         "group": "9-Consumables",
         "name": "Drawback",
-        "desc": "Describe the undesirable side effects of consuming this item."
+        "desc": "Describe the harmful side effects of consuming this item."
     }
 ]

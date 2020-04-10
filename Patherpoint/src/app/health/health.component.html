@@ -27,10 +27,14 @@
                     [className]="(get_PenaltiesOnThis('Max Dying').length) ? 'penalty' : (get_BonusesOnThis('Health').length) ? 'bonus' : ''"
                     value="{{health.$maxDying}}" disabled>
                 <div class="row">
-                    <button [ngStyle]="{'background-color':get_Accent()}" *ngIf="health.$dying > 0"
-                        (click)="on_DyingSave(true)">Save</button>
-                    <button [ngStyle]="{'background-color':get_Accent()}" *ngIf="health.$dying > 0"
-                        (click)="on_DyingSave(false)">Fail Save</button>
+                    <span>
+                        <button [ngStyle]="{'background-color':get_Accent()}" *ngIf="health.$dying > 0"
+                            (click)="on_DyingSave(true)">Save</button>
+                    </span>
+                    <span>
+                        <button [ngStyle]="{'background-color':get_Accent()}" *ngIf="health.$dying > 0"
+                            (click)="on_DyingSave(false)">Fail Save</button>
+                    </span>
                 </div>
                 <app-tags [objectName]="'Max Dying'" [showTraits]=true [showFeats]=true [showItems]=true [showActivities]=true
                         [showConditions]=true [showEffects]=true></app-tags>

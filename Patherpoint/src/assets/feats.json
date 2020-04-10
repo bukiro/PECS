@@ -3346,7 +3346,7 @@
         "shortDesc": "You have trained with the traditional weaponry of your monastery or school.",
         "desc": "You have trained with the traditional weaponry of your monastery or school. You gain access to uncommon weapons that have the monk trait and become trained in simple and martial monk weapons. When your proficiency rank for unarmed attacks increases to expert or master, your proficiency rank for these weapons increases to expert or master as well.\n\nYou can use melee monk weapons with any of your monk feats or monk abilities that normally require unarmed attacks, though not if the feat or ability requires you to use a single specific type of attack, such as Crane Stance.",
         "hint": "You can use melee monk weapons with any of your monk feats or monk abilities that normally require unarmed attacks, though not if the feat or ability requires you to use a single specific type of attack, such as Crane Stance.",
-        "showon":"Monk",
+        "showon": "Monk",
         "levelreq": 1,
         "gainSkillChoice": [
             {
@@ -3566,30 +3566,47 @@
         "shortDesc": "Your study of the flow of mystical energy allows you to harness it into your physical strikes.",
         "desc": "Your study of the flow of mystical energy allows you to harness it into your physical strikes. You gain the ki strike ki spell and a focus pool of 1 Focus Point. The rules for ki spells are summarized in the sidebar on page 157, and the full rules for focus spells appear on page 300.",
         "levelreq": 1,
-        "gainSpellChoice":[
+        "gainSpellChoice": [
             {
-                "spells":[
-                    {"name":"Ki Strike", "source":"Feat: Ki Strike", "className":"Monk", "tradition":"Focus", "locked":true, "sourceId":"1-Spell-Ki Strike-0"}
+                "spells": [
+                    {
+                        "name": "Ki Strike",
+                        "source": "Feat: Ki Strike",
+                        "className": "Monk",
+                        "tradition": "Focus",
+                        "locked": true,
+                        "sourceId": "1-Spell-Ki Strike-0"
+                    }
                 ],
-                "tradition":"Focus",
-                "className":"Monk",
-                "source":"Feat: Ki Strike",
-                "id":"1-Spell-Feat: Ki Strike-0"
+                "tradition": "Focus",
+                "className": "Monk",
+                "source": "Feat: Ki Strike",
+                "id": "1-Spell-Feat: Ki Strike-0"
+            }
+        ],
+        "gainTraditionChoice": [
+            {
+                "ability": "Wisdom",
+                "traditionFilter": [
+                    "Divine", "Occult"
+                ],
+                "source": "Ki Spells",
+                "id": "1-Tradition-Feat: Ki Strike-0"
             }
         ],
         "traits": [
             "Monk"
         ],
-        "effects":[
+        "effects": [
             {
-                "affected":"Focus Pool",
-                "value":"+1"
+                "affected": "Focus Pool",
+                "value": "+1"
             }
         ],
-        "onceEffects":[
+        "onceEffects": [
             {
-                "affected":"Focus",
-                "value":"+1"
+                "affected": "Focus",
+                "value": "+1"
             }
         ]
     },
@@ -3611,6 +3628,18 @@
         ],
         "traits": [
             "Human"
+        ]
+    },
+    {
+        "name": "Orc Ferocity",
+        "shortdesc": "Fierceness in battle runs through your blood, and you refuse to fall from your injuries.",
+        "desc": "Fierceness in battle runs through your blood, and you refuse to fall from your injuries. You avoid being knocked out and remain at 1 Hit Point, and your wounded condition increases by 1.",
+        "levelreq": 1,
+        "gainActivities": [
+            "Orc Ferocity"
+        ],
+        "traits": [
+            "Orc"
         ]
     }
 ]

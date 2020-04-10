@@ -125,6 +125,7 @@ export class Skill {
                     resilient = armor[0].resilientRune;
                     explain += "\n" + armor[0].get_Resilient(armor[0].resilientRune) + ": +" + armor[0].resilientRune;
                     explain += "\n(" + armor[0].get_Name() + ")";
+                    this.$bonus.push(new Effect('item', this.name, "+"+armor[0].resilientRune, armor[0].get_Resilient(armor[0].resilientRune), false))
                 }
             }
             //Get all active effects on this and sum them up

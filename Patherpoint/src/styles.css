@@ -497,7 +497,7 @@
     -webkit-animation: turnaltrclr 2s infinite;  
   }
 
-  .bonus {
+  .bonus, cite.condition.bonus, cite.effect.bonus {
     color:green;
   }
 
@@ -511,7 +511,7 @@
     color:black;
   }
 
-  .penalty {
+  .penalty, cite.condition.penalty, cite.effect.penalty {
     color:red;
   }
 
@@ -582,7 +582,7 @@
   }
 
   cite.effect {
-    background-color: #eee;
+    background-color: #fff;
     color: #616161
   }
 
@@ -590,7 +590,7 @@
     background-color: #522e2c;
   }
 
-  cite.penalty, cite.bonus, cite.problem {
+  cite.problem {
     background-color: #eee;
   }
 
