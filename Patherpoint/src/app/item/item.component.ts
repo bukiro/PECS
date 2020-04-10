@@ -19,6 +19,8 @@ export class ItemComponent implements OnInit {
     armoredSkirt: AdventuringGear;
     @Input()
     itemStore: boolean = false;
+    @Input()
+    isSubItem: boolean = false;
 
     constructor(
         private traitsService: TraitsService,
@@ -96,6 +98,9 @@ export class ItemComponent implements OnInit {
     }
 
     ngOnInit() {
+        if ((this.item.type == "weaponrunes" || this.item.type == "armorrunes") && !this.isSubItem) {
+            this.allowActivate = false;
+        }
     }
 
 }

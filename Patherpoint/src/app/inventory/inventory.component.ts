@@ -79,13 +79,13 @@ export class InventoryComponent implements OnInit {
         let speedRune: boolean = false;
         let enfeebledRune: boolean = false;
         this.characterService.get_InventoryItems().allEquipment().forEach(item => {
-            item.propertyRunes.filter(rune => rune != "" && rune.substr(0,6) != "Locked").forEach(rune => {
-                if (rune == "Speed" && (item.equipped || (item.can_Invest() && item.invested))) {
+            item.propertyRunes.forEach(rune => {
+                if (rune.name == "Speed" && (item.equipped || (item.can_Invest() && item.invested))) {
                     speedRune = true;
                 }
-                let exampleRune = this.characterService.get_Items().weaponrunes.filter(weaponrune => weaponrune.name == rune);
-                if (exampleRune.length && exampleRune[0].alignmentPenalty) {
-                    if (this.characterService.get_Character().alignment.indexOf(exampleRune[0].alignmentPenalty) > -1) {
+                
+                if (rune["alignmentPenalty"]) {
+                    if (this.characterService.get_Character().alignment.indexOf(rune["alignmentPenalty"]) > -1) {
                         enfeebledRune = true;
                     }
                 }

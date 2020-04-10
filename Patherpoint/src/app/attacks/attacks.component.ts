@@ -6,6 +6,7 @@ import { CharacterService } from '../character.service';
 import { EffectsService } from '../effects.service';
 import { Skill } from '../Skill';
 import { WeaponRune } from '../WeaponRune';
+import { Rune } from '../Rune';
 
 @Component({
     selector: 'app-attacks',
@@ -52,15 +53,19 @@ export class AttacksComponent implements OnInit {
         return this.traitsService.get_Traits(traitName);
     }
 
+    get_HintRunes(weapon: Weapon, range: string) {
+        return weapon.get_RuneSource(this.characterService, range)[1].propertyRunes.filter((rune: WeaponRune) => rune.hint.length);
+    }
+
     get_Runes(weapon: Weapon, range: string) {
-        let runeSource = weapon.get_RuneSource(this.characterService, range);
-        let runes: WeaponRune[] = [];
-        runeSource[1].propertyRunes.forEach((rune: string) => {
-            if (rune != "" && rune.substr(0,6) != "Locked") {
-                runes.push(...this.characterService.get_Items().weaponrunes.filter(weaponrune => weaponrune.name == rune && weaponrune.hint.length));
-            }
-        });
-        return runes;
+        return weapon.get_RuneSource(this.characterService, range)[1].propertyRunes;
+    }
+
+    get_GrievousData(weapon: Weapon, rune: WeaponRune) {
+        let data = rune.data.filter(data => data.name == weapon.group);
+        if (data.length) {
+            return data[0].value;
+        }
     }
 
     get_specialShowon(weapon: Weapon) {

@@ -102,6 +102,9 @@
                     </ng-container>
                 </ng-container>
                 <div class="list-item row">
+                    <app-itemRunes class="row" [item]=newItem [itemStore]=true></app-itemRunes>
+                </div>
+                <div class="list-item row">
                     <button class="row center-aligned" [ngStyle]="{'background-color':get_Accent()}"
                         (click)="grant_CustomItem()">
                         Get this item

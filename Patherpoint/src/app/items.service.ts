@@ -22,6 +22,8 @@ import { ActivityGain } from './ActivityGain';
 import { ItemGain } from './ItemGain';
 import { v1 as uuidv1 } from 'uuid';
 import { WeaponRune } from './WeaponRune';
+import { Rune } from './Rune';
+import { LoreChoice } from './LoreChoice';
 
 @Injectable({
     providedIn: 'root'
@@ -156,7 +158,13 @@ export class ItemsService {
             });
         }
         if (newItem.propertyRunes) {
-            newItem.propertyRunes = [newItem.propertyRunes[0],newItem.propertyRunes[1],newItem.propertyRunes[2]];
+            newItem.propertyRunes = newItem.propertyRunes.map((rune: Rune) => {
+                if (rune.type == "weaponrunes") {return Object.assign(new WeaponRune(), rune);}
+                //if (rune.type == "armorrunes") {return Object.assign(new ArmorRune(), rune);}
+            });
+            newItem.propertyRunes.forEach((rune: Rune) => {
+                rune.loreChoices = rune.loreChoices.map(choice => Object.assign(new LoreChoice(), choice));
+            })
         }
         if (newItem.isHandwrapsOfMightyBlows) {
             newItem.moddable = "weapon";

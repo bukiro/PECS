@@ -110,6 +110,16 @@ export class NewItemPropertyComponent implements OnInit {
                 this.validationError = "This may result in an invalid value or 0. Invalid values will default to 0."
                 this.validationResult = parseInt(effect.value).toString();
             }
+        } else if (this.propertyKey == "moddable") {
+            if (this.newItem["potencyRune"]) {
+                this.newItem["potencyRune"] = 0;
+            }
+            if (this.newItem["strikingRune"]) {
+                this.newItem["strikingRune"] = 0;
+            }
+            if (this.newItem["propertyRunes"]) {
+                this.newItem["propertyRunes"].length = 0;
+            }
         } else if (this.propertyKey == "bulk" || this.propertyKey == "carryingBulk") {
             if (parseInt(value) || parseInt(value) == 0 || value == "L" || value == "") {
 

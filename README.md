@@ -28,6 +28,7 @@ The very latest in Assistive Technologies for Dungeon Master (ATDM)
 - [ ] - Implement all Shields
 - [ ] - Implement all Consumables
 - [x] - Implement all Adventuring Gear
+- [x] - Implement all Weapon Runes
 - [ ] - Implement one full Class with Feats and Features
 - [x] - Feat requirements
 - [x] - Equipment (weapons, armor, shields) -> Abilities, Armor, Attacks, Skills
@@ -49,8 +50,10 @@ The very latest in Assistive Technologies for Dungeon Master (ATDM)
 - [ ] (documentation) :)
 - [ ] Initiative tracker, battles, being a battle member, GM-Player-Communication.......
 
+Active issues:
+When switching weapon runes from Ancestral Echoing to Speed, the showing item in the inventory stops showing until the inventory is refreshed.
+
 To do to finish Ohm:
-- Doubling Rings
 - Slippers of Spider Climbing
 - Lesser Leaper's Elixir
 - Moderate Eagle-Eye Elixir

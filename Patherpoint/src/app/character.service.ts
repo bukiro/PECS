@@ -48,6 +48,7 @@ import { ItemActivity } from './ItemActivity';
 import { SpellCast } from './SpellCast';
 import { WeaponRune } from './WeaponRune';
 import { LoreChoice } from './LoreChoice';
+import { Rune } from './Rune';
 
 @Injectable({
     providedIn: 'root'
@@ -367,11 +368,8 @@ export class CharacterService {
                 }
             }
             if (returnedInventoryItem["propertyRunes"] && returnedInventoryItem["propertyRunes"].length) {
-                returnedInventoryItem["propertyRunes"].forEach((rune: string) => {
-                    let exampleRunes: WeaponRune[] = this.get_Items().weaponrunes.filter(weaponrune => weaponrune.name == rune && weaponrune.loreChoices.length);
-                    exampleRunes.forEach(exampleRune => {
-                        this.add_WeaponRuneLore(returnedInventoryItem as Equipment, exampleRune);
-                    });
+                returnedInventoryItem["propertyRunes"].filter((rune: Rune) => rune["loreChoices"]).forEach((rune: Rune) => {
+                    this.add_RuneLore(rune as Rune);
                 });
             }
         }
@@ -406,8 +404,10 @@ export class CharacterService {
         } else if (item["invested"]) {
             this.onInvest(item as Equipment, false, false);
         }
-        if (item["loreChoices"] && ["loreChoices"].length && item.type != "weaponrunes") {
-            this.remove_WeaponRuneLore(item as Equipment);
+        if (item["propertyRunes"]) {
+            item["propertyRunes"].filter((rune: Rune) => rune.loreChoices.length).forEach((rune: Rune) => {
+                this.remove_RuneLore(rune);
+            })
         }
         this.me.inventory[item.type] = this.me.inventory[item.type].filter(any_item => any_item !== item);
         if (equipBasicItems) {
@@ -418,38 +418,36 @@ export class CharacterService {
         }
     }
 
-    add_WeaponRuneLore(weapon: Equipment, rune: WeaponRune) {
-        //Copy the lore from the rune to the weapon because only the rune name gets saved on the weapon.
-        //Weapons don't give lore so far, so the loreChoices on a weapon are just there to reflect the rune.
-        weapon.loreChoices = rune.loreChoices.map(choice => Object.assign(new LoreChoice(), choice));
+    add_RuneLore(rune: Rune) {
         //Then go through all the loreChoices (usually only one)
-        weapon.loreChoices.forEach(choice => {
-            //Check if only one item has this lore (and therefore no other item has already created it on the character), and if so, create it.
+        rune.loreChoices.forEach(choice => {
+            //Check if only one (=this) item's rune has this lore (and therefore no other item has already created it on the character), and if so, create it.
             if (this.get_InventoryItems().allEquipment()
-                .filter(item => item.loreChoices
-                    .filter(otherchoice => otherchoice.loreName == choice.loreName)
+                .filter(item => item.propertyRunes
+                    .filter(propertyRune => propertyRune.loreChoices
+                        .filter(otherchoice => otherchoice.loreName == choice.loreName)
+                        .length)
                     .length)
                 .length == 1) {
                 this.get_Character().add_Lore(this, choice);
             }
-        })
+        });
     }
 
-    remove_WeaponRuneLore(weapon: Equipment) {
-        //The rune's lore was previously copied to the weapon, so we only have to deal with it here.
+    remove_RuneLore(rune: Rune) {
         //Iterate through the loreChoices (usually only one)
-        weapon.loreChoices.forEach(choice => {
-            //Check if only one item has this lore (and therefore no other item still needs it created), and if so, remove it.
+        rune.loreChoices.forEach(choice => {
+            //Check if only one item's rune has this lore (and therefore no other rune still needs it created), and if so, remove it.
             if (this.get_InventoryItems().allEquipment()
-                .filter(item => item.loreChoices
-                    .filter(otherchoice => otherchoice.loreName == choice.loreName)
+                .filter(item => item.propertyRunes
+                    .filter(propertyRune => propertyRune.loreChoices
+                        .filter(otherchoice => otherchoice.loreName == choice.loreName)
+                        .length)
                     .length)
                 .length == 1) {
                 this.get_Character().remove_Lore(this, choice);
             }
-        })
-        //Clear the lore from the weapon
-        weapon.loreChoices = [];
+        });
     }
 
     onEquip(item: Equipment, equipped: boolean = true, changeAfter: boolean = true, equipBasicItems: boolean = true) {
@@ -733,6 +731,11 @@ export class CharacterService {
             if (item.activities.length) {
                 activities.push(...item.activities);
             }
+        })
+        this.get_InventoryItems().allEquipment().filter(item => item.propertyRunes.filter(rune => rune.activities.length).length).forEach(item => {
+            item.propertyRunes.filter(rune => rune.activities.length).forEach(rune => {
+                activities.push(...rune.activities);
+            })
         })
         return activities;
     }

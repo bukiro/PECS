@@ -5,6 +5,7 @@ import { Effect } from './Effect';
 import { Equipment } from './Equipment';
 import { Shield } from './Shield';
 import { Armor } from './Armor';
+import { WeaponRune } from './WeaponRune';
 
 export class Weapon extends Equipment {
     //Weapons should be type "weapons" to be found in the database
@@ -82,7 +83,7 @@ export class Weapon extends Equipment {
         skillLevel = Math.max(Math.min(weaponIncreases.length * 2, 8),Math.min(profIncreases.length * 2, 8),Math.min(bestTraitLevel, 8))
         //If you have an Ancestral Echoing rune on this weapon, you get to raise the item's proficiency by one level, up to the highest proficiency you have.
         let bestSkillLevel: number = skillLevel;
-        if (runeSource.propertyRunes.filter(rune => rune == "Ancestral Echoing").length) {
+        if (runeSource.propertyRunes.filter(rune => rune.name == "Ancestral Echoing").length) {
             //First, we get the highest proficiency...
             let skills: number[] = characterService.get_Skills("", "Weapon Proficiency").map(skill => skill.level(characterService, charLevel));
             skills.push(...characterService.get_Skills("", "Specific Weapon Proficiency").map(skill => skill.level(characterService, charLevel)));
@@ -203,10 +204,9 @@ export class Weapon extends Equipment {
         if (this.extraDamage) {
             extraDamage += "\n"+this.extraDamage;
         }
-        this.get_RuneSource(characterService, range)[1].propertyRunes.filter(rune => rune && rune.substr(0,6) != "Locked")
-            .map(rune => characterService.get_Items().weaponrunes.filter(weaponRune => weaponRune.name == rune)[0])
-            .filter(weaponRune => weaponRune.extraDamage)
-            .forEach(weaponRune => {
+        this.get_RuneSource(characterService, range)[1].propertyRunes
+            .filter((weaponRune: WeaponRune) => weaponRune.extraDamage)
+            .forEach((weaponRune: WeaponRune) => {
                 extraDamage += "\n"+weaponRune.extraDamage;
             });
         return extraDamage;

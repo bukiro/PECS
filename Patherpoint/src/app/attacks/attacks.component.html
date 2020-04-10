@@ -30,12 +30,32 @@
                 <cite class="trait" *ngFor="let trait of weapon.traits"
                     title="{{get_Traits(trait)[0].description}}">{{trait}}</cite>
             </div>
-            <div class="fullsize-only row left-aligned" *ngFor="let runes of [get_Runes(weapon, attack[0])]" style="margin-top:initial">
+            <div class="fullsize-only row left-aligned" *ngFor="let runes of [get_HintRunes(weapon, attack[0])]" style="margin-top:initial">
                 <cite class="rune" *ngFor="let rune of runes"
                     title="{{rune.hint}}">{{rune.name}}</cite>
             </div>
             <app-tags [objectName]=weapon.name [showTraits]=true [showFeats]=true [showItems]=true [showActivities]=true
                     [showConditions]=true [specialNames]=get_specialShowon(weapon) [specialEffects]=attack[3]></app-tags>
+            <ng-container *ngFor="let rune of get_Runes(weapon, attack[0])" style="margin-top:initial">
+                <div class="fullsize-only lower row left-aligned" *ngIf="rune.criticalHint">
+                    <span>
+                        <strong>Critical hit effect&nbsp;</strong>{{rune.criticalHint}}
+                        <span *ngIf="rune.name=='Grievous'">{{get_GrievousData(weapon, rune)}}</span>
+                    </span>
+                    <div class="row left-aligned" *ngIf="rune.critsuccess">
+                        <strong>Critical Success</strong>&nbsp;{{rune.critsuccess}}
+                    </div>
+                    <div class="row left-aligned" *ngIf="rune.success">
+                        <strong>Success</strong>&nbsp;{{rune.success}}
+                    </div>
+                    <div class="row left-aligned" *ngIf="rune.failure">
+                        <strong>Failure</strong>&nbsp;{{rune.failure}}
+                    </div>
+                    <div class="row left-aligned" *ngIf="rune.critfailure">
+                        <strong>Critical Failure</strong>&nbsp;{{rune.critfailure}}
+                    </div>
+                </div>
+            </ng-container>
         </div>
     </ng-container>
     <h3 class="fullsize-only" *ngIf="!still_loading()" [ngStyle]="{'color':get_Accent()}">Weapon Proficiencies</h3>

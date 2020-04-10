@@ -18,8 +18,6 @@ export class WeaponRune extends Rune {
     public runeblock: string = "";
     public extraDamage: string = "";
     public criticalHint: string = "";
-    //One rune trains a lore skill while equipped.
-    public loreChoices: LoreChoice[] = [];
     //You are enfeebled 2 if your alignment contains this word.
     public alignmentPenalty: string = "";
     public critsuccess: string = "";

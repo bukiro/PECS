@@ -207,6 +207,7 @@
         "price": 70000,
         "usage": "etched onto a weapon",
         "desc": "When your attack roll with this weapon is a critical hit and gains the critical specialization effect, you gain an additional benefit depending on the weapon group.",
+        "criticalHint": "When your attack roll with this weapon is a critical hit and gains the critical specialization effect, you gain the following benefit depending on the weapon group:",
         "traits": [
             "Enchantment",
             "Magical"
@@ -234,7 +235,9 @@
         "price": 93500,
         "usage": "etched onto a weapon",
         "potency": 2,
-        "desc": "Magical enhancements make this weapon strike true. Attack rolls with this weapon gain a +2 item bonus, and the weapon can be etched with two property runes.\n\nYou can upgrade the weapon potency rune already etched on a weapon to a stronger version, increasing the values of the existing rune to those of the new rune. You must have the formula of the stronger rune to do so, and the Price of the upgrade is the difference between the two runes’ Prices.",
+        "desc": "Magical enhancements make this weapon strike true. Attack rolls with this weapon gain a +1 item bonus, and the weapon can be etched with one property rune.\n\nYou can upgrade the weapon potency rune already etched on a weapon to a stronger version, increasing the values of the existing rune to those of the new rune. You must have the formula of the stronger rune to do so, and the Price of the upgrade is the difference between the two runes’ Prices.",
+        "subType": "+2",
+        "subTypeDesc": "The item bonus to attack rolls is +2, and the weapon can be etched with two property runes.",
         "craftRequirement":"You are a master in Crafting.",
         "traits": [
             "Evocation",
@@ -358,7 +361,7 @@
         "price": 106500,
         "usage": "etched onto a weapon",
         "striking": 2,
-        "desc": "A greater striking rune stores destructive magic in the weapon, increasing the weapon damage dice it deals to three instead of one. For instance, a +2 greater striking dagger would deal 3d4 damage instead of 1d4 damage.\n\nYou can upgrade the striking rune already etched on a weapon to a stronger version, increasing the values of the existing rune to those of the new rune. You must have the formula of the stronger rune to do so, and the Price of the upgrade is the difference between the two runes’ Prices.",
+        "desc": "A striking rune stores destructive magic in the weapon, increasing the weapon damage dice it deals to two instead of one. For instance, a +1 striking dagger would deal 2d4 damage instead of 1d4 damage.\n\nYou can upgrade the striking rune already etched on a weapon to a stronger version, increasing the values of the existing rune to those of the new rune. You must have the formula of the stronger rune to do so, and the Price of the upgrade is the difference between the two runes’ Prices.",
         "subType": "Greater",
         "subTypeDesc": "The weapon deals three weapon damage dice.",
         "traits": [
@@ -459,7 +462,7 @@
         "subType": "Greater",
         "subTypeDesc": "Increase the extra damage to 2d6. On a critical hit, instead of being enfeebled 1, the undead creature must attempt a DC 34 Fortitude save with the following effects. This is an incapacitation effect.",
         "extraDamage": "+2d6 Positive\n(against undead)",
-        "criticalHint": "The undead creature must attempt a DC 34 Fortitude save with the following effects.",
+        "criticalHint": "On a critical hit against an undead creature, the creature must attempt a DC 34 Fortitude save with the following effects.",
         "critsuccess": "It’s enfeebled 1 until the end of your next turn.",
         "success": "It’s enfeebled 2 until the end of your next turn.",
         "failure": "It’s enfeebled 3 until the end of your next turn.",
@@ -579,7 +582,9 @@
         "price": 893500,
         "usage": "etched onto a weapon",
         "potency": 3,
-        "desc": "Magical enhancements make this weapon strike true. Attack rolls with this weapon gain a +3 item bonus, and the weapon can be etched with three property runes.\n\nYou can upgrade the weapon potency rune already etched on a weapon to a stronger version, increasing the values of the existing rune to those of the new rune. You must have the formula of the stronger rune to do so, and the Price of the upgrade is the difference between the two runes’ Prices.",
+        "desc": "Magical enhancements make this weapon strike true. Attack rolls with this weapon gain a +1 item bonus, and the weapon can be etched with one property rune.\n\nYou can upgrade the weapon potency rune already etched on a weapon to a stronger version, increasing the values of the existing rune to those of the new rune. You must have the formula of the stronger rune to do so, and the Price of the upgrade is the difference between the two runes’ Prices.",
+        "subType": "+3",
+        "subTypeDesc": "The item bonus to attack rolls is +3, and the weapon can be etched with three property runes.",
         "craftRequirement":"You are legendary in Crafting.",
         "traits": [
             "Evocation",
@@ -629,7 +634,7 @@
         "price": 3106500,
         "usage": "etched onto a weapon",
         "striking": 3,
-        "desc": "A major striking rune stores destructive magic in the weapon, increasing the weapon damage dice it deals to four instead of one. For instance, a +3 major striking dagger would deal 4d4 damage instead of 1d4 damage.\n\nYou can upgrade the striking rune already etched on a weapon to a stronger version, increasing the values of the existing rune to those of the new rune. You must have the formula of the stronger rune to do so, and the Price of the upgrade is the difference between the two runes’ Prices.",
+        "desc": "A striking rune stores destructive magic in the weapon, increasing the weapon damage dice it deals to two instead of one. For instance, a +1 striking dagger would deal 2d4 damage instead of 1d4 damage.\n\nYou can upgrade the striking rune already etched on a weapon to a stronger version, increasing the values of the existing rune to those of the new rune. You must have the formula of the stronger rune to do so, and the Price of the upgrade is the difference between the two runes’ Prices.",
         "subType": "Major",
         "subTypeDesc": "The weapon deals four weapon damage dice.",
         "traits": [

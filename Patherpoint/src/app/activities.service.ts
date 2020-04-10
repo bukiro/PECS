@@ -98,6 +98,8 @@ export class ActivitiesService {
                 })
             }
         }
+
+        characterService.set_Changed();
     }
 
     tick_Activities(characterService: CharacterService, turns: number = 10) {

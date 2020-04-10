@@ -63,6 +63,9 @@ constructor(
             let value: string = "0";
             try {
                 value = eval(effect.value).toString();
+                if (parseInt(value) > 0) {
+                    value = "+"+value;
+                }
             } catch(error) {
                 value = "0";
             };

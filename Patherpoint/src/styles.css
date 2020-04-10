@@ -414,6 +414,7 @@
     position: absolute;
     top: 24px;
     top: calc(100% - 8px);
+    max-height: 500px;
     width: 90%;
     width: calc(100% - 16px);
     overflow-y: auto;

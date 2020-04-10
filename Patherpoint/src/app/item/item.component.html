@@ -85,6 +85,11 @@
             <li *ngFor="let line of desc.split('\n')">{{line}}</li>
         </ul>
     </ng-container>
+    <ng-container *ngIf="item.name == 'Grievous'">
+        <p *ngFor="let data of item.data">
+            <strong>{{data.name}}&nbsp;</strong>{{data.value}}
+        </p>
+    </ng-container>
     <p *ngIf="item.benefit">
         <strong>Benefit</strong>
         {{item.benefit}}
@@ -101,6 +106,26 @@
     <p *ngIf="item.subType">
         <strong>{{item.subType}}</strong>
         {{item.subTypeDesc}}
+    </p>
+    <p *ngIf="item.craftRequirement">
+        <strong>Craft Requirement</strong>
+        {{item.craftRequirement}}
+    </p>
+    <p *ngIf="item.critsuccess">
+        <strong>Critical Success</strong>
+        {{item.critsuccess}}
+    </p>
+    <p *ngIf="item.success">
+        <strong>Success</strong>
+        {{item.success}}
+    </p>
+    <p *ngIf="item.failure">
+        <strong>Failure</strong>
+        {{item.failure}}
+    </p>
+    <p *ngIf="item.critfailure">
+        <strong>Critical Failure</strong>
+        {{item.critfailure}}
     </p>
 </div>
 <div class="row" *ngIf="item.isDoublingRings && !itemStore">
@@ -123,6 +148,10 @@
         <strong>Apply property runes</strong>
         <input type="checkbox" [(ngModel)]="item.data[2]" (ngModelChange)="set_Changed()">
     </div>
+</div>
+<div class="row left-aligned" *ngFor="let rune of item.propertyRunes">
+    <h4>{{rune.name}}</h4>
+    <app-item [item]=rune [allowActivate]=allowActivate [isSubItem]=true></app-item>
 </div>
 <div class="row left-aligned" *ngIf="armoredSkirt">
     <h4>Armored Skirt</h4>

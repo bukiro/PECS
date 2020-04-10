@@ -40,9 +40,6 @@ export class Skill {
             unarmedLevel = Math.min(unarmedLevel, 6);
             skillLevel = Math.max(skillLevel, unarmedLevel);
         }
-        if (this.name == "Lore: asd") {
-            let c = 1;
-        }
         skillLevel = Math.min(skillLevel, 8);
         return skillLevel;
     }

@@ -3,8 +3,8 @@ import { EffectGain } from './EffectGain';
 import { Item } from './Item';
 import { ItemActivity } from './ItemActivity';
 import { ActivityGain } from './ActivityGain';
-import { WeaponRune } from './WeaponRune';
 import { LoreChoice } from './LoreChoice';
+import { Rune } from './Rune';
 
 export class Equipment extends Item {
     //Is the name input visible in the inventory
@@ -30,7 +30,12 @@ export class Equipment extends Item {
     //Resilient Rune level for armor
     public resilientRune:number = 0;
     //Property Rune names for weapons and armor
-    public propertyRunes:string[] = ["","",""];
+    public propertyRunes:Rune[] = [];
+    //Amount of propertyRunes you can still apply
+    public get freePropertyRunes(): number {
+        //You can apply as many property runes as the level of your potency rune. Each rune with the Saggorak trait counts double.
+        return this.potencyRune - this.propertyRunes.length - this.propertyRunes.filter(rune => rune.traits.indexOf("Saggorak") > -1).length;
+    };
     //Material for weapons, armor and shields
     public material: string = "";
     //Should this item show up on a skill, ability, etc.? If so, name the elements here as a comma separated string
@@ -44,8 +49,6 @@ export class Equipment extends Item {
     public gainActivities: ActivityGain[] = [];
     //List ItemGain for every Item that you receive when you get or equip this item (specified in the ItemGain)
     public gainItems: ItemGain[] = [];
-    //One rune trains a lore skill while equipped. The item takes over the rune's loreChoice as the rune is saved only as a string.
-    public loreChoices: LoreChoice[] = [];
     //List EffectGain for every Effect that comes from equipping and investing the item
     //effects get eval'ed, so can use values like "-characterService.get_Character().level"
     public effects: EffectGain[] = [];
@@ -92,8 +95,12 @@ export class Equipment extends Item {
             } else if (this.moddable == "armor") {
                 secondary = this.get_Resilient(this.resilientRune);
             }
-            this.propertyRunes.filter(rune => rune != "" && rune.substr(0,6) != "Locked").forEach(rune => {
-                properties += " " + rune;
+            this.propertyRunes.forEach(rune => {
+                let name: string = rune.name;
+                if (rune.name.indexOf("(Greater)") > -1) {
+                    name = "Greater " + rune.name.substr(0, rune.name.indexOf("(Greater)"));
+                }
+                properties += " " + name;
             })
             return (potency + " " + (secondary + " " + (properties + " " + this.name).trim()).trim()).trim();
         }
