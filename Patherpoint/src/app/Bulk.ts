@@ -2,6 +2,7 @@ import { CharacterService } from './character.service';
 import { EffectsService } from './effects.service';
 import { Effect } from './Effect';
 import { Item } from './Item';
+import { OtherItem } from './OtherItem';
 
 export class Bulk {
     public $effects: Effect[];
@@ -32,7 +33,7 @@ export class Bulk {
     current(characterService: CharacterService, effectsService: EffectsService) {
         let sum: number = 0;
         let inventory = characterService.get_InventoryItems();
-        function addup(item: Item) {
+        function addup(item: Item|OtherItem) {
             let bulk = item.bulk;
             if (item["carryingBulk"] && !item["equipped"]) {
                 bulk = item["carryingBulk"];
@@ -62,6 +63,9 @@ export class Bulk {
             addup(item);
         })
         inventory.allConsumables().forEach(item => {
+            addup(item);
+        })
+        inventory.otheritems.forEach(item => {
             addup(item);
         })
         let effects = effectsService.get_EffectsOnThis("Bulk");

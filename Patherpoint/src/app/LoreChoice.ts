@@ -1,6 +1,7 @@
 import { SkillIncrease } from './SkillIncrease';
+import { SkillChoice } from './SkillChoice';
 
-export class LoreChoice {
+export class LoreChoice extends SkillChoice {
     public available: number = 0;
     public increases: SkillIncrease[] = [];
     public initialIncreases: number = 1;

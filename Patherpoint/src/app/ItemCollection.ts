@@ -12,6 +12,7 @@ import { WeaponRune } from './WeaponRune';
 import { Rune } from './Rune';
 import { ArmorRune } from './ArmorRune';
 import { Potion } from './Potion';
+import { OtherItem } from './OtherItem';
 
 export class ItemCollection {
     public weapons: Weapon[] = [];
@@ -25,6 +26,7 @@ export class ItemCollection {
     public adventuringgear: AdventuringGear[] = [];
     public armorrunes: ArmorRune[] = [];
     public weaponrunes: WeaponRune[] = [];
+    public otheritems: OtherItem[] = [];
     constructor(
         public readonly names: {name: string, key: string}[] = [
             {name:"Weapons",key:"weapons"},

@@ -53,6 +53,10 @@ export class GeneralComponent implements OnInit {
         return this.characterService.get_Skills("", "Class DC").filter(skill => skill.level(this.characterService) > 0);
     }
 
+    get_SpellDCs() {
+        return this.characterService.get_Skills("", "Spell DC").filter(skill => skill.level(this.characterService) > 0);
+    }
+
     get_Speeds() {
         let speeds = this.characterService.get_Speeds();
         let speedEffects = this.effectsService.get_Effects().all.filter(effect => effect.apply && (effect.target.indexOf("Speed") > -1));

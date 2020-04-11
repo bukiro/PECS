@@ -8,6 +8,7 @@ import { Effect } from '../Effect';
 import { Consumable } from '../Consumable';
 import { Equipment } from '../Equipment';
 import { SortByPipe } from '../sortBy.pipe';
+import { OtherItem } from '../OtherItem';
 
 @Component({
     selector: 'app-inventory',
@@ -111,6 +112,30 @@ export class InventoryComponent implements OnInit {
     drop_InventoryItem(item) {
         this.showItem = 0;
         this.characterService.drop_InventoryItem(item);
+    }
+
+    add_NewOtherItem() {
+        this.get_InventoryItems().otheritems.push(new OtherItem());
+    }
+
+    bulkOnly(event): boolean {
+        const charCode = (event.which) ? event.which : event.keyCode;
+        if (charCode != 76 && charCode > 31 && (charCode < 48 || charCode > 57)) {
+            return false;
+        }
+        return true;
+    }
+
+    validate_Bulk(item: OtherItem) {
+        if (parseInt(item.bulk) || parseInt(item.bulk) == 0 || item.bulk == "L" || item.bulk == "") {
+
+        } else {
+            item.bulk = "";
+        }
+    }
+
+    remove_OtherItem(item: OtherItem) {
+        this.get_InventoryItems().otheritems.splice(this.get_InventoryItems().otheritems.indexOf(item), 1);
     }
 
     get_Traits(traitName: string = "") {

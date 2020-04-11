@@ -4,8 +4,7 @@ import { Ability } from './Ability';
 import { FeatChoice } from './FeatChoice';
 import { SkillChoice } from './SkillChoice';
 import { SpellChoice } from './SpellChoice';
-import { FormulaChoice } from 'src/FormulaChoice';
-import { ItemActivity } from './ItemActivity';
+import { FormulaChoice } from './FormulaChoice';
 import { TraditionChoice } from './TraditionChoice';
 
 export class Feat {

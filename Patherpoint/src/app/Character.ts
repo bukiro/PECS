@@ -18,6 +18,7 @@ import { ItemsService } from './items.service';
 import { SpellChoice } from './SpellChoice';
 import { Settings } from './Settings';
 import { TimeService } from './time.service';
+import { TraditionChoice } from './TraditionChoice';
 
 export class Character {
     public name: string = "";
@@ -84,8 +85,8 @@ export class Character {
         let existingChoices = level.skillChoices.filter(choice => choice.source == newChoice.source);
         let tempChoice = Object.assign(new SkillChoice, JSON.parse(JSON.stringify(newChoice)))
         tempChoice.id = level.number +"-Skill-"+ tempChoice.source +"-"+ existingChoices.length;
-        let newIndex: number = level.skillChoices.push(tempChoice);
-        return level.skillChoices[newIndex-1];
+        let newLength: number = level.skillChoices.push(tempChoice);
+        return level.skillChoices[newLength-1];
     }
     get_SkillChoice(sourceId: string) {
         let levelNumber = parseInt(sourceId[0]);
@@ -96,13 +97,25 @@ export class Character {
         let a = this.class.levels[levelNumber].skillChoices;
         a.splice(a.indexOf(oldChoice), 1);
     }
+    add_TraditionChoice(level: Level, newChoice: TraditionChoice) {
+        let existingChoices = level.traditionChoices.filter(choice => choice.source == newChoice.source);
+        let tempChoice = Object.assign(new TraditionChoice, JSON.parse(JSON.stringify(newChoice)))
+        tempChoice.id = level.number +"-Tradition-"+ tempChoice.source +"-"+ existingChoices.length;
+        let newLength: number = level.traditionChoices.push(tempChoice);
+        return level.traditionChoices[newLength-1];
+    }
+    remove_TraditionChoice(oldChoice: TraditionChoice) {
+        let levelNumber = parseInt(oldChoice.id[0]);
+        let a = this.class.levels[levelNumber].traditionChoices;
+        a.splice(a.indexOf(oldChoice), 1);
+    }
     add_LoreChoice(level: Level, newChoice: LoreChoice) {
         let existingChoices = level.loreChoices.filter(choice => choice.source == newChoice.source);
         let tempChoice = Object.assign(new LoreChoice, JSON.parse(JSON.stringify(newChoice)))
         tempChoice.increases = Object.assign([], newChoice.increases);
         tempChoice.id = level.number +"-Lore-"+ tempChoice.source +"-"+ existingChoices.length;
-        let newId: number = level.loreChoices.push(tempChoice);
-        return level.loreChoices[newId-1];
+        let newLength: number = level.loreChoices.push(tempChoice);
+        return level.loreChoices[newLength-1];
     }
     get_LoreChoice(sourceId: string) {
         let levelNumber = parseInt(sourceId[0]);
@@ -116,8 +129,8 @@ export class Character {
         if (tempChoice.level) {
             tempChoice.level = eval(tempChoice.level).toString();
         }
-        let newIndex: number = level.featChoices.push(tempChoice);
-        return level.featChoices[newIndex-1];
+        let newLength: number = level.featChoices.push(tempChoice);
+        return level.featChoices[newLength-1];
     }
     get_FeatChoice(sourceId: string) {
         let levelNumber = parseInt(sourceId[0]);
@@ -127,16 +140,18 @@ export class Character {
         let existingChoices = level.spellChoices.filter(choice => choice.source == newChoice.source);
         let tempChoice = Object.assign(new SpellChoice, JSON.parse(JSON.stringify(newChoice)));
         tempChoice.id = level.number +"-Feat-"+ tempChoice.source +"-"+ existingChoices.length;
-        let newIndex: number = level.spellChoices.push(tempChoice);
-        return level.spellChoices[newIndex-1];
+        let newLength: number = level.spellChoices.push(tempChoice);
+        return level.spellChoices[newLength-1];
     }
     gain_Activity(newGain: ActivityGain) {
-        let newIndex = this.class.activities.push(newGain);
-        return this.class.activities[newIndex-1];
+        let newLength = this.class.activities.push(newGain);
+        return this.class.activities[newLength-1];
     }
     lose_Activity(characterService: CharacterService, timeService: TimeService, itemsService: ItemsService, activitiesService: ActivitiesService, oldGain: ActivityGain) {
         let a = this.class.activities;
-        activitiesService.activate_Activity(characterService, timeService, itemsService, oldGain, activitiesService.get_Activities(oldGain.name)[0], false);
+        if (oldGain.active) {
+            activitiesService.activate_Activity(characterService, timeService, itemsService, oldGain, activitiesService.get_Activities(oldGain.name)[0], false);
+        }
         a.splice(a.indexOf(oldGain), 1);
     }
     get_SkillIncreases(characterService: CharacterService, minLevelNumber: number, maxLevelNumber: number, skillName: string = "", source: string = "", sourceId: string = "", locked: boolean = undefined) {
@@ -144,17 +159,7 @@ export class Character {
             let increases = [];
             let levels = this.class.levels.filter(level => level.number >= minLevelNumber && level.number <= maxLevelNumber );
             levels.forEach(level => {
-                level.skillChoices.forEach(choice => {
-                    choice.increases.filter(increase => 
-                        (increase.name == skillName || skillName == "") &&
-                        (increase.source == source || source == "") &&
-                        (increase.sourceId == sourceId || sourceId == "") &&
-                        (increase.locked == locked || locked == undefined)
-                        ).forEach(increase => {
-                        increases.push(increase);
-                    })
-                })
-                level.loreChoices.forEach(choice => {
+                level.skillChoices.concat(...level.loreChoices).concat(...level.traditionChoices).forEach(choice => {
                     choice.increases.filter(increase => 
                         (increase.name == skillName || skillName == "") &&
                         (increase.source == source || source == "") &&
@@ -183,7 +188,7 @@ export class Character {
             return increases;
         }
     }
-    increase_Skill(characterService: CharacterService, skillName: string, train: boolean, choice: SkillChoice|LoreChoice, locked: boolean) {
+    increase_Skill(characterService: CharacterService, skillName: string, train: boolean, choice: SkillChoice, locked: boolean, ability: string = "") {
         if (train) {
             choice.increases.push({"name":skillName, "source":choice.source, "maxRank":choice.maxRank, "locked":locked, "sourceId":choice.id});
             //The skill that you increase with Skilled Heritage at level 1 automatically gets increased at level 5 as well.
@@ -253,6 +258,8 @@ export class Character {
                             characterService.add_CustomSkill(skillName, "Class DC", characterService.get_Feats(choice.source.substr(6))[0].subType);
                             break;
                     }
+                } else if (skillName.indexOf("spell DC") > -1) {
+                    characterService.add_CustomSkill(skillName, "Spell DC", ability);
                 } else {
                     characterService.add_CustomSkill(skillName, choice["type"], "");
                 }

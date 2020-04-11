@@ -34,7 +34,9 @@
             </span>
             <span>
                 <select [(ngModel)]="get_Character().alignment" (ngModelChange)="on_AlignmentChange()">
-                    <option *ngFor="let alignment of ['Lawful Good','Neutral Good','Chaotic Good','Lawful Neutral','Neutral','Chaotic Neutral','Lawful Evil','Neutral Evil','Chaotic Evil']" [value]="alignment">
+                    <option
+                        *ngFor="let alignment of ['Lawful Good','Neutral Good','Chaotic Good','Lawful Neutral','Neutral','Chaotic Neutral','Lawful Evil','Neutral Evil','Chaotic Evil']"
+                        [value]="alignment">
                         {{alignment}}
                     </option>
                 </select>
@@ -211,8 +213,7 @@
                                     <strong>{{background.name}}</strong>
                                 </label>
                             </span>
-                            <button [ngStyle]="{'background-color':get_Accent()}"
-                                (click)="toggle_Item(itemID)">
+                            <button [ngStyle]="{'background-color':get_Accent()}" (click)="toggle_Item(itemID)">
                                 Show Description
                             </button>
                             <div class="row lower" *ngIf="this.get_showItem()==itemID">
@@ -321,8 +322,7 @@
                                             <strong>{{background.name}}</strong>
                                         </label>
                                     </span>
-                                    <button [ngStyle]="{'background-color':get_Accent()}"
-                                        (click)="toggle_Item(itemID)">
+                                    <button [ngStyle]="{'background-color':get_Accent()}" (click)="toggle_Item(itemID)">
                                         Show Description
                                     </button>
                                     <div class="row lower" *ngIf="this.get_showItem()==itemID">
@@ -446,6 +446,69 @@
                         </div>
                     </ng-container>
                 </ng-container>
+                <!--Tradition Choices-->
+                <ng-container *ngFor="let choice of level.traditionChoices">
+                    <ng-container *ngIf="choice.abilityAvailable">
+                        <ng-container *ngFor="let listID of [choice.id+'ability']">
+                            <div class="list-item"
+                                [className]="(choice.ability ? 'fullsize-only' : '')">
+                                <button class="row sublist-toggle" (mouseover)="hover = listID" (mouseout)="hover = ''"
+                                    [ngStyle]="choice.ability ? {'color':get_Accent()} : {'background-color':get_Accent()}"
+                                    [className]="choice.ability ? 'fancy-button' : ''" (click)="toggle_List(listID)">
+                                    {{choice.source}} Key Ability
+                                    {{(choice.ability) ? ": "+ choice.ability : ""}}
+                                </button>
+                                <div class="list-item sublist"
+                                    [ngStyle]="choice.ability ? {} : {'border-color':get_Accent(listID)}"
+                                    [className]="choice.ability ? 'fancy-list' : ''" *ngIf="get_showList()==listID">
+                                    <div class="list-item" *ngFor="let ability of get_AvailableTraditionAbilities(choice)">
+                                        <div class="row" *ngFor="let itemID of [choice.id+'ability'+ability]">
+                                            <span>
+                                                <input id="{{itemID}}" type="checkbox"
+                                                    (change)="on_TraditionChoice('ability', ability, choice.tradition, $event.target.checked, choice, false)"
+                                                    [checked]="ability == choice.ability"
+                                                    [disabled]="choice.ability && ability != choice.ability">
+                                                <label for="{{itemID}}">
+                                                    <strong>{{ability}}</strong>
+                                                </label>
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </ng-container>
+                    </ng-container>
+                    <ng-container *ngIf="choice.traditionAvailable">
+                        <ng-container *ngFor="let listID of [choice.id+'tradition']">
+                            <div class="list-item"
+                                [className]="(choice.tradition ? 'fullsize-only' : '')">
+                                <button class="row sublist-toggle" (mouseover)="hover = listID" (mouseout)="hover = ''"
+                                    [ngStyle]="choice.tradition ? {'color':get_Accent()} : {'background-color':get_Accent()}"
+                                    [className]="choice.tradition ? 'fancy-button' : ''" (click)="toggle_List(listID)">
+                                    {{choice.source}} Tradition
+                                    {{(choice.tradition) ? ": "+ choice.tradition : ""}}
+                                </button>
+                                <div class="list-item sublist"
+                                    [ngStyle]="choice.tradition ? {} : {'border-color':get_Accent(listID)}"
+                                    [className]="choice.tradition ? 'fancy-list' : ''" *ngIf="get_showList()==listID">
+                                    <div class="list-item" *ngFor="let tradition of get_AvailableTraditions(choice)">
+                                        <div class="row" *ngFor="let itemID of [choice.id+'tradition'+tradition]">
+                                            <span>
+                                                <input id="{{itemID}}" type="checkbox"
+                                                    (change)="on_TraditionChoice('tradition', choice.ability, tradition, $event.target.checked, choice, false)"
+                                                    [checked]="tradition == choice.tradition"
+                                                    [disabled]="choice.tradition && tradition != choice.tradition">
+                                                <label for="{{itemID}}">
+                                                    <strong>{{tradition}}</strong>
+                                                </label>
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </ng-container>
+                    </ng-container>
+                </ng-container>
                 <!--Lore Training-->
                 <ng-container *ngFor="let choice of level.loreChoices">
                     <ng-container *ngFor="let listID of [choice.id]">
@@ -515,9 +578,9 @@
                                                 (change)="on_FeatTaken(feat.name, $event.target.checked, choice, false)"
                                                 [checked]="featTakenByThis(feat, choice)"
                                                 [disabled]="cannotTake(feat, choice).length && !featTakenByThis(feat, choice)">
-                                            <button class="lower left"
-                                                [ngStyle]="{'background-color':get_Accent()}" *ngIf="feat.subTypes"
-                                                id="{{choice.id+feat.name}}" (click)="toggle_Item(itemID)">v</button>
+                                            <button class="lower left" [ngStyle]="{'background-color':get_Accent()}"
+                                                *ngIf="feat.subTypes" id="{{choice.id+feat.name}}"
+                                                (click)="toggle_Item(itemID)">v</button>
                                             <label for="{{choice.id+feat.name}}">
                                                 <strong>{{feat.name}}&nbsp;</strong><cite>Level {{feat.levelreq}}</cite>
                                             </label>
@@ -587,6 +650,13 @@
                                                     {{feat.specialdesc}}
                                                 </p>
                                             </div>
+                                            <ng-container *ngFor="let name of feat.gainActivities">
+                                                <div class="row left-aligned" *ngFor="let activity of get_Activities(name)">
+                                                    <h4>{{activity.name}}
+                                                        {{activity.get_Actions()}}{{(activity.activationType) ? " - " + activity.activationType : ""}}</h4>
+                                                    <app-activity [activity]=activity [allowActivate]=false></app-activity>
+                                                </div>
+                                            </ng-container>
                                         </div>
                                     </div>
                                 </div>
@@ -661,6 +731,13 @@
                                                     {{feat.specialdesc}}
                                                 </p>
                                             </div>
+                                            <ng-container *ngFor="let name of feat.gainActivities">
+                                                <ng-container *ngFor="let activity of get_Activities(name)">
+                                                    <h4>{{activity}}
+                                                        {{activity.get_Actions()}}{{(activity.activationType) ? " - " + activity.activationType : ""}}</h4>
+                                                    <app-activity [activity]=activity [allowActivate]=false></app-activity>
+                                                </ng-container>
+                                            </ng-container>
                                         </div>
                                     </div>
                                 </div>

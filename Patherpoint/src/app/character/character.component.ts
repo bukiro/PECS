@@ -19,6 +19,8 @@ import { Ability } from '../Ability';
 import { AbilityChoice } from '../AbilityChoice';
 import { FeatChoice } from '../FeatChoice';
 import { SortByPipe } from '../sortBy.pipe';
+import { TraditionChoice } from '../TraditionChoice';
+import { ActivitiesService } from '../activities.service';
 
 @Component({
     selector: 'app-character',
@@ -42,6 +44,7 @@ export class CharacterComponent implements OnInit {
         public featsService: FeatsService,
         public historyService: HistoryService,
         private itemsService: ItemsService,
+        private activitiesService: ActivitiesService,
         private sortByPipe: SortByPipe
     ) { }
 
@@ -320,6 +323,44 @@ export class CharacterComponent implements OnInit {
         this.characterService.set_Changed();
     }
 
+    get_AvailableTraditionAbilities(choice) {
+        let abilities = this.get_Abilities();
+        if (choice.abilityFilter.length) {
+            abilities = abilities.filter(ability => choice.abilityFilter.indexOf(ability.name) > -1)
+        }
+        if (abilities.length) {
+            return abilities.filter(ability => (
+                choice.ability == ability.name || !choice.ability
+                )).map(ability => ability.name);
+        }
+    }
+
+    get_AvailableTraditions(choice) {
+        let traditions = ["Arcane", "Divine", "Occult", "Primal"];
+        if (choice.traditionFilter.length) {
+            traditions = traditions.filter(tradition => choice.traditionFilter.indexOf(tradition) > -1)
+        }
+        if (traditions.length) {
+            return traditions.filter(tradition => (
+                choice.tradition == tradition || !choice.tradition
+                ));
+        }
+    }
+
+    on_TraditionChoice(which: "ability"|"tradition", ability: string, tradition: string, boost: boolean, choice: TraditionChoice, locked: boolean = false) {
+        if (boost) { this.showList=""; }
+        choice.ability = ability;
+        choice.tradition = tradition;
+        if (boost && ability && tradition) {
+            this.get_Character().increase_Skill(this.characterService, tradition+" spell DC", boost, choice, locked, ability);
+        }
+        if (!boost) {
+            choice[which] = "";
+            this.get_Character().increase_Skill(this.characterService, tradition+" spell DC", boost, choice, locked);
+        }
+        this.characterService.set_Changed();
+    }
+
     on_LoreChange(boost: boolean, choice: LoreChoice) {
         if (boost) {
             if (choice.increases.length == choice.available - 1) { this.showList=""; }
@@ -400,6 +441,10 @@ export class CharacterComponent implements OnInit {
                 return this.sortByPipe.transform(availableFeats, "asc", "name")
             }
         }
+    }
+
+    get_Activities(name: string = "") {
+        return this.activitiesService.get_Activities(name);
     }
 
     get_DifferentWorldsFeat(levelNumber) {

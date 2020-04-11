@@ -410,6 +410,20 @@ export class CharacterService {
                 this.remove_RuneLore(rune);
             })
         }
+        if (item["activities"]) {
+            item["activities"].forEach(activity => {
+                if (activity.active) {
+                    this.activitiesService.activate_Activity(this, this.timeService, this.itemsService, activity, activity, false);
+                }
+            })
+        }
+        if (item["gainActivities"]) {
+            item["gainActivities"].forEach(gain => {
+                if (gain.active) {
+                    this.activitiesService.activate_Activity(this, this.timeService, this.itemsService, gain, this.activitiesService.get_Activities(gain.name)[0], false);
+                }
+            })
+        }
         this.me.inventory[item.type] = this.me.inventory[item.type].filter(any_item => any_item !== item);
         if (equipBasicItems) {
             this.equip_BasicItems();
@@ -651,7 +665,7 @@ export class CharacterService {
 
     process_OnceEffect(effect: EffectGain) {
         let value: number = 0;
-        //Prepare some values that can be used in an eval.
+        //Prepare values that can be used in an eval.
         let currentHP = this.me.health.currentHP(this, this.effectsService);
         try {
             value = parseInt(eval(effect.value));
@@ -660,7 +674,8 @@ export class CharacterService {
         }
         switch (effect.affected) {
             case "Focus":
-                this.me.class.focusPoints = Math.min(this.me.class.focusPoints + value, this.get_MaxFocusPoints());
+                //Give the focus point some time. If a feat expands the focus pool and gives a focus point, the pool is not expanded yet at this point of processing.
+                setTimeout(() => this.me.class.focusPoints = Math.min(this.me.class.focusPoints + value, this.get_MaxFocusPoints()));
                 break;
             case "Temporary HP":
                 this.me.health.temporaryHP += value;

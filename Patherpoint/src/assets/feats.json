@@ -3586,12 +3586,14 @@
         ],
         "gainTraditionChoice": [
             {
+                "traditionAvailable": 1,
                 "ability": "Wisdom",
                 "traditionFilter": [
                     "Divine", "Occult"
                 ],
                 "source": "Ki Spells",
-                "id": "1-Tradition-Feat: Ki Strike-0"
+                "maxRank": 2,
+                "id": "1-Tradition-Ki Spells-0"
             }
         ],
         "traits": [

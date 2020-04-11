@@ -41,8 +41,11 @@
             <strong>Alternative Identity (Different Worlds):</strong>
             {{feat.data.name}} {{(feat.data.background) ? "("+feat.data.background+")" : ""}}
         </div>
-        <h5 class="fullsize-only">Class DC</h5>
+        <h5 class="fullsize-only">Class & Spell DCs</h5>
         <ng-container *ngFor="let skill of get_ClassDCs()">
+            <app-skill [skill]=skill [isDC]=true></app-skill>
+        </ng-container>
+        <ng-container *ngFor="let skill of get_SpellDCs()">
             <app-skill [skill]=skill [isDC]=true></app-skill>
         </ng-container>
         <h5 class="fullsize-only">Movement</h5>

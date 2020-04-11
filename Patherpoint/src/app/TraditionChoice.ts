@@ -1,12 +1,10 @@
-import { AbilityBoost } from './AbilityBoost';
-import { SkillIncrease } from './SkillIncrease';
+import { SkillChoice } from './SkillChoice';
 
-export class TraditionChoice {
+export class TraditionChoice extends SkillChoice {
+    public traditionAvailable: 0;
+    public abilityAvailable: 0;
     public tradition: string = "";
     public ability: string = "";
-    public increases: SkillIncrease[] = [];
     public traditionFilter: string[] = [];
     public abilityFilter: string[] = [];
-    public source: string = "";
-    public id: string = "";
 }

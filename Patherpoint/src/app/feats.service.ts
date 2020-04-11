@@ -8,7 +8,9 @@ import { FeatChoice } from './FeatChoice';
 import { LoreChoice } from './LoreChoice';
 import { ActivityGain } from './ActivityGain';
 import { SpellChoice } from './SpellChoice';
-import { parseHostBindings } from '@angular/compiler';
+import { FormulaChoice } from './FormulaChoice';
+import { TraditionChoice } from './TraditionChoice';
+import { SkillChoice } from './SkillChoice';
 
 @Injectable({
     providedIn: 'root'
@@ -110,11 +112,35 @@ export class FeatsService {
                     })
                 }
             }
+
+            //Gain Spell DC or a Spell DC choice
+            if (feat.gainTraditionChoice.length) {
+                if (taken) {
+                    feat.gainTraditionChoice.forEach(newTraditionChoice => {
+                        let newChoice = character.add_TraditionChoice(level, newTraditionChoice);
+                        //Apply any included Skill increases
+                        newChoice.increases.length = 0;
+                        newTraditionChoice.increases.forEach(increase => {
+                            character.increase_Skill(characterService, increase.name, true, newChoice, true, newTraditionChoice.ability);
+                        })
+                    });
+                } else {
+                    let a = level.traditionChoices;
+                    feat.gainTraditionChoice.forEach(oldTraditionChoice => {
+                        let oldChoice = a.filter(choice => choice.source == oldTraditionChoice.source)[0];
+                        //Process and undo included Skill increases
+                        oldChoice.increases.forEach(increase => {
+                            character.increase_Skill(characterService, increase.name, false, oldChoice, increase.locked);
+                        })
+                        character.remove_TraditionChoice(oldChoice);
+                    })
+                }
+            }
             
             //Gain free Lore
             if (feat.gainLore) {
                 if (taken) {
-                    character.add_LoreChoice(level, {available:1, increases:[], initialIncreases:1, maxRank:2, loreName:"", loreDesc:"", source:'Feat: '+featName, id:""});
+                    character.add_LoreChoice(level, {available:1, increases:[], initialIncreases:1, maxRank:2, loreName:"", loreDesc:"", source:'Feat: '+featName, id:"", filter:[], type:""});
                 } else {
                     let a = level.loreChoices;
                     let oldChoice = a.filter(choice => choice.source == 'Feat: '+featName)[0];
@@ -235,7 +261,13 @@ export class FeatsService {
     finish_loading_Feats() {
         if (this.loader_Feats) {
             this.feats = this.loader_Feats.map(feat => Object.assign(new Feat(), feat));
-
+            this.feats.forEach(feat => {
+                feat.gainFeatChoice = feat.gainFeatChoice.map(choice => Object.assign(new FeatChoice(), choice));
+                //feat.gainFormulaChoice = feat.gainFormulaChoice.map(choice => Object.assign(new FormulaChoice(), choice));
+                feat.gainSkillChoice = feat.gainSkillChoice.map(choice => Object.assign(new SkillChoice, choice));
+                //feat.gainSpellChoice = feat.gainSpellChoice.map(choice => Object.assign(new SpellChoice, choice));
+                feat.gainTraditionChoice = feat.gainTraditionChoice.map(choice => Object.assign(new TraditionChoice, choice));
+            })
             this.loader_Feats = [];
         }
         if (this.loading_Feats) {this.loading_Feats = false;}
@@ -244,7 +276,13 @@ export class FeatsService {
     finish_loading_Features() {
         if (this.loader_Features) {
             this.features = this.loader_Features.map(feature => Object.assign(new Feat(), feature));
-
+            this.features.forEach(feature => {
+                feature.gainFeatChoice = feature.gainFeatChoice.map(choice => Object.assign(new FeatChoice(), choice));
+                //feature.gainFormulaChoice = feature.gainFormulaChoice.map(choice => Object.assign(new FormulaChoice(), choice));
+                feature.gainSkillChoice = feature.gainSkillChoice.map(choice => Object.assign(new SkillChoice, choice));
+                //feature.gainSpellChoice = feature.gainSpellChoice.map(choice => Object.assign(new SpellChoice, choice));
+                feature.gainTraditionChoice = feature.gainTraditionChoice.map(choice => Object.assign(new TraditionChoice, choice));
+            })
             this.loader_Features = [];
         }
         if (this.loading_Features) {this.loading_Features = false;}

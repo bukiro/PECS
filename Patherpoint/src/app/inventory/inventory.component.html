@@ -140,6 +140,16 @@
                     </ng-container>
                 </ng-container>
             </ng-container>
+<!--Other Items-->            
+            <h5 class="fullsize-only">Miscellaneous Items</h5>
+            <button class="fullsize-only" [ngStyle]="{'background-color':get_Accent()}" (click)="add_NewOtherItem()">Add</button>
+            <div class="fullsize-only list-item" *ngFor="let item of items.otheritems">
+                <strong>Name</strong>
+                <input type="text" [(ngModel)]="item.name">
+                <strong>Bulk</strong>
+                <input class="number2" [(ngModel)]="item.bulk" (blur)="validate_Bulk(item)" (keypress)="bulkOnly($event)">
+                <button [ngStyle]="{'background-color':get_Accent()}" (click)="remove_OtherItem(item)">Drop</button>
+            </div>
         </ng-container>
     </ng-container>
 </div>
