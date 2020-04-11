@@ -84,6 +84,11 @@ export class CharacterComponent implements OnInit {
         return this.characterService.get_Accent(hover == this.hover);
     }
 
+    //If you don't use trackByIndex on certain inputs, you lose focus everytime the value changes. I don't get that, but I'm using it now.
+    trackByIndex(index: number, obj: any): any {
+        return index;
+    }
+
     get_Level(number: number) {
         return this.get_Character().class.levels[number];
     }
@@ -106,14 +111,65 @@ export class CharacterComponent implements OnInit {
         this.characterService.set_Changed();
     }
 
-    on_AlignmentChange() {
+    set_Changed() {
         this.characterService.set_Changed();
+    }
+
+    numbersOnly(event): boolean {
+        const charCode = (event.which) ? event.which : event.keyCode;
+        if (charCode > 31 && (charCode < 48 || charCode > 57)) {
+            return false;
+        }
+        return true;
     }
 
     on_LevelChange() {
         //Despite all precautions, when we change the level, it gets turned into a string. So we turn it right back.
         this.get_Character().level = parseInt(this.get_Character().level.toString());
         this.characterService.set_Changed();
+    }
+
+    get_LanguagesAvailable() {
+        let character = this.get_Character()
+        if (character.class.ancestry.name) {
+            let ancestry: Ancestry = this.get_Character().class.ancestry;
+            let languages: number = ancestry.languages.length;
+            let maxLanguages: number = ancestry.baseLanguages;
+            let int = this.get_INT(character.level);
+            if (int > 0) {
+                maxLanguages += int;
+            }
+            let multilingual = this.get_FeatsTaken(0, character.level, "Multilingual").length;
+            if (multilingual) {
+                let society: number = this.get_Skills("Society")[0].level(this.characterService, character.level);
+                switch (society) {
+                    case 8:
+                        multilingual *= 4;
+                        break;
+                    case 6:
+                        multilingual *= 3;
+                        break;
+                    default:
+                        multilingual *= 2;
+                        break;
+                }
+                maxLanguages += multilingual;
+            }
+            if (languages > maxLanguages) {
+                ancestry.languages.splice(maxLanguages);
+            } else {
+                while (languages < maxLanguages) {
+                    languages = ancestry.languages.push("");
+                }
+            }
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    get_AvailableLanguages() {
+        return this.get_Character().class.ancestry.languages.filter(language => language == "").length
     }
 
     get_Character() {

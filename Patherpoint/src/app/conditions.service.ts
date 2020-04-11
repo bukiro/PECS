@@ -88,7 +88,7 @@ export class ConditionsService {
         }
     }
 
-    process_Condition(characterService: CharacterService, effectsService: EffectsService, gain: ConditionGain, condition: Condition, taken: boolean) {
+    process_Condition(characterService: CharacterService, effectsService: EffectsService, gain: ConditionGain, condition: Condition, taken: boolean, increaseWounded: boolean = true) {
 
         let character = characterService.get_Character();
         //Use gain once so it isn't marked as unused. It will be used by the eval strings.
@@ -111,13 +111,15 @@ export class ConditionsService {
                 }
             } else {
                 if (characterService.get_Health().dying(characterService) == 0) {
-                    if (characterService.get_Health().wounded(characterService) > 0) {
-                        characterService.get_AppliedConditions("Wounded").forEach(gain => {
-                            gain.value += 1
-                            gain.source = "Recovered from Dying";
-                        });
-                    } else {
-                        characterService.add_Condition(Object.assign(new ConditionGain, {name:"Wounded", value:1, source:"Recovered from Dying"}), false)
+                    if (increaseWounded) {
+                        if (characterService.get_Health().wounded(characterService) > 0) {
+                            characterService.get_AppliedConditions("Wounded").forEach(gain => {
+                                gain.value += 1
+                                gain.source = "Recovered from Dying";
+                            });
+                        } else {
+                            characterService.add_Condition(Object.assign(new ConditionGain, {name:"Wounded", value:1, source:"Recovered from Dying"}), false)
+                        }
                     }
                     if (characterService.get_Health().currentHP(characterService, effectsService) == 0) {
                         if (characterService.get_AppliedConditions("Unconscious", "0 Hit Points").length == 0) {

@@ -63,6 +63,11 @@
                 <button [ngStyle]="{'background-color':get_Accent()}" [disabled]="this.healing <= 0"
                     (click)="health.heal(this.characterService, this.effectsService, this.healing)">Heal</button>
             </div>
+            <div class="list-item" *ngIf="get_NumbToDeath()">
+                <strong>Numb to Death</strong>
+                <button [ngStyle]="{'background-color':get_Accent()}" [disabled]="health.$dying <= 0"
+                    (click)="health.heal(this.characterService, this.effectsService, this.characterService.get_Character().level, true, false)">Heal and recover</button>
+            </div>
             <div class="fullsize-only list-item">
                 <strong>Add Temp HP</strong><input class="number3" type="number" [(ngModel)]="this.addTempHP"
                     maxLength="3">

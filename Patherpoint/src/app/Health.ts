@@ -97,26 +97,21 @@ export class Health {
         }
         characterService.set_Changed();
     }
-    heal(characterService: CharacterService, effectsService: EffectsService, amount: number, wake: boolean = true) {
+    heal(characterService: CharacterService, effectsService: EffectsService, amount: number, wake: boolean = true, increaseWounded = true) {
         this.damage = Math.max(0, this.damage - amount);
         //Recover from Dying and get Wounded++
         if (this.currentHP(characterService, effectsService) > 0 && this.$dying > 0) {
             characterService.get_AppliedConditions("Dying").forEach(gain => {
-                characterService.remove_Condition(gain, false);
+                characterService.remove_Condition(gain, false, increaseWounded);
             });
-            if (this.$wounded > 0) {
-                characterService.get_AppliedConditions("Wounded").forEach(gain => {
-                    gain.value += 1;
-                    gain.source = "Recovered from Dying";
-                });
-            } else {
-                characterService.add_Condition(Object.assign(new ConditionGain, {name:"Wounded", value:1, source:"Recovered from Dying"}), false)
-            }
+            
         }
         //Wake up from Healing
-        characterService.get_AppliedConditions("Unconscious", "0 Hit Points").forEach(gain => {
-            characterService.remove_Condition(gain);
-        });
+        if (wake) {
+            characterService.get_AppliedConditions("Unconscious", "0 Hit Points").forEach(gain => {
+                characterService.remove_Condition(gain);
+            });
+        }
         characterService.set_Changed();
     }
 }

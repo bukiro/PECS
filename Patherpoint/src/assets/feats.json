@@ -3197,6 +3197,7 @@
     {
         "name": "Multilingual",
         "desc": "Learn two new languages.",
+        "unlimited": true,
         "levelreq": 1,
         "skillreq": [
             {

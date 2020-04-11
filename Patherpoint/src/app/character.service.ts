@@ -648,15 +648,15 @@ export class CharacterService {
         }
     }
 
-    remove_Condition(conditionGain: ConditionGain, reload: boolean = true) {
+    remove_Condition(conditionGain: ConditionGain, reload: boolean = true, increaseWounded: boolean = true) {
         let oldConditionGain = this.me.conditions.filter($condition => $condition.name == conditionGain.name && $condition.value == conditionGain.value && $condition.source == conditionGain.source);
         let originalCondition = this.get_Conditions(conditionGain.name)[0];
         if (oldConditionGain.length) {
             originalCondition.gainConditions.forEach(extraCondition => {
-                this.remove_Condition(Object.assign(new ConditionGain, { name: extraCondition.name, value: extraCondition.value, source: oldConditionGain[0].name }), false)
+                this.remove_Condition(Object.assign(new ConditionGain, { name: extraCondition.name, value: extraCondition.value, source: oldConditionGain[0].name }), false, increaseWounded)
             })
             this.me.conditions.splice(this.me.conditions.indexOf(oldConditionGain[0]), 1)
-            this.conditionsService.process_Condition(this, this.effectsService, conditionGain, this.conditionsService.get_Conditions(conditionGain.name)[0], false);
+            this.conditionsService.process_Condition(this, this.effectsService, conditionGain, this.conditionsService.get_Conditions(conditionGain.name)[0], false, increaseWounded);
             if (reload) {
                 this.set_Changed();
             }

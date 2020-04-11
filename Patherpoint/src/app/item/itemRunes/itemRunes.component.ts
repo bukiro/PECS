@@ -26,6 +26,10 @@ export class ItemRunesComponent implements OnInit {
         private itemsService: ItemsService
     ) { }
 
+    trackByIndex(index: number, obj: any): any {
+        return index;
+    }
+
     get_Items() {
         return this.itemsService.get_Items();
     }

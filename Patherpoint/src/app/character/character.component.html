@@ -33,7 +33,7 @@
                 Alignment
             </span>
             <span>
-                <select [(ngModel)]="get_Character().alignment" (ngModelChange)="on_AlignmentChange()">
+                <select [(ngModel)]="get_Character().alignment" (ngModelChange)="set_Changed()">
                     <option
                         *ngFor="let alignment of ['Lawful Good','Neutral Good','Chaotic Good','Lawful Neutral','Neutral','Chaotic Neutral','Lawful Evil','Neutral Evil','Chaotic Evil']"
                         [value]="alignment">
@@ -54,6 +54,35 @@
                 </select>
             </span>
         </div>
+        <!--Languages-->
+        <div class="list-item" *ngIf="get_LanguagesAvailable()">
+            <button class="row sublist-toggle" (mouseover)="hover = 'languages'" (mouseout)="hover = ''"
+                [ngStyle]="(get_AvailableLanguages() == 0) ? {'color':get_Accent()} : {'background-color':get_Accent()}"
+                [className]="(get_AvailableLanguages() == 0) ? 'fancy-button' : ''" (click)="toggle_List('languages')">
+                Languages
+            </button>
+            <div class="list-item sublist"
+                [ngStyle]="(get_AvailableLanguages() == 0) ? {} : {'border-color':get_Accent('languages')}"
+                [className]="(get_AvailableLanguages() == 0) ? 'fancy-list' : ''" *ngIf="get_showList()=='languages'">
+                <div class="row left-aligned">
+                    <strong *ngIf="get_Character().class.ancestry.recommendedLanguages.length">Recommended
+                        Languages&nbsp;</strong>{{get_Character().class.ancestry.recommendedLanguages.join(', ')}}
+                </div>
+                <div class="list-item"
+                    *ngFor="let language of get_Character().class.ancestry.languages; let index = index; trackBy:trackByIndex;">
+                    <input class="row" type="text" [(ngModel)]="get_Character().class.ancestry.languages[index]"
+                        (blur)="set_Changed()">
+                </div>
+            </div>
+        </div>
+        <!--Available Ancestry Feats-->
+        <div class="list-item" *ngIf="get_Character().class.ancestry.name">
+            <strong>Available Ancestry Feats</strong>
+            <div class="row left-aligned" *ngIf="get_Character().class.ancestry.ancestries.length">
+                <cite class="trait"
+                    *ngFor="let trait of get_Character().class.ancestry.ancestries">{{trait}}&nbsp;</cite>
+            </div>
+        </div>
         <!--BaseValues-->
         <div class="list-item">
             <button class="row sublist-toggle fancy-button" [ngStyle]="{'color':get_Accent()}"
@@ -73,7 +102,7 @@
                 <div class="list-item" *ngFor="let ability of get_Character().baseValues">
                     {{ability.name}}
                     <input type="number" class="number2" [(ngModel)]="ability.baseValue"
-                        (blur)=this.characterService.set_Changed() maxlength="2">
+                        (blur)=set_Changed() maxlength="2" (keypress)="numbersOnly($event)">
                 </div>
             </div>
         </div>
@@ -450,8 +479,7 @@
                 <ng-container *ngFor="let choice of level.traditionChoices">
                     <ng-container *ngIf="choice.abilityAvailable">
                         <ng-container *ngFor="let listID of [choice.id+'ability']">
-                            <div class="list-item"
-                                [className]="(choice.ability ? 'fullsize-only' : '')">
+                            <div class="list-item" [className]="(choice.ability ? 'fullsize-only' : '')">
                                 <button class="row sublist-toggle" (mouseover)="hover = listID" (mouseout)="hover = ''"
                                     [ngStyle]="choice.ability ? {'color':get_Accent()} : {'background-color':get_Accent()}"
                                     [className]="choice.ability ? 'fancy-button' : ''" (click)="toggle_List(listID)">
@@ -461,7 +489,8 @@
                                 <div class="list-item sublist"
                                     [ngStyle]="choice.ability ? {} : {'border-color':get_Accent(listID)}"
                                     [className]="choice.ability ? 'fancy-list' : ''" *ngIf="get_showList()==listID">
-                                    <div class="list-item" *ngFor="let ability of get_AvailableTraditionAbilities(choice)">
+                                    <div class="list-item"
+                                        *ngFor="let ability of get_AvailableTraditionAbilities(choice)">
                                         <div class="row" *ngFor="let itemID of [choice.id+'ability'+ability]">
                                             <span>
                                                 <input id="{{itemID}}" type="checkbox"
@@ -480,8 +509,7 @@
                     </ng-container>
                     <ng-container *ngIf="choice.traditionAvailable">
                         <ng-container *ngFor="let listID of [choice.id+'tradition']">
-                            <div class="list-item"
-                                [className]="(choice.tradition ? 'fullsize-only' : '')">
+                            <div class="list-item" [className]="(choice.tradition ? 'fullsize-only' : '')">
                                 <button class="row sublist-toggle" (mouseover)="hover = listID" (mouseout)="hover = ''"
                                     [ngStyle]="choice.tradition ? {'color':get_Accent()} : {'background-color':get_Accent()}"
                                     [className]="choice.tradition ? 'fancy-button' : ''" (click)="toggle_List(listID)">
@@ -651,10 +679,13 @@
                                                 </p>
                                             </div>
                                             <ng-container *ngFor="let name of feat.gainActivities">
-                                                <div class="row left-aligned" *ngFor="let activity of get_Activities(name)">
+                                                <div class="row left-aligned"
+                                                    *ngFor="let activity of get_Activities(name)">
                                                     <h4>{{activity.name}}
-                                                        {{activity.get_Actions()}}{{(activity.activationType) ? " - " + activity.activationType : ""}}</h4>
-                                                    <app-activity [activity]=activity [allowActivate]=false></app-activity>
+                                                        {{activity.get_Actions()}}{{(activity.activationType) ? " - " + activity.activationType : ""}}
+                                                    </h4>
+                                                    <app-activity [activity]=activity [allowActivate]=false>
+                                                    </app-activity>
                                                 </div>
                                             </ng-container>
                                         </div>
@@ -734,8 +765,10 @@
                                             <ng-container *ngFor="let name of feat.gainActivities">
                                                 <ng-container *ngFor="let activity of get_Activities(name)">
                                                     <h4>{{activity}}
-                                                        {{activity.get_Actions()}}{{(activity.activationType) ? " - " + activity.activationType : ""}}</h4>
-                                                    <app-activity [activity]=activity [allowActivate]=false></app-activity>
+                                                        {{activity.get_Actions()}}{{(activity.activationType) ? " - " + activity.activationType : ""}}
+                                                    </h4>
+                                                    <app-activity [activity]=activity [allowActivate]=false>
+                                                    </app-activity>
                                                 </ng-container>
                                             </ng-container>
                                         </div>

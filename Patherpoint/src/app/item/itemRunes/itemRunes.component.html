@@ -38,7 +38,7 @@
     </ng-container>
 </div>
 <ng-container *ngIf="item.potencyRune > 0 && item.moddable=='weapon'">
-    <div class="row" *ngFor="let index of get_PropertyRunes()">
+    <div class="row" *ngFor="let index of get_PropertyRunes(); trackBy:trackByIndex;">
         <strong *ngIf="index == 0">Property Runes</strong>
         <span *ngIf="index != 0">&nbsp;</span>
         <select [(ngModel)]="newPropertyRuneName[index]"

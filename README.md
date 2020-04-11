@@ -49,9 +49,3 @@ The very latest in Assistive Technologies for Dungeon Master (ATDM)
 - [ ] import sortableJS or maybe Layout Grid
 - [ ] (documentation) :)
 - [ ] Initiative tracker, battles, being a battle member, GM-Player-Communication.......
-
-Active issues:
-When switching weapon runes from Ancestral Echoing to Speed, the showing item in the inventory stops showing until the inventory is refreshed.
-
-To do to finish Ohm:
-- Spell Key Ability

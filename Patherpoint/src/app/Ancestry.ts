@@ -11,8 +11,7 @@ export class Ancestry {
     public speed: number = 0;
     public abilityChoices: AbilityChoice[] = [];
     public languages: string[] = [];
-    public freeLanguages: number = 0;
-    public freeLanguages_applied: number = 0;
+    public baseLanguages: number = 0;
     public recommendedLanguages: string[] = [];
     public senses: string = "";
     public gainItems: ItemGain[] = [];

@@ -14,15 +14,8 @@
                 <cite class="trait" *ngFor="let trait of get_Character().class.ancestry.traits">{{trait}}&nbsp;</cite>
             </div>
         </div>
-        <div class="fullsize-only list-item" *ngIf="get_Character().class.ancestry.name">
-            <strong>Available Ancestry Feats:</strong>
-            <div class="row left-aligned" *ngIf="get_Character().class.ancestry.ancestries.length">
-                <cite class="trait"
-                    *ngFor="let trait of get_Character().class.ancestry.ancestries">{{trait}}&nbsp;</cite>
-            </div>
-        </div>
         <div class="fullsize-only list-item" *ngIf="get_Character().class.background.name">
-            <strong>Background:</strong>
+            <strong>Background</strong>
             {{get_Character().class.background.name}}
         </div>
         <div class="fullsize-only list-item" *ngIf="get_Character().class.name">
@@ -30,15 +23,19 @@
             {{get_Character().class.name}}
         </div>
         <div class="fullsize-only list-item" *ngIf="get_Character().alignment.length">
-            <strong>Alignment:</strong>
+            <strong>Alignment</strong>
             {{get_Character().alignment}}
         </div>
         <div class="fullsize-only list-item" *ngIf="get_Character().deity.length">
-            <strong>Deity:</strong>
+            <strong>Deity</strong>
             {{get_Character().deity}}
         </div>
+        <div class="fullsize-only list-item" *ngIf="get_Character().class.ancestry.languages.length">
+            <strong>Languages</strong>
+            {{get_Character().class.ancestry.languages.join(', ')}}
+        </div>
         <div class="fullsize-only list-item" *ngFor="let feat of get_DifferentWorldsFeat()">
-            <strong>Alternative Identity (Different Worlds):</strong>
+            <strong>Alternative Identity (Different Worlds)</strong>
             {{feat.data.name}} {{(feat.data.background) ? "("+feat.data.background+")" : ""}}
         </div>
         <h5 class="fullsize-only">Class & Spell DCs</h5>

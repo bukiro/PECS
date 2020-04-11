@@ -84,6 +84,10 @@ export class HealthComponent implements OnInit {
         this.characterService.set_Changed();
     }
 
+    get_NumbToDeath() {
+        return this.get_Character().get_FeatsTaken(0, this.get_Character().level, "Numb to Death").length;
+    }
+
     add_TempHP(amount: number) {
         this.get_Health().temporaryHP = Math.max(0, this.get_Health().temporaryHP + amount);
         //this.characterService.set_Changed();
