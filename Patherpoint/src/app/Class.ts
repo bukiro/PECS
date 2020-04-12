@@ -64,6 +64,18 @@ export class Class {
             }
         }
     }
+    on_ChangeDeity(characterService: CharacterService) {
+        let character = characterService.get_Character();
+        if (character.deity.name) {
+            //In the future, remove cleric skills, spells etc.
+        }
+    }
+    on_NewDeity(characterService: CharacterService) {
+        let character = characterService.get_Character();
+        if (character.deity.name) {
+            //In the future, add cleric skills, spells etc.
+        }
+    }
     on_ChangeHeritage(characterService: CharacterService) {
         if (this.heritage.name) {
             let level = this.levels[1];

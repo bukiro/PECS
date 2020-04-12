@@ -75,5 +75,9 @@
     { "name":"Sonic", "description":"An effect with the sonic trait functions only if it makes sound, meaning it has no effect in an area of silence or in a vacuum. This is different from an auditory spell, which is effective only if the target can hear it. A sonic effect might deal sonic damage." },
     { "name":"Healing", "description":"A healing effect restores a creature’s body, typically by restoring Hit Points, but sometimes by removing diseases or other debilitating effects." },
     { "name":"Potion", "description":"A potion is a magical liquid activated when you drink it." },
-    { "name":"Divination", "description":"The divination school of magic typically involves obtaining or transferring information, or predicting events." }
+    { "name":"Divination", "description":"The divination school of magic typically involves obtaining or transferring information, or predicting events." },
+    { "name":"Secret", "description":"The GM rolls the check for this ability in secret." },
+    { "name":"Divine", "description":"This magic comes from the divine tradition, drawing power from deities or similar sources. Anything with this trait is magical." },
+    { "name":"General", "description":"A type of feat that any character can select, regardless of ancestry and class, as long as they meet the prerequisites. You can select a feat with this trait when your class grants a general feat." },
+    { "name":"Skill", "description":"A general feat with the skill trait improves your skills and their actions or gives you new actions for a skill. A feat with this trait can be selected when a class grants a skill feat or general feat. Archetype feats with the skill trait can be selected in place of a skill feat if you have that archetype’s dedication feat." }
 ]

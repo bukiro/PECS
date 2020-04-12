@@ -1,4 +1,4 @@
-import { Component, OnInit, ChangeDetectionStrategy, ChangeDetectorRef, ɵNOT_FOUND_CHECK_ONLY_ELEMENT_INJECTOR } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
 import { CharacterService } from '../character.service';
 import { ClassesService } from '../classes.service';
 import { Class } from '../Class';
@@ -21,6 +21,8 @@ import { FeatChoice } from '../FeatChoice';
 import { SortByPipe } from '../sortBy.pipe';
 import { TraditionChoice } from '../TraditionChoice';
 import { ActivitiesService } from '../activities.service';
+import { Deity } from '../Deity';
+import { DeitiesService } from '../deities.service';
 
 @Component({
     selector: 'app-character',
@@ -45,6 +47,7 @@ export class CharacterComponent implements OnInit {
         public historyService: HistoryService,
         private itemsService: ItemsService,
         private activitiesService: ActivitiesService,
+        private deitiesService: DeitiesService,
         private sortByPipe: SortByPipe
     ) { }
 
@@ -87,6 +90,21 @@ export class CharacterComponent implements OnInit {
     //If you don't use trackByIndex on certain inputs, you lose focus everytime the value changes. I don't get that, but I'm using it now.
     trackByIndex(index: number, obj: any): any {
         return index;
+    }
+
+    get_Alignments() {
+        return [
+            "",
+            "Lawful Good",
+            "Neutral Good",
+            "Chaotic Good",
+            "Lawful Neutral",
+            "Neutral",
+            "Chaotic Neutral",
+            "Lawful Evil",
+            "Neutral Evil",
+            "Chaotic Evil"
+        ].filter(alignment => !this.get_Character().deity.followerAlignments || this.get_Character().deity.followerAlignments.indexOf(alignment) > -1)
     }
 
     get_Level(number: number) {
@@ -723,6 +741,19 @@ export class CharacterComponent implements OnInit {
             this.characterService.change_Ancestry(ancestry, this.itemsService);
         } else {
             this.characterService.change_Ancestry(new Ancestry(), this.itemsService);
+        }
+    }
+
+    get_Deities() {
+        return this.deitiesService.get_Deities().filter((deity: Deity) => !this.get_Character().alignment || deity.followerAlignments.indexOf(this.get_Character().alignment) > -1);
+    }
+
+    on_DeityChange(deity: Deity, taken: boolean) {
+        if (taken) {
+            this.showList="";
+            this.characterService.change_Deity(deity);
+        } else {
+            this.characterService.change_Deity(new Deity());
         }
     }
 

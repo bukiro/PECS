@@ -50,6 +50,8 @@ import { WeaponRune } from './WeaponRune';
 import { LoreChoice } from './LoreChoice';
 import { Rune } from './Rune';
 import { Potion } from './Potion';
+import { DeitiesService } from './deities.service';
+import { Deity } from './Deity';
 
 @Injectable({
     providedIn: 'root'
@@ -82,7 +84,8 @@ export class CharacterService {
         public spellsService: SpellsService,
         public effectsService: EffectsService,
         public timeService: TimeService,
-        public defenseService: DefenseService
+        public defenseService: DefenseService,
+        public deitiesService: DeitiesService
     ) { }
 
     still_loading() {
@@ -255,6 +258,14 @@ export class CharacterService {
         this.me.class.ancestry = new Ancestry();
         this.me.class.ancestry = Object.assign(new Ancestry(), JSON.parse(JSON.stringify(ancestry)))
         this.me.class.on_NewAncestry(this, itemsService);
+        this.set_Changed();
+    }
+    
+    change_Deity(deity: Deity) {
+        this.me.class.on_ChangeDeity(this);
+        this.me.deity = new Deity();
+        this.me.deity = Object.assign(new Deity(), JSON.parse(JSON.stringify(deity)))
+        this.me.class.on_NewDeity(this);
         this.set_Changed();
     }
 
@@ -828,6 +839,7 @@ export class CharacterService {
         this.spellsService.initialize();
         this.itemsService.initialize();
         this.effectsService.initialize(this);
+        this.deitiesService.initialize();
         this.load_Character(charName)
             .subscribe((results: string[]) => {
                 this.loader = results;
@@ -881,6 +893,9 @@ export class CharacterService {
             }
             if (this.me.bulk) {
                 this.me.bulk = Object.assign(new Bulk(), this.me.bulk);
+            }
+            if (this.me.deity) {
+                this.me.deity = Object.assign(new Deity(), this.me.deity);
             }
             if (this.me.class.ancestry) {
                 this.me.class.ancestry = Object.assign(new Ancestry(), this.me.class.ancestry);

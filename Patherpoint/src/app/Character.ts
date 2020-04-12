@@ -19,6 +19,7 @@ import { SpellChoice } from './SpellChoice';
 import { Settings } from './Settings';
 import { TimeService } from './time.service';
 import { TraditionChoice } from './TraditionChoice';
+import { Deity } from './Deity';
 
 export class Character {
     public name: string = "";
@@ -31,7 +32,7 @@ export class Character {
     public baseValues: {name:string, baseValue:number}[] = [];
     public inventory: ItemCollection = new ItemCollection();
     public alignment: string = "";
-    public deity: string = "";
+    public deity: Deity = new Deity();
     public speeds: Speed[] = [new Speed("Speed"), new Speed("Land Speed")];
     public cash: number[] = [0,15,0,0];
     public bulk: Bulk = new Bulk();

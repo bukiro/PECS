@@ -6,6 +6,7 @@ import { SkillChoice } from './SkillChoice';
 import { SpellChoice } from './SpellChoice';
 import { FormulaChoice } from './FormulaChoice';
 import { TraditionChoice } from './TraditionChoice';
+import { Character } from './Character';
 
 export class Feat {
     public name: string = "";
@@ -143,7 +144,9 @@ export class Feat {
         //and that it must remain true even after you take the feat (or the will be automatically removed.)
         //e.g. if the requirement is (Athletics < 2), also allow (Athletics < 4 && Feat Taken)
         //
-        //charLevel is often needed for special requirements, so we keep it defined even if we don't use it in the function.
+        //character and charLevel are often needed for special requirements, so we keep them defined even if we don't use them in the function.
+        let character: Character = characterService.get_Character();
+        charLevel = charLevel;
         let result: {met:boolean, desc:string};
         if (this.specialreq) {
             if (eval(this.specialreq)) {

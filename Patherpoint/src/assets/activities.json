@@ -62,8 +62,7 @@
                 "affected": "HP",
                 "value": "-(currentHP - 1)"
             }
-        ],
-        "source": "Orc Ferocity"
+        ]
     },
     {
         "name": "Battle Medicine",
@@ -101,6 +100,46 @@
         "name": "Legendary Negotiation",
         "actions": "3",
         "desc": "You can negotiate incredibly quickly in adverse situations. You attempt to Make an Impression and then Request your opponent cease their current activity and engage in negotiations. You take a –5 penalty to your Diplomacy check. The GM sets the DC of the Request based on the circumstances—it’s generally at least a very hard DC of the creature’s level. Some creatures might simply refuse, and even those who agree to parley might ultimately find your arguments lacking and return to violence.",
+        "traits": [
+            "General",
+            "Skill"
+        ]
+    },
+    {
+        "name": "Recognize Spell",
+        "actions": "Reaction",
+        "trigger": "A creature within line of sight casts a spell that you don’t have prepared or in your spell repertoire, or a trap or similar object casts such a spell. You must be aware of the casting.",
+        "desc": "If you are trained in the appropriate skill for the spell’s tradition and it’s a common spell of 2nd level or lower, you automatically identify it (you still roll to attempt to get a critical success, but can’t get a worse result than success). The highest level of spell you automatically identify increases to 4 if you’re an expert, 6 if you’re a master, and 10 if you’re legendary. The GM rolls a secret Arcana, Nature, Occultism, or Religion check, whichever corresponds to the tradition of the spell being cast. If you’re not trained in the skill, you can’t get a result better than failure.",
+        "critsuccess": "You correctly recognize the spell and gain a +1 circumstance bonus to your saving throw or your AC against it.",
+        "success": "You correctly recognize the spell.",
+        "failure": "You fail to recognize the spell.",
+        "critfailure": "You misidentify the spell as another spell entirely, of the GM’s choice.",
+        "traits": [
+            "General",
+            "Secret",
+            "Skill"
+        ]
+    },
+    {
+        "name": "Sacred Defense",
+        "actions": "1",
+        "frequency": "once per hour",
+        "cooldown": 6000,
+        "desc": "You call upon your deity to grant you their protective blessing. Attempt a DC 30 Religion check. If you have legendary proficiency in Religion, you can instead attempt a DC 40 Religion check to increase the temporary Hit Points you gain on a successful check to 15 (25 on a critical success).",
+        "critsuccess": "You gain 10 temporary Hit Points. You lose any remaining temporary Hit Points after 1 minute.",
+        "success": "You gain 5 temporary Hit Points. You lose any remaining temporary Hit Points after 1 minute.",
+        "critfailure": "Your deity withholds their blessing. You cannot attempt to call to your deity again for 1 day.",
+        "inputRequired": "Add and remove any temporary Hit Points after determining the success.",
+        "traits": [
+            "Divine",
+            "General",
+            "Skill"
+        ]
+    },
+    {
+        "name": "Sanctify Water",
+        "actions": "1",
+        "desc": "You imbue water with your deity’s blessing. Choose a container of water on your person that is of light Bulk. For 1 round, if you or an ally throw this container at a foe, it has the damaging effects of holy water (if you follow a good deity) or unholy water (if you follow an evil deity). The water’s transient power doesn’t make it gain any value, allow it to be used to supply the cost for a spell or ritual, and so on. If you have legendary proficiency in Religion, you can sanctify three containers held by you or allies within your reach instead of one.\n\nPFS Note: When using Sanctify Water use your proficiency with simple weapons to determine your attack bonus when throwing the blessed container of water. If you give the container to another character for them to throw, they use their proficiency with improvised weapons instead.",
         "traits": [
             "General",
             "Skill"

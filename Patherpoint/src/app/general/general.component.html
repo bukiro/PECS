@@ -26,9 +26,9 @@
             <strong>Alignment</strong>
             {{get_Character().alignment}}
         </div>
-        <div class="fullsize-only list-item" *ngIf="get_Character().deity.length">
+        <div class="fullsize-only list-item" *ngIf="get_Character().deity.name">
             <strong>Deity</strong>
-            {{get_Character().deity}}
+            {{get_Character().deity.name}}
         </div>
         <div class="fullsize-only list-item" *ngIf="get_Character().class.ancestry.languages.length">
             <strong>Languages</strong>
