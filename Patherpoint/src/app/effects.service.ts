@@ -199,8 +199,23 @@ constructor(
             //Shields don't have a strength requirement for speed penalties. In this case, the penalty just alwas applies.
             itemEffects.push(new Effect('untyped', "Speed", item.speedpenalty.toString(), item.get_Name(), true));
         });
-        //Push itemEffects and (later) featEffects into effects together.
-        let allEffects: Effect[] = [].concat(simpleEffects, itemEffects)
+
+        //Push simpleEffects and itemEffects into effects together.
+        let allEffects: Effect[] = simpleEffects.concat(itemEffects)
+
+        let featEffects: Effect[] = [];
+        //If you have the Quick Swim feat and are legendary in Athletics, add a Swim Speed at the Land Speed.
+        if (character.get_FeatsTaken(0, character.level, "Quick Swim")) {
+            if (characterService.get_Skills("Athletics")[0].level(characterService, character.level) == 8) {
+                let landSpeed = characterService.get_Speeds().filter(speed => speed.name == "Land Speed")[0].value(characterService, this)[0];
+                let swimSpeed = allEffects.filter(effect => effect.target == "Swim Speed").map(effect => parseInt(effect.value)).reduce((sum, current) => sum + current, 0);
+                if (!swimSpeed || swimSpeed < landSpeed) 
+                featEffects.push(new Effect("", "Swim Speed", "+"+landSpeed.toString(), "Quick Swim", false, true, true))
+            }
+        }
+
+        //Push featEffects into allEffects.
+        allEffects.push(...featEffects);
 
         //Now we need to go over all the effects.  If one target is affected by two bonuses of the same type,
         // only the bigger one is applied. The same goes for penalties, unless they are untyped.

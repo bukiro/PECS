@@ -61,14 +61,6 @@ export class GeneralComponent implements OnInit {
     get_Speeds() {
         let speeds = this.characterService.get_Speeds();
         let speedEffects = this.effectsService.get_Effects().all.filter(effect => effect.apply && (effect.target.indexOf("Speed") > -1));
-        if (this.get_Character().get_FeatsTaken(0, this.get_Character().level, "Quick Swim")) {
-            if (this.characterService.get_Skills("Athletics")[0].level(this.characterService, this.get_Character().level) == 8) {
-                let landSpeed = speeds.filter(speed => speed.name == "Land Speed")[0].value(this.characterService, this.effectsService)[0];
-                let swimSpeed = speedEffects.filter(effect => effect.target == "Swim Speed").map(effect => parseInt(effect.value)).reduce((sum, current) => sum + current, 0);
-                if (!swimSpeed || swimSpeed < landSpeed) 
-                speedEffects.push(new Effect("", "Swim Speed", (landSpeed - swimSpeed).toString(), "Quick Swim", false, true, true))
-            }
-        }
         speedEffects.forEach(effect => {
             if (!speeds.filter(speed => speed.name == effect.target).length) {
                 speeds.push(new Speed(effect.target))

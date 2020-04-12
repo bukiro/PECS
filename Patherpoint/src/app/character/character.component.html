@@ -54,35 +54,6 @@
                 </select>
             </span>
         </div>
-        <!--Languages-->
-        <div class="list-item" *ngIf="get_LanguagesAvailable()">
-            <button class="row sublist-toggle" (mouseover)="hover = 'languages'" (mouseout)="hover = ''"
-                [ngStyle]="(get_AvailableLanguages() == 0) ? {'color':get_Accent()} : {'background-color':get_Accent()}"
-                [className]="(get_AvailableLanguages() == 0) ? 'fancy-button' : ''" (click)="toggle_List('languages')">
-                Languages
-            </button>
-            <div class="list-item sublist"
-                [ngStyle]="(get_AvailableLanguages() == 0) ? {} : {'border-color':get_Accent('languages')}"
-                [className]="(get_AvailableLanguages() == 0) ? 'fancy-list' : ''" *ngIf="get_showList()=='languages'">
-                <div class="row left-aligned">
-                    <strong *ngIf="get_Character().class.ancestry.recommendedLanguages.length">Recommended
-                        Languages&nbsp;</strong>{{get_Character().class.ancestry.recommendedLanguages.join(', ')}}
-                </div>
-                <div class="list-item"
-                    *ngFor="let language of get_Character().class.ancestry.languages; let index = index; trackBy:trackByIndex;">
-                    <input class="row" type="text" [(ngModel)]="get_Character().class.ancestry.languages[index]"
-                        (blur)="set_Changed()">
-                </div>
-            </div>
-        </div>
-        <!--Available Ancestry Feats-->
-        <div class="list-item" *ngIf="get_Character().class.ancestry.name">
-            <strong>Available Ancestry Feats</strong>
-            <div class="row left-aligned" *ngIf="get_Character().class.ancestry.ancestries.length">
-                <cite class="trait"
-                    *ngFor="let trait of get_Character().class.ancestry.ancestries">{{trait}}&nbsp;</cite>
-            </div>
-        </div>
         <!--BaseValues-->
         <div class="list-item">
             <button class="row sublist-toggle fancy-button" [ngStyle]="{'color':get_Accent()}"
@@ -215,6 +186,35 @@
                 </div>
             </div>
         </ng-container>
+        <!--Languages-->
+        <div class="list-item" *ngIf="get_LanguagesAvailable()">
+            <button class="row sublist-toggle" (mouseover)="hover = 'languages'" (mouseout)="hover = ''"
+                [ngStyle]="(get_AvailableLanguages() == 0) ? {'color':get_Accent()} : {'background-color':get_Accent()}"
+                [className]="(get_AvailableLanguages() == 0) ? 'fancy-button' : ''" (click)="toggle_List('languages')">
+                Languages
+            </button>
+            <div class="list-item sublist"
+                [ngStyle]="(get_AvailableLanguages() == 0) ? {} : {'border-color':get_Accent('languages')}"
+                [className]="(get_AvailableLanguages() == 0) ? 'fancy-list' : ''" *ngIf="get_showList()=='languages'">
+                <div class="row left-aligned">
+                    <strong *ngIf="get_Character().class.ancestry.recommendedLanguages.length">Recommended
+                        Languages&nbsp;</strong>{{get_Character().class.ancestry.recommendedLanguages.join(', ')}}
+                </div>
+                <div class="list-item"
+                    *ngFor="let language of get_Character().class.ancestry.languages; let index = index; trackBy:trackByIndex;">
+                    <input class="row" type="text" [(ngModel)]="get_Character().class.ancestry.languages[index]"
+                        (blur)="set_Changed()">
+                </div>
+            </div>
+        </div>
+        <!--Available Ancestry Feats-->
+        <div class="list-item" *ngIf="get_Character().class.ancestry.name">
+            <strong>Available Ancestry Feats</strong>
+            <div class="row left-aligned" *ngIf="get_Character().class.ancestry.ancestries.length">
+                <cite class="trait"
+                    *ngFor="let trait of get_Character().class.ancestry.ancestries">{{trait}}&nbsp;</cite>
+            </div>
+        </div>
         <!--Background-->
         <ng-container *ngIf="get_Character().class.name">
             <div class="list-item" [className]="(get_Character().class.background.name) ? 'fullsize-only' : ''"
