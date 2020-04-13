@@ -21,7 +21,7 @@ The very latest in Assistive Technologies for Dungeon Master (ATDM)
 - [x] - So many results of Classes, Ancestries, Heritages, Backgrounds
 - [x] -- Adding skills and lore through Feats and Backgrounds
 - [x] - Actions granted through class and feats
-- [ ] - Implement all General and Skill Feats
+- [x] - Implement all General and Skill Feats
 - [ ] - Implement all Ancestry Feats
 - [ ] - Implement all Weapons
 - [ ] - Implement all Armors
@@ -29,6 +29,7 @@ The very latest in Assistive Technologies for Dungeon Master (ATDM)
 - [ ] - Implement all Consumables
 - [x] - Implement all Adventuring Gear
 - [x] - Implement all Weapon Runes
+- [x] - Implement all Armor Runes
 - [ ] - Implement one full Class with Feats and Features
 - [x] - Feat requirements
 - [x] - Equipment (weapons, armor, shields) -> Abilities, Armor, Attacks, Skills
@@ -50,7 +51,3 @@ The very latest in Assistive Technologies for Dungeon Master (ATDM)
 - [ ] (documentation) :)
 - [ ] Initiative tracker, battles, being a battle member, GM-Player-Communication.......
 - [ ] Stretch Goal: Include optional Stamina & Resolve system
-
-active to-do:
-- feats are done, need to be converted to csv
-- it would be great if the task of removing empty properties after the conversion could be automated. Does VSC maybe have a pattern database?

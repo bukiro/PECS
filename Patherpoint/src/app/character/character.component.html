@@ -747,7 +747,7 @@
                                             <ng-container *ngFor="let name of feat.gainActivities">
                                                 <div class="row left-aligned"
                                                     *ngFor="let activity of get_Activities(name)">
-                                                    <h4>{{activity.name}}
+                                                    <h4 class="left-aligned">{{activity.name}}
                                                         {{activity.get_Actions()}}{{(activity.activationType) ? " - " + activity.activationType : ""}}
                                                     </h4>
                                                     <app-activity class="row" [activity]=activity [allowActivate]=false>
@@ -830,7 +830,7 @@
                                             </div>
                                             <ng-container *ngFor="let name of feat.gainActivities">
                                                 <ng-container *ngFor="let activity of get_Activities(name)">
-                                                    <h4>{{activity.name}}
+                                                    <h4 class="left-aligned">{{activity.name}}
                                                         {{activity.get_Actions()}}{{(activity.activationType) ? " - " + activity.activationType : ""}}
                                                     </h4>
                                                     <app-activity class="row" [activity]=activity [allowActivate]=false>
