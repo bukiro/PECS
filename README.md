@@ -49,3 +49,8 @@ The very latest in Assistive Technologies for Dungeon Master (ATDM)
 - [ ] import sortableJS or maybe Layout Grid
 - [ ] (documentation) :)
 - [ ] Initiative tracker, battles, being a battle member, GM-Player-Communication.......
+- [ ] Stretch Goal: Include optional Stamina & Resolve system
+
+active to-do:
+- feats are done, need to be converted to csv
+- it would be great if the task of removing empty properties after the conversion could be automated. Does VSC maybe have a pattern database?

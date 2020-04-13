@@ -147,9 +147,18 @@ export class CharacterComponent implements OnInit {
         this.characterService.set_Changed();
     }
 
-    get_LanguagesAvailable() {
+    get_LanguagesAvailable(level: number = 0) {
         let character = this.get_Character()
         if (character.class.ancestry.name) {
+            if (level) {
+                //If level is given, check if any new languages have been added on this level. If not, don't get any languages at this point.
+                let newLanguages: number = 0;
+                newLanguages += this.get_FeatsTaken(level, level).filter(gain => this.get_FeatsAndFeatures(gain.name)[0].effects.filter(effect => effect.affected == "Max Languages").length).length;
+                newLanguages += character.get_AbilityBoosts(level, level, "Intelligence").length;
+                if (!newLanguages) {
+                    return false;
+                }
+            }
             let ancestry: Ancestry = this.get_Character().class.ancestry;
             let languages: number = ancestry.languages.length;
             let maxLanguages: number = ancestry.baseLanguages;
@@ -157,22 +166,9 @@ export class CharacterComponent implements OnInit {
             if (int > 0) {
                 maxLanguages += int;
             }
-            let multilingual = this.get_FeatsTaken(0, character.level, "Multilingual").length;
-            if (multilingual) {
-                let society: number = this.get_Skills("Society")[0].level(this.characterService, character.level);
-                switch (society) {
-                    case 8:
-                        multilingual *= 4;
-                        break;
-                    case 6:
-                        multilingual *= 3;
-                        break;
-                    default:
-                        multilingual *= 2;
-                        break;
-                }
-                maxLanguages += multilingual;
-            }
+            this.effectsService.get_EffectsOnThis("Max Languages").forEach(effect => {
+                maxLanguages += parseInt(effect.value);
+            })
             if (languages > maxLanguages) {
                 ancestry.languages.splice(maxLanguages);
             } else {
@@ -630,7 +626,7 @@ export class CharacterComponent implements OnInit {
             ).length > 0;
     }
 
-    get_FeatsTaken(minLevelNumber: number, maxLevelNumber: number, featName: string, source: string = "", sourceId: string = "", locked: boolean = undefined) {
+    get_FeatsTaken(minLevelNumber: number, maxLevelNumber: number, featName: string = "", source: string = "", sourceId: string = "", locked: boolean = undefined) {
         return this.get_Character().get_FeatsTaken(minLevelNumber, maxLevelNumber, featName, source, sourceId, locked);
     }
 

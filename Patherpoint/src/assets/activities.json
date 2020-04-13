@@ -76,6 +76,63 @@
         ]
     },
     {
+        "name": "Eye of the Arclords: 1 Minute",
+        "actions": "1",
+        "frequency": "once per day",
+        "cooldown": 144000,
+        "desc": "You open an incandescent third eye upon your forehead. The eye can remain open for 1 minute, and you can close it before then with a single action with the concentrate trait. It can remain open for 2 minutes if you’re a master in Arcana, or 5 minutes if you’re legendary. While the eye is open, you gain the following benefits: you gain the effects of the detect magic arcane innate spell from your Arcane Sense at the start of each of your turns without needing to cast the spell; you gain darkvision; you gain a +2 status bonus to Perception checks to Seek undetected and hidden creatures and to your Perception DC against Hide and Sneak. After your third eye closes, you are dazzled for an amount of time equal to how long you had it open.",
+        "traits": [
+            "Uncommon",
+            "General",
+            "Skill"
+        ],
+        "gainConditions": [
+            {
+                "name": "Eye of the Arclords",
+                "source": "Eye of the Arclords",
+                "duration": 100
+            }
+        ]
+    },
+    {
+        "name": "Eye of the Arclords: 2 Minutes",
+        "actions": "1",
+        "frequency": "once per day",
+        "cooldown": 144000,
+        "desc": "You open an incandescent third eye upon your forehead. The eye can remain open for 1 minute, and you can close it before then with a single action with the concentrate trait. It can remain open for 2 minutes if you’re a master in Arcana, or 5 minutes if you’re legendary. While the eye is open, you gain the following benefits: you gain the effects of the detect magic arcane innate spell from your Arcane Sense at the start of each of your turns without needing to cast the spell; you gain darkvision; you gain a +2 status bonus to Perception checks to Seek undetected and hidden creatures and to your Perception DC against Hide and Sneak. After your third eye closes, you are dazzled for an amount of time equal to how long you had it open.",
+        "traits": [
+            "Uncommon",
+            "General",
+            "Skill"
+        ],
+        "gainConditions": [
+            {
+                "name": "Eye of the Arclords",
+                "source": "Eye of the Arclords",
+                "duration": 200
+            }
+        ]
+    },
+    {
+        "name": "Eye of the Arclords: 5 Minutes",
+        "actions": "1",
+        "frequency": "once per day",
+        "cooldown": 144000,
+        "desc": "You open an incandescent third eye upon your forehead. The eye can remain open for 1 minute, and you can close it before then with a single action with the concentrate trait. It can remain open for 2 minutes if you’re a master in Arcana, or 5 minutes if you’re legendary. While the eye is open, you gain the following benefits: you gain the effects of the detect magic arcane innate spell from your Arcane Sense at the start of each of your turns without needing to cast the spell; you gain darkvision; you gain a +2 status bonus to Perception checks to Seek undetected and hidden creatures and to your Perception DC against Hide and Sneak. After your third eye closes, you are dazzled for an amount of time equal to how long you had it open.",
+        "traits": [
+            "Uncommon",
+            "General",
+            "Skill"
+        ],
+        "gainConditions": [
+            {
+                "name": "Eye of the Arclords",
+                "source": "Eye of the Arclords",
+                "duration": 500
+            }
+        ]
+    },
+    {
         "name": "Juggle",
         "actions": "1",
         "desc": "You can Juggle items and still use your hands between tosses. You can use the Juggle action in several ways.\n\nYou can start to Juggle with a single stored item, an item you were carrying, or an unattended item within your reach. The item must be of light or negligible Bulk. You Juggle the item until the end of your next turn, unless you use this feat against next turn to continue Juggling (see below). While you are Juggling, you can use this action again to add another item to the Juggle, which must meet all the same requirements. You can Juggle a number of items equal to one more than the number of hands you are using to Juggle.\n\nYou can also use this action to continue Juggling as long as you aren’t fatigued. When you do, you continue to Juggle until the end of your next turn. If you do not continue Juggling by the end of your turn, you cease Juggling and you drop all the items. You become fatigued if you continue Juggling for more than 10 minutes (60 rounds) within the course of an hour.\n\nAs long as you’re Juggling fewer than your maximum number of items, you have a free hand. You can wield weapons you are Juggling (but not shields or other items) as long as they can be wielded in one hand. For example, while you Juggle a dagger in one hand and wield a shield in the other, you are wielding the dagger but still have a free hand to Cast a Spell with a material component. Juggling two or more weapons with one hand doesn’t allow you to use feats that require two weapons each held in a different hand.",
@@ -121,6 +178,16 @@
         ]
     },
     {
+        "name": "Reveal Machinations",
+        "actions": "1",
+        "desc": "You reveal that you played a minor but recurring role in another humanoid’s life—or at least convince them that’s the case. Attempt a Deception check against the target’s Will DC. On a success, the revelation makes them frightened 2, and on a critical success they are frightened 3. In addition, you gain information about the subject as though you had attempted to Recall Knowledge about them using an appropriate skill and received the same result on your roll. You can’t use this ability against the same humanoid again until 1 day has passed and you’ve also successfully disguised yourself as a different person.",
+        "traits": [
+            "Rare",
+            "General",
+            "Skill"
+        ]
+    },
+    {
         "name": "Sacred Defense",
         "actions": "1",
         "frequency": "once per hour",
@@ -142,6 +209,160 @@
         "desc": "You imbue water with your deity’s blessing. Choose a container of water on your person that is of light Bulk. For 1 round, if you or an ally throw this container at a foe, it has the damaging effects of holy water (if you follow a good deity) or unholy water (if you follow an evil deity). The water’s transient power doesn’t make it gain any value, allow it to be used to supply the cost for a spell or ritual, and so on. If you have legendary proficiency in Religion, you can sanctify three containers held by you or allies within your reach instead of one.\n\nPFS Note: When using Sanctify Water use your proficiency with simple weapons to determine your attack bonus when throwing the blessed container of water. If you give the container to another character for them to throw, they use their proficiency with improvised weapons instead.",
         "traits": [
             "General",
+            "Skill"
+        ]
+    },
+    {
+        "name": "Scared to Death",
+        "actions": "1",
+        "desc": "You can frighten foes so much, they might die. Attempt an Intimidation check against the Will DC of a living creature within 30 feet of you that you sense or observe and who can sense or observe you. If the target can’t hear you or doesn’t understand the language you are speaking, you take a –4 circumstance penalty. The creature is temporarily immune for 1 minute.",
+        "critsuccess": "The target must succeed at a Fortitude save against your Intimidation DC or die. If the target succeeds at its save, it becomes frightened 2 and is fleeing for 1 round; it suffers no effect on a critical success.",
+        "success": "The target becomes frightened 2.",
+        "failure": "The target becomes frightened 1.",
+        "critfailure": "The target is unaffected.",
+        "traits": [
+            "Death",
+            "Emotion",
+            "Fear",
+            "General",
+            "Incapacitation",
+            "Skill"
+        ]
+    },
+    {
+        "name": "Shield Block",
+        "actions": "Reaction",
+        "trigger": "While you have your shield raised, you would take damage from a physical attack.",
+        "desc": "You snap your shield in place to ward off a blow. Your shield prevents you from taking an amount of damage up to the shield’s Hardness. You and the shield each take any remaining damage, possibly breaking or destroying the shield.",
+        "traits": [
+            "General"
+        ]
+    },
+    {
+        "name": "Sow Rumor",
+        "desc": "You spread rumors, which may or may not be true, about a specific subject. If the subject of your rumor is not currently the subject of any contradictory rumors, this takes as long as it would normally take you to Gather Information (typically 2 hours), at the end of which the GM rolls a secret Deception check to see how well you spread the rumor. If your rumor matches any current rumors about the subject, it takes less time to spread the rumor, and if you are attempting to overtake a particularly popular and contradictory rumor, it takes much longer or may be impossible. The DC similarly increases or decreases depending on how plausible your rumor is.",
+        "critsuccess": "Your rumor spreads like wildfire. Anyone who succeeds at a check to Gather Information on the specific subject learns your rumor in preference to other rumors about the subject. Your rumor persists for 1 month.",
+        "success": "You successfully spread the rumor. Anyone who succeeds at a check to Gather Information on the specific subject adds your rumor to the list of rumors they could learn about the subject. Your rumor persists for 1 week.",
+        "failure": "Your rumor dies off, never becoming popular enough for other people to learn it via Gather Information.",
+        "critfailure": "You are unable to spread a rumor and take a –4 circumstance penalty to Deception checks to Sow Rumors about the same subject within the same region for 1 week. In addition, a rumor spreads about someone trying to spread false rumors about the subject.",
+        "traits": [
+            "Uncommon",
+            "General",
+            "Secret",
+            "Skill"
+        ]
+    },
+    {
+        "name": "Train Animal",
+        "desc": "You spend time teaching an animal to do a certain action. You can either select a basic action the animal already knows how to do (typically those listed in the Command an Animal action) or attempt to teach the animal a new basic action. The GM determines the DC of any check required and the amount of time the training takes (usually at least a week). It’s usually impossible to teach an animal a trick that uses critical thinking. If you’re expert, master, or legendary in Nature, you might be able to train more unusual creatures, at the GM’s discretion.",
+        "success": "The animal learns the action. If it was an action the animal already knew, you can Command the Animal to take that action without attempting a Nature check. If it was a new basic action, add that action to the actions the animal can take when Commanded, but you must still roll.",
+        "failure": "The animal doesn’t learn the trick.",
+        "traits": [
+            "Downtime",
+            "General",
+            "Manipulate",
+            "Skill"
+        ]
+    },
+    {
+        "name": "Trick Magic Item",
+        "actions": "1",
+        "desc": "You examine a magic item you normally couldn’t use in an effort to fool it and activate it temporarily. For example, this might allow a fighter to cast a spell from a wand or allow a wizard to cast a spell that’s not on the arcane list using a scroll. You must know what activating the item does, or you can’t attempt to trick it.\n\nAttempt a check using the skill matching the item’s magic tradition, or matching a tradition that has the spell on its list, if you’re trying to cast a spell from the item. The relevant skills are Arcana for arcane, Nature for primal, Occultism for occult, Religion for divine, or any of the four for an item that has the magical trait and not a tradition trait. The GM determines the DC based on the item’s level (possibly adjusted depending on the item or situation).\n\nIf you activate a magic item that requires a spell attack roll or spell DC and you don’t have the ability to cast spells of the relevant tradition, use your level as your proficiency bonus and the highest of your Intelligence, Wisdom, or Charisma modifiers. If you’re a master in the appropriate skill for the item’s tradition, you instead use the trained proficiency bonus, and if you’re legendary, you instead use the expert proficiency bonus.",
+        "success": "For the rest of the current turn, you can spend actions to activate the item as if you could normally use it.",
+        "failure": "You can’t use the item or try to trick it again this turn, but you can try again on subsequent turns.",
+        "critfailure": "You can’t use the item, and you can’t try to trick it again until your next daily preparations.",
+        "traits": [
+            "General",
+            "Manipulate",
+            "Skill"
+        ]
+    },
+    {
+        "name": "Battle Prayer",
+        "actions": "1",
+        "desc": "Calling out to your deity, you recite scripture to harm a foe. Attempt a Religion check against the Will DC of a foe within 30 feet. The foe is then temporarily immune to Battle Prayers from your deity for 1 day.",
+        "critsuccess": "You deal 2d6 damage of the chosen alignment type, or 6d6 damage if you have legendary proficiency in Religion.",
+        "success": "You deal 1d6 damage of the chosen alignment type, or 3d6 damage if you have legendary proficiency in Religion.",
+        "failure": "There is no effect.",
+        "critfailure": "The backlash of your foe’s will against your prayer prevents you from using Battle Prayer again for 10 minutes.",
+        "traits": [
+            "Divine",
+            "General",
+            "Skill"
+        ]
+    },
+    {
+        "name": "Battle Prayer: Chaos",
+        "actions": "1",
+        "desc": "Calling out to your deity, you recite scripture to harm a foe. Attempt a Religion check against the Will DC of a foe within 30 feet. The foe is then temporarily immune to Battle Prayers from your deity for 1 day.",
+        "critsuccess": "You deal 2d6 Chaotic damage, or 6d6 damage if you have legendary proficiency in Religion.",
+        "success": "You deal 1d6 Chaotic damage, or 3d6 damage if you have legendary proficiency in Religion.",
+        "failure": "There is no effect.",
+        "critfailure": "The backlash of your foe’s will against your prayer prevents you from using Battle Prayer again for 10 minutes.",
+        "traits": [
+            "Chaotic",
+            "Divine",
+            "General",
+            "Skill"
+        ]
+    },
+    {
+        "name": "Battle Prayer: Evil",
+        "actions": "1",
+        "desc": "Calling out to your deity, you recite scripture to harm a foe. Attempt a Religion check against the Will DC of a foe within 30 feet. The foe is then temporarily immune to Battle Prayers from your deity for 1 day.",
+        "critsuccess": "You deal 2d6 Unholy damage, or 6d6 damage if you have legendary proficiency in Religion.",
+        "success": "You deal 1d6 Unholy damage, or 3d6 damage if you have legendary proficiency in Religion.",
+        "failure": "There is no effect.",
+        "critfailure": "The backlash of your foe’s will against your prayer prevents you from using Battle Prayer again for 10 minutes.",
+        "traits": [
+            "Divine",
+            "Evil",
+            "General",
+            "Skill"
+        ]
+    },
+    {
+        "name": "Battle Prayer: Good",
+        "actions": "1",
+        "desc": "Calling out to your deity, you recite scripture to harm a foe. Attempt a Religion check against the Will DC of a foe within 30 feet. The foe is then temporarily immune to Battle Prayers from your deity for 1 day.",
+        "critsuccess": "You deal 2d6 Holy damage, or 6d6 damage if you have legendary proficiency in Religion.",
+        "success": "You deal 1d6 Holy damage, or 3d6 damage if you have legendary proficiency in Religion.",
+        "failure": "There is no effect.",
+        "critfailure": "The backlash of your foe’s will against your prayer prevents you from using Battle Prayer again for 10 minutes.",
+        "traits": [
+            "Divine",
+            "General",
+            "Good",
+            "Skill"
+        ]
+    },
+    {
+        "name": "Battle Prayer: Law",
+        "actions": "1",
+        "desc": "Calling out to your deity, you recite scripture to harm a foe. Attempt a Religion check against the Will DC of a foe within 30 feet. The foe is then temporarily immune to Battle Prayers from your deity for 1 day.",
+        "critsuccess": "You deal 2d6 Lawful damage, or 6d6 damage if you have legendary proficiency in Religion.",
+        "success": "You deal 1d6 Lawful damage, or 3d6 damage if you have legendary proficiency in Religion.",
+        "failure": "There is no effect.",
+        "critfailure": "The backlash of your foe’s will against your prayer prevents you from using Battle Prayer again for 10 minutes.",
+        "traits": [
+            "Divine",
+            "General",
+            "Lawful",
+            "Skill"
+        ]
+    },
+    {
+        "name": "Evangelize",
+        "actions": "1",
+        "desc": "You point out a detail that incontrovertibly supports your faith, causing a listener’s mind to whirl. Attempt a Diplomacy check and compare the result to the Will DC of a single target that can hear you and understands your language; that target is then temporarily immune to Evangelize with respect to your deity or philosophy for 1 day. A creature that already agrees with you is unaffected, and at the GM’s discretion, a target that genuinely changes its perspective to support your faith as a result of the argument is also otherwise unaffected.",
+        "critsuccess": "The target is stupefied 2 for 1 round.",
+        "success": "The target is stupefied 1 for 1 round.",
+        "failure": "The target is unaffected.",
+        "traits": [
+            "Auditory",
+            "General",
+            "Linguistic",
+            "Mental",
             "Skill"
         ]
     }

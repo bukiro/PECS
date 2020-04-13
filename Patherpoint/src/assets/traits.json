@@ -79,5 +79,9 @@
     { "name":"Secret", "description":"The GM rolls the check for this ability in secret." },
     { "name":"Divine", "description":"This magic comes from the divine tradition, drawing power from deities or similar sources. Anything with this trait is magical." },
     { "name":"General", "description":"A type of feat that any character can select, regardless of ancestry and class, as long as they meet the prerequisites. You can select a feat with this trait when your class grants a general feat." },
-    { "name":"Skill", "description":"A general feat with the skill trait improves your skills and their actions or gives you new actions for a skill. A feat with this trait can be selected when a class grants a skill feat or general feat. Archetype feats with the skill trait can be selected in place of a skill feat if you have that archetype’s dedication feat." }
+    { "name":"Skill", "description":"A general feat with the skill trait improves your skills and their actions or gives you new actions for a skill. A feat with this trait can be selected when a class grants a skill feat or general feat. Archetype feats with the skill trait can be selected in place of a skill feat if you have that archetype’s dedication feat." },
+    { "name":"Downtime", "description":"An activity with this trait takes a day or more, and can be used only during downtime." },
+    { "name":"Positive", "description":"Effects with this trait heal living creatures with positive energy, deal positive energy damage to undead, or manipulate positive energy. Planes with this trait are awash with life energy of such intensity that it can harm living creatures." },
+    { "name":"Negative", "description":"Effects with this trait heal undead creatures with negative energy, deal negative damage to living creatures, or manipulate negative energy. Planes with this trait are vast, empty reaches that suck the life from the living." },
+    { "name":"Linguistic", "description":"An effect with this trait depends on language comprehension. A linguistic effect that targets a creature works only if the target understands the language you are using." }
 ]

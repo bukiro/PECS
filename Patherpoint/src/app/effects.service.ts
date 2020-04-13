@@ -5,6 +5,7 @@ import { TraitsService } from './traits.service';
 import { EffectCollection } from './EffectCollection';
 import { DefenseService } from './defense.service';
 import { EffectGain } from './EffectGain';
+import { Character } from './Character';
 
 @Injectable({
     providedIn: 'root'
@@ -48,6 +49,7 @@ constructor(
         let effectsService = this;
         effectsService = effectsService;
         characterService = characterService;
+        let Character: Character = characterService.get_Character();
         let Level: number = characterService.get_Character().level;
         let STR: number = characterService.get_Abilities("Strength")[0].mod(characterService, effectsService)
         let DEX: number = characterService.get_Abilities("Dexterity")[0].mod(characterService, effectsService)
@@ -211,6 +213,34 @@ constructor(
                 let swimSpeed = allEffects.filter(effect => effect.target == "Swim Speed").map(effect => parseInt(effect.value)).reduce((sum, current) => sum + current, 0);
                 if (!swimSpeed || swimSpeed < landSpeed) 
                 featEffects.push(new Effect("", "Swim Speed", "+"+landSpeed.toString(), "Quick Swim", false, true, true))
+            }
+        }
+
+        //If you have the Multilingual feat and are master or legendary in Society, add 1 or 2 more languages to the current effect.
+        if (character.get_FeatsTaken(0, character.level, "Multilingual")) {
+            let bonus = 0;
+            let society: number = characterService.get_Skills("Society")[0].level(characterService, character.level);
+            switch (society) {
+                case 8:
+                    bonus = 2;
+                    break;
+                case 6:
+                    bonus = 1;
+                    break;
+            }
+            if (bonus) {
+                allEffects.filter(effect => effect.source == "Multilingual").forEach(effect => {
+                    effect.value = "+"+(parseInt(effect.value) + bonus).toString()
+                })
+            }
+        }
+
+        //If you have the Untrained Improvisation feat and are at level 7 or higher, change the bonus to level instead of level/2
+        if (character.get_FeatsTaken(0, character.level, "Untrained Improvisation")) {
+            if (character.level >= 7) {
+                allEffects.filter(effect => effect.source == "Untrained Improvisation").forEach(effect => {
+                    effect.value = "+"+(character.level).toString()
+                })
             }
         }
 

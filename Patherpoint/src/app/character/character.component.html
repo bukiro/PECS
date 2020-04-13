@@ -428,6 +428,27 @@
                         </div>
                     </div>
                 </ng-container>
+                <!--Languages - show if you have gained languages this level-->
+                <div class="list-item" *ngIf="get_LanguagesAvailable(level.number)">
+                    <button class="row sublist-toggle" (mouseover)="hover = 'languages'+level.number" (mouseout)="hover = ''"
+                        [ngStyle]="(get_AvailableLanguages() == 0) ? {'color':get_Accent()} : {'background-color':get_Accent()}"
+                        [className]="(get_AvailableLanguages() == 0) ? 'fancy-button' : ''" (click)="toggle_List('languages'+level.number)">
+                        Languages
+                    </button>
+                    <div class="list-item sublist"
+                        [ngStyle]="(get_AvailableLanguages() == 0) ? {} : {'border-color':get_Accent('languages'+level.number)}"
+                        [className]="(get_AvailableLanguages() == 0) ? 'fancy-list' : ''" *ngIf="get_showList()=='languages'+level.number">
+                        <div class="row left-aligned">
+                            <strong *ngIf="get_Character().class.ancestry.recommendedLanguages.length">Recommended
+                                Languages&nbsp;</strong>{{get_Character().class.ancestry.recommendedLanguages.join(', ')}}
+                        </div>
+                        <div class="list-item"
+                            *ngFor="let language of get_Character().class.ancestry.languages; let index = index; trackBy:trackByIndex;">
+                            <input class="row" type="text" [(ngModel)]="get_Character().class.ancestry.languages[index]"
+                                (blur)="set_Changed()">
+                        </div>
+                    </div>
+                </div>
                 <!--Ability boosts-->
                 <ng-container *ngFor="let choice of level.abilityChoices">
                     <ng-container *ngFor="let listID of [choice.id]">
@@ -665,7 +686,7 @@
                                             [ngStyle]="{'background-color':get_Accent()}" (click)="toggle_Item(itemID)">
                                             Show Description
                                         </button>
-                                        <div class="row lower left-aligned" *ngIf="this.get_showItem()==itemID">
+                                        <div class="row lower" *ngIf="this.get_showItem()==itemID">
                                             <!--Subfeats-->
                                             <div class="list-item" *ngFor="let subfeat of get_SubFeats(feat, choice)"
                                                 [className]="(cannotTake(subfeat, choice).length) ? 'problem' : ''">
@@ -753,7 +774,7 @@
                                             [ngStyle]="{'background-color':get_Accent()}" (click)="toggle_Item(itemID)">
                                             Show Description
                                         </button>
-                                        <div class="row lower left-aligned" *ngIf="this.get_showItem()==itemID">
+                                        <div class="row lower" *ngIf="this.get_showItem()==itemID">
                                             <!--Subfeats-->
                                             <div class="list-item unavailable"
                                                 *ngFor="let subfeat of get_SubFeats(feat, choice)">

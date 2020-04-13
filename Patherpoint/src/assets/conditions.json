@@ -239,5 +239,19 @@
         ],
         "buff": true,
         "showon": "Movement"
+    },
+    {
+        "name": "Eye of the Arclords",
+        "type": "activity",
+        "desc": "While the eye is open, you gain the following benefits: you gain the effects of the detect magic arcane innate spell from your Arcane Sense at the start of each of your turns without needing to cast the spell; you gain darkvision; you gain a +2 status bonus to Perception checks to Seek undetected and hidden creatures and to your Perception DC against Hide and Sneak. After your third eye closes, you are dazzled for an amount of time equal to how long you had it open.",
+        "inputRequired": "After your third eye closes, you are dazzled for an amount of time equal to how long you had it open.",
+        "showon": "Perception",
+        "effects": [
+            {
+                "affected": "Darkvision",
+                "value": ""
+            }            
+        ],
+        "buff": true
     }
 ]

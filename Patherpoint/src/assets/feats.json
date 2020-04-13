@@ -1340,6 +1340,7 @@
       "showon": "Deception",
       "levelreq": 1,
       "specialdesc": "At the GM’s discretion, this feat can be used against non-humanoids if they have regular contact with humanoids or you are able to disguise yourself as a member of the target’s ancestry or type of creature.",
+      "internalNote": "Choosing the background and name is hardcoded.",
       "traits": [
          "General",
          "Uncommon"
@@ -1508,7 +1509,9 @@
       "access": "You are a member of the Arclords of Nex.",
       "featreq": "Arcane Sense",
       "gainActivities": [
-         "Eye of the Arclords"
+         "Eye of the Arclords: 1 Minute",
+         "Eye of the Arclords: 2 Minutes",
+         "Eye of the Arclords: 5 Minutes"
       ],
       "levelreq": 2,
       "skillreq": [
@@ -2343,7 +2346,7 @@
       "name": "Multilingual",
       "shortdesc": "Learn two new languages.",
       "desc": "You easily pick up new languages. You learn two new languages, chosen from common languages, uncommon languages, and any others you have access to. You learn an additional language if you are or become a master in Society and again if you are or become legendary.",
-      "internalNote": "The effect on the maximum number of languages is hardcoded.",
+      "internalNote": "The extra languages from master and legendary are hardcoded.",
       "levelreq": 1,
       "skillreq": [
          {
@@ -2355,6 +2358,12 @@
       "traits": [
          "General",
          "Skill"
+      ],
+      "effects": [
+         {
+            "affected": "Max Languages",
+            "value": "+2"
+         }
       ],
       "unlimited": true
    },
@@ -3612,6 +3621,13 @@
       "name": "Untrained Improvisation",
       "desc": "Become more adept at using untrained skills.",
       "levelreq": 3,
+      "internalNote": "The effect on untrained skills is hardcoded.",
+      "effects": [
+         {
+            "affected": "Untrained Skills",
+            "value": "Math.max(Math.floor(Level / 2), 1)"
+         }
+      ],
       "traits": [
          "General"
       ]

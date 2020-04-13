@@ -91,13 +91,14 @@ export class Skill {
             if (skillLevel > 0) {
                 charLevelBonus = charLevel;
                 explain += "\nCharacter Level: " + charLevelBonus;
-            } else if (characterService.get_Feats("Untrained Improvisation")[0].have(characterService)) {
-                if (charLevel >= 7) {
-                    charLevelBonus = charLevel;
-                } else {
-                    charLevelBonus = Math.floor(charLevel / 2);
+            } else {
+                let untrainedImprovisation = effectsService.get_EffectsOnThis("Untrained Skills");
+                if (untrainedImprovisation) {
+                    untrainedImprovisation.forEach(effect => {
+                        charLevelBonus += parseInt(effect.value);
+                    })
+                    explain += "\nCharacter Level (Untrained Improvisation): " + charLevelBonus;
                 }
-                explain += "\nCharacter Level (Untrained Improvisation): " + charLevelBonus;
             }
             //Add the Ability modifier identified by the skill's ability property
             var abilityMod = 0;
