@@ -1,0 +1,754 @@
+[
+   {
+      "name": "Crane Stance",
+      "shortdesc": "You enter the stance of a crane, holding your arms in an imitation of a crane’s wings.",
+      "desc": "You enter the stance of a crane, holding your arms in an imitation of a crane’s wings.",
+      "gainActivities": [
+         "Crane Stance"
+      ],
+      "traits": [
+         "Monk",
+         "Stance"
+      ]
+   },
+   {
+      "name": "Dragon Stance",
+      "shortdesc": "You enter the stance of a dragon and make powerful leg strikes like a lashing dragon’s tail.",
+      "desc": "You enter the stance of a dragon and make powerful leg strikes like a lashing dragon’s tail.",
+      "gainActivities": [
+         "Dragon Stance"
+      ],
+      "traits": [
+         "Monk",
+         "Stance"
+      ]
+   },
+   {
+      "name": "Ki Rush",
+      "shortdesc": "You can use ki to move with extraordinary speed and make yourself harder to hit.",
+      "desc": "You can use ki to move with extraordinary speed and make yourself harder to hit. You gain the ki rush ki spell and a focus pool of 1 Focus Point. The rules for ki spells are summarized in the sidebar on page 157, and the full rules for focus spells appear on page 300.",
+      "effects": [
+         {
+            "affected": "Focus Pool",
+            "value": 1
+         }
+      ],
+      "gainSpellChoice": [
+         {
+            "className": "Monk",
+            "id": "1-Spell-Feat: Ki Strike-0",
+            "source": "Feat: Ki Rush",
+            "spells": [
+               {
+                  "className": "Monk",
+                  "locked": true,
+                  "name": "Ki Rush",
+                  "source": "Feat: Ki Rush",
+                  "sourceId": "1-Spell-Ki Rush-0",
+                  "tradition": "Focus"
+               }
+            ],
+            "tradition": "Focus"
+         }
+      ],
+      "gainTraditionChoice": [
+         {
+            "ability": "Wisdom",
+            "id": "1-Tradition-Ki Spells-0",
+            "maxRank": 2,
+            "source": "Ki Spells",
+            "traditionAvailable": 1,
+            "traditionFilter": [
+               "Divine",
+               "Occult"
+            ]
+         }
+      ],
+      "levelreq": 1,
+      "onceEffects": [
+         {
+            "affected": "Focus",
+            "value": 1
+         }
+      ],
+      "traits": [
+         "Monk"
+      ]
+   },
+   {
+      "name": "Ki Strike",
+      "shortdesc": "Your study of the flow of mystical energy allows you to harness it into your physical strikes.",
+      "desc": "Your study of the flow of mystical energy allows you to harness it into your physical strikes. You gain the ki strike ki spell and a focus pool of 1 Focus Point. The rules for ki spells are summarized in the sidebar on page 157, and the full rules for focus spells appear on page 300.",
+      "effects": [
+         {
+            "affected": "Focus Pool",
+            "value": 1
+         }
+      ],
+      "gainSpellChoice": [
+         {
+            "className": "Monk",
+            "id": "1-Spell-Feat: Ki Strike-0",
+            "source": "Feat: Ki Strike",
+            "spells": [
+               {
+                  "className": "Monk",
+                  "locked": true,
+                  "name": "Ki Strike",
+                  "source": "Feat: Ki Strike",
+                  "sourceId": "1-Spell-Ki Strike-0",
+                  "tradition": "Focus"
+               }
+            ],
+            "tradition": "Focus"
+         }
+      ],
+      "gainTraditionChoice": [
+         {
+            "ability": "Wisdom",
+            "id": "1-Tradition-Ki Spells-0",
+            "maxRank": 2,
+            "source": "Ki Spells",
+            "traditionAvailable": 1,
+            "traditionFilter": [
+               "Divine",
+               "Occult"
+            ]
+         }
+      ],
+      "levelreq": 1,
+      "onceEffects": [
+         {
+            "affected": "Focus",
+            "value": 1
+         }
+      ],
+      "traits": [
+         "Monk"
+      ]
+   },
+   {
+      "name": "Monastic Weaponry",
+      "shortdesc": "You have trained with the traditional weaponry of your monastery or school.",
+      "desc": "You have trained with the traditional weaponry of your monastery or school. You gain access to uncommon weapons that have the monk trait and become trained in simple and martial monk weapons. When your proficiency rank for unarmed attacks increases to expert or master, your proficiency rank for these weapons increases to expert or master as well.\n\nYou can use melee monk weapons with any of your monk feats or monk abilities that normally require unarmed attacks, though not if the feat or ability requires you to use a single specific type of attack, such as Crane Stance.",
+      "hint": "You can use melee monk weapons with any of your monk feats or monk abilities that normally require unarmed attacks, though not if the feat or ability requires you to use a single specific type of attack, such as Crane Stance.",
+      "showon": "Monk",
+      "gainSkillChoice": [
+         {
+            "increases": [
+               {
+                  "locked": true,
+                  "maxRank": 2,
+                  "name": "Monk",
+                  "source": "Feat: Monastic Weaponry"
+                  }
+            ],
+            "maxRank": 2,
+            "source": "Feat: Monastic Weaponry",
+            "type": "Specific Weapon Proficiency"
+         }
+      ],
+      "levelreq": 1,
+      "traits": [
+         "Monk"
+      ]
+   },
+   {
+      "name": "Mountain Stance",
+      "shortdesc": "You enter the stance of an implacable mountain allowing you to strike with the weight of an avalanche.",
+      "desc": "",
+      "traits": [
+         "Monk",
+         "Stance"
+      ]
+   },
+   {
+      "name": "Rain of Embers Stance",
+      "shortdesc": "You enter the stance of an enraged phoenix.",
+      "desc": "",
+      "traits": [
+         "Monk",
+         "Rare",
+         "Stance"
+      ]
+   },
+   {
+      "name": "Tiger Stance",
+      "shortdesc": "You enter the stance of a tiger and can make tiger claw attacks.",
+      "desc": "",
+      "traits": [
+         "Monk",
+         "Stance"
+      ]
+   },
+   {
+      "name": "Wolf Stance",
+      "shortdesc": "You enter the stance of a wolf, low to the ground with your hands held like fanged teeth.",
+      "desc": "",
+      "traits": [
+         "Monk",
+         "Stance"
+      ]
+   },
+   {
+      "name": "Brawling Focus",
+      "shortdesc": "You know how to make the most of your attacks when fighting hand-to-hand.",
+      "desc": "",
+      "traits": [
+         "Monk"
+      ]
+   },
+   {
+      "name": "Crushing Grab",
+      "shortdesc": "Like a powerful constrictor, you crush targets in your unyielding grasp.",
+      "desc": "",
+      "traits": [
+         "Monk"
+      ]
+   },
+   {
+      "name": "Dancing Leaf",
+      "shortdesc": "You are as light as a leaf whirling in the breeze.",
+      "desc": "",
+      "traits": [
+         "Monk"
+      ]
+   },
+   {
+      "name": "Elemental Fist",
+      "shortdesc": "You call upon the power of the elements, infusing your ki with elemental energy and allowing your attacks to deal energy damage.",
+      "desc": "",
+      "featreq": "Ki Strike",
+      "traits": [
+         "Monk"
+      ]
+   },
+   {
+      "name": "Co",
+      "shortdesc": "The focused power of your flurry threatens to overwhelm your opponent.",
+      "desc": "The focused power of your flurry threatens to overwhelm your opponent. When you target the same creature with two Strikes from your Flurry of Blows, you can try to stun the creature. If either Strike hits and deals damage, the target must succeed at a Fortitude save against your class DC or be stunned 1 (or stunned 3 on a critical failure). This is an incapacitation effect.",
+      "hint": "When you target the same creature with two Strikes from your Flurry of Blows, you can try to stun the creature. If either Strike hits and deals damage, the target must succeed at a Fortitude save against your class DC or be stunned 1 (or stunned 3 on a critical failure). This is an incapacitation effect.",
+      "showon": "Flurry of Blows",
+      "access": "",
+      "featreq": "Flurry of Blows",
+      "traits": [
+         "Monk"
+      ]
+   },
+   {
+      "name": "Deflect Arrows",
+      "shortdesc": "Your reflexes allow you to deflect ranged attacks.",
+      "desc": "",
+      "levelreq": 4,
+      "traits": [
+         "Monk"
+      ]
+   },
+   {
+      "name": "Flurry of Maneuvers",
+      "shortdesc": "Your flurry is a combination of maneuvers.",
+      "desc": "Your flurry is a combination of maneuvers. You can replace one or both of your attacks during a Flurry of Blows with Grapples, Shoves, or Trips.",
+      "hint": "Your can replace one or both of your attacks during a Flurry of Blows with Grapples, Shoves, or Trips.",
+      "showon": "Flurry of Blows, Athletics",
+      "levelreq": 4,
+      "skillreq": [
+         {
+            "skill": "Athletics",
+            "value": 4
+         }
+      ],
+      "traits": [
+         "Monk"
+      ]
+   },
+   {
+      "name": "Flying Kick",
+      "shortdesc": "You launch yourself at a foe.",
+      "desc": "",
+      "levelreq": 4,
+      "traits": [
+         "Monk"
+      ]
+   },
+   {
+      "name": "Guarded Movement",
+      "shortdesc": "Your guard is up, even while moving.",
+      "desc": "",
+      "levelreq": 4,
+      "traits": [
+         "Monk"
+      ]
+   },
+   {
+      "name": "Sacred Ki",
+      "shortdesc": "The power of your faith suffuses your ki",
+      "desc": "",
+      "featreq": "Ki Strike",
+      "levelreq": 4,
+      "specialreq": "character.deity.name",
+      "specialreqdesc": "you follow a deity",
+      "traits": [
+         "Monk"
+      ]
+   },
+   {
+      "name": "Stand Still",
+      "shortdesc": "You strike out when your foe tries to flee.",
+      "desc": "",
+      "levelreq": 4,
+      "traits": [
+         "Monk"
+      ]
+   },
+   {
+      "name": "Wholeness of Body",
+      "shortdesc": "You can restore your health by tapping into your ki.",
+      "desc": "",
+      "levelreq": 4,
+      "specialreq": "character.get_FeatsTaken(0,charLevel).filter(gain => characterService.get_FeatsAndFeatures(gain.name).filter(feat => feat.gainTraditionChoice.filter(choice => choice.source == \"Ki Spells\").length).length).length",
+      "specialreqdesc": "ki spells",
+      "traits": [
+         "Monk"
+      ]
+   },
+   {
+      "name": "Abundant Step",
+      "shortdesc": "You can teleport yourself a short distance.",
+      "desc": "",
+      "featreq": "Incredible Movement",
+      "levelreq": 6,
+      "specialreq": "character.get_FeatsTaken(0,charLevel).filter(gain => characterService.get_FeatsAndFeatures(gain.name).filter(feat => feat.gainTraditionChoice.filter(choice => choice.source == \"Ki Spells\").length).length).length",
+      "specialreqdesc": "ki spells",
+      "traits": [
+         "Monk"
+      ]
+   },
+   {
+      "name": "Crane Flutter",
+      "shortdesc": "You interpose your arm between yourself and your opponent.",
+      "desc": "",
+      "featreq": "Crane Stance",
+      "levelreq": 6,
+      "traits": [
+         "Monk"
+      ]
+   },
+   {
+      "name": "Dragon Roar",
+      "shortdesc": "You bellow, instilling fear in your enemies.",
+      "desc": "",
+      "featreq": "Dragon Stance",
+      "levelreq": 6,
+      "traits": [
+         "Monk",
+         "Auditory",
+         "Emotion",
+         "Fear",
+         "Mental"
+      ]
+   },
+   {
+      "name": "Ki Blast",
+      "shortdesc": "You can unleash an impactful cone of force by channeling your ki.",
+      "desc": "",
+      "levelreq": 6,
+      "specialreq": "character.get_FeatsTaken(0,charLevel).filter(gain => characterService.get_FeatsAndFeatures(gain.name).filter(feat => feat.gainTraditionChoice.filter(choice => choice.source == \"Ki Spells\").length).length).length",
+      "specialreqdesc": "ki spells",
+      "traits": [
+         "Monk"
+      ]
+   },
+   {
+      "name": "Mountain Stronghold",
+      "shortdesc": "You focus on your connection to the earth and call upon the mountain to block attacks against you.",
+      "desc": "",
+      "featreq": "Mountain Stance",
+      "levelreq": 6,
+      "traits": [
+         "Monk"
+      ]
+   },
+   {
+      "name": "Tiger Slash",
+      "shortdesc": "You make a fierce swipe with both hands.",
+      "desc": "",
+      "featreq": "Tiger Stance",
+      "levelreq": 6,
+      "traits": [
+         "Monk"
+      ]
+   },
+   {
+      "name": "Water Step",
+      "shortdesc": "You can Stride across liquid and surfaces that don’t support your weight.",
+      "desc": "",
+      "levelreq": 6,
+      "traits": [
+         "Monk"
+      ]
+   },
+   {
+      "name": "Whirling Throw",
+      "shortdesc": "You propel your grabbed or restrained foe a great distance.",
+      "desc": "You propel your grabbed or restrained foe a great distance. You can throw the creature any distance up to 10 feet, plus 5 feet × your Strength modifier. If you successfully throw the creature, it takes bludgeoning damage equal to your Strength modifier plus 1d6 per 10 feet you threw it.\n\nAttempt an Athletics check against the foe’s Fortitude DC. You take a –2 circumstance penalty to your check if the target is one size larger than you and a –4 circumstance penalty if it’s larger than that. You gain a +2 circumstance bonus to your check if the target is one size smaller than you and a +4 circumstance bonus if it’s smaller than that.",
+      "gainActivities": [
+         "Whirling Throw"
+      ],
+      "levelreq": 6,
+      "traits": [
+         "Monk"
+      ]
+   },
+   {
+      "name": "Wolf Drag",
+      "shortdesc": "You rip your enemy off their feet.",
+      "desc": "",
+      "featreq": "Wolf Stance",
+      "levelreq": 6,
+      "traits": [
+         "Monk"
+      ]
+   },
+   {
+      "name": "Arrow Snatching ",
+      "shortdesc": "You pluck missiles from the air and hurl them back at their source.",
+      "desc": "",
+      "featreq": "Deflect Arrow",
+      "levelreq": 8,
+      "traits": [
+         "Monk"
+      ]
+   },
+   {
+      "name": "Ironblood Stance",
+      "shortdesc": "You enter the stance of impenetrable iron, refusing to yield to any blow.",
+      "desc": "",
+      "levelreq": 8,
+      "traits": [
+         "Monk",
+         "Stance"
+      ]
+   },
+   {
+      "name": "Mixed Maneuver",
+      "shortdesc": "You combine two different maneuvers together into a single flowing whole.",
+      "desc": "",
+      "levelreq": 8,
+      "skillreq": [
+         {
+            "skill": "Athletics",
+            "value": 6
+         }
+      ],
+      "traits": [
+         "Monk"
+      ]
+   },
+   {
+      "name": "Tangled Forest Stance",
+      "shortdesc": "You extend your arms like gnarled branches to interfere with your foes’ movements.",
+      "desc": "",
+      "levelreq": 8,
+      "traits": [
+         "Monk",
+         "Stance"
+      ]
+   },
+   {
+      "name": "Wall Run",
+      "shortdesc": "You defy gravity, traversing vertical planes as easily as the ground.",
+      "desc": "",
+      "levelreq": 8,
+      "traits": [
+         "Monk"
+      ]
+   },
+   {
+      "name": "Wild Winds Initiate",
+      "shortdesc": "You learn a mystical stance that lets you attack from a distance.",
+      "desc": "",
+      "levelreq": 8,
+      "specialreq": "character.get_FeatsTaken(0,charLevel).filter(gain => characterService.get_FeatsAndFeatures(gain.name).filter(feat => feat.gainTraditionChoice.filter(choice => choice.source == \"Ki Spells\").length).length).length",
+      "specialreqdesc": "ki spells",
+      "traits": [
+         "Monk"
+      ]
+   },
+   {
+      "name": "Knockback Strike",
+      "shortdesc": "You focus your strength into a blow powerful enough to push an enemy away from you.",
+      "desc": "",
+      "levelreq": 10,
+      "traits": [
+         "Monk",
+         "Concentrate"
+      ]
+   },
+   {
+      "name": "Sleeper Hold",
+      "shortdesc": "You pinch crucial points of your target’s nervous system, impeding its ability to function.",
+      "desc": "",
+      "levelreq": 10,
+      "traits": [
+         "Monk",
+         "Attack",
+         "Incapacitation"
+      ]
+   },
+   {
+      "name": "Wind Jump",
+      "shortdesc": "You gather the wind beneath you, allowing you to soar as you jump.",
+      "desc": "",
+      "levelreq": 10,
+      "specialreq": "character.get_FeatsTaken(0,charLevel).filter(gain => characterService.get_FeatsAndFeatures(gain.name).filter(feat => feat.gainTraditionChoice.filter(choice => choice.source == \"Ki Spells\").length).length).length",
+      "specialreqdesc": "ki spells",
+      "traits": [
+         "Monk"
+      ]
+   },
+   {
+      "name": "Winding Flow",
+      "shortdesc": "Any journey consists of more than simply reaching your destination.",
+      "desc": "",
+      "levelreq": 10,
+      "traits": [
+         "Monk"
+      ]
+   },
+   {
+      "name": "Diamond Soul",
+      "shortdesc": "You have fortified your body and mind against eldritch effects.",
+      "desc": "",
+      "levelreq": 12,
+      "traits": [
+         "Monk"
+      ]
+   },
+   {
+      "name": "Disrupt Ki",
+      "shortdesc": "Your strike can block a creature's inner life force.",
+      "desc": "",
+      "levelreq": 12,
+      "traits": [
+         "Monk",
+         "Negative"
+      ]
+   },
+   {
+      "name": "Improved Knockback",
+      "shortdesc": "Your shoves cause the target to go farther.",
+      "desc": "",
+      "levelreq": 12,
+      "skillreq": [
+         {
+            "skill": "Athletics",
+            "value": 6
+         }
+      ],
+      "traits": [
+         "Monk"
+      ]
+   },
+   {
+      "name": "Meditative Focus",
+      "shortdesc": "Your meditation is so effective that you can achieve a deep focus.",
+      "desc": "",
+      "levelreq": 12,
+      "specialreq": "character.get_FeatsTaken(0,charLevel).filter(gain => characterService.get_FeatsAndFeatures(gain.name).filter(feat => feat.gainTraditionChoice.filter(choice => choice.source == \"Ki Spells\").length).length).length",
+      "specialreqdesc": "ki spells",
+      "traits": [
+         "Monk"
+      ]
+   },
+   {
+      "name": "Stance Savant (Monk)",
+      "shortdesc": "You enter a stance without a thought.",
+      "desc": "",
+      "levelreq": 12,
+      "traits": [
+         "Monk"
+      ]
+   },
+   {
+      "name": "Ironblood Surge",
+      "shortdesc": "You steel yourself, preparing to resist oncoming attacks and using your muscles to absorb the impact.",
+      "desc": "",
+      "featreq": "Ironblood Stance",
+      "levelreq": 14,
+      "traits": [
+         "Monk"
+      ]
+   },
+   {
+      "name": "Mountain Quake",
+      "shortdesc": "You stomp, shaking the earth beneath you and causing quakes.",
+      "desc": "",
+      "featreq": "Mountain Stronghold",
+      "levelreq": 14,
+      "traits": [
+         "Monk"
+      ]
+   },
+   {
+      "name": "Tangled Forest Rake",
+      "shortdesc": "You reposition foes with raking attacks.",
+      "desc": "",
+      "featreq": "Tangled Forest Stance",
+      "levelreq": 14,
+      "traits": [
+         "Monk"
+      ]
+   },
+   {
+      "name": "Timeless Body",
+      "shortdesc": "You cease aging.",
+      "desc": "",
+      "levelreq": 14,
+      "traits": [
+         "Monk"
+      ]
+   },
+   {
+      "name": "Tongue of the Sun and Moon",
+      "shortdesc": "You have transcended the barriers between words and meaning.",
+      "desc": "",
+      "levelreq": 14,
+      "traits": [
+         "Monk"
+      ]
+   },
+   {
+      "name": "Enlightened Presence",
+      "shortdesc": "You exude an aura of resolve.",
+      "desc": "",
+      "levelreq": 16,
+      "traits": [
+         "Monk",
+         "Emotion",
+         "Mental"
+      ]
+   },
+   {
+      "name": "Master of Many Styles",
+      "shortdesc": "You move between stances in an unceasing dance.",
+      "desc": "",
+      "featreq": "Stance Savant",
+      "levelreq": 16,
+      "traits": [
+         "Monk"
+      ]
+   },
+   {
+      "name": "Quivering Palm",
+      "shortdesc": "Your strikes can kill foes.",
+      "desc": "",
+      "levelreq": 16,
+      "specialreq": "character.get_FeatsTaken(0,charLevel).filter(gain => characterService.get_FeatsAndFeatures(gain.name).filter(feat => feat.gainTraditionChoice.filter(choice => choice.source == \"Ki Spells\").length).length).length",
+      "specialreqdesc": "ki spells",
+      "traits": [
+         "Monk"
+      ]
+   },
+   {
+      "name": "Shattering Strike",
+      "shortdesc": "The force of your considered blow shatters objects and defenses alike.",
+      "desc": "",
+      "levelreq": 16,
+      "traits": [
+         "Monk"
+      ]
+   },
+   {
+      "name": "Wild Winds Gust",
+      "shortdesc": "You store up energy and release it in an enormous gust of rushing wind.",
+      "desc": "",
+      "featreq": "Wild Winds Initiate",
+      "levelreq": 16,
+      "traits": [
+         "Monk",
+         "Air",
+         "Concentrate",
+         "Evocation",
+         "Manipulate"
+      ]
+   },
+   {
+      "name": "Diamond Fists",
+      "shortdesc": "Your body hardens as you combine your attacks, making your finishing blows more damaging.",
+      "desc": "",
+      "levelreq": 18,
+      "traits": [
+         "Monk"
+      ]
+   },
+   {
+      "name": "Empty Body",
+      "shortdesc": "You transmute your body into an ethereal form.",
+      "desc": "",
+      "levelreq": 18,
+      "specialreq": "character.get_FeatsTaken(0,charLevel).filter(gain => characterService.get_FeatsAndFeatures(gain.name).filter(feat => feat.gainTraditionChoice.filter(choice => choice.source == \"Ki Spells\").length).length).length",
+      "specialreqdesc": "ki spells",
+      "traits": [
+         "Monk"
+      ]
+   },
+   {
+      "name": "Meditative Wellspring",
+      "shortdesc": "When you clear your mind, your focus comes flowing back in a powerful rush.",
+      "desc": "",
+      "featreq": "Meditative Focus",
+      "levelreq": 18,
+      "traits": [
+         "Monk"
+      ]
+   },
+   {
+      "name": "Swift River",
+      "shortdesc": "You flow like water, avoiding all restraints.",
+      "desc": "",
+      "levelreq": 18,
+      "traits": [
+         "Monk"
+      ]
+   },
+   {
+      "name": "Enduring Quickness",
+      "shortdesc": "You move as fast and as high as the wind itself.",
+      "desc": "",
+      "levelreq": 20,
+      "traits": [
+         "Monk"
+      ]
+   },
+   {
+      "name": "Fuse Stance",
+      "shortdesc": "You have combined two stances into a single stance all your own.",
+      "desc": "",
+      "levelreq": 20,
+      "specialreq": "character.get_FeatsTaken(0,charLevel).filter(gain => characterService.get_FeatsAndFeatures(gain.name).filter(feat => feat.traits.indexOf(\"Stance\") > -1).length).length >= 2",
+      "specialreqdesc": "at least two stances",
+      "traits": [
+         "Monk"
+      ]
+   },
+   {
+      "name": "Golden Body",
+      "shortdesc": "Strike harder and heal more rapidly.",
+      "desc": "",
+      "levelreq": 20,
+      "traits": [
+         "Monk",
+         "Uncommon"
+      ]
+   },
+   {
+      "name": "Impossible Technique",
+      "shortdesc": "You execute a maneuver that defies possibility.",
+      "desc": "",
+      "levelreq": 20,
+      "traits": [
+         "Monk",
+         "Fortune"
+      ]
+   }
+]

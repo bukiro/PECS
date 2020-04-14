@@ -6,6 +6,8 @@ import { Spell } from '../Spell';
 import { TraitsService } from '../traits.service';
 import { SpellsService } from '../spells.service';
 import { SpellGain } from '../SpellGain';
+import { ItemsService } from '../items.service';
+import { TimeService } from '../time.service';
 
 @Component({
     selector: 'app-spellbook',
@@ -22,7 +24,9 @@ export class SpellbookComponent implements OnInit {
         public characterService: CharacterService,
         private effectsService: EffectsService,
         private traitsService: TraitsService,
-        private spellsService: SpellsService
+        private spellsService: SpellsService,
+        private itemsService: ItemsService,
+        private timeService: TimeService
     ) { }
     
     minimize() {
@@ -96,15 +100,17 @@ export class SpellbookComponent implements OnInit {
     refocus() {
         let focusPoints = this.characterService.get_Character().class.focusPoints;
         this.characterService.get_Character().class.focusPoints = Math.min(focusPoints + 1, this.get_MaxFocusPoints());
+        this.timeService.tick(this.characterService, 1000);
         this.characterService.set_Changed();
     }
 
-    on_Cast(gain: SpellGain, spell: Spell) {
+    on_Cast(gain: SpellGain, spell: Spell, activated: boolean) {
         if (gain.tradition.indexOf("Focus") > -1){
             let focusPoints = this.characterService.get_Character().class.focusPoints;
             this.characterService.get_Character().class.focusPoints = Math.min(focusPoints, this.get_MaxFocusPoints());
             this.characterService.get_Character().class.focusPoints -= 1;
         };
+        this.spellsService.process_Spell(this.characterService, gain, spell, activated);
         this.characterService.set_Changed();
     }
 

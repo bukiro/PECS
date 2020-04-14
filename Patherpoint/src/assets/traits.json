@@ -83,5 +83,12 @@
     { "name":"Downtime", "description":"An activity with this trait takes a day or more, and can be used only during downtime." },
     { "name":"Positive", "description":"Effects with this trait heal living creatures with positive energy, deal positive energy damage to undead, or manipulate positive energy. Planes with this trait are awash with life energy of such intensity that it can harm living creatures." },
     { "name":"Negative", "description":"Effects with this trait heal undead creatures with negative energy, deal negative damage to living creatures, or manipulate negative energy. Planes with this trait are vast, empty reaches that suck the life from the living." },
-    { "name":"Linguistic", "description":"An effect with this trait depends on language comprehension. A linguistic effect that targets a creature works only if the target understands the language you are using." }
+    { "name":"Linguistic", "description":"An effect with this trait depends on language comprehension. A linguistic effect that targets a creature works only if the target understands the language you are using." },
+    { "name":"Emotion", "description":"" },
+    { "name":"Fear", "description":"" },
+    { "name":"Attack", "description":"" },
+    { "name":"Incapacitation", "description":"" },
+    { "name":"Air", "description":"" },
+    { "name":"Fear", "description":"" },
+    { "name":"Fortune", "description":"" }
 ]

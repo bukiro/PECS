@@ -264,7 +264,7 @@ export class FeatsService {
                 feat.gainFeatChoice = feat.gainFeatChoice.map(choice => Object.assign(new FeatChoice(), choice));
                 //feat.gainFormulaChoice = feat.gainFormulaChoice.map(choice => Object.assign(new FormulaChoice(), choice));
                 feat.gainSkillChoice = feat.gainSkillChoice.map(choice => Object.assign(new SkillChoice, choice));
-                //feat.gainSpellChoice = feat.gainSpellChoice.map(choice => Object.assign(new SpellChoice, choice));
+                feat.gainSpellChoice = feat.gainSpellChoice.map(choice => Object.assign(new SpellChoice, choice));
                 feat.gainTraditionChoice = feat.gainTraditionChoice.map(choice => Object.assign(new TraditionChoice, choice));
             })
             this.loader_Feats = [];
@@ -279,7 +279,7 @@ export class FeatsService {
                 feature.gainFeatChoice = feature.gainFeatChoice.map(choice => Object.assign(new FeatChoice(), choice));
                 //feature.gainFormulaChoice = feature.gainFormulaChoice.map(choice => Object.assign(new FormulaChoice(), choice));
                 feature.gainSkillChoice = feature.gainSkillChoice.map(choice => Object.assign(new SkillChoice, choice));
-                //feature.gainSpellChoice = feature.gainSpellChoice.map(choice => Object.assign(new SpellChoice, choice));
+                feature.gainSpellChoice = feature.gainSpellChoice.map(choice => Object.assign(new SpellChoice, choice));
                 feature.gainTraditionChoice = feature.gainTraditionChoice.map(choice => Object.assign(new TraditionChoice, choice));
             })
             this.loader_Features = [];

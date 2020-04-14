@@ -42,6 +42,25 @@
         ]
     },
     {
+        "name": "Dragon Stance",
+        "actions": "1",
+        "toggle":true,
+        "requirements": "You are unarmored.",
+        "desc": "You enter the stance of a dragon and make powerful leg strikes like a lashing dragon’s tail. You can make dragon tail attacks that deal 1d10 bludgeoning damage. They are in the brawling group and have the backswing, nonlethal, and unarmed traits.",
+        "hint": "While in Dragon Stance, you can ignore the first square of difficult terrain while Striding.",
+        "gainItems": [
+            {
+                "name": "Dragon Tail",
+                "type": "weapons"
+            }
+        ],
+        "showon": "Movement",
+        "traits": [
+            "Monk",
+            "Stance"
+        ]
+    },
+    {
         "name": "Orc Ferocity",
         "actions": "Reaction",
         "frequency": "once per day",

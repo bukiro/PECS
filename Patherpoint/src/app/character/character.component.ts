@@ -23,6 +23,7 @@ import { TraditionChoice } from '../TraditionChoice';
 import { ActivitiesService } from '../activities.service';
 import { Deity } from '../Deity';
 import { DeitiesService } from '../deities.service';
+import { SpellsService } from '../spells.service';
 
 @Component({
     selector: 'app-character',
@@ -48,6 +49,7 @@ export class CharacterComponent implements OnInit {
         private itemsService: ItemsService,
         private activitiesService: ActivitiesService,
         private deitiesService: DeitiesService,
+        private spellsService: SpellsService,
         private sortByPipe: SortByPipe
     ) { }
 
@@ -393,6 +395,18 @@ export class CharacterComponent implements OnInit {
         this.characterService.set_Changed();
     }
 
+    get_TraditionChoices(level: Level) {
+        let sources: string[] = [];
+        let traditionChoices: TraditionChoice[] = [];
+        level.traditionChoices.forEach(choice => {
+            if (!(sources.indexOf(choice.source) > -1)) {
+                sources.push(choice.source),
+                traditionChoices.push(choice)
+            }
+        })
+        return traditionChoices;
+    }
+
     get_AvailableTraditionAbilities(choice) {
         let abilities = this.get_Abilities();
         if (choice.abilityFilter.length) {
@@ -515,6 +529,10 @@ export class CharacterComponent implements OnInit {
 
     get_Activities(name: string = "") {
         return this.activitiesService.get_Activities(name);
+    }
+
+    get_Spells(name: string = "") {
+        return this.spellsService.get_Spells(name);
     }
 
     get_DifferentWorldsFeat(levelNumber) {

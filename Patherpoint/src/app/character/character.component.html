@@ -430,14 +430,17 @@
                 </ng-container>
                 <!--Languages - show if you have gained languages this level-->
                 <div class="list-item" *ngIf="get_LanguagesAvailable(level.number)">
-                    <button class="row sublist-toggle" (mouseover)="hover = 'languages'+level.number" (mouseout)="hover = ''"
+                    <button class="row sublist-toggle" (mouseover)="hover = 'languages'+level.number"
+                        (mouseout)="hover = ''"
                         [ngStyle]="(get_AvailableLanguages() == 0) ? {'color':get_Accent()} : {'background-color':get_Accent()}"
-                        [className]="(get_AvailableLanguages() == 0) ? 'fancy-button' : ''" (click)="toggle_List('languages'+level.number)">
+                        [className]="(get_AvailableLanguages() == 0) ? 'fancy-button' : ''"
+                        (click)="toggle_List('languages'+level.number)">
                         Languages
                     </button>
                     <div class="list-item sublist"
                         [ngStyle]="(get_AvailableLanguages() == 0) ? {} : {'border-color':get_Accent('languages'+level.number)}"
-                        [className]="(get_AvailableLanguages() == 0) ? 'fancy-list' : ''" *ngIf="get_showList()=='languages'+level.number">
+                        [className]="(get_AvailableLanguages() == 0) ? 'fancy-list' : ''"
+                        *ngIf="get_showList()=='languages'+level.number">
                         <div class="row left-aligned">
                             <strong *ngIf="get_Character().class.ancestry.recommendedLanguages.length">Recommended
                                 Languages&nbsp;</strong>{{get_Character().class.ancestry.recommendedLanguages.join(', ')}}
@@ -543,7 +546,7 @@
                     </ng-container>
                 </ng-container>
                 <!--Tradition Choices-->
-                <ng-container *ngFor="let choice of level.traditionChoices">
+                <ng-container *ngFor="let choice of get_TraditionChoices(level)">
                     <ng-container *ngIf="choice.abilityAvailable">
                         <ng-container *ngFor="let listID of [choice.id+'ability']">
                             <div class="list-item" [className]="(choice.ability ? 'fullsize-only' : '')">
@@ -754,6 +757,16 @@
                                                     </app-activity>
                                                 </div>
                                             </ng-container>
+                                            <ng-container *ngFor="let spellChoice of feat.gainSpellChoice">
+                                                <ng-container *ngFor="let spellGain of spellChoice.spells">
+                                                    <ng-container *ngFor="let spell of get_Spells(spellGain.name)">
+                                                        <h4 class="left-aligned">{{spell.name}}
+                                                            {{spell.get_Actions()}}{{(spell.castType) ? " - " + spell.castType : ""}}
+                                                        </h4>
+                                                        <app-spell class="row" [spell]=spell [spellLevel]=1></app-spell>
+                                                    </ng-container>
+                                                </ng-container>
+                                            </ng-container>
                                         </div>
                                     </div>
                                 </div>
@@ -835,6 +848,16 @@
                                                     </h4>
                                                     <app-activity class="row" [activity]=activity [allowActivate]=false>
                                                     </app-activity>
+                                                </ng-container>
+                                            </ng-container>
+                                            <ng-container *ngFor="let spellChoice of feat.gainSpellChoice">
+                                                <ng-container *ngFor="let spellGain of spellChoice.spells">
+                                                    <ng-container *ngFor="let spell of get_Spells(spellGain.name)">
+                                                        <h4 class="left-aligned">{{spell.name}}
+                                                            {{spell.get_Actions()}}{{(spell.castType) ? " - " + spell.castType : ""}}
+                                                        </h4>
+                                                        <app-spell class="row" [spell]=spell [spellLevel]=1></app-spell>
+                                                    </ng-container>
                                                 </ng-container>
                                             </ng-container>
                                         </div>

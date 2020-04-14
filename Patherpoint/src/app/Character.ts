@@ -362,7 +362,7 @@ export class Character {
     take_Spell(characterService: CharacterService, spellName: string, taken: boolean, choice: SpellChoice, locked: boolean) {
         let level: Level = characterService.get_Level(parseInt(choice.id.split("-")[0]));
         if (taken) {
-            choice.spells.push({"name":spellName, "source":choice.source, "className":choice.className, "tradition":choice.tradition, "locked":locked, "sourceId":choice.id});
+            choice.spells.push({"name":spellName, "source":choice.source, "className":choice.className, "tradition":choice.tradition, "locked":locked, "active":false, "sourceId":choice.id});
             characterService.process_Feat(spellName, level, taken);
         } else {
             let a = choice.spells;

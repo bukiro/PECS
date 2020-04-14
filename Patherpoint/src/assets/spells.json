@@ -1,6 +1,37 @@
 [
     {
+        "name": "Ki Rush",
+        "traditions": [
+            "Focus"
+        ],
+        "traits": [
+            "Uncommon",
+            "Monk",
+            "Transmutation"
+        ],
+        "levelreq": 1,
+        "actions": "1",
+        "castType": "verbal",
+        "shortDesc": "Accelerated by your ki, you move with such speed you become a blur.",
+        "desc1": [
+            {
+                "type": "text",
+                "value": "Accelerated by your ki, you move with such speed you become a blur. Move two times: two Strides, two Steps, or one Stride and one Step (in either order). You gain the concealed condition during this movement and until the start of your next turn."
+            }
+        ],
+        "gainConditions": [
+            {
+                "name": "Concealed",
+                "duration": 10,
+                "source": "Ki Rush"
+            }
+        ]
+    },
+    {
         "name": "Ki Strike",
+        "traditions": [
+            "Focus"
+        ],
         "traits": [
             "Uncommon",
             "Monk",
@@ -61,7 +92,10 @@
     },
     {
         "name": "Knock",
-        "traditions": "arcane, occult",
+        "traditions": [
+            "Arcane",
+            "Occult"
+        ],
         "traits": [
             "Transmutation"
         ],
@@ -81,7 +115,11 @@
     },
     {
         "name": "Create Food",
-        "traditions": "arcane, divine, primal",
+        "traditions": [
+            "Arcane",
+            "Divine",
+            "Primal"
+        ],
         "traits": [
             "Conjuration"
         ],

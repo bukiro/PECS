@@ -1,6 +1,7 @@
 import { SpellDesc } from './SpellDesc';
 import { CharacterService } from './character.service';
 import { SpellGain } from './SpellGain';
+import { ConditionGain } from './ConditionGain';
 
 export class Spell {
     public name: string = "";
@@ -23,6 +24,8 @@ export class Spell {
     public desc9: SpellDesc[] = [];
     public desc10: SpellDesc[] = [];
     public heightened = [];
+    public gainConditions: ConditionGain[] = [];
+    public sustained: boolean = false;
     public traits: string[] = [];
     get_Actions() {
         switch (this.actions) {
