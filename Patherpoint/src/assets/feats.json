@@ -4772,6 +4772,9 @@
       "name": "Mountain Stance",
       "shortdesc": "You enter the stance of an implacable mountain allowing you to strike with the weight of an avalanche.",
       "desc": "",
+      "gainActivities": [
+         "Mountain Stance"
+      ],
       "traits": [
          "Monk",
          "Stance"

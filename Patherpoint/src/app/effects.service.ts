@@ -57,11 +57,11 @@ constructor(
         let INT: number = characterService.get_Abilities("Intelligence")[0].mod(characterService, effectsService)
         let WIS: number = characterService.get_Abilities("Wisdom")[0].mod(characterService, effectsService)
         let CHA: number = characterService.get_Abilities("Charisma")[0].mod(characterService, effectsService)
-        let type: string = "untyped";
-        let penalty: boolean = false;
         //effects come as {affected, value} where value is a string that contains a statement.
         //This statement is eval'd here. The condition can use characterService to check level, skills, abilities etc.
         object.effects.forEach((effect: EffectGain) => {
+            let type: string = "untyped";
+            let penalty: boolean = false;
             let value: string = "0";
             try {
                 value = eval(effect.value).toString();

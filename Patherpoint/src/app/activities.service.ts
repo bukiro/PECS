@@ -96,10 +96,19 @@ export class ActivitiesService {
 
         //Apply conditions.
         if (activity.gainConditions) {
-            activity.gainConditions.forEach(gain => {
-                let newConditionGain = Object.assign(new ConditionGain(), gain);
-                characterService.add_Condition(newConditionGain, false);
-            });
+            if (activated) {
+                activity.gainConditions.forEach(gain => {
+                    let newConditionGain = Object.assign(new ConditionGain(), gain);
+                    characterService.add_Condition(newConditionGain, false);
+                });
+            } else {
+                activity.gainConditions.forEach(gain => {
+                    let conditionGains = characterService.get_AppliedConditions(gain.name).filter(conditionGain => conditionGain.source == gain.source);
+                    if (conditionGains.length) {
+                        characterService.remove_Condition(conditionGains[0], false);
+                    }
+                })
+            }
         }
 
         //Exclusive activity activation

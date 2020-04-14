@@ -46,7 +46,7 @@
         "actions": "1",
         "toggle":true,
         "requirements": "You are unarmored.",
-        "desc": "You enter the stance of a dragon and make powerful leg strikes like a lashing dragon’s tail. You can make dragon tail attacks that deal 1d10 bludgeoning damage. They are in the brawling group and have the backswing, nonlethal, and unarmed traits.",
+        "desc": "You enter the stance of a dragon and make powerful leg strikes like a lashing dragon’s tail. You can make dragon tail attacks that deal 1d10 bludgeoning damage. They are in the brawling group and have the backswing, nonlethal, and unarmed traits.\n\nWhile in Dragon Stance, you can ignore the first square of difficult terrain while Striding.",
         "hint": "While in Dragon Stance, you can ignore the first square of difficult terrain while Striding.",
         "gainItems": [
             {
@@ -55,6 +55,31 @@
             }
         ],
         "showon": "Movement",
+        "traits": [
+            "Monk",
+            "Stance"
+        ]
+    },
+    {
+        "name": "Mountain Stance",
+        "actions": "1",
+        "toggle":true,
+        "requirements": "You are unarmored and touching the ground.",
+        "desc": "You enter the stance of an implacable mountain—a technique first discovered by dwarven monks—allowing you to strike with the weight of an avalanche. The only Strikes you can make are falling stone unarmed attacks. These deal 1d8 bludgeoning damage; are in the brawling group; and have the forceful, nonlethal, and unarmed traits.\n\nWhile in Mountain Stance, you gain a +4 status bonus to AC and a +2 circumstance bonus to any defenses against being Shoved or Tripped. However, you have a Dexterity modifier cap to your AC of +0, meaning you don’t add your Dexterity to your AC, and your Speeds are all reduced by 5 feet.",
+        "hint": "While in Mountain Stance, you gain a +4 status bonus to AC and a +2 circumstance bonus to any defenses against being Shoved or Tripped. However, you have a Dexterity modifier cap to your AC of +0, meaning you don’t add your Dexterity to your AC, and your Speeds are all reduced by 5 feet.",
+        "gainItems": [
+            {
+                "name": "Falling Stone",
+                "type": "weapons"
+            }
+        ],
+        "showon": "Movement",
+        "gainConditions": [
+            {
+                "name": "Mountain Stance",
+                "source": "Mountain Stance"
+            }
+        ],
         "traits": [
             "Monk",
             "Stance"

@@ -260,5 +260,27 @@
             }            
         ],
         "buff": true
+    },
+    {
+        "name": "Mountain Stance",
+        "type": "activity",
+        "desc": "While in Mountain Stance, you gain a +4 status bonus to AC and a +2 circumstance bonus to any defenses against being Shoved or Tripped. However, you have a Dexterity modifier cap to your AC of +0, meaning you don’t add your Dexterity to your AC, and your Speeds are all reduced by 5 feet.",
+        "showon": "Fortitude",
+        "effects": [
+            {
+                "affected": "AC",
+                "value": "+4",
+                "type": "status"
+            },
+            {
+                "affected": "AC",
+                "value": "-Math.min(DEX, characterService.get_InventoryItems().armors.filter(armor => armor.equipped)[0].get_DexCap())"
+            },
+            {
+                "affected": "Speed",
+                "value": "-5"
+            }
+        ],
+        "buff": true
     }
 ]
