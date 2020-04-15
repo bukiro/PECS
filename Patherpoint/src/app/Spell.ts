@@ -8,11 +8,13 @@ export class Spell {
     public levelreq: number = 1;
     public traditions: string = "";
     public duration: number = 0;
-    public range: number = 0;
+    public range: string = "";
+    public area: string = "";
     public targets: string = "";
     public actions: string = "1";
     public castType: string = "";
     public shortDesc: string = "";
+    public desc: string = "";
     public desc1: SpellDesc[] = [];
     public desc2: SpellDesc[] = [];
     public desc3: SpellDesc[] = [];
@@ -24,6 +26,11 @@ export class Spell {
     public desc9: SpellDesc[] = [];
     public desc10: SpellDesc[] = [];
     public heightened = [];
+    public savingthrow: string = "";
+    public critsuccess: string = "";
+    public success: string = "";
+    public failure: string = "";
+    public critfailure: string = "";
     public gainConditions: ConditionGain[] = [];
     public sustained: boolean = false;
     public traits: string[] = [];
@@ -45,28 +52,64 @@ export class Spell {
     }
     get_Description(levelNumber: number) {
         //This descends from levelnumber downwards and returns the first available description.
+        let desc = this.desc;
+        let levelDesc: SpellDesc[] = [];
         switch (levelNumber) {
             case 10: 
-                if (this.desc10.length) {return this.desc10}
+                if (this.desc10.length) {
+                    levelDesc = this.desc10;
+                    break;
+                }
             case 9: 
-                if (this.desc9.length) {return this.desc9}
+                if (this.desc9.length) {
+                    levelDesc = this.desc9;
+                    break;
+                }
             case 8: 
-                if (this.desc8.length) {return this.desc8}
+                if (this.desc8.length) {
+                    levelDesc = this.desc8;
+                    break;
+                }
             case 7: 
-                if (this.desc7.length) {return this.desc7}
+                if (this.desc7.length) {
+                    levelDesc = this.desc7;
+                    break;
+                }
             case 6: 
-                if (this.desc6.length) {return this.desc6}
+                if (this.desc6.length) {
+                    levelDesc = this.desc6;
+                    break;
+                }
             case 5: 
-                if (this.desc5.length) {return this.desc5}
+                if (this.desc5.length) {
+                    levelDesc = this.desc5;
+                    break;
+                }
             case 4: 
-                if (this.desc4.length) {return this.desc4}
+                if (this.desc4.length) {
+                    levelDesc = this.desc4;
+                    break;
+                }
             case 3: 
-                if (this.desc3.length) {return this.desc3}
+                if (this.desc3.length) {
+                    levelDesc = this.desc3;
+                    break;
+                }
             case 2: 
-                if (this.desc2.length) {return this.desc2}
+                if (this.desc2.length) {
+                    levelDesc = this.desc2;
+                    break;
+                }
             default:
-                return this.desc1;
+                if (this.desc1.length) {
+                    levelDesc = this.desc1;
+                    break;
+                }
         }
+        levelDesc.forEach((descVar: SpellDesc) => {
+            desc = desc.replace(descVar.variable, descVar.value);
+        })
+        return desc;
     }
     meetsLevelReq(characterService: CharacterService, charLevel: number = characterService.get_Character().level) {
         //If the spell has a levelreq, check if the level beats that.

@@ -4932,6 +4932,24 @@
       "name": "Wholeness of Body",
       "shortdesc": "You can restore your health by tapping into your ki.",
       "desc": "",
+      "gainSpellChoice": [
+         {
+            "className": "Monk",
+            "id": "4-Spell-Feat: Wholeness of Body-0",
+            "source": "Feat: Wholeness of Body",
+            "spells": [
+               {
+                  "className": "Monk",
+                  "locked": true,
+                  "name": "Wholeness of Body",
+                  "source": "Feat: Wholeness of Body",
+                  "sourceId": "4-Spell-Feat: Wholeness of Body-0",
+                  "tradition": "Focus"
+               }
+            ],
+            "tradition": "Focus"
+         }
+      ],
       "levelreq": 4,
       "specialreq": "character.get_FeatsTaken(0,charLevel).filter(gain => characterService.get_FeatsAndFeatures(gain.name).filter(feat => feat.gainTraditionChoice.filter(choice => choice.source == \"Ki Spells\").length).length).length",
       "specialreqdesc": "ki spells",
@@ -4982,6 +5000,24 @@
       "levelreq": 6,
       "specialreq": "character.get_FeatsTaken(0,charLevel).filter(gain => characterService.get_FeatsAndFeatures(gain.name).filter(feat => feat.gainTraditionChoice.filter(choice => choice.source == \"Ki Spells\").length).length).length",
       "specialreqdesc": "ki spells",
+      "gainSpellChoice": [
+         {
+            "className": "Monk",
+            "id": "6-Spell-Feat: Ki Blast-0",
+            "source": "Feat: Ki Blast",
+            "spells": [
+               {
+                  "className": "Monk",
+                  "locked": true,
+                  "name": "Ki Blast",
+                  "source": "Feat: Ki Blast",
+                  "sourceId": "6-Spell-Ki Blast-0",
+                  "tradition": "Focus"
+               }
+            ],
+            "tradition": "Focus"
+         }
+      ],
       "traits": [
          "Monk"
       ]

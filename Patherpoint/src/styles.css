@@ -519,7 +519,7 @@
     color:green;
   }
 
-  .variable {
+  var, .variable {
     font-weight: bold;
     color: blue;
   }

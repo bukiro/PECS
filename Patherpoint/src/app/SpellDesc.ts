@@ -1,4 +1,4 @@
 export interface SpellDesc {
-    type: string;
+    variable: string;
     value: string;
 }

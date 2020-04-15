@@ -15,11 +15,53 @@
             {{spell.get_Actions()}} {{spell.castType}}
         </span>
     </div>
-    <div class="row left-aligned" *ngIf="get_SpellDescription(spell).length">
-        <p>
-            <span [className]="(desc.type == 'variable') ? 'variable' : ''"
-                *ngFor="let desc of get_SpellDescription(spell)">{{desc.value}}</span>
-        </p>
+    <div class="row left-aligned"  *ngIf="spell.range">
+        <span>
+            <strong>Range</strong>
+            {{spell.range}}
+        </span>
+    </div>
+    <div class="row left-aligned"  *ngIf="spell.area">
+        <span>
+            <strong>Area</strong>
+            {{spell.area}}
+        </span>
+    </div>
+    <div class="row left-aligned"  *ngIf="spell.savingthrow">
+        <span>
+            <strong>Saving Throw</strong>
+            {{spell.savingthrow}}
+        </span>
+    </div>
+    <div class="row left-aligned" *ngFor="let desc of get_SpellDescription(spell).split('\n\n')">
+        <p *ngIf="desc.split('\n').length == 1" [innerHTML]="desc"></p>
+        <ul *ngIf="desc.split('\n').length > 1">
+            <li *ngFor="let line of desc.split('\n')" [innerHTML]="line"></li>
+        </ul>
+    </div>
+    <div class="row left-aligned"  *ngIf="spell.critsuccess">
+        <span>
+            <strong>Critical Success</strong>
+            {{spell.critsuccess}}
+        </span>
+    </div>
+    <div class="row left-aligned"  *ngIf="spell.success">
+        <span>
+            <strong>Success</strong>
+            {{spell.success}}
+        </span>
+    </div>
+    <div class="row left-aligned"  *ngIf="spell.failure">
+        <span>
+            <strong>Failure</strong>
+            {{spell.failure}}
+        </span>
+    </div>
+    <div class="row left-aligned"  *ngIf="spell.critfailure">
+        <span>
+            <strong>Critical Failure</strong>
+            {{spell.critfailure}}
+        </span>
     </div>
     <div class="row left-aligned"  *ngFor="let heightened of spell.heightened">
         <span>

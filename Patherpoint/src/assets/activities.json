@@ -153,6 +153,55 @@
         ]
     },
     {
+        "name": "Deflect Arrows",
+        "actions": "Reaction",
+        "requirements": "You’re aware of the attack, are not flat-footed against it, and have a hand free.",
+        "trigger": "You are the target of a physical ranged attack.",
+        "desc": "You gain a +4 circumstance bonus to AC against the triggering attack. If the attack misses, you have deflected it. You cannot use this feat to deflect unusually massive ranged projectiles (such as boulders or ballista bolts).",
+        "traits": [
+            "Monk"
+        ]
+    },
+    {
+        "name": "Flying Kick",
+        "actions": "2",
+        "desc": "You launch yourself at a foe. Make a Leap or attempt a High Jump or Long Jump. At the end of the jump, if you’re adjacent to a foe, you can immediately Strike that foe with an unarmed attack, even if the foe is in mid-air. You fall to the ground after the Strike. If the distance you fall is no more than the height of your jump, you land upright and take no damage.",
+        "traits": [
+            "Monk"
+        ]
+    },
+    {
+        "name": "Stand Still",
+        "actions": "Reaction",
+        "trigger": "A creature within your reach uses a move action or leaves a square during a move action it’s using.",
+        "desc": "You strike out when your foe tries to flee. Make a melee Strike against the triggering creature. If the attack is a critical hit and the trigger was a move action, you disrupt that action.",
+        "traits": [
+            "Monk"
+        ]
+    },
+    {
+        "name": "Crane Flutter",
+        "actions": "Reaction",
+        "trigger": "You are targeted with a melee attack by an attacker you can see.",
+        "desc": "You interpose your arm between yourself and your opponent. Your circumstance bonus to AC from Crane Stance increases to +3 against the triggering attack. If the attack misses you, you can immediately make a crane wing Strike against the attacker at a –2 penalty, even if the attacker isn’t within your reach.",
+        "traits": [
+            "Monk"
+        ]
+    },
+    {
+        "name": "Dragon Roar",
+        "actions": "1",
+        "requirements": "You are in Dragon Stance.",
+        "desc": "You bellow, instilling fear in your enemies. Enemies within a 15-foot emanation must succeed at a Will save against your Intimidation DC or be frightened 1 (frightened 2 on a critical failure). When a creature frightened by the roar begins its turn adjacent to you, it can’t reduce its frightened value below 1 on that turn. Your first attack that hits a frightened creature after you roar and before the end of your next turn gains a +4 circumstance bonus to damage.\n\nAfter you use Dragon Roar, you can’t use it again for 1d4 rounds. Its effects end immediately if you leave Dragon Stance. Creatures in the area of your roar are then temporarily immune for 1 minute.",
+        "traits": [
+            "Auditory",
+            "Emotion",
+            "Fear",
+            "Mental",
+            "Monk"
+        ]
+    },
+    {
         "name": "Orc Ferocity",
         "actions": "Reaction",
         "frequency": "once per day",

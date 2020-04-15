@@ -84,11 +84,12 @@
     { "name":"Positive", "description":"Effects with this trait heal living creatures with positive energy, deal positive energy damage to undead, or manipulate positive energy. Planes with this trait are awash with life energy of such intensity that it can harm living creatures." },
     { "name":"Negative", "description":"Effects with this trait heal undead creatures with negative energy, deal negative damage to living creatures, or manipulate negative energy. Planes with this trait are vast, empty reaches that suck the life from the living." },
     { "name":"Linguistic", "description":"An effect with this trait depends on language comprehension. A linguistic effect that targets a creature works only if the target understands the language you are using." },
-    { "name":"Emotion", "description":"" },
-    { "name":"Fear", "description":"" },
-    { "name":"Attack", "description":"" },
-    { "name":"Incapacitation", "description":"" },
-    { "name":"Air", "description":"" },
-    { "name":"Fear", "description":"" },
-    { "name":"Fortune", "description":"" }
+    { "name":"Emotion", "description":"This effect alters a creature’s emotions. Effects with this trait always have the mental trait as well. Creatures with special training or that have mechanical or artificial intelligence are immune to emotion effects." },
+    { "name":"Fear", "description":"Fear effects evoke the emotion of fear. Effects with this trait always have the mental and emotion traits as well." },
+    { "name":"Attack", "description":"An ability with this trait involves an attack. For each attack you make beyond the first on your turn, you take a multiple attack penalty." },
+    { "name":"Incapacitation", "description":"An ability with this trait can take a character completely out of the fight or even kill them, and it’s harder to use on a more powerful character. If a spell has the incapacitation trait, any creature of more than twice the spell’s level treats the result of their check to prevent being incapacitated by the spell as one degree of success better, or the result of any check the spellcaster made to incapacitate them as one degree of success worse. If any other effect has the incapacitation trait, a creature of higher level than the item, creature, or hazard generating the effect gains the same benefits." },
+    { "name":"Air", "description":"Effects with the air trait either manipulate or conjure air. Those that manipulate air have no effect in a vacuum or an area without air. Creatures with this trait consist primarily of air or have a magical connection to that element. Planes with this trait consist mostly of open spaces and air with various degrees of turbulence, though they also contain rare islands of floating stone and other elements and energies." },
+    { "name":"Fortune", "description":"A fortune effect beneficially alters how you roll your dice. You can never have more than one fortune effect alter a single roll. If multiple fortune effects would apply, you have to pick which to use. If a fortune effect and a misfortune effect would apply to the same roll, the two cancel each other out, and you roll normally." },
+    { "name":"Teleportation", "description":"Teleportation effects allow you to instantaneously move from one point in space to another. Teleportation does not usually trigger reactions based on movement." },
+    { "name":"Force", "description":"Effects with this trait deal force damage or create objects made of pure magical force." }
 ]
