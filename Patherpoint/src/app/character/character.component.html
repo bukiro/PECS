@@ -266,12 +266,10 @@
             <div class="list-item" [className]="(get_Character().deity) ? 'fullsize-only' : ''"
                 *ngFor="let listID of ['deity']">
                 <button class="row sublist-toggle"
-                   
                     [className]="((get_Character().deity.name)) ? 'fancy-button' : ''" (click)="toggle_List(listID)">
                     Deity{{(get_Character().deity.name) ? ": "+ get_Character().deity.name : ""}}
                 </button>
                 <div class="list-item sublist"
-                   
                     [className]="((get_Character().deity.name)) ? 'fancy-list' : ''" *ngIf="get_showList()==listID">
                     <ng-container *ngFor="let deity of get_Deities()">
                         <div class="row" class="list-item" *ngFor="let itemID of ['deity'+deity.name]">
@@ -291,13 +289,13 @@
                                     <strong>Follower Alignments&nbsp;</strong>{{deity.followerAlignments.join(", ")}}
                                 </div>
                                 <div class="row left-aligned">
-                                    <strong>Divine Ability&nbsp;</strong>{{deity.divineAbility.join(" or ")}}
+                                    <strong>Divine Ability&nbsp;</strong>{{deity.divineAbilityFilter.join(" or ")}}
                                 </div>
                                 <div class="row left-aligned">
-                                    <strong>Divine Font&nbsp;</strong>{{deity.divineFont.join(" or ")}}
+                                    <strong>Divine Font&nbsp;</strong>{{deity.divineFontFilter.join(" or ")}}
                                 </div>
                                 <div class="row left-aligned">
-                                    <strong>Divine Skill&nbsp;</strong>{{deity.divineSkill.join(" or ")}}
+                                    <strong>Divine Skill&nbsp;</strong>{{deity.divineSkillFilter.join(" or ")}}
                                 </div>
                                 <div class="row left-aligned">
                                     <strong>Favored Weapon&nbsp;</strong>{{deity.favoredWeapon.join(" or ")}}

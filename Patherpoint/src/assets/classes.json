@@ -292,9 +292,6 @@
                         "id":"9-Class DC-Monk Expertise-0"
                     },
                     {
-                        "increases":[
-                            {"name":"Monk spell DC", "source":"Monk Expertise", "maxRank":4, "locked":true, "sourceId":"9-Spell DC-Monk Expertise-1"}
-                        ],
                         "type":"Spell DC",
                         "maxRank":4,
                         "source":"Monk Expertise",
@@ -546,9 +543,6 @@
                         "id":"17-Class DC-Graceful Legend-0"
                     },
                     {
-                        "increases":[
-                            {"name":"Monk spell DC", "source":"Graceful Legend", "maxRank":6, "locked":true, "sourceId":"17-Spell DC-Graceful Legend-1"}
-                        ],
                         "type":"Spell DC",
                         "maxRank":6,
                         "source":"Graceful Legend",

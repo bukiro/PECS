@@ -27,21 +27,25 @@
     },
     {
         "name": "Alertness",
-        "desc": "You remain alert to threats around you. Your proficiency rank for Perception increases to expert."
+        "desc": "You remain alert to threats around you. Your proficiency rank for Perception increases to expert.",
+        "internalNote": "Skill increases through class features are handled in the class object."
     },
     {
         "name": "Expert Strikes",
-        "desc": "You’ve practiced martial arts and have now surpassed your former skill. Your proficiency ranks for unarmed attacks and simple weapons increase to expert."
+        "desc": "You’ve practiced martial arts and have now surpassed your former skill. Your proficiency ranks for unarmed attacks and simple weapons increase to expert.",
+        "internalNote": "Skill increases through class features are handled in the class object."
     },
     {
         "name": "Path to Perfection",
         "desc": "You have progressed along your own path to enlightenment. Choose your Fortitude, Reflex, or Will saving throw. Your proficiency rank for the chosen saving throw increases to master. When you roll a success on the chosen saving throw, you get a critical success instead.",
         "hint": "When you roll a success on this saving throw, you get a critical success instead.",
-        "showon": "Path to Perfection"
+        "showon": "Path to Perfection",
+        "internalNote": "Skill increases through class features are handled in the class object."
     },
     {
         "name": "Weapon Specialization",
-        "desc": "You’ve learned how to inflict greater injuries with the weapons you know best. You deal 2 additional damage with weapons and unarmed attacks in which you are an expert. This damage increases to 3 if you’re a master, and 4 if you’re legendary."
+        "desc": "You’ve learned how to inflict greater injuries with the weapons you know best. You deal 2 additional damage with weapons and unarmed attacks in which you are an expert. This damage increases to 3 if you’re a master, and 4 if you’re legendary.",
+        "internalNote": "The effect is hardcoded."
     },
     {
         "name": "Metal Strikes",
@@ -51,31 +55,37 @@
     },
     {
         "name": "Monk Expertise",
-        "desc": "Your proficiency rank for your monk class DC increases to expert. If you have ki spells, your proficiency rank for spell attacks and spell DCs with the tradition of magic you use for your ki spells increases to expert."
+        "desc": "Your proficiency rank for your monk class DC increases to expert. If you have ki spells, your proficiency rank for spell attacks and spell DCs with the tradition of magic you use for your ki spells increases to expert.",
+        "internalNote": "Skill increases through class features are handled in the class object."
     },
     {
         "name": "Second Path to Perfection",
         "desc": "You’ve learned to find perfection in every success. Choose a different saving throw than the one you chose for your path to perfection. Your proficiency rank for the chosen saving throw increases to master. If you roll a success with the chosen saving throw, you instead critically succeed.",
         "hint": "If you roll a success with this saving throw, you instead critically succeed.",
-        "showon": "Second Path to Perfection"
+        "showon": "Second Path to Perfection",
+        "internalNote": "Skill increases through class features are handled in the class object."
     },
     {
         "name": "Graceful Mastery",
-        "desc": "You move with perpetual grace in battle, eluding and turning aside blows. Your proficiency rank for unarmored defense increases to master."
+        "desc": "You move with perpetual grace in battle, eluding and turning aside blows. Your proficiency rank for unarmored defense increases to master.",
+        "internalNote": "Skill increases through class features are handled in the class object."
     },
     {
         "name": "Master Strikes",
-        "desc": "You have honed your skill in using your body as a weapon. Your proficiency ranks for unarmed attacks and simple weapons increase to master."
+        "desc": "You have honed your skill in using your body as a weapon. Your proficiency ranks for unarmed attacks and simple weapons increase to master.",
+        "internalNote": "Skill increases through class features are handled in the class object."
     },
     {
         "name": "Greater Weapon Specialization",
-        "desc": "Your damage from weapon specialization increases to 4 with weapons and unarmed attacks in which you’re an expert, 6 if you’re a master, and 8 if you’re legendary."
+        "desc": "Your damage from weapon specialization increases to 4 with weapons and unarmed attacks in which you’re an expert, 6 if you’re a master, and 8 if you’re legendary.",
+        "internalNote":"The effect is hardcoded."
     },
     {
         "name": "Third Path to Perfection",
         "desc": "You have made great progress in your personal studies of enlightenment. Choose one of the saving throws you selected for path to perfection or second path to perfection. Your proficiency rank for the chosen type of save increases to legendary. When you roll a critical failure on the chosen type of save, you get a failure instead. When you roll a failure on the chosen type of save against an effect that deals damage, you take half damage.",
         "hint": "When you roll a critical failure on this type of save, you get a failure instead. When you roll a failure on this type of save against an effect that deals damage, you take half damage.",
-        "showon": "Third Path to Perfection"
+        "showon": "Third Path to Perfection",
+        "internalNote": "Skill increases through class features are handled in the class object."
     },
     {
         "name": "Adamantine Strikes",
@@ -85,7 +95,8 @@
     },
     {
         "name": "Graceful Legend",
-        "desc": "Your sublime movement grants you unparalleled protection and offense. Your proficiency rank for unarmored defense increases to legendary, and your proficiency rank for your monk class DC increases to master. If you have ki spells, your proficiency rank for spell attack rolls and spell DCs with the tradition of magic you use for your ki spells increases to master."
+        "desc": "Your sublime movement grants you unparalleled protection and offense. Your proficiency rank for unarmored defense increases to legendary, and your proficiency rank for your monk class DC increases to master. If you have ki spells, your proficiency rank for spell attack rolls and spell DCs with the tradition of magic you use for your ki spells increases to master.",
+        "internalNote": "Skill increases through class features are handled in the class object."
     },
     {
         "name": "Perfected Form",

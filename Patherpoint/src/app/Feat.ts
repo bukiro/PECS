@@ -164,9 +164,6 @@ export class Feat {
     //This function evaluates ALL the possible requirements for taking a feat
     //Returns true only if all the requirements are true. If the feat doesn't have a requirement, it is always true.
         if (characterService.still_loading()) { return false }
-        if (this.name.indexOf("Lore") > -1) {
-            let c=2;
-        }
         let levelreq: boolean = this.meetsLevelReq(characterService, charLevel).met;
         //Check the ability reqs. True if ALL are true.
         let abilityreqs = this.meetsAbilityReq(characterService, charLevel)

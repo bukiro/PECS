@@ -261,6 +261,17 @@ export class Character {
                     }
                 } else if (skillName.indexOf("spell DC") > -1) {
                     characterService.add_CustomSkill(skillName, "Spell DC", ability);
+                    //If this is the choice for the Ki Spells tradition, add further increases on levels 9 and 17
+                    if (choice.source == "Ki Spells") {
+                        characterService.get_Level(9).skillChoices.filter(skillChoice =>
+                            skillChoice.source == "Monk Expertise" && skillChoice.type == "Spell DC").forEach(choice => {
+                            this.increase_Skill(characterService, skillName, true, choice, true);
+                        });
+                        characterService.get_Level(17).skillChoices.filter(skillChoice =>
+                            skillChoice.source == "Graceful Legend" && skillChoice.type == "Spell DC").forEach(choice => {
+                            this.increase_Skill(characterService, skillName, true, choice, true);
+                        });
+                    }
                 } else {
                     characterService.add_CustomSkill(skillName, choice["type"], "");
                 }
@@ -283,6 +294,19 @@ export class Character {
                 let oldChoices = characterService.get_Level(17).skillChoices.filter(skillChoice => skillChoice.source == choice.source);
                 if (oldChoices.length) {
                     this.remove_SkillChoice(oldChoices[0]);
+                }
+            }
+            if (skillName.indexOf("spell DC") > -1) {
+                //If this is the choice for the Ki Spells tradition, remove the increases from levels 9 and 17
+                if (choice.source == "Ki Spells") {
+                    characterService.get_Level(9).skillChoices.filter(skillChoice =>
+                        skillChoice.source == "Monk Expertise" && skillChoice.type == "Spell DC").forEach(choice => {
+                        this.increase_Skill(characterService, skillName, false, choice, true);
+                    });
+                    characterService.get_Level(17).skillChoices.filter(skillChoice =>
+                        skillChoice.source == "Graceful Legend" && skillChoice.type == "Spell DC").forEach(choice => {
+                        this.increase_Skill(characterService, skillName, false, choice, true);
+                    });
                 }
             }
             //If you are deselecting Path to Perfection, the selected skill is removed from the filter of Third Path to Perfection.

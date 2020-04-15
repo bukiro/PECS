@@ -579,12 +579,15 @@ export class CharacterComponent implements OnInit {
     cannotTakeSome(choice: FeatChoice) {
         let anytrue = 0;
         choice.feats.forEach(feat => {
-            if (this.cannotTake(this.get_Feats(feat.name)[0], choice).length) {
-                if (!feat.locked) {
-                    this.get_Character().take_Feat(this.characterService, feat.name, false, choice, feat.locked);
-                    this.characterService.set_Changed();
-                } else {
-                    anytrue += 1;
+            let template: Feat[] = this.get_Feats(feat.name);
+            if (template.length && template[0].name) {
+                if (this.cannotTake(template[0], choice).length) {
+                    if (!feat.locked) {
+                        this.get_Character().take_Feat(this.characterService, feat.name, false, choice, feat.locked);
+                        this.characterService.set_Changed();
+                    } else {
+                        anytrue += 1;
+                    }
                 }
             }
         });
@@ -592,44 +595,47 @@ export class CharacterComponent implements OnInit {
     }
 
     cannotTake(feat: Feat, choice: FeatChoice) {
-        let levelNumber = parseInt(choice.id.split("-")[0]);
-        let featLevel = 0;
-        if (choice.level) {
-            featLevel = parseInt(choice.level);
-        } else {
-            featLevel = levelNumber;
-        }
-        let reasons: string[] = [];
-        //Are the basic requirements (level, ability, feat etc) not met?
-        if (!feat.canChoose(this.characterService, featLevel)) {
-            reasons.push("The requirements are not met.")
-        }
-        //Unless the feat can be taken repeatedly:
-        if (!feat.unlimited) {
-            //Has it already been taken up to this level, and was that not by this FeatChoice?
-            if (feat.have(this.characterService, levelNumber) && !this.featTakenByThis(feat, choice)) {
-                reasons.push("This feat cannot be taken more than once.");
+        //Don't run the test on a blank feat - does not go well
+        if (feat.name) {
+            let levelNumber = parseInt(choice.id.split("-")[0]);
+            let featLevel = 0;
+            if (choice.level) {
+                featLevel = parseInt(choice.level);
+            } else {
+                featLevel = levelNumber;
             }
-            //Has it generally been taken more than once, and this is one time?
-            if (feat.have(this.characterService, levelNumber) > 1 && this.featTakenByThis(feat, choice)) {
-                reasons.push("This feat cannot be taken more than once!");
+            let reasons: string[] = [];
+            //Are the basic requirements (level, ability, feat etc) not met?
+            if (!feat.canChoose(this.characterService, featLevel)) {
+                reasons.push("The requirements are not met.")
             }
-            //Has it been taken on a higher level (that is, not up to now, but up to Level 20)?
-            if (!feat.have(this.characterService, levelNumber) && feat.have(this.characterService, 20)) {
-                reasons.push("This feat has been taken on a higher level.");
+            //Unless the feat can be taken repeatedly:
+            if (!feat.unlimited) {
+                //Has it already been taken up to this level, and was that not by this FeatChoice?
+                if (feat.have(this.characterService, levelNumber) && !this.featTakenByThis(feat, choice)) {
+                    reasons.push("This feat cannot be taken more than once.");
+                }
+                //Has it generally been taken more than once, and this is one time?
+                if (feat.have(this.characterService, levelNumber) > 1 && this.featTakenByThis(feat, choice)) {
+                    reasons.push("This feat cannot be taken more than once!");
+                }
+                //Has it been taken on a higher level (that is, not up to now, but up to Level 20)?
+                if (!feat.have(this.characterService, levelNumber) && feat.have(this.characterService, 20)) {
+                    reasons.push("This feat has been taken on a higher level.");
+                }
             }
+            //If this feat has any subtypes, check if any of them can be taken. If not, this cannot be taken either.
+            if (feat.subTypes) {
+                let subfeats = this.get_Feats().filter(subfeat => subfeat.superType == feat.name && !subfeat.hide);
+                let availableSubfeats = subfeats.filter(feat => 
+                    this.cannotTake(feat, choice).length == 0 || this.featTakenByThis(feat, choice)
+                );
+                if (availableSubfeats.length == 0) {
+                    reasons.push("No option has its requirements met.")
+                }
+            }
+            return reasons;
         }
-        //If this feat has any subtypes, check if any of them can be taken. If not, this cannot be taken either.
-        if (feat.subTypes) {
-            let subfeats = this.get_Feats().filter(subfeat => subfeat.superType == feat.name && !subfeat.hide);
-            let availableSubfeats = subfeats.filter(feat => 
-                this.cannotTake(feat, choice).length == 0 || this.featTakenByThis(feat, choice)
-            );
-            if (availableSubfeats.length == 0) {
-                reasons.push("No option has its requirements met.")
-            }
-        }
-        return reasons;
     }
 
     featTakenByThis(feat: Feat, choice: FeatChoice) {

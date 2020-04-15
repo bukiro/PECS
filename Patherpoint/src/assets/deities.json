@@ -36,7 +36,7 @@
          "Constitution ",
          "Intelligence"
       ],
-      "divineSkill": [
+      "divineSkillFilter": [
          "Society"
       ],
       "divineFontFilter": [
@@ -84,7 +84,7 @@
          "Wisdom",
          "Charisma"
       ],
-      "divineSkill": [
+      "divineSkillFilter": [
          "Deception"
       ],
       "divineFontFilter": [
@@ -127,7 +127,7 @@
          "Dexterity ",
          "Charisma"
       ],
-      "divineSkill": [
+      "divineSkillFilter": [
          "Deception"
       ],
       "divineFontFilter": [
@@ -171,7 +171,7 @@
          "Constitution ",
          "Charisma"
       ],
-      "divineSkill": [
+      "divineSkillFilter": [
          "Athletics"
       ],
       "divineFontFilter": [
@@ -216,7 +216,7 @@
          "Dexterity ",
          "Charisma"
       ],
-      "divineSkill": [
+      "divineSkillFilter": [
          "Acrobatics"
       ],
       "divineFontFilter": [
@@ -260,7 +260,7 @@
          "Constitution ",
          "Wisdom"
       ],
-      "divineSkill": [
+      "divineSkillFilter": [
          "Survival"
       ],
       "divineFontFilter": [
@@ -302,7 +302,7 @@
          "Strength ",
          "Constitution"
       ],
-      "divineSkill": [
+      "divineSkillFilter": [
          "Athletics"
       ],
       "divineFontFilter": [
@@ -350,7 +350,7 @@
          "Constitution ",
          "Wisdom"
       ],
-      "divineSkill": [
+      "divineSkillFilter": [
          "Survival"
       ],
       "divineFontFilter": [
@@ -393,7 +393,7 @@
          "Strength ",
          "Constitution"
       ],
-      "divineSkill": [
+      "divineSkillFilter": [
          "Intimidation"
       ],
       "divineFontFilter": [
@@ -438,7 +438,7 @@
          "Intelligence ",
          "Wisdom"
       ],
-      "divineSkill": [
+      "divineSkillFilter": [
          "Athletics"
       ],
       "divineFontFilter": [
@@ -481,7 +481,7 @@
          "Constitution ",
          "Strength"
       ],
-      "divineSkill": [
+      "divineSkillFilter": [
          "Survival"
       ],
       "divineFontFilter": [
@@ -552,7 +552,7 @@
          "Wisdom ",
          "Intelligence"
       ],
-      "divineSkill": [
+      "divineSkillFilter": [
          "Arcana"
       ],
       "divineFontFilter": [
@@ -597,7 +597,7 @@
          "Dexterity ",
          "Intelligence"
       ],
-      "divineSkill": [
+      "divineSkillFilter": [
          "Stealth"
       ],
       "divineFontFilter": [
@@ -643,7 +643,7 @@
          "Constitution ",
          "Wisdom"
       ],
-      "divineSkill": [
+      "divineSkillFilter": [
          "Medicine"
       ],
       "divineFontFilter": [
@@ -687,7 +687,7 @@
          "Strength ",
          "Constitution"
       ],
-      "divineSkill": [
+      "divineSkillFilter": [
          "Athletics"
       ],
       "divineFontFilter": [
@@ -731,7 +731,7 @@
          "Constitution ",
          "Wisdom"
       ],
-      "divineSkill": [
+      "divineSkillFilter": [
          "Medicine"
       ],
       "divineFontFilter": [
@@ -775,7 +775,7 @@
          "Wisdom ",
          "Charisma"
       ],
-      "divineSkill": [
+      "divineSkillFilter": [
          "Crafting ",
          "Performance"
       ],
@@ -819,7 +819,7 @@
          "Constitution ",
          "Wisdom"
       ],
-      "divineSkill": [
+      "divineSkillFilter": [
          "Crafting"
       ],
       "divineFontFilter": [
@@ -864,7 +864,7 @@
          "Constitution ",
          "Wisdom"
       ],
-      "divineSkill": [
+      "divineSkillFilter": [
          "Intimidation"
       ],
       "divineFontFilter": [
@@ -908,7 +908,7 @@
          "Constitution ",
          "Wisdom"
       ],
-      "divineSkill": [
+      "divineSkillFilter": [
          "Intimidation"
       ],
       "divineFontFilter": [
@@ -951,7 +951,7 @@
          "Strength ",
          "Dexterity"
       ],
-      "divineSkill": [
+      "divineSkillFilter": [
          "Stealth"
       ],
       "divineFontFilter": [
@@ -994,7 +994,7 @@
          "Intelligence ",
          "Charisma"
       ],
-      "divineSkill": [
+      "divineSkillFilter": [
          "Diplomacy"
       ],
       "divineFontFilter": [
@@ -1037,7 +1037,7 @@
          "Wisdom ",
          "Charisma"
       ],
-      "divineSkill": [
+      "divineSkillFilter": [
          "Diplomacy"
       ],
       "divineFontFilter": [
@@ -1083,7 +1083,7 @@
          "Constitution ",
          "Intelligence"
       ],
-      "divineSkill": [
+      "divineSkillFilter": [
          "Intimidation"
       ],
       "divineFontFilter": [
@@ -1126,7 +1126,7 @@
          "Dexterity ",
          "Constitution"
       ],
-      "divineSkill": [
+      "divineSkillFilter": [
          "Athletics"
       ],
       "divineFontFilter": [
@@ -1173,7 +1173,7 @@
          "Intelligence ",
          "Wisdom"
       ],
-      "divineSkill": [
+      "divineSkillFilter": [
          "Crafting"
       ],
       "divineFontFilter": [
@@ -1221,7 +1221,7 @@
          "Constitution ",
          "Intelligence"
       ],
-      "divineSkill": [
+      "divineSkillFilter": [
          "Society"
       ],
       "divineFontFilter": [
@@ -1265,7 +1265,7 @@
          "Dexterity ",
          "Charisma"
       ],
-      "divineSkill": [
+      "divineSkillFilter": [
          "Thievery"
       ],
       "divineFontFilter": [
@@ -1308,7 +1308,7 @@
          "Strength ",
          "Constitution"
       ],
-      "divineSkill": [
+      "divineSkillFilter": [
          "Athletics"
       ],
       "divineFontFilter": [
@@ -1351,7 +1351,7 @@
          "Wisdom ",
          "Charisma"
       ],
-      "divineSkill": [
+      "divineSkillFilter": [
          "Deception"
       ],
       "divineFontFilter": [
@@ -1396,7 +1396,7 @@
          "Dexterity ",
          "Charisma"
       ],
-      "divineSkill": [
+      "divineSkillFilter": [
          "Stealth"
       ],
       "divineFontFilter": [
@@ -1438,7 +1438,7 @@
          "Constitution ",
          "Wisdom"
       ],
-      "divineSkill": [
+      "divineSkillFilter": [
          "Nature"
       ],
       "divineFontFilter": [
@@ -1484,7 +1484,7 @@
          "Intelligence ",
          "Wisdom"
       ],
-      "divineSkill": [
+      "divineSkillFilter": [
          "Crafting"
       ],
       "divineFontFilter": [
@@ -1528,7 +1528,7 @@
          "Strength ",
          "Charisma"
       ],
-      "divineSkill": [
+      "divineSkillFilter": [
          "Intimidation"
       ],
       "divineFontFilter": [
@@ -1570,7 +1570,7 @@
          "Wisdom ",
          "Charisma"
       ],
-      "divineSkill": [
+      "divineSkillFilter": [
          "Intimidation"
       ],
       "divineFontFilter": [
@@ -1614,7 +1614,7 @@
          "Strength ",
          "Dexterity"
       ],
-      "divineSkill": [
+      "divineSkillFilter": [
          "Athletics"
       ],
       "divineFontFilter": [
@@ -1657,7 +1657,7 @@
          "Strength ",
          "Constitution"
       ],
-      "divineSkill": [
+      "divineSkillFilter": [
          "Nature"
       ],
       "divineFontFilter": [
@@ -1701,7 +1701,7 @@
          "Strength ",
          "Wisdom"
       ],
-      "divineSkill": [
+      "divineSkillFilter": [
          "Society"
       ],
       "divineFontFilter": [
@@ -1745,7 +1745,7 @@
          "Strength ",
          "Constitution"
       ],
-      "divineSkill": [
+      "divineSkillFilter": [
          "Athletics"
       ],
       "divineFontFilter": [
@@ -1787,7 +1787,7 @@
          "Intelligence ",
          "Wisdom"
       ],
-      "divineSkill": [
+      "divineSkillFilter": [
          "Arcana"
       ],
       "divineFontFilter": [
@@ -1830,7 +1830,7 @@
          "Strength ",
          "Wisdom"
       ],
-      "divineSkill": [
+      "divineSkillFilter": [
          "Society"
       ],
       "divineFontFilter": [
@@ -1873,7 +1873,7 @@
          "Constitution ",
          "Charisma"
       ],
-      "divineSkill": [
+      "divineSkillFilter": [
          "Diplomacy"
       ],
       "divineFontFilter": [
@@ -1919,7 +1919,7 @@
          "Dexterity ",
          "Intelligence"
       ],
-      "divineSkill": [
+      "divineSkillFilter": [
          "Stealth"
       ],
       "divineFontFilter": [
@@ -1963,7 +1963,7 @@
          "Dexterity ",
          "Charisma"
       ],
-      "divineSkill": [
+      "divineSkillFilter": [
          "Society"
       ],
       "divineFontFilter": [
@@ -2009,7 +2009,7 @@
          "Wisdom ",
          "Charisma"
       ],
-      "divineSkill": [
+      "divineSkillFilter": [
          "Deception"
       ],
       "divineFontFilter": [
@@ -2052,7 +2052,7 @@
          "Dexterity ",
          "Charisma"
       ],
-      "divineSkill": [
+      "divineSkillFilter": [
          "Thievery"
       ],
       "divineFontFilter": [
@@ -2094,7 +2094,7 @@
          "Strength ",
          "Wisdom"
       ],
-      "divineSkill": [
+      "divineSkillFilter": [
          "Deception"
       ],
       "divineFontFilter": [
@@ -2136,7 +2136,7 @@
          "Dexterity ",
          "Constitution"
       ],
-      "divineSkill": [
+      "divineSkillFilter": [
          "Thievery"
       ],
       "divineFontFilter": [
@@ -2179,7 +2179,7 @@
          "Dexterity ",
          "Wisdom"
       ],
-      "divineSkill": [
+      "divineSkillFilter": [
          "Occultism"
       ],
       "divineFontFilter": [
@@ -2225,7 +2225,7 @@
          "Intelligence ",
          "Charisma"
       ],
-      "divineSkill": [
+      "divineSkillFilter": [
          "Deception"
       ],
       "divineFontFilter": [
@@ -2268,7 +2268,7 @@
          "Constitution ",
          "Charisma"
       ],
-      "divineSkill": [
+      "divineSkillFilter": [
          "Performance"
       ],
       "divineFontFilter": [
@@ -2310,7 +2310,7 @@
          "Strength ",
          "Charisma"
       ],
-      "divineSkill": [
+      "divineSkillFilter": [
          "Performance"
       ],
       "divineFontFilter": [
@@ -2355,7 +2355,7 @@
          "Strength ",
          "Charisma"
       ],
-      "divineSkill": [
+      "divineSkillFilter": [
          "Diplomacy"
       ],
       "divineFontFilter": [
@@ -2422,7 +2422,7 @@
          "Wisdom ",
          "Charisma"
       ],
-      "divineSkill": [
+      "divineSkillFilter": [
          "Arcana"
       ],
       "divineFontFilter": [
@@ -2465,7 +2465,7 @@
          "Intelligence ",
          "Wisdom"
       ],
-      "divineSkill": [
+      "divineSkillFilter": [
          "Society"
       ],
       "divineFontFilter": [
@@ -2507,7 +2507,7 @@
          "Constitution ",
          "Wisdom"
       ],
-      "divineSkill": [
+      "divineSkillFilter": [
          "Nature"
       ],
       "divineFontFilter": [
@@ -2550,7 +2550,7 @@
          "Strength ",
          "Intelligence"
       ],
-      "divineSkill": [
+      "divineSkillFilter": [
          "Society"
       ],
       "divineFontFilter": [
@@ -2595,7 +2595,7 @@
          "Strength ",
          "Wisdom"
       ],
-      "divineSkill": [
+      "divineSkillFilter": [
          "Medicine"
       ],
       "divineFontFilter": [
@@ -2639,7 +2639,7 @@
          "Dexterity ",
          "Wisdom"
       ],
-      "divineSkill": [
+      "divineSkillFilter": [
          "Medicine"
       ],
       "divineFontFilter": [
@@ -2684,7 +2684,7 @@
          "Strength ",
          "Constitution"
       ],
-      "divineSkill": [
+      "divineSkillFilter": [
          "Athletics"
       ],
       "divineFontFilter": [
@@ -2728,7 +2728,7 @@
          "Intelligence ",
          "Wisdom"
       ],
-      "divineSkill": [
+      "divineSkillFilter": [
          "Arcana"
       ],
       "divineFontFilter": [
@@ -2772,7 +2772,7 @@
          "Dexterity ",
          "Wisdom"
       ],
-      "divineSkill": [
+      "divineSkillFilter": [
          "Nature"
       ],
       "divineFontFilter": [
@@ -2813,7 +2813,7 @@
          "Dexterity ",
          "Charisma"
       ],
-      "divineSkill": [
+      "divineSkillFilter": [
          "Deception"
       ],
       "divineFontFilter": [
@@ -2854,7 +2854,7 @@
          "Constitution ",
          "Wisdom"
       ],
-      "divineSkill": [
+      "divineSkillFilter": [
          "Nature"
       ],
       "divineFontFilter": [
@@ -2895,7 +2895,7 @@
          "Intelligence ",
          "Charisma"
       ],
-      "divineSkill": [
+      "divineSkillFilter": [
          "Diplomacy"
       ],
       "divineFontFilter": [
@@ -2937,7 +2937,7 @@
          "Strength ",
          "Charisma"
       ],
-      "divineSkill": [
+      "divineSkillFilter": [
          "Society"
       ],
       "divineFontFilter": [
@@ -2979,7 +2979,7 @@
          "Intelligence ",
          "Wisdom"
       ],
-      "divineSkill": [
+      "divineSkillFilter": [
          "Occultism"
       ],
       "divineFontFilter": [
@@ -3020,7 +3020,7 @@
          "Wisdom ",
          "Charisma"
       ],
-      "divineSkill": [
+      "divineSkillFilter": [
          "Thievery"
       ],
       "divineFontFilter": [
@@ -3061,7 +3061,7 @@
          "Intelligence ",
          "Charisma"
       ],
-      "divineSkill": [
+      "divineSkillFilter": [
          "Deception"
       ],
       "divineFontFilter": [
@@ -3102,7 +3102,7 @@
          "Strength ",
          "Constitution"
       ],
-      "divineSkill": [
+      "divineSkillFilter": [
          "Athletics"
       ],
       "divineFontFilter": [
@@ -3168,7 +3168,7 @@
          "Intelligence ",
          "Wisdom"
       ],
-      "divineSkill": [
+      "divineSkillFilter": [
          "Arcana"
       ],
       "divineFontFilter": [
@@ -3210,7 +3210,7 @@
          "Strength ",
          "Constitution"
       ],
-      "divineSkill": [
+      "divineSkillFilter": [
          "Athletics"
       ],
       "divineFontFilter": [
@@ -3252,7 +3252,7 @@
          "Intelligence ",
          "Wisdom"
       ],
-      "divineSkill": [
+      "divineSkillFilter": [
          "Survival"
       ],
       "divineFontFilter": [
@@ -3293,7 +3293,7 @@
          "Constitution ",
          "Wisdom"
       ],
-      "divineSkill": [
+      "divineSkillFilter": [
          "Nature"
       ],
       "divineFontFilter": [
@@ -3336,7 +3336,7 @@
          "Strength ",
          "Constitution"
       ],
-      "divineSkill": [
+      "divineSkillFilter": [
          "Athletics"
       ],
       "divineFontFilter": [
@@ -3377,7 +3377,7 @@
          "Strength ",
          "Wisdom"
       ],
-      "divineSkill": [
+      "divineSkillFilter": [
          "Intimidation"
       ],
       "divineFontFilter": [
@@ -3420,7 +3420,7 @@
          "Dexterity ",
          "Intelligence"
       ],
-      "divineSkill": [
+      "divineSkillFilter": [
          "Stealth"
       ],
       "divineFontFilter": [
@@ -3462,7 +3462,7 @@
          "Strength ",
          "Constitution"
       ],
-      "divineSkill": [
+      "divineSkillFilter": [
          "Athletics"
       ],
       "divineFontFilter": [
@@ -3504,7 +3504,7 @@
          "Constitution ",
          "Charisma"
       ],
-      "divineSkill": [
+      "divineSkillFilter": [
          "Survival"
       ],
       "divineFontFilter": [
@@ -3545,7 +3545,7 @@
          "Dexterity ",
          "Charisma"
       ],
-      "divineSkill": [
+      "divineSkillFilter": [
          "Diplomacy"
       ],
       "divineFontFilter": [
@@ -3587,7 +3587,7 @@
          "Dexterity ",
          "Charisma"
       ],
-      "divineSkill": [
+      "divineSkillFilter": [
          "Intimidation"
       ],
       "divineFontFilter": [
@@ -3629,7 +3629,7 @@
          "Wisdom ",
          "Charisma"
       ],
-      "divineSkill": [
+      "divineSkillFilter": [
          "Deception"
       ],
       "divineFontFilter": [
@@ -3671,7 +3671,7 @@
          "Strength ",
          "Constitution"
       ],
-      "divineSkill": [
+      "divineSkillFilter": [
          "Survival"
       ],
       "divineFontFilter": [
@@ -3714,7 +3714,7 @@
          "Strength ",
          "Constitution"
       ],
-      "divineSkill": [
+      "divineSkillFilter": [
          "Survival"
       ],
       "divineFontFilter": [
@@ -3756,7 +3756,7 @@
          "Strength ",
          "Charisma"
       ],
-      "divineSkill": [
+      "divineSkillFilter": [
          "Diplomacy"
       ],
       "divineFontFilter": [
@@ -3798,7 +3798,7 @@
          "Strength ",
          "Constitution"
       ],
-      "divineSkill": [
+      "divineSkillFilter": [
          "Athletics"
       ],
       "divineFontFilter": [
@@ -3841,7 +3841,7 @@
          "Wisdom ",
          "Charisma"
       ],
-      "divineSkill": [
+      "divineSkillFilter": [
          "Diplomacy"
       ],
       "divineFontFilter": [
@@ -3883,7 +3883,7 @@
          "Constitution ",
          "Wisdom"
       ],
-      "divineSkill": [
+      "divineSkillFilter": [
          "Intimidation"
       ],
       "divineFontFilter": [
@@ -3930,7 +3930,7 @@
          "Constitution ",
          "Intelligence"
       ],
-      "divineSkill": [
+      "divineSkillFilter": [
          "Crafting"
       ],
       "divineFontFilter": [
@@ -3973,7 +3973,7 @@
          "Constitution ",
          "Wisdom"
       ],
-      "divineSkill": [
+      "divineSkillFilter": [
          "Medicine"
       ],
       "divineFontFilter": [
@@ -4015,7 +4015,7 @@
          "Constitution ",
          "Charisma"
       ],
-      "divineSkill": [
+      "divineSkillFilter": [
          "Diplomacy"
       ],
       "divineFontFilter": [
@@ -4057,7 +4057,7 @@
          "Strength ",
          "Wisdom"
       ],
-      "divineSkill": [
+      "divineSkillFilter": [
          "Society"
       ],
       "divineFontFilter": [
@@ -4101,7 +4101,7 @@
          "Constitution ",
          "Wisdom"
       ],
-      "divineSkill": [
+      "divineSkillFilter": [
          "Crafting"
       ],
       "divineFontFilter": [
@@ -4143,7 +4143,7 @@
          "Strength ",
          "Constitution"
       ],
-      "divineSkill": [
+      "divineSkillFilter": [
          "Athletics"
       ],
       "divineFontFilter": [
@@ -4187,7 +4187,7 @@
          "Dexterity ",
          "Charisma"
       ],
-      "divineSkill": [
+      "divineSkillFilter": [
          "Stealth"
       ],
       "divineFontFilter": [
@@ -4231,7 +4231,7 @@
          "Constitution ",
          "Wisdom"
       ],
-      "divineSkill": [
+      "divineSkillFilter": [
          "Occultism"
       ],
       "divineFontFilter": [
@@ -4274,7 +4274,7 @@
          "Intelligence ",
          "Wisdom"
       ],
-      "divineSkill": [
+      "divineSkillFilter": [
          "Occultism"
       ],
       "divineFontFilter": [
@@ -4316,7 +4316,7 @@
          "Wisdom ",
          "Charisma"
       ],
-      "divineSkill": [
+      "divineSkillFilter": [
          "Survival"
       ],
       "divineFontFilter": [
@@ -4360,7 +4360,7 @@
          "Strength ",
          "Wisdom"
       ],
-      "divineSkill": [
+      "divineSkillFilter": [
          "Occultism"
       ],
       "divineFontFilter": [
@@ -4406,7 +4406,7 @@
          "Dexterity ",
          "Intelligence"
       ],
-      "divineSkill": [
+      "divineSkillFilter": [
          "Occultism"
       ],
       "divineFontFilter": [
@@ -4449,7 +4449,7 @@
          "Constitution ",
          "Charisma"
       ],
-      "divineSkill": [
+      "divineSkillFilter": [
          "Nature"
       ],
       "divineFontFilter": [
@@ -4492,7 +4492,7 @@
          "Intelligence ",
          "Charisma"
       ],
-      "divineSkill": [
+      "divineSkillFilter": [
          "Deception"
       ],
       "divineFontFilter": [
@@ -4535,7 +4535,7 @@
          "Intelligence ",
          "Wisdom"
       ],
-      "divineSkill": [
+      "divineSkillFilter": [
          "Society"
       ],
       "divineFontFilter": [
@@ -4580,7 +4580,7 @@
          "Wisdom ",
          "Charisma"
       ],
-      "divineSkill": [
+      "divineSkillFilter": [
          "Performance"
       ],
       "divineFontFilter": [
@@ -4625,7 +4625,7 @@
          "Strength ",
          "Constitution"
       ],
-      "divineSkill": [
+      "divineSkillFilter": [
          "Deception"
       ],
       "divineFontFilter": [
@@ -4670,7 +4670,7 @@
          "Strength ",
          "Dexterity"
       ],
-      "divineSkill": [
+      "divineSkillFilter": [
          "Stealth"
       ],
       "divineFontFilter": [
@@ -4715,7 +4715,7 @@
          "Constitution ",
          "Charisma"
       ],
-      "divineSkill": [
+      "divineSkillFilter": [
          "Athletics"
       ],
       "divineFontFilter": [
@@ -4759,7 +4759,7 @@
          "Dexterity ",
          "Constitution"
       ],
-      "divineSkill": [
+      "divineSkillFilter": [
          "Survival"
       ],
       "divineFontFilter": [
@@ -4803,7 +4803,7 @@
          "Dexterity ",
          "Charisma"
       ],
-      "divineSkill": [
+      "divineSkillFilter": [
          "Acrobatics"
       ],
       "divineFontFilter": [
@@ -4847,7 +4847,7 @@
          "Constitution ",
          "Charisma"
       ],
-      "divineSkill": [
+      "divineSkillFilter": [
          "Nature"
       ],
       "divineFontFilter": [
@@ -4892,7 +4892,7 @@
          "Strength ",
          "Charisma"
       ],
-      "divineSkill": [
+      "divineSkillFilter": [
          "Intimidation"
       ],
       "divineFontFilter": [
@@ -4936,7 +4936,7 @@
          "Charisma ",
          "Intelligence"
       ],
-      "divineSkill": [
+      "divineSkillFilter": [
          "Crafting"
       ],
       "divineFontFilter": [
@@ -4978,7 +4978,7 @@
          "Dexterity ",
          "Wisdom"
       ],
-      "divineSkill": [
+      "divineSkillFilter": [
          "Survival"
       ],
       "divineFontFilter": [
@@ -5046,7 +5046,7 @@
          "Intelligence ",
          "Wisdom"
       ],
-      "divineSkill": [
+      "divineSkillFilter": [
          "Arcana"
       ],
       "divineFontFilter": [
@@ -5089,7 +5089,7 @@
          "Wisdom ",
          "Charisma"
       ],
-      "divineSkill": [
+      "divineSkillFilter": [
          "Society"
       ],
       "divineFontFilter": [
@@ -5132,7 +5132,7 @@
          "Constitution ",
          "Charisma"
       ],
-      "divineSkill": [
+      "divineSkillFilter": [
          "Diplomacy"
       ],
       "divineFontFilter": [
@@ -5174,7 +5174,7 @@
          "Dexterity ",
          "Charisma"
       ],
-      "divineSkill": [
+      "divineSkillFilter": [
          "Performance"
       ],
       "divineFontFilter": [
@@ -5216,7 +5216,7 @@
          "Dexterity ",
          "Wisdom"
       ],
-      "divineSkill": [
+      "divineSkillFilter": [
          "Stealth"
       ],
       "divineFontFilter": [
@@ -5259,7 +5259,7 @@
          "Strength ",
          "Constitution"
       ],
-      "divineSkill": [
+      "divineSkillFilter": [
          "Survival"
       ],
       "divineFontFilter": [
@@ -5300,7 +5300,7 @@
          "Constitution ",
          "Wisdom"
       ],
-      "divineSkill": [
+      "divineSkillFilter": [
          "Athletics"
       ],
       "divineFontFilter": [
@@ -5344,7 +5344,7 @@
          "Intelligence ",
          "Charisma"
       ],
-      "divineSkill": [
+      "divineSkillFilter": [
          "Diplomacy"
       ],
       "divineFontFilter": [
@@ -5387,7 +5387,7 @@
          "Strength ",
          "Charisma"
       ],
-      "divineSkill": [
+      "divineSkillFilter": [
          "Athletics"
       ],
       "divineFontFilter": [
@@ -5430,7 +5430,7 @@
          "Constitution ",
          "Wisdom"
       ],
-      "divineSkill": [
+      "divineSkillFilter": [
          "Nature"
       ],
       "divineFontFilter": [
@@ -5474,7 +5474,7 @@
          "Dexterity ",
          "Intelligence"
       ],
-      "divineSkill": [
+      "divineSkillFilter": [
          "Arcana"
       ],
       "divineFontFilter": [
@@ -5518,7 +5518,7 @@
          "Strength ",
          "Wisdom"
       ],
-      "divineSkill": [
+      "divineSkillFilter": [
          "Intimidation"
       ],
       "divineFontFilter": [
@@ -5560,7 +5560,7 @@
          "Wisdom ",
          "Charisma"
       ],
-      "divineSkill": [
+      "divineSkillFilter": [
          "Diplomacy"
       ],
       "divineFontFilter": [
@@ -5603,7 +5603,7 @@
          "Wisdom ",
          "Charisma"
       ],
-      "divineSkill": [
+      "divineSkillFilter": [
          "Society"
       ],
       "divineFontFilter": [
@@ -5645,7 +5645,7 @@
          "Constitution ",
          "Wisdom"
       ],
-      "divineSkill": [
+      "divineSkillFilter": [
          "Survival"
       ],
       "divineFontFilter": [
@@ -5686,7 +5686,7 @@
          "Strength ",
          "Charisma"
       ],
-      "divineSkill": [
+      "divineSkillFilter": [
          "Intimidation"
       ],
       "divineFontFilter": [
@@ -5730,7 +5730,7 @@
          "Intelligence ",
          "Charisma"
       ],
-      "divineSkill": [
+      "divineSkillFilter": [
          "Society"
       ],
       "divineFontFilter": [
@@ -5774,7 +5774,7 @@
          "Strength ",
          "Intelligence"
       ],
-      "divineSkill": [
+      "divineSkillFilter": [
          "Arcana"
       ],
       "divineFontFilter": [
@@ -5817,7 +5817,7 @@
          "Strength ",
          "Wisdom"
       ],
-      "divineSkill": [
+      "divineSkillFilter": [
          "Stealth"
       ],
       "divineFontFilter": [
@@ -5859,7 +5859,7 @@
          "Constitution ",
          "Charisma"
       ],
-      "divineSkill": [
+      "divineSkillFilter": [
          "Medicine"
       ],
       "divineFontFilter": [
@@ -5903,7 +5903,7 @@
          "Intelligence ",
          "Wisdom"
       ],
-      "divineSkill": [
+      "divineSkillFilter": [
          "Occultism"
       ],
       "divineFontFilter": [
@@ -5947,7 +5947,7 @@
          "Dexterity ",
          "Wisdom"
       ],
-      "divineSkill": [
+      "divineSkillFilter": [
          "Acrobatics"
       ],
       "divineFontFilter": [
@@ -5990,7 +5990,7 @@
          "Intelligence ",
          "Wisdom"
       ],
-      "divineSkill": [
+      "divineSkillFilter": [
          "Society"
       ],
       "divineFontFilter": [
@@ -6033,7 +6033,7 @@
          "Strength ",
          "Constitution"
       ],
-      "divineSkill": [
+      "divineSkillFilter": [
          "Medicine"
       ],
       "divineFontFilter": [
@@ -6076,7 +6076,7 @@
          "Constitution ",
          "Intelligence"
       ],
-      "divineSkill": [
+      "divineSkillFilter": [
          "Occultism"
       ],
       "divineFontFilter": [
@@ -6119,7 +6119,7 @@
          "Strength ",
          "Constitution"
       ],
-      "divineSkill": [
+      "divineSkillFilter": [
          "Athletics"
       ],
       "divineFontFilter": [
@@ -6162,7 +6162,7 @@
          "Constitution ",
          "Wisdom"
       ],
-      "divineSkill": [
+      "divineSkillFilter": [
          "Nature"
       ],
       "divineFontFilter": [
@@ -6205,7 +6205,7 @@
          "Constitution ",
          "Wisdom"
       ],
-      "divineSkill": [
+      "divineSkillFilter": [
          "Survival"
       ],
       "divineFontFilter": [
@@ -6248,7 +6248,7 @@
          "Strength ",
          "Intelligence"
       ],
-      "divineSkill": [
+      "divineSkillFilter": [
          "Occultism"
       ],
       "divineFontFilter": [
@@ -6291,7 +6291,7 @@
          "Constitution ",
          "Wisdom"
       ],
-      "divineSkill": [
+      "divineSkillFilter": [
          "Occultism"
       ],
       "divineFontFilter": [
@@ -6334,7 +6334,7 @@
          "Intelligence ",
          "Wisdom"
       ],
-      "divineSkill": [
+      "divineSkillFilter": [
          "Occultism"
       ],
       "divineFontFilter": [
@@ -6378,7 +6378,7 @@
          "Constitution ",
          "Wisdom"
       ],
-      "divineSkill": [
+      "divineSkillFilter": [
          "Survival"
       ],
       "divineFontFilter": [
@@ -6421,7 +6421,7 @@
          "Constitution ",
          "Wisdom"
       ],
-      "divineSkill": [
+      "divineSkillFilter": [
          "Diplomacy"
       ],
       "divineFontFilter": [
@@ -6463,7 +6463,7 @@
          "Dexterity ",
          "Wisdom"
       ],
-      "divineSkill": [
+      "divineSkillFilter": [
          "Occultism"
       ],
       "divineFontFilter": [
@@ -6506,7 +6506,7 @@
          "Dexterity ",
          "Intelligence"
       ],
-      "divineSkill": [
+      "divineSkillFilter": [
          "Crafting"
       ],
       "divineFontFilter": [
@@ -6549,7 +6549,7 @@
          "Wisdom ",
          "Charisma"
       ],
-      "divineSkill": [
+      "divineSkillFilter": [
          "Diplomacy"
       ],
       "divineFontFilter": [
@@ -6591,7 +6591,7 @@
          "Intelligence ",
          "Wisdom"
       ],
-      "divineSkill": [
+      "divineSkillFilter": [
          "Arcana"
       ],
       "divineFontFilter": [
@@ -6636,7 +6636,7 @@
          "Intelligence ",
          "Charisma"
       ],
-      "divineSkill": [
+      "divineSkillFilter": [
          "Society"
       ],
       "divineFontFilter": [
@@ -6679,7 +6679,7 @@
          "Constitution ",
          "Charisma"
       ],
-      "divineSkill": [
+      "divineSkillFilter": [
          "Performance"
       ],
       "divineFontFilter": [
@@ -6721,7 +6721,7 @@
          "Intelligence ",
          "Charisma"
       ],
-      "divineSkill": [
+      "divineSkillFilter": [
          "Deception"
       ],
       "divineFontFilter": [
@@ -6762,7 +6762,7 @@
          "Constitution ",
          "Wisdom"
       ],
-      "divineSkill": [
+      "divineSkillFilter": [
          "Nature"
       ],
       "divineFontFilter": [
@@ -6828,7 +6828,7 @@
          "Dexterity ",
          "Intelligence"
       ],
-      "divineSkill": [
+      "divineSkillFilter": [
          "Arcana"
       ],
       "divineFontFilter": [
@@ -6870,7 +6870,7 @@
          "Constitution ",
          "Wisdom"
       ],
-      "divineSkill": [
+      "divineSkillFilter": [
          "Nature"
       ],
       "divineFontFilter": [
@@ -6912,7 +6912,7 @@
          "Intelligence ",
          "Charisma"
       ],
-      "divineSkill": [
+      "divineSkillFilter": [
          "Occultism"
       ],
       "divineFontFilter": [
@@ -6958,7 +6958,7 @@
          "Constitution ",
          "Wisdom"
       ],
-      "divineSkill": [
+      "divineSkillFilter": [
          "Diplomacy"
       ],
       "divineFontFilter": [
@@ -7002,7 +7002,7 @@
          "Dexterity ",
          "Intelligence"
       ],
-      "divineSkill": [
+      "divineSkillFilter": [
          "Survival"
       ],
       "divineFontFilter": [
@@ -7046,7 +7046,7 @@
          "Strength ",
          "Intelligence"
       ],
-      "divineSkill": [
+      "divineSkillFilter": [
          "Society"
       ],
       "divineFontFilter": [
@@ -7090,7 +7090,7 @@
          "Intelligence ",
          "Charisma"
       ],
-      "divineSkill": [
+      "divineSkillFilter": [
          "Diplomacy"
       ],
       "divineFontFilter": [
@@ -7132,7 +7132,7 @@
          "Constitution ",
          "Wisdom"
       ],
-      "divineSkill": [
+      "divineSkillFilter": [
          "Medicine"
       ],
       "divineFontFilter": [
@@ -7173,7 +7173,7 @@
          "Strength ",
          "Dexterity"
       ],
-      "divineSkill": [
+      "divineSkillFilter": [
          "Intimidation"
       ],
       "divineFontFilter": [
@@ -7216,7 +7216,7 @@
          "Wisdom ",
          "Charisma"
       ],
-      "divineSkill": [
+      "divineSkillFilter": [
          "Deception"
       ],
       "divineFontFilter": [
@@ -7259,7 +7259,7 @@
          "Strength ",
          "Wisdom"
       ],
-      "divineSkill": [
+      "divineSkillFilter": [
          "Nature"
       ],
       "divineFontFilter": [
@@ -7308,7 +7308,7 @@
          "Constitution ",
          "Intelligence"
       ],
-      "divineSkill": [
+      "divineSkillFilter": [
          "Medicine"
       ],
       "divineFontFilter": [
@@ -7351,7 +7351,7 @@
          "Dexterity ",
          "Charisma"
       ],
-      "divineSkill": [
+      "divineSkillFilter": [
          "Diplomacy"
       ],
       "divineFontFilter": [
@@ -7395,7 +7395,7 @@
          "Dexterity ",
          "Intelligence"
       ],
-      "divineSkill": [
+      "divineSkillFilter": [
          "Crafting"
       ],
       "divineFontFilter": [
@@ -7438,7 +7438,7 @@
          "Constitution ",
          "Charisma"
       ],
-      "divineSkill": [
+      "divineSkillFilter": [
          "Intimidation"
       ],
       "divineFontFilter": [
@@ -7480,7 +7480,7 @@
          "Strength ",
          "Dexterity"
       ],
-      "divineSkill": [
+      "divineSkillFilter": [
          "Athletics"
       ],
       "divineFontFilter": [
@@ -7525,7 +7525,7 @@
          "Constitution ",
          "Charisma"
       ],
-      "divineSkill": [
+      "divineSkillFilter": [
          "Performance"
       ],
       "divineFontFilter": [
@@ -7568,7 +7568,7 @@
          "Dexterity ",
          "Constitution"
       ],
-      "divineSkill": [
+      "divineSkillFilter": [
          "Performance"
       ],
       "divineFontFilter": [
@@ -7610,7 +7610,7 @@
          "Intelligence ",
          "Wisdom"
       ],
-      "divineSkill": [
+      "divineSkillFilter": [
          "Performance"
       ],
       "divineFontFilter": [
@@ -7652,7 +7652,7 @@
          "Strength ",
          "Constitution"
       ],
-      "divineSkill": [
+      "divineSkillFilter": [
          "Nature"
       ],
       "divineFontFilter": [
@@ -7697,7 +7697,7 @@
          "Dexterity ",
          "Intelligence"
       ],
-      "divineSkill": [
+      "divineSkillFilter": [
          "Thievery"
       ],
       "divineFontFilter": [
@@ -7766,7 +7766,7 @@
          "Wisdom ",
          "Charisma"
       ],
-      "divineSkill": [
+      "divineSkillFilter": [
          "Arcana"
       ],
       "divineFontFilter": [
@@ -7811,7 +7811,7 @@
          "Intelligence ",
          "Wisdom"
       ],
-      "divineSkill": [
+      "divineSkillFilter": [
          "Medicine"
       ],
       "divineFontFilter": [
@@ -7855,7 +7855,7 @@
          "Strength ",
          "Wisdom"
       ],
-      "divineSkill": [
+      "divineSkillFilter": [
          "Society"
       ],
       "divineFontFilter": [
@@ -7898,7 +7898,7 @@
          "Strength ",
          "Charisma"
       ],
-      "divineSkill": [
+      "divineSkillFilter": [
          "Acrobatics"
       ],
       "divineFontFilter": [
@@ -7945,7 +7945,7 @@
          "Constitution ",
          "Intelligence"
       ],
-      "divineSkill": [
+      "divineSkillFilter": [
          "Occultism"
       ],
       "divineFontFilter": [
@@ -7987,7 +7987,7 @@
          "Dexterity ",
          "Intelligence"
       ],
-      "divineSkill": [
+      "divineSkillFilter": [
          "Stealth"
       ],
       "divineFontFilter": [
@@ -8031,7 +8031,7 @@
          "Strength ",
          "Wisdom"
       ],
-      "divineSkill": [
+      "divineSkillFilter": [
          "Athletics"
       ],
       "divineFontFilter": [
@@ -8076,7 +8076,7 @@
          "Intelligence ",
          "Wisdom"
       ],
-      "divineSkill": [
+      "divineSkillFilter": [
          "Nature"
       ],
       "divineFontFilter": [
@@ -8119,7 +8119,7 @@
          "Constitution ",
          "Intelligence"
       ],
-      "divineSkill": [
+      "divineSkillFilter": [
          "Crafting"
       ],
       "divineFontFilter": [
@@ -8163,7 +8163,7 @@
          "Strength ",
          "Constitution"
       ],
-      "divineSkill": [
+      "divineSkillFilter": [
          "Medicine"
       ],
       "divineFontFilter": [
@@ -8206,7 +8206,7 @@
          "Strength ",
          "Charisma"
       ],
-      "divineSkill": [
+      "divineSkillFilter": [
          "Deception"
       ],
       "divineFontFilter": [
@@ -8249,7 +8249,7 @@
          "Strength ",
          "Dexterity"
       ],
-      "divineSkill": [
+      "divineSkillFilter": [
          "Athletics"
       ],
       "divineFontFilter": [
@@ -8294,7 +8294,7 @@
          "Intelligence ",
          "Wisdom"
       ],
-      "divineSkill": [
+      "divineSkillFilter": [
          "Society"
       ],
       "divineFontFilter": [
@@ -8336,7 +8336,7 @@
          "Dexterity ",
          "Intelligence"
       ],
-      "divineSkill": [
+      "divineSkillFilter": [
          "Thievery"
       ],
       "divineFontFilter": [
@@ -8380,7 +8380,7 @@
          "Intelligence ",
          "Charisma"
       ],
-      "divineSkill": [
+      "divineSkillFilter": [
          "Performance"
       ],
       "divineFontFilter": [
@@ -8424,7 +8424,7 @@
          "Constitution ",
          "Wisdom"
       ],
-      "divineSkill": [
+      "divineSkillFilter": [
          "Survival"
       ],
       "divineFontFilter": [
@@ -8468,7 +8468,7 @@
          "Dexterity ",
          "Wisdom"
       ],
-      "divineSkill": [
+      "divineSkillFilter": [
          "Acrobatics"
       ],
       "divineFontFilter": [
@@ -8512,7 +8512,7 @@
          "Strength ",
          "Charisma"
       ],
-      "divineSkill": [
+      "divineSkillFilter": [
          "Performance"
       ],
       "divineFontFilter": [
