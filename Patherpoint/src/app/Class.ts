@@ -41,7 +41,7 @@ export class Class {
                 this.ancestry.gainItems.forEach(freeItem => {
                     let items: Equipment[] = characterService.get_InventoryItems()[freeItem.type].filter(item => item.name == freeItem.name);
                     if (items.length) {
-                        characterService.drop_InventoryItem(items[0]);
+                        characterService.drop_InventoryItem(items[0], false, true, true, freeItem.amount);
                     }
                 });
             }
@@ -59,7 +59,8 @@ export class Class {
             if (this.ancestry.gainItems.length) {
                 this.ancestry.gainItems.forEach(freeItem => {
                     let item: Equipment = itemsService.get_Items()[freeItem.type].filter(item => item.name == freeItem.name)[0];
-                    characterService.grant_InventoryItem(item, false, false, true, freeItem.amount);
+                    let grantedItem = characterService.grant_InventoryItem(item, false, false, true, freeItem.amount);
+                    freeItem.id = grantedItem.id;
                 });
             }
         }

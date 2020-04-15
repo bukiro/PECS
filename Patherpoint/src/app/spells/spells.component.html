@@ -1,6 +1,6 @@
-<button class="minimizebutton lower" [ngStyle]="{'background-color':get_Accent()}" (click)="minimize()">&#8691;</button>
+<button class="minimizebutton lower" (click)="minimize()">&#8691;</button>
 <div id="spells-height" class="itemBox">
-    <button class="list-item" [ngStyle]="{'background-color':get_Accent()}" (click)="toggleSpellMenu()">Close</button>
+    <button class="list-item" (click)="toggleSpellMenu()">Close</button>
     <div class="loading" *ngIf="still_loading()">Loading</div>
     <ng-container *ngIf="!still_loading()">
         <ng-container *ngIf="get_Character().class">
@@ -8,7 +8,7 @@
                 <h3 *ngIf="level.number > 0">Level {{level.number}}</h3>
                 <!--Fixed information-->
                 <div class="fullsize-only list-item fancy-button" *ngIf="level.number > 0">
-                    <button class="row sublist-toggle fancy-button" [ngStyle]="{'color':get_Accent()}"
+                    <button class="row sublist-toggle fancy-button"
                         (click)="toggle_List('showFixedChanges'+level.number)">
                         Show fixed changes
                     </button>
@@ -25,7 +25,7 @@
                     <div class="list-item" *ngIf="choice.available"
                         [className]="((choice.spells.length > choice.available || cannotTakeSome(choice)) ? 'problem' : '') +' '+ ((choice.available == choice.spells.length) ? 'fullsize-only' : '')">
                         <button class="row sublist-toggle"
-                            [ngStyle]="(choice.available == choice.spells.length) ? {'color':get_Accent()} : {'background-color':get_Accent()}"
+                           
                             [className]="(choice.available == choice.spells.length) ? 'fancy-button' : ''"
                             (click)="toggle_List(choice.source+choice.id)">
                             {{(choice.level) ? "Level "+choice.level+" " : ""}}{{choice.type}} Feats
@@ -34,7 +34,7 @@
                                 (choice.spells.length) ? ": "+ choice.spells[0].name : ""}}
                         </button>
                         <div class="list-item sublist"
-                            [ngStyle]="(choice.available == choice.spells.length) ? {} : {'border-color':get_Accent()}"
+                           
                             [className]="(choice.available == choice.spells.length ) ? 'fancy-list' : ''"
                             *ngIf="get_ShowList()==choice.source+choice.id">
                             <div title="{{(this.get_ShowItem()==choice.id+spell.name+'desc') ? '' : spell.shortDesc}}"
@@ -49,7 +49,7 @@
                                 <cite class="problem" *ngFor="let reason of cannotTake(spell, choice)">
                                     {{reason}}
                                 </cite>
-                                <button [ngStyle]="{'background-color':get_Accent()}"
+                                <button
                                     (click)="toggle_Item(choice.id+spell.name+'desc')">
                                     Show Description
                                 </button>
@@ -76,7 +76,7 @@
                                 <cite class="problem" *ngFor="let reason of cannotTake(spell, choice)">
                                     {{reason}}
                                 </cite>
-                                <button [ngStyle]="{'background-color':get_Accent()}"
+                                <button
                                     (click)="toggle_Item(choice.id+spell.name+'desc')">
                                     Show Description
                                 </button>

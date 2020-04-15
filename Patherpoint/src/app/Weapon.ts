@@ -3,9 +3,9 @@ import { EffectsService } from './effects.service';
 import { WornItem } from './WornItem';
 import { Effect } from './Effect';
 import { Equipment } from './Equipment';
-import { Shield } from './Shield';
-import { Armor } from './Armor';
 import { WeaponRune } from './WeaponRune';
+import { findReadVarNames } from '@angular/compiler/src/output/output_ast';
+import { Specialization } from './Specialization';
 
 export class Weapon extends Equipment {
     //Weapons should be type "weapons" to be found in the database
@@ -28,6 +28,8 @@ export class Weapon extends Equipment {
     public dmgType: string = "";
     //Some weapons add additional damage like +1d4F
     public extraDamage: string = ""
+    //What happens on a critical hit with this weapon?
+    public criticalHint: string = ""
     //Number of dice for Damage: usually 1 for an unmodified weapon
     public dicenum: number = 1;
     //Size of the damage dice: usually 4-12
@@ -336,5 +338,18 @@ export class Weapon extends Equipment {
         var dmgResult = baseDice + dmgBonusTotal + " " + this.dmgType + this.get_ExtraDamage(characterService, range);
         explain = explain.substr(1);
         return [dmgResult, explain];
+    }
+    get_CritSpecialization(characterService: CharacterService) {
+        let character = characterService.get_Character()
+        let specializations: Specialization[] = [];
+        character.get_FeatsTaken(0, character.level).map(gain => characterService.get_FeatsAndFeatures(gain.name)[0]).filter(feat => feat.critSpecialization).forEach(feat => {
+            if (feat.critSpecialization.indexOf(this.group) > -1 || feat.critSpecialization.indexOf("All") > -1) {
+                specializations = characterService.get_Specializations(this.group);
+            }
+        })
+        if (this.traits.indexOf("Monk") > -1 && character.get_FeatsTaken(0, character.level, "Monastic Weaponry").length && character.get_FeatsTaken(0, character.level, "Brawling Focus").length) {
+            specializations =  characterService.get_Specializations(this.group);
+        }
+        return specializations;
     }
 }

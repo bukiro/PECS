@@ -27,4 +27,17 @@
             {{heightened.desc}}
         </span>
     </div>
+    <div class="row left-aligned" *ngFor="let feat of get_FeatsShowingOn(spell.name)">
+        <h4>{{feat.name}}</h4>
+        <div class="row left-aligned">
+            <cite class="trait" *ngFor="let trait of feat.traits"
+                title="{{get_Traits(trait)[0].description}}">{{trait}}</cite>
+        </div>
+        <div class="row left-aligned" *ngFor="let desc of feat.desc.split('\n\n')">
+            <p *ngIf="desc.split('\n').length == 1">{{desc}}</p>
+            <ul *ngIf="desc.split('\n').length > 1">
+                <li *ngFor="let line of desc.split('\n')">{{line}}</li>
+            </ul>
+        </div>
+    </div>
 </div>

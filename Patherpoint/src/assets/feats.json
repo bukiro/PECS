@@ -4784,6 +4784,9 @@
       "name": "Rain of Embers Stance",
       "shortdesc": "You enter the stance of an enraged phoenix.",
       "desc": "",
+      "gainActivities": [
+         "Rain of Embers Stance"
+      ],
       "traits": [
          "Monk",
          "Rare",
@@ -4794,6 +4797,9 @@
       "name": "Tiger Stance",
       "shortdesc": "You enter the stance of a tiger and can make tiger claw attacks.",
       "desc": "",
+      "gainActivities": [
+         "Tiger Stance"
+      ],
       "traits": [
          "Monk",
          "Stance"
@@ -4803,6 +4809,9 @@
       "name": "Wolf Stance",
       "shortdesc": "You enter the stance of a wolf, low to the ground with your hands held like fanged teeth.",
       "desc": "",
+      "gainActivities": [
+         "Wolf Stance"
+      ],
       "traits": [
          "Monk",
          "Stance"
@@ -4814,7 +4823,8 @@
       "desc": "",
       "traits": [
          "Monk"
-      ]
+      ],
+      "critSpecialization": "Brawling"
    },
    {
       "name": "Crushing Grab",
@@ -4835,7 +4845,8 @@
    {
       "name": "Elemental Fist",
       "shortdesc": "You call upon the power of the elements, infusing your ki with elemental energy and allowing your attacks to deal energy damage.",
-      "desc": "",
+      "desc": "You call upon the power of the elements, infusing your ki with elemental energy and allowing your attacks to deal energy damage. When you cast ki strike, in addition to the damage types normally available, you can deliver the extra damage in the form of a gust of storm-tossed wind (dealing electricity damage and gaining the air trait), a chunk of stone (dealing bludgeoning damage and gaining the earth trait), a flickering flame (dealing fire damage), or a crashing wave of frigid water (dealing cold damage and gaining the water trait).",
+      "showon": "Ki Strike",
       "featreq": "Ki Strike",
       "traits": [
          "Monk"

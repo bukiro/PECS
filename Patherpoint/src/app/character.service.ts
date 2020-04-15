@@ -164,40 +164,37 @@ export class CharacterService {
         } else { return new Character() }
     }
 
-    get_Accent(hover: boolean = false) {
+    get_Accent() {
         if (!this.still_loading()) {
-            if (hover) {
-                function hexToRgb(hex) {
-                    if (hex.length == 4) {
-                        var result = /^#?([a-f\d]{1})([a-f\d]{1})([a-f\d]{1})$/i.exec(hex);
-                        return result ? {
-                            r: parseInt(result[1] + result[1], 16),
-                            g: parseInt(result[2] + result[2], 16),
-                            b: parseInt(result[3] + result[3], 16),
-                            a: 0.8
-                        } : null;
-                    } else if (hex.length == 7) {
-                        var result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
-                        return result ? {
-                            r: parseInt(result[1], 16),
-                            g: parseInt(result[2], 16),
-                            b: parseInt(result[3], 16),
-                            a: 0.8
-                        } : null;
-                    }
+            function hexToRgb(hex) {
+                if (hex.length == 4) {
+                    var result = /^#?([a-f\d]{1})([a-f\d]{1})([a-f\d]{1})$/i.exec(hex);
+                    return result ? {
+                        r: parseInt(result[1] + result[1], 16),
+                        g: parseInt(result[2] + result[2], 16),
+                        b: parseInt(result[3] + result[3], 16),
+                    } : null;
+                } else if (hex.length == 7) {
+                    var result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+                    return result ? {
+                        r: parseInt(result[1], 16),
+                        g: parseInt(result[2], 16),
+                        b: parseInt(result[3], 16),
+                    } : null;
                 }
-                let original = this.get_Character().settings.accent;
-                if (original.length == 4 || original.length == 7) {
+            }
+            let original = this.get_Character().settings.accent;
+            if (original.length == 4 || original.length == 7) {
+                try {
                     let rgba = hexToRgb(original)
-                    let result = "rgba(" + rgba.r + "," + rgba.g + "," + rgba.b + "," + rgba.a + ")";
-                    return result;
-                } else {
-                    return this.get_Character().settings.accent;
+                    let result = rgba.r + "," + rgba.g + "," + rgba.b;
+                    return result;}
+                catch(error) {
+                    return "25, 118, 210"
                 }
             } else {
-                return this.get_Character().settings.accent;
+                return "25, 118, 210";
             }
-
         }
     }
 
@@ -296,6 +293,10 @@ export class CharacterService {
         } else { return new ItemCollection() }
     }
 
+    get_Specializations(group: string = "") {
+        return this.itemsService.get_Specializations(group);
+    }
+
     get_InvestedItems() {
         return this.me.inventory.allEquipment().filter(item => item.invested)
     }
@@ -386,22 +387,23 @@ export class CharacterService {
             }
         }
         //Add all Items that you get from being granted this one
-        if (item["gainItems"] && item["gainItems"].length) {
-            item["gainItems"].filter(gainItem => gainItem.on == "grant").forEach(gainItem => {
-                let newItem: Item = this.itemsService.get_Items()[gainItem.type].filter(item => item.name == gainItem.name)[0];
-                let equip = true;
-                //Don't equip the new item if it's a shield or armor and this one is too - only one shield or armor can be equipped
-                if ((item.type == "armors" || item.type == "shields") && newItem.type == item.type) {
-                    equip = false;
+        if (returnedInventoryItem["gainItems"] && returnedInventoryItem["gainItems"].length) {
+            returnedInventoryItem["gainItems"].filter(gainItem => gainItem.on == "grant").forEach(gainItem => {
+                let newItem: Item = this.get_Items()[gainItem.type].filter(item => item.name == gainItem.name)[0];
+                if (newItem.can_Stack()) {
+                    this.grant_InventoryItem(newItem, true, false, false, gainItem.amount);
+                } else {
+                    let equip = true;
+                    //Don't equip the new item if it's a shield or armor and this one is too - only one shield or armor can be equipped
+                    if ((returnedInventoryItem.type == "armors" || returnedInventoryItem.type == "shields") && newItem.type == returnedInventoryItem.type) {
+                        equip = false;
+                    }
+                    let grantedItem = this.grant_InventoryItem(newItem, true, false, equip);
+                    gainItem.id = grantedItem.id;
+                    if (grantedItem.get_Name) {
+                        grantedItem.displayName = grantedItem.name + " (granted by " + returnedInventoryItem.name + ")"
+                    };
                 }
-                let newAmount: number = 1;
-                if (gainItem.amount) {
-                    newAmount = gainItem.amount;
-                }
-                let grantedItem = this.grant_InventoryItem(newItem, true, false, equip, newAmount);
-                if (grantedItem.get_Name) {
-                    grantedItem.displayName = grantedItem.name + " (granted by " + returnedInventoryItem.name + ")"
-                };
             });
         }
         if (changeAfter) {
@@ -410,34 +412,54 @@ export class CharacterService {
         return returnedInventoryItem;
     }
 
-    drop_InventoryItem(item: Item, changeAfter: boolean = true, equipBasicItems: boolean = true) {
-        if (item["equipped"]) {
-            this.onEquip(item as Equipment, false, false);
-        } else if (item["invested"]) {
-            this.onInvest(item as Equipment, false, false);
-        }
-        if (item["propertyRunes"]) {
-            item["propertyRunes"].filter((rune: Rune) => rune.loreChoices.length).forEach((rune: Rune) => {
-                this.remove_RuneLore(rune);
-            })
-        }
-        if (item["activities"]) {
-            item["activities"].forEach(activity => {
-                if (activity.active) {
-                    this.activitiesService.activate_Activity(this, this.timeService, this.itemsService, activity, activity, false);
-                }
-            })
-        }
-        if (item["gainActivities"]) {
-            item["gainActivities"].forEach(gain => {
-                if (gain.active) {
-                    this.activitiesService.activate_Activity(this, this.timeService, this.itemsService, gain, this.activitiesService.get_Activities(gain.name)[0], false);
-                }
-            })
-        }
-        this.me.inventory[item.type] = this.me.inventory[item.type].filter(any_item => any_item !== item);
-        if (equipBasicItems) {
-            this.equip_BasicItems();
+    drop_InventoryItem(item: Item, changeAfter: boolean = true, equipBasicItems: boolean = true, including: boolean = true, amount: number = 1) {
+        if (amount < item.amount) {
+            item.amount -= amount;
+        } else {
+            if (item["equipped"]) {
+                this.onEquip(item as Equipment, false, false);
+            } else if (item["invested"]) {
+                this.onInvest(item as Equipment, false, false);
+            }
+            if (item["propertyRunes"]) {
+                item["propertyRunes"].filter((rune: Rune) => rune.loreChoices.length).forEach((rune: Rune) => {
+                    this.remove_RuneLore(rune);
+                })
+            }
+            if (item["activities"]) {
+                item["activities"].forEach(activity => {
+                    if (activity.active) {
+                        this.activitiesService.activate_Activity(this, this.timeService, this.itemsService, activity, activity, false);
+                    }
+                })
+            }
+            if (item["gainActivities"]) {
+                item["gainActivities"].forEach(gain => {
+                    if (gain.active) {
+                        this.activitiesService.activate_Activity(this, this.timeService, this.itemsService, gain, this.activitiesService.get_Activities(gain.name)[0], false);
+                    }
+                })
+            }
+            if (including && item["gainItems"] && item["gainItems"].length) {
+                item["gainItems"].filter((gainItem: ItemGain) => gainItem.on == "grant").forEach(gainItem => {
+                    if (this.get_Items()[gainItem.type].filter((item: Item) => item.name == gainItem.name)[0].can_Stack()) {
+                        let items: Item[] = this.get_InventoryItems()[gainItem.type].filter((item: Item) => item.name == gainItem.name);
+                        if (items.length) {
+                            this.drop_InventoryItem(items[0], false, false, true, gainItem.amount);
+                        }
+                    } else {
+                        let items: Item[] = this.get_InventoryItems()[gainItem.type].filter((item: Item) => item.id == gainItem.id);
+                        if (items.length) {
+                            this.drop_InventoryItem(items[0], false, false, true);
+                        }
+                        gainItem.id = "";
+                    }
+                });
+            }
+            this.me.inventory[item.type] = this.me.inventory[item.type].filter((any_item: Item) => any_item !== item);
+            if (equipBasicItems) {
+                this.equip_BasicItems();
+            }
         }
         if (changeAfter) {
             this.set_Changed();
@@ -492,14 +514,22 @@ export class CharacterService {
             }
             //Add all Items that you get from equipping this one
             if (item["gainItems"] && item["gainItems"].length) {
-                item["gainItems"].filter(gainItem => gainItem.on == "equip").forEach(gainItem => {
-                    let newItem: Item = this.itemsService.get_Items()[gainItem.type].filter(item => item.name == gainItem.name)[0];
-                    let equip = true;
-                    //Don't equip the new item if it's a shield or armor and this one is too - only one shield or armor can be equipped
-                    if ((item.type == "armors" || item.type == "shields") && newItem.type == item.type) {
-                        equip = false;
+                item["gainItems"].filter((gainItem: ItemGain) => gainItem.on == "equip").forEach(gainItem => {
+                    let newItem: Item = this.itemsService.get_Items()[gainItem.type].filter((item: Item) => item.name == gainItem.name)[0]
+                    if (newItem.can_Stack()) {
+                        this.grant_InventoryItem(item, false, false, false, gainItem.amount);
+                    } else {
+                        let equip = true;
+                        //Don't equip the new item if it's a shield or armor and this one is too - only one shield or armor can be equipped
+                        if ((item.type == "armors" || item.type == "shields") && newItem.type == item.type) {
+                            equip = false;
+                        }
+                        let grantedItem = this.grant_InventoryItem(item, false, false, equip);
+                        gainItem.id = grantedItem.id;
+                        if (grantedItem.get_Name) {
+                            grantedItem.displayName = grantedItem.name + " (granted by " + item.name + ")"
+                        };
                     }
-                    this.grant_InventoryItem(newItem, false, equip);
                 });
             }
         } else {
@@ -520,10 +550,18 @@ export class CharacterService {
                 this.onInvest(item, false, false);
             }
             if (item["gainItems"] && item["gainItems"].length) {
-                item["gainItems"].filter(gainItem => gainItem.on == "equip").forEach(gainItem => {
-                    let items: Equipment[] = this.get_InventoryItems()[gainItem.type].filter(item => item.name == gainItem.name);
-                    if (items.length) {
-                        this.drop_InventoryItem(items[0], false);
+                item["gainItems"].filter((gainItem: ItemGain) => gainItem.on == "equip").forEach(gainItem => {
+                    if (this.get_Items()[gainItem.type].filter((item: Item) => item.name == gainItem.name)[0].can_Stack()) {
+                        let items: Item[] = this.get_InventoryItems()[gainItem.type].filter((item: Item) => item.name == gainItem.name);
+                        if (items.length) {
+                            this.drop_InventoryItem(items[0], false, false, true, gainItem.amount);
+                        }
+                    } else {
+                        let items: Item[] = this.get_InventoryItems()[gainItem.type].filter((item: Item) => item.id == gainItem.id);
+                        if (items.length) {
+                            this.drop_InventoryItem(items[0], false, false, true);
+                        }
+                        gainItem.id = "";
                     }
                 });
             }
@@ -575,10 +613,10 @@ export class CharacterService {
     equip_BasicItems(changeAfter: boolean = true) {
         if (!this.still_loading() && this.basicItems.length) {
             if (!this.get_InventoryItems().weapons.length) {
-                this.grant_InventoryItem(this.basicItems[0]);
+                this.grant_InventoryItem(this.basicItems[0], true, false, false);
             }
             if (!this.get_InventoryItems().armors.length) {
-                this.grant_InventoryItem(this.basicItems[1]);
+                this.grant_InventoryItem(this.basicItems[1], true, false, false);
             }
             if (!this.get_InventoryItems().weapons.filter(weapon => weapon.equipped == true).length) {
                 this.onEquip(this.get_InventoryItems().weapons[0], true, changeAfter);

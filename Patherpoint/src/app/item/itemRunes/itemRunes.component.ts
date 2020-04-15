@@ -136,7 +136,7 @@ export class ItemRunesComponent implements OnInit {
                             existingRunes[0].amount++;
                         } else {
                             let extractedRune: WeaponRune = this.get_Items().weaponrunes.filter(rune => rune.potency == previousRune)[0];
-                            this.characterService.grant_InventoryItem(extractedRune, false, false);
+                            this.characterService.grant_InventoryItem(extractedRune, false, false, false);
                         }
                     }
                     if (weapon.potencyRune > 0) {

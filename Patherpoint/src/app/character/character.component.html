@@ -1,6 +1,6 @@
-<button class="minimizebutton lower" [ngStyle]="{'background-color':get_Accent()}" (click)="minimize()">&#8691;</button>
+<button class="minimizebutton lower" (click)="minimize()">&#8691;</button>
 <div id="character-height" class="itemBox">
-    <button class="list-item" [ngStyle]="{'background-color':get_Accent()}" (click)="toggleCharacterMenu()">
+    <button class="list-item" (click)="toggleCharacterMenu()">
         Close
     </button>
     <div class="loading" *ngIf="still_loading()">Loading</div>
@@ -45,7 +45,7 @@
         </div>
         <!--BaseValues-->
         <div class="list-item">
-            <button class="row sublist-toggle fancy-button" [ngStyle]="{'color':get_Accent()}"
+            <button class="row sublist-toggle fancy-button"
                 (click)="toggle_List('alternateBaseValues')">
                 Alternate Ability Values: {{(get_Character().baseValues.length) ? "Used" : "Not used"}}
             </button>
@@ -70,13 +70,13 @@
         <!--Class-->
         <div class="list-item" [className]="(get_Character().class.name) ? 'fullsize-only' : ''"
             *ngFor="let listID of ['class']">
-            <button class="row sublist-toggle" (mouseover)="hover = listID" (mouseout)="hover = ''"
-                [ngStyle]="(get_Character().class.name) ? {'color':get_Accent()} : {'background-color':get_Accent()}"
+            <button class="row sublist-toggle"
+               
                 [className]="(get_Character().class.name) ? 'fancy-button' : ''" (click)="toggle_List(listID)">
                 Class{{(get_Character().class.name) ? ": "+ get_Character().class.name : ""}}
             </button>
             <div class="list-item sublist"
-                [ngStyle]="(get_Character().class.name) ? {} : {'border-color':get_Accent(listID)}"
+               
                 [className]="(get_Character().class.name) ? 'fancy-list' : ''" *ngIf="get_showList()==listID">
                 <div class="list-item" *ngFor="let class of get_Classes()">
                     <span>
@@ -95,14 +95,14 @@
             <div class="list-item list-header"
                 [className]="(get_Character().class.ancestry.name) ? 'fullsize-only' : ''"
                 *ngFor="let listID of ['ancestry']">
-                <button class="row sublist-toggle" (mouseover)="hover = listID" (mouseout)="hover = ''"
-                    [ngStyle]="(get_Character().class.ancestry.name) ? {'color':get_Accent()} : {'background-color':get_Accent()}"
+                <button class="row sublist-toggle"
+                   
                     [className]="((get_Character().class.ancestry.name)) ? 'fancy-button' : ''"
                     (click)="toggle_List(listID)">
                     Ancestry{{(get_Character().class.ancestry.name) ? ": "+ get_Character().class.ancestry.name : ""}}
                 </button>
                 <div class="list-item sublist"
-                    [ngStyle]="(get_Character().class.ancestry.name) ? {} : {'border-color':get_Accent(listID)}"
+                   
                     [className]="((get_Character().class.ancestry.name)) ? 'fancy-list' : ''"
                     *ngIf="get_showList()==listID">
                     <div class="list-item" *ngFor="let ancestry of get_Ancestries()">
@@ -122,14 +122,14 @@
         <ng-container *ngIf="get_Character().class.ancestry.name">
             <div class="list-item" [className]="(get_Character().class.heritage.name) ? 'fullsize-only' : ''"
                 *ngFor="let listID of ['heritage']">
-                <button class="row sublist-toggle" (mouseover)="hover = listID" (mouseout)="hover = ''"
-                    [ngStyle]="(get_Character().class.heritage.name) ? {'color':get_Accent()} : {'background-color':get_Accent()}"
+                <button class="row sublist-toggle"
+                   
                     [className]="((get_Character().class.heritage.name)) ? 'fancy-button' : ''"
                     (click)="toggle_List(listID)">
                     Heritage{{(get_Character().class.heritage.name) ? ": "+ get_Character().class.heritage.name : ""}}
                 </button>
                 <div class="list-item sublist"
-                    [ngStyle]="(get_Character().class.heritage.name) ? {} : {'border-color':get_Accent(listID)}"
+                   
                     [className]="((get_Character().class.heritage.name)) ? 'fancy-list' : ''"
                     *ngIf="get_showList()==listID">
                     <div class="list-item"
@@ -138,14 +138,14 @@
                             <input *ngIf="!heritage.subTypes.length" id="{{heritage.name}}" type="checkbox"
                                 (change)="onHeritageChange(heritage, $event.target.checked)"
                                 [checked]="heritage.name === get_Character().class.heritage.name">
-                            <button class="lower left" [ngStyle]="{'background-color':get_Accent()}"
+                            <button class="lower left"
                                 *ngIf="heritage.subTypes.length" id="{{heritage.name}}"
                                 (click)="toggle_Item(heritage.name+'desc')">v</button>
                             <label for="{{heritage.name}}">
                                 <strong>{{heritage.name}}</strong>
                             </label>
                         </span>
-                        <button [ngStyle]="{'background-color':get_Accent()}"
+                        <button
                             (click)="toggle_Item(heritage.name+'desc')">
                             Show Description
                         </button>
@@ -177,13 +177,13 @@
         </ng-container>
         <!--Languages-->
         <div class="list-item" *ngIf="get_LanguagesAvailable()">
-            <button class="row sublist-toggle" (mouseover)="hover = 'languages'" (mouseout)="hover = ''"
-                [ngStyle]="(get_AvailableLanguages() == 0) ? {'color':get_Accent()} : {'background-color':get_Accent()}"
+            <button class="row sublist-toggle"
+               
                 [className]="(get_AvailableLanguages() == 0) ? 'fancy-button' : ''" (click)="toggle_List('languages')">
                 Languages
             </button>
             <div class="list-item sublist"
-                [ngStyle]="(get_AvailableLanguages() == 0) ? {} : {'border-color':get_Accent('languages')}"
+               
                 [className]="(get_AvailableLanguages() == 0) ? 'fancy-list' : ''" *ngIf="get_showList()=='languages'">
                 <div class="row left-aligned">
                     <strong *ngIf="get_Character().class.ancestry.recommendedLanguages.length">Recommended
@@ -208,14 +208,14 @@
         <ng-container *ngIf="get_Character().class.name">
             <div class="list-item" [className]="(get_Character().class.background.name) ? 'fullsize-only' : ''"
                 *ngFor="let listID of ['background']">
-                <button class="row sublist-toggle" (mouseover)="hover = listID" (mouseout)="hover = ''"
-                    [ngStyle]="(get_Character().class.background.name) ? {'color':get_Accent()} : {'background-color':get_Accent()}"
+                <button class="row sublist-toggle"
+                   
                     [className]="((get_Character().class.background.name)) ? 'fancy-button' : ''"
                     (click)="toggle_List(listID)">
                     Background{{(get_Character().class.background.name) ? ": "+ get_Character().class.background.name : ""}}
                 </button>
                 <div class="list-item sublist"
-                    [ngStyle]="(get_Character().class.background.name) ? {} : {'border-color':get_Accent(listID)}"
+                   
                     [className]="((get_Character().class.background.name)) ? 'fancy-list' : ''"
                     *ngIf="get_showList()==listID">
                     <ng-container *ngFor="let background of get_Backgrounds()">
@@ -224,14 +224,14 @@
                                 <input *ngIf="!background.subTypes.length" id="{{background.name}}" type="checkbox"
                                     (change)="onBackgroundChange(background, $event.target.checked)"
                                     [checked]="background.name === get_Character().class.background.name">
-                                <button class="lower left" [ngStyle]="{'background-color':get_Accent()}"
+                                <button class="lower left"
                                     *ngIf="background.subTypes.length" id="{{background.name}}"
                                     (click)="toggle_Item(itemID)">v</button>
                                 <label for="{{background.name}}">
                                     <strong>{{background.name}}</strong>
                                 </label>
                             </span>
-                            <button [ngStyle]="{'background-color':get_Accent()}" (click)="toggle_Item(itemID)">
+                            <button (click)="toggle_Item(itemID)">
                                 Show Description
                             </button>
                             <div class="row lower" *ngIf="this.get_showItem()==itemID">
@@ -265,13 +265,13 @@
         <ng-container *ngIf="get_Character().class.name">
             <div class="list-item" [className]="(get_Character().deity) ? 'fullsize-only' : ''"
                 *ngFor="let listID of ['deity']">
-                <button class="row sublist-toggle" (mouseover)="hover = listID" (mouseout)="hover = ''"
-                    [ngStyle]="(get_Character().deity.name) ? {'color':get_Accent()} : {'background-color':get_Accent()}"
+                <button class="row sublist-toggle"
+                   
                     [className]="((get_Character().deity.name)) ? 'fancy-button' : ''" (click)="toggle_List(listID)">
                     Deity{{(get_Character().deity.name) ? ": "+ get_Character().deity.name : ""}}
                 </button>
                 <div class="list-item sublist"
-                    [ngStyle]="(get_Character().deity.name) ? {} : {'border-color':get_Accent(listID)}"
+                   
                     [className]="((get_Character().deity.name)) ? 'fancy-list' : ''" *ngIf="get_showList()==listID">
                     <ng-container *ngFor="let deity of get_Deities()">
                         <div class="row" class="list-item" *ngFor="let itemID of ['deity'+deity.name]">
@@ -283,7 +283,7 @@
                                     <strong>{{deity.name}} ({{deity.alignment}})</strong>
                                 </label>
                             </span>
-                            <button [ngStyle]="{'background-color':get_Accent()}" (click)="toggle_Item(itemID)">
+                            <button (click)="toggle_Item(itemID)">
                                 Show Description
                             </button>
                             <div class="row lower" *ngIf="this.get_showItem()==itemID">
@@ -325,7 +325,7 @@
                 <!--Fixed information-->
                 <ng-container *ngIf="level.number > 0">
                     <div class="fullsize-only list-item" *ngFor="let listID of ['showFixedChanges'+level.number]">
-                        <button class="row sublist-toggle fancy-button" [ngStyle]="{'color':get_Accent()}"
+                        <button class="row sublist-toggle fancy-button"
                             (click)="toggle_List(listID)">
                             Show fixed changes
                         </button>
@@ -354,13 +354,13 @@
                     <!--Different Worlds Name-->
                     <div class="list-item" [className]="(feat.data.name != '') ? 'fullsize-only' : ''"
                         *ngFor="let listID of ['differentWorlds_Name']">
-                        <button class="row sublist-toggle" (mouseover)="hover = listID" (mouseout)="hover = ''"
-                            [ngStyle]="(feat.data.name != '') ? {'color':get_Accent()} : {'background-color':get_Accent()}"
+                        <button class="row sublist-toggle"
+                           
                             [className]="(feat.data.name != '') ? 'fancy-button' : ''" (click)="toggle_List(listID)">
                             Alternative Name (Different Worlds){{(feat.data.name) ? ": "+ feat.data.name : ""}}
                         </button>
                         <div class="list-item sublist"
-                            [ngStyle]="(feat.data.name) ? {} : {'border-color':get_Accent(listID)}"
+                           
                             [className]="(feat.data.name != '') ? 'fancy-list' : ''" *ngIf="get_showList()==listID">
                             <div class="list-item">
                                 <strong>Name:
@@ -373,14 +373,14 @@
                     <!--Different Worlds Background-->
                     <div class="list-item" [className]="(feat.data.background != '') ? 'fullsize-only' : ''"
                         *ngFor="let listID of ['differentWorlds_Background']">
-                        <button class="row sublist-toggle" (mouseover)="hover = listID" (mouseout)="hover = ''"
-                            [ngStyle]="(feat.data.background) ? {'color':get_Accent()} : {'background-color':get_Accent()}"
+                        <button class="row sublist-toggle"
+                           
                             [className]="(feat.data.background) ? 'fancy-button' : ''" (click)="toggle_List(listID)">
                             Alternative Background (Different
                             Worlds){{(feat.data.background) ? ": "+ feat.data.background : ""}}
                         </button>
                         <div class="list-item sublist"
-                            [ngStyle]="(feat.data.background) ? {} : {'border-color':get_Accent(listID)}"
+                           
                             [className]="((feat.data.background)) ? 'fancy-list' : ''" *ngIf="get_showList()==listID">
                             <div class="list-item" *ngFor="let background of get_Backgrounds()">
                                 <div class="row" *ngFor="let itemID of ['differentWorlds_Background'+background.name]">
@@ -390,14 +390,14 @@
                                             (change)="onDifferentWorldsBackgroundChange(level, feat, background, $event.target.checked)"
                                             [checked]="background.name === feat.data.background || background.name === get_Character().class.background.name"
                                             [disabled]="background.name === get_Character().class.background.name">
-                                        <button class="lower left" [ngStyle]="{'background-color':get_Accent()}"
+                                        <button class="lower left"
                                             *ngIf="background.subTypes.length" id="{{background.name}}"
                                             (click)="toggle_Item(itemID)">v</button>
                                         <label for="{{background.name}}">
                                             <strong>{{background.name}}</strong>
                                         </label>
                                     </span>
-                                    <button [ngStyle]="{'background-color':get_Accent()}" (click)="toggle_Item(itemID)">
+                                    <button (click)="toggle_Item(itemID)">
                                         Show Description
                                     </button>
                                     <div class="row lower" *ngIf="this.get_showItem()==itemID">
@@ -430,15 +430,15 @@
                 </ng-container>
                 <!--Languages - show if you have gained languages this level-->
                 <div class="list-item" *ngIf="get_LanguagesAvailable(level.number)">
-                    <button class="row sublist-toggle" (mouseover)="hover = 'languages'+level.number"
+                    <button class="row sublist-toggle"
                         (mouseout)="hover = ''"
-                        [ngStyle]="(get_AvailableLanguages() == 0) ? {'color':get_Accent()} : {'background-color':get_Accent()}"
+                       
                         [className]="(get_AvailableLanguages() == 0) ? 'fancy-button' : ''"
                         (click)="toggle_List('languages'+level.number)">
                         Languages
                     </button>
                     <div class="list-item sublist"
-                        [ngStyle]="(get_AvailableLanguages() == 0) ? {} : {'border-color':get_Accent('languages'+level.number)}"
+                       
                         [className]="(get_AvailableLanguages() == 0) ? 'fancy-list' : ''"
                         *ngIf="get_showList()=='languages'+level.number">
                         <div class="row left-aligned">
@@ -457,8 +457,8 @@
                     <ng-container *ngFor="let listID of [choice.id]">
                         <div class="list-item" *ngIf="get_MaxAvailable(choice)"
                             [className]="((choice.boosts.length > get_MaxAvailable(choice) || someAbilitiesIllegal(choice)) ? 'problem' : '') +' '+ ((choice.boosts.length == get_MaxAvailable(choice)) ? 'fullsize-only' : '')">
-                            <button class="row sublist-toggle" (mouseover)="hover = listID" (mouseout)="hover = ''"
-                                [ngStyle]="(choice.boosts.length == get_MaxAvailable(choice)) ? {'color':get_Accent()} : {'background-color':get_Accent()}"
+                            <button class="row sublist-toggle"
+                               
                                 [className]="(choice.boosts.length == get_MaxAvailable(choice)) ? 'fancy-button' : ''"
                                 (click)="toggle_List(listID)">
                                 Ability Boosts
@@ -467,7 +467,7 @@
                                     (choice.boosts.length) ? ": "+ choice.boosts[0].name : ""}}
                             </button>
                             <div class="list-item sublist"
-                                [ngStyle]="(choice.boosts.length == get_MaxAvailable(choice)) ? {} : {'border-color':get_Accent(listID)}"
+                               
                                 [className]="(choice.boosts.length == get_MaxAvailable(choice)) ? 'fancy-list' : ''"
                                 *ngIf="get_showList()==listID">
                                 <div class="list-item" *ngFor="let ability of get_AvailableAbilities(choice)"
@@ -501,8 +501,8 @@
                     <ng-container *ngFor="let listID of [choice.id]">
                         <div class="list-item" *ngIf="choice.available"
                             [className]="((choice.increases.length > choice.available + get_SkillINTBonus(choice) || someIllegal(choice)) ? 'problem' : '') +' '+ ((choice.increases.length == choice.available + get_SkillINTBonus(choice)) ? 'fullsize-only' : '')">
-                            <button class="row sublist-toggle" (mouseover)="hover = listID" (mouseout)="hover = ''"
-                                [ngStyle]="(choice.increases.length == choice.available + get_SkillINTBonus(choice)) ? {'color':get_Accent()} : {'background-color':get_Accent()}"
+                            <button class="row sublist-toggle"
+                               
                                 [className]="(choice.increases.length == choice.available + get_SkillINTBonus(choice)) ? 'fancy-button' : ''"
                                 (click)="toggle_List(listID)">
                                 Skill Training
@@ -511,7 +511,7 @@
                                     (choice.increases.length) ? ": "+ choice.increases[0].name : ""}}
                             </button>
                             <div class="list-item sublist"
-                                [ngStyle]="(choice.available + get_SkillINTBonus(choice) == choice.increases.length) ? {} : {'border-color':get_Accent(listID)}"
+                               
                                 [className]="(choice.available + get_SkillINTBonus(choice) == choice.increases.length) ? 'fancy-list' : ''"
                                 *ngIf="get_showList()==listID">
                                 <div class="list-item"
@@ -550,14 +550,14 @@
                     <ng-container *ngIf="choice.abilityAvailable">
                         <ng-container *ngFor="let listID of [choice.id+'ability']">
                             <div class="list-item" [className]="(choice.ability ? 'fullsize-only' : '')">
-                                <button class="row sublist-toggle" (mouseover)="hover = listID" (mouseout)="hover = ''"
-                                    [ngStyle]="choice.ability ? {'color':get_Accent()} : {'background-color':get_Accent()}"
+                                <button class="row sublist-toggle"
+                                    [ngStyle]="choice.ability ? {'--accent':get_Accent()} : {'--accent':get_Accent()}"
                                     [className]="choice.ability ? 'fancy-button' : ''" (click)="toggle_List(listID)">
                                     {{choice.source}} Key Ability
                                     {{(choice.ability) ? ": "+ choice.ability : ""}}
                                 </button>
                                 <div class="list-item sublist"
-                                    [ngStyle]="choice.ability ? {} : {'border-color':get_Accent(listID)}"
+                                    [ngStyle]="choice.ability ? {} : {'--accent':get_Accent()}"
                                     [className]="choice.ability ? 'fancy-list' : ''" *ngIf="get_showList()==listID">
                                     <div class="list-item"
                                         *ngFor="let ability of get_AvailableTraditionAbilities(choice)">
@@ -580,13 +580,13 @@
                     <ng-container *ngIf="choice.traditionAvailable">
                         <ng-container *ngFor="let listID of [choice.id+'tradition']">
                             <div class="list-item" [className]="(choice.tradition ? 'fullsize-only' : '')">
-                                <button class="row sublist-toggle" (mouseover)="hover = listID" (mouseout)="hover = ''"
-                                    [ngStyle]="choice.tradition ? {'color':get_Accent()} : {'background-color':get_Accent()}"
+                                <button class="row sublist-toggle"
+                                    [ngStyle]="choice.tradition ? {'--accent':get_Accent()} : {'--accent':get_Accent()}"
                                     [className]="choice.tradition ? 'fancy-button' : ''" (click)="toggle_List(listID)">
                                     {{choice.source}} Tradition{{(choice.tradition) ? ": "+ choice.tradition : ""}}
                                 </button>
                                 <div class="list-item sublist"
-                                    [ngStyle]="choice.tradition ? {} : {'border-color':get_Accent(listID)}"
+                                    [ngStyle]="choice.tradition ? {} : {'--accent':get_Accent()}"
                                     [className]="choice.tradition ? 'fancy-list' : ''" *ngIf="get_showList()==listID">
                                     <div class="list-item" *ngFor="let tradition of get_AvailableTraditions(choice)">
                                         <div class="row" *ngFor="let itemID of [choice.id+'tradition'+tradition]">
@@ -611,15 +611,15 @@
                     <ng-container *ngFor="let listID of [choice.id]">
                         <div class="list-item" *ngIf="choice.available"
                             [className]="((choice.increases.length > choice.available) ? 'problem' : '') +' '+ ((choice.available == choice.increases.length) ? 'fullsize-only' : '')">
-                            <button class="row sublist-toggle" (mouseover)="hover = listID" (mouseout)="hover = ''"
-                                [ngStyle]="(choice.available == choice.increases.length) ? {'color':get_Accent()} : {'background-color':get_Accent()}"
+                            <button class="row sublist-toggle"
+                               
                                 [className]="(choice.available == choice.increases.length) ? 'fancy-button' : ''"
                                 (click)="toggle_List(listID)">
                                 Lore Training
                                 ({{choice.source}}){{(choice.increases.length) ? ": "+ choice.increases[0].name : ""}}
                             </button>
                             <div class="list-item sublist"
-                                [ngStyle]="(choice.available == choice.increases.length) ? {} : {'border-color':get_Accent(listID)}"
+                               
                                 [className]="(choice.available == choice.increases.length) ? 'fancy-list' : ''"
                                 *ngIf="get_showList()==listID">
                                 <div class="list-item" *ngFor="let itemID of [choice.id+'LoreIncreaseBox']">
@@ -653,8 +653,8 @@
                     <ng-container *ngFor="let listID of [choice.source+choice.id]">
                         <div class="list-item" *ngIf="choice.available"
                             [className]="((choice.feats.length > choice.available || cannotTakeSome(choice)) ? 'problem' : '') +' '+ ((choice.available == choice.feats.length) ? 'fullsize-only' : '')">
-                            <button class="row sublist-toggle" (mouseover)="hover = listID" (mouseout)="hover = ''"
-                                [ngStyle]="(choice.available == choice.feats.length) ? {'color':get_Accent()} : {'background-color':get_Accent()}"
+                            <button class="row sublist-toggle"
+                               
                                 [className]="(choice.available == choice.feats.length) ? 'fancy-button' : ''"
                                 (click)="toggle_List(listID)">
                                 {{(choice.level) ? "Level "+choice.level+" " : ""}}{{choice.type}} Feats
@@ -663,7 +663,7 @@
                                     (choice.feats.length) ? ": "+ choice.feats[0].name : ""}}
                             </button>
                             <div class="list-item sublist"
-                                [ngStyle]="(choice.available == choice.feats.length) ? {} : {'border-color':get_Accent(listID)}"
+                               
                                 [className]="(choice.available == choice.feats.length ) ? 'fancy-list' : ''"
                                 *ngIf="get_showList()==listID">
                                 <div title="{{(this.get_showItem()==choice.id+feat.name+'desc') ? '' : feat.shortDesc}}"
@@ -675,7 +675,7 @@
                                                 (change)="on_FeatTaken(feat.name, $event.target.checked, choice, false)"
                                                 [checked]="featTakenByThis(feat, choice)"
                                                 [disabled]="cannotTake(feat, choice).length && !featTakenByThis(feat, choice)">
-                                            <button class="lower left" [ngStyle]="{'background-color':get_Accent()}"
+                                            <button class="lower left"
                                                 *ngIf="feat.subTypes" id="{{choice.id+feat.name}}"
                                                 (click)="toggle_Item(itemID)">v</button>
                                             <label for="{{choice.id+feat.name}}">
@@ -685,8 +685,8 @@
                                                 {{reason}}
                                             </cite>
                                         </span>
-                                        <button (mouseover)="hover = itemID" (mouseout)="hover = ''"
-                                            [ngStyle]="{'background-color':get_Accent()}" (click)="toggle_Item(itemID)">
+                                        <button
+                                            (click)="toggle_Item(itemID)">
                                             Show Description
                                         </button>
                                         <div class="row lower" *ngIf="this.get_showItem()==itemID">
@@ -783,8 +783,8 @@
                                                 {{reason}}
                                             </cite>
                                         </span>
-                                        <button (mouseover)="hover = itemID" (mouseout)="hover = ''"
-                                            [ngStyle]="{'background-color':get_Accent()}" (click)="toggle_Item(itemID)">
+                                        <button
+                                            (click)="toggle_Item(itemID)">
                                             Show Description
                                         </button>
                                         <div class="row lower" *ngIf="this.get_showItem()==itemID">

@@ -48,8 +48,8 @@ export class InventoryComponent implements OnInit {
         this.characterService.toggleMenu(menu);
     }
 
-    get_Accent(hover: number = -1) {
-        return this.characterService.get_Accent((hover == this.hover));
+    get_Accent() {
+        return this.characterService.get_Accent();
     }
 
     toggleItem(id: number) {
@@ -111,7 +111,12 @@ export class InventoryComponent implements OnInit {
 
     drop_InventoryItem(item) {
         this.showItem = 0;
-        this.characterService.drop_InventoryItem(item);
+        this.characterService.drop_InventoryItem(item, true, true, true, item.amount);
+    }
+
+    drop_Package(item) {
+        this.showItem = 0;
+        this.characterService.drop_InventoryItem(item, true, true, false, item.amount);
     }
 
     add_NewOtherItem() {
@@ -190,11 +195,7 @@ export class InventoryComponent implements OnInit {
     }
 
     onAmountChange(item: Consumable, amount: number) {
-        if (amount > 0) {
-            this.characterService.grant_InventoryItem(item, false, false, false, amount)
-        } else if (amount < 0) {
-            item.amount += amount;
-        }
+        item.amount += amount;
     }
 
     on_ConsumableUse(item: Consumable) {

@@ -1,8 +1,6 @@
 import { Component, OnInit, ChangeDetectorRef, ChangeDetectionStrategy } from '@angular/core';
 import { CharacterService } from '../character.service';
 import { ActivitiesService } from '../activities.service';
-import { TraitsService } from '../traits.service';
-import { EffectsService } from '../effects.service';
 import { Activity } from '../Activity';
 import { ActivityGain } from '../ActivityGain';
 import { ItemsService } from '../items.service';
@@ -55,8 +53,8 @@ export class ActivitiesComponent implements OnInit {
         return this.id;
     }
 
-    get_Accent(hover: number = -1) {
-        return this.characterService.get_Accent((hover == this.hover));
+    get_Accent() {
+        return this.characterService.get_Accent();
     }
 
     still_loading() {

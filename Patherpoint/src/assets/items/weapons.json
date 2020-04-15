@@ -153,6 +153,7 @@
       "dmgType": "S",
       "dicenum": 1,
       "dicesize": 8,
+      "criticalHint": "On a critical success with your tiger claws, if you deal damage, the target takes 1d4 persistent bleed damage.",
       "melee": 5,
       "moddable": "-",
       "price": 0,

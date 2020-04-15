@@ -265,7 +265,7 @@
         "name": "Mountain Stance",
         "type": "activity",
         "desc": "While in Mountain Stance, you gain a +4 status bonus to AC and a +2 circumstance bonus to any defenses against being Shoved or Tripped. However, you have a Dexterity modifier cap to your AC of +0, meaning you don’t add your Dexterity to your AC, and your Speeds are all reduced by 5 feet.",
-        "showon": "Fortitude",
+        "showon": "Fortitude, Movement",
         "effects": [
             {
                 "affected": "AC",
@@ -281,6 +281,37 @@
                 "value": "-5"
             }
         ],
+        "buff": true
+    },
+    {
+        "name": "Rain of Embers Stance",
+        "type": "activity",
+        "desc": "While in Rain of Embers Stance, you gain a +1 status bonus to AC and fire resistance equal to half your level (minimum 1).",
+        "effects": [
+            {
+                "affected": "AC",
+                "value": "+1",
+                "type": "status"
+            },
+            {
+                "affected": "Fire Resistance",
+                "value": "Math.max(Math.floor(Level / 2), 1)"
+            }
+        ],
+        "buff": true
+    },
+    {
+        "name": "Tiger Stance",
+        "type": "activity",
+        "desc": "As long as your Speed is at least 20 feet while in Tiger Stance, you can Step 10 feet.",
+        "showon": "Movement",
+        "buff": true
+    },
+    {
+        "name": "Wolf Stance",
+        "type": "activity",
+        "desc": "If you’re flanking a target while in Wolf Stance, your wolf jaw unarmed attacks also gain the trip trait.",
+        "showon": "Wolf Jaw",
         "buff": true
     }
 ]

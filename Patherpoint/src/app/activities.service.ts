@@ -11,6 +11,7 @@ import { Equipment } from './Equipment';
 import { Weapon } from './Weapon';
 import { ItemActivity } from './ItemActivity';
 import { ConditionGain } from './ConditionGain';
+import { ItemGain } from './ItemGain';
 
 @Injectable({
     providedIn: 'root'
@@ -77,18 +78,30 @@ export class ActivitiesService {
         if (activity.gainItems.length) {
             if (activated) {
                 activity.gainItems.forEach(gainItem => {
-                    if (gainItem.type) {
-                        let item: Equipment = itemsService.get_Items()[gainItem.type].filter(item => item.name == gainItem.name)[0];
-                        characterService.grant_InventoryItem(item, false, false);
+                    let newItem: Item = itemsService.get_Items()[gainItem.type].filter(item => item.name == gainItem.name)[0];
+                    if (newItem.can_Stack()) {
+                        characterService.grant_InventoryItem(newItem, true, false, false, gainItem.amount);
+                    } else {
+                        let grantedItem = characterService.grant_InventoryItem(newItem, true, false, true);
+                        gainItem.id = grantedItem.id;
+                        if (grantedItem.get_Name) {
+                            grantedItem.displayName = grantedItem.name + " (granted by " + activity.name + ")"
+                        };
                     }
                 });
             } else {
                 activity.gainItems.forEach(gainItem => {
-                    if (gainItem.type) {
-                        let items: Equipment[] = characterService.get_InventoryItems()[gainItem.type].filter(item => item.name == gainItem.name);
+                    if (itemsService.get_Items()[gainItem.type].filter((item: Item) => item.name == gainItem.name)[0].can_Stack()) {
+                        let items: Item[] = characterService.get_InventoryItems()[gainItem.type].filter((item: Item) => item.name == gainItem.name);
                         if (items.length) {
-                            characterService.drop_InventoryItem(items[0]);
+                            characterService.drop_InventoryItem(items[0], false, false, true, gainItem.amount);
                         }
+                    } else {
+                        let items: Item[] = characterService.get_InventoryItems()[gainItem.type].filter((item: Item) => item.id == gainItem.id);
+                        if (items.length) {
+                            characterService.drop_InventoryItem(items[0], false, false, true);
+                        }
+                        gainItem.id = "";
                     }
                 });
             }

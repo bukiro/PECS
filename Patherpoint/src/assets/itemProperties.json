@@ -643,6 +643,13 @@
         "desc": "The amount of actions it takes to reload this ranged weapon. Bows usually have a reload duration of 0."
     },
     {
+        "key": "criticalHint",
+        "priority": "8",
+        "group": "8-Weapons",
+        "name": "Critical hit effect",
+        "desc": "Describe anything that happens on a critical hit with this weapon."
+    },
+    {
         "key": "actions",
         "priority": "0",
         "group": "9-Consumables",

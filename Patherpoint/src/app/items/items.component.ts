@@ -57,8 +57,8 @@ export class ItemsComponent implements OnInit {
         return this.showList;
     }
 
-    get_Accent(hover: number = -1) {
-        return this.characterService.get_Accent(hover == this.hover);
+    get_Accent() {
+        return this.characterService.get_Accent();
     }
 
     toggle_Item(id: number) {

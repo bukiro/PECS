@@ -1,12 +1,12 @@
 <div id="conditions" class="itemBox">
-    <button class="list-item" [ngStyle]="{'background-color':get_Accent()}"
+    <button class="list-item"
         (click)="toggleConditionsMenu()">Close</button>
     <div class="loading" *ngIf="still_loading()">Loading</div>
     <ng-container *ngIf="!still_loading()">
         <h3>Duration: {{get_Duration()}}</h3>
         <div class="list-item">
             <div class="row">
-                <button class="center-aligned" [ngStyle]="{'background-color':get_Accent()}"
+                <button class="center-aligned"
                     (click)="add_Duration(duration)"
                     *ngFor="let duration of [-1, 10, 50, 100, 500, 1000, 6000, 48000, 144000]">{{get_Duration(duration)}}</button>
             </div>
@@ -18,7 +18,7 @@
         </div>
         <h3>Add Condition</h3>
         <ng-container *ngFor="let set of ['Generic','Alchemical Elixirs']">
-            <button class="list-item" [ngStyle]="{'background-color':get_Accent()}"
+            <button class="list-item"
                 (click)="toggleList(set)">{{set}}</button>
             <ng-container *ngIf="get_ShowList()==set">
                 <div class="list-item" *ngFor="let condition of get_ConditionsSet(set)">
@@ -31,11 +31,11 @@
                     </span>
                     <div class="row">
                         <span>
-                            <button [ngStyle]="{'background-color':get_Accent()}" (click)="add_Condition(condition)">Add
+                            <button (click)="add_Condition(condition)">Add
                                 ({{get_Duration()}})</button>
                         </span>
                         <span>
-                            <button [ngStyle]="{'background-color':get_Accent()}" (click)="toggleItem(set+condition.name)">
+                            <button (click)="toggleItem(set+condition.name)">
                                 Show Description</button>
                         </span>
                     </div>

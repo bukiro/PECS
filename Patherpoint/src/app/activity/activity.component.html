@@ -1,16 +1,16 @@
 <div class="row">
     <div class="row">
-        <button class="row center-aligned" [ngStyle]="{'background-color':get_Accent()}"
+        <button class="row center-aligned"
             (click)="on_Activate(gain, activity, true)"
             *ngIf="allowActivate && activity.can_Activate() && !gain.active && !gain.activeCooldown">
             Activate
         </button>
-        <button class="row center-aligned" [ngStyle]="{'background-color':get_Accent()}"
+        <button class="row center-aligned"
             (click)="on_Activate(gain, activity, false)"
             *ngIf="allowActivate && activity.can_Activate() && gain.active">
             Deactivate
         </button>
-        <button class="row center-aligned" [ngStyle]="{'background-color':get_Accent()}"
+        <button class="row center-aligned"
             (click)="on_Activate(gain, activity, true)" *ngIf="allowActivate && gain.activeCooldown" disabled>
             Cannot activate for {{get_Duration(gain.activeCooldown)}}
         </button>

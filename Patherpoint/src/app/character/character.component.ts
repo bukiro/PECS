@@ -85,8 +85,8 @@ export class CharacterComponent implements OnInit {
         return this.showList;
     }
 
-    get_Accent(hover: string = "-") {
-        return this.characterService.get_Accent(hover == this.hover);
+    get_Accent() {
+        return this.characterService.get_Accent();
     }
 
     //If you don't use trackByIndex on certain inputs, you lose focus everytime the value changes. I don't get that, but I'm using it now.

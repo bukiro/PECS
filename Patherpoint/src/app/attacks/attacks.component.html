@@ -1,6 +1,6 @@
-<button class="minimizebutton lower" [ngStyle]="{'background-color':get_Accent()}" (click)="minimize()">&#8691;</button>
+<button class="minimizebutton lower" (click)="minimize()">&#8691;</button>
 <div id="attacks-height" class="attributeBox">
-<h3 [ngStyle]="{'color':get_Accent()}">Attacks</h3>
+<h3 class="box-header">Attacks</h3>
 <div class="loading" *ngIf="still_loading()">Loading</div>
 <ng-container *ngIf="!still_loading()">
     <app-tags [objectName]="'Attacks'" [showTraits]=true [showFeats]=true [showItems]=true [showActivities]=true
@@ -36,6 +36,12 @@
             </div>
             <app-tags [objectName]=weapon.name [showTraits]=true [showFeats]=true [showItems]=true [showActivities]=true
                     [showConditions]=true [specialNames]=get_specialShowon(weapon) [specialEffects]=attack[3]></app-tags>
+            <div class="fullsize-only lower row left-aligned" *ngFor="let spec of weapon.get_CritSpecialization(characterService)">
+                <strong>Critical specialization effect&nbsp;</strong>{{spec.desc}}
+            </div>
+            <div class="fullsize-only lower row left-aligned" *ngIf="weapon.criticalHint">
+                <strong>Critical hit effect&nbsp;</strong>{{weapon.criticalHint}}
+            </div>
             <ng-container *ngFor="let rune of get_Runes(weapon, attack[0])" style="margin-top:initial">
                 <div class="fullsize-only lower row left-aligned" *ngIf="rune.criticalHint">
                     <span>
@@ -58,7 +64,7 @@
             </ng-container>
         </div>
     </ng-container>
-    <h3 class="fullsize-only" *ngIf="!still_loading()" [ngStyle]="{'color':get_Accent()}">Weapon Proficiencies</h3>
+    <h3 class="fullsize-only" *ngIf="!still_loading()">Weapon Proficiencies</h3>
     <ng-container *ngFor="let skill of get_Skills('', 'Weapon Proficiency')">
         <app-skill class="fullsize-only" [skill]=skill [showValue]=false></app-skill>
     </ng-container>

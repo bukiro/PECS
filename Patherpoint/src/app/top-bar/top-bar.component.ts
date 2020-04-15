@@ -1,7 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, HostBinding } from '@angular/core';
 import { trigger, state, style, transition, animate } from '@angular/animations';
 import { CharacterService } from '../character.service';
 import { Subscription } from 'rxjs';
+import { DomSanitizer } from '@angular/platform-browser';
 
 @Component({
     selector: 'app-top-bar',
@@ -22,10 +23,16 @@ import { Subscription } from 'rxjs';
 })
 export class TopBarComponent implements OnInit {
 
+    @HostBinding("attr.style")
+    public get valueAsStyle(): any {
+        return this.sanitizer.bypassSecurityTrustStyle(`--accent: ${this.get_Accent()}`);
+    }
+
     subscription: Subscription;
 
     constructor(
-        private characterService: CharacterService
+        private characterService: CharacterService,
+        private sanitizer: DomSanitizer
     ) { }
 
     get_CharacterMinimized() {

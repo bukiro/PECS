@@ -26,6 +26,7 @@ import { Rune } from './Rune';
 import { LoreChoice } from './LoreChoice';
 import { ArmorRune } from './ArmorRune';
 import { Potion } from './Potion';
+import { Specialization } from './Specialization';
 
 @Injectable({
     providedIn: 'root'
@@ -34,8 +35,11 @@ export class ItemsService {
 
     private items: ItemCollection;
     private itemProperties: ItemProperty[];
+    private specializations: Specialization[];
     private loader_ItemProperties = [];
     private loading_ItemProperties: Boolean = false;
+    private loader_Specializations = [];
+    private loading_Specializations: Boolean = false;
     private loader_Weapons = [];
     private loading_Weapons: Boolean = false;
     private loader_Armors = [];
@@ -88,6 +92,12 @@ export class ItemsService {
         if (!this.still_loading()) {
             return this.itemProperties;
         } else { return [new ItemProperty] }
+    }
+
+    get_Specializations(group: string = "") {
+        if (!this.still_loading()) {
+            return this.specializations.filter(spec => spec.name == group || group == "");
+        } else { return [new Specialization] }
     }
 
     get_ItemType(type: string, name: string = "") {
@@ -212,6 +222,10 @@ export class ItemsService {
         return this.http.get<String[]>('/assets/itemProperties.json');
     }
 
+    load_Specializations(): Observable<String[]>{
+        return this.http.get<String[]>('/assets/specializations.json');
+    }
+
     load_Weapons(): Observable<String[]>{
         return this.http.get<String[]>('/assets/items/weapons.json');
     }
@@ -264,6 +278,13 @@ export class ItemsService {
                 .subscribe((results:String[]) => {
                     this.loader_ItemProperties = results;
                     this.finish_ItemProperties()
+                });
+            this.items = new ItemCollection();
+            this.loading_Specializations = true;
+            this.load_Specializations()
+                .subscribe((results:String[]) => {
+                    this.loader_Specializations = results;
+                    this.finish_Specializations()
                 });
             this.loading_Weapons = true;
             this.load_Weapons()
@@ -337,6 +358,14 @@ export class ItemsService {
             this.loader_ItemProperties = [];
         }
         if (this.loading_ItemProperties) {this.loading_ItemProperties = false;}
+    }
+
+    finish_Specializations() {
+        if (this.loader_Specializations) {
+            this.specializations = this.loader_Specializations.map(element => Object.assign(new Specialization(), element));
+            this.loader_Specializations = [];
+        }
+        if (this.loading_Specializations) {this.loading_Specializations = false;}
     }
 
     finish_Weapons() {

@@ -1,6 +1,6 @@
-<button class="minimizebutton lower" [ngStyle]="{'background-color':get_Accent()}" (click)="minimize()">&#8691;</button>
+<button class="minimizebutton lower" (click)="minimize()">&#8691;</button>
 <div id="general-height" class="attributeBox">
-    <h3 [ngStyle]="{'color':get_Accent()}">General information</h3>
+    <h3 class="box-header">General information</h3>
     <div class="loading" *ngIf="still_loading()">Loading</div>
     <ng-container *ngIf="!still_loading()">
         <div class="fullsize-only list-item">

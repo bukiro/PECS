@@ -10,7 +10,7 @@ import { EffectsService } from '../effects.service';
     changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class AbilitiesComponent implements OnInit {
-
+    
     constructor(
         private changeDetector: ChangeDetectorRef,
         public abilitiesService: AbilitiesService,

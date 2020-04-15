@@ -1,5 +1,6 @@
-import { Component, OnInit, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy, ChangeDetectorRef, HostBinding } from '@angular/core';
 import { CharacterService } from '../character.service';
+import { DomSanitizer } from '@angular/platform-browser';
 
 @Component({
     selector: 'app-character-sheet',
@@ -9,10 +10,20 @@ import { CharacterService } from '../character.service';
 })
 export class CharacterSheetComponent implements OnInit {
 
+    @HostBinding("attr.style")
+    public get valueAsStyle(): any {
+        return this.sanitizer.bypassSecurityTrustStyle(`--accent: ${this.get_Accent()}`);
+    }
+
     constructor(
         private characterService: CharacterService,
+        private sanitizer: DomSanitizer,
         private changeDetector: ChangeDetectorRef
     ) { }
+    
+    get_Accent() {
+        return this.characterService.get_Accent();
+    }
 
     get_GeneralMinimized() {
        return this.characterService.get_Character().settings.generalMinimized;

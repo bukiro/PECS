@@ -35,6 +35,10 @@ export class SpellComponent implements OnInit {
         return spell.get_Description(levelNumber)
     }
 
+    get_FeatsShowingOn(spellName: string) {
+        return this.characterService.get_FeatsShowingOn(spellName);
+    }
+
     ngOnInit() {
     }
 

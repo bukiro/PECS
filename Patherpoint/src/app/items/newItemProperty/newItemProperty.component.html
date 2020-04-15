@@ -9,11 +9,11 @@
         </div>
     </ng-container>
     <ng-container *ngIf="get_IsObject(get_Parent()[propertyKey]) && get_Parent()[propertyKey]!=null">
-        <button [ngStyle]="{'background-color':get_Accent()}" (click)="add_NewItemObject()">Add</button>
+        <button (click)="add_NewItemObject()">Add</button>
         <div class="list-item" *ngFor="let object of get_Parent()[propertyKey]; let i = index">
             <span>{{i+1}}</span>
             <span>
-                <button [ngStyle]="{'background-color':get_Accent()}" (click)="remove_NewItemObject(i)">Remove</button>
+                <button (click)="remove_NewItemObject(i)">Remove</button>
             </span>
             <ng-container *ngIf="get_IsObject(object)">
                 <ng-container *ngFor="let subProperty of get_NewItemSubProperties(object)|sortBy:'asc':'priority'|sortBy:'asc':'group'">

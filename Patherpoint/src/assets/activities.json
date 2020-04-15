@@ -66,18 +66,85 @@
         "toggle":true,
         "requirements": "You are unarmored and touching the ground.",
         "desc": "You enter the stance of an implacable mountain—a technique first discovered by dwarven monks—allowing you to strike with the weight of an avalanche. The only Strikes you can make are falling stone unarmed attacks. These deal 1d8 bludgeoning damage; are in the brawling group; and have the forceful, nonlethal, and unarmed traits.\n\nWhile in Mountain Stance, you gain a +4 status bonus to AC and a +2 circumstance bonus to any defenses against being Shoved or Tripped. However, you have a Dexterity modifier cap to your AC of +0, meaning you don’t add your Dexterity to your AC, and your Speeds are all reduced by 5 feet.",
-        "hint": "While in Mountain Stance, you gain a +4 status bonus to AC and a +2 circumstance bonus to any defenses against being Shoved or Tripped. However, you have a Dexterity modifier cap to your AC of +0, meaning you don’t add your Dexterity to your AC, and your Speeds are all reduced by 5 feet.",
         "gainItems": [
             {
                 "name": "Falling Stone",
                 "type": "weapons"
             }
         ],
-        "showon": "Movement",
         "gainConditions": [
             {
                 "name": "Mountain Stance",
                 "source": "Mountain Stance"
+            }
+        ],
+        "traits": [
+            "Monk",
+            "Stance"
+        ]
+    },
+    {
+        "name": "Rain of Embers Stance",
+        "actions": "1",
+        "toggle":true,
+        "requirements": "You are unarmored and touching the ground.",
+        "desc": "You enter the stance of an enraged phoenix, holding your fingers as rigid as deadly talons while moving with quick, flickering gestures that flicker with dancing flames. The only Strikes you can make are fire talon Strikes. These deal 1d4 fire damage; are in the brawling group; and have the agile, finesse, fire, nonlethal, and unarmed traits.\n\nWhile in Rain of Embers Stance, you gain a +1 status bonus to AC and fire resistance equal to half your level (minimum 1).",
+        "gainItems": [
+            {
+                "name": "Fire Talon",
+                "type": "weapons"
+            }
+        ],
+        "gainConditions": [
+            {
+                "name": "Rain of Embers Stance",
+                "source": "Rain of Embers Stance"
+            }
+        ],
+        "traits": [
+            "Monk",
+            "Stance"
+        ]
+    },
+    {
+        "name": "Tiger Stance",
+        "actions": "1",
+        "toggle":true,
+        "requirements": "You are unarmored.",
+        "desc": "You enter the stance of a tiger and can make tiger claw attacks. These deal 1d8 slashing damage; are in the brawling group; and have the agile, finesse, nonlethal, and unarmed traits. On a critical success with your tiger claws, if you deal damage, the target takes 1d4 persistent bleed damage.\n\nAs long as your Speed is at least 20 feet while in Tiger Stance, you can Step 10 feet.",
+        "gainItems": [
+            {
+                "name": "Tiger Claw",
+                "type": "weapons"
+            }
+        ],
+        "gainConditions": [
+            {
+                "name": "Tiger Stance",
+                "source": "Tiger Stance"
+            }
+        ],
+        "traits": [
+            "Monk",
+            "Stance"
+        ]
+    },
+    {
+        "name": "Wolf Stance",
+        "actions": "1",
+        "toggle":true,
+        "requirements": "You are unarmored.",
+        "desc": "You enter the stance of a wolf, low to the ground with your hands held like fanged teeth. You can make wolf jaw unarmed attacks. These deal 1d8 piercing damage; are in the brawling group; and have the agile, backstabber, finesse, nonlethal, and unarmed traits.\n\nIf you’re flanking a target while in Wolf Stance, your wolf jaw unarmed attacks also gain the trip trait.",
+        "gainItems": [
+            {
+                "name": "Wolf Jaw",
+                "type": "weapons"
+            }
+        ],
+        "gainConditions": [
+            {
+                "name": "Wolf Stance",
+                "source": "Wolf Stance"
             }
         ],
         "traits": [

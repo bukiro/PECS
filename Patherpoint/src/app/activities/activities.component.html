@@ -1,19 +1,19 @@
-<button class="minimizebutton lower" [ngStyle]="{'background-color':get_Accent()}" (click)="minimize()">&#8691;</button>
+<button class="minimizebutton lower" (click)="minimize()">&#8691;</button>
 <div id="activities-height" class="attributeBox">
-<h3 [ngStyle]="{'color':get_Accent()}">Actions and Activities</h3>
+<h3 class="box-header">Actions and Activities</h3>
 <div class="loading" *ngIf="still_loading()">Loading</div>
 <ng-container *ngIf="!still_loading()">
     <ng-container *ngFor="let gain of get_OwnedActivities()">
         <ng-container *ngFor="let activity of (gain.can_Activate ? [gain] : get_Activities(gain.name))">
             <div class="list-item" *ngFor="let activityID of [get_ID()]">
-                <button class="row sublist-toggle" (mouseover)="hover = activityID" (mouseout)="hover = 0"
-                    [ngStyle]="(gain.active) ? {'color':get_Accent()} : {'background-color':get_Accent()}"
+                <button class="row sublist-toggle"
+                   
                     [className]="(gain.active) ? 'fancy-button' : ''" (click)="toggle_Action(activityID)">
                     <span>{{activity.name}}</span>
                     <span>{{activity.get_Actions()}}{{(activity.activationType) ? " - " + activity.activationType : ""}}</span>
                 </button>
                 <div class="list-item sublist lower"
-                    [ngStyle]="(gain.active) ? {} : {'border-color':get_Accent(activityID)}"
+                   
                     [className]="(gain.active) ? 'fancy-list' : ''" *ngIf="get_showAction()==activityID">
                     <app-activity [activity]=activity [gain]=gain [allowActivate]=true></app-activity>
                 </div>

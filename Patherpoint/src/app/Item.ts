@@ -45,6 +45,7 @@ export class Item {
     can_Stack() {
         return (!this.equippable &&
             !this.can_Invest() &&
+            (this["gainItems"] ? !this["gainItems"].length : true) &&
             (this["gainActivities"] ? !this["gainActivities"].length : true) &&
             (this["activities"] ? !this["activities"].length : true))
     }

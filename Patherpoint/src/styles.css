@@ -10,6 +10,7 @@
   
   body {
     margin: 0;
+    --accent: 25, 118, 210;
   }
   
   .container {
@@ -105,6 +106,11 @@
     margin: 0px 0px;
   }
 
+  h3.box-header {
+    color: #1976d2;
+    color: rgb(var(--accent));
+  }
+
   .minimized input {
     font-size: 90%;
     border: none;
@@ -182,6 +188,7 @@
   a {
     cursor: pointer;
     color: #1976d2;
+    color: rgb(var(--accent));
     text-decoration: none;
   }
   
@@ -226,6 +233,7 @@
     font-size: 14px;
     cursor: pointer;
     background-color: #1976d2;
+    background-color: rgb(var(--accent));
     color: white;
     border: none;
   }
@@ -265,10 +273,12 @@
   .fancy-button {
     background-color: white;
     color: #1976d2;
+    color: rgb(var(--accent));
   }
   
   .fancy-button i.material-icons {
     color: #1976d2;
+    color: rgb(var(--accent));
     padding-right: 4px;
   }
   
@@ -286,6 +296,7 @@
   #top-bar {
     width: 100%;
     background-color: #1976d2;
+    background-color: rgb(var(--accent));
     padding: 8px;
     display: flex;
     flex-direction: row;
@@ -394,6 +405,7 @@
 
   button.list-item {
     background-color: #1976d2;
+    background-color: rgb(var(--accent));
     color: white;
   }
 
@@ -410,7 +422,10 @@
   }
 
   .list-item.sublist {
-    border: 4px solid #1976d2;
+    border-width: 4px;
+    border-style: solid;
+    border-color: #1976d2;
+    border-color: rgb(var(--accent));
     border-radius: 2px;
     position: absolute;
     top: 24px;
@@ -430,6 +445,7 @@
 
   button:hover ~ .list-item.sublist {
     border-color: rgba(25, 118, 210, 0.8);
+    border-color: rgba(var(--accent), 0.8);
   }
   button:hover ~ .list-item.sublist.fancy-list {
     border-color: white;
@@ -439,6 +455,7 @@
   
   .itemBox .fancybutton.list-item {
     background-color: #1976d2;
+    background-color: rgb(var(--accent));
   }
 
   .list-item div:last-child {

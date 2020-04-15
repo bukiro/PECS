@@ -51,8 +51,8 @@ export class SpellbookComponent implements OnInit {
         return this.showSpell;
     }
 
-    get_Accent(hover: number = -1) {
-        return this.characterService.get_Accent(hover == this.hover);
+    get_Accent() {
+        return this.characterService.get_Accent();
     }
 
     get_ID() {
