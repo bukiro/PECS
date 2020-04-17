@@ -7,6 +7,7 @@ import { SpellChoice } from './SpellChoice';
 import { FormulaChoice } from './FormulaChoice';
 import { TraditionChoice } from './TraditionChoice';
 import { Character } from './Character';
+import { ConditionGain } from './ConditionGain';
 
 export class Feat {
     public name: string = "";
@@ -39,6 +40,7 @@ export class Feat {
     public gainTraditionChoice: TraditionChoice[] = [];
     public gainFormulaChoice: FormulaChoice[] = [];
     public gainActivities: string[] = [];
+    public gainConditions: ConditionGain[] = [];
     public critSpecialization: string = "";
     public gainLore: true;
     public data: {} = {};

@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { CharacterService } from '../character.service';
 import { TimeService } from '../time.service';
+import { EffectsService } from '../effects.service';
 
 @Component({
     selector: 'app-time',
@@ -11,7 +12,8 @@ export class TimeComponent implements OnInit {
 
     constructor(
         private characterService: CharacterService,
-        private timeService: TimeService
+        private timeService: TimeService,
+        private effectsService: EffectsService
     ) { }
 
     minimize() {
@@ -41,6 +43,14 @@ export class TimeComponent implements OnInit {
 
     get_YourTurn() {
         return this.timeService.get_YourTurn();
+    }
+
+    start_Turn() {
+        this.timeService.start_Turn(this.characterService, this.effectsService);
+    }
+
+    end_Turn() {
+        this.timeService.end_Turn(this.characterService);
     }
 
     tick(amount: number) {

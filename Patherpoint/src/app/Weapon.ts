@@ -66,6 +66,21 @@ export class Weapon extends Equipment {
         }
         return runeSource;
     }
+    get_Traits(characterService: CharacterService) {
+        if (this.prof == "Unarmed") {
+            let traits = JSON.parse(JSON.stringify(this.traits));
+            let character = characterService.get_Character();
+            if (character.get_FeatsTaken(0, character.level, "Diamond Fists").length && this.traits.indexOf("Forceful") == -1) {
+                traits = traits.concat("Forceful");
+            }
+            if (character.get_FeatsTaken(0, character.level, "Golden Body").length && this.traits.indexOf("Deadly d12") == -1) {
+                traits = traits.concat("Deadly d12");
+            }
+            return traits;
+        } else {
+            return this.traits;
+        }
+    }
     profLevel(characterService: CharacterService, runeSource: Weapon|WornItem, charLevel: number = characterService.get_Character().level) {
         if (characterService.still_loading()) { return 0; }
         let skillLevel: number = 0;
@@ -228,6 +243,13 @@ export class Weapon extends Equipment {
             explain += "\n"+runeSource[0].get_Striking(runeSource[0].strikingRune)+": Dice number +"+runeSource[0].strikingRune;
             if (runeSource[2]) {
                 explain += "\n("+runeSource[2].get_Name()+")";
+            }
+        }
+        if (this.prof == "Unarmed") {
+            let character = characterService.get_Character();
+            if (character.get_FeatsTaken(0, character.level, "Diamond Fists").length && this.traits.indexOf("Forceful") > -1) {
+                dicenum += 1;
+                explain += "\nDiamond Fists: Dice number +1";
             }
         }
         let dicesize = this.dicesize;

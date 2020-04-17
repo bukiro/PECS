@@ -6,6 +6,9 @@ import { EffectCollection } from './EffectCollection';
 import { DefenseService } from './defense.service';
 import { EffectGain } from './EffectGain';
 import { Character } from './Character';
+import { AbilitiesService } from './abilities.service';
+import { Skill } from './Skill';
+import { Speed } from './Speed';
 
 @Injectable({
     providedIn: 'root'
@@ -44,19 +47,35 @@ constructor(
         let objectEffects: Effect[] = [];
         let hide: boolean = false;
         let name = (object.get_Name) ? object.get_Name() : object.name;
-        //Define effectsService as we need them in some effects
-        //Use them once so Visual Studio doesn't think they're unused and I don't delete them
+        //define some values that may be relevant for effect values
         let effectsService = this;
         effectsService = effectsService;
         characterService = characterService;
         let Character: Character = characterService.get_Character();
         let Level: number = characterService.get_Character().level;
-        let STR: number = characterService.get_Abilities("Strength")[0].mod(characterService, effectsService)
-        let DEX: number = characterService.get_Abilities("Dexterity")[0].mod(characterService, effectsService)
-        let CON: number = characterService.get_Abilities("Constitution")[0].mod(characterService, effectsService)
-        let INT: number = characterService.get_Abilities("Intelligence")[0].mod(characterService, effectsService)
-        let WIS: number = characterService.get_Abilities("Wisdom")[0].mod(characterService, effectsService)
-        let CHA: number = characterService.get_Abilities("Charisma")[0].mod(characterService, effectsService)
+        function Ability(name: string) {
+            return characterService.get_Abilities(name)[0].value(characterService, effectsService);
+        }
+        function Modifier(name: string) {
+            return characterService.get_Abilities(name)[0].mod(characterService, effectsService);
+        }
+        function Skill(name: string) {
+            return characterService.get_Skills(name)[0].$baseValue.result;
+        }
+        function Skill_Level(name: string) {
+            return characterService.get_Skills(name)[0].level(characterService, Level);
+        }
+        function Speed(name: string) {
+            let speeds: Speed[] = characterService.get_Speeds().filter(speed => speed.name == name);
+            if (speeds.length) {
+                return speeds[0].value(characterService, effectsService)[0];
+            } else {
+                return 0;
+            }
+        }
+        function DexCap() {
+            return characterService.get_InventoryItems().armors.filter(armor => armor.equipped)[0].get_DexCap();
+        }
         //effects come as {affected, value} where value is a string that contains a statement.
         //This statement is eval'd here. The condition can use characterService to check level, skills, abilities etc.
         object.effects.forEach((effect: EffectGain) => {
@@ -93,7 +112,9 @@ constructor(
             if (type == "untyped" && !penalty) {
                 hide = true;
             }
-            objectEffects.push(new Effect(type, effect.affected, value, name, penalty, undefined, hide));
+            if (parseInt(value) != 0 || !hide) {
+                objectEffects.push(new Effect(type, effect.affected, value, name, penalty, undefined, hide));
+            }
         });
         return objectEffects;
     }
@@ -106,19 +127,24 @@ constructor(
         let character = characterService.get_Character();
         let items = characterService.get_InventoryItems();
         //Create simple effects from all equipped items first
-        items.allEquipment().filter(item => item.invested && (item.effects)).forEach(item => {
+        items.allEquipment().filter(item => item.invested && item.effects && item.effects.length).forEach(item => {
             simpleEffects = simpleEffects.concat(this.get_SimpleEffects(characterService, item));
             });
         let feats = character.get_FeatsTaken(1, character.level);
         feats.forEach(feat => {
-            simpleEffects = simpleEffects.concat(this.get_SimpleEffects(characterService, characterService.get_FeatsAndFeatures(feat.name)[0]));
+            let originalFeat = characterService.get_FeatsAndFeatures(feat.name)[0];
+            if (originalFeat.effects && originalFeat.effects.length) {
+                simpleEffects = simpleEffects.concat(this.get_SimpleEffects(characterService, originalFeat));
+            }
         });
         let appliedConditions = characterService.get_AppliedConditions().filter(condition => condition.apply);
         appliedConditions.forEach(condition => {
             let originalCondition = characterService.get_Conditions(condition.name)[0];
-            //Fit the condition effects into the box defined by feat effects
-            let effectsObject = {name:condition.name, value:condition.value, effects:originalCondition.effects}
-            simpleEffects = simpleEffects.concat(this.get_SimpleEffects(characterService, effectsObject));
+            if (originalCondition.effects && originalCondition.effects.length) {
+                //Fit the condition effects into the box defined by feat effects
+                let effectsObject = {name:condition.name, value:condition.value, effects:originalCondition.effects}
+                simpleEffects = simpleEffects.concat(this.get_SimpleEffects(characterService, effectsObject));
+            }
         });
         
         //We finalize and export this first bunch of simple effects,
@@ -157,7 +183,7 @@ constructor(
                 //If the item has the Flexible trait, its penalty doesn't apply to Acrobatics and Athletics.
                 //We push this as an apply:false effect to each so you can see that (and why) you were spared from it.
                 //We also add a note to the source for clarity.
-                if (this.traitsService.have_Trait(item,"Flexible")) {
+                if (this.traitsService.have_Trait(characterService, item,"Flexible")) {
                     itemEffects.push(new Effect('item', "Acrobatics", item.get_SkillPenalty().toString(), name + " (Flexible)", true, false));
                     itemEffects.push(new Effect('item', "Athletics", item.get_SkillPenalty().toString(), name + " (Flexible)", true, false));
                 } else {
@@ -173,7 +199,7 @@ constructor(
                 itemEffects.push(new Effect('item', "Athletics", item.get_SkillPenalty().toString(), name + " (Strength)", true, false));
                 itemEffects.push(new Effect('item', "Thievery", item.get_SkillPenalty().toString(), name + " (Strength)", true, false));
                 //UNLESS the item is also Noisy, in which case you do get the stealth penalty because you are dummy thicc and the clap of your ass cheeks keeps alerting the guards.
-                if (this.traitsService.have_Trait(item, "Noisy")) {
+                if (this.traitsService.have_Trait(characterService, item, "Noisy")) {
                     itemEffects.push(new Effect('item', "Stealth", item.get_SkillPenalty().toString(), name + " (Noisy)", true))
                 } else {
                     itemEffects.push(new Effect('item', "Stealth", item.get_SkillPenalty().toString(), name + " (Strength)", true, false));
@@ -205,17 +231,9 @@ constructor(
         //Push simpleEffects and itemEffects into effects together.
         let allEffects: Effect[] = simpleEffects.concat(itemEffects)
 
+        //Process effects from feats
         let featEffects: Effect[] = [];
-        //If you have the Quick Swim feat and are legendary in Athletics, add a Swim Speed at the Land Speed.
-        if (character.get_FeatsTaken(0, character.level, "Quick Swim")) {
-            if (characterService.get_Skills("Athletics")[0].level(characterService, character.level) == 8) {
-                let landSpeed = characterService.get_Speeds().filter(speed => speed.name == "Land Speed")[0].value(characterService, this)[0];
-                let swimSpeed = allEffects.filter(effect => effect.target == "Swim Speed").map(effect => parseInt(effect.value)).reduce((sum, current) => sum + current, 0);
-                if (!swimSpeed || swimSpeed < landSpeed) 
-                featEffects.push(new Effect("", "Swim Speed", "+"+landSpeed.toString(), "Quick Swim", false, true, true))
-            }
-        }
-
+                
         //If you have the Multilingual feat and are master or legendary in Society, add 1 or 2 more languages to the current effect.
         if (character.get_FeatsTaken(0, character.level, "Multilingual")) {
             let bonus = 0;

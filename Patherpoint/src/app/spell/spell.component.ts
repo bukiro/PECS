@@ -13,10 +13,10 @@ export class SpellComponent implements OnInit {
     @Input()
     spell: Spell
     @Input()
-    spellLevel: number
+    spellLevel: number;
 
     constructor(
-        private characterService: CharacterService,
+        public characterService: CharacterService,
         private traitsService: TraitsService
     ) { }
 
@@ -24,15 +24,12 @@ export class SpellComponent implements OnInit {
         return this.traitsService.get_Traits(name);
     }
 
-    get_SpellDescription(spell: Spell, levelNumber?:number) {
+    get_Heightened(desc: string) {
+        let levelNumber = this.spellLevel;
         if (!levelNumber) {
-            if (this.spellLevel) {
-                levelNumber = this.spellLevel;
-            } else {
-                levelNumber = Math.ceil(this.characterService.get_Character().level / 2);
-            }
-        }
-        return spell.get_Description(levelNumber)
+            levelNumber = Math.ceil(this.characterService.get_Character().level / 2)
+        } 
+        return this.spell.get_Heightened(desc, levelNumber)
     }
 
     get_FeatsShowingOn(spellName: string) {

@@ -713,8 +713,8 @@ export class CharacterService {
     }
 
     process_OnceEffect(effect: EffectGain) {
-        let value: number = 0;
-        //Prepare values that can be used in an eval.
+        let value = 0;
+        //Prepare values that can be used in an eval. Add to this list as needed.
         let currentHP = this.me.health.currentHP(this, this.effectsService);
         try {
             value = parseInt(eval(effect.value));
@@ -724,7 +724,7 @@ export class CharacterService {
         switch (effect.affected) {
             case "Focus":
                 //Give the focus point some time. If a feat expands the focus pool and gives a focus point, the pool is not expanded yet at this point of processing.
-                setTimeout(() => this.me.class.focusPoints = Math.min(this.me.class.focusPoints + value, this.get_MaxFocusPoints()));
+                this.me.class.focusPoints += value;
                 break;
             case "Temporary HP":
                 this.me.health.temporaryHP += value;
@@ -736,11 +736,23 @@ export class CharacterService {
                     this.me.health.takeDamage(this, this.effectsService, -value, false)
                 }
                 break;
+            case "Languages":
+                let languages = this.me.class.ancestry.languages;
+                for (let index = 0; index < languages.length; index++) {
+                    if (languages[index] == "") {
+                        languages[index] = (effect.value)
+                        break;
+                    }
+                }
+                if (languages.filter(language => language == effect.value).length == 0) {
+                    languages.push(effect.value);
+                }
+                break;
         }
     }
 
     have_Trait(object: any, traitName: string) {
-        return this.traitsService.have_Trait(object, traitName);
+        return this.traitsService.have_Trait(this, object, traitName);
     }
 
     get_Abilities(name: string = "") {
@@ -806,10 +818,10 @@ export class CharacterService {
         return returnedConditions;
     }
 
-    get_OwnedActivities() {
+    get_OwnedActivities(levelNumber: number = this.get_Character().level) {
         let activities: (ActivityGain | ItemActivity)[] = []
         if (!this.still_loading()) {
-            activities.push(...this.me.class.activities);
+            activities.push(...this.me.class.activities.filter(gain => gain.level <= levelNumber));
             this.get_InventoryItems().allEquipment().filter(item => item.equipped && (item.can_Invest() ? item.invested : true) && (item.gainActivities.length || item.activities.length)).forEach(item => {
                 if (item.gainActivities.length) {
                     activities.push(...item.gainActivities);

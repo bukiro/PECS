@@ -11,6 +11,7 @@ import { SpellChoice } from './SpellChoice';
 import { FormulaChoice } from './FormulaChoice';
 import { TraditionChoice } from './TraditionChoice';
 import { SkillChoice } from './SkillChoice';
+import { ConditionGain } from './ConditionGain';
 
 @Injectable({
     providedIn: 'root'
@@ -155,7 +156,7 @@ export class FeatsService {
             if (feat.gainActivities.length) {
                 if (taken) {
                     feat.gainActivities.forEach((gainActivity: string) => {
-                        character.gain_Activity(Object.assign(new ActivityGain(), {name:gainActivity, source:feat.name}));
+                        character.gain_Activity(Object.assign(new ActivityGain(), {name:gainActivity, source:feat.name}), level.number);
                     });
                     
                 } else {
@@ -166,6 +167,23 @@ export class FeatsService {
                         }
                     });
                     
+                }
+            }
+
+            //Gain conditions. Some Feats do give you a permanent condition.
+            if (feat.gainConditions) {
+                if (taken) {
+                    feat.gainConditions.forEach(gain => {
+                        let newConditionGain = Object.assign(new ConditionGain(), gain);
+                        characterService.add_Condition(newConditionGain, false);
+                    });
+                } else {
+                    feat.gainConditions.forEach(gain => {
+                        let conditionGains = characterService.get_AppliedConditions(gain.name).filter(conditionGain => conditionGain.source == gain.source);
+                        if (conditionGains.length) {
+                            characterService.remove_Condition(conditionGains[0], false);
+                        }
+                    })
                 }
             }
 
@@ -209,6 +227,7 @@ export class FeatsService {
                         let newLength = characterService.add_CustomFeat(feat);
                         let newFeat = character.customFeats[newLength -1];
                         newFeat.hide = true;
+                        newFeat.data = {background:"", name:""}
                     }
                 } else {
                     let oldChoices: LoreChoice[] = level.loreChoices.filter(choice => choice.source == "Different Worlds");
@@ -223,6 +242,25 @@ export class FeatsService {
                     }
                 }
             }
+
+            //Fuse Stance
+            //We copy the original feat so that we can change the included data property persistently
+            if (feat.name=="Fuse Stance") {
+                if (taken) {
+                    if (character.customFeats.filter(customFeat => customFeat.name == "Different Worlds").length == 0) {
+                        let newLength = characterService.add_CustomFeat(feat);
+                        let newFeat = character.customFeats[newLength -1];
+                        newFeat.hide = true;
+                        newFeat.data = {name:"", stance1:"", stance2:""}
+                    }
+                } else {
+                    let oldFeats = character.customFeats.filter(customFeat => customFeat.name == "Different Worlds")
+                    if (oldFeats.length) {
+                        character.customFeats.splice(character.customFeats.indexOf(oldFeats[0], 1));
+                    }
+                }
+            }
+
         }
     }
 
@@ -262,6 +300,7 @@ export class FeatsService {
             this.feats = this.loader_Feats.map(feat => Object.assign(new Feat(), feat));
             this.feats.forEach(feat => {
                 feat.gainFeatChoice = feat.gainFeatChoice.map(choice => Object.assign(new FeatChoice(), choice));
+                feat.gainConditions = feat.gainConditions.map(choice => Object.assign(new ConditionGain(), choice));
                 //feat.gainFormulaChoice = feat.gainFormulaChoice.map(choice => Object.assign(new FormulaChoice(), choice));
                 feat.gainSkillChoice = feat.gainSkillChoice.map(choice => Object.assign(new SkillChoice, choice));
                 feat.gainSpellChoice = feat.gainSpellChoice.map(choice => Object.assign(new SpellChoice, choice));
@@ -277,6 +316,7 @@ export class FeatsService {
             this.features = this.loader_Features.map(feature => Object.assign(new Feat(), feature));
             this.features.forEach(feature => {
                 feature.gainFeatChoice = feature.gainFeatChoice.map(choice => Object.assign(new FeatChoice(), choice));
+                feature.gainConditions = feature.gainConditions.map(choice => Object.assign(new ConditionGain(), choice));
                 //feature.gainFormulaChoice = feature.gainFormulaChoice.map(choice => Object.assign(new FormulaChoice(), choice));
                 feature.gainSkillChoice = feature.gainSkillChoice.map(choice => Object.assign(new SkillChoice, choice));
                 feature.gainSpellChoice = feature.gainSpellChoice.map(choice => Object.assign(new SpellChoice, choice));

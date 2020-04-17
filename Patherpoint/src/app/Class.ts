@@ -33,6 +33,8 @@ export class Class {
             level.loreChoices = level.loreChoices.map(choice => Object.assign(new LoreChoice(), JSON.parse(JSON.stringify(choice))));
             level.skillChoices = level.skillChoices.map(choice => Object.assign(new SkillChoice(), JSON.parse(JSON.stringify(choice))));
         })
+        //Re-Assign all custom activity gains
+        this.activities = this.activities.map(gain => Object.assign(new ActivityGain(), gain));
     }
     on_ChangeAncestry(characterService: CharacterService) {
         if (this.ancestry.name) {

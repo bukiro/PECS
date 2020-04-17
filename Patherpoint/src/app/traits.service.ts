@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { Trait } from './Trait';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { CharacterService } from './character.service';
 
 @Injectable({
     providedIn: 'root'
@@ -26,7 +27,7 @@ export class TraitsService {
         }
     }
 
-    get_TraitsForThis(characterService, name: string) {
+    get_TraitsForThis(characterService: CharacterService, name: string) {
         if (!this.still_loading()) {
             //return all traits that are set to SHOW ON this named object and that are on any equipped equipment in your inventory
             //uses the haveOn() method of Trait that returns any equipment that has this trait
@@ -38,8 +39,8 @@ export class TraitsService {
         } else {return []}
     }
 
-    have_Trait(object: any, traitName: string) {
-        return ((object.get_Traits ? object.get_Traits() : object.traits).filter((trait: string) => trait.indexOf(traitName) > -1).length) ? true : false;
+    have_Trait(characterService: CharacterService, object: any, traitName: string) {
+        return ((object.get_Traits ? object.get_Traits(characterService) : object.traits).filter((trait: string) => trait.indexOf(traitName) > -1).length) ? true : false;
     }
 
     still_loading() {

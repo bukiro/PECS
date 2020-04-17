@@ -26,8 +26,8 @@
                     </ng-container>
                 </span>
             </div>
-            <div class="fullsize-only row left-aligned tags" *ngIf="weapon.traits.length">
-                <cite class="trait" *ngFor="let trait of weapon.traits"
+            <div class="fullsize-only row left-aligned tags" *ngIf="weapon.get_Traits(characterService).length">
+                <cite class="trait" *ngFor="let trait of weapon.get_Traits(characterService)"
                     title="{{get_Traits(trait)[0].description}}">{{trait}}</cite>
             </div>
             <div class="fullsize-only row left-aligned" *ngFor="let runes of [get_HintRunes(weapon, attack[0])]" style="margin-top:initial">

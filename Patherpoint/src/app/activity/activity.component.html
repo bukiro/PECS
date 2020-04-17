@@ -2,16 +2,26 @@
     <div class="row">
         <button class="row center-aligned"
             (click)="on_Activate(gain, activity, true)"
-            *ngIf="allowActivate && activity.can_Activate() && !gain.active && !gain.activeCooldown">
+            *ngIf="allowActivate && gain.name != 'Fused Stance' && activity.can_Activate() && !gain.active && !gain.activeCooldown">
+            Activate
+        </button>
+        <button class="row center-aligned"
+            (click)="on_ActivateFuseStance(true)"
+            *ngIf="allowActivate && gain.name == 'Fused Stance' && !gain.active" [disabled]="!get_FuseStanceFeat() || !get_FuseStanceFeat().data">
             Activate
         </button>
         <button class="row center-aligned"
             (click)="on_Activate(gain, activity, false)"
-            *ngIf="allowActivate && activity.can_Activate() && gain.active">
+            *ngIf="allowActivate && gain.name != 'Fused Stance' && activity.can_Activate() && gain.active">
             Deactivate
         </button>
         <button class="row center-aligned"
-            (click)="on_Activate(gain, activity, true)" *ngIf="allowActivate && gain.activeCooldown" disabled>
+            (click)="on_ActivateFuseStance(false)"
+            *ngIf="allowActivate && gain.name == 'Fused Stance' && gain.active" [disabled]="!get_FuseStanceFeat() || !get_FuseStanceFeat().data">
+            Deactivate
+        </button>
+        <button class="row center-aligned"
+            *ngIf="allowActivate && gain.activeCooldown" disabled>
             Cannot activate for {{get_Duration(gain.activeCooldown)}}
         </button>
     </div>
@@ -20,6 +30,14 @@
             title="{{get_Traits(trait)[0].description}}">{{trait}}</cite>
         <cite class="trait" *ngFor="let trait of get_ActivationTraits(activity)"
             title="{{get_Traits(trait)[0].description}}">{{trait}}</cite>
+    </div>
+    <div class="list-item lower row problem" *ngIf="activity.inputRequired">
+        <strong>Player input required:</strong>
+        <div class="row left-aligned">
+            <p *ngFor="let inputRequired of activity.inputRequired.split('\n')">
+                {{inputRequired}}
+            </p>
+        </div>
     </div>
     <div class="row left-aligned" *ngIf="activity.frequency">
         <span>
@@ -89,6 +107,22 @@
             </ul>
         </div>
     </div>
-    <app-tags [objectName]=activity.name [showTraits]=true [showFeats]=true [showItems]=true [showActivities]=true
-        [showConditions]=true [showEffects]=true></app-tags>
+    <ng-container *ngIf="allowActivate">
+        <ng-container *ngFor="let related_gain of get_ActivitiesShowingOn(activity.name)">
+            <div class="row left-aligned" *ngFor="let related_activity of (related_gain.can_Activate ? [related_gain] : get_Activities(related_gain.name))">
+                <h4>{{related_activity.name}} {{related_activity.get_Actions()}}{{(related_activity.activationType) ? " - " + related_activity.activationType : ""}}</h4>
+                <app-activity [activity]=related_activity [gain]=related_gain [allowActivate]=true></app-activity>
+            </div>
+        </ng-container>
+        <ng-container *ngIf="gain.name == 'Fused Stance'">
+            <ng-container *ngFor="let gain of get_FusedStances()">
+                <div class="row left-aligned" *ngFor="let related_activity of (gain.can_Activate ? [gain] : get_Activities(gain.name))">
+                    <h4>{{related_activity.name}} {{related_activity.get_Actions()}}{{(related_activity.activationType) ? " - " + related_activity.activationType : ""}}</h4>
+                    <app-activity [activity]=related_activity [gain]=gain [allowActivate]=true></app-activity>
+                </div>
+            </ng-container>
+        </ng-container>
+        <app-tags [objectName]="activity.name" [showTraits]=true [showFeats]=true [showItems]=true [showActivities]=true
+            [showConditions]=true [showEffects]=true></app-tags>
+    </ng-container>
 </div>

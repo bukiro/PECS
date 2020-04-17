@@ -2,6 +2,7 @@ import { SpellDesc } from './SpellDesc';
 import { CharacterService } from './character.service';
 import { SpellGain } from './SpellGain';
 import { ConditionGain } from './ConditionGain';
+import { ItemGain } from './ItemGain';
 
 export class Spell {
     public name: string = "";
@@ -32,6 +33,7 @@ export class Spell {
     public failure: string = "";
     public critfailure: string = "";
     public gainConditions: ConditionGain[] = [];
+    public gainItems: ItemGain[] = [];
     public sustained: boolean = false;
     public traits: string[] = [];
     get_Actions() {
@@ -50,63 +52,35 @@ export class Spell {
                 return "("+this.actions+")";
         }
     }
-    get_Description(levelNumber: number) {
+    get_DescriptionSet(levelNumber: number) {
         //This descends from levelnumber downwards and returns the first available description.
-        let desc = this.desc;
-        let levelDesc: SpellDesc[] = [];
         switch (levelNumber) {
             case 10: 
-                if (this.desc10.length) {
-                    levelDesc = this.desc10;
-                    break;
-                }
+                if (this.desc10.length) { return this.desc10; }
             case 9: 
-                if (this.desc9.length) {
-                    levelDesc = this.desc9;
-                    break;
-                }
+                if (this.desc9.length) { return this.desc9; }
             case 8: 
-                if (this.desc8.length) {
-                    levelDesc = this.desc8;
-                    break;
-                }
+                if (this.desc8.length) { return this.desc8; }
             case 7: 
-                if (this.desc7.length) {
-                    levelDesc = this.desc7;
-                    break;
-                }
+                if (this.desc7.length) { return this.desc7; }
             case 6: 
-                if (this.desc6.length) {
-                    levelDesc = this.desc6;
-                    break;
-                }
+                if (this.desc6.length) { return this.desc6; }
             case 5: 
-                if (this.desc5.length) {
-                    levelDesc = this.desc5;
-                    break;
-                }
+                if (this.desc5.length) { return this.desc5; }
             case 4: 
-                if (this.desc4.length) {
-                    levelDesc = this.desc4;
-                    break;
-                }
+                if (this.desc4.length) { return this.desc4; }
             case 3: 
-                if (this.desc3.length) {
-                    levelDesc = this.desc3;
-                    break;
-                }
+                if (this.desc3.length) { return this.desc3; }
             case 2: 
-                if (this.desc2.length) {
-                    levelDesc = this.desc2;
-                    break;
-                }
+                if (this.desc2.length) { return this.desc2; }
+            case 1:
+                if (this.desc1.length) { return this.desc1; }
             default:
-                if (this.desc1.length) {
-                    levelDesc = this.desc1;
-                    break;
-                }
-        }
-        levelDesc.forEach((descVar: SpellDesc) => {
+                return [];
+            }
+    }
+    get_Heightened(desc: string, levelNumber: number) {
+        this.get_DescriptionSet(levelNumber).forEach((descVar: SpellDesc) => {
             desc = desc.replace(descVar.variable, descVar.value);
         })
         return desc;
@@ -139,7 +113,7 @@ export class Spell {
     }
     can_Cast(characterService: CharacterService, gain: SpellGain) {
         if (gain.tradition.indexOf("Focus") > -1) {
-            return characterService.get_Character().class.focusPoints > 0;
+            return characterService.get_Character().class.focusPoints > 0 || gain.active;
         }
     }
 }

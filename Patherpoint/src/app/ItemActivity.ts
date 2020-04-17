@@ -5,4 +5,5 @@ export class ItemActivity extends Activity {
     public source: string = "";
     public active: boolean = false;
     public activeCooldown: number = 0;
+    public level: number = 20;
 }

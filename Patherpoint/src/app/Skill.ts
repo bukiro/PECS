@@ -8,6 +8,7 @@ export class Skill {
     public notes: string = "";
     public showNotes: boolean = false;
     public $level: number = 0;
+    public $baseValue: {result: number, explain: string} = {result:0, explain:""};
     public $value: {result: number, explain: string} = {result:0, explain:""};
     public $effects: Effect[] = [];
     public $bonus: Effect[] = [];
@@ -22,6 +23,7 @@ export class Skill {
         this.$penalty = this.penalty(effectsService);
         this.$bonus = this.bonus(effectsService);
         this.$level = this.level(characterService, charLevel);
+        this.$baseValue = this.baseValue(characterService, abilitiesService, effectsService, charLevel);
         this.$value = this.value(characterService, abilitiesService, effectsService, charLevel);
         return this;
     }
@@ -74,9 +76,7 @@ export class Skill {
     penalty(effectsService: EffectsService) {
         return effectsService.get_PenaltiesOnThis(this.name).concat(effectsService.get_PenaltiesOnThis("All Checks"));;
     }
-    value(characterService: CharacterService, abilitiesService: AbilitiesService, effectsService: EffectsService, charLevel: number = characterService.get_Character().level) {
-        //Calculates the effective bonus of the given Skill
-        //$scope.Level, $scope.Abilities, $scope.feat_db and $scope.getEffects(skill) must be passed
+    baseValue(characterService: CharacterService, abilitiesService: AbilitiesService, effectsService: EffectsService, charLevel: number = characterService.get_Character().level) {
         let result: number = 0;
         let explain: string = "";
         if (!characterService.still_loading()) {
@@ -118,6 +118,20 @@ export class Skill {
                     }
                 }
             }
+            explain = explain.substr(1);
+            //Add up all modifiers, the skill proficiency and all active effects and return the sum
+            result = charLevelBonus + skillLevel + abilityMod;
+        }
+        return {result:result, explain:explain};
+    }
+    value(characterService: CharacterService, abilitiesService: AbilitiesService, effectsService: EffectsService, charLevel: number = characterService.get_Character().level) {
+        //Calculates the effective bonus of the given Skill
+        let result: number = 0;
+        let explain: string = "";
+        if (!characterService.still_loading()) {
+            let baseValue = (this.$baseValue.result ? this.$baseValue : this.baseValue(characterService, abilitiesService, effectsService, charLevel))
+            result = baseValue.result;
+            explain = baseValue.explain
             //For Saving Throws, add any resilient runes on the equipped armor
             let armor = characterService.get_InventoryItems().armors.filter(armor => armor.equipped);
             let resilient: number = 0;
@@ -136,9 +150,8 @@ export class Skill {
                 effectsSum += parseInt(effect.value);
                 explain += "\n" + effect.source + ": " + effect.value;
             });
-            explain = explain.substr(1);
             //Add up all modifiers, the skill proficiency and all active effects and return the sum
-            result = charLevelBonus + skillLevel + abilityMod + effectsSum + resilient;
+            result = result + effectsSum + resilient;
         }
         return {result:result, explain:explain};
     }

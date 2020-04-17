@@ -2670,6 +2670,12 @@
             "value": 6
          }
       ],
+      "effects": [
+         {
+            "affected": "Climb Speed",
+            "value": "(Skill_Level('Athletics') >= 8 ? Speed('Land Speed') - Speed('Climb Speed') : 0)"
+         }
+      ],
       "traits": [
          "General",
          "Skill"
@@ -2828,6 +2834,13 @@
             "value": 6
          }
       ],
+      "effects": [
+         {
+            "affected": "Swim Speed",
+            "value": "(Skill_Level('Athletics') >= 8 ? Speed('Land Speed') - Speed('Swim Speed') : 0)"
+         }
+      ],
+      
       "traits": [
          "General",
          "Skill"
@@ -3068,6 +3081,12 @@
          {
             "affected": "Max Languages",
             "value": "1"
+         }
+      ],
+      "onceEffects": [
+         {
+            "affected": "Languages",
+            "value": "Secret society speech (Secret Speech)"
          }
       ],
       "levelreq": 1,
@@ -4868,6 +4887,9 @@
       "shortdesc": "Your reflexes allow you to deflect ranged attacks.",
       "desc": "",
       "levelreq": 4,
+      "gainActivities": [
+         "Deflect Arrows"
+      ],
       "traits": [
          "Monk"
       ]
@@ -5018,6 +5040,12 @@
             "tradition": "Focus"
          }
       ],
+      "effects": [
+         {
+            "affected": "Focus Pool",
+            "value": 1
+         }
+      ],
       "traits": [
          "Monk"
       ]
@@ -5030,6 +5058,10 @@
       "levelreq": 6,
       "traits": [
          "Monk"
+      ],
+      "showon": "Mountain Stance",
+      "gainActivities": [
+         "Mountain Stronghold"
       ]
    },
    {
@@ -5076,8 +5108,9 @@
    {
       "name": "Arrow Snatching ",
       "shortdesc": "You pluck missiles from the air and hurl them back at their source.",
-      "desc": "",
-      "featreq": "Deflect Arrow",
+      "desc": "You pluck missiles from the air and hurl them back at their source. When you successfully deflect an attack with Deflect Arrow, as part of that reaction, you can immediately make a ranged Strike against the attacker using the projectile you deflected. This is a thrown weapon with the same range increment and effect on a hit as the triggering attack.",
+      "showon": "Deflect Arrows",
+      "featreq": "Deflect Arrows",
       "levelreq": 8,
       "traits": [
          "Monk"
@@ -5088,6 +5121,9 @@
       "shortdesc": "You enter the stance of impenetrable iron, refusing to yield to any blow.",
       "desc": "",
       "levelreq": 8,
+      "gainActivities": [
+         "Ironblood Stance"
+      ],
       "traits": [
          "Monk",
          "Stance"
@@ -5113,6 +5149,9 @@
       "shortdesc": "You extend your arms like gnarled branches to interfere with your foes’ movements.",
       "desc": "",
       "levelreq": 8,
+      "gainActivities": [
+         "Tangled Forest Stance"
+      ],
       "traits": [
          "Monk",
          "Stance"
@@ -5134,6 +5173,24 @@
       "levelreq": 8,
       "specialreq": "character.get_FeatsTaken(0,charLevel).filter(gain => characterService.get_FeatsAndFeatures(gain.name).filter(feat => feat.gainTraditionChoice.filter(choice => choice.source == \"Ki Spells\").length).length).length",
       "specialreqdesc": "ki spells",
+      "gainSpellChoice": [
+         {
+            "className": "Monk",
+            "id": "8-Spell-Feat: Wild Winds Stance-0",
+            "source": "Feat: Wild Winds Stance",
+            "spells": [
+               {
+                  "className": "Monk",
+                  "locked": true,
+                  "name": "Wild Winds Stance",
+                  "source": "Feat: Wild Winds Stancet",
+                  "sourceId": "8-Spell-Wild Winds Stance-0",
+                  "tradition": "Focus"
+               }
+            ],
+            "tradition": "Focus"
+         }
+      ],
       "traits": [
          "Monk"
       ]
@@ -5166,6 +5223,24 @@
       "levelreq": 10,
       "specialreq": "character.get_FeatsTaken(0,charLevel).filter(gain => characterService.get_FeatsAndFeatures(gain.name).filter(feat => feat.gainTraditionChoice.filter(choice => choice.source == \"Ki Spells\").length).length).length",
       "specialreqdesc": "ki spells",
+      "gainSpellChoice": [
+         {
+            "className": "Monk",
+            "id": "10-Spell-Feat: Wind Jump-0",
+            "source": "Feat: Wind Jump",
+            "spells": [
+               {
+                  "className": "Monk",
+                  "locked": true,
+                  "name": "Wind Jump",
+                  "source": "Feat: Wind Jump",
+                  "sourceId": "10-Spell-Wind Jump-0",
+                  "tradition": "Focus"
+               }
+            ],
+            "tradition": "Focus"
+         }
+      ],
       "traits": [
          "Monk"
       ]
@@ -5220,6 +5295,8 @@
       "levelreq": 12,
       "specialreq": "character.get_FeatsTaken(0,charLevel).filter(gain => characterService.get_FeatsAndFeatures(gain.name).filter(feat => feat.gainTraditionChoice.filter(choice => choice.source == \"Ki Spells\").length).length).length",
       "specialreqdesc": "ki spells",
+      "showon": "Focus",
+      "hint": "If you have spent at least 2 Focus Points since the last time you Refocused, you recover 2 Focus Points when you Refocus instead of 1.",
       "traits": [
          "Monk"
       ]
@@ -5237,6 +5314,9 @@
       "name": "Ironblood Surge",
       "shortdesc": "You steel yourself, preparing to resist oncoming attacks and using your muscles to absorb the impact.",
       "desc": "",
+      "gainActivities": [
+         "Ironblood Surge"
+      ],
       "featreq": "Ironblood Stance",
       "levelreq": 14,
       "traits": [
@@ -5247,6 +5327,10 @@
       "name": "Mountain Quake",
       "shortdesc": "You stomp, shaking the earth beneath you and causing quakes.",
       "desc": "",
+      "showon": "Mountain Stance",
+      "gainActivities": [
+         "Mountain Quake"
+      ],
       "featreq": "Mountain Stronghold",
       "levelreq": 14,
       "traits": [
@@ -5258,6 +5342,9 @@
       "shortdesc": "You reposition foes with raking attacks.",
       "desc": "",
       "featreq": "Tangled Forest Stance",
+      "gainActivities": [
+         "Tangled Forest Rake"
+      ],
       "levelreq": 14,
       "traits": [
          "Monk"
@@ -5279,6 +5366,18 @@
       "levelreq": 14,
       "traits": [
          "Monk"
+      ],
+      "effects": [
+         {
+            "affected": "Max Languages",
+            "value": "+1"
+         }
+      ],
+      "onceEffects": [
+         {
+            "affected": "Languages",
+            "value": "All spoken languages (Tongue of the Sun and Moon)"
+         }
       ]
    },
    {
@@ -5309,6 +5408,25 @@
       "levelreq": 16,
       "specialreq": "character.get_FeatsTaken(0,charLevel).filter(gain => characterService.get_FeatsAndFeatures(gain.name).filter(feat => feat.gainTraditionChoice.filter(choice => choice.source == \"Ki Spells\").length).length).length",
       "specialreqdesc": "ki spells",
+      "gainSpellChoice": [
+         {
+            "className": "Monk",
+            "id": "16-Spell-Feat: Quivering Palm-0",
+            "source": "Feat: Quivering Palm",
+            "spells": [
+               {
+                  "className": "Monk",
+                  "locked": true,
+                  "name": "Quivering Palm",
+                  "source": "Feat: Quivering Palm",
+                  "sourceId": "16-Spell-Quivering Palm-0",
+                  "tradition": "Focus"
+               }
+            ],
+            "tradition": "Focus"
+         }
+      ],
+      
       "traits": [
          "Monk"
       ]
@@ -5354,6 +5472,24 @@
       "specialreqdesc": "ki spells",
       "traits": [
          "Monk"
+      ],
+      "gainSpellChoice": [
+         {
+            "className": "Monk",
+            "id": "18-Spell-Feat: Empty Body-0",
+            "source": "Feat: Empty Body",
+            "spells": [
+               {
+                  "className": "Monk",
+                  "locked": true,
+                  "name": "Empty Body",
+                  "source": "Feat: Empty Body",
+                  "sourceId": "18-Spell-Empty Body-0",
+                  "tradition": "Focus"
+               }
+            ],
+            "tradition": "Focus"
+         }
       ]
    },
    {
@@ -5373,6 +5509,9 @@
       "levelreq": 18,
       "traits": [
          "Monk"
+      ],
+      "gainActivities": [
+         "Swift River"
       ]
    },
    {
@@ -5380,6 +5519,12 @@
       "shortdesc": "You move as fast and as high as the wind itself.",
       "desc": "",
       "levelreq": 20,
+      "gainConditions": [
+         {
+            "name": "Quickened",
+            "source": "Enduring Quickness"
+         }
+      ],
       "traits": [
          "Monk"
       ]
@@ -5391,6 +5536,9 @@
       "levelreq": 20,
       "specialreq": "character.get_FeatsTaken(0,charLevel).filter(gain => characterService.get_FeatsAndFeatures(gain.name).filter(feat => feat.traits.indexOf(\"Stance\") > -1).length).length >= 2",
       "specialreqdesc": "at least two stances",
+      "gainActivities": [
+         "Fused Stance"
+      ],
       "traits": [
          "Monk"
       ]
@@ -5400,6 +5548,12 @@
       "shortdesc": "Strike harder and heal more rapidly.",
       "desc": "",
       "levelreq": 20,
+      "effects": [
+         {
+            "affected": "Fast Healing",
+            "value": "+20"
+         }
+      ],
       "traits": [
          "Monk",
          "Uncommon"

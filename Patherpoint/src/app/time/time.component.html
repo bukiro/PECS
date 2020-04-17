@@ -3,13 +3,13 @@
     <div class="loading" *ngIf="still_loading()">Loading</div>
     <ng-container *ngIf="!still_loading()">
         <div class="list-item center-aligned">
-            <button (click)="tick(5)"
+            <button (click)="start_Turn()"
                 [disabled]="get_YourTurn()==5">Start Turn</button>
             <div class="turn-indicator">
                 <strong *ngIf="get_YourTurn() == 0">Not your Turn</strong>
                 <strong class="yourTurn" *ngIf="get_YourTurn() == 5">Your Turn</strong>
             </div>
-            <button (click)="tick(5)"
+            <button (click)="end_Turn()"
                 [disabled]="get_YourTurn()==0">End Turn</button>
         </div>
         <div class="fullsize-only list-item">

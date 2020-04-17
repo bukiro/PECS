@@ -27,13 +27,19 @@
             {{spell.area}}
         </span>
     </div>
+    <div class="row left-aligned"  *ngIf="spell.duration">
+        <span>
+            <strong>Duration</strong>
+            {{spell.duration}}
+        </span>
+    </div>
     <div class="row left-aligned"  *ngIf="spell.savingthrow">
         <span>
             <strong>Saving Throw</strong>
             {{spell.savingthrow}}
         </span>
     </div>
-    <div class="row left-aligned" *ngFor="let desc of get_SpellDescription(spell).split('\n\n')">
+    <div class="row left-aligned" *ngFor="let desc of get_Heightened(spell.desc).split('\n\n')">
         <p *ngIf="desc.split('\n').length == 1" [innerHTML]="desc"></p>
         <ul *ngIf="desc.split('\n').length > 1">
             <li *ngFor="let line of desc.split('\n')" [innerHTML]="line"></li>
@@ -41,26 +47,26 @@
     </div>
     <div class="row left-aligned"  *ngIf="spell.critsuccess">
         <span>
-            <strong>Critical Success</strong>
-            {{spell.critsuccess}}
+            <strong>Critical Success&nbsp;</strong>
+            <span [innerHTML]="get_Heightened(spell.critsuccess)"></span>
         </span>
     </div>
     <div class="row left-aligned"  *ngIf="spell.success">
         <span>
-            <strong>Success</strong>
-            {{spell.success}}
+            <strong>Success&nbsp;</strong>
+            <span [innerHTML]="get_Heightened(spell.success)"></span>
         </span>
     </div>
     <div class="row left-aligned"  *ngIf="spell.failure">
         <span>
-            <strong>Failure</strong>
-            {{spell.failure}}
+            <strong>Failure&nbsp;</strong>
+            <span [innerHTML]="get_Heightened(spell.failure)"></span>
         </span>
     </div>
     <div class="row left-aligned"  *ngIf="spell.critfailure">
         <span>
-            <strong>Critical Failure</strong>
-            {{spell.critfailure}}
+            <strong>Critical Failure&nbsp;</strong>
+            <span [innerHTML]="get_Heightened(spell.critfailure)"></span>
         </span>
     </div>
     <div class="row left-aligned"  *ngFor="let heightened of spell.heightened">

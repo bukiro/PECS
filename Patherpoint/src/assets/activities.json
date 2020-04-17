@@ -9,37 +9,27 @@
         ]
     },
     {
-        "name": "Whirling Throw",
-        "actions": "1",
-        "requirements": "You have a creature grabbed or restrained.",
-        "desc": "You propel your grabbed or restrained foe a great distance. You can throw the creature any distance up to 10 feet, plus 5 feet × your Strength modifier. If you successfully throw the creature, it takes bludgeoning damage equal to your Strength modifier plus 1d6 per 10 feet you threw it.\n\nAttempt an Athletics check against the foe’s Fortitude DC. You take a –2 circumstance penalty to your check if the target is one size larger than you and a –4 circumstance penalty if it’s larger than that. You gain a +2 circumstance bonus to your check if the target is one size smaller than you and a +4 circumstance bonus if it’s smaller than that.",
-        "critsuccess": "You throw the creature the desired distance and it lands prone.",
-        "success": "You throw the creature the desired distance.",
-        "failure": "You don’t throw the creature.",
-        "critfailure": "You don’t throw the creature, and it’s no longer grabbed or restrained by you.",
-        "traits": [
-            "Flourish",
-            "Monk"
-        ]
-    },
-    {
         "name": "Crane Stance",
         "actions": "1",
         "toggle":true,
         "requirements": "You are unarmored.",
         "desc": "You enter the stance of a crane, holding your arms in an imitation of a crane’s wings and using flowing, defensive motions. You gain a +1 circumstance bonus to AC, but the only Strikes you can make are crane wing attacks. These deal 1d6 bludgeoning damage; are in the brawling group; and have the agile, finesse, nonlethal, and unarmed traits.\n\nWhile in Crane Stance, reduce the DC for High Jump and Long Jump by 5, and when you Leap, you can move an additional 5 feet horizontally or 2 feet vertically.",
-        "hint": "While in Crane Stance, reduce the DC for High Jump and Long Jump by 5, and when you Leap, you can move an additional 5 feet horizontally or 2 feet vertically.",
         "gainItems": [
             {
                 "name": "Crane Wing",
                 "type": "weapons"
             }
         ],
-        "showon": "Athletics",
+        "gainConditions": [
+            {
+                "name": "Crane Stance",
+                "source": "Crane Stance"
+            }
+        ],
         "traits": [
             "Monk",
             "Stance"
-        ]
+        ]       
     },
     {
         "name": "Dragon Stance",
@@ -47,14 +37,18 @@
         "toggle":true,
         "requirements": "You are unarmored.",
         "desc": "You enter the stance of a dragon and make powerful leg strikes like a lashing dragon’s tail. You can make dragon tail attacks that deal 1d10 bludgeoning damage. They are in the brawling group and have the backswing, nonlethal, and unarmed traits.\n\nWhile in Dragon Stance, you can ignore the first square of difficult terrain while Striding.",
-        "hint": "While in Dragon Stance, you can ignore the first square of difficult terrain while Striding.",
         "gainItems": [
             {
                 "name": "Dragon Tail",
                 "type": "weapons"
             }
         ],
-        "showon": "Movement",
+        "gainConditions": [
+            {
+                "name": "Dragon Stance",
+                "source": "Dragon Stance"
+            }
+        ],
         "traits": [
             "Monk",
             "Stance"
@@ -193,6 +187,7 @@
         "actions": "1",
         "requirements": "You are in Dragon Stance.",
         "desc": "You bellow, instilling fear in your enemies. Enemies within a 15-foot emanation must succeed at a Will save against your Intimidation DC or be frightened 1 (frightened 2 on a critical failure). When a creature frightened by the roar begins its turn adjacent to you, it can’t reduce its frightened value below 1 on that turn. Your first attack that hits a frightened creature after you roar and before the end of your next turn gains a +4 circumstance bonus to damage.\n\nAfter you use Dragon Roar, you can’t use it again for 1d4 rounds. Its effects end immediately if you leave Dragon Stance. Creatures in the area of your roar are then temporarily immune for 1 minute.",
+        "showon": "Dragon Stance",
         "traits": [
             "Auditory",
             "Emotion",
@@ -201,6 +196,268 @@
             "Monk"
         ]
     },
+    {
+        "name": "Mountain Stronghold",
+        "actions": "1",
+        "requirements": "You are in Mountain Stance.",
+        "desc": "You focus on your connection to the earth and call upon the mountain to block attacks against you. You gain a +2 circumstance bonus to AC until the beginning of your next turn.",
+        "gainConditions": [
+            {
+                "name": "Mountain Stronghold",
+                "source": "Mountain Stronghold",
+                "duration": 10
+            }
+        ],
+        "showon": "Mountain Stance",
+        "traits": [
+            "Monk"
+        ]
+    },
+    {
+        "name": "Tiger Slash",
+        "actions": "2",
+        "requirements": "You are in Tiger Stance.",
+        "desc": "You make a fierce swipe with both hands. Make a tiger claw Strike. It deals two extra weapon damage dice (three extra dice if you’re 14th level or higher), and you can push the target 5 feet away as if you had successfully Shoved them. If the attack is a critical success and deals damage, add your Strength modifier to the persistent bleed damage from your tiger claw.",
+        "showon": "Tiger Stance",
+        "traits": [
+            "Monk"
+        ]
+    },
+    {
+        "name": "Whirling Throw",
+        "actions": "1",
+        "requirements": "You have a creature grabbed or restrained.",
+        "desc": "You propel your grabbed or restrained foe a great distance. You can throw the creature any distance up to 10 feet, plus 5 feet × your Strength modifier. If you successfully throw the creature, it takes bludgeoning damage equal to your Strength modifier plus 1d6 per 10 feet you threw it.\n\nAttempt an Athletics check against the foe’s Fortitude DC. You take a –2 circumstance penalty to your check if the target is one size larger than you and a –4 circumstance penalty if it’s larger than that. You gain a +2 circumstance bonus to your check if the target is one size smaller than you and a +4 circumstance bonus if it’s smaller than that.",
+        "critsuccess": "You throw the creature the desired distance and it lands prone.",
+        "success": "You throw the creature the desired distance.",
+        "failure": "You don’t throw the creature.",
+        "critfailure": "You don’t throw the creature, and it’s no longer grabbed or restrained by you.",
+        "traits": [
+            "Monk"
+        ]
+    },
+    {
+        "name": "Wolf Drag",
+        "actions": "2",
+        "requirements": "You are in Wolf Stance.",
+        "desc": "You rip your enemy off their feet. Make a wolf jaw Strike. Your wolf jaw gains the fatal d12 trait for this Strike, and if the attack succeeds, you knock the target prone.",
+        "showon": "Wolf Stance",
+        "traits": [
+            "Monk"
+        ]
+    },
+    {
+        "name": "Ironblood Stance",
+        "actions": "1",
+        "toggle":true,
+        "requirements": "You are unarmored.",
+        "desc": "You enter the stance of impenetrable iron, refusing to yield to any blow. You can make iron sweep unarmed attacks. These deal 1d8 bludgeoning damage; are in the brawling group; and have the nonlethal, parry, sweep, and unarmed traits.\n\nWhile in Ironblood Stance, you gain resistance 2 to all damage. The resistance increases to 3 at 12th level, to 4 at 16th level, and to 5 at 20th level.",
+        "gainItems": [
+            {
+                "name": "Iron Sweep",
+                "type": "weapons"
+            }
+        ],
+        "gainConditions": [
+            {
+                "name": "Ironblood Stance",
+                "source": "Ironblood Stance"
+            }
+        ],
+        "traits": [
+            "Monk",
+            "Stance"
+        ]
+    },
+    {
+        "name": "Mixed Maneuver",
+        "actions": "2",
+        "desc": "You combine two different maneuvers together into a single flowing whole. Choose any two of Grapple, Shove, and Trip. Attempt both of the attacks you chose against the same or different creatures, but don’t apply the multiple attack penalty until after resolving both attacks.",
+        "traits": [
+            "Monk"
+        ]
+    },
+    {
+        "name": "Tangled Forest Stance",
+        "actions": "1",
+        "toggle":true,
+        "requirements": "You are unarmored.",
+        "desc": "You extend your arms like gnarled branches to interfere with your foes’ movements. You can make lashing branch unarmed attacks. These deal 1d8 slashing damage; are in the brawling group; and have the agile, finesse, nonlethal, and unarmed traits.\n\nWhile you’re in Tangled Forest Stance and can act, every enemy in your reach that tries to move away from you must succeed at a Reflex save, Acrobatics check, or Athletics check against your class DC or be immobilized for that action. If you prefer, you can allow the enemy to move.",
+        "gainItems": [
+            {
+                "name": "Lashing Branch",
+                "type": "weapons"
+            }
+        ],
+        "gainConditions": [
+            {
+                "name": "Tangled Forest Stance",
+                "source": "Tangled Forest Stance"
+            }
+        ],
+        "traits": [
+            "Monk",
+            "Stance"
+        ]
+    },
+    {
+        "name": "Wall Run",
+        "actions": "1",
+        "desc": "You defy gravity, traversing vertical planes as easily as the ground. Stride up to your Speed. You must start your movement on a horizontal surface. During this movement, you can run up vertical surfaces, like walls, at your full Speed. If you end the Stride off the ground, you fall after taking your next action or when your turn ends, whichever comes first (though you can Grab an Edge, if applicable). If you have Water Step or a similar ability, Wall Run lets you run along flimsy vertical surfaces, as well as vertical liquids, such as a waterfall.",
+        "traits": [
+            "Monk"
+        ]
+    },
+    {
+        "name": "Knockback Strike",
+        "actions": "2",
+        "desc": "You focus your strength into a blow powerful enough to push an enemy away from you. Make an unarmed Strike. If you hit, attempt an Athletics check to Shove the target. This attack uses the same multiple attack penalty as your Strike, and doesn’t count toward your multiple attack penalty.",
+        "traits": [
+            "Monk"
+        ]
+    },
+    {
+        "name": "Sleeper Hold",
+        "actions": "1",
+        "requirements": "You have a creature grabbed or restrained.",
+        "desc": "You pinch crucial points of your target’s nervous system, impeding its ability to function. Attempt an Athletics check to Grapple the creature, with the following success and critical success effects instead of the usual effects.",
+        "critsuccess": "The target falls unconscious for 1 minute, though it remains standing and doesn’t drop what it holds.",
+        "success": "The target is clumsy 1 until the end of its next turn.",
+        "traits": [
+            "Attack",
+            "Incapacitation",
+            "Monk"
+        ]
+    },
+    {
+        "name": "Winding Flow",
+        "actions": "1",
+        "frequency": "once per round",
+        "desc": "Any journey consists of more than simply reaching your destination. You use two of the following actions in any order: Stand, Step, and Stride. You can’t use the same action twice.",
+        "traits": [
+            "Monk"
+        ]
+    },
+    {
+        "name": "Disrupt Ki",
+        "actions": "2",
+        "desc": "Make an unarmed Strike. If it deals damage to a living creature, you block that creature’s inner life force. The creature takes 2d6 persistent negative damage and is enfeebled 1 until the persistent damage ends. If you’re 18th level or higher, this deals 3d6 persistent negative damage instead.",
+        "traits": [
+            "Monk",
+            "Negative"
+        ]
+    },
+    {
+        "name": "Stance Savant (Monk)",
+        "actions": "Free",
+        "trigger": "You roll initiative.",
+        "desc": "You enter a stance without a thought. Use an action that has the stance trait.",
+        "traits": [
+            "Monk"
+        ],
+        "showon": "Crane Stance, Dragon Stance, Mountain Stance, Rain of Embers Stance, Tiger Stance, Wolf Stance, Ironblood Stance, Tangled Forest Stance"
+    },
+    {
+        "name": "Ironblood Surge",
+        "actions": "1",
+        "requirements": "You are in Ironblood Stance.",
+        "desc": "You steel yourself, preparing to resist oncoming attacks and using your muscles to absorb the impact. You gain the benefits of your iron sweep’s parry trait (a +1 circumstance bonus to AC until the start of your next turn) and your resistance from Ironblood Stance increases to your Strength modifier (if it’s higher) for the same duration.",
+        "traits": [
+            "Monk"
+        ],
+        "showon": "Ironblood Stance",
+        "gainConditions": [
+            {
+                "name": "Ironblood Surge",
+                "source": "Ironblood Surge",
+                "duration": 10
+            }
+        ]
+    },
+    {
+        "name": "Mountain Quake",
+        "actions": "1",
+        "requirements": "You are in Mountain Stance.",
+        "desc": "You stomp, shaking the earth beneath you. Creatures on the ground within a 20-foot emanation take damage equal to your Strength modifier (minimum 0), which they can resist with a basic Fortitude save. On a failure, they also fall prone. After you use this action, you can’t use it again for 1d4 rounds.",
+        "showon": "Mountain Stance",
+        "traits": [
+            "Monk"
+        ]
+    },
+    {
+        "name": "Tangled Forest Rake",
+        "actions": "1",
+        "requirements": "You are in Tangled Forest Stance.",
+        "desc": "You reposition foes with raking attacks. Make a lashing branch Strike. If you hit and deal damage, you force the target to move 5 feet into a space within your reach. This follows the forced movement rules.",
+        "showon": "Tangled Forest Stance",
+        "traits": [
+            "Monk"
+        ]
+    },
+    {
+        "name": "Master of Many Styles",
+        "actions": "Free",
+        "requirements": "This is the first action of your turn.",
+        "desc": "You move between stances in an unceasing dance. You use an action with the stance trait.",
+        "traits": [
+            "Monk"
+        ],
+        "showon": "Crane Stance, Dragon Stance, Mountain Stance, Rain of Embers Stance, Tiger Stance, Wolf Stance, Ironblood Stance, Tangled Forest Stance"
+    },
+    {
+        "name": "Shattering Strike",
+        "actions": "2",
+        "desc": "The force of your considered blow shatters objects and defenses alike. Make an unarmed Strike. It bypasses the target’s resistances. If the target has Hardness, the Strike treats the Hardness as if it were half its value.",
+        "traits": [
+            "Monk"
+        ]
+    },
+    {
+        "name": "Wild Winds Gust",
+        "requirements": "You are in Wild Winds Stance.",
+        "actions": "2",
+        "desc": "You store up energy and release it in an enormous gust of rushing wind. Make a wind crash Strike against each creature in your choice of a 30-foot cone or a 60 foot line. These attacks all count toward your multiple attack penalty, but the penalty doesn’t increase until after you make all the attacks.",
+        "traits": [
+            "Air",
+            "Concentrate",
+            "Evocation",
+            "Manipulate",
+            "Monk"
+        ]
+    },
+    {
+        "name": "Swift River",
+        "trigger": "Your turn ends and you have a status penalty to your Speed or are immobilized or slowed.",
+        "actions": "Free",
+        "desc": "You flow like water, avoiding all restraints. End one status penalty to your speed, or end one immobilized or slowed condition affecting you.",
+        "traits": [
+            "Monk"
+        ],
+        "inputRequired": "Ignore one status penalty to your speed, or remove one immobilized or slowed condition affecting you."
+    },
+    {
+        "name": "Impossible Technique",
+        "actions": "Reaction",
+        "requirements": "You are not armored or fatigued.",
+        "trigger": "An enemy’s attack hits you or you fail a saving throw against an enemy’s ability.",
+        "cooldown": 6000,
+        "desc": "You execute a maneuver that defies possibility. If the triggering effect was an enemy’s attack hitting you, the enemy rerolls the attack roll and uses the lower result. If the triggering effect was you failing a saving throw, you reroll the saving throw and use the higher result.",
+        "traits": [
+            "Fortune",
+            "Monk"
+        ]
+    },
+    {
+        "name": "Fused Stance",
+        "actions": "1",
+        "toggle":true,
+        "desc": "You have combined two stances into a single stance all your own. When you enter your fused stance, you gain all the effects of both stances, including the requirements and restrictions.\n\nYou can’t fuse stances with fundamentally incompatible requirements or restrictions (such as Ironblood Stance and Crane Stance, which both require using only one type of Strike).",
+        "traits": [
+            "Monk",
+            "Stance"
+        ]
+    },
+    
     {
         "name": "Orc Ferocity",
         "actions": "Reaction",

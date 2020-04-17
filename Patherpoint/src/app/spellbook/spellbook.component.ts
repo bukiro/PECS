@@ -86,22 +86,23 @@ export class SpellbookComponent implements OnInit {
         return Math.min(this.characterService.get_Character().class.focusPoints, this.get_MaxFocusPoints());
     }
 
-    get_SpellDescription(spell: Spell, levelNumber?:number) {
-        if (!levelNumber) {
-            levelNumber = Math.ceil(this.characterService.get_Character().level / 2);
-        }
-        return spell.get_Description(levelNumber)
-    }
-
     get_MaxFocusPoints() {
         return this.characterService.get_MaxFocusPoints();
     }
 
     refocus() {
-        let focusPoints = this.characterService.get_Character().class.focusPoints;
-        this.characterService.get_Character().class.focusPoints = Math.min(focusPoints + 1, this.get_MaxFocusPoints());
+        let character = this.characterService.get_Character();
+        let focusPoints = character.class.focusPoints;
+        let maxFocusPoints = this.get_MaxFocusPoints();
+        if (character.get_FeatsTaken(0, character.level, "Meditative Wellspring").length && (maxFocusPoints - focusPoints >= 3)) {
+            character.class.focusPoints = Math.min(focusPoints + 3, this.get_MaxFocusPoints());
+        } else if (character.get_FeatsTaken(0, character.level, "Meditative Focus").length && (maxFocusPoints - focusPoints >= 2)) {
+            character.class.focusPoints = Math.min(focusPoints + 2, this.get_MaxFocusPoints());
+        } else {
+            character.class.focusPoints = Math.min(focusPoints + 1, this.get_MaxFocusPoints());
+        }
         this.timeService.tick(this.characterService, 1000);
-        this.characterService.set_Changed();
+        //this.characterService.set_Changed();
     }
 
     on_Cast(gain: SpellGain, spell: Spell, activated: boolean) {
@@ -110,7 +111,7 @@ export class SpellbookComponent implements OnInit {
             this.characterService.get_Character().class.focusPoints = Math.min(focusPoints, this.get_MaxFocusPoints());
             this.characterService.get_Character().class.focusPoints -= 1;
         };
-        this.spellsService.process_Spell(this.characterService, gain, spell, activated);
+        this.spellsService.process_Spell(this.characterService, this.itemsService, gain, spell, activated);
         this.characterService.set_Changed();
     }
 

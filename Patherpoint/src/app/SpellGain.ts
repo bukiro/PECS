@@ -1,3 +1,5 @@
+import { ItemGain } from './ItemGain';
+
 export class SpellGain {
     public name: string;
     public source: string;
@@ -5,5 +7,6 @@ export class SpellGain {
     public tradition: string;
     public locked: boolean;
     public active: boolean = false;
+    public gainItems: ItemGain[] = [];
     public sourceId: string;
 }

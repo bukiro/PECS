@@ -2,6 +2,8 @@ import { Injectable } from '@angular/core';
 import { ConditionsService } from './Conditions.service';
 import { CharacterService } from './character.service';
 import { ActivitiesService } from './activities.service';
+import { EffectsService } from './effects.service';
+import { Effect } from './Effect';
 
 @Injectable({
     providedIn: 'root'
@@ -18,6 +20,26 @@ export class TimeService {
 
     get_YourTurn() {
         return this.yourTurn;
+    }
+
+    start_Turn(characterService: CharacterService, effectsService: EffectsService) {
+        //Process some things
+        let character = characterService.get_Character();
+
+        //Fast Healing
+        let fastHealing: number = 0;
+        effectsService.get_EffectsOnThis("Fast Healing").forEach((effect: Effect) => {
+            fastHealing += parseInt(effect.value);
+        })
+        if (fastHealing && character.health.currentHP(characterService, effectsService) > 0) {
+            character.health.heal(characterService, effectsService, fastHealing);
+        }
+
+        this.tick(characterService, 5);
+    }
+
+    end_Turn(characterService: CharacterService) {
+        this.tick(characterService, 5);
     }
 
     tick(characterService: CharacterService, turns: number = 10) {

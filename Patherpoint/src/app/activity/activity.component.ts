@@ -9,6 +9,7 @@ import { TimeService } from '../time.service';
 import { ItemsService } from '../items.service';
 import { ActivityGain } from '../ActivityGain';
 import { ItemActivity } from '../ItemActivity';
+import { Feat } from '../Feat';
 
 @Component({
     selector: 'app-activity',
@@ -18,9 +19,9 @@ import { ItemActivity } from '../ItemActivity';
 export class ActivityComponent implements OnInit {
 
     @Input()
-    activity: Activity|ItemActivity;
+    activity: Activity | ItemActivity;
     @Input()
-    gain: ActivityGain|ItemActivity;
+    gain: ActivityGain | ItemActivity;
     @Input()
     allowActivate: boolean = false;
 
@@ -31,7 +32,7 @@ export class ActivityComponent implements OnInit {
         private activitiesService: ActivitiesService,
         private timeService: TimeService,
         private itemsService: ItemsService
-        
+
     ) { }
 
     get_Accent() {
@@ -40,11 +41,11 @@ export class ActivityComponent implements OnInit {
 
     get_ActivationTraits(activity: Activity) {
         switch (activity.activationType) {
-            case "Command": 
+            case "Command":
                 return ["Auditory", "Concentrate"];
-            case "Envision": 
+            case "Envision":
                 return ["Concentrate"];
-            case "Interact": 
+            case "Interact":
                 return ["Manipulate"];
             default:
                 return [];
@@ -55,8 +56,16 @@ export class ActivityComponent implements OnInit {
         return this.timeService.get_Duration(duration);
     }
 
-    on_Activate(gain: ActivityGain|ItemActivity, activity: Activity|ItemActivity, activated: boolean) {
+    on_Activate(gain: ActivityGain | ItemActivity, activity: Activity | ItemActivity, activated: boolean) {
         this.activitiesService.activate_Activity(this.characterService, this.timeService, this.itemsService, gain, activity, activated);
+    }
+
+    on_ActivateFuseStance(activated: boolean) {
+        this.gain.active = activated;
+        this.get_FusedStances().forEach(gain => {
+            let activity = (gain["can_Activate"] ? gain as ItemActivity : this.get_Activities(gain.name)[0])
+            this.activitiesService.activate_Activity(this.characterService, this.timeService, this.itemsService, gain, activity, activated);
+        })
     }
 
     get_Traits(traitName: string = "") {
@@ -65,6 +74,35 @@ export class ActivityComponent implements OnInit {
 
     get_FeatsShowingOn(activityName: string) {
         return this.characterService.get_FeatsShowingOn(activityName);
+    }
+
+    get_ActivitiesShowingOn(objectName: string) {
+        return this.characterService.get_OwnedActivities().filter((gain: ItemActivity|ActivityGain) => (gain["can_Activate"] ? [gain as ItemActivity] : this.get_Activities(gain.name))
+            .filter((activity: ItemActivity|Activity) => activity.showon.split(",")
+                .filter(showon => showon == objectName || showon.substr(1) == objectName)
+                .length)
+            .length);
+    }
+
+    get_FuseStanceFeat() {
+        let character = this.characterService.get_Character();
+        if (character.get_FeatsTaken(0, character.level, "Fuse Stance").length) {
+            return character.customFeats.filter(feat => feat.name == "Fuse Stance")[0];
+        } else {
+            return null;
+        }
+    }
+
+    get_FusedStances() {
+        let feat: Feat = this.get_FuseStanceFeat();
+        if (feat) {
+            return this.characterService.get_OwnedActivities()
+                .filter((gain: ItemActivity|ActivityGain) => gain.name == feat.data["stance1"] || gain.name == feat.data["stance2"])
+        }
+    }
+
+    get_Activities(name: string) {
+        return this.activitiesService.get_Activities(name);
     }
 
     get_Spells(name: string = "", type: string = "", tradition: string = "") {

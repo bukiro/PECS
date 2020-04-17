@@ -437,6 +437,7 @@
     padding: 4px;
     z-index: 100;
     background-color: #E0E0E0;
+    box-shadow: 0 5px 5px;
   }
 
   .list-item.sublist.fancy-list {
@@ -521,7 +522,9 @@
 
   var, .variable {
     font-weight: bold;
-    color: blue;
+    font-style: normal;
+    color: #1976d2;
+    color: rgb(var(--accent));
   }
 
   input.bonus {
@@ -535,7 +538,7 @@
 
   .problem, .lower.problem {
     color:red;
-    background-color: lightcoral;
+    background-color: #EEAAAA;
   }
 
   span.problem {

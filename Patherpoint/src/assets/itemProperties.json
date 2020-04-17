@@ -334,7 +334,7 @@
         "priority": "1",
         "group": "",
         "name": "Effect value",
-        "desc": "This is the number by which the attribute will change. You can use simple calculations and the following variables: Level, STR, DEX, CON, INT, WIS, CHA.",
+        "desc": "This is the number by which the attribute will change. You can use simple calculations and variables like: Level, Modifier('Strength'), Skill('Acrobatics')",
         "examples": "effect value"
     },
     {

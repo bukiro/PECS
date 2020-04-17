@@ -9,7 +9,8 @@
                 <button class="row sublist-toggle"
                    
                     [className]="(gain.active) ? 'fancy-button' : ''" (click)="toggle_Action(activityID)">
-                    <span>{{activity.name}}</span>
+                    <span *ngIf="activity.name == 'Fused Stance'">{{get_FuseStanceName()}}</span>
+                    <span *ngIf="activity.name != 'Fused Stance'">{{activity.name}}</span>
                     <span>{{activity.get_Actions()}}{{(activity.activationType) ? " - " + activity.activationType : ""}}</span>
                 </button>
                 <div class="list-item sublist lower"

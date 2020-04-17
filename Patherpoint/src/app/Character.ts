@@ -144,8 +144,9 @@ export class Character {
         let newLength: number = level.spellChoices.push(tempChoice);
         return level.spellChoices[newLength-1];
     }
-    gain_Activity(newGain: ActivityGain) {
+    gain_Activity(newGain: ActivityGain, levelNumber: number) {
         let newLength = this.class.activities.push(newGain);
+        this.class.activities[newLength-1].level = levelNumber;
         return this.class.activities[newLength-1];
     }
     lose_Activity(characterService: CharacterService, timeService: TimeService, itemsService: ItemsService, activitiesService: ActivitiesService, oldGain: ActivityGain) {
@@ -386,7 +387,7 @@ export class Character {
     take_Spell(characterService: CharacterService, spellName: string, taken: boolean, choice: SpellChoice, locked: boolean) {
         let level: Level = characterService.get_Level(parseInt(choice.id.split("-")[0]));
         if (taken) {
-            choice.spells.push({"name":spellName, "source":choice.source, "className":choice.className, "tradition":choice.tradition, "locked":locked, "active":false, "sourceId":choice.id});
+            choice.spells.push({"name":spellName, "source":choice.source, "className":choice.className, "tradition":choice.tradition, "locked":locked, "active":false, "gainItems":[], "sourceId":choice.id});
             characterService.process_Feat(spellName, level, taken);
         } else {
             let a = choice.spells;

@@ -82,6 +82,15 @@ export class ActivitiesComponent implements OnInit {
         return activities;
     }
 
+    get_FuseStanceName() {
+        let fuseStance = this.characterService.get_Character().customFeats.filter(feat => feat.name == "Fuse Stance");
+        if (fuseStance.length && fuseStance[0].data && fuseStance[0].data["name"]) {
+            return fuseStance[0].data["name"];
+        } else {
+            return "Fused Stance";
+        }
+    }
+
     on_Activate(gain: ActivityGain, activity: Activity, activated: boolean) {
         this.activitiesService.activate_Activity(this.characterService, this.timeService, this.itemsService, gain, activity, activated);
     }

@@ -6,6 +6,8 @@
     </h3>
     <div class="loading" *ngIf="still_loading()">Loading</div>
     <ng-container *ngIf="!still_loading()">
+        <app-tags [objectName]="'AC'" [showTraits]=true [showFeats]=true [showItems]=true [showActivities]=true
+                    [showConditions]=true [showEffects]=true></app-tags>
         <div class="list-item row">
             <span>
                 <button class="center-aligned" *ngIf="AC.cover != 1"
@@ -26,8 +28,6 @@
                     (click)="AC.cover = 0; set_CharacterChanged()">End cover</button>
             </span>
         </div>
-        <app-tags [objectName]="'AC'" [showTraits]=true [showFeats]=true [showItems]=true [showActivities]=true
-                    [showConditions]=true [showEffects]=true></app-tags>
         <div class="list-item" *ngFor="let armor of get_EquippedArmor()">
             <div>{{armor.name}} AC: <input type="number" class="number2" title="{{get_ArmorBonus(armor)[1]}}"
                     [ngModel]="get_ArmorBonus(armor)[0]" disabled></div>

@@ -15,6 +15,8 @@
                 [disabled]="get_FocusPoints() >= get_MaxFocusPoints()">
                 Refocus
             </button>
+            <app-tags [objectName]="'Focus'" [showTraits]=true [showFeats]=true [showItems]=true [showActivities]=true
+                [showConditions]=true [showEffects]=true></app-tags>
         </div>
         <ng-container *ngFor="let spellGain of get_FocusSpells()">
             <ng-container *ngFor="let spell of get_Spells(spellGain.name)">

@@ -24,6 +24,8 @@ import { ActivitiesService } from '../activities.service';
 import { Deity } from '../Deity';
 import { DeitiesService } from '../deities.service';
 import { SpellsService } from '../spells.service';
+import { FeatTaken } from '../FeatTaken';
+import { ActivityGain } from '../ActivityGain';
 
 @Component({
     selector: 'app-character',
@@ -143,9 +145,18 @@ export class CharacterComponent implements OnInit {
         return true;
     }
 
-    on_LevelChange() {
+    on_LevelChange(oldLevel: number) {
         //Despite all precautions, when we change the level, it gets turned into a string. So we turn it right back.
         this.get_Character().level = parseInt(this.get_Character().level.toString());
+        let newLevel = this.get_Character().level;
+        if (newLevel > oldLevel) {
+            this.get_Character().get_FeatsTaken(oldLevel, newLevel).map((gain: FeatTaken) => this.get_FeatsAndFeatures(gain.name)[0])
+            .filter((feat: Feat) => feat.onceEffects.length).forEach(feat => {
+                feat.onceEffects.forEach(effect => {
+                    this.characterService.process_OnceEffect(effect);
+                })
+            })
+        }
         this.characterService.set_Changed();
     }
 
@@ -540,7 +551,7 @@ export class CharacterComponent implements OnInit {
             return this.get_Character().customFeats.filter(feat => feat.name == "Different Worlds");
         }
     }
-    
+
     onDifferentWorldsBackgroundChange(level: Level, feat: Feat, background: Background, taken: boolean) {
         let character = this.get_Character();
         feat.data["background"] = "";
@@ -574,6 +585,32 @@ export class CharacterComponent implements OnInit {
                 }
             })
         }
+    }
+
+    get_FuseStanceFeat(levelNumber: number) {
+        if (this.get_Character().get_FeatsTaken(levelNumber, levelNumber, "Fuse Stance").length) {
+            return this.get_Character().customFeats.filter(feat => feat.name == "Fuse Stance");
+        }
+    }
+    
+    get_OwnedStances(levelNumber: number) {
+        let unique: string[] = [];
+        this.characterService.get_OwnedActivities(levelNumber).filter(activity => unique.indexOf(activity.name) == -1)
+            .filter(activity => this.activitiesService.get_Activities(activity.name).filter(example => example.traits.indexOf("Stance") > -1 && example.desc.indexOf("only Strikes") == -1).length)
+                .forEach(activity => {
+                    unique.push(activity.name);
+                })
+        return unique.filter(name => name != "Fused Stance");
+    }
+
+    onFuseStanceStanceChange(feat:Feat, which:string, stance:string, taken:boolean) {
+        if (taken) {
+            this.showList="";
+            feat.data[which] = stance;
+        } else {
+            feat.data[which] = "";
+        }
+        this.set_Changed();
     }
 
     cannotTakeSome(choice: FeatChoice) {
