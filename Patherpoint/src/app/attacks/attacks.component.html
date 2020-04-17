@@ -6,7 +6,7 @@
     <app-tags [objectName]="'Attacks'" [showTraits]=true [showFeats]=true [showItems]=true [showActivities]=true
         [showConditions]=true [showEffects]=true></app-tags>
     <ng-container *ngFor="let weapon of get_EquippedWeapons()">
-        <div class="list-item" *ngFor="let attack of get_Attacks(weapon)">
+        <div class="list-item" [className]="!get_IsAllowed(weapon) ? 'problem fullsize-only' : ''" *ngFor="let attack of get_Attacks(weapon)">
             <div class="row">
                 <strong style="flex-basis:initial">{{weapon.get_Name()}}{{(attack[0] == 'melee') ? (weapon.ranged ? " melee" : "") : (weapon.melee ? " ranged" : "")}}</strong>
                 <span style="flex-basis:initial">

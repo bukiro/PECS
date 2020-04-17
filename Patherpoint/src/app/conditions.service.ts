@@ -35,7 +35,7 @@ export class ConditionsService {
 
     get_AppliedConditions(characterService: CharacterService, activeConditions: ConditionGain[]) {
         if (JSON.stringify(activeConditions) == JSON.stringify(this.appliedConditions)) {
-            return this.sortByPipe.transform(activeConditions, "asc", "duration");
+            return this.sortByPipe.transform(activeConditions, "asc", "duration") as ConditionGain[];
         } else {
             let overrides: string[] = [];
             activeConditions.forEach(gain => {
@@ -84,7 +84,7 @@ export class ConditionsService {
             }
             this.appliedConditions = [];
             this.appliedConditions = activeConditions.map(gain => Object.assign(new ConditionGain(), gain));
-            return this.sortByPipe.transform(activeConditions, "asc", "duration");
+            return this.sortByPipe.transform(activeConditions, "asc", "duration") as ConditionGain[];
         }
     }
 

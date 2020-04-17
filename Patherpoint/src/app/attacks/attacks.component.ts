@@ -16,6 +16,8 @@ import { Rune } from '../Rune';
 })
 export class AttacksComponent implements OnInit {
 
+    public attackRestrictions: string[] = []
+
     constructor(
         private changeDetector: ChangeDetectorRef,
         private traitsService: TraitsService,
@@ -41,7 +43,20 @@ export class AttacksComponent implements OnInit {
         return this.characterService.get_Accent();
     }
 
+    get_AttackRestrictions() {
+        this.attackRestrictions = [];
+        let restrictionCollection: string[][] = this.characterService.get_AppliedConditions().filter(gain => gain.apply).map(gain => this.characterService.get_Conditions(gain.name)[0]).filter(condition => condition.attackRestrictions.length).map(condition => condition.attackRestrictions);
+        restrictionCollection.forEach(coll => {
+            this.attackRestrictions.push(...coll);
+        })
+    }
+
+    get_IsAllowed(weapon: Weapon) {
+        return !(this.attackRestrictions.length && this.attackRestrictions.indexOf(weapon.name) == -1);
+    }
+
     get_EquippedWeapons() {
+        this.get_AttackRestrictions();
         return this.characterService.get_InventoryItems().weapons.filter(weapon => weapon.equipped && weapon.equippable);
     }
 

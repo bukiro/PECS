@@ -14,6 +14,8 @@
         "toggle":true,
         "requirements": "You are unarmored.",
         "desc": "You enter the stance of a crane, holding your arms in an imitation of a crane’s wings and using flowing, defensive motions. You gain a +1 circumstance bonus to AC, but the only Strikes you can make are crane wing attacks. These deal 1d6 bludgeoning damage; are in the brawling group; and have the agile, finesse, nonlethal, and unarmed traits.\n\nWhile in Crane Stance, reduce the DC for High Jump and Long Jump by 5, and when you Leap, you can move an additional 5 feet horizontally or 2 feet vertically.",
+        "hint": "The only Strikes you can make are crane wing attacks.",
+        "showon": "Attacks",
         "gainItems": [
             {
                 "name": "Crane Wing",
@@ -60,6 +62,8 @@
         "toggle":true,
         "requirements": "You are unarmored and touching the ground.",
         "desc": "You enter the stance of an implacable mountain—a technique first discovered by dwarven monks—allowing you to strike with the weight of an avalanche. The only Strikes you can make are falling stone unarmed attacks. These deal 1d8 bludgeoning damage; are in the brawling group; and have the forceful, nonlethal, and unarmed traits.\n\nWhile in Mountain Stance, you gain a +4 status bonus to AC and a +2 circumstance bonus to any defenses against being Shoved or Tripped. However, you have a Dexterity modifier cap to your AC of +0, meaning you don’t add your Dexterity to your AC, and your Speeds are all reduced by 5 feet.",
+        "hint": "The only Strikes you can make are falling stone unarmed attacks.",
+        "showon": "Attacks",
         "gainItems": [
             {
                 "name": "Falling Stone",
@@ -83,6 +87,8 @@
         "toggle":true,
         "requirements": "You are unarmored and touching the ground.",
         "desc": "You enter the stance of an enraged phoenix, holding your fingers as rigid as deadly talons while moving with quick, flickering gestures that flicker with dancing flames. The only Strikes you can make are fire talon Strikes. These deal 1d4 fire damage; are in the brawling group; and have the agile, finesse, fire, nonlethal, and unarmed traits.\n\nWhile in Rain of Embers Stance, you gain a +1 status bonus to AC and fire resistance equal to half your level (minimum 1).",
+        "hint": "The only Strikes you can make are fire talon Strikes.",
+        "showon": "Attacks",
         "gainItems": [
             {
                 "name": "Fire Talon",

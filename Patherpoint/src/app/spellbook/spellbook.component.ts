@@ -106,7 +106,7 @@ export class SpellbookComponent implements OnInit {
     }
 
     on_Cast(gain: SpellGain, spell: Spell, activated: boolean) {
-        if (gain.tradition.indexOf("Focus") > -1){
+        if (gain.tradition.indexOf("Focus") > -1 && activated){
             let focusPoints = this.characterService.get_Character().class.focusPoints;
             this.characterService.get_Character().class.focusPoints = Math.min(focusPoints, this.get_MaxFocusPoints());
             this.characterService.get_Character().class.focusPoints -= 1;

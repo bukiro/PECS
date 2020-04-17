@@ -54,7 +54,7 @@
                 <ng-container *ngFor="let listID of [get_ID()*1000]">
                     <h5 class="fullsize-only" *ngIf="items[itemSet.key].length">{{itemSet.name}}</h5>
                     <ng-container *ngFor="let item of sort_ItemSet(items[itemSet.key])">
-                        <div class="fullsize-only list-item" *ngFor="let inventoryID of [listID+get_ID()]">
+                        <div class="fullsize-only list-item" *ngFor="let inventoryID of [item.id]">
                             <button class="row sublist-toggle"
                                
                                 [className]="((item.equippable && item.equipped) || (item.can_Invest() && item.invested)) ? 'fancy-button' : ''"
@@ -103,18 +103,16 @@
                                     <span
                                         *ngIf="!item.equippable && !item.can_Invest() && !item.can_Stack()">
                                         &nbsp;
-                                        <!-- This span is a placeholder that appears if no other button is valid on the left to the Drop button -->
+                                        <!-- This span is a placeholder that appears if no other button is valid on the left side of the Drop button -->
                                     </span>
                                     <span *ngIf="item.gainItems && item.gainItems.length">
                                         <button (click)="drop_Package(item)"
-                                           
                                             title="Drop this item, but keep all items granted by it">
                                             Drop Package
                                         </button>
                                     </span>
                                     <span>
-                                        <button (click)="drop_InventoryItem(item)"
-                                           >
+                                        <button (click)="drop_InventoryItem(item)">
                                             Drop
                                         </button>
                                     </span>

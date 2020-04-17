@@ -538,7 +538,7 @@
 
   .problem, .lower.problem {
     color:red;
-    background-color: #EEAAAA;
+    background-color: #DAAAA0;
   }
 
   span.problem {
@@ -547,7 +547,7 @@
   }
 
   .unavailable, .lower.unavailable {
-    background-color:#CCCCCC;
+    background-color: rgba(50, 50, 50, 0.2)
   }
   
   .lower {

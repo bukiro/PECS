@@ -30,7 +30,7 @@ The very latest in Assistive Technologies for Dungeon Master (ATDM)
 - [x] - Implement all Adventuring Gear
 - [x] - Implement all Weapon Runes
 - [x] - Implement all Armor Runes
-- [ ] - Implement one full Class with Feats and Features
+- [x] - Implement one full Class with Feats and Features
 - [x] - Feat requirements
 - [x] - Equipment (weapons, armor, shields) -> Abilities, Armor, Attacks, Skills
 - [x] - More equipment (worn magic items etc.) and effects

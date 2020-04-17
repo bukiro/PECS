@@ -188,8 +188,9 @@ export class CharacterService {
                 try {
                     let rgba = hexToRgb(original)
                     let result = rgba.r + "," + rgba.g + "," + rgba.b;
-                    return result;}
-                catch(error) {
+                    return result;
+                }
+                catch (error) {
                     return "25, 118, 210"
                 }
             } else {
@@ -257,7 +258,7 @@ export class CharacterService {
         this.me.class.on_NewAncestry(this, itemsService);
         this.set_Changed();
     }
-    
+
     change_Deity(deity: Deity) {
         this.me.class.on_ChangeDeity(this);
         this.me.deity = new Deity();
@@ -682,11 +683,8 @@ export class CharacterService {
             newLength = this.me.conditions.push(conditionGain);
         }
         if (newLength) {
-            
             let newConditionGain = this.me.conditions[newLength - 1];
-    
             this.conditionsService.process_Condition(this, this.effectsService, conditionGain, this.conditionsService.get_Conditions(conditionGain.name)[0], true);
-    
             originalCondition.gainConditions.forEach(extraCondition => {
                 this.add_Condition(Object.assign(new ConditionGain, { name: extraCondition.name, value: extraCondition.value, source: newConditionGain.name, apply: true }), false)
             })

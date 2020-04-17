@@ -756,15 +756,22 @@
                         </button>
                         <div class="list-item sublist" [className]="((feat.data.stance1)) ? 'fancy-list' : ''"
                             *ngIf="get_showList()==listID">
-                            <div class="list-item" *ngFor="let stance of get_OwnedStances(level.number)">
-                                <div class="row" *ngFor="let itemID of ['fuseStance_stance1'+stance]">
+                            <div class="list-item" [className]="stance.reason ? 'unavailable' : ''" *ngFor="let stance of get_StancesToFuse(level.number)">
+                                <div class="row" *ngFor="let itemID of ['fuseStance_stance1'+stance.name]">
                                     <span>
-                                        <input id="{{stance}}" type="checkbox"
-                                            (change)="onFuseStanceStanceChange(feat, 'stance1', stance, $event.target.checked)"
-                                            [checked]="stance == feat.data.stance1 || stance == feat.data.stance2"
-                                            [disabled]="stance == feat.data.stance2">
-                                        <label for="{{stance}}">
-                                            <strong>{{stance}}</strong>
+                                        <input id="{{stance.name}}" type="checkbox"
+                                            (change)="onFuseStanceStanceChange(feat, 'stance1', stance.name, $event.target.checked)"
+                                            [checked]="stance.name == feat.data.stance1 || stance.name == feat.data.stance2"
+                                            [disabled]="stance.name == feat.data.stance2"
+                                            *ngIf="!stance.reason">
+                                        <label for="{{stance.name}}">
+                                            <strong>{{stance.name}}&nbsp;</strong>
+                                            <span>
+                                                <cite class="problem"
+                                                    *ngIf="stance.reason">
+                                                    {{stance.reason}}
+                                                </cite>
+                                            </span>
                                         </label>
                                     </span>
                                 </div>
@@ -780,16 +787,23 @@
                         </button>
                         <div class="list-item sublist" [className]="((feat.data.stance2)) ? 'fancy-list' : ''"
                             *ngIf="get_showList()==listID">
-                            <div class="list-item" *ngFor="let stance of get_OwnedStances(level.number)">
-                                <div class="row" *ngFor="let itemID of ['fuseStance_stance2'+stance]">
+                            <div class="list-item" [className]="stance.reason ? 'unavailable' : ''" *ngFor="let stance of get_StancesToFuse(level.number)">
+                                <div class="row" *ngFor="let itemID of ['fuseStance_stance2'+stance.name]">
                                     <span>
-                                        <input id="{{stance}}" type="checkbox"
-                                            (change)="onFuseStanceStanceChange(feat, 'stance2', stance, $event.target.checked)"
-                                            [checked]="stance == feat.data.stance1 || stance == feat.data.stance2"
-                                            [disabled]="stance == feat.data.stance1">
-                                        <label for="{{stance}}">
-                                            <strong>{{stance}}</strong>
-                                        </label>
+                                        <input id="{{stance.name}}" type="checkbox"
+                                            (change)="onFuseStanceStanceChange(feat, 'stance2', stance.name, $event.target.checked)"
+                                            [checked]="stance.name == feat.data.stance1 || stance.name == feat.data.stance2"
+                                            [disabled]="stance.name == feat.data.stance1"
+                                            *ngIf="!stance.reason">
+                                            <label for="{{stance.name}}">
+                                                <strong>{{stance.name}}&nbsp;</strong>
+                                                <span>
+                                                    <cite class="problem"
+                                                        *ngIf="stance.reason">
+                                                        {{stance.reason}}
+                                                    </cite>
+                                                </span>
+                                            </label>
                                     </span>
                                 </div>
                             </div>

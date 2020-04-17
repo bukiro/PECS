@@ -266,6 +266,15 @@
         "type": "activity",
         "desc": "While in Crane Stance, reduce the DC for High Jump and Long Jump by 5, and when you Leap, you can move an additional 5 feet horizontally or 2 feet vertically.",
         "showon": "Athletics",
+        "attackRestrictions": ["Crane Wing"],
+        "effects": [
+            {
+                "affected": "AC",
+                "value": "+1",
+                "type": "circumstance"
+
+            }            
+        ],
         "buff": true
     },
     {
@@ -295,6 +304,7 @@
                 "value": "-5"
             }
         ],
+        "attackRestrictions": ["Falling Stone"],
         "buff": true
     },
     {
@@ -312,6 +322,7 @@
                 "value": "Math.max(Math.floor(Level / 2), 1)"
             }
         ],
+        "attackRestrictions": ["Fire Talon"],
         "buff": true
     },
     {

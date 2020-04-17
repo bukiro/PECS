@@ -593,14 +593,22 @@ export class CharacterComponent implements OnInit {
         }
     }
     
-    get_OwnedStances(levelNumber: number) {
+    get_StancesToFuse(levelNumber: number) {
         let unique: string[] = [];
-        this.characterService.get_OwnedActivities(levelNumber).filter(activity => unique.indexOf(activity.name) == -1)
-            .filter(activity => this.activitiesService.get_Activities(activity.name).filter(example => example.traits.indexOf("Stance") > -1 && example.desc.indexOf("only Strikes") == -1).length)
-                .forEach(activity => {
+        let stances: {name:string, reason:string}[] = [];
+        this.characterService.get_OwnedActivities(levelNumber).filter(activity => unique.indexOf(activity.name) == -1).forEach(activity => {
+            this.activitiesService.get_Activities(activity.name).filter(example => example.traits.indexOf("Stance") > -1).forEach(example => {
+                //Stances that only allow one type of strike cannot be used for Fuse Stance.
+                if (example.desc.indexOf("only Strikes") == -1) {
                     unique.push(activity.name);
-                })
-        return unique.filter(name => name != "Fused Stance");
+                    stances.push({name:activity.name, reason:""});
+                } else {
+                    unique.push(activity.name);
+                    stances.push({name:activity.name, reason:"This stance has incompatible restrictions."});
+                }
+            })
+        })
+        return stances.filter(stance => stance.name != "Fused Stance");
     }
 
     onFuseStanceStanceChange(feat:Feat, which:string, stance:string, taken:boolean) {

@@ -51,7 +51,7 @@ export class ActivitiesService {
 
         //Find item, if it exists
         let item: Equipment = null;
-        characterService.get_InventoryItems().allEquipment().filter((equipment: Equipment) => equipment.name == gain.source).forEach((equipment: Equipment) => {
+        characterService.get_InventoryItems().allEquipment().filter((equipment: Equipment) => equipment.id == gain.source).forEach((equipment: Equipment) => {
             if (equipment.activities.filter((itemActivity: ItemActivity) => itemActivity === activity).length) {
                 item = equipment;
             }
@@ -108,6 +108,7 @@ export class ActivitiesService {
         }
 
         //Apply conditions.
+        //The condition source is the activity name.
         if (activity.gainConditions) {
             if (activated) {
                 activity.gainConditions.forEach(gain => {
@@ -116,7 +117,7 @@ export class ActivitiesService {
                 });
             } else {
                 activity.gainConditions.forEach(gain => {
-                    let conditionGains = characterService.get_AppliedConditions(gain.name).filter(conditionGain => conditionGain.source == gain.source);
+                    let conditionGains = characterService.get_AppliedConditions(gain.name).filter(conditionGain => conditionGain.source == gain.name);
                     if (conditionGains.length) {
                         characterService.remove_Condition(conditionGains[0], false);
                     }
@@ -141,7 +142,7 @@ export class ActivitiesService {
     }
 
     tick_Activities(characterService: CharacterService, turns: number = 10) {
-        
+
         characterService.get_OwnedActivities().filter(gain => gain.activeCooldown).forEach(gain => {
             gain.activeCooldown = Math.max(gain.activeCooldown - turns, 0)
         });
