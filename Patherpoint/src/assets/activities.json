@@ -733,8 +733,8 @@
         "name": "Battle Prayer: Evil",
         "actions": "1",
         "desc": "Calling out to your deity, you recite scripture to harm a foe. Attempt a Religion check against the Will DC of a foe within 30 feet. The foe is then temporarily immune to Battle Prayers from your deity for 1 day.",
-        "critsuccess": "You deal 2d6 Unholy damage, or 6d6 damage if you have legendary proficiency in Religion.",
-        "success": "You deal 1d6 Unholy damage, or 3d6 damage if you have legendary proficiency in Religion.",
+        "critsuccess": "You deal 2d6 Evil damage, or 6d6 damage if you have legendary proficiency in Religion.",
+        "success": "You deal 1d6 Evil damage, or 3d6 damage if you have legendary proficiency in Religion.",
         "failure": "There is no effect.",
         "critfailure": "The backlash of your foe’s will against your prayer prevents you from using Battle Prayer again for 10 minutes.",
         "traits": [
@@ -748,8 +748,8 @@
         "name": "Battle Prayer: Good",
         "actions": "1",
         "desc": "Calling out to your deity, you recite scripture to harm a foe. Attempt a Religion check against the Will DC of a foe within 30 feet. The foe is then temporarily immune to Battle Prayers from your deity for 1 day.",
-        "critsuccess": "You deal 2d6 Holy damage, or 6d6 damage if you have legendary proficiency in Religion.",
-        "success": "You deal 1d6 Holy damage, or 3d6 damage if you have legendary proficiency in Religion.",
+        "critsuccess": "You deal 2d6 Good damage, or 6d6 damage if you have legendary proficiency in Religion.",
+        "success": "You deal 1d6 Good damage, or 3d6 damage if you have legendary proficiency in Religion.",
         "failure": "There is no effect.",
         "critfailure": "The backlash of your foe’s will against your prayer prevents you from using Battle Prayer again for 10 minutes.",
         "traits": [

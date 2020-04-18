@@ -4970,7 +4970,7 @@
    {
       "name": "Sacred Ki: Evil",
       "shortdesc": "The power of your faith suffuses your ki",
-      "desc": "When you cast the ki strike focus spell and damage a creature whose alignment is Good, you can choose for the ki strike damage to be Unholy. Additionally, you can substitute the damage from ki blast (or other ki spells that deal force damage, at the GM’s discretion) with damage of your chosen alignment.",
+      "desc": "When you cast the ki strike focus spell and damage a creature whose alignment is Good, you can choose for the ki strike damage to be Evil. Additionally, you can substitute the damage from ki blast (or other ki spells that deal force damage, at the GM’s discretion) with damage of your chosen alignment.",
       "showon": "Ki Strike, Ki Blast",
       "featreq": "Ki Strike",
       "levelreq": 4,
@@ -4985,7 +4985,7 @@
    {
       "name": "Sacred Ki: Good",
       "shortdesc": "The power of your faith suffuses your ki",
-      "desc": "When you cast the ki strike focus spell and damage a creature whose alignment is Evil, you can choose for the ki strike damage to be Holy. Additionally, you can substitute the damage from ki blast (or other ki spells that deal force damage, at the GM’s discretion) with damage of your chosen alignment.",
+      "desc": "When you cast the ki strike focus spell and damage a creature whose alignment is Evil, you can choose for the ki strike damage to be Good. Additionally, you can substitute the damage from ki blast (or other ki spells that deal force damage, at the GM’s discretion) with damage of your chosen alignment.",
       "showon": "Ki Strike, Ki Blast",
       "featreq": "Ki Strike",
       "levelreq": 4,
