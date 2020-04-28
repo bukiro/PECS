@@ -3,23 +3,26 @@
     <button class="list-item" (click)="toggleCharacterMenu()">
         Close
     </button>
+    <button class="list-item" (click)="on_NewCharacter()">
+        Create New Character
+    </button>
     <div class="loading" *ngIf="still_loading()">Loading</div>
     <ng-container *ngIf="!still_loading()">
-        <div class="list-item row">
+        <div class="list-item">
             <span>Color Accent</span>
             <span>
                 <input type="text" name="name" [(ngModel)]="get_Character().settings.accent"
                     (blur)="this.characterService.set_Changed()" maxLength="7">
             </span>
         </div>
-        <div class="list-item row">
+        <div class="list-item">
             <span>Name</span>
             <span>
                 <input type="text" name="name" [(ngModel)]="get_Character().name"
                     (blur)="this.characterService.set_Changed()" maxLength="30">
             </span>
         </div>
-        <div class="list-item row">
+        <div class="list-item">
             <span>
                 Alignment
             </span>
@@ -31,7 +34,7 @@
                 </select>
             </span>
         </div>
-        <div class="list-item row" *ngFor="let oldLevel of [get_Character().level]">
+        <div class="list-item" *ngFor="let oldLevel of [get_Character().level]">
             <span>
                 Level
             </span>
@@ -331,7 +334,7 @@
                     </div>
                 </ng-container>
                 <!--Languages - show if you have gained languages this level-->
-                <div class="list-item" *ngIf="get_LanguagesAvailable(level.number)">
+                <div class="list-item" *ngIf="level.number > 0 && get_LanguagesAvailable(level.number)">
                     <button class="row sublist-toggle" (mouseout)="hover = ''"
                         [className]="(get_AvailableLanguages() == 0) ? 'fancy-button' : ''"
                         (click)="toggle_List('languages'+level.number)">
@@ -447,7 +450,7 @@
                             <button class="row sublist-toggle"
                                 [className]="(choice.available == choice.feats.length) ? 'fancy-button' : ''"
                                 (click)="toggle_List(listID)">
-                                {{(choice.level) ? "Level "+choice.level+" " : ""}}{{choice.type}} Feats
+                                {{(choice.level) ? "Level "+choice.level+" " : ""}}{{choice.type}}{{choice.specialChoice ? '' : ' Feats'}}
                                 ({{choice.source}}){{(choice.available > 1) ?
                                     ": "+ choice.feats.length +"/"+ choice.available : 
                                     (choice.feats.length) ? ": "+ choice.feats[0].name : ""}}
@@ -468,7 +471,7 @@
                                             <button class="lower left" *ngIf="feat.subTypes"
                                                 id="{{choice.id+feat.name}}" (click)="toggle_Item(itemID)">v</button>
                                             <label for="{{choice.id+feat.name}}">
-                                                <strong>{{feat.name}}&nbsp;</strong><cite>Level {{feat.levelreq}}</cite>
+                                                <strong>{{feat.name}}&nbsp;</strong><cite *ngIf="feat.levelreq">Level {{feat.levelreq}}</cite>
                                             </label>
                                             <cite class="problem" *ngFor="let reason of cannotTake(feat, choice)">
                                                 {{reason}}
@@ -519,11 +522,13 @@
                                                 </cite>
                                             </div>
                                             <div class="row left-aligned">
-                                                <p>
-                                                    <strong>Requirements&nbsp;</strong>
-                                                    <span [className]="(req.met == false) ? 'problem' : ''"
-                                                        *ngFor="let req of get_FeatRequirements(choice, feat)">{{req.desc}}</span>
-                                                </p>
+                                                <ng-container *ngFor="let reqs of [get_FeatRequirements(choice, feat)]">
+                                                    <p *ngIf="reqs.length">
+                                                        <strong>Requirements&nbsp;</strong>
+                                                        <span [className]="(req.met == false) ? 'problem' : ''"
+                                                            *ngFor="let req of reqs">{{req.desc}}</span>
+                                                    </p>
+                                                </ng-container>
                                                 <ng-container *ngFor="let desc of feat.desc.split('\n\n')">
                                                     <p *ngIf="desc.split('\n').length == 1">{{desc}}</p>
                                                     <ul *ngIf="desc.split('\n').length > 1">
@@ -551,7 +556,7 @@
                                                         <h4 class="left-aligned">{{spell.name}}
                                                             {{spell.get_Actions()}}{{(spell.castType) ? " - " + spell.castType : ""}}
                                                         </h4>
-                                                        <app-spell class="row" [spell]=spell [spellLevel]=1></app-spell>
+                                                        <app-spell class="row" [spell]=spell [spellLevel]="get_SpellLevel(level.number)"></app-spell>
                                                     </ng-container>
                                                 </ng-container>
                                             </ng-container>
@@ -564,7 +569,7 @@
                                     *ngFor="let feat of get_AvailableFeats(choice, true)|sortBy:'asc':'name'">
                                     <div class="row" *ngFor="let itemID of [choice.id+feat.name+'desc']">
                                         <span>
-                                            <strong>{{feat.name}}&nbsp;</strong><cite>Level {{feat.levelreq}}</cite>
+                                            <strong>{{feat.name}}&nbsp;</strong><cite *ngIf="feat.levelreq">Level {{feat.levelreq}}</cite>
                                         </span>
                                         <span>
                                             <cite class="problem" *ngFor="let reason of cannotTake(feat, choice)">
@@ -612,11 +617,13 @@
                                                 </cite>
                                             </div>
                                             <div class="row left-aligned">
-                                                <p>
-                                                    <strong>Requirements&nbsp;</strong>
-                                                    <span [className]="(req.met == false) ? 'problem' : ''"
-                                                        *ngFor="let req of get_FeatRequirements(choice, feat)">{{req.desc}}</span>
-                                                </p>
+                                                <ng-container *ngFor="let reqs of [get_FeatRequirements(choice, feat)]">
+                                                    <p *ngIf="reqs.length">
+                                                        <strong>Requirements&nbsp;</strong>
+                                                        <span [className]="(req.met == false) ? 'problem' : ''"
+                                                            *ngFor="let req of reqs">{{req.desc}}</span>
+                                                    </p>
+                                                </ng-container>
                                                 <ng-container *ngFor="let desc of feat.desc.split('\n\n')">
                                                     <p *ngIf="desc.split('\n').length == 1">{{desc}}</p>
                                                     <ul *ngIf="desc.split('\n').length > 1">
@@ -643,7 +650,7 @@
                                                         <h4 class="left-aligned">{{spell.name}}
                                                             {{spell.get_Actions()}}{{(spell.castType) ? " - " + spell.castType : ""}}
                                                         </h4>
-                                                        <app-spell class="row" [spell]=spell [spellLevel]=1></app-spell>
+                                                        <app-spell class="row" [spell]=spell [spellLevel]="get_SpellLevel(level.number)"></app-spell>
                                                     </ng-container>
                                                 </ng-container>
                                             </ng-container>

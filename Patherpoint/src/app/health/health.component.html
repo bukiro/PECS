@@ -44,15 +44,24 @@
                             value="{{health.$maxDying}}" disabled>
                     </span>
                 </div>
-                <div class="row">
+                <div class="row" *ngIf="health.$dying > 0">
                     <span>
-                        <button *ngIf="health.$dying > 0"
-                            (click)="on_DyingSave(true)">Save</button>
+                        <button
+                            (click)="on_DyingSave(true)">Save
+                        </button>
                     </span>
                     <span>
-                        <button *ngIf="health.$dying > 0"
-                            (click)="on_DyingSave(false)">Fail Save</button>
+                        <button
+                            (click)="on_DyingSave(false)">Fail Save
+                        </button>
                     </span>
+                </div>
+                <div class="row" *ngIf="health.$dying > 0">
+                    
+                        <button
+                            (click)="on_HeroPointRecover()" [disabled]="!get_Character().heroPoints">Use all hero points to recover
+                        </button>
+                    
                 </div>
                 <app-tags [objectName]="'Max Dying'" [showTraits]=true [showFeats]=true [showItems]=true
                     [showActivities]=true [showConditions]=true [showEffects]=true></app-tags>

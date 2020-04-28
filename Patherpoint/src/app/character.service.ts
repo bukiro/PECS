@@ -61,7 +61,7 @@ export class CharacterService {
     private me: Character = new Character();
     public characterChanged$: Observable<boolean>;
     private loader = [];
-    private loading: Boolean = false;
+    private loading: boolean = false;
     private basicItems = []
     private changed: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(true);
 
@@ -162,6 +162,13 @@ export class CharacterService {
         if (!this.still_loading()) {
             return this.me;
         } else { return new Character() }
+    }
+
+    reset_Character() {
+        this.loading = true;
+        this.set_Changed();
+        this.me = new Character();
+        this.initialize("");
     }
 
     get_Accent() {
@@ -390,7 +397,7 @@ export class CharacterService {
         //Add all Items that you get from being granted this one
         if (returnedInventoryItem["gainItems"] && returnedInventoryItem["gainItems"].length) {
             returnedInventoryItem["gainItems"].filter(gainItem => gainItem.on == "grant").forEach(gainItem => {
-                let newItem: Item = this.get_Items()[gainItem.type].filter(item => item.name == gainItem.name)[0];
+                let newItem: Item = this.get_Items()[gainItem.type].filter(libraryItem => libraryItem.name == gainItem.name)[0];
                 if (newItem.can_Stack()) {
                     this.grant_InventoryItem(newItem, true, false, false, gainItem.amount);
                 } else {
@@ -443,13 +450,13 @@ export class CharacterService {
             }
             if (including && item["gainItems"] && item["gainItems"].length) {
                 item["gainItems"].filter((gainItem: ItemGain) => gainItem.on == "grant").forEach(gainItem => {
-                    if (this.get_Items()[gainItem.type].filter((item: Item) => item.name == gainItem.name)[0].can_Stack()) {
-                        let items: Item[] = this.get_InventoryItems()[gainItem.type].filter((item: Item) => item.name == gainItem.name);
+                    if (this.get_Items()[gainItem.type].filter((libraryItem: Item) => libraryItem.name == gainItem.name)[0].can_Stack()) {
+                        let items: Item[] = this.get_InventoryItems()[gainItem.type].filter((libraryItem: Item) => libraryItem.name == gainItem.name);
                         if (items.length) {
                             this.drop_InventoryItem(items[0], false, false, true, gainItem.amount);
                         }
                     } else {
-                        let items: Item[] = this.get_InventoryItems()[gainItem.type].filter((item: Item) => item.id == gainItem.id);
+                        let items: Item[] = this.get_InventoryItems()[gainItem.type].filter((libraryItem: Item) => libraryItem.id == gainItem.id);
                         if (items.length) {
                             this.drop_InventoryItem(items[0], false, false, true);
                         }
@@ -499,6 +506,58 @@ export class CharacterService {
         });
     }
 
+    change_Cash(multiplier: number = 1, sum: number, plat: number = 0, gold: number = 0, silver: number = 0, copper: number = 0) {
+        if (sum) {
+            plat = gold = silver = copper = 0;
+            plat = Math.floor(sum / 100000) * 100;
+            sum %= 100000;
+            gold = Math.floor(sum / 100);
+            sum %= 100;
+            silver = Math.floor(sum / 10);
+            sum %= 10;
+            copper = sum;
+        }
+        if (copper) {
+            this.get_Character().cash[3] += (copper * multiplier);
+            if (this.get_Character().cash[3] < 0) {
+                if (this.get_Character().cash[2] > 0 || this.get_Character().cash[1] > 0 || this.get_Character().cash[0] > 0) {
+                    silver += Math.floor(this.get_Character().cash[3] / 10) * multiplier;
+                    this.get_Character().cash[3] -= Math.floor(this.get_Character().cash[3] / 10) * 10;
+                }
+            };
+        }
+        if (silver) {
+            this.get_Character().cash[2] += (silver * multiplier);
+            if (this.get_Character().cash[2] < 0) {
+                if (this.get_Character().cash[1] > 0 || this.get_Character().cash[0] > 0) {
+                    gold += Math.floor(this.get_Character().cash[2] / 10) * multiplier;
+                    this.get_Character().cash[2] -= Math.floor(this.get_Character().cash[2] / 10) * 10;
+                }
+            };
+        }
+        if (gold) {
+            this.get_Character().cash[1] += (gold * multiplier);
+            if (this.get_Character().cash[1] < 0) {
+                if (this.get_Character().cash[0] > 0) {
+                    plat += Math.floor(this.get_Character().cash[1] / 10) * multiplier;
+                    this.get_Character().cash[1] -= Math.floor(this.get_Character().cash[1] / 10) * 10;
+                }
+            };
+        }
+        if (plat) {
+            this.get_Character().cash[0] += (plat * multiplier);
+            if (this.get_Character().cash[0] < 0) {
+                this.sort_Cash();
+            }
+        }
+    }
+
+    sort_Cash() {
+        let sum = (this.get_Character().cash[0] * 1000) + (this.get_Character().cash[1] * 100) + (this.get_Character().cash[2] * 10) + (this.get_Character().cash[3]);
+        this.get_Character().cash = [0, 0, 0, 0];
+        this.change_Cash(1, sum);
+    }
+
     onEquip(item: Equipment, equipped: boolean = true, changeAfter: boolean = true, equipBasicItems: boolean = true) {
         item.equipped = equipped;
         if (item.equipped) {
@@ -516,16 +575,16 @@ export class CharacterService {
             //Add all Items that you get from equipping this one
             if (item["gainItems"] && item["gainItems"].length) {
                 item["gainItems"].filter((gainItem: ItemGain) => gainItem.on == "equip").forEach(gainItem => {
-                    let newItem: Item = this.itemsService.get_Items()[gainItem.type].filter((item: Item) => item.name == gainItem.name)[0]
+                    let newItem: Item = this.itemsService.get_Items()[gainItem.type].filter((libraryItem: Item) => libraryItem.name == gainItem.name)[0]
                     if (newItem.can_Stack()) {
-                        this.grant_InventoryItem(item, false, false, false, gainItem.amount);
+                        this.grant_InventoryItem(newItem, false, false, false, gainItem.amount);
                     } else {
                         let equip = true;
                         //Don't equip the new item if it's a shield or armor and this one is too - only one shield or armor can be equipped
                         if ((item.type == "armors" || item.type == "shields") && newItem.type == item.type) {
                             equip = false;
                         }
-                        let grantedItem = this.grant_InventoryItem(item, false, false, equip);
+                        let grantedItem = this.grant_InventoryItem(newItem, false, false, equip);
                         gainItem.id = grantedItem.id;
                         if (grantedItem.get_Name) {
                             grantedItem.displayName = grantedItem.name + " (granted by " + item.name + ")"
@@ -888,11 +947,15 @@ export class CharacterService {
         this.itemsService.initialize();
         this.effectsService.initialize(this);
         this.deitiesService.initialize();
-        this.load_Character(charName)
+        if (charName) {
+            this.load_Character(charName)
             .subscribe((results: string[]) => {
                 this.loader = results;
                 this.finish_loading()
             });
+        } else {
+            this.finish_loading()
+        }
     }
 
     load_Character(charName: string): Observable<string[]> {

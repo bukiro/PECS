@@ -369,8 +369,8 @@ export class NewItemPropertyComponent implements OnInit {
                 }));
                 break;
             case "showon":
-                examples.push(...this.characterService.get_Skills().map((skill: Skill) => {return skill.name}));
-                examples.push(...this.characterService.get_Abilities().map((ability: Ability) => {return ability.name}));
+                examples.push(...this.characterService.get_Skills().map((skill: Skill) => skill.name));
+                examples.push(...this.characterService.get_Abilities().map((ability: Ability) => ability.name));
                 examples.push(...this.characterService.get_FeatsAndFeatures().filter(feat => feat.showon.length).map((feat: Feat) => feat.showon ));
                 examples.push(...this.characterService.get_Conditions().filter(condition => condition.showon.length).map((condition: Condition) => condition.showon ));
                 examples.push(...this.activitiesService.get_Activities().filter(activity => activity.showon.length).map((activity: Activity) => activity.showon ));

@@ -64,7 +64,7 @@
             </ng-container>
         </div>
     </ng-container>
-    <h3 class="fullsize-only" *ngIf="!still_loading()">Weapon Proficiencies</h3>
+    <h3 class="fullsize-only box-header" *ngIf="!still_loading()">Weapon Proficiencies</h3>
     <ng-container *ngFor="let skill of get_Skills('', 'Weapon Proficiency')">
         <app-skill class="fullsize-only" [skill]=skill [showValue]=false></app-skill>
     </ng-container>

@@ -4,6 +4,7 @@ import { Item } from './Item';
 import { ItemActivity } from './ItemActivity';
 import { ActivityGain } from './ActivityGain';
 import { Rune } from './Rune';
+import { ItemsService } from './items.service';
 
 export class Equipment extends Item {
     //Is the name input visible in the inventory
@@ -103,5 +104,30 @@ export class Equipment extends Item {
             })
             return (potency + " " + (secondary + " " + (properties + " " + this.name).trim()).trim()).trim();
         }
+    }
+    get_Price(itemsService: ItemsService) {
+        let price = this.price;
+        if (this.moddable == "weapon") {
+            if (this.potencyRune) {
+                price += itemsService.get_Items().weaponrunes.filter(rune => rune.potency == this.potencyRune)[0].price;
+            }
+            if (this.strikingRune) {
+                price += itemsService.get_Items().weaponrunes.filter(rune => rune.striking == this.strikingRune)[0].price;
+            }
+            this.propertyRunes.forEach(rune => {
+                price += itemsService.get_Items().weaponrunes.find(weaponRune => weaponRune.name == rune.name).price;
+            })
+        } else if (this.moddable == "armor") {
+            if (this.potencyRune) {
+                price += itemsService.get_Items().armorrunes.filter(rune => rune.potency == this.potencyRune)[0].price;
+            }
+            if (this.strikingRune) {
+                price += itemsService.get_Items().armorrunes.filter(rune => rune.resilient == this.strikingRune)[0].price;
+            }
+            this.propertyRunes.forEach(rune => {
+                price += itemsService.get_Items().armorrunes.find(armorRune => armorRune.name == rune.name).price;
+            })
+        }
+        return price;
     }
 }

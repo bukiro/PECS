@@ -36,6 +36,7 @@ export class Character {
     public speeds: Speed[] = [new Speed("Speed"), new Speed("Land Speed")];
     public cash: number[] = [0,15,0,0];
     public bulk: Bulk = new Bulk();
+    public heroPoints: number = 1;
     public settings: Settings = new Settings();
     get_Changed(characterService: CharacterService, ) {
         return characterService.get_Changed();
@@ -237,7 +238,7 @@ export class Character {
                 }
                 a.filter.push(skillName);
             }
-            //If you are getting trained in a skill you don't already know, it's usually a weapon proficiency or a class DC.
+            //If you are getting trained in a skill you don't already know, it's usually a weapon proficiency or a class/spell DC.
             //We have to create that skill here then
             if (characterService.get_Skills(skillName).length == 0) {
                 if (skillName.indexOf("class DC") > -1) {

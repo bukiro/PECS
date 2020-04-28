@@ -31,20 +31,22 @@ export class FeatsService {
     get_Feats(loreFeats: Feat[], name: string = "", type: string = "") {
         if (!this.still_loading()) {
             let feats: Feat[] = this.feats.concat(loreFeats);
-            return feats.filter(feat => ((feat.name.indexOf(name) > -1 || name == "") && (feat.traits.indexOf(type) > -1 || type == "")));
+            //I wrote this function to use indexOf instead of == and don't remember why, but problems arose with feats that contained other feats' names.
+            //I checked that all references to the function were specific, and changed it back. If any bugs should come from this, now it's documented.
+            return feats.filter(feat => ((feat.name == name || name == "") && (feat.traits.indexOf(type) > -1 || type == "")));
         } else { return [new Feat()]; }
     }
 
     get_Features(name: string = "") {
         if (!this.still_loading()) {
-            return this.features.filter(feature => (feature.name.indexOf(name) > -1 || name == ""));
+            return this.features.filter(feature => (feature.name == name || name == ""));
         } else { return [new Feat()]; }
     }
 
     get_All(loreFeats: Feat[], name: string = "", type: string = "") {
         if (!this.still_loading()) {
             let feats: Feat[] = this.feats.concat(loreFeats).concat(this.features);
-            return feats.filter(feat => ((feat.name.indexOf(name) > -1 || name == "") && (feat.traits.indexOf(type) > -1 || type == "")));
+            return feats.filter(feat => ((feat.name == name || name == "") && (feat.traits.indexOf(type) > -1 || type == "")));
         } else { return [new Feat()]; }
     }
 
@@ -258,6 +260,17 @@ export class FeatsService {
                     if (oldFeats.length) {
                         character.customFeats.splice(character.customFeats.indexOf(oldFeats[0], 1));
                     }
+                }
+            }
+
+            //Hunter's Edge
+            //If you take any of the three Hunter's Edge Feats, also add the masterful version on Level 17
+            if (feat.name=="Flurry" || feat.name=="Outwit" || feat.name=="Precision") {
+                let huntersEdgeChoice = character.class.levels[17].featChoices.find(choice => choice.type == "Hunter's Edge")
+                if (taken) {
+                    character.take_Feat(characterService, "Masterful Hunter: "+feat.name, true, huntersEdgeChoice, true);
+                } else {
+                    character.take_Feat(characterService, "Masterful Hunter: "+feat.name, false, huntersEdgeChoice, true);
                 }
             }
 

@@ -27,7 +27,7 @@ export class ConditionsService {
             return this.conditions.filter(condition =>
                 (condition.name == name || name == "") &&
                 (condition.type == type || type == "")
-                );
+            );
         } else {
             return [new Condition()];
         }
@@ -46,21 +46,22 @@ export class ConditionsService {
             });
             activeConditions.forEach(gain => {
                 let condition = this.get_Conditions(gain.name)[0];
-                //Mark any conditions for deletion that can have a value if their value is 0 or lower, or if their duration is 0
-                //Only process the rest
-                if ((condition.hasValue && gain.value <= 0) || gain.duration == 0) {
-                    gain.value = -1;
-                } else {
-                    gain.apply = true;
-                    if (overrides.indexOf(gain.name) > -1 || (overrides.indexOf("All") > -1 && condition.overrideConditions.indexOf("All") == -1)) {
-                        gain.apply = false;
-                    }
-                    //We compare this condition with all others that have the same name and deactivate it under certain circumstances
-                    //Are there any other conditions with this name and value that have not been deactivated yet?
-                    activeConditions.filter(otherGain => 
-                        (otherGain !== gain) &&
-                        (otherGain.name == gain.name) &&
-                        (otherGain.apply)
+                if (condition) {
+                    //Mark any conditions for deletion that can have a value if their value is 0 or lower, or if their duration is 0
+                    //Only process the rest
+                    if ((condition.hasValue && gain.value <= 0) || gain.duration == 0) {
+                        gain.value = -1;
+                    } else {
+                        gain.apply = true;
+                        if (overrides.indexOf(gain.name) > -1 || (overrides.indexOf("All") > -1 && condition.overrideConditions.indexOf("All") == -1)) {
+                            gain.apply = false;
+                        }
+                        //We compare this condition with all others that have the same name and deactivate it under certain circumstances
+                        //Are there any other conditions with this name and value that have not been deactivated yet?
+                        activeConditions.filter(otherGain =>
+                            (otherGain !== gain) &&
+                            (otherGain.name == gain.name) &&
+                            (otherGain.apply)
                         ).forEach(otherGain => {
                             //Higher value conditions remain.
                             if (otherGain.value > gain.value) {
@@ -74,10 +75,11 @@ export class ConditionsService {
                                 }
                             }
                         })
+                    }
                 }
             })
             for (let index = activeConditions.length; index > 0; index--) {
-                let gain = activeConditions[index-1];
+                let gain = activeConditions[index - 1];
                 if (gain.value == -1) {
                     characterService.remove_Condition(gain, false);
                 }
@@ -93,20 +95,20 @@ export class ConditionsService {
         let character = characterService.get_Character();
         //Use gain once so it isn't marked as unused. It will be used by the eval strings.
         gain = gain
-            //One time effects
-            if (condition.onceEffects) {
-                if (taken) {
-                    condition.onceEffects.forEach(effect => {
-                        characterService.process_OnceEffect(effect);
-                    })
-                }
+        //One time effects
+        if (condition.onceEffects) {
+            if (taken) {
+                condition.onceEffects.forEach(effect => {
+                    characterService.process_OnceEffect(effect);
+                })
             }
+        }
 
         if (gain.name == "Dying") {
             if (taken) {
                 if (characterService.get_Health().dying(characterService) >= characterService.get_Health().maxDying(effectsService)) {
                     if (characterService.get_AppliedConditions("Dead").length == 0) {
-                        characterService.add_Condition(Object.assign(new ConditionGain, {name:"Dead", source:"Failed Dying Save"}), false)
+                        characterService.add_Condition(Object.assign(new ConditionGain, { name: "Dead", source: "Failed Dying Save" }), false)
                     }
                 }
             } else {
@@ -118,12 +120,12 @@ export class ConditionsService {
                                 gain.source = "Recovered from Dying";
                             });
                         } else {
-                            characterService.add_Condition(Object.assign(new ConditionGain, {name:"Wounded", value:1, source:"Recovered from Dying"}), false)
+                            characterService.add_Condition(Object.assign(new ConditionGain, { name: "Wounded", value: 1, source: "Recovered from Dying" }), false)
                         }
                     }
                     if (characterService.get_Health().currentHP(characterService, effectsService) == 0) {
                         if (characterService.get_AppliedConditions("Unconscious", "0 Hit Points").length == 0) {
-                            characterService.add_Condition(Object.assign(new ConditionGain, {name:"Unconscious", source:"0 Hit Points"}), false)
+                            characterService.add_Condition(Object.assign(new ConditionGain, { name: "Unconscious", source: "0 Hit Points" }), false)
                         }
                     }
                 }
@@ -174,18 +176,18 @@ export class ConditionsService {
         return (this.loading);
     }
 
-    load_Conditions(): Observable<String[]>{
+    load_Conditions(): Observable<String[]> {
         return this.http.get<String[]>('/assets/conditions.json');
     }
 
     initialize() {
         if (!this.conditions) {
-        this.loading = true;
-        this.load_Conditions()
-            .subscribe((results:String[]) => {
-                this.loader = results;
-                this.finish_loading()
-            });
+            this.loading = true;
+            this.load_Conditions()
+                .subscribe((results: String[]) => {
+                    this.loader = results;
+                    this.finish_loading()
+                });
         }
     }
 
@@ -195,7 +197,7 @@ export class ConditionsService {
 
             this.loader = [];
         }
-        if (this.loading) {this.loading = false;}
+        if (this.loading) { this.loading = false; }
     }
 
 }

@@ -3,6 +3,8 @@ import { TraitsService } from '../traits.service';
 import { ActivitiesService } from '../activities.service';
 import { AdventuringGear } from '../AdventuringGear';
 import { CharacterService } from '../character.service';
+import { ItemsService } from '../items.service';
+import { Item } from '../Item';
 
 @Component({
     selector: 'app-item',
@@ -25,7 +27,8 @@ export class ItemComponent implements OnInit {
     constructor(
         private traitsService: TraitsService,
         private activitiesService: ActivitiesService,
-        private characterService: CharacterService,
+        public characterService: CharacterService,
+        private itemsService: ItemsService
     ) { }
 
     get_Accent() {
@@ -40,12 +43,20 @@ export class ItemComponent implements OnInit {
         return this.traitsService.get_Traits(name);
     }
 
-    get_Price(item) {
-        if (item.price) {
+    get_FullPrice(item: Item) {
+        if (item["get_Price"]) {
+            return item["get_Price"](this.itemsService);
+        } else {
+            return item.price;
+        }
+    }
+
+    get_Price(item: Item) {
+        if (this.get_FullPrice(item)) {
             if (item.price == 0) {
                 return "";
             } else {
-                let price: number = item.price;
+                let price: number = this.get_FullPrice(item);
                 let priceString: string = "";
                 if (price >= 100) {
                     priceString += Math.floor(price / 100)+"gp";

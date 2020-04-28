@@ -18,6 +18,27 @@
             </option>
         </select>
     </div>
+    <h5>Get Cash</h5>
+        <div class="list-item">
+            <div class="row">
+                <strong>Platinum</strong>
+                <input class="number4" type="number" [(ngModel)]="cashP" (keypress)="numbersOnly($event)">
+                <strong>Gold</strong>
+                <input class="number4" type="number" [(ngModel)]="cashG" (keypress)="numbersOnly($event)">
+                <strong>Silver</strong>
+                <input class="number4" type="number" [(ngModel)]="cashS" (keypress)="numbersOnly($event)">
+                <strong>Copper</strong>
+                <input class="number4" type="number" [(ngModel)]="cashC" (keypress)="numbersOnly($event)">
+            </div>
+            <div class="row">
+                <span>
+                    <button (click)="change_Cash(1, 0, true)" [disabled]="cashP < 0 || cashG < 0 || cashS < 0 || cashC < 0">Gain</button>
+                </span>
+                <span>
+                    <button (click)="change_Cash(-1, 0, true)" [disabled]="cashP < 0 || cashG < 0 || cashS < 0 || cashC < 0" [disabled]="!have_Funds()">Spend</button>
+                </span>
+            </div>
+        </div>
     <h3>Get Items</h3>
     <ng-container *ngFor="let items of [get_Items(true)]">
         <ng-container *ngFor="let itemSet of items.names">
@@ -46,7 +67,12 @@
                                 *ngIf="get_ShowItem()==inventoryID">
                                 <button class="row center-aligned"
                                     (click)="grant_Item(item)">
-                                    Get
+                                    Gift
+                                </button>
+                                <button class="row center-aligned"
+                                    (click)="grant_Item(item, true)"
+                                    [disabled]="!have_Funds(get_Price(item)) || !get_Price(item)">
+                                    Buy
                                 </button>
                                 <app-itemRunes class="row" [item]=item [itemStore]=true></app-itemRunes>
                                 <app-item [item]=item [itemStore]=true></app-item>

@@ -1,5 +1,5 @@
 export class Settings {
-    accent: string = "#008000";
+    accent: string = "#1976d2";
     timeMinimized: boolean = false;
     generalMinimized: boolean = false;
     effectsMinimized: boolean = false;

@@ -4,11 +4,23 @@
     <div class="loading" *ngIf="still_loading()">Loading</div>
     <ng-container *ngIf="!still_loading()">
         <div class="fullsize-only list-item">
+            <span>
+                <strong>Level</strong>
+                {{get_Character().level}}
+            </span>
+            <span>
+                <strong>Hero Points</strong>
+                {{get_Character().heroPoints}}
+                <button (click)="add_HeroPoints(1)">+1</button>
+                <button (click)="add_HeroPoints(-1)" [disabled]="get_Character().heroPoints <= 0">-1</button>
+            </span>
+        </div>
+        <div class="fullsize-only list-item">
             <strong>Character Name</strong>
             {{get_Character().name}}
         </div>
         <div class="list-item" *ngIf="get_Character().class.ancestry.name">
-            <strong>Ancestry:</strong>
+            <strong>Ancestry</strong>
             {{get_Character().class.ancestry.name}}{{(get_Character().class.heritage.name) ? " - " + get_Character().class.heritage.name : ""}}
             <div class="row left-aligned" *ngIf="get_Character().class.ancestry.traits.length">
                 <cite class="trait" *ngFor="let trait of get_Character().class.ancestry.traits">{{trait}}&nbsp;</cite>
@@ -19,7 +31,7 @@
             {{get_Character().class.background.name}}
         </div>
         <div class="fullsize-only list-item" *ngIf="get_Character().class.name">
-            <strong>Class:</strong>
+            <strong>Class</strong>
             {{get_Character().class.name}}
         </div>
         <div class="fullsize-only list-item" *ngIf="get_Character().alignment.length">

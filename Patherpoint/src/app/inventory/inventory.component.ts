@@ -9,6 +9,7 @@ import { Consumable } from '../Consumable';
 import { Equipment } from '../Equipment';
 import { SortByPipe } from '../sortBy.pipe';
 import { OtherItem } from '../OtherItem';
+import { Item } from '../Item';
 
 @Component({
     selector: 'app-inventory',
@@ -109,8 +110,21 @@ export class InventoryComponent implements OnInit {
         return this.sortByPipe.transform(itemSet, "asc", "name");
     }
 
-    drop_InventoryItem(item) {
+    drop_InventoryItem(item, pay: boolean = false) {
         this.showItem = 0;
+        if (pay) {
+            if (this.get_Price(item)) {
+                let price = this.get_Price(item);
+                if (item.stack) {
+                    price *= Math.floor(item.amount / item.stack);
+                } else {
+                    price *= item.amount;
+                }
+                if (price) {
+                    this.change_Cash(1, Math.floor(price / 2));
+                }
+            }
+        }
         this.characterService.drop_InventoryItem(item, true, true, true, item.amount);
     }
 
@@ -194,12 +208,44 @@ export class InventoryComponent implements OnInit {
         this.characterService.set_Changed();
     }
 
-    onAmountChange(item: Consumable, amount: number) {
+    onAmountChange(item: Consumable, amount: number, pay: boolean = false) {
         item.amount += amount;
+        if (pay) {
+            if (amount > 0) {
+                this.change_Cash(-1, this.get_Price(item));
+            } else if (amount < 0) {
+                this.change_Cash(1, Math.floor(this.get_Price(item) / 2));
+            }
+        }
     }
 
     on_ConsumableUse(item: Consumable) {
         this.characterService.on_ConsumableUse(item);
+    }
+
+    get_Price(item: Item) {
+        if (item["get_Price"]) {
+            return item["get_Price"](this.itemsService);
+        } else {
+            return item.price;
+        }
+    }
+
+    have_Funds(sum: number = 0) {
+        let character = this.characterService.get_Character();
+        let funds = (character.cash[0] * 1000) + (character.cash[1] * 100) + (character.cash[2] * 10) + (character.cash[3]);
+        if (sum <= funds) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    change_Cash(multiplier: number = 1, sum: number = 0, changeafter: boolean = false) {
+        this.characterService.change_Cash(multiplier, sum);
+        if (changeafter) {
+            this.characterService.set_Changed();
+        }
     }
 
     get_Actions(item) {

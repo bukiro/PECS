@@ -366,11 +366,19 @@ export class Weapon extends Equipment {
         let specializations: Specialization[] = [];
         character.get_FeatsTaken(0, character.level).map(gain => characterService.get_FeatsAndFeatures(gain.name)[0]).filter(feat => feat.critSpecialization).forEach(feat => {
             if (feat.critSpecialization.indexOf(this.group) > -1 || feat.critSpecialization.indexOf("All") > -1) {
-                specializations = characterService.get_Specializations(this.group);
+                //If the only feat that gives you the critical specialization for this weapon is Ranger Weapon Expertise, a hint is added to each specialization that it only applies to the Hunted Prey.
+                //If any more specializations should apply, they will overwrite these hints, which is expected and correct as long as no other specialization has limitations.
+                let huntedPreyOnly = (!specializations.length && feat.name == "Ranger Weapon Expertise")
+                specializations = characterService.get_Specializations(this.group).map(spec => Object.assign(new Specialization(), spec));
+                if (huntedPreyOnly) {
+                    specializations.forEach(spec => {
+                        spec.desc == "(Hunted Prey only) "+spec.desc;
+                    });
+                }
             }
         })
         if (this.traits.indexOf("Monk") > -1 && character.get_FeatsTaken(0, character.level, "Monastic Weaponry").length && character.get_FeatsTaken(0, character.level, "Brawling Focus").length) {
-            specializations =  characterService.get_Specializations(this.group);
+            specializations = characterService.get_Specializations(this.group);
         }
         return specializations;
     }

@@ -4,7 +4,7 @@ import { ConditionGain } from './ConditionGain';
 
 export class Health {
     public damage: number = 0;
-    public temporaryHP: number = 15;
+    public temporaryHP: number = 0;
     public resistances: any[] = [];
     public immunities: any[] = [];
     public lessenedEffects: any[] = [];
@@ -104,7 +104,6 @@ export class Health {
             characterService.get_AppliedConditions("Dying").forEach(gain => {
                 characterService.remove_Condition(gain, false, increaseWounded);
             });
-            
         }
         //Wake up from Healing
         if (wake) {

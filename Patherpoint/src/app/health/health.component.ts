@@ -2,6 +2,7 @@ import { Component, OnInit, ChangeDetectorRef, ChangeDetectionStrategy } from '@
 import { CharacterService } from '../character.service';
 import { EffectsService } from '../effects.service';
 import { ConditionGain } from '../ConditionGain';
+import { Health } from '../Health';
 
 @Component({
     selector: 'app-health',
@@ -74,6 +75,14 @@ export class HealthComponent implements OnInit {
                 }
             }
         }
+        this.characterService.set_Changed();
+    }
+
+    on_HeroPointRecover() {
+        this.characterService.get_AppliedConditions("Dying").forEach(gain => {
+            this.characterService.remove_Condition(gain, false, false);
+        });
+        this.get_Character().heroPoints = 0;
         this.characterService.set_Changed();
     }
 

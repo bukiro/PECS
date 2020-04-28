@@ -1,7 +1,7 @@
 <button class="minimizebutton lower" (click)="minimize()">&#8691;</button>
 <div id="defense-height" class="attributeBox">
 <ng-container *ngFor="let AC of [get_CalculatedAC()]">
-    <h3 title="{{AC.$value[1]}}">Defense: Armor Class <span
+    <h3 class="box-header" title="{{AC.$value[1]}}">Defense: Armor Class <span
             [className]="(AC.$penalty.length) ? 'penalty' : (AC.$bonus.length) ? 'bonus' : ''">{{AC.$value[0]}}</span>
     </h3>
     <div class="loading" *ngIf="still_loading()">Loading</div>
@@ -37,7 +37,7 @@
             </div>
             <app-tags [objectName]="'Defense'" [showTraits]=true [showFeats]=true [showItems]=true [showActivities]=true
                 [showConditions]=true [showEffects]=true></app-tags>
-            <app-tags [objectName]=armor.name [showItems]=true></app-tags>
+            <app-tags [objectName]="armor.name" [showItems]=true></app-tags>
         </div>
         <div class="list-item" *ngFor="let shield of get_EquippedShield()">
             <div>{{shield.name}} AC: <input type="number" class="number2" [ngModel]="shield.acbonus" disabled>
@@ -72,13 +72,13 @@
                 </div>
             </div>
         </ng-container>
-        <h3 class="fullsize-only" *ngIf="!still_loading()">Saving Throws</h3>
+        <h3 class="fullsize-only box-header" *ngIf="!still_loading()">Saving Throws</h3>
         <ng-container *ngFor="let skill of get_Skills('', 'Save')|sortBy:'asc':'name'">
             <app-skill [skill]=skill></app-skill>
         </ng-container>
         <app-tags [objectName]="'Saving Throws'" [showTraits]=true [showFeats]=true [showItems]=true [showActivities]=true
                 [showConditions]=true [showEffects]=true></app-tags>
-        <h3 class="fullsize-only" *ngIf="!still_loading()">Armor Proficiencies</h3>
+        <h3 class="fullsize-only box-header" *ngIf="!still_loading()">Armor Proficiencies</h3>
         <ng-container *ngFor="let skill of get_Skills('', 'Armor Proficiency')">
             <app-skill class="fullsize-only" [skill]=skill [showValue]=false></app-skill>
         </ng-container>

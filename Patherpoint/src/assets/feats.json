@@ -5816,5 +5816,26 @@
          "Monk",
          "Fortune"
       ]
+   },
+   {
+      "name":"Flurry",
+      "desc":"You have trained to unleash a devastating flurry of attacks upon your prey. Your multiple attack penalty for attacks against your hunted prey is –3 (–2 with an agile weapon) on your second attack of the turn instead of –5, and –6 (–4 with an agile weapon) on your third or subsequent attack of the turn, instead of –10.",
+      "hint":"Your multiple attack penalty for attacks against your hunted prey is –3 (–2 with an agile weapon) on your second attack of the turn instead of –5, and –6 (–4 with an agile weapon) on your third or subsequent attack of the turn, instead of –10.",
+      "showon":"Attacks",
+      "internalNote":"This is not a true feat and will not be available outside of a special choice"
+   },
+   {
+      "name":"Outwit",
+      "desc":"You are talented at outwitting and evading your prey. You gain a +2 circumstance bonus to Deception checks, Intimidation checks, Stealth checks, and any checks to Recall Knowledge about the prey, and a +1 circumstance bonus to AC against your prey’s attacks.",
+      "hint":"You gain a +2 circumstance bonus to Deception checks, Intimidation checks, Stealth checks, and any checks to Recall Knowledge about the prey, and a +1 circumstance bonus to AC against your prey’s attacks.",
+      "showon":"AC, Arcana, Crafting, Deception, Intimidation, Nature, Occultism, Religion, Society, Stealth",
+      "internalNote":"This is not a true feat and will not be available outside of a special choice"
+   },
+   {
+      "name":"Precision",
+      "desc":"You have trained to aim for your prey’s weak points. The first time you hit your hunted prey in a round, you also deal 1d8 additional precision damage. (Precision damage increases the damage you already deal, using the same type, but is ineffective against creatures that lack vital organs or weak points.) At 11th level, the extra damage increases to 2d8 precision damage, and at 19th level, the extra damage increases to 3d8 precision damage.",
+      "hint":"The first time you hit your hunted prey in a round, you also deal 1d8 additional precision damage. At 11th level, the extra damage increases to 2d8 precision damage, and at 19th level, the extra damage increases to 3d8 precision damage.",
+      "showon":"Attacks",
+      "internalNote":"This is not a true feat and will not be available outside of a special choice"
    }
 ]

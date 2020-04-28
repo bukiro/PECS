@@ -229,6 +229,13 @@
         "showon": "Athletics"
     },
     {
+        "name": "Dragon's Breath Potion (Silver, Young)",
+        "type": "potions",
+        "desc": "You can unleash a breath weapon as a 15-foot cone of cold that deals 4d6 cold damage. Each creature in the area must attempt a DC 23 basic Reflex save. Exhaling dragon breath uses a single action. After you use the breath weapon, you can’t do so again for 1d4 rounds.",
+        "buff": true,
+        "showon": "Attacks"
+    },
+    {
         "name": "Candle of Truth",
         "type": "otherconsumables",
         "desc": "Creatures within 10 feet of the candle receive a –4 status penalty to Lie.\n\nIn addition, when first entering the affected area, each creature (including you) must succeed at a DC 26 Will save or be unable to tell any deliberate lies while within 10 feet of the lit candle. This lasts for as long as the candle is lit.",
@@ -406,7 +413,8 @@
             }
         ],
         "buff": true
-    },{
+    },
+    {
         "name": "Ethereal Jaunt",
         "type": "spell",
         "desc": "You travel to the Ethereal Plane, which overlaps the Material Plane. Material Plane creatures can't see you, and you can move through things on the Material Plane. You move at half your normal Speeds, but can move in any direction (including up and down).\n\nYou can see onto the Material Plane within a radius of 60 feet; it is gray, hazy, and concealed from you. You can't affect the Material Plane, and you can't be affected by the Material Plane except by force effects and abjurations originating there.\n\nWhen the spell ends, you return to the Material Plane. If you're in the air, you fall (unless you can fly), and if you're inside an object, you're pushed into the nearest open space and take 1d6 damage per 5 feet you were pushed.\n\nIf you cast this spell when not on the Material Plane, it is lost.",

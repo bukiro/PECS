@@ -6,6 +6,7 @@ import { TraitsService } from '../traits.service';
 import { FeatsService } from '../feats.service';
 import { Speed } from '../Speed';
 import { Effect } from '../Effect';
+import { ArgumentOutOfRangeError } from 'rxjs';
 
 @Component({
     selector: 'app-general',
@@ -42,6 +43,10 @@ export class GeneralComponent implements OnInit {
 
     get_Character() {
         return this.characterService.get_Character();
+    }
+
+    add_HeroPoints(amount: number) {
+        this.get_Character().heroPoints += amount;
     }
 
     get_DifferentWorldsFeat() {

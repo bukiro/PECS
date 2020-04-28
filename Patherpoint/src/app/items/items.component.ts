@@ -37,6 +37,10 @@ export class ItemsComponent implements OnInit {
     public sorting: string = "level";
     public newItemType: string = "";
     public newItem: Equipment|Consumable = null;
+    public cashP: number = 0;
+    public cashG: number = 0;
+    public cashS: number = 0;
+    public cashC: number = 0;
     
     constructor(
         private changeDetector: ChangeDetectorRef,
@@ -94,6 +98,42 @@ export class ItemsComponent implements OnInit {
         this.characterService.toggleMenu("items");
     }
 
+    numbersOnly(event): boolean {
+        const charCode = (event.which) ? event.which : event.keyCode;
+        if (charCode > 31 && (charCode < 48 || charCode > 57)) {
+            return false;
+        }
+        return true;
+    }
+
+    get_Price(item: Item) {
+        if (item["get_Price"]) {
+            return item["get_Price"](this.itemsService);
+        } else {
+            return item.price;
+        }
+    }
+
+    have_Funds(sum: number = 0) {
+        let character = this.characterService.get_Character();
+        if (!sum) {
+            sum = (this.cashP * 1000) + (this.cashG * 100) + (this.cashS * 10) + (this.cashC);
+        }
+        let funds = (character.cash[0] * 1000) + (character.cash[1] * 100) + (character.cash[2] * 10) + (character.cash[3]);
+        if (sum <= funds) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    change_Cash(multiplier: number = 1, sum: number = 0, changeafter: boolean = false) {
+        this.characterService.change_Cash(multiplier, sum, this.cashP, this.cashG, this.cashS, this.cashC);
+        if (changeafter) {
+            this.characterService.set_Changed();
+        }
+    }
+
     get_Items(newIDs: boolean = false) {
         if (newIDs) {
             this.id = 0;
@@ -118,7 +158,10 @@ export class ItemsComponent implements OnInit {
             );
     }
 
-    grant_Item(item: Item) {
+    grant_Item(item: Item, pay: boolean = false) {
+        if (pay && (item["get_Price"] ? item["get_Price"](this.itemsService) : item.price)) {
+            this.change_Cash(-1, item.price);
+        }
         this.characterService.grant_InventoryItem(item, false);
     }
 

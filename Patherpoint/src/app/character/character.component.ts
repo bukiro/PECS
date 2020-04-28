@@ -96,6 +96,10 @@ export class CharacterComponent implements OnInit {
         return index;
     }
 
+    on_NewCharacter() {
+        this.characterService.reset_Character();
+    }
+
     get_Alignments() {
         return [
             "",
@@ -126,7 +130,7 @@ export class CharacterComponent implements OnInit {
             //Remove all Level 1 ability boosts that are now illegal
             if (this.get_Character().class.name) {
                 this.get_Character().class.levels[1].abilityChoices.filter(choice => choice.available).forEach(choice => {
-                    choice.boosts.length = choice.available - choice.baseValuesLost;
+                    choice.boosts.length = Math.min(choice.available - choice.baseValuesLost, choice.boosts.length);
                 });
             }
         }
@@ -149,6 +153,7 @@ export class CharacterComponent implements OnInit {
         //Despite all precautions, when we change the level, it gets turned into a string. So we turn it right back.
         this.get_Character().level = parseInt(this.get_Character().level.toString());
         let newLevel = this.get_Character().level;
+        //If we went up levels, repeat any onceEffects of Feats that apply inbetween, such as recovering Focus Points for a larger Focus Pool
         if (newLevel > oldLevel) {
             this.get_Character().get_FeatsTaken(oldLevel, newLevel).map((gain: FeatTaken) => this.get_FeatsAndFeatures(gain.name)[0])
             .filter((feat: Feat) => feat.onceEffects.length).forEach(feat => {
@@ -160,18 +165,19 @@ export class CharacterComponent implements OnInit {
         this.characterService.set_Changed();
     }
 
-    get_LanguagesAvailable(level: number = 0) {
+    get_LanguagesAvailable(levelNumber: number = 0) {
         let character = this.get_Character()
         if (character.class.ancestry.name) {
-            if (level) {
+            if (levelNumber) {
                 //If level is given, check if any new languages have been added on this level. If not, don't get any languages at this point.
                 let newLanguages: number = 0;
-                newLanguages += this.get_FeatsTaken(level, level).filter(gain => this.get_FeatsAndFeatures(gain.name)[0].effects.filter(effect => effect.affected == "Max Languages").length).length;
-                newLanguages += character.get_AbilityBoosts(level, level, "Intelligence").length;
+                newLanguages += this.get_FeatsTaken(levelNumber, levelNumber).filter(gain => this.get_FeatsAndFeatures(gain.name)[0].effects.filter(effect => effect.affected == "Max Languages").length).length;
+                newLanguages += character.get_AbilityBoosts(levelNumber, levelNumber, "Intelligence").length;
                 if (!newLanguages) {
                     return false;
                 }
             }
+            //Ensure that the language list is always as long as ancestry languages + INT + any relevant feats
             let ancestry: Ancestry = this.get_Character().class.ancestry;
             let languages: number = ancestry.languages.length;
             let maxLanguages: number = ancestry.baseLanguages;
@@ -499,24 +505,30 @@ export class CharacterComponent implements OnInit {
 
     get_AvailableFeats(choice: FeatChoice, get_unavailable: boolean = false) {
         let character = this.get_Character()
-        //Get all Feats, but no subtype Feats - those get built within their supertype
-        let allFeats = this.featsService.get_Feats(this.get_Character().customFeats).filter(feat => !feat.superType && !feat.hide);
+        //Get all Feats, but no subtype Feats (those that have the supertype attribute set) - those get built within their supertype
+        let allFeats = this.get_Feats().filter(feat => !feat.superType && !feat.hide);
         if (choice.filter.length) {
             allFeats = allFeats.filter(feat => choice.filter.indexOf(feat.name) > -1)
         }
         let feats: Feat[] = [];
-        switch (choice.type) {
-            case "Class":
-                feats.push(...allFeats.filter(feat => feat.traits.indexOf(character.class.name) > -1));
-                break;
-            case "Ancestry":
-                character.class.ancestry.ancestries.forEach(trait => {
-                    feats.push(...allFeats.filter(feat => feat.traits.indexOf(trait) > -1));
-                })
-                break;
-            default:
-                feats.push(...allFeats.filter(feat => feat.traits.indexOf(choice.type) > -1));
-                break;
+        if (choice.specialChoice) {
+            //For special choices, we don't really use true feats, but make choices that can best be represented by the extensive feat structure.
+            //In this case, we don't go looking for feats with a certain trait, but rely completely on the filter.
+            feats.push(...allFeats);
+        } else {
+            switch (choice.type) {
+                case "Class":
+                    feats.push(...allFeats.filter(feat => feat.traits.indexOf(character.class.name) > -1));
+                    break;
+                case "Ancestry":
+                    character.class.ancestry.ancestries.forEach(trait => {
+                        feats.push(...allFeats.filter(feat => feat.traits.indexOf(trait) > -1));
+                    })
+                    break;
+                default:
+                    feats.push(...allFeats.filter(feat => feat.traits.indexOf(choice.type) > -1));
+                    break;
+            }
         }
         if (feats.length) {
             if (get_unavailable && choice.feats.length < choice.available) {
@@ -544,6 +556,10 @@ export class CharacterComponent implements OnInit {
 
     get_Spells(name: string = "") {
         return this.spellsService.get_Spells(name);
+    }
+
+    get_SpellLevel(levelNumber: number) {
+        return Math.ceil(levelNumber / 2);
     }
 
     get_DifferentWorldsFeat(levelNumber) {
@@ -708,6 +724,7 @@ export class CharacterComponent implements OnInit {
             featLevel = levelNumber;
         }
         let result: Array<{met?:boolean, desc?:string}> = [];
+        //For subtypes, the supertype feat to compare is given. Only those requirements that differ from the supertype will be returned.
         if (compare) {
             if (feat.levelreq != compare.levelreq ||
                 JSON.stringify(feat.abilityreq) != JSON.stringify(compare.abilityreq) ||
