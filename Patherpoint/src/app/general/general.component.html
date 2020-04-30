@@ -1,5 +1,5 @@
 <button class="minimizebutton lower" (click)="minimize()" *ngIf="creature=='Character'">&#8691;</button>
-<div id="{{creature == 'Character' ? '' : 'other-'}}general-height" class="attributeBox">
+<div id="{{creature}}-general-height" class="attributeBox">
     <h3 class="box-header">General information</h3>
     <div class="loading" *ngIf="still_loading()">Loading</div>
     <ng-container *ngIf="!still_loading()">
@@ -35,6 +35,10 @@
                 <strong>Class</strong>
                 {{get_Character().class.name}}
             </div>
+            <div class="fullsize-only list-item" *ngIf="get_Character().class.ancestry.name">
+                <strong>Size</strong>
+                {{get_Size()}}
+            </div>
             <div class="fullsize-only list-item" *ngIf="get_Character().alignment && get_Character().alignment.length">
                 <strong>Alignment</strong>
                 {{get_Character().alignment}}
@@ -58,6 +62,26 @@
             <ng-container *ngFor="let skill of get_SpellDCs()">
                 <app-skill [skill]=skill [isDC]=true></app-skill>
             </ng-container>
+        </ng-container>
+        <ng-container *ngIf="creature=='Companion'">
+            <div class="fullsize-only list-item">
+                <strong>Companion Name</strong>
+                {{get_Companion().name}}
+                <app-tags [creature]="'Character'" [objectName]="'Animal Companion'" [showTraits]=true [showFeats]=true [showItems]=true [showActivities]=true
+                    [showConditions]=true [showEffects]=true></app-tags>
+            </div>
+            <div class="fullsize-only list-item">
+                <strong>Species</strong>
+                {{get_CompanionSpecies()}}
+            </div>
+            <div class="fullsize-only list-item" *ngIf="get_Companion().class.ancestry.name">
+                <strong>Size</strong>
+                {{get_Size()}}
+            </div>
+            <div class="list-item" *ngIf="get_Companion().class.ancestry.name">
+                <strong>Support Benefit</strong>
+                <p>{{get_Companion().class.ancestry.supportBenefit}}</p>
+            </div>
         </ng-container>
         <h5 class="fullsize-only">Movement</h5>
         <ng-container *ngFor="let speed of get_Speeds()">

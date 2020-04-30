@@ -1,4 +1,4 @@
-<div class="list-item" [className]="(skill.$value.result == 0 || (skill.$level == 0 && creature == 'Companion')) ? 'fullsize-only' : ''"
+<div class="list-item" [className]="((skill.$value.result == 0) ? 'fullsize-only' : '') + ((skill.$level == 0) ? ' character-only' : '')"
     *ngFor="let skill of [skill.calculate(get_Creature(), this.characterService,this.abilitiesService,this.effectsService)]">
     <div class="row">
         <strong>{{skill.name}}</strong>

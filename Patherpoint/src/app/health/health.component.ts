@@ -35,7 +35,7 @@ export class HealthComponent implements OnInit {
 
     set_Span() {
         setTimeout(() => {
-            document.getElementById("health").style.gridRow = "span "+this.characterService.get_Span("health-height");
+            document.getElementById(this.creature+"-health").style.gridRow = "span "+this.characterService.get_Span(this.creature+"-health-height");
         })
     }
 

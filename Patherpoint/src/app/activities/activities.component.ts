@@ -7,6 +7,7 @@ import { ItemsService } from '../items.service';
 import { TimeService } from '../time.service';
 import { Character } from '../Character';
 import { AnimalCompanion } from '../AnimalCompanion';
+import { SpellsService } from '../spells.service';
 
 @Component({
     selector: 'app-activities',
@@ -27,6 +28,7 @@ export class ActivitiesComponent implements OnInit {
         public characterService: CharacterService,
         private activitiesService: ActivitiesService,
         private itemsService: ItemsService,
+        private spellsService: SpellsService,
         private timeService: TimeService
     ) { }
 
@@ -36,7 +38,7 @@ export class ActivitiesComponent implements OnInit {
 
     set_Span() {
         setTimeout(() => {
-            document.getElementById("activities").style.gridRow = "span "+this.characterService.get_Span("activities-height");
+            document.getElementById(this.creature+"-activities").style.gridRow = "span "+this.characterService.get_Span(this.creature+"-activities-height");
         })
     }
 
@@ -100,7 +102,7 @@ export class ActivitiesComponent implements OnInit {
     }
 
     on_Activate(gain: ActivityGain, activity: Activity, activated: boolean) {
-        this.activitiesService.activate_Activity(this.get_Creature(), this.characterService, this.timeService, this.itemsService, gain, activity, activated);
+        this.activitiesService.activate_Activity(this.get_Creature(), this.characterService, this.timeService, this.itemsService, this.spellsService, gain, activity, activated);
     }
 
     finish_Loading() {

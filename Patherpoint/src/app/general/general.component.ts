@@ -30,7 +30,7 @@ export class GeneralComponent implements OnInit {
 
     set_Span() {
         setTimeout(() => {
-            document.getElementById("general").style.gridRow = "span "+this.characterService.get_Span("general-height");
+            document.getElementById(this.creature+"-general").style.gridRow = "span "+this.characterService.get_Span(this.creature+"-general-height");
         })
     }
 
@@ -50,8 +50,29 @@ export class GeneralComponent implements OnInit {
         return this.characterService.get_Character();
     }
 
+    get_Companion() {
+        return this.characterService.get_Companion();
+    }
+
+    get_CompanionSpecies() {
+        let companion: AnimalCompanion = this.get_Companion();
+        if (companion.level && companion.class.levels.length) {
+            let species: string = companion.class.levels[companion.level].name;
+            if (companion.species) {
+                species += " " + companion.species;
+            } else if (companion.class.ancestry && companion.class.ancestry.name) {
+                species += " " + companion.class.ancestry.name;
+            }
+            return species;
+        }
+    }
+
     add_HeroPoints(amount: number) {
         this.get_Character().heroPoints += amount;
+    }
+
+    get_Size() {
+        return this.get_Creature().get_Size(this.effectsService);
     }
 
     get_Languages() {

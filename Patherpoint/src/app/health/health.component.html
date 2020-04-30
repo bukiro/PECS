@@ -1,5 +1,5 @@
 <button class="minimizebutton lower" (click)="minimize()" *ngIf="creature=='Character'">&#8691;</button>
-<div id="{{creature == 'Character' ? '' : 'other-'}}health-height" class="attributeBox">
+<div id="{{creature}}-health-height" class="attributeBox">
     <ng-container *ngFor="let health of [calculate_Health()]">
         <h3 class="box-header">Health:
             <span
@@ -56,12 +56,10 @@
                         </button>
                     </span>
                 </div>
-                <div class="row" *ngIf="health.$dying > 0">
-                    
+                <div class="row" *ngIf="health.$dying > 0 && creature == 'Character'">
                         <button
                             (click)="on_HeroPointRecover()" [disabled]="!get_Character().heroPoints">Use all hero points to recover
                         </button>
-                    
                 </div>
                 <app-tags [creature]="creature" [objectName]="'Max Dying'" [showTraits]=true [showFeats]=true [showItems]=true
                     [showActivities]=true [showConditions]=true [showEffects]=true></app-tags>

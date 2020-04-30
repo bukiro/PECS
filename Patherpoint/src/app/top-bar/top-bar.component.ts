@@ -76,7 +76,7 @@ export class TopBarComponent implements OnInit {
     }
 
     get_Companion() {
-        if (this.characterService.get_Character().class.animalCompanion) {
+        if (this.get_Character().class.animalCompanion && this.get_Character().class.animalCompanion.level <= this.get_Character().level) {
             return this.characterService.get_Character().class.animalCompanion.companion;
         }
     }

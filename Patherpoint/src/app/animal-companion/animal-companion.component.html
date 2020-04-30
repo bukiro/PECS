@@ -5,14 +5,14 @@
     </button>
     <div class="loading" *ngIf="still_loading()">Loading</div>
     <div class="animalcompanion-box" *ngIf="!still_loading() && get_Character().class && get_Character().class.animalCompanion">
-        <app-general [creature]="'Companion'" id="animal-companion-general" class="charactersheet-app" [ngStyle]="{'--accent':get_Accent()}"></app-general>
-        <app-effects [creature]="'Companion'" id="animal-companion-effects" class="charactersheet-app" [ngStyle]="{'--accent':get_Accent()}"></app-effects>
-        <app-abilities [creature]="'Companion'" id="animal-companion-abilities" class="charactersheet-app" [ngStyle]="{'--accent':get_Accent()}"></app-abilities>
-        <app-health [creature]="'Companion'" id="animal-companion-health" class="charactersheet-app" [ngStyle]="{'--accent':get_Accent()}"></app-health>
-        <app-defense [creature]="'Companion'" id="animal-companion-defense" class="charactersheet-app" [ngStyle]="{'--accent':get_Accent()}"></app-defense>
-        <app-attacks [creature]="'Companion'" id="animal-companion-attacks" class="charactersheet-app" [ngStyle]="{'--accent':get_Accent()}"></app-attacks>
-        <app-skills [creature]="'Companion'" id="animal-companion-skills" class="charactersheet-app" [ngStyle]="{'--accent':get_Accent()}"></app-skills>
-        <app-inventory [creature]="'Companion'" id="animal-companion-inventory" class="charactersheet-app" [ngStyle]="{'--accent':get_Accent()}"></app-inventory>
-        <app-activities [creature]="'Companion'" id="animal-companion-activities" class="charactersheet-app" [ngStyle]="{'--accent':get_Accent()}"></app-activities>
+        <app-general [creature]="'Companion'" id="Companion-general" class="charactersheet-app" [ngStyle]="{'--accent':get_Accent()}"></app-general>
+        <app-effects [creature]="'Companion'" id="Companion-effects" class="charactersheet-app" [ngStyle]="{'--accent':get_Accent()}"></app-effects>
+        <app-abilities [creature]="'Companion'" id="Companion-abilities" class="charactersheet-app" [ngStyle]="{'--accent':get_Accent()}"></app-abilities>
+        <app-health [creature]="'Companion'" id="Companion-health" class="charactersheet-app" [ngStyle]="{'--accent':get_Accent()}"></app-health>
+        <app-defense [creature]="'Companion'" id="Companion-defense" class="charactersheet-app" [ngStyle]="{'--accent':get_Accent()}"></app-defense>
+        <app-attacks [creature]="'Companion'" id="Companion-attacks" class="charactersheet-app" [ngStyle]="{'--accent':get_Accent()}"></app-attacks>
+        <app-skills [creature]="'Companion'" id="Companion-skills" class="charactersheet-app" [ngStyle]="{'--accent':get_Accent()}"></app-skills>
+        <app-inventory [creature]="'Companion'" id="Companion-inventory" class="charactersheet-app" [ngStyle]="{'--accent':get_Accent()}"></app-inventory>
+        <app-activities [creature]="'Companion'" id="Companion-activities" class="charactersheet-app" [ngStyle]="{'--accent':get_Accent()}"></app-activities>
     </div>
 </div>

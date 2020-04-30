@@ -60,6 +60,10 @@ export class SpellbookComponent implements OnInit {
         return this.id;
     }
 
+    get_Character() {
+        return this.characterService.get_Character();
+    }
+
     still_loading() {
         return this.characterService.still_loading();
     }
@@ -105,13 +109,13 @@ export class SpellbookComponent implements OnInit {
         //this.characterService.set_Changed();
     }
 
-    on_Cast(gain: SpellGain, spell: Spell, activated: boolean) {
+    on_Cast(gain: SpellGain, spell: Spell, activated: boolean, level: number = Math.ceil(this.get_Character().level / 2)) {
         if (gain.tradition.indexOf("Focus") > -1 && activated){
-            let focusPoints = this.characterService.get_Character().class.focusPoints;
+            let focusPoints = this.get_Character().class.focusPoints;
             this.characterService.get_Character().class.focusPoints = Math.min(focusPoints, this.get_MaxFocusPoints());
             this.characterService.get_Character().class.focusPoints -= 1;
         };
-        this.spellsService.process_Spell(this.characterService, this.itemsService, gain, spell, activated);
+        this.spellsService.process_Spell(this.get_Character(), this.characterService, this.itemsService, gain, spell, level, activated);
         this.characterService.set_Changed();
     }
 

@@ -9,6 +9,8 @@ import { SpellGain } from './SpellGain';
 import { ConditionGain } from './ConditionGain';
 import { Item } from './Item';
 import { ItemGain } from './ItemGain';
+import { AnimalCompanion } from './AnimalCompanion';
+import { Character } from './Character';
 
 @Injectable({
   providedIn: 'root'
@@ -36,14 +38,12 @@ export class SpellsService {
       }
   }
 
-  process_Spell(characterService: CharacterService, itemsService: ItemsService, gain: SpellGain, spell: Spell, activated: boolean) {
+  process_Spell(creature: Character|AnimalCompanion, characterService: CharacterService, itemsService: ItemsService, gain: SpellGain, spell: Spell, level: number, activated: boolean) {
     if (activated && spell.sustained) {
         gain.active = true;
     } else {
         gain.active = false;
     }
-
-    let character = characterService.get_Character();
 
     //Process various results of casting the spell
 
@@ -61,9 +61,9 @@ export class SpellsService {
             gain.gainItems.forEach(gainItem => {
                 let newItem: Item = itemsService.get_Items()[gainItem.type].filter(item => item.name == gainItem.name)[0];
                 if (newItem.can_Stack()) {
-                    characterService.grant_InventoryItem(character, newItem, true, false, false, gainItem.amount);
+                    characterService.grant_InventoryItem(creature, newItem, true, false, false, gainItem.amount);
                 } else {
-                    let grantedItem = characterService.grant_InventoryItem(character, newItem, true, false, true);
+                    let grantedItem = characterService.grant_InventoryItem(creature, newItem, true, false, true);
                     gainItem.id = grantedItem.id;
                     if (grantedItem.get_Name) {
                         grantedItem.displayName = grantedItem.name + " (granted by " + spell.name + ")"
@@ -73,14 +73,14 @@ export class SpellsService {
         } else {
             gain.gainItems.forEach(gainItem => {
                 if (itemsService.get_Items()[gainItem.type].filter((item: Item) => item.name == gainItem.name)[0].can_Stack()) {
-                    let items: Item[] = character.inventory[gainItem.type].filter((item: Item) => item.name == gainItem.name);
+                    let items: Item[] = creature.inventory[gainItem.type].filter((item: Item) => item.name == gainItem.name);
                     if (items.length) {
-                        characterService.drop_InventoryItem(character, items[0], false, false, true, gainItem.amount);
+                        characterService.drop_InventoryItem(creature, items[0], false, false, true, gainItem.amount);
                     }
                 } else {
-                    let items: Item[] = character.inventory[gainItem.type].filter((item: Item) => item.id == gainItem.id);
+                    let items: Item[] = creature.inventory[gainItem.type].filter((item: Item) => item.id == gainItem.id);
                     if (items.length) {
-                        characterService.drop_InventoryItem(character, items[0], false, false, true);
+                        characterService.drop_InventoryItem(creature, items[0], false, false, true);
                     }
                     gainItem.id = "";
                 }
@@ -94,13 +94,13 @@ export class SpellsService {
         if (activated) {
             spell.gainConditions.forEach(gain => {
                 let newConditionGain = Object.assign(new ConditionGain(), gain);
-                characterService.add_Condition(character, newConditionGain, false);
+                characterService.add_Condition(creature, newConditionGain, false);
             });
         } else {
             spell.gainConditions.forEach(gain => {
-                let conditionGains = characterService.get_AppliedConditions(character, gain.name).filter(conditionGain => conditionGain.source == gain.source);
+                let conditionGains = characterService.get_AppliedConditions(creature, gain.name).filter(conditionGain => conditionGain.source == gain.source);
                 if (conditionGains.length) {
-                    characterService.remove_Condition(character, conditionGains[0], false);
+                    characterService.remove_Condition(creature, conditionGains[0], false);
                 }
             })
         }

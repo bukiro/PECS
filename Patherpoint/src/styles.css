@@ -18,7 +18,7 @@
     flex-direction: row;
   }
 
-  app-character-sheet {
+  app-character-sheet, .animalcompanion-box {
     width: 100%;
     display: grid;
     grid-gap: 0;
@@ -28,12 +28,8 @@
   }
 
   .animalcompanion-box {
-    width: 100%;
-    display: grid;
-    grid-gap: 0;
+    background-color: white;
     grid-template-columns: 1fr 1fr;
-    grid-auto-rows: auto;
-    grid-auto-flow: dense;
   }
 
   app-time {
@@ -112,6 +108,10 @@
     position: relative;
   }
 
+  .animalcompanion-box app-activities {
+    grid-column: 2 / span 1;
+  }
+
   app-spellbook {
     grid-column: 2 / span 1;
     grid-row: span 2;
@@ -124,6 +124,10 @@
   }
 
   .minimized .fullsize-only {
+    display:none;
+  }
+
+  app-animal-companion .character-only {
     display:none;
   }
 
@@ -691,13 +695,12 @@
 
 
   .loading {
-    margin:40%;
+    margin:auto;
     font-size:20px;
     color:#616161;
     animation-name: altrclr;
     animation-duration: 2s;
     -webkit-animation: altrclr 2s infinite;  
-    -webkit-transform:scale(4);
   }
   .button.loading {
     margin:0px;

@@ -18,6 +18,14 @@
             </option>
         </select>
     </div>
+    <div class="list-item">
+        <strong>Give items to</strong>
+        <select [(ngModel)]="creature">
+            <option *ngFor="let target of ['Character','Companion']" [value]="target">
+                {{target}}
+            </option>
+        </select>
+    </div>
     <h5>Get Cash</h5>
         <div class="list-item">
             <div class="row">
@@ -39,104 +47,106 @@
                 </span>
             </div>
         </div>
-    <h3>Get Items</h3>
     <ng-container *ngFor="let items of [get_Items(true)]">
-        <ng-container *ngFor="let itemSet of items.names">
-            <ng-container *ngFor="let listID of [get_ID()*1000]">
-                <button class="list-item"
-                    [ngStyle]="{'--accent':get_Accent(), 'display':!get_VisibleItems(items[itemSet.key]).length ? 'none' : 'flex' }"
-                    (click)="toggle_List(itemSet.name)">
-                    <strong>{{itemSet.name}}</strong>
-                </button>
-                <ng-container *ngIf="get_ShowList()==itemSet.name||get_ShowList()=='All'">
-                    <ng-container *ngFor="let item of get_VisibleItems(items[itemSet.key])|sortBy:'asc':sorting">
-                        <div class="list-item" *ngFor="let inventoryID of [listID+get_ID()]">
-                            <button class="row sublist-toggle"
-                                (click)="toggle_Item(inventoryID)">
-                                <span>{{(item.get_Name) ? item.get_Name() : item.name}}</span>
-                                <span
-                                    *ngIf="item.type == 'armors'">{{(item.prof == 'Unarmored') ? item.prof : item.prof.substr(0, item.prof.length - 6)}}
-                                    {{item.group}}
-                                    {{(item.type=="armors" && item.prof != "Unarmored") ? "Armor" : ""}}</span>
-                                <span
-                                    *ngIf="item.type == 'weapons'">{{(item.prof == 'Unarmed') ? item.prof : item.prof.substr(0, item.prof.length - 8)}}
-                                    {{item.group}}</span>
-                                <span>{{(item.level) ? "Level "+item.level : "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"}}</span>
-                            </button>
-                            <div class="list-item sublist lower"
-                                *ngIf="get_ShowItem()==inventoryID">
-                                <button class="row center-aligned"
-                                    (click)="grant_Item('Character', item)">
-                                    Gift
+        <ng-container *ngFor="let creatureType of ['Character','Companion']">
+            <h3>Get {{creatureType == "Companion" ? "Animal Companion " : ""}}Items</h3>
+            <ng-container *ngFor="let itemSet of items.names">
+                <ng-container *ngFor="let listID of [get_ID()*1000]">
+                    <button class="list-item"
+                        [ngStyle]="{'--accent':get_Accent(), 'display':!get_VisibleItems(items[itemSet.key], creatureType).length ? 'none' : 'flex' }"
+                        (click)="toggle_List(listID)">
+                        <strong>{{itemSet.name}}</strong>
+                    </button>
+                    <ng-container *ngIf="get_ShowList()==listID||get_ShowList()=='All'">
+                        <ng-container *ngFor="let item of get_VisibleItems(items[itemSet.key], creatureType)|sortBy:'asc':sorting">
+                            <div class="list-item" *ngFor="let inventoryID of [listID+get_ID()]">
+                                <button class="row sublist-toggle"
+                                    (click)="toggle_Item(inventoryID)">
+                                    <span>{{(item.get_Name) ? item.get_Name() : item.name}}</span>
+                                    <span
+                                        *ngIf="item.type == 'armors'">{{(["Unarmored","Light Barding","Heavy Barding"].indexOf(item.prof) > -1) ? item.prof : item.prof.substr(0, item.prof.length - 6)}}
+                                        {{item.group}}
+                                        {{(item.type=="armors" && (["Unarmored","Light Barding","Heavy Barding"].indexOf(item.prof) == -1)) ? "Armor" : ""}}</span>
+                                    <span
+                                        *ngIf="item.type == 'weapons'">{{(item.prof == 'Unarmed') ? item.prof : item.prof.substr(0, item.prof.length - 8)}}
+                                        {{item.group}}</span>
+                                    <span>{{(item.level) ? "Level "+item.level : "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"}}</span>
                                 </button>
-                                <button class="row center-aligned"
-                                    (click)="grant_Item('Character', item, true)"
-                                    [disabled]="!have_Funds(get_Price(item)) || !get_Price(item)">
-                                    Buy
-                                </button>
-                                <app-itemRunes class="row" [item]=item [itemStore]=true></app-itemRunes>
-                                <app-item [item]=item [itemStore]=true></app-item>
+                                <div class="list-item sublist lower"
+                                    *ngIf="get_ShowItem()==inventoryID">
+                                    <button class="row center-aligned"
+                                        (click)="grant_Item(creature, item)">
+                                        Gift to {{creature}}
+                                    </button>
+                                    <button class="row center-aligned"
+                                        (click)="grant_Item(creature, item, true)"
+                                        [disabled]="!have_Funds(get_Price(item)) || !get_Price(item)">
+                                        Buy for {{creature}}
+                                    </button>
+                                    <app-itemRunes class="row" [item]=item [itemStore]=true></app-itemRunes>
+                                    <app-item [item]=item [itemStore]=true></app-item>
+                                </div>
                             </div>
-                        </div>
+                        </ng-container>
                     </ng-container>
                 </ng-container>
             </ng-container>
         </ng-container>
-    </ng-container>
-    <h3>Create custom item</h3>
-    <button class="list-item" (click)="toggle_List('CreateNew')">Create custom
-        item</button>
-    <ng-container *ngIf="get_ShowList()=='CreateNew'">
-        <ng-container *ngFor="let listID of [get_ID()*1000]">
-            <div class="list-item">
-                <span><strong>Type</strong></span>
-                <span><select [(ngModel)]="newItemType" (ngModelChange)="initialize_NewItem()">
-                        <option *ngFor="let name of get_NewItemFilter()" [value]="name.key">
-                            {{name.name}}
-                        </option>
-                    </select></span>
-            </div>
-            <ng-container *ngIf="newItem">
-                <div class="list-item" *ngFor="let inventoryID of [listID+get_ID()]">
-                    <button class="row sublist-toggle center-aligned"
-                        (click)="toggle_Item(inventoryID)">
-                        Copy existing item
-                    </button>
-                    <div class="list-item sublist lower"
-                        *ngIf="get_ShowItem()==inventoryID">
-                        <h5>New Items</h5>
-                        <div class="list-item" *ngFor="let item of get_Items()[newItemType]">
-                            {{(item.get_Name) ? item.get_Name() : item.name}}
-                            <button class="row center-aligned"
-                                (click)="copy_Item(item);toggle_Item(0)">
-                                Copy
-                            </button>
-                        </div>
-                        <h5>Inventory Items</h5>
-                        <div class="list-item" *ngFor="let item of get_InventoryItems()[newItemType]">
-                            {{(item.get_Name) ? item.get_Name() : item.name}}
-                            <button class="row center-aligned"
-                                (click)="copy_Item(item);toggle_Item(0)">
-                                Copy
-                            </button>
+        <h3>Create custom item</h3>
+        <button class="list-item" (click)="toggle_List('CreateNew')">Create custom
+            item</button>
+        <ng-container *ngIf="get_ShowList()=='CreateNew'">
+            <ng-container *ngFor="let listID of [get_ID()*1000]">
+                <div class="list-item">
+                    <span><strong>Type</strong></span>
+                    <span><select [(ngModel)]="newItemType" (ngModelChange)="initialize_NewItem()">
+                            <option *ngFor="let name of get_NewItemFilter()" [value]="name.key">
+                                {{name.name}}
+                            </option>
+                        </select></span>
+                </div>
+                <ng-container *ngIf="newItem">
+                    <div class="list-item" *ngFor="let inventoryID of [listID+get_ID()]">
+                        <button class="row sublist-toggle center-aligned"
+                            (click)="toggle_Item(inventoryID)">
+                            Copy existing item
+                        </button>
+                        <div class="list-item sublist lower"
+                            *ngIf="get_ShowItem()==inventoryID">
+                            <h5>New Items</h5>
+                            <div class="list-item" *ngFor="let item of get_Items()[newItemType]">
+                                {{(item.get_Name) ? item.get_Name() : item.name}}
+                                <button class="row center-aligned"
+                                    (click)="copy_Item(item);toggle_Item(0)">
+                                    Copy
+                                </button>
+                            </div>
+                            <h5>Inventory Items</h5>
+                            <div class="list-item" *ngFor="let item of get_InventoryItems()[newItemType]">
+                                {{(item.get_Name) ? item.get_Name() : item.name}}
+                                <button class="row center-aligned"
+                                    (click)="copy_Item(item);toggle_Item(0)">
+                                    Copy
+                                </button>
+                            </div>
                         </div>
                     </div>
-                </div>
-                <ng-container *ngFor="let property of get_NewItemProperties()|sortBy:'asc':'priority'|sortBy:'asc':'group'">
-                    <ng-container *ngIf="!(property.key == 'equippable' && !newItem['allowEquippable'])">
-                        <app-newItemProperty [propertyData]=property [propertyKey]=property.key [newItem]=newItem></app-newItemProperty>
+                    <ng-container *ngFor="let property of get_NewItemProperties()|sortBy:'asc':'priority'|sortBy:'asc':'group'">
+                        <ng-container *ngIf="!(property.key == 'equippable' && !newItem['allowEquippable'])">
+                            <app-newItemProperty [propertyData]=property [propertyKey]=property.key [newItem]=newItem></app-newItemProperty>
+                        </ng-container>
                     </ng-container>
+                    <div class="list-item row" *ngIf="newItem['moddable'] && newItem['moddable'] != '-'">
+                        <strong>Runes</strong>
+                        <app-itemRunes class="row" [item]=newItem [itemStore]=true></app-itemRunes>
+                    </div>
+                    <div class="list-item row">
+                        <button class="row center-aligned"
+                            (click)="grant_CustomItem(creature)">
+                            Get this item
+                        </button>
+                    </div>
                 </ng-container>
-                <div class="list-item row" *ngIf="newItem['moddable'] && newItem['moddable'] != '-'">
-                    <strong>Runes</strong>
-                    <app-itemRunes class="row" [item]=newItem [itemStore]=true></app-itemRunes>
-                </div>
-                <div class="list-item row">
-                    <button class="row center-aligned"
-                        (click)="grant_CustomItem()">
-                        Get this item
-                    </button>
-                </div>
             </ng-container>
         </ng-container>
     </ng-container>

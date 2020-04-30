@@ -1,5 +1,5 @@
 <button class="minimizebutton lower" (click)="minimize()" *ngIf="creature=='Character'">&#8691;</button>
-<div id="{{creature == 'Character' ? '' : 'other-'}}activities-height" class="attributeBox">
+<div id="{{creature}}-activities-height" class="attributeBox">
 <h3 class="box-header">Actions and Activities</h3>
 <div class="loading" *ngIf="still_loading()">Loading</div>
 <ng-container *ngIf="!still_loading()">
@@ -16,7 +16,7 @@
                 <div class="list-item sublist lower"
                    
                     [className]="(gain.active) ? 'fancy-list' : ''" *ngIf="get_showAction()==activityID">
-                    <app-activity [activity]=activity [gain]=gain [allowActivate]=true></app-activity>
+                    <app-activity [creature]="creature" [activity]=activity [gain]=gain [allowActivate]=true></app-activity>
                 </div>
             </div>
         </ng-container>

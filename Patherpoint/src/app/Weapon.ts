@@ -7,6 +7,7 @@ import { WeaponRune } from './WeaponRune';
 import { Specialization } from './Specialization';
 import { Character } from './Character';
 import { AnimalCompanion } from './AnimalCompanion';
+import { createAotUrlResolver } from '@angular/compiler';
 
 export class Weapon extends Equipment {
     //Weapons should be type "weapons" to be found in the database
@@ -254,6 +255,14 @@ export class Weapon extends Equipment {
                 explain += "\nDiamond Fists: Dice number +1";
             }
         }
+        if (creature.type == "Companion") {
+            creature.class.levels.filter(level => level.number <= creature.level).forEach(level => {
+                if (level.extraDice) {
+                    dicenum += level.extraDice;
+                    explain += "\n"+level.name+": Dice number +"+level.extraDice;
+                }
+            })
+        }
         let dicesize = this.dicesize;
         //Monks get 1d6 for Fists instead of 1d4 via Powerful Fist
         if ((this.name == "Fist") && characterService.get_Features("Powerful Fist")[0].have(creature, characterService)) {
@@ -354,6 +363,14 @@ export class Weapon extends Equipment {
                     }
                     break;
             }
+        }
+        if (creature.type == "Companion") {
+            creature.class.levels.filter(level => level.number <= creature.level).forEach(level => {
+                if (level.extraDamage) {
+                    featBonus += level.extraDamage;
+                    explain += "\n"+level.name+": "+level.extraDamage;
+                }
+            })
         }
         let dmgBonus: number = abilityMod + featBonus;
         //Make a nice "+5" string from the Ability bonus if there is one, or else make it empty

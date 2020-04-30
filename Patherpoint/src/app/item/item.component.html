@@ -16,7 +16,7 @@
         <span
             [className]="(item.affectedByArmoredSkirt == -1) ? 'penalty' : ((item.affectedByArmoredSkirt == 1) ? 'bonus' : '')">&nbsp;{{item.get_ACBonus ? item.get_ACBonus() : item.acbonus}}{{item.coverbonus ? " (" + (item.acbonus+item.coverbonus) + ")" : ""}}&nbsp;</span>
     </span>
-    <span *ngIf="(item.get_DexCap ? item.get_DexCap() : item.dexcap)">
+    <span *ngIf="(item.get_DexCap ? item.get_DexCap() != -1 : item.dexcap != -1)">
         <strong>Dex Cap</strong>
         <span
             [className]="(item.affectedByArmoredSkirt == 1) ? 'penalty' : ((item.affectedByArmoredSkirt == -1) ? 'bonus' : '')">&nbsp;{{(item.get_DexCap ? item.get_DexCap() : item.dexcap)}}&nbsp;</span>
@@ -168,12 +168,12 @@
 <ng-container *ngFor="let activity of item.activities">
     <h4>{{activity.name}}
         {{activity.get_Actions()}}{{(activity.activationType) ? " - " + activity.activationType : ""}}</h4>
-    <app-activity [activity]=activity [gain]=activity [allowActivate]=allowActivate></app-activity>
+    <app-activity [creature]="creature" [activity]=activity [gain]=activity [allowActivate]=allowActivate></app-activity>
 </ng-container>
 <ng-container *ngFor="let gain of item.gainActivities">
     <ng-container *ngFor="let activity of get_Activities(gain.name)">
         <h4>{{activity.name}}
             {{activity.get_Actions()}}{{(activity.activationType) ? " - " + activity.activationType : ""}}</h4>
-        <app-activity [activity]=activity [gain]=gain [allowActivate]=allowActivate></app-activity>
+        <app-activity [creature]="creature" [activity]=activity [gain]=gain [allowActivate]=allowActivate></app-activity>
     </ng-container>
 </ng-container>

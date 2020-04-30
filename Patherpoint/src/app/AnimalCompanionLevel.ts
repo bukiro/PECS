@@ -5,6 +5,8 @@ export class AnimalCompanionLevel {
     public number: number = 0;
     public name: string = "";
     public sizeChange: number = 0;
+    public extraDice: number = 0;
+    public extraDamage: number = 0;
     public abilityChoices: AbilityChoice[] = [];
     public skillChoices: SkillChoice[] = [];
     reassign() {

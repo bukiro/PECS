@@ -32,7 +32,7 @@ import { AnimalCompanion } from '../AnimalCompanion';
 import { AnimalCompanionsService } from '../animalcompanions.service';
 import { AnimalCompanionGain } from '../AnimalCompanionGain';
 import { AnimalCompanionClass } from '../AnimalCompanionClass';
-import { Character } from '../Character';
+import { ThrowStmt } from '@angular/compiler';
 
 @Component({
     selector: 'app-character',
@@ -108,6 +108,7 @@ export class CharacterComponent implements OnInit {
     }
 
     get_Alignments() {
+        //Champions and Clerics need to pick an alignment matching their deity
         return [
             "",
             "Lawful Good",
@@ -119,7 +120,7 @@ export class CharacterComponent implements OnInit {
             "Lawful Evil",
             "Neutral Evil",
             "Chaotic Evil"
-        ].filter(alignment => !this.get_Character().deity.followerAlignments || this.get_Character().deity.followerAlignments.indexOf(alignment) > -1)
+        ].filter(alignment => ["Champion", "Cleric"].indexOf(this.get_Character().class.name) == -1 || !this.get_Character().deity.followerAlignments || this.get_Character().deity.followerAlignments.indexOf(alignment) > -1)
     }
 
     get_Level(number: number) {
@@ -168,6 +169,9 @@ export class CharacterComponent implements OnInit {
                     this.characterService.process_OnceEffect(this.get_Character(), effect);
                 })
             })
+        }
+        if (this.get_Companion()) {
+            this.get_Companion().set_Level(this.characterService);
         }
         this.characterService.set_Changed();
     }
@@ -847,7 +851,12 @@ export class CharacterComponent implements OnInit {
     }
 
     get_Deities() {
-        return this.deitiesService.get_Deities().filter((deity: Deity) => !this.get_Character().alignment || deity.followerAlignments.indexOf(this.get_Character().alignment) > -1);
+        //Champions and Clerics need to choose a deity matching their alignment.
+        if (["Champion", "Cleric"].indexOf(this.get_Character().class.name) == -1) {
+            return this.deitiesService.get_Deities();
+        } else {
+            return this.deitiesService.get_Deities().filter((deity: Deity) => !this.get_Character().alignment || deity.followerAlignments.indexOf(this.get_Character().alignment) > -1);
+        }
     }
 
     on_DeityChange(deity: Deity, taken: boolean) {
@@ -908,7 +917,7 @@ export class CharacterComponent implements OnInit {
             character.class.animalCompanion = new AnimalCompanionGain();
             character.class.animalCompanion.companion = new AnimalCompanion();
             character.class.animalCompanion.companion.class = new AnimalCompanionClass();
-            character.class.animalCompanion.companion.class.reassign(this.characterService);
+            this.characterService.initialize_AnimalCompanion();
             character.class.animalCompanion.level = level.number;
             this.set_Changed();
         }
@@ -921,9 +930,14 @@ export class CharacterComponent implements OnInit {
     on_TypeChange(type: AnimalCompanionAncestry, taken: boolean) {
         if (taken) {
             this.showList="";
+            this.get_Companion().class.on_ChangeAncestry(this.characterService);
             this.animalCompanionsService.change_Type(this.characterService, this.get_Companion(), type);
+            this.get_Companion().class.on_NewAncestry(this.characterService, this.itemsService);
+            this.set_Changed();
         } else {
+            this.get_Companion().class.on_ChangeAncestry(this.characterService);
             this.animalCompanionsService.change_Type(this.characterService, this.get_Companion(), new AnimalCompanionAncestry());
+            this.set_Changed();
         }
     }
 

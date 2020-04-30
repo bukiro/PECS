@@ -1,5 +1,5 @@
 <button class="minimizebutton lower" (click)="minimize()" *ngIf="creature=='Character'">&#8691;</button>
-<div id="{{creature == 'Character' ? '' : 'other-'}}effects-height" class="attributeBox">
+<div id="{{creature}}-effects-height" class="attributeBox">
     <h3 class="box-header">Active Conditions</h3>
     <ng-container *ngFor="let conditionGain of get_AppliedConditions(true)">
         <div class="list-item" *ngFor="let condition of [get_Conditions(conditionGain.name)[0]]">

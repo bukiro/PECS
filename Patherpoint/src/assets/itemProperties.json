@@ -324,7 +324,7 @@
         "priority": "0",
         "group": "",
         "name": "Affected attribute",
-        "desc": "The effect will be applied to this attribute. This can be a skill, an ability or certain aspects of the character (like AC, Max Bulk etc.). An effect that lowers Bulk (like with a backpack) will be considered a bonus.",
+        "desc": "The effect will be applied to this attribute. There are only a few attributes that can be affected by one-time effects.",
         "locked": true,
         "examples": "onceEffects affected"
     },
@@ -335,7 +335,7 @@
         "group": "",
         "name": "Effect value",
         "desc": "This is the number by which the attribute will change. You can use simple calculations and variables like: Level, Modifier('Strength'), Skill('Acrobatics')",
-        "examples": "effect value"
+        "examples": "onceEffects value"
     },
     {
         "parent": "activities",
@@ -395,7 +395,7 @@
         "name": "Affected attribute",
         "desc": "The effect will be applied to this attribute. This can be a skill, an ability or certain aspects of the character (like AC, Max Bulk etc.). An effect that lowers Bulk (like with a backpack) will be considered a bonus.",
         "locked": true,
-        "examples": "effect affected"
+        "examples": "effects affected"
     },
     {
         "parent": "effects",
@@ -404,7 +404,7 @@
         "group": "",
         "name": "Effect value",
         "desc": "This is the number by which the attribute will change. You can use simple calculations and the following variables: Level, STR, DEX, CON, INT, WIS, CHA.",
-        "examples": "effect value"
+        "examples": "effects value"
     },
     {
         "parent": "effects",
@@ -414,7 +414,7 @@
         "name": "Effect type",
         "desc": "Items usually grant 'item' type bonuses. Bonuses and penalties of the same type do not stack, except for untyped effects. Keep the field blank to have an untyped bonus.",
         "locked": true,
-        "examples": "effect type"
+        "examples": "effects type"
     },
     {
         "key": "gainItems",

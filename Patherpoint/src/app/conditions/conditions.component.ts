@@ -84,6 +84,10 @@ export class ConditionsComponent implements OnInit {
                 return this.get_Conditions("", "generic");
             case "Alchemical Elixirs":
                 return this.get_Conditions("", "alchemicalelixirs");
+            case "Worn Items":
+                return this.get_Conditions("", "wornitems");
+            case "Spells":
+                return this.get_Conditions("", "spells");
         }
     }
     

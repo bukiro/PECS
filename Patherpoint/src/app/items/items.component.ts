@@ -35,6 +35,7 @@ export class ItemsComponent implements OnInit {
     public hover: number = 0;
     public wordFilter: string = "";
     public sorting: string = "level";
+    public creature: string = "Character";
     public newItemType: string = "";
     public newItem: Equipment|Consumable = null;
     public cashP: number = 0;
@@ -145,9 +146,14 @@ export class ItemsComponent implements OnInit {
         return this.characterService.get_Character().inventory;
     }
 
-    get_VisibleItems(items: Item[]) {
+    get_VisibleItems(items: Item[], creatureType: string) {
         return items.filter((item: Item) =>
-            !item.hide && (
+            (
+                (creatureType == "Character" && item.traits.indexOf("Companion") == -1) ||
+                (creatureType == "Companion" && item.traits.indexOf("Companion") > -1)
+            ) &&
+            !item.hide &&
+            (
                 !this.wordFilter || (
                     this.wordFilter && (
                         item.name.toLowerCase().indexOf(this.wordFilter.toLowerCase()) > -1 ||

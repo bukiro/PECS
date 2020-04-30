@@ -2,7 +2,6 @@ import { Injectable } from '@angular/core';
 import { AnimalCompanion } from './AnimalCompanion';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { AnimalCompanionClass } from './AnimalCompanionClass';
 import { CharacterService } from './character.service';
 import { AnimalCompanionLevel } from './AnimalCompanionLevel';
 import { AnimalCompanionAncestry } from './AnimalCompanionAncestry';

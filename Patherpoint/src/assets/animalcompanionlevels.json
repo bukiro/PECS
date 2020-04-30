@@ -27,7 +27,8 @@
                 "increases":[
                     { "name":"Unarmed", "source":"Class", "maxRank":2, "locked":true, "sourceId":"1-Skill-Class-0" },
                     { "name":"Unarmored", "source":"Class", "maxRank":2, "locked":true, "sourceId":"1-Skill-Class-0" },
-                    { "name":"Barding", "source":"Class", "maxRank":2, "locked":true, "sourceId":"1-Skill-Class-0" },
+                    { "name":"Light Barding", "source":"Class", "maxRank":2, "locked":true, "sourceId":"1-Skill-Class-0" },
+                    { "name":"Heavy Barding", "source":"Class", "maxRank":2, "locked":true, "sourceId":"1-Skill-Class-0" },
                     { "name":"Fortitude", "source":"Class", "maxRank":2, "locked":true, "sourceId":"1-Skill-Class-0" },
                     { "name":"Reflex", "source":"Class", "maxRank":2, "locked":true, "sourceId":"1-Skill-Class-0" },
                     { "name":"Will", "source":"Class", "maxRank":2, "locked":true, "sourceId":"1-Skill-Class-0" },

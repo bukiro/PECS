@@ -1,6 +1,6 @@
 [
     {
-        "name": "Ki Rush",
+        "name": "ki rush",
         "traditions": [
             "Focus"
         ],
@@ -23,7 +23,7 @@
         ]
     },
     {
-        "name": "Ki Strike",
+        "name": "ki strike",
         "traditions": [
             "Focus"
         ],
@@ -63,7 +63,7 @@
         ]
     },
     {
-        "name": "Wholeness of Body",
+        "name": "wholeness of body",
         "traditions": [
             "Focus"
         ],
@@ -141,7 +141,7 @@
         ]
     },
     {
-        "name": "Abundant Step",
+        "name": "abundant step",
         "traditions": [
             "Focus"
         ],
@@ -159,7 +159,7 @@
         "desc": "You move so fast you blur across planar boundaries. You teleport up to a distance equal to your Speed within your line of sight."
     },
     {
-        "name": "Ki Blast",
+        "name": "ki blast",
         "traditions": [
             "Focus"
         ],
@@ -177,117 +177,116 @@
         "desc": "You unleash your ki as a powerful blast of force that deals <var>var1</var> force damage. If you use 2 actions to cast ki blast, increase the size of the cone to 30 feet and the damage to <var>var2</var>. If you use 3 actions to cast ki blast, increase the size of the cone to 60 feet and the damage to <var>var3</var>. Each creature in the area must attempt a Fortitude saving throw.",
         "desc3": [
             {
-                "variable":"var1",
-                "value":"2d6"
+                "variable": "var1",
+                "value": "2d6"
             },
             {
-                "variable":"var2",
-                "value":"3d6"
+                "variable": "var2",
+                "value": "3d6"
             },
             {
-                "variable":"var3",
-                "value":"4d6"
+                "variable": "var3",
+                "value": "4d6"
             }
         ],
         "desc4": [
             {
-                "variable":"var1",
-                "value":"3d6"
+                "variable": "var1",
+                "value": "3d6"
             },
             {
-                "variable":"var2",
-                "value":"5d6"
+                "variable": "var2",
+                "value": "5d6"
             },
             {
-                "variable":"var3",
-                "value":"6d6"
+                "variable": "var3",
+                "value": "6d6"
             }
         ],
         "desc5": [
             {
-                "variable":"var1",
-                "value":"4d6"
+                "variable": "var1",
+                "value": "4d6"
             },
             {
-                "variable":"var2",
-                "value":"7d6"
+                "variable": "var2",
+                "value": "7d6"
             },
             {
-                "variable":"var3",
-                "value":"8d6"
+                "variable": "var3",
+                "value": "8d6"
             }
         ],
         "desc6": [
             {
-                "variable":"var1",
-                "value":"5d6"
+                "variable": "var1",
+                "value": "5d6"
             },
             {
-                "variable":"var2",
-                "value":"9d6"
+                "variable": "var2",
+                "value": "9d6"
             },
             {
-                "variable":"var3",
-                "value":"10d6"
+                "variable": "var3",
+                "value": "10d6"
             }
         ],
         "desc7": [
             {
-                "variable":"var1",
-                "value":"6d6"
+                "variable": "var1",
+                "value": "6d6"
             },
             {
-                "variable":"var2",
-                "value":"11d6"
+                "variable": "var2",
+                "value": "11d6"
             },
             {
-                "variable":"var3",
-                "value":"12d6"
+                "variable": "var3",
+                "value": "12d6"
             }
         ],
         "desc8": [
             {
-                "variable":"var1",
-                "value":"7d6"
+                "variable": "var1",
+                "value": "7d6"
             },
             {
-                "variable":"var2",
-                "value":"13d6"
+                "variable": "var2",
+                "value": "13d6"
             },
             {
-                "variable":"var3",
-                "value":"14d6"
+                "variable": "var3",
+                "value": "14d6"
             }
         ],
         "desc9": [
             {
-                "variable":"var1",
-                "value":"8d6"
+                "variable": "var1",
+                "value": "8d6"
             },
             {
-                "variable":"var2",
-                "value":"15d6"
+                "variable": "var2",
+                "value": "15d6"
             },
             {
-                "variable":"var3",
-                "value":"16d6"
+                "variable": "var3",
+                "value": "16d6"
             }
         ],
         "desc10": [
             {
-                "variable":"var1",
-                "value":"9d6"
+                "variable": "var1",
+                "value": "9d6"
             },
             {
-                "variable":"var2",
-                "value":"17d6"
+                "variable": "var2",
+                "value": "17d6"
             },
             {
-                "variable":"var3",
-                "value":"18d6"
+                "variable": "var3",
+                "value": "18d6"
             }
         ],
-        
         "savingthrow": "Fortitude",
         "critsuccess": "The creature is unaffected.",
         "success": "The creature takes half damage.",
@@ -301,7 +300,7 @@
         ]
     },
     {
-        "name": "Quivering Palm",
+        "name": "quivering palm",
         "traditions": [
             "Focus"
         ],
@@ -319,32 +318,32 @@
         "desc": "Make a melee unarmed Strike. If you hit and the target is alive, anytime during the duration, you can spend a single action, which has the auditory and concentrate traits, to speak a word of death that could instantly slay it. The target must attempt a Fortitude save.\n\nIf you cast quivering palm again, the effects of any quivering palm you had previously cast end.",
         "desc8": [
             {
-                "variable":"var1",
-                "value":"40"
+                "variable": "var1",
+                "value": "40"
             },
             {
-                "variable":"var2",
-                "value":"80"
+                "variable": "var2",
+                "value": "80"
             }
         ],
         "desc9": [
             {
-                "variable":"var1",
-                "value":"45"
+                "variable": "var1",
+                "value": "45"
             },
             {
-                "variable":"var2",
-                "value":"90"
+                "variable": "var2",
+                "value": "90"
             }
         ],
         "desc10": [
             {
-                "variable":"var1",
-                "value":"50"
+                "variable": "var1",
+                "value": "50"
             },
             {
-                "variable":"var2",
-                "value":"100"
+                "variable": "var2",
+                "value": "100"
             }
         ],
         "savingthrow": "Fortitude",
@@ -360,7 +359,7 @@
         ]
     },
     {
-        "name": "Wild Winds Stance",
+        "name": "wild winds stance",
         "traditions": [
             "Focus"
         ],
@@ -393,7 +392,7 @@
         "sustained": true
     },
     {
-        "name": "Wind Jump",
+        "name": "wind jump",
         "traditions": [
             "Focus"
         ],
@@ -436,7 +435,7 @@
         ]
     },
     {
-        "name": "Empty Body",
+        "name": "empty body",
         "traditions": [
             "Focus"
         ],
@@ -461,7 +460,7 @@
         ]
     },
     {
-        "name": "Knock",
+        "name": "knock",
         "traditions": [
             "Arcane",
             "Occult"
@@ -479,7 +478,7 @@
         "desc": "You make the target easier to open. Knock grants a +4 status bonus to any creature that tries to open the target door, lock, or container with an Athletics or a Thievery check. You can attempt a Thievery check to open the target as part of casting knock, and you add your level even if you're untrained.\n\nKnock counteracts lock."
     },
     {
-        "name": "Create Food",
+        "name": "create food",
         "traditions": [
             "Arcane",
             "Divine",
@@ -529,6 +528,31 @@
             {
                 "level": "(8th)",
                 "desc": "You can feed 200 Medium creatures."
+            }
+        ]
+    },
+    {
+        "name": "feather fall",
+        "traditions": [
+            "Arcane",
+            "Primal"
+        ],
+        "traits": [
+            "Abjuration"
+        ],
+        "levelreq": 1,
+        "actions": "Reaction",
+        "castType": "verbal",
+        "range": "60 feet",
+        "targets": "1 falling creature",
+        "duration": "1 minute",
+        "shortDesc": "React to slow a creature’s fall.",
+        "desc": "You cause the air itself to arrest a fall. The target's fall slows to 60 feet per round, and the portion of the fall during the spell's duration doesn't count when calculating falling damage. If the target reaches the ground while the spell is in effect, it takes no damage from the fall. The spell ends as soon as the target lands.",
+        "gainConditions": [
+            {
+                "name": "Feather Fall",
+                "source": "Feather Fall",
+                "duration": 100
             }
         ]
     }

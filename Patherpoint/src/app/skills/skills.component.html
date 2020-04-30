@@ -1,5 +1,5 @@
 <button class="minimizebutton lower" (click)="minimize()" *ngIf="creature=='Character'">&#8691;</button>
-<div id="{{creature == 'Character' ? '' : 'other-'}}skills-height" class="attributeBox">
+<div id="{{creature}}-skills-height" class="attributeBox">
     <div class="loading" *ngIf="still_loading()">Loading</div>
     <ng-container *ngIf="!still_loading()">
         <h3 class="box-header">Perception</h3>

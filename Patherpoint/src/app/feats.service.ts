@@ -15,6 +15,7 @@ import { ConditionGain } from './ConditionGain';
 import { AnimalCompanion } from './AnimalCompanion';
 import { AnimalCompanionGain } from './AnimalCompanionGain';
 import { AnimalCompanionClass } from './AnimalCompanionClass';
+import { AnimalCompanionLevel } from './AnimalCompanionLevel';
 
 @Injectable({
     providedIn: 'root'
@@ -168,7 +169,7 @@ export class FeatsService {
                     feat.gainActivities.forEach((gainActivity: string) => {
                         let oldGain = character.class.activities.filter(gain => gain.name == gainActivity && gain.source == feat.name);
                         if (oldGain.length) {
-                            character.lose_Activity(characterService, characterService.timeService, characterService.itemsService, characterService.activitiesService, oldGain[0]);
+                            character.lose_Activity(characterService, characterService.timeService, characterService.itemsService, characterService.spellsService, characterService.activitiesService, oldGain[0]);
                         }
                     });
                     
@@ -283,15 +284,31 @@ export class FeatsService {
                     if (!character.class.animalCompanion) {
                         character.class.animalCompanion = new AnimalCompanionGain();
                         character.class.animalCompanion.companion = new AnimalCompanion();
-                        character.class.animalCompanion.companion.class = new AnimalCompanionClass();
-                        character.class.animalCompanion.companion.class.reassign(characterService);
                         character.class.animalCompanion.level = level.number;
+                        characterService.initialize_AnimalCompanion();
                     }
                 } else {
                     character.class.animalCompanion = null;
                 }
             }
 
+            if (feat.growAnimalCompanion && characterService.get_Companion()) {
+                let companion = characterService.get_Companion();
+                if (companion.class.levels.length) {
+                    if (taken) {
+                        if (feat.growAnimalCompanion > 3) {
+                            companion.class.levels[3] = Object.assign(new AnimalCompanionLevel(), character.class.animalCompanion.companion.class.levels[feat.growAnimalCompanion]);
+                            companion.class.levels[3].number = 3;
+                        }
+                    } else {
+                        if (feat.growAnimalCompanion > 3) {
+                            companion.class.levels[3] = new AnimalCompanionLevel();
+                            companion.class.levels[3].number = 3;
+                        }
+                    }
+                    companion.set_Level(characterService);
+                }
+            }
         }
     }
 

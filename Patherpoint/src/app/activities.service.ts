@@ -14,6 +14,8 @@ import { ConditionGain } from './ConditionGain';
 import { ItemGain } from './ItemGain';
 import { Character } from './Character';
 import { AnimalCompanion } from './AnimalCompanion';
+import { SpellsService } from './spells.service';
+import { SpellGain } from './SpellGain';
 
 @Injectable({
     providedIn: 'root'
@@ -44,7 +46,7 @@ export class ActivitiesService {
         return this.http.get<String[]>('/assets/activities.json');
     }
 
-    activate_Activity(creature: Character|AnimalCompanion, characterService: CharacterService, timeService: TimeService, itemsService: ItemsService, gain: ActivityGain|ItemActivity, activity: Activity|ItemActivity, activated: boolean) {
+    activate_Activity(creature: Character|AnimalCompanion, characterService: CharacterService, timeService: TimeService, itemsService: ItemsService, spellsService: SpellsService, gain: ActivityGain|ItemActivity, activity: Activity|ItemActivity, activated: boolean) {
         if (activated && activity.toggle) {
             gain.active = true;
         } else {
@@ -131,15 +133,25 @@ export class ActivitiesService {
             }
         }
 
+        //Cast Spells
+        if (activity.castSpells) {
+            if (activated) {
+                activity.castSpells.forEach(gain => {
+                    let librarySpell = spellsService.get_Spells(gain.name)[0];
+                    spellsService.process_Spell(creature, characterService, itemsService, new SpellGain(), librarySpell, gain.level, activated);
+                })
+            }
+        }
+
         //Exclusive activity activation
         //If you activate one activity of an Item, deactivate the other active activities on it.
         if (item && activated && activity.toggle) {
             if (item.activities.length + item.gainActivities.length > 1) {
                 item.gainActivities.filter((activityGain: ActivityGain) => activityGain !== gain && activityGain.active).forEach((activityGain: ActivityGain) => {
-                    this.activate_Activity(creature, characterService, timeService, itemsService, activityGain, this.get_Activities(activityGain.name)[0], false)
+                    this.activate_Activity(creature, characterService, timeService, itemsService, spellsService, activityGain, this.get_Activities(activityGain.name)[0], false)
                 })
                 item.activities.filter((itemActivity: ItemActivity) => itemActivity !== gain && itemActivity.active).forEach((itemActivity: ItemActivity) => {
-                    this.activate_Activity(creature, characterService, timeService, itemsService, itemActivity, itemActivity, false)
+                    this.activate_Activity(creature, characterService, timeService, itemsService, spellsService, itemActivity, itemActivity, false)
                 })
             }
         }

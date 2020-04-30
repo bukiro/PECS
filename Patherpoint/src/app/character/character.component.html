@@ -295,7 +295,7 @@
                                 </div>
                                 <div class="row left-aligned" *ngFor="let spell of deity.clericSpells">
                                     <strong>Level
-                                        {{spell.level}}&nbsp;</strong>{{spell.spell}}{{(spell.note ? "("+spell.note+")" : "")}}
+                                        {{spell.level}}&nbsp;</strong>{{spell.name}}{{(spell.note ? "("+spell.note+")" : "")}}
                                 </div>
                             </div>
                         </div>
@@ -663,29 +663,40 @@
                 </ng-container>
                 <!--Animal Companion-->
                 <ng-container *ngIf="get_AnimalCompanionAvailable(level)">
-                    <button class="list-item" (click)="on_NewCompanion(level)">
-                        Create New Animal Companion
-                    </button>
-                    <div class="list-item">
-                        <span>Animal Companion Name</span>
-                        <span>
-                            <input type="text" name="name" [(ngModel)]="get_Companion().name"
-                                (blur)="set_Changed()" maxLength="30">
-                        </span>
-                    </div>
-                    <div class="list-item">
-                        <span>Animal Companion Species</span>
-                        <span>
-                            <input type="text" name="name" [(ngModel)]="get_Companion().animal"
-                                (blur)="set_Changed()" maxLength="30">
-                        </span>
+                    <div class="list-item" [className]="(get_Companion().name && get_Companion().species) ? 'fullsize-only' : ''"
+                        *ngFor="let listID of ['animalCompanion']">
+                        <button class="row sublist-toggle" [className]="(get_Companion().name && get_Companion().species) ? 'fancy-button' : ''"
+                            (click)="toggle_List(listID)">
+                            Animal Companion Basics
+                        </button>
+                        <div class="list-item sublist" [className]="(get_Companion().name && get_Companion().species) ? 'fancy-list' : ''"
+                        *ngIf="get_showList()==listID">
+                    
+                            <button class="list-item" (click)="on_NewCompanion(level)">
+                                Create New Animal Companion
+                            </button>
+                            <div class="list-item">
+                                <span>Animal Companion Name</span>
+                                <span>
+                                    <input type="text" name="name" [(ngModel)]="get_Companion().name"
+                                        (blur)="set_Changed()" maxLength="30">
+                                </span>
+                            </div>
+                            <div class="list-item">
+                                <span>Animal Companion Species</span>
+                                <span>
+                                    <input type="text" name="name" [(ngModel)]="get_Companion().species"
+                                        (blur)="set_Changed()" maxLength="30">
+                                </span>
+                            </div>
+                        </div>
                     </div>
                     <!--Animal Type-->
                     <div class="list-item" [className]="(get_Companion().class.ancestry.name) ? 'fullsize-only' : ''"
                         *ngFor="let listID of ['animaltype']">
                         <button class="row sublist-toggle" [className]="(get_Companion().class.ancestry.name) ? 'fancy-button' : ''"
                             (click)="toggle_List(listID)">
-                            Animal Type{{(get_Companion().class.ancestry.name) ? ": "+ get_Companion().class.ancestry.name : ""}}
+                            Animal Companion Type{{(get_Companion().class.ancestry.name) ? ": "+ get_Companion().class.ancestry.name : ""}}
                         </button>
                         <div class="list-item sublist" [className]="(get_Companion().class.ancestry.name) ? 'fancy-list' : ''"
                             *ngIf="get_showList()==listID">

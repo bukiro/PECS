@@ -2604,6 +2604,21 @@
       ]
    },
    {
+      "name": "Nimble Elf",
+      "shortdesc": "Your muscles are tightly honed.",
+      "desc": "Your muscles are tightly honed. Your Speed increases by 5 feet.",
+      "effects": [
+         {
+            "affected":"Land Speed",
+            "value":"+5"
+         }
+      ],
+      "levelreq": 1,
+      "traits": [
+         "Elf"
+      ]
+   },
+   {
       "name": "Pickpocket",
       "shortdesc": "Steal or Palm an Object more effectively.",
       "desc": "You can Steal or Palm an Object that’s closely guarded, such as in a pocket, without taking the –5 penalty. You can’t steal objects that would be extremely noticeable or time consuming to remove (like worn shoes or armor or actively wielded objects). If you’re a master in Thievery, you can attempt to Steal from a creature in combat or otherwise on guard. When doing so, Stealing requires 2 manipulate actions instead of 1, and you take a –5 penalty.",
@@ -4678,7 +4693,7 @@
                {
                   "className": "Monk",
                   "locked": true,
-                  "name": "Ki Rush",
+                  "name": "ki rush",
                   "source": "Feat: Ki Rush",
                   "sourceId": "1-Spell-Feat: Ki Rush-0",
                   "tradition": "Focus"
@@ -4730,7 +4745,7 @@
                {
                   "className": "Monk",
                   "locked": true,
-                  "name": "Ki Strike",
+                  "name": "ki strike",
                   "source": "Feat: Ki Strike",
                   "sourceId": "1-Spell-Feat: Ki Strike-0",
                   "tradition": "Focus"
@@ -5039,7 +5054,7 @@
                {
                   "className": "Monk",
                   "locked": true,
-                  "name": "Wholeness of Body",
+                  "name": "wholeness of body",
                   "source": "Feat: Wholeness of Body",
                   "sourceId": "4-Spell-Feat: Wholeness of Body-0",
                   "tradition": "Focus"
@@ -5081,7 +5096,7 @@
                {
                   "className": "Monk",
                   "locked": true,
-                  "name": "Abundant Step",
+                  "name": "abundant step",
                   "source": "Feat: Abundant Step",
                   "sourceId": "6-Spell-Feat: Abundant Step-0",
                   "tradition": "Focus"
@@ -5152,7 +5167,7 @@
                {
                   "className": "Monk",
                   "locked": true,
-                  "name": "Ki Blast",
+                  "name": "ki blast",
                   "source": "Feat: Ki Blast",
                   "sourceId": "6-Spell-Feat: Ki Blast-0",
                   "tradition": "Focus"
@@ -5218,7 +5233,7 @@
    {
       "name": "Whirling Throw",
       "shortdesc": "You propel your grabbed or restrained foe a great distance.",
-      "desc": "You propel your grabbed or restrained foe a great distance. You can throw the creature any distance up to 10 feet, plus 5 feet × your Strength modifier. If you successfully throw the creature, it takes bludgeoning damage equal to your Strength modifier plus 1d6 per 10 feet you threw it.\n\nAttempt an Athletics check against the foe’s Fortitude DC. You take a –2 circumstance penalty to your check if the target is one size larger than you and a –4 circumstance penalty if it’s larger than that. You gain a +2 circumstance bonus to your check if the target is one size smaller than you and a +4 circumstance bonus if it’s smaller than that.",
+      "desc": "You propel your grabbed or restrained foe a great distance.",
       "gainActivities": [
          "Whirling Throw"
       ],
@@ -5327,7 +5342,7 @@
                {
                   "className": "Monk",
                   "locked": true,
-                  "name": "Wild Winds Stance",
+                  "name": "wild winds stance",
                   "source": "Feat: Wild Winds Initiate",
                   "sourceId": "8-Spell-Feat: Wild Winds Initiate-0",
                   "tradition": "Focus"
@@ -5395,7 +5410,7 @@
                {
                   "className": "Monk",
                   "locked": true,
-                  "name": "Wind Jump",
+                  "name": "wind jump",
                   "source": "Feat: Wind Jump",
                   "sourceId": "10-Spell-Feat: Wind Jump-0",
                   "tradition": "Focus"
@@ -5623,7 +5638,7 @@
                {
                   "className": "Monk",
                   "locked": true,
-                  "name": "Quivering Palm",
+                  "name": "quivering palm",
                   "source": "Feat: Quivering Palm",
                   "sourceId": "16-Spell-Feat: Quivering Palm-0",
                   "tradition": "Focus"
@@ -5705,7 +5720,7 @@
                {
                   "className": "Monk",
                   "locked": true,
-                  "name": "Empty Body",
+                  "name": "empty body",
                   "source": "Feat: Empty Body",
                   "sourceId": "18-Spell-Feat: Empty Body-0",
                   "tradition": "Focus"
@@ -5843,9 +5858,78 @@
       "shortdesc": "You gain the service of a young animal companion that travels with you.",
       "desc": "You gain the service of a young animal companion that travels with you on your adventures and obeys any simple commands you give it to the best of its abilities. See Animal Companions on page 214 for more information.\n\nWhen you Hunt Prey, your animal companion gains the action’s benefits and your hunter’s edge benefit if you have one.",
       "hint": "When you Hunt Prey, your animal companion gains the action’s benefits and your hunter’s edge benefit if you have one.",
-      "showon": "Hunt Prey",
+      "showon": "Hunt Prey, Animal Companion",
       "levelreq": 1,
+      "specialreqdesc": "no animal companion",
+      "specialreq": "!character.get_FeatsTaken(1, 20).filter(feat => feat.name != this.name && characterService.get_FeatsAndFeatures(feat.name)[0].gainAnimalCompanion).length",
       "gainAnimalCompanion":true,
+      "traits": [
+         "Ranger"
+      ]
+   },
+   {
+      "name": "Hunted Shot",
+      "shortdesc": "You take two quick shots against the one you hunt.",
+      "desc": "You take two quick shots against the one you hunt.",
+      "levelreq": 1,
+      "gainActivities": [
+         "Hunted Shot"
+      ],
+      "traits": [
+         "Flourish",
+         "Ranger"
+      ]
+   },
+   {
+      "name": "Mature Animal Companion (Ranger)",
+      "shortdesc": "Your animal companion grows up, gaining additional capabilities.",
+      "desc": "Your animal companion grows up, becoming a mature animal companion and gaining additional capabilities (page 214). If you have the Hunt Prey action, your animal companion assaults the prey even without your orders. During an encounter, even if you don’t use the Command an Animal action, your animal companion can still use 1 action that round on your turn to Stride toward or Strike your prey.",
+      "hint": "If you have the Hunt Prey action, your animal companion assaults the prey even without your orders. During an encounter, even if you don’t use the Command an Animal action, your animal companion can still use 1 action that round on your turn to Stride toward or Strike your prey.",
+      "showon": "Animal Companion",
+      "levelreq": 6,
+      "featreq": "Animal Companion (Ranger)",
+      "growAnimalCompanion":2,
+      "traits": [
+         "Ranger"
+      ]
+   },
+   {
+      "name": "Incredible Animal Companion (Ranger)",
+      "shortdesc": "Your animal companion continues to grow and develop.",
+      "desc": "Your animal companion continues to grow and develop. It becomes a nimble or savage animal companion (your choice), gaining additional capabilities determined by the type of companion (page 214).",
+      "levelreq": 10,
+      "subTypes": true,
+      "featreq": "Mature Animal Companion (Ranger)",
+      "traits": [
+         "Ranger"
+      ]
+   },
+   {
+      "name": "Incredible Animal Companion (Ranger): Nimble",
+      "shortdesc": "Your animal companion continues to grow and develop.",
+      "desc": "Your animal companion continues to grow and develop. It becomes a nimble animal companion (your choice), gaining additional capabilities determined by the type of companion (page 214).",
+      "levelreq": 10,
+      "subType": "Nimble",
+      "superType": "Incredible Animal Companion (Ranger)",
+      "featreq": "Mature Animal Companion (Ranger)",
+      "specialreqdesc": "no savage animal companion",
+      "specialreq": "!character.get_FeatsTaken(1, 20).filter(feat => feat.name != this.name && characterService.get_FeatsAndFeatures(feat.name)[0].growAnimalCompanion > 2).length",
+      "growAnimalCompanion": 4,
+      "traits": [
+         "Ranger"
+      ]
+   },
+   {
+      "name": "Incredible Animal Companion (Ranger): Savage",
+      "shortdesc": "Your animal companion continues to grow and develop.",
+      "desc": "Your animal companion continues to grow and develop. It becomes a nimble animal companion (your choice), gaining additional capabilities determined by the type of companion (page 214).",
+      "levelreq": 10,
+      "subType": "Savage",
+      "superType": "Incredible Animal Companion (Ranger)",
+      "featreq": "Mature Animal Companion (Ranger)",
+      "specialreqdesc": "no nimble animal companion",
+      "specialreq": "!character.get_FeatsTaken(1, 20).filter(feat => feat.name != this.name && characterService.get_FeatsAndFeatures(feat.name)[0].growAnimalCompanion > 2).length",
+      "growAnimalCompanion": 5,
       "traits": [
          "Ranger"
       ]

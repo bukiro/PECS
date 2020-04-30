@@ -41,7 +41,7 @@ export class InventoryComponent implements OnInit {
 
     set_Span() {
         setTimeout(() => {
-            document.getElementById("inventory").style.gridRow = "span "+this.characterService.get_Span("inventory-height");
+            document.getElementById(this.creature+"-inventory").style.gridRow = "span "+this.characterService.get_Span(this.creature+"-inventory-height");
         })
     }
 
@@ -117,6 +117,18 @@ export class InventoryComponent implements OnInit {
         return this.sortByPipe.transform(itemSet, "asc", "name");
     }
 
+    can_Equip(item: Item) {
+        return (item.equippable && this.creature == "Character" && item.traits.indexOf("Companion") == -1) || (item.traits.indexOf("Companion") > -1 && this.creature == "Companion") || item.name == "Unarmored"
+    }
+
+    can_Invest(item: Item) {
+        return item.can_Invest() && ((this.creature == "Character" && item.traits.indexOf("Companion") == -1) || (item.traits.indexOf("Companion") > -1 && this.creature == "Companion"))
+    }
+
+    can_Drop(item: Item) {
+        return (this.creature == "Character") || (this.creature == "Companion" && item.type != "weapons" && item.name != "Unarmored")
+    }
+
     drop_InventoryItem(item, pay: boolean = false) {
         this.showItem = 0;
         if (pay) {
@@ -181,11 +193,18 @@ export class InventoryComponent implements OnInit {
     }
 
     get_maxInvested() {
-        let maxInvest = 10;
+        let maxInvest = 0;
         let effects: Effect[] = [];
         let penalty: boolean = false;
         let bonus: boolean = false;
-        let explain: string = "Base limit: 10"
+        let explain: string = ""
+        if (this.creature == "Character") {
+            maxInvest = 10;
+            explain = "Base limit: 10";
+        } else if (this.creature == "Companion") {
+            maxInvest = 2;
+            explain = "Base limit: 2";
+        }
         this.effectsService.get_EffectsOnThis(this.get_Creature(), "Max Invested").forEach(effect => {
             maxInvest += parseInt(effect.value);
             if (parseInt(effect.value) < 0) {

@@ -1249,7 +1249,6 @@
                             {"name":"Medium Armor", "source":"Medium Armor Expertise", "maxRank":4, "locked":true, "sourceId":"11-Armor Proficiency-Medium Armor Expertise-0"},
                             {"name":"Unarmored", "source":"Medium Armor Expertise", "maxRank":4, "locked":true, "sourceId":"11-Armor Proficiency-Medium Armor Expertise-0"}
                         ],
-                        "available":1,
                         "type":"Armor Proficiency",
                         "source":"Medium Armor Expertise",
                         "id":"11-Armor Proficiency-Medium Armor Expertise-0"

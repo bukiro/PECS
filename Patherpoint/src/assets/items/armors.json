@@ -7,6 +7,74 @@
     },
     {
         "type": "armors",
+        "price": 1000,
+        "bulk": "2",
+        "name": "Light Barding (Small or Medium)",
+        "desc": "Barding is special armor for animals. All animals have a trained proficiency rank in light barding, and combat-trained animals are trained in heavy barding. Barding can’t be etched with magic runes, though special magical barding might be available.",
+        "prof": "Light Barding",
+        "moddable": "-",
+        "dexcap": 5,
+        "skillpenalty": -1,
+        "speedpenalty": -5,
+        "strength": 16,
+        "acbonus": 1,
+        "traits": [
+            "Companion"
+        ]
+    },
+    {
+        "type": "armors",
+        "price": 2000,
+        "bulk": "4",
+        "name": "Light Barding (Large)",
+        "desc": "Barding is special armor for animals. All animals have a trained proficiency rank in light barding, and combat-trained animals are trained in heavy barding. Barding can’t be etched with magic runes, though special magical barding might be available.",
+        "prof": "Light Barding",
+        "moddable": "-",
+        "dexcap": 5,
+        "skillpenalty": -1,
+        "speedpenalty": -5,
+        "strength": 16,
+        "acbonus": 1,
+        "traits": [
+            "Companion"
+        ]
+    },
+    {
+        "type": "armors",
+        "price": 2500,
+        "bulk": "4",
+        "name": "Heavy Barding (Small or Medium)",
+        "desc": "Barding is special armor for animals. All animals have a trained proficiency rank in light barding, and combat-trained animals are trained in heavy barding. Barding can’t be etched with magic runes, though special magical barding might be available.",
+        "prof": "Heavy Barding",
+        "moddable": "-",
+        "dexcap": 3,
+        "skillpenalty": -3,
+        "speedpenalty": -10,
+        "strength": 20,
+        "acbonus": 3,
+        "traits": [
+            "Companion"
+        ]
+    },
+    {
+        "type": "armors",
+        "price": 5000,
+        "bulk": "8",
+        "name": "Heavy Barding (Large)",
+        "desc": "Barding is special armor for animals. All animals have a trained proficiency rank in light barding, and combat-trained animals are trained in heavy barding. Barding can’t be etched with magic runes, though special magical barding might be available.",
+        "prof": "Heavy Barding",
+        "moddable": "-",
+        "dexcap": 3,
+        "skillpenalty": -3,
+        "speedpenalty": -10,
+        "strength": 20,
+        "acbonus": 3,
+        "traits": [
+            "Companion"
+        ]
+    },
+    {
+        "type": "armors",
         "price": 10,
         "bulk": "L",
         "name": "Explorer's Clothing",

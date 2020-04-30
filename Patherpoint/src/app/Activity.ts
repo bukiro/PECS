@@ -45,6 +45,6 @@ export class Activity {
     can_Activate() {
         //Test any circumstance under which this can be activated
         let isStance: boolean = (this.traits.indexOf("Stance") > -1)
-        return isStance || this.gainItems.length || this.castSpells.length || this.gainConditions.length || this.cooldown;
+        return isStance || this.gainItems.length || this.castSpells.length || this.gainConditions.length || this.cooldown || this.toggle;
     }
 }

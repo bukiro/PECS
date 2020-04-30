@@ -8,13 +8,13 @@ export class Ability {
     constructor (
         public name: string = "",
     ) {}
-    baseValue(creature: Character|AnimalCompanion, characterService, charLevel: number = characterService.get_Character().level) {
+    baseValue(creature: Character|AnimalCompanion, characterService, charLevel: number = creature.level) {
         if (characterService.still_loading()) { return 10; }
         let character = creature;
         //Get baseValues from the character if they exist, otherwise 10
         let baseValue = 10;
-        if (creature["baseValues"]) {
-            let baseValues = character["baseValues"].filter(baseValue => baseValue.name == this.name)
+        if (creature.type == "Character" && (creature as Character).baseValues) {
+            let baseValues = (creature as Character).baseValues.filter(baseValue => baseValue.name == this.name)
             if (baseValues.length > 0) {
                 baseValue = baseValues[0].baseValue
             }
@@ -23,11 +23,11 @@ export class Ability {
         //Get any boosts from the character and sum them up
         //Boosts are +2 until 18, then +1
         //Flaws are always -2
-        let boosts = character.get_AbilityBoosts(0, charLevel, this.name);
+        let boosts = creature.get_AbilityBoosts(0, charLevel, this.name);
         if (boosts) {
             boosts.forEach(boost => {
                 if (boost.type == "Boost") {
-                    baseValue += (baseValue < 18) ? 2 : 1;
+                    baseValue += (baseValue < 18 || creature.type == "Companion") ? 2 : 1;
                 } else if (boost.type == "Flaw") {
                     baseValue -= 2;
                 }

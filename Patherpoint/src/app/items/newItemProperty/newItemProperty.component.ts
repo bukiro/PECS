@@ -89,7 +89,7 @@ export class NewItemPropertyComponent implements OnInit {
             if (!value) {
                 this.get_Parent()[this.propertyKey] = "New Item"
             }
-            let existingItems = this.get_Character()[this.newItem.type].filter((existing: Item) => existing.name == value && existing.can_Stack());
+            let existingItems = this.get_InventoryItems()[this.newItem.type].filter((existing: Item) => existing.name == value && existing.can_Stack());
             if (existingItems.length) {
                 this.validationError = "If you use this name, this item will be added to the "+existingItems[0].name+" stack in your inventory. All changes you make here will be lost.";
             } else {
@@ -97,20 +97,28 @@ export class NewItemPropertyComponent implements OnInit {
             }
         }
         if (this.propertyKey == "value" && (this.propertyData.parent == "effects" || this.propertyData.parent == "onceEffects")) {
-            let effectGain = new EffectGain;
-            effectGain.value = value;
-            let effect = this.effectsService.get_SimpleEffects(this.get_Character(), this.characterService, { effects: [effectGain] })[0];
-            if (effect && effect.value && effect.value != "0" && (parseInt(effect.value) || parseFloat(effect.value))) {
-                if (parseFloat(effect.value) == parseInt(effect.value)) {
-                    this.validationError = "";
-                    this.validationResult = parseInt(effect.value).toString();
+            if (value && value != "0") {
+                let effectGain = new EffectGain;
+                effectGain.value = value;
+                let effects = this.effectsService.get_SimpleEffects(this.get_Character(), this.characterService, { effects: [effectGain] });
+                if (effects.length) {
+                    let effect = effects[0];
+                    if (effect && effect.value && effect.value != "0" && (parseInt(effect.value) || parseFloat(effect.value))) {
+                        if (parseFloat(effect.value) == parseInt(effect.value)) {
+                            this.validationError = "";
+                            this.validationResult = parseInt(effect.value).toString();
+                        } else {
+                            this.validationError = "This may result in a decimal value and be turned into a whole number."
+                            this.validationResult = parseInt(effect.value).toString();
+                        }
+                    } else {
+                        this.validationError = "This may result in an invalid value or 0. Invalid values will default to 0."
+                        this.validationResult = parseInt(effect.value).toString();
+                    }
                 } else {
-                    this.validationError = "This may result in a decimal value and be turned into a whole number."
-                    this.validationResult = parseInt(effect.value).toString();
+                    this.validationError = "This results in an invalid value or 0, and will not create an effect."
+                    this.validationResult = "";
                 }
-            } else {
-                this.validationError = "This may result in an invalid value or 0. Invalid values will default to 0."
-                this.validationResult = parseInt(effect.value).toString();
             }
         } else if (this.propertyKey == "moddable") {
             if (this.newItem["potencyRune"]) {
@@ -241,6 +249,8 @@ export class NewItemPropertyComponent implements OnInit {
                         break;
                     case "armors":
                         examples = this.characterService.get_Skills(this.get_Character(), "", "Armor Proficiency").map(item => item.name);
+                        examples.push("Light Barding");
+                        examples.push("Heavy Barding");
                         break;
                 }
                 break;
@@ -301,7 +311,28 @@ export class NewItemPropertyComponent implements OnInit {
                     examples.push(...item.onceEffects.map(effect => effect.affected ))
                 });
                 break;
+            case "onceEffects value":
+                    this.characterService.get_FeatsAndFeatures().filter(feat => feat.onceEffects.length).forEach(feat => {
+                        examples.push(...feat.onceEffects.map(effect => effect.value ))
+                    });
+                    this.characterService.get_Conditions().filter(condition => condition.onceEffects.length).forEach((condition: Condition) => {
+                        examples.push(...condition.onceEffects.map(effect => effect.value ))
+                    });
+                    this.activitiesService.get_Activities().filter(activity => activity.onceEffects.length).forEach((activity: Activity) => {
+                        examples.push(...activity.onceEffects.map(effect => effect.value ))
+                    });
+                    this.get_Items().allEquipment().concat(this.get_InventoryItems().allEquipment()).filter(item => item.activities.length).forEach((item: Equipment) => {
+                        item.activities.filter(activity => activity.onceEffects.length).forEach((activity: Activity) => {
+                            examples.push(...activity.onceEffects.map(effect => effect.value ))
+                        });
+                    });
+                    this.get_Items().allConsumables().concat(this.get_InventoryItems().allConsumables()).filter(item => item.onceEffects.length).forEach((item: Consumable) => {
+                        examples.push(...item.onceEffects.map(effect => effect.value ))
+                    });
+                    break;
             case "effects affected":
+                examples.push(...this.characterService.get_Skills(this.get_Character()).map((skill: Skill) =>  skill.name ));
+                examples.push(...this.characterService.get_Abilities().map((ability: Ability) => {return ability.name}));
                 this.characterService.get_FeatsAndFeatures().filter(feat => feat.effects.length).forEach(feat => {
                     examples.push(...feat.effects.map(effect => effect.affected ))
                 });
@@ -318,8 +349,6 @@ export class NewItemPropertyComponent implements OnInit {
                 });
                 break;
             case "effects value":
-                examples.push(...this.characterService.get_Skills(this.get_Character()).map((skill: Skill) =>  skill.name ));
-                examples.push(...this.characterService.get_Abilities().map((ability: Ability) => {return ability.name}));
                 this.characterService.get_FeatsAndFeatures().filter(feat => feat.onceEffects.length).forEach(feat => {
                     examples.push(...feat.onceEffects.map(effect => effect.value ))
                 });

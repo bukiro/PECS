@@ -380,14 +380,14 @@
     },
     {
         "name": "Wild Winds Stance",
-        "type": "spell",
+        "type": "spells",
         "desc": "While in wild winds stance, you gain a +2 circumstance bonus to AC against ranged attacks.",
         "showon": "AC",
         "buff": true
     },
     {
         "name": "Wind Jump",
-        "type": "spell",
+        "type": "spells",
         "desc": "You gain a fly Speed equal to your Speed. You must end your turn on solid ground, or you fall.",
         "effects": [
             {
@@ -416,8 +416,41 @@
     },
     {
         "name": "Ethereal Jaunt",
-        "type": "spell",
+        "type": "spells",
         "desc": "You travel to the Ethereal Plane, which overlaps the Material Plane. Material Plane creatures can't see you, and you can move through things on the Material Plane. You move at half your normal Speeds, but can move in any direction (including up and down).\n\nYou can see onto the Material Plane within a radius of 60 feet; it is gray, hazy, and concealed from you. You can't affect the Material Plane, and you can't be affected by the Material Plane except by force effects and abjurations originating there.\n\nWhen the spell ends, you return to the Material Plane. If you're in the air, you fall (unless you can fly), and if you're inside an object, you're pushed into the nearest open space and take 1d6 damage per 5 feet you were pushed.\n\nIf you cast this spell when not on the Material Plane, it is lost.",
         "buff": true
-    }   
+    },
+    {
+        "name": "Barding of the Zephyr",
+        "type": "wornitems",
+        "desc": "Your companion wearing the barding is granted a fly Speed of 30 feet for 10 minutes. Even if the companion doesn’t have the mount special ability, it can still Fly while being ridden.",
+        "effects": [
+            {
+               "affected": "Fly Speed",
+               "value": "30"
+            }
+        ],
+        "buff": true
+    },
+    {
+        "name": "Feather Fall",
+        "type": "spells",
+        "desc": "Your fall slows to 60 feet per round, and the portion of the fall during the spell's duration doesn't count when calculating falling damage. If you reach the ground while the spell is in effect, you take no damage from the fall. The spell ends as soon as you land.",
+        "showon": "Movement, Acrobatics",
+        "buff": true
+    },
+    {
+        "name": "Elemental Blood Magic",
+        "type": "bloodmagic",
+        "desc": "Elemental energy surrounds you or a target. Either you gain a +1 status bonus to Intimidation checks for 1 round, or a target takes 1 damage per spell level. The damage is bludgeoning or fire, according to your elemental type (fire for fire, or else bludgeoning). If the spell already deals that kind of damage, combine it with the spell's initial damage before determining weaknesses and resistances.",
+        "inputRequired": "If you choose to deal damage instead of gaining the Intimidation bonus, remove this condition.",
+        "effects": [
+            {
+                "affected": "Intimidation",
+                "value": "+1",
+                "type": "status"
+            }
+        ],
+        "buff": true
+    }
 ]

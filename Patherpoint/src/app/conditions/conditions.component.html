@@ -17,7 +17,7 @@
             </div>
         </div>
         <h3>Add Condition</h3>
-        <ng-container *ngFor="let set of ['Generic','Alchemical Elixirs']">
+        <ng-container *ngFor="let set of ['Generic','Alchemical Elixirs','Worn Items','Spells']">
             <button class="list-item"
                 (click)="toggleList(set)">{{set}}</button>
             <ng-container *ngIf="get_ShowList()==set">

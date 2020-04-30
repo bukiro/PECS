@@ -17,6 +17,8 @@ import { TraditionChoice } from './TraditionChoice';
 import { Deity } from './Deity';
 import { Creature } from './Creature';
 import { AbilityBoost } from './AbilityBoost';
+import { EffectsService } from './effects.service';
+import { SpellsService } from './spells.service';
 
 export class Character extends Creature {
     public class: Class = new Class();
@@ -34,6 +36,29 @@ export class Character extends Creature {
     }
     set_Changed(characterService: CharacterService, ) {
         characterService.set_Changed();
+    }
+    get_Size(effectsService: EffectsService) {
+        let size: number = (this.class.ancestry.size ? this.class.ancestry.size : 0);
+
+        let sizeEffects = effectsService.get_Effects().all.filter(effect => effect.creature == this.id && effect.apply && effect.target == "Size");
+        sizeEffects.forEach(effect => {
+            size += parseInt(effect.value)
+        })
+
+        switch (size) {
+            case -2:
+                return "Tiny";
+            case -1:
+                return "Small";
+            case 0:
+                return "Medium"
+            case 1:
+                return "Large"
+            case 2:
+                return "Huge"
+            case 3:
+                return "Gargantuan"
+        }
     }
     get_AbilityBoosts(minLevelNumber: number, maxLevelNumber: number, abilityName: string = "", type: string = "", source: string = "", sourceId: string = "", locked: boolean = undefined ) {
         if (this.class) {
@@ -141,10 +166,10 @@ export class Character extends Creature {
         this.class.activities[newLength-1].level = levelNumber;
         return this.class.activities[newLength-1];
     }
-    lose_Activity(characterService: CharacterService, timeService: TimeService, itemsService: ItemsService, activitiesService: ActivitiesService, oldGain: ActivityGain) {
+    lose_Activity(characterService: CharacterService, timeService: TimeService, itemsService: ItemsService, spellsService: SpellsService, activitiesService: ActivitiesService, oldGain: ActivityGain) {
         let a = this.class.activities;
         if (oldGain.active) {
-            activitiesService.activate_Activity(this, characterService, timeService, itemsService, oldGain, activitiesService.get_Activities(oldGain.name)[0], false);
+            activitiesService.activate_Activity(this, characterService, timeService, itemsService, spellsService, oldGain, activitiesService.get_Activities(oldGain.name)[0], false);
         }
         a.splice(a.indexOf(oldGain), 1);
     }

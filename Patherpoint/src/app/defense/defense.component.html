@@ -1,5 +1,5 @@
 <button class="minimizebutton lower" (click)="minimize()" *ngIf="creature=='Character'">&#8691;</button>
-<div id="{{creature == 'Character' ? '' : 'other-'}}defense-height" class="attributeBox">
+<div id="{{creature}}-defense-height" class="attributeBox">
 <ng-container *ngFor="let AC of [get_CalculatedAC()]">
     <h3 class="box-header" title="{{AC.$value[1]}}">Defense: Armor Class <span
             [className]="(AC.$penalty.length) ? 'penalty' : (AC.$bonus.length) ? 'bonus' : ''">{{AC.$value[0]}}</span>

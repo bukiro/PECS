@@ -32,9 +32,10 @@
       "melee": 5,
       "moddable": "-",
       "price": 0,
-      "hands": "1",
+      "hands": "",
       "hide": true,
       "traits": [
+         "Companion",
          "Unarmed"
       ]
    },
@@ -51,11 +52,12 @@
       "melee": 5,
       "moddable": "-",
       "price": 0,
-      "hands": "1",
+      "hands": "",
       "hide": true,
       "traits": [
-         "Unarmed",
-         "Agile"
+         "Agile",
+         "Companion",
+         "Unarmed"
       ]
    },
    {

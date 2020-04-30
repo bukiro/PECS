@@ -1,0 +1,73 @@
+[
+    {
+        "name": "Elemental: Air",
+        "spellList": "Primal",
+        "bloodlineSkills": [
+            "Intimidation",
+            "Nature"
+        ],
+        "grantedSpells":[
+            {
+                "level": 0,
+                "name": "produce flame (Air)"
+            },
+            {
+                "level": 1,
+                "name": "burning hands (Air)"
+            },
+            {
+                "level": 2,
+                "name": "resist energy"
+            },
+            {
+                "level": 3,
+                "name": "fireball (Air)"
+            },
+            {
+                "level": 4,
+                "name": "freedom of movement"
+            },
+            {
+                "level": 5,
+                "name": "elemental form"
+            },
+            {
+                "level": 6,
+                "name": "repulsion"
+            },
+            {
+                "level": 7,
+                "name": "energy aegis"
+            },
+            {
+                "level": 8,
+                "name": "prismatic wall"
+            },
+            {
+                "level": 9,
+                "name": "storm of vengeance"
+            }
+        ],
+        "bloodlineSpells": [
+            {
+                "level": 0,
+                "name": "elemental toss (Air)"
+            },
+            {
+                "level": 1,
+                "name": "elemental motion"
+            },
+            {
+                "level": 2,
+                "name": "elemental blast (Air)"
+            }
+        ],
+        "bloodMagic": [
+            {
+                "name": "Elemental Blood Magic",
+                "source": "Elemental Blood Magic",
+                "duration": "10"
+            }
+        ]
+    }
+]

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
 import { CharacterService } from '../character.service';
 import { AnimalCompanionsService } from '../animalcompanions.service';
 import { AnimalCompanion } from '../AnimalCompanion';
@@ -9,7 +9,8 @@ import { ActivitiesService } from '../activities.service';
 @Component({
     selector: 'app-animal-companion',
     templateUrl: './animal-companion.component.html',
-    styleUrls: ['./animal-companion.component.css']
+    styleUrls: ['./animal-companion.component.css'],
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class AnimalCompanionComponent implements OnInit {
 
@@ -18,16 +19,15 @@ export class AnimalCompanionComponent implements OnInit {
     public hover: string = '';
 
     constructor(
+        private changeDetector:ChangeDetectorRef,
         private characterService: CharacterService,
         private animalCompanionsService: AnimalCompanionsService,
         private activitiesService: ActivitiesService
     ) { }
 
-    ngOnInit() {
-    }
-
     minimize() {
         this.characterService.get_Character().settings.companionMinimized = !this.characterService.get_Character().settings.companionMinimized;
+        this.set_Changed();
     }
 
     still_loading() {
@@ -125,6 +125,22 @@ export class AnimalCompanionComponent implements OnInit {
 
     get_Activities(name: string = "") {
         return this.activitiesService.get_Activities(name);
+    }
+
+    finish_Loading() {
+        if (this.still_loading()) {
+            setTimeout(() => this.finish_Loading(), 500)
+        } else {
+            this.characterService.get_Changed()
+            .subscribe(() => 
+            this.changeDetector.detectChanges()
+                )
+            return true;
+        }
+    }
+
+    ngOnInit() {
+        this.finish_Loading();
     }
 
 }

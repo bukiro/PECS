@@ -1,5 +1,5 @@
 <button class="minimizebutton lower" (click)="minimize()" *ngIf="creature=='Character'">&#8691;</button>
-<div id="{{creature == 'Character' ? '' : 'other-'}}inventory-height" class="attributeBox">
+<div id="{{creature}}-inventory-height" class="attributeBox">
     <h3 class="box-header">Inventory</h3>
     <div class="loading" *ngIf="still_loading()">Loading</div>
     <ng-container *ngIf="!still_loading()">
@@ -7,8 +7,8 @@
             (click)="toggleMenu('items')">
             Get Items
         </button>
-        <h5>Cash</h5>
-        <div class="list-item">
+        <h5 *ngIf="creature=='Character'">Cash</h5>
+        <div class="list-item" *ngIf="creature=='Character'">
             <strong>P</strong>
             <input class="number4" type="number" value="{{this.characterService.get_Character().cash[0]}}" disabled>
             <strong>G</strong>
@@ -56,7 +56,6 @@
                     <ng-container *ngFor="let item of sort_ItemSet(items[itemSet.key])">
                         <div class="fullsize-only list-item" *ngFor="let inventoryID of [item.id]">
                             <button class="row sublist-toggle"
-                               
                                 [className]="((item.equippable && item.equipped) || (item.can_Invest() && item.invested)) ? 'fancy-button' : ''"
                                 (click)="toggleItem(inventoryID)">
                                 {{(item.amount != undefined && item.amount != 1) ? item.amount+" " : ""}}
@@ -68,9 +67,9 @@
                                 *ngIf="get_ShowItem()==inventoryID">
                                 <div class="row" *ngFor="let prof of [(item.get_Prof ? item.get_Prof() : item.prof)]">
                                     <span
-                                        *ngIf="item.type == 'armors'">{{(prof == 'Unarmored') ? prof : prof.substr(0, prof.length - 6)}}
+                                        *ngIf="item.type == 'armors'">{{(["Unarmored","Light Barding","Heavy Barding"].indexOf(item.prof) > -1) ? prof : prof.substr(0, prof.length - 6)}}
                                         {{item.group}}
-                                        {{(item.type=="armors" && prof != "Unarmored") ? "Armor" : ""}}</span>
+                                        {{(item.type=="armors" && (["Unarmored","Light Barding","Heavy Barding"].indexOf(item.prof) == -1)) ? "Armor" : ""}}</span>
                                     <span
                                         *ngIf="item.type == 'weapons'">{{(prof == 'Unarmed') ? prof : prof.substr(0, prof.length - 8)}}
                                         {{item.group}}</span>
@@ -80,13 +79,13 @@
                                     <span>Use</span> <span>{{(item.actions) ? get_Actions(item) : ""}}</span>
                                 </button>
                                 <div class="row">
-                                    <span *ngIf="item.equippable">
+                                    <span *ngIf="can_Equip(item)">
                                         <button *ngIf="!item.equipped"
                                             (click)="onEquip(item, true)">Equip</button>
                                         <button *ngIf="item.equipped"
                                             (click)="onEquip(item, false)">Unequip</button>
                                     </span>
-                                    <span *ngIf="item.can_Invest()">
+                                    <span *ngIf="can_Invest(item)">
                                         <button *ngIf="!item.invested"
                                             (click)="onInvest(item, true)"
                                             [disabled]="get_InvestedItems().length >= get_maxInvested()[0] && !item.invested">Invest</button>
@@ -101,7 +100,7 @@
                                             (click)="onAmountChange(item, 1)">+1</button>
                                     </span>
                                     <span
-                                        *ngIf="!item.equippable && !item.can_Invest() && !item.can_Stack()">
+                                        *ngIf="!can_Equip(item) && !can_Invest(item) && !item.can_Stack()">
                                         &nbsp;
                                         <!-- This span is a placeholder that appears if no other button is valid on the left side of the Drop button -->
                                     </span>
@@ -111,7 +110,7 @@
                                             Drop Package
                                         </button>
                                     </span>
-                                    <span>
+                                    <span *ngIf="can_Drop(item)">
                                         <button (click)="drop_InventoryItem(item)">
                                             Drop
                                         </button>
@@ -155,9 +154,9 @@
                                         (blur)="onNameChange()">
                                 </div>
                                 <app-itemRunes class="row" [item]=item [itemStore]=false *ngIf="item.showRunes"></app-itemRunes>
-                                <app-item [item]=item
+                                <app-item [creature]="creature" [item]=item
                                     [allowActivate]="(item.equippable ? item.equipped : true) && (item.can_Invest() ? item.invested : true)"
-                                    [armoredSkirt]="item.get_ArmoredSkirt ? item.get_ArmoredSkirt(characterService) : null">
+                                    [armoredSkirt]="item.get_ArmoredSkirt ? item.get_ArmoredSkirt(get_Creature(), characterService) : null">
                                 </app-item>
                             </div>
                         </div>

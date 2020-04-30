@@ -64,14 +64,14 @@ export class ActivityComponent implements OnInit {
     }
 
     on_Activate(gain: ActivityGain | ItemActivity, activity: Activity | ItemActivity, activated: boolean) {
-        this.activitiesService.activate_Activity(this.get_Creature(), this.characterService, this.timeService, this.itemsService, gain, activity, activated);
+        this.activitiesService.activate_Activity(this.get_Creature(), this.characterService, this.timeService, this.itemsService, this.spellsService, gain, activity, activated);
     }
 
     on_ActivateFuseStance(activated: boolean) {
         this.gain.active = activated;
         this.get_FusedStances().forEach(gain => {
             let activity = (gain["can_Activate"] ? gain as ItemActivity : this.get_Activities(gain.name)[0])
-            this.activitiesService.activate_Activity(this.get_Creature(), this.characterService, this.timeService, this.itemsService, gain, activity, activated);
+            this.activitiesService.activate_Activity(this.get_Creature(), this.characterService, this.timeService, this.itemsService, this.spellsService, gain, activity, activated);
         })
     }
 
