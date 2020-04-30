@@ -3,6 +3,8 @@ import { Trait } from './Trait';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { CharacterService } from './character.service';
+import { Character } from './Character';
+import { AnimalCompanion } from './AnimalCompanion';
 
 @Injectable({
     providedIn: 'root'
@@ -27,19 +29,20 @@ export class TraitsService {
         }
     }
 
-    get_TraitsForThis(characterService: CharacterService, name: string) {
+    get_TraitsForThis(creature: Character|AnimalCompanion, name: string) {
         if (!this.still_loading()) {
             //return all traits that are set to SHOW ON this named object and that are on any equipped equipment in your inventory
             //uses the haveOn() method of Trait that returns any equipment that has this trait
             let traits = this.traits;
             return traits.filter(trait => 
                 trait.showon == name
-                && trait.haveOn(characterService).length > 0
+                && trait.haveOn(creature).length > 0
                 );
         } else {return []}
     }
 
     have_Trait(characterService: CharacterService, object: any, traitName: string) {
+        //Find out if this object - could be anything - has this trait. Sounds easy enough, but some items get traits added by certain circumstances, so here we are.
         return ((object.get_Traits ? object.get_Traits(characterService) : object.traits).filter((trait: string) => trait.indexOf(traitName) > -1).length) ? true : false;
     }
 

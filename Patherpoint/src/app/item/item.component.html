@@ -1,5 +1,5 @@
-<div class="row left-aligned tags" *ngIf="(item.get_Traits ? item.get_Traits(characterService) : item.traits).length">
-    <cite class="trait" *ngFor="let trait of (item.get_Traits ? item.get_Traits(characterService) : item.traits)"
+<div class="row left-aligned tags" *ngIf="(item.get_Traits ? item.get_Traits(get_Creature()) : item.traits).length">
+    <cite class="trait" *ngFor="let trait of (item.get_Traits ? item.get_Traits(get_Creature()) : item.traits)"
         title="{{get_Traits(trait)[0].description}}">&nbsp;{{trait}}</cite>
 </div>
 <div class="row left-aligned">

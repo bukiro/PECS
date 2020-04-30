@@ -30,7 +30,7 @@
       "desc": "You’re fully immersed in another ancestry’s culture and traditions, whether born into them, earned through rite of passage, or bonded through a deep friendship or romance. Choose a common ancestry. You can select ancestry feats from the ancestry you chose, in addition to your character’s own ancestry, as long as the ancestry feats don’t require any physiological feature that you lack, as determined by the GM.",
       "hint": "You can select ancestry feats from the Dwarf ancestry, in addition to your character’s own ancestry, as long as the ancestry feats don’t require any physiological feature that you lack, as determined by the GM.",
       "levelreq": 1,
-      "specialreq": "character.class.ancestry.name && character.class.ancestry.ancestries.indexOf(this.subType) == -1 || this.have(characterService, charLevel)",
+      "specialreq": "character.class.ancestry.name && character.class.ancestry.ancestries.indexOf(this.subType) == -1 || this.have(character, characterService, charLevel)",
       "specialreqdesc": "Any Ancestry except Dwarf",
       "subType": "Dwarf",
       "superType": "Adopted Ancestry",
@@ -44,7 +44,7 @@
       "desc": "You’re fully immersed in another ancestry’s culture and traditions, whether born into them, earned through rite of passage, or bonded through a deep friendship or romance. Choose a common ancestry. You can select ancestry feats from the ancestry you chose, in addition to your character’s own ancestry, as long as the ancestry feats don’t require any physiological feature that you lack, as determined by the GM.",
       "hint": "You can select ancestry feats from the Elf ancestry, in addition to your character’s own ancestry, as long as the ancestry feats don’t require any physiological feature that you lack, as determined by the GM.",
       "levelreq": 1,
-      "specialreq": "character.class.ancestry.name && character.class.ancestry.ancestries.indexOf(this.subType) == -1 || this.have(characterService, charLevel)",
+      "specialreq": "character.class.ancestry.name && character.class.ancestry.ancestries.indexOf(this.subType) == -1 || this.have(character, characterService, charLevel)",
       "specialreqdesc": "Any Ancestry except Elf",
       "subType": "Elf",
       "superType": "Adopted Ancestry",
@@ -58,7 +58,7 @@
       "desc": "You’re fully immersed in another ancestry’s culture and traditions, whether born into them, earned through rite of passage, or bonded through a deep friendship or romance. Choose a common ancestry. You can select ancestry feats from the ancestry you chose, in addition to your character’s own ancestry, as long as the ancestry feats don’t require any physiological feature that you lack, as determined by the GM.",
       "hint": "You can select ancestry feats from the Gnome ancestry, in addition to your character’s own ancestry, as long as the ancestry feats don’t require any physiological feature that you lack, as determined by the GM.",
       "levelreq": 1,
-      "specialreq": "character.class.ancestry.name && character.class.ancestry.ancestries.indexOf(this.subType) == -1 || this.have(characterService, charLevel)",
+      "specialreq": "character.class.ancestry.name && character.class.ancestry.ancestries.indexOf(this.subType) == -1 || this.have(character, characterService, charLevel)",
       "specialreqdesc": "Any Ancestry except Gnome",
       "subType": "Gnome",
       "superType": "Adopted Ancestry",
@@ -72,7 +72,7 @@
       "desc": "You’re fully immersed in another ancestry’s culture and traditions, whether born into them, earned through rite of passage, or bonded through a deep friendship or romance. Choose a common ancestry. You can select ancestry feats from the ancestry you chose, in addition to your character’s own ancestry, as long as the ancestry feats don’t require any physiological feature that you lack, as determined by the GM.",
       "hint": "You can select ancestry feats from the Goblin ancestry, in addition to your character’s own ancestry, as long as the ancestry feats don’t require any physiological feature that you lack, as determined by the GM.",
       "levelreq": 1,
-      "specialreq": "character.class.ancestry.name && character.class.ancestry.ancestries.indexOf(this.subType) == -1 || this.have(characterService, charLevel)",
+      "specialreq": "character.class.ancestry.name && character.class.ancestry.ancestries.indexOf(this.subType) == -1 || this.have(character, characterService, charLevel)",
       "specialreqdesc": "Any Ancestry except Goblin",
       "subType": "Goblin",
       "superType": "Adopted Ancestry",
@@ -86,7 +86,7 @@
       "desc": "You’re fully immersed in another ancestry’s culture and traditions, whether born into them, earned through rite of passage, or bonded through a deep friendship or romance. Choose a common ancestry. You can select ancestry feats from the ancestry you chose, in addition to your character’s own ancestry, as long as the ancestry feats don’t require any physiological feature that you lack, as determined by the GM.",
       "hint": "You can select ancestry feats from the Half-Elf ancestry, in addition to your character’s own ancestry, as long as the ancestry feats don’t require any physiological feature that you lack, as determined by the GM.",
       "levelreq": 1,
-      "specialreq": "character.class.ancestry.name && character.class.ancestry.ancestries.indexOf(this.subType) == -1 || this.have(characterService, charLevel)",
+      "specialreq": "character.class.ancestry.name && character.class.ancestry.ancestries.indexOf(this.subType) == -1 || this.have(character, characterService, charLevel)",
       "specialreqdesc": "Any Ancestry except Half-Elf",
       "subType": "Half-Elf",
       "superType": "Adopted Ancestry",
@@ -100,7 +100,7 @@
       "desc": "You’re fully immersed in another ancestry’s culture and traditions, whether born into them, earned through rite of passage, or bonded through a deep friendship or romance. Choose a common ancestry. You can select ancestry feats from the ancestry you chose, in addition to your character’s own ancestry, as long as the ancestry feats don’t require any physiological feature that you lack, as determined by the GM.",
       "hint": "You can select ancestry feats from the Halfling ancestry, in addition to your character’s own ancestry, as long as the ancestry feats don’t require any physiological feature that you lack, as determined by the GM.",
       "levelreq": 1,
-      "specialreq": "character.class.ancestry.name && character.class.ancestry.ancestries.indexOf(this.subType) == -1 || this.have(characterService, charLevel)",
+      "specialreq": "character.class.ancestry.name && character.class.ancestry.ancestries.indexOf(this.subType) == -1 || this.have(character, characterService, charLevel)",
       "specialreqdesc": "Any Ancestry except Halfling",
       "subType": "Halfling",
       "superType": "Adopted Ancestry",
@@ -114,7 +114,7 @@
       "desc": "You’re fully immersed in another ancestry’s culture and traditions, whether born into them, earned through rite of passage, or bonded through a deep friendship or romance. Choose a common ancestry. You can select ancestry feats from the ancestry you chose, in addition to your character’s own ancestry, as long as the ancestry feats don’t require any physiological feature that you lack, as determined by the GM.",
       "hint": "You can select ancestry feats from the Half-Orc ancestry, in addition to your character’s own ancestry, as long as the ancestry feats don’t require any physiological feature that you lack, as determined by the GM.",
       "levelreq": 1,
-      "specialreq": "character.class.ancestry.name && character.class.ancestry.ancestries.indexOf(this.subType) == -1 || this.have(characterService, charLevel)",
+      "specialreq": "character.class.ancestry.name && character.class.ancestry.ancestries.indexOf(this.subType) == -1 || this.have(character, characterService, charLevel)",
       "specialreqdesc": "Any Ancestry except Half-Orc",
       "subType": "Half-Orc",
       "superType": "Adopted Ancestry",
@@ -128,7 +128,7 @@
       "desc": "You’re fully immersed in another ancestry’s culture and traditions, whether born into them, earned through rite of passage, or bonded through a deep friendship or romance. Choose a common ancestry. You can select ancestry feats from the ancestry you chose, in addition to your character’s own ancestry, as long as the ancestry feats don’t require any physiological feature that you lack, as determined by the GM.",
       "hint": "You can select ancestry feats from the Human ancestry, in addition to your character’s own ancestry, as long as the ancestry feats don’t require any physiological feature that you lack, as determined by the GM.",
       "levelreq": 1,
-      "specialreq": "character.class.ancestry.name && character.class.ancestry.ancestries.indexOf(this.subType) == -1 || this.have(characterService, charLevel)",
+      "specialreq": "character.class.ancestry.name && character.class.ancestry.ancestries.indexOf(this.subType) == -1 || this.have(character, characterService, charLevel)",
       "specialreqdesc": "Any Ancestry except Human",
       "subType": "Human",
       "superType": "Adopted Ancestry",
@@ -242,7 +242,7 @@
             "value": 2
          }
       ],
-      "specialreq": "characterService.get_Skills(this.subType)[0].level(characterService, charLevel) < 2 || (this.have(characterService, charLevel) && characterService.get_Skills(this.subType)[0].level(characterService, charLevel) < 4)",
+      "specialreq": "characterService.get_Skills(character, this.subType)[0].level(character, characterService, charLevel) < 2 || (this.have(character, characterService, charLevel) && characterService.get_Skills(character, this.subType)[0].level(character, characterService, charLevel) < 4)",
       "specialreqdesc": "Heavy Armor < T",
       "subType": "Heavy Armor",
       "superType": "Armor Proficiency",
@@ -271,7 +271,7 @@
          }
       ],
       "levelreq": 1,
-      "specialreq": "characterService.get_Skills(this.subType)[0].level(characterService, charLevel) < 2 || (this.have(characterService, charLevel) && characterService.get_Skills(this.subType)[0].level(characterService, charLevel) < 4)",
+      "specialreq": "characterService.get_Skills(character, this.subType)[0].level(character, characterService, charLevel) < 2 || (this.have(character, characterService, charLevel) && characterService.get_Skills(character, this.subType)[0].level(character, characterService, charLevel) < 4)",
       "specialreqdesc": "Light Armor < T",
       "subType": "Light Armor",
       "superType": "Armor Proficiency",
@@ -306,7 +306,7 @@
             "value": 2
          }
       ],
-      "specialreq": "characterService.get_Skills(this.subType)[0].level(characterService, charLevel) < 2 || (this.have(characterService, charLevel) && characterService.get_Skills(this.subType)[0].level(characterService, charLevel) < 4)",
+      "specialreq": "characterService.get_Skills(character, this.subType)[0].level(character, characterService, charLevel) < 2 || (this.have(character, characterService, charLevel) && characterService.get_Skills(character, this.subType)[0].level(character, characterService, charLevel) < 4)",
       "specialreqdesc": "Medium Armor < T",
       "subType": "Medium Armor",
       "superType": "Armor Proficiency",
@@ -1189,7 +1189,7 @@
          }
       ],
       "levelreq": 1,
-      "specialreq": "characterService.get_Skills(this.subType)[0].level(characterService, charLevel) < 4 || (this.have(characterService, charLevel) && characterService.get_Skills(this.subType)[0].level(characterService, charLevel) < 6)",
+      "specialreq": "characterService.get_Skills(character, this.subType)[0].level(character, characterService, charLevel) < 4 || (this.have(character, characterService, charLevel) && characterService.get_Skills(character, this.subType)[0].level(character, characterService, charLevel) < 6)",
       "specialreqdesc": "Fortitude < E",
       "subType": "Fortitude",
       "superType": "Canny Acumen",
@@ -1218,7 +1218,7 @@
          }
       ],
       "levelreq": 1,
-      "specialreq": "characterService.get_Skills(this.subType)[0].level(characterService, charLevel) < 4 || (this.have(characterService, charLevel) && characterService.get_Skills(this.subType)[0].level(characterService, charLevel) < 6)",
+      "specialreq": "characterService.get_Skills(character, this.subType)[0].level(character, characterService, charLevel) < 4 || (this.have(character, characterService, charLevel) && characterService.get_Skills(character, this.subType)[0].level(character, characterService, charLevel) < 6)",
       "specialreqdesc": "Perception < E",
       "subType": "Perception",
       "superType": "Canny Acumen",
@@ -1247,7 +1247,7 @@
          }
       ],
       "levelreq": 1,
-      "specialreq": "characterService.get_Skills(this.subType)[0].level(characterService, charLevel) < 4 || (this.have(characterService, charLevel) && characterService.get_Skills(this.subType)[0].level(characterService, charLevel) < 6)",
+      "specialreq": "characterService.get_Skills(character, this.subType)[0].level(character, characterService, charLevel) < 4 || (this.have(character, characterService, charLevel) && characterService.get_Skills(character, this.subType)[0].level(character, characterService, charLevel) < 6)",
       "specialreqdesc": "Reflex < E",
       "subType": "Reflex",
       "superType": "Canny Acumen",
@@ -1276,7 +1276,7 @@
          }
       ],
       "levelreq": 1,
-      "specialreq": "characterService.get_Skills(this.subType)[0].level(characterService, charLevel) < 4 || (this.have(characterService, charLevel) && characterService.get_Skills(this.subType)[0].level(characterService, charLevel) < 6)",
+      "specialreq": "characterService.get_Skills(character, this.subType)[0].level(character, characterService, charLevel) < 4 || (this.have(character, characterService, charLevel) && characterService.get_Skills(character, this.subType)[0].level(character, characterService, charLevel) < 6)",
       "specialreqdesc": "Will < E",
       "subType": "Will",
       "superType": "Canny Acumen",
@@ -4379,7 +4379,7 @@
             "value": 2
          }
       ],
-      "specialreq": "!characterService.get_Skills(this.subType).length || characterService.get_Skills(this.subType)[0].level(characterService) < 2 || (this.have(characterService, charLevel) && characterService.get_Skills(this.subType)[0].level(characterService, charLevel) < 4)",
+      "specialreq": "!characterService.get_Skills(character, this.subType).length || characterService.get_Skills(character, this.subType)[0].level(character, characterService) < 2 || (this.have(character, characterService, charLevel) && characterService.get_Skills(character, this.subType)[0].level(character, characterService, charLevel) < 4)",
       "specialreqdesc": "Advanced Weapon < T",
       "subType": "Advanced Weapon",
       "superType": "Weapon Proficiency",
@@ -4413,7 +4413,7 @@
             "value": 2
          }
       ],
-      "specialreq": "characterService.get_Skills(this.subType)[0].level(characterService, charLevel) < 2 || (this.have(characterService, charLevel) && characterService.get_Skills(this.subType)[0].level(characterService, charLevel) < 4)",
+      "specialreq": "characterService.get_Skills(character, this.subType)[0].level(character, characterService, charLevel) < 2 || (this.have(character, characterService, charLevel) && characterService.get_Skills(character, this.subType)[0].level(character, characterService, charLevel) < 4)",
       "specialreqdesc": "Martial Weapons < T",
       "subType": "Martial Weapons",
       "superType": "Weapon Proficiency",
@@ -4441,7 +4441,7 @@
          }
       ],
       "levelreq": 1,
-      "specialreq": "characterService.get_Skills(this.subType)[0].level(characterService, charLevel) < 2 || (this.have(characterService, charLevel) && characterService.get_Skills(this.subType)[0].level(characterService, charLevel) < 4)",
+      "specialreq": "characterService.get_Skills(character, this.subType)[0].level(character, characterService, charLevel) < 2 || (this.have(character, characterService, charLevel) && characterService.get_Skills(character, this.subType)[0].level(character, characterService, charLevel) < 4)",
       "specialreqdesc": "Simple Weapons < T",
       "subType": "Simple Weapons",
       "superType": "Weapon Proficiency",
@@ -5837,5 +5837,17 @@
       "hint":"The first time you hit your hunted prey in a round, you also deal 1d8 additional precision damage. At 11th level, the extra damage increases to 2d8 precision damage, and at 19th level, the extra damage increases to 3d8 precision damage.",
       "showon":"Attacks",
       "internalNote":"This is not a true feat and will not be available outside of a special choice"
+   },
+   {
+      "name": "Animal Companion (Ranger)",
+      "shortdesc": "You gain the service of a young animal companion that travels with you.",
+      "desc": "You gain the service of a young animal companion that travels with you on your adventures and obeys any simple commands you give it to the best of its abilities. See Animal Companions on page 214 for more information.\n\nWhen you Hunt Prey, your animal companion gains the action’s benefits and your hunter’s edge benefit if you have one.",
+      "hint": "When you Hunt Prey, your animal companion gains the action’s benefits and your hunter’s edge benefit if you have one.",
+      "showon": "Hunt Prey",
+      "levelreq": 1,
+      "gainAnimalCompanion":true,
+      "traits": [
+         "Ranger"
+      ]
    }
 ]

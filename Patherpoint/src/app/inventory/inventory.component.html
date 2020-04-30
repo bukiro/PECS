@@ -1,5 +1,5 @@
-<button class="minimizebutton lower" (click)="minimize()">&#8691;</button>
-<div id="inventory-height" class="attributeBox">
+<button class="minimizebutton lower" (click)="minimize()" *ngIf="creature=='Character'">&#8691;</button>
+<div id="{{creature == 'Character' ? '' : 'other-'}}inventory-height" class="attributeBox">
     <h3 class="box-header">Inventory</h3>
     <div class="loading" *ngIf="still_loading()">Loading</div>
     <ng-container *ngIf="!still_loading()">
@@ -23,7 +23,7 @@
             <div class="list-item">
                 <strong>Bulk</strong>
                 <input class="number2" type="number" value="{{bulk.$current}}" disabled>
-                <app-tags [objectName]="'Bulk'" [showTraits]=true [showFeats]=true [showItems]=true
+                <app-tags [creature]="creature" [objectName]="'Bulk'" [showTraits]=true [showFeats]=true [showItems]=true
                     [showActivities]=true [showConditions]=true [showEffects]=true></app-tags>
             </div>
             <div class="fullsize-only list-item">
@@ -35,7 +35,7 @@
                 <input class="number2" type="number"
                     [className]="(bulk.$penalty.length) ? 'penalty' : (bulk.$bonus.length) ? 'bonus' : ''"
                     value="{{bulk.$max.value}}" title="{{bulk.$max.desc}}" disabled>
-                <app-tags [objectName]="'Max Bulk'" [showTraits]=true [showFeats]=true [showItems]=true
+                <app-tags [creature]="creature" [objectName]="'Max Bulk'" [showTraits]=true [showFeats]=true [showItems]=true
                     [showActivities]=true [showConditions]=true [showEffects]=true></app-tags>
             </div>
         </ng-container>
@@ -47,7 +47,7 @@
             <strong>Max Invested</strong><input type="number" class="number2" title="{{maxInvested.explain}}"
                 [className]="(maxInvested.penalty) ? 'penalty' : (maxInvested.bonus) ? 'bonus' : ''"
                 [ngModel]="get_maxInvested().value" disabled>
-            <app-tags [specialEffects]=maxInvested.effects></app-tags>
+            <app-tags [creature]="creature" [specialEffects]=maxInvested.effects></app-tags>
         </div>
         <ng-container *ngFor="let items of [get_InventoryItems(true)]">
             <ng-container *ngFor="let itemSet of items.names">

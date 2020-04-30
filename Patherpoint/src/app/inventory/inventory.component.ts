@@ -1,4 +1,4 @@
-import { Component, OnInit, ChangeDetectorRef, ChangeDetectionStrategy } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef, ChangeDetectionStrategy, Input } from '@angular/core';
 import { CharacterService } from '../character.service';
 import { ItemsService } from '../items.service';
 import { TraitsService } from '../traits.service';
@@ -10,6 +10,8 @@ import { Equipment } from '../Equipment';
 import { SortByPipe } from '../sortBy.pipe';
 import { OtherItem } from '../OtherItem';
 import { Item } from '../Item';
+import { Character } from '../Character';
+import { AnimalCompanion } from '../AnimalCompanion';
 
 @Component({
     selector: 'app-inventory',
@@ -19,6 +21,8 @@ import { Item } from '../Item';
 })
 export class InventoryComponent implements OnInit {
 
+    @Input()
+    creature: string = "Character";
     private id: number = 0;
     private showItem: number = 0;
     public hover: number = 0;
@@ -64,6 +68,10 @@ export class InventoryComponent implements OnInit {
     get_ShowItem() {
         return this.showItem;
     }
+    
+    get_Creature() {
+        return this.characterService.get_Creature(this.creature);
+    }
 
     get_ID() {
         this.id++;
@@ -80,12 +88,11 @@ export class InventoryComponent implements OnInit {
         }
         let speedRune: boolean = false;
         let enfeebledRune: boolean = false;
-        this.characterService.get_InventoryItems().allEquipment().forEach(item => {
+        this.get_Creature().inventory.allEquipment().forEach(item => {
             item.propertyRunes.forEach(rune => {
                 if (rune.name == "Speed" && (item.equipped || (item.can_Invest() && item.invested))) {
                     speedRune = true;
                 }
-                
                 if (rune["alignmentPenalty"]) {
                     if (this.characterService.get_Character().alignment.indexOf(rune["alignmentPenalty"]) > -1) {
                         enfeebledRune = true;
@@ -93,17 +100,17 @@ export class InventoryComponent implements OnInit {
                 }
             })
         })
-        if (speedRune && this.characterService.get_AppliedConditions("Quickened", "Speed Rune").length == 0) {
-            this.characterService.add_Condition(Object.assign(new ConditionGain, {name:"Quickened", value:0, source:"Speed Rune", apply:true}), true)
-        } else if (!speedRune && this.characterService.get_AppliedConditions("Quickened", "Speed Rune").length > 0) {
-            this.characterService.remove_Condition(Object.assign(new ConditionGain, {name:"Quickened", value:0, source:"Speed Rune", apply:true}), true)
+        if (speedRune && this.characterService.get_AppliedConditions(this.get_Creature(), "Quickened", "Speed Rune").length == 0) {
+            this.characterService.add_Condition(this.get_Creature(), Object.assign(new ConditionGain, {name:"Quickened", value:0, source:"Speed Rune", apply:true}), true)
+        } else if (!speedRune && this.characterService.get_AppliedConditions(this.get_Creature(), "Quickened", "Speed Rune").length > 0) {
+            this.characterService.remove_Condition(this.get_Creature(), Object.assign(new ConditionGain, {name:"Quickened", value:0, source:"Speed Rune", apply:true}), true)
         }
-        if (enfeebledRune && this.characterService.get_AppliedConditions("Enfeebled", "Alignment Rune").length == 0) {
-            this.characterService.add_Condition(Object.assign(new ConditionGain, {name:"Enfeebled", value:2, source:"Alignment Rune", apply:true}), true)
-        } else if (!enfeebledRune && this.characterService.get_AppliedConditions("Enfeebled", "Alignment Rune").length > 0) {
-            this.characterService.remove_Condition(Object.assign(new ConditionGain, {name:"Enfeebled", value:2, source:"Alignment Rune", apply:true}), true)
+        if (enfeebledRune && this.characterService.get_AppliedConditions(this.get_Creature(), "Enfeebled", "Alignment Rune").length == 0) {
+            this.characterService.add_Condition(this.get_Creature(), Object.assign(new ConditionGain, {name:"Enfeebled", value:2, source:"Alignment Rune", apply:true}), true)
+        } else if (!enfeebledRune && this.characterService.get_AppliedConditions(this.get_Creature(), "Enfeebled", "Alignment Rune").length > 0) {
+            this.characterService.remove_Condition(this.get_Creature(), Object.assign(new ConditionGain, {name:"Enfeebled", value:2, source:"Alignment Rune", apply:true}), true)
         }
-        return this.characterService.get_InventoryItems();
+        return this.get_Creature().inventory;
     }
     
     sort_ItemSet(itemSet) {
@@ -125,12 +132,12 @@ export class InventoryComponent implements OnInit {
                 }
             }
         }
-        this.characterService.drop_InventoryItem(item, true, true, true, item.amount);
+        this.characterService.drop_InventoryItem(this.get_Creature(), item, true, true, true, item.amount);
     }
 
     drop_Package(item) {
         this.showItem = 0;
-        this.characterService.drop_InventoryItem(item, true, true, false, item.amount);
+        this.characterService.drop_InventoryItem(this.get_Creature(), item, true, true, false, item.amount);
     }
 
     add_NewOtherItem() {
@@ -162,13 +169,13 @@ export class InventoryComponent implements OnInit {
     }
 
     get_Bulk() {
-        let bulk = this.characterService.get_Character().bulk;
-        bulk.calculate(this.characterService, this.effectsService);
-        if (bulk.$current > bulk.$encumbered.value && this.characterService.get_AppliedConditions("Encumbered", "Bulk").length == 0) {
-            this.characterService.add_Condition(Object.assign(new ConditionGain, {name:"Encumbered", value:0, source:"Bulk", apply:true}), true)
+        let bulk = this.get_Creature().bulk;
+        bulk.calculate(this.get_Creature(), this.characterService, this.effectsService);
+        if (bulk.$current > bulk.$encumbered.value && this.characterService.get_AppliedConditions(this.get_Creature(), "Encumbered", "Bulk").length == 0) {
+            this.characterService.add_Condition(this.get_Creature(), Object.assign(new ConditionGain, {name:"Encumbered", value:0, source:"Bulk", apply:true}), true)
         }
-        if (bulk.$current <= bulk.$encumbered.value && this.characterService.get_AppliedConditions("Encumbered", "Bulk").length > 0) {
-            this.characterService.remove_Condition(Object.assign(new ConditionGain, {name:"Encumbered", value:0, source:"Bulk", apply:true}), true)
+        if (bulk.$current <= bulk.$encumbered.value && this.characterService.get_AppliedConditions(this.get_Creature(), "Encumbered", "Bulk").length > 0) {
+            this.characterService.remove_Condition(this.get_Creature(), Object.assign(new ConditionGain, {name:"Encumbered", value:0, source:"Bulk", apply:true}), true)
         }
         return [bulk];
     }
@@ -179,7 +186,7 @@ export class InventoryComponent implements OnInit {
         let penalty: boolean = false;
         let bonus: boolean = false;
         let explain: string = "Base limit: 10"
-        this.effectsService.get_EffectsOnThis("Max Invested").forEach(effect => {
+        this.effectsService.get_EffectsOnThis(this.get_Creature(), "Max Invested").forEach(effect => {
             maxInvest += parseInt(effect.value);
             if (parseInt(effect.value) < 0) {
                 penalty = true;
@@ -193,15 +200,15 @@ export class InventoryComponent implements OnInit {
     }
 
     get_InvestedItems() {
-        return this.characterService.get_InvestedItems().filter(item => item.traits.indexOf("Invested") > -1);
+        return this.characterService.get_InvestedItems(this.get_Creature()).filter(item => item.traits.indexOf("Invested") > -1);
     }
 
     onEquip(item: Equipment, equipped: boolean) {
-        this.characterService.onEquip(item, equipped);
+        this.characterService.onEquip(this.get_Creature(), item, equipped);
     }
 
     onInvest(item: Equipment, invested: boolean) {
-        this.characterService.onInvest(item, invested);
+        this.characterService.onInvest(this.get_Creature(), item, invested);
     }
 
     onNameChange() {
@@ -220,7 +227,7 @@ export class InventoryComponent implements OnInit {
     }
 
     on_ConsumableUse(item: Consumable) {
-        this.characterService.on_ConsumableUse(item);
+        this.characterService.on_ConsumableUse(this.get_Creature(), item);
     }
 
     get_Price(item: Item) {

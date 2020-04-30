@@ -6,6 +6,8 @@ import { ConditionGain } from './ConditionGain';
 import { CharacterService } from './character.service';
 import { EffectsService } from './effects.service';
 import { SortByPipe } from './sortBy.pipe';
+import { Character } from './Character';
+import { AnimalCompanion } from './AnimalCompanion';
 
 @Injectable({
     providedIn: 'root'
@@ -33,7 +35,7 @@ export class ConditionsService {
         }
     }
 
-    get_AppliedConditions(characterService: CharacterService, activeConditions: ConditionGain[]) {
+    get_AppliedConditions(creature: Character|AnimalCompanion, characterService: CharacterService, activeConditions: ConditionGain[]) {
         if (JSON.stringify(activeConditions) == JSON.stringify(this.appliedConditions)) {
             return this.sortByPipe.transform(activeConditions, "asc", "duration") as ConditionGain[];
         } else {
@@ -81,7 +83,7 @@ export class ConditionsService {
             for (let index = activeConditions.length; index > 0; index--) {
                 let gain = activeConditions[index - 1];
                 if (gain.value == -1) {
-                    characterService.remove_Condition(gain, false);
+                    characterService.remove_Condition(creature, gain, false);
                 }
             }
             this.appliedConditions = [];
@@ -90,54 +92,52 @@ export class ConditionsService {
         }
     }
 
-    process_Condition(characterService: CharacterService, effectsService: EffectsService, gain: ConditionGain, condition: Condition, taken: boolean, increaseWounded: boolean = true) {
+    process_Condition(creature: Character|AnimalCompanion, characterService: CharacterService, effectsService: EffectsService, gain: ConditionGain, condition: Condition, taken: boolean, increaseWounded: boolean = true) {
 
-        let character = characterService.get_Character();
         //Use gain once so it isn't marked as unused. It will be used by the eval strings.
         gain = gain
         //One time effects
         if (condition.onceEffects) {
             if (taken) {
                 condition.onceEffects.forEach(effect => {
-                    characterService.process_OnceEffect(effect);
+                    characterService.process_OnceEffect(creature, effect);
                 })
             }
         }
 
         if (gain.name == "Dying") {
             if (taken) {
-                if (characterService.get_Health().dying(characterService) >= characterService.get_Health().maxDying(effectsService)) {
-                    if (characterService.get_AppliedConditions("Dead").length == 0) {
-                        characterService.add_Condition(Object.assign(new ConditionGain, { name: "Dead", source: "Failed Dying Save" }), false)
+                if (creature.health.dying(creature, characterService) >= creature.health.maxDying(creature, effectsService)) {
+                    if (characterService.get_AppliedConditions(creature, "Dead").length == 0) {
+                        characterService.add_Condition(creature, Object.assign(new ConditionGain, { name: "Dead", source: "Failed Dying Save" }), false)
                     }
                 }
             } else {
-                if (characterService.get_Health().dying(characterService) == 0) {
+                if (creature.health.dying(creature, characterService) == 0) {
                     if (increaseWounded) {
-                        if (characterService.get_Health().wounded(characterService) > 0) {
-                            characterService.get_AppliedConditions("Wounded").forEach(gain => {
+                        if (creature.health.wounded(creature, characterService) > 0) {
+                            characterService.get_AppliedConditions(creature, "Wounded").forEach(gain => {
                                 gain.value += 1
                                 gain.source = "Recovered from Dying";
                             });
                         } else {
-                            characterService.add_Condition(Object.assign(new ConditionGain, { name: "Wounded", value: 1, source: "Recovered from Dying" }), false)
+                            characterService.add_Condition(creature, Object.assign(new ConditionGain, { name: "Wounded", value: 1, source: "Recovered from Dying" }), false)
                         }
                     }
-                    if (characterService.get_Health().currentHP(characterService, effectsService) == 0) {
-                        if (characterService.get_AppliedConditions("Unconscious", "0 Hit Points").length == 0) {
-                            characterService.add_Condition(Object.assign(new ConditionGain, { name: "Unconscious", source: "0 Hit Points" }), false)
+                    if (creature.health.currentHP(creature, characterService, effectsService) == 0) {
+                        if (characterService.get_AppliedConditions(creature, "Unconscious", "0 Hit Points").length == 0) {
+                            characterService.add_Condition(creature, Object.assign(new ConditionGain, { name: "Unconscious", source: "0 Hit Points" }), false)
                         }
                     }
                 }
             }
         }
-
     }
 
-    tick_Conditions(characterService: CharacterService, turns: number = 10, yourTurn: number) {
-        let activeConditions = characterService.get_Character().conditions;
+    tick_Conditions(creature: Character|AnimalCompanion, turns: number = 10, yourTurn: number) {
+        let activeConditions = creature.conditions;
         while (turns > 0) {
-            let activeConditions = characterService.get_Character().conditions;
+            let activeConditions = creature.conditions;
             activeConditions = this.sortByPipe.transform(activeConditions, "asc", "duration");
             if (activeConditions.filter(gain => gain.duration > 0).length || activeConditions.filter(gain => gain.decreasingValue).length) {
                 //Get the first condition that will run out
@@ -169,7 +169,7 @@ export class ConditionsService {
                 turns = 0;
             }
         }
-        characterService.get_Character().conditions = activeConditions;
+        creature.conditions = activeConditions;
     }
 
     still_loading() {

@@ -1,7 +1,10 @@
-import { Component, OnInit, ChangeDetectorRef, ChangeDetectionStrategy } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef, ChangeDetectionStrategy, Input } from '@angular/core';
 import { AbilitiesService} from '../abilities.service';
 import { CharacterService } from '../character.service';
 import { EffectsService } from '../effects.service';
+import { Creature } from '../Creature';
+import { AnimalCompanion } from '../AnimalCompanion';
+import { Character } from '../Character';
 
 @Component({
     selector: 'app-abilities',
@@ -11,6 +14,9 @@ import { EffectsService } from '../effects.service';
 })
 export class AbilitiesComponent implements OnInit {
     
+    @Input()
+    public creature: string = "Character";
+
     constructor(
         private changeDetector: ChangeDetectorRef,
         public abilitiesService: AbilitiesService,
@@ -26,6 +32,14 @@ export class AbilitiesComponent implements OnInit {
         setTimeout(() => {
             document.getElementById("abilities").style.gridRow = "span "+this.characterService.get_Span("abilities-height");
         })
+    }
+
+    get_Character() {
+        return this.characterService.get_Character();
+    }
+
+    get_Creature() {
+        return this.characterService.get_Creature(this.creature);
     }
 
     get_Abilities() {

@@ -12,6 +12,8 @@ import { Weapon } from './Weapon';
 import { ItemActivity } from './ItemActivity';
 import { ConditionGain } from './ConditionGain';
 import { ItemGain } from './ItemGain';
+import { Character } from './Character';
+import { AnimalCompanion } from './AnimalCompanion';
 
 @Injectable({
     providedIn: 'root'
@@ -42,7 +44,7 @@ export class ActivitiesService {
         return this.http.get<String[]>('/assets/activities.json');
     }
 
-    activate_Activity(characterService: CharacterService, timeService: TimeService, itemsService: ItemsService, gain: ActivityGain|ItemActivity, activity: Activity|ItemActivity, activated: boolean) {
+    activate_Activity(creature: Character|AnimalCompanion, characterService: CharacterService, timeService: TimeService, itemsService: ItemsService, gain: ActivityGain|ItemActivity, activity: Activity|ItemActivity, activated: boolean) {
         if (activated && activity.toggle) {
             gain.active = true;
         } else {
@@ -51,7 +53,7 @@ export class ActivitiesService {
 
         //Find item, if it exists
         let item: Equipment = null;
-        characterService.get_InventoryItems().allEquipment().filter((equipment: Equipment) => equipment.id == gain.source).forEach((equipment: Equipment) => {
+        creature.inventory.allEquipment().filter((equipment: Equipment) => equipment.id == gain.source).forEach((equipment: Equipment) => {
             if (equipment.activities.filter((itemActivity: ItemActivity) => itemActivity === activity).length) {
                 item = equipment;
             }
@@ -70,7 +72,7 @@ export class ActivitiesService {
         //One time effects
         if (activity.onceEffects) {
             activity.onceEffects.forEach(effect => {
-                characterService.process_OnceEffect(effect);
+                characterService.process_OnceEffect(creature, effect);
             })
         }
 
@@ -80,13 +82,13 @@ export class ActivitiesService {
                 activity.gainItems.forEach(gainItem => {
                     let newItem: Item = itemsService.get_Items()[gainItem.type].filter(libraryItem => libraryItem.name == gainItem.name)[0];
                     if (newItem.can_Stack()) {
-                        characterService.grant_InventoryItem(newItem, true, false, false, gainItem.amount);
+                        characterService.grant_InventoryItem(creature, newItem, true, false, false, gainItem.amount);
                     } else {
                         let resetRunes = true;
                         if (newItem.hide) {
                             resetRunes = false;
                         }
-                        let grantedItem = characterService.grant_InventoryItem(newItem, resetRunes, false, true);
+                        let grantedItem = characterService.grant_InventoryItem(creature, newItem, resetRunes, false, true);
                         gainItem.id = grantedItem.id;
                         if (grantedItem.get_Name) {
                             grantedItem.displayName = grantedItem.name + " (granted by " + activity.name + ")"
@@ -96,14 +98,14 @@ export class ActivitiesService {
             } else {
                 activity.gainItems.forEach(gainItem => {
                     if (itemsService.get_Items()[gainItem.type].filter((item: Item) => item.name == gainItem.name)[0].can_Stack()) {
-                        let items: Item[] = characterService.get_InventoryItems()[gainItem.type].filter((libraryItem: Item) => libraryItem.name == gainItem.name);
+                        let items: Item[] = creature.inventory[gainItem.type].filter((libraryItem: Item) => libraryItem.name == gainItem.name);
                         if (items.length) {
-                            characterService.drop_InventoryItem(items[0], false, false, true, gainItem.amount);
+                            characterService.drop_InventoryItem(creature, items[0], false, false, true, gainItem.amount);
                         }
                     } else {
-                        let items: Item[] = characterService.get_InventoryItems()[gainItem.type].filter((libraryItem: Item) => libraryItem.id == gainItem.id);
+                        let items: Item[] = creature.inventory[gainItem.type].filter((libraryItem: Item) => libraryItem.id == gainItem.id);
                         if (items.length) {
-                            characterService.drop_InventoryItem(items[0], false, false, true);
+                            characterService.drop_InventoryItem(creature, items[0], false, false, true);
                         }
                         gainItem.id = "";
                     }
@@ -117,13 +119,13 @@ export class ActivitiesService {
             if (activated) {
                 activity.gainConditions.forEach(gain => {
                     let newConditionGain = Object.assign(new ConditionGain(), gain);
-                    characterService.add_Condition(newConditionGain, false);
+                    characterService.add_Condition(creature, newConditionGain, false);
                 });
             } else {
                 activity.gainConditions.forEach(gain => {
-                    let conditionGains = characterService.get_AppliedConditions(gain.name).filter(conditionGain => conditionGain.source == gain.name);
+                    let conditionGains = characterService.get_AppliedConditions(creature, gain.name).filter(conditionGain => conditionGain.source == gain.name);
                     if (conditionGains.length) {
-                        characterService.remove_Condition(conditionGains[0], false);
+                        characterService.remove_Condition(creature, conditionGains[0], false);
                     }
                 })
             }
@@ -134,10 +136,10 @@ export class ActivitiesService {
         if (item && activated && activity.toggle) {
             if (item.activities.length + item.gainActivities.length > 1) {
                 item.gainActivities.filter((activityGain: ActivityGain) => activityGain !== gain && activityGain.active).forEach((activityGain: ActivityGain) => {
-                    this.activate_Activity(characterService, timeService, itemsService, activityGain, this.get_Activities(activityGain.name)[0], false)
+                    this.activate_Activity(creature, characterService, timeService, itemsService, activityGain, this.get_Activities(activityGain.name)[0], false)
                 })
                 item.activities.filter((itemActivity: ItemActivity) => itemActivity !== gain && itemActivity.active).forEach((itemActivity: ItemActivity) => {
-                    this.activate_Activity(characterService, timeService, itemsService, itemActivity, itemActivity, false)
+                    this.activate_Activity(creature, characterService, timeService, itemsService, itemActivity, itemActivity, false)
                 })
             }
         }
@@ -145,9 +147,9 @@ export class ActivitiesService {
         characterService.set_Changed();
     }
 
-    tick_Activities(characterService: CharacterService, turns: number = 10) {
+    tick_Activities(creature: Character|AnimalCompanion, characterService: CharacterService, turns: number = 10) {
 
-        characterService.get_OwnedActivities().filter(gain => gain.activeCooldown).forEach(gain => {
+        characterService.get_OwnedActivities(creature).filter(gain => gain.activeCooldown).forEach(gain => {
             gain.activeCooldown = Math.max(gain.activeCooldown - turns, 0)
         });
 

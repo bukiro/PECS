@@ -12,11 +12,9 @@ import { Item } from 'src/app/Item';
 import { ItemProperty } from 'src/app/ItemProperty';
 import { SpellCast } from 'src/app/SpellCast';
 import { EffectsService } from 'src/app/effects.service';
-import { typeWithParameters } from '@angular/compiler/src/render3/util';
 import { TraitsService } from 'src/app/traits.service';
 import { ActivitiesService } from 'src/app/activities.service';
 import { SpellsService } from 'src/app/spells.service';
-import { FeatsService } from 'src/app/feats.service';
 import { Activity } from 'src/app/Activity';
 import { Condition } from 'src/app/Condition';
 import { Feat } from 'src/app/Feat';
@@ -77,8 +75,12 @@ export class NewItemPropertyComponent implements OnInit {
         return this.itemsService.get_Items();
     }
 
+    get_Character() {
+        return this.characterService.get_Character();
+    }
+
     get_InventoryItems() {
-        return this.characterService.get_InventoryItems();
+        return this.get_Character().inventory;
     }
 
     validate() {
@@ -87,7 +89,7 @@ export class NewItemPropertyComponent implements OnInit {
             if (!value) {
                 this.get_Parent()[this.propertyKey] = "New Item"
             }
-            let existingItems = this.characterService.get_InventoryItems()[this.newItem.type].filter((existing: Item) => existing.name == value && existing.can_Stack());
+            let existingItems = this.get_Character()[this.newItem.type].filter((existing: Item) => existing.name == value && existing.can_Stack());
             if (existingItems.length) {
                 this.validationError = "If you use this name, this item will be added to the "+existingItems[0].name+" stack in your inventory. All changes you make here will be lost.";
             } else {
@@ -97,7 +99,7 @@ export class NewItemPropertyComponent implements OnInit {
         if (this.propertyKey == "value" && (this.propertyData.parent == "effects" || this.propertyData.parent == "onceEffects")) {
             let effectGain = new EffectGain;
             effectGain.value = value;
-            let effect = this.effectsService.get_SimpleEffects(this.characterService, { effects: [effectGain] })[0];
+            let effect = this.effectsService.get_SimpleEffects(this.get_Character(), this.characterService, { effects: [effectGain] })[0];
             if (effect && effect.value && effect.value != "0" && (parseInt(effect.value) || parseFloat(effect.value))) {
                 if (parseFloat(effect.value) == parseInt(effect.value)) {
                     this.validationError = "";
@@ -234,11 +236,11 @@ export class NewItemPropertyComponent implements OnInit {
             case "prof":
                 switch (this.get_Parent()["type"]) {
                     case "weapons":
-                        examples = this.characterService.get_Skills("", "Weapon Proficiency").map(item => item.name)
+                        examples = this.characterService.get_Skills(this.get_Character(), "", "Weapon Proficiency").map(item => item.name)
                         examples.push("Advanced Weapons");
                         break;
                     case "armors":
-                        examples = this.characterService.get_Skills("", "Armor Proficiency").map(item => item.name);
+                        examples = this.characterService.get_Skills(this.get_Character(), "", "Armor Proficiency").map(item => item.name);
                         break;
                 }
                 break;
@@ -316,7 +318,7 @@ export class NewItemPropertyComponent implements OnInit {
                 });
                 break;
             case "effects value":
-                examples.push(...this.characterService.get_Skills().map((skill: Skill) =>  skill.name ));
+                examples.push(...this.characterService.get_Skills(this.get_Character()).map((skill: Skill) =>  skill.name ));
                 examples.push(...this.characterService.get_Abilities().map((ability: Ability) => {return ability.name}));
                 this.characterService.get_FeatsAndFeatures().filter(feat => feat.onceEffects.length).forEach(feat => {
                     examples.push(...feat.onceEffects.map(effect => effect.value ))
@@ -369,7 +371,7 @@ export class NewItemPropertyComponent implements OnInit {
                 }));
                 break;
             case "showon":
-                examples.push(...this.characterService.get_Skills().map((skill: Skill) => skill.name));
+                examples.push(...this.characterService.get_Skills(this.get_Character()).map((skill: Skill) => skill.name));
                 examples.push(...this.characterService.get_Abilities().map((ability: Ability) => ability.name));
                 examples.push(...this.characterService.get_FeatsAndFeatures().filter(feat => feat.showon.length).map((feat: Feat) => feat.showon ));
                 examples.push(...this.characterService.get_Conditions().filter(condition => condition.showon.length).map((condition: Condition) => condition.showon ));

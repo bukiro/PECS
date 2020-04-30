@@ -1,5 +1,6 @@
 export class Effect {
     constructor(
+        public creature: string = "",
         public type: string = "",
         public target: string = "",
         public value: string = "",

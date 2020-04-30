@@ -39,6 +39,10 @@ export class TopBarComponent implements OnInit {
         return this.characterService.get_Character().settings.characterMinimized;
     }
 
+    get_CompanionMinimized() {
+        return this.characterService.get_Character().settings.companionMinimized;
+    }
+
     get_SpellsMinimized() {
         return this.characterService.get_Character().settings.spellsMinimized;
     }
@@ -55,16 +59,26 @@ export class TopBarComponent implements OnInit {
       return this.characterService.get_CharacterMenuState();
     }
 
+    get_CompanionMenuState() {
+        return this.characterService.get_CompanionMenuState();
+      }
+
     get_SpellMenuState() {
     return this.characterService.get_SpellMenuState();
     }
 
     get_ConditionsMenuState() {
         return this.characterService.get_ConditionsMenuState();
-        }
+    }
 
     get_Character() {
         return this.characterService.get_Character();
+    }
+
+    get_Companion() {
+        if (this.characterService.get_Character().class.animalCompanion) {
+            return this.characterService.get_Character().class.animalCompanion.companion;
+        }
     }
 
     get_Accent() {

@@ -1,18 +1,23 @@
 import { EffectsService } from './effects.service';
 import { CharacterService } from './character.service';
+import { Creature } from './Creature';
+import { Character } from './Character';
+import { AnimalCompanion } from './AnimalCompanion';
 
 export class Ability {
     constructor (
         public name: string = "",
     ) {}
-    baseValue(characterService, charLevel: number = characterService.get_Character().level) {
+    baseValue(creature: Character|AnimalCompanion, characterService, charLevel: number = characterService.get_Character().level) {
         if (characterService.still_loading()) { return 10; }
-        let character = characterService.get_Character();
+        let character = creature;
         //Get baseValues from the character if they exist, otherwise 10
         let baseValue = 10;
-        let baseValues = character.baseValues.filter(baseValue => baseValue.name == this.name)
-        if (baseValues.length > 0) {
-            baseValue = baseValues[0].baseValue
+        if (creature["baseValues"]) {
+            let baseValues = character["baseValues"].filter(baseValue => baseValue.name == this.name)
+            if (baseValues.length > 0) {
+                baseValue = baseValues[0].baseValue
+            }
         }
         baseValue = (baseValue) ? baseValue : 10;
         //Get any boosts from the character and sum them up
@@ -30,11 +35,11 @@ export class Ability {
         }
         return baseValue;
     }
-    effects(effectsService: EffectsService, name: string) {
-        return effectsService.get_EffectsOnThis(name);
+    effects(creature: Character|AnimalCompanion, effectsService: EffectsService, name: string) {
+        return effectsService.get_EffectsOnThis(creature, name);
     }
-    bonus(effectsService: EffectsService, name: string) {
-        let effects = this.effects(effectsService, name);
+    bonus(creature: Character|AnimalCompanion, effectsService: EffectsService, name: string) {
+        let effects = this.effects(creature, effectsService, name);
         let bonus = 0;
         effects.forEach(effect => {
             if (parseInt(effect.value) >= 0) {
@@ -42,8 +47,8 @@ export class Ability {
         }});
         return bonus;
     }
-    penalty(effectsService: EffectsService, name: string) {
-        let effects = this.effects(effectsService, name);
+    penalty(creature: Character|AnimalCompanion, effectsService: EffectsService, name: string) {
+        let effects = this.effects(creature, effectsService, name);
         let penalty = 0;
         effects.forEach(effect => {
             if (parseInt(effect.value) < 0) {
@@ -51,18 +56,18 @@ export class Ability {
         }});
         return penalty;
     }
-    value(characterService: CharacterService, effectsService: EffectsService) {
+    value(creature: Character|AnimalCompanion, characterService: CharacterService, effectsService: EffectsService) {
     //Calculates the ability with all active effects
         if (characterService.still_loading()) {return 10;}
         //Add all active bonuses and penalties to the base value
-        let result = this.baseValue(characterService) + this.bonus(effectsService, this.name) + this.penalty(effectsService, this.name);
+        let result = this.baseValue(creature, characterService) + this.bonus(creature, effectsService, this.name) + this.penalty(creature, effectsService, this.name);
         return result;
     }
-    mod(characterService: CharacterService, effectsService: EffectsService) {
-        //Calculates the ability modifier from the effective ability in the usual d20 fashion - 0-1 > -5; 2-3 > -4; ... 10-11 > 0; 12-13 > 1 etc.
-        let modifier = Math.floor((this.value(characterService, effectsService)-10)/2);
+    mod(creature: Character|AnimalCompanion, characterService: CharacterService, effectsService: EffectsService) {
+        //Calculates the ability modifier from the effective ability in the usual d20 fashion - 0-1 => -5; 2-3 => -4; ... 10-11 => 0; 12-13 => 1 etc.
+        let modifier = Math.floor((this.value(creature, characterService, effectsService)-10)/2);
         //Add active bonuses and penalties to the ability modifier
-        let result = modifier + this.bonus(effectsService, this.name+" Modifier") + this.penalty(effectsService, this.name+" Modifier");
+        let result = modifier + this.bonus(creature, effectsService, this.name+" Modifier") + this.penalty(creature, effectsService, this.name+" Modifier");
         return result;
     }
 }

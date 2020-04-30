@@ -12,6 +12,9 @@ import { FormulaChoice } from './FormulaChoice';
 import { TraditionChoice } from './TraditionChoice';
 import { SkillChoice } from './SkillChoice';
 import { ConditionGain } from './ConditionGain';
+import { AnimalCompanion } from './AnimalCompanion';
+import { AnimalCompanionGain } from './AnimalCompanionGain';
+import { AnimalCompanionClass } from './AnimalCompanionClass';
 
 @Injectable({
     providedIn: 'root'
@@ -177,13 +180,13 @@ export class FeatsService {
                 if (taken) {
                     feat.gainConditions.forEach(gain => {
                         let newConditionGain = Object.assign(new ConditionGain(), gain);
-                        characterService.add_Condition(newConditionGain, false);
+                        characterService.add_Condition(character, newConditionGain, false);
                     });
                 } else {
                     feat.gainConditions.forEach(gain => {
-                        let conditionGains = characterService.get_AppliedConditions(gain.name).filter(conditionGain => conditionGain.source == gain.source);
+                        let conditionGains = characterService.get_AppliedConditions(character, gain.name).filter(conditionGain => conditionGain.source == gain.source);
                         if (conditionGains.length) {
-                            characterService.remove_Condition(conditionGains[0], false);
+                            characterService.remove_Condition(character, conditionGains[0], false);
                         }
                     })
                 }
@@ -193,7 +196,7 @@ export class FeatsService {
             if (feat.onceEffects) {
                 if (taken) {
                     feat.onceEffects.forEach(effect => {
-                        characterService.process_OnceEffect(effect);
+                        characterService.process_OnceEffect(character, effect);
                     })
                 }
             }
@@ -271,6 +274,21 @@ export class FeatsService {
                     character.take_Feat(characterService, "Masterful Hunter: "+feat.name, true, huntersEdgeChoice, true);
                 } else {
                     character.take_Feat(characterService, "Masterful Hunter: "+feat.name, false, huntersEdgeChoice, true);
+                }
+            }
+
+            //Animal Companion
+            if (feat.gainAnimalCompanion) {
+                if (taken) {
+                    if (!character.class.animalCompanion) {
+                        character.class.animalCompanion = new AnimalCompanionGain();
+                        character.class.animalCompanion.companion = new AnimalCompanion();
+                        character.class.animalCompanion.companion.class = new AnimalCompanionClass();
+                        character.class.animalCompanion.companion.class.reassign(characterService);
+                        character.class.animalCompanion.level = level.number;
+                    }
+                } else {
+                    character.class.animalCompanion = null;
                 }
             }
 

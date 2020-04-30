@@ -1,5 +1,5 @@
-<button class="minimizebutton lower" (click)="minimize()">&#8691;</button>
-<div id="health-height" class="attributeBox">
+<button class="minimizebutton lower" (click)="minimize()" *ngIf="creature=='Character'">&#8691;</button>
+<div id="{{creature == 'Character' ? '' : 'other-'}}health-height" class="attributeBox">
     <ng-container *ngFor="let health of [calculate_Health()]">
         <h3 class="box-header">Health:
             <span
@@ -8,7 +8,7 @@
         </h3>
         <div class="loading" *ngIf="still_loading()">Loading</div>
         <ng-container *ngIf="!still_loading()">
-            <app-tags [objectName]="'Health'" [showTraits]=true [showFeats]=true [showItems]=true [showActivities]=true
+            <app-tags [creature]="creature" [objectName]="'Health'" [showTraits]=true [showFeats]=true [showItems]=true [showActivities]=true
                 [showConditions]=true [showEffects]=true></app-tags>
             <div class="fullsize-only list-item">
                 <div class="row">
@@ -26,7 +26,7 @@
                     </span>
                 </div>
                 <div class="row">
-                    <app-tags [objectName]="'Max HP'" [showTraits]=true [showFeats]=true [showItems]=true
+                    <app-tags [creature]="creature" [objectName]="'Max HP'" [showTraits]=true [showFeats]=true [showItems]=true
                         [showActivities]=true [showConditions]=true [showEffects]=true></app-tags>
                 </div>
             </div>
@@ -63,7 +63,7 @@
                         </button>
                     
                 </div>
-                <app-tags [objectName]="'Max Dying'" [showTraits]=true [showFeats]=true [showItems]=true
+                <app-tags [creature]="creature" [objectName]="'Max Dying'" [showTraits]=true [showFeats]=true [showItems]=true
                     [showActivities]=true [showConditions]=true [showEffects]=true></app-tags>
             </div>
             <div class="list-item" [className]="(health.$wounded > 0) ? '' : 'fullsize-only'">
@@ -85,7 +85,7 @@
                 </span>
                 <span>
                     <button [disabled]="this.damage <= 0"
-                        (click)="health.takeDamage(this.characterService, this.effectsService, this.damage, this.nonlethal)">Ouch!</button>
+                        (click)="health.takeDamage(get_Creature(), characterService, effectsService, damage, nonlethal)">Ouch!</button>
                 </span>
             </div>
             <div class="list-item row">
@@ -98,7 +98,7 @@
                 </span>
                 <span>
                     <button [disabled]="this.healing <= 0"
-                        (click)="health.heal(this.characterService, this.effectsService, this.healing)">Heal</button>
+                        (click)="health.heal(get_Creature(), characterService, effectsService, healing)">Heal</button>
                 </span>
             </div>
             <div class="list-item row" *ngIf="get_NumbToDeath()"
@@ -108,7 +108,7 @@
                 </span>
                 <span>
                     <button [disabled]="health.$dying <= 0"
-                        (click)="health.heal(this.characterService, this.effectsService, this.characterService.get_Character().level, true, false)">Heal
+                        (click)="health.heal(get_Creature(), characterService, effectsService, characterService.get_Character().level, true, false)">Heal
                         and recover</button>
                 </span>
             </div>
@@ -133,7 +133,7 @@
                             [className]="(resistance.value < 0) ? 'penalty' : 'bonus'">{{resistance.target}}:
                             {{Math.abs(resistance.value)}}{{(resistance.exception) ? " /"+resistance.exception : ""}}</span>
                     </div>
-                    <app-tags [objectName]="'Resistances'" [showTraits]=true [showFeats]=true [showItems]=true
+                    <app-tags [creature]="creature" [objectName]="'Resistances'" [showTraits]=true [showFeats]=true [showItems]=true
                         [showActivities]=true [showConditions]=true [showEffects]=true></app-tags>
                 </div>
             </ng-container>

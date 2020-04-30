@@ -1,6 +1,6 @@
 <div class="fullsize-only row left-aligned">
     <cite class="trait" *ngFor="let trait of get_TraitsForThis(objectName)" [title]="trait.description">{{trait.name}}
-        ({{trait.haveOn(this.characterService, true)}})</cite>
+        ({{trait.haveOn(get_Creature(), this.characterService, true)}})</cite>
     <cite class="feat" *ngFor="let feat of get_FeatsShowingOn(objectName, showFeats)"
         [title]="(feat.hint) ? feat.hint : feat.desc">{{feat.name}}</cite>
     <ng-container *ngFor="let featName of specialNames">

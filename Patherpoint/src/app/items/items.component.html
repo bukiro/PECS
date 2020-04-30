@@ -66,11 +66,11 @@
                             <div class="list-item sublist lower"
                                 *ngIf="get_ShowItem()==inventoryID">
                                 <button class="row center-aligned"
-                                    (click)="grant_Item(item)">
+                                    (click)="grant_Item('Character', item)">
                                     Gift
                                 </button>
                                 <button class="row center-aligned"
-                                    (click)="grant_Item(item, true)"
+                                    (click)="grant_Item('Character', item, true)"
                                     [disabled]="!have_Funds(get_Price(item)) || !get_Price(item)">
                                     Buy
                                 </button>

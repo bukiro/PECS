@@ -1,9 +1,9 @@
-<button class="minimizebutton lower" (click)="minimize()">&#8691;</button>
-<div id="attacks-height" class="attributeBox">
+<button class="minimizebutton lower" (click)="minimize()" *ngIf="creature=='Character'">&#8691;</button>
+<div id="{{creature == 'Character' ? '' : 'other-'}}attacks-height" class="attributeBox">
 <h3 class="box-header">Attacks</h3>
 <div class="loading" *ngIf="still_loading()">Loading</div>
 <ng-container *ngIf="!still_loading()">
-    <app-tags [objectName]="'Attacks'" [showTraits]=true [showFeats]=true [showItems]=true [showActivities]=true
+    <app-tags [creature]="creature" [objectName]="'Attacks'" [showTraits]=true [showFeats]=true [showItems]=true [showActivities]=true
         [showConditions]=true [showEffects]=true></app-tags>
     <ng-container *ngFor="let weapon of get_EquippedWeapons()">
         <div class="list-item" [className]="!get_IsAllowed(weapon) ? 'problem fullsize-only' : ''" *ngFor="let attack of get_Attacks(weapon)">
@@ -34,7 +34,7 @@
                 <cite class="rune" *ngFor="let rune of runes"
                     title="{{rune.hint}}">{{rune.name}}</cite>
             </div>
-            <app-tags [objectName]=weapon.name [showTraits]=true [showFeats]=true [showItems]=true [showActivities]=true
+            <app-tags [creature]="creature" [objectName]=weapon.name [showTraits]=true [showFeats]=true [showItems]=true [showActivities]=true
                     [showConditions]=true [specialNames]=get_specialShowon(weapon) [specialEffects]=attack[3]></app-tags>
             <div class="fullsize-only lower row left-aligned" *ngFor="let spec of weapon.get_CritSpecialization(characterService)">
                 <strong>Critical specialization effect&nbsp;</strong>{{spec.desc}}
@@ -66,10 +66,10 @@
     </ng-container>
     <h3 class="fullsize-only box-header" *ngIf="!still_loading()">Weapon Proficiencies</h3>
     <ng-container *ngFor="let skill of get_Skills('', 'Weapon Proficiency')">
-        <app-skill class="fullsize-only" [skill]=skill [showValue]=false></app-skill>
+        <app-skill class="fullsize-only" [creature]="creature" [skill]=skill [showValue]=false></app-skill>
     </ng-container>
     <ng-container *ngFor="let skill of get_Skills('', 'Specific Weapon Proficiency')">
-        <app-skill class="fullsize-only" [skill]=skill [showValue]=false></app-skill>
+        <app-skill class="fullsize-only" [creature]="creature" [skill]=skill [showValue]=false></app-skill>
     </ng-container>
 </ng-container>
 </div>

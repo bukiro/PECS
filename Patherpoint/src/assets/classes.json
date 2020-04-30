@@ -91,6 +91,15 @@
                         "source":"Class",
                         "id":"2-Feat-Class-1"
                     }
+                ],
+                "skillChoices":[
+                    {
+                        "available":0,
+                        "type":"Skill",
+                        "maxRank":2,
+                        "source":"Intelligence",
+                        "id":"2-Skill-Intelligence-0"
+                    }
                 ]
             },
             {
@@ -118,7 +127,14 @@
                         "type":"Skill",
                         "maxRank":4,
                         "source":"Class",
-                        "id":"3-Skill-Class-1"
+                        "id":"3-Skill-Class-0"
+                    },
+                    {
+                        "available":0,
+                        "type":"Skill",
+                        "maxRank":2,
+                        "source":"Intelligence",
+                        "id":"3-Skill-Intelligence-0"
                     }
                 ]
             },
@@ -136,6 +152,15 @@
                         "type":"Skill",
                         "source":"Class",
                         "id":"4-Feat-Class-1"
+                    }
+                ],
+                "skillChoices":[
+                    {
+                        "available":0,
+                        "type":"Skill",
+                        "maxRank":2,
+                        "source":"Intelligence",
+                        "id":"4-Skill-Intelligence-0"
                     }
                 ]
             },
@@ -182,6 +207,13 @@
                         "maxRank":4,
                         "source":"Class",
                         "id":"5-Skill-Class-0"
+                    },
+                    {
+                        "available":0,
+                        "type":"Skill",
+                        "maxRank":2,
+                        "source":"Intelligence",
+                        "id":"5-Skill-Intelligence-0"
                     }
                 ],
                 "abilityChoices":[
@@ -206,6 +238,15 @@
                         "type":"Skill",
                         "source":"Class",
                         "id":"6-Feat-Class-1"
+                    }
+                ],
+                "skillChoices":[
+                    {
+                        "available":0,
+                        "type":"Skill",
+                        "maxRank":2,
+                        "source":"Intelligence",
+                        "id":"6-Skill-Intelligence-0"
                     }
                 ]
             },
@@ -242,6 +283,13 @@
                         "maxRank":6,
                         "source":"Class",
                         "id":"7-Skill-Class-0"
+                    },
+                    {
+                        "available":0,
+                        "type":"Skill",
+                        "maxRank":2,
+                        "source":"Intelligence",
+                        "id":"7-Skill-Intelligence-0"
                     }
                 ]
             },
@@ -259,6 +307,15 @@
                         "type":"Skill",
                         "source":"Class",
                         "id":"8-Feat-Class-1"
+                    }
+                ],
+                "skillChoices":[
+                    {
+                        "available":0,
+                        "type":"Skill",
+                        "maxRank":2,
+                        "source":"Intelligence",
+                        "id":"8-Skill-Intelligence-0"
                     }
                 ]
             },
@@ -304,6 +361,13 @@
                         "maxRank":6,
                         "source":"Class",
                         "id":"9-Skill-Class-0"
+                    },
+                    {
+                        "available":0,
+                        "type":"Skill",
+                        "maxRank":2,
+                        "source":"Intelligence",
+                        "id":"9-Skill-Intelligence-0"
                     }
                 ]
             },
@@ -320,7 +384,16 @@
                         "available":1,
                         "type":"Skill",
                         "source":"Class",
-                        "id":"10-Feat-Class-1"
+                        "id":"10-Feat-Class-"
+                    }
+                ],
+                "skillChoices":[
+                    {
+                        "available":0,
+                        "type":"Skill",
+                        "maxRank":2,
+                        "source":"Intelligence",
+                        "id":"10-Skill-Intelligence-0"
                     }
                 ],
                 "abilityChoices":[
@@ -362,6 +435,13 @@
                         "maxRank":6,
                         "source":"Class",
                         "id":"11-Skill-Class-0"
+                    },
+                    {
+                        "available":0,
+                        "type":"Skill",
+                        "maxRank":2,
+                        "source":"Intelligence",
+                        "id":"11-Skill-Intelligence-0"
                     }
                 ]
             },
@@ -379,6 +459,15 @@
                         "type":"Skill",
                         "source":"Class",
                         "id":"12-Feat-Class-1"
+                    }
+                ],
+                "skillChoices":[
+                    {
+                        "available":0,
+                        "type":"Skill",
+                        "maxRank":2,
+                        "source":"Intelligence",
+                        "id":"12-Skill-Intelligence-0"
                     }
                 ]
             },
@@ -427,6 +516,13 @@
                         "maxRank":6,
                         "source":"Class",
                         "id":"13-Skill-Class-0"
+                    },
+                    {
+                        "available":0,
+                        "type":"Skill",
+                        "maxRank":2,
+                        "source":"Intelligence",
+                        "id":"13-Skill-Intelligence-0"
                     }
                 ]
             },
@@ -443,7 +539,16 @@
                         "available":1,
                         "type":"Skill",
                         "source":"Class",
-                        "id":"14-Feat-Class-1"
+                        "id":"14-Feat-Class-"
+                    }
+                ],
+                "skillChoices":[
+                    {
+                        "available":0,
+                        "type":"Skill",
+                        "maxRank":2,
+                        "source":"Intelligence",
+                        "id":"14-Skill-Intelligence-0"
                     }
                 ]
             },
@@ -479,6 +584,13 @@
                         "type":"Skill",
                         "source":"Class",
                         "id":"15-Skill-Class-0"
+                    },
+                    {
+                        "available":0,
+                        "type":"Skill",
+                        "maxRank":2,
+                        "source":"Intelligence",
+                        "id":"15-Skill-Intelligence-0"
                     }
                 ],
                 "abilityChoices":[
@@ -503,6 +615,15 @@
                         "type":"Skill",
                         "source":"Class",
                         "id":"16-Feat-Class-1"
+                    }
+                ],
+                "skillChoices":[
+                    {
+                        "available":0,
+                        "type":"Skill",
+                        "maxRank":2,
+                        "source":"Intelligence",
+                        "id":"16-Skill-Intelligence-0"
                     }
                 ]
             },
@@ -555,6 +676,13 @@
                         "type":"Skill",
                         "source":"Class",
                         "id":"17-Skill-Class-0"
+                    },
+                    {
+                        "available":0,
+                        "type":"Skill",
+                        "maxRank":2,
+                        "source":"Intelligence",
+                        "id":"17-Skill-Intelligence-0"
                     }
                 ]
             },
@@ -572,6 +700,15 @@
                         "type":"Skill",
                         "source":"Class",
                         "id":"18-Feat-Class-1"
+                    }
+                ],
+                "skillChoices":[
+                    {
+                        "available":0,
+                        "type":"Skill",
+                        "maxRank":2,
+                        "source":"Intelligence",
+                        "id":"18-Skill-Intelligence-0"
                     }
                 ]
             },
@@ -599,6 +736,13 @@
                         "type":"Skill",
                         "source":"Class",
                         "id":"19-Skill-Class-0"
+                    },
+                    {
+                        "available":0,
+                        "type":"Skill",
+                        "maxRank":2,
+                        "source":"Intelligence",
+                        "id":"19-Skill-Intelligence-0"
                     }
                 ]
             },
@@ -616,6 +760,15 @@
                         "type":"Skill",
                         "source":"Class",
                         "id":"20-Feat-Class-1"
+                    }
+                ],
+                "skillChoices":[
+                    {
+                        "available":0,
+                        "type":"Skill",
+                        "maxRank":2,
+                        "source":"Intelligence",
+                        "id":"20-Skill-Intelligence-0"
                     }
                 ],
                 "abilityChoices":[
@@ -736,6 +889,15 @@
                         "source":"Class",
                         "id":"2-Feat-Class-1"
                     }
+                ],
+                "skillChoices":[
+                    {
+                        "available":0,
+                        "type":"Skill",
+                        "maxRank":2,
+                        "source":"Intelligence",
+                        "id":"2-Skill-Intelligence-0"
+                    }
                 ]
             },
             {
@@ -770,6 +932,13 @@
                         "maxRank":4,
                         "source":"Class",
                         "id":"3-Skill-Class-1"
+                    },
+                    {
+                        "available":0,
+                        "type":"Skill",
+                        "maxRank":2,
+                        "source":"Intelligence",
+                        "id":"3-Skill-Intelligence-0"
                     }
                 ]
             },
@@ -787,6 +956,15 @@
                         "type":"Skill",
                         "source":"Class",
                         "id":"4-Feat-Class-1"
+                    }
+                ],
+                "skillChoices":[
+                    {
+                        "available":0,
+                        "type":"Skill",
+                        "maxRank":2,
+                        "source":"Intelligence",
+                        "id":"4-Skill-Intelligence-0"
                     }
                 ]
             },
@@ -833,6 +1011,13 @@
                         "maxRank":4,
                         "source":"Class",
                         "id":"5-Skill-Class-0"
+                    },
+                    {
+                        "available":0,
+                        "type":"Skill",
+                        "maxRank":2,
+                        "source":"Intelligence",
+                        "id":"5-Skill-Intelligence-0"
                     }
                 ],
                 "abilityChoices":[
@@ -857,6 +1042,15 @@
                         "type":"Skill",
                         "source":"Class",
                         "id":"6-Feat-Class-1"
+                    }
+                ],
+                "skillChoices":[
+                    {
+                        "available":0,
+                        "type":"Skill",
+                        "maxRank":2,
+                        "source":"Intelligence",
+                        "id":"6-Skill-Intelligence-0"
                     }
                 ]
             },
@@ -905,6 +1099,13 @@
                         "maxRank":6,
                         "source":"Class",
                         "id":"7-Skill-Class-0"
+                    },
+                    {
+                        "available":0,
+                        "type":"Skill",
+                        "maxRank":2,
+                        "source":"Intelligence",
+                        "id":"7-Skill-Intelligence-0"
                     }
                 ]
             },
@@ -922,6 +1123,15 @@
                         "type":"Skill",
                         "source":"Class",
                         "id":"8-Feat-Class-1"
+                    }
+                ],
+                "skillChoices":[
+                    {
+                        "available":0,
+                        "type":"Skill",
+                        "maxRank":2,
+                        "source":"Intelligence",
+                        "id":"8-Skill-Intelligence-0"
                     }
                 ]
             },
@@ -960,6 +1170,13 @@
                         "maxRank":6,
                         "source":"Class",
                         "id":"9-Skill-Class-0"
+                    },
+                    {
+                        "available":0,
+                        "type":"Skill",
+                        "maxRank":2,
+                        "source":"Intelligence",
+                        "id":"9-Skill-Intelligence-0"
                     }
                 ]
             },
@@ -984,6 +1201,15 @@
                         "available":4,
                         "source":"Class",
                         "id":"10-Ability-Class-0"
+                    }
+                ],
+                "skillChoices":[
+                    {
+                        "available":0,
+                        "type":"Skill",
+                        "maxRank":2,
+                        "source":"Intelligence",
+                        "id":"10-Skill-Intelligence-0"
                     }
                 ]
             },
@@ -1034,6 +1260,13 @@
                         "maxRank":6,
                         "source":"Class",
                         "id":"11-Skill-Class-0"
+                    },
+                    {
+                        "available":0,
+                        "type":"Skill",
+                        "maxRank":2,
+                        "source":"Intelligence",
+                        "id":"11-Skill-Intelligence-0"
                     }
                 ]
             },
@@ -1051,6 +1284,15 @@
                         "type":"Skill",
                         "source":"Class",
                         "id":"12-Feat-Class-1"
+                    }
+                ],
+                "skillChoices":[
+                    {
+                        "available":0,
+                        "type":"Skill",
+                        "maxRank":2,
+                        "source":"Intelligence",
+                        "id":"12-Skill-Intelligence-0"
                     }
                 ]
             },
@@ -1089,6 +1331,13 @@
                         "maxRank":6,
                         "source":"Class",
                         "id":"13-Skill-Class-0"
+                    },
+                    {
+                        "available":0,
+                        "type":"Skill",
+                        "maxRank":2,
+                        "source":"Intelligence",
+                        "id":"13-Skill-Intelligence-0"
                     }
                 ]
             },
@@ -1106,6 +1355,15 @@
                         "type":"Skill",
                         "source":"Class",
                         "id":"14-Feat-Class-1"
+                    }
+                ],
+                "skillChoices":[
+                    {
+                        "available":0,
+                        "type":"Skill",
+                        "maxRank":2,
+                        "source":"Intelligence",
+                        "id":"14-Skill-Intelligence-0"
                     }
                 ]
             },
@@ -1151,6 +1409,13 @@
                         "type":"Skill",
                         "source":"Class",
                         "id":"15-Skill-Class-0"
+                    },
+                    {
+                        "available":0,
+                        "type":"Skill",
+                        "maxRank":2,
+                        "source":"Intelligence",
+                        "id":"15-Skill-Intelligence-0"
                     }
                 ],
                 "abilityChoices":[
@@ -1175,6 +1440,15 @@
                         "type":"Skill",
                         "source":"Class",
                         "id":"16-Feat-Class-1"
+                    }
+                ],
+                "skillChoices":[
+                    {
+                        "available":0,
+                        "type":"Skill",
+                        "maxRank":2,
+                        "source":"Intelligence",
+                        "id":"16-Skill-Intelligence-0"
                     }
                 ]
             },
@@ -1217,6 +1491,13 @@
                         "type":"Skill",
                         "source":"Class",
                         "id":"17-Skill-Class-0"
+                    },
+                    {
+                        "available":0,
+                        "type":"Skill",
+                        "maxRank":2,
+                        "source":"Intelligence",
+                        "id":"17-Skill-Intelligence-0"
                     }
                 ]
             },
@@ -1234,6 +1515,15 @@
                         "type":"Skill",
                         "source":"Class",
                         "id":"18-Feat-Class-1"
+                    }
+                ],
+                "skillChoices":[
+                    {
+                        "available":0,
+                        "type":"Skill",
+                        "maxRank":2,
+                        "source":"Intelligence",
+                        "id":"18-Skill-Intelligence-0"
                     }
                 ]
             },
@@ -1273,6 +1563,13 @@
                         "type":"Skill",
                         "source":"Class",
                         "id":"19-Skill-Class-0"
+                    },
+                    {
+                        "available":0,
+                        "type":"Skill",
+                        "maxRank":2,
+                        "source":"Intelligence",
+                        "id":"19-Skill-Intelligence-0"
                     }
                 ]
             },
@@ -1297,6 +1594,15 @@
                         "available":4,
                         "source":"Class",
                         "id":"20-Ability-Class-0"
+                    }
+                ],
+                "skillChoices":[
+                    {
+                        "available":0,
+                        "type":"Skill",
+                        "maxRank":2,
+                        "source":"Intelligence",
+                        "id":"20-Skill-Intelligence-0"
                     }
                 ]
             }

@@ -31,8 +31,8 @@
                     </span>
                     <div class="row">
                         <span>
-                            <button (click)="add_Condition(condition)">Add
-                                ({{get_Duration()}})</button>
+                            <button (click)="add_Condition(get_Character(), condition)">Add ({{get_Duration()}})</button>
+                            <button (click)="add_Condition(get_Companion(), condition)" *ngIf="get_Character().class.animalCompanion">Add (Animal Companion) ({{get_Duration()}})</button>
                         </span>
                         <span>
                             <button (click)="toggleItem(set+condition.name)">

@@ -12,7 +12,6 @@ import { ClassesService } from './classes.service';
 import { ItemCollection } from './ItemCollection';
 import { Armor } from './Armor';
 import { Weapon } from './Weapon';
-import { Shield } from './Shield';
 import { FeatsService } from './feats.service';
 import { TraitsService } from './traits.service';
 import { Ancestry } from './Ancestry';
@@ -29,29 +28,24 @@ import { ConditionsService } from './Conditions.service';
 import { ConditionGain } from './ConditionGain';
 import { ActivitiesService } from './activities.service';
 import { Activity } from './Activity';
-import { WornItem } from './WornItem';
 import { ActivityGain } from './ActivityGain';
 import { SpellsService } from './spells.service';
 import { EffectsService } from './effects.service';
 import { Effect } from './Effect';
-import { AlchemicalElixir } from './AlchemicalElixir';
 import { Consumable } from './Consumable';
-import { OtherConsumable } from './OtherConsumable';
-import { HeldItem } from './HeldItem';
 import { TimeService } from './time.service';
-import { AdventuringGear } from './AdventuringGear';
 import { DefenseService } from './defense.service';
 import { Equipment } from './Equipment';
 import { EffectGain } from './EffectGain';
 import { ItemGain } from './ItemGain';
 import { ItemActivity } from './ItemActivity';
-import { SpellCast } from './SpellCast';
-import { WeaponRune } from './WeaponRune';
-import { LoreChoice } from './LoreChoice';
 import { Rune } from './Rune';
-import { Potion } from './Potion';
 import { DeitiesService } from './deities.service';
 import { Deity } from './Deity';
+import { AnimalCompanionsService } from './animalcompanions.service';
+import { AnimalCompanionGain } from './AnimalCompanionGain';
+import { AnimalCompanion } from './AnimalCompanion';
+import { AnimalCompanionClass } from './AnimalCompanionClass';
 
 @Injectable({
     providedIn: 'root'
@@ -67,6 +61,7 @@ export class CharacterService {
 
     itemsMenuState: string = 'out';
     characterMenuState: string = 'out';
+    companionMenuState: string = 'out';
     spellMenuState: string = 'out';
     conditionsMenuState: string = 'out';
 
@@ -85,7 +80,8 @@ export class CharacterService {
         public effectsService: EffectsService,
         public timeService: TimeService,
         public defenseService: DefenseService,
-        public deitiesService: DeitiesService
+        public deitiesService: DeitiesService,
+        public animalCompanionsService: AnimalCompanionsService
     ) { }
 
     still_loading() {
@@ -113,24 +109,35 @@ export class CharacterService {
         switch (menu) {
             case "items":
                 this.characterMenuState = 'out';
+                this.companionMenuState = 'out';
                 this.itemsMenuState = (this.itemsMenuState == 'out') ? 'in' : 'out';
                 this.spellMenuState = 'out';
                 this.conditionsMenuState = 'out';
                 break;
             case "character":
                 this.characterMenuState = (this.characterMenuState == 'out') ? 'in' : 'out';
+                this.companionMenuState = 'out';
+                this.itemsMenuState = 'out';
+                this.spellMenuState = 'out';
+                this.conditionsMenuState = 'out';
+                break;
+            case "companion":
+                this.characterMenuState = 'out';
+                this.companionMenuState = (this.companionMenuState == 'out') ? 'in' : 'out';
                 this.itemsMenuState = 'out';
                 this.spellMenuState = 'out';
                 this.conditionsMenuState = 'out';
                 break;
             case "spells":
                 this.characterMenuState = 'out';
+                this.companionMenuState = 'out';
                 this.itemsMenuState = 'out';
                 this.spellMenuState = (this.spellMenuState == 'out') ? 'in' : 'out';
                 this.conditionsMenuState = 'out';
                 break;
             case "conditions":
                 this.characterMenuState = 'out';
+                this.companionMenuState = 'out';
                 this.itemsMenuState = 'out';
                 this.spellMenuState = 'out';
                 this.conditionsMenuState = (this.conditionsMenuState == 'out') ? 'in' : 'out';
@@ -140,6 +147,10 @@ export class CharacterService {
 
     get_CharacterMenuState() {
         return this.characterMenuState;
+    }
+
+    get_CompanionMenuState() {
+        return this.companionMenuState;
     }
 
     get_ItemsMenuState() {
@@ -158,10 +169,39 @@ export class CharacterService {
         return this.get_Character().class.levels[number];
     }
 
+    get_Creature(type: string) {
+        if (type == "Character") {
+            return this.get_Character();
+        } else if (type == "Companion") {
+            return this.get_Companion();
+        }
+    }
+
     get_Character() {
         if (!this.still_loading()) {
             return this.me;
         } else { return new Character() }
+    }
+
+    get_Companion() {
+        if (!this.still_loading() && this.get_Character().class.animalCompanion) {
+            return this.get_Character().class.animalCompanion.companion;
+        } else {
+            let blank = new AnimalCompanion()
+            blank.class = new AnimalCompanionClass()
+            blank.inventory = new ItemCollection()
+            return blank;
+        }
+    }
+
+    get_Creatures() {
+        if (!this.still_loading()) {
+            if (this.get_Character().class.animalCompanion) {
+                return ([] as (Character|AnimalCompanion)[]).concat(this.get_Character()).concat(this.get_Companion());
+            } else {
+                return [this.get_Character()];
+            }
+        } else { return [new Character()] }
     }
 
     reset_Character() {
@@ -214,8 +254,8 @@ export class CharacterService {
         this.historyService.get_Ancestries(name)
     }
 
-    get_Speeds(name: string = "") {
-        return this.me.speeds.filter(speed => speed.name == name || name == "");
+    get_Speeds(creature: Character|AnimalCompanion, name: string = "") {
+        return creature.speeds.filter(speed => speed.name == name || name == "");
     }
 
     changeClass($class: Class) {
@@ -294,10 +334,9 @@ export class CharacterService {
         return this.itemsService.get_Items();
     }
 
-
-    get_InventoryItems() {
+    get_InventoryItems(creature: Character|AnimalCompanion) {
         if (!this.still_loading()) {
-            return this.me.inventory;
+            return creature.inventory;
         } else { return new ItemCollection() }
     }
 
@@ -305,8 +344,8 @@ export class CharacterService {
         return this.itemsService.get_Specializations(group);
     }
 
-    get_InvestedItems() {
-        return this.me.inventory.allEquipment().filter(item => item.invested)
+    get_InvestedItems(creature: Character|AnimalCompanion) {
+        return creature.inventory.allEquipment().filter(item => item.invested)
     }
 
     create_AdvancedWeaponFeats(advancedWeapons: Weapon[]) {
@@ -341,11 +380,11 @@ export class CharacterService {
         }
     }
 
-    grant_InventoryItem(item: Item, resetRunes: boolean = true, changeAfter: boolean = true, equipAfter: boolean = true, amount: number = 1) {
+    grant_InventoryItem(creature: Character|AnimalCompanion, item: Item, resetRunes: boolean = true, changeAfter: boolean = true, equipAfter: boolean = true, amount: number = 1) {
         let newInventoryItem = this.itemsService.initialize_Item(item);
         let returnedInventoryItem;
         //Check if this item already exists in the inventory, and if it is stackable.
-        let existingItems = this.me.inventory[item.type].filter((existing: Item) =>
+        let existingItems = creature.inventory[item.type].filter((existing: Item) =>
             existing.name == item.name && item.can_Stack()
         );
         //If any existing, stackable items are found, try parsing the amount and set it to 1 if failed, then raise the amount on the first of the existing items.
@@ -362,13 +401,13 @@ export class CharacterService {
             existingItems[0].amount += intAmount;
             returnedInventoryItem = existingItems[0];
         } else {
-            let newInventoryLength = this.me.inventory[item.type].push(newInventoryItem);
-            let createdInventoryItem = this.me.inventory[item.type][newInventoryLength - 1];
+            let newInventoryLength = creature.inventory[item.type].push(newInventoryItem);
+            let createdInventoryItem = creature.inventory[item.type][newInventoryLength - 1];
             if (createdInventoryItem.amount && amount > 1) {
                 createdInventoryItem.amount += amount - 1;
             }
             if (equipAfter) {
-                this.onEquip(createdInventoryItem, true, false);
+                this.onEquip(creature, createdInventoryItem, true, false);
             }
             returnedInventoryItem = createdInventoryItem;
             if (returnedInventoryItem["prof"] == "Advanced Weapons") {
@@ -399,14 +438,14 @@ export class CharacterService {
             returnedInventoryItem["gainItems"].filter(gainItem => gainItem.on == "grant").forEach(gainItem => {
                 let newItem: Item = this.get_Items()[gainItem.type].filter(libraryItem => libraryItem.name == gainItem.name)[0];
                 if (newItem.can_Stack()) {
-                    this.grant_InventoryItem(newItem, true, false, false, gainItem.amount);
+                    this.grant_InventoryItem(creature, newItem, true, false, false, gainItem.amount);
                 } else {
                     let equip = true;
                     //Don't equip the new item if it's a shield or armor and this one is too - only one shield or armor can be equipped
                     if ((returnedInventoryItem.type == "armors" || returnedInventoryItem.type == "shields") && newItem.type == returnedInventoryItem.type) {
                         equip = false;
                     }
-                    let grantedItem = this.grant_InventoryItem(newItem, true, false, equip);
+                    let grantedItem = this.grant_InventoryItem(creature, newItem, true, false, equip);
                     gainItem.id = grantedItem.id;
                     if (grantedItem.get_Name) {
                         grantedItem.displayName = grantedItem.name + " (granted by " + returnedInventoryItem.name + ")"
@@ -420,14 +459,14 @@ export class CharacterService {
         return returnedInventoryItem;
     }
 
-    drop_InventoryItem(item: Item, changeAfter: boolean = true, equipBasicItems: boolean = true, including: boolean = true, amount: number = 1) {
+    drop_InventoryItem(creature: Character|AnimalCompanion, item: Item, changeAfter: boolean = true, equipBasicItems: boolean = true, including: boolean = true, amount: number = 1) {
         if (amount < item.amount) {
             item.amount -= amount;
         } else {
             if (item["equipped"]) {
-                this.onEquip(item as Equipment, false, false);
+                this.onEquip(creature, item as Equipment, false, false);
             } else if (item["invested"]) {
-                this.onInvest(item as Equipment, false, false);
+                this.onInvest(creature, item as Equipment, false, false);
             }
             if (item["propertyRunes"]) {
                 item["propertyRunes"].filter((rune: Rune) => rune.loreChoices.length).forEach((rune: Rune) => {
@@ -437,28 +476,28 @@ export class CharacterService {
             if (item["activities"]) {
                 item["activities"].forEach(activity => {
                     if (activity.active) {
-                        this.activitiesService.activate_Activity(this, this.timeService, this.itemsService, activity, activity, false);
+                        this.activitiesService.activate_Activity(creature, this, this.timeService, this.itemsService, activity, activity, false);
                     }
                 })
             }
             if (item["gainActivities"]) {
                 item["gainActivities"].forEach(gain => {
                     if (gain.active) {
-                        this.activitiesService.activate_Activity(this, this.timeService, this.itemsService, gain, this.activitiesService.get_Activities(gain.name)[0], false);
+                        this.activitiesService.activate_Activity(creature, this, this.timeService, this.itemsService, gain, this.activitiesService.get_Activities(gain.name)[0], false);
                     }
                 })
             }
             if (including && item["gainItems"] && item["gainItems"].length) {
                 item["gainItems"].filter((gainItem: ItemGain) => gainItem.on == "grant").forEach(gainItem => {
                     if (this.get_Items()[gainItem.type].filter((libraryItem: Item) => libraryItem.name == gainItem.name)[0].can_Stack()) {
-                        let items: Item[] = this.get_InventoryItems()[gainItem.type].filter((libraryItem: Item) => libraryItem.name == gainItem.name);
+                        let items: Item[] = creature.inventory[gainItem.type].filter((libraryItem: Item) => libraryItem.name == gainItem.name);
                         if (items.length) {
-                            this.drop_InventoryItem(items[0], false, false, true, gainItem.amount);
+                            this.drop_InventoryItem(creature, items[0], false, false, true, gainItem.amount);
                         }
                     } else {
-                        let items: Item[] = this.get_InventoryItems()[gainItem.type].filter((libraryItem: Item) => libraryItem.id == gainItem.id);
+                        let items: Item[] = creature.inventory[gainItem.type].filter((libraryItem: Item) => libraryItem.id == gainItem.id);
                         if (items.length) {
-                            this.drop_InventoryItem(items[0], false, false, true);
+                            this.drop_InventoryItem(creature, items[0], false, false, true);
                         }
                         gainItem.id = "";
                     }
@@ -466,7 +505,7 @@ export class CharacterService {
             }
             this.me.inventory[item.type] = this.me.inventory[item.type].filter((any_item: Item) => any_item !== item);
             if (equipBasicItems) {
-                this.equip_BasicItems();
+                this.equip_BasicItems(creature);
             }
         }
         if (changeAfter) {
@@ -478,7 +517,7 @@ export class CharacterService {
         //Then go through all the loreChoices (usually only one)
         rune.loreChoices.forEach(choice => {
             //Check if only one (=this) item's rune has this lore (and therefore no other item has already created it on the character), and if so, create it.
-            if (this.get_InventoryItems().allEquipment()
+            if (this.get_Character().inventory.allEquipment()
                 .filter(item => item.propertyRunes
                     .filter(propertyRune => propertyRune.loreChoices
                         .filter(otherchoice => otherchoice.loreName == choice.loreName)
@@ -494,7 +533,7 @@ export class CharacterService {
         //Iterate through the loreChoices (usually only one)
         rune.loreChoices.forEach(choice => {
             //Check if only one item's rune has this lore (and therefore no other rune still needs it created), and if so, remove it.
-            if (this.get_InventoryItems().allEquipment()
+            if (this.get_Character().inventory.allEquipment()
                 .filter(item => item.propertyRunes
                     .filter(propertyRune => propertyRune.loreChoices
                         .filter(otherchoice => otherchoice.loreName == choice.loreName)
@@ -558,33 +597,33 @@ export class CharacterService {
         this.change_Cash(1, sum);
     }
 
-    onEquip(item: Equipment, equipped: boolean = true, changeAfter: boolean = true, equipBasicItems: boolean = true) {
+    onEquip(creature: Character|AnimalCompanion, item: Equipment, equipped: boolean = true, changeAfter: boolean = true, equipBasicItems: boolean = true) {
         item.equipped = equipped;
         if (item.equipped) {
             if (item.type == "armors" || item.type == "shields") {
-                let allOfType = this.get_InventoryItems()[item.type];
+                let allOfType = this.get_InventoryItems(creature)[item.type];
                 allOfType.forEach(typeItem => {
-                    this.onEquip(typeItem, false, false, false);
+                    this.onEquip(creature, typeItem, false, false, false);
                 });
                 item.equipped = true;
             }
             //If you get an Activity from an item that doesn't need to be invested, immediately invest it in secret so the Activity is gained
             if (item.gainActivities && item.traits.indexOf("Invested") == -1) {
-                this.onInvest(item, true, false);
+                this.onInvest(creature, item, true, false);
             }
             //Add all Items that you get from equipping this one
             if (item["gainItems"] && item["gainItems"].length) {
                 item["gainItems"].filter((gainItem: ItemGain) => gainItem.on == "equip").forEach(gainItem => {
                     let newItem: Item = this.itemsService.get_Items()[gainItem.type].filter((libraryItem: Item) => libraryItem.name == gainItem.name)[0]
                     if (newItem.can_Stack()) {
-                        this.grant_InventoryItem(newItem, false, false, false, gainItem.amount);
+                        this.grant_InventoryItem(creature, newItem, false, false, false, gainItem.amount);
                     } else {
                         let equip = true;
                         //Don't equip the new item if it's a shield or armor and this one is too - only one shield or armor can be equipped
                         if ((item.type == "armors" || item.type == "shields") && newItem.type == item.type) {
                             equip = false;
                         }
-                        let grantedItem = this.grant_InventoryItem(newItem, false, false, equip);
+                        let grantedItem = this.grant_InventoryItem(creature, newItem, false, false, equip);
                         gainItem.id = grantedItem.id;
                         if (grantedItem.get_Name) {
                             grantedItem.displayName = grantedItem.name + " (granted by " + item.name + ")"
@@ -594,7 +633,7 @@ export class CharacterService {
             }
         } else {
             if (equipBasicItems) {
-                this.equip_BasicItems();
+                this.equip_BasicItems(creature);
             }
             //If you are unequipping a shield, you should also be lowering it and losing cover
             if (item.type == "shields") {
@@ -607,19 +646,19 @@ export class CharacterService {
             }
             //If the item was invested, it isn't now.
             if (item.invested) {
-                this.onInvest(item, false, false);
+                this.onInvest(creature, item, false, false);
             }
             if (item["gainItems"] && item["gainItems"].length) {
                 item["gainItems"].filter((gainItem: ItemGain) => gainItem.on == "equip").forEach(gainItem => {
                     if (this.get_Items()[gainItem.type].filter((item: Item) => item.name == gainItem.name)[0].can_Stack()) {
-                        let items: Item[] = this.get_InventoryItems()[gainItem.type].filter((item: Item) => item.name == gainItem.name);
+                        let items: Item[] = creature.inventory[gainItem.type].filter((item: Item) => item.name == gainItem.name);
                         if (items.length) {
-                            this.drop_InventoryItem(items[0], false, false, true, gainItem.amount);
+                            this.drop_InventoryItem(creature, items[0], false, false, true, gainItem.amount);
                         }
                     } else {
-                        let items: Item[] = this.get_InventoryItems()[gainItem.type].filter((item: Item) => item.id == gainItem.id);
+                        let items: Item[] = creature.inventory[gainItem.type].filter((item: Item) => item.id == gainItem.id);
                         if (items.length) {
-                            this.drop_InventoryItem(items[0], false, false, true);
+                            this.drop_InventoryItem(creature, items[0], false, false, true);
                         }
                         gainItem.id = "";
                     }
@@ -631,15 +670,15 @@ export class CharacterService {
         }
     }
 
-    onInvest(item: Equipment, invested: boolean = true, changeAfter: boolean = true) {
+    onInvest(creature: Character|AnimalCompanion, item: Equipment, invested: boolean = true, changeAfter: boolean = true) {
         item.invested = invested;
         if (item.invested) {
             if (!item.equipped) {
-                this.onEquip(item, true, false);
+                this.onEquip(creature, item, true, false);
             }
         } else {
             item.gainActivities.forEach((gainActivity: ActivityGain) => {
-                this.activitiesService.activate_Activity(this, this.timeService, this.itemsService, gainActivity, this.activitiesService.get_Activities(gainActivity.name)[0], false);
+                this.activitiesService.activate_Activity(creature, this, this.timeService, this.itemsService, gainActivity, this.activitiesService.get_Activities(gainActivity.name)[0], false);
             });
         }
         if (changeAfter) {
@@ -647,9 +686,9 @@ export class CharacterService {
         }
     }
 
-    on_ConsumableUse(item: Consumable) {
+    on_ConsumableUse(creature: Character|AnimalCompanion, item: Consumable) {
         item.amount--
-        this.itemsService.process_Consumable(this, item);
+        this.itemsService.process_Consumable(creature, this, item);
         this.set_Changed();
     }
 
@@ -666,23 +705,24 @@ export class CharacterService {
             let newBasicArmor: Armor;
             newBasicArmor = Object.assign(new Armor(), this.itemsService.get_ItemType("armors", "Unarmored")[0]);
             this.basicItems.push(newBasicArmor);
-            this.equip_BasicItems(false)
+            this.equip_BasicItems(this.get_Character(), false)
+            this.equip_BasicItems(this.get_Companion(), false)
         }
     }
 
-    equip_BasicItems(changeAfter: boolean = true) {
+    equip_BasicItems(creature: Character|AnimalCompanion, changeAfter: boolean = true) {
         if (!this.still_loading() && this.basicItems.length) {
-            if (!this.get_InventoryItems().weapons.length) {
-                this.grant_InventoryItem(this.basicItems[0], true, false, false);
+            if (!creature.inventory.weapons.length) {
+                this.grant_InventoryItem(creature, this.basicItems[0], true, false, false);
             }
-            if (!this.get_InventoryItems().armors.length) {
-                this.grant_InventoryItem(this.basicItems[1], true, false, false);
+            if (!creature.inventory.armors.length) {
+                this.grant_InventoryItem(creature, this.basicItems[1], true, false, false);
             }
-            if (!this.get_InventoryItems().weapons.filter(weapon => weapon.equipped == true).length) {
-                this.onEquip(this.get_InventoryItems().weapons[0], true, changeAfter);
+            if (!creature.inventory.weapons.filter(weapon => weapon.equipped == true).length) {
+                this.onEquip(creature, creature.inventory.weapons[0], true, changeAfter);
             }
-            if (!this.get_InventoryItems().armors.filter(armor => armor.equipped == true).length) {
-                this.onEquip(this.get_InventoryItems().armors[0], true, changeAfter);
+            if (!creature.inventory.armors.filter(armor => armor.equipped == true).length) {
+                this.onEquip(creature, creature.inventory.armors[0], true, changeAfter);
             }
         }
     }
@@ -712,15 +752,15 @@ export class CharacterService {
         return this.conditionsService.get_Conditions(name, type);
     }
 
-    get_AppliedConditions(name: string = "", source: string = "") {
+    get_AppliedConditions(creature: Character|AnimalCompanion, name: string = "", source: string = "") {
         //Returns ConditionGain[] with apply=true/false for each
-        return this.conditionsService.get_AppliedConditions(this, this.me.conditions).filter(condition =>
+        return this.conditionsService.get_AppliedConditions(creature, this, creature.conditions).filter(condition =>
             (condition.name == name || name == "") &&
             (condition.source == source || source == "")
         );
     }
 
-    add_Condition(conditionGain: ConditionGain, reload: boolean = true) {
+    add_Condition(creature: Character|AnimalCompanion, conditionGain: ConditionGain, reload: boolean = true) {
         let originalCondition = this.get_Conditions(conditionGain.name)[0];
         //Select boxes turn numbers into strings. We have to turn them back into numbers, but we can't parseInt a number (which Typescript believes this still is)
         //So we turn it into a JSON string and back into a number.
@@ -729,23 +769,23 @@ export class CharacterService {
         }
         let newLength: number = 0;
         if (conditionGain.addValue) {
-            let existingConditions = this.me.conditions.filter(gain => gain.name == conditionGain.name);
+            let existingConditions = creature.conditions.filter(gain => gain.name == conditionGain.name);
             if (existingConditions.length) {
                 existingConditions.forEach(gain => {
                     gain.value += conditionGain.addValue;
                 })
             } else {
                 conditionGain.value = conditionGain.addValue;
-                newLength = this.me.conditions.push(conditionGain);
+                newLength = creature.conditions.push(conditionGain);
             }
         } else {
-            newLength = this.me.conditions.push(conditionGain);
+            newLength = creature.conditions.push(conditionGain);
         }
         if (newLength) {
-            let newConditionGain = this.me.conditions[newLength - 1];
-            this.conditionsService.process_Condition(this, this.effectsService, conditionGain, this.conditionsService.get_Conditions(conditionGain.name)[0], true);
+            let newConditionGain = creature.conditions[newLength - 1];
+            this.conditionsService.process_Condition(creature, this, this.effectsService, conditionGain, this.conditionsService.get_Conditions(conditionGain.name)[0], true);
             originalCondition.gainConditions.forEach(extraCondition => {
-                this.add_Condition(Object.assign(new ConditionGain, { name: extraCondition.name, value: extraCondition.value, source: newConditionGain.name, apply: true }), false)
+                this.add_Condition(creature, Object.assign(new ConditionGain, { name: extraCondition.name, value: extraCondition.value, source: newConditionGain.name, apply: true }), false)
             })
             if (reload) {
                 this.set_Changed();
@@ -754,25 +794,25 @@ export class CharacterService {
         }
     }
 
-    remove_Condition(conditionGain: ConditionGain, reload: boolean = true, increaseWounded: boolean = true) {
-        let oldConditionGain = this.me.conditions.filter($condition => $condition.name == conditionGain.name && $condition.value == conditionGain.value && $condition.source == conditionGain.source);
+    remove_Condition(creature: Character|AnimalCompanion, conditionGain: ConditionGain, reload: boolean = true, increaseWounded: boolean = true) {
+        let oldConditionGain = creature.conditions.filter($condition => $condition.name == conditionGain.name && $condition.value == conditionGain.value && $condition.source == conditionGain.source);
         let originalCondition = this.get_Conditions(conditionGain.name)[0];
         if (oldConditionGain.length) {
             originalCondition.gainConditions.forEach(extraCondition => {
-                this.remove_Condition(Object.assign(new ConditionGain, { name: extraCondition.name, value: extraCondition.value, source: oldConditionGain[0].name }), false, increaseWounded)
+                this.remove_Condition(creature, Object.assign(new ConditionGain, { name: extraCondition.name, value: extraCondition.value, source: oldConditionGain[0].name }), false, increaseWounded)
             })
-            this.me.conditions.splice(this.me.conditions.indexOf(oldConditionGain[0]), 1)
-            this.conditionsService.process_Condition(this, this.effectsService, conditionGain, this.conditionsService.get_Conditions(conditionGain.name)[0], false, increaseWounded);
+            creature.conditions.splice(creature.conditions.indexOf(oldConditionGain[0]), 1)
+            this.conditionsService.process_Condition(creature, this, this.effectsService, conditionGain, this.conditionsService.get_Conditions(conditionGain.name)[0], false, increaseWounded);
             if (reload) {
                 this.set_Changed();
             }
         }
     }
 
-    process_OnceEffect(effect: EffectGain) {
+    process_OnceEffect(creature: Character|AnimalCompanion, effect: EffectGain) {
         let value = 0;
         //Prepare values that can be used in an eval. Add to this list as needed.
-        let currentHP = this.me.health.currentHP(this, this.effectsService);
+        let currentHP = creature.health.currentHP(creature, this, this.effectsService);
         try {
             value = parseInt(eval(effect.value));
         } catch (error) {
@@ -781,20 +821,20 @@ export class CharacterService {
         switch (effect.affected) {
             case "Focus":
                 //Give the focus point some time. If a feat expands the focus pool and gives a focus point, the pool is not expanded yet at this point of processing.
-                this.me.class.focusPoints += value;
+                (creature as Character).class.focusPoints += value;
                 break;
             case "Temporary HP":
-                this.me.health.temporaryHP += value;
+                creature.health.temporaryHP += value;
                 break;
             case "HP":
                 if (value > 0) {
-                    this.me.health.heal(this, this.effectsService, value, true)
+                    creature.health.heal(creature, this, this.effectsService, value, true)
                 } else if (value < 0) {
-                    this.me.health.takeDamage(this, this.effectsService, -value, false)
+                    creature.health.takeDamage(creature, this, this.effectsService, -value, false)
                 }
                 break;
             case "Languages":
-                let languages = this.me.class.ancestry.languages;
+                let languages = (creature as Character).class.ancestry.languages;
                 for (let index = 0; index < languages.length; index++) {
                     if (languages[index] == "") {
                         languages[index] = (effect.value)
@@ -816,8 +856,8 @@ export class CharacterService {
         return this.abilitiesService.get_Abilities(name)
     }
 
-    get_Skills(name: string = "", type: string = "") {
-        return this.skillsService.get_Skills(this.me.customSkills, name, type)
+    get_Skills(creature: Character|AnimalCompanion, name: string = "", type: string = "") {
+        return this.skillsService.get_Skills(creature.customSkills, name, type)
     }
 
     get_Feats(name: string = "", type: string = "") {
@@ -832,8 +872,12 @@ export class CharacterService {
         return this.featsService.get_All(this.me.customFeats, name, type);
     }
 
-    get_Health() {
-        return this.me.health;
+    get_Health(creature: Character|AnimalCompanion) {
+        return creature.health;
+    }
+
+    get_AnimalCompanionLevels() {
+        return this.animalCompanionsService.get_CompanionLevels();
     }
 
     process_Feat(featName: string, level: Level, taken: boolean) {
@@ -856,8 +900,8 @@ export class CharacterService {
         return returnedFeats;
     }
 
-    get_ConditionsShowingOn(objectName: string) {
-        let conditions = this.get_AppliedConditions().filter(condition => condition.apply);
+    get_ConditionsShowingOn(creature: Character|AnimalCompanion, objectName: string) {
+        let conditions = this.get_AppliedConditions(creature).filter(condition => condition.apply);
         if (objectName.indexOf("Lore") > -1) {
             objectName = "Lore";
         }
@@ -875,11 +919,13 @@ export class CharacterService {
         return returnedConditions;
     }
 
-    get_OwnedActivities(levelNumber: number = this.get_Character().level) {
+    get_OwnedActivities(creature: Character|AnimalCompanion, levelNumber: number = this.get_Character().level) {
         let activities: (ActivityGain | ItemActivity)[] = []
         if (!this.still_loading()) {
-            activities.push(...this.me.class.activities.filter(gain => gain.level <= levelNumber));
-            this.get_InventoryItems().allEquipment().filter(item => item.equipped && (item.can_Invest() ? item.invested : true) && (item.gainActivities.length || item.activities.length)).forEach(item => {
+            if (creature.type == "Character") {
+                activities.push(...(creature as Character).class.activities.filter(gain => gain.level <= levelNumber));
+            }
+            creature.inventory.allEquipment().filter(item => item.equipped && (item.can_Invest() ? item.invested : true) && (item.gainActivities.length || item.activities.length)).forEach(item => {
                 if (item.gainActivities.length) {
                     activities.push(...item.gainActivities);
                 }
@@ -887,7 +933,7 @@ export class CharacterService {
                     activities.push(...item.activities);
                 }
             })
-            this.get_InventoryItems().allEquipment().filter(item => item.propertyRunes.filter(rune => item.equipped && (item.can_Invest() ? item.invested : true) && rune.activities.length).length).forEach(item => {
+            creature.inventory.allEquipment().filter(item => item.propertyRunes.filter(rune => item.equipped && (item.can_Invest() ? item.invested : true) && rune.activities.length).length).forEach(item => {
                 item.propertyRunes.filter(rune => rune.activities.length).forEach(rune => {
                     activities.push(...rune.activities);
                 })
@@ -896,8 +942,8 @@ export class CharacterService {
         return activities;
     }
 
-    get_ActivitiesShowingOn(objectName: string) {
-        let activityGains = this.get_OwnedActivities().filter(gain => gain.active);
+    get_ActivitiesShowingOn(creature: Character|AnimalCompanion, objectName: string) {
+        let activityGains = this.get_OwnedActivities(creature).filter(gain => gain.active);
         let returnedActivities: Activity[] = [];
         activityGains.forEach(gain => {
             this.activitiesService.get_Activities(gain.name).forEach(activity => {
@@ -911,9 +957,9 @@ export class CharacterService {
         return returnedActivities;
     }
 
-    get_ItemsShowingOn(objectName: string) {
+    get_ItemsShowingOn(creature: Character|AnimalCompanion, objectName: string) {
         let returnedItems: Item[] = [];
-        this.me.inventory.allEquipment().forEach(item => {
+        creature.inventory.allEquipment().forEach(item => {
             item.showon.split(",").forEach(showon => {
                 if (showon == objectName || showon.substr(1) == objectName || (objectName == "Lore" && showon.indexOf(objectName) > -1)) {
                     returnedItems.push(item);
@@ -924,7 +970,7 @@ export class CharacterService {
     }
 
     get_MaxFocusPoints() {
-        let effects: Effect[] = this.effectsService.get_EffectsOnThis("Focus Pool");
+        let effects: Effect[] = this.effectsService.get_EffectsOnThis(this.get_Character(), "Focus Pool");
         let focusPoints: number = 0;
         effects.forEach(effect => {
             focusPoints += parseInt(effect.value);
@@ -934,6 +980,22 @@ export class CharacterService {
 
     get_AC() {
         return this.defenseService.get_AC();
+    }
+
+    initialize_AnimalCompanion() {
+        if (this.me.class.animalCompanion) {
+            this.me.class.animalCompanion = Object.assign(new AnimalCompanionGain(), this.me.class.animalCompanion);
+            this.me.class.animalCompanion.companion = Object.assign(new AnimalCompanion(), this.me.class.animalCompanion.companion);
+            this.me.class.animalCompanion.companion.customSkills = this.me.class.animalCompanion.companion.customSkills.map(skill => Object.assign(new Skill(), skill));
+            this.me.class.animalCompanion.companion.class = Object.assign(new AnimalCompanionClass(), this.me.class.animalCompanion.companion.class);
+            this.me.class.animalCompanion.companion.class.reassign(this);
+            this.me.class.animalCompanion.companion.health = Object.assign(new Health(), this.me.class.animalCompanion.companion.health);
+            this.me.class.animalCompanion.companion.speeds = this.me.class.animalCompanion.companion.speeds.map(speed => Object.assign(new Speed(), speed));
+            this.me.class.animalCompanion.companion.conditions = this.me.class.animalCompanion.companion.conditions.map(condition => Object.assign(new Speed(), condition));
+            this.me.class.animalCompanion.companion.bulk = Object.assign(new Bulk(), this.me.class.animalCompanion.companion.bulk);
+            this.me.class.animalCompanion.companion.inventory = Object.assign(new ItemCollection(), this.me.class.animalCompanion.companion.inventory);
+            this.me.class.animalCompanion.companion.inventory.initialize(this.itemsService);
+        }
     }
 
     initialize(charName: string) {
@@ -947,6 +1009,7 @@ export class CharacterService {
         this.itemsService.initialize();
         this.effectsService.initialize(this);
         this.deitiesService.initialize();
+        this.animalCompanionsService.initialize();
         if (charName) {
             this.load_Character(charName)
             .subscribe((results: string[]) => {
@@ -986,16 +1049,7 @@ export class CharacterService {
             }
             if (this.me.inventory) {
                 this.me.inventory = Object.assign(new ItemCollection(), this.me.inventory);
-                this.me.inventory.weapons = this.me.inventory.weapons.map(element => this.itemsService.initialize_Item(Object.assign(new Weapon(), element), true, false));
-                this.me.inventory.armors = this.me.inventory.armors.map(element => this.itemsService.initialize_Item(Object.assign(new Armor(), element), true, false));
-                this.me.inventory.shields = this.me.inventory.shields.map(element => this.itemsService.initialize_Item(Object.assign(new Shield(), element), true, false));
-                this.me.inventory.wornitems = this.me.inventory.wornitems.map(element => this.itemsService.initialize_Item(Object.assign(new WornItem(), element), true, false));
-                this.me.inventory.helditems = this.me.inventory.helditems.map(element => this.itemsService.initialize_Item(Object.assign(new HeldItem(), element), true, false));
-                this.me.inventory.alchemicalelixirs = this.me.inventory.alchemicalelixirs.map(element => this.itemsService.initialize_Item(Object.assign(new AlchemicalElixir(), element), true, false));
-                this.me.inventory.potions = this.me.inventory.potions.map(element => this.itemsService.initialize_Item(Object.assign(new Potion(), element), true, false));
-                this.me.inventory.otherconsumables = this.me.inventory.otherconsumables.map(element => this.itemsService.initialize_Item(Object.assign(new OtherConsumable(), element), true, false));
-                this.me.inventory.adventuringgear = this.me.inventory.adventuringgear.map(element => this.itemsService.initialize_Item(Object.assign(new AdventuringGear(), element), true, false));
-                this.me.inventory.weaponrunes = this.me.inventory.weaponrunes.map(element => this.itemsService.initialize_Item(Object.assign(new WeaponRune(), element), true, false));
+                this.me.inventory.initialize(this.itemsService);
             } else {
                 this.me.inventory = new ItemCollection();
             }
@@ -1020,6 +1074,7 @@ export class CharacterService {
                 this.me.class.background = Object.assign(new Background(), this.me.class.background);
                 this.me.class.background.reassign();
             }
+            this.initialize_AnimalCompanion();
 
             this.loader = [];
         }

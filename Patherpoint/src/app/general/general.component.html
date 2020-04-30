@@ -1,61 +1,63 @@
-<button class="minimizebutton lower" (click)="minimize()">&#8691;</button>
-<div id="general-height" class="attributeBox">
+<button class="minimizebutton lower" (click)="minimize()" *ngIf="creature=='Character'">&#8691;</button>
+<div id="{{creature == 'Character' ? '' : 'other-'}}general-height" class="attributeBox">
     <h3 class="box-header">General information</h3>
     <div class="loading" *ngIf="still_loading()">Loading</div>
     <ng-container *ngIf="!still_loading()">
-        <div class="fullsize-only list-item">
-            <span>
-                <strong>Level</strong>
-                {{get_Character().level}}
-            </span>
-            <span>
-                <strong>Hero Points</strong>
-                {{get_Character().heroPoints}}
-                <button (click)="add_HeroPoints(1)">+1</button>
-                <button (click)="add_HeroPoints(-1)" [disabled]="get_Character().heroPoints <= 0">-1</button>
-            </span>
-        </div>
-        <div class="fullsize-only list-item">
-            <strong>Character Name</strong>
-            {{get_Character().name}}
-        </div>
-        <div class="list-item" *ngIf="get_Character().class.ancestry.name">
-            <strong>Ancestry</strong>
-            {{get_Character().class.ancestry.name}}{{(get_Character().class.heritage.name) ? " - " + get_Character().class.heritage.name : ""}}
-            <div class="row left-aligned" *ngIf="get_Character().class.ancestry.traits.length">
-                <cite class="trait" *ngFor="let trait of get_Character().class.ancestry.traits">{{trait}}&nbsp;</cite>
+        <ng-container *ngIf="creature=='Character'">
+            <div class="fullsize-only list-item">
+                <span>
+                    <strong>Level</strong>
+                    {{get_Character().level}}
+                </span>
+                <span>
+                    <strong>Hero Points</strong>
+                    {{get_Character().heroPoints}}
+                    <button (click)="add_HeroPoints(1)">+1</button>
+                    <button (click)="add_HeroPoints(-1)" [disabled]="get_Character().heroPoints <= 0">-1</button>
+                </span>
             </div>
-        </div>
-        <div class="fullsize-only list-item" *ngIf="get_Character().class.background.name">
-            <strong>Background</strong>
-            {{get_Character().class.background.name}}
-        </div>
-        <div class="fullsize-only list-item" *ngIf="get_Character().class.name">
-            <strong>Class</strong>
-            {{get_Character().class.name}}
-        </div>
-        <div class="fullsize-only list-item" *ngIf="get_Character().alignment.length">
-            <strong>Alignment</strong>
-            {{get_Character().alignment}}
-        </div>
-        <div class="fullsize-only list-item" *ngIf="get_Character().deity.name">
-            <strong>Deity</strong>
-            {{get_Character().deity.name}}
-        </div>
-        <div class="fullsize-only list-item" *ngIf="get_Character().class.ancestry.languages.length">
-            <strong>Languages</strong>
-            {{get_Character().class.ancestry.languages.join(', ')}}
-        </div>
-        <div class="fullsize-only list-item" *ngFor="let feat of get_DifferentWorldsFeat()">
-            <strong>Alternative Identity (Different Worlds)</strong>
-            {{feat.data.name}} {{(feat.data.background) ? "("+feat.data.background+")" : ""}}
-        </div>
-        <h5 class="fullsize-only">Class & Spell DCs</h5>
-        <ng-container *ngFor="let skill of get_ClassDCs()">
-            <app-skill [skill]=skill [isDC]=true></app-skill>
-        </ng-container>
-        <ng-container *ngFor="let skill of get_SpellDCs()">
-            <app-skill [skill]=skill [isDC]=true></app-skill>
+            <div class="fullsize-only list-item">
+                <strong>Character Name</strong>
+                {{get_Character().name}}
+            </div>
+            <div class="list-item" *ngIf="get_Character().class.ancestry.name">
+                <strong>Ancestry</strong>
+                {{get_Character().class.ancestry.name}}{{(get_Character().class.heritage.name) ? " - " + get_Character().class.heritage.name : ""}}
+                <div class="row left-aligned" *ngIf="get_Character().class.ancestry.traits.length">
+                    <cite class="trait" *ngFor="let trait of get_Character().class.ancestry.traits">{{trait}}&nbsp;</cite>
+                </div>
+            </div>
+            <div class="fullsize-only list-item" *ngIf="get_Character().class.background && get_Character().class.background.name">
+                <strong>Background</strong>
+                {{get_Character().class.background.name}}
+            </div>
+            <div class="fullsize-only list-item" *ngIf="get_Character().class.name">
+                <strong>Class</strong>
+                {{get_Character().class.name}}
+            </div>
+            <div class="fullsize-only list-item" *ngIf="get_Character().alignment && get_Character().alignment.length">
+                <strong>Alignment</strong>
+                {{get_Character().alignment}}
+            </div>
+            <div class="fullsize-only list-item" *ngIf="get_Character().deity && get_Character().deity.name">
+                <strong>Deity</strong>
+                {{get_Character().deity.name}}
+            </div>
+            <div class="fullsize-only list-item" *ngIf="get_Character().class.ancestry.languages && get_Character().class.ancestry.languages.length">
+                <strong>Languages</strong>
+                {{get_Languages()}}
+            </div>
+            <div class="fullsize-only list-item" *ngFor="let feat of get_DifferentWorldsFeat()">
+                <strong>Alternative Identity (Different Worlds)</strong>
+                {{feat.data.name}} {{(feat.data.background) ? "("+feat.data.background+")" : ""}}
+            </div>
+            <h5 class="fullsize-only">Class & Spell DCs</h5>
+            <ng-container *ngFor="let skill of get_ClassDCs()">
+                <app-skill [skill]=skill [isDC]=true></app-skill>
+            </ng-container>
+            <ng-container *ngFor="let skill of get_SpellDCs()">
+                <app-skill [skill]=skill [isDC]=true></app-skill>
+            </ng-container>
         </ng-container>
         <h5 class="fullsize-only">Movement</h5>
         <ng-container *ngFor="let speed of get_Speeds()">
@@ -64,15 +66,15 @@
                     <strong>{{(speed.name=="Speed") ? "All Speeds" : speed.name}}</strong>
                 </span>
                 <span>
-                    Value: <input class="number3" title="{{speed.value(characterService, effectsService)[1]}}"
-                        [className]="(speed.penalty(effectsService).length) ? 'penalty' : (speed.bonus(effectsService).length) ? 'bonus' : ''"
-                        type="number" value="{{speed.value(characterService, effectsService)[0]}}" disabled>
+                    Value: <input class="number3" title="{{speed.value(get_Creature(), characterService, effectsService)[1]}}"
+                        [className]="(speed.penalty(get_Creature(), effectsService).length) ? 'penalty' : (speed.bonus(get_Creature(), effectsService).length) ? 'bonus' : ''"
+                        type="number" value="{{speed.value(get_Creature(), characterService, effectsService)[0]}}" disabled>
                 </span>
-                <app-tags [objectName]=speed.name [showTraits]=true [showFeats]=true [showItems]=true [showActivities]=true
+                <app-tags [creature]="creature" [objectName]=speed.name [showTraits]=true [showFeats]=true [showItems]=true [showActivities]=true
                     [showConditions]=true [showEffects]=true></app-tags>
             </div>
         </ng-container>
-        <app-tags [objectName]="'Movement'" [showTraits]=true [showFeats]=true [showItems]=true [showActivities]=true
+        <app-tags [creature]="creature" [objectName]="'Movement'" [showTraits]=true [showFeats]=true [showItems]=true [showActivities]=true
                     [showConditions]=true [showEffects]=true></app-tags>
     </ng-container>
 </div>

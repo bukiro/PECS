@@ -5,6 +5,8 @@ import { ConditionGain } from '../ConditionGain';
 import { ConditionsService } from '../Conditions.service';
 import { Condition } from '../Condition';
 import { TimeService } from '../time.service';
+import { Character } from '../Character';
+import { AnimalCompanion } from '../AnimalCompanion';
 
 @Component({
     selector: 'app-conditions',
@@ -68,6 +70,14 @@ export class ConditionsComponent implements OnInit {
         this.characterService.toggleMenu("conditions");
     }
 
+    get_Character() {
+        return this.characterService.get_Character();
+    }
+
+    get_Companion() {
+        return this.characterService.get_Companion();
+    }
+
     get_ConditionsSet(type: string) {
         switch (type) {
             case "Generic":
@@ -119,11 +129,14 @@ export class ConditionsComponent implements OnInit {
                 if (durationNum / 10 > 1) { returnString += "s" }
                 durationNum %= 10;
             }
+            if (returnString.substr(0,1) == " ") {
+                returnString = returnString.substr(1);
+            }
             return returnString;
         }
     }
 
-    add_Condition(condition: Condition) {
+    add_Condition(creature: Character|AnimalCompanion, condition: Condition) {
         let newGain = new ConditionGain();
         newGain.name = condition.name;
         newGain.decreasingValue = condition.decreasingValue;
@@ -136,7 +149,7 @@ export class ConditionsComponent implements OnInit {
             newGain.value = this.value;
         }
         newGain.source = "Manual";
-        this.characterService.add_Condition(newGain, true);
+        this.characterService.add_Condition(creature, newGain, true);
     }
 
     finish_Loading() {

@@ -3,6 +3,8 @@ import { EffectsService } from './effects.service';
 import { Effect } from './Effect';
 import { Item } from './Item';
 import { OtherItem } from './OtherItem';
+import { Character } from './Character';
+import { AnimalCompanion } from './AnimalCompanion';
 
 export class Bulk {
     public $effects: Effect[];
@@ -12,27 +14,27 @@ export class Bulk {
     public $limit: {value:number, desc:string} = {value:0, desc:""};
     public $encumbered: {value:number, desc:string} = {value:0, desc:""};
     public $max: {value:number, desc:string} = {value:0, desc:""};
-    calculate(characterService: CharacterService, effectsService: EffectsService) {
-        this.$effects = this.effects(effectsService);
-        this.$bonus = this.bonus(effectsService);
-        this.$penalty = this.penalty(effectsService);
-        this.$current = this.current(characterService, effectsService);
-        this.$limit = this.limit(characterService, effectsService);
+    calculate(creature: Character|AnimalCompanion, characterService: CharacterService, effectsService: EffectsService) {
+        this.$effects = this.effects(creature, effectsService);
+        this.$bonus = this.bonus(creature, effectsService);
+        this.$penalty = this.penalty(creature, effectsService);
+        this.$current = this.current(creature, effectsService);
+        this.$limit = this.limit(creature, characterService, effectsService);
         this.$encumbered = this.encumbered();
         this.$max = this.max();
     }
-    effects(effectsService: EffectsService) {
-        return effectsService.get_EffectsOnThis("Max Bulk");
+    effects(creature: Character|AnimalCompanion, effectsService: EffectsService) {
+        return effectsService.get_EffectsOnThis(creature, "Max Bulk");
     }
-    bonus(effectsService: EffectsService) {
-        return effectsService.get_BonusesOnThis("Max Bulk");
+    bonus(creature: Character|AnimalCompanion, effectsService: EffectsService) {
+        return effectsService.get_BonusesOnThis(creature, "Max Bulk");
     }
-    penalty(effectsService: EffectsService) {
-        return effectsService.get_PenaltiesOnThis("Max Bulk");
+    penalty(creature: Character|AnimalCompanion, effectsService: EffectsService) {
+        return effectsService.get_PenaltiesOnThis(creature, "Max Bulk");
     }
-    current(characterService: CharacterService, effectsService: EffectsService) {
+    current(creature: Character|AnimalCompanion, effectsService: EffectsService) {
         let sum: number = 0;
-        let inventory = characterService.get_InventoryItems();
+        let inventory = creature.inventory;
         function addup(item: Item|OtherItem) {
             let bulk = item.bulk;
             if (item["carryingBulk"] && !item["equipped"]) {
@@ -68,18 +70,18 @@ export class Bulk {
         inventory.otheritems.forEach(item => {
             addup(item);
         })
-        let effects = effectsService.get_EffectsOnThis("Bulk");
+        let effects = effectsService.get_EffectsOnThis(creature, "Bulk");
         effects.forEach(effect => {
             sum += parseInt(effect.value);
         });
         sum = Math.max(0, sum);
         return Math.floor(sum);
     }
-    limit(characterService: CharacterService, effectsService: EffectsService) {
+    limit(creature: Character|AnimalCompanion, characterService: CharacterService, effectsService: EffectsService) {
     //Gets the basic bulk and adds all effects
         if (characterService.still_loading()) { return this.$limit; }
         let result: {value:number, desc:string} = {value:0, desc:""};
-        let str = characterService.get_Abilities("Strength")[0].mod(characterService, effectsService);
+        let str = characterService.get_Abilities("Strength")[0].mod(creature, characterService, effectsService);
         if (str != 0) {
             result.value += str;
             result.desc += "\nStrength Modifier: "+str;

@@ -5,6 +5,8 @@ import { AdventuringGear } from '../AdventuringGear';
 import { CharacterService } from '../character.service';
 import { ItemsService } from '../items.service';
 import { Item } from '../Item';
+import { Character } from '../Character';
+import { AnimalCompanion } from '../AnimalCompanion';
 
 @Component({
     selector: 'app-item',
@@ -13,6 +15,8 @@ import { Item } from '../Item';
 })
 export class ItemComponent implements OnInit {
 
+    @Input()
+    creature: string = "Character";
     @Input()
     item;
     @Input()
@@ -37,6 +41,10 @@ export class ItemComponent implements OnInit {
 
     set_Changed() {
         this.characterService.set_Changed();
+    }
+    
+    get_Creature() {
+        return this.characterService.get_Creature(this.creature);
     }
 
     get_Traits(name: string = "") {
@@ -102,9 +110,9 @@ export class ItemComponent implements OnInit {
     get_DoublingRingsOptions(ring:string) {
         switch (ring) {
             case "gold":
-                return this.characterService.get_InventoryItems().weapons.filter(weapon => weapon.melee && weapon.potencyRune);
+                return this.get_Creature().inventory.weapons.filter(weapon => weapon.melee && weapon.potencyRune);
             case "iron":
-                return this.characterService.get_InventoryItems().weapons.filter(weapon => weapon.melee && weapon.moddable == "weapon");
+                return this.get_Creature().inventory.weapons.filter(weapon => weapon.melee && weapon.moddable == "weapon");
         }
     }
 

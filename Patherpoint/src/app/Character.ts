@@ -1,17 +1,12 @@
 import { Skill } from './Skill';
 import { Level } from './Level';
 import { Class } from './Class';
-import { ItemCollection } from './ItemCollection';
 import { Feat } from './Feat';
 import { CharacterService } from './character.service';
 import { SkillChoice } from './SkillChoice';
 import { LoreChoice } from './LoreChoice';
 import { AbilityChoice } from './AbilityChoice';
 import { FeatChoice } from './FeatChoice';
-import { Health } from './Health';
-import { Speed } from './Speed';
-import { Bulk } from './Bulk';
-import { ConditionGain } from './ConditionGain';
 import { ActivityGain } from './ActivityGain';
 import { ActivitiesService } from './activities.service';
 import { ItemsService } from './items.service';
@@ -20,22 +15,18 @@ import { Settings } from './Settings';
 import { TimeService } from './time.service';
 import { TraditionChoice } from './TraditionChoice';
 import { Deity } from './Deity';
+import { Creature } from './Creature';
+import { AbilityBoost } from './AbilityBoost';
 
-export class Character {
-    public name: string = "";
-    public level: number = 1;
+export class Character extends Creature {
     public class: Class = new Class();
-    public health: Health = new Health();
+    public readonly type = "Character";
     public customSkills: Skill[] = [];
     public customFeats: Feat[] = [];
-    public conditions: ConditionGain[] = [];
     public baseValues: {name:string, baseValue:number}[] = [];
-    public inventory: ItemCollection = new ItemCollection();
     public alignment: string = "";
     public deity: Deity = new Deity();
-    public speeds: Speed[] = [new Speed("Speed"), new Speed("Land Speed")];
     public cash: number[] = [0,15,0,0];
-    public bulk: Bulk = new Bulk();
     public heroPoints: number = 1;
     public settings: Settings = new Settings();
     get_Changed(characterService: CharacterService, ) {
@@ -61,7 +52,7 @@ export class Character {
                     });
                 });
             });
-            return boosts;
+            return boosts as AbilityBoost[];
         }
     }
     boost_Ability(characterService: CharacterService, abilityName: string, boost: boolean, choice: AbilityChoice, locked: boolean) {
@@ -153,7 +144,7 @@ export class Character {
     lose_Activity(characterService: CharacterService, timeService: TimeService, itemsService: ItemsService, activitiesService: ActivitiesService, oldGain: ActivityGain) {
         let a = this.class.activities;
         if (oldGain.active) {
-            activitiesService.activate_Activity(characterService, timeService, itemsService, oldGain, activitiesService.get_Activities(oldGain.name)[0], false);
+            activitiesService.activate_Activity(this, characterService, timeService, itemsService, oldGain, activitiesService.get_Activities(oldGain.name)[0], false);
         }
         a.splice(a.indexOf(oldGain), 1);
     }
@@ -173,7 +164,7 @@ export class Character {
                     })
                 })
             })
-            characterService.get_InventoryItems().allEquipment().filter(item => item.propertyRunes.filter(rune => rune.loreChoices && rune.loreChoices.length).length && item.equipped && (item.can_Invest() ? item.invested : true ))
+            this.inventory.allEquipment().filter(item => item.propertyRunes.filter(rune => rune.loreChoices && rune.loreChoices.length).length && item.equipped && (item.can_Invest() ? item.invested : true ))
             .forEach(item => {
                 item.propertyRunes.filter(rune => rune.loreChoices && rune.loreChoices.length).forEach(rune => {
                     rune.loreChoices.forEach(choice => {
@@ -240,7 +231,7 @@ export class Character {
             }
             //If you are getting trained in a skill you don't already know, it's usually a weapon proficiency or a class/spell DC.
             //We have to create that skill here then
-            if (characterService.get_Skills(skillName).length == 0) {
+            if (characterService.get_Skills(this, skillName).length == 0) {
                 if (skillName.indexOf("class DC") > -1) {
                     switch (skillName) {
                         case "Alchemist class DC": 

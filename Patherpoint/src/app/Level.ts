@@ -4,6 +4,7 @@ import { AbilityChoice } from './AbilityChoice';
 import { FeatChoice } from './FeatChoice';
 import { SpellChoice } from './SpellChoice';
 import { TraditionChoice } from './TraditionChoice';
+import { AnimalCompanion } from './AnimalCompanion';
 
 export class Level {
     public number: number = 0;
@@ -13,5 +14,6 @@ export class Level {
     public skillChoices: SkillChoice[] = [];
     public loreChoices: LoreChoice[] = [];
     public spellChoices: SpellChoice[] = [];
+    public animalCompanion: AnimalCompanion[] = [];
     public traditionChoices: TraditionChoice[] = [];
 }

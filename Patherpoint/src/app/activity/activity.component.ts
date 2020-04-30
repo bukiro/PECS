@@ -3,13 +3,14 @@ import { Activity } from '../Activity';
 import { TraitsService } from '../traits.service';
 import { SpellsService } from '../spells.service';
 import { CharacterService } from '../character.service';
-import { EffectsService } from '../effects.service';
 import { ActivitiesService } from '../activities.service';
 import { TimeService } from '../time.service';
 import { ItemsService } from '../items.service';
 import { ActivityGain } from '../ActivityGain';
 import { ItemActivity } from '../ItemActivity';
 import { Feat } from '../Feat';
+import { AnimalCompanion } from '../AnimalCompanion';
+import { Character } from '../Character';
 
 @Component({
     selector: 'app-activity',
@@ -18,6 +19,8 @@ import { Feat } from '../Feat';
 })
 export class ActivityComponent implements OnInit {
 
+    @Input()
+    creature: string = "Character";
     @Input()
     activity: Activity | ItemActivity;
     @Input()
@@ -38,6 +41,10 @@ export class ActivityComponent implements OnInit {
     get_Accent() {
         return this.characterService.get_Accent();
     }
+    
+    get_Creature() {
+        return this.characterService.get_Creature(this.creature);
+    }
 
     get_ActivationTraits(activity: Activity) {
         switch (activity.activationType) {
@@ -57,14 +64,14 @@ export class ActivityComponent implements OnInit {
     }
 
     on_Activate(gain: ActivityGain | ItemActivity, activity: Activity | ItemActivity, activated: boolean) {
-        this.activitiesService.activate_Activity(this.characterService, this.timeService, this.itemsService, gain, activity, activated);
+        this.activitiesService.activate_Activity(this.get_Creature(), this.characterService, this.timeService, this.itemsService, gain, activity, activated);
     }
 
     on_ActivateFuseStance(activated: boolean) {
         this.gain.active = activated;
         this.get_FusedStances().forEach(gain => {
             let activity = (gain["can_Activate"] ? gain as ItemActivity : this.get_Activities(gain.name)[0])
-            this.activitiesService.activate_Activity(this.characterService, this.timeService, this.itemsService, gain, activity, activated);
+            this.activitiesService.activate_Activity(this.get_Creature(), this.characterService, this.timeService, this.itemsService, gain, activity, activated);
         })
     }
 
@@ -77,7 +84,7 @@ export class ActivityComponent implements OnInit {
     }
 
     get_ActivitiesShowingOn(objectName: string) {
-        return this.characterService.get_OwnedActivities().filter((gain: ItemActivity|ActivityGain) => (gain["can_Activate"] ? [gain as ItemActivity] : this.get_Activities(gain.name))
+        return this.characterService.get_OwnedActivities(this.get_Creature()).filter((gain: ItemActivity|ActivityGain) => (gain["can_Activate"] ? [gain as ItemActivity] : this.get_Activities(gain.name))
             .filter((activity: ItemActivity|Activity) => activity.showon.split(",")
                 .filter(showon => showon == objectName || showon.substr(1) == objectName)
                 .length)
@@ -85,9 +92,13 @@ export class ActivityComponent implements OnInit {
     }
 
     get_FuseStanceFeat() {
-        let character = this.characterService.get_Character();
-        if (character.get_FeatsTaken(0, character.level, "Fuse Stance").length) {
-            return character.customFeats.filter(feat => feat.name == "Fuse Stance")[0];
+        if (this.get_Creature().type == "Character") {
+            let character = this.get_Creature() as Character;
+            if (character.get_FeatsTaken(0, character.level, "Fuse Stance").length) {
+                return character.customFeats.filter(feat => feat.name == "Fuse Stance")[0];
+            } else {
+                return null;
+            }
         } else {
             return null;
         }
@@ -96,7 +107,7 @@ export class ActivityComponent implements OnInit {
     get_FusedStances() {
         let feat: Feat = this.get_FuseStanceFeat();
         if (feat) {
-            return this.characterService.get_OwnedActivities()
+            return this.characterService.get_OwnedActivities(this.get_Creature())
                 .filter((gain: ItemActivity|ActivityGain) => gain.name == feat.data["stance1"] || gain.name == feat.data["stance2"])
         }
     }

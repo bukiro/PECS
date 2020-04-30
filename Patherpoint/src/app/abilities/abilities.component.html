@@ -1,5 +1,5 @@
-<button class="minimizebutton lower" (click)="minimize()">&#8691;</button>
-<div id="abilities-height" class="attributeBox">
+<button class="minimizebutton lower" (click)="minimize()" *ngIf="creature=='Character'">&#8691;</button>
+<div id="{{creature == 'Character' ? '' : 'other-'}}abilities-height" class="attributeBox">
 <h3 class="box-header">Abilities</h3>
 <div class="loading" *ngIf="still_loading()">Loading</div>
 <ng-container *ngIf="!still_loading()">
@@ -8,19 +8,19 @@
             <strong>{{ability.name}}</strong>
             <span>
                 <input class="number2" type="number"
-                    [className]="(ability.penalty(this.effectsService) < 0) ? 'penalty' : (ability.bonus(this.effectsService) > 0) ? 'bonus' : ''"
-                    value="{{ability.value(this.characterService, this.effectsService)}}" disabled>
+                    [className]="(ability.penalty(get_Creature(), this.effectsService) < 0) ? 'penalty' : (ability.bonus(get_Creature(), this.effectsService) > 0) ? 'bonus' : ''"
+                    value="{{ability.value(get_Creature(), this.characterService, this.effectsService)}}" disabled>
             </span>
             Modifier:
             <span>
                 <input class="number2" type="number"
-                    [className]="(ability.penalty(this.effectsService) < 0) ? 'penalty' : (ability.bonus(this.effectsService) > 0) ? 'bonus' : ''"
-                    value="{{ability.mod(this.characterService, this.effectsService)}}" disabled>
+                    [className]="(ability.penalty(get_Creature(), this.effectsService) < 0) ? 'penalty' : (ability.bonus(get_Creature(), this.effectsService) > 0) ? 'bonus' : ''"
+                    value="{{ability.mod(get_Creature(), this.characterService, this.effectsService)}}" disabled>
             </span>
         </div>
-        <app-tags [objectName]=ability.name [showTraits]=true [showFeats]=true [showItems]=true [showActivities]=true
+        <app-tags [creature]="creature" [objectName]=ability.name [showTraits]=true [showFeats]=true [showItems]=true [showActivities]=true
             [showConditions]=true [showEffects]=true></app-tags>
-    </div> 
+    </div>
 </ng-container>
 </div>
 <div *ngIf="set_Span()"></div>

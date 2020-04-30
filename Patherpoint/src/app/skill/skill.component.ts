@@ -5,6 +5,8 @@ import { TraitsService } from '../traits.service';
 import { AbilitiesService } from '../abilities.service';
 import { EffectsService } from '../effects.service';
 import { Skill } from '../Skill';
+import { Character } from '../Character';
+import { AnimalCompanion } from '../AnimalCompanion';
 
 @Component({
     selector: 'app-skill',
@@ -14,6 +16,8 @@ import { Skill } from '../Skill';
 })
 export class SkillComponent implements OnInit {
 
+    @Input()
+    creature: string = "Character";
     @Input()
     skill: Skill;
     @Input()
@@ -31,27 +35,30 @@ export class SkillComponent implements OnInit {
     ) { }
 
     get_Skills(name: string = "", type: string = "") {
-        return this.characterService.get_Skills(name, type);
+        return this.characterService.get_Skills(this.get_Creature(), name, type);
     }
 
     get_Accent() {
         return this.characterService.get_Accent();
     }
+    
+    get_Creature() {
+        return this.characterService.get_Creature(this.creature);
+    }
 
     get_specialShowon(skill: Skill) {
         //Under certain circumstances, some Feats apply to skills independently of their name.
         //Return names that get_FeatsShowingOn should run on
-        let character = this.characterService.get_Character();
         let specialNames: string[] = []
         //Show Path to Perfection notices on a save if any skill increases with that PtP as its source can be found
         if (skill.type == "Save") {
-            if (character.get_SkillIncreases(this.characterService, 1, character.level, skill.name, "Path to Perfection").length) {
+            if (this.get_Creature().get_SkillIncreases(this.characterService, 1, this.get_Creature().level, skill.name, "Path to Perfection").length) {
                 specialNames.push("Path to Perfection");
             }
-            if (character.get_SkillIncreases(this.characterService, 1, character.level, skill.name, "Second Path to Perfection").length) {
+            if (this.get_Creature().get_SkillIncreases(this.characterService, 1, this.get_Creature().level, skill.name, "Second Path to Perfection").length) {
                 specialNames.push("Second Path to Perfection");
             }
-            if (character.get_SkillIncreases(this.characterService, 1, character.level, skill.name, "Third Path to Perfection").length) {
+            if (this.get_Creature().get_SkillIncreases(this.characterService, 1, this.get_Creature().level, skill.name, "Third Path to Perfection").length) {
                 specialNames.push("Third Path to Perfection");
             }
         }

@@ -22,6 +22,45 @@
    {
       "type": "weapons",
       "desc": "",
+      "name": "Bear Jaws",
+      "displayName": "Jaws",
+      "group": "Brawling",
+      "prof": "Unarmed",
+      "dmgType": "P",
+      "dicenum": 1,
+      "dicesize": 8,
+      "melee": 5,
+      "moddable": "-",
+      "price": 0,
+      "hands": "1",
+      "hide": true,
+      "traits": [
+         "Unarmed"
+      ]
+   },
+   {
+      "type": "weapons",
+      "desc": "",
+      "name": "Bear Claw",
+      "displayName": "Claw",
+      "group": "Brawling",
+      "prof": "Unarmed",
+      "dmgType": "S",
+      "dicenum": 1,
+      "dicesize": 6,
+      "melee": 5,
+      "moddable": "-",
+      "price": 0,
+      "hands": "1",
+      "hide": true,
+      "traits": [
+         "Unarmed",
+         "Agile"
+      ]
+   },
+   {
+      "type": "weapons",
+      "desc": "",
       "name": "Crane Wing",
       "group": "Brawling",
       "prof": "Unarmed",

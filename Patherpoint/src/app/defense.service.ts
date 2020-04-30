@@ -3,6 +3,8 @@ import { CharacterService } from './character.service';
 import { EffectsService } from './effects.service';
 import { Armor } from './Armor';
 import { AC } from './AC';
+import { AnimalCompanion } from './AnimalCompanion';
+import { Character } from './Character';
 
 @Injectable({
     providedIn: 'root'
@@ -19,23 +21,23 @@ export class DefenseService {
         return this.AC;
     }
 
-    get_EquippedArmor(characterService: CharacterService) {
-        let armor = characterService.get_InventoryItems().armors;
+    get_EquippedArmor(creature: Character|AnimalCompanion) {
+        let armor = creature.inventory.armors;
         return armor.filter(armor => armor.equipped);
     }
 
-    get_EquippedShield(characterService: CharacterService) {
-        let shield = characterService.get_InventoryItems().shields;
+    get_EquippedShield(creature: Character|AnimalCompanion) {
+        let shield = creature.inventory.shields;
         return shield.filter(shield => shield.equipped);
     }
 
-    get_ParryWeapons(characterService: CharacterService) {
-        let weapons = characterService.get_InventoryItems().weapons;
+    get_ParryWeapons(creature: Character|AnimalCompanion) {
+        let weapons = creature.inventory.weapons;
         return weapons.filter(weapon => weapon.traits.indexOf("Parry") > -1);
     }
 
-    get_ArmorBonus(characterService: CharacterService, armor: Armor) {
-        return armor.armorBonus(characterService, this.effectsService);
+    get_ArmorBonus(creature: Character|AnimalCompanion, characterService: CharacterService, armor: Armor) {
+        return armor.armorBonus(creature, characterService, this.effectsService);
     }
 
 }

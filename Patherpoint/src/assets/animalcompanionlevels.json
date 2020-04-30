@@ -1,0 +1,144 @@
+[
+    {
+        "number":0
+    },
+    {
+        "number":1,
+        "name":"Young",
+        "abilityChoices":[
+            {
+                "boosts":[
+                    {"name":"Strength", "type":"Boost", "source":"Ancestry", "locked":true, "sourceId":"1-Ability-Class-0"},
+                    {"name":"Strength", "type":"Boost", "source":"Ancestry", "locked":true, "sourceId":"1-Ability-Class-0"},
+                    {"name":"Dexterity", "type":"Boost", "source":"Ancestry", "locked":true, "sourceId":"1-Ability-Class-0"},
+                    {"name":"Dexterity", "type":"Boost", "source":"Ancestry", "locked":true, "sourceId":"1-Ability-Class-0"},
+                    {"name":"Constitution", "type":"Boost", "source":"Ancestry", "locked":true, "sourceId":"1-Ability-Class-0"},
+                    {"name":"Intelligence", "type":"Flaw", "source":"Ancestry", "locked":true, "sourceId":"1-Ability-Class-0"},
+                    {"name":"Intelligence", "type":"Flaw", "source":"Ancestry", "locked":true, "sourceId":"1-Ability-Class-0"},
+                    {"name":"Intelligence", "type":"Flaw", "source":"Ancestry", "locked":true, "sourceId":"1-Ability-Class-0"},
+                    {"name":"Intelligence", "type":"Flaw", "source":"Ancestry", "locked":true, "sourceId":"1-Ability-Class-0"},
+                    {"name":"Wisdom", "type":"Boost", "source":"Ancestry", "locked":true, "sourceId":"1-Ability-Class-0"}
+                ],
+                "source":"Class",
+                "id":"1-Ability-Class-0"
+            }
+        ],"skillChoices":[
+            {
+                "increases":[
+                    { "name":"Unarmed", "source":"Class", "maxRank":2, "locked":true, "sourceId":"1-Skill-Class-0" },
+                    { "name":"Unarmored", "source":"Class", "maxRank":2, "locked":true, "sourceId":"1-Skill-Class-0" },
+                    { "name":"Barding", "source":"Class", "maxRank":2, "locked":true, "sourceId":"1-Skill-Class-0" },
+                    { "name":"Fortitude", "source":"Class", "maxRank":2, "locked":true, "sourceId":"1-Skill-Class-0" },
+                    { "name":"Reflex", "source":"Class", "maxRank":2, "locked":true, "sourceId":"1-Skill-Class-0" },
+                    { "name":"Will", "source":"Class", "maxRank":2, "locked":true, "sourceId":"1-Skill-Class-0" },
+                    { "name":"Perception", "source":"Class", "maxRank":2, "locked":true, "sourceId":"1-Skill-Class-0" },
+                    { "name":"Acrobatics", "source":"Class", "maxRank":2, "locked":true, "sourceId":"1-Skill-Class-0" },
+                    { "name":"Athletics", "source":"Class", "maxRank":2, "locked":true, "sourceId":"1-Skill-Class-0" }
+                ],
+                "type":"Any",
+                "maxRank":2,
+                "source":"Class",
+                "id":"1-Skill-Class-0"
+            }
+        ]
+    },
+    {
+        "number":2,
+        "name":"Mature",
+        "sizeChange":1,
+        "extraDice":1,
+        "abilityChoices":[
+            {
+                "boosts":[
+                    {"name":"Strength", "type":"Boost", "source":"Ancestry", "locked":true, "sourceId":"2-Ability-Class-0"},
+                    {"name":"Dexterity", "type":"Boost", "source":"Ancestry", "locked":true, "sourceId":"2-Ability-Class-0"},
+                    {"name":"Constitution", "type":"Boost", "source":"Ancestry", "locked":true, "sourceId":"2-Ability-Class-0"},
+                    {"name":"Wisdom", "type":"Boost", "source":"Ancestry", "locked":true, "sourceId":"2-Ability-Class-0"}
+                ],
+                "source":"Ancestry",
+                "id":"2-Ability-Class-0"
+            }
+        ],
+        "skillChoices":[
+            {
+                "increases":[
+                    { "name":"Fortitude", "source":"Class", "maxRank":4, "locked":true, "sourceId":"2-Skill-Class-0" },
+                    { "name":"Reflex", "source":"Class", "maxRank":4, "locked":true, "sourceId":"2-Skill-Class-0" },
+                    { "name":"Will", "source":"Class", "maxRank":4, "locked":true, "sourceId":"2-Skill-Class-0" },
+                    { "name":"Perception", "source":"Class", "maxRank":4, "locked":true, "sourceId":"2-Skill-Class-0" },
+                    { "name":"Intimidation", "source":"Class", "maxRank":4, "locked":true, "sourceId":"2-Skill-Class-0" },
+                    { "name":"Stealth", "source":"Class", "maxRank":4, "locked":true, "sourceId":"2-Skill-Class-0" },
+                    { "name":"Survival", "source":"Class", "maxRank":4, "locked":true, "sourceId":"2-Skill-Class-0" }
+                ],
+                "type":"Any",
+                "maxRank":4,
+                "source":"Class",
+                "id":"2-Skill-Class-0"
+            }
+        ]
+    },
+    {
+        "number":3,
+        "internalNote":"This level gets replaced by Nimble (4) or Savage (5) as needed"
+    },
+    {
+        "number":4,
+        "name":"Nimble",
+        "extraDamage":2,
+        "abilityChoices":[
+            {
+                "boosts":[
+                    {"name":"Strength", "type":"Boost", "source":"Ancestry", "locked":true, "sourceId":"3-Ability-Class-0"},
+                    {"name":"Dexterity", "type":"Boost", "source":"Ancestry", "locked":true, "sourceId":"3-Ability-Class-0"},
+                    {"name":"Dexterity", "type":"Boost", "source":"Ancestry", "locked":true, "sourceId":"3-Ability-Class-0"},
+                    {"name":"Constitution", "type":"Boost", "source":"Ancestry", "locked":true, "sourceId":"3-Ability-Class-0"},
+                    {"name":"Wisdom", "type":"Boost", "source":"Ancestry", "locked":true, "sourceId":"3-Ability-Class-0"}
+                ],
+                "source":"Ancestry",
+                "id":"3-Ability-Class-0"
+            }
+        ],
+        "skillChoices":[
+            {
+                "increases":[
+                    { "name":"Acrobatics", "source":"Class", "maxRank":4, "locked":true, "sourceId":"3-Skill-Class-0" },
+                    { "name":"Unarmored", "source":"Class", "maxRank":4, "locked":true, "sourceId":"3-Skill-Class-0" }
+                ],
+                "type":"Any",
+                "maxRank":4,
+                "source":"Class",
+                "id":"3-Skill-Class-0"
+            }
+        ]
+    },
+    {
+        "number":5,
+        "name":"Savage",
+        "sizeChange":1,
+        "extraDamage":3,
+        "abilityChoices":[
+            {
+                "boosts":[
+                    {"name":"Strength", "type":"Boost", "source":"Ancestry", "locked":true, "sourceId":"3-Ability-Class-0"},
+                    {"name":"Strength", "type":"Boost", "source":"Ancestry", "locked":true, "sourceId":"3-Ability-Class-0"},
+                    {"name":"Dexterity", "type":"Boost", "source":"Ancestry", "locked":true, "sourceId":"3-Ability-Class-0"},
+                    {"name":"Constitution", "type":"Boost", "source":"Ancestry", "locked":true, "sourceId":"3-Ability-Class-0"},
+                    {"name":"Wisdom", "type":"Boost", "source":"Ancestry", "locked":true, "sourceId":"3-Ability-Class-0"}
+                ],
+                "source":"Ancestry",
+                "id":"3-Ability-Class-0"
+            }
+        ],
+        "skillChoices":[
+            {
+                "increases":[
+                    { "name":"Athletics", "source":"Class", "maxRank":4, "locked":true, "sourceId":"3-Skill-Class-0" }
+                ],
+                "type":"Any",
+                "maxRank":4,
+                "source":"Class",
+                "id":"3-Skill-Class-0"
+            }
+        ]
+    }
+]

@@ -12,5 +12,6 @@ export class Settings {
     activitiesMinimized: boolean = false;
     spellbookMinimized: boolean = false;
     characterMinimized: boolean = false;
+    companionMinimized: boolean = false;
     spellsMinimized: boolean = false;
 }

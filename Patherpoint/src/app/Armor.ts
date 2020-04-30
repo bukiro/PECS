@@ -1,6 +1,8 @@
 import { CharacterService } from './character.service';
 import { EffectsService } from './effects.service';
 import { Equipment } from './Equipment';
+import { AnimalCompanion } from './AnimalCompanion';
+import { Character } from './Character';
 
 export class Armor extends Equipment {
     //Armor should be type "armors" to be found in the database
@@ -27,9 +29,9 @@ export class Armor extends Equipment {
     //For certain medium and light armors, set 1 if an "Armored Skirt" is equipped; For certain heavy armors, set -1 instead
     //This value influences acbonus, skillpenalty, dexcap and strength
     public affectedByArmoredSkirt: -1|0|1 = 0;
-    get_ArmoredSkirt(characterService: CharacterService) {
+    get_ArmoredSkirt(creature: Character|AnimalCompanion, characterService: CharacterService) {
         if (["Breastplate","Chain Shirt","Chain Mail","Scale Mail"].indexOf(this.name) > -1 ) {
-            let armoredSkirt = characterService.get_InventoryItems().adventuringgear.filter(item => item.isArmoredSkirt && item.equipped);
+            let armoredSkirt = characterService.get_InventoryItems(creature).adventuringgear.filter(item => item.isArmoredSkirt && item.equipped);
             if (armoredSkirt.length) {
                 this.affectedByArmoredSkirt = 1;
                 return armoredSkirt[0];
@@ -38,7 +40,7 @@ export class Armor extends Equipment {
                 return null;
             }
         } else if (["Half Plate","Full Plate","Hellknight Plate"].indexOf(this.name) > -1 ) {
-            let armoredSkirt = characterService.get_InventoryItems().adventuringgear.filter(item => item.isArmoredSkirt && item.equipped);
+            let armoredSkirt = characterService.get_InventoryItems(creature).adventuringgear.filter(item => item.isArmoredSkirt && item.equipped);
             if (armoredSkirt.length) {
                 this.affectedByArmoredSkirt = -1;
                 return armoredSkirt[0];
@@ -91,24 +93,24 @@ export class Armor extends Equipment {
             return this.traits;
         }
     }
-    profLevel(characterService: CharacterService, charLevel: number = characterService.get_Character().level) {
+    profLevel(creature: Character|AnimalCompanion, characterService: CharacterService, charLevel: number = characterService.get_Character().level) {
         if (characterService.still_loading()) { return 0; }
-        this.get_ArmoredSkirt(characterService);
+        this.get_ArmoredSkirt(creature, characterService);
         let skillLevel: number = 0;
-        let armorIncreases = characterService.get_Character().get_SkillIncreases(characterService, 0, charLevel, this.name);
-        let profIncreases = characterService.get_Character().get_SkillIncreases(characterService, 0, charLevel, this.get_Prof());
+        let armorIncreases = creature.get_SkillIncreases(characterService, 0, charLevel, this.name);
+        let profIncreases = creature.get_SkillIncreases(characterService, 0, charLevel, this.get_Prof());
         //Add either the armor category proficiency or the armor proficiency, whichever is better
         skillLevel = Math.min(Math.max(armorIncreases.length * 2, profIncreases.length * 2), 8)
         return skillLevel;
     }
-    armorBonus(characterService: CharacterService, effectsService: EffectsService) {
+    armorBonus(creature: Character|AnimalCompanion, characterService: CharacterService, effectsService: EffectsService) {
     //Calculates the full AC bonus when wearing this armor
     //We assume that only one armor is worn at a time
         let explain: string = "AC Basis: 10";
         let charLevel = characterService.get_Character().level;
-        let dex = characterService.get_Abilities("Dexterity")[0].mod(characterService, effectsService);
+        let dex = characterService.get_Abilities("Dexterity")[0].mod(creature, characterService, effectsService);
         //Get the profiency with either this armor or its category
-        let skillLevel = this.profLevel(characterService);
+        let skillLevel = this.profLevel(creature, characterService);
         if (skillLevel) {
             explain += "\nProficiency: "+skillLevel;
         }

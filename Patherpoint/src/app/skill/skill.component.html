@@ -1,8 +1,8 @@
-<div class="list-item" [className]="(skill.$value.result <= 0) ? 'fullsize-only' : ''"
-    *ngFor="let skill of [skill.calculate(this.characterService,this.abilitiesService,this.effectsService)]">
+<div class="list-item" [className]="(skill.$value.result == 0 || (skill.$level == 0 && creature == 'Companion')) ? 'fullsize-only' : ''"
+    *ngFor="let skill of [skill.calculate(get_Creature(), this.characterService,this.abilitiesService,this.effectsService)]">
     <div class="row">
         <strong>{{skill.name}}</strong>
-        <app-proficiency-form [skill]="skill" [characterService]="this.characterService"
+        <app-proficiency-form [creature]="creature" [skill]="skill" [characterService]="this.characterService"
             [level]="this.characterService.get_Character().level">
         </app-proficiency-form>
         <span *ngIf="showValue">
@@ -12,7 +12,7 @@
                 value="{{skill.$value.result + ((isDC) ? 10 : 0)}}" disabled>
         </span>
     </div>
-        <app-tags [objectName]=skill.name [showTraits]=true [showFeats]=true [showItems]=true [showActivities]=true
+        <app-tags [creature]="creature" [objectName]=skill.name [showTraits]=true [showFeats]=true [showItems]=true [showActivities]=true
         [showConditions]=true [showEffects]=true [specialNames]=get_specialShowon(skill)></app-tags>
     <div class="fullsize-only row">
         <span><input type="checkbox" [(ngModel)]="skill.showNotes">Notes</span>

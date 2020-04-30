@@ -1,8 +1,10 @@
-import { Component, OnInit, ChangeDetectorRef, ChangeDetectionStrategy } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef, ChangeDetectionStrategy, Input } from '@angular/core';
 import { EffectsService } from '../effects.service';
 import { CharacterService } from '../character.service';
 import { ConditionGain } from '../ConditionGain';
 import { TimeService } from '../time.service';
+import { AnimalCompanion } from '../AnimalCompanion';
+import { Character } from '../Character';
 
 @Component({
     selector: 'app-effects',
@@ -12,6 +14,8 @@ import { TimeService } from '../time.service';
 })
 export class EffectsComponent implements OnInit {
 
+    @Input()
+    creature: string = "Character";
     public showNotApplied: boolean = false;
     public showHidden: boolean = false;
     public showItem: string = "";
@@ -49,6 +53,10 @@ export class EffectsComponent implements OnInit {
     get_Accent() {
         return this.characterService.get_Accent();
     }
+    
+    get_Creature() {
+        return this.characterService.get_Creature(this.creature);
+    }
 
     toggle_NotApplied() {
         this.showNotApplied = !this.showNotApplied;
@@ -67,19 +75,19 @@ export class EffectsComponent implements OnInit {
     }
 
     get_AppliedEffects() {
-        return this.get_Effects().all.filter(effect => effect.apply && !effect.hide);
+        return this.get_Effects().all.filter(effect => effect.creature == this.get_Creature().id && effect.apply && !effect.hide);
     }
 
     get_NotAppliedEffects() {
-        return this.get_Effects().all.filter(effect => !effect.apply && !effect.hide);
+        return this.get_Effects().all.filter(effect => effect.creature == this.get_Creature().id && !effect.apply && !effect.hide);
     }
 
     get_HiddenEffects() {
-        return this.get_Effects().all.filter(effect => effect.hide);
+        return this.get_Effects().all.filter(effect => effect.creature == this.get_Creature().id && effect.hide);
     }
 
     get_AppliedConditions(apply: boolean) {
-        return this.characterService.get_AppliedConditions().filter(condition => condition.apply == apply);
+        return this.characterService.get_AppliedConditions(this.get_Creature()).filter(condition => condition.apply == apply);
     }
 
     get_Duration(duration: number) {
@@ -120,7 +128,7 @@ export class EffectsComponent implements OnInit {
     }
 
     remove_Condition(conditionGain: ConditionGain) {
-        this.characterService.remove_Condition(conditionGain, true);
+        this.characterService.remove_Condition(this.get_Creature(), conditionGain, true);
     }
 
     finish_Loading() {

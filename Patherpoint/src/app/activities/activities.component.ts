@@ -1,10 +1,12 @@
-import { Component, OnInit, ChangeDetectorRef, ChangeDetectionStrategy } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef, ChangeDetectionStrategy, Input } from '@angular/core';
 import { CharacterService } from '../character.service';
 import { ActivitiesService } from '../activities.service';
 import { Activity } from '../Activity';
 import { ActivityGain } from '../ActivityGain';
 import { ItemsService } from '../items.service';
 import { TimeService } from '../time.service';
+import { Character } from '../Character';
+import { AnimalCompanion } from '../AnimalCompanion';
 
 @Component({
     selector: 'app-activities',
@@ -14,6 +16,8 @@ import { TimeService } from '../time.service';
 })
 export class ActivitiesComponent implements OnInit {
 
+    @Input()
+    creature: string = "Character";
     private id: number = 0;
     private showAction: number = 0;
     public hover: number = 0;
@@ -60,7 +64,11 @@ export class ActivitiesComponent implements OnInit {
     still_loading() {
         return this.activitiesService.still_loading() || this.characterService.still_loading();
     }
-
+    
+    get_Creature() {
+        return this.characterService.get_Creature(this.creature);
+    }
+    
     get_Activities(name: string = "") {
         return this.activitiesService.get_Activities(name);
     }
@@ -73,7 +81,7 @@ export class ActivitiesComponent implements OnInit {
         this.id = 0;
         let activities: ActivityGain[] = [];
         let unique: string[] = [];
-        this.characterService.get_OwnedActivities().forEach(activity => {
+        this.characterService.get_OwnedActivities(this.get_Creature()).forEach(activity => {
             if (unique.indexOf(activity.name) == -1) {
                 unique.push(activity.name);
                 activities.push(activity);
@@ -92,7 +100,7 @@ export class ActivitiesComponent implements OnInit {
     }
 
     on_Activate(gain: ActivityGain, activity: Activity, activated: boolean) {
-        this.activitiesService.activate_Activity(this.characterService, this.timeService, this.itemsService, gain, activity, activated);
+        this.activitiesService.activate_Activity(this.get_Creature(), this.characterService, this.timeService, this.itemsService, gain, activity, activated);
     }
 
     finish_Loading() {

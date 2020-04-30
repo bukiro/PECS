@@ -142,7 +142,7 @@ export class ItemsComponent implements OnInit {
     }
 
     get_InventoryItems() {
-        return this.characterService.get_InventoryItems();
+        return this.characterService.get_Character().inventory;
     }
 
     get_VisibleItems(items: Item[]) {
@@ -158,11 +158,16 @@ export class ItemsComponent implements OnInit {
             );
     }
 
-    grant_Item(item: Item, pay: boolean = false) {
+    grant_Item(creature: string = "Character", item: Item, pay: boolean = false) {
         if (pay && (item["get_Price"] ? item["get_Price"](this.itemsService) : item.price)) {
             this.change_Cash(-1, item.price);
         }
-        this.characterService.grant_InventoryItem(item, false);
+        if (creature == "Character") {
+            this.characterService.grant_InventoryItem(this.characterService.get_Character(), item, false);
+        } else if (creature == "Companion") {
+            this.characterService.grant_InventoryItem(this.characterService.get_Companion(), item, false);
+        }
+        
     }
 
     still_loading() {
@@ -233,9 +238,9 @@ export class ItemsComponent implements OnInit {
         this.newItem = this.itemsService.initialize_Item(JSON.parse(JSON.stringify(item)))
     }
 
-    grant_CustomItem() {
+    grant_CustomItem(creature: string = "Character") {
         if (this.newItem != null) {
-            this.grant_Item(this.newItem);
+            this.grant_Item(creature, this.newItem);
         }
     }
 

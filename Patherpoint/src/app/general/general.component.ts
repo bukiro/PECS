@@ -1,12 +1,10 @@
-import { Component, OnInit, ChangeDetectorRef, ChangeDetectionStrategy } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef, ChangeDetectionStrategy, Input } from '@angular/core';
 import { CharacterService } from '../character.service';
-import { Skill } from '../Skill';
 import { EffectsService } from '../effects.service';
 import { TraitsService } from '../traits.service';
-import { FeatsService } from '../feats.service';
 import { Speed } from '../Speed';
-import { Effect } from '../Effect';
-import { ArgumentOutOfRangeError } from 'rxjs';
+import { Character } from '../Character';
+import { AnimalCompanion } from '../AnimalCompanion';
 
 @Component({
     selector: 'app-general',
@@ -15,6 +13,9 @@ import { ArgumentOutOfRangeError } from 'rxjs';
     changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class GeneralComponent implements OnInit {
+
+    @Input()
+    creature: string = "Character";
 
     constructor(
         private changeDetector:ChangeDetectorRef,
@@ -40,6 +41,10 @@ export class GeneralComponent implements OnInit {
     get_Accent() {
         return this.characterService.get_Accent();
     }
+    
+    get_Creature() {
+        return this.characterService.get_Creature(this.creature);
+    }
 
     get_Character() {
         return this.characterService.get_Character();
@@ -49,6 +54,10 @@ export class GeneralComponent implements OnInit {
         this.get_Character().heroPoints += amount;
     }
 
+    get_Languages() {
+        return this.get_Character().class.ancestry.languages.filter(language => language != "").join(', ')
+    }
+
     get_DifferentWorldsFeat() {
         if (this.get_Character().get_FeatsTaken(1, this.get_Character().level, "Different Worlds").length) {
             return this.get_Character().customFeats.filter(feat => feat.name == "Different Worlds");
@@ -56,22 +65,22 @@ export class GeneralComponent implements OnInit {
     }
 
     get_ClassDCs() {
-        return this.characterService.get_Skills("", "Class DC").filter(skill => skill.level(this.characterService) > 0);
+        return this.characterService.get_Skills(this.get_Creature(), "", "Class DC").filter(skill => skill.level(this.get_Creature(), this.characterService) > 0);
     }
 
     get_SpellDCs() {
-        return this.characterService.get_Skills("", "Spell DC").filter(skill => skill.level(this.characterService) > 0);
+        return this.characterService.get_Skills(this.get_Creature(), "", "Spell DC").filter(skill => skill.level(this.get_Creature(), this.characterService) > 0);
     }
 
     get_Speeds() {
-        let speeds = this.characterService.get_Speeds();
-        let speedEffects = this.effectsService.get_Effects().all.filter(effect => effect.apply && (effect.target.indexOf("Speed") > -1));
+        let speeds: Speed[] = this.characterService.get_Speeds(this.get_Creature());
+        let speedEffects = this.effectsService.get_Effects().all.filter(effect => effect.creature == this.get_Creature().id && effect.apply && (effect.target.indexOf("Speed") > -1));
         speedEffects.forEach(effect => {
             if (!speeds.filter(speed => speed.name == effect.target).length) {
                 speeds.push(new Speed(effect.target))
-            } 
+            }
         });
-        return speeds.filter(speed => speed.value(this.characterService, this.effectsService)[0] != 0);
+        return speeds.filter(speed => speed.value(this.get_Creature(), this.characterService, this.effectsService)[0] != 0);
     }
 
     finish_Loading() {

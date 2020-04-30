@@ -27,6 +27,8 @@ import { LoreChoice } from './LoreChoice';
 import { ArmorRune } from './ArmorRune';
 import { Potion } from './Potion';
 import { Specialization } from './Specialization';
+import { AnimalCompanion } from './AnimalCompanion';
+import { Character } from './Character';
 
 @Injectable({
     providedIn: 'root'
@@ -196,20 +198,20 @@ export class ItemsService {
         return newItem;
     }
 
-    process_Consumable(characterService: CharacterService, item: Consumable) {
+    process_Consumable(creature: Character|AnimalCompanion, characterService: CharacterService, item: Consumable) {
 
         //Apply conditions.
         if (item["gainConditions"]) {
             item["gainConditions"].forEach(gain => {
                 let newConditionGain = Object.assign(new ConditionGain(), gain);
-                characterService.add_Condition(newConditionGain, false);
+                characterService.add_Condition(creature, newConditionGain, false);
             });
         }
 
         //One time effects
         if (item.onceEffects) {
             item.onceEffects.forEach(effect => {
-                characterService.process_OnceEffect(effect);
+                characterService.process_OnceEffect(creature, effect);
             })
         }
     }

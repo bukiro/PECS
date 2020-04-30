@@ -4,8 +4,9 @@ import { WornItem } from './WornItem';
 import { Effect } from './Effect';
 import { Equipment } from './Equipment';
 import { WeaponRune } from './WeaponRune';
-import { findReadVarNames } from '@angular/compiler/src/output/output_ast';
 import { Specialization } from './Specialization';
+import { Character } from './Character';
+import { AnimalCompanion } from './AnimalCompanion';
 
 export class Weapon extends Equipment {
     //Weapons should be type "weapons" to be found in the database
@@ -39,21 +40,21 @@ export class Weapon extends Equipment {
     //Ranged range in ft - also add for thrown weapons
     //Weapons can have a melee and a ranged value, e.g. Daggers that can thrown
     public ranged: number = 0;
-    get_RuneSource(characterService: CharacterService, range: string) {
+    get_RuneSource(creature: Character|AnimalCompanion, range: string) {
         //Under certain circumstances, other items' runes are applied when calculating attack bonus or damage.
         //[0] is the item whose fundamental runes will count, [1] is the item whose property runes will count, and [2] is the item that causes this change.
         let runeSource: (Weapon|WornItem)[] = [this, this];
         if (this.prof == "Unarmed") {
-            let handwraps = characterService.get_InventoryItems().wornitems.filter(item => item.isHandwrapsOfMightyBlows && item.invested)
+            let handwraps = creature.inventory.wornitems.filter(item => item.isHandwrapsOfMightyBlows && item.invested)
             if (handwraps.length) {
                 runeSource = [handwraps[0], handwraps[0], handwraps[0]];
             }
         }
         if (range == "melee" && this.moddable == "weapon") {
-            let doublingRings = characterService.get_InventoryItems().wornitems.filter(item => item.isDoublingRings && item.data[1].value == this.id && item.invested);
+            let doublingRings = creature.inventory.wornitems.filter(item => item.isDoublingRings && item.data[1].value == this.id && item.invested);
             if (doublingRings.length) {
                 if (doublingRings[0].data[0].value) {
-                    let goldItem = characterService.get_InventoryItems().weapons.filter(weapon => weapon.id == doublingRings[0].data[0].value);
+                    let goldItem = creature.inventory.weapons.filter(weapon => weapon.id == doublingRings[0].data[0].value);
                     if (goldItem.length) {
                         if (doublingRings[0].isDoublingRings == "Doubling Rings (Greater)" && doublingRings[0].data[2]) {
                             runeSource = [goldItem[0], goldItem[0], doublingRings[0]];
@@ -66,32 +67,33 @@ export class Weapon extends Equipment {
         }
         return runeSource;
     }
-    get_Traits(characterService: CharacterService) {
+    get_Traits(creature: Character|AnimalCompanion) {
         if (this.prof == "Unarmed") {
             let traits = JSON.parse(JSON.stringify(this.traits));
-            let character = characterService.get_Character();
-            if (character.get_FeatsTaken(0, character.level, "Diamond Fists").length && this.traits.indexOf("Forceful") == -1) {
-                traits = traits.concat("Forceful");
-            }
-            if (character.get_FeatsTaken(0, character.level, "Golden Body").length && this.traits.indexOf("Deadly d12") == -1) {
-                traits = traits.concat("Deadly d12");
+            if (creature.type == "Character") {
+                if ((creature as Character).get_FeatsTaken(0, creature.level, "Diamond Fists").length && this.traits.indexOf("Forceful") == -1) {
+                    traits = traits.concat("Forceful");
+                }
+                if ((creature as Character).get_FeatsTaken(0, creature.level, "Golden Body").length && this.traits.indexOf("Deadly d12") == -1) {
+                    traits = traits.concat("Deadly d12");
+                }
             }
             return traits;
         } else {
             return this.traits;
         }
     }
-    profLevel(characterService: CharacterService, runeSource: Weapon|WornItem, charLevel: number = characterService.get_Character().level) {
+    profLevel(creature: Character|AnimalCompanion, characterService: CharacterService, runeSource: Weapon|WornItem, charLevel: number = characterService.get_Character().level) {
         if (characterService.still_loading()) { return 0; }
         let skillLevel: number = 0;
-        let weaponIncreases = characterService.get_Character().get_SkillIncreases(characterService, 0, charLevel, this.name);
-        let profIncreases = characterService.get_Character().get_SkillIncreases(characterService, 0, charLevel, this.prof);
+        let weaponIncreases = creature.get_SkillIncreases(characterService, 0, charLevel, this.name);
+        let profIncreases = creature.get_SkillIncreases(characterService, 0, charLevel, this.prof);
         //For Monk, Dwarf, Goblin etc. weapons, check if the character has any weapon proficiency that matches a trait of this weapon
         let traitLevels: number[] = [];
         this.traits.forEach(trait => {
-            let skill = characterService.get_Skills(trait, "Specific Weapon Proficiency");
+            let skill = characterService.get_Skills(creature, trait, "Specific Weapon Proficiency");
             if (skill.length) {
-                traitLevels.push(skill[0].level(characterService));
+                traitLevels.push(skill[0].level(creature, characterService));
             }
         })
         //Only count the highest of these proficiency (e.g. in case you have Monk weapons +4 and Dwarf weapons +2)
@@ -102,20 +104,20 @@ export class Weapon extends Equipment {
         let bestSkillLevel: number = skillLevel;
         if (runeSource.propertyRunes.filter(rune => rune.name == "Ancestral Echoing").length) {
             //First, we get the highest proficiency...
-            let skills: number[] = characterService.get_Skills("", "Weapon Proficiency").map(skill => skill.level(characterService, charLevel));
-            skills.push(...characterService.get_Skills("", "Specific Weapon Proficiency").map(skill => skill.level(characterService, charLevel)));
+            let skills: number[] = characterService.get_Skills(creature, "", "Weapon Proficiency").map(skill => skill.level(creature, characterService, charLevel));
+            skills.push(...characterService.get_Skills(creature, "", "Specific Weapon Proficiency").map(skill => skill.level(creature, characterService, charLevel)));
             bestSkillLevel = Math.min(skillLevel + 2, Math.max(...skills));
         }
         return bestSkillLevel;
     }
-    attack(characterService: CharacterService, effectsService: EffectsService, range: string) {
+    attack(creature: Character|AnimalCompanion, characterService: CharacterService, effectsService: EffectsService, range: string) {
     //Calculates the attack bonus for a melee or ranged attack with this weapon.
         let explain: string = "";
         let charLevel = characterService.get_Character().level;
-        let str  = characterService.get_Abilities("Strength")[0].mod(characterService, effectsService);
-        let dex = characterService.get_Abilities("Dexterity")[0].mod(characterService, effectsService);
-        let runeSource: (Weapon|WornItem)[] = this.get_RuneSource(characterService, range);
-        let skillLevel = this.profLevel(characterService, runeSource[1]);
+        let str  = characterService.get_Abilities("Strength")[0].mod(creature, characterService, effectsService);
+        let dex = characterService.get_Abilities("Dexterity")[0].mod(creature, characterService, effectsService);
+        let runeSource: (Weapon|WornItem)[] = this.get_RuneSource(creature, range);
+        let skillLevel = this.profLevel(creature, characterService, runeSource[1]);
         if (skillLevel) {
             explain += "\nProficiency: "+skillLevel;
         }
@@ -129,7 +131,7 @@ export class Weapon extends Equipment {
         let bonus: [{value?:number, source?:string, penalty?:boolean}] = [{}];
         bonus.splice(0,1);
         //The Clumsy condition affects all Dexterity attacks
-        let dexEffects = effectsService.get_EffectsOnThis("Dexterity Attacks");
+        let dexEffects = effectsService.get_EffectsOnThis(creature, "Dexterity Attacks");
         let dexPenalty: [{value?:number, source?:string, penalty?:boolean}] = [{}];
         dexPenalty.splice(0,1);
         let dexPenaltySum: number = 0;
@@ -138,7 +140,7 @@ export class Weapon extends Equipment {
             dexPenaltySum += parseInt(effect.value);
         });
         //The Enfeebled condition affects all Strength attacks
-        let strEffects = effectsService.get_EffectsOnThis("Strength Attacks");
+        let strEffects = effectsService.get_EffectsOnThis(creature, "Strength Attacks");
         let strPenalty: [{value?:number, source?:string, penalty?:boolean}] = [{}];
         strPenalty.splice(0,1);
         let strPenaltySum: number = 0;
@@ -201,7 +203,7 @@ export class Weapon extends Equipment {
             }
         }
         //Add all effects for this weapon
-        let effects: Effect[] = effectsService.get_EffectsOnThis(this.name).concat(effectsService.get_EffectsOnThis("All Checks"));
+        let effects: Effect[] = effectsService.get_EffectsOnThis(creature, this.name).concat(effectsService.get_EffectsOnThis(creature, "All Checks"));
         let effectsSum: number = 0;
         effects.forEach(effect => {
             if (parseInt(effect.value) < 0) {
@@ -216,28 +218,28 @@ export class Weapon extends Equipment {
         explain = explain.substr(1);
         return [range, attackResult, explain, penalty.concat(bonus), penalty, bonus];
     }
-    get_ExtraDamage(characterService: CharacterService, range: string) {
+    get_ExtraDamage(creature: Character|AnimalCompanion, characterService: CharacterService, range: string) {
         let extraDamage: string = "";
         if (this.extraDamage) {
             extraDamage += "\n"+this.extraDamage;
         }
-        this.get_RuneSource(characterService, range)[1].propertyRunes
+        this.get_RuneSource(creature, range)[1].propertyRunes
             .filter((weaponRune: WeaponRune) => weaponRune.extraDamage)
             .forEach((weaponRune: WeaponRune) => {
                 extraDamage += "\n"+weaponRune.extraDamage;
             });
         return extraDamage;
     }
-    damage(characterService: CharacterService, effectsService: EffectsService, range: string) {
+    damage(creature: Character|AnimalCompanion, characterService: CharacterService, effectsService: EffectsService, range: string) {
     //Lists the damage dice and damage bonuses for a ranged or melee attack with this weapon.
     //Returns a string in the form of "1d6 +5"
         let explain: string = "";
-        let str = characterService.get_Abilities("Strength")[0].mod(characterService, effectsService);
+        let str = characterService.get_Abilities("Strength")[0].mod(creature, characterService, effectsService);
         let penalty: [{value?:number, source?:string, penalty?:boolean}] = [{}];
         penalty.splice(0,1);
         //Apply Handwraps of Mighty Blows, if equipped, to unarmed attacks
         //We replace "me" with the Handwraps and use "me" instead of "this" when runes are concerned.
-        let runeSource: (Weapon|WornItem)[] = this.get_RuneSource(characterService, range);
+        let runeSource: (Weapon|WornItem)[] = this.get_RuneSource(creature, range);
         let dicenum = this.dicenum + runeSource[0].strikingRune;
         if (runeSource[0].strikingRune > 0) {
             explain += "\n"+runeSource[0].get_Striking(runeSource[0].strikingRune)+": Dice number +"+runeSource[0].strikingRune;
@@ -254,14 +256,14 @@ export class Weapon extends Equipment {
         }
         let dicesize = this.dicesize;
         //Monks get 1d6 for Fists instead of 1d4 via Powerful Fist
-        if ((this.name == "Fist") && characterService.get_Features("Powerful Fist")[0].have(characterService)) {
+        if ((this.name == "Fist") && characterService.get_Features("Powerful Fist")[0].have(creature, characterService)) {
             dicesize = 6;
             explain += "\nPowerful Fist: Dice size d6";
         }
         //Get the basic "1d6" from the weapon's dice values
         var baseDice = dicenum + "d" + dicesize;
         //The Enfeebled condition affects all Strength damage
-        let strEffects = effectsService.get_EffectsOnThis("Strength Attacks");
+        let strEffects = effectsService.get_EffectsOnThis(creature, "Strength Attacks");
         let strPenalty: [{value?:number, source?:string, penalty?:boolean}] = [{}];
         strPenalty.splice(0,1);
         let strPenaltySum: number = 0;
@@ -318,12 +320,12 @@ export class Weapon extends Equipment {
             }
         }
         let featBonus: number = 0;
-        if (characterService.get_Features("Weapon Specialization")[0].have(characterService)) {
+        if (characterService.get_Features("Weapon Specialization")[0].have(creature, characterService)) {
             let greaterWeaponSpecialization = false;
-            if (characterService.get_Features("Greater Weapon Specialization")[0].have(characterService)) {
+            if (characterService.get_Features("Greater Weapon Specialization")[0].have(creature, characterService)) {
                 greaterWeaponSpecialization = true;
             }
-            switch (this.profLevel(characterService, runeSource[1])) {
+            switch (this.profLevel(creature, characterService, runeSource[1])) {
                 case 4:
                     if (greaterWeaponSpecialization) {
                         featBonus += 4;
@@ -357,28 +359,30 @@ export class Weapon extends Equipment {
         //Make a nice "+5" string from the Ability bonus if there is one, or else make it empty
         let dmgBonusTotal: string = (dmgBonus) ? ((dmgBonus >= 0) && "+") + dmgBonus : "";
         //Concatenate the strings for a readable damage die
-        var dmgResult = baseDice + dmgBonusTotal + " " + this.dmgType + this.get_ExtraDamage(characterService, range);
+        var dmgResult = baseDice + dmgBonusTotal + " " + this.dmgType + this.get_ExtraDamage(creature, characterService, range);
         explain = explain.substr(1);
         return [dmgResult, explain];
     }
-    get_CritSpecialization(characterService: CharacterService) {
-        let character = characterService.get_Character()
+    get_CritSpecialization(creature: Character|AnimalCompanion, characterService: CharacterService) {
         let specializations: Specialization[] = [];
-        character.get_FeatsTaken(0, character.level).map(gain => characterService.get_FeatsAndFeatures(gain.name)[0]).filter(feat => feat.critSpecialization).forEach(feat => {
-            if (feat.critSpecialization.indexOf(this.group) > -1 || feat.critSpecialization.indexOf("All") > -1) {
-                //If the only feat that gives you the critical specialization for this weapon is Ranger Weapon Expertise, a hint is added to each specialization that it only applies to the Hunted Prey.
-                //If any more specializations should apply, they will overwrite these hints, which is expected and correct as long as no other specialization has limitations.
-                let huntedPreyOnly = (!specializations.length && feat.name == "Ranger Weapon Expertise")
-                specializations = characterService.get_Specializations(this.group).map(spec => Object.assign(new Specialization(), spec));
-                if (huntedPreyOnly) {
-                    specializations.forEach(spec => {
-                        spec.desc == "(Hunted Prey only) "+spec.desc;
-                    });
+        if (creature.type == "Character") {
+            let character = creature as Character;
+            character.get_FeatsTaken(0, character.level).map(gain => characterService.get_FeatsAndFeatures(gain.name)[0]).filter(feat => feat.critSpecialization).forEach(feat => {
+                if (feat.critSpecialization.indexOf(this.group) > -1 || feat.critSpecialization.indexOf(this.prof) > -1 || feat.critSpecialization.indexOf("All") > -1) {
+                    //If the only feat that gives you the critical specialization for this weapon is Ranger Weapon Expertise, a hint is added to each specialization that it only applies to the Hunted Prey.
+                    //If any more specializations should apply, they will overwrite these hints, which is expected and correct as long as no other specialization has limitations.
+                    let huntedPreyOnly = (!specializations.length && feat.name == "Ranger Weapon Expertise")
+                    specializations = characterService.get_Specializations(this.group).map(spec => Object.assign(new Specialization(), spec));
+                    if (huntedPreyOnly) {
+                        specializations.forEach(spec => {
+                            spec.desc = "(Hunted Prey only) "+spec.desc;
+                        });
+                    }
                 }
+            })
+            if (this.traits.indexOf("Monk") > -1 && character.get_FeatsTaken(0, character.level, "Monastic Weaponry").length && character.get_FeatsTaken(0, character.level, "Brawling Focus").length) {
+                specializations = characterService.get_Specializations(this.group);
             }
-        })
-        if (this.traits.indexOf("Monk") > -1 && character.get_FeatsTaken(0, character.level, "Monastic Weaponry").length && character.get_FeatsTaken(0, character.level, "Brawling Focus").length) {
-            specializations = characterService.get_Specializations(this.group);
         }
         return specializations;
     }

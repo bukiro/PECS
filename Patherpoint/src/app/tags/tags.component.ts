@@ -3,6 +3,8 @@ import { CharacterService } from '../character.service';
 import { TraitsService } from '../traits.service';
 import { EffectsService } from '../effects.service';
 import { Effect } from '../Effect';
+import { AnimalCompanion } from '../AnimalCompanion';
+import { Character } from '../Character';
 
 @Component({
     selector: 'app-tags',
@@ -11,6 +13,8 @@ import { Effect } from '../Effect';
 })
 export class TagsComponent implements OnInit {
 
+    @Input()
+    creature: string = "Character";
     @Input()
     objectName: string = "";
     @Input()
@@ -35,26 +39,30 @@ export class TagsComponent implements OnInit {
         private traitsService: TraitsService,
         private effectsService: EffectsService
     ) { }
+    
+    get_Creature() {
+        return this.characterService.get_Creature(this.creature);
+    }
 
     get_TraitsForThis(name: string) {
         if (this.showTraits && name) {
-            return this.traitsService.get_TraitsForThis(this.characterService, name);
+            return this.traitsService.get_TraitsForThis(this.get_Creature(), name);
         } else {
             return [];
         }
     }
 
     get_FeatsShowingOn(name: string, show: boolean ) {
-        if (show && name) {
+        if (show && name && this.creature == "Character") {
             return this.characterService.get_FeatsShowingOn(name);
         } else {
             return [];
         }
     }
 
-    get_EffectsOnThis(name: String) {
+    get_EffectsOnThis(name: string) {
         if (this.showEffects && name) {
-            return this.effectsService.get_EffectsOnThis(name);
+            return this.effectsService.get_EffectsOnThis(this.get_Creature(), name);
         } else {
             return [];
         }
@@ -62,7 +70,7 @@ export class TagsComponent implements OnInit {
 
     get_ConditionsShowingOn(name: string) {
         if (this.showConditions && name) {
-            return this.characterService.get_ConditionsShowingOn(name);
+            return this.characterService.get_ConditionsShowingOn(this.get_Creature(), name);
         } else {
             return [];
         }
@@ -70,7 +78,7 @@ export class TagsComponent implements OnInit {
     
     get_ActivitiesShowingOn(name: string) {
         if (this.showActivities && name) {
-            return this.characterService.get_ActivitiesShowingOn(name);
+            return this.characterService.get_ActivitiesShowingOn(this.get_Creature(), name);
         } else {
             return [];
         }
@@ -78,7 +86,7 @@ export class TagsComponent implements OnInit {
 
     get_ItemsShowingOn(name: string) {
         if (this.showItems && name) {
-            return this.characterService.get_ItemsShowingOn(name);
+            return this.characterService.get_ItemsShowingOn(this.get_Creature(), name);
         } else {
             return [];
         }

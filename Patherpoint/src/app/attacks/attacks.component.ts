@@ -1,12 +1,9 @@
-import { Component, OnInit, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy, ChangeDetectorRef, Input } from '@angular/core';
 import { Weapon } from '../Weapon';
-import { AbilitiesService } from '../abilities.service';
 import { TraitsService } from '../traits.service';
 import { CharacterService } from '../character.service';
 import { EffectsService } from '../effects.service';
-import { Skill } from '../Skill';
 import { WeaponRune } from '../WeaponRune';
-import { Rune } from '../Rune';
 
 @Component({
     selector: 'app-attacks',
@@ -16,6 +13,8 @@ import { Rune } from '../Rune';
 })
 export class AttacksComponent implements OnInit {
 
+    @Input()
+    public creature: string = "Character";
     public attackRestrictions: string[] = []
 
     constructor(
@@ -38,6 +37,10 @@ export class AttacksComponent implements OnInit {
     still_loading() {
         return this.characterService.still_loading()
     }
+    
+    get_Creature() {
+        return this.characterService.get_Creature(this.creature);
+    }
 
     get_Accent() {
         return this.characterService.get_Accent();
@@ -45,7 +48,7 @@ export class AttacksComponent implements OnInit {
 
     get_AttackRestrictions() {
         this.attackRestrictions = [];
-        let restrictionCollection: string[][] = this.characterService.get_AppliedConditions().filter(gain => gain.apply).map(gain => this.characterService.get_Conditions(gain.name)[0]).filter(condition => condition.attackRestrictions.length).map(condition => condition.attackRestrictions);
+        let restrictionCollection: string[][] = this.characterService.get_AppliedConditions(this.get_Creature()).filter(gain => gain.apply).map(gain => this.characterService.get_Conditions(gain.name)[0]).filter(condition => condition.attackRestrictions.length).map(condition => condition.attackRestrictions);
         restrictionCollection.forEach(coll => {
             this.attackRestrictions.push(...coll);
         })
@@ -57,11 +60,11 @@ export class AttacksComponent implements OnInit {
 
     get_EquippedWeapons() {
         this.get_AttackRestrictions();
-        return this.characterService.get_InventoryItems().weapons.filter(weapon => weapon.equipped && weapon.equippable);
+        return this.get_Creature().inventory.weapons.filter(weapon => weapon.equipped && weapon.equippable);
     }
 
     get_Skills(name: string = "", type: string = "") {
-        return this.characterService.get_Skills(name, type);
+        return this.characterService.get_Skills(this.get_Creature(), name, type);
     }
 
     get_Traits(traitName: string = "") {
@@ -69,11 +72,11 @@ export class AttacksComponent implements OnInit {
     }
 
     get_HintRunes(weapon: Weapon, range: string) {
-        return weapon.get_RuneSource(this.characterService, range)[1].propertyRunes.filter((rune: WeaponRune) => rune.hint.length);
+        return weapon.get_RuneSource(this.get_Creature(), range)[1].propertyRunes.filter((rune: WeaponRune) => rune.hint.length);
     }
 
     get_Runes(weapon: Weapon, range: string) {
-        return weapon.get_RuneSource(this.characterService, range)[1].propertyRunes;
+        return weapon.get_RuneSource(this.get_Creature(), range)[1].propertyRunes;
     }
 
     get_GrievousData(weapon: Weapon, rune: WeaponRune) {
@@ -86,9 +89,8 @@ export class AttacksComponent implements OnInit {
     get_specialShowon(weapon: Weapon) {
         //Under certain circumstances, some Feats apply to Weapons independently of their name.
         //Return names that get_FeatsShowingOn should run on
-        let character = this.characterService.get_Character();
         let specialNames: string[] = []
-        if (weapon.traits.indexOf("Monk") > -1 && this.characterService.get_Feats("Monastic Weaponry")[0].have(this.characterService)) {
+        if (weapon.traits.indexOf("Monk") > -1 && this.characterService.get_Feats("Monastic Weaponry")[0].have(this.get_Creature(), this.characterService)) {
             specialNames.push("Unarmed");
             specialNames.push("Monk");
         }
@@ -101,16 +103,16 @@ export class AttacksComponent implements OnInit {
     get_Attacks(weapon: Weapon) {
         let attacks = []
         if (weapon.melee) {
-            attacks.push(weapon.attack(this.characterService, this.effectsService, 'melee'));
+            attacks.push(weapon.attack(this.get_Creature(), this.characterService, this.effectsService, 'melee'));
         }
         if (weapon.ranged) {
-            attacks.push(weapon.attack(this.characterService, this.effectsService, 'ranged'));
+            attacks.push(weapon.attack(this.get_Creature(), this.characterService, this.effectsService, 'ranged'));
         }
         return attacks;
     }
 
     get_Damage(weapon: Weapon, range: string) {
-        return weapon.damage(this.characterService, this.effectsService, range);
+        return weapon.damage(this.get_Creature(), this.characterService, this.effectsService, range);
     }
 
     finish_Loading() {

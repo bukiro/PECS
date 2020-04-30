@@ -23,17 +23,17 @@ export class TimeService {
     }
 
     start_Turn(characterService: CharacterService, effectsService: EffectsService) {
-        //Process some things
-        let character = characterService.get_Character();
-
+        
         //Fast Healing
         let fastHealing: number = 0;
-        effectsService.get_EffectsOnThis("Fast Healing").forEach((effect: Effect) => {
-            fastHealing += parseInt(effect.value);
+        characterService.get_Creatures().forEach(creature => {
+            effectsService.get_EffectsOnThis(creature, "Fast Healing").forEach((effect: Effect) => {
+                fastHealing += parseInt(effect.value);
+            })
+            if (fastHealing && creature.health.currentHP(creature, characterService, effectsService) > 0) {
+                creature.health.heal(creature, characterService, effectsService, fastHealing);
+            }
         })
-        if (fastHealing && character.health.currentHP(characterService, effectsService) > 0) {
-            character.health.heal(characterService, effectsService, fastHealing);
-        }
 
         this.tick(characterService, 5);
     }
@@ -43,8 +43,10 @@ export class TimeService {
     }
 
     tick(characterService: CharacterService, turns: number = 10) {
-        this.conditionsService.tick_Conditions(characterService, turns, this.yourTurn);
-        this.activitiesService.tick_Activities(characterService, turns);
+        this.conditionsService.tick_Conditions(characterService.get_Character(), turns, this.yourTurn);
+        this.conditionsService.tick_Conditions(characterService.get_Companion(), turns, this.yourTurn);
+        this.activitiesService.tick_Activities(characterService.get_Character(), characterService, turns);
+        this.activitiesService.tick_Activities(characterService.get_Companion(), characterService, turns);
         this.yourTurn = (this.yourTurn + turns) % 10;
         characterService.set_Changed();
     }

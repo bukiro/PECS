@@ -4,7 +4,6 @@ import { Heritage } from './Heritage';
 import { Background } from './Background';
 import { CharacterService } from './character.service';
 import { ItemsService } from './items.service';
-import { Item } from './Item';
 import { SkillChoice } from './SkillChoice';
 import { LoreChoice } from './LoreChoice';
 import { Skill } from './Skill';
@@ -12,6 +11,7 @@ import { AbilityChoice } from './AbilityChoice';
 import { FeatChoice } from './FeatChoice';
 import { ActivityGain } from './ActivityGain';
 import { Equipment } from './Equipment';
+import { AnimalCompanionGain } from './AnimalCompanionGain';
 
 export class Class {
     public name: string = "";
@@ -23,6 +23,7 @@ export class Class {
     public activities: ActivityGain[] = [];
     public customSkills: Skill[] = [];
     public focusPoints: number = 0;
+    public animalCompanion: AnimalCompanionGain = null;
     reassign() {
         //Re-Assign levels
         this.levels = this.levels.map(level => Object.assign(new Level(), level));
@@ -41,9 +42,9 @@ export class Class {
             this.levels[1].abilityChoices = this.levels[1].abilityChoices.filter(availableBoost => availableBoost.source != "Ancestry")
             if (this.ancestry.gainItems.length) {
                 this.ancestry.gainItems.forEach(freeItem => {
-                    let items: Equipment[] = characterService.get_InventoryItems()[freeItem.type].filter(item => item.name == freeItem.name);
+                    let items: Equipment[] = characterService.get_Character().inventory[freeItem.type].filter(item => item.name == freeItem.name);
                     if (items.length) {
-                        characterService.drop_InventoryItem(items[0], false, true, true, freeItem.amount);
+                        characterService.drop_InventoryItem(characterService.get_Character(), items[0], false, true, true, freeItem.amount);
                     }
                 });
             }
@@ -61,7 +62,7 @@ export class Class {
             if (this.ancestry.gainItems.length) {
                 this.ancestry.gainItems.forEach(freeItem => {
                     let item: Equipment = itemsService.get_Items()[freeItem.type].filter(item => item.name == freeItem.name)[0];
-                    let grantedItem = characterService.grant_InventoryItem(item, false, false, true, freeItem.amount);
+                    let grantedItem = characterService.grant_InventoryItem(characterService.get_Character(), item, false, false, true, freeItem.amount);
                     freeItem.id = grantedItem.id;
                 });
             }
@@ -187,7 +188,7 @@ export class Class {
                 choice.feats.splice(0, count);
             });
             if (this.background.loreChoices[0].loreName) {
-                if (characterService.get_Skills('Lore: '+this.background.loreChoices[0].loreName).length) {
+                if (characterService.get_Skills(character, 'Lore: '+this.background.loreChoices[0].loreName).length) {
                     let increases = character.get_SkillIncreases(characterService, 1, 20, 'Lore: '+this.background.loreChoices[0].loreName).filter(increase => 
                         increase.sourceId.indexOf("-Lore-") > -1
                         );

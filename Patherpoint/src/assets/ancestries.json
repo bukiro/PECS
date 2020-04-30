@@ -5,7 +5,7 @@
         "ancestries":["Dwarf"],
         "heritages":["Ancient-Blooded Dwarf", "Anvil Dwarf", "Death Warden Dwarf", "Elemental Heart Dwarf", "Forge Dwarf", "Oathkeeper Dwarf", "Rock Dwarf", "Strong-Blooded Dwarf"],
         "hitPoints":10,
-        "size":"Medium Armor",
+        "size":0,
         "speed":20,
         "abilityChoices":[
             {
@@ -32,7 +32,7 @@
         "languages":["Common", "Dwarven"],
         "baseLanguages":2,
         "recommendedLanguages":["Gnomish", "Goblin", "Jotun", "Orcish", "Terran", "Undercommon"],
-        "senses":"Darkvision",
+        "senses":["Darkvision"],
         "gainItems":[{"name":"Clan Dagger", "type":"weapons"}]
     },
     {
@@ -41,7 +41,7 @@
         "ancestries":["Elf"],
         "heritages":["Ancient Elf", "Arctic Elf", "Cavern Elf", "Desert Elf", "Seer Elf", "Whisper Elf", "Woodland Elf"],
         "hitPoints":6,
-        "size":"Medium Armor",
+        "size":0,
         "speed":30,
         "abilityChoices":[
             {
@@ -68,14 +68,15 @@
         "languages":["Common", "Elven"],
         "baseLanguages":2,
         "recommendedLanguages":["Celestial", "Draconic", "Gnoll", "Gnomish", "Goblin", "Orcish", "Sylvan"],
-        "senses":"Low-Light Vision" },
+        "senses":["Low-Light Vision"]
+    },
     {
         "name":"Human",
         "traits":["Human", "Humanoid"],
         "ancestries":["Human"],
         "heritages":["Half-Elf", "Half-Orc", "Skilled Heritage", "Versatile Heritage", "Wintertouched Human"],
         "hitPoints":8,
-        "size":"Medium Armor",
+        "size":0,
         "speed":25,
         "abilityChoices":[
             {

@@ -1,9 +1,9 @@
-import { Component, OnInit, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy, ChangeDetectorRef, Input } from '@angular/core';
 import { CharacterService } from '../character.service';
 import { SkillsService } from '../skills.service';
-import { ChildrenOutletContexts } from '@angular/router';
 import { FeatsService } from '../feats.service';
-import { Feat } from '../Feat';
+import { Character } from '../Character';
+import { AnimalCompanion } from '../AnimalCompanion';
 
 @Component({
     selector: 'app-skills',
@@ -12,6 +12,9 @@ import { Feat } from '../Feat';
     changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class SkillsComponent implements OnInit {
+
+    @Input()
+    creature: string = "Character";
 
     constructor(
         private changeDetector: ChangeDetectorRef,
@@ -31,27 +34,35 @@ export class SkillsComponent implements OnInit {
     }
 
     get_Skills(name: string = "", type: string = "") {
-        return this.characterService.get_Skills(name, type);
+        return this.characterService.get_Skills(this.get_Creature(), name, type);
     }
 
     get_Accent() {
         return this.characterService.get_Accent();
     }
+    
+    get_Creature() {
+        return this.characterService.get_Creature(this.creature);
+    }
 
     get_Senses() {
         let senses: string[] = [];
-        let character = this.characterService.get_Character()
-        let ancestrySenses = character.class.ancestry.senses
-        let heritageSenses = character.class.heritage.senses
+        let ancestrySenses = this.get_Creature().class.ancestry.senses
+        
         if (ancestrySenses.length) {
-            senses.push(ancestrySenses)
+            senses.push(...ancestrySenses)
         }
-        if (heritageSenses.length) {
-            senses.push(heritageSenses)
+        if (this.creature == "Character") {
+            let character = this.get_Creature() as Character;
+            let heritageSenses = character.class.heritage.senses
+            if (heritageSenses.length) {
+                senses.push(...heritageSenses)
+            }
+            this.characterService.get_Character().get_FeatsTaken(0, this.get_Creature().level).map(gain => this.characterService.get_FeatsAndFeatures(gain.name)[0]).filter(feat => feat.senses.length).forEach(feat => {
+                senses.push(...feat.senses)
+            });
         }
-        this.characterService.get_Character().get_FeatsTaken(0, character.level).filter(feat => feat.senses).forEach(feat => {
-            senses.push(feat.senses)
-        });
+        
         return senses;
     }
 

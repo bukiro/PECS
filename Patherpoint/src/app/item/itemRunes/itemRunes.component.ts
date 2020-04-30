@@ -30,12 +30,12 @@ export class ItemRunesComponent implements OnInit {
         return index;
     }
 
-    get_Items() {
-        return this.itemsService.get_Items();
+    get_Character() {
+        return this.characterService.get_Character();
     }
 
-    get_InventoryItems() {
-        return this.characterService.get_InventoryItems();
+    get_Items() {
+        return this.itemsService.get_Items();
     }
 
     get_WeaponPotencyRunes() {
@@ -43,7 +43,7 @@ export class ItemRunesComponent implements OnInit {
             return [0].concat(this.get_Items().weaponrunes.filter(rune => rune.potency > 0).map(rune => rune.potency));
         } else {
             let runes: number[] = [0, this.item.potencyRune];
-            runes.push(...this.get_InventoryItems().weaponrunes.filter(rune => rune.potency > 0).map(rune => rune.potency));
+            runes.push(...this.get_Character().inventory.weaponrunes.filter(rune => rune.potency > 0).map(rune => rune.potency));
             return Array.from(new Set(runes));
         }
     }
@@ -53,7 +53,7 @@ export class ItemRunesComponent implements OnInit {
             return [0].concat(this.get_Items().armorrunes.filter(rune => rune.potency > 0).map(rune => rune.potency));
         } else {
             let runes: number[] = [0, this.item.potencyRune];
-            runes.push(...this.get_InventoryItems().armorrunes.filter(rune => rune.potency > 0).map(rune => rune.potency));
+            runes.push(...this.get_Character().inventory.armorrunes.filter(rune => rune.potency > 0).map(rune => rune.potency));
             return Array.from(new Set(runes));
         }
     }
@@ -63,7 +63,7 @@ export class ItemRunesComponent implements OnInit {
             return [0].concat(this.get_Items().weaponrunes.filter(rune => rune.striking > 0 && rune.striking <= this.item.potencyRune).map(rune => rune.striking));
         } else {
             let runes: number[] = [0, this.item.strikingRune];
-            runes.push(...this.get_InventoryItems().weaponrunes.filter(rune => rune.striking > 0 && rune.striking <= this.item.potencyRune).map(rune => rune.striking));
+            runes.push(...this.get_Character().inventory.weaponrunes.filter(rune => rune.striking > 0 && rune.striking <= this.item.potencyRune).map(rune => rune.striking));
             return Array.from(new Set(runes));
         }
     }
@@ -73,7 +73,7 @@ export class ItemRunesComponent implements OnInit {
             return [0].concat(this.get_Items().armorrunes.filter(rune => rune.resilient > 0 && rune.resilient <= this.item.potencyRune).map(rune => rune.resilient));
         } else {
             let runes: number[] = [0, this.item.resilientRune];
-            runes.push(...this.get_InventoryItems().armorrunes.filter(rune => rune.resilient > 0 && rune.resilient <= this.item.potencyRune).map(rune => rune.resilient));
+            runes.push(...this.get_Character().inventory.armorrunes.filter(rune => rune.resilient > 0 && rune.resilient <= this.item.potencyRune).map(rune => rune.resilient));
             return Array.from(new Set(runes));
         }
     }
@@ -104,7 +104,7 @@ export class ItemRunesComponent implements OnInit {
         if (this.itemStore) {
             allRunes = this.get_Items().weaponrunes;
         } else {
-            allRunes = this.get_InventoryItems().weaponrunes;
+            allRunes = this.get_Character().inventory.weaponrunes;
         }
         return Array.from(new Set(runes.concat(allRunes.filter(
             (rune: WeaponRune) =>
@@ -131,20 +131,20 @@ export class ItemRunesComponent implements OnInit {
                 //Don't do any of that if we're in the item store instead of the inventory.
                 if (!this.itemStore && previousRune != weapon.potencyRune) {
                     if (previousRune > 0) {
-                        let existingRunes: WeaponRune[] = this.get_InventoryItems().weaponrunes.filter(rune => rune.potency == previousRune)
+                        let existingRunes: WeaponRune[] = this.get_Character().inventory.weaponrunes.filter(rune => rune.potency == previousRune)
                         if (existingRunes.length) {
                             existingRunes[0].amount++;
                         } else {
                             let extractedRune: WeaponRune = this.get_Items().weaponrunes.filter(rune => rune.potency == previousRune)[0];
-                            this.characterService.grant_InventoryItem(extractedRune, false, false, false);
+                            this.characterService.grant_InventoryItem(this.get_Character(), extractedRune, false, false, false);
                         }
                     }
                     if (weapon.potencyRune > 0) {
-                        let insertedRune: WeaponRune = this.get_InventoryItems().weaponrunes.filter(rune => rune.potency == weapon.potencyRune)[0];
+                        let insertedRune: WeaponRune = this.get_Character().inventory.weaponrunes.filter(rune => rune.potency == weapon.potencyRune)[0];
                         if (insertedRune.amount > 1) {
                             insertedRune.amount--;
                         } else {
-                            this.characterService.drop_InventoryItem(insertedRune, false, false);
+                            this.characterService.drop_InventoryItem(this.get_Character(), insertedRune, false, false);
                         }
                     }
                 }
@@ -170,20 +170,20 @@ export class ItemRunesComponent implements OnInit {
                 //Don't do any of that if we're in the item store instead of the inventory.
                 if (!this.itemStore && previousRune != weapon.strikingRune) {
                     if (previousRune > 0) {
-                        let existingRunes: WeaponRune[] = this.get_InventoryItems().weaponrunes.filter(rune => rune.striking == previousRune)
+                        let existingRunes: WeaponRune[] = this.get_Character().inventory.weaponrunes.filter(rune => rune.striking == previousRune)
                         if (existingRunes.length) {
                             existingRunes[0].amount++;
                         } else {
                             let extractedRune: WeaponRune = this.get_Items().weaponrunes.filter(rune => rune.striking == previousRune)[0];
-                            this.characterService.grant_InventoryItem(extractedRune, false, false);
+                            this.characterService.grant_InventoryItem(this.get_Character(), extractedRune, false, false);
                         }
                     }
                     if (weapon.strikingRune > 0) {
-                        let insertedRune: WeaponRune = this.get_InventoryItems().weaponrunes.filter(rune => rune.striking == weapon.strikingRune)[0];
+                        let insertedRune: WeaponRune = this.get_Character().inventory.weaponrunes.filter(rune => rune.striking == weapon.strikingRune)[0];
                         if (insertedRune.amount > 1) {
                             insertedRune.amount--;
                         } else {
-                            this.characterService.drop_InventoryItem(insertedRune, false, false);
+                            this.characterService.drop_InventoryItem(this.get_Character(), insertedRune, false, false);
                         }
                     }
                 }
@@ -203,20 +203,20 @@ export class ItemRunesComponent implements OnInit {
                 //Don't do any of that if we're in the item store instead of the inventory.
                 if (!this.itemStore && previousRune != armor.potencyRune) {
                     if (previousRune > 0) {
-                        let existingRunes: ArmorRune[] = this.get_InventoryItems().armorrunes.filter(rune => rune.potency == previousRune)
+                        let existingRunes: ArmorRune[] = this.get_Character().inventory.armorrunes.filter(rune => rune.potency == previousRune)
                         if (existingRunes.length) {
                             existingRunes[0].amount++;
                         } else {
                             let extractedRune: ArmorRune = this.get_Items().armorrunes.filter(rune => rune.potency == previousRune)[0];
-                            this.characterService.grant_InventoryItem(extractedRune, false, false);
+                            this.characterService.grant_InventoryItem(this.get_Character(), extractedRune, false, false);
                         }
                     }
                     if (armor.potencyRune > 0) {
-                        let insertedRune: ArmorRune = this.get_InventoryItems().armorrunes.filter(rune => rune.potency == armor.potencyRune)[0];
+                        let insertedRune: ArmorRune = this.get_Character().inventory.armorrunes.filter(rune => rune.potency == armor.potencyRune)[0];
                         if (insertedRune.amount > 1) {
                             insertedRune.amount--;
                         } else {
-                            this.characterService.drop_InventoryItem(insertedRune, false, false);
+                            this.characterService.drop_InventoryItem(this.get_Character(), insertedRune, false, false);
                         }
                     }
                 }
@@ -242,20 +242,20 @@ export class ItemRunesComponent implements OnInit {
                 //Don't do any of that if we're in the item store instead of the inventory.
                 if (!this.itemStore && previousRune != armor.resilientRune) {
                     if (previousRune > 0) {
-                        let existingRunes: ArmorRune[] = this.get_InventoryItems().armorrunes.filter(rune => rune.resilient == previousRune)
+                        let existingRunes: ArmorRune[] = this.get_Character().inventory.armorrunes.filter(rune => rune.resilient == previousRune)
                         if (existingRunes.length) {
                             existingRunes[0].amount++;
                         } else {
                             let extractedRune: ArmorRune = this.get_Items().armorrunes.filter(rune => rune.resilient == previousRune)[0];
-                            this.characterService.grant_InventoryItem(extractedRune, false, false);
+                            this.characterService.grant_InventoryItem(this.get_Character(), extractedRune, false, false);
                         }
                     }
                     if (armor.resilientRune > 0) {
-                        let insertedRune: ArmorRune = this.get_InventoryItems().armorrunes.filter(rune => rune.resilient == armor.resilientRune)[0];
+                        let insertedRune: ArmorRune = this.get_Character().inventory.armorrunes.filter(rune => rune.resilient == armor.resilientRune)[0];
                         if (insertedRune.amount > 1) {
                             insertedRune.amount--;
                         } else {
-                            this.characterService.drop_InventoryItem(insertedRune, false, false);
+                            this.characterService.drop_InventoryItem(this.get_Character(), insertedRune, false, false);
                         }
                     }
                 }
@@ -280,7 +280,7 @@ export class ItemRunesComponent implements OnInit {
                 if (this.itemStore) {
                     insertedRune = this.get_Items().weaponrunes.filter(rune => rune.name == insertedRuneName)[0];
                 } else {
-                    insertedRune = this.get_InventoryItems().weaponrunes.filter(rune => rune.name == insertedRuneName)[0];
+                    insertedRune = this.get_Character().inventory.weaponrunes.filter(rune => rune.name == insertedRuneName)[0];
                 }
                 //Add a copy of the rune to the item
                 let newLength = weapon.propertyRunes.push(Object.assign(new WeaponRune, insertedRune));
@@ -293,7 +293,7 @@ export class ItemRunesComponent implements OnInit {
                     if (insertedRune.amount > 1) {
                         insertedRune.amount--;
                     } else {
-                        this.characterService.drop_InventoryItem(insertedRune, false, false);
+                        this.characterService.drop_InventoryItem(this.get_Character(), insertedRune, false, false);
                     }
                     if (weapon.propertyRunes[newLength - 1]["loreChoices"].length) {
                         this.characterService.add_RuneLore(weapon.propertyRunes[newLength - 1]);
@@ -309,11 +309,11 @@ export class ItemRunesComponent implements OnInit {
         let oldRune: Rune = weapon.propertyRunes[index];
         //Add the extracted rune to the inventory, either on an existing stack or as a new item.
         let extractedRune: WeaponRune = this.get_Items().weaponrunes.filter(rune => rune.name == oldRune.name)[0];
-        let existingRunes: WeaponRune[] = this.get_InventoryItems().weaponrunes.filter(rune => rune.name == oldRune.name)
+        let existingRunes: WeaponRune[] = this.get_Character().inventory.weaponrunes.filter(rune => rune.name == oldRune.name)
         if (existingRunes.length) {
             existingRunes[0].amount++;
         } else {
-            this.characterService.grant_InventoryItem(extractedRune, false, false);
+            this.characterService.grant_InventoryItem(this.get_Character(), extractedRune, false, false);
         }
         //Remove the Ancestral Echoing Lore if applicable.
         if (extractedRune.loreChoices.length) {

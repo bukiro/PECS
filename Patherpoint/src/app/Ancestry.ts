@@ -7,13 +7,13 @@ export class Ancestry {
     public ancestries: string[] = [];
     public heritages: string[] = [];
     public hitPoints: number = 0;
-    public size: string = "Medium Armor";
+    public size: number = 0;
     public speed: number = 0;
     public abilityChoices: AbilityChoice[] = [];
     public languages: string[] = [];
     public baseLanguages: number = 0;
     public recommendedLanguages: string[] = [];
-    public senses: string = "";
+    public senses: string[] = [];
     public gainItems: ItemGain[] = [];
     reassign() {
         this.abilityChoices = this.abilityChoices.map(choice => Object.assign(new AbilityChoice(), JSON.parse(JSON.stringify(choice))));

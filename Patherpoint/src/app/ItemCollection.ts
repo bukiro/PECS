@@ -13,6 +13,7 @@ import { Rune } from './Rune';
 import { ArmorRune } from './ArmorRune';
 import { Potion } from './Potion';
 import { OtherItem } from './OtherItem';
+import { ItemsService } from './items.service';
 
 export class ItemCollection {
     public weapons: Weapon[] = [];
@@ -42,6 +43,18 @@ export class ItemCollection {
             {name:"Weapon Runes",key:"weaponrunes"}
         ]
     ) {}
+    initialize(itemsService: ItemsService) {
+        this.weapons = this.weapons.map(element => itemsService.initialize_Item(Object.assign(new Weapon(), element), true, false));
+        this.armors = this.armors.map(element => itemsService.initialize_Item(Object.assign(new Armor(), element), true, false));
+        this.shields = this.shields.map(element => itemsService.initialize_Item(Object.assign(new Shield(), element), true, false));
+        this.wornitems = this.wornitems.map(element => itemsService.initialize_Item(Object.assign(new WornItem(), element), true, false));
+        this.helditems = this.helditems.map(element => itemsService.initialize_Item(Object.assign(new HeldItem(), element), true, false));
+        this.alchemicalelixirs = this.alchemicalelixirs.map(element => itemsService.initialize_Item(Object.assign(new AlchemicalElixir(), element), true, false));
+        this.potions = this.potions.map(element => itemsService.initialize_Item(Object.assign(new Potion(), element), true, false));
+        this.otherconsumables = this.otherconsumables.map(element => itemsService.initialize_Item(Object.assign(new OtherConsumable(), element), true, false));
+        this.adventuringgear = this.adventuringgear.map(element => itemsService.initialize_Item(Object.assign(new AdventuringGear(), element), true, false));
+        this.weaponrunes = this.weaponrunes.map(element => itemsService.initialize_Item(Object.assign(new WeaponRune(), element), true, false));
+    }
     allEquipment() {
         let items: Equipment[] = [];
         items.push(...this.weapons);
