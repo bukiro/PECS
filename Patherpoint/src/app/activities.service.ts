@@ -138,7 +138,7 @@ export class ActivitiesService {
             if (activated) {
                 activity.castSpells.forEach(gain => {
                     let librarySpell = spellsService.get_Spells(gain.name)[0];
-                    spellsService.process_Spell(creature, characterService, itemsService, new SpellGain(), librarySpell, gain.level, activated);
+                    spellsService.process_Spell(creature.type, characterService, itemsService, new SpellGain(), librarySpell, gain.level, activated);
                 })
             }
         }

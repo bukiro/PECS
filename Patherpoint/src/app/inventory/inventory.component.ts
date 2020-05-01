@@ -41,7 +41,7 @@ export class InventoryComponent implements OnInit {
 
     set_Span() {
         setTimeout(() => {
-            document.getElementById(this.creature+"-inventory").style.gridRow = "span "+this.characterService.get_Span(this.creature+"-inventory-height");
+            this.characterService.set_Span(this.creature+"-inventory");
         })
     }
 

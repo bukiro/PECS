@@ -5,7 +5,7 @@
   <div class="filler"></div>
   <button class="fancy-button loading" *ngIf="still_loading()">Loading</button>
   <button class="fancy-button" (click)="toggleMenu('character')" *ngIf="!still_loading()">{{get_Character().name ? get_Character().name : "Character"}}</button>
-  <button class="fancy-button" (click)="toggleMenu('companion')" *ngIf="!still_loading() && get_Companion()">{{get_Companion().name ? get_Companion().name : "Animal Companion"}}</button>
+  <button class="fancy-button" (click)="toggleMenu('companion')" *ngIf="!still_loading() && get_CompanionAvailable()">{{get_Companion().name ? get_Companion().name : "Animal Companion"}}</button>
   <button class="fancy-button" (click)="toggleMenu('items')" *ngIf="!still_loading()">Items</button>
   <button class="fancy-button" (click)="toggleMenu('spells')" *ngIf="!still_loading()">Spells</button>
   <button class="fancy-button" (click)="toggleMenu('conditions')" *ngIf="!still_loading()">Conditions</button>

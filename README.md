@@ -21,6 +21,7 @@ The very latest in Assistive Technologies for Dungeon Master (ATDM)
 - [x] - So many results of Classes, Ancestries, Heritages, Backgrounds
 - [x] -- Adding skills and lore through Feats and Backgrounds
 - [x] - Actions granted through class and feats
+- [ ] - Implement spellcasting classes
 - [x] - Implement all General and Skill Feats
 - [ ] - Implement all Ancestry Feats
 - [ ] - Implement all Weapons
@@ -51,3 +52,6 @@ The very latest in Assistive Technologies for Dungeon Master (ATDM)
 - [ ] (documentation) :)
 - [ ] Initiative tracker, battles, being a battle member, GM-Player-Communication.......
 - [ ] Stretch Goal: Include optional Stamina & Resolve system
+
+Bug: Cantrips are gone after loading
+Ring of Sustenance

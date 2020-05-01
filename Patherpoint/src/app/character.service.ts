@@ -43,9 +43,10 @@ import { Rune } from './Rune';
 import { DeitiesService } from './deities.service';
 import { Deity } from './Deity';
 import { AnimalCompanionsService } from './animalcompanions.service';
-import { AnimalCompanionGain } from './AnimalCompanionGain';
 import { AnimalCompanion } from './AnimalCompanion';
 import { AnimalCompanionClass } from './AnimalCompanionClass';
+import { BloodlinesService } from './bloodlines.service';
+import { Bloodline } from './Bloodline';
 
 @Injectable({
     providedIn: 'root'
@@ -67,7 +68,7 @@ export class CharacterService {
 
     constructor(
         private http: HttpClient,
-        private abilitiesService: AbilitiesService,
+        public abilitiesService: AbilitiesService,
         private skillsService: SkillsService,
         private classesService: ClassesService,
         private featsService: FeatsService,
@@ -81,6 +82,7 @@ export class CharacterService {
         public timeService: TimeService,
         public defenseService: DefenseService,
         public deitiesService: DeitiesService,
+        public bloodlinesService: BloodlinesService,
         public animalCompanionsService: AnimalCompanionsService
     ) { }
 
@@ -95,10 +97,16 @@ export class CharacterService {
         this.changed.next(true);
     }
 
+    set_Span(name: string) {
+        if (document.getElementById(name)) {
+            document.getElementById(name).style.gridRow = "span " + this.get_Span(name+"-height");
+        }
+    }
+    
     get_Span(name: string, steps: number = 2) {
         //Calculates the grid-row span according to the height of the element with id=name
         //Returns a number, so don't forget to use "span "+get_Span(...)
-        //Steps is how many 50px-rows the element should grow by at once - I prefer 100px-steps for most
+        //Steps is how many 50px-rows the element should grow by at once - I prefer 2 steps (100px) for most
         let height = document.getElementById(name).offsetHeight;
         let margin: number = 16;
         let span = Math.ceil((height + margin) / 50 / steps) * steps;
@@ -184,31 +192,19 @@ export class CharacterService {
     }
 
     get_Companion() {
-        if (!this.still_loading() && this.get_Character().class.animalCompanion) {
-            return this.get_Character().class.animalCompanion.companion;
-        } else {
-            let blank = new AnimalCompanion()
-            blank.class = new AnimalCompanionClass()
-            blank.inventory = new ItemCollection()
-            return blank;
-        }
+        return this.get_Character().class.animalCompanion;
     }
 
     get_Creatures() {
         if (!this.still_loading()) {
-            if (this.get_Character().class.animalCompanion) {
-                return ([] as (Character|AnimalCompanion)[]).concat(this.get_Character()).concat(this.get_Companion());
-            } else {
-                return [this.get_Character()];
-            }
+            return ([] as (Character|AnimalCompanion)[]).concat(this.get_Character()).concat(this.get_Companion());
         } else { return [new Character()] }
     }
 
-    reset_Character() {
+    reset_Character(name: string = "") {
         this.loading = true;
         this.set_Changed();
-        this.me = new Character();
-        this.initialize("");
+        this.initialize(name);
     }
 
     get_Accent() {
@@ -308,9 +304,17 @@ export class CharacterService {
 
     change_Deity(deity: Deity) {
         this.me.class.on_ChangeDeity(this);
-        this.me.deity = new Deity();
-        this.me.deity = Object.assign(new Deity(), JSON.parse(JSON.stringify(deity)))
+        this.me.class.deity = new Deity();
+        this.me.class.deity = Object.assign(new Deity(), JSON.parse(JSON.stringify(deity)))
         this.me.class.on_NewDeity(this);
+        this.set_Changed();
+    }
+
+    change_Bloodline(bloodline: Bloodline) {
+        this.me.class.on_ChangeBloodline(this);
+        this.me.class.bloodline = new Bloodline();
+        this.me.class.bloodline = Object.assign(new Bloodline(), JSON.parse(JSON.stringify(bloodline)))
+        this.me.class.on_NewBloodline(this);
         this.set_Changed();
     }
 
@@ -991,18 +995,17 @@ export class CharacterService {
 
     initialize_AnimalCompanion() {
         if (this.me.class.animalCompanion) {
-            this.me.class.animalCompanion = Object.assign(new AnimalCompanionGain(), this.me.class.animalCompanion);
-            this.me.class.animalCompanion.companion = Object.assign(new AnimalCompanion(), this.me.class.animalCompanion.companion);
-            this.me.class.animalCompanion.companion.customSkills = this.me.class.animalCompanion.companion.customSkills.map(skill => Object.assign(new Skill(), skill));
-            this.me.class.animalCompanion.companion.class = Object.assign(new AnimalCompanionClass(), this.me.class.animalCompanion.companion.class);
-            this.me.class.animalCompanion.companion.class.reassign(this);
-            this.me.class.animalCompanion.companion.health = Object.assign(new Health(), this.me.class.animalCompanion.companion.health);
-            this.me.class.animalCompanion.companion.speeds = this.me.class.animalCompanion.companion.speeds.map(speed => Object.assign(new Speed(), speed));
-            this.me.class.animalCompanion.companion.conditions = this.me.class.animalCompanion.companion.conditions.map(condition => Object.assign(new Speed(), condition));
-            this.me.class.animalCompanion.companion.bulk = Object.assign(new Bulk(), this.me.class.animalCompanion.companion.bulk);
-            this.me.class.animalCompanion.companion.inventory = Object.assign(new ItemCollection(), this.me.class.animalCompanion.companion.inventory);
-            this.me.class.animalCompanion.companion.inventory.initialize(this.itemsService);
-            this.equip_BasicItems(this.me.class.animalCompanion.companion);
+            this.me.class.animalCompanion = Object.assign(new AnimalCompanion(), this.me.class.animalCompanion);
+            this.me.class.animalCompanion.customSkills = this.me.class.animalCompanion.customSkills.map(skill => Object.assign(new Skill(), skill));
+            this.me.class.animalCompanion.class = Object.assign(new AnimalCompanionClass(), this.me.class.animalCompanion.class);
+            this.me.class.animalCompanion.class.reassign(this);
+            this.me.class.animalCompanion.health = Object.assign(new Health(), this.me.class.animalCompanion.health);
+            this.me.class.animalCompanion.speeds = this.me.class.animalCompanion.speeds.map(speed => Object.assign(new Speed(), speed));
+            this.me.class.animalCompanion.conditions = this.me.class.animalCompanion.conditions.map(condition => Object.assign(new Speed(), condition));
+            this.me.class.animalCompanion.bulk = Object.assign(new Bulk(), this.me.class.animalCompanion.bulk);
+            this.me.class.animalCompanion.inventory = Object.assign(new ItemCollection(), this.me.class.animalCompanion.inventory);
+            this.me.class.animalCompanion.inventory.initialize(this.itemsService);
+            this.equip_BasicItems(this.me.class.animalCompanion);
         }
     }
 
@@ -1017,15 +1020,18 @@ export class CharacterService {
         this.itemsService.initialize();
         this.effectsService.initialize(this);
         this.deitiesService.initialize();
+        this.bloodlinesService.initialize();
         this.animalCompanionsService.initialize();
         if (charName) {
+            this.me = new Character();
             this.load_Character(charName)
             .subscribe((results: string[]) => {
                 this.loader = results;
                 this.finish_loading()
             });
         } else {
-            this.finish_loading()
+            this.me = new Character();
+            this.finish_loading();
         }
     }
 
@@ -1039,7 +1045,12 @@ export class CharacterService {
 
             //We have loaded the entire character from the file, but everything is object Object.
             //Let's recast all the typed objects:
-            this.me.customSkills = this.me.customSkills.map(skill => Object.assign(new Skill(), skill));
+            if (this.me.customSkills) {
+                this.me.customSkills = this.me.customSkills.map(skill => Object.assign(new Skill(), skill));
+            } else {
+                this.me.customSkills = [];
+            }
+            
             if (this.me.class) {
                 this.me.class = Object.assign(new Class(), this.me.class);
                 this.me.class.reassign();
@@ -1066,9 +1077,6 @@ export class CharacterService {
             }
             if (this.me.bulk) {
                 this.me.bulk = Object.assign(new Bulk(), this.me.bulk);
-            }
-            if (this.me.deity) {
-                this.me.deity = Object.assign(new Deity(), this.me.deity);
             }
             if (this.me.class.ancestry) {
                 this.me.class.ancestry = Object.assign(new Ancestry(), this.me.class.ancestry);

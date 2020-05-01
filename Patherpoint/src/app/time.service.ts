@@ -4,6 +4,7 @@ import { CharacterService } from './character.service';
 import { ActivitiesService } from './activities.service';
 import { EffectsService } from './effects.service';
 import { Effect } from './Effect';
+import { AbilitiesService } from './abilities.service';
 
 @Injectable({
     providedIn: 'root'
@@ -42,11 +43,30 @@ export class TimeService {
         this.tick(characterService, 5);
     }
 
+    rest(characterService: CharacterService) {
+        let charLevel: number = characterService.get_Character().level;
+        characterService.get_Creatures().forEach(creature => {
+            let con = Math.max(characterService.abilitiesService.get_Abilities("Constitution")[0].mod(creature, characterService, characterService.effectsService), 1);
+            characterService.get_Health(creature).heal(creature, characterService, characterService.effectsService, con * charLevel, true, true);
+            if (characterService.get_Health(creature).damage == 0) {
+                characterService.get_AppliedConditions(creature, "Wounded").forEach(gain => characterService.remove_Condition(creature, gain));
+            }
+            characterService.get_AppliedConditions(creature, "Fatigued").forEach(gain => characterService.remove_Condition(creature, gain));
+            characterService.get_AppliedConditions(creature, "Doomed").forEach(gain => {gain.value -= 1});
+            characterService.get_AppliedConditions(creature, "Drained").forEach(gain => {gain.value -= 1});
+        })
+        characterService.get_Character().class.bloodline.spellSlotsUsed = [999, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+        this.tick(characterService, 48000);
+    }
+
     tick(characterService: CharacterService, turns: number = 10) {
-        this.conditionsService.tick_Conditions(characterService.get_Character(), turns, this.yourTurn);
-        this.conditionsService.tick_Conditions(characterService.get_Companion(), turns, this.yourTurn);
-        this.activitiesService.tick_Activities(characterService.get_Character(), characterService, turns);
-        this.activitiesService.tick_Activities(characterService.get_Companion(), characterService, turns);
+        characterService.get_Creatures().forEach(creature => {
+            this.conditionsService.tick_Conditions(creature, turns, this.yourTurn);
+            this.activitiesService.tick_Activities(creature, characterService, turns);
+            if (turns >= 1000 && characterService.get_Health(creature).damage == 0) {
+                characterService.get_AppliedConditions(creature, "Wounded").forEach(gain => characterService.remove_Condition(creature, gain));
+            }
+        })
         this.yourTurn = (this.yourTurn + turns) % 10;
         characterService.set_Changed();
     }

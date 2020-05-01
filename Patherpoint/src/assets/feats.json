@@ -4687,11 +4687,13 @@
       "gainSpellChoice": [
          {
             "className": "Monk",
+            "level": -1,
             "id": "1-Spell-Feat: Ki Rush-0",
             "source": "Feat: Ki Rush",
             "spells": [
                {
                   "className": "Monk",
+                  "level": -1,
                   "locked": true,
                   "name": "ki rush",
                   "source": "Feat: Ki Rush",
@@ -4739,11 +4741,13 @@
       "gainSpellChoice": [
          {
             "className": "Monk",
+            "level": -1,
             "id": "1-Spell-Feat: Ki Strike-0",
             "source": "Feat: Ki Strike",
             "spells": [
                {
                   "className": "Monk",
+                  "level": -1,
                   "locked": true,
                   "name": "ki strike",
                   "source": "Feat: Ki Strike",
@@ -5048,11 +5052,13 @@
       "gainSpellChoice": [
          {
             "className": "Monk",
+            "level": -1,
             "id": "4-Spell-Feat: Wholeness of Body-0",
             "source": "Feat: Ki Strike",
             "spells": [
                {
                   "className": "Monk",
+                  "level": -1,
                   "locked": true,
                   "name": "wholeness of body",
                   "source": "Feat: Wholeness of Body",
@@ -5090,11 +5096,13 @@
       "gainSpellChoice": [
          {
             "className": "Monk",
+            "level": -1,
             "id": "6-Spell-Feat: Abundant Step-0",
             "source": "Feat: Abundant Step",
             "spells": [
                {
                   "className": "Monk",
+                  "level": -1,
                   "locked": true,
                   "name": "abundant step",
                   "source": "Feat: Abundant Step",
@@ -5161,11 +5169,13 @@
       "gainSpellChoice": [
          {
             "className": "Monk",
+            "level": -1,
             "id": "6-Spell-Feat: Ki Blast-0",
             "source": "Feat: Abundant Step",
             "spells": [
                {
                   "className": "Monk",
+                  "level": -1,
                   "locked": true,
                   "name": "ki blast",
                   "source": "Feat: Ki Blast",
@@ -5336,11 +5346,13 @@
       "gainSpellChoice": [
          {
             "className": "Monk",
+            "level": -1,
             "id": "8-Spell-Feat: Wild Winds Initiate-0",
             "source": "Feat: Wild Winds Initiate",
             "spells": [
                {
                   "className": "Monk",
+                  "level": -1,
                   "locked": true,
                   "name": "wild winds stance",
                   "source": "Feat: Wild Winds Initiate",
@@ -5404,11 +5416,13 @@
       "gainSpellChoice": [
          {
             "className": "Monk",
+            "level": -1,
             "id": "10-Spell-Feat: Wind Jump-0",
             "source": "Feat: Wind Jump",
             "spells": [
                {
                   "className": "Monk",
+                  "level": -1,
                   "locked": true,
                   "name": "wind jump",
                   "source": "Feat: Wind Jump",
@@ -5632,11 +5646,13 @@
       "gainSpellChoice": [
          {
             "className": "Monk",
+            "level": -1,
             "id": "16-Spell-Feat: Quivering Palm-0",
             "source": "Feat: Quivering Palm",
             "spells": [
                {
                   "className": "Monk",
+                  "level": -1,
                   "locked": true,
                   "name": "quivering palm",
                   "source": "Feat: Quivering Palm",
@@ -5714,11 +5730,13 @@
       "gainSpellChoice": [
          {
             "className": "Monk",
+            "level": -1,
             "id": "18-Spell-Feat: Empty Body-0",
             "source": "Feat: Empty Body",
             "spells": [
                {
                   "className": "Monk",
+                  "level": -1,
                   "locked": true,
                   "name": "empty body",
                   "source": "Feat: Empty Body",
@@ -5932,6 +5950,73 @@
       "growAnimalCompanion": 5,
       "traits": [
          "Ranger"
+      ]
+   },
+   {
+      "name": "Sorcerer Dedication",
+      "shortdesc": "Your study of the flow of mystical energy allows you to harness it into your physical strikes.",
+      "desc": "Choose a bloodline. You become trained in the bloodline’s two skills; for each of these skills in which you were already trained, you become trained in a skill of your choice.\n\nYou cast spells like a sorcerer. You gain access to the Cast a Spell activity. You gain a spell repertoire with two common cantrips from the spell list associated with your bloodline, from the spells granted by your bloodline, or any other cantrips of that tradition you learn or discover. You can add to your repertoire common cantrips of your spellcasting tradition, whether from this book or other cantrips of that tradition you learn or discover. You’re trained in spell attack rolls and spell DCs for your tradition’s spells. Your key spellcasting ability for sorcerer archetype spells is Charisma, and they are sorcerer spells of your bloodline’s tradition. You don’t gain any other abilities from your choice of bloodline.",
+      "levelreq": 2,
+      "specialdesc": "You cannot select another dedication feat until you have gained two other feats from the sorcerer archetype.",
+      "specialreqdesc": "not Sorcerer class",
+      "specialreq": "character.class != 'Sorcerer'",
+      "archetype": "Sorcerer",
+      "gainBloodline": true,
+      "gainSpellChoice": [
+         {
+            "className": "Sorcerer",
+            "id": "0-Spell-Feat: Sorcerer Dedication-0",
+            "source": "Feat: Sorcerer Dedication",
+            "available": 2,
+            "level": 0,
+            "spells": [],
+            "tradition": "Sorcerer"
+         }
+      ],
+      "traits": [
+         "Archetype",
+         "Dedication",
+         "Multiclass"
+      ]
+   },
+   {
+      "name": "Basic Sorcerer Spellcasting",
+      "shortdesc": "You gain the basic spellcasting benefits.",
+      "desc": "You gain the basic spellcasting benefits. Each time you gain a spell slot of a new level from the sorcerer archetype, add a spell of the appropriate spell level to your repertoire: a common spell of your bloodline’s tradition, one of your bloodline’s granted spells, or another spell you have learned or discovered.",
+      "levelreq": 4,
+      "featreq": "Sorcerer Dedication",
+      "archetype": "Sorcerer",
+      "gainSpellChoice": [
+         {
+            "className": "Sorcerer",
+            "id": "4-Spell-Feat: Basic Sorcerer Spellcasting-0",
+            "source": "Feat: Basic Sorcerer Spellcasting",
+            "available": 1,
+            "level": 1,
+            "spells": [],
+            "tradition": "Sorcerer"
+         },
+         {
+            "className": "Sorcerer",
+            "id": "6-Spell-Feat: Basic Sorcerer Spellcasting-0",
+            "source": "Feat: Basic Sorcerer Spellcasting",
+            "available": 1,
+            "level": 2,
+            "spells": [],
+            "tradition": "Sorcerer"
+         },
+         {
+            "className": "Sorcerer",
+            "id": "8-Spell-Feat: Basic Sorcerer Spellcasting-0",
+            "source": "Feat: Basic Sorcerer Spellcasting",
+            "available": 1,
+            "level": 3,
+            "spells": [],
+            "tradition": "Sorcerer"
+         }
+      ],
+      "traits": [
+         "Archetype"
       ]
    }
 ]

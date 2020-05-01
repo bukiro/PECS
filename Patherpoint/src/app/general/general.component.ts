@@ -30,7 +30,7 @@ export class GeneralComponent implements OnInit {
 
     set_Span() {
         setTimeout(() => {
-            document.getElementById(this.creature+"-general").style.gridRow = "span "+this.characterService.get_Span(this.creature+"-general-height");
+            this.characterService.set_Span(this.creature+"-general");
         })
     }
 
@@ -73,6 +73,10 @@ export class GeneralComponent implements OnInit {
 
     get_Size() {
         return this.get_Creature().get_Size(this.effectsService);
+    }
+
+    get_HuntersEdge() {
+        return this.get_Character().get_FeatsTaken(1, this.get_Character().level).filter(gain => ["Flurry", "Outwit", "Precision"].indexOf(gain.name) > -1).map(gain => gain.name);
     }
 
     get_Languages() {

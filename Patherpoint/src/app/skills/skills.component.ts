@@ -29,7 +29,7 @@ export class SkillsComponent implements OnInit {
 
     set_Span() {
         setTimeout(() => {
-            document.getElementById(this.creature+"-skills").style.gridRow = "span "+this.characterService.get_Span(this.creature+"-skills-height");
+            this.characterService.set_Span(this.creature+"-skills");
         })
     }
 

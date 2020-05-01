@@ -30,9 +30,10 @@ import { AnimalCompanionAncestry } from '../AnimalCompanionAncestry';
 import { ItemGain } from '../ItemGain';
 import { AnimalCompanion } from '../AnimalCompanion';
 import { AnimalCompanionsService } from '../animalcompanions.service';
-import { AnimalCompanionGain } from '../AnimalCompanionGain';
 import { AnimalCompanionClass } from '../AnimalCompanionClass';
-import { ThrowStmt } from '@angular/compiler';
+import { ConditionsService } from '../Conditions.service';
+import { BloodlinesService } from '../bloodlines.service';
+import { Bloodline } from '../Bloodline';
 
 @Component({
     selector: 'app-character',
@@ -59,6 +60,8 @@ export class CharacterComponent implements OnInit {
         private deitiesService: DeitiesService,
         private spellsService: SpellsService,
         private animalCompanionsService: AnimalCompanionsService,
+        private conditionsService: ConditionsService,
+        private bloodlinesService: BloodlinesService,
         private sortByPipe: SortByPipe
     ) { }
 
@@ -107,6 +110,10 @@ export class CharacterComponent implements OnInit {
         this.characterService.reset_Character();
     }
 
+    load_Character(name: string) {
+        this.characterService.reset_Character(name);
+    }
+
     get_Alignments() {
         //Champions and Clerics need to pick an alignment matching their deity
         return [
@@ -120,7 +127,7 @@ export class CharacterComponent implements OnInit {
             "Lawful Evil",
             "Neutral Evil",
             "Chaotic Evil"
-        ].filter(alignment => ["Champion", "Cleric"].indexOf(this.get_Character().class.name) == -1 || !this.get_Character().deity.followerAlignments || this.get_Character().deity.followerAlignments.indexOf(alignment) > -1)
+        ].filter(alignment => ["Champion", "Cleric"].indexOf(this.get_Character().class.name) == -1 || !this.get_Character().class.deity.followerAlignments || this.get_Character().class.deity.followerAlignments.indexOf(alignment) > -1)
     }
 
     get_Level(number: number) {
@@ -542,7 +549,7 @@ export class CharacterComponent implements OnInit {
         } else {
             switch (choice.type) {
                 case "Class":
-                    feats.push(...allFeats.filter(feat => feat.traits.indexOf(character.class.name) > -1));
+                    feats.push(...allFeats.filter(feat => feat.traits.indexOf(character.class.name) > -1 || feat.traits.indexOf("Archetype") > -1));
                     break;
                 case "Ancestry":
                     character.class.ancestry.ancestries.forEach(trait => {
@@ -709,6 +716,18 @@ export class CharacterComponent implements OnInit {
                     reasons.push("This feat has been taken on a higher level.");
                 }
             }
+            //Dedication feats
+            if (feat.traits.indexOf("Dedication") > -1) {
+                //Get all taken dedication feats that aren't this, then check if you have taken 
+                this.get_Character().get_FeatsTaken(1, levelNumber).map(gain => this.get_FeatsAndFeatures(gain.name)[0])
+                    .filter(libraryfeat => libraryfeat.name != feat.name && libraryfeat.traits.indexOf("Dedication") > -1).forEach(takenfeat => {
+                    let archetypeFeats = this.get_Character().get_FeatsTaken(1, levelNumber).map(gain => this.get_FeatsAndFeatures(gain.name)[0])
+                        .filter(libraryfeat => libraryfeat.name != takenfeat.name && libraryfeat.traits.indexOf("Archetype") > -1 && libraryfeat.archetype == takenfeat.archetype)
+                    if (archetypeFeats.length < 2) {
+                        reasons.push("You cannot select another dedication feat until you have gained two other feats from the "+takenfeat.archetype+" archetype.");
+                    }
+                });
+            }
             //If this feat has any subtypes, check if any of them can be taken. If not, this cannot be taken either.
             if (feat.subTypes) {
                 let subfeats = this.get_Feats().filter(subfeat => subfeat.superType == feat.name && !subfeat.hide);
@@ -868,6 +887,40 @@ export class CharacterComponent implements OnInit {
         }
     }
 
+    get_BloodlineAvailable(levelNumber: number) {
+        return this.get_Character().get_FeatsTaken(levelNumber, levelNumber).filter(gain => this.get_FeatsAndFeatures(gain.name)[0].gainBloodline).length;
+    }
+
+    get_Bloodlines() {
+        return this.bloodlinesService.get_Bloodlines();
+    }
+
+    get_BloodlineSpellLevel(levelNumber: number) {
+        switch (levelNumber) {
+            case 0: 
+                return "initial";
+            case 1:
+                return "advanced";
+            case 2:
+                return "greater";
+            default:
+                return "";
+        }
+    }
+
+    on_BloodlineChange(bloodline: Bloodline, taken: boolean) {
+        if (taken) {
+            this.showList="";
+            this.characterService.change_Bloodline(bloodline);
+        } else {
+            this.characterService.change_Bloodline(new Bloodline());
+        }
+    }
+
+    get_Conditions(name: string = "") {
+        return this.conditionsService.get_Conditions(name);
+    }
+
     get_Heritages(name: string = "", ancestryName: string = "") {
         return this.historyService.get_Heritages(name, ancestryName);
     }
@@ -900,23 +953,20 @@ export class CharacterComponent implements OnInit {
         return INT;
     }
 
-    get_AnimalCompanionAvailable(level: Level) {
+    get_AnimalCompanionAvailable(levelNumber: number) {
         //Return the number of feats taken this level that granted you an animal companion
-        return this.characterService.get_Character().get_FeatsTaken(level.number, level.number).map(gain => this.get_FeatsAndFeatures(gain.name)[0]).filter(feat => feat.gainAnimalCompanion).length;
+        return this.get_Character().get_FeatsTaken(levelNumber, levelNumber).filter(gain => this.characterService.get_FeatsAndFeatures(gain.name)[0].gainAnimalCompanion).length
     }
 
     get_Companion() {
-        if (this.characterService.get_Character().class.animalCompanion) {
-            return this.characterService.get_Character().class.animalCompanion.companion;
-        }
+        return this.characterService.get_Character().class.animalCompanion;
     }
 
     on_NewCompanion(level: Level) {
         if (this.characterService.get_Character().class.animalCompanion) {
             let character = this.characterService.get_Character();
-            character.class.animalCompanion = new AnimalCompanionGain();
-            character.class.animalCompanion.companion = new AnimalCompanion();
-            character.class.animalCompanion.companion.class = new AnimalCompanionClass();
+            character.class.animalCompanion = new AnimalCompanion();
+            character.class.animalCompanion.class = new AnimalCompanionClass();
             this.characterService.initialize_AnimalCompanion();
             character.class.animalCompanion.level = level.number;
             this.set_Changed();

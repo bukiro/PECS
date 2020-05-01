@@ -79,52 +79,16 @@ export class AnimalCompanionComponent implements OnInit {
         return this.characterService.get_Character();
     }
 
-    get_Companion() {
-        if (this.characterService.get_Character().class.animalCompanion) {
-            return this.characterService.get_Character().class.animalCompanion.companion;
-        }
-    }
-
-    on_NewCompanion() {
-        if (this.characterService.get_Character().class.animalCompanion) {
-            this.characterService.get_Character().class.animalCompanion.companion = new AnimalCompanion();
-            this.set_Changed();
-        }
+    get_CompanionAvailable() {
+        return this.get_Character().get_FeatsTaken(1, this.get_Character().level).filter(gain => this.characterService.get_FeatsAndFeatures(gain.name)[0].gainAnimalCompanion).length
     }
 
     get_CompanionTypes() {
         return this.animalCompanionsService.get_CompanionTypes();
     }
 
-    on_TypeChange(type: AnimalCompanionAncestry, taken: boolean) {
-        if (taken) {
-            this.showList="";
-            this.animalCompanionsService.change_Type(this.characterService, this.get_Companion(), type);
-        } else {
-            this.animalCompanionsService.change_Type(this.characterService, this.get_Companion(), new AnimalCompanionAncestry());
-        }
-    }
-
     get_Item(gain: ItemGain) {
         return this.characterService.get_Items()[gain.type].filter(item => item.name == gain.name);
-    }
-
-    get_Abilities(type: AnimalCompanionAncestry) {
-        let abilities: [{name:string, modifier:string}] = [{name:"", modifier:""}];
-        this.characterService.get_Abilities().forEach(ability => {
-            let name = ability.name.substr(0,3);
-            let modifier = 0;
-            let classboosts = this.get_Companion().class.levels[1].abilityChoices[0].boosts.filter(boost => boost.name == ability.name)
-            let ancestryboosts = type.abilityChoices[0].boosts.filter(boost => boost.name == ability.name);
-            modifier = ancestryboosts.concat(classboosts).filter(boost => boost.type == "Boost").length - ancestryboosts.concat(classboosts).filter(boost => boost.type == "Flaw").length;
-            abilities.push({name:name, modifier:(modifier > 0 ? "+" : "")+modifier.toString()})
-        })
-        abilities.shift();
-        return abilities;
-    }
-
-    get_Activities(name: string = "") {
-        return this.activitiesService.get_Activities(name);
     }
 
     finish_Loading() {

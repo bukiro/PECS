@@ -8,14 +8,11 @@ import { FeatChoice } from './FeatChoice';
 import { LoreChoice } from './LoreChoice';
 import { ActivityGain } from './ActivityGain';
 import { SpellChoice } from './SpellChoice';
-import { FormulaChoice } from './FormulaChoice';
 import { TraditionChoice } from './TraditionChoice';
 import { SkillChoice } from './SkillChoice';
 import { ConditionGain } from './ConditionGain';
-import { AnimalCompanion } from './AnimalCompanion';
-import { AnimalCompanionGain } from './AnimalCompanionGain';
-import { AnimalCompanionClass } from './AnimalCompanionClass';
 import { AnimalCompanionLevel } from './AnimalCompanionLevel';
+import { Bloodline } from './Bloodline';
 
 @Injectable({
     providedIn: 'root'
@@ -83,16 +80,30 @@ export class FeatsService {
             if (feat.gainSpellChoice.length) {
                 if (taken) {
                     feat.gainSpellChoice.forEach(newSpellChoice => {
-                        character.add_SpellChoice(level, newSpellChoice);
+                        let choiceLevel: Level = level;
+                        //Archetype spellcasting feats add spell slots on different levels instead of the level the feat was taken on.
+                        //Change the level at this point to the level indicated in the spell choice id, unless it's 0 (indicating that the spell is taken on the same level as the feat)
+                        if (feat.archetype && parseInt(newSpellChoice.id[0])) {
+                            choiceLevel = character.class.levels[parseInt(newSpellChoice.id[0])] || level;
+                        } 
+                        character.add_SpellChoice(choiceLevel, newSpellChoice);
                     });
                 } else {
-                    let a: SpellChoice[] = level.spellChoices;
-                    let b: SpellChoice = a.filter(choice => choice.source == 'Feat: '+featName)[0];
-                    //Feats must explicitly be un-taken instead of just removed from the array, in case they made fixed changes
-                    b.spells.forEach(spell => {
-                        character.take_Spell(characterService, spell.name, false, b, false);
+                    feat.gainSpellChoice.forEach(newSpellChoice => {
+                        let choiceLevel: Level = level;
+                        //Archetype spellcasting feats add spell slots on different levels instead of the level the feat was taken on.
+                        //Change the level at this point to the level indicated in the spell choice id, unless it's 0 (indicating that the spell is taken on the same level as the feat)
+                        if (feat.archetype && parseInt(newSpellChoice.id[0])) {
+                            choiceLevel = character.class.levels[parseInt(newSpellChoice.id[0])] || level;
+                        }
+                        let a: SpellChoice[] = choiceLevel.spellChoices;
+                        let b: SpellChoice = a.filter(choice => choice.source == 'Feat: '+featName)[0];
+                        //Feats must explicitly be un-taken instead of just removed from the array, in case they made fixed changes
+                        b.spells.forEach(spell => {
+                            character.take_Spell(characterService, spell.name, false, b, false);
+                        });
+                        a.splice(a.indexOf(b), 1)
                     });
-                    a.splice(a.indexOf(b), 1)
                 }
             }
 
@@ -278,17 +289,9 @@ export class FeatsService {
                 }
             }
 
-            //Animal Companion
-            if (feat.gainAnimalCompanion) {
-                if (taken) {
-                    if (!character.class.animalCompanion) {
-                        character.class.animalCompanion = new AnimalCompanionGain();
-                        character.class.animalCompanion.companion = new AnimalCompanion();
-                        character.class.animalCompanion.level = level.number;
-                        characterService.initialize_AnimalCompanion();
-                    }
-                } else {
-                    character.class.animalCompanion = null;
+            if (feat.gainBloodline) {
+                if (!taken) {
+                    character.class.bloodline = new Bloodline();
                 }
             }
 
@@ -297,7 +300,7 @@ export class FeatsService {
                 if (companion.class.levels.length) {
                     if (taken) {
                         if (feat.growAnimalCompanion > 3) {
-                            companion.class.levels[3] = Object.assign(new AnimalCompanionLevel(), character.class.animalCompanion.companion.class.levels[feat.growAnimalCompanion]);
+                            companion.class.levels[3] = Object.assign(new AnimalCompanionLevel(), companion.class.levels[feat.growAnimalCompanion]);
                             companion.class.levels[3].number = 3;
                         }
                     } else {

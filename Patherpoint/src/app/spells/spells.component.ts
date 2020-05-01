@@ -76,7 +76,18 @@ export class SpellsComponent implements OnInit {
         return this.spellsService.get_Spells(name, type, tradition);
     }
 
-    get_AvailableSpells(choice: SpellChoice, get_unavailable: boolean = false) {
+    get_MaxSpellLevel() {
+        return Math.ceil(this.get_Character().level / 2);
+    }
+
+    get_SpellChoices(levelNumber: number) {
+        //Get all spellchoices from all character levels that have this spell level
+        return [].concat(...this.get_Character().class.levels
+            .filter(level => level.number <= this.get_Character().level)
+                .map(level => level.spellChoices.filter(choice => choice.level == levelNumber)))
+    }
+
+    get_AvailableSpells(choice: SpellChoice) {
         let character = this.get_Character()
         let allSpells = this.spellsService.get_Spells();
         if (choice.filter.length) {
@@ -87,22 +98,27 @@ export class SpellsComponent implements OnInit {
             case "Focus":
                 spells.push(...allSpells.filter(spell => spell.traits.indexOf(character.class.name) > -1));
                 break;
+            case "Sorcerer":
+                let tradition = character.class.bloodline.spellList;
+                //Get all spells of the tradition or of the bloodline granted spells
+                spells.push(...allSpells.filter(spell => spell.traditions.indexOf(tradition) > -1 || character.class.bloodline.grantedSpells.map(gain => gain.name).indexOf(spell.name) > -1));
+                break;
             default:
-                spells.push(...allSpells.filter(spell => spell.traditions.indexOf(choice.tradition) > -1));
+                spells.push(...allSpells.filter(spell => spell.traditions.indexOf(tradition) > -1));
                 break;
         }
         if (spells.length) {
-            if (get_unavailable && choice.spells.length < choice.available) {
-                let unavailableSpells: Spell[] = spells.filter(spell => 
-                    (this.cannotTake(spell, choice).length > 0)
-                )
-                return this.sortByPipe.transform(unavailableSpells, "asc", "name")
-            } else if (!get_unavailable && choice.spells.length < choice.available) {
+            if (choice.level == 0) {
+                spells = spells.filter(spell => spell.traits.indexOf("Cantrip") > -1);
+            } else {
+                spells = spells.filter(spell => spell.traits.indexOf("Cantrip") == -1);
+            }
+            if (choice.spells.length < choice.available) {
                 let availableSpells: Spell[] = spells.filter(spell => 
                     this.cannotTake(spell, choice).length == 0 || this.spellTakenByThis(spell, choice)
                 )
                 return this.sortByPipe.transform(availableSpells, "asc", "name")
-            } else if (!get_unavailable) {
+            } else {
                 let availableSpells: Spell[] = spells.filter(spell => 
                     this.spellTakenByThis(spell, choice)
                 )
@@ -127,35 +143,29 @@ export class SpellsComponent implements OnInit {
     }
 
     cannotTake(spell: Spell, choice: SpellChoice) {
-        let levelNumber = parseInt(choice.id.split("-")[0]);
-        let spellLevel = levelNumber;
+        let spellLevel = choice.level;
         let reasons: string[] = [];
         //Are the basic requirements (level, ability, feat etc) not met?
         if (!spell.canChoose(this.characterService, spellLevel)) {
             reasons.push("The requirements are not met.")
         }
         //Has it already been taken up to this level, and was that not by this FeatChoice?
-        if (spell.have(this.characterService, levelNumber) && !this.spellTakenByThis(spell, choice)) {
+        if (spell.have(this.characterService, spellLevel) && !this.spellTakenByThis(spell, choice)) {
             reasons.push("You already have this spell.");
         }
         //Has it generally been taken more than once, and this is one time?
-        if (spell.have(this.characterService, levelNumber) > 1 && this.spellTakenByThis(spell, choice)) {
+        if (spell.have(this.characterService, spellLevel) > 1 && this.spellTakenByThis(spell, choice)) {
             reasons.push("Spells cannot be taken more than once!");
-        }
-        //Has it been taken on a higher level (that is, not up to now, but up to Level 20)?
-        if (!spell.have(this.characterService, levelNumber) && spell.have(this.characterService, 20)) {
-            reasons.push("This spell has been taken on a higher level.");
         }
         return reasons;
     }
 
     spellTakenByThis(spell: Spell, choice: SpellChoice) {
-        let levelNumber = parseInt(choice.id.split("-")[0]);
-        return this.get_SpellsTaken(levelNumber, levelNumber, spell.name, choice.source, choice.id).length > 0;
+        return this.get_SpellsTaken(1, 20, -1, spell.name, choice.source, choice.id).length > 0;
     }
 
-    get_SpellsTaken(minLevelNumber: number, maxLevelNumber: number, spellName: string, source: string = "", sourceId: string = "", locked: boolean = undefined) {
-        return this.get_Character().get_SpellsTaken(minLevelNumber, maxLevelNumber, spellName, "", "", source, sourceId, locked);
+    get_SpellsTaken(minLevelNumber: number, maxLevelNumber: number, spellLevel: number, spellName: string, source: string = "", sourceId: string = "", locked: boolean = undefined) {
+        return this.get_Character().get_SpellsTaken(minLevelNumber, maxLevelNumber, spellLevel, spellName, "", "", source, sourceId, locked);
     }
 
     on_SpellTaken(spellName: string, taken: boolean, choice: SpellChoice, locked: boolean) {

@@ -9,4 +9,5 @@ export class Bloodline {
     public grantedSpells: SpellCast[] = [];
     public bloodlineSpells: SpellCast[] = [];
     public bloodMagic: ConditionGain[] = [];
+    public spellSlotsUsed: number[] = [999, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
 }

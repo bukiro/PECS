@@ -22,7 +22,7 @@ export class TimeComponent implements OnInit {
     
     set_Span() {
         setTimeout(() => {
-            document.getElementById("time").style.gridRow = "span "+this.characterService.get_Span("time-height", 1);
+            this.characterService.set_Span("time");
         })
     }
 

@@ -165,7 +165,7 @@
             </ng-container>
 <!--Other Items-->            
             <h5 class="fullsize-only">Miscellaneous Items</h5>
-            <button class="fullsize-only" (click)="add_NewOtherItem()">Add</button>
+            <button class="fullsize-only center-aligned" (click)="add_NewOtherItem()">Add</button>
             <div class="fullsize-only list-item" *ngFor="let item of items.otheritems">
                 <strong>Name</strong>
                 <input type="text" [(ngModel)]="item.name">

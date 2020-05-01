@@ -26,7 +26,7 @@ export class SpellComponent implements OnInit {
 
     get_Heightened(desc: string) {
         let levelNumber = this.spellLevel;
-        if (!levelNumber) {
+        if (!levelNumber || levelNumber == -1) {
             levelNumber = Math.ceil(this.characterService.get_Character().level / 2)
         } 
         return this.spell.get_Heightened(desc, levelNumber)

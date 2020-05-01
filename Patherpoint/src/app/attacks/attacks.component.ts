@@ -30,7 +30,7 @@ export class AttacksComponent implements OnInit {
 
     set_Span() {
         setTimeout(() => {
-            document.getElementById(this.creature+"-attacks").style.gridRow = "span " + this.characterService.get_Span(this.creature+"-attacks-height");
+            this.characterService.set_Span(this.creature+"-attacks");
         })
     }
 

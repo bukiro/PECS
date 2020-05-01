@@ -8,8 +8,9 @@
         </h3>
         <div class="loading" *ngIf="still_loading()">Loading</div>
         <ng-container *ngIf="!still_loading()">
-            <app-tags [creature]="creature" [objectName]="'Health'" [showTraits]=true [showFeats]=true [showItems]=true [showActivities]=true
-                [showConditions]=true [showEffects]=true></app-tags>
+            <button class="list-item center-aligned" (click)="rest()">Rest</button>
+            <app-tags [creature]="creature" [objectName]="'Health'" [showTraits]=true [showFeats]=true [showItems]=true
+                [showActivities]=true [showConditions]=true [showEffects]=true></app-tags>
             <div class="fullsize-only list-item">
                 <div class="row">
                     <strong>Max HP</strong>
@@ -26,8 +27,8 @@
                     </span>
                 </div>
                 <div class="row">
-                    <app-tags [creature]="creature" [objectName]="'Max HP'" [showTraits]=true [showFeats]=true [showItems]=true
-                        [showActivities]=true [showConditions]=true [showEffects]=true></app-tags>
+                    <app-tags [creature]="creature" [objectName]="'Max HP'" [showTraits]=true [showFeats]=true
+                        [showItems]=true [showActivities]=true [showConditions]=true [showEffects]=true></app-tags>
                 </div>
             </div>
             <div class="list-item" [className]="(health.$dying > 0) ? '' : 'fullsize-only'">
@@ -46,29 +47,26 @@
                 </div>
                 <div class="row" *ngIf="health.$dying > 0">
                     <span>
-                        <button
-                            (click)="on_DyingSave(true)">Save
+                        <button (click)="on_DyingSave(true)">Save
                         </button>
                     </span>
                     <span>
-                        <button
-                            (click)="on_DyingSave(false)">Fail Save
+                        <button (click)="on_DyingSave(false)">Fail Save
                         </button>
                     </span>
                 </div>
                 <div class="row" *ngIf="health.$dying > 0 && creature == 'Character'">
-                        <button
-                            (click)="on_HeroPointRecover()" [disabled]="!get_Character().heroPoints">Use all hero points to recover
-                        </button>
+                    <button (click)="on_HeroPointRecover()" [disabled]="!get_Character().heroPoints">Use all hero points
+                        to recover
+                    </button>
                 </div>
-                <app-tags [creature]="creature" [objectName]="'Max Dying'" [showTraits]=true [showFeats]=true [showItems]=true
-                    [showActivities]=true [showConditions]=true [showEffects]=true></app-tags>
+                <app-tags [creature]="creature" [objectName]="'Max Dying'" [showTraits]=true [showFeats]=true
+                    [showItems]=true [showActivities]=true [showConditions]=true [showEffects]=true></app-tags>
             </div>
             <div class="list-item" [className]="(health.$wounded > 0) ? '' : 'fullsize-only'">
                 <strong>Wounded</strong><input class="number2" type="number"
                     [className]="(health.$wounded > 0) ? 'penalty' : ''" value="{{health.$wounded}}" disabled>
-                <button *ngIf="health.$wounded > 0"
-                    (click)="on_HealWounded()">Heal</button>
+                <button *ngIf="health.$wounded > 0" (click)="on_HealWounded()">Heal</button>
             </div>
             <div class="list-item row">
                 <span>
@@ -119,8 +117,7 @@
                     <input class="number3" type="number" [(ngModel)]="this.addTempHP" maxLength="3">
                 </span>
                 <span>
-                    <button [disabled]="this.addTempHP == 0"
-                        (click)="add_TempHP(this.addTempHP)">Add</button>
+                    <button [disabled]="this.addTempHP == 0" (click)="add_TempHP(this.addTempHP)">Add</button>
                 </span>
             </div>
             <ng-container *ngFor="let resistances of [get_Resistances()]">
@@ -131,8 +128,8 @@
                             [className]="(resistance.value < 0) ? 'penalty' : 'bonus'">{{resistance.target}}:
                             {{Math.abs(resistance.value)}}{{(resistance.exception) ? " /"+resistance.exception : ""}}</span>
                     </div>
-                    <app-tags [creature]="creature" [objectName]="'Resistances'" [showTraits]=true [showFeats]=true [showItems]=true
-                        [showActivities]=true [showConditions]=true [showEffects]=true></app-tags>
+                    <app-tags [creature]="creature" [objectName]="'Resistances'" [showTraits]=true [showFeats]=true
+                        [showItems]=true [showActivities]=true [showConditions]=true [showEffects]=true></app-tags>
                 </div>
             </ng-container>
         </ng-container>

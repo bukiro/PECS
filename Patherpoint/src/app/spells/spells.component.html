@@ -2,50 +2,52 @@
 <div id="spells-height" class="itemBox">
     <button class="list-item" (click)="toggleSpellMenu()">Close</button>
     <div class="loading" *ngIf="still_loading()">Loading</div>
-    <ng-container *ngIf="!still_loading()">
-        <ng-container *ngIf="get_Character().class">
-            <ng-container *ngFor="let level of get_Character().class.levels">
-                <h3 *ngIf="level.number > 0">Level {{level.number}}</h3>
+    <ng-container *ngIf="!still_loading() && get_Character().class">
+        <ng-container *ngFor="let level of [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10]">
+            <ng-container *ngIf="level <= get_MaxSpellLevel()">
+                <h3>{{level == 0 ? "Cantrips" : "Level "+level}}</h3>
                 <!--Fixed information-->
-                <div class="fullsize-only list-item fancy-button" *ngIf="level.number > 0">
+                <div class="fullsize-only list-item fancy-button">
                     <button class="row sublist-toggle fancy-button"
-                        (click)="toggle_List('showFixedChanges'+level.number)">
+                        (click)="toggle_List('showFixedChanges'+level)">
                         Show fixed changes
                     </button>
-                    <div class="list-item sublist fancy-list" *ngIf="get_ShowList()=='showFixedChanges'+level.number">
+                    <div class="list-item sublist fancy-list" *ngIf="get_ShowList()=='showFixedChanges'+level">
                         <!--Fixed Spells gained-->
                         <div class="list-item"
-                            *ngFor="let spellGain of get_SpellsTaken(level.number, level.number, '', '', '', true)">
+                            *ngFor="let spellGain of get_SpellsTaken(1, get_Character().level, level, '', '', '', true)">
                             {{spellGain.name}} ({{spellGain.source}})
                         </div>
                     </div>
                 </div>
                 <!--Spell choices-->
-                <ng-container *ngFor="let choice of level.spellChoices">
+                <ng-container *ngFor="let choice of get_SpellChoices(level)">
                     <div class="list-item" *ngIf="choice.available"
                         [className]="((choice.spells.length > choice.available || cannotTakeSome(choice)) ? 'problem' : '') +' '+ ((choice.available == choice.spells.length) ? 'fullsize-only' : '')">
                         <button class="row sublist-toggle"
-                           
+                        
                             [className]="(choice.available == choice.spells.length) ? 'fancy-button' : ''"
                             (click)="toggle_List(choice.source+choice.id)">
-                            {{(choice.level) ? "Level "+choice.level+" " : ""}}{{choice.type}} Feats
+                            {{choice.tradition}} Spells
                             ({{choice.source}}){{(choice.available > 1) ?
                                 ": "+ choice.spells.length +"/"+ choice.available : 
                                 (choice.spells.length) ? ": "+ choice.spells[0].name : ""}}
                         </button>
                         <div class="list-item sublist"
-                           
+                        
                             [className]="(choice.available == choice.spells.length ) ? 'fancy-list' : ''"
                             *ngIf="get_ShowList()==choice.source+choice.id">
                             <div title="{{(this.get_ShowItem()==choice.id+spell.name+'desc') ? '' : spell.shortDesc}}"
                                 class="list-item" *ngFor="let spell of get_AvailableSpells(choice)">
-                                <input id="{{choice.id+spell.name}}" type="checkbox"
-                                    (change)="on_SpellTaken(spell.name, $event.target.checked, choice, false)"
-                                    [checked]="spellTakenByThis(spell, choice)"
-                                    [disabled]="cannotTake(spell, choice).length && !spellTakenByThis(spell, choice)">
-                                <label for="{{choice.id+spell.name}}">
-                                    <strong>{{spell.name}}&nbsp;</strong><cite>Level {{spell.levelreq}}</cite>
-                                </label>
+                                <span>
+                                    <input id="{{choice.id+spell.name}}" type="checkbox"
+                                        (change)="on_SpellTaken(spell.name, $event.target.checked, choice, false)"
+                                        [checked]="spellTakenByThis(spell, choice)"
+                                        [disabled]="cannotTake(spell, choice).length && !spellTakenByThis(spell, choice)">
+                                    <label for="{{choice.id+spell.name}}">
+                                        <strong>{{spell.name}}&nbsp;</strong><cite>Level {{spell.levelreq}}</cite>
+                                    </label>
+                                </span>
                                 <cite class="problem" *ngFor="let reason of cannotTake(spell, choice)">
                                     {{reason}}
                                 </cite>
@@ -54,33 +56,8 @@
                                     Show Description
                                 </button>
                                 <div class="row left-aligned" *ngIf="this.get_ShowItem()==choice.id+spell.name+'desc'">
-                                    <cite *ngFor="let trait of spell.traits">
-                                        {{trait}}&nbsp;
-                                    </cite>
-                                    <div class="row">
-                                        <p *ngFor="let desc of spell.desc.split('\n')">
-                                            {{desc}}
-                                        </p>
-                                        <p *ngIf="spell.specialdesc.length">
-                                            <strong>Special</strong>
-                                            {{spell.specialdesc}}
-                                        </p>
-                                    </div>
+                                    <app-spell [spell]="spell" [spellLevel]="level"></app-spell>
                                 </div>
-                            </div>
-                            <!--UnavailableFeats-->
-                            <div class="list-item unavailable"
-                                title="{{(this.get_ShowItem()==choice.id+spell.name+'desc') ? '' : spell.shortDesc}}"
-                                *ngFor="let spell of get_AvailableSpells(choice, true)">
-                                <strong>{{spell.name}}&nbsp;</strong><cite>Level {{spell.levelreq}}</cite>
-                                <cite class="problem" *ngFor="let reason of cannotTake(spell, choice)">
-                                    {{reason}}
-                                </cite>
-                                <button
-                                    (click)="toggle_Item(choice.id+spell.name+'desc')">
-                                    Show Description
-                                </button>
-                                <app-spell [spell]=spell></app-spell>
                             </div>
                         </div>
                     </div>

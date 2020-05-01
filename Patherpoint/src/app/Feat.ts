@@ -41,6 +41,8 @@ export class Feat {
     public gainTraditionChoice: TraditionChoice[] = [];
     public gainFormulaChoice: FormulaChoice[] = [];
     public gainAnimalCompanion: boolean = false;
+    public gainBloodline: boolean = false;
+    public archetype: string = "";
     public growAnimalCompanion: number = 0;
     public gainActivities: string[] = [];
     public gainConditions: ConditionGain[] = [];

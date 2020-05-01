@@ -6,7 +6,7 @@
     <div class="row left-aligned"  *ngIf="spell.traditions">
         <span>
             <strong>Traditions</strong>
-            {{spell.traditions}}
+            {{spell.traditions.join(', ')}}
         </span>
     </div>
     <div class="row left-aligned"  *ngIf="spell.castType">

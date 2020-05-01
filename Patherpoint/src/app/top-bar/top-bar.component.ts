@@ -76,9 +76,11 @@ export class TopBarComponent implements OnInit {
     }
 
     get_Companion() {
-        if (this.get_Character().class.animalCompanion && this.get_Character().class.animalCompanion.level <= this.get_Character().level) {
-            return this.characterService.get_Character().class.animalCompanion.companion;
-        }
+        return this.characterService.get_Companion();
+    }
+
+    get_CompanionAvailable() {
+        return this.get_Character().get_FeatsTaken(1, this.get_Character().level).filter(gain => this.characterService.get_FeatsAndFeatures(gain.name)[0].gainAnimalCompanion).length
     }
 
     get_Accent() {
@@ -94,7 +96,7 @@ export class TopBarComponent implements OnInit {
     }
 
     ngOnInit() {
-       this.characterService.initialize("save");
+       this.characterService.initialize("");
     }
 
 }

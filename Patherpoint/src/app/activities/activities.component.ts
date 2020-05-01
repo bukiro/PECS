@@ -38,7 +38,7 @@ export class ActivitiesComponent implements OnInit {
 
     set_Span() {
         setTimeout(() => {
-            document.getElementById(this.creature+"-activities").style.gridRow = "span "+this.characterService.get_Span(this.creature+"-activities-height");
+            this.characterService.set_Span(this.creature+"-activities");
         })
     }
 

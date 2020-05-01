@@ -34,7 +34,7 @@ export class EffectsComponent implements OnInit {
 
     set_Span() {
         setTimeout(() => {
-            document.getElementById(this.creature+"-effects").style.gridRow = "span "+this.characterService.get_Span(this.creature+"-effects-height");
+            this.characterService.set_Span(this.creature+"-effects");
         })
     }
 

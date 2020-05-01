@@ -5,6 +5,7 @@ import { ConditionGain } from '../ConditionGain';
 import { Health } from '../Health';
 import { Character } from '../Character';
 import { AnimalCompanion } from '../AnimalCompanion';
+import { TimeService } from '../time.service';
 
 @Component({
     selector: 'app-health',
@@ -25,6 +26,7 @@ export class HealthComponent implements OnInit {
 
     constructor(
         private changeDetector:ChangeDetectorRef,
+        private timeService: TimeService,
         public characterService: CharacterService,
         public effectsService: EffectsService
     ) { }
@@ -35,7 +37,7 @@ export class HealthComponent implements OnInit {
 
     set_Span() {
         setTimeout(() => {
-            document.getElementById(this.creature+"-health").style.gridRow = "span "+this.characterService.get_Span(this.creature+"-health-height");
+            this.characterService.set_Span(this.creature+"-health");
         })
     }
 
@@ -53,6 +55,10 @@ export class HealthComponent implements OnInit {
 
     get_Accent() {
         return this.characterService.get_Accent();
+    }
+
+    rest() {
+        this.timeService.rest(this.characterService);
     }
 
     calculate_Health() {

@@ -12,6 +12,7 @@
         "levelreq": 1,
         "actions": "1",
         "castType": "verbal",
+        "target": "self",
         "shortDesc": "Accelerated by your ki, you move with such speed you become a blur.",
         "desc": "Accelerated by your ki, you move with such speed you become a blur. Move two times: two Strides, two Steps, or one Stride and one Step (in either order). You gain the concealed condition during this movement and until the start of your next turn.",
         "gainConditions": [
@@ -77,6 +78,7 @@
         "levelreq": 2,
         "actions": "1",
         "castType": "verbal",
+        "target": "self",
         "shortDesc": "You focus your ki to heal yourself.",
         "desc": "You heal yourself in one of the following ways, chosen by you when you cast the spell.\n\nYou regain <var>var1</var> Hit Points.\nYou attempt to cure one poison or disease afflicting you; attempt to counteract the affliction.",
         "desc2": [
@@ -376,6 +378,7 @@
         "shortDesc": "You take on the stance of the flowing winds, sending out waves of energy at a distance.",
         "desc": "You take on the stance of the flowing winds, sending out waves of energy at a distance. You can make wind crash unarmed Strikes as ranged Strikes against targets within 30 feet. These deal 1d6 bludgeoning damage, use the brawling group, and have the agile, nonlethal, propulsive, and unarmed traits. Wind crash Strikes ignore concealment and all cover.\n\nWhile in wild winds stance, you gain a +2 circumstance bonus to AC against ranged attacks.",
         "duration": "until you leave the stance",
+        "target": "self",
         "gainConditions": [
             {
                 "name": "Wild Winds Stance",
@@ -406,6 +409,7 @@
         "actions": "1",
         "castType": "verbal",
         "duration": "1 minute",
+        "target": "self",
         "shortDesc": "You gain a fly Speed equal to your Speed.",
         "desc": "You gain a fly Speed equal to your Speed. You must end your turn on solid ground, or you fall.<var>var1</var>",
         "desc5": [
@@ -446,6 +450,7 @@
             "Teleportation"
         ],
         "duration": "1 minute",
+        "target": "self",
         "levelreq": 9,
         "actions": "2",
         "castType": "somatic, verbal",
@@ -545,6 +550,7 @@
         "castType": "verbal",
         "range": "60 feet",
         "targets": "1 falling creature",
+        "target": "ally",
         "duration": "1 minute",
         "shortDesc": "React to slow a creature’s fall.",
         "desc": "You cause the air itself to arrest a fall. The target's fall slows to 60 feet per round, and the portion of the fall during the spell's duration doesn't count when calculating falling damage. If the target reaches the ground while the spell is in effect, it takes no damage from the fall. The spell ends as soon as the target lands.",
@@ -553,6 +559,218 @@
                 "name": "Feather Fall",
                 "source": "Feather Fall",
                 "duration": 100
+            }
+        ]
+    },
+    {
+        "name": "produce flame",
+        "traditions": [
+            "Arcane",
+            "Primal"
+        ],
+        "traits": [
+            "Attack",
+            "Cantrip",
+            "Evocation",
+            "Fire"
+        ],
+        "levelreq": 1,
+        "actions": "2",
+        "castType": "somatic, verbal",
+        "range": "30 feet",
+        "targets": "1 creature",
+        "shortDesc": "Kindle small flames to attack close or at range.",
+        "desc": "A small ball of flame appears in the palm of your hand, and you lash out with it either in melee or at range. Make a spell attack roll against your target's AC. This is normally a ranged attack, but you can also make a melee attack against a creature in your unarmed reach. On a success, you deal <var>var1</var> fire damage plus your spellcasting ability modifier. On a critical success, the target takes double damage and <var>var2</var> persistent fire damage.",
+        "desc1": [
+            {
+                "variable": "var1",
+                "value": "1d4"
+            },
+            {
+                "variable": "var2",
+                "value": "1d4"
+            }
+        ],
+        "desc2": [
+            {
+                "variable": "var1",
+                "value": "2d4"
+            },
+            {
+                "variable": "var2",
+                "value": "2d4"
+            }
+        ],
+        "desc3": [
+            {
+                "variable": "var1",
+                "value": "3d4"
+            },
+            {
+                "variable": "var2",
+                "value": "3d4"
+            }
+        ],
+        "desc4": [
+            {
+                "variable": "var1",
+                "value": "4d4"
+            },
+            {
+                "variable": "var2",
+                "value": "4d4"
+            }
+        ],
+        "desc5": [
+            {
+                "variable": "var1",
+                "value": "5d4"
+            },
+            {
+                "variable": "var2",
+                "value": "5d4"
+            }
+        ],
+        "desc6": [
+            {
+                "variable": "var1",
+                "value": "6d4"
+            },
+            {
+                "variable": "var2",
+                "value": "6d4"
+            }
+        ],
+        "desc7": [
+            {
+                "variable": "var1",
+                "value": "7d4"
+            },
+            {
+                "variable": "var2",
+                "value": "7d4"
+            }
+        ],
+        "desc8": [
+            {
+                "variable": "var1",
+                "value": "8d4"
+            },
+            {
+                "variable": "var2",
+                "value": "8d4"
+            }
+        ],
+        "desc9": [
+            {
+                "variable": "var1",
+                "value": "9d4"
+            },
+            {
+                "variable": "var2",
+                "value": "9d4"
+            }
+        ],
+        "desc10": [
+            {
+                "variable": "var1",
+                "value": "10d4"
+            },
+            {
+                "variable": "var2",
+                "value": "10d4"
+            }
+        ],
+        "heightened": [
+            {
+                "level": "(+1)",
+                "desc": "Increase the damage by 1d4 and the persistent damage on a critical hit by 1d4."
+            }
+        ]
+    },
+    {
+        "name": "electric arc",
+        "traditions": [
+            "Arcane",
+            "Primal"
+        ],
+        "traits": [
+            "Cantrip",
+            "Electricity",
+            "Evocation"
+        ],
+        "levelreq": 1,
+        "actions": "2",
+        "castType": "somatic, verbal",
+        "range": "30 feet",
+        "targets": "1 or 2 creatures",
+        "shortDesc": "Zap one or two creatures with lightning.",
+        "savingthrow": "basic Reflex",
+        "desc": "An arc of lightning leaps from one target to another. You deal electricity damage equal to <var>var1</var> plus your spellcasting ability modifier.",
+        "desc1": [
+            {
+                "variable": "var1",
+                "value": "1d4"
+            }
+        ],
+        "desc2": [
+            {
+                "variable": "var1",
+                "value": "2d4"
+            }
+        ],
+        "desc3": [
+            {
+                "variable": "var1",
+                "value": "3d4"
+            }
+        ],
+        "desc4": [
+            {
+                "variable": "var1",
+                "value": "4d4"
+            }
+        ],
+        "desc5": [
+            {
+                "variable": "var1",
+                "value": "5d4"
+            }
+        ],
+        "desc6": [
+            {
+                "variable": "var1",
+                "value": "6d4"
+            }
+        ],
+        "desc7": [
+            {
+                "variable": "var1",
+                "value": "7d4"
+            }
+        ],
+        "desc8": [
+            {
+                "variable": "var1",
+                "value": "8d4"
+            }
+        ],
+        "desc9": [
+            {
+                "variable": "var1",
+                "value": "9d4"
+            }
+        ],
+        "desc10": [
+            {
+                "variable": "var1",
+                "value": "10d4"
+            }
+        ],
+        "heightened": [
+            {
+                "level": "(+1)",
+                "desc": "Increase the damage by 1d4 and the persistent damage on a critical hit by 1d4."
             }
         ]
     }

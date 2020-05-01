@@ -2,6 +2,8 @@ import { ItemGain } from './ItemGain';
 
 export class SpellGain {
     public name: string;
+    public level: number;
+    public target: string;
     public source: string;
     public className: string;
     public tradition: string;

@@ -11,14 +11,14 @@
                     [className]="(ability.penalty(get_Creature(), this.effectsService) < 0) ? 'penalty' : (ability.bonus(get_Creature(), this.effectsService) > 0) ? 'bonus' : ''"
                     value="{{ability.value(get_Creature(), this.characterService, this.effectsService)}}" disabled>
             </span>
-            Modifier:
+            <strong>Modifier</strong>
             <span>
                 <input class="number2" type="number"
                     [className]="(ability.penalty(get_Creature(), this.effectsService) < 0) ? 'penalty' : (ability.bonus(get_Creature(), this.effectsService) > 0) ? 'bonus' : ''"
                     value="{{ability.mod(get_Creature(), this.characterService, this.effectsService)}}" disabled>
             </span>
         </div>
-        <app-tags [creature]="creature" [objectName]=ability.name [showTraits]=true [showFeats]=true [showItems]=true [showActivities]=true
+        <app-tags class="row tags" [creature]="creature" [objectName]=ability.name [showTraits]=true [showFeats]=true [showItems]=true [showActivities]=true
             [showConditions]=true [showEffects]=true></app-tags>
     </div>
 </ng-container>

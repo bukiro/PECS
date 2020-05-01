@@ -19,10 +19,10 @@ export class SpellbookComponent implements OnInit {
     private showSpell: number = 0;
     private id: number = 0;
     public hover: number = 0;
+    public Math = Math;
 
     constructor(
         public characterService: CharacterService,
-        private effectsService: EffectsService,
         private traitsService: TraitsService,
         private spellsService: SpellsService,
         private itemsService: ItemsService,
@@ -35,7 +35,7 @@ export class SpellbookComponent implements OnInit {
 
     set_Span() {
         setTimeout(() => {
-            document.getElementById("spellbook").style.gridRow = "span "+this.characterService.get_Span("spellbook-height");
+            this.characterService.set_Span("spellbook");
         })
     }
 
@@ -76,10 +76,27 @@ export class SpellbookComponent implements OnInit {
         this.characterService.toggleMenu('spells');
     }
 
-    get_FocusSpells() {
-        this.id = 1000;
+    get_SpellClasses() {
+        let classes: string[] = [];
+        let levels = this.get_Character().class.levels.filter(level => level.number <= this.get_Character().level );
+        levels.forEach(level => {
+            level.spellChoices.forEach(choice => {
+                if (classes.indexOf(choice.className) == -1) {
+                    classes.push(choice.className);
+                }
+            })
+        })
+        return classes;
+    }
+
+    get_SpellsByLevel(levelNumber: number, className: string) {
+        this.id = levelNumber * 1000;
         let character = this.characterService.get_Character();
-        return character.get_SpellsTaken(1, character.level, "", "", "Focus");
+        if (levelNumber == -1) {
+            return character.get_SpellsTaken(1, character.level, levelNumber, "", className, "Focus");
+        } else {
+            return character.get_SpellsTaken(1, character.level, levelNumber, "", className, "");
+        }
     }
 
     get_Spells(name: string) {
@@ -94,6 +111,30 @@ export class SpellbookComponent implements OnInit {
         return this.characterService.get_MaxFocusPoints();
     }
 
+    get_UsedSpellSlots(spellLevel: number, className: string) {
+        if (className == "Sorcerer") {
+            return this.get_Character().class.bloodline.spellSlotsUsed[spellLevel];
+        } else {
+            return 0;
+        }
+    }
+
+    get_MaxSpellSlots(spellLevel: number, className: string) {
+        if (["Bard", "Sorcerer"].indexOf(className) > -1 && spellLevel > 0) {
+            let spellslots: number = 0;
+            let levels = this.get_Character().class.levels.filter(level => level.number <= this.get_Character().level );
+            levels.forEach(level => {
+                level.spellChoices.filter(choice => choice.level == spellLevel && choice.className == className).forEach(choice => {
+                    //You have as many spell slots as you have spells (as a sorcerer).
+                    spellslots += choice.available;
+                })
+            })
+            return spellslots;
+        } else {
+            return 0;
+        }
+    }
+
     refocus() {
         let character = this.characterService.get_Character();
         let focusPoints = character.class.focusPoints;
@@ -106,16 +147,28 @@ export class SpellbookComponent implements OnInit {
             character.class.focusPoints = Math.min(focusPoints + 1, this.get_MaxFocusPoints());
         }
         this.timeService.tick(this.characterService, 1000);
-        //this.characterService.set_Changed();
     }
 
-    on_Cast(gain: SpellGain, spell: Spell, activated: boolean, level: number = Math.ceil(this.get_Character().level / 2)) {
+    can_Cast(spell: Spell, gain: SpellGain) {
+        return spell.can_Cast(this.characterService, gain);
+    }
+
+    on_Cast(gain: SpellGain, creature: string = "", spell: Spell, activated: boolean, level: number) {
+        if (!level || level == -1) {
+            level = Math.ceil(this.get_Character().level / 2)
+        }
         if (gain.tradition.indexOf("Focus") > -1 && activated){
             let focusPoints = this.get_Character().class.focusPoints;
             this.characterService.get_Character().class.focusPoints = Math.min(focusPoints, this.get_MaxFocusPoints());
             this.characterService.get_Character().class.focusPoints -= 1;
         };
-        this.spellsService.process_Spell(this.get_Character(), this.characterService, this.itemsService, gain, spell, level, activated);
+        if (gain.className == "Sorcerer" && spell.traits.indexOf("Cantrip") == -1) {
+            this.get_Character().class.bloodline.spellSlotsUsed[level] += 1;
+        }
+        if (["Wizard", "Cleric", "Druid"].indexOf(gain.className) > -1 && spell.traits.indexOf("Cantrip") == -1) {
+            //spend the spell (but keep it prepared)
+        }
+        this.spellsService.process_Spell(creature, this.characterService, this.itemsService, gain, spell, level, activated);
         this.characterService.set_Changed();
     }
 

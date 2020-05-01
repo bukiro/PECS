@@ -30,7 +30,7 @@ export class AbilitiesComponent implements OnInit {
 
     set_Span() {
         setTimeout(() => {
-            document.getElementById(this.creature+"-abilities").style.gridRow = "span "+this.characterService.get_Span(this.creature+"-abilities-height");
+            this.characterService.set_Span(this.creature+"-abilities");
         })
     }
 

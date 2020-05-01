@@ -34,7 +34,7 @@ export class DefenseComponent implements OnInit {
 
     set_Span() {
         setTimeout(() => {
-            document.getElementById(this.creature+"-defense").style.gridRow = "span "+this.characterService.get_Span(this.creature+"-defense-height");
+            this.characterService.set_Span(this.creature+"-defense");
         })
     }
 

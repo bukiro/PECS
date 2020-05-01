@@ -38,11 +38,24 @@ export class SpellsService {
       }
   }
 
-  process_Spell(creature: Character|AnimalCompanion, characterService: CharacterService, itemsService: ItemsService, gain: SpellGain, spell: Spell, level: number, activated: boolean) {
+  process_Spell(target: string = "", characterService: CharacterService, itemsService: ItemsService, gain: SpellGain, spell: Spell, level: number, activated: boolean) {
     if (activated && spell.sustained) {
         gain.active = true;
+        gain.target = target;
     } else {
         gain.active = false;
+        gain.target = "";
+    }
+
+    //Find out if target was given. If no target is set, most effects will not be applied.
+    let targetCreature: Character|AnimalCompanion|null = null;
+    switch (target) {
+        case "Character":
+            targetCreature = characterService.get_Character();
+            break;
+        case "Companion":
+            targetCreature = characterService.get_Companion();
+            break;
     }
 
     //Process various results of casting the spell
@@ -54,55 +67,57 @@ export class SpellsService {
         })
     }*/
 
-    //Gain Items on Activation
-    if (spell.gainItems.length) {
-        if (activated) {
-            gain.gainItems = spell.gainItems.map(itemGain => Object.assign(new ItemGain(), itemGain));
-            gain.gainItems.forEach(gainItem => {
-                let newItem: Item = itemsService.get_Items()[gainItem.type].filter(item => item.name == gainItem.name)[0];
-                if (newItem.can_Stack()) {
-                    characterService.grant_InventoryItem(creature, newItem, true, false, false, gainItem.amount);
-                } else {
-                    let grantedItem = characterService.grant_InventoryItem(creature, newItem, true, false, true);
-                    gainItem.id = grantedItem.id;
-                    if (grantedItem.get_Name) {
-                        grantedItem.displayName = grantedItem.name + " (granted by " + spell.name + ")"
-                    };
-                }
-            });
-        } else {
-            gain.gainItems.forEach(gainItem => {
-                if (itemsService.get_Items()[gainItem.type].filter((item: Item) => item.name == gainItem.name)[0].can_Stack()) {
-                    let items: Item[] = creature.inventory[gainItem.type].filter((item: Item) => item.name == gainItem.name);
-                    if (items.length) {
-                        characterService.drop_InventoryItem(creature, items[0], false, false, true, gainItem.amount);
+    if (targetCreature) {
+        //Gain Items on Activation
+        if (spell.gainItems.length) {
+            if (activated) {
+                gain.gainItems = spell.gainItems.map(itemGain => Object.assign(new ItemGain(), itemGain));
+                gain.gainItems.forEach(gainItem => {
+                    let newItem: Item = itemsService.get_Items()[gainItem.type].filter(item => item.name == gainItem.name)[0];
+                    if (newItem.can_Stack()) {
+                        characterService.grant_InventoryItem(targetCreature, newItem, true, false, false, gainItem.amount);
+                    } else {
+                        let grantedItem = characterService.grant_InventoryItem(targetCreature, newItem, true, false, true);
+                        gainItem.id = grantedItem.id;
+                        if (grantedItem.get_Name) {
+                            grantedItem.displayName = grantedItem.name + " (granted by " + spell.name + ")"
+                        };
                     }
-                } else {
-                    let items: Item[] = creature.inventory[gainItem.type].filter((item: Item) => item.id == gainItem.id);
-                    if (items.length) {
-                        characterService.drop_InventoryItem(creature, items[0], false, false, true);
+                });
+            } else {
+                gain.gainItems.forEach(gainItem => {
+                    if (itemsService.get_Items()[gainItem.type].filter((item: Item) => item.name == gainItem.name)[0].can_Stack()) {
+                        let items: Item[] = targetCreature.inventory[gainItem.type].filter((item: Item) => item.name == gainItem.name);
+                        if (items.length) {
+                            characterService.drop_InventoryItem(targetCreature, items[0], false, false, true, gainItem.amount);
+                        }
+                    } else {
+                        let items: Item[] = targetCreature.inventory[gainItem.type].filter((item: Item) => item.id == gainItem.id);
+                        if (items.length) {
+                            characterService.drop_InventoryItem(targetCreature, items[0], false, false, true);
+                        }
+                        gainItem.id = "";
                     }
-                    gainItem.id = "";
-                }
-            });
-            gain.gainItems = [];
+                });
+                gain.gainItems = [];
+            }
         }
-    }
 
-    //Apply conditions.
-    if (spell.gainConditions) {
-        if (activated) {
-            spell.gainConditions.forEach(gain => {
-                let newConditionGain = Object.assign(new ConditionGain(), gain);
-                characterService.add_Condition(creature, newConditionGain, false);
-            });
-        } else {
-            spell.gainConditions.forEach(gain => {
-                let conditionGains = characterService.get_AppliedConditions(creature, gain.name).filter(conditionGain => conditionGain.source == gain.source);
-                if (conditionGains.length) {
-                    characterService.remove_Condition(creature, conditionGains[0], false);
-                }
-            })
+        //Apply conditions.
+        if (spell.gainConditions) {
+            if (activated) {
+                spell.gainConditions.forEach(gain => {
+                    let newConditionGain = Object.assign(new ConditionGain(), gain);
+                    characterService.add_Condition(targetCreature, newConditionGain, false);
+                });
+            } else {
+                spell.gainConditions.forEach(gain => {
+                    let conditionGains = characterService.get_AppliedConditions(targetCreature, gain.name).filter(conditionGain => conditionGain.source == gain.source);
+                    if (conditionGains.length) {
+                        characterService.remove_Condition(targetCreature, conditionGains[0], false);
+                    }
+                })
+            }
         }
     }
 

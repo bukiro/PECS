@@ -426,7 +426,7 @@
     flex-direction: row;
     justify-content: space-between ;
     padding: 4px 8px;
-    margin-bottom: 8px;
+    margin-top: 8px;
     border-radius: 2px;
     background-color: #E0E0E0;
     background-color: rgba(50, 50, 50, 0.1)
@@ -501,7 +501,7 @@
     justify-content: space-between;
   }
 
-  .row:not(:first-child):not(:empty) {
+  .row:not(:first-child):not(:empty):not(.list-item) {
     margin-top: 4px;
   }
 

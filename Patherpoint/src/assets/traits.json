@@ -95,6 +95,9 @@
     { "name":"Minion", "description":"Minions are creatures that directly serve another creature. A creature with this trait can use only 2 actions per turn and can’t use reactions. Your minion acts on your turn in combat, once per turn, when you spend an action to issue it commands. For an animal companion, you Command an Animal; for a minion that’s a spell or magic item effect, like a summoned minion, you Sustain a Spell or Sustain an Activation; if not otherwise specified, you issue a verbal command, a single action with the auditory and concentrate traits. If given no commands, minions use no actions except to defend themselves or to escape obvious harm. If left unattended for long enough, typically 1 minute, mindless minions usually don’t act, animals follow their instincts, and sapient minions act how they please." },
     { "name":"Companion", "description":"An item with this trait can be worn by an animal companion or similar creature. A companion can have up to two items invested." },
     { "name":"Ranger", "description":"This indicates abilities from the ranger class."},
-    { "name":"Primal", "description":"This magic comes from the primal tradition, connecting to the natural world and instinct. Anything with this trait is magical."}
-
+    { "name":"Primal", "description":"This magic comes from the primal tradition, connecting to the natural world and instinct. Anything with this trait is magical."},
+    { "name":"Archetype", "description":"This feat belongs to an archetype."},
+    { "name":"Dedication", "description":"You must select a feat with this trait to apply an archetype to your character."},
+    { "name":"Multiclass", "description":"Archetypes with the multiclass trait represent diversifying your training into another class’s specialties. You can’t select a multiclass archetype’s dedication feat if you are a member of the class of the same name."},
+    { "name":"Cantrip", "description":"A spell you can cast at will that is automatically heightened to half your level rounded up."}
 ]

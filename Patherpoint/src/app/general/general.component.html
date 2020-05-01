@@ -34,6 +34,14 @@
             <div class="fullsize-only list-item" *ngIf="get_Character().class.name">
                 <strong>Class</strong>
                 {{get_Character().class.name}}
+                <div class="row" *ngFor="let huntersEdge of get_HuntersEdge()">
+                    <strong>Hunter's Edge</strong>
+                    {{huntersEdge}}
+                </div>
+                <div class="row" *ngIf="get_Character().class.bloodline.name">
+                    <strong>Sorcerer Bloodline</strong>
+                    {{get_Character().class.bloodline.name}}
+                </div>
             </div>
             <div class="fullsize-only list-item" *ngIf="get_Character().class.ancestry.name">
                 <strong>Size</strong>
@@ -43,9 +51,9 @@
                 <strong>Alignment</strong>
                 {{get_Character().alignment}}
             </div>
-            <div class="fullsize-only list-item" *ngIf="get_Character().deity && get_Character().deity.name">
+            <div class="fullsize-only list-item" *ngIf="get_Character().class.deity && get_Character().class.deity.name">
                 <strong>Deity</strong>
-                {{get_Character().deity.name}}
+                {{get_Character().class.deity.name}}
             </div>
             <div class="fullsize-only list-item" *ngIf="get_Character().class.ancestry.languages && get_Character().class.ancestry.languages.length">
                 <strong>Languages</strong>

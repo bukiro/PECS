@@ -11,7 +11,11 @@ import { AbilityChoice } from './AbilityChoice';
 import { FeatChoice } from './FeatChoice';
 import { ActivityGain } from './ActivityGain';
 import { Equipment } from './Equipment';
-import { AnimalCompanionGain } from './AnimalCompanionGain';
+import { Bloodline } from './Bloodline';
+import { Deity } from './Deity';
+import { AnimalCompanion } from './AnimalCompanion';
+import { SpellChoice } from './SpellChoice';
+import { TraditionChoice } from './TraditionChoice';
 
 export class Class {
     public name: string = "";
@@ -23,7 +27,9 @@ export class Class {
     public activities: ActivityGain[] = [];
     public customSkills: Skill[] = [];
     public focusPoints: number = 0;
-    public animalCompanion: AnimalCompanionGain = null;
+    public animalCompanion: AnimalCompanion = new AnimalCompanion();
+    public deity: Deity = new Deity();
+    public bloodline: Bloodline = new Bloodline();
     reassign() {
         //Re-Assign levels
         this.levels = this.levels.map(level => Object.assign(new Level(), level));
@@ -33,9 +39,13 @@ export class Class {
             level.featChoices = level.featChoices.map(choice => Object.assign(new FeatChoice(), JSON.parse(JSON.stringify(choice))));
             level.loreChoices = level.loreChoices.map(choice => Object.assign(new LoreChoice(), JSON.parse(JSON.stringify(choice))));
             level.skillChoices = level.skillChoices.map(choice => Object.assign(new SkillChoice(), JSON.parse(JSON.stringify(choice))));
+            level.spellChoices = level.spellChoices.map(choice => Object.assign(new SpellChoice(), JSON.parse(JSON.stringify(choice))));
+            level.traditionChoices = level.traditionChoices.map(choice => Object.assign(new TraditionChoice(), JSON.parse(JSON.stringify(choice))));
         })
         //Re-Assign all custom activity gains
         this.activities = this.activities.map(gain => Object.assign(new ActivityGain(), gain));
+        this.deity = Object.assign(new Deity(), this.deity);
+        this.bloodline = Object.assign(new Bloodline(), this.bloodline);
     }
     on_ChangeAncestry(characterService: CharacterService) {
         if (this.ancestry.name) {
@@ -70,14 +80,26 @@ export class Class {
     }
     on_ChangeDeity(characterService: CharacterService) {
         let character = characterService.get_Character();
-        if (character.deity.name) {
+        if (character.class.deity.name) {
             //In the future, remove cleric skills, spells etc.
         }
     }
     on_NewDeity(characterService: CharacterService) {
         let character = characterService.get_Character();
-        if (character.deity.name) {
+        if (character.class.deity.name) {
             //In the future, add cleric skills, spells etc.
+        }
+    }
+    on_ChangeBloodline(characterService: CharacterService) {
+        let character = characterService.get_Character();
+        if (character.class.bloodline.name) {
+            //In the future, remove skills, spells etc.
+        }
+    }
+    on_NewBloodline(characterService: CharacterService) {
+        let character = characterService.get_Character();
+        if (character.class.bloodline.name) {
+            //In the future, add skills, spells etc.
         }
     }
     on_ChangeHeritage(characterService: CharacterService) {

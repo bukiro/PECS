@@ -7,11 +7,17 @@ import { ItemGain } from './ItemGain';
 export class Spell {
     public name: string = "";
     public levelreq: number = 1;
-    public traditions: string = "";
+    public traditions: string[] = [];
     public duration: number = 0;
     public range: string = "";
     public area: string = "";
     public targets: string = "";
+    //target is used internally to determine whether you can cast this spell on yourself or your companion/familiar
+    //Should be "", "self", "companion" or "ally"
+    //For "companion", it can only be cast on the companion, for "self" only on yourself
+    //For "ally", it can be cast on companion, self and others
+    //For "", the spell button will just say "Cast"
+    public target: string = "";
     public actions: string = "1";
     public castType: string = "";
     public shortDesc: string = "";
@@ -85,12 +91,12 @@ export class Spell {
         })
         return desc;
     }
-    meetsLevelReq(characterService: CharacterService, charLevel: number = characterService.get_Character().level) {
+    meetsLevelReq(characterService: CharacterService, spellLevel: number = Math.ceil(characterService.get_Character().level / 2)) {
         //If the spell has a levelreq, check if the level beats that.
         //Returns [requirement met, requirement description]
         let result: {met:boolean, desc:string};
-        if (this.levelreq) {
-            if (charLevel >= this.levelreq) {
+        if (this.levelreq && this.traits.indexOf("Cantrip") == -1) {
+            if (spellLevel >= this.levelreq) {
                 result = {met:true, desc:"Level "+this.levelreq};
                 } else {
                 result = {met:false, desc:"Level "+this.levelreq};
@@ -100,20 +106,23 @@ export class Spell {
         }
         return result;
     }
-    canChoose(characterService: CharacterService, charLevel: number = characterService.get_Character().level) {
+    canChoose(characterService: CharacterService, spellLevel: number = Math.ceil(characterService.get_Character().level / 2)) {
         if (characterService.still_loading()) { return false }
-        let levelreq: boolean = this.meetsLevelReq(characterService, charLevel).met;
+        let levelreq: boolean = this.meetsLevelReq(characterService, spellLevel).met;
         return levelreq;
     }
-    have(characterService: CharacterService, charLevel: number = characterService.get_Character().level) {
+    have(characterService: CharacterService, spellLevel = this.levelreq) {
         if (characterService.still_loading()) { return false }
         let character = characterService.get_Character();
-        let spellsTaken = character.get_SpellsTaken(1, charLevel, this.name)
+        let spellsTaken = character.get_SpellsTaken(1, 20, spellLevel, this.name)
         return spellsTaken.length;
     }
     can_Cast(characterService: CharacterService, gain: SpellGain) {
         if (gain.tradition.indexOf("Focus") > -1) {
             return characterService.get_Character().class.focusPoints > 0 || gain.active;
+        } else {
+            //check spell slots and prepared spell here
+            return true;
         }
     }
 }

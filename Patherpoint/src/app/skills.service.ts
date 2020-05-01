@@ -9,7 +9,7 @@ import { Observable } from 'rxjs';
 export class SkillsService {
     private skills: Skill[]; 
     private loader; 
-    private loading: boolean = false;
+    private loading: boolean = true;
     
     constructor(
         private http: HttpClient,
