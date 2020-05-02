@@ -86,7 +86,16 @@ export class FeatsService {
                         if (feat.archetype && parseInt(newSpellChoice.id[0])) {
                             choiceLevel = character.class.levels[parseInt(newSpellChoice.id[0])] || level;
                         } 
-                        character.add_SpellChoice(choiceLevel, newSpellChoice);
+                        let newChoice:SpellChoice = character.add_SpellChoice(choiceLevel, newSpellChoice);
+                        newChoice.spells.forEach(gain => {
+                            gain.className = newChoice.className;
+                            gain.level = newChoice.level;
+                            gain.signature = newChoice.signature;
+                            gain.source = newChoice.source;
+                            gain.sourceId = newChoice.id;
+                            gain.tradition = newChoice.tradition;
+                        })
+
                     });
                 } else {
                     feat.gainSpellChoice.forEach(newSpellChoice => {

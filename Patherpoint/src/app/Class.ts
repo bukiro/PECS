@@ -93,13 +93,55 @@ export class Class {
     on_ChangeBloodline(characterService: CharacterService) {
         let character = characterService.get_Character();
         if (character.class.bloodline.name) {
-            //In the future, remove skills, spells etc.
+            this.levels.filter(level => level.traditionChoices.length).forEach(level => {
+                level.traditionChoices.filter(choice => choice.source == "Sorcerer Spellcasting").forEach(choice => {
+                    character.increase_Skill(characterService, choice.tradition+" spell DC", false, choice, true);
+                    choice.tradition = "";
+                    character.class.bloodline.bloodlineSkills.forEach(skillName => {
+                        character.increase_Skill(characterService, skillName, false, choice, true, choice.ability);
+                    })
+                })
+            })
+            //Untrain the associated skills
+            this.levels.filter(level => level.skillChoices.length).forEach(level => {
+                level.skillChoices.filter(choice => choice.source == "Sorcerer Spellcasting").forEach(choice => {
+                    choice.increases.length = 0;
+                    choice.available = 0;
+                })
+            })
         }
     }
     on_NewBloodline(characterService: CharacterService) {
         let character = characterService.get_Character();
         if (character.class.bloodline.name) {
-            //In the future, add skills, spells etc.
+            //Complete the traditionChoice with the chosen tradition
+            this.levels.filter(level => level.traditionChoices.length).forEach(level => {
+                level.traditionChoices.filter(choice => choice.source == "Sorcerer Spellcasting").forEach(choice => {
+                    choice.tradition = character.class.bloodline.spellList;
+                    character.increase_Skill(characterService, choice.tradition+" spell DC", true, choice, true, choice.ability);
+                })
+            })
+            //Train the associated skills
+            this.levels.filter(level => level.skillChoices.length).forEach(level => {
+                let choices: SkillChoice[] = level.skillChoices.filter(choice => choice.source == "Sorcerer Spellcasting");
+                //If both skills are already trained, add two available increases to only one of the two skill choices,
+                //otherwise check each for itself
+                if (choices.length) {
+                    if (character.get_SkillIncreases(characterService, 1, level.number, character.class.bloodline.bloodlineSkills[0], '').length && character.get_SkillIncreases(characterService, 1, level.number, character.class.bloodline.bloodlineSkills[1], '').length) {
+                        choices[0].available += 2;
+                    } else {
+                        choices.forEach((choice, index) => {
+                            //If the skill to be trained is already trained, make a new increase available here
+                            let existingIncreases = character.get_SkillIncreases(characterService, 1, level.number, character.class.bloodline.bloodlineSkills[index], '');
+                            if (existingIncreases.length) {
+                                choice.available += 1;
+                            } else {
+                                character.increase_Skill(characterService, character.class.bloodline.bloodlineSkills[index], true, choice, true);
+                            }
+                        })
+                    }
+                }
+            })
         }
     }
     on_ChangeHeritage(characterService: CharacterService) {

@@ -21,15 +21,15 @@
       "clericSpells": [
          {
             "level": 1,
-            "name": "illusory object"
+            "name": "Illusory Object"
          },
          {
             "level": 4,
-            "name": "creation"
+            "name": "Creation"
          },
          {
             "level": 7,
-            "name": "magnificent mansion"
+            "name": "Magnificent Mansion"
          }
       ],
       "divineAbilityFilter": [
@@ -65,15 +65,15 @@
       "clericSpells": [
          {
             "level": 1,
-            "name": "charm"
+            "name": "Charm"
          },
          {
             "level": 4,
-            "name": "suggestion"
+            "name": "Suggestion"
          },
          {
             "level": 6,
-            "name": "mislead"
+            "name": "Mislead"
          }
       ],
       "divineAbilityFilter": [
@@ -112,15 +112,15 @@
       "clericSpells": [
          {
             "level": 1,
-            "name": "charm"
+            "name": "Charm"
          },
          {
             "level": 3,
-            "name": "enthrall"
+            "name": "Enthrall"
          },
          {
             "level": 6,
-            "name": "mislead"
+            "name": "Mislead"
          }
       ],
       "divineAbilityFilter": [
@@ -156,15 +156,15 @@
       "clericSpells": [
          {
             "level": 1,
-            "name": "fleet step"
+            "name": "Fleet Step"
          },
          {
             "level": 2,
-            "name": "touch of idiocy"
+            "name": "Touch of Idiocy"
          },
          {
             "level": 5,
-            "name": "hallucination"
+            "name": "Hallucination"
          }
       ],
       "divineAbilityFilter": [
@@ -201,15 +201,15 @@
       "clericSpells": [
          {
             "level": 1,
-            "name": "sleep"
+            "name": "Sleep"
          },
          {
             "level": 4,
-            "name": "fly"
+            "name": "Fly"
          },
          {
             "level": 5,
-            "name": "dreaming potential"
+            "name": "Dreaming Potential"
          }
       ],
       "divineAbilityFilter": [
@@ -245,15 +245,15 @@
       "clericSpells": [
          {
             "level": 1,
-            "name": "true strike"
+            "name": "True Strike"
          },
          {
             "level": 3,
-            "name": "wall of thorns"
+            "name": "Wall of Thorns"
          },
          {
             "level": 5,
-            "name": "tree stride"
+            "name": "Tree Stride"
          }
       ],
       "divineAbilityFilter": [
@@ -287,15 +287,15 @@
       "clericSpells": [
          {
             "level": 1,
-            "name": "true strike"
+            "name": "True Strike"
          },
          {
             "level": 2,
-            "name": "enlarge"
+            "name": "Enlarge"
          },
          {
             "level": 4,
-            "name": "weapon storm"
+            "name": "Weapon Storm"
          }
       ],
       "divineAbilityFilter": [
@@ -335,15 +335,15 @@
       "clericSpells": [
          {
             "level": 1,
-            "name": "gust of wind"
+            "name": "Gust of Wind"
          },
          {
             "level": 3,
-            "name": "lightning bolt"
+            "name": "Lightning Bolt"
          },
          {
             "level": 5,
-            "name": "control water"
+            "name": "Control Water"
          }
       ],
       "divineAbilityFilter": [
@@ -378,15 +378,15 @@
       "clericSpells": [
          {
             "level": 1,
-            "name": "true strike"
+            "name": "True Strike"
          },
          {
             "level": 2,
-            "name": "enlarge"
+            "name": "Enlarge"
          },
          {
             "level": 4,
-            "name": "fire shield"
+            "name": "Fire Shield"
          }
       ],
       "divineAbilityFilter": [
@@ -423,15 +423,15 @@
       "clericSpells": [
          {
             "level": 1,
-            "name": "jump"
+            "name": "Jump"
          },
          {
             "level": 3,
-            "name": "haste"
+            "name": "Haste"
          },
          {
             "level": 4,
-            "name": "stoneskin"
+            "name": "Stoneskin"
          }
       ],
       "divineAbilityFilter": [
@@ -466,15 +466,15 @@
       "clericSpells": [
          {
             "level": 1,
-            "name": "magic fang"
+            "name": "Magic Fang"
          },
          {
             "level": 2,
-            "name": "animal form"
+            "name": "Animal Form"
          },
          {
             "level": 4,
-            "name": "nightmare"
+            "name": "Nightmare"
          }
       ],
       "divineAbilityFilter": [
@@ -513,39 +513,39 @@
       "clericSpells": [
          {
             "level": 1,
-            "name": "magic missile"
+            "name": "Magic Missile"
          },
          {
             "level": 2,
-            "name": "magic mouth"
+            "name": "Magic Mouth"
          },
          {
             "level": 3,
-            "name": "levitate"
+            "name": "Levitate"
          },
          {
             "level": 4,
-            "name": "blink"
+            "name": "Blink"
          },
          {
             "level": 5,
-            "name": "prying eye"
+            "name": "Prying Eye"
          },
          {
             "level": 6,
-            "name": "wall of force"
+            "name": "Wall of Force"
          },
          {
             "level": 7,
-            "name": "warp mind"
+            "name": "Warp Mind"
          },
          {
             "level": 8,
-            "name": "maze"
+            "name": "Maze"
          },
          {
             "level": 9,
-            "name": "disjunction"
+            "name": "Disjunction"
          }
       ],
       "divineAbilityFilter": [
@@ -582,15 +582,15 @@
       "clericSpells": [
          {
             "level": 1,
-            "name": "illusory disguise"
+            "name": "Illusory Disguise"
          },
          {
             "level": 2,
-            "name": "invisibility"
+            "name": "Invisibility"
          },
          {
             "level": 4,
-            "name": "phantasmal killer"
+            "name": "Phantasmal Killer"
          }
       ],
       "divineAbilityFilter": [
@@ -628,15 +628,15 @@
       "clericSpells": [
          {
             "level": 1,
-            "name": "mindlink"
+            "name": "Mindlink"
          },
          {
             "level": 3,
-            "name": "ghostly weapon"
+            "name": "Ghostly Weapon"
          },
          {
             "level": 4,
-            "name": "phantasmal killer"
+            "name": "Phantasmal Killer"
          }
       ],
       "divineAbilityFilter": [
@@ -672,15 +672,15 @@
       "clericSpells": [
          {
             "level": 1,
-            "name": "burning hands"
+            "name": "Burning Hands"
          },
          {
             "level": 2,
-            "name": "enlarge"
+            "name": "Enlarge"
          },
          {
             "level": 6,
-            "name": "disintegrate"
+            "name": "Disintegrate"
          }
       ],
       "divineAbilityFilter": [
@@ -716,15 +716,15 @@
       "clericSpells": [
          {
             "level": 1,
-            "name": "burning hands"
+            "name": "Burning Hands"
          },
          {
             "level": 3,
-            "name": "fireball"
+            "name": "Fireball"
          },
          {
             "level": 4,
-            "name": "wall of fire"
+            "name": "Wall of Fire"
          }
       ],
       "divineAbilityFilter": [
@@ -760,15 +760,15 @@
       "clericSpells": [
          {
             "level": 1,
-            "name": "color spray"
+            "name": "Color Spray"
          },
          {
             "level": 3,
-            "name": "enthrall"
+            "name": "Enthrall"
          },
          {
             "level": 4,
-            "name": "creation"
+            "name": "Creation"
          }
       ],
       "divineAbilityFilter": [
@@ -804,15 +804,15 @@
       "clericSpells": [
          {
             "level": 1,
-            "name": "mindlink"
+            "name": "Mindlink"
          },
          {
             "level": 3,
-            "name": "earthbind"
+            "name": "Earthbind"
          },
          {
             "level": 4,
-            "name": "creation"
+            "name": "Creation"
          }
       ],
       "divineAbilityFilter": [
@@ -849,15 +849,15 @@
       "clericSpells": [
          {
             "level": 1,
-            "name": "goblin pox"
+            "name": "Goblin Pox"
          },
          {
             "level": 2,
-            "name": "false life"
+            "name": "False Life"
          },
          {
             "level": 7,
-            "name": "mask of terror"
+            "name": "Mask of Terror"
          }
       ],
       "divineAbilityFilter": [
@@ -893,15 +893,15 @@
       "clericSpells": [
          {
             "level": 1,
-            "name": "phantom pain"
+            "name": "Phantom Pain"
          },
          {
             "level": 3,
-            "name": "wall of thorns"
+            "name": "Wall of Thorns"
          },
          {
             "level": 5,
-            "name": "shadow walk"
+            "name": "Shadow Walk"
          }
       ],
       "divineAbilityFilter": [
@@ -936,15 +936,15 @@
       "clericSpells": [
          {
             "level": 1,
-            "name": "true strike"
+            "name": "True Strike"
          },
          {
             "level": 2,
-            "name": "invisibility"
+            "name": "Invisibility"
          },
          {
             "level": 4,
-            "name": "phantasmal killer"
+            "name": "Phantasmal Killer"
          }
       ],
       "divineAbilityFilter": [
@@ -979,15 +979,15 @@
       "clericSpells": [
          {
             "level": 1,
-            "name": "anticipate peril"
+            "name": "Anticipate Peril"
          },
          {
             "level": 2,
-            "name": "knock"
+            "name": "Knock"
          },
          {
             "level": 4,
-            "name": "dimension door"
+            "name": "Dimension Door"
          }
       ],
       "divineAbilityFilter": [
@@ -1021,15 +1021,15 @@
       "clericSpells": [
          {
             "level": 1,
-            "name": "magic fang"
+            "name": "Magic Fang"
          },
          {
             "level": 4,
-            "name": "creation"
+            "name": "Creation"
          },
          {
             "level": 6,
-            "name": "dragon form",
+            "name": "Dragon Form",
             "note": "(metallic dragons only)"
          }
       ],
@@ -1068,15 +1068,15 @@
       "clericSpells": [
          {
             "level": 1,
-            "name": "endure"
+            "name": "Endure"
          },
          {
             "level": 2,
-            "name": "animus mine"
+            "name": "Animus Mine"
          },
          {
             "level": 6,
-            "name": "feeblemind"
+            "name": "Feeblemind"
          }
       ],
       "divineAbilityFilter": [
@@ -1111,15 +1111,15 @@
       "clericSpells": [
          {
             "level": 1,
-            "name": "hydraulic push"
+            "name": "Hydraulic Push"
          },
          {
             "level": 3,
-            "name": "feet to fins"
+            "name": "Feet To Fins"
          },
          {
             "level": 5,
-            "name": "mariner�s curse"
+            "name": "Mariner's Curse"
          }
       ],
       "divineAbilityFilter": [
@@ -1158,15 +1158,15 @@
       "clericSpells": [
          {
             "level": 1,
-            "name": "temporary tool"
+            "name": "Temporary Tool"
          },
          {
             "level": 4,
-            "name": "creation"
+            "name": "Creation"
          },
          {
             "level": 7,
-            "name": "duplicate foe"
+            "name": "Duplicate Foe"
          }
       ],
       "divineAbilityFilter": [
@@ -1206,15 +1206,15 @@
       "clericSpells": [
          {
             "level": 1,
-            "name": "floating disk"
+            "name": "Floating Disk"
          },
          {
             "level": 3,
-            "name": "hypercognition"
+            "name": "Hypercognition"
          },
          {
             "level": 6,
-            "name": "wall of force"
+            "name": "Wall of Force"
          }
       ],
       "divineAbilityFilter": [
@@ -1250,15 +1250,15 @@
       "clericSpells": [
          {
             "level": 1,
-            "name": "fleet step"
+            "name": "Fleet Step"
          },
          {
             "level": 2,
-            "name": "misdirection"
+            "name": "Misdirection"
          },
          {
             "level": 5,
-            "name": "cloak of colors"
+            "name": "Cloak of Colors"
          }
       ],
       "divineAbilityFilter": [
@@ -1292,15 +1292,15 @@
       "clericSpells": [
          {
             "level": 1,
-            "name": "magic fang"
+            "name": "Magic Fang"
          },
          {
             "level": 3,
-            "name": "fireball"
+            "name": "Fireball"
          },
          {
             "level": 6,
-            "name": "dragon form",
+            "name": "Dragon Form",
             "note": "(chromatic dragons only)"
          }
       ],
@@ -1336,15 +1336,15 @@
       "clericSpells": [
          {
             "level": 1,
-            "name": "anticipate peril"
+            "name": "Anticipate Peril"
          },
          {
             "level": 2,
-            "name": "misdirection"
+            "name": "Misdirection"
          },
          {
             "level": 3,
-            "name": "nondetection"
+            "name": "Nondetection"
          }
       ],
       "divineAbilityFilter": [
@@ -1381,15 +1381,15 @@
       "clericSpells": [
          {
             "level": 1,
-            "name": "summon fey"
+            "name": "Summon Fey"
          },
          {
             "level": 2,
-            "name": "barkskin"
+            "name": "Barkskin"
          },
          {
             "level": 5,
-            "name": "tree stride"
+            "name": "Tree Stride"
          }
       ],
       "divineAbilityFilter": [
@@ -1423,15 +1423,15 @@
       "clericSpells": [
          {
             "level": 1,
-            "name": "goblin pox"
+            "name": "Goblin Pox"
          },
          {
             "level": 2,
-            "name": "vomit swarm"
+            "name": "Vomit Swarm"
          },
          {
             "level": 3,
-            "name": "insect form"
+            "name": "Insect Form"
          }
       ],
       "divineAbilityFilter": [
@@ -1469,15 +1469,15 @@
       "clericSpells": [
          {
             "level": 1,
-            "name": "pest form"
+            "name": "Pest Form"
          },
          {
             "level": 2,
-            "name": "web"
+            "name": "Web"
          },
          {
             "level": 4,
-            "name": "glibness"
+            "name": "Glibness"
          }
       ],
       "divineAbilityFilter": [
@@ -1513,15 +1513,15 @@
       "clericSpells": [
          {
             "level": 1,
-            "name": "phantom pain"
+            "name": "Phantom Pain"
          },
          {
             "level": 5,
-            "name": "crushing despair"
+            "name": "Crushing Despair"
          },
          {
             "level": 9,
-            "name": "disjunction"
+            "name": "Disjunction"
          }
       ],
       "divineAbilityFilter": [
@@ -1555,15 +1555,15 @@
       "clericSpells": [
          {
             "level": 1,
-            "name": "ill omen"
+            "name": "Ill Omen"
          },
          {
             "level": 2,
-            "name": "paranoia"
+            "name": "Paranoia"
          },
          {
             "level": 6,
-            "name": "feeblemind"
+            "name": "Feeblemind"
          }
       ],
       "divineAbilityFilter": [
@@ -1599,15 +1599,15 @@
       "clericSpells": [
          {
             "level": 1,
-            "name": "hydraulic push"
+            "name": "Hydraulic Push"
          },
          {
             "level": 2,
-            "name": "aqueous orb"
+            "name": "Aqueous Orb"
          },
          {
             "level": 4,
-            "name": "solid fog"
+            "name": "Solid Fog"
          }
       ],
       "divineAbilityFilter": [
@@ -1642,15 +1642,15 @@
       "clericSpells": [
          {
             "level": 1,
-            "name": "temporary tool"
+            "name": "Temporary Tool"
          },
          {
             "level": 2,
-            "name": "shape wood"
+            "name": "Shape Wood"
          },
          {
             "level": 3,
-            "name": "wall of thorns"
+            "name": "Wall of Thorns"
          }
       ],
       "divineAbilityFilter": [
@@ -1686,15 +1686,15 @@
       "clericSpells": [
          {
             "level": 1,
-            "name": "mage armor"
+            "name": "Mage Armor"
          },
          {
             "level": 3,
-            "name": "animal form"
+            "name": "Animal Form"
          },
          {
             "level": 4,
-            "name": "stoneskin"
+            "name": "Stoneskin"
          }
       ],
       "divineAbilityFilter": [
@@ -1730,15 +1730,15 @@
       "clericSpells": [
          {
             "level": 1,
-            "name": "ant haul"
+            "name": "Ant Haul"
          },
          {
             "level": 2,
-            "name": "enlarge"
+            "name": "Enlarge"
          },
          {
             "level": 3,
-            "name": "haste"
+            "name": "Haste"
          }
       ],
       "divineAbilityFilter": [
@@ -1772,15 +1772,15 @@
       "clericSpells": [
          {
             "level": 1,
-            "name": "message rune"
+            "name": "Message Rune"
          },
          {
             "level": 2,
-            "name": "secret page"
+            "name": "Secret Page"
          },
          {
             "level": 6,
-            "name": "dominate"
+            "name": "Dominate"
          }
       ],
       "divineAbilityFilter": [
@@ -1815,15 +1815,15 @@
       "clericSpells": [
          {
             "level": 1,
-            "name": "mage armor"
+            "name": "Mage Armor"
          },
          {
             "level": 3,
-            "name": "enthrall"
+            "name": "Enthrall"
          },
          {
             "level": 4,
-            "name": "fire shield"
+            "name": "Fire Shield"
          }
       ],
       "divineAbilityFilter": [
@@ -1858,15 +1858,15 @@
       "clericSpells": [
          {
             "level": 1,
-            "name": "soothe"
+            "name": "Soothe"
          },
          {
             "level": 4,
-            "name": "crushing despair"
+            "name": "Crushing Despair"
          },
          {
             "level": 5,
-            "name": "drop dead"
+            "name": "Drop Dead"
          }
       ],
       "divineAbilityFilter": [
@@ -1904,15 +1904,15 @@
       "clericSpells": [
          {
             "level": 1,
-            "name": "illusory disguise"
+            "name": "Illusory Disguise"
          },
          {
             "level": 2,
-            "name": "invisibility"
+            "name": "Invisibility"
          },
          {
             "level": 4,
-            "name": "private sanctum"
+            "name": "Private Sanctum"
          }
       ],
       "divineAbilityFilter": [
@@ -1948,15 +1948,15 @@
       "clericSpells": [
          {
             "level": 1,
-            "name": "penumbral shroud"
+            "name": "Penumbral Shroud"
          },
          {
             "level": 3,
-            "name": "nondetection"
+            "name": "Nondetection"
          },
          {
             "level": 4,
-            "name": "creation"
+            "name": "Creation"
          }
       ],
       "divineAbilityFilter": [
@@ -1994,15 +1994,15 @@
       "clericSpells": [
          {
             "level": 1,
-            "name": "illusory disguise"
+            "name": "Illusory Disguise"
          },
          {
             "level": 4,
-            "name": "veil"
+            "name": "Veil"
          },
          {
             "level": 5,
-            "name": "shadow siphon"
+            "name": "Shadow Siphon"
          }
       ],
       "divineAbilityFilter": [
@@ -2037,15 +2037,15 @@
       "clericSpells": [
          {
             "level": 1,
-            "name": "penumbral shroud"
+            "name": "Penumbral Shroud"
          },
          {
             "level": 3,
-            "name": "invisibility sphere"
+            "name": "Invisibility Sphere"
          },
          {
             "level": 6,
-            "name": "mislead"
+            "name": "Mislead"
          }
       ],
       "divineAbilityFilter": [
@@ -2079,15 +2079,15 @@
       "clericSpells": [
          {
             "level": 1,
-            "name": "burning hands"
+            "name": "Burning Hands"
          },
          {
             "level": 3,
-            "name": "fireball"
+            "name": "Fireball"
          },
          {
             "level": 4,
-            "name": "wall of fire"
+            "name": "Wall of Fire"
          }
       ],
       "divineAbilityFilter": [
@@ -2121,15 +2121,15 @@
       "clericSpells": [
          {
             "level": 1,
-            "name": "ill omen"
+            "name": "Ill Omen"
          },
          {
             "level": 2,
-            "name": "shatter"
+            "name": "Shatter"
          },
          {
             "level": 6,
-            "name": "phantasmal calamity"
+            "name": "Phantasmal Calamity"
          }
       ],
       "divineAbilityFilter": [
@@ -2164,15 +2164,15 @@
       "clericSpells": [
          {
             "level": 1,
-            "name": "unseen servant"
+            "name": "Unseen Servant"
          },
          {
             "level": 3,
-            "name": "shifting sand"
+            "name": "Shifting Sand"
          },
          {
             "level": 5,
-            "name": "wall of stone"
+            "name": "Wall of Stone"
          }
       ],
       "divineAbilityFilter": [
@@ -2209,16 +2209,16 @@
       "clericSpells": [
          {
             "level": 1,
-            "name": "pest form",
+            "name": "Pest Form",
             "note": "(cats only)"
          },
          {
             "level": 3,
-            "name": "animal vision"
+            "name": "Animal Vision"
          },
          {
             "level": 4,
-            "name": "private sanctum"
+            "name": "Private Sanctum"
          }
       ],
       "divineAbilityFilter": [
@@ -2253,15 +2253,15 @@
       "clericSpells": [
          {
             "level": 1,
-            "name": "sleep"
+            "name": "Sleep"
          },
          {
             "level": 2,
-            "name": "hideous laughter"
+            "name": "Hideous Laughter"
          },
          {
             "level": 3,
-            "name": "enthrall"
+            "name": "Enthrall"
          }
       ],
       "divineAbilityFilter": [
@@ -2295,15 +2295,15 @@
       "clericSpells": [
          {
             "level": 1,
-            "name": "charm"
+            "name": "Charm"
          },
          {
             "level": 2,
-            "name": "tree shape"
+            "name": "Tree Shape"
          },
          {
             "level": 8,
-            "name": "uncontrollable dance"
+            "name": "Uncontrollable Dance"
          }
       ],
       "divineAbilityFilter": [
@@ -2339,15 +2339,15 @@
       "clericSpells": [
          {
             "level": 1,
-            "name": "floating disk"
+            "name": "Floating Disk"
          },
          {
             "level": 3,
-            "name": "wall of wind"
+            "name": "Wall of Wind"
          },
          {
             "level": 4,
-            "name": "aerial form",
+            "name": "Aerial Form",
             "note": "(bird only)"
          }
       ],
@@ -2383,39 +2383,39 @@
       "clericSpells": [
          {
             "level": 1,
-            "name": "soothe"
+            "name": "Soothe"
          },
          {
             "level": 2,
-            "name": "humanoid form"
+            "name": "Humanoid Form"
          },
          {
             "level": 3,
-            "name": "animal vision"
+            "name": "Animal Vision"
          },
          {
             "level": 4,
-            "name": "creation"
+            "name": "Creation"
          },
          {
             "level": 5,
-            "name": "control water"
+            "name": "Control Water"
          },
          {
             "level": 6,
-            "name": "wall of force"
+            "name": "Wall of Force"
          },
          {
             "level": 7,
-            "name": "magnificent mansion"
+            "name": "Magnificent Mansion"
          },
          {
             "level": 8,
-            "name": "wind walk"
+            "name": "Wind Walk"
          },
          {
             "level": 9,
-            "name": "shapechange"
+            "name": "Shapechange"
          }
       ],
       "divineAbilityFilter": [
@@ -2430,7 +2430,7 @@
       ]
    },
     {
-      "name": "Ma'at",
+      "name": "Ma'At",
       "category": "Ancient Osirian Gods",
       "alignment": "Lawful Neutral",
       "followerAlignments": [
@@ -2450,15 +2450,15 @@
       "clericSpells": [
          {
             "level": 1,
-            "name": "feather fall"
+            "name": "Feather Fall"
          },
          {
             "level": 4,
-            "name": "resilient sphere"
+            "name": "Resilient Sphere"
          },
          {
             "level": 5,
-            "name": "mind probe"
+            "name": "Mind Probe"
          }
       ],
       "divineAbilityFilter": [
@@ -2492,15 +2492,15 @@
       "clericSpells": [
          {
             "level": 1,
-            "name": "soothe"
+            "name": "Soothe"
          },
          {
             "level": 2,
-            "name": "false life"
+            "name": "False Life"
          },
          {
             "level": 6,
-            "name": "tangling creepers"
+            "name": "Tangling Creepers"
          }
       ],
       "divineAbilityFilter": [
@@ -2535,15 +2535,15 @@
       "clericSpells": [
          {
             "level": 1,
-            "name": "burning hands"
+            "name": "Burning Hands"
          },
          {
             "level": 2,
-            "name": "flaming sphere"
+            "name": "Flaming Sphere"
          },
          {
             "level": 3,
-            "name": "threefold aspect"
+            "name": "Threefold Aspect"
          }
       ],
       "divineAbilityFilter": [
@@ -2580,15 +2580,15 @@
       "clericSpells": [
          {
             "level": 1,
-            "name": "true strike"
+            "name": "True Strike"
          },
          {
             "level": 4,
-            "name": "wall of fire"
+            "name": "Wall of Fire"
          },
          {
             "level": 5,
-            "name": "moon frenzy"
+            "name": "Moon Frenzy"
          }
       ],
       "divineAbilityFilter": [
@@ -2624,15 +2624,15 @@
       "clericSpells": [
          {
             "level": 1,
-            "name": "soothe"
+            "name": "Soothe"
          },
          {
             "level": 3,
-            "name": "paralyze"
+            "name": "Paralyze"
          },
          {
             "level": 6,
-            "name": "purple worm sting"
+            "name": "Purple Worm Sting"
          }
       ],
       "divineAbilityFilter": [
@@ -2668,15 +2668,15 @@
       "clericSpells": [
          {
             "level": 1,
-            "name": "hydraulic push"
+            "name": "Hydraulic Push"
          },
          {
             "level": 3,
-            "name": "feet to fins"
+            "name": "Feet To Fins"
          },
          {
             "level": 4,
-            "name": "dinosaur form",
+            "name": "Dinosaur Form",
             "note": "(appears as crocodile)"
          }
       ],
@@ -2713,15 +2713,15 @@
       "clericSpells": [
          {
             "level": 1,
-            "name": "message rune"
+            "name": "Message Rune"
          },
          {
             "level": 2,
-            "name": "comprehend language"
+            "name": "Comprehend Language"
          },
          {
             "level": 3,
-            "name": "secret page"
+            "name": "Secret Page"
          }
       ],
       "divineAbilityFilter": [
@@ -2756,16 +2756,16 @@
       "clericSpells": [
          {
             "level": 1,
-            "name": "mage armor"
+            "name": "Mage Armor"
          },
          {
             "level": 2,
-            "name": "animal form",
+            "name": "Animal Form",
             "note": "(snake only)"
          },
          {
             "level": 4,
-            "name": "fly"
+            "name": "Fly"
          }
       ],
       "divineAbilityFilter": [
@@ -2798,15 +2798,15 @@
       "clericSpells": [
          {
             "level": 1,
-            "name": "fleet step"
+            "name": "Fleet Step"
          },
          {
             "level": 2,
-            "name": "vomit swarm"
+            "name": "Vomit Swarm"
          },
          {
             "level": 6,
-            "name": "mislead"
+            "name": "Mislead"
          }
       ],
       "divineAbilityFilter": [
@@ -2839,15 +2839,15 @@
       "clericSpells": [
          {
             "level": 1,
-            "name": "magic fang"
+            "name": "Magic Fang"
          },
          {
             "level": 3,
-            "name": "paralyze"
+            "name": "Paralyze"
          },
          {
             "level": 4,
-            "name": "clairvoyance"
+            "name": "Clairvoyance"
          }
       ],
       "divineAbilityFilter": [
@@ -2880,15 +2880,15 @@
       "clericSpells": [
          {
             "level": 1,
-            "name": "charm"
+            "name": "Charm"
          },
          {
             "level": 2,
-            "name": "humanoid form"
+            "name": "Humanoid Form"
          },
          {
             "level": 3,
-            "name": "enthrall"
+            "name": "Enthrall"
          }
       ],
       "divineAbilityFilter": [
@@ -2922,15 +2922,15 @@
       "clericSpells": [
          {
             "level": 1,
-            "name": "tether"
+            "name": "Tether"
          },
          {
             "level": 4,
-            "name": "suggestion"
+            "name": "Suggestion"
          },
          {
             "level": 6,
-            "name": "flesh to stone"
+            "name": "Flesh To Stone"
          }
       ],
       "divineAbilityFilter": [
@@ -2963,16 +2963,16 @@
       "clericSpells": [
          {
             "level": 1,
-            "name": "acidic burst"
+            "name": "Acidic Burst"
          },
          {
             "level": 2,
-            "name": "animal form",
+            "name": "Animal Form",
             "note": "(snake only)"
          },
          {
             "level": 3,
-            "name": "hypercognition"
+            "name": "Hypercognition"
          }
       ],
       "divineAbilityFilter": [
@@ -3005,15 +3005,15 @@
       "clericSpells": [
          {
             "level": 1,
-            "name": "shattering gem"
+            "name": "Shattering Gem"
          },
          {
             "level": 4,
-            "name": "creation"
+            "name": "Creation"
          },
          {
             "level": 7,
-            "name": "magnificent mansion"
+            "name": "Magnificent Mansion"
          }
       ],
       "divineAbilityFilter": [
@@ -3046,15 +3046,15 @@
       "clericSpells": [
          {
             "level": 1,
-            "name": "message rune"
+            "name": "Message Rune"
          },
          {
             "level": 2,
-            "name": "blistering invective"
+            "name": "Blistering Invective"
          },
          {
             "level": 5,
-            "name": "subconscious suggestion"
+            "name": "Subconscious Suggestion"
          }
       ],
       "divineAbilityFilter": [
@@ -3087,15 +3087,15 @@
       "clericSpells": [
          {
             "level": 1,
-            "name": "burning hands"
+            "name": "Burning Hands"
          },
          {
             "level": 5,
-            "name": "acid storm"
+            "name": "Acid Storm"
          },
          {
             "level": 7,
-            "name": "fiery body"
+            "name": "Fiery Body"
          }
       ],
       "divineAbilityFilter": [
@@ -3129,39 +3129,39 @@
       "clericSpells": [
          {
             "level": 1,
-            "name": "share lore"
+            "name": "Share Lore"
          },
          {
             "level": 2,
-            "name": "spectral hand"
+            "name": "Spectral Hand"
          },
          {
             "level": 3,
-            "name": "hypercognition"
+            "name": "Hypercognition"
          },
          {
             "level": 4,
-            "name": "reflective scales"
+            "name": "Reflective Scales"
          },
          {
             "level": 5,
-            "name": "black tentacles"
+            "name": "Black Tentacles"
          },
          {
             "level": 6,
-            "name": "feeblemind"
+            "name": "Feeblemind"
          },
          {
             "level": 7,
-            "name": "spell turning"
+            "name": "Spell Turning"
          },
          {
             "level": 8,
-            "name": "unrelenting observation"
+            "name": "Unrelenting Observation"
          },
          {
             "level": 9,
-            "name": "disjunction"
+            "name": "Disjunction"
          }
       ],
       "divineAbilityFilter": [
@@ -3194,16 +3194,16 @@
       "clericSpells": [
          {
             "level": 1,
-            "name": "magic fang"
+            "name": "Magic Fang"
          },
          {
             "level": 3,
-            "name": "animal form",
+            "name": "Animal Form",
             "note": "(ape only)"
          },
          {
             "level": 5,
-            "name": "moon frenzy"
+            "name": "Moon Frenzy"
          }
       ],
       "divineAbilityFilter": [
@@ -3237,15 +3237,15 @@
       "clericSpells": [
          {
             "level": 1,
-            "name": "summon animal"
+            "name": "Summon Animal"
          },
          {
             "level": 2,
-            "name": "enlarge"
+            "name": "Enlarge"
          },
          {
             "level": 8,
-            "name": "maze"
+            "name": "Maze"
          }
       ],
       "divineAbilityFilter": [
@@ -3260,7 +3260,7 @@
       ]
    },
     {
-      "name": "Cyth-V'sug",
+      "name": "Cyth-V'Sug",
       "category": "Demon Lords",
       "alignment": "Chaotic Evil",
       "followerAlignments": [
@@ -3278,15 +3278,15 @@
       "clericSpells": [
          {
             "level": 1,
-            "name": "summon plant or fungus"
+            "name": "Summon Plant or Fungus"
          },
          {
             "level": 2,
-            "name": "fungal hyphae"
+            "name": "Fungal Hyphae"
          },
          {
             "level": 5,
-            "name": "plant form"
+            "name": "Plant Form"
          }
       ],
       "divineAbilityFilter": [
@@ -3321,15 +3321,15 @@
       "clericSpells": [
          {
             "level": 1,
-            "name": "hydraulic push"
+            "name": "Hydraulic Push"
          },
          {
             "level": 3,
-            "name": "feet to fins"
+            "name": "Feet To Fins"
          },
          {
             "level": 6,
-            "name": "chain lightning"
+            "name": "Chain Lightning"
          }
       ],
       "divineAbilityFilter": [
@@ -3362,15 +3362,15 @@
       "clericSpells": [
          {
             "level": 1,
-            "name": "jump"
+            "name": "Jump"
          },
          {
             "level": 3,
-            "name": "stinking cloud"
+            "name": "Stinking Cloud"
          },
          {
             "level": 5,
-            "name": "black tentacles"
+            "name": "Black Tentacles"
          }
       ],
       "divineAbilityFilter": [
@@ -3405,15 +3405,15 @@
       "clericSpells": [
          {
             "level": 1,
-            "name": "jump"
+            "name": "Jump"
          },
          {
             "level": 2,
-            "name": "expeditious excavation"
+            "name": "Expeditious Excavation"
          },
          {
             "level": 3,
-            "name": "paralyze"
+            "name": "Paralyze"
          }
       ],
       "divineAbilityFilter": [
@@ -3447,15 +3447,15 @@
       "clericSpells": [
          {
             "level": 1,
-            "name": "chilling spray"
+            "name": "Chilling Spray"
          },
          {
             "level": 2,
-            "name": "enlarge"
+            "name": "Enlarge"
          },
          {
             "level": 5,
-            "name": "cone of cold"
+            "name": "Cone of Cold"
          }
       ],
       "divineAbilityFilter": [
@@ -3489,15 +3489,15 @@
       "clericSpells": [
          {
             "level": 1,
-            "name": "burning hands"
+            "name": "Burning Hands"
          },
          {
             "level": 2,
-            "name": "flaming sphere"
+            "name": "Flaming Sphere"
          },
          {
             "level": 3,
-            "name": "cup of dust"
+            "name": "Cup of Dust"
          }
       ],
       "divineAbilityFilter": [
@@ -3530,15 +3530,15 @@
       "clericSpells": [
          {
             "level": 1,
-            "name": "gust of wind"
+            "name": "Gust of Wind"
          },
          {
             "level": 3,
-            "name": "suggestion"
+            "name": "Suggestion"
          },
          {
             "level": 4,
-            "name": "fly"
+            "name": "Fly"
          }
       ],
       "divineAbilityFilter": [
@@ -3572,15 +3572,15 @@
       "clericSpells": [
          {
             "level": 1,
-            "name": "phantom pain"
+            "name": "Phantom Pain"
          },
          {
             "level": 2,
-            "name": "invisibility"
+            "name": "Invisibility"
          },
          {
             "level": 3,
-            "name": "haste"
+            "name": "Haste"
          }
       ],
       "divineAbilityFilter": [
@@ -3614,15 +3614,15 @@
       "clericSpells": [
          {
             "level": 1,
-            "name": "ill omen"
+            "name": "Ill Omen"
          },
          {
             "level": 4,
-            "name": "crushing despair"
+            "name": "Crushing Despair"
          },
          {
             "level": 5,
-            "name": "subconscious suggestion"
+            "name": "Subconscious Suggestion"
          }
       ],
       "divineAbilityFilter": [
@@ -3656,15 +3656,15 @@
       "clericSpells": [
          {
             "level": 1,
-            "name": "grim tendrils"
+            "name": "Grim Tendrils"
          },
          {
             "level": 3,
-            "name": "wall of thorns"
+            "name": "Wall of Thorns"
          },
          {
             "level": 6,
-            "name": "tangling creepers"
+            "name": "Tangling Creepers"
          }
       ],
       "divineAbilityFilter": [
@@ -3699,15 +3699,15 @@
       "clericSpells": [
          {
             "level": 1,
-            "name": "magic fang"
+            "name": "Magic Fang"
          },
          {
             "level": 4,
-            "name": "dinosaur form"
+            "name": "Dinosaur Form"
          },
          {
             "level": 8,
-            "name": "earthquake"
+            "name": "Earthquake"
          }
       ],
       "divineAbilityFilter": [
@@ -3741,15 +3741,15 @@
       "clericSpells": [
          {
             "level": 1,
-            "name": "charm"
+            "name": "Charm"
          },
          {
             "level": 4,
-            "name": "gaseous form"
+            "name": "Gaseous Form"
          },
          {
             "level": 6,
-            "name": "dominate"
+            "name": "Dominate"
          }
       ],
       "divineAbilityFilter": [
@@ -3783,15 +3783,15 @@
       "clericSpells": [
          {
             "level": 1,
-            "name": "burning hands"
+            "name": "Burning Hands"
          },
          {
             "level": 2,
-            "name": "blistering invective"
+            "name": "Blistering Invective"
          },
          {
             "level": 3,
-            "name": "fireball"
+            "name": "Fireball"
          }
       ],
       "divineAbilityFilter": [
@@ -3826,15 +3826,15 @@
       "clericSpells": [
          {
             "level": 1,
-            "name": "soothe"
+            "name": "Soothe"
          },
          {
             "level": 4,
-            "name": "creation"
+            "name": "Creation"
          },
          {
             "level": 6,
-            "name": "collective transposition"
+            "name": "Collective Transposition"
          }
       ],
       "divineAbilityFilter": [
@@ -3868,15 +3868,15 @@
       "clericSpells": [
          {
             "level": 1,
-            "name": "longstrider"
+            "name": "Longstrider"
          },
          {
             "level": 2,
-            "name": "knock"
+            "name": "Knock"
          },
          {
             "level": 5,
-            "name": "passwall"
+            "name": "Passwall"
          }
       ],
       "divineAbilityFilter": [
@@ -3915,15 +3915,15 @@
       "clericSpells": [
          {
             "level": 1,
-            "name": "ant haul"
+            "name": "Ant Haul"
          },
          {
             "level": 3,
-            "name": "haste"
+            "name": "Haste"
          },
          {
             "level": 6,
-            "name": "dominate"
+            "name": "Dominate"
          }
       ],
       "divineAbilityFilter": [
@@ -3958,15 +3958,15 @@
       "clericSpells": [
          {
             "level": 1,
-            "name": "endure"
+            "name": "Endure"
          },
          {
             "level": 4,
-            "name": "fire shield"
+            "name": "Fire Shield"
          },
          {
             "level": 9,
-            "name": "resplendent mansion"
+            "name": "Resplendent Mansion"
          }
       ],
       "divineAbilityFilter": [
@@ -4000,15 +4000,15 @@
       "clericSpells": [
          {
             "level": 1,
-            "name": "anticipate peril"
+            "name": "Anticipate Peril"
          },
          {
             "level": 4,
-            "name": "resilient sphere"
+            "name": "Resilient Sphere"
          },
          {
             "level": 6,
-            "name": "wall of force"
+            "name": "Wall of Force"
          }
       ],
       "divineAbilityFilter": [
@@ -4042,15 +4042,15 @@
       "clericSpells": [
          {
             "level": 1,
-            "name": "unseen servant"
+            "name": "Unseen Servant"
          },
          {
             "level": 4,
-            "name": "suggestion"
+            "name": "Suggestion"
          },
          {
             "level": 8,
-            "name": "unrelenting observation"
+            "name": "Unrelenting Observation"
          }
       ],
       "divineAbilityFilter": [
@@ -4086,15 +4086,15 @@
       "clericSpells": [
          {
             "level": 1,
-            "name": "temporary tool"
+            "name": "Temporary Tool"
          },
          {
             "level": 2,
-            "name": "expeditious excavation"
+            "name": "Expeditious Excavation"
          },
          {
             "level": 9,
-            "name": "earthquake"
+            "name": "Earthquake"
          }
       ],
       "divineAbilityFilter": [
@@ -4128,15 +4128,15 @@
       "clericSpells": [
          {
             "level": 1,
-            "name": "endure"
+            "name": "Endure"
          },
          {
             "level": 3,
-            "name": "haste"
+            "name": "Haste"
          },
          {
             "level": 4,
-            "name": "stoneskin"
+            "name": "Stoneskin"
          }
       ],
       "divineAbilityFilter": [
@@ -4172,15 +4172,15 @@
       "clericSpells": [
          {
             "level": 1,
-            "name": "penumbral shroud"
+            "name": "Penumbral Shroud"
          },
          {
             "level": 4,
-            "name": "private sanctum"
+            "name": "Private Sanctum"
          },
          {
             "level": 5,
-            "name": "shadow walk"
+            "name": "Shadow Walk"
          }
       ],
       "divineAbilityFilter": [
@@ -4216,15 +4216,15 @@
       "clericSpells": [
          {
             "level": 1,
-            "name": "mindlink"
+            "name": "Mindlink"
          },
          {
             "level": 2,
-            "name": "mirror image"
+            "name": "Mirror Image"
          },
          {
             "level": 4,
-            "name": "stoneskin"
+            "name": "Stoneskin"
          }
       ],
       "divineAbilityFilter": [
@@ -4259,15 +4259,15 @@
       "clericSpells": [
          {
             "level": 1,
-            "name": "anticipate peril"
+            "name": "Anticipate Peril"
          },
          {
             "level": 3,
-            "name": "threefold aspect"
+            "name": "Threefold Aspect"
          },
          {
             "level": 6,
-            "name": "scrying"
+            "name": "Scrying"
          }
       ],
       "divineAbilityFilter": [
@@ -4301,15 +4301,15 @@
       "clericSpells": [
          {
             "level": 1,
-            "name": "pass without trace"
+            "name": "Pass Without Trace"
          },
          {
             "level": 2,
-            "name": "invisibility"
+            "name": "Invisibility"
          },
          {
             "level": 4,
-            "name": "blink"
+            "name": "Blink"
          }
       ],
       "divineAbilityFilter": [
@@ -4345,15 +4345,15 @@
       "clericSpells": [
          {
             "level": 1,
-            "name": "hydraulic push"
+            "name": "Hydraulic Push"
          },
          {
             "level": 3,
-            "name": "feet to fins"
+            "name": "Feet To Fins"
          },
          {
             "level": 6,
-            "name": "purple worm sting"
+            "name": "Purple Worm Sting"
          }
       ],
       "divineAbilityFilter": [
@@ -4391,15 +4391,15 @@
       "clericSpells": [
          {
             "level": 1,
-            "name": "anticipate peril"
+            "name": "Anticipate Peril"
          },
          {
             "level": 3,
-            "name": "haste"
+            "name": "Haste"
          },
          {
             "level": 7,
-            "name": "time beacon"
+            "name": "Time Beacon"
          }
       ],
       "divineAbilityFilter": [
@@ -4434,15 +4434,15 @@
       "clericSpells": [
          {
             "level": 1,
-            "name": "charm"
+            "name": "Charm"
          },
          {
             "level": 4,
-            "name": "suggestion"
+            "name": "Suggestion"
          },
          {
             "level": 5,
-            "name": "plant form"
+            "name": "Plant Form"
          }
       ],
       "divineAbilityFilter": [
@@ -4477,15 +4477,15 @@
       "clericSpells": [
          {
             "level": 1,
-            "name": "illusory disguise"
+            "name": "Illusory Disguise"
          },
          {
             "level": 2,
-            "name": "hideous laughter"
+            "name": "Hideous Laughter"
          },
          {
             "level": 6,
-            "name": "baleful polymorph"
+            "name": "Baleful Polymorph"
          }
       ],
       "divineAbilityFilter": [
@@ -4520,15 +4520,15 @@
       "clericSpells": [
          {
             "level": 1,
-            "name": "soothe"
+            "name": "Soothe"
          },
          {
             "level": 4,
-            "name": "modify memory"
+            "name": "Modify Memory"
          },
          {
             "level": 5,
-            "name": "crushing despair"
+            "name": "Crushing Despair"
          }
       ],
       "divineAbilityFilter": [
@@ -4565,15 +4565,15 @@
       "clericSpells": [
          {
             "level": 1,
-            "name": "soothe"
+            "name": "Soothe"
          },
          {
             "level": 3,
-            "name": "ghostly weapon"
+            "name": "Ghostly Weapon"
          },
          {
             "level": 4,
-            "name": "fire shield"
+            "name": "Fire Shield"
          }
       ],
       "divineAbilityFilter": [
@@ -4609,16 +4609,16 @@
       "clericSpells": [
          {
             "level": 1,
-            "name": "shockwave"
+            "name": "Shockwave"
          },
          {
             "level": 2,
-            "name": "summon elemental",
+            "name": "Summon Elemental",
             "note": "(earth only)"
          },
          {
             "level": 6,
-            "name": "flesh to stone"
+            "name": "Flesh To Stone"
          }
       ],
       "divineAbilityFilter": [
@@ -4654,16 +4654,16 @@
       "clericSpells": [
          {
             "level": 1,
-            "name": "gust of wind"
+            "name": "Gust of Wind"
          },
          {
             "level": 2,
-            "name": "summon elemental",
+            "name": "Summon Elemental",
             "note": "(air only)"
          },
          {
             "level": 4,
-            "name": "gaseous form"
+            "name": "Gaseous Form"
          }
       ],
       "divineAbilityFilter": [
@@ -4699,16 +4699,16 @@
       "clericSpells": [
          {
             "level": 1,
-            "name": "fear"
+            "name": "Fear"
          },
          {
             "level": 2,
-            "name": "summon elemental",
+            "name": "Summon Elemental",
             "note": "(water only)"
          },
          {
             "level": 4,
-            "name": "hydraulic torrent"
+            "name": "Hydraulic Torrent"
          }
       ],
       "divineAbilityFilter": [
@@ -4744,15 +4744,15 @@
       "clericSpells": [
          {
             "level": 1,
-            "name": "hydraulic push"
+            "name": "Hydraulic Push"
          },
          {
             "level": 3,
-            "name": "aqueous orb"
+            "name": "Aqueous Orb"
          },
          {
             "level": 5,
-            "name": "control water"
+            "name": "Control Water"
          }
       ],
       "divineAbilityFilter": [
@@ -4788,15 +4788,15 @@
       "clericSpells": [
          {
             "level": 1,
-            "name": "liberating command"
+            "name": "Liberating Command"
          },
          {
             "level": 4,
-            "name": "fly"
+            "name": "Fly"
          },
          {
             "level": 6,
-            "name": "chain lightning"
+            "name": "Chain Lightning"
          }
       ],
       "divineAbilityFilter": [
@@ -4832,15 +4832,15 @@
       "clericSpells": [
          {
             "level": 1,
-            "name": "shattering gem"
+            "name": "Shattering Gem"
          },
          {
             "level": 2,
-            "name": "expeditious excavation"
+            "name": "Expeditious Excavation"
          },
          {
             "level": 4,
-            "name": "stoneskin"
+            "name": "Stoneskin"
          }
       ],
       "divineAbilityFilter": [
@@ -4876,16 +4876,16 @@
       "clericSpells": [
          {
             "level": 1,
-            "name": "burning hands"
+            "name": "Burning Hands"
          },
          {
             "level": 2,
-            "name": "summon elemental",
+            "name": "Summon Elemental",
             "note": "(fire only)"
          },
          {
             "level": 4,
-            "name": "wall of fire"
+            "name": "Wall of Fire"
          }
       ],
       "divineAbilityFilter": [
@@ -4921,15 +4921,15 @@
       "clericSpells": [
          {
             "level": 1,
-            "name": "temporary tool"
+            "name": "Temporary Tool"
          },
          {
             "level": 4,
-            "name": "shape stone"
+            "name": "Shape Stone"
          },
          {
             "level": 7,
-            "name": "magnificent mansion"
+            "name": "Magnificent Mansion"
          }
       ],
       "divineAbilityFilter": [
@@ -4963,15 +4963,15 @@
       "clericSpells": [
          {
             "level": 1,
-            "name": "pass without trace"
+            "name": "Pass Without Trace"
          },
          {
             "level": 2,
-            "name": "invisibility"
+            "name": "Invisibility"
          },
          {
             "level": 3,
-            "name": "animal vision"
+            "name": "Animal Vision"
          }
       ],
       "divineAbilityFilter": [
@@ -5007,39 +5007,39 @@
       "clericSpells": [
          {
             "level": 1,
-            "name": "shattering gem"
+            "name": "Shattering Gem"
          },
          {
             "level": 2,
-            "name": "shape wood"
+            "name": "Shape Wood"
          },
          {
             "level": 3,
-            "name": "meld into stone"
+            "name": "Meld into Stone"
          },
          {
             "level": 4,
-            "name": "speak with plants"
+            "name": "Speak with Plants"
          },
          {
             "level": 5,
-            "name": "tree stride"
+            "name": "Tree Stride"
          },
          {
             "level": 6,
-            "name": "tangling creepers"
+            "name": "Tangling Creepers"
          },
          {
             "level": 7,
-            "name": "unfettered pack"
+            "name": "Unfettered Pack"
          },
          {
             "level": 8,
-            "name": "prismatic wall"
+            "name": "Prismatic Wall"
          },
          {
             "level": 9,
-            "name": "nature�s enmity"
+            "name": "Nature's Enmity"
          }
       ],
       "divineAbilityFilter": [
@@ -5073,16 +5073,16 @@
       "clericSpells": [
          {
             "level": 1,
-            "name": "shillelagh"
+            "name": "Shillelagh"
          },
          {
             "level": 4,
-            "name": "aerial form",
+            "name": "Aerial Form",
             "note": "(bird only)"
          },
          {
             "level": 6,
-            "name": "collective transposition"
+            "name": "Collective Transposition"
          }
       ],
       "divineAbilityFilter": [
@@ -5117,15 +5117,15 @@
       "clericSpells": [
          {
             "level": 1,
-            "name": "mage armor"
+            "name": "Mage Armor"
          },
          {
             "level": 2,
-            "name": "humanoid form"
+            "name": "Humanoid Form"
          },
          {
             "level": 5,
-            "name": "dreaming potential"
+            "name": "Dreaming Potential"
          }
       ],
       "divineAbilityFilter": [
@@ -5159,15 +5159,15 @@
       "clericSpells": [
          {
             "level": 1,
-            "name": "soothe"
+            "name": "Soothe"
          },
          {
             "level": 2,
-            "name": "glitterdust"
+            "name": "Glitterdust"
          },
          {
             "level": 8,
-            "name": "uncontrollable dance"
+            "name": "Uncontrollable Dance"
          }
       ],
       "divineAbilityFilter": [
@@ -5201,15 +5201,15 @@
       "clericSpells": [
          {
             "level": 1,
-            "name": "penumbral shroud"
+            "name": "Penumbral Shroud"
          },
          {
             "level": 2,
-            "name": "blur"
+            "name": "Blur"
          },
          {
             "level": 4,
-            "name": "blink"
+            "name": "Blink"
          }
       ],
       "divineAbilityFilter": [
@@ -5244,15 +5244,15 @@
       "clericSpells": [
          {
             "level": 1,
-            "name": "true strike"
+            "name": "True Strike"
          },
          {
             "level": 2,
-            "name": "animal form"
+            "name": "Animal Form"
          },
          {
             "level": 3,
-            "name": "lightning bolt"
+            "name": "Lightning Bolt"
          }
       ],
       "divineAbilityFilter": [
@@ -5285,15 +5285,15 @@
       "clericSpells": [
          {
             "level": 1,
-            "name": "true strike"
+            "name": "True Strike"
          },
          {
             "level": 3,
-            "name": "paralyze"
+            "name": "Paralyze"
          },
          {
             "level": 4,
-            "name": "stoneskin"
+            "name": "Stoneskin"
          }
       ],
       "divineAbilityFilter": [
@@ -5329,15 +5329,15 @@
       "clericSpells": [
          {
             "level": 1,
-            "name": "mindlink"
+            "name": "Mindlink"
          },
          {
             "level": 2,
-            "name": "comprehend languages"
+            "name": "Comprehend Languages"
          },
          {
             "level": 3,
-            "name": "enthrall"
+            "name": "Enthrall"
          }
       ],
       "divineAbilityFilter": [
@@ -5372,15 +5372,15 @@
       "clericSpells": [
          {
             "level": 1,
-            "name": "true strike"
+            "name": "True Strike"
          },
          {
             "level": 3,
-            "name": "ghostly weapon"
+            "name": "Ghostly Weapon"
          },
          {
             "level": 5,
-            "name": "cloak of colors"
+            "name": "Cloak of Colors"
          }
       ],
       "divineAbilityFilter": [
@@ -5415,15 +5415,15 @@
       "clericSpells": [
          {
             "level": 1,
-            "name": "summon plant or fungus"
+            "name": "Summon Plant or Fungus"
          },
          {
             "level": 2,
-            "name": "touch of idiocy"
+            "name": "Touch of Idiocy"
          },
          {
             "level": 4,
-            "name": "speak with plants"
+            "name": "Speak with Plants"
          }
       ],
       "divineAbilityFilter": [
@@ -5459,15 +5459,15 @@
       "clericSpells": [
          {
             "level": 1,
-            "name": "anticipate peril"
+            "name": "Anticipate Peril"
          },
          {
             "level": 2,
-            "name": "mirror image"
+            "name": "Mirror Image"
          },
          {
             "level": 3,
-            "name": "secret page"
+            "name": "Secret Page"
          }
       ],
       "divineAbilityFilter": [
@@ -5503,15 +5503,15 @@
       "clericSpells": [
          {
             "level": 1,
-            "name": "longstrider"
+            "name": "Longstrider"
          },
          {
             "level": 3,
-            "name": "haste"
+            "name": "Haste"
          },
          {
             "level": 7,
-            "name": "mask of terror"
+            "name": "Mask of Terror"
          }
       ],
       "divineAbilityFilter": [
@@ -5545,15 +5545,15 @@
       "clericSpells": [
          {
             "level": 1,
-            "name": "soothe"
+            "name": "Soothe"
          },
          {
             "level": 3,
-            "name": "slow"
+            "name": "Slow"
          },
          {
             "level": 4,
-            "name": "resilient sphere"
+            "name": "Resilient Sphere"
          }
       ],
       "divineAbilityFilter": [
@@ -5588,15 +5588,15 @@
       "clericSpells": [
          {
             "level": 1,
-            "name": "mage armor"
+            "name": "Mage Armor"
          },
          {
             "level": 3,
-            "name": "threefold aspect"
+            "name": "Threefold Aspect"
          },
          {
             "level": 4,
-            "name": "resilient sphere"
+            "name": "Resilient Sphere"
          }
       ],
       "divineAbilityFilter": [
@@ -5630,15 +5630,15 @@
       "clericSpells": [
          {
             "level": 1,
-            "name": "color spray"
+            "name": "Color Spray"
          },
          {
             "level": 5,
-            "name": "chromatic wall"
+            "name": "Chromatic Wall"
          },
          {
             "level": 6,
-            "name": "teleport"
+            "name": "Teleport"
          }
       ],
       "divineAbilityFilter": [
@@ -5671,15 +5671,15 @@
       "clericSpells": [
          {
             "level": 1,
-            "name": "true strike"
+            "name": "True Strike"
          },
          {
             "level": 3,
-            "name": "haste"
+            "name": "Haste"
          },
          {
             "level": 4,
-            "name": "fire shield"
+            "name": "Fire Shield"
          }
       ],
       "divineAbilityFilter": [
@@ -5715,15 +5715,15 @@
       "clericSpells": [
          {
             "level": 1,
-            "name": "liberating command"
+            "name": "Liberating Command"
          },
          {
             "level": 3,
-            "name": "hypercognition"
+            "name": "Hypercognition"
          },
          {
             "level": 5,
-            "name": "dreaming potential"
+            "name": "Dreaming Potential"
          }
       ],
       "divineAbilityFilter": [
@@ -5759,15 +5759,15 @@
       "clericSpells": [
          {
             "level": 1,
-            "name": "summon construct"
+            "name": "Summon Construct"
          },
          {
             "level": 3,
-            "name": "meld into stone"
+            "name": "Meld into Stone"
          },
          {
             "level": 4,
-            "name": "stoneskin"
+            "name": "Stoneskin"
          }
       ],
       "divineAbilityFilter": [
@@ -5801,15 +5801,15 @@
       "clericSpells": [
          {
             "level": 1,
-            "name": "pass without trace"
+            "name": "Pass Without Trace"
          },
          {
             "level": 3,
-            "name": "animal vision"
+            "name": "Animal Vision"
          },
          {
             "level": 4,
-            "name": "aerial form",
+            "name": "Aerial Form",
             "note": "(bird only)"
          }
       ],
@@ -5843,16 +5843,16 @@
       "clericSpells": [
          {
             "level": 1,
-            "name": "phantom pain"
+            "name": "Phantom Pain"
          },
          {
             "level": 2,
-            "name": "slough skin",
+            "name": "Slough Skin",
             "note": "(appears as streams of blood)"
          },
          {
             "level": 5,
-            "name": "synaptic pulse"
+            "name": "Synaptic Pulse"
          }
       ],
       "divineAbilityFilter": [
@@ -5888,15 +5888,15 @@
       "clericSpells": [
          {
             "level": 1,
-            "name": "share lore"
+            "name": "Share Lore"
          },
          {
             "level": 2,
-            "name": "comprehend language"
+            "name": "Comprehend Language"
          },
          {
             "level": 4,
-            "name": "veil"
+            "name": "Veil"
          }
       ],
       "divineAbilityFilter": [
@@ -5932,15 +5932,15 @@
       "clericSpells": [
          {
             "level": 1,
-            "name": "feather fall"
+            "name": "Feather Fall"
          },
          {
             "level": 3,
-            "name": "feet to fins"
+            "name": "Feet To Fins"
          },
          {
             "level": 4,
-            "name": "fly"
+            "name": "Fly"
          }
       ],
       "divineAbilityFilter": [
@@ -5975,15 +5975,15 @@
       "clericSpells": [
          {
             "level": 1,
-            "name": "share lore"
+            "name": "Share Lore"
          },
          {
             "level": 3,
-            "name": "hypercognition"
+            "name": "Hypercognition"
          },
          {
             "level": 7,
-            "name": "retrocognition"
+            "name": "Retrocognition"
          }
       ],
       "divineAbilityFilter": [
@@ -6018,15 +6018,15 @@
       "clericSpells": [
          {
             "level": 1,
-            "name": "goblin pox"
+            "name": "Goblin Pox"
          },
          {
             "level": 2,
-            "name": "vomit swarm"
+            "name": "Vomit Swarm"
          },
          {
             "level": 5,
-            "name": "cloudkill"
+            "name": "Cloudkill"
          }
       ],
       "divineAbilityFilter": [
@@ -6061,15 +6061,15 @@
       "clericSpells": [
          {
             "level": 1,
-            "name": "grim tendrils"
+            "name": "Grim Tendrils"
          },
          {
             "level": 4,
-            "name": "crushing despair"
+            "name": "Crushing Despair"
          },
          {
             "level": 9,
-            "name": "weird"
+            "name": "Weird"
          }
       ],
       "divineAbilityFilter": [
@@ -6104,15 +6104,15 @@
       "clericSpells": [
          {
             "level": 1,
-            "name": "burning hands"
+            "name": "Burning Hands"
          },
          {
             "level": 3,
-            "name": "haste"
+            "name": "Haste"
          },
          {
             "level": 4,
-            "name": "weapon storm"
+            "name": "Weapon Storm"
          }
       ],
       "divineAbilityFilter": [
@@ -6147,15 +6147,15 @@
       "clericSpells": [
          {
             "level": 1,
-            "name": "grease"
+            "name": "Grease"
          },
          {
             "level": 2,
-            "name": "feast of ashes"
+            "name": "Feast of Ashes"
          },
          {
             "level": 5,
-            "name": "acid storm"
+            "name": "Acid Storm"
          }
       ],
       "divineAbilityFilter": [
@@ -6190,15 +6190,15 @@
       "clericSpells": [
          {
             "level": 1,
-            "name": "longstrider"
+            "name": "Longstrider"
          },
          {
             "level": 2,
-            "name": "knock"
+            "name": "Knock"
          },
          {
             "level": 6,
-            "name": "teleport"
+            "name": "Teleport"
          }
       ],
       "divineAbilityFilter": [
@@ -6233,15 +6233,15 @@
       "clericSpells": [
          {
             "level": 1,
-            "name": "ill omen"
+            "name": "Ill Omen"
          },
          {
             "level": 2,
-            "name": "paranoia"
+            "name": "Paranoia"
          },
          {
             "level": 6,
-            "name": "phantasmal calamity"
+            "name": "Phantasmal Calamity"
          }
       ],
       "divineAbilityFilter": [
@@ -6276,15 +6276,15 @@
       "clericSpells": [
          {
             "level": 1,
-            "name": "penumbral shroud"
+            "name": "Penumbral Shroud"
          },
          {
             "level": 5,
-            "name": "shadow siphon"
+            "name": "Shadow Siphon"
          },
          {
             "level": 6,
-            "name": "disintegrate"
+            "name": "Disintegrate"
          }
       ],
       "divineAbilityFilter": [
@@ -6319,15 +6319,15 @@
       "clericSpells": [
          {
             "level": 1,
-            "name": "unseen servant"
+            "name": "Unseen Servant"
          },
          {
             "level": 2,
-            "name": "spectral hand"
+            "name": "Spectral Hand"
          },
          {
             "level": 4,
-            "name": "gaseous form"
+            "name": "Gaseous Form"
          }
       ],
       "divineAbilityFilter": [
@@ -6363,15 +6363,15 @@
       "clericSpells": [
          {
             "level": 1,
-            "name": "soothe"
+            "name": "Soothe"
          },
          {
             "level": 4,
-            "name": "aerial form"
+            "name": "Aerial Form"
          },
          {
             "level": 6,
-            "name": "baleful polymorph"
+            "name": "Baleful Polymorph"
          }
       ],
       "divineAbilityFilter": [
@@ -6406,15 +6406,15 @@
       "clericSpells": [
          {
             "level": 1,
-            "name": "endure"
+            "name": "Endure"
          },
          {
             "level": 2,
-            "name": "slough skin"
+            "name": "Slough Skin"
          },
          {
             "level": 4,
-            "name": "modify memory"
+            "name": "Modify Memory"
          }
       ],
       "divineAbilityFilter": [
@@ -6448,15 +6448,15 @@
       "clericSpells": [
          {
             "level": 1,
-            "name": "mindlink"
+            "name": "Mindlink"
          },
          {
             "level": 4,
-            "name": "confusion"
+            "name": "Confusion"
          },
          {
             "level": 5,
-            "name": "synesthesia"
+            "name": "Synesthesia"
          }
       ],
       "divineAbilityFilter": [
@@ -6491,15 +6491,15 @@
       "clericSpells": [
          {
             "level": 1,
-            "name": "true strike"
+            "name": "True Strike"
          },
          {
             "level": 4,
-            "name": "gravity well"
+            "name": "Gravity Well"
          },
          {
             "level": 7,
-            "name": "reverse gravity"
+            "name": "Reverse Gravity"
          }
       ],
       "divineAbilityFilter": [
@@ -6534,15 +6534,15 @@
       "clericSpells": [
          {
             "level": 1,
-            "name": "share lore"
+            "name": "Share Lore"
          },
          {
             "level": 3,
-            "name": "hypercognition"
+            "name": "Hypercognition"
          },
          {
             "level": 5,
-            "name": "dreaming potential"
+            "name": "Dreaming Potential"
          }
       ],
       "divineAbilityFilter": [
@@ -6576,15 +6576,15 @@
       "clericSpells": [
          {
             "level": 1,
-            "name": "mage armor"
+            "name": "Mage Armor"
          },
          {
             "level": 6,
-            "name": "feeblemind"
+            "name": "Feeblemind"
          },
          {
             "level": 7,
-            "name": "contingency"
+            "name": "Contingency"
          }
       ],
       "divineAbilityFilter": [
@@ -6621,15 +6621,15 @@
       "clericSpells": [
          {
             "level": 1,
-            "name": "message rune"
+            "name": "Message Rune"
          },
          {
             "level": 2,
-            "name": "blistering invective"
+            "name": "Blistering Invective"
          },
          {
             "level": 4,
-            "name": "glibness"
+            "name": "Glibness"
          }
       ],
       "divineAbilityFilter": [
@@ -6664,15 +6664,15 @@
       "clericSpells": [
          {
             "level": 1,
-            "name": "ill omen"
+            "name": "Ill Omen"
          },
          {
             "level": 5,
-            "name": "synaptic pulse"
+            "name": "Synaptic Pulse"
          },
          {
             "level": 9,
-            "name": "unfathomable song"
+            "name": "Unfathomable Song"
          }
       ],
       "divineAbilityFilter": [
@@ -6706,15 +6706,15 @@
       "clericSpells": [
          {
             "level": 1,
-            "name": "illusory disguise"
+            "name": "Illusory Disguise"
          },
          {
             "level": 4,
-            "name": "confusion"
+            "name": "Confusion"
          },
          {
             "level": 5,
-            "name": "hallucination"
+            "name": "Hallucination"
          }
       ],
       "divineAbilityFilter": [
@@ -6747,15 +6747,15 @@
       "clericSpells": [
          {
             "level": 1,
-            "name": "grim tendrils"
+            "name": "Grim Tendrils"
          },
          {
             "level": 2,
-            "name": "entangle"
+            "name": "Entangle"
          },
          {
             "level": 5,
-            "name": "cloudkill"
+            "name": "Cloudkill"
          }
       ],
       "divineAbilityFilter": [
@@ -6789,39 +6789,39 @@
       "clericSpells": [
          {
             "level": 1,
-            "name": "message rune"
+            "name": "Message Rune"
          },
          {
             "level": 2,
-            "name": "humanoid form"
+            "name": "Humanoid Form"
          },
          {
             "level": 3,
-            "name": "enthrall"
+            "name": "Enthrall"
          },
          {
             "level": 4,
-            "name": "suggestion"
+            "name": "Suggestion"
          },
          {
             "level": 5,
-            "name": "summon entity"
+            "name": "Summon Entity"
          },
          {
             "level": 6,
-            "name": "mislead"
+            "name": "Mislead"
          },
          {
             "level": 7,
-            "name": "project image"
+            "name": "Project Image"
          },
          {
             "level": 8,
-            "name": "dream council"
+            "name": "Dream Council"
          },
          {
             "level": 9,
-            "name": "weird"
+            "name": "Weird"
          }
       ],
       "divineAbilityFilter": [
@@ -6855,15 +6855,15 @@
       "clericSpells": [
          {
             "level": 1,
-            "name": "summon plant or fungus"
+            "name": "Summon Plant or Fungus"
          },
          {
             "level": 3,
-            "name": "wall of thorns"
+            "name": "Wall of Thorns"
          },
          {
             "level": 7,
-            "name": "warp mind"
+            "name": "Warp Mind"
          }
       ],
       "divineAbilityFilter": [
@@ -6897,15 +6897,15 @@
       "clericSpells": [
          {
             "level": 1,
-            "name": "fleet step"
+            "name": "Fleet Step"
          },
          {
             "level": 5,
-            "name": "black tentacles"
+            "name": "Black Tentacles"
          },
          {
             "level": 7,
-            "name": "time beacon"
+            "name": "Time Beacon"
          }
       ],
       "divineAbilityFilter": [
@@ -6943,15 +6943,15 @@
       "clericSpells": [
          {
             "level": 1,
-            "name": "ant haul"
+            "name": "Ant Haul"
          },
          {
             "level": 4,
-            "name": "creation"
+            "name": "Creation"
          },
          {
             "level": 7,
-            "name": "retrocognition"
+            "name": "Retrocognition"
          }
       ],
       "divineAbilityFilter": [
@@ -6987,15 +6987,15 @@
       "clericSpells": [
          {
             "level": 1,
-            "name": "shillelagh"
+            "name": "Shillelagh"
          },
          {
             "level": 2,
-            "name": "shape wood"
+            "name": "Shape Wood"
          },
          {
             "level": 5,
-            "name": "tree stride"
+            "name": "Tree Stride"
          }
       ],
       "divineAbilityFilter": [
@@ -7031,15 +7031,15 @@
       "clericSpells": [
          {
             "level": 1,
-            "name": "phantom pain"
+            "name": "Phantom Pain"
          },
          {
             "level": 4,
-            "name": "fire shield"
+            "name": "Fire Shield"
          },
          {
             "level": 6,
-            "name": "dominate"
+            "name": "Dominate"
          }
       ],
       "divineAbilityFilter": [
@@ -7075,15 +7075,15 @@
       "clericSpells": [
          {
             "level": 1,
-            "name": "charm"
+            "name": "Charm"
          },
          {
             "level": 3,
-            "name": "enthrall"
+            "name": "Enthrall"
          },
          {
             "level": 4,
-            "name": "suggestion"
+            "name": "Suggestion"
          }
       ],
       "divineAbilityFilter": [
@@ -7117,15 +7117,15 @@
       "clericSpells": [
          {
             "level": 1,
-            "name": "phantom pain"
+            "name": "Phantom Pain"
          },
          {
             "level": 3,
-            "name": "earthbind"
+            "name": "Earthbind"
          },
          {
             "level": 5,
-            "name": "synaptic pulse"
+            "name": "Synaptic Pulse"
          }
       ],
       "divineAbilityFilter": [
@@ -7158,15 +7158,15 @@
       "clericSpells": [
          {
             "level": 1,
-            "name": "true strike"
+            "name": "True Strike"
          },
          {
             "level": 3,
-            "name": "fireball"
+            "name": "Fireball"
          },
          {
             "level": 4,
-            "name": "dimension door"
+            "name": "Dimension Door"
          }
       ],
       "divineAbilityFilter": [
@@ -7201,15 +7201,15 @@
       "clericSpells": [
          {
             "level": 1,
-            "name": "illusory disguise"
+            "name": "Illusory Disguise"
          },
          {
             "level": 2,
-            "name": "misdirection"
+            "name": "Misdirection"
          },
          {
             "level": 5,
-            "name": "illusory scene"
+            "name": "Illusory Scene"
          }
       ],
       "divineAbilityFilter": [
@@ -7244,15 +7244,15 @@
       "clericSpells": [
          {
             "level": 1,
-            "name": "agitate"
+            "name": "Agitate"
          },
          {
             "level": 4,
-            "name": "creation"
+            "name": "Creation"
          },
          {
             "level": 5,
-            "name": "cone of cold"
+            "name": "Cone of Cold"
          }
       ],
       "divineAbilityFilter": [
@@ -7267,7 +7267,7 @@
       ]
    },
     {
-      "name": "Stag Mother of the Forest of Stones",
+      "name": "Stag Mother of The Forest of Stones",
       "category": "Sarkorian Gods",
       "alignment": "Neutral",
       "followerAlignments": [
@@ -7292,16 +7292,16 @@
       "clericSpells": [
          {
             "level": 1,
-            "name": "phantom pain"
+            "name": "Phantom Pain"
          },
          {
             "level": 2,
-            "name": "animal form",
+            "name": "Animal Form",
             "note": "(bull only: appears as stag)"
          },
          {
             "level": 6,
-            "name": "flesh to stone"
+            "name": "Flesh To Stone"
          }
       ],
       "divineAbilityFilter": [
@@ -7336,15 +7336,15 @@
       "clericSpells": [
          {
             "level": 1,
-            "name": "charm"
+            "name": "Charm"
          },
          {
             "level": 5,
-            "name": "cloak of colors"
+            "name": "Cloak of Colors"
          },
          {
             "level": 6,
-            "name": "dragon form"
+            "name": "Dragon Form"
          }
       ],
       "divineAbilityFilter": [
@@ -7380,15 +7380,15 @@
       "clericSpells": [
          {
             "level": 1,
-            "name": "pest form"
+            "name": "Pest Form"
          },
          {
             "level": 2,
-            "name": "humanoid form"
+            "name": "Humanoid Form"
          },
          {
             "level": 5,
-            "name": "illusory scene"
+            "name": "Illusory Scene"
          }
       ],
       "divineAbilityFilter": [
@@ -7423,15 +7423,15 @@
       "clericSpells": [
          {
             "level": 1,
-            "name": "grim tendrils"
+            "name": "Grim Tendrils"
          },
          {
             "level": 2,
-            "name": "feast of ashes"
+            "name": "Feast of Ashes"
          },
          {
             "level": 7,
-            "name": "possession"
+            "name": "Possession"
          }
       ],
       "divineAbilityFilter": [
@@ -7465,15 +7465,15 @@
       "clericSpells": [
          {
             "level": 1,
-            "name": "true strike"
+            "name": "True Strike"
          },
          {
             "level": 2,
-            "name": "phantom steed"
+            "name": "Phantom Steed"
          },
          {
             "level": 3,
-            "name": "wall of wind"
+            "name": "Wall of Wind"
          }
       ],
       "divineAbilityFilter": [
@@ -7510,15 +7510,15 @@
       "clericSpells": [
          {
             "level": 1,
-            "name": "gust of wind"
+            "name": "Gust of Wind"
          },
          {
             "level": 4,
-            "name": "hydraulic torrent"
+            "name": "Hydraulic Torrent"
          },
          {
             "level": 6,
-            "name": "chain lightning"
+            "name": "Chain Lightning"
          }
       ],
       "divineAbilityFilter": [
@@ -7553,15 +7553,15 @@
       "clericSpells": [
          {
             "level": 1,
-            "name": "soothe"
+            "name": "Soothe"
          },
          {
             "level": 2,
-            "name": "hideous laughter"
+            "name": "Hideous Laughter"
          },
          {
             "level": 8,
-            "name": "uncontrollable dance"
+            "name": "Uncontrollable Dance"
          }
       ],
       "divineAbilityFilter": [
@@ -7595,15 +7595,15 @@
       "clericSpells": [
          {
             "level": 1,
-            "name": "sleep"
+            "name": "Sleep"
          },
          {
             "level": 2,
-            "name": "mirror image"
+            "name": "Mirror Image"
          },
          {
             "level": 5,
-            "name": "chromatic wall"
+            "name": "Chromatic Wall"
          }
       ],
       "divineAbilityFilter": [
@@ -7637,15 +7637,15 @@
       "clericSpells": [
          {
             "level": 1,
-            "name": "burning hands"
+            "name": "Burning Hands"
          },
          {
             "level": 5,
-            "name": "control water"
+            "name": "Control Water"
          },
          {
             "level": 6,
-            "name": "dragon form"
+            "name": "Dragon Form"
          }
       ],
       "divineAbilityFilter": [
@@ -7681,16 +7681,16 @@
       "clericSpells": [
          {
             "level": 1,
-            "name": "summon animal",
+            "name": "Summon Animal",
             "note": "(rodents only)"
          },
          {
             "level": 2,
-            "name": "knock"
+            "name": "Knock"
          },
          {
             "level": 3,
-            "name": "nondetection"
+            "name": "Nondetection"
          }
       ],
       "divineAbilityFilter": [
@@ -7727,39 +7727,39 @@
       "clericSpells": [
          {
             "level": 1,
-            "name": "charm"
+            "name": "Charm"
          },
          {
             "level": 2,
-            "name": "invisibility"
+            "name": "Invisibility"
          },
          {
             "level": 3,
-            "name": "lightning bolt"
+            "name": "Lightning Bolt"
          },
          {
             "level": 4,
-            "name": "reflective scales"
+            "name": "Reflective Scales"
          },
          {
             "level": 5,
-            "name": "subconscious suggestion"
+            "name": "Subconscious Suggestion"
          },
          {
             "level": 6,
-            "name": "mislead"
+            "name": "Mislead"
          },
          {
             "level": 7,
-            "name": "contingency"
+            "name": "Contingency"
          },
          {
             "level": 8,
-            "name": "scintillating pattern"
+            "name": "Scintillating Pattern"
          },
          {
             "level": 9,
-            "name": "storm of vengeance"
+            "name": "Storm of Vengeance"
          }
       ],
       "divineAbilityFilter": [
@@ -7796,15 +7796,15 @@
       "clericSpells": [
          {
             "level": 1,
-            "name": "soothe"
+            "name": "Soothe"
          },
          {
             "level": 2,
-            "name": "false life"
+            "name": "False Life"
          },
          {
             "level": 4,
-            "name": "resilient sphere"
+            "name": "Resilient Sphere"
          }
       ],
       "divineAbilityFilter": [
@@ -7840,15 +7840,15 @@
       "clericSpells": [
          {
             "level": 1,
-            "name": "true strike"
+            "name": "True Strike"
          },
          {
             "level": 4,
-            "name": "reflective scales"
+            "name": "Reflective Scales"
          },
          {
             "level": 5,
-            "name": "summon dragon"
+            "name": "Summon Dragon"
          }
       ],
       "divineAbilityFilter": [
@@ -7883,15 +7883,15 @@
       "clericSpells": [
          {
             "level": 1,
-            "name": "jump"
+            "name": "Jump"
          },
          {
             "level": 3,
-            "name": "mad monkeys"
+            "name": "Mad Monkeys"
          },
          {
             "level": 4,
-            "name": "creation"
+            "name": "Creation"
          }
       ],
       "divineAbilityFilter": [
@@ -7930,15 +7930,15 @@
       "clericSpells": [
          {
             "level": 1,
-            "name": "soothe"
+            "name": "Soothe"
          },
          {
             "level": 2,
-            "name": "mirror image"
+            "name": "Mirror Image"
          },
          {
             "level": 5,
-            "name": "hallucination"
+            "name": "Hallucination"
          }
       ],
       "divineAbilityFilter": [
@@ -7972,15 +7972,15 @@
       "clericSpells": [
          {
             "level": 1,
-            "name": "true strike"
+            "name": "True Strike"
          },
          {
             "level": 2,
-            "name": "invisibility"
+            "name": "Invisibility"
          },
          {
             "level": 6,
-            "name": "mislead"
+            "name": "Mislead"
          }
       ],
       "divineAbilityFilter": [
@@ -8016,15 +8016,15 @@
       "clericSpells": [
          {
             "level": 1,
-            "name": "shockwave"
+            "name": "Shockwave"
          },
          {
             "level": 3,
-            "name": "shifting sand"
+            "name": "Shifting Sand"
          },
          {
             "level": 7,
-            "name": "volcanic eruption"
+            "name": "Volcanic Eruption"
          }
       ],
       "divineAbilityFilter": [
@@ -8061,15 +8061,15 @@
       "clericSpells": [
          {
             "level": 1,
-            "name": "shillelagh"
+            "name": "Shillelagh"
          },
          {
             "level": 3,
-            "name": "ghostly weapon"
+            "name": "Ghostly Weapon"
          },
          {
             "level": 4,
-            "name": "speak with plants"
+            "name": "Speak with Plants"
          }
       ],
       "divineAbilityFilter": [
@@ -8104,15 +8104,15 @@
       "clericSpells": [
          {
             "level": 1,
-            "name": "shattering gem"
+            "name": "Shattering Gem"
          },
          {
             "level": 4,
-            "name": "shape stone"
+            "name": "Shape Stone"
          },
          {
             "level": 5,
-            "name": "wall of stone"
+            "name": "Wall of Stone"
          }
       ],
       "divineAbilityFilter": [
@@ -8148,15 +8148,15 @@
       "clericSpells": [
          {
             "level": 1,
-            "name": "summon animal"
+            "name": "Summon Animal"
          },
          {
             "level": 3,
-            "name": "lightning bolt"
+            "name": "Lightning Bolt"
          },
          {
             "level": 5,
-            "name": "moon frenzy"
+            "name": "Moon Frenzy"
          }
       ],
       "divineAbilityFilter": [
@@ -8191,15 +8191,15 @@
       "clericSpells": [
          {
             "level": 1,
-            "name": "fear"
+            "name": "Fear"
          },
          {
             "level": 4,
-            "name": "glibness"
+            "name": "Glibness"
          },
          {
             "level": 6,
-            "name": "mislead"
+            "name": "Mislead"
          }
       ],
       "divineAbilityFilter": [
@@ -8234,15 +8234,15 @@
       "clericSpells": [
          {
             "level": 1,
-            "name": "phantom pain"
+            "name": "Phantom Pain"
          },
          {
             "level": 2,
-            "name": "slough skin"
+            "name": "Slough Skin"
          },
          {
             "level": 4,
-            "name": "weapon storm"
+            "name": "Weapon Storm"
          }
       ],
       "divineAbilityFilter": [
@@ -8279,15 +8279,15 @@
       "clericSpells": [
          {
             "level": 1,
-            "name": "share lore"
+            "name": "Share Lore"
          },
          {
             "level": 2,
-            "name": "comprehend language"
+            "name": "Comprehend Language"
          },
          {
             "level": 3,
-            "name": "hypercognition"
+            "name": "Hypercognition"
          }
       ],
       "divineAbilityFilter": [
@@ -8321,15 +8321,15 @@
       "clericSpells": [
          {
             "level": 1,
-            "name": "fleet step"
+            "name": "Fleet Step"
          },
          {
             "level": 3,
-            "name": "mad monkeys"
+            "name": "Mad Monkeys"
          },
          {
             "level": 4,
-            "name": "confusion"
+            "name": "Confusion"
          }
       ],
       "divineAbilityFilter": [
@@ -8365,15 +8365,15 @@
       "clericSpells": [
          {
             "level": 1,
-            "name": "illusory disguise"
+            "name": "Illusory Disguise"
          },
          {
             "level": 3,
-            "name": "enthrall"
+            "name": "Enthrall"
          },
          {
             "level": 5,
-            "name": "illusory scene"
+            "name": "Illusory Scene"
          }
       ],
       "divineAbilityFilter": [
@@ -8409,15 +8409,15 @@
       "clericSpells": [
          {
             "level": 1,
-            "name": "share lore"
+            "name": "Share Lore"
          },
          {
             "level": 3,
-            "name": "slow"
+            "name": "Slow"
          },
          {
             "level": 4,
-            "name": "speak with plants"
+            "name": "Speak with Plants"
          }
       ],
       "divineAbilityFilter": [
@@ -8453,15 +8453,15 @@
       "clericSpells": [
          {
             "level": 1,
-            "name": "shockwave"
+            "name": "Shockwave"
          },
          {
             "level": 3,
-            "name": "mad monkeys"
+            "name": "Mad Monkeys"
          },
          {
             "level": 4,
-            "name": "gaseous form"
+            "name": "Gaseous Form"
          }
       ],
       "divineAbilityFilter": [
@@ -8497,15 +8497,15 @@
       "clericSpells": [
          {
             "level": 1,
-            "name": "true strike"
+            "name": "True Strike"
          },
          {
             "level": 2,
-            "name": "invisibility"
+            "name": "Invisibility"
          },
          {
             "level": 4,
-            "name": "weapon storm"
+            "name": "Weapon Storm"
          }
       ],
       "divineAbilityFilter": [

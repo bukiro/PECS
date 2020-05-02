@@ -93,9 +93,9 @@ export class SpellbookComponent implements OnInit {
         this.id = levelNumber * 1000;
         let character = this.characterService.get_Character();
         if (levelNumber == -1) {
-            return character.get_SpellsTaken(1, character.level, levelNumber, "", className, "Focus");
+            return character.get_SpellsTaken(this.characterService, 1, character.level, levelNumber, "", className, "Focus");
         } else {
-            return character.get_SpellsTaken(1, character.level, levelNumber, "", className, "");
+            return character.get_SpellsTaken(this.characterService, 1, character.level, levelNumber, "", className, "", "", "", undefined, true);
         }
     }
 

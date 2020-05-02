@@ -16,7 +16,7 @@
                                     {{level == -1 ? "Focus Spells" : (level == 0 ? "Cantrips" : "Level "+level)}}
                                 </strong>
                                 <strong *ngIf="maxspellslots">
-                                    {{(maxspellslots - get_UsedSpellSlots(level, className)) + " / " + maxspellslots}} spell slots available
+                                    {{(maxspellslots - get_UsedSpellSlots(level, className)) + " / " + maxspellslots}}
                                 </strong>
                             </div>
                             <div class="list-item"

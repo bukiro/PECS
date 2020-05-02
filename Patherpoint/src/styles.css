@@ -410,10 +410,6 @@
     margin-bottom:0;
   }
 
-  app-skill .list-item:last-child {
-    margin-bottom: 8px;
-  }
-
   app-tags, app-skill, app-item {
     width: 100%;
   }
@@ -443,7 +439,6 @@
     padding: 4px 8px;
     margin-bottom: 2px;
     border-radius: 2px;
-    background-color: #EEEEEE;
   }
   
   .lower .list-item input{
@@ -457,8 +452,8 @@
     border-color: rgb(var(--accent));
     border-radius: 2px;
     position: absolute;
-    top: 24px;
-    top: calc(100% - 8px);
+    top: 16px;
+    top: calc(100% - 16px);
     max-height: 500px;
     width: 90%;
     width: calc(100% - 16px);
@@ -467,6 +462,7 @@
     z-index: 100;
     background-color: #E0E0E0;
     box-shadow: 0 5px 5px;
+    margin-top: 8px;
   }
 
   .list-item.sublist.fancy-list {

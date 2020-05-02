@@ -960,7 +960,7 @@
             "value": 6
          }
       ],
-      "specialreq": "character.deity.name",
+      "specialreq": "character.class.deity.name",
       "specialreqdesc": "you follow a deity",
       "subTypes": true,
       "traits": [
@@ -982,7 +982,7 @@
             "value": 6
          }
       ],
-      "specialreq": "character.deity.alignment.indexOf('Chaotic') > -1",
+      "specialreq": "character.class.deity.alignment.indexOf('Chaotic') > -1",
       "specialreqdesc": "you follow a chaotic deity",
       "subType": "Chaos",
       "superType": "Battle Prayer",
@@ -1006,7 +1006,7 @@
             "value": 6
          }
       ],
-      "specialreq": "character.deity.alignment.indexOf('Evil') > -1",
+      "specialreq": "character.class.deity.alignment.indexOf('Evil') > -1",
       "specialreqdesc": "you follow an evil deity",
       "subType": "Evil",
       "superType": "Battle Prayer",
@@ -1030,7 +1030,7 @@
             "value": 6
          }
       ],
-      "specialreq": "character.deity.alignment.indexOf('Good') > -1",
+      "specialreq": "character.class.deity.alignment.indexOf('Good') > -1",
       "specialreqdesc": "you follow a good deity",
       "subType": "Good",
       "superType": "Battle Prayer",
@@ -1054,7 +1054,7 @@
             "value": 6
          }
       ],
-      "specialreq": "character.deity.alignment.indexOf('Lawful') > -1",
+      "specialreq": "character.class.deity.alignment.indexOf('Lawful') > -1",
       "specialreqdesc": "you follow a lawful deity",
       "subType": "Lawful",
       "superType": "Battle Prayer",
@@ -1097,7 +1097,7 @@
             "value": 6
          }
       ],
-      "specialreq": "character.deity.divineFontFilter.indexOf('Heal') > -1",
+      "specialreq": "character.class.deity.divineFontFilter.indexOf('Heal') > -1",
       "specialreqdesc": "deity who grants heal divine font",
       "traits": [
          "General",
@@ -1119,7 +1119,7 @@
             "value": 6
          }
       ],
-      "specialreq": "character.deity.divineFontFilter.indexOf('Harm') > -1",
+      "specialreq": "character.class.deity.divineFontFilter.indexOf('Harm') > -1",
       "specialreqdesc": "deity who grants harm divine font",
       "traits": [
          "General",
@@ -1616,7 +1616,7 @@
             "value": 6
          }
       ],
-      "specialreq": "character.deity.domains.indexOf('Cold') > -1 || character.deity.domains.indexOf('Fire') > -1 || character.deity.domains.indexOf('Nature') > -1 || character.deity.domains.indexOf('Travel') > -1",
+      "specialreq": "character.class.deity.domains.indexOf('Cold') > -1 || character.class.deity.domains.indexOf('Fire') > -1 || character.class.deity.domains.indexOf('Nature') > -1 || character.class.deity.domains.indexOf('Travel') > -1",
       "specialreqdesc": "deity who grants the cold, fire, nature, or travel domain",
       "traits": [
          "General",
@@ -1903,7 +1903,7 @@
       "showon": "Medicine",
       "featreq": "Battle Medicine",
       "levelreq": 2,
-      "specialreq": "!character.deity.name",
+      "specialreq": "!character.class.deity.name",
       "specialreqdesc": "you can't have a patron deity",
       "traits": [
          "General",
@@ -3034,7 +3034,7 @@
             "value": 6
          }
       ],
-      "specialreq": "character.deity.name",
+      "specialreq": "character.class.deity.name",
       "specialreqdesc": "you follow a deity",
       "traits": [
          "Divine",
@@ -3056,7 +3056,7 @@
             "value": 6
          }
       ],
-      "specialreq": "character.deity.alignment.indexOf('Good') != character.deity.alignment.indexOf('Evil')",
+      "specialreq": "character.class.deity.alignment.indexOf('Good') != character.class.deity.alignment.indexOf('Evil')",
       "specialreqdesc": "good or evil deity",
       "traits": [
          "General",
@@ -4695,7 +4695,7 @@
                   "className": "Monk",
                   "level": -1,
                   "locked": true,
-                  "name": "ki rush",
+                  "name": "Ki Rush",
                   "source": "Feat: Ki Rush",
                   "sourceId": "1-Spell-Feat: Ki Rush-0",
                   "tradition": "Focus"
@@ -4749,7 +4749,7 @@
                   "className": "Monk",
                   "level": -1,
                   "locked": true,
-                  "name": "ki strike",
+                  "name": "Ki Strike",
                   "source": "Feat: Ki Strike",
                   "sourceId": "1-Spell-Feat: Ki Strike-0",
                   "tradition": "Focus"
@@ -4964,7 +4964,7 @@
       "desc": "The power of your faith suffuses your ki. When you select this feat, choose chaos, evil, good, or law. Your choice must match one of your deity’s alignment components.\\n\\nWhen you cast the ki strike focus spell and damage a creature whose alignment is opposite your chosen alignment, you can choose for the ki strike damage to be of the chosen type. Additionally, you can substitute the damage from ki blast (or other ki spells that deal force damage, at the GM’s discretion) with damage of your chosen alignment.",
       "featreq": "Ki Strike",
       "levelreq": 4,
-      "specialreq": "character.deity.name",
+      "specialreq": "character.class.deity.name",
       "specialreqdesc": "you follow a deity",
       "subTypes": true,
       "traits": [
@@ -4978,7 +4978,7 @@
       "showon": "Ki Strike, Ki Blast",
       "featreq": "Ki Strike",
       "levelreq": 4,
-      "specialreq": "character.deity.alignment.indexOf('Chaotic') > -1",
+      "specialreq": "character.class.deity.alignment.indexOf('Chaotic') > -1",
       "specialreqdesc": "you follow a chaotic deity",
       "subType": "Chaos",
       "superType": "Sacred Ki",
@@ -4993,7 +4993,7 @@
       "showon": "Ki Strike, Ki Blast",
       "featreq": "Ki Strike",
       "levelreq": 4,
-      "specialreq": "character.deity.alignment.indexOf('Evil') > -1",
+      "specialreq": "character.class.deity.alignment.indexOf('Evil') > -1",
       "specialreqdesc": "you follow an evil deity",
       "subType": "Evil",
       "superType": "Sacred Ki",
@@ -5008,7 +5008,7 @@
       "showon": "Ki Strike, Ki Blast",
       "featreq": "Ki Strike",
       "levelreq": 4,
-      "specialreq": "character.deity.alignment.indexOf('Good') > -1",
+      "specialreq": "character.class.deity.alignment.indexOf('Good') > -1",
       "specialreqdesc": "you follow a good deity",
       "subType": "Good",
       "superType": "Sacred Ki",
@@ -5023,7 +5023,7 @@
       "showon": "Ki Strike, Ki Blast",
       "featreq": "Ki Strike",
       "levelreq": 4,
-      "specialreq": "character.deity.alignment.indexOf('Lawful') > -1",
+      "specialreq": "character.class.deity.alignment.indexOf('Lawful') > -1",
       "specialreqdesc": "you follow a lawful deity",
       "subType": "Law",
       "superType": "Sacred Ki",
@@ -5054,13 +5054,13 @@
             "className": "Monk",
             "level": -1,
             "id": "4-Spell-Feat: Wholeness of Body-0",
-            "source": "Feat: Ki Strike",
+            "source": "Feat: Wholeness of Body",
             "spells": [
                {
                   "className": "Monk",
                   "level": -1,
                   "locked": true,
-                  "name": "wholeness of body",
+                  "name": "Wholeness of Body",
                   "source": "Feat: Wholeness of Body",
                   "sourceId": "4-Spell-Feat: Wholeness of Body-0",
                   "tradition": "Focus"
@@ -5104,7 +5104,7 @@
                   "className": "Monk",
                   "level": -1,
                   "locked": true,
-                  "name": "abundant step",
+                  "name": "Abundant Step",
                   "source": "Feat: Abundant Step",
                   "sourceId": "6-Spell-Feat: Abundant Step-0",
                   "tradition": "Focus"
@@ -5171,13 +5171,13 @@
             "className": "Monk",
             "level": -1,
             "id": "6-Spell-Feat: Ki Blast-0",
-            "source": "Feat: Abundant Step",
+            "source": "Feat: Ki Blast",
             "spells": [
                {
                   "className": "Monk",
                   "level": -1,
                   "locked": true,
-                  "name": "ki blast",
+                  "name": "Ki Blast",
                   "source": "Feat: Ki Blast",
                   "sourceId": "6-Spell-Feat: Ki Blast-0",
                   "tradition": "Focus"
@@ -5354,7 +5354,7 @@
                   "className": "Monk",
                   "level": -1,
                   "locked": true,
-                  "name": "wild winds stance",
+                  "name": "Wild Winds Stance",
                   "source": "Feat: Wild Winds Initiate",
                   "sourceId": "8-Spell-Feat: Wild Winds Initiate-0",
                   "tradition": "Focus"
@@ -5424,7 +5424,7 @@
                   "className": "Monk",
                   "level": -1,
                   "locked": true,
-                  "name": "wind jump",
+                  "name": "Wind Jump",
                   "source": "Feat: Wind Jump",
                   "sourceId": "10-Spell-Feat: Wind Jump-0",
                   "tradition": "Focus"
@@ -5654,7 +5654,7 @@
                   "className": "Monk",
                   "level": -1,
                   "locked": true,
-                  "name": "quivering palm",
+                  "name": "Quivering Palm",
                   "source": "Feat: Quivering Palm",
                   "sourceId": "16-Spell-Feat: Quivering Palm-0",
                   "tradition": "Focus"
@@ -5738,7 +5738,7 @@
                   "className": "Monk",
                   "level": -1,
                   "locked": true,
-                  "name": "empty body",
+                  "name": "Empty Body",
                   "source": "Feat: Empty Body",
                   "sourceId": "18-Spell-Feat: Empty Body-0",
                   "tradition": "Focus"
@@ -5971,6 +5971,28 @@
             "level": 0,
             "spells": [],
             "tradition": "Sorcerer"
+         }
+      ],
+      "gainTraditionChoice": [
+         {
+            "ability": "Charisma",
+            "id": "0-Tradition-Ki Spells-0",
+            "maxRank": 2,
+            "source": "Sorcerer Spellcasting"
+         }
+      ],
+      "gainSkillChoice": [
+         {
+            "increases": [],
+            "maxRank": 2,
+            "source": "Sorcerer Spellcasting",
+            "type": "Skill"
+         },
+         {
+            "increases": [],
+            "maxRank": 2,
+            "source": "Sorcerer Spellcasting",
+            "type": "Skill"
          }
       ],
       "traits": [

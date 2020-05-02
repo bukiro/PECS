@@ -1,6 +1,6 @@
 [
     {
-        "name": "ki rush",
+        "name": "Ki Rush",
         "traditions": [
             "Focus"
         ],
@@ -24,7 +24,7 @@
         ]
     },
     {
-        "name": "ki strike",
+        "name": "Ki Strike",
         "traditions": [
             "Focus"
         ],
@@ -64,7 +64,7 @@
         ]
     },
     {
-        "name": "wholeness of body",
+        "name": "Wholeness of Body",
         "traditions": [
             "Focus"
         ],
@@ -143,7 +143,7 @@
         ]
     },
     {
-        "name": "abundant step",
+        "name": "Abundant Step",
         "traditions": [
             "Focus"
         ],
@@ -161,7 +161,7 @@
         "desc": "You move so fast you blur across planar boundaries. You teleport up to a distance equal to your Speed within your line of sight."
     },
     {
-        "name": "ki blast",
+        "name": "Ki Blast",
         "traditions": [
             "Focus"
         ],
@@ -302,7 +302,7 @@
         ]
     },
     {
-        "name": "quivering palm",
+        "name": "Quivering Palm",
         "traditions": [
             "Focus"
         ],
@@ -361,7 +361,7 @@
         ]
     },
     {
-        "name": "wild winds stance",
+        "name": "Wild Winds Stance",
         "traditions": [
             "Focus"
         ],
@@ -395,7 +395,7 @@
         "sustained": true
     },
     {
-        "name": "wind jump",
+        "name": "Wind Jump",
         "traditions": [
             "Focus"
         ],
@@ -439,7 +439,7 @@
         ]
     },
     {
-        "name": "empty body",
+        "name": "Empty Body",
         "traditions": [
             "Focus"
         ],
@@ -465,7 +465,7 @@
         ]
     },
     {
-        "name": "knock",
+        "name": "Knock",
         "traditions": [
             "Arcane",
             "Occult"
@@ -483,7 +483,7 @@
         "desc": "You make the target easier to open. Knock grants a +4 status bonus to any creature that tries to open the target door, lock, or container with an Athletics or a Thievery check. You can attempt a Thievery check to open the target as part of casting knock, and you add your level even if you're untrained.\n\nKnock counteracts lock."
     },
     {
-        "name": "create food",
+        "name": "Create Food",
         "traditions": [
             "Arcane",
             "Divine",
@@ -537,7 +537,7 @@
         ]
     },
     {
-        "name": "feather fall",
+        "name": "Feather Fall",
         "traditions": [
             "Arcane",
             "Primal"
@@ -563,7 +563,7 @@
         ]
     },
     {
-        "name": "produce flame",
+        "name": "Produce Flame",
         "traditions": [
             "Arcane",
             "Primal"
@@ -689,7 +689,7 @@
         ]
     },
     {
-        "name": "electric arc",
+        "name": "Electric Arc",
         "traditions": [
             "Arcane",
             "Primal"
@@ -771,6 +771,264 @@
             {
                 "level": "(+1)",
                 "desc": "Increase the damage by 1d4 and the persistent damage on a critical hit by 1d4."
+            }
+        ]
+    },
+    {
+        "name": "Shocking Grasp",
+        "traditions": [
+            "Arcane",
+            "Primal"
+        ],
+        "traits": [
+            "Attack",
+            "Electricity",
+            "Evocation"
+        ],
+        "levelreq": 1,
+        "actions": "2",
+        "castType": "somatic, verbal",
+        "range": "touch",
+        "targets": "1 creature",
+        "shortDesc": "Zap a creature with electricity.",
+        "desc": "You shroud your hands in a crackling field of lightning. Make a melee spell attack roll. On a hit, the target takes <var>var1</var> electricity damage. If the target is wearing metal armor or is made of metal, you gain a +1 circumstance bonus to your attack roll with shocking grasp, and the target also takes <var>var2</var> persistent electricity damage on a hit. On a critical hit, double the initial damage, but not the persistent damage.",
+        "desc1": [
+            {
+                "variable": "var1",
+                "value": "2d12"
+            },
+            {
+                "variable": "var2",
+                "value": "1d4"
+            }
+        ],
+        "desc2": [
+            {
+                "variable": "var1",
+                "value": "3d12"
+            },
+            {
+                "variable": "var2",
+                "value": "1d4+1"
+            }
+        ],
+        "desc3": [
+            {
+                "variable": "var1",
+                "value": "4d12"
+            },
+            {
+                "variable": "var2",
+                "value": "1d4+2"
+            }
+        ],
+        "desc4": [
+            {
+                "variable": "var1",
+                "value": "5d12"
+            },
+            {
+                "variable": "var2",
+                "value": "1d4+3"
+            }
+        ],
+        "desc5": [
+            {
+                "variable": "var1",
+                "value": "6d12"
+            },
+            {
+                "variable": "var2",
+                "value": "1d4+4"
+            }
+        ],
+        "desc6": [
+            {
+                "variable": "var1",
+                "value": "7d12"
+            },
+            {
+                "variable": "var2",
+                "value": "1d4+5"
+            }
+        ],
+        "desc7": [
+            {
+                "variable": "var1",
+                "value": "8d12"
+            },
+            {
+                "variable": "var2",
+                "value": "1d4+6"
+            }
+        ],
+        "desc8": [
+            {
+                "variable": "var1",
+                "value": "9d12"
+            },
+            {
+                "variable": "var2",
+                "value": "1d4+7"
+            }
+        ],
+        "desc9": [
+            {
+                "variable": "var1",
+                "value": "10d12"
+            },
+            {
+                "variable": "var2",
+                "value": "1d4+8"
+            }
+        ],
+        "desc10": [
+            {
+                "variable": "var1",
+                "value": "10d12"
+            },
+            {
+                "variable": "var2",
+                "value": "1d4+9"
+            }
+        ],
+        "heightened": [
+            {
+                "level": "(+1)",
+                "desc": "The damage increases by 1d12, and the persistent electricity damage increases by 1."
+            }
+        ]
+    },
+    {
+        "name": "Speak with Animals",
+        "traditions": [
+            "Arcane",
+            "Primal"
+        ],
+        "traits": [
+            "Divination"
+        ],
+        "levelreq": 2,
+        "actions": "2",
+        "castType": "somatic, verbal",
+        "duration": "10 minutes",
+        "target": "self",
+        "shortDesc": "Communicate with animals.",
+        "desc": "You can ask questions of, receive answers from, and use the Diplomacy skill with animals. The spell doesn't make them more friendly than normal. Cunning animals are likely to be terse and evasive, while less intelligent ones often make inane comments.",
+        "gainConditions":[
+            {
+                "name": "Speak with Animals",
+                "source": "Speak with Animals",
+                "duration": 1000
+            }
+        ]
+    },
+    {
+        "name": "Searing Light",
+        "traditions": [
+            "Divine",
+            "Primal"
+        ],
+        "traits": [
+            "Attack",
+            "Evocation",
+            "Fire",
+            "Good",
+            "Light"
+        ],
+        "levelreq": 3,
+        "actions": "2",
+        "castType": "somatic, verbal",
+        "range": "120 feet",
+        "targets": "1 creature",
+        "shortDesc": "A ray of burning light deals extra damage to undead and counteracts darkness.",
+        "desc": "You shoot a blazing ray of light tinged with holy energy. Make a ranged spell attack. The ray deals <var>var1</var> fire damage. If the target is a fiend or undead, you deal an extra <var>var2</var> good damage.\n\nIf the light passes through an area of magical darkness or targets a creature affected by magical darkness, searing light attempts to counteract the darkness. If you need to determine whether the light passes through an area of darkness, draw a line between yourself and the spell's target.",
+        "critsuccess": "The target takes double fire damage, as well as double good damage if a fiend or undead.",
+        "success": "The target takes full damage.",
+        "desc3": [
+            {
+                "variable": "var1",
+                "value": "5d6"
+            },
+            {
+                "variable": "var2",
+                "value": "5d6"
+            }
+        ],
+        "desc4": [
+            {
+                "variable": "var1",
+                "value": "7d6"
+            },
+            {
+                "variable": "var2",
+                "value": "7d6"
+            }
+        ],
+        "desc5": [
+            {
+                "variable": "var1",
+                "value": "9d6"
+            },
+            {
+                "variable": "var2",
+                "value": "9d6"
+            }
+        ],
+        "desc6": [
+            {
+                "variable": "var1",
+                "value": "11d6"
+            },
+            {
+                "variable": "var2",
+                "value": "11d6"
+            }
+        ],
+        "desc7": [
+            {
+                "variable": "var1",
+                "value": "13d6"
+            },
+            {
+                "variable": "var2",
+                "value": "13d6"
+            }
+        ],
+        "desc8": [
+            {
+                "variable": "var1",
+                "value": "15d6"
+            },
+            {
+                "variable": "var2",
+                "value": "15d6"
+            }
+        ],
+        "desc9": [
+            {
+                "variable": "var1",
+                "value": "17d6"
+            },
+            {
+                "variable": "var2",
+                "value": "17d6"
+            }
+        ],
+        "desc10": [
+            {
+                "variable": "var1",
+                "value": "19d6"
+            },
+            {
+                "variable": "var2",
+                "value": "19d6"
+            }
+        ],
+        "heightened": [
+            {
+                "level": "(+1)",
+                "desc": "The fire damage increases by 2d6, and the good damage against fiends and undead increases by 2d6."
             }
         ]
     }

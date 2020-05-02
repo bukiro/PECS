@@ -3,6 +3,12 @@
     <button class="list-item" (click)="toggleSpellMenu()">Close</button>
     <div class="loading" *ngIf="still_loading()">Loading</div>
     <ng-container *ngIf="!still_loading() && get_Character().class">
+        <div class="list-item">
+            <span>
+                <input type="checkbox" [(ngModel)]="allowHeightened">
+                Allow heightened spells
+            </span>
+        </div>
         <ng-container *ngFor="let level of [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10]">
             <ng-container *ngIf="level <= get_MaxSpellLevel()">
                 <h3>{{level == 0 ? "Cantrips" : "Level "+level}}</h3>
@@ -28,7 +34,7 @@
                         
                             [className]="(choice.available == choice.spells.length) ? 'fancy-button' : ''"
                             (click)="toggle_List(choice.source+choice.id)">
-                            {{choice.tradition}} Spells
+                            {{choice.signature ? "Signature" : ""}} {{get_Tradition(choice)}} {{choice.className}} Spells
                             ({{choice.source}}){{(choice.available > 1) ?
                                 ": "+ choice.spells.length +"/"+ choice.available : 
                                 (choice.spells.length) ? ": "+ choice.spells[0].name : ""}}

@@ -380,20 +380,21 @@ export class Character extends Creature {
         }
         this.set_Changed(characterService);
     }
-    get_SpellsTaken(minLevelNumber: number, maxLevelNumber: number, spellLevel: number = -1, spellName: string = "", className: string = "", tradition: string = "", source: string = "", sourceId: string = "", locked: boolean = undefined) {
+    get_SpellsTaken(characterService: CharacterService, minLevelNumber: number, maxLevelNumber: number, spellLevel: number = -1, spellName: string = "", className: string = "", tradition: string = "", source: string = "", sourceId: string = "", locked: boolean = undefined, signatureAllowed: boolean = false) {
         if (this.class) {
             let spellsTaken = [];
             let levels = this.class.levels.filter(level => level.number >= minLevelNumber && level.number <= maxLevelNumber );
             levels.forEach(level => {
                 level.spellChoices.forEach(choice => {
-                    if (choice.level == spellLevel || spellLevel == -1) {
+                    if (choice.level == spellLevel || spellLevel == -1 || (signatureAllowed && choice.signature && spellLevel != 0 && spellLevel != -1)) {
                         choice.spells.filter(gain => 
                             (gain.name == spellName || spellName == "") &&
                             (gain.className == className || className == "") &&
                             (gain.tradition == tradition || tradition == "") &&
                             (gain.source == source || source == "") &&
                             (gain.sourceId == sourceId || sourceId == "") &&
-                            (gain.locked == locked || locked == undefined)
+                            (gain.locked == locked || locked == undefined) &&
+                            ((signatureAllowed && gain.signature) ? (spellLevel >= characterService.spellsService.get_Spells(gain.name)[0].levelreq) : true)
                             ).forEach(gain => {
                             spellsTaken.push(gain);
                         })
@@ -405,7 +406,7 @@ export class Character extends Creature {
     }
     take_Spell(characterService: CharacterService, spellName: string, taken: boolean, choice: SpellChoice, locked: boolean) {
         if (taken) {
-            choice.spells.push(Object.assign(new SpellGain(), {"name":spellName, "level":choice.level, "source":choice.source, "className":choice.className, "tradition":choice.tradition, "locked":locked, "sourceId":choice.id}));
+            choice.spells.push(Object.assign(new SpellGain(), {"name":spellName, "level":choice.level, "source":choice.source, "className":choice.className, "tradition":choice.tradition, "signature":choice.signature, "locked":locked, "sourceId":choice.id}));
         } else {
             let a = choice.spells;
             a.splice(a.indexOf(a.filter(gain => 

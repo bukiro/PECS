@@ -114,7 +114,7 @@ export class Spell {
     have(characterService: CharacterService, spellLevel = this.levelreq) {
         if (characterService.still_loading()) { return false }
         let character = characterService.get_Character();
-        let spellsTaken = character.get_SpellsTaken(1, 20, spellLevel, this.name)
+        let spellsTaken = character.get_SpellsTaken(characterService, 1, 20, spellLevel, this.name)
         return spellsTaken.length;
     }
     can_Cast(characterService: CharacterService, gain: SpellGain) {

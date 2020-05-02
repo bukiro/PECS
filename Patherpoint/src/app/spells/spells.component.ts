@@ -16,6 +16,7 @@ export class SpellsComponent implements OnInit {
 
     private showItem: string = "";
     private showList: string = "";
+    public allowHeightened: boolean = false;
 
     constructor(
         private changeDetector:ChangeDetectorRef,
@@ -87,6 +88,16 @@ export class SpellsComponent implements OnInit {
                 .map(level => level.spellChoices.filter(choice => choice.level == levelNumber)))
     }
 
+    get_Tradition(choice: SpellChoice) {
+        let character = this.get_Character()
+        switch (choice.tradition) {
+            case "Sorcerer":
+                return character.class.bloodline.spellList;
+            default:
+                return choice.tradition;
+        }
+    }
+
     get_AvailableSpells(choice: SpellChoice) {
         let character = this.get_Character()
         let allSpells = this.spellsService.get_Spells();
@@ -109,9 +120,12 @@ export class SpellsComponent implements OnInit {
         }
         if (spells.length) {
             if (choice.level == 0) {
-                spells = spells.filter(spell => spell.traits.indexOf("Cantrip") > -1);
+                spells = spells.filter(spell => spell.traits.indexOf("Cantrip") > -1 || this.spellTakenByThis(spell, choice));
             } else {
-                spells = spells.filter(spell => spell.traits.indexOf("Cantrip") == -1);
+                spells = spells.filter(spell => spell.traits.indexOf("Cantrip") == -1 || this.spellTakenByThis(spell, choice));
+            }
+            if (!this.allowHeightened && choice.level > 0) {
+                spells = spells.filter(spell => spell.levelreq == choice.level || this.spellTakenByThis(spell, choice));
             }
             if (choice.spells.length < choice.available) {
                 let availableSpells: Spell[] = spells.filter(spell => 
@@ -165,7 +179,7 @@ export class SpellsComponent implements OnInit {
     }
 
     get_SpellsTaken(minLevelNumber: number, maxLevelNumber: number, spellLevel: number, spellName: string, source: string = "", sourceId: string = "", locked: boolean = undefined) {
-        return this.get_Character().get_SpellsTaken(minLevelNumber, maxLevelNumber, spellLevel, spellName, "", "", source, sourceId, locked);
+        return this.get_Character().get_SpellsTaken(this.characterService, minLevelNumber, maxLevelNumber, spellLevel, spellName, "", "", source, sourceId, locked);
     }
 
     on_SpellTaken(spellName: string, taken: boolean, choice: SpellChoice, locked: boolean) {
