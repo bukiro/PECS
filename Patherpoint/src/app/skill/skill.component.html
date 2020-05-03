@@ -14,8 +14,8 @@
     </div>
         <app-tags [creature]="creature" [objectName]=skill.name [showTraits]=true [showFeats]=true [showItems]=true [showActivities]=true
         [showConditions]=true [showEffects]=true [specialNames]=get_specialShowon(skill)></app-tags>
-    <div class="fullsize-only row">
-        <span><input type="checkbox" [(ngModel)]="skill.showNotes">Notes</span>
+    <div class="fullsize-only row" *ngFor="let id of [get_LabelID()]">
+        <span><input id="{{id+'notes'}}" class="invisible" type="checkbox" [(ngModel)]="skill.showNotes"><label for="{{id+'notes'}}">Notes</label></span>
     </div>
     <div class="fullsize-only row">
         <input type="textarea" class="fullwidth" [(ngModel)]="skill.notes" *ngIf="skill.showNotes">

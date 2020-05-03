@@ -27,7 +27,7 @@ export class Feat {
     public levelreq: number = 0;
     public abilityreq: any[] = [];
     public skillreq: any[] = [];
-    public featreq: string = "";
+    public featreq: string[] = [];
     public specialreqdesc: string = "";
     public specialreq: string = "";
     public access: string = "";
@@ -40,10 +40,9 @@ export class Feat {
     public gainSpellChoice: SpellChoice[] = [];
     public gainTraditionChoice: TraditionChoice[] = [];
     public gainFormulaChoice: FormulaChoice[] = [];
-    public gainAnimalCompanion: boolean = false;
+    public gainAnimalCompanion: number = 0;
     public gainBloodline: boolean = false;
     public archetype: string = "";
-    public growAnimalCompanion: number = 0;
     public gainActivities: string[] = [];
     public gainConditions: ConditionGain[] = [];
     public critSpecialization: string = "";
@@ -132,20 +131,22 @@ export class Feat {
         //If the feat has a levelreq, check if the level beats that.
         //Returns [requirement met, requirement description]
         let character = characterService.get_Character();
-        let result: {met:boolean, desc:string};
-        if (this.featreq) {
-            let requiredFeat: Feat[] = characterService.get_FeatsAndFeatures(this.featreq);
-            if (requiredFeat.length > 0) {
-                if (requiredFeat[0].have(character, characterService, charLevel)) {
-                    result = {met:true, desc:this.featreq};
+        let result: Array<{met?:boolean, desc?:string}> = [];
+        if (this.featreq.length) {
+            this.featreq.forEach(featreq => {
+                let requiredFeat: Feat[] = characterService.get_FeatsAndFeatures(featreq);
+                if (requiredFeat.length > 0) {
+                    if (requiredFeat[0].have(character, characterService, charLevel)) {
+                        result.push({met:true, desc:featreq});
+                    } else {
+                        result.push({met:false, desc:featreq});
+                    }
                 } else {
-                    result = {met:false, desc:this.featreq};
+                    result.push({met:false, desc:featreq});
                 }
-            } else {
-                result = {met:false, desc:""};
-            }
+            })
         } else {
-            result = {met:true, desc:""};
+            result.push({met:true, desc:""});
         }
         return result;
     }
@@ -181,7 +182,8 @@ export class Feat {
         //Check the skill reqs. True if ANY is true.
         let skillreqs = this.meetsSkillReq(characterService, charLevel)
         let skillreq: boolean = skillreqs.filter(req => req.met == true).length > 0;
-        let featreq: boolean = this.meetsFeatReq(characterService, charLevel).met;
+        let featreqs = this.meetsFeatReq(characterService, charLevel);
+        let featreq: boolean = featreqs.filter(req => req.met == true).length > 0;
         let specialreq: boolean = this.meetsSpecialReq(characterService, charLevel).met;
         //Return true if all are true
         return levelreq && abilityreq && skillreq && featreq && specialreq;

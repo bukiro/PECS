@@ -5,8 +5,7 @@ import { TraitsService } from '../traits.service';
 import { AbilitiesService } from '../abilities.service';
 import { EffectsService } from '../effects.service';
 import { Skill } from '../Skill';
-import { Character } from '../Character';
-import { AnimalCompanion } from '../AnimalCompanion';
+import { v1 as uuidv1 } from 'uuid';
 
 @Component({
     selector: 'app-skill',
@@ -44,6 +43,10 @@ export class SkillComponent implements OnInit {
     
     get_Creature() {
         return this.characterService.get_Creature(this.creature);
+    }
+
+    get_LabelID() {
+        return uuidv1();
     }
 
     get_specialShowon(skill: Skill) {

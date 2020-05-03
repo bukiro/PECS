@@ -1,7 +1,7 @@
 <div class="row">
     <div class="row left-aligned" *ngIf="spell.traits.length">
         <cite class="trait" *ngFor="let trait of spell.traits"
-            title="{{get_Traits(trait)[0].description}}">&nbsp;{{trait}}</cite>
+            title="{{get_Traits(trait)[0].description}}">{{trait}}</cite>
     </div>
     <div class="row left-aligned"  *ngIf="spell.traditions">
         <span>

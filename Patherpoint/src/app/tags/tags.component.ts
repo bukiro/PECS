@@ -55,6 +55,8 @@ export class TagsComponent implements OnInit {
     get_FeatsShowingOn(name: string, show: boolean ) {
         if (show && name && this.creature == "Character") {
             return this.characterService.get_FeatsShowingOn(name);
+        } else if (show && name && this.creature == "Companion") {
+            return this.characterService.get_CompanionShowingOn(name);
         } else {
             return [];
         }

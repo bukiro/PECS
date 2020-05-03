@@ -10,7 +10,6 @@ export class Ability {
     ) {}
     baseValue(creature: Character|AnimalCompanion, characterService, charLevel: number = creature.level) {
         if (characterService.still_loading()) { return 10; }
-        let character = creature;
         //Get baseValues from the character if they exist, otherwise 10
         let baseValue = 10;
         if (creature.type == "Character" && (creature as Character).baseValues) {
@@ -21,9 +20,10 @@ export class Ability {
         }
         baseValue = (baseValue) ? baseValue : 10;
         //Get any boosts from the character and sum them up
-        //Boosts are +2 until 18, then +1
+        //Boosts are +2 until 18, then +1 for Character
+        //Boosts are always +2 for Companion
         //Flaws are always -2
-        let boosts = creature.get_AbilityBoosts(0, charLevel, this.name);
+        let boosts = creature.get_AbilityBoosts(0, characterService.get_Character().level, this.name);
         if (boosts) {
             boosts.forEach(boost => {
                 if (boost.type == "Boost") {

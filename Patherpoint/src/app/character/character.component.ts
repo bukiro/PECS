@@ -34,6 +34,7 @@ import { AnimalCompanionClass } from '../AnimalCompanionClass';
 import { ConditionsService } from '../Conditions.service';
 import { BloodlinesService } from '../bloodlines.service';
 import { Bloodline } from '../Bloodline';
+import { AnimalCompanionSpecialization } from '../AnimalCompanionSpecialization';
 
 @Component({
     selector: 'app-character',
@@ -791,12 +792,12 @@ export class CharacterComponent implements OnInit {
                         result.push(req);
                     })
                 }
-
-                if (feat.featreq && feat.featreq != compare.featreq) {
-                    result.push({met:true, desc:", "});
-                    result.push(feat.meetsFeatReq(this.characterService, featLevel));
+                if (JSON.stringify(feat.featreq) != JSON.stringify(compare.featreq)) {
+                    feat.meetsFeatReq(this.characterService, featLevel).forEach(req => {
+                        result.push({met:true, desc:", "});
+                        result.push(req);
+                    })
                 }
-                
                 if (feat.specialreqdesc && feat.specialreqdesc != compare.specialreqdesc) {
                     result.push({met:true, desc:", "});                    
                     result.push(feat.meetsSpecialReq(this.characterService, featLevel));
@@ -818,9 +819,11 @@ export class CharacterComponent implements OnInit {
                     result.push(req);
                 })
             }
-            if (feat.featreq) {
-                result.push({met:true, desc:", "});
-                result.push(feat.meetsFeatReq(this.characterService, featLevel));
+            if (feat.featreq.length) {
+                feat.meetsFeatReq(this.characterService, featLevel).forEach(req => {
+                    result.push({met:true, desc:", "});
+                    result.push(req);
+                })
             }
             if (feat.specialreqdesc) {
                 result.push({met:true, desc:", "});
@@ -955,7 +958,7 @@ export class CharacterComponent implements OnInit {
 
     get_AnimalCompanionAvailable(levelNumber: number) {
         //Return the number of feats taken this level that granted you an animal companion
-        return this.get_Character().get_FeatsTaken(levelNumber, levelNumber).filter(gain => this.characterService.get_FeatsAndFeatures(gain.name)[0].gainAnimalCompanion).length
+        return this.get_Character().get_FeatsTaken(levelNumber, levelNumber).filter(gain => this.characterService.get_FeatsAndFeatures(gain.name)[0].gainAnimalCompanion == 1).length
     }
 
     get_Companion() {
@@ -973,23 +976,61 @@ export class CharacterComponent implements OnInit {
         }
     }
 
-    get_CompanionTypes() {
-        return this.animalCompanionsService.get_CompanionTypes();
+    get_AvailableCompanionTypes() {
+        let existingCompanionName: string = this.get_Companion().class.ancestry.name;
+        return this.animalCompanionsService.get_CompanionTypes().filter(type => type.name == existingCompanionName || !existingCompanionName);
     }
 
     on_TypeChange(type: AnimalCompanionAncestry, taken: boolean) {
         if (taken) {
             this.showList="";
             this.get_Companion().class.on_ChangeAncestry(this.characterService);
-            this.animalCompanionsService.change_Type(this.characterService, this.get_Companion(), type);
+            this.animalCompanionsService.change_Type(this.get_Companion(), type);
             this.get_Companion().class.on_NewAncestry(this.characterService, this.itemsService);
             this.set_Changed();
         } else {
             this.get_Companion().class.on_ChangeAncestry(this.characterService);
-            this.animalCompanionsService.change_Type(this.characterService, this.get_Companion(), new AnimalCompanionAncestry());
+            this.animalCompanionsService.change_Type(this.get_Companion(), new AnimalCompanionAncestry());
             this.set_Changed();
         }
     }
+
+    on_SpecializationChange(spec: AnimalCompanionSpecialization, taken: boolean, levelNumber: number) {
+        if (taken) {
+            if (this.get_Companion().class.specializations.filter(spec => spec.level == levelNumber).length == this.get_CompanionSpecializationsAvailable(levelNumber) - 1) {
+                this.showList="";
+            }
+            this.animalCompanionsService.add_Specialization(this.get_Companion(), spec, levelNumber);
+            this.set_Changed();
+        } else {
+            this.animalCompanionsService.remove_Specialization(this.get_Companion(), spec);
+            this.set_Changed();
+        }
+    }
+
+    get_CompanionSpecializationsAvailable(levelNumber: number) {
+        //Return the number of feats taken this level that granted you an animal companion specialization
+        return this.get_Character().get_FeatsTaken(levelNumber, levelNumber).filter(gain => this.characterService.get_FeatsAndFeatures(gain.name)[0].gainAnimalCompanion == 6).length
+    }
+
+    get_AvailableCompanionSpecializations(levelNumber: number) {
+        let existingCompanionSpecs: AnimalCompanionSpecialization[] = this.get_Companion().class.specializations;
+        let available = this.get_CompanionSpecializationsAvailable(levelNumber);
+        //Get all specializations that were either taken on this level (so they can be deselected) or that were not yet taken if the choice is not exhausted.
+        return this.animalCompanionsService.get_CompanionSpecializations().filter(type => 
+            existingCompanionSpecs.find(spec => spec.name == type.name && spec.level == levelNumber) ||
+            (existingCompanionSpecs.filter(spec => spec.level == levelNumber).length < available) && 
+            !existingCompanionSpecs.find(spec => spec.name == type.name));
+    }
+
+    get_TakenCompanionSpecializations(levelNumber: number) {
+        return this.get_Companion().class.specializations.filter(spec => spec.level == levelNumber);
+    }
+
+    have_CompanionSpecialization(name: string) {
+        return this.get_Companion().class.specializations.filter(spec => spec.name == name).length;
+    }
+
 
     get_ItemFromGain(gain: ItemGain) {
         return this.characterService.get_Items()[gain.type].filter(item => item.name == gain.name);

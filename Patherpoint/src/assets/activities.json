@@ -489,8 +489,14 @@
     {
         "name":"Bear Hug",
         "actions":"1",
-        "requirements":"The bear's last action was a successful claw Strike",
+        "requirements":"The bear's last action was a successful claw Strike.",
         "desc":"The bear makes another claw Strike against the same target. If this Strike hits, the target is also grabbed, as if the bear had successfully Grappled the target."
+    },
+    {
+        "name":"Support",
+        "actions":"1",
+        "requirements":"The creature is an animal companion.",
+        "desc":"Your animal companion supports you. You gain the benefits listed in the companion type’s Support Benefit entry. If the animal uses the Support action, the only other actions it can use on this turn are basic move actions to get into position to take advantage of the Support benefits; if it has already used any other action this turn, it can’t Support you."
     },
     {
         "name": "Orc Ferocity",

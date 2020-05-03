@@ -6,6 +6,7 @@
         "traits":["Minion"],
         "hitPoints":8,
         "speed":35,
+        "effects":[],
         "senses":["Darkvision", "Scent 30 feet (imprecise)"],
         "gainItems":[
             {"name":"Bear Jaws", "type":"weapons"},
@@ -23,15 +24,67 @@
         ],"skillChoices":[
             {
                 "increases":[
-                    { "name":"Intimidation", "source":"Class", "maxRank":2, "locked":true, "sourceId":"1-Skill-Class-0" }
+                    { "name":"Intimidation", "source":"Ancestry", "maxRank":2, "locked":true, "sourceId":"1-Skill-Ancestry-0" }
                 ],
                 "type":"Any",
                 "maxRank":2,
-                "source":"Class",
+                "source":"Ancestry",
                 "id":"1-Skill-Ancestry-0"
             }
         ],
         "activities": [
+            {
+                "name":"Support",
+                "source":"Bear",
+                "level":1
+            },
+            {
+                "name":"Bear Hug",
+                "source":"Bear",
+                "level":3
+            }
+        ],
+        "supportBenefit":"Your bear mauls your enemies when you create an opening. Until the start of your next turn, each time you hit a creature in the bear’s reach with a Strike, the creature takes 1d8 slashing damage from the bear. If your bear is nimble or savage, the slashing damage increases to 2d8."
+    },
+    {
+        "name":"Bear2",
+        "desc":"Your companion is a black, grizzly, polar, or other type of bear.",
+        "size":-1,
+        "traits":["Minion"],
+        "hitPoints":8,
+        "speed":35,
+        "effects":[],
+        "senses":["Darkvision", "Scent 30 feet (imprecise)"],
+        "gainItems":[
+            {"name":"Bear Jaws", "type":"weapons"},
+            {"name":"Bear Claw", "type":"weapons"}
+        ],
+        "abilityChoices":[
+            {
+                "boosts":[
+                    {"name":"Strength", "type":"Boost", "source":"Ancestry", "locked":true, "sourceId":"1-Ability-Ancestry-0"},
+                    {"name":"Constitution", "type":"Boost", "source":"Ancestry", "locked":true, "sourceId":"1-Ability-Ancestry-0"}
+                ],
+                "source":"Ancestry",
+                "id":"1-Ability-Ancestry-0"
+            }
+        ],"skillChoices":[
+            {
+                "increases":[
+                    { "name":"Intimidation", "source":"Ancestry", "maxRank":2, "locked":true, "sourceId":"1-Skill-Ancestry-0" }
+                ],
+                "type":"Any",
+                "maxRank":2,
+                "source":"Ancestry",
+                "id":"1-Skill-Ancestry-0"
+            }
+        ],
+        "activities": [
+            {
+                "name":"Support",
+                "source":"Bear",
+                "level":1
+            },
             {
                 "name":"Bear Hug",
                 "source":"Bear",

@@ -262,6 +262,10 @@ export class Weapon extends Equipment {
                     explain += "\n"+level.name+": Dice number +"+level.extraDice;
                 }
             })
+            if (creature.class.specializations.length) {
+                    dicenum += 1;
+                    explain += "\nSpecialized: Dice number +1";
+            }
         }
         let dicesize = this.dicesize;
         //Monks get 1d6 for Fists instead of 1d4 via Powerful Fist
@@ -369,6 +373,10 @@ export class Weapon extends Equipment {
                 if (level.extraDamage) {
                     featBonus += level.extraDamage;
                     explain += "\n"+level.name+": "+level.extraDamage;
+                    if (creature.class.specializations.length) {
+                        featBonus += level.extraDamage;
+                        explain += "\nSpecialized: "+level.extraDamage;
+                    }
                 }
             })
         }

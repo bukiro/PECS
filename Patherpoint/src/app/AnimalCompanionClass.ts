@@ -3,12 +3,13 @@ import { AnimalCompanionAncestry } from './AnimalCompanionAncestry';
 import { CharacterService } from './character.service';
 import { Equipment } from './Equipment';
 import { ItemsService } from './items.service';
+import { AnimalCompanionSpecialization } from './AnimalCompanionSpecialization';
 
 export class AnimalCompanionClass {
     public name: string = "";
     public levels: AnimalCompanionLevel[] = [];
     public ancestry: AnimalCompanionAncestry = new AnimalCompanionAncestry();
-    //public heritage: AnimalCompanionSpecialization = new AnimalCompanionSepcialization();
+    public specializations: AnimalCompanionSpecialization[] = [];
     public hitPoints: number = 6;
     reassign(characterService: CharacterService) {
         //Re-Assign levels
@@ -19,6 +20,7 @@ export class AnimalCompanionClass {
         //Re-Assign ancestry
         this.ancestry = Object.assign(new AnimalCompanionAncestry(), this.ancestry);
         this.ancestry.reassign();
+        this.specializations.forEach(spec => { spec.reassign() });
     }
     on_ChangeAncestry(characterService: CharacterService) {
         if (this.ancestry.name) {

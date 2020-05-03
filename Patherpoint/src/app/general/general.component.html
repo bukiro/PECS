@@ -72,15 +72,23 @@
             </ng-container>
         </ng-container>
         <ng-container *ngIf="creature=='Companion'">
+            <div class="row left-aligned tags" *ngIf="get_Companion().class.ancestry.name">
+                <cite class="trait" *ngFor="let trait of get_Companion().class.ancestry.traits"
+                    title="{{get_Traits(trait)[0].description}}">{{trait}}</cite>
+            </div>
+            <app-tags [creature]="'Character'" [objectName]="'Animal Companion'" [showTraits]=true [showFeats]=true [showItems]=true [showActivities]=true
+                    [showConditions]=true [showEffects]=true></app-tags>
             <div class="fullsize-only list-item">
                 <strong>Companion Name</strong>
                 {{get_Companion().name}}
-                <app-tags [creature]="'Character'" [objectName]="'Animal Companion'" [showTraits]=true [showFeats]=true [showItems]=true [showActivities]=true
-                    [showConditions]=true [showEffects]=true></app-tags>
             </div>
             <div class="fullsize-only list-item">
                 <strong>Species</strong>
                 {{get_CompanionSpecies()}}
+            </div>
+            <div class="fullsize-only list-item" *ngIf="get_Companion().class.specializations.length">
+                <strong>Specializations</strong>
+                {{get_CompanionSpecializations()}}
             </div>
             <div class="fullsize-only list-item" *ngIf="get_Companion().class.ancestry.name">
                 <strong>Size</strong>

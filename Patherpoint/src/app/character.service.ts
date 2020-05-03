@@ -908,6 +908,24 @@ export class CharacterService {
         return returnedFeats;
     }
 
+    get_CompanionShowingOn(objectName: string) {
+        let returnedObjects = []
+        //Get showon elements from Companion Ancestry and Specialization
+        this.get_Companion().class.ancestry.showon.split(",").forEach(showon => {
+            if (showon == objectName || showon.substr(1) == objectName) {
+                returnedObjects.push(this.get_Companion().class.ancestry.showon);
+            }
+        });
+        this.get_Companion().class.specializations.forEach(spec => {
+            spec.showon.split(",").forEach(showon => {
+                if (showon == objectName || showon.substr(1) == objectName) {
+                    returnedObjects.push(spec);
+                }
+            });
+        })
+        return returnedObjects;
+    }
+
     get_ConditionsShowingOn(creature: Character|AnimalCompanion, objectName: string) {
         let conditions = this.get_AppliedConditions(creature).filter(condition => condition.apply);
         if (objectName.indexOf("Lore") > -1) {

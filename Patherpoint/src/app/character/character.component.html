@@ -174,7 +174,7 @@
             </div>
         </ng-container>
         <!--Languages-->
-        <div class="list-item" *ngIf="get_LanguagesAvailable()">
+        <div class="list-item" [className]="(get_AvailableLanguages() == 0) ? 'fullsize-only' : ''" *ngIf="get_LanguagesAvailable()">
             <button class="row sublist-toggle" [className]="(get_AvailableLanguages() == 0) ? 'fancy-button' : ''"
                 (click)="toggle_List('languages')">
                 Languages
@@ -193,7 +193,7 @@
             </div>
         </div>
         <!--Available Ancestry Feats-->
-        <div class="list-item" *ngIf="get_Character().class.ancestry.name">
+        <div class="list-item fullsize-only" *ngIf="get_Character().class.ancestry.name">
             <strong>Available Ancestry Feats</strong>
             <div class="row left-aligned" *ngIf="get_Character().class.ancestry.ancestries.length">
                 <cite class="trait"
@@ -258,7 +258,8 @@
         <ng-container *ngIf="get_Character().class.name">
             <div class="list-item" [className]="(get_Character().class.deity) ? 'fullsize-only' : ''"
                 *ngFor="let listID of ['deity']">
-                <button class="row sublist-toggle" [className]="((get_Character().class.deity.name)) ? 'fancy-button' : ''"
+                <button class="row sublist-toggle"
+                    [className]="((get_Character().class.deity.name)) ? 'fancy-button' : ''"
                     (click)="toggle_List(listID)">
                     Deity{{(get_Character().class.deity.name) ? ": "+ get_Character().class.deity.name : ""}}
                 </button>
@@ -340,7 +341,7 @@
                     </div>
                 </ng-container>
                 <!--Languages - show if you have gained languages this level-->
-                <div class="list-item" *ngIf="level.number > 0 && get_LanguagesAvailable(level.number)">
+                <div class="list-item" [className]="(get_AvailableLanguages() == 0) ? 'fullsize-only' : ''" *ngIf="level.number > 0 && get_LanguagesAvailable(level.number)">
                     <button class="row sublist-toggle"
                         [className]="(get_AvailableLanguages() == 0) ? 'fancy-button' : ''"
                         (click)="toggle_List('languages'+level.number)">
@@ -477,7 +478,8 @@
                                             <button class="lower left" *ngIf="feat.subTypes"
                                                 id="{{choice.id+feat.name}}" (click)="toggle_Item(itemID)">v</button>
                                             <label for="{{choice.id+feat.name}}">
-                                                <strong>{{feat.name}}&nbsp;</strong><cite *ngIf="feat.levelreq">Level {{feat.levelreq}}</cite>
+                                                <strong>{{feat.name}}&nbsp;</strong><cite *ngIf="feat.levelreq">Level
+                                                    {{feat.levelreq}}</cite>
                                             </label>
                                             <cite class="problem" *ngFor="let reason of cannotTake(feat, choice)">
                                                 {{reason}}
@@ -562,7 +564,8 @@
                                                         <h4 class="left-aligned">{{spell.name}}
                                                             {{spell.get_Actions()}}{{(spell.castType) ? " - " + spell.castType : ""}}
                                                         </h4>
-                                                        <app-spell class="row" [spell]=spell [spellLevel]="get_SpellLevel(level.number)"></app-spell>
+                                                        <app-spell class="row" [spell]=spell
+                                                            [spellLevel]="get_SpellLevel(level.number)"></app-spell>
                                                     </ng-container>
                                                 </ng-container>
                                             </ng-container>
@@ -575,7 +578,8 @@
                                     *ngFor="let feat of get_AvailableFeats(choice, true)|sortBy:'asc':'name'">
                                     <div class="row" *ngFor="let itemID of [choice.id+feat.name+'desc']">
                                         <span>
-                                            <strong>{{feat.name}}&nbsp;</strong><cite *ngIf="feat.levelreq">Level {{feat.levelreq}}</cite>
+                                            <strong>{{feat.name}}&nbsp;</strong><cite *ngIf="feat.levelreq">Level
+                                                {{feat.levelreq}}</cite>
                                         </span>
                                         <span>
                                             <cite class="problem" *ngFor="let reason of cannotTake(feat, choice)">
@@ -656,7 +660,8 @@
                                                         <h4 class="left-aligned">{{spell.name}}
                                                             {{spell.get_Actions()}}{{(spell.castType) ? " - " + spell.castType : ""}}
                                                         </h4>
-                                                        <app-spell class="row" [spell]=spell [spellLevel]="get_SpellLevel(level.number)"></app-spell>
+                                                        <app-spell class="row" [spell]=spell
+                                                            [spellLevel]="get_SpellLevel(level.number)"></app-spell>
                                                     </ng-container>
                                                 </ng-container>
                                             </ng-container>
@@ -671,11 +676,14 @@
                 <ng-container *ngIf="get_BloodlineAvailable(level.number)">
                     <div class="list-item" [className]="(get_Character().class.bloodline) ? 'fullsize-only' : ''"
                         *ngFor="let listID of ['bloodline']">
-                        <button class="row sublist-toggle" [className]="((get_Character().class.bloodline.name)) ? 'fancy-button' : ''"
+                        <button class="row sublist-toggle"
+                            [className]="((get_Character().class.bloodline.name)) ? 'fancy-button' : ''"
                             (click)="toggle_List(listID)">
-                            Sorcerer Bloodline{{(get_Character().class.bloodline.name) ? ": "+ get_Character().class.bloodline.name : ""}}
+                            Sorcerer
+                            Bloodline{{(get_Character().class.bloodline.name) ? ": "+ get_Character().class.bloodline.name : ""}}
                         </button>
-                        <div class="list-item sublist" [className]="((get_Character().class.bloodline.name)) ? 'fancy-list' : ''"
+                        <div class="list-item sublist"
+                            [className]="((get_Character().class.bloodline.name)) ? 'fancy-list' : ''"
                             *ngIf="get_showList()==listID">
                             <ng-container *ngFor="let bloodline of get_Bloodlines()">
                                 <div class="row" class="list-item" *ngFor="let itemID of ['bloodline'+bloodline.name]">
@@ -698,18 +706,21 @@
                                             <strong>Spell List&nbsp;</strong>{{bloodline.spellList}}
                                         </div>
                                         <div class="row left-aligned">
-                                            <strong>Bloodline Skills&nbsp;</strong>{{bloodline.bloodlineSkills.join(', ')}}
+                                            <strong>Bloodline
+                                                Skills&nbsp;</strong>{{bloodline.bloodlineSkills.join(', ')}}
                                         </div>
                                         <div class="row left-aligned">
                                             <strong>Granted Spells</strong>
                                         </div>
-                                        <div class="list-item lower left-aligned" *ngFor="let spell of bloodline.grantedSpells">
+                                        <div class="list-item lower left-aligned"
+                                            *ngFor="let spell of bloodline.grantedSpells">
                                             <strong>{{(spell.level) ? "Level "+spell.level : "Cantrip"}}&nbsp;</strong>{{spell.name}}
                                         </div>
                                         <div class="row left-aligned">
                                             <strong>Bloodline Spells</strong>
                                         </div>
-                                        <div class="list-item lower left-aligned" *ngFor="let spell of bloodline.bloodlineSpells">
+                                        <div class="list-item lower left-aligned"
+                                            *ngFor="let spell of bloodline.bloodlineSpells">
                                             <strong>{{get_BloodlineSpellLevel(spell.level)}}&nbsp;</strong>{{spell.name}}
                                         </div>
                                         <div class="row left-aligned">
@@ -730,15 +741,18 @@
                 </ng-container>
                 <!--Animal Companion-->
                 <ng-container *ngIf="get_AnimalCompanionAvailable(level.number)">
-                    <div class="list-item" [className]="(get_Companion().name && get_Companion().species) ? 'fullsize-only' : ''"
+                    <div class="list-item"
+                        [className]="(get_Companion().name && get_Companion().species) ? 'fullsize-only' : ''"
                         *ngFor="let listID of ['animalCompanion']">
-                        <button class="row sublist-toggle" [className]="(get_Companion().name && get_Companion().species) ? 'fancy-button' : ''"
+                        <button class="row sublist-toggle"
+                            [className]="(get_Companion().name && get_Companion().species) ? 'fancy-button' : ''"
                             (click)="toggle_List(listID)">
                             Animal Companion Basics
                         </button>
-                        <div class="list-item sublist" [className]="(get_Companion().name && get_Companion().species) ? 'fancy-list' : ''"
-                        *ngIf="get_showList()==listID">
-                    
+                        <div class="list-item sublist"
+                            [className]="(get_Companion().name && get_Companion().species) ? 'fancy-list' : ''"
+                            *ngIf="get_showList()==listID">
+
                             <button class="list-item" (click)="on_NewCompanion(level)">
                                 Create New Animal Companion
                             </button>
@@ -761,16 +775,20 @@
                     <!--Animal Type-->
                     <div class="list-item" [className]="(get_Companion().class.ancestry.name) ? 'fullsize-only' : ''"
                         *ngFor="let listID of ['animaltype']">
-                        <button class="row sublist-toggle" [className]="(get_Companion().class.ancestry.name) ? 'fancy-button' : ''"
+                        <button class="row sublist-toggle"
+                            [className]="(get_Companion().class.ancestry.name) ? 'fancy-button' : ''"
                             (click)="toggle_List(listID)">
-                            Animal Companion Type{{(get_Companion().class.ancestry.name) ? ": "+ get_Companion().class.ancestry.name : ""}}
+                            Animal Companion
+                            Type{{(get_Companion().class.ancestry.name) ? ": "+ get_Companion().class.ancestry.name : ""}}
                         </button>
-                        <div class="list-item sublist" [className]="(get_Companion().class.ancestry.name) ? 'fancy-list' : ''"
+                        <div class="list-item sublist"
+                            [className]="(get_Companion().class.ancestry.name) ? 'fancy-list' : ''"
                             *ngIf="get_showList()==listID">
-                            <div class="list-item" *ngFor="let type of get_CompanionTypes()">
+                            <div class="list-item" *ngFor="let type of get_AvailableCompanionTypes()">
                                 <div class="row" *ngFor="let itemID of ['animaltype'+type.name+'desc']">
                                     <span>
-                                        <input id="{{type.name}}" type="checkbox" (change)="on_TypeChange(type, $event.target.checked)"
+                                        <input id="{{type.name}}" type="checkbox"
+                                            (change)="on_TypeChange(type, $event.target.checked)"
                                             [checked]="type.name === get_Companion().class.ancestry.name">
                                         <label for="{{type.name}}">
                                             <strong>{{type.name}}</strong>
@@ -793,11 +811,14 @@
                                             </p>
                                             <ng-container *ngFor="let gain of type.gainItems">
                                                 <p *ngFor="let item of get_ItemFromGain(gain)">
-                                                    <strong>Melee</strong> {{item.name}}, <strong>Damage</strong> {{item.dicenum+"d"+item.dicesize}}
+                                                    <strong>Melee</strong> {{item.name}}, <strong>Damage</strong>
+                                                    {{item.dicenum+"d"+item.dicesize}}
                                                 </p>
                                             </ng-container>
                                             <p>
-                                                <span *ngFor="let ability of get_AnimalCompanionAbilities(type); let index = index">{{index ? ", " : ""}}<strong>{{ability.name}}</strong> {{ability.modifier}}</span>
+                                                <span
+                                                    *ngFor="let ability of get_AnimalCompanionAbilities(type); let index = index">{{index ? ", " : ""}}<strong>{{ability.name}}</strong>
+                                                    {{ability.modifier}}</span>
                                             </p>
                                             <p>
                                                 <strong>Hit Points</strong>
@@ -840,42 +861,49 @@
                         </div>
                     </div>
                 </ng-container>
-
-                <!--Animal Companion Specialization-->
-                <!--Not properly built yet, using heritages-->
-                <!--
-                <ng-container *ngIf="get_AnimalCompanionSpecializationAvailable(level)">
-                    <ng-container *ngIf="get_Character().class.name && get_SpecializedAnimalCompanion()">
-                        <div class="list-item" [className]="(get_Character().class.heritage.name) ? 'fullsize-only' : ''"
-                            *ngFor="let listID of ['heritage']">
+                <!--Animal Specializations-->
+                <ng-container *ngIf="get_CompanionSpecializationsAvailable(level.number)">
+                    <ng-container *ngFor="let available of [get_CompanionSpecializationsAvailable(level.number)]">
+                        <div class="list-item"
+                            [className]="(get_TakenCompanionSpecializations(level.number).length == available) ? 'fullsize-only' : ''"
+                            *ngFor="let listID of ['animalspecialization'+level.number]">
                             <button class="row sublist-toggle"
-                                [className]="((get_Character().class.heritage.name)) ? 'fancy-button' : ''"
+                                [className]="(get_TakenCompanionSpecializations(level.number).length == available) ? 'fancy-button' : ''"
                                 (click)="toggle_List(listID)">
-                                Heritage{{(get_Character().class.heritage.name) ? ": "+ get_Character().class.heritage.name : ""}}
+                                Animal Companion Specialization{{available > 1 ?
+                                        ": "+ get_TakenCompanionSpecializations(level.number).length +"/"+ available : 
+                                        (get_TakenCompanionSpecializations(level.number).length == 1) ? ": "+ get_Companion().class.specializations[0].name : ""}}
                             </button>
-                            <div class="list-item sublist" [className]="((get_Character().class.heritage.name)) ? 'fancy-list' : ''"
+                            <div class="list-item sublist"
+                                [className]="(get_TakenCompanionSpecializations(level.number).length == available) ? 'fancy-list' : ''"
                                 *ngIf="get_showList()==listID">
                                 <div class="list-item"
-                                    *ngFor="let heritage of get_Specializations()">
-                                    <span>
-                                        <input *ngIf="!heritage.subTypes.length" id="{{heritage.name}}" type="checkbox"
-                                            (change)="onHeritageChange(heritage, $event.target.checked)"
-                                            [checked]="heritage.name === get_Character().class.heritage.name">
-                                        <button class="lower left" *ngIf="heritage.subTypes.length" id="{{heritage.name}}"
-                                            (click)="toggle_Item(heritage.name+'desc')">v</button>
-                                        <label for="{{heritage.name}}">
-                                            <strong>{{heritage.name}}</strong>
-                                        </label>
-                                    </span>
-                                    <button (click)="toggle_Item(heritage.name+'desc')">
-                                        Show Description
-                                    </button>
+                                    *ngFor="let spec of get_AvailableCompanionSpecializations(level.number)">
+                                    <div class="row" *ngFor="let itemID of ['animalspecialization'+spec.name+'desc'+level.number]">
+                                        <span>
+                                            <input id="{{spec.name}}" type="checkbox"
+                                                (change)="on_SpecializationChange(spec, $event.target.checked, level.number)"
+                                                [checked]="have_CompanionSpecialization(spec.name)">
+                                            <label for="{{spec.name}}">
+                                                <strong>{{spec.name}}</strong>
+                                            </label>
+                                        </span>
+                                        <button (click)="toggle_Item(itemID)">
+                                            Show Description
+                                        </button>
+                                        <div class="row lower" *ngIf="this.get_showItem()==itemID">
+                                            <div class="row left-aligned">
+                                                <p>
+                                                    {{spec.desc}}
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </ng-container>
-                </ng-container>-->
-
+                </ng-container>
                 <!--Different Worlds-->
                 <ng-container *ngFor="let feat of get_DifferentWorldsFeat(level.number)">
                     <!--Different Worlds Name-->
@@ -978,19 +1006,18 @@
                         </button>
                         <div class="list-item sublist" [className]="((feat.data.stance1)) ? 'fancy-list' : ''"
                             *ngIf="get_showList()==listID">
-                            <div class="list-item" [className]="stance.reason ? 'unavailable' : ''" *ngFor="let stance of get_StancesToFuse(level.number)">
+                            <div class="list-item" [className]="stance.reason ? 'unavailable' : ''"
+                                *ngFor="let stance of get_StancesToFuse(level.number)">
                                 <div class="row" *ngFor="let itemID of ['fuseStance_stance1'+stance.name]">
                                     <span>
                                         <input id="{{stance.name}}" type="checkbox"
                                             (change)="onFuseStanceStanceChange(feat, 'stance1', stance.name, $event.target.checked)"
                                             [checked]="stance.name == feat.data.stance1 || stance.name == feat.data.stance2"
-                                            [disabled]="stance.name == feat.data.stance2"
-                                            *ngIf="!stance.reason">
+                                            [disabled]="stance.name == feat.data.stance2" *ngIf="!stance.reason">
                                         <label for="{{stance.name}}">
                                             <strong>{{stance.name}}&nbsp;</strong>
                                             <span>
-                                                <cite class="problem"
-                                                    *ngIf="stance.reason">
+                                                <cite class="problem" *ngIf="stance.reason">
                                                     {{stance.reason}}
                                                 </cite>
                                             </span>
@@ -1009,23 +1036,22 @@
                         </button>
                         <div class="list-item sublist" [className]="((feat.data.stance2)) ? 'fancy-list' : ''"
                             *ngIf="get_showList()==listID">
-                            <div class="list-item" [className]="stance.reason ? 'unavailable' : ''" *ngFor="let stance of get_StancesToFuse(level.number)">
+                            <div class="list-item" [className]="stance.reason ? 'unavailable' : ''"
+                                *ngFor="let stance of get_StancesToFuse(level.number)">
                                 <div class="row" *ngFor="let itemID of ['fuseStance_stance2'+stance.name]">
                                     <span>
                                         <input id="{{stance.name}}" type="checkbox"
                                             (change)="onFuseStanceStanceChange(feat, 'stance2', stance.name, $event.target.checked)"
                                             [checked]="stance.name == feat.data.stance1 || stance.name == feat.data.stance2"
-                                            [disabled]="stance.name == feat.data.stance1"
-                                            *ngIf="!stance.reason">
-                                            <label for="{{stance.name}}">
-                                                <strong>{{stance.name}}&nbsp;</strong>
-                                                <span>
-                                                    <cite class="problem"
-                                                        *ngIf="stance.reason">
-                                                        {{stance.reason}}
-                                                    </cite>
-                                                </span>
-                                            </label>
+                                            [disabled]="stance.name == feat.data.stance1" *ngIf="!stance.reason">
+                                        <label for="{{stance.name}}">
+                                            <strong>{{stance.name}}&nbsp;</strong>
+                                            <span>
+                                                <cite class="problem" *ngIf="stance.reason">
+                                                    {{stance.reason}}
+                                                </cite>
+                                            </span>
+                                        </label>
                                     </span>
                                 </div>
                             </div>

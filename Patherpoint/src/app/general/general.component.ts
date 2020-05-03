@@ -67,6 +67,13 @@ export class GeneralComponent implements OnInit {
         }
     }
 
+    get_CompanionSpecializations() {
+        let companion: AnimalCompanion = this.get_Companion();
+        if (companion.level && companion.class.specializations.length) {
+            return companion.class.specializations.filter(spec => spec.level <= this.get_Character().level).map(spec => spec.name).join(", ");
+        }
+    }
+
     add_HeroPoints(amount: number) {
         this.get_Character().heroPoints += amount;
     }
@@ -95,6 +102,10 @@ export class GeneralComponent implements OnInit {
 
     get_SpellDCs() {
         return this.characterService.get_Skills(this.get_Creature(), "", "Spell DC").filter(skill => skill.level(this.get_Creature(), this.characterService) > 0);
+    }
+
+    get_Traits(name: string = "") {
+        return this.traitsService.get_Traits(name);
     }
 
     get_Speeds() {

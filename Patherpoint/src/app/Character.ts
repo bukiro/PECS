@@ -371,12 +371,12 @@ export class Character extends Creature {
             choice.feats.push({"name":featName, "source":choice.source, "locked":locked, "sourceId":choice.id});
             characterService.process_Feat(featName, level, taken);
         } else {
+            characterService.process_Feat(featName, level, taken);
             let a = choice.feats;
             a.splice(a.indexOf(a.filter(feat => 
                 feat.name == featName &&
                 feat.locked == locked
             )[0]), 1)
-            characterService.process_Feat(featName, level, taken);
         }
         this.set_Changed(characterService);
     }
@@ -468,7 +468,7 @@ export class Character extends Creature {
                 requirement.skill = requirement.skill.replace('Lore', 'Lore: '+source.loreName);
             })
             newFeat.showon = newFeat.showon.replace('Lore', 'Lore: '+source.loreName);
-            newFeat.featreq = newFeat.featreq.replace('Lore', 'Lore: '+source.loreName);
+            newFeat.featreq = newFeat.featreq.map(featreq => featreq.replace('Lore', 'Lore: '+source.loreName));
             newFeat.lorebase = false;
             newFeat.hide = false;
         })

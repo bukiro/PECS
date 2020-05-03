@@ -13,6 +13,7 @@ import { SkillChoice } from './SkillChoice';
 import { ConditionGain } from './ConditionGain';
 import { AnimalCompanionLevel } from './AnimalCompanionLevel';
 import { Bloodline } from './Bloodline';
+import { AnimalCompanion } from './AnimalCompanion';
 
 @Injectable({
     providedIn: 'root'
@@ -304,21 +305,49 @@ export class FeatsService {
                 }
             }
 
-            if (feat.growAnimalCompanion && characterService.get_Companion()) {
+            //Feats that grant an animal companion
+            if (feat.gainAnimalCompanion == 1) {
+                if (taken) {
+                    //Nothing to do
+                } else {
+                    //Reset the animal companion
+                    character.class.animalCompanion = new AnimalCompanion();
+                    character.class.animalCompanion.class.reassign(characterService);
+                }
+            }
+
+            //Feats that level up the animal companion to Mature, Nimble or Savage
+            if (feat.gainAnimalCompanion > 1 && feat.gainAnimalCompanion < 6 && characterService.get_Companion()) {
                 let companion = characterService.get_Companion();
                 if (companion.class.levels.length) {
                     if (taken) {
-                        if (feat.growAnimalCompanion > 3) {
-                            companion.class.levels[3] = Object.assign(new AnimalCompanionLevel(), companion.class.levels[feat.growAnimalCompanion]);
+                        if (feat.gainAnimalCompanion > 3) {
+                            companion.class.levels[3] = Object.assign(new AnimalCompanionLevel(), companion.class.levels[feat.gainAnimalCompanion]);
                             companion.class.levels[3].number = 3;
                         }
                     } else {
-                        if (feat.growAnimalCompanion > 3) {
+                        if (feat.gainAnimalCompanion > 3) {
                             companion.class.levels[3] = new AnimalCompanionLevel();
                             companion.class.levels[3].number = 3;
                         }
                     }
                     companion.set_Level(characterService);
+                }
+            }
+
+            //Feats that grant an animal companion specialization
+            if (feat.gainAnimalCompanion == 6) {
+                let companion = characterService.get_Companion();
+                if (taken) {
+                    //Nothing to do
+                } else {
+                    //Remove the latest specialization chosen on this level, only if all choices are taken
+                    let specializations = companion.class.specializations.filter(spec => spec.level == level.number);
+                    if (specializations.length) {
+                        if (specializations.length >= character.get_FeatsTaken(level.number, level.number).filter(gain => characterService.get_Feats(gain.name)[0].gainAnimalCompanion == 6).length) {
+                            companion.class.specializations = companion.class.specializations.filter(spec => spec.name != specializations[specializations.length - 1].name)
+                        }
+                    }
                 }
             }
         }

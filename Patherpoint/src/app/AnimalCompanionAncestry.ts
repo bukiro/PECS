@@ -2,11 +2,16 @@ import { ItemGain } from './ItemGain';
 import { AbilityChoice } from './AbilityChoice';
 import { SkillChoice } from './SkillChoice';
 import { ActivityGain } from './ActivityGain';
+import { EffectGain } from './EffectGain';
 
 export class AnimalCompanionAncestry {
     public name: string = "";
     public desc: string = "";
+    public hint: string = "";
+    public showon: string = "";
     public specialdesc: string = "";
+    //effects can be used to swim, climb or fly speeds as required
+    public effects: EffectGain[] = [];
     public hitPoints: number = 0;
     public size: number = 0;
     public speed: number = 0;

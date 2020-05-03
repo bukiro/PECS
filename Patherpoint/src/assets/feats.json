@@ -706,7 +706,7 @@
       "desc": "You know basic facts off the top of your head. Choose a skill you’re an expert in that has the Recall Knowledge action and for which you have the Assurance feat. You can use the Recall Knowledge action with that skill as a free action once per round. If you do, you must use Assurance on the skill check.",
       "hint": "You can use the Recall Knowledge action with this skill as a free action once per round. If you do, you must use Assurance on the skill check.\n\nYou can use Automatic Knowledge with any skills you have chosen, but you can still use Automatic Knowledge only once per round.",
       "showon": "Arcana",
-      "featreq": "Assurance: Arcana",
+      "featreq": ["Assurance: Arcana"],
       "levelreq": 2,
       "skillreq": [
          {
@@ -727,7 +727,7 @@
       "desc": "You know basic facts off the top of your head. Choose a skill you’re an expert in that has the Recall Knowledge action and for which you have the Assurance feat. You can use the Recall Knowledge action with that skill as a free action once per round. If you do, you must use Assurance on the skill check.",
       "hint": "You can use the Recall Knowledge action with this skill as a free action once per round. If you do, you must use Assurance on the skill check.\n\nYou can use Automatic Knowledge with any skills you have chosen, but you can still use Automatic Knowledge only once per round.",
       "showon": "Crafting",
-      "featreq": "Assurance: Crafting",
+      "featreq": ["Assurance: Crafting"],
       "levelreq": 2,
       "skillreq": [
          {
@@ -748,7 +748,7 @@
       "desc": "You know basic facts off the top of your head. Choose a skill you’re an expert in that has the Recall Knowledge action and for which you have the Assurance feat. You can use the Recall Knowledge action with that skill as a free action once per round. If you do, you must use Assurance on the skill check.",
       "hint": "You can use the Recall Knowledge action with this skill as a free action once per round. If you do, you must use Assurance on the skill check.\n\nYou can use Automatic Knowledge with any skills you have chosen, but you can still use Automatic Knowledge only once per round.",
       "showon": "Lore",
-      "featreq": "Assurance: Lore",
+      "featreq": ["Assurance: Lore"],
       "hide": true,
       "levelreq": 2,
       "lorebase": true,
@@ -771,7 +771,7 @@
       "desc": "You know basic facts off the top of your head. Choose a skill you’re an expert in that has the Recall Knowledge action and for which you have the Assurance feat. You can use the Recall Knowledge action with that skill as a free action once per round. If you do, you must use Assurance on the skill check.",
       "hint": "You can use the Recall Knowledge action with this skill as a free action once per round. If you do, you must use Assurance on the skill check.\n\nYou can use Automatic Knowledge with any skills you have chosen, but you can still use Automatic Knowledge only once per round.",
       "showon": "Medicine",
-      "featreq": "Assurance: Medicine",
+      "featreq": ["Assurance: Medicine"],
       "levelreq": 2,
       "skillreq": [
          {
@@ -792,7 +792,7 @@
       "desc": "You know basic facts off the top of your head. Choose a skill you’re an expert in that has the Recall Knowledge action and for which you have the Assurance feat. You can use the Recall Knowledge action with that skill as a free action once per round. If you do, you must use Assurance on the skill check.",
       "hint": "You can use the Recall Knowledge action with this skill as a free action once per round. If you do, you must use Assurance on the skill check.\n\nYou can use Automatic Knowledge with any skills you have chosen, but you can still use Automatic Knowledge only once per round.",
       "showon": "Nature",
-      "featreq": "Assurance: Nature",
+      "featreq": ["Assurance: Nature"],
       "levelreq": 2,
       "skillreq": [
          {
@@ -813,7 +813,7 @@
       "desc": "You know basic facts off the top of your head. Choose a skill you’re an expert in that has the Recall Knowledge action and for which you have the Assurance feat. You can use the Recall Knowledge action with that skill as a free action once per round. If you do, you must use Assurance on the skill check.",
       "hint": "You can use the Recall Knowledge action with this skill as a free action once per round. If you do, you must use Assurance on the skill check.\n\nYou can use Automatic Knowledge with any skills you have chosen, but you can still use Automatic Knowledge only once per round.",
       "showon": "Occultism",
-      "featreq": "Assurance: Occultism",
+      "featreq": ["Assurance: Occultism"],
       "levelreq": 2,
       "skillreq": [
          {
@@ -834,7 +834,7 @@
       "desc": "You know basic facts off the top of your head. Choose a skill you’re an expert in that has the Recall Knowledge action and for which you have the Assurance feat. You can use the Recall Knowledge action with that skill as a free action once per round. If you do, you must use Assurance on the skill check.",
       "hint": "You can use the Recall Knowledge action with this skill as a free action once per round. If you do, you must use Assurance on the skill check.\n\nYou can use Automatic Knowledge with any skills you have chosen, but you can still use Automatic Knowledge only once per round.",
       "showon": "Occultism",
-      "featreq": "Assurance: Occultism",
+      "featreq": ["Assurance: Occultism"],
       "levelreq": 2,
       "skillreq": [
          {
@@ -855,7 +855,7 @@
       "desc": "You know basic facts off the top of your head. Choose a skill you’re an expert in that has the Recall Knowledge action and for which you have the Assurance feat. You can use the Recall Knowledge action with that skill as a free action once per round. If you do, you must use Assurance on the skill check.",
       "hint": "You can use the Recall Knowledge action with this skill as a free action once per round. If you do, you must use Assurance on the skill check.\n\nYou can use Automatic Knowledge with any skills you have chosen, but you can still use Automatic Knowledge only once per round.",
       "showon": "Religion",
-      "featreq": "Assurance: Religion",
+      "featreq": ["Assurance: Religion"],
       "levelreq": 2,
       "skillreq": [
          {
@@ -1398,7 +1398,7 @@
       "desc": "You have social connections you can leverage to trade favors or meet important people. When you’re in an area with connections (typically a settlement where you’ve spent downtime building connections, or possibly another area in the same nation), you can attempt a Society check to arrange a meeting with an important political figure or ask for a favor in exchange for a later favor of your contact’s choice. The GM decides the DC based on the difficulty of the favor and the figure’s prominence.",
       "hint": "When you’re in an area with connections (typically a settlement where you’ve spent downtime building connections, or possibly another area in the same nation), you can attempt a Society check to arrange a meeting with an important political figure or ask for a favor in exchange for a later favor of your contact’s choice. The GM decides the DC based on the difficulty of the favor and the figure’s prominence.",
       "showon": "Society",
-      "featreq": "Courtly Graces",
+      "featreq": ["Courtly Graces"],
       "levelreq": 2,
       "skillreq": [
          {
@@ -1588,7 +1588,7 @@
       "shortdesc": "You have a small group of admirers who tend to follow you around while you’re in civilized settlements.",
       "desc": "You have a small group of admirers who tend to follow you around while you’re in civilized settlements. Your admirers are helpful to you, allowing you to make simple Requests of them such as purchasing basic equipment with your funds or finding a room at an inn. These admirers do not travel with you to places that are obviously dangerous, including most adventure locations, but they’ll wait for you at the nearest settlement. Your admirers never use actions in encounter mode other than to retreat, and they abandon you if you intentionally bring them harm or at the GM’s discretion. When you Gather Information, you can use your admirers to assist you, granting a +1 circumstance bonus to your Diplomacy check and reducing the time it takes even further (typically to 30 minutes, rather than 1 hour with the Hobnobber feat alone). If you have the Sow Rumor feat, you can have your admirers assist you, with the same benefits as Gather Information.",
       "showon": "Diplomacy",
-      "featreq": "Hobnobber",
+      "featreq": ["Hobnobber"],
       "levelreq": 7,
       "skillreq": [
          {
@@ -1723,7 +1723,7 @@
       "desc": "You open an incandescent third eye upon your forehead. The eye can remain open for 1 minute, and you can close it before then with a single action with the concentrate trait. It can remain open for 2 minutes if you’re a master in Arcana, or 5 minutes if you’re legendary. While the eye is open, you gain the following benefits: you gain the effects of the detect magic arcane innate spell from your Arcane Sense at the start of each of your turns without needing to cast the spell; you gain darkvision; you gain a +2 status bonus to Perception checks to Seek undetected and hidden creatures and to your Perception DC against Hide and Sneak. After your third eye closes, you are dazzled for an amount of time equal to how long you had it open.",
       "showon": "Arcana",
       "access": "You are a member of the Arclords of Nex.",
-      "featreq": "Arcane Sense",
+      "featreq": ["Arcane Sense"],
       "gainActivities": [
          "Eye of the Arclords: 1 Minute",
          "Eye of the Arclords: 2 Minutes",
@@ -1901,7 +1901,7 @@
       "shortdesc": "With limited access to divine healing magic, Rahadoumi often become adept at using ordinary medicine for when dangerous situations arise.",
       "desc": "You recover an additional 5 Hit Points from a successful attempt to Treat your Wounds or use Battle Medicine on you. After you or an ally use Battle Medicine on you, you become temporarily immune to that Battle Medicine for only 1 hour, instead of 1 day.",
       "showon": "Medicine",
-      "featreq": "Battle Medicine",
+      "featreq": ["Battle Medicine"],
       "levelreq": 2,
       "specialreq": "!character.class.deity.name",
       "specialreqdesc": "you can't have a patron deity",
@@ -1990,7 +1990,7 @@
       "desc": "You craft flawless creations with great efficiency. Whenever you roll a success at a Crafting check to make an item of the type you chose with Specialty Crafting, you get a critical success instead.",
       "hint": "Whenever you roll a success at a Crafting check to make an item of the type you chose with Specialty Crafting, you get a critical success instead.",
       "showon": "Crafting",
-      "featreq": "Specialty Crafting",
+      "featreq": ["Specialty Crafting"],
       "levelreq": 7,
       "skillreq": [
          {
@@ -2221,7 +2221,7 @@
       "desc": "You’re so skilled with languages you can create a pidgin instantly. You can always talk to any creature that has a language—even a language you don’t know —by creating a new pidgin language that uses simplified terms and conveys basic concepts. To do so, you must first understand at least what medium of communication the creature uses (speech, sign language, and so on).",
       "hint": "You can always talk to any creature that has a language—even a language you don’t know —by creating a new pidgin language that uses simplified terms and conveys basic concepts. To do so, you must first understand at least what medium of communication the creature uses (speech, sign language, and so on).",
       "showon": "Society",
-      "featreq": "Multilingual",
+      "featreq": ["Multilingual"],
       "levelreq": 15,
       "skillreq": [
          {
@@ -2278,7 +2278,7 @@
       "desc": "Your fame has spread throughout the lands. NPCs who succeed at a DC 10 Society check to Recall Knowledge have heard of you and usually have an attitude toward you one step better than normal, depending on your reputation and the NPC’s disposition. For instance, if you’re well-known for cruel and demanding behavior, creatures might be intimidated by you, rather than be friendly toward you. When you Earn Income with Performance, you attract higher-level audiences than your location would allow, as audiences flock to see you. For instance, rulers and angels might travel to your small tower in the woods to hear you perform. Typically, this increases the audiences available by 2 levels or more, determined by the GM.",
       "hint": "NPCs who succeed at a DC 10 Society check to Recall Knowledge have heard of you and usually have an attitude toward you one step better than normal, depending on your reputation and the NPC’s disposition. For instance, if you’re well-known for cruel and demanding behavior, creatures might be intimidated by you, rather than be friendly toward you. When you Earn Income with Performance, you attract higher-level audiences than your location would allow, as audiences flock to see you. For instance, rulers and angels might travel to your small tower in the woods to hear you perform. Typically, this increases the audiences available by 2 levels or more, determined by the GM.",
       "showon": "Performance",
-      "featreq": "Virtuosic Performer",
+      "featreq": ["Virtuosic Performer"],
       "levelreq": 15,
       "skillreq": [
          {
@@ -2315,7 +2315,7 @@
       "desc": "You’re always sneaking unless you choose to be seen, even when there’s nowhere to hide. You can Hide and Sneak even without cover or being concealed. When you employ an exploration tactic other than Avoiding Notice, you also gain the benefits of Avoiding Notice unless you choose not to.",
       "hint": "You’re always sneaking unless you choose to be seen, even when there’s nowhere to hide. You can Hide and Sneak even without cover or being concealed. When you employ an exploration tactic other than Avoiding Notice, you also gain the benefits of Avoiding Notice unless you choose not to.",
       "showon": "Stealth",
-      "featreq": "Swift Sneak",
+      "featreq": ["Swift Sneak"],
       "levelreq": 15,
       "skillreq": [
          {
@@ -2352,7 +2352,7 @@
       "desc": "Your ability to Steal defies belief. You can attempt to Steal something that is actively wielded or that would be extremely noticeable or time consuming to remove (like worn shoes or armor). You must do so slowly and carefully, spending at least 1 minute (and significantly longer for items that are normally time consuming to remove, like armor). Throughout this duration you must have some means of staying hidden, such as the cover of darkness or a bustling crowd. You take a –5 penalty to your Thievery check. Even if you succeed, if the item is extremely prominent—like a suit of full plate armor—onlookers will quickly notice it’s gone after you steal it.",
       "hint": "You can attempt to Steal something that is actively wielded or that would be extremely noticeable or time consuming to remove (like worn shoes or armor). You must do so slowly and carefully, spending at least 1 minute (and significantly longer for items that are normally time consuming to remove, like armor). Throughout this duration you must have some means of staying hidden, such as the cover of darkness or a bustling crowd. You take a –5 penalty to your Thievery check. Even if you succeed, if the item is extremely prominent—like a suit of full plate armor—onlookers will quickly notice it’s gone after you steal it.",
       "showon": "Thievery",
-      "featreq": "Pickpocket",
+      "featreq": ["Pickpocket"],
       "levelreq": 15,
       "skillreq": [
          {
@@ -2456,7 +2456,8 @@
       "desc": "You grant greater healing when the gods don’t interfere. When you roll a success to Treat Wounds for a creature that hasn’t regained Hit Points from divine magic in the past 24 hours, you get a critical success on your check instead and restore the corresponding amount of Hit Points. This does not apply when used with other actions related to medicine or healing, such as Battle Medicine.",
       "hint": "When you roll a success to Treat Wounds for a creature that hasn’t regained Hit Points from divine magic in the past 24 hours, you get a critical success on your check instead and restore the corresponding amount of Hit Points. This does not apply when used with other actions related to medicine or healing, such as Battle Medicine.",
       "showon": "Medicine",
-      "featreq": "Godless Healing",
+      "levelreq": 2,
+      "featreq": ["Godless Healing"],
       "specialreqdesc": "you follow the Laws of Mortality",
       "traits": [
          "General",
@@ -2547,7 +2548,7 @@
       "desc": "Your past has left you numb to death’s call. The first time each day that you regain Hit Points while you are dying, you regain additional Hit Points equal to your level, and you neither gain the wounded condition nor increase the value of this condition.",
       "hint": "The first time each day that you regain Hit Points while you are dying, you regain additional Hit Points equal to your level, and you neither gain the wounded condition nor increase the value of this condition.",
       "showon": "Max Dying",
-      "featreq": "Diehard",
+      "featreq": ["Diehard"],
       "internalNote": "A button to use this is hardcoded.",
       "levelreq": 7,
       "specialreqdesc": "you have died at least once",
@@ -2786,7 +2787,7 @@
       "desc": "You Recognize Spells swiftly. Once per round, you can Recognize a Spell using a skill in which you’re a master as a free action.",
       "hint": "Once per round, you can Recognize a Spell using a skill in which you’re a master as a free action.",
       "showon": "Arcana, Nature, Occultism, Religion",
-      "featreq": "Recognize Spell",
+      "featreq": ["Recognize Spell"],
       "levelreq": 7,
       "skillreq": [
          {
@@ -3277,7 +3278,7 @@
       "desc": "You gain a +1 circumstance bonus to Crafting checks to Craft alchemical items such as elixirs. If you are a master in Crafting, this bonus increases to +2. If it’s unclear whether the specialty applies, the GM decides. Some specialties might apply only partially. For example, if you were making a morningstar and had specialty in woodworking, the GM might give you half your bonus because the item requires both blacksmithing and woodworking.",
       "hint": "You gain a +1 circumstance bonus to Crafting checks to Craft alchemical items such as elixirs. If you are a master in Crafting, this bonus increases to +2. If it’s unclear whether the specialty applies, the GM decides. Some specialties might apply only partially. For example, if you were making a morningstar and had specialty in woodworking, the GM might give you half your bonus because the item requires both blacksmithing and woodworking.",
       "showon": "Crafting",
-      "featreq": "Alchemical Crafting",
+      "featreq": ["Alchemical Crafting"],
       "levelreq": 1,
       "skillreq": [
          {
@@ -4900,7 +4901,7 @@
       "shortdesc": "You call upon the power of the elements, infusing your ki with elemental energy and allowing your attacks to deal energy damage.",
       "desc": "You call upon the power of the elements, infusing your ki with elemental energy and allowing your attacks to deal energy damage. When you cast ki strike, in addition to the damage types normally available, you can deliver the extra damage in the form of a gust of storm-tossed wind (dealing electricity damage and gaining the air trait), a chunk of stone (dealing bludgeoning damage and gaining the earth trait), a flickering flame (dealing fire damage), or a crashing wave of frigid water (dealing cold damage and gaining the water trait).",
       "showon": "Ki Strike",
-      "featreq": "Ki Strike",
+      "featreq": ["Ki Strike"],
       "levelreq": 2,
       "traits": [
          "Monk"
@@ -4912,7 +4913,7 @@
       "desc": "The focused power of your flurry threatens to overwhelm your opponent. When you target the same creature with two Strikes from your Flurry of Blows, you can try to stun the creature. If either Strike hits and deals damage, the target must succeed at a Fortitude save against your class DC or be stunned 1 (or stunned 3 on a critical failure). This is an incapacitation effect.",
       "hint": "When you target the same creature with two Strikes from your Flurry of Blows, you can try to stun the creature. If either Strike hits and deals damage, the target must succeed at a Fortitude save against your class DC or be stunned 1 (or stunned 3 on a critical failure). This is an incapacitation effect.",
       "showon": "Flurry of Blows",
-      "featreq": "Flurry of Blows",
+      "featreq": ["Flurry of Blows"],
       "levelreq": 2,
       "traits": [
          "Monk"
@@ -4962,7 +4963,7 @@
       "name": "Sacred Ki",
       "shortdesc": "The power of your faith suffuses your ki",
       "desc": "The power of your faith suffuses your ki. When you select this feat, choose chaos, evil, good, or law. Your choice must match one of your deity’s alignment components.\\n\\nWhen you cast the ki strike focus spell and damage a creature whose alignment is opposite your chosen alignment, you can choose for the ki strike damage to be of the chosen type. Additionally, you can substitute the damage from ki blast (or other ki spells that deal force damage, at the GM’s discretion) with damage of your chosen alignment.",
-      "featreq": "Ki Strike",
+      "featreq": ["Ki Strike"],
       "levelreq": 4,
       "specialreq": "character.class.deity.name",
       "specialreqdesc": "you follow a deity",
@@ -4976,7 +4977,7 @@
       "shortdesc": "The power of your faith suffuses your ki",
       "desc": "When you cast the ki strike focus spell and damage a creature whose alignment is Lawful, you can choose for the ki strike damage to be Chaotic. Additionally, you can substitute the damage from ki blast (or other ki spells that deal force damage, at the GM’s discretion) with damage of your chosen alignment.",
       "showon": "Ki Strike, Ki Blast",
-      "featreq": "Ki Strike",
+      "featreq": ["Ki Strike"],
       "levelreq": 4,
       "specialreq": "character.class.deity.alignment.indexOf('Chaotic') > -1",
       "specialreqdesc": "you follow a chaotic deity",
@@ -4991,7 +4992,7 @@
       "shortdesc": "The power of your faith suffuses your ki",
       "desc": "When you cast the ki strike focus spell and damage a creature whose alignment is Good, you can choose for the ki strike damage to be Evil. Additionally, you can substitute the damage from ki blast (or other ki spells that deal force damage, at the GM’s discretion) with damage of your chosen alignment.",
       "showon": "Ki Strike, Ki Blast",
-      "featreq": "Ki Strike",
+      "featreq": ["Ki Strike"],
       "levelreq": 4,
       "specialreq": "character.class.deity.alignment.indexOf('Evil') > -1",
       "specialreqdesc": "you follow an evil deity",
@@ -5006,7 +5007,7 @@
       "shortdesc": "The power of your faith suffuses your ki",
       "desc": "When you cast the ki strike focus spell and damage a creature whose alignment is Evil, you can choose for the ki strike damage to be Good. Additionally, you can substitute the damage from ki blast (or other ki spells that deal force damage, at the GM’s discretion) with damage of your chosen alignment.",
       "showon": "Ki Strike, Ki Blast",
-      "featreq": "Ki Strike",
+      "featreq": ["Ki Strike"],
       "levelreq": 4,
       "specialreq": "character.class.deity.alignment.indexOf('Good') > -1",
       "specialreqdesc": "you follow a good deity",
@@ -5021,7 +5022,7 @@
       "shortdesc": "The power of your faith suffuses your ki",
       "desc": "When you cast the ki strike focus spell and damage a creature whose alignment is Chaotic, you can choose for the ki strike damage to be Lawful. Additionally, you can substitute the damage from ki blast (or other ki spells that deal force damage, at the GM’s discretion) with damage of your chosen alignment.",
       "showon": "Ki Strike, Ki Blast",
-      "featreq": "Ki Strike",
+      "featreq": ["Ki Strike"],
       "levelreq": 4,
       "specialreq": "character.class.deity.alignment.indexOf('Lawful') > -1",
       "specialreqdesc": "you follow a lawful deity",
@@ -5092,7 +5093,7 @@
             "value": "1"
          }
       ],
-      "featreq": "Incredible Movement",
+      "featreq": ["Incredible Movement"],
       "gainSpellChoice": [
          {
             "className": "Monk",
@@ -5130,7 +5131,7 @@
       "name": "Crane Flutter",
       "shortdesc": "You interpose your arm between yourself and your opponent.",
       "desc": "You interpose your arm between yourself and your opponent.",
-      "featreq": "Crane Stance",
+      "featreq": ["Crane Stance"],
       "gainActivities": [
          "Crane Flutter"
       ],
@@ -5143,7 +5144,7 @@
       "name": "Dragon Roar",
       "shortdesc": "You bellow, instilling fear in your enemies.",
       "desc": "You bellow, instilling fear in your enemies.",
-      "featreq": "Dragon Stance",
+      "featreq": ["Dragon Stance"],
       "gainActivities": [
          "Dragon Roar"
       ],
@@ -5205,7 +5206,7 @@
       "desc": "You focus on your connection to the earth and call upon the mountain to block attacks against you. You gain a +2 circumstance bonus to AC until the beginning of your next turn.",
       "hint": "If you have this feat, the Dexterity modifier cap to your AC while you’re in Mountain Stance increases from +0 to +1.",
       "showon": "Mountain Stance",
-      "featreq": "Mountain Stance",
+      "featreq": ["Mountain Stance"],
       "gainActivities": [
          "Mountain Stronghold"
       ],
@@ -5220,7 +5221,7 @@
       "name": "Tiger Slash",
       "shortdesc": "You make a fierce swipe with both hands.",
       "desc": "You make a fierce swipe with both hands.",
-      "featreq": "Tiger Stance",
+      "featreq": ["Tiger Stance"],
       "gainActivities": [
          "Tiger Slash"
       ],
@@ -5259,7 +5260,7 @@
       "gainActivities": [
          "Wolf Drag"
       ],
-      "featreq": "Wolf Stance",
+      "featreq": ["Wolf Stance"],
       "levelreq": 6,
       "traits": [
          "Monk"
@@ -5271,7 +5272,7 @@
       "desc": "You pluck missiles from the air and hurl them back at their source. When you successfully deflect an attack with Deflect Arrow, as part of that reaction, you can immediately make a ranged Strike against the attacker using the projectile you deflected. This is a thrown weapon with the same range increment and effect on a hit as the triggering attack.",
       "hint": "When you successfully deflect an attack with Deflect Arrow, as part of that reaction, you can immediately make a ranged Strike against the attacker using the projectile you deflected. This is a thrown weapon with the same range increment and effect on a hit as the triggering attack.",
       "showon": "Deflect Arrows",
-      "featreq": "Deflect Arrows",
+      "featreq": ["Deflect Arrows"],
       "levelreq": 8,
       "traits": [
          "Monk"
@@ -5530,7 +5531,7 @@
       "shortdesc": "You steel yourself, preparing to resist oncoming attacks and using your muscles to absorb the impact.",
       "desc": "You steel yourself, preparing to resist oncoming attacks and using your muscles to absorb the impact.",
       "showon": "Ironblood Stance",
-      "featreq": "Ironblood Stance",
+      "featreq": ["Ironblood Stance"],
       "gainActivities": [
          "Ironblood Surge"
       ],
@@ -5545,7 +5546,7 @@
       "desc": "You stomp, shaking the earth beneath you and causing quakes.",
       "hint": "If you have this feat, the Dexterity modifier cap to your AC while using Mountain Stance increases from +1 to +2.",
       "showon": "Mountain Stance",
-      "featreq": "Mountain Stronghold",
+      "featreq": ["Mountain Stronghold"],
       "gainActivities": [
          "Mountain Quake"
       ],
@@ -5560,7 +5561,7 @@
       "name": "Tangled Forest Rake",
       "shortdesc": "You reposition foes with raking attacks.",
       "desc": "You reposition foes with raking attacks.",
-      "featreq": "Tangled Forest Stance",
+      "featreq": ["Tangled Forest Stance"],
       "gainActivities": [
          "Tangled Forest Rake"
       ],
@@ -5624,7 +5625,7 @@
       "name": "Master of Many Styles",
       "shortdesc": "You move between stances in an unceasing dance.",
       "desc": "You move between stances in an unceasing dance.",
-      "featreq": "Stance Savant",
+      "featreq": ["Stance Savant"],
       "gainActivities": [
          "Master of Many Styles"
       ],
@@ -5692,7 +5693,7 @@
       "name": "Wild Winds Gust",
       "shortdesc": "You store up energy and release it in an enormous gust of rushing wind.",
       "desc": "You store up energy and release it in an enormous gust of rushing wind.",
-      "featreq": "Wild Winds Initiate",
+      "featreq": ["Wild Winds Initiate"],
       "gainActivities": [
          "Wild Winds Gust"
       ],
@@ -5766,7 +5767,7 @@
       "desc": "When you clear your mind, your focus comes flowing back in a powerful rush. If you have spent at least 3 Focus Points since the last time you Refocused, you recover 3 Focus Points when you Refocus instead of 1.",
       "hint": "If you have spent at least 3 Focus Points since the last time you Refocused, you recover 3 Focus Points when you Refocus instead of 1.",
       "showon": "Focus",
-      "featreq": "Meditative Focus",
+      "featreq": ["Meditative Focus"],
       "internalNote": "The effect is hardcoded.",
       "levelreq": 18,
       "traits": [
@@ -5879,7 +5880,7 @@
       "showon": "Hunt Prey, Animal Companion",
       "levelreq": 1,
       "specialreqdesc": "no animal companion",
-      "specialreq": "!character.get_FeatsTaken(1, 20).filter(feat => feat.name != this.name && characterService.get_FeatsAndFeatures(feat.name)[0].gainAnimalCompanion).length",
+      "specialreq": "!character.get_FeatsTaken(1, 20).filter(feat => feat.name != this.name && characterService.get_FeatsAndFeatures(feat.name)[0].gainAnimalCompanion == 1).length",
       "gainAnimalCompanion":true,
       "traits": [
          "Ranger"
@@ -5905,49 +5906,60 @@
       "hint": "If you have the Hunt Prey action, your animal companion assaults the prey even without your orders. During an encounter, even if you don’t use the Command an Animal action, your animal companion can still use 1 action that round on your turn to Stride toward or Strike your prey.",
       "showon": "Animal Companion",
       "levelreq": 6,
-      "featreq": "Animal Companion (Ranger)",
-      "growAnimalCompanion":2,
+      "featreq": ["Animal Companion (Ranger)"],
+      "gainAnimalCompanion":2,
       "traits": [
          "Ranger"
       ]
    },
    {
-      "name": "Incredible Animal Companion (Ranger)",
+      "name": "Incredible Companion (Ranger)",
       "shortdesc": "Your animal companion continues to grow and develop.",
       "desc": "Your animal companion continues to grow and develop. It becomes a nimble or savage animal companion (your choice), gaining additional capabilities determined by the type of companion (page 214).",
       "levelreq": 10,
       "subTypes": true,
-      "featreq": "Mature Animal Companion (Ranger)",
+      "featreq": ["Mature Animal Companion (Ranger)"],
       "traits": [
          "Ranger"
       ]
    },
    {
-      "name": "Incredible Animal Companion (Ranger): Nimble",
+      "name": "Incredible Companion (Ranger): Nimble",
       "shortdesc": "Your animal companion continues to grow and develop.",
       "desc": "Your animal companion continues to grow and develop. It becomes a nimble animal companion (your choice), gaining additional capabilities determined by the type of companion (page 214).",
       "levelreq": 10,
       "subType": "Nimble",
-      "superType": "Incredible Animal Companion (Ranger)",
-      "featreq": "Mature Animal Companion (Ranger)",
+      "superType": "Incredible Companion (Ranger)",
+      "featreq": ["Mature Animal Companion (Ranger)"],
       "specialreqdesc": "no savage animal companion",
-      "specialreq": "!character.get_FeatsTaken(1, 20).filter(feat => feat.name != this.name && characterService.get_FeatsAndFeatures(feat.name)[0].growAnimalCompanion > 2).length",
-      "growAnimalCompanion": 4,
+      "specialreq": "!character.get_FeatsTaken(1, 20).filter(feat => feat.name != this.name && characterService.get_FeatsAndFeatures(feat.name)[0].gainAnimalCompanion == 5).length",
+      "gainAnimalCompanion": 4,
       "traits": [
          "Ranger"
       ]
    },
    {
-      "name": "Incredible Animal Companion (Ranger): Savage",
+      "name": "Incredible Companion (Ranger): Savage",
       "shortdesc": "Your animal companion continues to grow and develop.",
       "desc": "Your animal companion continues to grow and develop. It becomes a nimble animal companion (your choice), gaining additional capabilities determined by the type of companion (page 214).",
       "levelreq": 10,
       "subType": "Savage",
-      "superType": "Incredible Animal Companion (Ranger)",
-      "featreq": "Mature Animal Companion (Ranger)",
+      "superType": "Incredible Companion (Ranger)",
+      "featreq": ["Mature Animal Companion (Ranger)"],
       "specialreqdesc": "no nimble animal companion",
-      "specialreq": "!character.get_FeatsTaken(1, 20).filter(feat => feat.name != this.name && characterService.get_FeatsAndFeatures(feat.name)[0].growAnimalCompanion > 2).length",
-      "growAnimalCompanion": 5,
+      "specialreq": "!character.get_FeatsTaken(1, 20).filter(feat => feat.name != this.name && characterService.get_FeatsAndFeatures(feat.name)[0].gainAnimalCompanion == 4).length",
+      "gainAnimalCompanion": 5,
+      "traits": [
+         "Ranger"
+      ]
+   },
+   {
+      "name": "Specialized Companion (Ranger)",
+      "shortdesc": "Your animal companion has become cunning enough to become specialized.",
+      "desc": "Your animal companion has become cunning enough to become specialized. Your animal companion gains one specialization of your choice. (See the Animal Companion section on page 214.)",
+      "levelreq": 16,
+      "featreq": ["Incredible Companion (Ranger): Nimble", "Incredible Companion (Ranger): Savage"],
+      "gainAnimalCompanion": 6,
       "traits": [
          "Ranger"
       ]
@@ -6006,7 +6018,7 @@
       "shortdesc": "You gain the basic spellcasting benefits.",
       "desc": "You gain the basic spellcasting benefits. Each time you gain a spell slot of a new level from the sorcerer archetype, add a spell of the appropriate spell level to your repertoire: a common spell of your bloodline’s tradition, one of your bloodline’s granted spells, or another spell you have learned or discovered.",
       "levelreq": 4,
-      "featreq": "Sorcerer Dedication",
+      "featreq": ["Sorcerer Dedication"],
       "archetype": "Sorcerer",
       "gainSpellChoice": [
          {

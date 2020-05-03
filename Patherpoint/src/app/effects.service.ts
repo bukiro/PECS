@@ -152,6 +152,9 @@ constructor(
                 }
             });
         })
+        companion.class.specializations.filter(spec => spec.effects.length).forEach(spec => {
+            simpleEffects = simpleEffects.concat(this.get_SimpleEffects(companion, characterService, spec));
+        })
         
         //We finalize and export this first bunch of simple effects,
         //because we are going to need to check Strength later in this function, and we don't want to have to run the function twice
