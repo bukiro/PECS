@@ -33,7 +33,7 @@ export class DefenseService {
 
     get_ParryWeapons(creature: Character|AnimalCompanion) {
         let weapons = creature.inventory.weapons;
-        return weapons.filter(weapon => weapon.traits.indexOf("Parry") > -1);
+        return weapons.filter(weapon => weapon.traits.includes("Parry"));
     }
 
     get_ArmorBonus(creature: Character|AnimalCompanion, characterService: CharacterService, armor: Armor) {

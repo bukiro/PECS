@@ -1,7 +1,7 @@
 export class Deity {
     public name: string = "";
     public category: string = "";
-    public alignment: string = "Neutral";
+    public alignment: string = "";
     public followerAlignments: string[];
     public divineAbility: string[] = [];
     public divineAbilityFilter: string[] = [];

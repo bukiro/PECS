@@ -1,94 +1,193 @@
 [
     {
-        "name":"Dwarf",
-        "traits":["Dwarf", "Humanoid"],
-        "ancestries":["Dwarf"],
-        "heritages":["Ancient-Blooded Dwarf", "Anvil Dwarf", "Death Warden Dwarf", "Elemental Heart Dwarf", "Forge Dwarf", "Oathkeeper Dwarf", "Rock Dwarf", "Strong-Blooded Dwarf"],
-        "hitPoints":10,
-        "size":0,
-        "speed":20,
-        "abilityChoices":[
+        "_className": "Ancestry",
+        "abilityChoices": [
             {
-                "available":0,
-                "boosts":[
-                    {"name":"Constitution", "type":"Boost", "source":"Ancestry", "locked":true, "sourceId":"1-Ability-Ancestry-0"},
-                    {"name":"Wisdom", "type":"Boost", "source":"Ancestry", "locked":true, "sourceId":"1-Ability-Ancestry-0"},
-                    {"name":"Charisma", "type":"Flaw", "source":"Ancestry", "locked":true, "sourceId":"1-Ability-Ancestry-0"}
+                "_className": "AbilityChoice",
+                "boosts": [
+                    {
+                        "name": "Constitution",
+                        "type": "Boost",
+                        "source": "Ancestry",
+                        "locked": true,
+                        "sourceId": "1-Ability-Ancestry-0"
+                    },
+                    {
+                        "name": "Wisdom",
+                        "type": "Boost",
+                        "source": "Ancestry",
+                        "locked": true,
+                        "sourceId": "1-Ability-Ancestry-0"
+                    },
+                    {
+                        "name": "Charisma",
+                        "type": "Flaw",
+                        "source": "Ancestry",
+                        "locked": true,
+                        "sourceId": "1-Ability-Ancestry-0"
+                    }
                 ],
-                "filter":[],
-                "baseValuesLost":0,
-                "source":"Ancestry",
-                "id":"1-Ability-Ancestry-0"
+                "id": "1-Ability-Ancestry-0",
+                "source": "Ancestry"
             },
             {
-                "available":1,
-                "boosts":[],
-                "filter":[],
-                "baseValuesLost":1,
-                "source":"Ancestry",
-                "id":"1-Ability-Ancestry-1"
+                "_className": "AbilityChoice",
+                "available": 1,
+                "baseValuesLost": 1,
+                "id": "1-Ability-Ancestry-1",
+                "source": "Ancestry"
             }
         ],
-        "languages":["Common", "Dwarven"],
-        "baseLanguages":2,
-        "recommendedLanguages":["Gnomish", "Goblin", "Jotun", "Orcish", "Terran", "Undercommon"],
-        "senses":["Darkvision"],
-        "gainItems":[{"name":"Clan Dagger", "type":"weapons"}]
+        "ancestries": [
+            "Dwarf"
+        ],
+        "baseLanguages": 2,
+        "gainItems": [
+            {
+                "name": "Clan Dagger",
+                "type": "weapons"
+            }
+        ],
+        "heritages": [
+            "Ancient-Blooded Dwarf",
+            "Anvil Dwarf",
+            "Death Warden Dwarf",
+            "Elemental Heart Dwarf",
+            "Forge Dwarf",
+            "Oathkeeper Dwarf",
+            "Rock Dwarf",
+            "Strong-Blooded Dwarf"
+        ],
+        "hitPoints": 10,
+        "languages": [
+            "Common",
+            "Dwarven"
+        ],
+        "name": "Dwarf",
+        "recommendedLanguages": [
+            "Gnomish",
+            "Goblin",
+            "Jotun",
+            "Orcish",
+            "Terran",
+            "Undercommon"
+        ],
+        "senses": [
+            "Darkvision"
+        ],
+        "speed": 20,
+        "traits": [
+            "Dwarf",
+            "Humanoid"
+        ]
     },
     {
-        "name":"Elf",
-        "traits":["Elf", "Humanoid"],
-        "ancestries":["Elf"],
-        "heritages":["Ancient Elf", "Arctic Elf", "Cavern Elf", "Desert Elf", "Seer Elf", "Whisper Elf", "Woodland Elf"],
-        "hitPoints":6,
-        "size":0,
-        "speed":30,
-        "abilityChoices":[
+        "_className": "Ancestry",
+        "abilityChoices": [
             {
-                "available":0,
-                "boosts":[
-                    {"name":"Dexterity", "type":"Boost", "source":"Ancestry", "locked":true, "sourceId":"1-Ability-Ancestry-0"},
-                    {"name":"Wisdom", "type":"Boost", "source":"Ancestry","locked":true, "sourceId":"1-Ability-Ancestry-0"},
-                    {"name":"Constitution", "type":"Flaw", "source":"Ancestry", "locked":true, "sourceId":"1-Ability-Ancestry-0"}
+                "_className": "AbilityChoice",
+                "boosts": [
+                    {
+                        "name": "Dexterity",
+                        "type": "Boost",
+                        "source": "Ancestry",
+                        "locked": true,
+                        "sourceId": "1-Ability-Ancestry-0"
+                    },
+                    {
+                        "name": "Wisdom",
+                        "type": "Boost",
+                        "source": "Ancestry",
+                        "locked": true,
+                        "sourceId": "1-Ability-Ancestry-0"
+                    },
+                    {
+                        "name": "Constitution",
+                        "type": "Flaw",
+                        "source": "Ancestry",
+                        "locked": true,
+                        "sourceId": "1-Ability-Ancestry-0"
+                    }
                 ],
-                "filter":[],
-                "baseValuesLost":0,
-                "source":"Ancestry",
-                "id":"1-Ability-Ancestry-0"
+                "id": "1-Ability-Ancestry-0",
+                "source": "Ancestry"
             },
             {
-                "available":1,
-                "boosts":[],
-                "filter":[],
-                "baseValuesLost":1,
-                "source":"Ancestry",
-                "id":"1-Ability-Ancestry-1"
+                "_className": "AbilityChoice",
+                "available": 1,
+                "baseValuesLost": 1,
+                "id": "1-Ability-Ancestry-1",
+                "source": "Ancestry"
             }
         ],
-        "languages":["Common", "Elven"],
-        "baseLanguages":2,
-        "recommendedLanguages":["Celestial", "Draconic", "Gnoll", "Gnomish", "Goblin", "Orcish", "Sylvan"],
-        "senses":["Low-Light Vision"]
+        "ancestries": [
+            "Elf"
+        ],
+        "baseLanguages": 2,
+        "heritages": [
+            "Ancient Elf",
+            "Arctic Elf",
+            "Cavern Elf",
+            "Desert Elf",
+            "Seer Elf",
+            "Whisper Elf",
+            "Woodland Elf"
+        ],
+        "hitPoints": 6,
+        "languages": [
+            "Common",
+            "Elven"
+        ],
+        "name": "Elf",
+        "recommendedLanguages": [
+            "Celestial",
+            "Draconic",
+            "Gnoll",
+            "Gnomish",
+            "Goblin",
+            "Orcish",
+            "Sylvan"
+        ],
+        "senses": [
+            "Low-Light Vision"
+        ],
+        "speed": 30,
+        "traits": [
+            "Elf",
+            "Humanoid"
+        ]
     },
     {
-        "name":"Human",
-        "traits":["Human", "Humanoid"],
-        "ancestries":["Human"],
-        "heritages":["Half-Elf", "Half-Orc", "Skilled Heritage", "Versatile Heritage", "Wintertouched Human"],
-        "hitPoints":8,
-        "size":0,
-        "speed":25,
-        "abilityChoices":[
+        "_className": "Ancestry",
+        "abilityChoices": [
             {
-                "available":2,
-                "boosts":[],
-                "filter":[],
-                "baseValuesLost":1,
-                "source":"Ancestry",
-                "id":"1-Ability-Ancestry-0"
+                "_className": "AbilityChoice",
+                "available": 2,
+                "baseValuesLost": 1,
+                "id": "1-Ability-Ancestry-0",
+                "source": "Ancestry"
             }
         ],
-        "languages":["Common"],
-        "baseLanguages":2
+        "ancestries": [
+            "Human"
+        ],
+        "baseLanguages": 2,
+        "heritages": [
+            "Half-Elf",
+            "Half-Orc",
+            "Skilled Heritage",
+            "Versatile Heritage",
+            "Wintertouched Human"
+        ],
+        "hitPoints": 8,
+        "languages": [
+            "Common"
+        ],
+        "name": "Human",
+        "speed": 25,
+        "traits": [
+            "Human",
+            "Humanoid"
+        ]
     }
 ]

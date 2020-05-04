@@ -6,11 +6,12 @@ import { ItemsService } from './items.service';
 import { AnimalCompanionSpecialization } from './AnimalCompanionSpecialization';
 
 export class AnimalCompanionClass {
-    public name: string = "";
-    public levels: AnimalCompanionLevel[] = [];
+    public readonly _className: string = this.constructor.name;
     public ancestry: AnimalCompanionAncestry = new AnimalCompanionAncestry();
-    public specializations: AnimalCompanionSpecialization[] = [];
     public hitPoints: number = 6;
+    public levels: AnimalCompanionLevel[] = [];
+    public name: string = "";
+    public specializations: AnimalCompanionSpecialization[] = [];
     reassign(characterService: CharacterService) {
         //Re-Assign levels
         this.levels = characterService.get_AnimalCompanionLevels().map(level => Object.assign(new AnimalCompanionLevel(), level));

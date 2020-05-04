@@ -117,7 +117,8 @@ export class CharacterComponent implements OnInit {
 
     get_Alignments() {
         //Champions and Clerics need to pick an alignment matching their deity
-        return [
+        let deity: Deity = this.get_Deities(this.get_Character().class.deity)[0]
+        let alignments = [
             "",
             "Lawful Good",
             "Neutral Good",
@@ -128,7 +129,16 @@ export class CharacterComponent implements OnInit {
             "Lawful Evil",
             "Neutral Evil",
             "Chaotic Evil"
-        ].filter(alignment => ["Champion", "Cleric"].indexOf(this.get_Character().class.name) == -1 || !this.get_Character().class.deity.followerAlignments || this.get_Character().class.deity.followerAlignments.indexOf(alignment) > -1)
+        ]
+        if (deity && ["Champion", "Cleric"].includes(this.get_Character().class.name)) {
+            return alignments.filter(alignment => 
+                !deity.followerAlignments ||
+                deity.followerAlignments.includes(alignment)
+            )
+        } else {
+            return alignments;
+        }
+        
     }
 
     get_Level(number: number) {
@@ -251,7 +261,7 @@ export class CharacterComponent implements OnInit {
             //If any can be boosted, filter the list by the filter (and show the already selected abilities so you can unselect them if you like).
             //If none can be boosted, the list just does not get filtered.
             if (cannotBoost < choice.filter.length) {
-                abilities = abilities.filter(ability => choice.filter.indexOf(ability.name) > -1 || this.abilityBoostedByThis(ability, choice))
+                abilities = abilities.filter(ability => choice.filter.includes(ability.name) || this.abilityBoostedByThis(ability, choice))
             }
         }
         if (abilities.length) {
@@ -371,7 +381,7 @@ export class CharacterComponent implements OnInit {
     get_AvailableSkills(choice: SkillChoice) {
         let skills = this.get_Skills('', choice.type);
         if (choice.filter.length) {
-            skills = skills.filter(skill => choice.filter.indexOf(skill.name) > -1)
+            skills = skills.filter(skill => choice.filter.includes(skill.name))
         }
         if (skills.length) {
             return skills.filter(skill => (
@@ -404,7 +414,7 @@ export class CharacterComponent implements OnInit {
         //An exception is made for Additional Lore, which can be raised on Level 3, 7 and 15 no matter when you learned it
         let allIncreases = this.get_SkillIncreases(level.number+1, 20, skill.name, '');
         if (allIncreases.length > 0) {
-            if (allIncreases[0].locked && allIncreases[0].source.indexOf("Feat: ") > -1 && allIncreases[0].source != "Feat: Additional Lore") {
+            if (allIncreases[0].locked && allIncreases[0].source.includes("Feat: ") && allIncreases[0].source != "Feat: Additional Lore") {
                 let trainedOnHigherLevel = "Trained on a higher level by "+allIncreases[0].source+".";
                 reasons.push(trainedOnHigherLevel);
             }
@@ -448,7 +458,7 @@ export class CharacterComponent implements OnInit {
         let sources: string[] = [];
         let traditionChoices: TraditionChoice[] = [];
         level.traditionChoices.forEach(choice => {
-            if (!(sources.indexOf(choice.source) > -1)) {
+            if (!(sources.includes(choice.source))) {
                 sources.push(choice.source),
                 traditionChoices.push(choice)
             }
@@ -459,7 +469,7 @@ export class CharacterComponent implements OnInit {
     get_AvailableTraditionAbilities(choice: TraditionChoice) {
         let abilities = this.get_Abilities();
         if (choice.abilityFilter.length) {
-            abilities = abilities.filter(ability => choice.abilityFilter.indexOf(ability.name) > -1)
+            abilities = abilities.filter(ability => choice.abilityFilter.includes(ability.name))
         }
         if (abilities.length) {
             return abilities.filter(ability => (
@@ -471,7 +481,7 @@ export class CharacterComponent implements OnInit {
     get_AvailableTraditions(choice: TraditionChoice) {
         let traditions = ["Arcane", "Divine", "Occult", "Primal"];
         if (choice.traditionFilter.length) {
-            traditions = traditions.filter(tradition => choice.traditionFilter.indexOf(tradition) > -1)
+            traditions = traditions.filter(tradition => choice.traditionFilter.includes(tradition))
         }
         if (traditions.length) {
             return traditions.filter(tradition => (
@@ -540,7 +550,7 @@ export class CharacterComponent implements OnInit {
         //Get all Feats, but no subtype Feats (those that have the supertype attribute set) - those get built within their supertype
         let allFeats = this.get_Feats().filter(feat => !feat.superType && !feat.hide);
         if (choice.filter.length) {
-            allFeats = allFeats.filter(feat => choice.filter.indexOf(feat.name) > -1)
+            allFeats = allFeats.filter(feat => choice.filter.includes(feat.name))
         }
         let feats: Feat[] = [];
         if (choice.specialChoice) {
@@ -550,15 +560,15 @@ export class CharacterComponent implements OnInit {
         } else {
             switch (choice.type) {
                 case "Class":
-                    feats.push(...allFeats.filter(feat => feat.traits.indexOf(character.class.name) > -1 || feat.traits.indexOf("Archetype") > -1));
+                    feats.push(...allFeats.filter(feat => feat.traits.includes(character.class.name) || feat.traits.includes("Archetype")));
                     break;
                 case "Ancestry":
                     character.class.ancestry.ancestries.forEach(trait => {
-                        feats.push(...allFeats.filter(feat => feat.traits.indexOf(trait) > -1));
+                        feats.push(...allFeats.filter(feat => feat.traits.includes(trait)));
                     })
                     break;
                 default:
-                    feats.push(...allFeats.filter(feat => feat.traits.indexOf(choice.type) > -1));
+                    feats.push(...allFeats.filter(feat => feat.traits.includes(choice.type)));
                     break;
             }
         }
@@ -620,7 +630,7 @@ export class CharacterComponent implements OnInit {
                 if (newChoice.loreName) {
                     if (this.characterService.get_Skills(this.get_Character(), 'Lore: '+newChoice.loreName).length) {
                         let increases = character.get_SkillIncreases(this.characterService, 1, 20, 'Lore: '+newChoice.loreName).filter(increase => 
-                            increase.sourceId.indexOf("-Lore-") > -1
+                            increase.sourceId.includes("-Lore-")
                             );
                         if (increases.length) {
                             let oldChoice = character.get_LoreChoice(increases[0].sourceId);
@@ -644,10 +654,10 @@ export class CharacterComponent implements OnInit {
     get_StancesToFuse(levelNumber: number) {
         let unique: string[] = [];
         let stances: {name:string, reason:string}[] = [];
-        this.characterService.get_OwnedActivities(this.get_Character(), levelNumber).filter(activity => unique.indexOf(activity.name) == -1).forEach(activity => {
-            this.activitiesService.get_Activities(activity.name).filter(example => example.traits.indexOf("Stance") > -1).forEach(example => {
+        this.characterService.get_OwnedActivities(this.get_Character(), levelNumber).filter(activity => !unique.includes(activity.name)).forEach(activity => {
+            this.activitiesService.get_Activities(activity.name).filter(example => example.traits.includes("Stance")).forEach(example => {
                 //Stances that only allow one type of strike cannot be used for Fuse Stance.
-                if (example.desc.indexOf("only Strikes") == -1) {
+                if (!example.desc.includes("only Strikes")) {
                     unique.push(activity.name);
                     stances.push({name:activity.name, reason:""});
                 } else {
@@ -693,7 +703,7 @@ export class CharacterComponent implements OnInit {
             let levelNumber = parseInt(choice.id.split("-")[0]);
             let featLevel = 0;
             if (choice.level) {
-                featLevel = parseInt(choice.level);
+                featLevel = choice.level;
             } else {
                 featLevel = levelNumber;
             }
@@ -718,12 +728,12 @@ export class CharacterComponent implements OnInit {
                 }
             }
             //Dedication feats
-            if (feat.traits.indexOf("Dedication") > -1) {
+            if (feat.traits.includes("Dedication")) {
                 //Get all taken dedication feats that aren't this, then check if you have taken 
                 this.get_Character().get_FeatsTaken(1, levelNumber).map(gain => this.get_FeatsAndFeatures(gain.name)[0])
-                    .filter(libraryfeat => libraryfeat.name != feat.name && libraryfeat.traits.indexOf("Dedication") > -1).forEach(takenfeat => {
+                    .filter(libraryfeat => libraryfeat.name != feat.name && libraryfeat.traits.includes("Dedication")).forEach(takenfeat => {
                     let archetypeFeats = this.get_Character().get_FeatsTaken(1, levelNumber).map(gain => this.get_FeatsAndFeatures(gain.name)[0])
-                        .filter(libraryfeat => libraryfeat.name != takenfeat.name && libraryfeat.traits.indexOf("Archetype") > -1 && libraryfeat.archetype == takenfeat.archetype)
+                        .filter(libraryfeat => libraryfeat.name != takenfeat.name && libraryfeat.traits.includes("Archetype") && libraryfeat.archetype == takenfeat.archetype)
                     if (archetypeFeats.length < 2) {
                         reasons.push("You cannot select another dedication feat until you have gained two other feats from the "+takenfeat.archetype+" archetype.");
                     }
@@ -763,7 +773,7 @@ export class CharacterComponent implements OnInit {
         let levelNumber = parseInt(choice.id.split("-")[0]);
         let featLevel = 0;
         if (choice.level) {
-            featLevel = parseInt(choice.level);
+            featLevel = choice.level;
         } else {
             featLevel = levelNumber;
         }
@@ -853,9 +863,9 @@ export class CharacterComponent implements OnInit {
     onClassChange($class: Class, taken: boolean) {
         if (taken) {
             this.showList="";
-            this.characterService.changeClass($class);
+            this.characterService.change_Class($class);
         } else {
-            this.characterService.changeClass(new Class());
+            this.characterService.change_Class(new Class());
         }
     }
 
@@ -872,12 +882,12 @@ export class CharacterComponent implements OnInit {
         }
     }
 
-    get_Deities() {
+    get_Deities(name: string = "") {
         //Champions and Clerics need to choose a deity matching their alignment.
-        if (["Champion", "Cleric"].indexOf(this.get_Character().class.name) == -1) {
-            return this.deitiesService.get_Deities();
+        if (!["Champion", "Cleric"].includes(this.get_Character().class.name)) {
+            return this.deitiesService.get_Deities(name);
         } else {
-            return this.deitiesService.get_Deities().filter((deity: Deity) => !this.get_Character().alignment || deity.followerAlignments.indexOf(this.get_Character().alignment) > -1);
+            return this.deitiesService.get_Deities(name).filter((deity: Deity) => !this.get_Character().alignment || deity.followerAlignments.includes(this.get_Character().alignment));
         }
     }
 

@@ -9,13 +9,13 @@ import { EffectsService } from './effects.service';
 import { AnimalCompanionSpecialization } from './AnimalCompanionSpecialization';
 
 export class AnimalCompanion extends Creature {
-    public species: string = "";
-    public readonly type = "Companion"
+    public readonly _className: string = this.constructor.name;
     public class: AnimalCompanionClass = new AnimalCompanionClass();
     public customSkills: Skill[] = [
         Object.assign(new Skill(), { name:"Light Barding", type:"Armor Proficiency" }),
         Object.assign(new Skill(), { name:"Heavy Barding", type:"Armor Proficiency" })
-    ];
+    ];public species: string = "";
+    public readonly type = "Companion";
     get_Size(effectsService: EffectsService) {
         let size: number = (this.class.ancestry.size ? this.class.ancestry.size : 0);
         this.class.levels.filter(level => level.number <= this.level).forEach(level => {

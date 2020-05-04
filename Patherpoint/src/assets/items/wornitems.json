@@ -1,210 +1,247 @@
 [
     {
-        "type": "wornitems",
-        "price": 3500,
+        "desc": "As you invest these embroidered strips of cloth, you must meditate and slowly wrap them around your hands. These handwraps have weapon runes etched into them to give your unarmed attacks the benefits of those runes, making your unarmed attacks work like magic weapons. For example, +1 striking handwraps of mighty blows would give you a +1 item bonus to attack rolls with your unarmed attacks and increase the damage of your unarmed attacks from one weapon die to two (normally 2d4 instead of 1d4, but if your fists have a different weapon damage die or you have other unarmed attacks, use two of that die size instead).\n\nYou can upgrade, add, and transfer runes to and from the handwraps just as you would for a weapon, and you can attach talismans to the handwraps. Treat the handwraps as melee weapons of the brawling group with light Bulk for these purposes. Property runes apply only when they would be applicable to the unarmed attack you’re using. For example, a property that must be applied to a slashing weapon wouldn’t function when you attacked with a fist, but you would gain its benefits if you attacked with a claw or some other slashing unarmed attack.",
+        "id": "89c3c5a2-8e09-11ea-9fab-e92c63c14723",
         "level": 2,
         "name": "Handwraps of Mighty Blows",
-        "desc": "As you invest these embroidered strips of cloth, you must meditate and slowly wrap them around your hands. These handwraps have weapon runes etched into them to give your unarmed attacks the benefits of those runes, making your unarmed attacks work like magic weapons. For example, +1 striking handwraps of mighty blows would give you a +1 item bonus to attack rolls with your unarmed attacks and increase the damage of your unarmed attacks from one weapon die to two (normally 2d4 instead of 1d4, but if your fists have a different weapon damage die or you have other unarmed attacks, use two of that die size instead).\n\nYou can upgrade, add, and transfer runes to and from the handwraps just as you would for a weapon, and you can attach talismans to the handwraps. Treat the handwraps as melee weapons of the brawling group with light Bulk for these purposes. Property runes apply only when they would be applicable to the unarmed attack you’re using. For example, a property that must be applied to a slashing weapon wouldn’t function when you attacked with a fist, but you would gain its benefits if you attacked with a claw or some other slashing unarmed attack.",
-        "potencyRune": 1,
-        "usage": "worn gloves",
-        "moddable": "weapon",
+        "price": 3500,
         "traits": [
             "Invested",
             "Magical",
             "Transmutation"
         ],
-        "isHandwrapsOfMightyBlows": true
+        "moddable": "weapon",
+        "potencyRune": 1,
+        "_className": "WornItem",
+        "isHandwrapsOfMightyBlows": true,
+        "usage": "worn gloves"
     },
     {
-        "type": "wornitems",
-        "price": 10000,
+        "desc": "As you invest these embroidered strips of cloth, you must meditate and slowly wrap them around your hands. These handwraps have weapon runes etched into them to give your unarmed attacks the benefits of those runes, making your unarmed attacks work like magic weapons. For example, +1 striking handwraps of mighty blows would give you a +1 item bonus to attack rolls with your unarmed attacks and increase the damage of your unarmed attacks from one weapon die to two (normally 2d4 instead of 1d4, but if your fists have a different weapon damage die or you have other unarmed attacks, use two of that die size instead).\n\nYou can upgrade, add, and transfer runes to and from the handwraps just as you would for a weapon, and you can attach talismans to the handwraps. Treat the handwraps as melee weapons of the brawling group with light Bulk for these purposes. Property runes apply only when they would be applicable to the unarmed attack you’re using. For example, a property that must be applied to a slashing weapon wouldn’t function when you attacked with a fist, but you would gain its benefits if you attacked with a claw or some other slashing unarmed attack.",
+        "id": "89c3c5a5-8e09-11ea-9fab-e92c63c14723",
         "level": 4,
         "name": "Handwraps of Mighty Blows",
-        "desc": "As you invest these embroidered strips of cloth, you must meditate and slowly wrap them around your hands. These handwraps have weapon runes etched into them to give your unarmed attacks the benefits of those runes, making your unarmed attacks work like magic weapons. For example, +1 striking handwraps of mighty blows would give you a +1 item bonus to attack rolls with your unarmed attacks and increase the damage of your unarmed attacks from one weapon die to two (normally 2d4 instead of 1d4, but if your fists have a different weapon damage die or you have other unarmed attacks, use two of that die size instead).\n\nYou can upgrade, add, and transfer runes to and from the handwraps just as you would for a weapon, and you can attach talismans to the handwraps. Treat the handwraps as melee weapons of the brawling group with light Bulk for these purposes. Property runes apply only when they would be applicable to the unarmed attack you’re using. For example, a property that must be applied to a slashing weapon wouldn’t function when you attacked with a fist, but you would gain its benefits if you attacked with a claw or some other slashing unarmed attack.",
-        "potencyRune": 1,
-        "strikingRune": 1,
-        "usage": "worn gloves",
-        "moddable": "weapon",
+        "price": 10000,
         "traits": [
             "Invested",
             "Magical",
             "Transmutation"
         ],
-        "isHandwrapsOfMightyBlows": true
+        "moddable": "weapon",
+        "potencyRune": 1,
+        "strikingRune": 1,
+        "_className": "WornItem",
+        "isHandwrapsOfMightyBlows": true,
+        "usage": "worn gloves"
     },
     {
-        "type": "wornitems",
-        "price": 90000,
-        "level": 10,
         "bulk": "L",
-        "name": "Barding of the Zephyr",
         "desc": "This light barding is covered in stylized wind motifs. When you suit up your animal companion, the barding adjusts to fit your animal companion regardless of its shape.\n\nWhen your companion falls, wind picks it up from below; it gains the effects of feather fall.",
-        "usage": "worn barding",
-        "activities": [
-            {
-                "name": "Barding of the Zephyr",
-                "actions": "2",
-                "activationType": "Interact",
-                "cooldown":144000,
-                "frequency": "once per day",
-                "desc": "You trace a finger along the wind motifs on the barding, granting your companion wearing the barding a fly Speed of 30 feet for 10 minutes. Even if the companion doesn’t have the mount special ability, it can still Fly while being ridden.",
-                "gainConditions": [
-                    {
-                        "name": "Barding of the Zephyr",
-                        "source": "Barding of the Zephyr",
-                        "duration": 1000
-                    }
-                ],
-                "traits": [
-                    "Companion",
-                    "Invested",
-                    "Primal",
-                    "Transmutation"
-                ]
-            },
-            {
-                "name": "Barding of the Zephyr: Feather Fall",
-                "actions": "Free",
-                "activationType": "Automatic",
-                "desc": "When your companion falls, wind picks it up from below; it gains the effects of feather fall.",
-                "castSpells": [
-                    {
-                        "name": "feather Fall",
-                        "level": 1
-                    }
-                ],
-                "traits": [
-                    "Companion",
-                    "Invested",
-                    "Primal",
-                    "Transmutation"
-                ]
-            }
-        ],
+        "id": "89c3c5a8-8e09-11ea-9fab-e92c63c14723",
+        "level": 10,
+        "name": "Barding of the Zephyr",
+        "price": 90000,
         "traits": [
             "Companion",
             "Invested",
             "Primal",
             "Transmutation"
-        ]
-    },
-    {
-        "type": "wornitems",
-        "price": 100000,
-        "level": 10,
-        "name": "Handwraps of Mighty Blows",
-        "desc": "As you invest these embroidered strips of cloth, you must meditate and slowly wrap them around your hands. These handwraps have weapon runes etched into them to give your unarmed attacks the benefits of those runes, making your unarmed attacks work like magic weapons. For example, +1 striking handwraps of mighty blows would give you a +1 item bonus to attack rolls with your unarmed attacks and increase the damage of your unarmed attacks from one weapon die to two (normally 2d4 instead of 1d4, but if your fists have a different weapon damage die or you have other unarmed attacks, use two of that die size instead).\n\nYou can upgrade, add, and transfer runes to and from the handwraps just as you would for a weapon, and you can attach talismans to the handwraps. Treat the handwraps as melee weapons of the brawling group with light Bulk for these purposes. Property runes apply only when they would be applicable to the unarmed attack you’re using. For example, a property that must be applied to a slashing weapon wouldn’t function when you attacked with a fist, but you would gain its benefits if you attacked with a claw or some other slashing unarmed attack.",
-        "potencyRune": 2,
-        "strikingRune": 1,
-        "usage": "worn gloves",
-        "moddable": "weapon",
-        "traits": [
-            "Invested",
-            "Magical",
-            "Transmutation"
         ],
-        "isHandwrapsOfMightyBlows": true
-    },
-    {
-        "type": "wornitems",
-        "price": 200000,
-        "level": 12,
-        "name": "Handwraps of Mighty Blows",
-        "desc": "As you invest these embroidered strips of cloth, you must meditate and slowly wrap them around your hands. These handwraps have weapon runes etched into them to give your unarmed attacks the benefits of those runes, making your unarmed attacks work like magic weapons. For example, +1 striking handwraps of mighty blows would give you a +1 item bonus to attack rolls with your unarmed attacks and increase the damage of your unarmed attacks from one weapon die to two (normally 2d4 instead of 1d4, but if your fists have a different weapon damage die or you have other unarmed attacks, use two of that die size instead).\n\nYou can upgrade, add, and transfer runes to and from the handwraps just as you would for a weapon, and you can attach talismans to the handwraps. Treat the handwraps as melee weapons of the brawling group with light Bulk for these purposes. Property runes apply only when they would be applicable to the unarmed attack you’re using. For example, a property that must be applied to a slashing weapon wouldn’t function when you attacked with a fist, but you would gain its benefits if you attacked with a claw or some other slashing unarmed attack.",
-        "potencyRune": 2,
-        "strikingRune": 2,
-        "usage": "worn gloves",
-        "moddable": "weapon",
-        "traits": [
-            "Invested",
-            "Magical",
-            "Transmutation"
-        ],
-        "isHandwrapsOfMightyBlows": true
-    },
-    {
-        "type": "wornitems",
-        "price": 1000000,
-        "level": 16,
-        "name": "Handwraps of Mighty Blows",
-        "desc": "As you invest these embroidered strips of cloth, you must meditate and slowly wrap them around your hands. These handwraps have weapon runes etched into them to give your unarmed attacks the benefits of those runes, making your unarmed attacks work like magic weapons. For example, +1 striking handwraps of mighty blows would give you a +1 item bonus to attack rolls with your unarmed attacks and increase the damage of your unarmed attacks from one weapon die to two (normally 2d4 instead of 1d4, but if your fists have a different weapon damage die or you have other unarmed attacks, use two of that die size instead).\n\nYou can upgrade, add, and transfer runes to and from the handwraps just as you would for a weapon, and you can attach talismans to the handwraps. Treat the handwraps as melee weapons of the brawling group with light Bulk for these purposes. Property runes apply only when they would be applicable to the unarmed attack you’re using. For example, a property that must be applied to a slashing weapon wouldn’t function when you attacked with a fist, but you would gain its benefits if you attacked with a claw or some other slashing unarmed attack.",
-        "potencyRune": 3,
-        "strikingRune": 2,
-        "usage": "worn gloves",
-        "moddable": "weapon",
-        "traits": [
-            "Invested",
-            "Magical",
-            "Transmutation"
-        ],
-        "isHandwrapsOfMightyBlows": true
-    },
-    {
-        "type": "wornitems",
-        "price": 4000000,
-        "level": 19,
-        "name": "Handwraps of Mighty Blows",
-        "desc": "As you invest these embroidered strips of cloth, you must meditate and slowly wrap them around your hands. These handwraps have weapon runes etched into them to give your unarmed attacks the benefits of those runes, making your unarmed attacks work like magic weapons. For example, +1 striking handwraps of mighty blows would give you a +1 item bonus to attack rolls with your unarmed attacks and increase the damage of your unarmed attacks from one weapon die to two (normally 2d4 instead of 1d4, but if your fists have a different weapon damage die or you have other unarmed attacks, use two of that die size instead).\n\nYou can upgrade, add, and transfer runes to and from the handwraps just as you would for a weapon, and you can attach talismans to the handwraps. Treat the handwraps as melee weapons of the brawling group with light Bulk for these purposes. Property runes apply only when they would be applicable to the unarmed attack you’re using. For example, a property that must be applied to a slashing weapon wouldn’t function when you attacked with a fist, but you would gain its benefits if you attacked with a claw or some other slashing unarmed attack.",
-        "potencyRune": 3,
-        "strikingRune": 3,
-        "usage": "worn gloves",
-        "moddable": "weapon",
-        "traits": [
-            "Invested",
-            "Magical",
-            "Transmutation"
-        ],
-        "isHandwrapsOfMightyBlows": true
-    },
-    {
-        "type": "wornitems",
-        "bulk": "L",
-        "price": 8000,
-        "level": 4,
-        "name": "Lifting Belt",
-        "desc": "This wide leather belt grants you a +1 item bonus to Athletics checks and increases the amount you can easily carry. You can carry Bulk equal to 6 + your Strength modifier before becoming encumbered, and you can hold and carry a total Bulk up to 11 + your Strength modifier.",
-        "usage": "worn belt",
         "activities": [
             {
-                "name": "Lifting Belt",
+                "actions": "2",
+                "activationType": "Interact",
+                "cooldown": 144000,
+                "desc": "You trace a finger along the wind motifs on the barding, granting your companion wearing the barding a fly Speed of 30 feet for 10 minutes. Even if the companion doesn’t have the mount special ability, it can still Fly while being ridden.",
+                "frequency": "once per day",
+                "gainConditions": [
+                    {
+                        "_className": "ConditionGain",
+                        "duration": 1000,
+                        "name": "Barding of the Zephyr",
+                        "source": "Barding of the Zephyr"
+                    }
+                ],
+                "name": "Barding of the Zephyr",
+                "traits": [
+                    "Companion",
+                    "Invested",
+                    "Primal",
+                    "Transmutation"
+                ],
+                "_className": "ItemActivity",
+                "source": "89c3c5a8-8e09-11ea-9fab-e92c63c14723"
+            },
+            {
+                "actions": "Free",
+                "activationType": "Automatic",
+                "castSpells": [
+                    {
+                        "_className": "SpellCast",
+                        "name": "feather Fall"
+                    }
+                ],
+                "desc": "When your companion falls, wind picks it up from below; it gains the effects of feather fall.",
+                "name": "Barding of the Zephyr: Feather Fall",
+                "traits": [
+                    "Companion",
+                    "Invested",
+                    "Primal",
+                    "Transmutation"
+                ],
+                "_className": "ItemActivity",
+                "source": "89c3c5a8-8e09-11ea-9fab-e92c63c14723"
+            }
+        ],
+        "_className": "WornItem",
+        "usage": "worn barding"
+    },
+    {
+        "desc": "As you invest these embroidered strips of cloth, you must meditate and slowly wrap them around your hands. These handwraps have weapon runes etched into them to give your unarmed attacks the benefits of those runes, making your unarmed attacks work like magic weapons. For example, +1 striking handwraps of mighty blows would give you a +1 item bonus to attack rolls with your unarmed attacks and increase the damage of your unarmed attacks from one weapon die to two (normally 2d4 instead of 1d4, but if your fists have a different weapon damage die or you have other unarmed attacks, use two of that die size instead).\n\nYou can upgrade, add, and transfer runes to and from the handwraps just as you would for a weapon, and you can attach talismans to the handwraps. Treat the handwraps as melee weapons of the brawling group with light Bulk for these purposes. Property runes apply only when they would be applicable to the unarmed attack you’re using. For example, a property that must be applied to a slashing weapon wouldn’t function when you attacked with a fist, but you would gain its benefits if you attacked with a claw or some other slashing unarmed attack.",
+        "id": "89c3c5ab-8e09-11ea-9fab-e92c63c14723",
+        "level": 10,
+        "name": "Handwraps of Mighty Blows",
+        "price": 100000,
+        "traits": [
+            "Invested",
+            "Magical",
+            "Transmutation"
+        ],
+        "moddable": "weapon",
+        "potencyRune": 2,
+        "strikingRune": 1,
+        "_className": "WornItem",
+        "isHandwrapsOfMightyBlows": true,
+        "usage": "worn gloves"
+    },
+    {
+        "desc": "As you invest these embroidered strips of cloth, you must meditate and slowly wrap them around your hands. These handwraps have weapon runes etched into them to give your unarmed attacks the benefits of those runes, making your unarmed attacks work like magic weapons. For example, +1 striking handwraps of mighty blows would give you a +1 item bonus to attack rolls with your unarmed attacks and increase the damage of your unarmed attacks from one weapon die to two (normally 2d4 instead of 1d4, but if your fists have a different weapon damage die or you have other unarmed attacks, use two of that die size instead).\n\nYou can upgrade, add, and transfer runes to and from the handwraps just as you would for a weapon, and you can attach talismans to the handwraps. Treat the handwraps as melee weapons of the brawling group with light Bulk for these purposes. Property runes apply only when they would be applicable to the unarmed attack you’re using. For example, a property that must be applied to a slashing weapon wouldn’t function when you attacked with a fist, but you would gain its benefits if you attacked with a claw or some other slashing unarmed attack.",
+        "id": "89c3c5ae-8e09-11ea-9fab-e92c63c14723",
+        "level": 12,
+        "name": "Handwraps of Mighty Blows",
+        "price": 200000,
+        "traits": [
+            "Invested",
+            "Magical",
+            "Transmutation"
+        ],
+        "moddable": "weapon",
+        "potencyRune": 2,
+        "strikingRune": 2,
+        "_className": "WornItem",
+        "isHandwrapsOfMightyBlows": true,
+        "usage": "worn gloves"
+    },
+    {
+        "desc": "As you invest these embroidered strips of cloth, you must meditate and slowly wrap them around your hands. These handwraps have weapon runes etched into them to give your unarmed attacks the benefits of those runes, making your unarmed attacks work like magic weapons. For example, +1 striking handwraps of mighty blows would give you a +1 item bonus to attack rolls with your unarmed attacks and increase the damage of your unarmed attacks from one weapon die to two (normally 2d4 instead of 1d4, but if your fists have a different weapon damage die or you have other unarmed attacks, use two of that die size instead).\n\nYou can upgrade, add, and transfer runes to and from the handwraps just as you would for a weapon, and you can attach talismans to the handwraps. Treat the handwraps as melee weapons of the brawling group with light Bulk for these purposes. Property runes apply only when they would be applicable to the unarmed attack you’re using. For example, a property that must be applied to a slashing weapon wouldn’t function when you attacked with a fist, but you would gain its benefits if you attacked with a claw or some other slashing unarmed attack.",
+        "id": "89c3c5b1-8e09-11ea-9fab-e92c63c14723",
+        "level": 16,
+        "name": "Handwraps of Mighty Blows",
+        "price": 1000000,
+        "traits": [
+            "Invested",
+            "Magical",
+            "Transmutation"
+        ],
+        "moddable": "weapon",
+        "potencyRune": 3,
+        "strikingRune": 2,
+        "_className": "WornItem",
+        "isHandwrapsOfMightyBlows": true,
+        "usage": "worn gloves"
+    },
+    {
+        "desc": "As you invest these embroidered strips of cloth, you must meditate and slowly wrap them around your hands. These handwraps have weapon runes etched into them to give your unarmed attacks the benefits of those runes, making your unarmed attacks work like magic weapons. For example, +1 striking handwraps of mighty blows would give you a +1 item bonus to attack rolls with your unarmed attacks and increase the damage of your unarmed attacks from one weapon die to two (normally 2d4 instead of 1d4, but if your fists have a different weapon damage die or you have other unarmed attacks, use two of that die size instead).\n\nYou can upgrade, add, and transfer runes to and from the handwraps just as you would for a weapon, and you can attach talismans to the handwraps. Treat the handwraps as melee weapons of the brawling group with light Bulk for these purposes. Property runes apply only when they would be applicable to the unarmed attack you’re using. For example, a property that must be applied to a slashing weapon wouldn’t function when you attacked with a fist, but you would gain its benefits if you attacked with a claw or some other slashing unarmed attack.",
+        "id": "89c3ecb0-8e09-11ea-9fab-e92c63c14723",
+        "level": 19,
+        "name": "Handwraps of Mighty Blows",
+        "price": 4000000,
+        "traits": [
+            "Invested",
+            "Magical",
+            "Transmutation"
+        ],
+        "moddable": "weapon",
+        "potencyRune": 3,
+        "strikingRune": 3,
+        "_className": "WornItem",
+        "isHandwrapsOfMightyBlows": true,
+        "usage": "worn gloves"
+    },
+    {
+        "bulk": "L",
+        "desc": "This wide leather belt grants you a +1 item bonus to Athletics checks and increases the amount you can easily carry. You can carry Bulk equal to 6 + your Strength modifier before becoming encumbered, and you can hold and carry a total Bulk up to 11 + your Strength modifier.",
+        "id": "89c3ecb3-8e09-11ea-9fab-e92c63c14723",
+        "level": 4,
+        "name": "Lifting Belt",
+        "price": 8000,
+        "traits": [
+            "Invested",
+            "Magical",
+            "Transmutation"
+        ],
+        "activities": [
+            {
                 "actions": "2",
                 "activationType": "Interact",
                 "desc": "You lift an object of up to 8 Bulk as though it were weightless. This requires two hands, and if the object is locked or otherwise held in place, you can attempt to Force it Open using Athletics as part of this activation. The object still has its full weight and Bulk for all other purposes—you just ignore that weight. The effect lasts until the end of your next turn.",
+                "name": "Lifting Belt",
                 "traits": [
                     "Invested",
                     "Magical",
                     "Transmutation"
                 ],
-                "source": "Lifting Belt"
+                "_className": "ItemActivity",
+                "source": "89c3ecb3-8e09-11ea-9fab-e92c63c14723"
             }
-        ],
-        "traits": [
-            "Invested",
-            "Magical",
-            "Transmutation"
         ],
         "effects": [
             {
+                "_className": "EffectGain",
                 "affected": "Athletics",
                 "value": "+1",
                 "type": "item"
             },
             {
+                "_className": "EffectGain",
                 "affected": "Max Bulk",
                 "value": "+1",
                 "type": "item"
             }
-        ]
+        ],
+        "_className": "WornItem",
+        "usage": "worn belt"
     },
     {
-        "type": "wornitems",
-        "bulk": "",
-        "price": 5000,
+        "data": [
+            {
+                "name": "gold",
+                "value": ""
+            },
+            {
+                "name": "iron",
+                "value": ""
+            },
+            {
+                "name": "propertyRunes",
+                "value": false
+            }
+        ],
+        "desc": "This item consists of two magically linked rings: an intricate, gleaming golden ring with a square-cut ruby, and a thick, plain iron ring. When you wield a melee weapon in the hand wearing the golden ring, the weapon’s fundamental runes are replicated onto any melee weapon you wield in the hand wearing the iron ring. (The fundamental runes are weapon potency and striking, which add an item bonus to attack rolls and extra weapon damage dice, respectively.) Any fundamental runes on the weapon in the hand wearing the iron ring are suppressed.\n\nThe replication functions only if you wear both rings, and it ends as soon as you cease wielding a melee weapon in one of your hands. Consequently, the benefit doesn’t apply to thrown attacks or if you’re holding a weapon but not wielding it (such as holding in one hand a weapon that requires two hands to wield).",
+        "id": "89c3ecb6-8e09-11ea-9fab-e92c63c14723",
         "level": 3,
         "name": "Doubling Rings",
-        "desc": "This item consists of two magically linked rings: an intricate, gleaming golden ring with a square-cut ruby, and a thick, plain iron ring. When you wield a melee weapon in the hand wearing the golden ring, the weapon’s fundamental runes are replicated onto any melee weapon you wield in the hand wearing the iron ring. (The fundamental runes are weapon potency and striking, which add an item bonus to attack rolls and extra weapon damage dice, respectively.) Any fundamental runes on the weapon in the hand wearing the iron ring are suppressed.\n\nThe replication functions only if you wear both rings, and it ends as soon as you cease wielding a melee weapon in one of your hands. Consequently, the benefit doesn’t apply to thrown attacks or if you’re holding a weapon but not wielding it (such as holding in one hand a weapon that requires two hands to wield).",
-        "usage": "worn",
+        "price": 5000,
+        "traits": [
+            "Evocation",
+            "Invested",
+            "Magical"
+        ],
+        "_className": "WornItem",
         "isDoublingRings": "Doubling Rings",
+        "usage": "worn"
+    },
+    {
         "data": [
             {
                 "name": "gold",
@@ -219,94 +256,76 @@
                 "value": false
             }
         ],
-        "traits": [
-            "Evocation",
-            "Invested",
-            "Magical"
-        ]
-    },
-    {
-        "type": "wornitems",
-        "bulk": "",
-        "price": 130000,
+        "desc": "This item consists of two magically linked rings: an intricate, gleaming golden ring with a square-cut ruby, and a thick, plain iron ring. When you wield a melee weapon in the hand wearing the golden ring, the weapon’s fundamental runes are replicated onto any melee weapon you wield in the hand wearing the iron ring. (The fundamental runes are weapon potency and striking, which add an item bonus to attack rolls and extra weapon damage dice, respectively.) Any fundamental runes on the weapon in the hand wearing the iron ring are suppressed.\n\nThe replication functions only if you wear both rings, and it ends as soon as you cease wielding a melee weapon in one of your hands. Consequently, the benefit doesn’t apply to thrown attacks or if you’re holding a weapon but not wielding it (such as holding in one hand a weapon that requires two hands to wield).",
+        "id": "89c3ecb9-8e09-11ea-9fab-e92c63c14723",
         "level": 3,
         "name": "Doubling Rings (Greater)",
-        "desc": "This item consists of two magically linked rings: an intricate, gleaming golden ring with a square-cut ruby, and a thick, plain iron ring. When you wield a melee weapon in the hand wearing the golden ring, the weapon’s fundamental runes are replicated onto any melee weapon you wield in the hand wearing the iron ring. (The fundamental runes are weapon potency and striking, which add an item bonus to attack rolls and extra weapon damage dice, respectively.) Any fundamental runes on the weapon in the hand wearing the iron ring are suppressed.\n\nThe replication functions only if you wear both rings, and it ends as soon as you cease wielding a melee weapon in one of your hands. Consequently, the benefit doesn’t apply to thrown attacks or if you’re holding a weapon but not wielding it (such as holding in one hand a weapon that requires two hands to wield).",
-        "usage": "worn",
+        "price": 130000,
         "subType": "Greater",
         "subTypeDesc": "The rings also replicate property runes from the weapon in the gold-ringed hand, so long as the weapon in the iron-ringed hand meets all the prerequisites for a given rune and is not a specific weapon. The weapon in the iron-ringed hand gains the benefits of those runes. All its own runes are suppressed. When you invest the rings, you can elect for the rings to transfer only fundamental runes, in which case they function as standard doubling rings.",
-        "isDoublingRings": "Doubling Rings (Greater)",
-        "data": [
-            {
-                "name": "gold",
-                "value": ""
-            },
-            {
-                "name": "iron",
-                "value": ""
-            },
-            {
-                "name": "propertyRunes",
-                "value": false
-            }
-        ],
         "traits": [
             "Evocation",
             "Invested",
             "Magical"
-        ]
+        ],
+        "_className": "WornItem",
+        "isDoublingRings": "Doubling Rings (Greater)",
+        "usage": "worn"
     },
     {
-        "type": "wornitems",
-        "price": 32500,
+        "desc": "This polished wooden ring constantly refreshes your body and mind. You don’t need to eat or drink while wearing it, and you need only 2 hours of sleep per day to gain the benefits of 8 hours of sleep. A ring of sustenance doesn’t function until it’s been worn and invested continuously for a week. Removing it resets this interval.",
+        "id": "89c3ecbc-8e09-11ea-9fab-e92c63c14723",
         "level": 7,
         "name": "Ring of Sustenance",
-        "desc": "This polished wooden ring constantly refreshes your body and mind. You don’t need to eat or drink while wearing it, and you need only 2 hours of sleep per day to gain the benefits of 8 hours of sleep. A ring of sustenance doesn’t function until it’s been worn and invested continuously for a week. Removing it resets this interval.",
-        "usage": "worn",
-        "showon": "Health",
-        "hint": "You don’t need to eat or drink while wearing the Ring of Sustenance, and you need only 2 hours of sleep per day to gain the benefits of 8 hours of sleep. A ring of sustenance doesn’t function until it’s been worn and invested continuously for a week. Removing it resets this interval.",
+        "price": 32500,
         "traits": [
             "Uncommon",
             "Conjuration",
             "Invested",
             "Magical"
-        ]
+        ],
+        "hint": "You don’t need to eat or drink while wearing the Ring of Sustenance, and you need only 2 hours of sleep per day to gain the benefits of 8 hours of sleep. A ring of sustenance doesn’t function until it’s been worn and invested continuously for a week. Removing it resets this interval.",
+        "showon": "Health",
+        "_className": "WornItem",
+        "usage": "worn"
     },
     {
-        "type": "wornitems",
         "bulk": "L",
-        "price": 32500,
+        "desc": "These soft slippers are made of fine gray silk. If the slippers are left unattended for a while, they tend to attract spiders that nest inside.",
+        "id": "89c3ecbf-8e09-11ea-9fab-e92c63c14723",
         "level": 7,
         "name": "Slippers of Spider Climbing",
-        "desc": "These soft slippers are made of fine gray silk. If the slippers are left unattended for a while, they tend to attract spiders that nest inside.",
-        "usage": "worn shoes",
+        "price": 32500,
+        "traits": [
+            "Invested",
+            "Magical",
+            "Transmutation"
+        ],
         "activities": [
             {
-                "name": "Slippers of Spider Climbing",
-                "actions": "1",
                 "activationType": "Command",
-                "frequency": "once per hour",
                 "cooldown": 6000,
                 "desc": "Tiny, hairlike tendrils extend from the slippers’ soles, allowing you to walk on vertical surfaces or even to move upside down along ceilings. For 1 minute, you gain a 20-foot climb Speed and you don’t need to use your hands to Climb. However, the slippers require decent traction for you to walk on a wall, so they provide no benefit when you’re moving across greased, icy, or oiled surfaces.",
+                "frequency": "once per hour",
+                "gainConditions": [
+                    {
+                        "_className": "ConditionGain",
+                        "duration": 100,
+                        "name": "Slippers of Spider Climbing",
+                        "source": "Slippers of Spider Climbing"
+                    }
+                ],
+                "name": "Slippers of Spider Climbing",
                 "traits": [
                     "Invested",
                     "Magical",
                     "Transmutation"
                 ],
-                "gainConditions": [
-                    {
-                        "name": "Slippers of Spider Climbing",
-                        "source": "Slippers of Spider Climbing",
-                        "duration": 100
-                    }
-                ],
-                "source": "Slippers of Spider Climbing"
+                "_className": "ItemActivity",
+                "source": "89c3ecbf-8e09-11ea-9fab-e92c63c14723"
             }
         ],
-        "traits": [
-            "Invested",
-            "Magical",
-            "Transmutation"
-        ]
+        "_className": "WornItem",
+        "usage": "worn shoes"
     }
 ]

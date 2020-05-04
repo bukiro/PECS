@@ -20,9 +20,6 @@ import { Heritage } from './Heritage';
 import { Background } from './Background';
 import { ItemsService } from './items.service';
 import { Feat } from './Feat';
-import { Health } from './Health';
-import { Speed } from './Speed';
-import { Bulk } from './Bulk';
 import { Condition } from './Condition';
 import { ConditionsService } from './Conditions.service';
 import { ConditionGain } from './ConditionGain';
@@ -44,9 +41,9 @@ import { DeitiesService } from './deities.service';
 import { Deity } from './Deity';
 import { AnimalCompanionsService } from './animalcompanions.service';
 import { AnimalCompanion } from './AnimalCompanion';
-import { AnimalCompanionClass } from './AnimalCompanionClass';
 import { BloodlinesService } from './bloodlines.service';
 import { Bloodline } from './Bloodline';
+import { SavegameService } from './savegame.service';
 
 @Injectable({
     providedIn: 'root'
@@ -68,6 +65,7 @@ export class CharacterService {
 
     constructor(
         private http: HttpClient,
+        private savegameService: SavegameService,
         public abilitiesService: AbilitiesService,
         private skillsService: SkillsService,
         private classesService: ClassesService,
@@ -250,11 +248,15 @@ export class CharacterService {
         this.historyService.get_Ancestries(name)
     }
 
+    get_Deities(name: string = "") {
+        return this.deitiesService.get_Deities(name);
+    }
+
     get_Speeds(creature: Character|AnimalCompanion, name: string = "") {
         return creature.speeds.filter(speed => speed.name == name || name == "");
     }
 
-    changeClass($class: Class) {
+    change_Class($class: Class) {
         //Cleanup Heritage, Ancestry, Background and class skills
         this.me.class.on_ChangeHeritage(this);
         this.me.class.on_ChangeAncestry(this);
@@ -273,6 +275,7 @@ export class CharacterService {
         });
         this.me.class = new Class();
         this.me.class = Object.assign(new Class(), JSON.parse(JSON.stringify($class)));
+        this.me.class = this.reassign(this.me.class);
         this.me.class.reassign();
         //Some feats get specially processed when taken.
         //We have to explicitly take these feats to process them.
@@ -303,10 +306,9 @@ export class CharacterService {
     }
 
     change_Deity(deity: Deity) {
-        this.me.class.on_ChangeDeity(this);
-        this.me.class.deity = new Deity();
-        this.me.class.deity = Object.assign(new Deity(), JSON.parse(JSON.stringify(deity)))
-        this.me.class.on_NewDeity(this);
+        this.me.class.on_ChangeDeity(this, this.deitiesService, this.me.class.deity);
+        this.me.class.deity = deity.name;
+        this.me.class.on_NewDeity(this, this.deitiesService, this.me.class.deity);
         this.set_Changed();
     }
 
@@ -386,6 +388,8 @@ export class CharacterService {
 
     grant_InventoryItem(creature: Character|AnimalCompanion, item: Item, resetRunes: boolean = true, changeAfter: boolean = true, equipAfter: boolean = true, amount: number = 1) {
         let newInventoryItem = this.itemsService.initialize_Item(item);
+        //Assign the library's item id as the new item's refId. This allows us to read the default information from the library later.
+        newInventoryItem.refId = item.id;
         let returnedInventoryItem;
         //Check if this item already exists in the inventory, and if it is stackable.
         let existingItems = creature.inventory[item.type].filter((existing: Item) =>
@@ -602,7 +606,7 @@ export class CharacterService {
     }
 
     onEquip(creature: Character|AnimalCompanion, item: Equipment, equipped: boolean = true, changeAfter: boolean = true, equipBasicItems: boolean = true) {
-        if ((creature.type == "Character" && item.traits.indexOf("Companion") == -1) || (creature.type == "Companion" && item.traits.indexOf("Companion") > -1) || item.name == "Unarmored") {
+        if ((creature.type == "Character" && !item.traits.includes("Companion")) || (creature.type == "Companion" && item.traits.includes("Companion")) || item.name == "Unarmored") {
             item.equipped = equipped;
             if (item.equipped) {
                 if (item.type == "armors" || item.type == "shields") {
@@ -613,7 +617,7 @@ export class CharacterService {
                     item.equipped = true;
                 }
                 //If you get an Activity from an item that doesn't need to be invested, immediately invest it in secret so the Activity is gained
-                if (item.gainActivities && item.traits.indexOf("Invested") == -1) {
+                if (item.gainActivities && !item.traits.includes("Invested")) {
                     this.onInvest(creature, item, true, false);
                 }
                 //Add all Items that you get from equipping this one
@@ -736,7 +740,7 @@ export class CharacterService {
     }
 
     add_CustomSkill(skillName: string, type: string, abilityName: string) {
-        this.me.customSkills.push(new Skill(skillName, type, abilityName));
+        this.me.customSkills.push(new Skill(abilityName, skillName, type));
         //this.set_Changed();
     }
 
@@ -899,7 +903,7 @@ export class CharacterService {
             feats.forEach(feat => {
                 let returnedFeat = this.get_FeatsAndFeatures(feat.name)[0];
                 returnedFeat.showon.split(",").forEach(showon => {
-                    if (showon == objectName || showon.substr(1) == objectName || (objectName.indexOf("Lore") > -1 && (showon == "Lore" || showon.substr(1) == "Lore"))) {
+                    if (showon == objectName || showon.substr(1) == objectName || (objectName.includes("Lore") && (showon == "Lore" || showon.substr(1) == "Lore"))) {
                         returnedFeats.push(returnedFeat);
                     }
                 })
@@ -928,7 +932,7 @@ export class CharacterService {
 
     get_ConditionsShowingOn(creature: Character|AnimalCompanion, objectName: string) {
         let conditions = this.get_AppliedConditions(creature).filter(condition => condition.apply);
-        if (objectName.indexOf("Lore") > -1) {
+        if (objectName.includes("Lore")) {
             objectName = "Lore";
         }
         let returnedConditions = [];
@@ -936,7 +940,7 @@ export class CharacterService {
             conditions.forEach(condition => {
                 let originalCondition: Condition = this.get_Conditions(condition.name)[0];
                 originalCondition.showon.split(",").forEach(showon => {
-                    if (showon == objectName || showon.substr(1) == objectName || (objectName == "Lore" && showon.indexOf(objectName) > -1)) {
+                    if (showon == objectName || showon.substr(1) == objectName || (objectName == "Lore" && showon.includes(objectName))) {
                         returnedConditions.push(originalCondition);
                     }
                 });
@@ -977,7 +981,7 @@ export class CharacterService {
         activityGains.forEach(gain => {
             this.activitiesService.get_Activities(gain.name).forEach(activity => {
                 activity.showon.split(",").forEach(showon => {
-                    if (showon == objectName || showon.substr(1) == objectName || (objectName == "Lore" && showon.indexOf(objectName) > -1)) {
+                    if (showon == objectName || showon.substr(1) == objectName || (objectName == "Lore" && showon.includes(objectName))) {
                         returnedActivities.push(activity);
                     }
                 });
@@ -990,7 +994,7 @@ export class CharacterService {
         let returnedItems: Item[] = [];
         creature.inventory.allEquipment().forEach(item => {
             item.showon.split(",").forEach(showon => {
-                if (showon == objectName || showon.substr(1) == objectName || (objectName == "Lore" && showon.indexOf(objectName) > -1)) {
+                if (showon == objectName || showon.substr(1) == objectName || (objectName == "Lore" && showon.includes(objectName))) {
                     returnedItems.push(item);
                 }
             });
@@ -1014,15 +1018,15 @@ export class CharacterService {
     initialize_AnimalCompanion() {
         if (this.me.class.animalCompanion) {
             this.me.class.animalCompanion = Object.assign(new AnimalCompanion(), this.me.class.animalCompanion);
-            this.me.class.animalCompanion.customSkills = this.me.class.animalCompanion.customSkills.map(skill => Object.assign(new Skill(), skill));
+            this.me.class.animalCompanion = this.reassign(this.me.class.animalCompanion);
+            /*this.me.class.animalCompanion.customSkills = this.me.class.animalCompanion.customSkills.map(skill => Object.assign(new Skill(), skill));
             this.me.class.animalCompanion.class = Object.assign(new AnimalCompanionClass(), this.me.class.animalCompanion.class);
             this.me.class.animalCompanion.class.reassign(this);
             this.me.class.animalCompanion.health = Object.assign(new Health(), this.me.class.animalCompanion.health);
             this.me.class.animalCompanion.speeds = this.me.class.animalCompanion.speeds.map(speed => Object.assign(new Speed(), speed));
             this.me.class.animalCompanion.conditions = this.me.class.animalCompanion.conditions.map(condition => Object.assign(new Speed(), condition));
             this.me.class.animalCompanion.bulk = Object.assign(new Bulk(), this.me.class.animalCompanion.bulk);
-            this.me.class.animalCompanion.inventory = Object.assign(new ItemCollection(), this.me.class.animalCompanion.inventory);
-            this.me.class.animalCompanion.inventory.initialize(this.itemsService);
+            this.me.class.animalCompanion.inventory = Object.assign(new ItemCollection(), this.me.class.animalCompanion.inventory);*/
             this.equip_BasicItems(this.me.class.animalCompanion);
         }
     }
@@ -1057,66 +1061,31 @@ export class CharacterService {
         return this.http.get<string[]>('/assets/' + charName + '.json');
     }
 
+    reassign(object: any) {
+        return this.savegameService.reassign(object);
+    }
+
     finish_loading() {
         if (this.loader) {
             this.me = Object.assign(new Character(), JSON.parse(JSON.stringify(this.loader)));
-
-            //We have loaded the entire character from the file, but everything is object Object.
-            //Let's recast all the typed objects:
-            if (this.me.customSkills) {
-                this.me.customSkills = this.me.customSkills.map(skill => Object.assign(new Skill(), skill));
-            } else {
-                this.me.customSkills = [];
-            }
-            
-            if (this.me.class) {
-                this.me.class = Object.assign(new Class(), this.me.class);
-                this.me.class.reassign();
-            } else {
-                this.me.class = new Class();
-            }
-            if (this.me.health) {
-                this.me.health = Object.assign(new Health(), this.me.health);
-            }
-            if (this.me.customFeats) {
-                this.me.customFeats = this.me.customFeats.map(feat => Object.assign(new Feat(), feat));
-            }
-            if (this.me.conditions) {
-                this.me.conditions = this.me.conditions.map(condition => Object.assign(new Condition(), condition));
-            }
-            if (this.me.inventory) {
-                this.me.inventory = Object.assign(new ItemCollection(), this.me.inventory);
-                this.me.inventory.initialize(this.itemsService);
-            } else {
-                this.me.inventory = new ItemCollection();
-            }
-            if (this.me.speeds) {
-                this.me.speeds = this.me.speeds.map(speed => Object.assign(new Speed(), speed));
-            }
-            if (this.me.bulk) {
-                this.me.bulk = Object.assign(new Bulk(), this.me.bulk);
-            }
-            if (this.me.class.ancestry) {
-                this.me.class.ancestry = Object.assign(new Ancestry(), this.me.class.ancestry);
-                this.me.class.ancestry.reassign();
-            }
-            if (this.me.class.heritage) {
-                this.me.class.heritage = Object.assign(new Heritage(), this.me.class.heritage);
-                this.me.class.heritage.reassign();
-            }
-            if (this.me.class.background) {
-                this.me.class.background = Object.assign(new Background(), this.me.class.background);
-                this.me.class.background.reassign();
-            }
-            this.initialize_AnimalCompanion();
-
             this.loader = [];
+            this.finalize_Character();
         }
-        if (this.loading) { this.loading = false; }
-        this.grant_BasicItems();
-        this.characterChanged$ = this.changed.asObservable();
-        this.set_Changed();
-        this.trigger_FinalChange();
+    }
+
+    finalize_Character() {
+        if (this.itemsService.still_loading()) {
+            setTimeout(() => {
+                this.finalize_Character();
+            }, 500)
+        } else {
+            this.me = this.savegameService.load_Character(this.me, this.itemsService)
+            if (this.loading) { this.loading = false; }
+            this.grant_BasicItems();
+            this.characterChanged$ = this.changed.asObservable();
+            this.set_Changed();
+            this.trigger_FinalChange();
+        }
     }
 
     trigger_FinalChange() {
@@ -1138,7 +1107,9 @@ export class CharacterService {
     }
 
     print() {
-        console.log(JSON.stringify(this.me));
+        
+        this.savegameService.save_Character(this.itemsService, this.get_Character())
+
     }
 
 }

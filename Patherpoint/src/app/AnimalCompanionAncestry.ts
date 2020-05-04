@@ -5,21 +5,22 @@ import { ActivityGain } from './ActivityGain';
 import { EffectGain } from './EffectGain';
 
 export class AnimalCompanionAncestry {
-    public name: string = "";
+    public readonly _className: string = this.constructor.name;
+    public abilityChoices: AbilityChoice[] = [];
+    public activities: ActivityGain[] = [];
     public desc: string = "";
-    public hint: string = "";
-    public showon: string = "";
-    public specialdesc: string = "";
     //effects can be used to swim, climb or fly speeds as required
     public effects: EffectGain[] = [];
-    public hitPoints: number = 0;
-    public size: number = 0;
-    public speed: number = 0;
-    public senses: string[] = [];
-    public abilityChoices: AbilityChoice[] = [];
-    public skillChoices: SkillChoice[] = [];
-    public activities: ActivityGain[] = [];
     public gainItems: ItemGain[] = [];
+    public hint: string = "";
+    public hitPoints: number = 0;
+    public name: string = "";
+    public senses: string[] = [];
+    public showon: string = "";
+    public size: number = 0;
+    public skillChoices: SkillChoice[] = [];
+    public specialdesc: string = "";
+    public speed: number = 0;
     public supportBenefit: string = "";
     public traits: string[] = [];
     reassign() {

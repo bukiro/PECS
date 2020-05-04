@@ -1,12 +1,32 @@
 [
     {
-        "name": "Elemental: Air",
-        "spellList": "Primal",
+        "_className": "Bloodline",
+        "bloodMagic": [
+            {
+                "name": "Elemental Blood Magic",
+                "source": "Elemental Blood Magic",
+                "duration": "10"
+            }
+        ],
         "bloodlineSkills": [
             "Intimidation",
             "Nature"
         ],
-        "grantedSpells":[
+        "bloodlineSpells": [
+            {
+                "level": 0,
+                "name": "elemental toss (Air)"
+            },
+            {
+                "level": 1,
+                "name": "elemental motion"
+            },
+            {
+                "level": 2,
+                "name": "elemental blast (Air)"
+            }
+        ],
+        "grantedSpells": [
             {
                 "level": 0,
                 "name": "produce flame (Air)"
@@ -48,26 +68,7 @@
                 "name": "storm of vengeance"
             }
         ],
-        "bloodlineSpells": [
-            {
-                "level": 0,
-                "name": "elemental toss (Air)"
-            },
-            {
-                "level": 1,
-                "name": "elemental motion"
-            },
-            {
-                "level": 2,
-                "name": "elemental blast (Air)"
-            }
-        ],
-        "bloodMagic": [
-            {
-                "name": "Elemental Blood Magic",
-                "source": "Elemental Blood Magic",
-                "duration": "10"
-            }
-        ]
+        "name": "Elemental: Air",
+        "spellList": "Primal"
     }
 ]

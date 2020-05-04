@@ -43,7 +43,7 @@ export class TraitsService {
 
     have_Trait(characterService: CharacterService, object: any, traitName: string) {
         //Find out if this object - could be anything - has this trait. Sounds easy enough, but some items get traits added by certain circumstances, so here we are.
-        return ((object.get_Traits ? object.get_Traits(characterService) : object.traits).filter((trait: string) => trait.indexOf(traitName) > -1).length) ? true : false;
+        return ((object.get_Traits ? object.get_Traits(characterService) : object.traits).filter((trait: string) => trait.includes(traitName)).length) ? true : false;
     }
 
     still_loading() {

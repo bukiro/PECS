@@ -6,7 +6,7 @@
       "gainLore": true,
       "levelreq": 1,
       "specialdesc": "You can select this feat more than once. Each time you must select a new subcategory of Lore and you gain the additional skill increases to that subcategory for the listed levels.",
-      "specialreq": "character.get_SkillIncreases(characterService,1,charLevel).filter(increase => increase.name.indexOf('Lore') > -1).length",
+      "specialreq": "character.get_SkillIncreases(characterService,1,charLevel).filter(increase => increase.name.includes('Lore')).length",
       "specialreqdesc": "Any Lore T",
       "traits": [
          "General",
@@ -30,7 +30,7 @@
       "desc": "You’re fully immersed in another ancestry’s culture and traditions, whether born into them, earned through rite of passage, or bonded through a deep friendship or romance. Choose a common ancestry. You can select ancestry feats from the ancestry you chose, in addition to your character’s own ancestry, as long as the ancestry feats don’t require any physiological feature that you lack, as determined by the GM.",
       "hint": "You can select ancestry feats from the Dwarf ancestry, in addition to your character’s own ancestry, as long as the ancestry feats don’t require any physiological feature that you lack, as determined by the GM.",
       "levelreq": 1,
-      "specialreq": "character.class.ancestry.name && character.class.ancestry.ancestries.indexOf(this.subType) == -1 || this.have(character, characterService, charLevel)",
+      "specialreq": "character.class.ancestry.name && !character.class.ancestry.ancestries.includes(this.subType) || this.have(character, characterService, charLevel)",
       "specialreqdesc": "Any Ancestry except Dwarf",
       "subType": "Dwarf",
       "superType": "Adopted Ancestry",
@@ -44,7 +44,7 @@
       "desc": "You’re fully immersed in another ancestry’s culture and traditions, whether born into them, earned through rite of passage, or bonded through a deep friendship or romance. Choose a common ancestry. You can select ancestry feats from the ancestry you chose, in addition to your character’s own ancestry, as long as the ancestry feats don’t require any physiological feature that you lack, as determined by the GM.",
       "hint": "You can select ancestry feats from the Elf ancestry, in addition to your character’s own ancestry, as long as the ancestry feats don’t require any physiological feature that you lack, as determined by the GM.",
       "levelreq": 1,
-      "specialreq": "character.class.ancestry.name && character.class.ancestry.ancestries.indexOf(this.subType) == -1 || this.have(character, characterService, charLevel)",
+      "specialreq": "character.class.ancestry.name && !character.class.ancestry.ancestries.includes(this.subType) || this.have(character, characterService, charLevel)",
       "specialreqdesc": "Any Ancestry except Elf",
       "subType": "Elf",
       "superType": "Adopted Ancestry",
@@ -58,7 +58,7 @@
       "desc": "You’re fully immersed in another ancestry’s culture and traditions, whether born into them, earned through rite of passage, or bonded through a deep friendship or romance. Choose a common ancestry. You can select ancestry feats from the ancestry you chose, in addition to your character’s own ancestry, as long as the ancestry feats don’t require any physiological feature that you lack, as determined by the GM.",
       "hint": "You can select ancestry feats from the Gnome ancestry, in addition to your character’s own ancestry, as long as the ancestry feats don’t require any physiological feature that you lack, as determined by the GM.",
       "levelreq": 1,
-      "specialreq": "character.class.ancestry.name && character.class.ancestry.ancestries.indexOf(this.subType) == -1 || this.have(character, characterService, charLevel)",
+      "specialreq": "character.class.ancestry.name && !character.class.ancestry.ancestries.includes(this.subType) || this.have(character, characterService, charLevel)",
       "specialreqdesc": "Any Ancestry except Gnome",
       "subType": "Gnome",
       "superType": "Adopted Ancestry",
@@ -72,7 +72,7 @@
       "desc": "You’re fully immersed in another ancestry’s culture and traditions, whether born into them, earned through rite of passage, or bonded through a deep friendship or romance. Choose a common ancestry. You can select ancestry feats from the ancestry you chose, in addition to your character’s own ancestry, as long as the ancestry feats don’t require any physiological feature that you lack, as determined by the GM.",
       "hint": "You can select ancestry feats from the Goblin ancestry, in addition to your character’s own ancestry, as long as the ancestry feats don’t require any physiological feature that you lack, as determined by the GM.",
       "levelreq": 1,
-      "specialreq": "character.class.ancestry.name && character.class.ancestry.ancestries.indexOf(this.subType) == -1 || this.have(character, characterService, charLevel)",
+      "specialreq": "character.class.ancestry.name && !character.class.ancestry.ancestries.includes(this.subType) || this.have(character, characterService, charLevel)",
       "specialreqdesc": "Any Ancestry except Goblin",
       "subType": "Goblin",
       "superType": "Adopted Ancestry",
@@ -86,7 +86,7 @@
       "desc": "You’re fully immersed in another ancestry’s culture and traditions, whether born into them, earned through rite of passage, or bonded through a deep friendship or romance. Choose a common ancestry. You can select ancestry feats from the ancestry you chose, in addition to your character’s own ancestry, as long as the ancestry feats don’t require any physiological feature that you lack, as determined by the GM.",
       "hint": "You can select ancestry feats from the Half-Elf ancestry, in addition to your character’s own ancestry, as long as the ancestry feats don’t require any physiological feature that you lack, as determined by the GM.",
       "levelreq": 1,
-      "specialreq": "character.class.ancestry.name && character.class.ancestry.ancestries.indexOf(this.subType) == -1 || this.have(character, characterService, charLevel)",
+      "specialreq": "character.class.ancestry.name && !character.class.ancestry.ancestries.includes(this.subType) || this.have(character, characterService, charLevel)",
       "specialreqdesc": "Any Ancestry except Half-Elf",
       "subType": "Half-Elf",
       "superType": "Adopted Ancestry",
@@ -100,7 +100,7 @@
       "desc": "You’re fully immersed in another ancestry’s culture and traditions, whether born into them, earned through rite of passage, or bonded through a deep friendship or romance. Choose a common ancestry. You can select ancestry feats from the ancestry you chose, in addition to your character’s own ancestry, as long as the ancestry feats don’t require any physiological feature that you lack, as determined by the GM.",
       "hint": "You can select ancestry feats from the Halfling ancestry, in addition to your character’s own ancestry, as long as the ancestry feats don’t require any physiological feature that you lack, as determined by the GM.",
       "levelreq": 1,
-      "specialreq": "character.class.ancestry.name && character.class.ancestry.ancestries.indexOf(this.subType) == -1 || this.have(character, characterService, charLevel)",
+      "specialreq": "character.class.ancestry.name && !character.class.ancestry.ancestries.includes(this.subType) || this.have(character, characterService, charLevel)",
       "specialreqdesc": "Any Ancestry except Halfling",
       "subType": "Halfling",
       "superType": "Adopted Ancestry",
@@ -114,7 +114,7 @@
       "desc": "You’re fully immersed in another ancestry’s culture and traditions, whether born into them, earned through rite of passage, or bonded through a deep friendship or romance. Choose a common ancestry. You can select ancestry feats from the ancestry you chose, in addition to your character’s own ancestry, as long as the ancestry feats don’t require any physiological feature that you lack, as determined by the GM.",
       "hint": "You can select ancestry feats from the Half-Orc ancestry, in addition to your character’s own ancestry, as long as the ancestry feats don’t require any physiological feature that you lack, as determined by the GM.",
       "levelreq": 1,
-      "specialreq": "character.class.ancestry.name && character.class.ancestry.ancestries.indexOf(this.subType) == -1 || this.have(character, characterService, charLevel)",
+      "specialreq": "character.class.ancestry.name && !character.class.ancestry.ancestries.includes(this.subType) || this.have(character, characterService, charLevel)",
       "specialreqdesc": "Any Ancestry except Half-Orc",
       "subType": "Half-Orc",
       "superType": "Adopted Ancestry",
@@ -128,7 +128,7 @@
       "desc": "You’re fully immersed in another ancestry’s culture and traditions, whether born into them, earned through rite of passage, or bonded through a deep friendship or romance. Choose a common ancestry. You can select ancestry feats from the ancestry you chose, in addition to your character’s own ancestry, as long as the ancestry feats don’t require any physiological feature that you lack, as determined by the GM.",
       "hint": "You can select ancestry feats from the Human ancestry, in addition to your character’s own ancestry, as long as the ancestry feats don’t require any physiological feature that you lack, as determined by the GM.",
       "levelreq": 1,
-      "specialreq": "character.class.ancestry.name && character.class.ancestry.ancestries.indexOf(this.subType) == -1 || this.have(character, characterService, charLevel)",
+      "specialreq": "character.class.ancestry.name && !character.class.ancestry.ancestries.includes(this.subType) || this.have(character, characterService, charLevel)",
       "specialreqdesc": "Any Ancestry except Human",
       "subType": "Human",
       "superType": "Adopted Ancestry",
@@ -960,7 +960,7 @@
             "value": 6
          }
       ],
-      "specialreq": "character.class.deity.name",
+      "specialreq": "character.class.deity",
       "specialreqdesc": "you follow a deity",
       "subTypes": true,
       "traits": [
@@ -982,7 +982,7 @@
             "value": 6
          }
       ],
-      "specialreq": "character.class.deity.alignment.indexOf('Chaotic') > -1",
+      "specialreq": "deity.alignment.includes('Chaotic')",
       "specialreqdesc": "you follow a chaotic deity",
       "subType": "Chaos",
       "superType": "Battle Prayer",
@@ -1006,7 +1006,7 @@
             "value": 6
          }
       ],
-      "specialreq": "character.class.deity.alignment.indexOf('Evil') > -1",
+      "specialreq": "deity.alignment.includes('Evil')",
       "specialreqdesc": "you follow an evil deity",
       "subType": "Evil",
       "superType": "Battle Prayer",
@@ -1030,7 +1030,7 @@
             "value": 6
          }
       ],
-      "specialreq": "character.class.deity.alignment.indexOf('Good') > -1",
+      "specialreq": "deity.alignment.includes('Good')",
       "specialreqdesc": "you follow a good deity",
       "subType": "Good",
       "superType": "Battle Prayer",
@@ -1054,7 +1054,7 @@
             "value": 6
          }
       ],
-      "specialreq": "character.class.deity.alignment.indexOf('Lawful') > -1",
+      "specialreq": "deity.alignment.includes('Lawful')",
       "specialreqdesc": "you follow a lawful deity",
       "subType": "Lawful",
       "superType": "Battle Prayer",
@@ -1097,7 +1097,7 @@
             "value": 6
          }
       ],
-      "specialreq": "character.class.deity.divineFontFilter.indexOf('Heal') > -1",
+      "specialreq": "deity.divineFontFilter.includes('Heal')",
       "specialreqdesc": "deity who grants heal divine font",
       "traits": [
          "General",
@@ -1119,7 +1119,7 @@
             "value": 6
          }
       ],
-      "specialreq": "character.class.deity.divineFontFilter.indexOf('Harm') > -1",
+      "specialreq": "deity.divineFontFilter.includes('Harm')",
       "specialreqdesc": "deity who grants harm divine font",
       "traits": [
          "General",
@@ -1616,7 +1616,7 @@
             "value": 6
          }
       ],
-      "specialreq": "character.class.deity.domains.indexOf('Cold') > -1 || character.class.deity.domains.indexOf('Fire') > -1 || character.class.deity.domains.indexOf('Nature') > -1 || character.class.deity.domains.indexOf('Travel') > -1",
+      "specialreq": "deity.domains.includes('Cold') || deity.domains.includes('Fire') || deity.domains.includes('Nature') || deity.domains.includes('Travel')",
       "specialreqdesc": "deity who grants the cold, fire, nature, or travel domain",
       "traits": [
          "General",
@@ -1903,7 +1903,7 @@
       "showon": "Medicine",
       "featreq": ["Battle Medicine"],
       "levelreq": 2,
-      "specialreq": "!character.class.deity.name",
+      "specialreq": "!character.class.deity",
       "specialreqdesc": "you can't have a patron deity",
       "traits": [
          "General",
@@ -3035,7 +3035,7 @@
             "value": 6
          }
       ],
-      "specialreq": "character.class.deity.name",
+      "specialreq": "character.class.deity",
       "specialreqdesc": "you follow a deity",
       "traits": [
          "Divine",
@@ -3057,7 +3057,7 @@
             "value": 6
          }
       ],
-      "specialreq": "character.class.deity.alignment.indexOf('Good') != character.class.deity.alignment.indexOf('Evil')",
+      "specialreq": "deity.alignment.includes('Good') || deity.alignment.includes('Evil')",
       "specialreqdesc": "good or evil deity",
       "traits": [
          "General",
@@ -4965,7 +4965,7 @@
       "desc": "The power of your faith suffuses your ki. When you select this feat, choose chaos, evil, good, or law. Your choice must match one of your deity’s alignment components.\\n\\nWhen you cast the ki strike focus spell and damage a creature whose alignment is opposite your chosen alignment, you can choose for the ki strike damage to be of the chosen type. Additionally, you can substitute the damage from ki blast (or other ki spells that deal force damage, at the GM’s discretion) with damage of your chosen alignment.",
       "featreq": ["Ki Strike"],
       "levelreq": 4,
-      "specialreq": "character.class.deity.name",
+      "specialreq": "character.class.deity",
       "specialreqdesc": "you follow a deity",
       "subTypes": true,
       "traits": [
@@ -4979,7 +4979,7 @@
       "showon": "Ki Strike, Ki Blast",
       "featreq": ["Ki Strike"],
       "levelreq": 4,
-      "specialreq": "character.class.deity.alignment.indexOf('Chaotic') > -1",
+      "specialreq": "deity.alignment.includes('Chaotic')",
       "specialreqdesc": "you follow a chaotic deity",
       "subType": "Chaos",
       "superType": "Sacred Ki",
@@ -4994,7 +4994,7 @@
       "showon": "Ki Strike, Ki Blast",
       "featreq": ["Ki Strike"],
       "levelreq": 4,
-      "specialreq": "character.class.deity.alignment.indexOf('Evil') > -1",
+      "specialreq": "deity.alignment.includes('Evil')",
       "specialreqdesc": "you follow an evil deity",
       "subType": "Evil",
       "superType": "Sacred Ki",
@@ -5009,7 +5009,7 @@
       "showon": "Ki Strike, Ki Blast",
       "featreq": ["Ki Strike"],
       "levelreq": 4,
-      "specialreq": "character.class.deity.alignment.indexOf('Good') > -1",
+      "specialreq": "deity.alignment.includes('Good')",
       "specialreqdesc": "you follow a good deity",
       "subType": "Good",
       "superType": "Sacred Ki",
@@ -5024,7 +5024,7 @@
       "showon": "Ki Strike, Ki Blast",
       "featreq": ["Ki Strike"],
       "levelreq": 4,
-      "specialreq": "character.class.deity.alignment.indexOf('Lawful') > -1",
+      "specialreq": "deity.alignment.includes('Lawful')",
       "specialreqdesc": "you follow a lawful deity",
       "subType": "Law",
       "superType": "Sacred Ki",
@@ -5812,7 +5812,7 @@
       ],
       "internalNote": "The effect is hardcoded.",
       "levelreq": 20,
-      "specialreq": "character.get_FeatsTaken(0,charLevel).filter(gain => characterService.get_FeatsAndFeatures(gain.name).filter(feat => feat.traits.indexOf(\"Stance\") > -1).length).length >= 2",
+      "specialreq": "character.get_FeatsTaken(0,charLevel).filter(gain => characterService.get_FeatsAndFeatures(gain.name).filter(feat => feat.traits.includes(\"Stance\")).length).length >= 2",
       "specialreqdesc": "at least two stances",
       "traits": [
          "Monk"
@@ -6052,5 +6052,45 @@
       "traits": [
          "Archetype"
       ]
+   },
+   {
+      "name": "Basic Blood Potency",
+      "shortdesc": "You gain a 1st- or 2nd-level sorcerer feat.",
+      "desc": "You gain a 1st- or 2nd-level sorcerer feat.",
+      "levelreq": 4,
+      "featreq": ["Sorcerer Dedication"],
+      "archetype": "Sorcerer",
+      "gainFeatChoice": [
+         {
+            "available": 1,
+            "level": 2,
+            "source": "Feat: Basic Blood Potency",
+            "type": "Sorcerer"
+         }
+      ],
+      "traits": [
+         "Archetype"
+      ]
+   },
+   {
+      "name": "Advanced Blood Potency",
+      "shortdesc": "You gain one sorcerer feat. For the purpose of prerequisites, your sorcerer level is half your character level.",
+      "desc": "You gain one sorcerer feat. For the purpose of prerequisites, your sorcerer level is half your character level.",
+      "unlimited": true,
+      "levelreq": 4,
+      "featreq": ["Basic Blood Potency"],
+      "archetype": "Sorcerer",
+      "gainFeatChoice": [
+         {
+            "available": 1,
+            "specialLevel": "level.number / 2",
+            "source": "Feat: Advanced Blood Potency",
+            "type": "Sorcerer"
+         }
+      ],
+      "traits": [
+         "Archetype"
+      ],
+      "internalNote": "Feat Choices with Level 0 are given at half your character level."
    }
 ]

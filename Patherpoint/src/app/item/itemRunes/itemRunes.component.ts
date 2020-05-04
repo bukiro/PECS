@@ -81,7 +81,7 @@ export class ItemRunesComponent implements OnInit {
     get_PropertyRunes() {
         let indexes: number[] = [];
         //For each rune with the Saggorak trait, provide one less field.
-        let saggorak = this.item.propertyRunes.filter(rune => rune.traits.indexOf("Saggorak") > -1).length
+        let saggorak = this.item.propertyRunes.filter(rune => rune.traits.includes("Saggorak")).length
         for (let index = 0; index < this.item.potencyRune - saggorak; index++) {
             indexes.push(index);
         }
@@ -109,13 +109,13 @@ export class ItemRunesComponent implements OnInit {
         return Array.from(new Set(runes.concat(allRunes.filter(
             (rune: WeaponRune) =>
                 !rune.potency && !rune.striking &&
-                (weapon.propertyRunes.map(weaponRune => weaponRune.name).indexOf(rune.name) == -1) &&
+                (!weapon.propertyRunes.map(weaponRune => weaponRune.name).includes(rune.name)) &&
                 (rune.namereq ? weapon2.name == rune.namereq : true) &&
-                (rune.runeblock ? (weapon.propertyRunes.map(weaponRune => weaponRune.name).indexOf(rune.runeblock) == -1) : true) &&
-                (rune.traitreq ? (weapon2.traits.filter(trait => trait.indexOf(rune.traitreq) > -1).length > 0) : true) &&
+                (rune.runeblock ? (!weapon.propertyRunes.map(weaponRune => weaponRune.name).includes(rune.runeblock)) : true) &&
+                (rune.traitreq ? (weapon2.traits.filter(trait => trait.includes(rune.traitreq)).length > 0) : true) &&
                 (rune.rangereq ? (weapon2[rune.rangereq] > 0) : true) &&
-                (rune.damagereq ? (weapon2["dmgType"] && (weapon2["dmgType"].indexOf(rune.damagereq) > -1 || weapon2["dmgType"] == "modular")) : true) &&
-                ((rune.traits.indexOf("Saggorak") > -1) ? (weapon.freePropertyRunes > 1 || (weapon.propertyRunes[index] && weapon.freePropertyRunes == 1)) : true)
+                (rune.damagereq ? (weapon2["dmgType"] && (weapon2["dmgType"].includes(rune.damagereq) || weapon2["dmgType"] == "modular")) : true) &&
+                ((rune.traits.includes("Saggorak")) ? (weapon.freePropertyRunes > 1 || (weapon.propertyRunes[index] && weapon.freePropertyRunes == 1)) : true)
         ).map(rune => rune.name)
         )));
     }

@@ -149,15 +149,15 @@ export class ItemsComponent implements OnInit {
     get_VisibleItems(items: Item[], creatureType: string) {
         return items.filter((item: Item) =>
             (
-                (creatureType == "Character" && item.traits.indexOf("Companion") == -1) ||
-                (creatureType == "Companion" && item.traits.indexOf("Companion") > -1)
+                (creatureType == "Character" && !item.traits.includes("Companion")) ||
+                (creatureType == "Companion" && item.traits.includes("Companion"))
             ) &&
             !item.hide &&
             (
                 !this.wordFilter || (
                     this.wordFilter && (
-                        item.name.toLowerCase().indexOf(this.wordFilter.toLowerCase()) > -1 ||
-                        item.desc.toLowerCase().indexOf(this.wordFilter.toLowerCase()) > -1
+                        item.name.toLowerCase().includes(this.wordFilter.toLowerCase()) ||
+                        item.desc.toLowerCase().includes(this.wordFilter.toLowerCase())
                     )
                 )
             )
@@ -229,7 +229,7 @@ export class ItemsComponent implements OnInit {
                 this.newItem = null;
         }
         if (this.newItem) {
-            this.newItem = this.itemsService.initialize_Item(this.newItem, true)
+            this.newItem = this.itemsService.initialize_Item(this.newItem, true, false)
         }
     }
 
@@ -246,6 +246,7 @@ export class ItemsComponent implements OnInit {
 
     grant_CustomItem(creature: string = "Character") {
         if (this.newItem != null) {
+            this.newItem.id = "";
             this.grant_Item(creature, this.newItem);
         }
     }

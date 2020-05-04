@@ -9,7 +9,7 @@ import { Bloodline } from './Bloodline';
 })
 export class BloodlinesService {
 
-    private bloodlines: Deity[];
+    private bloodlines: Bloodline[];
     private loader; 
     private loading: boolean = false;
     
@@ -20,7 +20,7 @@ export class BloodlinesService {
     get_Bloodlines(name: string = "") {
         if (!this.still_loading()) {
             return this.bloodlines.filter(bloodline => bloodline.name == name || name == "")
-        } else { return [new Deity()] }
+        } else { return [new Bloodline()] }
     }
 
     still_loading() {

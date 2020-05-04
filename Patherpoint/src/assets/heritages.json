@@ -1,151 +1,232 @@
 [
     {
-        "name":"Ancient-Blooded Dwarf",
-        "actionChoices":"Call on Ancient Blood",
-        "desc":"Dwarven heroes of old could shrug off their enemies’ magic, and some of that resistance manifests in you. You gain the Call on Ancient Blood reaction."
+        "_className": "Heritage",
+        "gainActivities": [
+            "Call on Ancient Blood: Fortitude",
+            "Call on Ancient Blood: Reflex",
+            "Call on Ancient Blood: Will"
+        ],
+        "desc": "Dwarven heroes of old could shrug off their enemies’ magic, and some of that resistance manifests in you. You gain the Call on Ancient Blood reaction.",
+        "name": "Ancient-Blooded Dwarf"
     },
     {
-        "name":"Anvil Dwarf",
-        "skillChoices":[
+        "_className": "Heritage",
+        "desc": "You are a descendant of a famed crafter and have your own amazing talent. Other dwarves might consider this a blessing from your ancestors or from the Forgefather himself, depending on where you grew up. You become trained in Crafting (or another skill if you were already trained in Crafting) and gain the Specialty Crafting skill feat, but you can pick two different specialties instead of one.",
+        "featChoices": [
             {
-                "available":0,
-                "increases":[
-                    { "name":"Crafting", "source":"Heritage", "locked":true, "sourceId":"1-Skill-Heritage-0" }
-                ],
-                "filter":[],
-                "type":"Skill",
-                "maxRank":2,
-                "source":"Heritage",
-                "id":"1-Skill-Heritage-0"
-            }
-        ],
-        "featChoices":[
-            {
-                "available":2,
-                "feats":[],
-                "filter":[
+                "_className": "FeatChoice",
+                "available": 2,
+                "filter": [
                     "Specialty Crafting"
                 ],
-                "level":"",
-                "type":"Skill",
-                "source":"Heritage",
-                "id":"1-Feat-Heritage-0"
+                "id": "1-Feat-Heritage-0",
+                "level": "",
+                "source": "Heritage",
+                "type": "Skill"
             }
         ],
-        "desc":"You are a descendant of a famed crafter and have your own amazing talent. Other dwarves might consider this a blessing from your ancestors or from the Forgefather himself, depending on where you grew up. You become trained in Crafting (or another skill if you were already trained in Crafting) and gain the Specialty Crafting skill feat, but you can pick two different specialties instead of one."
-    },
-    {
-        "name":"Death Warden Dwarf",
-        "featChoices":[
+        "name": "Anvil Dwarf",
+        "skillChoices": [
             {
-                "available":0,
-                "feats":[
-                    {"name":"Death Warden Dwarf Resistance", "source":"Heritage", "locked":true, "sourceId":"1-Feat-Heritage-0"}
+                "_className": "SkillChoice",
+                "id": "1-Skill-Heritage-0",
+                "increases": [
+                    {
+                        "name": "Crafting",
+                        "source": "Heritage",
+                        "locked": true,
+                        "sourceId": "1-Skill-Heritage-0"
+                    }
                 ],
-                "filter":[],
-                "level":"",
-                "type":"",
-                "source":"Heritage",
-                "id":"1-Feat-Heritage-0"
+                "maxRank": 2,
+                "source": "Heritage",
+                "type": "Skill"
             }
-        ],
-        "desc":"Your ancestors have been tomb guardians for generations, and the power they cultivated to ward off necromancy has passed on to you. If you roll a success on a saving throw against a necromancy effect, you get a critical success instead."
+        ]
     },
     {
-        "name":"Elemental Heart Dwfrf",
-        "subTypes":[
-            {"name":"Elemental Heart Dwarf (Acid)", "subType":"Acid", "actionChoices":"Elemental Heart Dwarf"},
-            {"name":"Elemental Heart Dwarf (Cold)", "subType":"Cold", "actionChoices":"Elemental Heart Dwarf"},
-            {"name":"Elemental Heart Dwarf (Electricity)", "subType":"Electricity", "actionChoices":"Elemental Heart Dwarf"},
-            {"name":"Elemental Heart Dwarf (Fire)", "subType":"Fire", "actionChoices":"Elemental Heart Dwarf"}
-        ],
-        "desc":"Whether through a connection to Torag’s forge, the azers of the Plane of Fire, or another source, you can exude a burst of energy. Mbe’ke and Taralu dwarves of the Mwangi Expanse believe this heritage is a gift from dragons or elemental spirits. Choose one of the following damage types: acid, cold, electricity, or fire. Once chosen, this can’t be changed. You gain the Energy Emanation activity."
-    },
-    {
-        "name":"Forge Dwarf",
-        "effects":[
-            {"affected":"Fire Resistance", "value":"Math.max(Math.floor(characterService.get_Character().level / 2),1)"}
-        ],
-        "featChoices":[
+        "_className": "Heritage",
+        "desc": "Your ancestors have been tomb guardians for generations, and the power they cultivated to ward off necromancy has passed on to you. If you roll a success on a saving throw against a necromancy effect, you get a critical success instead.",
+        "featChoices": [
             {
-                "available":0,
-                "feats":[
-                    {"name":"Forge Dwarf Lessened Heat", "source":"Heritage", "locked":true, "sourceId":"1-Feat-Heritage-0"},
-                    {"name":"Forge Dwarf Fire Resistance", "source":"Heritage", "locked":true, "sourceId":"1-Feat-Heritage-0"}
+                "_className": "FeatChoice",
+                "feats": [
+                    {
+                        "name": "Death Warden Dwarf Resistance",
+                        "source": "Heritage",
+                        "locked": true,
+                        "sourceId": "1-Feat-Heritage-0"
+                    }
                 ],
-                "filter":[],
-                "level":"",
-                "type":"",
-                "source":"Heritage",
-                "id":"1-Feat-Heritage-0"
+                "id": "1-Feat-Heritage-0",
+                "level": "",
+                "source": "Heritage"
             }
         ],
-        "desc":"You have a remarkable adaptation to hot environments from ancestors who inhabited blazing deserts or volcanic chambers beneath the earth. This grants you fire resistance equal to half your level (minimum 1), and you treat environmental heat effects as if they were one step less extreme (incredible heat becomes extreme, extreme heat becomes severe, and so on)."
-   
+        "name": "Death Warden Dwarf"
     },
     {
-        "name":"Oathkeeper Dwarf",
-        "featChoices":[
+        "_className": "Heritage",
+        "desc": "Whether through a connection to Torag’s forge, the azers of the Plane of Fire, or another source, you can exude a burst of energy. Mbe’ke and Taralu dwarves of the Mwangi Expanse believe this heritage is a gift from dragons or elemental spirits. Choose one of the following damage types: acid, cold, electricity, or fire. Once chosen, this can’t be changed. You gain the Energy Emanation activity.",
+        "name": "Elemental Heart Dwarf",
+        "subTypes": [
             {
-                "available":0,
-                "feats":[
-                    {"name":"Oathkeeper Dwarf Perception", "source":"Heritage", "locked":true, "sourceId":"1-Feat-Heritage-0"},
-                    {"name":"Oathkeeper Dwarf Diplomacy", "source":"Heritage", "locked":true, "sourceId":"1-Feat-Heritage-0"},
-                    {"name":"Oathkeeper Dwarf Deception", "source":"Heritage", "locked":true, "sourceId":"1-Feat-Heritage-0"}
+                "name": "Elemental Heart Dwarf (Acid)",
+                "subType": "Acid",
+                "gainActivities": [
+                    "Energy Emanation"
+                ]
+            },
+            {
+                "name": "Elemental Heart Dwarf (Cold)",
+                "subType": "Cold",
+                "gainActivities": [
+                    "Energy Emanation"
+                ]
+            },
+            {
+                "name": "Elemental Heart Dwarf (Electricity)",
+                "subType": "Electricity",
+                "gainActivities": [
+                    "Energy Emanation"
+                ]
+            },
+            {
+                "name": "Elemental Heart Dwarf (Fire)",
+                "subType": "Fire",
+                "gainActivities": [
+                    "Energy Emanation"
+                ]
+            }
+        ]
+    },
+    {
+        "_className": "Heritage",
+        "desc": "You have a remarkable adaptation to hot environments from ancestors who inhabited blazing deserts or volcanic chambers beneath the earth. This grants you fire resistance equal to half your level (minimum 1), and you treat environmental heat effects as if they were one step less extreme (incredible heat becomes extreme, extreme heat becomes severe, and so on).",
+        "featChoices": [
+            {
+                "_className": "FeatChoice",
+                "feats": [
+                    {
+                        "name": "Forge Dwarf Lessened Heat",
+                        "source": "Heritage",
+                        "locked": true,
+                        "sourceId": "1-Feat-Heritage-0"
+                    },
+                    {
+                        "name": "Forge Dwarf Fire Resistance",
+                        "source": "Heritage",
+                        "locked": true,
+                        "sourceId": "1-Feat-Heritage-0"
+                    }
                 ],
-                "filter":[],
-                "level":"",
-                "type":"",
-                "source":"Heritage",
-                "id":"1-Feat-Heritage-0"
+                "id": "1-Feat-Heritage-0",
+                "level": "",
+                "source": "Heritage"
             }
         ],
-        "desc":"Growing up, you never tried to lie to get what you wanted, and even when necessary, lying makes you uncomfortable. The especially faithful might even have thought that you were blessed by the dwarven god of duty, Kols. You gain a +1 circumstance bonus to Perception checks to Sense Motive and to Perception DCs against attempts to Lie to you. Furthermore, you gain a +2 circumstance bonus to Diplomacy checks to convince others you speak the truth when you are telling the truth, and you take a –4 circumstance penalty to Lie and to your Deception DC against Sense Motive."
-   
+        "name": "Forge Dwarf",
+        "effects": [
+            {
+                "affected": "Fire Resistance",
+                "value": "Math.max(Math.floor(characterService.get_Character().level / 2),1)"
+            }
+        ]
     },
     {
-        "name":"Rock Dwarf",
-        "featChoices":[
+        "_className": "Heritage",
+        "desc": "Growing up, you never tried to lie to get what you wanted, and even when necessary, lying makes you uncomfortable. The especially faithful might even have thought that you were blessed by the dwarven god of duty, Kols. You gain a +1 circumstance bonus to Perception checks to Sense Motive and to Perception DCs against attempts to Lie to you. Furthermore, you gain a +2 circumstance bonus to Diplomacy checks to convince others you speak the truth when you are telling the truth, and you take a –4 circumstance penalty to Lie and to your Deception DC against Sense Motive.",
+        "featChoices": [
             {
-                "available":0,
-                "feats":[
-                    {"name":"Rock Dwarf Stability", "source":"Heritage", "locked":true, "sourceId":"1-Feat-Heritage-0"}
+                "_className": "FeatChoice",
+                "feats": [
+                    {
+                        "name": "Oathkeeper Dwarf Perception",
+                        "source": "Heritage",
+                        "locked": true,
+                        "sourceId": "1-Feat-Heritage-0"
+                    },
+                    {
+                        "name": "Oathkeeper Dwarf Diplomacy",
+                        "source": "Heritage",
+                        "locked": true,
+                        "sourceId": "1-Feat-Heritage-0"
+                    },
+                    {
+                        "name": "Oathkeeper Dwarf Deception",
+                        "source": "Heritage",
+                        "locked": true,
+                        "sourceId": "1-Feat-Heritage-0"
+                    }
                 ],
-                "filter":[],
-                "level":"",
-                "type":"",
-                "source":"Heritage",
-                "id":"1-Feat-Heritage-0"
+                "id": "1-Feat-Heritage-0",
+                "level": "",
+                "source": "Heritage"
             }
         ],
-        "desc":"Your ancestors lived and worked among the great ancient stones of the mountains or the depths of the earth. This makes you solid as a rock when you plant your feet. You gain a +2 circumstance bonus to your Fortitude or Reflex DC against attempts to Shove or Trip you. This bonus also applies to saving throws against spells or effects that attempt to knock you prone.\n\nIn addition, if any effect would force you to move 10 feet or more, you are moved only half the distance."
+        "name": "Oathkeeper Dwarf"
     },
     {
-        "name":"Strong-Blooded Dwarf",
-        "featChoices":[
+        "_className": "Heritage",
+        "desc": "Your ancestors lived and worked among the great ancient stones of the mountains or the depths of the earth. This makes you solid as a rock when you plant your feet. You gain a +2 circumstance bonus to your Fortitude or Reflex DC against attempts to Shove or Trip you. This bonus also applies to saving throws against spells or effects that attempt to knock you prone.\n\nIn addition, if any effect would force you to move 10 feet or more, you are moved only half the distance.",
+        "featChoices": [
             {
-                "available":0,
-                "feats":[
-                    {"name":"Strong-Blooded Dwarf Fortitude", "source":"Heritage", "locked":true, "sourceId":"1-Feat-Heritage-0"},
-                    {"name":"Strong-Blooded Dwarf Poison Resistance", "source":"Heritage", "locked":true, "sourceId":"1-Feat-Heritage-0"},
-                    {"name":"Forge Dwarf Fire Resistance", "source":"Heritage", "locked":true, "sourceId":"1-Feat-Heritage-0"}
+                "_className": "FeatChoice",
+                "feats": [
+                    {
+                        "name": "Rock Dwarf Stability",
+                        "source": "Heritage",
+                        "locked": true,
+                        "sourceId": "1-Feat-Heritage-0"
+                    }
                 ],
-                "filter":[],
-                "level":"",
-                "type":"",
-                "source":"Heritage",
-                "id":"1-Feat-Heritage-0"
+                "id": "1-Feat-Heritage-0",
+                "level": "",
+                "source": "Heritage"
             }
         ],
-        "desc":"Your blood runs hearty and strong, and you can shake off toxins. You gain poison resistance equal to half your level (minimum 1), and each of your successful saving throws against a poison affliction reduces its stage by 2, or by 1 for a virulent poison. Each critical success against an ongoing poison reduces its stage by 3, or by 2 for a virulent poison."
+        "name": "Rock Dwarf"
     },
     {
-        "name":"Ancient Elf: ",
-        "featChoices":[
+        "_className": "Heritage",
+        "desc": "Your blood runs hearty and strong, and you can shake off toxins. You gain poison resistance equal to half your level (minimum 1), and each of your successful saving throws against a poison affliction reduces its stage by 2, or by 1 for a virulent poison. Each critical success against an ongoing poison reduces its stage by 3, or by 2 for a virulent poison.",
+        "featChoices": [
             {
-                "available":0,
-                "feats":[],
-                "filter":[
+                "_className": "FeatChoice",
+                "feats": [
+                    {
+                        "name": "Strong-Blooded Dwarf Fortitude",
+                        "source": "Heritage",
+                        "locked": true,
+                        "sourceId": "1-Feat-Heritage-0"
+                    },
+                    {
+                        "name": "Strong-Blooded Dwarf Poison Resistance",
+                        "source": "Heritage",
+                        "locked": true,
+                        "sourceId": "1-Feat-Heritage-0"
+                    },
+                    {
+                        "name": "Forge Dwarf Fire Resistance",
+                        "source": "Heritage",
+                        "locked": true,
+                        "sourceId": "1-Feat-Heritage-0"
+                    }
+                ],
+                "id": "1-Feat-Heritage-0",
+                "level": "",
+                "source": "Heritage"
+            }
+        ],
+        "name": "Strong-Blooded Dwarf"
+    },
+    {
+        "_className": "Heritage",
+        "desc": "In your long life, you’ve dabbled in many paths and many styles. Choose a class other than your own. You gain the multiclass dedication feat for that class, even though you don’t meet its level prerequisite. You must still meet its other prerequisites to gain the feat.",
+        "featChoices": [
+            {
+                "_className": "FeatChoice",
+                "filter": [
                     "Alchemist Dedication",
                     "Barbarian Dedication",
                     "Bard Dedication",
@@ -159,168 +240,231 @@
                     "Sorcerer Dedication",
                     "Wizard Dedication"
                 ],
-                "level":"",
-                "type":"Dedication",
-                "source":"Heritage",
-                "id":"1-Feat-Heritage-0"
+                "id": "1-Feat-Heritage-0",
+                "level": "",
+                "source": "Heritage",
+                "type": "Dedication"
             }
         ],
-        "desc":"In your long life, you’ve dabbled in many paths and many styles. Choose a class other than your own. You gain the multiclass dedication feat for that class, even though you don’t meet its level prerequisite. You must still meet its other prerequisites to gain the feat."
+        "name": "Ancient Elf: "
     },
     {
-        "name":"Arctic Elf",
-        "featChoices":[
+        "_className": "Heritage",
+        "desc": "You dwell deep in the frozen north and have gained incredible resilience against cold environments, granting you cold resistance equal to half your level (minimum 1). You treat environmental cold effects as if they were one step less extreme (incredible cold becomes extreme, extreme cold becomes severe, and so on).",
+        "featChoices": [
             {
-                "available":0,
-                "feats":[
-                    {"name":"Arctic Elf Lessened Cold", "source":"Heritage", "locked":true, "sourceId":"1-Feat-Heritage-0"},
-                    {"name":"Arctic Elf Cold Resistance", "source":"Heritage", "locked":true, "sourceId":"1-Feat-Heritage-0"}
+                "_className": "FeatChoice",
+                "feats": [
+                    {
+                        "name": "Arctic Elf Lessened Cold",
+                        "source": "Heritage",
+                        "locked": true,
+                        "sourceId": "1-Feat-Heritage-0"
+                    },
+                    {
+                        "name": "Arctic Elf Cold Resistance",
+                        "source": "Heritage",
+                        "locked": true,
+                        "sourceId": "1-Feat-Heritage-0"
+                    }
                 ],
-                "filter":[],
-                "level":"",
-                "type":"",
-                "source":"Heritage",
-                "id":"1-Feat-Heritage-0"
+                "id": "1-Feat-Heritage-0",
+                "level": "",
+                "source": "Heritage"
             }
         ],
-        "desc":"You dwell deep in the frozen north and have gained incredible resilience against cold environments, granting you cold resistance equal to half your level (minimum 1). You treat environmental cold effects as if they were one step less extreme (incredible cold becomes extreme, extreme cold becomes severe, and so on)."
+        "name": "Arctic Elf"
     },
     {
-        "name":"Cavern Elf",
-        "senses":["Darkvision"],
-        "desc":"You were born or spent many years in underground tunnels or caverns where light is scarce. You gain darkvision."
+        "_className": "Heritage",
+        "desc": "You were born or spent many years in underground tunnels or caverns where light is scarce. You gain darkvision.",
+        "name": "Cavern Elf",
+        "senses": [
+            "Darkvision"
+        ]
     },
     {
-        "name":"Desert Elf",
-        "featChoices":[
+        "_className": "Heritage",
+        "desc": "You live under the desert’s blazing heat, gaining incredible resilience to warm environments. You gain fire resistance equal to half your level (minimum 1), and environmental heat effects are one step less extreme for you (incredible heat becomes extreme, extreme heat becomes severe, and so on).",
+        "featChoices": [
             {
-                "available":0,
-                "feats":[
-                    {"name":"Desert Elf Lessened Heat", "source":"Heritage", "locked":true, "sourceId":"1-Feat-Heritage-0"},
-                    {"name":"Desert Elf Fire Resistance", "source":"Heritage", "locked":true, "sourceId":"1-Feat-Heritage-0"}
+                "_className": "FeatChoice",
+                "feats": [
+                    {
+                        "name": "Desert Elf Lessened Heat",
+                        "source": "Heritage",
+                        "locked": true,
+                        "sourceId": "1-Feat-Heritage-0"
+                    },
+                    {
+                        "name": "Desert Elf Fire Resistance",
+                        "source": "Heritage",
+                        "locked": true,
+                        "sourceId": "1-Feat-Heritage-0"
+                    }
                 ],
-                "filter":[],
-                "level":"",
-                "type":"",
-                "source":"Heritage",
-                "id":"1-Feat-Heritage-0"
+                "id": "1-Feat-Heritage-0",
+                "level": "",
+                "source": "Heritage"
             }
         ],
-        "desc":"You live under the desert’s blazing heat, gaining incredible resilience to warm environments. You gain fire resistance equal to half your level (minimum 1), and environmental heat effects are one step less extreme for you (incredible heat becomes extreme, extreme heat becomes severe, and so on)."
+        "name": "Desert Elf"
     },
     {
-        "name":"Seer Elf",
-        "gaincantrip":"Detect Magic,at will",
-        "featChoices":[
+        "_className": "Heritage",
+        "desc": "You have an inborn ability to detect and understand magical phenomena. You can cast the detect magic cantrip as an arcane innate spell at will. A cantrip is heightened to a spell level equal to half your level rounded up.\n\nIn addition, you gain a +1 circumstance bonus to checks to Identify Magic and to Decipher Writing of a magical nature. These skill actions typically use the Arcana, Nature, Occultism, or Religion skill.",
+        "featChoices": [
             {
-                "available":0,
-                "feats":[
-                    {"name":"Seer Elf Insight", "source":"Heritage", "locked":true, "sourceId":"1-Feat-Heritage-0"}
+                "_className": "FeatChoice",
+                "feats": [
+                    {
+                        "name": "Seer Elf Insight",
+                        "source": "Heritage",
+                        "locked": true,
+                        "sourceId": "1-Feat-Heritage-0"
+                    }
                 ],
-                "filter":[],
-                "level":"",
-                "type":"",
-                "source":"Heritage",
-                "id":"1-Feat-Heritage-0"
+                "id": "1-Feat-Heritage-0",
+                "level": "",
+                "source": "Heritage"
             }
         ],
-        "desc":"You have an inborn ability to detect and understand magical phenomena. You can cast the detect magic cantrip as an arcane innate spell at will. A cantrip is heightened to a spell level equal to half your level rounded up.\n\nIn addition, you gain a +1 circumstance bonus to checks to Identify Magic and to Decipher Writing of a magical nature. These skill actions typically use the Arcana, Nature, Occultism, or Religion skill."
+        "name": "Seer Elf",
+        "gaincantrip": "Detect Magic,at will"
     },
     {
-        "name":"Whisper Elf",
-        "featChoices":[
+        "_className": "Heritage",
+        "desc": "Your ears are finely tuned, able to detect even the slightest whispers of sound. As long as you can hear normally, you can use the Seek action to sense undetected creatures in a 60-foot cone instead of a 30-foot cone. You also gain a +2 circumstance bonus to locate undetected creatures that you could hear within 30 feet with a Seek action.",
+        "featChoices": [
             {
-                "available":0,
-                "feats":[
-                    {"name":"Whisper Elf Hearing", "source":"Heritage", "locked":true, "sourceId":"1-Feat-Heritage-0"}
+                "_className": "FeatChoice",
+                "feats": [
+                    {
+                        "name": "Whisper Elf Hearing",
+                        "source": "Heritage",
+                        "locked": true,
+                        "sourceId": "1-Feat-Heritage-0"
+                    }
                 ],
-                "filter":[],
-                "level":"",
-                "type":"",
-                "source":"Heritage",
-                "id":"1-Feat-Heritage-0"
+                "id": "1-Feat-Heritage-0",
+                "level": "",
+                "source": "Heritage"
             }
         ],
-        "desc":"Your ears are finely tuned, able to detect even the slightest whispers of sound. As long as you can hear normally, you can use the Seek action to sense undetected creatures in a 60-foot cone instead of a 30-foot cone. You also gain a +2 circumstance bonus to locate undetected creatures that you could hear within 30 feet with a Seek action."
+        "name": "Whisper Elf"
     },
     {
-        "name":"Woodland Elf",
-        "featChoices":[
+        "_className": "Heritage",
+        "desc": "You’re adapted to life in the forest or the deep jungle, and you know how to climb trees and use foliage to your advantage. When Climbing trees, vines, and other foliage, you move at half your Speed on a success and at full Speed on a critical success (and you move at full Speed on a success if you have Quick Climb). This doesn’t affect you if you’re using a climb Speed.\n\nYou can always use the Take Cover action when you are within forest terrain to gain cover, even if you’re not next to an obstacle you can Take Cover behind.",
+        "featChoices": [
             {
-                "available":0,
-                "feats":[
-                    {"name":"Woodland Elf Climbing", "source":"Heritage", "locked":true, "sourceId":"1-Feat-Heritage-0"},
-                    {"name":"Woodland Elf Cover", "source":"Heritage", "locked":true, "sourceId":"1-Feat-Heritage-0"}
+                "_className": "FeatChoice",
+                "feats": [
+                    {
+                        "name": "Woodland Elf Climbing",
+                        "source": "Heritage",
+                        "locked": true,
+                        "sourceId": "1-Feat-Heritage-0"
+                    },
+                    {
+                        "name": "Woodland Elf Cover",
+                        "source": "Heritage",
+                        "locked": true,
+                        "sourceId": "1-Feat-Heritage-0"
+                    }
                 ],
-                "filter":[],
-                "level":"",
-                "type":"",
-                "source":"Heritage",
-                "id":"1-Feat-Heritage-0"
+                "id": "1-Feat-Heritage-0",
+                "level": "",
+                "source": "Heritage"
             }
         ],
-        "desc":"You’re adapted to life in the forest or the deep jungle, and you know how to climb trees and use foliage to your advantage. When Climbing trees, vines, and other foliage, you move at half your Speed on a success and at full Speed on a critical success (and you move at full Speed on a success if you have Quick Climb). This doesn’t affect you if you’re using a climb Speed.\n\nYou can always use the Take Cover action when you are within forest terrain to gain cover, even if you’re not next to an obstacle you can Take Cover behind."
+        "name": "Woodland Elf"
     },
     {
-        "name":"Half-Elf",
-        "traits":["Elf"],
-        "senses":["Low-light vision"],
-        "ancestries":["Elf", "Half-Elf"],
-        "desc":"Either one of your parents was an elf, or one or both were half-elves. You have pointed ears and other telltale signs of elf heritage. You gain the elf trait and low-light vision. In addition, you can select elf, half-elf, and human feats whenever you gain an ancestry feat."
+        "_className": "Heritage",
+        "ancestries": [
+            "Elf",
+            "Half-Elf"
+        ],
+        "desc": "Either one of your parents was an elf, or one or both were half-elves. You have pointed ears and other telltale signs of elf heritage. You gain the elf trait and low-light vision. In addition, you can select elf, half-elf, and human feats whenever you gain an ancestry feat.",
+        "name": "Half-Elf",
+        "senses": [
+            "Low-light vision"
+        ],
+        "traits": [
+            "Elf"
+        ]
     },
     {
-        "name":"Half-Orc",
-        "traits":["Orc"],
-        "senses":["Low-light vision"],
-        "ancestries":["Orc", "Half-Orc"],
-        "desc":"One of your parents was an orc, or one or both were half-orcs. You have a green tinge to your skin and other indicators of orc heritage. You gain the orc trait and low-light vision. In addition, you can select orc, half-orc, and human feats whenever you gain an ancestry feat."
+        "_className": "Heritage",
+        "ancestries": [
+            "Orc",
+            "Half-Orc"
+        ],
+        "desc": "One of your parents was an orc, or one or both were half-orcs. You have a green tinge to your skin and other indicators of orc heritage. You gain the orc trait and low-light vision. In addition, you can select orc, half-orc, and human feats whenever you gain an ancestry feat.",
+        "name": "Half-Orc",
+        "senses": [
+            "Low-light vision"
+        ],
+        "traits": [
+            "Orc"
+        ]
     },
     {
-        "name":"Skilled Heritage",
-        "skillChoices":[
+        "_className": "Heritage",
+        "desc": "Your ingenuity allows you to train in a wide variety of skills. You become trained in one skill of your choice. At 5th level, you become an expert in the chosen skill.",
+        "name": "Skilled Heritage",
+        "skillChoices": [
             {
-                "available":1,
-                "increases":[],
-                "filter":[],
-                "type":"Skill",
-                "maxRank":2,
-                "source":"Skilled Heritage",
-                "id":"1-Skill-Skilled Heritage-0"
+                "_className": "SkillChoice",
+                "available": 1,
+                "id": "1-Skill-Skilled Heritage-0",
+                "maxRank": 2,
+                "source": "Skilled Heritage",
+                "type": "Skill"
+            }
+        ]
+    },
+    {
+        "_className": "Heritage",
+        "desc": "Humanity’s versatility and ambition have fueled its ascendance to be the most common ancestry in most nations throughout the world. Select a general feat of your choice for which you meet the prerequisites (as with your ancestry feat, you can select this general feat at any point during character creation).",
+        "featChoices": [
+            {
+                "_className": "FeatChoice",
+                "available": 1,
+                "id": "1-Feat-Heritage-0",
+                "level": "",
+                "source": "Heritage",
+                "type": "General"
             }
         ],
-        "desc":"Your ingenuity allows you to train in a wide variety of skills. You become trained in one skill of your choice. At 5th level, you become an expert in the chosen skill."
+        "name": "Versatile Heritage"
     },
     {
-        "name":"Versatile Heritage",
-        "featChoices":[
+        "_className": "Heritage",
+        "desc": "The power of winter flows through you. This heritage is most common among the Jadwiga of Irrisen, due to their descent from Baba Yaga, and certain Erutaki touched by the spirits. You gain cold resistance equal to half your level (minimum 1), and you treat environmental cold effects as if they were one step less extreme (incredible cold becomes extreme, extreme cold becomes severe, and so on).",
+        "featChoices": [
             {
-                "available":1,
-                "feats":[],
-                "filter":[],
-                "level":"",
-                "type":"General",
-                "source":"Heritage",
-                "id":"1-Feat-Heritage-0"
-            }
-        ],
-        "desc":"Humanity’s versatility and ambition have fueled its ascendance to be the most common ancestry in most nations throughout the world. Select a general feat of your choice for which you meet the prerequisites (as with your ancestry feat, you can select this general feat at any point during character creation)."
-    },
-    {
-        "name":"Wintertouched Human",
-        "featChoices":[
-            {
-                "available":0,
-                "feats":[
-                    {"name":"Wintertouched Human Lessened Cold", "source":"Heritage", "locked":true, "sourceId":"1-Feat-Heritage-0"},
-                    {"name":"Wintertouched Human Cold Resistance", "source":"Heritage", "locked":true, "sourceId":"1-Feat-Heritage-0"}
+                "_className": "FeatChoice",
+                "feats": [
+                    {
+                        "name": "Wintertouched Human Lessened Cold",
+                        "source": "Heritage",
+                        "locked": true,
+                        "sourceId": "1-Feat-Heritage-0"
+                    },
+                    {
+                        "name": "Wintertouched Human Cold Resistance",
+                        "source": "Heritage",
+                        "locked": true,
+                        "sourceId": "1-Feat-Heritage-0"
+                    }
                 ],
-                "filter":[],
-                "level":"",
-                "type":"",
-                "source":"Heritage",
-                "id":"1-Feat-Heritage-0"
+                "id": "1-Feat-Heritage-0",
+                "level": "",
+                "source": "Heritage"
             }
         ],
-        "desc":"The power of winter flows through you. This heritage is most common among the Jadwiga of Irrisen, due to their descent from Baba Yaga, and certain Erutaki touched by the spirits. You gain cold resistance equal to half your level (minimum 1), and you treat environmental cold effects as if they were one step less extreme (incredible cold becomes extreme, extreme cold becomes severe, and so on)."
+        "name": "Wintertouched Human"
     }
 ]

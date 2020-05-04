@@ -7,13 +7,13 @@ import { Character } from './Character';
 import { AnimalCompanion } from './AnimalCompanion';
 
 export class Bulk {
-    public $effects: Effect[];
     public $bonus: Effect[];
-    public $penalty: Effect[];
     public $current: number = 0;
-    public $limit: {value:number, desc:string} = {value:0, desc:""};
+    public $effects: Effect[];
     public $encumbered: {value:number, desc:string} = {value:0, desc:""};
+    public $limit: {value:number, desc:string} = {value:0, desc:""};
     public $max: {value:number, desc:string} = {value:0, desc:""};
+    public $penalty: Effect[];
     calculate(creature: Character|AnimalCompanion, characterService: CharacterService, effectsService: EffectsService) {
         this.$effects = this.effects(creature, effectsService);
         this.$bonus = this.bonus(creature, effectsService);

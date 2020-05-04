@@ -55,7 +55,7 @@ export class AttacksComponent implements OnInit {
     }
 
     get_IsAllowed(weapon: Weapon) {
-        return !(this.attackRestrictions.length && this.attackRestrictions.indexOf(weapon.name) == -1);
+        return !(this.attackRestrictions.length && !this.attackRestrictions.includes(weapon.name));
     }
 
     get_EquippedWeapons() {
@@ -90,7 +90,7 @@ export class AttacksComponent implements OnInit {
         //Under certain circumstances, some Feats apply to Weapons independently of their name.
         //Return names that get_FeatsShowingOn should run on
         let specialNames: string[] = []
-        if (weapon.traits.indexOf("Monk") > -1 && this.characterService.get_Feats("Monastic Weaponry")[0].have(this.get_Creature(), this.characterService)) {
+        if (weapon.traits.includes("Monk") && this.characterService.get_Feats("Monastic Weaponry")[0].have(this.get_Creature(), this.characterService)) {
             specialNames.push("Unarmed");
             specialNames.push("Monk");
         }

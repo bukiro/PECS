@@ -1,6 +1,5 @@
 import { EffectsService } from './effects.service';
 import { CharacterService } from './character.service';
-import { Creature } from './Creature';
 import { Character } from './Character';
 import { AnimalCompanion } from './AnimalCompanion';
 
@@ -8,7 +7,7 @@ export class Ability {
     constructor (
         public name: string = "",
     ) {}
-    baseValue(creature: Character|AnimalCompanion, characterService, charLevel: number = creature.level) {
+    baseValue(creature: Character|AnimalCompanion, characterService, charLevel: number = characterService.get_Character().level) {
         if (characterService.still_loading()) { return 10; }
         //Get baseValues from the character if they exist, otherwise 10
         let baseValue = 10;
@@ -23,7 +22,7 @@ export class Ability {
         //Boosts are +2 until 18, then +1 for Character
         //Boosts are always +2 for Companion
         //Flaws are always -2
-        let boosts = creature.get_AbilityBoosts(0, characterService.get_Character().level, this.name);
+        let boosts = creature.get_AbilityBoosts(0, charLevel, this.name);
         if (boosts) {
             boosts.forEach(boost => {
                 if (boost.type == "Boost") {

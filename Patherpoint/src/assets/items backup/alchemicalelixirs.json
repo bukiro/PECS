@@ -1,0 +1,79 @@
+[
+    {
+        "name": "Juggernaut Mutagen (Lesser)",
+        "type": "alchemicalelixirs",
+        "usage": "held in 1 hand",
+        "bulk": "L",
+        "price": 400,
+        "level": 1,
+        "actions": "1",
+        "activationType": "Interact",
+        "desc": "After you drink this mutagen, your body becomes thick and sturdy. You exhibit a healthy glow, though you tend to be ponderous and unobservant.",
+        "benefit": "You gain an item bonus of +1 to Fortitude saves and 5 temporary Hit Points. Whenever you are at maximum Hit Points for at least 1 full minute, you regain the temporary Hit Points.",
+        "drawback": "You take a –2 penalty to Will saves, Perception checks, and initiative rolls.",
+        "subType": "Lesser",
+        "subTypeDesc": "The bonus is +1, you gain 5 temporary Hit Points, and the duration is 1 minute.",
+        "traits": [
+            "Alchemical",
+            "Consumable",
+            "Elixir",
+            "Mutagen",
+            "Polymorph"
+        ],
+        "gainConditions": [
+            {
+                "name": "Juggernaut Mutagen (Lesser)",
+                "source": "Juggernaut Mutagen (Lesser)",
+                "duration": 100
+            }
+        ]
+    },
+    {
+        "name": "Leaper's Elixir (Lesser)",
+        "type": "alchemicalelixirs",
+        "usage": "held in 1 hand",
+        "bulk": "L",
+        "price": 300,
+        "level": 1,
+        "actions": "1",
+        "activationType": "Interact",
+        "desc": "This tingly solution increases the elasticity and contraction of your leg muscles. For 1 minute after drinking this elixir, you can High Jump or Long Jump as a single action instead of 2 actions. If you do, you don’t perform the initial Stride (nor do you fail if you don’t Stride 10 feet).",
+        "traits": [
+            "Alchemical",
+            "Consumable",
+            "Elixir"
+        ],
+        "gainConditions": [
+            {
+                "name": "Leaper's Elixir (Lesser)",
+                "source": "Leaper's Elixir (Lesser)",
+                "duration": 100
+            }
+        ]
+    },
+    {
+        "name": "Eagle-Eye Elixir (Moderate)",
+        "type": "alchemicalelixirs",
+        "usage": "held in 1 hand",
+        "bulk": "L",
+        "price": 2700,
+        "level": 5,
+        "actions": "1",
+        "activationType": "Interact",
+        "desc": "After you drink this elixir, you notice subtle visual details. For the next hour, you gain an item bonus to Perception checks that is greater when attempting to find secret doors and traps.",
+        "subType": "Moderate",
+        "subTypeDesc": "The bonus is +2, or +3 to find secret doors and traps.",
+        "traits": [
+            "Alchemical",
+            "Consumable",
+            "Elixir"
+        ],
+        "gainConditions": [
+            {
+                "name": "Eagle-Eye Elixir (Moderate)",
+                "source": "Eagle-Eye Elixir (Moderate)",
+                "duration": 6000
+            }
+        ]
+    }
+]

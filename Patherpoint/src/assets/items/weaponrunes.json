@@ -1,645 +1,779 @@
 [
     {
-        "name": "Weapon Potency (+1)",
-        "level": 2,
-        "price": 3500,
-        "usage": "etched onto a weapon",
-        "potency": 1,
         "desc": "Magical enhancements make this weapon strike true. Attack rolls with this weapon gain a +1 item bonus, and the weapon can be etched with one property rune.\n\nYou can upgrade the weapon potency rune already etched on a weapon to a stronger version, increasing the values of the existing rune to those of the new rune. You must have the formula of the stronger rune to do so, and the Price of the upgrade is the difference between the two runes’ Prices.",
-        "craftRequirement":"You are an expert in Crafting.",
+        "id": "89c636a1-8e09-11ea-9fab-e92c63c14723",
+        "level": 2,
+        "name": "Weapon Potency (+1)",
+        "price": 3500,
         "traits": [
             "Evocation",
             "Magical"
-        ]
+        ],
+        "craftRequirement": "You are an expert in Crafting.",
+        "potency": 1,
+        "usage": "etched onto a weapon",
+        "_className": "WeaponRune"
     },
     {
-        "name": "Kin-Warding",
-        "level": 3,
-        "price": 5200,
-        "usage": "etched onto a clan dagger",
-        "namereq": "Clan Dagger",
         "desc": "A kin-warding clan dagger can deflect attacks aimed at your allies. When you use the weapon’s parry trait, you can point the clan dagger at an adjacent ally instead of defending yourself, creating a shield of runes around them. The runic barrier grants your ally the weapon’s circumstance bonus to AC, but you do not gain the bonus yourself.",
-        "hint": "When you use the weapon’s parry trait, you can point the clan dagger at an adjacent ally instead of defending yourself, creating a shield of runes around them. The runic barrier grants your ally the weapon’s circumstance bonus to AC, but you do not gain the bonus yourself.",
+        "id": "89c636a3-8e09-11ea-9fab-e92c63c14723",
+        "level": 3,
+        "name": "Kin-Warding",
+        "price": 5200,
         "traits": [
             "Uncommon",
             "Abjuration",
             "Dwarf",
             "Magical"
-        ]
+        ],
+        "hint": "When you use the weapon’s parry trait, you can point the clan dagger at an adjacent ally instead of defending yourself, creating a shield of runes around them. The runic barrier grants your ally the weapon’s circumstance bonus to AC, but you do not gain the bonus yourself.",
+        "usage": "etched onto a clan dagger",
+        "_className": "WeaponRune",
+        "namereq": "Clan Dagger"
     },
     {
-        "name": "Returning",
-        "level": 3,
-        "price": 5500,
-        "usage": "etched onto a thrown weapon",
-        "traitreq": "Thrown",
         "desc": "When you make a thrown Strike with this weapon, it flies back to your hand after the Strike is complete. If your hands are full when the weapon returns, it falls to the ground in your space.",
+        "id": "89c636a5-8e09-11ea-9fab-e92c63c14723",
+        "level": 3,
+        "name": "Returning",
+        "price": 5500,
+        "traits": [
+            "Evocation",
+            "Magical"
+        ],
         "hint": "When you make a thrown Strike with this weapon, it flies back to your hand after the Strike is complete. If your hands are full when the weapon returns, it falls to the ground in your space.",
-        "traits": [
-            "Evocation",
-            "Magical"
-        ]
+        "usage": "etched onto a thrown weapon",
+        "_className": "WeaponRune",
+        "traitreq": "Thrown"
     },
     {
-        "name": "Striking",
-        "level": 4,
-        "price": 6500,
-        "usage": "etched onto a weapon",
-        "striking": 1,
         "desc": "A striking rune stores destructive magic in the weapon, increasing the weapon damage dice it deals to two instead of one. For instance, a +1 striking dagger would deal 2d4 damage instead of 1d4 damage.\n\nYou can upgrade the striking rune already etched on a weapon to a stronger version, increasing the values of the existing rune to those of the new rune. You must have the formula of the stronger rune to do so, and the Price of the upgrade is the difference between the two runes’ Prices.",
+        "id": "89c636a7-8e09-11ea-9fab-e92c63c14723",
+        "level": 4,
+        "name": "Striking",
+        "price": 6500,
         "traits": [
             "Evocation",
             "Magical"
-        ]
+        ],
+        "usage": "etched onto a weapon",
+        "_className": "WeaponRune",
+        "striking": 1
     },
     {
-        "name": "Ghost Touch",
-        "level": 4,
-        "price": 7500,
-        "usage": "etched onto a melee weapon",
-        "rangereq": "melee",
         "desc": "The weapon can harm creatures without physical form. A ghost touch weapon is particularly effective against incorporeal creatures, which almost always have a specific weakness to ghost touch weapons. Incorporeal creatures can touch, hold, and wield ghost touch weapons (unlike most physical objects).",
-        "hint": "The weapon can harm creatures without physical form.",
+        "id": "89c636a9-8e09-11ea-9fab-e92c63c14723",
+        "level": 4,
+        "name": "Ghost Touch",
+        "price": 7500,
         "traits": [
             "Magical",
             "Transmutation"
-        ]
+        ],
+        "hint": "The weapon can harm creatures without physical form.",
+        "usage": "etched onto a melee weapon",
+        "_className": "WeaponRune",
+        "rangereq": "melee"
     },
     {
-        "name": "Disrupting",
-        "level": 5,
-        "price": 15000,
-        "usage": "etched onto a melee weapon",
-        "rangereq": "melee",
         "desc": "A disrupting weapon pulses with positive energy, dealing an extra 1d6 positive damage to undead. On a critical hit, the undead is also enfeebled 1 until the end of your next turn.",
-        "extraDamage": "+1d6 Positive\n(against undead)",
-        "criticalHint": "On a critical hit on an undead, the undead is enfeebled 1 until the end of your next turn.",
+        "id": "89c636ab-8e09-11ea-9fab-e92c63c14723",
+        "level": 5,
+        "name": "Disrupting",
+        "price": 15000,
         "traits": [
             "Magical",
             "Necromancy"
-        ]
+        ],
+        "usage": "etched onto a melee weapon",
+        "_className": "WeaponRune",
+        "criticalHint": "On a critical hit on an undead, the undead is enfeebled 1 until the end of your next turn.",
+        "extraDamage": "+1d6 Positive\n(against undead)",
+        "rangereq": "melee"
     },
     {
-        "name": "Shifting",
-        "level": 6,
-        "price": 22500,
-        "usage": "etched onto a melee weapon",
-        "rangereq": "melee",
         "desc": "With a moment of manipulation, you can shift this weapon into a different weapon with a similar form.",
+        "id": "89c636ad-8e09-11ea-9fab-e92c63c14723",
+        "level": 6,
+        "name": "Shifting",
+        "price": 22500,
+        "traits": [
+            "Magical",
+            "Transmutation"
+        ],
         "activities": [
             {
-                "name": "Shifting Rune",
-                "actions": "1",
                 "activationType": "Interact",
                 "desc": "The weapon takes the shape of another melee weapon that requires the same number of hands to wield. The weapon’s runes and any precious material it’s made of apply to the weapon’s new shape. Any property runes that can’t apply to the new form are suppressed until the item takes a shape to which they can apply.",
-                "inputRequired": "The transformation is not automated. You must add the desired weapon and apply all applicable runes manually."
+                "inputRequired": "The transformation is not automated. You must add the desired weapon and apply all applicable runes manually.",
+                "name": "Shifting Rune",
+                "_className": "ItemActivity",
+                "source": "89c636ad-8e09-11ea-9fab-e92c63c14723"
             }
         ],
-        "traits": [
-            "Magical",
-            "Transmutation"
-        ]
+        "usage": "etched onto a melee weapon",
+        "_className": "WeaponRune",
+        "rangereq": "melee"
     },
     {
-        "name": "Wounding",
-        "level": 7,
-        "price": 34000,
-        "usage": "etched onto a piercing or slashing melee weapon",
-        "rangereq": "melee",
-        "damagereq": "P, S",
         "desc": "Weapons with wounding runes are said to thirst for blood. When you hit a creature with a wounding weapon, you deal an extra 1d6 persistent bleed damage. On a critical hit, it instead deals 1d12 persistent bleed damage.",
-        "extraDamage": "+1d6 persistent bleed",
-        "criticalHint": "The weapon deals 1d12 persistent bleed damage instead of 1d6.",
+        "id": "89c65db1-8e09-11ea-9fab-e92c63c14723",
+        "level": 7,
+        "name": "Wounding",
+        "price": 34000,
         "traits": [
             "Magical",
             "Necromancy"
-        ]
+        ],
+        "usage": "etched onto a piercing or slashing melee weapon",
+        "_className": "WeaponRune",
+        "criticalHint": "The weapon deals 1d12 persistent bleed damage instead of 1d6.",
+        "damagereq": "P, S",
+        "extraDamage": "+1d6 persistent bleed",
+        "rangereq": "melee"
     },
     {
-        "name": "Bloodbane",
-        "level": 8,
-        "price": 47500,
-        "usage": "etched onto a clan dagger",
-        "namereq": "Clan Dagger",
         "desc": "A bloodbane clan dagger is especially vicious against the ancestral enemies of the clan. When you damage an appropriate type of creature with the weapon, that creature takes 1 persistent bleed damage. The type of creature depends on the clan that made the dagger, but is typically drow, duergar, giant, or orc.\\n\\nIn addition, whenever you inflict persistent bleed damage with a bloodbane weapon (whether from its innate ability or in some other way), the weapon leaves ragged wounds. The bleeding creature must succeed at a DC 25 Fortitude save or become sickened 1. The creature is then temporarily immune for 1 hour.",
-        "extraDamage": "+1 persistent bleed\n(against clan enemy)",
-        "hint": "Whenever you inflict persistent bleed damage with a bloodbane weapon, the bleeding creature must succeed at a DC 25 Fortitude save or become sickened 1. The creature is then temporarily immune for 1 hour.",
+        "id": "89c65db3-8e09-11ea-9fab-e92c63c14723",
+        "level": 8,
+        "name": "Bloodbane",
+        "price": 47500,
         "traits": [
             "Uncommon",
             "Dwarf",
             "Evocation",
             "Magical"
-        ]
+        ],
+        "hint": "Whenever you inflict persistent bleed damage with a bloodbane weapon, the bleeding creature must succeed at a DC 25 Fortitude save or become sickened 1. The creature is then temporarily immune for 1 hour.",
+        "usage": "etched onto a clan dagger",
+        "_className": "WeaponRune",
+        "extraDamage": "+1 persistent bleed\n(against clan enemy)",
+        "namereq": "Clan Dagger"
     },
     {
-        "name": "Corrosive",
-        "level": 8,
-        "price": 50000,
-        "usage": "etched onto a weapon",
         "desc": "Acid sizzles across the surface of the weapon. When you hit with the weapon, add 1d6 acid damage to the damage dealt. In addition, on a critical hit, the target’s armor (if any) takes 3d6 acid damage (before applying Hardness); if the target has a shield raised, the shield takes this damage instead.",
-        "extraDamage": "+1d6 Acid",
-        "criticalHint": "The target's armor takes 3d6 acid damage before applying Hardness; if the target has a shield raised, the shield takes this damage instead.",
+        "id": "89c65db5-8e09-11ea-9fab-e92c63c14723",
+        "level": 8,
+        "name": "Corrosive",
+        "price": 50000,
         "traits": [
             "Acid",
             "Conjuration",
             "Magical"
-        ]
+        ],
+        "usage": "etched onto a weapon",
+        "_className": "WeaponRune",
+        "criticalHint": "The target's armor takes 3d6 acid damage before applying Hardness; if the target has a shield raised, the shield takes this damage instead.",
+        "extraDamage": "+1d6 Acid"
     },
     {
-        "name": "Flaming",
-        "level": 8,
-        "price": 50000,
-        "usage": "etched onto a weapon",
         "desc": "This weapon is empowered by flickering flame. The weapon deals an additional 1d6 fire damage on a successful Strike, plus 1d10 persistent fire damage on a critical hit.",
-        "extraDamage": "+1d6 Fire",
-        "criticalHint": "The weapon deals 1d10 persistent fire damage.",
+        "id": "89c65db7-8e09-11ea-9fab-e92c63c14723",
+        "level": 8,
+        "name": "Flaming",
+        "price": 50000,
         "traits": [
             "Conjuration",
             "Fire",
             "Magical"
-        ]
+        ],
+        "usage": "etched onto a weapon",
+        "_className": "WeaponRune",
+        "criticalHint": "The weapon deals 1d10 persistent fire damage.",
+        "extraDamage": "+1d6 Fire"
     },
     {
-        "name": "Frost",
-        "level": 8,
-        "price": 50000,
-        "usage": "etched onto a weapon",
         "desc": "This weapon is empowered with freezing ice. It deals an additional 1d6 cold damage on a successful Strike. On a critical hit, the target is also slowed 1 until the end of your next turn unless it succeeds at a DC 24 Fortitude save.",
-        "extraDamage": "+1d6 Cold",
-        "criticalHint": "The target is slowed 1 until the end of your next turn unless it succeeds at a DC 24 Fortitude save.",
+        "id": "89c65db9-8e09-11ea-9fab-e92c63c14723",
+        "level": 8,
+        "name": "Frost",
+        "price": 50000,
         "traits": [
             "Cold",
             "Conjuration",
             "Magical"
-        ]
+        ],
+        "usage": "etched onto a weapon",
+        "_className": "WeaponRune",
+        "criticalHint": "The target is slowed 1 until the end of your next turn unless it succeeds at a DC 24 Fortitude save.",
+        "extraDamage": "+1d6 Cold"
     },
     {
-        "name": "Shock",
-        "level": 8,
-        "price": 50000,
-        "usage": "etched onto a weapon",
         "desc": "Electric arcs crisscross this weapon, dealing an extra 1d6 electricity damage on a hit. On a critical hit, electricity arcs out to deal an equal amount of electricity damage to up to two other creatures of your choice within 10 feet of the target.",
-        "extraDamage": "+1d6 Electricity",
-        "criticalHint": "Electricity arcs out to deal an equal amount of electricity damage to up to two other creatures of your choice within 10 feet of the weapon target.",
+        "id": "89c65dbb-8e09-11ea-9fab-e92c63c14723",
+        "level": 8,
+        "name": "Shock",
+        "price": 50000,
         "traits": [
             "Electricity",
             "Evocation",
             "Magical"
-        ]
+        ],
+        "usage": "etched onto a weapon",
+        "_className": "WeaponRune",
+        "criticalHint": "Electricity arcs out to deal an equal amount of electricity damage to up to two other creatures of your choice within 10 feet of the weapon target.",
+        "extraDamage": "+1d6 Electricity"
     },
     {
-        "name": "Thundering",
-        "level": 8,
-        "price": 50000,
-        "usage": "etched onto a weapon",
         "desc": "This weapon lets out a peal of thunder when it hits, dealing an extra 1d6 sonic damage on a successful Strike. On a critical hit, the target has to succeed at a DC 24 Fortitude save or be deafened for 1 minute (or 1 hour on a critical failure).",
-        "extraDamage": "+1d6 Sonic",
-        "criticalHint": "The target has to succeed at a DC 24 Fortitude save or be deafened for 1 minute (or 1 hour on a critical failure).",
+        "id": "89c65dbd-8e09-11ea-9fab-e92c63c14723",
+        "level": 8,
+        "name": "Thundering",
+        "price": 50000,
         "traits": [
             "Evocation",
             "Magical",
             "Sonic"
-        ]
+        ],
+        "usage": "etched onto a weapon",
+        "_className": "WeaponRune",
+        "criticalHint": "The target has to succeed at a DC 24 Fortitude save or be deafened for 1 minute (or 1 hour on a critical failure).",
+        "extraDamage": "+1d6 Sonic"
     },
     {
-        "name": "Grievous",
-        "level": 9,
-        "price": 70000,
-        "usage": "etched onto a weapon",
+        "data": [
+            {
+                "name": "Axe",
+                "value": "You can damage a third creature, with the same restrictions."
+            },
+            {
+                "name": "Bow",
+                "value": "The Athletics check to pull the missile free is DC 20."
+            },
+            {
+                "name": "Brawling",
+                "value": "The target takes a –4 circumstance penalty to its save."
+            },
+            {
+                "name": "Club",
+                "value": "You can knock the target up to 15 feet away."
+            },
+            {
+                "name": "Dart",
+                "value": "The base persistent bleed damage increases to 2d6."
+            },
+            {
+                "name": "Flail",
+                "value": "You move the target 5 feet. You can’t move it away from you, but you can move it in another direction of your choice."
+            },
+            {
+                "name": "Hammer",
+                "value": "You can also knock the target 5 feet away from you."
+            },
+            {
+                "name": "Knife",
+                "value": "The target takes a –5-foot status penalty to its Speed while it has the persistent bleed damage."
+            },
+            {
+                "name": "Pick",
+                "value": "The extra damage from the critical specialization effect increases to 4 per weapon damage die."
+            },
+            {
+                "name": "Polearm",
+                "value": "You can move the target up to 10 feet."
+            },
+            {
+                "name": "Shield",
+                "value": "You can knock the target up to 10 feet away."
+            },
+            {
+                "name": "Sling",
+                "value": "The target also takes a –10-foot status penalty to its Speed for 1 round if it fails the save."
+            },
+            {
+                "name": "Spear",
+                "value": "The clumsy condition lasts for 2 rounds."
+            },
+            {
+                "name": "Sword",
+                "value": "The target is flat-footed until the end of your next turn."
+            }
+        ],
         "desc": "When your attack roll with this weapon is a critical hit and gains the critical specialization effect, you gain an additional benefit depending on the weapon group.",
-        "criticalHint": "When your attack roll with this weapon is a critical hit and gains the critical specialization effect, you gain the following benefit depending on the weapon group:",
+        "id": "89c65dbf-8e09-11ea-9fab-e92c63c14723",
+        "level": 9,
+        "name": "Grievous",
+        "price": 70000,
         "traits": [
             "Enchantment",
             "Magical"
         ],
-        "data": [
-            {"name":"Axe", "value":"You can damage a third creature, with the same restrictions."},
-            {"name":"Bow", "value":"The Athletics check to pull the missile free is DC 20."},
-            {"name":"Brawling", "value":"The target takes a –4 circumstance penalty to its save."},
-            {"name":"Club", "value":"You can knock the target up to 15 feet away."},
-            {"name":"Dart", "value":"The base persistent bleed damage increases to 2d6."},
-            {"name":"Flail", "value":"You move the target 5 feet. You can’t move it away from you, but you can move it in another direction of your choice."},
-            {"name":"Hammer", "value":"You can also knock the target 5 feet away from you."},
-            {"name":"Knife", "value":"The target takes a –5-foot status penalty to its Speed while it has the persistent bleed damage."},
-            {"name":"Pick", "value":"The extra damage from the critical specialization effect increases to 4 per weapon damage die."},
-            {"name":"Polearm", "value":"You can move the target up to 10 feet."},
-            {"name":"Shield", "value":"You can knock the target up to 10 feet away."},
-            {"name":"Sling", "value":"The target also takes a –10-foot status penalty to its Speed for 1 round if it fails the save."},
-            {"name":"Spear", "value":"The clumsy condition lasts for 2 rounds."},
-            {"name":"Sword", "value":"The target is flat-footed until the end of your next turn."}
-        ]
+        "usage": "etched onto a weapon",
+        "_className": "WeaponRune",
+        "criticalHint": "When your attack roll with this weapon is a critical hit and gains the critical specialization effect, you gain the following benefit depending on the weapon group:"
     },
     {
-        "name": "Weapon Potency (+2)",
-        "level": 10,
-        "price": 93500,
-        "usage": "etched onto a weapon",
-        "potency": 2,
         "desc": "Magical enhancements make this weapon strike true. Attack rolls with this weapon gain a +1 item bonus, and the weapon can be etched with one property rune.\n\nYou can upgrade the weapon potency rune already etched on a weapon to a stronger version, increasing the values of the existing rune to those of the new rune. You must have the formula of the stronger rune to do so, and the Price of the upgrade is the difference between the two runes’ Prices.",
+        "id": "89c65dc1-8e09-11ea-9fab-e92c63c14723",
+        "level": 10,
+        "name": "Weapon Potency (+2)",
+        "price": 93500,
         "subType": "+2",
         "subTypeDesc": "The item bonus to attack rolls is +2, and the weapon can be etched with two property runes.",
-        "craftRequirement":"You are a master in Crafting.",
         "traits": [
             "Evocation",
             "Magical"
-        ]
+        ],
+        "craftRequirement": "You are a master in Crafting.",
+        "potency": 2,
+        "usage": "etched onto a weapon",
+        "_className": "WeaponRune"
     },
     {
-        "name": "Serrating",
-        "level": 10,
-        "price": 100000,
-        "usage": "etched onto a slashing melee weapon",
-        "rangereq": "melee",
-        "damagereq": "S",
         "desc": "A serrating weapon’s bladed edge separates into jagged, swirling shards that spin along the blade. When dealing slashing damage, the weapon deals an additional 1d4 damage.",
-        "extraDamage": "+1d4\n(when slashing)",
-        "activities": [
-            {
-                "name": "Serrating Rune",
-                "actions": "1",
-                "activationType": "Interact",
-                "desc": "You brandish the weapon and focus its power, causing the serrated shards to buzz as they spin at a dizzying speed. On your next hit with the weapon this turn that deals slashing damage, the serrating rune adds an additional 1d12 damage instead of the additional 1d4 damage, and then the shards return to their usual speed."
-            }
-        ],
+        "id": "89c65dc3-8e09-11ea-9fab-e92c63c14723",
+        "level": 10,
+        "name": "Serrating",
+        "price": 100000,
         "traits": [
             "Uncommon",
             "Evocation",
             "Magical"
-        ]
+        ],
+        "activities": [
+            {
+                "activationType": "Interact",
+                "desc": "You brandish the weapon and focus its power, causing the serrated shards to buzz as they spin at a dizzying speed. On your next hit with the weapon this turn that deals slashing damage, the serrating rune adds an additional 1d12 damage instead of the additional 1d4 damage, and then the shards return to their usual speed.",
+                "name": "Serrating Rune",
+                "_className": "ItemActivity",
+                "source": "89c65dc3-8e09-11ea-9fab-e92c63c14723"
+            }
+        ],
+        "usage": "etched onto a slashing melee weapon",
+        "_className": "WeaponRune",
+        "damagereq": "S",
+        "extraDamage": "+1d4\n(when slashing)",
+        "rangereq": "melee"
     },
     {
-        "name": "Anarchic",
-        "level": 11,
-        "price": 140000,
-        "usage": "etched onto a weapon without an axiomatic rune",
-        "runeblock": "Axiomatic",
         "desc": "An anarchic rune is jagged and asymmetrical, channeling chaotic energy. A weapon with this rune deals an additional 1d6 chaotic damage against lawful targets. If you are lawful, you are enfeebled 2 while carrying or wielding this weapon.\\n\\nWhen you critically succeed at a Strike with this weapon against a lawful creature, roll 1d6. On a 1 or 2, you deal double minimum damage; on a 3 or 4, double your damage normally; on a 5 or 6, you deal double maximum damage.",
-        "extraDamage": "+1d6 Chaotic\n(against lawful)",
-        "alignmentPenalty": "Lawful",
-        "criticalHint": "On a critical hit against a lawful creature, roll 1d6. On a 1 or 2, you deal double minimum damage; on a 3 or 4, double your damage normally; on a 5 or 6, you deal double maximum damage.",
-        "craftRequirement": "You are chaotic.",
+        "id": "89c65dc5-8e09-11ea-9fab-e92c63c14723",
+        "level": 11,
+        "name": "Anarchic",
+        "price": 140000,
         "traits": [
             "Chaotic",
             "Evocation",
             "Magical"
-        ]
+        ],
+        "craftRequirement": "You are chaotic.",
+        "usage": "etched onto a weapon without an axiomatic rune",
+        "_className": "WeaponRune",
+        "alignmentPenalty": "Lawful",
+        "criticalHint": "On a critical hit against a lawful creature, roll 1d6. On a 1 or 2, you deal double minimum damage; on a 3 or 4, double your damage normally; on a 5 or 6, you deal double maximum damage.",
+        "extraDamage": "+1d6 Chaotic\n(against lawful)",
+        "runeblock": "Axiomatic"
     },
     {
-        "name": "Axiomatic",
-        "level": 11,
-        "price": 140000,
-        "usage": "etched onto a weapon without an anarchic rune",
-        "runeblock": "Anarchic",
         "desc": "Complex and symmetrical, an axiomatic rune imbues a weapon with lawful energy. A weapon with this rune deals an additional 1d6 lawful damage against chaotic targets. If you are chaotic, you are enfeebled 2 while carrying or wielding this weapon. \\n\\nWhen you critically succeed at an attack roll with this weapon against a chaotic creature, instead of rolling, count each weapon damage die as average damage rounded up (3 for d4, 4 for d6, 5 for d8, 6 for d10, 7 for d12).",
-        "extraDamage": "+1d6 Lawful\n(against chaotic)",
-        "alignmentPenalty": "Chaotic",
-        "criticalHint": "On a critical hit against a chaotic creature, instead of rolling, count each weapon damage die as average damage rounded up (3 for d4, 4 for d6, 5 for d8, 6 for d10, 7 for d12).",
-        "craftRequirement": "You are lawful.",
+        "id": "89c65dc7-8e09-11ea-9fab-e92c63c14723",
+        "level": 11,
+        "name": "Axiomatic",
+        "price": 140000,
         "traits": [
             "Evocation",
             "Lawful",
             "Magical"
-        ]
+        ],
+        "craftRequirement": "You are lawful.",
+        "usage": "etched onto a weapon without an anarchic rune",
+        "_className": "WeaponRune",
+        "alignmentPenalty": "Chaotic",
+        "criticalHint": "On a critical hit against a chaotic creature, instead of rolling, count each weapon damage die as average damage rounded up (3 for d4, 4 for d6, 5 for d8, 6 for d10, 7 for d12).",
+        "extraDamage": "+1d6 Lawful\n(against chaotic)",
+        "runeblock": "Anarchic"
     },
     {
-        "name": "Holy",
-        "level": 11,
-        "price": 140000,
-        "usage": "etched onto a weapon without an unholy rune",
-        "runeblock": "Unholy",
         "desc": "Holy weapons command powerful celestial energy. A weapon with this rune deals an extra 1d6 good damage against evil targets. If you are evil, you are enfeebled 2 while carrying or wielding this weapon.",
-        "extraDamage": "+1d6 Good\n(against evil)",
-        "alignmentPenalty": "Evil",
-        "activities": [
-            {
-                "name": "Holy Rune",
-                "actions": "Reaction",
-                "activationType": "Command",
-                "frequency": "once per day",
-                "cooldown": 144000,
-                "trigger": "You critically succeed at an attack roll against an evil creature with the weapon",
-                "desc": "You regain HP equal to double the evil creature’s level. This is a good, positive, healing effect."
-            }
-        ],
-        "craftRequirement": "You are good.",
+        "id": "89c65dc9-8e09-11ea-9fab-e92c63c14723",
+        "level": 11,
+        "name": "Holy",
+        "price": 140000,
         "traits": [
             "Evocation",
             "Good",
             "Magical"
-        ]
-    },
-    {
-        "name": "Unholy",
-        "level": 11,
-        "price": 140000,
-        "usage": "etched onto a weapon without a holy rune",
-        "runeblock": "Holy",
-        "desc": "An unholy rune instills fiendish power into the etched weapon. A weapon with this rune deals an additional 1d6 evil damage when it hits a good target. If you are good, you are enfeebled 2 while carrying or wielding this weapon.",
-        "extraDamage": "+1d6 Evil\n(against good)",
-        "alignmentPenalty": "Good",
+        ],
         "activities": [
             {
-                "name": "Unholy Rune",
                 "actions": "Reaction",
                 "activationType": "Command",
-                "frequency": "once per day",
                 "cooldown": 144000,
-                "trigger": "You critically succeed at an attack roll against a good creature with the weapon",
-                "desc": "The target takes persistent bleed damage equal to 1d8 per weapon damage die of the etched weapon."
+                "desc": "You regain HP equal to double the evil creature’s level. This is a good, positive, healing effect.",
+                "frequency": "once per day",
+                "name": "Holy Rune",
+                "trigger": "You critically succeed at an attack roll against an evil creature with the weapon",
+                "_className": "ItemActivity",
+                "source": "89c65dc9-8e09-11ea-9fab-e92c63c14723"
             }
         ],
-        "craftRequirement": "You are evil.",
+        "craftRequirement": "You are good.",
+        "usage": "etched onto a weapon without an unholy rune",
+        "_className": "WeaponRune",
+        "alignmentPenalty": "Evil",
+        "extraDamage": "+1d6 Good\n(against evil)",
+        "runeblock": "Unholy"
+    },
+    {
+        "desc": "An unholy rune instills fiendish power into the etched weapon. A weapon with this rune deals an additional 1d6 evil damage when it hits a good target. If you are good, you are enfeebled 2 while carrying or wielding this weapon.",
+        "id": "89c65dcb-8e09-11ea-9fab-e92c63c14723",
+        "level": 11,
+        "name": "Unholy",
+        "price": 140000,
         "traits": [
             "Evil",
             "Evocation",
             "Magical"
-        ]
+        ],
+        "activities": [
+            {
+                "actions": "Reaction",
+                "activationType": "Command",
+                "cooldown": 144000,
+                "desc": "The target takes persistent bleed damage equal to 1d8 per weapon damage die of the etched weapon.",
+                "frequency": "once per day",
+                "name": "Unholy Rune",
+                "trigger": "You critically succeed at an attack roll against a good creature with the weapon",
+                "_className": "ItemActivity",
+                "source": "89c65dcb-8e09-11ea-9fab-e92c63c14723"
+            }
+        ],
+        "craftRequirement": "You are evil.",
+        "usage": "etched onto a weapon without a holy rune",
+        "_className": "WeaponRune",
+        "alignmentPenalty": "Good",
+        "extraDamage": "+1d6 Evil\n(against good)",
+        "runeblock": "Holy"
     },
     {
-        "name": "Striking (Greater)",
-        "level": 12,
-        "price": 106500,
-        "usage": "etched onto a weapon",
-        "striking": 2,
         "desc": "A striking rune stores destructive magic in the weapon, increasing the weapon damage dice it deals to two instead of one. For instance, a +1 striking dagger would deal 2d4 damage instead of 1d4 damage.\n\nYou can upgrade the striking rune already etched on a weapon to a stronger version, increasing the values of the existing rune to those of the new rune. You must have the formula of the stronger rune to do so, and the Price of the upgrade is the difference between the two runes’ Prices.",
+        "id": "89c65dcd-8e09-11ea-9fab-e92c63c14723",
+        "level": 12,
+        "name": "Striking (Greater)",
+        "price": 106500,
         "subType": "Greater",
         "subTypeDesc": "The weapon deals three weapon damage dice.",
         "traits": [
             "Evocation",
             "Magical"
-        ]
+        ],
+        "usage": "etched onto a weapon",
+        "_className": "WeaponRune",
+        "striking": 2
     },
     {
-        "name": "Dancing",
-        "level": 13,
-        "price": 270000,
-        "usage": "etched onto a melee weapon",
-        "rangereq": "melee",
         "desc": "A dancing weapon flies autonomously and strikes your foes.",
-        "activities": [
-            {
-                "name": "Dancing Rune",
-                "actions": "2",
-                "activationType": "Command, Interact",
-                "desc": "You Release the weapon and it dances through the air, fighting on its own against the last enemy you attacked, or the nearest enemy to it if your target has been defeated. At the end of your turn each round, the weapon can Fly up to its fly Speed of 40 feet, and then can either Fly again or Strike one creature within its reach.\\n\\nThe weapon has a space of 5 feet, but it doesn’t block or impede enemies attempting to move though that space, nor does it benefit from or provide flanking. The weapon can’t move through an enemy’s space. The weapon can’t use reactions, and its Fly actions don’t trigger reactions.\\n\\nWhile it’s activated, a dancing weapon makes Strikes with an attack modifier of +24 plus its item bonus to attack rolls. It uses the weapon’s normal damage but has a +0 Strength modifier. The weapon’s abilities that automatically trigger on a hit or critical hit still function, but the weapon can’t be activated or benefit from any of your abilities while dancing.\\n\\nEach round, when the weapon is finished using its actions, attempt a DC 6 flat check. On a failure, the activation ends and the weapon falls to the ground. You can’t activate the item again for 10 minutes."
-            }
-        ],
+        "id": "89c65dcf-8e09-11ea-9fab-e92c63c14723",
+        "level": 13,
+        "name": "Dancing",
+        "price": 270000,
         "traits": [
             "Uncommon",
             "Evocation",
             "Magical"
-        ]
-    },
-    {
-        "name": "Spell-Storing",
-        "level": 13,
-        "price": 270000,
-        "usage": "etched onto a melee weapon",
-        "rangereq": "melee",
-        "desc": "A spell-storing rune creates a reservoir of eldritch energy within the etched weapon. A spellcaster can spend 1 minute to cast a spell of 3rd level or lower into the weapon. The spell must have a casting of 2 actions or fewer and must be able to target a creature other than the caster. The spell has no immediate effect—it is instead stored for later. When you wield a spell-storing weapon, you immediately know the name and level of the stored spell. A spell-storing weapon found as treasure has a 50% chance of having a spell of the GM’s choice stored in it.",
-        "data": [{"name":"spell", "value":""}],
+        ],
         "activities": [
             {
-                "name": "Spell-Storing Rune",
-                "actions": "1",
-                "activationType": "Command",
-                "requirements": "On your previous action this turn, you hit and damaged a creature with this weapon",
-                "desc": "You unleash the stored spell, which uses the target of the triggering attack as the target of the spell. This empties the spell from the weapon and allows a spell to be cast into it again. If the spell requires a spell attack roll, the result of your attack roll with the weapon determines the degree of success of the spell, and if the spell requires a saving throw, the DC is 30."
-            },
-            {
-                "name": "Clear Spell-Storing Rune",
-                "actions": 1,
-                "activationType": "Command",
-                "effect": "Harmlessly expend the stored spell. This frees the weapon to have a new spell cast into it."
+                "actions": "2",
+                "activationType": "Command, Interact",
+                "desc": "You Release the weapon and it dances through the air, fighting on its own against the last enemy you attacked, or the nearest enemy to it if your target has been defeated. At the end of your turn each round, the weapon can Fly up to its fly Speed of 40 feet, and then can either Fly again or Strike one creature within its reach.\\n\\nThe weapon has a space of 5 feet, but it doesn’t block or impede enemies attempting to move though that space, nor does it benefit from or provide flanking. The weapon can’t move through an enemy’s space. The weapon can’t use reactions, and its Fly actions don’t trigger reactions.\\n\\nWhile it’s activated, a dancing weapon makes Strikes with an attack modifier of +24 plus its item bonus to attack rolls. It uses the weapon’s normal damage but has a +0 Strength modifier. The weapon’s abilities that automatically trigger on a hit or critical hit still function, but the weapon can’t be activated or benefit from any of your abilities while dancing.\\n\\nEach round, when the weapon is finished using its actions, attempt a DC 6 flat check. On a failure, the activation ends and the weapon falls to the ground. You can’t activate the item again for 10 minutes.",
+                "name": "Dancing Rune",
+                "_className": "ItemActivity",
+                "source": "89c65dcf-8e09-11ea-9fab-e92c63c14723"
             }
         ],
+        "usage": "etched onto a melee weapon",
+        "_className": "WeaponRune",
+        "rangereq": "melee"
+    },
+    {
+        "data": [
+            {
+                "name": "spell",
+                "value": ""
+            }
+        ],
+        "desc": "A spell-storing rune creates a reservoir of eldritch energy within the etched weapon. A spellcaster can spend 1 minute to cast a spell of 3rd level or lower into the weapon. The spell must have a casting of 2 actions or fewer and must be able to target a creature other than the caster. The spell has no immediate effect—it is instead stored for later. When you wield a spell-storing weapon, you immediately know the name and level of the stored spell. A spell-storing weapon found as treasure has a 50% chance of having a spell of the GM’s choice stored in it.",
+        "id": "89c65dd1-8e09-11ea-9fab-e92c63c14723",
+        "level": 13,
+        "name": "Spell-Storing",
+        "price": 270000,
         "traits": [
             "Uncommon",
             "Abjuration",
             "Magical"
-        ]
+        ],
+        "activities": [
+            {
+                "activationType": "Command",
+                "desc": "You unleash the stored spell, which uses the target of the triggering attack as the target of the spell. This empties the spell from the weapon and allows a spell to be cast into it again. If the spell requires a spell attack roll, the result of your attack roll with the weapon determines the degree of success of the spell, and if the spell requires a saving throw, the DC is 30.",
+                "name": "Spell-Storing Rune",
+                "requirements": "On your previous action this turn, you hit and damaged a creature with this weapon",
+                "_className": "ItemActivity",
+                "source": "89c65dd1-8e09-11ea-9fab-e92c63c14723"
+            },
+            {
+                "actions": 1,
+                "activationType": "Command",
+                "name": "Clear Spell-Storing Rune",
+                "_className": "ItemActivity",
+                "source": "89c65dd1-8e09-11ea-9fab-e92c63c14723",
+                "effect": "Harmlessly expend the stored spell. This frees the weapon to have a new spell cast into it."
+            }
+        ],
+        "usage": "etched onto a melee weapon",
+        "_className": "WeaponRune",
+        "rangereq": "melee"
     },
     {
-        "name": "Bloodbane (Greater)",
-        "level": 13,
-        "price": 280000,
-        "usage": "etched onto a clan dagger",
-        "namereq": "Clan Dagger",
         "desc": "A bloodbane clan dagger is especially vicious against the ancestral enemies of the clan. When you damage an appropriate type of creature with the weapon, that creature takes 1 persistent bleed damage. The type of creature depends on the clan that made the dagger, but is typically drow, duergar, giant, or orc.\\n\\nIn addition, whenever you inflict persistent bleed damage with a bloodbane weapon (whether from its innate ability or in some other way), the weapon leaves ragged wounds. The bleeding creature must succeed at a DC 25 Fortitude save or become sickened 1. The creature is then temporarily immune for 1 hour.",
+        "id": "89c65dd3-8e09-11ea-9fab-e92c63c14723",
+        "level": 13,
+        "name": "Bloodbane (Greater)",
+        "price": 280000,
         "subType": "Greater",
         "subTypeDesc": "The weapon deals 1d4 bleed damage to creatures designated as the clan’s enemy, and the DC of the Fortitude save to avoid becoming sickened is 30.",
-        "extraDamage": "+1d4 persistent bleed\n(against clan enemy)",
-        "hint": "Whenever you inflict persistent bleed damage with a bloodbane weapon, the bleeding creature must succeed at a DC 30 Fortitude save or become sickened 1. The creature is then temporarily immune for 1 hour.",
         "traits": [
             "Uncommon",
             "Dwarf",
             "Evocation",
             "Magical"
-        ]
+        ],
+        "hint": "Whenever you inflict persistent bleed damage with a bloodbane weapon, the bleeding creature must succeed at a DC 30 Fortitude save or become sickened 1. The creature is then temporarily immune for 1 hour.",
+        "usage": "etched onto a clan dagger",
+        "_className": "WeaponRune",
+        "extraDamage": "+1d4 persistent bleed\n(against clan enemy)",
+        "namereq": "Clan Dagger"
     },
     {
-        "name": "Keen",
-        "level": 13,
-        "price": 300000,
-        "usage": "etched onto a piercing or slashing melee weapon",
-        "rangereq": "melee",
-        "damagereq": "P, S",
         "desc": "The edges of a keen weapon are preternaturally sharp. Attacks with this weapon are a critical hit on a 19 on the die as long as that result is a success. This property has no effect on a 19 if the result would be a failure.",
-        "criticalHint": "Attacks with this weapon are a critical hit on a 19 on the die as long as that result is a success.",
+        "id": "89c65dd5-8e09-11ea-9fab-e92c63c14723",
+        "level": 13,
+        "name": "Keen",
+        "price": 300000,
         "traits": [
             "Uncommon",
             "Magical",
             "Transmutation"
-        ]
+        ],
+        "usage": "etched onto a piercing or slashing melee weapon",
+        "_className": "WeaponRune",
+        "criticalHint": "Attacks with this weapon are a critical hit on a 19 on the die as long as that result is a success.",
+        "damagereq": "P, S",
+        "rangereq": "melee"
     },
     {
-        "name": "Disrupting (Greater)",
-        "level": 14,
-        "price": 430000,
-        "usage": "etched onto a melee weapon",
-        "rangereq": "melee",
         "desc": "A disrupting weapon pulses with positive energy, dealing an extra 1d6 positive damage to undead. On a critical hit, the undead is also enfeebled 1 until the end of your next turn.",
+        "id": "89c65dd7-8e09-11ea-9fab-e92c63c14723",
+        "level": 14,
+        "name": "Disrupting (Greater)",
+        "price": 430000,
         "subType": "Greater",
         "subTypeDesc": "Increase the extra damage to 2d6. On a critical hit, instead of being enfeebled 1, the undead creature must attempt a DC 34 Fortitude save with the following effects. This is an incapacitation effect.",
-        "extraDamage": "+2d6 Positive\n(against undead)",
-        "criticalHint": "On a critical hit against an undead creature, the creature must attempt a DC 34 Fortitude save with the following effects.",
-        "critsuccess": "It’s enfeebled 1 until the end of your next turn.",
-        "success": "It’s enfeebled 2 until the end of your next turn.",
-        "failure": "It’s enfeebled 3 until the end of your next turn.",
-        "critfailure": "It’s destroyed.",
         "traits": [
             "Magical",
             "Necromancy",
             "Uncommon"
-        ]
+        ],
+        "usage": "etched onto a melee weapon",
+        "_className": "WeaponRune",
+        "critfailure": "It’s destroyed.",
+        "criticalHint": "On a critical hit against an undead creature, the creature must attempt a DC 34 Fortitude save with the following effects.",
+        "critsuccess": "It’s enfeebled 1 until the end of your next turn.",
+        "extraDamage": "+2d6 Positive\n(against undead)",
+        "failure": "It’s enfeebled 3 until the end of your next turn.",
+        "rangereq": "melee",
+        "success": "It’s enfeebled 2 until the end of your next turn."
     },
     {
-        "name": "Corrosive (Greater)",
-        "level": 15,
-        "price": 650000,
-        "usage": "etched onto a weapon",
         "desc": "Acid sizzles across the surface of the weapon. When you hit with the weapon, add 1d6 acid damage to the damage dealt. In addition, on a critical hit, the target’s armor (if any) takes 3d6 acid damage (before applying Hardness); if the target has a shield raised, the shield takes this damage instead.",
+        "id": "89c65dd9-8e09-11ea-9fab-e92c63c14723",
+        "level": 15,
+        "name": "Corrosive (Greater)",
+        "price": 650000,
         "subType": "Greater",
         "subTypeDesc": "The acid damage dealt by this weapon ignores the target’s acid resistance. Increase the acid damage dealt to armor or a shield on a critical hit to 6d6.",
-        "extraDamage": "+1d6 Acid\n(ignores acid resistance)",
-        "criticalHint": "The target's armor takes 6d6 acid damage before applying Hardness; if the target has a shield raised, the shield takes this damage instead.",
         "traits": [
             "Acid",
             "Conjuration",
             "Magical"
-        ]
+        ],
+        "usage": "etched onto a weapon",
+        "_className": "WeaponRune",
+        "criticalHint": "The target's armor takes 6d6 acid damage before applying Hardness; if the target has a shield raised, the shield takes this damage instead.",
+        "extraDamage": "+1d6 Acid\n(ignores acid resistance)"
     },
     {
-        "name": "Flaming (Greater)",
-        "level": 15,
-        "price": 650000,
-        "usage": "etched onto a weapon",
         "desc": "This weapon is empowered by flickering flame. The weapon deals an additional 1d6 fire damage on a successful Strike, plus 1d10 persistent fire damage on a critical hit.",
+        "id": "89c65ddb-8e09-11ea-9fab-e92c63c14723",
+        "level": 15,
+        "name": "Flaming (Greater)",
+        "price": 650000,
         "subType": "Greater",
         "subTypeDesc": "Increase the persistent damage on a critical hit to 2d10. Fire damage dealt by this weapon (including the persistent fire damage) ignores the target’s fire resistance.",
-        "extraDamage": "+1d6 Fire\n(ignores fire resistance)",
-        "criticalHint": "The weapon deals 2d10 persistent fire damage, ignoring fire resistance..",
         "traits": [
             "Conjuration",
             "Fire",
             "Magical"
-        ]
+        ],
+        "usage": "etched onto a weapon",
+        "_className": "WeaponRune",
+        "criticalHint": "The weapon deals 2d10 persistent fire damage, ignoring fire resistance..",
+        "extraDamage": "+1d6 Fire\n(ignores fire resistance)"
     },
     {
-        "name": "Frost (Greater)",
-        "level": 15,
-        "price": 650000,
-        "usage": "etched onto a weapon",
         "desc": "This weapon is empowered with freezing ice. It deals an additional 1d6 cold damage on a successful Strike. On a critical hit, the target is also slowed 1 until the end of your next turn unless it succeeds at a DC 24 Fortitude save.",
+        "id": "89c65ddd-8e09-11ea-9fab-e92c63c14723",
+        "level": 15,
+        "name": "Frost (Greater)",
+        "price": 650000,
         "subType": "Greater",
         "subTypeDesc": "The save DC is 34. Cold damage dealt by this weapon ignores the target’s cold resistance.",
-        "extraDamage": "+1d6 Cold\n(ignores cold resistance)",
-        "criticalHint": "The target is slowed 1 until the end of your next turn unless it succeeds at a DC 34 Fortitude save.",
         "traits": [
             "Cold",
             "Conjuration",
             "Magical"
-        ]
+        ],
+        "usage": "etched onto a weapon",
+        "_className": "WeaponRune",
+        "criticalHint": "The target is slowed 1 until the end of your next turn unless it succeeds at a DC 34 Fortitude save.",
+        "extraDamage": "+1d6 Cold\n(ignores cold resistance)"
     },
     {
-        "name": "Shock (Greater)",
-        "level": 15,
-        "price": 650000,
-        "usage": "etched onto a weapon",
         "desc": "Electric arcs crisscross this weapon, dealing an extra 1d6 electricity damage on a hit. On a critical hit, electricity arcs out to deal an equal amount of electricity damage to up to two other creatures of your choice within 10 feet of the target.",
+        "id": "89c65ddf-8e09-11ea-9fab-e92c63c14723",
+        "level": 15,
+        "name": "Shock (Greater)",
+        "price": 650000,
         "subType": "Greater",
         "subTypeDesc": "Electricity damage dealt by this weapon ignores the target’s electricity resistance (and the other creatures’ on a critical hit).",
-        "extraDamage": "+1d6 Electricity\n(ignores electricity resistance)",
-        "criticalHint": "Electricity arcs out to deal an equal amount of electricity damage to up to two other creatures of your choice within 10 feet of the weapon target, ignoring the targets' electricity resistance.",
         "traits": [
             "Electricity",
             "Evocation",
             "Magical"
-        ]
+        ],
+        "usage": "etched onto a weapon",
+        "_className": "WeaponRune",
+        "criticalHint": "Electricity arcs out to deal an equal amount of electricity damage to up to two other creatures of your choice within 10 feet of the weapon target, ignoring the targets' electricity resistance.",
+        "extraDamage": "+1d6 Electricity\n(ignores electricity resistance)"
     },
     {
-        "name": "Thundering (Greater)",
-        "level": 15,
-        "price": 650000,
-        "usage": "etched onto a weapon",
         "desc": "This weapon lets out a peal of thunder when it hits, dealing an extra 1d6 sonic damage on a successful Strike. On a critical hit, the target has to succeed at a DC 24 Fortitude save or be deafened for 1 minute (or 1 hour on a critical failure).",
+        "id": "89c65de1-8e09-11ea-9fab-e92c63c14723",
+        "level": 15,
+        "name": "Thundering (Greater)",
+        "price": 650000,
         "subType": "Greater",
         "subTypeDesc": "The save DC is 34, and the deafness is permanent. Sonic damage dealt by this weapon ignores the target’s sonic resistance.",
-        "extraDamage": "+1d6 Sonic\n(ignores sonic resistance)",
-        "criticalHint": "The target has to succeed at a DC 34 Fortitude save or be permanently deafened.",
         "traits": [
             "Evocation",
             "Magical",
             "Sonic"
-        ]
+        ],
+        "usage": "etched onto a weapon",
+        "_className": "WeaponRune",
+        "criticalHint": "The target has to succeed at a DC 34 Fortitude save or be permanently deafened.",
+        "extraDamage": "+1d6 Sonic\n(ignores sonic resistance)"
     },
     {
-        "name": "Ancestral Echoing",
-        "level": 15,
-        "price": 950000,
-        "usage": "etched onto a weapon",
         "desc": "The wisdom of this weapon’s past owners flows into your mind, amplifying your own abilities with the weapon. Your proficiency rank with this weapon is one step higher than normal, to a maximum of the highest proficiency rank you have in any weapon. For instance, if you had master proficieny with martial weapons and expert proficiency with advanced weapons, you would have master proficiency with advanced weapon that had this rune.\\n\\nIn addition, while wielding the ancestral echoing weapon, you have expert proficiency in one Lore skill relevant to one or more of the weapon’s previous owners. This is typically Dwarven Lore but is ultimately determined by the GM depending on the weapon’s history.",
-        "loreChoices":[
-            {
-                "initialIncreases":2,
-                "loreName":"Ancestral Echoing",
-                "maxRank":4,
-                "source":"Ancestral Echoing Rune",
-                "id":"0-Skill-Ancestral Echoing Rune-0"
-            }
-        ],
+        "id": "89c65de3-8e09-11ea-9fab-e92c63c14723",
+        "level": 15,
+        "name": "Ancestral Echoing",
+        "price": 950000,
         "traits": [
             "Rare",
             "Dwarf",
             "Evocation",
             "Magical",
             "Saggorak"
-        ]
+        ],
+        "loreChoices": [
+            {
+                "initialIncreases": 2,
+                "loreName": "Ancestral Echoing",
+                "maxRank": 4,
+                "source": "Ancestral Echoing Rune",
+                "id": "0-Skill-Ancestral Echoing Rune-0"
+            }
+        ],
+        "usage": "etched onto a weapon",
+        "_className": "WeaponRune"
     },
     {
-        "name": "Weapon Potency (+3)",
-        "level": 16,
-        "price": 893500,
-        "usage": "etched onto a weapon",
-        "potency": 3,
         "desc": "Magical enhancements make this weapon strike true. Attack rolls with this weapon gain a +1 item bonus, and the weapon can be etched with one property rune.\n\nYou can upgrade the weapon potency rune already etched on a weapon to a stronger version, increasing the values of the existing rune to those of the new rune. You must have the formula of the stronger rune to do so, and the Price of the upgrade is the difference between the two runes’ Prices.",
+        "id": "89c65de5-8e09-11ea-9fab-e92c63c14723",
+        "level": 16,
+        "name": "Weapon Potency (+3)",
+        "price": 893500,
         "subType": "+3",
         "subTypeDesc": "The item bonus to attack rolls is +3, and the weapon can be etched with three property runes.",
-        "craftRequirement":"You are legendary in Crafting.",
         "traits": [
             "Evocation",
             "Magical"
-        ]
+        ],
+        "craftRequirement": "You are legendary in Crafting.",
+        "potency": 3,
+        "usage": "etched onto a weapon",
+        "_className": "WeaponRune"
     },
     {
-        "name": "Speed",
-        "level": 16,
-        "price": 1000000,
-        "usage": "etched onto a weapon",
         "desc": "Attacks with a speed weapon are supernaturally swift. While wielding a speed weapon, you gain the quickened condition, but you can use the additional action granted only to make a Strike with the etched weapon.",
-        "hint": "While wielding a speed weapon, you gain the quickened condition, but you can use the additional action granted only to make a Strike with the etched weapon.",
+        "id": "89c65de7-8e09-11ea-9fab-e92c63c14723",
+        "level": 16,
+        "name": "Speed",
+        "price": 1000000,
         "traits": [
             "Rare",
             "Magical",
             "Transmutation"
-        ]
+        ],
+        "hint": "While wielding a speed weapon, you gain the quickened condition, but you can use the additional action granted only to make a Strike with the etched weapon.",
+        "usage": "etched onto a weapon",
+        "_className": "WeaponRune"
     },
     {
-        "name": "Vorpal",
-        "level": 17,
-        "price": 1500000,
-        "usage": "etched onto a slashing melee weapon",
-        "rangereq": "melee",
-        "damagereq": "S",
         "desc": "Originally created as a means of slaying the legendary jabberwock, vorpal weapons prove equally effective against nearly any foe with a head.",
-        "activities": [
-            {
-                "name": "Vorpal Rune",
-                "actions": "Reaction",
-                "activationType": "Envision (death, incapacitation)",
-                "trigger": "You roll a natural 20 on a Strike with the weapon, critically succeed, and deal slashing damage.",
-                "requirements": "The target must have a head",
-                "desc": "The target must succeed at a DC 37 Fortitude save or be decapitated. This kills any creature except ones that don’t require a head to live. For creatures with multiple heads, this usually kills the creature only if you sever its last head."
-            }
-        ],
+        "id": "89c65de9-8e09-11ea-9fab-e92c63c14723",
+        "level": 17,
+        "name": "Vorpal",
+        "price": 1500000,
         "traits": [
             "Rare",
             "Evocation",
             "Magical"
-        ]
+        ],
+        "activities": [
+            {
+                "actions": "Reaction",
+                "activationType": "Envision (death, incapacitation)",
+                "desc": "The target must succeed at a DC 37 Fortitude save or be decapitated. This kills any creature except ones that don’t require a head to live. For creatures with multiple heads, this usually kills the creature only if you sever its last head.",
+                "name": "Vorpal Rune",
+                "requirements": "The target must have a head",
+                "trigger": "You roll a natural 20 on a Strike with the weapon, critically succeed, and deal slashing damage.",
+                "_className": "ItemActivity",
+                "source": "89c65de9-8e09-11ea-9fab-e92c63c14723"
+            }
+        ],
+        "usage": "etched onto a slashing melee weapon",
+        "_className": "WeaponRune",
+        "damagereq": "S",
+        "rangereq": "melee"
     },
     {
-        "name": "Striking (Major)",
-        "level": 19,
-        "price": 3106500,
-        "usage": "etched onto a weapon",
-        "striking": 3,
         "desc": "A striking rune stores destructive magic in the weapon, increasing the weapon damage dice it deals to two instead of one. For instance, a +1 striking dagger would deal 2d4 damage instead of 1d4 damage.\n\nYou can upgrade the striking rune already etched on a weapon to a stronger version, increasing the values of the existing rune to those of the new rune. You must have the formula of the stronger rune to do so, and the Price of the upgrade is the difference between the two runes’ Prices.",
+        "id": "89c65deb-8e09-11ea-9fab-e92c63c14723",
+        "level": 19,
+        "name": "Striking (Major)",
+        "price": 3106500,
         "subType": "Major",
         "subTypeDesc": "The weapon deals four weapon damage dice.",
         "traits": [
             "Evocation",
             "Magical"
-        ]
+        ],
+        "usage": "etched onto a weapon",
+        "_className": "WeaponRune",
+        "striking": 3
     }
 ]

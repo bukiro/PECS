@@ -7,40 +7,45 @@ import { WeaponRune } from './WeaponRune';
 import { Specialization } from './Specialization';
 import { Character } from './Character';
 import { AnimalCompanion } from './AnimalCompanion';
-import { createAotUrlResolver } from '@angular/compiler';
 
 export class Weapon extends Equipment {
+    public readonly _className: string = this.constructor.name;
     //Weapons should be type "weapons" to be found in the database
+    //This is a list of all the attributes that should be saved if a refID exists. All others can be looked up via the refID when loading the character.
+    public readonly save = new Equipment().save.concat([
+        "_className",
+        "parrying"
+    ])
     readonly type = "weapons";
     //Weapons are usually moddable like a weapon. Weapons that cannot be modded should be set to ""
     moddable = "weapon" as ""|"weapon"|"armor"|"shield";
-    //The weapon group, needed for critical specialization effects
-    public group: string = "";
-    //How many hands are needed to wield this weapon?
-    public hands: string = "";
-    //How many actions to reload this ranged weapon?
-    public reload: string = "";
     //What type of ammo is used? (Bolts, arrows...)
     public ammunition: string = "";
-    //Is the weapon currently raised to parry?
-    public parrying: boolean = false;
-    //What proficiency is used? "Simple Weapons", "Unarmed"?
-    public prof: string = "Simple Weapons";
-    //What is the damage type? Usually S, B or P, but may include combinations"
-    public dmgType: string = "";
-    //Some weapons add additional damage like +1d4F
-    public extraDamage: string = ""
     //What happens on a critical hit with this weapon?
     public criticalHint: string = ""
     //Number of dice for Damage: usually 1 for an unmodified weapon
     public dicenum: number = 1;
     //Size of the damage dice: usually 4-12
     public dicesize: number = 6;
+    //What is the damage type? Usually S, B or P, but may include combinations"
+    public dmgType: string = "";
+    //Some weapons add additional damage like +1d4F
+    public extraDamage: string = ""
+    //The weapon group, needed for critical specialization effects
+    public group: string = "";
+    //How many hands are needed to wield this weapon?
+    public hands: string = "";
     //Melee range in ft: 5 or 10 for weapons with Reach trait
     public melee: number = 0;
+    //Is the weapon currently raised to parry?
+    public parrying: boolean = false;
+    //What proficiency is used? "Simple Weapons", "Unarmed"?
+    public prof: string = "Simple Weapons";
     //Ranged range in ft - also add for thrown weapons
     //Weapons can have a melee and a ranged value, e.g. Daggers that can thrown
     public ranged: number = 0;
+    //How many actions to reload this ranged weapon?
+    public reload: string = "";
     get_RuneSource(creature: Character|AnimalCompanion, range: string) {
         //Under certain circumstances, other items' runes are applied when calculating attack bonus or damage.
         //[0] is the item whose fundamental runes will count, [1] is the item whose property runes will count, and [2] is the item that causes this change.
@@ -72,10 +77,10 @@ export class Weapon extends Equipment {
         if (this.prof == "Unarmed") {
             let traits = JSON.parse(JSON.stringify(this.traits));
             if (creature.type == "Character") {
-                if ((creature as Character).get_FeatsTaken(0, creature.level, "Diamond Fists").length && this.traits.indexOf("Forceful") == -1) {
+                if ((creature as Character).get_FeatsTaken(0, creature.level, "Diamond Fists").length && !this.traits.includes("Forceful")) {
                     traits = traits.concat("Forceful");
                 }
-                if ((creature as Character).get_FeatsTaken(0, creature.level, "Golden Body").length && this.traits.indexOf("Deadly d12") == -1) {
+                if ((creature as Character).get_FeatsTaken(0, creature.level, "Golden Body").length && !this.traits.includes("Deadly d12")) {
                     traits = traits.concat("Deadly d12");
                 }
             }
@@ -250,7 +255,7 @@ export class Weapon extends Equipment {
         }
         if (this.prof == "Unarmed") {
             let character = characterService.get_Character();
-            if (character.get_FeatsTaken(0, character.level, "Diamond Fists").length && this.traits.indexOf("Forceful") > -1) {
+            if (character.get_FeatsTaken(0, character.level, "Diamond Fists").length && this.traits.includes("Forceful")) {
                 dicenum += 1;
                 explain += "\nDiamond Fists: Dice number +1";
             }
@@ -393,7 +398,7 @@ export class Weapon extends Equipment {
         if (creature.type == "Character") {
             let character = creature as Character;
             character.get_FeatsTaken(0, character.level).map(gain => characterService.get_FeatsAndFeatures(gain.name)[0]).filter(feat => feat.critSpecialization).forEach(feat => {
-                if (feat.critSpecialization.indexOf(this.group) > -1 || feat.critSpecialization.indexOf(this.prof) > -1 || feat.critSpecialization.indexOf("All") > -1) {
+                if (feat.critSpecialization.includes(this.group) || feat.critSpecialization.includes(this.prof) || feat.critSpecialization.includes("All")) {
                     //If the only feat that gives you the critical specialization for this weapon is Ranger Weapon Expertise, a hint is added to each specialization that it only applies to the Hunted Prey.
                     //If any more specializations should apply, they will overwrite these hints, which is expected and correct as long as no other specialization has limitations.
                     let huntedPreyOnly = (!specializations.length && feat.name == "Ranger Weapon Expertise")
@@ -405,7 +410,7 @@ export class Weapon extends Equipment {
                     }
                 }
             })
-            if (this.traits.indexOf("Monk") > -1 && character.get_FeatsTaken(0, character.level, "Monastic Weaponry").length && character.get_FeatsTaken(0, character.level, "Brawling Focus").length) {
+            if (this.traits.includes("Monk") && character.get_FeatsTaken(0, character.level, "Monastic Weaponry").length && character.get_FeatsTaken(0, character.level, "Brawling Focus").length) {
                 specializations = characterService.get_Specializations(this.group);
             }
         }

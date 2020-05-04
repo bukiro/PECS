@@ -35,7 +35,8 @@ export class FeatsService {
             let feats: Feat[] = this.feats.concat(loreFeats);
             //I wrote this function to use indexOf instead of == and don't remember why, but problems arose with feats that contained other feats' names.
             //I checked that all references to the function were specific, and changed it back. If any bugs should come from this, now it's documented.
-            return feats.filter(feat => ((feat.name == name || name == "") && (feat.traits.indexOf(type) > -1 || type == "")));
+            //It was probably for featreqs, which have now been changed to be arrays and allow to check for all possible options instead of a matching substring
+            return feats.filter(feat => ((feat.name == name || name == "") && (feat.traits.includes(type) || type == "")));
         } else { return [new Feat()]; }
     }
 
@@ -48,7 +49,7 @@ export class FeatsService {
     get_All(loreFeats: Feat[], name: string = "", type: string = "") {
         if (!this.still_loading()) {
             let feats: Feat[] = this.feats.concat(loreFeats).concat(this.features);
-            return feats.filter(feat => ((feat.name == name || name == "") && (feat.traits.indexOf(type) > -1 || type == "")));
+            return feats.filter(feat => ((feat.name == name || name == "") && (feat.traits.includes(type) || type == "")));
         } else { return [new Feat()]; }
     }
 
@@ -168,7 +169,7 @@ export class FeatsService {
             //Gain free Lore
             if (feat.gainLore) {
                 if (taken) {
-                    character.add_LoreChoice(level, {available:1, increases:[], initialIncreases:1, maxRank:2, loreName:"", loreDesc:"", source:'Feat: '+featName, id:"", filter:[], type:""});
+                    character.add_LoreChoice(level, Object.assign(new LoreChoice(), {available:1, increases:[], initialIncreases:1, maxRank:2, loreName:"", loreDesc:"", source:'Feat: '+featName, id:"", filter:[], type:""}));
                 } else {
                     let a = level.loreChoices;
                     let oldChoice = a.filter(choice => choice.source == 'Feat: '+featName)[0];
@@ -307,9 +308,7 @@ export class FeatsService {
 
             //Feats that grant an animal companion
             if (feat.gainAnimalCompanion == 1) {
-                if (taken) {
-                    //Nothing to do
-                } else {
+                if (!taken) {
                     //Reset the animal companion
                     character.class.animalCompanion = new AnimalCompanion();
                     character.class.animalCompanion.class.reassign(characterService);
@@ -338,9 +337,7 @@ export class FeatsService {
             //Feats that grant an animal companion specialization
             if (feat.gainAnimalCompanion == 6) {
                 let companion = characterService.get_Companion();
-                if (taken) {
-                    //Nothing to do
-                } else {
+                if (!taken) {
                     //Remove the latest specialization chosen on this level, only if all choices are taken
                     let specializations = companion.class.specializations.filter(spec => spec.level == level.number);
                     if (specializations.length) {

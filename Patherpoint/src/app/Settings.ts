@@ -1,17 +1,18 @@
 export class Settings {
-    accent: string = "#1976d2";
-    timeMinimized: boolean = false;
-    generalMinimized: boolean = false;
-    effectsMinimized: boolean = false;
+    public readonly _className: string = this.constructor.name;
     abilitiesMinimized: boolean = false;
-    healthMinimized: boolean = false;
-    defenseMinimized: boolean = false;
-    attacksMinimized: boolean = false;
-    skillsMinimized: boolean = false;
-    inventoryMinimized: boolean = false;
+    accent: string = "#1976d2";
     activitiesMinimized: boolean = false;
-    spellbookMinimized: boolean = false;
+    attacksMinimized: boolean = false;
     characterMinimized: boolean = false;
     companionMinimized: boolean = false;
+    defenseMinimized: boolean = false;
+    effectsMinimized: boolean = false;
+    generalMinimized: boolean = false;
+    healthMinimized: boolean = false;
+    inventoryMinimized: boolean = false;
+    skillsMinimized: boolean = false;
+    spellbookMinimized: boolean = false;
     spellsMinimized: boolean = false;
+    timeMinimized: boolean = false;
 }

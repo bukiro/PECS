@@ -19,7 +19,7 @@ export class SkillsService {
         if (!this.still_loading()) {
             let skills: Skill[] = this.skills.concat(customSkills);
             if (name == "Lore") {
-                return skills.filter(skill => (skill.name.indexOf(name) > -1) && (skill.type == type || type == ""));
+                return skills.filter(skill => (skill.name.includes(name)) && (skill.type == type || type == ""));
             }
             return skills.filter(skill => (skill.name == name || name == "") && (skill.type == type || type == ""));
         } else { return [new Skill()] }

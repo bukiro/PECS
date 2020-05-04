@@ -50,8 +50,14 @@ The very latest in Assistive Technologies for Dungeon Master (ATDM)
 - [ ] Style character sheet
 - [x] Populate character sheet from JSON
 - [ ] Use Database
+- [x] Cleanup Savegame
 - [ ] Load/Save from/to Database
-- [ ] import sortableJS or maybe Layout Grid
-- [ ] (documentation) :)
+- [ ] Item Icons
 - [ ] Initiative tracker, battles, being a battle member, GM-Player-Communication.......
 - [ ] Stretch Goal: Include optional Stamina & Resolve system
+
+Next steps:
+- Finn's Items
+- Familiar
+- Action Icons
+- Database api

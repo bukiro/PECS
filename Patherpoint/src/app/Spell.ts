@@ -5,23 +5,12 @@ import { ConditionGain } from './ConditionGain';
 import { ItemGain } from './ItemGain';
 
 export class Spell {
-    public name: string = "";
-    public levelreq: number = 1;
-    public traditions: string[] = [];
-    public duration: number = 0;
-    public range: string = "";
-    public area: string = "";
-    public targets: string = "";
-    //target is used internally to determine whether you can cast this spell on yourself or your companion/familiar
-    //Should be "", "self", "companion" or "ally"
-    //For "companion", it can only be cast on the companion, for "self" only on yourself
-    //For "ally", it can be cast on companion, self and others
-    //For "", the spell button will just say "Cast"
-    public target: string = "";
     public actions: string = "1";
+    public area: string = "";
     public castType: string = "";
-    public shortDesc: string = "";
-    public desc: string = "";
+    public critfailure: string = "";
+    public critsuccess: string = "";
+    public desc10: SpellDesc[] = [];
     public desc1: SpellDesc[] = [];
     public desc2: SpellDesc[] = [];
     public desc3: SpellDesc[] = [];
@@ -31,16 +20,27 @@ export class Spell {
     public desc7: SpellDesc[] = [];
     public desc8: SpellDesc[] = [];
     public desc9: SpellDesc[] = [];
-    public desc10: SpellDesc[] = [];
-    public heightened = [];
-    public savingthrow: string = "";
-    public critsuccess: string = "";
-    public success: string = "";
+    public desc: string = "";
+    public duration: number = 0;
     public failure: string = "";
-    public critfailure: string = "";
     public gainConditions: ConditionGain[] = [];
     public gainItems: ItemGain[] = [];
+    public heightened = [];
+    public levelreq: number = 1;
+    public name: string = "";
+    public range: string = "";
+    public savingthrow: string = "";
+    public shortDesc: string = "";
+    public success: string = "";
     public sustained: boolean = false;
+    //target is used internally to determine whether you can cast this spell on yourself or your companion/familiar
+    //Should be "", "self", "companion" or "ally"
+    //For "companion", it can only be cast on the companion, for "self" only on yourself
+    //For "ally", it can be cast on companion, self and others
+    //For "", the spell button will just say "Cast"
+    public target: string = "";
+    public targets: string = "";
+    public traditions: string[] = [];
     public traits: string[] = [];
     get_Actions() {
         switch (this.actions) {
@@ -95,7 +95,7 @@ export class Spell {
         //If the spell has a levelreq, check if the level beats that.
         //Returns [requirement met, requirement description]
         let result: {met:boolean, desc:string};
-        if (this.levelreq && this.traits.indexOf("Cantrip") == -1) {
+        if (this.levelreq && !this.traits.includes("Cantrip")) {
             if (spellLevel >= this.levelreq) {
                 result = {met:true, desc:"Level "+this.levelreq};
                 } else {
@@ -118,7 +118,7 @@ export class Spell {
         return spellsTaken.length;
     }
     can_Cast(characterService: CharacterService, gain: SpellGain) {
-        if (gain.tradition.indexOf("Focus") > -1) {
+        if (gain.tradition.includes("Focus")) {
             return characterService.get_Character().class.focusPoints > 0 || gain.active;
         } else {
             //check spell slots and prepared spell here

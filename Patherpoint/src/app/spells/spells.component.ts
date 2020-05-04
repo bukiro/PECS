@@ -102,27 +102,27 @@ export class SpellsComponent implements OnInit {
         let character = this.get_Character()
         let allSpells = this.spellsService.get_Spells();
         if (choice.filter.length) {
-            allSpells = allSpells.filter(spell => choice.filter.indexOf(spell.name) > -1)
+            allSpells = allSpells.filter(spell => choice.filter.includes(spell.name))
         }
         let spells: Spell[] = [];
         switch (choice.tradition) {
             case "Focus":
-                spells.push(...allSpells.filter(spell => spell.traits.indexOf(character.class.name) > -1));
+                spells.push(...allSpells.filter(spell => spell.traits.includes(character.class.name)));
                 break;
             case "Sorcerer":
                 let tradition = character.class.bloodline.spellList;
                 //Get all spells of the tradition or of the bloodline granted spells
-                spells.push(...allSpells.filter(spell => spell.traditions.indexOf(tradition) > -1 || character.class.bloodline.grantedSpells.map(gain => gain.name).indexOf(spell.name) > -1));
+                spells.push(...allSpells.filter(spell => spell.traditions.includes(tradition) || character.class.bloodline.grantedSpells.map(gain => gain.name).includes(spell.name)));
                 break;
             default:
-                spells.push(...allSpells.filter(spell => spell.traditions.indexOf(tradition) > -1));
+                spells.push(...allSpells.filter(spell => spell.traditions.includes(tradition)));
                 break;
         }
         if (spells.length) {
             if (choice.level == 0) {
-                spells = spells.filter(spell => spell.traits.indexOf("Cantrip") > -1 || this.spellTakenByThis(spell, choice));
+                spells = spells.filter(spell => spell.traits.includes("Cantrip") || this.spellTakenByThis(spell, choice));
             } else {
-                spells = spells.filter(spell => spell.traits.indexOf("Cantrip") == -1 || this.spellTakenByThis(spell, choice));
+                spells = spells.filter(spell => !spell.traits.includes("Cantrip") || this.spellTakenByThis(spell, choice));
             }
             if (!this.allowHeightened && choice.level > 0) {
                 spells = spells.filter(spell => spell.levelreq == choice.level || this.spellTakenByThis(spell, choice));

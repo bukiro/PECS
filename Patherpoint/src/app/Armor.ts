@@ -5,73 +5,74 @@ import { AnimalCompanion } from './AnimalCompanion';
 import { Character } from './Character';
 
 export class Armor extends Equipment {
+    public readonly _className: string = this.constructor.name;
     //Armor should be type "armors" to be found in the database
     readonly type = "armors";
-    //Armor are usually moddable like armor. Armor that cannot be modded should be set to ""
-    moddable = "armor" as ""|"weapon"|"armor"|"shield";
-    //The armor group, needed for critical specialization effects
-    public group: string = "";
-    //What proficiency is used? "Light Armor", "Medium Armor"?
-    private prof: string = "Light Armor";
+    //For certain medium and light armors, set 1 if an "Armored Skirt" is equipped; For certain heavy armors, set -1 instead
+    //This value influences acbonus, skillpenalty, dexcap and strength
+    public $affectedByArmoredSkirt: -1|0|1 = 0;
     //The armor's inherent bonus to AC
     private acbonus: number = 0;
-    //The penalty to all speeds if your strength is lower than the armors requirement
-    //Should be a negative number and a multiple of -5
-    public speedpenalty: number = 0;
     //The highest dex bonus to AC you can get while wearing this armor.
     //-1 is unlimited.
     public dexcap: number = -1;
+    //The armor group, needed for critical specialization effects
+    public group: string = "";
+    //Armor are usually moddable like armor. Armor that cannot be modded should be set to ""
+    moddable = "armor" as ""|"weapon"|"armor"|"shield";
+    //What proficiency is used? "Light Armor", "Medium Armor"?
+    private prof: string = "Light Armor";
     //The penalty to certain skills if your strength is lower than the armors requirement
     //Should be a negative number
     private skillpenalty: number = 0;
+    //The penalty to all speeds if your strength is lower than the armors requirement
+    //Should be a negative number and a multiple of -5
+    public speedpenalty: number = 0;
     //The strength requirement (strength, not STR) to overcome skill and speed penalties
     private strength: number = 0;
-    //For certain medium and light armors, set 1 if an "Armored Skirt" is equipped; For certain heavy armors, set -1 instead
-    //This value influences acbonus, skillpenalty, dexcap and strength
-    public affectedByArmoredSkirt: -1|0|1 = 0;
     get_ArmoredSkirt(creature: Character|AnimalCompanion, characterService: CharacterService) {
-        if (["Breastplate","Chain Shirt","Chain Mail","Scale Mail"].indexOf(this.name) > -1 ) {
+        if (["Breastplate","Chain Shirt","Chain Mail","Scale Mail"].includes(this.name) ) {
             let armoredSkirt = characterService.get_InventoryItems(creature).adventuringgear.filter(item => item.isArmoredSkirt && item.equipped);
             if (armoredSkirt.length) {
-                this.affectedByArmoredSkirt = 1;
+                this.$affectedByArmoredSkirt = 1;
                 return armoredSkirt[0];
             } else {
-                this.affectedByArmoredSkirt = 0;
+                this.$affectedByArmoredSkirt = 0;
                 return null;
             }
-        } else if (["Half Plate","Full Plate","Hellknight Plate"].indexOf(this.name) > -1 ) {
+        } else if (["Half Plate","Full Plate","Hellknight Plate"].includes(this.name) ) {
             let armoredSkirt = characterService.get_InventoryItems(creature).adventuringgear.filter(item => item.isArmoredSkirt && item.equipped);
             if (armoredSkirt.length) {
-                this.affectedByArmoredSkirt = -1;
+                this.$affectedByArmoredSkirt = -1;
                 return armoredSkirt[0];
             } else {
-                this.affectedByArmoredSkirt = 0;
+                this.$affectedByArmoredSkirt = 0;
                 return null;
             }
         } else {
-            this.affectedByArmoredSkirt = 0;
+            this.$affectedByArmoredSkirt = 0;
             return null;
         }
     }
     get_ACBonus() {
-        return this.acbonus + this.affectedByArmoredSkirt;
+        return this.acbonus + this.$affectedByArmoredSkirt;
     }
     get_SkillPenalty() {
-        return this.skillpenalty - this.affectedByArmoredSkirt;
+        return this.skillpenalty - this.$affectedByArmoredSkirt;
     }
     get_DexCap() {
         if (this.dexcap != -1) {
-            return this.dexcap - this.affectedByArmoredSkirt;
+            return this.dexcap - this.$affectedByArmoredSkirt;
         } else {
             return this.dexcap;
         }
         
     }
     get_Strength() {
-        return this.strength + this.affectedByArmoredSkirt;
+        return this.strength + this.$affectedByArmoredSkirt;
     }
     get_Prof() {
-        if (this.affectedByArmoredSkirt == 1) {
+        if (this.$affectedByArmoredSkirt == 1) {
             switch (this.prof) {
                 case "Light Armor":
                     return "Medium Armor";
@@ -83,8 +84,8 @@ export class Armor extends Equipment {
         }
     }
     get_Traits() {
-        if (this.affectedByArmoredSkirt != 0) {
-            if (this.traits.indexOf("Noisy") == -1) {
+        if (this.$affectedByArmoredSkirt != 0) {
+            if (this.traits.includes("Noisy")) {
                 return this.traits.concat("Noisy");
             } else {
                 return this.traits;

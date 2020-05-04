@@ -9,45 +9,47 @@ import { TraditionChoice } from './TraditionChoice';
 import { Character } from './Character';
 import { ConditionGain } from './ConditionGain';
 import { AnimalCompanion } from './AnimalCompanion';
+import { Deity } from './Deity';
 
 export class Feat {
-    public name: string = "";
-    public superType: string = "";
-    public subTypes: boolean = false;
-    public subType: string = "";
-    public desc: string = "";
-    public hint: string = "";
-    public shortdesc: string = "";
-    public specialdesc: string = "";
-    public hide: boolean = false;
-    public senses: string[] = [];
-    public lorebase: boolean = false;
-    public advancedweaponbase: boolean = false;
-    public unlimited: boolean = false;
-    public levelreq: number = 0;
+    public readonly _className: string = this.constructor.name;
     public abilityreq: any[] = [];
-    public skillreq: any[] = [];
-    public featreq: string[] = [];
-    public specialreqdesc: string = "";
-    public specialreq: string = "";
     public access: string = "";
-    public showon: string = "";
-    public traits: string[] = [];
-    public onceEffects: any[] = [];
+    public advancedweaponbase: boolean = false;
+    public archetype: string = "";
+    public critSpecialization: string = "";
+    public data: {} = {};
+    public desc: string = "";
     public effects: any[] = [];
+    public featreq: string[] = [];
+    public gainActivities: string[] = [];
+    public gainAnimalCompanion: number = 0;
+    public gainBloodline: boolean = false;
+    public gainConditions: ConditionGain[] = [];
     public gainFeatChoice: FeatChoice[] = [];
+    public gainFormulaChoice: FormulaChoice[] = [];
+    public gainLore: true;
     public gainSkillChoice: SkillChoice[] = [];
     public gainSpellChoice: SpellChoice[] = [];
     public gainTraditionChoice: TraditionChoice[] = [];
-    public gainFormulaChoice: FormulaChoice[] = [];
-    public gainAnimalCompanion: number = 0;
-    public gainBloodline: boolean = false;
-    public archetype: string = "";
-    public gainActivities: string[] = [];
-    public gainConditions: ConditionGain[] = [];
-    public critSpecialization: string = "";
-    public gainLore: true;
-    public data: {} = {};
+    public hide: boolean = false;
+    public hint: string = "";
+    public levelreq: number = 0;
+    public lorebase: boolean = false;
+    public name: string = "";
+    public onceEffects: any[] = [];
+    public senses: string[] = [];
+    public shortdesc: string = "";
+    public showon: string = "";
+    public skillreq: any[] = [];
+    public specialdesc: string = "";
+    public specialreq: string = "";
+    public specialreqdesc: string = "";
+    public subType: string = "";
+    public subTypes: boolean = false;
+    public superType: string = "";
+    public traits: string[] = [];
+    public unlimited: boolean = false;
     prof(skillLevel: number) {
         switch (skillLevel) {
             case 2:
@@ -158,6 +160,10 @@ export class Feat {
         //
         //character and charLevel are often needed for special requirements, so we keep them defined even if we don't use them in the function.
         let character: Character = characterService.get_Character();
+        let deity: Deity = characterService.get_Deities(character.class.deity)[0];
+        if (!deity) {
+            deity = new Deity();
+        }
         charLevel = charLevel;
         let result: {met:boolean, desc:string};
         if (this.specialreq) {

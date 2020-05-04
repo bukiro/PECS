@@ -459,5 +459,44 @@
         "desc": "You can ask questions of, receive answers from, and use the Diplomacy skill with animals. The spell doesn't make them more friendly than normal. Cunning animals are likely to be terse and evasive, while less intelligent ones often make inane comments.",
         "showon": "Diplomacy",
         "buff": true
+    },
+    {
+        "name": "Call on Ancient Blood: Fortitude",
+        "type": "activity",
+        "desc": "You gain a +1 circumstance bonus to Fortitude.",
+        "effects": [
+            {
+                "affected": "Fortitude",
+                "value": "+1",
+                "type": "circumstance"
+            }
+        ],
+        "buff": true
+    },
+    {
+        "name": "Call on Ancient Blood: Reflex",
+        "type": "activity",
+        "desc": "You gain a +1 circumstance bonus to Reflex.",
+        "effects": [
+            {
+                "affected": "Reflex",
+                "value": "+1",
+                "type": "circumstance"
+            }
+        ],
+        "buff": true
+    },
+    {
+        "name": "Call on Ancient Blood: Will",
+        "type": "activity",
+        "desc": "You gain a +1 circumstance bonus to Will.",
+        "effects": [
+            {
+                "affected": "Will",
+                "value": "+1",
+                "type": "circumstance"
+            }
+        ],
+        "buff": true
     }
 ]

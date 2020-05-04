@@ -55,7 +55,7 @@ export class ConditionsService {
                         gain.value = -1;
                     } else {
                         gain.apply = true;
-                        if (overrides.indexOf(gain.name) > -1 || (overrides.indexOf("All") > -1 && condition.overrideConditions.indexOf("All") == -1)) {
+                        if (overrides.includes(gain.name) || (overrides.includes("All") && !condition.overrideConditions.includes("All"))) {
                             gain.apply = false;
                         }
                         //We compare this condition with all others that have the same name and deactivate it under certain circumstances

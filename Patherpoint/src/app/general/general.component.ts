@@ -83,7 +83,7 @@ export class GeneralComponent implements OnInit {
     }
 
     get_HuntersEdge() {
-        return this.get_Character().get_FeatsTaken(1, this.get_Character().level).filter(gain => ["Flurry", "Outwit", "Precision"].indexOf(gain.name) > -1).map(gain => gain.name);
+        return this.get_Character().get_FeatsTaken(1, this.get_Character().level).filter(gain => ["Flurry", "Outwit", "Precision"].includes(gain.name)).map(gain => gain.name);
     }
 
     get_Languages() {
@@ -110,7 +110,7 @@ export class GeneralComponent implements OnInit {
 
     get_Speeds() {
         let speeds: Speed[] = this.characterService.get_Speeds(this.get_Creature());
-        let speedEffects = this.effectsService.get_Effects().all.filter(effect => effect.creature == this.get_Creature().id && effect.apply && (effect.target.indexOf("Speed") > -1));
+        let speedEffects = this.effectsService.get_Effects().all.filter(effect => effect.creature == this.get_Creature().id && effect.apply && (effect.target.includes("Speed")));
         speedEffects.forEach(effect => {
             if (!speeds.filter(speed => speed.name == effect.target).length) {
                 speeds.push(new Speed(effect.target))

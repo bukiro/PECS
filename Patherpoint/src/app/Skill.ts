@@ -6,18 +6,19 @@ import { AnimalCompanion } from './AnimalCompanion';
 import { Character } from './Character';
 
 export class Skill {
+    public readonly _className: string = this.constructor.name;
+    public $baseValue: {result: number, explain: string} = {result:0, explain:""};
+    public $bonus: Effect[] = [];
+    public $effects: Effect[] = [];
+    public $level: number = 0;
+    public $penalty: Effect[] = [];
+    public $value: {result: number, explain: string} = {result:0, explain:""};
     public notes: string = "";
     public showNotes: boolean = false;
-    public $level: number = 0;
-    public $baseValue: {result: number, explain: string} = {result:0, explain:""};
-    public $value: {result: number, explain: string} = {result:0, explain:""};
-    public $effects: Effect[] = [];
-    public $bonus: Effect[] = [];
-    public $penalty: Effect[] = [];
     constructor(
+        public ability: string = "",
         public name: string = "",
         public type: string = "",
-        public ability: string = "",
     ) { }
     calculate(creature: Character|AnimalCompanion, characterService: CharacterService, abilitiesService: AbilitiesService, effectsService: EffectsService, charLevel: number = characterService.get_Character().level) {
         this.$effects = this.effects(creature, effectsService);

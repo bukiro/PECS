@@ -12,24 +12,25 @@ import { FeatChoice } from './FeatChoice';
 import { ActivityGain } from './ActivityGain';
 import { Equipment } from './Equipment';
 import { Bloodline } from './Bloodline';
-import { Deity } from './Deity';
 import { AnimalCompanion } from './AnimalCompanion';
 import { SpellChoice } from './SpellChoice';
 import { TraditionChoice } from './TraditionChoice';
+import { DeitiesService } from './deities.service';
 
 export class Class {
-    public name: string = "";
-    public levels: Level[] = [];
-    public ancestry: Ancestry = new Ancestry();
-    public heritage: Heritage = new Heritage();
-    public background: Background = new Background();
-    public hitPoints: number = 0;
+    public readonly _className: string = this.constructor.name;
     public activities: ActivityGain[] = [];
-    public customSkills: Skill[] = [];
-    public focusPoints: number = 0;
+    public ancestry: Ancestry = new Ancestry();
     public animalCompanion: AnimalCompanion = new AnimalCompanion();
-    public deity: Deity = new Deity();
+    public background: Background = new Background();
     public bloodline: Bloodline = new Bloodline();
+    public customSkills: Skill[] = [];
+    public deity: string = "";
+    public focusPoints: number = 0;
+    public heritage: Heritage = new Heritage();
+    public hitPoints: number = 0;
+    public levels: Level[] = [];
+    public name: string = "";
     reassign() {
         //Re-Assign levels
         this.levels = this.levels.map(level => Object.assign(new Level(), level));
@@ -44,7 +45,6 @@ export class Class {
         })
         //Re-Assign all custom activity gains
         this.activities = this.activities.map(gain => Object.assign(new ActivityGain(), gain));
-        this.deity = Object.assign(new Deity(), this.deity);
         this.bloodline = Object.assign(new Bloodline(), this.bloodline);
     }
     on_ChangeAncestry(characterService: CharacterService) {
@@ -59,7 +59,7 @@ export class Class {
                 });
             }
             this.levels.forEach(level => {
-                level.featChoices.filter(choice => choice.feats.filter(feat => feat.name.indexOf("Adopted Ancestry") > -1).forEach(feat => {
+                level.featChoices.filter(choice => choice.feats.filter(feat => feat.name.includes("Adopted Ancestry")).forEach(feat => {
                     characterService.get_Character().take_Feat(characterService, feat.name, false, choice, feat.locked)
                 }));
             });
@@ -78,15 +78,15 @@ export class Class {
             }
         }
     }
-    on_ChangeDeity(characterService: CharacterService) {
+    on_ChangeDeity(characterService: CharacterService, deitiesService: DeitiesService, deity: string) {
         let character = characterService.get_Character();
-        if (character.class.deity.name) {
+        if (character.class.deity) {
             //In the future, remove cleric skills, spells etc.
         }
     }
-    on_NewDeity(characterService: CharacterService) {
+    on_NewDeity(characterService: CharacterService, deitiesService: DeitiesService, deity: string) {
         let character = characterService.get_Character();
-        if (character.class.deity.name) {
+        if (character.class.deity) {
             //In the future, add cleric skills, spells etc.
         }
     }
@@ -165,6 +165,12 @@ export class Class {
             level.skillChoices = level.skillChoices.filter(choice => choice.source != "Heritage" && choice.source != "Skilled Heritage");
             //Also remove the 5th level skill increase from Skilled Heritage
             this.levels[5].skillChoices = this.levels[5].skillChoices.filter(choice => choice.source != "Skilled Heritage");
+            this.heritage.gainActivities.forEach((gainActivity: string) => {
+                let oldGain = character.class.activities.find(gain => gain.name == gainActivity && gain.source == this.heritage.name);
+                if (oldGain) {
+                    character.lose_Activity(characterService, characterService.timeService, characterService.itemsService, characterService.spellsService, characterService.activitiesService, oldGain);
+                }
+            });
         }
     }
     on_NewHeritage(characterService: CharacterService) {
@@ -206,6 +212,9 @@ export class Class {
                     }
                 }
             }
+            this.heritage.gainActivities.forEach((gainActivity: string) => {
+                character.gain_Activity(Object.assign(new ActivityGain(), {name:gainActivity, source:this.heritage.name}), 1);
+            });
         }
     }
     on_ChangeBackground(characterService: CharacterService) {
@@ -254,7 +263,7 @@ export class Class {
             if (this.background.loreChoices[0].loreName) {
                 if (characterService.get_Skills(character, 'Lore: '+this.background.loreChoices[0].loreName).length) {
                     let increases = character.get_SkillIncreases(characterService, 1, 20, 'Lore: '+this.background.loreChoices[0].loreName).filter(increase => 
-                        increase.sourceId.indexOf("-Lore-") > -1
+                        increase.sourceId.includes("-Lore-")
                         );
                     if (increases.length) {
                         let oldChoice = character.get_LoreChoice(increases[0].sourceId)

@@ -4,6 +4,7 @@ import { Character } from './Character';
 import { AnimalCompanion } from './AnimalCompanion';
 
 export class Speed {
+    public readonly _className = this.constructor.name;
     constructor (
         public name: string = ""
     ) {};

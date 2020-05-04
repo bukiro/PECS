@@ -14,7 +14,6 @@ import { SpellChoice } from './SpellChoice';
 import { Settings } from './Settings';
 import { TimeService } from './time.service';
 import { TraditionChoice } from './TraditionChoice';
-import { Deity } from './Deity';
 import { Creature } from './Creature';
 import { AbilityBoost } from './AbilityBoost';
 import { EffectsService } from './effects.service';
@@ -22,13 +21,14 @@ import { SpellsService } from './spells.service';
 import { SpellGain } from './SpellGain';
 
 export class Character extends Creature {
-    public class: Class = new Class();
-    public readonly type = "Character";
-    public customSkills: Skill[] = [];
-    public customFeats: Feat[] = [];
-    public baseValues: {name:string, baseValue:number}[] = [];
+    public readonly _className: string = this.constructor.name;
+    readonly type = "Character";
     public alignment: string = "";
+    public baseValues: {name:string, baseValue:number}[] = [];
     public cash: number[] = [0,15,0,0];
+    public class: Class = new Class();
+    public customFeats: Feat[] = [];
+    public customSkills: Skill[] = [];
     public heroPoints: number = 1;
     public settings: Settings = new Settings();
     get_Changed(characterService: CharacterService, ) {
@@ -144,8 +144,12 @@ export class Character extends Creature {
         let tempChoice = Object.assign(new FeatChoice, JSON.parse(JSON.stringify(newChoice)));
         tempChoice.id = level.number +"-Feat-"+ tempChoice.source +"-"+ existingChoices.length;
         //eval the level string to convert things like "level.number / 2". "1" is still "1".
-        if (tempChoice.level) {
-            tempChoice.level = eval(tempChoice.level).toString();
+        if (tempChoice.specialLevel) {
+            try {
+            tempChoice.level = parseInt(eval(tempChoice.specialLevel));
+            } catch {
+                tempChoice.level = level.number;
+            }
         }
         let newLength: number = level.featChoices.push(tempChoice);
         return level.featChoices[newLength-1];
@@ -213,7 +217,7 @@ export class Character extends Creature {
             //The skill that you increase with Skilled Heritage at level 1 automatically gets increased at level 5 as well.
             let level = parseInt(choice.id.split("-")[0]);
             if (level == 1 && choice.source == "Skilled Heritage") {
-                let newChoice = this.add_SkillChoice(characterService.get_Level(5), {
+                let newChoice = this.add_SkillChoice(characterService.get_Level(5), Object.assign(new SkillChoice(), {
                     available:0,
                     filter:[],
                     increases:[],
@@ -221,11 +225,11 @@ export class Character extends Creature {
                     maxRank:8,
                     source:"Skilled Heritage",
                     id:""
-                });
+                }));
                 this.increase_Skill(characterService, skillName, true, newChoice, true);
             }
             //The skill/save that you increase with Canny Acumen automatically gets increased at level 17 as well.
-            if (choice.source.indexOf("Feat: Canny Acumen") > -1) {
+            if (choice.source.includes("Feat: Canny Acumen")) {
                 //First check if this has already been done: Is there a Skill Choice at level 17 with this source and this type?
                 //We are naming the type "Automatic" - it doesn't matter because it's a locked choice,
                 //but it allows us to distinguish this increase from the original if you take Canny Acumen at level 17
@@ -234,7 +238,7 @@ export class Character extends Creature {
                     );
                 //If there isn't one, go ahead and create one, then immediately increase this skill in it.
                 if (existingChoices.length == 0) {
-                    let newChoice = this.add_SkillChoice(characterService.get_Level(17), {
+                    let newChoice = this.add_SkillChoice(characterService.get_Level(17), Object.assign(new SkillChoice(), {
                         available:0,
                         filter:[],
                         increases:[],
@@ -242,14 +246,14 @@ export class Character extends Creature {
                         maxRank:6,
                         source:choice.source,
                         id:""
-                    });
+                    }));
                     this.increase_Skill(characterService, skillName, true, newChoice, true);
                 }
             }
             //The save that you increase with Path to Perfection is added to the filter of Third Path to Perfection
             if (choice.source == "Path to Perfection" || choice.source == "Second Path to Perfection") {
                 let a = characterService.get_Level(15).skillChoices.filter(choice => choice.source == "Third Path to Perfection")[0];
-                if (a.filter.indexOf("none") > -1) {
+                if (a.filter.includes("none")) {
                     a.filter.splice(a.filter.indexOf("none"),1);
                 }
                 a.filter.push(skillName);
@@ -257,7 +261,7 @@ export class Character extends Creature {
             //If you are getting trained in a skill you don't already know, it's usually a weapon proficiency or a class/spell DC.
             //We have to create that skill here then
             if (characterService.get_Skills(this, skillName).length == 0) {
-                if (skillName.indexOf("class DC") > -1) {
+                if (skillName.includes("class DC")) {
                     switch (skillName) {
                         case "Alchemist class DC": 
                             characterService.add_CustomSkill(skillName, "Class DC", "Intelligence");
@@ -277,7 +281,7 @@ export class Character extends Creature {
                             characterService.add_CustomSkill(skillName, "Class DC", characterService.get_Feats(choice.source.substr(6))[0].subType);
                             break;
                     }
-                } else if (skillName.indexOf("spell DC") > -1) {
+                } else if (skillName.includes("spell DC")) {
                     characterService.add_CustomSkill(skillName, "Spell DC", ability);
                     //If this is the choice for the Ki Spells tradition, add further increases on levels 9 and 17
                     if (choice.source == "Ki Spells") {
@@ -308,13 +312,13 @@ export class Character extends Creature {
                 characterService.get_Level(5).skillChoices = characterService.get_Level(5).skillChoices.filter(choice => choice.source != "Skilled Heritage");
             }
             //If you are deselecting Canny Acumen, you also lose the skill increase at level 17.
-            if (choice.source.indexOf("Feat: Canny Acumen") > -1) {
+            if (choice.source.includes("Feat: Canny Acumen")) {
                 let oldChoices = characterService.get_Level(17).skillChoices.filter(skillChoice => skillChoice.source == choice.source);
                 if (oldChoices.length) {
                     this.remove_SkillChoice(oldChoices[0]);
                 }
             }
-            if (skillName.indexOf("spell DC") > -1) {
+            if (skillName.includes("spell DC")) {
                 //If this is the choice for the Ki Spells tradition, remove the increases from levels 9 and 17
                 if (choice.source == "Ki Spells") {
                     characterService.get_Level(9).skillChoices.filter(skillChoice =>
@@ -331,7 +335,7 @@ export class Character extends Creature {
             //Also add a blank filter if nothing else is left.
             if (choice.source == "Path to Perfection" || choice.source == "Second Path to Perfection") {
                 let a = characterService.get_Level(15).skillChoices.filter(choice => choice.source == "Third Path to Perfection")[0];
-                if (a.filter.indexOf(skillName) > -1) {
+                if (a.filter.includes(skillName)) {
                     a.filter.splice(a.filter.indexOf(skillName),1);
                 }
                 if (a.filter.length == 0) {
@@ -455,9 +459,9 @@ export class Character extends Creature {
         
         //The Additional Lore feat grants a skill increase on Levels 3, 7 and 15 that can only be applied to this lore.
         if (source.source == "Feat: Additional Lore") {
-            this.add_SkillChoice(characterService.get_Level(3), {available:1, increases:[], filter:['Lore: '+source.loreName], type:"Skill", maxRank:4, source:"Feat: Additional Lore", id:""})
-            this.add_SkillChoice(characterService.get_Level(7), {available:1, increases:[], filter:['Lore: '+source.loreName], type:"Skill", maxRank:6, source:"Feat: Additional Lore", id:""})
-            this.add_SkillChoice(characterService.get_Level(15), {available:1, increases:[], filter:['Lore: '+source.loreName], type:"Skill", maxRank:8, source:"Feat: Additional Lore", id:""})
+            this.add_SkillChoice(characterService.get_Level(3), Object.assign(new SkillChoice(), {available:1, increases:[], filter:['Lore: '+source.loreName], type:"Skill", maxRank:4, source:"Feat: Additional Lore", id:""}))
+            this.add_SkillChoice(characterService.get_Level(7), Object.assign(new SkillChoice(), {available:1, increases:[], filter:['Lore: '+source.loreName], type:"Skill", maxRank:6, source:"Feat: Additional Lore", id:""}))
+            this.add_SkillChoice(characterService.get_Level(15), Object.assign(new SkillChoice(), {available:1, increases:[], filter:['Lore: '+source.loreName], type:"Skill", maxRank:8, source:"Feat: Additional Lore", id:""}))
         }
         characterService.get_Feats().filter(feat => feat.lorebase).forEach(lorebaseFeat =>{
             let newLength = characterService.add_CustomFeat(lorebaseFeat);

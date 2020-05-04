@@ -5,16 +5,17 @@ import { Character } from './Character';
 import { AnimalCompanion } from './AnimalCompanion';
 
 export class Health {
-    public damage: number = 0;
-    public temporaryHP: number = 0;
-    public resistances: any[] = [];
-    public immunities: any[] = [];
-    public lessenedEffects: any[] = [];
-    public $maxHP: number = 1;
+    public readonly _className: string = this.constructor.name;
     public $currentHP: number = 1;
-    public $wounded: number = 0;
     public $dying: number = 0;
     public $maxDying: number = 4;
+    public $maxHP: number = 1;
+    public $wounded: number = 0;
+    public damage: number = 0;
+    public immunities: any[] = [];
+    public lessenedEffects: any[] = [];
+    public resistances: any[] = [];
+    public temporaryHP: number = 0;
     calculate(creature: Character|AnimalCompanion, characterService: CharacterService, effectsService: EffectsService) {
         this.$maxHP = this.maxHP(creature, characterService, effectsService);
         this.$currentHP = this.currentHP(creature, characterService, effectsService);

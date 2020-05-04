@@ -3,13 +3,11 @@ import { Item } from './Item';
 import { EffectGain } from './EffectGain';
 
 export class Consumable extends Item {
-    //Consumables can not be equipped.
-    readonly equippable = false;
+    public readonly _className: string = this.constructor.name;
     //Allow changing of "equippable" by custom item creation
     readonly allowEquippable = false;
-    //Some Items get bought in stacks. Stack defines how many you buy at once,
-    //and how many make up one instance of the items Bulk.
-    public stack: number = 1;
+    //Consumables can not be equipped.
+    readonly equippable = false;
     //How many Actions does it take to use this item?
     //Usually "Free", "Reaction", "1", "2" or "3", but can be something special like "1 hour"
     public actions: string = "1";
@@ -19,4 +17,7 @@ export class Consumable extends Item {
     public gainConditions: ConditionGain[] = [];
     //List EffectGain for every effect that happens instantly when the item is used
     public onceEffects: EffectGain[] = [];
+    //Some Items get bought in stacks. Stack defines how many you buy at once,
+    //and how many make up one instance of the items Bulk.
+    public stack: number = 1;
 }

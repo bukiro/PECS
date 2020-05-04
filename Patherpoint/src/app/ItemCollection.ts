@@ -14,46 +14,44 @@ import { ArmorRune } from './ArmorRune';
 import { Potion } from './Potion';
 import { OtherItem } from './OtherItem';
 import { ItemsService } from './items.service';
+import { Item } from './Item';
 
 export class ItemCollection {
-    public weapons: Weapon[] = [];
-    public armors: Armor[] = [];
-    public shields: Shield[] = [];
-    public wornitems: WornItem[] = [];
-    public helditems: HeldItem[] = [];
-    public alchemicalelixirs: AlchemicalElixir[] = [];
-    public potions: Potion[] = [];
-    public otherconsumables: OtherConsumable[] = [];
+    public readonly _className: string = this.constructor.name;
     public adventuringgear: AdventuringGear[] = [];
+    public alchemicalelixirs: AlchemicalElixir[] = [];
     public armorrunes: ArmorRune[] = [];
-    public weaponrunes: WeaponRune[] = [];
+    public armors: Armor[] = [];
+    public helditems: HeldItem[] = [];
+    public otherconsumables: OtherConsumable[] = [];
     public otheritems: OtherItem[] = [];
-    constructor(
-        public readonly names: {name: string, key: string}[] = [
-            {name:"Weapons",key:"weapons"},
-            {name:"Armors",key:"armors"},
-            {name:"Shields",key:"shields"},
-            {name:"Worn Items",key:"wornitems"},
-            {name:"Held Items",key:"helditems"},
-            {name:"Alchemical Elixirs",key:"alchemicalelixirs"},
-            {name:"Potions",key:"potions"},
-            {name:"Other Consumables",key:"otherconsumables"},
-            {name:"Adventuring Gear",key:"adventuringgear"},
-            {name:"Armor Runes",key:"armorrunes"},
-            {name:"Weapon Runes",key:"weaponrunes"}
-        ]
-    ) {}
+    public potions: Potion[] = [];
+    public shields: Shield[] = [];
+    public weaponrunes: WeaponRune[] = [];
+    public weapons: Weapon[] = [];
+    public wornitems: WornItem[] = [];
+    public readonly names: {name: string, key: string}[] = [
+        {name:"Weapons",key:"weapons"},
+        {name:"Armors",key:"armors"},
+        {name:"Shields",key:"shields"},
+        {name:"Adventuring Gear",key:"adventuringgear"},
+        {name:"Alchemical Elixirs",key:"alchemicalelixirs"},
+        {name:"Armor Runes",key:"armorrunes"},
+        {name:"Held Items",key:"helditems"},
+        {name:"Other Consumables",key:"otherconsumables"},
+        {name:"Potions",key:"potions"},
+        {name:"Weapon Runes",key:"weaponrunes"},
+        {name:"Worn Items",key:"wornitems"}
+    ]
     initialize(itemsService: ItemsService) {
-        this.weapons = this.weapons.map(element => itemsService.initialize_Item(Object.assign(new Weapon(), element), true, false));
-        this.armors = this.armors.map(element => itemsService.initialize_Item(Object.assign(new Armor(), element), true, false));
-        this.shields = this.shields.map(element => itemsService.initialize_Item(Object.assign(new Shield(), element), true, false));
-        this.wornitems = this.wornitems.map(element => itemsService.initialize_Item(Object.assign(new WornItem(), element), true, false));
-        this.helditems = this.helditems.map(element => itemsService.initialize_Item(Object.assign(new HeldItem(), element), true, false));
-        this.alchemicalelixirs = this.alchemicalelixirs.map(element => itemsService.initialize_Item(Object.assign(new AlchemicalElixir(), element), true, false));
-        this.potions = this.potions.map(element => itemsService.initialize_Item(Object.assign(new Potion(), element), true, false));
-        this.otherconsumables = this.otherconsumables.map(element => itemsService.initialize_Item(Object.assign(new OtherConsumable(), element), true, false));
-        this.adventuringgear = this.adventuringgear.map(element => itemsService.initialize_Item(Object.assign(new AdventuringGear(), element), true, false));
-        this.weaponrunes = this.weaponrunes.map(element => itemsService.initialize_Item(Object.assign(new WeaponRune(), element), true, false));
+        this.names.forEach(name => {
+            this[name.key] = this[name.key].map(element => itemsService.load_InventoryItem(element))
+        })
+    }
+    cleanForSave(itemsService: ItemsService) {
+        this.names.forEach(name => {
+            this[name.key] = this[name.key].map(element => itemsService.cleanItemForSave(element))
+        })
     }
     allEquipment() {
         let items: Equipment[] = [];
@@ -76,6 +74,13 @@ export class ItemCollection {
         let items: Rune[] = [];
         items.push(...this.armorrunes);
         items.push(...this.weaponrunes);
+        return items;
+    }
+    allItems() {
+        let items: Item[] = [];
+        items.push(...this.allEquipment());
+        items.push(...this.allConsumables());
+        items.push(...this.allRunes());
         return items;
     }
 }

@@ -84,7 +84,7 @@ export class ActivitiesComponent implements OnInit {
         let activities: ActivityGain[] = [];
         let unique: string[] = [];
         this.characterService.get_OwnedActivities(this.get_Creature()).forEach(activity => {
-            if (unique.indexOf(activity.name) == -1) {
+            if (!unique.includes(activity.name)) {
                 unique.push(activity.name);
                 activities.push(activity);
             }

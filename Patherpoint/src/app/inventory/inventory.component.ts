@@ -12,6 +12,7 @@ import { OtherItem } from '../OtherItem';
 import { Item } from '../Item';
 import { Character } from '../Character';
 import { AnimalCompanion } from '../AnimalCompanion';
+import { Bulk } from '../Bulk';
 
 @Component({
     selector: 'app-inventory',
@@ -94,7 +95,7 @@ export class InventoryComponent implements OnInit {
                     speedRune = true;
                 }
                 if (rune["alignmentPenalty"]) {
-                    if (this.characterService.get_Character().alignment.indexOf(rune["alignmentPenalty"]) > -1) {
+                    if (this.characterService.get_Character().alignment.includes(rune["alignmentPenalty"])) {
                         enfeebledRune = true;
                     }
                 }
@@ -118,11 +119,11 @@ export class InventoryComponent implements OnInit {
     }
 
     can_Equip(item: Item) {
-        return (item.equippable && this.creature == "Character" && item.traits.indexOf("Companion") == -1) || (item.traits.indexOf("Companion") > -1 && this.creature == "Companion") || item.name == "Unarmored"
+        return (item.equippable && this.creature == "Character" && !item.traits.includes("Companion")) || (item.traits.includes("Companion") && this.creature == "Companion") || item.name == "Unarmored"
     }
 
     can_Invest(item: Item) {
-        return item.can_Invest() && ((this.creature == "Character" && item.traits.indexOf("Companion") == -1) || (item.traits.indexOf("Companion") > -1 && this.creature == "Companion"))
+        return item.can_Invest() && ((this.creature == "Character" && !item.traits.includes("Companion")) || (item.traits.includes("Companion") && this.creature == "Companion"))
     }
 
     can_Drop(item: Item) {
@@ -181,7 +182,7 @@ export class InventoryComponent implements OnInit {
     }
 
     get_Bulk() {
-        let bulk = this.get_Creature().bulk;
+        let bulk: Bulk = new Bulk();
         bulk.calculate(this.get_Creature(), this.characterService, this.effectsService);
         if (bulk.$current > bulk.$encumbered.value && this.characterService.get_AppliedConditions(this.get_Creature(), "Encumbered", "Bulk").length == 0) {
             this.characterService.add_Condition(this.get_Creature(), Object.assign(new ConditionGain, {name:"Encumbered", value:0, source:"Bulk", apply:true}), true)
@@ -219,7 +220,7 @@ export class InventoryComponent implements OnInit {
     }
 
     get_InvestedItems() {
-        return this.characterService.get_InvestedItems(this.get_Creature()).filter(item => item.traits.indexOf("Invested") > -1);
+        return this.characterService.get_InvestedItems(this.get_Creature()).filter(item => item.traits.includes("Invested"));
     }
 
     onEquip(item: Equipment, equipped: boolean) {

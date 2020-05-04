@@ -1,37 +1,40 @@
 [
     {
-        "name": "Skeleton Key",
-        "type": "helditems",
-        "price": 12500,
-        "level": 5,
-        "usage": "held in 1 hand",
         "desc": "A grinning skull tops the bow of this macabre key. This key can be used in place of thieves’ tools when attempting to Pick a Lock, and it grants a +1 item bonus to the Thievery check. If the skeleton key becomes broken due to a critical failure on the check, it works as normal thieves’ tools and loses its benefits until repaired.",
-        "showon": "Thievery",
-        "hint": "This key can be used in place of thieves’ tools when attempting to Pick a Lock, and it grants a +1 item bonus to the Thievery check. If the skeleton key becomes broken due to a critical failure on the check, it works as normal thieves’ tools and loses its benefits until repaired.",
-        "activities": [
-            {
-                "name": "Skeleton Key",
-                "actions": "Free",
-                "activationType": "Interact",
-                "cooldown":144000,
-                "frequency": "once per day",
-                "trigger": "You attempt to Pick a Lock but haven’t rolled yet",
-                "desc": "The key casts knock on the lock you’re trying to pick.",
-                "castSpells": [
-                    {
-                        "name": "knock",
-                        "level": 1
-                    }
-                ],
-                "traits": [
-                    "Magical",
-                    "Transmutation"
-                ]
-            }
-        ],
+        "id": "89bd35f2-8e09-11ea-9fab-e92c63c14723",
+        "level": 5,
+        "name": "Skeleton Key",
+        "price": 12500,
         "traits": [
             "Magical",
             "Transmutation"
-        ]
+        ],
+        "activities": [
+            {
+                "actions": "Free",
+                "activationType": "Interact",
+                "castSpells": [
+                    {
+                        "_className": "SpellCast",
+                        "name": "knock"
+                    }
+                ],
+                "cooldown": 144000,
+                "desc": "The key casts knock on the lock you’re trying to pick.",
+                "frequency": "once per day",
+                "name": "Skeleton Key",
+                "traits": [
+                    "Magical",
+                    "Transmutation"
+                ],
+                "trigger": "You attempt to Pick a Lock but haven’t rolled yet",
+                "_className": "ItemActivity",
+                "source": "89bd35f2-8e09-11ea-9fab-e92c63c14723"
+            }
+        ],
+        "hint": "This key can be used in place of thieves’ tools when attempting to Pick a Lock, and it grants a +1 item bonus to the Thievery check. If the skeleton key becomes broken due to a critical failure on the check, it works as normal thieves’ tools and loses its benefits until repaired.",
+        "showon": "Thievery",
+        "_className": "HeldItem",
+        "usage": "held in 1 hand"
     }
 ]

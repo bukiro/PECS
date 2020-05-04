@@ -29,9 +29,9 @@ export class SpellsService {
       if (!this.still_loading()) {
         return this.spells.filter(spell => 
           (
-            (spell.name.indexOf(name) > -1 || name == "") &&
-            (spell.traits.indexOf(type) > -1 || type == "") &&
-            (spell.traditions.indexOf(tradition) > -1 || tradition == "")
+            (spell.name.includes(name) || name == "") &&
+            (spell.traits.includes(type) || type == "") &&
+            (spell.traditions.includes(tradition) || tradition == "")
           ));
       } else {
           return [new Spell()];

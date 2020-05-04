@@ -20,7 +20,7 @@
                     <app-newItemProperty [propertyData]=subProperty [propertyKey]=subProperty.key [parents]=parents.concat(propertyKey,i) [newItem]=newItem></app-newItemProperty>
                 </ng-container>
             </ng-container>
-            <ng-container *ngIf="!get_IsObject(object) ">
+            <ng-container *ngIf="!get_IsObject(object)">
                 <app-newItemProperty class="row" [propertyData]=propertyData [propertyKey]=i [parents]=parents.concat(propertyKey) [noTitle]=true [newItem]=newItem></app-newItemProperty>
             </ng-container>
         </div>

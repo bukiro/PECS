@@ -299,10 +299,10 @@ constructor(
         let targets: string[] = [];
         //Collect all targets of effects, but each only once
         allEffects.forEach(effect => {
-            if (targets.indexOf(effect.target) == -1) {
+            if (!targets.includes(effect.target)) {
                 targets.push(effect.target);
             }
-            if (creatures.indexOf(effect.creature) == -1) {
+            if (!creatures.includes(effect.creature)) {
                 creatures.push(effect.creature);
             }
         });

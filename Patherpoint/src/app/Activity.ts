@@ -4,28 +4,28 @@ import { SpellCast } from './SpellCast';
 import { ConditionGain } from './ConditionGain';
 
 export class Activity {
-    public name: string = "";
-    public desc: string = "";
-    public traits: string[] = [];
     public actions: string = "1";
     public activationType: string = "";
-    public toggle: boolean = false;
-    public cooldown: number = 0;
-    public frequency: string = "";
-    public trigger: string = "";
-    public requirements: string = "";
-    public gainItems: ItemGain[] = [];
-    public gainConditions: ConditionGain[] = [];
     public castSpells: SpellCast[] = [];
-    public critsuccess: string = "";
-    public success: string = "";
-    public failure: string = "";
+    public cooldown: number = 0;
     public critfailure: string = "";
-    public showon: string = "";
-    public hint: string = "";
+    public critsuccess: string = "";
+    public desc: string = "";
     public effects: EffectGain[] = [];
-    public onceEffects: EffectGain[] = [];
+    public failure: string = "";
+    public frequency: string = "";
+    public gainConditions: ConditionGain[] = [];
+    public gainItems: ItemGain[] = [];
+    public hint: string = "";
     public inputRequired: string = "";
+    public name: string = "";
+    public onceEffects: EffectGain[] = [];
+    public requirements: string = "";
+    public showon: string = "";
+    public success: string = "";
+    public toggle: boolean = false;
+    public traits: string[] = [];
+    public trigger: string = "";
     get_Actions() {
         switch (this.actions) {
             case "Free":
@@ -44,7 +44,7 @@ export class Activity {
     }
     can_Activate() {
         //Test any circumstance under which this can be activated
-        let isStance: boolean = (this.traits.indexOf("Stance") > -1)
+        let isStance: boolean = (this.traits.includes("Stance"))
         return isStance || this.gainItems.length || this.castSpells.length || this.gainConditions.length || this.cooldown || this.toggle;
     }
 }

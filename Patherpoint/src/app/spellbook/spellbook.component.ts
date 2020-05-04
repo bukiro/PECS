@@ -81,7 +81,7 @@ export class SpellbookComponent implements OnInit {
         let levels = this.get_Character().class.levels.filter(level => level.number <= this.get_Character().level );
         levels.forEach(level => {
             level.spellChoices.forEach(choice => {
-                if (classes.indexOf(choice.className) == -1) {
+                if (!classes.includes(choice.className)) {
                     classes.push(choice.className);
                 }
             })
@@ -120,7 +120,7 @@ export class SpellbookComponent implements OnInit {
     }
 
     get_MaxSpellSlots(spellLevel: number, className: string) {
-        if (["Bard", "Sorcerer"].indexOf(className) > -1 && spellLevel > 0) {
+        if (["Bard", "Sorcerer"].includes(className) && spellLevel > 0) {
             let spellslots: number = 0;
             let levels = this.get_Character().class.levels.filter(level => level.number <= this.get_Character().level );
             levels.forEach(level => {
@@ -157,15 +157,15 @@ export class SpellbookComponent implements OnInit {
         if (!level || level == -1) {
             level = Math.ceil(this.get_Character().level / 2)
         }
-        if (gain.tradition.indexOf("Focus") > -1 && activated){
+        if (gain.tradition.includes("Focus") && activated){
             let focusPoints = this.get_Character().class.focusPoints;
             this.characterService.get_Character().class.focusPoints = Math.min(focusPoints, this.get_MaxFocusPoints());
             this.characterService.get_Character().class.focusPoints -= 1;
         };
-        if (gain.className == "Sorcerer" && spell.traits.indexOf("Cantrip") == -1) {
+        if (gain.className == "Sorcerer" && !spell.traits.includes("Cantrip")) {
             this.get_Character().class.bloodline.spellSlotsUsed[level] += 1;
         }
-        if (["Wizard", "Cleric", "Druid"].indexOf(gain.className) > -1 && spell.traits.indexOf("Cantrip") == -1) {
+        if (["Wizard", "Cleric", "Druid"].includes(gain.className) && !spell.traits.includes("Cantrip")) {
             //spend the spell (but keep it prepared)
         }
         this.spellsService.process_Spell(creature, this.characterService, this.itemsService, gain, spell, level, activated);

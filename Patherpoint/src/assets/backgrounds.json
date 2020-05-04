@@ -1,347 +1,489 @@
 [
     {
-        "name":"Acolyte",
-        "featChoices":[
+        "_className": "Background",
+        "abilityChoices": [
             {
-                "feats":[
-                    {"name":"Student of the Canon", "source":"Background", "locked":true, "sourceId":"1-Feat-Background-0"}
+                "_className": "AbilityChoice",
+                "available": 1,
+                "filter": [
+                    "Intelligence",
+                    "Wisdom"
                 ],
-                "source":"Background",
-                "id":"1-Feat-Background-0"
-            }
-        ],
-        "abilityChoices":[
-            {
-                "available":1,
-                "filter":["Intelligence", "Wisdom"],
-                "source":"Background",
-                "id":"1-Ability-Background-0"
+                "id": "1-Ability-Background-0",
+                "source": "Background"
             },
             {
-                "available":1,
-                "baseValuesLost":1,
-                "source":"Background",
-                "id":"1-Ability-Background-1"
+                "_className": "AbilityChoice",
+                "available": 1,
+                "baseValuesLost": 1,
+                "id": "1-Ability-Background-1",
+                "source": "Background"
             }
         ],
-        "skillChoices":[
+        "featChoices": [
             {
-                "increases":[
-                    { "name":"Religion", "source":"Background", "maxRank":2, "locked":true, "sourceId":"1-Skill-Background-0" }
+                "_className": "FeatChoice",
+                "feats": [
+                    {
+                        "name": "Student of the Canon",
+                        "source": "Background",
+                        "locked": true,
+                        "sourceId": "1-Feat-Background-0"
+                    }
                 ],
-                "type":"Skill",
-                "maxRank":2,
-                "source":"Background",
-                "id":"1-Skill-Background-0"
+                "id": "1-Feat-Background-0",
+                "source": "Background"
             }
         ],
-        "loreChoices":[
+        "loreChoices": [
             {
-                "maxRank":2,
-                "loreName":"Scribing",
-                "source":"Background",
-                "id":"1-Lore-Background-0"
+                "_className": "LoreChoice",
+                "id": "1-Lore-Background-0",
+                "maxRank": 2,
+                "source": "Background",
+                "loreName": "Scribing"
             }
         ],
-        "desc":"You spent your early days in a religious monastery or cloister. You may have traveled out into the world to spread the message of your religion or because you cast away the teachings of your faith, but deep down you’ll always carry within you the lessons you learned.\n\nChoose two ability boosts. One must be to Intelligence or Wisdom, and one is a free ability boost.\n\nYou're trained in the Religion skill and the Scribing Lore skill. You gain the Student of the Canon skill feat."
+        "name": "Acolyte",
+        "skillChoices": [
+            {
+                "_className": "SkillChoice",
+                "id": "1-Skill-Background-0",
+                "increases": [
+                    {
+                        "name": "Religion",
+                        "source": "Background",
+                        "maxRank": 2,
+                        "locked": true,
+                        "sourceId": "1-Skill-Background-0"
+                    }
+                ],
+                "maxRank": 2,
+                "source": "Background",
+                "type": "Skill"
+            }
+        ],
+        "desc": "You spent your early days in a religious monastery or cloister. You may have traveled out into the world to spread the message of your religion or because you cast away the teachings of your faith, but deep down you’ll always carry within you the lessons you learned.\n\nChoose two ability boosts. One must be to Intelligence or Wisdom, and one is a free ability boost.\n\nYou're trained in the Religion skill and the Scribing Lore skill. You gain the Student of the Canon skill feat."
     },
     {
-        "name":"Acrobat",
-        "featChoices":[
+        "_className": "Background",
+        "abilityChoices": [
             {
-                "feats":[
-                    {"name":"Steady Balance", "source":"Background", "locked":true, "sourceId":"1-Feat-Background-0"}
+                "_className": "AbilityChoice",
+                "available": 1,
+                "filter": [
+                    "Strength",
+                    "Dexterity"
                 ],
-                "source":"Background",
-                "id":"1-Feat-Background-0"
-            }
-        ],
-        "abilityChoices":[
-            {
-                "available":1,
-                "filter":["Strength", "Dexterity"],
-                "source":"Background",
-                "id":"1-Ability-Background-0"
+                "id": "1-Ability-Background-0",
+                "source": "Background"
             },
             {
-                "available":1,
-                "baseValuesLost":1,
-                "source":"Background",
-                "id":"1-Ability-Background-1"
+                "_className": "AbilityChoice",
+                "available": 1,
+                "baseValuesLost": 1,
+                "id": "1-Ability-Background-1",
+                "source": "Background"
             }
         ],
-        "skillChoices":[
+        "featChoices": [
             {
-                "increases":[
-                    { "name":"Acrobatics", "source":"Background", "maxRank":2, "locked":true, "sourceId":"1-Skill-Background-0" }
+                "_className": "FeatChoice",
+                "feats": [
+                    {
+                        "name": "Steady Balance",
+                        "source": "Background",
+                        "locked": true,
+                        "sourceId": "1-Feat-Background-0"
+                    }
                 ],
-                "type":"Skill",
-                "maxRank":2,
-                "source":"Background",
-                "id":"1-Skill-Background-0"
+                "id": "1-Feat-Background-0",
+                "source": "Background"
             }
         ],
-        "loreChoices":[
+        "loreChoices": [
             {
-                "maxRank":2,
-                "loreName":"Circus",
-                "source":"Background",
-                "id":"1-Lore-Background-0"
+                "_className": "LoreChoice",
+                "id": "1-Lore-Background-0",
+                "maxRank": 2,
+                "source": "Background",
+                "loreName": "Circus"
             }
         ],
-        "desc":"In a circus or on the streets, you earned your pay by performing as an acrobat. You might have turned to adventuring when the money dried up, or simply decided to put your skills to better use.\n\nChoose two ability boosts. One must be to Strength or Dexterity, and one is a free ability boost.\n\nYou're trained in the Acrobatics skill and the Circus Lore skill. You gain the Steady Balance skill feat."
+        "name": "Acrobat",
+        "skillChoices": [
+            {
+                "_className": "SkillChoice",
+                "id": "1-Skill-Background-0",
+                "increases": [
+                    {
+                        "name": "Acrobatics",
+                        "source": "Background",
+                        "maxRank": 2,
+                        "locked": true,
+                        "sourceId": "1-Skill-Background-0"
+                    }
+                ],
+                "maxRank": 2,
+                "source": "Background",
+                "type": "Skill"
+            }
+        ],
+        "desc": "In a circus or on the streets, you earned your pay by performing as an acrobat. You might have turned to adventuring when the money dried up, or simply decided to put your skills to better use.\n\nChoose two ability boosts. One must be to Strength or Dexterity, and one is a free ability boost.\n\nYou're trained in the Acrobatics skill and the Circus Lore skill. You gain the Steady Balance skill feat."
     },
     {
-        "name":"Animal Whisperer",
-        "featChoices":[
+        "_className": "Background",
+        "abilityChoices": [
             {
-                "feats":[
-                    {"name":"Train Animal", "source":"Background", "locked":true, "sourceId":"1-Feat-Background-0"}
+                "_className": "AbilityChoice",
+                "available": 1,
+                "filter": [
+                    "Wisdom",
+                    "Charisma"
                 ],
-                "source":"Background",
-                "id":"1-Feat-Background-0"
-            }
-        ],
-        "abilityChoices":[
-            {
-                "available":1,
-                "filter":["Wisdom", "Charisma"],
-                "source":"Background",
-                "id":"1-Ability-Background-0"
+                "id": "1-Ability-Background-0",
+                "source": "Background"
             },
             {
-                "available":1,
-                "baseValuesLost":1,
-                "source":"Background",
-                "id":"1-Ability-Background-1"
+                "_className": "AbilityChoice",
+                "available": 1,
+                "baseValuesLost": 1,
+                "id": "1-Ability-Background-1",
+                "source": "Background"
             }
         ],
-        "skillChoices":[
+        "featChoices": [
             {
-                "increases":[
-                    { "name":"Nature", "source":"Background", "maxRank":2, "locked":true, "sourceId":"1-Skill-Background-0" }
+                "_className": "FeatChoice",
+                "feats": [
+                    {
+                        "name": "Train Animal",
+                        "source": "Background",
+                        "locked": true,
+                        "sourceId": "1-Feat-Background-0"
+                    }
                 ],
-                "type":"Skill",
-                "maxRank":2,
-                "source":"Background",
-                "id":"1-Skill-Background-0"
+                "id": "1-Feat-Background-0",
+                "source": "Background"
             }
         ],
-        "loreChoices":[
+        "loreChoices": [
             {
-                "available":1,
-                "maxRank":2,
-                "loreDesc":"A Lore skill related to one terrain inhabited by animals you like (such as Plains Lore or Swamp Lore).",
-                "source":"Background",
-                "id":"1-Lore-Background-0"
+                "_className": "LoreChoice",
+                "available": 1,
+                "id": "1-Lore-Background-0",
+                "maxRank": 2,
+                "source": "Background",
+                "loreDesc": "A Lore skill related to one terrain inhabited by animals you like (such as Plains Lore or Swamp Lore)."
             }
         ],
-        "desc":"You have always felt a connection to animals, and it was only a small leap to learn to train them. As you travel, you continuously encounter different creatures, befriending them along the way.\n\nChoose two ability boosts. One must be to Wisdom or Charisma, and one is a free ability boost.\n\nYou're trained in the Nature skill and a Lore skill related to one terrain inhabited by animals you like (such as Plains Lore or Swamp Lore). You gain the Train Animal skill feat."
+        "name": "Animal Whisperer",
+        "skillChoices": [
+            {
+                "_className": "SkillChoice",
+                "id": "1-Skill-Background-0",
+                "increases": [
+                    {
+                        "name": "Nature",
+                        "source": "Background",
+                        "maxRank": 2,
+                        "locked": true,
+                        "sourceId": "1-Skill-Background-0"
+                    }
+                ],
+                "maxRank": 2,
+                "source": "Background",
+                "type": "Skill"
+            }
+        ],
+        "desc": "You have always felt a connection to animals, and it was only a small leap to learn to train them. As you travel, you continuously encounter different creatures, befriending them along the way.\n\nChoose two ability boosts. One must be to Wisdom or Charisma, and one is a free ability boost.\n\nYou're trained in the Nature skill and a Lore skill related to one terrain inhabited by animals you like (such as Plains Lore or Swamp Lore). You gain the Train Animal skill feat."
     },
     {
-        "name":"Hermit",
-        "desc":"In an isolated place—like a cave, remote oasis, or secluded mansion—you lived a life of solitude. Adventuring might represent your first foray out among other people in some time. This might be a welcome reprieve from solitude or an unwanted change, but in either case, you’re likely still rough around the edges.\n\nChoose two ability boosts. One must be to Constitution or Intelligence, and one is a free ability boost.\n\nYou're trained in your choice of either the Nature or Occultism skill, as well as a Lore skill related to the terrain you lived in as a hermit (such as Cave Lore or Desert Lore). You gain the Dubious Knowledge skill feat.",
-        "subTypes":[
+        "_className": "Background",
+        "name": "Hermit",
+        "subTypes": [
             {
-                "name":"Hermit (Nature)",
-                "subType":"Nature",
-                "superType":"Hermit",
-                "featChoices":[
+                "_className": "Background",
+                "abilityChoices": [
                     {
-                                "feats":[
-                            {"name":"Dubious Knowledge", "source":"Background", "locked":true, "sourceId":"1-Feat-Background-0"}
+                        "_className": "AbilityChoice",
+                        "available": 1,
+                        "filter": [
+                            "Constitution",
+                            "Intelligence"
                         ],
-                                                "source":"Background",
-                        "id":"1-Feat-Background-0"
-                    }
-                ],
-                "abilityChoices":[
-                    {
-                        "available":1,
-                                "filter":["Constitution", "Intelligence"],
-                                "source":"Background",
-                        "id":"1-Ability-Background-0"
+                        "id": "1-Ability-Background-0",
+                        "source": "Background"
                     },
                     {
-                        "available":1,
-                                        "baseValuesLost":1,
-                        "source":"Background",
-                        "id":"1-Ability-Background-1"
+                        "_className": "AbilityChoice",
+                        "available": 1,
+                        "baseValuesLost": 1,
+                        "id": "1-Ability-Background-1",
+                        "source": "Background"
                     }
                 ],
-                "skillChoices":[
+                "featChoices": [
                     {
-                                "increases":[
-                            { "name":"Nature", "source":"Background", "maxRank":2, "locked":true, "sourceId":"1-Skill-Background-0" }
+                        "_className": "FeatChoice",
+                        "feats": [
+                            {
+                                "name": "Dubious Knowledge",
+                                "source": "Background",
+                                "locked": true,
+                                "sourceId": "1-Feat-Background-0"
+                            }
                         ],
-                                "type":"Skill",
-                        "maxRank":2,
-                        "source":"Background",
-                        "id":"1-Skill-Background-0"
+                        "id": "1-Feat-Background-0",
+                        "source": "Background"
                     }
                 ],
-                "loreChoices":[
+                "loreChoices": [
                     {
-                        "available":1,
-                                "maxRank":2,
-                                "loreDesc":"A Lore skill related to the terrain you lived in as a hermit (such as Cave Lore or Desert Lore).",
-                        "source":"Background",
-                        "id":"1-Lore-Background-0"
+                        "_className": "LoreChoice",
+                        "available": 1,
+                        "id": "1-Lore-Background-0",
+                        "maxRank": 2,
+                        "source": "Background",
+                        "loreDesc": "A Lore skill related to the terrain you lived in as a hermit (such as Cave Lore or Desert Lore)."
                     }
                 ],
-                "desc":"In an isolated place—like a cave, remote oasis, or secluded mansion—you lived a life of solitude. Adventuring might represent your first foray out among other people in some time. This might be a welcome reprieve from solitude or an unwanted change, but in either case, you’re likely still rough around the edges.\n\nChoose two ability boosts. One must be to Constitution or Intelligence, and one is a free ability boost.\n\nYou're trained in your choice of either the Nature or Occultism skill, as well as a Lore skill related to the terrain you lived in as a hermit (such as Cave Lore or Desert Lore). You gain the Dubious Knowledge skill feat."
+                "name": "Hermit (Nature)",
+                "skillChoices": [
+                    {
+                        "_className": "SkillChoice",
+                        "id": "1-Skill-Background-0",
+                        "increases": [
+                            {
+                                "name": "Nature",
+                                "source": "Background",
+                                "maxRank": 2,
+                                "locked": true,
+                                "sourceId": "1-Skill-Background-0"
+                            }
+                        ],
+                        "maxRank": 2,
+                        "source": "Background",
+                        "type": "Skill"
+                    }
+                ],
+                "subType": "Nature",
+                "superType": "Hermit",
+                "desc": "In an isolated place—like a cave, remote oasis, or secluded mansion—you lived a life of solitude. Adventuring might represent your first foray out among other people in some time. This might be a welcome reprieve from solitude or an unwanted change, but in either case, you’re likely still rough around the edges.\n\nChoose two ability boosts. One must be to Constitution or Intelligence, and one is a free ability boost.\n\nYou're trained in your choice of either the Nature or Occultism skill, as well as a Lore skill related to the terrain you lived in as a hermit (such as Cave Lore or Desert Lore). You gain the Dubious Knowledge skill feat."
             },
             {
-                "name":"Hermit (Occultism)",
-                "subType":"Occultism",
-                "superType":"Hermit",
-                "featChoices":[
+                "_className": "Background",
+                "abilityChoices": [
                     {
-                                "feats":[
-                            {"name":"Dubious Knowledge", "source":"Background", "locked":true, "sourceId":"1-Feat-Background-0"}
+                        "_className": "AbilityChoice",
+                        "available": 1,
+                        "filter": [
+                            "Constitution",
+                            "Intelligence"
                         ],
-                                                "source":"Background",
-                        "id":"1-Feat-Background-0"
-                    }
-                ],
-                "abilityChoices":[
-                    {
-                        "available":1,
-                                "filter":["Constitution", "Intelligence"],
-                                "source":"Background",
-                        "id":"1-Ability-Background-0"
+                        "id": "1-Ability-Background-0",
+                        "source": "Background"
                     },
                     {
-                        "available":1,
-                                        "baseValuesLost":1,
-                        "source":"Background",
-                        "id":"1-Ability-Background-1"
+                        "_className": "AbilityChoice",
+                        "available": 1,
+                        "baseValuesLost": 1,
+                        "id": "1-Ability-Background-1",
+                        "source": "Background"
                     }
                 ],
-                "skillChoices":[
+                "featChoices": [
                     {
-                                "increases":[
-                            { "name":"Occultism", "source":"Background", "maxRank":2, "locked":true, "sourceId":"1-Skill-Background-0" }
+                        "_className": "FeatChoice",
+                        "feats": [
+                            {
+                                "name": "Dubious Knowledge",
+                                "source": "Background",
+                                "locked": true,
+                                "sourceId": "1-Feat-Background-0"
+                            }
                         ],
-                                "type":"Skill",
-                        "maxRank":2,
-                        "source":"Background",
-                        "id":"1-Skill-Background-0"
+                        "id": "1-Feat-Background-0",
+                        "source": "Background"
                     }
                 ],
-                "loreChoices":[
+                "loreChoices": [
                     {
-                        "available":1,
-                                "maxRank":2,
-                                "loreDesc":"A Lore skill related to the terrain you lived in as a hermit (such as Cave Lore or Desert Lore).",
-                        "source":"Background",
-                        "id":"1-Lore-Background-0"
+                        "_className": "LoreChoice",
+                        "available": 1,
+                        "id": "1-Lore-Background-0",
+                        "maxRank": 2,
+                        "source": "Background",
+                        "loreDesc": "A Lore skill related to the terrain you lived in as a hermit (such as Cave Lore or Desert Lore)."
                     }
                 ],
-                "desc":"In an isolated place—like a cave, remote oasis, or secluded mansion—you lived a life of solitude. Adventuring might represent your first foray out among other people in some time. This might be a welcome reprieve from solitude or an unwanted change, but in either case, you’re likely still rough around the edges.\n\nChoose two ability boosts. One must be to Constitution or Intelligence, and one is a free ability boost.\n\nYou're trained in your choice of either the Nature or Occultism skill, as well as a Lore skill related to the terrain you lived in as a hermit (such as Cave Lore or Desert Lore). You gain the Dubious Knowledge skill feat."
+                "name": "Hermit (Occultism)",
+                "skillChoices": [
+                    {
+                        "_className": "SkillChoice",
+                        "id": "1-Skill-Background-0",
+                        "increases": [
+                            {
+                                "name": "Occultism",
+                                "source": "Background",
+                                "maxRank": 2,
+                                "locked": true,
+                                "sourceId": "1-Skill-Background-0"
+                            }
+                        ],
+                        "maxRank": 2,
+                        "source": "Background",
+                        "type": "Skill"
+                    }
+                ],
+                "subType": "Occultism",
+                "superType": "Hermit",
+                "desc": "In an isolated place—like a cave, remote oasis, or secluded mansion—you lived a life of solitude. Adventuring might represent your first foray out among other people in some time. This might be a welcome reprieve from solitude or an unwanted change, but in either case, you’re likely still rough around the edges.\n\nChoose two ability boosts. One must be to Constitution or Intelligence, and one is a free ability boost.\n\nYou're trained in your choice of either the Nature or Occultism skill, as well as a Lore skill related to the terrain you lived in as a hermit (such as Cave Lore or Desert Lore). You gain the Dubious Knowledge skill feat."
             }
-        ]
+        ],
+        "desc": "In an isolated place—like a cave, remote oasis, or secluded mansion—you lived a life of solitude. Adventuring might represent your first foray out among other people in some time. This might be a welcome reprieve from solitude or an unwanted change, but in either case, you’re likely still rough around the edges.\n\nChoose two ability boosts. One must be to Constitution or Intelligence, and one is a free ability boost.\n\nYou're trained in your choice of either the Nature or Occultism skill, as well as a Lore skill related to the terrain you lived in as a hermit (such as Cave Lore or Desert Lore). You gain the Dubious Knowledge skill feat."
     },
     {
-        "name":"Martial Disciple",
-        "desc":"You dedicated yourself to intense training and rigorous study to become a great warrior. The school you attended might have been a traditionalist monastery, an elite military academy, or the local branch of a prestigious mercenary organization.\n\nChoose two ability boosts. One must be to Strength or Dexterity, and one is a free ability boost.\n\nYou're trained in your choice of either the Acrobatics or Athletics skill, as well as the Warfare Lore skill. You gain a skill feat: Cat Fall if you chose Acrobatics or Quick Jump if you chose Athletics.",
-        "subTypes":[
+        "_className": "Background",
+        "name": "Martial Disciple",
+        "subTypes": [
             {
-                "name":"Martial Disciple (Acrobatics)",
-                "superType":"Martial Disciple",
-                "subType":"Acrobatics",
-                "featChoices":[
+                "_className": "Background",
+                "abilityChoices": [
                     {
-                                "feats":[
-                            {"name":"Cat Fall", "source":"Background", "locked":true, "sourceId":"1-Feat-Background-0"}
+                        "_className": "AbilityChoice",
+                        "available": 1,
+                        "filter": [
+                            "Strength",
+                            "Dexterity"
                         ],
-                                                "source":"Background",
-                        "id":"1-Feat-Background-0"
-                    }
-                ],
-                "abilityChoices":[
-                    {
-                        "available":1,
-                                "filter":["Strength", "Dexterity"],
-                                "source":"Background",
-                        "id":"1-Ability-Background-0"
+                        "id": "1-Ability-Background-0",
+                        "source": "Background"
                     },
                     {
-                        "available":1,
-                                        "baseValuesLost":1,
-                        "source":"Background",
-                        "id":"1-Ability-Background-1"
+                        "_className": "AbilityChoice",
+                        "available": 1,
+                        "baseValuesLost": 1,
+                        "id": "1-Ability-Background-1",
+                        "source": "Background"
                     }
                 ],
-                "skillChoices":[
+                "featChoices": [
                     {
-                                "increases":[
-                            { "name":"Acrobatics", "source":"Background", "maxRank":2, "locked":true, "sourceId":"1-Skill-Background-0" }
+                        "_className": "FeatChoice",
+                        "feats": [
+                            {
+                                "name": "Cat Fall",
+                                "source": "Background",
+                                "locked": true,
+                                "sourceId": "1-Feat-Background-0"
+                            }
                         ],
-                                "type":"Skill",
-                        "maxRank":2,
-                        "source":"Background",
-                        "id":"1-Skill-Background-0"
+                        "id": "1-Feat-Background-0",
+                        "source": "Background"
                     }
                 ],
-                "loreChoices":[
+                "loreChoices": [
                     {
-                                        "maxRank":2,
-                        "loreName":"Warfare",
-                                "source":"Background",
-                        "id":"1-Lore-Background-0"
+                        "_className": "LoreChoice",
+                        "id": "1-Lore-Background-0",
+                        "maxRank": 2,
+                        "source": "Background",
+                        "loreName": "Warfare"
                     }
                 ],
-                "desc":"You dedicated yourself to intense training and rigorous study to become a great warrior. The school you attended might have been a traditionalist monastery, an elite military academy, or the local branch of a prestigious mercenary organization.\n\nChoose two ability boosts. One must be to Strength or Dexterity, and one is a free ability boost.\n\nYou're trained in your choice of either the Acrobatics or Athletics skill, as well as the Warfare Lore skill. You gain a skill feat: Cat Fall if you chose Acrobatics or Quick Jump if you chose Athletics."
+                "name": "Martial Disciple (Acrobatics)",
+                "skillChoices": [
+                    {
+                        "_className": "SkillChoice",
+                        "id": "1-Skill-Background-0",
+                        "increases": [
+                            {
+                                "name": "Acrobatics",
+                                "source": "Background",
+                                "maxRank": 2,
+                                "locked": true,
+                                "sourceId": "1-Skill-Background-0"
+                            }
+                        ],
+                        "maxRank": 2,
+                        "source": "Background",
+                        "type": "Skill"
+                    }
+                ],
+                "subType": "Acrobatics",
+                "superType": "Martial Disciple",
+                "desc": "You dedicated yourself to intense training and rigorous study to become a great warrior. The school you attended might have been a traditionalist monastery, an elite military academy, or the local branch of a prestigious mercenary organization.\n\nChoose two ability boosts. One must be to Strength or Dexterity, and one is a free ability boost.\n\nYou're trained in your choice of either the Acrobatics or Athletics skill, as well as the Warfare Lore skill. You gain a skill feat: Cat Fall if you chose Acrobatics or Quick Jump if you chose Athletics."
             },
             {
-                "name":"Martial Disciple (Athletics)",
-                "superType":"Martial Disciple",
-                "subType":"Athletics",
-                "featChoices":[
+                "_className": "Background",
+                "abilityChoices": [
                     {
-                                "feats":[
-                            {"name":"Quick Jump", "source":"Background", "locked":true, "sourceId":"1-Feat-Background-0"}
+                        "_className": "AbilityChoice",
+                        "available": 1,
+                        "filter": [
+                            "Strength",
+                            "Dexterity"
                         ],
-                                                "source":"Background",
-                        "id":"1-Feat-Background-0"
-                    }
-                ],
-                "abilityChoices":[
-                    {
-                        "available":1,
-                                "filter":["Strength", "Dexterity"],
-                                "source":"Background",
-                        "id":"1-Ability-Background-0"
+                        "id": "1-Ability-Background-0",
+                        "source": "Background"
                     },
                     {
-                        "available":1,
-                                        "baseValuesLost":1,
-                        "source":"Background",
-                        "id":"1-Ability-Background-1"
+                        "_className": "AbilityChoice",
+                        "available": 1,
+                        "baseValuesLost": 1,
+                        "id": "1-Ability-Background-1",
+                        "source": "Background"
                     }
                 ],
-                "skillChoices":[
+                "featChoices": [
                     {
-                                "increases":[
-                            { "name":"Athletics", "source":"Background", "maxRank":2, "locked":true, "sourceId":"1-Skill-Background-0" }
+                        "_className": "FeatChoice",
+                        "feats": [
+                            {
+                                "name": "Quick Jump",
+                                "source": "Background",
+                                "locked": true,
+                                "sourceId": "1-Feat-Background-0"
+                            }
                         ],
-                                "type":"Skill",
-                        "maxRank":2,
-                        "source":"Background",
-                        "id":"1-Skill-Background-0"
+                        "id": "1-Feat-Background-0",
+                        "source": "Background"
                     }
                 ],
-                "loreChoices":[
+                "loreChoices": [
                     {
-                                        "maxRank":2,
-                        "loreName":"Warfare",
-                                "source":"Background",
-                        "id":"1-Lore-Background-0"
+                        "_className": "LoreChoice",
+                        "id": "1-Lore-Background-0",
+                        "maxRank": 2,
+                        "source": "Background",
+                        "loreName": "Warfare"
                     }
                 ],
-                "desc":"You dedicated yourself to intense training and rigorous study to become a great warrior. The school you attended might have been a traditionalist monastery, an elite military academy, or the local branch of a prestigious mercenary organization.\n\nChoose two ability boosts. One must be to Strength or Dexterity, and one is a free ability boost.\n\nYou're trained in your choice of either the Acrobatics or Athletics skill, as well as the Warfare Lore skill. You gain a skill feat: Cat Fall if you chose Acrobatics or Quick Jump if you chose Athletics."
+                "name": "Martial Disciple (Athletics)",
+                "skillChoices": [
+                    {
+                        "_className": "SkillChoice",
+                        "id": "1-Skill-Background-0",
+                        "increases": [
+                            {
+                                "name": "Athletics",
+                                "source": "Background",
+                                "maxRank": 2,
+                                "locked": true,
+                                "sourceId": "1-Skill-Background-0"
+                            }
+                        ],
+                        "maxRank": 2,
+                        "source": "Background",
+                        "type": "Skill"
+                    }
+                ],
+                "subType": "Athletics",
+                "superType": "Martial Disciple",
+                "desc": "You dedicated yourself to intense training and rigorous study to become a great warrior. The school you attended might have been a traditionalist monastery, an elite military academy, or the local branch of a prestigious mercenary organization.\n\nChoose two ability boosts. One must be to Strength or Dexterity, and one is a free ability boost.\n\nYou're trained in your choice of either the Acrobatics or Athletics skill, as well as the Warfare Lore skill. You gain a skill feat: Cat Fall if you chose Acrobatics or Quick Jump if you chose Athletics."
             }
-        ]
+        ],
+        "desc": "You dedicated yourself to intense training and rigorous study to become a great warrior. The school you attended might have been a traditionalist monastery, an elite military academy, or the local branch of a prestigious mercenary organization.\n\nChoose two ability boosts. One must be to Strength or Dexterity, and one is a free ability boost.\n\nYou're trained in your choice of either the Acrobatics or Athletics skill, as well as the Warfare Lore skill. You gain a skill feat: Cat Fall if you chose Acrobatics or Quick Jump if you chose Athletics."
     }
 ]

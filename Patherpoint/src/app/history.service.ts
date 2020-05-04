@@ -32,7 +32,7 @@ export class HistoryService {
     get_Heritages(name: string = "", ancestryName: string = "") {
         if (!this.loading_Heritages) {
             return this.heritages.filter(heritage => (heritage.name == name || name == "" )
-             && (ancestryName == "" || this.get_Ancestries(ancestryName)[0].heritages.indexOf(heritage.name) > -1) );
+             && (ancestryName == "" || this.get_Ancestries(ancestryName)[0].heritages.includes(heritage.name)) );
         } else { return [new Heritage()] }
     }
 
@@ -89,6 +89,10 @@ export class HistoryService {
         if (this.loader_Ancestries) {
             this.ancestries = this.loader_Ancestries.map(ancestry => Object.assign(new Ancestry(), ancestry));
 
+            this.ancestries.forEach(ancestry => {
+                ancestry.reassign();
+            })
+
             this.loader_Ancestries = [];
         }
         if (this.loading_Ancestries) {this.loading_Ancestries = false;}
@@ -98,6 +102,10 @@ export class HistoryService {
         if (this.loader_Heritages) {
             this.heritages = this.loader_Heritages.map(heritage => Object.assign(new Heritage(), heritage));
 
+            this.heritages.forEach(heritage => {
+                heritage.reassign();
+            })
+
             this.loader_Heritages = [];
         }
         if (this.loading_Heritages) {this.loading_Heritages = false;}
@@ -106,6 +114,10 @@ export class HistoryService {
     finish_loading_Backgrounds() {
         if (this.loader_Backgrounds) {
             this.backgrounds = this.loader_Backgrounds.map(background => Object.assign(new Background(), background));
+
+            this.backgrounds.forEach(background => {
+                background.reassign();
+            })
 
             this.loader_Backgrounds = [];
         }
