@@ -2,7 +2,8 @@
     {
         "_className": "Bloodline",
         "bloodMagic": [
-            {
+            {  
+                "_className": "ConditionGain",
                 "name": "Elemental Blood Magic",
                 "source": "Elemental Blood Magic",
                 "duration": "10"
@@ -14,58 +15,71 @@
         ],
         "bloodlineSpells": [
             {
+                "_className": "SpellCast",
                 "level": 0,
-                "name": "elemental toss (Air)"
+                "name": "Elemental Toss (Air)"
             },
             {
+                "_className": "SpellCast",
                 "level": 1,
-                "name": "elemental motion"
+                "name": "Elemental Motion"
             },
             {
+                "_className": "SpellCast",
                 "level": 2,
-                "name": "elemental blast (Air)"
+                "name": "Elemental Blast (Air)"
             }
         ],
         "grantedSpells": [
             {
+                "_className": "SpellCast",
                 "level": 0,
-                "name": "produce flame (Air)"
+                "name": "Produce Flame (Air)"
             },
             {
+                "_className": "SpellCast",
                 "level": 1,
-                "name": "burning hands (Air)"
+                "name": "Burning Hands (Air)"
             },
             {
+                "_className": "SpellCast",
                 "level": 2,
-                "name": "resist energy"
+                "name": "Resist Energy"
             },
             {
+                "_className": "SpellCast",
                 "level": 3,
-                "name": "fireball (Air)"
+                "name": "Fireball (Air)"
             },
             {
+                "_className": "SpellCast",
                 "level": 4,
-                "name": "freedom of movement"
+                "name": "Freedom of Movement"
             },
             {
+                "_className": "SpellCast",
                 "level": 5,
-                "name": "elemental form"
+                "name": "Elemental Form"
             },
             {
+                "_className": "SpellCast",
                 "level": 6,
-                "name": "repulsion"
+                "name": "Repulsion"
             },
             {
+                "_className": "SpellCast",
                 "level": 7,
-                "name": "energy aegis"
+                "name": "Energy Aegis"
             },
             {
+                "_className": "SpellCast",
                 "level": 8,
-                "name": "prismatic wall"
+                "name": "Prismatic Wall"
             },
             {
+                "_className": "SpellCast",
                 "level": 9,
-                "name": "storm of vengeance"
+                "name": "Storm of Vengeance"
             }
         ],
         "name": "Elemental: Air",

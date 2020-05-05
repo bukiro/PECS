@@ -165,6 +165,9 @@
     <h4>Armored Skirt</h4>
     <app-item [item]=armoredSkirt></app-item>
 </div>
+<ng-container *ngFor="let choice of item.storedSpells">
+    <app-spellchoice [choice]="choice" [allowHeightened]="true" [level]="choice.level" [itemSpell]="true"></app-spellchoice>
+</ng-container>
 <ng-container *ngFor="let activity of item.activities">
     <h4>{{activity.name}}
         {{activity.get_Actions()}}{{(activity.activationType) ? " - " + activity.activationType : ""}}</h4>

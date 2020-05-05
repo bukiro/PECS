@@ -7,6 +7,7 @@ import { WeaponRune } from './WeaponRune';
 import { Specialization } from './Specialization';
 import { Character } from './Character';
 import { AnimalCompanion } from './AnimalCompanion';
+import { Familiar } from './Familiar';
 
 export class Weapon extends Equipment {
     public readonly _className: string = this.constructor.name;
@@ -46,7 +47,7 @@ export class Weapon extends Equipment {
     public ranged: number = 0;
     //How many actions to reload this ranged weapon?
     public reload: string = "";
-    get_RuneSource(creature: Character|AnimalCompanion, range: string) {
+    get_RuneSource(creature: Character|AnimalCompanion|Familiar, range: string) {
         //Under certain circumstances, other items' runes are applied when calculating attack bonus or damage.
         //[0] is the item whose fundamental runes will count, [1] is the item whose property runes will count, and [2] is the item that causes this change.
         let runeSource: (Weapon|WornItem)[] = [this, this];
@@ -73,7 +74,7 @@ export class Weapon extends Equipment {
         }
         return runeSource;
     }
-    get_Traits(creature: Character|AnimalCompanion) {
+    get_Traits(creature: Character|AnimalCompanion|Familiar) {
         if (this.prof == "Unarmed") {
             let traits = JSON.parse(JSON.stringify(this.traits));
             if (creature.type == "Character") {
@@ -89,7 +90,7 @@ export class Weapon extends Equipment {
             return this.traits;
         }
     }
-    profLevel(creature: Character|AnimalCompanion, characterService: CharacterService, runeSource: Weapon|WornItem, charLevel: number = characterService.get_Character().level) {
+    profLevel(creature: Character|AnimalCompanion|Familiar, characterService: CharacterService, runeSource: Weapon|WornItem, charLevel: number = characterService.get_Character().level) {
         if (characterService.still_loading()) { return 0; }
         let skillLevel: number = 0;
         let weaponIncreases = creature.get_SkillIncreases(characterService, 0, charLevel, this.name);
@@ -116,7 +117,7 @@ export class Weapon extends Equipment {
         }
         return bestSkillLevel;
     }
-    attack(creature: Character|AnimalCompanion, characterService: CharacterService, effectsService: EffectsService, range: string) {
+    attack(creature: Character|AnimalCompanion|Familiar, characterService: CharacterService, effectsService: EffectsService, range: string) {
     //Calculates the attack bonus for a melee or ranged attack with this weapon.
         let explain: string = "";
         let charLevel = characterService.get_Character().level;
@@ -224,7 +225,7 @@ export class Weapon extends Equipment {
         explain = explain.substr(1);
         return [range, attackResult, explain, penalty.concat(bonus), penalty, bonus];
     }
-    get_ExtraDamage(creature: Character|AnimalCompanion, characterService: CharacterService, range: string) {
+    get_ExtraDamage(creature: Character|AnimalCompanion|Familiar, characterService: CharacterService, range: string) {
         let extraDamage: string = "";
         if (this.extraDamage) {
             extraDamage += "\n"+this.extraDamage;
@@ -236,7 +237,7 @@ export class Weapon extends Equipment {
             });
         return extraDamage;
     }
-    damage(creature: Character|AnimalCompanion, characterService: CharacterService, effectsService: EffectsService, range: string) {
+    damage(creature: Character|AnimalCompanion|Familiar, characterService: CharacterService, effectsService: EffectsService, range: string) {
     //Lists the damage dice and damage bonuses for a ranged or melee attack with this weapon.
     //Returns a string in the form of "1d6 +5"
         let explain: string = "";
@@ -393,7 +394,7 @@ export class Weapon extends Equipment {
         explain = explain.substr(1);
         return [dmgResult, explain];
     }
-    get_CritSpecialization(creature: Character|AnimalCompanion, characterService: CharacterService) {
+    get_CritSpecialization(creature: Character|AnimalCompanion|Familiar, characterService: CharacterService) {
         let specializations: Specialization[] = [];
         if (creature.type == "Character") {
             let character = creature as Character;

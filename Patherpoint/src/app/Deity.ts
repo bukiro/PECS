@@ -1,3 +1,5 @@
+import { SpellCast } from './SpellCast';
+
 export class Deity {
     public name: string = "";
     public category: string = "";
@@ -11,5 +13,5 @@ export class Deity {
     public divineSkillFilter: string[] = [];
     public favoredWeapon: string[] = [];
     public domains: string[] = [];
-    public clericSpells: string[] = [];
+    public clericSpells: SpellCast[] = [];
 }

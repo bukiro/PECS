@@ -78,7 +78,7 @@
                 "castSpells": [
                     {
                         "_className": "SpellCast",
-                        "name": "feather Fall"
+                        "name": "Feather Fall"
                     }
                 ],
                 "desc": "When your companion falls, wind picks it up from below; it gains the effects of feather fall.",

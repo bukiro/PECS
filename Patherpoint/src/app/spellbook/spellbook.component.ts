@@ -1,7 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
 import { CharacterService } from '../character.service';
-import { EffectsService } from '../effects.service';
-import { Effect } from '../Effect';
 import { Spell } from '../Spell';
 import { TraitsService } from '../traits.service';
 import { SpellsService } from '../spells.service';
@@ -12,7 +10,8 @@ import { TimeService } from '../time.service';
 @Component({
     selector: 'app-spellbook',
     templateUrl: './spellbook.component.html',
-    styleUrls: ['./spellbook.component.css']
+    styleUrls: ['./spellbook.component.css'],
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class SpellbookComponent implements OnInit {
 
@@ -22,6 +21,7 @@ export class SpellbookComponent implements OnInit {
     public Math = Math;
 
     constructor(
+        private changeDetector: ChangeDetectorRef,
         public characterService: CharacterService,
         private traitsService: TraitsService,
         private spellsService: SpellsService,
@@ -172,7 +172,20 @@ export class SpellbookComponent implements OnInit {
         this.characterService.set_Changed();
     }
 
+    finish_Loading() {
+        if (this.still_loading()) {
+            setTimeout(() => this.finish_Loading(), 500)
+        } else {
+            this.characterService.get_Changed()
+            .subscribe(() => 
+            this.changeDetector.detectChanges()
+                )
+            return true;
+        }
+    }
+
     ngOnInit() {
+        this.finish_Loading();
     }
 
 }

@@ -16,7 +16,7 @@
                 <div class="list-item sublist lower"
                    
                     [className]="(gain.active) ? 'fancy-list' : ''" *ngIf="get_showAction()==activityID">
-                    <app-activity [creature]="creature" [activity]=activity [gain]=gain [allowActivate]=true></app-activity>
+                    <app-activity [creature]="creature" [activity]=activity [gain]=gain [allowActivate]="true"></app-activity>
                 </div>
             </div>
         </ng-container>

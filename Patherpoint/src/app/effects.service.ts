@@ -7,6 +7,7 @@ import { EffectGain } from './EffectGain';
 import { Character } from './Character';
 import { Speed } from './Speed';
 import { AnimalCompanion } from './AnimalCompanion';
+import { Familiar } from './Familiar';
 import { AbilitiesService } from './abilities.service';
 
 @Injectable({
@@ -27,19 +28,19 @@ constructor(
         return this.effects;
     }
 
-    get_EffectsOnThis(creature: Character|AnimalCompanion, ObjectName: string, ) {
+    get_EffectsOnThis(creature: Character|AnimalCompanion|Familiar, ObjectName: string, ) {
         return this.effects.all.filter(effect => effect.creature == creature.id && effect.target == ObjectName && effect.apply);
     }
 
-    get_BonusesOnThis(creature: Character|AnimalCompanion, ObjectName: string) {
+    get_BonusesOnThis(creature: Character|AnimalCompanion|Familiar, ObjectName: string) {
         return this.effects.bonuses.filter(effect => effect.creature == creature.id && effect.target == ObjectName && effect.apply);
     }
 
-    get_PenaltiesOnThis(creature: Character|AnimalCompanion, ObjectName: string) {
+    get_PenaltiesOnThis(creature: Character|AnimalCompanion|Familiar, ObjectName: string) {
         return this.effects.penalties.filter(effect => effect.creature == creature.id && effect.target == ObjectName && effect.apply);
     }
 
-    get_SimpleEffects(creature: Character|AnimalCompanion, characterService: CharacterService, object: any) {
+    get_SimpleEffects(creature: Character|AnimalCompanion|Familiar, characterService: CharacterService, object: any) {
         //If an item has a simple instruction in effects, such as "Strength", "+2", turn it into an effect,
         // then mark the effect as a penalty if the change is negative (except for Bulk).
         //Try to get the type, too - if no type is given, set it to untyped.

@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { Deity } from './Deity';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { SpellCast } from './SpellCast';
 
 @Injectable({
     providedIn: 'root'
@@ -45,6 +46,11 @@ export class DeitiesService {
         if (this.loader) {
             this.deities = this.loader.map(deity => Object.assign(new Deity(), deity));
             
+            //don't call reassign() because cleric spells are really the only thing we need to assign.
+            this.deities.forEach(deity => {
+                deity.clericSpells = deity.clericSpells.map(spell => Object.assign(new SpellCast(), spell));
+            })
+
             this.loader = [];
         }
         if (this.loading) {this.loading = false;}

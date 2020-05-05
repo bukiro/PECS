@@ -2,22 +2,23 @@ import { CharacterService } from './character.service';
 import { EffectsService } from './effects.service';
 import { Character } from './Character';
 import { AnimalCompanion } from './AnimalCompanion';
+import { Familiar } from './Familiar';
 
 export class Speed {
     public readonly _className = this.constructor.name;
     constructor (
         public name: string = ""
     ) {};
-    effects(creature: Character|AnimalCompanion, effectsService: EffectsService) {
+    effects(creature: Character|AnimalCompanion|Familiar, effectsService: EffectsService) {
         return effectsService.get_EffectsOnThis(creature, this.name);
     }
-    bonus(creature: Character|AnimalCompanion, effectsService: EffectsService) {
+    bonus(creature: Character|AnimalCompanion|Familiar, effectsService: EffectsService) {
         return effectsService.get_BonusesOnThis(creature, this.name).concat(effectsService.get_BonusesOnThis(creature, "Speed"));
     }
-    penalty(creature: Character|AnimalCompanion, effectsService: EffectsService) {
+    penalty(creature: Character|AnimalCompanion|Familiar, effectsService: EffectsService) {
         return effectsService.get_PenaltiesOnThis(creature, this.name).concat(effectsService.get_PenaltiesOnThis(creature, "Speed"));
     }
-    baseValue(creature: Character|AnimalCompanion, characterService: CharacterService, effectsService: EffectsService) {
+    baseValue(creature: Character|AnimalCompanion|Familiar, characterService: CharacterService, effectsService: EffectsService) {
     //Gets the basic speed and adds all effects
         if (characterService.still_loading()) { return 0; }
         let sum = 0;
@@ -56,7 +57,7 @@ export class Speed {
         explain = explain.substr(1);
         return [sum, explain];
     }
-    value(creature: Character|AnimalCompanion, characterService: CharacterService, effectsService: EffectsService): [number, string] {
+    value(creature: Character|AnimalCompanion|Familiar, characterService: CharacterService, effectsService: EffectsService): [number, string] {
         //If there is a general speed penalty (or bonus), it applies to all speeds. We apply it to the base speed here so we can still
         // copy the base speed for effects (e.g. "You gain a climb speed equal to your land speed") and not apply the general penalty twice.
         let sum = this.baseValue(creature, characterService, effectsService)[0];

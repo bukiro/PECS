@@ -1031,5 +1031,54 @@
                 "desc": "The fire damage increases by 2d6, and the good damage against fiends and undead increases by 2d6."
             }
         ]
+    },
+    {
+        "name": "Sleep",
+        "traditions": [
+            "Arcane",
+            "Occult"
+        ],
+        "traits": [
+            "Enchantment",
+            "Incapacitation",
+            "Mental",
+            "Sleep"
+        ],
+        "levelreq": 1,
+        "range":"30 feet",
+        "actions": "2",
+        "castType": "somatic, verbal",
+        "shortDesc": "Cause creatures in a small area to fall asleep.",
+        "desc": "Each creature in the area becomes drowsy and might fall asleep. A creature that falls unconscious from this spell doesn't fall prone or release what it's holding. This spell doesn't prevent creatures from waking up due to a successful Perception check, limiting its utility in combat.",
+        "desc1": [
+            {
+                "variable": "var1",
+                "value": "The creature falls unconscious. If it's still unconscious after 1 minute, it wakes up automatically."
+            },
+            {
+                "variable": "var2",
+                "value": "The creature falls unconscious. If it's still unconscious after 1 hour, it wakes up automatically."
+            }
+        ],
+        "desc4": [
+            {
+                "variable": "var1",
+                "value": "The creatures falls unconscious for 1 round. It falls prone and releases what it's holding, and it can't attempt Perception checks to wake up. When the duration ends, the creature is sleeping normally instead of automatically waking up."
+            },
+            {
+                "variable": "var2",
+                "value": "The creatures falls unconscious for 1 minute. It falls prone and releases what it's holding, and it can't attempt Perception checks to wake up. When the duration ends, the creature is sleeping normally instead of automatically waking up."
+            }
+        ],
+        "critsuccess": "The creature is unaffected.",
+        "success": "The creature takes a –1 status penalty to Perception checks for 1 round.",
+        "failure": "<var>var1</var>",
+        "critfailure": "<var>var2</var>",
+        "heightened": [
+            {
+                "level": "(4th)",
+                "desc": "The creatures fall unconscious for 1 round on a failure or 1 minute on a critical failure. They fall prone and release what they're holding, and they can't attempt Perception checks to wake up. When the duration ends, the creature is sleeping normally instead of automatically waking up."
+            }
+        ]
     }
 ]

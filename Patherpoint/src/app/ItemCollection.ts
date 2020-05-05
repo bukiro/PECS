@@ -15,10 +15,12 @@ import { Potion } from './Potion';
 import { OtherItem } from './OtherItem';
 import { ItemsService } from './items.service';
 import { Item } from './Item';
+import { Ammunition } from './Ammunition';
 
 export class ItemCollection {
     public readonly _className: string = this.constructor.name;
     public adventuringgear: AdventuringGear[] = [];
+    public ammunition: Ammunition[] = [];
     public alchemicalelixirs: AlchemicalElixir[] = [];
     public armorrunes: ArmorRune[] = [];
     public armors: Armor[] = [];
@@ -36,6 +38,7 @@ export class ItemCollection {
         {name:"Shields",key:"shields"},
         {name:"Adventuring Gear",key:"adventuringgear"},
         {name:"Alchemical Elixirs",key:"alchemicalelixirs"},
+        {name:"Ammunition",key:"ammunition"},
         {name:"Armor Runes",key:"armorrunes"},
         {name:"Held Items",key:"helditems"},
         {name:"Other Consumables",key:"otherconsumables"},
@@ -68,6 +71,7 @@ export class ItemCollection {
         items.push(...this.alchemicalelixirs);
         items.push(...this.potions);
         items.push(...this.otherconsumables);
+        items.push(...this.ammunition);
         return items;
     }
     allRunes() {

@@ -20,6 +20,7 @@ import { ActivityGain } from '../ActivityGain';
 import { ItemActivity } from '../ItemActivity';
 import { ItemProperty } from '../ItemProperty';
 import { Potion } from '../Potion';
+import { Ammunition } from '../Ammunition';
 
 @Component({
     selector: 'app-items',
@@ -224,6 +225,9 @@ export class ItemsComponent implements OnInit {
                 break;
             case "adventuringgear":
                 this.newItem = new AdventuringGear();
+                break;
+            case "ammunition":
+                this.newItem = new Ammunition();
                 break;
             default:
                 this.newItem = null;

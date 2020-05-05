@@ -17,6 +17,6 @@ export class Ancestry {
     public speed: number = 0;
     public traits: string[] = [];
     reassign() {
-        this.abilityChoices = this.abilityChoices.map(choice => Object.assign(new AbilityChoice(), JSON.parse(JSON.stringify(choice))));
+        //this.abilityChoices = this.abilityChoices.map(choice => Object.assign(new AbilityChoice(), JSON.parse(JSON.stringify(choice))));
     }
 }

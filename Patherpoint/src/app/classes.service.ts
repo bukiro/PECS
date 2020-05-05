@@ -3,6 +3,8 @@ import { Class } from './Class';
 import { Level } from './Level';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { CharacterService } from './character.service';
+import { SavegameService } from './savegame.service';
 
 @Injectable({
     providedIn: 'root'
@@ -15,6 +17,7 @@ export class ClassesService {
     
     constructor(
         private http: HttpClient,
+        private savegameService: SavegameService
     ) { }
 
     get_Classes(name: string = "") {
@@ -46,8 +49,9 @@ export class ClassesService {
         if (this.loader) {
             this.classes = this.loader.map($class => Object.assign(new Class(), $class));
             this.classes.forEach($class => {
-                $class.levels = $class.levels.map(level => Object.assign(new Level(), level));
-                $class.reassign();
+                $class = this.savegameService.reassign($class)
+                /*$class.levels = $class.levels.map(level => Object.assign(new Level(), level));
+                $class.reassign();*/
             });
   
             this.loader = [];

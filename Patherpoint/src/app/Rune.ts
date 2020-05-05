@@ -5,7 +5,6 @@ import { LoreChoice } from './LoreChoice';
 export class Rune extends Item {
     public _className;
     public activities: ItemActivity[] = [];
-    public craftRequirement: string = "";
     public desc: string = "";
     public hint: string = "";
     //One rune trains a lore skill while equipped.

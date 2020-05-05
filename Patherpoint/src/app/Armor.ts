@@ -2,6 +2,7 @@ import { CharacterService } from './character.service';
 import { EffectsService } from './effects.service';
 import { Equipment } from './Equipment';
 import { AnimalCompanion } from './AnimalCompanion';
+import { Familiar } from './Familiar';
 import { Character } from './Character';
 
 export class Armor extends Equipment {
@@ -30,7 +31,7 @@ export class Armor extends Equipment {
     public speedpenalty: number = 0;
     //The strength requirement (strength, not STR) to overcome skill and speed penalties
     private strength: number = 0;
-    get_ArmoredSkirt(creature: Character|AnimalCompanion, characterService: CharacterService) {
+    get_ArmoredSkirt(creature: Character|AnimalCompanion|Familiar, characterService: CharacterService) {
         if (["Breastplate","Chain Shirt","Chain Mail","Scale Mail"].includes(this.name) ) {
             let armoredSkirt = characterService.get_InventoryItems(creature).adventuringgear.filter(item => item.isArmoredSkirt && item.equipped);
             if (armoredSkirt.length) {
@@ -94,7 +95,7 @@ export class Armor extends Equipment {
             return this.traits;
         }
     }
-    profLevel(creature: Character|AnimalCompanion, characterService: CharacterService, charLevel: number = characterService.get_Character().level) {
+    profLevel(creature: Character|AnimalCompanion|Familiar, characterService: CharacterService, charLevel: number = characterService.get_Character().level) {
         if (characterService.still_loading()) { return 0; }
         this.get_ArmoredSkirt(creature, characterService);
         let skillLevel: number = 0;
@@ -104,7 +105,7 @@ export class Armor extends Equipment {
         skillLevel = Math.min(Math.max(armorIncreases.length * 2, profIncreases.length * 2), 8)
         return skillLevel;
     }
-    armorBonus(creature: Character|AnimalCompanion, characterService: CharacterService, effectsService: EffectsService) {
+    armorBonus(creature: Character|AnimalCompanion|Familiar, characterService: CharacterService, effectsService: EffectsService) {
     //Calculates the full AC bonus when wearing this armor
     //We assume that only one armor is worn at a time
         let explain: string = "AC Basis: 10";

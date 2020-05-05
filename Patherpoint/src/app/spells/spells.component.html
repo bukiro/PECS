@@ -15,10 +15,10 @@
                 <!--Fixed information-->
                 <div class="fullsize-only list-item fancy-button">
                     <button class="row sublist-toggle fancy-button"
-                        (click)="toggle_List('showFixedChanges'+level)">
+                        (click)="toggle_Choice('showFixedChanges'+level)">
                         Show fixed changes
                     </button>
-                    <div class="list-item sublist fancy-list" *ngIf="get_ShowList()=='showFixedChanges'+level">
+                    <div class="list-item sublist fancy-list" *ngIf="get_ShowChoice()=='showFixedChanges'+level">
                         <!--Fixed Spells gained-->
                         <div class="list-item"
                             *ngFor="let spellGain of get_SpellsTaken(1, get_Character().level, level, '', '', '', true)">
@@ -28,45 +28,7 @@
                 </div>
                 <!--Spell choices-->
                 <ng-container *ngFor="let choice of get_SpellChoices(level)">
-                    <div class="list-item" *ngIf="choice.available"
-                        [className]="((choice.spells.length > choice.available || cannotTakeSome(choice)) ? 'problem' : '') +' '+ ((choice.available == choice.spells.length) ? 'fullsize-only' : '')">
-                        <button class="row sublist-toggle"
-                        
-                            [className]="(choice.available == choice.spells.length) ? 'fancy-button' : ''"
-                            (click)="toggle_List(choice.source+choice.id)">
-                            {{choice.signature ? "Signature" : ""}} {{get_Tradition(choice)}} {{choice.className}} Spells
-                            ({{choice.source}}){{(choice.available > 1) ?
-                                ": "+ choice.spells.length +"/"+ choice.available : 
-                                (choice.spells.length) ? ": "+ choice.spells[0].name : ""}}
-                        </button>
-                        <div class="list-item sublist"
-                        
-                            [className]="(choice.available == choice.spells.length ) ? 'fancy-list' : ''"
-                            *ngIf="get_ShowList()==choice.source+choice.id">
-                            <div title="{{(this.get_ShowItem()==choice.id+spell.name+'desc') ? '' : spell.shortDesc}}"
-                                class="list-item" *ngFor="let spell of get_AvailableSpells(choice)">
-                                <span>
-                                    <input id="{{choice.id+spell.name}}" type="checkbox"
-                                        (change)="on_SpellTaken(spell.name, $event.target.checked, choice, false)"
-                                        [checked]="spellTakenByThis(spell, choice)"
-                                        [disabled]="cannotTake(spell, choice).length && !spellTakenByThis(spell, choice)">
-                                    <label for="{{choice.id+spell.name}}">
-                                        <strong>{{spell.name}}&nbsp;</strong><cite>Level {{spell.levelreq}}</cite>
-                                    </label>
-                                </span>
-                                <cite class="problem" *ngFor="let reason of cannotTake(spell, choice)">
-                                    {{reason}}
-                                </cite>
-                                <button
-                                    (click)="toggle_Item(choice.id+spell.name+'desc')">
-                                    Show Description
-                                </button>
-                                <div class="row left-aligned" *ngIf="this.get_ShowItem()==choice.id+spell.name+'desc'">
-                                    <app-spell [spell]="spell" [spellLevel]="level"></app-spell>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                    <app-spellchoice (showChoiceMessage)="receive_ChoiceMessage($event)" (showSpellMessage)="receive_SpellMessage($event)" [choice]="choice" [allowHeightened]="allowHeightened" [showChoice]="showChoice" [showSpell]="showSpell" [level]="level"></app-spellchoice>
                 </ng-container>
             </ng-container>
         </ng-container>

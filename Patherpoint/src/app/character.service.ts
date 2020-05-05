@@ -41,6 +41,7 @@ import { DeitiesService } from './deities.service';
 import { Deity } from './Deity';
 import { AnimalCompanionsService } from './animalcompanions.service';
 import { AnimalCompanion } from './AnimalCompanion';
+import { Familiar } from './Familiar';
 import { BloodlinesService } from './bloodlines.service';
 import { Bloodline } from './Bloodline';
 import { SavegameService } from './savegame.service';
@@ -195,7 +196,7 @@ export class CharacterService {
 
     get_Creatures() {
         if (!this.still_loading()) {
-            return ([] as (Character|AnimalCompanion)[]).concat(this.get_Character()).concat(this.get_Companion());
+            return ([] as (Character|AnimalCompanion|Familiar)[]).concat(this.get_Character()).concat(this.get_Companion());
         } else { return [new Character()] }
     }
 
@@ -252,7 +253,7 @@ export class CharacterService {
         return this.deitiesService.get_Deities(name);
     }
 
-    get_Speeds(creature: Character|AnimalCompanion, name: string = "") {
+    get_Speeds(creature: Character|AnimalCompanion|Familiar, name: string = "") {
         return creature.speeds.filter(speed => speed.name == name || name == "");
     }
 
@@ -276,7 +277,8 @@ export class CharacterService {
         this.me.class = new Class();
         this.me.class = Object.assign(new Class(), JSON.parse(JSON.stringify($class)));
         this.me.class = this.reassign(this.me.class);
-        this.me.class.reassign();
+        //this.me.class.reassign();
+
         //Some feats get specially processed when taken.
         //We have to explicitly take these feats to process them.
         //So we remove them and then "take" them again.
@@ -301,6 +303,7 @@ export class CharacterService {
         this.me.class.on_ChangeAncestry(this);
         this.me.class.ancestry = new Ancestry();
         this.me.class.ancestry = Object.assign(new Ancestry(), JSON.parse(JSON.stringify(ancestry)))
+        this.me.class.ancestry = this.reassign(this.me.class.ancestry);
         this.me.class.on_NewAncestry(this, itemsService);
         this.set_Changed();
     }
@@ -316,6 +319,7 @@ export class CharacterService {
         this.me.class.on_ChangeBloodline(this);
         this.me.class.bloodline = new Bloodline();
         this.me.class.bloodline = Object.assign(new Bloodline(), JSON.parse(JSON.stringify(bloodline)))
+        this.me.class.bloodline = this.reassign(this.me.class.bloodline);
         this.me.class.on_NewBloodline(this);
         this.set_Changed();
     }
@@ -324,6 +328,7 @@ export class CharacterService {
         this.me.class.on_ChangeHeritage(this);
         this.me.class.heritage = new Heritage();
         this.me.class.heritage = Object.assign(new Heritage(), JSON.parse(JSON.stringify(heritage)))
+        this.me.class.heritage = this.reassign(this.me.class.heritage);
         this.me.class.on_NewHeritage(this);
         this.set_Changed();
     }
@@ -332,6 +337,7 @@ export class CharacterService {
         this.me.class.on_ChangeBackground(this);
         this.me.class.background = new Background();
         this.me.class.background = Object.assign(new Background(), JSON.parse(JSON.stringify(background)));
+        this.me.class.background = this.reassign(this.me.class.background);
         this.me.class.on_NewBackground(this);
         this.set_Changed();
     }
@@ -340,7 +346,7 @@ export class CharacterService {
         return this.itemsService.get_Items();
     }
 
-    get_InventoryItems(creature: Character|AnimalCompanion) {
+    get_InventoryItems(creature: Character|AnimalCompanion|Familiar) {
         if (!this.still_loading()) {
             return creature.inventory;
         } else { return new ItemCollection() }
@@ -350,7 +356,7 @@ export class CharacterService {
         return this.itemsService.get_Specializations(group);
     }
 
-    get_InvestedItems(creature: Character|AnimalCompanion) {
+    get_InvestedItems(creature: Character|AnimalCompanion|Familiar) {
         return creature.inventory.allEquipment().filter(item => item.invested)
     }
 
@@ -386,7 +392,7 @@ export class CharacterService {
         }
     }
 
-    grant_InventoryItem(creature: Character|AnimalCompanion, item: Item, resetRunes: boolean = true, changeAfter: boolean = true, equipAfter: boolean = true, amount: number = 1) {
+    grant_InventoryItem(creature: Character|AnimalCompanion|Familiar, item: Item, resetRunes: boolean = true, changeAfter: boolean = true, equipAfter: boolean = true, amount: number = 1) {
         let newInventoryItem = this.itemsService.initialize_Item(item);
         //Assign the library's item id as the new item's refId. This allows us to read the default information from the library later.
         newInventoryItem.refId = item.id;
@@ -467,7 +473,7 @@ export class CharacterService {
         return returnedInventoryItem;
     }
 
-    drop_InventoryItem(creature: Character|AnimalCompanion, item: Item, changeAfter: boolean = true, equipBasicItems: boolean = true, including: boolean = true, amount: number = 1) {
+    drop_InventoryItem(creature: Character|AnimalCompanion|Familiar, item: Item, changeAfter: boolean = true, equipBasicItems: boolean = true, including: boolean = true, amount: number = 1) {
         if (amount < item.amount) {
             item.amount -= amount;
         } else {
@@ -605,7 +611,7 @@ export class CharacterService {
         this.change_Cash(1, sum);
     }
 
-    onEquip(creature: Character|AnimalCompanion, item: Equipment, equipped: boolean = true, changeAfter: boolean = true, equipBasicItems: boolean = true) {
+    onEquip(creature: Character|AnimalCompanion|Familiar, item: Equipment, equipped: boolean = true, changeAfter: boolean = true, equipBasicItems: boolean = true) {
         if ((creature.type == "Character" && !item.traits.includes("Companion")) || (creature.type == "Companion" && item.traits.includes("Companion")) || item.name == "Unarmored") {
             item.equipped = equipped;
             if (item.equipped) {
@@ -680,7 +686,7 @@ export class CharacterService {
         }
     }
 
-    onInvest(creature: Character|AnimalCompanion, item: Equipment, invested: boolean = true, changeAfter: boolean = true) {
+    onInvest(creature: Character|AnimalCompanion|Familiar, item: Equipment, invested: boolean = true, changeAfter: boolean = true) {
         item.invested = invested;
         if (item.invested) {
             if (!item.equipped) {
@@ -696,7 +702,7 @@ export class CharacterService {
         }
     }
 
-    on_ConsumableUse(creature: Character|AnimalCompanion, item: Consumable) {
+    on_ConsumableUse(creature: Character|AnimalCompanion|Familiar, item: Consumable) {
         item.amount--
         this.itemsService.process_Consumable(creature, this, item);
         this.set_Changed();
@@ -720,7 +726,7 @@ export class CharacterService {
         }
     }
 
-    equip_BasicItems(creature: Character|AnimalCompanion, changeAfter: boolean = true) {
+    equip_BasicItems(creature: Character|AnimalCompanion|Familiar, changeAfter: boolean = true) {
         if (!this.still_loading() && this.basicItems.length) {
             if (!creature.inventory.weapons.length && creature.type == "Character") {
                 this.grant_InventoryItem(creature, this.basicItems[0], true, false, false);
@@ -764,7 +770,7 @@ export class CharacterService {
         return this.conditionsService.get_Conditions(name, type);
     }
 
-    get_AppliedConditions(creature: Character|AnimalCompanion, name: string = "", source: string = "") {
+    get_AppliedConditions(creature: Character|AnimalCompanion|Familiar, name: string = "", source: string = "") {
         //Returns ConditionGain[] with apply=true/false for each
         return this.conditionsService.get_AppliedConditions(creature, this, creature.conditions).filter(condition =>
             (condition.name == name || name == "") &&
@@ -772,7 +778,7 @@ export class CharacterService {
         );
     }
 
-    add_Condition(creature: Character|AnimalCompanion, conditionGain: ConditionGain, reload: boolean = true) {
+    add_Condition(creature: Character|AnimalCompanion|Familiar, conditionGain: ConditionGain, reload: boolean = true) {
         let originalCondition = this.get_Conditions(conditionGain.name)[0];
         //Select boxes turn numbers into strings. We have to turn them back into numbers, but we can't parseInt a number (which Typescript believes this still is)
         //So we turn it into a JSON string and back into a number.
@@ -806,7 +812,7 @@ export class CharacterService {
         }
     }
 
-    remove_Condition(creature: Character|AnimalCompanion, conditionGain: ConditionGain, reload: boolean = true, increaseWounded: boolean = true) {
+    remove_Condition(creature: Character|AnimalCompanion|Familiar, conditionGain: ConditionGain, reload: boolean = true, increaseWounded: boolean = true) {
         let oldConditionGain = creature.conditions.filter($condition => $condition.name == conditionGain.name && $condition.value == conditionGain.value && $condition.source == conditionGain.source);
         let originalCondition = this.get_Conditions(conditionGain.name)[0];
         if (oldConditionGain.length) {
@@ -821,7 +827,7 @@ export class CharacterService {
         }
     }
 
-    process_OnceEffect(creature: Character|AnimalCompanion, effect: EffectGain) {
+    process_OnceEffect(creature: Character|AnimalCompanion|Familiar, effect: EffectGain) {
         let value = 0;
         //Prepare values that can be used in an eval. Add to this list as needed.
         let currentHP = creature.health.currentHP(creature, this, this.effectsService);
@@ -868,7 +874,7 @@ export class CharacterService {
         return this.abilitiesService.get_Abilities(name)
     }
 
-    get_Skills(creature: Character|AnimalCompanion, name: string = "", type: string = "") {
+    get_Skills(creature: Character|AnimalCompanion|Familiar, name: string = "", type: string = "") {
         return this.skillsService.get_Skills(creature.customSkills, name, type)
     }
 
@@ -884,7 +890,7 @@ export class CharacterService {
         return this.featsService.get_All(this.me.customFeats, name, type);
     }
 
-    get_Health(creature: Character|AnimalCompanion) {
+    get_Health(creature: Character|AnimalCompanion|Familiar) {
         return creature.health;
     }
 
@@ -930,7 +936,7 @@ export class CharacterService {
         return returnedObjects;
     }
 
-    get_ConditionsShowingOn(creature: Character|AnimalCompanion, objectName: string) {
+    get_ConditionsShowingOn(creature: Character|AnimalCompanion|Familiar, objectName: string) {
         let conditions = this.get_AppliedConditions(creature).filter(condition => condition.apply);
         if (objectName.includes("Lore")) {
             objectName = "Lore";
@@ -949,7 +955,7 @@ export class CharacterService {
         return returnedConditions;
     }
 
-    get_OwnedActivities(creature: Character|AnimalCompanion, levelNumber: number = creature.level) {
+    get_OwnedActivities(creature: Character|AnimalCompanion|Familiar, levelNumber: number = creature.level) {
         let activities: (ActivityGain | ItemActivity)[] = []
         if (!this.still_loading()) {
             if (creature.type == "Character") {
@@ -975,7 +981,7 @@ export class CharacterService {
         return activities;
     }
 
-    get_ActivitiesShowingOn(creature: Character|AnimalCompanion, objectName: string) {
+    get_ActivitiesShowingOn(creature: Character|AnimalCompanion|Familiar, objectName: string) {
         let activityGains = this.get_OwnedActivities(creature).filter(gain => gain.active);
         let returnedActivities: Activity[] = [];
         activityGains.forEach(gain => {
@@ -990,7 +996,7 @@ export class CharacterService {
         return returnedActivities;
     }
 
-    get_ItemsShowingOn(creature: Character|AnimalCompanion, objectName: string) {
+    get_ItemsShowingOn(creature: Character|AnimalCompanion|Familiar, objectName: string) {
         let returnedItems: Item[] = [];
         creature.inventory.allEquipment().forEach(item => {
             item.showon.split(",").forEach(showon => {
@@ -1032,6 +1038,7 @@ export class CharacterService {
     }
 
     initialize(charName: string) {
+        this.set_Changed();
         this.loading = true;
         this.traitsService.initialize();
         this.featsService.initialize();
@@ -1083,7 +1090,7 @@ export class CharacterService {
             if (this.loading) { this.loading = false; }
             this.grant_BasicItems();
             this.characterChanged$ = this.changed.asObservable();
-            this.set_Changed();
+            //this.set_Changed();
             this.trigger_FinalChange();
         }
     }

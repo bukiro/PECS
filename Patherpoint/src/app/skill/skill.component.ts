@@ -74,7 +74,7 @@ export class SkillComponent implements OnInit {
 
     finish_Loading() {
         if (this.still_loading()) {
-            setTimeout(() => this.finish_Loading(), 500)
+           setTimeout(() => this.finish_Loading(), 500)
         } else {
             this.characterService.get_Changed()
             .subscribe(() => 

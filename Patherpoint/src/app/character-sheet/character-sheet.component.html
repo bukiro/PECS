@@ -1,11 +1,11 @@
-<app-time id="time" class="charactersheet-app" [ngStyle]="{'--accent':get_Accent()}" [className]="(get_TimeMinimized()) ? 'minimized' : ''"></app-time>
-<app-general id="Character-general" class="charactersheet-app" [ngStyle]="{'--accent':get_Accent()}" [className]="(get_GeneralMinimized()) ? 'minimized' : ''"></app-general>
-<app-effects id="Character-effects" class="charactersheet-app" [ngStyle]="{'--accent':get_Accent()}" [className]="(get_EffectsMinimized()) ? 'minimized' : ''"></app-effects>
-<app-abilities id="Character-abilities" class="charactersheet-app" [ngStyle]="{'--accent':get_Accent()}" [className]="(get_AbilitiesMinimized()) ? 'minimized' : ''"></app-abilities>
-<app-health id="Character-health" class="charactersheet-app" [ngStyle]="{'--accent':get_Accent()}" [className]="(get_HealthMinimized()) ? 'minimized' : ''"></app-health>
-<app-defense id="Character-defense" class="charactersheet-app" [ngStyle]="{'--accent':get_Accent()}" [className]="(get_DefenseMinimized()) ? 'minimized' : ''"></app-defense>
-<app-attacks id="Character-attacks" class="charactersheet-app" [ngStyle]="{'--accent':get_Accent()}" [className]="(get_AttacksMinimized()) ? 'minimized' : ''"></app-attacks>
-<app-skills id="Character-skills" class="charactersheet-app" [ngStyle]="{'--accent':get_Accent()}" [className]="(get_SkillsMinimized()) ? 'minimized' : ''"></app-skills>
-<app-inventory id="Character-inventory" class="charactersheet-app" [ngStyle]="{'--accent':get_Accent()}" [className]="(get_InventoryMinimized()) ? 'minimized' : ''"></app-inventory>
-<app-activities id="Character-activities" class="charactersheet-app" [ngStyle]="{'--accent':get_Accent()}" [className]="(get_ActivitiesMinimized()) ? 'minimized' : ''"></app-activities>
-<app-spellbook id="spellbook" class="charactersheet-app" [ngStyle]="{'--accent':get_Accent()}" [className]="(get_SpellbookMinimized()) ? 'minimized' : ''"></app-spellbook>
+<app-time id="time" class="charactersheet-app" [ngStyle]="{'--accent':get_Accent()}" [className]="(get_TimeMinimized()) ? 'minimized' : ''" *ngIf="!still_loading()"></app-time>
+<app-general id="Character-general" class="charactersheet-app" [ngStyle]="{'--accent':get_Accent()}" [className]="(get_GeneralMinimized()) ? 'minimized' : ''" *ngIf="!still_loading()"></app-general>
+<app-effects id="Character-effects" class="charactersheet-app" [ngStyle]="{'--accent':get_Accent()}" [className]="(get_EffectsMinimized()) ? 'minimized' : ''" *ngIf="!still_loading()"></app-effects>
+<app-abilities id="Character-abilities" class="charactersheet-app" [ngStyle]="{'--accent':get_Accent()}" [className]="(get_AbilitiesMinimized()) ? 'minimized' : ''" *ngIf="!still_loading()"></app-abilities>
+<app-health id="Character-health" class="charactersheet-app" [ngStyle]="{'--accent':get_Accent()}" [className]="(get_HealthMinimized()) ? 'minimized' : ''" *ngIf="!still_loading()"></app-health>
+<app-defense id="Character-defense" class="charactersheet-app" [ngStyle]="{'--accent':get_Accent()}" [className]="(get_DefenseMinimized()) ? 'minimized' : ''" *ngIf="!still_loading()"></app-defense>
+<app-attacks id="Character-attacks" class="charactersheet-app" [ngStyle]="{'--accent':get_Accent()}" [className]="(get_AttacksMinimized()) ? 'minimized' : ''" *ngIf="!still_loading()"></app-attacks>
+<app-skills id="Character-skills" class="charactersheet-app" [ngStyle]="{'--accent':get_Accent()}" [className]="(get_SkillsMinimized()) ? 'minimized' : ''" *ngIf="!still_loading()"></app-skills>
+<app-inventory id="Character-inventory" class="charactersheet-app" [ngStyle]="{'--accent':get_Accent()}" [className]="(get_InventoryMinimized()) ? 'minimized' : ''" *ngIf="!still_loading()"></app-inventory>
+<app-activities id="Character-activities" class="charactersheet-app" [ngStyle]="{'--accent':get_Accent()}" [className]="(get_ActivitiesMinimized()) ? 'minimized' : ''" *ngIf="!still_loading()"></app-activities>
+<app-spellbook id="spellbook" class="charactersheet-app" [ngStyle]="{'--accent':get_Accent()}" [className]="(get_SpellbookMinimized()) ? 'minimized' : ''" *ngIf="!still_loading()"></app-spellbook>

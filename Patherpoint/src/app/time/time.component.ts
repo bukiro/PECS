@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef, ChangeDetectionStrategy } from '@angular/core';
 import { CharacterService } from '../character.service';
 import { TimeService } from '../time.service';
 import { EffectsService } from '../effects.service';
@@ -6,11 +6,13 @@ import { EffectsService } from '../effects.service';
 @Component({
     selector: 'app-time',
     templateUrl: './time.component.html',
-    styleUrls: ['./time.component.css']
+    styleUrls: ['./time.component.css'],
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class TimeComponent implements OnInit {
 
     constructor(
+        private changeDetector: ChangeDetectorRef,
         private characterService: CharacterService,
         private timeService: TimeService,
         private effectsService: EffectsService
@@ -24,9 +26,6 @@ export class TimeComponent implements OnInit {
         setTimeout(() => {
             this.characterService.set_Span("time");
         })
-    }
-
-    ngOnInit() {
     }
 
     get_Accent() {
@@ -55,6 +54,22 @@ export class TimeComponent implements OnInit {
 
     tick(amount: number) {
         this.timeService.tick(this.characterService, amount);
+    }
+
+    finish_Loading() {
+        if (this.still_loading()) {
+            setTimeout(() => this.finish_Loading(), 500)
+        } else {
+            this.characterService.get_Changed()
+            .subscribe(() => 
+            this.changeDetector.detectChanges()
+                )
+            return true;
+        }
+    }
+
+    ngOnInit() {
+        this.finish_Loading();
     }
 
 }

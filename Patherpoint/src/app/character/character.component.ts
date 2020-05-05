@@ -112,6 +112,7 @@ export class CharacterComponent implements OnInit {
     }
 
     load_Character(name: string) {
+        this.toggleCharacterMenu();
         this.characterService.reset_Character(name);
     }
 
@@ -754,15 +755,17 @@ export class CharacterComponent implements OnInit {
     }
 
     featTakenByThis(feat: Feat, choice: FeatChoice) {
-        let levelNumber = parseInt(choice.id.split("-")[0]);
-        return this.get_FeatsTaken(levelNumber, levelNumber, feat.name, choice.source, choice.id).length > 0;
+        return choice.feats.filter(gain => gain.name == feat.name).length > 0;
+        /*let levelNumber = parseInt(choice.id.split("-")[0]);
+        return this.get_FeatsTaken(levelNumber, levelNumber, feat.name, choice.source, choice.id).length > 0;*/
     }
 
     subFeatTakenByThis(feat: Feat, choice: FeatChoice) {
-        let levelNumber = parseInt(choice.id.split("-")[0]);
+        return choice.feats.filter(gain => this.get_Feats(gain.name)[0].superType == feat.name).length > 0;
+        /*let levelNumber = parseInt(choice.id.split("-")[0]);
         return this.get_FeatsTaken(levelNumber, levelNumber, "", choice.source, choice.id).filter(
             takenfeat => this.get_Feats(takenfeat.name)[0].superType == feat.name
-            ).length > 0;
+            ).length > 0;*/
     }
 
     get_FeatsTaken(minLevelNumber: number, maxLevelNumber: number, featName: string = "", source: string = "", sourceId: string = "", locked: boolean = undefined) {

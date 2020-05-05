@@ -21,6 +21,10 @@ export class CharacterSheetComponent implements OnInit {
         private changeDetector: ChangeDetectorRef
     ) { }
     
+    still_loading() {
+        return this.characterService.still_loading();
+    }
+
     get_Accent() {
         return this.characterService.get_Accent();
     }

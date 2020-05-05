@@ -3,6 +3,7 @@ import { DefenseService } from './defense.service';
 import { CharacterService } from './character.service';
 import { Effect } from './Effect';
 import { AnimalCompanion } from './AnimalCompanion';
+import { Familiar } from './Familiar';
 import { Character } from './Character';
 
 export class AC {
@@ -12,25 +13,25 @@ export class AC {
     public $penalty: Effect[] = [];
     public $value: any[];
     //Are you currently taking cover?
-    cover(creature: Character|AnimalCompanion) {
+    cover(creature: Character|AnimalCompanion|Familiar) {
         return creature.cover;
     };
-    calculate(creature: Character|AnimalCompanion, characterService: CharacterService, defenseService: DefenseService, effectsService: EffectsService) {
+    calculate(creature: Character|AnimalCompanion|Familiar, characterService: CharacterService, defenseService: DefenseService, effectsService: EffectsService) {
         this.$effects = this.effects(creature, effectsService);
         this.$bonus = this.bonus(creature, effectsService);
         this.$penalty = this.penalty(creature, effectsService);
         this.$value = this.value(creature, characterService, defenseService, effectsService);
     }
-    effects(creature: Character|AnimalCompanion, effectsService: EffectsService) {
+    effects(creature: Character|AnimalCompanion|Familiar, effectsService: EffectsService) {
         return effectsService.get_EffectsOnThis(creature, this.name).concat(effectsService.get_EffectsOnThis(creature, "All Checks"));
     }
-    bonus(creature: Character|AnimalCompanion, effectsService: EffectsService) {
+    bonus(creature: Character|AnimalCompanion|Familiar, effectsService: EffectsService) {
         return effectsService.get_BonusesOnThis(creature, this.name).concat(effectsService.get_BonusesOnThis(creature, "All Checks"));;
     }
-    penalty(creature: Character|AnimalCompanion, effectsService: EffectsService) {
+    penalty(creature: Character|AnimalCompanion|Familiar, effectsService: EffectsService) {
         return effectsService.get_PenaltiesOnThis(creature, this.name).concat(effectsService.get_PenaltiesOnThis(creature, "All Checks"));;
     }
-    value(creature: Character|AnimalCompanion, characterService: CharacterService, defenseService: DefenseService, effectsService: EffectsService) {
+    value(creature: Character|AnimalCompanion|Familiar, characterService: CharacterService, defenseService: DefenseService, effectsService: EffectsService) {
         if (characterService.still_loading()) { return [0, ""]; }
         //Get the bonus from the worn armor. This includes the basic 10
         let armorBonus: number = 10;

@@ -5,6 +5,7 @@ import { Class } from './Class';
 import { AbilityChoice } from './AbilityChoice';
 import { ItemGain } from './ItemGain';
 import { AnimalCompanion } from './AnimalCompanion';
+import { Familiar } from './Familiar';
 import { AnimalCompanionClass } from './AnimalCompanionClass';
 import { AnimalCompanionAncestry } from './AnimalCompanionAncestry';
 import { ActivityGain } from './ActivityGain';
@@ -46,6 +47,8 @@ import { ItemCollection } from './ItemCollection';
 import { Speed } from './Speed';
 import { Bulk } from './Bulk';
 import { ItemsService } from './items.service';
+import { Ammunition } from './Ammunition';
+import { Item } from './Item';
 
 @Injectable({
     providedIn: 'root'
@@ -56,6 +59,7 @@ export class SavegameService {
     private ActivityGain = ActivityGain;
     private AdventuringGear = AdventuringGear;
     private AlchemicalElixir = AlchemicalElixir;
+    private Ammunition = Ammunition;
     private Ancestry = Ancestry;
     private AnimalCompanion = AnimalCompanion;
     private AnimalCompanionAncestry = AnimalCompanionAncestry;
@@ -78,6 +82,7 @@ export class SavegameService {
     private Health = Health;
     private HeldItem = HeldItem;
     private Heritage = Heritage;
+    private Item = Item;
     private ItemActivity = ItemActivity;
     private ItemCollection = ItemCollection;
     private ItemGain = ItemGain;
@@ -147,8 +152,8 @@ export class SavegameService {
                     object[index] = this.reassign(obj);
                 });
             } else {
-                //Try casting this item as its _className
-                if (object._className) {
+                //Try casting this item as its _className, unless it's already cast.
+                if (object._className && object.constructor.name != object._ClassName) {
                     try {
                         object = Object.assign(eval("new this."+object._className+"()"), object)
                     } catch (e) {
@@ -173,11 +178,14 @@ export class SavegameService {
 
         //Go through all the items and compare every item to its library equivalent, skipping the properties listed in .save
         //Everything that is the same as the library item gets deleted.
-        savegame.inventory.cleanForSave(itemsService);
-        savegame.class.animalCompanion.inventory.cleanForSave(itemsService);
+        if (savegame.inventory) {
+            savegame.inventory.cleanForSave(itemsService);
+        }
+        if (savegame.class && savegame.class.animalCompanion && savegame.class.animalCompanion.inventory) {
+            savegame.class.animalCompanion.inventory.cleanForSave(itemsService);
+        }
 
-        //Then go through again and compare every object to its Class's default, deleting everything that has the same value as the default.
-                
+        //Then go through the whole thing again and compare every object to its Class's default, deleting everything that has the same value as the default.
         savegame = this.clean(savegame);
 
         console.log(JSON.stringify(savegame));

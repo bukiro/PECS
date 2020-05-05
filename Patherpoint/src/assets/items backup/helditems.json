@@ -19,7 +19,7 @@
                 "desc": "The key casts knock on the lock you’re trying to pick.",
                 "castSpells": [
                     {
-                        "name": "knock",
+                        "name": "Knock",
                         "level": 1
                     }
                 ],

@@ -140,7 +140,7 @@ export class ConditionsComponent implements OnInit {
         }
     }
 
-    add_Condition(creature: Character|AnimalCompanion, condition: Condition) {
+    add_Condition(creature: Character|AnimalCompanion|Familiar, condition: Condition) {
         let newGain = new ConditionGain();
         newGain.name = condition.name;
         newGain.decreasingValue = condition.decreasingValue;

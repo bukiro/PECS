@@ -1,0 +1,34 @@
+<div class="list-item" *ngIf="choice.available"
+    [className]="((choice.spells.length > choice.available || cannotTakeSome(choice)) ? 'problem' : '') +' '+ ((choice.available == choice.spells.length) ? 'fullsize-only' : '')">
+    <button class="row sublist-toggle" [className]="(choice.available == choice.spells.length) ? 'fancy-button' : ''"
+        (click)="toggle_Choice(choice.source+choice.id)">
+        {{itemSpell ? "Level "+choice.level : ""}} {{choice.signature ? "Signature" : ""}} {{get_Tradition(choice)}}
+        {{choice.className}} Spells{{!itemSpell ? "("+choice.source+")" : ""}}{{(choice.available > 1) ?
+            ": "+ choice.spells.length +"/"+ choice.available : 
+            (choice.spells.length) ? ": "+ choice.spells[0].name : ""}}
+    </button>
+    <div class="list-item sublist" [className]="(choice.available == choice.spells.length ) ? 'fancy-list' : ''"
+        *ngIf="get_ShowChoice()==choice.source+choice.id">
+        <div title="{{(this.get_ShowSpell()==choice.id+spell.name+'desc') ? '' : spell.shortDesc}}" class="list-item"
+            *ngFor="let spell of get_AvailableSpells(choice)">
+            <span>
+                <input id="{{choice.id+spell.name}}" type="checkbox"
+                    (change)="on_SpellTaken(spell.name, $event.target.checked, choice, false)"
+                    [checked]="spellTakenByThis(spell, choice)"
+                    [disabled]="cannotTake(spell, choice).length && !spellTakenByThis(spell, choice)">
+                <label for="{{choice.id+spell.name}}">
+                    <strong>{{spell.name}}&nbsp;</strong><cite>Level {{spell.levelreq}}</cite>
+                </label>
+            </span>
+            <cite class="problem" *ngFor="let reason of cannotTake(spell, choice)">
+                {{reason}}
+            </cite>
+            <button (click)="toggle_Spell(choice.id+spell.name+'desc')">
+                Show Description
+            </button>
+            <div class="row left-aligned" *ngIf="this.get_ShowSpell()==choice.id+spell.name+'desc'">
+                <app-spell [spell]="spell" [spellLevel]="level"></app-spell>
+            </div>
+        </div>
+    </div>
+</div>

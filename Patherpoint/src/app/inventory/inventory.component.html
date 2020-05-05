@@ -104,15 +104,21 @@
                                         &nbsp;
                                         <!-- This span is a placeholder that appears if no other button is valid on the left side of the Drop button -->
                                     </span>
-                                    <span *ngIf="item.gainItems && item.gainItems.length">
+                                    <span *ngIf="can_Drop(item) && item.gainItems && item.gainItems.length">
                                         <button (click)="drop_Package(item)"
                                             title="Drop this item, but keep all items granted by it">
-                                            Drop Package
+                                            Drop
                                         </button>
                                     </span>
-                                    <span *ngIf="can_Drop(item)">
+                                    <span *ngIf="can_Drop(item) && !(item.gainItems && item.gainItems.length)">
                                         <button (click)="drop_InventoryItem(item)">
                                             Drop
+                                        </button>
+                                    </span>
+                                    <span *ngIf="can_Drop(item) && (item.gainItems && item.gainItems.length)">
+                                        <button (click)="drop_InventoryItem(item)"
+                                            title="Drop this item and all items granted by it">
+                                            Drop All
                                         </button>
                                     </span>
                                 </div>

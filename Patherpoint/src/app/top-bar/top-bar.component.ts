@@ -1,4 +1,4 @@
-import { Component, OnInit, HostBinding } from '@angular/core';
+import { Component, OnInit, HostBinding, ChangeDetectorRef, ChangeDetectionStrategy } from '@angular/core';
 import { trigger, state, style, transition, animate } from '@angular/animations';
 import { CharacterService } from '../character.service';
 import { Subscription } from 'rxjs';
@@ -19,7 +19,8 @@ import { DomSanitizer } from '@angular/platform-browser';
             transition('in => out', animate('400ms ease-in-out')),
             transition('out => in', animate('400ms ease-in-out'))
         ]),
-    ]
+    ],
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class TopBarComponent implements OnInit {
 
@@ -31,6 +32,7 @@ export class TopBarComponent implements OnInit {
     subscription: Subscription;
 
     constructor(
+        private changeDetector: ChangeDetectorRef,
         private characterService: CharacterService,
         private sanitizer: DomSanitizer
     ) { }
@@ -95,8 +97,21 @@ export class TopBarComponent implements OnInit {
         this.characterService.print();
     }
 
+    finish_Loading() {
+        if (this.still_loading()) {
+            setTimeout(() => this.finish_Loading(), 500)
+        } else {
+            this.characterService.get_Changed()
+            .subscribe(() => 
+            this.changeDetector.detectChanges()
+                )
+            return true;
+        }
+    }
+
     ngOnInit() {
-       this.characterService.initialize("");
+        this.characterService.initialize("");
+        this.finish_Loading();
     }
 
 }

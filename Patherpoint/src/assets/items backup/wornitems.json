@@ -69,7 +69,7 @@
                 "desc": "When your companion falls, wind picks it up from below; it gains the effects of feather fall.",
                 "castSpells": [
                     {
-                        "name": "feather Fall",
+                        "name": "Feather Fall",
                         "level": 1
                     }
                 ],

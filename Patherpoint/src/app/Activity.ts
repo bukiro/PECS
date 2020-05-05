@@ -26,6 +26,8 @@ export class Activity {
     public toggle: boolean = false;
     public traits: string[] = [];
     public trigger: string = "";
+    //Set displayOnly if the activity should not be used, but displayed for information, e.g. for ammunition
+    public displayOnly: boolean = false;
     get_Actions() {
         switch (this.actions) {
             case "Free":

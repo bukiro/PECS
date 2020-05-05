@@ -35,6 +35,7 @@ import { TagsComponent } from './tags/tags.component';
 import { NewItemPropertyComponent } from './items/newItemProperty/newItemProperty.component';
 import { ItemRunesComponent } from './item/itemRunes/itemRunes.component';
 import { AnimalCompanionComponent } from './animal-companion/animal-companion.component';
+import { SpellchoiceComponent } from './spells/spellchoice/spellchoice.component';
 
 @NgModule({
    declarations: [
@@ -65,7 +66,8 @@ import { AnimalCompanionComponent } from './animal-companion/animal-companion.co
       TagsComponent,
       NewItemPropertyComponent,
       ItemRunesComponent,
-      AnimalCompanionComponent
+      AnimalCompanionComponent,
+      SpellchoiceComponent
    ],
    imports: [
       BrowserModule,

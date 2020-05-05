@@ -13,4 +13,7 @@ export class SpellChoice {
     //For Classes, the tradition will be looked up in the bloodline etc.
     //Traditions are Arcane, Nature, Occult, Primal, Focus, Sorcerer, Bard, Druid, Cleric, Wizard
     public tradition: string = "";
+    //If target is set to "Others", you can only choose spells with no target, "companion" or "ally"
+    //If target is set to "Caster", you can only choose spells with target "self"
+    public target: string = "";
 }

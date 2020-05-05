@@ -4,6 +4,7 @@ import { Observable } from 'rxjs';
 import { Ancestry } from './Ancestry';
 import { Heritage } from './Heritage';
 import { Background } from './Background';
+import { SavegameService } from './savegame.service';
 
 @Injectable({
     providedIn: 'root'
@@ -21,6 +22,7 @@ export class HistoryService {
     
     constructor(
         private http: HttpClient,
+        private savegameService: SavegameService
     ) { }
 
     get_Ancestries(name: string = "") {
@@ -90,7 +92,8 @@ export class HistoryService {
             this.ancestries = this.loader_Ancestries.map(ancestry => Object.assign(new Ancestry(), ancestry));
 
             this.ancestries.forEach(ancestry => {
-                ancestry.reassign();
+                ancestry = this.savegameService.reassign(ancestry)
+                //ancestry.reassign();
             })
 
             this.loader_Ancestries = [];
@@ -103,7 +106,8 @@ export class HistoryService {
             this.heritages = this.loader_Heritages.map(heritage => Object.assign(new Heritage(), heritage));
 
             this.heritages.forEach(heritage => {
-                heritage.reassign();
+                heritage = this.savegameService.reassign(heritage)
+                //heritage.reassign();
             })
 
             this.loader_Heritages = [];
@@ -116,7 +120,8 @@ export class HistoryService {
             this.backgrounds = this.loader_Backgrounds.map(background => Object.assign(new Background(), background));
 
             this.backgrounds.forEach(background => {
-                background.reassign();
+                background = this.savegameService.reassign(background)
+                //background.reassign();
             })
 
             this.loader_Backgrounds = [];

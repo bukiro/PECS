@@ -1,38 +1,43 @@
-import { Component, OnInit, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
-import { CharacterService } from '../character.service';
-import { SortByPipe } from '../sortBy.pipe';
-import { SpellsService } from '../spells.service';
-import { SpellChoice } from '../SpellChoice';
-import { Spell } from '../Spell';
-import { TraitsService } from '../traits.service';
+import { Component, OnInit, Input, Output, EventEmitter, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
+import { SpellChoice } from 'src/app/SpellChoice';
+import { SpellsService } from 'src/app/spells.service';
+import { CharacterService } from 'src/app/character.service';
+import { Spell } from 'src/app/Spell';
+import { TraitsService } from 'src/app/traits.service';
+import { SortByPipe } from 'src/app/sortBy.pipe';
 
 @Component({
-    selector: 'app-spells',
-    templateUrl: './spells.component.html',
-    styleUrls: ['./spells.component.css'],
+    selector: 'app-spellchoice',
+    templateUrl: './spellchoice.component.html',
+    styleUrls: ['./spellchoice.component.css'],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class SpellsComponent implements OnInit {
+export class SpellchoiceComponent implements OnInit {
 
-    public showSpell: string = "";
-    public showChoice: string = "";
-    public allowHeightened: boolean = false;
+    @Input()
+    choice: SpellChoice
+    @Input()
+    allowHeightened: boolean = false;
+    @Input()
+    showChoice: string = "";
+    @Input()
+    showSpell: string = "";
+    @Output()
+    showChoiceMessage = new EventEmitter<string>();
+    @Output()
+    showSpellMessage = new EventEmitter<string>();
+    @Input()
+    level: number;
+    @Input()
+    itemSpell: boolean = false;
 
     constructor(
-        private changeDetector:ChangeDetectorRef,
+        private changeDetector: ChangeDetectorRef,
         private characterService: CharacterService,
         private spellsService: SpellsService,
         private traitsService: TraitsService,
         private sortByPipe: SortByPipe
     ) { }
-
-    minimize() {
-        this.characterService.get_Character().settings.spellsMinimized = !this.characterService.get_Character().settings.spellsMinimized;
-    }
-
-    toggleSpellMenu() {
-        this.characterService.toggleMenu("spells");
-    }
 
     toggle_Spell(name: string) {
         if (this.showSpell == name) {
@@ -40,23 +45,15 @@ export class SpellsComponent implements OnInit {
         } else {
             this.showSpell = name;
         }
+        this.showSpellMessage.emit(this.showSpell)
     }
-
-    receive_ChoiceMessage(name: string) {
-        this.toggle_Choice(name);
-    }
-
-    receive_SpellMessage(name: string) {
-        this.toggle_Spell(name);
-    }
-
-
     toggle_Choice(name: string) {
         if (this.showChoice == name) {
             this.showChoice = "";
         } else {
             this.showChoice = name;
         }
+        this.showChoiceMessage.emit(this.showChoice)
     }
 
     get_ShowSpell() {
@@ -91,13 +88,6 @@ export class SpellsComponent implements OnInit {
         return Math.ceil(this.get_Character().level / 2);
     }
 
-    get_SpellChoices(levelNumber: number) {
-        //Get all spellchoices from all character levels that have this spell level
-        return [].concat(...this.get_Character().class.levels
-            .filter(level => level.number <= this.get_Character().level)
-                .map(level => level.spellChoices.filter(choice => choice.level == levelNumber)))
-    }
-
     get_Tradition(choice: SpellChoice) {
         let character = this.get_Character()
         switch (choice.tradition) {
@@ -117,10 +107,10 @@ export class SpellsComponent implements OnInit {
         let spells: Spell[] = [];
         switch (choice.tradition) {
             case "":
-                spells.push(...allSpells);
+                spells.push(...allSpells.filter(spell => !spell.traditions.includes("Focus")));
                 break;
             case "Focus":
-                spells.push(...allSpells.filter(spell => spell.traits.includes(character.class.name)));
+                spells.push(...allSpells.filter(spell => spell.traits.includes(character.class.name) && spell.traditions.includes("Focus")));
                 break;
             case "Sorcerer":
                 let tradition = character.class.bloodline.spellList;
@@ -129,6 +119,14 @@ export class SpellsComponent implements OnInit {
                 break;
             default:
                 spells.push(...allSpells.filter(spell => spell.traditions.includes(tradition)));
+                break;
+        }
+        switch (choice.target) {
+            case "Others":
+                spells = spells.filter(spell => !spell.target || spell.target == "ally" || spell.target == "companion");
+                break;
+            case "Caster":
+                spells = spells.filter(spell => spell.target == "self");
                 break;
         }
         if (spells.length) {
@@ -172,23 +170,19 @@ export class SpellsComponent implements OnInit {
     cannotTake(spell: Spell, choice: SpellChoice) {
         let spellLevel = choice.level;
         let reasons: string[] = [];
-        //Are the basic requirements (level, ability, feat etc) not met?
+        //Are the basic requirements (so far just level) not met?
         if (!spell.canChoose(this.characterService, spellLevel)) {
             reasons.push("The requirements are not met.")
         }
-        //Has it already been taken up to this level, and was that not by this FeatChoice?
-        if (spell.have(this.characterService, spellLevel) && !this.spellTakenByThis(spell, choice)) {
-            reasons.push("You already have this spell.");
-        }
-        //Has it generally been taken more than once, and this is one time?
-        if (spell.have(this.characterService, spellLevel) > 1 && this.spellTakenByThis(spell, choice)) {
-            reasons.push("Spells cannot be taken more than once!");
+        //Has it already been taken at this level by this class, and was that not by this SpellChoice?
+        if (!this.itemSpell && spell.have(this.characterService, spellLevel, choice.className) && !this.spellTakenByThis(spell, choice)) {
+            reasons.push("You already have this spell with this class.");
         }
         return reasons;
     }
 
     spellTakenByThis(spell: Spell, choice: SpellChoice) {
-        return this.get_SpellsTaken(1, 20, -1, spell.name, choice.source, choice.id).length > 0;
+        return choice.spells.filter(takenSpell => takenSpell.name == spell.name).length > 0;
     }
 
     get_SpellsTaken(minLevelNumber: number, maxLevelNumber: number, spellLevel: number, spellName: string, source: string = "", sourceId: string = "", locked: boolean = undefined) {
@@ -217,7 +211,10 @@ export class SpellsComponent implements OnInit {
     }
 
     ngOnInit() {
-        this.finish_Loading();
+        if (!this.level) {
+            this.level = this.choice.level;
+        }
+        //this.finish_Loading();
     }
 
 }

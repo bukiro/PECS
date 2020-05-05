@@ -5,6 +5,7 @@ import { Observable } from 'rxjs';
 import { CharacterService } from './character.service';
 import { Character } from './Character';
 import { AnimalCompanion } from './AnimalCompanion';
+import { Familiar } from './Familiar';
 
 @Injectable({
     providedIn: 'root'
@@ -29,7 +30,7 @@ export class TraitsService {
         }
     }
 
-    get_TraitsForThis(creature: Character|AnimalCompanion, name: string) {
+    get_TraitsForThis(creature: Character|AnimalCompanion|Familiar, name: string) {
         if (!this.still_loading()) {
             //return all traits that are set to SHOW ON this named object and that are on any equipped equipment in your inventory
             //uses the haveOn() method of Trait that returns any equipment that has this trait

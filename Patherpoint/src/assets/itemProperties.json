@@ -54,8 +54,15 @@
         "type": "textarea"
     },
     {
-        "key": "traits",
+        "key": "craftRequirement",
         "priority": "6",
+        "group": "2-Basics",
+        "name": "Crafting requirements",
+        "desc": "Describe what is needed to craft this item, other than the appropriate crafting feat and level."
+    },
+    {
+        "key": "traits",
+        "priority": "7",
         "group": "2-Basics",
         "name": "Traits",
         "desc": "The item's traits are listed on the item. An item must have the Invested trait to be invested.",
@@ -64,21 +71,21 @@
     },
     {
         "key": "subType",
-        "priority": "7",
+        "priority": "8",
         "group": "2-Basics",
         "name": "Subtype",
         "desc": "Items can come in different subtypes, like 'Lesser', 'Greater', etc."
     },
     {
         "key": "subTypeDesc",
-        "priority": "8",
+        "priority": "9",
         "group": "2-Basics",
         "name": "Subtype Description",
         "desc": "If the item has a subtype, describe the difference between this subtype and the regular item here."
     },
     {
         "key": "notes",
-        "priority": "9",
+        "priority": "10",
         "group": "2-Basics",
         "name": "Notes",
         "desc": "Notes that can be displayed on the item. The notes can be changed later."
@@ -128,7 +135,7 @@
         "key": "activities",
         "priority": "0",
         "group": "4-Actions and Activities",
-        "name": "Individual actions or activities",
+        "name": "Unique actions or activities",
         "desc": "Add a definition of what happens when this item is activated. It can include, for example, numeral effects, casting spells or adding items for the duration. If an item has multiple activities, only one of them can be active at the same time."
     },
     {
@@ -464,16 +471,64 @@
         "examples": "gainitems on"
     },
     {
-        "key": "isHandwrapsOfMightyBlows",
+        "key": "storedSpells",
         "priority": "6",
         "group": "5-Influence",
-        "name": "Act as Handwraps of Mighty Blows",
-        "desc": "Set if this item uses the 'Handwraps of Mighty Blows' functionality to enhance unarmed attacks with its own runes. The item's modification type will be set to 'weapon' automatically.",
+        "name": "Store Spells",
+        "desc": "Allow this item to store spells. (See unique actions or activities for casting included spells)."
+    },
+    {
+        "parent": "storedSpells",
+        "key": "available",
+        "priority": "0",
+        "group": "",
+        "name": "Number of spells to store",
+        "desc": "How many spells can be held in this list? Add more lists to allow spells at different levels or of different traditions.",
+        "type": "number",
+        "validation": "1plus"
+    },
+    {
+        "parent": "storedSpells",
+        "key": "level",
+        "priority": "1",
+        "group": "",
+        "name": "Maximum spell level",
+        "desc": "0 for Cantrips, or 1-10 for spell levels.",
+        "type": "number",
+        "locked": true,
+        "examples": "storedspelllevel"
+    },
+    {
+        "parent": "storedSpells",
+        "key": "tradition",
+        "priority": "2",
+        "group": "",
+        "name": "Spell tradition",
+        "desc": "The tradition the spell needs to be chosen from. Leave empty for all traditions.",
+        "locked": true,
+        "examples": "spelltraditions"
+    },
+    {
+        "parent": "storedSpells",
+        "key": "target",
+        "priority": "3",
+        "group": "",
+        "name": "Spell target",
+        "desc": "Choose spells that can target other creatures or only the caster, or leave empty to allow all targets.",
+        "locked": true,
+        "examples": "spelltargets"
+    },
+    {
+        "key": "isArmoredSkirt",
+        "priority": "7",
+        "group": "5-Influence",
+        "name": "Act as Armored Skirt",
+        "desc": "Set if this item uses the 'Armored Skirt' functionality to change the effectiveness and weight of certain armors.",
         "type": "checkbox"
     },
     {
         "key": "isDoublingRings",
-        "priority": "6",
+        "priority": "8",
         "group": "5-Influence",
         "name": "Act as Doubling Rings",
         "desc": "Set if this item uses the 'Doubling Rings' functionality to copy runes from one item to the other.",
@@ -481,11 +536,11 @@
         "examples":"isdoublingrings"
     },
     {
-        "key": "isArmoredSkirt",
-        "priority": "6",
+        "key": "isHandwrapsOfMightyBlows",
+        "priority": "9",
         "group": "5-Influence",
-        "name": "Act as Armored Skirt",
-        "desc": "Set if this item uses the 'Armored Skirt' functionality to change the effectiveness and weight of certain armors.",
+        "name": "Act as Handwraps of Mighty Blows",
+        "desc": "Set if this item uses the 'Handwraps of Mighty Blows' functionality to enhance unarmed attacks with its own runes. The item's modification type will be set to 'weapon' automatically.",
         "type": "checkbox"
     },
     {

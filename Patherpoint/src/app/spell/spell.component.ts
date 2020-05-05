@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, ChangeDetectionStrategy } from '@angular/core';
 import { Spell } from '../Spell';
 import { TraitsService } from '../traits.service';
 import { CharacterService } from '../character.service';
@@ -6,7 +6,8 @@ import { CharacterService } from '../character.service';
 @Component({
     selector: 'app-spell',
     templateUrl: './spell.component.html',
-    styleUrls: ['./spell.component.css']
+    styleUrls: ['./spell.component.css'],
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class SpellComponent implements OnInit {
 

@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { AnimalCompanion } from './AnimalCompanion';
+import { Familiar } from './Familiar';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { CharacterService } from './character.service';

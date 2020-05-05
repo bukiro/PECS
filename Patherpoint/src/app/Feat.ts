@@ -9,6 +9,7 @@ import { TraditionChoice } from './TraditionChoice';
 import { Character } from './Character';
 import { ConditionGain } from './ConditionGain';
 import { AnimalCompanion } from './AnimalCompanion';
+import { Familiar } from './Familiar';
 import { Deity } from './Deity';
 
 export class Feat {
@@ -194,7 +195,7 @@ export class Feat {
         //Return true if all are true
         return levelreq && abilityreq && skillreq && featreq && specialreq;
     }
-    have(creature: Character|AnimalCompanion, characterService: CharacterService, charLevel: number = characterService.get_Character().level) {
+    have(creature: Character|AnimalCompanion|Familiar, characterService: CharacterService, charLevel: number = characterService.get_Character().level) {
         if (characterService.still_loading()) { return false }
         if (creature.type == "Character") {
             let featsTaken = (creature as Character).get_FeatsTaken(1, charLevel, this.name)

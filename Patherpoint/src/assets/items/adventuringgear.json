@@ -1073,7 +1073,7 @@
                     {
                         "_className": "SpellCast",
                         "level": 4,
-                        "name": "create food"
+                        "name": "Create Food"
                     }
                 ],
                 "cooldown": 144000,

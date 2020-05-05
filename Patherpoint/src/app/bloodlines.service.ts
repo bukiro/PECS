@@ -3,6 +3,7 @@ import { Deity } from './Deity';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Bloodline } from './Bloodline';
+import { SavegameService } from './savegame.service';
 
 @Injectable({
     providedIn: 'root'
@@ -15,6 +16,7 @@ export class BloodlinesService {
     
     constructor(
         private http: HttpClient,
+        private savegameService: SavegameService
     ) { }
 
     get_Bloodlines(name: string = "") {
@@ -46,6 +48,10 @@ export class BloodlinesService {
         if (this.loader) {
             this.bloodlines = this.loader.map(bloodline => Object.assign(new Bloodline(), bloodline));
                 
+            this.bloodlines.forEach(bloodline => {
+                bloodline = this.savegameService.reassign(bloodline);
+            })
+
             this.loader = [];
         }
         if (this.loading) {this.loading = false;}

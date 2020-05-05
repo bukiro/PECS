@@ -4,6 +4,7 @@ import { EffectsService } from './effects.service';
 import { Armor } from './Armor';
 import { AC } from './AC';
 import { AnimalCompanion } from './AnimalCompanion';
+import { Familiar } from './Familiar';
 import { Character } from './Character';
 
 @Injectable({
@@ -21,22 +22,22 @@ export class DefenseService {
         return this.AC;
     }
 
-    get_EquippedArmor(creature: Character|AnimalCompanion) {
+    get_EquippedArmor(creature: Character|AnimalCompanion|Familiar) {
         let armor = creature.inventory.armors;
         return armor.filter(armor => armor.equipped);
     }
 
-    get_EquippedShield(creature: Character|AnimalCompanion) {
+    get_EquippedShield(creature: Character|AnimalCompanion|Familiar) {
         let shield = creature.inventory.shields;
         return shield.filter(shield => shield.equipped);
     }
 
-    get_ParryWeapons(creature: Character|AnimalCompanion) {
+    get_ParryWeapons(creature: Character|AnimalCompanion|Familiar) {
         let weapons = creature.inventory.weapons;
         return weapons.filter(weapon => weapon.traits.includes("Parry"));
     }
 
-    get_ArmorBonus(creature: Character|AnimalCompanion, characterService: CharacterService, armor: Armor) {
+    get_ArmorBonus(creature: Character|AnimalCompanion|Familiar, characterService: CharacterService, armor: Armor) {
         return armor.armorBonus(creature, characterService, this.effectsService);
     }
 

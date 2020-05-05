@@ -14,6 +14,7 @@ import { ConditionGain } from './ConditionGain';
 import { AnimalCompanionLevel } from './AnimalCompanionLevel';
 import { Bloodline } from './Bloodline';
 import { AnimalCompanion } from './AnimalCompanion';
+import { Familiar } from './Familiar';
 
 @Injectable({
     providedIn: 'root'

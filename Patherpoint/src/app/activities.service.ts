@@ -14,6 +14,7 @@ import { ConditionGain } from './ConditionGain';
 import { ItemGain } from './ItemGain';
 import { Character } from './Character';
 import { AnimalCompanion } from './AnimalCompanion';
+import { Familiar } from './Familiar';
 import { SpellsService } from './spells.service';
 import { SpellGain } from './SpellGain';
 
@@ -46,7 +47,7 @@ export class ActivitiesService {
         return this.http.get<String[]>('/assets/activities.json');
     }
 
-    activate_Activity(creature: Character|AnimalCompanion, characterService: CharacterService, timeService: TimeService, itemsService: ItemsService, spellsService: SpellsService, gain: ActivityGain|ItemActivity, activity: Activity|ItemActivity, activated: boolean) {
+    activate_Activity(creature: Character|AnimalCompanion|Familiar, characterService: CharacterService, timeService: TimeService, itemsService: ItemsService, spellsService: SpellsService, gain: ActivityGain|ItemActivity, activity: Activity|ItemActivity, activated: boolean) {
         if (activated && activity.toggle) {
             gain.active = true;
         } else {
@@ -159,7 +160,7 @@ export class ActivitiesService {
         characterService.set_Changed();
     }
 
-    tick_Activities(creature: Character|AnimalCompanion, characterService: CharacterService, turns: number = 10) {
+    tick_Activities(creature: Character|AnimalCompanion|Familiar, characterService: CharacterService, turns: number = 10) {
 
         characterService.get_OwnedActivities(creature).filter(gain => gain.activeCooldown).forEach(gain => {
             gain.activeCooldown = Math.max(gain.activeCooldown - turns, 0)
@@ -181,6 +182,8 @@ export class ActivitiesService {
     finish_loading() {
         if (this.loader) {
             this.activities = this.loader.map(activity => Object.assign(new Activity(), activity));
+
+            //Don't reassign activities because they don't have changing parts and never get stored in the Character
 
             this.loader = [];
         }

@@ -3,6 +3,7 @@ import { CharacterService } from './character.service';
 import { EffectsService } from './effects.service';
 import { Effect } from './Effect';
 import { AnimalCompanion } from './AnimalCompanion';
+import { Familiar } from './Familiar';
 import { Character } from './Character';
 
 export class Skill {
@@ -20,7 +21,7 @@ export class Skill {
         public name: string = "",
         public type: string = "",
     ) { }
-    calculate(creature: Character|AnimalCompanion, characterService: CharacterService, abilitiesService: AbilitiesService, effectsService: EffectsService, charLevel: number = characterService.get_Character().level) {
+    calculate(creature: Character|AnimalCompanion|Familiar, characterService: CharacterService, abilitiesService: AbilitiesService, effectsService: EffectsService, charLevel: number = characterService.get_Character().level) {
         this.$effects = this.effects(creature, effectsService);
         this.$penalty = this.penalty(creature, effectsService);
         this.$bonus = this.bonus(creature, effectsService);
@@ -29,7 +30,7 @@ export class Skill {
         this.$value = this.value(creature, characterService, abilitiesService, effectsService, charLevel);
         return this;
     }
-    level(creature: Character|AnimalCompanion, characterService: CharacterService, charLevel: number = characterService.get_Character().level) {
+    level(creature: Character|AnimalCompanion|Familiar, characterService: CharacterService, charLevel: number = characterService.get_Character().level) {
         if (characterService.still_loading()) { return 0; }
         let skillLevel: number = 0;
         let increases = creature.get_SkillIncreases(characterService, 0, charLevel, this.name);
@@ -47,7 +48,7 @@ export class Skill {
         skillLevel = Math.min(skillLevel, 8);
         return skillLevel;
     }
-    canIncrease(creature: Character|AnimalCompanion, characterService: CharacterService, levelNumber: number, maxRank: number = 8) {
+    canIncrease(creature: Character|AnimalCompanion|Familiar, characterService: CharacterService, levelNumber: number, maxRank: number = 8) {
         if (levelNumber >= 15) {
             return (this.level(creature, characterService, levelNumber) < Math.min(8, maxRank))
         } else if (levelNumber >= 7) {
@@ -58,7 +59,7 @@ export class Skill {
             return (this.level(creature, characterService, levelNumber) < Math.min(2, maxRank))
         }
     }
-    isLegal(creature: Character|AnimalCompanion, characterService: CharacterService, levelNumber: number, maxRank: number = 8) {
+    isLegal(creature: Character|AnimalCompanion|Familiar, characterService: CharacterService, levelNumber: number, maxRank: number = 8) {
         if (levelNumber >= 15) {
             return (creature.get_SkillIncreases(characterService, 0, levelNumber, this.name).length * 2 <= Math.min(8, maxRank))
         } else if (levelNumber >= 7) {
@@ -69,16 +70,16 @@ export class Skill {
             return (creature.get_SkillIncreases(characterService, 0, levelNumber, this.name).length * 2 <= Math.min(2, maxRank))
         }
     }
-    effects(creature: Character|AnimalCompanion, effectsService: EffectsService) {
+    effects(creature: Character|AnimalCompanion|Familiar, effectsService: EffectsService) {
         return effectsService.get_EffectsOnThis(creature, this.name).concat(effectsService.get_EffectsOnThis(creature, "All Checks"));
     }
-    bonus(creature: Character|AnimalCompanion, effectsService: EffectsService) {
+    bonus(creature: Character|AnimalCompanion|Familiar, effectsService: EffectsService) {
         return effectsService.get_BonusesOnThis(creature, this.name).concat(effectsService.get_BonusesOnThis(creature, "All Checks"));;
     }
-    penalty(creature: Character|AnimalCompanion, effectsService: EffectsService) {
+    penalty(creature: Character|AnimalCompanion|Familiar, effectsService: EffectsService) {
         return effectsService.get_PenaltiesOnThis(creature, this.name).concat(effectsService.get_PenaltiesOnThis(creature, "All Checks"));;
     }
-    baseValue(creature: Character|AnimalCompanion, characterService: CharacterService, abilitiesService: AbilitiesService, effectsService: EffectsService, charLevel: number = characterService.get_Character().level) {
+    baseValue(creature: Character|AnimalCompanion|Familiar, characterService: CharacterService, abilitiesService: AbilitiesService, effectsService: EffectsService, charLevel: number = characterService.get_Character().level) {
         let result: number = 0;
         let explain: string = "";
         if (!characterService.still_loading()) {
@@ -126,7 +127,7 @@ export class Skill {
         }
         return {result:result, explain:explain};
     }
-    value(creature: Character|AnimalCompanion, characterService: CharacterService, abilitiesService: AbilitiesService, effectsService: EffectsService, charLevel: number = characterService.get_Character().level) {
+    value(creature: Character|AnimalCompanion|Familiar, characterService: CharacterService, abilitiesService: AbilitiesService, effectsService: EffectsService, charLevel: number = characterService.get_Character().level) {
         //Calculates the effective bonus of the given Skill
         let result: number = 0;
         let explain: string = "";

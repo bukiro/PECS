@@ -11,8 +11,8 @@
   <button class="fancy-button" (click)="toggleMenu('conditions')" *ngIf="!still_loading()">Conditions</button>
   <button class="fancy-button" (click)="print()" *ngIf="!still_loading()">Print</button>
 </div>
-<app-items [ngStyle]="{'--accent':get_Accent()}" [@slideInOut]="get_ItemsMenuState()"></app-items>
-<app-spells [ngStyle]="{'--accent':get_Accent()}" [className]="(get_SpellsMinimized()) ? 'minimized' : ''" [@slideInOut]="get_SpellMenuState()"></app-spells>
-<app-conditions [ngStyle]="{'--accent':get_Accent()}" [@slideInOut]="get_ConditionsMenuState()"></app-conditions>
-<app-character [ngStyle]="{'--accent':get_Accent()}" [className]="(get_CharacterMinimized()) ? 'minimized' : ''" [@slideInOut]="get_CharacterMenuState()"></app-character>
-<app-animal-companion [ngStyle]="{'--accent':get_Accent()}" [className]="(get_CompanionMinimized()) ? 'minimized' : ''" [@slideInOut]="get_CompanionMenuState()"></app-animal-companion>
+<app-items [ngStyle]="{'--accent':get_Accent()}" [@slideInOut]="get_ItemsMenuState()" *ngIf="!still_loading()"></app-items>
+<app-spells [ngStyle]="{'--accent':get_Accent()}" [className]="(get_SpellsMinimized()) ? 'minimized' : ''" [@slideInOut]="get_SpellMenuState()" *ngIf="!still_loading()"></app-spells>
+<app-conditions [ngStyle]="{'--accent':get_Accent()}" [@slideInOut]="get_ConditionsMenuState()" *ngIf="!still_loading()"></app-conditions>
+<app-character [ngStyle]="{'--accent':get_Accent()}" [className]="(get_CharacterMinimized()) ? 'minimized' : ''" [@slideInOut]="get_CharacterMenuState()" *ngIf="!still_loading()"></app-character>
+<app-animal-companion [ngStyle]="{'--accent':get_Accent()}" [className]="(get_CompanionMinimized()) ? 'minimized' : ''" [@slideInOut]="get_CompanionMenuState()" *ngIf="!still_loading()"></app-animal-companion>

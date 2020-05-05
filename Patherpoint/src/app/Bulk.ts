@@ -5,6 +5,7 @@ import { Item } from './Item';
 import { OtherItem } from './OtherItem';
 import { Character } from './Character';
 import { AnimalCompanion } from './AnimalCompanion';
+import { Familiar } from './Familiar';
 
 export class Bulk {
     public $bonus: Effect[];
@@ -14,7 +15,7 @@ export class Bulk {
     public $limit: {value:number, desc:string} = {value:0, desc:""};
     public $max: {value:number, desc:string} = {value:0, desc:""};
     public $penalty: Effect[];
-    calculate(creature: Character|AnimalCompanion, characterService: CharacterService, effectsService: EffectsService) {
+    calculate(creature: Character|AnimalCompanion|Familiar, characterService: CharacterService, effectsService: EffectsService) {
         this.$effects = this.effects(creature, effectsService);
         this.$bonus = this.bonus(creature, effectsService);
         this.$penalty = this.penalty(creature, effectsService);
@@ -23,16 +24,16 @@ export class Bulk {
         this.$encumbered = this.encumbered();
         this.$max = this.max();
     }
-    effects(creature: Character|AnimalCompanion, effectsService: EffectsService) {
+    effects(creature: Character|AnimalCompanion|Familiar, effectsService: EffectsService) {
         return effectsService.get_EffectsOnThis(creature, "Max Bulk");
     }
-    bonus(creature: Character|AnimalCompanion, effectsService: EffectsService) {
+    bonus(creature: Character|AnimalCompanion|Familiar, effectsService: EffectsService) {
         return effectsService.get_BonusesOnThis(creature, "Max Bulk");
     }
-    penalty(creature: Character|AnimalCompanion, effectsService: EffectsService) {
+    penalty(creature: Character|AnimalCompanion|Familiar, effectsService: EffectsService) {
         return effectsService.get_PenaltiesOnThis(creature, "Max Bulk");
     }
-    current(creature: Character|AnimalCompanion, effectsService: EffectsService) {
+    current(creature: Character|AnimalCompanion|Familiar, effectsService: EffectsService) {
         let sum: number = 0;
         let inventory = creature.inventory;
         function addup(item: Item|OtherItem) {
@@ -77,7 +78,7 @@ export class Bulk {
         sum = Math.max(0, sum);
         return Math.floor(sum);
     }
-    limit(creature: Character|AnimalCompanion, characterService: CharacterService, effectsService: EffectsService) {
+    limit(creature: Character|AnimalCompanion|Familiar, characterService: CharacterService, effectsService: EffectsService) {
     //Gets the basic bulk and adds all effects
         if (characterService.still_loading()) { return this.$limit; }
         let result: {value:number, desc:string} = {value:0, desc:""};

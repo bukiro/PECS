@@ -1,15 +1,14 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
 import { CharacterService } from '../character.service';
 import { TraitsService } from '../traits.service';
 import { EffectsService } from '../effects.service';
 import { Effect } from '../Effect';
-import { AnimalCompanion } from '../AnimalCompanion';
-import { Character } from '../Character';
 
 @Component({
     selector: 'app-tags',
     templateUrl: './tags.component.html',
-    styleUrls: ['./tags.component.css']
+    styleUrls: ['./tags.component.css'],
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class TagsComponent implements OnInit {
 
@@ -35,11 +34,16 @@ export class TagsComponent implements OnInit {
     specialEffects:Effect[] = []
 
     constructor(
+        private changeDetector: ChangeDetectorRef,
         public characterService: CharacterService,
         private traitsService: TraitsService,
         private effectsService: EffectsService
     ) { }
     
+    still_loading() {
+        return this.characterService.still_loading();
+    }
+
     get_Creature() {
         return this.characterService.get_Creature(this.creature);
     }
@@ -94,7 +98,20 @@ export class TagsComponent implements OnInit {
         }
     }
 
+    finish_Loading() {
+        if (this.still_loading()) {
+            setTimeout(() => this.finish_Loading(), 500)
+        } else {
+            this.characterService.get_Changed()
+            .subscribe(() => 
+            this.changeDetector.detectChanges()
+                )
+            return true;
+        }
+    }
+
     ngOnInit() {
+        //this.finish_Loading();
     }
 
 }

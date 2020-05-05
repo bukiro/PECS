@@ -1,4 +1,6 @@
 import { v1 as uuidv1 } from 'uuid';
+import { SpellChoice } from './SpellChoice';
+import { ItemActivity } from './ItemActivity';
 
 export class Item {
     public readonly _className: string = this.constructor.name;
@@ -21,6 +23,8 @@ export class Item {
     public amount: number = 1;
     //Bulk: Either "" or "L" or "<number>"
     public bulk: string = "";
+    //Some items need certain requirements to be crafted.
+    public craftRequirement: string = "";
     //Some items need to store data - selected runes, spells, etc...
     public data: {name:string, value:any}[] = [];
     //Full description of the item, ideally unchanged from the source material
@@ -43,6 +47,8 @@ export class Item {
     public refId: string = ""
     //Is the notes input shown in the inventory
     public showNotes: boolean = false;
+    //What spells are stored in this item, or can be?
+    public storedSpells: SpellChoice[] = [];
     //Does this item come in different types? Like lesser, greater, major...
     //If so, name the subtype here
     public subType: string = "";
@@ -60,7 +66,8 @@ export class Item {
         return (!this.equippable &&
             !this.can_Invest() &&
             (this["gainItems"] ? !this["gainItems"].length : true) &&
-            (this["gainActivities"] ? !this["gainActivities"].length : true) &&
-            (this["activities"] ? !this["activities"].length : true))
+            (this["gainActivities"] ? !this["gainActivities"].filter((activity: ItemActivity) => !activity.displayOnly).length : true) &&
+            (this["activities"] ? !this["activities"].filter((activity: ItemActivity) => !activity.displayOnly).length : true) &&
+            (this["storedSpells"] ? !this["storedSpells"].length : true))
     }
 }

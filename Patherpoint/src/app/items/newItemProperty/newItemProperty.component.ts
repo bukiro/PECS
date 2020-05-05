@@ -20,6 +20,7 @@ import { Condition } from 'src/app/Condition';
 import { Feat } from 'src/app/Feat';
 import { Skill } from 'src/app/Skill';
 import { Ability } from 'src/app/Ability';
+import { SpellChoice } from 'src/app/SpellChoice';
 
 @Component({
     selector: 'app-newItemProperty',
@@ -172,11 +173,11 @@ export class NewItemPropertyComponent implements OnInit {
         switch (this.propertyKey) {
             case "activities":
                 index = this.get_Parent()[this.propertyKey].push(new ItemActivity())
-                this.get_Parent()[this.propertyKey][index-1].source = this.get_Parent()["name"];
+                this.get_Parent()[this.propertyKey][index-1].source = this.get_Parent()["id"];
                 break;
             case "gainActivities":
                 index = this.get_Parent()[this.propertyKey].push(new ActivityGain())
-                this.get_Parent()[this.propertyKey][index-1].source = this.get_Parent()["name"];
+                this.get_Parent()[this.propertyKey][index-1].source = this.get_Parent()["id"];
                 break;
             case "gainItems":
                 this.get_Parent()[this.propertyKey].push(new ItemGain())
@@ -192,6 +193,10 @@ export class NewItemPropertyComponent implements OnInit {
                 break;
             case "propertyRunes":
                 this.get_Parent()[this.propertyKey].push("" as string)
+                break;
+            case "storedSpells":
+                this.get_Parent()[this.propertyKey].push(new SpellChoice())
+                this.get_Parent()[this.propertyKey][index-1].source = this.get_Parent()["id"];
                 break;
             case "traits":
                 this.get_Parent()[this.propertyKey].push("" as string)
@@ -290,6 +295,15 @@ export class NewItemPropertyComponent implements OnInit {
                 break;
             case "spelllevel":
                 examples = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+                break;
+            case "storedspelllevel":
+                examples = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+                break;
+            case "spelltraditions":
+                examples = ["", "Arcane", "Divine", "Occult", "Primal"];
+                break;
+            case "spelltargets":
+                examples = ["", "Others", "Only yourself"];
                 break;
             case "onceEffects affected":
                 examples.push(...["Focus", "HP", "Temporary HP"])

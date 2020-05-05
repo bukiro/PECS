@@ -8,6 +8,7 @@ import { EffectsService } from './effects.service';
 import { SortByPipe } from './sortBy.pipe';
 import { Character } from './Character';
 import { AnimalCompanion } from './AnimalCompanion';
+import { Familiar } from './Familiar';
 
 @Injectable({
     providedIn: 'root'
@@ -35,7 +36,7 @@ export class ConditionsService {
         }
     }
 
-    get_AppliedConditions(creature: Character|AnimalCompanion, characterService: CharacterService, activeConditions: ConditionGain[]) {
+    get_AppliedConditions(creature: Character|AnimalCompanion|Familiar, characterService: CharacterService, activeConditions: ConditionGain[]) {
         if (JSON.stringify(activeConditions) == JSON.stringify(this.appliedConditions)) {
             return this.sortByPipe.transform(activeConditions, "asc", "duration") as ConditionGain[];
         } else {
@@ -92,7 +93,7 @@ export class ConditionsService {
         }
     }
 
-    process_Condition(creature: Character|AnimalCompanion, characterService: CharacterService, effectsService: EffectsService, gain: ConditionGain, condition: Condition, taken: boolean, increaseWounded: boolean = true) {
+    process_Condition(creature: Character|AnimalCompanion|Familiar, characterService: CharacterService, effectsService: EffectsService, gain: ConditionGain, condition: Condition, taken: boolean, increaseWounded: boolean = true) {
 
         //Use gain once so it isn't marked as unused. It will be used by the eval strings.
         gain = gain
@@ -134,7 +135,7 @@ export class ConditionsService {
         }
     }
 
-    tick_Conditions(creature: Character|AnimalCompanion, turns: number = 10, yourTurn: number) {
+    tick_Conditions(creature: Character|AnimalCompanion|Familiar, turns: number = 10, yourTurn: number) {
         let activeConditions = creature.conditions;
         while (turns > 0) {
             let activeConditions = creature.conditions;
@@ -194,6 +195,8 @@ export class ConditionsService {
     finish_loading() {
         if (this.loader) {
             this.conditions = this.loader.map(condition => Object.assign(new Condition(), condition));
+
+            //Don't reassign conditions because they don't have changing parts and never get stored in the Character
 
             this.loader = [];
         }

@@ -13,6 +13,7 @@ import { ActivityGain } from './ActivityGain';
 import { Equipment } from './Equipment';
 import { Bloodline } from './Bloodline';
 import { AnimalCompanion } from './AnimalCompanion';
+import { Familiar } from './Familiar';
 import { SpellChoice } from './SpellChoice';
 import { TraditionChoice } from './TraditionChoice';
 import { DeitiesService } from './deities.service';
@@ -32,7 +33,7 @@ export class Class {
     public levels: Level[] = [];
     public name: string = "";
     reassign() {
-        //Re-Assign levels
+        /*//Re-Assign levels
         this.levels = this.levels.map(level => Object.assign(new Level(), level));
         //Re-Assign all Choices
         this.levels.forEach(level => {
@@ -45,7 +46,7 @@ export class Class {
         })
         //Re-Assign all custom activity gains
         this.activities = this.activities.map(gain => Object.assign(new ActivityGain(), gain));
-        this.bloodline = Object.assign(new Bloodline(), this.bloodline);
+        this.bloodline = Object.assign(new Bloodline(), this.bloodline);*/
     }
     on_ChangeAncestry(characterService: CharacterService) {
         if (this.ancestry.name) {

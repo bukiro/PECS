@@ -10,6 +10,7 @@ import { ConditionGain } from './ConditionGain';
 import { Item } from './Item';
 import { ItemGain } from './ItemGain';
 import { AnimalCompanion } from './AnimalCompanion';
+import { Familiar } from './Familiar';
 import { Character } from './Character';
 
 @Injectable({
@@ -29,7 +30,7 @@ export class SpellsService {
       if (!this.still_loading()) {
         return this.spells.filter(spell => 
           (
-            (spell.name.includes(name) || name == "") &&
+            (spell.name.toLowerCase().includes(name.toLowerCase()) || name == "") &&
             (spell.traits.includes(type) || type == "") &&
             (spell.traditions.includes(tradition) || tradition == "")
           ));
@@ -48,7 +49,7 @@ export class SpellsService {
     }
 
     //Find out if target was given. If no target is set, most effects will not be applied.
-    let targetCreature: Character|AnimalCompanion|null = null;
+    let targetCreature: Character|AnimalCompanion|Familiar|null = null;
     switch (target) {
         case "Character":
             targetCreature = characterService.get_Character();

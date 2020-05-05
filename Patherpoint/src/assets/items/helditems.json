@@ -16,7 +16,7 @@
                 "castSpells": [
                     {
                         "_className": "SpellCast",
-                        "name": "knock"
+                        "name": "Knock"
                     }
                 ],
                 "cooldown": 144000,

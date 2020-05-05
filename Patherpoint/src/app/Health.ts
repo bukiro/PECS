@@ -3,6 +3,7 @@ import { EffectsService } from './effects.service';
 import { ConditionGain } from './ConditionGain';
 import { Character } from './Character';
 import { AnimalCompanion } from './AnimalCompanion';
+import { Familiar } from './Familiar';
 
 export class Health {
     public readonly _className: string = this.constructor.name;
@@ -16,14 +17,14 @@ export class Health {
     public lessenedEffects: any[] = [];
     public resistances: any[] = [];
     public temporaryHP: number = 0;
-    calculate(creature: Character|AnimalCompanion, characterService: CharacterService, effectsService: EffectsService) {
+    calculate(creature: Character|AnimalCompanion|Familiar, characterService: CharacterService, effectsService: EffectsService) {
         this.$maxHP = this.maxHP(creature, characterService, effectsService);
         this.$currentHP = this.currentHP(creature, characterService, effectsService);
         this.$wounded = this.wounded(creature, characterService);
         this.$dying = this.dying(creature, characterService);
         this.$maxDying = this.maxDying(creature, effectsService);
     }
-    maxHP(creature: Character|AnimalCompanion, characterService: CharacterService, effectsService: EffectsService) {
+    maxHP(creature: Character|AnimalCompanion|Familiar, characterService: CharacterService, effectsService: EffectsService) {
         let classHP = 0;
         let ancestryHP = 0;
         if (creature.class.hitPoints) {
@@ -40,7 +41,7 @@ export class Health {
         });
         return ancestryHP + classHP + effectsSum;
     }
-    currentHP(creature: Character|AnimalCompanion, characterService: CharacterService, effectsService: EffectsService) {
+    currentHP(creature: Character|AnimalCompanion|Familiar, characterService: CharacterService, effectsService: EffectsService) {
         let sum = this.maxHP(creature, characterService, effectsService) + this.temporaryHP - this.damage;
         if (sum < 0) {
             this.damage += sum;
@@ -49,7 +50,7 @@ export class Health {
         }
         return sum;
     }
-    wounded(creature: Character|AnimalCompanion, characterService: CharacterService) {
+    wounded(creature: Character|AnimalCompanion|Familiar, characterService: CharacterService) {
         let woundeds = 0;
         let conditions = characterService.get_AppliedConditions(creature, "Wounded");
         if (conditions.length) {
@@ -57,7 +58,7 @@ export class Health {
         }
         return Math.max(woundeds, 0)
     }
-    dying(creature: Character|AnimalCompanion, characterService: CharacterService) {
+    dying(creature: Character|AnimalCompanion|Familiar, characterService: CharacterService) {
         let dying = 0;
         let conditions = characterService.get_AppliedConditions(creature, "Dying");
         if (conditions.length) {
@@ -65,7 +66,7 @@ export class Health {
         }
         return Math.max(dying, 0)
     }
-    maxDying(creature: Character|AnimalCompanion, effectsService: EffectsService) {
+    maxDying(creature: Character|AnimalCompanion|Familiar, effectsService: EffectsService) {
         let defaultMaxDying: number = 4;
         let effectsSum = 0;
         effectsService.get_EffectsOnThis(creature, "Max Dying").forEach(effect => {
@@ -73,7 +74,7 @@ export class Health {
         });
         return defaultMaxDying + effectsSum;
     }
-    takeDamage(creature: Character|AnimalCompanion, characterService: CharacterService, effectsService: EffectsService, amount: number, nonlethal: boolean = false) {
+    takeDamage(creature: Character|AnimalCompanion|Familiar, characterService: CharacterService, effectsService: EffectsService, amount: number, nonlethal: boolean = false) {
         this.temporaryHP -= amount;
         if (this.temporaryHP < 0) {
             this.damage = Math.min(this.damage - this.temporaryHP, this.maxHP(creature, characterService, effectsService));
@@ -99,7 +100,7 @@ export class Health {
         }
         characterService.set_Changed();
     }
-    heal(creature: Character|AnimalCompanion, characterService: CharacterService, effectsService: EffectsService, amount: number, wake: boolean = true, increaseWounded = true) {
+    heal(creature: Character|AnimalCompanion|Familiar, characterService: CharacterService, effectsService: EffectsService, amount: number, wake: boolean = true, increaseWounded = true) {
         this.damage = Math.max(0, this.damage - amount);
         //Recover from Dying and get Wounded++
         if (this.currentHP(creature, characterService, effectsService) > 0 && this.$dying > 0) {

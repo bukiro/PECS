@@ -121,6 +121,9 @@ export class ActivityComponent implements OnInit {
     }
 
     ngOnInit() {
+        if (this.activity.displayOnly) {
+            this.allowActivate = false;
+        }
     }
 
 }
