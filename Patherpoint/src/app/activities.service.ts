@@ -47,7 +47,7 @@ export class ActivitiesService {
         return this.http.get<String[]>('/assets/activities.json');
     }
 
-    activate_Activity(creature: Character|AnimalCompanion|Familiar, characterService: CharacterService, timeService: TimeService, itemsService: ItemsService, spellsService: SpellsService, gain: ActivityGain|ItemActivity, activity: Activity|ItemActivity, activated: boolean) {
+    activate_Activity(creature: Character|AnimalCompanion, characterService: CharacterService, timeService: TimeService, itemsService: ItemsService, spellsService: SpellsService, gain: ActivityGain|ItemActivity, activity: Activity|ItemActivity, activated: boolean) {
         if (activated && activity.toggle) {
             gain.active = true;
         } else {

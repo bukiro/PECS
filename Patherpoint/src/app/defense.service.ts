@@ -12,7 +12,7 @@ import { Character } from './Character';
 })
 export class DefenseService {
 
-    AC: AC = new AC;
+    AC: AC = new AC();
 
     constructor(
         private effectsService: EffectsService,
@@ -22,22 +22,22 @@ export class DefenseService {
         return this.AC;
     }
 
-    get_EquippedArmor(creature: Character|AnimalCompanion|Familiar) {
+    get_EquippedArmor(creature: Character|AnimalCompanion) {
         let armor = creature.inventory.armors;
         return armor.filter(armor => armor.equipped);
     }
 
-    get_EquippedShield(creature: Character|AnimalCompanion|Familiar) {
+    get_EquippedShield(creature: Character|AnimalCompanion) {
         let shield = creature.inventory.shields;
         return shield.filter(shield => shield.equipped);
     }
 
-    get_ParryWeapons(creature: Character|AnimalCompanion|Familiar) {
+    get_ParryWeapons(creature: Character|AnimalCompanion) {
         let weapons = creature.inventory.weapons;
         return weapons.filter(weapon => weapon.traits.includes("Parry"));
     }
 
-    get_ArmorBonus(creature: Character|AnimalCompanion|Familiar, characterService: CharacterService, armor: Armor) {
+    get_ArmorBonus(creature: Character|AnimalCompanion, characterService: CharacterService, armor: Armor) {
         return armor.armorBonus(creature, characterService, this.effectsService);
     }
 

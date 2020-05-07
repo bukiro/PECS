@@ -45,6 +45,10 @@ export class TopBarComponent implements OnInit {
         return this.characterService.get_Character().settings.companionMinimized;
     }
 
+    get_FamiliarMinimized() {
+        return this.characterService.get_Character().settings.familiarMinimized;
+    }
+
     get_SpellsMinimized() {
         return this.characterService.get_Character().settings.spellsMinimized;
     }
@@ -65,6 +69,10 @@ export class TopBarComponent implements OnInit {
         return this.characterService.get_CompanionMenuState();
       }
 
+    get_FamiliarMenuState() {
+        return this.characterService.get_FamiliarMenuState();
+    }
+
     get_SpellMenuState() {
     return this.characterService.get_SpellMenuState();
     }
@@ -77,12 +85,20 @@ export class TopBarComponent implements OnInit {
         return this.characterService.get_Character();
     }
 
+    get_CompanionAvailable() {
+        return this.characterService.get_CompanionAvailable();
+    }
+
+    get_FamiliarAvailable() {
+        return this.characterService.get_FamiliarAvailable();
+    }
+
     get_Companion() {
         return this.characterService.get_Companion();
     }
 
-    get_CompanionAvailable() {
-        return this.get_Character().get_FeatsTaken(1, this.get_Character().level).filter(gain => this.characterService.get_FeatsAndFeatures(gain.name)[0].gainAnimalCompanion).length
+    get_Familiar() {
+        return this.characterService.get_Familiar();
     }
 
     get_Accent() {

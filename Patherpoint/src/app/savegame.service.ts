@@ -76,6 +76,7 @@ export class SavegameService {
     private ConditionGain = ConditionGain;
     private Consumable = Consumable;
     private EffectGain = EffectGain;
+    private Familiar = Familiar;
     private Feat = Feat;
     private FeatChoice = FeatChoice;
     private FormulaChoice = FormulaChoice;
@@ -143,13 +144,13 @@ export class SavegameService {
         return object;
     }
 
-    reassign(object: any) {
+    reassign(object: any, keyName:string = "") {
         //Only objects get reassigned - if they have a _className attribute
         if (typeof object == "object") {
             //If the object is an array, iterate over its elements
             if (object.constructor === Array) {
                 object.forEach((obj: any, index) => {
-                    object[index] = this.reassign(obj);
+                    object[index] = this.reassign(obj, keyName+"["+index+"]");
                 });
             } else {
                 //Try casting this item as its _className, unless it's already cast.
@@ -157,11 +158,11 @@ export class SavegameService {
                     try {
                         object = Object.assign(eval("new this."+object._className+"()"), object)
                     } catch (e) {
-                        console.log("Failed reassigning: "+e)
+                        console.log("Failed reassigning "+keyName+": "+ e)
                     }
                 }
                 Object.keys(object).forEach(key => {
-                    object[key] = this.reassign(object[key])
+                    object[key] = this.reassign(object[key], key)
                 })
             }
         }

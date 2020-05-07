@@ -21,6 +21,7 @@ export class Spell {
     public desc8: SpellDesc[] = [];
     public desc9: SpellDesc[] = [];
     public desc: string = "";
+    //Sustained spells are deactivated after this time
     public duration: number = 0;
     public failure: string = "";
     public gainConditions: ConditionGain[] = [];

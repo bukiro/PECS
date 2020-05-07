@@ -1,0 +1,8 @@
+<div id="familiarabilities-height" class="attributeBox">
+    <div class="minimized">
+        <h3 class="box-header">Familiar Abilities</h3>
+    </div>
+    <!--Feat choices-->
+    <app-featchoice class="row" [creature]="'Familiar'" [choice]="get_Familiar().abilities" [levelNumber]="get_Character().level" [showChoice]="''" [showFeat]="''"></app-featchoice>
+</div>
+<div *ngIf="set_Span()"></div>

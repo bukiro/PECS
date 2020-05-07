@@ -113,11 +113,11 @@ export class NewItemPropertyComponent implements OnInit {
                             this.validationResult = parseInt(effect.value).toString();
                         }
                     } else {
-                        this.validationError = "This may result in an invalid value or 0. Invalid values will default to 0."
+                        this.validationError = "This may result in an invalid value or 0. Invalid values will default to 0, and untyped effects without a value will not be displayed."
                         this.validationResult = parseInt(effect.value).toString();
                     }
                 } else {
-                    this.validationError = "This results in an invalid value or 0, and will not create an effect."
+                    this.validationError = "This may result in an invalid value or 0. Invalid values will default to 0, and untyped effects without a value will not be displayed."
                     this.validationResult = "";
                 }
             }

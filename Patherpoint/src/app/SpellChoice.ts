@@ -7,6 +7,7 @@ export class SpellChoice {
     public filter: string[] = [];
     public id: string = "";
     public level: number = 0;
+    public castingType: "Focus"|"Innate"|"Spontaneous"|"Prepared";
     public signature: boolean = false;
     public source: string = "";
     public spells: SpellGain[] = [];

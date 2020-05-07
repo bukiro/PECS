@@ -7,6 +7,7 @@ import { Condition } from '../Condition';
 import { TimeService } from '../time.service';
 import { Character } from '../Character';
 import { AnimalCompanion } from '../AnimalCompanion';
+import { Familiar } from '../Familiar';
 
 @Component({
     selector: 'app-conditions',
@@ -74,8 +75,20 @@ export class ConditionsComponent implements OnInit {
         return this.characterService.get_Character();
     }
 
+    get_CompanionAvailable() {
+        return this.get_Character().get_FeatsTaken(1, this.get_Character().level).filter(gain => this.characterService.get_FeatsAndFeatures(gain.name)[0].gainAnimalCompanion).length
+    }
+    
+    get_FamiliarAvailable() {
+        return this.get_Character().get_FeatsTaken(1, this.get_Character().level).filter(gain => this.characterService.get_FeatsAndFeatures(gain.name)[0].gainFamiliar).length
+    }
+
     get_Companion() {
         return this.characterService.get_Companion();
+    }
+
+    get_Familiar() {
+        return this.characterService.get_Familiar();
     }
 
     get_ConditionsSet(type: string) {

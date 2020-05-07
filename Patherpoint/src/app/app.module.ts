@@ -36,6 +36,9 @@ import { NewItemPropertyComponent } from './items/newItemProperty/newItemPropert
 import { ItemRunesComponent } from './item/itemRunes/itemRunes.component';
 import { AnimalCompanionComponent } from './animal-companion/animal-companion.component';
 import { SpellchoiceComponent } from './spells/spellchoice/spellchoice.component';
+import { FamiliarComponent } from './familiar/familiar.component';
+import { FeatchoiceComponent } from './character/featchoice/featchoice.component';
+import { FamiliarabilitiesComponent } from './familiar/familiarabilities/familiarabilities.component';
 
 @NgModule({
    declarations: [
@@ -67,7 +70,10 @@ import { SpellchoiceComponent } from './spells/spellchoice/spellchoice.component
       NewItemPropertyComponent,
       ItemRunesComponent,
       AnimalCompanionComponent,
-      SpellchoiceComponent
+      SpellchoiceComponent,
+      FamiliarComponent,
+      FeatchoiceComponent,
+      FamiliarabilitiesComponent
    ],
    imports: [
       BrowserModule,

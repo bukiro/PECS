@@ -9,6 +9,7 @@ import { Speed } from './Speed';
 import { AnimalCompanion } from './AnimalCompanion';
 import { Familiar } from './Familiar';
 import { AbilitiesService } from './abilities.service';
+import { Creature } from './Creature';
 
 @Injectable({
     providedIn: 'root'
@@ -56,16 +57,28 @@ constructor(
         let Companion: AnimalCompanion = characterService.get_Companion();
         let Level: number = characterService.get_Character().level;
         function Ability(name: string) {
-            return characterService.get_Abilities(name)[0].value(creature, characterService, effectsService);
+            if (creature.type == "Familiar") {
+                return 0;
+            } else {
+                return characterService.get_Abilities(name)[0].value(creature, characterService, effectsService);
+            }
         }
         function Modifier(name: string) {
-            return characterService.get_Abilities(name)[0].mod(creature, characterService, effectsService);
+            if (creature.type == "Familiar") {
+                return 0;
+            } else {
+                return characterService.get_Abilities(name)[0].mod(creature, characterService, effectsService);
+            }
         }
         function Skill(name: string) {
             return characterService.get_Skills(creature, name)[0].baseValue(creature, characterService, this.abilitiesService, this, Level).result;
         }
         function Skill_Level(name: string) {
-            return characterService.get_Skills(creature, name)[0].level(creature, characterService, Level);
+            if (creature.type == "Familiar") {
+                return 0;
+            } else {
+                return characterService.get_Skills(creature, name)[0].level(creature, characterService, Level);
+            }
         }
         function Speed(name: string) {
             let speeds: Speed[] = characterService.get_Speeds(creature).filter(speed => speed.name == name);
@@ -128,6 +141,7 @@ constructor(
         let simpleEffects: Effect[] = [];
         let character = characterService.get_Character();
         let companion = characterService.get_Companion();
+        let familiar = characterService.get_Familiar();
         //Create simple effects from all equipped items first
         characterService.get_InventoryItems(character).allEquipment().filter(item => item.invested && item.effects && item.effects.length).forEach(item => {
             simpleEffects = simpleEffects.concat(this.get_SimpleEffects(character, characterService, item));
@@ -135,11 +149,14 @@ constructor(
         characterService.get_InventoryItems(companion).allEquipment().filter(item => item.invested && item.effects && item.effects.length).forEach(item => {
             simpleEffects = simpleEffects.concat(this.get_SimpleEffects(companion, characterService, item));
         });
-        let feats = character.get_FeatsTaken(1, character.level);
-        feats.forEach(feat => {
-            let originalFeat = characterService.get_FeatsAndFeatures(feat.name)[0];
-            if (originalFeat.effects && originalFeat.effects.length) {
-                simpleEffects = simpleEffects.concat(this.get_SimpleEffects(character, characterService, originalFeat));
+        character.get_FeatsTaken(1, character.level).map(gain => characterService.get_FeatsAndFeatures(gain.name)[0]).forEach(feat => {
+            if (feat.effects && feat.effects.length) {
+                simpleEffects = simpleEffects.concat(this.get_SimpleEffects(character, characterService, feat));
+            }
+        });
+        familiar.abilities.feats.map(gain => characterService.familiarsService.get_FamiliarAbilities(gain.name)[0]).forEach(ability => {
+            if (ability.effects && ability.effects.length) {
+                simpleEffects = simpleEffects.concat(this.get_SimpleEffects(familiar, characterService, ability));
             }
         });
         characterService.get_Creatures().forEach(creature => {
@@ -164,94 +181,97 @@ constructor(
         let itemEffects: Effect[] = [];
 
         characterService.get_Creatures().forEach(creature => {
-        
-            let items = creature.inventory;
-
+            
             //Get cover bonuses
             let coverBonus = characterService.get_AC().cover(creature);
             if (coverBonus > 0) {
                 itemEffects.push(new Effect(creature.id, 'circumstance', "AC", "+"+coverBonus, "Cover", false));
             }
-            //Get parrying bonuses from raised weapons
-            //If an item is a weapon that is raised, add +1 to AC.
-            items.weapons.filter(item => item.equipped && item.parrying).forEach(item => {
-                itemEffects.push(new Effect(creature.id, 'circumstance', "AC", "+1", "Parrying", false));
-            })
-            //Get shield bonuses from raised shields
-            //IF a shield is raised, add its item bonus to AC with a + in front. If you are also taking cover while the shield is raised, add that bonus as well.
-            items.shields.filter(item => item.equipped && item.raised).forEach(item => {
-                let shieldBonus = item.acbonus;
-                if (item.takingCover) {
-                    shieldBonus += item.coverbonus;
+
+            if (creature.type != "Familiar") {
+                let items = creature.inventory;
+
+                //Get parrying bonuses from raised weapons
+                //If an item is a weapon that is raised, add +1 to AC.
+                items.weapons.filter(item => item.equipped && item.parrying).forEach(item => {
+                    itemEffects.push(new Effect(creature.id, 'circumstance', "AC", "+1", "Parrying", false));
+                })
+                //Get shield bonuses from raised shields
+                //IF a shield is raised, add its item bonus to AC with a + in front. If you are also taking cover while the shield is raised, add that bonus as well.
+                items.shields.filter(item => item.equipped && item.raised).forEach(item => {
+                    let shieldBonus = item.acbonus;
+                    if (item.takingCover) {
+                        shieldBonus += item.coverbonus;
+                    }
+                    itemEffects.push(new Effect(creature.id, 'circumstance', "AC", "+"+shieldBonus, item.get_Name(), false));
+                });
+                //For Saving Throws, add any resilient runes on the equipped armor
+                let armor = creature.inventory.armors.filter(armor => armor.equipped);
+                let resilient: number = 0;
+                if (armor.length) {
+                    if (armor[0].resilientRune > 0) {
+                        resilient = armor[0].resilientRune;
+                        itemEffects.push(new Effect(creature.id, 'item', "Fortitude", "+"+armor[0].resilientRune, armor[0].get_Resilient(armor[0].resilientRune), false))
+                        itemEffects.push(new Effect(creature.id, 'item', "Reflex", "+"+armor[0].resilientRune, armor[0].get_Resilient(armor[0].resilientRune), false))
+                        itemEffects.push(new Effect(creature.id, 'item', "Will", "+"+armor[0].resilientRune, armor[0].get_Resilient(armor[0].resilientRune), false))
+                    }
                 }
-                itemEffects.push(new Effect(creature.id, 'circumstance', "AC", "+"+shieldBonus, item.get_Name(), false));
-            });
-            //For Saving Throws, add any resilient runes on the equipped armor
-            let armor = creature.inventory.armors.filter(armor => armor.equipped);
-            let resilient: number = 0;
-            if (armor.length) {
-                if (armor[0].resilientRune > 0) {
-                    resilient = armor[0].resilientRune;
-                    itemEffects.push(new Effect(creature.id, 'item', "Fortitude", "+"+armor[0].resilientRune, armor[0].get_Resilient(armor[0].resilientRune), false))
-                    itemEffects.push(new Effect(creature.id, 'item', "Reflex", "+"+armor[0].resilientRune, armor[0].get_Resilient(armor[0].resilientRune), false))
-                    itemEffects.push(new Effect(creature.id, 'item', "Will", "+"+armor[0].resilientRune, armor[0].get_Resilient(armor[0].resilientRune), false))
-                }
+                //Get skill and speed penalties from armor
+                //If an armor has a skillpenalty or a speedpenalty, check if Strength meets its strength requirement.
+                let Strength = characterService.get_Abilities("Strength")[0].value(creature, characterService, this);
+                items.armors.filter(item => item.equipped && item.get_SkillPenalty()).forEach(item => {
+                    item.get_ArmoredSkirt(creature, characterService);
+                    let name = item.get_Name();
+                    if (Strength < item.get_Strength()) {
+                        //You are not strong enough to act freely in this armor.
+                        //If the item has the Flexible trait, its penalty doesn't apply to Acrobatics and Athletics.
+                        //We push this as an apply:false effect to each so you can see that (and why) you were spared from it.
+                        //We also add a note to the source for clarity.
+                        if (this.traitsService.have_Trait(characterService, item,"Flexible")) {
+                            itemEffects.push(new Effect(creature.id, 'item', "Acrobatics", item.get_SkillPenalty().toString(), name + " (Flexible)", true, false));
+                            itemEffects.push(new Effect(creature.id, 'item', "Athletics", item.get_SkillPenalty().toString(), name + " (Flexible)", true, false));
+                        } else {
+                            itemEffects.push(new Effect(creature.id, 'item', "Acrobatics", item.get_SkillPenalty().toString(), name, true));
+                            itemEffects.push(new Effect(creature.id, 'item', "Athletics", item.get_SkillPenalty().toString(), name, true));
+                        }
+                        //These two always apply unless you are strong enough.
+                            itemEffects.push(new Effect(creature.id, 'item', "Stealth", item.get_SkillPenalty().toString(), name, true));
+                            itemEffects.push(new Effect(creature.id, 'item', "Thievery", item.get_SkillPenalty().toString(), name, true));
+                    } else {
+                        //If you ARE strong enough, we push some not applying effects so you can feel good about that
+                        itemEffects.push(new Effect(creature.id, 'item', "Acrobatics", item.get_SkillPenalty().toString(), name + " (Strength)", true, false));
+                        itemEffects.push(new Effect(creature.id, 'item', "Athletics", item.get_SkillPenalty().toString(), name + " (Strength)", true, false));
+                        itemEffects.push(new Effect(creature.id, 'item', "Thievery", item.get_SkillPenalty().toString(), name + " (Strength)", true, false));
+                        //UNLESS the item is also Noisy, in which case you do get the stealth penalty because you are dummy thicc and the clap of your ass cheeks keeps alerting the guards.
+                        if (this.traitsService.have_Trait(characterService, item, "Noisy")) {
+                            itemEffects.push(new Effect(creature.id, 'item', "Stealth", item.get_SkillPenalty().toString(), name + " (Noisy)", true))
+                        } else {
+                            itemEffects.push(new Effect(creature.id, 'item', "Stealth", item.get_SkillPenalty().toString(), name + " (Strength)", true, false));
+                        }
+                    }
+                });
+                items.armors.filter(item => item.equipped && item.speedpenalty).forEach(item => {
+                    let name = item.get_Name();
+                    if (Strength < item.get_Strength()) {
+                        //You are not strong enough to move unhindered in this armor. You get a speed penalty.
+                        itemEffects.push(new Effect(creature.id, 'untyped', "Speed", item.speedpenalty.toString(), name, true));
+                    } else {
+                        //You are strong enough, but if the armor is particularly heavy, your penalty is only lessened.
+                        if (item.speedpenalty < -5) {
+                            //In this case we push both the avoided and the actual effect so you can feel at least a little good about yourself.
+                            itemEffects.push(new Effect(creature.id, 'untyped', "Speed", (item.speedpenalty+5).toString(), name, true));
+                            itemEffects.push(new Effect(creature.id, 'untyped', "Speed", item.speedpenalty.toString(), name + " (Strength)", true, false));
+                        } else {
+                            //If you are strong enough and the armor only gave -5ft penalty, you get a fully avoided effect to gaze at.
+                            itemEffects.push(new Effect(creature.id, 'untyped', "Speed", item.speedpenalty.toString(), name + " (Strength)", true, false));
+                        }
+                    }
+                });
+                items.shields.filter(item => item.equipped && item.speedpenalty).forEach(item => {
+                    //Shields don't have a strength requirement for speed penalties. In this case, the penalty just alwas applies.
+                    itemEffects.push(new Effect(creature.id, 'untyped', "Speed", item.speedpenalty.toString(), item.get_Name(), true));
+                });
             }
-            //Get skill and speed penalties from armor
-            //If an armor has a skillpenalty or a speedpenalty, check if Strength meets its strength requirement.
-            let Strength = characterService.get_Abilities("Strength")[0].value(creature, characterService, this);
-            items.armors.filter(item => item.equipped && item.get_SkillPenalty()).forEach(item => {
-                item.get_ArmoredSkirt(creature, characterService);
-                let name = item.get_Name();
-                if (Strength < item.get_Strength()) {
-                    //You are not strong enough to act freely in this armor.
-                    //If the item has the Flexible trait, its penalty doesn't apply to Acrobatics and Athletics.
-                    //We push this as an apply:false effect to each so you can see that (and why) you were spared from it.
-                    //We also add a note to the source for clarity.
-                    if (this.traitsService.have_Trait(characterService, item,"Flexible")) {
-                        itemEffects.push(new Effect(creature.id, 'item', "Acrobatics", item.get_SkillPenalty().toString(), name + " (Flexible)", true, false));
-                        itemEffects.push(new Effect(creature.id, 'item', "Athletics", item.get_SkillPenalty().toString(), name + " (Flexible)", true, false));
-                    } else {
-                        itemEffects.push(new Effect(creature.id, 'item', "Acrobatics", item.get_SkillPenalty().toString(), name, true));
-                        itemEffects.push(new Effect(creature.id, 'item', "Athletics", item.get_SkillPenalty().toString(), name, true));
-                    }
-                    //These two always apply unless you are strong enough.
-                        itemEffects.push(new Effect(creature.id, 'item', "Stealth", item.get_SkillPenalty().toString(), name, true));
-                        itemEffects.push(new Effect(creature.id, 'item', "Thievery", item.get_SkillPenalty().toString(), name, true));
-                } else {
-                    //If you ARE strong enough, we push some not applying effects so you can feel good about that
-                    itemEffects.push(new Effect(creature.id, 'item', "Acrobatics", item.get_SkillPenalty().toString(), name + " (Strength)", true, false));
-                    itemEffects.push(new Effect(creature.id, 'item', "Athletics", item.get_SkillPenalty().toString(), name + " (Strength)", true, false));
-                    itemEffects.push(new Effect(creature.id, 'item', "Thievery", item.get_SkillPenalty().toString(), name + " (Strength)", true, false));
-                    //UNLESS the item is also Noisy, in which case you do get the stealth penalty because you are dummy thicc and the clap of your ass cheeks keeps alerting the guards.
-                    if (this.traitsService.have_Trait(characterService, item, "Noisy")) {
-                        itemEffects.push(new Effect(creature.id, 'item', "Stealth", item.get_SkillPenalty().toString(), name + " (Noisy)", true))
-                    } else {
-                        itemEffects.push(new Effect(creature.id, 'item', "Stealth", item.get_SkillPenalty().toString(), name + " (Strength)", true, false));
-                    }
-                }
-            });
-            items.armors.filter(item => item.equipped && item.speedpenalty).forEach(item => {
-                let name = item.get_Name();
-                if (Strength < item.get_Strength()) {
-                    //You are not strong enough to move unhindered in this armor. You get a speed penalty.
-                    itemEffects.push(new Effect(creature.id, 'untyped', "Speed", item.speedpenalty.toString(), name, true));
-                } else {
-                    //You are strong enough, but if the armor is particularly heavy, your penalty is only lessened.
-                    if (item.speedpenalty < -5) {
-                        //In this case we push both the avoided and the actual effect so you can feel at least a little good about yourself.
-                        itemEffects.push(new Effect(creature.id, 'untyped', "Speed", (item.speedpenalty+5).toString(), name, true));
-                        itemEffects.push(new Effect(creature.id, 'untyped', "Speed", item.speedpenalty.toString(), name + " (Strength)", true, false));
-                    } else {
-                        //If you are strong enough and the armor only gave -5ft penalty, you get a fully avoided effect to gaze at.
-                        itemEffects.push(new Effect(creature.id, 'untyped', "Speed", item.speedpenalty.toString(), name + " (Strength)", true, false));
-                    }
-                }
-            });
-            items.shields.filter(item => item.equipped && item.speedpenalty).forEach(item => {
-                //Shields don't have a strength requirement for speed penalties. In this case, the penalty just alwas applies.
-                itemEffects.push(new Effect(creature.id, 'untyped', "Speed", item.speedpenalty.toString(), item.get_Name(), true));
-            });
 
         })
        
@@ -261,7 +281,7 @@ constructor(
 
         //Process effects from feats
         let featEffects: Effect[] = [];
-                
+
         //If you have the Multilingual feat and are master or legendary in Society, add 1 or 2 more languages to the current effect.
         if (character.get_FeatsTaken(0, character.level, "Multilingual")) {
             let bonus = 0;

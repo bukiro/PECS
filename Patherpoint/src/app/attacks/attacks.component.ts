@@ -4,6 +4,8 @@ import { TraitsService } from '../traits.service';
 import { CharacterService } from '../character.service';
 import { EffectsService } from '../effects.service';
 import { WeaponRune } from '../WeaponRune';
+import { Character } from '../Character';
+import { AnimalCompanion } from '../AnimalCompanion';
 
 @Component({
     selector: 'app-attacks',
@@ -39,7 +41,7 @@ export class AttacksComponent implements OnInit {
     }
     
     get_Creature() {
-        return this.characterService.get_Creature(this.creature);
+        return this.characterService.get_Creature(this.creature) as Character|AnimalCompanion;
     }
 
     get_Accent() {

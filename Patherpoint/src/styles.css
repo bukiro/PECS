@@ -18,7 +18,7 @@
     flex-direction: row;
   }
 
-  app-character-sheet, .animalcompanion-box {
+  app-character-sheet, .animalcompanion-box, .familiar-box {
     width: 100%;
     display: grid;
     grid-gap: 0;
@@ -27,9 +27,23 @@
     grid-auto-flow: dense;
   }
 
-  .animalcompanion-box {
+  .charactersheet-app {
+    background-color: #EFEFEF;
+    border-radius: 2px;
+    margin: 8px;
+    overflow: auto;
+  }
+
+  .animalcompanion-box, .familiar-box {
     background-color: white;
     grid-template-columns: 1fr 1fr;
+  }
+
+  app-familiarabilities.charactersheet-app {
+    grid-column: 1 / span 2;
+    grid-row: span 2;
+    position: relative;
+    overflow: visible;
   }
 
   app-time {
@@ -66,7 +80,7 @@
     position: relative;
   }
 
-  .animalcompanion-box app-health {
+  .animalcompanion-box app-health, .familiar-box app-health {
     grid-column: 2 / span 1;
   }
 
@@ -74,6 +88,10 @@
     grid-column: 1 / span 1;
     grid-row: span 2;
     position: relative;
+  }
+
+  .familiar-box app-defense {
+    grid-column: 2 / span 1;
   }
 
   app-attacks {
@@ -88,7 +106,7 @@
     position: relative;
   }
 
-  .animalcompanion-box app-skills {
+  .animalcompanion-box app-skills, .familiar-box app-skills {
     grid-column: 1 / span 1;
   }
   
@@ -98,7 +116,7 @@
     position: relative;
   }
 
-  .animalcompanion-box app-inventory {
+  .animalcompanion-box app-inventory, .familiar-box app-inventory {
     grid-column: 2 / span 1;
   }
 
@@ -108,7 +126,7 @@
     position: relative;
   }
 
-  .animalcompanion-box app-activities {
+  .animalcompanion-box app-activities, .familiar-box app-activities {
     grid-column: 2 / span 1;
   }
 
@@ -127,7 +145,7 @@
     display:none;
   }
 
-  app-animal-companion .character-only {
+  app-animal-companion .character-only, app-familiar .character-only {
     display:none;
   }
 
@@ -353,12 +371,6 @@
     margin-right: 0px;
   }
 
-  .charactersheet-app {
-    background-color: #EFEFEF;
-    border-radius: 2px;
-    margin: 8px;
-    overflow: auto;
-  }
 
   .attributeBox {
     overflow-y: visible;
@@ -495,6 +507,7 @@
     flex-direction: row;
     flex-wrap: wrap;
     justify-content: space-between;
+    width: 100%;
   }
 
   .row:not(:first-child):not(:empty):not(.list-item) {

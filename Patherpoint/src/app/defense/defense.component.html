@@ -1,8 +1,8 @@
 <button class="minimizebutton lower" (click)="minimize()" *ngIf="creature=='Character'">&#8691;</button>
 <div id="{{creature}}-defense-height" class="attributeBox">
 <ng-container *ngFor="let AC of [get_CalculatedAC()]">
-    <h3 class="box-header" title="{{AC.$value[1]}}">Defense: Armor Class <span
-            [className]="(AC.$penalty.length) ? 'penalty' : (AC.$bonus.length) ? 'bonus' : ''">{{AC.$value[0]}}</span>
+    <h3 class="box-header" title="{{AC.$value[get_CalculatedIndex()][1]}}">Defense: Armor Class <span
+            [className]="(AC.$penalty[get_CalculatedIndex()].length) ? 'penalty' : (AC.$bonus[get_CalculatedIndex()].length) ? 'bonus' : ''">{{AC.$value[get_CalculatedIndex()][0]}}</span>
     </h3>
     <div class="loading" *ngIf="still_loading()">Loading</div>
     <ng-container *ngIf="!still_loading()">
@@ -10,77 +10,89 @@
                     [showConditions]=true [showEffects]=true></app-tags>
         <div class="list-item row">
             <span>
-                <button class="center-aligned" *ngIf="AC.cover != 1"
-                    (click)="AC.cover = 1; set_CharacterChanged()">Lesser cover</button>
-                <button class="center-aligned" *ngIf="AC.cover == 1"
-                    (click)="AC.cover = 0; set_CharacterChanged()">End cover</button>
+                <button class="center-aligned" *ngIf="get_Cover() != 1"
+                    (click)="set_Cover(1); set_CharacterChanged()">Lesser cover</button>
+                <button class="center-aligned" *ngIf="get_Cover() == 1"
+                    (click)="set_Cover(0); set_CharacterChanged()">End cover</button>
             </span>
             <span>
-                <button class="center-aligned" *ngIf="AC.cover != 2"
-                    (click)="AC.cover = 2; set_CharacterChanged()">Behind cover</button>
-                <button class="center-aligned" *ngIf="AC.cover == 2"
-                    (click)="AC.cover = 0; set_CharacterChanged()">End cover</button>
+                <button class="center-aligned" *ngIf="get_Cover() != 2"
+                    (click)="set_Cover(2); set_CharacterChanged()">Behind cover</button>
+                <button class="center-aligned" *ngIf="get_Cover() == 2"
+                    (click)="set_Cover(0); set_CharacterChanged()">End cover</button>
             </span>
             <span>
-                <button class="center-aligned" *ngIf="AC.cover != 4"
-                    (click)="AC.cover = 4; set_CharacterChanged()">Take cover</button>
-                <button class="center-aligned" *ngIf="AC.cover == 4"
-                    (click)="AC.cover = 0; set_CharacterChanged()">End cover</button>
+                <button class="center-aligned" *ngIf="get_Cover() != 4"
+                    (click)="set_Cover(4); set_CharacterChanged()">Take cover</button>
+                <button class="center-aligned" *ngIf="get_Cover() == 4"
+                    (click)="set_Cover(0); set_CharacterChanged()">End cover</button>
             </span>
         </div>
-        <div class="list-item" *ngFor="let armor of get_EquippedArmor()">
-            <div>{{armor.name}} AC: <input type="number" class="number2" title="{{get_ArmorBonus(armor)[1]}}"
-                    [ngModel]="get_ArmorBonus(armor)[0]" disabled></div>
-            <div class="fullsize-only row left-aligned" *ngIf="armor.traits.length">
-                <cite class="trait" *ngFor="let trait of armor.traits"
-                    title="{{get_Traits(trait)[0].description}}">{{trait}}</cite>
-            </div>
-            <app-tags [creature]="creature" [objectName]="'Defense'" [showTraits]=true [showFeats]=true [showItems]=true [showActivities]=true
-                [showConditions]=true [showEffects]=true></app-tags>
-            <app-tags [creature]="creature" [objectName]="armor.name" [showItems]=true></app-tags>
-        </div>
-        <div class="list-item" *ngFor="let shield of get_EquippedShield()">
-            <div>{{shield.name}} AC: <input type="number" class="number2" [ngModel]="shield.acbonus" disabled>
-                <div class="fullsize-only row left-aligned" *ngIf="shield.traits.length">
-                    <cite class="trait" *ngFor="let trait of shield.traits"
+        <ng-container *ngIf="creature != 'Familiar'">
+            <div class="list-item" *ngFor="let armor of get_EquippedArmor()">
+                <div>{{armor.name}} AC: <input type="number" class="number2" title="{{get_ArmorBonus(armor)[1]}}"
+                        [ngModel]="get_ArmorBonus(armor)[0]" disabled></div>
+                <div class="fullsize-only row left-aligned" *ngIf="armor.traits.length">
+                    <cite class="trait" *ngFor="let trait of armor.traits"
                         title="{{get_Traits(trait)[0].description}}">{{trait}}</cite>
                 </div>
-                <div class="row">
-                    <button class="center-aligned" *ngIf="!shield.cover"
-                        (click)="shield.raised = true; set_CharacterChanged()">Raise shield</button>
-                    <button class="center-aligned" *ngIf="shield.raised"
-                        (click)="shield.raised = false; shield.takingCover = false; set_CharacterChanged()">Lower
-                        shield</button>
-                    <button class="center-aligned"
-                        *ngIf="shield.raised && shield.coverbonus && !shield.takingCover"
-                        (click)="shield.takingCover = true; set_CharacterChanged()">Take cover</button>
-                    <button class="center-aligned"
-                        *ngIf="shield.raised && shield.coverbonus && shield.takingCover"
-                        (click)="shield.takingCover = false; set_CharacterChanged()">End cover</button>
-                </div>
-                <app-tags [creature]="creature" [objectName]="'Shield'" [showTraits]=true [showFeats]=true [showItems]=true [showActivities]=true
-                [showConditions]=true [showEffects]=true></app-tags>
+                <app-tags [creature]="creature" [objectName]="'Defense'" [showTraits]=true [showFeats]=true [showItems]=true [showActivities]=true
+                    [showConditions]=true [showEffects]=true></app-tags>
+                <app-tags [creature]="creature" [objectName]="armor.name" [showItems]=true></app-tags>
             </div>
-        </div>
-        <ng-container *ngFor="let parry of get_ParryWeapons()">
-            <div class="list-item">{{parry.name}} Parry AC: <input type="number" class="number2" value="1" disabled>
-                <div class="row">
-                    <button class="center-aligned" *ngIf="!parry.parrying"
-                        (click)="parry.parrying = true; set_CharacterChanged()">Raise weapon</button>
-                    <button class="center-aligned" *ngIf="parry.parrying"
-                        (click)="parry.parrying = false; set_CharacterChanged()">Lower weapon</button>
+            <div class="list-item" *ngFor="let shield of get_EquippedShield()">
+                <div>{{shield.name}} AC: <input type="number" class="number2" [ngModel]="shield.acbonus" disabled>
+                    <div class="fullsize-only row left-aligned" *ngIf="shield.traits.length">
+                        <cite class="trait" *ngFor="let trait of shield.traits"
+                            title="{{get_Traits(trait)[0].description}}">{{trait}}</cite>
+                    </div>
+                    <div class="row">
+                        <button class="center-aligned" *ngIf="!shield.cover"
+                            (click)="shield.raised = true; set_CharacterChanged()">Raise shield</button>
+                        <button class="center-aligned" *ngIf="shield.raised"
+                            (click)="shield.raised = false; shield.takingCover = false; set_CharacterChanged()">Lower
+                            shield</button>
+                        <button class="center-aligned"
+                            *ngIf="shield.raised && shield.coverbonus && !shield.takingCover"
+                            (click)="shield.takingCover = true; set_CharacterChanged()">Take cover</button>
+                        <button class="center-aligned"
+                            *ngIf="shield.raised && shield.coverbonus && shield.takingCover"
+                            (click)="shield.takingCover = false; set_CharacterChanged()">End cover</button>
+                    </div>
+                    <app-tags [creature]="creature" [objectName]="'Shield'" [showTraits]=true [showFeats]=true [showItems]=true [showActivities]=true
+                    [showConditions]=true [showEffects]=true></app-tags>
                 </div>
             </div>
+            <ng-container *ngFor="let parry of get_ParryWeapons()">
+                <div class="list-item">{{parry.name}} Parry AC: <input type="number" class="number2" value="1" disabled>
+                    <div class="row">
+                        <button class="center-aligned" *ngIf="!parry.parrying"
+                            (click)="parry.parrying = true; set_CharacterChanged()">Raise weapon</button>
+                        <button class="center-aligned" *ngIf="parry.parrying"
+                            (click)="parry.parrying = false; set_CharacterChanged()">Lower weapon</button>
+                    </div>
+                </div>
+            </ng-container>
+            <h3 class="fullsize-only box-header" *ngIf="!still_loading()">Saving Throws</h3>
+            <ng-container *ngFor="let skill of get_Skills('', 'Save')|sortBy:'asc':'name'">
+                <app-skill [creature]="creature" [skill]=skill></app-skill>
+            </ng-container>
+            <app-tags [creature]="creature" [objectName]="'Saving Throws'" [showTraits]=true [showFeats]=true [showItems]=true [showActivities]=true
+                    [showConditions]=true [showEffects]=true></app-tags>
+            <ng-container *ngIf="!still_loading()">
+                <h3 class="fullsize-only box-header">Armor Proficiencies</h3>
+                <ng-container *ngFor="let skill of get_Skills('', 'Armor Proficiency')">
+                    <app-skill class="fullsize-only" [creature]="creature" [skill]=skill [showValue]=false></app-skill>
+                </ng-container>
+            </ng-container>
         </ng-container>
-        <h3 class="fullsize-only box-header" *ngIf="!still_loading()">Saving Throws</h3>
-        <ng-container *ngFor="let skill of get_Skills('', 'Save')|sortBy:'asc':'name'">
-            <app-skill [creature]="creature" [skill]=skill></app-skill>
-        </ng-container>
-        <app-tags [creature]="creature" [objectName]="'Saving Throws'" [showTraits]=true [showFeats]=true [showItems]=true [showActivities]=true
-                [showConditions]=true [showEffects]=true></app-tags>
-        <h3 class="fullsize-only box-header" *ngIf="!still_loading()">Armor Proficiencies</h3>
-        <ng-container *ngFor="let skill of get_Skills('', 'Armor Proficiency')">
-            <app-skill class="fullsize-only" [creature]="creature" [skill]=skill [showValue]=false></app-skill>
+        <ng-container *ngIf="creature == 'Familiar'">
+            <h3 class="fullsize-only box-header" *ngIf="!still_loading()">Saving Throws</h3>
+            <ng-container *ngFor="let skill of get_Skills('', 'Save')|sortBy:'asc':'name'">
+                <app-skill [creature]="creature" [skill]=skill></app-skill>
+            </ng-container>
+            <app-tags [creature]="creature" [objectName]="'Saving Throws'" [showTraits]=true [showFeats]=true [showItems]=true [showActivities]=true
+                    [showConditions]=true [showEffects]=true></app-tags>
         </ng-container>
     </ng-container>
 </ng-container>

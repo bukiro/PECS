@@ -10,6 +10,12 @@
         <div class="list-item lower" *ngFor="let sense of get_Senses()">
             {{sense}}
         </div>
+        <ng-container *ngIf="creature=='Familiar'">
+            <h3 class="box-header">Attack Rolls</h3>
+            <ng-container *ngFor="let skill of get_Skills('', 'Familiar Proficiency')|sortBy:'asc':'name'">
+                <app-skill [creature]="creature" [skill]=skill></app-skill>
+            </ng-container>
+        </ng-container>
         <h3 class="box-header">Skills</h3>
         <ng-container *ngFor="let skill of get_Skills('', 'Skill')|sortBy:'asc':'name'">
             <app-skill [creature]="creature" [skill]=skill></app-skill>

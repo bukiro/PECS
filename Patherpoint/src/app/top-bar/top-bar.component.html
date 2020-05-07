@@ -6,6 +6,7 @@
   <button class="fancy-button loading" *ngIf="still_loading()">Loading</button>
   <button class="fancy-button" (click)="toggleMenu('character')" *ngIf="!still_loading()">{{get_Character().name ? get_Character().name : "Character"}}</button>
   <button class="fancy-button" (click)="toggleMenu('companion')" *ngIf="!still_loading() && get_CompanionAvailable()">{{get_Companion().name ? get_Companion().name : "Animal Companion"}}</button>
+  <button class="fancy-button" (click)="toggleMenu('familiar')" *ngIf="!still_loading() && get_FamiliarAvailable()">{{get_Familiar().name ? get_Familiar().name : "Familiar"}}</button>
   <button class="fancy-button" (click)="toggleMenu('items')" *ngIf="!still_loading()">Items</button>
   <button class="fancy-button" (click)="toggleMenu('spells')" *ngIf="!still_loading()">Spells</button>
   <button class="fancy-button" (click)="toggleMenu('conditions')" *ngIf="!still_loading()">Conditions</button>
@@ -15,4 +16,5 @@
 <app-spells [ngStyle]="{'--accent':get_Accent()}" [className]="(get_SpellsMinimized()) ? 'minimized' : ''" [@slideInOut]="get_SpellMenuState()" *ngIf="!still_loading()"></app-spells>
 <app-conditions [ngStyle]="{'--accent':get_Accent()}" [@slideInOut]="get_ConditionsMenuState()" *ngIf="!still_loading()"></app-conditions>
 <app-character [ngStyle]="{'--accent':get_Accent()}" [className]="(get_CharacterMinimized()) ? 'minimized' : ''" [@slideInOut]="get_CharacterMenuState()" *ngIf="!still_loading()"></app-character>
-<app-animal-companion [ngStyle]="{'--accent':get_Accent()}" [className]="(get_CompanionMinimized()) ? 'minimized' : ''" [@slideInOut]="get_CompanionMenuState()" *ngIf="!still_loading()"></app-animal-companion>
+<app-animal-companion [ngStyle]="{'--accent':get_Accent()}" [className]="(get_CompanionMinimized()) ? 'minimized' : ''" [@slideInOut]="get_CompanionMenuState()" *ngIf="!still_loading() && get_CompanionAvailable()"></app-animal-companion>
+<app-familiar [ngStyle]="{'--accent':get_Accent()}" [className]="(get_FamiliarMinimized()) ? 'minimized' : ''" [@slideInOut]="get_FamiliarMenuState()" *ngIf="!still_loading() && get_FamiliarAvailable()"></app-familiar>

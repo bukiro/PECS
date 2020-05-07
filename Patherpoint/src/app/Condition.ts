@@ -17,4 +17,5 @@ export class Condition {
     public overrideConditions: string[] = [];
     public attackRestrictions: string[] = [];
     public source: string = "";
+    public senses: string[] = [];
 }

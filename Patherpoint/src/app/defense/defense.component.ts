@@ -54,21 +54,40 @@ export class DefenseComponent implements OnInit {
         return this.defenseService.get_AC();
     }
 
+    get_CalculatedIndex() {
+        switch (this.creature) {
+            case "Character":
+                return 0;
+            case "Companion":
+                return 1;
+            case "Familiar":
+                return 2;
+        }
+    }
+
     get_CalculatedAC() {
         this.get_AC().calculate(this.get_Creature(), this.characterService, this.defenseService, this.effectsService);;
         return this.get_AC();
     }
 
+    get_Cover() {
+        return this.get_AC().cover(this.get_Creature());
+    }
+
+    set_Cover(cover: number) {
+        this.get_AC().set_Cover(this.get_Creature(), cover);
+    }
+
     get_EquippedArmor() {
-        return this.defenseService.get_EquippedArmor(this.get_Creature());
+        return this.defenseService.get_EquippedArmor(this.get_Creature() as Character|AnimalCompanion);
     }
 
     get_EquippedShield() {
-        return this.defenseService.get_EquippedShield(this.get_Creature());
+        return this.defenseService.get_EquippedShield(this.get_Creature() as Character|AnimalCompanion);
     }
 
     get_ParryWeapons() {
-        return this.defenseService.get_ParryWeapons(this.get_Creature());
+        return this.defenseService.get_ParryWeapons(this.get_Creature() as Character|AnimalCompanion);
     }
 
     get_Skills(name: string = "", type: string = "") {
@@ -80,7 +99,7 @@ export class DefenseComponent implements OnInit {
     }
 
     get_ArmorBonus(armor: Armor) {
-        return this.defenseService.get_ArmorBonus(this.get_Creature(), this.characterService, armor);
+        return this.defenseService.get_ArmorBonus(this.get_Creature() as Character|AnimalCompanion, this.characterService, armor);
     }
 
     set_CharacterChanged() {

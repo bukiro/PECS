@@ -8,6 +8,7 @@ export class Settings {
     companionMinimized: boolean = false;
     defenseMinimized: boolean = false;
     effectsMinimized: boolean = false;
+    familiarMinimized: boolean = false;
     generalMinimized: boolean = false;
     healthMinimized: boolean = false;
     inventoryMinimized: boolean = false;

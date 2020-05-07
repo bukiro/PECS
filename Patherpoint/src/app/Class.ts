@@ -7,15 +7,11 @@ import { ItemsService } from './items.service';
 import { SkillChoice } from './SkillChoice';
 import { LoreChoice } from './LoreChoice';
 import { Skill } from './Skill';
-import { AbilityChoice } from './AbilityChoice';
-import { FeatChoice } from './FeatChoice';
 import { ActivityGain } from './ActivityGain';
 import { Equipment } from './Equipment';
 import { Bloodline } from './Bloodline';
 import { AnimalCompanion } from './AnimalCompanion';
 import { Familiar } from './Familiar';
-import { SpellChoice } from './SpellChoice';
-import { TraditionChoice } from './TraditionChoice';
 import { DeitiesService } from './deities.service';
 
 export class Class {
@@ -23,6 +19,7 @@ export class Class {
     public activities: ActivityGain[] = [];
     public ancestry: Ancestry = new Ancestry();
     public animalCompanion: AnimalCompanion = new AnimalCompanion();
+    public familiar: Familiar = new Familiar();
     public background: Background = new Background();
     public bloodline: Bloodline = new Bloodline();
     public customSkills: Skill[] = [];
@@ -49,19 +46,20 @@ export class Class {
         this.bloodline = Object.assign(new Bloodline(), this.bloodline);*/
     }
     on_ChangeAncestry(characterService: CharacterService) {
+        let character = characterService.get_Character();
         if (this.ancestry.name) {
             this.levels[1].abilityChoices = this.levels[1].abilityChoices.filter(availableBoost => availableBoost.source != "Ancestry")
             if (this.ancestry.gainItems.length) {
                 this.ancestry.gainItems.forEach(freeItem => {
-                    let items: Equipment[] = characterService.get_Character().inventory[freeItem.type].filter(item => item.name == freeItem.name);
+                    let items: Equipment[] = character.inventory[freeItem.type].filter(item => item.name == freeItem.name);
                     if (items.length) {
-                        characterService.drop_InventoryItem(characterService.get_Character(), items[0], false, true, true, freeItem.amount);
+                        characterService.drop_InventoryItem(character, items[0], false, true, true, freeItem.amount);
                     }
                 });
             }
             this.levels.forEach(level => {
                 level.featChoices.filter(choice => choice.feats.filter(feat => feat.name.includes("Adopted Ancestry")).forEach(feat => {
-                    characterService.get_Character().take_Feat(characterService, feat.name, false, choice, feat.locked)
+                    character.take_Feat(character, characterService, feat.name, false, choice, feat.locked)
                 }));
             });
         }
@@ -159,7 +157,7 @@ export class Class {
             //We can't just delete these feats, but must specifically un-take them to undo their effects.
             this.heritage.featChoices.filter(choice => choice.available).forEach(choice => {
                 choice.feats.forEach(feat => {
-                    character.take_Feat(characterService, feat.name, false, choice, false);
+                    character.take_Feat(character, characterService, feat.name, false, choice, false);
                 });
             });
             level.featChoices = level.featChoices.filter(choice => choice.source != "Heritage");
@@ -190,7 +188,7 @@ export class Class {
                 let count: number = 0;
                 choice.feats.forEach(feat => {
                     count++;
-                    character.take_Feat(characterService, feat.name, true, choice, feat.locked);
+                    character.take_Feat(character, characterService, feat.name, true, choice, feat.locked);
                 });
                 choice.feats.splice(0, count);
             });
@@ -228,7 +226,7 @@ export class Class {
             //We can't just delete these feats, but must specifically un-take them to undo their effects.
             level.featChoices.filter(choice => choice.source == "Background").forEach(choice => {
                 choice.feats.forEach(feat => {
-                character.take_Feat(characterService, feat.name, false, choice, feat.locked);
+                character.take_Feat(character, characterService, feat.name, false, choice, feat.locked);
                 });
             });
             level.featChoices = level.featChoices.filter(availableBoost => availableBoost.source != "Background");
@@ -257,7 +255,7 @@ export class Class {
                 let count: number = 0;
                 choice.feats.forEach(feat => {
                     count++;
-                    character.take_Feat(characterService, feat.name, true, choice, feat.locked);
+                    character.take_Feat(character, characterService, feat.name, true, choice, feat.locked);
                 });
                 choice.feats.splice(0, count);
             });

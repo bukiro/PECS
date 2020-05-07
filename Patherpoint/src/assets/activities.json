@@ -872,5 +872,29 @@
             "Mental",
             "Skill"
         ]
+    },
+    {
+        "name": "Familiar Focus",
+        "actions": "2 (Familiar)",
+        "desc": "Once per day, your familiar can use 2 actions with the concentrate trait to regain 1 Focus Point, up to your usual maximum. You must have a focus pool to select this.",
+        "traits": [
+            "Concentrate"
+        ],
+        "cooldown": 144000,
+        "onceEffects":[
+            {
+                "affected": "Focus Points",
+                "value": "+1"
+            }
+        ]
+    },
+    {
+        "name": "Lifelink",
+        "actions": "Reaction",
+        "desc": "If your familiar would be reduced to 0 HP by damage, as a reaction with the concentrate trait, you can take the damage. If you do, you take all the damage and your familiar takes none. However, if special effects when a hit damages your familiar (such as snake venom) still apply to your familiar.",
+        "traits": [
+            "Concentrate"
+        ],
+        "inputRequired": "Take the damage instead of your familiar."
     }
 ]

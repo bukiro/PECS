@@ -174,7 +174,8 @@
             </div>
         </ng-container>
         <!--Languages-->
-        <div class="list-item" [className]="(get_AvailableLanguages() == 0) ? 'fullsize-only' : ''" *ngIf="get_LanguagesAvailable()">
+        <div class="list-item" [className]="(get_AvailableLanguages() == 0) ? 'fullsize-only' : ''"
+            *ngIf="get_LanguagesAvailable()">
             <button class="row sublist-toggle" [className]="(get_AvailableLanguages() == 0) ? 'fancy-button' : ''"
                 (click)="toggle_List('languages')">
                 Languages
@@ -258,8 +259,7 @@
         <ng-container *ngIf="get_Character().class.name">
             <div class="list-item" [ngClass]="{'fullsize-only':get_Character().class.deity}"
                 *ngFor="let listID of ['deity']">
-                <button class="row sublist-toggle"
-                    [ngClass]="{'fancy-button':get_Character().class.deity}"
+                <button class="row sublist-toggle" [ngClass]="{'fancy-button':get_Character().class.deity}"
                     (click)="toggle_List(listID)">
                     Deity{{get_Character().class.deity ? ": "+get_Character().class.deity : ""}}
                 </button>
@@ -341,7 +341,8 @@
                     </div>
                 </ng-container>
                 <!--Languages - show if you have gained languages this level-->
-                <div class="list-item" [className]="(get_AvailableLanguages() == 0) ? 'fullsize-only' : ''" *ngIf="level.number > 0 && get_LanguagesAvailable(level.number)">
+                <div class="list-item" [className]="(get_AvailableLanguages() == 0) ? 'fullsize-only' : ''"
+                    *ngIf="level.number > 0 && get_LanguagesAvailable(level.number)">
                     <button class="row sublist-toggle"
                         [className]="(get_AvailableLanguages() == 0) ? 'fancy-button' : ''"
                         (click)="toggle_List('languages'+level.number)">
@@ -451,226 +452,8 @@
                 </ng-container>
                 <!--Feat choices-->
                 <ng-container *ngFor="let choice of level.featChoices">
-                    <ng-container *ngFor="let listID of [choice.source+choice.id]">
-                        <div class="list-item" *ngIf="choice.available"
-                            [className]="((choice.feats.length > choice.available || cannotTakeSome(choice)) ? 'problem' : '') +' '+ ((choice.available == choice.feats.length) ? 'fullsize-only' : '')">
-                            <button class="row sublist-toggle"
-                                [className]="(choice.available == choice.feats.length) ? 'fancy-button' : ''"
-                                (click)="toggle_List(listID)">
-                                {{(choice.level) ? "Level "+choice.level+" " : ""}}{{choice.type}}{{choice.specialChoice ? '' : ' Feats'}}
-                                ({{choice.source}}){{(choice.available > 1) ?
-                                    ": "+ choice.feats.length +"/"+ choice.available : 
-                                    (choice.feats.length) ? ": "+ choice.feats[0].name : ""}}
-                            </button>
-                            <div class="list-item sublist"
-                                [className]="(choice.available == choice.feats.length ) ? 'fancy-list' : ''"
-                                *ngIf="get_showList()==listID">
-                                <div title="{{(this.get_showItem()==choice.id+feat.name+'desc') ? '' : feat.shortDesc}}"
-                                    class="list-item"
-                                    *ngFor="let feat of get_AvailableFeats(choice)|sortBy:'asc':'levelreq'"
-                                    [className]="(cannotTake(feat, choice).length) ? 'problem' : ''">
-                                    <div class="row" *ngFor="let itemID of [choice.id+feat.name+'desc']">
-                                        <span style="flex-grow:2">
-                                            <input *ngIf="!feat.subTypes" id="{{choice.id+feat.name}}" type="checkbox"
-                                                (change)="on_FeatTaken(feat.name, $event.target.checked, choice, false)"
-                                                [checked]="featTakenByThis(feat, choice)"
-                                                [disabled]="cannotTake(feat, choice).length && !featTakenByThis(feat, choice)">
-                                            <button class="lower left" *ngIf="feat.subTypes"
-                                                id="{{choice.id+feat.name}}" (click)="toggle_Item(itemID)">v</button>
-                                            <label for="{{choice.id+feat.name}}">
-                                                <strong>{{feat.name}}&nbsp;</strong><cite *ngIf="feat.levelreq">Level
-                                                    {{feat.levelreq}}</cite>
-                                            </label>
-                                            <cite class="problem" *ngFor="let reason of cannotTake(feat, choice)">
-                                                {{reason}}
-                                            </cite>
-                                        </span>
-                                        <button (click)="toggle_Item(itemID)">
-                                            Show Description
-                                        </button>
-                                        <div class="row lower" *ngIf="this.get_showItem()==itemID">
-                                            <!--Subfeats-->
-                                            <div class="list-item" *ngFor="let subfeat of get_SubFeats(feat, choice)"
-                                                [className]="(cannotTake(subfeat, choice).length) ? 'problem' : ''">
-                                                <span>
-                                                    <input id="{{choice.id+subfeat.name}}" type="checkbox"
-                                                        (change)="on_FeatTaken(subfeat.name, $event.target.checked, choice, false)"
-                                                        [checked]="featTakenByThis(subfeat, choice)"
-                                                        [disabled]="cannotTake(subfeat, choice).length && !featTakenByThis(subfeat, choice)">
-                                                    <label for="{{choice.id+subfeat.name}}">
-                                                        <strong>{{subfeat.subType}}&nbsp;</strong>
-                                                        <span [className]="(req.met == false) ? 'problem' : ''"
-                                                            *ngFor="let req of get_FeatRequirements(choice, subfeat, feat)">{{(req.desc == ", ") ? req.desc : "&nbsp;"+req.desc }}</span>
-                                                        <cite class="problem"
-                                                            *ngFor="let reason of cannotTake(subfeat, choice)">
-                                                            {{reason}}
-                                                        </cite>
-                                                    </label>
-                                                </span>
-                                            </div>
-                                            <!--Unavailable Subfeats-->
-                                            <div class="list-item unavailable"
-                                                *ngFor="let subfeat of get_SubFeats(feat, choice, true)">
-                                                <span>
-                                                    <strong>{{subfeat.subType}}&nbsp;</strong>
-                                                    <span [className]="(req.met == false) ? 'problem' : ''"
-                                                        *ngFor="let req of get_FeatRequirements(choice, subfeat, feat)">{{(req.desc == ", ") ? req.desc : "&nbsp;"+req.desc }}</span>
-                                                </span>
-                                                <span>
-                                                    <cite class="problem"
-                                                        *ngFor="let reason of cannotTake(subfeat, choice)">
-                                                        {{reason}}
-                                                    </cite>
-                                                </span>
-                                            </div>
-                                            <!--End Subfeats-->
-                                            <div class="row left-aligned">
-                                                <cite class="trait" *ngFor="let trait of feat.traits">
-                                                    {{trait}}
-                                                </cite>
-                                            </div>
-                                            <div class="row left-aligned">
-                                                <ng-container *ngFor="let reqs of [get_FeatRequirements(choice, feat)]">
-                                                    <p *ngIf="reqs.length">
-                                                        <strong>Requirements&nbsp;</strong>
-                                                        <span [className]="(req.met == false) ? 'problem' : ''"
-                                                            *ngFor="let req of reqs">{{req.desc}}</span>
-                                                    </p>
-                                                </ng-container>
-                                                <ng-container *ngFor="let desc of feat.desc.split('\n\n')">
-                                                    <p *ngIf="desc.split('\n').length == 1">{{desc}}</p>
-                                                    <ul *ngIf="desc.split('\n').length > 1">
-                                                        <li *ngFor="let line of desc.split('\n')">{{line}}</li>
-                                                    </ul>
-                                                </ng-container>
-                                                <p *ngIf="feat.specialdesc.length">
-                                                    <strong>Special</strong>
-                                                    {{feat.specialdesc}}
-                                                </p>
-                                            </div>
-                                            <ng-container *ngFor="let name of feat.gainActivities">
-                                                <div class="row left-aligned"
-                                                    *ngFor="let activity of get_Activities(name)">
-                                                    <h4 class="left-aligned">{{activity.name}}
-                                                        {{activity.get_Actions()}}{{(activity.activationType) ? " - " + activity.activationType : ""}}
-                                                    </h4>
-                                                    <app-activity class="row" [activity]=activity [allowActivate]=false>
-                                                    </app-activity>
-                                                </div>
-                                            </ng-container>
-                                            <ng-container *ngFor="let spellChoice of feat.gainSpellChoice">
-                                                <ng-container *ngFor="let spellGain of spellChoice.spells">
-                                                    <ng-container *ngFor="let spell of get_Spells(spellGain.name)">
-                                                        <h4 class="left-aligned">{{spell.name}}
-                                                            {{spell.get_Actions()}}{{(spell.castType) ? " - " + spell.castType : ""}}
-                                                        </h4>
-                                                        <app-spell class="row" [spell]=spell
-                                                            [spellLevel]="get_SpellLevel(level.number)"></app-spell>
-                                                    </ng-container>
-                                                </ng-container>
-                                            </ng-container>
-                                        </div>
-                                    </div>
-                                </div>
-                                <!--UnavailableFeats-->
-                                <div class="list-item unavailable"
-                                    title="{{(this.get_showItem()==choice.id+feat.name+'desc') ? '' : feat.shortDesc}}"
-                                    *ngFor="let feat of get_AvailableFeats(choice, true)|sortBy:'asc':'name'">
-                                    <div class="row" *ngFor="let itemID of [choice.id+feat.name+'desc']">
-                                        <span>
-                                            <strong>{{feat.name}}&nbsp;</strong><cite *ngIf="feat.levelreq">Level
-                                                {{feat.levelreq}}</cite>
-                                        </span>
-                                        <span>
-                                            <cite class="problem" *ngFor="let reason of cannotTake(feat, choice)">
-                                                {{reason}}
-                                            </cite>
-                                        </span>
-                                        <button (click)="toggle_Item(itemID)">
-                                            Show Description
-                                        </button>
-                                        <div class="row lower" *ngIf="this.get_showItem()==itemID">
-                                            <!--Subfeats-->
-                                            <div class="list-item unavailable"
-                                                *ngFor="let subfeat of get_SubFeats(feat, choice)">
-                                                <span>
-                                                    <strong>{{subfeat.subType}}&nbsp;</strong>
-                                                    <span [className]="(req.met == false) ? 'problem' : ''"
-                                                        *ngFor="let req of get_FeatRequirements(choice, subfeat, feat)">{{(req.desc == ", ") ? req.desc : "&nbsp;"+req.desc }}</span>
-                                                </span>
-                                                <span>
-                                                    <cite class="problem"
-                                                        *ngFor="let reason of cannotTake(subfeat, choice)">
-                                                        {{reason}}
-                                                    </cite>
-                                                </span>
-                                            </div>
-                                            <!--Unavailable Subfeats-->
-                                            <div class="list-item unavailable"
-                                                *ngFor="let subfeat of get_SubFeats(feat, choice, true)">
-                                                <span>
-                                                    <strong>{{subfeat.subType}}&nbsp;</strong>
-                                                    <span [className]="(req.met == false) ? 'problem' : ''"
-                                                        *ngFor="let req of get_FeatRequirements(choice, subfeat, feat)">{{(req.desc == ", ") ? req.desc : "&nbsp;"+req.desc }}</span>
-                                                </span>
-                                                <span>
-                                                    <cite class="problem"
-                                                        *ngFor="let reason of cannotTake(subfeat, choice)">
-                                                        {{reason}}
-                                                    </cite>
-                                                </span>
-                                            </div>
-                                            <!--End Subfeats-->
-                                            <div class="row left-aligned">
-                                                <cite class="trait" *ngFor="let trait of feat.traits">
-                                                    {{trait}}
-                                                </cite>
-                                            </div>
-                                            <div class="row left-aligned">
-                                                <ng-container *ngFor="let reqs of [get_FeatRequirements(choice, feat)]">
-                                                    <p *ngIf="reqs.length">
-                                                        <strong>Requirements&nbsp;</strong>
-                                                        <span [className]="(req.met == false) ? 'problem' : ''"
-                                                            *ngFor="let req of reqs">{{req.desc}}</span>
-                                                    </p>
-                                                </ng-container>
-                                                <ng-container *ngFor="let desc of feat.desc.split('\n\n')">
-                                                    <p *ngIf="desc.split('\n').length == 1">{{desc}}</p>
-                                                    <ul *ngIf="desc.split('\n').length > 1">
-                                                        <li *ngFor="let line of desc.split('\n')">{{line}}</li>
-                                                    </ul>
-                                                </ng-container>
-                                                <p *ngIf="feat.specialdesc.length">
-                                                    <strong>Special</strong>
-                                                    {{feat.specialdesc}}
-                                                </p>
-                                            </div>
-                                            <ng-container *ngFor="let name of feat.gainActivities">
-                                                <ng-container *ngFor="let activity of get_Activities(name)">
-                                                    <h4 class="left-aligned">{{activity.name}}
-                                                        {{activity.get_Actions()}}{{(activity.activationType) ? " - " + activity.activationType : ""}}
-                                                    </h4>
-                                                    <app-activity class="row" [activity]=activity [allowActivate]=false>
-                                                    </app-activity>
-                                                </ng-container>
-                                            </ng-container>
-                                            <ng-container *ngFor="let spellChoice of feat.gainSpellChoice">
-                                                <ng-container *ngFor="let spellGain of spellChoice.spells">
-                                                    <ng-container *ngFor="let spell of get_Spells(spellGain.name)">
-                                                        <h4 class="left-aligned">{{spell.name}}
-                                                            {{spell.get_Actions()}}{{(spell.castType) ? " - " + spell.castType : ""}}
-                                                        </h4>
-                                                        <app-spell class="row" [spell]=spell
-                                                            [spellLevel]="get_SpellLevel(level.number)"></app-spell>
-                                                    </ng-container>
-                                                </ng-container>
-                                            </ng-container>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </ng-container>
+                    <app-featchoice (showChoiceMessage)="receive_ChoiceMessage($event)" (showFeatMessage)="receive_FeatMessage($event)" [choice]="choice" [levelNumber]=level.number [showFeat]="get_showItem()" [showChoice]="get_showList()">
+                    </app-featchoice>
                 </ng-container>
                 <!--Bloodline-->
                 <ng-container *ngIf="get_BloodlineAvailable(level.number)">
@@ -759,15 +542,13 @@
                             <div class="list-item">
                                 <span>Animal Companion Name</span>
                                 <span>
-                                    <input type="text" name="name" [(ngModel)]="get_Companion().name"
-                                        (blur)="set_Changed()" maxLength="30">
+                                    <input type="text" name="name" [(ngModel)]="get_Companion().name" maxLength="30">
                                 </span>
                             </div>
                             <div class="list-item">
                                 <span>Animal Companion Species</span>
                                 <span>
-                                    <input type="text" name="name" [(ngModel)]="get_Companion().species"
-                                        (blur)="set_Changed()" maxLength="30">
+                                    <input type="text" name="name" [(ngModel)]="get_Companion().species" maxLength="30">
                                 </span>
                             </div>
                         </div>
@@ -870,7 +651,8 @@
                             <button class="row sublist-toggle"
                                 [className]="(get_TakenCompanionSpecializations(level.number).length == available) ? 'fancy-button' : ''"
                                 (click)="toggle_List(listID)">
-                                Animal Companion Specialization{{available > 1 ?
+                                Animal Companion
+                                Specialization{{available > 1 ?
                                         ": "+ get_TakenCompanionSpecializations(level.number).length +"/"+ available : 
                                         (get_TakenCompanionSpecializations(level.number).length == 1) ? ": "+ get_Companion().class.specializations[0].name : ""}}
                             </button>
@@ -879,7 +661,8 @@
                                 *ngIf="get_showList()==listID">
                                 <div class="list-item"
                                     *ngFor="let spec of get_AvailableCompanionSpecializations(level.number)">
-                                    <div class="row" *ngFor="let itemID of ['animalspecialization'+spec.name+'desc'+level.number]">
+                                    <div class="row"
+                                        *ngFor="let itemID of ['animalspecialization'+spec.name+'desc'+level.number]">
                                         <span>
                                             <input id="{{spec.name}}" type="checkbox"
                                                 (change)="on_SpecializationChange(spec, $event.target.checked, level.number)"
@@ -903,6 +686,48 @@
                             </div>
                         </div>
                     </ng-container>
+                </ng-container>
+                <!--Familiar-->
+                <ng-container *ngIf="get_FamiliarAvailable(level.number)">
+                    <div class="list-item"
+                        [className]="(get_Familiar().name && get_Familiar().species) ? 'fullsize-only' : ''"
+                        *ngFor="let listID of ['familiar']">
+                        <button class="row sublist-toggle"
+                            [className]="(get_Familiar().name && get_Familiar().species) ? 'fancy-button' : ''"
+                            (click)="toggle_List(listID)">
+                            Familiar Basics
+                        </button>
+                        <div class="list-item sublist"
+                            [className]="(get_Familiar().name && get_Familiar().species) ? 'fancy-list' : ''"
+                            *ngIf="get_showList()==listID">
+
+                            <button class="list-item" (click)="on_NewFamiliar()">
+                                Create New Familiar
+                            </button>
+                            <div class="list-item">
+                                <span>Familiar Name</span>
+                                <span>
+                                    <input type="text" name="name" [(ngModel)]="get_Familiar().name" maxLength="30">
+                                </span>
+                            </div>
+                            <div class="list-item">
+                                <span>Familiar Species</span>
+                                <span>
+                                    <input type="text" name="species" [(ngModel)]="get_Familiar().species"
+                                        maxLength="30">
+                                </span>
+                            </div>
+                            <div class="list-item">
+                                <span>Swimmer</span>
+                                <span>
+                                    <input type="checkbox" name="familiar-swimmer"
+                                        (click)="on_FamiliarSpeedChange($event.target.checked)"
+                                        [checked]="is_FamiliarSwimmer()"><label for="familiar-swimmer">Gain Swim Speed
+                                        instead of Land Speed</label>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
                 </ng-container>
                 <!--Different Worlds-->
                 <ng-container *ngFor="let feat of get_DifferentWorldsFeat(level.number)">

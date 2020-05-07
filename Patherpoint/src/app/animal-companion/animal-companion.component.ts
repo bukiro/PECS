@@ -1,10 +1,7 @@
 import { Component, OnInit, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
 import { CharacterService } from '../character.service';
 import { AnimalCompanionsService } from '../animalcompanions.service';
-import { AnimalCompanion } from '../AnimalCompanion';
-import { AnimalCompanionAncestry } from '../AnimalCompanionAncestry';
 import { ItemGain } from '../ItemGain';
-import { ActivitiesService } from '../activities.service';
 
 @Component({
     selector: 'app-animal-companion',
@@ -21,8 +18,7 @@ export class AnimalCompanionComponent implements OnInit {
     constructor(
         private changeDetector:ChangeDetectorRef,
         private characterService: CharacterService,
-        private animalCompanionsService: AnimalCompanionsService,
-        private activitiesService: ActivitiesService
+        private animalCompanionsService: AnimalCompanionsService
     ) { }
 
     minimize() {
@@ -80,7 +76,7 @@ export class AnimalCompanionComponent implements OnInit {
     }
 
     get_CompanionAvailable() {
-        return this.get_Character().get_FeatsTaken(1, this.get_Character().level).filter(gain => this.characterService.get_FeatsAndFeatures(gain.name)[0].gainAnimalCompanion).length
+        return this.characterService.get_CompanionAvailable();
     }
 
     get_CompanionTypes() {

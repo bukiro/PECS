@@ -99,6 +99,37 @@
                 <p>{{get_Companion().class.ancestry.supportBenefit}}</p>
             </div>
         </ng-container>
+        <ng-container *ngIf="creature=='Familiar'">
+            <div class="row left-aligned tags">
+                <cite class="trait" *ngFor="let trait of get_Familiar().traits"
+                    title="{{get_Traits(trait)[0].description}}">{{trait}}</cite>
+            </div>
+            <app-tags [creature]="'Character'" [objectName]="'Familiar'" [showTraits]=true [showFeats]=true [showItems]=true [showActivities]=true
+                    [showConditions]=true [showEffects]=true></app-tags>
+            <div class="fullsize-only list-item">
+                <strong>Familiar Name</strong>
+                {{get_Familiar().name}}
+            </div>
+            <div class="fullsize-only list-item">
+                <strong>Species</strong>
+                {{get_Familiar().species}}
+            </div>
+            <div class="fullsize-only list-item">
+                <strong>Size</strong>
+                {{get_Size()}}
+            </div>
+            <h5>Familiar Abilities</h5>
+            <div class="list-item" *ngFor="let ability of get_Familiar().abilities.feats">
+                <strong>{{ability.name}}</strong>
+                <div class="row left-aligned tags">
+                    <cite class="trait" *ngFor="let trait of get_FamiliarAbilities(ability.name)[0].traits"
+                        title="{{get_Traits(trait).length ? get_Traits(trait)[0].description : ''}}">{{trait}}</cite>
+                </div>
+                <div class="row left-aligned">
+                    {{get_FamiliarAbilities(ability.name)[0].desc}}
+                </div>
+            </div>
+        </ng-container>
         <h5 class="fullsize-only">Movement</h5>
         <ng-container *ngFor="let speed of get_Speeds()">
             <div class="list-item">

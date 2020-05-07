@@ -32,11 +32,20 @@
                     <div class="row">
                         <span>
                             <button (click)="add_Condition(get_Character(), condition)">Add ({{get_Duration()}})</button>
-                            <button (click)="add_Condition(get_Companion(), condition)" *ngIf="get_Character().class.animalCompanion">Add (Animal Companion) ({{get_Duration()}})</button>
                         </span>
                         <span>
                             <button (click)="toggleItem(set+condition.name)">
                                 Show Description</button>
+                        </span>
+                    </div>
+                    <div class="row" *ngIf="get_CompanionAvailable()">
+                        <span>
+                            <button (click)="add_Condition(get_Companion(), condition)">Add (Animal Companion) ({{get_Duration()}})</button>
+                        </span>
+                    </div>
+                    <div class="row" *ngIf="get_FamiliarAvailable()">
+                        <span>
+                            <button (click)="add_Condition(get_Familiar(), condition)">Add (Familiar) ({{get_Duration()}})</button>
                         </span>
                     </div>
                     <div class="row" *ngIf="get_ShowItem()==set+condition.name">

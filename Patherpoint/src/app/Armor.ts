@@ -95,7 +95,7 @@ export class Armor extends Equipment {
             return this.traits;
         }
     }
-    profLevel(creature: Character|AnimalCompanion|Familiar, characterService: CharacterService, charLevel: number = characterService.get_Character().level) {
+    profLevel(creature: Character|AnimalCompanion, characterService: CharacterService, charLevel: number = characterService.get_Character().level) {
         if (characterService.still_loading()) { return 0; }
         this.get_ArmoredSkirt(creature, characterService);
         let skillLevel: number = 0;
@@ -105,13 +105,14 @@ export class Armor extends Equipment {
         skillLevel = Math.min(Math.max(armorIncreases.length * 2, profIncreases.length * 2), 8)
         return skillLevel;
     }
-    armorBonus(creature: Character|AnimalCompanion|Familiar, characterService: CharacterService, effectsService: EffectsService) {
+    armorBonus(creature: Character|AnimalCompanion, characterService: CharacterService, effectsService: EffectsService) {
     //Calculates the full AC bonus when wearing this armor
     //We assume that only one armor is worn at a time
         let explain: string = "AC Basis: 10";
         let charLevel = characterService.get_Character().level;
         let dex = characterService.get_Abilities("Dexterity")[0].mod(creature, characterService, effectsService);
         //Get the profiency with either this armor or its category
+        //Familiars have the same AC as the Character.
         let skillLevel = this.profLevel(creature, characterService);
         if (skillLevel) {
             explain += "\nProficiency: "+skillLevel;

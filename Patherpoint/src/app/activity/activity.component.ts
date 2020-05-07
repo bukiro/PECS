@@ -43,7 +43,7 @@ export class ActivityComponent implements OnInit {
     }
     
     get_Creature() {
-        return this.characterService.get_Creature(this.creature);
+        return this.characterService.get_Creature(this.creature) as Character|AnimalCompanion;
     }
 
     get_ActivationTraits(activity: Activity) {

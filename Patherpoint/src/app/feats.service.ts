@@ -15,6 +15,9 @@ import { AnimalCompanionLevel } from './AnimalCompanionLevel';
 import { Bloodline } from './Bloodline';
 import { AnimalCompanion } from './AnimalCompanion';
 import { Familiar } from './Familiar';
+import { EffectGain } from './EffectGain';
+import { Character } from './Character';
+import { Speed } from './Speed';
 
 @Injectable({
     providedIn: 'root'
@@ -54,10 +57,14 @@ export class FeatsService {
         } else { return [new Feat()]; }
     }
 
-    process_Feat(characterService: CharacterService, featName: string, level: Level, taken: boolean) {
+    process_Feat(creature: Character|Familiar, characterService: CharacterService, featName: string, choice: FeatChoice, level: Level, taken: boolean) {
         let character = characterService.get_Character();
         //Get feats and features via the characterService in order to include custom feats
         let feats = characterService.get_FeatsAndFeatures(featName);
+        if (creature.type == "Familiar") {
+            feats = characterService.familiarsService.get_FamiliarAbilities(featName);
+        }
+        
         if (feats.length) {
             let feat = feats[0];
 
@@ -73,7 +80,7 @@ export class FeatsService {
                     let b: FeatChoice = a.filter(choice => choice.source == 'Feat: '+featName)[0];
                     //Feats must explicitly be un-taken instead of just removed from the array, in case they made fixed changes
                     b.feats.forEach(feat => {
-                        character.take_Feat(characterService, feat.name, false, b, false);
+                        character.take_Feat(character, characterService, feat.name, false, b, false);
                     });
                     a.splice(a.indexOf(b), 1)
                 }
@@ -84,10 +91,13 @@ export class FeatsService {
                 if (taken) {
                     feat.gainSpellChoice.forEach(newSpellChoice => {
                         let choiceLevel: Level = level;
-                        //Archetype spellcasting feats add spell slots on different levels instead of the level the feat was taken on.
-                        //Change the level at this point to the level indicated in the spell choice id, unless it's 0 (indicating that the spell is taken on the same level as the feat)
-                        if (feat.archetype && parseInt(newSpellChoice.id[0])) {
-                            choiceLevel = character.class.levels[parseInt(newSpellChoice.id[0])] || level;
+                        //Archetype spellcasting feats add spell slots on future levels instead of the level the feat was taken on.
+                        //Change the level at this point to the level indicated in the spell choice id, if that is higher than this level.
+                        //If the level the feat was taken on is higher than the intended level, get the spell on the taken leven,
+                        //  so the spell is not available before we get to that level.
+                        //If the id starts with 0, the spell is to be taken on the same level as the feat.
+                        if (feat.archetype && parseInt(newSpellChoice.id.split("-")[0])) {
+                            choiceLevel = character.class.levels[Math.max(parseInt(newSpellChoice.id.split("-")[0]), level.number)];
                         } 
                         let newChoice:SpellChoice = character.add_SpellChoice(choiceLevel, newSpellChoice);
                         newChoice.spells.forEach(gain => {
@@ -103,17 +113,12 @@ export class FeatsService {
                 } else {
                     feat.gainSpellChoice.forEach(newSpellChoice => {
                         let choiceLevel: Level = level;
-                        //Archetype spellcasting feats add spell slots on different levels instead of the level the feat was taken on.
-                        //Change the level at this point to the level indicated in the spell choice id, unless it's 0 (indicating that the spell is taken on the same level as the feat)
-                        if (feat.archetype && parseInt(newSpellChoice.id[0])) {
-                            choiceLevel = character.class.levels[parseInt(newSpellChoice.id[0])] || level;
+                        //Repeat the level calculation from taking the spell so we know where to remove it.
+                        if (feat.archetype && parseInt(newSpellChoice.id.split("-")[0])) {
+                            choiceLevel = character.class.levels[Math.max(parseInt(newSpellChoice.id.split("-")[0]), level.number)];
                         }
                         let a: SpellChoice[] = choiceLevel.spellChoices;
                         let b: SpellChoice = a.filter(choice => choice.source == 'Feat: '+featName)[0];
-                        //Feats must explicitly be un-taken instead of just removed from the array, in case they made fixed changes
-                        b.spells.forEach(spell => {
-                            character.take_Spell(characterService, spell.name, false, b, false);
-                        });
                         a.splice(a.indexOf(b), 1)
                     });
                 }
@@ -295,15 +300,32 @@ export class FeatsService {
             if (feat.name=="Flurry" || feat.name=="Outwit" || feat.name=="Precision") {
                 let huntersEdgeChoice = character.class.levels[17].featChoices.find(choice => choice.type == "Hunter's Edge")
                 if (taken) {
-                    character.take_Feat(characterService, "Masterful Hunter: "+feat.name, true, huntersEdgeChoice, true);
+                    character.take_Feat(character, characterService, "Masterful Hunter: "+feat.name, true, huntersEdgeChoice, true);
                 } else {
-                    character.take_Feat(characterService, "Masterful Hunter: "+feat.name, false, huntersEdgeChoice, true);
+                    character.take_Feat(character, characterService, "Masterful Hunter: "+feat.name, false, huntersEdgeChoice, true);
                 }
             }
 
             if (feat.gainBloodline) {
                 if (!taken) {
                     character.class.bloodline = new Bloodline();
+                }
+            }
+
+            //Feats that grant an animal companion
+            if (feat.gainFamiliar) {
+                if (taken) {
+                    //Set the originClass to be the same as the feat choice type.
+                    //If the type is not a class name, set your main class name.
+                    if (["","General","Skill","Ancestry","Class"].includes(choice.type)) {
+                        character.class.familiar.originClass = character.class.name;
+                    } else {
+                        character.class.familiar.originClass = choice.type;
+                    }
+                } else {
+                    //Reset the animal companion
+                    characterService.cleanup_Familiar();
+                    character.class.familiar = new Familiar();
                 }
             }
 
@@ -348,6 +370,48 @@ export class FeatsService {
                     }
                 }
             }
+
+            //Feats that add Speeds can be applied for both Familiars and Characters.
+            feat.effects.filter(effect => effect.affected.includes("Speed") && effect.affected != "Speed").forEach(effect => {
+                if (taken) {
+                    let newLength = creature.speeds.push(new Speed(effect.affected));
+                    creature.speeds[newLength - 1].source = "Feat: "+feat.name;
+                } else {
+                    creature.speeds = creature.speeds.filter(speed => !(speed.name == effect.affected && speed.source == "Feat: "+feat.name));
+                }
+            })
+
+            //Cantrip Connection
+            if (feat.name == "Cantrip Connection") {
+                if (taken) {
+                    let cantripLevel = character.class.levels.filter(level => 
+                            level.spellChoices.filter(choice => choice.castingType != "Focus" && choice.className == characterService.get_Familiar().originClass).length
+                        )[0];
+                    let cantripSpellChoice = cantripLevel.spellChoices
+                        .filter(choice => choice.castingType != "Focus" && choice.className == characterService.get_Familiar().originClass)[0];
+                    let familiarLevel = character.class.levels
+                        .filter(level => level.featChoices
+                            .filter(choice => choice.feats
+                                .map(gain => characterService.get_FeatsAndFeatures(gain.name)[0])
+                                .filter(feat => feat.gainFamiliar).length).length
+                        )[0];
+                    let newSpellChoice = Object.assign(new SpellChoice, JSON.parse(JSON.stringify(cantripSpellChoice)));
+                    newSpellChoice.source = "Feat: "+feat.name;
+                    newSpellChoice.id = familiarLevel.number+"-Spell-Feat: "+feat.name+"-0";
+                    newSpellChoice.available = 1;
+                    newSpellChoice.spells = [];
+                    familiarLevel.spellChoices.push(newSpellChoice);
+                } else {
+                    let familiarLevel = character.class.levels
+                        .filter(level => level.featChoices
+                            .filter(choice => choice.feats
+                                .map(gain => characterService.get_FeatsAndFeatures(gain.name)[0])
+                                .filter(feat => feat.gainFamiliar).length).length
+                        )[0];
+                    familiarLevel.spellChoices = familiarLevel.spellChoices.filter(choice => choice.source != "Feat: "+feat.name);
+                }
+            }
+
         }
     }
 

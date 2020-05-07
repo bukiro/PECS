@@ -5,6 +5,7 @@ import { TraitsService } from '../traits.service';
 import { Speed } from '../Speed';
 import { Character } from '../Character';
 import { AnimalCompanion } from '../AnimalCompanion';
+import { FamiliarsService } from '../familiars.service';
 
 @Component({
     selector: 'app-general',
@@ -22,6 +23,7 @@ export class GeneralComponent implements OnInit {
         public characterService: CharacterService,
         public effectsService: EffectsService,
         public traitsService: TraitsService,
+        private familiarsService: FamiliarsService
     ) { }
 
     minimize() {
@@ -52,6 +54,14 @@ export class GeneralComponent implements OnInit {
 
     get_Companion() {
         return this.characterService.get_Companion();
+    }
+
+    get_Familiar() {
+        return this.characterService.get_Familiar();
+    }
+
+    get_FamiliarAbilities(name: string) {
+        return this.familiarsService.get_FamiliarAbilities(name);
     }
 
     get_CompanionSpecies() {
@@ -97,11 +107,11 @@ export class GeneralComponent implements OnInit {
     }
 
     get_ClassDCs() {
-        return this.characterService.get_Skills(this.get_Creature(), "", "Class DC").filter(skill => skill.level(this.get_Creature(), this.characterService) > 0);
+        return this.characterService.get_Skills(this.get_Creature(), "", "Class DC").filter(skill => skill.level(this.get_Creature() as Character|AnimalCompanion, this.characterService) > 0);
     }
 
     get_SpellDCs() {
-        return this.characterService.get_Skills(this.get_Creature(), "", "Spell DC").filter(skill => skill.level(this.get_Creature(), this.characterService) > 0);
+        return this.characterService.get_Skills(this.get_Creature(), "", "Spell DC").filter(skill => skill.level(this.get_Creature() as Character|AnimalCompanion, this.characterService) > 0);
     }
 
     get_Traits(name: string = "") {

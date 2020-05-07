@@ -45,6 +45,8 @@ import { Familiar } from './Familiar';
 import { BloodlinesService } from './bloodlines.service';
 import { Bloodline } from './Bloodline';
 import { SavegameService } from './savegame.service';
+import { FamiliarsService } from './familiars.service';
+import { FeatChoice } from './FeatChoice';
 
 @Injectable({
     providedIn: 'root'
@@ -61,6 +63,7 @@ export class CharacterService {
     itemsMenuState: string = 'out';
     characterMenuState: string = 'out';
     companionMenuState: string = 'out';
+    familiarMenuState: string = 'out';
     spellMenuState: string = 'out';
     conditionsMenuState: string = 'out';
 
@@ -82,7 +85,8 @@ export class CharacterService {
         public defenseService: DefenseService,
         public deitiesService: DeitiesService,
         public bloodlinesService: BloodlinesService,
-        public animalCompanionsService: AnimalCompanionsService
+        public animalCompanionsService: AnimalCompanionsService,
+        public familiarsService: FamiliarsService
     ) { }
 
     still_loading() {
@@ -114,16 +118,10 @@ export class CharacterService {
 
     toggleMenu(menu: string = "") {
         switch (menu) {
-            case "items":
-                this.characterMenuState = 'out';
-                this.companionMenuState = 'out';
-                this.itemsMenuState = (this.itemsMenuState == 'out') ? 'in' : 'out';
-                this.spellMenuState = 'out';
-                this.conditionsMenuState = 'out';
-                break;
             case "character":
                 this.characterMenuState = (this.characterMenuState == 'out') ? 'in' : 'out';
                 this.companionMenuState = 'out';
+                this.familiarMenuState = 'out';
                 this.itemsMenuState = 'out';
                 this.spellMenuState = 'out';
                 this.conditionsMenuState = 'out';
@@ -131,13 +129,31 @@ export class CharacterService {
             case "companion":
                 this.characterMenuState = 'out';
                 this.companionMenuState = (this.companionMenuState == 'out') ? 'in' : 'out';
+                this.familiarMenuState = 'out';
                 this.itemsMenuState = 'out';
+                this.spellMenuState = 'out';
+                this.conditionsMenuState = 'out';
+                break;
+            case "familiar":
+                this.characterMenuState = 'out';
+                this.companionMenuState = 'out';
+                this.familiarMenuState = (this.familiarMenuState == 'out') ? 'in' : 'out';
+                this.itemsMenuState = 'out';
+                this.spellMenuState = 'out';
+                this.conditionsMenuState = 'out';
+                break;
+            case "items":
+                this.characterMenuState = 'out';
+                this.companionMenuState = 'out';
+                this.familiarMenuState = 'out';
+                this.itemsMenuState = (this.itemsMenuState == 'out') ? 'in' : 'out';
                 this.spellMenuState = 'out';
                 this.conditionsMenuState = 'out';
                 break;
             case "spells":
                 this.characterMenuState = 'out';
                 this.companionMenuState = 'out';
+                this.familiarMenuState = 'out';
                 this.itemsMenuState = 'out';
                 this.spellMenuState = (this.spellMenuState == 'out') ? 'in' : 'out';
                 this.conditionsMenuState = 'out';
@@ -145,6 +161,7 @@ export class CharacterService {
             case "conditions":
                 this.characterMenuState = 'out';
                 this.companionMenuState = 'out';
+                this.familiarMenuState = 'out';
                 this.itemsMenuState = 'out';
                 this.spellMenuState = 'out';
                 this.conditionsMenuState = (this.conditionsMenuState == 'out') ? 'in' : 'out';
@@ -158,6 +175,10 @@ export class CharacterService {
 
     get_CompanionMenuState() {
         return this.companionMenuState;
+    }
+
+    get_FamiliarMenuState() {
+        return this.familiarMenuState;
     }
 
     get_ItemsMenuState() {
@@ -177,10 +198,13 @@ export class CharacterService {
     }
 
     get_Creature(type: string) {
-        if (type == "Character") {
-            return this.get_Character();
-        } else if (type == "Companion") {
-            return this.get_Companion();
+        switch (type) {
+            case "Character":
+                return this.get_Character();
+            case "Companion":
+                return this.get_Companion();
+            case "Familiar":
+                return this.get_Familiar();
         }
     }
 
@@ -190,13 +214,25 @@ export class CharacterService {
         } else { return new Character() }
     }
 
+    get_CompanionAvailable() {
+        return this.get_Character().get_FeatsTaken(1, this.get_Character().level).filter(gain => this.get_FeatsAndFeatures(gain.name)[0].gainAnimalCompanion).length
+    }
+    
+    get_FamiliarAvailable() {
+        return this.get_Character().get_FeatsTaken(1, this.get_Character().level).filter(gain => this.get_FeatsAndFeatures(gain.name)[0].gainFamiliar).length
+    }
+
     get_Companion() {
         return this.get_Character().class.animalCompanion;
     }
 
+    get_Familiar() {
+        return this.get_Character().class.familiar;
+    }
+
     get_Creatures() {
         if (!this.still_loading()) {
-            return ([] as (Character|AnimalCompanion|Familiar)[]).concat(this.get_Character()).concat(this.get_Companion());
+            return ([] as (Character|AnimalCompanion|Familiar)[]).concat(this.get_Character()).concat(this.get_Companion()).concat(this.get_Familiar());
         } else { return [new Character()] }
     }
 
@@ -267,7 +303,7 @@ export class CharacterService {
         this.me.class.levels.forEach(level => {
             level.featChoices.filter(choice => choice.available).forEach(choice => {
                 choice.feats.forEach(feat => {
-                    this.me.take_Feat(this, feat.name, false, choice, false);
+                    this.me.take_Feat(this.get_Character(), this, feat.name, false, choice, false);
                 });
             });
         });
@@ -287,7 +323,7 @@ export class CharacterService {
                 let count: number = 0;
                 choice.feats.forEach(feat => {
                     count++;
-                    this.me.take_Feat(this, feat.name, true, choice, feat.locked);
+                    this.me.take_Feat(this.get_Character(), this, feat.name, true, choice, feat.locked);
                 });
                 choice.feats.splice(0, count);
             });
@@ -392,7 +428,7 @@ export class CharacterService {
         }
     }
 
-    grant_InventoryItem(creature: Character|AnimalCompanion|Familiar, item: Item, resetRunes: boolean = true, changeAfter: boolean = true, equipAfter: boolean = true, amount: number = 1) {
+    grant_InventoryItem(creature: Character|AnimalCompanion, item: Item, resetRunes: boolean = true, changeAfter: boolean = true, equipAfter: boolean = true, amount: number = 1) {
         let newInventoryItem = this.itemsService.initialize_Item(item);
         //Assign the library's item id as the new item's refId. This allows us to read the default information from the library later.
         newInventoryItem.refId = item.id;
@@ -473,7 +509,7 @@ export class CharacterService {
         return returnedInventoryItem;
     }
 
-    drop_InventoryItem(creature: Character|AnimalCompanion|Familiar, item: Item, changeAfter: boolean = true, equipBasicItems: boolean = true, including: boolean = true, amount: number = 1) {
+    drop_InventoryItem(creature: Character|AnimalCompanion, item: Item, changeAfter: boolean = true, equipBasicItems: boolean = true, including: boolean = true, amount: number = 1) {
         if (amount < item.amount) {
             item.amount -= amount;
         } else {
@@ -611,7 +647,7 @@ export class CharacterService {
         this.change_Cash(1, sum);
     }
 
-    onEquip(creature: Character|AnimalCompanion|Familiar, item: Equipment, equipped: boolean = true, changeAfter: boolean = true, equipBasicItems: boolean = true) {
+    onEquip(creature: Character|AnimalCompanion, item: Equipment, equipped: boolean = true, changeAfter: boolean = true, equipBasicItems: boolean = true) {
         if ((creature.type == "Character" && !item.traits.includes("Companion")) || (creature.type == "Companion" && item.traits.includes("Companion")) || item.name == "Unarmored") {
             item.equipped = equipped;
             if (item.equipped) {
@@ -686,7 +722,7 @@ export class CharacterService {
         }
     }
 
-    onInvest(creature: Character|AnimalCompanion|Familiar, item: Equipment, invested: boolean = true, changeAfter: boolean = true) {
+    onInvest(creature: Character|AnimalCompanion, item: Equipment, invested: boolean = true, changeAfter: boolean = true) {
         item.invested = invested;
         if (item.invested) {
             if (!item.equipped) {
@@ -702,7 +738,7 @@ export class CharacterService {
         }
     }
 
-    on_ConsumableUse(creature: Character|AnimalCompanion|Familiar, item: Consumable) {
+    on_ConsumableUse(creature: Character|AnimalCompanion, item: Consumable) {
         item.amount--
         this.itemsService.process_Consumable(creature, this, item);
         this.set_Changed();
@@ -726,7 +762,7 @@ export class CharacterService {
         }
     }
 
-    equip_BasicItems(creature: Character|AnimalCompanion|Familiar, changeAfter: boolean = true) {
+    equip_BasicItems(creature: Character|AnimalCompanion, changeAfter: boolean = true) {
         if (!this.still_loading() && this.basicItems.length) {
             if (!creature.inventory.weapons.length && creature.type == "Character") {
                 this.grant_InventoryItem(creature, this.basicItems[0], true, false, false);
@@ -837,7 +873,7 @@ export class CharacterService {
             value = 0;
         }
         switch (effect.affected) {
-            case "Focus":
+            case "Focus Points":
                 //Give the focus point some time. If a feat expands the focus pool and gives a focus point, the pool is not expanded yet at this point of processing.
                 (creature as Character).class.focusPoints += value;
                 break;
@@ -898,23 +934,19 @@ export class CharacterService {
         return this.animalCompanionsService.get_CompanionLevels();
     }
 
-    process_Feat(featName: string, level: Level, taken: boolean) {
-        this.featsService.process_Feat(this, featName, level, taken);
+    process_Feat(creature: Character|Familiar, featName: string, choice: FeatChoice, level: Level, taken: boolean) {
+        this.featsService.process_Feat(creature, this, featName, choice, level, taken);
     }
 
     get_FeatsShowingOn(objectName: string) {
-        let feats = this.me.get_FeatsTaken(0, this.me.level, "", "");
         let returnedFeats = []
-        if (feats.length) {
-            feats.forEach(feat => {
-                let returnedFeat = this.get_FeatsAndFeatures(feat.name)[0];
-                returnedFeat.showon.split(",").forEach(showon => {
-                    if (showon == objectName || showon.substr(1) == objectName || (objectName.includes("Lore") && (showon == "Lore" || showon.substr(1) == "Lore"))) {
-                        returnedFeats.push(returnedFeat);
-                    }
-                })
-            });
-        }
+        this.me.get_FeatsTaken(0, this.me.level, "", "").map(feat => this.get_FeatsAndFeatures(feat.name)[0]).forEach(feat => {
+            feat.showon.split(",").forEach(showon => {
+                if (showon == objectName || showon.substr(1) == objectName || (objectName.includes("Lore") && (showon == "Lore" || showon.substr(1) == "Lore"))) {
+                    returnedFeats.push(feat);
+                }
+            })
+        });
         return returnedFeats;
     }
 
@@ -934,6 +966,19 @@ export class CharacterService {
             });
         })
         return returnedObjects;
+    }
+
+    get_FamiliarShowingOn(objectName: string) {
+        let returnedAbilities = []
+        //Get showon elements from Familiar Abilities
+        this.get_Familiar().abilities.feats.map(gain => this.familiarsService.get_FamiliarAbilities(gain.name)[0]).filter(feat => feat.showon).forEach(feat => {
+            feat.showon.split(",").forEach(showon => {
+                if (showon == objectName || showon.substr(1) == objectName || (objectName.includes("Lore") && (showon == "Lore" || showon.substr(1) == "Lore"))) {
+                    returnedAbilities.push(feat);
+                }
+            })
+        })
+        return returnedAbilities;
     }
 
     get_ConditionsShowingOn(creature: Character|AnimalCompanion|Familiar, objectName: string) {
@@ -1025,15 +1070,20 @@ export class CharacterService {
         if (this.me.class.animalCompanion) {
             this.me.class.animalCompanion = Object.assign(new AnimalCompanion(), this.me.class.animalCompanion);
             this.me.class.animalCompanion = this.reassign(this.me.class.animalCompanion);
-            /*this.me.class.animalCompanion.customSkills = this.me.class.animalCompanion.customSkills.map(skill => Object.assign(new Skill(), skill));
-            this.me.class.animalCompanion.class = Object.assign(new AnimalCompanionClass(), this.me.class.animalCompanion.class);
-            this.me.class.animalCompanion.class.reassign(this);
-            this.me.class.animalCompanion.health = Object.assign(new Health(), this.me.class.animalCompanion.health);
-            this.me.class.animalCompanion.speeds = this.me.class.animalCompanion.speeds.map(speed => Object.assign(new Speed(), speed));
-            this.me.class.animalCompanion.conditions = this.me.class.animalCompanion.conditions.map(condition => Object.assign(new Speed(), condition));
-            this.me.class.animalCompanion.bulk = Object.assign(new Bulk(), this.me.class.animalCompanion.bulk);
-            this.me.class.animalCompanion.inventory = Object.assign(new ItemCollection(), this.me.class.animalCompanion.inventory);*/
             this.equip_BasicItems(this.me.class.animalCompanion);
+        }
+    }
+
+    cleanup_Familiar() {
+        this.get_Familiar().abilities.feats.forEach(gain => {
+            this.get_Character().take_Feat(this.get_Familiar(), this, gain.name, false, this.get_Familiar().abilities, undefined);
+        })
+    }
+
+    initialize_Familiar() {
+        if (this.me.class.familiar) {
+            this.me.class.familiar = Object.assign(new Familiar(), this.me.class.familiar);
+            this.me.class.familiar = this.reassign(this.me.class.familiar);
         }
     }
 
@@ -1051,6 +1101,7 @@ export class CharacterService {
         this.deitiesService.initialize();
         this.bloodlinesService.initialize();
         this.animalCompanionsService.initialize();
+        this.familiarsService.initialize();
         if (charName) {
             this.me = new Character();
             this.load_Character(charName)

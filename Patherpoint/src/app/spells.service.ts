@@ -57,6 +57,9 @@ export class SpellsService {
         case "Companion":
             targetCreature = characterService.get_Companion();
             break;
+        case "Familiar":
+            targetCreature = characterService.get_Familiar();
+            break;
     }
 
     //Process various results of casting the spell
@@ -70,15 +73,16 @@ export class SpellsService {
 
     if (targetCreature) {
         //Gain Items on Activation
+        if (targetCreature.type != "Familiar")
         if (spell.gainItems.length) {
             if (activated) {
                 gain.gainItems = spell.gainItems.map(itemGain => Object.assign(new ItemGain(), itemGain));
                 gain.gainItems.forEach(gainItem => {
                     let newItem: Item = itemsService.get_Items()[gainItem.type].filter(item => item.name == gainItem.name)[0];
                     if (newItem.can_Stack()) {
-                        characterService.grant_InventoryItem(targetCreature, newItem, true, false, false, gainItem.amount);
+                        characterService.grant_InventoryItem(targetCreature as Character|AnimalCompanion, newItem, true, false, false, gainItem.amount);
                     } else {
-                        let grantedItem = characterService.grant_InventoryItem(targetCreature, newItem, true, false, true);
+                        let grantedItem = characterService.grant_InventoryItem(targetCreature as Character|AnimalCompanion, newItem, true, false, true);
                         gainItem.id = grantedItem.id;
                         if (grantedItem.get_Name) {
                             grantedItem.displayName = grantedItem.name + " (granted by " + spell.name + ")"
@@ -90,12 +94,12 @@ export class SpellsService {
                     if (itemsService.get_Items()[gainItem.type].filter((item: Item) => item.name == gainItem.name)[0].can_Stack()) {
                         let items: Item[] = targetCreature.inventory[gainItem.type].filter((item: Item) => item.name == gainItem.name);
                         if (items.length) {
-                            characterService.drop_InventoryItem(targetCreature, items[0], false, false, true, gainItem.amount);
+                            characterService.drop_InventoryItem(targetCreature as Character|AnimalCompanion, items[0], false, false, true, gainItem.amount);
                         }
                     } else {
                         let items: Item[] = targetCreature.inventory[gainItem.type].filter((item: Item) => item.id == gainItem.id);
                         if (items.length) {
-                            characterService.drop_InventoryItem(targetCreature, items[0], false, false, true);
+                            characterService.drop_InventoryItem(targetCreature as Character|AnimalCompanion, items[0], false, false, true);
                         }
                         gainItem.id = "";
                     }

@@ -46,7 +46,10 @@ export class TimeService {
     rest(characterService: CharacterService) {
         let charLevel: number = characterService.get_Character().level;
         characterService.get_Creatures().forEach(creature => {
-            let con = Math.max(characterService.abilitiesService.get_Abilities("Constitution")[0].mod(creature, characterService, characterService.effectsService), 1);
+            let con = 1;
+            if (creature.type != "Familiar") {
+                con = Math.max(characterService.abilitiesService.get_Abilities("Constitution")[0].mod(creature, characterService, characterService.effectsService), 1);
+            }
             characterService.get_Health(creature).heal(creature, characterService, characterService.effectsService, con * charLevel, true, true);
             if (characterService.get_Health(creature).damage == 0) {
                 characterService.get_AppliedConditions(creature, "Wounded").forEach(gain => characterService.remove_Condition(creature, gain));

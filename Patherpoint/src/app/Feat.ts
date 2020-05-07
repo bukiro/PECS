@@ -11,6 +11,7 @@ import { ConditionGain } from './ConditionGain';
 import { AnimalCompanion } from './AnimalCompanion';
 import { Familiar } from './Familiar';
 import { Deity } from './Deity';
+import { Speed } from './Speed';
 
 export class Feat {
     public readonly _className: string = this.constructor.name;
@@ -25,6 +26,7 @@ export class Feat {
     public featreq: string[] = [];
     public gainActivities: string[] = [];
     public gainAnimalCompanion: number = 0;
+    public gainFamiliar: boolean = false;
     public gainBloodline: boolean = false;
     public gainConditions: ConditionGain[] = [];
     public gainFeatChoice: FeatChoice[] = [];
@@ -133,13 +135,23 @@ export class Feat {
     meetsFeatReq(characterService: CharacterService, charLevel: number = characterService.get_Character().level) {
         //If the feat has a levelreq, check if the level beats that.
         //Returns [requirement met, requirement description]
-        let character = characterService.get_Character();
         let result: Array<{met?:boolean, desc?:string}> = [];
         if (this.featreq.length) {
             this.featreq.forEach(featreq => {
-                let requiredFeat: Feat[] = characterService.get_FeatsAndFeatures(featreq);
+                //Allow to check for the Familiar's feats
+                let requiredFeat: Feat[] 
+                let testcreature: Character|Familiar;
+                let testfeat = featreq;
+                if (featreq.includes("Familiar:")) {
+                    testcreature = characterService.get_Familiar();
+                    testfeat = featreq.substr(9);
+                    requiredFeat = characterService.familiarsService.get_FamiliarAbilities(testfeat);
+                } else {
+                    testcreature = characterService.get_Character();
+                    requiredFeat = characterService.get_FeatsAndFeatures(testfeat);
+                }
                 if (requiredFeat.length > 0) {
-                    if (requiredFeat[0].have(character, characterService, charLevel)) {
+                    if (requiredFeat[0].have(testcreature, characterService, charLevel)) {
                         result.push({met:true, desc:featreq});
                     } else {
                         result.push({met:false, desc:featreq});
@@ -161,7 +173,16 @@ export class Feat {
         //
         //character and charLevel are often needed for special requirements, so we keep them defined even if we don't use them in the function.
         let character: Character = characterService.get_Character();
+        let familiar: Familiar = characterService.get_Familiar();
         let deity: Deity = characterService.get_Deities(character.class.deity)[0];
+        function Speed(creature: string, name: string) {
+            let speeds: Speed[] = characterService.get_Speeds(characterService.get_Creature(creature)).filter(speed => speed.name == name);
+            if (speeds.length) {
+                return speeds[0].value(characterService.get_Creature(creature), characterService, characterService.effectsService)[0];
+            } else {
+                return 0;
+            }
+        }
         if (!deity) {
             deity = new Deity();
         }
@@ -200,9 +221,11 @@ export class Feat {
         if (creature.type == "Character") {
             let featsTaken = (creature as Character).get_FeatsTaken(1, charLevel, this.name)
             return featsTaken.length;
+        } else if (creature.type == "Familiar") {
+            let featsTaken = (creature as Familiar).abilities.feats.filter(gain => gain.name == this.name);
+            return featsTaken.length;
         } else {
             return 0;
         }
-        
     }
 }

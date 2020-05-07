@@ -5,15 +5,17 @@ import { Effect } from './Effect';
 import { AnimalCompanion } from './AnimalCompanion';
 import { Familiar } from './Familiar';
 import { Character } from './Character';
+import { SpellCast } from './SpellCast';
+import { TraditionChoice } from './TraditionChoice';
 
 export class Skill {
     public readonly _className: string = this.constructor.name;
-    public $baseValue: {result: number, explain: string} = {result:0, explain:""};
-    public $bonus: Effect[] = [];
-    public $effects: Effect[] = [];
-    public $level: number = 0;
-    public $penalty: Effect[] = [];
-    public $value: {result: number, explain: string} = {result:0, explain:""};
+    public $baseValue: {result: number, explain: string}[] = [{result:0, explain:""},{result:0, explain:""},{result:0, explain:""}];
+    public $bonus: (Effect[])[] = [[],[],[]];
+    public $effects: (Effect[])[] = [[],[],[]];
+    public $level: number[] = [0,0,0,];
+    public $penalty: (Effect[])[] = [[],[],[]];
+    public $value: {result: number, explain: string}[] = [{result:0, explain:""},{result:0, explain:""},{result:0, explain:""}];
     public notes: string = "";
     public showNotes: boolean = false;
     constructor(
@@ -22,15 +24,28 @@ export class Skill {
         public type: string = "",
     ) { }
     calculate(creature: Character|AnimalCompanion|Familiar, characterService: CharacterService, abilitiesService: AbilitiesService, effectsService: EffectsService, charLevel: number = characterService.get_Character().level) {
-        this.$effects = this.effects(creature, effectsService);
-        this.$penalty = this.penalty(creature, effectsService);
-        this.$bonus = this.bonus(creature, effectsService);
-        this.$level = this.level(creature, characterService, charLevel);
-        this.$baseValue = this.baseValue(creature, characterService, abilitiesService, effectsService, charLevel);
-        this.$value = this.value(creature, characterService, abilitiesService, effectsService, charLevel);
+        let index = 0;
+        switch (creature.type) {
+            case "Companion":
+                index = 1;
+                break;
+            case "Familiar":
+                index = 2;
+                break;
+        }
+        this.$effects[index] = this.effects(creature, effectsService);
+        this.$penalty[index] = this.penalty(creature, effectsService);
+        this.$bonus[index] = this.bonus(creature, effectsService);
+        if (creature.type == "Familiar") {
+            this.$level[index] = 0;
+        } else {
+            this.$level[index] = this.level(creature, characterService, charLevel);
+        }
+        this.$baseValue[index] = this.baseValue(creature, characterService, abilitiesService, effectsService, charLevel);
+        this.$value[index] = this.value(creature, characterService, abilitiesService, effectsService, charLevel);
         return this;
     }
-    level(creature: Character|AnimalCompanion|Familiar, characterService: CharacterService, charLevel: number = characterService.get_Character().level) {
+    level(creature: Character|AnimalCompanion, characterService: CharacterService, charLevel: number = characterService.get_Character().level) {
         if (characterService.still_loading()) { return 0; }
         let skillLevel: number = 0;
         let increases = creature.get_SkillIncreases(characterService, 0, charLevel, this.name);
@@ -48,7 +63,7 @@ export class Skill {
         skillLevel = Math.min(skillLevel, 8);
         return skillLevel;
     }
-    canIncrease(creature: Character|AnimalCompanion|Familiar, characterService: CharacterService, levelNumber: number, maxRank: number = 8) {
+    canIncrease(creature: Character, characterService: CharacterService, levelNumber: number, maxRank: number = 8) {
         if (levelNumber >= 15) {
             return (this.level(creature, characterService, levelNumber) < Math.min(8, maxRank))
         } else if (levelNumber >= 7) {
@@ -59,7 +74,7 @@ export class Skill {
             return (this.level(creature, characterService, levelNumber) < Math.min(2, maxRank))
         }
     }
-    isLegal(creature: Character|AnimalCompanion|Familiar, characterService: CharacterService, levelNumber: number, maxRank: number = 8) {
+    isLegal(creature: Character, characterService: CharacterService, levelNumber: number, maxRank: number = 8) {
         if (levelNumber >= 15) {
             return (creature.get_SkillIncreases(characterService, 0, levelNumber, this.name).length * 2 <= Math.min(8, maxRank))
         } else if (levelNumber >= 7) {
@@ -82,68 +97,126 @@ export class Skill {
     baseValue(creature: Character|AnimalCompanion|Familiar, characterService: CharacterService, abilitiesService: AbilitiesService, effectsService: EffectsService, charLevel: number = characterService.get_Character().level) {
         let result: number = 0;
         let explain: string = "";
+        let index = 0;
+        switch (creature.type) {
+            case "Companion":
+                index = 1;
+                break;
+            case "Familiar":
+                index = 2;
+                break;
+        }
         if (!characterService.still_loading()) {
-            //Add character level if the character is trained or better with the Skill
-            //Add half the level if the skill is unlearned and the character has the Untrained Improvisation feat (full level from 7 on).
-            //Gets applied to saves and perception, but they are never untrained
-            let skillLevel = this.level(creature, characterService, charLevel);
-            if (skillLevel) {
-                explain += "\nProficiency: " + skillLevel;
-            }
-            var charLevelBonus = 0;
-            if (skillLevel > 0) {
-                charLevelBonus = charLevel;
-                explain += "\nCharacter Level: " + charLevelBonus;
-            } else {
-                let untrainedImprovisation = effectsService.get_EffectsOnThis(creature, "Untrained Skills");
-                if (untrainedImprovisation.length) {
-                    untrainedImprovisation.forEach(effect => {
-                        charLevelBonus += parseInt(effect.value);
-                        explain += "\nCharacter Level Bonus (Untrained Improvisation): " + charLevelBonus;
-                    })
+            if (creature.type == "Familiar") {
+                //Familiars have special rules:
+                //- Saves are equal to the character's before applying circumstance or status effects.
+                //- Perception, Acrobatics and Stealth are equal to the character level plus spellcasting modifier (or Charisma).
+                //- All others (including attacks) are equal to the character level.
+                let character = characterService.get_Character();
+                if (["Fortitude", "Reflex", "Will"].includes(this.name)) {
+                    let charBaseValue = (this.$baseValue[0].result ? this.$baseValue[0] : this.baseValue(character, characterService, abilitiesService, effectsService, charLevel))
+                    result = charBaseValue.result;
+                    explain = charBaseValue.explain;
+                } else if (["Perception", "Acrobatics", "Stealth"].includes(this.name)) {
+                    result = character.level;
+                    explain = "Character Level: "+character.level;
+                    let spellcastingAbility: string = "";
+                    //Get the correct ability by identifying the tradition choice with the same class name as the Familiar's originClass and retrieving its key ability.
+                    character.class.levels.filter(level => level.number <= character.level)
+                        .filter(level => level.traditionChoices.length).forEach(level => {
+                            spellcastingAbility = level.traditionChoices.filter(choice => choice.className == creature.originClass && choice.ability && choice.increases.length).map(choice => choice.ability)[0] || "Charisma";
+                        })
+                    let value = abilitiesService.get_Abilities(spellcastingAbility)[0].mod(character, characterService, effectsService);
+                    if (value) {
+                        result += value;
+                        explain += "\nCharacter Spellcasting Ability: "+value;
+                    }
+                } else {
+                    result = character.level;
+                    explain = "Character Level: "+character.level;
                 }
-            }
-            //Add the Ability modifier identified by the skill's ability property
-            var abilityMod = 0;
-            if (this.ability) {
-                abilityMod = abilitiesService.get_Abilities(this.ability)[0].mod(creature, characterService, effectsService);
-                if (abilityMod) {
-                    explain += "\n" + this.ability + " Modifier: " + abilityMod;
-                }
             } else {
-                if (this.name == characterService.get_Character().class.name + " class DC") {
-                    let keyAbilities = characterService.get_Character().get_AbilityBoosts(1, 1, "", "", "Class Key Ability");
-                    if (keyAbilities.length) {
-                        abilityMod = abilitiesService.get_Abilities(keyAbilities[0].name)[0].mod(creature, characterService, effectsService);
-                        if (abilityMod) {
-                            explain += "\n" + keyAbilities[0].name + " Modifier: " + abilityMod;
+                //Add character level if the character is trained or better with the Skill
+                //Add half the level if the skill is unlearned and the character has the Untrained Improvisation feat (full level from 7 on).
+                //Gets applied to saves and perception, but they are never untrained
+                let skillLevel = this.level(creature, characterService, charLevel);
+                if (skillLevel) {
+                    explain += "\nProficiency: " + skillLevel;
+                }
+                var charLevelBonus = 0;
+                if (skillLevel > 0) {
+                    charLevelBonus = charLevel;
+                    explain += "\nCharacter Level: " + charLevelBonus;
+                } else {
+                    let untrainedImprovisation = effectsService.get_EffectsOnThis(creature, "Untrained Skills");
+                    if (untrainedImprovisation.length) {
+                        untrainedImprovisation.forEach(effect => {
+                            charLevelBonus += parseInt(effect.value);
+                            explain += "\nCharacter Level Bonus (Untrained Improvisation): " + charLevelBonus;
+                        })
+                    }
+                }
+                //Add the Ability modifier identified by the skill's ability property
+                var abilityMod = 0;
+                if (this.ability) {
+                    abilityMod = abilitiesService.get_Abilities(this.ability)[0].mod(creature, characterService, effectsService);
+                    if (abilityMod) {
+                        explain += "\n" + this.ability + " Modifier: " + abilityMod;
+                    }
+                } else {
+                    if (this.name == characterService.get_Character().class.name + " class DC") {
+                        let keyAbilities = characterService.get_Character().get_AbilityBoosts(1, 1, "", "", "Class Key Ability");
+                        if (keyAbilities.length) {
+                            abilityMod = abilitiesService.get_Abilities(keyAbilities[0].name)[0].mod(creature, characterService, effectsService);
+                            if (abilityMod) {
+                                explain += "\n" + keyAbilities[0].name + " Modifier: " + abilityMod;
+                            }
                         }
                     }
                 }
+                explain = explain.substr(1);
+                //Add up all modifiers, the skill proficiency and all active effects and return the sum
+                result = charLevelBonus + skillLevel + abilityMod;
             }
-            explain = explain.substr(1);
-            //Add up all modifiers, the skill proficiency and all active effects and return the sum
-            result = charLevelBonus + skillLevel + abilityMod;
         }
         return {result:result, explain:explain};
     }
     value(creature: Character|AnimalCompanion|Familiar, characterService: CharacterService, abilitiesService: AbilitiesService, effectsService: EffectsService, charLevel: number = characterService.get_Character().level) {
         //Calculates the effective bonus of the given Skill
+        let index = 0;
+        switch (creature.type) {
+            case "Companion":
+                index = 1;
+                break;
+            case "Familiar":
+                index = 2;
+                break;
+        }
         let result: number = 0;
         let explain: string = "";
         if (!characterService.still_loading()) {
-            let baseValue = (this.$baseValue.result ? this.$baseValue : this.baseValue(creature, characterService, abilitiesService, effectsService, charLevel))
+            let baseValue: {result: number, explain: string} = {result:0, explain:""};
+            baseValue = (this.$baseValue[index].result ? this.$baseValue[index] : this.baseValue(creature, characterService, abilitiesService, effectsService, charLevel))
             result = baseValue.result;
-            explain = baseValue.explain
+            explain = baseValue.explain;
+            //Familiars apply the character's effects (before circumstance and status effects) on saves
+            if (creature.type == "Familiar") {
+                let character = characterService.get_Character();
+                if (["Fortitude", "Reflex", "Will"].includes(this.name)) {
+                    baseValue = (this.$baseValue[0].result ? this.$baseValue[0] : this.baseValue(character, characterService, abilitiesService, effectsService, charLevel))
+                    let effects = this.effects(character, effectsService).filter(effect => effect.type != "circumstance" && effect.type != "status");
+                    effects.forEach(effect => {
+                        baseValue.result += parseInt(effect.value);
+                        baseValue.explain += "\n" + effect.source + ": " + effect.value;
+                    });
+                }
+            }
             //Get all active effects on this and sum them up
             let effects = this.effects(creature, effectsService)
-            let effectsSum = 0;
-            effects.forEach(effect => {
-                effectsSum += parseInt(effect.value);
+                effects.forEach(effect => {
+                result += parseInt(effect.value);
                 explain += "\n" + effect.source + ": " + effect.value;
             });
-            //Add up all modifiers, the skill proficiency and all active effects and return the sum
-            result = result + effectsSum;
         }
         return {result:result, explain:explain};
     }

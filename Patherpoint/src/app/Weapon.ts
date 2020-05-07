@@ -90,7 +90,7 @@ export class Weapon extends Equipment {
             return this.traits;
         }
     }
-    profLevel(creature: Character|AnimalCompanion|Familiar, characterService: CharacterService, runeSource: Weapon|WornItem, charLevel: number = characterService.get_Character().level) {
+    profLevel(creature: Character|AnimalCompanion, characterService: CharacterService, runeSource: Weapon|WornItem, charLevel: number = characterService.get_Character().level) {
         if (characterService.still_loading()) { return 0; }
         let skillLevel: number = 0;
         let weaponIncreases = creature.get_SkillIncreases(characterService, 0, charLevel, this.name);
@@ -117,7 +117,7 @@ export class Weapon extends Equipment {
         }
         return bestSkillLevel;
     }
-    attack(creature: Character|AnimalCompanion|Familiar, characterService: CharacterService, effectsService: EffectsService, range: string) {
+    attack(creature: Character|AnimalCompanion, characterService: CharacterService, effectsService: EffectsService, range: string) {
     //Calculates the attack bonus for a melee or ranged attack with this weapon.
         let explain: string = "";
         let charLevel = characterService.get_Character().level;
@@ -237,7 +237,7 @@ export class Weapon extends Equipment {
             });
         return extraDamage;
     }
-    damage(creature: Character|AnimalCompanion|Familiar, characterService: CharacterService, effectsService: EffectsService, range: string) {
+    damage(creature: Character|AnimalCompanion, characterService: CharacterService, effectsService: EffectsService, range: string) {
     //Lists the damage dice and damage bonuses for a ranged or melee attack with this weapon.
     //Returns a string in the form of "1d6 +5"
         let explain: string = "";

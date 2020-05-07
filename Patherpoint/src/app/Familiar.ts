@@ -1,12 +1,24 @@
 import { Creature } from './Creature';
 import { EffectsService } from './effects.service';
 import { FeatChoice } from './FeatChoice';
+import { Skill } from './Skill';
 
 export class Familiar extends Creature {
     public readonly _className: string = this.constructor.name;
-    public abilities: FeatChoice[] = [];
+    public readonly type = "Familiar";
+    public abilities: FeatChoice = Object.assign(new FeatChoice, {
+        available: 2,
+        id: "0-Feat-Familiar-0",
+        source: "Familiar",
+        type: "Familiar"
+    });
+    public customSkills: Skill[] = [
+        Object.assign(new Skill(), { name:"Attack Rolls", type:"Familiar Proficiency" })
+    ];
+    public originClass: string = "";
+    public senses: string[] = ["Low-light Vision"];
     public species: string = "";
-    public readonly type = "Companion";
+    public traits: string[] = ["Minion"];
     get_Size(effectsService: EffectsService) {
         let size: number = (-2);
         

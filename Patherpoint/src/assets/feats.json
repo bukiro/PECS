@@ -1140,7 +1140,8 @@
             "value": 4
          }
       ],
-      "specialreqdesc": "No Animal Companion##########Animal Companions are not implemented yet.##########",
+      "specialreqdesc": "no animal companion",
+      "specialreq": "!character.get_FeatsTaken(1, 20).filter(feat => feat.name != this.name && characterService.get_FeatsAndFeatures(feat.name)[0].gainAnimalCompanion == 1).length",
       "traits": [
          "General",
          "Downtime",
@@ -4702,11 +4703,13 @@
                   "tradition": "Focus"
                }
             ],
-            "tradition": "Focus"
+            "tradition": "Focus",
+            "castingType": "Focus"
          }
       ],
       "gainTraditionChoice": [
          {
+            "className": "Monk",
             "ability": "Wisdom",
             "id": "1-Tradition-Ki Spells-0",
             "maxRank": 2,
@@ -4721,7 +4724,7 @@
       "levelreq": 1,
       "onceEffects": [
          {
-            "affected": "Focus",
+            "affected": "Focus Points",
             "value": "1"
          }
       ],
@@ -4756,11 +4759,13 @@
                   "tradition": "Focus"
                }
             ],
-            "tradition": "Focus"
+            "tradition": "Focus",
+            "castingType": "Focus"
          }
       ],
       "gainTraditionChoice": [
          {
+            "className": "Monk",
             "ability": "Wisdom",
             "id": "1-Tradition-Ki Spells-0",
             "maxRank": 2,
@@ -4775,7 +4780,7 @@
       "levelreq": 1,
       "onceEffects": [
          {
-            "affected": "Focus",
+            "affected": "Focus Points",
             "value": "1"
          }
       ],
@@ -5067,13 +5072,14 @@
                   "tradition": "Focus"
                }
             ],
-            "tradition": "Focus"
+            "tradition": "Focus",
+            "castingType": "Focus"
          }
       ],
       "levelreq": 4,
       "onceEffects": [
          {
-            "affected": "Focus",
+            "affected": "Focus Points",
             "value": "1"
          }
       ],
@@ -5111,13 +5117,14 @@
                   "tradition": "Focus"
                }
             ],
-            "tradition": "Focus"
+            "tradition": "Focus",
+            "castingType": "Focus"
          }
       ],
       "levelreq": 6,
       "onceEffects": [
          {
-            "affected": "Focus",
+            "affected": "Focus Points",
             "value": "1"
          }
       ],
@@ -5184,13 +5191,14 @@
                   "tradition": "Focus"
                }
             ],
-            "tradition": "Focus"
+            "tradition": "Focus",
+            "castingType": "Focus"
          }
       ],
       "levelreq": 6,
       "onceEffects": [
          {
-            "affected": "Focus",
+            "affected": "Focus Points",
             "value": "1"
          }
       ],
@@ -5361,13 +5369,14 @@
                   "tradition": "Focus"
                }
             ],
-            "tradition": "Focus"
+            "tradition": "Focus",
+            "castingType": "Focus"
          }
       ],
       "levelreq": 8,
       "onceEffects": [
          {
-            "affected": "Focus",
+            "affected": "Focus Points",
             "value": "1"
          }
       ],
@@ -5431,13 +5440,14 @@
                   "tradition": "Focus"
                }
             ],
-            "tradition": "Focus"
+            "tradition": "Focus",
+            "castingType": "Focus"
          }
       ],
       "levelreq": 10,
       "onceEffects": [
          {
-            "affected": "Focus",
+            "affected": "Focus Points",
             "value": "1"
          }
       ],
@@ -5661,13 +5671,14 @@
                   "tradition": "Focus"
                }
             ],
-            "tradition": "Focus"
+            "tradition": "Focus",
+            "castingType": "Focus"
          }
       ],
       "levelreq": 16,
       "onceEffects": [
          {
-            "affected": "Focus",
+            "affected": "Focus Points",
             "value": "1"
          }
       ],
@@ -5745,13 +5756,14 @@
                   "tradition": "Focus"
                }
             ],
-            "tradition": "Focus"
+            "tradition": "Focus",
+            "castingType": "Focus"
          }
       ],
       "levelreq": 18,
       "onceEffects": [
          {
-            "affected": "Focus",
+            "affected": "Focus Points",
             "value": "1"
          }
       ],
@@ -5881,7 +5893,7 @@
       "levelreq": 1,
       "specialreqdesc": "no animal companion",
       "specialreq": "!character.get_FeatsTaken(1, 20).filter(feat => feat.name != this.name && characterService.get_FeatsAndFeatures(feat.name)[0].gainAnimalCompanion == 1).length",
-      "gainAnimalCompanion":true,
+      "gainAnimalCompanion":1,
       "traits": [
          "Ranger"
       ]
@@ -5982,11 +5994,13 @@
             "available": 2,
             "level": 0,
             "spells": [],
-            "tradition": "Sorcerer"
+            "tradition": "Sorcerer",
+            "castingType": "Spontaneous"
          }
       ],
       "gainTraditionChoice": [
          {
+            "className": "Sorcerer",
             "ability": "Charisma",
             "id": "0-Tradition-Ki Spells-0",
             "maxRank": 2,
@@ -6028,7 +6042,8 @@
             "available": 1,
             "level": 1,
             "spells": [],
-            "tradition": "Sorcerer"
+            "tradition": "Sorcerer",
+            "castingType": "Spontaneous"
          },
          {
             "className": "Sorcerer",
@@ -6037,7 +6052,8 @@
             "available": 1,
             "level": 2,
             "spells": [],
-            "tradition": "Sorcerer"
+            "tradition": "Sorcerer",
+            "castingType": "Spontaneous"
          },
          {
             "className": "Sorcerer",
@@ -6046,7 +6062,8 @@
             "available": 1,
             "level": 3,
             "spells": [],
-            "tradition": "Sorcerer"
+            "tradition": "Sorcerer",
+            "castingType": "Spontaneous"
          }
       ],
       "traits": [
@@ -6092,5 +6109,19 @@
          "Archetype"
       ],
       "internalNote": "Feat Choices with Level 0 are given at half your character level."
+   },
+   {
+      "name": "Familiar",
+      "shortdesc": "An animal serves you and assists your spellcasting.",
+      "desc": "You make a pact with creature that serves you and assists your spellcasting. You gain a familiar (page 217).",
+      "levelreq": 1,
+      "specialreqdesc": "no familiar",
+      "specialreq": "!character.get_FeatsTaken(1, 20).filter(feat => feat.name != this.name && characterService.get_FeatsAndFeatures(feat.name)[0].gainFamiliar == true).length",
+      "gainFamiliar":true,
+      "traits": [
+         "Sorcerer",
+         "Wizard"
+      ]
    }
+   
 ]

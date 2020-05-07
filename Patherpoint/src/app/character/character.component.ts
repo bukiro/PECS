@@ -35,6 +35,7 @@ import { ConditionsService } from '../Conditions.service';
 import { BloodlinesService } from '../bloodlines.service';
 import { Bloodline } from '../Bloodline';
 import { AnimalCompanionSpecialization } from '../AnimalCompanionSpecialization';
+import { Familiar } from '../Familiar';
 
 @Component({
     selector: 'app-character',
@@ -88,6 +89,14 @@ export class CharacterComponent implements OnInit {
         } else {
             this.showList = name;
         }
+    }
+
+    receive_ChoiceMessage(name: string) {
+        this.toggle_List(name);
+    }
+
+    receive_FeatMessage(name: string) {
+        this.toggle_Item(name);
     }
 
     get_showItem() {
@@ -522,77 +531,6 @@ export class CharacterComponent implements OnInit {
         return this.featsService.get_All(this.get_Character().customFeats, name, type);
     }
 
-    get_SubFeats(feat: Feat, choice: FeatChoice, get_unavailable: boolean = false) {
-        if (feat.subTypes) {
-            let feats = this.get_Feats().filter(subfeat => subfeat.superType == feat.name && !subfeat.hide);
-            if (get_unavailable && choice.feats.length < choice.available) {
-                let unavailableSubfeats = feats.filter(feat => 
-                    this.cannotTake(feat, choice).length > 0
-                )
-                return this.sortByPipe.transform(unavailableSubfeats, "asc", "name");
-            } else if (!get_unavailable &&choice.feats.length < choice.available) {
-                let availableSubfeats = feats.filter(feat => 
-                    this.cannotTake(feat, choice).length == 0 || this.featTakenByThis(feat, choice)
-                )
-                return this.sortByPipe.transform(availableSubfeats, "asc", "name");
-            } else if (!get_unavailable) {
-                let availableSubfeats = feats.filter(feat => 
-                    this.featTakenByThis(feat, choice)
-                )
-                return this.sortByPipe.transform(availableSubfeats, "asc", "name");
-            }
-        } else {
-            return [];
-        }
-    }
-
-    get_AvailableFeats(choice: FeatChoice, get_unavailable: boolean = false) {
-        let character = this.get_Character()
-        //Get all Feats, but no subtype Feats (those that have the supertype attribute set) - those get built within their supertype
-        let allFeats = this.get_Feats().filter(feat => !feat.superType && !feat.hide);
-        if (choice.filter.length) {
-            allFeats = allFeats.filter(feat => choice.filter.includes(feat.name))
-        }
-        let feats: Feat[] = [];
-        if (choice.specialChoice) {
-            //For special choices, we don't really use true feats, but make choices that can best be represented by the extensive feat structure.
-            //In this case, we don't go looking for feats with a certain trait, but rely completely on the filter.
-            feats.push(...allFeats);
-        } else {
-            switch (choice.type) {
-                case "Class":
-                    feats.push(...allFeats.filter(feat => feat.traits.includes(character.class.name) || feat.traits.includes("Archetype")));
-                    break;
-                case "Ancestry":
-                    character.class.ancestry.ancestries.forEach(trait => {
-                        feats.push(...allFeats.filter(feat => feat.traits.includes(trait)));
-                    })
-                    break;
-                default:
-                    feats.push(...allFeats.filter(feat => feat.traits.includes(choice.type)));
-                    break;
-            }
-        }
-        if (feats.length) {
-            if (get_unavailable && choice.feats.length < choice.available) {
-                let unavailableFeats: Feat[] = feats.filter(feat => 
-                    (this.cannotTake(feat, choice).length > 0)
-                )
-                return this.sortByPipe.transform(unavailableFeats, "asc", "name")
-            } else if (!get_unavailable && choice.feats.length < choice.available) {
-                let availableFeats: Feat[] = feats.filter(feat => 
-                    this.cannotTake(feat, choice).length == 0 || this.featTakenByThis(feat, choice) || this.subFeatTakenByThis(feat, choice)
-                )
-                return this.sortByPipe.transform(availableFeats, "asc", "name")
-            } else if (!get_unavailable) {
-                let availableFeats: Feat[] = feats.filter(feat => 
-                    this.featTakenByThis(feat, choice) || this.subFeatTakenByThis(feat, choice)
-                )
-                return this.sortByPipe.transform(availableFeats, "asc", "name")
-            }
-        }
-    }
-
     get_Activities(name: string = "") {
         return this.activitiesService.get_Activities(name);
     }
@@ -680,183 +618,8 @@ export class CharacterComponent implements OnInit {
         this.set_Changed();
     }
 
-    cannotTakeSome(choice: FeatChoice) {
-        let anytrue = 0;
-        choice.feats.forEach(feat => {
-            let template: Feat[] = this.get_Feats(feat.name);
-            if (template.length && template[0].name) {
-                if (this.cannotTake(template[0], choice).length) {
-                    if (!feat.locked) {
-                        this.get_Character().take_Feat(this.characterService, feat.name, false, choice, feat.locked);
-                        this.characterService.set_Changed();
-                    } else {
-                        anytrue += 1;
-                    }
-                }
-            }
-        });
-        return anytrue;
-    }
-
-    cannotTake(feat: Feat, choice: FeatChoice) {
-        //Don't run the test on a blank feat - does not go well
-        if (feat.name) {
-            let levelNumber = parseInt(choice.id.split("-")[0]);
-            let featLevel = 0;
-            if (choice.level) {
-                featLevel = choice.level;
-            } else {
-                featLevel = levelNumber;
-            }
-            let reasons: string[] = [];
-            //Are the basic requirements (level, ability, feat etc) not met?
-            if (!feat.canChoose(this.characterService, featLevel)) {
-                reasons.push("The requirements are not met.")
-            }
-            //Unless the feat can be taken repeatedly:
-            if (!feat.unlimited) {
-                //Has it already been taken up to this level, and was that not by this FeatChoice?
-                if (feat.have(this.get_Character(), this.characterService, levelNumber) && !this.featTakenByThis(feat, choice)) {
-                    reasons.push("This feat cannot be taken more than once.");
-                }
-                //Has it generally been taken more than once, and this is one time?
-                if (feat.have(this.get_Character(), this.characterService, levelNumber) > 1 && this.featTakenByThis(feat, choice)) {
-                    reasons.push("This feat cannot be taken more than once!");
-                }
-                //Has it been taken on a higher level (that is, not up to now, but up to Level 20)?
-                if (!feat.have(this.get_Character(), this.characterService, levelNumber) && feat.have(this.get_Character(), this.characterService, 20)) {
-                    reasons.push("This feat has been taken on a higher level.");
-                }
-            }
-            //Dedication feats
-            if (feat.traits.includes("Dedication")) {
-                //Get all taken dedication feats that aren't this, then check if you have taken 
-                this.get_Character().get_FeatsTaken(1, levelNumber).map(gain => this.get_FeatsAndFeatures(gain.name)[0])
-                    .filter(libraryfeat => libraryfeat.name != feat.name && libraryfeat.traits.includes("Dedication")).forEach(takenfeat => {
-                    let archetypeFeats = this.get_Character().get_FeatsTaken(1, levelNumber).map(gain => this.get_FeatsAndFeatures(gain.name)[0])
-                        .filter(libraryfeat => libraryfeat.name != takenfeat.name && libraryfeat.traits.includes("Archetype") && libraryfeat.archetype == takenfeat.archetype)
-                    if (archetypeFeats.length < 2) {
-                        reasons.push("You cannot select another dedication feat until you have gained two other feats from the "+takenfeat.archetype+" archetype.");
-                    }
-                });
-            }
-            //If this feat has any subtypes, check if any of them can be taken. If not, this cannot be taken either.
-            if (feat.subTypes) {
-                let subfeats = this.get_Feats().filter(subfeat => subfeat.superType == feat.name && !subfeat.hide);
-                let availableSubfeats = subfeats.filter(feat => 
-                    this.cannotTake(feat, choice).length == 0 || this.featTakenByThis(feat, choice)
-                );
-                if (availableSubfeats.length == 0) {
-                    reasons.push("No option has its requirements met.")
-                }
-            }
-            return reasons;
-        }
-    }
-
-    featTakenByThis(feat: Feat, choice: FeatChoice) {
-        return choice.feats.filter(gain => gain.name == feat.name).length > 0;
-        /*let levelNumber = parseInt(choice.id.split("-")[0]);
-        return this.get_FeatsTaken(levelNumber, levelNumber, feat.name, choice.source, choice.id).length > 0;*/
-    }
-
-    subFeatTakenByThis(feat: Feat, choice: FeatChoice) {
-        return choice.feats.filter(gain => this.get_Feats(gain.name)[0].superType == feat.name).length > 0;
-        /*let levelNumber = parseInt(choice.id.split("-")[0]);
-        return this.get_FeatsTaken(levelNumber, levelNumber, "", choice.source, choice.id).filter(
-            takenfeat => this.get_Feats(takenfeat.name)[0].superType == feat.name
-            ).length > 0;*/
-    }
-
     get_FeatsTaken(minLevelNumber: number, maxLevelNumber: number, featName: string = "", source: string = "", sourceId: string = "", locked: boolean = undefined) {
         return this.get_Character().get_FeatsTaken(minLevelNumber, maxLevelNumber, featName, source, sourceId, locked);
-    }
-
-    get_FeatRequirements(choice: FeatChoice, feat: Feat, compare: Feat = undefined) {
-        let levelNumber = parseInt(choice.id.split("-")[0]);
-        let featLevel = 0;
-        if (choice.level) {
-            featLevel = choice.level;
-        } else {
-            featLevel = levelNumber;
-        }
-        let result: Array<{met?:boolean, desc?:string}> = [];
-        //For subtypes, the supertype feat to compare is given. Only those requirements that differ from the supertype will be returned.
-        if (compare) {
-            if (feat.levelreq != compare.levelreq ||
-                JSON.stringify(feat.abilityreq) != JSON.stringify(compare.abilityreq) ||
-                JSON.stringify(feat.skillreq) != JSON.stringify(compare.skillreq) ||
-                feat.featreq != compare.featreq ||
-                feat.specialreqdesc != compare.specialreqdesc
-                ) {
-                result.push({met:true, desc:"requires "});
-                if (feat.levelreq && feat.levelreq != compare.levelreq) {
-                    result.push(feat.meetsLevelReq(this.characterService, featLevel));
-                }
-                if (JSON.stringify(feat.abilityreq) != JSON.stringify(compare.abilityreq)) {
-                    feat.meetsAbilityReq(this.characterService, featLevel).forEach(req => {
-                        result.push({met:true, desc:", "});
-                        result.push(req);
-                    })
-                }
-                if (JSON.stringify(feat.skillreq) != JSON.stringify(compare.skillreq)) {
-                    feat.meetsSkillReq(this.characterService, featLevel).forEach(req => {
-                        result.push({met:true, desc:", "});
-                        result.push(req);
-                    })
-                }
-                if (JSON.stringify(feat.featreq) != JSON.stringify(compare.featreq)) {
-                    feat.meetsFeatReq(this.characterService, featLevel).forEach(req => {
-                        result.push({met:true, desc:", "});
-                        result.push(req);
-                    })
-                }
-                if (feat.specialreqdesc && feat.specialreqdesc != compare.specialreqdesc) {
-                    result.push({met:true, desc:", "});                    
-                    result.push(feat.meetsSpecialReq(this.characterService, featLevel));
-                }
-            }
-        } else {
-            if (feat.levelreq) {
-                result.push(feat.meetsLevelReq(this.characterService, featLevel));
-            }
-            if (feat.abilityreq.length) {
-                feat.meetsAbilityReq(this.characterService, featLevel).forEach(req => {
-                    result.push({met:true, desc:", "});
-                    result.push(req);
-                })
-            }
-            if (feat.skillreq.length) {
-                feat.meetsSkillReq(this.characterService, featLevel).forEach(req => {
-                    result.push({met:true, desc:", "});
-                    result.push(req);
-                })
-            }
-            if (feat.featreq.length) {
-                feat.meetsFeatReq(this.characterService, featLevel).forEach(req => {
-                    result.push({met:true, desc:", "});
-                    result.push(req);
-                })
-            }
-            if (feat.specialreqdesc) {
-                result.push({met:true, desc:", "});
-                result.push(feat.meetsSpecialReq(this.characterService, featLevel));
-            }
-        }
-        if (result.length > 1) {
-            if (result[0].desc == ", ") {
-                result.shift();
-            }
-            if (result[0].desc == "requires " && result[1].desc == ", ") {
-                result.splice(1,1);
-            }
-        }
-        return result;
-    }
-
-    on_FeatTaken(featName: string, taken: boolean, choice: FeatChoice, locked: boolean) {
-        if (taken && (choice.feats.length == choice.available - 1)) { this.showList=""; }
-        this.get_Character().take_Feat(this.characterService, featName, taken, choice, locked);
     }
 
     get_Classes(name: string = "") {
@@ -1044,6 +807,40 @@ export class CharacterComponent implements OnInit {
         return this.get_Companion().class.specializations.filter(spec => spec.name == name).length;
     }
 
+    get_FamiliarAvailable(levelNumber: number) {
+        //Return the number of feats taken this level that granted you an animal companion
+        return this.get_Character().get_FeatsTaken(levelNumber, levelNumber).filter(gain => this.characterService.get_FeatsAndFeatures(gain.name)[0].gainFamiliar == true).length
+    }
+
+    get_Familiar() {
+        return this.characterService.get_Character().class.familiar;
+    }
+
+    on_NewFamiliar() {
+        if (this.get_Character().class.familiar) {
+            let character = this.characterService.get_Character();
+            //Preserve the origin class and set it again after resetting
+            let originClass = character.class.familiar.originClass;
+            this.characterService.cleanup_Familiar();
+            character.class.familiar = new Familiar();
+            character.class.familiar.originClass = originClass;
+            this.characterService.initialize_Familiar();
+            this.set_Changed();
+        }
+    }
+
+    on_FamiliarSpeedChange(taken: boolean) {
+        if (taken) {
+            this.get_Familiar().speeds[1].name = "Swim Speed";
+        } else {
+            this.get_Familiar().speeds[1].name = "Land Speed";
+        }
+        this.set_Changed();
+    }
+
+    is_FamiliarSwimmer() {
+        return this.get_Familiar().speeds[1].name == "Swim Speed"
+    }
 
     get_ItemFromGain(gain: ItemGain) {
         return this.characterService.get_Items()[gain.type].filter(item => item.name == gain.name);

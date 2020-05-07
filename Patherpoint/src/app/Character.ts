@@ -19,6 +19,7 @@ import { AbilityBoost } from './AbilityBoost';
 import { EffectsService } from './effects.service';
 import { SpellsService } from './spells.service';
 import { SpellGain } from './SpellGain';
+import { Familiar } from './Familiar';
 
 export class Character extends Creature {
     public readonly _className: string = this.constructor.name;
@@ -111,7 +112,7 @@ export class Character extends Creature {
         return this.class.levels[levelNumber].skillChoices.filter(choice => choice.id == sourceId)[0];
     }
     remove_SkillChoice(oldChoice: SkillChoice) {
-        let levelNumber = parseInt(oldChoice.id[0]);
+        let levelNumber = parseInt(oldChoice.id.split("-")[0]);
         let a = this.class.levels[levelNumber].skillChoices;
         a.splice(a.indexOf(oldChoice), 1);
     }
@@ -123,7 +124,7 @@ export class Character extends Creature {
         return level.traditionChoices[newLength-1];
     }
     remove_TraditionChoice(oldChoice: TraditionChoice) {
-        let levelNumber = parseInt(oldChoice.id[0]);
+        let levelNumber = parseInt(oldChoice.id.split("-")[0]);
         let a = this.class.levels[levelNumber].traditionChoices;
         a.splice(a.indexOf(oldChoice), 1);
     }
@@ -369,20 +370,19 @@ export class Character extends Creature {
             return featsTaken;
         }
     }
-    take_Feat(characterService: CharacterService, featName: string, taken: boolean, choice: FeatChoice, locked: boolean) {
+    take_Feat(creature: Character|Familiar, characterService: CharacterService, featName: string, taken: boolean, choice: FeatChoice, locked: boolean) {
         let level: Level = characterService.get_Level(parseInt(choice.id.split("-")[0]));
         if (taken) {
             choice.feats.push({"name":featName, "source":choice.source, "locked":locked, "sourceId":choice.id});
-            characterService.process_Feat(featName, level, taken);
+            characterService.process_Feat(creature, featName, choice, level, taken);
         } else {
-            characterService.process_Feat(featName, level, taken);
+            characterService.process_Feat(creature, featName, choice, level, taken);
             let a = choice.feats;
             a.splice(a.indexOf(a.filter(feat => 
                 feat.name == featName &&
                 feat.locked == locked
             )[0]), 1)
         }
-        this.set_Changed(characterService);
     }
     get_SpellsTaken(characterService: CharacterService, minLevelNumber: number, maxLevelNumber: number, spellLevel: number = -1, spellName: string = "", className: string = "", tradition: string = "", source: string = "", sourceId: string = "", locked: boolean = undefined, signatureAllowed: boolean = false) {
         if (this.class) {
@@ -418,7 +418,6 @@ export class Character extends Creature {
                 gain.locked == locked
             )[0]), 1)
         }
-        this.set_Changed(characterService);
     }
     remove_Lore(characterService: CharacterService, source: LoreChoice) {
         //Remove the original Lore training

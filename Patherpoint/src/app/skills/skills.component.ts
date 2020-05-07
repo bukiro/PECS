@@ -4,6 +4,9 @@ import { SkillsService } from '../skills.service';
 import { FeatsService } from '../feats.service';
 import { Character } from '../Character';
 import { AnimalCompanion } from '../AnimalCompanion';
+import { ConditionsService } from '../Conditions.service';
+import { Familiar } from '../Familiar';
+import { FamiliarsService } from '../familiars.service';
 
 @Component({
     selector: 'app-skills',
@@ -20,6 +23,8 @@ export class SkillsComponent implements OnInit {
         private changeDetector: ChangeDetectorRef,
         public characterService: CharacterService,
         public skillsService: SkillsService,
+        private conditionsService: ConditionsService,
+        private familiarsService: FamiliarsService,
         public featsService: FeatsService
     ) { }
 
@@ -46,9 +51,15 @@ export class SkillsComponent implements OnInit {
     }
 
     get_Senses() {
+        let creature = this.get_Creature();
         let senses: string[] = [];
-        let ancestrySenses = this.get_Creature().class.ancestry.senses
         
+        let ancestrySenses: string[]
+        if (creature.type == "Familiar") {
+            ancestrySenses = creature.senses;
+        } else {
+            ancestrySenses = creature.class.ancestry.senses;
+        }
         if (ancestrySenses.length) {
             senses.push(...ancestrySenses)
         }
@@ -58,11 +69,30 @@ export class SkillsComponent implements OnInit {
             if (heritageSenses.length) {
                 senses.push(...heritageSenses)
             }
-            this.characterService.get_Character().get_FeatsTaken(0, this.get_Creature().level).map(gain => this.characterService.get_FeatsAndFeatures(gain.name)[0]).filter(feat => feat.senses.length).forEach(feat => {
-                senses.push(...feat.senses)
+            character.get_FeatsTaken(0, character.level).map(gain => this.characterService.get_FeatsAndFeatures(gain.name)[0]).filter(feat => feat.senses.length).forEach(feat => {
+                senses.push(...feat.senses);
             });
+            this.characterService.get_AppliedConditions(character).filter(gain => gain.apply)
+                .map(gain => this.conditionsService.get_Conditions(gain.name)[0]).filter(condition => condition.senses.length).forEach(condition => {
+                    senses.push(...condition.senses)
+                });
         }
-        
+        if (this.creature == "Familiar") {
+            let familiar = this.get_Creature() as Familiar;
+            familiar.abilities.feats.map(gain => this.familiarsService.get_FamiliarAbilities(gain.name)[0]).filter(ability => ability.senses.length).forEach(ability => {
+                senses.push(...ability.senses);
+            })
+        }
+        this.characterService.get_AppliedConditions(this.get_Creature()).filter(gain => gain.apply)
+            .map(gain => this.conditionsService.get_Conditions(gain.name)[0]).filter(condition => condition.senses.length).forEach(condition => {
+                senses.push(...condition.senses)
+            });
+        let uniquesenses: string[] = [];
+        senses.forEach(sense => {
+            if (!uniquesenses.includes(sense)) {
+                uniquesenses.push(sense);
+            }
+        })
         return senses;
     }
 

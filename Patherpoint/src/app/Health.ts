@@ -27,12 +27,17 @@ export class Health {
     maxHP(creature: Character|AnimalCompanion|Familiar, characterService: CharacterService, effectsService: EffectsService) {
         let classHP = 0;
         let ancestryHP = 0;
-        if (creature.class.hitPoints) {
-            let constitution = characterService.get_Abilities("Constitution")[0].baseValue(creature, characterService, characterService.get_Character().level);
-            let CON: number = Math.floor((constitution-10)/2);
-            classHP = (creature.class.hitPoints + CON) * characterService.get_Character().level;
-            if (creature.class.ancestry.name) {
-                ancestryHP = creature.class.ancestry.hitPoints;
+        if (creature.type == "Familiar") {
+            //Your familiar has 5 Hit Points for each of your levels.
+            classHP = 5 * characterService.get_Character().level;
+        } else {
+            if (creature.class.hitPoints) {
+                let constitution = characterService.get_Abilities("Constitution")[0].baseValue(creature, characterService, characterService.get_Character().level);
+                let CON: number = Math.floor((constitution-10)/2);
+                classHP = (creature.class.hitPoints + CON) * characterService.get_Character().level;
+                if (creature.class.ancestry.name) {
+                    ancestryHP = creature.class.ancestry.hitPoints;
+                }
             }
         }
         let effectsSum = 0

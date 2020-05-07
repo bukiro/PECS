@@ -14,7 +14,8 @@ export class AnimalCompanion extends Creature {
     public customSkills: Skill[] = [
         Object.assign(new Skill(), { name:"Light Barding", type:"Armor Proficiency" }),
         Object.assign(new Skill(), { name:"Heavy Barding", type:"Armor Proficiency" })
-    ];public species: string = "";
+    ];
+    public species: string = "";
     public readonly type = "Companion";
     get_Size(effectsService: EffectsService) {
         let size: number = (this.class.ancestry.size ? this.class.ancestry.size : 0);
