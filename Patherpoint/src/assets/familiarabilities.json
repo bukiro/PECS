@@ -278,11 +278,12 @@
       "name": "Cantrip Connection",
       "shortdesc": "You can prepare an additional cantrip, or if you have a repertoire, instead designate a cantrip to add to your repertoire every time you select this ability; you can retrain it but can’t otherwise change it. You must be able to prepare cantrips or add them to your repertoire to select this.",
       "desc": "You can prepare an additional cantrip, or if you have a repertoire, instead designate a cantrip to add to your repertoire every time you select this ability; you can retrain it but can’t otherwise change it. You must be able to prepare cantrips or add them to your repertoire to select this.",
-      "specialreqdesc": "Cantrips",
-      "specialreq":"character.class.levels.filter(level => level.spellChoices.filter(choice => ['Spontaneous','Prepared'].includes(choice.castingType) && choice.level == 0 ).length).length",
+      "specialreqdesc": "cantrips",
+      "specialreq":"character.class.spellCasting.filter(casting => ['Spontaneous','Prepared'].includes(casting.castingType) && casting.charLevelAvailable <= character.level && casting.spellChoices.filter(choice => choice.level >= 0).length).length",
       "traits": [
          "Master Ability"
-      ]
+      ],
+      "internalNote": "Hardcoded in feat processing"
    },
    {
       "name": "Extra Reagents",
@@ -308,7 +309,7 @@
       "shortdesc": "Once per day, your familiar can use 2 actions with the concentrate trait to regain 1 Focus Point, up to your usual maximum. You must have a focus pool to select this.",
       "desc": "Once per day, your familiar can use 2 actions with the concentrate trait to regain 1 Focus Point, up to your usual maximum. You must have a focus pool to select this.",
       "specialreqdesc": "Focus Pool",
-      "specialreq": "character.class.levels.filter(level => level.spellChoices.filter(choice => choice.castingType == 'Focus').length).length",
+      "specialreq": "character.class.spellCasting.filter(casting => casting.castingType == 'Focus' && casting.charLevelAvailable <= character.level).length",
       "traits": [
          "Master Ability"
       ],
@@ -332,10 +333,11 @@
       "shortdesc": "You gain one additional spell slot at least 3 levels lower than your highest-level spell slot; you must be able to cast 4th-level spells using spell slots to select this master ability.",
       "desc": "You gain one additional spell slot at least 3 levels lower than your highest-level spell slot; you must be able to cast 4th-level spells using spell slots to select this master ability.",
       "specialreqdesc": "ability to cast 4th-level spells using spell slots",
-      "specialreq":"character.class.levels.filter(level => level.spellChoices.filter(choice => ['Spontaneous','Prepared'].includes(choice.castingType) && choice.level >= 4 ).length).length",
+      "specialreq":"character.class.spellCasting.filter(casting => ['Spontaneous','Prepared'].includes(casting.castingType) && casting.charLevelAvailable <= character.level && casting.spellChoices.filter(choice => choice.level >= 4).length).length",
       "traits": [
          "Master Ability"
-      ]
+      ],
+      "internalNote": "Hardcoded in feat processing"
    },
    {
       "name": "Spell Delivery",

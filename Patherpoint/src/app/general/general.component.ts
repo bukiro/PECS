@@ -6,6 +6,7 @@ import { Speed } from '../Speed';
 import { Character } from '../Character';
 import { AnimalCompanion } from '../AnimalCompanion';
 import { FamiliarsService } from '../familiars.service';
+import { Bloodline } from '../Bloodline';
 
 @Component({
     selector: 'app-general',
@@ -106,6 +107,10 @@ export class GeneralComponent implements OnInit {
         }
     }
 
+    get_Bloodlines() {
+        return this.get_Character().class.spellCasting.filter(casting => casting.bloodline).map(casting => casting.bloodline);
+    }
+
     get_ClassDCs() {
         return this.characterService.get_Skills(this.get_Creature(), "", "Class DC").filter(skill => skill.level(this.get_Creature() as Character|AnimalCompanion, this.characterService) > 0);
     }
@@ -134,9 +139,11 @@ export class GeneralComponent implements OnInit {
             setTimeout(() => this.finish_Loading(), 500)
         } else {
             this.characterService.get_Changed()
-            .subscribe(() => 
-            this.changeDetector.detectChanges()
-                )
+            .subscribe((target) => {
+                if (target == "general" || target == "all" || target == this.creature) {
+                    this.changeDetector.detectChanges();
+                }
+            });
             return true;
         }
     }

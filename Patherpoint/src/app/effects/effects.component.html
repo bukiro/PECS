@@ -64,14 +64,18 @@
     <div class="fullsize-only" *ngIf="showNotApplied">
         <h3 class="box-header">Not Applied Conditions</h3>
         <div class="list-item notapplied" *ngFor="let conditionGain of get_AppliedConditions(false)">
-            <span>
-                <strong [className]="conditionGain.buff ? 'bonus' : 'penalty'"
-                    title="{{conditionGain.source}}">{{conditionGain.name}}
-                    {{(conditionGain.value) ? conditionGain.value : ""}}
-                </strong>
-                {{(conditionGain.duration != -1) ? conditionGain.duration / 10 + " turns" : "permanent"}}
-                ({{conditionGain.source}})
-            </span>
+            <div class="row">
+                <span>
+                    <strong [className]="conditionGain.buff ? 'bonus' : 'penalty'"
+                        title="{{conditionGain.source}}">{{conditionGain.name}}
+                        {{(conditionGain.value) ? conditionGain.value : ""}}
+                    </strong>
+                    {{(conditionGain.duration != -1) ? conditionGain.duration / 10 + " turns" : "permanent"}}
+                </span>
+            </div>
+            <div class="row fullsize-only">
+                <span>{{get_Duration(conditionGain.duration)}}</span>
+            </div>
             <ng-container *ngFor="let condition of [get_Conditions(conditionGain.name)[0]]">
                 <div class="row">
                     <button

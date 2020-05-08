@@ -13,13 +13,15 @@ import { ItemsService } from './items.service';
 import { SpellChoice } from './SpellChoice';
 import { Settings } from './Settings';
 import { TimeService } from './time.service';
-import { TraditionChoice } from './TraditionChoice';
+import { SpellCasting } from './SpellCasting';
 import { Creature } from './Creature';
 import { AbilityBoost } from './AbilityBoost';
 import { EffectsService } from './effects.service';
 import { SpellsService } from './spells.service';
 import { SpellGain } from './SpellGain';
 import { Familiar } from './Familiar';
+import { SpellchoiceComponent } from './spells/spellchoice/spellchoice.component';
+import { Bloodline } from './Bloodline';
 
 export class Character extends Creature {
     public readonly _className: string = this.constructor.name;
@@ -60,6 +62,9 @@ export class Character extends Creature {
             case 3:
                 return "Gargantuan"
         }
+    }
+    get_SpellLevel(levelNumber: number = this.level) {
+        return Math.ceil(levelNumber / 2);
     }
     get_AbilityBoosts(minLevelNumber: number, maxLevelNumber: number, abilityName: string = "", type: string = "", source: string = "", sourceId: string = "", locked: boolean = undefined ) {
         if (this.class) {
@@ -116,17 +121,19 @@ export class Character extends Creature {
         let a = this.class.levels[levelNumber].skillChoices;
         a.splice(a.indexOf(oldChoice), 1);
     }
-    add_TraditionChoice(level: Level, newChoice: TraditionChoice) {
-        let existingChoices = level.traditionChoices.filter(choice => choice.source == newChoice.source);
-        let tempChoice = Object.assign(new TraditionChoice, JSON.parse(JSON.stringify(newChoice)))
-        tempChoice.id = level.number +"-Tradition-"+ tempChoice.source +"-"+ existingChoices.length;
-        let newLength: number = level.traditionChoices.push(tempChoice);
-        return level.traditionChoices[newLength-1];
+    add_SpellCasting(characterService: CharacterService, level: Level, newCasting: SpellCasting) {
+        let newLength: number = this.class.spellCasting.push(Object.assign(new SpellCasting(newCasting.castingType), JSON.parse(JSON.stringify(newCasting))));
+        let newSpellCasting: SpellCasting = this.class.spellCasting[newLength-1];
+        //If the SpellCasting has a charLevelAvailable lower than the current level, you could use it before you get it.
+        //So we raise the charLevelAvailable to either the current level or the original value, whichever is higher.
+        newSpellCasting.charLevelAvailable = Math.max(newSpellCasting.charLevelAvailable, level.number);
+        newSpellCasting.set_SpellDC(characterService, true);
+        newSpellCasting.spellDC.source = newSpellCasting.source;
+        return this.class.spellCasting[newLength-1];
     }
-    remove_TraditionChoice(oldChoice: TraditionChoice) {
-        let levelNumber = parseInt(oldChoice.id.split("-")[0]);
-        let a = this.class.levels[levelNumber].traditionChoices;
-        a.splice(a.indexOf(oldChoice), 1);
+    remove_SpellCasting(characterService: CharacterService, oldCasting: SpellCasting) {
+        oldCasting.set_SpellDC(characterService, false);
+        this.class.spellCasting = this.class.spellCasting.filter(casting => casting !== oldCasting);
     }
     add_LoreChoice(level: Level, newChoice: LoreChoice) {
         let existingChoices = level.loreChoices.filter(choice => choice.source == newChoice.source);
@@ -145,9 +152,9 @@ export class Character extends Creature {
         let tempChoice = Object.assign(new FeatChoice, JSON.parse(JSON.stringify(newChoice)));
         tempChoice.id = level.number +"-Feat-"+ tempChoice.source +"-"+ existingChoices.length;
         //eval the level string to convert things like "level.number / 2". "1" is still "1".
-        if (tempChoice.specialLevel) {
+        if (tempChoice.dynamicLevel) {
             try {
-            tempChoice.level = parseInt(eval(tempChoice.specialLevel));
+            tempChoice.level = parseInt(eval(tempChoice.dynamicLevel));
             } catch {
                 tempChoice.level = level.number;
             }
@@ -160,11 +167,40 @@ export class Character extends Creature {
         return this.class.levels[levelNumber].featChoices.filter(choice => choice.id == sourceId)[0];
     }
     add_SpellChoice(level: Level, newChoice: SpellChoice) {
-        let existingChoices = level.spellChoices.filter(choice => choice.source == newChoice.source);
-        let tempChoice = Object.assign(new SpellChoice, JSON.parse(JSON.stringify(newChoice)));
-        tempChoice.id = level.number +"-Feat-"+ tempChoice.source +"-"+ existingChoices.length;
-        let newLength: number = level.spellChoices.push(tempChoice);
-        return level.spellChoices[newLength-1];
+        let spellCasting = this.class.spellCasting
+            .find(casting => casting.castingType == newChoice.castingType &&
+                (casting.className == newChoice.className || newChoice.className == ""));
+        let newLength: number = spellCasting.spellChoices.push(Object.assign(new SpellChoice(), JSON.parse(JSON.stringify(newChoice))));
+        let choice = spellCasting.spellChoices[newLength-1];
+        choice.spells = choice.spells.map(gain => Object.assign(new SpellGain(), gain));
+        //If the choice has a charLevelAvailable lower than the current level, you could choose spells before you officially get this choice.
+        //So we raise the charLevelAvailable to either the current level or the original value, whichever is higher.
+        choice.charLevelAvailable = Math.max(choice.charLevelAvailable, level.number);
+        //If the spellcasting was not available so far, it is now
+        if (!spellCasting.charLevelAvailable) {
+            spellCasting.charLevelAvailable = choice.charLevelAvailable;
+        }
+        return choice;
+    }
+    remove_SpellChoice(characterService: CharacterService, oldChoice: SpellChoice) {
+        //Remove the spellChoice by ID
+        this.class.spellCasting.forEach(casting => {
+            casting.spellChoices = casting.spellChoices.filter(choice => choice.id != oldChoice.id);
+        })
+        //If the spellcasting has no spellchoices left, it is no longer available.
+        //We also unset any ability or tradition choices, because we assume that the feat that gave you the choice was also the one that gave you the first spell.
+        this.class.spellCasting.filter(casting => casting.spellChoices.length == 0).forEach(casting => {
+            casting.charLevelAvailable = 0;
+            if (casting.abilityAvailable || casting.traditionAvailable) {
+                casting.set_SpellDC(characterService, false)
+            }
+            if (casting.abilityAvailable) {
+                casting.ability = "";
+            }
+            if (casting.traditionAvailable) {
+                casting.tradition = "";
+            }
+        })
     }
     gain_Activity(newGain: ActivityGain, levelNumber: number) {
         let newLength = this.class.activities.push(newGain);
@@ -181,40 +217,53 @@ export class Character extends Creature {
     get_SkillIncreases(characterService: CharacterService, minLevelNumber: number, maxLevelNumber: number, skillName: string = "", source: string = "", sourceId: string = "", locked: boolean = undefined) {
         if (this.class) {
             let increases = [];
-            let levels = this.class.levels.filter(level => level.number >= minLevelNumber && level.number <= maxLevelNumber );
+            let choices: SkillChoice[] = []
+            //Collect all skill choices from spellcasting, bloodline, level and some item runes
+            let levels = this.class.levels.filter(level => level.number >= minLevelNumber && level.number <= maxLevelNumber);
             levels.forEach(level => {
-                level.skillChoices.concat(...level.loreChoices).concat(...level.traditionChoices).forEach(choice => {
-                    choice.increases.filter(increase => 
-                        (increase.name == skillName || skillName == "") &&
-                        (increase.source == source || source == "") &&
-                        (increase.sourceId == sourceId || sourceId == "") &&
-                        (increase.locked == locked || locked == undefined)
-                        ).forEach(increase => {
-                        increases.push(increase);
-                    })
-                })
-            })
+                choices.push(...level.skillChoices);
+                choices.push(...level.loreChoices);
+            });
+            this.class.spellCasting.filter(casting => casting.charLevelAvailable >= minLevelNumber && casting.charLevelAvailable <= maxLevelNumber).forEach(casting => {
+                casting.bloodline && choices.push(...casting.bloodline.skillChoices);
+                choices.push(casting.spellDC)
+            });
             this.inventory.allEquipment().filter(item => item.propertyRunes.filter(rune => rune.loreChoices && rune.loreChoices.length).length && item.equipped && (item.can_Invest() ? item.invested : true ))
             .forEach(item => {
                 item.propertyRunes.filter(rune => rune.loreChoices && rune.loreChoices.length).forEach(rune => {
-                    rune.loreChoices.forEach(choice => {
-                        choice.increases.filter(increase => 
-                            (increase.name == skillName || skillName == "") &&
-                            (increase.source == source || source == "") &&
-                            (increase.sourceId == sourceId || sourceId == "") &&
-                            (increase.locked == locked || locked == undefined)
-                            ).forEach(increase => {
-                            increases.push(increase);
-                        })
-                    })
+                    choices.push(...rune.loreChoices);
                 })
-            })
+            });
+            //Get all matching skill increases from the choices
+            choices.forEach(choice => {
+                choice.increases.filter(increase => 
+                    (increase.name == skillName || skillName == "") &&
+                    (increase.source == source || source == "") &&
+                    (increase.sourceId == sourceId || sourceId == "") &&
+                    (increase.locked == locked || locked == undefined)
+                    ).forEach(increase => {
+                    increases.push(increase);
+                })
+            });
             return increases;
         }
     }
     increase_Skill(characterService: CharacterService, skillName: string, train: boolean, choice: SkillChoice, locked: boolean, ability: string = "") {
         if (train) {
             choice.increases.push({"name":skillName, "source":choice.source, "maxRank":choice.maxRank, "locked":locked, "sourceId":choice.id});
+        } else {
+            let oldIncrease = choice.increases.filter(
+                increase => increase.name == skillName &&
+                increase.source == choice.source &&
+                increase.sourceId == choice.id &&
+                increase.locked == locked
+                )[0];
+            choice.increases = choice.increases.filter(increase => increase !== oldIncrease);
+        }
+        this.process_Skill(characterService, skillName, train, choice, locked, ability);
+    }
+    process_Skill(characterService: CharacterService, skillName: string, train: boolean, choice: SkillChoice, locked: boolean, ability: string = "") {
+        if (train) {
             //The skill that you increase with Skilled Heritage at level 1 automatically gets increased at level 5 as well.
             let level = parseInt(choice.id.split("-")[0]);
             if (level == 1 && choice.source == "Skilled Heritage") {
@@ -262,18 +311,18 @@ export class Character extends Creature {
             //If you are getting trained in a skill you don't already know, it's usually a weapon proficiency or a class/spell DC.
             //We have to create that skill here then
             if (characterService.get_Skills(this, skillName).length == 0) {
-                if (skillName.includes("class DC")) {
+                if (skillName.includes("Class DC")) {
                     switch (skillName) {
-                        case "Alchemist class DC": 
+                        case "Alchemist Class DC": 
                             characterService.add_CustomSkill(skillName, "Class DC", "Intelligence");
                             break;
-                        case "Barbarian class DC": 
+                        case "Barbarian Class DC": 
                             characterService.add_CustomSkill(skillName, "Class DC", "Strength");
                             break;
-                        case "Bard class DC": 
+                        case "Bard Class DC": 
                             characterService.add_CustomSkill(skillName, "Class DC", "Charisma");
                             break;
-                        case "Bard class DC": 
+                        case "Bard Class DC": 
                             characterService.add_CustomSkill(skillName, "Class DC", "Dexterity");
                             break;
                         default: 
@@ -282,10 +331,11 @@ export class Character extends Creature {
                             characterService.add_CustomSkill(skillName, "Class DC", characterService.get_Feats(choice.source.substr(6))[0].subType);
                             break;
                     }
-                } else if (skillName.includes("spell DC")) {
+                } else if (skillName.includes("Spell DC")) {
                     characterService.add_CustomSkill(skillName, "Spell DC", ability);
-                    //If this is the choice for the Ki Spells tradition, add further increases on levels 9 and 17
-                    if (choice.source == "Ki Spells") {
+                    //If this is the choice for the Monk Focus tradition, add further increases on levels 9 and 17
+                    let spellCasting = characterService.get_Character().class.spellCasting.find(casting => casting.spellDC === choice);
+                    if (spellCasting && spellCasting.className == "Monk" && spellCasting.castingType == "Focus") {
                         characterService.get_Level(9).skillChoices.filter(skillChoice =>
                             skillChoice.source == "Monk Expertise" && skillChoice.type == "Spell DC").forEach(choice => {
                             this.increase_Skill(characterService, skillName, true, choice, true);
@@ -300,13 +350,6 @@ export class Character extends Creature {
                 }
             }
         } else {
-            let oldIncrease = choice.increases.filter(
-                increase => increase.name == skillName &&
-                increase.source == choice.source &&
-                increase.sourceId == choice.id &&
-                increase.locked == locked
-                )[0];
-            choice.increases = choice.increases.filter(increase => increase !== oldIncrease);
             //If you are deselecting a skill that you increased with Skilled Heritage at level 1, you also lose the skill increase at level 5.
             let level = parseInt(choice.id.split("-")[0]);
             if (level == 1 && choice.source == "Skilled Heritage") {
@@ -319,9 +362,10 @@ export class Character extends Creature {
                     this.remove_SkillChoice(oldChoices[0]);
                 }
             }
-            if (skillName.includes("spell DC")) {
-                //If this is the choice for the Ki Spells tradition, remove the increases from levels 9 and 17
-                if (choice.source == "Ki Spells") {
+            if (skillName.includes("Spell DC")) {
+                //If this is the choice for the Monk Focus tradition, remove the increases from levels 9 and 17
+                let spellCasting = characterService.get_Character().class.spellCasting.find(casting => casting.spellDC === choice);
+                    if (spellCasting && spellCasting.className == "Monk" && spellCasting.castingType == "Focus") {
                     characterService.get_Level(9).skillChoices.filter(skillChoice =>
                         skillChoice.source == "Monk Expertise" && skillChoice.type == "Spell DC").forEach(choice => {
                         this.increase_Skill(characterService, skillName, false, choice, true);
@@ -349,7 +393,6 @@ export class Character extends Creature {
                 characterService.remove_CustomSkill(customSkills[0]);
             }
         }
-        //this.set_Changed(characterService);
     }
     get_FeatsTaken(minLevelNumber: number, maxLevelNumber: number, featName: string = "", source: string = "", sourceId: string = "", locked: boolean = undefined) {
         if (this.class) {
@@ -384,39 +427,38 @@ export class Character extends Creature {
             )[0]), 1)
         }
     }
-    get_SpellsTaken(characterService: CharacterService, minLevelNumber: number, maxLevelNumber: number, spellLevel: number = -1, spellName: string = "", className: string = "", tradition: string = "", source: string = "", sourceId: string = "", locked: boolean = undefined, signatureAllowed: boolean = false) {
+    get_SpellsTaken(characterService: CharacterService, minLevelNumber: number, maxLevelNumber: number, spellLevel: number = -1, spellName: string = "", spellCasting: SpellCasting = undefined, className: string = "", tradition: string = "", castingType: string = "", source: string = "", sourceId: string = "", locked: boolean = undefined, signatureAllowed: boolean = false) {
         if (this.class) {
             let spellsTaken = [];
-            let levels = this.class.levels.filter(level => level.number >= minLevelNumber && level.number <= maxLevelNumber );
-            levels.forEach(level => {
-                level.spellChoices.forEach(choice => {
-                    if (choice.level == spellLevel || spellLevel == -1 || (signatureAllowed && choice.signature && spellLevel != 0 && spellLevel != -1)) {
-                        choice.spells.filter(gain => 
-                            (gain.name == spellName || spellName == "") &&
-                            (gain.className == className || className == "") &&
-                            (gain.tradition == tradition || tradition == "") &&
-                            (gain.source == source || source == "") &&
-                            (gain.sourceId == sourceId || sourceId == "") &&
-                            (gain.locked == locked || locked == undefined) &&
-                            ((signatureAllowed && gain.signature) ? (spellLevel >= characterService.spellsService.get_Spells(gain.name)[0].levelreq) : true)
-                            ).forEach(gain => {
-                            spellsTaken.push(gain);
+            this.class.spellCasting
+                .filter(casting => (spellCasting == undefined || casting === spellCasting) &&
+                    casting.charLevelAvailable >= minLevelNumber && casting.charLevelAvailable <= maxLevelNumber &&
+                    (casting.castingType == castingType || castingType == ""))
+                    .forEach(casting => {
+                        casting.spellChoices.forEach(choice => {
+                            if (choice.level == spellLevel || spellLevel == -1 || (signatureAllowed && choice.signatureSpell && spellLevel != 0 && spellLevel != -1)) {
+                                choice.spells.filter(gain => 
+                                    (gain.name == spellName || spellName == "") &&
+                                    (casting.className == className || className == "") &&
+                                    (casting.get_Tradition() == tradition || tradition == "") &&
+                                    (choice.source == source || source == "") &&
+                                    (gain.sourceId == sourceId || sourceId == "") &&
+                                    (gain.locked == locked || locked == undefined) &&
+                                    ((signatureAllowed && choice.signatureSpell) ? (spellLevel >= characterService.spellsService.get_Spells(gain.name)[0].levelreq) : true)
+                                    ).forEach(gain => {
+                                    spellsTaken.push(gain);
+                                })
+                            }
                         })
-                    }
-                })
             })
             return spellsTaken;
         }
     }
     take_Spell(characterService: CharacterService, spellName: string, taken: boolean, choice: SpellChoice, locked: boolean) {
         if (taken) {
-            choice.spells.push(Object.assign(new SpellGain(), {"name":spellName, "level":choice.level, "source":choice.source, "className":choice.className, "tradition":choice.tradition, "signature":choice.signature, "locked":locked, "sourceId":choice.id}));
+            choice.spells.push(Object.assign(new SpellGain(), {"name":spellName, "locked":locked, "sourceId":choice.id}));
         } else {
-            let a = choice.spells;
-            a.splice(a.indexOf(a.filter(gain => 
-                gain.name == spellName &&
-                gain.locked == locked
-            )[0]), 1)
+            choice.spells = choice.spells.filter(gain => gain.name != spellName);
         }
     }
     remove_Lore(characterService: CharacterService, source: LoreChoice) {

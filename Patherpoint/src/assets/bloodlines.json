@@ -82,6 +82,31 @@
                 "name": "Storm of Vengeance"
             }
         ],
+        "skillChoices": [
+            {
+                "_className": "SkillChoice",
+                "id": "3cbf679e-9068-11ea-bb37-0242ac130002",
+                "increases": [
+                    {
+                        "name": "Intimidation",
+                        "source": "Elemental Bloodline",
+                        "maxRank": 2,
+                        "locked": true,
+                        "sourceId": "3cbf679e-9068-11ea-bb37-0242ac130002"
+                    },
+                    {
+                        "name": "Nature",
+                        "source": "Elemental Bloodline",
+                        "maxRank": 2,
+                        "locked": true,
+                        "sourceId": "3cbf679e-9068-11ea-bb37-0242ac130002"
+                    }
+                ],
+                "maxRank": 2,
+                "source": "Elemental Bloodline",
+                "type": "Skill"
+            }
+        ],
         "name": "Elemental: Air",
         "spellList": "Primal"
     }

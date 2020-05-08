@@ -15,7 +15,7 @@ import { LoreChoice } from './LoreChoice';
 import { SkillChoice } from './SkillChoice';
 import { EffectGain } from './EffectGain';
 import { SpellChoice } from './SpellChoice';
-import { TraditionChoice } from './TraditionChoice';
+import { SpellCasting } from './SpellCasting';
 import { AnimalCompanionLevel } from './AnimalCompanionLevel';
 import { AnimalCompanionSpecialization } from './AnimalCompanionSpecialization';
 import { Skill } from './Skill';
@@ -98,9 +98,9 @@ export class SavegameService {
     private SkillChoice = SkillChoice;
     private Speed = Speed;
     private SpellCast = SpellCast;
+    private SpellCasting = SpellCasting;
     private SpellChoice = SpellChoice;
     private SpellGain = SpellGain;
-    private TraditionChoice = TraditionChoice;
     private Weapon = Weapon;
     private WeaponRune = WeaponRune;
     private WornItem = WornItem;
@@ -145,8 +145,8 @@ export class SavegameService {
     }
 
     reassign(object: any, keyName:string = "") {
-        //Only objects get reassigned - if they have a _className attribute
-        if (typeof object == "object") {
+        //Only objects get reassigned - if they have a _className attribute and aren't null/undefined/empty
+        if (typeof object == "object" && object) {
             //If the object is an array, iterate over its elements
             if (object.constructor === Array) {
                 object.forEach((obj: any, index) => {

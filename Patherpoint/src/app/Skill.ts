@@ -6,7 +6,7 @@ import { AnimalCompanion } from './AnimalCompanion';
 import { Familiar } from './Familiar';
 import { Character } from './Character';
 import { SpellCast } from './SpellCast';
-import { TraditionChoice } from './TraditionChoice';
+import { SpellCasting } from './SpellCasting';
 
 export class Skill {
     public readonly _className: string = this.constructor.name;
@@ -120,12 +120,9 @@ export class Skill {
                 } else if (["Perception", "Acrobatics", "Stealth"].includes(this.name)) {
                     result = character.level;
                     explain = "Character Level: "+character.level;
-                    let spellcastingAbility: string = "";
-                    //Get the correct ability by identifying the tradition choice with the same class name as the Familiar's originClass and retrieving its key ability.
-                    character.class.levels.filter(level => level.number <= character.level)
-                        .filter(level => level.traditionChoices.length).forEach(level => {
-                            spellcastingAbility = level.traditionChoices.filter(choice => choice.className == creature.originClass && choice.ability && choice.increases.length).map(choice => choice.ability)[0] || "Charisma";
-                        })
+                    let spellcastingAbility: string = "Charisma";
+                    //Get the correct ability by identifying the non-innate spellcasting with the same class name as the Familiar's originClass and retrieving its key ability.
+                    spellcastingAbility = character.class.spellCasting.find(spellcasting => spellcasting.className == creature.originClass && spellcasting.castingType != "Innate").ability || "Charisma";
                     let value = abilitiesService.get_Abilities(spellcastingAbility)[0].mod(character, characterService, effectsService);
                     if (value) {
                         result += value;
@@ -164,7 +161,7 @@ export class Skill {
                         explain += "\n" + this.ability + " Modifier: " + abilityMod;
                     }
                 } else {
-                    if (this.name == characterService.get_Character().class.name + " class DC") {
+                    if (this.name == characterService.get_Character().class.name + " Class DC") {
                         let keyAbilities = characterService.get_Character().get_AbilityBoosts(1, 1, "", "", "Class Key Ability");
                         if (keyAbilities.length) {
                             abilityMod = abilitiesService.get_Abilities(keyAbilities[0].name)[0].mod(creature, characterService, effectsService);

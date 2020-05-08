@@ -22,7 +22,7 @@ export class BloodlinesService {
     get_Bloodlines(name: string = "") {
         if (!this.still_loading()) {
             return this.bloodlines.filter(bloodline => bloodline.name == name || name == "")
-        } else { return [new Bloodline()] }
+        } else { return [] }
     }
 
     still_loading() {
@@ -46,7 +46,7 @@ export class BloodlinesService {
   
     finish_loading() {
         if (this.loader) {
-            this.bloodlines = this.loader.map(bloodline => Object.assign(new Bloodline(), bloodline));
+            this.bloodlines = this.loader.map(bloodline => Object.assign(new Bloodline(bloodline.spellList), bloodline));
                 
             this.bloodlines.forEach(bloodline => {
                 bloodline = this.savegameService.reassign(bloodline);

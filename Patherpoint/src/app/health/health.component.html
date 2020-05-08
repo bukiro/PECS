@@ -3,7 +3,7 @@
     <ng-container *ngFor="let health of [calculate_Health()]">
         <h3 class="box-header">Health:
             <span
-                [className]="(health.$currentHP <= 0) ? 'penalty' : (health.$currentHP > health.$maxHP) ? 'bonus' : ''">{{health.$currentHP}}</span>
+                [className]="(health.$currentHP <= 0) ? 'penalty' : (health.$currentHP > health.$maxHP) ? 'bonus' : ''" title="{{health.damage}} damage">{{health.$currentHP}}</span>
             Hit Points
         </h3>
         <div class="loading" *ngIf="still_loading()">Loading</div>

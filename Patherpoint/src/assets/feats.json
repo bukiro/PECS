@@ -4690,35 +4690,16 @@
          {
             "className": "Monk",
             "level": -1,
-            "id": "1-Spell-Feat: Ki Rush-0",
+            "id": "d407650a-9065-11ea-bb37-0242ac130002",
             "source": "Feat: Ki Rush",
             "spells": [
                {
-                  "className": "Monk",
-                  "level": -1,
                   "locked": true,
                   "name": "Ki Rush",
-                  "source": "Feat: Ki Rush",
-                  "sourceId": "1-Spell-Feat: Ki Rush-0",
-                  "tradition": "Focus"
+                  "sourceId": "d407650a-9065-11ea-bb37-0242ac130002"
                }
             ],
-            "tradition": "Focus",
             "castingType": "Focus"
-         }
-      ],
-      "gainTraditionChoice": [
-         {
-            "className": "Monk",
-            "ability": "Wisdom",
-            "id": "1-Tradition-Ki Spells-0",
-            "maxRank": 2,
-            "source": "Ki Spells",
-            "traditionAvailable": 1,
-            "traditionFilter": [
-               "Divine",
-               "Occult"
-            ]
          }
       ],
       "levelreq": 1,
@@ -4746,35 +4727,16 @@
          {
             "className": "Monk",
             "level": -1,
-            "id": "1-Spell-Feat: Ki Strike-0",
+            "id": "f29dc926-9067-11ea-bb37-0242ac130002",
             "source": "Feat: Ki Strike",
             "spells": [
                {
-                  "className": "Monk",
-                  "level": -1,
                   "locked": true,
                   "name": "Ki Strike",
-                  "source": "Feat: Ki Strike",
-                  "sourceId": "1-Spell-Feat: Ki Strike-0",
-                  "tradition": "Focus"
+                  "sourceId": "f29dc926-9067-11ea-bb37-0242ac130002"
                }
             ],
-            "tradition": "Focus",
             "castingType": "Focus"
-         }
-      ],
-      "gainTraditionChoice": [
-         {
-            "className": "Monk",
-            "ability": "Wisdom",
-            "id": "1-Tradition-Ki Spells-0",
-            "maxRank": 2,
-            "source": "Ki Spells",
-            "traditionAvailable": 1,
-            "traditionFilter": [
-               "Divine",
-               "Occult"
-            ]
          }
       ],
       "levelreq": 1,
@@ -5059,20 +5021,15 @@
          {
             "className": "Monk",
             "level": -1,
-            "id": "4-Spell-Feat: Wholeness of Body-0",
+            "id": "3cbf4836-9068-11ea-bb37-0242ac130002",
             "source": "Feat: Wholeness of Body",
             "spells": [
                {
-                  "className": "Monk",
-                  "level": -1,
                   "locked": true,
                   "name": "Wholeness of Body",
-                  "source": "Feat: Wholeness of Body",
-                  "sourceId": "4-Spell-Feat: Wholeness of Body-0",
-                  "tradition": "Focus"
+                  "sourceId": "3cbf4836-9068-11ea-bb37-0242ac130002"
                }
             ],
-            "tradition": "Focus",
             "castingType": "Focus"
          }
       ],
@@ -5083,7 +5040,7 @@
             "value": "1"
          }
       ],
-      "specialreq": "character.get_FeatsTaken(0,charLevel).filter(gain => characterService.get_FeatsAndFeatures(gain.name).filter(feat => feat.gainTraditionChoice.filter(choice => choice.source == \"Ki Spells\").length).length).length",
+      "specialreq": "character.class.spellCasting.find(casting => casting.className == 'Monk' && casting.castingType == 'Focus' && casting.spellChoices.length)",
       "specialreqdesc": "ki spells",
       "traits": [
          "Monk"
@@ -5104,20 +5061,15 @@
          {
             "className": "Monk",
             "level": -1,
-            "id": "6-Spell-Feat: Abundant Step-0",
+            "id": "3cbf586c-9068-11ea-bb37-0242ac130002",
             "source": "Feat: Abundant Step",
             "spells": [
                {
-                  "className": "Monk",
-                  "level": -1,
                   "locked": true,
                   "name": "Abundant Step",
-                  "source": "Feat: Abundant Step",
-                  "sourceId": "6-Spell-Feat: Abundant Step-0",
-                  "tradition": "Focus"
+                  "sourceId": "3cbf586c-9068-11ea-bb37-0242ac130002"
                }
             ],
-            "tradition": "Focus",
             "castingType": "Focus"
          }
       ],
@@ -5128,7 +5080,7 @@
             "value": "1"
          }
       ],
-      "specialreq": "character.get_FeatsTaken(0,charLevel).filter(gain => characterService.get_FeatsAndFeatures(gain.name).filter(feat => feat.gainTraditionChoice.filter(choice => choice.source == \"Ki Spells\").length).length).length",
+      "specialreq": "character.class.spellCasting.find(casting => casting.className == 'Monk' && casting.castingType == 'Focus' && casting.spellChoices.length)",
       "specialreqdesc": "ki spells",
       "traits": [
          "Monk"
@@ -5178,20 +5130,15 @@
          {
             "className": "Monk",
             "level": -1,
-            "id": "6-Spell-Feat: Ki Blast-0",
+            "id": "3cbf5c54-9068-11ea-bb37-0242ac130002",
             "source": "Feat: Ki Blast",
             "spells": [
                {
-                  "className": "Monk",
-                  "level": -1,
                   "locked": true,
                   "name": "Ki Blast",
-                  "source": "Feat: Ki Blast",
-                  "sourceId": "6-Spell-Feat: Ki Blast-0",
-                  "tradition": "Focus"
+                  "sourceId": "3cbf5c54-9068-11ea-bb37-0242ac130002"
                }
             ],
-            "tradition": "Focus",
             "castingType": "Focus"
          }
       ],
@@ -5202,7 +5149,7 @@
             "value": "1"
          }
       ],
-      "specialreq": "character.get_FeatsTaken(0,charLevel).filter(gain => characterService.get_FeatsAndFeatures(gain.name).filter(feat => feat.gainTraditionChoice.filter(choice => choice.source == \"Ki Spells\").length).length).length",
+      "specialreq": "character.class.spellCasting.find(casting => casting.className == 'Monk' && casting.castingType == 'Focus' && casting.spellChoices.length)",
       "specialreqdesc": "ki spells",
       "traits": [
          "Monk"
@@ -5356,20 +5303,15 @@
          {
             "className": "Monk",
             "level": -1,
-            "id": "8-Spell-Feat: Wild Winds Initiate-0",
+            "id": "3cbf5dee-9068-11ea-bb37-0242ac130002",
             "source": "Feat: Wild Winds Initiate",
             "spells": [
                {
-                  "className": "Monk",
-                  "level": -1,
                   "locked": true,
-                  "name": "Wild Winds Stance",
-                  "source": "Feat: Wild Winds Initiate",
-                  "sourceId": "8-Spell-Feat: Wild Winds Initiate-0",
-                  "tradition": "Focus"
+                  "name": "Wild Winds Initiate",
+                  "sourceId": "3cbf5dee-9068-11ea-bb37-0242ac130002"
                }
             ],
-            "tradition": "Focus",
             "castingType": "Focus"
          }
       ],
@@ -5380,7 +5322,7 @@
             "value": "1"
          }
       ],
-      "specialreq": "character.get_FeatsTaken(0,charLevel).filter(gain => characterService.get_FeatsAndFeatures(gain.name).filter(feat => feat.gainTraditionChoice.filter(choice => choice.source == \"Ki Spells\").length).length).length",
+      "specialreq": "character.class.spellCasting.find(casting => casting.className == 'Monk' && casting.castingType == 'Focus' && casting.spellChoices.length)",
       "specialreqdesc": "ki spells",
       "traits": [
          "Monk"
@@ -5427,20 +5369,15 @@
          {
             "className": "Monk",
             "level": -1,
-            "id": "10-Spell-Feat: Wind Jump-0",
+            "id": "3cbf5ede-9068-11ea-bb37-0242ac130002",
             "source": "Feat: Wind Jump",
             "spells": [
                {
-                  "className": "Monk",
-                  "level": -1,
                   "locked": true,
                   "name": "Wind Jump",
-                  "source": "Feat: Wind Jump",
-                  "sourceId": "10-Spell-Feat: Wind Jump-0",
-                  "tradition": "Focus"
+                  "sourceId": "3cbf5ede-9068-11ea-bb37-0242ac130002"
                }
             ],
-            "tradition": "Focus",
             "castingType": "Focus"
          }
       ],
@@ -5451,7 +5388,7 @@
             "value": "1"
          }
       ],
-      "specialreq": "character.get_FeatsTaken(0,charLevel).filter(gain => characterService.get_FeatsAndFeatures(gain.name).filter(feat => feat.gainTraditionChoice.filter(choice => choice.source == \"Ki Spells\").length).length).length",
+      "specialreq": "character.class.spellCasting.find(casting => casting.className == 'Monk' && casting.castingType == 'Focus' && casting.spellChoices.length)",
       "specialreqdesc": "ki spells",
       "traits": [
          "Monk"
@@ -5518,7 +5455,7 @@
       "showon": "Focus",
       "internalNote": "The effect is hardcoded.",
       "levelreq": 12,
-      "specialreq": "character.get_FeatsTaken(0,charLevel).filter(gain => characterService.get_FeatsAndFeatures(gain.name).filter(feat => feat.gainTraditionChoice.filter(choice => choice.source == \"Ki Spells\").length).length).length",
+      "specialreq": "character.class.spellCasting.find(casting => casting.className == 'Monk' && casting.castingType == 'Focus' && casting.spellChoices.length)",
       "specialreqdesc": "ki spells",
       "traits": [
          "Monk"
@@ -5658,20 +5595,15 @@
          {
             "className": "Monk",
             "level": -1,
-            "id": "16-Spell-Feat: Quivering Palm-0",
+            "id": "3cbf5fa6-9068-11ea-bb37-0242ac130002",
             "source": "Feat: Quivering Palm",
             "spells": [
                {
-                  "className": "Monk",
-                  "level": -1,
                   "locked": true,
                   "name": "Quivering Palm",
-                  "source": "Feat: Quivering Palm",
-                  "sourceId": "16-Spell-Feat: Quivering Palm-0",
-                  "tradition": "Focus"
+                  "sourceId": "3cbf5fa6-9068-11ea-bb37-0242ac130002"
                }
             ],
-            "tradition": "Focus",
             "castingType": "Focus"
          }
       ],
@@ -5682,7 +5614,7 @@
             "value": "1"
          }
       ],
-      "specialreq": "character.get_FeatsTaken(0,charLevel).filter(gain => characterService.get_FeatsAndFeatures(gain.name).filter(feat => feat.gainTraditionChoice.filter(choice => choice.source == \"Ki Spells\").length).length).length",
+      "specialreq": "character.class.spellCasting.find(casting => casting.className == 'Monk' && casting.castingType == 'Focus' && casting.spellChoices.length)",
       "specialreqdesc": "ki spells",
       "traits": [
          "Monk"
@@ -5743,20 +5675,15 @@
          {
             "className": "Monk",
             "level": -1,
-            "id": "18-Spell-Feat: Empty Body-0",
+            "id": "3cbf606e-9068-11ea-bb37-0242ac130002",
             "source": "Feat: Empty Body",
             "spells": [
                {
-                  "className": "Monk",
-                  "level": -1,
                   "locked": true,
                   "name": "Empty Body",
-                  "source": "Feat: Empty Body",
-                  "sourceId": "18-Spell-Feat: Empty Body-0",
-                  "tradition": "Focus"
+                  "sourceId": "3cbf606e-9068-11ea-bb37-0242ac130002"
                }
             ],
-            "tradition": "Focus",
             "castingType": "Focus"
          }
       ],
@@ -5767,7 +5694,7 @@
             "value": "1"
          }
       ],
-      "specialreq": "character.get_FeatsTaken(0,charLevel).filter(gain => characterService.get_FeatsAndFeatures(gain.name).filter(feat => feat.gainTraditionChoice.filter(choice => choice.source == \"Ki Spells\").length).length).length",
+      "specialreq": "character.class.spellCasting.find(casting => casting.className == 'Monk' && casting.castingType == 'Focus' && casting.spellChoices.length)",
       "specialreqdesc": "ki spells",
       "traits": [
          "Monk"
@@ -5985,40 +5912,23 @@
       "specialreqdesc": "not Sorcerer class",
       "specialreq": "character.class != 'Sorcerer'",
       "archetype": "Sorcerer",
-      "gainBloodline": true,
+      "gainSpellCasting": [
+         {
+            "ability": "Charisma",
+            "castingType": "Spontaneous",
+            "className": "Sorcerer",
+            "source": "Feat: Sorcerer Spellcasting",
+            "tradition": "Bloodline"
+         }
+      ],
       "gainSpellChoice": [
          {
             "className": "Sorcerer",
-            "id": "0-Spell-Feat: Sorcerer Dedication-0",
-            "source": "Feat: Sorcerer Dedication",
             "available": 2,
             "level": 0,
-            "spells": [],
-            "tradition": "Sorcerer",
+            "id": "3cbf6208-9068-11ea-bb37-0242ac130002",
+            "source": "Feat: Sorcerer Dedication",
             "castingType": "Spontaneous"
-         }
-      ],
-      "gainTraditionChoice": [
-         {
-            "className": "Sorcerer",
-            "ability": "Charisma",
-            "id": "0-Tradition-Ki Spells-0",
-            "maxRank": 2,
-            "source": "Sorcerer Spellcasting"
-         }
-      ],
-      "gainSkillChoice": [
-         {
-            "increases": [],
-            "maxRank": 2,
-            "source": "Sorcerer Spellcasting",
-            "type": "Skill"
-         },
-         {
-            "increases": [],
-            "maxRank": 2,
-            "source": "Sorcerer Spellcasting",
-            "type": "Skill"
          }
       ],
       "traits": [
@@ -6037,32 +5947,29 @@
       "gainSpellChoice": [
          {
             "className": "Sorcerer",
-            "id": "4-Spell-Feat: Basic Sorcerer Spellcasting-0",
-            "source": "Feat: Basic Sorcerer Spellcasting",
             "available": 1,
             "level": 1,
-            "spells": [],
-            "tradition": "Sorcerer",
+            "charLevelAvailable": 4,
+            "id": "3cbf6456-9068-11ea-bb37-0242ac130002",
+            "source": "Feat: Basic Sorcerer Spellcasting",
             "castingType": "Spontaneous"
          },
          {
             "className": "Sorcerer",
-            "id": "6-Spell-Feat: Basic Sorcerer Spellcasting-0",
-            "source": "Feat: Basic Sorcerer Spellcasting",
             "available": 1,
             "level": 2,
-            "spells": [],
-            "tradition": "Sorcerer",
+            "charLevelAvailable": 6,
+            "id": "3cbf6528-9068-11ea-bb37-0242ac130002",
+            "source": "Feat: Basic Sorcerer Spellcasting",
             "castingType": "Spontaneous"
          },
          {
             "className": "Sorcerer",
-            "id": "8-Spell-Feat: Basic Sorcerer Spellcasting-0",
-            "source": "Feat: Basic Sorcerer Spellcasting",
             "available": 1,
             "level": 3,
-            "spells": [],
-            "tradition": "Sorcerer",
+            "charLevelAvailable": 8,
+            "id": "3cbf65e6-9068-11ea-bb37-0242ac130002",
+            "source": "Feat: Basic Sorcerer Spellcasting",
             "castingType": "Spontaneous"
          }
       ],
@@ -6100,7 +6007,7 @@
       "gainFeatChoice": [
          {
             "available": 1,
-            "specialLevel": "level.number / 2",
+            "dynamicLevel": "level.number / 2",
             "source": "Feat: Advanced Blood Potency",
             "type": "Sorcerer"
          }

@@ -2,8 +2,8 @@
     [className]="((choice.spells.length > choice.available || cannotTakeSome(choice)) ? 'problem' : '') +' '+ ((choice.available == choice.spells.length) ? 'fullsize-only' : '')">
     <button class="row sublist-toggle" [className]="(choice.available == choice.spells.length) ? 'fancy-button' : ''"
         (click)="toggle_Choice(choice.source+choice.id)">
-        {{itemSpell ? "Level "+choice.level : ""}} {{choice.signature ? "Signature" : ""}} {{get_Tradition(choice)}}
-        {{choice.className}} Spells{{!itemSpell ? "("+choice.source+")" : ""}}{{(choice.available > 1) ?
+        {{itemSpell ? "Level "+choice.level : ""}} {{choice.signatureSpell ? "Signature" : ""}}
+        {{choice.className}} Spells{{!itemSpell ? " ("+choice.source+")" : ""}}{{(choice.available > 1) ?
             ": "+ choice.spells.length +"/"+ choice.available : 
             (choice.spells.length) ? ": "+ choice.spells[0].name : ""}}
     </button>

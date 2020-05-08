@@ -177,22 +177,6 @@ export class ItemsComponent implements OnInit {
         
     }
 
-    still_loading() {
-        return this.itemsService.still_loading() || this.characterService.still_loading();
-    }
-
-    finish_Loading() {
-        if (this.still_loading()) {
-            setTimeout(() => this.finish_Loading(), 500)
-        } else {
-            this.characterService.get_Changed()
-            .subscribe(() => 
-            this.changeDetector.detectChanges()
-                )
-            return true;
-        }
-    }
-
     get_NewItemFilter() {
         return [{name:'', key:''}].concat(this.get_Items().names.filter(name => name.key != "weaponrunes" && name.key != "armorrunes"));
     }
@@ -252,6 +236,24 @@ export class ItemsComponent implements OnInit {
         if (this.newItem != null) {
             this.newItem.id = "";
             this.grant_Item(creature, this.newItem);
+        }
+    }
+
+    still_loading() {
+        return this.itemsService.still_loading() || this.characterService.still_loading();
+    }
+
+    finish_Loading() {
+        if (this.still_loading()) {
+            setTimeout(() => this.finish_Loading(), 500)
+        } else {
+            this.characterService.get_Changed()
+            .subscribe((target) => {
+                if (target == "items" || target == "all") {
+                    this.changeDetector.detectChanges();
+                }
+            });
+            return true;
         }
     }
 

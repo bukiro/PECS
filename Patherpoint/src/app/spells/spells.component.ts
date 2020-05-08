@@ -5,6 +5,8 @@ import { SpellsService } from '../spells.service';
 import { SpellChoice } from '../SpellChoice';
 import { Spell } from '../Spell';
 import { TraitsService } from '../traits.service';
+import { SpellCasting } from '../SpellCasting';
+import { SpellchoiceComponent } from './spellchoice/spellchoice.component';
 
 @Component({
     selector: 'app-spells',
@@ -75,129 +77,39 @@ export class SpellsComponent implements OnInit {
         return this.characterService.get_Character();
     }
 
-    get_Level(number: number) {
-        return this.get_Character().class.levels[number];
-    }
-
-    get_Traits(name: string = "") {
-        return this.traitsService.get_Traits(name);
-    }
-
     get_Spells(name: string = "", type: string = "", tradition: string = "") {
         return this.spellsService.get_Spells(name, type, tradition);
     }
 
     get_MaxSpellLevel() {
-        return Math.ceil(this.get_Character().level / 2);
+        return this.get_Character().get_SpellLevel();
     }
 
-    get_SpellChoices(levelNumber: number) {
-        //Get all spellchoices from all character levels that have this spell level
-        return [].concat(...this.get_Character().class.levels
-            .filter(level => level.number <= this.get_Character().level)
-                .map(level => level.spellChoices.filter(choice => choice.level == levelNumber)))
+    get_SpellCastings() {
+        let character = this.get_Character();
+        return character.class.spellCasting.filter(casting => casting.charLevelAvailable && casting.charLevelAvailable <= character.level);
     }
 
-    get_Tradition(choice: SpellChoice) {
-        let character = this.get_Character()
-        switch (choice.tradition) {
-            case "Sorcerer":
-                return character.class.bloodline.spellList;
-            default:
-                return choice.tradition;
+    get_DynamicLevel(casting: SpellCasting, choice: SpellChoice) {
+        let highestSpellLevel = 1;
+        highestSpellLevel = Math.max(...casting.spellChoices.map(choice => choice.level))
+        try {
+            return parseInt(eval(choice.dynamicLevel));
+        } catch (e) {
+            console.log("Error parsing spell level requirement ("+choice.dynamicLevel+"): "+e)
+            return 1;
         }
     }
 
-    get_AvailableSpells(choice: SpellChoice) {
-        let character = this.get_Character()
-        let allSpells = this.spellsService.get_Spells();
-        if (choice.filter.length) {
-            allSpells = allSpells.filter(spell => choice.filter.includes(spell.name))
-        }
-        let spells: Spell[] = [];
-        switch (choice.tradition) {
-            case "":
-                spells.push(...allSpells);
-                break;
-            case "Focus":
-                spells.push(...allSpells.filter(spell => spell.traits.includes(character.class.name)));
-                break;
-            case "Sorcerer":
-                let tradition = character.class.bloodline.spellList;
-                //Get all spells of the tradition or of the bloodline granted spells
-                spells.push(...allSpells.filter(spell => spell.traditions.includes(tradition) || character.class.bloodline.grantedSpells.map(gain => gain.name).includes(spell.name)));
-                break;
-            default:
-                spells.push(...allSpells.filter(spell => spell.traditions.includes(tradition)));
-                break;
-        }
-        if (spells.length) {
-            if (choice.level == 0) {
-                spells = spells.filter(spell => spell.traits.includes("Cantrip") || this.spellTakenByThis(spell, choice));
-            } else {
-                spells = spells.filter(spell => !spell.traits.includes("Cantrip") || this.spellTakenByThis(spell, choice));
-            }
-            if (!this.allowHeightened && choice.level > 0) {
-                spells = spells.filter(spell => spell.levelreq == choice.level || this.spellTakenByThis(spell, choice));
-            }
-            if (choice.spells.length < choice.available) {
-                let availableSpells: Spell[] = spells.filter(spell => 
-                    this.cannotTake(spell, choice).length == 0 || this.spellTakenByThis(spell, choice)
-                )
-                return this.sortByPipe.transform(availableSpells, "asc", "name")
-            } else {
-                let availableSpells: Spell[] = spells.filter(spell => 
-                    this.spellTakenByThis(spell, choice)
-                )
-                return this.sortByPipe.transform(availableSpells, "asc", "name")
-            }
-        }
+    get_SpellChoices(casting: SpellCasting, levelNumber: number) {
+        //Get all spellchoices that have this spell level and are available at this character level.
+        return casting.spellChoices.filter(choice => choice.charLevelAvailable <= this.get_Character().level && 
+            ((choice.level == levelNumber && !choice.dynamicLevel) || (choice.dynamicLevel && this.get_DynamicLevel(casting, choice) == levelNumber))
+        )
     }
 
-    cannotTakeSome(choice: SpellChoice) {
-        let anytrue = 0;
-        choice.spells.forEach(gain => {
-            if (this.cannotTake(this.get_Spells(gain.name)[0], choice).length) {
-                if (!gain.locked) {
-                    this.get_Character().take_Spell(this.characterService, gain.name, false, choice, gain.locked);
-                    this.characterService.set_Changed();
-                } else {
-                    anytrue += 1;
-                }
-            }
-        });
-        return anytrue;
-    }
-
-    cannotTake(spell: Spell, choice: SpellChoice) {
-        let spellLevel = choice.level;
-        let reasons: string[] = [];
-        //Are the basic requirements (level, ability, feat etc) not met?
-        if (!spell.canChoose(this.characterService, spellLevel)) {
-            reasons.push("The requirements are not met.")
-        }
-        //Has it already been taken up to this level, and was that not by this FeatChoice?
-        if (spell.have(this.characterService, spellLevel) && !this.spellTakenByThis(spell, choice)) {
-            reasons.push("You already have this spell.");
-        }
-        //Has it generally been taken more than once, and this is one time?
-        if (spell.have(this.characterService, spellLevel) > 1 && this.spellTakenByThis(spell, choice)) {
-            reasons.push("Spells cannot be taken more than once!");
-        }
-        return reasons;
-    }
-
-    spellTakenByThis(spell: Spell, choice: SpellChoice) {
-        return this.get_SpellsTaken(1, 20, -1, spell.name, choice.source, choice.id).length > 0;
-    }
-
-    get_SpellsTaken(minLevelNumber: number, maxLevelNumber: number, spellLevel: number, spellName: string, source: string = "", sourceId: string = "", locked: boolean = undefined) {
-        return this.get_Character().get_SpellsTaken(this.characterService, minLevelNumber, maxLevelNumber, spellLevel, spellName, "", "", source, sourceId, locked);
-    }
-
-    on_SpellTaken(spellName: string, taken: boolean, choice: SpellChoice, locked: boolean) {
-        if (taken && (choice.spells.length == choice.available - 1)) { this.showChoice=""; }
-        this.get_Character().take_Spell(this.characterService, spellName, taken, choice, locked);
+    get_SpellsTaken(minLevelNumber: number, maxLevelNumber: number, spellLevel: number, spellName: string, casting: SpellCasting, source: string = "", sourceId: string = "", locked: boolean = undefined) {
+        return this.get_Character().get_SpellsTaken(this.characterService, minLevelNumber, maxLevelNumber, spellLevel, spellName, casting, "", "", "", source, sourceId, locked);
     }
 
     still_loading() {
@@ -209,9 +121,11 @@ export class SpellsComponent implements OnInit {
             setTimeout(() => this.finish_Loading(), 500)
         } else {
             this.characterService.get_Changed()
-            .subscribe(() => 
-            this.changeDetector.detectChanges()
-                )
+            .subscribe((target) => {
+                if (target == "spells" || target == "all" || target == "Character") {
+                    this.changeDetector.detectChanges();
+                }
+            });
             return true;
         }
     }

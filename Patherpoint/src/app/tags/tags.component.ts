@@ -105,9 +105,11 @@ export class TagsComponent implements OnInit {
             setTimeout(() => this.finish_Loading(), 500)
         } else {
             this.characterService.get_Changed()
-            .subscribe(() => 
-            this.changeDetector.detectChanges()
-                )
+            .subscribe((target) => {
+                if (target == "tags" || target == "all" || target == this.creature) {
+                    this.changeDetector.detectChanges();
+                }
+            });
             return true;
         }
     }

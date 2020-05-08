@@ -3,6 +3,7 @@ import { CharacterService } from './character.service';
 import { SpellGain } from './SpellGain';
 import { ConditionGain } from './ConditionGain';
 import { ItemGain } from './ItemGain';
+import { SpellCasting } from './SpellCasting';
 
 export class Spell {
     public actions: string = "1";
@@ -112,17 +113,20 @@ export class Spell {
         let levelreq: boolean = this.meetsLevelReq(characterService, spellLevel).met;
         return levelreq;
     }
-    have(characterService: CharacterService, spellLevel = this.levelreq, className: string = "") {
+    have(characterService: CharacterService, casting: SpellCasting = undefined, spellLevel = this.levelreq, className: string = "") {
         if (characterService.still_loading()) { return false }
         let character = characterService.get_Character();
-        let spellsTaken = character.get_SpellsTaken(characterService, 1, 20, spellLevel, this.name, className)
+        let spellsTaken = character.get_SpellsTaken(characterService, 1, 20, spellLevel, this.name, undefined, className)
         return spellsTaken.length;
     }
-    can_Cast(characterService: CharacterService, gain: SpellGain) {
-        if (gain.tradition.includes("Focus")) {
+    can_Cast(characterService: CharacterService, casting: SpellCasting, gain: SpellGain) {
+        if (casting.castingType == "Focus") {
             return characterService.get_Character().class.focusPoints > 0 || gain.active;
-        } else {
-            //check spell slots and prepared spell here
+        } else if (casting.castingType == "Spontaneous") {
+            //check spell slots here - currently working inside the DOM
+            return true;
+        } else if (casting.castingType == "Prepared") {
+            //check prepared spell here - currently not implemented
             return true;
         }
     }

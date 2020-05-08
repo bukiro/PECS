@@ -1,19 +1,28 @@
 import { SpellGain } from './SpellGain';
+import { v1 as uuidv1 } from 'uuid';
 
 export class SpellChoice {
     public readonly _className: string = this.constructor.name;
     public available: number = 0;
+    //className is used to identify the proper SpellCasting to sort this into
+    //If "", the main class is used.
     public className: string = "";
     public filter: string[] = [];
-    public id: string = "";
+    public id = uuidv1();
     public level: number = 0;
+    //For spell choices that are "three levels below your highest spell level"
+    //Example: "character.get_SpellLevel() - 3"
+    //#####Still needs to actually be implemented!
+    public dynamicLevel: string = "";
+    //Don't display this choice or its spells if the character level is lower than this.
+    //If a feat adds a spellChoice with charLevelAvailable = 0, it gets set to the level the feat was taken
+    //If a feat adds a spellChoice with a lower charLevelAvailable as the level the feat was taken, it get set to the feat level instead
+    public charLevelAvailable: number = 0;
+    //The CastingType is mostly there to identify the proper SpellCasting to sort this into if it comes from a feat.
     public castingType: "Focus"|"Innate"|"Spontaneous"|"Prepared";
-    public signature: boolean = false;
+    public signatureSpell: boolean = false;
     public source: string = "";
     public spells: SpellGain[] = [];
-    //For Classes, the tradition will be looked up in the bloodline etc.
-    //Traditions are Arcane, Nature, Occult, Primal, Focus, Sorcerer, Bard, Druid, Cleric, Wizard
-    public tradition: string = "";
     //If target is set to "Others", you can only choose spells with no target, "companion" or "ally"
     //If target is set to "Caster", you can only choose spells with target "self"
     public target: string = "";

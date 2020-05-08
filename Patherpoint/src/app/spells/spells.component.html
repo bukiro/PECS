@@ -9,26 +9,30 @@
                 Allow heightened spells
             </span>
         </div>
-        <ng-container *ngFor="let level of [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10]">
-            <ng-container *ngIf="level <= get_MaxSpellLevel()">
-                <h3>{{level == 0 ? "Cantrips" : "Level "+level}}</h3>
-                <!--Fixed information-->
-                <div class="fullsize-only list-item fancy-button">
-                    <button class="row sublist-toggle fancy-button"
-                        (click)="toggle_Choice('showFixedChanges'+level)">
-                        Show fixed changes
-                    </button>
-                    <div class="list-item sublist fancy-list" *ngIf="get_ShowChoice()=='showFixedChanges'+level">
-                        <!--Fixed Spells gained-->
-                        <div class="list-item"
-                            *ngFor="let spellGain of get_SpellsTaken(1, get_Character().level, level, '', '', '', true)">
-                            {{spellGain.name}} ({{spellGain.source}})
+        <ng-container *ngFor="let casting of get_SpellCastings()">
+            <h3>{{(casting.className + " " + casting.get_Tradition() + " Spells").trim()}}</h3>
+            <div class="row" *ngIf="['Prepared', 'Spontaneous'].includes(casting.castingType)">{{casting.castingType}}</div>
+            <ng-container *ngFor="let level of [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10]">
+                <ng-container *ngIf="level <= get_MaxSpellLevel()">
+                    <h3>{{level == 0 ? "Cantrips" : "Level "+level}}</h3>
+                    <!--Fixed information-->
+                    <div class="fullsize-only list-item fancy-button">
+                        <button class="row sublist-toggle fancy-button"
+                            (click)="toggle_Choice('showFixedChanges'+level)">
+                            Show fixed changes
+                        </button>
+                        <div class="list-item sublist fancy-list" *ngIf="get_ShowChoice()=='showFixedChanges'+level">
+                            <!--Fixed Spells gained-->
+                            <div class="list-item"
+                                *ngFor="let spellGain of get_SpellsTaken(1, get_Character().level, level, '', casting, '', '', true)">
+                                {{spellGain.name}} ({{spellGain.source}})
+                            </div>
                         </div>
                     </div>
-                </div>
-                <!--Spell choices-->
-                <ng-container *ngFor="let choice of get_SpellChoices(level)">
-                    <app-spellchoice (showChoiceMessage)="receive_ChoiceMessage($event)" (showSpellMessage)="receive_SpellMessage($event)" [choice]="choice" [allowHeightened]="allowHeightened" [showChoice]="showChoice" [showSpell]="showSpell" [level]="level"></app-spellchoice>
+                    <!--Spell choices-->
+                    <ng-container *ngFor="let choice of get_SpellChoices(casting, level)">
+                        <app-spellchoice (showChoiceMessage)="receive_ChoiceMessage($event)" (showSpellMessage)="receive_SpellMessage($event)" [spellCasting]="casting" [choice]="choice" [allowHeightened]="allowHeightened" [showChoice]="showChoice" [showSpell]="showSpell" [level]="level"></app-spellchoice>
+                    </ng-container>
                 </ng-container>
             </ng-container>
         </ng-container>

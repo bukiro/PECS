@@ -42,9 +42,11 @@ export class FamiliarabilitiesComponent implements OnInit {
             setTimeout(() => this.finish_Loading(), 500)
         } else {
             this.characterService.get_Changed()
-            .subscribe(() => 
-            this.changeDetector.detectChanges()
-                )
+            .subscribe((target) => {
+                if (target == "familiarabilities" || target == "all" || target == "Familiar") {
+                    this.changeDetector.detectChanges();
+                }
+            });
             return true;
         }
     }

@@ -5,18 +5,18 @@
     <ng-container *ngIf="!still_loading()">
         <button class="fullsize-only center-aligned list-item" (click)="toggleSpellsMenu()">Get
             Spells</button>
-        <ng-container *ngFor="let className of get_SpellClasses()">
+        <ng-container *ngFor="let casting of get_SpellCastings()">
+            <h3>{{(casting.className + " " + casting.get_Tradition() + " Spells").trim()}}</h3>
             <ng-container *ngFor="let level of [-1, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10]">
-                <h3 *ngIf="level == -1">{{className}}</h3>
-                <ng-container *ngIf="level <= Math.ceil(get_Character().level / 2)">
-                    <ng-container *ngFor="let spellGain of get_SpellsByLevel(level, className); let index = index">
-                        <ng-container *ngFor="let maxspellslots of [get_MaxSpellSlots(level, className)]">
+                <ng-container *ngIf="level <= get_MaxSpellLevel()">
+                    <ng-container *ngFor="let spellGain of get_SpellsByLevel(level, casting); let index = index">
+                        <ng-container *ngFor="let maxspellslots of [get_MaxSpellSlots(level, casting)]">
                             <div class="list-item row" style="background-color:transparent" *ngIf="index == 0">
                                 <strong>
                                     {{level == -1 ? "Focus Spells" : (level == 0 ? "Cantrips" : "Level "+level)}}
                                 </strong>
                                 <strong *ngIf="maxspellslots">
-                                    {{(maxspellslots - get_UsedSpellSlots(level, className)) + " / " + maxspellslots}}
+                                    {{(maxspellslots - get_UsedSpellSlots(level, casting)) + " / " + maxspellslots}}
                                 </strong>
                             </div>
                             <div class="list-item"
@@ -41,31 +41,37 @@
                                     </button>
                                     <div class="list-item sublist lower" *ngIf="this.get_showSpell()==spellID">
                                         <button class="row center-aligned"
-                                            (click)="on_Cast(spellGain, 'Character', spell, true, spellGain.level)"
-                                            *ngIf="(spell.target == 'self' || spell.target == 'ally') && !spellGain.active && can_Cast(spell, spellGain)"
-                                            [disabled]="maxspellslots && get_UsedSpellSlots(level, className) >= maxspellslots">
+                                            (click)="on_Cast(spellGain, casting, 'Character', spell, true)"
+                                            *ngIf="(spell.target == 'self' || spell.target == 'ally') && !spellGain.active && can_Cast(spell, casting, spellGain)"
+                                            [disabled]="maxspellslots && get_UsedSpellSlots(level, casting) >= maxspellslots">
                                             {{spell.target == 'ally' ? "Cast on yourself" : "Cast"}}
                                         </button>
                                         <button class="row center-aligned"
-                                            (click)="on_Cast(spellGain, 'Companion', spell, true, spellGain.level)"
-                                            *ngIf="(spell.target == 'companion' || spell.target == 'ally') && !spellGain.active && can_Cast(spell, spellGain)"
-                                            [disabled]="maxspellslots && get_UsedSpellSlots(level, className) >= maxspellslots">
+                                            (click)="on_Cast(spellGain, casting, 'Companion', spell, true)"
+                                            *ngIf="(spell.target == 'companion' || spell.target == 'ally') && !spellGain.active && can_Cast(spell, casting, spellGain)"
+                                            [disabled]="maxspellslots && get_UsedSpellSlots(level, casting) >= maxspellslots">
                                             Cast on your animal companion
                                         </button>
                                         <button class="row center-aligned"
-                                            (click)="on_Cast(spellGain, '', spell, true, spellGain.level)"
-                                            *ngIf="spell.target == 'ally' && !spellGain.active && can_Cast(spell, spellGain)"
-                                            [disabled]="maxspellslots && get_UsedSpellSlots(level, className) >= maxspellslots">
+                                            (click)="on_Cast(spellGain, casting, 'Familiar', spell, true)"
+                                            *ngIf="(spell.target == 'companion' || spell.target == 'ally') && !spellGain.active && can_Cast(spell, casting, spellGain)"
+                                            [disabled]="maxspellslots && get_UsedSpellSlots(level, casting) >= maxspellslots">
+                                            Cast on your Familiar
+                                        </button>
+                                        <button class="row center-aligned"
+                                            (click)="on_Cast(spellGain, casting, '', spell, true)"
+                                            *ngIf="spell.target == 'ally' && !spellGain.active && can_Cast(spell, casting, spellGain)"
+                                            [disabled]="maxspellslots && get_UsedSpellSlots(level, casting) >= maxspellslots">
                                             Cast on other targets
                                         </button>
                                         <button class="row center-aligned"
-                                            (click)="on_Cast(spellGain, '', spell, true, spellGain.level)"
-                                            *ngIf="!spell.target && !spellGain.active && can_Cast(spell, spellGain)"
-                                            [disabled]="maxspellslots && get_UsedSpellSlots(level, className) >= maxspellslots">
+                                            (click)="on_Cast(spellGain, casting, '', spell, true)"
+                                            *ngIf="!spell.target && !spellGain.active && can_Cast(spell, casting, spellGain)"
+                                            [disabled]="maxspellslots && get_UsedSpellSlots(level, casting) >= maxspellslots">
                                             Cast
                                         </button>
                                         <button class="row center-aligned"
-                                            (click)="on_Cast(spellGain, spellGain.target, spell, false, spellGain.level)"
+                                            (click)="on_Cast(spellGain, casting, spellGain.target, spell, false)"
                                             *ngIf="spellGain.active">
                                             Stop sustaining
                                         </button>

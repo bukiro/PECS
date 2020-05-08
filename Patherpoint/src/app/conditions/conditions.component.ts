@@ -174,9 +174,11 @@ export class ConditionsComponent implements OnInit {
             setTimeout(() => this.finish_Loading(), 500)
         } else {
             this.characterService.get_Changed()
-            .subscribe(() => 
-            this.changeDetector.detectChanges()
-                )
+            .subscribe((target) => {
+                if (target == "conditions" || target == "all") {
+                    this.changeDetector.detectChanges();
+                }
+            });
             return true;
         }
     }

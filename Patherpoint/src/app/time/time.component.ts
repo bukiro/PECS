@@ -61,9 +61,11 @@ export class TimeComponent implements OnInit {
             setTimeout(() => this.finish_Loading(), 500)
         } else {
             this.characterService.get_Changed()
-            .subscribe(() => 
-            this.changeDetector.detectChanges()
-                )
+            .subscribe((target) => {
+                if (target == "time" || target == "all" || target == "Character") {
+                    this.changeDetector.detectChanges();
+                }
+            });
             return true;
         }
     }

@@ -9,10 +9,10 @@ import { LoreChoice } from './LoreChoice';
 import { Skill } from './Skill';
 import { ActivityGain } from './ActivityGain';
 import { Equipment } from './Equipment';
-import { Bloodline } from './Bloodline';
 import { AnimalCompanion } from './AnimalCompanion';
 import { Familiar } from './Familiar';
 import { DeitiesService } from './deities.service';
+import { SpellCasting } from './SpellCasting';
 
 export class Class {
     public readonly _className: string = this.constructor.name;
@@ -21,7 +21,7 @@ export class Class {
     public animalCompanion: AnimalCompanion = new AnimalCompanion();
     public familiar: Familiar = new Familiar();
     public background: Background = new Background();
-    public bloodline: Bloodline = new Bloodline();
+    public spellCasting: SpellCasting[] = [];
     public customSkills: Skill[] = [];
     public deity: string = "";
     public focusPoints: number = 0;
@@ -29,22 +29,6 @@ export class Class {
     public hitPoints: number = 0;
     public levels: Level[] = [];
     public name: string = "";
-    reassign() {
-        /*//Re-Assign levels
-        this.levels = this.levels.map(level => Object.assign(new Level(), level));
-        //Re-Assign all Choices
-        this.levels.forEach(level => {
-            level.abilityChoices = level.abilityChoices.map(choice => Object.assign(new AbilityChoice(), JSON.parse(JSON.stringify(choice))));
-            level.featChoices = level.featChoices.map(choice => Object.assign(new FeatChoice(), JSON.parse(JSON.stringify(choice))));
-            level.loreChoices = level.loreChoices.map(choice => Object.assign(new LoreChoice(), JSON.parse(JSON.stringify(choice))));
-            level.skillChoices = level.skillChoices.map(choice => Object.assign(new SkillChoice(), JSON.parse(JSON.stringify(choice))));
-            level.spellChoices = level.spellChoices.map(choice => Object.assign(new SpellChoice(), JSON.parse(JSON.stringify(choice))));
-            level.traditionChoices = level.traditionChoices.map(choice => Object.assign(new TraditionChoice(), JSON.parse(JSON.stringify(choice))));
-        })
-        //Re-Assign all custom activity gains
-        this.activities = this.activities.map(gain => Object.assign(new ActivityGain(), gain));
-        this.bloodline = Object.assign(new Bloodline(), this.bloodline);*/
-    }
     on_ChangeAncestry(characterService: CharacterService) {
         let character = characterService.get_Character();
         if (this.ancestry.name) {
@@ -87,60 +71,6 @@ export class Class {
         let character = characterService.get_Character();
         if (character.class.deity) {
             //In the future, add cleric skills, spells etc.
-        }
-    }
-    on_ChangeBloodline(characterService: CharacterService) {
-        let character = characterService.get_Character();
-        if (character.class.bloodline.name) {
-            this.levels.filter(level => level.traditionChoices.length).forEach(level => {
-                level.traditionChoices.filter(choice => choice.source == "Sorcerer Spellcasting").forEach(choice => {
-                    character.increase_Skill(characterService, choice.tradition+" spell DC", false, choice, true);
-                    choice.tradition = "";
-                    character.class.bloodline.bloodlineSkills.forEach(skillName => {
-                        character.increase_Skill(characterService, skillName, false, choice, true, choice.ability);
-                    })
-                })
-            })
-            //Untrain the associated skills
-            this.levels.filter(level => level.skillChoices.length).forEach(level => {
-                level.skillChoices.filter(choice => choice.source == "Sorcerer Spellcasting").forEach(choice => {
-                    choice.increases.length = 0;
-                    choice.available = 0;
-                })
-            })
-        }
-    }
-    on_NewBloodline(characterService: CharacterService) {
-        let character = characterService.get_Character();
-        if (character.class.bloodline.name) {
-            //Complete the traditionChoice with the chosen tradition
-            this.levels.filter(level => level.traditionChoices.length).forEach(level => {
-                level.traditionChoices.filter(choice => choice.source == "Sorcerer Spellcasting").forEach(choice => {
-                    choice.tradition = character.class.bloodline.spellList;
-                    character.increase_Skill(characterService, choice.tradition+" spell DC", true, choice, true, choice.ability);
-                })
-            })
-            //Train the associated skills
-            this.levels.filter(level => level.skillChoices.length).forEach(level => {
-                let choices: SkillChoice[] = level.skillChoices.filter(choice => choice.source == "Sorcerer Spellcasting");
-                //If both skills are already trained, add two available increases to only one of the two skill choices,
-                //otherwise check each for itself
-                if (choices.length) {
-                    if (character.get_SkillIncreases(characterService, 1, level.number, character.class.bloodline.bloodlineSkills[0], '').length && character.get_SkillIncreases(characterService, 1, level.number, character.class.bloodline.bloodlineSkills[1], '').length) {
-                        choices[0].available += 2;
-                    } else {
-                        choices.forEach((choice, index) => {
-                            //If the skill to be trained is already trained, make a new increase available here
-                            let existingIncreases = character.get_SkillIncreases(characterService, 1, level.number, character.class.bloodline.bloodlineSkills[index], '');
-                            if (existingIncreases.length) {
-                                choice.available += 1;
-                            } else {
-                                character.increase_Skill(characterService, character.class.bloodline.bloodlineSkills[index], true, choice, true);
-                            }
-                        })
-                    }
-                }
-            })
         }
     }
     on_ChangeHeritage(characterService: CharacterService) {

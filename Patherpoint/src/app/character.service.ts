@@ -47,6 +47,7 @@ import { Bloodline } from './Bloodline';
 import { SavegameService } from './savegame.service';
 import { FamiliarsService } from './familiars.service';
 import { FeatChoice } from './FeatChoice';
+import { SpellCasting } from './SpellCasting';
 
 @Injectable({
     providedIn: 'root'
@@ -54,11 +55,11 @@ import { FeatChoice } from './FeatChoice';
 export class CharacterService {
 
     private me: Character = new Character();
-    public characterChanged$: Observable<boolean>;
+    public characterChanged$: Observable<string>;
     private loader = [];
     private loading: boolean = false;
     private basicItems = []
-    private changed: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(true);
+    private changed: BehaviorSubject<string> = new BehaviorSubject<string>("");
 
     itemsMenuState: string = 'out';
     characterMenuState: string = 'out';
@@ -93,11 +94,11 @@ export class CharacterService {
         return this.loading;
     }
 
-    get_Changed(): Observable<boolean> {
+    get_Changed(): Observable<string> {
         return this.characterChanged$;
     }
-    set_Changed() {
-        this.changed.next(true);
+    set_Changed(target: string = "all") {
+        this.changed.next(target);
     }
 
     set_Span(name: string) {
@@ -167,6 +168,7 @@ export class CharacterService {
                 this.conditionsMenuState = (this.conditionsMenuState == 'out') ? 'in' : 'out';
                 break;
         }
+        this.set_Changed("top-bar");
     }
 
     get_CharacterMenuState() {
@@ -238,7 +240,6 @@ export class CharacterService {
 
     reset_Character(name: string = "") {
         this.loading = true;
-        this.set_Changed();
         this.initialize(name);
     }
 
@@ -351,12 +352,15 @@ export class CharacterService {
         this.set_Changed();
     }
 
-    change_Bloodline(bloodline: Bloodline) {
-        this.me.class.on_ChangeBloodline(this);
-        this.me.class.bloodline = new Bloodline();
-        this.me.class.bloodline = Object.assign(new Bloodline(), JSON.parse(JSON.stringify(bloodline)))
-        this.me.class.bloodline = this.reassign(this.me.class.bloodline);
-        this.me.class.on_NewBloodline(this);
+    change_Bloodline(casting: SpellCasting, bloodline: Bloodline) {
+        casting.on_ChangeBloodline(this);
+        if (bloodline) {
+            casting.bloodline = Object.assign(new Bloodline(bloodline.spellList), JSON.parse(JSON.stringify(bloodline)));
+            casting.bloodline = this.reassign(casting.bloodline);
+            casting.on_NewBloodline(this);
+        } else {
+            casting.bloodline = null;
+        }
         this.set_Changed();
     }
 
@@ -403,7 +407,9 @@ export class CharacterService {
                 this.create_AdvancedWeaponFeats(advancedWeapons);
             }, 500)
         } else {
-            let advancedWeapons = this.itemsService.get_ItemType("weapons").filter(weapon => weapon.prof == "Advanced Weapons");
+            if (!advancedWeapons.length) {
+                advancedWeapons = this.itemsService.get_ItemType("weapons").filter(weapon => weapon.prof == "Advanced Weapons");
+            }
             let advancedWeaponFeats = this.get_Feats().filter(feat => feat.advancedweaponbase);
             advancedWeapons.forEach(weapon => {
                 advancedWeaponFeats.forEach(feat => {
@@ -1088,7 +1094,7 @@ export class CharacterService {
     }
 
     initialize(charName: string) {
-        this.set_Changed();
+        this.set_Changed("top-bar");
         this.loading = true;
         this.traitsService.initialize();
         this.featsService.initialize();
@@ -1160,6 +1166,7 @@ export class CharacterService {
                 this.trigger_FinalChange();
             }, 500)
         } else {
+            this.create_AdvancedWeaponFeats([]);
             this.set_Changed();
         }
     }

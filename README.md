@@ -58,6 +58,9 @@ The very latest in Assistive Technologies for Dungeon Master (ATDM)
 
 Next steps:
 - Finn's Items - in progress
-- Familiar - in progress, stopped midway and nothing works at the moment ;)
+- Familiar
 - Action Icons
 - Database api
+
+active bugs:
+split("\n\n") does not seem to work with runes that are slotted in weapons, despite using the same template.

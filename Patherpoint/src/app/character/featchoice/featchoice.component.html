@@ -43,12 +43,16 @@
                                     [checked]="featTakenByThis(subfeat, choice)"
                                     [disabled]="cannotTake(subfeat, choice).length && !featTakenByThis(subfeat, choice)">
                                 <label for="{{choice.id+subfeat.name}}">
-                                    <strong>{{subfeat.subType}}&nbsp;</strong>
-                                    <span [className]="(req.met == false) ? 'problem' : ''"
-                                        *ngFor="let req of get_FeatRequirements(choice, subfeat, feat)">{{(req.desc == ", ") ? req.desc : "&nbsp;"+req.desc }}</span>
-                                    <cite class="problem" *ngFor="let reason of cannotTake(subfeat, choice)">
-                                        {{reason}}
-                                    </cite>
+                                    <span>
+                                        <strong>{{subfeat.subType}}&nbsp;</strong>
+                                        <span [className]="(req.met == false) ? 'problem' : ''"
+                                            *ngFor="let req of get_FeatRequirements(choice, subfeat, feat)">{{(req.desc == ", ") ? req.desc : req.desc }}</span>
+                                    </span>
+                                    <span>
+                                        <cite class="problem" *ngFor="let reason of cannotTake(subfeat, choice)">
+                                            {{reason}}
+                                        </cite>
+                                    </span>
                                 </label>
                             </span>
                         </div>
@@ -57,7 +61,7 @@
                             <span>
                                 <strong>{{subfeat.subType}}&nbsp;</strong>
                                 <span [className]="(req.met == false) ? 'problem' : ''"
-                                    *ngFor="let req of get_FeatRequirements(choice, subfeat, feat)">{{(req.desc == ", ") ? req.desc : "&nbsp;"+req.desc }}</span>
+                                    *ngFor="let req of get_FeatRequirements(choice, subfeat, feat)">{{(req.desc == ", ") ? req.desc : req.desc }}</span>
                             </span>
                             <span>
                                 <cite class="problem" *ngFor="let reason of cannotTake(subfeat, choice)">
@@ -136,7 +140,7 @@
                             <span>
                                 <strong>{{subfeat.subType}}&nbsp;</strong>
                                 <span [className]="(req.met == false) ? 'problem' : ''"
-                                    *ngFor="let req of get_FeatRequirements(choice, subfeat, feat)">{{(req.desc == ", ") ? req.desc : "&nbsp;"+req.desc }}</span>
+                                    *ngFor="let req of get_FeatRequirements(choice, subfeat, feat)">{{(req.desc == ", ") ? req.desc : req.desc }}</span>
                             </span>
                             <span>
                                 <cite class="problem" *ngFor="let reason of cannotTake(subfeat, choice)">
@@ -149,7 +153,7 @@
                             <span>
                                 <strong>{{subfeat.subType}}&nbsp;</strong>
                                 <span [className]="(req.met == false) ? 'problem' : ''"
-                                    *ngFor="let req of get_FeatRequirements(choice, subfeat, feat)">{{(req.desc == ", ") ? req.desc : "&nbsp;"+req.desc }}</span>
+                                    *ngFor="let req of get_FeatRequirements(choice, subfeat, feat)">{{(req.desc == ", ") ? req.desc : req.desc }}</span>
                             </span>
                             <span>
                                 <cite class="problem" *ngFor="let reason of cannotTake(subfeat, choice)">

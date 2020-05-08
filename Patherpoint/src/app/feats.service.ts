@@ -8,16 +8,14 @@ import { FeatChoice } from './FeatChoice';
 import { LoreChoice } from './LoreChoice';
 import { ActivityGain } from './ActivityGain';
 import { SpellChoice } from './SpellChoice';
-import { TraditionChoice } from './TraditionChoice';
 import { SkillChoice } from './SkillChoice';
 import { ConditionGain } from './ConditionGain';
 import { AnimalCompanionLevel } from './AnimalCompanionLevel';
-import { Bloodline } from './Bloodline';
 import { AnimalCompanion } from './AnimalCompanion';
 import { Familiar } from './Familiar';
-import { EffectGain } from './EffectGain';
 import { Character } from './Character';
 import { Speed } from './Speed';
+import { SpellCasting } from './SpellCasting';
 
 @Injectable({
     providedIn: 'root'
@@ -86,44 +84,6 @@ export class FeatsService {
                 }
             }
 
-            //Gain Spell
-            if (feat.gainSpellChoice.length) {
-                if (taken) {
-                    feat.gainSpellChoice.forEach(newSpellChoice => {
-                        let choiceLevel: Level = level;
-                        //Archetype spellcasting feats add spell slots on future levels instead of the level the feat was taken on.
-                        //Change the level at this point to the level indicated in the spell choice id, if that is higher than this level.
-                        //If the level the feat was taken on is higher than the intended level, get the spell on the taken leven,
-                        //  so the spell is not available before we get to that level.
-                        //If the id starts with 0, the spell is to be taken on the same level as the feat.
-                        if (feat.archetype && parseInt(newSpellChoice.id.split("-")[0])) {
-                            choiceLevel = character.class.levels[Math.max(parseInt(newSpellChoice.id.split("-")[0]), level.number)];
-                        } 
-                        let newChoice:SpellChoice = character.add_SpellChoice(choiceLevel, newSpellChoice);
-                        newChoice.spells.forEach(gain => {
-                            gain.className = newChoice.className;
-                            gain.level = newChoice.level;
-                            gain.signature = newChoice.signature;
-                            gain.source = newChoice.source;
-                            gain.sourceId = newChoice.id;
-                            gain.tradition = newChoice.tradition;
-                        })
-
-                    });
-                } else {
-                    feat.gainSpellChoice.forEach(newSpellChoice => {
-                        let choiceLevel: Level = level;
-                        //Repeat the level calculation from taking the spell so we know where to remove it.
-                        if (feat.archetype && parseInt(newSpellChoice.id.split("-")[0])) {
-                            choiceLevel = character.class.levels[Math.max(parseInt(newSpellChoice.id.split("-")[0]), level.number)];
-                        }
-                        let a: SpellChoice[] = choiceLevel.spellChoices;
-                        let b: SpellChoice = a.filter(choice => choice.source == 'Feat: '+featName)[0];
-                        a.splice(a.indexOf(b), 1)
-                    });
-                }
-            }
-
             //Train free Skill or increase existing Skill
             if (feat.gainSkillChoice.length) {
                 if (taken) {
@@ -148,30 +108,40 @@ export class FeatsService {
                 }
             }
 
-            //Gain Spell DC or a Spell DC choice
-            if (feat.gainTraditionChoice.length) {
+            //Gain a spellcasting ability
+            if (feat.gainSpellCasting.length) {
                 if (taken) {
-                    feat.gainTraditionChoice.forEach(newTraditionChoice => {
-                        let newChoice = character.add_TraditionChoice(level, newTraditionChoice);
-                        //Apply any included Skill increases
-                        newChoice.increases.length = 0;
-                        newTraditionChoice.increases.forEach(increase => {
-                            character.increase_Skill(characterService, increase.name, true, newChoice, true, newTraditionChoice.ability);
-                        })
+                    feat.gainSpellCasting.forEach(casting => {
+                        character.add_SpellCasting(characterService, level, casting);
                     });
                 } else {
-                    let a = level.traditionChoices;
-                    feat.gainTraditionChoice.forEach(oldTraditionChoice => {
-                        let oldChoice = a.filter(choice => choice.source == oldTraditionChoice.source)[0];
-                        //Process and undo included Skill increases
-                        oldChoice.increases.forEach(increase => {
-                            character.increase_Skill(characterService, increase.name, false, oldChoice, increase.locked);
-                        })
-                        character.remove_TraditionChoice(oldChoice);
-                    })
+                    feat.gainSpellCasting.forEach(casting => {
+                        let oldCasting = character.class.spellCasting.find(casting => casting.className == casting.className &&
+                            casting.castingType == casting.castingType &&
+                            casting.source == casting.source);
+                        if (oldCasting) {
+                            character.remove_SpellCasting(characterService, oldCasting);
+                        }
+                    });
                 }
             }
             
+            //Gain Spell or Spell Option
+            if (feat.gainSpellChoice.length) {
+                if (taken) {
+                    feat.gainSpellChoice.forEach(newSpellChoice => {
+                        let newChoice:SpellChoice = character.add_SpellChoice(level, newSpellChoice);
+                        newChoice.spells.forEach(gain => {
+                            gain.sourceId = newChoice.id;
+                        })
+                    });
+                } else {
+                    feat.gainSpellChoice.forEach(newSpellChoice => {
+                        character.remove_SpellChoice(characterService, newSpellChoice)
+                    });
+                }
+            }
+
             //Gain free Lore
             if (feat.gainLore) {
                 if (taken) {
@@ -306,12 +276,6 @@ export class FeatsService {
                 }
             }
 
-            if (feat.gainBloodline) {
-                if (!taken) {
-                    character.class.bloodline = new Bloodline();
-                }
-            }
-
             //Feats that grant an animal companion
             if (feat.gainFamiliar) {
                 if (taken) {
@@ -383,32 +347,55 @@ export class FeatsService {
 
             //Cantrip Connection
             if (feat.name == "Cantrip Connection") {
+                let spellCasting = character.class.spellCasting.find(casting => casting.className == characterService.get_Familiar().originClass && casting.castingType != "Focus");
                 if (taken) {
-                    let cantripLevel = character.class.levels.filter(level => 
-                            level.spellChoices.filter(choice => choice.castingType != "Focus" && choice.className == characterService.get_Familiar().originClass).length
-                        )[0];
-                    let cantripSpellChoice = cantripLevel.spellChoices
-                        .filter(choice => choice.castingType != "Focus" && choice.className == characterService.get_Familiar().originClass)[0];
-                    let familiarLevel = character.class.levels
-                        .filter(level => level.featChoices
+                    if (spellCasting) {
+                        let newSpellChoice = new SpellChoice();
+                        newSpellChoice.available = 1;
+                        newSpellChoice.level = 0;
+                        newSpellChoice.className = spellCasting.className;
+                        newSpellChoice.castingType = spellCasting.castingType;
+                        newSpellChoice.source = "Feat: "+feat.name;
+                        let familiarLevel = character.class.levels
+                        .find(level => level.featChoices
                             .filter(choice => choice.feats
                                 .map(gain => characterService.get_FeatsAndFeatures(gain.name)[0])
                                 .filter(feat => feat.gainFamiliar).length).length
-                        )[0];
-                    let newSpellChoice = Object.assign(new SpellChoice, JSON.parse(JSON.stringify(cantripSpellChoice)));
-                    newSpellChoice.source = "Feat: "+feat.name;
-                    newSpellChoice.id = familiarLevel.number+"-Spell-Feat: "+feat.name+"-0";
-                    newSpellChoice.available = 1;
-                    newSpellChoice.spells = [];
-                    familiarLevel.spellChoices.push(newSpellChoice);
+                        );
+                        character.add_SpellChoice(familiarLevel, newSpellChoice)
+                    }
                 } else {
-                    let familiarLevel = character.class.levels
-                        .filter(level => level.featChoices
+                    let oldSpellChoice = spellCasting.spellChoices.find(choice => choice.source == "Feat: "+feat.name);
+                    if (oldSpellChoice) {
+                        character.remove_SpellChoice(characterService, oldSpellChoice);
+                    }
+                }
+            }
+
+            //Cantrip Connection
+            if (feat.name == "Spell Battery") {
+                let spellCasting = character.class.spellCasting.find(casting => casting.className == characterService.get_Familiar().originClass && casting.castingType != "Focus");
+                if (taken) {
+                    if (spellCasting) {
+                        let newSpellChoice = new SpellChoice();
+                        newSpellChoice.available = 1;
+                        newSpellChoice.dynamicLevel = "highestSpellLevel - 3"
+                        newSpellChoice.className = spellCasting.className;
+                        newSpellChoice.castingType = spellCasting.castingType;
+                        newSpellChoice.source = "Feat: "+feat.name;
+                        let familiarLevel = character.class.levels
+                        .find(level => level.featChoices
                             .filter(choice => choice.feats
                                 .map(gain => characterService.get_FeatsAndFeatures(gain.name)[0])
                                 .filter(feat => feat.gainFamiliar).length).length
-                        )[0];
-                    familiarLevel.spellChoices = familiarLevel.spellChoices.filter(choice => choice.source != "Feat: "+feat.name);
+                        );
+                        character.add_SpellChoice(familiarLevel, newSpellChoice)
+                    }
+                } else {
+                    let oldSpellChoice = spellCasting.spellChoices.find(choice => choice.source == "Feat: "+feat.name);
+                    if (oldSpellChoice) {
+                        character.remove_SpellChoice(characterService, oldSpellChoice);
+                    }
                 }
             }
 
@@ -455,7 +442,7 @@ export class FeatsService {
                 //feat.gainFormulaChoice = feat.gainFormulaChoice.map(choice => Object.assign(new FormulaChoice(), choice));
                 feat.gainSkillChoice = feat.gainSkillChoice.map(choice => Object.assign(new SkillChoice, choice));
                 feat.gainSpellChoice = feat.gainSpellChoice.map(choice => Object.assign(new SpellChoice, choice));
-                feat.gainTraditionChoice = feat.gainTraditionChoice.map(choice => Object.assign(new TraditionChoice, choice));
+                feat.gainSpellCasting = feat.gainSpellCasting.map(choice => Object.assign(new SpellCasting(choice.castingType), choice));
             })
             this.loader_Feats = [];
         }
@@ -471,7 +458,7 @@ export class FeatsService {
                 //feature.gainFormulaChoice = feature.gainFormulaChoice.map(choice => Object.assign(new FormulaChoice(), choice));
                 feature.gainSkillChoice = feature.gainSkillChoice.map(choice => Object.assign(new SkillChoice, choice));
                 feature.gainSpellChoice = feature.gainSpellChoice.map(choice => Object.assign(new SpellChoice, choice));
-                feature.gainTraditionChoice = feature.gainTraditionChoice.map(choice => Object.assign(new TraditionChoice, choice));
+                feature.gainSpellCasting = feature.gainSpellCasting.map(choice => Object.assign(new SpellCasting(choice.castingType), choice));
             })
             this.loader_Features = [];
         }

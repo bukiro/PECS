@@ -1,5 +1,6 @@
 import { SpellCast } from './SpellCast';
 import { ConditionGain } from './ConditionGain';
+import { SkillChoice } from './SkillChoice';
 
 export class Bloodline {
     public readonly _className: string = this.constructor.name;
@@ -7,7 +8,7 @@ export class Bloodline {
     public bloodlineSkills: string[] = [];
     public bloodlineSpells: SpellCast[] = [];
     public grantedSpells: SpellCast[] = [];
+    public skillChoices: SkillChoice[] = [];
     public name: string = "";
-    public spellList: string = "";
-    public spellSlotsUsed: number[] = [999, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+    constructor(public spellList: "Arcane"|"Divine"|"Occult"|"Primal") {}
 }

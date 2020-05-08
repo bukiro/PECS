@@ -9,7 +9,6 @@ import { Speed } from './Speed';
 import { AnimalCompanion } from './AnimalCompanion';
 import { Familiar } from './Familiar';
 import { AbilitiesService } from './abilities.service';
-import { Creature } from './Creature';
 
 @Injectable({
     providedIn: 'root'
@@ -19,6 +18,7 @@ export class EffectsService {
     private effects: EffectCollection = new EffectCollection();
     //The bonus types are hardcoded. If Paizo ever adds a new bonus type, this is where we need to change them.
     private bonusTypes: string[] = ["item", "circumstance", "status", "proficiency", "untyped"];
+    private lastGenerated = Date.now()
 
 constructor(
         private traitsService: TraitsService,
@@ -366,7 +366,9 @@ constructor(
             this.effects.all = Object.assign([], allEffects);
             this.effects.penalties = this.effects.all.filter(effect => parseInt(effect.value) < 0);
             this.effects.bonuses = this.effects.all.filter(effect => parseInt(effect.value) > 0);
-            characterService.set_Changed();
+            if (!characterService.still_loading) {
+                characterService.set_Changed("Character");
+            }
         }
     }
 
@@ -375,9 +377,15 @@ constructor(
             setTimeout(() => this.initialize(characterService), 500)
         } else {
         characterService.get_Changed()
-        .subscribe(() => 
-        this.generate_Effects(characterService)
-            )
+        .subscribe((target) => {
+            if (target == "effects" || target == "all") {
+                if (Date.now() - this.lastGenerated > 500) {
+                    
+                    this.lastGenerated = Date.now();
+                }
+                this.generate_Effects(characterService);
+            }
+        });
         return true;
         }
     }

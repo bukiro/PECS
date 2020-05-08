@@ -38,9 +38,9 @@
                     <strong>Hunter's Edge</strong>
                     {{huntersEdge}}
                 </div>
-                <div class="row" *ngIf="get_Character().class.bloodline.name">
+                <div class="row" *ngFor="let bloodline of get_Bloodlines()">
                     <strong>Sorcerer Bloodline</strong>
-                    {{get_Character().class.bloodline.name}}
+                    {{bloodline.name}}
                 </div>
             </div>
             <div class="fullsize-only list-item" *ngIf="get_Character().class.ancestry.name">

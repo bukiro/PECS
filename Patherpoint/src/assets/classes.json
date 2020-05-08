@@ -3,7 +3,7 @@
         "_className": "Class",
         "customSkills": [
             {
-                "name": "Monk class DC",
+                "name": "Monk Class DC",
                 "type": "Class DC"
             }
         ],
@@ -153,7 +153,7 @@
                                 "sourceId": "1-Skill-Class-0"
                             },
                             {
-                                "name": "Monk class DC",
+                                "name": "Monk Class DC",
                                 "source": "Class",
                                 "maxRank": 2,
                                 "locked": true,
@@ -533,7 +533,7 @@
                         "id": "9-Class DC-Monk Expertise-0",
                         "increases": [
                             {
-                                "name": "Monk class DC",
+                                "name": "Monk Class DC",
                                 "source": "Monk Expertise",
                                 "maxRank": 4,
                                 "locked": true,
@@ -953,7 +953,7 @@
                         "id": "17-Class DC-Graceful Legend-0",
                         "increases": [
                             {
-                                "name": "Monk class DC",
+                                "name": "Monk Class DC",
                                 "source": "Graceful Legend",
                                 "maxRank": 6,
                                 "locked": true,
@@ -1098,13 +1098,27 @@
                 ]
             }
         ],
-        "name": "Monk"
+        "name": "Monk",
+        "spellCasting": [
+            {
+                "_className": "SpellCasting",
+                "castingType": "Focus",
+                "className": "Monk",
+                "ability": "Wisdom",
+                "source": "Ki Spells",
+                "traditionAvailable": 1,
+                "traditionFilter": [
+                   "Divine",
+                   "Occult"
+                ]
+            }
+        ]
     },
     {
         "_className": "Class",
         "customSkills": [
             {
-                "name": "Ranger class DC",
+                "name": "Ranger Class DC",
                 "type": "Class DC"
             }
         ],
@@ -1295,7 +1309,7 @@
                                 "sourceId": "1-Skill-Class-0"
                             },
                             {
-                                "name": "Ranger class DC",
+                                "name": "Ranger Class DC",
                                 "source": "Class",
                                 "maxRank": 2,
                                 "locked": true,
@@ -1715,7 +1729,7 @@
                         "id": "9-Class DC-Ranger Expertise-0",
                         "increases": [
                             {
-                                "name": "Ranger class DC",
+                                "name": "Ranger Class DC",
                                 "source": "Ranger Expertise",
                                 "maxRank": 4,
                                 "locked": true,
@@ -2166,7 +2180,7 @@
                         "id": "17-Class DC-Masterful Hunter-0",
                         "increases": [
                             {
-                                "name": "Ranger class DC",
+                                "name": "Ranger Class DC",
                                 "source": "Masterful Hunter",
                                 "maxRank": 6,
                                 "locked": true,

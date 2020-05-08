@@ -13,6 +13,6 @@ export class FeatChoice {
     //The type will be the title for the choice we make.
     public specialChoice: boolean = false;
     //Feats may give feat choices with a level attribute of "Math.floor(level.number / 2)", which is given here and evaluated while taking the feat
-    public specialLevel: string = "";
+    public dynamicLevel: string = "";
     public type: string = "";
 }

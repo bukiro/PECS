@@ -57,8 +57,10 @@ export class TimeService {
             characterService.get_AppliedConditions(creature, "Fatigued").forEach(gain => characterService.remove_Condition(creature, gain));
             characterService.get_AppliedConditions(creature, "Doomed").forEach(gain => {gain.value -= 1});
             characterService.get_AppliedConditions(creature, "Drained").forEach(gain => {gain.value -= 1});
-        })
-        characterService.get_Character().class.bloodline.spellSlotsUsed = [999, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+        });
+        characterService.get_Character().class.spellCasting.forEach(casting => {
+            casting.spellSlotsUsed = [999, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+        });
         this.tick(characterService, 48000);
     }
 
