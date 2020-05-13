@@ -29,6 +29,8 @@ export class Item {
     public data: {name:string, value:any}[] = [];
     //Full description of the item, ideally unchanged from the source material
     public desc: string = "";
+    //If this name is set, always show it instead of the expanded base name
+    public displayName: string = "";
     //Can this item be equipped (and apply its effect only then)
     public equippable: boolean;
     //Should this item be hidden in the item store
@@ -72,6 +74,10 @@ export class Item {
             (this["storedSpells"] ? !this["storedSpells"].length : true))
     }
     get_Name() {
-        return this.name;
+        if (this.displayName) {
+            return this.displayName;
+        } else {
+            return this.name;
+        }
     }
 }

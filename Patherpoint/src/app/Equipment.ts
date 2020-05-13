@@ -27,8 +27,6 @@ export class Equipment extends Item {
     public activities: ItemActivity[] = [];
     //Some items have a different bulk when you are carrying them instead of wearing them, like backpacks
     public carryingBulk: string = "";
-    //If this name is set, always show it instead of the expanded base name
-    public displayName: string = "";
     //Is the item currently equipped - items with equippable==false are always equipped
     public equipped: boolean = false;
     //List EffectGain for every Effect that comes from equipping and investing the item

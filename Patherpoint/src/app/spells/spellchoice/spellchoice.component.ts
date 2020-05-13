@@ -195,6 +195,7 @@ export class SpellchoiceComponent implements OnInit {
     on_SpellTaken(spellName: string, taken: boolean, choice: SpellChoice, locked: boolean) {
         if (taken && (choice.spells.length == choice.available - 1)) { this.showChoice=""; }
         this.get_Character().take_Spell(this.characterService, spellName, taken, choice, locked);
+        this.characterService.set_Changed("Character");
     }
 
     still_loading() {

@@ -387,6 +387,9 @@
     margin-right: 0px;
   }
 
+  .right-bound {
+    margin-left: auto;
+  }
 
   .attributeBox {
     overflow-y: visible;

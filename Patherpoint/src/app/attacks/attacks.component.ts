@@ -6,6 +6,9 @@ import { EffectsService } from '../effects.service';
 import { WeaponRune } from '../WeaponRune';
 import { Character } from '../Character';
 import { AnimalCompanion } from '../AnimalCompanion';
+import { Ammunition } from '../Ammunition';
+import { SortByPipe } from '../sortBy.pipe';
+import { ItemCollection } from '../ItemCollection';
 
 @Component({
     selector: 'app-attacks',
@@ -23,7 +26,8 @@ export class AttacksComponent implements OnInit {
         private changeDetector: ChangeDetectorRef,
         private traitsService: TraitsService,
         public characterService: CharacterService,
-        public effectsService: EffectsService
+        public effectsService: EffectsService,
+        public sortByPipe: SortByPipe
     ) { }
 
     minimize() {
@@ -63,6 +67,37 @@ export class AttacksComponent implements OnInit {
     get_EquippedWeapons() {
         this.get_AttackRestrictions();
         return this.get_Creature().inventories[0].weapons.filter(weapon => weapon.equipped && weapon.equippable);
+    }
+
+    get_AmmoTypes() {
+        let types: string[] = [];
+        this.get_EquippedWeapons().forEach(weapon => {
+            if (weapon.ammunition && !types.includes(weapon.ammunition)) {
+                types.push(weapon.ammunition);
+            }
+        });
+        return types;
+    }
+
+    get_Ammo(type: string) {
+        //Return all ammo from all inventories that has this type in its group
+        //We need the inventory for using up items and the name just for sorting
+        let ammoList: {item:Ammunition, name:string, inventory:ItemCollection}[] = [];
+        this.get_Creature().inventories.forEach(inv => {
+            inv.ammunition.filter(ammo => ammo.ammunition == type || ammo.ammunition == "Any").forEach(ammo => {
+                ammoList.push({item:ammo, name:ammo.get_Name(), inventory:inv})
+            })
+        });
+        return this.sortByPipe.transform(ammoList, "asc", "name") as Ammunition[];
+    }
+
+    on_AmmoUse(ammo: Ammunition, inv: ItemCollection) {
+        if (!ammo.can_Stack()) {
+            this.characterService.drop_InventoryItem(this.get_Creature(), inv, ammo, true, false, false, 1);
+        } else {
+            ammo.amount -= 1;
+            this.characterService.set_Changed(this.creature);
+        }
     }
 
     get_Skills(name: string = "", type: string = "") {

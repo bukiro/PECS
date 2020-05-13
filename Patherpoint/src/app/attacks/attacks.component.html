@@ -1,76 +1,88 @@
 <button class="minimizebutton lower" (click)="minimize()" *ngIf="creature=='Character'">&#8691;</button>
 <div id="{{creature}}-attacks-height" class="attributeBox">
-<h3 class="box-header">Attacks</h3>
-<div class="loading" *ngIf="still_loading()">Loading</div>
-<ng-container *ngIf="!still_loading()">
-    <app-tags [creature]="creature" [objectName]="'Attacks'" [showTraits]=true [showFeats]=true [showItems]=true [showActivities]=true
-        [showConditions]=true [showEffects]=true></app-tags>
-    <ng-container *ngFor="let weapon of get_EquippedWeapons()">
-        <div class="list-item" [className]="!get_IsAllowed(weapon) ? 'problem fullsize-only' : ''" *ngFor="let attack of get_Attacks(weapon)">
-            <div class="row">
-                <strong style="flex-basis:initial">{{weapon.get_Name()}}{{(attack[0] == 'melee') ? (weapon.ranged ? " melee" : "") : (weapon.melee ? " ranged" : "")}}</strong>
-                <span style="flex-basis:initial">
-                    Attack
-                    <input
-                        [className]="(attack[4].length) ? 'penalty' : (attack[5].length) ? 'bonus' : ''"
-                        type="number"
-                        class="number2"
-                        title="{{attack[2]}}"
-                        [ngModel]="attack[1]"
-                        disabled>
-                    Damage
-                    <ng-container *ngFor="let damage of [get_Damage(weapon, attack[0])]">
-                        <strong *ngFor="let line of damage[0].split('\n')" title="{{damage[1]}}">
-                            {{line}}<br>
-                        </strong>
-                    </ng-container>
-                </span>
-            </div>
-            <div class="fullsize-only row left-aligned tags" *ngIf="weapon.get_Traits(characterService).length">
-                <cite class="trait" *ngFor="let trait of weapon.get_Traits(characterService)"
-                    title="{{get_Traits(trait)[0].description}}">{{trait}}</cite>
-            </div>
-            <div class="fullsize-only row left-aligned" *ngFor="let runes of [get_HintRunes(weapon, attack[0])]" style="margin-top:initial">
-                <cite class="rune" *ngFor="let rune of runes"
-                    title="{{rune.hint}}">{{rune.name}}</cite>
-            </div>
-            <app-tags [creature]="creature" [objectName]=weapon.name [showTraits]=true [showFeats]=true [showItems]=true [showActivities]=true
-                    [showConditions]=true [specialNames]=get_specialShowon(weapon) [specialEffects]=attack[3]></app-tags>
-            <div class="fullsize-only lower row left-aligned" *ngFor="let spec of weapon.get_CritSpecialization(characterService)">
-                <strong>Critical specialization effect&nbsp;</strong>{{spec.desc}}
-            </div>
-            <div class="fullsize-only lower row left-aligned" *ngIf="weapon.criticalHint">
-                <strong>Critical hit effect&nbsp;</strong>{{weapon.criticalHint}}
-            </div>
-            <ng-container *ngFor="let rune of get_Runes(weapon, attack[0])" style="margin-top:initial">
-                <div class="fullsize-only lower row left-aligned" *ngIf="rune.criticalHint">
-                    <span>
-                        <strong>Critical hit effect&nbsp;</strong>{{rune.criticalHint}}
-                        <span *ngIf="rune.name=='Grievous'">{{get_GrievousData(weapon, rune)}}</span>
+    <h3 class="box-header">Attacks</h3>
+    <div class="loading" *ngIf="still_loading()">Loading</div>
+    <ng-container *ngIf="!still_loading()">
+        <app-tags [creature]="creature" [objectName]="'Attacks'" [showTraits]=true [showFeats]=true [showItems]=true
+            [showActivities]=true [showConditions]=true [showEffects]=true></app-tags>
+        <ng-container *ngFor="let weapon of get_EquippedWeapons()">
+            <div class="list-item" [className]="!get_IsAllowed(weapon) ? 'problem fullsize-only' : ''"
+                *ngFor="let attack of get_Attacks(weapon)">
+                <div class="row">
+                    <strong
+                        style="flex-basis:initial">{{weapon.get_Name()}}{{(attack[0] == 'melee') ? (weapon.ranged ? " melee" : "") : (weapon.melee ? " ranged" : "")}}</strong>
+                    <span style="flex-basis:initial">
+                        Attack
+                        <input [className]="(attack[4].length) ? 'penalty' : (attack[5].length) ? 'bonus' : ''"
+                            type="number" class="number2" title="{{attack[2]}}" [ngModel]="attack[1]" disabled>
+                        Damage
+                        <ng-container *ngFor="let damage of [get_Damage(weapon, attack[0])]">
+                            <strong *ngFor="let line of damage[0].split('\n')" title="{{damage[1]}}">
+                                {{line}}<br>
+                            </strong>
+                        </ng-container>
                     </span>
-                    <div class="row left-aligned" *ngIf="rune.critsuccess">
-                        <strong>Critical Success</strong>&nbsp;{{rune.critsuccess}}
+                </div>
+                <div class="fullsize-only row left-aligned tags" *ngIf="weapon.get_Traits(characterService).length">
+                    <cite class="trait" *ngFor="let trait of weapon.get_Traits(characterService)"
+                        title="{{get_Traits(trait)[0].description}}">{{trait}}</cite>
+                </div>
+                <div class="fullsize-only row left-aligned" *ngFor="let runes of [get_HintRunes(weapon, attack[0])]"
+                    style="margin-top:initial">
+                    <cite class="rune" *ngFor="let rune of runes" title="{{rune.hint}}">{{rune.name}}</cite>
+                </div>
+                <app-tags [creature]="creature" [objectName]=weapon.name [showTraits]=true [showFeats]=true
+                    [showItems]=true [showActivities]=true [showConditions]=true
+                    [specialNames]=get_specialShowon(weapon) [specialEffects]=attack[3]></app-tags>
+                <div class="fullsize-only lower row left-aligned"
+                    *ngFor="let spec of weapon.get_CritSpecialization(characterService)">
+                    <strong>Critical specialization effect&nbsp;</strong>{{spec.desc}}
+                </div>
+                <div class="fullsize-only lower row left-aligned" *ngIf="weapon.criticalHint">
+                    <strong>Critical hit effect&nbsp;</strong>{{weapon.criticalHint}}
+                </div>
+                <ng-container *ngFor="let rune of get_Runes(weapon, attack[0])" style="margin-top:initial">
+                    <div class="fullsize-only lower row left-aligned" *ngIf="rune.criticalHint">
+                        <span>
+                            <strong>Critical hit effect&nbsp;</strong>{{rune.criticalHint}}
+                            <span *ngIf="rune.name=='Grievous'">{{get_GrievousData(weapon, rune)}}</span>
+                        </span>
+                        <div class="row left-aligned" *ngIf="rune.critsuccess">
+                            <strong>Critical Success</strong>&nbsp;{{rune.critsuccess}}
+                        </div>
+                        <div class="row left-aligned" *ngIf="rune.success">
+                            <strong>Success</strong>&nbsp;{{rune.success}}
+                        </div>
+                        <div class="row left-aligned" *ngIf="rune.failure">
+                            <strong>Failure</strong>&nbsp;{{rune.failure}}
+                        </div>
+                        <div class="row left-aligned" *ngIf="rune.critfailure">
+                            <strong>Critical Failure</strong>&nbsp;{{rune.critfailure}}
+                        </div>
                     </div>
-                    <div class="row left-aligned" *ngIf="rune.success">
-                        <strong>Success</strong>&nbsp;{{rune.success}}
-                    </div>
-                    <div class="row left-aligned" *ngIf="rune.failure">
-                        <strong>Failure</strong>&nbsp;{{rune.failure}}
-                    </div>
-                    <div class="row left-aligned" *ngIf="rune.critfailure">
-                        <strong>Critical Failure</strong>&nbsp;{{rune.critfailure}}
-                    </div>
+                </ng-container>
+            </div>
+        </ng-container>
+        <ng-container *ngFor="let ammoType of get_AmmoTypes(); let index = index">
+            <h3 class="box-header" *ngIf="index == 0">Ammunition</h3>
+            <ng-container *ngFor="let ammo of get_Ammo(ammoType); let ammoIndex = index">
+                <h5 class="fullsize-only" *ngIf="ammoIndex == 0">{{ammoType}}</h5>
+                <div class="list-item">
+                    {{(ammo.item.amount != undefined && ammo.item.amount != 1) ? ammo.item.amount+" " : ""}}
+                    {{ammo.item.get_Name()}}
+                    <button [disabled]="!ammo.item.amount" (click)="on_AmmoUse(ammo.item, ammo.inventory)">
+                        <span>Use</span>
+                    </button>
                 </div>
             </ng-container>
-        </div>
+        </ng-container>
+        <h3 class="fullsize-only box-header" *ngIf="!still_loading()">Weapon Proficiencies</h3>
+        <ng-container *ngFor="let skill of get_Skills('', 'Weapon Proficiency')">
+            <app-skill class="fullsize-only" [creature]="creature" [skill]=skill [showValue]=false></app-skill>
+        </ng-container>
+        <ng-container *ngFor="let skill of get_Skills('', 'Specific Weapon Proficiency')">
+            <app-skill class="fullsize-only" [creature]="creature" [skill]=skill [showValue]=false></app-skill>
+        </ng-container>
     </ng-container>
-    <h3 class="fullsize-only box-header" *ngIf="!still_loading()">Weapon Proficiencies</h3>
-    <ng-container *ngFor="let skill of get_Skills('', 'Weapon Proficiency')">
-        <app-skill class="fullsize-only" [creature]="creature" [skill]=skill [showValue]=false></app-skill>
-    </ng-container>
-    <ng-container *ngFor="let skill of get_Skills('', 'Specific Weapon Proficiency')">
-        <app-skill class="fullsize-only" [creature]="creature" [skill]=skill [showValue]=false></app-skill>
-    </ng-container>
-</ng-container>
 </div>
 <div *ngIf="set_Span()"></div>

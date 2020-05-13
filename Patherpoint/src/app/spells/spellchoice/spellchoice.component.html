@@ -23,7 +23,7 @@
             <cite class="problem" *ngFor="let reason of cannotTake(spell, choice)">
                 {{reason}}
             </cite>
-            <button (click)="toggle_Spell(choice.id+spell.name+'desc')">
+            <button class="right-bound" (click)="toggle_Spell(choice.id+spell.name+'desc')">
                 Show Description
             </button>
             <div class="row left-aligned" *ngIf="this.get_ShowSpell()==choice.id+spell.name+'desc'">
