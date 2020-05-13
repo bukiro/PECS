@@ -136,7 +136,7 @@ export class ItemsComponent implements OnInit {
     change_Cash(multiplier: number = 1, sum: number = 0, changeafter: boolean = false) {
         this.characterService.change_Cash(multiplier, sum, this.cashP, this.cashG, this.cashS, this.cashC);
         if (changeafter) {
-            this.characterService.set_Changed("Inventory");
+            this.characterService.set_Changed("inventory");
         }
     }
 
@@ -180,7 +180,7 @@ export class ItemsComponent implements OnInit {
         if (creature == "Character") {
             this.characterService.grant_InventoryItem(this.characterService.get_Character(), this.characterService.get_Character().inventories[0], item, false, true, true, amount);
         } else if (creature == "Companion") {
-            this.characterService.grant_InventoryItem(this.characterService.get_Companion(), this.characterService.get_Character().inventories[0], item, false, true, true, amount);
+            this.characterService.grant_InventoryItem(this.characterService.get_Companion(), this.characterService.get_Companion().inventories[0], item, false, true, true, amount);
         }
         
     }

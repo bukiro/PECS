@@ -449,11 +449,13 @@ export class CharacterService {
     grant_InventoryItem(creature: Character|AnimalCompanion, inventory: ItemCollection, item: Item, resetRunes: boolean = true, changeAfter: boolean = true, equipAfter: boolean = true, amount: number = 1) {
         let newInventoryItem = this.itemsService.initialize_Item(item);
         //Assign the library's item id as the new item's refId. This allows us to read the default information from the library later.
-        newInventoryItem.refId = item.id;
+        if (!newInventoryItem.refId) {
+            newInventoryItem.refId = item.id;
+        }
         let returnedInventoryItem;
         //Check if this item already exists in the inventory, and if it is stackable.
         let existingItems = inventory[item.type].filter((existing: Item) =>
-            existing.name == item.name && item.can_Stack()
+            existing.name == newInventoryItem.name && newInventoryItem.can_Stack()
         );
         //If any existing, stackable items are found, try parsing the amount and set it to 1 if failed, then raise the amount on the first of the existing items.
         //The amount must be parsed because it could be set to anything during custom item creation.

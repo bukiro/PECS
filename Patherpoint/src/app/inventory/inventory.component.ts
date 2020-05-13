@@ -14,7 +14,6 @@ import { Character } from '../Character';
 import { AnimalCompanion } from '../AnimalCompanion';
 import { Bulk } from '../Bulk';
 import { ItemCollection } from '../ItemCollection';
-import { InventoryGain } from '../InventoryGain';
 
 @Component({
     selector: 'app-inventory',
@@ -77,6 +76,10 @@ export class InventoryComponent implements OnInit {
         return this.characterService.get_Creature(creature) as Character|AnimalCompanion;
     }
 
+    get_Creatures() {
+        return this.characterService.get_Creatures();
+    }
+
     get_Inventories(creature: string = this.creature, newID: boolean = false, calculate: boolean = false) { 
         if (newID) {
             this.id = 0;
@@ -112,23 +115,24 @@ export class InventoryComponent implements OnInit {
         return this.get_Creature(creature).inventories;
     }
 
-    get_TargetInventories() {
+    get_TargetInventories(item: Item) {
+        //Return your inventories and your companion's main inventory (or the character's if called by the companion)
         switch (this.creature) {
-            case "Character":
-                if (this.characterService.get_CompanionAvailable()) {
-                    return [this.get_Creature("Companion").inventories[0]].concat(...this.get_Creature().inventories);
-                } else {
-                    return this.get_Creature().inventories;
-                }
-            case "Companion":
-                return [this.get_Creature("Character").inventories[0]].concat(...this.get_Creature().inventories);
+        case "Character":
+            if (this.characterService.get_CompanionAvailable()) {
+                return [this.get_Creature("Companion").inventories[0]].concat(...this.get_Creature().inventories);
+            } else {
+                return this.get_Creature().inventories;
+            }
+        case "Companion":
+            return [this.get_Creature("Character").inventories[0]].concat(...this.get_Creature().inventories);
         }
     }
 
     get_ContainedItems(item: Item) {
         //Add up the number of items in each inventory associated by this item
         //Return a number
-        if (item.id && item["gainInventory"] && this.get_Creature().inventories.length > 1) {
+        if (item.id && item["gainInventory"] && item["gainInventory"].length && this.get_Creature().inventories.length > 1) {
             return this.get_Creature().inventories.filter(inventory => inventory.itemId == item.id).map(inventory => inventory.allItems().map(item => item.amount).reduce((a, b) => a + b, 0)).reduce((a, b) => a + b, 0);
         } else {
             return 0
@@ -213,20 +217,63 @@ export class InventoryComponent implements OnInit {
         this.characterService.drop_InventoryItem(this.get_Creature(), inventory, item, true, true, true, item.amount);
     }
 
-    move_InventoryItem(item: Item, inventory: ItemCollection) {
+    move_InventoryItem(item: Item, inventory: ItemCollection, changeafter: boolean = true) {
         if (this.targetInventory && this.targetInventory != inventory) {
-            let movedItem = JSON.parse(JSON.stringify(item));
-            movedItem = this.characterService.reassign(movedItem);
-            let newLength = this.targetInventory[item.type].push(movedItem);
-            inventory[item.type] = inventory[item.type].filter((inventoryItem: Item) => inventoryItem !== item)
-            if (movedItem["equipped"]) {
-                this.on_Equip(movedItem as Equipment, inventory, false)
+            let fromCreature = this.get_Creatures().find(creature => creature.inventories.find(inv => inv === inventory)) as Character|AnimalCompanion;
+            let toCreature = this.get_Creatures().find(creature => creature.inventories.find(inv => inv === this.targetInventory)) as Character|AnimalCompanion;
+            if (item["gainInventory"] && item["gainInventory"].length && fromCreature == toCreature) {
+                let movedItem = JSON.parse(JSON.stringify(item));
+                movedItem = this.characterService.reassign(movedItem);
+                this.targetInventory[item.type].push(movedItem);
+                inventory[item.type] = inventory[item.type].filter((inventoryItem: Item) => inventoryItem !== item)
+                if (movedItem["equipped"]) {
+                    this.on_Equip(movedItem as Equipment, inventory, false)
+                }
+                if (movedItem["invested"]) {
+                    this.on_Invest(movedItem as Equipment, inventory, false)
+                }
+            } else {
+                let movedItem = JSON.parse(JSON.stringify(item));
+                let movedInventories: ItemCollection[]
+                //If this item is a container and is moved between creature, the attached inventories need to be moved as well.
+                //Because we lose the inventory when we drop the item, but automatically gain one when we grant the item to the other creature,
+                // we need to first save the inventory, then recreate it and remove the new ones after moving the item.
+                //Here, we save the inventories and take care of any containers within the container.
+                if (item["gainInventory"] && item["gainInventory"].length) {
+                    //First, move all inventory items within this inventory item to the same target. They get 
+                    fromCreature.inventories.filter(inv => inv.itemId == item.id).forEach(inv => {
+                        inv.allItems().filter(invItem => invItem["gainInventory"] && invItem["gainInventory"].length).forEach(invItem => {
+                            this.move_InventoryItem(invItem, inv, false);
+                        })
+                    })
+                    movedInventories = fromCreature.inventories.filter(inv => inv.itemId == item.id).map(inv => JSON.parse(JSON.stringify(inv)))
+                    movedInventories = movedInventories.map(inv => this.characterService.reassign(inv));
+                    movedInventories
+                }
+                let newItem = this.characterService.grant_InventoryItem(toCreature, this.targetInventory, movedItem, false, false, false, movedItem.amount);
+                this.characterService.drop_InventoryItem(fromCreature, inventory, item, false, true, true, item.amount);
+                //Below, we reinsert the saved inventories and remove any newly created ones.
+                if (item["gainInventory"] && item["gainInventory"].length) {
+                    toCreature.inventories = toCreature.inventories.filter(inv => inv.itemId != newItem.id);
+                    let newLength = toCreature.inventories.push(...movedInventories);
+                    toCreature.inventories.slice(newLength - movedInventories.length, newLength).forEach(inv => {
+                        inv.itemId = newItem.id;
+                    })
+                }
+                if (newItem["equipped"]) {
+                    this.on_Equip(newItem as Equipment, this.targetInventory, false)
+                }
+                if (newItem["invested"]) {
+                    this.on_Invest(newItem as Equipment, this.targetInventory, false)
+                }
             }
-            if (movedItem["invested"]) {
-                this.on_Invest(movedItem as Equipment, inventory, false)
-            }
+            
         }
-        this.targetInventory = null;
+        if (changeafter) {
+            this.targetInventory = null;
+            this.characterService.set_Changed();
+        }
+        
     }
 
     drop_ContainerOnly(item: Item, inventory: ItemCollection) {
@@ -386,7 +433,7 @@ export class InventoryComponent implements OnInit {
         } else {
             this.characterService.get_Changed()
             .subscribe((target) => {
-                if (target == "inventory" || target == "all" || target == this.creature) {
+                if (["inventory", "all", this.creature].includes(target)) {
                     this.changeDetector.detectChanges();
                 }
             });

@@ -65,8 +65,8 @@
                                 [className]="((item.equippable && item.equipped) || (item.can_Invest() && item.invested)) ? 'fancy-button' : ''"
                                 (click)="toggleItem(inventoryID)">
                                 {{(item.amount != undefined && item.amount != 1) ? item.amount+" " : ""}}
-                                {{(item['get_Name']) ? item.get_Name() : item.name}}
-                                <span class="lower" *ngFor="let containedItems of [get_ContainedItems(item)]">&nbsp;{{containedItems ? "contains "+containedItems+" items" : ""}}</span>
+                                {{(item['get_Name']) ? item.get_Name() : item.name}}&nbsp;
+                                <span class="lower" *ngFor="let containedItems of [get_ContainedItems(item)]">{{containedItems ? "contains "+containedItems+" items" : ""}}</span>
                             </button>
                             <div class="list-item sublist lower"
                                 [className]="((item.equippable && item.equipped) || (item.can_Invest() && item.invested)) ? 'fancy-list' : ''"
@@ -149,7 +149,7 @@
                                     <span>
                                         <select [(ngModel)]="targetInventory" (ngModelChange)="move_InventoryItem(item, inventory)">
                                             <option [ngValue]="null"></option>
-                                            <option *ngFor="let newTargetInventory of get_TargetInventories();" [ngValue]="newTargetInventory" [disabled]="!can_Fit(item, newTargetInventory, inventory)">
+                                            <option *ngFor="let newTargetInventory of get_TargetInventories(item);" [ngValue]="newTargetInventory" [disabled]="!can_Fit(item, newTargetInventory, inventory)">
                                                 {{get_InventoryName(newTargetInventory)}}
                                             </option>
                                         </select>
