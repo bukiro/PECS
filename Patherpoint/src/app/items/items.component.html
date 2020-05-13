@@ -50,8 +50,8 @@
     <ng-container *ngFor="let items of [get_Items(true)]">
         <ng-container *ngFor="let creatureType of ['Character','Companion']">
             <h3>Get {{creatureType == "Companion" ? "Animal Companion " : ""}}Items</h3>
-            <ng-container *ngFor="let itemSet of items.names">
-                <ng-container *ngFor="let listID of [get_ID()*1000]">
+            <ng-container *ngFor="let itemSet of items.names; let index = index; trackBy:trackByIndex;">
+                <ng-container *ngFor="let listID of [creatureType+(index*1000+1000)]">
                     <button class="list-item"
                         [ngStyle]="{'--accent':get_Accent(), 'display':!get_VisibleItems(items[itemSet.key], creatureType).length ? 'none' : 'flex' }"
                         (click)="toggle_List(listID)">
@@ -76,12 +76,12 @@
                                     *ngIf="get_ShowItem()==inventoryID">
                                     <button class="row center-aligned"
                                         (click)="grant_Item(creature, item)">
-                                        Gift to {{creature}}
+                                        Gift {{item.stack && item.stack > 1 ? item.stack+" " : ""}}to {{creature}}
                                     </button>
                                     <button class="row center-aligned"
                                         (click)="grant_Item(creature, item, true)"
                                         [disabled]="!have_Funds(get_Price(item)) || !get_Price(item)">
-                                        Buy for {{creature}}
+                                        Buy {{item.stack && item.stack > 1 ? item.stack+" " : ""}}for {{creature}}
                                     </button>
                                     <app-itemRunes class="row" [item]=item [itemStore]=true></app-itemRunes>
                                     <app-item [item]=item [itemStore]=true></app-item>
@@ -122,13 +122,15 @@
                                 </button>
                             </div>
                             <h5>Inventory Items</h5>
-                            <div class="list-item" *ngFor="let item of get_InventoryItems()[newItemType]">
-                                {{(item.get_Name) ? item.get_Name() : item.name}}
-                                <button class="row center-aligned"
-                                    (click)="copy_Item(item);toggle_Item(0)">
-                                    Copy
-                                </button>
-                            </div>
+                            <ng-container *ngFor="let itemset of get_InventoryItemSets(newItemType)">
+                                <div class="list-item" *ngFor="let item of itemset">
+                                    {{(item.get_Name) ? item.get_Name() : item.name}}
+                                    <button class="row center-aligned"
+                                        (click)="copy_Item(item);toggle_Item(0)">
+                                        Copy
+                                    </button>
+                                </div>
+                            </ng-container>
                         </div>
                     </div>
                     <ng-container *ngFor="let property of get_NewItemProperties()|sortBy:'asc':'priority'|sortBy:'asc':'group'">

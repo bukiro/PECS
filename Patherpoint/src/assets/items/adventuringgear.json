@@ -37,7 +37,7 @@
         "hands": 2
     },
     {
-        "desc": "These small spikes can be used as anchors to make climbing easier. To affix a piton, you must hold it in one hand and use a hammer to drive it in with your other hand. You can attach a rope to the hammered piton so that you don’t fall all the way to the ground on a critical failure while Climbing. ",
+        "desc": "These small spikes can be used as anchors to make climbing easier. To affix a piton, you must hold it in one hand and use a hammer to drive it in with your other hand. You can attach a rope to the hammered piton so that you don't fall all the way to the ground on a critical failure while Climbing. ",
         "id": "89c6d2f1-8e09-11ea-9fab-e92c63c14723",
         "name": "Piton",
         "price": 1,
@@ -51,6 +51,12 @@
         "id": "89c6d2f4-8e09-11ea-9fab-e92c63c14723",
         "name": "Sack",
         "price": 1,
+        "gainInventory": [
+            {
+                "_className": "InventoryGain",
+                "bulkLimit": 8
+            }
+        ],
         "_className": "AdventuringGear",
         "hands": 1
     },
@@ -107,6 +113,12 @@
         "id": "89c6f9ff-8e09-11ea-9fab-e92c63c14723",
         "name": "Belt Pouch",
         "price": 4,
+        "gainInventory": [
+            {
+                "_className": "InventoryGain",
+                "bulkLimit": 0.4
+            }
+        ],
         "_className": "AdventuringGear"
     },
     {
@@ -127,7 +139,7 @@
     },
     {
         "bulk": "L",
-        "desc": "When it’s full, a waterskin contains roughly 1 day’s worth of water for a Small or Medium creature. ",
+        "desc": "When it's full, a waterskin contains roughly 1 day's worth of water for a Small or Medium creature. ",
         "id": "89c6fa08-8e09-11ea-9fab-e92c63c14723",
         "name": "Waterskin",
         "price": 5,
@@ -143,14 +155,14 @@
         "hands": 1
     },
     {
-        "desc": "Ordinary clothing is functional with basic tailoring, such as peasant garb, monk’s robes, or work clothes.",
+        "desc": "Ordinary clothing is functional with basic tailoring, such as peasant garb, monk's robes, or work clothes.",
         "id": "89c6fa0e-8e09-11ea-9fab-e92c63c14723",
         "name": "Clothing (Ordinary)",
         "price": 10,
         "_className": "AdventuringGear"
     },
     {
-        "desc": "If you’ve crafted a large number of disguises, you can replenish your cosmetics supply with replacement cosmetics suitable for the type of your disguise kit.",
+        "desc": "If you've crafted a large number of disguises, you can replenish your cosmetics supply with replacement cosmetics suitable for the type of your disguise kit.",
         "id": "89c6fa11-8e09-11ea-9fab-e92c63c14723",
         "name": "Disguise Kit (Replacement Cosmetics)",
         "price": 10,
@@ -158,7 +170,7 @@
     },
     {
         "bulk": "L",
-        "desc": "You can throw a grappling hook with a rope tied to it to make a climb easier. To anchor a grappling hook, make an attack roll with the secret trait against a DC depending on the target, typically at least DC 20. On a success, your hook has a firm hold, but on a critical failure, the hook seems like it will hold but actually falls when you’re partway up. ",
+        "desc": "You can throw a grappling hook with a rope tied to it to make a climb easier. To anchor a grappling hook, make an attack roll with the secret trait against a DC depending on the target, typically at least DC 20. On a success, your hook has a firm hold, but on a critical failure, the hook seems like it will hold but actually falls when you're partway up. ",
         "id": "89c6fa14-8e09-11ea-9fab-e92c63c14723",
         "name": "Grappling Hook",
         "price": 10,
@@ -175,17 +187,17 @@
         "hands": 1
     },
     {
-        "desc": "A backpack holds up to 4 Bulk of items. If you’re carrying or stowing the pack rather than wearing it on your back, its bulk is light instead of negligible. The first 2 Bulk of items in your backpack don't count against your Bulk limits ",
+        "desc": "A backpack holds up to 4 Bulk of items. If you're carrying or stowing the pack rather than wearing it on your back, its bulk is light instead of negligible. The first 2 Bulk of items in your backpack don't count against your Bulk limits ",
         "id": "89c6fa1a-8e09-11ea-9fab-e92c63c14723",
         "name": "Backpack",
         "price": 10,
         "equippable": true,
         "carryingBulk": "L",
-        "effects": [
+        "gainInventory": [
             {
-                "_className": "EffectGain",
-                "affected": "Bulk",
-                "value": -2
+                "_className": "InventoryGain",
+                "bulkLimit": 4,
+                "bulkReduction": 2
             }
         ],
         "_className": "AdventuringGear"
@@ -206,6 +218,12 @@
         "price": 10,
         "equippable": true,
         "carryingBulk": "L",
+        "gainInventory": [
+            {
+                "_className": "InventoryGain",
+                "bulkLimit": 2
+            }
+        ],
         "_className": "AdventuringGear",
         "hands": 2
     },
@@ -218,12 +236,18 @@
         "hands": 2
     },
     {
-        "desc": "A bandolier holds up to eight items of light Bulk within easy reach and is usually used for alchemical items or potions. If you are carrying or stowing a bandolier rather than wearing it around your chest, it has light Bulk instead of negligible. A bandolier can be dedicated to a full set of tools, such as healer’s tools, allowing you to draw the tools as part of the action that requires them. ",
+        "desc": "A bandolier holds up to eight items of light Bulk within easy reach and is usually used for alchemical items or potions. If you are carrying or stowing a bandolier rather than wearing it around your chest, it has light Bulk instead of negligible. A bandolier can be dedicated to a full set of tools, such as healer's tools, allowing you to draw the tools as part of the action that requires them. ",
         "id": "89c6fa26-8e09-11ea-9fab-e92c63c14723",
         "name": "Bandolier",
         "price": 10,
         "equippable": true,
         "carryingBulk": "L",
+        "gainInventory": [
+            {
+                "_className": "InventoryGain",
+                "bulkLimit": 0.8
+            }
+        ],
         "_className": "AdventuringGear"
     },
     {
@@ -236,7 +260,7 @@
         "hands": 2
     },
     {
-        "desc": "If you’ve written a large amount, you can refill your kit with extra ink and paper.",
+        "desc": "If you've written a large amount, you can refill your kit with extra ink and paper.",
         "id": "89c72101-8e09-11ea-9fab-e92c63c14723",
         "name": "Writing Set (Extra Ink and Paper)",
         "price": 10,
@@ -264,10 +288,20 @@
         "price": 20,
         "equippable": true,
         "carryingBulk": "1",
+        "gainInventory": [
+            {
+                "_className": "InventoryGain",
+                "bulkLimit": 3
+            },
+            {
+                "_className": "InventoryGain",
+                "bulkLimit": 3
+            }
+        ],
         "_className": "AdventuringGear"
     },
     {
-        "desc": "You can manacle someone who is willing or otherwise at your mercy as an exploration activity taking 10–30 seconds depending on the creature’s size and how many manacles you apply. A two-legged creature with its legs bound takes a –15-foot circumstance penalty to its Speeds, and a two-handed creature with its wrists bound has to succeed at a DC 5 flat check any time it uses a manipulate action or else that action fails. This DC may be higher depending on how tightly the manacles constrain the hands. A creature bound to a stationary object is immobilized. For creatures with more or fewer limbs, the GM determines what effect manacles have, if any. Freeing a creature from poor manacles requires two successful DC 17 Thievery checks.",
+        "desc": "You can manacle someone who is willing or otherwise at your mercy as an exploration activity taking 10–30 seconds depending on the creature's size and how many manacles you apply. A two-legged creature with its legs bound takes a –15-foot circumstance penalty to its Speeds, and a two-handed creature with its wrists bound has to succeed at a DC 5 flat check any time it uses a manipulate action or else that action fails. This DC may be higher depending on how tightly the manacles constrain the hands. A creature bound to a stationary object is immobilized. For creatures with more or fewer limbs, the GM determines what effect manacles have, if any. Freeing a creature from poor manacles requires two successful DC 17 Thievery checks.",
         "id": "89c7210d-8e09-11ea-9fab-e92c63c14723",
         "name": "Manacles (Poor)",
         "price": 30,
@@ -275,7 +309,7 @@
         "hands": 2
     },
     {
-        "desc": "If your thieves’ tools are broken, you can repair them by replacing the lock picks with replacement picks appropriate to your tools; this doesn’t require using the Repair action.",
+        "desc": "If your thieves' tools are broken, you can repair them by replacing the lock picks with replacement picks appropriate to your tools; this doesn't require using the Repair action.",
         "id": "89c72110-8e09-11ea-9fab-e92c63c14723",
         "name": "Thieves' Tools (Replacement Picks)",
         "price": 30,
@@ -283,7 +317,7 @@
     },
     {
         "bulk": "L",
-        "desc": "These four-pronged metal spikes can cause damage to a creature’s feet. You can scatter caltrops in an empty square adjacent to you with an Interact action. The first creature that moves into that square must succeed at a DC 14 Acrobatics check or take 1d4 piercing damage and 1 persistent bleed damage. A creature taking persistent bleed damage from caltrops takes a –5-foot penalty to its Speed. Spending an Interact action to pluck the caltrops free reduces the DC to stop the bleeding. Once a creature takes damage from caltrops, enough caltrops are ruined that other creatures moving into the square are safe.\n\nDeployed caltrops can be salvaged and reused if no creatures took damage from them. Otherwise, enough caltrops are ruined that they can’t be salvaged.",
+        "desc": "These four-pronged metal spikes can cause damage to a creature's feet. You can scatter caltrops in an empty square adjacent to you with an Interact action. The first creature that moves into that square must succeed at a DC 14 Acrobatics check or take 1d4 piercing damage and 1 persistent bleed damage. A creature taking persistent bleed damage from caltrops takes a –5-foot penalty to its Speed. Spending an Interact action to pluck the caltrops free reduces the DC to stop the bleeding. Once a creature takes damage from caltrops, enough caltrops are ruined that other creatures moving into the square are safe.\n\nDeployed caltrops can be salvaged and reused if no creatures took damage from them. Otherwise, enough caltrops are ruined that they can't be salvaged.",
         "id": "89c72113-8e09-11ea-9fab-e92c63c14723",
         "name": "Caltrops",
         "price": 30,
@@ -310,7 +344,7 @@
     },
     {
         "bulk": "L",
-        "desc": "This entry is a catchall for basic hand tools that don’t have a specific adventuring purpose. A hand drill, ice hook, or trowel is a short tool. A tool can usually be used as an improvised weapon, dealing 1d4 damage for a short tool or 1d6 for a long tool. The GM determines the damage type that’s appropriate or adjusts the damage if needed.",
+        "desc": "This entry is a catchall for basic hand tools that don't have a specific adventuring purpose. A hand drill, ice hook, or trowel is a short tool. A tool can usually be used as an improvised weapon, dealing 1d4 damage for a short tool or 1d6 for a long tool. The GM determines the damage type that's appropriate or adjusts the damage if needed.",
         "id": "89c7211c-8e09-11ea-9fab-e92c63c14723",
         "name": "Tool (Short)",
         "price": 40,
@@ -319,7 +353,7 @@
     },
     {
         "bulk": "1",
-        "desc": "This satchel includes 50 feet of rope, pulleys, a dozen pitons, a hammer, a grappling hook, and one set of crampons. Climbing kits allow you to attach yourself to the wall you’re Climbing, moving half as quickly as usual (minimum 5 feet) but letting you attempt a DC 5 flat check whenever you critically fail to prevent a fall. A single kit has only enough materials for one climber; each climber needs their own kit.",
+        "desc": "This satchel includes 50 feet of rope, pulleys, a dozen pitons, a hammer, a grappling hook, and one set of crampons. Climbing kits allow you to attach yourself to the wall you're Climbing, moving half as quickly as usual (minimum 5 feet) but letting you attempt a DC 5 flat check whenever you critically fail to prevent a fall. A single kit has only enough materials for one climber; each climber needs their own kit.",
         "id": "89c7211f-8e09-11ea-9fab-e92c63c14723",
         "name": "Climbing Kit",
         "price": 50,
@@ -329,7 +363,7 @@
     },
     {
         "bulk": "L",
-        "desc": "When Forcing Open an object that doesn’t have an easy grip, a crowbar makes it easier to gain the necessary leverage. Without a crowbar, prying something open takes a –2 item penalty to the Athletics check to Force Open (similar to using a shoddy item). A levered crowbar grants you a +1 item bonus to Athletics checks to Force Open anything that can be pried open. ",
+        "desc": "When Forcing Open an object that doesn't have an easy grip, a crowbar makes it easier to gain the necessary leverage. Without a crowbar, prying something open takes a –2 item penalty to the Athletics check to Force Open (similar to using a shoddy item). A levered crowbar grants you a +1 item bonus to Athletics checks to Force Open anything that can be pried open. ",
         "id": "89c72122-8e09-11ea-9fab-e92c63c14723",
         "name": "Crowbar",
         "price": 50,
@@ -360,11 +394,17 @@
         "id": "89c7212b-8e09-11ea-9fab-e92c63c14723",
         "name": "Chest",
         "price": 60,
+        "gainInventory": [
+            {
+                "_className": "InventoryGain",
+                "bulkLimit": 8
+            }
+        ],
         "_className": "AdventuringGear",
         "hands": 2
     },
     {
-        "desc": "This item is the starter kit for an adventurer, containing the essential items for exploration and survival. The Bulk value is for the entire pack together, but see the descriptions of individual items as necessary.\n\nThe pack contains the following items: backpack (containing the other goods), bedroll, two belt pouches, 10 pieces of chalk, flint and steel, 50 feet of rope, 2 weeks’ rations, soap, 5 torches, and a waterskin.",
+        "desc": "This item is the starter kit for an adventurer, containing the essential items for exploration and survival. The Bulk value is for the entire pack together, but see the descriptions of individual items as necessary.\n\nThe pack contains the following items: backpack (containing the other goods), bedroll, two belt pouches, 10 pieces of chalk, flint and steel, 50 feet of rope, 2 weeks' rations, soap, 5 torches, and a waterskin.",
         "id": "89c74812-8e09-11ea-9fab-e92c63c14723",
         "name": "Adventurer's Pack",
         "price": 70,
@@ -473,7 +513,7 @@
     },
     {
         "bulk": "L",
-        "desc": "A compass helps you Sense Direction or navigate, provided you’re in a location with uniform magnetic fields. Without a compass, you take a –2 item penalty to these checks (similar to using a shoddy item).",
+        "desc": "A compass helps you Sense Direction or navigate, provided you're in a location with uniform magnetic fields. Without a compass, you take a –2 item penalty to these checks (similar to using a shoddy item).",
         "id": "89c74821-8e09-11ea-9fab-e92c63c14723",
         "name": "Compass",
         "price": 100,
@@ -491,7 +531,7 @@
     },
     {
         "bulk": "L",
-        "desc": "A formula book holds the formulas necessary to make items other than the common equipment from this chapter; alchemists typically get one for free. Each formula book can hold the formulas for up to 100 different items. Formulas can also appear on parchment sheets, tablets, and almost any other medium; there’s no need for you to copy them into a specific book as long as you can keep them on hand to reference them. ",
+        "desc": "A formula book holds the formulas necessary to make items other than the common equipment from this chapter; alchemists typically get one for free. Each formula book can hold the formulas for up to 100 different items. Formulas can also appear on parchment sheets, tablets, and almost any other medium; there's no need for you to copy them into a specific book as long as you can keep them on hand to reference them. ",
         "id": "89c74827-8e09-11ea-9fab-e92c63c14723",
         "name": "Formula Book (Blank)",
         "price": 100,
@@ -500,7 +540,7 @@
     },
     {
         "bulk": "1",
-        "desc": "A lantern sheds bright light and requires 1 pint of oil to function for 6 hours.\n\nA bull’s-eye lantern emits its light in a 60-foot cone (and dim light in the next 60 feet).",
+        "desc": "A lantern sheds bright light and requires 1 pint of oil to function for 6 hours.\n\nA bull's-eye lantern emits its light in a 60-foot cone (and dim light in the next 60 feet).",
         "id": "89c7482a-8e09-11ea-9fab-e92c63c14723",
         "name": "Lantern (Bull's-Eye)",
         "price": 100,
@@ -534,7 +574,7 @@
     },
     {
         "bulk": "1",
-        "desc": "This entry is a catchall for basic hand tools that don’t have a specific adventuring purpose. A hoe, shovel, or sledgehammer is a long tool. A tool can usually be used as an improvised weapon, dealing 1d4 damage for a short tool or 1d6 for a long tool. The GM determines the damage type that’s appropriate or adjusts the damage if needed.",
+        "desc": "This entry is a catchall for basic hand tools that don't have a specific adventuring purpose. A hoe, shovel, or sledgehammer is a long tool. A tool can usually be used as an improvised weapon, dealing 1d4 damage for a short tool or 1d6 for a long tool. The GM determines the damage type that's appropriate or adjusts the damage if needed.",
         "id": "89c74836-8e09-11ea-9fab-e92c63c14723",
         "name": "Tool (Long)",
         "price": 100,
@@ -543,7 +583,7 @@
     },
     {
         "bulk": "L",
-        "desc": "Using a writing set, you can draft correspondence and scribe scrolls. A set includes stationery, including a variety of paper and parchment, as well as ink, a quill or inkpen, sealing wax, and a simple seal. If you’ve written a large amount, you can refill your kit with extra ink and paper.",
+        "desc": "Using a writing set, you can draft correspondence and scribe scrolls. A set includes stationery, including a variety of paper and parchment, as well as ink, a quill or inkpen, sealing wax, and a simple seal. If you've written a large amount, you can refill your kit with extra ink and paper.",
         "id": "89c74839-8e09-11ea-9fab-e92c63c14723",
         "name": "Writing Set",
         "price": 100,
@@ -560,7 +600,7 @@
     },
     {
         "bulk": "L",
-        "desc": "This small wooden box contains cosmetics, false facial hair, spirit gum, and a few simple wigs. You usually need a disguise kit to set up a disguise in order to Impersonate someone using the Deception skill. If you’ve crafted a large number of disguises, you can replenish your cosmetics supply with replacement cosmetics suitable for the type of your disguise kit.",
+        "desc": "This small wooden box contains cosmetics, false facial hair, spirit gum, and a few simple wigs. You usually need a disguise kit to set up a disguise in order to Impersonate someone using the Deception skill. If you've crafted a large number of disguises, you can replenish your cosmetics supply with replacement cosmetics suitable for the type of your disguise kit.",
         "id": "89c7483f-8e09-11ea-9fab-e92c63c14723",
         "name": "Disguise Kit",
         "price": 200,
@@ -599,7 +639,7 @@
     },
     {
         "bulk": "L",
-        "desc": "These bioluminescent jellyfish are as bright as candles, come in a variety of colors, and can act as living lanterns. They dry up and die if removed from the water for more than 1 hour, but as long as they’re allowed access to seawater, they can usually survive for up to 1 year by feeding on micronutrients. Rarely, a well-treated jellyfish lamp might live longer and potentially develop stronger light or additional abilities. ",
+        "desc": "These bioluminescent jellyfish are as bright as candles, come in a variety of colors, and can act as living lanterns. They dry up and die if removed from the water for more than 1 hour, but as long as they're allowed access to seawater, they can usually survive for up to 1 year by feeding on micronutrients. Rarely, a well-treated jellyfish lamp might live longer and potentially develop stronger light or additional abilities. ",
         "id": "89c7484b-8e09-11ea-9fab-e92c63c14723",
         "name": "Jellyfish Lamp",
         "price": 200,
@@ -608,12 +648,12 @@
     },
     {
         "bulk": "1",
-        "desc": "These armor-plated skirts, which are also known as armored kilts, are favored by Knights of Lastwall for their versatility and aesthetic appeal. An armored skirt can be donned with 2 Interact actions when it’s worn with light or medium armor, or as part of donning heavy armor.\n\nWhen worn with a breastplate, chain shirt, chain mail, or scale mail, an armored skirt increases the armor’s item bonus to AC by 1, worsens the armor’s check penalty by 1, reduces the armor’s Dex cap by 1, increases the Strength score required to ignore the check penalty and reduce the Speed penalty by 2, and adds the noisy trait. This also makes the armor one step heavier (from light to medium, or medium to heavy), and you use the proficiency bonus appropriate to this adjusted armor type.\n\nAlternatively, when wearing an armored skirt to replace appropriate portions of a set of half plate or full plate, reduce the armor’s item bonus to AC by 1, lessen the check penalty by 1, decrease the Strength score required to ignore the check penalty and reduce the Speed penalty by 2, increase the armor’s Dex cap by 1, and add the noisy trait to the armor. An armored skirt grants no benefit when worn by itself or with armors other than those listed here. ",
+        "desc": "These armor-plated skirts, which are also known as armored kilts, are favored by Knights of Lastwall for their versatility and aesthetic appeal. An armored skirt can be donned with 2 Interact actions when it's worn with light or medium armor, or as part of donning heavy armor.\n\nWhen worn with a breastplate, chain shirt, chain mail, or scale mail, an armored skirt increases the armor's item bonus to AC by 1, worsens the armor's check penalty by 1, reduces the armor's Dex cap by 1, increases the Strength score required to ignore the check penalty and reduce the Speed penalty by 2, and adds the noisy trait. This also makes the armor one step heavier (from light to medium, or medium to heavy), and you use the proficiency bonus appropriate to this adjusted armor type.\n\nAlternatively, when wearing an armored skirt to replace appropriate portions of a set of half plate or full plate, reduce the armor's item bonus to AC by 1, lessen the check penalty by 1, decrease the Strength score required to ignore the check penalty and reduce the Speed penalty by 2, increase the armor's Dex cap by 1, and add the noisy trait to the armor. An armored skirt grants no benefit when worn by itself or with armors other than those listed here. ",
         "id": "89c76f22-8e09-11ea-9fab-e92c63c14723",
         "name": "Armored Skirt",
         "price": 200,
         "equippable": true,
-        "hint": "When worn with a breastplate, chain shirt, chain mail, or scale mail, an armored skirt increases the armor’s item bonus to AC by 1, worsens the armor’s check penalty by 1, reduces the armor’s Dex cap by 1, increases the Strength score required to ignore the check penalty and reduce the Speed penalty by 2, and adds the noisy trait. This also makes the armor one step heavier (from light to medium, or medium to heavy), and you use the proficiency bonus appropriate to this adjusted armor type.\n\nAlternatively, when wearing an armored skirt to replace appropriate portions of a set of half plate or full plate, reduce the armor’s item bonus to AC by 1, lessen the check penalty by 1, decrease the Strength score required to ignore the check penalty and reduce the Speed penalty by 2, increase the armor’s Dex cap by 1, and add the noisy trait to the armor.",
+        "hint": "When worn with a breastplate, chain shirt, chain mail, or scale mail, an armored skirt increases the armor's item bonus to AC by 1, worsens the armor's check penalty by 1, reduces the armor's Dex cap by 1, increases the Strength score required to ignore the check penalty and reduce the Speed penalty by 2, and adds the noisy trait. This also makes the armor one step heavier (from light to medium, or medium to heavy), and you use the proficiency bonus appropriate to this adjusted armor type.\n\nAlternatively, when wearing an armored skirt to replace appropriate portions of a set of half plate or full plate, reduce the armor's item bonus to AC by 1, lessen the check penalty by 1, decrease the Strength score required to ignore the check penalty and reduce the Speed penalty by 2, increase the armor's Dex cap by 1, and add the noisy trait to the armor.",
         "showon": "Breastplate, Chain Shirt, Chain Mail, Scale Mail, Half Plate, Full Plate",
         "_className": "AdventuringGear",
         "isArmoredSkirt": true
@@ -637,7 +677,7 @@
     },
     {
         "bulk": "L",
-        "desc": "You need thieves’ tools to Pick Locks or Disable Devices (of some types) using the Thievery skill. If your thieves’ tools are broken, you can repair them by replacing the lock picks with replacement picks appropriate to your tools; this doesn’t require using the Repair action.",
+        "desc": "You need thieves' tools to Pick Locks or Disable Devices (of some types) using the Thievery skill. If your thieves' tools are broken, you can repair them by replacing the lock picks with replacement picks appropriate to your tools; this doesn't require using the Repair action.",
         "id": "89c76f2b-8e09-11ea-9fab-e92c63c14723",
         "name": "Thieves' Tools",
         "price": 300,
@@ -655,7 +695,7 @@
     },
     {
         "bulk": "2",
-        "desc": "You need these tools to create items from raw materials with the Craft skill. Different sets are needed for different work, as determined by the GM; for example, blacksmith’s tools differ from woodworker’s tools.",
+        "desc": "You need these tools to create items from raw materials with the Craft skill. Different sets are needed for different work, as determined by the GM; for example, blacksmith's tools differ from woodworker's tools.",
         "id": "89c76f31-8e09-11ea-9fab-e92c63c14723",
         "name": "Artisan's Tools",
         "price": 400,
@@ -711,7 +751,7 @@
     },
     {
         "bulk": "6",
-        "desc": "You need an alchemist’s lab to Craft alchemical items during downtime.",
+        "desc": "You need an alchemist's lab to Craft alchemical items during downtime.",
         "id": "89c76f40-8e09-11ea-9fab-e92c63c14723",
         "name": "Alchemist's Lab",
         "price": 500,
@@ -756,7 +796,7 @@
         "hands": 2
     },
     {
-        "desc": "You can manacle someone who is willing or otherwise at your mercy as an exploration activity taking 10–30 seconds depending on the creature’s size and how many manacles you apply. A two-legged creature with its legs bound takes a –15-foot circumstance penalty to its Speeds, and a two-handed creature with its wrists bound has to succeed at a DC 5 flat check any time it uses a manipulate action or else that action fails. This DC may be higher depending on how tightly the manacles constrain the hands. A creature bound to a stationary object is immobilized. For creatures with more or fewer limbs, the GM determines what effect manacles have, if any. Freeing a creature from simple manacles requires three successes at DC 22.",
+        "desc": "You can manacle someone who is willing or otherwise at your mercy as an exploration activity taking 10–30 seconds depending on the creature's size and how many manacles you apply. A two-legged creature with its legs bound takes a –15-foot circumstance penalty to its Speeds, and a two-handed creature with its wrists bound has to succeed at a DC 5 flat check any time it uses a manipulate action or else that action fails. This DC may be higher depending on how tightly the manacles constrain the hands. A creature bound to a stationary object is immobilized. For creatures with more or fewer limbs, the GM determines what effect manacles have, if any. Freeing a creature from simple manacles requires three successes at DC 22.",
         "id": "89c79632-8e09-11ea-9fab-e92c63c14723",
         "level": 1,
         "name": "Manacles (Simple)",
@@ -774,7 +814,7 @@
         "hands": 2
     },
     {
-        "desc": "If you’ve crafted a large number of disguises, you can replenish your cosmetics supply with replacement cosmetics suitable for the type of your disguise kit.",
+        "desc": "If you've crafted a large number of disguises, you can replenish your cosmetics supply with replacement cosmetics suitable for the type of your disguise kit.",
         "id": "89c79638-8e09-11ea-9fab-e92c63c14723",
         "level": 3,
         "name": "Disguise Kit (Elite Cosmetics)",
@@ -782,7 +822,7 @@
         "_className": "AdventuringGear"
     },
     {
-        "desc": "If your thieves’ tools are broken, you can repair them by replacing the lock picks with replacement picks appropriate to your tools; this doesn’t require using the Repair action.",
+        "desc": "If your thieves' tools are broken, you can repair them by replacing the lock picks with replacement picks appropriate to your tools; this doesn't require using the Repair action.",
         "id": "89c7963b-8e09-11ea-9fab-e92c63c14723",
         "level": 3,
         "name": "Thieves' Tools (Infiltrator Picks)",
@@ -842,7 +882,7 @@
     },
     {
         "bulk": "L",
-        "desc": "A compass helps you Sense Direction or navigate, provided you’re in a location with uniform magnetic fields. Without a compass, you take a –2 item penalty to these checks (similar to using a shoddy item). A lensatic compass gives you a +1 item bonus to these checks.",
+        "desc": "A compass helps you Sense Direction or navigate, provided you're in a location with uniform magnetic fields. Without a compass, you take a –2 item penalty to these checks (similar to using a shoddy item). A lensatic compass gives you a +1 item bonus to these checks.",
         "id": "89c7964a-8e09-11ea-9fab-e92c63c14723",
         "level": 3,
         "name": "Compass (Lensatic)",
@@ -853,7 +893,7 @@
     },
     {
         "bulk": "L",
-        "desc": "When Forcing Open an object that doesn’t have an easy grip, a crowbar makes it easier to gain the necessary leverage. Without a crowbar, prying something open takes a –2 item penalty to the Athletics check to Force Open (similar to using a shoddy item). A levered crowbar grants you a +1 item bonus to Athletics checks to Force Open anything that can be pried open. ",
+        "desc": "When Forcing Open an object that doesn't have an easy grip, a crowbar makes it easier to gain the necessary leverage. Without a crowbar, prying something open takes a –2 item penalty to the Athletics check to Force Open (similar to using a shoddy item). A levered crowbar grants you a +1 item bonus to Athletics checks to Force Open anything that can be pried open. ",
         "id": "89c7964d-8e09-11ea-9fab-e92c63c14723",
         "level": 3,
         "name": "Crowbar (Levered)",
@@ -873,7 +913,7 @@
         "hands": 2
     },
     {
-        "desc": "You can manacle someone who is willing or otherwise at your mercy as an exploration activity taking 10–30 seconds depending on the creature’s size and how many manacles you apply. A two-legged creature with its legs bound takes a –15-foot circumstance penalty to its Speeds, and a two-handed creature with its wrists bound has to succeed at a DC 5 flat check any time it uses a manipulate action or else that action fails. This DC may be higher depending on how tightly the manacles constrain the hands. A creature bound to a stationary object is immobilized. For creatures with more or fewer limbs, the GM determines what effect manacles have, if any. Freeing a creature from average manacles requires four successes at DC 27.",
+        "desc": "You can manacle someone who is willing or otherwise at your mercy as an exploration activity taking 10–30 seconds depending on the creature's size and how many manacles you apply. A two-legged creature with its legs bound takes a –15-foot circumstance penalty to its Speeds, and a two-handed creature with its wrists bound has to succeed at a DC 5 flat check any time it uses a manipulate action or else that action fails. This DC may be higher depending on how tightly the manacles constrain the hands. A creature bound to a stationary object is immobilized. For creatures with more or fewer limbs, the GM determines what effect manacles have, if any. Freeing a creature from average manacles requires four successes at DC 27.",
         "id": "89c79653-8e09-11ea-9fab-e92c63c14723",
         "level": 3,
         "name": "Manacles (Average)",
@@ -907,7 +947,7 @@
     },
     {
         "bulk": "1",
-        "desc": "This satchel includes 50 feet of rope, pulleys, a dozen pitons, a hammer, a grappling hook, and one set of crampons. Climbing kits allow you to attach yourself to the wall you’re Climbing, moving half as quickly as usual (minimum 5 feet) but letting you attempt a DC 5 flat check whenever you critically fail to prevent a fall. You gain a +1 item bonus to Athletics checks to Climb while using an extreme climbing kit. A single kit has only enough materials for one climber; each climber needs their own kit.",
+        "desc": "This satchel includes 50 feet of rope, pulleys, a dozen pitons, a hammer, a grappling hook, and one set of crampons. Climbing kits allow you to attach yourself to the wall you're Climbing, moving half as quickly as usual (minimum 5 feet) but letting you attempt a DC 5 flat check whenever you critically fail to prevent a fall. You gain a +1 item bonus to Athletics checks to Climb while using an extreme climbing kit. A single kit has only enough materials for one climber; each climber needs their own kit.",
         "id": "89c7965c-8e09-11ea-9fab-e92c63c14723",
         "level": 3,
         "name": "Climbing Kit (Extreme)",
@@ -918,7 +958,7 @@
     },
     {
         "bulk": "L",
-        "desc": "This small wooden box contains cosmetics, false facial hair, spirit gum, and a few simple wigs. You usually need a disguise kit to set up a disguise in order to Impersonate someone using the Deception skill. An elite disguise kit adds a +1 item bonus to relevant checks. If you’ve crafted a large number of disguises, you can replenish your cosmetics supply with replacement cosmetics suitable for the type of your disguise kit.",
+        "desc": "This small wooden box contains cosmetics, false facial hair, spirit gum, and a few simple wigs. You usually need a disguise kit to set up a disguise in order to Impersonate someone using the Deception skill. An elite disguise kit adds a +1 item bonus to relevant checks. If you've crafted a large number of disguises, you can replenish your cosmetics supply with replacement cosmetics suitable for the type of your disguise kit.",
         "id": "89c7965f-8e09-11ea-9fab-e92c63c14723",
         "level": 3,
         "name": "Disguise Kit (Elite)",
@@ -929,7 +969,7 @@
     },
     {
         "bulk": "1",
-        "desc": "This kit of bandages, herbs, and suturing tools is necessary for Medicine checks to Administer First Aid, Treat Disease, Treat Poison, or Treat Wounds. Expanded healer’s tools provide a +1 item bonus to such checks. When you carry the tools from place to place, you keep many of the components handy on your person, in pockets or bandoliers.",
+        "desc": "This kit of bandages, herbs, and suturing tools is necessary for Medicine checks to Administer First Aid, Treat Disease, Treat Poison, or Treat Wounds. Expanded healer's tools provide a +1 item bonus to such checks. When you carry the tools from place to place, you keep many of the components handy on your person, in pockets or bandoliers.",
         "id": "89c79662-8e09-11ea-9fab-e92c63c14723",
         "level": 3,
         "name": "Healer's Tools (Expanded)",
@@ -940,7 +980,7 @@
     },
     {
         "bulk": "2",
-        "desc": "You need these tools to create items from raw materials with the Craft skill. Sterling artisan’s tools give you a +1 item bonus to the check. Different sets are needed for different work, as determined by the GM; for example, blacksmith’s tools differ from woodworker’s tools.",
+        "desc": "You need these tools to create items from raw materials with the Craft skill. Sterling artisan's tools give you a +1 item bonus to the check. Different sets are needed for different work, as determined by the GM; for example, blacksmith's tools differ from woodworker's tools.",
         "id": "89c79665-8e09-11ea-9fab-e92c63c14723",
         "level": 3,
         "name": "Artisan's Tools (Sterling)",
@@ -962,7 +1002,7 @@
     },
     {
         "bulk": "L",
-        "desc": "You need thieves’ tools to Pick Locks or Disable Devices (of some types) using the Thievery skill. Infiltrator thieves’ tools add a +1 item bonus to checks to Pick Locks and Disable Devices. If your thieves’ tools are broken, you can repair them by replacing the lock picks with replacement picks appropriate to your tools; this doesn’t require using the Repair action.",
+        "desc": "You need thieves' tools to Pick Locks or Disable Devices (of some types) using the Thievery skill. Infiltrator thieves' tools add a +1 item bonus to checks to Pick Locks and Disable Devices. If your thieves' tools are broken, you can repair them by replacing the lock picks with replacement picks appropriate to your tools; this doesn't require using the Repair action.",
         "id": "89c7966b-8e09-11ea-9fab-e92c63c14723",
         "level": 3,
         "name": "Thieves' Tools (Infiltrator)",
@@ -1004,7 +1044,7 @@
     },
     {
         "bulk": "6",
-        "desc": "You need an alchemist’s lab to Craft alchemical items during downtime. An expanded alchemist’s lab gives a +1 item bonus to Crafting checks to create alchemical items.",
+        "desc": "You need an alchemist's lab to Craft alchemical items during downtime. An expanded alchemist's lab gives a +1 item bonus to Crafting checks to create alchemical items.",
         "id": "89c79677-8e09-11ea-9fab-e92c63c14723",
         "level": 3,
         "name": "Alchemist's Lab (Expanded)",
@@ -1045,7 +1085,7 @@
         "hands": 2
     },
     {
-        "desc": "You can manacle someone who is willing or otherwise at your mercy as an exploration activity taking 10–30 seconds depending on the creature’s size and how many manacles you apply. A two-legged creature with its legs bound takes a –15-foot circumstance penalty to its Speeds, and a two-handed creature with its wrists bound has to succeed at a DC 5 flat check any time it uses a manipulate action or else that action fails. This DC may be higher depending on how tightly the manacles constrain the hands. A creature bound to a stationary object is immobilized. For creatures with more or fewer limbs, the GM determines what effect manacles have, if any. Freeing a creature from good manacles requires five successes at DC 32.",
+        "desc": "You can manacle someone who is willing or otherwise at your mercy as an exploration activity taking 10–30 seconds depending on the creature's size and how many manacles you apply. A two-legged creature with its legs bound takes a –15-foot circumstance penalty to its Speeds, and a two-handed creature with its wrists bound has to succeed at a DC 5 flat check any time it uses a manipulate action or else that action fails. This DC may be higher depending on how tightly the manacles constrain the hands. A creature bound to a stationary object is immobilized. For creatures with more or fewer limbs, the GM determines what effect manacles have, if any. Freeing a creature from good manacles requires five successes at DC 32.",
         "id": "89c79683-8e09-11ea-9fab-e92c63c14723",
         "level": 9,
         "name": "Manacles (Good)",
@@ -1102,7 +1142,7 @@
         "hands": 2
     },
     {
-        "desc": "You can manacle someone who is willing or otherwise at your mercy as an exploration activity taking 10–30 seconds depending on the creature’s size and how many manacles you apply. A two-legged creature with its legs bound takes a –15-foot circumstance penalty to its Speeds, and a two-handed creature with its wrists bound has to succeed at a DC 5 flat check any time it uses a manipulate action or else that action fails. This DC may be higher depending on how tightly the manacles constrain the hands. A creature bound to a stationary object is immobilized. For creatures with more or fewer limbs, the GM determines what effect manacles have, if any. Freeing a creature from superior manacles requires six successes at DC 42.",
+        "desc": "You can manacle someone who is willing or otherwise at your mercy as an exploration activity taking 10–30 seconds depending on the creature's size and how many manacles you apply. A two-legged creature with its legs bound takes a –15-foot circumstance penalty to its Speeds, and a two-handed creature with its wrists bound has to succeed at a DC 5 flat check any time it uses a manipulate action or else that action fails. This DC may be higher depending on how tightly the manacles constrain the hands. A creature bound to a stationary object is immobilized. For creatures with more or fewer limbs, the GM determines what effect manacles have, if any. Freeing a creature from superior manacles requires six successes at DC 42.",
         "id": "89c7968c-8e09-11ea-9fab-e92c63c14723",
         "level": 17,
         "name": "Manacles (Superior)",

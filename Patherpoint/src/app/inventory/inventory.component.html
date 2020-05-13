@@ -3,28 +3,29 @@
     <h3 class="box-header">Inventory</h3>
     <div class="loading" *ngIf="still_loading()">Loading</div>
     <ng-container *ngIf="!still_loading()">
-        <button class="fullsize-only list-item center-aligned"
-            (click)="toggleMenu('items')">
+        <button class="fullsize-only list-item center-aligned" (click)="toggleMenu('items')">
             Get Items
         </button>
         <h5 *ngIf="creature=='Character'">Cash</h5>
         <div class="list-item" *ngIf="creature=='Character'">
             <strong>P</strong>
-            <input class="number4" type="number" value="{{this.characterService.get_Character().cash[0]}}" disabled>
+            <input class="number6" type="number" value="{{this.characterService.get_Character().cash[0]}}" disabled>
             <strong>G</strong>
-            <input class="number4" type="number" value="{{this.characterService.get_Character().cash[1]}}" disabled>
+            <input class="number6" type="number" value="{{this.characterService.get_Character().cash[1]}}" disabled>
             <strong>S</strong>
-            <input class="number4" type="number" value="{{this.characterService.get_Character().cash[2]}}" disabled>
+            <input class="number6" type="number" value="{{this.characterService.get_Character().cash[2]}}" disabled>
             <strong>C</strong>
-            <input class="number4" type="number" value="{{this.characterService.get_Character().cash[3]}}" disabled>
+            <input class="number6" type="number" value="{{this.characterService.get_Character().cash[3]}}" disabled>
+            <button title="Exchange coins for higher currency, with priority on gold coins."
+                (click)="sort_Cash();">Sort</button>
         </div>
         <h5>Bulk</h5>
         <ng-container *ngFor="let bulk of get_Bulk()">
             <div class="list-item">
                 <strong>Bulk</strong>
-                <input class="number2" type="number" value="{{bulk.$current}}" disabled>
-                <app-tags [creature]="creature" [objectName]="'Bulk'" [showTraits]=true [showFeats]=true [showItems]=true
-                    [showActivities]=true [showConditions]=true [showEffects]=true></app-tags>
+                <input class="number2" type="number" title="{{bulk.$current.desc}}" value="{{bulk.$current.value}}" disabled>
+                <app-tags [creature]="creature" [objectName]="'Bulk'" [showTraits]=true [showFeats]=true
+                    [showItems]=true [showActivities]=true [showConditions]=true [showEffects]=true></app-tags>
             </div>
             <div class="fullsize-only list-item">
                 <strong>Encumbrance</strong>
@@ -35,8 +36,8 @@
                 <input class="number2" type="number"
                     [className]="(bulk.$penalty.length) ? 'penalty' : (bulk.$bonus.length) ? 'bonus' : ''"
                     value="{{bulk.$max.value}}" title="{{bulk.$max.desc}}" disabled>
-                <app-tags [creature]="creature" [objectName]="'Max Bulk'" [showTraits]=true [showFeats]=true [showItems]=true
-                    [showActivities]=true [showConditions]=true [showEffects]=true></app-tags>
+                <app-tags [creature]="creature" [objectName]="'Max Bulk'" [showTraits]=true [showFeats]=true
+                    [showItems]=true [showActivities]=true [showConditions]=true [showEffects]=true></app-tags>
             </div>
         </ng-container>
         <h3 class="fullsize-only box-header">Items</h3>
@@ -49,20 +50,25 @@
                 [ngModel]="get_maxInvested().value" disabled>
             <app-tags [creature]="creature" [specialEffects]=maxInvested.effects></app-tags>
         </div>
-        <ng-container *ngFor="let items of [get_InventoryItems(true)]">
-            <ng-container *ngFor="let itemSet of items.names">
+        <div class="list-item" [className]="inventoryIndex != 0 ? 'fullsize-only' : ''"
+            *ngFor="let inventory of get_Inventories(creature, true, true); let inventoryIndex = index;">
+            <h3 class="fullsize-only row">{{get_InventoryName(inventory)}}
+                <span *ngIf="inventory.bulkLimit && inventory.bulkLimit % 1 == 0">&nbsp;{{"("+inventory.get_Bulk()+" / "+inventory.bulkLimit+" Bulk)"}}</span>
+                <span *ngIf="inventory.bulkLimit && inventory.bulkLimit % 1 != 0">&nbsp;{{"("+(inventory.get_Bulk(false)*10)+"L / "+(inventory.bulkLimit*10)+"L Bulk)"}}</span>
+            </h3>
+            <ng-container *ngFor="let itemSet of inventory.names">
                 <ng-container *ngFor="let listID of [get_ID()*1000]">
-                    <h5 class="fullsize-only" *ngIf="items[itemSet.key].length">{{itemSet.name}}</h5>
-                    <ng-container *ngFor="let item of sort_ItemSet(items[itemSet.key])">
-                        <div class="fullsize-only list-item" *ngFor="let inventoryID of [item.id]">
+                    <h5 class="row" *ngIf="inventory[itemSet.key].length">{{itemSet.name}}</h5>
+                    <ng-container *ngFor="let item of sort_ItemSet(inventory[itemSet.key])">
+                        <div class="list-item" *ngFor="let inventoryID of [item.id]">
                             <button class="row sublist-toggle"
                                 [className]="((item.equippable && item.equipped) || (item.can_Invest() && item.invested)) ? 'fancy-button' : ''"
                                 (click)="toggleItem(inventoryID)">
                                 {{(item.amount != undefined && item.amount != 1) ? item.amount+" " : ""}}
                                 {{(item['get_Name']) ? item.get_Name() : item.name}}
+                                <span class="lower" *ngFor="let containedItems of [get_ContainedItems(item)]">&nbsp;{{containedItems ? "contains "+containedItems+" items" : ""}}</span>
                             </button>
                             <div class="list-item sublist lower"
-                               
                                 [className]="((item.equippable && item.equipped) || (item.can_Invest() && item.invested)) ? 'fancy-list' : ''"
                                 *ngIf="get_ShowItem()==inventoryID">
                                 <div class="row" *ngFor="let prof of [(item.get_Prof ? item.get_Prof() : item.prof)]">
@@ -75,70 +81,78 @@
                                         {{item.group}}</span>
                                 </div>
                                 <button class="row" [disabled]="!item.amount"
-                                    (click)="on_ConsumableUse(item)" *ngIf="item.amount != undefined && item.actions">
+                                    (click)="on_ConsumableUse(item, inventory)"
+                                    *ngIf="item.amount != undefined && item.actions">
                                     <span>Use</span> <span>{{(item.actions) ? get_Actions(item) : ""}}</span>
                                 </button>
                                 <div class="row">
-                                    <span *ngIf="can_Equip(item)">
+                                    <span *ngIf="can_Equip(item, inventoryIndex)">
                                         <button *ngIf="!item.equipped"
-                                            (click)="onEquip(item, true)">Equip</button>
+                                            (click)="on_Equip(item, inventory, true)">Equip</button>
                                         <button *ngIf="item.equipped"
-                                            (click)="onEquip(item, false)">Unequip</button>
+                                            (click)="on_Equip(item, inventory, false)">Unequip</button>
                                     </span>
-                                    <span *ngIf="can_Invest(item)">
-                                        <button *ngIf="!item.invested"
-                                            (click)="onInvest(item, true)"
+                                    <span *ngIf="can_Invest(item, inventoryIndex)">
+                                        <button *ngIf="!item.invested" (click)="on_Invest(item, inventory, true)"
                                             [disabled]="get_InvestedItems().length >= get_maxInvested()[0] && !item.invested">Invest</button>
                                         <button *ngIf="item.invested"
-                                            (click)="onInvest(item, false)">Uninvest</button>
+                                            (click)="on_Invest(item, inventory, false)">Uninvest</button>
+                                    </span>
+                                    <span *ngIf="item.can_Stack()">
+                                        <button (click)="onAmountChange(item, -1)"
+                                            [disabled]="item.amount <= 0">-1</button>
+                                        <button (click)="onAmountChange(item, 1)">+1</button>
                                     </span>
                                     <span
-                                        *ngIf="item.can_Stack()">
-                                        <button
-                                            (click)="onAmountChange(item, -1)" [disabled]="item.amount <= 0">-1</button>
-                                        <button
-                                            (click)="onAmountChange(item, 1)">+1</button>
-                                    </span>
-                                    <span
-                                        *ngIf="!can_Equip(item) && !can_Invest(item) && !item.can_Stack()">
+                                        *ngIf="!can_Equip(item, inventoryIndex) && !can_Invest(item, inventoryIndex) && !item.can_Stack()">
                                         &nbsp;
                                         <!-- This span is a placeholder that appears if no other button is valid on the left side of the Drop button -->
                                     </span>
                                     <span *ngIf="can_Drop(item) && item.gainItems && item.gainItems.length">
-                                        <button (click)="drop_Package(item)"
+                                        <button (click)="drop_ContainerOnly(item, inventory)"
                                             title="Drop this item, but keep all items granted by it">
                                             Drop
                                         </button>
                                     </span>
                                     <span *ngIf="can_Drop(item) && !(item.gainItems && item.gainItems.length)">
-                                        <button (click)="drop_InventoryItem(item)">
+                                        <button (click)="drop_InventoryItem(item, inventory)">
                                             Drop
                                         </button>
                                     </span>
                                     <span *ngIf="can_Drop(item) && (item.gainItems && item.gainItems.length)">
-                                        <button (click)="drop_InventoryItem(item)"
+                                        <button (click)="drop_InventoryItem(item, inventory)"
                                             title="Drop this item and all items granted by it">
                                             Drop All
                                         </button>
                                     </span>
                                 </div>
                                 <div class="row" *ngIf="get_Price(item)">
-                                    <span
-                                        *ngIf="item.can_Stack()">
-                                        <button
-                                            (click)="onAmountChange(item, -1, true)" title="Sell at half price" [disabled]="item.amount <= 0">Sell 1</button>
-                                        <button
-                                            (click)="onAmountChange(item, 1, true)" [disabled]="!have_Funds(get_Price(item))">Buy 1</button>
+                                    <span *ngIf="item.can_Stack()">
+                                        <button (click)="onAmountChange(item, -1, true)" title="Sell at half price"
+                                            [disabled]="item.amount <= 0">Sell 1</button>
+                                        <button (click)="onAmountChange(item, 1, true)"
+                                            [disabled]="!have_Funds(get_Price(item))">Buy 1</button>
                                     </span>
-                                    <span
-                                        *ngIf="!item.can_Stack()">
+                                    <span *ngIf="!item.can_Stack()">
                                         &nbsp;
                                         <!-- This span is a placeholder that appears if no other button is valid on the left side of the Sell button -->
                                     </span>
                                     <span>
-                                        <button (click)="drop_InventoryItem(item, true)" title="Sell at half price">
+                                        <button (click)="drop_InventoryItem(item, inventory, true)"
+                                            title="Sell at half price" [disabled]="item.amount <= 0">
                                             Sell
                                         </button>
+                                    </span>
+                                </div>
+                                <div class="row">
+                                    <span>Move to container</span>
+                                    <span>
+                                        <select [(ngModel)]="targetInventory" (ngModelChange)="move_InventoryItem(item, inventory)">
+                                            <option [ngValue]="null"></option>
+                                            <option *ngFor="let newTargetInventory of get_TargetInventories();" [ngValue]="newTargetInventory" [disabled]="!can_Fit(item, newTargetInventory, inventory)">
+                                                {{get_InventoryName(newTargetInventory)}}
+                                            </option>
+                                        </select>
                                     </span>
                                 </div>
                                 <div class="row left-aligned">
@@ -150,16 +164,17 @@
                                     <span *ngIf="item.moddable && item.moddable != '-'"><input type="checkbox"
                                             [(ngModel)]="item.showMaterial">Material</span>
                                 </div>
-<!--Changing Notes-->
+                                <!--Changing Notes-->
                                 <div class="row" *ngIf="item.showNotes">
                                     Notes <input type="textarea" class="fullwidth" [(ngModel)]="item.notes">
                                 </div>
-<!--Changing Name-->                                
+                                <!--Changing Name-->
                                 <div class="row" *ngIf="item.showName">
                                     Name <input type="textarea" class="fullwidth" [(ngModel)]="item.displayName"
                                         (blur)="onNameChange()">
                                 </div>
-                                <app-itemRunes class="row" [item]=item [itemStore]=false *ngIf="item.showRunes"></app-itemRunes>
+                                <app-itemRunes class="row" [item]=item [itemStore]=false *ngIf="item.showRunes">
+                                </app-itemRunes>
                                 <app-item [creature]="creature" [item]=item
                                     [allowActivate]="(item.equippable ? item.equipped : true) && (item.can_Invest() ? item.invested : true)"
                                     [armoredSkirt]="item.get_ArmoredSkirt ? item.get_ArmoredSkirt(get_Creature(), characterService) : null">
@@ -169,17 +184,18 @@
                     </ng-container>
                 </ng-container>
             </ng-container>
-<!--Other Items-->            
+            <!--Other Items-->
             <h5 class="fullsize-only">Miscellaneous Items</h5>
-            <button class="fullsize-only center-aligned" (click)="add_NewOtherItem()">Add</button>
-            <div class="fullsize-only list-item" *ngFor="let item of items.otheritems">
+            <button class="fullsize-only row center-aligned" (click)="add_NewOtherItem(inventory)">Add</button>
+            <div class="fullsize-only list-item" *ngFor="let item of inventory.otheritems">
                 <strong>Name</strong>
                 <input type="text" [(ngModel)]="item.name">
                 <strong>Bulk</strong>
-                <input class="number2" [(ngModel)]="item.bulk" (blur)="validate_Bulk(item)" (keypress)="bulkOnly($event)">
-                <button (click)="remove_OtherItem(item)">Drop</button>
+                <input class="number2" [(ngModel)]="item.bulk" (blur)="validate_Bulk(item)"
+                    (keypress)="bulkOnly($event)">
+                <button (click)="remove_OtherItem(item, inventory)">Drop</button>
             </div>
-        </ng-container>
+        </div>
     </ng-container>
 </div>
 <div *ngIf="set_Span()"></div>

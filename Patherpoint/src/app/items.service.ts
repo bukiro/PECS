@@ -16,24 +16,19 @@ import { ItemActivity } from './ItemActivity';
 import { ItemProperty } from './ItemProperty';
 import { Item } from './Item';
 import { HeldItem } from './HeldItem';
-import { SpellCast } from './SpellCast';
-import { EffectGain } from './EffectGain';
 import { ActivityGain } from './ActivityGain';
-import { ItemGain } from './ItemGain';
 import { v1 as uuidv1 } from 'uuid';
 import { WeaponRune } from './WeaponRune';
-import { Rune } from './Rune';
-import { LoreChoice } from './LoreChoice';
 import { ArmorRune } from './ArmorRune';
 import { Potion } from './Potion';
 import { Specialization } from './Specialization';
 import { AnimalCompanion } from './AnimalCompanion';
-import { Familiar } from './Familiar';
 import { Character } from './Character';
 import { SavegameService } from './savegame.service';
 import { Ammunition } from './Ammunition';
 import { SpellChoice } from './SpellChoice';
 import { Equipment } from './Equipment';
+import { Scroll } from './Scroll';
 
 @Injectable({
     providedIn: 'root'
@@ -41,6 +36,7 @@ import { Equipment } from './Equipment';
 export class ItemsService {
 
     private items: ItemCollection;
+    private cleanItems: ItemCollection;
     private itemProperties: ItemProperty[];
     private specializations: Specialization[];
     private loader_ItemProperties = [];
@@ -71,6 +67,12 @@ export class ItemsService {
     private loading_ArmorRunes: Boolean = false;
     private loader_WeaponRunes = [];
     private loading_WeaponRunes: Boolean = false;
+    private loader_Scrolls = [];
+    private loading_Scrolls: Boolean = false;
+    /*
+    private loader_REPLACE1 = [];
+    private loading_REPLACE1: Boolean = false;
+    */
 
     itemsMenuState: string = 'out';
 
@@ -97,9 +99,21 @@ export class ItemsService {
         } else { return new ItemCollection }
     }
 
+    get_cleanItems() {
+        if (!this.still_loading()) {
+            return this.cleanItems;
+        } else { return new ItemCollection }
+    }
+
     get_ItemByID(id: string) {
         if (!this.still_loading()) {
             return this.items.allItems().find(item => item.id == id);
+        } else { return null }
+    }
+
+    get_CleanItemByID(id: string) {
+        if (!this.still_loading()) {
+            return this.cleanItems.allItems().find(item => item.id == id);
         } else { return null }
     }
 
@@ -148,13 +162,14 @@ export class ItemsService {
                     return Object.assign(new ArmorRune(), item);
                 case "weaponrunes":
                     return Object.assign(new WeaponRune(), item);
+                case "scrolls":
+                    return Object.assign(new Scroll(), item);
             }
         } else if (item._className) {
             return this.cast_ItemByClassName(item)
         } else {
             return item;
         }
-
     }
 
     cast_ItemByClassName(item: Item, className = item._className) {
@@ -184,6 +199,8 @@ export class ItemsService {
                     return Object.assign(new ArmorRune(), item);
                 case "WeaponRune":
                     return Object.assign(new WeaponRune(), item);
+                case "Scroll":
+                    return Object.assign(new Scroll(), item);
             }
         } else if (item.type) {
             return this.cast_ItemByType(item)
@@ -224,54 +241,12 @@ export class ItemsService {
             });
         }
 
-        /*
-        if (newItem.isHandwrapsOfMightyBlows) {
-            newItem.moddable = "weapon";
-        }
-        if (newItem.effects) {
-            newItem.effects = newItem.effects.map((effect: EffectGain) => Object.assign(new EffectGain(), effect))
-        }
-        if (newItem.onceEffects) {
-            newItem.onceEffects = newItem.onceEffects.map((effect: EffectGain) => Object.assign(new EffectGain(), effect))
-        }
-        if (newItem.gainItems) {
-            newItem.gainItems = newItem.gainItems.map((gain: ItemGain) => Object.assign(new ItemGain(), gain))
-        }
-        if (newItem.gainConditions) {
-            newItem.gainConditions = newItem.gainConditions.map((gain: ConditionGain) => Object.assign(new ConditionGain(), gain))
-        }
-        if (newItem.gainActivities) {
-            newItem.gainActivities = newItem.gainActivities.map((gain: ActivityGain) => Object.assign(new ActivityGain(), gain))
-            newItem.gainActivities.forEach((gain: ActivityGain) => {
-                gain.source = newItem.id;
-            });
-        }
-        if (newItem.activities) {
-            newItem.activities = newItem.activities.map((activity: ItemActivity) => Object.assign(new ItemActivity(), activity))
-            newItem.activities.forEach((activity: ItemActivity) => {
-                activity.source = newItem.id;
-                activity.castSpells = activity.castSpells.map((castSpell: SpellCast) => Object.assign(new SpellCast(), castSpell));
-                activity.effects = activity.effects.map((effect: EffectGain) => Object.assign(new EffectGain(), effect));
-                activity.onceEffects = activity.onceEffects.map((effect: EffectGain) => Object.assign(new EffectGain(), effect));
-                activity.gainConditions = activity.gainConditions.map((gainConditions: ConditionGain) => Object.assign(new ConditionGain(), gainConditions));
-            });
-        }
-        if (newItem.propertyRunes) {
-            newItem.propertyRunes = newItem.propertyRunes.map((rune: Rune) => {
-                if (rune._className == "WeaponRune") {return Object.assign(new WeaponRune(), rune);}
-                if (rune._className == "ArmorRune") {return Object.assign(new ArmorRune(), rune);}
-            });
-            newItem.propertyRunes.forEach((rune: Rune) => {
-                rune.loreChoices = rune.loreChoices.map(choice => Object.assign(new LoreChoice(), choice));
-            })
-        }
-        */
         return newItem;
     }
 
     load_InventoryItem(item: any) {
         if (item.refId) {
-            let libraryItem = this.get_ItemByID(item.refId);
+            let libraryItem = this.get_CleanItemByID(item.refId);
             if (libraryItem) {
                 //Make a safe copy of the library item and give it the same class.
                 //Then map the inventory item onto the copy and keep that.
@@ -291,7 +266,7 @@ export class ItemsService {
 
     cleanItemForSave(item: any) {
         if (item.refId) {
-            let libraryItem = this.get_ItemByID(item.refId);
+            let libraryItem = this.get_CleanItemByID(item.refId);
             if (libraryItem) {
                 Object.keys(item).forEach(key => {
                     if (!item.save.includes(key)) {
@@ -329,62 +304,6 @@ export class ItemsService {
         return (this.loading_ItemProperties || this.loading_Weapons || this.loading_Armors || this.loading_Shields || this.loading_WornItems || this.loading_AlchemicalElixirs || this.loading_OtherConsumables);
     }
 
-    load_ItemProperties(): Observable<String[]> {
-        return this.http.get<String[]>('/assets/itemProperties.json');
-    }
-
-    load_Specializations(): Observable<String[]> {
-        return this.http.get<String[]>('/assets/specializations.json');
-    }
-
-    load_Weapons(): Observable<String[]> {
-        return this.http.get<String[]>('/assets/items/weapons.json');
-    }
-
-    load_Armors(): Observable<String[]> {
-        return this.http.get<String[]>('/assets/items/armors.json');
-    }
-
-    load_Shields(): Observable<String[]> {
-        return this.http.get<String[]>('/assets/items/shields.json');
-    }
-
-    load_WornItems(): Observable<String[]> {
-        return this.http.get<String[]>('/assets/items/wornitems.json');
-    }
-
-    load_HeldItems(): Observable<String[]> {
-        return this.http.get<String[]>('/assets/items/helditems.json');
-    }
-
-    load_Ammunition(): Observable<String[]> {
-        return this.http.get<String[]>('/assets/items/ammunition.json');
-    }
-
-    load_AlchemicalElixirs(): Observable<String[]> {
-        return this.http.get<String[]>('/assets/items/alchemicalelixirs.json');
-    }
-
-    load_Potions(): Observable<String[]> {
-        return this.http.get<String[]>('/assets/items/potions.json');
-    }
-
-    load_OtherConsumables(): Observable<String[]> {
-        return this.http.get<String[]>('/assets/items/otherconsumables.json');
-    }
-
-    load_AdventuringGear(): Observable<String[]> {
-        return this.http.get<String[]>('/assets/items/adventuringgear.json');
-    }
-
-    load_ArmorRunes(): Observable<String[]> {
-        return this.http.get<String[]>('/assets/items/armorrunes.json');
-    }
-
-    load_WeaponRunes(): Observable<String[]> {
-        return this.http.get<String[]>('/assets/items/weaponrunes.json');
-    }
-
     initialize(reset: boolean = true) {
         if (!this.items || reset) {
             this.itemProperties = [];
@@ -402,6 +321,7 @@ export class ItemsService {
                     this.finish_Specializations()
                 });
             this.items = new ItemCollection();
+            this.cleanItems = new ItemCollection();
             this.loading_Weapons = true;
             this.load_Weapons()
                 .subscribe((results: String[]) => {
@@ -474,7 +394,25 @@ export class ItemsService {
                     this.loader_WeaponRunes = results;
                     this.finish_WeaponRunes()
                 });
+            this.loading_Scrolls = true;
+            this.load_Scrolls()
+                .subscribe((results: String[]) => {
+                    this.loader_Scrolls = results;
+                    this.finish_Scrolls()
+                });
+            /*
+            this.loading_REPLACE1 = true;
+            this.load_REPLACE1()
+                .subscribe((results: String[]) => {
+                    this.loader_REPLACE1 = results;
+                    this.finish_REPLACE1()
+                });
+            */
         }
+    }
+
+    load_ItemProperties(): Observable<String[]> {
+        return this.http.get<String[]>('/assets/itemProperties.json');
     }
 
     finish_ItemProperties() {
@@ -485,6 +423,10 @@ export class ItemsService {
         if (this.loading_ItemProperties) { this.loading_ItemProperties = false; }
     }
 
+    load_Specializations(): Observable<String[]> {
+        return this.http.get<String[]>('/assets/specializations.json');
+    }
+
     finish_Specializations() {
         if (this.loader_Specializations) {
             this.specializations = this.loader_Specializations.map(element => Object.assign(new Specialization(), element));
@@ -493,100 +435,187 @@ export class ItemsService {
         if (this.loading_Specializations) { this.loading_Specializations = false; }
     }
 
+    load_Weapons(): Observable<String[]> {
+        return this.http.get<String[]>('/assets/items/weapons.json');
+    }
+
     finish_Weapons() {
         if (this.loader_Weapons) {
             this.items.weapons = this.loader_Weapons.map(element => this.initialize_Item(Object.assign(new Weapon(), element), true, false));
+            this.cleanItems.weapons = this.loader_Weapons.map(element => this.initialize_Item(Object.assign(new Weapon(), element), true, false));
             this.loader_Weapons = [];
         }
         if (this.loading_Weapons) { this.loading_Weapons = false; }
     }
 
+    load_Armors(): Observable<String[]> {
+        return this.http.get<String[]>('/assets/items/armors.json');
+    }
+
     finish_Armors() {
         if (this.loader_Armors) {
             this.items.armors = this.loader_Armors.map(element => this.initialize_Item(Object.assign(new Armor(), element), true, false));
+            this.cleanItems.armors = this.loader_Armors.map(element => this.initialize_Item(Object.assign(new Armor(), element), true, false));
             this.loader_Armors = [];
         }
         if (this.loading_Armors) { this.loading_Armors = false; }
     }
 
+    load_Shields(): Observable<String[]> {
+        return this.http.get<String[]>('/assets/items/shields.json');
+    }
+
     finish_Shields() {
         if (this.loader_Shields) {
             this.items.shields = this.loader_Shields.map(element => this.initialize_Item(Object.assign(new Shield(), element), true, false));
+            this.cleanItems.shields = this.loader_Shields.map(element => this.initialize_Item(Object.assign(new Shield(), element), true, false));
             this.loader_Shields = [];
         }
         if (this.loading_Shields) { this.loading_Shields = false; }
     }
 
+    load_WornItems(): Observable<String[]> {
+        return this.http.get<String[]>('/assets/items/wornitems.json');
+    }
+
     finish_WornItems() {
         if (this.loader_WornItems) {
             this.items.wornitems = this.loader_WornItems.map(element => this.initialize_Item(Object.assign(new WornItem(), element), true, false));
+            this.cleanItems.wornitems = this.loader_WornItems.map(element => this.initialize_Item(Object.assign(new WornItem(), element), true, false));
             this.loader_WornItems = [];
         }
         if (this.loading_WornItems) { this.loading_WornItems = false; }
     }
 
+    load_HeldItems(): Observable<String[]> {
+        return this.http.get<String[]>('/assets/items/helditems.json');
+    }
+
     finish_HeldItems() {
         if (this.loader_HeldItems) {
             this.items.helditems = this.loader_HeldItems.map(element => this.initialize_Item(Object.assign(new HeldItem(), element), true, false));
+            this.cleanItems.helditems = this.loader_HeldItems.map(element => this.initialize_Item(Object.assign(new HeldItem(), element), true, false));
             this.loader_HeldItems = [];
         }
         if (this.loading_HeldItems) { this.loading_HeldItems = false; }
     }
 
+    load_Ammunition(): Observable<String[]> {
+        return this.http.get<String[]>('/assets/items/ammunition.json');
+    }
+
     finish_Ammunition() {
         if (this.loader_Ammunition) {
             this.items.ammunition = this.loader_Ammunition.map(element => this.initialize_Item(Object.assign(new Ammunition(), element), true, false));
+            this.cleanItems.ammunition = this.loader_Ammunition.map(element => this.initialize_Item(Object.assign(new Ammunition(), element), true, false));
             this.loader_Ammunition = [];
         }
         if (this.loading_Ammunition) { this.loading_Ammunition = false; }
     }
 
+    load_AlchemicalElixirs(): Observable<String[]> {
+        return this.http.get<String[]>('/assets/items/alchemicalelixirs.json');
+    }
+
     finish_AlchemicalElixirs() {
         if (this.loader_AlchemicalElixirs) {
             this.items.alchemicalelixirs = this.loader_AlchemicalElixirs.map(element => this.initialize_Item(Object.assign(new AlchemicalElixir(), element), true, false));
+            this.cleanItems.alchemicalelixirs = this.loader_AlchemicalElixirs.map(element => this.initialize_Item(Object.assign(new AlchemicalElixir(), element), true, false));
             this.loader_AlchemicalElixirs = [];
         }
         if (this.loading_AlchemicalElixirs) { this.loading_AlchemicalElixirs = false; }
     }
 
+    load_Potions(): Observable<String[]> {
+        return this.http.get<String[]>('/assets/items/potions.json');
+    }
+
     finish_Potions() {
         if (this.loader_Potions) {
             this.items.potions = this.loader_Potions.map(element => this.initialize_Item(Object.assign(new Potion(), element), true, false));
+            this.cleanItems.potions = this.loader_Potions.map(element => this.initialize_Item(Object.assign(new Potion(), element), true, false));
             this.loader_Potions = [];
         }
         if (this.loading_Potions) { this.loading_Potions = false; }
     }
 
+    load_OtherConsumables(): Observable<String[]> {
+        return this.http.get<String[]>('/assets/items/otherconsumables.json');
+    }
+
     finish_OtherConsumables() {
         if (this.loader_OtherConsumables) {
             this.items.otherconsumables = this.loader_OtherConsumables.map(element => this.initialize_Item(Object.assign(new OtherConsumable(), element), true, false));
+            this.cleanItems.otherconsumables = this.loader_OtherConsumables.map(element => this.initialize_Item(Object.assign(new OtherConsumable(), element), true, false));
             this.loader_OtherConsumables = [];
         }
         if (this.loading_OtherConsumables) { this.loading_OtherConsumables = false; }
     }
 
+    load_AdventuringGear(): Observable<String[]> {
+        return this.http.get<String[]>('/assets/items/adventuringgear.json');
+    }
+
     finish_AdventuringGear() {
         if (this.loader_AdventuringGear) {
             this.items.adventuringgear = this.loader_AdventuringGear.map(element => this.initialize_Item(Object.assign(new AdventuringGear(), element), true, false));
+            this.cleanItems.adventuringgear = this.loader_AdventuringGear.map(element => this.initialize_Item(Object.assign(new AdventuringGear(), element), true, false));
             this.loader_AdventuringGear = [];
         }
         if (this.loading_AdventuringGear) { this.loading_AdventuringGear = false; }
     }
 
+    load_ArmorRunes(): Observable<String[]> {
+        return this.http.get<String[]>('/assets/items/armorrunes.json');
+    }
+
     finish_ArmorRunes() {
         if (this.loader_ArmorRunes) {
             this.items.armorrunes = this.loader_ArmorRunes.map(element => this.initialize_Item(Object.assign(new ArmorRune(), element), true, false));
+            this.cleanItems.armorrunes = this.loader_ArmorRunes.map(element => this.initialize_Item(Object.assign(new ArmorRune(), element), true, false));
             this.loader_ArmorRunes = [];
         }
         if (this.loading_ArmorRunes) { this.loading_ArmorRunes = false; }
     }
 
+    load_WeaponRunes(): Observable<String[]> {
+        return this.http.get<String[]>('/assets/items/weaponrunes.json');
+    }
+
     finish_WeaponRunes() {
         if (this.loader_WeaponRunes) {
             this.items.weaponrunes = this.loader_WeaponRunes.map(element => this.initialize_Item(Object.assign(new WeaponRune(), element), true, false));
+            this.cleanItems.weaponrunes = this.loader_WeaponRunes.map(element => this.initialize_Item(Object.assign(new WeaponRune(), element), true, false));
             this.loader_WeaponRunes = [];
         }
         if (this.loading_WeaponRunes) { this.loading_WeaponRunes = false; }
     }
+    
+    load_Scrolls(): Observable<String[]> {
+        return this.http.get<String[]>('/assets/items/scrolls.json');
+    }
 
+    finish_Scrolls() {
+        if (this.loader_Scrolls) {
+            this.items.scrolls = this.loader_Scrolls.map(element => this.initialize_Item(Object.assign(new Scroll(), element), true, false));
+            this.cleanItems.scrolls = this.loader_Scrolls.map(element => this.initialize_Item(Object.assign(new Scroll(), element), true, false));
+            this.loader_Scrolls = [];
+        }
+        if (this.loading_Scrolls) { this.loading_Scrolls = false; }
+    }
+
+    /*
+    load_REPLACE1(): Observable<String[]> {
+        return this.http.get<String[]>('/assets/items/REPLACE2.json');
+    }
+
+    finish_REPLACE1() {
+        if (this.loader_REPLACE1) {
+            this.items.REPLACE2 = this.loader_REPLACE1.map(element => this.initialize_Item(Object.assign(new REPLACE0(), element), true, false));
+            this.cleanItems.REPLACE2 = this.loader_REPLACE1.map(element => this.initialize_Item(Object.assign(new REPLACE0(), element), true, false));
+            this.loader_REPLACE1 = [];
+        }
+        if (this.loading_REPLACE1) { this.loading_REPLACE1 = false; }
+    }
+    */
 }

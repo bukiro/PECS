@@ -80,8 +80,8 @@ export class NewItemPropertyComponent implements OnInit {
         return this.characterService.get_Character();
     }
 
-    get_InventoryItems() {
-        return this.get_Character().inventory;
+    get_Inventories() {
+        return this.get_Character().inventories;
     }
 
     validate() {
@@ -90,14 +90,14 @@ export class NewItemPropertyComponent implements OnInit {
             if (!value) {
                 this.get_Parent()[this.propertyKey] = "New Item"
             }
-            let existingItems = this.get_InventoryItems()[this.newItem.type].filter((existing: Item) => existing.name == value && existing.can_Stack());
+            let existingItems = this.get_Inventories()[0][this.newItem.type].filter((existing: Item) => existing.name == value && existing.can_Stack());
             if (existingItems.length) {
                 this.validationError = "If you use this name, this item will be added to the "+existingItems[0].name+" stack in your inventory. All changes you make here will be lost.";
             } else {
                 this.validationError = "";
             }
         }
-        if (this.propertyKey == "value" && (this.propertyData.parent == "effects" || this.propertyData.parent == "onceEffects")) {
+        if (this.propertyKey == "value" && this.propertyData.parent == "effects") {
             if (value && value != "0") {
                 let effectGain = new EffectGain;
                 effectGain.value = value;
@@ -118,6 +118,30 @@ export class NewItemPropertyComponent implements OnInit {
                     }
                 } else {
                     this.validationError = "This may result in an invalid value or 0. Invalid values will default to 0, and untyped effects without a value will not be displayed."
+                    this.validationResult = "";
+                }
+            }
+        } else if (this.propertyKey == "value" && this.propertyData.parent == "onceEffects") {
+            if (value && value != "0") {
+                let effectGain = new EffectGain;
+                effectGain.value = value;
+                let effects = this.effectsService.get_SimpleEffects(this.get_Character(), this.characterService, { effects: [effectGain] });
+                if (effects.length) {
+                    let effect = effects[0];
+                    if (effect && effect.value && effect.value != "0" && (parseInt(effect.value) || parseFloat(effect.value))) {
+                        if (parseFloat(effect.value) == parseInt(effect.value)) {
+                            this.validationError = "";
+                            this.validationResult = parseInt(effect.value).toString();
+                        } else {
+                            this.validationError = "This may result in a decimal value and be turned into a whole number."
+                            this.validationResult = parseInt(effect.value).toString();
+                        }
+                    } else {
+                        this.validationError = "This may result in an invalid value or 0. This is allowed for languages; for all other targets, invalid values will default to 0, and untyped effects without a value will not be displayed."
+                        this.validationResult = parseInt(effect.value).toString();
+                    }
+                } else {
+                    this.validationError = "This may result in an invalid value or 0. This is allowed for languages; for all other targets, invalid values will default to 0, and untyped effects without a value will not be displayed."
                     this.validationResult = "";
                 }
             }
@@ -276,11 +300,11 @@ export class NewItemPropertyComponent implements OnInit {
                 examples = ["", "Doubling Rings", "Doubling Rings (Greater)"];
                 break;
             case "activity":
-                examples.push(...this.get_Items().allConsumables().concat(this.get_InventoryItems().allConsumables())
+                examples.push(...this.get_Items().allConsumables().concat(...this.get_Inventories().map(inventory => inventory.allConsumables()))
                     .filter(item => item[this.propertyData.key] && item[this.propertyData.key].length).map((item: Consumable) => {
                         return item[this.propertyData.key];
                     }));
-                this.get_Items().allEquipment().concat(this.get_InventoryItems().allEquipment()).filter(item => item.activities.length).forEach((item: Equipment) => {
+                    this.get_Items().allEquipment().concat(...this.get_Inventories().map(inventory => inventory.allEquipment())).filter(item => item.activities.length).forEach((item: Equipment) => {
                     examples.push(...item.activities.filter(activity => activity[this.propertyData.key].length)
                         .map((activity: Activity) => activity[this.propertyData.key]
                         ))
@@ -316,12 +340,12 @@ export class NewItemPropertyComponent implements OnInit {
                 this.activitiesService.get_Activities().filter(activity => activity.onceEffects.length).forEach((activity: Activity) => {
                     examples.push(...activity.onceEffects.map(effect => effect.affected ))
                 });
-                this.get_Items().allEquipment().concat(this.get_InventoryItems().allEquipment()).filter(item => item.activities.length).forEach((item: Equipment) => {
+                this.get_Items().allEquipment().concat(...this.get_Inventories().map(inventory => inventory.allEquipment())).filter(item => item.activities.length).forEach((item: Equipment) => {
                     item.activities.filter(activity => activity.onceEffects.length).forEach((activity: Activity) => {
                         examples.push(...activity.onceEffects.map(effect => effect.affected ))
                     });
                 });
-                this.get_Items().allConsumables().concat(this.get_InventoryItems().allConsumables()).filter(item => item.onceEffects.length).forEach((item: Consumable) => {
+                this.get_Items().allConsumables().concat(...this.get_Inventories().map(inventory => inventory.allConsumables())).filter(item => item.onceEffects.length).forEach((item: Consumable) => {
                     examples.push(...item.onceEffects.map(effect => effect.affected ))
                 });
                 break;
@@ -335,12 +359,12 @@ export class NewItemPropertyComponent implements OnInit {
                     this.activitiesService.get_Activities().filter(activity => activity.onceEffects.length).forEach((activity: Activity) => {
                         examples.push(...activity.onceEffects.map(effect => effect.value ))
                     });
-                    this.get_Items().allEquipment().concat(this.get_InventoryItems().allEquipment()).filter(item => item.activities.length).forEach((item: Equipment) => {
+                    this.get_Items().allEquipment().concat(...this.get_Inventories().map(inventory => inventory.allEquipment())).filter(item => item.activities.length).forEach((item: Equipment) => {
                         item.activities.filter(activity => activity.onceEffects.length).forEach((activity: Activity) => {
                             examples.push(...activity.onceEffects.map(effect => effect.value ))
                         });
                     });
-                    this.get_Items().allConsumables().concat(this.get_InventoryItems().allConsumables()).filter(item => item.onceEffects.length).forEach((item: Consumable) => {
+                    this.get_Items().allConsumables().concat(...this.get_Inventories().map(inventory => inventory.allConsumables())).filter(item => item.onceEffects.length).forEach((item: Consumable) => {
                         examples.push(...item.onceEffects.map(effect => effect.value ))
                     });
                     break;
@@ -356,7 +380,7 @@ export class NewItemPropertyComponent implements OnInit {
                 this.activitiesService.get_Activities().filter(activity => activity.effects.length).forEach((activity: Activity) => {
                     examples.push(...activity.effects.map(effect => effect.affected ))
                 });
-                this.get_Items().allEquipment().concat(this.get_InventoryItems().allEquipment()).filter(item => item.activities.length).forEach((item: Equipment) => {
+                this.get_Items().allEquipment().concat(...this.get_Inventories().map(inventory => inventory.allEquipment())).filter(item => item.activities.length).forEach((item: Equipment) => {
                     item.activities.filter(activity => activity.effects.length).forEach((activity: Activity) => {
                         examples.push(...activity.effects.map(effect => effect.affected ))
                     });
@@ -381,7 +405,7 @@ export class NewItemPropertyComponent implements OnInit {
                 this.activitiesService.get_Activities().filter(activity => activity.effects.length).forEach((activity: Activity) => {
                     examples.push(...activity.effects.map(effect => effect.value ))
                 });
-                this.get_Items().allEquipment().concat(this.get_InventoryItems().allEquipment()).filter(item => item.activities.length).forEach((item: Equipment) => {
+                this.get_Items().allEquipment().concat(...this.get_Inventories().map(inventory => inventory.allEquipment())).filter(item => item.activities.length).forEach((item: Equipment) => {
                     item.activities.filter(activity => activity.onceEffects.length).forEach((activity: Activity) => {
                         examples.push(...activity.onceEffects.map(effect => effect.value ))
                     });
@@ -389,12 +413,12 @@ export class NewItemPropertyComponent implements OnInit {
                         examples.push(...activity.effects.map(effect => effect.value ))
                     });
                 });
-                this.get_Items().allConsumables().concat(this.get_InventoryItems().allConsumables()).filter(item => item.onceEffects.length).forEach((item: Consumable) => {
+                this.get_Items().allConsumables().concat(...this.get_Inventories().map(inventory => inventory.allConsumables())).filter(item => item.onceEffects.length).forEach((item: Consumable) => {
                     examples.push(...item.onceEffects.map(effect => effect.value ))
                 });
                 break;
             case "inputRequired":
-                this.get_Items().allEquipment().concat(this.get_InventoryItems().allEquipment()).filter(item => item.activities.length).forEach((item: Equipment) => {
+                this.get_Items().allEquipment().concat(...this.get_Inventories().map(inventory => inventory.allEquipment())).filter(item => item.activities.length).forEach((item: Equipment) => {
                     examples.push(...item.activities.filter(activity => activity.inputRequired.length)
                         .map((activity: Activity) => activity.inputRequired 
                         ))
@@ -419,10 +443,10 @@ export class NewItemPropertyComponent implements OnInit {
                 examples.push(...this.characterService.get_FeatsAndFeatures().filter(feat => feat.showon.length).map((feat: Feat) => feat.showon ));
                 examples.push(...this.characterService.get_Conditions().filter(condition => condition.showon.length).map((condition: Condition) => condition.showon ));
                 examples.push(...this.activitiesService.get_Activities().filter(activity => activity.showon.length).map((activity: Activity) => activity.showon ));
-                this.get_Items().allEquipment().concat(this.get_InventoryItems().allEquipment()).filter(item => item.activities.length).forEach((item: Equipment) => {
+                this.get_Items().allEquipment().concat(...this.get_Inventories().map(inventory => inventory.allEquipment())).filter(item => item.activities.length).forEach((item: Equipment) => {
                     examples.push(...item.activities.filter(activity => activity.showon.length).map((activity: Activity) => activity.showon ));
                 });
-                examples.push(...this.get_Items().allEquipment().concat(this.get_InventoryItems().allEquipment()).filter(item => item.showon.length).map((item: Equipment) => item.showon ));
+                examples.push(...this.get_Items().allEquipment().concat(...this.get_Inventories().map(inventory => inventory.allEquipment())).filter(item => item.showon.length).map((item: Equipment) => item.showon ));
                 break;
             case "effect type":
                 examples = ["", "item", "circumstance", "status", "proficiency", "untyped"];
@@ -440,10 +464,10 @@ export class NewItemPropertyComponent implements OnInit {
                 examples = [1, 2, 3, 4, 6, 8, 10, 12, 20, 100];
                 break;
             default:
-                this.get_Items().allEquipment().concat(this.get_InventoryItems().allEquipment()).forEach((item: Equipment) => {
+                this.get_Items().allEquipment().concat(...this.get_Inventories().map(inventory => inventory.allEquipment())).forEach((item: Equipment) => {
                     extract_Example(item, this.propertyData.key, this.get_IsObject, this.propertyData.parent);
                 });
-                this.get_Items().allConsumables().concat(this.get_InventoryItems().allConsumables()).forEach((item: Consumable) => {
+                this.get_Items().allConsumables().concat(...this.get_Inventories().map(inventory => inventory.allConsumables())).forEach((item: Consumable) => {
                     extract_Example(item, this.propertyData.key, this.get_IsObject, this.propertyData.parent);
                 });
                 break;

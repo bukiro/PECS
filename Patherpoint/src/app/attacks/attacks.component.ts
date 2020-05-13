@@ -62,7 +62,7 @@ export class AttacksComponent implements OnInit {
 
     get_EquippedWeapons() {
         this.get_AttackRestrictions();
-        return this.get_Creature().inventory.weapons.filter(weapon => weapon.equipped && weapon.equippable);
+        return this.get_Creature().inventories[0].weapons.filter(weapon => weapon.equipped && weapon.equippable);
     }
 
     get_Skills(name: string = "", type: string = "") {

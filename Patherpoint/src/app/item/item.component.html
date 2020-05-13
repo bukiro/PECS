@@ -5,7 +5,7 @@
 <div class="row left-aligned">
     <span *ngIf="item.price">
         <strong>Price</strong>
-        {{get_Price(item)}}&nbsp;
+        {{get_Price(item)}}{{item.stack && item.stack > 1 ? " per "+item.stack : ""}}&nbsp;
     </span>
     <span *ngIf="item.dicenum">
         <strong>Damage</strong>
@@ -16,7 +16,7 @@
         <span
             [className]="(item.affectedByArmoredSkirt == -1) ? 'penalty' : ((item.affectedByArmoredSkirt == 1) ? 'bonus' : '')">&nbsp;{{item.get_ACBonus ? item.get_ACBonus() : item.acbonus}}{{item.coverbonus ? " (" + (item.acbonus+item.coverbonus) + ")" : ""}}&nbsp;</span>
     </span>
-    <span *ngIf="(item.get_DexCap ? item.get_DexCap() != -1 : item.dexcap != -1)">
+    <span *ngIf="(item.type == 'armors' && (item.get_DexCap ? item.get_DexCap() != -1 : item.dexcap != -1))">
         <strong>Dex Cap</strong>
         <span
             [className]="(item.affectedByArmoredSkirt == 1) ? 'penalty' : ((item.affectedByArmoredSkirt == -1) ? 'bonus' : '')">&nbsp;{{(item.get_DexCap ? item.get_DexCap() : item.dexcap)}}&nbsp;</span>
@@ -42,6 +42,10 @@
     <span *ngIf="item.bulk">
         <strong>Bulk</strong>
         {{item.bulk}}&nbsp;
+    </span>
+    <span *ngIf="item.carryingBulk">
+        <strong>Bulk (unequipped)</strong>
+        {{item.carryingBulk}}&nbsp;
     </span>
     <span *ngIf="item.hardness">
         <strong>Hardness</strong>

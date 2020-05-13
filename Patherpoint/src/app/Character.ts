@@ -20,8 +20,6 @@ import { EffectsService } from './effects.service';
 import { SpellsService } from './spells.service';
 import { SpellGain } from './SpellGain';
 import { Familiar } from './Familiar';
-import { SpellchoiceComponent } from './spells/spellchoice/spellchoice.component';
-import { Bloodline } from './Bloodline';
 
 export class Character extends Creature {
     public readonly _className: string = this.constructor.name;
@@ -228,12 +226,14 @@ export class Character extends Creature {
                 casting.bloodline && choices.push(...casting.bloodline.skillChoices);
                 choices.push(casting.spellDC)
             });
-            this.inventory.allEquipment().filter(item => item.propertyRunes.filter(rune => rune.loreChoices && rune.loreChoices.length).length && item.equipped && (item.can_Invest() ? item.invested : true ))
-            .forEach(item => {
-                item.propertyRunes.filter(rune => rune.loreChoices && rune.loreChoices.length).forEach(rune => {
-                    choices.push(...rune.loreChoices);
-                })
-            });
+            this.inventories.forEach(inventory => {
+                inventory.allEquipment().filter(item => item.propertyRunes.filter(rune => rune.loreChoices && rune.loreChoices.length).length && item.equipped && (item.can_Invest() ? item.invested : true ))
+                .forEach(item => {
+                    item.propertyRunes.filter(rune => rune.loreChoices && rune.loreChoices.length).forEach(rune => {
+                        choices.push(...rune.loreChoices);
+                    })
+                });
+            })
             //Get all matching skill increases from the choices
             choices.forEach(choice => {
                 choice.increases.filter(increase => 

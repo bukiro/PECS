@@ -17,6 +17,7 @@ import { AnimalCompanion } from './AnimalCompanion';
 import { Familiar } from './Familiar';
 import { SpellsService } from './spells.service';
 import { SpellGain } from './SpellGain';
+import { createUrlResolverWithoutPackagePrefix } from '@angular/compiler';
 
 @Injectable({
     providedIn: 'root'
@@ -56,14 +57,16 @@ export class ActivitiesService {
 
         //Find item, if it exists
         let item: Equipment = null;
-        creature.inventory.allEquipment().filter((equipment: Equipment) => equipment.id == gain.source).forEach((equipment: Equipment) => {
-            if (equipment.activities.filter((itemActivity: ItemActivity) => itemActivity === activity).length) {
-                item = equipment;
-            }
-            if (equipment.gainActivities.filter((activityGain: ActivityGain) => activityGain === gain).length) {
-                item = equipment;
-            }
-        })
+        creature.inventories.forEach(inventory => {
+            inventory.allEquipment().filter((equipment: Equipment) => equipment.id == gain.source).forEach((equipment: Equipment) => {
+                if (equipment.activities.filter((itemActivity: ItemActivity) => itemActivity === activity).length) {
+                    item = equipment;
+                }
+                if (equipment.gainActivities.filter((activityGain: ActivityGain) => activityGain === gain).length) {
+                    item = equipment;
+                }
+            });
+        });
         
         //Process various results of activating the activity
 
@@ -85,13 +88,13 @@ export class ActivitiesService {
                 activity.gainItems.forEach(gainItem => {
                     let newItem: Item = itemsService.get_Items()[gainItem.type].filter(libraryItem => libraryItem.name == gainItem.name)[0];
                     if (newItem.can_Stack()) {
-                        characterService.grant_InventoryItem(creature, newItem, true, false, false, gainItem.amount);
+                        characterService.grant_InventoryItem(creature, creature.inventories[0], newItem, true, false, false, gainItem.amount);
                     } else {
                         let resetRunes = true;
                         if (newItem.hide) {
                             resetRunes = false;
                         }
-                        let grantedItem = characterService.grant_InventoryItem(creature, newItem, resetRunes, false, true);
+                        let grantedItem = characterService.grant_InventoryItem(creature, creature.inventories[0], newItem, resetRunes, false, true);
                         gainItem.id = grantedItem.id;
                         if (grantedItem.get_Name) {
                             grantedItem.displayName = grantedItem.name + " (granted by " + activity.name + ")"
@@ -100,18 +103,7 @@ export class ActivitiesService {
                 });
             } else {
                 activity.gainItems.forEach(gainItem => {
-                    if (itemsService.get_Items()[gainItem.type].filter((item: Item) => item.name == gainItem.name)[0].can_Stack()) {
-                        let items: Item[] = creature.inventory[gainItem.type].filter((libraryItem: Item) => libraryItem.name == gainItem.name);
-                        if (items.length) {
-                            characterService.drop_InventoryItem(creature, items[0], false, false, true, gainItem.amount);
-                        }
-                    } else {
-                        let items: Item[] = creature.inventory[gainItem.type].filter((libraryItem: Item) => libraryItem.id == gainItem.id);
-                        if (items.length) {
-                            characterService.drop_InventoryItem(creature, items[0], false, false, true);
-                        }
-                        gainItem.id = "";
-                    }
+                    characterService.lose_GainedItem(creature, gainItem);
                 });
             }
         }

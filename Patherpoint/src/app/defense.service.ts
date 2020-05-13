@@ -23,17 +23,17 @@ export class DefenseService {
     }
 
     get_EquippedArmor(creature: Character|AnimalCompanion) {
-        let armor = creature.inventory.armors;
+        let armor = creature.inventories[0].armors;
         return armor.filter(armor => armor.equipped);
     }
 
     get_EquippedShield(creature: Character|AnimalCompanion) {
-        let shield = creature.inventory.shields;
+        let shield = creature.inventories[0].shields;
         return shield.filter(shield => shield.equipped);
     }
 
     get_ParryWeapons(creature: Character|AnimalCompanion) {
-        let weapons = creature.inventory.weapons;
+        let weapons = creature.inventories[0].weapons;
         return weapons.filter(weapon => weapon.traits.includes("Parry"));
     }
 

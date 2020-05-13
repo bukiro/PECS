@@ -1,107 +1,1507 @@
 [
-    { "name":"Abjuration", "description":"Effects and magic items with this trait are associated with the abjuration school of magic, typically involving protection or wards." },
-    { "name":"Acid", "description":"Effects with this trait deal acid damage. Creatures with this trait have a magical connection to acid." },
-    { "name":"Agile", "description":"The multiple attack penalty you take with this weapon on the second attack on your turn is -4 instead of -5, and -8 instead of -10 on the third and subsequent attacks in the turn." },
-    { "name":"Air", "description":"Effects with the air trait either manipulate or conjure air. Those that manipulate air have no effect in a vacuum or an area without air. Creatures with this trait consist primarily of air or have a magical connection to that element. Planes with this trait consist mostly of open spaces and air with various degrees of turbulence, though they also contain rare islands of floating stone and other elements and energies." },
-    { "name":"Alchemical", "description":"Alchemical items are powered by reactions of alchemical reagents. Alchemical items aren’t magical and don’t radiate a magical aura." },
-    { "name":"Archetype", "description":"This feat belongs to an archetype."},
-    { "name":"Attached", "description":"An attached weapon must be combined with another piece of gear to be used. The trait lists what type of item the weapon must be attached to. You must be wielding or wearing the item the weapon is attached to in order to attack with it. For example, shield spikes are attached to a shield, allowing you to attack with the spikes instead of a shield bash, but only if you're wielding the shield. An attached weapon is usually bolted onto or built into the item it's attached to, and typically an item can have only one weapon attached to it. An attached weapon can be affixed to an item with 10 minutes of work and a successful DC 10 Crafting check; this includes the time needed to remove the weapon from a previous item, if necessary. If an item is destroyed, its attached weapon can usually be salvaged." },
-    { "name":"Attack", "description":"An ability with this trait involves an attack. For each attack you make beyond the first on your turn, you take a multiple attack penalty." },
-    { "name":"Auditory", "description":"Auditory actions and effects rely on sound. An action with the auditory trait can be successfully performed only if the creature using the action can speak or otherwise produce the required sounds. A spell or effect with the auditory trait has its effect only if the target can hear it. This applies only to sound-based parts of the effect, as determined by the GM. This is different from a sonic effect, which still affects targets who can’t hear it (such as deaf targets) as long as the effect itself makes sound." },
-    { "name":"Backstabber", "description":"When you hit a flat-footed creature, this weapon deals 1 precision damage in addition to its normal damage. The precision damage increases to 2 if the weapon is a +3 weapon." },
-    { "name":"Backswing", "description":"You can use the momentum from a missed attack with this weapon to lead into your next attack. After missing with this weapon on your turn, you gain a +1 circumstance bonus to your next attack with this weapon before the end of your turn." },
-    { "name":"Brutal", "description":"A ranged attack with this trait uses its Strength modifier instead of Dexterity on the attack roll." },
-    { "name":"Bulwark", "showon":"Reflex", "description":"The armor covers you so completely that it provides benefits against some damaging effects. On Reflex saves to avoid a damaging effect, such as a fireball, you add a +3 modifier instead of your Dexterity modifier." },
-    { "name":"Cantrip", "description":"A spell you can cast at will that is automatically heightened to half your level rounded up."},
-    { "name":"Chaotic", "description":"Chaotic effects often manipulate energy from chaos-aligned Outer Planes and are anathema to lawful divine servants or divine servants of lawful deities. A creature with this trait is chaotic in alignment. An ability with this trait can be selected or used only by chaotic creatures." },
-    { "name":"Cold", "description":"Effects with this trait deal cold damage. Creatures with this trait have a connection to magical cold." },
-    { "name":"Comfort", "description":"The armor is so comfortable that you can rest normally while wearing it." },
-    { "name":"Common", "description":"Anything that doesn’t list another rarity trait (uncommon, rare, or unique) automatically has the common trait. This rarity indicates that an ability, item, or spell is available to all players who meet the prerequisites for it. A creature of this rarity is generally known and can be summoned with the appropriate summon spell." },
-    { "name":"Companion", "description":"An item with this trait can be worn by an animal companion or similar creature. A companion can have up to two items invested." },
-    { "name":"Concentrate", "description":"An action with this trait requires a degree of mental concentration and discipline." },
-    { "name":"Conjuration", "description":"Effects and magic items with this trait are associated with the conjuration school of magic, typically involving summoning, creation, teleportation, or moving things from place to place." },
-    { "name":"Consumable", "description":"An item with this trait can be used only once. Unless stated otherwise, it’s destroyed after activation. Consumable items include alchemical items and magical consumables such as scrolls and talismans. When a character creates consumable items, they can make them in batches of four." },
-    { "name":"Deadly", "description":"On a critical hit, the weapon adds a weapon damage die of the listed size. Roll this after doubling the weapon's damage. This increases to two dice if the weapon has a greater striking rune and three dice if the weapon has a major striking rune. For instance, a rapier with a greater striking rune deals 2d8 extra piercing damage on a critical hit. An ability that changes the size of the weapon's normal damage dice doesn't change the size of its deadly die." },
-    { "name":"Dedication", "description":"You must select a feat with this trait to apply an archetype to your character."},
-    { "name":"Disarm", "description":"You can use this weapon to Disarm with the Athletics skill even if you don't have a free hand. This uses the weapon's reach (if different from your own) and adds the weapon's item bonus to attack rolls (if any) as an item bonus to the Athletics check. If you critically fail a check to Disarm using the weapon, you can drop the weapon to take the effects of a failure instead of a critical failure. On a critical success, you still need a free hand if you want to take the item." },
-    { "name":"Divination", "description":"The divination school of magic typically involves obtaining or transferring information, or predicting events." },
-    { "name":"Divine", "description":"This magic comes from the divine tradition, drawing power from deities or similar sources. Anything with this trait is magical." },
-    { "name":"Downtime", "description":"An activity with this trait takes a day or more, and can be used only during downtime." },
-    { "name":"Dwarf", "description":"A creature with this trait is a member of the dwarf ancestry. Dwarves are stout folk who often live underground and typically have darkvision. An ability with this trait can be used or selected only by dwarves. An item with this trait is created and used by dwarves." },
-    { "name":"Electricity", "description":"Effects with this trait deal electricity damage. A creature with this trait has a magical connection to electricity." },
-    { "name":"Elf", "description":"A creature with this trait is a member of the elf ancestry. Elves are mysterious people with rich traditions of magic and scholarship who typically have low-light vision. An ability with this trait can be used or selected only by elves. A weapon with this trait is created and used by elves." },
-    { "name":"Elixir", "description":"Elixirs are alchemical liquids that are used by drinking them." },
-    { "name":"Emotion", "description":"This effect alters a creature’s emotions. Effects with this trait always have the mental trait as well. Creatures with special training or that have mechanical or artificial intelligence are immune to emotion effects." },
-    { "name":"Enchantment", "description":"Effects and magic items with this trait are associated with the enchantment school of magic, typically involving mind control, emotion alteration, and other mental effects." },
-    { "name":"Evil", "description":"Evil effects often manipulate energy from evil-aligned Outer Planes and are antithetical to good divine servants or divine servants of good deities. A creature with this trait is evil in alignment." },
-    { "name":"Evocation", "description":"Effects and magic items with this trait are associated with the evocation school of magic, typically involving energy and elemental forces." },
-    { "name":"Fatal", "description":"The fatal trait includes a die size. On a critical hit, the weapon's damage die increases to that die size instead of the normal die size, and the weapon adds one additional damage die of the listed size." },
-    { "name":"Fear", "description":"Fear effects evoke the emotion of fear. Effects with this trait always have the mental and emotion traits as well." },
-    { "name":"Finesse", "description":"You can use your Dexterity modifier instead of your Strength modifier on attack rolls using this melee weapon. You still use your Strength modifier when calculating damage." },
-    { "name":"Fire", "description":"Effects with the fire trait deal fire damage or either conjure or manipulate fire. Those that manipulate fire have no effect in an area without fire. Creatures with this trait consist primarily of fire or have a magical connection to that element." },
-    { "name":"Flexible", "description":"The armor is flexible enough that it doesn't hinder most actions. You don't apply its check penalty to Acrobatics or Athletics checks." },
-    { "name":"Flourish", "description":"Flourish actions are actions that require too much exertion to perform a large number in a row. You can use only 1 action with the flourish trait per turn." },
-    { "name":"Force", "description":"Effects with this trait deal force damage or create objects made of pure magical force." },
-    { "name":"Forceful", "description":"This weapon becomes more dangerous as you build momentum. When you attack with it more than once on your turn, the second attack gains a circumstance bonus to damage equal to the number of weapon damage dice, and each subsequent attack gains a circumstance bonus to damage equal to double the number of weapon damage dice." },
-    { "name":"Fortune", "description":"A fortune effect beneficially alters how you roll your dice. You can never have more than one fortune effect alter a single roll. If multiple fortune effects would apply, you have to pick which to use. If a fortune effect and a misfortune effect would apply to the same roll, the two cancel each other out, and you roll normally." },
-    { "name":"Free-Hand", "description":"This weapon doesn't take up your hand, usually because it is built into your armor. A free-hand weapon can't be Disarmed. You can use the hand covered by your free-hand weapon to wield other items, perform manipulate actions, and so on. You can't attack with a free-hand weapon if you're wielding anything in that hand or otherwise using that hand. When you're not wielding anything and not otherwise using the hand, you can use abilities that require you to have a hand free as well as those that require you to be wielding a weapon in that hand. Each of your hands can have only one free-hand weapon on it." },
-    { "name":"General", "description":"A type of feat that any character can select, regardless of ancestry and class, as long as they meet the prerequisites. You can select a feat with this trait when your class grants a general feat." },
-    { "name":"Gnome", "description":"A creature with this trait is a member of the gnome ancestry. Gnomes are small people skilled at magic who seek out new experiences and usually have low-light vision. An ability with this trait can be used or selected only by gnomes. A weapon with this trait is created and used by gnomes." },
-    { "name":"Goblin", "description":"A creature with this trait can come from multiple tribes of creatures, including goblins, hobgoblins, and bugbears. Goblins tend to have darkvision. An ability with this trait can be used or chosen only by goblins. A weapon with this trait is created and used by goblins." },
-    { "name":"Good", "description":"Good effects often manipulate energy from good-aligned Outer Planes and are antithetical to evil divine servants or divine servants of evil deities. A creature with this trait is good in alignment." },
-    { "name":"Grapple", "showon":"Athletics", "description":"You can use this weapon to Grapple with the Athletics skill even if you don't have a free hand. This uses the weapon's reach (if different from your own) and adds the weapon's item bonus to attack rolls as an item bonus to the Athletics check. If you critically fail a check to Grapple using the weapon, you can drop the weapon to take the effects of a failure instead of a critical failure." },
-    { "name":"Halfling", "description":"A creature with this trait is a member of the halfling ancestry. These small people are friendly wanderers considered to be lucky. An ability with this trait can be used or selected only by halflings. A weapon with this trait is created and used by halflings." },
-    { "name":"Healing", "description":"A healing effect restores a creature’s body, typically by restoring Hit Points, but sometimes by removing diseases or other debilitating effects." },
-    { "name":"Human", "description":"A creature with this trait is a member of the human ancestry. Humans are a diverse array of people known for their adaptability. An ability with this trait can be used or selected only by humans." },    
-    { "name":"Incapacitation", "description":"An ability with this trait can take a character completely out of the fight or even kill them, and it’s harder to use on a more powerful character. If a spell has the incapacitation trait, any creature of more than twice the spell’s level treats the result of their check to prevent being incapacitated by the spell as one degree of success better, or the result of any check the spellcaster made to incapacitate them as one degree of success worse. If any other effect has the incapacitation trait, a creature of higher level than the item, creature, or hazard generating the effect gains the same benefits." },
-    { "name":"Invested", "description":"A character can wear only 10 magical items that have the invested trait. None of the magical effects of the item apply if the character hasn’t invested it, nor can it be activated, though the character still gains any normal benefits from wearing the physical item (like a hat keeping rain off their head)." },
-    { "name":"Jousting", "description":"The weapon is suited for mounted combat with a harness or similar means. When mounted, if you moved at least 10 feet on the action before your attack, add a circumstance bonus to damage for that attack equal to the number of damage dice for the weapon. In addition, while mounted, you can wield the weapon in one hand, changing the damage die to the listed value." },
-    { "name":"Lawful", "description":"Lawful effects often manipulate energy from law-aligned Outer Planes and are antithetical to chaotic divine servants or divine servants of chaotic deities. A creature with this trait is lawful in alignment. An ability with this trait can be selected or used by lawful creatures only." },
-    { "name":"Light", "description":"Light effects overcome non-magical darkness in the area, and can counteract magical darkness. You must usually target darkness magic with your light magic directly to counteract the darkness, but some light spells automatically attempt to counteract darkness."},
-    { "name":"Linguistic", "description":"An effect with this trait depends on language comprehension. A linguistic effect that targets a creature works only if the target understands the language you are using." },
-    { "name":"Magical", "description":"Something with the magical trait is imbued with magical energies not tied to a specific tradition of magic. A magical item radiates a magic aura infused with its dominant school of magic.\n\nSome items or effects are closely tied to a particular tradition of magic. In these cases, the item has the arcane, divine, occult, or primal trait instead of the magical trait. Any of these traits indicate that the item is magical." },
-    { "name":"Manipulate", "description":"You must physically manipulate an item or make gestures to use an action with this trait. Creatures without a suitable appendage can’t perform actions with this trait. Manipulate actions often trigger reactions." },
-    { "name":"Mental", "description":"A mental effect can alter the target’s mind. It has no effect on an object or a mindless creature." },
-    { "name":"Minion", "description":"Minions are creatures that directly serve another creature. A creature with this trait can use only 2 actions per turn and can’t use reactions. Your minion acts on your turn in combat, once per turn, when you spend an action to issue it commands. For an animal companion, you Command an Animal; for a minion that’s a spell or magic item effect, like a summoned minion, you Sustain a Spell or Sustain an Activation; if not otherwise specified, you issue a verbal command, a single action with the auditory and concentrate traits. If given no commands, minions use no actions except to defend themselves or to escape obvious harm. If left unattended for long enough, typically 1 minute, mindless minions usually don’t act, animals follow their instincts, and sapient minions act how they please." },
-    { "name":"Modular", "description":"The weapon has multiple configurations that you can switch between using an Interact action. Typically, switching between configurations of a modular weapon allows it to deal different types of damage (listed in the trait, such as “modular B, P, or S”), though it’s possible for a modular weapon’s description to list more complicated configurations." },
-    { "name":"Monk", "description":"Abilities with this trait are from the monk class. A weapon with this trait is primarily used by monks." },
-    { "name":"Multiclass", "description":"Archetypes with the multiclass trait represent diversifying your training into another class’s specialties. You can’t select a multiclass archetype’s dedication feat if you are a member of the class of the same name."},
-    { "name":"Mutagen", "description":"An elixir with the mutagen trait temporarily transmogrifies the subject’s body and alters its mind. A mutagen always conveys one or more beneficial effects paired with one or more detrimental effects. Mutagens are polymorph effects, meaning you can benefit from only one at a time." },
-    { "name":"Necromancy", "description":"Effects and magic items with this trait are associated with the necromancy school of magic, typically involving forces of life and death." },
-    { "name":"Negative", "description":"Effects with this trait heal undead creatures with negative energy, deal negative damage to living creatures, or manipulate negative energy. Planes with this trait are vast, empty reaches that suck the life from the living." },
-    { "name":"Noisy", "description":"This armor is loud and likely to alert others to your presence. The armor's check penalty applies to Stealth checks even if you meet the required Strength score." },
-    { "name":"Nonlethal", "description":"Attacks with this weapon are nonlethal, and are used to knock creatures unconscious instead of kill them. You can use a nonlethal weapon to make a lethal attack with a -2 circumstance penalty." },
-    { "name":"Orc", "description":"Orcs craft and use these weapons." },
-    { "name":"Parry", "description":"This weapon can be used defensively to block attacks. While wielding this weapon, if your proficiency with it is trained or better, you can spend an Interact action to position your weapon defensively, gaining a +1 circumstance bonus to AC until the start of your next turn." },
-    { "name":"Polymorph", "description":"These effects transform the target into a new form. A target can’t be under the effect of more than one polymorph effect at a time. If it comes under the effect of a second polymorph effect, the second polymorph effect attempts to counteract the first. If it succeeds, it takes effect, and if it fails, the spell has no effect on that target. Any Strikes specifically granted by a polymorph effect are magical. Unless otherwise stated, polymorph spells don’t allow the target to take on the appearance of a specific individual creature, but rather just a generic creature of a general type or ancestry.\n\nIf you take on a battle form with a polymorph spell, the special statistics can be adjusted only by circumstance bonuses, status bonuses, and penalties. Unless otherwise noted, the battle form prevents you from casting spells, speaking, and using most manipulate actions that require hands. (If there’s doubt about whether you can use an action, the GM decides.) Your gear is absorbed into you; the constant abilities of your gear still function, but you can’t activate any items." },
-    { "name":"Positive", "description":"Effects with this trait heal living creatures with positive energy, deal positive energy damage to undead, or manipulate positive energy. Planes with this trait are awash with life energy of such intensity that it can harm living creatures." },
-    { "name":"Potion", "description":"A potion is a magical liquid activated when you drink it." },
-    { "name":"Primal", "description":"This magic comes from the primal tradition, connecting to the natural world and instinct. Anything with this trait is magical."},
-    { "name":"Propulsive", "description":"You add half your Strength modifier (if positive) to damage rolls with a propulsive ranged weapon. If you have a negative Strength modifier, you add your full Strength modifier instead." },
-    { "name":"Range", "description":"These attacks will either list a finite range or a range increment, which follows the normal rules for range increments." },
-    { "name":"Ranged Trip", "showon":"Athletics", "description":"This weapon can be used to Trip with the Athletics skill at a distance up to the weapon's first range increment. The skill check takes a -2 circumstance penalty. You can add the weapon's item bonus to attack rolls as a bonus to the check. As with using a melee weapon to trip, a ranged trip doesn't deal any damage when used to Trip. This trait usually only appears on a thrown weapon." },
-    { "name":"Ranger", "description":"This indicates abilities from the ranger class."},
-    { "name":"Rare", "description":"This rarity indicates that a rules element is very difficult to find in the game world. A rare feat, spell, item or the like is available to players only if the GM decides to include it in the game, typically through discovery during play. Creatures with this trait are rare. They typically can’t be summoned. The DC of Recall Knowledge checks related to these creatures is increased by 5." },
-    { "name":"Reach", "description":"Natural attacks with this trait can be used to attack creatures up to the listed distance away instead of only adjacent creatures. Weapons with this trait are long and can be used to attack creatures up to 10 feet away instead of only adjacent creatures. For creatures that already have reach with the limb or limbs that wield the weapon, the weapon increases their reach by 5 feet." },
-    { "name":"Saggorak", "description":"Ancient dwarven blacksmiths in Saggorak designed a series of spectacularly powerful runes. Only someone with legendary proficiency in Crafting, or a well-versed dwarven crafter from the city of Kovlar, can apply, transfer, or remove a rune with the Saggorak trait.\n\nBecause of their considerable power, all Saggorak runes take up two property rune slots, and consequently they can be applied only to armor and weapons with at least a +2 potency rune." },
-    { "name":"Secret", "description":"The GM rolls the check for this ability in secret." },
-    { "name":"Shove", "showon":"Athletics", "description":"You can use this weapon to Shove with the Athletics skill even if you don't have a free hand. This uses the weapon's reach (if different from your own) and adds the weapon's item bonus to attack rolls as an item bonus to the Athletics check. If you critically fail a check to Shove using the weapon, you can drop the weapon to take the effects of a failure instead of a critical failure." },
-    { "name":"Skill", "description":"A general feat with the skill trait improves your skills and their actions or gives you new actions for a skill. A feat with this trait can be selected when a class grants a skill feat or general feat. Archetype feats with the skill trait can be selected in place of a skill feat if you have that archetype’s dedication feat." },
-    { "name":"Sleep", "description":"This effect can cause a creature to fall asleep or get drowsy." },
-    { "name":"Sorcerer", "description":"This indicates abilities from the sorcerer class." },
-    { "name":"Sonic", "description":"An effect with the sonic trait functions only if it makes sound, meaning it has no effect in an area of silence or in a vacuum. This is different from an auditory spell, which is effective only if the target can hear it. A sonic effect might deal sonic damage." },
-    { "name":"Stance", "description":"A stance is a general combat strategy that you enter by using an action with the stance trait, and that you remain in for some time. A stance lasts until you get knocked out, until its requirements (if any) are violated, until the encounter ends, or until you enter a new stance, whichever comes first. After you use an action with the stance trait, you can’t use another one for 1 round. You can enter or be in a stance only in encounter mode." },
-    { "name":"Sweep", "description":"This weapon makes wide sweeping or spinning attacks, making it easier to attack multiple enemies. When you attack with this weapon, you gain a +1 circumstance bonus to your attack roll if you already attempted to attack a different target this turn using this weapon." },
-    { "name":"Teleportation", "description":"Teleportation effects allow you to instantaneously move from one point in space to another. Teleportation does not usually trigger reactions based on movement." },
-    { "name":"Tethered", "description":"This weapon is attached to a length of rope or chain that allows you to retrieve it after it has left your hand. If you have a free hand while wielding this weapon, you can use an Interact action to pull the weapon back into your grasp after you have thrown it as a ranged attack or after it has been disarmed (unless it is being held by another creature)." },
-    { "name":"Thrown", "description":"You can throw this weapon as a ranged attack, and it is a ranged weapon when thrown. A thrown weapon adds your Strength modifier to damage just like a melee weapon does. When this trait appears on a melee weapon, it also includes the range increment. Ranged weapons with this trait use the range increment specified in the weapon's Range entry."},
-    { "name":"Transmutation", "description":"Effects and magic items with this trait are associated with the transmutation school of magic, typically changing something’s form." },
-    { "name":"Trip", "showon":"Athletics", "description":"You can use this weapon to Trip with the Athletics skill even if you don't have a free hand. This uses the weapon's reach (if different from your own) and adds the weapon's item bonus to attack rolls as an item bonus to the Athletics check. If you critically fail a check to Trip using the weapon, you can drop the weapon to take the effects of a failure instead of a critical failure." },
-    { "name":"Twin", "description":"These weapons are used as a pair, complementing each other. When you attack with a twin weapon, you add a circumstance bonus to the damage roll equal to the weapon's number of damage dice if you have previously attacked with a different weapon of the same type this turn. The weapons must be of the same type to benefit from this trait, but they don't need to have the same runes." },
-    { "name":"Two-Hand", "description":"This weapon can be wielded with two hands. Doing so changes its weapon damage die to the indicated value. This change applies to all the weapon's damage dice, such as those from striking runes." },
-    { "name":"Unarmed", "description":"An unarmed attack uses your body rather than a manufactured weapon. An unarmed attack isn't a weapon, though it's categorized with weapons for weapon groups, and it might have weapon traits. Since it's part of your body, an unarmed attack can't be Disarmed. It also doesn't take up a hand, though a fist or other grasping appendage follows the same rules as a free-hand weapon." },
-    { "name":"Uncommon", "description":"Something of uncommon rarity requires special training or comes from a particular culture or part of the world. Some character choices give access to uncommon options, and the GM can choose to allow access for anyone. Less is known about uncommon creatures than common creatures. They typically can’t be summoned. The DC of Recall Knowledge checks related to these creature is increased by 2." },
-    { "name":"Unique", "description":"A rules element with this trait is one-of-a-kind. The DC of Recall Knowledge checks related to creatures with this trait is increased by 10." },
-    { "name":"Versatile", "description":"A versatile weapon can be used to deal a different type of damage than that listed in the Damage entry. This trait indicates the alternate damage type. For instance, a piercing weapon that is versatile S can be used to deal piercing or slashing damage. You choose the damage type each time you make an attack." },
-    { "name":"Volley", "description":"This ranged weapon is less effective at close distances. Your attacks against targets that are at a distance within the range listed take a -2 penalty." }
-]
+    {
+      "name": "Aasimar",
+      "description": "",
+      "showon": ""
+    },
+    {
+      "name": "Aberration",
+      "description": "",
+      "showon": ""
+    },
+    {
+      "name": "Abjuration",
+      "description": "Effects and magic items with this trait are associated with the abjuration school of magic, typically involving protection or wards.",
+      "showon": ""
+    },
+    {
+      "name": "Academic",
+      "description": "",
+      "showon": ""
+    },
+    {
+      "name": "Acid",
+      "description": "Effects with this trait deal acid damage. Creatures with this trait have a magical connection to acid.",
+      "showon": ""
+    },
+    {
+      "name": "Additive",
+      "description": "",
+      "showon": ""
+    },
+    {
+      "name": "Aeon",
+      "description": "",
+      "showon": ""
+    },
+    {
+      "name": "Agile",
+      "description": "The multiple attack penalty you take with this weapon on the second attack on your turn is -4 instead of -5, and -8 instead of -10 on the third and subsequent attacks in the turn.",
+      "showon": ""
+    },
+    {
+      "name": "Air",
+      "description": "Effects with the air trait either manipulate or conjure air. Those that manipulate air have no effect in a vacuum or an area without air. Creatures with this trait consist primarily of air or have a magical connection to that element. Planes with this trait consist mostly of open spaces and air with various degrees of turbulence, though they also contain rare islands of floating stone and other elements and energies.",
+      "showon": ""
+    },
+    {
+      "name": "Alchemical",
+      "description": "Alchemical items are powered by reactions of alchemical reagents. Alchemical items aren't magical and don't radiate a magical aura.",
+      "showon": ""
+    },
+    {
+      "name": "Alchemist",
+      "description": "",
+      "showon": ""
+    },
+    {
+      "name": "Amphibious",
+      "description": "",
+      "showon": ""
+    },
+    {
+      "name": "Anadi",
+      "description": "",
+      "showon": ""
+    },
+    {
+      "name": "Angel",
+      "description": "",
+      "showon": ""
+    },
+    {
+      "name": "Animal",
+      "description": "",
+      "showon": ""
+    },
+    {
+      "name": "Apex",
+      "description": "",
+      "showon": ""
+    },
+    {
+      "name": "Aquatic",
+      "description": "",
+      "showon": ""
+    },
+    {
+      "name": "Arcane",
+      "description": "",
+      "showon": ""
+    },
+    {
+      "name": "Archetype",
+      "description": "This feat belongs to an archetype.",
+      "showon": ""
+    },
+    {
+      "name": "Archon",
+      "description": "",
+      "showon": ""
+    },
+    {
+      "name": "Artifact",
+      "description": "",
+      "showon": ""
+    },
+    {
+      "name": "Astral",
+      "description": "",
+      "showon": ""
+    },
+    {
+      "name": "Attached",
+      "description": "An attached weapon must be combined with another piece of gear to be used. The trait lists what type of item the weapon must be attached to. You must be wielding or wearing the item the weapon is attached to in order to attack with it. For example, shield spikes are attached to a shield, allowing you to attack with the spikes instead of a shield bash, but only if you're wielding the shield. An attached weapon is usually bolted onto or built into the item it's attached to, and typically an item can have only one weapon attached to it. An attached weapon can be affixed to an item with 10 minutes of work and a successful DC 10 Crafting check; this includes the time needed to remove the weapon from a previous item, if necessary. If an item is destroyed, its attached weapon can usually be salvaged.",
+      "showon": ""
+    },
+    {
+      "name": "Attack",
+      "description": "An ability with this trait involves an attack. For each attack you make beyond the first on your turn, you take a multiple attack penalty.",
+      "showon": ""
+    },
+    {
+      "name": "Auditory",
+      "description": "Auditory actions and effects rely on sound. An action with the auditory trait can be successfully performed only if the creature using the action can speak or otherwise produce the required sounds. A spell or effect with the auditory trait has its effect only if the target can hear it. This applies only to sound-based parts of the effect, as determined by the GM. This is different from a sonic effect, which still affects targets who can't hear it (such as deaf targets) as long as the effect itself makes sound.",
+      "showon": ""
+    },
+    {
+      "name": "Aura",
+      "description": "",
+      "showon": ""
+    },
+    {
+      "name": "Azata",
+      "description": "",
+      "showon": ""
+    },
+    {
+      "name": "Backstabber",
+      "description": "When you hit a flat-footed creature, this weapon deals 1 precision damage in addition to its normal damage. The precision damage increases to 2 if the weapon is a +3 weapon.",
+      "showon": ""
+    },
+    {
+      "name": "Backswing",
+      "description": "You can use the momentum from a missed attack with this weapon to lead into your next attack. After missing with this weapon on your turn, you gain a +1 circumstance bonus to your next attack with this weapon before the end of your turn.",
+      "showon": ""
+    },
+    {
+      "name": "Barbarian",
+      "description": "",
+      "showon": ""
+    },
+    {
+      "name": "Bard",
+      "description": "",
+      "showon": ""
+    },
+    {
+      "name": "Beast",
+      "description": "",
+      "showon": ""
+    },
+    {
+      "name": "Boggard",
+      "description": "",
+      "showon": ""
+    },
+    {
+      "name": "Bomb",
+      "description": "",
+      "showon": ""
+    },
+    {
+      "name": "Brutal",
+      "description": "A ranged attack with this trait uses its Strength modifier instead of Dexterity on the attack roll.",
+      "showon": ""
+    },
+    {
+      "name": "Bulwark",
+      "description": "The armor covers you so completely that it provides benefits against some damaging effects. On Reflex saves to avoid a damaging effect, such as a fireball, you add a +3 modifier instead of your Dexterity modifier.",
+      "showon": "Reflex"
+    },
+    {
+      "name": "Caligni",
+      "description": "",
+      "showon": ""
+    },
+    {
+      "name": "Cantrip",
+      "description": "A spell you can cast at will that is automatically heightened to half your level rounded up.",
+      "showon": ""
+    },
+    {
+      "name": "Catfolk",
+      "description": "",
+      "showon": ""
+    },
+    {
+      "name": "CE",
+      "description": "",
+      "showon": ""
+    },
+    {
+      "name": "Celestial",
+      "description": "",
+      "showon": ""
+    },
+    {
+      "name": "CG",
+      "description": "",
+      "showon": ""
+    },
+    {
+      "name": "Champion",
+      "description": "",
+      "showon": ""
+    },
+    {
+      "name": "Changeling",
+      "description": "",
+      "showon": ""
+    },
+    {
+      "name": "Chaotic",
+      "description": "Chaotic effects often manipulate energy from chaos-aligned Outer Planes and are anathema to lawful divine servants or divine servants of lawful deities. A creature with this trait is chaotic in alignment. An ability with this trait can be selected or used only by chaotic creatures.",
+      "showon": ""
+    },
+    {
+      "name": "Charau-ka",
+      "description": "",
+      "showon": ""
+    },
+    {
+      "name": "Circus",
+      "description": "",
+      "showon": ""
+    },
+    {
+      "name": "City",
+      "description": "",
+      "showon": ""
+    },
+    {
+      "name": "Cleric",
+      "description": "",
+      "showon": ""
+    },
+    {
+      "name": "CN",
+      "description": "",
+      "showon": ""
+    },
+    {
+      "name": "Cold",
+      "description": "Effects with this trait deal cold damage. Creatures with this trait have a connection to magical cold.",
+      "showon": ""
+    },
+    {
+      "name": "Comfort",
+      "description": "The armor is so comfortable that you can rest normally while wearing it.",
+      "showon": ""
+    },
+    {
+      "name": "Common",
+      "description": "Anything that doesn't list another rarity trait (uncommon, rare, or unique) automatically has the common trait. This rarity indicates that an ability, item, or spell is available to all players who meet the prerequisites for it. A creature of this rarity is generally known and can be summoned with the appropriate summon spell.",
+      "showon": ""
+    },
+    {
+      "name": "Companion",
+      "description": "An item with this trait can be worn by an animal companion or similar creature. A companion can have up to two items invested.",
+      "showon": ""
+    },
+    {
+      "name": "Complex",
+      "description": "",
+      "showon": ""
+    },
+    {
+      "name": "Composition",
+      "description": "",
+      "showon": ""
+    },
+    {
+      "name": "Concentrate",
+      "description": "An action with this trait requires a degree of mental concentration and discipline.",
+      "showon": ""
+    },
+    {
+      "name": "Conjuration",
+      "description": "Effects and magic items with this trait are associated with the conjuration school of magic, typically involving summoning, creation, teleportation, or moving things from place to place.",
+      "showon": ""
+    },
+    {
+      "name": "Consecration",
+      "description": "",
+      "showon": ""
+    },
+    {
+      "name": "Construct",
+      "description": "",
+      "showon": ""
+    },
+    {
+      "name": "Consumable",
+      "description": "An item with this trait can be used only once. Unless stated otherwise, it's destroyed after activation. Consumable items include alchemical items and magical consumables such as scrolls and talismans. When a character creates consumable items, they can make them in batches of four.",
+      "showon": ""
+    },
+    {
+      "name": "Contact",
+      "description": "",
+      "showon": ""
+    },
+    {
+      "name": "Curse",
+      "description": "",
+      "showon": ""
+    },
+    {
+      "name": "Cursed",
+      "description": "",
+      "showon": ""
+    },
+    {
+      "name": "Daemon",
+      "description": "",
+      "showon": ""
+    },
+    {
+      "name": "Darkness",
+      "description": "",
+      "showon": ""
+    },
+    {
+      "name": "Deadly",
+      "description": "On a critical hit, the weapon adds a weapon damage die of the listed size. Roll this after doubling the weapon's damage. This increases to two dice if the weapon has a greater striking rune and three dice if the weapon has a major striking rune. For instance, a rapier with a greater striking rune deals 2d8 extra piercing damage on a critical hit. An ability that changes the size of the weapon's normal damage dice doesn't change the size of its deadly die.",
+      "showon": ""
+    },
+    {
+      "name": "Death",
+      "description": "",
+      "showon": ""
+    },
+    {
+      "name": "Dedication",
+      "description": "You must select a feat with this trait to apply an archetype to your character.",
+      "showon": ""
+    },
+    {
+      "name": "Demon",
+      "description": "",
+      "showon": ""
+    },
+    {
+      "name": "Dero",
+      "description": "",
+      "showon": ""
+    },
+    {
+      "name": "Detection",
+      "description": "",
+      "showon": ""
+    },
+    {
+      "name": "Devil",
+      "description": "",
+      "showon": ""
+    },
+    {
+      "name": "Dhampir",
+      "description": "",
+      "showon": ""
+    },
+    {
+      "name": "Dinosaur",
+      "description": "",
+      "showon": ""
+    },
+    {
+      "name": "Disarm",
+      "description": "You can use this weapon to Disarm with the Athletics skill even if you don't have a free hand. This uses the weapon's reach (if different from your own) and adds the weapon's item bonus to attack rolls (if any) as an item bonus to the Athletics check. If you critically fail a check to Disarm using the weapon, you can drop the weapon to take the effects of a failure instead of a critical failure. On a critical success, you still need a free hand if you want to take the item.",
+      "showon": ""
+    },
+    {
+      "name": "Disease",
+      "description": "",
+      "showon": ""
+    },
+    {
+      "name": "Divination",
+      "description": "The divination school of magic typically involves obtaining or transferring information, or predicting events.",
+      "showon": ""
+    },
+    {
+      "name": "Divine",
+      "description": "This magic comes from the divine tradition, drawing power from deities or similar sources. Anything with this trait is magical.",
+      "showon": ""
+    },
+    {
+      "name": "Downtime",
+      "description": "An activity with this trait takes a day or more, and can be used only during downtime.",
+      "showon": ""
+    },
+    {
+      "name": "Dragon",
+      "description": "",
+      "showon": ""
+    },
+    {
+      "name": "Drow",
+      "description": "",
+      "showon": ""
+    },
+    {
+      "name": "Drug",
+      "description": "",
+      "showon": ""
+    },
+    {
+      "name": "Druid",
+      "description": "",
+      "showon": ""
+    },
+    {
+      "name": "Duergar",
+      "description": "",
+      "showon": ""
+    },
+    {
+      "name": "Duskwalker",
+      "description": "",
+      "showon": ""
+    },
+    {
+      "name": "Dwarf",
+      "description": "A creature with this trait is a member of the dwarf ancestry. Dwarves are stout folk who often live underground and typically have darkvision. An ability with this trait can be used or selected only by dwarves. An item with this trait is created and used by dwarves.",
+      "showon": ""
+    },
+    {
+      "name": "Earth",
+      "description": "",
+      "showon": ""
+    },
+    {
+      "name": "Electricity",
+      "description": "Effects with this trait deal electricity damage. A creature with this trait has a magical connection to electricity.",
+      "showon": ""
+    },
+    {
+      "name": "Elemental",
+      "description": "",
+      "showon": ""
+    },
+    {
+      "name": "Elf",
+      "description": "A creature with this trait is a member of the elf ancestry. Elves are mysterious people with rich traditions of magic and scholarship who typically have low-light vision. An ability with this trait can be used or selected only by elves. A weapon with this trait is created and used by elves.",
+      "showon": ""
+    },
+    {
+      "name": "Elixir",
+      "description": "Elixirs are alchemical liquids that are used by drinking them.",
+      "showon": ""
+    },
+    {
+      "name": "Emotion",
+      "description": "This effect alters a creature's emotions. Effects with this trait always have the mental trait as well. Creatures with special training or that have mechanical or artificial intelligence are immune to emotion effects.",
+      "showon": ""
+    },
+    {
+      "name": "Enchantment",
+      "description": "Effects and magic items with this trait are associated with the enchantment school of magic, typically involving mind control, emotion alteration, and other mental effects.",
+      "showon": ""
+    },
+    {
+      "name": "Environmental",
+      "description": "",
+      "showon": ""
+    },
+    {
+      "name": "Erratic",
+      "description": "",
+      "showon": ""
+    },
+    {
+      "name": "Ethereal",
+      "description": "",
+      "showon": ""
+    },
+    {
+      "name": "Evil",
+      "description": "Evil effects often manipulate energy from evil-aligned Outer Planes and are antithetical to good divine servants or divine servants of good deities. A creature with this trait is evil in alignment.",
+      "showon": ""
+    },
+    {
+      "name": "Evocation",
+      "description": "Effects and magic items with this trait are associated with the evocation school of magic, typically involving energy and elemental forces.",
+      "showon": ""
+    },
+    {
+      "name": "Exploration",
+      "description": "",
+      "showon": ""
+    },
+    {
+      "name": "Extradimensional",
+      "description": "",
+      "showon": ""
+    },
+    {
+      "name": "Fatal",
+      "description": "The fatal trait includes a die size. On a critical hit, the weapon's damage die increases to that die size instead of the normal die size, and the weapon adds one additional damage die of the listed size.",
+      "showon": ""
+    },
+    {
+      "name": "Fear",
+      "description": "Fear effects evoke the emotion of fear. Effects with this trait always have the mental and emotion traits as well.",
+      "showon": ""
+    },
+    {
+      "name": "Fey",
+      "description": "",
+      "showon": ""
+    },
+    {
+      "name": "Fiend",
+      "description": "",
+      "showon": ""
+    },
+    {
+      "name": "Fighter",
+      "description": "",
+      "showon": ""
+    },
+    {
+      "name": "Finesse",
+      "description": "You can use your Dexterity modifier instead of your Strength modifier on attack rolls using this melee weapon. You still use your Strength modifier when calculating damage.",
+      "showon": ""
+    },
+    {
+      "name": "Finite",
+      "description": "",
+      "showon": ""
+    },
+    {
+      "name": "Fire",
+      "description": "Effects with the fire trait deal fire damage or either conjure or manipulate fire. Those that manipulate fire have no effect in an area without fire. Creatures with this trait consist primarily of fire or have a magical connection to that element.",
+      "showon": ""
+    },
+    {
+      "name": "Flexible",
+      "description": "The armor is flexible enough that it doesn't hinder most actions. You don't apply its check penalty to Acrobatics or Athletics checks.",
+      "showon": ""
+    },
+    {
+      "name": "Flourish",
+      "description": "Flourish actions are actions that require too much exertion to perform a large number in a row. You can use only 1 action with the flourish trait per turn.",
+      "showon": ""
+    },
+    {
+      "name": "Flowing",
+      "description": "",
+      "showon": ""
+    },
+    {
+      "name": "Focused",
+      "description": "",
+      "showon": ""
+    },
+    {
+      "name": "Force",
+      "description": "Effects with this trait deal force damage or create objects made of pure magical force.",
+      "showon": ""
+    },
+    {
+      "name": "Forceful",
+      "description": "This weapon becomes more dangerous as you build momentum. When you attack with it more than once on your turn, the second attack gains a circumstance bonus to damage equal to the number of weapon damage dice, and each subsequent attack gains a circumstance bonus to damage equal to double the number of weapon damage dice.",
+      "showon": ""
+    },
+    {
+      "name": "Fortune",
+      "description": "A fortune effect beneficially alters how you roll your dice. You can never have more than one fortune effect alter a single roll. If multiple fortune effects would apply, you have to pick which to use. If a fortune effect and a misfortune effect would apply to the same roll, the two cancel each other out, and you roll normally.",
+      "showon": ""
+    },
+    {
+      "name": "Free-Hand",
+      "description": "This weapon doesn't take up your hand, usually because it is built into your armor. A free-hand weapon can't be Disarmed. You can use the hand covered by your free-hand weapon to wield other items, perform manipulate actions, and so on. You can't attack with a free-hand weapon if you're wielding anything in that hand or otherwise using that hand. When you're not wielding anything and not otherwise using the hand, you can use abilities that require you to have a hand free as well as those that require you to be wielding a weapon in that hand. Each of your hands can have only one free-hand weapon on it.",
+      "showon": ""
+    },
+    {
+      "name": "Fungus",
+      "description": "",
+      "showon": ""
+    },
+    {
+      "name": "Gargantuan",
+      "description": "",
+      "showon": ""
+    },
+    {
+      "name": "General",
+      "description": "A type of feat that any character can select, regardless of ancestry and class, as long as they meet the prerequisites. You can select a feat with this trait when your class grants a general feat.",
+      "showon": ""
+    },
+    {
+      "name": "Genie",
+      "description": "",
+      "showon": ""
+    },
+    {
+      "name": "Ghost",
+      "description": "",
+      "showon": ""
+    },
+    {
+      "name": "Ghoul",
+      "description": "",
+      "showon": ""
+    },
+    {
+      "name": "Giant",
+      "description": "",
+      "showon": ""
+    },
+    {
+      "name": "Gnoll",
+      "description": "",
+      "showon": ""
+    },
+    {
+      "name": "Gnome",
+      "description": "A creature with this trait is a member of the gnome ancestry. Gnomes are small people skilled at magic who seek out new experiences and usually have low-light vision. An ability with this trait can be used or selected only by gnomes. A weapon with this trait is created and used by gnomes.",
+      "showon": ""
+    },
+    {
+      "name": "Goblin",
+      "description": "A creature with this trait can come from multiple tribes of creatures, including goblins, hobgoblins, and bugbears. Goblins tend to have darkvision. An ability with this trait can be used or chosen only by goblins. A weapon with this trait is created and used by goblins.",
+      "showon": ""
+    },
+    {
+      "name": "Golem",
+      "description": "",
+      "showon": ""
+    },
+    {
+      "name": "Good",
+      "description": "Good effects often manipulate energy from good-aligned Outer Planes and are antithetical to evil divine servants or divine servants of evil deities. A creature with this trait is good in alignment.",
+      "showon": ""
+    },
+    {
+      "name": "Grapple",
+      "description": "You can use this weapon to Grapple with the Athletics skill even if you don't have a free hand. This uses the weapon's reach (if different from your own) and adds the weapon's item bonus to attack rolls as an item bonus to the Athletics check. If you critically fail a check to Grapple using the weapon, you can drop the weapon to take the effects of a failure instead of a critical failure.",
+      "showon": "Athletics"
+    },
+    {
+      "name": "Gremlin",
+      "description": "",
+      "showon": ""
+    },
+    {
+      "name": "Grippli",
+      "description": "",
+      "showon": ""
+    },
+    {
+      "name": "Hag",
+      "description": "",
+      "showon": ""
+    },
+    {
+      "name": "Half-elf",
+      "description": "",
+      "showon": ""
+    },
+    {
+      "name": "Halfling",
+      "description": "A creature with this trait is a member of the halfling ancestry. These small people are friendly wanderers considered to be lucky. An ability with this trait can be used or selected only by halflings. A weapon with this trait is created and used by halflings.",
+      "showon": ""
+    },
+    {
+      "name": "Half-orc",
+      "description": "",
+      "showon": ""
+    },
+    {
+      "name": "Haunt",
+      "description": "",
+      "showon": ""
+    },
+    {
+      "name": "Healing",
+      "description": "A healing effect restores a creature's body, typically by restoring Hit Points, but sometimes by removing diseases or other debilitating effects.",
+      "showon": ""
+    },
+    {
+      "name": "Held",
+      "description": "",
+      "showon": ""
+    },
+    {
+      "name": "Hellknight",
+      "description": "",
+      "showon": ""
+    },
+    {
+      "name": "High Gravity",
+      "description": "",
+      "showon": ""
+    },
+    {
+      "name": "Hobgoblin",
+      "description": "",
+      "showon": ""
+    },
+    {
+      "name": "Huge",
+      "description": "",
+      "showon": ""
+    },
+    {
+      "name": "Human",
+      "description": "A creature with this trait is a member of the human ancestry. Humans are a diverse array of people known for their adaptability. An ability with this trait can be used or selected only by humans.",
+      "showon": ""
+    },
+    {
+      "name": "Humanoid",
+      "description": "",
+      "showon": ""
+    },
+    {
+      "name": "Illusion",
+      "description": "",
+      "showon": ""
+    },
+    {
+      "name": "Immeasurable",
+      "description": "",
+      "showon": ""
+    },
+    {
+      "name": "Incapacitation",
+      "description": "An ability with this trait can take a character completely out of the fight or even kill them, and it's harder to use on a more powerful character. If a spell has the incapacitation trait, any creature of more than twice the spell's level treats the result of their check to prevent being incapacitated by the spell as one degree of success better, or the result of any check the spellcaster made to incapacitate them as one degree of success worse. If any other effect has the incapacitation trait, a creature of higher level than the item, creature, or hazard generating the effect gains the same benefits.",
+      "showon": ""
+    },
+    {
+      "name": "Incorporeal",
+      "description": "",
+      "showon": ""
+    },
+    {
+      "name": "Inevitable",
+      "description": "",
+      "showon": ""
+    },
+    {
+      "name": "Infused",
+      "description": "",
+      "showon": ""
+    },
+    {
+      "name": "Ingested",
+      "description": "",
+      "showon": ""
+    },
+    {
+      "name": "Inhaled",
+      "description": "",
+      "showon": ""
+    },
+    {
+      "name": "Injury",
+      "description": "",
+      "showon": ""
+    },
+    {
+      "name": "Instinct",
+      "description": "",
+      "showon": ""
+    },
+    {
+      "name": "Intelligent",
+      "description": "",
+      "showon": ""
+    },
+    {
+      "name": "Invested",
+      "description": "A character can wear only 10 magical items that have the invested trait. None of the magical effects of the item apply if the character hasn't invested it, nor can it be activated, though the character still gains any normal benefits from wearing the physical item (like a hat keeping rain off their head).",
+      "showon": ""
+    },
+    {
+      "name": "Jousting",
+      "description": "The weapon is suited for mounted combat with a harness or similar means. When mounted, if you moved at least 10 feet on the action before your attack, add a circumstance bonus to damage for that attack equal to the number of damage dice for the weapon. In addition, while mounted, you can wield the weapon in one hand, changing the damage die to the listed value.",
+      "showon": ""
+    },
+    {
+      "name": "Kitsune",
+      "description": "",
+      "showon": ""
+    },
+    {
+      "name": "Kobold",
+      "description": "",
+      "showon": ""
+    },
+    {
+      "name": "Large",
+      "description": "",
+      "showon": ""
+    },
+    {
+      "name": "Lawful",
+      "description": "Lawful effects often manipulate energy from law-aligned Outer Planes and are antithetical to chaotic divine servants or divine servants of chaotic deities. A creature with this trait is lawful in alignment. An ability with this trait can be selected or used by lawful creatures only.",
+      "showon": ""
+    },
+    {
+      "name": "LE",
+      "description": "",
+      "showon": ""
+    },
+    {
+      "name": "Leshy",
+      "description": "",
+      "showon": ""
+    },
+    {
+      "name": "LG",
+      "description": "",
+      "showon": ""
+    },
+    {
+      "name": "Light",
+      "description": "Light effects overcome non-magical darkness in the area, and can counteract magical darkness. You must usually target darkness magic with your light magic directly to counteract the darkness, but some light spells automatically attempt to counteract darkness.",
+      "showon": ""
+    },
+    {
+      "name": "Linguistic",
+      "description": "An effect with this trait depends on language comprehension. A linguistic effect that targets a creature works only if the target understands the language you are using.",
+      "showon": ""
+    },
+    {
+      "name": "Litany",
+      "description": "",
+      "showon": ""
+    },
+    {
+      "name": "Lizardfolk",
+      "description": "",
+      "showon": ""
+    },
+    {
+      "name": "LN",
+      "description": "",
+      "showon": ""
+    },
+    {
+      "name": "Low Gravity",
+      "description": "",
+      "showon": ""
+    },
+    {
+      "name": "Magical",
+      "description": "Something with the magical trait is imbued with magical energies not tied to a specific tradition of magic. A magical item radiates a magic aura infused with its dominant school of magic.\n\nSome items or effects are closely tied to a particular tradition of magic. In these cases, the item has the arcane, divine, occult, or primal trait instead of the magical trait. Any of these traits indicate that the item is magical.",
+      "showon": ""
+    },
+    {
+      "name": "Manipulate",
+      "description": "You must physically manipulate an item or make gestures to use an action with this trait. Creatures without a suitable appendage can't perform actions with this trait. Manipulate actions often trigger reactions.",
+      "showon": ""
+    },
+    {
+      "name": "Mechanical",
+      "description": "",
+      "showon": ""
+    },
+    {
+      "name": "Medium",
+      "description": "",
+      "showon": ""
+    },
+    {
+      "name": "Mental",
+      "description": "A mental effect can alter the target's mind. It has no effect on an object or a mindless creature.",
+      "showon": ""
+    },
+    {
+      "name": "Merfolk",
+      "description": "",
+      "showon": ""
+    },
+    {
+      "name": "Metamagic",
+      "description": "",
+      "showon": ""
+    },
+    {
+      "name": "Metamorphic",
+      "description": "",
+      "showon": ""
+    },
+    {
+      "name": "Metropolis",
+      "description": "",
+      "showon": ""
+    },
+    {
+      "name": "Microgravity",
+      "description": "",
+      "showon": ""
+    },
+    {
+      "name": "Militaristic",
+      "description": "",
+      "showon": ""
+    },
+    {
+      "name": "Mindless",
+      "description": "",
+      "showon": ""
+    },
+    {
+      "name": "Minion",
+      "description": "Minions are creatures that directly serve another creature. A creature with this trait can use only 2 actions per turn and can't use reactions. Your minion acts on your turn in combat, once per turn, when you spend an action to issue it commands. For an animal companion, you Command an Animal; for a minion that's a spell or magic item effect, like a summoned minion, you Sustain a Spell or Sustain an Activation; if not otherwise specified, you issue a verbal command, a single action with the auditory and concentrate traits. If given no commands, minions use no actions except to defend themselves or to escape obvious harm. If left unattended for long enough, typically 1 minute, mindless minions usually don't act, animals follow their instincts, and sapient minions act how they please.",
+      "showon": ""
+    },
+    {
+      "name": "Misfortune",
+      "description": "",
+      "showon": ""
+    },
+    {
+      "name": "Modular",
+      "description": "The weapon has multiple configurations that you can switch between using an Interact action. Typically, switching between configurations of a modular weapon allows it to deal different types of damage (listed in the trait, such as 'modular B, P, or S'), though it's possible for a modular weapon's description to list more complicated configurations.",
+      "showon": ""
+    },
+    {
+      "name": "Monitor",
+      "description": "",
+      "showon": ""
+    },
+    {
+      "name": "Monk",
+      "description": "Abilities with this trait are from the monk class. A weapon with this trait is primarily used by monks.",
+      "showon": ""
+    },
+    {
+      "name": "Morph",
+      "description": "",
+      "showon": ""
+    },
+    {
+      "name": "Move",
+      "description": "",
+      "showon": ""
+    },
+    {
+      "name": "Multiclass",
+      "description": "Archetypes with the multiclass trait represent diversifying your training into another class's specialties. You can't select a multiclass archetype's dedication feat if you are a member of the class of the same name.",
+      "showon": ""
+    },
+    {
+      "name": "Mummy",
+      "description": "",
+      "showon": ""
+    },
+    {
+      "name": "Mutagen",
+      "description": "An elixir with the mutagen trait temporarily transmogrifies the subject's body and alters its mind. A mutagen always conveys one or more beneficial effects paired with one or more detrimental effects. Mutagens are polymorph effects, meaning you can benefit from only one at a time.",
+      "showon": ""
+    },
+    {
+      "name": "Mutant",
+      "description": "",
+      "showon": ""
+    },
+    {
+      "name": "N",
+      "description": "",
+      "showon": ""
+    },
+    {
+      "name": "NE",
+      "description": "",
+      "showon": ""
+    },
+    {
+      "name": "Necromancy",
+      "description": "Effects and magic items with this trait are associated with the necromancy school of magic, typically involving forces of life and death.",
+      "showon": ""
+    },
+    {
+      "name": "Negative",
+      "description": "Effects with this trait heal undead creatures with negative energy, deal negative damage to living creatures, or manipulate negative energy. Planes with this trait are vast, empty reaches that suck the life from the living.",
+      "showon": ""
+    },
+    {
+      "name": "NG",
+      "description": "",
+      "showon": ""
+    },
+    {
+      "name": "Noisy",
+      "description": "This armor is loud and likely to alert others to your presence. The armor's check penalty applies to Stealth checks even if you meet the required Strength score.",
+      "showon": ""
+    },
+    {
+      "name": "Nonlethal",
+      "description": "Attacks with this weapon are nonlethal, and are used to knock creatures unconscious instead of kill them. You can use a nonlethal weapon to make a lethal attack with a -2 circumstance penalty.",
+      "showon": ""
+    },
+    {
+      "name": "Nymph",
+      "description": "",
+      "showon": ""
+    },
+    {
+      "name": "Oath",
+      "description": "",
+      "showon": ""
+    },
+    {
+      "name": "Occult",
+      "description": "",
+      "showon": ""
+    },
+    {
+      "name": "Oil",
+      "description": "",
+      "showon": ""
+    },
+    {
+      "name": "Ooze",
+      "description": "",
+      "showon": ""
+    },
+    {
+      "name": "Open",
+      "description": "",
+      "showon": ""
+    },
+    {
+      "name": "Orc",
+      "description": "Orcs craft and use these weapons.",
+      "showon": ""
+    },
+    {
+      "name": "Parry",
+      "description": "This weapon can be used defensively to block attacks. While wielding this weapon, if your proficiency with it is trained or better, you can spend an Interact action to position your weapon defensively, gaining a +1 circumstance bonus to AC until the start of your next turn.",
+      "showon": ""
+    },
+    {
+      "name": "Plant",
+      "description": "",
+      "showon": ""
+    },
+    {
+      "name": "Poison",
+      "description": "",
+      "showon": ""
+    },
+    {
+      "name": "Polymorph",
+      "description": "These effects transform the target into a new form. A target can't be under the effect of more than one polymorph effect at a time. If it comes under the effect of a second polymorph effect, the second polymorph effect attempts to counteract the first. If it succeeds, it takes effect, and if it fails, the spell has no effect on that target. Any Strikes specifically granted by a polymorph effect are magical. Unless otherwise stated, polymorph spells don't allow the target to take on the appearance of a specific individual creature, but rather just a generic creature of a general type or ancestry.\n\nIf you take on a battle form with a polymorph spell, the special statistics can be adjusted only by circumstance bonuses, status bonuses, and penalties. Unless otherwise noted, the battle form prevents you from casting spells, speaking, and using most manipulate actions that require hands. (If there's doubt about whether you can use an action, the GM decides.) Your gear is absorbed into you; the constant abilities of your gear still function, but you can't activate any items.",
+      "showon": ""
+    },
+    {
+      "name": "Positive",
+      "description": "Effects with this trait heal living creatures with positive energy, deal positive energy damage to undead, or manipulate positive energy. Planes with this trait are awash with life energy of such intensity that it can harm living creatures.",
+      "showon": ""
+    },
+    {
+      "name": "Possession",
+      "description": "",
+      "showon": ""
+    },
+    {
+      "name": "Potion",
+      "description": "A potion is a magical liquid activated when you drink it.",
+      "showon": ""
+    },
+    {
+      "name": "Precious",
+      "description": "",
+      "showon": ""
+    },
+    {
+      "name": "Prediction",
+      "description": "",
+      "showon": ""
+    },
+    {
+      "name": "Press",
+      "description": "",
+      "showon": ""
+    },
+    {
+      "name": "Prestige",
+      "description": "",
+      "showon": ""
+    },
+    {
+      "name": "Primal",
+      "description": "This magic comes from the primal tradition, connecting to the natural world and instinct. Anything with this trait is magical.",
+      "showon": ""
+    },
+    {
+      "name": "Propulsive",
+      "description": "You add half your Strength modifier (if positive) to damage rolls with a propulsive ranged weapon. If you have a negative Strength modifier, you add your full Strength modifier instead.",
+      "showon": ""
+    },
+    {
+      "name": "Protean",
+      "description": "",
+      "showon": ""
+    },
+    {
+      "name": "Psychopomp",
+      "description": "",
+      "showon": ""
+    },
+    {
+      "name": "Rage",
+      "description": "",
+      "showon": ""
+    },
+    {
+      "name": "Rakshasa",
+      "description": "",
+      "showon": ""
+    },
+    {
+      "name": "Range",
+      "description": "These attacks will either list a finite range or a range increment, which follows the normal rules for range increments.",
+      "showon": ""
+    },
+    {
+      "name": "Ranged Trip",
+      "description": "This weapon can be used to Trip with the Athletics skill at a distance up to the weapon's first range increment. The skill check takes a -2 circumstance penalty. You can add the weapon's item bonus to attack rolls as a bonus to the check. As with using a melee weapon to trip, a ranged trip doesn't deal any damage when used to Trip. This trait usually only appears on a thrown weapon.",
+      "showon": "Athletics"
+    },
+    {
+      "name": "Ranger",
+      "description": "This indicates abilities from the ranger class.",
+      "showon": ""
+    },
+    {
+      "name": "Rare",
+      "description": "This rarity indicates that a rules element is very difficult to find in the game world. A rare feat, spell, item or the like is available to players only if the GM decides to include it in the game, typically through discovery during play. Creatures with this trait are rare. They typically can't be summoned. The DC of Recall Knowledge checks related to these creatures is increased by 5.",
+      "showon": ""
+    },
+    {
+      "name": "Ratfolk",
+      "description": "",
+      "showon": ""
+    },
+    {
+      "name": "Reach",
+      "description": "Natural attacks with this trait can be used to attack creatures up to the listed distance away instead of only adjacent creatures. Weapons with this trait are long and can be used to attack creatures up to 10 feet away instead of only adjacent creatures. For creatures that already have reach with the limb or limbs that wield the weapon, the weapon increases their reach by 5 feet.",
+      "showon": ""
+    },
+    {
+      "name": "Reckless",
+      "description": "",
+      "showon": ""
+    },
+    {
+      "name": "Revelation",
+      "description": "",
+      "showon": ""
+    },
+    {
+      "name": "Revolutionary",
+      "description": "",
+      "showon": ""
+    },
+    {
+      "name": "Rogue",
+      "description": "",
+      "showon": ""
+    },
+    {
+      "name": "Saggorak",
+      "description": "Ancient dwarven blacksmiths in Saggorak designed a series of spectacularly powerful runes. Only someone with legendary proficiency in Crafting, or a well-versed dwarven crafter from the city of Kovlar, can apply, transfer, or remove a rune with the Saggorak trait.\n\nBecause of their considerable power, all Saggorak runes take up two property rune slots, and consequently they can be applied only to armor and weapons with at least a +2 potency rune.",
+      "showon": ""
+    },
+    {
+      "name": "Scroll",
+      "description": "",
+      "showon": ""
+    },
+    {
+      "name": "Scrying",
+      "description": "",
+      "showon": ""
+    },
+    {
+      "name": "Sea Devil",
+      "description": "",
+      "showon": ""
+    },
+    {
+      "name": "Secret",
+      "description": "The GM rolls the check for this ability in secret.",
+      "showon": ""
+    },
+    {
+      "name": "Sentient",
+      "description": "",
+      "showon": ""
+    },
+    {
+      "name": "Shadow",
+      "description": "",
+      "showon": ""
+    },
+    {
+      "name": "Shoony",
+      "description": "",
+      "showon": ""
+    },
+    {
+      "name": "Shove",
+      "description": "You can use this weapon to Shove with the Athletics skill even if you don't have a free hand. This uses the weapon's reach (if different from your own) and adds the weapon's item bonus to attack rolls as an item bonus to the Athletics check. If you critically fail a check to Shove using the weapon, you can drop the weapon to take the effects of a failure instead of a critical failure.",
+      "showon": "Athletics"
+    },
+    {
+      "name": "Skeleton",
+      "description": "",
+      "showon": ""
+    },
+    {
+      "name": "Skill",
+      "description": "A general feat with the skill trait improves your skills and their actions or gives you new actions for a skill. A feat with this trait can be selected when a class grants a skill feat or general feat. Archetype feats with the skill trait can be selected in place of a skill feat if you have that archetype's dedication feat.",
+      "showon": ""
+    },
+    {
+      "name": "Sleep",
+      "description": "This effect can cause a creature to fall asleep or get drowsy.",
+      "showon": ""
+    },
+    {
+      "name": "Small",
+      "description": "",
+      "showon": ""
+    },
+    {
+      "name": "Snare",
+      "description": "",
+      "showon": ""
+    },
+    {
+      "name": "Sonic",
+      "description": "An effect with the sonic trait functions only if it makes sound, meaning it has no effect in an area of silence or in a vacuum. This is different from an auditory spell, which is effective only if the target can hear it. A sonic effect might deal sonic damage.",
+      "showon": ""
+    },
+    {
+      "name": "Sorcerer",
+      "description": "This indicates abilities from the sorcerer class.",
+      "showon": ""
+    },
+    {
+      "name": "Soulbound",
+      "description": "",
+      "showon": ""
+    },
+    {
+      "name": "Spirit",
+      "description": "",
+      "showon": ""
+    },
+    {
+      "name": "Splash",
+      "description": "",
+      "showon": ""
+    },
+    {
+      "name": "Sprite",
+      "description": "",
+      "showon": ""
+    },
+    {
+      "name": "Staff",
+      "description": "",
+      "showon": ""
+    },
+    {
+      "name": "Stance",
+      "description": "A stance is a general combat strategy that you enter by using an action with the stance trait, and that you remain in for some time. A stance lasts until you get knocked out, until its requirements (if any) are violated, until the encounter ends, or until you enter a new stance, whichever comes first. After you use an action with the stance trait, you can't use another one for 1 round. You can enter or be in a stance only in encounter mode.",
+      "showon": ""
+    },
+    {
+      "name": "Static",
+      "description": "",
+      "showon": ""
+    },
+    {
+      "name": "Strange Gravity",
+      "description": "",
+      "showon": ""
+    },
+    {
+      "name": "Structure",
+      "description": "",
+      "showon": ""
+    },
+    {
+      "name": "Subjective Gravity",
+      "description": "",
+      "showon": ""
+    },
+    {
+      "name": "Summoned",
+      "description": "",
+      "showon": ""
+    },
+    {
+      "name": "Swarm",
+      "description": "",
+      "showon": ""
+    },
+    {
+      "name": "Sweep",
+      "description": "This weapon makes wide sweeping or spinning attacks, making it easier to attack multiple enemies. When you attack with this weapon, you gain a +1 circumstance bonus to your attack roll if you already attempted to attack a different target this turn using this weapon.",
+      "showon": ""
+    },
+    {
+      "name": "Talisman",
+      "description": "",
+      "showon": ""
+    },
+    {
+      "name": "Tattoo",
+      "description": "",
+      "showon": ""
+    },
+    {
+      "name": "Teleportation",
+      "description": "Teleportation effects allow you to instantaneously move from one point in space to another. Teleportation does not usually trigger reactions based on movement.",
+      "showon": ""
+    },
+    {
+      "name": "Tengu",
+      "description": "",
+      "showon": ""
+    },
+    {
+      "name": "Tethered",
+      "description": "This weapon is attached to a length of rope or chain that allows you to retrieve it after it has left your hand. If you have a free hand while wielding this weapon, you can use an Interact action to pull the weapon back into your grasp after you have thrown it as a ranged attack or after it has been disarmed (unless it is being held by another creature).",
+      "showon": ""
+    },
+    {
+      "name": "Thrown",
+      "description": "You can throw this weapon as a ranged attack, and it is a ranged weapon when thrown. A thrown weapon adds your Strength modifier to damage just like a melee weapon does. When this trait appears on a melee weapon, it also includes the range increment. Ranged weapons with this trait use the range increment specified in the weapon's Range entry.",
+      "showon": ""
+    },
+    {
+      "name": "Tiefling",
+      "description": "",
+      "showon": ""
+    },
+    {
+      "name": "Timeless",
+      "description": "",
+      "showon": ""
+    },
+    {
+      "name": "Tiny",
+      "description": "",
+      "showon": ""
+    },
+    {
+      "name": "Town",
+      "description": "",
+      "showon": ""
+    },
+    {
+      "name": "Transmutation",
+      "description": "Effects and magic items with this trait are associated with the transmutation school of magic, typically changing something's form.",
+      "showon": ""
+    },
+    {
+      "name": "Trap",
+      "description": "",
+      "showon": ""
+    },
+    {
+      "name": "Trip",
+      "description": "You can use this weapon to Trip with the Athletics skill even if you don't have a free hand. This uses the weapon's reach (if different from your own) and adds the weapon's item bonus to attack rolls as an item bonus to the Athletics check. If you critically fail a check to Trip using the weapon, you can drop the weapon to take the effects of a failure instead of a critical failure.",
+      "showon": "Athletics"
+    },
+    {
+      "name": "Troll",
+      "description": "",
+      "showon": ""
+    },
+    {
+      "name": "Twin",
+      "description": "These weapons are used as a pair, complementing each other. When you attack with a twin weapon, you add a circumstance bonus to the damage roll equal to the weapon's number of damage dice if you have previously attacked with a different weapon of the same type this turn. The weapons must be of the same type to benefit from this trait, but they don't need to have the same runes.",
+      "showon": ""
+    },
+    {
+      "name": "Two-Hand",
+      "description": "This weapon can be wielded with two hands. Doing so changes its weapon damage die to the indicated value. This change applies to all the weapon's damage dice, such as those from striking runes.",
+      "showon": ""
+    },
+    {
+      "name": "Unarmed",
+      "description": "An unarmed attack uses your body rather than a manufactured weapon. An unarmed attack isn't a weapon, though it's categorized with weapons for weapon groups, and it might have weapon traits. Since it's part of your body, an unarmed attack can't be Disarmed. It also doesn't take up a hand, though a fist or other grasping appendage follows the same rules as a free-hand weapon.",
+      "showon": ""
+    },
+    {
+      "name": "Unbounded",
+      "description": "",
+      "showon": ""
+    },
+    {
+      "name": "Uncommon",
+      "description": "Something of uncommon rarity requires special training or comes from a particular culture or part of the world. Some character choices give access to uncommon options, and the GM can choose to allow access for anyone. Less is known about uncommon creatures than common creatures. They typically can't be summoned. The DC of Recall Knowledge checks related to these creature is increased by 2.",
+      "showon": ""
+    },
+    {
+      "name": "Undead",
+      "description": "",
+      "showon": ""
+    },
+    {
+      "name": "Unique",
+      "description": "A rules element with this trait is one-of-a-kind. The DC of Recall Knowledge checks related to creatures with this trait is increased by 10.",
+      "showon": ""
+    },
+    {
+      "name": "Vampire",
+      "description": "",
+      "showon": ""
+    },
+    {
+      "name": "Velstrac",
+      "description": "",
+      "showon": ""
+    },
+    {
+      "name": "Versatile",
+      "description": "A versatile weapon can be used to deal a different type of damage than that listed in the Damage entry. This trait indicates the alternate damage type. For instance, a piercing weapon that is versatile S can be used to deal piercing or slashing damage. You choose the damage type each time you make an attack.",
+      "showon": ""
+    },
+    {
+      "name": "Village",
+      "description": "",
+      "showon": ""
+    },
+    {
+      "name": "Virulent",
+      "description": "",
+      "showon": ""
+    },
+    {
+      "name": "Visual",
+      "description": "",
+      "showon": ""
+    },
+    {
+      "name": "Volley",
+      "description": "This ranged weapon is less effective at close distances. Your attacks against targets that are at a distance within the range listed take a -2 penalty.",
+      "showon": ""
+    },
+    {
+      "name": "Wand",
+      "description": "",
+      "showon": ""
+    },
+    {
+      "name": "Water",
+      "description": "",
+      "showon": ""
+    },
+    {
+      "name": "Wayfaring",
+      "description": "",
+      "showon": ""
+    },
+    {
+      "name": "Werecreature",
+      "description": "",
+      "showon": ""
+    },
+    {
+      "name": "Wizard",
+      "description": "",
+      "showon": ""
+    },
+    {
+      "name": "Worn",
+      "description": "",
+      "showon": ""
+    },
+    {
+      "name": "Wraith",
+      "description": "",
+      "showon": ""
+    },
+    {
+      "name": "Xulgath",
+      "description": "",
+      "showon": ""
+    },
+    {
+      "name": "Zombie",
+      "description": "",
+      "showon": ""
+    }
+   ]

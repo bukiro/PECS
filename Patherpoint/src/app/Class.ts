@@ -35,9 +35,9 @@ export class Class {
             this.levels[1].abilityChoices = this.levels[1].abilityChoices.filter(availableBoost => availableBoost.source != "Ancestry")
             if (this.ancestry.gainItems.length) {
                 this.ancestry.gainItems.forEach(freeItem => {
-                    let items: Equipment[] = character.inventory[freeItem.type].filter(item => item.name == freeItem.name);
+                    let items: Equipment[] = character.inventories[0][freeItem.type].filter(item => item.name == freeItem.name);
                     if (items.length) {
-                        characterService.drop_InventoryItem(character, items[0], false, true, true, freeItem.amount);
+                        characterService.drop_InventoryItem(character, character.inventories[0], items[0], false, true, true, freeItem.amount);
                     }
                 });
             }
@@ -55,7 +55,7 @@ export class Class {
             if (this.ancestry.gainItems.length) {
                 this.ancestry.gainItems.forEach(freeItem => {
                     let item: Equipment = itemsService.get_Items()[freeItem.type].filter(item => item.name == freeItem.name)[0];
-                    let grantedItem = characterService.grant_InventoryItem(characterService.get_Character(), item, false, false, true, freeItem.amount);
+                    let grantedItem = characterService.grant_InventoryItem(characterService.get_Character(), characterService.get_Character().inventories[0], item, false, false, true, freeItem.amount);
                     freeItem.id = grantedItem.id;
                 });
             }

@@ -168,14 +168,14 @@
                             }
                         ],
                         "cooldown": 144000,
-                        "desc": "The key casts knock on the lock you’re trying to pick.",
+                        "desc": "The key casts knock on the lock you're trying to pick.",
                         "frequency": "once per day",
                         "name": "Skeleton Key",
                         "traits": [
                             "Magical",
                             "Transmutation"
                         ],
-                        "trigger": "You attempt to Pick a Lock but haven’t rolled yet",
+                        "trigger": "You attempt to Pick a Lock but haven't rolled yet",
                         "_className": "ItemActivity",
                         "source": "99ad12a0-7b53-11ea-bc14-e18579ad6691"
                     }
@@ -329,7 +329,7 @@
                     {
                         "activationType": "Command",
                         "cooldown": 6000,
-                        "desc": "Tiny, hairlike tendrils extend from the slippers’ soles, allowing you to walk on vertical surfaces or even to move upside down along ceilings. For 1 minute, you gain a 20-foot climb Speed and you don’t need to use your hands to Climb. However, the slippers require decent traction for you to walk on a wall, so they provide no benefit when you’re moving across greased, icy, or oiled surfaces.",
+                        "desc": "Tiny, hairlike tendrils extend from the slippers' soles, allowing you to walk on vertical surfaces or even to move upside down along ceilings. For 1 minute, you gain a 20-foot climb Speed and you don't need to use your hands to Climb. However, the slippers require decent traction for you to walk on a wall, so they provide no benefit when you're moving across greased, icy, or oiled surfaces.",
                         "frequency": "once per hour",
                         "gainConditions": [
                             {
@@ -2440,7 +2440,7 @@
     "customFeats": [
         {
             "_className": "Feat",
-            "desc": "Even in the worst circumstances, you can perform basic tasks. Choose a skill you’re trained in. You can forgo rolling a skill check for that skill to instead receive a result of 10 + your proficiency bonus (do not apply any other bonuses, penalties, or modifiers).",
+            "desc": "Even in the worst circumstances, you can perform basic tasks. Choose a skill you're trained in. You can forgo rolling a skill check for that skill to instead receive a result of 10 + your proficiency bonus (do not apply any other bonuses, penalties, or modifiers).",
             "gainAnimalCompanion": false,
             "hint": "You can forgo rolling a skill check for this skill to instead receive a result of 10 + your proficiency bonus (do not apply any other bonuses, penalties, or modifiers).",
             "levelreq": 1,
@@ -2463,7 +2463,7 @@
         },
         {
             "_className": "Feat",
-            "desc": "You know basic facts off the top of your head. Choose a skill you’re an expert in that has the Recall Knowledge action and for which you have the Assurance feat. You can use the Recall Knowledge action with that skill as a free action once per round. If you do, you must use Assurance on the skill check.",
+            "desc": "You know basic facts off the top of your head. Choose a skill you're an expert in that has the Recall Knowledge action and for which you have the Assurance feat. You can use the Recall Knowledge action with that skill as a free action once per round. If you do, you must use Assurance on the skill check.",
             "featreq": [
                 "Assurance: Lore: Warfare"
             ],

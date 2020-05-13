@@ -25,7 +25,7 @@
             <span>Name</span>
             <span>
                 <input type="text" name="name" [(ngModel)]="get_Character().name"
-                    (blur)="this.characterService.set_Changed()" maxLength="30">
+                    (blur)="this.change_Name()" maxLength="30">
             </span>
         </div>
         <div class="list-item">

@@ -12,7 +12,7 @@ export class Creature {
     public level: number = 1;
     public health: Health = new Health();
     public conditions: ConditionGain[] = [];
-    public inventory: ItemCollection = new ItemCollection();
+    public inventories: ItemCollection[] = [new ItemCollection()];
     public speeds: Speed[] = [new Speed("Speed"), new Speed("Land Speed")];
     public bulk: Bulk = new Bulk();
     public cover: number = 0;

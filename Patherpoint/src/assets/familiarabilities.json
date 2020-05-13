@@ -61,8 +61,8 @@
    },
    {
       "name": "Damage Avoidance",
-      "shortdesc": "Choose one type of save. The familiar takes no damage when it succeeds at that type of save; this doesn’t prevent effects other than damage.",
-      "desc": "Choose one type of save. The familiar takes no damage when it succeeds at that type of save; this doesn’t prevent effects other than damage.",
+      "shortdesc": "Choose one type of save. The familiar takes no damage when it succeeds at that type of save; this doesn't prevent effects other than damage.",
+      "desc": "Choose one type of save. The familiar takes no damage when it succeeds at that type of save; this doesn't prevent effects other than damage.",
       "traits": [
          "Familiar Ability"
       ],
@@ -70,36 +70,36 @@
    },
    {
       "name": "Damage Avoidance: Fortitude",
-      "shortdesc": "The familiar takes no damage when it succeeds at a Fortitude save; this doesn’t prevent effects other than damage.",
-      "desc": "The familiar takes no damage when it succeeds at a Fortitude save; this doesn’t prevent effects other than damage.",
+      "shortdesc": "The familiar takes no damage when it succeeds at a Fortitude save; this doesn't prevent effects other than damage.",
+      "desc": "The familiar takes no damage when it succeeds at a Fortitude save; this doesn't prevent effects other than damage.",
       "traits": [
          "Familiar Ability"
       ],
-      "hint": "The familiar takes no damage when it succeeds at a Fortitude save; this doesn’t prevent effects other than damage.",
+      "hint": "The familiar takes no damage when it succeeds at a Fortitude save; this doesn't prevent effects other than damage.",
       "subType": "Fortitude",
       "superType": "Damage Avoidance",
       "showon": "Fortitude"
    },
    {
       "name": "Damage Avoidance: Reflex",
-      "shortdesc": "The familiar takes no damage when it succeeds at a Reflex save; this doesn’t prevent effects other than damage.",
-      "desc": "The familiar takes no damage when it succeeds at a Reflex save; this doesn’t prevent effects other than damage.",
+      "shortdesc": "The familiar takes no damage when it succeeds at a Reflex save; this doesn't prevent effects other than damage.",
+      "desc": "The familiar takes no damage when it succeeds at a Reflex save; this doesn't prevent effects other than damage.",
       "traits": [
          "Familiar Ability"
       ],
-      "hint": "The familiar takes no damage when it succeeds at a Reflex save; this doesn’t prevent effects other than damage.",
+      "hint": "The familiar takes no damage when it succeeds at a Reflex save; this doesn't prevent effects other than damage.",
       "subType": "Reflex",
       "superType": "Damage Avoidance",
       "showon": "Reflex"
    },
    {
       "name": "Damage Avoidance: Will",
-      "shortdesc": "The familiar takes no damage when it succeeds at a Will save; this doesn’t prevent effects other than damage.",
-      "desc": "The familiar takes no damage when it succeeds at a Will save; this doesn’t prevent effects other than damage.",
+      "shortdesc": "The familiar takes no damage when it succeeds at a Will save; this doesn't prevent effects other than damage.",
+      "desc": "The familiar takes no damage when it succeeds at a Will save; this doesn't prevent effects other than damage.",
       "traits": [
          "Familiar Ability"
       ],
-      "hint": "The familiar takes no damage when it succeeds at a Will save; this doesn’t prevent effects other than damage.",
+      "hint": "The familiar takes no damage when it succeeds at a Will save; this doesn't prevent effects other than damage.",
       "subType": "Will",
       "superType": "Damage Avoidance",
       "showon": "Will"
@@ -115,8 +115,8 @@
    },
    {
       "name": "Fast Movement",
-      "shortdesc": "Increase one of the familiar’s Speeds from 25 feet to 40 feet.",
-      "desc": "Increase one of the familiar’s Speeds from 25 feet to 40 feet.",
+      "shortdesc": "Increase one of the familiar's Speeds from 25 feet to 40 feet.",
+      "desc": "Increase one of the familiar's Speeds from 25 feet to 40 feet.",
       "subTypes": true,
       "traits": [
          "Familiar Ability"
@@ -124,8 +124,8 @@
    },
    {
       "name": "Fast Movement: Burrow",
-      "shortdesc": "The familiar’s Burrow Speed increases from 25 feet to 40 feet.",
-      "desc": "The familiar’s Burrow Speed increases from 25 feet to 40 feet.",
+      "shortdesc": "The familiar's Burrow Speed increases from 25 feet to 40 feet.",
+      "desc": "The familiar's Burrow Speed increases from 25 feet to 40 feet.",
       "specialreqdesc": "Burrow Speed",
       "specialreq":"familiar.speeds.filter(speed => speed.name == 'Burrow Speed').length",
       "subType": "Burrow",
@@ -142,8 +142,8 @@
    },
    {
       "name": "Fast Movement: Climb",
-      "shortdesc": "The familiar’s Climb Speed increases from 25 feet to 40 feet.",
-      "desc": "The familiar’s Climb Speed increases from 25 feet to 40 feet.",
+      "shortdesc": "The familiar's Climb Speed increases from 25 feet to 40 feet.",
+      "desc": "The familiar's Climb Speed increases from 25 feet to 40 feet.",
       "specialreqdesc": "Climb Speed",
       "specialreq":"familiar.speeds.filter(speed => speed.name == 'Climb Speed').length",
       "subType": "Climb",
@@ -160,8 +160,8 @@
    },
    {
       "name": "Fast Movement: Fly",
-      "shortdesc": "The familiar’s Fly Speed increases from 25 feet to 40 feet.",
-      "desc": "The familiar’s Fly Speed increases from 25 feet to 40 feet.",
+      "shortdesc": "The familiar's Fly Speed increases from 25 feet to 40 feet.",
+      "desc": "The familiar's Fly Speed increases from 25 feet to 40 feet.",
       "specialreqdesc": "Fly Speed",
       "specialreq":"familiar.speeds.filter(speed => speed.name == 'Fly Speed').length",
       "subType": "Fly",
@@ -178,8 +178,8 @@
    },
    {
       "name": "Fast Movement: Land",
-      "shortdesc": "The familiar’s Land Speed increases from 25 feet to 40 feet.",
-      "desc": "The familiar’s Land Speed increases from 25 feet to 40 feet.",
+      "shortdesc": "The familiar's Land Speed increases from 25 feet to 40 feet.",
+      "desc": "The familiar's Land Speed increases from 25 feet to 40 feet.",
       "specialreqdesc": "Land Speed",
       "specialreq":"familiar.speeds.filter(speed => speed.name == 'Land Speed').length",
       "subType": "Land",
@@ -196,8 +196,8 @@
    },
    {
       "name": "Fast Movement: Swim",
-      "shortdesc": "The familiar’s Swim Speed increases from 25 feet to 40 feet.",
-      "desc": "The familiar’s Swim Speed increases from 25 feet to 40 feet.",
+      "shortdesc": "The familiar's Swim Speed increases from 25 feet to 40 feet.",
+      "desc": "The familiar's Swim Speed increases from 25 feet to 40 feet.",
       "specialreqdesc": "Swim Speed",
       "specialreq":"familiar.speeds.filter(speed => speed.name == 'Swim Speed').length",
       "subType": "Swim",
@@ -276,8 +276,8 @@
    },
    {
       "name": "Cantrip Connection",
-      "shortdesc": "You can prepare an additional cantrip, or if you have a repertoire, instead designate a cantrip to add to your repertoire every time you select this ability; you can retrain it but can’t otherwise change it. You must be able to prepare cantrips or add them to your repertoire to select this.",
-      "desc": "You can prepare an additional cantrip, or if you have a repertoire, instead designate a cantrip to add to your repertoire every time you select this ability; you can retrain it but can’t otherwise change it. You must be able to prepare cantrips or add them to your repertoire to select this.",
+      "shortdesc": "You can prepare an additional cantrip, or if you have a repertoire, instead designate a cantrip to add to your repertoire every time you select this ability; you can retrain it but can't otherwise change it. You must be able to prepare cantrips or add them to your repertoire to select this.",
+      "desc": "You can prepare an additional cantrip, or if you have a repertoire, instead designate a cantrip to add to your repertoire every time you select this ability; you can retrain it but can't otherwise change it. You must be able to prepare cantrips or add them to your repertoire to select this.",
       "specialreqdesc": "cantrips",
       "specialreq":"character.class.spellCasting.filter(casting => ['Spontaneous','Prepared'].includes(casting.castingType) && casting.charLevelAvailable <= character.level && casting.spellChoices.filter(choice => choice.level >= 0).length).length",
       "traits": [
@@ -341,8 +341,8 @@
    },
    {
       "name": "Spell Delivery",
-      "shortdesc": "If your familiar is in your space, you can cast a spell with a range of touch, transfer its power to your familiar, and command the familiar to deliver the spell. If you do, the familiar uses its 2 actions for the round to move to a target of your choice and touch that target. If it doesn’t reach the target to touch it this turn, the spell has no effect.",
-      "desc": "If your familiar is in your space, you can cast a spell with a range of touch, transfer its power to your familiar, and command the familiar to deliver the spell. If you do, the familiar uses its 2 actions for the round to move to a target of your choice and touch that target. If it doesn’t reach the target to touch it this turn, the spell has no effect.",
+      "shortdesc": "If your familiar is in your space, you can cast a spell with a range of touch, transfer its power to your familiar, and command the familiar to deliver the spell. If you do, the familiar uses its 2 actions for the round to move to a target of your choice and touch that target. If it doesn't reach the target to touch it this turn, the spell has no effect.",
+      "desc": "If your familiar is in your space, you can cast a spell with a range of touch, transfer its power to your familiar, and command the familiar to deliver the spell. If you do, the familiar uses its 2 actions for the round to move to a target of your choice and touch that target. If it doesn't reach the target to touch it this turn, the spell has no effect.",
       "traits": [
          "Master Ability"
       ]

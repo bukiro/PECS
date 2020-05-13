@@ -8,7 +8,7 @@
     },
     {
         "bulk": "2",
-        "desc": "Barding is special armor for animals. All animals have a trained proficiency rank in light barding, and combat-trained animals are trained in heavy barding. Barding can’t be etched with magic runes, though special magical barding might be available.",
+        "desc": "Barding is special armor for animals. All animals have a trained proficiency rank in light barding, and combat-trained animals are trained in heavy barding. Barding can't be etched with magic runes, though special magical barding might be available.",
         "id": "89c1a2c5-8e09-11ea-9fab-e92c63c14723",
         "name": "Light Barding (Small or Medium)",
         "price": 1000,
@@ -26,7 +26,7 @@
     },
     {
         "bulk": "4",
-        "desc": "Barding is special armor for animals. All animals have a trained proficiency rank in light barding, and combat-trained animals are trained in heavy barding. Barding can’t be etched with magic runes, though special magical barding might be available.",
+        "desc": "Barding is special armor for animals. All animals have a trained proficiency rank in light barding, and combat-trained animals are trained in heavy barding. Barding can't be etched with magic runes, though special magical barding might be available.",
         "id": "89c1a2c8-8e09-11ea-9fab-e92c63c14723",
         "name": "Light Barding (Large)",
         "price": 2000,
@@ -44,7 +44,7 @@
     },
     {
         "bulk": "4",
-        "desc": "Barding is special armor for animals. All animals have a trained proficiency rank in light barding, and combat-trained animals are trained in heavy barding. Barding can’t be etched with magic runes, though special magical barding might be available.",
+        "desc": "Barding is special armor for animals. All animals have a trained proficiency rank in light barding, and combat-trained animals are trained in heavy barding. Barding can't be etched with magic runes, though special magical barding might be available.",
         "id": "89c1a2cb-8e09-11ea-9fab-e92c63c14723",
         "name": "Heavy Barding (Small or Medium)",
         "price": 2500,
@@ -62,7 +62,7 @@
     },
     {
         "bulk": "8",
-        "desc": "Barding is special armor for animals. All animals have a trained proficiency rank in light barding, and combat-trained animals are trained in heavy barding. Barding can’t be etched with magic runes, though special magical barding might be available.",
+        "desc": "Barding is special armor for animals. All animals have a trained proficiency rank in light barding, and combat-trained animals are trained in heavy barding. Barding can't be etched with magic runes, though special magical barding might be available.",
         "id": "89c1a2ce-8e09-11ea-9fab-e92c63c14723",
         "name": "Heavy Barding (Large)",
         "price": 5000,
@@ -80,7 +80,7 @@
     },
     {
         "bulk": "L",
-        "desc": "Adventurers who don’t wear armor travel in durable clothing. Though it’s not armor and uses your unarmored defense proficiency, it still has a Dex Cap and can grant an item bonus to AC if etched with potency runes.",
+        "desc": "Adventurers who don't wear armor travel in durable clothing. Though it's not armor and uses your unarmored defense proficiency, it still has a Dex Cap and can grant an item bonus to AC if etched with potency runes.",
         "id": "89c1a2d1-8e09-11ea-9fab-e92c63c14723",
         "name": "Explorer's Clothing",
         "price": 10,
@@ -93,7 +93,7 @@
     },
     {
         "bulk": "L",
-        "desc": "This armor is simply a layer of heavy, quilted cloth, but it is sometimes used because it’s so inexpensive. Padded armor is easier to damage and destroy than other types of armor. Heavy armor comes with a padded armor undercoat included in its Price, though it loses the comfort trait when worn under heavy armor. You can wear just that padded armor undercoat to sleep in, if your heavy armor is destroyed, or when otherwise not wearing the full heavy armor. This allows you to keep the armor invested and benefit from the power of any runes on the associated heavy armor, but no one else can wear your heavy armor without the padded undercoat.",
+        "desc": "This armor is simply a layer of heavy, quilted cloth, but it is sometimes used because it's so inexpensive. Padded armor is easier to damage and destroy than other types of armor. Heavy armor comes with a padded armor undercoat included in its Price, though it loses the comfort trait when worn under heavy armor. You can wear just that padded armor undercoat to sleep in, if your heavy armor is destroyed, or when otherwise not wearing the full heavy armor. This allows you to keep the armor invested and benefit from the power of any runes on the associated heavy armor, but no one else can wear your heavy armor without the padded undercoat.",
         "id": "89c1a2d4-8e09-11ea-9fab-e92c63c14723",
         "name": "Padded Armor",
         "price": 20,
@@ -211,7 +211,7 @@
     },
     {
         "bulk": "3",
-        "desc": "This type of armor is chain mail reinforced with flexible, interlocking metal plates, typically located on the wearer’s torso, upper arms, and legs. A suit of this armor comes with an undercoat of padded armor and a pair of gauntlets.",
+        "desc": "This type of armor is chain mail reinforced with flexible, interlocking metal plates, typically located on the wearer's torso, upper arms, and legs. A suit of this armor comes with an undercoat of padded armor and a pair of gauntlets.",
         "id": "89c1c9da-8e09-11ea-9fab-e92c63c14723",
         "level": 1,
         "name": "Splint Mail",

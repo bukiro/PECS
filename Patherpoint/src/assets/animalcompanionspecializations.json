@@ -43,8 +43,8 @@
                 "id": "1-Ability-Specialization-0"
             }
         ],
-        "desc": "In your companion’s natural environment, it can use a Sneak action even if it’s currently observed. Its proficiency rank in Stealth increases to expert (or master if it was already an expert from its type) and its Dexterity modifier increases by 1. Its proficiency rank for unarmored defense increases to expert, or master if it’s nimble.",
-        "hint": "In your companion’s natural environment, it can use a Sneak action even if it’s currently observed.",
+        "desc": "In your companion's natural environment, it can use a Sneak action even if it's currently observed. Its proficiency rank in Stealth increases to expert (or master if it was already an expert from its type) and its Dexterity modifier increases by 1. Its proficiency rank for unarmored defense increases to expert, or master if it's nimble.",
+        "hint": "In your companion's natural environment, it can use a Sneak action even if it's currently observed.",
         "name": "Ambusher",
         "showon": "Stealth",
         "skillChoices": [
@@ -310,8 +310,8 @@
                 "id": "1-Ability-Specialization-0"
             }
         ],
-        "desc": "Your companion joins the fray with graceful leaps and dives. It gains the deny advantage ability, so it isn’t flat-footed to hidden, undetected, or flanking creatures unless such a creature’s level is greater than yours. Its proficiency rank in Acrobatics increases to master, and its Dexterity modifier increases by 1. Its proficiency rank in unarmored defense increases to expert, or master if it’s nimble.",
-        "hint": "You aren’t flat-footed to hidden, undetected, or flanking creatures of your level or lower, or creatures of your level or lower using surprise attack. However, they can still help their allies flank.",
+        "desc": "Your companion joins the fray with graceful leaps and dives. It gains the deny advantage ability, so it isn't flat-footed to hidden, undetected, or flanking creatures unless such a creature's level is greater than yours. Its proficiency rank in Acrobatics increases to master, and its Dexterity modifier increases by 1. Its proficiency rank in unarmored defense increases to expert, or master if it's nimble.",
+        "hint": "You aren't flat-footed to hidden, undetected, or flanking creatures of your level or lower, or creatures of your level or lower using surprise attack. However, they can still help their allies flank.",
         "name": "Daredevil",
         "showon": "AC",
         "skillChoices": [
@@ -917,8 +917,8 @@
                 "id": "1-Ability-Specialization-0"
             }
         ],
-        "desc": "Your companion smashes things. Its unarmed attacks ignore half an object’s Hardness. Its Athletics proficiency increases to master, and its Strength modifier increases by 1.",
-        "hint": "Your companion's unarmed attacks ignore half an object’s Hardness.",
+        "desc": "Your companion smashes things. Its unarmed attacks ignore half an object's Hardness. Its Athletics proficiency increases to master, and its Strength modifier increases by 1.",
+        "hint": "Your companion's unarmed attacks ignore half an object's Hardness.",
         "name": "Wrecker",
         "showon": "Attacks",
         "skillChoices": [

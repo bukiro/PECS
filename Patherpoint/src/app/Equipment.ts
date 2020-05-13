@@ -5,6 +5,7 @@ import { ItemActivity } from './ItemActivity';
 import { ActivityGain } from './ActivityGain';
 import { Rune } from './Rune';
 import { ItemsService } from './items.service';
+import { InventoryGain } from './InventoryGain';
 
 export class Equipment extends Item {
     //This is a list of all the attributes that should be saved if a refID exists. All others can be looked up via the refID when loading the character.
@@ -40,6 +41,8 @@ export class Equipment extends Item {
     };
     //Name any common activity that becomes available when you equip and invest this item
     public gainActivities: ActivityGain[] = [];
+    //If this is a container, list whether it has a limit and a bulk reduction.
+    public gainInventory: InventoryGain[] = [];
     //List ItemGain for every Item that you receive when you get or equip this item (specified in the ItemGain)
     public gainItems: ItemGain[] = [];
     //What hint should show up for this item? This allows to be more concise and not use the entire description.
@@ -50,7 +53,7 @@ export class Equipment extends Item {
     //Material for weapons, armor and shields
     public material: string = "";
     //What kind of runes and material can be applied to this item? Some items that are not weapons can be modded like weapons, some weapons cannot be modded, etc.
-    public moddable: ""|"weapon"|"armor"|"shield" = "";
+    public moddable: ""|"-"|"weapon"|"armor"|"shield" = "";
     //Potency Rune level for weapons and armor
     public potencyRune:number = 0;
     //Property Rune names for weapons and armor

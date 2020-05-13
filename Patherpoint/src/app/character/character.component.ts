@@ -121,6 +121,10 @@ export class CharacterComponent implements OnInit {
         this.characterService.reset_Character();
     }
 
+    change_Name() {
+        this.set_Changed("Character");
+    }
+
     load_Character(name: string) {
         this.toggleCharacterMenu();
         this.characterService.reset_Character(name);
@@ -174,8 +178,8 @@ export class CharacterComponent implements OnInit {
         this.characterService.set_Changed();
     }
 
-    set_Changed() {
-        this.characterService.set_Changed();
+    set_Changed(target: string = "") {
+        this.characterService.set_Changed(target);
     }
 
     numbersOnly(event): boolean {
@@ -835,7 +839,7 @@ export class CharacterComponent implements OnInit {
         } else {
             this.get_Familiar().speeds[1].name = "Land Speed";
         }
-        this.set_Changed();
+        this.set_Changed("Familiar");
     }
 
     is_FamiliarSwimmer() {

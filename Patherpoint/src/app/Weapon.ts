@@ -18,8 +18,8 @@ export class Weapon extends Equipment {
         "parrying"
     ])
     readonly type = "weapons";
-    //Weapons are usually moddable like a weapon. Weapons that cannot be modded should be set to ""
-    moddable = "weapon" as ""|"weapon"|"armor"|"shield";
+    //Weapons are usually moddable like a weapon. Weapons that cannot be modded should be set to "-"
+    moddable = "weapon" as ""|"-"|"weapon"|"armor"|"shield";
     //What type of ammo is used? (Bolts, arrows...)
     public ammunition: string = "";
     //What happens on a critical hit with this weapon?
@@ -51,17 +51,21 @@ export class Weapon extends Equipment {
         //Under certain circumstances, other items' runes are applied when calculating attack bonus or damage.
         //[0] is the item whose fundamental runes will count, [1] is the item whose property runes will count, and [2] is the item that causes this change.
         let runeSource: (Weapon|WornItem)[] = [this, this];
+        //Specific items (not moddable) don't profit from other item's runes.
+        if (!this.moddable || this.moddable == "-") {
+            return runeSource;
+        }
         if (this.prof == "Unarmed") {
-            let handwraps = creature.inventory.wornitems.filter(item => item.isHandwrapsOfMightyBlows && item.invested)
+            let handwraps = creature.inventories[0].wornitems.filter(item => item.isHandwrapsOfMightyBlows && item.invested)
             if (handwraps.length) {
                 runeSource = [handwraps[0], handwraps[0], handwraps[0]];
             }
         }
         if (range == "melee" && this.moddable == "weapon") {
-            let doublingRings = creature.inventory.wornitems.filter(item => item.isDoublingRings && item.data[1].value == this.id && item.invested);
+            let doublingRings = creature.inventories[0].wornitems.filter(item => item.isDoublingRings && item.data[1].value == this.id && item.invested);
             if (doublingRings.length) {
                 if (doublingRings[0].data[0].value) {
-                    let goldItem = creature.inventory.weapons.filter(weapon => weapon.id == doublingRings[0].data[0].value);
+                    let goldItem = creature.inventories[0].weapons.filter(weapon => weapon.id == doublingRings[0].data[0].value);
                     if (goldItem.length) {
                         if (doublingRings[0].isDoublingRings == "Doubling Rings (Greater)" && doublingRings[0].data[2]) {
                             runeSource = [goldItem[0], goldItem[0], doublingRings[0]];

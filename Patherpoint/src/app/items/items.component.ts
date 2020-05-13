@@ -67,6 +67,10 @@ export class ItemsComponent implements OnInit {
         return this.characterService.get_Accent();
     }
 
+    trackByIndex(index: number, obj: any): any {
+        return index;
+    }
+
     toggle_Item(id: number) {
         if (this.showItem == id) {
             this.showItem = 0;
@@ -132,7 +136,7 @@ export class ItemsComponent implements OnInit {
     change_Cash(multiplier: number = 1, sum: number = 0, changeafter: boolean = false) {
         this.characterService.change_Cash(multiplier, sum, this.cashP, this.cashG, this.cashS, this.cashC);
         if (changeafter) {
-            this.characterService.set_Changed();
+            this.characterService.set_Changed("Inventory");
         }
     }
 
@@ -143,8 +147,8 @@ export class ItemsComponent implements OnInit {
         return this.itemsService.get_Items();
     }
 
-    get_InventoryItems() {
-        return this.characterService.get_Character().inventory;
+    get_InventoryItemSets(type: string) {
+        return this.characterService.get_Character().inventories.map(inventory => inventory[type]);
     }
 
     get_VisibleItems(items: Item[], creatureType: string) {
@@ -169,10 +173,14 @@ export class ItemsComponent implements OnInit {
         if (pay && (item["get_Price"] ? item["get_Price"](this.itemsService) : item.price)) {
             this.change_Cash(-1, item.price);
         }
+        let amount = 1;
+        if (item["stack"]) {
+            amount = item["stack"];
+        }
         if (creature == "Character") {
-            this.characterService.grant_InventoryItem(this.characterService.get_Character(), item, false);
+            this.characterService.grant_InventoryItem(this.characterService.get_Character(), this.characterService.get_Character().inventories[0], item, false, true, true, amount);
         } else if (creature == "Companion") {
-            this.characterService.grant_InventoryItem(this.characterService.get_Companion(), item, false);
+            this.characterService.grant_InventoryItem(this.characterService.get_Companion(), this.characterService.get_Character().inventories[0], item, false, true, true, amount);
         }
         
     }

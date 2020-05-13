@@ -16,6 +16,10 @@ import { OtherItem } from './OtherItem';
 import { ItemsService } from './items.service';
 import { Item } from './Item';
 import { Ammunition } from './Ammunition';
+import { Scroll } from './Scroll';
+import { Creature } from './Creature';
+import { CharacterService } from './character.service';
+import { createUrlResolverWithoutPackagePrefix } from '@angular/compiler';
 
 export class ItemCollection {
     public readonly _className: string = this.constructor.name;
@@ -24,7 +28,13 @@ export class ItemCollection {
     public alchemicalelixirs: AlchemicalElixir[] = [];
     public armorrunes: ArmorRune[] = [];
     public armors: Armor[] = [];
+    //You cannot add any items to an inventory that would break its bulk limit.
+    public bulkLimit: number = 0;
+    //This is the amount of bulk that can be ignored when weighing this inventory.
+    public bulkReduction: number = 0;
     public helditems: HeldItem[] = [];
+    //If an item grants an inventory, this is the item's ID.
+    public itemId: string = "";
     public otherconsumables: OtherConsumable[] = [];
     public otheritems: OtherItem[] = [];
     public potions: Potion[] = [];
@@ -32,19 +42,21 @@ export class ItemCollection {
     public weaponrunes: WeaponRune[] = [];
     public weapons: Weapon[] = [];
     public wornitems: WornItem[] = [];
+    public scrolls: Scroll[] = [];
     public readonly names: {name: string, key: string}[] = [
         {name:"Weapons",key:"weapons"},
         {name:"Armors",key:"armors"},
         {name:"Shields",key:"shields"},
+        {name:"Worn Items",key:"wornitems"},
+        {name:"Held Items",key:"helditems"},
+        {name:"Weapon Runes",key:"weaponrunes"},
+        {name:"Armor Runes",key:"armorrunes"},
+        {name:"Scrolls",key:"scrolls"},
         {name:"Adventuring Gear",key:"adventuringgear"},
         {name:"Alchemical Elixirs",key:"alchemicalelixirs"},
-        {name:"Ammunition",key:"ammunition"},
-        {name:"Armor Runes",key:"armorrunes"},
-        {name:"Held Items",key:"helditems"},
-        {name:"Other Consumables",key:"otherconsumables"},
         {name:"Potions",key:"potions"},
-        {name:"Weapon Runes",key:"weaponrunes"},
-        {name:"Worn Items",key:"wornitems"}
+        {name:"Ammunition",key:"ammunition"},
+        {name:"Other Consumables",key:"otherconsumables"}
     ]
     initialize(itemsService: ItemsService) {
         this.names.forEach(name => {
@@ -72,6 +84,7 @@ export class ItemCollection {
         items.push(...this.potions);
         items.push(...this.otherconsumables);
         items.push(...this.ammunition);
+        items.push(...this.scrolls);
         return items;
     }
     allRunes() {
@@ -86,5 +99,75 @@ export class ItemCollection {
         items.push(...this.allConsumables());
         items.push(...this.allRunes());
         return items;
+    }
+    get_Bulk(rounded: boolean = true) {
+        //All bulk gets calculated at *10 to avoid rounding issues with decimals,
+        //Then returned at /10
+        let sum: number = 0;
+        function addup(item: Item|OtherItem) {
+            let bulk = item.bulk;
+            if (item["carryingBulk"] && !item["equipped"]) {
+                bulk = item["carryingBulk"];
+            }
+            switch (bulk) {
+                case "":
+                    break;
+                case "-":
+                    break;
+                case "L":
+                    if (item.amount) {
+                        sum += Math.floor(item.amount / (item["stack"] ? item["stack"] : 1)) ;
+                    } else {
+                        sum += 1;
+                    }
+                    break;
+                default:
+                    if (item.amount) {
+                        sum += parseInt(bulk) * 10 * Math.floor(item.amount / (item["stack"] ? item["stack"] : 1));
+                    } else {
+                        sum += parseInt(bulk) * 10;
+                    }
+                    break;
+            }
+        }
+        this.allItems().forEach(item => {
+            addup(item);
+        })
+        this.otheritems.forEach(item => {
+            addup(item);
+        })
+        sum = Math.max(0, sum);
+        if (rounded) {
+            sum = Math.floor(sum / 10);
+        } else {
+            sum /= 10;
+        }
+        return sum;
+    }
+    get_Name(characterService: CharacterService) {
+        let name: string = ""
+        if (!this.itemId) {
+            characterService.get_Creatures().forEach(creature => {
+                if (creature.type != "Familiar") {
+                    if (creature.inventories.filter(inventory => inventory === this).length) {
+                        name = creature.name || creature.type;
+                    }
+                }
+            })
+        } else {
+            characterService.get_Creatures().forEach(creature => {
+                if (creature.type != "Familiar") {
+                    if (creature.inventories.filter(inventory => inventory === this).length) {
+                        creature.inventories.forEach(creatureInventory => {
+                            let items = creatureInventory.allEquipment().filter(item => item.id == this.itemId);
+                            if (items.length) {
+                                name = items[0].get_Name();
+                            }
+                        });
+                    }
+                }
+            })
+        }
+        return name;
     }
 }

@@ -132,6 +132,34 @@
         "locked": true
     },
     {
+        "key": "gainInventory",
+        "priority": "5",
+        "group": "3-Usage",
+        "name": "Container",
+        "desc": "Choose whether this item is a container for other items, and whether this has any limits or alleviates bulk",
+        "locked": true
+    },
+    {
+        "parent": "gainInventory",
+        "key": "bulkLimit",
+        "priority": "0",
+        "group": "",
+        "name": "Bulk Limit",
+        "desc": "The maximum bulk that can be added to this container. 0 is unlimited.",
+        "type": "number",
+        "validation": "0plus"
+    },
+    {
+        "parent": "gainInventory",
+        "key": "bulkReduction",
+        "priority": "1",
+        "group": "",
+        "name": "Bulk Reduction",
+        "desc": "This amount of bulk can be ignored while stored in this container. 0 is none.",
+        "type": "number",
+        "validation": "0plus"
+    },
+    {
         "key": "activities",
         "priority": "0",
         "group": "4-Actions and Activities",
@@ -322,7 +350,7 @@
         "key": "onceEffects",
         "priority": "18",
         "group": "",
-        "name": "One-time numeral effects",
+        "name": "One-time effects",
         "desc": "These bonuses or penalties will be applied immediately when the item is activated, like granting temporary HP. There are only a few properties that can be affected this way. Dice rolls should be handled by the player."
     },
     {
@@ -724,7 +752,7 @@
         "key": "onceEffects",
         "priority": "2",
         "group": "9-Consumables",
-        "name": "One-time numeral effects",
+        "name": "One-time effects",
         "desc": "These bonuses or penalties will be applied immediately when the item is activated, like granting temporary HP. There are only a few properties that can be affected this way. Dice rolls should be handled by the player."
     },
     {

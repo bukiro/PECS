@@ -110,9 +110,9 @@ export class ItemComponent implements OnInit {
     get_DoublingRingsOptions(ring:string) {
         switch (ring) {
             case "gold":
-                return this.get_Creature().inventory.weapons.filter(weapon => weapon.melee && weapon.potencyRune);
+                return this.get_Creature().inventories[0].weapons.filter(weapon => weapon.melee && weapon.potencyRune);
             case "iron":
-                return this.get_Creature().inventory.weapons.filter(weapon => weapon.melee && weapon.moddable == "weapon");
+                return this.get_Creature().inventories[0].weapons.filter(weapon => weapon.melee && weapon.moddable == "weapon");
         }
     }
 

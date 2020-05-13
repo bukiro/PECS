@@ -561,7 +561,7 @@ app.controller('charCtrl', function($scope,$filter) {
     new Feat('Different Worlds','Create a second identity for yourself with a different name, history, and background.',1,false,'','','','','','','',['General', 'Uncommon'],[],false,),
     new Feat('Divine Guidance','Find guidance in the writings of your faith.',15,false,"Religion, 8",'','','','','','religion',['General', 'Skill'],[],false,),
     new Feat('Dubious Knowledge','Learn true and erroneous knowledge on failed check.',1,false,"Arcana, 2|Crafting, 2|Lore, 2|Medicine, 2|Nature, 2|Occultism, 2|Religion, 2|Society, 2",'','','','','','arcana, crafting, lore, medicine, nature, occultism, religion, society',['General', 'Skill'],[],false,),
-    new Feat('Entourage','You have a small group of admirers who tend to follow you around while you’re in civilized settlements.',7,false,"Diplomacy, 6",'','Hobnobber','','','','diplomacy',['General', 'Rare', 'Skill'],[],false,),
+    new Feat('Entourage','You have a small group of admirers who tend to follow you around while you\'re in civilized settlements.',7,false,"Diplomacy, 6",'','Hobnobber','','','','diplomacy',['General', 'Rare', 'Skill'],[],false,),
     new Feat('Expeditious Search','Search areas in half the time.',7,false,"Perception, 6",'','','','','','perception',['General'],[],false,),
     new Feat('Experienced Professional','Prevent critical failures when Earning Income.',1,false,"Lore, 2",'','','','','','lore',['General', 'Skill'],[],false,),
     new Feat('Experienced Smuggler','Conceal items from observers more effectively.',1,false,"Stealth, 2",'','','','','','stealth',['General', 'Skill'],[],false,),

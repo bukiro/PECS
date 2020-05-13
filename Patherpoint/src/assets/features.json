@@ -9,19 +9,19 @@
     },
     {
         "name": "Powerful Fist",
-        "desc": "You know how to wield your fists as deadly weapons. The damage die for your fist increases to 1d6 instead of 1d4. Most people take a –2 circumstance penalty when making a lethal attack with nonlethal unarmed attacks, because they find it hard to use their fists with deadly force. You don’t take this penalty when making a lethal attack with your fist or any other unarmed attacks.",
-        "hint": "You don’t take the usual –2 circumstance penalty when making a lethal attack with your fist or any other unarmed attacks.",
+        "desc": "You know how to wield your fists as deadly weapons. The damage die for your fist increases to 1d6 instead of 1d4. Most people take a –2 circumstance penalty when making a lethal attack with nonlethal unarmed attacks, because they find it hard to use their fists with deadly force. You don't take this penalty when making a lethal attack with your fist or any other unarmed attacks.",
+        "hint": "You don't take the usual –2 circumstance penalty when making a lethal attack with your fist or any other unarmed attacks.",
         "showon": "Unarmed"
     },
     {
         "name": "Incredible Movement",
-        "desc": "You move like the wind. You gain a +10-foot status bonus to your Speed whenever you’re not wearing armor. The bonus increases by 5 feet for every 4 levels you have beyond 3rd.",
-        "hint": "You gain a +10-foot status bonus to your Speed whenever you’re not wearing armor. The bonus increases by 5 feet for every 4 levels you have beyond 3rd.",
+        "desc": "You move like the wind. You gain a +10-foot status bonus to your Speed whenever you're not wearing armor. The bonus increases by 5 feet for every 4 levels you have beyond 3rd.",
+        "hint": "You gain a +10-foot status bonus to your Speed whenever you're not wearing armor. The bonus increases by 5 feet for every 4 levels you have beyond 3rd.",
         "showon": "Land Speed"
     },
     {
         "name": "Mystic Strikes",
-        "desc": "Focusing your will into your physical attacks imbues them with mystical energy. Your unarmed attacks become magical, allowing them to get past resistances to non-magical attacks. However, you still need an item such as handwraps of mighty blows to gain an item bonus to attack rolls or increase your attacks’ weapon damage dice.",
+        "desc": "Focusing your will into your physical attacks imbues them with mystical energy. Your unarmed attacks become magical, allowing them to get past resistances to non-magical attacks. However, you still need an item such as handwraps of mighty blows to gain an item bonus to attack rolls or increase your attacks' weapon damage dice.",
         "hint": "Your unarmed attacks become magical, allowing them to get past resistances to non-magical attacks.",
         "showon": "Unarmed"
     },
@@ -32,7 +32,7 @@
     },
     {
         "name": "Expert Strikes",
-        "desc": "You’ve practiced martial arts and have now surpassed your former skill. Your proficiency ranks for unarmed attacks and simple weapons increase to expert.",
+        "desc": "You've practiced martial arts and have now surpassed your former skill. Your proficiency ranks for unarmed attacks and simple weapons increase to expert.",
         "internalNote": "Skill increases through class features are handled in the class object."
     },
     {
@@ -44,7 +44,7 @@
     },
     {
         "name": "Weapon Specialization",
-        "desc": "You’ve learned how to inflict greater injuries with the weapons you know best. You deal 2 additional damage with weapons and unarmed attacks in which you are an expert. This damage increases to 3 if you’re a master, and 4 if you’re legendary.",
+        "desc": "You've learned how to inflict greater injuries with the weapons you know best. You deal 2 additional damage with weapons and unarmed attacks in which you are an expert. This damage increases to 3 if you're a master, and 4 if you're legendary.",
         "internalNote": "The effect is hardcoded."
     },
     {
@@ -60,7 +60,7 @@
     },
     {
         "name": "Second Path to Perfection",
-        "desc": "You’ve learned to find perfection in every success. Choose a different saving throw than the one you chose for your path to perfection. Your proficiency rank for the chosen saving throw increases to master. If you roll a success with the chosen saving throw, you instead critically succeed.",
+        "desc": "You've learned to find perfection in every success. Choose a different saving throw than the one you chose for your path to perfection. Your proficiency rank for the chosen saving throw increases to master. If you roll a success with the chosen saving throw, you instead critically succeed.",
         "hint": "If you roll a success with this saving throw, you instead critically succeed.",
         "showon": "Second Path to Perfection",
         "internalNote": "Skill increases through class features are handled in the class object."
@@ -77,7 +77,7 @@
     },
     {
         "name": "Greater Weapon Specialization",
-        "desc": "Your damage from weapon specialization increases to 4 with weapons and unarmed attacks in which you’re an expert, 6 if you’re a master, and 8 if you’re legendary.",
+        "desc": "Your damage from weapon specialization increases to 4 with weapons and unarmed attacks in which you're an expert, 6 if you're a master, and 8 if you're legendary.",
         "internalNote":"The effect is hardcoded."
     },
     {
@@ -123,7 +123,7 @@
     },
     {
         "name":"Ranger Weapon Expertise",
-        "desc":"You’ve dedicated yourself to learning the intricacies of your weapons. Your proficiency ranks for simple and martial weapons and unarmed attacks increases to expert. You gain access to the critical specialization effects of all simple and martial weapons and unarmed attacks when attacking your hunted prey.",
+        "desc":"You've dedicated yourself to learning the intricacies of your weapons. Your proficiency ranks for simple and martial weapons and unarmed attacks increases to expert. You gain access to the critical specialization effects of all simple and martial weapons and unarmed attacks when attacking your hunted prey.",
         "critSpecialization": "Simple Weapons, Martial Weapons, Unarmed",
         "internalNote": "Skill increases through class features are handled in the class object. The limitation to the hunted prey is hardcoded in the weapon class."
     },
@@ -135,25 +135,25 @@
     },
     {
         "name":"Evasion",
-        "desc":"You’ve learned to move quickly to avoid explosions, dragons’ breath, and worse. Your proficiency rank for Reflex saves increases to master. When you roll a success on a Reflex save, you get a critical success instead.",
+        "desc":"You've learned to move quickly to avoid explosions, dragons' breath, and worse. Your proficiency rank for Reflex saves increases to master. When you roll a success on a Reflex save, you get a critical success instead.",
         "hint":"When you roll a success on a Reflex save, you get a critical success instead.",
         "showon":"Reflex",
         "internalNote": "Skill increases through class features are handled in the class object."
     },
     {
         "name":"Vigilant Senses",
-        "desc":"Through your adventuring, you’ve developed keen awareness and attention to detail. Your proficiency rank for Perception increases to master.",
+        "desc":"Through your adventuring, you've developed keen awareness and attention to detail. Your proficiency rank for Perception increases to master.",
         "internalNote": "Skill increases through class features are handled in the class object."
     },
     {
         "name":"Nature's Edge",
-        "desc":"You always find the weak points in your foes’ defenses when they’re on unfavorable terrain. Enemies are flat-footed to you if they’re in natural difficult terrain or in difficult terrain resulting from a snare.",
-        "hint":"Enemies are flat-footed to you if they’re in natural difficult terrain or in difficult terrain resulting from a snare.",
+        "desc":"You always find the weak points in your foes' defenses when they're on unfavorable terrain. Enemies are flat-footed to you if they're in natural difficult terrain or in difficult terrain resulting from a snare.",
+        "hint":"Enemies are flat-footed to you if they're in natural difficult terrain or in difficult terrain resulting from a snare.",
         "showon":"Attacks"
     },
     {
         "name":"Ranger Expertise",
-        "desc":"You’ve practiced your techniques to make them harder to resist. Your proficiency rank for your ranger class DC increases to expert.",
+        "desc":"You've practiced your techniques to make them harder to resist. Your proficiency rank for your ranger class DC increases to expert.",
         "internalNote": "Skill increases through class features are handled in the class object."
     },
     {
@@ -165,12 +165,12 @@
     },
     {
         "name":"Medium Armor Expertise",
-        "desc":"You’ve learned to defend yourself better against attacks. Your proficiency ranks for light armor, medium armor, and unarmored defense increase to expert.",
+        "desc":"You've learned to defend yourself better against attacks. Your proficiency ranks for light armor, medium armor, and unarmored defense increase to expert.",
         "internalNote": "Skill increases through class features are handled in the class object."
     },
     {
         "name":"Wild Stride",
-        "desc":"You move quickly through obstacles, whether they’re tumbled stone, tangled undergrowth, or sucking mud. You can ignore the effects of non-magical difficult terrain. As normal for ignoring difficult terrain, this also lets you treat the hindrances of greater difficult terrain as those of difficult terrain.",
+        "desc":"You move quickly through obstacles, whether they're tumbled stone, tangled undergrowth, or sucking mud. You can ignore the effects of non-magical difficult terrain. As normal for ignoring difficult terrain, this also lets you treat the hindrances of greater difficult terrain as those of difficult terrain.",
         "hint":"You can ignore the effects of non-magical difficult terrain. As normal for ignoring difficult terrain, this also lets you treat the hindrances of greater difficult terrain as those of difficult terrain.",
         "showon":"Movement"
     },
@@ -193,8 +193,8 @@
     },
     {
         "name":"Masterful Hunter",
-        "desc":"You have honed your abilities as a hunter to incredible levels. Your proficiency rank for your ranger class DC increases to master. When using a ranged weapon that you have master proficiency in, you can ignore the penalty if attacking your hunted prey within the weapon’s second and third range increments.\n\nIf you have master proficiency in Perception, you gain a +4 circumstance bonus to Perception checks when you Seek your prey, and if you have master proficiency in Survival, you gain a +4 circumstance bonus to Survival checks when you Track your prey. You also gain an additional benefit depending on your hunter’s edge.",
-        "hint":"When using a ranged weapon that you have master proficiency in, you can ignore the penalty if attacking your hunted prey within the weapon’s second and third range increments.\n\nIf you have master proficiency in Perception, you gain a +4 circumstance bonus to Perception checks when you Seek your prey, and if you have master proficiency in Survival, you gain a +4 circumstance bonus to Survival checks when you Track your prey.",
+        "desc":"You have honed your abilities as a hunter to incredible levels. Your proficiency rank for your ranger class DC increases to master. When using a ranged weapon that you have master proficiency in, you can ignore the penalty if attacking your hunted prey within the weapon's second and third range increments.\n\nIf you have master proficiency in Perception, you gain a +4 circumstance bonus to Perception checks when you Seek your prey, and if you have master proficiency in Survival, you gain a +4 circumstance bonus to Survival checks when you Track your prey. You also gain an additional benefit depending on your hunter's edge.",
+        "hint":"When using a ranged weapon that you have master proficiency in, you can ignore the penalty if attacking your hunted prey within the weapon's second and third range increments.\n\nIf you have master proficiency in Perception, you gain a +4 circumstance bonus to Perception checks when you Seek your prey, and if you have master proficiency in Survival, you gain a +4 circumstance bonus to Survival checks when you Track your prey.",
         "showon":"Attacks, Survival",
         "internalNote": "Skill increases through class features are handled in the class object."
     },
@@ -212,7 +212,7 @@
     },
     {
        "name":"Masterful Hunter: Precision",
-       "desc":"Your weapon mastery allows you to hit your prey’s vital areas multiple times. The second time in a round you hit your hunted prey, you also deal 1d8 precision damage. At 19th level, your second hit in a round against your hunted prey deals 2d8 precision damage, and your third hit in a round against your hunted prey deals 1d8 precision damage.",
+       "desc":"Your weapon mastery allows you to hit your prey's vital areas multiple times. The second time in a round you hit your hunted prey, you also deal 1d8 precision damage. At 19th level, your second hit in a round against your hunted prey deals 2d8 precision damage, and your third hit in a round against your hunted prey deals 1d8 precision damage.",
        "hint":"The second time in a round you hit your hunted prey, you also deal 1d8 precision damage. At 19th level, your second hit in a round against your hunted prey deals 2d8 precision damage, and your third hit in a round against your hunted prey deals 1d8 precision damage.",
        "showon":"Attacks"
     },
@@ -225,7 +225,7 @@
     },
     {
         "name":"Swift Prey",
-        "desc":"You size up your prey with only a glance. You can use Hunt Prey as a free action if it’s your first action of your turn.",
+        "desc":"You size up your prey with only a glance. You can use Hunt Prey as a free action if it's your first action of your turn.",
         "showon":"Hunt Prey"
     }
 ]

@@ -333,7 +333,7 @@
    },
    {
       "bulk": "L",
-      "desc": "A light mace has a short wooden or metal shaft ending with a dense metal head. Used much like a club, it delivers heavy bludgeoning blows, but with extra power derived from the head’s metal ridges or spikes.",
+      "desc": "A light mace has a short wooden or metal shaft ending with a dense metal head. Used much like a club, it delivers heavy bludgeoning blows, but with extra power derived from the head's metal ridges or spikes.",
       "id": "08693235-8daa-11ea-abca-ffb46fbada73",
       "name": "Light Mace",
       "price": 40,
@@ -558,7 +558,7 @@
    },
    {
       "bulk": "2",
-      "desc": "This strong but slender staff is tapered at the ends and well balanced. It’s designed to be an offensive and defensive weapon.",
+      "desc": "This strong but slender staff is tapered at the ends and well balanced. It's designed to be an offensive and defensive weapon.",
       "id": "0869324f-8daa-11ea-abca-ffb46fbada73",
       "name": "Bo Staff",
       "price": 20,
@@ -578,7 +578,7 @@
    },
    {
       "bulk": "L",
-      "desc": "This short, curved, and crude makeshift blade often has holes drilled into it to reduce its weight. It’s a favored weapon of goblins. ",
+      "desc": "This short, curved, and crude makeshift blade often has holes drilled into it to reduce its weight. It's a favored weapon of goblins. ",
       "id": "08693251-8daa-11ea-abca-ffb46fbada73",
       "name": "Dogslicer",
       "price": 10,
@@ -618,7 +618,7 @@
    },
    {
       "bulk": "2",
-      "desc": "This weapon is a heavier, two-handed version of the curved-bladed scimitar. It is weighted toward the blade’s end, making it a powerful slashing weapon.",
+      "desc": "This weapon is a heavier, two-handed version of the curved-bladed scimitar. It is weighted toward the blade's end, making it a powerful slashing weapon.",
       "id": "08693255-8daa-11ea-abca-ffb46fbada73",
       "name": "Falchion",
       "price": 300,
@@ -739,7 +739,7 @@
    },
    {
       "bulk": "1",
-      "desc": "This gnome tool and weapon features a hammer at one end and a curved pick on the other. It’s such a strange and awkward weapon that others think the gnomes are slightly erratic for using it.",
+      "desc": "This gnome tool and weapon features a hammer at one end and a curved pick on the other. It's such a strange and awkward weapon that others think the gnomes are slightly erratic for using it.",
       "id": "08693261-8daa-11ea-abca-ffb46fbada73",
       "name": "Gnome Hooked Hammer",
       "price": 200,
@@ -942,7 +942,7 @@
    },
    {
       "bulk": "1",
-      "desc": "This curved sickle sword has a pointed tip, allowing it to be swung like a handaxe or thrust like a short sword. The tip of a khopesh is usually hooked so that it can be used to disarm an opponent’s shield or weapon.",
+      "desc": "This curved sickle sword has a pointed tip, allowing it to be swung like a handaxe or thrust like a short sword. The tip of a khopesh is usually hooked so that it can be used to disarm an opponent's shield or weapon.",
       "id": "08693277-8daa-11ea-abca-ffb46fbada73",
       "name": "Khopesh",
       "price": 200,
@@ -1034,7 +1034,7 @@
    },
    {
       "bulk": "1",
-      "desc": "Longswords can be one-edged or two‑edged swords. Their blades are heavy and they’re between 3 and 4 feet in length. ",
+      "desc": "Longswords can be one-edged or two‑edged swords. Their blades are heavy and they're between 3 and 4 feet in length. ",
       "id": "08693281-8daa-11ea-abca-ffb46fbada73",
       "name": "Longsword",
       "price": 100,
@@ -1069,7 +1069,7 @@
    },
    {
       "bulk": "L",
-      "desc": "This parrying dagger features a robust guard to protect the wielder’s hand. ",
+      "desc": "This parrying dagger features a robust guard to protect the wielder's hand. ",
       "id": "08693285-8daa-11ea-abca-ffb46fbada73",
       "name": "Main-gauche",
       "price": 50,
@@ -1090,7 +1090,7 @@
    },
    {
       "bulk": "1",
-      "desc": "Also known as a hunga munga or danisco, this hybrid knife-axe consists of a hilt and a blade that curves backward toward the wielder. The curve of the blade is such that after a victim has been struck by a mambele, more damage is dealt as the weapon is extracted from the victim’s body.",
+      "desc": "Also known as a hunga munga or danisco, this hybrid knife-axe consists of a hilt and a blade that curves backward toward the wielder. The curve of the blade is such that after a victim has been struck by a mambele, more damage is dealt as the weapon is extracted from the victim's body.",
       "id": "08693287-8daa-11ea-abca-ffb46fbada73",
       "name": "Mambele",
       "price": 60,
@@ -1259,7 +1259,7 @@
    },
    {
       "bulk": "2",
-      "desc": "This polearm is a long trident with a central prong that’s longer than the other two.",
+      "desc": "This polearm is a long trident with a central prong that's longer than the other two.",
       "id": "08695930-8daa-11ea-abca-ffb46fbada73",
       "name": "Ranseur",
       "price": 200,
@@ -1295,7 +1295,7 @@
    },
    {
       "bulk": "L",
-      "desc": "This piercing dagger is a metal spike flanked by a pair of prongs that can be used to trap an enemy’s weapon.",
+      "desc": "This piercing dagger is a metal spike flanked by a pair of prongs that can be used to trap an enemy's weapon.",
       "id": "08695934-8daa-11ea-abca-ffb46fbada73",
       "name": "Sai",
       "price": 60,
@@ -1317,7 +1317,7 @@
    },
    {
       "bulk": "L",
-      "desc": "A sap has a soft wrapping around a dense core, typically a leather sheath around a lead rod. Its head is wider than its grip to disperse the force of a blow, as the weapon’s purpose is to knock out its victim rather than to draw blood. ",
+      "desc": "A sap has a soft wrapping around a dense core, typically a leather sheath around a lead rod. Its head is wider than its grip to disperse the force of a blow, as the weapon's purpose is to knock out its victim rather than to draw blood. ",
       "id": "08695936-8daa-11ea-abca-ffb46fbada73",
       "name": "Sap",
       "price": 10,
@@ -1351,7 +1351,7 @@
    },
    {
       "bulk": "L",
-      "desc": "A scorpion whip has a series of razor-sharp blades set along its tip. Unlike ordinary whips, a scorpion whip doesn’t have the nonlethal trait, making it deadlier in combat but less effective when the wielder seeks to bring in foes alive.",
+      "desc": "A scorpion whip has a series of razor-sharp blades set along its tip. Unlike ordinary whips, a scorpion whip doesn't have the nonlethal trait, making it deadlier in combat but less effective when the wielder seeks to bring in foes alive.",
       "id": "0869593a-8daa-11ea-abca-ffb46fbada73",
       "name": "Scorpion Whip",
       "price": 50,
@@ -1372,7 +1372,7 @@
    },
    {
       "bulk": "1",
-      "desc": "A scourge—also known as a cat-o’-nine-tails—is a set of several knotted cords made from cotton or leather and attached to a handle. While most scourges are more suitable for torture than combat, the weapons used by the Order of the Scourge have metal barbs woven in to pierce clothing and armor. The scourge is a martial melee weapon.",
+      "desc": "A scourge—also known as a cat-o'-nine-tails—is a set of several knotted cords made from cotton or leather and attached to a handle. While most scourges are more suitable for torture than combat, the weapons used by the Order of the Scourge have metal barbs woven in to pierce clothing and armor. The scourge is a martial melee weapon.",
       "id": "0869593c-8daa-11ea-abca-ffb46fbada73",
       "name": "Scourge",
       "price": 10,
@@ -1591,7 +1591,7 @@
    },
    {
       "bulk": "2",
-      "desc": "This large flail has a long shaft connected to a shorter piece of stout wood or metal that’s sometimes inlaid with spikes.",
+      "desc": "This large flail has a long shaft connected to a shorter piece of stout wood or metal that's sometimes inlaid with spikes.",
       "id": "08695954-8daa-11ea-abca-ffb46fbada73",
       "name": "War Flail",
       "price": 200,
@@ -1610,7 +1610,7 @@
    },
    {
       "bulk": "L",
-      "desc": "A war razor is an exaggerated version of the barbers’ tool. It is a brittle but extremely sharp weapon that is very easy to slip into a pocket or sleeve.",
+      "desc": "A war razor is an exaggerated version of the barbers' tool. It is a brittle but extremely sharp weapon that is very easy to slip into a pocket or sleeve.",
       "id": "08695956-8daa-11ea-abca-ffb46fbada73",
       "name": "War Razor",
       "price": 30,
@@ -1630,7 +1630,7 @@
    },
    {
       "bulk": "1",
-      "desc": "This weapon has a wooden shaft ending in a large, heavy metal head. The head of the hammer might be single-sided or double-sided, but it’s always capable of delivering powerful bludgeoning blows. ",
+      "desc": "This weapon has a wooden shaft ending in a large, heavy metal head. The head of the hammer might be single-sided or double-sided, but it's always capable of delivering powerful bludgeoning blows. ",
       "id": "08695958-8daa-11ea-abca-ffb46fbada73",
       "name": "Warhammer",
       "price": 100,
@@ -1668,7 +1668,7 @@
    },
    {
       "bulk": "1",
-      "desc": "The aklys is a throwing club with a hook on one end and a lengthy cord attached to the other. Though aklyses aren’t available in most shops, one might be purchased for 5 gp from a vendor that specializes in strange weapons.",
+      "desc": "The aklys is a throwing club with a hook on one end and a lengthy cord attached to the other. Though aklyses aren't available in most shops, one might be purchased for 5 gp from a vendor that specializes in strange weapons.",
       "id": "0869595c-8daa-11ea-abca-ffb46fbada73",
       "name": "Aklys",
       "price": 500,
@@ -1731,7 +1731,7 @@
    },
    {
       "bulk": "1",
-      "desc": "This circular hoop has blades along its outer edge. You can wield it in two hands (using the two-hand damage) or by spinning it around an arm. While you spin the hoop, it gains the free-hand trait. Setting the hoop spinning takes 1 Interact action. In addition to the normal restrictions of the free-hand trait, extended use of the arm for locomotion (such as to Climb) interferes with the hoop’s spinning and forces you to Release the hoop. You can’t spin a hoop underwater. Keeping the hoop spinning requires a free action each round, which has the concentrate and manipulate traits. You can keep a hoop spinning as an exploration activity, but doing so for more than 10 minutes makes you fatigued, similarly to Hustling.",
+      "desc": "This circular hoop has blades along its outer edge. You can wield it in two hands (using the two-hand damage) or by spinning it around an arm. While you spin the hoop, it gains the free-hand trait. Setting the hoop spinning takes 1 Interact action. In addition to the normal restrictions of the free-hand trait, extended use of the arm for locomotion (such as to Climb) interferes with the hoop's spinning and forces you to Release the hoop. You can't spin a hoop underwater. Keeping the hoop spinning requires a free action each round, which has the concentrate and manipulate traits. You can keep a hoop spinning as an exploration activity, but doing so for more than 10 minutes makes you fatigued, similarly to Hustling.",
       "id": "08695962-8daa-11ea-abca-ffb46fbada73",
       "name": "Bladed Hoop",
       "price": 250,
@@ -1770,7 +1770,7 @@
    },
    {
       "bulk": "L",
-      "desc": "These special poi are made from a rare, light metal or from fire-retardant fibers and can be ignited before being wielded. Igniting a pair of fire poi is an Interact action and requires 1 pint of oil for every 10 minutes the poi remain ignited. While lit, fire poi cast dim light in a 10-foot radius; in combat, they deal 1d4 bludgeoning plus 1d4 fire damage. On a critical hit with a lit fire poi, the target takes 1 persistent fire damage. The fire can be extinguished using the Interact action. When unlit, the poi deal only the listed bludgeoning damage. Regardless of whether it is lit, the poi’s 1d4 bludgeoning damage is the weapon damage dice, so striking runes and other effects don’t affect the fire damage.",
+      "desc": "These special poi are made from a rare, light metal or from fire-retardant fibers and can be ignited before being wielded. Igniting a pair of fire poi is an Interact action and requires 1 pint of oil for every 10 minutes the poi remain ignited. While lit, fire poi cast dim light in a 10-foot radius; in combat, they deal 1d4 bludgeoning plus 1d4 fire damage. On a critical hit with a lit fire poi, the target takes 1 persistent fire damage. The fire can be extinguished using the Interact action. When unlit, the poi deal only the listed bludgeoning damage. Regardless of whether it is lit, the poi's 1d4 bludgeoning damage is the weapon damage dice, so striking runes and other effects don't affect the fire damage.",
       "id": "08698031-8daa-11ea-abca-ffb46fbada73",
       "name": "Fire Poi",
       "price": 500,
@@ -1830,7 +1830,7 @@
    },
    {
       "bulk": "1",
-      "desc": "This single-bladed bearded axe has a jagged blade that’s perfect for separating bone from tendon and cartilage.",
+      "desc": "This single-bladed bearded axe has a jagged blade that's perfect for separating bone from tendon and cartilage.",
       "id": "08698037-8daa-11ea-abca-ffb46fbada73",
       "name": "Orc Necksplitter",
       "price": 200,
@@ -1920,7 +1920,7 @@
    },
    {
       "bulk": "L",
-      "desc": "Sometimes referred to as an alley bow by rogues or ruffians, this small crossbow fires small bolts that are sometimes used to deliver poison to the target. It’s small enough to be shot one-handed, but it still requires two hands to load.",
+      "desc": "Sometimes referred to as an alley bow by rogues or ruffians, this small crossbow fires small bolts that are sometimes used to deliver poison to the target. It's small enough to be shot one-handed, but it still requires two hands to load.",
       "id": "08698041-8daa-11ea-abca-ffb46fbada73",
       "name": "Hand Crossbow",
       "price": 300,
@@ -1999,7 +1999,7 @@
    },
    {
       "bulk": "2",
-      "desc": "This projectile weapon is made from horn, wood, and sinew laminated together to increase the power of its pull and the force of its projectile. Like all longbows, its great size also increases the bow’s range and power. You must use two hands to fire it, and it cannot be used while mounted. Any time an ability is specifically restricted to a longbow, such as Erastil’s favored weapon, it also applies to composite longbows unless otherwise stated.",
+      "desc": "This projectile weapon is made from horn, wood, and sinew laminated together to increase the power of its pull and the force of its projectile. Like all longbows, its great size also increases the bow's range and power. You must use two hands to fire it, and it cannot be used while mounted. Any time an ability is specifically restricted to a longbow, such as Erastil's favored weapon, it also applies to composite longbows unless otherwise stated.",
       "id": "0869804b-8daa-11ea-abca-ffb46fbada73",
       "name": "Composite Longbow",
       "price": 2000,
@@ -2060,7 +2060,7 @@
    },
    {
       "bulk": "2",
-      "desc": "This 5-foot-tall bow, usually made of a single piece of elm, hickory, or yew, has a powerful draw and is excellent at propelling arrows with great force and at an extreme distance. You must use two hands to fire a longbow, and it can’t be used while mounted.",
+      "desc": "This 5-foot-tall bow, usually made of a single piece of elm, hickory, or yew, has a powerful draw and is excellent at propelling arrows with great force and at an extreme distance. You must use two hands to fire a longbow, and it can't be used while mounted.",
       "id": "08698051-8daa-11ea-abca-ffb46fbada73",
       "name": "Longbow",
       "price": 600,
@@ -2178,7 +2178,7 @@
    },
    {
       "bulk": "2",
-      "desc": "This strong but slender staff is tapered at the ends and well balanced. It’s designed to be an offensive and defensive weapon.",
+      "desc": "This strong but slender staff is tapered at the ends and well balanced. It's designed to be an offensive and defensive weapon.",
       "hide": true,
       "id": "08698059-8daa-11ea-abca-ffb46fbada73",
       "name": "Bo Staff (Twining Staff)",

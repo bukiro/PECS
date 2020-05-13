@@ -48,6 +48,7 @@ import { SavegameService } from './savegame.service';
 import { FamiliarsService } from './familiars.service';
 import { FeatChoice } from './FeatChoice';
 import { SpellCasting } from './SpellCasting';
+import { InventoryGain } from './InventoryGain';
 
 @Injectable({
     providedIn: 'root'
@@ -234,7 +235,17 @@ export class CharacterService {
 
     get_Creatures() {
         if (!this.still_loading()) {
-            return ([] as (Character|AnimalCompanion|Familiar)[]).concat(this.get_Character()).concat(this.get_Companion()).concat(this.get_Familiar());
+            let companionAvailable = this.get_CompanionAvailable();
+            let familiarAvailable = this.get_FamiliarAvailable();
+            if (companionAvailable && familiarAvailable) {
+                return ([] as (Character|AnimalCompanion|Familiar)[]).concat(this.get_Character()).concat(this.get_Companion()).concat(this.get_Familiar());
+            } else if (companionAvailable) {
+                return ([] as (Character|AnimalCompanion|Familiar)[]).concat(this.get_Character()).concat(this.get_Companion());
+            } else if (familiarAvailable) {
+                return ([] as (Character|AnimalCompanion|Familiar)[]).concat(this.get_Character()).concat(this.get_Familiar());
+            } else {
+                return ([] as (Character|AnimalCompanion|Familiar)[]).concat(this.get_Character());
+            }
         } else { return [new Character()] }
     }
 
@@ -386,10 +397,10 @@ export class CharacterService {
         return this.itemsService.get_Items();
     }
 
-    get_InventoryItems(creature: Character|AnimalCompanion|Familiar) {
+    get_Inventories(creature: Character|AnimalCompanion|Familiar) {
         if (!this.still_loading()) {
-            return creature.inventory;
-        } else { return new ItemCollection() }
+            return creature.inventories;
+        } else { return [new ItemCollection()] }
     }
 
     get_Specializations(group: string = "") {
@@ -397,7 +408,7 @@ export class CharacterService {
     }
 
     get_InvestedItems(creature: Character|AnimalCompanion|Familiar) {
-        return creature.inventory.allEquipment().filter(item => item.invested)
+        return creature.inventories[0].allEquipment().filter(item => item.invested)
     }
 
     create_AdvancedWeaponFeats(advancedWeapons: Weapon[]) {
@@ -413,14 +424,15 @@ export class CharacterService {
             let advancedWeaponFeats = this.get_Feats().filter(feat => feat.advancedweaponbase);
             advancedWeapons.forEach(weapon => {
                 advancedWeaponFeats.forEach(feat => {
-                    if (this.me.customFeats.filter(customFeat => customFeat.name == feat.name.replace('Advanced Weapon', weapon.name)).length == 0) {
+                    if (!this.get_Feats().find(libraryFeat => libraryFeat.name == feat.name.replace('Advanced Weapon', weapon.name)) &&
+                    !this.me.customFeats.find(customFeat => customFeat.name == feat.name.replace('Advanced Weapon', weapon.name))) {
                         let newLength = this.add_CustomFeat(feat);
                         let newFeat = this.get_Character().customFeats[newLength - 1];
                         newFeat.name = newFeat.name.replace("Advanced Weapon", weapon.name);
                         newFeat.hide = false;
+                        newFeat.advancedweaponbase = false;
                         newFeat.subType = newFeat.subType.replace("Advanced Weapon", weapon.name);
-                        newFeat.desc = newFeat.subType.replace("Advanced Weapon", weapon.name);
-                        newFeat.specialreqdesc = newFeat.specialreqdesc.replace("Advanced Weapon", weapon.name);
+                        newFeat.desc = newFeat.desc.replace("Advanced Weapon", weapon.name);
                         newFeat.gainSkillChoice.forEach(choice => {
                             choice.source = choice.source.replace("Advanced Weapon", weapon.name);
                             choice.increases.forEach(increase => {
@@ -434,13 +446,13 @@ export class CharacterService {
         }
     }
 
-    grant_InventoryItem(creature: Character|AnimalCompanion, item: Item, resetRunes: boolean = true, changeAfter: boolean = true, equipAfter: boolean = true, amount: number = 1) {
+    grant_InventoryItem(creature: Character|AnimalCompanion, inventory: ItemCollection, item: Item, resetRunes: boolean = true, changeAfter: boolean = true, equipAfter: boolean = true, amount: number = 1) {
         let newInventoryItem = this.itemsService.initialize_Item(item);
         //Assign the library's item id as the new item's refId. This allows us to read the default information from the library later.
         newInventoryItem.refId = item.id;
         let returnedInventoryItem;
         //Check if this item already exists in the inventory, and if it is stackable.
-        let existingItems = creature.inventory[item.type].filter((existing: Item) =>
+        let existingItems = inventory[item.type].filter((existing: Item) =>
             existing.name == item.name && item.can_Stack()
         );
         //If any existing, stackable items are found, try parsing the amount and set it to 1 if failed, then raise the amount on the first of the existing items.
@@ -457,13 +469,13 @@ export class CharacterService {
             existingItems[0].amount += intAmount;
             returnedInventoryItem = existingItems[0];
         } else {
-            let newInventoryLength = creature.inventory[item.type].push(newInventoryItem);
-            let createdInventoryItem = creature.inventory[item.type][newInventoryLength - 1];
+            let newInventoryLength = inventory[item.type].push(newInventoryItem);
+            let createdInventoryItem = inventory[item.type][newInventoryLength - 1];
             if (createdInventoryItem.amount && amount > 1) {
                 createdInventoryItem.amount += amount - 1;
             }
             if (equipAfter) {
-                this.onEquip(creature, createdInventoryItem, true, false);
+                this.onEquip(creature, inventory, createdInventoryItem, true, false);
             }
             returnedInventoryItem = createdInventoryItem;
             if (returnedInventoryItem["prof"] == "Advanced Weapons") {
@@ -489,19 +501,28 @@ export class CharacterService {
                 });
             }
         }
+        if (returnedInventoryItem["gainInventory"]) {
+            returnedInventoryItem["gainInventory"].forEach((gain: InventoryGain) => {
+                let newLength = creature.inventories.push(new ItemCollection());
+                let newInventory = creature.inventories[newLength - 1];
+                newInventory.itemId = returnedInventoryItem.id;
+                newInventory.bulkLimit = gain.bulkLimit;
+                newInventory.bulkReduction = gain.bulkReduction;
+            })
+        }
         //Add all Items that you get from being granted this one
         if (returnedInventoryItem["gainItems"] && returnedInventoryItem["gainItems"].length) {
             returnedInventoryItem["gainItems"].filter(gainItem => gainItem.on == "grant").forEach(gainItem => {
                 let newItem: Item = this.get_Items()[gainItem.type].filter(libraryItem => libraryItem.name == gainItem.name)[0];
                 if (newItem.can_Stack()) {
-                    this.grant_InventoryItem(creature, newItem, true, false, false, gainItem.amount);
+                    this.grant_InventoryItem(creature, inventory, newItem, true, false, false, gainItem.amount);
                 } else {
                     let equip = true;
                     //Don't equip the new item if it's a shield or armor and this one is too - only one shield or armor can be equipped
                     if ((returnedInventoryItem.type == "armors" || returnedInventoryItem.type == "shields") && newItem.type == returnedInventoryItem.type) {
                         equip = false;
                     }
-                    let grantedItem = this.grant_InventoryItem(creature, newItem, true, false, equip);
+                    let grantedItem = this.grant_InventoryItem(creature, inventory, newItem, true, false, equip);
                     gainItem.id = grantedItem.id;
                     if (grantedItem.get_Name) {
                         grantedItem.displayName = grantedItem.name + " (granted by " + returnedInventoryItem.name + ")"
@@ -510,19 +531,19 @@ export class CharacterService {
             });
         }
         if (changeAfter) {
-            this.set_Changed();
+            this.set_Changed(creature.type);
         }
         return returnedInventoryItem;
     }
 
-    drop_InventoryItem(creature: Character|AnimalCompanion, item: Item, changeAfter: boolean = true, equipBasicItems: boolean = true, including: boolean = true, amount: number = 1) {
+    drop_InventoryItem(creature: Character|AnimalCompanion, inventory: ItemCollection, item: Item, changeAfter: boolean = true, equipBasicItems: boolean = true, including: boolean = true, amount: number = 1) {
         if (amount < item.amount) {
             item.amount -= amount;
         } else {
             if (item["equipped"]) {
-                this.onEquip(creature, item as Equipment, false, false);
+                this.onEquip(creature, inventory, item as Equipment, false, false);
             } else if (item["invested"]) {
-                this.onInvest(creature, item as Equipment, false, false);
+                this.onInvest(creature, inventory, item as Equipment, false, false);
             }
             if (item["propertyRunes"]) {
                 item["propertyRunes"].filter((rune: Rune) => rune.loreChoices.length).forEach((rune: Rune) => {
@@ -543,23 +564,15 @@ export class CharacterService {
                     }
                 })
             }
+            if (item["gainInventory"]) {
+                creature.inventories = creature.inventories.filter(inventory => inventory.itemId != item.id);
+            }
             if (including && item["gainItems"] && item["gainItems"].length) {
                 item["gainItems"].filter((gainItem: ItemGain) => gainItem.on == "grant").forEach(gainItem => {
-                    if (this.get_Items()[gainItem.type].filter((libraryItem: Item) => libraryItem.name == gainItem.name)[0].can_Stack()) {
-                        let items: Item[] = creature.inventory[gainItem.type].filter((libraryItem: Item) => libraryItem.name == gainItem.name);
-                        if (items.length) {
-                            this.drop_InventoryItem(creature, items[0], false, false, true, gainItem.amount);
-                        }
-                    } else {
-                        let items: Item[] = creature.inventory[gainItem.type].filter((libraryItem: Item) => libraryItem.id == gainItem.id);
-                        if (items.length) {
-                            this.drop_InventoryItem(creature, items[0], false, false, true);
-                        }
-                        gainItem.id = "";
-                    }
+                    this.lose_GainedItem(creature, gainItem);
                 });
             }
-            creature.inventory[item.type] = creature.inventory[item.type].filter((any_item: Item) => any_item !== item);
+            inventory[item.type] = inventory[item.type].filter((any_item: Item) => any_item !== item);
             if (equipBasicItems) {
                 this.equip_BasicItems(creature);
             }
@@ -573,7 +586,7 @@ export class CharacterService {
         //Then go through all the loreChoices (usually only one)
         rune.loreChoices.forEach(choice => {
             //Check if only one (=this) item's rune has this lore (and therefore no other item has already created it on the character), and if so, create it.
-            if (this.get_Character().inventory.allEquipment()
+            if (this.get_Character().inventories[0].allEquipment()
                 .filter(item => item.propertyRunes
                     .filter(propertyRune => propertyRune.loreChoices
                         .filter(otherchoice => otherchoice.loreName == choice.loreName)
@@ -589,7 +602,7 @@ export class CharacterService {
         //Iterate through the loreChoices (usually only one)
         rune.loreChoices.forEach(choice => {
             //Check if only one item's rune has this lore (and therefore no other rune still needs it created), and if so, remove it.
-            if (this.get_Character().inventory.allEquipment()
+            if (this.get_Character().inventories[0].allEquipment()
                 .filter(item => item.propertyRunes
                     .filter(propertyRune => propertyRune.loreChoices
                         .filter(otherchoice => otherchoice.loreName == choice.loreName)
@@ -653,34 +666,34 @@ export class CharacterService {
         this.change_Cash(1, sum);
     }
 
-    onEquip(creature: Character|AnimalCompanion, item: Equipment, equipped: boolean = true, changeAfter: boolean = true, equipBasicItems: boolean = true) {
+    onEquip(creature: Character|AnimalCompanion, inventory: ItemCollection, item: Equipment, equipped: boolean = true, changeAfter: boolean = true, equipBasicItems: boolean = true) {
         if ((creature.type == "Character" && !item.traits.includes("Companion")) || (creature.type == "Companion" && item.traits.includes("Companion")) || item.name == "Unarmored") {
             item.equipped = equipped;
             if (item.equipped) {
                 if (item.type == "armors" || item.type == "shields") {
-                    let allOfType = this.get_InventoryItems(creature)[item.type];
+                    let allOfType = inventory[item.type];
                     allOfType.forEach(typeItem => {
-                        this.onEquip(creature, typeItem, false, false, false);
+                        this.onEquip(creature, inventory, typeItem, false, false, false);
                     });
                     item.equipped = true;
                 }
                 //If you get an Activity from an item that doesn't need to be invested, immediately invest it in secret so the Activity is gained
                 if (item.gainActivities && !item.traits.includes("Invested")) {
-                    this.onInvest(creature, item, true, false);
+                    this.onInvest(creature, inventory, item, true, false);
                 }
                 //Add all Items that you get from equipping this one
                 if (item["gainItems"] && item["gainItems"].length) {
                     item["gainItems"].filter((gainItem: ItemGain) => gainItem.on == "equip").forEach(gainItem => {
                         let newItem: Item = this.itemsService.get_Items()[gainItem.type].filter((libraryItem: Item) => libraryItem.name == gainItem.name)[0]
                         if (newItem.can_Stack()) {
-                            this.grant_InventoryItem(creature, newItem, false, false, false, gainItem.amount);
+                            this.grant_InventoryItem(creature, inventory, newItem, false, false, false, gainItem.amount);
                         } else {
                             let equip = true;
                             //Don't equip the new item if it's a shield or armor and this one is too - only one shield or armor can be equipped
                             if ((item.type == "armors" || item.type == "shields") && newItem.type == item.type) {
                                 equip = false;
                             }
-                            let grantedItem = this.grant_InventoryItem(creature, newItem, false, false, equip);
+                            let grantedItem = this.grant_InventoryItem(creature, inventory, newItem, false, false, equip);
                             gainItem.id = grantedItem.id;
                             if (grantedItem.get_Name) {
                                 grantedItem.displayName = grantedItem.name + " (granted by " + item.name + ")"
@@ -703,22 +716,11 @@ export class CharacterService {
                 }
                 //If the item was invested, it isn't now.
                 if (item.invested) {
-                    this.onInvest(creature, item, false, false);
+                    this.onInvest(creature, inventory, item, false, false);
                 }
                 if (item["gainItems"] && item["gainItems"].length) {
                     item["gainItems"].filter((gainItem: ItemGain) => gainItem.on == "equip").forEach(gainItem => {
-                        if (this.get_Items()[gainItem.type].filter((item: Item) => item.name == gainItem.name)[0].can_Stack()) {
-                            let items: Item[] = creature.inventory[gainItem.type].filter((item: Item) => item.name == gainItem.name);
-                            if (items.length) {
-                                this.drop_InventoryItem(creature, items[0], false, false, true, gainItem.amount);
-                            }
-                        } else {
-                            let items: Item[] = creature.inventory[gainItem.type].filter((item: Item) => item.id == gainItem.id);
-                            if (items.length) {
-                                this.drop_InventoryItem(creature, items[0], false, false, true);
-                            }
-                            gainItem.id = "";
-                        }
+                        this.lose_GainedItem(creature, gainItem);
                     });
                 }
             }
@@ -728,11 +730,39 @@ export class CharacterService {
         }
     }
 
-    onInvest(creature: Character|AnimalCompanion, item: Equipment, invested: boolean = true, changeAfter: boolean = true) {
+    lose_GainedItem(creature: Character|AnimalCompanion, gainedItem: ItemGain) {
+        if (this.itemsService.get_Items()[gainedItem.type].concat(...creature.inventories.map(inventory => inventory[gainedItem.type])).filter((item: Item) => item.name == gainedItem.name)[0].can_Stack()) {
+            let amountToDrop = gainedItem.amount || 1;
+            creature.inventories.forEach(inventory => {
+                let items: Item[] = inventory[gainedItem.type].filter((libraryItem: Item) => libraryItem.name == gainedItem.name);
+                items.forEach(item => {
+                    if (amountToDrop) {
+                        if (item.amount < amountToDrop) {
+                            this.drop_InventoryItem(creature, inventory, item, false, false, true, gainedItem.amount - amountToDrop);
+                            amountToDrop -= gainedItem.amount;
+                        } else {
+                            this.drop_InventoryItem(creature, inventory, item, false, false, true, gainedItem.amount);
+                            amountToDrop = 0;
+                        }
+                    }
+                });
+            });
+        } else {
+            creature.inventories.forEach(inventory => {
+                let items: Item[] = inventory[gainedItem.type].filter((libraryItem: Item) => libraryItem.id == gainedItem.id);
+                items.forEach(item => {
+                    this.drop_InventoryItem(creature, inventory, item, false, false, true);
+                });
+            });
+            gainedItem.id = "";
+        }
+    }
+
+    onInvest(creature: Character|AnimalCompanion, inventory: ItemCollection, item: Equipment, invested: boolean = true, changeAfter: boolean = true) {
         item.invested = invested;
         if (item.invested) {
             if (!item.equipped) {
-                this.onEquip(creature, item, true, false);
+                this.onEquip(creature, inventory, item, true, false);
             }
         } else {
             item.gainActivities.forEach((gainActivity: ActivityGain) => {
@@ -770,19 +800,19 @@ export class CharacterService {
 
     equip_BasicItems(creature: Character|AnimalCompanion, changeAfter: boolean = true) {
         if (!this.still_loading() && this.basicItems.length) {
-            if (!creature.inventory.weapons.length && creature.type == "Character") {
-                this.grant_InventoryItem(creature, this.basicItems[0], true, false, false);
+            if (!creature.inventories[0].weapons.length && creature.type == "Character") {
+                this.grant_InventoryItem(creature, creature.inventories[0], this.basicItems[0], true, false, false);
             }
-            if (!creature.inventory.armors.length) {
-                this.grant_InventoryItem(creature, this.basicItems[1], true, false, false);
+            if (!creature.inventories[0].armors.length) {
+                this.grant_InventoryItem(creature, creature.inventories[0], this.basicItems[1], true, false, false);
             }
-            if (!creature.inventory.weapons.filter(weapon => weapon.equipped == true).length) {
-                if (creature.inventory.weapons.length) {
-                    this.onEquip(creature, creature.inventory.weapons[0], true, changeAfter);
+            if (!creature.inventories[0].weapons.filter(weapon => weapon.equipped == true).length) {
+                if (creature.inventories[0].weapons.length) {
+                    this.onEquip(creature, creature.inventories[0], creature.inventories[0].weapons[0], true, changeAfter);
                 }
             }
-            if (!creature.inventory.armors.filter(armor => armor.equipped == true).length) {
-                this.onEquip(creature, creature.inventory.armors[0], true, changeAfter);
+            if (!creature.inventories[0].armors.filter(armor => armor.equipped == true).length) {
+                this.onEquip(creature, creature.inventories[0], creature.inventories[0].armors[0], true, changeAfter);
             }
         }
     }
@@ -1015,7 +1045,7 @@ export class CharacterService {
             if (creature.type == "Companion" && creature.class.ancestry.name) {
                 activities.push(...(creature as AnimalCompanion).class.ancestry.activities.filter(gain => gain.level <= levelNumber));
             }
-            creature.inventory.allEquipment().filter(item => item.equipped && (item.can_Invest() ? item.invested : true) && (item.gainActivities.length || item.activities.length)).forEach(item => {
+            creature.inventories[0].allEquipment().filter(item => item.equipped && (item.can_Invest() ? item.invested : true) && (item.gainActivities.length || item.activities.length)).forEach(item => {
                 if (item.gainActivities.length) {
                     activities.push(...item.gainActivities);
                 }
@@ -1023,7 +1053,7 @@ export class CharacterService {
                     activities.push(...item.activities);
                 }
             })
-            creature.inventory.allEquipment().filter(item => item.propertyRunes.filter(rune => item.equipped && (item.can_Invest() ? item.invested : true) && rune.activities.length).length).forEach(item => {
+            creature.inventories[0].allEquipment().filter(item => item.propertyRunes.filter(rune => item.equipped && (item.can_Invest() ? item.invested : true) && rune.activities.length).length).forEach(item => {
                 item.propertyRunes.filter(rune => rune.activities.length).forEach(rune => {
                     activities.push(...rune.activities);
                 })
@@ -1049,11 +1079,13 @@ export class CharacterService {
 
     get_ItemsShowingOn(creature: Character|AnimalCompanion|Familiar, objectName: string) {
         let returnedItems: Item[] = [];
-        creature.inventory.allEquipment().forEach(item => {
-            item.showon.split(",").forEach(showon => {
-                if (showon == objectName || showon.substr(1) == objectName || (objectName == "Lore" && showon.includes(objectName))) {
-                    returnedItems.push(item);
-                }
+        creature.inventories.forEach(inventory => {
+            inventory.allEquipment().forEach(item => {
+                item.showon.split(",").forEach(showon => {
+                    if (showon == objectName || showon.substr(1) == objectName || (objectName == "Lore" && showon.includes(objectName))) {
+                        returnedItems.push(item);
+                    }
+                });
             });
         });
         return returnedItems;
@@ -1166,7 +1198,6 @@ export class CharacterService {
                 this.trigger_FinalChange();
             }, 500)
         } else {
-            this.create_AdvancedWeaponFeats([]);
             this.set_Changed();
         }
     }

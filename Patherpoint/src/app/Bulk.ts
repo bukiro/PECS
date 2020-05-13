@@ -9,7 +9,7 @@ import { Familiar } from './Familiar';
 
 export class Bulk {
     public $bonus: Effect[];
-    public $current: number = 0;
+    public $current: {value:number, desc:string} = {value:0, desc:""};
     public $effects: Effect[];
     public $encumbered: {value:number, desc:string} = {value:0, desc:""};
     public $limit: {value:number, desc:string} = {value:0, desc:""};
@@ -19,7 +19,7 @@ export class Bulk {
         this.$effects = this.effects(creature, effectsService);
         this.$bonus = this.bonus(creature, effectsService);
         this.$penalty = this.penalty(creature, effectsService);
-        this.$current = this.current(creature, effectsService);
+        this.$current = this.current(creature, characterService, effectsService);
         this.$limit = this.limit(creature, characterService, effectsService);
         this.$encumbered = this.encumbered();
         this.$max = this.max();
@@ -33,50 +33,23 @@ export class Bulk {
     penalty(creature: Character|AnimalCompanion, effectsService: EffectsService) {
         return effectsService.get_PenaltiesOnThis(creature, "Max Bulk");
     }
-    current(creature: Character|AnimalCompanion, effectsService: EffectsService) {
+    current(creature: Character|AnimalCompanion, characterService: CharacterService, effectsService: EffectsService) {
         let sum: number = 0;
-        let inventory = creature.inventory;
-        function addup(item: Item|OtherItem) {
-            let bulk = item.bulk;
-            if (item["carryingBulk"] && !item["equipped"]) {
-                bulk = item["carryingBulk"];
-            }
-            switch (bulk) {
-                case "":
-                    break;
-                case "-":
-                    break;
-                case "L":
-                    if (item.amount) {
-                        sum += 0.1 * Math.floor(item.amount / (item["stack"] ? item["stack"] : 1)) ;
-                    } else {
-                        sum += 0.1;
-                    }
-                    break;
-                default:
-                    if (item.amount) {
-                        sum += parseInt(bulk) * Math.floor(item.amount / (item["stack"] ? item["stack"] : 1));
-                    } else {
-                        sum += parseInt(bulk);
-                    }
-                    break;
-            }
-        }
-        inventory.allEquipment().forEach(item => {
-            addup(item);
-        })
-        inventory.allConsumables().forEach(item => {
-            addup(item);
-        })
-        inventory.otheritems.forEach(item => {
-            addup(item);
+        let explain: string = "";
+        let inventories = creature.inventories;
+        inventories.forEach(inventory => {
+            let bulk = Math.max(inventory.get_Bulk() - inventory.bulkReduction, 0);
+            sum += bulk;
+            explain += "\n"+inventory.get_Name(characterService)+": "+bulk;
         })
         let effects = effectsService.get_EffectsOnThis(creature, "Bulk");
         effects.forEach(effect => {
             sum += parseInt(effect.value);
         });
         sum = Math.max(0, sum);
-        return Math.floor(sum);
+        //Cut the first newline
+        explain = explain.trim();
+        return {value:Math.floor(sum), desc:explain};
     }
     limit(creature: Character|AnimalCompanion, characterService: CharacterService, effectsService: EffectsService) {
     //Gets the basic bulk and adds all effects

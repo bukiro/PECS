@@ -13,6 +13,8 @@ import { Item } from '../Item';
 import { Character } from '../Character';
 import { AnimalCompanion } from '../AnimalCompanion';
 import { Bulk } from '../Bulk';
+import { ItemCollection } from '../ItemCollection';
+import { InventoryGain } from '../InventoryGain';
 
 @Component({
     selector: 'app-inventory',
@@ -27,6 +29,7 @@ export class InventoryComponent implements OnInit {
     private id: number = 0;
     private showItem: number = 0;
     public hover: number = 0;
+    public targetInventory = null;
     
     constructor(
         private changeDetector: ChangeDetectorRef,
@@ -70,8 +73,101 @@ export class InventoryComponent implements OnInit {
         return this.showItem;
     }
     
-    get_Creature() {
-        return this.characterService.get_Creature(this.creature) as Character|AnimalCompanion;
+    get_Creature(creature: string = this.creature) {
+        return this.characterService.get_Creature(creature) as Character|AnimalCompanion;
+    }
+
+    get_Inventories(creature: string = this.creature, newID: boolean = false, calculate: boolean = false) { 
+        if (newID) {
+            this.id = 0;
+        }
+        if (calculate) {
+            let speedRune: boolean = false;
+            let enfeebledRune: boolean = false;
+            this.get_Creature().inventories.forEach(inventory => {
+                inventory.allEquipment().forEach(item => {
+                    item.propertyRunes.forEach(rune => {
+                        if (rune.name == "Speed" && (item.equipped || (item.can_Invest() && item.invested))) {
+                            speedRune = true;
+                        }
+                        if (rune["alignmentPenalty"]) {
+                            if (this.characterService.get_Character().alignment.includes(rune["alignmentPenalty"])) {
+                                enfeebledRune = true;
+                            }
+                        }
+                    });
+                });
+            })
+            if (speedRune && this.characterService.get_AppliedConditions(this.get_Creature(), "Quickened", "Speed Rune").length == 0) {
+                this.characterService.add_Condition(this.get_Creature(), Object.assign(new ConditionGain, {name:"Quickened", value:0, source:"Speed Rune", apply:true}), true)
+            } else if (!speedRune && this.characterService.get_AppliedConditions(this.get_Creature(), "Quickened", "Speed Rune").length > 0) {
+                this.characterService.remove_Condition(this.get_Creature(), Object.assign(new ConditionGain, {name:"Quickened", value:0, source:"Speed Rune", apply:true}), true)
+            }
+            if (enfeebledRune && this.characterService.get_AppliedConditions(this.get_Creature(), "Enfeebled", "Alignment Rune").length == 0) {
+                this.characterService.add_Condition(this.get_Creature(), Object.assign(new ConditionGain, {name:"Enfeebled", value:2, source:"Alignment Rune", apply:true}), true)
+            } else if (!enfeebledRune && this.characterService.get_AppliedConditions(this.get_Creature(), "Enfeebled", "Alignment Rune").length > 0) {
+                this.characterService.remove_Condition(this.get_Creature(), Object.assign(new ConditionGain, {name:"Enfeebled", value:2, source:"Alignment Rune", apply:true}), true)
+            }
+        }
+        return this.get_Creature(creature).inventories;
+    }
+
+    get_TargetInventories() {
+        switch (this.creature) {
+            case "Character":
+                if (this.characterService.get_CompanionAvailable()) {
+                    return [this.get_Creature("Companion").inventories[0]].concat(...this.get_Creature().inventories);
+                } else {
+                    return this.get_Creature().inventories;
+                }
+            case "Companion":
+                return [this.get_Creature("Character").inventories[0]].concat(...this.get_Creature().inventories);
+        }
+    }
+
+    get_ContainedItems(item: Item) {
+        //Add up the number of items in each inventory associated by this item
+        //Return a number
+        if (item.id && item["gainInventory"] && this.get_Creature().inventories.length > 1) {
+            return this.get_Creature().inventories.filter(inventory => inventory.itemId == item.id).map(inventory => inventory.allItems().map(item => item.amount).reduce((a, b) => a + b, 0)).reduce((a, b) => a + b, 0);
+        } else {
+            return 0
+        }
+    }
+
+    can_Fit(item: Item, targetInventory: ItemCollection, sourceInventory: ItemCollection) {
+        if (targetInventory.itemId == item.id || targetInventory === sourceInventory) {
+            return false;
+        } else if (targetInventory.bulkLimit) {
+            let itemBulk = 0;
+            switch (item["carryingBulk"] || item.bulk) {
+                case "":
+                    break;
+                case "-":
+                    break;
+                case "L":
+                    if (item.amount) {
+                        itemBulk += 0.1 * Math.floor(item.amount / (item["stack"] ? item["stack"] : 1)) ;
+                    } else {
+                        itemBulk += 0.1;
+                    }
+                    break;
+                default:
+                    if (item.amount) {
+                        itemBulk += parseInt(item.bulk) * Math.floor(item.amount / (item["stack"] ? item["stack"] : 1));
+                    } else {
+                        itemBulk += parseInt(item.bulk);
+                    }
+                    break;
+            }
+            return (targetInventory.get_Bulk(false) + itemBulk <= targetInventory.bulkLimit)
+        } else {
+            return true;
+        }
+    }
+
+    sort_Cash() {
+        this.characterService.sort_Cash();
     }
 
     get_ID() {
@@ -82,61 +178,30 @@ export class InventoryComponent implements OnInit {
     get_Items() {
         return this.itemsService.get_Items();
     }
-
-    get_InventoryItems(newID: boolean = false) {
-        if (newID) {
-            this.id = 0;
-        }
-        let speedRune: boolean = false;
-        let enfeebledRune: boolean = false;
-        this.get_Creature().inventory.allEquipment().forEach(item => {
-            item.propertyRunes.forEach(rune => {
-                if (rune.name == "Speed" && (item.equipped || (item.can_Invest() && item.invested))) {
-                    speedRune = true;
-                }
-                if (rune["alignmentPenalty"]) {
-                    if (this.characterService.get_Character().alignment.includes(rune["alignmentPenalty"])) {
-                        enfeebledRune = true;
-                    }
-                }
-            })
-        })
-        if (speedRune && this.characterService.get_AppliedConditions(this.get_Creature(), "Quickened", "Speed Rune").length == 0) {
-            this.characterService.add_Condition(this.get_Creature(), Object.assign(new ConditionGain, {name:"Quickened", value:0, source:"Speed Rune", apply:true}), true)
-        } else if (!speedRune && this.characterService.get_AppliedConditions(this.get_Creature(), "Quickened", "Speed Rune").length > 0) {
-            this.characterService.remove_Condition(this.get_Creature(), Object.assign(new ConditionGain, {name:"Quickened", value:0, source:"Speed Rune", apply:true}), true)
-        }
-        if (enfeebledRune && this.characterService.get_AppliedConditions(this.get_Creature(), "Enfeebled", "Alignment Rune").length == 0) {
-            this.characterService.add_Condition(this.get_Creature(), Object.assign(new ConditionGain, {name:"Enfeebled", value:2, source:"Alignment Rune", apply:true}), true)
-        } else if (!enfeebledRune && this.characterService.get_AppliedConditions(this.get_Creature(), "Enfeebled", "Alignment Rune").length > 0) {
-            this.characterService.remove_Condition(this.get_Creature(), Object.assign(new ConditionGain, {name:"Enfeebled", value:2, source:"Alignment Rune", apply:true}), true)
-        }
-        return this.get_Creature().inventory;
-    }
     
     sort_ItemSet(itemSet) {
         return this.sortByPipe.transform(itemSet, "asc", "name");
     }
 
-    can_Equip(item: Item) {
-        return (item.equippable && this.creature == "Character" && !item.traits.includes("Companion")) || (item.traits.includes("Companion") && this.creature == "Companion") || item.name == "Unarmored"
+    can_Equip(item: Item, inventoryIndex: number) {
+        return (inventoryIndex == 0 && item.equippable && this.creature == "Character" && !item.traits.includes("Companion")) || (item.traits.includes("Companion") && this.creature == "Companion") || item.name == "Unarmored"
     }
 
-    can_Invest(item: Item) {
-        return item.can_Invest() && ((this.creature == "Character" && !item.traits.includes("Companion")) || (item.traits.includes("Companion") && this.creature == "Companion"))
+    can_Invest(item: Item, inventoryIndex: number) {
+        return inventoryIndex == 0 && item.can_Invest() && ((this.creature == "Character" && !item.traits.includes("Companion")) || (item.traits.includes("Companion") && this.creature == "Companion"))
     }
 
     can_Drop(item: Item) {
         return (this.creature == "Character") || (this.creature == "Companion" && item.type != "weapons" && item.name != "Unarmored")
     }
 
-    drop_InventoryItem(item, pay: boolean = false) {
+    drop_InventoryItem(item: Item, inventory: ItemCollection, pay: boolean = false) {
         this.showItem = 0;
         if (pay) {
             if (this.get_Price(item)) {
                 let price = this.get_Price(item);
-                if (item.stack) {
-                    price *= Math.floor(item.amount / item.stack);
+                if (item["stack"]) {
+                    price *= Math.floor(item.amount / item["stack"]);
                 } else {
                     price *= item.amount;
                 }
@@ -145,16 +210,32 @@ export class InventoryComponent implements OnInit {
                 }
             }
         }
-        this.characterService.drop_InventoryItem(this.get_Creature(), item, true, true, true, item.amount);
+        this.characterService.drop_InventoryItem(this.get_Creature(), inventory, item, true, true, true, item.amount);
     }
 
-    drop_Package(item) {
+    move_InventoryItem(item: Item, inventory: ItemCollection) {
+        if (this.targetInventory && this.targetInventory != inventory) {
+            let movedItem = JSON.parse(JSON.stringify(item));
+            movedItem = this.characterService.reassign(movedItem);
+            let newLength = this.targetInventory[item.type].push(movedItem);
+            inventory[item.type] = inventory[item.type].filter((inventoryItem: Item) => inventoryItem !== item)
+            if (movedItem["equipped"]) {
+                this.on_Equip(movedItem as Equipment, inventory, false)
+            }
+            if (movedItem["invested"]) {
+                this.on_Invest(movedItem as Equipment, inventory, false)
+            }
+        }
+        this.targetInventory = null;
+    }
+
+    drop_ContainerOnly(item: Item, inventory: ItemCollection) {
         this.showItem = 0;
-        this.characterService.drop_InventoryItem(this.get_Creature(), item, true, true, false, item.amount);
+        this.characterService.drop_InventoryItem(this.get_Creature(), inventory, item, true, true, false, item.amount);
     }
 
-    add_NewOtherItem() {
-        this.get_InventoryItems().otheritems.push(new OtherItem());
+    add_NewOtherItem(inventory: ItemCollection) {
+        inventory.otheritems.push(new OtherItem());
     }
 
     bulkOnly(event): boolean {
@@ -173,8 +254,8 @@ export class InventoryComponent implements OnInit {
         }
     }
 
-    remove_OtherItem(item: OtherItem) {
-        this.get_InventoryItems().otheritems.splice(this.get_InventoryItems().otheritems.indexOf(item), 1);
+    remove_OtherItem(item: OtherItem, inventory: ItemCollection) {
+        inventory.otheritems.splice(inventory.otheritems.indexOf(item), 1);
     }
 
     get_Traits(traitName: string = "") {
@@ -184,10 +265,10 @@ export class InventoryComponent implements OnInit {
     get_Bulk() {
         let bulk: Bulk = new Bulk();
         bulk.calculate(this.get_Creature(), this.characterService, this.effectsService);
-        if (bulk.$current > bulk.$encumbered.value && this.characterService.get_AppliedConditions(this.get_Creature(), "Encumbered", "Bulk").length == 0) {
+        if (bulk.$current.value > bulk.$encumbered.value && this.characterService.get_AppliedConditions(this.get_Creature(), "Encumbered", "Bulk").length == 0) {
             this.characterService.add_Condition(this.get_Creature(), Object.assign(new ConditionGain, {name:"Encumbered", value:0, source:"Bulk", apply:true}), true)
         }
-        if (bulk.$current <= bulk.$encumbered.value && this.characterService.get_AppliedConditions(this.get_Creature(), "Encumbered", "Bulk").length > 0) {
+        if (bulk.$current.value <= bulk.$encumbered.value && this.characterService.get_AppliedConditions(this.get_Creature(), "Encumbered", "Bulk").length > 0) {
             this.characterService.remove_Condition(this.get_Creature(), Object.assign(new ConditionGain, {name:"Encumbered", value:0, source:"Bulk", apply:true}), true)
         }
         return [bulk];
@@ -223,16 +304,16 @@ export class InventoryComponent implements OnInit {
         return this.characterService.get_InvestedItems(this.get_Creature()).filter(item => item.traits.includes("Invested"));
     }
 
-    onEquip(item: Equipment, equipped: boolean) {
-        this.characterService.onEquip(this.get_Creature(), item, equipped);
+    on_Equip(item: Equipment, inventory: ItemCollection, equipped: boolean) {
+        this.characterService.onEquip(this.get_Creature(), inventory, item, equipped);
     }
 
-    onInvest(item: Equipment, invested: boolean) {
-        this.characterService.onInvest(this.get_Creature(), item, invested);
+    on_Invest(item: Equipment, inventory: ItemCollection, invested: boolean) {
+        this.characterService.onInvest(this.get_Creature(), inventory, item, invested);
     }
 
     onNameChange() {
-        this.characterService.set_Changed();
+        this.characterService.set_Changed(this.creature);
     }
 
     onAmountChange(item: Consumable, amount: number, pay: boolean = false) {
@@ -246,8 +327,15 @@ export class InventoryComponent implements OnInit {
         }
     }
 
-    on_ConsumableUse(item: Consumable) {
+    get_InventoryName(inventory: ItemCollection) {
+        return inventory.get_Name(this.characterService);
+    }
+
+    on_ConsumableUse(item: Consumable, inventory: ItemCollection) {
         this.characterService.on_ConsumableUse(this.get_Creature(), item);
+        if (this.can_Drop(item) && !item.can_Stack()) {
+            this.drop_InventoryItem(item, inventory, false);
+        }
     }
 
     get_Price(item: Item) {
@@ -275,7 +363,7 @@ export class InventoryComponent implements OnInit {
         }
     }
 
-    get_Actions(item) {
+    get_Actions(item: Consumable) {
         switch (item.actions) {
             case "Free":
                 return "(Free Action)";

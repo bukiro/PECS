@@ -1,4 +1,4 @@
-import { Injectable, APP_INITIALIZER } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { Character } from './Character';
 import { Ancestry } from './Ancestry';
 import { Class } from './Class';
@@ -49,6 +49,8 @@ import { Bulk } from './Bulk';
 import { ItemsService } from './items.service';
 import { Ammunition } from './Ammunition';
 import { Item } from './Item';
+import { Scroll } from './Scroll';
+import { InventoryGain } from './InventoryGain';
 
 @Injectable({
     providedIn: 'root'
@@ -83,6 +85,7 @@ export class SavegameService {
     private Health = Health;
     private HeldItem = HeldItem;
     private Heritage = Heritage;
+    private InventoryGain = InventoryGain;
     private Item = Item;
     private ItemActivity = ItemActivity;
     private ItemCollection = ItemCollection;
@@ -92,6 +95,7 @@ export class SavegameService {
     private OtherConsumable = OtherConsumable;
     private OtherItem = OtherItem;
     private Potion = Potion;
+    private Scroll = Scroll;
     private Settings = Settings;
     private Shield = Shield;
     private Skill = Skill;
@@ -108,10 +112,10 @@ export class SavegameService {
     constructor() { }
 
     load_Character(character: Character, itemsService: ItemsService) {
-        character.inventory = Object.assign(new ItemCollection(), character.inventory);
-        character.inventory.initialize(itemsService);
-        character.class.animalCompanion.inventory = Object.assign(new ItemCollection(), character.class.animalCompanion.inventory);
-        character.class.animalCompanion.inventory.initialize(itemsService);
+        character.inventories = character.inventories.map(inventory => Object.assign(new ItemCollection(), inventory));
+        character.inventories.forEach(inventory => inventory.initialize(itemsService));
+        character.class.animalCompanion.inventories = character.class.animalCompanion.inventories.map(inventory => Object.assign(new ItemCollection(), inventory));
+        character.class.animalCompanion.inventories.forEach(inventory => inventory.initialize(itemsService));
         character = this.reassign(character);
         return character;
     }
@@ -179,11 +183,11 @@ export class SavegameService {
 
         //Go through all the items and compare every item to its library equivalent, skipping the properties listed in .save
         //Everything that is the same as the library item gets deleted.
-        if (savegame.inventory) {
-            savegame.inventory.cleanForSave(itemsService);
+        if (savegame.inventories.length) {
+            savegame.inventories.forEach((inventory: ItemCollection) => inventory.cleanForSave(itemsService));
         }
-        if (savegame.class && savegame.class.animalCompanion && savegame.class.animalCompanion.inventory) {
-            savegame.class.animalCompanion.inventory.cleanForSave(itemsService);
+        if (savegame.class && savegame.class.animalCompanion && savegame.class.animalCompanion.inventories.length) {
+            savegame.class.animalCompanion.inventories.forEach((inventory: ItemCollection) => inventory.cleanForSave(itemsService));
         }
 
         //Then go through the whole thing again and compare every object to its Class's default, deleting everything that has the same value as the default.

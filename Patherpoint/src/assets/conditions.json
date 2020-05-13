@@ -2,7 +2,7 @@
     {
         "name": "Blinded",
         "type": "generic",
-        "desc": "You can’t see. All normal terrain is difficult terrain to you. You can’t detect anything using vision. You automatically critically fail Perception checks that require you to be able to see, and if vision is your only precise sense, you take a –4 status penalty to Perception checks. You are immune to visual effects. Blinded overrides dazzled.",
+        "desc": "You can't see. All normal terrain is difficult terrain to you. You can't detect anything using vision. You automatically critically fail Perception checks that require you to be able to see, and if vision is your only precise sense, you take a –4 status penalty to Perception checks. You are immune to visual effects. Blinded overrides dazzled.",
         "overrideConditions": [
             "Dazzled"
         ],
@@ -12,7 +12,7 @@
         "name": "Concealed",
         "type": "generic",
         "buff": true,
-        "desc": "While you are concealed from a creature, such as in a thick fog, you are difficult for that creature to see. You can still be observed, but you’re tougher to target. A creature that you’re concealed from must succeed at a DC 5 flat check when targeting you with an attack, spell, or other effect. Area effects aren’t subject to this flat check. If the check fails, the attack, spell, or effect doesn’t affect you.",
+        "desc": "While you are concealed from a creature, such as in a thick fog, you are difficult for that creature to see. You can still be observed, but you're tougher to target. A creature that you're concealed from must succeed at a DC 5 flat check when targeting you with an attack, spell, or other effect. Area effects aren't subject to this flat check. If the check fails, the attack, spell, or effect doesn't affect you.",
         "showon": "AC"
     },
     {
@@ -58,8 +58,8 @@
         "name": "Dying",
         "hasValue": true,
         "type": "generic",
-        "desc": "You are bleeding out or otherwise at death’s door. While you have this condition, you are unconscious. Dying always includes a value. If this value ever reaches dying 4, you die. If you’re dying, you must attempt a recovery check at the start of your turn each round to determine whether you get better or worse.\n\nIf you lose the dying condition by succeeding at a recovery check and are still at 0 Hit Points, you remain unconscious, but you can wake up as described on page 460. You lose the dying condition automatically and wake up if you ever have 1 Hit Point or more. Anytime you lose the dying condition, you gain the wounded 1 condition, or increase your wounded value by 1 if you already have that condition.",
-        "inputRequired": "If you’re dying, you must attempt a recovery check at the start of your turn each round to determine whether you get better or worse.",
+        "desc": "You are bleeding out or otherwise at death's door. While you have this condition, you are unconscious. Dying always includes a value. If this value ever reaches dying 4, you die. If you're dying, you must attempt a recovery check at the start of your turn each round to determine whether you get better or worse.\n\nIf you lose the dying condition by succeeding at a recovery check and are still at 0 Hit Points, you remain unconscious, but you can wake up as described on page 460. You lose the dying condition automatically and wake up if you ever have 1 Hit Point or more. Anytime you lose the dying condition, you gain the wounded 1 condition, or increase your wounded value by 1 if you already have that condition.",
+        "inputRequired": "If you're dying, you must attempt a recovery check at the start of your turn each round to determine whether you get better or worse.",
         "gainConditions": [
             {
                 "name": "Unconscious",
@@ -70,7 +70,7 @@
     {
         "name": "Encumbered",
         "type": "generic",
-        "desc": "You are carrying more weight than you can manage. While you’re encumbered, you’re clumsy 1 and take a 10-foot penalty to all your Speeds. As with all penalties to your Speed, this can’t reduce your Speed below 5 feet.",
+        "desc": "You are carrying more weight than you can manage. While you're encumbered, you're clumsy 1 and take a 10-foot penalty to all your Speeds. As with all penalties to your Speed, this can't reduce your Speed below 5 feet.",
         "showon": "Movement, Bulk",
         "gainConditions": [
             {
@@ -91,7 +91,7 @@
         "name": "Enfeebled",
         "hasValue": true,
         "type": "generic",
-        "desc": "You’re physically weakened. Enfeebled always includes a value. When you are enfeebled, you take a status penalty equal to the condition value to Strength-based rolls and DCs, including Strength-based melee attack rolls, Strength-based damage rolls, and Athletics checks.",
+        "desc": "You're physically weakened. Enfeebled always includes a value. When you are enfeebled, you take a status penalty equal to the condition value to Strength-based rolls and DCs, including Strength-based melee attack rolls, Strength-based damage rolls, and Athletics checks.",
         "showon": "Strength",
         "effects": [
             {
@@ -109,7 +109,7 @@
     {
         "name": "Flat-Footed",
         "type": "generic",
-        "desc": "You’re distracted or otherwise unable to focus your full attention on defense. You take a –2 circumstance penalty to AC. Some effects give you the flat-footed condition only to certain creatures or against certain attacks. Others—especially conditions—can make you universally flat-footed against everything. If a rule doesn’t specify that the condition applies only to certain circumstances, it applies to all of them; for example, many effects simply say “The target is flat-footed.”",
+        "desc": "You're distracted or otherwise unable to focus your full attention on defense. You take a –2 circumstance penalty to AC. Some effects give you the flat-footed condition only to certain creatures or against certain attacks. Others—especially conditions—can make you universally flat-footed against everything. If a rule doesn't specify that the condition applies only to certain circumstances, it applies to all of them; for example, many effects simply say “The target is flat-footed.”",
         "effects": [
             {
                 "affected": "AC",
@@ -123,7 +123,7 @@
         "hasValue": true,
         "decreasingValue": true,
         "type": "generic",
-        "desc": "You’re gripped by fear and struggle to control your nerves. The frightened condition always includes a value. You take a status penalty equal to this value to all your checks and DCs. Unless specified otherwise, at the end of each of your turns, the value of your frightened condition decreases by 1.",
+        "desc": "You're gripped by fear and struggle to control your nerves. The frightened condition always includes a value. You take a status penalty equal to this value to all your checks and DCs. Unless specified otherwise, at the end of each of your turns, the value of your frightened condition decreases by 1.",
         "effects": [
             {
                 "affected": "All Checks",
@@ -135,12 +135,12 @@
         "name": "Quickened",
         "type": "generic",
         "buff": true,
-        "desc": "You gain 1 additional action at the start of your turn each round. Many effects that make you quickened specify the types of actions you can use with this additional action. If you become quickened from multiple sources, you can use the extra action you’ve been granted for any single action allowed by any of the effects that made you quickened. Because quickened has its effect at the start of your turn, you don’t immediately gain actions if you become quickened during your turn."
+        "desc": "You gain 1 additional action at the start of your turn each round. Many effects that make you quickened specify the types of actions you can use with this additional action. If you become quickened from multiple sources, you can use the extra action you've been granted for any single action allowed by any of the effects that made you quickened. Because quickened has its effect at the start of your turn, you don't immediately gain actions if you become quickened during your turn."
     },
     {
         "name": "Unconscious",
         "type": "generic",
-        "desc": "You’re sleeping, or you’ve been knocked out. You can’t act. You take a –4 status penalty to AC, Perception, and Reflex saves, and you have the blinded and flat-footed conditions. When you gain this condition, you fall prone and drop items you are wielding or holding unless the effect states otherwise or the GM determines you’re in a position in which you wouldn’t.\n\nIf you’re unconscious because you’re dying, you can’t wake up as long as you have 0 Hit Points. If you’re restored to 1 Hit Point or more via healing, you lose the dying and unconscious conditions and can act normally on your next turn.\n\nIf you are unconscious and at 0 Hit Points, but not dying, you naturally return to 1 Hit Point and awaken after sufficient time passes. The GM determines how long you remain unconscious, from a minimum of 10 minutes to several hours. If you receive healing during this time, you lose the unconscious condition and can act normally on your next turn.\n\nIf you’re unconscious and have more than 1 Hit Point (typically because you are asleep or unconscious due to an effect), you wake up in one of the following ways. Each causes you to lose the unconscious condition.\n\nYou take damage, provided the damage doesn’t reduce you to 0 Hit Points. (If the damage reduces you to 0 Hit Points, you remain unconscious and gain the dying condition as normal.)\nYou receive healing, other than the natural healing you get from resting.\nSomeone nudges or shakes you awake using an Interact action.\nLoud noise is being made around you—though this isn’t automatic. At the start of your turn, you automatically attempt a Perception check against the noise’s DC (or the lowest DC if there is more than one noise), waking up if you succeed. This is often DC 5 for a battle, but if creatures are attempting to stay quiet around you, this Perception check uses their Stealth DC. Some magical effects make you sleep so deeply that they don’t allow you to attempt this Perception check.\nIf you are simply asleep, the GM decides you wake up either because you have had a restful night’s sleep or something disrupted that rest.",
+        "desc": "You're sleeping, or you've been knocked out. You can't act. You take a –4 status penalty to AC, Perception, and Reflex saves, and you have the blinded and flat-footed conditions. When you gain this condition, you fall prone and drop items you are wielding or holding unless the effect states otherwise or the GM determines you're in a position in which you wouldn't.\n\nIf you're unconscious because you're dying, you can't wake up as long as you have 0 Hit Points. If you're restored to 1 Hit Point or more via healing, you lose the dying and unconscious conditions and can act normally on your next turn.\n\nIf you are unconscious and at 0 Hit Points, but not dying, you naturally return to 1 Hit Point and awaken after sufficient time passes. The GM determines how long you remain unconscious, from a minimum of 10 minutes to several hours. If you receive healing during this time, you lose the unconscious condition and can act normally on your next turn.\n\nIf you're unconscious and have more than 1 Hit Point (typically because you are asleep or unconscious due to an effect), you wake up in one of the following ways. Each causes you to lose the unconscious condition.\n\nYou take damage, provided the damage doesn't reduce you to 0 Hit Points. (If the damage reduces you to 0 Hit Points, you remain unconscious and gain the dying condition as normal.)\nYou receive healing, other than the natural healing you get from resting.\nSomeone nudges or shakes you awake using an Interact action.\nLoud noise is being made around you—though this isn't automatic. At the start of your turn, you automatically attempt a Perception check against the noise's DC (or the lowest DC if there is more than one noise), waking up if you succeed. This is often DC 5 for a battle, but if creatures are attempting to stay quiet around you, this Perception check uses their Stealth DC. Some magical effects make you sleep so deeply that they don't allow you to attempt this Perception check.\nIf you are simply asleep, the GM decides you wake up either because you have had a restful night's sleep or something disrupted that rest.",
         "gainConditions": [
             {
                 "name": "Blinded",
@@ -173,7 +173,7 @@
         "name": "Wounded",
         "hasValue": true,
         "type": "generic",
-        "desc": "You have been seriously injured during a fight. Anytime you lose the dying condition, you become wounded 1 if you didn’t already have the wounded condition. If you already have the wounded condition, your wounded condition value instead increases by 1. If you gain the dying condition while wounded, increase the dying condition’s value by your wounded value. The wounded condition ends if someone successfully restores Hit Points to you with Treat Wounds, or if you are restored to full Hit Points and rest for 10 minutes."
+        "desc": "You have been seriously injured during a fight. Anytime you lose the dying condition, you become wounded 1 if you didn't already have the wounded condition. If you already have the wounded condition, your wounded condition value instead increases by 1. If you gain the dying condition while wounded, increase the dying condition's value by your wounded value. The wounded condition ends if someone successfully restores Hit Points to you with Treat Wounds, or if you are restored to full Hit Points and rest for 10 minutes."
     },
     {
         "name": "Dead",
@@ -224,14 +224,14 @@
     {
         "name": "Leaper's Elixir (Lesser)",
         "type": "alchemicalelixirs",
-        "desc": "You can High Jump or Long Jump as a single action instead of 2 actions. If you do, you don’t perform the initial Stride (nor do you fail if you don’t Stride 10 feet).",
+        "desc": "You can High Jump or Long Jump as a single action instead of 2 actions. If you do, you don't perform the initial Stride (nor do you fail if you don't Stride 10 feet).",
         "buff": true,
         "showon": "Athletics"
     },
     {
         "name": "Dragon's Breath Potion (Silver, Young)",
         "type": "potions",
-        "desc": "You can unleash a breath weapon as a 15-foot cone of cold that deals 4d6 cold damage. Each creature in the area must attempt a DC 23 basic Reflex save. Exhaling dragon breath uses a single action. After you use the breath weapon, you can’t do so again for 1d4 rounds.",
+        "desc": "You can unleash a breath weapon as a 15-foot cone of cold that deals 4d6 cold damage. Each creature in the area must attempt a DC 23 basic Reflex save. Exhaling dragon breath uses a single action. After you use the breath weapon, you can't do so again for 1d4 rounds.",
         "buff": true,
         "showon": "Attacks"
     },
@@ -244,7 +244,7 @@
     {
         "name": "Slippers of Spider Climbing",
         "type": "wornitems",
-        "desc": "You gain a 20-foot climb Speed and you don’t need to use your hands to Climb. However, the slippers require decent traction for you to walk on a wall, so they provide no benefit when you’re moving across greased, icy, or oiled surfaces.",
+        "desc": "You gain a 20-foot climb Speed and you don't need to use your hands to Climb. However, the slippers require decent traction for you to walk on a wall, so they provide no benefit when you're moving across greased, icy, or oiled surfaces.",
         "effects": [
             {
                 "affected": "Climb Speed",
@@ -289,7 +289,7 @@
     {
         "name": "Mountain Stance",
         "type": "activity",
-        "desc": "While in Mountain Stance, you gain a +4 status bonus to AC and a +2 circumstance bonus to any defenses against being Shoved or Tripped. However, you have a Dexterity modifier cap to your AC of +0, meaning you don’t add your Dexterity to your AC, and your Speeds are all reduced by 5 feet.",
+        "desc": "While in Mountain Stance, you gain a +4 status bonus to AC and a +2 circumstance bonus to any defenses against being Shoved or Tripped. However, you have a Dexterity modifier cap to your AC of +0, meaning you don't add your Dexterity to your AC, and your Speeds are all reduced by 5 feet.",
         "showon": "Fortitude, Movement",
         "effects": [
             {
@@ -337,7 +337,7 @@
     {
         "name": "Wolf Stance",
         "type": "activity",
-        "desc": "If you’re flanking a target while in Wolf Stance, your wolf jaw unarmed attacks also gain the trip trait.",
+        "desc": "If you're flanking a target while in Wolf Stance, your wolf jaw unarmed attacks also gain the trip trait.",
         "showon": "Wolf Jaw",
         "buff": true
     },
@@ -369,7 +369,7 @@
     {
         "name": "Tangled Forest Stance",
         "type": "activity",
-        "desc": "While you’re in Tangled Forest Stance and can act, every enemy in your reach that tries to move away from you must succeed at a Reflex save, Acrobatics check, or Athletics check against your class DC or be immobilized for that action. If you prefer, you can allow the enemy to move.",
+        "desc": "While you're in Tangled Forest Stance and can act, every enemy in your reach that tries to move away from you must succeed at a Reflex save, Acrobatics check, or Athletics check against your class DC or be immobilized for that action. If you prefer, you can allow the enemy to move.",
         "showon": "Athletics, Attacks, Lashing Branch",
         "buff": true
     },
@@ -395,7 +395,7 @@
     {
         "name": "Ironblood Surge",
         "type": "activity",
-        "desc": "You gain the benefits of your iron sweep’s parry trait (a +1 circumstance bonus to AC until the start of your next turn) and your resistance from Ironblood Stance increases to your Strength modifier (if it’s higher) for the same duration.",
+        "desc": "You gain the benefits of your iron sweep's parry trait (a +1 circumstance bonus to AC until the start of your next turn) and your resistance from Ironblood Stance increases to your Strength modifier (if it's higher) for the same duration.",
         "effects": [
             {
                "affected": "AC",
@@ -418,7 +418,7 @@
     {
         "name": "Barding of the Zephyr",
         "type": "wornitems",
-        "desc": "Your companion wearing the barding is granted a fly Speed of 30 feet for 10 minutes. Even if the companion doesn’t have the mount special ability, it can still Fly while being ridden.",
+        "desc": "Your companion wearing the barding is granted a fly Speed of 30 feet for 10 minutes. Even if the companion doesn't have the mount special ability, it can still Fly while being ridden.",
         "effects": [
             {
                "affected": "Fly Speed",
@@ -490,6 +490,19 @@
                 "affected": "Will",
                 "value": "+1",
                 "type": "circumstance"
+            }
+        ],
+        "buff": true
+    },
+    {
+        "name": "Bracelets of Dashing",
+        "type": "wornitems",
+        "desc": "You gain a +10-foot status bonus to Speed.",
+        "effects": [
+            {
+                "affected": "Speed",
+                "value": "+10",
+                "type": "status"
             }
         ],
         "buff": true

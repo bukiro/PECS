@@ -34,7 +34,7 @@ export class Spell {
     public savingthrow: string = "";
     public shortDesc: string = "";
     public success: string = "";
-    public sustained: boolean = false;
+    public sustained: number = 0;
     //target is used internally to determine whether you can cast this spell on yourself or your companion/familiar
     //Should be "", "self", "companion" or "ally"
     //For "companion", it can only be cast on the companion, for "self" only on yourself

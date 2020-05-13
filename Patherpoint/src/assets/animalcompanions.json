@@ -71,7 +71,7 @@
             }
         ],
         "speed": 35,
-        "supportBenefit": "Your bear mauls your enemies when you create an opening. Until the start of your next turn, each time you hit a creature in the bear’s reach with a Strike, the creature takes 1d8 slashing damage from the bear. If your bear is nimble or savage, the slashing damage increases to 2d8.",
+        "supportBenefit": "Your bear mauls your enemies when you create an opening. Until the start of your next turn, each time you hit a creature in the bear's reach with a Strike, the creature takes 1d8 slashing damage from the bear. If your bear is nimble or savage, the slashing damage increases to 2d8.",
         "traits": [
             "Minion"
         ]

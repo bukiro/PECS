@@ -65,9 +65,13 @@ export class Item {
     can_Stack() {
         return (!this.equippable &&
             !this.can_Invest() &&
+            (this["gainInventory"] ? !this["gainInventory"].length : true) &&
             (this["gainItems"] ? !this["gainItems"].length : true) &&
             (this["gainActivities"] ? !this["gainActivities"].filter((activity: ItemActivity) => !activity.displayOnly).length : true) &&
             (this["activities"] ? !this["activities"].filter((activity: ItemActivity) => !activity.displayOnly).length : true) &&
             (this["storedSpells"] ? !this["storedSpells"].length : true))
+    }
+    get_Name() {
+        return this.name;
     }
 }

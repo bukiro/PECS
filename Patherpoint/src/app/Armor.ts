@@ -19,8 +19,8 @@ export class Armor extends Equipment {
     public dexcap: number = -1;
     //The armor group, needed for critical specialization effects
     public group: string = "";
-    //Armor are usually moddable like armor. Armor that cannot be modded should be set to ""
-    moddable = "armor" as ""|"weapon"|"armor"|"shield";
+    //Armor are usually moddable like armor. Armor that cannot be modded should be set to "-"
+    moddable = "armor" as ""|"-"|"weapon"|"armor"|"shield";
     //What proficiency is used? "Light Armor", "Medium Armor"?
     private prof: string = "Light Armor";
     //The penalty to certain skills if your strength is lower than the armors requirement
@@ -33,7 +33,7 @@ export class Armor extends Equipment {
     private strength: number = 0;
     get_ArmoredSkirt(creature: Character|AnimalCompanion|Familiar, characterService: CharacterService) {
         if (["Breastplate","Chain Shirt","Chain Mail","Scale Mail"].includes(this.name) ) {
-            let armoredSkirt = characterService.get_InventoryItems(creature).adventuringgear.filter(item => item.isArmoredSkirt && item.equipped);
+            let armoredSkirt = characterService.get_Inventories(creature).map(inventory => inventory.adventuringgear).filter(gear => gear.filter(item => item.isArmoredSkirt && item.equipped).length);
             if (armoredSkirt.length) {
                 this.$affectedByArmoredSkirt = 1;
                 return armoredSkirt[0];
@@ -42,7 +42,7 @@ export class Armor extends Equipment {
                 return null;
             }
         } else if (["Half Plate","Full Plate","Hellknight Plate"].includes(this.name) ) {
-            let armoredSkirt = characterService.get_InventoryItems(creature).adventuringgear.filter(item => item.isArmoredSkirt && item.equipped);
+            let armoredSkirt = characterService.get_Inventories(creature).map(inventory => inventory.adventuringgear).filter(gear => gear.filter(item => item.isArmoredSkirt && item.equipped).length);
             if (armoredSkirt.length) {
                 this.$affectedByArmoredSkirt = -1;
                 return armoredSkirt[0];
