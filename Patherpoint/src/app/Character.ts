@@ -216,7 +216,7 @@ export class Character extends Creature {
         if (this.class) {
             let increases = [];
             let choices: SkillChoice[] = []
-            //Collect all skill choices from spellcasting, bloodline, level and some item runes
+            //Collect all skill choices from spellcasting, bloodline, level and some item runes as well as oils that emulate those runes.
             let levels = this.class.levels.filter(level => level.number >= minLevelNumber && level.number <= maxLevelNumber);
             levels.forEach(level => {
                 choices.push(...level.skillChoices);
@@ -231,6 +231,12 @@ export class Character extends Creature {
                 .forEach(item => {
                     item.propertyRunes.filter(rune => rune.loreChoices && rune.loreChoices.length).forEach(rune => {
                         choices.push(...rune.loreChoices);
+                    })
+                });
+                inventory.allEquipment().filter(item => item.oilsApplied.filter(oil => oil.runeEffect && oil.runeEffect.loreChoices && oil.runeEffect.loreChoices.length).length && item.equipped && (item.can_Invest() ? item.invested : true ))
+                .forEach(item => {
+                    item.oilsApplied.filter(oil => oil.runeEffect && oil.runeEffect.loreChoices && oil.runeEffect.loreChoices.length).forEach(oil => {
+                        choices.push(...oil.runeEffect.loreChoices);
                     })
                 });
             })

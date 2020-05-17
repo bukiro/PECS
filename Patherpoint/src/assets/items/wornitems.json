@@ -1,5 +1,44 @@
 [
     {
+        "desc": "This compact compass repurposes ancient technology to draw fantastic powers from the mysterious magical items called aeon stones. It serves as a badge of office for agents of the Pathfinder Society and as a status symbol among adventurers of any stripe. A wayfinder functions as a compass.\n\nAn indentation in the middle of the wayfinder can hold a single aeon stone. Placing an aeon stone in this indentation provides you all the benefits of having the aeon stone orbiting your head, but it protects the stone from being noticed or stolen as easily. You invest a wayfinder and the aeon stone within it simultaneously, and they count as only one item toward your investiture limit. An invested aeon stone slotted in a wayfinder also grants its resonant power.\n\nIf you have more than one wayfinder with an invested aeon stone on your person at a given time, destructive interference from their resonance prevents you from gaining benefits from any of them. You can still benefit from additional aeon stones orbiting your head, just not in wayfinders.\n\nAll Pathfinders have access.",
+        "id": "4c5d0fa0-fb67-4e5a-80af-dd450eba7cf4",
+        "level": 2,
+        "name": "Wayfinder",
+        "price": 2800,
+        "traits": [
+            "Uncommon",
+            "Evocation",
+            "Invested",
+            "Magical"
+        ],
+        "_className": "WornItem",
+        "usage": "worn",
+        "activities": [
+            {
+                "_className": "ItemActivity",
+                "name": "Wayfinder",
+                "desc": "The wayfinder is targeted by a 1st-level light spell.",
+                "traits": [
+                    "Uncommon",
+                    "Evocation",
+                    "Invested",
+                    "Magical"
+                ],
+                "actions": "1",
+                "activiationType": "Command",
+                "castSpells": [
+                    {
+                        "name": "Light",
+                        "level": 1,
+                        "_className": "SpellCast"
+                    }
+                ],
+                "source": "4c5d0fa0-fb67-4e5a-80af-dd450eba7cf4"
+            }
+        ],
+        "isWayfinder": 1
+    },
+    {
         "desc": "As you invest these embroidered strips of cloth, you must meditate and slowly wrap them around your hands. These handwraps have weapon runes etched into them to give your unarmed attacks the benefits of those runes, making your unarmed attacks work like magic weapons. For example, +1 striking handwraps of mighty blows would give you a +1 item bonus to attack rolls with your unarmed attacks and increase the damage of your unarmed attacks from one weapon die to two (normally 2d4 instead of 1d4, but if your fists have a different weapon damage die or you have other unarmed attacks, use two of that die size instead).\n\nYou can upgrade, add, and transfer runes to and from the handwraps just as you would for a weapon, and you can attach talismans to the handwraps. Treat the handwraps as melee weapons of the brawling group with light Bulk for these purposes. Property runes apply only when they would be applicable to the unarmed attack you're using. For example, a property that must be applied to a slashing weapon wouldn't function when you attacked with a fist, but you would gain its benefits if you attacked with a claw or some other slashing unarmed attack.",
         "id": "89c3c5a2-8e09-11ea-9fab-e92c63c14723",
         "level": 2,
@@ -124,6 +163,43 @@
         "_className": "WornItem",
         "isHandwrapsOfMightyBlows": true,
         "usage": "worn gloves"
+    },
+    {
+        "desc": "You don’t need to eat or drink while this aeon stone is invested by you. This aeon stone doesn’t function until it has been worn continuously for a week and invested each day therein. If it’s invested by someone else, this interval starts over.",
+        "id": "046845de-4cb0-411a-9f6e-85a669e5e12b",
+        "level": 7,
+        "name": "Aeon Stone (Clear Spindle)",
+        "price": 32500,
+        "traits": [
+            "Uncommon",
+            "Invested",
+            "Magical",
+            "Transmutation"
+        ],
+        "_className": "WornItem",
+        "usage": "worn",
+        "activities": [
+            {
+                "_className": "ItemActivity",
+                "name": "Clear Spindle",
+                "desc": "The resonant power allows you to cast air bubble as a primal innate spell once per day. ",
+                "traits": [
+                    "Uncommon",
+                    "Invested",
+                    "Magical",
+                    "Transmutation"
+                ],
+                "castSpells": [
+                    {
+                        "name": "Air Bubble",
+                        "level": 0,
+                        "_className": "SpellCast"
+                    }
+                ],
+                "source": "046845de-4cb0-411a-9f6e-85a669e5e12b"
+            }
+        ],
+        "isWayfinder": 1
     },
     {
         "bulk": "L",

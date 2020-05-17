@@ -15,7 +15,7 @@ export class SpellCasting {
     public abilityFilter: string[] = [];
     //The level where you learn to spell casts using this method.
     public charLevelAvailable: number = 0;
-    public tradition: ""|"Arcane"|"Divine"|"Occult"|"Primal"|"Bloodline" = "";
+    public tradition: ""|"Arcane"|"Divine"|"Occult"|"Primal"|"Innate"|"Bloodline" = "";
     public traditionAvailable: 0;
     public traditionFilter: string[] = [];
     public spellChoices: SpellChoice[] = [];

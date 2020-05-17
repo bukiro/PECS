@@ -30,7 +30,7 @@
         </div>
         <ng-container *ngIf="creature != 'Familiar'">
             <div class="list-item" *ngFor="let armor of get_EquippedArmor()">
-                <div>{{armor.name}} AC: <input type="number" class="number2" title="{{get_ArmorBonus(armor)[1]}}"
+                <div>{{armor.get_Name()}} AC: <input type="number" class="number2" title="{{get_ArmorBonus(armor)[1]}}"
                         [ngModel]="get_ArmorBonus(armor)[0]" disabled></div>
                 <div class="fullsize-only row left-aligned" *ngIf="armor.traits.length">
                     <cite class="trait" *ngFor="let trait of armor.traits"

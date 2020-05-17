@@ -114,7 +114,7 @@ export class ItemRunesComponent implements OnInit {
                 (rune.runeblock ? (!weapon.propertyRunes.map(weaponRune => weaponRune.name).includes(rune.runeblock)) : true) &&
                 (rune.traitreq ? (weapon2.traits.filter(trait => trait.includes(rune.traitreq)).length > 0) : true) &&
                 (rune.rangereq ? (weapon2[rune.rangereq] > 0) : true) &&
-                (rune.damagereq ? (weapon2["dmgType"] && (weapon2["dmgType"].includes(rune.damagereq) || weapon2["dmgType"] == "modular")) : true) &&
+                (rune.damagereq ? (weapon2["dmgType"] && (rune.damagereq.split("").filter(req => weapon2["dmgType"].includes(req)).length || weapon2["dmgType"] == "modular")) : true) &&
                 ((rune.traits.includes("Saggorak")) ? (weapon.freePropertyRunes > 1 || (weapon.propertyRunes[index] && weapon.freePropertyRunes == 1)) : true)
         ).map(rune => rune.name)
         )));

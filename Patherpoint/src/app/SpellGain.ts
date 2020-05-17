@@ -4,6 +4,8 @@ export class SpellGain {
     public readonly _className: string = this.constructor.name;
     //Set if sustained spell is activated
     public active: boolean = false;
+    public activeCooldown: number = 0;
+    public cooldown: number = 0;
     //Set to spell's duration when activated, and automatically deactivate if it runs out by ticking time
     public duration: number = 0;
     //Any items granted by this spell are stored here with their id so they can be removed when the spell ends.

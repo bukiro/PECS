@@ -39,11 +39,11 @@
         <strong>Bulk</strong>
         {{item.storeBulk}}&nbsp;
     </span>
-    <span *ngIf="item.bulk">
-        <strong>Bulk</strong>
-        {{item.bulk}}&nbsp;
+    <span *ngIf="item.get_Bulk()">
+        <strong>Bulk{{item.carryingBulk && !item.equipped ? " (unequipped)" : ""}}</strong>
+        <span [className]="item.carryingBulk && !item.equipped ? 'penalty' : (item.get_Bulk() != item.bulk ? 'bonus' : '')">&nbsp;{{item.get_Bulk()}}</span>&nbsp;
     </span>
-    <span *ngIf="item.carryingBulk">
+    <span *ngIf="item.carryingBulk && item.equipped">
         <strong>Bulk (unequipped)</strong>
         {{item.carryingBulk}}&nbsp;
     </span>
@@ -161,26 +161,40 @@
         <input type="checkbox" [(ngModel)]="item.data[2]" (ngModelChange)="set_Changed()">
     </div>
 </div>
-<div class="row left-aligned" *ngFor="let rune of item.propertyRunes">
+<div class="list-item left-aligned" *ngFor="let oil of item.oilsApplied">
+    <h4>{{oil.get_Name()}}</h4>
+    <app-item [item]=oil [allowActivate]=allowActivate [isSubItem]=true></app-item>
+</div>
+<div class="list-item left-aligned" *ngIf="item.runeEffect">
+    <h4>Rune Effect: {{item.runeEffect.name}}</h4>
+    <app-item [item]=item.runeEffect [allowActivate]=allowActivate [isSubItem]=true></app-item>
+</div>
+<div class="list-item left-aligned" *ngFor="let rune of item.propertyRunes">
     <h4>{{rune.name}}</h4>
     <app-item [item]=rune [allowActivate]=allowActivate [isSubItem]=true></app-item>
 </div>
-<div class="row left-aligned" *ngIf="armoredSkirt">
+<div class="list-item left-aligned" *ngFor="let cast of item.castSpells">
+    <div *ngFor="let spell of get_Spells(cast.name)">
+        <h4>{{spell.name}} {{spell.get_Actions()}} {{spell.castType.toString()}}</h4>
+        <app-spell [spell]=spell [spellLevel]="(cast.level) ? cast.level : 0"></app-spell>
+    </div>
+</div>
+<div class="list-item left-aligned" *ngIf="armoredSkirt">
     <h4>Armored Skirt</h4>
     <app-item [item]=armoredSkirt></app-item>
 </div>
-<ng-container *ngFor="let choice of item.storedSpells">
+<div class="list-item left-aligned" *ngFor="let choice of item.storedSpells">
     <app-spellchoice [choice]="choice" [allowHeightened]="true" [level]="choice.level" [itemSpell]="true"></app-spellchoice>
-</ng-container>
-<ng-container *ngFor="let activity of item.activities">
-    <h4>{{activity.name}}
+</div>
+<div class="list-item left-aligned" *ngFor="let activity of item.activities">
+    <h4 *ngIf="activity.name">{{activity.name}}
         {{activity.get_Actions()}}{{(activity.activationType) ? " - " + activity.activationType : ""}}</h4>
     <app-activity [creature]="creature" [activity]=activity [gain]=activity [allowActivate]=allowActivate></app-activity>
-</ng-container>
+    </div>
 <ng-container *ngFor="let gain of item.gainActivities">
-    <ng-container *ngFor="let activity of get_Activities(gain.name)">
+    <div class="list-item left-aligned"  *ngFor="let activity of get_Activities(gain.name)">
         <h4>{{activity.name}}
             {{activity.get_Actions()}}{{(activity.activationType) ? " - " + activity.activationType : ""}}</h4>
         <app-activity [creature]="creature" [activity]=activity [gain]=gain [allowActivate]=allowActivate></app-activity>
-    </ng-container>
+        </div>
 </ng-container>

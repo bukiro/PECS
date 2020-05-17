@@ -12,6 +12,10 @@ export class WornItem extends Equipment {
     public isDoublingRings: ""|"Doubling Rings"|"Doubling Rings (Greater)" = "";
     //Does this item count for the "Handwraps of Mighty Blows" functionality? If so, be sure to make it moddable like a weapon.
     public isHandwrapsOfMightyBlows: boolean = false;
+    //Does this item use the Wayfinder functionality to store Aeon Stones, and how many?
+    public isWayfinder: number = 0;
+    //Is this an Aeon Stone and can be stored in a Wayfinder?
+    public isAeonStone: boolean = false;
     //How is this item worn? Example: "worn belt"
     public usage: string = "";
 }

@@ -29,6 +29,7 @@ import { Ammunition } from './Ammunition';
 import { SpellChoice } from './SpellChoice';
 import { Equipment } from './Equipment';
 import { Scroll } from './Scroll';
+import { Oil } from './Oil';
 
 @Injectable({
     providedIn: 'root'
@@ -69,6 +70,8 @@ export class ItemsService {
     private loading_WeaponRunes: Boolean = false;
     private loader_Scrolls = [];
     private loading_Scrolls: Boolean = false;
+    private loader_Oils = [];
+    private loading_Oils: Boolean = false;
     /*
     private loader_REPLACE1 = [];
     private loading_REPLACE1: Boolean = false;
@@ -99,7 +102,7 @@ export class ItemsService {
         } else { return new ItemCollection }
     }
 
-    get_cleanItems() {
+    get_CleanItems() {
         if (!this.still_loading()) {
             return this.cleanItems;
         } else { return new ItemCollection }
@@ -164,6 +167,8 @@ export class ItemsService {
                     return Object.assign(new WeaponRune(), item);
                 case "scrolls":
                     return Object.assign(new Scroll(), item);
+                case "oils":
+                    return Object.assign(new Oil(), item);
             }
         } else if (item._className) {
             return this.cast_ItemByClassName(item)
@@ -201,6 +206,8 @@ export class ItemsService {
                     return Object.assign(new WeaponRune(), item);
                 case "Scroll":
                     return Object.assign(new Scroll(), item);
+                case "Oil":
+                    return Object.assign(new Oil(), item);
             }
         } else if (item.type) {
             return this.cast_ItemByType(item)
@@ -216,9 +223,9 @@ export class ItemsService {
         let newItem: any;
         //Set preassigned if you have already given the item a Class. Otherwise it will be determined by the item's type.
         if (preassigned) {
-            newItem = Object.assign(new item.constructor(), item);
+            newItem = Object.assign(new item.constructor(), JSON.parse(JSON.stringify(item)));
         } else {
-            newItem = this.cast_ItemByType(item);
+            newItem = this.cast_ItemByType(JSON.parse(JSON.stringify(item)));
         }
         if (newID) {
             newItem.id = uuidv1();
@@ -241,6 +248,15 @@ export class ItemsService {
                 choice.source = newItem.id;
                 choice.id = "0-Spell-" + newItem.id + index;
             });
+        }
+        //For items (oils) that apply the same effect as a rune, load the rune into the item here.
+        if (newItem.runeEffect && newItem.runeEffect.name) {
+            let rune = this.get_CleanItems().weaponrunes.find(rune => rune.name == newItem.runeEffect.name);
+            if (rune) {
+                newItem.runeEffect = Object.assign(new WeaponRune(), JSON.parse(JSON.stringify(rune)));
+                this.savegameService.reassign(newItem.runeEffect);
+                newItem.runeEffect.activities.forEach((activity: ItemActivity) => {activity.name += " ("+newItem.name+")"});
+            }
         }
 
         return newItem;
@@ -401,6 +417,12 @@ export class ItemsService {
                 .subscribe((results: String[]) => {
                     this.loader_Scrolls = results;
                     this.finish_Scrolls()
+                });
+            this.loading_Oils = true;
+            this.load_Oils()
+                .subscribe((results: String[]) => {
+                    this.loader_Oils = results;
+                    this.finish_Oils()
                 });
             /*
             this.loading_REPLACE1 = true;
@@ -604,6 +626,25 @@ export class ItemsService {
             this.loader_Scrolls = [];
         }
         if (this.loading_Scrolls) { this.loading_Scrolls = false; }
+    }
+
+    load_Oils(): Observable<String[]> {
+        return this.http.get<String[]>('/assets/items/oils.json');
+    }
+
+    finish_Oils() {
+        if (this.loader_WeaponRunes.length || !this.cleanItems.weaponrunes.length) {
+            setTimeout(() => {
+                this.finish_Oils();
+            }, 100);
+        } else {
+            if (this.loader_Oils) {
+                this.items.oils = this.loader_Oils.map(element => this.initialize_Item(Object.assign(new Oil(), element), true, false));
+                this.cleanItems.oils = this.loader_Oils.map(element => this.initialize_Item(Object.assign(new Oil(), element), true, false));
+                this.loader_Oils = [];
+            }
+            if (this.loading_Oils) { this.loading_Oils = false; }
+        }
     }
 
     /*

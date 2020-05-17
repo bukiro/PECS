@@ -39,6 +39,7 @@ import { SpellchoiceComponent } from './spells/spellchoice/spellchoice.component
 import { FamiliarComponent } from './familiar/familiar.component';
 import { FeatchoiceComponent } from './character/featchoice/featchoice.component';
 import { FamiliarabilitiesComponent } from './familiar/familiarabilities/familiarabilities.component';
+import { ItemOilsComponent } from './item/itemOils/itemOils.component';
 
 @NgModule({
    declarations: [
@@ -73,7 +74,8 @@ import { FamiliarabilitiesComponent } from './familiar/familiarabilities/familia
       SpellchoiceComponent,
       FamiliarComponent,
       FeatchoiceComponent,
-      FamiliarabilitiesComponent
+      FamiliarabilitiesComponent,
+      ItemOilsComponent
    ],
    imports: [
       BrowserModule,

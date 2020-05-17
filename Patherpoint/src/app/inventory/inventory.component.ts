@@ -99,6 +99,16 @@ export class InventoryComponent implements OnInit {
                             }
                         }
                     });
+                    item.oilsApplied.forEach(oil => {
+                        if (oil.runeEffect && oil.runeEffect.name == "Speed" && (item.equipped || (item.can_Invest() && item.invested))) {
+                            speedRune = true;
+                        }
+                        if (oil.runeEffect && oil.runeEffect.alignmentPenalty) {
+                            if (this.characterService.get_Character().alignment.includes(oil.runeEffect.alignmentPenalty)) {
+                                enfeebledRune = true;
+                            }
+                        }
+                    });
                 });
             })
             if (speedRune && this.characterService.get_AppliedConditions(this.get_Creature(), "Quickened", "Speed Rune").length == 0) {
@@ -144,7 +154,7 @@ export class InventoryComponent implements OnInit {
             return false;
         } else if (targetInventory.bulkLimit) {
             let itemBulk = 0;
-            switch (item["carryingBulk"] || item.bulk) {
+            switch (item.get_Bulk()) {
                 case "":
                     break;
                 case "-":
@@ -158,9 +168,9 @@ export class InventoryComponent implements OnInit {
                     break;
                 default:
                     if (item.amount) {
-                        itemBulk += parseInt(item.bulk) * Math.floor(item.amount / (item["stack"] ? item["stack"] : 1));
+                        itemBulk += parseInt(item.get_Bulk()) * Math.floor(item.amount / (item["stack"] ? item["stack"] : 1));
                     } else {
-                        itemBulk += parseInt(item.bulk);
+                        itemBulk += parseInt(item.get_Bulk());
                     }
                     break;
             }

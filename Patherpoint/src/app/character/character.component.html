@@ -33,7 +33,7 @@
                 Alignment
             </span>
             <span>
-                <select [(ngModel)]="get_Character().alignment" (ngModelChange)="set_Changed()">
+                <select [(ngModel)]="get_Character().alignment" (ngModelChange)="set_Changed('Character')">
                     <option *ngFor="let alignment of get_Alignments()" [value]="alignment">
                         {{alignment}}
                     </option>

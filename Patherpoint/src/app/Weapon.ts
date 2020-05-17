@@ -8,6 +8,7 @@ import { Specialization } from './Specialization';
 import { Character } from './Character';
 import { AnimalCompanion } from './AnimalCompanion';
 import { Familiar } from './Familiar';
+import { Oil } from './Oil';
 
 export class Weapon extends Equipment {
     public readonly _className: string = this.constructor.name;
@@ -109,14 +110,23 @@ export class Weapon extends Equipment {
         })
         //Only count the highest of these proficiency (e.g. in case you have Monk weapons +4 and Dwarf weapons +2)
         let bestTraitLevel: number = Math.max(...traitLevels)
-        //Add either the weapon category proficiency or the weapon proficiency, whichever is better
+        //Keep either the weapon category proficiency or the weapon proficiency, whichever is better
         skillLevel = Math.max(Math.min(weaponIncreases.length * 2, 8),Math.min(profIncreases.length * 2, 8),Math.min(bestTraitLevel, 8))
         //If you have an Ancestral Echoing rune on this weapon, you get to raise the item's proficiency by one level, up to the highest proficiency you have.
         let bestSkillLevel: number = skillLevel;
         if (runeSource.propertyRunes.filter(rune => rune.name == "Ancestral Echoing").length) {
-            //First, we get the highest proficiency...
+            //First, we get all the weapon proficiencies...
             let skills: number[] = characterService.get_Skills(creature, "", "Weapon Proficiency").map(skill => skill.level(creature, characterService, charLevel));
             skills.push(...characterService.get_Skills(creature, "", "Specific Weapon Proficiency").map(skill => skill.level(creature, characterService, charLevel)));
+            //Then we set this skill level to either this level +2 or the highest of the found proficiencies - whichever is lower.
+            bestSkillLevel = Math.min(skillLevel + 2, Math.max(...skills));
+        }
+        //If you have an oil applied that emulates an Ancestral Echoing rune, apply the same rule (there is no such oil, but things can change)
+        if (this.oilsApplied.filter(oil => oil.runeEffect && oil.runeEffect.name == "Ancestral Echoing").length) {
+            //First, we get all the weapon proficiencies...
+            let skills: number[] = characterService.get_Skills(creature, "", "Weapon Proficiency").map(skill => skill.level(creature, characterService, charLevel));
+            skills.push(...characterService.get_Skills(creature, "", "Specific Weapon Proficiency").map(skill => skill.level(creature, characterService, charLevel)));
+            //Then we set this skill level to either this level +2 or the highest of the found proficiencies - whichever is lower.
             bestSkillLevel = Math.min(skillLevel + 2, Math.max(...skills));
         }
         return bestSkillLevel;
@@ -137,14 +147,11 @@ export class Weapon extends Equipment {
         if (charLevelBonus) {
             explain += "\nCharacter Level: "+charLevelBonus;
         }
-        let penalty: [{value?:number, source?:string, penalty?:boolean}] = [{}];
-        penalty.splice(0,1);
-        let bonus: [{value?:number, source?:string, penalty?:boolean}] = [{}];
-        bonus.splice(0,1);
+        let penalty: {value:number, source:string, penalty:boolean}[] = [];
+        let bonus: {value:number, source:string, penalty:boolean}[] = [];
         //The Clumsy condition affects all Dexterity attacks
         let dexEffects = effectsService.get_EffectsOnThis(creature, "Dexterity Attacks");
-        let dexPenalty: [{value?:number, source?:string, penalty?:boolean}] = [{}];
-        dexPenalty.splice(0,1);
+        let dexPenalty: {value:number, source:string, penalty:boolean}[] = [];
         let dexPenaltySum: number = 0;
         dexEffects.forEach(effect => {
             dexPenalty.push({value:parseInt(effect.value), source:effect.source, penalty:true});
@@ -152,8 +159,7 @@ export class Weapon extends Equipment {
         });
         //The Enfeebled condition affects all Strength attacks
         let strEffects = effectsService.get_EffectsOnThis(creature, "Strength Attacks");
-        let strPenalty: [{value?:number, source?:string, penalty?:boolean}] = [{}];
-        strPenalty.splice(0,1);
+        let strPenalty: {value:number, source:string, penalty:boolean}[] = [];
         let strPenaltySum: number = 0;
         strEffects.forEach(effect => {
             strPenalty.push({value:parseInt(effect.value), source:effect.source, penalty:true});
@@ -184,7 +190,7 @@ export class Weapon extends Equipment {
                 }
             }
         } else {
-            if (characterService.have_Trait(this, "Finesse") && dex + dexPenaltySum > str) {
+            if (characterService.have_Trait(this, "Finesse") && dex + dexPenaltySum > str + strPenaltySum) {
                 abilityMod = dex;
                 explain += "\nDexterity Modifier (Finesse): "+abilityMod;
                 if (dexPenalty.length) {
@@ -207,8 +213,8 @@ export class Weapon extends Equipment {
             }
         }
         
-        if (runeSource[0].potencyRune > 0) {
-            explain += "\nPotency: "+runeSource[0].get_Potency(runeSource[0].potencyRune);
+        if (runeSource[0].get_PotencyRune() > 0) {
+            explain += "\nPotency: "+runeSource[0].get_Potency(runeSource[0].get_PotencyRune());
             if (runeSource[2]) {
                 explain += "\n("+runeSource[2].get_Name()+")";
             }
@@ -225,7 +231,7 @@ export class Weapon extends Equipment {
             effectsSum += parseInt(effect.value);
         });
         //Add up all modifiers and return the attack bonus for this attack
-        let attackResult = charLevelBonus + skillLevel + abilityMod + runeSource[0].potencyRune + effectsSum;
+        let attackResult = charLevelBonus + skillLevel + abilityMod + runeSource[0].get_PotencyRune() + effectsSum;
         explain = explain.substr(1);
         return [range, attackResult, explain, penalty.concat(bonus), penalty, bonus];
     }
@@ -239,6 +245,11 @@ export class Weapon extends Equipment {
             .forEach((weaponRune: WeaponRune) => {
                 extraDamage += "\n"+weaponRune.extraDamage;
             });
+        this.oilsApplied
+            .filter((oil: Oil) => oil.runeEffect && oil.runeEffect.extraDamage)
+            .forEach((oil: Oil) => {
+                extraDamage += "\n"+oil.runeEffect.extraDamage;
+            });
         return extraDamage;
     }
     damage(creature: Character|AnimalCompanion, characterService: CharacterService, effectsService: EffectsService, range: string) {
@@ -246,14 +257,14 @@ export class Weapon extends Equipment {
     //Returns a string in the form of "1d6 +5"
         let explain: string = "";
         let str = characterService.get_Abilities("Strength")[0].mod(creature, characterService, effectsService);
-        let penalty: [{value?:number, source?:string, penalty?:boolean}] = [{}];
-        penalty.splice(0,1);
-        //Apply Handwraps of Mighty Blows, if equipped, to unarmed attacks
-        //We replace "me" with the Handwraps and use "me" instead of "this" when runes are concerned.
+        let penalty: {value:number, source:string, penalty:boolean}[] = [];
+        //Apply any mechanism that copy runes from another item, like Handwraps of Mighty Blows or Doubling Rings.
+        //We set runeSource to the respective item and use it whenever runes are concerned.
         let runeSource: (Weapon|WornItem)[] = this.get_RuneSource(creature, range);
-        let dicenum = this.dicenum + runeSource[0].strikingRune;
-        if (runeSource[0].strikingRune > 0) {
-            explain += "\n"+runeSource[0].get_Striking(runeSource[0].strikingRune)+": Dice number +"+runeSource[0].strikingRune;
+        //Add the striking rune or oil of potency effect of the runeSource.
+        let dicenum = this.dicenum + runeSource[0].get_StrikingRune();
+        if (runeSource[0].get_StrikingRune() > 0) {
+            explain += "\n"+runeSource[0].get_Striking(runeSource[0].get_StrikingRune())+": Dice number +"+runeSource[0].get_StrikingRune();
             if (runeSource[2]) {
                 explain += "\n("+runeSource[2].get_Name()+")";
             }
@@ -287,8 +298,7 @@ export class Weapon extends Equipment {
         var baseDice = dicenum + "d" + dicesize;
         //The Enfeebled condition affects all Strength damage
         let strEffects = effectsService.get_EffectsOnThis(creature, "Strength Attacks");
-        let strPenalty: [{value?:number, source?:string, penalty?:boolean}] = [{}];
-        strPenalty.splice(0,1);
+        let strPenalty: {value:number, source:string, penalty:boolean}[] = [];
         let strPenaltySum: number = 0;
         strEffects.forEach(effect => {
             strPenalty.push({value:parseInt(effect.value), source:effect.source, penalty:true});

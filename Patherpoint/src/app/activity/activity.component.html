@@ -1,5 +1,5 @@
-<div class="row">
-    <div class="row">
+<ng-container>
+    <div class="row" *ngIf="allowActivate">
         <button class="row center-aligned"
             (click)="on_Activate(gain, activity, true)"
             *ngIf="allowActivate && gain.name != 'Fused Stance' && activity.can_Activate() && !gain.active && !gain.activeCooldown">
@@ -21,7 +21,7 @@
             Deactivate
         </button>
         <button class="row center-aligned"
-            *ngIf="allowActivate && gain.activeCooldown" disabled>
+            *ngIf="allowActivate && gain.activeCooldown && !gain.active" disabled>
             Cannot activate for {{get_Duration(gain.activeCooldown)}}
         </button>
     </div>
@@ -125,4 +125,4 @@
         <app-tags [creature]="creature" [objectName]="activity.name" [showTraits]=true [showFeats]=true [showItems]=true [showActivities]=true
             [showConditions]=true [showEffects]=true></app-tags>
     </ng-container>
-</div>
+</ng-container>

@@ -208,13 +208,12 @@ constructor(
                 });
                 //For Saving Throws, add any resilient runes on the equipped armor
                 let armor = items.armors.filter(armor => armor.equipped);
-                let resilient: number = 0;
                 if (armor.length) {
-                    if (armor[0].resilientRune > 0) {
-                        resilient = armor[0].resilientRune;
-                        itemEffects.push(new Effect(creature.id, 'item', "Fortitude", "+"+armor[0].resilientRune, armor[0].get_Resilient(armor[0].resilientRune), false))
-                        itemEffects.push(new Effect(creature.id, 'item', "Reflex", "+"+armor[0].resilientRune, armor[0].get_Resilient(armor[0].resilientRune), false))
-                        itemEffects.push(new Effect(creature.id, 'item', "Will", "+"+armor[0].resilientRune, armor[0].get_Resilient(armor[0].resilientRune), false))
+                    if (armor[0].get_ResilientRune() > 0) {
+                        let resilient = armor[0].get_ResilientRune();
+                        itemEffects.push(new Effect(creature.id, 'item', "Fortitude", "+"+resilient, armor[0].get_Resilient(resilient), false))
+                        itemEffects.push(new Effect(creature.id, 'item', "Reflex", "+"+resilient, armor[0].get_Resilient(resilient), false))
+                        itemEffects.push(new Effect(creature.id, 'item', "Will", "+"+resilient, armor[0].get_Resilient(resilient), false))
                     }
                 }
                 //Get skill and speed penalties from armor

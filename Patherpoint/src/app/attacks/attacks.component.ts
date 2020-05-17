@@ -109,11 +109,19 @@ export class AttacksComponent implements OnInit {
     }
 
     get_HintRunes(weapon: Weapon, range: string) {
-        return weapon.get_RuneSource(this.get_Creature(), range)[1].propertyRunes.filter((rune: WeaponRune) => rune.hint.length);
+        //Return all runes and rune-emulating oil effects that have a hint to show
+        let runes: WeaponRune[] = [];
+        runes.push(...weapon.get_RuneSource(this.get_Creature(), range)[1].propertyRunes.filter((rune: WeaponRune) => rune.hint.length) as WeaponRune[]);
+        runes.push(...weapon.oilsApplied.filter(oil => oil.runeEffect && oil.runeEffect.hint.length).map(oil => oil.runeEffect));
+        return runes;
     }
 
     get_Runes(weapon: Weapon, range: string) {
-        return weapon.get_RuneSource(this.get_Creature(), range)[1].propertyRunes;
+        //Return all runes and rune-emulating oil effects
+        let runes: WeaponRune[] = [];
+        runes.push(...weapon.get_RuneSource(this.get_Creature(), range)[1].propertyRunes as WeaponRune[]);
+        runes.push(...weapon.oilsApplied.filter(oil => oil.runeEffect).map(oil => oil.runeEffect));
+        return runes;
     }
 
     get_GrievousData(weapon: Weapon, rune: WeaponRune) {

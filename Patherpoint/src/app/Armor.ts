@@ -131,12 +131,12 @@ export class Armor extends Equipment {
                 explain += "\nDexterity Modifier: "+dexBonus;
             }
         }
-        if (this.potencyRune > 0) {
-            explain += "\nPotency: "+this.get_Potency(this.potencyRune);
+        if (this.get_PotencyRune() > 0) {
+            explain += "\nPotency: "+this.get_Potency(this.get_PotencyRune());
         }
         //Add up all modifiers and return the AC gained from this armor
         //Also adding any inherent AC bonus
-        let defenseResult: number = 10 + charLevelBonus + skillLevel + this.get_ACBonus() + dexBonus + this.potencyRune;
+        let defenseResult: number = 10 + charLevelBonus + skillLevel + this.get_ACBonus() + dexBonus + this.get_PotencyRune();
         if (this.get_ACBonus()) {
             explain += "\nArmor Bonus: "+this.get_ACBonus();
         }

@@ -51,6 +51,7 @@ import { Ammunition } from './Ammunition';
 import { Item } from './Item';
 import { Scroll } from './Scroll';
 import { InventoryGain } from './InventoryGain';
+import { Oil } from './Oil';
 
 @Injectable({
     providedIn: 'root'
@@ -92,6 +93,7 @@ export class SavegameService {
     private ItemGain = ItemGain;
     private Level = Level;
     private LoreChoice = LoreChoice;
+    private Oil = Oil;
     private OtherConsumable = OtherConsumable;
     private OtherItem = OtherItem;
     private Potion = Potion;

@@ -62,6 +62,7 @@ export class TimeService {
             casting.spellSlotsUsed = [999, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
         });
         this.tick(characterService, 48000);
+        //insert cooldown reset here
     }
 
     tick(characterService: CharacterService, turns: number = 10) {
@@ -71,12 +72,18 @@ export class TimeService {
             if (turns >= 1000 && characterService.get_Health(creature).damage == 0) {
                 characterService.get_AppliedConditions(creature, "Wounded").forEach(gain => characterService.remove_Condition(creature, gain));
             }
+            if (creature.type != "Familiar") {
+                characterService.tick_Oils(creature, turns);
+            }
         })
         this.yourTurn = (this.yourTurn + turns) % 10;
         characterService.set_Changed();
     }
 
-    get_Duration(duration) {
+    get_Duration(duration: number) {
+        if (duration == -1) {
+            return "Permanent";
+        }
         let durationNum = duration;
         let returnString: string = ""
         if (durationNum / 144000 >= 1) {
@@ -99,7 +106,7 @@ export class TimeService {
             if (durationNum / 10 > 1) { returnString += "s" }
             durationNum %= 10;
         }
-        return returnString;
+        return returnString.trim();
     }
 
 }

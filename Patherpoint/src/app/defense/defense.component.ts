@@ -112,7 +112,7 @@ export class DefenseComponent implements OnInit {
         } else {
             this.characterService.get_Changed()
             .subscribe((target) => {
-                if (target == "defense" || target == "all" || target == this.creature) {
+                if (["defense", "all", this.creature].includes(target)) {
                     this.changeDetector.detectChanges();
                 }
             });

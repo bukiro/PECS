@@ -106,7 +106,7 @@ export class TagsComponent implements OnInit {
         } else {
             this.characterService.get_Changed()
             .subscribe((target) => {
-                if (target == "tags" || target == "all" || target == this.creature) {
+                if (["tags", "all", this.creature].includes(target)) {
                     this.changeDetector.detectChanges();
                 }
             });
@@ -115,7 +115,7 @@ export class TagsComponent implements OnInit {
     }
 
     ngOnInit() {
-        //this.finish_Loading();
+        this.finish_Loading();
     }
 
 }

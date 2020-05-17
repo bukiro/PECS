@@ -1,0 +1,17 @@
+<!--Adding Oils-->
+<ng-container *ngIf="item.type!='oils'">
+    <div class="list-item" *ngIf="get_Oils().length > 1">
+        <strong>Apply oil</strong>
+        <select [(ngModel)]="newOil"
+            (change)="add_Oil()">
+            <option *ngFor="let oil of get_Oils()" [ngValue]="oil">{{oil.oil.get_Name()}}</option>
+        </select>
+    </div>
+    <div class="row" *ngIf="item.oilsApplied.length">
+        <strong>Applied oils</strong>
+        <div class="list-item" *ngFor="let oil of item.oilsApplied; let index = index">
+            <strong>{{oil.get_Name()}} ({{get_Duration(oil.duration)}})</strong>
+            <button class="lower" (click)="remove_Oil(index)">Remove</button>
+        </div>
+    </div>
+</ng-container>

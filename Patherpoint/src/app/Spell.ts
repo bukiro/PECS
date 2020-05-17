@@ -44,6 +44,7 @@ export class Spell {
     public targets: string = "";
     public traditions: string[] = [];
     public traits: string[] = [];
+    public trigger: string = "";
     get_Actions() {
         switch (this.actions) {
             case "Free":

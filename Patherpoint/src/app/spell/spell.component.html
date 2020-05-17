@@ -15,10 +15,14 @@
             {{spell.get_Actions()}} {{spell.castType}}
         </span>
     </div>
-    <div class="row left-aligned"  *ngIf="spell.range">
-        <span>
+    <div class="row left-aligned"  *ngIf="spell.range || spell.targets">
+        <span *ngIf="spell.range">
             <strong>Range</strong>
-            {{spell.range}}
+            {{spell.range}}&nbsp;
+        </span>
+        <span *ngIf="spell.targets">
+            <strong>Targets</strong>
+            {{spell.targets}}
         </span>
     </div>
     <div class="row left-aligned"  *ngIf="spell.area">

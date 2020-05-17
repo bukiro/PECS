@@ -383,7 +383,7 @@
     flex-grow: initial;
     flex-basis: 0;
   }
-  #top-bar button:last-child {
+  #top-bar > button:last-child {
     margin-right: 0px;
   }
 
@@ -441,7 +441,7 @@
     margin-bottom:0;
   }
 
-  app-tags, app-skill, app-item {
+  app-tags, app-skill, app-item, app-activity, app-itemOils, app-itemRunes {
     width: 100%;
   }
 
@@ -515,7 +515,7 @@
     background-color: rgb(var(--accent));
   }
 
-  .list-item div:last-child {
+  .list-item > div:last-child {
     margin-bottom:0;
   }
 

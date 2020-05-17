@@ -1102,6 +1102,29 @@
         "spellCasting": [
             {
                 "_className": "SpellCasting",
+                "castingType": "Innate",
+                "className": "Innate",
+                "ability": "Charisma",
+                "source": "Innate",
+                "spellDC": {
+                    "_className": "SkillChoice",
+                    "increases": [
+                        {
+                            "name": "Innate Spell DC",
+                            "source": "Innate",
+                            "maxRank": 2,
+                            "locked": true,
+                            "sourceId": ""
+                        }
+                    ],
+                    "maxRank": 2,
+                    "source": "Innate",
+                    "type": "Spell DC"
+                },
+                "tradition": "Innate"
+            },
+            {
+                "_className": "SpellCasting",
                 "castingType": "Focus",
                 "className": "Monk",
                 "ability": "Wisdom",
@@ -2353,6 +2376,31 @@
                 ]
             }
         ],
-        "name": "Ranger"
+        "name": "Ranger",
+        "spellCasting": [
+            {
+                "_className": "SpellCasting",
+                "castingType": "Innate",
+                "className": "Innate",
+                "ability": "Charisma",
+                "source": "Innate",
+                "spellDC": {
+                    "_className": "SkillChoice",
+                    "increases": [
+                        {
+                            "name": "Innate Spell DC",
+                            "source": "Innate",
+                            "maxRank": 2,
+                            "locked": true,
+                            "sourceId": ""
+                        }
+                    ],
+                    "maxRank": 2,
+                    "source": "Innate",
+                    "type": "Spell DC"
+                },
+                "tradition": "Innate"
+            }
+        ]
     }
 ]

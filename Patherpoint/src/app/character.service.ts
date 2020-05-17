@@ -49,6 +49,7 @@ import { FamiliarsService } from './familiars.service';
 import { FeatChoice } from './FeatChoice';
 import { SpellCasting } from './SpellCasting';
 import { InventoryGain } from './InventoryGain';
+import { Oil } from './Oil';
 
 @Injectable({
     providedIn: 'root'
@@ -552,6 +553,11 @@ export class CharacterService {
                     this.remove_RuneLore(rune);
                 })
             }
+            if (item["appliedOils"]) {
+                item["appliedOils"].filter((oil: Oil) => oil.runeEffect.loreChoices.length).forEach((oil: Oil) => {
+                    this.remove_RuneLore(oil.runeEffect);
+                })
+            }
             if (item["activities"]) {
                 item["activities"].forEach(activity => {
                     if (activity.active) {
@@ -585,12 +591,19 @@ export class CharacterService {
     }
 
     add_RuneLore(rune: Rune) {
-        //Then go through all the loreChoices (usually only one)
+        //Go through all the loreChoices (usually only one)
         rune.loreChoices.forEach(choice => {
             //Check if only one (=this) item's rune has this lore (and therefore no other item has already created it on the character), and if so, create it.
             if (this.get_Character().inventories[0].allEquipment()
                 .filter(item => item.propertyRunes
                     .filter(propertyRune => propertyRune.loreChoices
+                        .filter(otherchoice => otherchoice.loreName == choice.loreName)
+                        .length)
+                    .length)
+                .length + 
+                this.get_Character().inventories[0].allEquipment()
+                .filter(item => item.oilsApplied
+                    .filter(oil => oil.runeEffect && oil.runeEffect.loreChoices
                         .filter(otherchoice => otherchoice.loreName == choice.loreName)
                         .length)
                     .length)
@@ -607,6 +620,13 @@ export class CharacterService {
             if (this.get_Character().inventories[0].allEquipment()
                 .filter(item => item.propertyRunes
                     .filter(propertyRune => propertyRune.loreChoices
+                        .filter(otherchoice => otherchoice.loreName == choice.loreName)
+                        .length)
+                    .length)
+                .length + 
+                this.get_Character().inventories[0].allEquipment()
+                .filter(item => item.oilsApplied
+                    .filter(oil => oil.runeEffect && oil.runeEffect.loreChoices
                         .filter(otherchoice => otherchoice.loreName == choice.loreName)
                         .length)
                     .length)
@@ -901,6 +921,20 @@ export class CharacterService {
         }
     }
 
+    tick_Oils(creature: Character|AnimalCompanion, turns: number) {
+        creature.inventories.forEach(inv => {
+            inv.allItems().filter(item => item.oilsApplied && item.oilsApplied.length).forEach(item => {
+                item.oilsApplied.filter(oil => oil.duration != -1).forEach(oil => {
+                    oil.duration -= turns;
+                    if (oil.duration <= 0) {
+                        oil.name = "DELETE";
+                    }
+                })
+                item.oilsApplied = item.oilsApplied.filter(oil => oil.name != "DELETE");
+            });
+        });
+    }
+
     process_OnceEffect(creature: Character|AnimalCompanion|Familiar, effect: EffectGain) {
         let value = 0;
         //Prepare values that can be used in an eval. Add to this list as needed.
@@ -1055,9 +1089,24 @@ export class CharacterService {
                     activities.push(...item.activities);
                 }
             })
-            creature.inventories[0].allEquipment().filter(item => item.propertyRunes.filter(rune => item.equipped && (item.can_Invest() ? item.invested : true) && rune.activities.length).length).forEach(item => {
+            //Get activities from runes
+            creature.inventories[0].allEquipment().filter(item => 
+                item.propertyRunes.filter(rune => rune.activities.length).length &&
+                item.equipped &&
+                (item.can_Invest() ? item.invested : true)
+            ).forEach(item => {
                 item.propertyRunes.filter(rune => rune.activities.length).forEach(rune => {
                     activities.push(...rune.activities);
+                });
+            });
+            //Get activities from rune effects from oils
+            creature.inventories[0].allEquipment().filter(item =>
+                item.oilsApplied.filter(oil => oil.runeEffect && oil.runeEffect.activities && oil.runeEffect.activities.length).length &&
+                item.equipped &&
+                (item.can_Invest() ? item.invested : true)
+            ).forEach(item => {
+                item.oilsApplied.filter(oil => oil.runeEffect && oil.runeEffect.activities).forEach(oil => {
+                    activities.push(...oil.runeEffect.activities);
                 })
             })
         }
@@ -1082,11 +1131,18 @@ export class CharacterService {
     get_ItemsShowingOn(creature: Character|AnimalCompanion|Familiar, objectName: string) {
         let returnedItems: Item[] = [];
         creature.inventories.forEach(inventory => {
-            inventory.allEquipment().forEach(item => {
+            inventory.allEquipment().filter(item => (item.equippable ? item.equipped : true) && (item.can_Invest() ? item.invested : true)).forEach(item => {
                 item.showon.split(",").forEach(showon => {
                     if (showon == objectName || showon.substr(1) == objectName || (objectName == "Lore" && showon.includes(objectName))) {
                         returnedItems.push(item);
                     }
+                });
+                item.oilsApplied.forEach(oil => {
+                    oil.showon.split(",").forEach(showon => {
+                        if (showon == objectName || showon.substr(1) == objectName || (objectName == "Lore" && showon.includes(objectName))) {
+                            returnedItems.push(oil);
+                        }
+                    });
                 });
             });
         });

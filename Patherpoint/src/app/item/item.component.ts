@@ -7,6 +7,8 @@ import { ItemsService } from '../items.service';
 import { Item } from '../Item';
 import { Character } from '../Character';
 import { AnimalCompanion } from '../AnimalCompanion';
+import { Oil } from '../Oil';
+import { SpellsService } from '../spells.service';
 
 @Component({
     selector: 'app-item',
@@ -32,7 +34,8 @@ export class ItemComponent implements OnInit {
         private traitsService: TraitsService,
         private activitiesService: ActivitiesService,
         public characterService: CharacterService,
-        private itemsService: ItemsService
+        private itemsService: ItemsService,
+        private spellsService: SpellsService
     ) { }
 
     get_Accent() {
@@ -107,6 +110,10 @@ export class ItemComponent implements OnInit {
         }
     }
 
+    get_Spells(name: string = "", type: string = "", tradition: string = "") {
+        return this.spellsService.get_Spells(name, type, tradition);
+    }
+
     get_DoublingRingsOptions(ring:string) {
         switch (ring) {
             case "gold":
@@ -117,7 +124,7 @@ export class ItemComponent implements OnInit {
     }
 
     ngOnInit() {
-        if ((this.item.type == "weaponrunes" || this.item.type == "armorrunes") && !this.isSubItem) {
+        if (["weaponrunes", "armorrunes", "oils"].includes(this.item.type) && !this.isSubItem) {
             this.allowActivate = false;
         }
     }

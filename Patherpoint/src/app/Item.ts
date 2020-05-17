@@ -1,6 +1,7 @@
 import { v1 as uuidv1 } from 'uuid';
 import { SpellChoice } from './SpellChoice';
 import { ItemActivity } from './ItemActivity';
+import { Oil } from './Oil';
 
 export class Item {
     public readonly _className: string = this.constructor.name;
@@ -14,7 +15,7 @@ export class Item {
         "refId",
         "save",
         "showNotes"
-    ]
+    ];
     //Allow changing of "equippable" by custom item creation
     public allowEquippable: boolean;
     //Number of items of this kind in your inventory.
@@ -43,12 +44,17 @@ export class Item {
     public name: string = "New Item";
     //Any notes the player adds to the item
     public notes: string = "";
+    //Store any oils applied to this item.
+    public oilsApplied: Oil[] = [];
     //Price in Copper
     public price: number = 0;
     //This is the id of the library item this one is based on. It is used when loading the character.
     public refId: string = ""
     //Is the notes input shown in the inventory
     public showNotes: boolean = false;
+    //This bulk is only valid while in the item store.
+    //This is for items like the Adventurer's Pack that is immediately unpacked into its parts and doesn't weigh anything in the inventory.
+    public storeBulk: string = "";
     //What spells are stored in this item, or can be?
     public storedSpells: SpellChoice[] = [];
     //Does this item come in different types? Like lesser, greater, major...
@@ -61,6 +67,16 @@ export class Item {
     public traits: string[] = [];
     //Type of item - very important. Must be set by the specific Item class and decides which database is searched for the item
     public type: string;
+    get_Bulk() {
+        //Return either the bulk set by an oil, or else the actual bulk of the item.
+        let oilBulk: string = "";
+        this.oilsApplied.forEach(oil => {
+            if (oil.bulkEffect) {
+                oilBulk = oil.bulkEffect;
+            }
+        });
+        return oilBulk || this.bulk;
+    }
     can_Invest() {
         return (this.traits.includes("Invested"));
     }

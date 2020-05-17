@@ -61,9 +61,4 @@ Next steps:
 - Action Icons
 - Database api
 
-active bugs:
-errors after moving inventory items (tested with Finn)
-
 Wayfinder
-Oil of Potency
-Arrows +1

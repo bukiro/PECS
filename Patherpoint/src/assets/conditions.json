@@ -435,6 +435,13 @@
         "buff": true
     },
     {
+        "name": "Air Bubble",
+        "type": "spells",
+        "desc": "A bubble of pure air surrounds your head, allowing you to breathe normally.",
+        "showon": "Health",
+        "buff": true
+    },
+    {
         "name": "Elemental Blood Magic",
         "type": "bloodmagic",
         "desc": "Elemental energy surrounds you or a target. Either you gain a +1 status bonus to Intimidation checks for 1 round, or a target takes 1 damage per spell level. The damage is bludgeoning or fire, according to your elemental type (fire for fire, or else bludgeoning). If the spell already deals that kind of damage, combine it with the spell's initial damage before determining weaknesses and resistances.",

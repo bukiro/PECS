@@ -82,8 +82,8 @@
                                 </div>
                                 <button class="row" [disabled]="!item.amount"
                                     (click)="on_ConsumableUse(item, inventory)"
-                                    *ngIf="item.amount != undefined && item.actions">
-                                    <span>Use</span> <span>{{(item.actions) ? get_Actions(item) : ""}}</span>
+                                    *ngIf="item.amount != undefined && item.actions && (!item.targets || item.targets.length == 0)">
+                                    <span>Use</span> <span>{{(item.actions) ? get_Actions(item) : ""}}{{(item.activationType) ? " - "+item.activationType : ""}}</span>
                                 </button>
                                 <div class="row">
                                     <span *ngIf="can_Equip(item, inventoryIndex)">
@@ -144,8 +144,8 @@
                                         </button>
                                     </span>
                                 </div>
-                                <div class="row">
-                                    <span>Move to container</span>
+                                <div class="list-item">
+                                    <strong>Move to container</strong>
                                     <span>
                                         <select [(ngModel)]="targetInventory" (ngModelChange)="move_InventoryItem(item, inventory)">
                                             <option [ngValue]="null"></option>
@@ -155,7 +155,7 @@
                                         </select>
                                     </span>
                                 </div>
-                                <div class="row left-aligned">
+                                <div class="lift-item row left-aligned">
                                     <span><input type="checkbox" [(ngModel)]="item.showNotes">Notes</span>
                                     <span *ngIf="item['get_Name']"><input type="checkbox"
                                             [(ngModel)]="item.showName">Name</span>
@@ -173,8 +173,10 @@
                                     Name <input type="textarea" class="fullwidth" [(ngModel)]="item.displayName"
                                         (blur)="onNameChange()">
                                 </div>
-                                <app-itemRunes class="row" [item]=item [itemStore]=false *ngIf="item.showRunes">
+                                <app-itemRunes [item]=item [itemStore]=false *ngIf="item.showRunes">
                                 </app-itemRunes>
+                                <app-itemOils [item]=item [itemStore]=false *ngIf="item.type != 'oils'">
+                                </app-itemOils>
                                 <app-item [creature]="creature" [item]=item
                                     [allowActivate]="(item.equippable ? item.equipped : true) && (item.can_Invest() ? item.invested : true)"
                                     [armoredSkirt]="item.get_ArmoredSkirt ? item.get_ArmoredSkirt(get_Creature(), characterService) : null">

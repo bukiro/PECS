@@ -20,6 +20,7 @@ import { Scroll } from './Scroll';
 import { Creature } from './Creature';
 import { CharacterService } from './character.service';
 import { createUrlResolverWithoutPackagePrefix } from '@angular/compiler';
+import { Oil } from './Oil';
 
 export class ItemCollection {
     public readonly _className: string = this.constructor.name;
@@ -43,6 +44,7 @@ export class ItemCollection {
     public weapons: Weapon[] = [];
     public wornitems: WornItem[] = [];
     public scrolls: Scroll[] = [];
+    public oils: Oil[] = [];
     public readonly names: {name: string, key: string}[] = [
         {name:"Weapons",key:"weapons"},
         {name:"Armors",key:"armors"},
@@ -56,6 +58,7 @@ export class ItemCollection {
         {name:"Alchemical Elixirs",key:"alchemicalelixirs"},
         {name:"Potions",key:"potions"},
         {name:"Ammunition",key:"ammunition"},
+        {name:"Oils",key:"oils"},
         {name:"Other Consumables",key:"otherconsumables"}
     ]
     initialize(itemsService: ItemsService) {
@@ -85,6 +88,7 @@ export class ItemCollection {
         items.push(...this.otherconsumables);
         items.push(...this.ammunition);
         items.push(...this.scrolls);
+        items.push(...this.oils);
         return items;
     }
     allRunes() {
@@ -105,7 +109,7 @@ export class ItemCollection {
         //Then returned at /10
         let sum: number = 0;
         function addup(item: Item|OtherItem) {
-            let bulk = item.bulk;
+            let bulk = item.constructor == OtherItem ? item.bulk : (item as Item).get_Bulk();
             if (item["carryingBulk"] && !item["equipped"]) {
                 bulk = item["carryingBulk"];
             }
