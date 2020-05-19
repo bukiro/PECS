@@ -3,6 +3,7 @@ import { CharacterService } from 'src/app/character.service';
 import { ItemsService } from 'src/app/items.service';
 import { WornItem } from 'src/app/WornItem';
 import { ItemCollection } from 'src/app/ItemCollection';
+import { TimeService } from 'src/app/time.service';
 
 @Component({
     selector: 'app-itemAeonStones',
@@ -19,8 +20,9 @@ export class ItemAeonStonesComponent implements OnInit {
     public newAeonStone: { aeonStone: WornItem, inv: ItemCollection }[];
 
     constructor(
-        private characterService: CharacterService,
-        private itemsService: ItemsService
+        public characterService: CharacterService,
+        private itemsService: ItemsService,
+        private timeService: TimeService
     ) { }
 
     trackByIndex(index: number, obj: any): any {
@@ -36,24 +38,49 @@ export class ItemAeonStonesComponent implements OnInit {
     }
 
     get_Slots() {
-        return this.item.isWayfinder;
+        let indexes: number[] = [];
+        for (let index = 0; index < this.item.isWayfinder; index++) {
+            indexes.push(index);
+        }
+        return indexes;
     }
 
-    get_AeonStones(index: number) {
+    get_Inventories() {
+        if (this.itemStore) {
+            return [this.get_CleanItems()];
+        } else {
+            return this.get_Character().inventories;
+        }
+    }
+
+    get_InitialAeonStones(index: number) {
         let item = this.item;
+        //Start with one empty rune to select nothing.
         let allStones: { aeonStone: WornItem, inv: ItemCollection }[] = [{ aeonStone: new WornItem(), inv: null }];
         allStones[0].aeonStone.name = "";
+        //Add the current choice, if the item has a rune at that index.
         if (item.aeonStones[index]) {
-            allStones.push({ aeonStone: item.aeonStones[index], inv: null });
-        }
-        if (this.itemStore) {
-            this.get_CleanItems().wornitems.filter(wornItem => wornItem.isAeonStone).map(aeonStone => ({ aeonStone: aeonStone, inv: null }));
-        } else {
-            this.get_Character().inventories.forEach(inv => {
-                allStones.push(...inv.wornitems.filter(wornItem => wornItem.isAeonStone).map(aeonStone => ({ aeonStone: aeonStone, inv: inv })));
-            });
+            allStones.push(this.newAeonStone[index] as { aeonStone: WornItem, inv: ItemCollection });
         }
         return allStones;
+    }
+
+    get_AeonStones(inv: ItemCollection) {
+        if (this.itemStore) {
+            return inv.wornitems.filter(wornItem => wornItem.isAeonStone).map(aeonStone => ({ aeonStone: aeonStone, inv: null }));
+        } else {
+            return inv.wornitems.filter(wornItem => wornItem.isAeonStone).map(aeonStone => ({ aeonStone: aeonStone, inv: inv }));
+        }
+    }
+
+    get_AeonStoneCooldown(stone: WornItem) {
+        //If any resonant activity on this aeon Stone has a cooldown, return the lowest of these in a human readable format.
+        if (stone.activities && stone.activities.length && stone.activities.filter(activity => activity.resonant && activity.activeCooldown).length) {
+            let lowestCooldown = Math.min(...stone.activities.filter(activity => activity.resonant && activity.activeCooldown).map(activity => activity.activeCooldown));
+            return " (Cooldown "+this.timeService.get_Duration(lowestCooldown)+")";
+        } else {
+            return "";
+        }
     }
 
     add_AeonStone(index: number) {
@@ -88,7 +115,7 @@ export class ItemAeonStonesComponent implements OnInit {
     remove_AeonStone(index: number) {
         let item: WornItem = this.item;
         let oldStone: WornItem = item.aeonStones[index];
-        //Add the extracted rune to the inventory, either on an existing stack or as a new item.
+        //Add the extracted stone to the inventory, either on an existing stack or as a new item.
         this.characterService.grant_InventoryItem(this.get_Character(), this.get_Character().inventories[0], oldStone, false, false, false, 1);
     }
 
@@ -101,7 +128,6 @@ export class ItemAeonStonesComponent implements OnInit {
         this.newAeonStone.filter(stone => stone.aeonStone.name == "New Item").forEach(stone => {
             stone.aeonStone.name = "";
         });
-        this.item.aeonStones.length = this.item.isWayfinder;
     }
 
     ngOnInit() {

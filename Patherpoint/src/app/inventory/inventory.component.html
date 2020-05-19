@@ -173,9 +173,9 @@
                                     Name <input type="textarea" class="fullwidth" [(ngModel)]="item.displayName"
                                         (blur)="onNameChange()">
                                 </div>
-                                <app-itemRunes [item]=item [itemStore]=false *ngIf="item.showRunes">
+                                <app-itemRunes class="list-item" [item]=item [itemStore]=false *ngIf="item.showRunes">
                                 </app-itemRunes>
-                                <app-itemOils [item]=item [itemStore]=false *ngIf="item.type != 'oils'">
+                                <app-itemOils class="list-item" [item]=item [itemStore]=false *ngIf="item.type != 'oils'">
                                 </app-itemOils>
                                 <app-item [creature]="creature" [item]=item
                                     [allowActivate]="(item.equippable ? item.equipped : true) && (item.can_Invest() ? item.invested : true)"

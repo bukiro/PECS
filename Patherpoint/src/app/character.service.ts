@@ -1137,20 +1137,24 @@ export class CharacterService {
 
     get_ItemsShowingOn(creature: Character|AnimalCompanion|Familiar, objectName: string) {
         let returnedItems: Item[] = [];
+        function get_Hint(item: Equipment|Oil|WornItem) {
+            item.showon.split(",").forEach(showon => {
+                if (showon == objectName || showon.substr(1) == objectName || (objectName == "Lore" && showon.includes(objectName))) {
+                    returnedItems.push(item);
+                }
+            });
+        }
         creature.inventories.forEach(inventory => {
             inventory.allEquipment().filter(item => (item.equippable ? item.equipped : true) && (item.can_Invest() ? item.invested : true)).forEach(item => {
-                item.showon.split(",").forEach(showon => {
-                    if (showon == objectName || showon.substr(1) == objectName || (objectName == "Lore" && showon.includes(objectName))) {
-                        returnedItems.push(item);
-                    }
-                });
+                get_Hint(item);
                 item.oilsApplied.forEach(oil => {
-                    oil.showon.split(",").forEach(showon => {
-                        if (showon == objectName || showon.substr(1) == objectName || (objectName == "Lore" && showon.includes(objectName))) {
-                            returnedItems.push(oil);
-                        }
-                    });
+                    get_Hint(oil);
                 });
+                if ((item as WornItem).aeonStones) {
+                    (item as WornItem).aeonStones.forEach(stone => {
+                        get_Hint(stone);
+                    });
+                }
             });
         });
         return returnedItems;

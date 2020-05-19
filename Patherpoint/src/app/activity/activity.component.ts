@@ -29,6 +29,8 @@ export class ActivityComponent implements OnInit {
     gain: ActivityGain | ItemActivity;
     @Input()
     allowActivate: boolean = false;
+    @Input()
+    isSubItem: boolean = false;
 
     constructor(
         public characterService: CharacterService,
@@ -66,6 +68,14 @@ export class ActivityComponent implements OnInit {
                 return ["Manipulate"];
             default:
                 return [];
+        }
+    }
+
+    get_Resonant() {
+        if ((this.activity as ItemActivity).resonant) {
+            return true;
+        } else {
+            return false;
         }
     }
 

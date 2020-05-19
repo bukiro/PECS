@@ -40,6 +40,7 @@ import { FamiliarComponent } from './familiar/familiar.component';
 import { FeatchoiceComponent } from './character/featchoice/featchoice.component';
 import { FamiliarabilitiesComponent } from './familiar/familiarabilities/familiarabilities.component';
 import { ItemOilsComponent } from './item/itemOils/itemOils.component';
+import { ItemAeonStonesComponent } from './item/itemAeonStones/itemAeonStones.component';
 
 @NgModule({
    declarations: [
@@ -75,7 +76,8 @@ import { ItemOilsComponent } from './item/itemOils/itemOils.component';
       FamiliarComponent,
       FeatchoiceComponent,
       FamiliarabilitiesComponent,
-      ItemOilsComponent
+      ItemOilsComponent,
+      ItemAeonStonesComponent
    ],
    imports: [
       BrowserModule,

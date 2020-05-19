@@ -1,6 +1,6 @@
 <!--Adding Oils-->
 <ng-container *ngIf="item.type!='oils'">
-    <div class="list-item" *ngIf="get_Oils().length > 1">
+    <div class="row" *ngIf="get_Oils().length > 1">
         <strong>Apply oil</strong>
         <select [(ngModel)]="newOil"
             (change)="add_Oil()">

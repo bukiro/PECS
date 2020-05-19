@@ -1,7 +1,7 @@
 <ng-container>
     <div class="row" *ngIf="allowActivate">
         <ng-container
-            *ngIf="allowActivate && gain.name != 'Fused Stance' && activity.can_Activate() && !gain.activeCooldown">
+            *ngIf="gain.name != 'Fused Stance' && activity.can_Activate() && !gain.activeCooldown">
             <button class="row center-aligned" (click)="on_Activate(gain, activity, true, creature)"
                 *ngIf="!gain.active && ['self', 'ally'].includes(get_SpellTarget())">
                 Activate (Cast spell on yourself)
@@ -27,7 +27,7 @@
                 Deactivate
             </button>
         </ng-container>
-        <ng-container *ngIf="allowActivate && gain.name == 'Fused Stance' && !gain.activeCooldown">
+        <ng-container *ngIf="gain.name == 'Fused Stance' && !gain.activeCooldown">
             <button class="row center-aligned" (click)="on_ActivateFuseStance(true)" *ngIf="!gain.active"
                 [disabled]="!get_FuseStanceFeat() || !get_FuseStanceFeat().data">
                 Activate
@@ -37,7 +37,12 @@
                 Deactivate
             </button>
         </ng-container>
-        <button class="row center-aligned" *ngIf="allowActivate && gain.activeCooldown && !gain.active" disabled>
+    </div>
+    <div class="row" *ngIf="get_Resonant() && !isSubItem">
+        <strong>Slot this item into a Wayfinder to unlock its resonant power.</strong>
+    </div>
+    <div class="row" *ngIf="gain.activeCooldown && !gain.active">
+        <button class="row center-aligned" disabled>
             Cannot activate for {{get_Duration(gain.activeCooldown)}}
         </button>
     </div>
