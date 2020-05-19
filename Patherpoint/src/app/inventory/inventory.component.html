@@ -43,8 +43,8 @@
         <h3 class="fullsize-only box-header">Items</h3>
         <div class="fullsize-only list-item" *ngFor="let maxInvested of [get_maxInvested()]">
             <strong>Invested</strong><input type="number" class="number2"
-                [className]="(get_InvestedItems().length > maxInvested.value) ? 'problem' : ''"
-                [ngModel]="get_InvestedItems().length" disabled>
+                [className]="(get_Invested() > maxInvested.value) ? 'problem' : ''"
+                [ngModel]="get_Invested()" disabled>
             <strong>Max Invested</strong><input type="number" class="number2" title="{{maxInvested.explain}}"
                 [className]="(maxInvested.penalty) ? 'penalty' : (maxInvested.bonus) ? 'bonus' : ''"
                 [ngModel]="get_maxInvested().value" disabled>
@@ -94,7 +94,7 @@
                                     </span>
                                     <span *ngIf="can_Invest(item, inventoryIndex)">
                                         <button *ngIf="!item.invested" (click)="on_Invest(item, inventory, true)"
-                                            [disabled]="get_InvestedItems().length >= get_maxInvested()[0] && !item.invested">Invest</button>
+                                            [disabled]="get_Invested() >= get_maxInvested()[0] && !item.invested">Invest</button>
                                         <button *ngIf="item.invested"
                                             (click)="on_Invest(item, inventory, false)">Uninvest</button>
                                     </span>

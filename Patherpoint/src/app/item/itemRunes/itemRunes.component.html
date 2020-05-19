@@ -41,10 +41,10 @@
     <div class="row" *ngFor="let index of get_PropertyRunes(); trackBy:trackByIndex;">
         <strong *ngIf="index == 0">Property runes</strong>
         <span *ngIf="index != 0">&nbsp;</span>
-        <select [(ngModel)]="newPropertyRuneName[index]"
-            (change)="add_WeaponPropertyRune($event.target.value, index)"
+        <select [(ngModel)]="newPropertyRune[index]"
+            (change)="add_WeaponPropertyRune(index)"
             [disabled]="!item.propertyRunes[index-1] && index > 0">
-            <option *ngFor="let rune of get_WeaponPropertyRunes(index)" [value]="rune">{{rune}}</option>
+            <option *ngFor="let rune of get_WeaponPropertyRunes(index)" [ngValue]="rune">{{rune.name}}</option>
         </select>
     </div>
 </ng-container>

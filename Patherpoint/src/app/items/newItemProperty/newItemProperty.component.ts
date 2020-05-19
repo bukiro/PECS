@@ -299,6 +299,9 @@ export class NewItemPropertyComponent implements OnInit {
             case "isdoublingrings":
                 examples = ["", "Doubling Rings", "Doubling Rings (Greater)"];
                 break;
+            case "iswayfinder":
+                examples = [0, 1, 2];
+                break;
             case "activity":
                 examples.push(...this.get_Items().allConsumables().concat(...this.get_Inventories().map(inventory => inventory.allConsumables()))
                     .filter(item => item[this.propertyData.key] && item[this.propertyData.key].length).map((item: Consumable) => {

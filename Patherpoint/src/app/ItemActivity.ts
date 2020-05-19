@@ -7,4 +7,6 @@ export class ItemActivity extends Activity {
     public activeCooldown: number = 0;
     public level: number = 20;
     public source: string = "";
+    //Resonant item activities are only available when the item is slotted into a wayfinder.
+    public resonant: boolean = false;
 }

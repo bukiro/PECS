@@ -48,7 +48,7 @@ export class ActivitiesService {
         return this.http.get<String[]>('/assets/activities.json');
     }
 
-    activate_Activity(creature: Character|AnimalCompanion, characterService: CharacterService, timeService: TimeService, itemsService: ItemsService, spellsService: SpellsService, gain: ActivityGain|ItemActivity, activity: Activity|ItemActivity, activated: boolean) {
+    activate_Activity(creature: Character|AnimalCompanion|Familiar, characterService: CharacterService, timeService: TimeService, itemsService: ItemsService, spellsService: SpellsService, gain: ActivityGain|ItemActivity, activity: Activity|ItemActivity, activated: boolean) {
         if (activated && activity.toggle) {
             gain.active = true;
         } else {
@@ -83,18 +83,18 @@ export class ActivitiesService {
         }
 
         //Gain Items on Activation
-        if (activity.gainItems.length) {
+        if (activity.gainItems.length && creature.type != "Familiar") {
             if (activated) {
                 activity.gainItems.forEach(gainItem => {
                     let newItem: Item = itemsService.get_Items()[gainItem.type].filter(libraryItem => libraryItem.name == gainItem.name)[0];
                     if (newItem.can_Stack()) {
-                        characterService.grant_InventoryItem(creature, creature.inventories[0], newItem, true, false, false, gainItem.amount);
+                        characterService.grant_InventoryItem(creature as Character|AnimalCompanion, creature.inventories[0], newItem, true, false, false, gainItem.amount);
                     } else {
                         let resetRunes = true;
                         if (newItem.hide) {
                             resetRunes = false;
                         }
-                        let grantedItem = characterService.grant_InventoryItem(creature, creature.inventories[0], newItem, resetRunes, false, true);
+                        let grantedItem = characterService.grant_InventoryItem(creature as Character|AnimalCompanion, creature.inventories[0], newItem, resetRunes, false, true);
                         gainItem.id = grantedItem.id;
                         if (grantedItem.get_Name) {
                             grantedItem.displayName = grantedItem.name + " (granted by " + activity.name + ")"
@@ -103,7 +103,7 @@ export class ActivitiesService {
                 });
             } else {
                 activity.gainItems.forEach(gainItem => {
-                    characterService.lose_GainedItem(creature, gainItem);
+                    characterService.lose_GainedItem(creature as Character|AnimalCompanion, gainItem);
                 });
             }
         }

@@ -38,7 +38,8 @@ export class Bulk {
         let explain: string = "";
         let inventories = creature.inventories;
         inventories.forEach(inventory => {
-            let bulk = Math.max(inventory.get_Bulk() - inventory.bulkReduction, 0);
+            //To avoid decimal issues, the bulk is rounded to one decimal.
+            let bulk = Math.floor(Math.max(inventory.get_Bulk(false) - inventory.bulkReduction, 0) * 10) / 10;
             sum += bulk;
             explain += "\n"+inventory.get_Name(characterService)+": "+bulk;
         })

@@ -60,5 +60,3 @@ Next steps:
 - Finn's Items - in progress
 - Action Icons
 - Database api
-
-Wayfinder

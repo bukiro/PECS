@@ -161,6 +161,7 @@
         <input type="checkbox" [(ngModel)]="item.data[2]" (ngModelChange)="set_Changed()">
     </div>
 </div>
+<app-itemAeonStones [item]=item [itemStore]=itemStore *ngIf="item.isWayFinder"></app-itemAeonStones>
 <div class="list-item left-aligned" *ngFor="let oil of item.oilsApplied">
     <h4>{{oil.get_Name()}}</h4>
     <app-item [item]=oil [allowActivate]=allowActivate [isSubItem]=true></app-item>
@@ -189,7 +190,7 @@
 <div class="list-item left-aligned" *ngFor="let activity of item.activities">
     <h4 *ngIf="activity.name">{{activity.name}}
         {{activity.get_Actions()}}{{(activity.activationType) ? " - " + activity.activationType : ""}}</h4>
-    <app-activity [creature]="creature" [activity]=activity [gain]=activity [allowActivate]=allowActivate></app-activity>
+    <app-activity [creature]="creature" [activity]=activity [gain]=activity [allowActivate]="allowActivate && (activity.resonant ? isSubItem : true)"></app-activity>
     </div>
 <ng-container *ngFor="let gain of item.gainActivities">
     <div class="list-item left-aligned"  *ngFor="let activity of get_Activities(gain.name)">

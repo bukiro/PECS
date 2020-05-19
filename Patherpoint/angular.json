@@ -125,5 +125,8 @@
       }
     }
   },
-  "defaultProject": "Patherpoint"
+  "defaultProject": "Patherpoint",
+  "cli": {
+    "analytics": "b00d3941-b0be-4ec5-bee8-a37a358e25d4"
+  }
 }

@@ -17,9 +17,7 @@ import { ItemsService } from './items.service';
 import { Item } from './Item';
 import { Ammunition } from './Ammunition';
 import { Scroll } from './Scroll';
-import { Creature } from './Creature';
 import { CharacterService } from './character.service';
-import { createUrlResolverWithoutPackagePrefix } from '@angular/compiler';
 import { Oil } from './Oil';
 
 export class ItemCollection {
@@ -51,14 +49,14 @@ export class ItemCollection {
         {name:"Shields",key:"shields"},
         {name:"Worn Items",key:"wornitems"},
         {name:"Held Items",key:"helditems"},
+        {name:"Adventuring Gear",key:"adventuringgear"},
         {name:"Weapon Runes",key:"weaponrunes"},
         {name:"Armor Runes",key:"armorrunes"},
         {name:"Scrolls",key:"scrolls"},
-        {name:"Adventuring Gear",key:"adventuringgear"},
         {name:"Alchemical Elixirs",key:"alchemicalelixirs"},
         {name:"Potions",key:"potions"},
-        {name:"Ammunition",key:"ammunition"},
         {name:"Oils",key:"oils"},
+        {name:"Ammunition",key:"ammunition"},
         {name:"Other Consumables",key:"otherconsumables"}
     ]
     initialize(itemsService: ItemsService) {
@@ -110,8 +108,8 @@ export class ItemCollection {
         let sum: number = 0;
         function addup(item: Item|OtherItem) {
             let bulk = item.constructor == OtherItem ? item.bulk : (item as Item).get_Bulk();
-            if (item["carryingBulk"] && !item["equipped"]) {
-                bulk = item["carryingBulk"];
+            if ((item as Equipment).carryingBulk && !(item as Equipment).equipped) {
+                bulk = (item as Equipment).carryingBulk;
             }
             switch (bulk) {
                 case "":
@@ -120,14 +118,14 @@ export class ItemCollection {
                     break;
                 case "L":
                     if (item.amount) {
-                        sum += Math.floor(item.amount / (item["stack"] ? item["stack"] : 1)) ;
+                        sum += Math.floor(item.amount / ((item as Consumable).stack ? (item as Consumable).stack : 1)) ;
                     } else {
                         sum += 1;
                     }
                     break;
                 default:
                     if (item.amount) {
-                        sum += parseInt(bulk) * 10 * Math.floor(item.amount / (item["stack"] ? item["stack"] : 1));
+                        sum += parseInt(bulk) * 10 * Math.floor(item.amount / ((item as Consumable).stack ? (item as Consumable).stack : 1));
                     } else {
                         sum += parseInt(bulk) * 10;
                     }
@@ -141,10 +139,11 @@ export class ItemCollection {
             addup(item);
         })
         sum = Math.max(0, sum);
+        //Either round to int, or else to 1 decimal
         if (rounded) {
             sum = Math.floor(sum / 10);
         } else {
-            sum /= 10;
+            sum = Math.floor(sum) / 10;
         }
         return sum;
     }

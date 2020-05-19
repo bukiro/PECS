@@ -1,12 +1,9 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { CharacterService } from 'src/app/character.service';
 import { ItemsService } from 'src/app/items.service';
-import { Equipment } from 'src/app/Equipment';
 import { Item } from 'src/app/Item';
 import { Oil } from 'src/app/Oil';
 import { ItemCollection } from 'src/app/ItemCollection';
-import { SpellCast } from 'src/app/SpellCast';
-import { EffectGain } from 'src/app/EffectGain';
 import { TimeService } from 'src/app/time.service';
 import { Weapon } from 'src/app/Weapon';
 
@@ -83,7 +80,12 @@ export class ItemOilsComponent implements OnInit {
                     ) && (
                         oil.oil.damagereq ?
                             (
-                                item["dmgType"] && (oil.oil.damagereq.split("").filter(req => item["dmgType"].includes(req)).length || item["dmgType"] == "modular")
+                                (item as Weapon).dmgType &&
+                                (
+                                    oil.oil.damagereq.split("")
+                                        .filter(req => item["dmgType"].includes(req)).length ||
+                                    (item as Weapon).dmgType == "modular"
+                                )
                             )
                             : true
                     )
@@ -99,6 +101,10 @@ export class ItemOilsComponent implements OnInit {
             if (this.newOil.inv) {
                 this.characterService.drop_InventoryItem(this.get_Character(), this.newOil.inv, this.newOil.oil, false, false, false, 1);
             }
+            //Add RuneLore if the oil's Rune Effect includes one
+            if (item.oilsApplied[newLength - 1].runeEffect && item.oilsApplied[newLength - 1].runeEffect.loreChoices.length) {
+                this.characterService.add_RuneLore(item.oilsApplied[newLength - 1].runeEffect);
+            }
             this.newOil = { oil: new Oil(), inv: null };
             this.newOil.oil.name = "";
             this.characterService.set_Changed("Character");
@@ -106,6 +112,10 @@ export class ItemOilsComponent implements OnInit {
     }
 
     remove_Oil(index: number) {
+        //Remove RuneLore if applicable.
+        if (this.item.oilsApplied[index].runeEffect && this.item.oilsApplied[index].runeEffect.loreChoices.length) {
+            this.characterService.remove_RuneLore(this.item.oilsApplied[index].runeEffect);
+        }
         this.item.oilsApplied.splice(index, 1);
         this.characterService.set_Changed("Character");
     }

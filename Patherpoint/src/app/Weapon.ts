@@ -12,12 +12,11 @@ import { Oil } from './Oil';
 
 export class Weapon extends Equipment {
     public readonly _className: string = this.constructor.name;
-    //Weapons should be type "weapons" to be found in the database
     //This is a list of all the attributes that should be saved if a refID exists. All others can be looked up via the refID when loading the character.
     public readonly save = new Equipment().save.concat([
-        "_className",
         "parrying"
     ])
+    //Weapons should be type "weapons" to be found in the database
     readonly type = "weapons";
     //Weapons are usually moddable like a weapon. Weapons that cannot be modded should be set to "-"
     moddable = "weapon" as ""|"-"|"weapon"|"armor"|"shield";

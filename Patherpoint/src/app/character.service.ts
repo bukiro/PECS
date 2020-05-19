@@ -50,6 +50,8 @@ import { FeatChoice } from './FeatChoice';
 import { SpellCasting } from './SpellCasting';
 import { InventoryGain } from './InventoryGain';
 import { Oil } from './Oil';
+import { WornItem } from './WornItem';
+import { Creature } from './Creature';
 
 @Injectable({
     providedIn: 'root'
@@ -209,6 +211,8 @@ export class CharacterService {
                 return this.get_Companion();
             case "Familiar":
                 return this.get_Familiar();
+            default:
+                return new Character();
         }
     }
 
@@ -409,7 +413,7 @@ export class CharacterService {
     }
 
     get_InvestedItems(creature: Character|AnimalCompanion|Familiar) {
-        return creature.inventories[0].allEquipment().filter(item => item.invested)
+        return creature.inventories[0].allEquipment().filter(item => item.invested && item.traits.includes("Invested"));
     }
 
     create_AdvancedWeaponFeats(advancedWeapons: Weapon[]) {
@@ -475,7 +479,7 @@ export class CharacterService {
             let newInventoryLength = inventory[item.type].push(newInventoryItem);
             let createdInventoryItem = inventory[item.type][newInventoryLength - 1];
             if (createdInventoryItem.amount && amount > 1) {
-                createdInventoryItem.amount += amount - 1;
+                createdInventoryItem.amount == amount;
             }
             if (equipAfter) {
                 this.onEquip(creature, inventory, createdInventoryItem, true, false);
@@ -1081,34 +1085,37 @@ export class CharacterService {
             if (creature.type == "Companion" && creature.class.ancestry.name) {
                 activities.push(...(creature as AnimalCompanion).class.ancestry.activities.filter(gain => gain.level <= levelNumber));
             }
-            creature.inventories[0].allEquipment().filter(item => item.equipped && (item.can_Invest() ? item.invested : true) && (item.gainActivities.length || item.activities.length)).forEach(item => {
-                if (item.gainActivities.length) {
-                    activities.push(...item.gainActivities);
-                }
-                if (item.activities.length) {
-                    activities.push(...item.activities);
-                }
-            })
-            //Get activities from runes
-            creature.inventories[0].allEquipment().filter(item => 
-                item.propertyRunes.filter(rune => rune.activities.length).length &&
-                item.equipped &&
-                (item.can_Invest() ? item.invested : true)
-            ).forEach(item => {
-                item.propertyRunes.filter(rune => rune.activities.length).forEach(rune => {
-                    activities.push(...rune.activities);
-                });
-            });
-            //Get activities from rune effects from oils
-            creature.inventories[0].allEquipment().filter(item =>
-                item.oilsApplied.filter(oil => oil.runeEffect && oil.runeEffect.activities && oil.runeEffect.activities.length).length &&
-                item.equipped &&
-                (item.can_Invest() ? item.invested : true)
-            ).forEach(item => {
-                item.oilsApplied.filter(oil => oil.runeEffect && oil.runeEffect.activities).forEach(oil => {
-                    activities.push(...oil.runeEffect.activities);
+            creature.inventories[0].allEquipment()
+                .filter(item => 
+                    item.equipped &&
+                    (item.can_Invest() ? item.invested : true)
+                ).forEach((item: Equipment) => {
+                    if (item.gainActivities.length) {
+                        activities.push(...item.gainActivities);
+                    }
+                    //DO NOT get resonant activities at this point
+                    if (item.activities.length) {
+                        activities.push(...item.activities.filter(activity => !activity.resonant));
+                    }
+                    //Get activities from runes
+                    if (item.propertyRunes) {
+                        item.propertyRunes.filter(rune => rune.activities.length).forEach(rune => {
+                            activities.push(...rune.activities);
+                        });
+                    }
+                    //Get activities from Oils emulating runes
+                    if (item.oilsApplied) {
+                        item.oilsApplied.filter(oil => oil.runeEffect && oil.runeEffect.activities).forEach(oil => {
+                            activities.push(...oil.runeEffect.activities);
+                        });
+                    }
+                    //Get activities from slotted Aeon Stones, including resonant activities
+                    if ((item as WornItem).aeonStones) {
+                        (item as WornItem).aeonStones.filter(stone => stone.activities.length).forEach(stone => {
+                            activities.push(...stone.activities);
+                        })
+                    }
                 })
-            })
         }
         return activities;
     }

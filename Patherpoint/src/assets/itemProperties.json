@@ -246,7 +246,7 @@
         "priority": "8",
         "group": "",
         "name": "Trigger",
-        "desc": "Some items can be activated in a certain situation, like when you are about to be attacked. You can describe this trigger here.",
+        "desc": "Some items can be activated in a certain situation, like when you are about to be attacked. You can describe this trigger here. This is not reflected in the program, but helps the user understand the item.",
         "examples": "activity"
     },
     {
@@ -255,7 +255,7 @@
         "priority": "9",
         "group": "",
         "name": "Requirements",
-        "desc": "Some items can only be activated when certain requirements are met.",
+        "desc": "Some items can only be activated when certain requirements are met. You can describe the requirements here. This is not reflected in the program, but helps the user understand the item.",
         "examples": "activity"
     },
     {
@@ -380,6 +380,15 @@
         "name": "Player input required",
         "desc": "Certain effects are not automated, such as repeated effects under complicated circumstances, or anything that requires a dice roll. If this item requires the player to perform a certain action after activating it, you can describe the expectations here.",
         "examples": "inputRequired"
+    },
+    {
+        "parent": "activities",
+        "key": "resonant",
+        "priority": "18",
+        "group": "",
+        "name": "Resonant activity",
+        "desc": "Check this box if the activity is only supposed to be used when the item is slotted into a Wayfinder. This should only be used for Aeon Stones.",
+        "type": "checkbox"
     },
     {
         "key": "gainActivities",
@@ -569,6 +578,24 @@
         "group": "5-Influence",
         "name": "Act as Handwraps of Mighty Blows",
         "desc": "Set if this item uses the 'Handwraps of Mighty Blows' functionality to enhance unarmed attacks with its own runes. The item's modification type will be set to 'weapon' automatically.",
+        "type": "checkbox"
+    },
+    {
+        "key": "isWayfinder",
+        "priority": "9",
+        "group": "5-Influence",
+        "name": "Act as Wayfinder",
+        "desc": "Set if this item uses the 'Wayfinder' functionality slot Aeon Stones and unlock their resonant abilities. Set to the number of Aeon Stones allowed in this Wayfinder.",
+        "type": "number",
+        "locked": true,
+        "examples":"iswayfinder"
+    },
+    {
+        "key": "isAeonStone",
+        "priority": "9",
+        "group": "5-Influence",
+        "name": "Act as Aeon Stone",
+        "desc": "Set if this item should be treated as an Aeon Stone and allowed to slot into a Wayfinder. See unique activities and the 'resonant activity' option to set which abilities should be locked until the item is slotted.",
         "type": "checkbox"
     },
     {

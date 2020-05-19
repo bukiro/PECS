@@ -169,6 +169,8 @@
         "id": "046845de-4cb0-411a-9f6e-85a669e5e12b",
         "level": 7,
         "name": "Aeon Stone (Clear Spindle)",
+        "hint": "You don’t need to eat or drink while the clear spindle aeon stone is invested by you. This aeon stone doesn’t function until it has been worn continuously for a week and invested each day therein. If it’s invested by someone else, this interval starts over.",
+        "showon": "Health",
         "price": 32500,
         "traits": [
             "Uncommon",
@@ -181,8 +183,11 @@
         "activities": [
             {
                 "_className": "ItemActivity",
-                "name": "Clear Spindle",
+                "name": "Air Bubble",
+                "actions": "Reaction",
+                "resonant": true,
                 "desc": "The resonant power allows you to cast air bubble as a primal innate spell once per day. ",
+                "cooldown": 144000,
                 "traits": [
                     "Uncommon",
                     "Invested",
@@ -199,7 +204,7 @@
                 "source": "046845de-4cb0-411a-9f6e-85a669e5e12b"
             }
         ],
-        "isWayfinder": 1
+        "isAeonStone": true
     },
     {
         "bulk": "L",

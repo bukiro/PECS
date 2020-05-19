@@ -11,6 +11,8 @@ import { ItemActivity } from '../ItemActivity';
 import { Feat } from '../Feat';
 import { AnimalCompanion } from '../AnimalCompanion';
 import { Character } from '../Character';
+import { Creature } from '../Creature';
+import { Familiar } from '../Familiar';
 
 @Component({
     selector: 'app-activity',
@@ -42,8 +44,16 @@ export class ActivityComponent implements OnInit {
         return this.characterService.get_Accent();
     }
     
-    get_Creature() {
-        return this.characterService.get_Creature(this.creature) as Character|AnimalCompanion;
+    get_Creature(creature: string = this.creature) {
+        return this.characterService.get_Creature(creature) as Character|AnimalCompanion|Familiar;
+    }
+
+    get_CompanionAvailable() {
+        return this.characterService.get_CompanionAvailable();
+    }
+    
+    get_FamiliarAvailable() {
+        return this.characterService.get_FamiliarAvailable();
     }
 
     get_ActivationTraits(activity: Activity) {
@@ -63,8 +73,8 @@ export class ActivityComponent implements OnInit {
         return this.timeService.get_Duration(duration);
     }
 
-    on_Activate(gain: ActivityGain | ItemActivity, activity: Activity | ItemActivity, activated: boolean) {
-        this.activitiesService.activate_Activity(this.get_Creature(), this.characterService, this.timeService, this.itemsService, this.spellsService, gain, activity, activated);
+    on_Activate(gain: ActivityGain | ItemActivity, activity: Activity | ItemActivity, activated: boolean, target: string) {
+        this.activitiesService.activate_Activity(this.get_Creature(target), this.characterService, this.timeService, this.itemsService, this.spellsService, gain, activity, activated);
     }
 
     on_ActivateFuseStance(activated: boolean) {
@@ -118,6 +128,14 @@ export class ActivityComponent implements OnInit {
 
     get_Spells(name: string = "", type: string = "", tradition: string = "") {
         return this.spellsService.get_Spells(name, type, tradition);
+    }
+
+    get_SpellTarget() {
+        if (this.activity.castSpells.length) {
+            return this.get_Spells(this.activity.castSpells[0].name)[0].target || "";
+        } else {
+            return "";
+        }
     }
 
     ngOnInit() {

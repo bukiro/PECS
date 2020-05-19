@@ -113,6 +113,10 @@ export class SavegameService {
     
     constructor() { }
 
+    load_CharacterFromDB(name) {
+        
+    }
+
     load_Character(character: Character, itemsService: ItemsService) {
         character.inventories = character.inventories.map(inventory => Object.assign(new ItemCollection(), inventory));
         character.inventories.forEach(inventory => inventory.initialize(itemsService));

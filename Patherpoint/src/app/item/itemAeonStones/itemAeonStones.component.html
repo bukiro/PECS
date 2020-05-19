@@ -1,0 +1,10 @@
+<!--Changing Aeon Stones-->
+<div class="row" *ngFor="let index of get_Slots(); trackBy:trackByIndex;">
+    <strong *ngIf="index == 0">Aeon Stone</strong>
+    <span *ngIf="index != 0">&nbsp;</span>
+    <select [(ngModel)]="newAeonStone[index]"
+        (change)="add_AeonStone(index)"
+        [disabled]="!item.aeonStones[index-1] && index > 0">
+        <option *ngFor="let stone of get_AeonStones(index)" [ngValue]="stone.aeonStone">{{stone.aeonStone.name}}</option>
+    </select>
+</div>

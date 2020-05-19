@@ -42,19 +42,19 @@
                                     <div class="list-item sublist lower" *ngIf="this.get_showSpell()==spellID">
                                         <button class="row center-aligned"
                                             (click)="on_Cast(spellGain, casting, 'Character', spell, true)"
-                                            *ngIf="(spell.target == 'self' || spell.target == 'ally') && !spellGain.active && can_Cast(spell, casting, spellGain)"
+                                            *ngIf="['self', 'ally'].includes(spell.target) && !spellGain.active && can_Cast(spell, casting, spellGain)"
                                             [disabled]="maxspellslots && get_UsedSpellSlots(level, casting) >= maxspellslots">
                                             {{spell.target == 'ally' ? "Cast on yourself" : "Cast"}}
                                         </button>
                                         <button class="row center-aligned"
                                             (click)="on_Cast(spellGain, casting, 'Companion', spell, true)"
-                                            *ngIf="(spell.target == 'companion' || spell.target == 'ally') && !spellGain.active && can_Cast(spell, casting, spellGain)"
+                                            *ngIf="['companion', 'ally'].includes(spell.target) && !spellGain.active && can_Cast(spell, casting, spellGain)"
                                             [disabled]="maxspellslots && get_UsedSpellSlots(level, casting) >= maxspellslots">
                                             Cast on your animal companion
                                         </button>
                                         <button class="row center-aligned"
                                             (click)="on_Cast(spellGain, casting, 'Familiar', spell, true)"
-                                            *ngIf="(spell.target == 'companion' || spell.target == 'ally') && !spellGain.active && can_Cast(spell, casting, spellGain)"
+                                            *ngIf="['companion', 'ally'].includes(spell.target) && !spellGain.active && can_Cast(spell, casting, spellGain)"
                                             [disabled]="maxspellslots && get_UsedSpellSlots(level, casting) >= maxspellslots">
                                             Cast on your Familiar
                                         </button>

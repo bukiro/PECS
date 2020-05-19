@@ -12,7 +12,11 @@
     <div class="row left-aligned"  *ngIf="spell.castType">
         <span>
             <strong>Cast</strong>
-            {{spell.get_Actions()}} {{spell.castType}}
+            {{spell.get_Actions()}} {{spell.castType}}&nbsp;
+        </span>
+        <span *ngIf="spell.trigger">
+            <strong>Trigger</strong>
+            {{spell.trigger}}
         </span>
     </div>
     <div class="row left-aligned"  *ngIf="spell.range || spell.targets">

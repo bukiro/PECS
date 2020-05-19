@@ -441,7 +441,7 @@
     margin-bottom:0;
   }
 
-  app-tags, app-skill, app-item, app-activity, app-itemOils, app-itemRunes {
+  app-tags, app-skill, app-item, app-activity, app-itemOils, app-itemRunes, app-itemAeonStones, app-spellchoice {
     width: 100%;
   }
 
