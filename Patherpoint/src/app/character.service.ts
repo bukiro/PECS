@@ -878,11 +878,6 @@ export class CharacterService {
 
     add_Condition(creature: Character|AnimalCompanion|Familiar, conditionGain: ConditionGain, reload: boolean = true) {
         let originalCondition = this.get_Conditions(conditionGain.name)[0];
-        //Select boxes turn numbers into strings. We have to turn them back into numbers, but we can't parseInt a number (which Typescript believes this still is)
-        //So we turn it into a JSON string and back into a number.
-        if (conditionGain.value) {
-            conditionGain.value = parseInt(JSON.parse(JSON.stringify(conditionGain.value)));
-        }
         let newLength: number = 0;
         if (conditionGain.addValue) {
             let existingConditions = creature.conditions.filter(gain => gain.name == conditionGain.name);

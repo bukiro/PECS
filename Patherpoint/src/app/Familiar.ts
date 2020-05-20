@@ -22,6 +22,11 @@ export class Familiar extends Creature {
     get_Size(effectsService: EffectsService) {
         let size: number = (-2);
         
+        let setSizeEffects = effectsService.get_Effects().all.filter(effect => effect.creature == this.id && effect.apply && effect.target == "Size" && effect.setValue);
+        if (setSizeEffects.length) {
+            size = Math.max(...setSizeEffects.map(effect => parseInt(effect.setValue)));
+        }
+        
         let sizeEffects = effectsService.get_Effects().all.filter(effect => effect.creature == this.id && effect.apply && effect.target == "Size");
         sizeEffects.forEach(effect => {
             size += parseInt(effect.value)

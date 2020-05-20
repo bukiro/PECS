@@ -144,7 +144,7 @@ export class ActivityComponent implements OnInit {
         if (this.activity.castSpells.length) {
             return this.get_Spells(this.activity.castSpells[0].name)[0].target || "";
         } else {
-            return "";
+            return "no spell";
         }
     }
 

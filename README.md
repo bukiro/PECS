@@ -57,6 +57,9 @@ The very latest in Assistive Technologies for Dungeon Master (ATDM)
 - [ ] Stretch Goal: Include optional Stamina & Resolve system
 
 Next steps:
-- Finn's Items - in progress
 - Action Icons
 - Database api
+
+Active to-do:
+- Apply setValues effects to everything
+- Change effect tags to reflect setValues

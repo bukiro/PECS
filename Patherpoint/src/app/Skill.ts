@@ -196,6 +196,12 @@ export class Skill {
             baseValue = (this.$baseValue[index].result ? this.$baseValue[index] : this.baseValue(creature, characterService, abilitiesService, effectsService, charLevel))
             result = baseValue.result;
             explain = baseValue.explain;
+            //setEffects completely replace the baseValue. Sort the effects so that the last one that is applied is the highest.
+            let setEffects = this.effects(creature, effectsService).filter(effect => effect.setValue).sort((a, b) => parseInt(a.setValue) - parseInt(b.setValue));
+                setEffects.forEach(effect => {
+                result = parseInt(effect.setValue)
+                explain = effect.source + ": " + effect.setValue;
+            });
             //Familiars apply the character's effects (before circumstance and status effects) on saves
             if (creature.type == "Familiar") {
                 let character = characterService.get_Character();
@@ -209,8 +215,8 @@ export class Skill {
                 }
             }
             //Get all active effects on this and sum them up
-            let effects = this.effects(creature, effectsService)
-                effects.forEach(effect => {
+            let effects = this.effects(creature, effectsService).filter(effect => parseInt(effect.value))
+            effects.forEach(effect => {
                 result += parseInt(effect.value);
                 explain += "\n" + effect.source + ": " + effect.value;
             });

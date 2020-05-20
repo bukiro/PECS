@@ -19,7 +19,11 @@
                 Activate (Cast spell on other targets)
             </button>
             <button class="row center-aligned" (click)="on_Activate(gain, activity, true, '')"
-                *ngIf="!gain.active && !get_SpellTarget()">
+                *ngIf="!gain.active && get_SpellTarget() == ''">
+                Activate
+            </button>
+            <button class="row center-aligned" (click)="on_Activate(gain, activity, true, creature)"
+                *ngIf="!gain.active && get_SpellTarget() == 'no spell'">
                 Activate
             </button>
             <button class="row center-aligned" (click)="on_Activate(gain, activity, false, creature)"

@@ -25,7 +25,7 @@
                     <strong>{{condition.name}}</strong>&nbsp;
                     <span *ngIf="condition.hasValue">
                         Value: <select [(ngModel)]="value">
-                            <option *ngFor="let valueNumber of [1,2,3,4,5]" [value]="valueNumber">{{valueNumber}}
+                            <option *ngFor="let valueNumber of [1,2,3,4,5]" [ngValue]="valueNumber">{{valueNumber}}
                             </option>
                         </select><br>
                     </span>

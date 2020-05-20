@@ -191,8 +191,6 @@ export class CharacterComponent implements OnInit {
     }
 
     on_LevelChange(oldLevel: number) {
-        //Despite all precautions, when we change the level, it gets turned into a string. So we turn it right back.
-        this.get_Character().level = parseInt(this.get_Character().level.toString());
         let newLevel = this.get_Character().level;
         //If we went up levels, repeat any onceEffects of Feats that apply inbetween, such as recovering Focus Points for a larger Focus Pool
         if (newLevel > oldLevel) {

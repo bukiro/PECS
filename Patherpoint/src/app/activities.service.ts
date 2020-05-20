@@ -118,7 +118,7 @@ export class ActivitiesService {
                 });
             } else {
                 activity.gainConditions.forEach(gain => {
-                    let conditionGains = characterService.get_AppliedConditions(creature, gain.name).filter(conditionGain => conditionGain.source == gain.name);
+                    let conditionGains = characterService.get_AppliedConditions(creature, gain.name).filter(conditionGain => conditionGain.source == gain.source);
                     if (conditionGains.length) {
                         characterService.remove_Condition(creature, conditionGains[0], false);
                     }
@@ -128,12 +128,11 @@ export class ActivitiesService {
 
         //Cast Spells
         if (activity.castSpells) {
-            if (activated) {
-                activity.castSpells.forEach(gain => {
-                    let librarySpell = spellsService.get_Spells(gain.name)[0];
-                    spellsService.process_Spell(creature.type, characterService, itemsService, new SpellGain(), librarySpell, gain.level, activated);
-                })
-            }
+            activity.castSpells.forEach(cast => {
+                cast.spellGain.duration = cast.duration;
+                let librarySpell = spellsService.get_Spells(cast.name)[0];
+                spellsService.process_Spell(creature.type, characterService, itemsService, cast.spellGain, librarySpell, cast.level, activated);
+            })
         }
 
         //Exclusive activity activation

@@ -53,9 +53,9 @@
     <div class="list-item row lower" *ngFor="let effect of get_AppliedEffects()">
         <span>
             <strong [className]="effect.penalty ? 'penalty' : 'bonus'" title="{{effect.source}}">{{effect.target}}
-                {{effect.value}}
+                {{effect.value != '0' ? effect.value : ''}}{{effect.setValue ? "= "+effect.setValue : ''}}
             </strong>
-            {{(effect.type != "untyped") ? effect.type+' ' : ''}}{{(effect.penalty) ? 'penalty' : 'bonus'}}
+            {{(effect.type != "untyped") ? effect.type+' ' : ''}}{{(effect.toggle || effect.setValue) ? '' : (effect.penalty ? 'penalty' : 'bonus')}}
             ({{effect.source}})
         </span>
     </div>
@@ -100,9 +100,9 @@
             <span>
                 <strong [className]="effect.penalty ? 'penalty' : 'bonus'"
                     title="{{effect.source}}">{{effect.target}}
-                    {{effect.value}}
+                    {{effect.value != '0' ? effect.value : ''}}{{effect.setValue ? "= "+effect.setValue : ''}}
                 </strong>
-                {{(effect.type != "untyped") ? effect.type+' ' : ''}}{{(effect.penalty) ? 'penalty' : 'bonus'}}
+                {{(effect.type != "untyped") ? effect.type+' ' : ''}}{{(effect.toggle || effect.setValue) ? '' : (effect.penalty ? 'penalty' : 'bonus')}}
                 ({{effect.source}})
             </span>
         </div>
@@ -115,7 +115,7 @@
             <span>
                 <strong [className]="effect.penalty ? 'penalty' : 'bonus'"
                     title="{{effect.source}}">{{effect.target}}
-                    {{effect.value}}
+                    {{effect.value != '0' ? effect.value : ''}}{{effect.setValue ? "= "+effect.setValue : ''}}
                 </strong>
                 {{(effect.type != "untyped") ? effect.type+' ' : ''}}
                 ({{effect.source}})

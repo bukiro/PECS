@@ -13,7 +13,7 @@
     <div class="list-item">
         <strong>Sort by</strong>
         <select [(ngModel)]="sorting">
-            <option *ngFor="let sort of ['Name','Level']" [value]="sort.toLowerCase()">
+            <option *ngFor="let sort of ['Name','Level']" [ngValue]="sort.toLowerCase()">
                 {{sort}}
             </option>
         </select>
@@ -21,7 +21,7 @@
     <div class="list-item">
         <strong>Give items to</strong>
         <select [(ngModel)]="creature">
-            <option *ngFor="let target of ['Character','Companion']" [value]="target">
+            <option *ngFor="let target of ['Character','Companion']" [ngValue]="target">
                 {{target}}
             </option>
         </select>
@@ -100,7 +100,7 @@
                 <div class="list-item">
                     <span><strong>Type</strong></span>
                     <span><select [(ngModel)]="newItemType" (ngModelChange)="initialize_NewItem()">
-                            <option *ngFor="let name of get_NewItemFilter()" [value]="name.key">
+                            <option *ngFor="let name of get_NewItemFilter()" [ngValue]="name.key">
                                 {{name.name}}
                             </option>
                         </select></span>

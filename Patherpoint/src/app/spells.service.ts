@@ -111,13 +111,19 @@ export class SpellsService {
         //Apply conditions.
         if (spell.gainConditions) {
             if (activated) {
-                spell.gainConditions.forEach(gain => {
-                    let newConditionGain = Object.assign(new ConditionGain(), gain);
+                spell.gainConditions.forEach(conditionGain => {
+                    let newConditionGain = Object.assign(new ConditionGain(), conditionGain);
+                    //Pass the spell level in case that condition effects change with level
+                    newConditionGain.heightened = level;
+                    //If this spell was cast by an activity, it may have a specified duration. Apply that here.
+                    if (gain.duration) {
+                        newConditionGain.duration = gain.duration;
+                    }
                     characterService.add_Condition(targetCreature, newConditionGain, false);
                 });
             } else {
-                spell.gainConditions.forEach(gain => {
-                    let conditionGains = characterService.get_AppliedConditions(targetCreature, gain.name).filter(conditionGain => conditionGain.source == gain.source);
+                spell.gainConditions.forEach(conditionGain => {
+                    let conditionGains = characterService.get_AppliedConditions(targetCreature, conditionGain.name).filter(conditionGain => conditionGain.source == conditionGain.source);
                     if (conditionGains.length) {
                         characterService.remove_Condition(targetCreature, conditionGains[0], false);
                     }

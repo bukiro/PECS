@@ -226,7 +226,7 @@
         "priority": "6",
         "group": "",
         "name": "Cooldown",
-        "desc": "How long you have to wait to activate this item after activating it once, in turns * 10. (1 Hour is 6000, 1 day is 144000.)",
+        "desc": "How long you have to wait to activate this item after activating it once, in turns * 10. (1 hour is 6000, 1 day is 144000.)",
         "type": "number",
         "validation": "0plus",
         "examples": "activity"
@@ -292,6 +292,16 @@
         "desc": "The spell level on which the spell is cast. Between 1 and 10",
         "locked": true,
         "examples": "spelllevel"
+    },
+    {
+        "parent": "castSpells",
+        "key": "duration",
+        "priority": "1",
+        "group": "",
+        "name": "Spell duration",
+        "desc": "A specific duration for the spell other than the spell's original duration, in turns * 10. (1 hour is 6000, 1 day is 144000.)",
+        "type": "number",
+        "validation":"-1plus"
     },
     {
         "parent": "activities",
@@ -650,7 +660,7 @@
         "name": "Dexterity Cap",
         "desc": "The highest dexterity bonus you can receive while wearing this armor, -1 for unlimited.",
         "type": "number",
-        "validation": "=1plus"
+        "validation": "-1plus"
     },
     {
         "key": "skillpenalty",
@@ -832,9 +842,9 @@
         "priority": "3",
         "group": "",
         "name": "Condition duration",
-        "desc": "The duration of the condition upon activation, in turns*10 or -1 for permanent. A condition with a duration of 0 will immediately expire.",
+        "desc": "The duration of the condition upon activation, in turns * 10 or -1 for permanent. (1 hour is 6000, 1 day is 144000.) A condition with a duration of 0 will immediately expire.",
         "type": "number",
-        "validation": "=1plus"
+        "validation": "-1plus"
     },
     {
         "parent": "gainConditions",

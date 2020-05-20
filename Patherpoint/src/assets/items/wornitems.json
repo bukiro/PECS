@@ -138,7 +138,6 @@
                     "Invested",
                     "Magical"
                 ],
-                "trigger": "You attempt to Pick a Lock but haven't rolled yet",
                 "_className": "ItemActivity",
                 "source": "01adbda8-9131-11ea-bb37-0242ac130002"
             }
@@ -207,21 +206,163 @@
         "isAeonStone": true
     },
     {
-        "bulk": "L",
-        "desc": "This light barding is covered in stylized wind motifs. When you suit up your animal companion, the barding adjusts to fit your animal companion regardless of its shape.\n\nWhen your companion falls, wind picks it up from below; it gains the effects of feather fall.",
-        "id": "89c3c5a8-8e09-11ea-9fab-e92c63c14723",
-        "level": 10,
-        "name": "Barding of the Zephyr",
-        "price": 90000,
+        "name": "Horseshoes of Speed",
+        "_className": "WornItem",
+        "bulk": "1",
+        "desc": "When you affix these simple iron horseshoes to the hooves of an ordinary horse or a quadrupedal animal companion and the animal companion invests them, that creature gains a +5-foot item bonus to its land Speed and a +2 item bonus to Athletics checks to High Jump and Long Jump. In addition, when it Leaps, it can move 5 feet farther if jumping horizontally or 3 feet higher if jumping vertically.",
+        "effects": [
+            {
+                "_className": "EffectGain",
+                "affected": "Land Speed",
+                "type": "item",
+                "value": 5
+            }
+        ],
+        "hint": "Your animal companion gains a +2 item bonus to Athletics checks to High Jump and Long Jump. When it Leaps, it can move 5 feet farther if jumping horizontally or 3 feet higher if jumping vertically.",
+        "id": "a55f6c9e-9a05-11ea-bb37-0242ac130002",
+        "level": 7,
+        "price": 34000,
+        "showon": "Athletics",
         "traits": [
             "Companion",
             "Invested",
             "Primal",
             "Transmutation"
         ],
+        "usage": "worn horseshoes"
+    },
+    {
+        "name": "Collar of Inconspicuousness",
+        "_className": "WornItem",
         "activities": [
             {
-                "actions": "2",
+                "_className": "ItemActivity",
+                "actions": 1,
+                "activationType": "Envision",
+                "castSpells": [
+                    {
+                        "_className": "SpellCast",
+                        "duration": -1,
+                        "level": 2,
+                        "name": "Pest Form"
+                    }
+                ],
+                "desc": "You touch your animal companion to transform it into a nonthreatening Tiny creature of the same family or a similar creature (for instance, a house cat instead of a tiger, or a puppy instead of a wolf). This has the effects of pest form (2nd level, or 4th level if your companion can fly). The effect lasts until you Dismiss it.",
+                "name": "Pest Form",
+                "source": "a55f7068-9a05-11ea-bb37-0242ac130002",
+                "toggle": true,
+                "traits": [
+                    "Companion",
+                    "Invested",
+                    "Primal",
+                    "Transmutation"
+                ]
+            },
+            {
+                "_className": "ItemActivity",
+                "actions": "1",
+                "activationType": "Envision",
+                "castSpells": [
+                    {
+                        "_className": "SpellCast",
+                        "duration": -1,
+                        "level": 4,
+                        "name": "Pest Form"
+                    }
+                ],
+                "desc": "You touch your animal companion to transform it into a nonthreatening Tiny creature of the same family or a similar creature (for instance, a house cat instead of a tiger, or a puppy instead of a wolf). This has the effects of pest form (2nd level, or 4th level if your companion can fly). The effect lasts until you Dismiss it.",
+                "name": "Pest Form (Flying)",
+                "source": "a55f7068-9a05-11ea-bb37-0242ac130002",
+                "toggle": true,
+                "traits": [
+                    "Companion",
+                    "Invested",
+                    "Primal",
+                    "Transmutation"
+                ]
+            }
+        ],
+        "bulk": "1",
+        "desc": "This leather collar’s worn and almost threadbare look belies its magical nature. When your companion wears and invests the collar, it gains the ability to change its appearance from that of a ferocious animal into a more inconspicuous form.",
+        "id": "a55f7068-9a05-11ea-bb37-0242ac130002",
+        "level": 8,
+        "price": 47500,
+        "traits": [
+            "Companion",
+            "Invested",
+            "Primal",
+            "Transmutation"
+        ],
+        "usage": "worn collar"
+    },
+    {
+        "name": "Collar of Empathy",
+        "_className": "WornItem",
+        "bulk": "1",
+        "desc": "This ornate collar of intertwined leather strips of contrasting colors is paired with a bracelet of a similar construction. When you wear and invest the bracelet and your companion wears and invests the collar, you gain a stronger connection to each other. You and your companion can always sense each others’ emotional states and basic physical wants and needs.",
+        "gainItems": [
+            {
+                "_className": "ItemGain",
+                "name": "Bracelet of Empathy",
+                "type": "wornitems"
+            }
+        ],
+        "id": "a55f7176-9a05-11ea-bb37-0242ac130002",
+        "level": 9,
+        "price": 60000,
+        "traits": [
+            "Companion",
+            "Divination",
+            "Invested",
+            "Primal"
+        ],
+        "usage": "worn collar"
+    },
+    {
+        "name": "Bracelet of Empathy",
+        "_className": "WornItem",
+        "activities": [
+            {
+                "_className": "ItemActivity",
+                "actions": 2,
+                "activationType": "Interact",
+                "desc": "You perceive through your animal companion’s senses instead of your own. You can Sustain the Activation. You are unaware of your own surroundings for as long as you are using your animal companion’s senses. In addition to the obvious use when you are separated from your companion, this ability might allow you to notice sounds, scents, and other stimuli that your companion’s senses register but yours alone don’t.",
+                "gainConditions": [
+                    {
+                        "_className": "ConditionGain",
+                        "duration": -1,
+                        "name": "Collar of Empathy",
+                        "source": "Bracelet of Empathy"
+                    }
+                ],
+                "name": "Bracelet of Empathy",
+                "source": "def56a5a-92b9-4edb-94a1-1379f2acd1c1",
+                "toggle": true,
+                "traits": [
+                    "Divination",
+                    "Invested",
+                    "Primal"
+                ]
+            }
+        ],
+        "desc": "This ornate bracelet of intertwined leather strips of contrasting colors comes with the Collar of Empathy. When you wear and invest the bracelet and your companion wears and invests the collar, you gain a stronger connection to each other. You and your companion can always sense each others’ emotional states and basic physical wants and needs.",
+        "hide": true,
+        "id": "def56a5a-92b9-4edb-94a1-1379f2acd1c1",
+        "level": 9,
+        "traits": [
+            "Divination",
+            "Invested",
+            "Primal"
+        ],
+        "usage": "worn bracelet"
+    },
+    {
+        "name": "Barding of the Zephyr",
+        "_className": "WornItem",
+        "activities": [
+            {
+                "_className": "ItemActivity",
+                "actions": 2,
                 "activationType": "Interact",
                 "cooldown": 144000,
                 "desc": "You trace a finger along the wind motifs on the barding, granting your companion wearing the barding a fly Speed of 30 feet for 10 minutes. Even if the companion doesn't have the mount special ability, it can still Fly while being ridden.",
@@ -235,16 +376,16 @@
                     }
                 ],
                 "name": "Barding of the Zephyr",
+                "source": "89c3c5a8-8e09-11ea-9fab-e92c63c14723",
                 "traits": [
                     "Companion",
                     "Invested",
                     "Primal",
                     "Transmutation"
-                ],
-                "_className": "ItemActivity",
-                "source": "89c3c5a8-8e09-11ea-9fab-e92c63c14723"
+                ]
             },
             {
+                "_className": "ItemActivity",
                 "actions": "Free",
                 "activationType": "Automatic",
                 "castSpells": [
@@ -255,18 +396,53 @@
                 ],
                 "desc": "When your companion falls, wind picks it up from below; it gains the effects of feather fall.",
                 "name": "Barding of the Zephyr: Feather Fall",
+                "source": "89c3c5a8-8e09-11ea-9fab-e92c63c14723",
                 "traits": [
                     "Companion",
                     "Invested",
                     "Primal",
                     "Transmutation"
-                ],
-                "_className": "ItemActivity",
-                "source": "89c3c5a8-8e09-11ea-9fab-e92c63c14723"
+                ]
             }
         ],
-        "_className": "WornItem",
+        "bulk": "L",
+        "desc": "This light barding is covered in stylized wind motifs. When you suit up your animal companion, the barding adjusts to fit your animal companion regardless of its shape.\n\nWhen your companion falls, wind picks it up from below; it gains the effects of feather fall.",
+        "id": "89c3c5a8-8e09-11ea-9fab-e92c63c14723",
+        "level": 10,
+        "price": 90000,
+        "traits": [
+            "Companion",
+            "Invested",
+            "Primal",
+            "Transmutation"
+        ],
         "usage": "worn barding"
+    },
+    {
+        "name": "Horseshoes of Speed (Greater)",
+        "_className": "WornItem",
+        "bulk": "1",
+        "desc": "When you affix these simple iron horseshoes to the hooves of an ordinary horse or a quadrupedal animal companion and the animal companion invests them, that creature gains a +5-foot item bonus to its land Speed and a +2 item bonus to Athletics checks to High Jump and Long Jump. In addition, when it Leaps, it can move 5 feet farther if jumping horizontally or 3 feet higher if jumping vertically.",
+        "effects": [
+            {
+                "_className": "EffectGain",
+                "affected": "Land Speed",
+                "type": "item",
+                "value": 10
+            }
+        ],
+        "hint": "Your animal companion gains a +3 item bonus to Athletics checks to High Jump and Long Jump. When it Leaps, it can move 5 feet farther if jumping horizontally or 3 feet higher if jumping vertically.",
+        "id": "a55f74b4-9a05-11ea-bb37-0242ac130002",
+        "level": 14,
+        "price": 425000,
+        "showon": "Athletics",
+        "traits": [
+            "Companion",
+            "Invested",
+            "Primal",
+            "Transmutation"
+        ],
+        "usage": "worn horseshoes"
     },
     {
         "desc": "As you invest these embroidered strips of cloth, you must meditate and slowly wrap them around your hands. These handwraps have weapon runes etched into them to give your unarmed attacks the benefits of those runes, making your unarmed attacks work like magic weapons. For example, +1 striking handwraps of mighty blows would give you a +1 item bonus to attack rolls with your unarmed attacks and increase the damage of your unarmed attacks from one weapon die to two (normally 2d4 instead of 1d4, but if your fists have a different weapon damage die or you have other unarmed attacks, use two of that die size instead).\n\nYou can upgrade, add, and transfer runes to and from the handwraps just as you would for a weapon, and you can attach talismans to the handwraps. Treat the handwraps as melee weapons of the brawling group with light Bulk for these purposes. Property runes apply only when they would be applicable to the unarmed attack you're using. For example, a property that must be applied to a slashing weapon wouldn't function when you attacked with a fist, but you would gain its benefits if you attacked with a claw or some other slashing unarmed attack.",

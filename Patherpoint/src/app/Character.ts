@@ -41,7 +41,12 @@ export class Character extends Creature {
     get_Size(effectsService: EffectsService) {
         let size: number = (this.class.ancestry.size ? this.class.ancestry.size : 0);
 
-        let sizeEffects = effectsService.get_Effects().all.filter(effect => effect.creature == this.id && effect.apply && effect.target == "Size");
+        let setSizeEffects = effectsService.get_Effects().all.filter(effect => effect.creature == this.id && effect.apply && effect.target == "Size" && effect.setValue);
+        if (setSizeEffects.length) {
+            size = Math.max(...setSizeEffects.map(effect => parseInt(effect.setValue)));
+        }
+        
+        let sizeEffects = effectsService.get_Effects().all.filter(effect => effect.creature == this.id && effect.apply && effect.target == "Size" && effect.value);
         sizeEffects.forEach(effect => {
             size += parseInt(effect.value)
         })

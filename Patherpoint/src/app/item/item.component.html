@@ -145,14 +145,14 @@
     <div class="row">
         <strong>Weapon wielded in the gold ring hand</strong>
         <select [(ngModel)]="item.data[0].value" (ngModelChange)="set_Changed()">
-            <option *ngFor="let weapon of get_DoublingRingsOptions('gold')" [value]="weapon.id">
+            <option *ngFor="let weapon of get_DoublingRingsOptions('gold')" [ngValue]="weapon.id">
                 {{weapon.get_Name()}}</option>
         </select>
     </div>
     <div class="row">
         <strong>Weapon wielded in the iron ring hand</strong>
         <select [(ngModel)]="item.data[1].value" (ngModelChange)="set_Changed()">
-            <option *ngFor="let weapon of get_DoublingRingsOptions('iron')" [value]="weapon.id">
+            <option *ngFor="let weapon of get_DoublingRingsOptions('iron')" [ngValue]="weapon.id">
                 {{weapon.get_Name()}}</option>
         </select>
     </div>

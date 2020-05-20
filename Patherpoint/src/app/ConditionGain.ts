@@ -8,4 +8,5 @@ export class ConditionGain {
     public name: string = "";
     public source: string = "";
     public value: number = 0;
+    public heightened: number = 0;
 }

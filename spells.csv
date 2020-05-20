@@ -96,7 +96,15 @@ If you cast this spell when not on the Material Plane, it is lost.",self,,,,,Eth
 29ed8fbe-9122-11ea-bb37-0242ac130002,Negate Aroma,1,Arcane,Primal,,,Suppress a creature’s scent.,2,"somatic, verbal",,Common,Abjuration,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
 29ed907c-9122-11ea-bb37-0242ac130002,Pass without Trace,1,Primal,,,,Make your tracks hard to find.,2,"somatic, verbal",,Common,Abjuration,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
 29ed91da-9122-11ea-bb37-0242ac130002,Penumbral Shroud,1,Arcane,Occult,,,You envelop the target in a shroud of shadow.,2,"somatic, verbal",,Common,Darkness,Evocation,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
-29ed92e8-9122-11ea-bb37-0242ac130002,Pest Form,1,Arcane,Primal,,,Turn into a nonthreatening animal.,2,"somatic, verbal",,Common,Polymorph,Transmutation,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+29ed92e8-9122-11ea-bb37-0242ac130002,Pest Form,1,Arcane,Primal,,,Turn into a nonthreatening animal.,2,"somatic, verbal",,Common,Polymorph,Transmutation,,,,,,,"You transform into a the battle form of a Tiny animal, such as a cat, insect, lizard, or rat. <var>var1</var>You can decide the specific type of animal (such as a rat or praying mantis), but this has no effect on the form's Size or statistics. While in this form, you gain the animal trait. You can Dismiss the spell.
+
+You gain the following statistics and abilities:
+
+AC = 15 + your level. Ignore your armor's check penalty and Speed reduction.
+Speed 10 feet.
+Weakness 5 to physical damage. (If you take physical damage in this form, you take 5 additional damage.)
+Low-light vision and imprecise scent 30 feet.
+Acrobatics and Stealth modifiers of +10, unless your own modifier is higher; Athletics modifier –4.",self,,,,,Pest Form,1000,Pest Form,,,,,10 minutes,,,,(4th),"You can turn into a flying creature, such as a bird, which grants you a fly Speed of 20 feet.",,,,,var1,,,,,,,,,,,,,,,,,,var1,"You can turn into a flying creature, such as a bird, which grants you a fly Speed of 20 feet. ",,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
 29ed93e2-9122-11ea-bb37-0242ac130002,Phantom Pain,1,Occult,,,,Cause a creature ongoing pain that sickens it.,2,"somatic, verbal",Will,Common,Illusion,Mental,Nonlethal,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
 29ed952c-9122-11ea-bb37-0242ac130002,Protection,1,Occult,Divine,,,Shield a creature against those of a chosen alignment.,2,"somatic, verbal",,Uncommon,Abjuration,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
 29ed9626-9122-11ea-bb37-0242ac130002,Purify Food and Drink,1,Divine,Primal,,,Make beverages and meals safe.,2,"somatic, verbal",,Common,Necromancy,,,,,,,,"You remove toxins and contaminations from food and drink, making them safe to consume. This spell doesn't prevent future contamination, natural decay, or spoilage. One cubic foot of liquid is roughly 8 gallons.",,1 cubic foot of contaminated food or water,,touch,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,

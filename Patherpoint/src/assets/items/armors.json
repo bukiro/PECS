@@ -219,7 +219,8 @@
         "gainItems": [
             {
                 "_className": "ItemGain",
-                "name": "Gauntlet"
+                "name": "Gauntlet",
+                "type": "weapons"
             },
             {
                 "_className": "ItemGain",

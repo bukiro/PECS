@@ -26,5 +26,5 @@
     { "name":"Medium Armor", "type":"Armor Proficiency" },
     { "name":"Heavy Armor", "type":"Armor Proficiency" },
     { "name":"Unarmored", "type":"Armor Proficiency" },
-    { "name":"Innate Spell DC", "type":"Spell DC" }
+    { "name":"Innate Spell DC", "type":"Spell DC", "ability": "Charisma" }
 ]

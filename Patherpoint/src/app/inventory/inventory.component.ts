@@ -338,7 +338,7 @@ export class InventoryComponent implements OnInit {
         return [bulk];
     }
 
-    get_maxInvested() {
+    get_MaxInvested() {
         let maxInvest = 0;
         let effects: Effect[] = [];
         let penalty: boolean = false;

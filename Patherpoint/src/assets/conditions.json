@@ -103,7 +103,7 @@
                 "affected": "Athletics",
                 "value": "-(object.value)",
                 "type": "status"
-            }            
+            }
         ]
     },
     {
@@ -248,7 +248,7 @@
         "effects": [
             {
                 "affected": "Climb Speed",
-                "value": "+20"
+                "setValue": "20"
             }
         ],
         "buff": true,
@@ -260,7 +260,9 @@
         "desc": "While the eye is open, you gain the following benefits: you gain the effects of the detect magic arcane innate spell from your Arcane Sense at the start of each of your turns without needing to cast the spell; you gain darkvision; you gain a +2 status bonus to Perception checks to Seek undetected and hidden creatures and to your Perception DC against Hide and Sneak. After your third eye closes, you are dazzled for an amount of time equal to how long you had it open.",
         "inputRequired": "After your third eye closes, you are dazzled for an amount of time equal to how long you had it open.",
         "showon": "Perception",
-        "senses": "Darkvision",
+        "senses": [
+            "Darkvision"
+        ],
         "buff": true
     },
     {
@@ -268,14 +270,15 @@
         "type": "activity",
         "desc": "While in Crane Stance, reduce the DC for High Jump and Long Jump by 5, and when you Leap, you can move an additional 5 feet horizontally or 2 feet vertically.",
         "showon": "Athletics",
-        "attackRestrictions": ["Crane Wing"],
+        "attackRestrictions": [
+            "Crane Wing"
+        ],
         "effects": [
             {
                 "affected": "AC",
                 "value": "+1",
                 "type": "circumstance"
-
-            }            
+            }
         ],
         "buff": true
     },
@@ -306,7 +309,9 @@
                 "value": "-5"
             }
         ],
-        "attackRestrictions": ["Falling Stone"],
+        "attackRestrictions": [
+            "Falling Stone"
+        ],
         "buff": true
     },
     {
@@ -324,7 +329,9 @@
                 "value": "Math.max(Math.floor(Level / 2), 1)"
             }
         ],
-        "attackRestrictions": ["Fire Talon"],
+        "attackRestrictions": [
+            "Fire Talon"
+        ],
         "buff": true
     },
     {
@@ -386,8 +393,8 @@
         "desc": "You gain a fly Speed equal to your Speed. You must end your turn on solid ground, or you fall.",
         "effects": [
             {
-               "affected": "Fly Speed",
-               "value": "Speed('Land Speed') - Speed('Fly Speed')"
+                "affected": "Fly Speed",
+                "setValue": "Speed('Land Speed')"
             }
         ],
         "buff": true
@@ -398,9 +405,9 @@
         "desc": "You gain the benefits of your iron sweep's parry trait (a +1 circumstance bonus to AC until the start of your next turn) and your resistance from Ironblood Stance increases to your Strength modifier (if it's higher) for the same duration.",
         "effects": [
             {
-               "affected": "AC",
-               "value": "+1",
-               "type": "circumstance"
+                "affected": "AC",
+                "value": "+1",
+                "type": "circumstance"
             },
             {
                 "affected": "All Damage Resistance",
@@ -418,11 +425,11 @@
     {
         "name": "Barding of the Zephyr",
         "type": "wornitems",
-        "desc": "Your companion wearing the barding is granted a fly Speed of 30 feet for 10 minutes. Even if the companion doesn't have the mount special ability, it can still Fly while being ridden.",
+        "desc": "Your companion wearing the barding is granted a fly Speed of 30 feet. Even if the companion doesn't have the mount special ability, it can still Fly while being ridden.",
         "effects": [
             {
-               "affected": "Fly Speed",
-               "value": "30"
+                "affected": "Fly Speed",
+                "setValue": "30"
             }
         ],
         "buff": true
@@ -513,5 +520,60 @@
             }
         ],
         "buff": true
+    },
+    {
+        "name": "Collar of Empathy",
+        "type": "wornitems",
+        "desc": "You perceive through your animal companion’s senses instead of your own. You can Sustain the Activation. You are unaware of your own surroundings for as long as you are using your animal companion’s senses. In addition to the obvious use when you are separated from your companion, this ability might allow you to notice sounds, scents, and other stimuli that your companion’s senses register but yours alone don’t.",
+        "hint": "You perceive through your animal companion’s senses instead of your own. You can Sustain the Activation. You are unaware of your own surroundings for as long as you are using your animal companion’s senses. In addition to the obvious use when you are separated from your companion, this ability might allow you to notice sounds, scents, and other stimuli that your companion’s senses register but yours alone don’t.",
+        "showon": "Animal Companion",
+        "buff": true
+    },
+    {
+        "name": "Pest Form",
+        "type": "spells",
+        "desc": "You transform into a the battle form of a Tiny animal, such as a cat, insect, lizard, or rat. On spell level 4, you can turn into a flying creature, such as a bird, which grants you a fly Speed of 20 feet. You can decide the specific type of animal (such as a rat or praying mantis), but this has no effect on the form's Size or statistics. While in this form, you gain the animal trait. You can Dismiss the spell.\n\nYou gain the following statistics and abilities:\n\nAC = 15 + your level. Ignore your armor's check penalty and Speed reduction.\nSpeed 10 feet.\nWeakness 5 to physical damage. (If you take physical damage in this form, you take 5 additional damage.)\nLow-light vision and imprecise scent 30 feet.\nAcrobatics and Stealth modifiers of +10, unless your own modifier is higher; Athletics modifier -4.",
+        "effects": [
+            {
+                "affected": "Size",
+                "setValue": "-2"
+            },
+            {
+                "affected": "AC",
+                "setValue": "15 + Level"
+            },
+            {
+                "affected": "Speed",
+                "setValue": "10"
+            },
+            {
+                "affected": "Physical Damage Resistance",
+                "value": "-5"
+            },
+            {
+                "affected": "Acrobatics",
+                "setValue": "Skill('Acrobatics') > 10 ? null : 10"
+            },
+            {
+                "affected": "Stealth",
+                "setValue": "Skill('Stealth') > 10 ? null : 10"
+            },
+            {
+                "affected": "Athletics",
+                "value": "-4"
+            },
+            {
+                "affected": "Fly Speed",
+                "setValue": "object.heightened >= 4 ? 20 : null"
+            },
+            {
+                "affected": "Ignore Armor Penalty",
+                "toggle": true
+            }
+        ],
+        "senses": [
+            "Low-Light Vision",
+            "Scent 30 feet (imprecise)"
+        ]
     }
 ]

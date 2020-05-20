@@ -34,7 +34,7 @@
             </span>
             <span>
                 <select [(ngModel)]="get_Character().alignment" (ngModelChange)="set_Changed('Character')">
-                    <option *ngFor="let alignment of get_Alignments()" [value]="alignment">
+                    <option *ngFor="let alignment of get_Alignments()" [ngValue]="alignment">
                         {{alignment}}
                     </option>
                 </select>
@@ -46,7 +46,7 @@
             </span>
             <span>
                 <select [(ngModel)]="get_Character().level" (ngModelChange)="on_LevelChange(oldLevel)">
-                    <option *ngFor="let level of [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20]" [value]="level">
+                    <option *ngFor="let level of [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20]" [ngValue]="level">
                         {{level}}
                     </option>
                 </select>
