@@ -66,6 +66,7 @@ export class CharacterService {
     private changed: BehaviorSubject<string> = new BehaviorSubject<string>("");
 
     itemsMenuState: string = 'out';
+    itemsMenuTarget: string = 'Character';
     characterMenuState: string = 'out';
     companionMenuState: string = 'out';
     familiarMenuState: string = 'out';
@@ -121,7 +122,7 @@ export class CharacterService {
         return span;
     }
 
-    toggleMenu(menu: string = "") {
+    toggleMenu(menu: string = "", parameter: string = "") {
         switch (menu) {
             case "character":
                 this.characterMenuState = (this.characterMenuState == 'out') ? 'in' : 'out';
@@ -197,6 +198,15 @@ export class CharacterService {
 
     get_ConditionsMenuState() {
         return this.conditionsMenuState;
+    }
+
+    get_ItemsMenuTarget() {
+        return this.itemsMenuTarget;
+    }
+
+    set_ItemsMenuTarget(target: string) {
+        this.itemsMenuTarget = target;
+        this.set_Changed("items");
     }
 
     get_Level(number: number) {
@@ -1156,9 +1166,11 @@ export class CharacterService {
     }
 
     get_MaxFocusPoints() {
-        let effects: Effect[] = this.effectsService.get_EffectsOnThis(this.get_Character(), "Focus Pool");
         let focusPoints: number = 0;
-        effects.forEach(effect => {
+        this.effectsService.get_AbsolutesOnThis(this.get_Character(), "Focus Pool").forEach(effect => {
+            focusPoints = parseInt(effect.setValue);
+        })
+        this.effectsService.get_RelativesOnThis(this.get_Character(), "Focus Pool").forEach(effect => {
             focusPoints += parseInt(effect.value);
         })
         return Math.min(focusPoints, 3);

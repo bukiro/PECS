@@ -1,7 +1,7 @@
 <ng-container *ngFor="let listID of [choice.source+choice.id]">
     <div class="list-item" *ngIf="choice.available"
-        [className]="((choice.feats.length > choice.available || cannotTakeSome(choice)) ? 'problem' : '') +' '+ ((choice.available == choice.feats.length) ? 'fullsize-only' : '')">
-        <button class="row sublist-toggle" [className]="(choice.available == choice.feats.length) ? 'fancy-button' : ''"
+        [ngClass]="{'problem':(choice.feats.length > choice.available || cannotTakeSome(choice)), 'fullsize-only':(choice.available == choice.feats.length)}">
+        <button class="row sublist-toggle" [ngClass]="{'fancy-button':(choice.available == choice.feats.length)}"
             (click)="toggle_List(listID)">
             {{(choice.level) ? "Level "+choice.level+" " : ""}}{{choice.type}}{{choice.specialChoice ?
                 '' : (creature == 'Familiar' ? ' Abilities' : ' Feats')}}{{creature == 'Familiar' ?
@@ -9,11 +9,11 @@
                 ": "+ choice.feats.length +"/"+ choice.available : 
                 (choice.feats.length) ? ": "+ choice.feats[0].name : ""}}
         </button>
-        <div class="list-item sublist" [className]="(choice.available == choice.feats.length ) ? 'fancy-list' : ''"
+        <div class="list-item sublist" [ngClass]="{'fancy-list':(choice.available == choice.feats.length )}"
             *ngIf="get_showChoice()==listID">
             <div title="{{(this.get_showFeat()==choice.id+feat.name+'desc') ? '' : feat.shortDesc}}" class="list-item"
                 *ngFor="let feat of get_AvailableFeats(choice)|sortBy:'asc':'levelreq'"
-                [className]="(cannotTake(feat, choice).length) ? 'problem' : ''">
+                [ngClass]="{'problem':(cannotTake(feat, choice).length)}">
                 <div class="row" *ngFor="let itemID of [choice.id+feat.name+'desc']">
                     <span style="flex-grow:2">
                         <input *ngIf="!feat.subTypes" id="{{choice.id+feat.name}}" type="checkbox"
@@ -36,7 +36,7 @@
                     <div class="row lower" *ngIf="this.get_showFeat()==itemID">
                         <!--Subfeats-->
                         <div class="list-item" *ngFor="let subfeat of get_SubFeats(feat, choice)"
-                            [className]="(cannotTake(subfeat, choice).length) ? 'problem' : ''">
+                            [ngClass]="{'problem':(cannotTake(subfeat, choice).length)}">
                             <span>
                                 <input id="{{choice.id+subfeat.name}}" type="checkbox"
                                     (change)="on_FeatTaken(subfeat.name, $event.target.checked, choice, false)"
@@ -45,7 +45,7 @@
                                 <label for="{{choice.id+subfeat.name}}">
                                     <span>
                                         <strong>{{subfeat.subType}}&nbsp;</strong>
-                                        <span [className]="(req.met == false) ? 'problem' : ''"
+                                        <span [ngClass]="{'problem':(req.met == false)}"
                                             *ngFor="let req of get_FeatRequirements(choice, subfeat, feat)">{{(req.desc == ", ") ? req.desc : req.desc }}</span>
                                     </span>
                                     <span>
@@ -60,7 +60,7 @@
                         <div class="list-item unavailable" *ngFor="let subfeat of get_SubFeats(feat, choice, true)">
                             <span>
                                 <strong>{{subfeat.subType}}&nbsp;</strong>
-                                <span [className]="(req.met == false) ? 'problem' : ''"
+                                <span [ngClass]="{'problem':(req.met == false)}"
                                     *ngFor="let req of get_FeatRequirements(choice, subfeat, feat)">{{(req.desc == ", ") ? req.desc : req.desc }}</span>
                             </span>
                             <span>
@@ -79,7 +79,7 @@
                             <ng-container *ngFor="let reqs of [get_FeatRequirements(choice, feat)]">
                                 <p *ngIf="reqs.length">
                                     <strong>Requirements&nbsp;</strong>
-                                    <span [className]="(req.met == false) ? 'problem' : ''"
+                                    <span [ngClass]="{'problem':(req.met == false)}"
                                         *ngFor="let req of reqs">{{req.desc}}</span>
                                 </p>
                             </ng-container>
@@ -139,7 +139,7 @@
                         <div class="list-item unavailable" *ngFor="let subfeat of get_SubFeats(feat, choice)">
                             <span>
                                 <strong>{{subfeat.subType}}&nbsp;</strong>
-                                <span [className]="(req.met == false) ? 'problem' : ''"
+                                <span [ngClass]="{'problem':(req.met == false)}"
                                     *ngFor="let req of get_FeatRequirements(choice, subfeat, feat)">{{(req.desc == ", ") ? req.desc : req.desc }}</span>
                             </span>
                             <span>
@@ -152,7 +152,7 @@
                         <div class="list-item unavailable" *ngFor="let subfeat of get_SubFeats(feat, choice, true)">
                             <span>
                                 <strong>{{subfeat.subType}}&nbsp;</strong>
-                                <span [className]="(req.met == false) ? 'problem' : ''"
+                                <span [ngClass]="{'problem':(req.met == false)}"
                                     *ngFor="let req of get_FeatRequirements(choice, subfeat, feat)">{{(req.desc == ", ") ? req.desc : req.desc }}</span>
                             </span>
                             <span>
@@ -171,7 +171,7 @@
                             <ng-container *ngFor="let reqs of [get_FeatRequirements(choice, feat)]">
                                 <p *ngIf="reqs.length">
                                     <strong>Requirements&nbsp;</strong>
-                                    <span [className]="(req.met == false) ? 'problem' : ''"
+                                    <span [ngClass]="{'problem':(req.met == false)}"
                                         *ngFor="let req of reqs">{{req.desc}}</span>
                                 </p>
                             </ng-container>

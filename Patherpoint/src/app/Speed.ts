@@ -13,11 +13,14 @@ export class Speed {
     effects(creature: Character|AnimalCompanion|Familiar, effectsService: EffectsService) {
         return effectsService.get_EffectsOnThis(creature, this.name);
     }
-    bonus(creature: Character|AnimalCompanion|Familiar, effectsService: EffectsService) {
-        return effectsService.get_BonusesOnThis(creature, this.name).concat(effectsService.get_BonusesOnThis(creature, "Speed"));
+    absolutes(creature: Character|AnimalCompanion|Familiar, effectsService: EffectsService) {
+        return effectsService.get_AbsolutesOnThis(creature, this.name);
     }
-    penalty(creature: Character|AnimalCompanion|Familiar, effectsService: EffectsService) {
-        return effectsService.get_PenaltiesOnThis(creature, this.name).concat(effectsService.get_PenaltiesOnThis(creature, "Speed"));
+    bonuses(creature: Character|AnimalCompanion|Familiar, effectsService: EffectsService) {
+        return effectsService.get_BonusesOnThis(creature, this.name);
+    }
+    penalties(creature: Character|AnimalCompanion|Familiar, effectsService: EffectsService) {
+        return effectsService.get_PenaltiesOnThis(creature, this.name);
     }
     baseValue(creature: Character|AnimalCompanion|Familiar, characterService: CharacterService, effectsService: EffectsService) {
     //Gets the basic speed and adds all effects
@@ -50,6 +53,12 @@ export class Speed {
                 }
             }
         }
+        //Absolutes completely replace the baseValue. They are sorted so that the highest value counts last.
+        let absolutes = this.absolutes(creature, effectsService).filter(effect => effect.setValue);
+        absolutes.forEach(effect => {
+            sum = parseInt(effect.setValue)
+            explain = effect.source + ": " + effect.setValue;
+        });
         this.effects(creature, effectsService).forEach(effect => {
             if (sum > 5) {
                 above5 = true
@@ -62,7 +71,7 @@ export class Speed {
                 explain += "\n"+effect.source+": "+effect.value;
             }
         });
-        explain = explain.substr(1);
+        explain = explain.trim();
         return [sum, explain];
     }
     value(creature: Character|AnimalCompanion|Familiar, characterService: CharacterService, effectsService: EffectsService): [number, string] {
@@ -72,7 +81,7 @@ export class Speed {
         let explain: string = this.baseValue(creature, characterService, effectsService)[1];
         let above5 = false;
         if (this.name != "Speed") {
-            effectsService.get_EffectsOnThis(creature, "Speed").forEach(effect => {
+            effectsService.get_RelativesOnThis(creature, "Speed").forEach(effect => {
                 if (sum > 5) {
                     above5 = true
                 }

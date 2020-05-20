@@ -2,15 +2,53 @@ import { EffectsService } from './effects.service';
 import { CharacterService } from './character.service';
 import { Character } from './Character';
 import { AnimalCompanion } from './AnimalCompanion';
+import { Effect } from './Effect';
 
 export class Ability {
-    constructor (
+    public $absolutes: (Effect[])[] = [[], []];
+    public $baseValue: { result: number, explain: string }[] = [{ result: 0, explain: "" }, { result: 0, explain: "" }];
+    public $bonuses: (Effect[])[] = [[], []];
+    public $mod: { result: number, explain: string }[] = [{ result: 0, explain: "" }, { result: 0, explain: "" }];
+    public $modabsolutes: (Effect[])[] = [[], []];
+    public $modbonuses: (Effect[])[] = [[], []];
+    public $modpenalties: (Effect[])[] = [[], []];
+    public $penalties: (Effect[])[] = [[], []];
+    public $value: { result: number, explain: string }[] = [{ result: 0, explain: "" }, { result: 0, explain: "" }];
+    constructor(
         public name: string = "",
-    ) {}
-    baseValue(creature: Character|AnimalCompanion, characterService, charLevel: number = characterService.get_Character().level) {
-        if (characterService.still_loading()) { return 10; }
+    ) { }
+    calculate(creature: Character|AnimalCompanion, characterService: CharacterService, effectsService: EffectsService, charLevel: number = characterService.get_Character().level) {
+        let index = 0;
+        switch (creature.type) {
+            case "Companion":
+                index = 1;
+                break;
+        }
+        this.$absolutes[index] = this.absolutes(creature, effectsService, this.name);
+        this.$baseValue[index] = this.baseValue(creature, characterService, charLevel);
+        this.$bonuses[index] = this.bonuses(creature, effectsService, this.name);
+        this.$mod[index] = this.mod(creature, characterService, effectsService, charLevel);
+        this.$modabsolutes[index] = this.absolutes(creature, effectsService, this.name + " Modifier");
+        this.$modbonuses[index] = this.bonuses(creature, effectsService, this.name + " Modifier");
+        this.$modpenalties[index] = this.penalties(creature, effectsService, this.name + " Modifier");
+        this.$penalties[index] = this.penalties(creature, effectsService, this.name);
+        this.$value[index] = this.value(creature, characterService, effectsService, charLevel);
+        return this;
+    }
+    absolutes(creature: Character | AnimalCompanion, effectsService: EffectsService, name: string) {
+        return effectsService.get_AbsolutesOnThis(creature, name);
+    }
+    bonuses(creature: Character | AnimalCompanion, effectsService: EffectsService, name: string) {
+        return effectsService.get_BonusesOnThis(creature, name)
+    }
+    penalties(creature: Character | AnimalCompanion, effectsService: EffectsService, name: string) {
+        return effectsService.get_PenaltiesOnThis(creature, name)
+    }
+    baseValue(creature: Character | AnimalCompanion, characterService, charLevel: number = characterService.get_Character().level) {
+        if (characterService.still_loading()) { return { result: 10, explain: "Base value: 10" }; }
         //Get baseValues from the character if they exist, otherwise 10
         let baseValue = 10;
+        let explain = "Base value: 10"
         if (creature.type == "Character" && (creature as Character).baseValues) {
             let baseValues = (creature as Character).baseValues.filter(baseValue => baseValue.name == this.name)
             if (baseValues.length > 0) {
@@ -32,41 +70,58 @@ export class Ability {
                 }
             })
         }
-        return baseValue;
+        if (baseValue > 10) {
+            explain += "\nBoosts: " + (baseValue - 10)
+        }
+        return { result: baseValue, explain: explain };
     }
-    effects(creature: Character|AnimalCompanion, effectsService: EffectsService, name: string) {
-        return effectsService.get_EffectsOnThis(creature, name);
-    }
-    bonus(creature: Character|AnimalCompanion, effectsService: EffectsService, name: string) {
-        let effects = this.effects(creature, effectsService, name);
-        let bonus = 0;
-        effects.forEach(effect => {
-            if (parseInt(effect.value) >= 0) {
-                bonus += parseInt(effect.value);
-        }});
-        return bonus;
-    }
-    penalty(creature: Character|AnimalCompanion, effectsService: EffectsService, name: string) {
-        let effects = this.effects(creature, effectsService, name);
-        let penalty = 0;
-        effects.forEach(effect => {
-            if (parseInt(effect.value) < 0) {
-                penalty += parseInt(effect.value);
-        }});
-        return penalty;
-    }
-    value(creature: Character|AnimalCompanion, characterService: CharacterService, effectsService: EffectsService) {
-    //Calculates the ability with all active effects
-        if (characterService.still_loading()) {return 10;}
+    value(creature: Character | AnimalCompanion, characterService: CharacterService, effectsService: EffectsService, charLevel: number = characterService.get_Character().level) {
+        //Calculates the ability with all active effects
+        let baseValue = this.baseValue(creature, characterService, charLevel);
+        let result: number = baseValue.result;
+        let explain: string = baseValue.explain;
         //Add all active bonuses and penalties to the base value
-        let result = this.baseValue(creature, characterService) + this.bonus(creature, effectsService, this.name) + this.penalty(creature, effectsService, this.name);
-        return result;
+        this.absolutes(creature, effectsService, this.name).forEach(effect => {
+            result = parseInt(effect.setValue);
+            explain = effect.source + ": " + effect.setValue;
+        });
+        this.bonuses(creature, effectsService, this.name).forEach(effect => {
+            if (parseInt(effect.value) >= 0) {
+                result += parseInt(effect.value);
+                explain += "\n" + effect.source + ": " + effect.value;
+            }
+        });
+        this.penalties(creature, effectsService, this.name).forEach(effect => {
+            if (parseInt(effect.value) >= 0) {
+                result += parseInt(effect.value);
+                explain += "\n" + effect.source + ": " + effect.value;
+            }
+        });
+        return { result:result, explain:explain };
     }
-    mod(creature: Character|AnimalCompanion, characterService: CharacterService, effectsService: EffectsService) {
+    mod(creature: Character | AnimalCompanion, characterService: CharacterService, effectsService: EffectsService, charLevel: number = characterService.get_Character().level) {
+        let value = this.value(creature, characterService, effectsService, charLevel);
+        let result: number = value.result;
         //Calculates the ability modifier from the effective ability in the usual d20 fashion - 0-1 => -5; 2-3 => -4; ... 10-11 => 0; 12-13 => 1 etc.
-        let modifier = Math.floor((this.value(creature, characterService, effectsService)-10)/2);
+        let modifier = Math.floor((result - 10) / 2);
+        let explain = this.name + " Modifier: "+modifier;
         //Add active bonuses and penalties to the ability modifier
-        let result = modifier + this.bonus(creature, effectsService, this.name+" Modifier") + this.penalty(creature, effectsService, this.name+" Modifier");
-        return result;
+        this.absolutes(creature, effectsService, this.name + " Modifier").forEach(effect => {
+            modifier = parseInt(effect.setValue);
+            explain = effect.source + ": " + effect.setValue;
+        });
+        this.bonuses(creature, effectsService, this.name + " Modifier").forEach(effect => {
+            if (parseInt(effect.value) >= 0) {
+                modifier += parseInt(effect.value);
+                explain += "\n" + effect.source + ": " + effect.value;
+            }
+        });
+        this.penalties(creature, effectsService, this.name + " Modifier").forEach(effect => {
+            if (parseInt(effect.value) >= 0) {
+                modifier += parseInt(effect.value);
+                explain += "\n" + effect.source + ": " + effect.value;
+            }
+        });
+        return { result:modifier, explain:explain };
     }
 }

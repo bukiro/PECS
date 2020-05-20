@@ -53,6 +53,10 @@ export class InventoryComponent implements OnInit {
         return this.characterService.still_loading();
     }
 
+    set_ItemsMenuTarget(target: string) {
+        this.characterService.set_ItemsMenuTarget(target);
+    }
+
     toggleMenu(menu: string = "") {
         this.characterService.toggleMenu(menu);
     }
@@ -341,8 +345,9 @@ export class InventoryComponent implements OnInit {
     get_MaxInvested() {
         let maxInvest = 0;
         let effects: Effect[] = [];
-        let penalty: boolean = false;
-        let bonus: boolean = false;
+        let penalties: boolean = false;
+        let bonuses: boolean = false;
+        let absolutes: boolean = false;
         let explain: string = ""
         if (this.creature == "Character") {
             maxInvest = 10;
@@ -351,17 +356,23 @@ export class InventoryComponent implements OnInit {
             maxInvest = 2;
             explain = "Base limit: 2";
         }
-        this.effectsService.get_EffectsOnThis(this.get_Creature(), "Max Invested").forEach(effect => {
-            maxInvest += parseInt(effect.value);
-            if (parseInt(effect.value) < 0) {
-                penalty = true;
-            } else {
-                bonus = true;
-            }
-            explain += "\n" + effect.source + ": " + effect.value;
+        this.effectsService.get_AbsolutesOnThis(this.get_Creature(), "Max Invested").forEach(effect => {
+            maxInvest = parseInt(effect.setValue);
+            explain = effect.source + ": " + effect.setValue;
+            absolutes = true;
             effects.push(effect);
         });
-        return { value: maxInvest, explain: explain, effects: effects, penalty: penalty, bonus: bonus };
+        this.effectsService.get_RelativesOnThis(this.get_Creature(), "Max Invested").forEach(effect => {
+            maxInvest += parseInt(effect.value);
+            explain += "\n" + effect.source + ": " + effect.value;
+            if (parseInt(effect.value) < 0) {
+                penalties = true;
+            } else {
+                bonuses = true;
+            }
+            effects.push(effect);
+        });
+        return { value: maxInvest, explain: explain, effects: effects, penalties: penalties, bonuses: bonuses, absolutes: absolutes };
     }
 
     get_InvestedItems() {

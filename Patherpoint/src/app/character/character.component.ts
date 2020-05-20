@@ -227,7 +227,10 @@ export class CharacterComponent implements OnInit {
             if (int > 0) {
                 maxLanguages += int;
             }
-            this.effectsService.get_EffectsOnThis(this.get_Character(), "Max Languages").forEach(effect => {
+            this.effectsService.get_AbsolutesOnThis(this.get_Character(), "Max Languages").forEach(effect => {
+                maxLanguages = parseInt(effect.setValue);
+            })
+            this.effectsService.get_RelativesOnThis(this.get_Character(), "Max Languages").forEach(effect => {
                 maxLanguages += parseInt(effect.value);
             })
             if (languages > maxLanguages) {
@@ -301,7 +304,7 @@ export class CharacterComponent implements OnInit {
 
     abilityIllegal(levelNumber: number, ability: Ability) {
         let illegal = false;
-        if (levelNumber == 1 && ability.baseValue(this.get_Character(), this.characterService, levelNumber) > 18) {
+        if (levelNumber == 1 && ability.baseValue(this.get_Character(), this.characterService, levelNumber).result > 18) {
             illegal = true;
         }
         return illegal;
@@ -329,7 +332,7 @@ export class CharacterComponent implements OnInit {
             //This is only relevant if you haven't boosted the ability on this level yet.
             //If you have, we don't want to hear that it couldn't be boosted again right away.
             let cannotBoostHigher = "";
-            if (level.number == 1 && ability.baseValue(this.get_Character(), this.characterService, level.number) > 16 && sameBoostsThisLevel.length == 0) {
+            if (level.number == 1 && ability.baseValue(this.get_Character(), this.characterService, level.number).result > 16 && sameBoostsThisLevel.length == 0) {
                 cannotBoostHigher = "Cannot boost above 18 on level 1.";
                 reasons.push(cannotBoostHigher);
             }
@@ -729,7 +732,8 @@ export class CharacterComponent implements OnInit {
     }
 
     get_INT(levelNumber: number) {
-        let intelligence: number = this.get_Abilities("Intelligence")[0].baseValue(this.get_Character(), this.characterService, levelNumber);
+        //We have to calculate the modifier instead of getting .mod() because we don't want any effects in the character building interface.
+        let intelligence: number = this.get_Abilities("Intelligence")[0].baseValue(this.get_Character(), this.characterService, levelNumber).result;
         let INT: number = Math.floor((intelligence-10)/2);
         return INT;
     }

@@ -123,19 +123,21 @@ export class HealthComponent implements OnInit {
     }
 
     get_Resistances() {
-        let effects = this.effectsService.get_Effects().all.filter(effect => effect.creature == this.get_Creature().id && effect.target.includes("Resistance"));
+        //There should be no absolutes in resistances. If there are, they will be treated as relatives here.
+        let effects = this.effectsService.get_Effects().all.filter(effect => effect.creature == this.get_Creature().id && effect.target.includes("Resistance") && effect.apply);
         let resistances: any[] = [];
         effects.forEach(effect => {
-            let value = effect.value.split("/");
-            if (value.length == 1) {
-                value.push("");
+            let value = effect.setValue || effect.value;
+            let split = effect.target.split("/");
+            if (split.length == 1) {
+                split.push("");
             }
-            if (resistances.filter(res => res.target == effect.target && res.exception == value[1]).length) {
-                let resistance = resistances.filter(res => res.target == effect.target && res.exception == value[1])[0];
-                resistance.value += parseInt(value[0]);
+            if (resistances.filter(res => res.target == split[0] && res.exception == split[1]).length) {
+                let resistance = resistances.filter(res => res.target == split[0] && res.exception == split[1])[0];
+                resistance.value += parseInt(value);
                 resistance.source += ", "+effect.source;
             } else {
-                resistances.push({target:effect.target, value:parseInt(value[0]), exception:value[1], source:effect.source});
+                resistances.push({target:split[0], value:parseInt(value), exception:split[1], source:effect.source});
             }
         });
         resistances.forEach(res => {
@@ -144,6 +146,10 @@ export class HealthComponent implements OnInit {
             }
         });
         return resistances;
+    }
+
+    get_AbsolutesOnThis(name: string) {
+        return this.effectsService.get_AbsolutesOnThis(this.get_Creature(), name);
     }
 
     get_BonusesOnThis(name: string) {

@@ -4137,10 +4137,9 @@
       "effects": [
          {
             "affected": "Untrained Skills",
-            "value": "Math.max(Math.floor(Level / 2), 0)"
+            "setValue": "(Level >= 7) ? Level : Math.max(Math.floor(Level / 2), 0)"
          }
       ],
-      "internalNote": "The change at level 7 is hardcoded.",
       "levelreq": 3,
       "traits": [
          "General"

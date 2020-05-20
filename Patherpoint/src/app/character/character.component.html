@@ -69,20 +69,20 @@
                 </div>
                 <div class="list-item" *ngFor="let ability of get_Character().baseValues">
                     {{ability.name}}
-                    <input type="number" class="number2" [(ngModel)]="ability.baseValue" (blur)=set_Changed()
+                    <input type="number" class="number2" [(ngModel)]="ability.baseValue" (blur)="set_Changed('Character')"
                         maxlength="2" (keypress)="numbersOnly($event)">
                 </div>
             </div>
         </div>
         <h3>History</h3>
         <!--Class-->
-        <div class="list-item" [className]="(get_Character().class.name) ? 'fullsize-only' : ''"
+        <div class="list-item" [ngClass]="{'fullsize-only':get_Character().class.name}"
             *ngFor="let listID of ['class']">
-            <button class="row sublist-toggle" [className]="(get_Character().class.name) ? 'fancy-button' : ''"
+            <button class="row sublist-toggle" [ngClass]="{'fancy-button':get_Character().class.name}"
                 (click)="toggle_List(listID)">
                 Class{{(get_Character().class.name) ? ": "+ get_Character().class.name : ""}}
             </button>
-            <div class="list-item sublist" [className]="(get_Character().class.name) ? 'fancy-list' : ''"
+            <div class="list-item sublist" [ngClass]="{'fancy-list':get_Character().class.name}"
                 *ngIf="get_showList()==listID">
                 <div class="list-item" *ngFor="let class of get_Classes()">
                     <span>
@@ -99,14 +99,14 @@
         <!--Ancestry-->
         <ng-container *ngIf="get_Character().class.name">
             <div class="list-item list-header"
-                [className]="(get_Character().class.ancestry.name) ? 'fullsize-only' : ''"
+                [ngClass]="{'fullsize-only':(get_Character().class.ancestry.name)}"
                 *ngFor="let listID of ['ancestry']">
                 <button class="row sublist-toggle"
-                    [className]="((get_Character().class.ancestry.name)) ? 'fancy-button' : ''"
+                    [ngClass]="{'fancy-button':((get_Character().class.ancestry.name))}"
                     (click)="toggle_List(listID)">
                     Ancestry{{(get_Character().class.ancestry.name) ? ": "+ get_Character().class.ancestry.name : ""}}
                 </button>
-                <div class="list-item sublist" [className]="((get_Character().class.ancestry.name)) ? 'fancy-list' : ''"
+                <div class="list-item sublist" [ngClass]="{'fancy-list':((get_Character().class.ancestry.name))}"
                     *ngIf="get_showList()==listID">
                     <div class="list-item" *ngFor="let ancestry of get_Ancestries()">
                         <span>
@@ -123,14 +123,14 @@
         </ng-container>
         <!--Heritage-->
         <ng-container *ngIf="get_Character().class.ancestry.name">
-            <div class="list-item" [className]="(get_Character().class.heritage.name) ? 'fullsize-only' : ''"
+            <div class="list-item" [ngClass]="{'fullsize-only':(get_Character().class.heritage.name)}"
                 *ngFor="let listID of ['heritage']">
                 <button class="row sublist-toggle"
-                    [className]="((get_Character().class.heritage.name)) ? 'fancy-button' : ''"
+                    [ngClass]="{'fancy-button':((get_Character().class.heritage.name))}"
                     (click)="toggle_List(listID)">
                     Heritage{{(get_Character().class.heritage.name) ? ": "+ get_Character().class.heritage.name : ""}}
                 </button>
-                <div class="list-item sublist" [className]="((get_Character().class.heritage.name)) ? 'fancy-list' : ''"
+                <div class="list-item sublist" [ngClass]="{'fancy-list':((get_Character().class.heritage.name))}"
                     *ngIf="get_showList()==listID">
                     <div class="list-item"
                         *ngFor="let heritage of get_Heritages('', get_Character().class.ancestry.name)">
@@ -174,13 +174,13 @@
             </div>
         </ng-container>
         <!--Languages-->
-        <div class="list-item" [className]="(get_AvailableLanguages() == 0) ? 'fullsize-only' : ''"
+        <div class="list-item" [ngClass]="{'fullsize-only':(get_AvailableLanguages() == 0)}"
             *ngIf="get_LanguagesAvailable()">
-            <button class="row sublist-toggle" [className]="(get_AvailableLanguages() == 0) ? 'fancy-button' : ''"
+            <button class="row sublist-toggle" [ngClass]="{'fancy-button':(get_AvailableLanguages() == 0)}"
                 (click)="toggle_List('languages')">
                 Languages
             </button>
-            <div class="list-item sublist" [className]="(get_AvailableLanguages() == 0) ? 'fancy-list' : ''"
+            <div class="list-item sublist" [ngClass]="{'fancy-list':(get_AvailableLanguages() == 0)}"
                 *ngIf="get_showList()=='languages'">
                 <div class="row left-aligned">
                     <strong *ngIf="get_Character().class.ancestry.recommendedLanguages.length">Recommended
@@ -203,15 +203,15 @@
         </div>
         <!--Background-->
         <ng-container *ngIf="get_Character().class.name">
-            <div class="list-item" [className]="(get_Character().class.background.name) ? 'fullsize-only' : ''"
+            <div class="list-item" [ngClass]="{'fullsize-only':(get_Character().class.background.name)}"
                 *ngFor="let listID of ['background']">
                 <button class="row sublist-toggle"
-                    [className]="((get_Character().class.background.name)) ? 'fancy-button' : ''"
+                    [ngClass]="{'fancy-button':((get_Character().class.background.name))}"
                     (click)="toggle_List(listID)">
                     Background{{(get_Character().class.background.name) ? ": "+ get_Character().class.background.name : ""}}
                 </button>
                 <div class="list-item sublist"
-                    [className]="((get_Character().class.background.name)) ? 'fancy-list' : ''"
+                    [ngClass]="{'fancy-list':((get_Character().class.background.name))}"
                     *ngIf="get_showList()==listID">
                     <ng-container *ngFor="let background of get_Backgrounds()">
                         <div class="row" class="list-item" *ngFor="let itemID of ['background'+background.name]">
@@ -341,14 +341,14 @@
                     </div>
                 </ng-container>
                 <!--Languages - show if you have gained languages this level-->
-                <div class="list-item" [className]="(get_AvailableLanguages() == 0) ? 'fullsize-only' : ''"
+                <div class="list-item" [ngClass]="{'fullsize-only':(get_AvailableLanguages() == 0)}"
                     *ngIf="level.number > 0 && get_LanguagesAvailable(level.number)">
                     <button class="row sublist-toggle"
-                        [className]="(get_AvailableLanguages() == 0) ? 'fancy-button' : ''"
+                        [ngClass]="{'fancy-button':(get_AvailableLanguages() == 0)}"
                         (click)="toggle_List('languages'+level.number)">
                         Languages
                     </button>
-                    <div class="list-item sublist" [className]="(get_AvailableLanguages() == 0) ? 'fancy-list' : ''"
+                    <div class="list-item sublist" [ngClass]="{'fancy-list':(get_AvailableLanguages() == 0)}"
                         *ngIf="get_showList()=='languages'+level.number">
                         <div class="row left-aligned">
                             <strong *ngIf="get_Character().class.ancestry.recommendedLanguages.length">Recommended
@@ -365,9 +365,9 @@
                 <ng-container *ngFor="let choice of level.abilityChoices">
                     <ng-container *ngFor="let listID of [choice.id]">
                         <div class="list-item" *ngIf="get_MaxAvailable(choice)"
-                            [className]="((choice.boosts.length > get_MaxAvailable(choice) || someAbilitiesIllegal(choice)) ? 'problem' : '') +' '+ ((choice.boosts.length == get_MaxAvailable(choice)) ? 'fullsize-only' : '')">
+                            [ngClass]="{'problem':(choice.boosts.length > get_MaxAvailable(choice) || someAbilitiesIllegal(choice)), 'fullsize-only':(choice.boosts.length == get_MaxAvailable(choice))}">
                             <button class="row sublist-toggle"
-                                [className]="(choice.boosts.length == get_MaxAvailable(choice)) ? 'fancy-button' : ''"
+                                [ngClass]="{'fancy-button':(choice.boosts.length == get_MaxAvailable(choice))}"
                                 (click)="toggle_List(listID)">
                                 Ability Boosts
                                 ({{choice.source}}){{(get_MaxAvailable(choice) > 1) ?
@@ -375,10 +375,10 @@
                                     (choice.boosts.length) ? ": "+ choice.boosts[0].name : ""}}
                             </button>
                             <div class="list-item sublist"
-                                [className]="(choice.boosts.length == get_MaxAvailable(choice)) ? 'fancy-list' : ''"
+                                [ngClass]="{'fancy-list':(choice.boosts.length == get_MaxAvailable(choice))}"
                                 *ngIf="get_showList()==listID">
                                 <div class="list-item" *ngFor="let ability of get_AvailableAbilities(choice)"
-                                    [className]="(abilityIllegal(level.number, ability)) ? 'problem' : ''">
+                                    [ngClass]="{'problem':abilityIllegal(level.number, ability)}">
                                     <div class="row" *ngFor="let itemID of [choice.id+ability.name]">
                                         <span>
                                             <input id="{{itemID}}" type="checkbox"
@@ -387,7 +387,7 @@
                                                 [disabled]="cannotBoost(ability, level, choice).length">
                                             <label for="{{itemID}}">
                                                 <strong>{{ability.name}}:</strong>
-                                                {{ability.baseValue(get_Character(), characterService, level.number)}}&nbsp;
+                                                {{ability.baseValue(get_Character(), characterService, level.number).result}}&nbsp;
                                                 <cite class="problem"
                                                     *ngFor="let reason of cannotBoost(ability, level, choice)">
                                                     {{reason}}
@@ -407,9 +407,9 @@
                 <ng-container *ngFor="let choice of level.skillChoices">
                     <ng-container *ngFor="let listID of [choice.id]">
                         <div class="list-item" *ngIf="choice.available + get_SkillINTBonus(choice)"
-                            [className]="((choice.increases.length > choice.available + get_SkillINTBonus(choice) || someIllegal(choice)) ? 'problem' : '') +' '+ ((choice.increases.length == choice.available + get_SkillINTBonus(choice)) ? 'fullsize-only' : '')">
+                            [ngClass]="{'problem':(choice.increases.length > choice.available + get_SkillINTBonus(choice) || someIllegal(choice)), 'fullsize-only':(choice.increases.length == choice.available + get_SkillINTBonus(choice))}">
                             <button class="row sublist-toggle"
-                                [className]="(choice.increases.length == choice.available + get_SkillINTBonus(choice)) ? 'fancy-button' : ''"
+                                [ngClass]="{'fancy-button':(choice.increases.length == choice.available + get_SkillINTBonus(choice))}"
                                 (click)="toggle_List(listID)">
                                 Skill Training
                                 ({{choice.source}}){{(choice.available + get_SkillINTBonus(choice) > 1) ?
@@ -417,12 +417,12 @@
                                     (choice.increases.length) ? ": "+ choice.increases[0].name : ""}}
                             </button>
                             <div class="list-item sublist"
-                                [className]="(choice.available + get_SkillINTBonus(choice) == choice.increases.length) ? 'fancy-list' : ''"
+                                [ngClass]="{'fancy-list':(choice.available + get_SkillINTBonus(choice) == choice.increases.length)}"
                                 *ngIf="get_showList()==listID">
                                 <div class="list-item"
                                     *ngFor="let skill of get_AvailableSkills(choice)|sortBy:'asc':'name'"
-                                    [className]="(!skill.isLegal(get_Character(), this.characterService, level.number) ||
-                                        (!skill.isLegal(get_Character(), this.characterService, level.number, choice.maxRank) && skillIncreasedByThis(skill, choice))) ? 'problem' : ''">
+                                    [ngClass]="{'problem':(!skill.isLegal(get_Character(), this.characterService, level.number) ||
+                                    (!skill.isLegal(get_Character(), this.characterService, level.number, choice.maxRank) && skillIncreasedByThis(skill, choice)))}">
                                     <div class="row" *ngFor="let itemID of [choice.id+skill.name]">
                                         <span>
                                             <input id="{{itemID}}" type="checkbox"
@@ -457,16 +457,16 @@
                 </ng-container>
                 <!--Bloodline-->
                 <ng-container *ngFor="let spellcasting of get_AvailableBloodlines(level.number)">
-                    <div class="list-item" [className]="(spellcasting.bloodline) ? 'fullsize-only' : ''"
+                    <div class="list-item" [ngClass]="{'fullsize-only':(spellcasting.bloodline)}"
                         *ngFor="let listID of ['bloodline']">
                         <button class="row sublist-toggle"
-                            [className]="((spellcasting.bloodline)) ? 'fancy-button' : ''"
+                            [ngClass]="{'fancy-button':((spellcasting.bloodline))}"
                             (click)="toggle_List(listID)">
                             Sorcerer
                             Bloodline{{(spellcasting.bloodline) ? ": "+ spellcasting.bloodline.name : ""}}
                         </button>
                         <div class="list-item sublist"
-                            [className]="((spellcasting.bloodline && spellcasting.bloodline.name)) ? 'fancy-list' : ''"
+                            [ngClass]="{'fancy-list':((spellcasting.bloodline && spellcasting.bloodline.name))}"
                             *ngIf="get_showList()==listID">
                             <ng-container *ngFor="let bloodline of get_Bloodlines()">
                                 <div class="row" class="list-item" *ngFor="let itemID of ['bloodline'+bloodline.name]">
@@ -525,15 +525,15 @@
                 <!--Animal Companion-->
                 <ng-container *ngIf="get_AnimalCompanionAvailable(level.number)">
                     <div class="list-item"
-                        [className]="(get_Companion().name && get_Companion().species) ? 'fullsize-only' : ''"
+                        [ngClass]="{'fullsize-only':(get_Companion().name && get_Companion().species)}"
                         *ngFor="let listID of ['animalCompanion']">
                         <button class="row sublist-toggle"
-                            [className]="(get_Companion().name && get_Companion().species) ? 'fancy-button' : ''"
+                            [ngClass]="{'fancy-button':(get_Companion().name && get_Companion().species)}"
                             (click)="toggle_List(listID)">
                             Animal Companion Basics
                         </button>
                         <div class="list-item sublist"
-                            [className]="(get_Companion().name && get_Companion().species) ? 'fancy-list' : ''"
+                            [ngClass]="{'fancy-list':(get_Companion().name && get_Companion().species)}"
                             *ngIf="get_showList()==listID">
 
                             <button class="list-item" (click)="on_NewCompanion(level)">
@@ -554,16 +554,16 @@
                         </div>
                     </div>
                     <!--Animal Type-->
-                    <div class="list-item" [className]="(get_Companion().class.ancestry.name) ? 'fullsize-only' : ''"
+                    <div class="list-item" [ngClass]="{'fullsize-only':(get_Companion().class.ancestry.name)}"
                         *ngFor="let listID of ['animaltype']">
                         <button class="row sublist-toggle"
-                            [className]="(get_Companion().class.ancestry.name) ? 'fancy-button' : ''"
+                            [ngClass]="{'fancy-button':(get_Companion().class.ancestry.name)}"
                             (click)="toggle_List(listID)">
                             Animal Companion
                             Type{{(get_Companion().class.ancestry.name) ? ": "+ get_Companion().class.ancestry.name : ""}}
                         </button>
                         <div class="list-item sublist"
-                            [className]="(get_Companion().class.ancestry.name) ? 'fancy-list' : ''"
+                            [ngClass]="{'fancy-list':(get_Companion().class.ancestry.name)}"
                             *ngIf="get_showList()==listID">
                             <div class="list-item" *ngFor="let type of get_AvailableCompanionTypes()">
                                 <div class="row" *ngFor="let itemID of ['animaltype'+type.name+'desc']">
@@ -646,10 +646,10 @@
                 <ng-container *ngIf="get_CompanionSpecializationsAvailable(level.number)">
                     <ng-container *ngFor="let available of [get_CompanionSpecializationsAvailable(level.number)]">
                         <div class="list-item"
-                            [className]="(get_TakenCompanionSpecializations(level.number).length == available) ? 'fullsize-only' : ''"
+                            [ngClass]="{'fullsize-only':(get_TakenCompanionSpecializations(level.number).length == available)}"
                             *ngFor="let listID of ['animalspecialization'+level.number]">
                             <button class="row sublist-toggle"
-                                [className]="(get_TakenCompanionSpecializations(level.number).length == available) ? 'fancy-button' : ''"
+                                [ngClass]="{'fancy-button':(get_TakenCompanionSpecializations(level.number).length == available)}"
                                 (click)="toggle_List(listID)">
                                 Animal Companion
                                 Specialization{{available > 1 ?
@@ -657,7 +657,7 @@
                                         (get_TakenCompanionSpecializations(level.number).length == 1) ? ": "+ get_Companion().class.specializations[0].name : ""}}
                             </button>
                             <div class="list-item sublist"
-                                [className]="(get_TakenCompanionSpecializations(level.number).length == available) ? 'fancy-list' : ''"
+                                [ngClass]="{'fancy-list':(get_TakenCompanionSpecializations(level.number).length == available)}"
                                 *ngIf="get_showList()==listID">
                                 <div class="list-item"
                                     *ngFor="let spec of get_AvailableCompanionSpecializations(level.number)">
@@ -690,15 +690,15 @@
                 <!--Familiar-->
                 <ng-container *ngIf="get_FamiliarAvailable(level.number)">
                     <div class="list-item"
-                        [className]="(get_Familiar().name && get_Familiar().species) ? 'fullsize-only' : ''"
+                        [ngClass]="{'fullsize-only':(get_Familiar().name && get_Familiar().species)}"
                         *ngFor="let listID of ['familiar']">
                         <button class="row sublist-toggle"
-                            [className]="(get_Familiar().name && get_Familiar().species) ? 'fancy-button' : ''"
+                            [ngClass]="{'fancy-button':(get_Familiar().name && get_Familiar().species)}"
                             (click)="toggle_List(listID)">
                             Familiar Basics
                         </button>
                         <div class="list-item sublist"
-                            [className]="(get_Familiar().name && get_Familiar().species) ? 'fancy-list' : ''"
+                            [ngClass]="{'fancy-list':(get_Familiar().name && get_Familiar().species)}"
                             *ngIf="get_showList()==listID">
 
                             <button class="list-item" (click)="on_NewFamiliar()">
@@ -732,13 +732,13 @@
                 <!--Different Worlds-->
                 <ng-container *ngFor="let feat of get_DifferentWorldsFeat(level.number)">
                     <!--Different Worlds Name-->
-                    <div class="list-item" [className]="(feat.data.name != '') ? 'fullsize-only' : ''"
+                    <div class="list-item" [ngClass]="{'fullsize-only':(feat.data.name != '')}"
                         *ngFor="let listID of ['differentWorlds_Name']">
-                        <button class="row sublist-toggle" [className]="(feat.data.name != '') ? 'fancy-button' : ''"
+                        <button class="row sublist-toggle" [ngClass]="{'fancy-button':(feat.data.name != '')}"
                             (click)="toggle_List(listID)">
                             Alternative Name (Different Worlds){{(feat.data.name) ? ": "+ feat.data.name : ""}}
                         </button>
-                        <div class="list-item sublist" [className]="(feat.data.name != '') ? 'fancy-list' : ''"
+                        <div class="list-item sublist" [ngClass]="{'fancy-list':(feat.data.name != '')}"
                             *ngIf="get_showList()==listID">
                             <div class="list-item">
                                 <strong>Name:
@@ -749,14 +749,14 @@
                         </div>
                     </div>
                     <!--Different Worlds Background-->
-                    <div class="list-item" [className]="(feat.data.background != '') ? 'fullsize-only' : ''"
+                    <div class="list-item" [ngClass]="{'fullsize-only':(feat.data.background != '')}"
                         *ngFor="let listID of ['differentWorlds_Background']">
-                        <button class="row sublist-toggle" [className]="(feat.data.background) ? 'fancy-button' : ''"
+                        <button class="row sublist-toggle" [ngClass]="{'fancy-button':(feat.data.background)}"
                             (click)="toggle_List(listID)">
                             Alternative Background (Different
                             Worlds){{(feat.data.background) ? ": "+ feat.data.background : ""}}
                         </button>
-                        <div class="list-item sublist" [className]="((feat.data.background)) ? 'fancy-list' : ''"
+                        <div class="list-item sublist" [ngClass]="{'fancy-list':((feat.data.background))}"
                             *ngIf="get_showList()==listID">
                             <div class="list-item" *ngFor="let background of get_Backgrounds()">
                                 <div class="row" *ngFor="let itemID of ['differentWorlds_Background'+background.name]">
@@ -806,13 +806,13 @@
                 <!--Fuse Stance-->
                 <ng-container *ngFor="let feat of get_FuseStanceFeat(level.number)">
                     <!--Fuse Stance Name-->
-                    <div class="list-item" [className]="(feat.data.name != '') ? 'fullsize-only' : ''"
+                    <div class="list-item" [ngClass]="{'fullsize-only':(feat.data.name != '')}"
                         *ngFor="let listID of ['fuseStance_Name']">
-                        <button class="row sublist-toggle" [className]="(feat.data.name != '') ? 'fancy-button' : ''"
+                        <button class="row sublist-toggle" [ngClass]="{'fancy-button':(feat.data.name != '')}"
                             (click)="toggle_List(listID)">
                             Fused Stance Name (Fuse Stance){{(feat.data.name) ? ": "+ feat.data.name : ""}}
                         </button>
-                        <div class="list-item sublist" [className]="(feat.data.name != '') ? 'fancy-list' : ''"
+                        <div class="list-item sublist" [ngClass]="{'fancy-list':(feat.data.name != '')}"
                             *ngIf="get_showList()==listID">
                             <div class="list-item">
                                 <strong>Name:
@@ -823,15 +823,15 @@
                         </div>
                     </div>
                     <!--Fuse Stance Stance 1-->
-                    <div class="list-item" [className]="(feat.data.stance1 != '') ? 'fullsize-only' : ''"
+                    <div class="list-item" [ngClass]="{'fullsize-only':(feat.data.stance1 != '')}"
                         *ngFor="let listID of ['fuseStance_Stance1']">
-                        <button class="row sublist-toggle" [className]="(feat.data.stance1) ? 'fancy-button' : ''"
+                        <button class="row sublist-toggle" [ngClass]="{'fancy-button':(feat.data.stance1)}"
                             (click)="toggle_List(listID)">
                             Fused Stance 1 (Fuse Stance){{(feat.data.stance1) ? ": "+ feat.data.stance1 : ""}}
                         </button>
-                        <div class="list-item sublist" [className]="((feat.data.stance1)) ? 'fancy-list' : ''"
+                        <div class="list-item sublist" [ngClass]="{'fancy-list':((feat.data.stance1))}"
                             *ngIf="get_showList()==listID">
-                            <div class="list-item" [className]="stance.reason ? 'unavailable' : ''"
+                            <div class="list-item" [ngClass]="{'unavailable':stance.reason}"
                                 *ngFor="let stance of get_StancesToFuse(level.number)">
                                 <div class="row" *ngFor="let itemID of ['fuseStance_stance1'+stance.name]">
                                     <span>
@@ -853,15 +853,15 @@
                         </div>
                     </div>
                     <!--Fuse Stance Stance 2-->
-                    <div class="list-item" [className]="(feat.data.stance2 != '') ? 'fullsize-only' : ''"
+                    <div class="list-item" [ngClass]="{'fullsize-only':(feat.data.stance2 != '')}"
                         *ngFor="let listID of ['fuseStance_Stance2']">
-                        <button class="row sublist-toggle" [className]="(feat.data.stance2) ? 'fancy-button' : ''"
+                        <button class="row sublist-toggle" [ngClass]="{'fancy-button':(feat.data.stance2)}"
                             (click)="toggle_List(listID)">
                             Fused Stance 2 (Fuse Stance){{(feat.data.stance2) ? ": "+ feat.data.stance2 : ""}}
                         </button>
-                        <div class="list-item sublist" [className]="((feat.data.stance2)) ? 'fancy-list' : ''"
+                        <div class="list-item sublist" [ngClass]="{'fancy-list':((feat.data.stance2))}"
                             *ngIf="get_showList()==listID">
-                            <div class="list-item" [className]="stance.reason ? 'unavailable' : ''"
+                            <div class="list-item" [ngClass]="{'unavailable':stance.reason}"
                                 *ngFor="let stance of get_StancesToFuse(level.number)">
                                 <div class="row" *ngFor="let itemID of ['fuseStance_stance2'+stance.name]">
                                     <span>
@@ -887,16 +887,16 @@
                 <ng-container *ngFor="let choice of get_TraditionChoices(level)">
                     <ng-container *ngIf="choice.abilityAvailable">
                         <ng-container *ngFor="let listID of [choice.id+'ability']">
-                            <div class="list-item" [className]="(choice.ability ? 'fullsize-only' : '')">
+                            <div class="list-item" [ngClass]="{'fullsize-only':choice.ability}">
                                 <button class="row sublist-toggle"
                                     [ngStyle]="choice.ability ? {'--accent':get_Accent()} : {'--accent':get_Accent()}"
-                                    [className]="choice.ability ? 'fancy-button' : ''" (click)="toggle_List(listID)">
+                                    [ngClass]="{'fancy-button':choice.ability}" (click)="toggle_List(listID)">
                                     {{choice.source}} Key Ability
                                     {{(choice.ability) ? ": "+ choice.ability : ""}}
                                 </button>
                                 <div class="list-item sublist"
                                     [ngStyle]="choice.ability ? {} : {'--accent':get_Accent()}"
-                                    [className]="choice.ability ? 'fancy-list' : ''" *ngIf="get_showList()==listID">
+                                    [ngClass]="{'fancy-list':choice.ability}" *ngIf="get_showList()==listID">
                                     <div class="list-item"
                                         *ngFor="let ability of get_AvailableTraditionAbilities(choice)">
                                         <div class="row" *ngFor="let itemID of [choice.id+'ability'+ability]">
@@ -917,15 +917,15 @@
                     </ng-container>
                     <ng-container *ngIf="choice.traditionAvailable">
                         <ng-container *ngFor="let listID of [choice.id+'tradition']">
-                            <div class="list-item" [className]="(choice.tradition ? 'fullsize-only' : '')">
+                            <div class="list-item" [ngClass]="{'fullsize-only':choice.tradition}">
                                 <button class="row sublist-toggle"
                                     [ngStyle]="choice.tradition ? {'--accent':get_Accent()} : {'--accent':get_Accent()}"
-                                    [className]="choice.tradition ? 'fancy-button' : ''" (click)="toggle_List(listID)">
+                                    [ngClass]="{'fancy-button':choice.tradition}" (click)="toggle_List(listID)">
                                     {{choice.source}} Tradition{{(choice.tradition) ? ": "+ choice.tradition : ""}}
                                 </button>
                                 <div class="list-item sublist"
                                     [ngStyle]="choice.tradition ? {} : {'--accent':get_Accent()}"
-                                    [className]="choice.tradition ? 'fancy-list' : ''" *ngIf="get_showList()==listID">
+                                    [ngClass]="{'fancy-list':choice.tradition}" *ngIf="get_showList()==listID">
                                     <div class="list-item" *ngFor="let tradition of get_AvailableTraditions(choice)">
                                         <div class="row" *ngFor="let itemID of [choice.id+'tradition'+tradition]">
                                             <span>
@@ -948,15 +948,15 @@
                 <ng-container *ngFor="let choice of level.loreChoices">
                     <ng-container *ngFor="let listID of [choice.id]">
                         <div class="list-item" *ngIf="choice.available"
-                            [className]="((choice.increases.length > choice.available) ? 'problem' : '') +' '+ ((choice.available == choice.increases.length) ? 'fullsize-only' : '')">
+                            [ngClass]="{'problem':(choice.increases.length > choice.available), 'fullsize-only':(choice.available == choice.increases.length)}">
                             <button class="row sublist-toggle"
-                                [className]="(choice.available == choice.increases.length) ? 'fancy-button' : ''"
+                                [ngClass]="{'fancy-button':(choice.available == choice.increases.length)}"
                                 (click)="toggle_List(listID)">
                                 Lore Training
                                 ({{choice.source}}){{(choice.increases.length) ? ": "+ choice.increases[0].name : ""}}
                             </button>
                             <div class="list-item sublist"
-                                [className]="(choice.available == choice.increases.length) ? 'fancy-list' : ''"
+                                [ngClass]="{'fancy-list':(choice.available == choice.increases.length)}"
                                 *ngIf="get_showList()==listID">
                                 <div class="list-item" *ngFor="let itemID of [choice.id+'LoreIncreaseBox']">
                                     <span>

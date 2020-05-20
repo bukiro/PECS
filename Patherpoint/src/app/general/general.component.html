@@ -24,10 +24,12 @@
                 <strong>Ancestry</strong>
                 {{get_Character().class.ancestry.name}}{{(get_Character().class.heritage.name) ? " - " + get_Character().class.heritage.name : ""}}
                 <div class="row left-aligned" *ngIf="get_Character().class.ancestry.traits.length">
-                    <cite class="trait" *ngFor="let trait of get_Character().class.ancestry.traits">{{trait}}&nbsp;</cite>
+                    <cite class="trait"
+                        *ngFor="let trait of get_Character().class.ancestry.traits">{{trait}}&nbsp;</cite>
                 </div>
             </div>
-            <div class="fullsize-only list-item" *ngIf="get_Character().class.background && get_Character().class.background.name">
+            <div class="fullsize-only list-item"
+                *ngIf="get_Character().class.background && get_Character().class.background.name">
                 <strong>Background</strong>
                 {{get_Character().class.background.name}}
             </div>
@@ -46,6 +48,8 @@
             <div class="fullsize-only list-item" *ngIf="get_Character().class.ancestry.name">
                 <strong>Size</strong>
                 {{get_Size()}}
+                <app-tags [creature]="creature" [objectName]="'Size'" [showTraits]=true [showFeats]=true
+                    [showItems]=true [showActivities]=true [showConditions]=true [showEffects]=true></app-tags>
             </div>
             <div class="fullsize-only list-item" *ngIf="get_Character().alignment && get_Character().alignment.length">
                 <strong>Alignment</strong>
@@ -55,7 +59,8 @@
                 <strong>Deity</strong>
                 {{get_Character().class.deity}}
             </div>
-            <div class="fullsize-only list-item" *ngIf="get_Character().class.ancestry.languages && get_Character().class.ancestry.languages.length">
+            <div class="fullsize-only list-item"
+                *ngIf="get_Character().class.ancestry.languages && get_Character().class.ancestry.languages.length">
                 <strong>Languages</strong>
                 {{get_Languages()}}
             </div>
@@ -76,8 +81,8 @@
                 <cite class="trait" *ngFor="let trait of get_Companion().class.ancestry.traits"
                     title="{{get_Traits(trait)[0].description}}">{{trait}}</cite>
             </div>
-            <app-tags [creature]="'Character'" [objectName]="'Animal Companion'" [showTraits]=true [showFeats]=true [showItems]=true [showActivities]=true
-                    [showConditions]=true [showEffects]=true></app-tags>
+            <app-tags [creature]="'Character'" [objectName]="'Animal Companion'" [showTraits]=true [showFeats]=true
+                [showItems]=true [showActivities]=true [showConditions]=true [showEffects]=true></app-tags>
             <div class="fullsize-only list-item">
                 <strong>Companion Name</strong>
                 {{get_Companion().name}}
@@ -93,6 +98,8 @@
             <div class="fullsize-only list-item" *ngIf="get_Companion().class.ancestry.name">
                 <strong>Size</strong>
                 {{get_Size()}}
+                <app-tags [creature]="creature" [objectName]="'Size'" [showTraits]=true [showFeats]=true
+                    [showItems]=true [showActivities]=true [showConditions]=true [showEffects]=true></app-tags>
             </div>
             <div class="list-item" *ngIf="get_Companion().class.ancestry.name">
                 <strong>Support Benefit</strong>
@@ -104,8 +111,8 @@
                 <cite class="trait" *ngFor="let trait of get_Familiar().traits"
                     title="{{get_Traits(trait)[0].description}}">{{trait}}</cite>
             </div>
-            <app-tags [creature]="'Character'" [objectName]="'Familiar'" [showTraits]=true [showFeats]=true [showItems]=true [showActivities]=true
-                    [showConditions]=true [showEffects]=true></app-tags>
+            <app-tags [creature]="'Character'" [objectName]="'Familiar'" [showTraits]=true [showFeats]=true
+                [showItems]=true [showActivities]=true [showConditions]=true [showEffects]=true></app-tags>
             <div class="fullsize-only list-item">
                 <strong>Familiar Name</strong>
                 {{get_Familiar().name}}
@@ -117,6 +124,8 @@
             <div class="fullsize-only list-item">
                 <strong>Size</strong>
                 {{get_Size()}}
+                <app-tags [creature]="creature" [objectName]="'Size'" [showTraits]=true [showFeats]=true
+                    [showItems]=true [showActivities]=true [showConditions]=true [showEffects]=true></app-tags>
             </div>
             <h5>Familiar Abilities</h5>
             <div class="list-item" *ngFor="let ability of get_Familiar().abilities.feats">
@@ -137,16 +146,18 @@
                     <strong>{{(speed.name=="Speed") ? "All Speeds" : speed.name}}</strong>
                 </span>
                 <span>
-                    Value: <input class="number3" title="{{speed.value(get_Creature(), characterService, effectsService)[1]}}"
-                        [className]="(speed.penalty(get_Creature(), effectsService).length) ? 'penalty' : (speed.bonus(get_Creature(), effectsService).length) ? 'bonus' : ''"
-                        type="number" value="{{speed.value(get_Creature(), characterService, effectsService)[0]}}" disabled>
+                    Value: <input class="number3"
+                        title="{{speed.value(get_Creature(), characterService, effectsService)[1]}}"
+                        [ngClass]="{'penalty':speed.penalties(get_Creature(), effectsService).length, 'bonus':speed.bonuses(get_Creature(), effectsService).length, 'absolute':speed.absolutes(get_Creature(), effectsService).length}"
+                        type="number" value="{{speed.value(get_Creature(), characterService, effectsService)[0]}}"
+                        disabled>
                 </span>
-                <app-tags [creature]="creature" [objectName]=speed.name [showTraits]=true [showFeats]=true [showItems]=true [showActivities]=true
-                    [showConditions]=true [showEffects]=true></app-tags>
+                <app-tags [creature]="creature" [objectName]=speed.name [showTraits]=true [showFeats]=true
+                    [showItems]=true [showActivities]=true [showConditions]=true [showEffects]=true></app-tags>
             </div>
         </ng-container>
-        <app-tags [creature]="creature" [objectName]="'Movement'" [showTraits]=true [showFeats]=true [showItems]=true [showActivities]=true
-                    [showConditions]=true [showEffects]=true></app-tags>
+        <app-tags [creature]="creature" [objectName]="'Movement'" [showTraits]=true [showFeats]=true [showItems]=true
+            [showActivities]=true [showConditions]=true [showEffects]=true></app-tags>
     </ng-container>
 </div>
 <div *ngIf="set_Span()"></div>

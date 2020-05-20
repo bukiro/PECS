@@ -33,6 +33,8 @@ export class TagsComponent implements OnInit {
     @Input()
     specialEffects:Effect[] = []
 
+    public parseInt = parseInt;
+
     constructor(
         private changeDetector: ChangeDetectorRef,
         public characterService: CharacterService,

@@ -8,9 +8,10 @@ import { Character } from './Character';
 
 export class AC {
     public name: string = "AC"
-    public $effects: (Effect[])[] = [[],[],[]];
-    public $bonus: (Effect[])[] = [[],[],[]];
-    public $penalty: (Effect[])[] = [[],[],[]];
+    public $absolutes: (Effect[])[] = [[],[],[]];
+    public $relatives: (Effect[])[] = [[],[],[]];
+    public $bonuses: (Effect[])[] = [[],[],[]];
+    public $penalties: (Effect[])[] = [[],[],[]];
     public $value: {result: number, explain: string}[] = [{result:0, explain:""},{result:0, explain:""},{result:0, explain:""}];
     //Are you currently taking cover?
     cover(creature: Character|AnimalCompanion|Familiar) {
@@ -29,13 +30,17 @@ export class AC {
                 index = 2;
                 break;
         }
-        this.$effects[index] = this.effects(creature, effectsService);
-        this.$bonus[index] = this.bonus(creature, effectsService);
-        this.$penalty[index] = this.penalty(creature, effectsService);
+        this.$absolutes[index] = this.absolutes(creature, effectsService);
+        this.$relatives[index] = this.relatives(creature, effectsService);
+        this.$bonuses[index] = this.bonus(creature, effectsService);
+        this.$penalties[index] = this.penalty(creature, effectsService);
         this.$value[index] = this.value(creature, characterService, defenseService, effectsService);
     }
-    effects(creature: Character|AnimalCompanion|Familiar, effectsService: EffectsService) {
-        return effectsService.get_EffectsOnThis(creature, this.name).concat(effectsService.get_EffectsOnThis(creature, "All Checks"));
+    absolutes(creature: Character|AnimalCompanion|Familiar, effectsService: EffectsService) {
+        return effectsService.get_AbsolutesOnThis(creature, this.name).concat(effectsService.get_AbsolutesOnThis(creature, "All Checks"));
+    }
+    relatives(creature: Character|AnimalCompanion|Familiar, effectsService: EffectsService) {
+        return effectsService.get_RelativesOnThis(creature, this.name).concat(effectsService.get_RelativesOnThis(creature, "All Checks"));
     }
     bonus(creature: Character|AnimalCompanion|Familiar, effectsService: EffectsService) {
         return effectsService.get_BonusesOnThis(creature, this.name).concat(effectsService.get_BonusesOnThis(creature, "All Checks"));;
@@ -60,17 +65,22 @@ export class AC {
             armorBonus = armor[0].armorBonus(armorCreature, characterService, effectsService)[0];
             explain = armor[0].armorBonus(armorCreature, characterService, effectsService)[1];
         }
+        //Absolutes completely replace the baseValue. They are sorted so that the highest value counts last.
+        this.absolutes(armorCreature, effectsService).forEach(effect => {
+            armorBonus = parseInt(effect.setValue)
+            explain = effect.source + ": " + effect.setValue;
+        });
         //Get all active effects on this and sum them up
+        let relatives: Effect[] = [];
         //Familiars get the Character's AC without status and circumstance effects, and add their own of those.
-        let effects: Effect[] = [];
         if (creature.type == "Familiar") {
-            effects.push(...this.effects(armorCreature, effectsService).filter(effect => effect.type != "circumstance" && effect.type != "status"))
-            effects.push(...this.effects(creature, effectsService).filter(effect => effect.type == "circumstance" || effect.type == "status"))
+            relatives.push(...this.relatives(armorCreature, effectsService).filter(effect => effect.type != "circumstance" && effect.type != "status"))
+            relatives.push(...this.relatives(creature, effectsService).filter(effect => effect.type == "circumstance" || effect.type == "status"))
         } else {
-            effects = this.effects(creature, effectsService)
+            relatives = this.relatives(creature, effectsService)
         }
         let effectsSum = 0;
-        effects.forEach(effect => {
+        relatives.forEach(effect => {
             effectsSum += parseInt(effect.value);
             explain += "\n"+effect.source+": "+effect.value;
         });

@@ -42,6 +42,15 @@ export class AbilitiesComponent implements OnInit {
         return this.characterService.get_Creature(this.creature);
     }
 
+    get_CalculatedIndex() {
+        switch (this.creature) {
+            case "Character":
+                return 0;
+            case "Companion":
+                return 1;
+        }
+    }
+
     get_Abilities() {
         return this.abilitiesService.get_Abilities();
     }

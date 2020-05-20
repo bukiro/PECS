@@ -32,7 +32,7 @@ export class Health {
             classHP = 5 * characterService.get_Character().level;
         } else {
             if (creature.class.hitPoints) {
-                let constitution = characterService.get_Abilities("Constitution")[0].baseValue(creature, characterService, characterService.get_Character().level);
+                let constitution = characterService.get_Abilities("Constitution")[0].baseValue(creature, characterService, characterService.get_Character().level).result;
                 let CON: number = Math.floor((constitution-10)/2);
                 classHP = (creature.class.hitPoints + CON) * characterService.get_Character().level;
                 if (creature.class.ancestry.name) {
@@ -41,7 +41,10 @@ export class Health {
             }
         }
         let effectsSum = 0
-        effectsService.get_EffectsOnThis(creature, "Max HP").forEach(effect => {
+        effectsService.get_AbsolutesOnThis(creature, "Max HP").forEach(effect => {
+            effectsSum = parseInt(effect.setValue);
+        });
+        effectsService.get_RelativesOnThis(creature, "Max HP").forEach(effect => {
             effectsSum += parseInt(effect.value);
         });
         return ancestryHP + classHP + effectsSum;
@@ -74,7 +77,10 @@ export class Health {
     maxDying(creature: Character|AnimalCompanion|Familiar, effectsService: EffectsService) {
         let defaultMaxDying: number = 4;
         let effectsSum = 0;
-        effectsService.get_EffectsOnThis(creature, "Max Dying").forEach(effect => {
+        effectsService.get_AbsolutesOnThis(creature, "Max Dying").forEach(effect => {
+            effectsSum = parseInt(effect.value);
+        });
+        effectsService.get_RelativesOnThis(creature, "Max Dying").forEach(effect => {
             effectsSum += parseInt(effect.value);
         });
         return defaultMaxDying + effectsSum;

@@ -20,6 +20,7 @@ export class EffectsComponent implements OnInit {
     public showHidden: boolean = false;
     public showItem: string = "";
     public Math = Math;
+    public parseInt = parseInt;
 
     constructor(
         private changeDetector: ChangeDetectorRef,

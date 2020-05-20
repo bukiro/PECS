@@ -30,8 +30,16 @@ constructor(
         return this.effects;
     }
 
-    get_EffectsOnThis(creature: Character|AnimalCompanion|Familiar, ObjectName: string, ) {
+    get_EffectsOnThis(creature: Character|AnimalCompanion|Familiar, ObjectName: string) {
         return this.effects.all.filter(effect => effect.creature == creature.id && effect.target == ObjectName && effect.apply);
+    }
+
+    get_RelativesOnThis(creature: Character|AnimalCompanion|Familiar, ObjectName: string) {
+        return this.effects.relatives.filter(effect => effect.creature == creature.id && effect.target == ObjectName && effect.apply);
+    }
+
+    get_AbsolutesOnThis(creature: Character|AnimalCompanion|Familiar, ObjectName: string) {
+        return this.effects.absolutes.filter(effect => effect.creature == creature.id && effect.target == ObjectName && effect.apply);
     }
 
     get_BonusesOnThis(creature: Character|AnimalCompanion|Familiar, ObjectName: string) {
@@ -63,14 +71,14 @@ constructor(
             if (creature.type == "Familiar") {
                 return 0;
             } else {
-                return characterService.get_Abilities(name)[0].value(creature, characterService, effectsService);
+                return characterService.get_Abilities(name)[0].value(creature, characterService, effectsService).result;
             }
         }
         function Modifier(name: string) {
             if (creature.type == "Familiar") {
                 return 0;
             } else {
-                return characterService.get_Abilities(name)[0].mod(creature, characterService, effectsService);
+                return characterService.get_Abilities(name)[0].mod(creature, characterService, effectsService).result;
             }
         }
         function Skill(name: string) {
@@ -235,7 +243,7 @@ constructor(
                 //Skip this if there is an "Ignore Armor Penalty" effect.
                 if (!simpleEffects.filter(effect => effect.creature == creature.id && effect.target == "Ignore Armor Penalty" && effect.toggle).length) {
                     //If an armor has a skillpenalty or a speedpenalty, check if Strength meets its strength requirement.
-                    let Strength = characterService.get_Abilities("Strength")[0].value(creature, characterService, this);
+                    let Strength = characterService.get_Abilities("Strength")[0].value(creature, characterService, this).result;
                     items.armors.filter(item => item.equipped && item.get_SkillPenalty()).forEach(item => {
                         item.get_ArmoredSkirt(creature, characterService);
                         let name = item.get_Name();
@@ -348,7 +356,8 @@ constructor(
         creatures.forEach(creature => {
             targets.forEach(target => {
                 //If any effects with a setValue exist for this creature and target, all item, proficiency and untyped effects for the same creature and target are ignored.
-                if (allEffects.filter(effect => effect.creature == creature && effect.target == target && effect.setValue).length) {
+                let setEffects: Effect[] = allEffects.filter(effect => effect.creature == creature && effect.target == target && effect.setValue != "");
+                if (setEffects.length) {
                     allEffects.filter(effect => effect.creature == creature && effect.target == target && !effect.setValue && ["item", "proficiency", "untyped"].includes(effect.type)).forEach(effect => {
                         effect.apply = false;
                     })
@@ -395,7 +404,10 @@ constructor(
                 }
             })
             this.effects = new EffectCollection();
-            this.effects.all = Object.assign([], allEffects);
+            this.effects.all = allEffects.map(effect => Object.assign(new Effect(), effect));
+            this.effects.relatives = this.effects.all.filter(effect => parseInt(effect.value));
+            //Sort the absolute effects in ascending order of value. This means that the largest value will usually be the the one that ultimately counts.
+            this.effects.absolutes = this.effects.all.filter(effect => effect.setValue).sort((a, b) => parseInt(a.setValue) - parseInt(b.setValue));
             this.effects.penalties = this.effects.all.filter(effect => parseInt(effect.value) < 0);
             this.effects.bonuses = this.effects.all.filter(effect => parseInt(effect.value) > 0);
             if (!characterService.still_loading()) {

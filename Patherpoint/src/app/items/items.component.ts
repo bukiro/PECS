@@ -83,6 +83,19 @@ export class ItemsComponent implements OnInit {
         return this.showItem;
     }
 
+    set_ItemsMenuTarget() {
+        this.characterService.set_ItemsMenuTarget(this.creature);
+    }
+
+    get_ItemsMenuState() {
+        return this.characterService.get_ItemsMenuState();
+    }
+
+    get_ItemsMenuTarget() {
+        this.creature = this.characterService.get_ItemsMenuTarget();
+        return this.characterService.get_CompanionAvailable();
+    }
+
     check_Filter() {
         if (this.wordFilter.length < 5 && this.showList == "All") {
             this.showList = "";
@@ -257,7 +270,7 @@ export class ItemsComponent implements OnInit {
         } else {
             this.characterService.get_Changed()
             .subscribe((target) => {
-                if (target == "items" || target == "all") {
+                if (["items", "all"].includes(target)) {
                     this.changeDetector.detectChanges();
                 }
             });

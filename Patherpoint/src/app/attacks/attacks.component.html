@@ -6,14 +6,14 @@
         <app-tags [creature]="creature" [objectName]="'Attacks'" [showTraits]=true [showFeats]=true [showItems]=true
             [showActivities]=true [showConditions]=true [showEffects]=true></app-tags>
         <ng-container *ngFor="let weapon of get_EquippedWeapons()">
-            <div class="list-item" [className]="!get_IsAllowed(weapon) ? 'problem fullsize-only' : ''"
+            <div class="list-item" [ngClass]="{'problem fullsize-only':!get_IsAllowed(weapon)}"
                 *ngFor="let attack of get_Attacks(weapon)">
                 <div class="row">
                     <strong
                         style="flex-basis:initial">{{weapon.get_Name()}}{{(attack[0] == 'melee') ? (weapon.ranged ? " melee" : "") : (weapon.melee ? " ranged" : "")}}</strong>
                     <span style="flex-basis:initial">
                         Attack
-                        <input [className]="(attack[4].length) ? 'penalty' : (attack[5].length) ? 'bonus' : ''"
+                        <input [ngClass]="{'penalty':attack[4].length, 'bonus':attack[5].length, 'absolute':attack[6].length}"
                             type="number" class="number2" title="{{attack[2]}}" [ngModel]="attack[1]" disabled>
                         Damage
                         <ng-container *ngFor="let damage of [get_Damage(weapon, attack[0])]">

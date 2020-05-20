@@ -1,26 +1,29 @@
 <button class="minimizebutton lower" (click)="minimize()" *ngIf="creature=='Character'">&#8691;</button>
 <div id="{{creature}}-abilities-height" class="attributeBox">
-<h3 class="box-header">Abilities</h3>
-<div class="loading" *ngIf="still_loading()">Loading</div>
-<ng-container *ngIf="!still_loading()">
-    <div class="list-item" *ngFor="let ability of abilitiesService.get_Abilities()">
-        <div class="row">
-            <strong>{{ability.name}}</strong>
-            <span>
-                <input class="number2" type="number"
-                    [className]="(ability.penalty(get_Creature(), this.effectsService) < 0) ? 'penalty' : (ability.bonus(get_Creature(), this.effectsService) > 0) ? 'bonus' : ''"
-                    value="{{ability.value(get_Creature(), this.characterService, this.effectsService)}}" disabled>
-            </span>
-            <strong>Modifier</strong>
-            <span>
-                <input class="number2" type="number"
-                    [className]="(ability.penalty(get_Creature(), this.effectsService) < 0) ? 'penalty' : (ability.bonus(get_Creature(), this.effectsService) > 0) ? 'bonus' : ''"
-                    value="{{ability.mod(get_Creature(), this.characterService, this.effectsService)}}" disabled>
-            </span>
+    <h3 class="box-header">Abilities</h3>
+    <div class="loading" *ngIf="still_loading()">Loading</div>
+    <ng-container *ngIf="!still_loading()">
+        <div class="list-item" *ngFor="let $ability of abilitiesService.get_Abilities()">
+            <ng-container *ngFor="let ability of [$ability.calculate(get_Creature(), characterService, effectsService)]">
+                <div class="row">
+                    <strong>{{ability.name}}</strong>
+                    <span>
+                        <input class="number2" type="number"
+                            [ngClass]="{'penalty':(ability.$penalties[get_CalculatedIndex()].length), 'bonus':ability.$bonuses[get_CalculatedIndex()].length, 'absolute':ability.$absolutes[get_CalculatedIndex()].length}"
+                            title="{{ability.$value[get_CalculatedIndex()].explain}}" value="{{ability.$value[get_CalculatedIndex()].result}}" disabled>
+                    </span>
+                    <strong>Modifier</strong>
+                    <span>
+                        <input class="number2" type="number"
+                            [ngClass]="{'penalty':(ability.$modpenalties[get_CalculatedIndex()].length), 'bonus':ability.$modbonuses[get_CalculatedIndex()].length, 'absolute':ability.$modabsolutes[get_CalculatedIndex()].length}"    
+                            title="{{ability.$mod[get_CalculatedIndex()].explain}}" value="{{ability.$mod[get_CalculatedIndex()].result}}" disabled>
+                    </span>
+                </div>
+                <app-tags class="row tags" [creature]="creature" [objectName]=ability.name [showTraits]=true
+                    [showFeats]=true [showItems]=true [showActivities]=true [showConditions]=true [showEffects]=true>
+                </app-tags>
+            </ng-container> 
         </div>
-        <app-tags class="row tags" [creature]="creature" [objectName]=ability.name [showTraits]=true [showFeats]=true [showItems]=true [showActivities]=true
-            [showConditions]=true [showEffects]=true></app-tags>
-    </div>
-</ng-container>
+    </ng-container>
 </div>
 <div *ngIf="set_Span()"></div>

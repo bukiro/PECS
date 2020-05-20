@@ -573,8 +573,16 @@
     -webkit-animation: turnaltrclr 2s infinite;  
   }
 
+  .absolute, cite.condition.absolute, cite.effect.absolute {
+    color:blue;
+  }
+
   .bonus, cite.condition.bonus, cite.effect.bonus {
     color:green;
+  }
+
+  .penalty, cite.condition.penalty, cite.effect.penalty {
+    color:red;
   }
 
   input.invisible {
@@ -587,16 +595,7 @@
     color: #1976d2;
     color: rgb(var(--accent));
   }
-
-  input.bonus {
-    background-color:lightgreen;
-    color:black;
-  }
-
-  .penalty, cite.condition.penalty, cite.effect.penalty {
-    color:red;
-  }
-
+  
   .problem, .lower.problem {
     color:red;
     background-color: #DAAAA0;
@@ -617,9 +616,19 @@
     margin-bottom: auto;
   }
 
+  input.absolute {
+    background-color:lightblue;
+    color:#616161;
+  }
+
+  input.bonus {
+    background-color:lightgreen;
+    color:#616161;
+  }
+
   input.penalty {
     background-color:lightcoral;
-    color:black;
+    color:#616161;
   }
 
   .notapplied {

@@ -134,8 +134,8 @@ export class Weapon extends Equipment {
     //Calculates the attack bonus for a melee or ranged attack with this weapon.
         let explain: string = "";
         let charLevel = characterService.get_Character().level;
-        let str  = characterService.get_Abilities("Strength")[0].mod(creature, characterService, effectsService);
-        let dex = characterService.get_Abilities("Dexterity")[0].mod(creature, characterService, effectsService);
+        let str  = characterService.get_Abilities("Strength")[0].mod(creature, characterService, effectsService).result;
+        let dex = characterService.get_Abilities("Dexterity")[0].mod(creature, characterService, effectsService).result;
         let runeSource: (Weapon|WornItem)[] = this.get_RuneSource(creature, range);
         let skillLevel = this.profLevel(creature, characterService, runeSource[1]);
         if (skillLevel) {
@@ -146,22 +146,23 @@ export class Weapon extends Equipment {
         if (charLevelBonus) {
             explain += "\nCharacter Level: "+charLevelBonus;
         }
-        let penalty: {value:number, source:string, penalty:boolean}[] = [];
-        let bonus: {value:number, source:string, penalty:boolean}[] = [];
+        let penalties: {value:number, setValue:string, source:string, penalty:boolean}[] = [];
+        let bonuses: {value:number, setValue:string, source:string, penalty:boolean}[] = [];
+        let absolutes: {value:number, setValue:string, source:string, penalty:boolean}[] = [];
         //The Clumsy condition affects all Dexterity attacks
-        let dexEffects = effectsService.get_EffectsOnThis(creature, "Dexterity Attacks");
-        let dexPenalty: {value:number, source:string, penalty:boolean}[] = [];
+        let dexEffects = effectsService.get_RelativesOnThis(creature, "Dexterity Attacks");
+        let dexPenalty: {value:number, setValue:string, source:string, penalty:boolean}[] = [];
         let dexPenaltySum: number = 0;
         dexEffects.forEach(effect => {
-            dexPenalty.push({value:parseInt(effect.value), source:effect.source, penalty:true});
+            dexPenalty.push({value:parseInt(effect.value), setValue:"", source:effect.source, penalty:true});
             dexPenaltySum += parseInt(effect.value);
         });
         //The Enfeebled condition affects all Strength attacks
-        let strEffects = effectsService.get_EffectsOnThis(creature, "Strength Attacks");
-        let strPenalty: {value:number, source:string, penalty:boolean}[] = [];
+        let strEffects = effectsService.get_RelativesOnThis(creature, "Strength Attacks");
+        let strPenalty: {value:number, setValue:string, source:string, penalty:boolean}[] = [];
         let strPenaltySum: number = 0;
         strEffects.forEach(effect => {
-            strPenalty.push({value:parseInt(effect.value), source:effect.source, penalty:true});
+            strPenalty.push({value:parseInt(effect.value), setValue:"", source:effect.source, penalty:true});
             strPenaltySum += parseInt(effect.value);
         });
         //Check if the weapon has any traits that affect its Ability bonus to attack, such as Finesse or Brutal, and run those calculations.
@@ -172,7 +173,7 @@ export class Weapon extends Equipment {
                 explain += "\nStrength Modifier (Brutal): "+abilityMod;
                 if (strPenalty.length) {
                     strPenalty.forEach(singleStrPenalty => {
-                        penalty.push(singleStrPenalty);
+                        penalties.push(singleStrPenalty);
                         abilityMod += singleStrPenalty.value;
                         explain += "\n"+singleStrPenalty.source+": "+singleStrPenalty.value;
                     });
@@ -182,7 +183,7 @@ export class Weapon extends Equipment {
                 explain += "\nDexterity Modifier: "+abilityMod;
                 if (dexPenalty.length) {
                     dexPenalty.forEach(singleDexPenalty => {
-                        penalty.push(singleDexPenalty);
+                        penalties.push(singleDexPenalty);
                         abilityMod += singleDexPenalty.value;
                         explain += "\n"+singleDexPenalty.source+": "+singleDexPenalty.value;
                     });
@@ -194,7 +195,7 @@ export class Weapon extends Equipment {
                 explain += "\nDexterity Modifier (Finesse): "+abilityMod;
                 if (dexPenalty.length) {
                     dexPenalty.forEach(singleDexPenalty => {
-                        penalty.push(singleDexPenalty);
+                        penalties.push(singleDexPenalty);
                         abilityMod += singleDexPenalty.value;
                         explain += "\n"+singleDexPenalty.source+": "+singleDexPenalty.value;
                     });
@@ -204,35 +205,43 @@ export class Weapon extends Equipment {
                 explain += "\nStrength Modifier: "+abilityMod;
                 if (strPenalty.length) {
                     strPenalty.forEach(singleStrPenalty => {
-                        penalty.push(singleStrPenalty);
+                        penalties.push(singleStrPenalty);
                         abilityMod += singleStrPenalty.value;
                         explain += "\n"+singleStrPenalty.source+": "+singleStrPenalty.value;
                     });
                 }
             }
         }
-        
+        //Add up all modifiers before effects and item bonus
+        let attackResult = charLevelBonus + skillLevel + abilityMod;
+        //Add absolute effects for this weapon
+        effectsService.get_AbsolutesOnThis(creature, this.name).concat(effectsService.get_AbsolutesOnThis(creature, "All Checks")).forEach(effect => {
+            attackResult = parseInt(effect.setValue)
+            explain = effect.source + ": " + effect.setValue;
+            absolutes.push({value:0, setValue:effect.setValue, source:effect.source, penalty:false})
+        });
+        //Add potency bonus
         if (runeSource[0].get_PotencyRune() > 0) {
             explain += "\nPotency: "+runeSource[0].get_Potency(runeSource[0].get_PotencyRune());
             if (runeSource[2]) {
                 explain += "\n("+runeSource[2].get_Name()+")";
             }
         }
-        //Add all effects for this weapon
-        let effects: Effect[] = effectsService.get_EffectsOnThis(creature, this.name).concat(effectsService.get_EffectsOnThis(creature, "All Checks"));
+        //Add relative effects for this weapon
         let effectsSum: number = 0;
-        effects.forEach(effect => {
+        let relatives: Effect[] = effectsService.get_RelativesOnThis(creature, this.name).concat(effectsService.get_RelativesOnThis(creature, "All Checks"));
+        relatives.forEach(effect => {
             if (parseInt(effect.value) < 0) {
-                penalty.push({value:parseInt(effect.value), source:effect.source, penalty:true});
+                penalties.push({value:parseInt(effect.value), setValue:"", source:effect.source, penalty:true});
             } else {
-                bonus.push({value:parseInt(effect.value), source:effect.source, penalty:false});
+                bonuses.push({value:parseInt(effect.value), setValue:"", source:effect.source, penalty:false});
             }
             effectsSum += parseInt(effect.value);
         });
         //Add up all modifiers and return the attack bonus for this attack
-        let attackResult = charLevelBonus + skillLevel + abilityMod + runeSource[0].get_PotencyRune() + effectsSum;
-        explain = explain.substr(1);
-        return [range, attackResult, explain, penalty.concat(bonus), penalty, bonus];
+        attackResult += runeSource[0].get_PotencyRune() + effectsSum;
+        explain = explain.trim();
+        return [range, attackResult, explain, penalties.concat(bonuses).concat(absolutes), penalties, bonuses, absolutes];
     }
     get_ExtraDamage(creature: Character|AnimalCompanion|Familiar, characterService: CharacterService, range: string) {
         let extraDamage: string = "";
@@ -255,7 +264,7 @@ export class Weapon extends Equipment {
     //Lists the damage dice and damage bonuses for a ranged or melee attack with this weapon.
     //Returns a string in the form of "1d6 +5"
         let explain: string = "";
-        let str = characterService.get_Abilities("Strength")[0].mod(creature, characterService, effectsService);
+        let str = characterService.get_Abilities("Strength")[0].mod(creature, characterService, effectsService).result;
         let penalty: {value:number, source:string, penalty:boolean}[] = [];
         //Apply any mechanism that copy runes from another item, like Handwraps of Mighty Blows or Doubling Rings.
         //We set runeSource to the respective item and use it whenever runes are concerned.
@@ -296,7 +305,7 @@ export class Weapon extends Equipment {
         //Get the basic "1d6" from the weapon's dice values
         var baseDice = dicenum + "d" + dicesize;
         //The Enfeebled condition affects all Strength damage
-        let strEffects = effectsService.get_EffectsOnThis(creature, "Strength Attacks");
+        let strEffects = effectsService.get_RelativesOnThis(creature, "Strength Attacks");
         let strPenalty: {value:number, source:string, penalty:boolean}[] = [];
         let strPenaltySum: number = 0;
         strEffects.forEach(effect => {

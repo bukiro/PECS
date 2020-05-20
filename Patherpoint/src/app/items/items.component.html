@@ -6,7 +6,7 @@
         <span>
             <input type=text [(ngModel)]="wordFilter" (ngModelChange)=check_Filter() />
             <button (click)="set_Filter()" [disabled]="wordFilter.length < 5"
-               >Show All</button>
+                >Show All</button>
             <button (click)="wordFilter='';check_Filter()">Clear</button>
         </span>
     </div>
@@ -18,9 +18,9 @@
             </option>
         </select>
     </div>
-    <div class="list-item">
+    <div class="list-item" *ngIf="get_ItemsMenuTarget()">
         <strong>Give items to</strong>
-        <select [(ngModel)]="creature">
+        <select [(ngModel)]="creature" (ngModelChange)="set_ItemsMenuTarget()">
             <option *ngFor="let target of ['Character','Companion']" [ngValue]="target">
                 {{target}}
             </option>
@@ -152,5 +152,4 @@
             </ng-container>
         </ng-container>
     </ng-container>
-
 </div>

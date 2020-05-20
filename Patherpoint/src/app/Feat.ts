@@ -91,7 +91,7 @@ export class Feat {
                 let expected: number = requirement.value;
                 if (requiredAbility.length > 0) {
                     requiredAbility.forEach(ability => {
-                        if (ability.baseValue(character, characterService, charLevel) >= expected) {
+                        if (ability.baseValue(character, characterService, charLevel).result >= expected) {
                             result.push({met:true, desc:ability.name+" "+expected});
                         } else {
                             result.push({met:false, desc:ability.name+" "+expected});

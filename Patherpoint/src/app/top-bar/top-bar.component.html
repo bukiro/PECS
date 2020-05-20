@@ -13,8 +13,8 @@
   <button class="fancy-button" (click)="print()" *ngIf="!still_loading()">Print</button>
 </div>
 <app-items [ngStyle]="{'--accent':get_Accent()}" [@slideInOut]="get_ItemsMenuState()" *ngIf="!still_loading()"></app-items>
-<app-spells [ngStyle]="{'--accent':get_Accent()}" [className]="(get_SpellsMinimized()) ? 'minimized' : ''" [@slideInOut]="get_SpellMenuState()" *ngIf="!still_loading()"></app-spells>
+<app-spells [ngStyle]="{'--accent':get_Accent()}" [ngClass]="{'minimized':(get_SpellsMinimized())}" [@slideInOut]="get_SpellMenuState()" *ngIf="!still_loading()"></app-spells>
 <app-conditions [ngStyle]="{'--accent':get_Accent()}" [@slideInOut]="get_ConditionsMenuState()" *ngIf="!still_loading()"></app-conditions>
-<app-character [ngStyle]="{'--accent':get_Accent()}" [className]="(get_CharacterMinimized()) ? 'minimized' : ''" [@slideInOut]="get_CharacterMenuState()" *ngIf="!still_loading()"></app-character>
-<app-animal-companion [ngStyle]="{'--accent':get_Accent()}" [className]="(get_CompanionMinimized()) ? 'minimized' : ''" [@slideInOut]="get_CompanionMenuState()" *ngIf="!still_loading() && get_CompanionAvailable()"></app-animal-companion>
-<app-familiar [ngStyle]="{'--accent':get_Accent()}" [className]="(get_FamiliarMinimized()) ? 'minimized' : ''" [@slideInOut]="get_FamiliarMenuState()" *ngIf="!still_loading() && get_FamiliarAvailable()"></app-familiar>
+<app-character [ngStyle]="{'--accent':get_Accent()}" [ngClass]="{'minimized':(get_CharacterMinimized())}" [@slideInOut]="get_CharacterMenuState()" *ngIf="!still_loading()"></app-character>
+<app-animal-companion [ngStyle]="{'--accent':get_Accent()}" [ngClass]="{'minimized':(get_CompanionMinimized())}" [@slideInOut]="get_CompanionMenuState()" *ngIf="!still_loading() && get_CompanionAvailable()"></app-animal-companion>
+<app-familiar [ngStyle]="{'--accent':get_Accent()}" [ngClass]="{'minimized':(get_FamiliarMinimized())}" [@slideInOut]="get_FamiliarMenuState()" *ngIf="!still_loading() && get_FamiliarAvailable()"></app-familiar>

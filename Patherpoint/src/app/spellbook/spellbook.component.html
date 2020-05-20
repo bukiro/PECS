@@ -20,7 +20,7 @@
                                 </strong>
                             </div>
                             <div class="list-item"
-                                [className]="(get_FocusPoints() > get_MaxFocusPoints()) ? 'problem' : ''"
+                                [ngClass]="{'problem':(get_FocusPoints() > get_MaxFocusPoints())}"
                                 *ngIf="level == -1 && index == 0">
                                 <strong>Focus Points</strong>
                                 <input type="number" class="number2" [ngModel]="get_FocusPoints()" disabled>

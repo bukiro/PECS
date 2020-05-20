@@ -14,17 +14,23 @@
     <span *ngIf="(item.get_ACBonus ? item.get_ACBonus() : item.acbonus)">
         <strong>AC Bonus</strong>
         <span
-            [className]="(item.affectedByArmoredSkirt == -1) ? 'penalty' : ((item.affectedByArmoredSkirt == 1) ? 'bonus' : '')">&nbsp;{{item.get_ACBonus ? item.get_ACBonus() : item.acbonus}}{{item.coverbonus ? " (" + (item.acbonus+item.coverbonus) + ")" : ""}}&nbsp;</span>
+            [ngClass]="{'penalty':(item.affectedByArmoredSkirt == -1), 'bonus':(item.affectedByArmoredSkirt == 1)}">
+            &nbsp;{{item.get_ACBonus ? item.get_ACBonus() : item.acbonus}}{{item.coverbonus ? " (" + (item.acbonus+item.coverbonus) + ")" : ""}}&nbsp;
+        </span>
     </span>
     <span *ngIf="(item.type == 'armors' && (item.get_DexCap ? item.get_DexCap() != -1 : item.dexcap != -1))">
         <strong>Dex Cap</strong>
         <span
-            [className]="(item.affectedByArmoredSkirt == 1) ? 'penalty' : ((item.affectedByArmoredSkirt == -1) ? 'bonus' : '')">&nbsp;{{(item.get_DexCap ? item.get_DexCap() : item.dexcap)}}&nbsp;</span>
+            [ngClass]="{'penalty':(item.affectedByArmoredSkirt == 1), 'bonus':(item.affectedByArmoredSkirt == -1)}">
+            &nbsp;{{(item.get_DexCap ? item.get_DexCap() : item.dexcap)}}&nbsp;
+        </span>
     </span>
     <span *ngIf="(item.get_SkillPenalty ? item.get_SkillPenalty() : item.skillpenalty)">
         <strong>Check Penalty</strong>
         <span
-            [className]="(item.affectedByArmoredSkirt == 1) ? 'penalty' : ((item.affectedByArmoredSkirt == -1) ? 'bonus' : '')">&nbsp;{{(item.get_SkillPenalty ? item.get_SkillPenalty() : item.skillpenalty)}}&nbsp;</span>
+            [ngClass]="{'penalty':(item.affectedByArmoredSkirt == 1), 'bonus':(item.affectedByArmoredSkirt == -1)}">
+            &nbsp;{{(item.get_SkillPenalty ? item.get_SkillPenalty() : item.skillpenalty)}}&nbsp;
+        </span>
     </span>
     <span *ngIf="item.speedpenalty">
         <strong>Speed Penalty</strong>
@@ -33,7 +39,9 @@
     <span *ngIf="(item.get_Strength ? item.get_Strength() : item.strength)">
         <strong>Strength</strong>
         <span
-            [className]="(item.affectedByArmoredSkirt == 1) ? 'penalty' : ((item.affectedByArmoredSkirt == -1) ? 'bonus' : '')">&nbsp;{{(item.get_Strength ? item.get_Strength() : item.strength)}}&nbsp;</span>
+            [ngClass]="{'penalty':(item.affectedByArmoredSkirt == 1), 'bonus':(item.affectedByArmoredSkirt == -1)}">
+            &nbsp;{{(item.get_Strength ? item.get_Strength() : item.strength)}}&nbsp;
+        </span>
     </span>
     <span *ngIf="item.storeBulk">
         <strong>Bulk</strong>
@@ -41,7 +49,9 @@
     </span>
     <span *ngIf="item.get_Bulk()">
         <strong>Bulk{{item.carryingBulk && !item.equipped ? " (unequipped)" : ""}}</strong>
-        <span [className]="item.carryingBulk && !item.equipped ? 'penalty' : (item.get_Bulk() != item.bulk ? 'bonus' : '')">&nbsp;{{item.get_Bulk()}}</span>&nbsp;
+        <span [ngClass]="{'penalty':(item.carryingBulk && !item.equipped), 'bonus':(item.get_Bulk() != item.bulk)}">
+            &nbsp;{{item.get_Bulk()}}&nbsp;
+        </span>
     </span>
     <span *ngIf="item.carryingBulk && item.equipped">
         <strong>Bulk (unequipped)</strong>

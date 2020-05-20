@@ -543,7 +543,7 @@
                 "setValue": "15 + Level"
             },
             {
-                "affected": "Speed",
+                "affected": "Land Speed",
                 "setValue": "10"
             },
             {

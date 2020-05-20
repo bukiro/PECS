@@ -5,16 +5,15 @@ import { Effect } from './Effect';
 import { AnimalCompanion } from './AnimalCompanion';
 import { Familiar } from './Familiar';
 import { Character } from './Character';
-import { SpellCast } from './SpellCast';
-import { SpellCasting } from './SpellCasting';
 
 export class Skill {
     public readonly _className: string = this.constructor.name;
     public $baseValue: {result: number, explain: string}[] = [{result:0, explain:""},{result:0, explain:""},{result:0, explain:""}];
-    public $bonus: (Effect[])[] = [[],[],[]];
-    public $effects: (Effect[])[] = [[],[],[]];
+    public $bonuses: (Effect[])[] = [[],[],[]];
+    public $absolutes: (Effect[])[] = [[],[],[]];
+    public $relatives: (Effect[])[] = [[],[],[]];
     public $level: number[] = [0,0,0,];
-    public $penalty: (Effect[])[] = [[],[],[]];
+    public $penalties: (Effect[])[] = [[],[],[]];
     public $value: {result: number, explain: string}[] = [{result:0, explain:""},{result:0, explain:""},{result:0, explain:""}];
     public notes: string = "";
     public showNotes: boolean = false;
@@ -33,9 +32,10 @@ export class Skill {
                 index = 2;
                 break;
         }
-        this.$effects[index] = this.effects(creature, effectsService);
-        this.$penalty[index] = this.penalty(creature, effectsService);
-        this.$bonus[index] = this.bonus(creature, effectsService);
+        this.$absolutes[index] = this.absolutes(creature, effectsService);
+        this.$relatives[index] = this.relatives(creature, effectsService);
+        this.$penalties[index] = this.penalties(creature, effectsService);
+        this.$bonuses[index] = this.bonuses(creature, effectsService);
         if (creature.type == "Familiar") {
             this.$level[index] = 0;
         } else {
@@ -85,13 +85,16 @@ export class Skill {
             return (creature.get_SkillIncreases(characterService, 0, levelNumber, this.name).length * 2 <= Math.min(2, maxRank))
         }
     }
-    effects(creature: Character|AnimalCompanion|Familiar, effectsService: EffectsService) {
-        return effectsService.get_EffectsOnThis(creature, this.name).concat(effectsService.get_EffectsOnThis(creature, "All Checks"));
+    absolutes(creature: Character|AnimalCompanion|Familiar, effectsService: EffectsService) {
+        return effectsService.get_AbsolutesOnThis(creature, this.name).concat(effectsService.get_AbsolutesOnThis(creature, "All Checks"));
     }
-    bonus(creature: Character|AnimalCompanion|Familiar, effectsService: EffectsService) {
+    relatives(creature: Character|AnimalCompanion|Familiar, effectsService: EffectsService) {
+        return effectsService.get_RelativesOnThis(creature, this.name).concat(effectsService.get_RelativesOnThis(creature, "All Checks"));
+    }
+    bonuses(creature: Character|AnimalCompanion|Familiar, effectsService: EffectsService) {
         return effectsService.get_BonusesOnThis(creature, this.name).concat(effectsService.get_BonusesOnThis(creature, "All Checks"));;
     }
-    penalty(creature: Character|AnimalCompanion|Familiar, effectsService: EffectsService) {
+    penalties(creature: Character|AnimalCompanion|Familiar, effectsService: EffectsService) {
         return effectsService.get_PenaltiesOnThis(creature, this.name).concat(effectsService.get_PenaltiesOnThis(creature, "All Checks"));;
     }
     baseValue(creature: Character|AnimalCompanion|Familiar, characterService: CharacterService, abilitiesService: AbilitiesService, effectsService: EffectsService, charLevel: number = characterService.get_Character().level) {
@@ -125,8 +128,8 @@ export class Skill {
                     spellcastingAbility = character.class.spellCasting.find(spellcasting => spellcasting.className == creature.originClass && spellcasting.castingType != "Innate").ability || "Charisma";
                     let value = abilitiesService.get_Abilities(spellcastingAbility)[0].mod(character, characterService, effectsService);
                     if (value) {
-                        result += value;
-                        explain += "\nCharacter Spellcasting Ability: "+value;
+                        result += value.result;
+                        explain += "\nCharacter Spellcasting Ability: "+value.result;
                     }
                 } else {
                     result = character.level;
@@ -145,18 +148,16 @@ export class Skill {
                     charLevelBonus = charLevel;
                     explain += "\nCharacter Level: " + charLevelBonus;
                 } else {
-                    let untrainedImprovisation = effectsService.get_EffectsOnThis(creature, "Untrained Skills");
-                    if (untrainedImprovisation.length) {
-                        untrainedImprovisation.forEach(effect => {
-                            charLevelBonus += parseInt(effect.value);
-                            explain += "\nCharacter Level Bonus (Untrained Improvisation): " + charLevelBonus;
-                        })
-                    }
+                    let untrainedImprovisation = effectsService.get_AbsolutesOnThis(creature, "Untrained Skills");
+                    untrainedImprovisation.forEach(effect => {
+                        charLevelBonus = parseInt(effect.setValue);
+                        explain = "Character Level Bonus (Untrained Improvisation): " + charLevelBonus;
+                    })
                 }
                 //Add the Ability modifier identified by the skill's ability property
                 var abilityMod = 0;
                 if (this.ability) {
-                    abilityMod = abilitiesService.get_Abilities(this.ability)[0].mod(creature, characterService, effectsService);
+                    abilityMod = abilitiesService.get_Abilities(this.ability)[0].mod(creature, characterService, effectsService).result;
                     if (abilityMod) {
                         explain += "\n" + this.ability + " Modifier: " + abilityMod;
                     }
@@ -164,7 +165,7 @@ export class Skill {
                     if (this.name == characterService.get_Character().class.name + " Class DC") {
                         let keyAbilities = characterService.get_Character().get_AbilityBoosts(1, 1, "", "", "Class Key Ability");
                         if (keyAbilities.length) {
-                            abilityMod = abilitiesService.get_Abilities(keyAbilities[0].name)[0].mod(creature, characterService, effectsService);
+                            abilityMod = abilitiesService.get_Abilities(keyAbilities[0].name)[0].mod(creature, characterService, effectsService).result;
                             if (abilityMod) {
                                 explain += "\n" + keyAbilities[0].name + " Modifier: " + abilityMod;
                             }
@@ -196,27 +197,27 @@ export class Skill {
             baseValue = (this.$baseValue[index].result ? this.$baseValue[index] : this.baseValue(creature, characterService, abilitiesService, effectsService, charLevel))
             result = baseValue.result;
             explain = baseValue.explain;
-            //setEffects completely replace the baseValue. Sort the effects so that the last one that is applied is the highest.
-            let setEffects = this.effects(creature, effectsService).filter(effect => effect.setValue).sort((a, b) => parseInt(a.setValue) - parseInt(b.setValue));
-                setEffects.forEach(effect => {
+            //Absolutes completely replace the baseValue. They are sorted so that the highest value counts last.
+            this.absolutes(creature, effectsService).forEach(effect => {
                 result = parseInt(effect.setValue)
                 explain = effect.source + ": " + effect.setValue;
             });
-            //Familiars apply the character's effects (before circumstance and status effects) on saves
+            let relatives: Effect[] = [];
+            //Familiars apply the characters skill value (before circumstance and status effects) on saves
             if (creature.type == "Familiar") {
                 let character = characterService.get_Character();
                 if (["Fortitude", "Reflex", "Will"].includes(this.name)) {
                     baseValue = (this.$baseValue[0].result ? this.$baseValue[0] : this.baseValue(character, characterService, abilitiesService, effectsService, charLevel))
-                    let effects = this.effects(character, effectsService).filter(effect => effect.type != "circumstance" && effect.type != "status");
-                    effects.forEach(effect => {
-                        baseValue.result += parseInt(effect.value);
-                        baseValue.explain += "\n" + effect.source + ": " + effect.value;
+                    this.absolutes(character, effectsService).forEach(effect => {
+                        baseValue.result = parseInt(effect.setValue)
+                        baseValue.explain = effect.source + ": " + effect.setValue;
                     });
+                    relatives.push(...this.relatives(character, effectsService).filter(effect => effect.type != "circumstance" && effect.type != "status"));
                 }
             }
-            //Get all active effects on this and sum them up
-            let effects = this.effects(creature, effectsService).filter(effect => parseInt(effect.value))
-            effects.forEach(effect => {
+            //Get all active relative effects on this and sum them up
+            relatives.push(...this.relatives(creature, effectsService));
+            relatives.forEach(effect => {
                 result += parseInt(effect.value);
                 explain += "\n" + effect.source + ": " + effect.value;
             });

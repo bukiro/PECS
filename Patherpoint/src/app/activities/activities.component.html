@@ -1,26 +1,25 @@
 <button class="minimizebutton lower" (click)="minimize()" *ngIf="creature=='Character'">&#8691;</button>
 <div id="{{creature}}-activities-height" class="attributeBox">
-<h3 class="box-header">Actions and Activities</h3>
-<div class="loading" *ngIf="still_loading()">Loading</div>
-<ng-container *ngIf="!still_loading()">
-    <ng-container *ngFor="let gain of get_OwnedActivities()">
-        <ng-container *ngFor="let activity of (gain.can_Activate ? [gain] : get_Activities(gain.name))">
-            <div class="list-item" *ngFor="let activityID of [get_ID()]">
-                <button class="row sublist-toggle"
-                   
-                    [className]="(gain.active) ? 'fancy-button' : ''" (click)="toggle_Action(activityID)">
-                    <span *ngIf="activity.name == 'Fused Stance'">{{get_FuseStanceName()}}</span>
-                    <span *ngIf="activity.name != 'Fused Stance'">{{activity.name}}</span>
-                    <span>{{activity.get_Actions()}}{{(activity.activationType) ? " - " + activity.activationType : ""}}</span>
-                </button>
-                <div class="list-item sublist lower"
-                   
-                    [className]="(gain.active) ? 'fancy-list' : ''" *ngIf="get_showAction()==activityID">
-                    <app-activity [creature]="creature" [activity]=activity [gain]=gain [allowActivate]="true"></app-activity>
+    <h3 class="box-header">Actions and Activities</h3>
+    <div class="loading" *ngIf="still_loading()">Loading</div>
+    <ng-container *ngIf="!still_loading()">
+        <ng-container *ngFor="let gain of get_OwnedActivities()">
+            <ng-container *ngFor="let activity of (gain.can_Activate ? [gain] : get_Activities(gain.name))">
+                <div class="list-item" *ngFor="let activityID of [get_ID()]">
+                    <button class="row sublist-toggle" [ngClass]="{'fancy-button':gain.active}"
+                        (click)="toggle_Action(activityID)">
+                        <span *ngIf="activity.name == 'Fused Stance'">{{get_FuseStanceName()}}</span>
+                        <span *ngIf="activity.name != 'Fused Stance'">{{activity.name}}</span>
+                        <span>{{activity.get_Actions()}}{{(activity.activationType) ? " - " + activity.activationType : ""}}</span>
+                    </button>
+                    <div class="list-item sublist lower" [ngClass]="{'fancy-list':gain.active}"
+                        *ngIf="get_showAction()==activityID">
+                        <app-activity [creature]="creature" [activity]=activity [gain]=gain [allowActivate]="true">
+                        </app-activity>
+                    </div>
                 </div>
-            </div>
+            </ng-container>
         </ng-container>
     </ng-container>
-</ng-container>
 </div>
 <div *ngIf="set_Span()"></div>

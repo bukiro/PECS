@@ -3,7 +3,8 @@
     <h3 class="box-header">Inventory</h3>
     <div class="loading" *ngIf="still_loading()">Loading</div>
     <ng-container *ngIf="!still_loading()">
-        <button class="fullsize-only list-item center-aligned" (click)="toggleMenu('items')">
+        <button class="fullsize-only list-item center-aligned"
+            (click)="set_ItemsMenuTarget(creature); toggleMenu('items')">
             Get Items
         </button>
         <h5 *ngIf="creature=='Character'">Cash</h5>
@@ -23,19 +24,21 @@
         <ng-container *ngFor="let bulk of get_Bulk()">
             <div class="list-item">
                 <strong>Bulk</strong>
-                <input class="number2" type="number" title="{{bulk.$current.desc}}" value="{{bulk.$current.value}}" disabled>
+                <input class="number2"
+                    [ngClass]="{'penalty':bulk.$currentpenalties.length, 'bonus':bulk.$currentbonuses.length, 'absolute':bulk.$currentabsolutes.length}"
+                    type="number" title="{{bulk.$current.explain}}" value="{{bulk.$current.value}}" disabled>
                 <app-tags [creature]="creature" [objectName]="'Bulk'" [showTraits]=true [showFeats]=true
                     [showItems]=true [showActivities]=true [showConditions]=true [showEffects]=true></app-tags>
             </div>
             <div class="fullsize-only list-item">
                 <strong>Encumbrance</strong>
                 <input class="number2" type="number"
-                    [className]="(bulk.$penalty.length) ? 'penalty' : (bulk.$bonus.length) ? 'bonus' : ''"
-                    value="{{bulk.$encumbered.value}}" title="{{bulk.$encumbered.desc}}" disabled>
+                    [ngClass]="{'penalty':bulk.$penalties.length, 'bonus':bulk.$bonuses.length, 'absolute':bulk.$absolutes.length}"
+                    value="{{bulk.$encumbered.value}}" title="{{bulk.$encumbered.explain}}" disabled>
                 <strong>Maximum</strong>
                 <input class="number2" type="number"
-                    [className]="(bulk.$penalty.length) ? 'penalty' : (bulk.$bonus.length) ? 'bonus' : ''"
-                    value="{{bulk.$max.value}}" title="{{bulk.$max.desc}}" disabled>
+                    [ngClass]="{'penalty':bulk.$penalties.length, 'bonus':bulk.$bonuses.length, 'absolute':bulk.$absolutes.length}"
+                    value="{{bulk.$max.value}}" title="{{bulk.$max.explain}}" disabled>
                 <app-tags [creature]="creature" [objectName]="'Max Bulk'" [showTraits]=true [showFeats]=true
                     [showItems]=true [showActivities]=true [showConditions]=true [showEffects]=true></app-tags>
             </div>
@@ -43,18 +46,20 @@
         <h3 class="fullsize-only box-header">Items</h3>
         <div class="fullsize-only list-item" *ngFor="let maxInvested of [get_MaxInvested()]">
             <strong>Invested</strong><input type="number" class="number2"
-                [className]="(get_Invested() > maxInvested.value) ? 'problem' : ''"
-                [ngModel]="get_Invested()" disabled>
+                [ngClass]="{'problem':(get_Invested() > maxInvested.value)}" [ngModel]="get_Invested()" disabled>
             <strong>Max Invested</strong><input type="number" class="number2" title="{{maxInvested.explain}}"
-                [className]="(maxInvested.penalty) ? 'penalty' : (maxInvested.bonus) ? 'bonus' : ''"
+                [ngClass]="{'penalty':maxInvested.penalties, 'bonus':maxInvested.bonuses, 'absolute':maxInvested.absolutes}"    
                 [ngModel]="get_MaxInvested().value" disabled>
-            <app-tags [creature]="creature" [specialEffects]=maxInvested.effects></app-tags>
+            <app-tags [creature]="creature" [objectName]="'Max Invested'" [showTraits]=true [showFeats]=true
+                [showItems]=true [showActivities]=true [showConditions]=true [showEffects]=true></app-tags>
         </div>
-        <div class="list-item" [className]="inventoryIndex != 0 ? 'fullsize-only' : ''"
+        <div class="list-item" [ngClass]="{'fullsize-only':inventoryIndex != 0}"
             *ngFor="let inventory of get_Inventories(creature, true, true); let inventoryIndex = index;">
             <h3 class="fullsize-only row">{{get_InventoryName(inventory)}}
-                <span *ngIf="inventory.bulkLimit && inventory.bulkLimit % 1 == 0">&nbsp;{{"("+inventory.get_Bulk()+" / "+inventory.bulkLimit+" Bulk)"}}</span>
-                <span *ngIf="inventory.bulkLimit && inventory.bulkLimit % 1 != 0">&nbsp;{{"("+(inventory.get_Bulk(false)*10)+"L / "+(inventory.bulkLimit*10)+"L Bulk)"}}</span>
+                <span
+                    *ngIf="inventory.bulkLimit && inventory.bulkLimit % 1 == 0">&nbsp;{{"("+inventory.get_Bulk()+" / "+inventory.bulkLimit+" Bulk)"}}</span>
+                <span
+                    *ngIf="inventory.bulkLimit && inventory.bulkLimit % 1 != 0">&nbsp;{{"("+(inventory.get_Bulk(false)*10)+"L / "+(inventory.bulkLimit*10)+"L Bulk)"}}</span>
             </h3>
             <ng-container *ngFor="let itemSet of inventory.names">
                 <ng-container *ngFor="let listID of [get_ID()*1000]">
@@ -62,14 +67,15 @@
                     <ng-container *ngFor="let item of sort_ItemSet(inventory[itemSet.key])">
                         <div class="list-item" *ngFor="let inventoryID of [item.id]">
                             <button class="row sublist-toggle"
-                                [className]="((item.equippable && item.equipped) || (item.can_Invest() && item.invested)) ? 'fancy-button' : ''"
+                                [ngClass]="{'fancy-button':((item.equippable && item.equipped) || (item.can_Invest() && item.invested))}"
                                 (click)="toggleItem(inventoryID)">
                                 {{(item.amount != undefined && item.amount != 1) ? item.amount+" " : ""}}
                                 {{(item['get_Name']) ? item.get_Name() : item.name}}&nbsp;
-                                <span class="lower" *ngFor="let containedItems of [get_ContainedItems(item)]">{{containedItems ? "contains "+containedItems+" items" : ""}}</span>
+                                <span class="lower"
+                                    *ngFor="let containedItems of [get_ContainedItems(item)]">{{containedItems ? "contains "+containedItems+" items" : ""}}</span>
                             </button>
                             <div class="list-item sublist lower"
-                                [className]="((item.equippable && item.equipped) || (item.can_Invest() && item.invested)) ? 'fancy-list' : ''"
+                                [ngClass]="{'fancy-list':((item.equippable && item.equipped) || (item.can_Invest() && item.invested))}"
                                 *ngIf="get_ShowItem()==inventoryID">
                                 <div class="row" *ngFor="let prof of [(item.get_Prof ? item.get_Prof() : item.prof)]">
                                     <span
@@ -83,7 +89,8 @@
                                 <button class="row" [disabled]="!item.amount"
                                     (click)="on_ConsumableUse(item, inventory)"
                                     *ngIf="item.amount != undefined && item.actions && (!item.targets || item.targets.length == 0)">
-                                    <span>Use</span> <span>{{(item.actions) ? get_Actions(item) : ""}}{{(item.activationType) ? " - "+item.activationType : ""}}</span>
+                                    <span>Use</span>
+                                    <span>{{(item.actions) ? get_Actions(item) : ""}}{{(item.activationType) ? " - "+item.activationType : ""}}</span>
                                 </button>
                                 <div class="row">
                                     <span *ngIf="can_Equip(item, inventoryIndex)">
@@ -147,9 +154,12 @@
                                 <div class="list-item">
                                     <strong>Move to container</strong>
                                     <span>
-                                        <select [(ngModel)]="targetInventory" (ngModelChange)="move_InventoryItem(item, inventory)">
+                                        <select [(ngModel)]="targetInventory"
+                                            (ngModelChange)="move_InventoryItem(item, inventory)">
                                             <option [ngValue]="null"></option>
-                                            <option *ngFor="let newTargetInventory of get_TargetInventories(item);" [ngValue]="newTargetInventory" [disabled]="!can_Fit(item, newTargetInventory, inventory)">
+                                            <option *ngFor="let newTargetInventory of get_TargetInventories(item);"
+                                                [ngValue]="newTargetInventory"
+                                                [disabled]="!can_Fit(item, newTargetInventory, inventory)">
                                                 {{get_InventoryName(newTargetInventory)}}
                                             </option>
                                         </select>
@@ -175,7 +185,8 @@
                                 </div>
                                 <app-itemRunes class="list-item" [item]=item [itemStore]=false *ngIf="item.showRunes">
                                 </app-itemRunes>
-                                <app-itemOils class="list-item" [item]=item [itemStore]=false *ngIf="item.type != 'oils'">
+                                <app-itemOils class="list-item" [item]=item [itemStore]=false
+                                    *ngIf="item.type != 'oils'">
                                 </app-itemOils>
                                 <app-item [creature]="creature" [item]=item
                                     [allowActivate]="(item.equippable ? item.equipped : true) && (item.can_Invest() ? item.invested : true)"

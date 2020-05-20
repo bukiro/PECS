@@ -28,7 +28,10 @@ export class TimeService {
         //Fast Healing
         let fastHealing: number = 0;
         characterService.get_Creatures().forEach(creature => {
-            effectsService.get_EffectsOnThis(creature, "Fast Healing").forEach((effect: Effect) => {
+            effectsService.get_AbsolutesOnThis(creature, "Fast Healing").forEach((effect: Effect) => {
+                fastHealing = parseInt(effect.setValue);
+            })
+            effectsService.get_RelativesOnThis(creature, "Fast Healing").forEach((effect: Effect) => {
                 fastHealing += parseInt(effect.value);
             })
             if (fastHealing && creature.health.currentHP(creature, characterService, effectsService) > 0) {
@@ -48,7 +51,7 @@ export class TimeService {
         characterService.get_Creatures().forEach(creature => {
             let con = 1;
             if (creature.type != "Familiar") {
-                con = Math.max(characterService.abilitiesService.get_Abilities("Constitution")[0].mod(creature, characterService, characterService.effectsService), 1);
+                con = Math.max(characterService.abilitiesService.get_Abilities("Constitution")[0].mod(creature, characterService, characterService.effectsService).result, 1);
             }
             characterService.get_Health(creature).heal(creature, characterService, characterService.effectsService, con * charLevel, true, true);
             if (characterService.get_Health(creature).damage == 0) {

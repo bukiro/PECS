@@ -3,7 +3,8 @@
     <ng-container *ngFor="let health of [calculate_Health()]">
         <h3 class="box-header">Health:
             <span
-                [className]="(health.$currentHP <= 0) ? 'penalty' : (health.$currentHP > health.$maxHP) ? 'bonus' : ''" title="{{health.damage}} damage">{{health.$currentHP}}</span>
+                [ngClass]="{'penalty':(health.$currentHP <= 0), 'bonus':(health.$currentHP > health.$maxHP)}"
+                title="{{health.damage}} damage">{{health.$currentHP}}</span>
             Hit Points
         </h3>
         <div class="loading" *ngIf="still_loading()">Loading</div>
@@ -16,13 +17,13 @@
                     <strong>Max HP</strong>
                     <span>
                         <input class="number3" type="number"
-                            [className]="(get_PenaltiesOnThis('Health').length) ? 'penalty' : (get_BonusesOnThis('Health').length) ? 'bonus' : ''"
+                            [ngClass]="{'penalty':get_PenaltiesOnThis('Max HP').length, 'bonus':get_BonusesOnThis('Max HP').length, 'absolute':get_AbsolutesOnThis('Max HP').length}"
                             value="{{health.$maxHP}}" disabled>
                     </span>
                     <strong>Temp HP</strong>
                     <span>
                         <input class="number3" type="number"
-                            [className]="(health.temporaryHP < 0) ? 'penalty' : (health.temporaryHP > 0) ? 'bonus' : ''"
+                            [ngClass]="{'penalty':(health.temporaryHP < 0), 'bonus':(health.temporaryHP > 0)}"
                             value="{{health.temporaryHP}}" disabled>
                     </span>
                 </div>
@@ -31,17 +32,17 @@
                         [showItems]=true [showActivities]=true [showConditions]=true [showEffects]=true></app-tags>
                 </div>
             </div>
-            <div class="list-item" [className]="(health.$dying > 0) ? '' : 'fullsize-only'">
+            <div class="list-item" [ngClass]="{'fullsize-only':(health.$dying <= 0)}">
                 <div class="row">
                     <strong>Dying</strong>
                     <span>
-                        <input class="number2" type="number" [className]="(health.$dying > 0) ? 'penalty' : ''"
+                        <input class="number2" type="number" [ngClass]="{'penalty':(health.$dying > 0)}"
                             value="{{health.$dying}}" disabled>
                     </span>
                     <strong>Max Dying</strong>
                     <span>
                         <input class="number2" type="number"
-                            [className]="(get_PenaltiesOnThis('Max Dying').length) ? 'penalty' : (get_BonusesOnThis('Health').length) ? 'bonus' : ''"
+                            [ngClass]="{'penalty':get_PenaltiesOnThis('Max Dying').length, 'bonus':get_BonusesOnThis('Max Dying').length, 'absolute':get_AbsolutesOnThis('Max Dying').length}"
                             value="{{health.$maxDying}}" disabled>
                     </span>
                 </div>
@@ -63,9 +64,9 @@
                 <app-tags [creature]="creature" [objectName]="'Max Dying'" [showTraits]=true [showFeats]=true
                     [showItems]=true [showActivities]=true [showConditions]=true [showEffects]=true></app-tags>
             </div>
-            <div class="list-item" [className]="(health.$wounded > 0) ? '' : 'fullsize-only'">
+            <div class="list-item" [ngClass]="{'fullsize-only':(health.$wounded <= 0)}">
                 <strong>Wounded</strong><input class="number2" type="number"
-                    [className]="(health.$wounded > 0) ? 'penalty' : ''" value="{{health.$wounded}}" disabled>
+                    [ngClass]="{'penalty':(health.$wounded > 0)}" value="{{health.$wounded}}" disabled>
                 <button *ngIf="health.$wounded > 0" (click)="on_HealWounded()">Heal</button>
             </div>
             <div class="list-item row">
@@ -97,8 +98,7 @@
                         (click)="health.heal(get_Creature(), characterService, effectsService, healing)">Heal</button>
                 </span>
             </div>
-            <div class="list-item row" *ngIf="get_NumbToDeath()"
-                [className]="(health.$dying <= 0) ? 'fullsize-only' : ''">
+            <div class="list-item row" *ngIf="get_NumbToDeath()" [ngClass]="{'fullsize-only':(health.$dying <= 0)}">
                 <span>
                     <strong>Numb to Death</strong>
                 </span>

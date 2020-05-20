@@ -52,8 +52,9 @@
     <h3 class="box-header">Active Effects</h3>
     <div class="list-item row lower" *ngFor="let effect of get_AppliedEffects()">
         <span>
-            <strong [className]="effect.penalty ? 'penalty' : 'bonus'" title="{{effect.source}}">{{effect.target}}
-                {{effect.value != '0' ? effect.value : ''}}{{effect.setValue ? "= "+effect.setValue : ''}}
+            <strong [ngClass]="{'penalty':effect.penalty, 'bonus':effect.bonus, 'absolute':effect.setValue}"
+                title="{{effect.source}}">{{effect.target}}
+                {{parseInt(effect.value) ? effect.value : ''}}{{effect.setValue ? "= "+effect.setValue : ''}}
             </strong>
             {{(effect.type != "untyped") ? effect.type+' ' : ''}}{{(effect.toggle || effect.setValue) ? '' : (effect.penalty ? 'penalty' : 'bonus')}}
             ({{effect.source}})
@@ -82,8 +83,7 @@
                         (click)="toggle_Item(conditionGain.name+conditionGain.source+conditionGain.value+conditionGain.duration+'notapplied')">
                         Show Description
                     </button>
-                    <button
-                        (click)="remove_Condition(conditionGain)">
+                    <button (click)="remove_Condition(conditionGain)">
                         Remove
                     </button>
                 </div>
@@ -98,9 +98,9 @@
         <h3 class="box-header">Not Applied Effects</h3>
         <div class="list-item row lower notapplied" *ngFor="let effect of get_NotAppliedEffects()">
             <span>
-                <strong [className]="effect.penalty ? 'penalty' : 'bonus'"
+                <strong [ngClass]="{'penalty':effect.penalty, 'bonus':effect.bonus, 'absolute':effect.setValue}"
                     title="{{effect.source}}">{{effect.target}}
-                    {{effect.value != '0' ? effect.value : ''}}{{effect.setValue ? "= "+effect.setValue : ''}}
+                    {{parseInt(effect.value) ? effect.value : ''}}{{effect.setValue ? "= "+effect.setValue : ''}}
                 </strong>
                 {{(effect.type != "untyped") ? effect.type+' ' : ''}}{{(effect.toggle || effect.setValue) ? '' : (effect.penalty ? 'penalty' : 'bonus')}}
                 ({{effect.source}})
@@ -113,9 +113,9 @@
         <h3 class="box-header">Hidden Effects</h3>
         <div class="list-item row lower" *ngFor="let effect of get_HiddenEffects()">
             <span>
-                <strong [className]="effect.penalty ? 'penalty' : 'bonus'"
+                <strong [ngClass]="{'penalty':effect.penalty, 'bonus':effect.bonus, 'absolute':effect.setValue}"
                     title="{{effect.source}}">{{effect.target}}
-                    {{effect.value != '0' ? effect.value : ''}}{{effect.setValue ? "= "+effect.setValue : ''}}
+                    {{parseInt(effect.value) ? effect.value : ''}}{{effect.setValue ? "= "+effect.setValue : ''}}
                 </strong>
                 {{(effect.type != "untyped") ? effect.type+' ' : ''}}
                 ({{effect.source}})
