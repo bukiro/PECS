@@ -60,6 +60,5 @@ Next steps:
 - Action Icons
 - Database api
 
-Active to-do:
-- Apply setValues effects to everything
-- Change effect tags to reflect setValues
+active bug:
+Action icons get line-wrapped within h4 tag

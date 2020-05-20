@@ -18,6 +18,10 @@
     flex-direction: row;
   }
 
+  svg, svg g {
+    fill: #616161;
+  }
+
   app-character-sheet, .animalcompanion-box, .familiar-box {
     width: 100%;
     display: grid;
@@ -191,6 +195,10 @@
     text-align: left;
   }
 
+  h4 svg, h4 svg g {
+    fill: #cbc18f;
+  }
+
   h5 {
     font-size: 90%;
     margin: 8px 0px;
@@ -301,6 +309,10 @@
     border: none;
   }
   
+  .button svg, .button svg g, button svg, button svg g {
+    fill: white;
+  }
+
   button.minimizebutton {
     position: absolute;
     padding: 0px 2px;
@@ -345,6 +357,11 @@
     padding-right: 4px;
   }
   
+  .fancy-button svg, .fancy-button svg g {
+    fill: #1976d2;
+    fill: rgb(var(--accent));
+  }
+
   .button.lower {
     padding: 1px 6px;
   }
@@ -443,6 +460,12 @@
 
   app-tags, app-skill, app-item, app-activity, app-itemOils, app-itemRunes, app-itemAeonStones, app-spellchoice {
     width: 100%;
+  }
+
+  .actionIcons, .actionIcons svg {
+    height: 1em;
+    width: auto;
+    padding: 0 2px 0 2px;
   }
 
   .list-item {

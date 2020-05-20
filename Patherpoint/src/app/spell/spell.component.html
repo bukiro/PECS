@@ -3,23 +3,21 @@
         <cite class="trait" *ngFor="let trait of spell.traits"
             title="{{get_Traits(trait)[0].description}}">{{trait}}</cite>
     </div>
-    <div class="row left-aligned"  *ngIf="spell.traditions">
+    <div class="row left-aligned" *ngIf="spell.traditions">
         <span>
             <strong>Traditions</strong>
             {{spell.traditions.join(', ')}}
         </span>
     </div>
-    <div class="row left-aligned"  *ngIf="spell.castType">
-        <span>
-            <strong>Cast</strong>
-            {{spell.get_Actions()}} {{spell.castType}}&nbsp;
-        </span>
+    <div class="row left-aligned" *ngIf="spell.castType">
+        <strong>Cast</strong>
+        <app-actionIcons [actionString]="spell.actions"></app-actionIcons> {{spell.castType}}&nbsp;
         <span *ngIf="spell.trigger">
             <strong>Trigger</strong>
             {{spell.trigger}}
         </span>
     </div>
-    <div class="row left-aligned"  *ngIf="spell.range || spell.targets">
+    <div class="row left-aligned" *ngIf="spell.range || spell.targets">
         <span *ngIf="spell.range">
             <strong>Range</strong>
             {{spell.range}}&nbsp;
@@ -29,19 +27,19 @@
             {{spell.targets}}
         </span>
     </div>
-    <div class="row left-aligned"  *ngIf="spell.area">
+    <div class="row left-aligned" *ngIf="spell.area">
         <span>
             <strong>Area</strong>
             {{spell.area}}
         </span>
     </div>
-    <div class="row left-aligned"  *ngIf="spell.duration">
+    <div class="row left-aligned" *ngIf="spell.duration">
         <span>
             <strong>Duration</strong>
             {{spell.duration}}
         </span>
     </div>
-    <div class="row left-aligned"  *ngIf="spell.savingthrow">
+    <div class="row left-aligned" *ngIf="spell.savingthrow">
         <span>
             <strong>Saving Throw</strong>
             {{spell.savingthrow}}
@@ -53,31 +51,31 @@
             <li *ngFor="let line of desc.split('\n')" [innerHTML]="line"></li>
         </ul>
     </div>
-    <div class="row left-aligned"  *ngIf="spell.critsuccess">
+    <div class="row left-aligned" *ngIf="spell.critsuccess">
         <span>
             <strong>Critical Success&nbsp;</strong>
             <span [innerHTML]="get_Heightened(spell.critsuccess)"></span>
         </span>
     </div>
-    <div class="row left-aligned"  *ngIf="spell.success">
+    <div class="row left-aligned" *ngIf="spell.success">
         <span>
             <strong>Success&nbsp;</strong>
             <span [innerHTML]="get_Heightened(spell.success)"></span>
         </span>
     </div>
-    <div class="row left-aligned"  *ngIf="spell.failure">
+    <div class="row left-aligned" *ngIf="spell.failure">
         <span>
             <strong>Failure&nbsp;</strong>
             <span [innerHTML]="get_Heightened(spell.failure)"></span>
         </span>
     </div>
-    <div class="row left-aligned"  *ngIf="spell.critfailure">
+    <div class="row left-aligned" *ngIf="spell.critfailure">
         <span>
             <strong>Critical Failure&nbsp;</strong>
             <span [innerHTML]="get_Heightened(spell.critfailure)"></span>
         </span>
     </div>
-    <div class="row left-aligned"  *ngFor="let heightened of spell.heightened">
+    <div class="row left-aligned" *ngFor="let heightened of spell.heightened">
         <span>
             <strong>Heightened {{heightened.level}}</strong>
             {{heightened.desc}}

@@ -93,23 +93,6 @@ export class ItemComponent implements OnInit {
         return this.activitiesService.get_Activities(name);
     }
 
-    get_Actions(item) {
-        switch (item.actions) {
-            case "Free":
-                return "(Free Action)";
-            case "Reaction":
-                return "(Reaction)";
-            case "1":
-                return "(1 Action)";
-            case "2":
-                return "(2 Actions)";
-            case "3":
-                return "(3 Actions)";
-            default:
-                return "("+item.actions+")";
-        }
-    }
-
     get_Spells(name: string = "", type: string = "", tradition: string = "") {
         return this.spellsService.get_Spells(name, type, tradition);
     }

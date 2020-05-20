@@ -1,12 +1,12 @@
 <ng-container>
     <div class="row" *ngIf="allowActivate">
-        <ng-container
-            *ngIf="gain.name != 'Fused Stance' && activity.can_Activate() && !gain.activeCooldown">
+        <ng-container *ngIf="gain.name != 'Fused Stance' && activity.can_Activate() && !gain.activeCooldown">
             <button class="row center-aligned" (click)="on_Activate(gain, activity, true, creature)"
                 *ngIf="!gain.active && ['self', 'ally'].includes(get_SpellTarget())">
                 Activate (Cast spell on yourself)
             </button>
-            <button class="row center-aligned" (click)="on_Activate(gain, activity, true, (creature=='Character' ? 'Companion' : 'Character'))"
+            <button class="row center-aligned"
+                (click)="on_Activate(gain, activity, true, (creature=='Character' ? 'Companion' : 'Character'))"
                 *ngIf="!gain.active && ['companion', 'ally'].includes(get_SpellTarget()) && get_CompanionAvailable()">
                 Activate (Cast spell on {{creature == "Character" ? "your animal companion" : "your master"}})
             </button>
@@ -114,7 +114,7 @@
     </div>
     <div class="row left-aligned" *ngFor="let cast of activity.castSpells">
         <div *ngFor="let spell of get_Spells(cast.name)">
-            <h4>{{spell.name}} {{spell.get_Actions()}} {{spell.castType.toString()}}
+            <h4>{{spell.name}}<app-actionIcons [actionString]="spell.actions"></app-actionIcons>{{spell.castType.toString()}}
             </h4>
             <app-spell [spell]=spell [spellLevel]="(cast.level) ? cast.level : 0"></app-spell>
         </div>
@@ -137,7 +137,8 @@
             <div class="row left-aligned"
                 *ngFor="let related_activity of (related_gain.can_Activate ? [related_gain] : get_Activities(related_gain.name))">
                 <h4>{{related_activity.name}}
-                    {{related_activity.get_Actions()}}{{(related_activity.activationType) ? " - " + related_activity.activationType : ""}}
+                    <app-actionIcons [actionString]="related_activity.actions"></app-actionIcons>
+                    {{(related_activity.activationType) ? " - " + related_activity.activationType : ""}}
                 </h4>
                 <app-activity [creature]="creature" [activity]=related_activity [gain]=related_gain
                     [allowActivate]=true></app-activity>
@@ -148,7 +149,8 @@
                 <div class="row left-aligned"
                     *ngFor="let related_activity of (gain.can_Activate ? [gain] : get_Activities(gain.name))">
                     <h4>{{related_activity.name}}
-                        {{related_activity.get_Actions()}}{{(related_activity.activationType) ? " - " + related_activity.activationType : ""}}
+                        <app-actionIcons [actionString]="related_activity.actions"></app-actionIcons>
+                        {{(related_activity.activationType) ? " - " + related_activity.activationType : ""}}
                     </h4>
                     <app-activity [creature]="creature" [activity]=related_activity [gain]=gain [allowActivate]=true>
                     </app-activity>

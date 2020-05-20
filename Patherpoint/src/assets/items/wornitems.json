@@ -24,7 +24,7 @@
                     "Invested",
                     "Magical"
                 ],
-                "actions": "1",
+                "actions": "1A",
                 "activiationType": "Command",
                 "castSpells": [
                     {
@@ -76,7 +76,7 @@
         ],
         "activities": [
             {
-                "actions": "1",
+                "actions": "1A",
                 "activationType": "Command",
                 "gainConditions": [
                     {
@@ -121,7 +121,7 @@
         ],
         "activities": [
             {
-                "actions": "2",
+                "actions": "2A",
                 "activationType": "Interact",
                 "castSpells": [
                     {
@@ -237,7 +237,7 @@
         "activities": [
             {
                 "_className": "ItemActivity",
-                "actions": 1,
+                "actions": "1A",
                 "activationType": "Envision",
                 "castSpells": [
                     {
@@ -260,7 +260,7 @@
             },
             {
                 "_className": "ItemActivity",
-                "actions": "1",
+                "actions": "1A",
                 "activationType": "Envision",
                 "castSpells": [
                     {
@@ -324,7 +324,7 @@
         "activities": [
             {
                 "_className": "ItemActivity",
-                "actions": 2,
+                "actions": "2A",
                 "activationType": "Interact",
                 "desc": "You perceive through your animal companion’s senses instead of your own. You can Sustain the Activation. You are unaware of your own surroundings for as long as you are using your animal companion’s senses. In addition to the obvious use when you are separated from your companion, this ability might allow you to notice sounds, scents, and other stimuli that your companion’s senses register but yours alone don’t.",
                 "gainConditions": [
@@ -362,7 +362,7 @@
         "activities": [
             {
                 "_className": "ItemActivity",
-                "actions": 2,
+                "actions": "2A",
                 "activationType": "Interact",
                 "cooldown": 144000,
                 "desc": "You trace a finger along the wind motifs on the barding, granting your companion wearing the barding a fly Speed of 30 feet for 10 minutes. Even if the companion doesn't have the mount special ability, it can still Fly while being ridden.",
@@ -530,7 +530,7 @@
         ],
         "activities": [
             {
-                "actions": "2",
+                "actions": "2A",
                 "activationType": "Interact",
                 "desc": "You lift an object of up to 8 Bulk as though it were weightless. This requires two hands, and if the object is locked or otherwise held in place, you can attempt to Force it Open using Athletics as part of this activation. The object still has its full weight and Bulk for all other purposes—you just ignore that weight. The effect lasts until the end of your next turn.",
                 "name": "Lifting Belt",

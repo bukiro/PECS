@@ -58,7 +58,7 @@
                     ],
                     "activities": [
                         {
-                            "actions": "2",
+                            "actions": "2A",
                             "activationType": "Cast a Spell",
                             "castSpells": [
                                 {
@@ -125,7 +125,7 @@
                     ],
                     "activities": [
                         {
-                            "actions": "2",
+                            "actions": "2A",
                             "activationType": "Cast a Spell",
                             "castSpells": [
                                 {
@@ -264,7 +264,7 @@
                     "refId": "01adbda8-9131-11ea-bb37-0242ac130002",
                     "activities": [
                         {
-                            "actions": "2",
+                            "actions": "2A",
                             "activationType": "Interact",
                             "castSpells": [
                                 {

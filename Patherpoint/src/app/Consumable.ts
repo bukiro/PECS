@@ -10,7 +10,7 @@ export class Consumable extends Item {
     readonly equippable = false;
     //How many Actions does it take to use this item?
     //Usually "Free", "Reaction", "1", "2" or "3", but can be something special like "1 hour"
-    public actions: string = "1";
+    public actions: string = "1A";
     //What needs to be done to activate? Example: "Command", "Manipulate"
     public activationType: string = "";
     //List ConditionGain for every condition that you gain from using this item

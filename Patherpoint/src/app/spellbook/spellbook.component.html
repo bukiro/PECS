@@ -19,8 +19,7 @@
                                     {{(maxspellslots - get_UsedSpellSlots(level, casting)) + " / " + maxspellslots}}
                                 </strong>
                             </div>
-                            <div class="list-item"
-                                [ngClass]="{'problem':(get_FocusPoints() > get_MaxFocusPoints())}"
+                            <div class="list-item" [ngClass]="{'problem':(get_FocusPoints() > get_MaxFocusPoints())}"
                                 *ngIf="level == -1 && index == 0">
                                 <strong>Focus Points</strong>
                                 <input type="number" class="number2" [ngModel]="get_FocusPoints()" disabled>
@@ -35,9 +34,10 @@
                             </div>
                             <ng-container *ngFor="let spell of get_Spells(spellGain.name)">
                                 <div class="list-item" *ngFor="let spellID of [get_ID()]">
-                                    <button class="row sublist-toggle center-aligned" (click)="toggle_Spell(spellID)">
-                                        <span>{{spell.name}}</span>
-                                        <span>{{spell.get_Actions()}} {{spell.castType}}</span>
+                                    <button class="row sublist-toggle left-aligned" (click)="toggle_Spell(spellID)">
+                                        {{spell.name}}
+                                        <app-actionIcons [actionString]="spell.actions"></app-actionIcons>
+                                        {{spell.castType}}
                                     </button>
                                     <div class="list-item sublist lower" *ngIf="this.get_showSpell()==spellID">
                                         <button class="row center-aligned"

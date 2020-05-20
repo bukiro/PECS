@@ -496,7 +496,7 @@
         ],
         "activities": [
             {
-                "actions": "2",
+                "actions": "2A",
                 "activationType": "Command, Interact",
                 "cooldown": 1000,
                 "toggle": true,
@@ -549,7 +549,7 @@
                 "source": "89c65dd1-8e09-11ea-9fab-e92c63c14723"
             },
             {
-                "actions": 1,
+                "actions": "1A",
                 "activationType": "Command",
                 "name": "Clear Spell-Storing Rune",
                 "traits": [

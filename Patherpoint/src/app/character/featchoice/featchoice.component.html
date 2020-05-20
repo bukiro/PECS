@@ -97,7 +97,8 @@
                         <ng-container *ngFor="let name of feat.gainActivities">
                             <div class="row left-aligned" *ngFor="let activity of get_Activities(name)">
                                 <h4 class="left-aligned">{{activity.name}}
-                                    {{activity.get_Actions()}}{{(activity.activationType) ? " - " + activity.activationType : ""}}
+                                    <app-actionIcons [actionString]="activity.actions"></app-actionIcons>
+                                    {{(activity.activationType) ? " - " + activity.activationType : ""}}
                                 </h4>
                                 <app-activity class="row" [activity]=activity [allowActivate]=false>
                                 </app-activity>
@@ -107,7 +108,8 @@
                             <ng-container *ngFor="let spellGain of spellChoice.spells">
                                 <ng-container *ngFor="let spell of get_Spells(spellGain.name)">
                                     <h4 class="left-aligned">{{spell.name}}
-                                        {{spell.get_Actions()}}{{(spell.castType) ? " - " + spell.castType : ""}}
+                                        <app-actionIcons [actionString]="spell.actions"></app-actionIcons>
+                                        {{(spell.castType) ? " - " + spell.castType : ""}}
                                     </h4>
                                     <app-spell class="row" [spell]=spell [spellLevel]="get_SpellLevel(levelNumber)">
                                     </app-spell>
@@ -189,7 +191,8 @@
                         <ng-container *ngFor="let name of feat.gainActivities">
                             <ng-container *ngFor="let activity of get_Activities(name)">
                                 <h4 class="left-aligned">{{activity.name}}
-                                    {{activity.get_Actions()}}{{(activity.activationType) ? " - " + activity.activationType : ""}}
+                                    <app-actionIcons [actionString]="activity.actions"></app-actionIcons>
+                                    {{(activity.activationType) ? " - " + activity.activationType : ""}}
                                 </h4>
                                 <app-activity class="row" [activity]=activity [allowActivate]=false>
                                 </app-activity>
@@ -199,7 +202,8 @@
                             <ng-container *ngFor="let spellGain of spellChoice.spells">
                                 <ng-container *ngFor="let spell of get_Spells(spellGain.name)">
                                     <h4 class="left-aligned">{{spell.name}}
-                                        {{spell.get_Actions()}}{{(spell.castType) ? " - " + spell.castType : ""}}
+                                        <app-actionIcons [actionString]="spell.actions"></app-actionIcons>
+                                        {{(spell.castType) ? " - " + spell.castType : ""}}
                                     </h4>
                                     <app-spell class="row" [spell]=spell [spellLevel]="get_SpellLevel(levelNumber)">
                                     </app-spell>

@@ -43,7 +43,7 @@
         "desc": "Sleep arrows often have shafts of deep blue or black, and their fletching is exceptionally soft and downy. An activated sleep arrow deals no damage, but a living creature hit by it is subject to the effects of a sleep spell (DC 17).",
         "activities": [
             {
-                "actions": "1",
+                "actions": "1A",
                 "activationType": "Interact",
                 "castSpells": [
                     {
@@ -96,7 +96,7 @@
         ],
         "activities": [
             {
-                "actions": "2",
+                "actions": "2A",
                 "activationType": "Cast a Spell",
                 "desc": "You activate spellstrike ammunition by Casting a Spell into the ammunition. The spell must be of a spell level the ammunition can hold, and the spell must be able to target a creature other than the caster.",
                 "castSpells": [
@@ -142,7 +142,7 @@
         ],
         "activities": [
             {
-                "actions": "2",
+                "actions": "2A",
                 "activationType": "Cast a Spell",
                 "desc": "You activate spellstrike ammunition by Casting a Spell into the ammunition. The spell must be of a spell level the ammunition can hold, and the spell must be able to target a creature other than the caster.",
                 "castSpells": [

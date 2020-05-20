@@ -1,7 +1,7 @@
 [
     {
         "name": "Flurry of Blows",
-        "actions": "1",
+        "actions": "1A",
         "desc": "Make two unarmed Strikes. If both hit the same creature, combine their damage for the purpose of resistances and weaknesses. Apply your multiple attack penalty to the Strikes normally. As it has the flourish trait, you can use Flurry of Blows only once per turn.",
         "traits": [
             "Flourish",
@@ -10,7 +10,7 @@
     },
     {
         "name": "Crane Stance",
-        "actions": "1",
+        "actions": "1A",
         "toggle":true,
         "requirements": "You are unarmored.",
         "desc": "You enter the stance of a crane, holding your arms in an imitation of a crane's wings and using flowing, defensive motions. You gain a +1 circumstance bonus to AC, but the only Strikes you can make are crane wing attacks. These deal 1d6 bludgeoning damage; are in the brawling group; and have the agile, finesse, nonlethal, and unarmed traits.\n\nWhile in Crane Stance, reduce the DC for High Jump and Long Jump by 5, and when you Leap, you can move an additional 5 feet horizontally or 2 feet vertically.",
@@ -35,7 +35,7 @@
     },
     {
         "name": "Dragon Stance",
-        "actions": "1",
+        "actions": "1A",
         "toggle":true,
         "requirements": "You are unarmored.",
         "desc": "You enter the stance of a dragon and make powerful leg strikes like a lashing dragon's tail. You can make dragon tail attacks that deal 1d10 bludgeoning damage. They are in the brawling group and have the backswing, nonlethal, and unarmed traits.\n\nWhile in Dragon Stance, you can ignore the first square of difficult terrain while Striding.",
@@ -58,7 +58,7 @@
     },
     {
         "name": "Mountain Stance",
-        "actions": "1",
+        "actions": "1A",
         "toggle":true,
         "requirements": "You are unarmored and touching the ground.",
         "desc": "You enter the stance of an implacable mountain—a technique first discovered by dwarven monks—allowing you to strike with the weight of an avalanche. The only Strikes you can make are falling stone unarmed attacks. These deal 1d8 bludgeoning damage; are in the brawling group; and have the forceful, nonlethal, and unarmed traits.\n\nWhile in Mountain Stance, you gain a +4 status bonus to AC and a +2 circumstance bonus to any defenses against being Shoved or Tripped. However, you have a Dexterity modifier cap to your AC of +0, meaning you don't add your Dexterity to your AC, and your Speeds are all reduced by 5 feet.",
@@ -83,7 +83,7 @@
     },
     {
         "name": "Rain of Embers Stance",
-        "actions": "1",
+        "actions": "1A",
         "toggle":true,
         "requirements": "You are unarmored and touching the ground.",
         "desc": "You enter the stance of an enraged phoenix, holding your fingers as rigid as deadly talons while moving with quick, flickering gestures that flicker with dancing flames. The only Strikes you can make are fire talon Strikes. These deal 1d4 fire damage; are in the brawling group; and have the agile, finesse, fire, nonlethal, and unarmed traits.\n\nWhile in Rain of Embers Stance, you gain a +1 status bonus to AC and fire resistance equal to half your level (minimum 1).",
@@ -108,7 +108,7 @@
     },
     {
         "name": "Tiger Stance",
-        "actions": "1",
+        "actions": "1A",
         "toggle":true,
         "requirements": "You are unarmored.",
         "desc": "You enter the stance of a tiger and can make tiger claw attacks. These deal 1d8 slashing damage; are in the brawling group; and have the agile, finesse, nonlethal, and unarmed traits. On a critical success with your tiger claws, if you deal damage, the target takes 1d4 persistent bleed damage.\n\nAs long as your Speed is at least 20 feet while in Tiger Stance, you can Step 10 feet.",
@@ -131,7 +131,7 @@
     },
     {
         "name": "Wolf Stance",
-        "actions": "1",
+        "actions": "1A",
         "toggle":true,
         "requirements": "You are unarmored.",
         "desc": "You enter the stance of a wolf, low to the ground with your hands held like fanged teeth. You can make wolf jaw unarmed attacks. These deal 1d8 piercing damage; are in the brawling group; and have the agile, backstabber, finesse, nonlethal, and unarmed traits.\n\nIf you're flanking a target while in Wolf Stance, your wolf jaw unarmed attacks also gain the trip trait.",
@@ -164,7 +164,7 @@
     },
     {
         "name": "Flying Kick",
-        "actions": "2",
+        "actions": "2A",
         "desc": "You launch yourself at a foe. Make a Leap or attempt a High Jump or Long Jump. At the end of the jump, if you're adjacent to a foe, you can immediately Strike that foe with an unarmed attack, even if the foe is in mid-air. You fall to the ground after the Strike. If the distance you fall is no more than the height of your jump, you land upright and take no damage.",
         "traits": [
             "Monk"
@@ -190,7 +190,7 @@
     },
     {
         "name": "Dragon Roar",
-        "actions": "1",
+        "actions": "1A",
         "requirements": "You are in Dragon Stance.",
         "desc": "You bellow, instilling fear in your enemies. Enemies within a 15-foot emanation must succeed at a Will save against your Intimidation DC or be frightened 1 (frightened 2 on a critical failure). When a creature frightened by the roar begins its turn adjacent to you, it can't reduce its frightened value below 1 on that turn. Your first attack that hits a frightened creature after you roar and before the end of your next turn gains a +4 circumstance bonus to damage.\n\nAfter you use Dragon Roar, you can't use it again for 1d4 rounds. Its effects end immediately if you leave Dragon Stance. Creatures in the area of your roar are then temporarily immune for 1 minute.",
         "showon": "Dragon Stance",
@@ -204,7 +204,7 @@
     },
     {
         "name": "Mountain Stronghold",
-        "actions": "1",
+        "actions": "1A",
         "requirements": "You are in Mountain Stance.",
         "desc": "You focus on your connection to the earth and call upon the mountain to block attacks against you. You gain a +2 circumstance bonus to AC until the beginning of your next turn.",
         "gainConditions": [
@@ -221,7 +221,7 @@
     },
     {
         "name": "Tiger Slash",
-        "actions": "2",
+        "actions": "2A",
         "requirements": "You are in Tiger Stance.",
         "desc": "You make a fierce swipe with both hands. Make a tiger claw Strike. It deals two extra weapon damage dice (three extra dice if you're 14th level or higher), and you can push the target 5 feet away as if you had successfully Shoved them. If the attack is a critical success and deals damage, add your Strength modifier to the persistent bleed damage from your tiger claw.",
         "showon": "Tiger Stance",
@@ -231,7 +231,7 @@
     },
     {
         "name": "Whirling Throw",
-        "actions": "1",
+        "actions": "1A",
         "requirements": "You have a creature grabbed or restrained.",
         "desc": "You propel your grabbed or restrained foe a great distance. You can throw the creature any distance up to 10 feet, plus 5 feet × your Strength modifier. If you successfully throw the creature, it takes bludgeoning damage equal to your Strength modifier plus 1d6 per 10 feet you threw it.\n\nAttempt an Athletics check against the foe's Fortitude DC. You take a –2 circumstance penalty to your check if the target is one size larger than you and a –4 circumstance penalty if it's larger than that. You gain a +2 circumstance bonus to your check if the target is one size smaller than you and a +4 circumstance bonus if it's smaller than that.",
         "critsuccess": "You throw the creature the desired distance and it lands prone.",
@@ -244,7 +244,7 @@
     },
     {
         "name": "Wolf Drag",
-        "actions": "2",
+        "actions": "2A",
         "requirements": "You are in Wolf Stance.",
         "desc": "You rip your enemy off their feet. Make a wolf jaw Strike. Your wolf jaw gains the fatal d12 trait for this Strike, and if the attack succeeds, you knock the target prone.",
         "showon": "Wolf Stance",
@@ -254,7 +254,7 @@
     },
     {
         "name": "Ironblood Stance",
-        "actions": "1",
+        "actions": "1A",
         "toggle":true,
         "requirements": "You are unarmored.",
         "desc": "You enter the stance of impenetrable iron, refusing to yield to any blow. You can make iron sweep unarmed attacks. These deal 1d8 bludgeoning damage; are in the brawling group; and have the nonlethal, parry, sweep, and unarmed traits.\n\nWhile in Ironblood Stance, you gain resistance 2 to all damage. The resistance increases to 3 at 12th level, to 4 at 16th level, and to 5 at 20th level.",
@@ -277,7 +277,7 @@
     },
     {
         "name": "Mixed Maneuver",
-        "actions": "2",
+        "actions": "2A",
         "desc": "You combine two different maneuvers together into a single flowing whole. Choose any two of Grapple, Shove, and Trip. Attempt both of the attacks you chose against the same or different creatures, but don't apply the multiple attack penalty until after resolving both attacks.",
         "traits": [
             "Monk"
@@ -285,7 +285,7 @@
     },
     {
         "name": "Tangled Forest Stance",
-        "actions": "1",
+        "actions": "1A",
         "toggle":true,
         "requirements": "You are unarmored.",
         "desc": "You extend your arms like gnarled branches to interfere with your foes' movements. You can make lashing branch unarmed attacks. These deal 1d8 slashing damage; are in the brawling group; and have the agile, finesse, nonlethal, and unarmed traits.\n\nWhile you're in Tangled Forest Stance and can act, every enemy in your reach that tries to move away from you must succeed at a Reflex save, Acrobatics check, or Athletics check against your class DC or be immobilized for that action. If you prefer, you can allow the enemy to move.",
@@ -308,7 +308,7 @@
     },
     {
         "name": "Wall Run",
-        "actions": "1",
+        "actions": "1A",
         "desc": "You defy gravity, traversing vertical planes as easily as the ground. Stride up to your Speed. You must start your movement on a horizontal surface. During this movement, you can run up vertical surfaces, like walls, at your full Speed. If you end the Stride off the ground, you fall after taking your next action or when your turn ends, whichever comes first (though you can Grab an Edge, if applicable). If you have Water Step or a similar ability, Wall Run lets you run along flimsy vertical surfaces, as well as vertical liquids, such as a waterfall.",
         "traits": [
             "Monk"
@@ -316,7 +316,7 @@
     },
     {
         "name": "Knockback Strike",
-        "actions": "2",
+        "actions": "2A",
         "desc": "You focus your strength into a blow powerful enough to push an enemy away from you. Make an unarmed Strike. If you hit, attempt an Athletics check to Shove the target. This attack uses the same multiple attack penalty as your Strike, and doesn't count toward your multiple attack penalty.",
         "traits": [
             "Monk"
@@ -324,7 +324,7 @@
     },
     {
         "name": "Sleeper Hold",
-        "actions": "1",
+        "actions": "1A",
         "requirements": "You have a creature grabbed or restrained.",
         "desc": "You pinch crucial points of your target's nervous system, impeding its ability to function. Attempt an Athletics check to Grapple the creature, with the following success and critical success effects instead of the usual effects.",
         "critsuccess": "The target falls unconscious for 1 minute, though it remains standing and doesn't drop what it holds.",
@@ -337,7 +337,7 @@
     },
     {
         "name": "Winding Flow",
-        "actions": "1",
+        "actions": "1A",
         "frequency": "once per round",
         "desc": "Any journey consists of more than simply reaching your destination. You use two of the following actions in any order: Stand, Step, and Stride. You can't use the same action twice.",
         "traits": [
@@ -346,7 +346,7 @@
     },
     {
         "name": "Disrupt Ki",
-        "actions": "2",
+        "actions": "2A",
         "desc": "Make an unarmed Strike. If it deals damage to a living creature, you block that creature's inner life force. The creature takes 2d6 persistent negative damage and is enfeebled 1 until the persistent damage ends. If you're 18th level or higher, this deals 3d6 persistent negative damage instead.",
         "traits": [
             "Monk",
@@ -365,7 +365,7 @@
     },
     {
         "name": "Ironblood Surge",
-        "actions": "1",
+        "actions": "1A",
         "requirements": "You are in Ironblood Stance.",
         "desc": "You steel yourself, preparing to resist oncoming attacks and using your muscles to absorb the impact. You gain the benefits of your iron sweep's parry trait (a +1 circumstance bonus to AC until the start of your next turn) and your resistance from Ironblood Stance increases to your Strength modifier (if it's higher) for the same duration.",
         "traits": [
@@ -382,7 +382,7 @@
     },
     {
         "name": "Mountain Quake",
-        "actions": "1",
+        "actions": "1A",
         "requirements": "You are in Mountain Stance.",
         "desc": "You stomp, shaking the earth beneath you. Creatures on the ground within a 20-foot emanation take damage equal to your Strength modifier (minimum 0), which they can resist with a basic Fortitude save. On a failure, they also fall prone. After you use this action, you can't use it again for 1d4 rounds.",
         "showon": "Mountain Stance",
@@ -392,7 +392,7 @@
     },
     {
         "name": "Tangled Forest Rake",
-        "actions": "1",
+        "actions": "1A",
         "requirements": "You are in Tangled Forest Stance.",
         "desc": "You reposition foes with raking attacks. Make a lashing branch Strike. If you hit and deal damage, you force the target to move 5 feet into a space within your reach. This follows the forced movement rules.",
         "showon": "Tangled Forest Stance",
@@ -412,7 +412,7 @@
     },
     {
         "name": "Shattering Strike",
-        "actions": "2",
+        "actions": "2A",
         "desc": "The force of your considered blow shatters objects and defenses alike. Make an unarmed Strike. It bypasses the target's resistances. If the target has Hardness, the Strike treats the Hardness as if it were half its value.",
         "traits": [
             "Monk"
@@ -421,7 +421,7 @@
     {
         "name": "Wild Winds Gust",
         "requirements": "You are in Wild Winds Stance.",
-        "actions": "2",
+        "actions": "2A",
         "desc": "You store up energy and release it in an enormous gust of rushing wind. Make a wind crash Strike against each creature in your choice of a 30-foot cone or a 60 foot line. These attacks all count toward your multiple attack penalty, but the penalty doesn't increase until after you make all the attacks.",
         "traits": [
             "Air",
@@ -455,7 +455,7 @@
     },
     {
         "name": "Fused Stance",
-        "actions": "1",
+        "actions": "1A",
         "toggle":true,
         "desc": "You have combined two stances into a single stance all your own. When you enter your fused stance, you gain all the effects of both stances, including the requirements and restrictions.\n\nYou can't fuse stances with fundamentally incompatible requirements or restrictions (such as Ironblood Stance and Crane Stance, which both require using only one type of Strike).",
         "traits": [
@@ -465,7 +465,7 @@
     },
     {
         "name": "Hunt Prey",
-        "actions": "1",
+        "actions": "1A",
         "toggle":true,
         "desc": "You designate a single creature as your prey and focus your attacks against that creature. You must be able to see or hear the prey, or you must be tracking the prey during exploration.\n\nYou gain a +2 circumstance bonus to Perception checks when you Seek your prey and a +2 circumstance bonus to Survival checks when you Track your prey. You also ignore the penalty for making ranged attacks within your second range increment against the prey you're hunting.\n\nYou can have only one creature designated as your prey at a time. If you use Hunt Prey against a creature when you already have a creature designated, the prior creature loses the designation and the new prey gains the designation. Your designation lasts until your next daily preparations.",
         "hint": "You gain a +2 circumstance bonus to Perception checks when you Seek your prey and a +2 circumstance bonus to Survival checks when you Track your prey. You also ignore the penalty for making ranged attacks within your second range increment against the prey you're hunting.",
@@ -477,7 +477,7 @@
     },
     {
         "name": "Hunted Shot",
-        "actions": "1",
+        "actions": "1A",
         "frequency": "once per round",
         "requirements": "You are wielding a ranged weapon with reload 0.",
         "desc": "You take two quick shots against the one you hunt. Make two Strikes against your prey with the required weapon. If both hit the same creature, combine their damage for the purpose of resistances and weaknesses. Apply your multiple attack penalty to each Strike normally.",
@@ -562,7 +562,7 @@
     },
     {
         "name": "Energy Emanation",
-        "actions": "2",
+        "actions": "2A",
         "frequency": "once per day",
         "cooldown": 144000,
         "desc": "Energy bursts forth from your body. You deal 1d6 damage of your chosen type to all adjacent creatures (basic Reflex save using your class DC or spell DC, whichever is higher). At 3rd level, and every 2 levels thereafter, this damage increases by 1d6.",
@@ -573,7 +573,7 @@
     },
     {
         "name": "Battle Medicine",
-        "actions": "1",
+        "actions": "1A",
         "desc": "You can patch up yourself or an adjacent ally, even in combat. Attempt a Medicine check with the same DC as for Treat Wounds, and restore a corresponding amount of Hit Points; this does not remove the wounded condition. As with Treat Wounds, you can attempt checks against higher DCs if you have the minimum proficiency rank. The target is then temporarily immune to your Battle Medicine for 1 day.",
         "traits": [
             "General",
@@ -584,7 +584,7 @@
     },
     {
         "name": "Eye of the Arclords: 1 Minute",
-        "actions": "1",
+        "actions": "1A",
         "frequency": "once per day",
         "cooldown": 144000,
         "desc": "You open an incandescent third eye upon your forehead. The eye can remain open for 1 minute, and you can close it before then with a single action with the concentrate trait. It can remain open for 2 minutes if you're a master in Arcana, or 5 minutes if you're legendary. While the eye is open, you gain the following benefits: you gain the effects of the detect magic arcane innate spell from your Arcane Sense at the start of each of your turns without needing to cast the spell; you gain darkvision; you gain a +2 status bonus to Perception checks to Seek undetected and hidden creatures and to your Perception DC against Hide and Sneak. After your third eye closes, you are dazzled for an amount of time equal to how long you had it open.",
@@ -603,7 +603,7 @@
     },
     {
         "name": "Eye of the Arclords: 2 Minutes",
-        "actions": "1",
+        "actions": "1A",
         "frequency": "once per day",
         "cooldown": 144000,
         "desc": "You open an incandescent third eye upon your forehead. The eye can remain open for 1 minute, and you can close it before then with a single action with the concentrate trait. It can remain open for 2 minutes if you're a master in Arcana, or 5 minutes if you're legendary. While the eye is open, you gain the following benefits: you gain the effects of the detect magic arcane innate spell from your Arcane Sense at the start of each of your turns without needing to cast the spell; you gain darkvision; you gain a +2 status bonus to Perception checks to Seek undetected and hidden creatures and to your Perception DC against Hide and Sneak. After your third eye closes, you are dazzled for an amount of time equal to how long you had it open.",
@@ -622,7 +622,7 @@
     },
     {
         "name": "Eye of the Arclords: 5 Minutes",
-        "actions": "1",
+        "actions": "1A",
         "frequency": "once per day",
         "cooldown": 144000,
         "desc": "You open an incandescent third eye upon your forehead. The eye can remain open for 1 minute, and you can close it before then with a single action with the concentrate trait. It can remain open for 2 minutes if you're a master in Arcana, or 5 minutes if you're legendary. While the eye is open, you gain the following benefits: you gain the effects of the detect magic arcane innate spell from your Arcane Sense at the start of each of your turns without needing to cast the spell; you gain darkvision; you gain a +2 status bonus to Perception checks to Seek undetected and hidden creatures and to your Perception DC against Hide and Sneak. After your third eye closes, you are dazzled for an amount of time equal to how long you had it open.",
@@ -641,7 +641,7 @@
     },
     {
         "name": "Juggle",
-        "actions": "1",
+        "actions": "1A",
         "desc": "You can Juggle items and still use your hands between tosses. You can use the Juggle action in several ways.\n\nYou can start to Juggle with a single stored item, an item you were carrying, or an unattended item within your reach. The item must be of light or negligible Bulk. You Juggle the item until the end of your next turn, unless you use this feat against next turn to continue Juggling (see below). While you are Juggling, you can use this action again to add another item to the Juggle, which must meet all the same requirements. You can Juggle a number of items equal to one more than the number of hands you are using to Juggle.\n\nYou can also use this action to continue Juggling as long as you aren't fatigued. When you do, you continue to Juggle until the end of your next turn. If you do not continue Juggling by the end of your turn, you cease Juggling and you drop all the items. You become fatigued if you continue Juggling for more than 10 minutes (60 rounds) within the course of an hour.\n\nAs long as you're Juggling fewer than your maximum number of items, you have a free hand. You can wield weapons you are Juggling (but not shields or other items) as long as they can be wielded in one hand. For example, while you Juggle a dagger in one hand and wield a shield in the other, you are wielding the dagger but still have a free hand to Cast a Spell with a material component. Juggling two or more weapons with one hand doesn't allow you to use feats that require two weapons each held in a different hand.",
         "traits": [
             "Uncommon",
@@ -662,7 +662,7 @@
     },
     {
         "name": "Legendary Negotiation",
-        "actions": "3",
+        "actions": "3A",
         "desc": "You can negotiate incredibly quickly in adverse situations. You attempt to Make an Impression and then Request your opponent cease their current activity and engage in negotiations. You take a –5 penalty to your Diplomacy check. The GM sets the DC of the Request based on the circumstances—it's generally at least a very hard DC of the creature's level. Some creatures might simply refuse, and even those who agree to parley might ultimately find your arguments lacking and return to violence.",
         "traits": [
             "General",
@@ -686,7 +686,7 @@
     },
     {
         "name": "Reveal Machinations",
-        "actions": "1",
+        "actions": "1A",
         "desc": "You reveal that you played a minor but recurring role in another humanoid's life—or at least convince them that's the case. Attempt a Deception check against the target's Will DC. On a success, the revelation makes them frightened 2, and on a critical success they are frightened 3. In addition, you gain information about the subject as though you had attempted to Recall Knowledge about them using an appropriate skill and received the same result on your roll. You can't use this ability against the same humanoid again until 1 day has passed and you've also successfully disguised yourself as a different person.",
         "traits": [
             "Rare",
@@ -696,7 +696,7 @@
     },
     {
         "name": "Sacred Defense",
-        "actions": "1",
+        "actions": "1A",
         "frequency": "once per hour",
         "cooldown": 6000,
         "desc": "You call upon your deity to grant you their protective blessing. Attempt a DC 30 Religion check. If you have legendary proficiency in Religion, you can instead attempt a DC 40 Religion check to increase the temporary Hit Points you gain on a successful check to 15 (25 on a critical success).",
@@ -712,7 +712,7 @@
     },
     {
         "name": "Sanctify Water",
-        "actions": "1",
+        "actions": "1A",
         "desc": "You imbue water with your deity's blessing. Choose a container of water on your person that is of light Bulk. For 1 round, if you or an ally throw this container at a foe, it has the damaging effects of holy water (if you follow a good deity) or unholy water (if you follow an evil deity). The water's transient power doesn't make it gain any value, allow it to be used to supply the cost for a spell or ritual, and so on. If you have legendary proficiency in Religion, you can sanctify three containers held by you or allies within your reach instead of one.\n\nPFS Note: When using Sanctify Water use your proficiency with simple weapons to determine your attack bonus when throwing the blessed container of water. If you give the container to another character for them to throw, they use their proficiency with improvised weapons instead.",
         "traits": [
             "General",
@@ -721,7 +721,7 @@
     },
     {
         "name": "Scare to Death",
-        "actions": "1",
+        "actions": "1A",
         "desc": "You can frighten foes so much, they might die. Attempt an Intimidation check against the Will DC of a living creature within 30 feet of you that you sense or observe and who can sense or observe you. If the target can't hear you or doesn't understand the language you are speaking, you take a –4 circumstance penalty. The creature is temporarily immune for 1 minute.",
         "critsuccess": "The target must succeed at a Fortitude save against your Intimidation DC or die. If the target succeeds at its save, it becomes frightened 2 and is fleeing for 1 round; it suffers no effect on a critical success.",
         "success": "The target becomes frightened 2.",
@@ -773,7 +773,7 @@
     },
     {
         "name": "Trick Magic Item",
-        "actions": "1",
+        "actions": "1A",
         "desc": "You examine a magic item you normally couldn't use in an effort to fool it and activate it temporarily. For example, this might allow a fighter to cast a spell from a wand or allow a wizard to cast a spell that's not on the arcane list using a scroll. You must know what activating the item does, or you can't attempt to trick it.\n\nAttempt a check using the skill matching the item's magic tradition, or matching a tradition that has the spell on its list, if you're trying to cast a spell from the item. The relevant skills are Arcana for arcane, Nature for primal, Occultism for occult, Religion for divine, or any of the four for an item that has the magical trait and not a tradition trait. The GM determines the DC based on the item's level (possibly adjusted depending on the item or situation).\n\nIf you activate a magic item that requires a spell attack roll or spell DC and you don't have the ability to cast spells of the relevant tradition, use your level as your proficiency bonus and the highest of your Intelligence, Wisdom, or Charisma modifiers. If you're a master in the appropriate skill for the item's tradition, you instead use the trained proficiency bonus, and if you're legendary, you instead use the expert proficiency bonus.",
         "success": "For the rest of the current turn, you can spend actions to activate the item as if you could normally use it.",
         "failure": "You can't use the item or try to trick it again this turn, but you can try again on subsequent turns.",
@@ -786,7 +786,7 @@
     },
     {
         "name": "Battle Prayer",
-        "actions": "1",
+        "actions": "1A",
         "desc": "Calling out to your deity, you recite scripture to harm a foe. Attempt a Religion check against the Will DC of a foe within 30 feet. The foe is then temporarily immune to Battle Prayers from your deity for 1 day.",
         "critsuccess": "You deal 2d6 damage of the chosen alignment type, or 6d6 damage if you have legendary proficiency in Religion.",
         "success": "You deal 1d6 damage of the chosen alignment type, or 3d6 damage if you have legendary proficiency in Religion.",
@@ -800,7 +800,7 @@
     },
     {
         "name": "Battle Prayer: Chaos",
-        "actions": "1",
+        "actions": "1A",
         "desc": "Calling out to your deity, you recite scripture to harm a foe. Attempt a Religion check against the Will DC of a foe within 30 feet. The foe is then temporarily immune to Battle Prayers from your deity for 1 day.",
         "critsuccess": "You deal 2d6 Chaotic damage, or 6d6 damage if you have legendary proficiency in Religion.",
         "success": "You deal 1d6 Chaotic damage, or 3d6 damage if you have legendary proficiency in Religion.",
@@ -815,7 +815,7 @@
     },
     {
         "name": "Battle Prayer: Evil",
-        "actions": "1",
+        "actions": "1A",
         "desc": "Calling out to your deity, you recite scripture to harm a foe. Attempt a Religion check against the Will DC of a foe within 30 feet. The foe is then temporarily immune to Battle Prayers from your deity for 1 day.",
         "critsuccess": "You deal 2d6 Evil damage, or 6d6 damage if you have legendary proficiency in Religion.",
         "success": "You deal 1d6 Evil damage, or 3d6 damage if you have legendary proficiency in Religion.",
@@ -830,7 +830,7 @@
     },
     {
         "name": "Battle Prayer: Good",
-        "actions": "1",
+        "actions": "1A",
         "desc": "Calling out to your deity, you recite scripture to harm a foe. Attempt a Religion check against the Will DC of a foe within 30 feet. The foe is then temporarily immune to Battle Prayers from your deity for 1 day.",
         "critsuccess": "You deal 2d6 Good damage, or 6d6 damage if you have legendary proficiency in Religion.",
         "success": "You deal 1d6 Good damage, or 3d6 damage if you have legendary proficiency in Religion.",
@@ -845,7 +845,7 @@
     },
     {
         "name": "Battle Prayer: Law",
-        "actions": "1",
+        "actions": "1A",
         "desc": "Calling out to your deity, you recite scripture to harm a foe. Attempt a Religion check against the Will DC of a foe within 30 feet. The foe is then temporarily immune to Battle Prayers from your deity for 1 day.",
         "critsuccess": "You deal 2d6 Lawful damage, or 6d6 damage if you have legendary proficiency in Religion.",
         "success": "You deal 1d6 Lawful damage, or 3d6 damage if you have legendary proficiency in Religion.",
@@ -860,7 +860,7 @@
     },
     {
         "name": "Evangelize",
-        "actions": "1",
+        "actions": "1A",
         "desc": "You point out a detail that incontrovertibly supports your faith, causing a listener's mind to whirl. Attempt a Diplomacy check and compare the result to the Will DC of a single target that can hear you and understands your language; that target is then temporarily immune to Evangelize with respect to your deity or philosophy for 1 day. A creature that already agrees with you is unaffected, and at the GM's discretion, a target that genuinely changes its perspective to support your faith as a result of the argument is also otherwise unaffected.",
         "critsuccess": "The target is stupefied 2 for 1 round.",
         "success": "The target is stupefied 1 for 1 round.",

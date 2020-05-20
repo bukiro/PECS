@@ -7,7 +7,7 @@
             "Focus"
         ],
         "shortDesc": "Accelerated by your ki, you move with such speed you become a blur.",
-        "actions": "1",
+        "actions": "1A",
         "castType": "verbal",
         "traits": [
             "Uncommon",
@@ -32,7 +32,7 @@
             "Focus"
         ],
         "shortDesc": "You focus your ki into magical attacks.",
-        "actions": "1",
+        "actions": "1A",
         "castType": "verbal",
         "traits": [
             "Uncommon",
@@ -73,7 +73,7 @@
             "Focus"
         ],
         "shortDesc": "You focus your ki to heal yourself.",
-        "actions": "1",
+        "actions": "1A",
         "castType": "verbal",
         "traits": [
             "Uncommon",
@@ -153,7 +153,7 @@
             "Focus"
         ],
         "shortDesc": "You move so fast you blur across planar boundaries.",
-        "actions": "1",
+        "actions": "1A",
         "castType": "somatic",
         "traits": [
             "Uncommon",
@@ -314,7 +314,7 @@
             "Focus"
         ],
         "shortDesc": "Your strikes can kill foes with a precise and powerful strike.",
-        "actions": "2",
+        "actions": "2A",
         "castType": "somatic, verbal",
         "savingthrow": "Fortitude",
         "traits": [
@@ -374,7 +374,7 @@
             "Focus"
         ],
         "shortDesc": "You take on the stance of the flowing winds, sending out waves of energy at a distance.",
-        "actions": "1",
+        "actions": "1A",
         "castType": "somatic",
         "traits": [
             "Uncommon",
@@ -409,7 +409,7 @@
             "Focus"
         ],
         "shortDesc": "You gain a fly Speed equal to your Speed.",
-        "actions": "1",
+        "actions": "1A",
         "castType": "verbal",
         "traits": [
             "Uncommon",
@@ -454,7 +454,7 @@
             "Focus"
         ],
         "shortDesc": "You turn ethereal, with the effects of ethereal jaunt, but you don't need to concentrate.",
-        "actions": "2",
+        "actions": "2A",
         "castType": "somatic, verbal",
         "traits": [
             "Uncommon",
@@ -482,7 +482,7 @@
             "Primal"
         ],
         "shortDesc": "Damage creatures with acid.",
-        "actions": "2",
+        "actions": "2A",
         "castType": "somatic, verbal",
         "traits": [
             "Common",
@@ -502,7 +502,7 @@
             "Divine"
         ],
         "shortDesc": "Your touch hurts the living or disorients undead.",
-        "actions": "2",
+        "actions": "2A",
         "castType": "somatic, verbal",
         "savingthrow": "Fortitude",
         "traits": [
@@ -522,7 +522,7 @@
             "Primal"
         ],
         "shortDesc": "Create four floating lights you can move.",
-        "actions": "2",
+        "actions": "2A",
         "castType": "somatic, verbal",
         "traits": [
             "Common",
@@ -541,7 +541,7 @@
             "Divine"
         ],
         "shortDesc": "Damage a creature's mind and possibly stun it.",
-        "actions": "2",
+        "actions": "2A",
         "castType": "somatic, verbal",
         "savingthrow": "Will",
         "traits": [
@@ -563,7 +563,7 @@
             "Primal"
         ],
         "shortDesc": "Sense whether magic is nearby.",
-        "actions": "2",
+        "actions": "2A",
         "castType": "somatic, verbal",
         "traits": [
             "Common",
@@ -581,7 +581,7 @@
             "Primal"
         ],
         "shortDesc": "Damage undead with positive energy.",
-        "actions": "2",
+        "actions": "2A",
         "castType": "somatic, verbal",
         "savingthrow": "Fortitude",
         "traits": [
@@ -599,7 +599,7 @@
             "Divine"
         ],
         "shortDesc": "Throw divine energy that damages based on your deity's alignment.",
-        "actions": "2",
+        "actions": "2A",
         "castType": "somatic, verbal",
         "traits": [
             "Common",
@@ -617,7 +617,7 @@
             "Primal"
         ],
         "shortDesc": "Zap one or two creatures with lightning.",
-        "actions": "2",
+        "actions": "2A",
         "castType": "somatic, verbal",
         "savingthrow": "basic Reflex",
         "traits": [
@@ -705,7 +705,7 @@
             "Divine"
         ],
         "shortDesc": "Protect an ally against one specific enemy.",
-        "actions": "2",
+        "actions": "2A",
         "castType": "somatic, verbal",
         "traits": [
             "Common",
@@ -722,7 +722,7 @@
             "Occult"
         ],
         "shortDesc": "Make false sounds.",
-        "actions": "2",
+        "actions": "2A",
         "castType": "somatic, verbal",
         "traits": [
             "Common",
@@ -741,7 +741,7 @@
             "Primal"
         ],
         "shortDesc": "Divine guidance improves one roll.",
-        "actions": "1",
+        "actions": "1A",
         "castType": "verbal",
         "traits": [
             "Common",
@@ -759,7 +759,7 @@
             "Primal"
         ],
         "shortDesc": "Find true north.",
-        "actions": "2",
+        "actions": "2A",
         "castType": "somatic, verbal",
         "traits": [
             "Common",
@@ -779,7 +779,7 @@
             "Primal"
         ],
         "shortDesc": "Make an object glow.",
-        "actions": "2",
+        "actions": "2A",
         "castType": "somatic, verbal",
         "traits": [
             "Common",
@@ -828,7 +828,7 @@
             "Occult"
         ],
         "shortDesc": "Command a floating hand to move an object.",
-        "actions": "2",
+        "actions": "2A",
         "castType": "somatic, verbal",
         "traits": [
             "Common",
@@ -846,7 +846,7 @@
             "Divine"
         ],
         "shortDesc": "Speak a message to a distant creature, who can reply.",
-        "actions": "1",
+        "actions": "1A",
         "castType": "verbal",
         "traits": [
             "Common",
@@ -868,7 +868,7 @@
             "Primal"
         ],
         "shortDesc": "Perform a minor magical trick.",
-        "actions": "2",
+        "actions": "2A",
         "castType": "somatic, verbal",
         "traits": [
             "Common",
@@ -885,7 +885,7 @@
             "Primal"
         ],
         "shortDesc": "Kindle small flames to attack close or at range.",
-        "actions": "2",
+        "actions": "2A",
         "castType": "somatic, verbal",
         "traits": [
             "Common",
@@ -1013,7 +1013,7 @@
             "Primal"
         ],
         "shortDesc": "Damage a creature with cold.",
-        "actions": "2",
+        "actions": "2A",
         "castType": "somatic, verbal",
         "traits": [
             "Common",
@@ -1053,7 +1053,7 @@
             "Divine"
         ],
         "shortDesc": "A shield of magical force blocks attacks and magic missiles.",
-        "actions": "1",
+        "actions": "1A",
         "castType": "verbal",
         "traits": [
             "Common",
@@ -1073,7 +1073,7 @@
             "Primal"
         ],
         "shortDesc": "Leave a magical mark.",
-        "actions": "2",
+        "actions": "2A",
         "castType": "somatic, verbal",
         "traits": [
             "Common",
@@ -1090,7 +1090,7 @@
             "Primal"
         ],
         "shortDesc": "Stabilize a dying creature.",
-        "actions": "2",
+        "actions": "2A",
         "castType": "somatic, verbal",
         "traits": [
             "Common",
@@ -1109,7 +1109,7 @@
             "Primal"
         ],
         "shortDesc": "Conjure a vine to entangle a creature.",
-        "actions": "2",
+        "actions": "2A",
         "castType": "somatic, verbal",
         "traits": [
             "Common",
@@ -1127,7 +1127,7 @@
             "Occult"
         ],
         "shortDesc": "Fling an object at a creature.",
-        "actions": "2",
+        "actions": "2A",
         "castType": "somatic, verbal",
         "traits": [
             "Common",
@@ -1145,7 +1145,7 @@
             "Primal"
         ],
         "shortDesc": "You create a shell of acid around yourself that immediately bursts outward.",
-        "actions": "2",
+        "actions": "2A",
         "castType": "somatic, verbal",
         "savingthrow": "basic Reflex",
         "traits": [
@@ -1163,7 +1163,7 @@
             "Occult"
         ],
         "shortDesc": "You send the target�s mind and body into overdrive, forcing it to become restless and hyperactive.",
-        "actions": "2",
+        "actions": "2A",
         "castType": "somatic, verbal",
         "savingthrow": "Will",
         "traits": [
@@ -1231,7 +1231,7 @@
             "Primal"
         ],
         "shortDesc": "Target can carry more.",
-        "actions": "2",
+        "actions": "2A",
         "castType": "somatic, verbal",
         "traits": [
             "Common",
@@ -1247,7 +1247,7 @@
             "Occult"
         ],
         "shortDesc": "You grant the target brief foresight.",
-        "actions": "2",
+        "actions": "2A",
         "castType": "somatic, verbal",
         "traits": [
             "Common",
@@ -1263,7 +1263,7 @@
             "Divine"
         ],
         "shortDesc": "Weaken enemies' attacks in an aura around you.",
-        "actions": "2",
+        "actions": "2A",
         "castType": "somatic, verbal",
         "savingthrow": "Will",
         "traits": [
@@ -1280,7 +1280,7 @@
             "Arcane"
         ],
         "shortDesc": "You sow seeds of confusion in your target�s mind, causing their actions and thoughts to become clumsy.",
-        "actions": "2",
+        "actions": "2A",
         "castType": "somatic, verbal",
         "traits": [
             "Common",
@@ -1298,7 +1298,7 @@
             "Divine"
         ],
         "shortDesc": "Strengthen allies' attacks in an aura around you.",
-        "actions": "2",
+        "actions": "2A",
         "castType": "somatic, verbal",
         "traits": [
             "Common",
@@ -1315,7 +1315,7 @@
             "Primal"
         ],
         "shortDesc": "A small cone of flame rushes from your hands.",
-        "actions": "2",
+        "actions": "2A",
         "castType": "somatic, verbal",
         "savingthrow": "basic Reflex",
         "traits": [
@@ -1334,7 +1334,7 @@
             "Primal"
         ],
         "shortDesc": "A humanoid becomes more friendly to you.",
-        "actions": "2",
+        "actions": "2A",
         "castType": "somatic, verbal",
         "savingthrow": "Will",
         "traits": [
@@ -1354,7 +1354,7 @@
             "Primal"
         ],
         "shortDesc": "A cone of icy shards bursts from your spread hands and coats the target in a layer of frost.",
-        "actions": "2",
+        "actions": "2A",
         "castType": "somatic, verbal",
         "savingthrow": "Will",
         "traits": [
@@ -1372,7 +1372,7 @@
             "Occult"
         ],
         "shortDesc": "Swirling colors dazzle or stun creatures.",
-        "actions": "2",
+        "actions": "2A",
         "castType": "somatic, verbal",
         "savingthrow": "Will",
         "traits": [
@@ -1392,7 +1392,7 @@
             "Divine"
         ],
         "shortDesc": "Bid a creature to approach, run, release something, lie prone, or stand up.",
-        "actions": "2",
+        "actions": "2A",
         "castType": "somatic, verbal",
         "savingthrow": "Will",
         "traits": [
@@ -1413,7 +1413,7 @@
             "Primal"
         ],
         "shortDesc": "Conjure 2 gallons of water.",
-        "actions": "2",
+        "actions": "2A",
         "castType": "somatic, verbal",
         "traits": [
             "Common",
@@ -1430,7 +1430,7 @@
             "Divine"
         ],
         "shortDesc": "See auras of a chosen alignment.",
-        "actions": "2",
+        "actions": "2A",
         "castType": "somatic, verbal",
         "traits": [
             "Uncommon",
@@ -1447,7 +1447,7 @@
             "Primal"
         ],
         "shortDesc": "Determine whether an object or creature is poisonous or venomous.",
-        "actions": "2",
+        "actions": "2A",
         "castType": "somatic, verbal",
         "traits": [
             "Uncommon",
@@ -1463,7 +1463,7 @@
             "Divine"
         ],
         "shortDesc": "Weapons deal positive damage to undead.",
-        "actions": "2",
+        "actions": "2A",
         "castType": "somatic, verbal",
         "traits": [
             "Common",
@@ -1480,7 +1480,7 @@
             "Occult"
         ],
         "shortDesc": "You invigorate the touched creature�s mind and urge it to press on.",
-        "actions": "1",
+        "actions": "1A",
         "castType": "somatic",
         "traits": [
             "Common",
@@ -1499,7 +1499,7 @@
             "Primal"
         ],
         "shortDesc": "Frighten a creature, possibly making it flee.",
-        "actions": "2",
+        "actions": "2A",
         "castType": "somatic, verbal",
         "savingthrow": "Will",
         "traits": [
@@ -1547,7 +1547,7 @@
             "Primal"
         ],
         "shortDesc": "Make your Speed much faster.",
-        "actions": "2",
+        "actions": "2A",
         "castType": "somatic, verbal",
         "traits": [
             "Common",
@@ -1563,7 +1563,7 @@
             "Occult"
         ],
         "shortDesc": "A disk of energy follows you, carrying objects.",
-        "actions": "2",
+        "actions": "2A",
         "castType": "somatic, verbal",
         "traits": [
             "Common",
@@ -1580,7 +1580,7 @@
             "Primal"
         ],
         "shortDesc": "Infect a creature with goblin pox.",
-        "actions": "2",
+        "actions": "2A",
         "castType": "somatic, verbal",
         "savingthrow": "Fortitude",
         "traits": [
@@ -1598,7 +1598,7 @@
             "Primal"
         ],
         "shortDesc": "Coat a surface or object in slippery grease.",
-        "actions": "2",
+        "actions": "2A",
         "castType": "somatic, verbal",
         "traits": [
             "Common",
@@ -1614,7 +1614,7 @@
             "Occult"
         ],
         "shortDesc": "Creatures in a line take negative damage and bleed.",
-        "actions": "2",
+        "actions": "2A",
         "castType": "somatic, verbal",
         "savingthrow": "Fortitude",
         "traits": [
@@ -1632,7 +1632,7 @@
             "Primal"
         ],
         "shortDesc": "Wind blows out fires and knocks back objects and creatures.",
-        "actions": "2",
+        "actions": "2A",
         "castType": "somatic, verbal",
         "traits": [
             "Common",
@@ -1681,7 +1681,7 @@
             "Primal"
         ],
         "shortDesc": "Damage and push a creature with a blast of water.",
-        "actions": "2",
+        "actions": "2A",
         "castType": "somatic, verbal",
         "traits": [
             "Common",
@@ -1698,7 +1698,7 @@
             "Occult"
         ],
         "shortDesc": "The target is struck with misfortune, which throws them off balance.",
-        "actions": "2",
+        "actions": "2A",
         "castType": "somatic, verbal",
         "traits": [
             "Common",
@@ -1716,7 +1716,7 @@
             "Occult"
         ],
         "shortDesc": "Make yourself look like a different creature.",
-        "actions": "2",
+        "actions": "2A",
         "castType": "somatic, verbal",
         "traits": [
             "Common",
@@ -1733,7 +1733,7 @@
             "Occult"
         ],
         "shortDesc": "Form a convincing illusion of an object.",
-        "actions": "2",
+        "actions": "2A",
         "castType": "somatic, verbal",
         "traits": [
             "Common",
@@ -1750,7 +1750,7 @@
             "Occult"
         ],
         "shortDesc": "Disguise an item to look perfect or shoddy.",
-        "actions": "2",
+        "actions": "2A",
         "castType": "somatic, verbal",
         "traits": [
             "Common",
@@ -1767,7 +1767,7 @@
             "Primal"
         ],
         "shortDesc": "Make an impressive leap.",
-        "actions": "1",
+        "actions": "1A",
         "castType": "somatic",
         "traits": [
             "Common",
@@ -1783,7 +1783,7 @@
             "Occult"
         ],
         "shortDesc": "You call out a liberating cry, urging an ally to break free of an effect that holds them in place.",
-        "actions": "1",
+        "actions": "1A",
         "castType": "verbal",
         "traits": [
             "Common",
@@ -1801,7 +1801,7 @@
             "Divine"
         ],
         "shortDesc": "Make a lock hard to open.",
-        "actions": "2",
+        "actions": "2A",
         "castType": "somatic, verbal",
         "traits": [
             "Common",
@@ -1817,7 +1817,7 @@
             "Primal"
         ],
         "shortDesc": "Increase your Speed for an hour.",
-        "actions": "2",
+        "actions": "2A",
         "castType": "somatic, verbal",
         "traits": [
             "Common",
@@ -1833,7 +1833,7 @@
             "Occult"
         ],
         "shortDesc": "Ward yourself with magical armor.",
-        "actions": "2",
+        "actions": "2A",
         "castType": "somatic, verbal",
         "traits": [
             "Common",
@@ -1864,7 +1864,7 @@
             "Primal"
         ],
         "shortDesc": "Make a creature's unarmed attacks magical temporarily.",
-        "actions": "2",
+        "actions": "2A",
         "castType": "somatic, verbal",
         "traits": [
             "Common",
@@ -1898,7 +1898,7 @@
             "Divine"
         ],
         "shortDesc": "Make a weapon temporarily magical.",
-        "actions": "2",
+        "actions": "2A",
         "castType": "somatic, verbal",
         "traits": [
             "Common",
@@ -1980,7 +1980,7 @@
             "Occult"
         ],
         "shortDesc": "Mentally impart 10 minutes' worth of information in an instant.",
-        "actions": "2",
+        "actions": "2A",
         "castType": "somatic, verbal",
         "traits": [
             "Common",
@@ -1997,7 +1997,7 @@
             "Primal"
         ],
         "shortDesc": "Suppress a creature�s scent.",
-        "actions": "2",
+        "actions": "2A",
         "castType": "somatic, verbal",
         "traits": [
             "Common",
@@ -2012,7 +2012,7 @@
             "Primal"
         ],
         "shortDesc": "Make your tracks hard to find.",
-        "actions": "2",
+        "actions": "2A",
         "castType": "somatic, verbal",
         "traits": [
             "Common",
@@ -2028,7 +2028,7 @@
             "Occult"
         ],
         "shortDesc": "You envelop the target in a shroud of shadow.",
-        "actions": "2",
+        "actions": "2A",
         "castType": "somatic, verbal",
         "traits": [
             "Common",
@@ -2045,7 +2045,7 @@
             "Primal"
         ],
         "shortDesc": "Turn into a nonthreatening animal.",
-        "actions": 2,
+        "actions": "2A",
         "castType": "somatic, verbal",
         "traits": [
             "Common",
@@ -2089,7 +2089,7 @@
             "Occult"
         ],
         "shortDesc": "Cause a creature ongoing pain that sickens it.",
-        "actions": "2",
+        "actions": "2A",
         "castType": "somatic, verbal",
         "savingthrow": "Will",
         "traits": [
@@ -2108,7 +2108,7 @@
             "Divine"
         ],
         "shortDesc": "Shield a creature against those of a chosen alignment.",
-        "actions": "2",
+        "actions": "2A",
         "castType": "somatic, verbal",
         "traits": [
             "Uncommon",
@@ -2124,7 +2124,7 @@
             "Primal"
         ],
         "shortDesc": "Make beverages and meals safe.",
-        "actions": "2",
+        "actions": "2A",
         "castType": "somatic, verbal",
         "traits": [
             "Common",
@@ -2144,7 +2144,7 @@
             "Divine"
         ],
         "shortDesc": "Sap a creature's strength.",
-        "actions": "2",
+        "actions": "2A",
         "castType": "somatic, verbal",
         "savingthrow": "Fortitude",
         "traits": [
@@ -2162,7 +2162,7 @@
             "Divine"
         ],
         "shortDesc": "Protect a creature from being attacked.",
-        "actions": "2",
+        "actions": "2A",
         "castType": "somatic, verbal",
         "traits": [
             "Common",
@@ -2194,7 +2194,7 @@
             "Primal"
         ],
         "shortDesc": "A large gem floats around the target in an erratic pattern.",
-        "actions": "2",
+        "actions": "2A",
         "castType": "somatic, verbal",
         "traits": [
             "Common",
@@ -2210,7 +2210,7 @@
             "Primal"
         ],
         "shortDesc": "Make a club or staff temporarily magical, and deal more damage to unnatural creatures.",
-        "actions": "2",
+        "actions": "2A",
         "castType": "somatic, verbal",
         "traits": [
             "Common",
@@ -2227,7 +2227,7 @@
             "Primal"
         ],
         "shortDesc": "Zap a creature with electricity.",
-        "actions": "2",
+        "actions": "2A",
         "castType": "somatic, verbal",
         "traits": [
             "Common",
@@ -2354,7 +2354,7 @@
             "Primal"
         ],
         "shortDesc": "You create a wave of energy that ripples through the earth.",
-        "actions": "2",
+        "actions": "2A",
         "castType": "somatic, verbal",
         "savingthrow": "Reflex",
         "traits": [
@@ -2372,7 +2372,7 @@
             "Occult"
         ],
         "shortDesc": "Cause creatures in a small area to fall asleep.",
-        "actions": "2",
+        "actions": "2A",
         "castType": "somatic, verbal",
         "traits": [
             "Common",
@@ -2423,7 +2423,7 @@
             "Primal"
         ],
         "shortDesc": "You throw a magically propelled and chilled ball of dense snow.",
-        "actions": "2",
+        "actions": "2A",
         "castType": "somatic, verbal",
         "traits": [
             "Common",
@@ -2441,7 +2441,7 @@
             "Occult"
         ],
         "shortDesc": "Heal the target and bolster them against mental attacks.",
-        "actions": "2",
+        "actions": "2A",
         "castType": "somatic, verbal",
         "traits": [
             "Common",
@@ -2460,7 +2460,7 @@
             "Primal"
         ],
         "shortDesc": "Damage a creature and afflict it with spider venom.",
-        "actions": "2",
+        "actions": "2A",
         "castType": "somatic, verbal",
         "savingthrow": "Fortitude",
         "traits": [
@@ -2478,7 +2478,7 @@
             "Divine"
         ],
         "shortDesc": "Continually transfer your health to someone else.",
-        "actions": "2",
+        "actions": "2A",
         "castType": "somatic, verbal",
         "traits": [
             "Common",
@@ -2495,7 +2495,7 @@
             "Primal"
         ],
         "shortDesc": "Conjure an animal to fight on your behalf.",
-        "actions": "3",
+        "actions": "3A",
         "castType": "material, somatic, verbal",
         "traits": [
             "Common",
@@ -2510,7 +2510,7 @@
             "Arcane"
         ],
         "shortDesc": "Conjure a construct to fight on your behalf.",
-        "actions": "3",
+        "actions": "3A",
         "castType": "material, somatic, verbal",
         "traits": [
             "Common",
@@ -2526,7 +2526,7 @@
             "Primal"
         ],
         "shortDesc": "Conjure a fey to fight on your behalf.",
-        "actions": "3",
+        "actions": "3A",
         "castType": "material, somatic, verbal",
         "traits": [
             "Common",
@@ -2541,7 +2541,7 @@
             "Primal"
         ],
         "shortDesc": "Conjure a plant or fungus to fight on your behalf.",
-        "actions": "3",
+        "actions": "3A",
         "castType": "material, somatic, verbal",
         "traits": [
             "Common",
@@ -2571,7 +2571,7 @@
             "Primal"
         ],
         "shortDesc": "You use magical chains, vines, or other tethers to bind your target to you.",
-        "actions": "1",
+        "actions": "1A",
         "castType": "somatic, verbal",
         "savingthrow": "Reflex",
         "traits": [
@@ -2588,7 +2588,7 @@
             "Occult"
         ],
         "shortDesc": "Make your next attack especially accurate.",
-        "actions": "1",
+        "actions": "1A",
         "castType": "verbal",
         "traits": [
             "Common",
@@ -2605,7 +2605,7 @@
             "Occult"
         ],
         "shortDesc": "Create an invisible creature to help you.",
-        "actions": "3",
+        "actions": "3A",
         "castType": "material, somatic, verbal",
         "traits": [
             "Common",
@@ -2623,7 +2623,7 @@
             "Primal"
         ],
         "shortDesc": "Throw your voice.",
-        "actions": "2",
+        "actions": "2A",
         "castType": "somatic, verbal",
         "traits": [
             "Common",
@@ -2640,7 +2640,7 @@
             "Primal"
         ],
         "shortDesc": "Magical arrow deals acid damage persistently.",
-        "actions": "2",
+        "actions": "2A",
         "castType": "somatic, verbal",
         "traits": [
             "Common",
@@ -2657,7 +2657,7 @@
             "Primal"
         ],
         "shortDesc": "Turn into a dangerous animal.",
-        "actions": "2",
+        "actions": "2A",
         "castType": "somatic, verbal",
         "traits": [
             "Common",
@@ -2689,7 +2689,7 @@
             "Occult"
         ],
         "shortDesc": "You implant a mental mine within your psyche that detonates against anyone attempting to manipulate your thoughts.",
-        "actions": "2",
+        "actions": "2A",
         "castType": "somatic, verbal",
         "savingthrow": "Will",
         "traits": [
@@ -2723,7 +2723,7 @@
             "Primal"
         ],
         "shortDesc": "Target's skin is covered in protective bark.",
-        "actions": "2",
+        "actions": "2A",
         "castType": "somatic, verbal",
         "traits": [
             "Common",
@@ -2740,7 +2740,7 @@
             "Occult"
         ],
         "shortDesc": "Cause a target's form to become blurry and hard to hit.",
-        "actions": "2",
+        "actions": "2A",
         "castType": "somatic, verbal",
         "traits": [
             "Common",
@@ -2756,7 +2756,7 @@
             "Divine"
         ],
         "shortDesc": "You brand the target with an ethereal copy of your deity�s religious symbol.",
-        "actions": "2",
+        "actions": "2A",
         "castType": "somatic, verbal",
         "savingthrow": "Fortitude",
         "traits": [
@@ -2774,7 +2774,7 @@
             "Divine"
         ],
         "shortDesc": "Suppress strong emotions and hostility.",
-        "actions": "2",
+        "actions": "2A",
         "castType": "somatic, verbal",
         "savingthrow": "Will",
         "traits": [
@@ -2795,7 +2795,7 @@
             "Divine"
         ],
         "shortDesc": "A creature understands one language.",
-        "actions": "2",
+        "actions": "2A",
         "castType": "somatic, verbal",
         "traits": [
             "Common",
@@ -2813,7 +2813,7 @@
             "Primal"
         ],
         "shortDesc": "A magical flame burns indefinitely.",
-        "actions": "3",
+        "actions": "3A",
         "castType": "material, somatic, verbal",
         "traits": [
             "Common",
@@ -2888,7 +2888,7 @@
             "Primal"
         ],
         "shortDesc": "Suppress all light in an area.",
-        "actions": "3",
+        "actions": "3A",
         "castType": "material, somatic, verbal",
         "traits": [
             "Common",
@@ -2907,7 +2907,7 @@
             "Primal"
         ],
         "shortDesc": "See in the dark.",
-        "actions": "2",
+        "actions": "2A",
         "castType": "somatic, verbal",
         "traits": [
             "Common",
@@ -2925,7 +2925,7 @@
             "Primal"
         ],
         "shortDesc": "Make a creature deaf.",
-        "actions": "2",
+        "actions": "2A",
         "castType": "somatic, verbal",
         "savingthrow": "Fortitude",
         "traits": [
@@ -2942,7 +2942,7 @@
             "Divine"
         ],
         "shortDesc": "Finish off a creature who's near death.",
-        "actions": "2",
+        "actions": "2A",
         "castType": "somatic, verbal",
         "savingthrow": "Will",
         "traits": [
@@ -2962,7 +2962,7 @@
             "Primal"
         ],
         "shortDesc": "End a spell or suppress an item's magic.",
-        "actions": "2",
+        "actions": "2A",
         "castType": "somatic, verbal",
         "traits": [
             "Common",
@@ -3011,7 +3011,7 @@
             "Primal"
         ],
         "shortDesc": "A creature grows in size.",
-        "actions": "2",
+        "actions": "2A",
         "castType": "somatic, verbal",
         "traits": [
             "Common",
@@ -3027,7 +3027,7 @@
             "Primal"
         ],
         "shortDesc": "Plants in an area grow to entangle and immobilize.",
-        "actions": "2",
+        "actions": "2A",
         "castType": "somatic, verbal",
         "traits": [
             "Common",
@@ -3044,7 +3044,7 @@
             "Primal"
         ],
         "shortDesc": "You remove loose dirt, dust, gravel, sand, and the like from the area.",
-        "actions": "2",
+        "actions": "2A",
         "castType": "somatic, verbal",
         "traits": [
             "Common",
@@ -3062,7 +3062,7 @@
             "Primal"
         ],
         "shortDesc": "Colorful light prevents creatures from being concealed or invisible.",
-        "actions": "2",
+        "actions": "2A",
         "castType": "somatic, verbal",
         "traits": [
             "Common",
@@ -3079,7 +3079,7 @@
             "Occult"
         ],
         "shortDesc": "Gain temporary HP.",
-        "actions": "2",
+        "actions": "2A",
         "castType": "somatic, verbal",
         "traits": [
             "Common",
@@ -3096,7 +3096,7 @@
             "Primal"
         ],
         "shortDesc": "You curse the target with a hunger no food can sate.",
-        "actions": "3",
+        "actions": "3A",
         "castType": "material, somatic, verbal",
         "savingthrow": "Fortitude",
         "traits": [
@@ -3114,7 +3114,7 @@
             "Primal"
         ],
         "shortDesc": "A ball of fire rolls about at your command.",
-        "actions": "2",
+        "actions": "2A",
         "castType": "somatic, verbal",
         "savingthrow": "Reflex",
         "traits": [
@@ -3131,7 +3131,7 @@
             "Primal"
         ],
         "shortDesc": "Thin hyphae grow from your feet and plunge into the earth.",
-        "actions": "2",
+        "actions": "2A",
         "castType": "somatic, verbal",
         "traits": [
             "Common",
@@ -3150,7 +3150,7 @@
             "Primal"
         ],
         "shortDesc": "A corpse doesn't decay and can't become undead.",
-        "actions": "2",
+        "actions": "2A",
         "castType": "somatic, verbal",
         "traits": [
             "Common",
@@ -3166,7 +3166,7 @@
             "Divine"
         ],
         "shortDesc": "Infect a creature with ghoul fever.",
-        "actions": "2",
+        "actions": "2A",
         "castType": "somatic, verbal",
         "savingthrow": "Fortitude",
         "traits": [
@@ -3185,7 +3185,7 @@
             "Primal"
         ],
         "shortDesc": "Sparkling dust breaks invisibility and impedes vision.",
-        "actions": "2",
+        "actions": "2A",
         "castType": "somatic, verbal",
         "savingthrow": "Reflex",
         "traits": [
@@ -3202,7 +3202,7 @@
             "Occult"
         ],
         "shortDesc": "Fits of laughter make a creature unable to take all its actions.",
-        "actions": "2",
+        "actions": "2A",
         "castType": "somatic, verbal",
         "savingthrow": "Will",
         "traits": [
@@ -3222,7 +3222,7 @@
             "Primal"
         ],
         "shortDesc": "Take the shape of a humanoid.",
-        "actions": "2",
+        "actions": "2A",
         "castType": "somatic, verbal",
         "traits": [
             "Common",
@@ -3239,7 +3239,7 @@
             "Occult"
         ],
         "shortDesc": "Form a convincing illusion of a creature.",
-        "actions": "2",
+        "actions": "2A",
         "castType": "somatic, verbal",
         "traits": [
             "Common",
@@ -3257,7 +3257,7 @@
             "Occult"
         ],
         "shortDesc": "A creature can�t be seen until it attacks.",
-        "actions": "2",
+        "actions": "2A",
         "castType": "material, somatic",
         "traits": [
             "Common",
@@ -3273,7 +3273,7 @@
             "Primal"
         ],
         "shortDesc": "Your mouth, esophagus, and stomach become incredibly elastic and tougher than metal.",
-        "actions": "2",
+        "actions": "2A",
         "castType": "material, somatic",
         "traits": [
             "Common",
@@ -3289,7 +3289,7 @@
             "Occult"
         ],
         "shortDesc": "Make a door, lock, or container easier to open, and possibly open it immediately.",
-        "actions": "2",
+        "actions": "2A",
         "castType": "somatic, verbal",
         "traits": [
             "Common",
@@ -3309,7 +3309,7 @@
             "Occult"
         ],
         "shortDesc": "Make an illusory mouth appear to speak a message.",
-        "actions": "2",
+        "actions": "2A",
         "castType": "somatic, verbal",
         "traits": [
             "Common",
@@ -3327,7 +3327,7 @@
             "Occult"
         ],
         "shortDesc": "Illusory duplicates of you cause attacks to miss.",
-        "actions": "2",
+        "actions": "2A",
         "castType": "somatic, verbal",
         "traits": [
             "Common",
@@ -3360,7 +3360,7 @@
             "Primal"
         ],
         "shortDesc": "Conceal creatures in a cloud of mist.",
-        "actions": "3",
+        "actions": "3A",
         "castType": "material, somatic, verbal",
         "traits": [
             "Common",
@@ -3376,7 +3376,7 @@
             "Occult"
         ],
         "shortDesc": "Make a creature believe everyone is a threat.",
-        "actions": "2",
+        "actions": "2A",
         "castType": "somatic, verbal",
         "savingthrow": "Will",
         "traits": [
@@ -3412,7 +3412,7 @@
             "Primal"
         ],
         "shortDesc": "Free a creature from its fright.",
-        "actions": "2",
+        "actions": "2A",
         "castType": "somatic, verbal",
         "traits": [
             "Common",
@@ -3429,7 +3429,7 @@
             "Primal"
         ],
         "shortDesc": "Free a creature from paralysis.",
-        "actions": "2",
+        "actions": "2A",
         "castType": "somatic, verbal",
         "traits": [
             "Common",
@@ -3469,7 +3469,7 @@
             "Primal"
         ],
         "shortDesc": "Protect a creature from one type of energy damage.",
-        "actions": "2",
+        "actions": "2A",
         "castType": "somatic, verbal",
         "traits": [
             "Common",
@@ -3504,7 +3504,7 @@
             "Primal"
         ],
         "shortDesc": "Remove a blinding or deafening effect.",
-        "actions": "2",
+        "actions": "2A",
         "castType": "somatic, verbal",
         "traits": [
             "Common",
@@ -3522,7 +3522,7 @@
             "Divine"
         ],
         "shortDesc": "See invisible creatures and objects.",
-        "actions": "2",
+        "actions": "2A",
         "castType": "somatic, verbal",
         "traits": [
             "Common",
@@ -3538,7 +3538,7 @@
             "Primal"
         ],
         "shortDesc": "Reshape unworked wood as you choose.",
-        "actions": "2",
+        "actions": "2A",
         "castType": "somatic, verbal",
         "traits": [
             "Common",
@@ -3555,7 +3555,7 @@
             "Primal"
         ],
         "shortDesc": "Shatter an object with a high-frequency sonic attack.",
-        "actions": "2",
+        "actions": "2A",
         "castType": "somatic, verbal",
         "traits": [
             "Common",
@@ -3571,7 +3571,7 @@
             "Divine"
         ],
         "shortDesc": "Absorb half the damage an ally would take.",
-        "actions": "2",
+        "actions": "2A",
         "castType": "somatic, verbal",
         "traits": [
             "Common",
@@ -3587,7 +3587,7 @@
             "Primal"
         ],
         "shortDesc": "Reduce a willing creature to Tiny size.",
-        "actions": "2",
+        "actions": "2A",
         "castType": "somatic, verbal",
         "traits": [
             "Common",
@@ -3604,7 +3604,7 @@
             "Divine"
         ],
         "shortDesc": "Mute all sound from a creature.",
-        "actions": "2",
+        "actions": "2A",
         "castType": "material, somatic",
         "traits": [
             "Common",
@@ -3620,7 +3620,7 @@
             "Primal"
         ],
         "shortDesc": "You continually and harmlessly slough off the top layer of your skin while new skin regenerates immediately.",
-        "actions": "2",
+        "actions": "2A",
         "castType": "somatic, verbal",
         "traits": [
             "Common",
@@ -3636,7 +3636,7 @@
             "Divine"
         ],
         "shortDesc": "Damage and deafen creatures with a powerful din.",
-        "actions": "2",
+        "actions": "2A",
         "castType": "somatic, verbal",
         "savingthrow": "Fortitude",
         "traits": [
@@ -3654,7 +3654,7 @@
             "Primal"
         ],
         "shortDesc": "Communicate with animals.",
-        "actions": "2",
+        "actions": "2A",
         "castType": "somatic, verbal",
         "traits": [
             "Common",
@@ -3680,7 +3680,7 @@
             "Occult"
         ],
         "shortDesc": "Create a semicorporeal hand that touches creatures to target them with your spells.",
-        "actions": "2",
+        "actions": "2A",
         "castType": "somatic, verbal",
         "traits": [
             "Common",
@@ -3696,7 +3696,7 @@
             "Primal"
         ],
         "shortDesc": "Give a creature a climb Speed.",
-        "actions": "2",
+        "actions": "2A",
         "castType": "somatic, verbal",
         "traits": [
             "Common",
@@ -3712,7 +3712,7 @@
             "Divine"
         ],
         "shortDesc": "Materialize a deific weapon of force that appears and attacks repeatedly.",
-        "actions": "2",
+        "actions": "2A",
         "castType": "somatic, verbal",
         "traits": [
             "Common",
@@ -3731,7 +3731,7 @@
             "Primal"
         ],
         "shortDesc": "Keep track of a willing creature's location and well-being.",
-        "actions": "2",
+        "actions": "2A",
         "castType": "somatic, verbal",
         "traits": [
             "Common",
@@ -3748,7 +3748,7 @@
             "Primal"
         ],
         "shortDesc": "Conjure an elemental to fight on your behalf.",
-        "actions": "3",
+        "actions": "3A",
         "castType": "material, somatic, verbal",
         "traits": [
             "Common",
@@ -3764,7 +3764,7 @@
             "Occult"
         ],
         "shortDesc": "Disarm, Shove, or Trip a creature telekinetically.",
-        "actions": "2",
+        "actions": "2A",
         "castType": "somatic, verbal",
         "traits": [
             "Common",
@@ -3782,7 +3782,7 @@
             "Occult"
         ],
         "shortDesc": "Dull a target's mind with a touch.",
-        "actions": "2",
+        "actions": "2A",
         "castType": "somatic, verbal",
         "savingthrow": "Will",
         "traits": [
@@ -3799,7 +3799,7 @@
             "Primal"
         ],
         "shortDesc": "Turn into a tree.",
-        "actions": "2",
+        "actions": "2A",
         "castType": "somatic, verbal",
         "traits": [
             "Common",
@@ -3851,7 +3851,7 @@
             "Primal"
         ],
         "shortDesc": "Buoy a creature so it can walk on water.",
-        "actions": "2",
+        "actions": "2A",
         "castType": "somatic, verbal",
         "traits": [
             "Common",
@@ -3867,7 +3867,7 @@
             "Primal"
         ],
         "shortDesc": "Form a web that keeps creatures from moving.",
-        "actions": "3",
+        "actions": "3A",
         "castType": "material, somatic, verbal",
         "traits": [
             "Common",
@@ -3900,7 +3900,7 @@
             "Divine"
         ],
         "shortDesc": "Take control of a mindless undead.",
-        "actions": "2",
+        "actions": "2A",
         "castType": "somatic, verbal",
         "traits": [
             "Common",
@@ -3918,7 +3918,7 @@
             "Primal"
         ],
         "shortDesc": "Strike a target blind.",
-        "actions": "2",
+        "actions": "2A",
         "castType": "somatic, verbal",
         "savingthrow": "Fortitude",
         "traits": [
@@ -3935,7 +3935,7 @@
             "Divine"
         ],
         "shortDesc": "Ray of evil darkness deals cold damage, counteracts light, and harms celestials.",
-        "actions": "2",
+        "actions": "2A",
         "castType": "somatic, verbal",
         "traits": [
             "Common",
@@ -3955,7 +3955,7 @@
             "Divine"
         ],
         "shortDesc": "A creature emits an aura that protects those within against an alignment.",
-        "actions": "3",
+        "actions": "3A",
         "castType": "material, somatic, verbal",
         "traits": [
             "Uncommon",
@@ -3987,7 +3987,7 @@
             "Divine"
         ],
         "shortDesc": "Cause mental damage and possibly make a worshipper unable to cast spells.",
-        "actions": "2",
+        "actions": "2A",
         "castType": "somatic, verbal",
         "savingthrow": "Will",
         "traits": [
@@ -4006,7 +4006,7 @@
             "Primal"
         ],
         "shortDesc": "You curse the target with a thirst no drink can quench.",
-        "actions": "3",
+        "actions": "3A",
         "castType": "material, somatic, verbal",
         "savingthrow": "Fortitude",
         "traits": [
@@ -4042,7 +4042,7 @@
             "Primal"
         ],
         "shortDesc": "Bring a flying creature to the ground.",
-        "actions": "2",
+        "actions": "2A",
         "castType": "somatic, verbal",
         "savingthrow": "Fortitude",
         "traits": [
@@ -4059,7 +4059,7 @@
             "Occult"
         ],
         "shortDesc": "Your speech makes creatures fascinated with you.",
-        "actions": "2",
+        "actions": "2A",
         "castType": "somatic, verbal",
         "savingthrow": "Will",
         "traits": [
@@ -4078,7 +4078,7 @@
             "Primal"
         ],
         "shortDesc": "Turn a creature's feet into fins, enabling it swim but slowing it on land.",
-        "actions": "2",
+        "actions": "2A",
         "castType": "somatic, verbal",
         "traits": [
             "Common",
@@ -4095,7 +4095,7 @@
             "Primal"
         ],
         "shortDesc": "An explosion of fire in an area burns creatures.",
-        "actions": "2",
+        "actions": "2A",
         "castType": "somatic, verbal",
         "savingthrow": "basic Reflex",
         "traits": [
@@ -4113,7 +4113,7 @@
             "Occult"
         ],
         "shortDesc": "Make a weapon affect incorporeal creatures.",
-        "actions": "2",
+        "actions": "2A",
         "castType": "somatic, verbal",
         "traits": [
             "Common",
@@ -4147,7 +4147,7 @@
             "Occult"
         ],
         "shortDesc": "You create a sphere of altered gravity.",
-        "actions": "2",
+        "actions": "2A",
         "castType": "somatic, verbal",
         "savingthrow": "Reflex",
         "traits": [
@@ -4165,7 +4165,7 @@
             "Primal"
         ],
         "shortDesc": "Speed up a creature so it can attack or move more often.",
-        "actions": "2",
+        "actions": "2A",
         "castType": "somatic, verbal",
         "traits": [
             "Common",
@@ -4181,7 +4181,7 @@
             "Divine"
         ],
         "shortDesc": "Stoke a creature's inner heroism to make it more competent.",
-        "actions": "2",
+        "actions": "2A",
         "castType": "somatic, verbal",
         "traits": [
             "Common",
@@ -4197,7 +4197,7 @@
             "Occult"
         ],
         "shortDesc": "Recall massive amounts of information in an instant.",
-        "actions": "1",
+        "actions": "1A",
         "castType": "verbal",
         "traits": [
             "Common",
@@ -4213,7 +4213,7 @@
             "Occult"
         ],
         "shortDesc": "Shifting colors dazzle and fascinate creatures.",
-        "actions": "2",
+        "actions": "2A",
         "castType": "material, somatic",
         "savingthrow": "Will",
         "traits": [
@@ -4230,7 +4230,7 @@
             "Primal"
         ],
         "shortDesc": "Turn into a dangerous giant insect.",
-        "actions": "2",
+        "actions": "2A",
         "castType": "somatic, verbal",
         "traits": [
             "Common",
@@ -4247,7 +4247,7 @@
             "Occult"
         ],
         "shortDesc": "You and creatures near you become invisible as you explore.",
-        "actions": "2",
+        "actions": "2A",
         "castType": "material, somatic",
         "traits": [
             "Common",
@@ -4263,7 +4263,7 @@
             "Occult"
         ],
         "shortDesc": "Float an object or creature a few feet of the ground.",
-        "actions": "2",
+        "actions": "2A",
         "castType": "somatic, verbal",
         "traits": [
             "Common",
@@ -4279,7 +4279,7 @@
             "Primal"
         ],
         "shortDesc": "Lightning strikes all creatures in a line.",
-        "actions": "2",
+        "actions": "2A",
         "castType": "somatic, verbal",
         "savingthrow": "basic Reflex",
         "traits": [
@@ -4315,7 +4315,7 @@
             "Primal"
         ],
         "shortDesc": "Meld into a block of stone.",
-        "actions": "2",
+        "actions": "2A",
         "castType": "somatic, verbal",
         "traits": [
             "Common",
@@ -4332,7 +4332,7 @@
             "Occult"
         ],
         "shortDesc": "Read a creature's surface thoughts.",
-        "actions": "2",
+        "actions": "2A",
         "castType": "somatic, verbal",
         "savingthrow": "Will",
         "traits": [
@@ -4351,7 +4351,7 @@
             "Primal"
         ],
         "shortDesc": "Cure a poison afflicting a creature.",
-        "actions": "2",
+        "actions": "2A",
         "castType": "somatic, verbal",
         "traits": [
             "Common",
@@ -4385,7 +4385,7 @@
             "Occult"
         ],
         "shortDesc": "Freeze a humanoid in place.",
-        "actions": "2",
+        "actions": "2A",
         "castType": "somatic, verbal",
         "savingthrow": "Will",
         "traits": [
@@ -4437,7 +4437,7 @@
             "Primal"
         ],
         "shortDesc": "A ray of burning light deals extra damage to undead and counteracts darkness.",
-        "actions": "2",
+        "actions": "2A",
         "castType": "somatic, verbal",
         "traits": [
             "Common",
@@ -4565,7 +4565,7 @@
             "Primal"
         ],
         "shortDesc": "You cause the surface to heave.",
-        "actions": "3",
+        "actions": "3A",
         "castType": "material, somatic, verbal",
         "traits": [
             "Common",
@@ -4616,7 +4616,7 @@
             "Primal"
         ],
         "shortDesc": "Make a creature slower, reducing its actions.",
-        "actions": "2",
+        "actions": "2A",
         "castType": "somatic, verbal",
         "savingthrow": "Fortitude",
         "traits": [
@@ -4633,7 +4633,7 @@
             "Primal"
         ],
         "shortDesc": "Form a cloud that sickens creatures.",
-        "actions": "2",
+        "actions": "2A",
         "castType": "somatic, verbal",
         "savingthrow": "Fortitude",
         "traits": [
@@ -4652,7 +4652,7 @@
             "Divine"
         ],
         "shortDesc": "Deal negative damage and gain temporary HP with a touch.",
-        "actions": "2",
+        "actions": "2A",
         "castType": "somatic, verbal",
         "savingthrow": "basic Fortitude",
         "traits": [
@@ -4670,7 +4670,7 @@
             "Primal"
         ],
         "shortDesc": "Grow a wall of brambles.",
-        "actions": "3",
+        "actions": "3A",
         "castType": "material, somatic, verbal",
         "traits": [
             "Common",
@@ -4687,7 +4687,7 @@
             "Primal"
         ],
         "shortDesc": "Create a wall of gusting winds that hinders movement and ranged attacks.",
-        "actions": "3",
+        "actions": "3A",
         "castType": "material, somatic, verbal",
         "traits": [
             "Common",
@@ -4720,7 +4720,7 @@
             "Occult"
         ],
         "shortDesc": "You surround yourself in a vortex of whirling colorful scarves of force that obfuscate you and disorient your foes.",
-        "actions": "2",
+        "actions": "2A",
         "castType": "somatic, verbal",
         "traits": [
             "Common",
@@ -4737,7 +4737,7 @@
             "Divine"
         ],
         "shortDesc": "Designate an area where creatures are compelled to be truthful.",
-        "actions": "2",
+        "actions": "2A",
         "castType": "somatic, verbal",
         "savingthrow": "Will",
         "traits": [
@@ -4755,7 +4755,7 @@
             "Primal"
         ],
         "shortDesc": "Turn into a flying combatant.",
-        "actions": "2",
+        "actions": "2A",
         "castType": "somatic, verbal",
         "traits": [
             "Common",
@@ -4772,7 +4772,7 @@
             "Primal"
         ],
         "shortDesc": "Walk on air as though it were solid ground.",
-        "actions": "2",
+        "actions": "2A",
         "castType": "somatic, verbal",
         "traits": [
             "Common",
@@ -4806,7 +4806,7 @@
             "Occult"
         ],
         "shortDesc": "Flit between the planes, vanishing and reappearing.",
-        "actions": "2",
+        "actions": "2A",
         "castType": "somatic, verbal",
         "traits": [
             "Common",
@@ -4840,7 +4840,7 @@
             "Occult"
         ],
         "shortDesc": "Befuddle a creature, making it act randomly.",
-        "actions": "2",
+        "actions": "2A",
         "castType": "somatic, verbal",
         "savingthrow": "Will",
         "traits": [
@@ -4875,7 +4875,7 @@
             "Occult"
         ],
         "shortDesc": "Find out if scrying effects are in the area.",
-        "actions": "2",
+        "actions": "2A",
         "castType": "somatic, verbal",
         "traits": [
             "Uncommon",
@@ -4892,7 +4892,7 @@
             "Occult"
         ],
         "shortDesc": "Teleport yourself up to 120 feet.",
-        "actions": "2",
+        "actions": "2A",
         "castType": "somatic, verbal",
         "traits": [
             "Common",
@@ -4910,7 +4910,7 @@
             "Divine"
         ],
         "shortDesc": "Keep a creature from teleporting or traveling to other planes.",
-        "actions": "2",
+        "actions": "2A",
         "castType": "somatic, verbal",
         "savingthrow": "Will",
         "traits": [
@@ -4926,7 +4926,7 @@
             "Primal"
         ],
         "shortDesc": "Turn into a dinosaur.",
-        "actions": "2",
+        "actions": "2A",
         "castType": "somatic, verbal",
         "traits": [
             "Common",
@@ -4944,7 +4944,7 @@
             "Divine"
         ],
         "shortDesc": "Expertly detect lies and falsehoods.",
-        "actions": "2",
+        "actions": "2A",
         "castType": "somatic, verbal",
         "traits": [
             "Uncommon",
@@ -4961,7 +4961,7 @@
             "Divine"
         ],
         "shortDesc": "Damage and hinder creatures of alignments opposed by your deity.",
-        "actions": "2",
+        "actions": "2A",
         "castType": "somatic, verbal",
         "savingthrow": "Fortitude",
         "traits": [
@@ -4978,7 +4978,7 @@
             "Primal"
         ],
         "shortDesc": "Flames protect you from cold and harm those that touch you.",
-        "actions": "2",
+        "actions": "2A",
         "castType": "somatic, verbal",
         "traits": [
             "Common",
@@ -4996,7 +4996,7 @@
             "Primal"
         ],
         "shortDesc": "Cause the target creature to gain a fly Speed.",
-        "actions": "2",
+        "actions": "2A",
         "castType": "somatic, verbal",
         "traits": [
             "Common",
@@ -5013,7 +5013,7 @@
             "Primal"
         ],
         "shortDesc": "A creature overcomes hindrances to its movement.",
-        "actions": "2",
+        "actions": "2A",
         "castType": "somatic, verbal",
         "traits": [
             "Common",
@@ -5030,7 +5030,7 @@
             "Primal"
         ],
         "shortDesc": "Turn a willing creature into a flying cloud.",
-        "actions": "2",
+        "actions": "2A",
         "castType": "somatic, verbal",
         "traits": [
             "Common",
@@ -5046,7 +5046,7 @@
             "Occult"
         ],
         "shortDesc": "Lie with impunity.",
-        "actions": "2",
+        "actions": "2A",
         "castType": "somatic, verbal",
         "traits": [
             "Uncommon",
@@ -5064,7 +5064,7 @@
             "Divine"
         ],
         "shortDesc": "Magical sphere counteracts spells that would enter it.",
-        "actions": "2",
+        "actions": "2A",
         "castType": "somatic, verbal",
         "traits": [
             "Uncommon",
@@ -5096,7 +5096,7 @@
             "Divine"
         ],
         "shortDesc": "Turn a vial of holy water into an explosion of blessed water.",
-        "actions": "2",
+        "actions": "2A",
         "castType": "somatic, verbal",
         "savingthrow": "basic Reflex",
         "traits": [
@@ -5115,7 +5115,7 @@
             "Primal"
         ],
         "shortDesc": "Force creatures back with a damaging line of water.",
-        "actions": "2",
+        "actions": "2A",
         "castType": "somatic, verbal",
         "savingthrow": "Fortitude",
         "traits": [
@@ -5132,7 +5132,7 @@
             "Occult"
         ],
         "shortDesc": "Change or implant memories.",
-        "actions": "2",
+        "actions": "2A",
         "castType": "somatic, verbal",
         "savingthrow": "Will",
         "traits": [
@@ -5169,7 +5169,7 @@
             "Divine"
         ],
         "shortDesc": "Curse a creature to be off-putting and grating.",
-        "actions": "2",
+        "actions": "2A",
         "castType": "somatic, verbal",
         "savingthrow": "Will",
         "traits": [
@@ -5189,7 +5189,7 @@
             "Occult"
         ],
         "shortDesc": "Place a fearsome image in a creature's mind to scare and possibly kill it.",
-        "actions": "2",
+        "actions": "2A",
         "castType": "somatic, verbal",
         "savingthrow": "Will",
         "traits": [
@@ -5243,7 +5243,7 @@
             "Primal"
         ],
         "shortDesc": "You grow a set of colored glowing scales or scaled armor that stores energy before releasing it in a final burst.",
-        "actions": "2",
+        "actions": "2A",
         "castType": "somatic, verbal",
         "traits": [
             "Common",
@@ -5276,7 +5276,7 @@
             "Occult"
         ],
         "shortDesc": "Create a sphere of force that blocks anything that would come through.",
-        "actions": "2",
+        "actions": "2A",
         "castType": "somatic, verbal",
         "traits": [
             "Common",
@@ -5310,7 +5310,7 @@
             "Primal"
         ],
         "shortDesc": "Reshape a cube of stone.",
-        "actions": "2",
+        "actions": "2A",
         "castType": "somatic, verbal",
         "traits": [
             "Common",
@@ -5327,7 +5327,7 @@
             "Primal"
         ],
         "shortDesc": "Conjure heavy fog that obscures sight and is hard to move through.",
-        "actions": "3",
+        "actions": "3A",
         "castType": "material, somatic, verbal",
         "traits": [
             "Common",
@@ -5343,7 +5343,7 @@
             "Primal"
         ],
         "shortDesc": "Communicate with plants and plant creatures.",
-        "actions": "2",
+        "actions": "2A",
         "castType": "somatic, verbal",
         "traits": [
             "Common",
@@ -5361,7 +5361,7 @@
             "Divine"
         ],
         "shortDesc": "Name a spell to negate its effects on you.",
-        "actions": "2",
+        "actions": "2A",
         "castType": "somatic, verbal",
         "traits": [
             "Common",
@@ -5377,7 +5377,7 @@
             "Primal"
         ],
         "shortDesc": "Harden a creature's skin into durable stone.",
-        "actions": "2",
+        "actions": "2A",
         "castType": "somatic, verbal",
         "traits": [
             "Common",
@@ -5394,7 +5394,7 @@
             "Occult"
         ],
         "shortDesc": "Suggest a course of action a creature must follow.",
-        "actions": "2",
+        "actions": "2A",
         "castType": "somatic, verbal",
         "savingthrow": "Will",
         "traits": [
@@ -5431,7 +5431,7 @@
             "Occult"
         ],
         "shortDesc": "Communicate telepathically with any creatures near you.",
-        "actions": "2",
+        "actions": "2A",
         "castType": "somatic, verbal",
         "traits": [
             "Common",
@@ -5449,7 +5449,7 @@
             "Occult"
         ],
         "shortDesc": "Disguise many creatures as other creatures.",
-        "actions": "2",
+        "actions": "2A",
         "castType": "somatic, verbal",
         "traits": [
             "Common",
@@ -5484,7 +5484,7 @@
             "Primal"
         ],
         "shortDesc": "Create a blazing wall burns creatures that pass through.",
-        "actions": "3",
+        "actions": "3A",
         "castType": "material, somatic, verbal",
         "traits": [
             "Common",
@@ -5501,7 +5501,7 @@
             "Primal"
         ],
         "shortDesc": "Multiply a weapon you hold and attack many creatures with it.",
-        "actions": "2",
+        "actions": "2A",
         "castType": "somatic, verbal",
         "savingthrow": "Reflex",
         "traits": [
@@ -5518,7 +5518,7 @@
             "Divine"
         ],
         "shortDesc": "Inflict a draining curse.",
-        "actions": "2",
+        "actions": "2A",
         "castType": "somatic, verbal",
         "savingthrow": "Fortitude",
         "traits": [
@@ -5538,7 +5538,7 @@
             "Primal"
         ],
         "shortDesc": "You evoke a storm of acid rain that pelts the area for the spell�s duration.",
-        "actions": "2",
+        "actions": "2A",
         "castType": "somatic, verbal",
         "traits": [
             "Common",
@@ -5557,7 +5557,7 @@
             "Primal"
         ],
         "shortDesc": "Send a creature back to its home plane.",
-        "actions": "2",
+        "actions": "2A",
         "castType": "somatic, verbal",
         "savingthrow": "Will",
         "traits": [
@@ -5575,7 +5575,7 @@
             "Occult"
         ],
         "shortDesc": "Tentacles in an area grab creatures.",
-        "actions": "3",
+        "actions": "3A",
         "castType": "material, somatic, verbal",
         "traits": [
             "Common",
@@ -5608,7 +5608,7 @@
             "Occult"
         ],
         "shortDesc": "A wall of light offers a unique protection based on its color.",
-        "actions": "3",
+        "actions": "3A",
         "castType": "material, somatic, verbal",
         "traits": [
             "Common",
@@ -5624,7 +5624,7 @@
             "Occult"
         ],
         "shortDesc": "Bright colors dazzle creatures near the target, and attacks cause blinding flashes of light.",
-        "actions": "2",
+        "actions": "2A",
         "castType": "somatic, verbal",
         "traits": [
             "Common",
@@ -5641,7 +5641,7 @@
             "Primal"
         ],
         "shortDesc": "Poison creatures in a cloud that moves away from you.",
-        "actions": "3",
+        "actions": "3A",
         "castType": "material, somatic, verbal",
         "savingthrow": "basic Fortitude",
         "traits": [
@@ -5660,7 +5660,7 @@
             "Primal"
         ],
         "shortDesc": "Bitter cold damages creatures in a cone.",
-        "actions": "2",
+        "actions": "2A",
         "castType": "somatic, verbal",
         "savingthrow": "basic Reflex",
         "traits": [
@@ -5678,7 +5678,7 @@
             "Primal"
         ],
         "shortDesc": "Raise or lower water in a large area.",
-        "actions": "2",
+        "actions": "2A",
         "castType": "somatic, verbal",
         "traits": [
             "Common",
@@ -5695,7 +5695,7 @@
             "Occult"
         ],
         "shortDesc": "Make a creature sob uncontrollably.",
-        "actions": "2",
+        "actions": "2A",
         "castType": "somatic, verbal",
         "savingthrow": "Will",
         "traits": [
@@ -5715,7 +5715,7 @@
             "Primal"
         ],
         "shortDesc": "Protect a creature against negative energy.",
-        "actions": "2",
+        "actions": "2A",
         "castType": "somatic, verbal",
         "traits": [
             "Common",
@@ -5764,7 +5764,7 @@
             "Primal"
         ],
         "shortDesc": "Turn into an elemental.",
-        "actions": "2",
+        "actions": "2A",
         "castType": "somatic, verbal",
         "traits": [
             "Common",
@@ -5796,7 +5796,7 @@
             "Divine"
         ],
         "shortDesc": "Call divine fire from the sky.",
-        "actions": "2",
+        "actions": "2A",
         "castType": "somatic, verbal",
         "savingthrow": "basic Reflex",
         "traits": [
@@ -5814,7 +5814,7 @@
             "Occult"
         ],
         "shortDesc": "A creature believes one thing is another, can�t detect something, or sees something that�s not really there.",
-        "actions": "2",
+        "actions": "2A",
         "castType": "material, somatic",
         "traits": [
             "Common",
@@ -5851,7 +5851,7 @@
             "Primal"
         ],
         "shortDesc": "Infect a creature with the curse of the rolling sea.",
-        "actions": "2",
+        "actions": "2A",
         "castType": "somatic, verbal",
         "savingthrow": "Will",
         "traits": [
@@ -5887,7 +5887,7 @@
             "Primal"
         ],
         "shortDesc": "Give willing creatures fangs and claws, and send them into a frenzy.",
-        "actions": "2",
+        "actions": "2A",
         "castType": "somatic, verbal",
         "traits": [
             "Common",
@@ -5904,7 +5904,7 @@
             "Primal"
         ],
         "shortDesc": "Form an earthen tunnel through a wall.",
-        "actions": "2",
+        "actions": "2A",
         "castType": "somatic, verbal",
         "traits": [
             "Uncommon",
@@ -5920,7 +5920,7 @@
             "Primal"
         ],
         "shortDesc": "Turn into a dangerous plant creature.",
-        "actions": "2",
+        "actions": "2A",
         "castType": "somatic, verbal",
         "traits": [
             "Common",
@@ -5957,7 +5957,7 @@
             "Divine"
         ],
         "shortDesc": "Send a mental message to a creature anywhere on the planet and get a reply.",
-        "actions": "3",
+        "actions": "3A",
         "castType": "material, somatic, verbal",
         "traits": [
             "Common",
@@ -5974,7 +5974,7 @@
             "Divine"
         ],
         "shortDesc": "Shape a cone of shadow to deal damage of a type you choose.",
-        "actions": "2",
+        "actions": "2A",
         "castType": "somatic, verbal",
         "savingthrow": "basic Reflex or Will (target's choice)",
         "traits": [
@@ -6026,7 +6026,7 @@
             "Divine"
         ],
         "shortDesc": "Create a magical guardian to attack at your command and take damage for your allies.",
-        "actions": "2",
+        "actions": "2A",
         "castType": "somatic, verbal",
         "traits": [
             "Common",
@@ -6044,7 +6044,7 @@
             "Occult"
         ],
         "shortDesc": "Plant a mental suggestion that must be followed when a trigger occurs.",
-        "actions": "2",
+        "actions": "2A",
         "castType": "somatic, verbal",
         "savingthrow": "Will",
         "traits": [
@@ -6063,7 +6063,7 @@
             "Divine"
         ],
         "shortDesc": "Conjure a celestial to fight on your behalf.",
-        "actions": "3",
+        "actions": "3A",
         "castType": "material, somatic, verbal",
         "traits": [
             "Common",
@@ -6078,7 +6078,7 @@
             "Arcane"
         ],
         "shortDesc": "Conjure a dragon to fight on your behalf.",
-        "actions": "3",
+        "actions": "3A",
         "castType": "material, somatic, verbal",
         "traits": [
             "Common",
@@ -6093,7 +6093,7 @@
             "Occult"
         ],
         "shortDesc": "Conjure an aberration to fight on your behalf.",
-        "actions": "3",
+        "actions": "3A",
         "castType": "material, somatic, verbal",
         "traits": [
             "Common",
@@ -6108,7 +6108,7 @@
             "Divine"
         ],
         "shortDesc": "Conjure a fiend to fight on your behalf.",
-        "actions": "3",
+        "actions": "3A",
         "castType": "material, somatic, verbal",
         "traits": [
             "Common",
@@ -6123,7 +6123,7 @@
             "Primal"
         ],
         "shortDesc": "Conjure a giant to fight on your behalf.",
-        "actions": "3",
+        "actions": "3A",
         "castType": "material, somatic, verbal",
         "traits": [
             "Common",
@@ -6138,7 +6138,7 @@
             "Occult"
         ],
         "shortDesc": "Slow creatures with a mental blast.",
-        "actions": "2",
+        "actions": "2A",
         "castType": "somatic, verbal",
         "savingthrow": "Will",
         "traits": [
@@ -6156,7 +6156,7 @@
             "Occult"
         ],
         "shortDesc": "Rewire a creature's senses.",
-        "actions": "2",
+        "actions": "2A",
         "castType": "somatic, verbal",
         "savingthrow": "Will",
         "traits": [
@@ -6174,7 +6174,7 @@
             "Occult"
         ],
         "shortDesc": "Move a large object.",
-        "actions": "2",
+        "actions": "2A",
         "castType": "somatic, verbal",
         "traits": [
             "Common",
@@ -6208,7 +6208,7 @@
             "Divine"
         ],
         "shortDesc": "Let a creature understand and speak all languages.",
-        "actions": "2",
+        "actions": "2A",
         "castType": "somatic, verbal",
         "traits": [
             "Uncommon",
@@ -6241,7 +6241,7 @@
             "Primal"
         ],
         "shortDesc": "Sculpt a foot-thick wall of ice that blocks sight and can chill creatures.",
-        "actions": "3",
+        "actions": "3A",
         "castType": "material, somatic, verbal",
         "traits": [
             "Common",
@@ -6259,7 +6259,7 @@
             "Primal"
         ],
         "shortDesc": "Shape a wall of stone.",
-        "actions": "3",
+        "actions": "3A",
         "castType": "material, somatic, verbal",
         "traits": [
             "Common",
@@ -6276,7 +6276,7 @@
             "Primal"
         ],
         "shortDesc": "Transform a creature into a harmless animal.",
-        "actions": "2",
+        "actions": "2A",
         "castType": "somatic, verbal",
         "savingthrow": "Fortitude",
         "traits": [
@@ -6294,7 +6294,7 @@
             "Divine"
         ],
         "shortDesc": "Form a wall of swords made of force.",
-        "actions": "3",
+        "actions": "3A",
         "castType": "material, somatic, verbal",
         "traits": [
             "Common",
@@ -6311,7 +6311,7 @@
             "Primal"
         ],
         "shortDesc": "Lightning jumps from creature to creature.",
-        "actions": "2",
+        "actions": "2A",
         "castType": "somatic, verbal",
         "savingthrow": "Reflex",
         "traits": [
@@ -6329,7 +6329,7 @@
             "Occult"
         ],
         "shortDesc": "Teleport up to two creatures to new positions near you.",
-        "actions": "2",
+        "actions": "2A",
         "castType": "somatic, verbal",
         "traits": [
             "Common",
@@ -6345,7 +6345,7 @@
             "Arcane"
         ],
         "shortDesc": "Reduce a creature or object to dust.",
-        "actions": "2",
+        "actions": "2A",
         "castType": "somatic, verbal",
         "savingthrow": "Fortitude",
         "traits": [
@@ -6363,7 +6363,7 @@
             "Occult"
         ],
         "shortDesc": "A humanoid must obey your orders.",
-        "actions": "2",
+        "actions": "2A",
         "castType": "somatic, verbal",
         "savingthrow": "Will",
         "traits": [
@@ -6382,7 +6382,7 @@
             "Primal"
         ],
         "shortDesc": "Turn into a dragon.",
-        "actions": "2",
+        "actions": "2A",
         "castType": "somatic, verbal",
         "traits": [
             "Common",
@@ -6399,7 +6399,7 @@
             "Occult"
         ],
         "shortDesc": "Stupefy a creature permanently.",
-        "actions": "2",
+        "actions": "2A",
         "castType": "somatic, verbal",
         "savingthrow": "Will",
         "traits": [
@@ -6419,7 +6419,7 @@
             "Primal"
         ],
         "shortDesc": "Create a positive energy field that heals those within.",
-        "actions": "2",
+        "actions": "2A",
         "castType": "somatic, verbal",
         "traits": [
             "Common",
@@ -6436,7 +6436,7 @@
             "Primal"
         ],
         "shortDesc": "Make four explosive acorns.",
-        "actions": "2",
+        "actions": "2A",
         "castType": "somatic, verbal",
         "savingthrow": "basic Reflex",
         "traits": [
@@ -6455,7 +6455,7 @@
             "Primal"
         ],
         "shortDesc": "Turn a living creature into a stone statue.",
-        "actions": "2",
+        "actions": "2A",
         "castType": "somatic, verbal",
         "savingthrow": "Fortitude",
         "traits": [
@@ -6472,7 +6472,7 @@
             "Occult"
         ],
         "shortDesc": "Turn invisible and create a duplicate of yourself who acts like you.",
-        "actions": "2",
+        "actions": "2A",
         "castType": "somatic, verbal",
         "traits": [
             "Common",
@@ -6488,7 +6488,7 @@
             "Occult"
         ],
         "shortDesc": "Damage a creature mentally with visions of an apocalypse.",
-        "actions": "2",
+        "actions": "2A",
         "castType": "somatic, verbal",
         "savingthrow": "Will",
         "traits": [
@@ -6506,7 +6506,7 @@
             "Primal"
         ],
         "shortDesc": "Damage a creature and infect it with purple worm venom.",
-        "actions": "2",
+        "actions": "2A",
         "castType": "somatic, verbal",
         "savingthrow": "Fortitude",
         "traits": [
@@ -6541,7 +6541,7 @@
             "Divine"
         ],
         "shortDesc": "Prevent creatures from approaching you.",
-        "actions": "2",
+        "actions": "2A",
         "castType": "somatic, verbal",
         "savingthrow": "Will",
         "traits": [
@@ -6559,7 +6559,7 @@
             "Divine"
         ],
         "shortDesc": "Turn into a battle form with divine armaments.",
-        "actions": "2",
+        "actions": "2A",
         "castType": "somatic, verbal",
         "traits": [
             "Common",
@@ -6595,7 +6595,7 @@
             "Divine"
         ],
         "shortDesc": "Curse a creature to be harmed when a spell is cast on it and lower the duration of its spells.",
-        "actions": "2",
+        "actions": "2A",
         "castType": "somatic, verbal",
         "savingthrow": "Will",
         "traits": [
@@ -6614,7 +6614,7 @@
             "Divine"
         ],
         "shortDesc": "Damage a creature's spiritual essence.",
-        "actions": "2",
+        "actions": "2A",
         "castType": "somatic, verbal",
         "savingthrow": "basic Fortitude",
         "traits": [
@@ -6632,7 +6632,7 @@
             "Primal"
         ],
         "shortDesc": "Speak to spirits within natural stone.",
-        "actions": "2",
+        "actions": "2A",
         "castType": "somatic, verbal",
         "traits": [
             "Uncommon",
@@ -6649,7 +6649,7 @@
             "Primal"
         ],
         "shortDesc": "Turn a creature turned to stone back to flesh.",
-        "actions": "2",
+        "actions": "2A",
         "castType": "somatic, verbal",
         "traits": [
             "Common",
@@ -6668,7 +6668,7 @@
             "Primal"
         ],
         "shortDesc": "Entangle creatures in a burst and concentrate to lash out with immobilizing vines.",
-        "actions": "3",
+        "actions": "3A",
         "castType": "material, somatic, verbal",
         "traits": [
             "Common",
@@ -6704,7 +6704,7 @@
             "Primal"
         ],
         "shortDesc": "See through illusions and transmutations.",
-        "actions": "2",
+        "actions": "2A",
         "castType": "somatic, verbal",
         "traits": [
             "Common",
@@ -6722,7 +6722,7 @@
             "Divine"
         ],
         "shortDesc": "Draw blood and life force from creatures in a cone.",
-        "actions": "2",
+        "actions": "2A",
         "castType": "somatic, verbal",
         "savingthrow": "basic Fortitude",
         "traits": [
@@ -6741,7 +6741,7 @@
             "Occult"
         ],
         "shortDesc": "Make a pattern of lights that dazzles and blinds.",
-        "actions": "2",
+        "actions": "2A",
         "castType": "material, somatic",
         "savingthrow": "Will",
         "traits": [
@@ -6760,7 +6760,7 @@
             "Occult"
         ],
         "shortDesc": "Create an invisible and durable wall of magical force.",
-        "actions": "3",
+        "actions": "3A",
         "castType": "material, somatic, verbal",
         "traits": [
             "Common",
@@ -6777,7 +6777,7 @@
             "Divine"
         ],
         "shortDesc": "Instill unshakable conviction and zeal in willing creatures.",
-        "actions": "2",
+        "actions": "2A",
         "castType": "somatic, verbal",
         "traits": [
             "Common",
@@ -6809,7 +6809,7 @@
             "Divine"
         ],
         "shortDesc": "Prevent teleportation and planar travel.",
-        "actions": "2",
+        "actions": "2A",
         "castType": "somatic, verbal",
         "traits": [
             "Uncommon",
@@ -6824,7 +6824,7 @@
             "Divine"
         ],
         "shortDesc": "Creatures of alignments opposed by your deity are damaged, enfeebled, paralyzed, or banished.",
-        "actions": "2",
+        "actions": "2A",
         "castType": "somatic, verbal",
         "savingthrow": "Fortitude",
         "traits": [
@@ -6840,7 +6840,7 @@
             "Divine"
         ],
         "shortDesc": "Take on aspects of a servitor of your deity.",
-        "actions": "2",
+        "actions": "2A",
         "castType": "somatic, verbal",
         "traits": [
             "Common",
@@ -6857,7 +6857,7 @@
             "Occult"
         ],
         "shortDesc": "Create a temporary duplicate of an enemy that fights for you.",
-        "actions": "3",
+        "actions": "3A",
         "castType": "material, somatic, verbal",
         "savingthrow": "Fortitude",
         "traits": [
@@ -6875,7 +6875,7 @@
             "Primal"
         ],
         "shortDesc": "A globe of darkness deals cold damage, hurts the living, and overcomes light.",
-        "actions": "2",
+        "actions": "2A",
         "castType": "somatic, verbal",
         "savingthrow": "Reflex",
         "traits": [
@@ -6913,7 +6913,7 @@
             "Divine"
         ],
         "shortDesc": "Use the Ethereal Plane to move through objects and into the air.",
-        "actions": "2",
+        "actions": "2A",
         "castType": "somatic, verbal",
         "traits": [
             "Uncommon",
@@ -6930,7 +6930,7 @@
             "Primal"
         ],
         "shortDesc": "Turn your body into living flame.",
-        "actions": "2",
+        "actions": "2A",
         "castType": "somatic, verbal",
         "traits": [
             "Common",
@@ -6948,7 +6948,7 @@
             "Primal"
         ],
         "shortDesc": "Point at a creature to deal negative damage and possibly kill it instantly.",
-        "actions": "2",
+        "actions": "2A",
         "castType": "somatic, verbal",
         "savingthrow": "basic Fortitude",
         "traits": [
@@ -6984,7 +6984,7 @@
             "Primal"
         ],
         "shortDesc": "A creature�s fearsome illusory appearance frightens observers.",
-        "actions": "2",
+        "actions": "2A",
         "castType": "somatic, verbal",
         "traits": [
             "Common",
@@ -7022,7 +7022,7 @@
             "Occult"
         ],
         "shortDesc": "Send your mind and soul into another creature�s body.",
-        "actions": "2",
+        "actions": "2A",
         "castType": "somatic, verbal",
         "savingthrow": "Will",
         "traits": [
@@ -7041,7 +7041,7 @@
             "Arcane"
         ],
         "shortDesc": "Utter a word that blinds a creature.",
-        "actions": "1",
+        "actions": "1A",
         "castType": "verbal",
         "traits": [
             "Uncommon",
@@ -7059,7 +7059,7 @@
             "Occult"
         ],
         "shortDesc": "Shoot rainbow beams that have various effects on creatures in a cone.",
-        "actions": "2",
+        "actions": "2A",
         "castType": "somatic, verbal",
         "traits": [
             "Common",
@@ -7076,7 +7076,7 @@
             "Occult"
         ],
         "shortDesc": "Make an illusion of�yourself you can cast spells through.",
-        "actions": "2",
+        "actions": "2A",
         "castType": "somatic, verbal",
         "traits": [
             "Common",
@@ -7093,7 +7093,7 @@
             "Primal"
         ],
         "shortDesc": "Cause a creature to heal over time, regrow organs, and reattach body parts.",
-        "actions": "2",
+        "actions": "2A",
         "castType": "somatic, verbal",
         "traits": [
             "Common",
@@ -7126,7 +7126,7 @@
             "Occult"
         ],
         "shortDesc": "Flip the gravitational pull in an area.",
-        "actions": "3",
+        "actions": "3A",
         "castType": "material, somatic, verbal",
         "traits": [
             "Uncommon",
@@ -7141,7 +7141,7 @@
             "Arcane"
         ],
         "shortDesc": "Reflect spells back at their caster.",
-        "actions": "2",
+        "actions": "2A",
         "castType": "somatic, verbal",
         "traits": [
             "Uncommon",
@@ -7157,7 +7157,7 @@
             "Primal"
         ],
         "shortDesc": "A globe of sunlight deals fire damage, hurts undead, and overcomes darkness.",
-        "actions": "2",
+        "actions": "2A",
         "castType": "somatic, verbal",
         "savingthrow": "Reflex",
         "traits": [
@@ -7177,7 +7177,7 @@
             "Occult"
         ],
         "shortDesc": "You create a beacon in time, intending to return to it if things go wrong.",
-        "actions": "1",
+        "actions": "1A",
         "castType": "material",
         "traits": [
             "Common",
@@ -7193,7 +7193,7 @@
             "Occult"
         ],
         "shortDesc": "Make multiple attacks against a creature especially accurate.",
-        "actions": "1",
+        "actions": "1A",
         "castType": "verbal",
         "traits": [
             "Common",
@@ -7210,7 +7210,7 @@
             "Primal"
         ],
         "shortDesc": "Let creatures avoid environmental hindrances.",
-        "actions": "2",
+        "actions": "2A",
         "castType": "somatic, verbal",
         "traits": [
             "Common",
@@ -7225,7 +7225,7 @@
             "Occult"
         ],
         "shortDesc": "Create a vision of horrid, swarming creatures that causes mental damage.",
-        "actions": "3",
+        "actions": "3A",
         "castType": "material, somatic, verbal",
         "savingthrow": "Will",
         "traits": [
@@ -7243,7 +7243,7 @@
             "Primal"
         ],
         "shortDesc": "Cause massive lava sprays that burn creatures and encase them in rock.",
-        "actions": "2",
+        "actions": "2A",
         "castType": "somatic, verbal",
         "savingthrow": "Reflex",
         "traits": [
@@ -7261,7 +7261,7 @@
             "Occult"
         ],
         "shortDesc": "Confuse a creature, possibly permanently.",
-        "actions": "2",
+        "actions": "2A",
         "castType": "somatic, verbal",
         "savingthrow": "Will",
         "traits": [
@@ -7282,7 +7282,7 @@
             "Divine"
         ],
         "shortDesc": "Magic doesn't function in an area around you.",
-        "actions": "3",
+        "actions": "3A",
         "castType": "material, somatic, verbal",
         "traits": [
             "Rare",
@@ -7298,7 +7298,7 @@
             "Occult"
         ],
         "shortDesc": "Make a creature invisible, silent, and undetectable by any and all senses.",
-        "actions": "2",
+        "actions": "2A",
         "castType": "material, somatic",
         "traits": [
             "Common",
@@ -7331,7 +7331,7 @@
             "Divine"
         ],
         "shortDesc": "Allies in an aura have better defenses and are protected against one alignment.",
-        "actions": "2",
+        "actions": "2A",
         "castType": "somatic, verbal",
         "traits": [
             "Common",
@@ -7346,7 +7346,7 @@
             "Divine"
         ],
         "shortDesc": "Spiritual energy recovers a creature's expended spell.",
-        "actions": "2",
+        "actions": "2A",
         "castType": "somatic, verbal",
         "traits": [
             "Common",
@@ -7381,7 +7381,7 @@
             "Primal"
         ],
         "shortDesc": "Shake the ground with a devastating earthquake.",
-        "actions": "2",
+        "actions": "2A",
         "castType": "somatic, verbal",
         "traits": [
             "Common",
@@ -7398,7 +7398,7 @@
             "Primal"
         ],
         "shortDesc": "Pull moisture from creatures, damaging them.",
-        "actions": "2",
+        "actions": "2A",
         "castType": "somatic, verbal",
         "savingthrow": "basic Fortitude",
         "traits": [
@@ -7416,7 +7416,7 @@
             "Occult"
         ],
         "shortDesc": "Trap a creature in an extradimensional maze.",
-        "actions": "2",
+        "actions": "2A",
         "castType": "somatic, verbal",
         "traits": [
             "Common",
@@ -7434,7 +7434,7 @@
             "Occult"
         ],
         "shortDesc": "Protect a creature from mental magic and some divinations.",
-        "actions": "2",
+        "actions": "2A",
         "castType": "somatic, verbal",
         "traits": [
             "Uncommon",
@@ -7450,7 +7450,7 @@
             "Primal"
         ],
         "shortDesc": "Give a day's recovery in an instant.",
-        "actions": "2",
+        "actions": "2A",
         "castType": "somatic, verbal",
         "traits": [
             "Common",
@@ -7467,7 +7467,7 @@
             "Primal"
         ],
         "shortDesc": "Turn into a powerful monster.",
-        "actions": "2",
+        "actions": "2A",
         "castType": "somatic, verbal",
         "traits": [
             "Common",
@@ -7484,7 +7484,7 @@
             "Primal"
         ],
         "shortDesc": "Bitter cold damages and drains a creature.",
-        "actions": "2",
+        "actions": "2A",
         "castType": "somatic, verbal",
         "traits": [
             "Common",
@@ -7500,7 +7500,7 @@
             "Arcane"
         ],
         "shortDesc": "Utter a word that stuns a creature.",
-        "actions": "1",
+        "actions": "1A",
         "castType": "verbal",
         "traits": [
             "Uncommon",
@@ -7518,7 +7518,7 @@
             "Occult"
         ],
         "shortDesc": "Form a protective wall with seven chromatic layers.",
-        "actions": "3",
+        "actions": "3A",
         "castType": "material, somatic, verbal",
         "traits": [
             "Common",
@@ -7534,7 +7534,7 @@
             "Primal"
         ],
         "shortDesc": "A cyclone inhibits fight and traps creatures.",
-        "actions": "3",
+        "actions": "3A",
         "castType": "material, somatic, verbal",
         "traits": [
             "Common",
@@ -7551,7 +7551,7 @@
             "Occult"
         ],
         "shortDesc": "Cause an array of color that dazzles, confuses, and stuns.",
-        "actions": "2",
+        "actions": "2A",
         "castType": "material, somatic",
         "savingthrow": "Will",
         "traits": [
@@ -7569,7 +7569,7 @@
             "Occult"
         ],
         "shortDesc": "Sing an eldritch song that damages any creature that has a spirit.",
-        "actions": "2",
+        "actions": "2A",
         "castType": "somatic, verbal",
         "savingthrow": "basic Fortitude",
         "traits": [
@@ -7587,7 +7587,7 @@
             "Divine"
         ],
         "shortDesc": "Weaken a target with a communicable curse.",
-        "actions": "2",
+        "actions": "2A",
         "castType": "somatic, verbal",
         "savingthrow": "Will",
         "traits": [
@@ -7605,7 +7605,7 @@
             "Occult"
         ],
         "shortDesc": "Overcome a target with an all-consuming urge to dance.",
-        "actions": "2",
+        "actions": "2A",
         "castType": "somatic, verbal",
         "savingthrow": "Will",
         "traits": [
@@ -7624,7 +7624,7 @@
             "Occult"
         ],
         "shortDesc": "You and other creatures use scrying to track a subject exactly.",
-        "actions": "2",
+        "actions": "2A",
         "castType": "somatic, verbal",
         "traits": [
             "Common",
@@ -7657,7 +7657,7 @@
             "Divine"
         ],
         "shortDesc": "Imprison a dead creature's soul.",
-        "actions": "2",
+        "actions": "2A",
         "castType": "somatic, verbal",
         "traits": [
             "Uncommon",
@@ -7673,7 +7673,7 @@
             "Divine"
         ],
         "shortDesc": "Creatures become dedicated to a cause of your choice.",
-        "actions": "2",
+        "actions": "2A",
         "castType": "somatic, verbal",
         "traits": [
             "Uncommon",
@@ -7691,7 +7691,7 @@
             "Primal"
         ],
         "shortDesc": "Deactivate or destroy a magic item.",
-        "actions": "2",
+        "actions": "2A",
         "castType": "somatic, verbal",
         "traits": [
             "Uncommon",
@@ -7708,7 +7708,7 @@
             "Divine"
         ],
         "shortDesc": "Sense when a creature is in danger and React to protect it with good fortune.",
-        "actions": "2",
+        "actions": "2A",
         "castType": "somatic, verbal",
         "traits": [
             "Common",
@@ -7726,7 +7726,7 @@
             "Primal"
         ],
         "shortDesc": "Make a creature collapse in on itself.",
-        "actions": "2",
+        "actions": "2A",
         "castType": "somatic, verbal",
         "savingthrow": "basic Fortitude",
         "traits": [
@@ -7744,7 +7744,7 @@
             "Primal"
         ],
         "shortDesc": "Instantly kill multiple creatures.",
-        "actions": "2",
+        "actions": "2A",
         "castType": "somatic, verbal",
         "savingthrow": "Fortitude",
         "traits": [
@@ -7763,7 +7763,7 @@
             "Primal"
         ],
         "shortDesc": "Call down four blazing meteors that explode.",
-        "actions": "2",
+        "actions": "2A",
         "castType": "somatic, verbal",
         "savingthrow": "basic Reflex",
         "traits": [
@@ -7780,7 +7780,7 @@
             "Primal"
         ],
         "shortDesc": "Turn animals, plants, and weather against creatures of your choice.",
-        "actions": "2",
+        "actions": "2A",
         "castType": "somatic, verbal",
         "traits": [
             "Common",
@@ -7796,7 +7796,7 @@
             "Divine"
         ],
         "shortDesc": "Take on the majesty of a god.",
-        "actions": "2",
+        "actions": "2A",
         "castType": "somatic, verbal",
         "savingthrow": "Will",
         "traits": [
@@ -7816,7 +7816,7 @@
             "Arcane"
         ],
         "shortDesc": "Utter a word that slays a creature.",
-        "actions": "1",
+        "actions": "1A",
         "castType": "verbal",
         "traits": [
             "Uncommon",
@@ -7835,7 +7835,7 @@
             "Occult"
         ],
         "shortDesc": "Form a protective sphere composed of seven chromatic layers.",
-        "actions": "2",
+        "actions": "2A",
         "castType": "somatic, verbal",
         "traits": [
             "Common",
@@ -7868,7 +7868,7 @@
             "Primal"
         ],
         "shortDesc": "Transform into a form of your choice repeatedly.",
-        "actions": "2",
+        "actions": "2A",
         "castType": "somatic, verbal",
         "traits": [
             "Common",
@@ -7884,7 +7884,7 @@
             "Primal"
         ],
         "shortDesc": "Create a massive, dangerous storm.",
-        "actions": "3",
+        "actions": "3A",
         "castType": "material, somatic, verbal",
         "traits": [
             "Common",
@@ -7903,7 +7903,7 @@
             "Divine"
         ],
         "shortDesc": "Send a mental message that impels a creature toward a course of action.",
-        "actions": "3",
+        "actions": "3A",
         "castType": "material, somatic, verbal",
         "savingthrow": "Will",
         "traits": [
@@ -7922,7 +7922,7 @@
             "Occult"
         ],
         "shortDesc": "Song debilitates creatures in weird ways.",
-        "actions": "2",
+        "actions": "2A",
         "castType": "somatic, verbal",
         "savingthrow": "Will",
         "traits": [
@@ -7944,7 +7944,7 @@
             "Divine"
         ],
         "shortDesc": "Scream, dealing damage and draining creatures.",
-        "actions": "2",
+        "actions": "2A",
         "castType": "somatic, verbal",
         "savingthrow": "Fortitude",
         "traits": [
@@ -7963,7 +7963,7 @@
             "Divine"
         ],
         "shortDesc": "Form a weapon to enforce war or peace.",
-        "actions": "2",
+        "actions": "2A",
         "castType": "somatic, verbal",
         "traits": [
             "Common",
@@ -7980,7 +7980,7 @@
             "Occult"
         ],
         "shortDesc": "Frighten, deal mental damage, and possibly kill large numbers of creatures.",
-        "actions": "2",
+        "actions": "2A",
         "castType": "somatic, verbal",
         "savingthrow": "Will",
         "traits": [
@@ -8000,7 +8000,7 @@
             "Occult"
         ],
         "shortDesc": "Warp reality to duplicate occult spells.",
-        "actions": "3",
+        "actions": "3A",
         "castType": "material, somatic, verbal",
         "traits": [
             "Common",
@@ -8015,7 +8015,7 @@
             "Divine"
         ],
         "shortDesc": "Transform into a battle form determined by your deity.",
-        "actions": "2",
+        "actions": "2A",
         "castType": "somatic, verbal",
         "traits": [
             "Common",
@@ -8032,7 +8032,7 @@
             "Primal"
         ],
         "shortDesc": "Call an instant, damaging cataclysm.",
-        "actions": "2",
+        "actions": "2A",
         "castType": "somatic, verbal",
         "savingthrow": "basic Reflex",
         "traits": [
@@ -8055,7 +8055,7 @@
             "Occult"
         ],
         "shortDesc": "Make creatures believe something is fact.",
-        "actions": "3",
+        "actions": "3A",
         "castType": "material, somatic, verbal",
         "savingthrow": "Will",
         "traits": [
@@ -8075,7 +8075,7 @@
             "Divine"
         ],
         "shortDesc": "Tear open a portal to another plane.",
-        "actions": "2",
+        "actions": "2A",
         "castType": "somatic, verbal",
         "traits": [
             "Uncommon",
@@ -8091,7 +8091,7 @@
             "Divine"
         ],
         "shortDesc": "Ask for a blessing to duplicate divine spells.",
-        "actions": "3",
+        "actions": "3A",
         "castType": "material, somatic, verbal",
         "traits": [
             "Common",
@@ -8106,7 +8106,7 @@
             "Primal"
         ],
         "shortDesc": "Turn into a massive avatar of nature.",
-        "actions": "2",
+        "actions": "2A",
         "castType": "somatic, verbal",
         "traits": [
             "Common",
@@ -8122,7 +8122,7 @@
             "Primal"
         ],
         "shortDesc": "Transform willing creatures into mammoths.",
-        "actions": "2",
+        "actions": "2A",
         "castType": "somatic, verbal",
         "traits": [
             "Common",
@@ -8138,7 +8138,7 @@
             "Primal"
         ],
         "shortDesc": "Request for nature to duplicate primal spells.",
-        "actions": "3",
+        "actions": "3A",
         "castType": "material, somatic, verbal",
         "traits": [
             "Common",
@@ -8172,7 +8172,7 @@
             "Primal"
         ],
         "shortDesc": "Heal creatures in an area and return the dead to life temporarily.",
-        "actions": "2",
+        "actions": "2A",
         "castType": "somatic, verbal",
         "traits": [
             "Common",
@@ -8190,7 +8190,7 @@
             "Occult"
         ],
         "shortDesc": "Briefly stop time for everything but you.",
-        "actions": "3",
+        "actions": "3A",
         "castType": "material, somatic, verbal",
         "traits": [
             "Common",
@@ -8205,7 +8205,7 @@
             "Arcane"
         ],
         "shortDesc": "Make a wish to duplicate arcane spells.",
-        "actions": "3",
+        "actions": "3A",
         "castType": "material, somatic, verbal",
         "traits": [
             "Common",

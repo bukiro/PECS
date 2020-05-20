@@ -1107,7 +1107,7 @@
         ],
         "activities": [
             {
-                "actions": "3",
+                "actions": "3A",
                 "activationType": "Command, Interact",
                 "castSpells": [
                     {

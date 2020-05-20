@@ -6,7 +6,7 @@ import { ItemGain } from './ItemGain';
 import { SpellCasting } from './SpellCasting';
 
 export class Spell {
-    public actions: string = "1";
+    public actions: string = "1A";
     public area: string = "";
     public castType: string = "";
     public critfailure: string = "";
@@ -45,22 +45,6 @@ export class Spell {
     public traditions: string[] = [];
     public traits: string[] = [];
     public trigger: string = "";
-    get_Actions() {
-        switch (this.actions) {
-            case "Free":
-                return "(Free Action)";
-            case "Reaction":
-                return "(Reaction)";
-            case "1":
-                return "(1 Action)";
-            case "2":
-                return "(2 Actions)";
-            case "3":
-                return "(3 Actions)";
-            default:
-                return "("+this.actions+")";
-        }
-    }
     get_DescriptionSet(levelNumber: number) {
         //This descends from levelnumber downwards and returns the first available description.
         switch (levelNumber) {

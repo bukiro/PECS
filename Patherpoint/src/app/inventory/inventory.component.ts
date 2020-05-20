@@ -446,23 +446,6 @@ export class InventoryComponent implements OnInit {
         }
     }
 
-    get_Actions(item: Consumable) {
-        switch (item.actions) {
-            case "Free":
-                return "(Free Action)";
-            case "Reaction":
-                return "(Reaction)";
-            case "1":
-                return "(1 Action)";
-            case "2":
-                return "(2 Actions)";
-            case "3":
-                return "(3 Actions)";
-            default:
-                return "(" + item.actions + ")";
-        }
-    }
-
     finish_Loading() {
         if (this.still_loading()) {
             setTimeout(() => this.finish_Loading(), 500)

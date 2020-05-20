@@ -41,6 +41,11 @@ import { FeatchoiceComponent } from './character/featchoice/featchoice.component
 import { FamiliarabilitiesComponent } from './familiar/familiarabilities/familiarabilities.component';
 import { ItemOilsComponent } from './item/itemOils/itemOils.component';
 import { ItemAeonStonesComponent } from './item/itemAeonStones/itemAeonStones.component';
+import { ActionIconsComponent } from './actionIcons/actionIcons.component';
+import { ActionIcons_1AComponent } from './actionIcons/actionIcons_1A/actionIcons_1A.component';
+import { ActionIcons_2AComponent } from './actionIcons/actionIcons_2A/actionIcons_2A.component';
+import { ActionIcons_3AComponent } from './actionIcons/actionIcons_3A/actionIcons_3A.component';
+import { ActionIcons_FreeComponent } from './actionIcons/actionIcons_Free/actionIcons_Free.component';
 
 @NgModule({
    declarations: [
@@ -77,7 +82,12 @@ import { ItemAeonStonesComponent } from './item/itemAeonStones/itemAeonStones.co
       FeatchoiceComponent,
       FamiliarabilitiesComponent,
       ItemOilsComponent,
-      ItemAeonStonesComponent
+      ItemAeonStonesComponent,
+      ActionIconsComponent,
+      ActionIcons_1AComponent,
+      ActionIcons_2AComponent,
+      ActionIcons_3AComponent,
+      ActionIcons_FreeComponent
    ],
    imports: [
       BrowserModule,
