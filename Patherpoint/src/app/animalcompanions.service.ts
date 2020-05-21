@@ -49,16 +49,16 @@ export class AnimalCompanionsService {
         return (this.loading_ancestries || this.loading_levels);
     }
   
-    load_AnimalCompanions(): Observable<String[]>{
-        return this.http.get<String[]>('/assets/animalcompanions.json');
+    load_AnimalCompanions(): Observable<string[]>{
+        return this.http.get<string[]>('/assets/animalcompanions.json');
     }
 
-    load_AnimalCompanionLevels(): Observable<String[]>{
-        return this.http.get<String[]>('/assets/animalcompanionlevels.json');
+    load_AnimalCompanionLevels(): Observable<string[]>{
+        return this.http.get<string[]>('/assets/animalcompanionlevels.json');
     }
 
-    load_AnimalCompanionSpecializations(): Observable<String[]>{
-        return this.http.get<String[]>('/assets/animalcompanionspecializations.json');
+    load_AnimalCompanionSpecializations(): Observable<string[]>{
+        return this.http.get<string[]>('/assets/animalcompanionspecializations.json');
     }
   
     change_Type(companion: AnimalCompanion, type: AnimalCompanionAncestry) {
@@ -81,7 +81,7 @@ export class AnimalCompanionsService {
         if (!this.companionAncestries) {
             this.loading_ancestries = true;
             this.load_AnimalCompanions()
-                .subscribe((results:String[]) => {
+                .subscribe((results:string[]) => {
                     this.loader_ancestries = results;
                     this.finish_loading_Ancestries()
                 });
@@ -89,7 +89,7 @@ export class AnimalCompanionsService {
         if (!this.companionLevels) {
             this.loading_levels = true;
             this.load_AnimalCompanionLevels()
-                .subscribe((results:String[]) => {
+                .subscribe((results:string[]) => {
                     this.loader_levels = results;
                     this.finish_loading_Levels()
                 });
@@ -97,7 +97,7 @@ export class AnimalCompanionsService {
         if (!this.companionSpecializations) {
             this.loading_specializations = true;
             this.load_AnimalCompanionSpecializations()
-                .subscribe((results:String[]) => {
+                .subscribe((results:string[]) => {
                     this.loader_specializations = results;
                     this.finish_loading_Specializations()
                 });

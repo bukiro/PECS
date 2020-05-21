@@ -22,8 +22,8 @@ The very latest in Assistive Technologies for Dungeon Master (ATDM)
 - [x] -- Adding skills and lore through Feats and Backgrounds
 - [x] - Actions granted through class and feats
 - [x] - Implement Ohm
-- [ ] - Implement Finn
-- [ ] - Animal companion (missing specialization)
+- [x] - Implement Finn
+- [x] - Animal companion
 - [ ] - Implement a spellcasting class
 - [x] - Implement all General and Skill Feats
 - [ ] - Implement all Ancestry Feats
@@ -33,7 +33,7 @@ The very latest in Assistive Technologies for Dungeon Master (ATDM)
 - [ ] - Implement all Consumables
 - [x] - Implement all Adventuring Gear
 - [x] - Implement all Weapon Runes
-- [x] - Implement all Armor Runes
+- [ ] - Implement all Armor Runes
 - [x] - Implement one full Class with Feats and Features
 - [x] - Feat requirements
 - [x] - Equipment (weapons, armor, shields) -> Abilities, Armor, Attacks, Skills
@@ -49,16 +49,13 @@ The very latest in Assistive Technologies for Dungeon Master (ATDM)
 - [x] - Adding custom items
 - [ ] Style character sheet
 - [x] Populate character sheet from JSON
-- [ ] Use Database
+- [x] Use Database
 - [x] Cleanup Savegame
-- [ ] Load/Save from/to Database
+- [x] Load/Save from/to Database
+- [x] Action Icons
 - [ ] Item Icons
 - [ ] Initiative tracker, battles, being a battle member, GM-Player-Communication.......
 - [ ] Stretch Goal: Include optional Stamina & Resolve system
 
 Next steps:
-- Action Icons
-- Database api
-
-active bug:
-Action icons get line-wrapped within h4 tag
+- Reset once per day cooldowns when resting

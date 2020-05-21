@@ -29,15 +29,15 @@ export class BloodlinesService {
         return (this.loading);
     }
   
-    load_Bloodlines(): Observable<String[]>{
-        return this.http.get<String[]>('/assets/bloodlines.json');
+    load_Bloodlines(): Observable<string[]>{
+        return this.http.get<string[]>('/assets/bloodlines.json');
     }
   
     initialize() {
         if (!this.bloodlines) {
         this.loading = true;
         this.load_Bloodlines()
-            .subscribe((results:String[]) => {
+            .subscribe((results:string[]) => {
                 this.loader = results;
                 this.finish_loading()
             });

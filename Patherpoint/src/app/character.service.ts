@@ -52,6 +52,7 @@ import { InventoryGain } from './InventoryGain';
 import { Oil } from './Oil';
 import { WornItem } from './WornItem';
 import { Creature } from './Creature';
+import { Savegame } from './Savegame';
 
 @Injectable({
     providedIn: 'root'
@@ -264,9 +265,9 @@ export class CharacterService {
         } else { return [new Character()] }
     }
 
-    reset_Character(name: string = "") {
+    reset_Character(id: string = "") {
         this.loading = true;
-        this.initialize(name);
+        this.initialize(id);
     }
 
     get_Accent() {
@@ -1201,7 +1202,7 @@ export class CharacterService {
         }
     }
 
-    initialize(charName: string) {
+    initialize(id: string) {
         this.set_Changed("top-bar");
         this.loading = true;
         this.traitsService.initialize();
@@ -1216,12 +1217,15 @@ export class CharacterService {
         this.bloodlinesService.initialize();
         this.animalCompanionsService.initialize();
         this.familiarsService.initialize();
-        if (charName) {
+        this.savegameService.initialize(this);
+        if (id) {
             this.me = new Character();
-            this.load_Character(charName)
+            this.load_CharacterFromDB(id)
             .subscribe((results: string[]) => {
                 this.loader = results;
                 this.finish_loading()
+            }, (error) => {
+                console.log('Error loading character from database: ' + error.message);
             });
         } else {
             this.me = new Character();
@@ -1229,10 +1233,19 @@ export class CharacterService {
         }
     }
 
-    load_Character(charName: string): Observable<string[]> {
-        return this.http.get<string[]>('/assets/' + charName + '.json');
+    load_CharacterFromDB(id: string): Observable<string[]> {
+        return this.savegameService.load_CharacterFromDB(id);
     }
-
+    
+    delete_Character(savegame: Savegame) {
+        this.savegameService.delete_CharacterFromDB(savegame).subscribe((results) => {
+            console.log("Deleted "+(savegame.name || "character")+" from database.");
+            this.savegameService.initialize(this);
+        }, (error) => {
+            console.log('Error deleting from database: ' + error.message);
+        });
+    }
+    
     reassign(object: any) {
         return this.savegameService.reassign(object);
     }
@@ -1278,10 +1291,18 @@ export class CharacterService {
         }
     }
 
-    print() {
+    save_Character() {
+        this.savegameService.save_Character(this.itemsService, this.get_Character()).subscribe((result) => {
+            if (result["lastErrorObject"] && result["lastErrorObject"].updatedExisting) {
+                console.log("Saved "+(this.get_Character().name || "character")+" to database.");
+            } else {
+                console.log("Created "+(this.get_Character().name || "character")+" on database.");
+            }
+            this.savegameService.initialize(this);
+        }, (error) => {
+            console.log('Error saving to database: ' + error.message);
+        });
         
-        this.savegameService.save_Character(this.itemsService, this.get_Character())
-
     }
 
 }

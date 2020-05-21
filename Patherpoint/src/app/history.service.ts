@@ -48,23 +48,23 @@ export class HistoryService {
         return (this.loading_Ancestries || this.loading_Heritages || this.loading_Backgrounds)
     }
 
-    load_Ancestries(): Observable<String[]>{
-        return this.http.get<String[]>('/assets/ancestries.json');
+    load_Ancestries(): Observable<string[]>{
+        return this.http.get<string[]>('/assets/ancestries.json');
     }
 
-    load_Heritages(): Observable<String[]>{
-        return this.http.get<String[]>('/assets/heritages.json');
+    load_Heritages(): Observable<string[]>{
+        return this.http.get<string[]>('/assets/heritages.json');
     }
 
-    load_Backgrounds(): Observable<String[]>{
-        return this.http.get<String[]>('/assets/backgrounds.json');
+    load_Backgrounds(): Observable<string[]>{
+        return this.http.get<string[]>('/assets/backgrounds.json');
     }
 
     initialize() {
         if (!this.ancestries) {
             this.loading_Ancestries = true;
             this.load_Ancestries()
-                .subscribe((results:String[]) => {
+                .subscribe((results:string[]) => {
                     this.loader_Ancestries = results;
                     this.finish_loading_Ancestries()
                 });
@@ -72,7 +72,7 @@ export class HistoryService {
         if (!this.heritages) {
             this.loading_Heritages = true;
             this.load_Heritages()
-                .subscribe((results:String[]) => {
+                .subscribe((results:string[]) => {
                     this.loader_Heritages = results;
                     this.finish_loading_Heritages()
                 });
@@ -80,7 +80,7 @@ export class HistoryService {
         if (!this.backgrounds) {
             this.loading_Backgrounds = true;
             this.load_Backgrounds()
-                .subscribe((results:String[]) => {
+                .subscribe((results:string[]) => {
                     this.loader_Backgrounds = results;
                     this.finish_loading_Backgrounds()
                 });

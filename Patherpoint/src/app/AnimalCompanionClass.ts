@@ -13,6 +13,7 @@ export class AnimalCompanionClass {
     public name: string = "";
     public specializations: AnimalCompanionSpecialization[] = [];
     reassign(characterService: CharacterService) {
+        //This resets the levels, so don't call it unless you are resetting the animal companion.
         //Re-Assign levels
         this.levels = characterService.get_AnimalCompanionLevels().map(level => Object.assign(new AnimalCompanionLevel(), level));
         this.levels.forEach(level => {

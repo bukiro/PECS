@@ -51,15 +51,15 @@ export class TraitsService {
         return (this.loading);
     }
 
-    load_Traits(): Observable<String[]>{
-        return this.http.get<String[]>('/assets/traits.json');
+    load_Traits(): Observable<string[]>{
+        return this.http.get<string[]>('/assets/traits.json');
     }
 
     initialize() {
         if (!this.traits) {
         this.loading = true;
         this.load_Traits()
-            .subscribe((results:String[]) => {
+            .subscribe((results:string[]) => {
                 this.loader = results;
                 this.finish_loading()
             });

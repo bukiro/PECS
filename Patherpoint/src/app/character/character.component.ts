@@ -37,6 +37,8 @@ import { Bloodline } from '../Bloodline';
 import { AnimalCompanionSpecialization } from '../AnimalCompanionSpecialization';
 import { Familiar } from '../Familiar';
 import { SpellCast } from '../SpellCast';
+import { SavegameService } from '../savegame.service';
+import { Savegame } from '../Savegame';
 
 @Component({
     selector: 'app-character',
@@ -65,7 +67,8 @@ export class CharacterComponent implements OnInit {
         private animalCompanionsService: AnimalCompanionsService,
         private conditionsService: ConditionsService,
         private bloodlinesService: BloodlinesService,
-        private sortByPipe: SortByPipe
+        private sortByPipe: SortByPipe,
+        private savegameService: SavegameService
     ) { }
 
     minimize() {
@@ -121,13 +124,21 @@ export class CharacterComponent implements OnInit {
         this.characterService.reset_Character();
     }
 
+    get_Savegames() {
+        return this.savegameService.get_Savegames();
+    }
+
     change_Name() {
         this.set_Changed("Character");
     }
 
-    load_Character(name: string) {
+    load_CharacterFromDB(savegame: Savegame) {
         this.toggleCharacterMenu();
-        this.characterService.reset_Character(name);
+        this.characterService.reset_Character(savegame.id);
+    }
+
+    delete_CharacterFromDB(savegame: Savegame) {
+        this.characterService.delete_Character(savegame);
     }
 
     get_Alignments() {
@@ -876,7 +887,7 @@ export class CharacterComponent implements OnInit {
         } else {
             this.characterService.get_Changed()
             .subscribe((target) => {
-                if (target == "character" || target == "all") {
+                if (["Character", "all", "charactersheet"].includes(target)) {
                     this.changeDetector.detectChanges();
                 }
             });

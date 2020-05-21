@@ -27,15 +27,15 @@ export class DeitiesService {
         return (this.loading);
     }
   
-    load_Deities(): Observable<String[]>{
-        return this.http.get<String[]>('/assets/deities.json');
+    load_Deities(): Observable<string[]>{
+        return this.http.get<string[]>('/assets/deities.json');
     }
   
     initialize() {
         if (!this.deities) {
         this.loading = true;
         this.load_Deities()
-            .subscribe((results:String[]) => {
+            .subscribe((results:string[]) => {
                 this.loader = results;
                 this.finish_loading()
             });

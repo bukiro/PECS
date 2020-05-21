@@ -6,12 +6,26 @@
     <button class="list-item" (click)="on_NewCharacter()">
         Create New Character
     </button>
-    <button class="list-item" (click)="load_Character('finn')">
-        Load Finn
-    </button>
-    <button class="list-item" (click)="load_Character('ohm')">
-        Load Ohm
-    </button>
+    <div class="list-item">
+        <button class="row sublist-toggle fancy-button" (click)="toggle_List('load')">
+            Load Character
+        </button>
+        <div class="list-item sublist fancy-list" *ngIf="get_showList()=='load'">
+            <div class="list-item" *ngIf="get_Savegames() && !get_Savegames().length">
+                No characters available in database.
+            </div>
+            <div class="list-item" *ngIf="!get_Savegames()">
+                Database connection failed.
+            </div>
+            <div class="list-item" *ngFor="let savegame of get_Savegames()">
+                <span>
+                    <strong>{{savegame.name}}</strong> Level {{savegame.level}}
+                    {{savegame.heritage ? savegame.heritage : savegame.ancestry}} {{savegame.class}}
+                </span>
+                <span><button (click)="load_CharacterFromDB(savegame)">Load</button> <button (click)="delete_CharacterFromDB(savegame)">Delete</button></span>
+            </div>
+        </div>
+    </div>
     <div class="loading" *ngIf="still_loading()">Loading</div>
     <ng-container *ngIf="!still_loading()">
         <div class="list-item">

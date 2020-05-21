@@ -406,19 +406,19 @@ export class FeatsService {
         return (this.loading_Feats || this.loading_Features);
     }
     
-    load_Feats(): Observable<String[]>{
-        return this.http.get<String[]>('/assets/feats.json');
+    load_Feats(): Observable<string[]>{
+        return this.http.get<string[]>('/assets/feats.json');
     }
 
-    load_Features(): Observable<String[]>{
-        return this.http.get<String[]>('/assets/features.json');
+    load_Features(): Observable<string[]>{
+        return this.http.get<string[]>('/assets/features.json');
     }
 
     initialize() {
         if (!this.feats) {
         this.loading_Feats = true;
         this.load_Feats()
-            .subscribe((results:String[]) => {
+            .subscribe((results:string[]) => {
                 this.loader_Feats = results;
                 this.finish_loading_Feats()
             });
@@ -426,7 +426,7 @@ export class FeatsService {
         if (!this.features) {
             this.loading_Features = true;
         this.load_Features()
-            .subscribe((results:String[]) => {
+            .subscribe((results:string[]) => {
                 this.loader_Features = results;
                 this.finish_loading_Features()
             });

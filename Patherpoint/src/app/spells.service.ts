@@ -139,15 +139,15 @@ export class SpellsService {
         return (this.loading);
     }
 
-    load_Spells(): Observable<String[]>{
-        return this.http.get<String[]>('/assets/spells.json');
+    load_Spells(): Observable<string[]>{
+        return this.http.get<string[]>('/assets/spells.json');
     }
 
     initialize() {
         if (!this.spells) {
         this.loading = true;
         this.load_Spells()
-            .subscribe((results:String[]) => {
+            .subscribe((results:string[]) => {
                 this.loader = results;
                 this.finish_loading()
             });

@@ -69,7 +69,7 @@ export class AbilitiesComponent implements OnInit {
         } else {
             this.characterService.get_Changed()
             .subscribe((target) => {
-                if (target == "abilities" || target == "all" || target == this.creature) {
+                if (["abilities", "all", this.creature].includes(target)) {
                     this.changeDetector.detectChanges();
                 }
             });

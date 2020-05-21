@@ -26,15 +26,15 @@ export class FamiliarsService {
         } else { return [new Feat()] }
     }
 
-    load_FamiliarAbilities(): Observable<String[]>{
-        return this.http.get<String[]>('/assets/familiarabilities.json');
+    load_FamiliarAbilities(): Observable<string[]>{
+        return this.http.get<string[]>('/assets/familiarabilities.json');
     }
 
     initialize() {
         if (!this.familiarAbilities) {
             this.loading_familiarAbilities = true;
             this.load_FamiliarAbilities()
-                .subscribe((results:String[]) => {
+                .subscribe((results:string[]) => {
                     this.loader_familiarAbilities = results;
                     this.finish_loading_Ancestries()
                 });

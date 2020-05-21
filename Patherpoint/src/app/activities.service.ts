@@ -44,8 +44,8 @@ export class ActivitiesService {
         return (this.loading);
     }
 
-    load_Activities(): Observable<String[]>{
-        return this.http.get<String[]>('/assets/activities.json');
+    load_Activities(): Observable<string[]>{
+        return this.http.get<string[]>('/assets/activities.json');
     }
 
     activate_Activity(creature: Character|AnimalCompanion|Familiar, characterService: CharacterService, timeService: TimeService, itemsService: ItemsService, spellsService: SpellsService, gain: ActivityGain|ItemActivity, activity: Activity|ItemActivity, activated: boolean) {
@@ -163,7 +163,7 @@ export class ActivitiesService {
         if (!this.activities) {
         this.loading = true;
         this.load_Activities()
-            .subscribe((results:String[]) => {
+            .subscribe((results:string[]) => {
                 this.loader = results;
                 this.finish_loading()
             });

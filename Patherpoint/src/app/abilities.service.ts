@@ -27,15 +27,15 @@ export class AbilitiesService {
         return (this.loading);
     }
 
-    load_Abilities(): Observable<String[]>{
-        return this.http.get<String[]>('/assets/abilities.json');
+    load_Abilities(): Observable<string[]>{
+        return this.http.get<string[]>('/assets/abilities.json');
     }
 
     initialize() {
         if (!this.abilities) {
             this.loading = true;
             this.load_Abilities()
-                .subscribe((results:String[]) => {
+                .subscribe((results:string[]) => {
                     this.loader = results;
                     this.finish_loading()
                 });

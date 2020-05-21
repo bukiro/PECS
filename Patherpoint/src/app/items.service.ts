@@ -435,8 +435,8 @@ export class ItemsService {
         }
     }
 
-    load_ItemProperties(): Observable<String[]> {
-        return this.http.get<String[]>('/assets/itemProperties.json');
+    load_ItemProperties(): Observable<string[]> {
+        return this.http.get<string[]>('/assets/itemProperties.json');
     }
 
     finish_ItemProperties() {
@@ -447,8 +447,8 @@ export class ItemsService {
         if (this.loading_ItemProperties) { this.loading_ItemProperties = false; }
     }
 
-    load_Specializations(): Observable<String[]> {
-        return this.http.get<String[]>('/assets/specializations.json');
+    load_Specializations(): Observable<string[]> {
+        return this.http.get<string[]>('/assets/specializations.json');
     }
 
     finish_Specializations() {
@@ -459,8 +459,8 @@ export class ItemsService {
         if (this.loading_Specializations) { this.loading_Specializations = false; }
     }
 
-    load_Weapons(): Observable<String[]> {
-        return this.http.get<String[]>('/assets/items/weapons.json');
+    load_Weapons(): Observable<string[]> {
+        return this.http.get<string[]>('/assets/items/weapons.json');
     }
 
     finish_Weapons() {
@@ -472,8 +472,8 @@ export class ItemsService {
         if (this.loading_Weapons) { this.loading_Weapons = false; }
     }
 
-    load_Armors(): Observable<String[]> {
-        return this.http.get<String[]>('/assets/items/armors.json');
+    load_Armors(): Observable<string[]> {
+        return this.http.get<string[]>('/assets/items/armors.json');
     }
 
     finish_Armors() {
@@ -485,8 +485,8 @@ export class ItemsService {
         if (this.loading_Armors) { this.loading_Armors = false; }
     }
 
-    load_Shields(): Observable<String[]> {
-        return this.http.get<String[]>('/assets/items/shields.json');
+    load_Shields(): Observable<string[]> {
+        return this.http.get<string[]>('/assets/items/shields.json');
     }
 
     finish_Shields() {
@@ -498,8 +498,8 @@ export class ItemsService {
         if (this.loading_Shields) { this.loading_Shields = false; }
     }
 
-    load_WornItems(): Observable<String[]> {
-        return this.http.get<String[]>('/assets/items/wornitems.json');
+    load_WornItems(): Observable<string[]> {
+        return this.http.get<string[]>('/assets/items/wornitems.json');
     }
 
     finish_WornItems() {
@@ -511,8 +511,8 @@ export class ItemsService {
         if (this.loading_WornItems) { this.loading_WornItems = false; }
     }
 
-    load_HeldItems(): Observable<String[]> {
-        return this.http.get<String[]>('/assets/items/helditems.json');
+    load_HeldItems(): Observable<string[]> {
+        return this.http.get<string[]>('/assets/items/helditems.json');
     }
 
     finish_HeldItems() {
@@ -524,8 +524,8 @@ export class ItemsService {
         if (this.loading_HeldItems) { this.loading_HeldItems = false; }
     }
 
-    load_Ammunition(): Observable<String[]> {
-        return this.http.get<String[]>('/assets/items/ammunition.json');
+    load_Ammunition(): Observable<string[]> {
+        return this.http.get<string[]>('/assets/items/ammunition.json');
     }
 
     finish_Ammunition() {
@@ -537,8 +537,8 @@ export class ItemsService {
         if (this.loading_Ammunition) { this.loading_Ammunition = false; }
     }
 
-    load_AlchemicalElixirs(): Observable<String[]> {
-        return this.http.get<String[]>('/assets/items/alchemicalelixirs.json');
+    load_AlchemicalElixirs(): Observable<string[]> {
+        return this.http.get<string[]>('/assets/items/alchemicalelixirs.json');
     }
 
     finish_AlchemicalElixirs() {
@@ -550,8 +550,8 @@ export class ItemsService {
         if (this.loading_AlchemicalElixirs) { this.loading_AlchemicalElixirs = false; }
     }
 
-    load_Potions(): Observable<String[]> {
-        return this.http.get<String[]>('/assets/items/potions.json');
+    load_Potions(): Observable<string[]> {
+        return this.http.get<string[]>('/assets/items/potions.json');
     }
 
     finish_Potions() {
@@ -563,8 +563,8 @@ export class ItemsService {
         if (this.loading_Potions) { this.loading_Potions = false; }
     }
 
-    load_OtherConsumables(): Observable<String[]> {
-        return this.http.get<String[]>('/assets/items/otherconsumables.json');
+    load_OtherConsumables(): Observable<string[]> {
+        return this.http.get<string[]>('/assets/items/otherconsumables.json');
     }
 
     finish_OtherConsumables() {
@@ -576,8 +576,8 @@ export class ItemsService {
         if (this.loading_OtherConsumables) { this.loading_OtherConsumables = false; }
     }
 
-    load_AdventuringGear(): Observable<String[]> {
-        return this.http.get<String[]>('/assets/items/adventuringgear.json');
+    load_AdventuringGear(): Observable<string[]> {
+        return this.http.get<string[]>('/assets/items/adventuringgear.json');
     }
 
     finish_AdventuringGear() {
@@ -589,8 +589,8 @@ export class ItemsService {
         if (this.loading_AdventuringGear) { this.loading_AdventuringGear = false; }
     }
 
-    load_ArmorRunes(): Observable<String[]> {
-        return this.http.get<String[]>('/assets/items/armorrunes.json');
+    load_ArmorRunes(): Observable<string[]> {
+        return this.http.get<string[]>('/assets/items/armorrunes.json');
     }
 
     finish_ArmorRunes() {
@@ -602,8 +602,8 @@ export class ItemsService {
         if (this.loading_ArmorRunes) { this.loading_ArmorRunes = false; }
     }
 
-    load_WeaponRunes(): Observable<String[]> {
-        return this.http.get<String[]>('/assets/items/weaponrunes.json');
+    load_WeaponRunes(): Observable<string[]> {
+        return this.http.get<string[]>('/assets/items/weaponrunes.json');
     }
 
     finish_WeaponRunes() {
@@ -615,8 +615,8 @@ export class ItemsService {
         if (this.loading_WeaponRunes) { this.loading_WeaponRunes = false; }
     }
     
-    load_Scrolls(): Observable<String[]> {
-        return this.http.get<String[]>('/assets/items/scrolls.json');
+    load_Scrolls(): Observable<string[]> {
+        return this.http.get<string[]>('/assets/items/scrolls.json');
     }
 
     finish_Scrolls() {
@@ -628,8 +628,8 @@ export class ItemsService {
         if (this.loading_Scrolls) { this.loading_Scrolls = false; }
     }
 
-    load_Oils(): Observable<String[]> {
-        return this.http.get<String[]>('/assets/items/oils.json');
+    load_Oils(): Observable<string[]> {
+        return this.http.get<string[]>('/assets/items/oils.json');
     }
 
     finish_Oils() {
@@ -648,8 +648,8 @@ export class ItemsService {
     }
 
     /*
-    load_REPLACE1(): Observable<String[]> {
-        return this.http.get<String[]>('/assets/items/REPLACE2.json');
+    load_REPLACE1(): Observable<string[]> {
+        return this.http.get<string[]>('/assets/items/REPLACE2.json');
     }
 
     finish_REPLACE1() {

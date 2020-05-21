@@ -52,11 +52,21 @@ import { Item } from './Item';
 import { Scroll } from './Scroll';
 import { InventoryGain } from './InventoryGain';
 import { Oil } from './Oil';
+import { HttpClient } from '@angular/common/http';
+import { Observable } from 'rxjs';
+import { Savegame } from './Savegame';
+import { toBase64String } from '@angular/compiler/src/output/source_map';
+import { CharacterService } from './character.service';
+import { AnimalCompanionsService } from './animalcompanions.service';
 
 @Injectable({
     providedIn: 'root'
 })
 export class SavegameService {
+
+    private savegames: Savegame[];
+    private loading: boolean = false;
+    private loader;
 
     private AbilityChoice = AbilityChoice;
     private ActivityGain = ActivityGain;
@@ -111,10 +121,12 @@ export class SavegameService {
     private WeaponRune = WeaponRune;
     private WornItem = WornItem;
     
-    constructor() { }
+    constructor(
+        private http: HttpClient
+    ) { }
 
-    load_CharacterFromDB(name) {
-        
+    get_Savegames() {
+        return this.savegames;
     }
 
     load_Character(character: Character, itemsService: ItemsService) {
@@ -123,6 +135,9 @@ export class SavegameService {
         character.class.animalCompanion.inventories = character.class.animalCompanion.inventories.map(inventory => Object.assign(new ItemCollection(), inventory));
         character.class.animalCompanion.inventories.forEach(inventory => inventory.initialize(itemsService));
         character = this.reassign(character);
+        if (character['_id']) {
+            delete character['_id'];
+        }
         return character;
     }
 
@@ -199,7 +214,65 @@ export class SavegameService {
         //Then go through the whole thing again and compare every object to its Class's default, deleting everything that has the same value as the default.
         savegame = this.clean(savegame);
 
-        console.log(JSON.stringify(savegame));
+        return this.save_CharacterToDB(savegame);
+
+    }
+
+    load_Characters(): Observable<string[]> {
+        return this.http.get<string[]>('http://arne:8080/list');
+    }
+
+    load_CharacterFromDB(id: string): Observable<string[]> {
+        return this.http.get<string[]>('http://arne:8080/load/'+id);
+    }
+
+    delete_CharacterFromDB(savegame: Savegame): Observable<string[]> {
+        return this.http.get<string[]>('http://arne:8080/delete/'+savegame.id);
+    }
+    
+    save_CharacterToDB(savegame): Observable<string[]> {
+        return this.http.post<string[]>('http://arne:8080/save/', savegame);
+    }
+
+    still_loading() {
+        return this.loading;
+    }
+
+    initialize(characterService: CharacterService) {
+        this.loading = true;
+        this.load_Characters()
+            .subscribe((results:string[]) => {
+                this.loader = results;
+                this.finish_loading()
+                characterService.set_Changed("charactersheet");
+            }, (error) => {
+                console.log('Error loading characters from database: ' + error.message);
+            });
+    }
+
+    finish_loading() {
+        if (this.loader) {
+            this.savegames = [];
+            this.loader.forEach(savegame => {
+                let newLength = this.savegames.push(new Savegame());
+                this.savegames[newLength - 1].id = savegame.id;
+                this.savegames[newLength - 1].dbId = savegame._id || "";
+                this.savegames[newLength - 1].level = savegame.level || 1;
+                this.savegames[newLength - 1].name = savegame.name || "Unnamed";
+                if (savegame.class) {
+                    this.savegames[newLength - 1].class = savegame.class.name || "";
+                    if (savegame.class.ancestry) {
+                        this.savegames[newLength - 1].ancestry = savegame.class.ancestry.name || "";
+                    }
+                    if (savegame.class.heritage) {
+                        this.savegames[newLength - 1].heritage = savegame.class.heritage.name || "";
+                    }
+                }
+            });
+
+            this.loader = [];
+        }
+        if (this.loading) {this.loading = false;}
     }
 
 }

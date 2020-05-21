@@ -177,8 +177,8 @@ export class ConditionsService {
         return (this.loading);
     }
 
-    load_Conditions(): Observable<String[]> {
-        return this.http.get<String[]>('/assets/conditions.json');
+    load_Conditions(): Observable<string[]> {
+        return this.http.get<string[]>('/assets/conditions.json');
     }
 
     initialize() {

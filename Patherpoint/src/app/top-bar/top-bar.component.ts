@@ -109,8 +109,8 @@ export class TopBarComponent implements OnInit {
       return this.characterService.still_loading();
     }
 
-    print() {
-        this.characterService.print();
+    save() {
+        this.characterService.save_Character();
     }
 
     finish_Loading() {

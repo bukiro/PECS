@@ -30,15 +30,15 @@ export class ClassesService {
         return (this.loading);
     }
   
-    load_Classes(): Observable<String[]>{
-        return this.http.get<String[]>('/assets/classes.json');
+    load_Classes(): Observable<string[]>{
+        return this.http.get<string[]>('/assets/classes.json');
     }
   
     initialize() {
         if (!this.classes) {
         this.loading = true;
         this.load_Classes()
-            .subscribe((results:String[]) => {
+            .subscribe((results:string[]) => {
                 this.loader = results;
                 this.finish_loading()
             });

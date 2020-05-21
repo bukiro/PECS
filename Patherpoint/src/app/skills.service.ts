@@ -29,15 +29,15 @@ export class SkillsService {
         return (this.loading);
     }
 
-    load_Skills(): Observable<String[]>{
-        return this.http.get<String[]>('/assets/skills.json');
+    load_Skills(): Observable<string[]>{
+        return this.http.get<string[]>('/assets/skills.json');
     }
 
     initialize() {
         if (!this.skills) {
         this.loading = true;
         this.load_Skills()
-            .subscribe((results:String[]) => {
+            .subscribe((results:string[]) => {
                 this.loader = results;
                 this.finish_loading()
             });
