@@ -35,9 +35,8 @@
                             <ng-container *ngFor="let spell of get_Spells(spellGain.name)">
                                 <div class="list-item" *ngFor="let spellID of [get_ID()]">
                                     <button class="row sublist-toggle left-aligned" (click)="toggle_Spell(spellID)">
-                                        {{spell.name}}
-                                        <app-actionIcons [actionString]="spell.actions"></app-actionIcons>
-                                        {{spell.castType}}
+                                        {{spell.name}}<app-actionIcons [actionString]="spell.actions">
+                                        </app-actionIcons>{{spell.castType}}
                                     </button>
                                     <div class="list-item sublist lower" *ngIf="this.get_showSpell()==spellID">
                                         <button class="row center-aligned"

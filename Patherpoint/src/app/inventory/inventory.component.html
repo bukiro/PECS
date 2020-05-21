@@ -86,13 +86,11 @@
                                         *ngIf="item.type == 'weapons'">{{(prof == 'Unarmed') ? prof : prof.substr(0, prof.length - 8)}}
                                         {{item.group}}</span>
                                 </div>
-                                <button class="row" [disabled]="!item.amount"
+                                <button class="row left-aligned" [disabled]="!item.amount"
                                     (click)="on_ConsumableUse(item, inventory)"
                                     *ngIf="item.amount != undefined && item.actions && (!item.targets || item.targets.length == 0)">
-                                    <span>Use</span>
-                                    <span *ngIf="item.actions">
-                                        <app-actionIcons [actionString]="item.actions"></app-actionIcons>
-                                        {{(item.activationType) ? " - "+item.activationType : ""}}
+                                    <span>Use<app-actionIcons [actionString]="item.actions">
+                                        </app-actionIcons>{{(item.activationType) ? item.activationType : ""}}
                                     </span>
                                 </button>
                                 <div class="row">

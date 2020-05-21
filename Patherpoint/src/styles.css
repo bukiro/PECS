@@ -462,10 +462,15 @@
     width: 100%;
   }
 
-  .actionIcons, .actionIcons svg {
+  app-actionIcons, app-actionIcons svg {
     height: 1em;
     width: auto;
     padding: 0 2px 0 2px;
+    display: inline-block;
+  }
+
+  h4 app-actionIcons svg {
+    margin-bottom:-2px;
   }
 
   .list-item {
@@ -591,6 +596,7 @@
     padding: 0px;
     margin-top: -.1em;
     margin-bottom: -.1em;
+    animation: turnaltrclr 2s infinite;
     animation-name: turnaltrclr;
     animation-duration: 2s;
     -webkit-animation: turnaltrclr 2s infinite;  
@@ -722,7 +728,6 @@
     max-width: 100%;
   }
 
-  #1976d2
   @-webkit-keyframes altrclr{
     0%{
       color:#616161;
@@ -730,45 +735,44 @@
     25%{
       color:#EFEFEF;
     }
-}
-@keyframes altrclr{
-  0%{
-    color:#616161;
   }
-  25%{
-    color:#EFEFEF;
+  @keyframes altrclr{
+    0%{
+      color:#616161;
+    }
+    25%{
+      color:#EFEFEF;
+    }
   }
-}
 
-@-webkit-keyframes turnaltrclr{
-  0%{
-    color:green;
+  @-webkit-keyframes turnaltrclr{
+    0%{
+      color:green;
+    }
+    25%{
+      color:#E0E0E0;
+    }
   }
-  25%{
-    color:#E0E0E0;
+  @keyframes turnaltrclr{
+    0%{
+      color:green;
+    }
+    25%{
+      color:#E0E0E0;
+    }
   }
-}
-@keyframes turnaltrclr{
-0%{
-  color:green;
-}
-25%{
-  color:#E0E0E0;
-}
-}
-
 
   .loading {
     margin:auto;
     font-size:20px;
     color:#616161;
+    animation: altrclr 2s infinite;
     animation-name: altrclr;
     animation-duration: 2s;
-    -webkit-animation: altrclr 2s infinite;  
+    -webkit-animation: altrclr 2s infinite;
   }
   .button.loading {
     margin:0px;
-    -webkit-transform:scale(1);
   }
 
   /*

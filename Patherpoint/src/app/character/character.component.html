@@ -628,7 +628,7 @@
                                                 <h4 class="left-aligned">Advanced Maneuver: {{activity.name}}
                                                     <app-actionIcons [actionString]="activity.actions">
                                                     </app-actionIcons>
-                                                    {{(activity.activationType) ? " - " + activity.activationType : ""}}
+                                                    {{(activity.activationType) ? activity.activationType : ""}}
                                                 </h4>
                                                 <app-activity class="row" [activity]=activity [allowActivate]=false>
                                                 </app-activity>

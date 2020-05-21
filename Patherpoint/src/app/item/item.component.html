@@ -110,8 +110,8 @@
     </p>
     <p *ngIf="item.activationType || item.actions">
         <strong>Activate</strong>
-        <app-actionIcons [actionString]="item.actions"></app-actionIcons>
-        {{item.activationType}}
+        <app-actionIcons [actionString]="item.actions">
+        </app-actionIcons>{{item.activationType}}
     </p>
     <p *ngIf="item.subType">
         <strong>{{item.subType}}</strong>
@@ -170,8 +170,8 @@
 <app-itemAeonStones class="list-item" [item]=item [itemStore]=itemStore *ngIf="item.isWayfinder"></app-itemAeonStones>
 <div class="list-item left-aligned" *ngFor="let cast of item.castSpells">
     <div *ngFor="let spell of get_Spells(cast.name)">
-        <h4>{{spell.name}} <app-actionIcons [actionString]="spell.actions"></app-actionIcons>
-            {{spell.castType.toString()}}</h4>
+        <h4>{{spell.name}}<app-actionIcons [actionString]="spell.actions">
+            </app-actionIcons> {{spell.castType.toString()}}</h4>
         <app-spell [spell]=spell [spellLevel]="(cast.level) ? cast.level : 0"></app-spell>
     </div>
 </div>
@@ -185,11 +185,8 @@
 </div>
 <div class="list-item left-aligned" *ngFor="let activity of item.activities">
     <h4 *ngIf="activity.name">
-        <span>
-            {{activity.name}}
-            <app-actionIcons [actionString]="activity.actions"></app-actionIcons>
-            {{(activity.activationType) ? " - " + activity.activationType : ""}}
-        </span>
+        {{activity.name}}<app-actionIcons [actionString]="activity.actions">
+        </app-actionIcons>{{(activity.activationType) ? activity.activationType : ""}}
     </h4>
     <app-activity [creature]="creature" [activity]=activity [gain]=activity
         [allowActivate]="allowActivate && (activity.resonant ? isSubItem : true)" [isSubItem]=isSubItem></app-activity>
@@ -197,11 +194,8 @@
 <ng-container *ngFor="let gain of item.gainActivities">
     <div class="list-item left-aligned" *ngFor="let activity of get_Activities(gain.name)">
         <h4>
-            <span>
-                {{activity.name}}
-                <app-actionIcons [actionString]="activity.actions"></app-actionIcons>
-                {{(activity.activationType) ? " - " + activity.activationType : ""}}
-            </span>
+            {{activity.name}}<app-actionIcons [actionString]="activity.actions">
+            </app-actionIcons>{{(activity.activationType) ? activity.activationType : ""}}
         </h4>
         <app-activity [creature]="creature" [activity]=activity [gain]=gain [allowActivate]=allowActivate
             [isSubItem]=isSubItem></app-activity>
