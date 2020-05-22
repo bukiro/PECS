@@ -218,7 +218,9 @@ export class InventoryComponent implements OnInit {
     }
 
     can_Drop(item: Item) {
-        return (this.creature == "Character") || (this.creature == "Companion" && item.type != "weapons" && item.name != "Unarmored")
+        //Hidden items are never bought from the store. This implies that you gained them via an activity, spell, etc. and should not drop it.
+        //For Companions, the same goes for their basic attacks;
+        return !item.hide
     }
 
     drop_InventoryItem(item: Item, inventory: ItemCollection, pay: boolean = false) {

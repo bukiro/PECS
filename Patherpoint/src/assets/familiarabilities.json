@@ -11,7 +11,7 @@
       "effects": [
          {
             "affected": "Swim Speed",
-            "value": 25
+            "setValue": "25"
          }
       ]
    },
@@ -27,7 +27,7 @@
       "effects": [
          {
             "affected": "Land Speed",
-            "value": 25
+            "setValue": "25"
          }
       ]
    },
@@ -41,7 +41,7 @@
       "effects": [
          {
             "affected": "Burrow Speed",
-            "value": 5
+            "setValue": "5"
          }
       ]
    },
@@ -55,7 +55,7 @@
       "effects": [
          {
             "affected": "Climb Speed",
-            "value": 25
+            "setValue": "25"
          }
       ]
    },
@@ -123,24 +123,6 @@
       ]
    },
    {
-      "name": "Fast Movement: Burrow",
-      "shortdesc": "The familiar's Burrow Speed increases from 25 feet to 40 feet.",
-      "desc": "The familiar's Burrow Speed increases from 25 feet to 40 feet.",
-      "specialreqdesc": "Burrow Speed",
-      "specialreq":"familiar.speeds.filter(speed => speed.name == 'Burrow Speed').length",
-      "subType": "Burrow",
-      "superType": "Fast Movement",
-      "traits": [
-         "Familiar Ability"
-      ],
-      "effects": [
-         {
-            "affected": "Burrow Speed",
-            "value": 15
-         }
-      ]
-   },
-   {
       "name": "Fast Movement: Climb",
       "shortdesc": "The familiar's Climb Speed increases from 25 feet to 40 feet.",
       "desc": "The familiar's Climb Speed increases from 25 feet to 40 feet.",
@@ -154,7 +136,7 @@
       "effects": [
          {
             "affected": "Climb Speed",
-            "value": 15
+            "setValue": "40"
          }
       ]
    },
@@ -172,7 +154,7 @@
       "effects": [
          {
             "affected": "Fly Speed",
-            "value": 15
+            "setValue": "40"
          }
       ]
    },
@@ -190,7 +172,7 @@
       "effects": [
          {
             "affected": "Land Speed",
-            "value": 15
+            "setValue": "40"
          }
       ]
    },
@@ -208,7 +190,7 @@
       "effects": [
          {
             "affected": "Swim Speed",
-            "value": 15
+            "setValue": "40"
          }
       ]
    },
@@ -222,7 +204,7 @@
       "effects": [
          {
             "affected": "Fly Speed",
-            "value": 25
+            "setValue": "40"
          }
       ]
    },
@@ -264,7 +246,7 @@
       "traits": [
          "Familiar Ability"
       ],
-      "senses": ["Scent 30 feet (Imprecise)"]
+      "senses": ["Scent 30 feet (imprecise)"]
    },
    {
       "name": "Speech",

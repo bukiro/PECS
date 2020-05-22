@@ -151,6 +151,23 @@ export class ActivitiesService {
         characterService.set_Changed();
     }
 
+    rest(creature: Character|AnimalCompanion|Familiar, characterService: CharacterService) {
+        //Get all owned activity gains that have a cooldown active that is more than 8 hours.
+        //We don't have to deal with those with a shorter cooldown because we're ticking 8 hours right after this.
+        //Get the original activity information, and if its cooldown is exactly one day, the actvity gain's cooldown is reset.
+        characterService.get_OwnedActivities(creature).filter((gain: ActivityGain|ItemActivity) => gain.activeCooldown > 48000).forEach(gain => {
+            let activity: Activity|ItemActivity;
+            if (gain.constructor == ItemActivity) {
+                activity = gain as ItemActivity;
+            } else {
+                activity = this.get_Activities(gain.name)[0];
+            }
+            if (activity.cooldown == 144000) {
+                gain.activeCooldown = 0;
+            }
+        });
+    }
+
     tick_Activities(creature: Character|AnimalCompanion|Familiar, characterService: CharacterService, turns: number = 10) {
 
         characterService.get_OwnedActivities(creature).filter(gain => gain.activeCooldown).forEach(gain => {

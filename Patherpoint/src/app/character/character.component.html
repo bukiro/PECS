@@ -7,10 +7,10 @@
         Create New Character
     </button>
     <div class="list-item">
-        <button class="row sublist-toggle fancy-button" (click)="toggle_List('load')">
+        <button class="row sublist-toggle" (click)="toggle_List('load')">
             Load Character
         </button>
-        <div class="list-item sublist fancy-list" *ngIf="get_showList()=='load'">
+        <div class="list-item sublist" *ngIf="get_showList()=='load'">
             <div class="list-item" *ngIf="get_Savegames() && !get_Savegames().length">
                 No characters available in database.
             </div>

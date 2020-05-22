@@ -186,7 +186,7 @@
                                 </div>
                                 <app-itemRunes class="list-item" [item]=item [itemStore]=false *ngIf="item.showRunes">
                                 </app-itemRunes>
-                                <app-itemOils class="list-item" [item]=item [itemStore]=false
+                                <app-itemOils [item]=item [itemStore]=false
                                     *ngIf="item.type != 'oils'">
                                 </app-itemOils>
                                 <app-item [creature]="creature" [item]=item

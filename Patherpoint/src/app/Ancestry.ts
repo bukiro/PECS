@@ -1,11 +1,13 @@
 import { AbilityChoice } from './AbilityChoice';
 import { ItemGain } from './ItemGain';
+import { FeatChoice } from './FeatChoice';
 
 export class Ancestry {
     public readonly _className: string = this.constructor.name;
     public abilityChoices: AbilityChoice[] = [];
     public ancestries: string[] = [];
     public baseLanguages: number = 0;
+    public featChoices: FeatChoice[] = [];
     public gainItems: ItemGain[] = [];
     public heritages: string[] = [];
     public hitPoints: number = 0;

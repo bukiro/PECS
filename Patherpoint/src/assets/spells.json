@@ -172,7 +172,7 @@
             "Focus"
         ],
         "shortDesc": "You unleash your ki as a powerful blast of force.",
-        "actions": "1 to 3",
+        "actions": "1A to 3A",
         "castType": "somatic, verbal",
         "savingthrow": "Fortitude",
         "traits": [
@@ -1648,7 +1648,7 @@
             "Divine"
         ],
         "shortDesc": "Negative energy harms the living or heals the undead, either a single creature or all in a burst.",
-        "actions": "1 to 3",
+        "actions": "1A to 3A",
         "traits": [
             "Common",
             "Necromancy",
@@ -1664,7 +1664,7 @@
             "Primal"
         ],
         "shortDesc": "Positive energy heals the living or harms the undead, either a single creature or all in a burst.",
-        "actions": "1 to 3",
+        "actions": "1A to 3A",
         "traits": [
             "Common",
             "Healing",
@@ -1880,7 +1880,7 @@
             "Occult"
         ],
         "shortDesc": "Pelt creatures with unerring bolts of magical force.",
-        "actions": "1 to 3",
+        "actions": "1A to 3A",
         "castType": "somatic, verbal",
         "traits": [
             "Common",
@@ -2052,7 +2052,7 @@
             "Polymorph",
             "Transmutation"
         ],
-        "desc": "You transform into a the battle form of a Tiny animal, such as a cat, insect, lizard, or rat. <var>var1</var>You can decide the specific type of animal (such as a rat or praying mantis), but this has no effect on the form's Size or statistics. While in this form, you gain the animal trait. You can Dismiss the spell.\n\nYou gain the following statistics and abilities:\n\nAC = 15 + your level. Ignore your armor's check penalty and Speed reduction.\nSpeed 10 feet.\nWeakness 5 to physical damage. (If you take physical damage in this form, you take 5 additional damage.)\nLow-light vision and imprecise scent 30 feet.\nAcrobatics and Stealth modifiers of +10, unless your own modifier is higher; Athletics modifier -4.",
+        "desc": "You transform into a the battle form of a Tiny animal, such as a cat, insect, lizard, or rat. <var>var1</var>You can decide the specific type of animal (such as a rat or praying mantis), but this has no effect on the form's Size or statistics. While in this form, you gain the animal trait. You can Dismiss the spell.\n\nYou gain the following statistics and abilities:\n\nAC = 15 + your level. Ignore your armor's check penalty and Speed reduction.\nSpeed 10 feet.\nWeakness 5 to physical damage. (If you take physical damage in this form, you take 5 additional damage.)\nLow-Light Vision and imprecise scent 30 feet.\nAcrobatics and Stealth modifiers of +10, unless your own modifier is higher; Athletics modifier -4.",
         "target": "self",
         "gainConditions": [
             {

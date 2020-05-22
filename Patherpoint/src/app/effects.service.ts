@@ -67,6 +67,7 @@ constructor(
         let Companion: AnimalCompanion = characterService.get_Companion();
         let Familiar: Familiar = characterService.get_Familiar();
         let Level: number = characterService.get_Character().level;
+        let currentHP = creature.health.currentHP(creature, characterService, effectsService);
         function Ability(name: string) {
             if (creature.type == "Familiar") {
                 return 0;
@@ -101,6 +102,9 @@ constructor(
         }
         function DexCap() {
             return creature.inventories[0].armors.filter(armor => armor.equipped)[0].get_DexCap();
+        }
+        function Has_Condition(name: string) {
+            return characterService.get_AppliedConditions(creature, "Doomed").length
         }
         //effects come as {affected, value} where value is a string that contains a statement.
         //This statement is eval'd here. The condition can use characterService to check level, skills, abilities etc.

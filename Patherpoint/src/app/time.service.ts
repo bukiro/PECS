@@ -1,10 +1,9 @@
 import { Injectable } from '@angular/core';
-import { ConditionsService } from './Conditions.service';
+import { ConditionsService } from './conditions.service';
 import { CharacterService } from './character.service';
 import { ActivitiesService } from './activities.service';
 import { EffectsService } from './effects.service';
 import { Effect } from './Effect';
-import { AbilitiesService } from './abilities.service';
 
 @Injectable({
     providedIn: 'root'
@@ -60,12 +59,15 @@ export class TimeService {
             characterService.get_AppliedConditions(creature, "Fatigued").forEach(gain => characterService.remove_Condition(creature, gain));
             characterService.get_AppliedConditions(creature, "Doomed").forEach(gain => {gain.value -= 1});
             characterService.get_AppliedConditions(creature, "Drained").forEach(gain => {gain.value -= 1});
+            this.activitiesService.rest(creature, characterService);
         });
         characterService.get_Character().class.spellCasting.forEach(casting => {
             casting.spellSlotsUsed = [999, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
         });
+        
         this.tick(characterService, 48000);
         //insert cooldown reset here
+        
     }
 
     tick(characterService: CharacterService, turns: number = 10) {

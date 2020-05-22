@@ -344,6 +344,14 @@
     },
     {
         "bulk": "L",
+        "id": "ecc356cd-637b-43f8-a0cf-8ac90318eb7f",
+        "name": "Sunlight Rations (1 week)",
+        "price": 400,
+        "_className": "AdventuringGear",
+        "hands": 1
+    },
+    {
+        "bulk": "L",
         "desc": "This entry is a catchall for basic hand tools that don't have a specific adventuring purpose. A hand drill, ice hook, or trowel is a short tool. A tool can usually be used as an improvised weapon, dealing 1d4 damage for a short tool or 1d6 for a long tool. The GM determines the damage type that's appropriate or adjusts the damage if needed.",
         "id": "89c7211c-8e09-11ea-9fab-e92c63c14723",
         "name": "Tool (Short)",

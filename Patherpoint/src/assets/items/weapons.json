@@ -53,6 +53,24 @@
    },
    {
       "hide": true,
+      "id": "59f51045-60c4-41c4-ae79-311941b0ca78",
+      "name": "Lizardfolk Claw",
+      "traits": [
+         "Agile",
+         "Finesse",
+         "Unarmed"
+      ],
+      "displayName": "Claw",
+      "moddable": "-",
+      "_className": "Weapon",
+      "dicesize": 4,
+      "dmgType": "S",
+      "group": "Brawling",
+      "melee": 5,
+      "prof": "Unarmed"
+   },
+   {
+      "hide": true,
       "id": "08693217-8daa-11ea-abca-ffb46fbada73",
       "name": "Crane Wing",
       "traits": [

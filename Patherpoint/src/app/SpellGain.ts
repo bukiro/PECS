@@ -5,6 +5,9 @@ export class SpellGain {
     //Set if sustained spell is activated
     public active: boolean = false;
     public activeCooldown: number = 0;
+    //Copied from SpellChoice. How often the spell can be used, human readable for display.
+    public frequency: string = "";
+    //Copied from SpellChoice. Turns * 10 to wait before casting again.
     public cooldown: number = 0;
     //Set to spell's duration when activated, and automatically deactivate if it runs out by ticking time
     public duration: number = 0;
@@ -12,8 +15,9 @@ export class SpellGain {
     public gainItems: ItemGain[] = [];
     public locked: boolean;
     public name: string;
-    //For looking up details in the Choice - ideally always include the choice in the function so we don't have to look it up
+    public source: string;
+    //Copied from SpellChoice. For looking up details in the Choice - ideally always include the choice in the function so we don't have to look it up.
     public sourceId: string;
-    //For sustained spells, the target ("Character", "Companion") is saved here so any conditions can be removed when the spell ends.
+    //For sustained spells, the target ("Character", "Companion", "Familiar") is saved here so any conditions can be removed when the spell ends.
     public target: string;
 }

@@ -7,6 +7,8 @@ export class SpellChoice {
     //className is used to identify the proper SpellCasting to sort this into
     //If "", the main class is used.
     public className: string = "";
+    public cooldown: number = 0;
+    public frequency: string = "";
     public filter: string[] = [];
     public id = uuidv1();
     public level: number = 0;
@@ -21,6 +23,8 @@ export class SpellChoice {
     //The CastingType is mostly there to identify the proper SpellCasting to sort this into if it comes from a feat.
     public castingType: "Focus"|"Innate"|"Spontaneous"|"Prepared";
     public signatureSpell: boolean = false;
+    //For some innate spells, there may be a tradition prerequisite.
+    public tradition: string = "";
     public source: string = "";
     public spells: SpellGain[] = [];
     //If target is set to "Others", you can only choose spells with no target, "companion" or "ally"

@@ -15,7 +15,7 @@ export class SpellCasting {
     public abilityFilter: string[] = [];
     //The level where you learn to spell casts using this method.
     public charLevelAvailable: number = 0;
-    public tradition: ""|"Arcane"|"Divine"|"Occult"|"Primal"|"Innate"|"Bloodline" = "";
+    public tradition: ""|"Arcane"|"Divine"|"Occult"|"Primal"|"Bloodline" = "";
     public traditionAvailable: 0;
     public traditionFilter: string[] = [];
     public spellChoices: SpellChoice[] = [];
@@ -42,7 +42,7 @@ export class SpellCasting {
         if (this.castingType == "Innate") {
             skillName = "Innate Spell DC"
         } else {
-            skillName = (this.className+" "+this.tradition+" Spell DC").trim()
+            skillName = (this.className+" "+this.get_Tradition()+" Spell DC").trim()
         }
         if (set) {
             if (this.ability && this.tradition && this.get_Tradition()) {

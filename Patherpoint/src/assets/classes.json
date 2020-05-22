@@ -1121,7 +1121,7 @@
                     "source": "Innate",
                     "type": "Spell DC"
                 },
-                "tradition": "Innate"
+                "tradition": ""
             },
             {
                 "_className": "SpellCasting",
@@ -2399,7 +2399,7 @@
                     "source": "Innate",
                     "type": "Spell DC"
                 },
-                "tradition": "Innate"
+                "tradition": ""
             }
         ]
     }

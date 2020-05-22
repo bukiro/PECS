@@ -3,8 +3,7 @@ import { CharacterService } from '../character.service';
 import { SkillsService } from '../skills.service';
 import { FeatsService } from '../feats.service';
 import { Character } from '../Character';
-import { AnimalCompanion } from '../AnimalCompanion';
-import { ConditionsService } from '../Conditions.service';
+import { ConditionsService } from '../conditions.service';
 import { Familiar } from '../Familiar';
 import { FamiliarsService } from '../familiars.service';
 
@@ -72,10 +71,6 @@ export class SkillsComponent implements OnInit {
             character.get_FeatsTaken(0, character.level).map(gain => this.characterService.get_FeatsAndFeatures(gain.name)[0]).filter(feat => feat.senses.length).forEach(feat => {
                 senses.push(...feat.senses);
             });
-            this.characterService.get_AppliedConditions(character).filter(gain => gain.apply)
-                .map(gain => this.conditionsService.get_Conditions(gain.name)[0]).filter(condition => condition.senses.length).forEach(condition => {
-                    senses.push(...condition.senses)
-                });
         }
         if (this.creature == "Familiar") {
             let familiar = this.get_Creature() as Familiar;
@@ -83,17 +78,11 @@ export class SkillsComponent implements OnInit {
                 senses.push(...ability.senses);
             })
         }
-        this.characterService.get_AppliedConditions(this.get_Creature()).filter(gain => gain.apply)
+        this.characterService.get_AppliedConditions(creature).filter(gain => gain.apply)
             .map(gain => this.conditionsService.get_Conditions(gain.name)[0]).filter(condition => condition.senses.length).forEach(condition => {
                 senses.push(...condition.senses)
             });
-        let uniquesenses: string[] = [];
-        senses.forEach(sense => {
-            if (!uniquesenses.includes(sense)) {
-                uniquesenses.push(sense);
-            }
-        })
-        return senses;
+        return Array.from(new Set(senses));
     }
 
     still_loading() {

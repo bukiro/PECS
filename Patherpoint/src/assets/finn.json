@@ -1290,7 +1290,7 @@
                         }
                     ],
                     "id": "1-Feat-Background-0",
-                    "level": "",
+                    "level": 0,
                     "source": "Background"
                 }
             ],
@@ -1358,7 +1358,7 @@
                     "source": "Innate",
                     "type": "Spell DC"
                 },
-                "tradition": "Innate"
+                "tradition": ""
             },
             {
                 "castingType": "Spontaneous",
@@ -1589,7 +1589,7 @@
             "desc": "Either one of your parents was an elf, or one or both were half-elves. You have pointed ears and other telltale signs of elf heritage. You gain the elf trait and low-light vision. In addition, you can select elf, half-elf, and human feats whenever you gain an ancestry feat.",
             "name": "Half-Elf",
             "senses": [
-                "Low-light vision"
+                "Low-Light Vision"
             ],
             "traits": [
                 "Elf"
@@ -1771,7 +1771,7 @@
                             }
                         ],
                         "id": "1-Feat-Feat: Natural Ambition-0",
-                        "level": "1",
+                        "level": 1,
                         "source": "Feat: Natural Ambition",
                         "type": "Class"
                     }

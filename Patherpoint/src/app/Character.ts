@@ -179,7 +179,7 @@ export class Character extends Creature {
         //If the choice has a charLevelAvailable lower than the current level, you could choose spells before you officially get this choice.
         //So we raise the charLevelAvailable to either the current level or the original value, whichever is higher.
         choice.charLevelAvailable = Math.max(choice.charLevelAvailable, level.number);
-        //If the spellcasting was not available so far, it is now
+        //If the spellcasting was not available so far, it is now.
         if (!spellCasting.charLevelAvailable) {
             spellCasting.charLevelAvailable = choice.charLevelAvailable;
         }
@@ -467,7 +467,7 @@ export class Character extends Creature {
     }
     take_Spell(characterService: CharacterService, spellName: string, taken: boolean, choice: SpellChoice, locked: boolean) {
         if (taken) {
-            choice.spells.push(Object.assign(new SpellGain(), {"name":spellName, "locked":locked, "sourceId":choice.id}));
+            choice.spells.push(Object.assign(new SpellGain(), {"name":spellName, "locked":locked, "sourceId":choice.id, "source":choice.source, "cooldown":choice.cooldown, "frequency":choice.frequency}));
         } else {
             choice.spells = choice.spells.filter(gain => gain.name != spellName);
         }

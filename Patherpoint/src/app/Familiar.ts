@@ -16,7 +16,7 @@ export class Familiar extends Creature {
         Object.assign(new Skill(), { name:"Attack Rolls", type:"Familiar Proficiency" })
     ];
     public originClass: string = "";
-    public senses: string[] = ["Low-light Vision"];
+    public senses: string[] = ["Low-Light Vision"];
     public species: string = "";
     public traits: string[] = ["Minion"];
     get_Size(effectsService: EffectsService) {

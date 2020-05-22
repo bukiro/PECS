@@ -10,17 +10,33 @@ export class Speed {
         public name: string = ""
     ) {};
     public source: string = "";
-    effects(creature: Character|AnimalCompanion|Familiar, effectsService: EffectsService) {
-        return effectsService.get_EffectsOnThis(creature, this.name);
+    relatives(creature: Character|AnimalCompanion|Familiar, effectsService: EffectsService, both: boolean = false) {
+        if (both && this.name != "Speed") {
+            return effectsService.get_RelativesOnThis(creature, this.name).concat(effectsService.get_RelativesOnThis(creature, "Speed"));
+        } else {
+            return effectsService.get_RelativesOnThis(creature, this.name);
+        }
     }
-    absolutes(creature: Character|AnimalCompanion|Familiar, effectsService: EffectsService) {
-        return effectsService.get_AbsolutesOnThis(creature, this.name);
+    absolutes(creature: Character|AnimalCompanion|Familiar, effectsService: EffectsService, both: boolean = false) {
+        if (both && this.name != "Speed") {
+            return effectsService.get_AbsolutesOnThis(creature, this.name).concat(effectsService.get_AbsolutesOnThis(creature, "Speed"));
+        } else {
+            return effectsService.get_AbsolutesOnThis(creature, this.name);
+        }
     }
-    bonuses(creature: Character|AnimalCompanion|Familiar, effectsService: EffectsService) {
-        return effectsService.get_BonusesOnThis(creature, this.name);
+    bonuses(creature: Character|AnimalCompanion|Familiar, effectsService: EffectsService, both: boolean = false) {
+        if (both && this.name != "Speed") {
+            return effectsService.get_BonusesOnThis(creature, this.name).concat(effectsService.get_BonusesOnThis(creature, "Speed"));
+        } else {
+            return effectsService.get_BonusesOnThis(creature, this.name);
+        }
     }
-    penalties(creature: Character|AnimalCompanion|Familiar, effectsService: EffectsService) {
-        return effectsService.get_PenaltiesOnThis(creature, this.name);
+    penalties(creature: Character|AnimalCompanion|Familiar, effectsService: EffectsService, both: boolean = false) {
+        if (both && this.name != "Speed") {
+            return effectsService.get_PenaltiesOnThis(creature, this.name).concat(effectsService.get_PenaltiesOnThis(creature, "Speed"));
+        } else {
+            return effectsService.get_PenaltiesOnThis(creature, this.name);
+        }
     }
     baseValue(creature: Character|AnimalCompanion|Familiar, characterService: CharacterService, effectsService: EffectsService) {
     //Gets the basic speed and adds all effects
@@ -59,41 +75,36 @@ export class Speed {
             sum = parseInt(effect.setValue)
             explain = effect.source + ": " + effect.setValue;
         });
-        this.effects(creature, effectsService).forEach(effect => {
-            if (sum > 5) {
-                above5 = true
-            }
-            if (above5) {
-                sum = Math.max(sum + parseInt(effect.value), 5);
-                explain += "\n"+effect.source+": "+effect.value;
-            } else {
-                sum += parseInt(effect.value);
-                explain += "\n"+effect.source+": "+effect.value;
-            }
+        let isNull: boolean = (sum == 0)
+        this.relatives(creature, effectsService).forEach(effect => {
+            sum += parseInt(effect.value);
+            explain += "\n"+effect.source+": "+effect.value;
         });
+        if (!isNull && sum < 5 && this.name != "Speed") {
+            sum = 5;
+            explain += "\nEffects cannot lower a speed below 5."
+        }
         explain = explain.trim();
         return [sum, explain];
     }
     value(creature: Character|AnimalCompanion|Familiar, characterService: CharacterService, effectsService: EffectsService): [number, string] {
         //If there is a general speed penalty (or bonus), it applies to all speeds. We apply it to the base speed here so we can still
         // copy the base speed for effects (e.g. "You gain a climb speed equal to your land speed") and not apply the general penalty twice.
-        let sum = this.baseValue(creature, characterService, effectsService)[0];
-        let explain: string = this.baseValue(creature, characterService, effectsService)[1];
-        let above5 = false;
+        let baseValue = this.baseValue(creature, characterService, effectsService)
+        let sum = baseValue[0];
+        let explain: string = baseValue[1];
+        let isNull: boolean = (sum == 0)
         if (this.name != "Speed") {
             effectsService.get_RelativesOnThis(creature, "Speed").forEach(effect => {
-                if (sum > 5) {
-                    above5 = true
-                }
-                if (above5) {
-                    sum = Math.max(sum + parseInt(effect.value), 5);
-                    explain += "\n"+effect.source+": "+effect.value;
-                } else {
-                    sum += parseInt(effect.value);
-                    explain += "\n"+effect.source+": "+effect.value;
-                }
+                sum += parseInt(effect.value);
+                explain += "\n"+effect.source+": "+effect.value;
             });
         }
+        if (!isNull && sum < 5 && this.name != "Speed") {
+            sum = 5;
+            explain += "\nEffects cannot lower a speed below 5."
+        }
+        explain = explain.trim();
         return [sum, explain];
     }
 }

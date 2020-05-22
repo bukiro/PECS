@@ -1,6 +1,7 @@
 import { FeatChoice } from './FeatChoice';
 import { SkillChoice } from './SkillChoice';
 import { ActivityGain } from './ActivityGain';
+import { SpellChoice } from './SpellChoice';
 
 export class Heritage {
     public readonly _className: string = this.constructor.name;
@@ -12,6 +13,7 @@ export class Heritage {
     public name: string = "";
     public senses: string[] = [];
     public skillChoices: SkillChoice[] = [];
+    public spellChoices: SpellChoice[] = [];
     public subType: string = "";
     public subTypes: Heritage[] = [];
     public traits: string[] = [];

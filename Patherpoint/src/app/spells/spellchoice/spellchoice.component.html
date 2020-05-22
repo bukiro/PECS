@@ -1,9 +1,10 @@
 <div class="list-item" *ngIf="choice.available"
-[ngClass]="{'problem':(choice.spells.length > choice.available || cannotTakeSome(choice)), 'fullsize-only':(choice.available == choice.spells.length)}">
+    [ngClass]="{'problem':(choice.spells.length > choice.available || cannotTakeSome(choice)), 'fullsize-only':(choice.available == choice.spells.length)}">
     <button class="row sublist-toggle" [ngClass]="{'fancy-button':(choice.available == choice.spells.length)}"
         (click)="toggle_Choice(choice.source+choice.id)">
-        {{itemSpell ? "Level "+choice.level : ""}} {{choice.signatureSpell ? "Signature" : ""}}
-        {{choice.className}} Spells{{!itemSpell ? " ("+choice.source+")" : ""}}{{(choice.available > 1) ?
+        {{itemSpell ? "Level "+choice.level : ""}} {{choice.frequency ? choice.frequency : ""}}
+        {{choice.tradition ? choice.tradition : ""}} {{choice.signatureSpell ? "Signature" : ""}}
+        {{choice.className}} Spell{{(choice.available > 1) ? "s" : ""}}{{!itemSpell ? " ("+choice.source+")" : ""}}{{(choice.available > 1) ?
             ": "+ choice.spells.length +"/"+ choice.available : 
             (choice.spells.length) ? ": "+ choice.spells[0].name : ""}}
     </button>

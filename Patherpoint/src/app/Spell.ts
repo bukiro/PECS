@@ -105,14 +105,17 @@ export class Spell {
         return spellsTaken.length;
     }
     can_Cast(characterService: CharacterService, casting: SpellCasting, gain: SpellGain) {
-        if (casting.castingType == "Focus") {
-            return characterService.get_Character().class.focusPoints > 0 || gain.active;
-        } else if (casting.castingType == "Spontaneous") {
-            //check spell slots here - currently working inside the DOM
-            return true;
-        } else if (casting.castingType == "Prepared") {
-            //check prepared spell here - currently not implemented
-            return true;
+        switch (casting.castingType) {
+            case "Focus":
+                return characterService.get_Character().class.focusPoints > 0 && !gain.active;
+            case "Spontaneous":
+                //could check spell slots here - currently working well inside the DOM
+                return !gain.active;
+            case "Prepared":
+                //check prepared spell here - currently not implemented
+                return !gain.active;
+            case "Innate":
+                return !gain.active;
         }
     }
 }

@@ -116,9 +116,9 @@ export class FeatsService {
                     });
                 } else {
                     feat.gainSpellCasting.forEach(casting => {
-                        let oldCasting = character.class.spellCasting.find(casting => casting.className == casting.className &&
-                            casting.castingType == casting.castingType &&
-                            casting.source == casting.source);
+                        let oldCasting = character.class.spellCasting.find(ownedCasting => ownedCasting.className == casting.className &&
+                            ownedCasting.castingType == casting.castingType &&
+                            ownedCasting.source == casting.source);
                         if (oldCasting) {
                             character.remove_SpellCasting(characterService, oldCasting);
                         }
@@ -130,14 +130,23 @@ export class FeatsService {
             if (feat.gainSpellChoice.length) {
                 if (taken) {
                     feat.gainSpellChoice.forEach(newSpellChoice => {
-                        let newChoice:SpellChoice = character.add_SpellChoice(level, newSpellChoice);
-                        newChoice.spells.forEach(gain => {
-                            gain.sourceId = newChoice.id;
+                        let insertSpellChoice: SpellChoice = Object.assign(new SpellChoice(), JSON.parse(JSON.stringify(newSpellChoice)));
+                        //Wellspring Gnome changes:
+                        //"Whenever you gain a primal innate spell from a gnome ancestry feat, change its tradition from primal to your chosen tradition."
+                        if (character.class.heritage.name.includes("Wellspring Gnome")) {
+                            if (insertSpellChoice.tradition && insertSpellChoice.castingType == "Innate" && insertSpellChoice.tradition == "Primal" && feat.traits.includes("Gnome")) {
+                                insertSpellChoice.tradition = character.class.heritage.subType;
+                            }
+                        }
+                        insertSpellChoice.spells.forEach(gain => {
+                            gain.sourceId = insertSpellChoice.id;
                         })
+                        insertSpellChoice.source == "Feat: "+feat.name;
+                        character.add_SpellChoice(level, insertSpellChoice);
                     });
                 } else {
                     feat.gainSpellChoice.forEach(newSpellChoice => {
-                        character.remove_SpellChoice(characterService, newSpellChoice)
+                        character.remove_SpellChoice(characterService, newSpellChoice);
                     });
                 }
             }

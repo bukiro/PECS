@@ -91,8 +91,10 @@ export class SpellsComponent implements OnInit {
     }
 
     get_DynamicLevel(casting: SpellCasting, choice: SpellChoice) {
+        //highestSpellLevel is used in the eval() process.
         let highestSpellLevel = 1;
-        highestSpellLevel = Math.max(...casting.spellChoices.map(choice => choice.level))
+        //Get the highest level of all available spell choices of this spellcasting.
+        highestSpellLevel = Math.max(...casting.spellChoices.map(spellChoice => spellChoice.level));
         try {
             return parseInt(eval(choice.dynamicLevel));
         } catch (e) {
@@ -122,7 +124,7 @@ export class SpellsComponent implements OnInit {
         } else {
             this.characterService.get_Changed()
             .subscribe((target) => {
-                if (target == "spells" || target == "all" || target == "Character") {
+                if (["spells", "all", "Character"].includes(target)) {
                     this.changeDetector.detectChanges();
                 }
             });

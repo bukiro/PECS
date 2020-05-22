@@ -1,30 +1,41 @@
 [
     {
         "_className": "Ancestry",
+        "name": "Dwarf",
+        "ancestries": [
+            "Dwarf"
+        ],
+        "hitPoints": 10,
+        "size": 0,
+        "speed": 20,
+        "traits": [
+            "Dwarf",
+            "Humanoid"
+        ],
         "abilityChoices": [
             {
                 "_className": "AbilityChoice",
                 "boosts": [
                     {
+                        "locked": true,
                         "name": "Constitution",
-                        "type": "Boost",
                         "source": "Ancestry",
-                        "locked": true,
-                        "sourceId": "1-Ability-Ancestry-0"
+                        "sourceId": "1-Ability-Ancestry-0",
+                        "type": "Boost"
                     },
                     {
+                        "locked": true,
                         "name": "Wisdom",
-                        "type": "Boost",
                         "source": "Ancestry",
-                        "locked": true,
-                        "sourceId": "1-Ability-Ancestry-0"
+                        "sourceId": "1-Ability-Ancestry-0",
+                        "type": "Boost"
                     },
                     {
-                        "name": "Charisma",
-                        "type": "Flaw",
-                        "source": "Ancestry",
                         "locked": true,
-                        "sourceId": "1-Ability-Ancestry-0"
+                        "name": "Charisma",
+                        "source": "Ancestry",
+                        "sourceId": "1-Ability-Ancestry-0",
+                        "type": "Flaw"
                     }
                 ],
                 "id": "1-Ability-Ancestry-0",
@@ -38,10 +49,22 @@
                 "source": "Ancestry"
             }
         ],
-        "ancestries": [
-            "Dwarf"
-        ],
         "baseLanguages": 2,
+        "languages": [
+            "Common",
+            "Dwarven"
+        ],
+        "recommendedLanguages": [
+            "Gnomish",
+            "Goblin",
+            "Jotun",
+            "Orcish",
+            "Terran",
+            "Undercommon"
+        ],
+        "senses": [
+            "Darkvision"
+        ],
         "gainItems": [
             {
                 "name": "Clan Dagger",
@@ -54,59 +77,50 @@
             "Death Warden Dwarf",
             "Elemental Heart Dwarf",
             "Forge Dwarf",
+            "Half-Elf",
+            "Half-Orc",
             "Oathkeeper Dwarf",
             "Rock Dwarf",
             "Strong-Blooded Dwarf"
-        ],
-        "hitPoints": 10,
-        "languages": [
-            "Common",
-            "Dwarven"
-        ],
-        "name": "Dwarf",
-        "recommendedLanguages": [
-            "Gnomish",
-            "Goblin",
-            "Jotun",
-            "Orcish",
-            "Terran",
-            "Undercommon"
-        ],
-        "senses": [
-            "Darkvision"
-        ],
-        "speed": 20,
-        "traits": [
-            "Dwarf",
-            "Humanoid"
         ]
     },
     {
         "_className": "Ancestry",
+        "name": "Elf",
+        "ancestries": [
+            "Elf"
+        ],
+        "hitPoints": 6,
+        "size": 0,
+        "speed": 30,
+        "traits": [
+            "Elf",
+            "Humanoid"
+        ],
         "abilityChoices": [
             {
                 "_className": "AbilityChoice",
                 "boosts": [
                     {
+                        "locked": true,
                         "name": "Dexterity",
-                        "type": "Boost",
                         "source": "Ancestry",
-                        "locked": true,
-                        "sourceId": "1-Ability-Ancestry-0"
+                        "sourceId": "1-Ability-Ancestry-0",
+                        "type": "Boost"
                     },
                     {
+                        "locked": true,
                         "name": "Wisdom",
-                        "type": "Boost",
                         "source": "Ancestry",
-                        "locked": true,
-                        "sourceId": "1-Ability-Ancestry-0"
+                        "sourceId": "1-Ability-Ancestry-0",
+                        "type": "Boost"
                     },
                     {
-                        "name": "Constitution",
-                        "type": "Flaw",
-                        "source": "Ancestry",
                         "locked": true,
-                        "sourceId": "1-Ability-Ancestry-0"
+                        "name": "Constitution",
+                        "source": "Ancestry",
+                        "sourceId": "1-Ability-Ancestry-0",
+                        "type": "Flaw"
                     }
                 ],
                 "id": "1-Ability-Ancestry-0",
@@ -120,25 +134,11 @@
                 "source": "Ancestry"
             }
         ],
-        "ancestries": [
-            "Elf"
-        ],
         "baseLanguages": 2,
-        "heritages": [
-            "Ancient Elf",
-            "Arctic Elf",
-            "Cavern Elf",
-            "Desert Elf",
-            "Seer Elf",
-            "Whisper Elf",
-            "Woodland Elf"
-        ],
-        "hitPoints": 6,
         "languages": [
             "Common",
             "Elven"
         ],
-        "name": "Elf",
         "recommendedLanguages": [
             "Celestial",
             "Draconic",
@@ -151,14 +151,349 @@
         "senses": [
             "Low-Light Vision"
         ],
-        "speed": 30,
-        "traits": [
-            "Elf",
-            "Humanoid"
+        "heritages": [
+            "Ancient Elf",
+            "Arctic Elf",
+            "Cavern Elf",
+            "Desert Elf",
+            "Half-Orc",
+            "Seer Elf",
+            "Whisper Elf",
+            "Woodland Elf"
         ]
     },
     {
         "_className": "Ancestry",
+        "name": "Gnome",
+        "ancestries": [
+            "Gnome"
+        ],
+        "hitPoints": 8,
+        "size": -1,
+        "speed": 25,
+        "traits": [
+            "Gnome",
+            "Humanoid"
+        ],
+        "abilityChoices": [
+            {
+                "_className": "AbilityChoice",
+                "boosts": [
+                    {
+                        "locked": true,
+                        "name": "Constitution",
+                        "source": "Ancestry",
+                        "sourceId": "1-Ability-Ancestry-0",
+                        "type": "Boost"
+                    },
+                    {
+                        "locked": true,
+                        "name": "Charisma",
+                        "source": "Ancestry",
+                        "sourceId": "1-Ability-Ancestry-0",
+                        "type": "Boost"
+                    },
+                    {
+                        "locked": true,
+                        "name": "Strength",
+                        "source": "Ancestry",
+                        "sourceId": "1-Ability-Ancestry-0",
+                        "type": "Flaw"
+                    }
+                ],
+                "id": "1-Ability-Ancestry-0",
+                "source": "Ancestry"
+            },
+            {
+                "_className": "AbilityChoice",
+                "available": 1,
+                "baseValuesLost": 1,
+                "id": "1-Ability-Ancestry-1",
+                "source": "Ancestry"
+            }
+        ],
+        "baseLanguages": 3,
+        "languages": [
+            "Common",
+            "Gnomish",
+            "Sylvan"
+        ],
+        "recommendedLanguages": [
+            "Draconic",
+            "Dwarven",
+            "Elven",
+            "Goblin",
+            "Jotun",
+            "Orcish"
+        ],
+        "senses": [
+            "Low-Light Vision"
+        ],
+        "heritages": [
+            "Chameleon Gnome",
+            "Fey-Touched Gnome",
+            "Half-Elf",
+            "Half-Orc",
+            "Sensate Gnome",
+            "Umbral Gnome",
+            "Vivacious Gnome",
+            "Wellspring Gnome"
+        ]
+    },
+    {
+        "_className": "Ancestry",
+        "name": "Goblin",
+        "ancestries": [
+            "Goblin"
+        ],
+        "hitPoints": 6,
+        "size": -1,
+        "speed": 25,
+        "traits": [
+            "Goblin",
+            "Humanoid"
+        ],
+        "abilityChoices": [
+            {
+                "_className": "AbilityChoice",
+                "boosts": [
+                    {
+                        "locked": true,
+                        "name": "Dexterity",
+                        "source": "Ancestry",
+                        "sourceId": "1-Ability-Ancestry-0",
+                        "type": "Boost"
+                    },
+                    {
+                        "locked": true,
+                        "name": "Charisma",
+                        "source": "Ancestry",
+                        "sourceId": "1-Ability-Ancestry-0",
+                        "type": "Boost"
+                    },
+                    {
+                        "locked": true,
+                        "name": "Wisdom",
+                        "source": "Ancestry",
+                        "sourceId": "1-Ability-Ancestry-0",
+                        "type": "Flaw"
+                    }
+                ],
+                "id": "1-Ability-Ancestry-0",
+                "source": "Ancestry"
+            },
+            {
+                "_className": "AbilityChoice",
+                "available": 1,
+                "baseValuesLost": 1,
+                "id": "1-Ability-Ancestry-1",
+                "source": "Ancestry"
+            }
+        ],
+        "baseLanguages": 2,
+        "languages": [
+            "Common",
+            "Goblin"
+        ],
+        "recommendedLanguages": [
+            "Draconic",
+            "Dwarven",
+            "Gnoll",
+            "Gnomish",
+            "Halfling",
+            "Orcish"
+        ],
+        "senses": [
+            "Darkvision"
+        ],
+        "heritages": [
+            "Charhide Goblin",
+            "Half-Elf",
+            "Half-Orc",
+            "Irongut Goblin",
+            "Razortooth Goblin",
+            "Snow Goblin",
+            "Tailed Goblin",
+            "Treedweller Goblin",
+            "Unbreakable Goblin"
+        ]
+    },
+    {
+        "_className": "Ancestry",
+        "name": "Halfling",
+        "ancestries": [
+            "Halfling"
+        ],
+        "hitPoints": 6,
+        "size": -1,
+        "speed": 25,
+        "traits": [
+            "Halfling",
+            "Humanoid"
+        ],
+        "abilityChoices": [
+            {
+                "_className": "AbilityChoice",
+                "boosts": [
+                    {
+                        "locked": true,
+                        "name": "Dexterity",
+                        "source": "Ancestry",
+                        "sourceId": "1-Ability-Ancestry-0",
+                        "type": "Boost"
+                    },
+                    {
+                        "locked": true,
+                        "name": "Wisdom",
+                        "source": "Ancestry",
+                        "sourceId": "1-Ability-Ancestry-0",
+                        "type": "Boost"
+                    },
+                    {
+                        "locked": true,
+                        "name": "Strength",
+                        "source": "Ancestry",
+                        "sourceId": "1-Ability-Ancestry-0",
+                        "type": "Flaw"
+                    }
+                ],
+                "id": "1-Ability-Ancestry-0",
+                "source": "Ancestry"
+            },
+            {
+                "_className": "AbilityChoice",
+                "available": 1,
+                "baseValuesLost": 1,
+                "id": "1-Ability-Ancestry-1",
+                "source": "Ancestry"
+            }
+        ],
+        "baseLanguages": 2,
+        "languages": [
+            "Common",
+            "Halfling"
+        ],
+        "recommendedLanguages": [
+            "Dwarven",
+            "Elven",
+            "Gnomish",
+            "Goblin"
+        ],
+        "heritages": [
+            "Gutsy Halfling",
+            "Half-Elf",
+            "Half-Orc",
+            "Hillock Halfling",
+            "Nomadic Halfling",
+            "Observant Halfling",
+            "Twilight Halfling",
+            "Wildwood Halfling"
+        ],
+        "featChoices": [
+            {
+                "_className": "FeatChoice",
+                "feats": [
+                    {
+                        "name": "Keen Eyes",
+                        "source": "Ancestry",
+                        "locked": true,
+                        "sourceId": "1-Feat-Ancestry-0"
+                    }
+                ],
+                "id": "1-Feat-Ancestry-0",
+                "level": 0,
+                "source": "Ancestry"
+            }
+        ]
+    },
+    {
+        "_className": "Ancestry",
+        "name": "Hobgoblin",
+        "ancestries": [
+            "Hobgoblin"
+        ],
+        "hitPoints": 8,
+        "size": 0,
+        "speed": 25,
+        "traits": [
+            "Uncommon",
+            "Goblin",
+            "Humanoid"
+        ],
+        "abilityChoices": [
+            {
+                "_className": "AbilityChoice",
+                "boosts": [
+                    {
+                        "locked": true,
+                        "name": "Constitution",
+                        "source": "Ancestry",
+                        "sourceId": "1-Ability-Ancestry-0",
+                        "type": "Boost"
+                    },
+                    {
+                        "locked": true,
+                        "name": "Intelligence",
+                        "source": "Ancestry",
+                        "sourceId": "1-Ability-Ancestry-0",
+                        "type": "Boost"
+                    },
+                    {
+                        "locked": true,
+                        "name": "Wisdom",
+                        "source": "Ancestry",
+                        "sourceId": "1-Ability-Ancestry-0",
+                        "type": "Flaw"
+                    }
+                ],
+                "id": "1-Ability-Ancestry-0",
+                "source": "Ancestry"
+            },
+            {
+                "_className": "AbilityChoice",
+                "available": 1,
+                "baseValuesLost": 1,
+                "id": "1-Ability-Ancestry-1",
+                "source": "Ancestry"
+            }
+        ],
+        "baseLanguages": 2,
+        "languages": [
+            "Common",
+            "Goblin"
+        ],
+        "recommendedLanguages": [
+            "Draconic",
+            "Dwarven",
+            "Gnoll",
+            "Jotun",
+            "Halfling",
+            "Orcish"
+        ],
+        "senses": [
+            "Darkvision"
+        ],
+        "heritages": [
+            "Elfbane Hobgoblin",
+            "Runtboss Hobgoblin",
+            "Smokeworker Hobgoblin",
+            "Warmarch Hobgoblin",
+            "Warrenbred Hobgoblin"
+        ]
+    },
+    {
+        "_className": "Ancestry",
+        "name": "Human",
+        "ancestries": [
+            "Human"
+        ],
+        "hitPoints": 8,
+        "size": 0,
+        "speed": 25,
+        "traits": [
+            "Human",
+            "Humanoid"
+        ],
         "abilityChoices": [
             {
                 "_className": "AbilityChoice",
@@ -168,26 +503,289 @@
                 "source": "Ancestry"
             }
         ],
-        "ancestries": [
-            "Human"
-        ],
         "baseLanguages": 2,
+        "languages": [
+            "Common"
+        ],
         "heritages": [
             "Half-Elf",
             "Half-Orc",
             "Skilled Heritage",
             "Versatile Heritage",
             "Wintertouched Human"
+        ]
+    },
+    {
+        "_className": "Ancestry",
+        "name": "Leshy",
+        "ancestries": [
+            "Leshy"
         ],
         "hitPoints": 8,
-        "languages": [
-            "Common"
-        ],
-        "name": "Human",
+        "size": -1,
         "speed": 25,
         "traits": [
-            "Human",
-            "Humanoid"
+            "Uncommon",
+            "Leshy",
+            "Plant"
+        ],
+        "abilityChoices": [
+            {
+                "_className": "AbilityChoice",
+                "boosts": [
+                    {
+                        "locked": true,
+                        "name": "Constitution",
+                        "source": "Ancestry",
+                        "sourceId": "1-Ability-Ancestry-0",
+                        "type": "Boost"
+                    },
+                    {
+                        "locked": true,
+                        "name": "Wisdom",
+                        "source": "Ancestry",
+                        "sourceId": "1-Ability-Ancestry-0",
+                        "type": "Boost"
+                    },
+                    {
+                        "locked": true,
+                        "name": "Intelligence",
+                        "source": "Ancestry",
+                        "sourceId": "1-Ability-Ancestry-0",
+                        "type": "Flaw"
+                    }
+                ],
+                "id": "1-Ability-Ancestry-0",
+                "source": "Ancestry"
+            },
+            {
+                "_className": "AbilityChoice",
+                "available": 1,
+                "baseValuesLost": 1,
+                "id": "1-Ability-Ancestry-1",
+                "source": "Ancestry"
+            }
+        ],
+        "baseLanguages": 2,
+        "languages": [
+            "Common",
+            "Sylvan"
+        ],
+        "recommendedLanguages": [
+            "Draconic",
+            "Elven",
+            "Gnomish",
+            "Goblin",
+            "Halfling",
+            "Undercommon"
+        ],
+        "senses": [
+            "Low-Light Vision"
+        ],
+        "heritages": [
+            "Fungus Leshy",
+            "Gourd Leshy",
+            "Leaf Leshy",
+            "Vine Leshy"
+        ],
+        "featChoices": [
+            {
+                "_className": "FeatChoice",
+                "feats": [
+                    {
+                        "name": "Plant Nourishment",
+                        "source": "Ancestry",
+                        "locked": true,
+                        "sourceId": "1-Feat-Ancestry-0"
+                    }
+                ],
+                "id": "1-Feat-Ancestry-0",
+                "level": 0,
+                "source": "Ancestry"
+            }
+        ]
+    },
+    {
+        "_className": "Ancestry",
+        "name": "Lizardfolk",
+        "ancestries": [
+            "Lizardfolk"
+        ],
+        "hitPoints": 8,
+        "size": 0,
+        "speed": 25,
+        "traits": [
+            "Uncommon",
+            "Humanoid",
+            "Lizardfolk"
+        ],
+        "abilityChoices": [
+            {
+                "_className": "AbilityChoice",
+                "boosts": [
+                    {
+                        "locked": true,
+                        "name": "Strength",
+                        "source": "Ancestry",
+                        "sourceId": "1-Ability-Ancestry-0",
+                        "type": "Boost"
+                    },
+                    {
+                        "locked": true,
+                        "name": "Wisdom",
+                        "source": "Ancestry",
+                        "sourceId": "1-Ability-Ancestry-0",
+                        "type": "Boost"
+                    },
+                    {
+                        "locked": true,
+                        "name": "Intelligence",
+                        "source": "Ancestry",
+                        "sourceId": "1-Ability-Ancestry-0",
+                        "type": "Flaw"
+                    }
+                ],
+                "id": "1-Ability-Ancestry-0",
+                "source": "Ancestry"
+            },
+            {
+                "_className": "AbilityChoice",
+                "available": 1,
+                "baseValuesLost": 1,
+                "id": "1-Ability-Ancestry-1",
+                "source": "Ancestry"
+            }
+        ],
+        "baseLanguages": 2,
+        "languages": [
+            "Common",
+            "Iruxi"
+        ],
+        "recommendedLanguages": [
+            "Aquan",
+            "Boggard",
+            "Draconic",
+            "Elven",
+            "Jotun",
+            "Sylvan"
+        ],
+        "gainItems": [
+            {
+                "name": "Lizardfolk Claw",
+                "type": "weapons"
+            }
+        ],
+        "heritages": [
+            "Cliffscale Lizardfolk",
+            "Frilled Lizardfolk",
+            "Sandstrider Lizardfolk",
+            "Unseen Lizardfolk",
+            "Wetlander Lizardfolk"
+        ],
+        "featChoices": [
+            {
+                "_className": "FeatChoice",
+                "feats": [
+                    {
+                        "name": "Breath Control",
+                        "source": "Ancestry",
+                        "locked": true,
+                        "sourceId": "1-Feat-Ancestry-0"
+                    }
+                ],
+                "id": "1-Feat-Ancestry-0",
+                "level": 0,
+                "source": "Ancestry"
+            }
+        ]
+    },
+    {
+        "_className": "Ancestry",
+        "name": "Shoony",
+        "ancestries": [
+            "Shoony"
+        ],
+        "hitPoints": 6,
+        "size": -1,
+        "speed": 25,
+        "traits": [
+            "Rare",
+            "Humanoid",
+            "Shoony"
+        ],
+        "abilityChoices": [
+            {
+                "_className": "AbilityChoice",
+                "boosts": [
+                    {
+                        "locked": true,
+                        "name": "Dexterity",
+                        "source": "Ancestry",
+                        "sourceId": "1-Ability-Ancestry-0",
+                        "type": "Boost"
+                    },
+                    {
+                        "locked": true,
+                        "name": "Charisma",
+                        "source": "Ancestry",
+                        "sourceId": "1-Ability-Ancestry-0",
+                        "type": "Boost"
+                    },
+                    {
+                        "locked": true,
+                        "name": "Constitution",
+                        "source": "Ancestry",
+                        "sourceId": "1-Ability-Ancestry-0",
+                        "type": "Flaw"
+                    }
+                ],
+                "id": "1-Ability-Ancestry-0",
+                "source": "Ancestry"
+            },
+            {
+                "_className": "AbilityChoice",
+                "available": 1,
+                "baseValuesLost": 1,
+                "id": "1-Ability-Ancestry-1",
+                "source": "Ancestry"
+            }
+        ],
+        "baseLanguages": 2,
+        "languages": [
+            "Common",
+            "Shoony"
+        ],
+        "recommendedLanguages": [
+            "Dwarven",
+            "Gnomish",
+            "Goblin",
+            "Halfling",
+            "Terran"
+        ],
+        "senses": [
+            "Low-Light Vision"
+        ],
+        "heritages": [
+            "Bloodhound Shoony",
+            "Fishseeker Shoony",
+            "Paddler Shoony",
+            "Thickcoat Shoony"
+        ],
+        "featChoices": [
+            {
+                "_className": "FeatChoice",
+                "feats": [
+                    {
+                        "name": "Blunt Snout",
+                        "source": "Ancestry",
+                        "locked": true,
+                        "sourceId": "1-Feat-Ancestry-0"
+                    }
+                ],
+                "id": "1-Feat-Ancestry-0",
+                "level": 0,
+                "source": "Ancestry"
+            }
         ]
     }
 ]

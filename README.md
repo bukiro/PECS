@@ -47,7 +47,6 @@ The very latest in Assistive Technologies for Dungeon Master (ATDM)
 - [x] - Resting
 - [x] - Using consumables
 - [x] - Adding custom items
-- [ ] Style character sheet
 - [x] Populate character sheet from JSON
 - [x] Use Database
 - [x] Cleanup Savegame
@@ -57,5 +56,8 @@ The very latest in Assistive Technologies for Dungeon Master (ATDM)
 - [ ] Initiative tracker, battles, being a battle member, GM-Player-Communication.......
 - [ ] Stretch Goal: Include optional Stamina & Resolve system
 
-Next steps:
-- Reset once per day cooldowns when resting
+active to do:
+- apply SpellChoice.tradition as filter additionally to SpellCasting.tradition
+- show SpellChoice.frequency and SpellGain.frequency
+- implement spells:
+-- Detect Magic

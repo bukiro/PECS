@@ -121,6 +121,30 @@ export class NewItemPropertyComponent implements OnInit {
                     this.validationResult = "";
                 }
             }
+        } else if (this.propertyKey == "setValue" && this.propertyData.parent == "effects") {
+            if (value && value != "0") {
+                let effectGain = new EffectGain;
+                effectGain.value = value;
+                let effects = this.effectsService.get_SimpleEffects(this.get_Character(), this.characterService, { effects: [effectGain] });
+                if (effects.length) {
+                    let effect = effects[0];
+                    if (effect && effect.value && (parseInt(effect.value) || parseFloat(effect.value)) || parseInt(effect.value) == 0) {
+                        if (parseFloat(effect.value) == parseInt(effect.value)) {
+                            this.validationError = "";
+                            this.validationResult = parseInt(effect.value).toString();
+                        } else {
+                            this.validationError = "This may result in a decimal value and be turned into a whole number."
+                            this.validationResult = parseInt(effect.value).toString();
+                        }
+                    } else {
+                        this.validationError = "This may result in an invalid value. Absolute effects with an invalid value will not be applied."
+                        this.validationResult = parseInt(effect.value).toString();
+                    }
+                } else {
+                    this.validationError = "This may result in an invalid value. Absolute effects with an invalid value will not be applied."
+                    this.validationResult = "";
+                }
+            }
         } else if (this.propertyKey == "value" && this.propertyData.parent == "onceEffects") {
             if (value && value != "0") {
                 let effectGain = new EffectGain;

@@ -36,36 +36,36 @@
                                 <div class="list-item" *ngFor="let spellID of [get_ID()]">
                                     <button class="row sublist-toggle left-aligned" (click)="toggle_Spell(spellID)">
                                         {{spell.name}}<app-actionIcons [actionString]="spell.actions">
-                                        </app-actionIcons>{{spell.castType}}
+                                        </app-actionIcons>{{spell.castType}} {{spellGain.frequency ? spellGain.frequency : ""}}
                                     </button>
                                     <div class="list-item sublist lower" *ngIf="this.get_showSpell()==spellID">
                                         <button class="row center-aligned"
                                             (click)="on_Cast(spellGain, casting, 'Character', spell, true)"
-                                            *ngIf="['self', 'ally'].includes(spell.target) && !spellGain.active && can_Cast(spell, casting, spellGain)"
+                                            *ngIf="['self', 'ally'].includes(spell.target) && can_Cast(spell, casting, spellGain)"
                                             [disabled]="maxspellslots && get_UsedSpellSlots(level, casting) >= maxspellslots">
                                             {{spell.target == 'ally' ? "Cast on yourself" : "Cast"}}
                                         </button>
                                         <button class="row center-aligned"
                                             (click)="on_Cast(spellGain, casting, 'Companion', spell, true)"
-                                            *ngIf="['companion', 'ally'].includes(spell.target) && !spellGain.active && can_Cast(spell, casting, spellGain)"
+                                            *ngIf="['companion', 'ally'].includes(spell.target) && can_Cast(spell, casting, spellGain)"
                                             [disabled]="maxspellslots && get_UsedSpellSlots(level, casting) >= maxspellslots">
                                             Cast on your animal companion
                                         </button>
                                         <button class="row center-aligned"
                                             (click)="on_Cast(spellGain, casting, 'Familiar', spell, true)"
-                                            *ngIf="['companion', 'ally'].includes(spell.target) && !spellGain.active && can_Cast(spell, casting, spellGain)"
+                                            *ngIf="['companion', 'ally'].includes(spell.target) && can_Cast(spell, casting, spellGain)"
                                             [disabled]="maxspellslots && get_UsedSpellSlots(level, casting) >= maxspellslots">
                                             Cast on your Familiar
                                         </button>
                                         <button class="row center-aligned"
                                             (click)="on_Cast(spellGain, casting, '', spell, true)"
-                                            *ngIf="spell.target == 'ally' && !spellGain.active && can_Cast(spell, casting, spellGain)"
+                                            *ngIf="spell.target == 'ally' && can_Cast(spell, casting, spellGain)"
                                             [disabled]="maxspellslots && get_UsedSpellSlots(level, casting) >= maxspellslots">
                                             Cast on other targets
                                         </button>
                                         <button class="row center-aligned"
                                             (click)="on_Cast(spellGain, casting, '', spell, true)"
-                                            *ngIf="!spell.target && !spellGain.active && can_Cast(spell, casting, spellGain)"
+                                            *ngIf="!spell.target && can_Cast(spell, casting, spellGain)"
                                             [disabled]="maxspellslots && get_UsedSpellSlots(level, casting) >= maxspellslots">
                                             Cast
                                         </button>

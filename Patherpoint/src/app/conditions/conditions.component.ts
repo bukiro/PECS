@@ -2,7 +2,7 @@ import { Component, OnInit, ChangeDetectorRef, ChangeDetectionStrategy } from '@
 import { CharacterService } from '../character.service';
 import { TraitsService } from '../traits.service';
 import { ConditionGain } from '../ConditionGain';
-import { ConditionsService } from '../Conditions.service';
+import { ConditionsService } from '../conditions.service';
 import { Condition } from '../Condition';
 import { TimeService } from '../time.service';
 import { Character } from '../Character';

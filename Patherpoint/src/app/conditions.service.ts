@@ -46,6 +46,7 @@ export class ConditionsService {
                 if (originalCondition.length) {
                     overrides.push(...originalCondition[0].overrideConditions);
                 }
+                gain.apply = true;
             });
             activeConditions.forEach(gain => {
                 let condition = this.get_Conditions(gain.name)[0];
@@ -55,7 +56,6 @@ export class ConditionsService {
                     if ((condition.hasValue && gain.value <= 0) || gain.duration == 0) {
                         gain.value = -1;
                     } else {
-                        gain.apply = true;
                         if (overrides.includes(gain.name) || (overrides.includes("All") && !condition.overrideConditions.includes("All"))) {
                             gain.apply = false;
                         }
@@ -110,7 +110,7 @@ export class ConditionsService {
             if (taken) {
                 if (creature.health.dying(creature, characterService) >= creature.health.maxDying(creature, effectsService)) {
                     if (characterService.get_AppliedConditions(creature, "Dead").length == 0) {
-                        characterService.add_Condition(creature, Object.assign(new ConditionGain, { name: "Dead", source: "Failed Dying Save" }), false)
+                        characterService.add_Condition(creature, Object.assign(new ConditionGain, { name: "Dead", source: "Dying value too high" }), false)
                     }
                 }
             } else {
@@ -132,6 +132,18 @@ export class ConditionsService {
                     }
                 }
             }
+        }
+
+        if (gain.name == "Dead") {
+            characterService.get_AppliedConditions(creature, "Dying").forEach(gain => {
+                characterService.remove_Condition(creature, gain, false);
+            })
+            characterService.get_AppliedConditions(creature, "Doomed").forEach(gain => {
+                characterService.remove_Condition(creature, gain, false);
+            })
+            characterService.get_AppliedConditions(creature, "Wounded").forEach(gain => {
+                characterService.remove_Condition(creature, gain, false);
+            })
         }
     }
 

@@ -202,6 +202,25 @@ export class FeatchoiceComponent implements OnInit {
                 featLevel = this.get_Character().level;
             }
             let reasons: string[] = [];
+            let traits: string[] = [];
+            switch (choice.type) {
+                case "Class":
+                    traits.push(this.get_Character().class.name, "Archetype");
+                    break;
+                case "Ancestry":
+                    traits.push(...this.get_Character().class.ancestry.ancestries);
+                    break;
+                case "Familiar":
+                    traits.push("Familiar Ability", "Master Ability");
+                    break;
+                default:
+                    traits.push(choice.type);
+                    break;
+            }
+            //Does the type not match a trait?
+            if (!feat.traits.find(trait => traits.includes(trait))) {
+                reasons.push("The feat's traits do not match the choice type.")
+            }
             //Are the basic requirements (level, ability, feat etc) not met?
             if (!feat.canChoose(this.characterService, featLevel)) {
                 reasons.push("The requirements are not met.")

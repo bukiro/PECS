@@ -986,7 +986,7 @@
                         }
                     ],
                     "id": "1-Feat-Background-0",
-                    "level": "",
+                    "level": 0,
                     "source": "Background"
                 }
             ],
@@ -1053,7 +1053,7 @@
                     "source": "Innate",
                     "type": "Spell DC"
                 },
-                "tradition": "Innate"
+                "tradition": ""
             },
             {
                 "castingType": "Focus",
@@ -1137,7 +1137,7 @@
             "desc": "One of your parents was an orc, or one or both were half-orcs. You have a green tinge to your skin and other indicators of orc heritage. You gain the orc trait and low-light vision. In addition, you can select orc, half-orc, and human feats whenever you gain an ancestry feat.",
             "name": "Half-Orc",
             "senses": [
-                "Low-light vision"
+                "Low-Light Vision"
             ],
             "traits": [
                 "Orc"
@@ -1298,7 +1298,7 @@
                             }
                         ],
                         "id": "1-Feat-Feat: Natural Ambition-0",
-                        "level": "1",
+                        "level": 1,
                         "source": "Feat: Natural Ambition",
                         "type": "Class"
                     }

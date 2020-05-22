@@ -4,5 +4,5 @@
     <app-actionIcons_3A *ngIf="phrase=='3A'"></app-actionIcons_3A>
     <app-actionIcons_Free *ngIf="phrase=='Free'"></app-actionIcons_Free>
     <app-actionIcons_Reaction *ngIf="phrase=='Reaction'"></app-actionIcons_Reaction>
-    <span *ngIf="!['Free','Reaction','1A','2A','3A'].includes(phrase)">&nbsp;{{phrase}}&nbsp;</span>
+    <span class="lower" *ngIf="!['Free','Reaction','1A','2A','3A'].includes(phrase)"> {{phrase}} </span>
 </ng-container>

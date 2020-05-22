@@ -203,17 +203,17 @@
 </ng-container>
 <div class="list-item left-aligned" *ngFor="let oil of item.oilsApplied">
     <h4>{{oil.get_Name()}}</h4>
-    <app-item [item]=oil [allowActivate]=allowActivate [isSubItem]=true></app-item>
+    <app-item [creature]="creature" [item]=oil [allowActivate]=allowActivate [isSubItem]=true></app-item>
 </div>
 <div class="list-item left-aligned" *ngIf="item.runeEffect">
     <h4>Rune Effect: {{item.runeEffect.name}}</h4>
-    <app-item [item]=item.runeEffect [allowActivate]=allowActivate [isSubItem]=isSubItem></app-item>
+    <app-item [creature]="creature" [item]=item.runeEffect [allowActivate]=allowActivate [isSubItem]=isSubItem></app-item>
 </div>
 <div class="list-item left-aligned" *ngFor="let rune of item.propertyRunes">
     <h4>{{rune.name}}</h4>
-    <app-item [item]=rune [allowActivate]=allowActivate [isSubItem]=true></app-item>
+    <app-item [creature]="creature" [item]=rune [allowActivate]=allowActivate [isSubItem]=true></app-item>
 </div>
 <div class="list-item left-aligned" *ngFor="let stone of item.aeonStones">
     <h4>{{stone.name}}</h4>
-    <app-item [item]=stone [allowActivate]=allowActivate [isSubItem]=true></app-item>
+    <app-item [creature]="creature" [item]=stone [allowActivate]=allowActivate [isSubItem]=true></app-item>
 </div>

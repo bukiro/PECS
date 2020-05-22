@@ -41,7 +41,7 @@
         "priority": "4",
         "group": "2-Basics",
         "name": "Price",
-        "desc": "The money worth of the item in copper pieces (1SP is 10CP, 1GP is 100CP and 1PP is 1000CP)",
+        "desc": "The money worth of the item in copper pieces (1SP is 10CP, 1GP is 100CP and 1PP is 1000CP).",
         "type": "number",
         "validation": "0plus"
     },
@@ -136,7 +136,7 @@
         "priority": "5",
         "group": "3-Usage",
         "name": "Container",
-        "desc": "Choose whether this item is a container for other items, and whether this has any limits or alleviates bulk",
+        "desc": "Choose whether this item is a container for other items, and whether this has any limits or alleviates bulk.",
         "locked": true
     },
     {
@@ -289,7 +289,7 @@
         "priority": "1",
         "group": "",
         "name": "Spell level",
-        "desc": "The spell level on which the spell is cast. Between 1 and 10",
+        "desc": "The spell level on which the spell is cast (between 1 and 10).",
         "locked": true,
         "examples": "spelllevel"
     },
@@ -379,7 +379,7 @@
         "priority": "1",
         "group": "",
         "name": "Effect value",
-        "desc": "This is the number by which the attribute will change. You can use simple calculations and variables like: Level, Modifier('Strength'), Skill('Acrobatics')",
+        "desc": "This is the number by which the attribute will change. You can use simple calculations and variables like: Level, Modifier('Strength'), Skill_Level('Acrobatics').",
         "examples": "onceEffects value"
     },
     {
@@ -457,8 +457,17 @@
         "priority": "1",
         "group": "",
         "name": "Effect value",
-        "desc": "This is the number by which the attribute will change. You can use simple calculations and the following variables: Level, STR, DEX, CON, INT, WIS, CHA.",
+        "desc": "This is the number by which the attribute will change. You can use simple calculations and variables like: Level, Modifier('Strength'), Skill_Level('Acrobatics').",
         "examples": "effects value"
+    },
+    {
+        "parent": "effects",
+        "key": "setValue",
+        "priority": "1",
+        "group": "",
+        "name": "Absolute effect value",
+        "desc": "If this field has a number value (even 0), the attribute will be set to this exact value before circumstance and status bonuses are applied. You can use simple calculations and variables like: Level, Modifier('Strength'), Skill_Level('Acrobatics').",
+        "examples": "effects setvalue"
     },
     {
         "parent": "effects",

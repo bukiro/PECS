@@ -21,14 +21,13 @@ import { Background } from './Background';
 import { ItemsService } from './items.service';
 import { Feat } from './Feat';
 import { Condition } from './Condition';
-import { ConditionsService } from './Conditions.service';
+import { ConditionsService } from './conditions.service';
 import { ConditionGain } from './ConditionGain';
 import { ActivitiesService } from './activities.service';
 import { Activity } from './Activity';
 import { ActivityGain } from './ActivityGain';
 import { SpellsService } from './spells.service';
 import { EffectsService } from './effects.service';
-import { Effect } from './Effect';
 import { Consumable } from './Consumable';
 import { TimeService } from './time.service';
 import { DefenseService } from './defense.service';
@@ -51,7 +50,6 @@ import { SpellCasting } from './SpellCasting';
 import { InventoryGain } from './InventoryGain';
 import { Oil } from './Oil';
 import { WornItem } from './WornItem';
-import { Creature } from './Creature';
 import { Savegame } from './Savegame';
 
 @Injectable({
@@ -945,16 +943,25 @@ export class CharacterService {
         });
     }
 
-    process_OnceEffect(creature: Character|AnimalCompanion|Familiar, effect: EffectGain) {
+    process_OnceEffect(creature: Character|AnimalCompanion|Familiar, effectGain: EffectGain) {
         let value = 0;
-        //Prepare values that can be used in an eval. Add to this list as needed.
-        let currentHP = creature.health.currentHP(creature, this, this.effectsService);
         try {
-            value = parseInt(eval(effect.value));
+            //we eval the effect value by sending this effect gain to get_SimpleEffects() and receive the resulting effect.
+            let effects = this.effectsService.get_SimpleEffects(this.get_Character(), this, { effects: [effectGain] });
+            if (effects.length) {
+                let effect = effects[0];
+                if (effect && effect.value && effect.value != "0" && (parseInt(effect.value) || parseFloat(effect.value))) {
+                    if (parseFloat(effect.value) == parseInt(effect.value)) {
+                        value = parseInt(effect.value);
+                    }
+                }
+            } else {
+                value = 0;
+            }
         } catch (error) {
             value = 0;
         }
-        switch (effect.affected) {
+        switch (effectGain.affected) {
             case "Focus Points":
                 //Give the focus point some time. If a feat expands the focus pool and gives a focus point, the pool is not expanded yet at this point of processing.
                 (creature as Character).class.focusPoints += value;
@@ -973,12 +980,12 @@ export class CharacterService {
                 let languages = (creature as Character).class.ancestry.languages;
                 for (let index = 0; index < languages.length; index++) {
                     if (languages[index] == "") {
-                        languages[index] = (effect.value)
+                        languages[index] = (effectGain.value)
                         break;
                     }
                 }
-                if (languages.filter(language => language == effect.value).length == 0) {
-                    languages.push(effect.value);
+                if (languages.filter(language => language == effectGain.value).length == 0) {
+                    languages.push(effectGain.value);
                 }
                 break;
         }

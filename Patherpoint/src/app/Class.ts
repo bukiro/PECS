@@ -13,6 +13,8 @@ import { AnimalCompanion } from './AnimalCompanion';
 import { Familiar } from './Familiar';
 import { DeitiesService } from './deities.service';
 import { SpellCasting } from './SpellCasting';
+import { SpellChoice } from './SpellChoice';
+import { SpellGain } from './SpellGain';
 
 export class Class {
     public readonly _className: string = this.constructor.name;
@@ -32,7 +34,8 @@ export class Class {
     on_ChangeAncestry(characterService: CharacterService) {
         let character = characterService.get_Character();
         if (this.ancestry.name) {
-            this.levels[1].abilityChoices = this.levels[1].abilityChoices.filter(availableBoost => availableBoost.source != "Ancestry")
+            let level = this.levels[1];
+            level.abilityChoices = level.abilityChoices.filter(availableBoost => availableBoost.source != "Ancestry")
             if (this.ancestry.gainItems.length) {
                 this.ancestry.gainItems.forEach(freeItem => {
                     let items: Equipment[] = character.inventories[0][freeItem.type].filter(item => item.name == freeItem.name);
@@ -41,7 +44,15 @@ export class Class {
                     }
                 });
             }
+            //Some feats get specially processed when taken.
+            //We can't just delete these feats, but must specifically un-take them to undo their effects.
+            this.ancestry.featChoices.filter(choice => choice.available).forEach(choice => {
+                choice.feats.forEach(feat => {
+                    character.take_Feat(character, characterService, feat.name, false, choice, false);
+                });
+            });
             this.levels.forEach(level => {
+                //Remove all Adopted Ancestry feats
                 level.featChoices.filter(choice => choice.feats.filter(feat => feat.name.includes("Adopted Ancestry")).forEach(feat => {
                     character.take_Feat(character, characterService, feat.name, false, choice, feat.locked)
                 }));
@@ -50,8 +61,22 @@ export class Class {
     }
     on_NewAncestry(characterService: CharacterService, itemsService: ItemsService) {
         if (this.ancestry.name) {
+            let character = characterService.get_Character();
+            let level = this.levels[1];
             this.ancestry.reassign();
-            this.levels[1].abilityChoices.push(...this.ancestry.abilityChoices);
+            level.abilityChoices.push(...this.ancestry.abilityChoices);
+            level.featChoices.push(...this.heritage.featChoices);
+            //Some feats get specially processed when taken.
+            //We have to explicitly take these feats to process them.
+            //So we remove them and then "take" them again.
+            level.featChoices.filter(choice => choice.source == "Ancestry").forEach(choice => {
+                let count: number = 0;
+                choice.feats.forEach(feat => {
+                    count++;
+                    character.take_Feat(character, characterService, feat.name, true, choice, feat.locked);
+                });
+                choice.feats.splice(0, count);
+            });
             if (this.ancestry.gainItems.length) {
                 this.ancestry.gainItems.forEach(freeItem => {
                     let item: Equipment = itemsService.get_Items()[freeItem.type].filter(item => item.name == freeItem.name)[0];
@@ -100,6 +125,23 @@ export class Class {
                     character.lose_Activity(characterService, characterService.timeService, characterService.itemsService, characterService.spellsService, characterService.activitiesService, oldGain);
                 }
             });
+            //Gain Spell or Spell Option
+            this.heritage.spellChoices.forEach(oldSpellChoice => {
+                character.remove_SpellChoice(characterService, oldSpellChoice);
+            });
+            //Undo all Wellspring Gnome changes.
+            //We collect all Gnome feats that grant a primal spell and return that spell to Primal on the character:
+            if (this.heritage.name.includes("Wellspring Gnome")) {
+                let feats: string[] = characterService.get_Feats("", "Gnome")
+                .filter(feat => feat.gainSpellChoice.filter(choice => choice.castingType == "Innate" && choice.tradition == "Primal").length).map(feat => feat.name);
+                this.spellCasting.find(casting => casting.castingType == "Innate")
+                    .spellChoices.filter(choice => feats.includes(choice.source.substr(6))).forEach(choice => {
+                    choice.tradition = "Primal";
+                    if (choice.available) {
+                        choice.spells.length = 0;
+                    }
+                });
+            }
         }
     }
     on_NewHeritage(characterService: CharacterService) {
@@ -144,6 +186,30 @@ export class Class {
             this.heritage.gainActivities.forEach((gainActivity: string) => {
                 character.gain_Activity(Object.assign(new ActivityGain(), {name:gainActivity, source:this.heritage.name}), 1);
             });
+            //Gain Spell or Spell Option
+            this.heritage.spellChoices.forEach(newSpellChoice => {
+                let insertSpellChoice = Object.assign(new SpellChoice(), JSON.parse(JSON.stringify(newSpellChoice)));
+                insertSpellChoice.spells.forEach((gain: SpellGain) => {
+                    gain.sourceId = insertSpellChoice.id;
+                    gain.source = insertSpellChoice.source;
+                    gain.frequency = insertSpellChoice.frequency;
+                    gain.cooldown = insertSpellChoice.cooldown;
+                })
+                character.add_SpellChoice(level, insertSpellChoice);
+            });
+            //Wellspring Gnome changes.
+            //We collect all Gnome feats that grant a primal spell and set that spell to the same tradition as the heritage:
+            if (this.heritage.name.includes("Wellspring Gnome")) {
+                let feats: string[] = characterService.get_Feats("", "Gnome")
+                .filter(feat => feat.gainSpellChoice.filter(choice => choice.castingType == "Innate" && choice.tradition == "Primal").length).map(feat => feat.name);
+                this.spellCasting.find(casting => casting.castingType == "Innate")
+                    .spellChoices.filter(choice => feats.includes(choice.source.substr(6))).forEach(choice => {
+                    choice.tradition = this.heritage.subType;
+                    if (choice.available) {
+                        choice.spells.length = 0;
+                    }
+                });
+            }
         }
     }
     on_ChangeBackground(characterService: CharacterService) {

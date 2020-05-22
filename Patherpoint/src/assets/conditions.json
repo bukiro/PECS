@@ -55,6 +55,18 @@
         ]
     },
     {
+        "name": "Doomed",
+        "hasValue": true,
+        "type": "generic",
+        "desc": "A powerful force has gripped your soul, calling you closer to death. Doomed always includes a value. The dying value at which you die is reduced by your doomed value. If your maximum dying value is reduced to 0, you instantly die. When you die, you’re no longer doomed.\n\nYour doomed value decreases by 1 each time you get a full night’s rest.",
+        "effects": [
+            {
+                "affected": "Max Dying",
+                "value": "-(object.value)"
+            }
+        ]
+    },
+    {
         "name": "Dying",
         "hasValue": true,
         "type": "generic",
@@ -532,7 +544,7 @@
     {
         "name": "Pest Form",
         "type": "spells",
-        "desc": "You transform into a the battle form of a Tiny animal, such as a cat, insect, lizard, or rat. On spell level 4, you can turn into a flying creature, such as a bird, which grants you a fly Speed of 20 feet. You can decide the specific type of animal (such as a rat or praying mantis), but this has no effect on the form's Size or statistics. While in this form, you gain the animal trait. You can Dismiss the spell.\n\nYou gain the following statistics and abilities:\n\nAC = 15 + your level. Ignore your armor's check penalty and Speed reduction.\nSpeed 10 feet.\nWeakness 5 to physical damage. (If you take physical damage in this form, you take 5 additional damage.)\nLow-light vision and imprecise scent 30 feet.\nAcrobatics and Stealth modifiers of +10, unless your own modifier is higher; Athletics modifier -4.",
+        "desc": "You transform into a the battle form of a Tiny animal, such as a cat, insect, lizard, or rat. On spell level 4, you can turn into a flying creature, such as a bird, which grants you a fly Speed of 20 feet. You can decide the specific type of animal (such as a rat or praying mantis), but this has no effect on the form's Size or statistics. While in this form, you gain the animal trait. You can Dismiss the spell.\n\nYou gain the following statistics and abilities:\n\nAC = 15 + your level. Ignore your armor's check penalty and Speed reduction.\nSpeed 10 feet.\nWeakness 5 to physical damage. (If you take physical damage in this form, you take 5 additional damage.)\nLow-Light Vision and imprecise scent 30 feet.\nAcrobatics and Stealth modifiers of +10, unless your own modifier is higher; Athletics modifier -4.",
         "effects": [
             {
                 "affected": "Size",
@@ -575,5 +587,18 @@
             "Low-Light Vision",
             "Scent 30 feet (imprecise)"
         ]
+    },
+    {
+        "name": "Chameleon Gnome",
+        "type": "activity",
+        "desc": "The color of your hair and skin is designed to help you blend into your surroundings. This grants you a +2 circumstance bonus to Stealth checks until your surroundings shift in coloration or pattern.",
+        "effects": [
+            {
+                "affected": "Stealth",
+                "value": "+2",
+                "type": "circumstance"
+            }
+        ],
+        "buff": true
     }
 ]

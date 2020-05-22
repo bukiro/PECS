@@ -112,18 +112,23 @@ export class SpellchoiceComponent implements OnInit {
         }
         let spells: Spell[] = [];
         if (this.spellCasting) {
+            let traditionFilter = choice.tradition || this.spellCasting.get_Tradition() || "";
             if (this.spellCasting.castingType == "Focus") {
                 spells.push(...allSpells.filter(spell => spell.traits.includes(character.class.name) && spell.traditions.includes("Focus")));
             } else {
-                if (this.spellCasting.get_Tradition())
-                {
-                    spells.push(...allSpells.filter(spell => spell.traditions.includes(this.spellCasting.get_Tradition()) && !spell.traditions.includes("Focus")));
+                if (traditionFilter) {
+                    spells.push(...allSpells.filter(spell => spell.traditions.includes(traditionFilter) && !spell.traditions.includes("Focus")));
                 } else {
                     spells.push(...allSpells.filter(spell => !spell.traditions.includes("Focus")));
                 }
             }
         } else {
-            spells.push(...allSpells.filter(spell => !spell.traditions.includes("Focus")));
+            let traditionFilter = choice.tradition || "";
+            if (traditionFilter) {
+                spells.push(...allSpells.filter(spell => spell.traditions.includes(traditionFilter) && !spell.traditions.includes("Focus")));
+            } else {
+                spells.push(...allSpells.filter(spell => !spell.traditions.includes("Focus")));
+            }
         }
         switch (choice.target) {
             case "Others":
@@ -208,7 +213,7 @@ export class SpellchoiceComponent implements OnInit {
         } else {
             this.characterService.get_Changed()
             .subscribe((target) => {
-                if (target == "spellchoice" || target == "all" || target == "Character") {
+                if (["spellchoice", "all", "Character"].includes(target)) {
                     this.changeDetector.detectChanges();
                 }
             });
@@ -220,7 +225,7 @@ export class SpellchoiceComponent implements OnInit {
         if (!this.level) {
             this.level = this.choice.level;
         }
-        //this.finish_Loading();
+        this.finish_Loading();
     }
 
 }

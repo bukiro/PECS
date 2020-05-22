@@ -153,6 +153,9 @@ export class SpellbookComponent implements OnInit {
     on_Cast(gain: SpellGain, casting: SpellCasting, creature: string = "", spell: Spell, activated: boolean) {
         let choice = casting.spellChoices.find(choice => choice.spells.filter(spellgain => spellgain === gain).length);
         let level = choice.level;
+        if (gain.cooldown) {
+            gain.activeCooldown = gain.cooldown;
+        }
         if (!level || level == -1) {
             level = this.get_MaxSpellLevel();
         }

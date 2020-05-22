@@ -132,7 +132,14 @@ export class GeneralComponent implements OnInit {
                 speeds.push(new Speed(effect.target))
             }
         });
-        return speeds.filter(speed => speed.value(this.get_Creature(), this.characterService, this.effectsService)[0] != 0);
+        //Remove any duplicates for display
+        let uniqueSpeeds: Speed[] = [];
+        speeds.forEach(speed => {
+            if (!uniqueSpeeds.find(uniqueSpeed => uniqueSpeed.name == speed.name)) {
+                uniqueSpeeds.push(speed);
+            }
+        })
+        return uniqueSpeeds.filter(speed => speed.value(this.get_Creature(), this.characterService, this.effectsService)[0] != 0);
     }
 
     finish_Loading() {

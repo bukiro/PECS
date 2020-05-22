@@ -61,9 +61,25 @@ export class HealthComponent implements OnInit {
         this.timeService.rest(this.characterService);
     }
 
+    die(reason: string) {
+        if (this.characterService.get_AppliedConditions(this.get_Creature(), "Dead").length == 0) {
+            this.characterService.add_Condition(this.get_Creature(), Object.assign(new ConditionGain, {name:"Dead", source:reason}), false)
+            this.characterService.get_AppliedConditions(this.get_Creature(), "Doomed").forEach(gain => {
+                this.characterService.remove_Condition(this.get_Creature(), gain, false);
+            })
+        }
+    }
+
     calculate_Health() {
         let health: Health = this.get_Health();
         health.calculate(this.get_Creature(), this.characterService, this.effectsService);
+        if (health.$dying >= health.$maxDying) {
+            if (this.characterService.get_AppliedConditions(this.get_Creature(), "Doomed").length) {
+                this.die("Doomed");
+            } else {
+                this.die("Dying value too high")
+            }
+        }
         return this.get_Health()
     }
     
@@ -85,9 +101,7 @@ export class HealthComponent implements OnInit {
                 gain.value = Math.min(gain.value + 1, maxDying);
             })
             if (this.get_Health().dying(this.get_Creature(), this.characterService) >= maxDying) {
-                if (this.characterService.get_AppliedConditions(this.get_Creature(), "Dead").length == 0) {
-                    this.characterService.add_Condition(this.get_Creature(), Object.assign(new ConditionGain, {name:"Dead", source:"Failed Dying Save"}), false)
-                }
+                this.die("Failed Dying Save");
             }
         }
         this.characterService.set_Changed();
