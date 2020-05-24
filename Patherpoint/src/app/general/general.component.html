@@ -148,8 +148,8 @@
                 <span>
                     Value: <input class="number3"
                         title="{{speed.value(get_Creature(), characterService, effectsService)[1]}}"
-                        [ngClass]="{'penalty':speed.penalties(get_Creature(), effectsService, true).length,
-                            'bonus':speed.bonuses(get_Creature(), effectsService, true).length,
+                        [ngClass]="{'penalty':speed.penalties(get_Creature(), effectsService, speed.name, true),
+                            'bonus':speed.bonuses(get_Creature(), effectsService, speed.name, true),
                             'absolute':speed.absolutes(get_Creature(), effectsService, true).length}"
                         type="number" value="{{speed.value(get_Creature(), characterService, effectsService)[0]}}"
                         disabled>

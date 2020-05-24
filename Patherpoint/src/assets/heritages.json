@@ -54,7 +54,7 @@
                 "feats": [
                     {
                         "locked": true,
-                        "name": "Death Warden Dwarf Resistance",
+                        "name": "Death Warden Dwarf",
                         "source": "Heritage",
                         "sourceId": "1-Feat-Heritage-0"
                     }
@@ -104,25 +104,13 @@
         "_className": "Heritage",
         "name": "Forge Dwarf",
         "desc": "You have a remarkable adaptation to hot environments from ancestors who inhabited blazing deserts or volcanic chambers beneath the earth. This grants you fire resistance equal to half your level (minimum 1), and you treat environmental heat effects as if they were one step less extreme (incredible heat becomes extreme, extreme heat becomes severe, and so on).",
-        "effects": [
-            {
-                "affected": "Fire Resistance",
-                "value": "Math.max(Math.floor(characterService.get_Character().level / 2),1)"
-            }
-        ],
         "featChoices": [
             {
                 "_className": "FeatChoice",
                 "feats": [
                     {
                         "locked": true,
-                        "name": "Forge Dwarf Lessened Heat",
-                        "source": "Heritage",
-                        "sourceId": "1-Feat-Heritage-0"
-                    },
-                    {
-                        "locked": true,
-                        "name": "Forge Dwarf Fire Resistance",
+                        "name": "Forge Dwarf",
                         "source": "Heritage",
                         "sourceId": "1-Feat-Heritage-0"
                     }
@@ -136,7 +124,7 @@
     {
         "_className": "Heritage",
         "name": "Oathkeeper Dwarf",
-        "desc": "Growing up, you never tried to lie to get what you wanted, and even when necessary, lying makes you uncomfortable. The especially faithful might even have thought that you were blessed by the dwarven god of duty, Kols. You gain a +1 circumstance bonus to Perception checks to Sense Motive and to Perception DCs against attempts to Lie to you. Furthermore, you gain a +2 circumstance bonus to Diplomacy checks to convince others you speak the truth when you are telling the truth, and you take a â€“4 circumstance penalty to Lie and to your Deception DC against Sense Motive.",
+        "desc": "Growing up, you never tried to lie to get what you wanted, and even when necessary, lying makes you uncomfortable. The especially faithful might even have thought that you were blessed by the dwarven god of duty, Kols. You gain a +1 circumstance bonus to Perception checks to Sense Motive and to Perception DCs against attempts to Lie to you. Furthermore, you gain a +2 circumstance bonus to Diplomacy checks to convince others you speak the truth when you are telling the truth, and you take a -4 circumstance penalty to Lie and to your Deception DC against Sense Motive.",
         "featChoices": [
             {
                 "_className": "FeatChoice",
@@ -176,7 +164,7 @@
                 "feats": [
                     {
                         "locked": true,
-                        "name": "Rock Dwarf Stability",
+                        "name": "Rock Dwarf",
                         "source": "Heritage",
                         "sourceId": "1-Feat-Heritage-0"
                     }
@@ -197,19 +185,7 @@
                 "feats": [
                     {
                         "locked": true,
-                        "name": "Strong-Blooded Dwarf Fortitude",
-                        "source": "Heritage",
-                        "sourceId": "1-Feat-Heritage-0"
-                    },
-                    {
-                        "locked": true,
-                        "name": "Strong-Blooded Dwarf Poison Resistance",
-                        "source": "Heritage",
-                        "sourceId": "1-Feat-Heritage-0"
-                    },
-                    {
-                        "locked": true,
-                        "name": "Forge Dwarf Fire Resistance",
+                        "name": "Strong-Blooded Dwarf",
                         "source": "Heritage",
                         "sourceId": "1-Feat-Heritage-0"
                     }
@@ -244,13 +220,7 @@
                 "feats": [
                     {
                         "locked": true,
-                        "name": "Arctic Elf Lessened Cold",
-                        "source": "Heritage",
-                        "sourceId": "1-Feat-Heritage-0"
-                    },
-                    {
-                        "locked": true,
-                        "name": "Arctic Elf Cold Resistance",
+                        "name": "Arctic Elf",
                         "source": "Heritage",
                         "sourceId": "1-Feat-Heritage-0"
                     }
@@ -279,13 +249,7 @@
                 "feats": [
                     {
                         "locked": true,
-                        "name": "Desert Elf Lessened Heat",
-                        "source": "Heritage",
-                        "sourceId": "1-Feat-Heritage-0"
-                    },
-                    {
-                        "locked": true,
-                        "name": "Desert Elf Fire Resistance",
+                        "name": "Desert Elf",
                         "source": "Heritage",
                         "sourceId": "1-Feat-Heritage-0"
                     }
@@ -306,7 +270,7 @@
                 "feats": [
                     {
                         "locked": true,
-                        "name": "Seer Elf Insight",
+                        "name": "Seer Elf",
                         "source": "Heritage",
                         "sourceId": "1-Feat-Heritage-0"
                     }
@@ -330,6 +294,7 @@
                     }
                 ],
                 "source": "Seer Elf",
+                "tradition": "",
                 "castingType": "Innate"
             }
         ]
@@ -344,7 +309,7 @@
                 "feats": [
                     {
                         "locked": true,
-                        "name": "Whisper Elf Hearing",
+                        "name": "Whisper Elf",
                         "source": "Heritage",
                         "sourceId": "1-Feat-Heritage-0"
                     }
@@ -404,6 +369,13 @@
                 "frequency": "at will",
                 "charLevelAvailable": 1,
                 "id": "7b1056c0-028f-421a-88d5-d8dd61a8084c",
+                "spells": [
+                    {
+                        "frequency": "",
+                        "locked": null,
+                        "name": ""
+                    }
+                ],
                 "source": "Fey-Touched Gnome",
                 "tradition": "Primal",
                 "castingType": "Innate"
@@ -455,12 +427,6 @@
                 "feats": [
                     {
                         "locked": true,
-                        "name": "Vivacious Gnome Negative Resistance",
-                        "source": "Heritage",
-                        "sourceId": "1-Feat-Heritage-0"
-                    },
-                    {
-                        "locked": true,
                         "name": "Vivacious Gnome",
                         "source": "Heritage",
                         "sourceId": "1-Feat-Heritage-0"
@@ -478,7 +444,7 @@
         "desc": "Some other source of magic has a greater hold on you than the primal magic of your fey lineage does. This connection might come from an occult plane or an ancient occult song; a deity, celestial, or fiend; magical effluent left behind by a mage war; or ancient rune magic.\n\nChoose arcane, divine, or occult. You gain one cantrip from that magical tradition’s spell list. You can cast this spell as an innate spell at will, as a spell of your chosen tradition. A cantrip is heightened to a spell level equal to half your level rounded up. Whenever you gain a primal innate spell from a gnome ancestry feat, change its tradition from primal to your chosen tradition.",
         "subTypes": [
             {
-                "name": "Wellspring Gnome (Arcane)",
+               "name": "Wellspring Gnome (Arcane)",
                 "subType": "Arcane",
                 "spellChoices": [
                     {
@@ -487,6 +453,13 @@
                         "frequency": "at will",
                         "charLevelAvailable": 1,
                         "id": "a9fa972e-9c44-11ea-bb37-0242ac130002",
+                        "spells": [
+                            {
+                                "frequency": "",
+                                "locked": "",
+                                "name": ""
+                            }
+                        ],
                         "source": "Wellspring Gnome",
                         "tradition": "Arcane",
                         "castingType": "Innate"
@@ -494,7 +467,7 @@
                 ]
             },
             {
-                "name": "Wellspring Gnome (Divine)",
+               "name": "Wellspring Gnome (Divine)",
                 "subType": "Divine",
                 "spellChoices": [
                     {
@@ -503,6 +476,13 @@
                         "frequency": "at will",
                         "charLevelAvailable": 1,
                         "id": "a9fa992c-9c44-11ea-bb37-0242ac130002",
+                        "spells": [
+                            {
+                                "frequency": "",
+                                "locked": "",
+                                "name": ""
+                            }
+                        ],
                         "source": "Wellspring Gnome",
                         "tradition": "Divine",
                         "castingType": "Innate"
@@ -510,7 +490,7 @@
                 ]
             },
             {
-                "name": "Wellspring Gnome (Occult)",
+               "name": "Wellspring Gnome (Occult)",
                 "subType": "Occult",
                 "spellChoices": [
                     {
@@ -518,12 +498,678 @@
                         "available": 1,
                         "frequency": "at will",
                         "charLevelAvailable": 1,
-                        "id": "a9fa9b98-9c44-11ea-bb37-0242ac130002                        ",
+                        "id": "a9fa9b98-9c44-11ea-bb37-0242ac130002",
+                        "spells": [
+                            {
+                                "frequency": "",
+                                "locked": "",
+                                "name": ""
+                            }
+                        ],
                         "source": "Wellspring Gnome",
                         "tradition": "Occult",
                         "castingType": "Innate"
                     }
                 ]
+            },
+            {
+               "name": "",
+                "subType": ""
+            }
+        ]
+    },
+    {
+        "_className": "Heritage",
+        "name": "Charhide Goblin",
+        "desc": "Your ancestors have always had a connection to fire and a thicker skin, which allows you to resist burning. You gain fire resistance equal to half your level (minimum 1). You can also recover from being on fire more easily. Your flat check to remove persistent fire damage is DC 10 instead of DC 15, which is reduced to DC 5 if another creature uses a particularly appropriate action to help.",
+        "featChoices": [
+            {
+                "_className": "FeatChoice",
+                "feats": [
+                    {
+                        "locked": true,
+                        "name": "Charhide Goblin",
+                        "source": "Heritage",
+                        "sourceId": "1-Feat-Heritage-0"
+                    }
+                ],
+                "id": "1-Feat-Heritage-0",
+                "level": 0,
+                "source": "Heritage"
+            }
+        ]
+    },
+    {
+        "_className": "Heritage",
+        "name": "Irongut Goblin",
+        "desc": "You can subsist on food that most folks would consider spoiled. You can keep yourself fed with poor meals in a settlement as long as garbage is readily available, without using the Subsist downtime activity. You can eat and drink things when you are sickened.\n\nYou gain a +2 circumstance bonus to saving throws against afflictions, against gaining the sickened condition, and to remove the sickened condition. When you roll a success on a Fortitude save affected by this bonus, you get a critical success instead. All these benefits apply only when the affliction or condition resulted from something you ingested.",
+        "featChoices": [
+            {
+                "_className": "FeatChoice",
+                "feats": [
+                    {
+                        "locked": true,
+                        "name": "Irongut Goblin",
+                        "source": "Heritage",
+                        "sourceId": "1-Feat-Heritage-0"
+                    },
+                    {
+                        "locked": true,
+                        "name": "Irongut Goblin Fortitude",
+                        "source": "Heritage",
+                        "sourceId": "1-Feat-Heritage-0"
+                    }
+                ],
+                "id": "1-Feat-Heritage-0",
+                "level": 0,
+                "source": "Heritage"
+            }
+        ]
+    },
+    {
+        "_className": "Heritage",
+        "name": "Razortooth Goblin",
+        "desc": "Your family’s teeth are formidable weapons. You gain a jaws unarmed attack that deals 1d6 piercing damage. Your jaws are in the brawling group and have the finesse and unarmed traits.",
+        "gainItems": [
+            {
+                "name": "Goblin Jaws",
+                "type": "weapons"
+            }
+        ]
+    },
+    {
+        "_className": "Heritage",
+        "name": "Snow Goblin",
+        "desc": "You are acclimated to living in frigid lands and have skin ranging from sky blue to navy in color, as well as blue fur. You gain cold resistance equal to half your level (minimum 1). You treat environmental cold effects as if they were one step less extreme (incredible cold becomes extreme, extreme cold becomes severe, and so on).",
+        "featChoices": [
+            {
+                "_className": "FeatChoice",
+                "feats": [
+                    {
+                        "locked": true,
+                        "name": "Snow Goblin",
+                        "source": "Heritage",
+                        "sourceId": "1-Feat-Heritage-0"
+                    }
+                ],
+                "id": "1-Feat-Heritage-0",
+                "level": 0,
+                "source": "Heritage"
+            }
+        ]
+    },
+    {
+        "_className": "Heritage",
+        "name": "Tailed Goblin",
+        "desc": "You have a powerful tail, likely because you descend from a community of monkey goblins. You gain a +2 circumstance bonus to Athletics checks to Climb, you gain Combat Climber as a bonus feat, and you reduce the number of free hands required to Climb or Trip by one.",
+        "featChoices": [
+            {
+                "_className": "FeatChoice",
+                "feats": [
+                    {
+                        "locked": true,
+                        "name": "Combat Climber",
+                        "source": "Heritage",
+                        "sourceId": "1-Feat-Heritage-0"
+                    },
+                    {
+                        "locked": true,
+                        "name": "Tailed Goblin",
+                        "source": "Heritage",
+                        "sourceId": "1-Feat-Heritage-0"
+                    }
+                ],
+                "id": "1-Feat-Heritage-0",
+                "level": 0,
+                "source": "Heritage"
+            }
+        ]
+    },
+    {
+        "_className": "Heritage",
+        "name": "Treedweller Goblin",
+        "desc": "You have adapted particularly well to living in forested environments. As long as you are in a forest or jungle, you gain a +2 circumstance bonus to Stealth checks to Hide and Sneak, Survival checks to Subsist, and your Survival DC to Cover Tracks.",
+        "featChoices": [
+            {
+                "_className": "FeatChoice",
+                "feats": [
+                    {
+                        "locked": true,
+                        "name": "Treedweller Goblin",
+                        "source": "Heritage",
+                        "sourceId": "1-Feat-Heritage-0"
+                    }
+                ],
+                "id": "1-Feat-Heritage-0",
+                "level": 0,
+                "source": "Heritage"
+            }
+        ]
+    },
+    {
+        "_className": "Heritage",
+        "name": "Unbreakable Goblin",
+        "desc": "You’re able to bounce back from injuries easily due to an exceptionally thick skull, cartilaginous bones, or some other mixed blessing. You gain 10 Hit Points from your ancestry instead of 6. When you fall, reduce the falling damage you take as though you had fallen half the distance.",
+        "featChoices": [
+            {
+                "_className": "FeatChoice",
+                "feats": [
+                    {
+                        "locked": true,
+                        "name": "Unbreakable Goblin",
+                        "source": "Heritage",
+                        "sourceId": "1-Feat-Heritage-0"
+                    }
+                ],
+                "id": "1-Feat-Heritage-0",
+                "level": 0,
+                "source": "Heritage"
+            }
+        ]
+    },
+    {
+        "_className": "Heritage",
+        "name": "Gutsy Halfling",
+        "desc": "Your family line is known for keeping a level head and staving off fear when the chips were down, making them wise leaders and sometimes even heroes. When you roll a success on a saving throw against an emotion effect, you get a critical success instead.",
+        "featChoices": [
+            {
+                "_className": "FeatChoice",
+                "feats": [
+                    {
+                        "locked": true,
+                        "name": "Gutsy Halfling",
+                        "source": "Heritage",
+                        "sourceId": "1-Feat-Heritage-0"
+                    }
+                ],
+                "id": "1-Feat-Heritage-0",
+                "level": 0,
+                "source": "Heritage"
+            }
+        ]
+    },
+    {
+        "_className": "Heritage",
+        "name": "Hillock Halfling",
+        "desc": "Accustomed to a calm life in the hills, your people find rest and relaxation especially replenishing, particularly when indulging in creature comforts. When you regain Hit Points overnight, add your level to the Hit Points regained. When anyone uses the Medicine skill to Treat your Wounds, you can eat a snack to add your level to the Hit Points you regain from their treatment.",
+        "featChoices": [
+            {
+                "_className": "FeatChoice",
+                "feats": [
+                    {
+                        "locked": true,
+                        "name": "Hillock Halfling",
+                        "source": "Heritage",
+                        "sourceId": "1-Feat-Heritage-0"
+                    }
+                ],
+                "id": "1-Feat-Heritage-0",
+                "level": 0,
+                "source": "Heritage"
+            }
+        ]
+    },
+    {
+        "_className": "Heritage",
+        "name": "Nomadic Halfling",
+        "desc": "Your ancestors have traveled from place to place for generations, never content to settle down. You gain two additional languages of your choice, chosen from among the common and uncommon languages available to you, and every time you take the Multilingual feat, you gain another new language.",
+        "featChoices": [
+            {
+                "_className": "FeatChoice",
+                "feats": [
+                    {
+                        "locked": true,
+                        "name": "Nomadic Halfling",
+                        "source": "Heritage",
+                        "sourceId": "1-Feat-Heritage-0"
+                    }
+                ],
+                "id": "1-Feat-Heritage-0",
+                "level": 0,
+                "source": "Heritage"
+            }
+        ]
+    },
+    {
+        "_className": "Heritage",
+        "name": "Observant Halfling",
+        "desc": "Your finely honed senses quickly clue you in to danger or trickery. You gain a +1 circumstance bonus to your Perception DC, though not to your Perception checks.",
+        "featChoices": [
+            {
+                "_className": "FeatChoice",
+                "feats": [
+                    {
+                        "locked": true,
+                        "name": "Observant Halfling",
+                        "source": "Heritage",
+                        "sourceId": "1-Feat-Heritage-0"
+                    }
+                ],
+                "id": "1-Feat-Heritage-0",
+                "level": 0,
+                "source": "Heritage"
+            }
+        ]
+    },
+    {
+        "_className": "Heritage",
+        "name": "Twilight Halfling",
+        "desc": "Your ancestors performed many secret acts under the concealing cover of dusk, whether for good or ill, and over time they developed the ability to see in twilight beyond even the usual keen sight of halflings. You gain low-light vision.",
+        "senses": [
+            "Low-Light Vision"
+        ]
+    },
+    {
+        "_className": "Heritage",
+        "name": "Wildwood Halfling",
+        "desc": "You hail from deep in a jungle or forest, and you’ve learned how to use your small size to wriggle through undergrowth, vines, and other obstacles. You ignore difficult terrain from trees, foliage, and undergrowth.",
+        "featChoices": [
+            {
+                "_className": "FeatChoice",
+                "feats": [
+                    {
+                        "locked": true,
+                        "name": "Wildwood Halfling",
+                        "source": "Heritage",
+                        "sourceId": "1-Feat-Heritage-0"
+                    }
+                ],
+                "id": "1-Feat-Heritage-0",
+                "level": 0,
+                "source": "Heritage"
+            }
+        ]
+    },
+    {
+        "_className": "Heritage",
+        "name": "Elfbane Hobgoblin",
+        "desc": "Hobgoblins were engineered long ago from the unreliable and fecund goblins, to be used as an army against the elves. Although the elves ultimately freed the hobgoblins from their bondage, some hobgoblins retain ancestral resistance to magic, which they refer to as “elf magic.” You gain the Resist Elf Magic reaction.",
+        "gainActivities": [
+            "Resist Elf Magic"
+        ]
+    },
+    {
+        "_className": "Heritage",
+        "name": "Runtboss Hobgoblin",
+        "desc": "You come from a long line of hobgoblins who commanded goblins. You are smaller than other hobgoblins, but goblins still listen to any commands you bellow. You gain the Group Coercion skill feat. If you roll a success on an Intimidation check to Coerce a goblin (but not other creatures with the goblin trait), you get a critical success instead; if you roll a critical failure, you get a failure instead.",
+        "featChoices": [
+            {
+                "_className": "FeatChoice",
+                "feats": [
+                    {
+                        "locked": true,
+                        "name": "Group Coercion",
+                        "source": "Heritage",
+                        "sourceId": "1-Feat-Heritage-0"
+                    },
+                    {
+                        "locked": true,
+                        "name": "Runtboss Hobgoblin",
+                        "source": "Heritage",
+                        "sourceId": "1-Feat-Heritage-0"
+                    }
+                ],
+                "id": "1-Feat-Heritage-0",
+                "level": 0,
+                "source": "Heritage"
+            }
+        ]
+    },
+    {
+        "_className": "Heritage",
+        "name": "Smokeworker Hobgoblin",
+        "desc": "Your family have been alchemists, engineers, and scientists for generations, on projects bringing smoke and fire to the field of battle. You gain fire resistance equal to half your level (minimum 1). You automatically succeed at the DC 5 flat check to target a concealed creature if that creature is concealed only by smoke.",
+        "featChoices": [
+            {
+                "_className": "FeatChoice",
+                "feats": [
+                    {
+                        "locked": true,
+                        "name": "Smokeworker Hobgoblin",
+                        "source": "Heritage",
+                        "sourceId": "1-Feat-Heritage-0"
+                    }
+                ],
+                "id": "1-Feat-Heritage-0",
+                "level": 0,
+                "source": "Heritage"
+            }
+        ]
+    },
+    {
+        "_className": "Heritage",
+        "name": "Warmarch Hobgoblin",
+        "desc": "You come from a line of wandering mercenaries, constantly on the march and scavenging food on the trail. If you fail, but not critically fail, to Subsist in the wilderness, you can still keep yourself fed with poor meals. When exploring, you can Hustle twice as long before you have to stop.",
+        "featChoices": [
+            {
+                "_className": "FeatChoice",
+                "feats": [
+                    {
+                        "locked": true,
+                        "name": "Warmarch Hobgoblin",
+                        "source": "Heritage",
+                        "sourceId": "1-Feat-Heritage-0"
+                    },
+                    {
+                        "locked": true,
+                        "name": "Warmarch Hobgoblin Hustle",
+                        "source": "Heritage",
+                        "sourceId": "1-Feat-Heritage-0"
+                    }
+                ],
+                "id": "1-Feat-Heritage-0",
+                "level": 0,
+                "source": "Heritage"
+            }
+        ]
+    },
+    {
+        "_className": "Heritage",
+        "name": "Warrenbred Hobgoblin",
+        "desc": "Your ancestors lived underground. Your ears are larger than those of other hobgoblins and sensitive to echoes. When you are underground, you can use the Seek action to sense undetected creatures within a 30-foot burst instead of a 15-foot burst. In addition, if you roll a success on an Acrobatics check to Squeeze, you get a critical success instead.",
+        "featChoices": [
+            {
+                "_className": "FeatChoice",
+                "feats": [
+                    {
+                        "locked": true,
+                        "name": "Warrenbred Hobgoblin",
+                        "source": "Heritage",
+                        "sourceId": "1-Feat-Heritage-0"
+                    },
+                    {
+                        "locked": true,
+                        "name": "Warrenbred Hobgoblin Perception",
+                        "source": "Heritage",
+                        "sourceId": "1-Feat-Heritage-0"
+                    }
+                ],
+                "id": "1-Feat-Heritage-0",
+                "level": 0,
+                "source": "Heritage"
+            }
+        ]
+    },
+    {
+        "_className": "Heritage",
+        "name": "Fungus Leshy",
+        "desc": "Your body was made from fungi that grows in the shade of caves and trees, and you are at home in dark caverns and warrens. You gain darkvision.",
+        "senses": [
+            "Darkvision"
+        ]
+    },
+    {
+        "_className": "Heritage",
+        "name": "Gourd Leshy",
+        "desc": "You have a large gourd for a skull. Your knowledge comes from within your spirit, rather than a physical brain, and you have found a handier use for the space inside your head. You can store a collection of up to 1 Bulk of objects within your head. The DC of checks to Steal objects from inside your head increases by 4. Additionally, if you store only one object within your head, you can draw it effortlessly into your hand as part of another action to use the object. Drawing the item grants this other action the manipulate trait.",
+        "featChoices": [
+            {
+                "_className": "FeatChoice",
+                "feats": [
+                    {
+                        "locked": true,
+                        "name": "Gourd Leshy",
+                        "source": "Heritage",
+                        "sourceId": "1-Feat-Heritage-0"
+                    }
+                ],
+                "id": "1-Feat-Heritage-0",
+                "level": 0,
+                "source": "Heritage"
+            }
+        ],
+        "gainItems": [
+            {
+                "name": "Gourd Head",
+                "type": "worn items"
+            }
+        ]
+    },
+    {
+        "_className": "Heritage",
+        "name": "Leaf Leshy",
+        "desc": "Your body is made mostly from natural foliage, and like a leaf tumbling from a tree, you land from falls with particular grace. You take no damage from falling, regardless of the distance you fall.",
+        "featChoices": [
+            {
+                "_className": "FeatChoice",
+                "feats": [
+                    {
+                        "locked": true,
+                        "name": "Leaf Leshy",
+                        "source": "Heritage",
+                        "sourceId": "1-Feat-Heritage-0"
+                    }
+                ],
+                "id": "1-Feat-Heritage-0",
+                "level": 0,
+                "source": "Heritage"
+            }
+        ]
+    },
+    {
+        "_className": "Heritage",
+        "name": "Vine Leshy",
+        "desc": "The prehensile vines woven into your body grant you unmatched skill at climbing. You do not need to have any hands free to Climb. Additionally, if you roll a success on an Athletics check to Climb, you get a critical success instead.",
+        "featChoices": [
+            {
+                "_className": "FeatChoice",
+                "feats": [
+                    {
+                        "locked": true,
+                        "name": "Vine Leshy",
+                        "source": "Heritage",
+                        "sourceId": "1-Feat-Heritage-0"
+                    }
+                ],
+                "id": "1-Feat-Heritage-0",
+                "level": 0,
+                "source": "Heritage"
+            }
+        ]
+    },
+    {
+        "_className": "Heritage",
+        "name": "Cliffscale Lizardfolk",
+        "desc": "Your toes are adapted for gripping and climbing. You gain the Combat Climber feat as a bonus feat, and as long as you aren’t wearing footwear, you can use the sticky pads on your feet to climb, leaving your hands free. Additionally, if you roll a success on an Athletics check to climb, you get a critical success instead.",
+        "featChoices": [
+            {
+                "_className": "FeatChoice",
+                "feats": [
+                    {
+                        "locked": true,
+                        "name": "Combat Climber",
+                        "source": "Heritage",
+                        "sourceId": "1-Feat-Heritage-0"
+                    },
+                    {
+                        "locked": true,
+                        "name": "Cliffscale Lizardfolk",
+                        "source": "Heritage",
+                        "sourceId": "1-Feat-Heritage-0"
+                    }
+                ],
+                "id": "1-Feat-Heritage-0",
+                "level": 0,
+                "source": "Heritage"
+            }
+        ]
+    },
+    {
+        "_className": "Heritage",
+        "name": "Frilled Lizardfolk",
+        "desc": "You can flare your neck frill and flex your dorsal spines, Demoralizing your foes. When you do, Demoralize loses the auditory trait and gains the visual trait, and you don’t take a penalty when you attempt to Demoralize a creature that doesn’t understand your language. You also gain the Threatening Approach action.",
+        "featChoices": [
+            {
+                "_className": "FeatChoice",
+                "feats": [
+                    {
+                        "locked": true,
+                        "name": "Frilled Lizardfolk",
+                        "source": "Heritage",
+                        "sourceId": "1-Feat-Heritage-0"
+                    }
+                ],
+                "id": "1-Feat-Heritage-0",
+                "level": 0,
+                "source": "Heritage"
+            }
+        ],
+        "gainActivities": [
+            "Threatening Approach"
+        ]
+    },
+    {
+        "_className": "Heritage",
+        "name": "Sandstrider Lizardfolk",
+        "desc": "Your thick scales help you retain water and combat the sun’s glare. You gain fire resistance equal to half your level (minimum 1). Environmental heat effects are one step less extreme for you, and you can go 10 times as long as normal before you are affected by starvation or thirst. However, unless you wear protective gear or take shelter, environmental cold effects are one step more extreme for you.",
+        "featChoices": [
+            {
+                "_className": "FeatChoice",
+                "feats": [
+                    {
+                        "locked": true,
+                        "name": "Sandstrider Lizardfolk",
+                        "source": "Heritage",
+                        "sourceId": "1-Feat-Heritage-0"
+                    },
+                    {
+                        "locked": true,
+                        "name": "Sandstrider Lizardfolk Resilience",
+                        "source": "Heritage",
+                        "sourceId": "1-Feat-Heritage-0"
+                    }
+                ],
+                "id": "1-Feat-Heritage-0",
+                "level": 0,
+                "source": "Heritage"
+            }
+        ]
+    },
+    {
+        "_className": "Heritage",
+        "name": "Unseen Lizardfolk",
+        "desc": "You can change your skin color to blend in with your surroundings, making minor shifts with a single action and dramatic changes over the course of an hour. When you’re in an area where your coloration is roughly similar to the environment (for instance, forest green in a forest), you can use the minor, singleaction application of this ability to make localized changes that help you blend into your surroundings, gaining a +2 circumstance bonus to Stealth checks until your surroundings change in coloration or pattern.",
+        "gainActivities": [
+            "Unseen Lizardfolk"
+        ]
+    },
+    {
+        "_className": "Heritage",
+        "name": "Wetlander Lizardfolk",
+        "desc": "Your family is descended from the most common lizardfolk heritage, and you are accustomed to aquatic environments. You gain a 15-foot swim Speed.",
+        "featChoices": [
+            {
+                "_className": "FeatChoice",
+                "feats": [
+                    {
+                        "locked": true,
+                        "name": "Wetlander Lizardfolk",
+                        "source": "Heritage",
+                        "sourceId": "1-Feat-Heritage-0"
+                    }
+                ],
+                "id": "1-Feat-Heritage-0",
+                "level": 0,
+                "source": "Heritage"
+            }
+        ]
+    },
+    {
+        "_className": "Heritage",
+        "name": "Bloodhound Shoony",
+        "desc": "Your ancestors were famous trackers, and you carry in your blood that same gift of the hunt. You gain a special sense: imprecise scent with a range of 30 feet. This means you can use your sense of smell to determine the location of a creature, but it remains hidden. In addition, you gain a +2 circumstance bonus to Survival checks to Track creatures that you have previously sensed with your scent. ",
+        "featChoices": [
+            {
+                "_className": "FeatChoice",
+                "feats": [
+                    {
+                        "locked": true,
+                        "name": "Bloodhound Shoony",
+                        "source": "Heritage",
+                        "sourceId": "1-Feat-Heritage-0"
+                    }
+                ],
+                "id": "1-Feat-Heritage-0",
+                "level": 0,
+                "source": "Heritage"
+            }
+        ],
+        "senses": [
+            "Scent 30 feet (imprecise)"
+        ]
+    },
+    {
+        "_className": "Heritage",
+        "name": "Fishseeker Shoony",
+        "desc": "You come from a long line of fisherfolk and have inherited the quick reflexes necessary to nab and reel in big game. If you roll a success on an attempt to Grab an Edge, you get a critical success instead; if you roll a critical failure, you get a failure instead. A creature that rolls a failure on a check to Disarm you gets a critical failure instead. ",
+        "featChoices": [
+            {
+                "_className": "FeatChoice",
+                "feats": [
+                    {
+                        "locked": true,
+                        "name": "Fishseeker Shoony",
+                        "source": "Heritage",
+                        "sourceId": "1-Feat-Heritage-0"
+                    }
+                ],
+                "id": "1-Feat-Heritage-0",
+                "level": 0,
+                "source": "Heritage"
+            }
+        ]
+    },
+    {
+        "_className": "Heritage",
+        "name": "Paddler Shoony",
+        "desc": "You hail from shoonies who have lived long and successfully among the reeds and cattails of swamps and marshes, and have adapted to the challenges of living near waterlogged areas. You ignore difficult terrain and greater difficult terrain from bogs. When you roll a success to Swim, you get a critical success instead. ",
+        "featChoices": [
+            {
+                "_className": "FeatChoice",
+                "feats": [
+                    {
+                        "locked": true,
+                        "name": "Paddler Shoony",
+                        "source": "Heritage",
+                        "sourceId": "1-Feat-Heritage-0"
+                    },
+                    {
+                        "locked": true,
+                        "name": "Paddler Shoony Swimming",
+                        "source": "Heritage",
+                        "sourceId": "1-Feat-Heritage-0"
+                    }
+                ],
+                "id": "1-Feat-Heritage-0",
+                "level": 0,
+                "source": "Heritage"
+            }
+        ]
+    },
+    {
+        "_className": "Heritage",
+        "name": "Thickcoat Shoony",
+        "desc": "You are a rare shoony who hails from colder climes. You gain cold resistance equal to half your level (minimum 1), and you treat environmental cold effects as if they were one step less extreme (incredible cold becomes extreme, extreme cold becomes severe, and so on). You don’t need to succeed at a flat check to target a concealed creature if that creature is concealed only by snow. Unless you wear protective gear or take shelter, environmental heat effects are one step more extreme for you. ",
+        "featChoices": [
+            {
+                "_className": "FeatChoice",
+                "feats": [
+                    {
+                        "locked": true,
+                        "name": "Thickcoat Shoony",
+                        "source": "Heritage",
+                        "sourceId": "1-Feat-Heritage-0"
+                    },
+                    {
+                        "locked": true,
+                        "name": "Thickcoat Shoony Perception",
+                        "source": "Heritage",
+                        "sourceId": "1-Feat-Heritage-0"
+                    }
+                ],
+                "id": "1-Feat-Heritage-0",
+                "level": 0,
+                "source": "Heritage"
             }
         ]
     },
@@ -597,13 +1243,7 @@
                 "feats": [
                     {
                         "locked": true,
-                        "name": "Wintertouched Human Lessened Cold",
-                        "source": "Heritage",
-                        "sourceId": "1-Feat-Heritage-0"
-                    },
-                    {
-                        "locked": true,
-                        "name": "Wintertouched Human Cold Resistance",
+                        "name": "Wintertouched Human",
                         "source": "Heritage",
                         "sourceId": "1-Feat-Heritage-0"
                     }

@@ -9,11 +9,11 @@ import { Character } from './Character';
 export class Skill {
     public readonly _className: string = this.constructor.name;
     public $baseValue: {result: number, explain: string}[] = [{result:0, explain:""},{result:0, explain:""},{result:0, explain:""}];
-    public $bonuses: (Effect[])[] = [[],[],[]];
+    public $bonuses: (boolean)[] = [false, false, false];
     public $absolutes: (Effect[])[] = [[],[],[]];
     public $relatives: (Effect[])[] = [[],[],[]];
     public $level: number[] = [0,0,0,];
-    public $penalties: (Effect[])[] = [[],[],[]];
+    public $penalties: (boolean)[] = [false, false, false];
     public $value: {result: number, explain: string}[] = [{result:0, explain:""},{result:0, explain:""},{result:0, explain:""}];
     public notes: string = "";
     public showNotes: boolean = false;
@@ -92,10 +92,10 @@ export class Skill {
         return effectsService.get_RelativesOnThis(creature, this.name).concat(effectsService.get_RelativesOnThis(creature, "All Checks"));
     }
     bonuses(creature: Character|AnimalCompanion|Familiar, effectsService: EffectsService) {
-        return effectsService.get_BonusesOnThis(creature, this.name).concat(effectsService.get_BonusesOnThis(creature, "All Checks"));;
+        return effectsService.show_BonusesOnThis(creature, this.name) || effectsService.show_BonusesOnThis(creature, "All Checks");
     }
     penalties(creature: Character|AnimalCompanion|Familiar, effectsService: EffectsService) {
-        return effectsService.get_PenaltiesOnThis(creature, this.name).concat(effectsService.get_PenaltiesOnThis(creature, "All Checks"));;
+        return effectsService.show_PenaltiesOnThis(creature, this.name) || effectsService.show_PenaltiesOnThis(creature, "All Checks");
     }
     baseValue(creature: Character|AnimalCompanion|Familiar, characterService: CharacterService, abilitiesService: AbilitiesService, effectsService: EffectsService, charLevel: number = characterService.get_Character().level) {
         let result: number = 0;

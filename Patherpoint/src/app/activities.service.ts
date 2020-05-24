@@ -86,20 +86,12 @@ export class ActivitiesService {
         if (activity.gainItems.length && creature.type != "Familiar") {
             if (activated) {
                 activity.gainItems.forEach(gainItem => {
-                    let newItem: Item = itemsService.get_Items()[gainItem.type].filter(libraryItem => libraryItem.name == gainItem.name)[0];
-                    if (newItem.can_Stack()) {
-                        characterService.grant_InventoryItem(creature as Character|AnimalCompanion, creature.inventories[0], newItem, true, false, false, gainItem.amount);
-                    } else {
-                        let resetRunes = true;
-                        if (newItem.hide) {
-                            resetRunes = false;
-                        }
-                        let grantedItem = characterService.grant_InventoryItem(creature as Character|AnimalCompanion, creature.inventories[0], newItem, resetRunes, false, true);
-                        gainItem.id = grantedItem.id;
-                        if (grantedItem.get_Name) {
-                            grantedItem.displayName = grantedItem.name + " (granted by " + activity.name + ")"
-                        };
-                    }
+                    let newItem: Item = itemsService.get_CleanItems()[gainItem.type].filter(libraryItem => libraryItem.name == gainItem.name)[0];
+                    let grantedItem = characterService.grant_InventoryItem(creature as Character|AnimalCompanion, creature.inventories[0], newItem, false, false, true);
+                    gainItem.id = grantedItem.id;
+                    if (grantedItem.get_Name) {
+                        grantedItem.displayName = grantedItem.name + " (granted by " + activity.name + ")"
+                    };
                 });
             } else {
                 activity.gainItems.forEach(gainItem => {

@@ -57,7 +57,12 @@ The very latest in Assistive Technologies for Dungeon Master (ATDM)
 - [ ] Stretch Goal: Include optional Stamina & Resolve system
 
 active to do:
-- apply SpellChoice.tradition as filter additionally to SpellCasting.tradition
-- show SpellChoice.frequency and SpellGain.frequency
-- implement spells:
--- Detect Magic
+
+Implement spells:
+- Detect Magic
+
+Create feats:
+
+Create items:
+
+Create activities:

@@ -45,8 +45,8 @@
     </span>
     <span *ngIf="item.get_Bulk()">
         <strong>Bulk{{item.carryingBulk && !item.equipped ? " (unequipped)" : ""}}</strong>
-        <span [ngClass]="{'penalty':(item.carryingBulk && !item.equipped), 'bonus':(item.get_Bulk() != item.bulk)}">
-            &nbsp;{{item.get_Bulk()}}&nbsp;
+        <span
+            [ngClass]="{'penalty':(item.carryingBulk && !item.equipped), 'bonus':(item.get_Bulk() != item.bulk)}">&nbsp;{{item.get_Bulk()}}&nbsp;
         </span>
     </span>
     <span *ngIf="item.carryingBulk && item.equipped">
@@ -207,7 +207,8 @@
 </div>
 <div class="list-item left-aligned" *ngIf="item.runeEffect">
     <h4>Rune Effect: {{item.runeEffect.name}}</h4>
-    <app-item [creature]="creature" [item]=item.runeEffect [allowActivate]=allowActivate [isSubItem]=isSubItem></app-item>
+    <app-item [creature]="creature" [item]=item.runeEffect [allowActivate]=allowActivate [isSubItem]=isSubItem>
+    </app-item>
 </div>
 <div class="list-item left-aligned" *ngFor="let rune of item.propertyRunes">
     <h4>{{rune.name}}</h4>

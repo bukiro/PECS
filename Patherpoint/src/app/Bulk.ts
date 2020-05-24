@@ -7,22 +7,22 @@ import { AnimalCompanion } from './AnimalCompanion';
 export class Bulk {
     public $absolutes: Effect[];
     public $currentabsolutes: Effect[];
-    public $bonuses: Effect[];
-    public $currentbonuses: Effect[];
+    public $bonuses: boolean = false;
+    public $currentbonuses: boolean = false;
     public $current: { value: number, explain: string } = { value: 0, explain: "" };
     public $encumbered: { value: number, explain: string } = { value: 0, explain: "" };
     public $limit: { value: number, explain: string } = { value: 0, explain: "" };
     public $max: { value: number, explain: string } = { value: 0, explain: "" };
-    public $penalties: Effect[];
-    public $currentpenalties: Effect[];
+    public $penalties: boolean = false;
+    public $currentpenalties: boolean = false;
     calculate(creature: Character | AnimalCompanion, characterService: CharacterService, effectsService: EffectsService) {
         this.$absolutes = this.absolutes(creature, effectsService, "Max Bulk");
         this.$currentabsolutes = this.absolutes(creature, effectsService, "Bulk");
         this.$bonuses = this.bonuses(creature, effectsService, "Max Bulk");
         this.$currentbonuses = this.bonuses(creature, effectsService, "Bulk");
         this.$current = this.current(creature, characterService, effectsService);
-        this.$encumbered = this.encumbered();
         this.$limit = this.limit(creature, characterService, effectsService);
+        this.$encumbered = this.encumbered();
         this.$max = this.max();
         this.$penalties = this.penalties(creature, effectsService, "Max Bulk");
         this.$currentpenalties = this.penalties(creature, effectsService, "Bulk");
@@ -34,10 +34,10 @@ export class Bulk {
         return effectsService.get_RelativesOnThis(creature, name);
     }
     bonuses(creature: Character | AnimalCompanion, effectsService: EffectsService, name: string) {
-        return effectsService.get_BonusesOnThis(creature, name);
+        return effectsService.show_BonusesOnThis(creature, name);
     }
     penalties(creature: Character | AnimalCompanion, effectsService: EffectsService, name: string) {
-        return effectsService.get_PenaltiesOnThis(creature, name);
+        return effectsService.show_PenaltiesOnThis(creature, name);
     }
     current(creature: Character | AnimalCompanion, characterService: CharacterService, effectsService: EffectsService) {
         let sum: number = 0;

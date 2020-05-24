@@ -50,6 +50,16 @@ constructor(
         return this.effects.penalties.filter(effect => effect.creature == creature.id && effect.target == ObjectName && effect.apply);
     }
 
+    show_BonusesOnThis(creature: Character|AnimalCompanion|Familiar, ObjectName: string) {
+        //This function is usually only used to determine if a value should be highlighted as a bonus. Because we don't want to highlight values if their bonus comes from a feat, we exclude hidden effects here.
+        return this.effects.bonuses.filter(effect => effect.creature == creature.id && effect.target == ObjectName && effect.apply && !effect.hide).length > 0;
+    }
+
+    show_PenaltiesOnThis(creature: Character|AnimalCompanion|Familiar, ObjectName: string) {
+        //This function is usually only used to determine if a value should be highlighted as a penalty. Because we don't want to highlight values if their penalty comes from a feat, we exclude hidden effects here.
+        return this.effects.penalties.filter(effect => effect.creature == creature.id && effect.target == ObjectName && effect.apply && !effect.hide).length > 0;
+    }
+
     get_SimpleEffects(creature: Character|AnimalCompanion|Familiar, characterService: CharacterService, object: any) {
         //If an item has a simple instruction in effects, such as "Strength", "+2", turn it into an effect,
         // then mark the effect as a penalty if the change is negative (except for Bulk).
@@ -67,7 +77,7 @@ constructor(
         let Companion: AnimalCompanion = characterService.get_Companion();
         let Familiar: Familiar = characterService.get_Familiar();
         let Level: number = characterService.get_Character().level;
-        let currentHP = creature.health.currentHP(creature, characterService, effectsService);
+        let currentHP = creature.health.currentHP(creature, characterService, effectsService).result;
         function Ability(name: string) {
             if (creature.type == "Familiar") {
                 return 0;
@@ -151,6 +161,8 @@ constructor(
                     penalty = true;
                 }
             }
+            //Hide all relative effects that are untyped and bonuses.
+            //These are usually from feats and permanent, and we don't want values to be green forever from feats.
             if (!toggle && !setValue && type == "untyped" && !penalty) {
                 hide = true;
             }
@@ -311,25 +323,6 @@ constructor(
 
         //Process effects from feats
         let featEffects: Effect[] = [];
-
-        //If you have the Multilingual feat and are master or legendary in Society, add 1 or 2 more languages to the current effect.
-        if (character.get_FeatsTaken(0, character.level, "Multilingual")) {
-            let bonus = 0;
-            let society: number = characterService.get_Skills(character, "Society")[0].level(character, characterService, character.level);
-            switch (society) {
-                case 8:
-                    bonus = 2;
-                    break;
-                case 6:
-                    bonus = 1;
-                    break;
-            }
-            if (bonus) {
-                allEffects.filter(effect => effect.source == "Multilingual").forEach(effect => {
-                    effect.value = "+"+(parseInt(effect.value) + bonus).toString()
-                })
-            }
-        }
 
         //If you have the Untrained Improvisation feat and are at level 7 or higher, change the bonus to level instead of level/2
         if (character.get_FeatsTaken(0, character.level, "Untrained Improvisation")) {

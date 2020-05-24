@@ -217,7 +217,7 @@ export class ItemsService {
 
     }
 
-    initialize_Item(item: any, preassigned: boolean = false, newID: boolean = true) {
+    initialize_Item(item: any, preassigned: boolean = false, newId: boolean = true) {
         //Every new item has to be re-assigned its class and iterate over all its objects to reassign them as well.
         //Typescript does not seem to have the option to keep object properties' classes when assigning.
         let newItem: any;
@@ -227,7 +227,7 @@ export class ItemsService {
         } else {
             newItem = this.cast_ItemByType(JSON.parse(JSON.stringify(item)));
         }
-        if (newID) {
+        if (newId) {
             newItem.id = uuidv1();
         }
         newItem = this.savegameService.reassign(newItem);

@@ -600,5 +600,18 @@
             }
         ],
         "buff": true
+    },
+    {
+        "name": "Unseen Lizardfolk",
+        "type": "activity",
+        "desc": "Your skin color has changed to help you blend into your surroundings. This grants you a +2 circumstance bonus to Stealth checks until your surroundings change in coloration or pattern.",
+        "effects": [
+            {
+                "affected": "Stealth",
+                "value": "+2",
+                "type": "circumstance"
+            }
+        ],
+        "buff": true
     }
 ]

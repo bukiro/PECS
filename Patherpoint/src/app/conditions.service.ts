@@ -125,7 +125,7 @@ export class ConditionsService {
                             characterService.add_Condition(creature, Object.assign(new ConditionGain, { name: "Wounded", value: 1, source: "Recovered from Dying" }), false)
                         }
                     }
-                    if (creature.health.currentHP(creature, characterService, effectsService) == 0) {
+                    if (creature.health.currentHP(creature, characterService, effectsService).result == 0) {
                         if (characterService.get_AppliedConditions(creature, "Unconscious", "0 Hit Points").length == 0) {
                             characterService.add_Condition(creature, Object.assign(new ConditionGain, { name: "Unconscious", source: "0 Hit Points" }), false)
                         }

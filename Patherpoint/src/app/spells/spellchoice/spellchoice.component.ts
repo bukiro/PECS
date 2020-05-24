@@ -87,6 +87,10 @@ export class SpellchoiceComponent implements OnInit {
         return this.spellsService.get_Spells(name, type, tradition);
     }
 
+    capitalize(text: string) {
+        return text.charAt(0).toUpperCase() + text.slice(1);
+    }
+
     get_DynamicLevel(choice: SpellChoice) {
         let highestSpellLevel = 1;
         if (this.spellCasting) {

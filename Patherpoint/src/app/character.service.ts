@@ -394,7 +394,7 @@ export class CharacterService {
         this.me.class.heritage = new Heritage();
         this.me.class.heritage = Object.assign(new Heritage(), JSON.parse(JSON.stringify(heritage)))
         this.me.class.heritage = this.reassign(this.me.class.heritage);
-        this.me.class.on_NewHeritage(this);
+        this.me.class.on_NewHeritage(this, this.itemsService);
         this.set_Changed();
     }
 
@@ -460,8 +460,8 @@ export class CharacterService {
         }
     }
 
-    grant_InventoryItem(creature: Character|AnimalCompanion, inventory: ItemCollection, item: Item, resetRunes: boolean = true, changeAfter: boolean = true, equipAfter: boolean = true, amount: number = 1) {
-        let newInventoryItem = this.itemsService.initialize_Item(item);
+    grant_InventoryItem(creature: Character|AnimalCompanion, inventory: ItemCollection, item: Item, resetRunes: boolean = true, changeAfter: boolean = true, equipAfter: boolean = true, amount: number = 1, newId: boolean = true) {
+        let newInventoryItem = this.itemsService.initialize_Item(item, false, newId);
         //Assign the library's item id as the new item's refId. This allows us to read the default information from the library later.
         if (!newInventoryItem.refId) {
             newInventoryItem.refId = item.id;

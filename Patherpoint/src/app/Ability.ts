@@ -7,12 +7,12 @@ import { Effect } from './Effect';
 export class Ability {
     public $absolutes: (Effect[])[] = [[], []];
     public $baseValue: { result: number, explain: string }[] = [{ result: 0, explain: "" }, { result: 0, explain: "" }];
-    public $bonuses: (Effect[])[] = [[], []];
+    public $bonuses: (boolean)[] = [false, false, false];
     public $mod: { result: number, explain: string }[] = [{ result: 0, explain: "" }, { result: 0, explain: "" }];
     public $modabsolutes: (Effect[])[] = [[], []];
-    public $modbonuses: (Effect[])[] = [[], []];
-    public $modpenalties: (Effect[])[] = [[], []];
-    public $penalties: (Effect[])[] = [[], []];
+    public $modbonuses: (boolean)[] = [false, false, false];
+    public $modpenalties: (boolean)[] = [false, false, false];
+    public $penalties: (boolean)[] = [false, false, false];
     public $value: { result: number, explain: string }[] = [{ result: 0, explain: "" }, { result: 0, explain: "" }];
     constructor(
         public name: string = "",
@@ -38,11 +38,14 @@ export class Ability {
     absolutes(creature: Character | AnimalCompanion, effectsService: EffectsService, name: string) {
         return effectsService.get_AbsolutesOnThis(creature, name);
     }
+    relatives(creature: Character|AnimalCompanion, effectsService: EffectsService, name: string) {
+        return effectsService.get_RelativesOnThis(creature, name);
+    }
     bonuses(creature: Character | AnimalCompanion, effectsService: EffectsService, name: string) {
-        return effectsService.get_BonusesOnThis(creature, name)
+        return effectsService.show_BonusesOnThis(creature, name)
     }
     penalties(creature: Character | AnimalCompanion, effectsService: EffectsService, name: string) {
-        return effectsService.get_PenaltiesOnThis(creature, name)
+        return effectsService.show_PenaltiesOnThis(creature, name)
     }
     baseValue(creature: Character | AnimalCompanion, characterService, charLevel: number = characterService.get_Character().level) {
         if (characterService.still_loading()) { return { result: 10, explain: "Base value: 10" }; }
@@ -85,13 +88,7 @@ export class Ability {
             result = parseInt(effect.setValue);
             explain = effect.source + ": " + effect.setValue;
         });
-        this.bonuses(creature, effectsService, this.name).forEach(effect => {
-            if (parseInt(effect.value) >= 0) {
-                result += parseInt(effect.value);
-                explain += "\n" + effect.source + ": " + effect.value;
-            }
-        });
-        this.penalties(creature, effectsService, this.name).forEach(effect => {
+        this.relatives(creature, effectsService, this.name).forEach(effect => {
             if (parseInt(effect.value) >= 0) {
                 result += parseInt(effect.value);
                 explain += "\n" + effect.source + ": " + effect.value;
@@ -110,13 +107,7 @@ export class Ability {
             modifier = parseInt(effect.setValue);
             explain = effect.source + ": " + effect.setValue;
         });
-        this.bonuses(creature, effectsService, this.name + " Modifier").forEach(effect => {
-            if (parseInt(effect.value) >= 0) {
-                modifier += parseInt(effect.value);
-                explain += "\n" + effect.source + ": " + effect.value;
-            }
-        });
-        this.penalties(creature, effectsService, this.name + " Modifier").forEach(effect => {
+        this.relatives(creature, effectsService, this.name + " Modifier").forEach(effect => {
             if (parseInt(effect.value) >= 0) {
                 modifier += parseInt(effect.value);
                 explain += "\n" + effect.source + ": " + effect.value;

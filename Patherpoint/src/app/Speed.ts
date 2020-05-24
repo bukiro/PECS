@@ -10,32 +10,32 @@ export class Speed {
         public name: string = ""
     ) {};
     public source: string = "";
-    relatives(creature: Character|AnimalCompanion|Familiar, effectsService: EffectsService, both: boolean = false) {
-        if (both && this.name != "Speed") {
-            return effectsService.get_RelativesOnThis(creature, this.name).concat(effectsService.get_RelativesOnThis(creature, "Speed"));
+    relatives(creature: Character|AnimalCompanion|Familiar, effectsService: EffectsService, name: string, both: boolean = false) {
+        if (both && name != "Speed") {
+            return effectsService.get_RelativesOnThis(creature, name).concat(effectsService.get_RelativesOnThis(creature, "Speed"));
         } else {
-            return effectsService.get_RelativesOnThis(creature, this.name);
+            return effectsService.get_RelativesOnThis(creature, name);
         }
     }
-    absolutes(creature: Character|AnimalCompanion|Familiar, effectsService: EffectsService, both: boolean = false) {
-        if (both && this.name != "Speed") {
-            return effectsService.get_AbsolutesOnThis(creature, this.name).concat(effectsService.get_AbsolutesOnThis(creature, "Speed"));
+    absolutes(creature: Character|AnimalCompanion|Familiar, effectsService: EffectsService, name: string, both: boolean = false) {
+        if (both && name != "Speed") {
+            return effectsService.get_AbsolutesOnThis(creature, name).concat(effectsService.get_AbsolutesOnThis(creature, "Speed"));
         } else {
-            return effectsService.get_AbsolutesOnThis(creature, this.name);
+            return effectsService.get_AbsolutesOnThis(creature, name);
         }
     }
-    bonuses(creature: Character|AnimalCompanion|Familiar, effectsService: EffectsService, both: boolean = false) {
-        if (both && this.name != "Speed") {
-            return effectsService.get_BonusesOnThis(creature, this.name).concat(effectsService.get_BonusesOnThis(creature, "Speed"));
+    bonuses(creature: Character|AnimalCompanion|Familiar, effectsService: EffectsService, name: string, both: boolean = false) {
+        if (both && name != "Speed") {
+            return effectsService.show_BonusesOnThis(creature, name) || effectsService.show_BonusesOnThis(creature, "Speed");
         } else {
-            return effectsService.get_BonusesOnThis(creature, this.name);
+            return effectsService.show_BonusesOnThis(creature, name);
         }
     }
-    penalties(creature: Character|AnimalCompanion|Familiar, effectsService: EffectsService, both: boolean = false) {
-        if (both && this.name != "Speed") {
-            return effectsService.get_PenaltiesOnThis(creature, this.name).concat(effectsService.get_PenaltiesOnThis(creature, "Speed"));
+    penalties(creature: Character|AnimalCompanion|Familiar, effectsService: EffectsService, name: string, both: boolean = false) {
+        if (both && name != "Speed") {
+            return effectsService.show_PenaltiesOnThis(creature, name) || effectsService.show_PenaltiesOnThis(creature, "Speed");
         } else {
-            return effectsService.get_PenaltiesOnThis(creature, this.name);
+            return effectsService.show_PenaltiesOnThis(creature, name);
         }
     }
     baseValue(creature: Character|AnimalCompanion|Familiar, characterService: CharacterService, effectsService: EffectsService) {
@@ -70,13 +70,13 @@ export class Speed {
             }
         }
         //Absolutes completely replace the baseValue. They are sorted so that the highest value counts last.
-        let absolutes = this.absolutes(creature, effectsService).filter(effect => effect.setValue);
+        let absolutes = this.absolutes(creature, effectsService, this.name).filter(effect => effect.setValue);
         absolutes.forEach(effect => {
             sum = parseInt(effect.setValue)
             explain = effect.source + ": " + effect.setValue;
         });
         let isNull: boolean = (sum == 0)
-        this.relatives(creature, effectsService).forEach(effect => {
+        this.relatives(creature, effectsService, this.name).forEach(effect => {
             sum += parseInt(effect.value);
             explain += "\n"+effect.source+": "+effect.value;
         });
@@ -95,7 +95,7 @@ export class Speed {
         let explain: string = baseValue[1];
         let isNull: boolean = (sum == 0)
         if (this.name != "Speed") {
-            effectsService.get_RelativesOnThis(creature, "Speed").forEach(effect => {
+            this.relatives(creature, effectsService, "Speed").forEach(effect => {
                 sum += parseInt(effect.value);
                 explain += "\n"+effect.source+": "+effect.value;
             });

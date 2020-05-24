@@ -187,7 +187,7 @@
         "hands": 1
     },
     {
-        "desc": "A backpack holds up to 4 Bulk of items. If you're carrying or stowing the pack rather than wearing it on your back, its bulk is light instead of negligible. The first 2 Bulk of items in your backpack don't count against your Bulk limits ",
+        "desc": "A backpack holds up to 4 Bulk of items. If you're carrying or stowing the pack rather than wearing it on your back, its bulk is light instead of negligible. The first 2 Bulk of items in your backpack don't count against your Bulk limits.",
         "id": "89c6fa1a-8e09-11ea-9fab-e92c63c14723",
         "name": "Backpack",
         "price": 10,

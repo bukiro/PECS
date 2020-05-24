@@ -2,7 +2,7 @@
 <div id="{{creature}}-defense-height" class="attributeBox">
     <ng-container *ngFor="let AC of [get_CalculatedAC()]">
         <h3 class="box-header" title="{{AC.$value[get_CalculatedIndex()].explain}}">Defense: Armor Class <span
-                [ngClass]="{'penalty':AC.$penalties[get_CalculatedIndex()].length, 'bonus':AC.$bonuses[get_CalculatedIndex()].length, 'absolute':AC.$absolutes[get_CalculatedIndex()].length}">
+                [ngClass]="{'penalty':AC.$penalties[get_CalculatedIndex()], 'bonus':AC.$bonuses[get_CalculatedIndex()], 'absolute':AC.$absolutes[get_CalculatedIndex()].length}">
                 {{AC.$value[get_CalculatedIndex()].result}}</span>
         </h3>
         <div class="loading" *ngIf="still_loading()">Loading</div>

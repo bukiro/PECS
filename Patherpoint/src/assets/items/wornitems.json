@@ -1,5 +1,17 @@
 [
     {
+        "desc": "You have a large gourd for a skull. Your knowledge comes from within your spirit, rather than a physical brain, and you have found a handier use for the space inside your head. You can store a collection of up to 1 Bulk of objects within your head. The DC of checks to Steal objects from inside your head increases by 4. Additionally, if you store only one object within your head, you can draw it effortlessly into your hand as part of another action to use the object. Drawing the item grants this other action the manipulate trait.",
+        "id": "082244c0-e1fd-4f48-8053-d09da1e388fc",
+        "name": "Gourd Head",
+        "gainInventory": [
+            {
+                "_className": "InventoryGain",
+                "bulkLimit": 1
+            }
+        ],
+        "_className": "WornItem"
+    },
+    {
         "desc": "This compact compass repurposes ancient technology to draw fantastic powers from the mysterious magical items called aeon stones. It serves as a badge of office for agents of the Pathfinder Society and as a status symbol among adventurers of any stripe. A wayfinder functions as a compass.\n\nAn indentation in the middle of the wayfinder can hold a single aeon stone. Placing an aeon stone in this indentation provides you all the benefits of having the aeon stone orbiting your head, but it protects the stone from being noticed or stolen as easily. You invest a wayfinder and the aeon stone within it simultaneously, and they count as only one item toward your investiture limit. An invested aeon stone slotted in a wayfinder also grants its resonant power.\n\nIf you have more than one wayfinder with an invested aeon stone on your person at a given time, destructive interference from their resonance prevents you from gaining benefits from any of them. You can still benefit from additional aeon stones orbiting your head, just not in wayfinders.\n\nAll Pathfinders have access.",
         "id": "4c5d0fa0-fb67-4e5a-80af-dd450eba7cf4",
         "level": 2,

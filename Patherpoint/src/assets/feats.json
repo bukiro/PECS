@@ -190,19 +190,16 @@
       ]
    },
    {
-      "name": "Arctic Elf Cold Resistance",
-      "desc": "You gain cold resistance equal to half your level (minimum 1).",
+      "name": "Arctic Elf",
+      "desc": "You dwell deep in the frozen north and have gained incredible resilience against cold environments, granting you cold resistance equal to half your level (minimum 1). You treat environmental cold effects as if they were one step less extreme (incredible cold becomes extreme, extreme cold becomes severe, and so on).",
+      "hint": "You treat environmental cold effects as if they were one step less extreme (incredible cold becomes extreme, extreme cold becomes severe, and so on).",
+      "showon": "Resistances",
       "effects": [
          {
             "affected": "Cold Resistance",
             "value": "Math.max(Math.floor(Level / 2), 1)"
          }
       ]
-   },
-   {
-      "name": "Arctic Elf Lessened Cold",
-      "desc": "You treat environmental cold effects as if they were one step less extreme (incredible cold becomes extreme, extreme cold becomes severe, and so on).",
-      "showon": "Resistances"
    },
    {
       "name": "Armor Proficiency",
@@ -1485,24 +1482,22 @@
       ]
    },
    {
-      "name": "Death Warden Dwarf Resistance",
-      "desc": "If you roll a success on a saving throw against a necromancy effect, you get a critical success instead.",
+      "name": "Death Warden Dwarf",
+      "desc": "Your ancestors have been tomb guardians for generations, and the power they cultivated to ward off necromancy has passed on to you. If you roll a success on a saving throw against a necromancy effect, you get a critical success instead.",
+      "hint": "If you roll a success on a saving throw against a necromancy effect, you get a critical success instead.",
       "showon": "Saving Throws"
    },
    {
-      "name": "Desert Elf Fire Resistance",
-      "desc": "You gain fire resistance equal to half your level (minimum 1).",
+      "name": "Desert Elf",
+      "desc": "You live under the desert’s blazing heat, gaining incredible resilience to warm environments. You gain fire resistance equal to half your level (minimum 1), and environmental heat effects are one step less extreme for you (incredible heat becomes extreme, extreme heat becomes severe, and so on).",
+      "hint": "Environmental heat effects are one step less extreme for you (incredible heat becomes extreme, extreme heat becomes severe, and so on).",
+      "showon": "Resistances",
       "effects": [
          {
             "affected": "Fire Resistance",
             "value": "Math.max(Math.floor(Level / 2), 1)"
          }
       ]
-   },
-   {
-      "name": "Desert Elf Lessened Heat",
-      "desc": "Environmental heat effects are one step less extreme for you (incredible heat becomes extreme, extreme heat becomes severe, and so on).",
-      "showon": "Resistances"
    },
    {
       "name": "Diehard",
@@ -1868,18 +1863,15 @@
       ]
    },
    {
-      "name": "Forge Dwarf Fire Resistance",
-      "desc": "You gain fire resistance equal to half your level (minimum 1).",
+      "name": "Forge Dwarf",
+      "desc": "You have a remarkable adaptation to hot environments from ancestors who inhabited blazing deserts or volcanic chambers beneath the earth. This grants you fire resistance equal to half your level (minimum 1), and you treat environmental heat effects as if they were one step less extreme (incredible heat becomes extreme, extreme heat becomes severe, and so on).",
       "effects": [
          {
             "affected": "Fire Resistance",
             "value": "Math.max(Math.floor(Level / 2), 1)"
          }
-      ]
-   },
-   {
-      "name": "Forge Dwarf Lessened Heat",
-      "desc": "You treat environmental heat effects as if they were one step less extreme (incredible heat becomes extreme, extreme heat becomes severe, and so on).",
+      ],
+      "hint": "You treat environmental heat effects as if they were one step less extreme (incredible heat becomes extreme, extreme heat becomes severe, and so on).",
       "showon": "Resistances"
    },
    {
@@ -2508,10 +2500,9 @@
       "effects": [
          {
             "affected": "Max Languages",
-            "value": "2"
+            "value": "Skill_Level('Society') >= 6 ? (Skill_Level('Society') >= 8 ? 4 : 3) : 2"
          }
       ],
-      "internalNote": "The effect on the maximum number of languages is hardcoded.",
       "levelreq": 1,
       "skillreq": [
          {
@@ -2597,19 +2588,19 @@
    },
    {
       "name": "Oathkeeper Dwarf Deception",
-      "desc": "You take a –4 circumstance penalty to Lie and to your Deception DC against Sense Motive.",
+      "desc": "Growing up, you never tried to lie to get what you wanted, and even when necessary, lying makes you uncomfortable. The especially faithful might even have thought that you were blessed by the dwarven god of duty, Kols. You take a –4 circumstance penalty to Lie and to your Deception DC against Sense Motive.",
       "hint": "You take a –4 circumstance penalty to Lie and to your Deception DC against Sense Motive.",
       "showon": "Deception"
    },
    {
       "name": "Oathkeeper Dwarf Diplomacy",
-      "desc": "You gain a +2 circumstance bonus to Diplomacy checks to convince others you speak the truth when you are telling the truth.",
+      "desc": "Growing up, you never tried to lie to get what you wanted, and even when necessary, lying makes you uncomfortable. The especially faithful might even have thought that you were blessed by the dwarven god of duty, Kols. You gain a +2 circumstance bonus to Diplomacy checks to convince others you speak the truth when you are telling the truth.",
       "hint": "You gain a +2 circumstance bonus to Diplomacy checks to convince others you speak the truth when you are telling the truth.",
       "showon": "Diplomacy"
    },
    {
       "name": "Oathkeeper Dwarf Perception",
-      "desc": "You gain a +1 circumstance bonus to Perception checks to Sense Motive and to Perception DCs against attempts to Lie to you.",
+      "desc": "Growing up, you never tried to lie to get what you wanted, and even when necessary, lying makes you uncomfortable. The especially faithful might even have thought that you were blessed by the dwarven god of duty, Kols. You gain a +1 circumstance bonus to Perception checks to Sense Motive and to Perception DCs against attempts to Lie to you.",
       "hint": "You gain a +1 circumstance bonus to Perception checks to Sense Motive and to Perception DCs against attempts to Lie to you.",
       "showon": "Perception"
    },
@@ -3073,8 +3064,8 @@
       ]
    },
    {
-      "name": "Rock Dwarf Stability",
-      "desc": "You gain a +2 circumstance bonus to your Fortitude or Reflex DC against attempts to Shove or Trip you. This bonus also applies to saving throws against spells or effects that attempt to knock you prone.\n\nIn addition, if any effect would force you to move 10 feet or more, you are moved only half the distance.",
+      "name": "Rock Dwarf",
+      "desc": "Your ancestors lived and worked among the great ancient stones of the mountains or the depths of the earth. This makes you solid as a rock when you plant your feet. You gain a +2 circumstance bonus to your Fortitude or Reflex DC against attempts to Shove or Trip you. This bonus also applies to saving throws against spells or effects that attempt to knock you prone.\n\nIn addition, if any effect would force you to move 10 feet or more, you are moved only half the distance.",
       "hint": "You gain a +2 circumstance bonus to your Fortitude or Reflex DC against attempts to Shove or Trip you. This bonus also applies to saving throws against spells or effects that attempt to knock you prone.\n\nIn addition, if any effect would force you to move 10 feet or more, you are moved only half the distance.",
       "showon": "Fortitude, Reflex"
    },
@@ -3153,7 +3144,7 @@
       "effects": [
          {
             "affected": "Max Languages",
-            "value": "1"
+            "value": "+1"
          }
       ],
       "onceEffects": [
@@ -3177,8 +3168,9 @@
       ]
    },
    {
-      "name": "Seer Elf Insight",
-      "desc": "You gain a +1 circumstance bonus to checks to Identify Magic and to Decipher Writing of a magical nature. These skill actions typically use the Arcana, Nature, Occultism, or Religion skill.",
+      "name": "Seer Elf",
+      "desc": "You have an inborn ability to detect and understand magical phenomena. You gain a +1 circumstance bonus to checks to Identify Magic and to Decipher Writing of a magical nature. These skill actions typically use the Arcana, Nature, Occultism, or Religion skill.",
+      "hint": "You gain a +1 circumstance bonus to checks to Identify Magic and to Decipher Writing of a magical nature. These skill actions typically use the Arcana, Nature, Occultism, or Religion skill.",
       "showon": "Arcana, Nature, Occultism, Religion"
    },
    {
@@ -3614,13 +3606,10 @@
       ]
    },
    {
-      "name": "Strong-Blooded Dwarf Fortitude",
-      "desc": "Each of your successful saving throws against a poison affliction reduces its stage by 2, or by 1 for a virulent poison. Each critical success against an ongoing poison reduces its stage by 3, or by 2 for a virulent poison.",
-      "showon": "Fortitude"
-   },
-   {
-      "name": "Strong-Blooded Dwarf Poison Resistance",
-      "desc": "You gain poison resistance equal to half your level (minimum 1).",
+      "name": "Strong-Blooded Dwarf",
+      "desc": "Your blood runs hearty and strong, and you can shake off toxins. You gain poison resistance equal to half your level (minimum 1), and each of your successful saving throws against a poison affliction reduces its stage by 2, or by 1 for a virulent poison. Each critical success against an ongoing poison reduces its stage by 3, or by 2 for a virulent poison.",
+      "showon": "Fortitude",
+      "hint": "Each of your successful saving throws against a poison affliction reduces its stage by 2, or by 1 for a virulent poison. Each critical success against an ongoing poison reduces its stage by 3, or by 2 for a virulent poison.",
       "effects": [
          {
             "affected": "Poison Resistance",
@@ -4874,8 +4863,9 @@
       ]
    },
    {
-      "name": "Whisper Elf Hearing",
-      "desc": "As long as you can hear normally, you can use the Seek action to sense undetected creatures in a 60-foot cone instead of a 30-foot cone. You also gain a +2 circumstance bonus to locate undetected creatures that you could hear within 30 feet with a Seek action.",
+      "name": "Whisper Elf",
+      "desc": "Your ears are finely tuned, able to detect even the slightest whispers of sound. As long as you can hear normally, you can use the Seek action to sense undetected creatures in a 60-foot cone instead of a 30-foot cone. You also gain a +2 circumstance bonus to locate undetected creatures that you could hear within 30 feet with a Seek action.",
+      "hint": "As long as you can hear normally, you can use the Seek action to sense undetected creatures in a 60-foot cone instead of a 30-foot cone. You also gain a +2 circumstance bonus to locate undetected creatures that you could hear within 30 feet with a Seek action.",
       "showon": "Senses"
    },
    {
@@ -5033,8 +5023,10 @@
       "subType": "Underground"
    },
    {
-      "name": "Wintertouched Human Cold Resistance",
-      "desc": "You gain cold resistance equal to half your level (minimum 1).",
+      "name": "Wintertouched Human",
+      "desc": "The power of winter flows through you. This heritage is most common among the Jadwiga of Irrisen, due to their descent from Baba Yaga, and certain Erutaki touched by the spirits. You gain cold resistance equal to half your level (minimum 1), and you treat environmental cold effects as if they were one step less extreme (incredible cold becomes extreme, extreme cold becomes severe, and so on).",
+      "hint": "You treat environmental cold effects as if they were one step less extreme (incredible cold becomes extreme, extreme cold becomes severe, and so on).",
+      "showon": "Resistances",
       "effects": [
          {
             "affected": "Cold Resistance",
@@ -5043,18 +5035,15 @@
       ]
    },
    {
-      "name": "Wintertouched Human Lessened Cold",
-      "desc": "You treat environmental cold effects as if they were one step less extreme (incredible cold becomes extreme, extreme cold becomes severe, and so on).",
-      "showon": "Resistances"
-   },
-   {
       "name": "Woodland Elf Climbing",
-      "desc": "When Climbing trees, vines, and other foliage, you move at half your Speed on a success and at full Speed on a critical success (and you move at full Speed on a success if you have Quick Climb). This doesn't affect you if you're using a climb Speed.",
+      "desc": "You’re adapted to life in the forest or the deep jungle, and you know how to climb trees and use foliage to your advantage. When Climbing trees, vines, and other foliage, you move at half your Speed on a success and at full Speed on a critical success (and you move at full Speed on a success if you have Quick Climb). This doesn’t affect you if you’re using a climb Speed.",
+      "hint": "When Climbing trees, vines, and other foliage, you move at half your Speed on a success and at full Speed on a critical success (and you move at full Speed on a success if you have Quick Climb). This doesn't affect you if you're using a climb Speed.",
       "showon": "Movement"
    },
    {
       "name": "Woodland Elf Cover",
-      "desc": "You can always use the Take Cover action when you are within forest terrain to gain cover, even if you're not next to an obstacle you can Take Cover behind.",
+      "desc": "You’re adapted to life in the forest or the deep jungle, and you know how to climb trees and use foliage to your advantage. You can always use the Take Cover action when you are within forest terrain to gain cover, even if you're not next to an obstacle you can Take Cover behind.",
+      "hint": "You can always use the Take Cover action when you are within forest terrain to gain cover, even if you're not next to an obstacle you can Take Cover behind.",
       "showon": "Defense"
    },
    {
@@ -6498,21 +6487,15 @@
       "hint": "You gain a +2 circumstance bonus to Perception checks whenever you’re trying to locate an undetected creature that is within the range of your scent."
    },
    {
-      "name": "Vivacious Gnome Negative Resistance",
-      "desc": "You gain negative resistance equal to half your level (minimum 1).",
+      "name": "Vivacious Gnome",
+      "desc": "You have an incredibly strong connection to the positive energy that flows through the First World, making it harder to attack your life force with negative energy. You gain negative resistance equal to half your level (minimum 1). When you have the doomed condition, the condition affects you as if its value was 1 lower than it actually is (doomed 1 has no effect, doomed 2 causes you to die at dying 3, and so on).",
+      "hint": "When you have the doomed condition, the condition affects you as if its value was 1 lower than it actually is (doomed 1 has no effect, doomed 2 causes you to die at dying 3, and so on).",
+      "showon": "Health",
       "effects": [
          {
             "affected": "Negative Resistance",
             "value": "Math.max(Math.floor(Level / 2), 1)"
-         }
-      ]
-   },
-   {
-      "name": "Vivacious Gnome",
-      "desc": "You gain negative resistance equal to half your level (minimum 1).",
-      "showon": "Health",
-      "hint": "When you have the doomed condition, the condition affects you as if its value was 1 lower than it actually is (doomed 1 has no effect, doomed 2 causes you to die at dying 3, and so on).",
-      "effects": [
+         },
          {
             "affected": "Max Dying",
             "value": "Has_Condition('Doomed') ? 1 : null"
@@ -6536,5 +6519,241 @@
       "traits": [
          "Gnome"
       ]
+   },
+   {
+      "name": "Charhide Goblin",
+      "desc": "Your ancestors have always had a connection to fire and a thicker skin, which allows you to resist burning. You gain fire resistance equal to half your level (minimum 1). You can also recover from being on fire more easily. Your flat check to remove persistent fire damage is DC 10 instead of DC 15, which is reduced to DC 5 if another creature uses a particularly appropriate action to help.",
+      "effects": [
+         {
+            "affected": "Fire Resistance",
+            "value": "Math.max(Math.floor(Level / 2), 1)"
+         }
+      ],
+      "hint": "Your flat check to remove persistent fire damage is DC 10 instead of DC 15, which is reduced to DC 5 if another creature uses a particularly appropriate action to help.",
+      "showon": "Resistances"
+   },
+   {
+      "name": "Irongut Goblin",
+      "desc": "You can subsist on food that most folks would consider spoiled. You can keep yourself fed with poor meals in a settlement as long as garbage is readily available, without using the Subsist downtime activity. You can eat and drink things when you are sickened.",
+      "hint": "You can keep yourself fed with poor meals in a settlement as long as garbage is readily available, without using the Subsist downtime activity. You can eat and drink things when you are sickened.",
+      "showon": "Health, Society"
+   },
+   {
+      "name": "Irongut Goblin Fortitude",
+      "desc": "You can subsist on food that most folks would consider spoiled. You gain a +2 circumstance bonus to saving throws against afflictions, against gaining the sickened condition, and to remove the sickened condition. When you roll a success on a Fortitude save affected by this bonus, you get a critical success instead. All these benefits apply only when the affliction or condition resulted from something you ingested.",
+      "hint": "You gain a +2 circumstance bonus to saving throws against afflictions, against gaining the sickened condition, and to remove the sickened condition. When you roll a success on a Fortitude save affected by this bonus, you get a critical success instead. All these benefits apply only when the affliction or condition resulted from something you ingested.",
+      "showon": "Fortitude"
+   },
+   {
+      "name": "Snow Goblin",
+      "desc": "You are acclimated to living in frigid lands and have skin ranging from sky blue to navy in color, as well as blue fur. You gain cold resistance equal to half your level (minimum 1). You treat environmental cold effects as if they were one step less extreme (incredible cold becomes extreme, extreme cold becomes severe, and so on).",
+      "hint": "You treat environmental cold effects as if they were one step less extreme (incredible cold becomes extreme, extreme cold becomes severe, and so on).",
+      "showon": "Resistances",
+      "effects": [
+         {
+            "affected": "Cold Resistance",
+            "value": "Math.max(Math.floor(Level / 2), 1)"
+         }
+      ]
+   },
+   {
+      "name": "Tailed Goblin",
+      "desc": "You have a powerful tail, likely because you descend from a community of monkey goblins. You gain a +2 circumstance bonus to Athletics checks to Climb, and you reduce the number of free hands required to Climb or Trip by one.",
+      "hint": "You gain a +2 circumstance bonus to Athletics checks to Climb, and you reduce the number of free hands required to Climb or Trip by one.",
+      "showon": "Athletics"
+   },
+   {
+      "name": "Treedweller Goblin",
+      "desc": "You have adapted particularly well to living in forested environments. As long as you are in a forest or jungle, you gain a +2 circumstance bonus to Stealth checks to Hide and Sneak, Survival checks to Subsist, and your Survival DC to Cover Tracks.",
+      "hint": "As long as you are in a forest or jungle, you gain a +2 circumstance bonus to Stealth checks to Hide and Sneak, Survival checks to Subsist, and your Survival DC to Cover Tracks.",
+      "showon": "Stealth, Survival"
+   },
+   {
+      "name": "Unbreakable Goblin",
+      "desc": "You’re able to bounce back from injuries easily due to an exceptionally thick skull, cartilaginous bones, or some other mixed blessing. You gain 10 Hit Points from your ancestry instead of 6. When you fall, reduce the falling damage you take as though you had fallen half the distance.",
+      "hint": "When you fall, reduce the falling damage you take as though you had fallen half the distance.",
+      "showon": "Athletics",
+      "effects": [
+         {
+            "affected": "Max HP",
+            "value": "+4"
+         }
+      ]
+   },
+   {
+      "name": "Gutsy Halfling",
+      "desc": "Your family line is known for keeping a level head and staving off fear when the chips were down, making them wise leaders and sometimes even heroes. When you roll a success on a saving throw against an emotion effect, you get a critical success instead.",
+      "hint": "When you roll a success on a saving throw against an emotion effect, you get a critical success instead.",
+      "showon": "Will"
+   },
+   {
+      "name": "Hillock Halfling",
+      "desc": "Accustomed to a calm life in the hills, your people find rest and relaxation especially replenishing, particularly when indulging in creature comforts. When you regain Hit Points overnight, add your level to the Hit Points regained. When anyone uses the Medicine skill to Treat your Wounds, you can eat a snack to add your level to the Hit Points you regain from their treatment.",
+      "hint": "When anyone uses the Medicine skill to Treat your Wounds, you can eat a snack to add your level to the Hit Points you regain from their treatment.",
+      "showon": "Medicine",
+      "effects": [
+         {
+            "affected": "Resting HP Gain",
+            "value": "+Level"
+         }
+      ]
+   },
+   {
+      "name": "Nomadic Halfling",
+      "desc": "Your ancestors have traveled from place to place for generations, never content to settle down. You gain two additional languages of your choice, chosen from among the common and uncommon languages available to you, and every time you take the Multilingual feat, you gain another new language.",
+      "effects": [
+         {
+            "affected": "Max Languages",
+            "value": "character.get_FeatsTaken(1, Level, 'Multilingual').length + 2"
+         }
+      ]
+   },
+   {
+      "name": "Observant Halfling",
+      "desc": "Your finely honed senses quickly clue you in to danger or trickery. You gain a +1 circumstance bonus to your Perception DC, though not to your Perception checks.",
+      "hint": "You gain a +1 circumstance bonus to your Perception DC, though not to your Perception checks.",
+      "showon": "Perception"
+   },
+   {
+      "name": "Wildwood Halfling",
+      "desc": "You hail from deep in a jungle or forest, and you’ve learned how to use your small size to wriggle through undergrowth, vines, and other obstacles. You ignore difficult terrain from trees, foliage, and undergrowth.",
+      "hint": "You ignore difficult terrain from trees, foliage, and undergrowth.",
+      "showon": "Movement"
+   },
+   {
+      "name": "Runtboss Hobgoblin",
+      "desc": "You come from a long line of hobgoblins who commanded goblins. You are smaller than other hobgoblins, but goblins still listen to any commands you bellow. If you roll a success on an Intimidation check to Coerce a goblin (but not other creatures with the goblin trait), you get a critical success instead; if you roll a critical failure, you get a failure instead.",
+      "hint": "If you roll a success on an Intimidation check to Coerce a goblin (but not other creatures with the goblin trait), you get a critical success instead; if you roll a critical failure, you get a failure instead.",
+      "showon": "Intimidation"
+   },
+   {
+      "name": "Smokeworker Hobgoblin",
+      "desc": "Your family have been alchemists, engineers, and scientists for generations, on projects bringing smoke and fire to the field of battle. You gain fire resistance equal to half your level (minimum 1). You automatically succeed at the DC 5 flat check to target a concealed creature if that creature is concealed only by smoke.",
+      "effects": [
+         {
+            "affected": "Fire Resistance",
+            "value": "Math.max(Math.floor(Level / 2), 1)"
+         }
+      ],
+      "hint": "You automatically succeed at the DC 5 flat check to target a concealed creature if that creature is concealed only by smoke.",
+      "showon": "Perception"
+   },
+   {
+      "name": "Warmarch Hobgoblin",
+      "desc": "You come from a line of wandering mercenaries, constantly on the march and scavenging food on the trail. If you fail, but not critically fail, to Subsist in the wilderness, you can still keep yourself fed with poor meals.",
+      "hint": "If you fail, but not critically fail, to Subsist in the wilderness, you can still keep yourself fed with poor meals.",
+      "showon": "Survival"
+   },
+   {
+      "name": "Warmarch Hobgoblin Hustle",
+      "desc": "You come from a line of wandering mercenaries, constantly on the march and scavenging food on the trail. When exploring, you can Hustle twice as long before you have to stop.",
+      "hint": "When exploring, you can Hustle twice as long before you have to stop.",
+      "showon": "Movement"
+   },
+   {
+      "name": "Warrenbred Hobgoblin",
+      "desc": "Your ancestors lived underground. Your ears are larger than those of other hobgoblins and sensitive to echoes. If you roll a success on an Acrobatics check to Squeeze, you get a critical success instead.",
+      "hint": "If you roll a success on an Acrobatics check to Squeeze, you get a critical success instead.",
+      "showon": "Acrobatics"
+   },
+   {
+      "name": "Gourd Leshy",
+      "desc": "You have a large gourd for a skull. Your knowledge comes from within your spirit, rather than a physical brain, and you have found a handier use for the space inside your head. You can store a collection of up to 1 Bulk of objects within your head. The DC of checks to Steal objects from inside your head increases by 4.",
+      "hint": "The DC of checks to Steal objects from inside your head increases by 4.",
+      "showon": "Perception"
+   },
+   {
+      "name": "Leaf Leshy",
+      "desc": "Your body is made mostly from natural foliage, and like a leaf tumbling from a tree, you land from falls with particular grace. You take no damage from falling, regardless of the distance you fall.",
+      "hint": "You take no damage from falling, regardless of the distance you fall.",
+      "showon": "Acrobatics"
+   },
+   {
+      "name": "Vine Leshy",
+      "desc": "The prehensile vines woven into your body grant you unmatched skill at climbing. You do not need to have any hands free to Climb. Additionally, if you roll a success on an Athletics check to Climb, you get a critical success instead.",
+      "hint": "You do not need to have any hands free to Climb. Additionally, if you roll a success on an Athletics check to Climb, you get a critical success instead.",
+      "showon": "Athletics"
+   },
+   {
+      "name": "Cliffscale Lizardfolk",
+      "desc": "Your toes are adapted for gripping and climbing. As long as you aren’t wearing footwear, you can use the sticky pads on your feet to climb, leaving your hands free. Additionally, if you roll a success on an Athletics check to climb, you get a critical success instead.",
+      "hint": "As long as you aren’t wearing footwear, you can use the sticky pads on your feet to climb, leaving your hands free. Additionally, if you roll a success on an Athletics check to climb, you get a critical success instead.",
+      "showon": "Athletics"
+   },
+   {
+      "name": "Frilled Lizardfolk",
+      "desc": "You can flare your neck frill and flex your dorsal spines, Demoralizing your foes. When you do, Demoralize loses the auditory trait and gains the visual trait, and you don’t take a penalty when you attempt to Demoralize a creature that doesn’t understand your language.",
+      "hint": "When you flare your neck frill and flex your dorsal spines, Demoralize loses the auditory trait and gains the visual trait, and you don’t take a penalty when you attempt to Demoralize a creature that doesn’t understand your language.",
+      "showon": "Intimidate"
+   },
+   {
+      "name": "Sandstrider Lizardfolk",
+      "desc": "Your thick scales help you retain water and combat the sun’s glare. You gain fire resistance equal to half your level (minimum 1). Environmental heat effects are one step less extreme for you. However, unless you wear protective gear or take shelter, environmental cold effects are one step more extreme for you.",
+      "effects": [
+         {
+            "affected": "Fire Resistance",
+            "value": "Math.max(Math.floor(Level / 2), 1)"
+         }
+      ],
+      "hint": "Environmental heat effects are one step less extreme for you. However, unless you wear protective gear or take shelter, environmental cold effects are one step more extreme for you.",
+      "showon": "Resistances"
+   },
+   {
+      "name": "Sandstrider Lizardfolk Resilience",
+      "desc": "Your thick scales help you retain water and combat the sun’s glare. You can go 10 times as long as normal before you are affected by starvation or thirst.",
+      "hint": "You can go 10 times as long as normal before you are affected by starvation or thirst.",
+      "showon": "Health"
+   },
+   {
+      "name": "Wetlander Lizardfolk",
+      "desc": "Your family is descended from the most common lizardfolk heritage, and you are accustomed to aquatic environments. You gain a 15-foot swim Speed.",
+      "effects": [
+         {
+            "affected": "Swim Speed",
+            "setValue": "15"
+         }
+      ]
+   },
+   {
+      "name": "Bloodhound Shoony",
+      "desc": "Your ancestors were famous trackers, and you carry in your blood that same gift of the hunt. You gain a +2 circumstance bonus to Survival checks to Track creatures that you have previously sensed with your scent.",
+      "hint": "You gain a +2 circumstance bonus to Survival checks to Track creatures that you have previously sensed with your scent.",
+      "showon": "Survival"
+   },
+   {
+      "name": "Fishseeker Shoony",
+      "desc": "You come from a long line of fisherfolk and have inherited the quick reflexes necessary to nab and reel in big game. If you roll a success on an attempt to Grab an Edge, you get a critical success instead; if you roll a critical failure, you get a failure instead. A creature that rolls a failure on a check to Disarm you gets a critical failure instead.",
+      "hint": "If you roll a success on an attempt to Grab an Edge, you get a critical success instead; if you roll a critical failure, you get a failure instead. A creature that rolls a failure on a check to Disarm you gets a critical failure instead.",
+      "showon": "Reflex"
+   },
+   {
+      "name": "Paddler Shoony",
+      "desc": "You hail from shoonies who have lived long and successfully among the reeds and cattails of swamps and marshes, and have adapted to the challenges of living near waterlogged areas. You ignore difficult terrain and greater difficult terrain from bogs.",
+      "hint": "You ignore difficult terrain and greater difficult terrain from bogs.",
+      "showon": "Movement"
+   },
+   {
+      "name": "Paddler Shoony Swimming",
+      "desc": "You hail from shoonies who have lived long and successfully among the reeds and cattails of swamps and marshes, and have adapted to the challenges of living near waterlogged areas. When you roll a success to Swim, you get a critical success instead.",
+      "hint": "When you roll a success to Swim, you get a critical success instead.",
+      "showon": "Athletics"
+   },
+   {
+      "name": "Thickcoat Shoony",
+      "desc": "You are a rare shoony who hails from colder climes. You gain cold resistance equal to half your level (minimum 1), and you treat environmental cold effects as if they were one step less extreme (incredible cold becomes extreme, extreme cold becomes severe, and so on). Unless you wear protective gear or take shelter, environmental heat effects are one step more extreme for you.",
+      "hint": "You treat environmental cold effects as if they were one step less extreme (incredible cold becomes extreme, extreme cold becomes severe, and so on). Unless you wear protective gear or take shelter, environmental heat effects are one step more extreme for you.",
+      "showon": "Resistances",
+      "effects": [
+         {
+            "affected": "Cold Resistance",
+            "value": "Math.max(Math.floor(Level / 2), 1)"
+         }
+      ]
+   },
+   {
+      "name": "Thickcoat Shoony Perception",
+      "desc": "You are a rare shoony who hails from colder climes. You don’t need to succeed at a flat check to target a concealed creature if that creature is concealed only by snow.",
+      "hint": "You don’t need to succeed at a flat check to target a concealed creature if that creature is concealed only by snow.",
+      "showon": "Perception"
    }
 ]

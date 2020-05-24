@@ -166,12 +166,12 @@ export class HealthComponent implements OnInit {
         return this.effectsService.get_AbsolutesOnThis(this.get_Creature(), name);
     }
 
-    get_BonusesOnThis(name: string) {
-        return this.effectsService.get_BonusesOnThis(this.get_Creature(), name);
+    show_BonusesOnThis(name: string) {
+        return this.effectsService.show_BonusesOnThis(this.get_Creature(), name);
     }
 
-    get_PenaltiesOnThis(name: string) {
-        return this.effectsService.get_PenaltiesOnThis(this.get_Creature(), name);
+    show_PenaltiesOnThis(name: string) {
+        return this.effectsService.show_PenaltiesOnThis(this.get_Creature(), name);
     }
 
     finish_Loading() {

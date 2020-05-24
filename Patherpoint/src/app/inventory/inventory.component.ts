@@ -273,7 +273,7 @@ export class InventoryComponent implements OnInit {
                     movedInventories = fromCreature.inventories.filter(inv => inv.itemId == item.id).map(inv => JSON.parse(JSON.stringify(inv)))
                     movedInventories = movedInventories.map(inv => this.characterService.reassign(inv));
                 }
-                let newItem = this.characterService.grant_InventoryItem(toCreature, this.targetInventory, movedItem, false, false, false, movedItem.amount);
+                let newItem = this.characterService.grant_InventoryItem(toCreature, this.targetInventory, movedItem, false, false, false, movedItem.amount, false);
                 this.characterService.drop_InventoryItem(fromCreature, inventory, item, false, true, true, item.amount);
                 //Below, we reinsert the saved inventories and remove any newly created ones.
                 if ((item as Equipment).gainInventory && (item as Equipment).gainInventory.length) {
@@ -368,9 +368,13 @@ export class InventoryComponent implements OnInit {
             maxInvest += parseInt(effect.value);
             explain += "\n" + effect.source + ": " + effect.value;
             if (parseInt(effect.value) < 0) {
-                penalties = true;
+                if (!effect.hide) {
+                    penalties = true;
+                }
             } else {
-                bonuses = true;
+                if (!effect.hide) {
+                    bonuses = true;
+                }
             }
             effects.push(effect);
         });

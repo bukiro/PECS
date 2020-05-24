@@ -39,100 +39,116 @@ export class SpellsService {
     }
 
     process_Spell(target: string = "", characterService: CharacterService, itemsService: ItemsService, gain: SpellGain, spell: Spell, level: number, activated: boolean) {
-    if (activated && spell.sustained) {
-        gain.active = true;
-        gain.duration = spell.sustained;
-        gain.target = target;
-    } else {
-        gain.active = false;
-        gain.target = "";
-    }
-
-    //Find out if target was given. If no target is set, most effects will not be applied.
-    let targetCreature: Character|AnimalCompanion|Familiar|null = null;
-    switch (target) {
-        case "Character":
-            targetCreature = characterService.get_Character();
-            break;
-        case "Companion":
-            targetCreature = characterService.get_Companion();
-            break;
-        case "Familiar":
-            targetCreature = characterService.get_Familiar();
-            break;
-    }
-
-    //Process various results of casting the spell
-
-    //One time effects
-    /*if (spell.onceEffects) {
-        spell.onceEffects.forEach(effect => {
-            characterService.process_OnceEffect(effect);
-        })
-    }*/
-
-    if (targetCreature) {
-        //Gain Items on Activation
-        if (targetCreature.type != "Familiar")
-        if (spell.gainItems.length) {
-            if (activated) {
-                gain.gainItems = spell.gainItems.map(itemGain => Object.assign(new ItemGain(), itemGain));
-                gain.gainItems.forEach(gainItem => {
-                    let newItem: Item = itemsService.get_Items()[gainItem.type].filter(item => item.name == gainItem.name)[0];
-                    if (newItem.can_Stack()) {
-                        characterService.grant_InventoryItem(targetCreature as Character|AnimalCompanion, targetCreature.inventories[0], newItem, true, false, false, gainItem.amount);
-                    } else {
-                        let grantedItem = characterService.grant_InventoryItem(targetCreature as Character|AnimalCompanion, targetCreature.inventories[0], newItem, true, false, true);
-                        gainItem.id = grantedItem.id;
-                        if (grantedItem.get_Name) {
-                            grantedItem.displayName = grantedItem.name + " (granted by " + spell.name + ")"
-                        };
-                    }
-                });
-            } else {
-                gain.gainItems.forEach(gainItem => {
-                    if (itemsService.get_Items()[gainItem.type].filter((item: Item) => item.name == gainItem.name)[0].can_Stack()) {
-                        let items: Item[] = targetCreature.inventories[0][gainItem.type].filter((item: Item) => item.name == gainItem.name);
-                        if (items.length) {
-                            characterService.drop_InventoryItem(targetCreature as Character|AnimalCompanion, targetCreature.inventories[0], items[0], false, false, true, gainItem.amount);
-                        }
-                    } else {
-                        let items: Item[] = targetCreature.inventories[0][gainItem.type].filter((item: Item) => item.id == gainItem.id);
-                        if (items.length) {
-                            characterService.drop_InventoryItem(targetCreature as Character|AnimalCompanion, targetCreature.inventories[0], items[0], false, false, true);
-                        }
-                        gainItem.id = "";
-                    }
-                });
-                gain.gainItems = [];
-            }
+        if (activated && spell.sustained) {
+            gain.active = true;
+            gain.duration = spell.sustained;
+            gain.target = target;
+        } else {
+            gain.active = false;
+            gain.target = "";
         }
 
-        //Apply conditions.
-        if (spell.gainConditions) {
-            if (activated) {
-                spell.gainConditions.forEach(conditionGain => {
-                    let newConditionGain = Object.assign(new ConditionGain(), conditionGain);
-                    //Pass the spell level in case that condition effects change with level
-                    newConditionGain.heightened = level;
-                    //If this spell was cast by an activity, it may have a specified duration. Apply that here.
-                    if (gain.duration) {
-                        newConditionGain.duration = gain.duration;
-                    }
-                    characterService.add_Condition(targetCreature, newConditionGain, false);
-                });
-            } else {
-                spell.gainConditions.forEach(conditionGain => {
-                    let conditionGains = characterService.get_AppliedConditions(targetCreature, conditionGain.name).filter(conditionGain => conditionGain.source == conditionGain.source);
-                    if (conditionGains.length) {
-                        characterService.remove_Condition(targetCreature, conditionGains[0], false);
-                    }
-                })
+        //Find out if target was given. If no target is set, most effects will not be applied.
+        let targetCreature: Character|AnimalCompanion|Familiar|null = null;
+        switch (target) {
+            case "Character":
+                targetCreature = characterService.get_Character();
+                break;
+            case "Companion":
+                targetCreature = characterService.get_Companion();
+                break;
+            case "Familiar":
+                targetCreature = characterService.get_Familiar();
+                break;
+        }
+
+        //Process various results of casting the spell
+
+        //One time effects
+        /*if (spell.onceEffects) {
+            spell.onceEffects.forEach(effect => {
+                characterService.process_OnceEffect(effect);
+            })
+        }*/
+
+        if (targetCreature) {
+            //Gain Items on Activation
+            if (targetCreature.type != "Familiar")
+            if (spell.gainItems.length) {
+                if (activated) {
+                    gain.gainItems = spell.gainItems.map(itemGain => Object.assign(new ItemGain(), itemGain));
+                    gain.gainItems.forEach(gainItem => {
+                        let newItem: Item = itemsService.get_Items()[gainItem.type].filter(item => item.name == gainItem.name)[0];
+                        if (newItem.can_Stack()) {
+                            characterService.grant_InventoryItem(targetCreature as Character|AnimalCompanion, targetCreature.inventories[0], newItem, true, false, false, gainItem.amount);
+                        } else {
+                            let grantedItem = characterService.grant_InventoryItem(targetCreature as Character|AnimalCompanion, targetCreature.inventories[0], newItem, true, false, true);
+                            gainItem.id = grantedItem.id;
+                            if (grantedItem.get_Name) {
+                                grantedItem.displayName = grantedItem.name + " (granted by " + spell.name + ")"
+                            };
+                        }
+                    });
+                } else {
+                    gain.gainItems.forEach(gainItem => {
+                        if (itemsService.get_Items()[gainItem.type].filter((item: Item) => item.name == gainItem.name)[0].can_Stack()) {
+                            let items: Item[] = targetCreature.inventories[0][gainItem.type].filter((item: Item) => item.name == gainItem.name);
+                            if (items.length) {
+                                characterService.drop_InventoryItem(targetCreature as Character|AnimalCompanion, targetCreature.inventories[0], items[0], false, false, true, gainItem.amount);
+                            }
+                        } else {
+                            let items: Item[] = targetCreature.inventories[0][gainItem.type].filter((item: Item) => item.id == gainItem.id);
+                            if (items.length) {
+                                characterService.drop_InventoryItem(targetCreature as Character|AnimalCompanion, targetCreature.inventories[0], items[0], false, false, true);
+                            }
+                            gainItem.id = "";
+                        }
+                    });
+                    gain.gainItems = [];
+                }
+            }
+
+            //Apply conditions.
+            if (spell.gainConditions) {
+                if (activated) {
+                    spell.gainConditions.forEach(conditionGain => {
+                        let newConditionGain = Object.assign(new ConditionGain(), conditionGain);
+                        //Pass the spell level in case that condition effects change with level
+                        newConditionGain.heightened = level;
+                        //If this spell was cast by an activity, it may have a specified duration. Apply that here.
+                        if (gain.duration) {
+                            newConditionGain.duration = gain.duration;
+                        }
+                        characterService.add_Condition(targetCreature, newConditionGain, false);
+                    });
+                } else {
+                    spell.gainConditions.forEach(conditionGain => {
+                        let conditionGains = characterService.get_AppliedConditions(targetCreature, conditionGain.name).filter(conditionGain => conditionGain.source == conditionGain.source);
+                        if (conditionGains.length) {
+                            characterService.remove_Condition(targetCreature, conditionGains[0], false);
+                        }
+                    })
+                }
             }
         }
+        characterService.set_Changed();
     }
 
-    characterService.set_Changed();
+    rest(character: Character, characterService: CharacterService) {
+        //Get all owned spell gains that have a cooldown active that is more than 8 hours.
+        //We don't have to deal with those with a shorter cooldown because we're ticking 8 hours right after this.
+        //If its cooldown is exactly one day, the spell gain's cooldown is reset.
+        character.get_SpellsTaken(characterService, 0, 20).filter((gain: SpellGain) => gain.activeCooldown > 48000).forEach(gain => {
+            if (gain.cooldown == 144000) {
+                gain.activeCooldown = 0;
+            }
+        });
+    }
+
+    tick_Spells(character: Character, characterService: CharacterService, turns: number = 10) {
+        character.get_SpellsTaken(characterService, 0, 20).filter((gain: SpellGain) => gain.activeCooldown).forEach(gain => {
+            gain.activeCooldown = Math.max(gain.activeCooldown - turns, 0)
+        });
     }
 
     still_loading() {

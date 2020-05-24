@@ -4,6 +4,7 @@ import { CharacterService } from './character.service';
 import { ActivitiesService } from './activities.service';
 import { EffectsService } from './effects.service';
 import { Effect } from './Effect';
+import { SpellsService } from './spells.service';
 
 @Injectable({
     providedIn: 'root'
@@ -15,7 +16,9 @@ export class TimeService {
 
     constructor(
         private conditionsService: ConditionsService,
-        private activitiesService: ActivitiesService
+        private activitiesService: ActivitiesService,
+        private spellsService: SpellsService,
+        private effectsService: EffectsService
     ) { }
 
     get_YourTurn() {
@@ -33,7 +36,7 @@ export class TimeService {
             effectsService.get_RelativesOnThis(creature, "Fast Healing").forEach((effect: Effect) => {
                 fastHealing += parseInt(effect.value);
             })
-            if (fastHealing && creature.health.currentHP(creature, characterService, effectsService) > 0) {
+            if (fastHealing && creature.health.currentHP(creature, characterService, effectsService).result > 0) {
                 creature.health.heal(creature, characterService, effectsService, fastHealing);
             }
         })
@@ -52,22 +55,30 @@ export class TimeService {
             if (creature.type != "Familiar") {
                 con = Math.max(characterService.abilitiesService.get_Abilities("Constitution")[0].mod(creature, characterService, characterService.effectsService).result, 1);
             }
-            characterService.get_Health(creature).heal(creature, characterService, characterService.effectsService, con * charLevel, true, true);
+            let heal: number = con * charLevel;
+            this.effectsService.get_RelativesOnThis(creature, "Resting HP Gain").forEach(effect => {
+                heal += parseInt(effect.value);
+            })
+            characterService.get_Health(creature).heal(creature, characterService, characterService.effectsService, heal, true, true);
+            //After resting with full HP, the Wounded condition is removed.
             if (characterService.get_Health(creature).damage == 0) {
                 characterService.get_AppliedConditions(creature, "Wounded").forEach(gain => characterService.remove_Condition(creature, gain));
             }
+            //After resting, the Fatigued condition is removed, and the value of Doomed and Drained is reduced.
             characterService.get_AppliedConditions(creature, "Fatigued").forEach(gain => characterService.remove_Condition(creature, gain));
             characterService.get_AppliedConditions(creature, "Doomed").forEach(gain => {gain.value -= 1});
             characterService.get_AppliedConditions(creature, "Drained").forEach(gain => {gain.value -= 1});
+            //Reset all "once per day" activity cooldowns.
             this.activitiesService.rest(creature, characterService);
+            if (creature.type == "Character") {
+                //Reset all "once per day" spell cooldowns.
+                this.spellsService.rest(characterService.get_Character(), characterService);
+            }
         });
         characterService.get_Character().class.spellCasting.forEach(casting => {
             casting.spellSlotsUsed = [999, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
         });
-        
         this.tick(characterService, 48000);
-        //insert cooldown reset here
-        
     }
 
     tick(characterService: CharacterService, turns: number = 10) {
@@ -77,8 +88,12 @@ export class TimeService {
             if (turns >= 1000 && characterService.get_Health(creature).damage == 0) {
                 characterService.get_AppliedConditions(creature, "Wounded").forEach(gain => characterService.remove_Condition(creature, gain));
             }
+            //Tick down and remove any oils whose effect is running out.
             if (creature.type != "Familiar") {
                 characterService.tick_Oils(creature, turns);
+            }
+            if (creature.type == "Character") {
+                this.spellsService.tick_Spells(creature, characterService, turns);
             }
         })
         this.yourTurn = (this.yourTurn + turns) % 10;

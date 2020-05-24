@@ -9,13 +9,13 @@
                     <strong>{{ability.name}}</strong>
                     <span>
                         <input class="number2" type="number"
-                            [ngClass]="{'penalty':(ability.$penalties[get_CalculatedIndex()].length), 'bonus':ability.$bonuses[get_CalculatedIndex()].length, 'absolute':ability.$absolutes[get_CalculatedIndex()].length}"
+                            [ngClass]="{'penalty':ability.$penalties[get_CalculatedIndex()], 'bonus':ability.$bonuses[get_CalculatedIndex()], 'absolute':ability.$absolutes[get_CalculatedIndex()].length}"
                             title="{{ability.$value[get_CalculatedIndex()].explain}}" value="{{ability.$value[get_CalculatedIndex()].result}}" disabled>
                     </span>
                     <strong>Modifier</strong>
                     <span>
                         <input class="number2" type="number"
-                            [ngClass]="{'penalty':(ability.$modpenalties[get_CalculatedIndex()].length), 'bonus':ability.$modbonuses[get_CalculatedIndex()].length, 'absolute':ability.$modabsolutes[get_CalculatedIndex()].length}"    
+                            [ngClass]="{'penalty':ability.$modpenalties[get_CalculatedIndex()], 'bonus':ability.$modbonuses[get_CalculatedIndex()], 'absolute':ability.$modabsolutes[get_CalculatedIndex()].length}"    
                             title="{{ability.$mod[get_CalculatedIndex()].explain}}" value="{{ability.$mod[get_CalculatedIndex()].result}}" disabled>
                     </span>
                 </div>

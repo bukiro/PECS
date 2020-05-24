@@ -917,5 +917,28 @@
         "traits": [
             "Concentrate"
         ]
+    },
+    {
+        "name": "Resist Elf Magic",
+        "actions": "Reaction",
+        "trigger": "You attempt a saving throw against a magical effect but haven’t rolled yet.",
+        "desc": "Your ancestral resistance to magic protects you. You gain a +1 circumstance bonus to the triggering saving throw. If the triggering effect is arcane, you gain a +2 circumstance bonus instead."
+    },
+    {
+        "name": "Threatening Approach",
+        "actions": "2A",
+        "desc": "You Stride to be adjacent to a foe and Demoralize that foe. If you succeed, the foe is frightened 2 instead of frightened 1."
+    },
+    {
+        "name": "Unseen Lizardfolk",
+        "actions": "1A",
+        "toggle": true,
+        "desc": "You can change your skin color to blend in with your surroundings, making minor shifts with a single action and dramatic changes over the course of an hour. When you’re in an area where your coloration is roughly similar to the environment (for instance, forest green in a forest), you can use the minor, singleaction application of this ability to make localized changes that help you blend into your surroundings, gaining a +2 circumstance bonus to Stealth checks until your surroundings change in coloration or pattern.",
+        "gainConditions": [
+            {
+                "name": "Unseen Lizardfolk",
+                "source": "Unseen Lizardfolk"
+            }
+        ]
     }
 ]

@@ -25,7 +25,7 @@
             <div class="list-item">
                 <strong>Bulk</strong>
                 <input class="number2"
-                    [ngClass]="{'penalty':bulk.$currentpenalties.length, 'bonus':bulk.$currentbonuses.length, 'absolute':bulk.$currentabsolutes.length}"
+                    [ngClass]="{'penalty':bulk.$currentpenalties, 'bonus':bulk.$currentbonuses, 'absolute':bulk.$currentabsolutes.length}"
                     type="number" title="{{bulk.$current.explain}}" value="{{bulk.$current.value}}" disabled>
                 <app-tags [creature]="creature" [objectName]="'Bulk'" [showTraits]=true [showFeats]=true
                     [showItems]=true [showActivities]=true [showConditions]=true [showEffects]=true></app-tags>
@@ -33,11 +33,11 @@
             <div class="fullsize-only list-item">
                 <strong>Encumbrance</strong>
                 <input class="number2" type="number"
-                    [ngClass]="{'penalty':bulk.$penalties.length, 'bonus':bulk.$bonuses.length, 'absolute':bulk.$absolutes.length}"
+                    [ngClass]="{'penalty':bulk.$penalties, 'bonus':bulk.$bonuses, 'absolute':bulk.$absolutes.length}"
                     value="{{bulk.$encumbered.value}}" title="{{bulk.$encumbered.explain}}" disabled>
                 <strong>Maximum</strong>
                 <input class="number2" type="number"
-                    [ngClass]="{'penalty':bulk.$penalties.length, 'bonus':bulk.$bonuses.length, 'absolute':bulk.$absolutes.length}"
+                    [ngClass]="{'penalty':bulk.$penalties, 'bonus':bulk.$bonuses, 'absolute':bulk.$absolutes.length}"
                     value="{{bulk.$max.value}}" title="{{bulk.$max.explain}}" disabled>
                 <app-tags [creature]="creature" [objectName]="'Max Bulk'" [showTraits]=true [showFeats]=true
                     [showItems]=true [showActivities]=true [showConditions]=true [showEffects]=true></app-tags>
@@ -152,7 +152,7 @@
                                         </button>
                                     </span>
                                 </div>
-                                <div class="list-item">
+                                <div class="list-item" *ngIf=can_Drop(item)>
                                     <strong>Move to container</strong>
                                     <span>
                                         <select [(ngModel)]="targetInventory"

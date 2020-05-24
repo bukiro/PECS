@@ -10,8 +10,8 @@ export class AC {
     public name: string = "AC"
     public $absolutes: (Effect[])[] = [[],[],[]];
     public $relatives: (Effect[])[] = [[],[],[]];
-    public $bonuses: (Effect[])[] = [[],[],[]];
-    public $penalties: (Effect[])[] = [[],[],[]];
+    public $bonuses: (boolean)[] = [false, false, false];
+    public $penalties: (boolean)[] = [false, false, false];
     public $value: {result: number, explain: string}[] = [{result:0, explain:""},{result:0, explain:""},{result:0, explain:""}];
     //Are you currently taking cover?
     cover(creature: Character|AnimalCompanion|Familiar) {
@@ -43,10 +43,10 @@ export class AC {
         return effectsService.get_RelativesOnThis(creature, this.name).concat(effectsService.get_RelativesOnThis(creature, "All Checks"));
     }
     bonus(creature: Character|AnimalCompanion|Familiar, effectsService: EffectsService) {
-        return effectsService.get_BonusesOnThis(creature, this.name).concat(effectsService.get_BonusesOnThis(creature, "All Checks"));;
+        return effectsService.show_BonusesOnThis(creature, this.name) || effectsService.show_BonusesOnThis(creature, "All Checks");;
     }
     penalty(creature: Character|AnimalCompanion|Familiar, effectsService: EffectsService) {
-        return effectsService.get_PenaltiesOnThis(creature, this.name).concat(effectsService.get_PenaltiesOnThis(creature, "All Checks"));;
+        return effectsService.show_PenaltiesOnThis(creature, this.name) || effectsService.show_PenaltiesOnThis(creature, "All Checks");;
     }
     value(creature: Character|AnimalCompanion|Familiar, characterService: CharacterService, defenseService: DefenseService, effectsService: EffectsService) {
         if (characterService.still_loading()) { return {result:0, explain:""}; }

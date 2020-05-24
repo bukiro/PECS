@@ -71,6 +71,23 @@
    },
    {
       "hide": true,
+      "id": "e4ee6d25-a2b8-4fc5-bafc-e4afeccfd2f8",
+      "name": "Goblin Jaws",
+      "traits": [
+         "Finesse",
+         "Unarmed"
+      ],
+      "displayName": "Jaws",
+      "moddable": "-",
+      "_className": "Weapon",
+      "dicesize": 6,
+      "dmgType": "P",
+      "group": "Brawling",
+      "melee": 5,
+      "prof": "Unarmed"
+   },
+   {
+      "hide": true,
       "id": "08693217-8daa-11ea-abca-ffb46fbada73",
       "name": "Crane Wing",
       "traits": [

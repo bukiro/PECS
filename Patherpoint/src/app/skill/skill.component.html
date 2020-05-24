@@ -8,7 +8,7 @@
         </app-proficiency-form>
         <span *ngIf="showValue">
             Value: <input class="number2"
-                [ngClass]="{'penalty':skill.$penalties[get_CalculatedIndex()].length, 'bonus':skill.$bonuses[get_CalculatedIndex()].length, 'absolute':skill.$absolutes[get_CalculatedIndex()].length}"
+                [ngClass]="{'penalty':skill.$penalties[get_CalculatedIndex()], 'bonus':skill.$bonuses[get_CalculatedIndex()], 'absolute':skill.$absolutes[get_CalculatedIndex()].length}"
                 type="number" title="{{((isDC) ? 'DC basis: 10\n' : '')+skill.$value[get_CalculatedIndex()].explain}}"
                 value="{{skill.$value[get_CalculatedIndex()].result + ((isDC) ? 10 : 0)}}" disabled>
             <span class="fullsize-only" *ngFor="let id of [get_LabelID()]"><input id="{{id+'notes'}}" class="invisible"

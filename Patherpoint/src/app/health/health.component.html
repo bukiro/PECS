@@ -3,8 +3,8 @@
     <ng-container *ngFor="let health of [calculate_Health()]">
         <h3 class="box-header">Health:
             <span
-                [ngClass]="{'penalty':(health.$currentHP <= 0), 'bonus':(health.$currentHP > health.$maxHP)}"
-                title="{{health.damage}} damage">{{health.$currentHP}}</span>
+                [ngClass]="{'penalty':(health.$currentHP.result <= 0), 'bonus':(health.$currentHP.result > health.$maxHP.result)}"
+                title="{{health.$currentHP.explain}}">{{health.$currentHP.result}}</span>
             Hit Points
         </h3>
         <div class="loading" *ngIf="still_loading()">Loading</div>
@@ -17,8 +17,8 @@
                     <strong>Max HP</strong>
                     <span>
                         <input class="number3" type="number"
-                            [ngClass]="{'penalty':get_PenaltiesOnThis('Max HP').length, 'bonus':get_BonusesOnThis('Max HP').length, 'absolute':get_AbsolutesOnThis('Max HP').length}"
-                            value="{{health.$maxHP}}" disabled>
+                            [ngClass]="{'penalty':show_PenaltiesOnThis('Max HP'), 'bonus':show_BonusesOnThis('Max HP'), 'absolute':get_AbsolutesOnThis('Max HP').length}"
+                            title="{{health.$maxHP.explain}}" value="{{health.$maxHP.result}}" disabled>
                     </span>
                     <strong>Temp HP</strong>
                     <span>
@@ -42,7 +42,7 @@
                     <strong>Max Dying</strong>
                     <span>
                         <input class="number2" type="number"
-                            [ngClass]="{'penalty':get_PenaltiesOnThis('Max Dying').length, 'bonus':get_BonusesOnThis('Max Dying').length, 'absolute':get_AbsolutesOnThis('Max Dying').length}"
+                            [ngClass]="{'penalty':show_PenaltiesOnThis('Max Dying'), 'bonus':show_BonusesOnThis('Max Dying'), 'absolute':get_AbsolutesOnThis('Max Dying').length}"
                             value="{{health.$maxDying}}" disabled>
                     </span>
                 </div>
