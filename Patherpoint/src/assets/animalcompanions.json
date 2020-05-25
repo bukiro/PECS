@@ -3,6 +3,7 @@
         "_className": "AnimalCompanionAncestry",
         "abilityChoices": [
             {
+                "_className": "AbilityChoice",
                 "boosts": [
                     {
                         "name": "Strength",
@@ -25,11 +26,13 @@
         ],
         "activities": [
             {
+                "_className": "ActivityGain",
                 "name": "Support",
                 "source": "Bear",
                 "level": 1
             },
             {
+                "_className": "ActivityGain",
                 "name": "Bear Hug",
                 "source": "Bear",
                 "level": 3
@@ -38,10 +41,12 @@
         "desc": "Your companion is a black, grizzly, polar, or other type of bear.",
         "gainItems": [
             {
+                "_className": "ItemGain",
                 "name": "Bear Jaws",
                 "type": "weapons"
             },
             {
+                "_className": "ItemGain",
                 "name": "Bear Claw",
                 "type": "weapons"
             }
@@ -55,6 +60,7 @@
         "size": -1,
         "skillChoices": [
             {
+                "_className": "SkillChoice",
                 "increases": [
                     {
                         "name": "Intimidation",

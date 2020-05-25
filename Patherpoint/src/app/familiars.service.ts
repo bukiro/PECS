@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Feat } from './Feat';
 import { HttpClient } from '@angular/common/http';
+import { SavegameService } from './savegame.service';
 
 @Injectable({
     providedIn: 'root'

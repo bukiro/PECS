@@ -3,6 +3,7 @@
         "_className": "AnimalCompanionSpecialization",
         "abilityChoices": [
             {
+                "_className": "AbilityChoice",
                 "boosts": [
                     {
                         "name": "Dexterity",
@@ -49,6 +50,7 @@
         "showon": "Stealth",
         "skillChoices": [
             {
+                "_className": "SkillChoice",
                 "increases": [
                     {
                         "name": "Unarmed",
@@ -127,6 +129,7 @@
         "_className": "AnimalCompanionSpecialization",
         "abilityChoices": [
             {
+                "_className": "AbilityChoice",
                 "boosts": [
                     {
                         "name": "Dexterity",
@@ -192,6 +195,7 @@
         "name": "Bully",
         "skillChoices": [
             {
+                "_className": "SkillChoice",
                 "increases": [
                     {
                         "name": "Unarmed",
@@ -270,6 +274,7 @@
         "_className": "AnimalCompanionSpecialization",
         "abilityChoices": [
             {
+                "_className": "AbilityChoice",
                 "boosts": [
                     {
                         "name": "Dexterity",
@@ -316,6 +321,7 @@
         "showon": "AC",
         "skillChoices": [
             {
+                "_className": "SkillChoice",
                 "increases": [
                     {
                         "name": "Unarmed",
@@ -394,6 +400,7 @@
         "_className": "AnimalCompanionSpecialization",
         "abilityChoices": [
             {
+                "_className": "AbilityChoice",
                 "boosts": [
                     {
                         "name": "Dexterity",
@@ -437,6 +444,7 @@
         "desc": "Your companion races. It gains a +10-foot status bonus to its Speed. Its proficiency in Fortitude saves increases to legendary, and its Constitution modifier increases by 1.",
         "effects": [
             {
+                "_className": "EffectGain",
                 "affected": "Land Speed",
                 "value": "+10",
                 "type": "status"
@@ -445,6 +453,7 @@
         "name": "Racer (Land Speed)",
         "skillChoices": [
             {
+                "_className": "SkillChoice",
                 "increases": [
                     {
                         "name": "Unarmed",
@@ -516,6 +525,7 @@
         "_className": "AnimalCompanionSpecialization",
         "abilityChoices": [
             {
+                "_className": "AbilityChoice",
                 "boosts": [
                     {
                         "name": "Dexterity",
@@ -559,6 +569,7 @@
         "desc": "Your companion races. It gains a +10-foot status bonus to its swim Speed. Its proficiency in Fortitude saves increases to legendary, and its Constitution modifier increases by 1.",
         "effects": [
             {
+                "_className": "EffectGain",
                 "affected": "Swim Speed",
                 "value": "+10",
                 "type": "status"
@@ -567,6 +578,7 @@
         "name": "Racer (Swim Speed)",
         "skillChoices": [
             {
+                "_className": "SkillChoice",
                 "increases": [
                     {
                         "name": "Unarmed",
@@ -638,6 +650,7 @@
         "_className": "AnimalCompanionSpecialization",
         "abilityChoices": [
             {
+                "_className": "AbilityChoice",
                 "boosts": [
                     {
                         "name": "Dexterity",
@@ -681,6 +694,7 @@
         "desc": "Your companion races. It gains a +10-foot status bonus to its fly Speed. Its proficiency in Fortitude saves increases to legendary, and its Constitution modifier increases by 1.",
         "effects": [
             {
+                "_className": "EffectGain",
                 "affected": "Fly Speed",
                 "value": "+10",
                 "type": "status"
@@ -689,6 +703,7 @@
         "name": "Racer (Fly Speed)",
         "skillChoices": [
             {
+                "_className": "SkillChoice",
                 "increases": [
                     {
                         "name": "Unarmed",
@@ -760,6 +775,7 @@
         "_className": "AnimalCompanionSpecialization",
         "abilityChoices": [
             {
+                "_className": "AbilityChoice",
                 "boosts": [
                     {
                         "name": "Dexterity",
@@ -806,6 +822,7 @@
         "showon": "Movement",
         "skillChoices": [
             {
+                "_className": "SkillChoice",
                 "increases": [
                     {
                         "name": "Unarmed",
@@ -877,6 +894,7 @@
         "_className": "AnimalCompanionSpecialization",
         "abilityChoices": [
             {
+                "_className": "AbilityChoice",
                 "boosts": [
                     {
                         "name": "Dexterity",
@@ -923,6 +941,7 @@
         "showon": "Attacks",
         "skillChoices": [
             {
+                "_className": "SkillChoice",
                 "increases": [
                     {
                         "name": "Unarmed",

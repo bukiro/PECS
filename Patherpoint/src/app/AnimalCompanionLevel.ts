@@ -10,8 +10,4 @@ export class AnimalCompanionLevel {
     public number: number = 0;
     public sizeChange: number = 0;
     public skillChoices: SkillChoice[] = [];
-    reassign() {
-        this.abilityChoices = this.abilityChoices.map(choice => Object.assign(new AbilityChoice(), JSON.parse(JSON.stringify(choice))));
-        this.skillChoices = this.skillChoices.map(choice => Object.assign(new SkillChoice(), JSON.parse(JSON.stringify(choice))));
-    }
 }

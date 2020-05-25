@@ -58,6 +58,8 @@ import { Savegame } from './Savegame';
 import { toBase64String } from '@angular/compiler/src/output/source_map';
 import { CharacterService } from './character.service';
 import { AnimalCompanionsService } from './animalcompanions.service';
+import { ClassesService } from './classes.service';
+import { HistoryService } from './history.service';
 
 @Injectable({
     providedIn: 'root'
@@ -120,7 +122,7 @@ export class SavegameService {
     private Weapon = Weapon;
     private WeaponRune = WeaponRune;
     private WornItem = WornItem;
-    
+
     constructor(
         private http: HttpClient
     ) { }
@@ -129,11 +131,42 @@ export class SavegameService {
         return this.savegames;
     }
 
-    load_Character(character: Character, itemsService: ItemsService) {
+    load_Character(character: Character, itemsService: ItemsService, classesService: ClassesService, historyService: HistoryService, animalCompanionsService: AnimalCompanionsService) {
+        //Restore a lot of data from reference objects.
+        //This allows us to save a lot of data at saving by removing all data from certain objects that is the same as in their original template.
         character.inventories = character.inventories.map(inventory => Object.assign(new ItemCollection(), inventory));
-        character.inventories.forEach(inventory => inventory.initialize(itemsService));
-        character.class.animalCompanion.inventories = character.class.animalCompanion.inventories.map(inventory => Object.assign(new ItemCollection(), inventory));
-        character.class.animalCompanion.inventories.forEach(inventory => inventory.initialize(itemsService));
+        character.inventories.forEach(inventory => inventory.restore_FromSave(itemsService));
+        if (character.class.name) {
+            if (character.class.ancestry.name) {
+                character.class.ancestry = historyService.restore_AncestryFromSave(character.class.ancestry, this);
+            }
+            if (character.class.heritage.name) {
+                character.class.heritage = historyService.restore_HeritageFromSave(character.class.heritage, this);
+            }
+            if (character.class.background.name) {
+                character.class.background = historyService.restore_BackgroundFromSave(character.class.background, this);
+            }
+            if (character.class.animalCompanion) {
+                if (character.class.animalCompanion.inventories) {
+                    character.class.animalCompanion.inventories = character.class.animalCompanion.inventories.map(inventory => Object.assign(new ItemCollection(), inventory));
+                    character.class.animalCompanion.inventories.forEach(inventory => inventory.restore_FromSave(itemsService));
+                }
+                if (character.class.animalCompanion.class.ancestry) {
+                    character.class.animalCompanion.class.ancestry = animalCompanionsService.restore_AncestryFromSave(character.class.animalCompanion.class.ancestry, this);
+                }
+                if (character.class.animalCompanion.class.levels) {
+                    character.class.animalCompanion.class = animalCompanionsService.restore_LevelsFromSave(character.class.animalCompanion.class, this);
+                }
+                if (character.class.animalCompanion.class.specializations) {
+                    character.class.animalCompanion.class.specializations.forEach(spec => {
+                        spec = animalCompanionsService.restore_SpecializationFromSave(spec, this);
+                    })
+                }
+            }
+            //Restore the class last, so we don't null its components (ancestry, animal companion etc.)
+            character.class = classesService.restore_ClassFromSave(character.class, this);
+        }
+
         character = this.reassign(character);
         if (character['_id']) {
             delete character['_id'];
@@ -141,11 +174,41 @@ export class SavegameService {
         return character;
     }
 
+    merge(target: any, source: any) {
+        if (typeof source == "object" && source) {
+            let output = Object.assign(new target.constructor, target)
+            if (Array.isArray(source)) {
+                source.forEach((obj: any, index) => {
+                    if (!output[index]) {
+                        Object.assign(output, { [index]: source[index] });
+                    } else {
+                        output[index] = this.merge(target[index], source[index]);
+                    }
+                });
+            } else {
+                Object.keys(source).forEach(key => {
+                    if (typeof source === 'object') {
+                        if (!(key in target))
+                            Object.assign(output, { [key]: source[key] });
+                        else
+                            output[key] = this.merge(target[key], source[key]);
+                    } else {
+                        Object.assign(output, { [key]: source[key] });
+                    }
+                });
+            }
+            return output;
+        } else {
+            return source;
+        }
+        
+    }
+
     clean(object: any) {
         //Only cleanup objects that have Classes (= aren't object Object)
         if (typeof object == "object" && object.constructor !== Object) {
             //If the object is an array, iterate over its elements
-            if (object.constructor === Array) {
+            if (Array.isArray(object)) {
                 object.forEach((obj: any) => {
                     obj = this.clean(obj);
                 });
@@ -153,14 +216,14 @@ export class SavegameService {
                 let blank = new object.constructor();
                 Object.keys(object).forEach(key => {
                     //Don't cleanup the "_className" attribute
-                    if (key != "_className" && key.substr(0,1) != "$") {
+                    if (key != "_className" && key.substr(0, 1) != "$") {
                         //If the attribute has the same value as the default, delete it from the object.
                         if (JSON.stringify(object[key]) == JSON.stringify(blank[key])) {
                             delete object[key];
                         } else {
                             object[key] = this.clean(object[key])
                         }
-                    } else if (key.substr(0,1) == "$") {
+                    } else if (key.substr(0, 1) == "$") {
                         delete object[key];
                     }
                 })
@@ -169,21 +232,21 @@ export class SavegameService {
         return object;
     }
 
-    reassign(object: any, keyName:string = "") {
+    reassign(object: any, keyName: string = "") {
         //Only objects get reassigned - if they have a _className attribute and aren't null/undefined/empty
         if (typeof object == "object" && object) {
             //If the object is an array, iterate over its elements
-            if (object.constructor === Array) {
+            if (Array.isArray(object)) {
                 object.forEach((obj: any, index) => {
-                    object[index] = this.reassign(obj, keyName+"["+index+"]");
+                    object[index] = this.reassign(obj, keyName + "[" + index + "]");
                 });
             } else {
                 //Try casting this item as its _className, unless it's already cast.
                 if (object._className && object.constructor.name != object._ClassName) {
                     try {
-                        object = Object.assign(eval("new this."+object._className+"()"), object)
+                        object = Object.assign(eval("new this." + object._className + "()"), object)
                     } catch (e) {
-                        console.log("Failed reassigning "+keyName+": "+ e)
+                        console.log("Failed reassigning " + keyName + ": " + e)
                     }
                 }
                 Object.keys(object).forEach(key => {
@@ -194,21 +257,44 @@ export class SavegameService {
         return object;
     }
 
-    save_Character(itemsService: ItemsService, character: Character) {
-        
-        let savegame = JSON.parse(JSON.stringify(character));
-        
+    save_Character(character: Character, itemsService: ItemsService, classesService: ClassesService, historyService: HistoryService, animalCompanionsService: AnimalCompanionsService) {
+
+        let savegame: Character = JSON.parse(JSON.stringify(character));
+
         //After copying the character into the savegame, we go through all its elements and make sure that they have the correct class.
 
         savegame = this.reassign(savegame);
 
-        //Go through all the items and compare every item to its library equivalent, skipping the properties listed in .save
+        //Go through all the items, class, ancestry, heritage, background and compare every item to its library equivalent, skipping the properties listed in .save
         //Everything that is the same as the library item gets deleted.
-        if (savegame.inventories.length) {
-            savegame.inventories.forEach((inventory: ItemCollection) => inventory.cleanForSave(itemsService));
-        }
-        if (savegame.class && savegame.class.animalCompanion && savegame.class.animalCompanion.inventories.length) {
-            savegame.class.animalCompanion.inventories.forEach((inventory: ItemCollection) => inventory.cleanForSave(itemsService));
+        savegame.inventories.forEach(inventory => inventory.clean_ForSave(itemsService));
+        if (savegame.class.name) {
+            savegame.class = classesService.clean_ClassForSave(savegame.class);
+            if (savegame.class.ancestry.name) {
+                savegame.class.ancestry = historyService.clean_AncestryForSave(savegame.class.ancestry);
+            }
+            if (savegame.class.heritage.name) {
+                savegame.class.heritage = historyService.clean_HeritageForSave(savegame.class.heritage);
+            }
+            if (savegame.class.background.name) {
+                savegame.class.background = historyService.clean_BackgroundForSave(savegame.class.background);
+            }
+            if (savegame.class.animalCompanion) {
+                if (savegame.class.animalCompanion.inventories) {
+                    savegame.class.animalCompanion.inventories.forEach(inventory => inventory.clean_ForSave(itemsService));
+                }
+                if (savegame.class.animalCompanion.class.ancestry) {
+                    savegame.class.animalCompanion.class.ancestry = animalCompanionsService.clean_AncestryForSave(savegame.class.animalCompanion.class.ancestry);
+                }
+                if (savegame.class.animalCompanion.class.levels) {
+                    savegame.class.animalCompanion.class = animalCompanionsService.clean_LevelsForSave(savegame.class.animalCompanion.class);
+                }
+                if (savegame.class.animalCompanion.class.specializations) {
+                    savegame.class.animalCompanion.class.specializations.forEach(spec => {
+                        spec = animalCompanionsService.clean_SpecializationForSave(spec);
+                    })
+                }
+            }
         }
 
         //Then go through the whole thing again and compare every object to its Class's default, deleting everything that has the same value as the default.
@@ -223,13 +309,13 @@ export class SavegameService {
     }
 
     load_CharacterFromDB(id: string): Observable<string[]> {
-        return this.http.get<string[]>('http://arne:8080/load/'+id);
+        return this.http.get<string[]>('http://arne:8080/load/' + id);
     }
 
     delete_CharacterFromDB(savegame: Savegame): Observable<string[]> {
-        return this.http.get<string[]>('http://arne:8080/delete/'+savegame.id);
+        return this.http.get<string[]>('http://arne:8080/delete/' + savegame.id);
     }
-    
+
     save_CharacterToDB(savegame): Observable<string[]> {
         return this.http.post<string[]>('http://arne:8080/save/', savegame);
     }
@@ -241,7 +327,7 @@ export class SavegameService {
     initialize(characterService: CharacterService) {
         this.loading = true;
         this.load_Characters()
-            .subscribe((results:string[]) => {
+            .subscribe((results: string[]) => {
                 this.loader = results;
                 this.finish_loading()
                 characterService.set_Changed("charactersheet");
@@ -272,7 +358,7 @@ export class SavegameService {
 
             this.loader = [];
         }
-        if (this.loading) {this.loading = false;}
+        if (this.loading) { this.loading = false; }
     }
 
 }

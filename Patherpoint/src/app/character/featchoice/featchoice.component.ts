@@ -217,8 +217,8 @@ export class FeatchoiceComponent implements OnInit {
                     traits.push(choice.type);
                     break;
             }
-            //Does the type not match a trait?
-            if (!feat.traits.find(trait => traits.includes(trait))) {
+            //Does the type not match a trait? (Unless it's a special choice, where the type doesn't matter and is just the title.)
+            if (!choice.specialChoice && !feat.traits.find(trait => traits.includes(trait))) {
                 reasons.push("The feat's traits do not match the choice type.")
             }
             //Are the basic requirements (level, ability, feat etc) not met?

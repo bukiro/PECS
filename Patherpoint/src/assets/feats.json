@@ -6604,7 +6604,7 @@
       "effects": [
          {
             "affected": "Max Languages",
-            "value": "character.get_FeatsTaken(1, Level, 'Multilingual').length + 2"
+            "value": "Character.get_FeatsTaken(1, Level, 'Multilingual').length + 2"
          }
       ]
    },
@@ -6655,6 +6655,12 @@
       "desc": "Your ancestors lived underground. Your ears are larger than those of other hobgoblins and sensitive to echoes. If you roll a success on an Acrobatics check to Squeeze, you get a critical success instead.",
       "hint": "If you roll a success on an Acrobatics check to Squeeze, you get a critical success instead.",
       "showon": "Acrobatics"
+   },
+   {
+      "name": "Warrenbred Hobgoblin Perception",
+      "desc": "Your ancestors lived underground. Your ears are larger than those of other hobgoblins and sensitive to echoes. When you are underground, you can use the Seek action to sense undetected creatures within a 30-foot burst instead of a 15-foot burst.",
+      "hint": "When you are underground, you can use the Seek action to sense undetected creatures within a 30-foot burst instead of a 15-foot burst.",
+      "showon": "Perception"
    },
    {
       "name": "Gourd Leshy",

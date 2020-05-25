@@ -12,23 +12,15 @@ export class AnimalCompanionClass {
     public levels: AnimalCompanionLevel[] = [];
     public name: string = "";
     public specializations: AnimalCompanionSpecialization[] = [];
-    reassign(characterService: CharacterService) {
-        //This resets the levels, so don't call it unless you are resetting the animal companion.
-        //Re-Assign levels
+    reset_levels(characterService: CharacterService) {
+        //Don't call it unless you are resetting the animal companion.
         this.levels = characterService.get_AnimalCompanionLevels().map(level => Object.assign(new AnimalCompanionLevel(), level));
-        this.levels.forEach(level => {
-            level.reassign();
-        })
-        //Re-Assign ancestry
-        this.ancestry = Object.assign(new AnimalCompanionAncestry(), this.ancestry);
-        this.ancestry.reassign();
-        this.specializations.forEach(spec => { spec.reassign() });
     }
     on_ChangeAncestry(characterService: CharacterService) {
         if (this.ancestry.name) {
             if (this.ancestry.gainItems.length) {
                 this.ancestry.gainItems.forEach(freeItem => {
-                    let items: Equipment[] = characterService.get_Companion().inventories[0][freeItem.type].filter(item => item.name == freeItem.name);
+                    let items: Equipment[] = characterService.get_Companion().inventories[0][freeItem.type].filter(item => item.id == freeItem.id);
                     items.forEach(item => {
                         characterService.drop_InventoryItem(characterService.get_Companion(), characterService.get_Companion().inventories[0], item, false, true, true, freeItem.amount);
                     })
@@ -38,7 +30,6 @@ export class AnimalCompanionClass {
     }
     on_NewAncestry(characterService: CharacterService, itemsService: ItemsService) {
         if (this.ancestry.name) {
-            this.ancestry.reassign();
             if (this.ancestry.gainItems.length) {
                 this.ancestry.gainItems.forEach(freeItem => {
                     let item: Equipment = itemsService.get_Items()[freeItem.type].filter(item => item.name == freeItem.name)[0];

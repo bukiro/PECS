@@ -307,7 +307,8 @@ export class FeatsService {
                 if (!taken) {
                     //Reset the animal companion
                     character.class.animalCompanion = new AnimalCompanion();
-                    character.class.animalCompanion.class.reassign(characterService);
+                    character.class.animalCompanion.class.reset_levels(characterService);
+                    characterService.initialize_AnimalCompanion();
                 }
             }
 

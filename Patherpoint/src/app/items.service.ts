@@ -262,17 +262,14 @@ export class ItemsService {
         return newItem;
     }
 
-    load_InventoryItem(item: any) {
+    restore_ItemFromSave(item: any) {
         if (item.refId) {
             let libraryItem = this.get_CleanItemByID(item.refId);
             if (libraryItem) {
-                //Make a safe copy of the library item and give it the same class.
-                //Then map the inventory item onto the copy and keep that.
-                let copy: Item;
+                //Map the restored object onto the library object and keep the result.
                 try {
-                    copy = this.cast_ItemByClassName(copy, libraryItem._className);
-                    copy = Object.assign(copy, JSON.parse(JSON.stringify(libraryItem)))
-                    item = Object.assign(copy, item);
+                    item = this.savegameService.merge(libraryItem, item);
+                    item = this.cast_ItemByClassName(item, libraryItem.constructor.name);
                 } catch (e) {
                     console.log("Failed reassigning: " + e)
                 }
@@ -282,7 +279,7 @@ export class ItemsService {
         return item;
     }
 
-    cleanItemForSave(item: any) {
+    clean_ItemForSave(item: any) {
         if (item.refId) {
             let libraryItem = this.get_CleanItemByID(item.refId);
             if (libraryItem) {
@@ -290,6 +287,8 @@ export class ItemsService {
                     if (!item.save.includes(key)) {
                         //If the item has a refId, a library item can be found with that id, and the property is not on the save list, compare the property with the library item
                         //If they have the same value, delete the property from the item - it can be recovered during loading from the refId.
+                        //The save list is there to preserve values that might be different from the reference item, but the same as the default item,
+                        //  and would therefore not overwrite the reference item.
                         if (JSON.stringify(item[key]) == JSON.stringify(libraryItem[key])) {
                             delete item[key];
                         }

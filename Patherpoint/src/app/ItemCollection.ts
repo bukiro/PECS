@@ -59,14 +59,14 @@ export class ItemCollection {
         {name:"Ammunition",key:"ammunition"},
         {name:"Other Consumables",key:"otherconsumables"}
     ]
-    initialize(itemsService: ItemsService) {
+    restore_FromSave(itemsService: ItemsService) {
         this.names.forEach(name => {
-            this[name.key] = this[name.key].map(element => itemsService.load_InventoryItem(element))
+            this[name.key] = this[name.key].map(element => itemsService.restore_ItemFromSave(element))
         })
     }
-    cleanForSave(itemsService: ItemsService) {
+    clean_ForSave(itemsService: ItemsService) {
         this.names.forEach(name => {
-            this[name.key] = this[name.key].map(element => itemsService.cleanItemForSave(element))
+            this[name.key] = this[name.key].map(element => itemsService.clean_ItemForSave(element))
         })
     }
     allEquipment() {

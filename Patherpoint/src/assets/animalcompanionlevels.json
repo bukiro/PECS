@@ -6,6 +6,7 @@
         "_className": "AnimalCompanionLevel",
         "abilityChoices": [
             {
+                "_className": "AbilityChoice",
                 "boosts": [
                     {
                         "name": "Strength",
@@ -86,6 +87,7 @@
         "number": 1,
         "skillChoices": [
             {
+                "_className": "SkillChoice",
                 "increases": [
                     {
                         "name": "Unarmed",
@@ -169,6 +171,7 @@
         "_className": "AnimalCompanionLevel",
         "abilityChoices": [
             {
+                "_className": "AbilityChoice",
                 "boosts": [
                     {
                         "name": "Strength",
@@ -209,6 +212,7 @@
         "sizeChange": 1,
         "skillChoices": [
             {
+                "_className": "SkillChoice",
                 "increases": [
                     {
                         "name": "Fortitude",
@@ -276,6 +280,7 @@
         "_className": "AnimalCompanionLevel",
         "abilityChoices": [
             {
+                "_className": "AbilityChoice",
                 "boosts": [
                     {
                         "name": "Strength",
@@ -322,6 +327,7 @@
         "number": 4,
         "skillChoices": [
             {
+                "_className": "SkillChoice",
                 "increases": [
                     {
                         "name": "Acrobatics",
@@ -349,6 +355,7 @@
         "_className": "AnimalCompanionLevel",
         "abilityChoices": [
             {
+                "_className": "AbilityChoice",
                 "boosts": [
                     {
                         "name": "Strength",
@@ -396,6 +403,7 @@
         "sizeChange": 1,
         "skillChoices": [
             {
+                "_className": "SkillChoice",
                 "increases": [
                     {
                         "name": "Athletics",

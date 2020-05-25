@@ -9,7 +9,8 @@ export class AnimalCompanionAncestry {
     public abilityChoices: AbilityChoice[] = [];
     public activities: ActivityGain[] = [];
     public desc: string = "";
-    //effects can be used to swim, climb or fly speeds as required
+    //effects can be used to add swim, climb or fly speeds as required
+    //Is this actually used?
     public effects: EffectGain[] = [];
     public gainItems: ItemGain[] = [];
     public hint: string = "";
@@ -23,10 +24,4 @@ export class AnimalCompanionAncestry {
     public speed: number = 0;
     public supportBenefit: string = "";
     public traits: string[] = [];
-    reassign() {
-        this.abilityChoices = this.abilityChoices.map(choice => Object.assign(new AbilityChoice(), choice));
-        this.skillChoices = this.skillChoices.map(choice => Object.assign(new SkillChoice(), choice));
-        this.activities = this.activities.map(gain => Object.assign(new ActivityGain(), gain));
-        this.gainItems = this.gainItems.map(gain => Object.assign(new ItemGain(), gain));
-    }
 }

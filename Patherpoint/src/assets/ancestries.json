@@ -475,6 +475,8 @@
         ],
         "heritages": [
             "Elfbane Hobgoblin",
+            "Half-Elf",
+            "Half-Orc",
             "Runtboss Hobgoblin",
             "Smokeworker Hobgoblin",
             "Warmarch Hobgoblin",
@@ -585,6 +587,8 @@
         "heritages": [
             "Fungus Leshy",
             "Gourd Leshy",
+            "Half-Elf",
+            "Half-Orc",
             "Leaf Leshy",
             "Vine Leshy"
         ],
@@ -677,6 +681,8 @@
         ],
         "heritages": [
             "Cliffscale Lizardfolk",
+            "Half-Elf",
+            "Half-Orc",
             "Frilled Lizardfolk",
             "Sandstrider Lizardfolk",
             "Unseen Lizardfolk",
@@ -768,6 +774,8 @@
         "heritages": [
             "Bloodhound Shoony",
             "Fishseeker Shoony",
+            "Half-Elf",
+            "Half-Orc",
             "Paddler Shoony",
             "Thickcoat Shoony"
         ],

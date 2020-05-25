@@ -1271,7 +1271,8 @@ export class CharacterService {
                 this.finalize_Character();
             }, 500)
         } else {
-            this.me = this.savegameService.load_Character(this.me, this.itemsService)
+            //Use this.me here instead of this.get_Character() because we're still_loading()
+            this.me = this.savegameService.load_Character(this.me, this.itemsService, this.classesService, this.historyService, this.animalCompanionsService)
             if (this.loading) { this.loading = false; }
             this.grant_BasicItems();
             this.characterChanged$ = this.changed.asObservable();
@@ -1299,7 +1300,7 @@ export class CharacterService {
     }
 
     save_Character() {
-        this.savegameService.save_Character(this.itemsService, this.get_Character()).subscribe((result) => {
+        this.savegameService.save_Character(this.get_Character(), this.itemsService, this.classesService, this.historyService, this.animalCompanionsService).subscribe((result) => {
             if (result["lastErrorObject"] && result["lastErrorObject"].updatedExisting) {
                 console.log("Saved "+(this.get_Character().name || "character")+" to database.");
             } else {
