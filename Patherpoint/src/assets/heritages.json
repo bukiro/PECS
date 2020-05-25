@@ -921,7 +921,7 @@
         "gainItems": [
             {
                 "name": "Gourd Head",
-                "type": "worn items"
+                "type": "wornitems"
             }
         ]
     },

@@ -176,7 +176,7 @@ export class Class {
             //Grant all items and save their id in the ItemGain.
             if (this.heritage.gainItems.length) {
                 this.heritage.gainItems.forEach((freeItem: ItemGain) => {
-                    let item: Equipment = itemsService.get_Items()[freeItem.type].filter((item: Equipment) => item.name == freeItem.name)[0];
+                    let item: Equipment = itemsService.get_CleanItems()[freeItem.type].filter((item: Equipment) => item.name == freeItem.name)[0];
                     let grantedItem = characterService.grant_InventoryItem(characterService.get_Character(), characterService.get_Character().inventories[0], item, false, false, true, freeItem.amount);
                     freeItem.id = grantedItem.id;
                 });

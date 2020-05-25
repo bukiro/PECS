@@ -9,6 +9,7 @@
                 "bulkLimit": 1
             }
         ],
+        "hide": true,
         "_className": "WornItem"
     },
     {

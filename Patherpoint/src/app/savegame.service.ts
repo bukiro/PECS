@@ -137,13 +137,13 @@ export class SavegameService {
         character.inventories = character.inventories.map(inventory => Object.assign(new ItemCollection(), inventory));
         character.inventories.forEach(inventory => inventory.restore_FromSave(itemsService));
         if (character.class.name) {
-            if (character.class.ancestry.name) {
+            if (character.class.ancestry && character.class.ancestry.name) {
                 character.class.ancestry = historyService.restore_AncestryFromSave(character.class.ancestry, this);
             }
-            if (character.class.heritage.name) {
+            if (character.class.heritage && character.class.heritage.name) {
                 character.class.heritage = historyService.restore_HeritageFromSave(character.class.heritage, this);
             }
-            if (character.class.background.name) {
+            if (character.class.background && character.class.background.name) {
                 character.class.background = historyService.restore_BackgroundFromSave(character.class.background, this);
             }
             if (character.class.animalCompanion) {
