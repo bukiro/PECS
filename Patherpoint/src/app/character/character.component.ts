@@ -37,6 +37,7 @@ import { AnimalCompanionSpecialization } from '../AnimalCompanionSpecialization'
 import { Familiar } from '../Familiar';
 import { SavegameService } from '../savegame.service';
 import { Savegame } from '../Savegame';
+import { TraitsService } from '../traits.service';
 
 @Component({
     selector: 'app-character',
@@ -66,7 +67,8 @@ export class CharacterComponent implements OnInit {
         private conditionsService: ConditionsService,
         private bloodlinesService: BloodlinesService,
         private sortByPipe: SortByPipe,
-        private savegameService: SavegameService
+        private savegameService: SavegameService,
+        private traitsService: TraitsService
     ) { }
 
     minimize() {
@@ -197,6 +199,10 @@ export class CharacterComponent implements OnInit {
             return false;
         }
         return true;
+    }
+
+    get_Traits(traitName: string = "") {
+        return this.traitsService.get_Traits(traitName);
     }
 
     on_LevelChange(oldLevel: number) {

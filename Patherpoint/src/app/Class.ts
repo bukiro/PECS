@@ -260,6 +260,13 @@ export class Class {
                 character.remove_Lore(characterService, oldChoice);
             }
             level.loreChoices = level.loreChoices.filter(choice => choice.source != "Background");
+            //Process skill choices in case any custom skills need to be removed.
+            this.background.skillChoices.filter(choice => choice.source == "Background").forEach(choice => {
+                choice.increases.forEach(increase => {
+                    character.process_Skill(characterService, increase.name, false, choice, true)
+                })
+            });
+            
         }
     }
     on_NewBackground(characterService: CharacterService) {
@@ -280,6 +287,12 @@ export class Class {
                     character.take_Feat(character, characterService, feat.name, true, choice, feat.locked);
                 });
                 choice.feats.splice(0, count);
+            });
+            //Process the new skill choices in case any new skill needs to be created.
+            level.skillChoices.filter(choice => choice.source == "Background").forEach(choice => {
+                choice.increases.forEach(increase => {
+                    character.process_Skill(characterService, increase.name, true, choice, true)
+                })
             });
             if (this.background.loreChoices[0].loreName) {
                 if (characterService.get_Skills(character, 'Lore: '+this.background.loreChoices[0].loreName).length) {

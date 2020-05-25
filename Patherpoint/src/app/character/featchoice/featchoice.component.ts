@@ -97,7 +97,10 @@ export class FeatchoiceComponent implements OnInit {
 
     get_SubFeats(feat: Feat, choice: FeatChoice, get_unavailable: boolean = false) {
         if (feat.subTypes) {
-            let feats = this.get_Feats().filter(subfeat => subfeat.superType == feat.name && !subfeat.hide);
+            let feats: Feat[] = this.get_Feats().filter((subFeat: Feat) => subFeat.superType == feat.name && !subFeat.hide);
+            if (choice.filter.length) {
+                feats = feats.filter(subFeat => choice.filter.includes(subFeat.name) || choice.filter.includes(subFeat.superType))
+            }
             if (get_unavailable && choice.feats.length < choice.available) {
                 let unavailableSubfeats = feats.filter(feat => 
                     this.cannotTake(feat, choice).length > 0
@@ -122,9 +125,11 @@ export class FeatchoiceComponent implements OnInit {
     get_AvailableFeats(choice: FeatChoice, get_unavailable: boolean = false) {
         let character = this.get_Character()
         //Get all Feats, but no subtype Feats (those that have the supertype attribute set) - those get built within their supertype
+        // If a subtype is in the filter
         let allFeats = this.get_Feats().filter(feat => !feat.superType && !feat.hide);
         if (choice.filter.length) {
-            allFeats = allFeats.filter(feat => choice.filter.includes(feat.name))
+            allFeats = allFeats.filter(feat => choice.filter.includes(feat.name) || 
+                (feat.subTypes && this.get_Feats().filter(subFeat => !subFeat.hide && subFeat.superType == feat.name && choice.filter.includes(subFeat.name)).length))
         }
         let feats: Feat[] = [];
         if (choice.specialChoice) {

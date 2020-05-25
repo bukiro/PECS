@@ -224,7 +224,7 @@
                 </button>
                 <div class="list-item sublist" [ngClass]="{'fancy-list':((get_Character().class.background.name))}"
                     *ngIf="get_showList()==listID">
-                    <ng-container *ngFor="let background of get_Backgrounds()">
+                    <ng-container *ngFor="let background of get_Backgrounds(); trackBy:trackByIndex;">
                         <div class="row" class="list-item" *ngFor="let itemID of ['background'+background.name]">
                             <span>
                                 <input *ngIf="!background.subTypes" id="{{background.name}}" type="checkbox"
@@ -233,13 +233,21 @@
                                 <button class="lower left" *ngIf="background.subTypes" id="{{background.name}}"
                                     (click)="toggle_Item(itemID)">v</button>
                                 <label for="{{background.name}}">
-                                    <strong>{{background.name}}</strong>
+                                    <strong>{{background.name}}&nbsp;</strong>
+                                    <cite class="trait" *ngIf="background.traits.includes('Rare')"
+                                        title="{{get_Traits('Rare')[0].description}}">Rare</cite>
+                                        <cite class="trait" *ngIf="background.traits.includes('Uncommon')"
+                                        title="{{get_Traits('Uncommon')[0].description}}">Uncommon</cite>
                                 </label>
                             </span>
                             <button (click)="toggle_Item(itemID)">
                                 Show Description
                             </button>
                             <div class="row lower" *ngIf="this.get_showItem()==itemID">
+                                <div class="row left-aligned tags">
+                                    <cite class="trait" *ngFor="let trait of background.traits"
+                                        title="{{get_Traits(trait)[0].description}}">{{trait}}</cite>
+                                </div>
                                 <!--Subbackgrounds-->
                                 <div class="list-item" *ngFor="let subbackground of get_SubBackgrounds(background.name)">
                                     <span>
@@ -252,6 +260,15 @@
                                     </span>
                                 </div>
                                 <!--End Subbackgrounds-->
+                                <div class="row left-aligned" *ngIf="background.sourceBook">
+                                    <strong>Source&nbsp;</strong><i>{{background.sourceBook}}</i>
+                                </div>
+                                <div class="row left-aligned" *ngIf="background.prerequisites">
+                                    <strong>Prerequisites&nbsp;</strong>{{background.prerequisites}}
+                                </div>
+                                <div class="row left-aligned" *ngIf="background.region">
+                                    <strong>Region&nbsp;</strong>{{background.region}}
+                                </div>
                                 <div class="row left-aligned">
                                     <ng-container *ngFor="let desc of background.desc.split('\n\n')">
                                         <p *ngIf="desc.split('\n').length == 1">{{desc}}</p>
@@ -259,6 +276,14 @@
                                             <li *ngFor="let line of desc.split('\n')">{{line}}</li>
                                         </ul>
                                     </ng-container>
+                                </div>
+                                <div class="list-item lower row problem" *ngIf="background.inputRequired">
+                                    <strong>Player input required:</strong>
+                                    <div class="row left-aligned">
+                                        <p *ngFor="let inputRequired of background.inputRequired.split('\n')">
+                                            {{inputRequired}}
+                                        </p>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -769,7 +794,7 @@
                         </button>
                         <div class="list-item sublist" [ngClass]="{'fancy-list':((feat.data.background))}"
                             *ngIf="get_showList()==listID">
-                            <div class="list-item" *ngFor="let background of get_Backgrounds()">
+                            <div class="list-item" *ngFor="let background of get_Backgrounds(); trackBy:trackByIndex;">
                                 <div class="row" *ngFor="let itemID of ['differentWorlds_Background'+background.name]">
                                     <span>
                                         <input *ngIf="!background.subTypes" id="{{background.name}}"

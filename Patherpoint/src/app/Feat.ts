@@ -52,6 +52,7 @@ export class Feat {
     public superType: string = "";
     public traits: string[] = [];
     public unlimited: boolean = false;
+    public sourceBook: string = "";
     prof(skillLevel: number) {
         switch (skillLevel) {
             case 2:
@@ -174,6 +175,13 @@ export class Feat {
         let character: Character = characterService.get_Character();
         let familiar: Familiar = characterService.get_Familiar();
         let deity: Deity = characterService.get_Deities(character.class.deity)[0];
+        function Skill_Level(creature: string, name: string) {
+            if (creature != "Familiar") {
+                return characterService.get_Skills(characterService.get_Creature(creature), name)[0].level(characterService.get_Creature(creature) as Character|AnimalCompanion, characterService, charLevel);
+            } else {
+                return 0;
+            }
+        }
         function Speed(creature: string, name: string) {
             let speeds: Speed[] = characterService.get_Speeds(characterService.get_Creature(creature)).filter(speed => speed.name == name);
             if (speeds.length) {

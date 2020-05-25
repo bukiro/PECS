@@ -517,7 +517,7 @@
         "onceEffects": [
             {
                 "affected": "HP",
-                "value": "-(currentHP - 1)"
+                "value": "-(Current_HP() - 1)"
             }
         ]
     },

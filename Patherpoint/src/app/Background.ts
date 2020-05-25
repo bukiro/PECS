@@ -17,4 +17,9 @@ export class Background {
     public subType: string = "";
     public subTypes: boolean = false;
     public superType: string = "";
+    public sourceBook: string = "";
+    public region: string = "";
+    public prerequisites: string = "";
+    public inputRequired: string = "";
+    public traits: string[] = [];
 }

@@ -77,7 +77,12 @@ constructor(
         let Companion: AnimalCompanion = characterService.get_Companion();
         let Familiar: Familiar = characterService.get_Familiar();
         let Level: number = characterService.get_Character().level;
-        let currentHP = creature.health.currentHP(creature, characterService, effectsService).result;
+        function Current_HP() {
+            return creature.health.currentHP(creature, characterService, effectsService).result;
+        }
+        function Max_HP() {
+            return creature.health.maxHP(creature, characterService, effectsService).result;
+        }
         function Ability(name: string) {
             if (creature.type == "Familiar") {
                 return 0;

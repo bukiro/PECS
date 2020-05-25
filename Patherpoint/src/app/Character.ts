@@ -356,8 +356,11 @@ export class Character extends Creature {
                             this.increase_Skill(characterService, skillName, true, choice, true);
                         });
                     }
+                //One background grants the "Lore" skill. We treat it as a Lore category skill, but don't generate any feats for it.
+                } else if (skillName == "Lore") {
+                    characterService.add_CustomSkill(skillName, "Skill", "Intelligence");
                 } else {
-                    characterService.add_CustomSkill(skillName, choice["type"], "");
+                    characterService.add_CustomSkill(skillName, choice.type, "");
                 }
             }
         } else {
