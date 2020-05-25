@@ -766,7 +766,7 @@ export class CharacterService {
     }
 
     lose_GainedItem(creature: Character|AnimalCompanion, gainedItem: ItemGain) {
-        if (this.itemsService.get_Items()[gainedItem.type].concat(...creature.inventories.map(inventory => inventory[gainedItem.type])).filter((item: Item) => item.name == gainedItem.name)[0].can_Stack()) {
+        if (this.itemsService.get_CleanItems()[gainedItem.type].concat(...creature.inventories.map(inventory => inventory[gainedItem.type])).filter((item: Item) => item.name == gainedItem.name)[0].can_Stack()) {
             let amountToDrop = gainedItem.amount || 1;
             creature.inventories.forEach(inventory => {
                 let items: Item[] = inventory[gainedItem.type].filter((libraryItem: Item) => libraryItem.name == gainedItem.name);

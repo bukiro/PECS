@@ -201,289 +201,287 @@
     {
         "_className": "Background",
         "name": "Hermit",
-        "subTypes": [
+        "subTypes": true,
+        "desc": "In an isolated place—like a cave, remote oasis, or secluded mansion—you lived a life of solitude. Adventuring might represent your first foray out among other people in some time. This might be a welcome reprieve from solitude or an unwanted change, but in either case, you're likely still rough around the edges.\n\nChoose two ability boosts. One must be to Constitution or Intelligence, and one is a free ability boost.\n\nYou're trained in your choice of either the Nature or Occultism skill, as well as a Lore skill related to the terrain you lived in as a hermit (such as Cave Lore or Desert Lore). You gain the Dubious Knowledge skill feat."
+    },
+    {
+        "_className": "Background",
+        "abilityChoices": [
             {
-                "_className": "Background",
-                "abilityChoices": [
-                    {
-                        "_className": "AbilityChoice",
-                        "available": 1,
-                        "filter": [
-                            "Constitution",
-                            "Intelligence"
-                        ],
-                        "id": "1-Ability-Background-0",
-                        "source": "Background"
-                    },
-                    {
-                        "_className": "AbilityChoice",
-                        "available": 1,
-                        "baseValuesLost": 1,
-                        "id": "1-Ability-Background-1",
-                        "source": "Background"
-                    }
+                "_className": "AbilityChoice",
+                "available": 1,
+                "filter": [
+                    "Constitution",
+                    "Intelligence"
                 ],
-                "featChoices": [
-                    {
-                        "_className": "FeatChoice",
-                        "feats": [
-                            {
-                                "name": "Dubious Knowledge",
-                                "source": "Background",
-                                "locked": true,
-                                "sourceId": "1-Feat-Background-0"
-                            }
-                        ],
-                        "id": "1-Feat-Background-0",
-                        "source": "Background"
-                    }
-                ],
-                "loreChoices": [
-                    {
-                        "_className": "LoreChoice",
-                        "available": 1,
-                        "id": "1-Lore-Background-0",
-                        "maxRank": 2,
-                        "source": "Background",
-                        "loreDesc": "A Lore skill related to the terrain you lived in as a hermit (such as Cave Lore or Desert Lore)."
-                    }
-                ],
-                "name": "Hermit (Nature)",
-                "skillChoices": [
-                    {
-                        "_className": "SkillChoice",
-                        "id": "1-Skill-Background-0",
-                        "increases": [
-                            {
-                                "name": "Nature",
-                                "source": "Background",
-                                "maxRank": 2,
-                                "locked": true,
-                                "sourceId": "1-Skill-Background-0"
-                            }
-                        ],
-                        "maxRank": 2,
-                        "source": "Background",
-                        "type": "Skill"
-                    }
-                ],
-                "subType": "Nature",
-                "superType": "Hermit",
-                "desc": "In an isolated place—like a cave, remote oasis, or secluded mansion—you lived a life of solitude. Adventuring might represent your first foray out among other people in some time. This might be a welcome reprieve from solitude or an unwanted change, but in either case, you're likely still rough around the edges.\n\nChoose two ability boosts. One must be to Constitution or Intelligence, and one is a free ability boost.\n\nYou're trained in your choice of either the Nature or Occultism skill, as well as a Lore skill related to the terrain you lived in as a hermit (such as Cave Lore or Desert Lore). You gain the Dubious Knowledge skill feat."
+                "id": "1-Ability-Background-0",
+                "source": "Background"
             },
             {
-                "_className": "Background",
-                "abilityChoices": [
-                    {
-                        "_className": "AbilityChoice",
-                        "available": 1,
-                        "filter": [
-                            "Constitution",
-                            "Intelligence"
-                        ],
-                        "id": "1-Ability-Background-0",
-                        "source": "Background"
-                    },
-                    {
-                        "_className": "AbilityChoice",
-                        "available": 1,
-                        "baseValuesLost": 1,
-                        "id": "1-Ability-Background-1",
-                        "source": "Background"
-                    }
-                ],
-                "featChoices": [
-                    {
-                        "_className": "FeatChoice",
-                        "feats": [
-                            {
-                                "name": "Dubious Knowledge",
-                                "source": "Background",
-                                "locked": true,
-                                "sourceId": "1-Feat-Background-0"
-                            }
-                        ],
-                        "id": "1-Feat-Background-0",
-                        "source": "Background"
-                    }
-                ],
-                "loreChoices": [
-                    {
-                        "_className": "LoreChoice",
-                        "available": 1,
-                        "id": "1-Lore-Background-0",
-                        "maxRank": 2,
-                        "source": "Background",
-                        "loreDesc": "A Lore skill related to the terrain you lived in as a hermit (such as Cave Lore or Desert Lore)."
-                    }
-                ],
-                "name": "Hermit (Occultism)",
-                "skillChoices": [
-                    {
-                        "_className": "SkillChoice",
-                        "id": "1-Skill-Background-0",
-                        "increases": [
-                            {
-                                "name": "Occultism",
-                                "source": "Background",
-                                "maxRank": 2,
-                                "locked": true,
-                                "sourceId": "1-Skill-Background-0"
-                            }
-                        ],
-                        "maxRank": 2,
-                        "source": "Background",
-                        "type": "Skill"
-                    }
-                ],
-                "subType": "Occultism",
-                "superType": "Hermit",
-                "desc": "In an isolated place—like a cave, remote oasis, or secluded mansion—you lived a life of solitude. Adventuring might represent your first foray out among other people in some time. This might be a welcome reprieve from solitude or an unwanted change, but in either case, you're likely still rough around the edges.\n\nChoose two ability boosts. One must be to Constitution or Intelligence, and one is a free ability boost.\n\nYou're trained in your choice of either the Nature or Occultism skill, as well as a Lore skill related to the terrain you lived in as a hermit (such as Cave Lore or Desert Lore). You gain the Dubious Knowledge skill feat."
+                "_className": "AbilityChoice",
+                "available": 1,
+                "baseValuesLost": 1,
+                "id": "1-Ability-Background-1",
+                "source": "Background"
             }
         ],
+        "featChoices": [
+            {
+                "_className": "FeatChoice",
+                "feats": [
+                    {
+                        "name": "Dubious Knowledge",
+                        "source": "Background",
+                        "locked": true,
+                        "sourceId": "1-Feat-Background-0"
+                    }
+                ],
+                "id": "1-Feat-Background-0",
+                "source": "Background"
+            }
+        ],
+        "loreChoices": [
+            {
+                "_className": "LoreChoice",
+                "available": 1,
+                "id": "1-Lore-Background-0",
+                "maxRank": 2,
+                "source": "Background",
+                "loreDesc": "A Lore skill related to the terrain you lived in as a hermit (such as Cave Lore or Desert Lore)."
+            }
+        ],
+        "name": "Hermit (Nature)",
+        "skillChoices": [
+            {
+                "_className": "SkillChoice",
+                "id": "1-Skill-Background-0",
+                "increases": [
+                    {
+                        "name": "Nature",
+                        "source": "Background",
+                        "maxRank": 2,
+                        "locked": true,
+                        "sourceId": "1-Skill-Background-0"
+                    }
+                ],
+                "maxRank": 2,
+                "source": "Background",
+                "type": "Skill"
+            }
+        ],
+        "subType": "Nature",
+        "superType": "Hermit",
+        "desc": "In an isolated place—like a cave, remote oasis, or secluded mansion—you lived a life of solitude. Adventuring might represent your first foray out among other people in some time. This might be a welcome reprieve from solitude or an unwanted change, but in either case, you're likely still rough around the edges.\n\nChoose two ability boosts. One must be to Constitution or Intelligence, and one is a free ability boost.\n\nYou're trained in your choice of either the Nature or Occultism skill, as well as a Lore skill related to the terrain you lived in as a hermit (such as Cave Lore or Desert Lore). You gain the Dubious Knowledge skill feat."
+    },
+    {
+        "_className": "Background",
+        "abilityChoices": [
+            {
+                "_className": "AbilityChoice",
+                "available": 1,
+                "filter": [
+                    "Constitution",
+                    "Intelligence"
+                ],
+                "id": "1-Ability-Background-0",
+                "source": "Background"
+            },
+            {
+                "_className": "AbilityChoice",
+                "available": 1,
+                "baseValuesLost": 1,
+                "id": "1-Ability-Background-1",
+                "source": "Background"
+            }
+        ],
+        "featChoices": [
+            {
+                "_className": "FeatChoice",
+                "feats": [
+                    {
+                        "name": "Dubious Knowledge",
+                        "source": "Background",
+                        "locked": true,
+                        "sourceId": "1-Feat-Background-0"
+                    }
+                ],
+                "id": "1-Feat-Background-0",
+                "source": "Background"
+            }
+        ],
+        "loreChoices": [
+            {
+                "_className": "LoreChoice",
+                "available": 1,
+                "id": "1-Lore-Background-0",
+                "maxRank": 2,
+                "source": "Background",
+                "loreDesc": "A Lore skill related to the terrain you lived in as a hermit (such as Cave Lore or Desert Lore)."
+            }
+        ],
+        "name": "Hermit (Occultism)",
+        "skillChoices": [
+            {
+                "_className": "SkillChoice",
+                "id": "1-Skill-Background-0",
+                "increases": [
+                    {
+                        "name": "Occultism",
+                        "source": "Background",
+                        "maxRank": 2,
+                        "locked": true,
+                        "sourceId": "1-Skill-Background-0"
+                    }
+                ],
+                "maxRank": 2,
+                "source": "Background",
+                "type": "Skill"
+            }
+        ],
+        "subType": "Occultism",
+        "superType": "Hermit",
         "desc": "In an isolated place—like a cave, remote oasis, or secluded mansion—you lived a life of solitude. Adventuring might represent your first foray out among other people in some time. This might be a welcome reprieve from solitude or an unwanted change, but in either case, you're likely still rough around the edges.\n\nChoose two ability boosts. One must be to Constitution or Intelligence, and one is a free ability boost.\n\nYou're trained in your choice of either the Nature or Occultism skill, as well as a Lore skill related to the terrain you lived in as a hermit (such as Cave Lore or Desert Lore). You gain the Dubious Knowledge skill feat."
     },
     {
         "_className": "Background",
         "name": "Martial Disciple",
-        "subTypes": [
+        "subTypes": true,
+        "desc": "You dedicated yourself to intense training and rigorous study to become a great warrior. The school you attended might have been a traditionalist monastery, an elite military academy, or the local branch of a prestigious mercenary organization.\n\nChoose two ability boosts. One must be to Strength or Dexterity, and one is a free ability boost.\n\nYou're trained in your choice of either the Acrobatics or Athletics skill, as well as the Warfare Lore skill. You gain a skill feat: Cat Fall if you chose Acrobatics or Quick Jump if you chose Athletics."
+    },
+    {
+        "_className": "Background",
+        "abilityChoices": [
             {
-                "_className": "Background",
-                "abilityChoices": [
-                    {
-                        "_className": "AbilityChoice",
-                        "available": 1,
-                        "filter": [
-                            "Strength",
-                            "Dexterity"
-                        ],
-                        "id": "1-Ability-Background-0",
-                        "source": "Background"
-                    },
-                    {
-                        "_className": "AbilityChoice",
-                        "available": 1,
-                        "baseValuesLost": 1,
-                        "id": "1-Ability-Background-1",
-                        "source": "Background"
-                    }
+                "_className": "AbilityChoice",
+                "available": 1,
+                "filter": [
+                    "Strength",
+                    "Dexterity"
                 ],
-                "featChoices": [
-                    {
-                        "_className": "FeatChoice",
-                        "feats": [
-                            {
-                                "name": "Cat Fall",
-                                "source": "Background",
-                                "locked": true,
-                                "sourceId": "1-Feat-Background-0"
-                            }
-                        ],
-                        "id": "1-Feat-Background-0",
-                        "source": "Background"
-                    }
-                ],
-                "loreChoices": [
-                    {
-                        "_className": "LoreChoice",
-                        "id": "1-Lore-Background-0",
-                        "maxRank": 2,
-                        "source": "Background",
-                        "loreName": "Warfare"
-                    }
-                ],
-                "name": "Martial Disciple (Acrobatics)",
-                "skillChoices": [
-                    {
-                        "_className": "SkillChoice",
-                        "id": "1-Skill-Background-0",
-                        "increases": [
-                            {
-                                "name": "Acrobatics",
-                                "source": "Background",
-                                "maxRank": 2,
-                                "locked": true,
-                                "sourceId": "1-Skill-Background-0"
-                            }
-                        ],
-                        "maxRank": 2,
-                        "source": "Background",
-                        "type": "Skill"
-                    }
-                ],
-                "subType": "Acrobatics",
-                "superType": "Martial Disciple",
-                "desc": "You dedicated yourself to intense training and rigorous study to become a great warrior. The school you attended might have been a traditionalist monastery, an elite military academy, or the local branch of a prestigious mercenary organization.\n\nChoose two ability boosts. One must be to Strength or Dexterity, and one is a free ability boost.\n\nYou're trained in your choice of either the Acrobatics or Athletics skill, as well as the Warfare Lore skill. You gain a skill feat: Cat Fall if you chose Acrobatics or Quick Jump if you chose Athletics."
+                "id": "1-Ability-Background-0",
+                "source": "Background"
             },
             {
-                "_className": "Background",
-                "abilityChoices": [
-                    {
-                        "_className": "AbilityChoice",
-                        "available": 1,
-                        "filter": [
-                            "Strength",
-                            "Dexterity"
-                        ],
-                        "id": "1-Ability-Background-0",
-                        "source": "Background"
-                    },
-                    {
-                        "_className": "AbilityChoice",
-                        "available": 1,
-                        "baseValuesLost": 1,
-                        "id": "1-Ability-Background-1",
-                        "source": "Background"
-                    }
-                ],
-                "featChoices": [
-                    {
-                        "_className": "FeatChoice",
-                        "feats": [
-                            {
-                                "name": "Quick Jump",
-                                "source": "Background",
-                                "locked": true,
-                                "sourceId": "1-Feat-Background-0"
-                            }
-                        ],
-                        "id": "1-Feat-Background-0",
-                        "source": "Background"
-                    }
-                ],
-                "loreChoices": [
-                    {
-                        "_className": "LoreChoice",
-                        "id": "1-Lore-Background-0",
-                        "maxRank": 2,
-                        "source": "Background",
-                        "loreName": "Warfare"
-                    }
-                ],
-                "name": "Martial Disciple (Athletics)",
-                "skillChoices": [
-                    {
-                        "_className": "SkillChoice",
-                        "id": "1-Skill-Background-0",
-                        "increases": [
-                            {
-                                "name": "Athletics",
-                                "source": "Background",
-                                "maxRank": 2,
-                                "locked": true,
-                                "sourceId": "1-Skill-Background-0"
-                            }
-                        ],
-                        "maxRank": 2,
-                        "source": "Background",
-                        "type": "Skill"
-                    }
-                ],
-                "subType": "Athletics",
-                "superType": "Martial Disciple",
-                "desc": "You dedicated yourself to intense training and rigorous study to become a great warrior. The school you attended might have been a traditionalist monastery, an elite military academy, or the local branch of a prestigious mercenary organization.\n\nChoose two ability boosts. One must be to Strength or Dexterity, and one is a free ability boost.\n\nYou're trained in your choice of either the Acrobatics or Athletics skill, as well as the Warfare Lore skill. You gain a skill feat: Cat Fall if you chose Acrobatics or Quick Jump if you chose Athletics."
+                "_className": "AbilityChoice",
+                "available": 1,
+                "baseValuesLost": 1,
+                "id": "1-Ability-Background-1",
+                "source": "Background"
             }
         ],
+        "featChoices": [
+            {
+                "_className": "FeatChoice",
+                "feats": [
+                    {
+                        "name": "Cat Fall",
+                        "source": "Background",
+                        "locked": true,
+                        "sourceId": "1-Feat-Background-0"
+                    }
+                ],
+                "id": "1-Feat-Background-0",
+                "source": "Background"
+            }
+        ],
+        "loreChoices": [
+            {
+                "_className": "LoreChoice",
+                "id": "1-Lore-Background-0",
+                "maxRank": 2,
+                "source": "Background",
+                "loreName": "Warfare"
+            }
+        ],
+        "name": "Martial Disciple (Acrobatics)",
+        "skillChoices": [
+            {
+                "_className": "SkillChoice",
+                "id": "1-Skill-Background-0",
+                "increases": [
+                    {
+                        "name": "Acrobatics",
+                        "source": "Background",
+                        "maxRank": 2,
+                        "locked": true,
+                        "sourceId": "1-Skill-Background-0"
+                    }
+                ],
+                "maxRank": 2,
+                "source": "Background",
+                "type": "Skill"
+            }
+        ],
+        "subType": "Acrobatics",
+        "superType": "Martial Disciple",
+        "desc": "You dedicated yourself to intense training and rigorous study to become a great warrior. The school you attended might have been a traditionalist monastery, an elite military academy, or the local branch of a prestigious mercenary organization.\n\nChoose two ability boosts. One must be to Strength or Dexterity, and one is a free ability boost.\n\nYou're trained in your choice of either the Acrobatics or Athletics skill, as well as the Warfare Lore skill. You gain a skill feat: Cat Fall if you chose Acrobatics or Quick Jump if you chose Athletics."
+    },
+    {
+        "_className": "Background",
+        "abilityChoices": [
+            {
+                "_className": "AbilityChoice",
+                "available": 1,
+                "filter": [
+                    "Strength",
+                    "Dexterity"
+                ],
+                "id": "1-Ability-Background-0",
+                "source": "Background"
+            },
+            {
+                "_className": "AbilityChoice",
+                "available": 1,
+                "baseValuesLost": 1,
+                "id": "1-Ability-Background-1",
+                "source": "Background"
+            }
+        ],
+        "featChoices": [
+            {
+                "_className": "FeatChoice",
+                "feats": [
+                    {
+                        "name": "Quick Jump",
+                        "source": "Background",
+                        "locked": true,
+                        "sourceId": "1-Feat-Background-0"
+                    }
+                ],
+                "id": "1-Feat-Background-0",
+                "source": "Background"
+            }
+        ],
+        "loreChoices": [
+            {
+                "_className": "LoreChoice",
+                "id": "1-Lore-Background-0",
+                "maxRank": 2,
+                "source": "Background",
+                "loreName": "Warfare"
+            }
+        ],
+        "name": "Martial Disciple (Athletics)",
+        "skillChoices": [
+            {
+                "_className": "SkillChoice",
+                "id": "1-Skill-Background-0",
+                "increases": [
+                    {
+                        "name": "Athletics",
+                        "source": "Background",
+                        "maxRank": 2,
+                        "locked": true,
+                        "sourceId": "1-Skill-Background-0"
+                    }
+                ],
+                "maxRank": 2,
+                "source": "Background",
+                "type": "Skill"
+            }
+        ],
+        "subType": "Athletics",
+        "superType": "Martial Disciple",
         "desc": "You dedicated yourself to intense training and rigorous study to become a great warrior. The school you attended might have been a traditionalist monastery, an elite military academy, or the local branch of a prestigious mercenary organization.\n\nChoose two ability boosts. One must be to Strength or Dexterity, and one is a free ability boost.\n\nYou're trained in your choice of either the Acrobatics or Athletics skill, as well as the Warfare Lore skill. You gain a skill feat: Cat Fall if you chose Acrobatics or Quick Jump if you chose Athletics."
     }
 ]

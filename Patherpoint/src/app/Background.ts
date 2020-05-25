@@ -15,16 +15,6 @@ export class Background {
     public skillChoices: SkillChoice[] = [];
     public specialLore: string = "";
     public subType: string = "";
-    public subTypes: Background[] = [];
+    public subTypes: boolean = false;
     public superType: string = "";
-    reassign() {
-        /*this.abilityChoices = this.abilityChoices.map(choice => Object.assign(new AbilityChoice(), JSON.parse(JSON.stringify(choice))));
-        this.skillChoices = this.skillChoices.map(choice => Object.assign(new SkillChoice(), JSON.parse(JSON.stringify(choice))));
-        this.featChoices = this.featChoices.map(choice => Object.assign(new FeatChoice(), JSON.parse(JSON.stringify(choice))));
-        this.loreChoices = this.loreChoices.map(choice => Object.assign(new LoreChoice(), JSON.parse(JSON.stringify(choice))));
-        this.subTypes = this.subTypes.map(subtype => Object.assign(new Background(), JSON.parse(JSON.stringify(subtype))));
-        this.subTypes.forEach(subtype => {
-            subtype.reassign();
-        })*/
-    }
 }

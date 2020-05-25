@@ -728,9 +728,13 @@ export class CharacterComponent implements OnInit {
     }
 
     get_Backgrounds(name: string = "") {
-        return this.historyService.get_Backgrounds(name);
+        return this.historyService.get_Backgrounds(name).filter(background => !background.subType);
     }
     
+    get_SubBackgrounds(superType: string = "") {
+        return this.historyService.get_Backgrounds().filter(background => background.superType == superType);
+    }
+
     onBackgroundChange(background: Background, taken: boolean) {
         if (taken) {
             this.showList="";

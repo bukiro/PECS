@@ -227,10 +227,10 @@
                     <ng-container *ngFor="let background of get_Backgrounds()">
                         <div class="row" class="list-item" *ngFor="let itemID of ['background'+background.name]">
                             <span>
-                                <input *ngIf="!background.subTypes.length" id="{{background.name}}" type="checkbox"
+                                <input *ngIf="!background.subTypes" id="{{background.name}}" type="checkbox"
                                     (change)="onBackgroundChange(background, $event.target.checked)"
                                     [checked]="background.name === get_Character().class.background.name">
-                                <button class="lower left" *ngIf="background.subTypes.length" id="{{background.name}}"
+                                <button class="lower left" *ngIf="background.subTypes" id="{{background.name}}"
                                     (click)="toggle_Item(itemID)">v</button>
                                 <label for="{{background.name}}">
                                     <strong>{{background.name}}</strong>
@@ -241,7 +241,7 @@
                             </button>
                             <div class="row lower" *ngIf="this.get_showItem()==itemID">
                                 <!--Subbackgrounds-->
-                                <div class="list-item" *ngFor="let subbackground of background.subTypes">
+                                <div class="list-item" *ngFor="let subbackground of get_SubBackgrounds(background.name)">
                                     <span>
                                         <input id="{{subbackground.name}}" type="checkbox"
                                             (change)="onBackgroundChange(subbackground, $event.target.checked)"
@@ -772,12 +772,12 @@
                             <div class="list-item" *ngFor="let background of get_Backgrounds()">
                                 <div class="row" *ngFor="let itemID of ['differentWorlds_Background'+background.name]">
                                     <span>
-                                        <input *ngIf="!background.subTypes.length" id="{{background.name}}"
+                                        <input *ngIf="!background.subTypes" id="{{background.name}}"
                                             type="checkbox"
                                             (change)="onDifferentWorldsBackgroundChange(level, feat, background, $event.target.checked)"
                                             [checked]="background.name === feat.data.background || background.name === get_Character().class.background.name"
                                             [disabled]="background.name === get_Character().class.background.name">
-                                        <button class="lower left" *ngIf="background.subTypes.length"
+                                        <button class="lower left" *ngIf="background.subTypes"
                                             id="{{background.name}}" (click)="toggle_Item(itemID)">v</button>
                                         <label for="{{background.name}}">
                                             <strong>{{background.name}}</strong>
@@ -788,7 +788,7 @@
                                     </button>
                                     <div class="row lower" *ngIf="this.get_showItem()==itemID">
                                         <!--Subbackgrounds-->
-                                        <div class="list-item" *ngFor="let subbackground of background.subTypes">
+                                        <div class="list-item" *ngFor="let subbackground of get_SubBackgrounds(background.name)">
                                             <span>
                                                 <input id="{{subbackground.name}}" type="checkbox"
                                                     (change)="onDifferentWorldsBackgroundChange(level, feat, subbackground, $event.target.checked)"

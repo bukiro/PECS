@@ -19,8 +19,4 @@ export class Heritage {
     public subType: string = "";
     public subTypes: Heritage[] = [];
     public traits: string[] = [];
-    reassign() {
-        /*this.skillChoices = this.skillChoices.map(choice => Object.assign(new SkillChoice(), JSON.parse(JSON.stringify(choice))));
-        this.featChoices = this.featChoices.map(choice => Object.assign(new FeatChoice(), JSON.parse(JSON.stringify(choice))));*/
-    }
 }

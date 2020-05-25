@@ -55,17 +55,6 @@ export class HistoryService {
         } else { return [new Background()] }
     }
 
-    get_BackgroundsAndSubtypes(name: string = "") {
-        if (!this.loading_Backgrounds) {
-            let backgrounds: Background[] = [];
-            backgrounds.push(...this.backgrounds);
-            backgrounds.forEach(background => {
-                backgrounds.push(...background.subTypes);
-            })
-            return backgrounds.filter(background => (background.name == name || name == ""));
-        } else { return [new Background()] }
-    }
-
     restore_AncestryFromSave(ancestry: Ancestry, savegameService: SavegameService) {
         if (ancestry.name) {
             let libraryObject = this.get_Ancestries(ancestry.name)[0];
@@ -134,7 +123,7 @@ export class HistoryService {
 
     restore_BackgroundFromSave(background: Background, savegameService: SavegameService) {
         if (background.name) {
-            let libraryObject = this.get_BackgroundsAndSubtypes(background.name)[0];
+            let libraryObject = this.get_Backgrounds(background.name)[0];
             if (libraryObject) {
                 //Map the restored object onto the library object and keep the result.
                 try {
@@ -149,7 +138,7 @@ export class HistoryService {
 
     clean_BackgroundForSave(background: Background) {
         if (background.name) {
-            let libraryObject = this.get_BackgroundsAndSubtypes(background.name)[0];
+            let libraryObject = this.get_Backgrounds(background.name)[0];
             if (libraryObject) {
                 Object.keys(background).forEach(key => {
                     if (!["name", "_className"].includes(key)) {

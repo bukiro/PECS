@@ -1,3 +1,5 @@
+import { ItemGain } from './ItemGain';
+
 export class ActivityGain {
     public readonly _className: string = this.constructor.name;
     public active: boolean = false;
@@ -6,4 +8,6 @@ export class ActivityGain {
     public level: number = 0;
     public name: string = "";
     public source: string = "";
+    //We copy the activities ItemGains here whenever we activate it, so we can store the item ID.
+    public gainItems: ItemGain[] = [];
 }

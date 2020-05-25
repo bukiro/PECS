@@ -85,7 +85,10 @@ export class ActivitiesService {
         //Gain Items on Activation
         if (activity.gainItems.length && creature.type != "Familiar") {
             if (activated) {
-                activity.gainItems.forEach(gainItem => {
+                if (gain.constructor == ActivityGain) {
+                    gain.gainItems = activity.gainItems.map(gainItem => Object.assign(new ItemGain(), gainItem));
+                }
+                gain.gainItems.forEach(gainItem => {
                     let newItem: Item = itemsService.get_CleanItems()[gainItem.type].filter(libraryItem => libraryItem.name == gainItem.name)[0];
                     let grantedItem = characterService.grant_InventoryItem(creature as Character|AnimalCompanion, creature.inventories[0], newItem, false, false, true);
                     gainItem.id = grantedItem.id;
@@ -94,9 +97,10 @@ export class ActivitiesService {
                     };
                 });
             } else {
-                activity.gainItems.forEach(gainItem => {
+                gain.gainItems.forEach(gainItem => {
                     characterService.lose_GainedItem(creature as Character|AnimalCompanion, gainItem);
                 });
+                gain.gainItems = [];
             }
         }
 

@@ -168,7 +168,6 @@ export class Class {
         if (this.heritage.name) {
             let character = characterService.get_Character();
             let level = this.levels[1];
-            this.heritage.reassign();
             this.ancestry.traits.push(...this.heritage.traits)
             this.ancestry.ancestries.push(...this.heritage.ancestries);
             level.featChoices.push(...this.heritage.featChoices);
@@ -225,7 +224,7 @@ export class Class {
                 })
                 character.add_SpellChoice(level, insertSpellChoice);
             });
-            //Wellspring Gnome changes.
+            //Wellspring Gnome changes primal spells to another tradition.
             //We collect all Gnome feats that grant a primal spell and set that spell to the same tradition as the heritage:
             if (this.heritage.name.includes("Wellspring Gnome")) {
                 let feats: string[] = characterService.get_Feats("", "Gnome")
@@ -267,7 +266,6 @@ export class Class {
         if (this.background.name) {
             let level = this.levels[1];
             let character = characterService.get_Character();
-            this.background.reassign();
             level.abilityChoices.push(...this.background.abilityChoices);
             level.skillChoices.push(...this.background.skillChoices);
             level.featChoices.push(...this.background.featChoices);
