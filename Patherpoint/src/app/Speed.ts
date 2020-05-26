@@ -62,7 +62,7 @@ export class Speed {
             let character = creature as Character;
             if (this.name == "Land Speed" && character.get_FeatsTaken(1, character.level, "Incredible Movement").length) {
                 let equippedArmor = creature.inventories[0].armors.filter(armor => armor.equipped)
-                if (equippedArmor.length && equippedArmor[0].get_Prof() == "Unarmored") {
+                if (equippedArmor.length && equippedArmor[0].get_Prof() == "Unarmored Defense") {
                     let incredibleMovementBonus = 5 + (character.level + 1 - ((character.level + 1) % 4)) / 4 * 5;
                     sum += incredibleMovementBonus;
                     explain += "\nIncredible Movement: "+incredibleMovementBonus;

@@ -56,16 +56,14 @@ export class Health {
         if (this.temporaryHP) {
             explain += "\nTemporary HP: " + this.temporaryHP;
         }
-        let result = ancestryHP + classHP + effectsSum;
-        return { result: result, explain: explain }
+        let result = ancestryHP + classHP + effectsSum + this.temporaryHP;
+        return { result: result, explain: explain.trim() }
     }
     currentHP(creature: Character | AnimalCompanion | Familiar, characterService: CharacterService, effectsService: EffectsService) {
         let maxHP = this.maxHP(creature, characterService, effectsService)
         let sum = maxHP.result - this.damage;
-        let explain = maxHP.explain;
-        if (this.damage) {
-            explain += "\nDamage taken: " + (this.damage);
-        }
+        let explain = "Max HP: "+maxHP.result;
+        explain += "\nDamage taken: " + (this.damage);
         if (sum < 0) {
             this.damage += sum;
             sum = 0;

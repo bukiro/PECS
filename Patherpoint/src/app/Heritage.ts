@@ -15,6 +15,7 @@ export class Heritage {
     public name: string = "";
     public senses: string[] = [];
     public skillChoices: SkillChoice[] = [];
+    public sourceBook: string = "";
     public spellChoices: SpellChoice[] = [];
     public subType: string = "";
     public subTypes: Heritage[] = [];

@@ -97,7 +97,7 @@
                         "sourceId": "1-Skill-Class-0"
                     },
                     {
-                        "name": "Unarmored",
+                        "name": "Unarmored Defense",
                         "source": "Class",
                         "maxRank": 2,
                         "locked": true,
@@ -337,7 +337,7 @@
                         "sourceId": "3-Skill-Class-0"
                     },
                     {
-                        "name": "Unarmored",
+                        "name": "Unarmored Defense",
                         "source": "Class",
                         "maxRank": 4,
                         "locked": true,

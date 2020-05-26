@@ -433,7 +433,7 @@ export class CharacterService {
             }, 500)
         } else {
             if (!advancedWeapons.length) {
-                advancedWeapons = this.itemsService.get_ItemType("weapons").filter(weapon => weapon.prof == "Advanced Weapons");
+                advancedWeapons = this.itemsService.get_ItemsOfType("weapons").filter(weapon => weapon.prof == "Advanced Weapons");
             }
             let advancedWeaponFeats = this.get_Feats().filter(feat => feat.advancedweaponbase);
             advancedWeapons.forEach(weapon => {
@@ -823,10 +823,10 @@ export class CharacterService {
             }, 500)
         } else {
             this.basicItems = [];
-            let newBasicWeapon: Weapon = Object.assign(new Weapon(), this.itemsService.get_ItemType("weapons", "Fist")[0]);
+            let newBasicWeapon: Weapon = Object.assign(new Weapon(), this.itemsService.get_ItemsOfType("weapons", "Fist")[0]);
             this.basicItems.push(newBasicWeapon);
             let newBasicArmor: Armor;
-            newBasicArmor = Object.assign(new Armor(), this.itemsService.get_ItemType("armors", "Unarmored")[0]);
+            newBasicArmor = Object.assign(new Armor(), this.itemsService.get_ItemsOfType("armors", "Unarmored")[0]);
             this.basicItems.push(newBasicArmor);
             this.equip_BasicItems(this.get_Character(), false)
             this.equip_BasicItems(this.get_Companion(), false)

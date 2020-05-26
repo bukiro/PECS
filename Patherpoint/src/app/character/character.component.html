@@ -99,16 +99,41 @@
             </button>
             <div class="list-item sublist" [ngClass]="{'fancy-list':get_Character().class.name}"
                 *ngIf="get_showList()==listID">
-                <div class="list-item" *ngFor="let class of get_Classes()">
-                    <span>
-                        <input id="{{class.name}}" type="checkbox"
-                            (change)="onClassChange(class, $event.target.checked)"
-                            [checked]="class.name === get_Character().class.name">
-                        <label for="{{class.name}}">
-                            <strong>{{class.name}}</strong>
-                        </label>
-                    </span>
-                </div>
+                <ng-container *ngFor="let class of get_Classes()">
+                    <div class="row list-item" *ngFor="let itemID of ['class'+class.name]">
+                        <span>
+                            <input id="{{class.name}}" type="checkbox"
+                                (change)="onClassChange(class, $event.target.checked)"
+                                [checked]="class.name === get_Character().class.name">
+                            <label for="{{class.name}}">
+                                <strong>{{class.name}}</strong>
+                            </label>
+                        </span>
+                        <button (click)="toggle_Item(itemID)">
+                            Show Description
+                        </button>
+                        <div class="row lower" *ngIf="this.get_showItem()==itemID">
+                            <div class="row left-aligned tags">
+                                <cite class="trait" *ngFor="let trait of class.traits"
+                                    title="{{get_Traits(trait)[0].description}}">{{trait}}</cite>
+                            </div>
+                            <div class="row left-aligned" *ngIf="class.sourceBook">
+                                <strong>Source&nbsp;</strong><i>{{class.sourceBook}}</i>
+                            </div>
+                            <div class="row left-aligned" *ngFor="let desc of class.desc">
+                                <ng-container *ngFor="let text of desc.value.split('\n\n'); let textIndex = index">
+                                    <h6 *ngIf="textIndex == 0">{{desc.name}}</h6>
+                                    <p *ngIf="text.split('\n').length == 1">
+                                         {{text}}
+                                    </p>
+                                    <ul *ngIf="text.split('\n').length > 1">
+                                        <li *ngFor="let line of text.split('\n')">{{line}}</li>
+                                    </ul>
+                                </ng-container>
+                            </div>
+                        </div>
+                    </div>
+                </ng-container>
             </div>
         </div>
         <!--Ancestry-->
@@ -121,16 +146,45 @@
                 </button>
                 <div class="list-item sublist" [ngClass]="{'fancy-list':((get_Character().class.ancestry.name))}"
                     *ngIf="get_showList()==listID">
-                    <div class="list-item" *ngFor="let ancestry of get_Ancestries()">
-                        <span>
-                            <input id="{{ancestry.name}}" type="checkbox"
-                                (change)="onAncestryChange(ancestry, $event.target.checked)"
-                                [checked]="ancestry.name === get_Character().class.ancestry.name">
-                            <label for="{{ancestry.name}}">
-                                <strong>{{ancestry.name}}</strong>
-                            </label>
-                        </span>
-                    </div>
+                    <ng-container *ngFor="let ancestry of get_Ancestries(); trackBy:trackByIndex;">
+                        <div class="row list-item" *ngFor="let itemID of ['ancestry'+ancestry.name]">
+                            <span>
+                                <input id="{{ancestry.name}}" type="checkbox"
+                                    (change)="onAncestryChange(ancestry, $event.target.checked)"
+                                    [checked]="ancestry.name === get_Character().class.ancestry.name">
+                                <label for="{{ancestry.name}}">
+                                    <strong>{{ancestry.name}}&nbsp;</strong>
+                                <cite class="trait" *ngIf="ancestry.traits.includes('Rare')"
+                                    title="{{get_Traits('Rare')[0].description}}">Rare</cite>
+                                <cite class="trait" *ngIf="ancestry.traits.includes('Uncommon')"
+                                    title="{{get_Traits('Uncommon')[0].description}}">Uncommon</cite>
+                                </label>
+                            </span>
+                            <button (click)="toggle_Item(itemID)">
+                                Show Description
+                            </button>
+                            <div class="row lower" *ngIf="this.get_showItem()==itemID">
+                                <div class="row left-aligned tags">
+                                    <cite class="trait" *ngFor="let trait of ancestry.traits"
+                                        title="{{get_Traits(trait)[0].description}}">{{trait}}</cite>
+                                </div>
+                                <div class="row left-aligned" *ngIf="ancestry.sourceBook">
+                                    <strong>Source&nbsp;</strong><i>{{ancestry.sourceBook}}</i>
+                                </div>
+                                <div class="row left-aligned" *ngFor="let desc of ancestry.desc">
+                                    <ng-container *ngFor="let text of desc.value.split('\n\n'); let textIndex = index">
+                                        <h6 *ngIf="textIndex == 0">{{desc.name}}</h6>
+                                        <p *ngIf="text.split('\n').length == 1">
+                                             {{text}}
+                                        </p>
+                                        <ul *ngIf="text.split('\n').length > 1">
+                                            <li *ngFor="let line of text.split('\n')">{{line}}</li>
+                                        </ul>
+                                    </ng-container>
+                                </div>
+                            </div>
+                        </div>
+                    </ng-container>
                 </div>
             </div>
         </ng-container>
@@ -153,7 +207,11 @@
                             <button class="lower left" *ngIf="heritage.subTypes.length" id="{{heritage.name}}"
                                 (click)="toggle_Item(heritage.name+'desc')">v</button>
                             <label for="{{heritage.name}}">
-                                <strong>{{heritage.name}}</strong>
+                                <strong>{{heritage.name}}&nbsp;</strong>
+                                <cite class="trait" *ngIf="heritage.traits.includes('Rare')"
+                                    title="{{get_Traits('Rare')[0].description}}">Rare</cite>
+                                <cite class="trait" *ngIf="heritage.traits.includes('Uncommon')"
+                                    title="{{get_Traits('Uncommon')[0].description}}">Uncommon</cite>
                             </label>
                         </span>
                         <button (click)="toggle_Item(heritage.name+'desc')">
@@ -172,6 +230,9 @@
                                 </span>
                             </div>
                             <!--End Subheritages-->
+                            <div class="row left-aligned" *ngIf="heritage.sourceBook">
+                                <strong>Source&nbsp;</strong><i>{{heritage.sourceBook}}</i>
+                            </div>
                             <div class="row left-aligned">
                                 <ng-container *ngFor="let desc of heritage.desc.split('\n\n')">
                                     <p *ngIf="desc.split('\n').length == 1">{{desc}}</p>
@@ -180,6 +241,18 @@
                                     </ul>
                                 </ng-container>
                             </div>
+                            <ng-container *ngFor="let gain of heritage.gainActivities">
+                                <div class="row left-aligned"
+                                    *ngFor="let activity of get_Activities(gain.name)">
+                                    <h4 class="left-aligned">{{activity.name}}
+                                        <app-actionIcons [actionString]="activity.actions">
+                                        </app-actionIcons>
+                                        {{(activity.activationType) ? activity.activationType : ""}}
+                                    </h4>
+                                    <app-activity class="row" [activity]=activity [allowActivate]=false>
+                                    </app-activity>
+                                </div>
+                            </ng-container>
                         </div>
                     </div>
                 </div>
@@ -225,7 +298,7 @@
                 <div class="list-item sublist" [ngClass]="{'fancy-list':((get_Character().class.background.name))}"
                     *ngIf="get_showList()==listID">
                     <ng-container *ngFor="let background of get_Backgrounds(); trackBy:trackByIndex;">
-                        <div class="row" class="list-item" *ngFor="let itemID of ['background'+background.name]">
+                        <div class="row list-item" *ngFor="let itemID of ['background'+background.name]">
                             <span>
                                 <input *ngIf="!background.subTypes" id="{{background.name}}" type="checkbox"
                                     (change)="onBackgroundChange(background, $event.target.checked)"
@@ -236,7 +309,7 @@
                                     <strong>{{background.name}}&nbsp;</strong>
                                     <cite class="trait" *ngIf="background.traits.includes('Rare')"
                                         title="{{get_Traits('Rare')[0].description}}">Rare</cite>
-                                        <cite class="trait" *ngIf="background.traits.includes('Uncommon')"
+                                    <cite class="trait" *ngIf="background.traits.includes('Uncommon')"
                                         title="{{get_Traits('Uncommon')[0].description}}">Uncommon</cite>
                                 </label>
                             </span>
@@ -302,7 +375,7 @@
                 <div class="list-item sublist" [ngClass]="{'fancy-list':get_Character().class.deity}"
                     *ngIf="get_showList()==listID">
                     <ng-container *ngFor="let deity of get_Deities()">
-                        <div class="row" class="list-item" *ngFor="let itemID of ['deity'+deity.name]">
+                        <div class="row list-item" *ngFor="let itemID of ['deity'+deity.name]">
                             <span>
                                 <input id="{{deity.name}}" type="checkbox"
                                     (change)="on_DeityChange(deity, $event.target.checked)"
@@ -505,7 +578,7 @@
                             [ngClass]="{'fancy-list':((spellcasting.bloodline && spellcasting.bloodline.name))}"
                             *ngIf="get_showList()==listID">
                             <ng-container *ngFor="let bloodline of get_Bloodlines()">
-                                <div class="row" class="list-item" *ngFor="let itemID of ['bloodline'+bloodline.name]">
+                                <div class="row list-item" *ngFor="let itemID of ['bloodline'+bloodline.name]">
                                     <span>
                                         <input id="{{bloodline.name}}" type="checkbox"
                                             (change)="on_BloodlineChange(spellcasting, bloodline, $event.target.checked)"

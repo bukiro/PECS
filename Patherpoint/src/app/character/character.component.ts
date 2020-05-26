@@ -400,9 +400,7 @@ export class CharacterComponent implements OnInit {
         //Allow INT more skills if any INT boosts have happened on this level, or less if INT is negative on the first level.
         let levelNumber = parseInt(choice.id.split("-")[0]);
         let boosts: AbilityBoost[] = this.characterService.get_Character().get_AbilityBoosts(levelNumber,levelNumber,"Intelligence")
-        if (choice.source == "Intelligence") {
-            return boosts.filter(boost => boost.type == "Boost").length;
-        } else if (choice.source == "Class" && levelNumber == 1 && choice.available) {
+        if (boosts.length && choice.source == "Intelligence") {
             return boosts.filter(boost => boost.type == "Boost").length - boosts.filter(boost => boost.type == "Flaw").length;
         } else {
             return 0;

@@ -48,7 +48,7 @@
                             <button (click)="add_Condition(get_Familiar(), condition)">Add (Familiar) ({{get_Duration()}})</button>
                         </span>
                     </div>
-                    <div class="row" *ngIf="get_ShowItem()==set+condition.name">
+                    <div class="row left-aligned" *ngIf="get_ShowItem()==set+condition.name">
                         <div *ngFor="let desc of condition.desc.split('\n\n')">
                             <p *ngIf="desc.split('\n').length == 1">{{desc}}</p>
                             <ul *ngIf="desc.split('\n').length > 1">

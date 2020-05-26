@@ -176,11 +176,11 @@ export class SavegameService {
 
     merge(target: any, source: any) {
         if (typeof source == "object" && source) {
-            let output = Object.assign(new target.constructor, target)
+            let output = Object.assign(new target.constructor, JSON.parse(JSON.stringify(target)))
             if (Array.isArray(source)) {
                 source.forEach((obj: any, index) => {
                     if (!output[index]) {
-                        Object.assign(output, { [index]: source[index] });
+                        Object.assign(output, { [index]: JSON.parse(JSON.stringify(source[index])) });
                     } else {
                         output[index] = this.merge(target[index], source[index]);
                     }
@@ -189,11 +189,11 @@ export class SavegameService {
                 Object.keys(source).forEach(key => {
                     if (typeof source === 'object') {
                         if (!(key in target))
-                            Object.assign(output, { [key]: source[key] });
+                            Object.assign(output, { [key]: JSON.parse(JSON.stringify(source[key])) });
                         else
                             output[key] = this.merge(target[key], source[key]);
                     } else {
-                        Object.assign(output, { [key]: source[key] });
+                        Object.assign(output, { [key]: JSON.parse(JSON.stringify(source[key])) });
                     }
                 });
             }

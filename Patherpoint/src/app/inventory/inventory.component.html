@@ -79,9 +79,9 @@
                                 *ngIf="get_ShowItem()==inventoryID">
                                 <div class="row" *ngFor="let prof of [(item.get_Prof ? item.get_Prof() : item.prof)]">
                                     <span
-                                        *ngIf="item.type == 'armors'">{{(["Unarmored","Light Barding","Heavy Barding"].includes(item.prof)) ? prof : prof.substr(0, prof.length - 6)}}
+                                        *ngIf="item.type == 'armors'">{{(["Light Barding","Heavy Barding"].includes(item.prof)) ? item.prof : item.prof.split(" ")[0]}}
                                         {{item.group}}
-                                        {{(item.type=="armors" && (!["Unarmored","Light Barding","Heavy Barding"].includes(item.prof))) ? "Armor" : ""}}</span>
+                                        {{(item.type=="armors" && (!["Unarmored Defense","Light Barding","Heavy Barding"].includes(item.prof))) ? "Armor" : ""}}</span>
                                     <span
                                         *ngIf="item.type == 'weapons'">{{(prof == 'Unarmed') ? prof : prof.substr(0, prof.length - 8)}}
                                         {{item.group}}</span>

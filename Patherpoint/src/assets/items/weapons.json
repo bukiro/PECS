@@ -2217,6 +2217,7 @@
       "hide": true,
       "id": "08698059-8daa-11ea-abca-ffb46fbada73",
       "name": "Bo Staff (Twining Staff)",
+      "weaponBase": "Bo Staff",
       "traits": [
          "Magical",
          "Monk",
@@ -2243,6 +2244,7 @@
       "hide": true,
       "id": "0869805b-8daa-11ea-abca-ffb46fbada73",
       "name": "Staff (Twining Staff)",
+      "weaponBase": "Staff",
       "traits": [
          "Magical",
          "Two-Hand d8",

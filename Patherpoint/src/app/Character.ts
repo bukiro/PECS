@@ -20,6 +20,7 @@ import { EffectsService } from './effects.service';
 import { SpellsService } from './spells.service';
 import { SpellGain } from './SpellGain';
 import { Familiar } from './Familiar';
+import { SkillIncrease } from './SkillIncrease';
 
 export class Character extends Creature {
     public readonly _className: string = this.constructor.name;
@@ -219,7 +220,7 @@ export class Character extends Creature {
     }
     get_SkillIncreases(characterService: CharacterService, minLevelNumber: number, maxLevelNumber: number, skillName: string = "", source: string = "", sourceId: string = "", locked: boolean = undefined) {
         if (this.class) {
-            let increases = [];
+            let increases: SkillIncrease[] = [];
             let choices: SkillChoice[] = []
             //Collect all skill choices from spellcasting, bloodline, level and some item runes as well as oils that emulate those runes.
             let levels = this.class.levels.filter(level => level.number >= minLevelNumber && level.number <= maxLevelNumber);
@@ -257,6 +258,8 @@ export class Character extends Creature {
                 })
             });
             return increases;
+        } else {
+            return [] as SkillIncrease[];
         }
     }
     increase_Skill(characterService: CharacterService, skillName: string, train: boolean, choice: SkillChoice, locked: boolean, ability: string = "") {
@@ -333,8 +336,8 @@ export class Character extends Creature {
                         case "Bard Class DC": 
                             characterService.add_CustomSkill(skillName, "Class DC", "Charisma");
                             break;
-                        case "Bard Class DC": 
-                            characterService.add_CustomSkill(skillName, "Class DC", "Dexterity");
+                        case "Druid Class DC": 
+                            characterService.add_CustomSkill(skillName, "Class DC", "Wisdom");
                             break;
                         default: 
                             //The Ability is the subtype of the taken feat.

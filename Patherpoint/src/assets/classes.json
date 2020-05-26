@@ -7,6 +7,44 @@
                 "type": "Class DC"
             }
         ],
+        "desc": [
+            {
+                "name": "Description",
+                "value": "The strength of your fist flows from your mind and spirit. You seek perfection—honing your body into a flawless instrument and your mind into an orderly bastion of wisdom. You’re a fierce combatant renowned for martial arts skills and combat stances that grant you unique fighting moves. While the challenge of mastering many fighting styles drives you to great heights, you also enjoy meditating on philosophical questions and discovering new ways to obtain peace and enlightenment."
+            },
+            {
+                "name": "Key Ability",
+                "value": "Strength or Dexterity"
+            },
+            {
+                "name": "Hit Points",
+                "value": "10 plus your Constitution modifier"
+            },
+            {
+                "name": "Perception",
+                "value": "Trained in Perception"
+            },
+            {
+                "name": "Saving Throws",
+                "value": "Expert in Fortitude\nExpert in Reflex\nExpert in Will"
+            },
+            {
+                "name": "Skill",
+                "value": "Trained in a number of skills equal to 4 plus your Intelligence modifier"
+            },
+            {
+                "name": "Attacks",
+                "value": "Trained in simple weapons\nTrained in unarmed attacks"
+            },
+            {
+                "name": "Defenses",
+                "value": "Untrained in all armor\nExpert in unarmored defense"
+            },
+            {
+                "name": "Class DC",
+                "value": "Trained in monk class DC"
+            }
+        ],
         "hitPoints": 10,
         "levels": [
             {
@@ -139,14 +177,14 @@
                                 "sourceId": "1-Skill-Class-0"
                             },
                             {
-                                "name": "Unarmored",
+                                "name": "Unarmored Defense",
                                 "source": "Class",
                                 "maxRank": 2,
                                 "locked": true,
                                 "sourceId": "1-Skill-Class-0"
                             },
                             {
-                                "name": "Unarmored",
+                                "name": "Unarmored Defense",
                                 "source": "Class",
                                 "maxRank": 4,
                                 "locked": true,
@@ -724,7 +762,7 @@
                         "id": "13-Armor Proficiency-Graceful Mastery-0",
                         "increases": [
                             {
-                                "name": "Unarmored",
+                                "name": "Unarmored Defense",
                                 "source": "Graceful Mastery",
                                 "maxRank": 6,
                                 "locked": true,
@@ -938,7 +976,7 @@
                         "id": "17-Armor Proficiency-Graceful Legend-0",
                         "increases": [
                             {
-                                "name": "Unarmored",
+                                "name": "Unarmored Defense",
                                 "source": "Graceful Legend",
                                 "maxRank": 8,
                                 "locked": true,
@@ -1145,6 +1183,44 @@
                 "type": "Class DC"
             }
         ],
+        "desc": [
+            {
+                "name": "Description",
+                "value": "Some rangers believe civilization wears down the soul, but still needs to be protected from wild creatures. Others say nature needs to be protected from the greedy, who wish to tame its beauty and plunder its treasures. You could champion either goal, or both. You might be a scout, tracker, or hunter of fugitives or beasts, haunting the edge of civilization or exploring the wilds. You know how to live off the land and are skilled at spotting and taking down both opportune prey and hated enemies."
+            },
+            {
+                "name": "Key Ability",
+                "value": "Strength or Dexterity"
+            },
+            {
+                "name": "Hit Points",
+                "value": "10 plus your Constitution modifier"
+            },
+            {
+                "name": "Perception",
+                "value": "Expert in Perception"
+            },
+            {
+                "name": "Saving Throws",
+                "value": "Expert in Fortitude\nExpert in Reflex\nTrained in Will"
+            },
+            {
+                "name": "Skill",
+                "value": "Trained in Nature\nTrained in Survival\nTrained in a number of additional skills equal to 4 plus your Intelligence modifier"
+            },
+            {
+                "name": "Attacks",
+                "value": "Trained in simple weapons\nTrained in martial weapons\nTrained in unarmed attacks"
+            },
+            {
+                "name": "Defenses",
+                "value": "Trained in light armor\nTrained in medium armor\nTrained in unarmored defense"
+            },
+            {
+                "name": "Class DC",
+                "value": "Trained in ranger class DC"
+            }
+        ],
         "hitPoints": 10,
         "levels": [
             {
@@ -1311,7 +1387,7 @@
                                 "sourceId": "1-Skill-Class-0"
                             },
                             {
-                                "name": "Unarmored",
+                                "name": "Unarmored Defense",
                                 "source": "Class",
                                 "maxRank": 2,
                                 "locked": true,
@@ -1891,7 +1967,7 @@
                                 "sourceId": "11-Armor Proficiency-Medium Armor Expertise-0"
                             },
                             {
-                                "name": "Unarmored",
+                                "name": "Unarmored Defense",
                                 "source": "Medium Armor Expertise",
                                 "maxRank": 4,
                                 "locked": true,
@@ -2311,7 +2387,7 @@
                                 "sourceId": "19-Armor Proficiency-Second Skin-0"
                             },
                             {
-                                "name": "Unarmored",
+                                "name": "Unarmored Defense",
                                 "source": "Second Skin",
                                 "maxRank": 6,
                                 "locked": true,

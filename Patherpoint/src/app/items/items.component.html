@@ -64,9 +64,9 @@
                                     (click)="toggle_Item(inventoryID)">
                                     <span>{{(item.get_Name) ? item.get_Name() : item.name}}</span>
                                     <span
-                                        *ngIf="item.type == 'armors'">{{(["Unarmored","Light Barding","Heavy Barding"].includes(item.prof)) ? item.prof : item.prof.substr(0, item.prof.length - 6)}}
+                                        *ngIf="item.type == 'armors'">{{(["Light Barding","Heavy Barding"].includes(item.prof)) ? item.prof : item.prof.split(" ")[0]}}
                                         {{item.group}}
-                                        {{(item.type=="armors" && (!["Unarmored","Light Barding","Heavy Barding"].includes(item.prof))) ? "Armor" : ""}}</span>
+                                        {{(item.type=="armors" && (!["Unarmored Defense","Light Barding","Heavy Barding"].includes(item.prof))) ? "Armor" : ""}}</span>
                                     <span
                                         *ngIf="item.type == 'weapons'">{{(item.prof == 'Unarmed') ? item.prof : item.prof.substr(0, item.prof.length - 8)}}
                                         {{item.group}}</span>

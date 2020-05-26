@@ -111,7 +111,7 @@
                         "sourceId": "1-Skill-Specialization-0"
                     },
                     {
-                        "name": "Unarmored",
+                        "name": "Unarmored Defense",
                         "source": "Specialization",
                         "maxRank": 6,
                         "locked": true,
@@ -382,7 +382,7 @@
                         "sourceId": "1-Skill-Specialization-0"
                     },
                     {
-                        "name": "Unarmored",
+                        "name": "Unarmored Defense",
                         "source": "Specialization",
                         "maxRank": 6,
                         "locked": true,

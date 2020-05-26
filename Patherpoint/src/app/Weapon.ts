@@ -9,6 +9,8 @@ import { Character } from './Character';
 import { AnimalCompanion } from './AnimalCompanion';
 import { Familiar } from './Familiar';
 import { Oil } from './Oil';
+import { VirtualTimeScheduler } from 'rxjs';
+import { SkillIncrease } from './SkillIncrease';
 
 export class Weapon extends Equipment {
     public readonly _className: string = this.constructor.name;
@@ -47,6 +49,8 @@ export class Weapon extends Equipment {
     public ranged: number = 0;
     //How many actions to reload this ranged weapon?
     public reload: string = "";
+    //What kind of weapon is this based on? Needed for weapon proficiencies for specific magical items.
+    public weaponBase: string = "";
     get_RuneSource(creature: Character|AnimalCompanion|Familiar, range: string) {
         //Under certain circumstances, other items' runes are applied when calculating attack bonus or damage.
         //[0] is the item whose fundamental runes will count, [1] is the item whose property runes will count, and [2] is the item that causes this change.
@@ -97,20 +101,15 @@ export class Weapon extends Equipment {
     profLevel(creature: Character|AnimalCompanion, characterService: CharacterService, runeSource: Weapon|WornItem, charLevel: number = characterService.get_Character().level) {
         if (characterService.still_loading()) { return 0; }
         let skillLevel: number = 0;
-        let weaponIncreases = creature.get_SkillIncreases(characterService, 0, charLevel, this.name);
-        let profIncreases = creature.get_SkillIncreases(characterService, 0, charLevel, this.prof);
-        //For Monk, Dwarf, Goblin etc. weapons, check if the character has any weapon proficiency that matches a trait of this weapon
-        let traitLevels: number[] = [];
-        this.traits.forEach(trait => {
-            let skill = characterService.get_Skills(creature, trait, "Specific Weapon Proficiency");
-            if (skill.length) {
-                traitLevels.push(skill[0].level(creature, characterService));
-            }
-        })
-        //Only count the highest of these proficiency (e.g. in case you have Monk weapons +4 and Dwarf weapons +2)
-        let bestTraitLevel: number = Math.max(...traitLevels)
-        //Keep either the weapon category proficiency or the weapon proficiency, whichever is better
-        skillLevel = Math.max(Math.min(weaponIncreases.length * 2, 8),Math.min(profIncreases.length * 2, 8),Math.min(bestTraitLevel, 8))
+        //There are a lot of ways to be trained with a weapon.
+        //To determine the skill level, we have to find skills for the item's proficiency, its name, its weapon base and any of its traits.
+        let levels: number[] = [];
+        levels.push(characterService.get_Skills(creature, this.name)[0]?.level(creature, characterService, charLevel) || 0);
+        levels.push(this.weaponBase ? characterService.get_Skills(creature, this.weaponBase)[0]?.level(creature, characterService, charLevel) : 0);
+        levels.push(characterService.get_Skills(creature, this.prof)[0]?.level(creature, characterService, charLevel) || 0);
+        levels.push(...this.traits.map(trait => characterService.get_Skills(creature, trait)[0]?.level(creature, characterService, charLevel) || 0))
+        //Get the skill level by applying the result with the most increases, but no higher than 8.
+        skillLevel = Math.min(Math.max(...levels), 8);
         //If you have an Ancestral Echoing rune on this weapon, you get to raise the item's proficiency by one level, up to the highest proficiency you have.
         let bestSkillLevel: number = skillLevel;
         if (runeSource.propertyRunes.filter(rune => rune.name == "Ancestral Echoing").length) {

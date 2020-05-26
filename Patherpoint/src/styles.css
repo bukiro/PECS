@@ -175,11 +175,11 @@
   /* Text */
   
   h1 {
-    font-size: 32px;
+    font-size: 2em;
   }
   
   h2 {
-    font-size: 20px;
+    font-size: 1.5em;
   }
   
   h3 {
@@ -204,14 +204,27 @@
     margin: 8px 0px;
   }
 
+  h6 {
+    width: 100%;
+    background-color: #cbc18f;
+    padding: 2px;
+    margin: 8px 0px;
+    text-align: left;
+    font-size: 1em;
+  }
 
   h1, h2 {
     font-weight: lighter;
   }
   
   p {
+    font-size: 90%;
     width: 100%;
     margin: 8px 0px;
+  }
+
+  ul {
+    font-size: 90%;
   }
 
   .row > * {
@@ -234,10 +247,9 @@
   }
 
   .row > p:last-child {
-    font-size: 14px;
     margin-bottom: 0px;
   }
-  
+
   /* Hyperlink */
   
   a {
@@ -254,7 +266,7 @@
   /* Input */
   
   input {
-    font-size: 14px;
+    font-size: 90%;
     border-radius: 2px;
     padding: 4px;
     margin-bottom: 0px;
@@ -301,7 +313,7 @@
     align-items: center;
     padding: 4px 8px;
     border-radius: 2px;
-    font-size: 14px;
+    font-size: 90%;
     cursor: pointer;
     background-color: #1976d2;
     background-color: rgb(var(--accent));
@@ -667,7 +679,7 @@
   cite {
     background-color: #666;
     padding: 1px 2px;
-    font-size: .9em;
+    font-size: 90%;
     font-style: normal;
     border-color: #d8c483;
     border-style: double;
@@ -764,7 +776,7 @@
 
   .loading {
     margin:auto;
-    font-size:20px;
+    font-size:1.5em;
     color:#616161;
     animation: altrclr 2s infinite;
     animation-name: altrclr;

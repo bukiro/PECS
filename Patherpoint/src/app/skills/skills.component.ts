@@ -85,6 +85,22 @@ export class SkillsComponent implements OnInit {
         return Array.from(new Set(senses));
     }
 
+    get_SenseDesc(sense: string) {
+        switch (sense) {
+            case "Darkvision":
+                return "You can see in darkness and dim light just as well as you can see in bright light, though your vision in darkness is in black and white."
+            case "Low-Light Vision":
+                return "You can see in dim light as though it were bright light, and you ignore the concealed condition due to dim light."
+            default:
+                if (sense.includes("Scent")) {
+                    return "You can use your sense of smell to determine the location of a creature, but it remains hidden."
+                }
+                if (sense.includes("Tremorsense")) {
+                    return "You can feel the vibrations through a solid surface caused by movement."
+                }
+        }
+    }
+
     still_loading() {
         return this.skillsService.still_loading() || this.characterService.still_loading();
     }

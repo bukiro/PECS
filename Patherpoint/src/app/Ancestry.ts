@@ -7,6 +7,7 @@ export class Ancestry {
     public abilityChoices: AbilityChoice[] = [];
     public ancestries: string[] = [];
     public baseLanguages: number = 0;
+    public desc: {name:string, value:string}[] = [];
     public featChoices: FeatChoice[] = [];
     public gainItems: ItemGain[] = [];
     public heritages: string[] = [];
@@ -15,10 +16,8 @@ export class Ancestry {
     public name: string = "";
     public recommendedLanguages: string[] = [];
     public senses: string[] = [];
+    public sourceBook: string = "";
     public size: number = 0;
     public speed: number = 0;
     public traits: string[] = [];
-    reassign() {
-        //this.abilityChoices = this.abilityChoices.map(choice => Object.assign(new AbilityChoice(), JSON.parse(JSON.stringify(choice))));
-    }
 }

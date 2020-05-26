@@ -22,16 +22,18 @@ export class Class {
     public activities: ActivityGain[] = [];
     public ancestry: Ancestry = new Ancestry();
     public animalCompanion: AnimalCompanion = new AnimalCompanion();
-    public familiar: Familiar = new Familiar();
     public background: Background = new Background();
-    public spellCasting: SpellCasting[] = [];
     public customSkills: Skill[] = [];
     public deity: string = "";
+    public desc: {name:string, value:string}[] = [];
+    public familiar: Familiar = new Familiar();
     public focusPoints: number = 0;
     public heritage: Heritage = new Heritage();
     public hitPoints: number = 0;
     public levels: Level[] = [];
     public name: string = "";
+    public sourceBook: string = "";
+    public spellCasting: SpellCasting[] = [];
     on_ChangeAncestry(characterService: CharacterService) {
         let character = characterService.get_Character();
         if (this.ancestry.name) {
@@ -69,7 +71,6 @@ export class Class {
         if (this.ancestry.name) {
             let character = characterService.get_Character();
             let level = this.levels[1];
-            this.ancestry.reassign();
             level.abilityChoices.push(...this.ancestry.abilityChoices);
             level.featChoices.push(...this.heritage.featChoices);
             //Grant all items and save their id in the ItemGain.

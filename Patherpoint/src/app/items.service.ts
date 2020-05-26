@@ -132,7 +132,7 @@ export class ItemsService {
         } else { return [new Specialization] }
     }
 
-    get_ItemType(type: string, name: string = "") {
+    get_ItemsOfType(type: string, name: string = "") {
         if (!this.still_loading()) {
             return this.items[type].filter(item => item.name == name || name == "");
         } else { return [] }

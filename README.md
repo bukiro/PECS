@@ -52,6 +52,10 @@ The very latest in Assistive Technologies for Dungeon Master (ATDM)
 - [x] Cleanup Savegame
 - [x] Load/Save from/to Database
 - [x] Action Icons
+- [x] Implement all Ancestries
+- [ ] Implement all Ancestry Feats
+- [x] Implement all Heritages
+- [x] Implement all Backgrounds
 - [ ] Item Icons
 - [ ] Initiative tracker, battles, being a battle member, GM-Player-Communication.......
 - [ ] Stretch Goal: Include optional Stamina & Resolve system

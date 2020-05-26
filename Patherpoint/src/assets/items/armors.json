@@ -4,7 +4,7 @@
         "name": "Unarmored",
         "moddable": "-",
         "_className": "Armor",
-        "prof": "Unarmored"
+        "prof": "Unarmored Defense"
     },
     {
         "bulk": "2",
@@ -89,7 +89,7 @@
         ],
         "_className": "Armor",
         "dexcap": 5,
-        "prof": "Unarmored"
+        "prof": "Unarmored Defense"
     },
     {
         "bulk": "L",

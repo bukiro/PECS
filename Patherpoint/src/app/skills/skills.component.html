@@ -7,7 +7,7 @@
             <app-skill [creature]="creature" [skill]=skill></app-skill>
         </ng-container>
         <h5>Senses</h5>
-        <div class="list-item lower" *ngFor="let sense of get_Senses()">
+        <div class="list-item lower" title="get_SenseDesc(sense)" *ngFor="let sense of get_Senses()">
             {{sense}}
         </div>
         <ng-container *ngIf="creature=='Familiar'">
