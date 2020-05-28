@@ -1,0 +1,2481 @@
+[
+    {
+        "_className": "Class",
+        "customSkills": [
+            {
+                "name": "Monk Class DC",
+                "type": "Class DC"
+            }
+        ],
+        "desc": [
+            {
+                "name": "Description",
+                "value": "The strength of your fist flows from your mind and spirit. You seek perfection—honing your body into a flawless instrument and your mind into an orderly bastion of wisdom. You’re a fierce combatant renowned for martial arts skills and combat stances that grant you unique fighting moves. While the challenge of mastering many fighting styles drives you to great heights, you also enjoy meditating on philosophical questions and discovering new ways to obtain peace and enlightenment."
+            },
+            {
+                "name": "Key Ability",
+                "value": "Strength or Dexterity"
+            },
+            {
+                "name": "Hit Points",
+                "value": "10 plus your Constitution modifier"
+            },
+            {
+                "name": "Perception",
+                "value": "Trained in Perception"
+            },
+            {
+                "name": "Saving Throws",
+                "value": "Expert in Fortitude\nExpert in Reflex\nExpert in Will"
+            },
+            {
+                "name": "Skill",
+                "value": "Trained in a number of skills equal to 4 plus your Intelligence modifier"
+            },
+            {
+                "name": "Attacks",
+                "value": "Trained in simple weapons\nTrained in unarmed attacks"
+            },
+            {
+                "name": "Defenses",
+                "value": "Untrained in all armor\nExpert in unarmored defense"
+            },
+            {
+                "name": "Class DC",
+                "value": "Trained in monk class DC"
+            }
+        ],
+        "hitPoints": 10,
+        "levels": [
+            {
+                "_className": "Level"
+            },
+            {
+                "_className": "Level",
+                "abilityChoices": [
+                    {
+                        "_className": "AbilityChoice",
+                        "available": 1,
+                        "filter": [
+                            "Strength",
+                            "Dexterity"
+                        ],
+                        "id": "1-Ability-Class Key Ability-0",
+                        "source": "Class Key Ability"
+                    },
+                    {
+                        "_className": "AbilityChoice",
+                        "available": 4,
+                        "baseValuesLost": 4,
+                        "id": "1-Ability-Character Creation-0",
+                        "source": "Character Creation"
+                    }
+                ],
+                "featChoices": [
+                    {
+                        "_className": "FeatChoice",
+                        "feats": [
+                            {
+                                "name": "Powerful Fist",
+                                "source": "Monk",
+                                "locked": true,
+                                "sourceId": "1-Feature-Monk-0"
+                            },
+                            {
+                                "name": "Flurry of Blows",
+                                "source": "Monk",
+                                "locked": true,
+                                "sourceId": "1-Feature-Monk-0"
+                            }
+                        ],
+                        "id": "1-Feature-Monk-0",
+                        "source": "Monk",
+                        "type": "Feature"
+                    },
+                    {
+                        "_className": "FeatChoice",
+                        "available": 1,
+                        "id": "1-Feat-Class-0",
+                        "source": "Class",
+                        "type": "Ancestry"
+                    },
+                    {
+                        "_className": "FeatChoice",
+                        "available": 1,
+                        "id": "1-Feat-Class-1",
+                        "source": "Class",
+                        "type": "Class"
+                    }
+                ],
+                "number": 1,
+                "skillChoices": [
+                    {
+                        "_className": "SkillChoice",
+                        "id": "1-Skill-Class-0",
+                        "increases": [
+                            {
+                                "name": "Perception",
+                                "source": "Class",
+                                "maxRank": 2,
+                                "locked": true,
+                                "sourceId": "1-Skill-Class-0"
+                            },
+                            {
+                                "name": "Fortitude",
+                                "source": "Class",
+                                "maxRank": 2,
+                                "locked": true,
+                                "sourceId": "1-Skill-Class-0"
+                            },
+                            {
+                                "name": "Fortitude",
+                                "source": "Class",
+                                "maxRank": 4,
+                                "locked": true,
+                                "sourceId": "1-Skill-Class-0"
+                            },
+                            {
+                                "name": "Reflex",
+                                "source": "Class",
+                                "maxRank": 2,
+                                "locked": true,
+                                "sourceId": "1-Skill-Class-0"
+                            },
+                            {
+                                "name": "Reflex",
+                                "source": "Class",
+                                "maxRank": 4,
+                                "locked": true,
+                                "sourceId": "1-Skill-Class-0"
+                            },
+                            {
+                                "name": "Will",
+                                "source": "Class",
+                                "maxRank": 2,
+                                "locked": true,
+                                "sourceId": "1-Skill-Class-0"
+                            },
+                            {
+                                "name": "Will",
+                                "source": "Class",
+                                "maxRank": 4,
+                                "locked": true,
+                                "sourceId": "1-Skill-Class-0"
+                            },
+                            {
+                                "name": "Simple Weapons",
+                                "source": "Class",
+                                "maxRank": 2,
+                                "locked": true,
+                                "sourceId": "1-Skill-Class-0"
+                            },
+                            {
+                                "name": "Unarmed Attacks",
+                                "source": "Class",
+                                "maxRank": 2,
+                                "locked": true,
+                                "sourceId": "1-Skill-Class-0"
+                            },
+                            {
+                                "name": "Unarmored Defense",
+                                "source": "Class",
+                                "maxRank": 2,
+                                "locked": true,
+                                "sourceId": "1-Skill-Class-0"
+                            },
+                            {
+                                "name": "Unarmored Defense",
+                                "source": "Class",
+                                "maxRank": 4,
+                                "locked": true,
+                                "sourceId": "1-Skill-Class-0"
+                            },
+                            {
+                                "name": "Monk Class DC",
+                                "source": "Class",
+                                "maxRank": 2,
+                                "locked": true,
+                                "sourceId": "1-Skill-Class-0"
+                            }
+                        ],
+                        "maxRank": 4,
+                        "source": "Class",
+                        "type": "Any"
+                    },
+                    {
+                        "_className": "SkillChoice",
+                        "available": 4,
+                        "id": "1-Skill-Class-1",
+                        "maxRank": 2,
+                        "source": "Class",
+                        "type": "Skill"
+                    }
+                ]
+            },
+            {
+                "_className": "Level",
+                "featChoices": [
+                    {
+                        "_className": "FeatChoice",
+                        "available": 1,
+                        "id": "2-Feat-Class-0",
+                        "source": "Class",
+                        "type": "Class"
+                    },
+                    {
+                        "_className": "FeatChoice",
+                        "available": 1,
+                        "id": "2-Feat-Class-1",
+                        "source": "Class",
+                        "type": "Skill"
+                    }
+                ],
+                "number": 2,
+                "skillChoices": [
+                    {
+                        "_className": "SkillChoice",
+                        "id": "2-Skill-Intelligence-0",
+                        "maxRank": 2,
+                        "source": "Intelligence",
+                        "type": "Skill"
+                    }
+                ]
+            },
+            {
+                "_className": "Level",
+                "featChoices": [
+                    {
+                        "_className": "FeatChoice",
+                        "feats": [
+                            {
+                                "name": "Incredible Movement",
+                                "source": "Monk",
+                                "locked": true,
+                                "sourceId": "3-Feature-Monk-0"
+                            },
+                            {
+                                "name": "Mystic Strikes",
+                                "source": "Monk",
+                                "locked": true,
+                                "sourceId": "3-Feature-Monk-0"
+                            }
+                        ],
+                        "id": "3-Feature-Monk-0",
+                        "source": "Monk",
+                        "type": "Feature"
+                    },
+                    {
+                        "_className": "FeatChoice",
+                        "available": 1,
+                        "id": "3-Feat-Class-0",
+                        "source": "Class",
+                        "type": "General"
+                    }
+                ],
+                "number": 3,
+                "skillChoices": [
+                    {
+                        "_className": "SkillChoice",
+                        "available": 1,
+                        "id": "3-Skill-Class-0",
+                        "maxRank": 4,
+                        "source": "Class",
+                        "type": "Skill"
+                    },
+                    {
+                        "_className": "SkillChoice",
+                        "id": "3-Skill-Intelligence-0",
+                        "maxRank": 2,
+                        "source": "Intelligence",
+                        "type": "Skill"
+                    }
+                ]
+            },
+            {
+                "_className": "Level",
+                "featChoices": [
+                    {
+                        "_className": "FeatChoice",
+                        "available": 1,
+                        "id": "4-Feat-Class-0",
+                        "source": "Class",
+                        "type": "Class"
+                    },
+                    {
+                        "_className": "FeatChoice",
+                        "available": 1,
+                        "id": "4-Feat-Class-1",
+                        "source": "Class",
+                        "type": "Skill"
+                    }
+                ],
+                "number": 4,
+                "skillChoices": [
+                    {
+                        "_className": "SkillChoice",
+                        "id": "4-Skill-Intelligence-0",
+                        "maxRank": 2,
+                        "source": "Intelligence",
+                        "type": "Skill"
+                    }
+                ]
+            },
+            {
+                "_className": "Level",
+                "abilityChoices": [
+                    {
+                        "_className": "AbilityChoice",
+                        "available": 4,
+                        "id": "5-Ability-Class-0",
+                        "source": "Class"
+                    }
+                ],
+                "featChoices": [
+                    {
+                        "_className": "FeatChoice",
+                        "available": 1,
+                        "id": "5-Feat-Class-0",
+                        "source": "Class",
+                        "type": "Ancestry"
+                    },
+                    {
+                        "_className": "FeatChoice",
+                        "feats": [
+                            {
+                                "name": "Alertness",
+                                "source": "Monk",
+                                "locked": true,
+                                "sourceId": "5-Feature-Monk-0"
+                            },
+                            {
+                                "name": "Expert Strikes",
+                                "source": "Monk",
+                                "locked": true,
+                                "sourceId": "5-Feature-Monk-0"
+                            }
+                        ],
+                        "id": "5-Feature-Monk-0",
+                        "source": "Monk",
+                        "type": "Feature"
+                    }
+                ],
+                "number": 5,
+                "skillChoices": [
+                    {
+                        "_className": "SkillChoice",
+                        "id": "5-Perception-Alertness-0",
+                        "increases": [
+                            {
+                                "name": "Perception",
+                                "source": "Alertness",
+                                "maxRank": 4,
+                                "locked": true,
+                                "sourceId": "5-Perception-Alertness-0"
+                            }
+                        ],
+                        "maxRank": 4,
+                        "source": "Alertness",
+                        "type": "Perception"
+                    },
+                    {
+                        "_className": "SkillChoice",
+                        "id": "5-Weapon Proficiency-Expert Strikes-0",
+                        "increases": [
+                            {
+                                "name": "Unarmed Attacks",
+                                "source": "Expert Strikes",
+                                "maxRank": 4,
+                                "locked": true,
+                                "sourceId": "5-Weapon Proficiency-Expert Strikes-0"
+                            },
+                            {
+                                "name": "Simple Weapons",
+                                "source": "Expert Strikes",
+                                "maxRank": 4,
+                                "locked": true,
+                                "sourceId": "5-Weapon Proficiency-Expert Strikes-0"
+                            }
+                        ],
+                        "maxRank": 4,
+                        "source": "Expert Strikes",
+                        "type": "Weapon Proficiency"
+                    },
+                    {
+                        "_className": "SkillChoice",
+                        "available": 1,
+                        "id": "5-Skill-Class-0",
+                        "maxRank": 4,
+                        "source": "Class",
+                        "type": "Skill"
+                    },
+                    {
+                        "_className": "SkillChoice",
+                        "id": "5-Skill-Intelligence-0",
+                        "maxRank": 2,
+                        "source": "Intelligence",
+                        "type": "Skill"
+                    }
+                ]
+            },
+            {
+                "_className": "Level",
+                "featChoices": [
+                    {
+                        "_className": "FeatChoice",
+                        "available": 1,
+                        "id": "6-Feat-Class-0",
+                        "source": "Class",
+                        "type": "Class"
+                    },
+                    {
+                        "_className": "FeatChoice",
+                        "available": 1,
+                        "id": "6-Feat-Class-1",
+                        "source": "Class",
+                        "type": "Skill"
+                    }
+                ],
+                "number": 6,
+                "skillChoices": [
+                    {
+                        "_className": "SkillChoice",
+                        "id": "6-Skill-Intelligence-0",
+                        "maxRank": 2,
+                        "source": "Intelligence",
+                        "type": "Skill"
+                    }
+                ]
+            },
+            {
+                "_className": "Level",
+                "featChoices": [
+                    {
+                        "_className": "FeatChoice",
+                        "feats": [
+                            {
+                                "name": "Path to Perfection",
+                                "source": "Monk",
+                                "locked": true,
+                                "sourceId": "7-Feature-Monk-0"
+                            },
+                            {
+                                "name": "Weapon Specialization",
+                                "source": "Monk",
+                                "locked": true,
+                                "sourceId": "7-Feature-Monk-0"
+                            }
+                        ],
+                        "id": "7-Feature-Monk-0",
+                        "source": "Monk",
+                        "type": "Feature"
+                    },
+                    {
+                        "_className": "FeatChoice",
+                        "available": 1,
+                        "id": "7-Feat-Class-0",
+                        "source": "Class",
+                        "type": "General"
+                    }
+                ],
+                "number": 7,
+                "skillChoices": [
+                    {
+                        "_className": "SkillChoice",
+                        "available": 1,
+                        "id": "7-Save-Path to Perfection-0",
+                        "maxRank": 6,
+                        "source": "Path to Perfection",
+                        "type": "Save"
+                    },
+                    {
+                        "_className": "SkillChoice",
+                        "available": 1,
+                        "id": "7-Skill-Class-0",
+                        "maxRank": 6,
+                        "source": "Class",
+                        "type": "Skill"
+                    },
+                    {
+                        "_className": "SkillChoice",
+                        "id": "7-Skill-Intelligence-0",
+                        "maxRank": 2,
+                        "source": "Intelligence",
+                        "type": "Skill"
+                    }
+                ]
+            },
+            {
+                "_className": "Level",
+                "featChoices": [
+                    {
+                        "_className": "FeatChoice",
+                        "available": 1,
+                        "id": "8-Feat-Class-0",
+                        "source": "Class",
+                        "type": "Class"
+                    },
+                    {
+                        "_className": "FeatChoice",
+                        "available": 1,
+                        "id": "8-Feat-Class-1",
+                        "source": "Class",
+                        "type": "Skill"
+                    }
+                ],
+                "number": 8,
+                "skillChoices": [
+                    {
+                        "_className": "SkillChoice",
+                        "id": "8-Skill-Intelligence-0",
+                        "maxRank": 2,
+                        "source": "Intelligence",
+                        "type": "Skill"
+                    }
+                ]
+            },
+            {
+                "_className": "Level",
+                "featChoices": [
+                    {
+                        "_className": "FeatChoice",
+                        "feats": [
+                            {
+                                "name": "Metal Strikes",
+                                "source": "Monk",
+                                "locked": true,
+                                "sourceId": "9-Feature-Monk-0"
+                            },
+                            {
+                                "name": "Monk Expertise",
+                                "source": "Monk",
+                                "locked": true,
+                                "sourceId": "9-Feature-Monk-0"
+                            }
+                        ],
+                        "id": "9-Feature-Monk-0",
+                        "source": "Monk",
+                        "type": "Feature"
+                    },
+                    {
+                        "_className": "FeatChoice",
+                        "available": 1,
+                        "id": "9-Feat-Class-0",
+                        "source": "Class",
+                        "type": "Ancestry"
+                    }
+                ],
+                "number": 9,
+                "skillChoices": [
+                    {
+                        "_className": "SkillChoice",
+                        "id": "9-Class DC-Monk Expertise-0",
+                        "increases": [
+                            {
+                                "name": "Monk Class DC",
+                                "source": "Monk Expertise",
+                                "maxRank": 4,
+                                "locked": true,
+                                "sourceId": "9-Class DC-Monk Expertise-0"
+                            }
+                        ],
+                        "maxRank": 4,
+                        "source": "Monk Expertise",
+                        "type": "Class DC"
+                    },
+                    {
+                        "_className": "SkillChoice",
+                        "id": "9-Spell DC-Monk Expertise-1",
+                        "maxRank": 4,
+                        "source": "Monk Expertise",
+                        "type": "Spell DC",
+                        "internalNote": "Increases for this choice are added by the Monk Spell Tradition Choice."
+                    },
+                    {
+                        "_className": "SkillChoice",
+                        "available": 1,
+                        "id": "9-Skill-Class-0",
+                        "maxRank": 6,
+                        "source": "Class",
+                        "type": "Skill"
+                    },
+                    {
+                        "_className": "SkillChoice",
+                        "id": "9-Skill-Intelligence-0",
+                        "maxRank": 2,
+                        "source": "Intelligence",
+                        "type": "Skill"
+                    }
+                ]
+            },
+            {
+                "_className": "Level",
+                "abilityChoices": [
+                    {
+                        "_className": "AbilityChoice",
+                        "available": 4,
+                        "id": "10-Ability-Class-0",
+                        "source": "Class"
+                    }
+                ],
+                "featChoices": [
+                    {
+                        "_className": "FeatChoice",
+                        "available": 1,
+                        "id": "10-Feat-Class-0",
+                        "source": "Class",
+                        "type": "Class"
+                    },
+                    {
+                        "_className": "FeatChoice",
+                        "available": 1,
+                        "id": "10-Feat-Class-",
+                        "source": "Class",
+                        "type": "Skill"
+                    }
+                ],
+                "number": 10,
+                "skillChoices": [
+                    {
+                        "_className": "SkillChoice",
+                        "id": "10-Skill-Intelligence-0",
+                        "maxRank": 2,
+                        "source": "Intelligence",
+                        "type": "Skill"
+                    }
+                ]
+            },
+            {
+                "_className": "Level",
+                "featChoices": [
+                    {
+                        "_className": "FeatChoice",
+                        "feats": [
+                            {
+                                "name": "Second Path to Perfection",
+                                "source": "Monk",
+                                "locked": true,
+                                "sourceId": "11-Feature-Monk-0"
+                            }
+                        ],
+                        "id": "11-Feature-Monk-0",
+                        "source": "Monk",
+                        "type": "Feature"
+                    },
+                    {
+                        "_className": "FeatChoice",
+                        "available": 1,
+                        "id": "11-Feat-Class-0",
+                        "source": "Class",
+                        "type": "General"
+                    }
+                ],
+                "number": 11,
+                "skillChoices": [
+                    {
+                        "_className": "SkillChoice",
+                        "available": 1,
+                        "id": "11-Save-Second Path to Perfection-0",
+                        "source": "Second Path to Perfection",
+                        "type": "Save"
+                    },
+                    {
+                        "_className": "SkillChoice",
+                        "available": 1,
+                        "id": "11-Skill-Class-0",
+                        "maxRank": 6,
+                        "source": "Class",
+                        "type": "Skill"
+                    },
+                    {
+                        "_className": "SkillChoice",
+                        "id": "11-Skill-Intelligence-0",
+                        "maxRank": 2,
+                        "source": "Intelligence",
+                        "type": "Skill"
+                    }
+                ]
+            },
+            {
+                "_className": "Level",
+                "featChoices": [
+                    {
+                        "_className": "FeatChoice",
+                        "available": 1,
+                        "id": "12-Feat-Class-0",
+                        "source": "Class",
+                        "type": "Class"
+                    },
+                    {
+                        "_className": "FeatChoice",
+                        "available": 1,
+                        "id": "12-Feat-Class-1",
+                        "source": "Class",
+                        "type": "Skill"
+                    }
+                ],
+                "number": 12,
+                "skillChoices": [
+                    {
+                        "_className": "SkillChoice",
+                        "id": "12-Skill-Intelligence-0",
+                        "maxRank": 2,
+                        "source": "Intelligence",
+                        "type": "Skill"
+                    }
+                ]
+            },
+            {
+                "_className": "Level",
+                "featChoices": [
+                    {
+                        "_className": "FeatChoice",
+                        "feats": [
+                            {
+                                "name": "Graceful Mastery",
+                                "source": "Monk",
+                                "locked": true,
+                                "sourceId": "13-Feature-Monk-0"
+                            },
+                            {
+                                "name": "Master Strikes",
+                                "source": "Monk",
+                                "locked": true,
+                                "sourceId": "13-Feature-Monk-0"
+                            }
+                        ],
+                        "id": "13-Feature-Monk-0",
+                        "source": "Monk",
+                        "type": "Feature"
+                    },
+                    {
+                        "_className": "FeatChoice",
+                        "available": 1,
+                        "id": "13-Feat-Class-0",
+                        "source": "Class",
+                        "type": "Ancestry"
+                    }
+                ],
+                "number": 13,
+                "skillChoices": [
+                    {
+                        "_className": "SkillChoice",
+                        "id": "13-Armor Proficiency-Graceful Mastery-0",
+                        "increases": [
+                            {
+                                "name": "Unarmored Defense",
+                                "source": "Graceful Mastery",
+                                "maxRank": 6,
+                                "locked": true,
+                                "sourceId": "13-Armor Proficiency-Graceful Mastery-0"
+                            }
+                        ],
+                        "maxRank": 6,
+                        "source": "Graceful Mastery",
+                        "type": "Armor Proficiency"
+                    },
+                    {
+                        "_className": "SkillChoice",
+                        "id": "13-Weapon Proficiency-Master Strikes-0",
+                        "increases": [
+                            {
+                                "name": "Unarmed Attacks",
+                                "source": "Master Strikes",
+                                "maxRank": 6,
+                                "locked": true,
+                                "sourceId": "13-Weapon Proficiency-Master Strikes-0"
+                            },
+                            {
+                                "name": "Simple Weapons",
+                                "source": "Master Strikes",
+                                "maxRank": 6,
+                                "locked": true,
+                                "sourceId": "13-Weapon Proficiency-Master Strikes-0"
+                            }
+                        ],
+                        "maxRank": 6,
+                        "source": "Master Strikes",
+                        "type": "Weapon Proficiency"
+                    },
+                    {
+                        "_className": "SkillChoice",
+                        "available": 1,
+                        "id": "13-Skill-Class-0",
+                        "maxRank": 6,
+                        "source": "Class",
+                        "type": "Skill"
+                    },
+                    {
+                        "_className": "SkillChoice",
+                        "id": "13-Skill-Intelligence-0",
+                        "maxRank": 2,
+                        "source": "Intelligence",
+                        "type": "Skill"
+                    }
+                ]
+            },
+            {
+                "_className": "Level",
+                "featChoices": [
+                    {
+                        "_className": "FeatChoice",
+                        "available": 1,
+                        "id": "14-Feat-Class-0",
+                        "source": "Class",
+                        "type": "Class"
+                    },
+                    {
+                        "_className": "FeatChoice",
+                        "available": 1,
+                        "id": "14-Feat-Class-",
+                        "source": "Class",
+                        "type": "Skill"
+                    }
+                ],
+                "number": 14,
+                "skillChoices": [
+                    {
+                        "_className": "SkillChoice",
+                        "id": "14-Skill-Intelligence-0",
+                        "maxRank": 2,
+                        "source": "Intelligence",
+                        "type": "Skill"
+                    }
+                ]
+            },
+            {
+                "_className": "Level",
+                "abilityChoices": [
+                    {
+                        "_className": "AbilityChoice",
+                        "available": 4,
+                        "id": "15-Ability-Class-0",
+                        "source": "Class"
+                    }
+                ],
+                "featChoices": [
+                    {
+                        "_className": "FeatChoice",
+                        "feats": [
+                            {
+                                "name": "Greater Weapon Specialization",
+                                "source": "Monk",
+                                "locked": true,
+                                "sourceId": "15-Feature-Monk-0"
+                            },
+                            {
+                                "name": "Third Path to Perfection",
+                                "source": "Monk",
+                                "locked": true,
+                                "sourceId": "15-Feature-Monk-0"
+                            }
+                        ],
+                        "id": "15-Feature-Monk-0",
+                        "source": "Monk",
+                        "type": "Feature"
+                    },
+                    {
+                        "_className": "FeatChoice",
+                        "available": 1,
+                        "id": "15-Feat-Class-0",
+                        "source": "Class",
+                        "type": "General"
+                    }
+                ],
+                "number": 15,
+                "skillChoices": [
+                    {
+                        "_className": "SkillChoice",
+                        "available": 1,
+                        "filter": [
+                            "none"
+                        ],
+                        "id": "15-Save-Third Path to Perfection-0",
+                        "source": "Third Path to Perfection",
+                        "type": "Save"
+                    },
+                    {
+                        "_className": "SkillChoice",
+                        "available": 1,
+                        "id": "15-Skill-Class-0",
+                        "source": "Class",
+                        "type": "Skill"
+                    },
+                    {
+                        "_className": "SkillChoice",
+                        "id": "15-Skill-Intelligence-0",
+                        "maxRank": 2,
+                        "source": "Intelligence",
+                        "type": "Skill"
+                    }
+                ]
+            },
+            {
+                "_className": "Level",
+                "featChoices": [
+                    {
+                        "_className": "FeatChoice",
+                        "available": 1,
+                        "id": "16-Feat-Class-0",
+                        "source": "Class",
+                        "type": "Class"
+                    },
+                    {
+                        "_className": "FeatChoice",
+                        "available": 1,
+                        "id": "16-Feat-Class-1",
+                        "source": "Class",
+                        "type": "Skill"
+                    }
+                ],
+                "number": 16,
+                "skillChoices": [
+                    {
+                        "_className": "SkillChoice",
+                        "id": "16-Skill-Intelligence-0",
+                        "maxRank": 2,
+                        "source": "Intelligence",
+                        "type": "Skill"
+                    }
+                ]
+            },
+            {
+                "_className": "Level",
+                "featChoices": [
+                    {
+                        "_className": "FeatChoice",
+                        "feats": [
+                            {
+                                "name": "Adamantine Strikes",
+                                "source": "Monk",
+                                "locked": true,
+                                "sourceId": "17-Feature-Monk-0"
+                            },
+                            {
+                                "name": "Graceful Legend",
+                                "source": "Monk",
+                                "locked": true,
+                                "sourceId": "17-Feature-Monk-0"
+                            }
+                        ],
+                        "id": "17-Feature-Monk-0",
+                        "source": "Monk",
+                        "type": "Feature"
+                    },
+                    {
+                        "_className": "FeatChoice",
+                        "available": 1,
+                        "id": "17-Feat-Class-0",
+                        "source": "Class",
+                        "type": "Ancestry"
+                    }
+                ],
+                "number": 17,
+                "skillChoices": [
+                    {
+                        "_className": "SkillChoice",
+                        "id": "17-Armor Proficiency-Graceful Legend-0",
+                        "increases": [
+                            {
+                                "name": "Unarmored Defense",
+                                "source": "Graceful Legend",
+                                "maxRank": 8,
+                                "locked": true,
+                                "sourceId": "17-Armor Proficiency-Graceful Legend-0"
+                            }
+                        ],
+                        "source": "Graceful Legend",
+                        "type": "Armor Proficiency"
+                    },
+                    {
+                        "_className": "SkillChoice",
+                        "id": "17-Class DC-Graceful Legend-0",
+                        "increases": [
+                            {
+                                "name": "Monk Class DC",
+                                "source": "Graceful Legend",
+                                "maxRank": 6,
+                                "locked": true,
+                                "sourceId": "17-Class DC-Graceful Legend-0"
+                            }
+                        ],
+                        "maxRank": 6,
+                        "source": "Graceful Legend",
+                        "type": "Class DC"
+                    },
+                    {
+                        "_className": "SkillChoice",
+                        "id": "17-Spell DC-Graceful Legend-1",
+                        "maxRank": 6,
+                        "source": "Graceful Legend",
+                        "type": "Spell DC",
+                        "internalNote": "Increases for this choice are added by the Monk Spell Tradition Choice."
+                    },
+                    {
+                        "_className": "SkillChoice",
+                        "available": 1,
+                        "id": "17-Skill-Class-0",
+                        "source": "Class",
+                        "type": "Skill"
+                    },
+                    {
+                        "_className": "SkillChoice",
+                        "id": "17-Skill-Intelligence-0",
+                        "maxRank": 2,
+                        "source": "Intelligence",
+                        "type": "Skill"
+                    }
+                ]
+            },
+            {
+                "_className": "Level",
+                "featChoices": [
+                    {
+                        "_className": "FeatChoice",
+                        "available": 1,
+                        "id": "18-Feat-Class-0",
+                        "source": "Class",
+                        "type": "Class"
+                    },
+                    {
+                        "_className": "FeatChoice",
+                        "available": 1,
+                        "id": "18-Feat-Class-1",
+                        "source": "Class",
+                        "type": "Skill"
+                    }
+                ],
+                "number": 18,
+                "skillChoices": [
+                    {
+                        "_className": "SkillChoice",
+                        "id": "18-Skill-Intelligence-0",
+                        "maxRank": 2,
+                        "source": "Intelligence",
+                        "type": "Skill"
+                    }
+                ]
+            },
+            {
+                "_className": "Level",
+                "featChoices": [
+                    {
+                        "_className": "FeatChoice",
+                        "feats": [
+                            {
+                                "name": "Perfected Form",
+                                "source": "Monk",
+                                "locked": true,
+                                "sourceId": "19-Feature-Monk-0"
+                            }
+                        ],
+                        "id": "19-Feature-Monk-0",
+                        "source": "Monk",
+                        "type": "Feature"
+                    },
+                    {
+                        "_className": "FeatChoice",
+                        "available": 1,
+                        "id": "19-Feat-Class-0",
+                        "source": "Class",
+                        "type": "General"
+                    }
+                ],
+                "number": 19,
+                "skillChoices": [
+                    {
+                        "_className": "SkillChoice",
+                        "available": 1,
+                        "id": "19-Skill-Class-0",
+                        "source": "Class",
+                        "type": "Skill"
+                    },
+                    {
+                        "_className": "SkillChoice",
+                        "id": "19-Skill-Intelligence-0",
+                        "maxRank": 2,
+                        "source": "Intelligence",
+                        "type": "Skill"
+                    }
+                ]
+            },
+            {
+                "_className": "Level",
+                "abilityChoices": [
+                    {
+                        "_className": "AbilityChoice",
+                        "available": 4,
+                        "id": "20-Ability-Class-0",
+                        "source": "Class"
+                    }
+                ],
+                "featChoices": [
+                    {
+                        "_className": "FeatChoice",
+                        "available": 1,
+                        "id": "20-Feat-Class-0",
+                        "source": "Class",
+                        "type": "Class"
+                    },
+                    {
+                        "_className": "FeatChoice",
+                        "available": 1,
+                        "id": "20-Feat-Class-1",
+                        "source": "Class",
+                        "type": "Skill"
+                    }
+                ],
+                "number": 20,
+                "skillChoices": [
+                    {
+                        "_className": "SkillChoice",
+                        "id": "20-Skill-Intelligence-0",
+                        "maxRank": 2,
+                        "source": "Intelligence",
+                        "type": "Skill"
+                    }
+                ]
+            }
+        ],
+        "name": "Monk",
+        "spellCasting": [
+            {
+                "_className": "SpellCasting",
+                "castingType": "Innate",
+                "className": "Innate",
+                "ability": "Charisma",
+                "source": "Innate",
+                "spellDC": {
+                    "_className": "SkillChoice",
+                    "increases": [
+                        {
+                            "name": "Innate Spell DC",
+                            "source": "Innate",
+                            "maxRank": 2,
+                            "locked": true,
+                            "sourceId": ""
+                        }
+                    ],
+                    "maxRank": 2,
+                    "source": "Innate",
+                    "type": "Spell DC"
+                },
+                "tradition": ""
+            },
+            {
+                "_className": "SpellCasting",
+                "castingType": "Focus",
+                "className": "Monk",
+                "ability": "Wisdom",
+                "source": "Ki Spells",
+                "traditionAvailable": 1,
+                "traditionFilter": [
+                   "Divine",
+                   "Occult"
+                ]
+            }
+        ]
+    },
+    {
+        "_className": "Class",
+        "customSkills": [
+            {
+                "name": "Ranger Class DC",
+                "type": "Class DC"
+            }
+        ],
+        "desc": [
+            {
+                "name": "Description",
+                "value": "Some rangers believe civilization wears down the soul, but still needs to be protected from wild creatures. Others say nature needs to be protected from the greedy, who wish to tame its beauty and plunder its treasures. You could champion either goal, or both. You might be a scout, tracker, or hunter of fugitives or beasts, haunting the edge of civilization or exploring the wilds. You know how to live off the land and are skilled at spotting and taking down both opportune prey and hated enemies."
+            },
+            {
+                "name": "Key Ability",
+                "value": "Strength or Dexterity"
+            },
+            {
+                "name": "Hit Points",
+                "value": "10 plus your Constitution modifier"
+            },
+            {
+                "name": "Perception",
+                "value": "Expert in Perception"
+            },
+            {
+                "name": "Saving Throws",
+                "value": "Expert in Fortitude\nExpert in Reflex\nTrained in Will"
+            },
+            {
+                "name": "Skill",
+                "value": "Trained in Nature\nTrained in Survival\nTrained in a number of additional skills equal to 4 plus your Intelligence modifier"
+            },
+            {
+                "name": "Attacks",
+                "value": "Trained in simple weapons\nTrained in martial weapons\nTrained in unarmed attacks"
+            },
+            {
+                "name": "Defenses",
+                "value": "Trained in light armor\nTrained in medium armor\nTrained in unarmored defense"
+            },
+            {
+                "name": "Class DC",
+                "value": "Trained in ranger class DC"
+            }
+        ],
+        "hitPoints": 10,
+        "levels": [
+            {
+                "_className": "Level"
+            },
+            {
+                "_className": "Level",
+                "abilityChoices": [
+                    {
+                        "_className": "AbilityChoice",
+                        "available": 1,
+                        "filter": [
+                            "Strength",
+                            "Dexterity"
+                        ],
+                        "id": "1-Ability-Class Key Ability-0",
+                        "source": "Class Key Ability"
+                    },
+                    {
+                        "_className": "AbilityChoice",
+                        "available": 4,
+                        "baseValuesLost": 4,
+                        "id": "1-Ability-Character Creation-0",
+                        "source": "Character Creation"
+                    }
+                ],
+                "featChoices": [
+                    {
+                        "_className": "FeatChoice",
+                        "feats": [
+                            {
+                                "name": "Hunt Prey",
+                                "source": "Ranger",
+                                "locked": true,
+                                "sourceId": "1-Feature-Ranger-0"
+                            },
+                            {
+                                "name": "Hunter's Edge",
+                                "source": "Ranger",
+                                "locked": true,
+                                "sourceId": "1-Feature-Ranger-0"
+                            }
+                        ],
+                        "id": "1-Feature-Ranger-0",
+                        "source": "Ranger",
+                        "type": "Feature"
+                    },
+                    {
+                        "_className": "FeatChoice",
+                        "available": 1,
+                        "filter": [
+                            "Flurry",
+                            "Outwit",
+                            "Precision"
+                        ],
+                        "id": "1-Feat-Hunter's Edge-1",
+                        "source": "Ranger",
+                        "specialChoice": true,
+                        "type": "Hunter's Edge"
+                    },
+                    {
+                        "_className": "FeatChoice",
+                        "available": 1,
+                        "id": "1-Feat-Class-0",
+                        "source": "Class",
+                        "type": "Ancestry"
+                    },
+                    {
+                        "_className": "FeatChoice",
+                        "available": 1,
+                        "id": "1-Feat-Class-1",
+                        "source": "Class",
+                        "type": "Class"
+                    }
+                ],
+                "number": 1,
+                "skillChoices": [
+                    {
+                        "_className": "SkillChoice",
+                        "id": "1-Skill-Class-0",
+                        "increases": [
+                            {
+                                "name": "Perception",
+                                "source": "Class",
+                                "maxRank": 2,
+                                "locked": true,
+                                "sourceId": "1-Skill-Class-0"
+                            },
+                            {
+                                "name": "Perception",
+                                "source": "Class",
+                                "maxRank": 4,
+                                "locked": true,
+                                "sourceId": "1-Skill-Class-0"
+                            },
+                            {
+                                "name": "Fortitude",
+                                "source": "Class",
+                                "maxRank": 2,
+                                "locked": true,
+                                "sourceId": "1-Skill-Class-0"
+                            },
+                            {
+                                "name": "Fortitude",
+                                "source": "Class",
+                                "maxRank": 4,
+                                "locked": true,
+                                "sourceId": "1-Skill-Class-0"
+                            },
+                            {
+                                "name": "Reflex",
+                                "source": "Class",
+                                "maxRank": 2,
+                                "locked": true,
+                                "sourceId": "1-Skill-Class-0"
+                            },
+                            {
+                                "name": "Reflex",
+                                "source": "Class",
+                                "maxRank": 4,
+                                "locked": true,
+                                "sourceId": "1-Skill-Class-0"
+                            },
+                            {
+                                "name": "Will",
+                                "source": "Class",
+                                "maxRank": 2,
+                                "locked": true,
+                                "sourceId": "1-Skill-Class-0"
+                            },
+                            {
+                                "name": "Simple Weapons",
+                                "source": "Class",
+                                "maxRank": 2,
+                                "locked": true,
+                                "sourceId": "1-Skill-Class-0"
+                            },
+                            {
+                                "name": "Martial Weapons",
+                                "source": "Class",
+                                "maxRank": 2,
+                                "locked": true,
+                                "sourceId": "1-Skill-Class-0"
+                            },
+                            {
+                                "name": "Unarmed Attacks",
+                                "source": "Class",
+                                "maxRank": 2,
+                                "locked": true,
+                                "sourceId": "1-Skill-Class-0"
+                            },
+                            {
+                                "name": "Light Armor",
+                                "source": "Class",
+                                "maxRank": 2,
+                                "locked": true,
+                                "sourceId": "1-Skill-Class-0"
+                            },
+                            {
+                                "name": "Medium Armor",
+                                "source": "Class",
+                                "maxRank": 2,
+                                "locked": true,
+                                "sourceId": "1-Skill-Class-0"
+                            },
+                            {
+                                "name": "Unarmored Defense",
+                                "source": "Class",
+                                "maxRank": 2,
+                                "locked": true,
+                                "sourceId": "1-Skill-Class-0"
+                            },
+                            {
+                                "name": "Nature",
+                                "source": "Class",
+                                "maxRank": 2,
+                                "locked": true,
+                                "sourceId": "1-Skill-Class-0"
+                            },
+                            {
+                                "name": "Survival",
+                                "source": "Class",
+                                "maxRank": 2,
+                                "locked": true,
+                                "sourceId": "1-Skill-Class-0"
+                            },
+                            {
+                                "name": "Ranger Class DC",
+                                "source": "Class",
+                                "maxRank": 2,
+                                "locked": true,
+                                "sourceId": "1-Skill-Class-0"
+                            }
+                        ],
+                        "maxRank": 4,
+                        "source": "Class",
+                        "type": "Any"
+                    },
+                    {
+                        "_className": "SkillChoice",
+                        "available": 4,
+                        "id": "1-Skill-Class-1",
+                        "maxRank": 2,
+                        "source": "Class",
+                        "type": "Skill"
+                    }
+                ]
+            },
+            {
+                "_className": "Level",
+                "featChoices": [
+                    {
+                        "_className": "FeatChoice",
+                        "available": 1,
+                        "id": "2-Feat-Class-0",
+                        "source": "Class",
+                        "type": "Class"
+                    },
+                    {
+                        "_className": "FeatChoice",
+                        "available": 1,
+                        "id": "2-Feat-Class-1",
+                        "source": "Class",
+                        "type": "Skill"
+                    }
+                ],
+                "number": 2,
+                "skillChoices": [
+                    {
+                        "_className": "SkillChoice",
+                        "id": "2-Skill-Intelligence-0",
+                        "maxRank": 2,
+                        "source": "Intelligence",
+                        "type": "Skill"
+                    }
+                ]
+            },
+            {
+                "_className": "Level",
+                "featChoices": [
+                    {
+                        "_className": "FeatChoice",
+                        "feats": [
+                            {
+                                "name": "Iron Will",
+                                "source": "Ranger",
+                                "locked": true,
+                                "sourceId": "3-Feature-Ranger-0"
+                            }
+                        ],
+                        "id": "3-Feature-Ranger-0",
+                        "source": "Ranger",
+                        "type": "Feature"
+                    },
+                    {
+                        "_className": "FeatChoice",
+                        "available": 1,
+                        "id": "3-Feat-Class-0",
+                        "source": "Class",
+                        "type": "General"
+                    }
+                ],
+                "number": 3,
+                "skillChoices": [
+                    {
+                        "_className": "SkillChoice",
+                        "id": "5-Will-Iron Will-0",
+                        "increases": [
+                            {
+                                "name": "Will",
+                                "source": "Iron Will",
+                                "maxRank": 4,
+                                "locked": true,
+                                "sourceId": "5-Will-Iron Will-0"
+                            }
+                        ],
+                        "maxRank": 4,
+                        "source": "Alertness",
+                        "type": "Save"
+                    },
+                    {
+                        "_className": "SkillChoice",
+                        "available": 1,
+                        "id": "3-Skill-Class-1",
+                        "maxRank": 4,
+                        "source": "Class",
+                        "type": "Skill"
+                    },
+                    {
+                        "_className": "SkillChoice",
+                        "id": "3-Skill-Intelligence-0",
+                        "maxRank": 2,
+                        "source": "Intelligence",
+                        "type": "Skill"
+                    }
+                ]
+            },
+            {
+                "_className": "Level",
+                "featChoices": [
+                    {
+                        "_className": "FeatChoice",
+                        "available": 1,
+                        "id": "4-Feat-Class-0",
+                        "source": "Class",
+                        "type": "Class"
+                    },
+                    {
+                        "_className": "FeatChoice",
+                        "available": 1,
+                        "id": "4-Feat-Class-1",
+                        "source": "Class",
+                        "type": "Skill"
+                    }
+                ],
+                "number": 4,
+                "skillChoices": [
+                    {
+                        "_className": "SkillChoice",
+                        "id": "4-Skill-Intelligence-0",
+                        "maxRank": 2,
+                        "source": "Intelligence",
+                        "type": "Skill"
+                    }
+                ]
+            },
+            {
+                "_className": "Level",
+                "abilityChoices": [
+                    {
+                        "_className": "AbilityChoice",
+                        "available": 4,
+                        "id": "5-Ability-Class-0",
+                        "source": "Class"
+                    }
+                ],
+                "featChoices": [
+                    {
+                        "_className": "FeatChoice",
+                        "available": 1,
+                        "id": "5-Feat-Class-0",
+                        "source": "Class",
+                        "type": "Ancestry"
+                    },
+                    {
+                        "_className": "FeatChoice",
+                        "feats": [
+                            {
+                                "name": "Trackless Step",
+                                "source": "Ranger",
+                                "locked": true,
+                                "sourceId": "5-Feature-Ranger-0"
+                            },
+                            {
+                                "name": "Ranger Weapon Expertise",
+                                "source": "Ranger",
+                                "locked": true,
+                                "sourceId": "5-Feature-Ranger-0"
+                            }
+                        ],
+                        "id": "5-Feature-Ranger-0",
+                        "source": "Ranger",
+                        "type": "Feature"
+                    }
+                ],
+                "number": 5,
+                "skillChoices": [
+                    {
+                        "_className": "SkillChoice",
+                        "id": "5-Perception-Alertness-0",
+                        "increases": [
+                            {
+                                "name": "Perception",
+                                "source": "Alertness",
+                                "maxRank": 4,
+                                "locked": true,
+                                "sourceId": "5-Perception-Alertness-0"
+                            }
+                        ],
+                        "maxRank": 4,
+                        "source": "Alertness",
+                        "type": "Perception"
+                    },
+                    {
+                        "_className": "SkillChoice",
+                        "id": "5-Weapon Proficiency-Weapon Expertise-0",
+                        "increases": [
+                            {
+                                "name": "Simple Weapons",
+                                "source": "Weapon Expertise",
+                                "maxRank": 4,
+                                "locked": true,
+                                "sourceId": "5-Weapon Proficiency-Weapon Expertise-0"
+                            },
+                            {
+                                "name": "Martial Weapons",
+                                "source": "Weapon Expertise",
+                                "maxRank": 4,
+                                "locked": true,
+                                "sourceId": "5-Weapon Proficiency-Weapon Expertise-0"
+                            }
+                        ],
+                        "maxRank": 4,
+                        "source": "Weapon Expertise",
+                        "type": "Weapon Proficiency"
+                    },
+                    {
+                        "_className": "SkillChoice",
+                        "available": 1,
+                        "id": "5-Skill-Class-0",
+                        "maxRank": 4,
+                        "source": "Class",
+                        "type": "Skill"
+                    },
+                    {
+                        "_className": "SkillChoice",
+                        "id": "5-Skill-Intelligence-0",
+                        "maxRank": 2,
+                        "source": "Intelligence",
+                        "type": "Skill"
+                    }
+                ]
+            },
+            {
+                "_className": "Level",
+                "featChoices": [
+                    {
+                        "_className": "FeatChoice",
+                        "available": 1,
+                        "id": "6-Feat-Class-0",
+                        "source": "Class",
+                        "type": "Class"
+                    },
+                    {
+                        "_className": "FeatChoice",
+                        "available": 1,
+                        "id": "6-Feat-Class-1",
+                        "source": "Class",
+                        "type": "Skill"
+                    }
+                ],
+                "number": 6,
+                "skillChoices": [
+                    {
+                        "_className": "SkillChoice",
+                        "id": "6-Skill-Intelligence-0",
+                        "maxRank": 2,
+                        "source": "Intelligence",
+                        "type": "Skill"
+                    }
+                ]
+            },
+            {
+                "_className": "Level",
+                "featChoices": [
+                    {
+                        "_className": "FeatChoice",
+                        "feats": [
+                            {
+                                "name": "Evasion",
+                                "source": "Ranger",
+                                "locked": true,
+                                "sourceId": "7-Feature-Ranger-0"
+                            },
+                            {
+                                "name": "Vigilant Senses",
+                                "source": "Ranger",
+                                "locked": true,
+                                "sourceId": "7-Feature-Ranger-0"
+                            },
+                            {
+                                "name": "Weapon Specialization",
+                                "source": "Ranger",
+                                "locked": true,
+                                "sourceId": "7-Feature-Ranger-0"
+                            }
+                        ],
+                        "id": "7-Feature-Ranger-0",
+                        "source": "Ranger",
+                        "type": "Feature"
+                    },
+                    {
+                        "_className": "FeatChoice",
+                        "available": 1,
+                        "id": "7-Feat-Class-0",
+                        "source": "Class",
+                        "type": "General"
+                    }
+                ],
+                "number": 7,
+                "skillChoices": [
+                    {
+                        "_className": "SkillChoice",
+                        "id": "7-Save-Evasion-0",
+                        "increases": [
+                            {
+                                "name": "Reflex",
+                                "source": "Evasion",
+                                "maxRank": 6,
+                                "locked": true,
+                                "sourceId": "7-Save-Evasion-0"
+                            }
+                        ],
+                        "maxRank": 6,
+                        "source": "Evasion",
+                        "type": "Save"
+                    },
+                    {
+                        "_className": "SkillChoice",
+                        "id": "7-Perception-Vigilant Senses-0",
+                        "increases": [
+                            {
+                                "name": "Perception",
+                                "source": "Vigilant Senses",
+                                "maxRank": 6,
+                                "locked": true,
+                                "sourceId": "7-Perception-Vigilant Senses-0"
+                            }
+                        ],
+                        "maxRank": 6,
+                        "source": "Vigilant Senses",
+                        "type": "Perception"
+                    },
+                    {
+                        "_className": "SkillChoice",
+                        "available": 1,
+                        "id": "7-Skill-Class-0",
+                        "maxRank": 6,
+                        "source": "Class",
+                        "type": "Skill"
+                    },
+                    {
+                        "_className": "SkillChoice",
+                        "id": "7-Skill-Intelligence-0",
+                        "maxRank": 2,
+                        "source": "Intelligence",
+                        "type": "Skill"
+                    }
+                ]
+            },
+            {
+                "_className": "Level",
+                "featChoices": [
+                    {
+                        "_className": "FeatChoice",
+                        "available": 1,
+                        "id": "8-Feat-Class-0",
+                        "source": "Class",
+                        "type": "Class"
+                    },
+                    {
+                        "_className": "FeatChoice",
+                        "available": 1,
+                        "id": "8-Feat-Class-1",
+                        "source": "Class",
+                        "type": "Skill"
+                    }
+                ],
+                "number": 8,
+                "skillChoices": [
+                    {
+                        "_className": "SkillChoice",
+                        "id": "8-Skill-Intelligence-0",
+                        "maxRank": 2,
+                        "source": "Intelligence",
+                        "type": "Skill"
+                    }
+                ]
+            },
+            {
+                "_className": "Level",
+                "featChoices": [
+                    {
+                        "_className": "FeatChoice",
+                        "feats": [
+                            {
+                                "name": "Nature's Edge",
+                                "source": "Ranger",
+                                "locked": true,
+                                "sourceId": "9-Feature-Ranger-0"
+                            },
+                            {
+                                "name": "Ranger Expertise",
+                                "source": "Ranger",
+                                "locked": true,
+                                "sourceId": "9-Feature-Ranger-0"
+                            }
+                        ],
+                        "id": "9-Feature-Ranger-0",
+                        "source": "Ranger",
+                        "type": "Feature"
+                    },
+                    {
+                        "_className": "FeatChoice",
+                        "available": 1,
+                        "id": "9-Feat-Class-0",
+                        "source": "Class",
+                        "type": "Ancestry"
+                    }
+                ],
+                "number": 9,
+                "skillChoices": [
+                    {
+                        "_className": "SkillChoice",
+                        "id": "9-Class DC-Ranger Expertise-0",
+                        "increases": [
+                            {
+                                "name": "Ranger Class DC",
+                                "source": "Ranger Expertise",
+                                "maxRank": 4,
+                                "locked": true,
+                                "sourceId": "9-Class DC-Ranger Expertise-0"
+                            }
+                        ],
+                        "maxRank": 4,
+                        "source": "Ranger Expertise",
+                        "type": "Class DC"
+                    },
+                    {
+                        "_className": "SkillChoice",
+                        "available": 1,
+                        "id": "9-Skill-Class-0",
+                        "maxRank": 6,
+                        "source": "Class",
+                        "type": "Skill"
+                    },
+                    {
+                        "_className": "SkillChoice",
+                        "id": "9-Skill-Intelligence-0",
+                        "maxRank": 2,
+                        "source": "Intelligence",
+                        "type": "Skill"
+                    }
+                ]
+            },
+            {
+                "_className": "Level",
+                "abilityChoices": [
+                    {
+                        "_className": "AbilityChoice",
+                        "available": 4,
+                        "id": "10-Ability-Class-0",
+                        "source": "Class"
+                    }
+                ],
+                "featChoices": [
+                    {
+                        "_className": "FeatChoice",
+                        "available": 1,
+                        "id": "10-Feat-Class-0",
+                        "source": "Class",
+                        "type": "Class"
+                    },
+                    {
+                        "_className": "FeatChoice",
+                        "available": 1,
+                        "id": "10-Feat-Class-1",
+                        "source": "Class",
+                        "type": "Skill"
+                    }
+                ],
+                "number": 10,
+                "skillChoices": [
+                    {
+                        "_className": "SkillChoice",
+                        "id": "10-Skill-Intelligence-0",
+                        "maxRank": 2,
+                        "source": "Intelligence",
+                        "type": "Skill"
+                    }
+                ]
+            },
+            {
+                "_className": "Level",
+                "featChoices": [
+                    {
+                        "_className": "FeatChoice",
+                        "feats": [
+                            {
+                                "name": "Juggernaut",
+                                "source": "Ranger",
+                                "locked": true,
+                                "sourceId": "11-Feature-Ranger-0"
+                            },
+                            {
+                                "name": "Medium Armor Expertise",
+                                "source": "Ranger",
+                                "locked": true,
+                                "sourceId": "11-Feature-Ranger-0"
+                            },
+                            {
+                                "name": "Wild Stride",
+                                "source": "Ranger",
+                                "locked": true,
+                                "sourceId": "11-Feature-Ranger-0"
+                            }
+                        ],
+                        "id": "11-Feature-Ranger-0",
+                        "source": "Ranger",
+                        "type": "Feature"
+                    },
+                    {
+                        "_className": "FeatChoice",
+                        "available": 1,
+                        "id": "11-Feat-Class-0",
+                        "source": "Class",
+                        "type": "General"
+                    }
+                ],
+                "number": 11,
+                "skillChoices": [
+                    {
+                        "_className": "SkillChoice",
+                        "id": "11-Save-Juggernaut-0",
+                        "increases": [
+                            {
+                                "name": "Fortitude",
+                                "source": "Juggernaut",
+                                "maxRank": 6,
+                                "locked": true,
+                                "sourceId": "11-Save-Juggernaut-0"
+                            }
+                        ],
+                        "source": "Juggernaut",
+                        "type": "Save"
+                    },
+                    {
+                        "_className": "SkillChoice",
+                        "id": "11-Armor Proficiency-Medium Armor Expertise-0",
+                        "increases": [
+                            {
+                                "name": "Light Armor",
+                                "source": "Medium Armor Expertise",
+                                "maxRank": 4,
+                                "locked": true,
+                                "sourceId": "11-Armor Proficiency-Medium Armor Expertise-0"
+                            },
+                            {
+                                "name": "Medium Armor",
+                                "source": "Medium Armor Expertise",
+                                "maxRank": 4,
+                                "locked": true,
+                                "sourceId": "11-Armor Proficiency-Medium Armor Expertise-0"
+                            },
+                            {
+                                "name": "Unarmored Defense",
+                                "source": "Medium Armor Expertise",
+                                "maxRank": 4,
+                                "locked": true,
+                                "sourceId": "11-Armor Proficiency-Medium Armor Expertise-0"
+                            }
+                        ],
+                        "source": "Medium Armor Expertise",
+                        "type": "Armor Proficiency"
+                    },
+                    {
+                        "_className": "SkillChoice",
+                        "available": 1,
+                        "id": "11-Skill-Class-0",
+                        "maxRank": 6,
+                        "source": "Class",
+                        "type": "Skill"
+                    },
+                    {
+                        "_className": "SkillChoice",
+                        "id": "11-Skill-Intelligence-0",
+                        "maxRank": 2,
+                        "source": "Intelligence",
+                        "type": "Skill"
+                    }
+                ]
+            },
+            {
+                "_className": "Level",
+                "featChoices": [
+                    {
+                        "_className": "FeatChoice",
+                        "available": 1,
+                        "id": "12-Feat-Class-0",
+                        "source": "Class",
+                        "type": "Class"
+                    },
+                    {
+                        "_className": "FeatChoice",
+                        "available": 1,
+                        "id": "12-Feat-Class-1",
+                        "source": "Class",
+                        "type": "Skill"
+                    }
+                ],
+                "number": 12,
+                "skillChoices": [
+                    {
+                        "_className": "SkillChoice",
+                        "id": "12-Skill-Intelligence-0",
+                        "maxRank": 2,
+                        "source": "Intelligence",
+                        "type": "Skill"
+                    }
+                ]
+            },
+            {
+                "_className": "Level",
+                "featChoices": [
+                    {
+                        "_className": "FeatChoice",
+                        "feats": [
+                            {
+                                "name": "Weapon Mastery",
+                                "source": "Ranger",
+                                "locked": true,
+                                "sourceId": "13-Feature-Ranger-0"
+                            }
+                        ],
+                        "id": "13-Feature-Ranger-0",
+                        "source": "Ranger",
+                        "type": "Feature"
+                    },
+                    {
+                        "_className": "FeatChoice",
+                        "available": 1,
+                        "id": "13-Feat-Class-0",
+                        "source": "Class",
+                        "type": "Ancestry"
+                    }
+                ],
+                "number": 13,
+                "skillChoices": [
+                    {
+                        "_className": "SkillChoice",
+                        "id": "13-Weapon Proficiency-Master Strikes-0",
+                        "increases": [
+                            {
+                                "name": "Simple Weapons",
+                                "source": "Weapon Mastery",
+                                "maxRank": 6,
+                                "locked": true,
+                                "sourceId": "13-Weapon Proficiency-Master Strikes-0"
+                            },
+                            {
+                                "name": "Martial Weapons",
+                                "source": "Weapon Mastery",
+                                "maxRank": 6,
+                                "locked": true,
+                                "sourceId": "13-Weapon Proficiency-Master Strikes-0"
+                            }
+                        ],
+                        "maxRank": 6,
+                        "source": "Weapon Mastery",
+                        "type": "Weapon Proficiency"
+                    },
+                    {
+                        "_className": "SkillChoice",
+                        "available": 1,
+                        "id": "13-Skill-Class-0",
+                        "maxRank": 6,
+                        "source": "Class",
+                        "type": "Skill"
+                    },
+                    {
+                        "_className": "SkillChoice",
+                        "id": "13-Skill-Intelligence-0",
+                        "maxRank": 2,
+                        "source": "Intelligence",
+                        "type": "Skill"
+                    }
+                ]
+            },
+            {
+                "_className": "Level",
+                "featChoices": [
+                    {
+                        "_className": "FeatChoice",
+                        "available": 1,
+                        "id": "14-Feat-Class-0",
+                        "source": "Class",
+                        "type": "Class"
+                    },
+                    {
+                        "_className": "FeatChoice",
+                        "available": 1,
+                        "id": "14-Feat-Class-1",
+                        "source": "Class",
+                        "type": "Skill"
+                    }
+                ],
+                "number": 14,
+                "skillChoices": [
+                    {
+                        "_className": "SkillChoice",
+                        "id": "14-Skill-Intelligence-0",
+                        "maxRank": 2,
+                        "source": "Intelligence",
+                        "type": "Skill"
+                    }
+                ]
+            },
+            {
+                "_className": "Level",
+                "abilityChoices": [
+                    {
+                        "_className": "AbilityChoice",
+                        "available": 4,
+                        "id": "15-Ability-Class-0",
+                        "source": "Class"
+                    }
+                ],
+                "featChoices": [
+                    {
+                        "_className": "FeatChoice",
+                        "feats": [
+                            {
+                                "name": "Greater Weapon Specialization",
+                                "source": "Ranger",
+                                "locked": true,
+                                "sourceId": "15-Feature-Ranger-0"
+                            },
+                            {
+                                "name": "Improved Evasion",
+                                "source": "Ranger",
+                                "locked": true,
+                                "sourceId": "15-Feature-Ranger-0"
+                            },
+                            {
+                                "name": "Incredible Senses",
+                                "source": "Ranger",
+                                "locked": true,
+                                "sourceId": "15-Feature-Ranger-0"
+                            }
+                        ],
+                        "id": "15-Feature-Ranger-0",
+                        "source": "Ranger",
+                        "type": "Feature"
+                    },
+                    {
+                        "_className": "FeatChoice",
+                        "available": 1,
+                        "id": "15-Feat-Class-0",
+                        "source": "Class",
+                        "type": "General"
+                    }
+                ],
+                "number": 15,
+                "skillChoices": [
+                    {
+                        "_className": "SkillChoice",
+                        "id": "15-Save-Improved Evasion-0",
+                        "increases": [
+                            {
+                                "name": "Reflex",
+                                "source": "Improved Evasion",
+                                "maxRank": 8,
+                                "locked": true,
+                                "sourceId": "15-Save-Improved Evasion-0"
+                            }
+                        ],
+                        "source": "Improved Evasion",
+                        "type": "Save"
+                    },
+                    {
+                        "_className": "SkillChoice",
+                        "id": "15-Perception-Incredible Senses-0",
+                        "increases": [
+                            {
+                                "name": "Perception",
+                                "source": "Incredible Senses",
+                                "maxRank": 8,
+                                "locked": true,
+                                "sourceId": "15-Perception-Incredible Senses-0"
+                            }
+                        ],
+                        "source": "Incredible Senses",
+                        "type": "Perception"
+                    },
+                    {
+                        "_className": "SkillChoice",
+                        "available": 1,
+                        "id": "15-Skill-Class-0",
+                        "source": "Class",
+                        "type": "Skill"
+                    },
+                    {
+                        "_className": "SkillChoice",
+                        "id": "15-Skill-Intelligence-0",
+                        "maxRank": 2,
+                        "source": "Intelligence",
+                        "type": "Skill"
+                    }
+                ]
+            },
+            {
+                "_className": "Level",
+                "featChoices": [
+                    {
+                        "_className": "FeatChoice",
+                        "available": 1,
+                        "id": "16-Feat-Class-0",
+                        "source": "Class",
+                        "type": "Class"
+                    },
+                    {
+                        "_className": "FeatChoice",
+                        "available": 1,
+                        "id": "16-Feat-Class-1",
+                        "source": "Class",
+                        "type": "Skill"
+                    }
+                ],
+                "number": 16,
+                "skillChoices": [
+                    {
+                        "_className": "SkillChoice",
+                        "id": "16-Skill-Intelligence-0",
+                        "maxRank": 2,
+                        "source": "Intelligence",
+                        "type": "Skill"
+                    }
+                ]
+            },
+            {
+                "_className": "Level",
+                "featChoices": [
+                    {
+                        "_className": "FeatChoice",
+                        "feats": [
+                            {
+                                "name": "Masterful Hunter",
+                                "source": "Ranger",
+                                "locked": true,
+                                "sourceId": "17-Feature-Ranger-0"
+                            }
+                        ],
+                        "id": "17-Feature-Ranger-0",
+                        "source": "Ranger",
+                        "type": "Feature"
+                    },
+                    {
+                        "_className": "FeatChoice",
+                        "available": 1,
+                        "id": "17-Feat-Class-0",
+                        "source": "Class",
+                        "type": "Ancestry"
+                    },
+                    {
+                        "_className": "FeatChoice",
+                        "id": "17-Feat-Hunter's Edge-1",
+                        "source": "Ranger",
+                        "type": "Hunter's Edge"
+                    }
+                ],
+                "number": 17,
+                "skillChoices": [
+                    {
+                        "_className": "SkillChoice",
+                        "id": "17-Class DC-Masterful Hunter-0",
+                        "increases": [
+                            {
+                                "name": "Ranger Class DC",
+                                "source": "Masterful Hunter",
+                                "maxRank": 6,
+                                "locked": true,
+                                "sourceId": "17-Class DC-Masterful Hunter-0"
+                            }
+                        ],
+                        "maxRank": 6,
+                        "source": "Masterful Hunter",
+                        "type": "Class DC"
+                    },
+                    {
+                        "_className": "SkillChoice",
+                        "available": 1,
+                        "id": "17-Skill-Class-0",
+                        "source": "Class",
+                        "type": "Skill"
+                    },
+                    {
+                        "_className": "SkillChoice",
+                        "id": "17-Skill-Intelligence-0",
+                        "maxRank": 2,
+                        "source": "Intelligence",
+                        "type": "Skill"
+                    }
+                ]
+            },
+            {
+                "_className": "Level",
+                "featChoices": [
+                    {
+                        "_className": "FeatChoice",
+                        "available": 1,
+                        "id": "18-Feat-Class-0",
+                        "source": "Class",
+                        "type": "Class"
+                    },
+                    {
+                        "_className": "FeatChoice",
+                        "available": 1,
+                        "id": "18-Feat-Class-1",
+                        "source": "Class",
+                        "type": "Skill"
+                    }
+                ],
+                "number": 18,
+                "skillChoices": [
+                    {
+                        "_className": "SkillChoice",
+                        "id": "18-Skill-Intelligence-0",
+                        "maxRank": 2,
+                        "source": "Intelligence",
+                        "type": "Skill"
+                    }
+                ]
+            },
+            {
+                "_className": "Level",
+                "featChoices": [
+                    {
+                        "_className": "FeatChoice",
+                        "feats": [
+                            {
+                                "name": "Second Skin",
+                                "source": "Ranger",
+                                "locked": true,
+                                "sourceId": "19-Feature-Ranger-0"
+                            },
+                            {
+                                "name": "Swift Prey",
+                                "source": "Ranger",
+                                "locked": true,
+                                "sourceId": "19-Feature-Ranger-0"
+                            }
+                        ],
+                        "id": "19-Feature-Ranger-0",
+                        "source": "Ranger",
+                        "type": "Feature"
+                    },
+                    {
+                        "_className": "FeatChoice",
+                        "available": 1,
+                        "id": "19-Feat-Class-0",
+                        "source": "Class",
+                        "type": "General"
+                    }
+                ],
+                "number": 19,
+                "skillChoices": [
+                    {
+                        "_className": "SkillChoice",
+                        "id": "19-Armor Proficiency-Second Skin-0",
+                        "increases": [
+                            {
+                                "name": "Light Armor",
+                                "source": "Second Skin",
+                                "maxRank": 6,
+                                "locked": true,
+                                "sourceId": "19-Armor Proficiency-Second Skin-0"
+                            },
+                            {
+                                "name": "Medium Armor",
+                                "source": "Second Skin",
+                                "maxRank": 6,
+                                "locked": true,
+                                "sourceId": "19-Armor Proficiency-Second Skin-0"
+                            },
+                            {
+                                "name": "Unarmored Defense",
+                                "source": "Second Skin",
+                                "maxRank": 6,
+                                "locked": true,
+                                "sourceId": "19-Armor Proficiency-Second Skin-0"
+                            }
+                        ],
+                        "maxRank": 6,
+                        "source": "Second Skin",
+                        "type": "Armor Proficiency"
+                    },
+                    {
+                        "_className": "SkillChoice",
+                        "available": 1,
+                        "id": "19-Skill-Class-0",
+                        "source": "Class",
+                        "type": "Skill"
+                    },
+                    {
+                        "_className": "SkillChoice",
+                        "id": "19-Skill-Intelligence-0",
+                        "maxRank": 2,
+                        "source": "Intelligence",
+                        "type": "Skill"
+                    }
+                ]
+            },
+            {
+                "_className": "Level",
+                "abilityChoices": [
+                    {
+                        "_className": "AbilityChoice",
+                        "available": 4,
+                        "id": "20-Ability-Class-0",
+                        "source": "Class"
+                    }
+                ],
+                "featChoices": [
+                    {
+                        "_className": "FeatChoice",
+                        "available": 1,
+                        "id": "20-Feat-Class-0",
+                        "source": "Class",
+                        "type": "Class"
+                    },
+                    {
+                        "_className": "FeatChoice",
+                        "available": 1,
+                        "id": "20-Feat-Class-1",
+                        "source": "Class",
+                        "type": "Skill"
+                    }
+                ],
+                "number": 20,
+                "skillChoices": [
+                    {
+                        "_className": "SkillChoice",
+                        "id": "20-Skill-Intelligence-0",
+                        "maxRank": 2,
+                        "source": "Intelligence",
+                        "type": "Skill"
+                    }
+                ]
+            }
+        ],
+        "name": "Ranger",
+        "spellCasting": [
+            {
+                "_className": "SpellCasting",
+                "castingType": "Innate",
+                "className": "Innate",
+                "ability": "Charisma",
+                "source": "Innate",
+                "spellDC": {
+                    "_className": "SkillChoice",
+                    "increases": [
+                        {
+                            "name": "Innate Spell DC",
+                            "source": "Innate",
+                            "maxRank": 2,
+                            "locked": true,
+                            "sourceId": ""
+                        }
+                    ],
+                    "maxRank": 2,
+                    "source": "Innate",
+                    "type": "Spell DC"
+                },
+                "tradition": ""
+            }
+        ]
+    }
+]

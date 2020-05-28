@@ -1,14 +1,14 @@
-<div class="list-item" *ngIf="choice.available"
-    [ngClass]="{'problem':(choice.spells.length > choice.available || cannotTakeSome(choice)), 'fullsize-only':(choice.available == choice.spells.length)}">
-    <button class="row sublist-toggle" [ngClass]="{'fancy-button':(choice.available == choice.spells.length)}"
+<div class="list-item" *ngIf="get_Available(choice)"
+    [ngClass]="{'problem':(choice.spells.length > get_Available(choice) || cannotTakeSome(choice)), 'fullsize-only':(get_Available(choice) == choice.spells.length)}">
+    <button class="row sublist-toggle" [ngClass]="{'fancy-button':(get_Available(choice) == choice.spells.length)}"
         (click)="toggle_Choice(choice.source+choice.id)">
         {{itemSpell ? "Level "+choice.level : ""}} {{choice.frequency ? capitalize(choice.frequency) : ""}}
-        {{choice.tradition ? choice.tradition : ""}} {{choice.signatureSpell ? "Signature" : ""}}
-        {{choice.className}} Spell{{(choice.available > 1) ? "s" : ""}}{{!itemSpell ? " ("+choice.source+")" : ""}}{{(choice.available > 1) ?
-            ": "+ choice.spells.length +"/"+ choice.available : 
+        {{choice.tradition ? choice.tradition : ""}} {{is_SignatureSpell(choice) ? "Signature" : ""}}
+        {{choice.className}} Spell{{(get_Available(choice) > 1) ? "s" : ""}}{{!itemSpell ? " ("+choice.source+")" : ""}}{{(get_Available(choice) > 1) ?
+            ": "+ choice.spells.length +"/"+ get_Available(choice) : 
             (choice.spells.length) ? ": "+ choice.spells[0].name : ""}}
     </button>
-    <div class="list-item sublist" [ngClass]="{'fancy-list':(choice.available == choice.spells.length )}"
+    <div class="list-item sublist" [ngClass]="{'fancy-list':(get_Available(choice) == choice.spells.length )}"
         *ngIf="get_ShowChoice()==choice.source+choice.id">
         <div title="{{(this.get_ShowSpell()==choice.id+spell.name+'desc') ? '' : spell.shortDesc}}" class="list-item"
             *ngFor="let spell of get_AvailableSpells(choice)">

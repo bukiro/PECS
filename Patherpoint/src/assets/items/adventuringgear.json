@@ -301,7 +301,7 @@
         "_className": "AdventuringGear"
     },
     {
-        "desc": "You can manacle someone who is willing or otherwise at your mercy as an exploration activity taking 10–30 seconds depending on the creature's size and how many manacles you apply. A two-legged creature with its legs bound takes a –15-foot circumstance penalty to its Speeds, and a two-handed creature with its wrists bound has to succeed at a DC 5 flat check any time it uses a manipulate action or else that action fails. This DC may be higher depending on how tightly the manacles constrain the hands. A creature bound to a stationary object is immobilized. For creatures with more or fewer limbs, the GM determines what effect manacles have, if any. Freeing a creature from poor manacles requires two successful DC 17 Thievery checks.",
+        "desc": "You can manacle someone who is willing or otherwise at your mercy as an exploration activity taking 10-30 seconds depending on the creature's size and how many manacles you apply. A two-legged creature with its legs bound takes a -15-foot circumstance penalty to its Speeds, and a two-handed creature with its wrists bound has to succeed at a DC 5 flat check any time it uses a manipulate action or else that action fails. This DC may be higher depending on how tightly the manacles constrain the hands. A creature bound to a stationary object is immobilized. For creatures with more or fewer limbs, the GM determines what effect manacles have, if any. Freeing a creature from poor manacles requires two successful DC 17 Thievery checks.",
         "id": "89c7210d-8e09-11ea-9fab-e92c63c14723",
         "name": "Manacles (Poor)",
         "price": 30,
@@ -317,7 +317,7 @@
     },
     {
         "bulk": "L",
-        "desc": "These four-pronged metal spikes can cause damage to a creature's feet. You can scatter caltrops in an empty square adjacent to you with an Interact action. The first creature that moves into that square must succeed at a DC 14 Acrobatics check or take 1d4 piercing damage and 1 persistent bleed damage. A creature taking persistent bleed damage from caltrops takes a –5-foot penalty to its Speed. Spending an Interact action to pluck the caltrops free reduces the DC to stop the bleeding. Once a creature takes damage from caltrops, enough caltrops are ruined that other creatures moving into the square are safe.\n\nDeployed caltrops can be salvaged and reused if no creatures took damage from them. Otherwise, enough caltrops are ruined that they can't be salvaged.",
+        "desc": "These four-pronged metal spikes can cause damage to a creature's feet. You can scatter caltrops in an empty square adjacent to you with an Interact action. The first creature that moves into that square must succeed at a DC 14 Acrobatics check or take 1d4 piercing damage and 1 persistent bleed damage. A creature taking persistent bleed damage from caltrops takes a -5-foot penalty to its Speed. Spending an Interact action to pluck the caltrops free reduces the DC to stop the bleeding. Once a creature takes damage from caltrops, enough caltrops are ruined that other creatures moving into the square are safe.\n\nDeployed caltrops can be salvaged and reused if no creatures took damage from them. Otherwise, enough caltrops are ruined that they can't be salvaged.",
         "id": "89c72113-8e09-11ea-9fab-e92c63c14723",
         "name": "Caltrops",
         "price": 30,
@@ -371,7 +371,7 @@
     },
     {
         "bulk": "L",
-        "desc": "When Forcing Open an object that doesn't have an easy grip, a crowbar makes it easier to gain the necessary leverage. Without a crowbar, prying something open takes a –2 item penalty to the Athletics check to Force Open (similar to using a shoddy item). A levered crowbar grants you a +1 item bonus to Athletics checks to Force Open anything that can be pried open. ",
+        "desc": "When Forcing Open an object that doesn't have an easy grip, a crowbar makes it easier to gain the necessary leverage. Without a crowbar, prying something open takes a -2 item penalty to the Athletics check to Force Open (similar to using a shoddy item). A levered crowbar grants you a +1 item bonus to Athletics checks to Force Open anything that can be pried open. ",
         "id": "89c72122-8e09-11ea-9fab-e92c63c14723",
         "name": "Crowbar",
         "price": 50,
@@ -521,7 +521,7 @@
     },
     {
         "bulk": "L",
-        "desc": "A compass helps you Sense Direction or navigate, provided you're in a location with uniform magnetic fields. Without a compass, you take a –2 item penalty to these checks (similar to using a shoddy item).",
+        "desc": "A compass helps you Sense Direction or navigate, provided you're in a location with uniform magnetic fields. Without a compass, you take a -2 item penalty to these checks (similar to using a shoddy item).",
         "id": "89c74821-8e09-11ea-9fab-e92c63c14723",
         "name": "Compass",
         "price": 100,
@@ -541,7 +541,7 @@
         "bulk": "L",
         "desc": "A formula book holds the formulas necessary to make items other than the common equipment from this chapter; alchemists typically get one for free. Each formula book can hold the formulas for up to 100 different items. Formulas can also appear on parchment sheets, tablets, and almost any other medium; there's no need for you to copy them into a specific book as long as you can keep them on hand to reference them. ",
         "id": "89c74827-8e09-11ea-9fab-e92c63c14723",
-        "name": "Formula Book (Blank)",
+        "name": "Formula Book",
         "price": 100,
         "_className": "AdventuringGear",
         "hands": 1
@@ -575,7 +575,7 @@
         "bulk": "L",
         "desc": "A spellbook holds the written knowledge necessary to learn and prepare various spells, a necessity for wizards (who typically get one for free) and a useful luxury for other spellcasters looking to learn additional spells. Each spellbook can hold up to 100 spells. The Price listed is for a blank spellbook. ",
         "id": "89c74833-8e09-11ea-9fab-e92c63c14723",
-        "name": "Spellbook (Blank)",
+        "name": "Spellbook",
         "price": 100,
         "_className": "AdventuringGear",
         "hands": 1
@@ -732,7 +732,7 @@
     },
     {
         "bulk": "L",
-        "desc": "These flippers attach to your feet like tight shoes—donning or removing them requires three Interact actions. While worn, you gain a +5-foot item bonus to the distance you move when rolling Athletics to Swim, not when using a swim Speed, and you take a –10-foot item penalty to your Speed. ",
+        "desc": "These flippers attach to your feet like tight shoes—donning or removing them requires three Interact actions. While worn, you gain a +5-foot item bonus to the distance you move when rolling Athletics to Swim, not when using a swim Speed, and you take a -10-foot item penalty to your Speed. ",
         "id": "89c76f3a-8e09-11ea-9fab-e92c63c14723",
         "name": "Swim Fins",
         "price": 500,
@@ -804,7 +804,7 @@
         "hands": 2
     },
     {
-        "desc": "You can manacle someone who is willing or otherwise at your mercy as an exploration activity taking 10–30 seconds depending on the creature's size and how many manacles you apply. A two-legged creature with its legs bound takes a –15-foot circumstance penalty to its Speeds, and a two-handed creature with its wrists bound has to succeed at a DC 5 flat check any time it uses a manipulate action or else that action fails. This DC may be higher depending on how tightly the manacles constrain the hands. A creature bound to a stationary object is immobilized. For creatures with more or fewer limbs, the GM determines what effect manacles have, if any. Freeing a creature from simple manacles requires three successes at DC 22.",
+        "desc": "You can manacle someone who is willing or otherwise at your mercy as an exploration activity taking 10-30 seconds depending on the creature's size and how many manacles you apply. A two-legged creature with its legs bound takes a -15-foot circumstance penalty to its Speeds, and a two-handed creature with its wrists bound has to succeed at a DC 5 flat check any time it uses a manipulate action or else that action fails. This DC may be higher depending on how tightly the manacles constrain the hands. A creature bound to a stationary object is immobilized. For creatures with more or fewer limbs, the GM determines what effect manacles have, if any. Freeing a creature from simple manacles requires three successes at DC 22.",
         "id": "89c79632-8e09-11ea-9fab-e92c63c14723",
         "level": 1,
         "name": "Manacles (Simple)",
@@ -890,7 +890,7 @@
     },
     {
         "bulk": "L",
-        "desc": "A compass helps you Sense Direction or navigate, provided you're in a location with uniform magnetic fields. Without a compass, you take a –2 item penalty to these checks (similar to using a shoddy item). A lensatic compass gives you a +1 item bonus to these checks.",
+        "desc": "A compass helps you Sense Direction or navigate, provided you're in a location with uniform magnetic fields. Without a compass, you take a -2 item penalty to these checks (similar to using a shoddy item). A lensatic compass gives you a +1 item bonus to these checks.",
         "id": "89c7964a-8e09-11ea-9fab-e92c63c14723",
         "level": 3,
         "name": "Compass (Lensatic)",
@@ -901,7 +901,7 @@
     },
     {
         "bulk": "L",
-        "desc": "When Forcing Open an object that doesn't have an easy grip, a crowbar makes it easier to gain the necessary leverage. Without a crowbar, prying something open takes a –2 item penalty to the Athletics check to Force Open (similar to using a shoddy item). A levered crowbar grants you a +1 item bonus to Athletics checks to Force Open anything that can be pried open. ",
+        "desc": "When Forcing Open an object that doesn't have an easy grip, a crowbar makes it easier to gain the necessary leverage. Without a crowbar, prying something open takes a -2 item penalty to the Athletics check to Force Open (similar to using a shoddy item). A levered crowbar grants you a +1 item bonus to Athletics checks to Force Open anything that can be pried open. ",
         "id": "89c7964d-8e09-11ea-9fab-e92c63c14723",
         "level": 3,
         "name": "Crowbar (Levered)",
@@ -921,7 +921,7 @@
         "hands": 2
     },
     {
-        "desc": "You can manacle someone who is willing or otherwise at your mercy as an exploration activity taking 10–30 seconds depending on the creature's size and how many manacles you apply. A two-legged creature with its legs bound takes a –15-foot circumstance penalty to its Speeds, and a two-handed creature with its wrists bound has to succeed at a DC 5 flat check any time it uses a manipulate action or else that action fails. This DC may be higher depending on how tightly the manacles constrain the hands. A creature bound to a stationary object is immobilized. For creatures with more or fewer limbs, the GM determines what effect manacles have, if any. Freeing a creature from average manacles requires four successes at DC 27.",
+        "desc": "You can manacle someone who is willing or otherwise at your mercy as an exploration activity taking 10-30 seconds depending on the creature's size and how many manacles you apply. A two-legged creature with its legs bound takes a -15-foot circumstance penalty to its Speeds, and a two-handed creature with its wrists bound has to succeed at a DC 5 flat check any time it uses a manipulate action or else that action fails. This DC may be higher depending on how tightly the manacles constrain the hands. A creature bound to a stationary object is immobilized. For creatures with more or fewer limbs, the GM determines what effect manacles have, if any. Freeing a creature from average manacles requires four successes at DC 27.",
         "id": "89c79653-8e09-11ea-9fab-e92c63c14723",
         "level": 3,
         "name": "Manacles (Average)",
@@ -1093,7 +1093,7 @@
         "hands": 2
     },
     {
-        "desc": "You can manacle someone who is willing or otherwise at your mercy as an exploration activity taking 10–30 seconds depending on the creature's size and how many manacles you apply. A two-legged creature with its legs bound takes a –15-foot circumstance penalty to its Speeds, and a two-handed creature with its wrists bound has to succeed at a DC 5 flat check any time it uses a manipulate action or else that action fails. This DC may be higher depending on how tightly the manacles constrain the hands. A creature bound to a stationary object is immobilized. For creatures with more or fewer limbs, the GM determines what effect manacles have, if any. Freeing a creature from good manacles requires five successes at DC 32.",
+        "desc": "You can manacle someone who is willing or otherwise at your mercy as an exploration activity taking 10-30 seconds depending on the creature's size and how many manacles you apply. A two-legged creature with its legs bound takes a -15-foot circumstance penalty to its Speeds, and a two-handed creature with its wrists bound has to succeed at a DC 5 flat check any time it uses a manipulate action or else that action fails. This DC may be higher depending on how tightly the manacles constrain the hands. A creature bound to a stationary object is immobilized. For creatures with more or fewer limbs, the GM determines what effect manacles have, if any. Freeing a creature from good manacles requires five successes at DC 32.",
         "id": "89c79683-8e09-11ea-9fab-e92c63c14723",
         "level": 9,
         "name": "Manacles (Good)",
@@ -1150,7 +1150,7 @@
         "hands": 2
     },
     {
-        "desc": "You can manacle someone who is willing or otherwise at your mercy as an exploration activity taking 10–30 seconds depending on the creature's size and how many manacles you apply. A two-legged creature with its legs bound takes a –15-foot circumstance penalty to its Speeds, and a two-handed creature with its wrists bound has to succeed at a DC 5 flat check any time it uses a manipulate action or else that action fails. This DC may be higher depending on how tightly the manacles constrain the hands. A creature bound to a stationary object is immobilized. For creatures with more or fewer limbs, the GM determines what effect manacles have, if any. Freeing a creature from superior manacles requires six successes at DC 42.",
+        "desc": "You can manacle someone who is willing or otherwise at your mercy as an exploration activity taking 10-30 seconds depending on the creature's size and how many manacles you apply. A two-legged creature with its legs bound takes a -15-foot circumstance penalty to its Speeds, and a two-handed creature with its wrists bound has to succeed at a DC 5 flat check any time it uses a manipulate action or else that action fails. This DC may be higher depending on how tightly the manacles constrain the hands. A creature bound to a stationary object is immobilized. For creatures with more or fewer limbs, the GM determines what effect manacles have, if any. Freeing a creature from superior manacles requires six successes at DC 42.",
         "id": "89c7968c-8e09-11ea-9fab-e92c63c14723",
         "level": 17,
         "name": "Manacles (Superior)",

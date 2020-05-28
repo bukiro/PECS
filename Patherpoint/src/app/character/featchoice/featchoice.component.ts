@@ -177,8 +177,8 @@ export class FeatchoiceComponent implements OnInit {
     cannotTakeSome(choice: FeatChoice) {
         let anytrue = 0;
         choice.feats.forEach(feat => {
-            let template: Feat[] = this.get_Feats(feat.name);
-            if (template.length && template[0].name) {
+            let template: Feat = this.get_Feats(feat.name)[0];
+            if (template?.name) {
                 if (this.cannotTake(template[0], choice).length) {
                     if (!feat.locked) {
                         this.get_Character().take_Feat(this.get_Creature(), this.characterService, feat.name, false, choice, feat.locked);
@@ -249,9 +249,9 @@ export class FeatchoiceComponent implements OnInit {
             if (feat.traits.includes("Dedication")) {
                 //Get all taken dedication feats that aren't this, then check if you have taken 
                 this.get_Character().get_FeatsTaken(1, levelNumber).map(gain => this.get_FeatsAndFeatures(gain.name)[0])
-                    .filter(libraryfeat => libraryfeat.name != feat.name && libraryfeat.traits.includes("Dedication")).forEach(takenfeat => {
+                    .filter(libraryfeat => libraryfeat?.name != feat.name && libraryfeat?.traits.includes("Dedication")).forEach(takenfeat => {
                     let archetypeFeats = this.get_Character().get_FeatsTaken(1, levelNumber).map(gain => this.get_FeatsAndFeatures(gain.name)[0])
-                        .filter(libraryfeat => libraryfeat.name != takenfeat.name && libraryfeat.traits.includes("Archetype") && libraryfeat.archetype == takenfeat.archetype)
+                        .filter(libraryfeat => libraryfeat?.name != takenfeat.name && libraryfeat?.traits.includes("Archetype") && libraryfeat.archetype == takenfeat.archetype)
                     if (archetypeFeats.length < 2) {
                         reasons.push("You cannot select another dedication feat until you have gained two other feats from the "+takenfeat.archetype+" archetype.");
                     }
@@ -273,16 +273,10 @@ export class FeatchoiceComponent implements OnInit {
 
     featTakenByThis(feat: Feat, choice: FeatChoice) {
         return choice.feats.filter(gain => gain.name == feat.name).length > 0;
-        /*let levelNumber = parseInt(choice.id.split("-")[0]);
-        return this.get_FeatsTaken(levelNumber, levelNumber, feat.name, choice.source, choice.id).length > 0;*/
     }
 
     subFeatTakenByThis(feat: Feat, choice: FeatChoice) {
-        return choice.feats.filter(gain => this.get_Feats(gain.name)[0].superType == feat.name).length > 0;
-        /*let levelNumber = parseInt(choice.id.split("-")[0]);
-        return this.get_FeatsTaken(levelNumber, levelNumber, "", choice.source, choice.id).filter(
-            takenfeat => this.get_Feats(takenfeat.name)[0].superType == feat.name
-            ).length > 0;*/
+        return choice.feats.filter(gain => this.get_Feats(gain.name)[0]?.superType == feat.name).length > 0;
     }
 
     get_FeatsTaken(minLevelNumber: number, maxLevelNumber: number, featName: string = "", source: string = "", sourceId: string = "", locked: boolean = undefined) {

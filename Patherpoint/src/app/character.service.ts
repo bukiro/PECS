@@ -231,12 +231,13 @@ export class CharacterService {
         } else { return new Character() }
     }
 
-    get_CompanionAvailable() {
-        return this.get_Character().get_FeatsTaken(1, this.get_Character().level).filter(gain => this.get_FeatsAndFeatures(gain.name)[0].gainAnimalCompanion).length
+    get_CompanionAvailable(minLevelNumber: number = 1, maxLevelNumber: number = this.get_Character().level) {
+        //Return the number of feats taken this level that granted you an animal companion
+        return this.get_Character().get_FeatsTaken(minLevelNumber, maxLevelNumber).filter(gain => this.get_FeatsAndFeatures(gain.name)[0]?.gainAnimalCompanion == 1).length
     }
     
     get_FamiliarAvailable() {
-        return this.get_Character().get_FeatsTaken(1, this.get_Character().level).filter(gain => this.get_FeatsAndFeatures(gain.name)[0].gainFamiliar).length
+        return this.get_Character().get_FeatsTaken(1, this.get_Character().level).filter(gain => this.get_FeatsAndFeatures(gain.name)[0]?.gainFamiliar).length
     }
 
     get_Companion() {
@@ -324,39 +325,11 @@ export class CharacterService {
         this.me.class.on_ChangeHeritage(this);
         this.me.class.on_ChangeAncestry(this);
         this.me.class.on_ChangeBackground(this);
-        //Some feats get specially processed when taken.
-        //We can't just delete these feats, but must specifically un-take them to undo their effects.
-        this.me.class.levels.forEach(level => {
-            level.featChoices.filter(choice => choice.available).forEach(choice => {
-                choice.feats.forEach(feat => {
-                    this.me.take_Feat(this.get_Character(), this, feat.name, false, choice, false);
-                });
-            });
-        });
-        this.me.class.customSkills.forEach(skill => {
-            this.me.customSkills = this.me.customSkills.filter(customSkill => customSkill.name != skill.name);
-        });
+        this.me.class.on_ChangeClass(this);
         this.me.class = new Class();
         this.me.class = Object.assign(new Class(), JSON.parse(JSON.stringify($class)));
         this.me.class = this.reassign(this.me.class);
-        //this.me.class.reassign();
-
-        //Some feats get specially processed when taken.
-        //We have to explicitly take these feats to process them.
-        //So we remove them and then "take" them again.
-        this.me.class.levels.forEach(level => {
-            level.featChoices.forEach(choice => {
-                let count: number = 0;
-                choice.feats.forEach(feat => {
-                    count++;
-                    this.me.take_Feat(this.get_Character(), this, feat.name, true, choice, feat.locked);
-                });
-                choice.feats.splice(0, count);
-            });
-        });
-        this.me.class.customSkills.forEach(skill => {
-            this.me.customSkills.push(Object.assign(new Skill(), skill));
-        });
+        this.me.class.on_NewClass(this, this.itemsService);
         this.set_Changed();
     }
 
@@ -1030,7 +1003,7 @@ export class CharacterService {
     get_FeatsShowingOn(objectName: string) {
         let returnedFeats = []
         this.me.get_FeatsTaken(0, this.me.level, "", "").map(feat => this.get_FeatsAndFeatures(feat.name)[0]).forEach(feat => {
-            feat.showon.split(",").forEach(showon => {
+            feat?.showon.split(",").forEach(showon => {
                 if (showon == objectName || showon.substr(1) == objectName || (objectName.includes("Lore") && (showon == "Lore" || showon.substr(1) == "Lore"))) {
                     returnedFeats.push(feat);
                 }
@@ -1061,7 +1034,7 @@ export class CharacterService {
         let returnedAbilities = []
         //Get showon elements from Familiar Abilities
         this.get_Familiar().abilities.feats.map(gain => this.familiarsService.get_FamiliarAbilities(gain.name)[0]).filter(feat => feat.showon).forEach(feat => {
-            feat.showon.split(",").forEach(showon => {
+            feat?.showon.split(",").forEach(showon => {
                 if (showon == objectName || showon.substr(1) == objectName || (objectName.includes("Lore") && (showon == "Lore" || showon.substr(1) == "Lore"))) {
                     returnedAbilities.push(feat);
                 }
@@ -1079,7 +1052,7 @@ export class CharacterService {
         if (conditions.length) {
             conditions.forEach(condition => {
                 let originalCondition: Condition = this.get_Conditions(condition.name)[0];
-                originalCondition.showon.split(",").forEach(showon => {
+                originalCondition?.showon.split(",").forEach(showon => {
                     if (showon == objectName || showon.substr(1) == objectName || (objectName == "Lore" && showon.includes(objectName))) {
                         returnedConditions.push(originalCondition);
                     }
@@ -1138,7 +1111,7 @@ export class CharacterService {
         let returnedActivities: Activity[] = [];
         activityGains.forEach(gain => {
             this.activitiesService.get_Activities(gain.name).forEach(activity => {
-                activity.showon.split(",").forEach(showon => {
+                activity?.showon.split(",").forEach(showon => {
                     if (showon == objectName || showon.substr(1) == objectName || (objectName == "Lore" && showon.includes(objectName))) {
                         returnedActivities.push(activity);
                     }

@@ -42,7 +42,7 @@ export class Weapon extends Equipment {
     public melee: number = 0;
     //Is the weapon currently raised to parry?
     public parrying: boolean = false;
-    //What proficiency is used? "Simple Weapons", "Unarmed"?
+    //What proficiency is used? "Simple Weapons", "Unarmed Attacks"?
     public prof: string = "Simple Weapons";
     //Ranged range in ft - also add for thrown weapons
     //Weapons can have a melee and a ranged value, e.g. Daggers that can thrown
@@ -59,7 +59,7 @@ export class Weapon extends Equipment {
         if (!this.moddable || this.moddable == "-") {
             return runeSource;
         }
-        if (this.prof == "Unarmed") {
+        if (this.prof == "Unarmed Attacks") {
             let handwraps = creature.inventories[0].wornitems.filter(item => item.isHandwrapsOfMightyBlows && item.invested)
             if (handwraps.length) {
                 runeSource = [handwraps[0], handwraps[0], handwraps[0]];
@@ -83,7 +83,7 @@ export class Weapon extends Equipment {
         return runeSource;
     }
     get_Traits(creature: Character|AnimalCompanion|Familiar) {
-        if (this.prof == "Unarmed") {
+        if (this.prof == "Unarmed Attacks") {
             let traits = JSON.parse(JSON.stringify(this.traits));
             if (creature.type == "Character") {
                 if ((creature as Character).get_FeatsTaken(0, creature.level, "Diamond Fists").length && !this.traits.includes("Forceful")) {
@@ -276,7 +276,7 @@ export class Weapon extends Equipment {
                 explain += "\n("+runeSource[2].get_Name()+")";
             }
         }
-        if (this.prof == "Unarmed") {
+        if (this.prof == "Unarmed Attacks") {
             let character = characterService.get_Character();
             if (character.get_FeatsTaken(0, character.level, "Diamond Fists").length && this.traits.includes("Forceful")) {
                 dicenum += 1;
@@ -301,7 +301,19 @@ export class Weapon extends Equipment {
             dicesize = 6;
             explain += "\nPowerful Fist: Dice size d6";
         }
-        //Get the basic "1d6" from the weapon's dice values
+        //Champions get increased dize size via Deific Weapon for unarmed attacks with d4 damage or simple weapons
+        if (((dicesize == 4 && this.prof == "Unarmed Attacks") || this.prof == "Simple Weapons") &&
+            characterService.get_Features("Deific Weapon")[0]?.have(creature, characterService)) {
+            let favoredWeapons: string[] = [];
+            if (creature.type == "Character") {
+                favoredWeapons = characterService.get_Deities((creature as Character).class.deity)[0]?.favoredWeapon;
+            }
+            if (favoredWeapons.includes(this.name) || favoredWeapons.includes(this.weaponBase)) {
+                dicesize = Math.max(Math.min(dicesize + 2, 12), 6);
+                explain += "\nPowerful Fist: Dice size d"+dicesize;
+            }
+        }
+        //Get the basic "xdx" string from the weapon's dice values
         var baseDice = dicenum + "d" + dicesize;
         //The Enfeebled condition affects all Strength damage
         let strEffects = effectsService.get_RelativesOnThis(creature, "Strength Attacks");
@@ -360,11 +372,8 @@ export class Weapon extends Equipment {
             }
         }
         let featBonus: number = 0;
-        if (characterService.get_Features("Weapon Specialization")[0].have(creature, characterService)) {
-            let greaterWeaponSpecialization = false;
-            if (characterService.get_Features("Greater Weapon Specialization")[0].have(creature, characterService)) {
-                greaterWeaponSpecialization = true;
-            }
+        if (characterService.get_Features().filter(feature => feature.name.includes("Weapon Specialization") && feature.have(creature, characterService)).length) {
+            let greaterWeaponSpecialization = (characterService.get_Features().filter(feature => feature.name.includes("Greater Weapon Specialization") && feature.have(creature, characterService)).length > 0);
             switch (this.profLevel(creature, characterService, runeSource[1])) {
                 case 4:
                     if (greaterWeaponSpecialization) {
@@ -419,21 +428,29 @@ export class Weapon extends Equipment {
         let specializations: Specialization[] = [];
         if (creature.type == "Character") {
             let character = creature as Character;
-            character.get_FeatsTaken(0, character.level).map(gain => characterService.get_FeatsAndFeatures(gain.name)[0]).filter(feat => feat.critSpecialization).forEach(feat => {
-                if (feat.critSpecialization.includes(this.group) || feat.critSpecialization.includes(this.prof) || feat.critSpecialization.includes("All")) {
+            character.get_FeatsTaken(0, character.level).map(gain => characterService.get_FeatsAndFeatures(gain.name)[0]).filter(feat => feat?.critSpecialization).forEach(feat => {
+                if (feat.critSpecialization.includes(this.group) || feat.critSpecialization.includes(this.prof) || (feat.critSpecialization.includes("melee") && this.melee) || (feat.critSpecialization.includes("ranged") && this.melee) || feat.critSpecialization.includes("All")) {
                     //If the only feat that gives you the critical specialization for this weapon is Ranger Weapon Expertise, a hint is added to each specialization that it only applies to the Hunted Prey.
+                    //If the only feat that gives you the critical specialization for this weapon is Bard Weapon Expertise, a hint is added to each specialization that it only applies while a composition is active.
                     //If any more specializations should apply, they will overwrite these hints, which is expected and correct as long as no other specialization has limitations.
                     let huntedPreyOnly = (!specializations.length && feat.name == "Ranger Weapon Expertise")
+                    let compositionOnly = (!specializations.length && feat.name == "Bard Weapon Expertise")
                     specializations = characterService.get_Specializations(this.group).map(spec => Object.assign(new Specialization(), spec));
                     if (huntedPreyOnly) {
                         specializations.forEach(spec => {
                             spec.desc = "(Hunted Prey only) "+spec.desc;
                         });
                     }
+                    if (compositionOnly) {
+                        specializations.forEach(spec => {
+                            spec.desc = "(With composition active) "+spec.desc;
+                        });
+                    }
                 }
             })
+            //If you have both Monastic Weaponry and Brawling Focus, you gain critical specializations for Monk weapons.
             if (this.traits.includes("Monk") && character.get_FeatsTaken(0, character.level, "Monastic Weaponry").length && character.get_FeatsTaken(0, character.level, "Brawling Focus").length) {
-                specializations = characterService.get_Specializations(this.group);
+                specializations.push(...characterService.get_Specializations(this.group));
             }
         }
         return specializations;

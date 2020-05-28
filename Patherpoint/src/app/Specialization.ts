@@ -6,4 +6,5 @@ export class Specialization {
     public hint: string = "";
     public name: string = "";
     public showon: string = "";
+    public type: string = "";
 }

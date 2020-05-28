@@ -53,6 +53,7 @@ export class Feat {
     public traits: string[] = [];
     public unlimited: boolean = false;
     public sourceBook: string = "";
+    public allowSignatureSpells: boolean = false;
     prof(skillLevel: number) {
         switch (skillLevel) {
             case 2:

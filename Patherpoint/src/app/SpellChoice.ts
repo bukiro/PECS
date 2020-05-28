@@ -14,7 +14,6 @@ export class SpellChoice {
     public level: number = 0;
     //For spell choices that are "three levels below your highest spell level"
     //Example: "character.get_SpellLevel() - 3"
-    //#####Still needs to actually be implemented!
     public dynamicLevel: string = "";
     //Don't display this choice or its spells if the character level is lower than this.
     //If a feat adds a spellChoice with charLevelAvailable = 0, it gets set to the level the feat was taken

@@ -21,7 +21,7 @@
     { "name":"Thievery", "type":"Skill", "ability":"Dexterity"},
     { "name":"Simple Weapons", "type":"Weapon Proficiency" },
     { "name":"Martial Weapons", "type":"Weapon Proficiency" },
-    { "name":"Unarmed", "type":"Weapon Proficiency" },
+    { "name":"Unarmed Attacks", "type":"Weapon Proficiency" },
     { "name":"Light Armor", "type":"Armor Proficiency" },
     { "name":"Medium Armor", "type":"Armor Proficiency" },
     { "name":"Heavy Armor", "type":"Armor Proficiency" },

@@ -608,7 +608,7 @@
                                 "id": "1-Skill-Class-0",
                                 "increases": [
                                     {
-                                        "name": "Unarmed",
+                                        "name": "Unarmed Attacks",
                                         "source": "Class",
                                         "maxRank": 2,
                                         "locked": true,
@@ -1384,7 +1384,7 @@
                                 "sourceId": "1-Skill-Class-0"
                             },
                             {
-                                "name": "Unarmed",
+                                "name": "Unarmed Attacks",
                                 "source": "Class",
                                 "maxRank": 2,
                                 "locked": true,
@@ -1712,7 +1712,7 @@
                         "id": "5-Weapon Proficiency-Expert Strikes-0",
                         "increases": [
                             {
-                                "name": "Unarmed",
+                                "name": "Unarmed Attacks",
                                 "source": "Expert Strikes",
                                 "maxRank": 4,
                                 "locked": true,
@@ -2135,7 +2135,7 @@
                         "id": "13-Weapon Proficiency-Master Strikes-0",
                         "increases": [
                             {
-                                "name": "Unarmed",
+                                "name": "Unarmed Attacks",
                                 "source": "Master Strikes",
                                 "maxRank": 6,
                                 "locked": true,

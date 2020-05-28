@@ -57,7 +57,7 @@ export class SkillsComponent implements OnInit {
         if (creature.type == "Familiar") {
             ancestrySenses = creature.senses;
         } else {
-            ancestrySenses = creature.class.ancestry.senses;
+            ancestrySenses = creature.class?.ancestry?.senses;
         }
         if (ancestrySenses.length) {
             senses.push(...ancestrySenses)
@@ -68,18 +68,18 @@ export class SkillsComponent implements OnInit {
             if (heritageSenses.length) {
                 senses.push(...heritageSenses)
             }
-            character.get_FeatsTaken(0, character.level).map(gain => this.characterService.get_FeatsAndFeatures(gain.name)[0]).filter(feat => feat.senses.length).forEach(feat => {
+            character.get_FeatsTaken(0, character.level).map(gain => this.characterService.get_FeatsAndFeatures(gain.name)[0]).filter(feat => feat?.senses.length).forEach(feat => {
                 senses.push(...feat.senses);
             });
         }
         if (this.creature == "Familiar") {
             let familiar = this.get_Creature() as Familiar;
-            familiar.abilities.feats.map(gain => this.familiarsService.get_FamiliarAbilities(gain.name)[0]).filter(ability => ability.senses.length).forEach(ability => {
+            familiar.abilities.feats.map(gain => this.familiarsService.get_FamiliarAbilities(gain.name)[0]).filter(ability => ability?.senses.length).forEach(ability => {
                 senses.push(...ability.senses);
             })
         }
         this.characterService.get_AppliedConditions(creature).filter(gain => gain.apply)
-            .map(gain => this.conditionsService.get_Conditions(gain.name)[0]).filter(condition => condition.senses.length).forEach(condition => {
+            .map(gain => this.conditionsService.get_Conditions(gain.name)[0]).filter(condition => condition?.senses.length).forEach(condition => {
                 senses.push(...condition.senses)
             });
         return Array.from(new Set(senses));

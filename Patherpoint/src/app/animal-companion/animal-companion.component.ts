@@ -23,7 +23,7 @@ export class AnimalCompanionComponent implements OnInit {
 
     minimize() {
         this.characterService.get_Character().settings.companionMinimized = !this.characterService.get_Character().settings.companionMinimized;
-        this.set_Changed();
+        this.set_Changed("Companion");
     }
 
     still_loading() {
@@ -62,8 +62,8 @@ export class AnimalCompanionComponent implements OnInit {
         return this.characterService.get_Accent();
     }
 
-    set_Changed() {
-        this.characterService.set_Changed();
+    set_Changed(target: string) {
+        this.characterService.set_Changed(target);
     }
 
     //If you don't use trackByIndex on certain inputs, you lose focus everytime the value changes. I don't get that, but I'm using it now.

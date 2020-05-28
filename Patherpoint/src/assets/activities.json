@@ -183,7 +183,7 @@
         "name": "Crane Flutter",
         "actions": "Reaction",
         "trigger": "You are targeted with a melee attack by an attacker you can see.",
-        "desc": "You interpose your arm between yourself and your opponent. Your circumstance bonus to AC from Crane Stance increases to +3 against the triggering attack. If the attack misses you, you can immediately make a crane wing Strike against the attacker at a –2 penalty, even if the attacker isn't within your reach.",
+        "desc": "You interpose your arm between yourself and your opponent. Your circumstance bonus to AC from Crane Stance increases to +3 against the triggering attack. If the attack misses you, you can immediately make a crane wing Strike against the attacker at a -2 penalty, even if the attacker isn't within your reach.",
         "traits": [
             "Monk"
         ]
@@ -233,7 +233,7 @@
         "name": "Whirling Throw",
         "actions": "1A",
         "requirements": "You have a creature grabbed or restrained.",
-        "desc": "You propel your grabbed or restrained foe a great distance. You can throw the creature any distance up to 10 feet, plus 5 feet × your Strength modifier. If you successfully throw the creature, it takes bludgeoning damage equal to your Strength modifier plus 1d6 per 10 feet you threw it.\n\nAttempt an Athletics check against the foe's Fortitude DC. You take a –2 circumstance penalty to your check if the target is one size larger than you and a –4 circumstance penalty if it's larger than that. You gain a +2 circumstance bonus to your check if the target is one size smaller than you and a +4 circumstance bonus if it's smaller than that.",
+        "desc": "You propel your grabbed or restrained foe a great distance. You can throw the creature any distance up to 10 feet, plus 5 feet × your Strength modifier. If you successfully throw the creature, it takes bludgeoning damage equal to your Strength modifier plus 1d6 per 10 feet you threw it.\n\nAttempt an Athletics check against the foe's Fortitude DC. You take a -2 circumstance penalty to your check if the target is one size larger than you and a -4 circumstance penalty if it's larger than that. You gain a +2 circumstance bonus to your check if the target is one size smaller than you and a +4 circumstance bonus if it's smaller than that.",
         "critsuccess": "You throw the creature the desired distance and it lands prone.",
         "success": "You throw the creature the desired distance.",
         "failure": "You don't throw the creature.",
@@ -663,7 +663,7 @@
     {
         "name": "Legendary Negotiation",
         "actions": "3A",
-        "desc": "You can negotiate incredibly quickly in adverse situations. You attempt to Make an Impression and then Request your opponent cease their current activity and engage in negotiations. You take a –5 penalty to your Diplomacy check. The GM sets the DC of the Request based on the circumstances—it's generally at least a very hard DC of the creature's level. Some creatures might simply refuse, and even those who agree to parley might ultimately find your arguments lacking and return to violence.",
+        "desc": "You can negotiate incredibly quickly in adverse situations. You attempt to Make an Impression and then Request your opponent cease their current activity and engage in negotiations. You take a -5 penalty to your Diplomacy check. The GM sets the DC of the Request based on the circumstances—it's generally at least a very hard DC of the creature's level. Some creatures might simply refuse, and even those who agree to parley might ultimately find your arguments lacking and return to violence.",
         "traits": [
             "General",
             "Skill"
@@ -722,7 +722,7 @@
     {
         "name": "Scare to Death",
         "actions": "1A",
-        "desc": "You can frighten foes so much, they might die. Attempt an Intimidation check against the Will DC of a living creature within 30 feet of you that you sense or observe and who can sense or observe you. If the target can't hear you or doesn't understand the language you are speaking, you take a –4 circumstance penalty. The creature is temporarily immune for 1 minute.",
+        "desc": "You can frighten foes so much, they might die. Attempt an Intimidation check against the Will DC of a living creature within 30 feet of you that you sense or observe and who can sense or observe you. If the target can't hear you or doesn't understand the language you are speaking, you take a -4 circumstance penalty. The creature is temporarily immune for 1 minute.",
         "critsuccess": "The target must succeed at a Fortitude save against your Intimidation DC or die. If the target succeeds at its save, it becomes frightened 2 and is fleeing for 1 round; it suffers no effect on a critical success.",
         "success": "The target becomes frightened 2.",
         "failure": "The target becomes frightened 1.",
@@ -751,7 +751,7 @@
         "critsuccess": "Your rumor spreads like wildfire. Anyone who succeeds at a check to Gather Information on the specific subject learns your rumor in preference to other rumors about the subject. Your rumor persists for 1 month.",
         "success": "You successfully spread the rumor. Anyone who succeeds at a check to Gather Information on the specific subject adds your rumor to the list of rumors they could learn about the subject. Your rumor persists for 1 week.",
         "failure": "Your rumor dies off, never becoming popular enough for other people to learn it via Gather Information.",
-        "critfailure": "You are unable to spread a rumor and take a –4 circumstance penalty to Deception checks to Sow Rumors about the same subject within the same region for 1 week. In addition, a rumor spreads about someone trying to spread false rumors about the subject.",
+        "critfailure": "You are unable to spread a rumor and take a -4 circumstance penalty to Deception checks to Sow Rumors about the same subject within the same region for 1 week. In addition, a rumor spreads about someone trying to spread false rumors about the subject.",
         "traits": [
             "Uncommon",
             "General",

@@ -338,7 +338,7 @@ export class FeatsService {
                     //Remove the latest specialization chosen on this level, only if all choices are taken
                     let specializations = companion.class.specializations.filter(spec => spec.level == level.number);
                     if (specializations.length) {
-                        if (specializations.length >= character.get_FeatsTaken(level.number, level.number).filter(gain => characterService.get_Feats(gain.name)[0].gainAnimalCompanion == 6).length) {
+                        if (specializations.length >= character.get_FeatsTaken(level.number, level.number).filter(gain => characterService.get_Feats(gain.name)[0]?.gainAnimalCompanion == 6).length) {
                             companion.class.specializations = companion.class.specializations.filter(spec => spec.name != specializations[specializations.length - 1].name)
                         }
                     }
@@ -382,7 +382,7 @@ export class FeatsService {
                 }
             }
 
-            //Cantrip Connection
+            //Spell Battery
             if (feat.name == "Spell Battery") {
                 let spellCasting = character.class.spellCasting.find(casting => casting.className == characterService.get_Familiar().originClass && casting.castingType != "Focus");
                 if (taken) {
@@ -397,7 +397,7 @@ export class FeatsService {
                         .find(level => level.featChoices
                             .filter(choice => choice.feats
                                 .map(gain => characterService.get_FeatsAndFeatures(gain.name)[0])
-                                .filter(feat => feat.gainFamiliar).length).length
+                                .filter(feat => feat?.gainFamiliar).length).length
                         );
                         character.add_SpellChoice(familiarLevel, newSpellChoice)
                     }

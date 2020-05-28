@@ -23,9 +23,7 @@ export class SpellsComponent implements OnInit {
     constructor(
         private changeDetector:ChangeDetectorRef,
         private characterService: CharacterService,
-        private spellsService: SpellsService,
-        private traitsService: TraitsService,
-        private sortByPipe: SortByPipe
+        private spellsService: SpellsService
     ) { }
 
     minimize() {
@@ -92,7 +90,11 @@ export class SpellsComponent implements OnInit {
 
     get_DynamicLevel(casting: SpellCasting, choice: SpellChoice) {
         //highestSpellLevel is used in the eval() process.
+        let Character = this.get_Character();
         let highestSpellLevel = 1;
+        function Skill_Level(name: string) {
+            return this.characterService.get_Skills(Character, name)[0].level(Character);
+        }
         //Get the highest level of all available spell choices of this spellcasting.
         highestSpellLevel = Math.max(...casting.spellChoices.map(spellChoice => spellChoice.level));
         try {

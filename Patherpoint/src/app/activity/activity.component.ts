@@ -104,7 +104,8 @@ export class ActivityComponent implements OnInit {
     }
 
     get_ActivitiesShowingOn(objectName: string) {
-        return this.characterService.get_OwnedActivities(this.get_Creature()).filter((gain: ItemActivity|ActivityGain) => (gain["can_Activate"] ? [gain as ItemActivity] : this.get_Activities(gain.name))
+        return this.characterService.get_OwnedActivities(this.get_Creature())
+            .filter((gain: ItemActivity|ActivityGain) => (gain._className == "ItemActivity" ? [gain as ItemActivity] : this.get_Activities(gain.name))
             .filter((activity: ItemActivity|Activity) => activity.showon.split(",")
                 .filter(showon => showon == objectName || showon.substr(1) == objectName)
                 .length)

@@ -52,6 +52,10 @@ export class AttacksComponent implements OnInit {
         return this.characterService.get_Accent();
     }
 
+    get_CritSpecialization(weapon: Weapon) {
+        return weapon.get_CritSpecialization(this.get_Creature(), this.characterService);
+    }
+
     get_AttackRestrictions() {
         this.attackRestrictions = [];
         let restrictionCollection: string[][] = this.characterService.get_AppliedConditions(this.get_Creature()).filter(gain => gain.apply).map(gain => this.characterService.get_Conditions(gain.name)[0]).filter(condition => condition.attackRestrictions.length).map(condition => condition.attackRestrictions);

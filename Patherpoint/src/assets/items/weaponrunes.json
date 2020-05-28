@@ -246,7 +246,7 @@
             },
             {
                 "name": "Brawling",
-                "value": "The target takes a –4 circumstance penalty to its save."
+                "value": "The target takes a -4 circumstance penalty to its save."
             },
             {
                 "name": "Club",
@@ -266,7 +266,7 @@
             },
             {
                 "name": "Knife",
-                "value": "The target takes a –5-foot status penalty to its Speed while it has the persistent bleed damage."
+                "value": "The target takes a -5-foot status penalty to its Speed while it has the persistent bleed damage."
             },
             {
                 "name": "Pick",
@@ -282,7 +282,7 @@
             },
             {
                 "name": "Sling",
-                "value": "The target also takes a –10-foot status penalty to its Speed for 1 round if it fails the save."
+                "value": "The target also takes a -10-foot status penalty to its Speed for 1 round if it fails the save."
             },
             {
                 "name": "Spear",

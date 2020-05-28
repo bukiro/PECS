@@ -18,7 +18,7 @@ export class FamiliarComponent implements OnInit {
 
     minimize() {
         this.characterService.get_Character().settings.familiarMinimized = !this.characterService.get_Character().settings.familiarMinimized;
-        this.set_Changed();
+        this.set_Changed("Familiar");
     }
 
     still_loading() {
@@ -33,8 +33,8 @@ export class FamiliarComponent implements OnInit {
         return this.characterService.get_Accent();
     }
 
-    set_Changed() {
-        this.characterService.set_Changed();
+    set_Changed(target: string) {
+        this.characterService.set_Changed(target);
     }
 
     get_Character() {

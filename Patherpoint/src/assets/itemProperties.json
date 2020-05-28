@@ -708,8 +708,16 @@
         "validation": "0plus"
     },
     {
-        "key": "dicenum",
+        "key": "weaponBase",
         "priority": "0",
+        "group": "8-Weapons",
+        "name": "Base weapon type",
+        "desc": "If this weapon is based on another weapon, (e.g. if this is an enchanted longsword), the base weapon should be named here. This allows applying a specific weapon proficiency to the item even if it is not named after the weapon.",
+        "examples": "weaponBase"
+    },
+    {
+        "key": "dicenum",
+        "priority": "1",
         "group": "8-Weapons",
         "name": "Starting number of damage dice",
         "desc": "Weapons usually start with 1 damage die.",
@@ -718,7 +726,7 @@
     },
     {
         "key": "dicesize",
-        "priority": "1",
+        "priority": "2",
         "group": "8-Weapons",
         "name": "Damage dice size",
         "desc": "Most weapons have damage dice between 4 and 12.",
@@ -727,21 +735,21 @@
     },
     {
         "key": "dmgType",
-        "priority": "2",
+        "priority": "3",
         "group": "8-Weapons",
         "name": "Damage Type",
         "desc": "Usually B for blunt, P for piercing or S for slashing damage, but can vary for versatile or modular weapons."
     },
     {
         "key": "extraDamage",
-        "priority": "3",
+        "priority": "4",
         "group": "8-Weapons",
         "name": "Additional damage",
         "desc": "Some rare weapons do additional damage without any runes. You can add this damage here, e.g. '+1d4F' for an additional d4 of fire damage."
     },
     {
         "key": "melee",
-        "priority": "4",
+        "priority": "5",
         "group": "8-Weapons",
         "name": "Melee range",
         "desc": "The range of the weapon in melee in ft., usually 5 or 10 for weapons with the Reach trait. Weapons without a melee range will not show a melee attack.",
@@ -750,7 +758,7 @@
     },
     {
         "key": "ranged",
-        "priority": "5",
+        "priority": "6",
         "group": "8-Weapons",
         "name": "Ranged increment",
         "desc": "The range increment of the ranged weapon in ft.. Thrown weapons should have a range increment matching their Thrown trait. Weapons can be both ranged and melee, e.g. daggers.",
@@ -759,21 +767,21 @@
     },
     {
         "key": "ammunition",
-        "priority": "6",
+        "priority": "7",
         "group": "8-Weapons",
         "name": "Ammunition type",
         "desc": "The kind of ammunition used by this ranged weapon, e.g. 'arrows' or 'bolts'."
     },
     {
         "key": "reload",
-        "priority": "7",
+        "priority": "8",
         "group": "8-Weapons",
         "name": "Reload duration",
         "desc": "The amount of actions it takes to reload this ranged weapon. Bows usually have a reload duration of 0."
     },
     {
         "key": "criticalHint",
-        "priority": "8",
+        "priority": "9",
         "group": "8-Weapons",
         "name": "Critical hit effect",
         "desc": "Describe anything that happens on a critical hit with this weapon."

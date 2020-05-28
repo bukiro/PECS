@@ -228,7 +228,7 @@ export class CharacterComponent implements OnInit {
             if (levelNumber) {
                 //If level is given, check if any new languages have been added on this level. If not, don't get any languages at this point.
                 let newLanguages: number = 0;
-                newLanguages += this.get_FeatsTaken(levelNumber, levelNumber).filter(gain => this.get_FeatsAndFeatures(gain.name)[0].effects.filter(effect => effect.affected == "Max Languages").length).length;
+                newLanguages += this.get_FeatsTaken(levelNumber, levelNumber).filter(gain => this.get_FeatsAndFeatures(gain.name)[0]?.effects.filter(effect => effect.affected == "Max Languages").length).length;
                 newLanguages += character.get_AbilityBoosts(levelNumber, levelNumber, "Intelligence").length;
                 if (!newLanguages) {
                     return false;
@@ -481,6 +481,10 @@ export class CharacterComponent implements OnInit {
         if (boost && (choice.increases.length == choice.available + this.get_SkillINTBonus(choice) - 1)) { this.showList=""; }
         this.get_Character().increase_Skill(this.characterService, skillName, boost, choice, locked);
         this.characterService.set_Changed();
+    }
+
+    get_FeatChoices(level: Level) {
+        return level.featChoices.filter(choice => !choice.showOnSheet);
     }
 
     get_TraditionChoices(level: Level) {
@@ -757,7 +761,7 @@ export class CharacterComponent implements OnInit {
 
     get_AnimalCompanionAvailable(levelNumber: number) {
         //Return the number of feats taken this level that granted you an animal companion
-        return this.get_Character().get_FeatsTaken(levelNumber, levelNumber).filter(gain => this.characterService.get_FeatsAndFeatures(gain.name)[0].gainAnimalCompanion == 1).length
+        return this.characterService.get_CompanionAvailable(levelNumber, levelNumber);
     }
 
     get_Companion() {
@@ -808,8 +812,8 @@ export class CharacterComponent implements OnInit {
     }
 
     get_CompanionSpecializationsAvailable(levelNumber: number) {
-        //Return the number of feats taken this level that granted you an animal companion specialization
-        return this.get_Character().get_FeatsTaken(levelNumber, levelNumber).filter(gain => this.characterService.get_FeatsAndFeatures(gain.name)[0].gainAnimalCompanion == 6).length
+        //Return the number of feats taken this level that granted you an animal companion specialization (i.e. gainAnimalCompanion == 6)
+        return this.get_Character().get_FeatsTaken(levelNumber, levelNumber).filter(gain => this.characterService.get_FeatsAndFeatures(gain.name)[0]?.gainAnimalCompanion == 6).length
     }
 
     get_AvailableCompanionSpecializations(levelNumber: number) {
@@ -832,7 +836,7 @@ export class CharacterComponent implements OnInit {
 
     get_FamiliarAvailable(levelNumber: number) {
         //Return the number of feats taken this level that granted you an animal companion
-        return this.get_Character().get_FeatsTaken(levelNumber, levelNumber).filter(gain => this.characterService.get_FeatsAndFeatures(gain.name)[0].gainFamiliar == true).length
+        return this.get_Character().get_FeatsTaken(levelNumber, levelNumber).filter(gain => this.characterService.get_FeatsAndFeatures(gain.name)[0]?.gainFamiliar == true).length
     }
 
     get_Familiar() {

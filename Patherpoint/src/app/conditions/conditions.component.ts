@@ -76,11 +76,11 @@ export class ConditionsComponent implements OnInit {
     }
 
     get_CompanionAvailable() {
-        return this.get_Character().get_FeatsTaken(1, this.get_Character().level).filter(gain => this.characterService.get_FeatsAndFeatures(gain.name)[0].gainAnimalCompanion).length
+        return this.characterService.get_CompanionAvailable();
     }
     
     get_FamiliarAvailable() {
-        return this.get_Character().get_FeatsTaken(1, this.get_Character().level).filter(gain => this.characterService.get_FeatsAndFeatures(gain.name)[0].gainFamiliar).length
+        return this.characterService.get_FamiliarAvailable();
     }
 
     get_Companion() {

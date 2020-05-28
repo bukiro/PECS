@@ -35,7 +35,7 @@
                     [showItems]=true [showActivities]=true [showConditions]=true
                     [specialNames]=get_specialShowon(weapon) [specialEffects]=attack[3]></app-tags>
                 <div class="fullsize-only lower row left-aligned"
-                    *ngFor="let spec of weapon.get_CritSpecialization(characterService)">
+                    *ngFor="let spec of get_CritSpecialization(weapon)">
                     <strong>Critical specialization effect&nbsp;</strong>{{spec.desc}}
                 </div>
                 <div class="fullsize-only lower row left-aligned" *ngIf="weapon.criticalHint">

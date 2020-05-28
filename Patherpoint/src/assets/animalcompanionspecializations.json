@@ -53,7 +53,7 @@
                 "_className": "SkillChoice",
                 "increases": [
                     {
-                        "name": "Unarmed",
+                        "name": "Unarmed Attacks",
                         "source": "First specialization",
                         "maxRank": 4,
                         "locked": true,
@@ -198,7 +198,7 @@
                 "_className": "SkillChoice",
                 "increases": [
                     {
-                        "name": "Unarmed",
+                        "name": "Unarmed Attacks",
                         "source": "First specialization",
                         "maxRank": 4,
                         "locked": true,
@@ -324,7 +324,7 @@
                 "_className": "SkillChoice",
                 "increases": [
                     {
-                        "name": "Unarmed",
+                        "name": "Unarmed Attacks",
                         "source": "First specialization",
                         "maxRank": 4,
                         "locked": true,
@@ -456,7 +456,7 @@
                 "_className": "SkillChoice",
                 "increases": [
                     {
-                        "name": "Unarmed",
+                        "name": "Unarmed Attacks",
                         "source": "First specialization",
                         "maxRank": 4,
                         "locked": true,
@@ -581,7 +581,7 @@
                 "_className": "SkillChoice",
                 "increases": [
                     {
-                        "name": "Unarmed",
+                        "name": "Unarmed Attacks",
                         "source": "First specialization",
                         "maxRank": 4,
                         "locked": true,
@@ -706,7 +706,7 @@
                 "_className": "SkillChoice",
                 "increases": [
                     {
-                        "name": "Unarmed",
+                        "name": "Unarmed Attacks",
                         "source": "First specialization",
                         "maxRank": 4,
                         "locked": true,
@@ -825,7 +825,7 @@
                 "_className": "SkillChoice",
                 "increases": [
                     {
-                        "name": "Unarmed",
+                        "name": "Unarmed Attacks",
                         "source": "First specialization",
                         "maxRank": 4,
                         "locked": true,
@@ -944,7 +944,7 @@
                 "_className": "SkillChoice",
                 "increases": [
                     {
-                        "name": "Unarmed",
+                        "name": "Unarmed Attacks",
                         "source": "First specialization",
                         "maxRank": 4,
                         "locked": true,

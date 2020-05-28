@@ -6,6 +6,7 @@ import { Spell } from 'src/app/Spell';
 import { TraitsService } from 'src/app/traits.service';
 import { SortByPipe } from 'src/app/sortBy.pipe';
 import { SpellCasting } from 'src/app/SpellCasting';
+import { EffectsService } from 'src/app/effects.service';
 
 @Component({
     selector: 'app-spellchoice',
@@ -39,6 +40,7 @@ export class SpellchoiceComponent implements OnInit {
         private characterService: CharacterService,
         private spellsService: SpellsService,
         private traitsService: TraitsService,
+        private effectsService: EffectsService,
         private sortByPipe: SortByPipe
     ) { }
 
@@ -91,6 +93,20 @@ export class SpellchoiceComponent implements OnInit {
         return text.charAt(0).toUpperCase() + text.slice(1);
     }
 
+    get_SignatureSpellsAllowed() {
+        if (this.characterService.get_Features()
+            .filter(feature => feature.allowSignatureSpells)
+            .filter(feature => feature.have(this.get_Character(), this.characterService)).length) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    is_SignatureSpell(choice: SpellChoice) {
+        return this.get_SignatureSpellsAllowed() && choice.signatureSpell;
+    }
+
     get_DynamicLevel(choice: SpellChoice) {
         let highestSpellLevel = 1;
         if (this.spellCasting) {
@@ -101,6 +117,18 @@ export class SpellchoiceComponent implements OnInit {
         } catch (e) {
             console.log("Error parsing spell level requirement ("+choice.dynamicLevel+"): "+e)
             return 1;
+        }
+    }
+
+    get_CHA() {
+        return this.characterService.get_Abilities("Charisma")[0].mod(this.get_Character(), this.characterService, this.effectsService).result;
+    }
+
+    get_Available(choice: SpellChoice) {
+        if (choice.source == "Divine Font") {
+            return Math.max(choice.available + this.get_CHA(), 0)
+        } else {
+            return choice.available;
         }
     }
 

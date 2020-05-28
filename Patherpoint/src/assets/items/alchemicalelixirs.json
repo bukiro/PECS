@@ -26,7 +26,7 @@
             }
         ],
         "benefit": "You gain an item bonus of +1 to Fortitude saves and 5 temporary Hit Points. Whenever you are at maximum Hit Points for at least 1 full minute, you regain the temporary Hit Points.",
-        "drawback": "You take a –2 penalty to Will saves, Perception checks, and initiative rolls.",
+        "drawback": "You take a -2 penalty to Will saves, Perception checks, and initiative rolls.",
         "usage": "held in 1 hand"
     },
     {

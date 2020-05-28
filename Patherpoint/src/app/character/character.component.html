@@ -115,7 +115,7 @@
                         <div class="row lower" *ngIf="this.get_showItem()==itemID">
                             <div class="row left-aligned tags">
                                 <cite class="trait" *ngFor="let trait of class.traits"
-                                    title="{{get_Traits(trait)[0].description}}">{{trait}}</cite>
+                                    title="{{get_Traits(trait)[0]?.description}}">{{trait}}</cite>
                             </div>
                             <div class="row left-aligned" *ngIf="class.sourceBook">
                                 <strong>Source&nbsp;</strong><i>{{class.sourceBook}}</i>
@@ -155,9 +155,9 @@
                                 <label for="{{ancestry.name}}">
                                     <strong>{{ancestry.name}}&nbsp;</strong>
                                 <cite class="trait" *ngIf="ancestry.traits.includes('Rare')"
-                                    title="{{get_Traits('Rare')[0].description}}">Rare</cite>
+                                    title="{{get_Traits('Rare')[0]?.description}}">Rare</cite>
                                 <cite class="trait" *ngIf="ancestry.traits.includes('Uncommon')"
-                                    title="{{get_Traits('Uncommon')[0].description}}">Uncommon</cite>
+                                    title="{{get_Traits('Uncommon')[0]?.description}}">Uncommon</cite>
                                 </label>
                             </span>
                             <button (click)="toggle_Item(itemID)">
@@ -166,7 +166,7 @@
                             <div class="row lower" *ngIf="this.get_showItem()==itemID">
                                 <div class="row left-aligned tags">
                                     <cite class="trait" *ngFor="let trait of ancestry.traits"
-                                        title="{{get_Traits(trait)[0].description}}">{{trait}}</cite>
+                                        title="{{get_Traits(trait)[0]?.description}}">{{trait}}</cite>
                                 </div>
                                 <div class="row left-aligned" *ngIf="ancestry.sourceBook">
                                     <strong>Source&nbsp;</strong><i>{{ancestry.sourceBook}}</i>
@@ -209,9 +209,9 @@
                             <label for="{{heritage.name}}">
                                 <strong>{{heritage.name}}&nbsp;</strong>
                                 <cite class="trait" *ngIf="heritage.traits.includes('Rare')"
-                                    title="{{get_Traits('Rare')[0].description}}">Rare</cite>
+                                    title="{{get_Traits('Rare')[0]?.description}}">Rare</cite>
                                 <cite class="trait" *ngIf="heritage.traits.includes('Uncommon')"
-                                    title="{{get_Traits('Uncommon')[0].description}}">Uncommon</cite>
+                                    title="{{get_Traits('Uncommon')[0]?.description}}">Uncommon</cite>
                             </label>
                         </span>
                         <button (click)="toggle_Item(heritage.name+'desc')">
@@ -308,9 +308,9 @@
                                 <label for="{{background.name}}">
                                     <strong>{{background.name}}&nbsp;</strong>
                                     <cite class="trait" *ngIf="background.traits.includes('Rare')"
-                                        title="{{get_Traits('Rare')[0].description}}">Rare</cite>
+                                        title="{{get_Traits('Rare')[0]?.description}}">Rare</cite>
                                     <cite class="trait" *ngIf="background.traits.includes('Uncommon')"
-                                        title="{{get_Traits('Uncommon')[0].description}}">Uncommon</cite>
+                                        title="{{get_Traits('Uncommon')[0]?.description}}">Uncommon</cite>
                                 </label>
                             </span>
                             <button (click)="toggle_Item(itemID)">
@@ -319,7 +319,7 @@
                             <div class="row lower" *ngIf="this.get_showItem()==itemID">
                                 <div class="row left-aligned tags">
                                     <cite class="trait" *ngFor="let trait of background.traits"
-                                        title="{{get_Traits(trait)[0].description}}">{{trait}}</cite>
+                                        title="{{get_Traits(trait)[0]?.description}}">{{trait}}</cite>
                                 </div>
                                 <!--Subbackgrounds-->
                                 <div class="list-item" *ngFor="let subbackground of get_SubBackgrounds(background.name)">
@@ -442,7 +442,7 @@
                                 ({{skillIncrease.source}}): {{skillIncrease.name}}
                             </div>
                             <!--Fixed Feats-->
-                            <div title="{{get_FeatsAndFeatures(feat.name)[0].desc}}" class="list-item"
+                            <div title="{{get_FeatsAndFeatures(feat.name)[0]?.desc}}" class="list-item"
                                 *ngFor="let feat of get_FeatsTaken(level.number, level.number, '', '', '', true)">
                                 Feat ({{feat.source}}): {{feat.name}}
                             </div>
@@ -559,7 +559,7 @@
                     </ng-container>
                 </ng-container>
                 <!--Feat choices-->
-                <ng-container *ngFor="let choice of level.featChoices">
+                <ng-container *ngFor="let choice of get_FeatChoices(level)">
                     <app-featchoice (showChoiceMessage)="receive_ChoiceMessage($event)"
                         (showFeatMessage)="receive_FeatMessage($event)" [choice]="choice" [levelNumber]=level.number
                         [showFeat]="get_showItem()" [showChoice]="get_showList()">

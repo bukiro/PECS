@@ -317,6 +317,9 @@ export class NewItemPropertyComponent implements OnInit {
                         break;
                 }
                 break;
+            case "weaponBase":
+                examples.push(...this.get_Items().weapons.map(item => item.weaponBase))
+                break;
             case "traits":
                 examples = this.traitsService.get_Traits().map(trait => trait.name)
                 break;
@@ -488,7 +491,7 @@ export class NewItemPropertyComponent implements OnInit {
                 examples = ["", "equip", "grant"];
                 break;
             case "dicesize":
-                examples = [1, 2, 3, 4, 6, 8, 10, 12, 20, 100];
+                examples = [1, 2, 3, 4, 6, 8, 10, 12];
                 break;
             default:
                 this.get_Items().allEquipment().concat(...this.get_Inventories().map(inventory => inventory.allEquipment())).forEach((item: Equipment) => {

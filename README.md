@@ -64,6 +64,11 @@ active to do:
 
 Implement spells:
 - Detect Magic
+- Inspire Courage
+- Counter Performance
+- Hero's Defiance
+- Harm
+- Heal
 
 Create feats:
 
@@ -74,3 +79,4 @@ Create activities:
 Implement fields:
 
 Test:
+Fighter - Reusing Fighter Weapon Mastery as both supertype and subtypes

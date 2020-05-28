@@ -90,11 +90,15 @@ export class ActivitiesService {
                 }
                 gain.gainItems.forEach(gainItem => {
                     let newItem: Item = itemsService.get_CleanItems()[gainItem.type].filter(libraryItem => libraryItem.name == gainItem.name)[0];
-                    let grantedItem = characterService.grant_InventoryItem(creature as Character|AnimalCompanion, creature.inventories[0], newItem, false, false, true);
-                    gainItem.id = grantedItem.id;
-                    if (grantedItem.get_Name) {
-                        grantedItem.displayName = grantedItem.name + " (granted by " + activity.name + ")"
-                    };
+                    if (newItem) {
+                        let grantedItem = characterService.grant_InventoryItem(creature as Character|AnimalCompanion, creature.inventories[0], newItem, false, false, true);
+                        gainItem.id = grantedItem.id;
+                        if (grantedItem.get_Name) {
+                            grantedItem.displayName = grantedItem.name + " (granted by " + activity.name + ")"
+                        };
+                    } else {
+                        console.log("Failed granting " + gainItem.type + " " + gainItem.name + " - item not found.")
+                    }
                 });
             } else {
                 gain.gainItems.forEach(gainItem => {

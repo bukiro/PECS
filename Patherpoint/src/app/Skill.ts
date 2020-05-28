@@ -56,7 +56,7 @@ export class Skill {
         })
         //If you have Monastic Weaponry, you can use your unarmed proficiency (up to Master) for Monk weapons
         if (this.name == "Monk" && characterService.get_Feats("Monastic Weaponry")[0].have(creature, characterService)) {
-            let unarmedLevel = characterService.get_Skills(creature, "Unarmed")[0].level(creature, characterService);
+            let unarmedLevel = characterService.get_Skills(creature, "Unarmed Attacks")[0].level(creature, characterService);
             unarmedLevel = Math.min(unarmedLevel, 6);
             skillLevel = Math.max(skillLevel, unarmedLevel);
         }

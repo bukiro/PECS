@@ -6,7 +6,7 @@
         <button class="fullsize-only center-aligned list-item" (click)="toggleSpellsMenu()">Get
             Spells</button>
         <ng-container *ngFor="let casting of get_SpellCastings()">
-            <h3>{{(casting.className + " " + casting.get_Tradition() + " Spells").trim()}}</h3>
+            <h3>{{(casting.className + " " + casting.get_Tradition() + ((casting.castingType == "Focus") ? (" " + casting.source) : " Spells")).trim()}}</h3>
             <ng-container *ngFor="let level of [-1, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10]">
                 <ng-container *ngIf="level <= get_MaxSpellLevel()">
                     <ng-container *ngFor="let spellGain of get_SpellsByLevel(level, casting); let index = index">

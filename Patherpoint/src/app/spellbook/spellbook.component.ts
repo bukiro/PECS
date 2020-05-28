@@ -8,6 +8,7 @@ import { ItemsService } from '../items.service';
 import { TimeService } from '../time.service';
 import { SpellCasting } from '../SpellCasting';
 import { SpellCast } from '../SpellCast';
+import { EffectsService } from '../effects.service';
 
 @Component({
     selector: 'app-spellbook',
@@ -28,7 +29,8 @@ export class SpellbookComponent implements OnInit {
         private traitsService: TraitsService,
         private spellsService: SpellsService,
         private itemsService: ItemsService,
-        private timeService: TimeService
+        private timeService: TimeService,
+        private effectsService: EffectsService
     ) { }
     
     minimize() {
@@ -87,15 +89,25 @@ export class SpellbookComponent implements OnInit {
         return this.get_Character().get_SpellLevel();
     }
 
+    get_SignatureSpellsAllowed() {
+        if (this.characterService.get_Features()
+            .filter(feature => feature.name.includes("Signature Spells"))
+            .filter(feature => feature.have(this.get_Character(), this.characterService)).length) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
     get_SpellsByLevel(levelNumber: number, casting: SpellCasting) {
         this.id = levelNumber * 1000;
         let character = this.characterService.get_Character();
         if (levelNumber == -1) {
             if (casting.castingType == "Focus") {
-                return character.get_SpellsTaken(this.characterService, 1, character.level, levelNumber, "", casting);
+                return character.get_SpellsTaken(this.characterService, 1, character.level, levelNumber, "", casting, "", "", "", "", "", undefined, this.get_SignatureSpellsAllowed());
             }
         } else {
-            return character.get_SpellsTaken(this.characterService, 1, character.level, levelNumber, "", casting);
+            return character.get_SpellsTaken(this.characterService, 1, character.level, levelNumber, "", casting, "", "", "", "", "", undefined, this.get_SignatureSpellsAllowed());
         }
     }
 
@@ -122,9 +134,16 @@ export class SpellbookComponent implements OnInit {
     get_MaxSpellSlots(spellLevel: number, casting: SpellCasting) {
         if (casting.castingType == "Spontaneous" && spellLevel > 0) {
             let spellslots: number = 0;
-            casting.spellChoices.filter(choice => choice.level == spellLevel).forEach(choice => {
-                //You have as many spell slots as you have spells (as a sorcerer).
-                spellslots += choice.available;
+            if (spellLevel == 10) {
+                spellslots = 1;
+            } else {
+                casting.spellChoices.filter(choice => choice.level == spellLevel).forEach(choice => {
+                    //You have as many spell slots as you have spells (as a sorcerer) except for Level 10, where you have 1 (before effects).
+                    spellslots += choice.available;
+                });
+            }
+            this.effectsService.get_RelativesOnThis(this.get_Character(), casting.className + " " + casting.castingType + " Level " + spellLevel + " Spell Slots").forEach(effect => {
+                spellslots += parseInt(effect.value);
             });
             return spellslots;
         } else {
@@ -156,12 +175,13 @@ export class SpellbookComponent implements OnInit {
         if (gain.cooldown) {
             gain.activeCooldown = gain.cooldown;
         }
+        //Cantrips and Focus spells are automatically heightened to your maximum available spell level.
         if (!level || level == -1) {
             level = this.get_MaxSpellLevel();
         }
-        if (casting.castingType == "Focus" && activated){
-            let focusPoints = this.get_Character().class.focusPoints;
-            this.characterService.get_Character().class.focusPoints = Math.min(focusPoints, this.get_MaxFocusPoints());
+        //Focus spells cost Focus points, unless they are Focus cantrips (level 0)
+        if (casting.castingType == "Focus" && activated && choice.level == -1) {
+            this.characterService.get_Character().class.focusPoints = Math.min(this.get_Character().class.focusPoints, this.get_MaxFocusPoints());
             this.characterService.get_Character().class.focusPoints -= 1;
         };
         if (casting.castingType == "Spontaneous" && !spell.traits.includes("Cantrip") && activated) {

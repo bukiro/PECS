@@ -359,6 +359,21 @@ export class Character extends Creature {
                             this.increase_Skill(characterService, skillName, true, choice, true);
                         });
                     }
+                    //If this is the choice for the Sorcerer Bloodline tradition (and you are Sorcerer), add further increases on levels 7, 15 and 19
+                    if (spellCasting && spellCasting.className == "Sorcerer" && this.class.name == "Sorcerer" && spellCasting.castingType == "Spontaneous") {
+                        characterService.get_Level(7).skillChoices.filter(skillChoice =>
+                            skillChoice.source == "Expert Spellcaster" && skillChoice.type == "Spell DC").forEach(choice => {
+                            this.increase_Skill(characterService, skillName, true, choice, true);
+                        });
+                        characterService.get_Level(15).skillChoices.filter(skillChoice =>
+                            skillChoice.source == "Master Spellcaster>" && skillChoice.type == "Spell DC").forEach(choice => {
+                            this.increase_Skill(characterService, skillName, true, choice, true);
+                        });
+                        characterService.get_Level(19).skillChoices.filter(skillChoice =>
+                            skillChoice.source == "Legendary Spellcaster>" && skillChoice.type == "Spell DC").forEach(choice => {
+                            this.increase_Skill(characterService, skillName, true, choice, true);
+                        });
+                    }
                 //One background grants the "Lore" skill. We treat it as a Lore category skill, but don't generate any feats for it.
                 } else if (skillName == "Lore") {
                     characterService.add_CustomSkill(skillName, "Skill", "Intelligence");
@@ -382,13 +397,28 @@ export class Character extends Creature {
             if (skillName.includes("Spell DC")) {
                 //If this is the choice for the Monk Focus tradition, remove the increases from levels 9 and 17
                 let spellCasting = characterService.get_Character().class.spellCasting.find(casting => casting.spellDC === choice);
-                    if (spellCasting && spellCasting.className == "Monk" && spellCasting.castingType == "Focus") {
+                if (spellCasting && spellCasting.className == "Monk" && spellCasting.castingType == "Focus") {
                     characterService.get_Level(9).skillChoices.filter(skillChoice =>
                         skillChoice.source == "Monk Expertise" && skillChoice.type == "Spell DC").forEach(choice => {
                         this.increase_Skill(characterService, skillName, false, choice, true);
                     });
                     characterService.get_Level(17).skillChoices.filter(skillChoice =>
                         skillChoice.source == "Graceful Legend" && skillChoice.type == "Spell DC").forEach(choice => {
+                        this.increase_Skill(characterService, skillName, false, choice, true);
+                    });
+                }
+                //If this is the choice for the Sorcerer Bloodline tradition (and you are Sorcerer), add further increases on levels 7, 15 and 19
+                if (spellCasting && spellCasting.className == "Sorcerer" && this.class.name == "Sorcerer" && spellCasting.castingType == "Spontaneous") {
+                    characterService.get_Level(7).skillChoices.filter(skillChoice =>
+                        skillChoice.source == "Expert Spellcaster" && skillChoice.type == "Spell DC").forEach(choice => {
+                        this.increase_Skill(characterService, skillName, false, choice, true);
+                    });
+                    characterService.get_Level(15).skillChoices.filter(skillChoice =>
+                        skillChoice.source == "Master Spellcaster>" && skillChoice.type == "Spell DC").forEach(choice => {
+                        this.increase_Skill(characterService, skillName, false, choice, true);
+                    });
+                    characterService.get_Level(19).skillChoices.filter(skillChoice =>
+                        skillChoice.source == "Legendary Spellcaster>" && skillChoice.type == "Spell DC").forEach(choice => {
                         this.increase_Skill(characterService, skillName, false, choice, true);
                     });
                 }
@@ -452,7 +482,7 @@ export class Character extends Creature {
                     casting.charLevelAvailable >= minLevelNumber && casting.charLevelAvailable <= maxLevelNumber &&
                     (casting.castingType == castingType || castingType == ""))
                     .forEach(casting => {
-                        casting.spellChoices.forEach(choice => {
+                        casting.spellChoices.filter(choice => choice.charLevelAvailable >= minLevelNumber && choice.charLevelAvailable <= maxLevelNumber).forEach(choice => {
                             if (choice.level == spellLevel || spellLevel == -1 || (signatureAllowed && choice.signatureSpell && spellLevel != 0 && spellLevel != -1)) {
                                 choice.spells.filter(gain => 
                                     (gain.name == spellName || spellName == "") &&

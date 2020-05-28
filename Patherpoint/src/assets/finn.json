@@ -865,7 +865,7 @@
                                 "id": "1-Skill-Class-0",
                                 "increases": [
                                     {
-                                        "name": "Unarmed",
+                                        "name": "Unarmed Attacks",
                                         "source": "Class",
                                         "maxRank": 2,
                                         "locked": true,
@@ -1866,7 +1866,7 @@
                                 "sourceId": "1-Skill-Class-0"
                             },
                             {
-                                "name": "Unarmed",
+                                "name": "Unarmed Attacks",
                                 "source": "Class",
                                 "maxRank": 2,
                                 "locked": true,

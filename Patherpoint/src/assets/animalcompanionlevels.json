@@ -90,7 +90,7 @@
                 "_className": "SkillChoice",
                 "increases": [
                     {
-                        "name": "Unarmed",
+                        "name": "Unarmed Attacks",
                         "source": "Class",
                         "maxRank": 2,
                         "locked": true,

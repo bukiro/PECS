@@ -78,7 +78,7 @@
                         for="nonlethal">nonlethal</label>
                 </span>
                 <span>
-                    <input class="number3" type="number" [(ngModel)]="this.damage" maxLength="3">
+                    <input class="number4" type="number" [(ngModel)]="this.damage" maxLength="3">
                 </span>
                 <span>
                     <button [disabled]="this.damage <= 0"
@@ -91,7 +91,7 @@
                 </span>
                 <span>&nbsp;</span>
                 <span>
-                    <input class="number3" type="number" [(ngModel)]="this.healing" maxLength="3">
+                    <input class="number4" type="number" [(ngModel)]="this.healing" maxLength="3">
                 </span>
                 <span>
                     <button [disabled]="this.healing <= 0"
@@ -114,7 +114,7 @@
                 </span>
                 <span>&nbsp;</span>
                 <span>
-                    <input class="number3" type="number" [(ngModel)]="this.addTempHP" maxLength="3">
+                    <input class="number4" type="number" [(ngModel)]="this.addTempHP" maxLength="3">
                 </span>
                 <span>
                     <button [disabled]="this.addTempHP == 0" (click)="add_TempHP(this.addTempHP)">Add</button>

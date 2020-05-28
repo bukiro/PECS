@@ -560,7 +560,7 @@ app.controller('charCtrl', function ($scope, $filter) {
         new Feat('Expeditious Search', 'Search areas in half the time.', 7, false, "Perception, 6", '', '', '', '', '', 'perception', ['General'], [], false),
         new Feat('Experienced Professional', 'Prevent critical failures when Earning Income.', 1, false, "Lore, 2", '', '', '', '', '', 'lore', ['General', 'Skill'], [], false),
         new Feat('Experienced Smuggler', 'Conceal items from observers more effectively.', 1, false, "Stealth, 2", '', '', '', '', '', 'stealth', ['General', 'Skill'], [], false),
-        new Feat('Experienced Tracker', 'Track at your full Speed at a –5 penalty.', 1, false, "Survival, 2", '', '', '', '', '', 'survival', ['General', 'Skill'], [], false),
+        new Feat('Experienced Tracker', 'Track at your full Speed at a -5 penalty.', 1, false, "Survival, 2", '', '', '', '', '', 'survival', ['General', 'Skill'], [], false),
         new Feat('Eye of the Arclords', 'The Arclords of Nex have achieved a unique mastery of magic.', 2, false, "Arcana, 4", '', 'Arcane Sense', '', '', '', 'arcana', ['General', 'Skill', 'Uncommon'], [], false),
         new Feat('Fascinating Performance', 'Perform to fascinate observers.', 1, false, "Performance, 2", '', '', '', '', '', 'performance', ['General', 'Skill'], [], false),
         new Feat('Fast Recovery', 'Regain more HP from rest, recover faster from disease and poisons.', 1, false, '', "Constitution, 14", '', '', '', '', 'health, fortitude', ['General'], [], false),

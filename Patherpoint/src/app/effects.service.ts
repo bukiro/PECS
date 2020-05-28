@@ -188,27 +188,27 @@ constructor(
         let companion = characterService.get_Companion();
         let familiar = characterService.get_Familiar();
         //Create simple effects from all equipped items first
-        characterService.get_Inventories(character)[0].allEquipment().filter(item => item.invested && item.effects && item.effects.length).forEach(item => {
+        characterService.get_Inventories(character)[0].allEquipment().filter(item => item.invested && item.effects?.length).forEach(item => {
             simpleEffects = simpleEffects.concat(this.get_SimpleEffects(character, characterService, item));
         });
-        characterService.get_Inventories(companion)[0].allEquipment().filter(item => item.invested && item.effects && item.effects.length).forEach(item => {
+        characterService.get_Inventories(companion)[0].allEquipment().filter(item => item.invested && item.effects?.length).forEach(item => {
                 simpleEffects = simpleEffects.concat(this.get_SimpleEffects(companion, characterService, item));
             });
-        character.get_FeatsTaken(1, character.level).map(gain => characterService.get_FeatsAndFeatures(gain.name)[0]).forEach(feat => {
-            if (feat.effects && feat.effects.length) {
+        character.get_FeatsTaken(1, character.level).map(gain => characterService.get_FeatsAndFeatures(gain.name)[0])
+            .filter(feat => feat?.effects?.length)
+            .forEach(feat => {
                 simpleEffects = simpleEffects.concat(this.get_SimpleEffects(character, characterService, feat));
-            }
         });
-        familiar.abilities.feats.map(gain => characterService.familiarsService.get_FamiliarAbilities(gain.name)[0]).forEach(ability => {
-            if (ability.effects && ability.effects.length) {
+        familiar.abilities.feats.map(gain => characterService.familiarsService.get_FamiliarAbilities(gain.name)[0])
+            .filter(ability => ability?.effects?.length)
+            .forEach(ability => {
                 simpleEffects = simpleEffects.concat(this.get_SimpleEffects(familiar, characterService, ability));
-            }
         });
         characterService.get_Creatures().forEach(creature => {
             let appliedConditions = characterService.get_AppliedConditions(creature).filter(condition => condition.apply);
             appliedConditions.forEach(condition => {
                 let originalCondition = characterService.get_Conditions(condition.name)[0];
-                if (originalCondition.effects && originalCondition.effects.length) {
+                if (originalCondition?.effects?.length) {
                     //Fit the condition effects into the box defined by feat effects
                     let effectsObject = {name:condition.name, value:condition.value, effects:originalCondition.effects, heightened:condition.heightened}
                     simpleEffects = simpleEffects.concat(this.get_SimpleEffects(creature, characterService, effectsObject));
@@ -218,10 +218,6 @@ constructor(
         companion.class.specializations.filter(spec => spec.effects.length).forEach(spec => {
             simpleEffects = simpleEffects.concat(this.get_SimpleEffects(companion, characterService, spec));
         })
-        
-        //We finalize and export this first bunch of simple effects,
-        //because we are going to need to check Strength later in this function, and we don't want to have to run the function twice
-        //this.effects.all = Object.assign([], finalize_Effects(simpleEffects, this.bonusTypes));
         
         let itemEffects: Effect[] = [];
 
