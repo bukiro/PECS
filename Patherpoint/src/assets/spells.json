@@ -1162,7 +1162,7 @@
             "Arcane",
             "Occult"
         ],
-        "shortDesc": "You send the target�s mind and body into overdrive, forcing it to become restless and hyperactive.",
+        "shortDesc": "You send the target's mind and body into overdrive, forcing it to become restless and hyperactive.",
         "actions": "2A",
         "castType": "somatic, verbal",
         "savingthrow": "Will",
@@ -1279,7 +1279,7 @@
         "traditions": [
             "Arcane"
         ],
-        "shortDesc": "You sow seeds of confusion in your target�s mind, causing their actions and thoughts to become clumsy.",
+        "shortDesc": "You sow seeds of confusion in your target's mind, causing their actions and thoughts to become clumsy.",
         "actions": "2A",
         "castType": "somatic, verbal",
         "traits": [
@@ -1479,7 +1479,7 @@
             "Arcane",
             "Occult"
         ],
-        "shortDesc": "You invigorate the touched creature�s mind and urge it to press on.",
+        "shortDesc": "You invigorate the touched creature's mind and urge it to press on.",
         "actions": "1A",
         "castType": "somatic",
         "traits": [
@@ -1518,7 +1518,7 @@
             "Arcane",
             "Primal"
         ],
-        "shortDesc": "React to slow a creature�s fall.",
+        "shortDesc": "React to slow a creature's fall.",
         "actions": "Reaction",
         "castType": "verbal",
         "traits": [
@@ -1996,7 +1996,7 @@
             "Arcane",
             "Primal"
         ],
-        "shortDesc": "Suppress a creature�s scent.",
+        "shortDesc": "Suppress a creature's scent.",
         "actions": "2A",
         "castType": "somatic, verbal",
         "traits": [
@@ -2755,7 +2755,7 @@
         "traditions": [
             "Divine"
         ],
-        "shortDesc": "You brand the target with an ethereal copy of your deity�s religious symbol.",
+        "shortDesc": "You brand the target with an ethereal copy of your deity's religious symbol.",
         "actions": "2A",
         "castType": "somatic, verbal",
         "savingthrow": "Fortitude",
@@ -3256,7 +3256,7 @@
             "Arcane",
             "Occult"
         ],
-        "shortDesc": "A creature can�t be seen until it attacks.",
+        "shortDesc": "A creature can't be seen until it attacks.",
         "actions": "2A",
         "castType": "material, somatic",
         "traits": [
@@ -3343,7 +3343,7 @@
             "Arcane",
             "Occult"
         ],
-        "shortDesc": "Cause one creature�s auras to appear to be another�s.",
+        "shortDesc": "Cause one creature's auras to appear to be another's.",
         "actions": "1 minute",
         "castType": "somatic, verbal",
         "traits": [
@@ -5537,7 +5537,7 @@
             "Arcane",
             "Primal"
         ],
-        "shortDesc": "You evoke a storm of acid rain that pelts the area for the spell�s duration.",
+        "shortDesc": "You evoke a storm of acid rain that pelts the area for the spell's duration.",
         "actions": "2A",
         "castType": "somatic, verbal",
         "traits": [
@@ -5813,7 +5813,7 @@
             "Arcane",
             "Occult"
         ],
-        "shortDesc": "A creature believes one thing is another, can�t detect something, or sees something that�s not really there.",
+        "shortDesc": "A creature believes one thing is another, can't detect something, or sees something that's not really there.",
         "actions": "2A",
         "castType": "material, somatic",
         "traits": [
@@ -6983,7 +6983,7 @@
             "Occult",
             "Primal"
         ],
-        "shortDesc": "A creature�s fearsome illusory appearance frightens observers.",
+        "shortDesc": "A creature's fearsome illusory appearance frightens observers.",
         "actions": "2A",
         "castType": "somatic, verbal",
         "traits": [
@@ -7021,7 +7021,7 @@
         "traditions": [
             "Occult"
         ],
-        "shortDesc": "Send your mind and soul into another creature�s body.",
+        "shortDesc": "Send your mind and soul into another creature's body.",
         "actions": "2A",
         "castType": "somatic, verbal",
         "savingthrow": "Will",
@@ -7075,7 +7075,7 @@
             "Arcane",
             "Occult"
         ],
-        "shortDesc": "Make an illusion of�yourself you can cast spells through.",
+        "shortDesc": "Make an illusion of yourself you can cast spells through.",
         "actions": "2A",
         "castType": "somatic, verbal",
         "traits": [

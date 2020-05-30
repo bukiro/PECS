@@ -55,7 +55,6 @@ import { Oil } from './Oil';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Savegame } from './Savegame';
-import { toBase64String } from '@angular/compiler/src/output/source_map';
 import { CharacterService } from './character.service';
 import { AnimalCompanionsService } from './animalcompanions.service';
 import { ClassesService } from './classes.service';
@@ -151,13 +150,13 @@ export class SavegameService {
                     character.class.animalCompanion.inventories = character.class.animalCompanion.inventories.map(inventory => Object.assign(new ItemCollection(), inventory));
                     character.class.animalCompanion.inventories.forEach(inventory => inventory.restore_FromSave(itemsService));
                 }
-                if (character.class.animalCompanion.class.ancestry) {
+                if (character.class.animalCompanion?.class?.ancestry) {
                     character.class.animalCompanion.class.ancestry = animalCompanionsService.restore_AncestryFromSave(character.class.animalCompanion.class.ancestry, this);
                 }
-                if (character.class.animalCompanion.class.levels) {
+                if (character.class.animalCompanion?.class?.levels) {
                     character.class.animalCompanion.class = animalCompanionsService.restore_LevelsFromSave(character.class.animalCompanion.class, this);
                 }
-                if (character.class.animalCompanion.class.specializations) {
+                if (character.class.animalCompanion.class?.specializations) {
                     character.class.animalCompanion.class.specializations.forEach(spec => {
                         spec = animalCompanionsService.restore_SpecializationFromSave(spec, this);
                     })
@@ -270,26 +269,26 @@ export class SavegameService {
         savegame.inventories.forEach(inventory => inventory.clean_ForSave(itemsService));
         if (savegame.class.name) {
             savegame.class = classesService.clean_ClassForSave(savegame.class);
-            if (savegame.class.ancestry.name) {
+            if (savegame.class.ancestry?.name) {
                 savegame.class.ancestry = historyService.clean_AncestryForSave(savegame.class.ancestry);
             }
-            if (savegame.class.heritage.name) {
+            if (savegame.class.heritage?.name) {
                 savegame.class.heritage = historyService.clean_HeritageForSave(savegame.class.heritage);
             }
-            if (savegame.class.background.name) {
+            if (savegame.class.background?.name) {
                 savegame.class.background = historyService.clean_BackgroundForSave(savegame.class.background);
             }
             if (savegame.class.animalCompanion) {
                 if (savegame.class.animalCompanion.inventories) {
                     savegame.class.animalCompanion.inventories.forEach(inventory => inventory.clean_ForSave(itemsService));
                 }
-                if (savegame.class.animalCompanion.class.ancestry) {
+                if (savegame.class.animalCompanion.class?.ancestry) {
                     savegame.class.animalCompanion.class.ancestry = animalCompanionsService.clean_AncestryForSave(savegame.class.animalCompanion.class.ancestry);
                 }
-                if (savegame.class.animalCompanion.class.levels) {
+                if (savegame.class.animalCompanion.class?.levels) {
                     savegame.class.animalCompanion.class = animalCompanionsService.clean_LevelsForSave(savegame.class.animalCompanion.class);
                 }
-                if (savegame.class.animalCompanion.class.specializations) {
+                if (savegame.class.animalCompanion.class?.specializations) {
                     savegame.class.animalCompanion.class.specializations.forEach(spec => {
                         spec = animalCompanionsService.clean_SpecializationForSave(spec);
                     })

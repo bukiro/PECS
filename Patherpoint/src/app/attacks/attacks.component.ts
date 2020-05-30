@@ -52,8 +52,8 @@ export class AttacksComponent implements OnInit {
         return this.characterService.get_Accent();
     }
 
-    get_CritSpecialization(weapon: Weapon) {
-        return weapon.get_CritSpecialization(this.get_Creature(), this.characterService);
+    get_CritSpecialization(weapon: Weapon, range: string) {
+        return weapon.get_CritSpecialization(this.get_Creature(), this.characterService, range);
     }
 
     get_AttackRestrictions() {
@@ -154,7 +154,7 @@ export class AttacksComponent implements OnInit {
         if (weapon.melee) {
             attacks.push(weapon.attack(this.get_Creature(), this.characterService, this.effectsService, 'melee'));
         }
-        if (weapon.ranged) {
+        if (weapon.ranged || weapon.traits.filter(trait => trait.includes("Thrown")).length) {
             attacks.push(weapon.attack(this.get_Creature(), this.characterService, this.effectsService, 'ranged'));
         }
         return attacks;

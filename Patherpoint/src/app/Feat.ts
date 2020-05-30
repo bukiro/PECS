@@ -12,6 +12,7 @@ import { AnimalCompanion } from './AnimalCompanion';
 import { Familiar } from './Familiar';
 import { Deity } from './Deity';
 import { Speed } from './Speed';
+import { CriticalSpecialization } from './CriticalSpecialization';
 
 export class Feat {
     public readonly _className: string = this.constructor.name;
@@ -19,13 +20,13 @@ export class Feat {
     public access: string = "";
     public advancedweaponbase: boolean = false;
     public archetype: string = "";
-    public critSpecialization: string = "";
     public data: {} = {};
     public desc: string = "";
     public effects: any[] = [];
     public featreq: string[] = [];
     public gainActivities: string[] = [];
     public gainAnimalCompanion: number = 0;
+    public gainCritSpecialization: CriticalSpecialization[] = [];
     public gainFamiliar: boolean = false;
     public gainConditions: ConditionGain[] = [];
     public gainFeatChoice: FeatChoice[] = [];
@@ -197,9 +198,14 @@ export class Feat {
         charLevel = charLevel;
         let result: {met:boolean, desc:string};
         if (this.specialreq) {
-            if (eval(this.specialreq)) {
-                result = {met:true, desc:this.specialreqdesc};
-            } else {
+            try {
+                if (eval(this.specialreq)) {
+                    result = {met:true, desc:this.specialreqdesc};
+                } else {
+                    result = {met:false, desc:this.specialreqdesc};
+                }
+            } catch (error) {
+                console.log("Failed evaluating feat requirement (" + this.specialreq + "): " + error)
                 result = {met:false, desc:this.specialreqdesc};
             }
         } else {

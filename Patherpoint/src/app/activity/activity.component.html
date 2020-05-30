@@ -28,7 +28,7 @@
             </button>
             <button class="row center-aligned" (click)="on_Activate(gain, activity, false, creature)"
                 *ngIf="gain.active">
-                Deactivate
+                Deactivate {{gain.duration ? "(" + get_Duration(gain.duration) + " remaining)" : ""}}
             </button>
         </ng-container>
         <ng-container *ngIf="gain.name == 'Fused Stance' && !gain.activeCooldown">
@@ -45,7 +45,7 @@
     <div class="row" *ngIf="get_Resonant() && !isSubItem">
         <strong>Slot this item into a Wayfinder to unlock its resonant power.</strong>
     </div>
-    <div class="row" *ngIf="gain.activeCooldown && !gain.active">
+    <div class="row" *ngIf="gain && gain.activeCooldown && !gain.active">
         <button class="row center-aligned" disabled>
             Cannot activate for {{get_Duration(gain.activeCooldown)}}
         </button>
@@ -68,6 +68,12 @@
         <span>
             <strong>Frequency</strong>
             {{activity.frequency}}
+        </span>
+    </div>
+    <div class="row left-aligned" *ngIf="activity.cost">
+        <span>
+            <strong>Cost</strong>
+            {{activity.cost}}
         </span>
     </div>
     <div class="row left-aligned" *ngIf="activity.trigger">

@@ -7,6 +7,20 @@
         ]
     },
     {
+        "name": "Rage",
+        "desc": "You can attack rapidly with fists, feet, elbows, knees, and other unarmed attacks. You gain the Flurry of Blows action.",
+        "gainActivities": [
+            "Rage"
+        ]
+    },
+    {
+        "name": "Quick Rage",
+        "desc": "You recover from your Rage quickly, and are soon ready to begin anew. After you spend a full turn without raging, you can Rage again without needing to wait 1 minute.",
+        "hint": "After you spend a full turn without raging, you can Rage again without needing to wait 1 minute.",
+        "showon": "Rage"
+    },
+    
+    {
         "name": "Powerful Fist",
         "desc": "You know how to wield your fists as deadly weapons. The damage die for your fist increases to 1d6 instead of 1d4. Most people take a -2 circumstance penalty when making a lethal attack with nonlethal unarmed attacks, because they find it hard to use their fists with deadly force. You don't take this penalty when making a lethal attack with your fist or any other unarmed attacks.",
         "hint": "You don't take the usual -2 circumstance penalty when making a lethal attack with your fist or any other unarmed attacks.",
@@ -123,7 +137,12 @@
     {
         "name":"Ranger Weapon Expertise",
         "desc":"You've dedicated yourself to learning the intricacies of your weapons. Your proficiency ranks for simple and martial weapons and unarmed attacks increases to expert. You gain access to the critical specialization effects of all simple and martial weapons and unarmed attacks when attacking your hunted prey.",
-        "critSpecialization": "Simple Weapons, Martial Weapons, Unarmed Attacks",
+        "gainCritSpecialization": [
+            {
+                "proficiency": "Simple Weapons, Martial Weapons, Unarmed Attacks",
+                "condition": "hunted prey only"
+            }
+        ],
         "internalNote": "Skill increases through class features are handled in the class object. The limitation to the hunted prey is hardcoded in the weapon class."
     },
     {
@@ -207,7 +226,7 @@
        "name":"Masterful Hunter: Outwit",
        "desc":"Your mastery of skills allows you to overwhelm your prey. If you have master proficiency in Deception, Intimidation, Stealth, or the skill you use to Recall Knowledge about your prey, increase the circumstance bonus against the prey with that skill from +2 to +4. If you have master proficiency with your armor, increase the circumstance bonus to AC against the prey from +1 to +2.",
        "hint":"If you have master proficiency in Deception, Intimidation, Stealth, or the skill you use to Recall Knowledge about your prey, increase the circumstance bonus against the prey with that skill from +2 to +4. If you have master proficiency with your armor, increase the circumstance bonus to AC against the prey from +1 to +2.",
-       "showon":"Hunt Prey, AC"
+       "showon":"Hunt Prey, AC, Arcana, Crafting, Deception, Intimidation, Nature, Occultism, Religion, Society, Stealth"
     },
     {
        "name":"Masterful Hunter: Precision",

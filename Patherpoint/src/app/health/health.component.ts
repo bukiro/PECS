@@ -6,6 +6,8 @@ import { Health } from '../Health';
 import { Character } from '../Character';
 import { AnimalCompanion } from '../AnimalCompanion';
 import { TimeService } from '../time.service';
+import { ItemsService } from '../items.service';
+import { SpellsService } from '../spells.service';
 
 @Component({
     selector: 'app-health',
@@ -27,6 +29,8 @@ export class HealthComponent implements OnInit {
     constructor(
         private changeDetector:ChangeDetectorRef,
         private timeService: TimeService,
+        private itemsService: ItemsService,
+        private spellsService: SpellsService,
         public characterService: CharacterService,
         public effectsService: EffectsService
     ) { }
@@ -58,7 +62,7 @@ export class HealthComponent implements OnInit {
     }
 
     rest() {
-        this.timeService.rest(this.characterService);
+        this.timeService.rest(this.characterService, this.timeService, this.itemsService, this.spellsService);
     }
 
     die(reason: string) {

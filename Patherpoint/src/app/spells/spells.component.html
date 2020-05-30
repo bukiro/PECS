@@ -9,26 +9,31 @@
                 Allow heightened spells
             </span>
         </div>
-        <ng-container *ngFor="let casting of get_SpellCastings()">
-            <h3>{{(casting.className + " " + casting.get_Tradition() + " Spells").trim()}}
+        <ng-container *ngFor="let casting of get_SpellCastings(); let index = index;">
+            <h3>{{(casting.className + " " + casting.get_Tradition() + ((casting.castingType == "Focus") ? (" " + casting.source) : " Spells")).trim()}}
                 <span class="lower"
-                    *ngIf="['Prepared', 'Spontaneous'].includes(casting.castingType)">{{casting.castingType}}
+                    *ngIf="['Prepared', 'Spontaneous'].includes(casting.castingType)">
+                    <span class="lower">
+                        {{casting.castingType}}
+                    </span>
                 </span>
             </h3>
-            <ng-container *ngFor="let level of [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10]">
+            <ng-container *ngFor="let level of [-1, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10]">
                 <ng-container *ngIf="level <= get_MaxSpellLevel()">
-                    <h5>{{level == 0 ? "Cantrips" : "Level "+level}}</h5>
+                    <h5 *ngIf="level == -1">Focus Spells</h5>
+                    <h5 *ngIf="level == 0">Cantrips</h5>
+                    <h5 *ngIf="level > 0">{{"Level "+level}}</h5>
                     <!--Fixed information-->
                     <div class="fullsize-only list-item fancy-button">
                         <button class="row sublist-toggle fancy-button"
-                            (click)="toggle_Choice('showFixedChanges'+level)">
+                            (click)="toggle_Choice(index+'showFixedChanges'+level)">
                             Show fixed changes
                         </button>
-                        <div class="list-item sublist fancy-list" *ngIf="get_ShowChoice()=='showFixedChanges'+level">
+                        <div class="list-item sublist fancy-list" *ngIf="get_ShowChoice()==index+'showFixedChanges'+level">
                             <!--Fixed Spells gained-->
                             <div class="list-item"
-                                *ngFor="let spellGain of get_SpellsTaken(1, get_Character().level, level, '', casting, '', '', true)">
-                                {{spellGain.name}} {{spellGain.source ? "("+spellGain.source+")" : ""}}
+                                *ngFor="let spellTaken of get_SpellsTaken(1, get_Character().level, level, '', casting, '', '', true)">
+                                {{spellTaken.gain.name}} {{spellTaken.gain.source ? "("+spellTaken.gain.source+")" : ""}}
                             </div>
                         </div>
                     </div>

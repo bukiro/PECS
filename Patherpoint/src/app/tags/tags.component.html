@@ -5,14 +5,14 @@
         [title]="(feat.hint) ? feat.hint : feat.desc">{{feat.name}}</cite>
     <ng-container *ngFor="let featName of specialNames">
         <cite class="feat" *ngFor="let feat of get_FeatsShowingOn(featName, true)"
-            [title]="(feat.hint) ? feat.hint : feat.desc">{{feat.name}}</cite>
+            [title]="feat.hint ? feat.hint : feat.desc">{{feat.name}}</cite>
     </ng-container>
     <cite class="item" *ngFor="let item of get_ItemsShowingOn(objectName)"
         [title]="(item.hint) ? item.hint : item.desc">{{item.name}}</cite>
     <cite class="activity" *ngFor="let activity of get_ActivitiesShowingOn(objectName)"
         [title]="(activity.hint) ? activity.hint : activity.desc">{{activity.name}}</cite>
     <cite class="condition" *ngFor="let condition of get_ConditionsShowingOn(objectName)"
-        [className]="condition.buff ? 'bonus' : 'penalty'" [title]="condition.desc">{{condition.name}}&nbsp;</cite>
+        [className]="condition.buff ? 'bonus' : 'penalty'" [title]="condition.hint ? condition.hint : condition.desc">{{condition.name}}&nbsp;</cite>
     <cite class="effect" *ngFor="let effect of get_EffectsOnThis(objectName)"
         [ngClass]="{'penalty':effect.penalty, 'bonus':effect.bonus, 'absolute':effect.setValue}">{{parseInt(effect.value) ? effect.value : ''}}{{effect.setValue ? effect.setValue : ''}} ({{effect.source}})&nbsp;</cite>
     <cite class="effect" *ngFor="let effect of specialEffects"

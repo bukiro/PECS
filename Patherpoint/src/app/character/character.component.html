@@ -99,7 +99,7 @@
             </button>
             <div class="list-item sublist" [ngClass]="{'fancy-list':get_Character().class.name}"
                 *ngIf="get_showList()==listID">
-                <ng-container *ngFor="let class of get_Classes()">
+                <ng-container *ngFor="let class of get_Classes()|sortBy:'asc':'name'; trackBy:trackByIndex;">
                     <div class="row list-item" *ngFor="let itemID of ['class'+class.name]">
                         <span>
                             <input id="{{class.name}}" type="checkbox"
@@ -146,7 +146,7 @@
                 </button>
                 <div class="list-item sublist" [ngClass]="{'fancy-list':((get_Character().class.ancestry.name))}"
                     *ngIf="get_showList()==listID">
-                    <ng-container *ngFor="let ancestry of get_Ancestries(); trackBy:trackByIndex;">
+                    <ng-container *ngFor="let ancestry of get_Ancestries()|sortBy:'asc':'name'; trackBy:trackByIndex;">
                         <div class="row list-item" *ngFor="let itemID of ['ancestry'+ancestry.name]">
                             <span>
                                 <input id="{{ancestry.name}}" type="checkbox"
@@ -199,7 +199,7 @@
                 <div class="list-item sublist" [ngClass]="{'fancy-list':((get_Character().class.heritage.name))}"
                     *ngIf="get_showList()==listID">
                     <div class="list-item"
-                        *ngFor="let heritage of get_Heritages('', get_Character().class.ancestry.name)">
+                        *ngFor="let heritage of get_Heritages('', get_Character().class.ancestry.name)|sortBy:'asc':'name'; trackBy:trackByIndex;">
                         <span>
                             <input *ngIf="!heritage.subTypes.length" id="{{heritage.name}}" type="checkbox"
                                 (change)="onHeritageChange(heritage, $event.target.checked)"
@@ -241,9 +241,9 @@
                                     </ul>
                                 </ng-container>
                             </div>
-                            <ng-container *ngFor="let gain of heritage.gainActivities">
+                            <ng-container *ngFor="let activityName of heritage.gainActivities">
                                 <div class="row left-aligned"
-                                    *ngFor="let activity of get_Activities(gain.name)">
+                                    *ngFor="let activity of get_Activities(activityName)">
                                     <h4 class="left-aligned">{{activity.name}}
                                         <app-actionIcons [actionString]="activity.actions">
                                         </app-actionIcons>
@@ -297,7 +297,7 @@
                 </button>
                 <div class="list-item sublist" [ngClass]="{'fancy-list':((get_Character().class.background.name))}"
                     *ngIf="get_showList()==listID">
-                    <ng-container *ngFor="let background of get_Backgrounds(); trackBy:trackByIndex;">
+                    <ng-container *ngFor="let background of get_Backgrounds()|sortBy:'asc':'name'; trackBy:trackByIndex;">
                         <div class="row list-item" *ngFor="let itemID of ['background'+background.name]">
                             <span>
                                 <input *ngIf="!background.subTypes" id="{{background.name}}" type="checkbox"
@@ -538,7 +538,7 @@
                                                 [checked]="skillIncreasedByThis(skill, choice)"
                                                 [disabled]="cannotIncrease(skill, level, choice).length && !skillIncreasedByThis(skill, choice)">
                                             <label for="{{itemID}}">
-                                                <strong>{{skill.name}}:</strong>
+                                                <strong>{{skill.name}}{{skill.ability ? " (" + skill.ability.substr(0,3) + ")" : ""}}:</strong>
                                                 <app-proficiency-form [creature]="'Character'" [skill]="skill"
                                                     [characterService]="this.characterService" [level]="level.number">
                                                 </app-proficiency-form>
@@ -577,7 +577,7 @@
                         <div class="list-item sublist"
                             [ngClass]="{'fancy-list':((spellcasting.bloodline && spellcasting.bloodline.name))}"
                             *ngIf="get_showList()==listID">
-                            <ng-container *ngFor="let bloodline of get_Bloodlines()">
+                            <ng-container *ngFor="let bloodline of get_Bloodlines()|sortBy:'asc':'name'; trackBy:trackByIndex;">
                                 <div class="row list-item" *ngFor="let itemID of ['bloodline'+bloodline.name]">
                                     <span>
                                         <input id="{{bloodline.name}}" type="checkbox"
@@ -644,7 +644,6 @@
                         <div class="list-item sublist"
                             [ngClass]="{'fancy-list':(get_Companion().name && get_Companion().species)}"
                             *ngIf="get_showList()==listID">
-
                             <button class="list-item" (click)="on_NewCompanion(level)">
                                 Create New Animal Companion
                             </button>
@@ -673,7 +672,7 @@
                         </button>
                         <div class="list-item sublist" [ngClass]="{'fancy-list':(get_Companion().class.ancestry.name)}"
                             *ngIf="get_showList()==listID">
-                            <div class="list-item" *ngFor="let type of get_AvailableCompanionTypes()">
+                            <div class="list-item" *ngFor="let type of get_AvailableCompanionTypes()|sortBy:'asc':'name'; trackBy:trackByIndex;">
                                 <div class="row" *ngFor="let itemID of ['animaltype'+type.name+'desc']">
                                     <span>
                                         <input id="{{type.name}}" type="checkbox"
@@ -770,7 +769,7 @@
                                 [ngClass]="{'fancy-list':(get_TakenCompanionSpecializations(level.number).length == available)}"
                                 *ngIf="get_showList()==listID">
                                 <div class="list-item"
-                                    *ngFor="let spec of get_AvailableCompanionSpecializations(level.number)">
+                                    *ngFor="let spec of get_AvailableCompanionSpecializations(level.number)|sortBy:'asc':'name'; trackBy:trackByIndex;">
                                     <div class="row"
                                         *ngFor="let itemID of ['animalspecialization'+spec.name+'desc'+level.number]">
                                         <span>

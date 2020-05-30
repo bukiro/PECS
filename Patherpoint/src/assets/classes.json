@@ -257,6 +257,13 @@
                         "maxRank": 2,
                         "source": "Class",
                         "type": "Skill"
+                    },
+                    {
+                        "_className": "SkillChoice",
+                        "id": "1-Skill-Intelligence-2",
+                        "maxRank": 2,
+                        "source": "Intelligence",
+                        "type": "Skill"
                     }
                 ]
             },
@@ -265,13 +272,6 @@
                     {
                         "_className": "SkillChoice",
                         "id": "2-Skill-Intelligence-0",
-                        "maxRank": 2,
-                        "source": "Intelligence",
-                        "type": "Skill"
-                    },
-                    {
-                        "_className": "SkillChoice",
-                        "id": "2-Skill-Intelligence-2",
                         "maxRank": 2,
                         "source": "Intelligence",
                         "type": "Skill"
@@ -1468,6 +1468,13 @@
                         "maxRank": 2,
                         "source": "Class",
                         "type": "Skill"
+                    },
+                    {
+                        "_className": "SkillChoice",
+                        "id": "1-Skill-Intelligence-2",
+                        "maxRank": 2,
+                        "source": "Intelligence",
+                        "type": "Skill"
                     }
                 ]
             },
@@ -1476,13 +1483,6 @@
                     {
                         "_className": "SkillChoice",
                         "id": "2-Skill-Intelligence-0",
-                        "maxRank": 2,
-                        "source": "Intelligence",
-                        "type": "Skill"
-                    },
-                    {
-                        "_className": "SkillChoice",
-                        "id": "2-Skill-Intelligence-2",
                         "maxRank": 2,
                         "source": "Intelligence",
                         "type": "Skill"
@@ -2583,6 +2583,26 @@
                 "featChoices": [
                     {
                         "_className": "FeatChoice",
+                        "feats": [
+                            {
+                                "locked": true,
+                                "name": "Composition Spells",
+                                "source": "Bard",
+                                "sourceId": "1-Feature-Bard-0"
+                            },
+                            {
+                                "locked": true,
+                                "name": "Muse",
+                                "source": "Bard",
+                                "sourceId": "1-Feature-Bard-0"
+                            }
+                        ],
+                        "id": "1-Feature-Bard-0",
+                        "source": "Bard",
+                        "type": "Feature"
+                    },
+                    {
+                        "_className": "FeatChoice",
                         "available": 1,
                         "filter": [
                             "Enigma",
@@ -2739,6 +2759,13 @@
                         "maxRank": 2,
                         "source": "Class",
                         "type": "Skill"
+                    },
+                    {
+                        "_className": "SkillChoice",
+                        "id": "1-Skill-Intelligence-2",
+                        "maxRank": 2,
+                        "source": "Intelligence",
+                        "type": "Skill"
                     }
                 ]
             },
@@ -2747,13 +2774,6 @@
                     {
                         "_className": "SkillChoice",
                         "id": "2-Skill-Intelligence-0",
-                        "maxRank": 2,
-                        "source": "Intelligence",
-                        "type": "Skill"
-                    },
-                    {
-                        "_className": "SkillChoice",
-                        "id": "2-Skill-Intelligence-2",
                         "maxRank": 2,
                         "source": "Intelligence",
                         "type": "Skill"
@@ -3725,6 +3745,7 @@
                 "_className": "SpellCasting",
                 "ability": "Charisma",
                 "castingType": "Focus",
+                "charLevelAvailable": 1,
                 "className": "Bard",
                 "source": "Composition Spells",
                 "spellChoices": [
@@ -3769,6 +3790,7 @@
                 "_className": "SpellCasting",
                 "ability": "Charisma",
                 "castingType": "Spontaneous",
+                "charLevelAvailable": 1,
                 "className": "Bard",
                 "source": "Bard Spellcasting",
                 "spellDC": {
@@ -4266,6 +4288,13 @@
                         "maxRank": 2,
                         "source": "Class",
                         "type": "Skill"
+                    },
+                    {
+                        "_className": "SkillChoice",
+                        "id": "1-Skill-Intelligence-2",
+                        "maxRank": 2,
+                        "source": "Intelligence",
+                        "type": "Skill"
                     }
                 ]
             },
@@ -4274,13 +4303,6 @@
                     {
                         "_className": "SkillChoice",
                         "id": "2-Skill-Intelligence-0",
-                        "maxRank": 2,
-                        "source": "Intelligence",
-                        "type": "Skill"
-                    },
-                    {
-                        "_className": "SkillChoice",
-                        "id": "2-Skill-Intelligence-2",
                         "maxRank": 2,
                         "source": "Intelligence",
                         "type": "Skill"
@@ -5367,6 +5389,7 @@
                 "_className": "SpellCasting",
                 "ability": "Charisma",
                 "castingType": "Focus",
+                "charLevelAvailable": 1,
                 "className": "Champion",
                 "source": "Devotion Spells",
                 "spellDC": {
@@ -5606,6 +5629,13 @@
                         "maxRank": 2,
                         "source": "Class",
                         "type": "Skill"
+                    },
+                    {
+                        "_className": "SkillChoice",
+                        "id": "1-Skill-Intelligence-2",
+                        "maxRank": 2,
+                        "source": "Intelligence",
+                        "type": "Skill"
                     }
                 ]
             },
@@ -5614,13 +5644,6 @@
                     {
                         "_className": "SkillChoice",
                         "id": "2-Skill-Intelligence-0",
-                        "maxRank": 2,
-                        "source": "Intelligence",
-                        "type": "Skill"
-                    },
-                    {
-                        "_className": "SkillChoice",
-                        "id": "2-Skill-Intelligence-2",
                         "maxRank": 2,
                         "source": "Intelligence",
                         "type": "Skill"
@@ -6382,6 +6405,7 @@
                 "_className": "SpellCasting",
                 "ability": "Wisdom",
                 "castingType": "Prepared",
+                "charLevelAvailable": 1,
                 "className": "Cleric",
                 "source": "Cleric Spellcasting",
                 "spellDC": {
@@ -6862,6 +6886,13 @@
                         "maxRank": 2,
                         "source": "Class",
                         "type": "Skill"
+                    },
+                    {
+                        "_className": "SkillChoice",
+                        "id": "1-Skill-Intelligence-2",
+                        "maxRank": 2,
+                        "source": "Intelligence",
+                        "type": "Skill"
                     }
                 ]
             },
@@ -6870,13 +6901,6 @@
                     {
                         "_className": "SkillChoice",
                         "id": "2-Skill-Intelligence-0",
-                        "maxRank": 2,
-                        "source": "Intelligence",
-                        "type": "Skill"
-                    },
-                    {
-                        "_className": "SkillChoice",
-                        "id": "2-Skill-Intelligence-2",
                         "maxRank": 2,
                         "source": "Intelligence",
                         "type": "Skill"
@@ -7770,6 +7794,7 @@
                 "_className": "SpellCasting",
                 "ability": "Wisdom",
                 "castingType": "Focus",
+                "charLevelAvailable": 1,
                 "className": "Druid",
                 "source": "Order Spells",
                 "tradition": "Primal"
@@ -7778,6 +7803,7 @@
                 "_className": "SpellCasting",
                 "ability": "Wisdom",
                 "castingType": "Prepared",
+                "charLevelAvailable": 1,
                 "className": "Druid",
                 "source": "Druid Spellcasting",
                 "spellDC": {
@@ -8267,21 +8293,10 @@
                         "maxRank": 2,
                         "source": "Class",
                         "type": "Skill"
-                    }
-                ]
-            },
-            {
-                "skillChoices": [
-                    {
-                        "_className": "SkillChoice",
-                        "id": "2-Skill-Intelligence-0",
-                        "maxRank": 2,
-                        "source": "Intelligence",
-                        "type": "Skill"
                     },
                     {
                         "_className": "SkillChoice",
-                        "id": "2-Skill-Intelligence-2",
+                        "id": "1-Skill-Intelligence-2",
                         "maxRank": 2,
                         "source": "Intelligence",
                         "type": "Skill"
@@ -8293,9 +8308,20 @@
                             "Acrobatics",
                             "Athletics"
                         ],
-                        "id": "2-Skill-Fighter-3",
+                        "id": "1-Skill-Fighter-3",
                         "maxRank": 2,
                         "source": "Fighter",
+                        "type": "Skill"
+                    }
+                ]
+            },
+            {
+                "skillChoices": [
+                    {
+                        "_className": "SkillChoice",
+                        "id": "2-Skill-Intelligence-0",
+                        "maxRank": 2,
+                        "source": "Intelligence",
                         "type": "Skill"
                     }
                 ],
@@ -9535,6 +9561,13 @@
                         "maxRank": 2,
                         "source": "Class",
                         "type": "Skill"
+                    },
+                    {
+                        "_className": "SkillChoice",
+                        "id": "1-Skill-Intelligence-2",
+                        "maxRank": 2,
+                        "source": "Intelligence",
+                        "type": "Skill"
                     }
                 ]
             },
@@ -9543,13 +9576,6 @@
                     {
                         "_className": "SkillChoice",
                         "id": "2-Skill-Intelligence-0",
-                        "maxRank": 2,
-                        "source": "Intelligence",
-                        "type": "Skill"
-                    },
-                    {
-                        "_className": "SkillChoice",
-                        "id": "2-Skill-Intelligence-2",
                         "maxRank": 2,
                         "source": "Intelligence",
                         "type": "Skill"
@@ -10762,6 +10788,13 @@
                         "maxRank": 2,
                         "source": "Class",
                         "type": "Skill"
+                    },
+                    {
+                        "_className": "SkillChoice",
+                        "id": "1-Skill-Intelligence-2",
+                        "maxRank": 2,
+                        "source": "Intelligence",
+                        "type": "Skill"
                     }
                 ]
             },
@@ -10770,13 +10803,6 @@
                     {
                         "_className": "SkillChoice",
                         "id": "2-Skill-Intelligence-0",
-                        "maxRank": 2,
-                        "source": "Intelligence",
-                        "type": "Skill"
-                    },
-                    {
-                        "_className": "SkillChoice",
-                        "id": "2-Skill-Intelligence-2",
                         "maxRank": 2,
                         "source": "Intelligence",
                         "type": "Skill"
@@ -11620,12 +11646,6 @@
                     },
                     {
                         "_className": "FeatChoice",
-                        "id": "17-Hunter's Edge-Ranger-1",
-                        "source": "Ranger",
-                        "type": "Hunter's Edge"
-                    },
-                    {
-                        "_className": "FeatChoice",
                         "available": 1,
                         "id": "17-Ancestry-Class-2",
                         "source": "Class",
@@ -11950,8 +11970,8 @@
                             "Scoundrel",
                             "Thief"
                         ],
-                        "id": "1-Racket-Ranger-1",
-                        "source": "Ranger",
+                        "id": "1-Racket-Rogue-1",
+                        "source": "Rogue",
                         "specialChoice": true,
                         "type": "Racket"
                     },
@@ -12114,6 +12134,13 @@
                         "maxRank": 2,
                         "source": "Class",
                         "type": "Skill"
+                    },
+                    {
+                        "_className": "SkillChoice",
+                        "id": "1-Skill-Intelligence-2",
+                        "maxRank": 2,
+                        "source": "Intelligence",
+                        "type": "Skill"
                     }
                 ]
             },
@@ -12132,13 +12159,6 @@
                         "id": "2-Skill-Class-1",
                         "maxRank": 4,
                         "source": "Class",
-                        "type": "Skill"
-                    },
-                    {
-                        "_className": "SkillChoice",
-                        "id": "2-Skill-Intelligence-2",
-                        "maxRank": 2,
-                        "source": "Intelligence",
                         "type": "Skill"
                     }
                 ],
@@ -13501,6 +13521,13 @@
                         "maxRank": 2,
                         "source": "Class",
                         "type": "Skill"
+                    },
+                    {
+                        "_className": "SkillChoice",
+                        "id": "1-Skill-Intelligence-2",
+                        "maxRank": 2,
+                        "source": "Intelligence",
+                        "type": "Skill"
                     }
                 ]
             },
@@ -13509,13 +13536,6 @@
                     {
                         "_className": "SkillChoice",
                         "id": "2-Skill-Intelligence-0",
-                        "maxRank": 2,
-                        "source": "Intelligence",
-                        "type": "Skill"
-                    },
-                    {
-                        "_className": "SkillChoice",
-                        "id": "2-Skill-Intelligence-2",
                         "maxRank": 2,
                         "source": "Intelligence",
                         "type": "Skill"
@@ -14397,6 +14417,7 @@
                 "_className": "SpellCasting",
                 "ability": "Charisma",
                 "castingType": "Focus",
+                "charLevelAvailable": 1,
                 "className": "Sorcerer",
                 "source": "Bloodline Spells",
                 "tradition": "Bloodline"
@@ -14405,6 +14426,7 @@
                 "_className": "SpellCasting",
                 "ability": "Charisma",
                 "castingType": "Spontaneous",
+                "charLevelAvailable": 1,
                 "className": "Sorcerer",
                 "source": "Sorcerer Spellcasting",
                 "spellDC": {
@@ -14910,6 +14932,13 @@
                         "maxRank": 2,
                         "source": "Class",
                         "type": "Skill"
+                    },
+                    {
+                        "_className": "SkillChoice",
+                        "id": "1-Skill-Intelligence-2",
+                        "maxRank": 2,
+                        "source": "Intelligence",
+                        "type": "Skill"
                     }
                 ]
             },
@@ -14918,13 +14947,6 @@
                     {
                         "_className": "SkillChoice",
                         "id": "2-Skill-Intelligence-0",
-                        "maxRank": 2,
-                        "source": "Intelligence",
-                        "type": "Skill"
-                    },
-                    {
-                        "_className": "SkillChoice",
-                        "id": "2-Skill-Intelligence-2",
                         "maxRank": 2,
                         "source": "Intelligence",
                         "type": "Skill"
@@ -15855,6 +15877,7 @@
                 "_className": "SpellCasting",
                 "ability": "Intelligence",
                 "castingType": "Prepared",
+                "charLevelAvailable": 1,
                 "className": "Wizard",
                 "source": "Wizard Spellcasting",
                 "spellDC": {

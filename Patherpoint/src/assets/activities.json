@@ -940,5 +940,47 @@
                 "source": "Unseen Lizardfolk"
             }
         ]
+    },
+    {
+        "name": "Quick Alchemy",
+        "actions": "1A",
+        "cost": "1 batch of infused reagents",
+        "requirements": "You have alchemist’s tools, the formula for the alchemical item you’re creating, and a free hand.",
+        "desc": "You swiftly mix up a short-lived alchemical item to use at a moment’s notice. You create a single alchemical item of your advanced alchemy level or lower that’s in your formula book without having to spend the normal monetary cost in alchemical reagents or needing to attempt a Crafting check. This item has the infused trait, but it remains potent only until the start of your next turn.",
+        "trait": [
+            "Alchemist",
+            "Manipulate"
+        ]
+    },
+    {
+        "name": "Mighty Rage",
+        "actions": "Free",
+        "trigger": "You use the Rage action on your turn.",
+        "desc": "Use an action that has the rage trait. Alternatively, you can increase the actions of the triggering Rage to 2 to instead use a 2-action activity with the rage trait.",
+        "trait": [
+            "Barbarian"
+        ]
+    },
+    {
+        "name": "Rage",
+        "actions": "1A",
+        "requirements": "You use the Rage action on your turn.",
+        "desc": "You tap into your inner fury and begin raging. You gain a number of temporary Hit Points equal to your level plus your Constitution modifier. This frenzy lasts for 1 minute, until there are no enemies you can perceive, or until you fall unconscious, whichever comes first. You can’t voluntarily stop raging. While you are raging: \n\nYou deal 2 additional damage with melee weapons and unarmed attacks. This additional damage is halved if your weapon or unarmed attack is agile.\nYou take a –1 penalty to AC.\nYou can’t use actions with the concentrate trait unless they also have the rage trait. You can Seek while raging.\n\nAfter you stop raging, you lose any remaining temporary Hit Points from Rage, and you can’t Rage again for 1 minute.",
+        "sustained": 100,
+        "toggle": true,
+        "gainConditions": [
+            {
+                "name": "Rage",
+                "duration": -1,
+                "source": "Rage"
+            }
+        ],
+        "cooldown": 100,
+        "traits": [
+            "Barbarian",
+            "Concentrate",
+            "Emotion",
+            "Mental"
+        ]
     }
 ]

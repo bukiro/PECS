@@ -5,6 +5,7 @@ import { ActivitiesService } from './activities.service';
 import { EffectsService } from './effects.service';
 import { Effect } from './Effect';
 import { SpellsService } from './spells.service';
+import { ItemsService } from './items.service';
 
 @Injectable({
     providedIn: 'root'
@@ -25,7 +26,7 @@ export class TimeService {
         return this.yourTurn;
     }
 
-    start_Turn(characterService: CharacterService, effectsService: EffectsService) {
+    start_Turn(characterService: CharacterService, timeService: TimeService, itemsService: ItemsService, spellsService: SpellsService, effectsService: EffectsService) {
         
         //Fast Healing
         let fastHealing: number = 0;
@@ -41,15 +42,16 @@ export class TimeService {
             }
         })
 
-        this.tick(characterService, 5);
+        this.tick(characterService, timeService, itemsService, spellsService, 5);
     }
 
-    end_Turn(characterService: CharacterService) {
-        this.tick(characterService, 5);
+    end_Turn(characterService: CharacterService, timeService: TimeService, itemsService: ItemsService, spellsService: SpellsService) {
+        this.tick(characterService, timeService, itemsService, spellsService, 5);
     }
 
-    rest(characterService: CharacterService) {
+    rest(characterService: CharacterService, timeService: TimeService, itemsService: ItemsService, spellsService: SpellsService, ) {
         let charLevel: number = characterService.get_Character().level;
+        this.tick(characterService, timeService, itemsService, spellsService, 48000);
         characterService.get_Creatures().forEach(creature => {
             let con = 1;
             if (creature.type != "Familiar") {
@@ -78,13 +80,12 @@ export class TimeService {
         characterService.get_Character().class.spellCasting.forEach(casting => {
             casting.spellSlotsUsed = [999, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
         });
-        this.tick(characterService, 48000);
     }
 
-    tick(characterService: CharacterService, turns: number = 10) {
+    tick(characterService: CharacterService, timeService: TimeService, itemsService: ItemsService, spellsService: SpellsService, turns: number = 10) {
         characterService.get_Creatures().forEach(creature => {
             this.conditionsService.tick_Conditions(creature, turns, this.yourTurn);
-            this.activitiesService.tick_Activities(creature, characterService, turns);
+            this.activitiesService.tick_Activities(creature, characterService, timeService, itemsService, spellsService, turns)
             if (turns >= 1000 && characterService.get_Health(creature).damage == 0) {
                 characterService.get_AppliedConditions(creature, "Wounded").forEach(gain => characterService.remove_Condition(creature, gain));
             }
@@ -93,7 +94,7 @@ export class TimeService {
                 characterService.tick_Oils(creature, turns);
             }
             if (creature.type == "Character") {
-                this.spellsService.tick_Spells(creature, characterService, turns);
+                this.spellsService.tick_Spells(creature, characterService, itemsService, this, turns);
             }
         })
         this.yourTurn = (this.yourTurn + turns) % 10;

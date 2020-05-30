@@ -51,8 +51,14 @@ export class ActivitiesService {
     activate_Activity(creature: Character|AnimalCompanion|Familiar, characterService: CharacterService, timeService: TimeService, itemsService: ItemsService, spellsService: SpellsService, gain: ActivityGain|ItemActivity, activity: Activity|ItemActivity, activated: boolean) {
         if (activated && activity.toggle) {
             gain.active = true;
+            gain.duration = activity.sustained;
         } else {
             gain.active = false;
+            gain.duration = 0;
+            //Start cooldown
+            if (activity.cooldown) {
+                gain.activeCooldown = activity.cooldown + timeService.get_YourTurn();
+            }
         }
 
         //Find item, if it exists
@@ -69,11 +75,6 @@ export class ActivitiesService {
         });
         
         //Process various results of activating the activity
-
-        //Start cooldown
-        if (activity.cooldown) {
-            gain.activeCooldown = activity.cooldown + timeService.get_YourTurn();
-        }
 
         //One time effects
         if (activity.onceEffects) {
@@ -131,7 +132,7 @@ export class ActivitiesService {
             activity.castSpells.forEach(cast => {
                 cast.spellGain.duration = cast.duration;
                 let librarySpell = spellsService.get_Spells(cast.name)[0];
-                spellsService.process_Spell(creature.type, characterService, itemsService, cast.spellGain, librarySpell, cast.level, activated);
+                spellsService.process_Spell(creature.type, characterService, itemsService, timeService, cast.spellGain, librarySpell, cast.level, activated);
             })
         }
 
@@ -148,14 +149,22 @@ export class ActivitiesService {
             }
         }
 
+        //Quick Rage
+        if (activity.name == "Rage" &&
+                gain.activeCooldown > 0 &&
+                creature.type == "Character" &&
+                (creature as Character).get_FeatsTaken(1, creature.level, "Quick Rage")
+            ) {
+            gain.activeCooldown = 10;
+        }
+
         characterService.set_Changed();
     }
 
     rest(creature: Character|AnimalCompanion|Familiar, characterService: CharacterService) {
-        //Get all owned activity gains that have a cooldown active that is more than 8 hours.
-        //We don't have to deal with those with a shorter cooldown because we're ticking 8 hours right after this.
+        //Get all owned activity gains that have a cooldown active.
         //Get the original activity information, and if its cooldown is exactly one day, the actvity gain's cooldown is reset.
-        characterService.get_OwnedActivities(creature).filter((gain: ActivityGain|ItemActivity) => gain.activeCooldown > 48000).forEach(gain => {
+        characterService.get_OwnedActivities(creature).filter((gain: ActivityGain|ItemActivity) => gain.activeCooldown > 0).forEach(gain => {
             let activity: Activity|ItemActivity;
             if (gain.constructor == ItemActivity) {
                 activity = gain as ItemActivity;
@@ -168,12 +177,29 @@ export class ActivitiesService {
         });
     }
 
-    tick_Activities(creature: Character|AnimalCompanion|Familiar, characterService: CharacterService, turns: number = 10) {
-
-        characterService.get_OwnedActivities(creature).filter(gain => gain.activeCooldown).forEach(gain => {
-            gain.activeCooldown = Math.max(gain.activeCooldown - turns, 0)
+    tick_Activities(creature: Character|AnimalCompanion|Familiar, characterService: CharacterService, timeService: TimeService, itemsService: ItemsService, spellsService: SpellsService, turns: number = 10) {
+        characterService.get_OwnedActivities(creature).filter(gain => gain.activeCooldown || gain.duration).forEach(gain => {
+            //If the spell is running out, take care of that first, and if it has run out, set the cooldown.
+            //Afterwards, reduce the cooldown by the remaining turns.
+            let individualTurns = turns;
+            if (gain.duration > 0) {
+                let diff = Math.min(gain.duration, individualTurns);
+                gain.duration -= diff;
+                individualTurns -= diff;
+                if (gain.duration == 0) {
+                    let activity: Activity|ItemActivity
+                    if (gain.constructor = ItemActivity) {
+                        activity = gain as ItemActivity;
+                    } else {
+                        activity = this.get_Activities(gain.name)[0];
+                    }
+                    if (activity) {
+                        this.activate_Activity(creature, characterService, timeService, itemsService, spellsService, gain, activity, false);
+                    }
+                }
+            }
+            gain.activeCooldown = Math.max(gain.activeCooldown - individualTurns, 0)
         });
-
     }
 
     initialize() {

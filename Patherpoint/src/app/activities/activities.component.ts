@@ -75,10 +75,6 @@ export class ActivitiesComponent implements OnInit {
         return this.activitiesService.get_Activities(name);
     }
 
-    get_Duration(duration: number) {
-        return this.timeService.get_Duration(duration);
-    }
-
     get_OwnedActivities() {
         this.id = 0;
         let activities: ActivityGain[] = [];

@@ -179,7 +179,7 @@ export class FeatchoiceComponent implements OnInit {
         choice.feats.forEach(feat => {
             let template: Feat = this.get_Feats(feat.name)[0];
             if (template?.name) {
-                if (this.cannotTake(template[0], choice).length) {
+                if (this.cannotTake(template, choice).length) {
                     if (!feat.locked) {
                         this.get_Character().take_Feat(this.get_Creature(), this.characterService, feat.name, false, choice, feat.locked);
                         this.characterService.set_Changed();
@@ -194,7 +194,7 @@ export class FeatchoiceComponent implements OnInit {
 
     cannotTake(feat: Feat, choice: FeatChoice) {
         //Don't run the test on a blank feat - does not go well
-        if (feat.name) {
+        if (feat?.name) {
             let levelNumber = parseInt(choice.id.split("-")[0]);
             let featLevel = 0;
             if (choice.level) {
@@ -210,10 +210,10 @@ export class FeatchoiceComponent implements OnInit {
             let traits: string[] = [];
             switch (choice.type) {
                 case "Class":
-                    traits.push(this.get_Character().class.name, "Archetype");
+                    traits.push(this.get_Character().class?.name, "Archetype");
                     break;
                 case "Ancestry":
-                    traits.push(...this.get_Character().class.ancestry.ancestries);
+                    traits.push(...this.get_Character().class?.ancestry?.ancestries);
                     break;
                 case "Familiar":
                     traits.push("Familiar Ability", "Master Ability");

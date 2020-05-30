@@ -6,10 +6,18 @@
         <button class="fullsize-only center-aligned list-item" (click)="toggleSpellsMenu()">Get
             Spells</button>
         <ng-container *ngFor="let casting of get_SpellCastings()">
-            <h3>{{(casting.className + " " + casting.get_Tradition() + ((casting.castingType == "Focus") ? (" " + casting.source) : " Spells")).trim()}}</h3>
+            <h3>
+                {{(casting.className + " " + casting.get_Tradition() + ((casting.castingType == "Focus") ? (" " + casting.source) : " Spells")).trim()}}
+                <span class="lower"
+                    *ngIf="['Prepared', 'Spontaneous'].includes(casting.castingType)">
+                    <span class="lower">
+                        {{casting.castingType}}
+                    </span>
+                </span>
+            </h3>
             <ng-container *ngFor="let level of [-1, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10]">
                 <ng-container *ngIf="level <= get_MaxSpellLevel()">
-                    <ng-container *ngFor="let spellGain of get_SpellsByLevel(level, casting); let index = index">
+                    <ng-container *ngFor="let spellTaken of get_SpellsByLevel(level, casting); let index = index">
                         <ng-container *ngFor="let maxspellslots of [get_MaxSpellSlots(level, casting)]">
                             <div class="list-item row" style="background-color:transparent" *ngIf="index == 0">
                                 <strong>
@@ -32,47 +40,47 @@
                                 <app-tags [objectName]="'Focus'" [showTraits]=true [showFeats]=true [showItems]=true
                                     [showActivities]=true [showConditions]=true [showEffects]=true></app-tags>
                             </div>
-                            <ng-container *ngFor="let spell of get_Spells(spellGain.name)">
+                            <ng-container *ngFor="let spell of get_Spells(spellTaken.gain.name)">
                                 <div class="list-item" *ngFor="let spellID of [get_ID()]">
                                     <button class="row sublist-toggle left-aligned" (click)="toggle_Spell(spellID)">
                                         {{spell.name}}<app-actionIcons [actionString]="spell.actions">
-                                        </app-actionIcons>{{spell.castType}} {{spellGain.frequency ? spellGain.frequency : ""}}
+                                        </app-actionIcons>{{spell.castType}} {{spellTaken.gain.frequency ? spellTaken.gain.frequency : ""}}
                                     </button>
                                     <div class="list-item sublist lower" *ngIf="this.get_showSpell()==spellID">
                                         <button class="row center-aligned"
-                                            (click)="on_Cast(spellGain, casting, 'Character', spell, true)"
-                                            *ngIf="['self', 'ally'].includes(spell.target) && can_Cast(spell, casting, spellGain)"
-                                            [disabled]="maxspellslots && get_UsedSpellSlots(level, casting) >= maxspellslots">
+                                            (click)="on_Cast(spellTaken.gain, casting, 'Character', spell, true)"
+                                            *ngIf="['self', 'ally'].includes(spell.target) && !spellTaken.gain.active"
+                                            [disabled]="cannot_Cast(spell, level, casting, spellTaken.choice, spellTaken.gain, maxspellslots)">
                                             {{spell.target == 'ally' ? "Cast on yourself" : "Cast"}}
                                         </button>
                                         <button class="row center-aligned"
-                                            (click)="on_Cast(spellGain, casting, 'Companion', spell, true)"
-                                            *ngIf="['companion', 'ally'].includes(spell.target) && can_Cast(spell, casting, spellGain)"
-                                            [disabled]="maxspellslots && get_UsedSpellSlots(level, casting) >= maxspellslots">
+                                            (click)="on_Cast(spellTaken.gain, casting, 'Companion', spell, true)"
+                                            *ngIf="['companion', 'ally'].includes(spell.target) && !spellTaken.gain.active"
+                                            [disabled]="cannot_Cast(spell, level, casting, spellTaken.choice, spellTaken.gain, maxspellslots)">
                                             Cast on your animal companion
                                         </button>
                                         <button class="row center-aligned"
-                                            (click)="on_Cast(spellGain, casting, 'Familiar', spell, true)"
-                                            *ngIf="['companion', 'ally'].includes(spell.target) && can_Cast(spell, casting, spellGain)"
-                                            [disabled]="maxspellslots && get_UsedSpellSlots(level, casting) >= maxspellslots">
+                                            (click)="on_Cast(spellTaken.gain, casting, 'Familiar', spell, true)"
+                                            *ngIf="['companion', 'ally'].includes(spell.target) && !spellTaken.gain.active"
+                                            [disabled]="cannot_Cast(spell, level, casting, spellTaken.choice, spellTaken.gain, maxspellslots)">
                                             Cast on your Familiar
                                         </button>
                                         <button class="row center-aligned"
-                                            (click)="on_Cast(spellGain, casting, '', spell, true)"
-                                            *ngIf="spell.target == 'ally' && can_Cast(spell, casting, spellGain)"
-                                            [disabled]="maxspellslots && get_UsedSpellSlots(level, casting) >= maxspellslots">
+                                            (click)="on_Cast(spellTaken.gain, casting, '', spell, true)"
+                                            *ngIf="spell.target == 'ally' && !spellTaken.gain.active"
+                                            [disabled]="cannot_Cast(spell, level, casting, spellTaken.choice, spellTaken.gain, maxspellslots)">
                                             Cast on other targets
                                         </button>
                                         <button class="row center-aligned"
-                                            (click)="on_Cast(spellGain, casting, '', spell, true)"
-                                            *ngIf="!spell.target && can_Cast(spell, casting, spellGain)"
-                                            [disabled]="maxspellslots && get_UsedSpellSlots(level, casting) >= maxspellslots">
+                                            (click)="on_Cast(spellTaken.gain, casting, '', spell, true)"
+                                            *ngIf="!spell.target && !spellTaken.gain.active"
+                                            [disabled]="cannot_Cast(spell, level, casting, spellTaken.choice, spellTaken.gain, maxspellslots)">
                                             Cast
                                         </button>
                                         <button class="row center-aligned"
-                                            (click)="on_Cast(spellGain, casting, spellGain.target, spell, false)"
-                                            *ngIf="spellGain.active">
-                                            Stop sustaining
+                                            (click)="on_Cast(spellTaken.gain, casting, spellTaken.gain.target, spell, false)"
+                                            *ngIf="spellTaken.gain.active">
+                                            Stop sustaining {{spellTaken.gain.duration ? "(" + get_Duration(spellTaken.gain.duration) + " remaining)" : ""}}
                                         </button>
                                         <app-spell [spell]="spell" [spellLevel]="level"></app-spell>
                                     </div>

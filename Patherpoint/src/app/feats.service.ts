@@ -16,6 +16,7 @@ import { Familiar } from './Familiar';
 import { Character } from './Character';
 import { Speed } from './Speed';
 import { SpellCasting } from './SpellCasting';
+import { CriticalSpecialization } from './CriticalSpecialization';
 
 @Injectable({
     providedIn: 'root'
@@ -66,21 +67,44 @@ export class FeatsService {
         if (feats.length) {
             let feat = feats[0];
 
-            //Gain Feat
+            //Gain amother Feat
             if (feat.gainFeatChoice.length) {
                 if (taken) {
                     feat.gainFeatChoice.forEach(newFeatChoice => {
-                        character.add_FeatChoice(level, newFeatChoice);
+                        //Skip if you don't have the required Class for this granted feat choice.
+                        if (newFeatChoice.insertClass ? character.class.name == newFeatChoice.insertClass : true) {
+                            //Check if the feat choice gets applied on a certain level and do that, or apply it on the current level.
+                            if (newFeatChoice.insertLevel && character.class.levels[newFeatChoice.insertLevel]) {
+                                character.add_FeatChoice(character.class.levels[newFeatChoice.insertLevel], newFeatChoice)
+                            } else {
+                                character.add_FeatChoice(level, newFeatChoice);
+                            }
+                        }
                     });
                 } else {
-                    //You might have taken this feat multiple times on the same level, so we are only removing one instance of it
-                    let a: FeatChoice[] = level.featChoices;
-                    let b: FeatChoice = a.filter(choice => choice.source == 'Feat: '+featName)[0];
-                    //Feats must explicitly be un-taken instead of just removed from the array, in case they made fixed changes
-                    b.feats.forEach(feat => {
-                        character.take_Feat(character, characterService, feat.name, false, b, false);
+                    feat.gainFeatChoice.forEach(newFeatChoice => {
+                        //Skip if you don't have the required Class for this granted feat choice, since you didn't get the choice in the first place.
+                        if (newFeatChoice.insertClass ? (character.class.name == newFeatChoice.insertClass) : true) {
+                            let a: FeatChoice[] = [];
+                            //If the feat choice got applied on a certain level, it needs to be removed from that level, too.
+                            if (newFeatChoice.insertLevel && character.class.levels[newFeatChoice.insertLevel]) {
+                                a = character.class.levels[newFeatChoice.insertLevel].featChoices;
+                            } else {
+                                a = level.featChoices;
+                            }
+                            if (a.length) {
+                                //You might have taken this feat multiple times on the same level, so we are only removing one instance of each of its featChoices.
+                                let b: FeatChoice = a.filter(choice => choice.source == 'Feat: '+featName)[0];
+                                //Feats must explicitly be un-taken instead of just removed from the array, in case they made fixed changes
+                                if (b) {
+                                    b?.feats.forEach(feat => {
+                                        character.take_Feat(character, characterService, feat.name, false, b, false);
+                                    });
+                                    a.splice(a.indexOf(b), 1)
+                                }
+                            }
+                        }
                     });
-                    a.splice(a.indexOf(b), 1)
                 }
             }
 
@@ -276,14 +300,14 @@ export class FeatsService {
 
             //Hunter's Edge
             //If you take any of the three Hunter's Edge Feats, also add the masterful version on Level 17
-            if (feat.name=="Flurry" || feat.name=="Outwit" || feat.name=="Precision") {
+            /*if (feat.name=="Flurry" || feat.name=="Outwit" || feat.name=="Precision") {
                 let huntersEdgeChoice = character.class.levels[17].featChoices.find(choice => choice.type == "Hunter's Edge")
                 if (taken) {
                     character.take_Feat(character, characterService, "Masterful Hunter: "+feat.name, true, huntersEdgeChoice, true);
                 } else {
                     character.take_Feat(character, characterService, "Masterful Hunter: "+feat.name, false, huntersEdgeChoice, true);
                 }
-            }
+            }*/
 
             //Feats that grant an animal companion
             if (feat.gainFamiliar) {
@@ -449,6 +473,7 @@ export class FeatsService {
             this.feats.forEach(feat => {
                 feat.gainFeatChoice = feat.gainFeatChoice.map(choice => Object.assign(new FeatChoice(), choice));
                 feat.gainConditions = feat.gainConditions.map(choice => Object.assign(new ConditionGain(), choice));
+                feat.gainCritSpecialization = feat.gainCritSpecialization.map(spec => Object.assign(new CriticalSpecialization, spec));
                 //feat.gainFormulaChoice = feat.gainFormulaChoice.map(choice => Object.assign(new FormulaChoice(), choice));
                 feat.gainSkillChoice = feat.gainSkillChoice.map(choice => Object.assign(new SkillChoice, choice));
                 feat.gainSpellChoice = feat.gainSpellChoice.map(choice => Object.assign(new SpellChoice, choice));
@@ -465,6 +490,7 @@ export class FeatsService {
             this.features.forEach(feature => {
                 feature.gainFeatChoice = feature.gainFeatChoice.map(choice => Object.assign(new FeatChoice(), choice));
                 feature.gainConditions = feature.gainConditions.map(choice => Object.assign(new ConditionGain(), choice));
+                feature.gainCritSpecialization = feature.gainCritSpecialization.map(spec => Object.assign(new CriticalSpecialization, spec));
                 //feature.gainFormulaChoice = feature.gainFormulaChoice.map(choice => Object.assign(new FormulaChoice(), choice));
                 feature.gainSkillChoice = feature.gainSkillChoice.map(choice => Object.assign(new SkillChoice, choice));
                 feature.gainSpellChoice = feature.gainSpellChoice.map(choice => Object.assign(new SpellChoice, choice));

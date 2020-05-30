@@ -4,6 +4,7 @@ import { SpellGain } from './SpellGain';
 import { ConditionGain } from './ConditionGain';
 import { ItemGain } from './ItemGain';
 import { SpellCasting } from './SpellCasting';
+import { SpellChoice } from './SpellChoice';
 
 export class Spell {
     public actions: string = "1A";
@@ -103,19 +104,5 @@ export class Spell {
         let character = characterService.get_Character();
         let spellsTaken = character.get_SpellsTaken(characterService, 1, 20, spellLevel, this.name, undefined, className)
         return spellsTaken.length;
-    }
-    can_Cast(characterService: CharacterService, casting: SpellCasting, gain: SpellGain) {
-        switch (casting.castingType) {
-            case "Focus":
-                return characterService.get_Character().class.focusPoints > 0 && !gain.active;
-            case "Spontaneous":
-                //could check spell slots here - currently working well inside the DOM
-                return !gain.active;
-            case "Prepared":
-                //check prepared spell here - currently not implemented
-                return !gain.active;
-            case "Innate":
-                return !gain.active;
-        }
     }
 }

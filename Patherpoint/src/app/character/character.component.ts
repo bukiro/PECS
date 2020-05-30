@@ -210,7 +210,7 @@ export class CharacterComponent implements OnInit {
         //If we went up levels, repeat any onceEffects of Feats that apply inbetween, such as recovering Focus Points for a larger Focus Pool
         if (newLevel > oldLevel) {
             this.get_Character().get_FeatsTaken(oldLevel, newLevel).map((gain: FeatTaken) => this.get_FeatsAndFeatures(gain.name)[0])
-            .filter((feat: Feat) => feat.onceEffects.length).forEach(feat => {
+            .filter((feat: Feat) => feat?.onceEffects.length).forEach(feat => {
                 feat.onceEffects.forEach(effect => {
                     this.characterService.process_OnceEffect(this.get_Character(), effect);
                 })

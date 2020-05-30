@@ -613,5 +613,34 @@
             }
         ],
         "buff": true
+    },
+    {
+        "name": "Rage",
+        "type": "activity",
+        "desc": "You gain a number of temporary Hit Points equal to your level plus your Constitution modifier. This frenzy lasts for 1 minute, until there are no enemies you can perceive, or until you fall unconscious, whichever comes first. You can’t voluntarily stop raging. While you are raging: \n\nYou deal 2 additional damage with melee weapons and unarmed attacks. This additional damage is halved if your weapon or unarmed attack is agile.\nYou take a –1 penalty to AC.\nYou can’t use actions with the concentrate trait unless they also have the rage trait. You can Seek while raging.\n\nAfter you stop raging, you lose any remaining temporary Hit Points from Rage, and you can’t Rage again for 1 minute.",
+        "hint": "You can’t use actions with the concentrate trait unless they also have the rage trait. You can Seek while raging.",
+        "showon": "Activities, Perception",
+        "effects": [
+            {
+                "affected": "Melee Damage",
+                "value": "+2"
+            },
+            {
+                "affected": "Agile Melee Damage",
+                "value": "+1"
+            },
+            {
+                "affected": "AC",
+                "value": "-1"
+            }
+        ],
+        "onceEffects": [
+            {
+                "affected": "Temporary HP",
+                "value": "Level + Modifier('Constitution')"
+            }
+        ],
+        "inputRequired": "After you stop raging, you lose any remaining temporary Hit Points from Rage.",
+        "buff": true
     }
 ]

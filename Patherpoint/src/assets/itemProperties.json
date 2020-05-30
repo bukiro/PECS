@@ -242,8 +242,17 @@
     },
     {
         "parent": "activities",
-        "key": "trigger",
+        "key": "cost",
         "priority": "8",
+        "group": "",
+        "name": "Cost",
+        "desc": "Describe the cost (usually materials) for the activity. This is only for the player and has no mechanical function.",
+        "examples": "activity"
+    },
+    {
+        "parent": "activities",
+        "key": "trigger",
+        "priority": "9",
         "group": "",
         "name": "Trigger",
         "desc": "Some items can be activated in a certain situation, like when you are about to be attacked. You can describe this trigger here. This is not reflected in the program, but helps the user understand the item.",
@@ -252,7 +261,7 @@
     {
         "parent": "activities",
         "key": "requirements",
-        "priority": "9",
+        "priority": "10",
         "group": "",
         "name": "Requirements",
         "desc": "Some items can only be activated when certain requirements are met. You can describe the requirements here. This is not reflected in the program, but helps the user understand the item.",
@@ -261,7 +270,7 @@
     {
         "parent": "activities",
         "key": "gainItems",
-        "priority": "10",
+        "priority": "11",
         "group": "",
         "name": "Grant additional items",
         "desc": "Add additional items when this item is activated. If the activation is permanent, the item is lost at deactivation."
@@ -269,7 +278,7 @@
     {
         "parent": "activities",
         "key": "castSpells",
-        "priority": "11",
+        "priority": "12",
         "group": "",
         "name": "Cast spells",
         "desc": "Cast spells when this item is activated."

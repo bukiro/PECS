@@ -11,6 +11,8 @@ import { Familiar } from './Familiar';
 import { Oil } from './Oil';
 import { VirtualTimeScheduler } from 'rxjs';
 import { SkillIncrease } from './SkillIncrease';
+import { CriticalSpecialization } from './CriticalSpecialization';
+import { JsonPipe } from '@angular/common';
 
 export class Weapon extends Equipment {
     public readonly _className: string = this.constructor.name;
@@ -55,15 +57,16 @@ export class Weapon extends Equipment {
         //Under certain circumstances, other items' runes are applied when calculating attack bonus or damage.
         //[0] is the item whose fundamental runes will count, [1] is the item whose property runes will count, and [2] is the item that causes this change.
         let runeSource: (Weapon|WornItem)[] = [this, this];
-        //Specific items (not moddable) don't profit from other item's runes.
-        if (!this.moddable || this.moddable == "-") {
-            return runeSource;
-        }
+        //For unarmed attacks, return Handwraps of Mighty Blows if invested;
         if (this.prof == "Unarmed Attacks") {
             let handwraps = creature.inventories[0].wornitems.filter(item => item.isHandwrapsOfMightyBlows && item.invested)
             if (handwraps.length) {
                 runeSource = [handwraps[0], handwraps[0], handwraps[0]];
             }
+        }
+        //Specific items (not moddable) don't profit from doubling rings.
+        if (!this.moddable || this.moddable == "-") {
+            return runeSource;
         }
         if (range == "melee" && this.moddable == "weapon") {
             let doublingRings = creature.inventories[0].wornitems.filter(item => item.isDoublingRings && item.data[1].value == this.id && item.invested);
@@ -416,7 +419,22 @@ export class Weapon extends Equipment {
                 }
             })
         }
-        let dmgBonus: number = abilityMod + featBonus;
+        let effectBonus = 0;
+        if (range == "melee") {
+            if (this.traits.includes("Agile")) {
+                effectsService.get_RelativesOnThis(creature, "Agile Melee Damage").forEach(effect => {
+                    effectBonus += parseInt(effect.value);
+                    explain += "\n" + effect.source + ": " + parseInt(effect.value);
+                })
+            } else {
+                effectsService.get_RelativesOnThis(creature, "Melee Damage").forEach(effect => {
+                    effectBonus += parseInt(effect.value);
+                    explain += "\n" + effect.source + ": " + parseInt(effect.value);
+                })
+            }
+        }
+        
+        let dmgBonus: number = abilityMod + featBonus + effectBonus;
         //Make a nice "+5" string from the Ability bonus if there is one, or else make it empty
         let dmgBonusTotal: string = (dmgBonus) ? ((dmgBonus >= 0) && "+") + dmgBonus : "";
         //Concatenate the strings for a readable damage die
@@ -424,34 +442,36 @@ export class Weapon extends Equipment {
         explain = explain.substr(1);
         return [dmgResult, explain];
     }
-    get_CritSpecialization(creature: Character|AnimalCompanion|Familiar, characterService: CharacterService) {
+    get_CritSpecialization(creature: Character|AnimalCompanion|Familiar, characterService: CharacterService, range: string) {
+        let CritSpecializationGains: CriticalSpecialization[] = [];
         let specializations: Specialization[] = [];
         if (creature.type == "Character") {
             let character = creature as Character;
-            character.get_FeatsTaken(0, character.level).map(gain => characterService.get_FeatsAndFeatures(gain.name)[0]).filter(feat => feat?.critSpecialization).forEach(feat => {
-                if (feat.critSpecialization.includes(this.group) || feat.critSpecialization.includes(this.prof) || (feat.critSpecialization.includes("melee") && this.melee) || (feat.critSpecialization.includes("ranged") && this.melee) || feat.critSpecialization.includes("All")) {
-                    //If the only feat that gives you the critical specialization for this weapon is Ranger Weapon Expertise, a hint is added to each specialization that it only applies to the Hunted Prey.
-                    //If the only feat that gives you the critical specialization for this weapon is Bard Weapon Expertise, a hint is added to each specialization that it only applies while a composition is active.
-                    //If any more specializations should apply, they will overwrite these hints, which is expected and correct as long as no other specialization has limitations.
-                    let huntedPreyOnly = (!specializations.length && feat.name == "Ranger Weapon Expertise")
-                    let compositionOnly = (!specializations.length && feat.name == "Bard Weapon Expertise")
-                    specializations = characterService.get_Specializations(this.group).map(spec => Object.assign(new Specialization(), spec));
-                    if (huntedPreyOnly) {
-                        specializations.forEach(spec => {
-                            spec.desc = "(Hunted Prey only) "+spec.desc;
-                        });
+            let runeSource: (Weapon|WornItem)[] = this.get_RuneSource(creature, range);
+            let skillLevel = this.profLevel(creature, characterService, runeSource[1]);
+            character.get_FeatsTaken(0, character.level).map(gain => characterService.get_FeatsAndFeatures(gain.name)[0])
+                .filter(feat => feat?.gainCritSpecialization?.length).forEach(feat => {
+                    CritSpecializationGains.push(...feat.gainCritSpecialization.filter(spec =>
+                        (spec.group ? spec.group.includes(this.group) : true) &&
+                        (spec.range ? spec.range.includes(range) : true) &&
+                        (spec.weapon ? (spec.weapon.includes(this.name) || spec.weapon.includes(this.weaponBase)) : true) &&
+                        (spec.trait ? this.traits.filter(trait => spec.trait.includes(trait)).length : true) &&
+                        (spec.proficiency ? spec.proficiency.includes(this.prof) : true) &&
+                        (spec.skillLevel ? skillLevel >= spec.skillLevel : true) &&
+                        (spec.featreq ? characterService.get_FeatsAndFeatures(spec.featreq)[0]?.have(character, characterService) : true)
+                    ))
+            });
+            CritSpecializationGains.forEach(critSpec => {
+                let specs: Specialization[] = characterService.get_Specializations(this.group).map(spec => Object.assign(new Specialization(), spec));
+                specs.forEach(spec => {
+                    if (critSpec.condition) {
+                        spec.desc = "(" + critSpec.condition + ") " + spec.desc;
                     }
-                    if (compositionOnly) {
-                        specializations.forEach(spec => {
-                            spec.desc = "(With composition active) "+spec.desc;
-                        });
+                    if (!specializations.filter(existingspec => JSON.stringify(existingspec) == JSON.stringify(spec)).length) {
+                        specializations.push(spec);
                     }
-                }
-            })
-            //If you have both Monastic Weaponry and Brawling Focus, you gain critical specializations for Monk weapons.
-            if (this.traits.includes("Monk") && character.get_FeatsTaken(0, character.level, "Monastic Weaponry").length && character.get_FeatsTaken(0, character.level, "Brawling Focus").length) {
-                specializations.push(...characterService.get_Specializations(this.group));
-            }
+                });
+            });
         }
         return specializations;
     }

@@ -8,6 +8,8 @@ export class Activity {
     public activationType: string = "";
     public castSpells: SpellCast[] = [];
     public cooldown: number = 0;
+    public cost: string = "";
+    public sustained: number = 0;
     public critfailure: string = "";
     public critsuccess: string = "";
     public desc: string = "";

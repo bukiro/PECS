@@ -164,6 +164,10 @@ export class Character extends Creature {
             }
         }
         let newLength: number = level.featChoices.push(tempChoice);
+        level.featChoices[newLength-1].feats.forEach(feat => {
+            feat.source = level.featChoices[newLength-1].source;
+            feat.sourceId = level.featChoices[newLength-1].id;
+        })
         return level.featChoices[newLength-1];
     }
     get_FeatChoice(sourceId: string) {
@@ -476,14 +480,14 @@ export class Character extends Creature {
     }
     get_SpellsTaken(characterService: CharacterService, minLevelNumber: number, maxLevelNumber: number, spellLevel: number = -1, spellName: string = "", spellCasting: SpellCasting = undefined, className: string = "", tradition: string = "", castingType: string = "", source: string = "", sourceId: string = "", locked: boolean = undefined, signatureAllowed: boolean = false) {
         if (this.class) {
-            let spellsTaken = [];
+            let spellsTaken: {choice:SpellChoice, gain:SpellGain}[] = [];
             this.class.spellCasting
                 .filter(casting => (spellCasting == undefined || casting === spellCasting) &&
                     casting.charLevelAvailable >= minLevelNumber && casting.charLevelAvailable <= maxLevelNumber &&
                     (casting.castingType == castingType || castingType == ""))
                     .forEach(casting => {
                         casting.spellChoices.filter(choice => choice.charLevelAvailable >= minLevelNumber && choice.charLevelAvailable <= maxLevelNumber).forEach(choice => {
-                            if (choice.level == spellLevel || spellLevel == -1 || (signatureAllowed && choice.signatureSpell && spellLevel != 0 && spellLevel != -1)) {
+                            if (choice.level == spellLevel || (signatureAllowed && choice.signatureSpell && spellLevel != 0 && spellLevel != -1)) {
                                 choice.spells.filter(gain => 
                                     (gain.name == spellName || spellName == "") &&
                                     (casting.className == className || className == "") &&
@@ -493,7 +497,7 @@ export class Character extends Creature {
                                     (gain.locked == locked || locked == undefined) &&
                                     ((signatureAllowed && choice.signatureSpell) ? (spellLevel >= characterService.spellsService.get_Spells(gain.name)[0].levelreq) : true)
                                     ).forEach(gain => {
-                                    spellsTaken.push(gain);
+                                    spellsTaken.push({choice:choice, gain:gain});
                                 })
                             }
                         })

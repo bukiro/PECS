@@ -3,6 +3,8 @@
     <h3 class="box-header">Actions and Activities</h3>
     <div class="loading" *ngIf="still_loading()">Loading</div>
     <ng-container *ngIf="!still_loading()">
+        <app-tags [creature]="creature" [objectName]="'Activities'" [showTraits]=true [showFeats]=true [showItems]=true
+            [showActivities]=true [showConditions]=true [showEffects]=true></app-tags>
         <ng-container *ngFor="let gain of get_OwnedActivities()">
             <ng-container *ngFor="let activity of (gain.can_Activate ? [gain] : get_Activities(gain.name))">
                 <div class="list-item" *ngFor="let activityID of [get_ID()]">

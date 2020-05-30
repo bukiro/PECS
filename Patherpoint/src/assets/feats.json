@@ -853,29 +853,6 @@
         ]
     },
     {
-        "name": "Automatic Knowledge: Occultism",
-        "shortdesc": "Recall Knowledge as a free action once per round.",
-        "desc": "You know basic facts off the top of your head. Choose a skill you're an expert in that has the Recall Knowledge action and for which you have the Assurance feat. You can use the Recall Knowledge action with that skill as a free action once per round. If you do, you must use Assurance on the skill check.",
-        "hint": "You can use the Recall Knowledge action with this skill as a free action once per round. If you do, you must use Assurance on the skill check.\n\nYou can use Automatic Knowledge with any skills you have chosen, but you can still use Automatic Knowledge only once per round.",
-        "showon": "Occultism",
-        "featreq": [
-            "Assurance: Occultism"
-        ],
-        "levelreq": 2,
-        "skillreq": [
-            {
-                "skill": "Occultism",
-                "value": 4
-            }
-        ],
-        "subType": "Occultism",
-        "superType": "Automatic Knowledge",
-        "traits": [
-            "General",
-            "Skill"
-        ]
-    },
-    {
         "name": "Automatic Knowledge: Religion",
         "shortdesc": "Recall Knowledge as a free action once per round.",
         "desc": "You know basic facts off the top of your head. Choose a skill you're an expert in that has the Recall Knowledge action and for which you have the Assurance feat. You can use the Recall Knowledge action with that skill as a free action once per round. If you do, you must use Assurance on the skill check.",
@@ -1169,7 +1146,7 @@
             }
         ],
         "specialreqdesc": "no animal companion",
-        "specialreq": "!character.get_FeatsTaken(1, 20).filter(feat => feat.name != this.name && characterService.get_FeatsAndFeatures(feat.name)[0]?.gainAnimalCompanion == 1).length",
+        "specialreq": "!character.get_FeatsTaken(1, 20).filter(feat => feat.name != this.name && characterService.get_FeatsAndFeatures(feat.name).length && characterService.get_FeatsAndFeatures(feat.name)[0].gainAnimalCompanion == 1).length",
         "traits": [
             "General",
             "Downtime",
@@ -2126,25 +2103,6 @@
         ],
         "traits": [
             "General",
-            "Skill"
-        ]
-    },
-    {
-        "name": "Inventor",
-        "shortdesc": "Use Crafting to create item formulas.",
-        "desc": "You are a genius at Crafting, easily able to determine how things are made and create new inventions. You can spend downtime to invent a common formula that you don't know. This works just like the Craft activity: you spend half the Price of the formula up front, attempt a Crafting check, and on a success either finish the formula by paying the difference or work for longer to decrease the Price. The difference is that you spend the additional time in research, design, and development, rather than in creating an item. Once it's complete, you add the new formula you invented to your formula book.",
-        "hint": "You can spend downtime to invent a common formula that you don't know. This works just like the Craft activity: you spend half the Price of the formula up front, attempt a Crafting check, and on a success either finish the formula by paying the difference or work for longer to decrease the Price. The difference is that you spend the additional time in research, design, and development, rather than in creating an item. Once it's complete, you add the new formula you invented to your formula book.",
-        "showon": "Crafting",
-        "levelreq": 7,
-        "skillreq": [
-            {
-                "skill": "Crafting",
-                "value": 6
-            }
-        ],
-        "traits": [
-            "General",
-            "Downtime",
             "Skill"
         ]
     },
@@ -5248,7 +5206,15 @@
         "traits": [
             "Monk"
         ],
-        "critSpecialization": "Brawling"
+        "gainCritSpecialization": [
+            {
+                "group": "Brawling"
+            },
+            {
+                "featreq": "Monastic Weaponry",
+                "trait": "Monk"
+            }
+        ]
     },
     {
         "name": "Crushing Grab",
@@ -6237,6 +6203,20 @@
         "desc": "You have trained to unleash a devastating flurry of attacks upon your prey. Your multiple attack penalty for attacks against your hunted prey is -3 (-2 with an agile weapon) on your second attack of the turn instead of -5, and -6 (-4 with an agile weapon) on your third or subsequent attack of the turn, instead of -10.",
         "hint": "Your multiple attack penalty for attacks against your hunted prey is -3 (-2 with an agile weapon) on your second attack of the turn instead of -5, and -6 (-4 with an agile weapon) on your third or subsequent attack of the turn, instead of -10.",
         "showon": "Hunt Prey, Attacks",
+        "gainFeatChoice": [
+            {
+                "_className": "FeatChoice",
+                "insertLevel": 17,
+                "feats": [
+                    {
+                        "locked": true,
+                        "name": "Masterful Hunter: Flurry"
+                    }
+                ],
+                "source": "Feat: Flurry",
+                "type": "Hunter's Edge"
+            }
+        ],
         "internalNote": "This is not a true feat and will not be available outside of a special choice"
     },
     {
@@ -6244,6 +6224,20 @@
         "desc": "You are talented at outwitting and evading your prey. You gain a +2 circumstance bonus to Deception checks, Intimidation checks, Stealth checks, and any checks to Recall Knowledge about the prey, and a +1 circumstance bonus to AC against your prey's attacks.",
         "hint": "You gain a +2 circumstance bonus to Deception checks, Intimidation checks, Stealth checks, and any checks to Recall Knowledge about the prey, and a +1 circumstance bonus to AC against your prey's attacks.",
         "showon": "Hunt Prey, AC, Arcana, Crafting, Deception, Intimidation, Nature, Occultism, Religion, Society, Stealth",
+        "gainFeatChoice": [
+            {
+                "_className": "FeatChoice",
+                "insertLevel": 17,
+                "feats": [
+                    {
+                        "locked": true,
+                        "name": "Masterful Hunter: Outwit"
+                    }
+                ],
+                "source": "Feat: Outwit",
+                "type": "Hunter's Edge"
+            }
+        ],
         "internalNote": "This is not a true feat and will not be available outside of a special choice"
     },
     {
@@ -6251,6 +6245,20 @@
         "desc": "You have trained to aim for your prey's weak points. The first time you hit your hunted prey in a round, you also deal 1d8 additional precision damage. (Precision damage increases the damage you already deal, using the same type, but is ineffective against creatures that lack vital organs or weak points.) At 11th level, the extra damage increases to 2d8 precision damage, and at 19th level, the extra damage increases to 3d8 precision damage.",
         "hint": "The first time you hit your hunted prey in a round, you also deal 1d8 additional precision damage. At 11th level, the extra damage increases to 2d8 precision damage, and at 19th level, the extra damage increases to 3d8 precision damage.",
         "showon": "Hunt Prey, Attacks",
+        "gainFeatChoice": [
+            {
+                "_className": "FeatChoice",
+                "insertLevel": 17,
+                "feats": [
+                    {
+                        "locked": true,
+                        "name": "Masterful Hunter: Precision"
+                    }
+                ],
+                "source": "Feat: Precision",
+                "type": "Hunter's Edge"
+            }
+        ],
         "internalNote": "This is not a true feat and will not be available outside of a special choice"
     },
     {
@@ -6261,7 +6269,7 @@
         "showon": "Hunt Prey, Animal Companion",
         "levelreq": 1,
         "specialreqdesc": "no animal companion",
-        "specialreq": "!character.get_FeatsTaken(1, 20).filter(feat => feat.name != this.name && characterService.get_FeatsAndFeatures(feat.name)[0]?.gainAnimalCompanion == 1).length",
+        "specialreq": "!character.get_FeatsTaken(1, 20).filter(feat => feat.name != this.name && characterService.get_FeatsAndFeatures(feat.name).length && characterService.get_FeatsAndFeatures(feat.name)[0].gainAnimalCompanion == 1).length",
         "gainAnimalCompanion": 1,
         "traits": [
             "Ranger"
@@ -6319,7 +6327,7 @@
             "Mature Animal Companion (Ranger)"
         ],
         "specialreqdesc": "no savage animal companion",
-        "specialreq": "!character.get_FeatsTaken(1, 20).filter(feat => feat.name != this.name && characterService.get_FeatsAndFeatures(feat.name)[0]?.gainAnimalCompanion == 5).length",
+        "specialreq": "!character.get_FeatsTaken(1, 20).filter(feat => feat.name != this.name && characterService.get_FeatsAndFeatures(feat.name).length && characterService.get_FeatsAndFeatures(feat.name)[0].gainAnimalCompanion == 5).length",
         "gainAnimalCompanion": 4,
         "traits": [
             "Ranger"
@@ -6336,7 +6344,7 @@
             "Mature Animal Companion (Ranger)"
         ],
         "specialreqdesc": "no nimble animal companion",
-        "specialreq": "!character.get_FeatsTaken(1, 20).filter(feat => feat.name != this.name && characterService.get_FeatsAndFeatures(feat.name)[0]?.gainAnimalCompanion == 4).length",
+        "specialreq": "!character.get_FeatsTaken(1, 20).filter(feat => feat.name != this.name && characterService.get_FeatsAndFeatures(feat.name).length && characterService.get_FeatsAndFeatures(feat.name)[0].gainAnimalCompanion == 4).length",
         "gainAnimalCompanion": 5,
         "traits": [
             "Ranger"
@@ -6488,7 +6496,7 @@
         "desc": "You make a pact with creature that serves you and assists your spellcasting. You gain a familiar (page 217).",
         "levelreq": 1,
         "specialreqdesc": "no familiar",
-        "specialreq": "!character.get_FeatsTaken(1, 20).filter(feat => feat.name != this.name && characterService.get_FeatsAndFeatures(feat.name)[0]?.gainFamiliar == true).length",
+        "specialreq": "!character.get_FeatsTaken(1, 20).filter(feat => feat.name != this.name && characterService.get_FeatsAndFeatures(feat.name).length && characterService.get_FeatsAndFeatures(feat.name)[0].gainFamiliar == true).length",
         "gainFamiliar": true,
         "traits": [
             "Sorcerer",

@@ -38,14 +38,19 @@ export class SpellsService {
         }
     }
 
-    process_Spell(target: string = "", characterService: CharacterService, itemsService: ItemsService, gain: SpellGain, spell: Spell, level: number, activated: boolean) {
+    process_Spell(target: string = "", characterService: CharacterService, itemsService: ItemsService, timeService: TimeService, gain: SpellGain, spell: Spell, level: number, activated: boolean) {
         if (activated && spell.sustained) {
             gain.active = true;
             gain.duration = spell.sustained;
             gain.target = target;
         } else {
             gain.active = false;
+            gain.duration = 0;
             gain.target = "";
+            //Start cooldown
+            if (gain.cooldown) {
+                gain.activeCooldown = gain.cooldown + timeService.get_YourTurn();
+            }
         }
 
         //Find out if target was given. If no target is set, most effects will not be applied.
@@ -135,19 +140,33 @@ export class SpellsService {
     }
 
     rest(character: Character, characterService: CharacterService) {
-        //Get all owned spell gains that have a cooldown active that is more than 8 hours.
-        //We don't have to deal with those with a shorter cooldown because we're ticking 8 hours right after this.
+        //Get all owned spell gains that have a cooldown active.
         //If its cooldown is exactly one day, the spell gain's cooldown is reset.
-        character.get_SpellsTaken(characterService, 0, 20).filter((gain: SpellGain) => gain.activeCooldown > 48000).forEach(gain => {
-            if (gain.cooldown == 144000) {
-                gain.activeCooldown = 0;
+        character.get_SpellsTaken(characterService, 0, 20).filter(taken => taken.gain.activeCooldown).forEach(taken => {
+            if (taken.gain.cooldown == 144000) {
+                taken.gain.activeCooldown = 0;
             }
         });
     }
 
-    tick_Spells(character: Character, characterService: CharacterService, turns: number = 10) {
-        character.get_SpellsTaken(characterService, 0, 20).filter((gain: SpellGain) => gain.activeCooldown).forEach(gain => {
-            gain.activeCooldown = Math.max(gain.activeCooldown - turns, 0)
+    tick_Spells(character: Character, characterService: CharacterService, itemsService: ItemsService, timeService: TimeService, turns: number = 10) {
+        character.get_SpellsTaken(characterService, 0, 20).filter(taken => taken.gain.activeCooldown || taken.gain.duration).forEach(taken => {
+            //If the spell is running out, take care of that first, and if it has run out, set the cooldown.
+            //Afterwards, reduce the cooldown by the remaining turns.
+            let individualTurns = turns;
+            if (taken.gain.duration > 0) {
+                let diff = Math.min(taken.gain.duration, individualTurns);
+                taken.gain.duration -= diff;
+                individualTurns -= diff;
+                if (taken.gain.duration == 0) {
+                    let spell: Spell = this.get_Spells(taken.gain.name)[0];
+                    if (spell) {
+                        this.process_Spell(taken.gain.target, characterService, itemsService, timeService, taken.gain, spell, 0, false)
+                        taken.gain.activeCooldown = taken.gain.cooldown;
+                    }
+                }
+            }
+            taken.gain.activeCooldown = Math.max(taken.gain.activeCooldown - individualTurns, 0)
         });
     }
 
