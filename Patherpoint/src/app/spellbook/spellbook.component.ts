@@ -91,7 +91,7 @@ export class SpellbookComponent implements OnInit {
     }
 
     get_SignatureSpellsAllowed() {
-        if (this.characterService.get_Features()
+        if (this.characterService.get_FeatsAndFeatures()
             .filter(feature => feature.name.includes("Signature Spells"))
             .filter(feature => feature.have(this.get_Character(), this.characterService)).length) {
             return true;
@@ -138,7 +138,7 @@ export class SpellbookComponent implements OnInit {
             if (spellLevel == 10) {
                 spellslots = 1;
             } else {
-                casting.spellChoices.filter(choice => choice.level == spellLevel).forEach(choice => {
+                casting.spellChoices.filter(choice => choice.level == spellLevel && choice.charLevelAvailable <= this.get_Character().level).forEach(choice => {
                     //You have as many spell slots as you have spells (as a sorcerer) except for Level 10, where you have 1 (before effects).
                     spellslots += choice.available;
                 });

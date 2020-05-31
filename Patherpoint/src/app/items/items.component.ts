@@ -175,7 +175,8 @@ export class ItemsComponent implements OnInit {
                 !this.wordFilter || (
                     this.wordFilter && (
                         item.name.toLowerCase().includes(this.wordFilter.toLowerCase()) ||
-                        item.desc.toLowerCase().includes(this.wordFilter.toLowerCase())
+                        item.desc.toLowerCase().includes(this.wordFilter.toLowerCase()) ||
+                        item.traits.filter(trait => trait.toLowerCase().includes(this.wordFilter.toLowerCase())).length
                     )
                 )
             )

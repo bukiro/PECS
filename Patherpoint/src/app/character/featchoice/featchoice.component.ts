@@ -149,7 +149,8 @@ export class FeatchoiceComponent implements OnInit {
                 case "Familiar":
                     feats.push(...allFeats.filter(feat => feat.traits.includes("Familiar Ability") || feat.traits.includes("Master Ability")));
                 default:
-                    feats.push(...allFeats.filter(feat => feat.traits.includes(choice.type)));
+                    let traits: string[] = choice.type.split(",")
+                    feats.push(...allFeats.filter((feat: Feat) => traits.filter(trait => feat.traits.includes(trait)).length == traits.length));
                     break;
             }
         }
@@ -219,7 +220,7 @@ export class FeatchoiceComponent implements OnInit {
                     traits.push("Familiar Ability", "Master Ability");
                     break;
                 default:
-                    traits.push(choice.type);
+                    traits.push(...choice.type.split(","));
                     break;
             }
             //Does the type not match a trait? (Unless it's a special choice, where the type doesn't matter and is just the title.)

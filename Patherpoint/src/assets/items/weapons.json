@@ -53,6 +53,42 @@
    },
    {
       "hide": true,
+      "id": "958c9d00-e57c-4e1b-992b-e206b143ba53",
+      "name": "Cat Jaws",
+      "traits": [
+         "Companion",
+         "Finesse",
+         "Unarmed"
+      ],
+      "displayName": "Jaws",
+      "moddable": "-",
+      "_className": "Weapon",
+      "dicesize": 6,
+      "dmgType": "P",
+      "group": "Brawling",
+      "melee": 5,
+      "prof": "Unarmed Attacks"
+   },
+   {
+      "hide": true,
+      "id": "c27375e6-867a-4f4e-8fc9-9e67e7136c85",
+      "name": "Cat Claw",
+      "traits": [
+         "Agile",
+         "Companion",
+         "Finesse",
+         "Unarmed"
+      ],
+      "displayName": "Claw",
+      "moddable": "-",
+      "_className": "Weapon",
+      "dmgType": "S",
+      "group": "Brawling",
+      "melee": 5,
+      "prof": "Unarmed Attacks"
+   },
+   {
+      "hide": true,
       "id": "59f51045-60c4-41c4-ae79-311941b0ca78",
       "name": "Lizardfolk Claw",
       "traits": [

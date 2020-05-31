@@ -81,5 +81,88 @@
         "traits": [
             "Minion"
         ]
+    },
+    {
+        "_className": "AnimalCompanionAncestry",
+        "abilityChoices": [
+            {
+                "_className": "AbilityChoice",
+                "boosts": [
+                    {
+                        "name": "Dexterity",
+                        "type": "Boost",
+                        "source": "Ancestry",
+                        "locked": true,
+                        "sourceId": "1-Ability-Ancestry-0"
+                    },
+                    {
+                        "name": "Wisdom",
+                        "type": "Boost",
+                        "source": "Ancestry",
+                        "locked": true,
+                        "sourceId": "1-Ability-Ancestry-0"
+                    }
+                ],
+                "source": "Ancestry",
+                "id": "1-Ability-Ancestry-0"
+            }
+        ],
+        "activities": [
+            {
+                "_className": "ActivityGain",
+                "name": "Support",
+                "source": "Cat",
+                "level": 1
+            },
+            {
+                "_className": "ActivityGain",
+                "name": "Cat Pounce",
+                "source": "Cat",
+                "level": 3
+            }
+        ],
+        "desc": "Your companion is a big cat, such as a leopard or tiger.",
+        "gainItems": [
+            {
+                "_className": "ItemGain",
+                "name": "Cat Jaws",
+                "type": "weapons"
+            },
+            {
+                "_className": "ItemGain",
+                "name": "Cat Claw",
+                "type": "weapons"
+            }
+        ],
+        "hitPoints": 4,
+        "name": "Cat",
+        "senses": [
+            "Low-Light Vision",
+            "Scent 30 feet (imprecise)"
+        ],
+        "size": -1,
+        "skillChoices": [
+            {
+                "_className": "SkillChoice",
+                "increases": [
+                    {
+                        "name": "Stealth",
+                        "source": "Ancestry",
+                        "maxRank": 2,
+                        "locked": true,
+                        "sourceId": "1-Skill-Ancestry-0"
+                    }
+                ],
+                "type": "Any",
+                "maxRank": 2,
+                "source": "Ancestry",
+                "id": "1-Skill-Ancestry-0"
+            }
+        ],
+        "speed": 35,
+        "supportBenefit": "Your cat throws your enemies off-balance when you create an opening. Until the start of your next turn, your Strikes that deal damage to a creature that your cat threatens make the target flat-footed until the end of your next turn.",
+        "traits": [
+            "Minion"
+        ]
     }
 ]

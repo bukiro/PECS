@@ -7,6 +7,7 @@ import { TraitsService } from 'src/app/traits.service';
 import { SortByPipe } from 'src/app/sortBy.pipe';
 import { SpellCasting } from 'src/app/SpellCasting';
 import { EffectsService } from 'src/app/effects.service';
+import { SpellGain } from 'src/app/SpellGain';
 
 @Component({
     selector: 'app-spellchoice',
@@ -94,7 +95,7 @@ export class SpellchoiceComponent implements OnInit {
     }
 
     get_SignatureSpellsAllowed() {
-        if (this.characterService.get_Features()
+        if (this.characterService.get_FeatsAndFeatures()
             .filter(feature => feature.allowSignatureSpells)
             .filter(feature => feature.have(this.get_Character(), this.characterService)).length) {
             return true;
@@ -208,7 +209,10 @@ export class SpellchoiceComponent implements OnInit {
         return anytrue;
     }
 
-    cannotTake(spell: Spell, choice: SpellChoice) {
+    cannotTake(spell: Spell, choice: SpellChoice, gain: SpellGain = null) {
+        if (this.spellTakenByThis(spell, choice) && choice.spells.find(gain => gain.name == spell.name && gain.locked)) {
+            return "";
+        }
         let spellLevel = choice.level;
         if (choice.dynamicLevel) {
             spellLevel = this.get_DynamicLevel(choice);

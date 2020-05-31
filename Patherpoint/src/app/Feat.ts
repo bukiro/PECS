@@ -12,21 +12,24 @@ import { AnimalCompanion } from './AnimalCompanion';
 import { Familiar } from './Familiar';
 import { Deity } from './Deity';
 import { Speed } from './Speed';
-import { CriticalSpecialization } from './CriticalSpecialization';
+import { SpecializationGain } from './SpecializationGain';
+import { AbilityChoice } from './AbilityChoice';
 
 export class Feat {
     public readonly _className: string = this.constructor.name;
     public abilityreq: any[] = [];
     public access: string = "";
     public advancedweaponbase: boolean = false;
+    public anathema: string[] = [];
     public archetype: string = "";
     public data: {} = {};
     public desc: string = "";
     public effects: any[] = [];
     public featreq: string[] = [];
+    public gainAbilityChoice: AbilityChoice[] = [];
     public gainActivities: string[] = [];
     public gainAnimalCompanion: number = 0;
-    public gainCritSpecialization: CriticalSpecialization[] = [];
+    public gainSpecialization: SpecializationGain[] = [];
     public gainFamiliar: boolean = false;
     public gainConditions: ConditionGain[] = [];
     public gainFeatChoice: FeatChoice[] = [];
@@ -51,6 +54,7 @@ export class Feat {
     public subType: string = "";
     public subTypes: boolean = false;
     public superType: string = "";
+    public tenets: string[] = [];
     public traits: string[] = [];
     public unlimited: boolean = false;
     public sourceBook: string = "";
@@ -176,7 +180,7 @@ export class Feat {
         //character and charLevel are often needed for special requirements, so we keep them defined even if we don't use them in the function.
         let character: Character = characterService.get_Character();
         let familiar: Familiar = characterService.get_Familiar();
-        let deity: Deity = characterService.get_Deities(character.class.deity)[0];
+        let deity: Deity = character.class.deity ? characterService.get_Deities(character.class.deity)[0] : null;
         function Skill_Level(creature: string, name: string) {
             if (creature != "Familiar") {
                 return characterService.get_Skills(characterService.get_Creature(creature), name)[0].level(characterService.get_Creature(creature) as Character|AnimalCompanion, characterService, charLevel);

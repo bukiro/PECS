@@ -642,5 +642,24 @@
         ],
         "inputRequired": "After you stop raging, you lose any remaining temporary Hit Points from Rage.",
         "buff": true
+    },
+    {
+        "name": "Inspire Courage",
+        "type": "spells",
+        "desc": "You and all allies in the area gain a +1 status bonus to attack rolls, damage rolls, and saves against fear effects.",
+        "hint": "You and all allies in the area gain a +1 status bonus to saves against fear effects.",
+        "showon": "Will",
+        "effects": [
+            {
+                "affected": "Attack Rolls",
+                "value": "+1",
+                "type": "status"
+            },
+            {
+                "affected": "Damage Rolls",
+                "value": "+1",
+                "type": "status"
+            }
+        ]
     }
 ]

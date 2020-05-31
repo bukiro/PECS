@@ -22,6 +22,13 @@
                 </div>
             </ng-container>
         </ng-container>
+        <ng-container *ngFor="let choice of get_TemporaryFeatChoices(); let index = index;">
+            <h3 class="box-header" *ngIf="index == 0">Temporary Feats</h3>
+            <app-featchoice (showChoiceMessage)="receive_ChoiceMessage($event)"
+                    (showFeatMessage)="receive_FeatMessage($event)" [choice]="choice.choice" [levelNumber]=choice.level.number
+                    [showFeat]="get_showItem()" [showChoice]="get_showList()">
+            </app-featchoice>
+        </ng-container>
     </ng-container>
 </div>
 <div *ngIf="set_Span()"></div>

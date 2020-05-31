@@ -635,8 +635,16 @@
         "examples": "group"
     },
     {
-        "key": "acbonus",
+        "key": "armorBase",
         "priority": "0",
+        "group": "7-Armor & Shields",
+        "name": "Base armor type",
+        "desc": "If this armor is based on another armor, the base armor should be named here. This allows applying a specific armor proficiency and specialization effect to the item even if it is not named after the armor. Example: If you are creating a magical Leather Armor named Nightshroud, and you have master proficiency in leather armor, but trained in light armor, setting this to 'Leather Armor' will allow you to apply that master proficiency.",
+        "examples": "armorBase"
+    },
+    {
+        "key": "acbonus",
+        "priority": "1",
         "group": "7-Armor & Shields",
         "name": "AC bonus",
         "desc": "The armor's or shield's inherent bonus to armor class. A shield must be raised in order to apply its AC bonus.",
@@ -645,7 +653,7 @@
     },
     {
         "key": "hardness",
-        "priority": "1",
+        "priority": "2",
         "group": "7-Armor & Shields",
         "name": "Shield hardness",
         "desc": "The amount of damage this shield can absorb from one attack before losing hit points.",
@@ -654,7 +662,7 @@
     },
     {
         "key": "hitpoints",
-        "priority": "2",
+        "priority": "3",
         "group": "7-Armor & Shields",
         "name": "Shield hit points",
         "desc": "The maximum number of hit points this shield will have.",
@@ -663,7 +671,7 @@
     },
     {
         "key": "brokenThreshold",
-        "priority": "3",
+        "priority": "4",
         "group": "7-Armor & Shields",
         "name": "Shield broken threshold",
         "desc": "If the shield has less than this amount of hit points, it becomes broken and unusable, but can still be repaired. The broken threshold is usually half the maximum hit points.",
@@ -673,7 +681,7 @@
     
     {
         "key": "dexcap",
-        "priority": "4",
+        "priority": "5",
         "group": "7-Armor & Shields",
         "name": "Dexterity Cap",
         "desc": "The highest dexterity bonus you can receive while wearing this armor, -1 for unlimited.",
@@ -682,7 +690,7 @@
     },
     {
         "key": "skillpenalty",
-        "priority": "5",
+        "priority": "6",
         "group": "7-Armor & Shields",
         "name": "Check penalty",
         "desc": "Certain skills take this penalty while wearing this armor if your strength does not match the armor's strength requirement.",
@@ -691,7 +699,7 @@
     },
     {
         "key": "speedpenalty",
-        "priority": "6",
+        "priority": "7",
         "group": "7-Armor & Shields",
         "name": "Speed penalty",
         "desc": "The penalty to speed (in steps of -5 ft) taken while wearing this armor or shield. The penalty can be reduced by 5 for armors by matching the strength requirement.",
@@ -700,7 +708,7 @@
     },
     {
         "key": "strength",
-        "priority": "7",
+        "priority": "8",
         "group": "7-Armor & Shields",
         "name": "Strength requirement",
         "desc": "The minimum strength required to eliminate or lessen this armor's skill and speed penalties.",
@@ -709,7 +717,7 @@
     },
     {
         "key": "coverbonus",
-        "priority": "8",
+        "priority": "9",
         "group": "7-Armor & Shields",
         "name": "Shield cover bonus",
         "desc": "If this shield has a cover bonus value, you can take cover behind it while it is raised and gain this additional bonus to AC.",
@@ -721,7 +729,8 @@
         "priority": "0",
         "group": "8-Weapons",
         "name": "Base weapon type",
-        "desc": "If this weapon is based on another weapon, (e.g. if this is an enchanted longsword), the base weapon should be named here. This allows applying a specific weapon proficiency to the item even if it is not named after the weapon.",
+        "desc": "If this weapon is based on another weapon, the base weapon should be named here. This allows applying a specific weapon proficiency and critical specialization effect to the item even if it is not named after the armor. Example: If you are creating a magical Longsword named Sunblade, and you have master proficiency in Longswords, but trained proficiency in martial weapons, setting this to 'Longsword' will allow you to apply that master proficiency.",
+        
         "examples": "weaponBase"
     },
     {

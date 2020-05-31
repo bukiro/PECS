@@ -46,6 +46,10 @@
                     <app-tags [creature]="creature" [objectName]="'Defense'" [showTraits]=true [showFeats]=true
                         [showItems]=true [showActivities]=true [showConditions]=true [showEffects]=true></app-tags>
                     <app-tags [creature]="creature" [objectName]="armor.name" [showItems]=true></app-tags>
+                    <div class="fullsize-only lower row left-aligned"
+                        *ngFor="let spec of get_ArmorSpecialization(armor)">
+                        <strong>Armor specialization effect&nbsp;</strong>{{spec.desc}}
+                    </div>
                 </div>
                 <ng-container *ngFor="let shield of get_EquippedShield()">
                     <h5 class="fullsize-only">Shield</h5>

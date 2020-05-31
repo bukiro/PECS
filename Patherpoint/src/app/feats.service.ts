@@ -16,7 +16,8 @@ import { Familiar } from './Familiar';
 import { Character } from './Character';
 import { Speed } from './Speed';
 import { SpellCasting } from './SpellCasting';
-import { CriticalSpecialization } from './CriticalSpecialization';
+import { SpecializationGain } from './SpecializationGain';
+import { AbilityChoice } from './AbilityChoice';
 
 @Injectable({
     providedIn: 'root'
@@ -71,14 +72,18 @@ export class FeatsService {
             if (feat.gainFeatChoice.length) {
                 if (taken) {
                     feat.gainFeatChoice.forEach(newFeatChoice => {
+                        let insertedFeatChoice: FeatChoice;
                         //Skip if you don't have the required Class for this granted feat choice.
                         if (newFeatChoice.insertClass ? character.class.name == newFeatChoice.insertClass : true) {
                             //Check if the feat choice gets applied on a certain level and do that, or apply it on the current level.
                             if (newFeatChoice.insertLevel && character.class.levels[newFeatChoice.insertLevel]) {
-                                character.add_FeatChoice(character.class.levels[newFeatChoice.insertLevel], newFeatChoice)
+                                insertedFeatChoice = character.add_FeatChoice(character.class.levels[newFeatChoice.insertLevel], newFeatChoice)
                             } else {
-                                character.add_FeatChoice(level, newFeatChoice);
+                                insertedFeatChoice = character.add_FeatChoice(level, newFeatChoice);
                             }
+                            insertedFeatChoice.feats.forEach(gain => {
+                                this.process_Feat(creature, characterService, gain.name, insertedFeatChoice, level, true);
+                            })
                         }
                     });
                 } else {
@@ -105,6 +110,21 @@ export class FeatsService {
                             }
                         }
                     });
+                }
+            }
+
+            //Boost Ability (usually only in )
+            if (feat.gainAbilityChoice.length) {
+                if (taken) {
+                    feat.gainAbilityChoice.forEach(newAbilityChoice => {
+                        let newChoice = character.add_AbilityChoice(level, newAbilityChoice);
+                    });
+                } else {
+                    let a = level.abilityChoices;
+                    feat.gainAbilityChoice.forEach(oldAbilityChoice => {
+                        let oldChoice = a.filter(choice => choice.source == oldAbilityChoice.source)[0];
+                        character.remove_AbilityChoice(oldChoice);
+                    })
                 }
             }
 
@@ -331,7 +351,6 @@ export class FeatsService {
                 if (!taken) {
                     //Reset the animal companion
                     character.class.animalCompanion = new AnimalCompanion();
-                    character.class.animalCompanion.class.reset_levels(characterService);
                     characterService.initialize_AnimalCompanion();
                 }
             }
@@ -473,8 +492,9 @@ export class FeatsService {
             this.feats.forEach(feat => {
                 feat.gainFeatChoice = feat.gainFeatChoice.map(choice => Object.assign(new FeatChoice(), choice));
                 feat.gainConditions = feat.gainConditions.map(choice => Object.assign(new ConditionGain(), choice));
-                feat.gainCritSpecialization = feat.gainCritSpecialization.map(spec => Object.assign(new CriticalSpecialization, spec));
+                feat.gainSpecialization = feat.gainSpecialization.map(spec => Object.assign(new SpecializationGain, spec));
                 //feat.gainFormulaChoice = feat.gainFormulaChoice.map(choice => Object.assign(new FormulaChoice(), choice));
+                feat.gainAbilityChoice = feat.gainAbilityChoice.map(choice => Object.assign(new AbilityChoice, choice));
                 feat.gainSkillChoice = feat.gainSkillChoice.map(choice => Object.assign(new SkillChoice, choice));
                 feat.gainSpellChoice = feat.gainSpellChoice.map(choice => Object.assign(new SpellChoice, choice));
                 feat.gainSpellCasting = feat.gainSpellCasting.map(choice => Object.assign(new SpellCasting(choice.castingType), choice));
@@ -490,8 +510,9 @@ export class FeatsService {
             this.features.forEach(feature => {
                 feature.gainFeatChoice = feature.gainFeatChoice.map(choice => Object.assign(new FeatChoice(), choice));
                 feature.gainConditions = feature.gainConditions.map(choice => Object.assign(new ConditionGain(), choice));
-                feature.gainCritSpecialization = feature.gainCritSpecialization.map(spec => Object.assign(new CriticalSpecialization, spec));
+                feature.gainSpecialization = feature.gainSpecialization.map(spec => Object.assign(new SpecializationGain, spec));
                 //feature.gainFormulaChoice = feature.gainFormulaChoice.map(choice => Object.assign(new FormulaChoice(), choice));
+                feature.gainAbilityChoice = feature.gainAbilityChoice.map(choice => Object.assign(new AbilityChoice, choice));
                 feature.gainSkillChoice = feature.gainSkillChoice.map(choice => Object.assign(new SkillChoice, choice));
                 feature.gainSpellChoice = feature.gainSpellChoice.map(choice => Object.assign(new SpellChoice, choice));
                 feature.gainSpellCasting = feature.gainSpellCasting.map(choice => Object.assign(new SpellCasting(choice.castingType), choice));

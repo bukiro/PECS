@@ -16,6 +16,7 @@ import { SpellCasting } from './SpellCasting';
 import { SpellChoice } from './SpellChoice';
 import { SpellGain } from './SpellGain';
 import { ItemGain } from './ItemGain';
+import { typeWithParameters } from '@angular/compiler/src/render3/util';
 
 export class Class {
     public readonly _className: string = this.constructor.name;
@@ -31,6 +32,7 @@ export class Class {
     public gainItems: ItemGain[] = [];
     public heritage: Heritage = new Heritage();
     public hitPoints: number = 0;
+    public languages: string[] = [];
     public levels: Level[] = [];
     public name: string = "";
     public sourceBook: string = "";
@@ -92,6 +94,9 @@ export class Class {
         if (this.ancestry.name) {
             let character = characterService.get_Character();
             let level = this.levels[1];
+            this.ancestry.languages.forEach(ancestryLanguage => {
+                this.languages = this.languages.filter(language => language != ancestryLanguage);
+            });
             level.abilityChoices = level.abilityChoices.filter(availableBoost => availableBoost.source != "Ancestry")
             //Of each granted Item, find the item with the stored id and drop it.
             this.ancestry.gainItems.forEach((freeItem: ItemGain) => {
@@ -123,6 +128,7 @@ export class Class {
         if (this.ancestry.name) {
             let character = characterService.get_Character();
             let level = this.levels[1];
+            this.languages.push(...this.ancestry.languages);
             level.abilityChoices.push(...this.ancestry.abilityChoices);
             level.featChoices.push(...this.heritage.featChoices);
             //Grant all items and save their id in the ItemGain.

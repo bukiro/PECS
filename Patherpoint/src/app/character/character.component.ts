@@ -50,6 +50,7 @@ export class CharacterComponent implements OnInit {
     public newClass: Class = new Class();
     private showItem: string = "";
     private showList: string = "";
+    public allowCharacterDelete: Boolean = false;
     
     constructor(
         private changeDetector:ChangeDetectorRef,
@@ -66,7 +67,6 @@ export class CharacterComponent implements OnInit {
         private animalCompanionsService: AnimalCompanionsService,
         private conditionsService: ConditionsService,
         private bloodlinesService: BloodlinesService,
-        private sortByPipe: SortByPipe,
         private savegameService: SavegameService,
         private traitsService: TraitsService
     ) { }
@@ -143,7 +143,7 @@ export class CharacterComponent implements OnInit {
 
     get_Alignments() {
         //Champions and Clerics need to pick an alignment matching their deity
-        let deity: Deity = this.get_Deities(this.get_Character().class.deity)[0]
+        let deity: Deity = this.get_Character().class?.deity ? this.get_Deities(this.get_Character().class.deity)[0] : null;
         let alignments = [
             "",
             "Lawful Good",
@@ -224,7 +224,7 @@ export class CharacterComponent implements OnInit {
 
     get_LanguagesAvailable(levelNumber: number = 0) {
         let character = this.get_Character()
-        if (character.class.ancestry.name) {
+        if (character.class.name) {
             if (levelNumber) {
                 //If level is given, check if any new languages have been added on this level. If not, don't get any languages at this point.
                 let newLanguages: number = 0;
@@ -234,28 +234,7 @@ export class CharacterComponent implements OnInit {
                     return false;
                 }
             }
-            //Ensure that the language list is always as long as ancestry languages + INT + any relevant feats
-            let ancestry: Ancestry = this.get_Character().class.ancestry;
-            let languages: number = ancestry.languages.length;
-            let maxLanguages: number = ancestry.baseLanguages;
-            let int = this.get_INT(character.level);
-            if (int > 0) {
-                maxLanguages += int;
-            }
-            this.effectsService.get_AbsolutesOnThis(this.get_Character(), "Max Languages").forEach(effect => {
-                maxLanguages = parseInt(effect.setValue);
-            })
-            this.effectsService.get_RelativesOnThis(this.get_Character(), "Max Languages").forEach(effect => {
-                maxLanguages += parseInt(effect.value);
-            })
-            if (languages > maxLanguages) {
-                ancestry.languages.splice(maxLanguages);
-            } else {
-                while (languages < maxLanguages) {
-                    languages = ancestry.languages.push("");
-                }
-            }
-            return true;
+            return character.class.languages.length ? true : false;
         } else {
             return false;
         }
@@ -790,12 +769,11 @@ export class CharacterComponent implements OnInit {
             this.get_Companion().class.on_ChangeAncestry(this.characterService);
             this.animalCompanionsService.change_Type(this.get_Companion(), type);
             this.get_Companion().class.on_NewAncestry(this.characterService, this.itemsService);
-            this.set_Changed();
         } else {
             this.get_Companion().class.on_ChangeAncestry(this.characterService);
             this.animalCompanionsService.change_Type(this.get_Companion(), new AnimalCompanionAncestry());
-            this.set_Changed();
         }
+        this.set_Changed();
     }
 
     on_SpecializationChange(spec: AnimalCompanionSpecialization, taken: boolean, levelNumber: number) {

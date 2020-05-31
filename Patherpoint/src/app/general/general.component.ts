@@ -6,7 +6,6 @@ import { Speed } from '../Speed';
 import { Character } from '../Character';
 import { AnimalCompanion } from '../AnimalCompanion';
 import { FamiliarsService } from '../familiars.service';
-import { Bloodline } from '../Bloodline';
 
 @Component({
     selector: 'app-general',
@@ -93,12 +92,28 @@ export class GeneralComponent implements OnInit {
         return this.get_Creature().get_Size(this.effectsService);
     }
 
+    get_Tenets() {
+        //Remove tenets from all feats and features you have that include them.
+        return [].concat(...this.get_Character().get_FeatsTaken(1, this.get_Character().level)
+            .map(feat => this.characterService.get_FeatsAndFeatures(feat.name)[0])
+            .filter(feat => feat?.tenets?.length)
+            .map(feat => feat.tenets))
+    }
+
+    get_Anathema() {
+        //Remove tenets from all feats and features you have that include them.
+        return [].concat(...this.get_Character().get_FeatsTaken(1, this.get_Character().level)
+            .map(feat => this.characterService.get_FeatsAndFeatures(feat.name)[0])
+            .filter(feat => feat?.anathema?.length)
+            .map(feat => feat.anathema))
+    }
+
     get_HuntersEdge() {
         return this.get_Character().get_FeatsTaken(1, this.get_Character().level).filter(gain => ["Flurry", "Outwit", "Precision"].includes(gain.name)).map(gain => gain.name);
     }
 
     get_Languages() {
-        return this.get_Character().class.ancestry.languages.filter(language => language != "").join(', ')
+        return this.get_Character().class.languages.filter(language => language != "").join(', ')
     }
 
     get_DifferentWorldsFeat() {

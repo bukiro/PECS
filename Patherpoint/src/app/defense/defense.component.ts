@@ -46,6 +46,10 @@ export class DefenseComponent implements OnInit {
         return this.characterService.get_Accent();
     }
     
+    get_ArmorSpecialization(armor: Armor) {
+        return armor.get_ArmorSpecialization(this.get_Creature(), this.characterService);
+    }
+
     get_Creature() {
         return this.characterService.get_Creature(this.creature);
     }

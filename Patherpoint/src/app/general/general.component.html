@@ -64,6 +64,24 @@
                 <strong>Languages</strong>
                 {{get_Languages()}}
             </div>
+            <div class="fullsize-only list-item"
+                *ngIf="get_Tenets().length">
+                <strong>Tenets</strong>
+                <div class="row">
+                    <ul >
+                        <li *ngFor="let tenet of get_Tenets()">{{tenet}}</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="fullsize-only list-item"
+                *ngIf="get_Anathema().length">
+                <strong>Anathema</strong>
+                <div class="row">
+                    <ul >
+                        <li *ngFor="let anathema of get_Anathema()">{{anathema}}</li>
+                    </ul>
+                </div>
+            </div>
             <div class="fullsize-only list-item" *ngFor="let feat of get_DifferentWorldsFeat()">
                 <strong>Alternative Identity (Different Worlds)</strong>
                 {{feat.data.name}} {{(feat.data.background) ? "("+feat.data.background+")" : ""}}

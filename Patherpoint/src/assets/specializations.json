@@ -84,10 +84,10 @@
     {
         "name": "Composite",
         "desc": "The numerous overlapping pieces of this armor protect you from piercing attacks. You gain resistance to piercing damage equal to 1 + the value of the armor's potency rune for medium armor, or 2 + the value of the armor's potency rune for heavy armor.",
-        "effect": [
+        "effects": [
             {
                 "affected": "Piercing Resistance",
-                "value": "(object.prof == 'Medium Armor' ? 1 + object.potencyRune : 2 + object.potencyRune)"
+                "value": "Armor() && (Armor().prof == 'Medium Armor' ? 1 + Armor().get_PotencyRune() : 2 + Armor().get_PotencyRune())"
             }
         ],
         "type": "armors"
@@ -95,10 +95,10 @@
     {
         "name": "Leather",
         "desc": "The thick second skin of the armor disperses blunt force to reduce bludgeoning damage. You gain resistance to bludgeoning damage equal to 1 + the value of the armor's potency rune for medium armor, or 2 + the value of the armor's potency rune for heavy armor.",
-        "effect": [
+        "effects": [
             {
                 "affected": "Bludgeoning Resistance",
-                "value": "(object.prof == 'Medium Armor' ? 1 + object.potencyRune : 2 + object.potencyRune)"
+                "value": "Armor() && (Armor().prof == 'Medium Armor' ? 1 + Armor().get_PotencyRune() : 2 + Armor().get_PotencyRune())"
             }
         ],
         "type": "armors"
@@ -106,10 +106,10 @@
     {
         "name": "Plate",
         "desc": "The sturdy plate provides no purchase for a cutting edge. You gain resistance to slashing damage equal to 1 + the value of the armor's potency rune for medium armor, or 2 + the value of the armor's potency rune for heavy armor.",
-        "effect": [
+        "effects": [
             {
                 "affected": "Slashing Resistance",
-                "value": "(object.prof == 'Medium Armor' ? 1 + object.potencyRune : 2 + object.potencyRune)"
+                "value": "Armor() && (Armor().prof == 'Medium Armor' ? 1 + Armor().get_PotencyRune() : 2 + Armor().get_PotencyRune())"
             }
         ],
         "type": "armors"

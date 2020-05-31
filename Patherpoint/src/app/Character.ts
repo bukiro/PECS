@@ -105,6 +105,18 @@ export class Character extends Creature {
         }
         this.set_Changed(characterService);
     }
+    add_AbilityChoice(level: Level, newChoice: AbilityChoice) {
+        let existingChoices = level.abilityChoices.filter(choice => choice.source == newChoice.source);
+        let tempChoice = Object.assign(new AbilityChoice, JSON.parse(JSON.stringify(newChoice)))
+        tempChoice.id = level.number +"-Ability-"+ tempChoice.source +"-"+ existingChoices.length;
+        let newLength: number = level.abilityChoices.push(tempChoice);
+        return level.abilityChoices[newLength-1];
+    }
+    remove_AbilityChoice(oldChoice: AbilityChoice) {
+        let levelNumber = parseInt(oldChoice.id.split("-")[0]);
+        let a = this.class.levels[levelNumber].abilityChoices;
+        a.splice(a.indexOf(oldChoice), 1);
+    }
     get_AbilityChoice(sourceId: string) {
         let levelNumber = parseInt(sourceId[0]);
         return this.class.levels[levelNumber].abilityChoices.filter(choice => choice.id == sourceId)[0];

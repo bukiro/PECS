@@ -70,52 +70,7 @@
                             </span>
                         </div>
                         <!--End Subfeats-->
-                        <div class="row left-aligned">
-                            <cite class="trait" *ngFor="let trait of feat.traits">
-                                {{trait}}
-                            </cite>
-                        </div>
-                        <div class="row left-aligned">
-                            <ng-container *ngFor="let reqs of [get_FeatRequirements(choice, feat)]">
-                                <p *ngIf="reqs.length">
-                                    <strong>Requirements&nbsp;</strong>
-                                    <span [ngClass]="{'problem':(req.met == false)}"
-                                        *ngFor="let req of reqs">{{req.desc}}</span>
-                                </p>
-                            </ng-container>
-                            <ng-container *ngFor="let desc of feat.desc.split('\n\n')">
-                                <p *ngIf="desc.split('\n').length == 1">{{desc}}</p>
-                                <ul *ngIf="desc.split('\n').length > 1">
-                                    <li *ngFor="let line of desc.split('\n')">{{line}}</li>
-                                </ul>
-                            </ng-container>
-                            <p *ngIf="feat.specialdesc.length">
-                                <strong>Special</strong>
-                                {{feat.specialdesc}}
-                            </p>
-                        </div>
-                        <ng-container *ngFor="let name of feat.gainActivities">
-                            <div class="row left-aligned" *ngFor="let activity of get_Activities(name)">
-                                <h4 class="left-aligned">{{activity.name}}<app-actionIcons
-                                        [actionString]="activity.actions"></app-actionIcons>
-                                    {{(activity.activationType) ? activity.activationType : ""}}
-                                </h4>
-                                <app-activity class="row" [activity]=activity [allowActivate]=false>
-                                </app-activity>
-                            </div>
-                        </ng-container>
-                        <ng-container *ngFor="let spellChoice of feat.gainSpellChoice">
-                            <ng-container *ngFor="let spellGain of spellChoice.spells">
-                                <ng-container *ngFor="let spell of get_Spells(spellGain.name)">
-                                    <h4 class="left-aligned">{{spell.name}}<app-actionIcons
-                                            [actionString]="spell.actions"></app-actionIcons>
-                                        {{(spell.castType) ? spell.castType : ""}}
-                                    </h4>
-                                    <app-spell class="row" [spell]=spell [spellLevel]="get_SpellLevel(levelNumber)">
-                                    </app-spell>
-                                </ng-container>
-                            </ng-container>
-                        </ng-container>
+                        <app-feat [feat]="feat" [choice]="choice" [levelNumber]="levelNumber"></app-feat>
                     </div>
                 </div>
             </div>

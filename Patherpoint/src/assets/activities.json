@@ -499,6 +499,11 @@
         "desc": "Your animal companion supports you. You gain the benefits listed in the companion type's Support Benefit entry. If the animal uses the Support action, the only other actions it can use on this turn are basic move actions to get into position to take advantage of the Support benefits; if it has already used any other action this turn, it can't Support you."
     },
     {
+        "name": "Cat Pounce",
+        "actions": "1A",
+        "desc": "The cat Strides and then Strikes. If it was undetected at the start of its Cat Pounce, it remains undetected until after the attack."
+    },
+    {
         "name": "Orc Ferocity",
         "actions": "Reaction",
         "frequency": "once per day",
@@ -981,6 +986,74 @@
             "Concentrate",
             "Emotion",
             "Mental"
+        ]
+    },
+    {
+        "name": "Attack of Opportunity",
+        "actions": "Reaction",
+        "trigger": "A creature within your reach uses a manipulate action or a move action, makes a ranged attack, or leaves a square during a move action it’s using.",
+        "desc": "You lash out at a foe that leaves an opening. Make a melee Strike against the triggering creature. If your attack is a critical hit and the trigger was a manipulate action, you disrupt that action. This Strike doesn’t count toward your multiple attack penalty, and your multiple attack penalty doesn’t apply to this Strike."
+    },
+    {
+        "name": "Debilitating Strike",
+        "actions": "Free",
+        "trigger": "Your Strike hits a flat-footed creature and deals damage.",
+        "desc": "You apply one of the following debilitations, which lasts until the end of your next turn.\n\nDebilitation The target takes a –10-foot status penalty to its Speeds.\nDebilitation The target becomes enfeebled 1.",
+        "showon": "Attacks",
+        "hint": "When your strike hits a flat-footed creature and deals damage, you apply debilitations, which last until the end of your next turn.",
+        "trait": [
+            "Rogue"
+        ]
+    },
+    {
+        "name": "Drain Bonded Item",
+        "actions": "Free",
+        "frequency": "once per day",
+        "cooldown": 144000,
+        "requirement": "You haven't acted yet on your turn.",
+        "desc": "You expend the power stored in your bonded item. During your turn, you gain the ability to cast one spell you prepared today and already cast, without spending a spell slot. You must still Cast the Spell and meet the spell’s other requirements.",
+        "inputRequired": "You can restore a used spell in the spellbook using your bonded item's charge. Using this Activity does not automatically restore a spell or discharge the bonded item.",
+        "trait": [
+            "Arcane",
+            "Wizard"
+        ]
+    },
+    {
+        "name": "Halfling Luck",
+        "actions": "Free",
+        "frequency": "once per day",
+        "cooldown": 144000,
+        "trigger": "You fail a skill check or saving throw.",
+        "desc": "Your happy-go-lucky nature makes it seem like misfortune avoids you, and to an extent, that might even be true. You can reroll the triggering check, but you must use the new result, even if it’s worse than your first roll.",
+        "trait": [
+            "Fortune",
+            "Halfling"
+        ]
+    },
+    {
+        "name": "Widen Spell",
+        "actions": "1A",
+        "desc": "You manipulate the energy of your spell, causing it to spread out and affect a wider area. If the next action you use is to Cast a Spell that has an area of a burst, cone, or line and does not have a duration, increase the area of that spell. Add 5 feet to the radius of a burst that normally has a radius of at least 10 feet (a burst with a smaller radius is not affected). Add 5 feet to the length of a cone or line that is normally 15 feet long or smaller, and add 10 feet to the length of a larger cone or line.",
+        "traits": [
+            "Druid",
+            "Manipulate",
+            "Metamagic",
+            "Sorcerer",
+            "Wizard"
+        ]
+    },
+    {
+        "name": "Reach Spell",
+        "actions": "1A",
+        "desc": "You can extend the range of your spells. If the next action you use is to Cast a Spell that has a range, increase that spell’s range by 30 feet. As is standard for increasing spell ranges, if the spell normally has a range of touch, you extend its range to 30 feet.",
+        "traits": [
+            "Bard",
+            "Cleric",
+            "Concentrate",
+            "Druid",
+            "Metamagic",
+            "Sorcerer",
+            "Wizard"
         ]
     }
 ]

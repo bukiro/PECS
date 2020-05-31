@@ -2812,7 +2812,7 @@
                             },
                             {
                                 "locked": true,
-                                "name": "Signature Spells (Sorcerer)",
+                                "name": "Signature Spells (Bard)",
                                 "source": "Bard",
                                 "sourceId": "3-Feature-Bard-0"
                             }
@@ -3820,7 +3820,18 @@
                     },
                     {
                         "_className": "SpellChoice",
-                        "available": 2,
+                        "available": 1,
+                        "className": "Bard",
+                        "id": "149cf5bc-15ed-48b8-80bf-9aaa56226b76",
+                        "level": 1,
+                        "charLevelAvailable": 1,
+                        "signatureSpell": true,
+                        "source": "Bard Spellcasting",
+                        "castingType": "Spontaneous"
+                    },
+                    {
+                        "_className": "SpellChoice",
+                        "available": 1,
                         "className": "Bard",
                         "id": "ead199f8-5dd2-44e3-bd0b-003e5c29fed8",
                         "level": 1,
@@ -3835,13 +3846,23 @@
                         "id": "751999fa-a95c-4a0e-92e7-585123f6b3a7",
                         "level": 1,
                         "charLevelAvailable": 2,
+                        "source": "Bard Spellcasting",
+                        "castingType": "Spontaneous"
+                    },
+                    {
+                        "_className": "SpellChoice",
+                        "available": 1,
+                        "className": "Bard",
+                        "id": "5cc1a5ce-8e40-4e10-bbc2-d77c513a873d",
+                        "level": 2,
+                        "charLevelAvailable": 3,
                         "signatureSpell": true,
                         "source": "Bard Spellcasting",
                         "castingType": "Spontaneous"
                     },
                     {
                         "_className": "SpellChoice",
-                        "available": 2,
+                        "available": 1,
                         "className": "Bard",
                         "id": "73a8c9d3-d1c7-4d1e-bb9a-dd1012edf452",
                         "level": 2,
@@ -3856,13 +3877,23 @@
                         "id": "4fbc69bf-08cf-4417-a3a7-c12ee7dcf9ca",
                         "level": 2,
                         "charLevelAvailable": 4,
+                        "source": "Bard Spellcasting",
+                        "castingType": "Spontaneous"
+                    },
+                    {
+                        "_className": "SpellChoice",
+                        "available": 1,
+                        "className": "Bard",
+                        "id": "0b18d0d7-8432-444e-a4b8-dad6cb1e149a",
+                        "level": 3,
+                        "charLevelAvailable": 5,
                         "signatureSpell": true,
                         "source": "Bard Spellcasting",
                         "castingType": "Spontaneous"
                     },
                     {
                         "_className": "SpellChoice",
-                        "available": 2,
+                        "available": 1,
                         "className": "Bard",
                         "id": "89baeeca-5c26-4e34-b069-aab8751fa25d",
                         "level": 3,
@@ -3877,13 +3908,23 @@
                         "id": "946d99a8-d7b9-4f45-a334-fd3f5f1fe9ee",
                         "level": 3,
                         "charLevelAvailable": 6,
+                        "source": "Bard Spellcasting",
+                        "castingType": "Spontaneous"
+                    },
+                    {
+                        "_className": "SpellChoice",
+                        "available": 1,
+                        "className": "Bard",
+                        "id": "58bdffbc-8ed1-4e89-8c42-f828b81783de",
+                        "level": 4,
+                        "charLevelAvailable": 7,
                         "signatureSpell": true,
                         "source": "Bard Spellcasting",
                         "castingType": "Spontaneous"
                     },
                     {
                         "_className": "SpellChoice",
-                        "available": 2,
+                        "available": 1,
                         "className": "Bard",
                         "id": "1dc6f5f7-cfeb-402f-8ef8-48dd37b452d5",
                         "level": 4,
@@ -3898,13 +3939,23 @@
                         "id": "eb9047b0-81a6-4488-9b49-869c0002cc37",
                         "level": 4,
                         "charLevelAvailable": 8,
+                        "source": "Bard Spellcasting",
+                        "castingType": "Spontaneous"
+                    },
+                    {
+                        "_className": "SpellChoice",
+                        "available": 1,
+                        "className": "Bard",
+                        "id": "6b913036-c33d-4c6c-af1d-cbbdf13a2356",
+                        "level": 5,
+                        "charLevelAvailable": 9,
                         "signatureSpell": true,
                         "source": "Bard Spellcasting",
                         "castingType": "Spontaneous"
                     },
                     {
                         "_className": "SpellChoice",
-                        "available": 2,
+                        "available": 1,
                         "className": "Bard",
                         "id": "92922ae5-8ec5-4bb2-bf70-8665d74477f2",
                         "level": 5,
@@ -3919,13 +3970,23 @@
                         "id": "5d047646-7cf4-4cad-8749-a8befe89c3ac",
                         "level": 5,
                         "charLevelAvailable": 10,
+                        "source": "Bard Spellcasting",
+                        "castingType": "Spontaneous"
+                    },
+                    {
+                        "_className": "SpellChoice",
+                        "available": 1,
+                        "className": "Bard",
+                        "id": "9a7168bc-58eb-46bc-9e5e-8f47cdb92cfc",
+                        "level": 6,
+                        "charLevelAvailable": 11,
                         "signatureSpell": true,
                         "source": "Bard Spellcasting",
                         "castingType": "Spontaneous"
                     },
                     {
                         "_className": "SpellChoice",
-                        "available": 2,
+                        "available": 1,
                         "className": "Bard",
                         "id": "b23cb758-341d-48f8-8051-6371b82db9a8",
                         "level": 6,
@@ -3940,13 +4001,23 @@
                         "id": "96c00c6d-cf87-41fc-80ee-66901b09782e",
                         "level": 6,
                         "charLevelAvailable": 12,
+                        "source": "Bard Spellcasting",
+                        "castingType": "Spontaneous"
+                    },
+                    {
+                        "_className": "SpellChoice",
+                        "available": 1,
+                        "className": "Bard",
+                        "id": "2fe552e6-a6cf-49d1-8abe-8e1ccf30b6f7",
+                        "level": 7,
+                        "charLevelAvailable": 13,
                         "signatureSpell": true,
                         "source": "Bard Spellcasting",
                         "castingType": "Spontaneous"
                     },
                     {
                         "_className": "SpellChoice",
-                        "available": 2,
+                        "available": 1,
                         "className": "Bard",
                         "id": "c17cfbf0-f331-45f3-bb9f-08b4ffbcb2a9",
                         "level": 7,
@@ -3961,13 +4032,23 @@
                         "id": "b3d53a28-6638-4e71-ac36-32e8785ab4e8",
                         "level": 7,
                         "charLevelAvailable": 14,
+                        "source": "Bard Spellcasting",
+                        "castingType": "Spontaneous"
+                    },
+                    {
+                        "_className": "SpellChoice",
+                        "available": 1,
+                        "className": "Bard",
+                        "id": "2701d402-b1de-469d-b335-8ac09b80d4ef",
+                        "level": 8,
+                        "charLevelAvailable": 15,
                         "signatureSpell": true,
                         "source": "Bard Spellcasting",
                         "castingType": "Spontaneous"
                     },
                     {
                         "_className": "SpellChoice",
-                        "available": 2,
+                        "available": 1,
                         "className": "Bard",
                         "id": "fb066f94-ac3d-4eaa-9dea-1ace28992506",
                         "level": 8,
@@ -3982,13 +4063,23 @@
                         "id": "eb4bdf7e-63de-424e-8a7c-83c4e9e83ced",
                         "level": 8,
                         "charLevelAvailable": 16,
+                        "source": "Bard Spellcasting",
+                        "castingType": "Spontaneous"
+                    },
+                    {
+                        "_className": "SpellChoice",
+                        "available": 1,
+                        "className": "Bard",
+                        "id": "b410a85c-1335-46de-acd1-32dd4dc45ef8",
+                        "level": 9,
+                        "charLevelAvailable": 17,
                         "signatureSpell": true,
                         "source": "Bard Spellcasting",
                         "castingType": "Spontaneous"
                     },
                     {
                         "_className": "SpellChoice",
-                        "available": 2,
+                        "available": 1,
                         "className": "Bard",
                         "id": "d8d1b49b-3956-4abc-aa2e-713e20f68a4a",
                         "level": 9,
@@ -4003,13 +4094,23 @@
                         "id": "b7d6c29c-d155-4d6a-b3b3-6f643ce78daf",
                         "level": 9,
                         "charLevelAvailable": 18,
+                        "source": "Bard Spellcasting",
+                        "castingType": "Spontaneous"
+                    },
+                    {
+                        "_className": "SpellChoice",
+                        "available": 1,
+                        "className": "Bard",
+                        "id": "ff4b5485-d045-4cef-bd2d-1845532a48bc",
+                        "level": 10,
+                        "charLevelAvailable": 19,
                         "signatureSpell": true,
                         "source": "Bard Spellcasting",
                         "castingType": "Spontaneous"
                     },
                     {
                         "_className": "SpellChoice",
-                        "available": 2,
+                        "available": 1,
                         "className": "Bard",
                         "id": "a55bad84-66fe-42a2-a675-c875157b0707",
                         "level": 10,
@@ -4123,6 +4224,12 @@
                             {
                                 "locked": true,
                                 "name": "Deific Weapon",
+                                "source": "Champion",
+                                "sourceId": "1-Feature-Champion-0"
+                            },
+                            {
+                                "locked": true,
+                                "name": "Deity and Cause",
                                 "source": "Champion",
                                 "sourceId": "1-Feature-Champion-0"
                             },
@@ -6747,6 +6854,12 @@
                             },
                             {
                                 "locked": true,
+                                "name": "Druidic Order",
+                                "source": "Druid",
+                                "sourceId": "1-Feature-Druid-0"
+                            },
+                            {
+                                "locked": true,
                                 "name": "Shield Block",
                                 "source": "Druid",
                                 "sourceId": "1-Feature-Druid-0"
@@ -8655,7 +8768,7 @@
                         "level": 8,
                         "showOnSheet": true,
                         "source": "Combat Flexibility",
-                        "type": "Class"
+                        "type": "Fighter"
                     }
                 ],
                 "number": 9,
@@ -9032,7 +9145,7 @@
                         "level": 14,
                         "showOnSheet": true,
                         "source": "Combat Flexibility",
-                        "type": "Class"
+                        "type": "Fighter"
                     }
                 ],
                 "number": 15,
@@ -14448,7 +14561,18 @@
                     },
                     {
                         "_className": "SpellChoice",
-                        "available": 3,
+                        "available": 1,
+                        "className": "Sorcerer",
+                        "id": "537ac8f4-00a8-425a-8e78-bbd47b57142e",
+                        "level": 1,
+                        "charLevelAvailable": 1,
+                        "signatureSpell": true,
+                        "source": "Sorcerer Spellcasting",
+                        "castingType": "Spontaneous"
+                    },
+                    {
+                        "_className": "SpellChoice",
+                        "available": 2,
                         "className": "Sorcerer",
                         "id": "8617c93c-4e27-45b9-be3f-c5a60a6eba08",
                         "level": 1,
@@ -14463,13 +14587,23 @@
                         "id": "8ddae531-3fc5-463b-8914-64d674baba8c",
                         "level": 1,
                         "charLevelAvailable": 2,
+                        "source": "Sorcerer Spellcasting",
+                        "castingType": "Spontaneous"
+                    },
+                    {
+                        "_className": "SpellChoice",
+                        "available": 1,
+                        "className": "Sorcerer",
+                        "id": "4149974e-581b-44f2-9b8b-0f17401024fa",
+                        "level": 2,
+                        "charLevelAvailable": 3,
                         "signatureSpell": true,
                         "source": "Sorcerer Spellcasting",
                         "castingType": "Spontaneous"
                     },
                     {
                         "_className": "SpellChoice",
-                        "available": 3,
+                        "available": 2,
                         "className": "Sorcerer",
                         "id": "6536486d-4ade-47e0-baf2-0bfe675ad7d9",
                         "level": 2,
@@ -14484,13 +14618,23 @@
                         "id": "7f8cd24b-0f1c-4377-8d95-035deceeac77",
                         "level": 2,
                         "charLevelAvailable": 4,
+                        "source": "Sorcerer Spellcasting",
+                        "castingType": "Spontaneous"
+                    },
+                    {
+                        "_className": "SpellChoice",
+                        "available": 1,
+                        "className": "Sorcerer",
+                        "id": "d957da47-f476-44b5-9c50-41bcd0496933",
+                        "level": 3,
+                        "charLevelAvailable": 5,
                         "signatureSpell": true,
                         "source": "Sorcerer Spellcasting",
                         "castingType": "Spontaneous"
                     },
                     {
                         "_className": "SpellChoice",
-                        "available": 3,
+                        "available": 2,
                         "className": "Sorcerer",
                         "id": "92740500-c3e6-428b-aaac-f6d5a9bd231e",
                         "level": 3,
@@ -14505,13 +14649,23 @@
                         "id": "7a32dea1-86f8-44cc-bce3-a7c4a253f392",
                         "level": 3,
                         "charLevelAvailable": 6,
+                        "source": "Sorcerer Spellcasting",
+                        "castingType": "Spontaneous"
+                    },
+                    {
+                        "_className": "SpellChoice",
+                        "available": 1,
+                        "className": "Sorcerer",
+                        "id": "fb99f4fc-98ff-4e42-8faa-78944d13e609",
+                        "level": 4,
+                        "charLevelAvailable": 7,
                         "signatureSpell": true,
                         "source": "Sorcerer Spellcasting",
                         "castingType": "Spontaneous"
                     },
                     {
                         "_className": "SpellChoice",
-                        "available": 3,
+                        "available": 2,
                         "className": "Sorcerer",
                         "id": "e535804b-ebda-4489-9947-a038c16477b8",
                         "level": 4,
@@ -14526,13 +14680,23 @@
                         "id": "9f8ec882-87ff-4482-bf5d-5398c279f59a",
                         "level": 4,
                         "charLevelAvailable": 8,
+                        "source": "Sorcerer Spellcasting",
+                        "castingType": "Spontaneous"
+                    },
+                    {
+                        "_className": "SpellChoice",
+                        "available": 1,
+                        "className": "Sorcerer",
+                        "id": "553603a2-23f4-4469-80e2-494c929b079e",
+                        "level": 5,
+                        "charLevelAvailable": 9,
                         "signatureSpell": true,
                         "source": "Sorcerer Spellcasting",
                         "castingType": "Spontaneous"
                     },
                     {
                         "_className": "SpellChoice",
-                        "available": 3,
+                        "available": 2,
                         "className": "Sorcerer",
                         "id": "997d1c7b-b414-4c5e-a156-ae9c55dd9356",
                         "level": 5,
@@ -14547,13 +14711,23 @@
                         "id": "dc83f524-7e65-42d9-8fa6-aeea8810eb66",
                         "level": 5,
                         "charLevelAvailable": 10,
+                        "source": "Sorcerer Spellcasting",
+                        "castingType": "Spontaneous"
+                    },
+                    {
+                        "_className": "SpellChoice",
+                        "available": 1,
+                        "className": "Sorcerer",
+                        "id": "d965aded-2c01-4a58-a6f2-9eb7d69f0afb",
+                        "level": 6,
+                        "charLevelAvailable": 11,
                         "signatureSpell": true,
                         "source": "Sorcerer Spellcasting",
                         "castingType": "Spontaneous"
                     },
                     {
                         "_className": "SpellChoice",
-                        "available": 3,
+                        "available": 2,
                         "className": "Sorcerer",
                         "id": "af57fffa-f9e7-45c1-b090-716d884ca5cb",
                         "level": 6,
@@ -14568,13 +14742,23 @@
                         "id": "37fbabdd-f7a5-4700-8b46-097e53e43e96",
                         "level": 6,
                         "charLevelAvailable": 12,
+                        "source": "Sorcerer Spellcasting",
+                        "castingType": "Spontaneous"
+                    },
+                    {
+                        "_className": "SpellChoice",
+                        "available": 1,
+                        "className": "Sorcerer",
+                        "id": "8634fd89-91eb-4df7-8218-cb08944c2e7a",
+                        "level": 7,
+                        "charLevelAvailable": 13,
                         "signatureSpell": true,
                         "source": "Sorcerer Spellcasting",
                         "castingType": "Spontaneous"
                     },
                     {
                         "_className": "SpellChoice",
-                        "available": 3,
+                        "available": 2,
                         "className": "Sorcerer",
                         "id": "ba178dff-05cf-4ee5-87e6-60b29c94ed69",
                         "level": 7,
@@ -14589,13 +14773,23 @@
                         "id": "e0f1f1d6-5d5e-47ab-9353-47c4951f83e3",
                         "level": 7,
                         "charLevelAvailable": 14,
+                        "source": "Sorcerer Spellcasting",
+                        "castingType": "Spontaneous"
+                    },
+                    {
+                        "_className": "SpellChoice",
+                        "available": 1,
+                        "className": "Sorcerer",
+                        "id": "7e979a0e-0091-4062-afcf-714e8066a82c",
+                        "level": 8,
+                        "charLevelAvailable": 15,
                         "signatureSpell": true,
                         "source": "Sorcerer Spellcasting",
                         "castingType": "Spontaneous"
                     },
                     {
                         "_className": "SpellChoice",
-                        "available": 3,
+                        "available": 2,
                         "className": "Sorcerer",
                         "id": "52e5dbbd-74d9-4950-a468-9b58a3d71bc5",
                         "level": 8,
@@ -14610,13 +14804,23 @@
                         "id": "51b6185b-1d80-418c-a9ea-750d6e6a1e40",
                         "level": 8,
                         "charLevelAvailable": 16,
+                        "source": "Sorcerer Spellcasting",
+                        "castingType": "Spontaneous"
+                    },
+                    {
+                        "_className": "SpellChoice",
+                        "available": 1,
+                        "className": "Sorcerer",
+                        "id": "488da871-fc05-49cc-9881-8a182fea6dcc",
+                        "level": 9,
+                        "charLevelAvailable": 17,
                         "signatureSpell": true,
                         "source": "Sorcerer Spellcasting",
                         "castingType": "Spontaneous"
                     },
                     {
                         "_className": "SpellChoice",
-                        "available": 3,
+                        "available": 2,
                         "className": "Sorcerer",
                         "id": "df19a090-153d-4468-b0e7-d815342bc9c2",
                         "level": 9,
@@ -14631,13 +14835,23 @@
                         "id": "37d4a6c7-5016-41a5-b0b5-4a771e3ea57c",
                         "level": 9,
                         "charLevelAvailable": 18,
+                        "source": "Sorcerer Spellcasting",
+                        "castingType": "Spontaneous"
+                    },
+                    {
+                        "_className": "SpellChoice",
+                        "available": 1,
+                        "className": "Sorcerer",
+                        "id": "6193d61c-6672-4b95-b094-de7142d840e1",
+                        "level": 10,
+                        "charLevelAvailable": 19,
                         "signatureSpell": true,
                         "source": "Sorcerer Spellcasting",
                         "castingType": "Spontaneous"
                     },
                     {
                         "_className": "SpellChoice",
-                        "available": 2,
+                        "available": 1,
                         "className": "Sorcerer",
                         "id": "7ccd4d65-c9bd-49dc-b9d5-c75166db6445",
                         "level": 10,

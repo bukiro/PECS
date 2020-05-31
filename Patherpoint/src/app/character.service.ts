@@ -51,6 +51,7 @@ import { InventoryGain } from './InventoryGain';
 import { Oil } from './Oil';
 import { WornItem } from './WornItem';
 import { Savegame } from './Savegame';
+import { FeatTaken } from './FeatTaken';
 
 @Injectable({
     providedIn: 'root'
@@ -102,6 +103,7 @@ export class CharacterService {
         return this.characterChanged$;
     }
     set_Changed(target: string = "all") {
+        target = target || "all";
         this.changed.next(target);
     }
 
@@ -320,6 +322,36 @@ export class CharacterService {
         return creature.speeds.filter(speed => speed.name == name || name == "");
     }
 
+    update_LanguageList() {
+        //This function is called by the effects service after generating effects, so that new languages aren't thrown out before the effects are generated.
+        let character = this.get_Character();
+        //Ensure that the language list is always as long as ancestry languages + INT + any relevant feats.
+        if (character.class.name) {
+            let ancestry: Ancestry = character.class.ancestry;
+            let languages: number = character.class.languages.length || 0;
+            let maxLanguages: number = ancestry?.baseLanguages || 0;
+            let int = this.get_Abilities("Intelligence")[0]?.mod(character, this, this.effectsService)?.result;
+            if (int > 0) {
+                maxLanguages += int;
+            }
+            this.effectsService.get_AbsolutesOnThis(this.get_Character(), "Max Languages").forEach(effect => {
+                maxLanguages = parseInt(effect.setValue);
+            })
+            this.effectsService.get_RelativesOnThis(this.get_Character(), "Max Languages").forEach(effect => {
+                maxLanguages += parseInt(effect.value);
+            })
+            character.class.languages = character.class.languages.sort().filter(language => language != "");
+            languages = character.class.languages.length;
+            if (languages > maxLanguages) {
+                character.class.languages.splice(maxLanguages);
+            } else {
+                while (languages < maxLanguages) {
+                    languages = character.class.languages.push("");
+                }
+            }
+        }
+    }
+
     change_Class($class: Class) {
         //Cleanup Heritage, Ancestry, Background and class skills
         this.me.class.on_ChangeHeritage(this);
@@ -330,6 +362,12 @@ export class CharacterService {
         this.me.class = Object.assign(new Class(), JSON.parse(JSON.stringify($class)));
         this.me.class = this.reassign(this.me.class);
         this.me.class.on_NewClass(this, this.itemsService);
+        this.get_Character().get_FeatsTaken(1, this.get_Character().level).map((gain: FeatTaken) => this.get_FeatsAndFeatures(gain.name)[0])
+            .filter((feat: Feat) => feat?.onceEffects.length).forEach(feat => {
+                feat.onceEffects.forEach(effect => {
+                    this.process_OnceEffect(this.get_Character(), effect);
+                })
+            })
         this.set_Changed();
     }
 
@@ -461,7 +499,7 @@ export class CharacterService {
             let newInventoryLength = inventory[item.type].push(newInventoryItem);
             let createdInventoryItem = inventory[item.type][newInventoryLength - 1];
             if (createdInventoryItem.amount && amount > 1) {
-                createdInventoryItem.amount == amount;
+                createdInventoryItem.amount = amount;
             }
             if (equipAfter) {
                 this.onEquip(creature, inventory, createdInventoryItem, true, false);
@@ -950,13 +988,7 @@ export class CharacterService {
                 }
                 break;
             case "Languages":
-                let languages = (creature as Character).class.ancestry.languages;
-                for (let index = 0; index < languages.length; index++) {
-                    if (languages[index] == "") {
-                        languages[index] = (effectGain.value)
-                        break;
-                    }
-                }
+                let languages = (creature as Character).class.languages;
                 if (languages.filter(language => language == effectGain.value).length == 0) {
                     languages.push(effectGain.value);
                 }
@@ -1165,6 +1197,7 @@ export class CharacterService {
         if (this.me.class.animalCompanion) {
             this.me.class.animalCompanion = Object.assign(new AnimalCompanion(), this.me.class.animalCompanion);
             this.me.class.animalCompanion = this.reassign(this.me.class.animalCompanion);
+            this.me.class.animalCompanion.class.reset_levels(this);
             this.equip_BasicItems(this.me.class.animalCompanion);
         }
     }

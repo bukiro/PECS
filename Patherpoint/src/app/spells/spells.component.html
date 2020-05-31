@@ -20,11 +20,11 @@
             </h3>
             <ng-container *ngFor="let level of [-1, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10]">
                 <ng-container *ngIf="level <= get_MaxSpellLevel()">
-                    <h5 *ngIf="level == -1">Focus Spells</h5>
+                    <h5 *ngIf="level == -1 && casting.castingType == 'Focus'">Focus Spells</h5>
                     <h5 *ngIf="level == 0">Cantrips</h5>
-                    <h5 *ngIf="level > 0">{{"Level "+level}}</h5>
+                    <h5 *ngIf="level > 0 && casting.castingType != 'Focus'">{{"Level "+level}}</h5>
                     <!--Fixed information-->
-                    <div class="fullsize-only list-item fancy-button">
+                    <div class="fullsize-only list-item fancy-button" *ngIf="get_SpellsTaken(1, get_Character().level, level, '', casting, '', '', true).length" >
                         <button class="row sublist-toggle fancy-button"
                             (click)="toggle_Choice(index+'showFixedChanges'+level)">
                             Show fixed changes
@@ -34,6 +34,12 @@
                             <div class="list-item"
                                 *ngFor="let spellTaken of get_SpellsTaken(1, get_Character().level, level, '', casting, '', '', true)">
                                 {{spellTaken.gain.name}} {{spellTaken.gain.source ? "("+spellTaken.gain.source+")" : ""}}
+                                <button class="right-bound" (click)="toggle_Spell(spellTaken.choice.id+spellTaken.gain.name+'desc')">
+                                    Show Description
+                                </button>
+                                <div class="row left-aligned" *ngIf="this.get_ShowSpell()==spellTaken.choice.id+spellTaken.gain.name+'desc'">
+                                    <app-spell [spell]="get_Spells(spellTaken.gain.name)[0]" [spellLevel]="level"></app-spell>
+                                </div>
                             </div>
                         </div>
                     </div>

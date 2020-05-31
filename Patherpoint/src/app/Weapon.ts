@@ -9,10 +9,7 @@ import { Character } from './Character';
 import { AnimalCompanion } from './AnimalCompanion';
 import { Familiar } from './Familiar';
 import { Oil } from './Oil';
-import { VirtualTimeScheduler } from 'rxjs';
-import { SkillIncrease } from './SkillIncrease';
-import { CriticalSpecialization } from './CriticalSpecialization';
-import { JsonPipe } from '@angular/common';
+import { SpecializationGain } from './SpecializationGain';
 
 export class Weapon extends Equipment {
     public readonly _className: string = this.constructor.name;
@@ -104,11 +101,14 @@ export class Weapon extends Equipment {
     profLevel(creature: Character|AnimalCompanion, characterService: CharacterService, runeSource: Weapon|WornItem, charLevel: number = characterService.get_Character().level) {
         if (characterService.still_loading()) { return 0; }
         let skillLevel: number = 0;
+        //There are proficiencies for "Simple Sword" or "Advanced Bow" that we need to consider, so we build that phrase here.
+        let profAndGroup = this.prof.split(" ")[0] + " " + this.group;
         //There are a lot of ways to be trained with a weapon.
         //To determine the skill level, we have to find skills for the item's proficiency, its name, its weapon base and any of its traits.
         let levels: number[] = [];
         levels.push(characterService.get_Skills(creature, this.name)[0]?.level(creature, characterService, charLevel) || 0);
         levels.push(this.weaponBase ? characterService.get_Skills(creature, this.weaponBase)[0]?.level(creature, characterService, charLevel) : 0);
+        levels.push(characterService.get_Skills(creature, profAndGroup)[0]?.level(creature, characterService, charLevel) || 0);
         levels.push(characterService.get_Skills(creature, this.prof)[0]?.level(creature, characterService, charLevel) || 0);
         levels.push(...this.traits.map(trait => characterService.get_Skills(creature, trait)[0]?.level(creature, characterService, charLevel) || 0))
         //Get the skill level by applying the result with the most increases, but no higher than 8.
@@ -216,8 +216,11 @@ export class Weapon extends Equipment {
         }
         //Add up all modifiers before effects and item bonus
         let attackResult = charLevelBonus + skillLevel + abilityMod;
-        //Add absolute effects for this weapon
-        effectsService.get_AbsolutesOnThis(creature, this.name).concat(effectsService.get_AbsolutesOnThis(creature, "All Checks")).forEach(effect => {
+        //Add absolute effects
+        effectsService.get_AbsolutesOnThis(creature, this.name)
+            .concat(effectsService.get_AbsolutesOnThis(creature, "Attack Rolls"))
+            .concat(effectsService.get_AbsolutesOnThis(creature, "All Checks"))
+            .forEach(effect => {
             attackResult = parseInt(effect.setValue)
             explain = effect.source + ": " + effect.setValue;
             absolutes.push({value:0, setValue:effect.setValue, source:effect.source, penalty:false})
@@ -229,16 +232,19 @@ export class Weapon extends Equipment {
                 explain += "\n("+runeSource[2].get_Name()+")";
             }
         }
-        //Add relative effects for this weapon
+        //Add relative effects
         let effectsSum: number = 0;
-        let relatives: Effect[] = effectsService.get_RelativesOnThis(creature, this.name).concat(effectsService.get_RelativesOnThis(creature, "All Checks"));
-        relatives.forEach(effect => {
+        effectsService.get_RelativesOnThis(creature, this.name)
+            .concat(effectsService.get_RelativesOnThis(creature, "Attack Rolls"))
+            .concat(effectsService.get_RelativesOnThis(creature, "All Checks"))
+            .forEach(effect => {
             if (parseInt(effect.value) < 0) {
                 penalties.push({value:parseInt(effect.value), setValue:"", source:effect.source, penalty:true});
             } else {
                 bonuses.push({value:parseInt(effect.value), setValue:"", source:effect.source, penalty:false});
             }
             effectsSum += parseInt(effect.value);
+            explain += "\n" + effect.source + ": " + effect.value;
         });
         //Add up all modifiers and return the attack bonus for this attack
         attackResult += runeSource[0].get_PotencyRune() + effectsSum;
@@ -308,15 +314,15 @@ export class Weapon extends Equipment {
         if (((dicesize == 4 && this.prof == "Unarmed Attacks") || this.prof == "Simple Weapons") &&
             characterService.get_Features("Deific Weapon")[0]?.have(creature, characterService)) {
             let favoredWeapons: string[] = [];
-            if (creature.type == "Character") {
-                favoredWeapons = characterService.get_Deities((creature as Character).class.deity)[0]?.favoredWeapon;
+            if (creature.type == "Character" && (creature as Character).class.deity) {
+                favoredWeapons = characterService.get_Deities((creature as Character).class.deity)[0]?.favoredWeapon || [];
             }
             if (favoredWeapons.includes(this.name) || favoredWeapons.includes(this.weaponBase)) {
                 dicesize = Math.max(Math.min(dicesize + 2, 12), 6);
-                explain += "\nPowerful Fist: Dice size d"+dicesize;
+                explain += "\nDeific Weapon: Dice size d"+dicesize;
             }
         }
-        //Get the basic "xdx" string from the weapon's dice values
+        //Get the basic "xdy" string from the weapon's dice values
         var baseDice = dicenum + "d" + dicesize;
         //The Enfeebled condition affects all Strength damage
         let strEffects = effectsService.get_RelativesOnThis(creature, "Strength Attacks");
@@ -433,6 +439,11 @@ export class Weapon extends Equipment {
                 })
             }
         }
+
+        effectsService.get_RelativesOnThis(creature, "Damage Rolls").forEach(effect => {
+            effectBonus += parseInt(effect.value);
+            explain += "\n" + effect.source + ": " + parseInt(effect.value);
+        })
         
         let dmgBonus: number = abilityMod + featBonus + effectBonus;
         //Make a nice "+5" string from the Ability bonus if there is one, or else make it empty
@@ -443,25 +454,25 @@ export class Weapon extends Equipment {
         return [dmgResult, explain];
     }
     get_CritSpecialization(creature: Character|AnimalCompanion|Familiar, characterService: CharacterService, range: string) {
-        let CritSpecializationGains: CriticalSpecialization[] = [];
+        let SpecializationGains: SpecializationGain[] = [];
         let specializations: Specialization[] = [];
         if (creature.type == "Character") {
             let character = creature as Character;
             let runeSource: (Weapon|WornItem)[] = this.get_RuneSource(creature, range);
             let skillLevel = this.profLevel(creature, characterService, runeSource[1]);
             character.get_FeatsTaken(0, character.level).map(gain => characterService.get_FeatsAndFeatures(gain.name)[0])
-                .filter(feat => feat?.gainCritSpecialization?.length).forEach(feat => {
-                    CritSpecializationGains.push(...feat.gainCritSpecialization.filter(spec =>
+                .filter(feat => feat?.gainSpecialization?.length).forEach(feat => {
+                    SpecializationGains.push(...feat.gainSpecialization.filter(spec =>
                         (spec.group ? spec.group.includes(this.group) : true) &&
                         (spec.range ? spec.range.includes(range) : true) &&
-                        (spec.weapon ? (spec.weapon.includes(this.name) || spec.weapon.includes(this.weaponBase)) : true) &&
+                        (spec.name ? (spec.name.includes(this.name) || spec.name.includes(this.weaponBase)) : true) &&
                         (spec.trait ? this.traits.filter(trait => spec.trait.includes(trait)).length : true) &&
                         (spec.proficiency ? spec.proficiency.includes(this.prof) : true) &&
                         (spec.skillLevel ? skillLevel >= spec.skillLevel : true) &&
                         (spec.featreq ? characterService.get_FeatsAndFeatures(spec.featreq)[0]?.have(character, characterService) : true)
                     ))
             });
-            CritSpecializationGains.forEach(critSpec => {
+            SpecializationGains.forEach(critSpec => {
                 let specs: Specialization[] = characterService.get_Specializations(this.group).map(spec => Object.assign(new Specialization(), spec));
                 specs.forEach(spec => {
                     if (critSpec.condition) {

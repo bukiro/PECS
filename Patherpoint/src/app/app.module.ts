@@ -47,6 +47,7 @@ import { ActionIcons_2AComponent } from './actionIcons/actionIcons_2A/actionIcon
 import { ActionIcons_3AComponent } from './actionIcons/actionIcons_3A/actionIcons_3A.component';
 import { ActionIcons_FreeComponent } from './actionIcons/actionIcons_Free/actionIcons_Free.component';
 import { ActionIcons_ReactionComponent } from './actionIcons/actionIcons_Reaction/actionIcons_Reaction.component';
+import { FeatComponent } from './character/feat/feat.component';
 
 @NgModule({
    declarations: [
@@ -89,7 +90,8 @@ import { ActionIcons_ReactionComponent } from './actionIcons/actionIcons_Reactio
       ActionIcons_2AComponent,
       ActionIcons_3AComponent,
       ActionIcons_FreeComponent,
-      ActionIcons_ReactionComponent
+      ActionIcons_ReactionComponent,
+      FeatComponent
    ],
    imports: [
       BrowserModule,

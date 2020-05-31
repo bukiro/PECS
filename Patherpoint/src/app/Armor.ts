@@ -4,6 +4,8 @@ import { Equipment } from './Equipment';
 import { AnimalCompanion } from './AnimalCompanion';
 import { Familiar } from './Familiar';
 import { Character } from './Character';
+import { SpecializationGain } from './SpecializationGain';
+import { Specialization } from './Specialization';
 
 export class Armor extends Equipment {
     public readonly _className: string = this.constructor.name;
@@ -14,6 +16,8 @@ export class Armor extends Equipment {
     public $affectedByArmoredSkirt: -1|0|1 = 0;
     //The armor's inherent bonus to AC
     private acbonus: number = 0;
+    //What kind of armor is this based on? Needed for armor proficiencies for specific magical items.
+    public armorBase: string = ""
     //The highest dex bonus to AC you can get while wearing this armor.
     //-1 is unlimited.
     public dexcap: number = -1;
@@ -142,5 +146,36 @@ export class Armor extends Equipment {
         }
         let endresult: [number, string] = [defenseResult, explain]
         return endresult;
+    }
+    get_ArmorSpecialization(creature: Character|AnimalCompanion|Familiar, characterService: CharacterService) {
+        let SpecializationGains: SpecializationGain[] = [];
+        let specializations: Specialization[] = [];
+        if (creature.type == "Character") {
+            let character = creature as Character;
+            let skillLevel = this.profLevel(creature, characterService);
+            character.get_FeatsTaken(0, character.level).map(gain => characterService.get_FeatsAndFeatures(gain.name)[0])
+                .filter(feat => feat?.gainSpecialization?.length).forEach(feat => {
+                    SpecializationGains.push(...feat.gainSpecialization.filter(spec =>
+                        (spec.group ? spec.group.includes(this.group) : true) &&
+                        (spec.name ? (spec.name.includes(this.name) || spec.name.includes(this.armorBase)) : true) &&
+                        (spec.trait ? this.traits.filter(trait => spec.trait.includes(trait)).length : true) &&
+                        (spec.proficiency ? spec.proficiency.includes(this.prof) : true) &&
+                        (spec.skillLevel ? skillLevel >= spec.skillLevel : true) &&
+                        (spec.featreq ? characterService.get_FeatsAndFeatures(spec.featreq)[0]?.have(character, characterService) : true)
+                    ))
+            });
+            SpecializationGains.forEach(critSpec => {
+                let specs: Specialization[] = characterService.get_Specializations(this.group).map(spec => Object.assign(new Specialization(), spec));
+                specs.forEach(spec => {
+                    if (critSpec.condition) {
+                        spec.desc = "(" + critSpec.condition + ") " + spec.desc;
+                    }
+                    if (!specializations.filter(existingspec => JSON.stringify(existingspec) == JSON.stringify(spec)).length) {
+                        specializations.push(spec);
+                    }
+                });
+            });
+        }
+        return specializations;
     }
 }

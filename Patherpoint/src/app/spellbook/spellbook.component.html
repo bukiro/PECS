@@ -42,11 +42,11 @@
                             </div>
                             <ng-container *ngFor="let spell of get_Spells(spellTaken.gain.name)">
                                 <div class="list-item" *ngFor="let spellID of [get_ID()]">
-                                    <button class="row sublist-toggle left-aligned" (click)="toggle_Spell(spellID)">
+                                    <button class="row sublist-toggle left-aligned" (click)="toggle_Spell(casting.castingType+casting.class+spellTaken.gain.name+spellID)">
                                         {{spell.name}}<app-actionIcons [actionString]="spell.actions">
                                         </app-actionIcons>{{spell.castType}} {{spellTaken.gain.frequency ? spellTaken.gain.frequency : ""}}
                                     </button>
-                                    <div class="list-item sublist lower" *ngIf="this.get_showSpell()==spellID">
+                                    <div class="list-item sublist lower" *ngIf="this.get_showSpell()==casting.castingType+casting.class+spellTaken.gain.name+spellID">
                                         <button class="row center-aligned"
                                             (click)="on_Cast(spellTaken.gain, casting, 'Character', spell, true)"
                                             *ngIf="['self', 'ally'].includes(spell.target) && !spellTaken.gain.active"

@@ -8211,5 +8211,135 @@
             "Common",
             "Divination"
         ]
+    },
+    {
+        "id": "d9246985-eab2-4b00-a90d-6233eaaeaeea",
+        "name": "Force Bolt",
+        "levelreq": 1,
+        "traditions": [
+            "Focus"
+        ],
+        "shortDesc": "You fire an unerring dart of force from your fingertips.",
+        "actions": "1A",
+        "castType": "somatic",
+        "traits": [
+            "Uncommon",
+            "Evocation",
+            "Force",
+            "Wizard"
+        ],
+        "desc": "You fire an unerring dart of force from your fingertips. It automatically hits and deals <var>var1</var> force damage to the target.",
+        "heightened": [
+            {
+                "level": "(+2)",
+                "desc": "The damage increases by 1d4+1."
+            }
+        ],
+        "desc1": [
+            {
+                "variable": "var1",
+                "value": "1d4+1"
+            }
+        ],
+        "desc3": [
+            {
+                "variable": "var1",
+                "value": "2d4+2"
+            }
+        ],
+        "desc5": [
+            {
+                "variable": "var1",
+                "value": "3d4+3"
+            }
+        ],
+        "desc7": [
+            {
+                "variable": "var1",
+                "value": "4d4+4"
+            }
+        ],
+        "desc9": [
+            {
+                "variable": "var1",
+                "value": "5d4+5"
+            }
+        ]
+    },
+    {
+        "id": "c64c3500-5b93-46f4-b27a-d9d59f556da9",
+        "name": "Lingering Composition",
+        "levelreq": 1,
+        "traditions": [
+            "Focus"
+        ],
+        "shortDesc": "You add a flourish to your composition to extend its benefits. ",
+        "actions": "Free",
+        "castType": "verbal",
+        "traits": [
+            "Uncommon",
+            "Bard",
+            "Enchantment"
+        ],
+        "desc": "You add a flourish to your composition to extend its benefits. If your next action is to cast a cantrip composition with a duration of 1 round, attempt a Performance check. The DC is usually a standard-difficulty DC of a level equal to the highest-level target of your composition, but the GM can assign a different DC based on the circumstances. The effect depends on the result of your check.",
+        "critsuccess": "The composition lasts 4 rounds.",
+        "success": "The composition lasts 3 rounds.",
+        "failure": "The composition lasts 1 round, but you don't spend the Focus Point for casting this spell."
+    },
+    {
+        "id": "6b134aa2-8403-47ff-a3c1-31116bf35db9",
+        "name": "Counter Performance",
+        "levelreq": 1,
+        "traditions": [
+            "Focus"
+        ],
+        "shortDesc": "Your performance protects you and your allies.",
+        "actions": "Reaction",
+        "castType": "somatic or verbal",
+        "trigger": "You or an ally within 60 feet rolls a saving throw against an auditory or visual effect.",
+        "area": "60-foot emanation",
+        "traits": [
+            "Uncommon",
+            "Bard",
+            "Composition",
+            "Enchantment",
+            "Fortune",
+            "Mental"
+        ],
+        "desc": "Your performance protects you and your allies. Roll a Performance check for a type you know: an auditory performance if the trigger was auditory, or a visual one for a visual trigger. You and allies in the area can use the better result between your Performance check and the saving throw.",
+        "critsuccess": "The composition lasts 4 rounds.",
+        "success": "The composition lasts 3 rounds.",
+        "failure": "The composition lasts 1 round, but you don't spend the Focus Point for casting this spell."
+    },
+    {
+        "id": "0ebad8ab-0230-429d-830a-e92b21e340db",
+        "name": "Inspire Courage",
+        "levelreq": 1,
+        "traditions": [
+            "Focus"
+        ],
+        "shortDesc": "Your performance protects you and your allies.",
+        "actions": "1A",
+        "castType": "verbal",
+        "target": "ally",
+        "area": "60-foot emanation",
+        "duration": "1 round",
+        "gainConditions":[
+            {
+                "name": "Inspire Courage",
+                "source": "Inspire Courage",
+                "duration": 10
+            }
+        ],
+        "traits": [
+            "Uncommon",
+            "Bard",
+            "Cantrip",
+            "Composition",
+            "Emotion",
+            "Enchantment",
+            "Mental"
+        ],
+        "desc": "You inspire your allies with words or tunes of encouragement. You and all allies in the area gain a +1 status bonus to attack rolls, damage rolls, and saves against fear effects."
     }
 ]

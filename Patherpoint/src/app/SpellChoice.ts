@@ -10,6 +10,7 @@ export class SpellChoice {
     public cooldown: number = 0;
     public frequency: string = "";
     public filter: string[] = [];
+    public traitFilter: string[] = [];
     public id = uuidv1();
     public level: number = 0;
     //For spell choices that are "three levels below your highest spell level"

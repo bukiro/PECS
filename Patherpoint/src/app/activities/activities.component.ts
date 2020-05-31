@@ -8,6 +8,8 @@ import { TimeService } from '../time.service';
 import { Character } from '../Character';
 import { AnimalCompanion } from '../AnimalCompanion';
 import { SpellsService } from '../spells.service';
+import { FeatChoice } from '../FeatChoice';
+import { Level } from '../Level';
 
 @Component({
     selector: 'app-activities',
@@ -22,6 +24,8 @@ export class ActivitiesComponent implements OnInit {
     private id: number = 0;
     private showAction: number = 0;
     public hover: number = 0;
+    private showItem: string = "";
+    private showList: string = "";
 
     constructor(
         private changeDetector: ChangeDetectorRef,
@@ -47,11 +51,45 @@ export class ActivitiesComponent implements OnInit {
             this.showAction = 0;
         } else {
             this.showAction = id;
+            this.showList = "";
         }
     }
 
     get_showAction() {
         return this.showAction;
+    }
+
+    toggle_Item(name: string) {
+        if (this.showItem == name) {
+            this.showItem = "";
+        } else {
+            this.showItem = name;
+        }
+    }
+
+    toggle_List(name: string) {
+        if (this.showList == name) {
+            this.showList = "";
+        } else {
+            this.showList = name;
+            this.showAction = 0;
+        }
+    }
+
+    receive_ChoiceMessage(name: string) {
+        this.toggle_List(name);
+    }
+
+    receive_FeatMessage(name: string) {
+        this.toggle_Item(name);
+    }
+
+    get_showItem() {
+        return this.showItem;
+    }
+
+    get_showList() {
+        return this.showList;
     }
 
     get_ID() {
@@ -99,6 +137,16 @@ export class ActivitiesComponent implements OnInit {
 
     on_Activate(gain: ActivityGain, activity: Activity, activated: boolean) {
         this.activitiesService.activate_Activity(this.get_Creature(), this.characterService, this.timeService, this.itemsService, this.spellsService, gain, activity, activated);
+    }
+
+    get_TemporaryFeatChoices() {
+        let choices: {choice: FeatChoice, level: Level}[] = [];
+        if (this.creature == "Character") {
+            (this.get_Creature() as Character).class.levels.filter(level => level.number <= this.get_Creature().level).forEach(level => {
+                choices.push(...level.featChoices.filter(choice => choice.showOnSheet).map(choice => Object.assign(new Object(), {choice:choice, level:level})))
+            })
+        }
+        return choices;
     }
 
     finish_Loading() {

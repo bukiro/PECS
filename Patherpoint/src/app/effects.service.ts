@@ -10,6 +10,7 @@ import { AnimalCompanion } from './AnimalCompanion';
 import { Familiar } from './Familiar';
 import { AbilitiesService } from './abilities.service';
 import { Creature } from './Creature';
+import { Specialization } from './Specialization';
 
 @Injectable({
     providedIn: 'root'
@@ -120,6 +121,13 @@ constructor(
         }
         function Has_Condition(name: string) {
             return characterService.get_AppliedConditions(creature, "Doomed").length
+        }
+        function Armor() {
+            if (creature.type == "Familiar") {
+                return null;
+            } else {
+                return creature.inventories[0].armors.filter(armor => armor.equipped)[0];
+            }
         }
         //effects come as {affected, value} where value is a string that contains a statement.
         //This statement is eval'd here. The condition can use characterService to check level, skills, abilities etc.
@@ -246,16 +254,21 @@ constructor(
                     }
                     itemEffects.push(new Effect(creature.id, 'circumstance', "AC", "+"+shieldBonus, "", false, item.get_Name(), false));
                 });
-                //For Saving Throws, add any resilient runes on the equipped armor
-                let armor = items.armors.filter(armor => armor.equipped);
-                if (armor.length) {
-                    if (armor[0].get_ResilientRune() > 0) {
-                        let resilient = armor[0].get_ResilientRune();
-                        itemEffects.push(new Effect(creature.id, 'item', "Fortitude", "+"+resilient, "", false, armor[0].get_Resilient(resilient), false))
-                        itemEffects.push(new Effect(creature.id, 'item', "Reflex", "+"+resilient, "", false, armor[0].get_Resilient(resilient), false))
-                        itemEffects.push(new Effect(creature.id, 'item', "Will", "+"+resilient, "", false, armor[0].get_Resilient(resilient), false))
+                items.armors.filter(armor => armor.equipped).forEach(armor => {
+                    //For Saving Throws, add any resilient runes on the equipped armor
+                    if (armor.get_ResilientRune() > 0) {
+                        let resilient = armor.get_ResilientRune();
+                        itemEffects.push(new Effect(creature.id, 'item', "Fortitude", "+"+resilient, "", false, armor.get_Resilient(resilient), false))
+                        itemEffects.push(new Effect(creature.id, 'item', "Reflex", "+"+resilient, "", false, armor.get_Resilient(resilient), false))
+                        itemEffects.push(new Effect(creature.id, 'item', "Will", "+"+resilient, "", false, armor.get_Resilient(resilient), false))
                     }
-                }
+                    //Add Armor specialization effects if they apply
+                    armor.get_ArmorSpecialization(creature, characterService).forEach(spec => {
+                        itemEffects.push(...this.get_SimpleEffects(creature, characterService, spec))
+                    })
+                });
+
+
                 //Get skill and speed penalties from armor
                 //Skip this if there is an "Ignore Armor Penalty" effect.
                 if (!simpleEffects.filter(effect => effect.creature == creature.id && effect.target == "Ignore Armor Penalty" && effect.toggle).length) {
@@ -314,6 +327,7 @@ constructor(
                         itemEffects.push(new Effect(creature.id, 'untyped', "Speed", item.speedpenalty.toString(), "", false, item.get_Name(), true));
                     });
                 }
+
             }
 
         })
@@ -408,12 +422,17 @@ constructor(
             this.effects.absolutes = this.effects.all.filter(effect => effect.setValue).sort((a, b) => parseInt(a.setValue) - parseInt(b.setValue));
             this.effects.penalties = this.effects.all.filter(effect => parseInt(effect.value) < 0);
             this.effects.bonuses = this.effects.all.filter(effect => parseInt(effect.value) > 0);
+
             if (!characterService.still_loading()) {
                 changed.forEach(creature => {
                     characterService.set_Changed(creature);
                 })
             }
         }
+
+        //After all effects are generated, keep the language list length updated.
+        characterService.update_LanguageList();
+
     }
 
     initialize(characterService: CharacterService) {

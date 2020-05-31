@@ -11,6 +11,12 @@
             Load Character
         </button>
         <div class="list-item sublist" *ngIf="get_showList()=='load'">
+            <div class="list-item">
+                <span>
+                    <input type="checkbox" [(ngModel)]="allowCharacterDelete">
+                    Allow deleting characters
+                </span>
+            </div>
             <div class="list-item" *ngIf="get_Savegames() && !get_Savegames().length">
                 No characters available in database.
             </div>
@@ -22,7 +28,7 @@
                     <strong>{{savegame.name}}</strong> Level {{savegame.level}}
                     {{savegame.heritage ? savegame.heritage : savegame.ancestry}} {{savegame.class}}
                 </span>
-                <span><button (click)="load_CharacterFromDB(savegame)">Load</button> <button (click)="delete_CharacterFromDB(savegame)">Delete</button></span>
+                <span><button (click)="load_CharacterFromDB(savegame)">Load</button> <button (click)="delete_CharacterFromDB(savegame)" [disabled]="!allowCharacterDelete">Delete</button></span>
             </div>
         </div>
     </div>
@@ -259,21 +265,21 @@
             </div>
         </ng-container>
         <!--Languages-->
-        <div class="list-item" [ngClass]="{'fullsize-only':(get_AvailableLanguages() == 0)}"
+        <div class="list-item" [ngClass]="{'fullsize-only':(!get_Character().class.languages.includes(''))}"
             *ngIf="get_LanguagesAvailable()">
-            <button class="row sublist-toggle" [ngClass]="{'fancy-button':(get_AvailableLanguages() == 0)}"
+            <button class="row sublist-toggle" [ngClass]="{'fancy-button':(!get_Character().class.languages.includes(''))}"
                 (click)="toggle_List('languages')">
                 Languages
             </button>
-            <div class="list-item sublist" [ngClass]="{'fancy-list':(get_AvailableLanguages() == 0)}"
+            <div class="list-item sublist" [ngClass]="{'fancy-list':(!get_Character().class.languages.includes(''))}"
                 *ngIf="get_showList()=='languages'">
                 <div class="row left-aligned">
                     <strong *ngIf="get_Character().class.ancestry.recommendedLanguages.length">Recommended
                         Languages&nbsp;</strong>{{get_Character().class.ancestry.recommendedLanguages.join(', ')}}
                 </div>
                 <div class="list-item"
-                    *ngFor="let language of get_Character().class.ancestry.languages; let index = index; trackBy:trackByIndex;">
-                    <input class="row" type="text" [(ngModel)]="get_Character().class.ancestry.languages[index]"
+                    *ngFor="let language of get_Character().class.languages; let index = index; trackBy:trackByIndex;">
+                    <input class="row" type="text" [(ngModel)]="get_Character().class.languages[index]"
                         (blur)="set_Changed()">
                 </div>
             </div>
@@ -445,26 +451,33 @@
                             <div title="{{get_FeatsAndFeatures(feat.name)[0]?.desc}}" class="list-item"
                                 *ngFor="let feat of get_FeatsTaken(level.number, level.number, '', '', '', true)">
                                 Feat ({{feat.source}}): {{feat.name}}
+                                <button class="right-bound" (click)="toggle_Item(level.number+feat.name+feat.source+'desc')">
+                                    Show Description
+                                </button>
+                                <div class="row left-aligned" *ngIf="this.get_showItem()==level.number+feat.name+feat.source+'desc'">
+                                    <app-feat [feat]="get_FeatsAndFeatures(feat.name)[0]" [choice]="null" [levelNumber]="level.number"></app-feat>
+                                </div>
+                                
                             </div>
                         </div>
                     </div>
                 </ng-container>
                 <!--Languages - show if you have gained languages this level-->
-                <div class="list-item" [ngClass]="{'fullsize-only':(get_AvailableLanguages() == 0)}"
+                <div class="list-item" [ngClass]="{'fullsize-only':!get_Character().class.languages.includes('')}"
                     *ngIf="level.number > 0 && get_LanguagesAvailable(level.number)">
-                    <button class="row sublist-toggle" [ngClass]="{'fancy-button':(get_AvailableLanguages() == 0)}"
+                    <button class="row sublist-toggle" [ngClass]="{'fancy-button':!get_Character().class.languages.includes('')}"
                         (click)="toggle_List('languages'+level.number)">
                         Languages
                     </button>
-                    <div class="list-item sublist" [ngClass]="{'fancy-list':(get_AvailableLanguages() == 0)}"
+                    <div class="list-item sublist" [ngClass]="{'fancy-list':!get_Character().class.languages.includes('')}"
                         *ngIf="get_showList()=='languages'+level.number">
                         <div class="row left-aligned">
                             <strong *ngIf="get_Character().class.ancestry.recommendedLanguages.length">Recommended
                                 Languages&nbsp;</strong>{{get_Character().class.ancestry.recommendedLanguages.join(', ')}}
                         </div>
                         <div class="list-item"
-                            *ngFor="let language of get_Character().class.ancestry.languages; let index = index; trackBy:trackByIndex;">
-                            <input class="row" type="text" [(ngModel)]="get_Character().class.ancestry.languages[index]"
+                            *ngFor="let language of get_Character().class.languages; let index = index; trackBy:trackByIndex;">
+                            <input class="row" type="text" [(ngModel)]="get_Character().class.languages[index]"
                                 (blur)="set_Changed()">
                         </div>
                     </div>
