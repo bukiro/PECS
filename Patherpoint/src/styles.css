@@ -203,6 +203,11 @@ h3 {
     clear: both;
 }
 
+button h3 {
+    margin-top: 4px;
+    margin-bottom: 4px;
+}
+
 h4 {
     width: 100%;
     color: #cbc18f;

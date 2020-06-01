@@ -2,7 +2,7 @@
     <button class="list-item" (click)="toggleItemsMenu()">Close</button>
     <div class="loading" *ngIf="still_loading()">Loading</div>
     <div class="list-item">
-        <strong>Find (in Name or Description)</strong>
+        <strong>Find (in Name, Description or Traits)</strong>
         <span>
             <input type=text [(ngModel)]="wordFilter" (ngModelChange)=check_Filter() />
             <button (click)="set_Filter()" [disabled]="wordFilter.length < 5"
@@ -55,10 +55,10 @@
                     <button class="list-item"
                         [ngStyle]="{'--accent':get_Accent(), 'display':!get_VisibleItems(items[itemSet.key], creatureType).length ? 'none' : 'flex' }"
                         (click)="toggle_List(listID)">
-                        <strong>{{itemSet.name}}</strong>
+                        <h3>{{itemSet.name}}</h3>
                     </button>
                     <ng-container *ngIf="get_ShowList()==listID||get_ShowList()=='All'">
-                        <ng-container *ngFor="let item of get_VisibleItems(items[itemSet.key], creatureType)|sortBy:'asc':sorting">
+                        <ng-container *ngFor="let item of get_VisibleItems(items[itemSet.key], creatureType)|sortBy:'asc':sorting; trackBy:trackByIndex;">
                             <div class="list-item" *ngFor="let inventoryID of [listID+get_ID()]">
                                 <button class="row sublist-toggle"
                                     (click)="toggle_Item(inventoryID)">

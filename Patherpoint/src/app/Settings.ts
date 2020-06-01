@@ -15,5 +15,6 @@ export class Settings {
     skillsMinimized: boolean = false;
     spellbookMinimized: boolean = false;
     spellsMinimized: boolean = false;
+    spelllibraryMinimized: boolean = false;
     timeMinimized: boolean = false;
 }

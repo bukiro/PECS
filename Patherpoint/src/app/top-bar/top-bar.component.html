@@ -9,11 +9,13 @@
   <button class="fancy-button" (click)="toggleMenu('familiar')" *ngIf="!still_loading() && get_FamiliarAvailable()">{{get_Familiar().name ? get_Familiar().name : "Familiar"}}</button>
   <button class="fancy-button" (click)="toggleMenu('items')" *ngIf="!still_loading()">Items</button>
   <button class="fancy-button" (click)="toggleMenu('spells')" *ngIf="!still_loading()">Spells</button>
+  <button class="fancy-button" (click)="toggleMenu('spelllibrary')" *ngIf="!still_loading()">Spell Library</button>
   <button class="fancy-button" (click)="toggleMenu('conditions')" *ngIf="!still_loading()">Conditions</button>
   <button class="fancy-button" (click)="save()" *ngIf="!still_loading()">Save</button>
 </div>
 <app-items [ngStyle]="{'--accent':get_Accent()}" [@slideInOut]="get_ItemsMenuState()" *ngIf="!still_loading()"></app-items>
 <app-spells [ngStyle]="{'--accent':get_Accent()}" [ngClass]="{'minimized':(get_SpellsMinimized())}" [@slideInOut]="get_SpellMenuState()" *ngIf="!still_loading()"></app-spells>
+<app-spellLibrary [ngStyle]="{'--accent':get_Accent()}" [@slideInOut]="get_SpellLibraryMenuState()" *ngIf="!still_loading()"></app-spellLibrary>
 <app-conditions [ngStyle]="{'--accent':get_Accent()}" [@slideInOut]="get_ConditionsMenuState()" *ngIf="!still_loading()"></app-conditions>
 <app-character [ngStyle]="{'--accent':get_Accent()}" [ngClass]="{'minimized':(get_CharacterMinimized())}" [@slideInOut]="get_CharacterMenuState()" *ngIf="!still_loading()"></app-character>
 <app-animal-companion [ngStyle]="{'--accent':get_Accent()}" [ngClass]="{'minimized':(get_CompanionMinimized())}" [@slideInOut]="get_CompanionMenuState()" *ngIf="!still_loading() && get_CompanionAvailable()"></app-animal-companion>

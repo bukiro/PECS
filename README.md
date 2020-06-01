@@ -26,7 +26,6 @@ The very latest in Assistive Technologies for Dungeon Master (ATDM)
 - [x] - Animal companion
 - [ ] - Implement a spellcasting class
 - [x] - Implement all General and Skill Feats
-- [ ] - Implement all Ancestry Feats
 - [ ] - Implement all Weapons
 - [ ] - Implement all Armors
 - [ ] - Implement all Shields
@@ -73,6 +72,8 @@ Implement spells:
 Create feats:
 
 Create items:
+- Messenger Ring
+- Grim Trophy => Talismans
 
 Create activities:
 

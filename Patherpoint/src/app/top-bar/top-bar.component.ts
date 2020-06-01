@@ -52,6 +52,10 @@ export class TopBarComponent implements OnInit {
     get_SpellsMinimized() {
         return this.characterService.get_Character().settings.spellsMinimized;
     }
+
+    get_SpellLibraryMinimized() {
+        return this.characterService.get_Character().settings.spelllibraryMinimized;
+    }
     
     toggleMenu(menu: string) {
         this.characterService.toggleMenu(menu);
@@ -77,6 +81,10 @@ export class TopBarComponent implements OnInit {
     return this.characterService.get_SpellMenuState();
     }
 
+    get_SpellLibraryMenuState() {
+        return this.characterService.get_SpellLibraryMenuState();
+    }
+    
     get_ConditionsMenuState() {
         return this.characterService.get_ConditionsMenuState();
     }

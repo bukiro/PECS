@@ -71,10 +71,10 @@ export class CharacterService {
     companionMenuState: string = 'out';
     familiarMenuState: string = 'out';
     spellMenuState: string = 'out';
+    spelllibraryMenuState: string = 'out';
     conditionsMenuState: string = 'out';
 
     constructor(
-        private http: HttpClient,
         private savegameService: SavegameService,
         public abilitiesService: AbilitiesService,
         private skillsService: SkillsService,
@@ -131,6 +131,7 @@ export class CharacterService {
                 this.familiarMenuState = 'out';
                 this.itemsMenuState = 'out';
                 this.spellMenuState = 'out';
+                this.spelllibraryMenuState = 'out';
                 this.conditionsMenuState = 'out';
                 break;
             case "companion":
@@ -139,6 +140,7 @@ export class CharacterService {
                 this.familiarMenuState = 'out';
                 this.itemsMenuState = 'out';
                 this.spellMenuState = 'out';
+                this.spelllibraryMenuState = 'out';
                 this.conditionsMenuState = 'out';
                 break;
             case "familiar":
@@ -147,6 +149,7 @@ export class CharacterService {
                 this.familiarMenuState = (this.familiarMenuState == 'out') ? 'in' : 'out';
                 this.itemsMenuState = 'out';
                 this.spellMenuState = 'out';
+                this.spelllibraryMenuState = 'out';
                 this.conditionsMenuState = 'out';
                 break;
             case "items":
@@ -155,6 +158,7 @@ export class CharacterService {
                 this.familiarMenuState = 'out';
                 this.itemsMenuState = (this.itemsMenuState == 'out') ? 'in' : 'out';
                 this.spellMenuState = 'out';
+                this.spelllibraryMenuState = 'out';
                 this.conditionsMenuState = 'out';
                 break;
             case "spells":
@@ -163,6 +167,16 @@ export class CharacterService {
                 this.familiarMenuState = 'out';
                 this.itemsMenuState = 'out';
                 this.spellMenuState = (this.spellMenuState == 'out') ? 'in' : 'out';
+                this.spelllibraryMenuState = 'out';
+                this.conditionsMenuState = 'out';
+                break;
+            case "spelllibrary":
+                this.characterMenuState = 'out';
+                this.companionMenuState = 'out';
+                this.familiarMenuState = 'out';
+                this.itemsMenuState = 'out';
+                this.spellMenuState = 'out';
+                this.spelllibraryMenuState = (this.spelllibraryMenuState == 'out') ? 'in' : 'out';
                 this.conditionsMenuState = 'out';
                 break;
             case "conditions":
@@ -171,6 +185,7 @@ export class CharacterService {
                 this.familiarMenuState = 'out';
                 this.itemsMenuState = 'out';
                 this.spellMenuState = 'out';
+                this.spelllibraryMenuState = 'out';
                 this.conditionsMenuState = (this.conditionsMenuState == 'out') ? 'in' : 'out';
                 break;
         }
@@ -195,6 +210,10 @@ export class CharacterService {
 
     get_SpellMenuState() {
         return this.spellMenuState;
+    }
+
+    get_SpellLibraryMenuState() {
+        return this.spelllibraryMenuState;
     }
 
     get_ConditionsMenuState() {

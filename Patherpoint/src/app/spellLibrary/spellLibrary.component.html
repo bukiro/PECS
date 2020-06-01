@@ -1,0 +1,33 @@
+<div id="spelllibrary" class="itemBox">
+    <button class="list-item" (click)="toggleSpellLibraryMenu()">Close</button>
+    <div class="loading" *ngIf="still_loading()">Loading</div>
+    <div class="list-item">
+        <strong>Find (in Name, Description or Traits)</strong>
+        <span>
+            <input type=text [(ngModel)]="wordFilter" (ngModelChange)=check_Filter() />
+            <button (click)="set_Filter()" [disabled]="wordFilter.length < 5">Show All</button>
+            <button (click)="wordFilter='';check_Filter()">Clear</button>
+        </span>
+    </div>
+    <ng-container *ngFor="let level of [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]">
+        <ng-container *ngFor="let visibleSpells of [get_VisibleSpells(level)]">
+            <button class="list-item"
+                [ngStyle]="{'--accent':get_Accent(), 'display':!visibleSpells.length ? 'none' : 'flex' }"
+                (click)="toggle_List(level)">
+                <h3 *ngIf="level == 0">Cantrips</h3>
+                <h3 *ngIf="level > 0">{{"Level "+level}}</h3>
+            </button>
+            <ng-container *ngIf="get_ShowList()==level||get_ShowList()==-2">
+                <div class="list-item" *ngFor="let spell of visibleSpells|sortBy:'asc':'name'; trackBy:trackByIndex;">
+                    <button class="row sublist-toggle" (click)="toggle_Item(spell.id)">
+                        {{spell.name}}<app-actionIcons [actionString]="spell.actions">
+                        </app-actionIcons>{{spell.castType}}
+                    </button>
+                    <div class="list-item sublist lower" *ngIf="get_ShowItem()==spell.id">
+                        <app-spell [spell]="spell" [spellLevel]="level"></app-spell>
+                    </div>
+                </div>
+            </ng-container>
+        </ng-container>
+    </ng-container>
+</div>
