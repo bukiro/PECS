@@ -454,6 +454,7 @@
             "Focus"
         ],
         "shortDesc": "You turn ethereal, with the effects of ethereal jaunt, but you don't need to concentrate.",
+        "showSpell": "Ethereal Jaunt",
         "actions": "2A",
         "castType": "somatic, verbal",
         "traits": [
@@ -462,7 +463,7 @@
             "Monk",
             "Teleportation"
         ],
-        "desc": "You turn ethereal, with the effects of ethereal jaunt, but you don't need to concentrate.\n\nYou travel to the Ethereal Plane, which overlaps the Material Plane. Material Plane creatures can't see you, and you can move through things on the Material Plane. You move at half your normal Speeds, but can move in any direction (including up and down).\n\nYou can see onto the Material Plane within a radius of 60 feet; it is gray, hazy, and concealed from you. You can't affect the Material Plane, and you can't be affected by the Material Plane except by force effects and abjurations originating there.\n\nWhen the spell ends, you return to the Material Plane. If you're in the air, you fall (unless you can fly), and if you're inside an object, you're pushed into the nearest open space and take 1d6 damage per 5 feet you were pushed.\n\nIf you cast this spell when not on the Material Plane, it is lost.",
+        "desc": "You turn ethereal, with the effects of ethereal jaunt, but you don't need to concentrate.",
         "target": "self",
         "gainConditions": [
             {
@@ -471,7 +472,8 @@
                 "source": "Empty Body"
             }
         ],
-        "duration": "1 minute"
+        "duration": "1 minute",
+        "sustained": 100
     },
     {
         "id": "29ed3e06-9122-11ea-bb37-0242ac130002",
@@ -6919,6 +6921,35 @@
             "Uncommon",
             "Conjuration",
             "Teleportation"
+        ],
+        "desc": "<var>var1</var>You travel to the Ethereal Plane, which overlaps the Material Plane. Material Plane creatures can't see you, and you can move through things on the Material Plane. You move at half your normal Speeds, but can move in any direction (including up and down).\n\nYou can see onto the Material Plane within a radius of 60 feet; it is gray, hazy, and concealed from you. You can't affect the Material Plane, and you can't be affected by the Material Plane except by force effects and abjurations originating there.\n\nWhen the spell ends, you return to the Material Plane. If you're in the air, you fall (unless you can fly), and if you're inside an object, you're pushed into the nearest open space and take 1d6 damage per 5 feet you were pushed.\n\nIf you cast this spell when not on the Material Plane, it is lost.",
+        "target": "self",
+        "gainConditions": [
+            {
+                "name": "Ethereal Jaunt",
+                "duration": 100,
+                "source": "Ethereal Jaunt"
+            }
+        ],
+        "duration": "sustained up to 1 minute",
+        "sustained": 100,
+        "heightened": [
+            {
+                "level": "(9th)",
+                "desc": "You can target up to five additional willing creatures at a range of 30 feet. The duration is up to 10 minutes."
+            }
+        ],
+        "desc7": [
+            {
+                "variable": "var1",
+                "value": ""
+            }
+        ],
+        "desc9": [
+            {
+                "variable": "var1",
+                "value": "You can target up to five additional willing creatures at a range of 30 feet. The duration is up to 10 minutes. "
+            }
         ]
     },
     {

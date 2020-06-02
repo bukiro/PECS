@@ -2,6 +2,7 @@ import { Component, OnInit, Input, ChangeDetectionStrategy } from '@angular/core
 import { Spell } from '../Spell';
 import { TraitsService } from '../traits.service';
 import { CharacterService } from '../character.service';
+import { SpellsService } from '../spells.service';
 
 @Component({
     selector: 'app-spell',
@@ -18,7 +19,8 @@ export class SpellComponent implements OnInit {
 
     constructor(
         public characterService: CharacterService,
-        private traitsService: TraitsService
+        private traitsService: TraitsService,
+        private spellsService: SpellsService
     ) { }
 
     get_Traits(name: string = "") {
@@ -35,6 +37,10 @@ export class SpellComponent implements OnInit {
 
     get_FeatsShowingOn(spellName: string) {
         return this.characterService.get_FeatsShowingOn(spellName);
+    }
+
+    get_Spells(name: string) {
+        return this.spellsService.get_Spells(name);
     }
 
     ngOnInit() {

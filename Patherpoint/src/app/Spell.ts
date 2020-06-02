@@ -23,8 +23,7 @@ export class Spell {
     public desc8: SpellDesc[] = [];
     public desc9: SpellDesc[] = [];
     public desc: string = "";
-    //Sustained spells are deactivated after this time
-    public duration: number = 0;
+    public duration: string = "";
     public failure: string = "";
     public gainConditions: ConditionGain[] = [];
     public gainItems: ItemGain[] = [];
@@ -34,7 +33,9 @@ export class Spell {
     public range: string = "";
     public savingthrow: string = "";
     public shortDesc: string = "";
+    public showSpell: string = "";
     public success: string = "";
+    //Sustained spells are deactivated after this time (or permanent with -1)
     public sustained: number = 0;
     //target is used internally to determine whether you can cast this spell on yourself or your companion/familiar
     //Should be "", "self", "companion" or "ally"

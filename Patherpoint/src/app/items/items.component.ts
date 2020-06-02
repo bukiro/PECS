@@ -13,12 +13,6 @@ import { AdventuringGear } from '../AdventuringGear';
 import { Item } from '../Item';
 import { Consumable } from '../Consumable';
 import { Equipment } from '../Equipment';
-import { EffectGain } from '../EffectGain';
-import { ItemGain } from '../ItemGain';
-import { ConditionGain } from '../ConditionGain';
-import { ActivityGain } from '../ActivityGain';
-import { ItemActivity } from '../ItemActivity';
-import { ItemProperty } from '../ItemProperty';
 import { Potion } from '../Potion';
 import { Ammunition } from '../Ammunition';
 

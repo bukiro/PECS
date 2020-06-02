@@ -1,32 +1,91 @@
 <div id="spelllibrary" class="itemBox">
     <button class="list-item" (click)="toggleSpellLibraryMenu()">Close</button>
     <div class="loading" *ngIf="still_loading()">Loading</div>
-    <div class="list-item">
-        <strong>Find (in Name, Description or Traits)</strong>
-        <span>
-            <input type=text [(ngModel)]="wordFilter" (ngModelChange)=check_Filter() />
-            <button (click)="set_Filter()" [disabled]="wordFilter.length < 5">Show All</button>
-            <button (click)="wordFilter='';check_Filter()">Clear</button>
-        </span>
-    </div>
-    <ng-container *ngFor="let level of [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]">
-        <ng-container *ngFor="let visibleSpells of [get_VisibleSpells(level)]">
-            <button class="list-item"
-                [ngStyle]="{'--accent':get_Accent(), 'display':!visibleSpells.length ? 'none' : 'flex' }"
-                (click)="toggle_List(level)">
-                <h3 *ngIf="level == 0">Cantrips</h3>
-                <h3 *ngIf="level > 0">{{"Level "+level}}</h3>
-            </button>
-            <ng-container *ngIf="get_ShowList()==level||get_ShowList()==-2">
-                <div class="list-item" *ngFor="let spell of visibleSpells|sortBy:'asc':'name'; trackBy:trackByIndex;">
-                    <button class="row sublist-toggle" (click)="toggle_Item(spell.id)">
-                        {{spell.name}}<app-actionIcons [actionString]="spell.actions">
-                        </app-actionIcons>{{spell.castType}}
-                    </button>
-                    <div class="list-item sublist lower" *ngIf="get_ShowItem()==spell.id">
-                        <app-spell [spell]="spell" [spellLevel]="level"></app-spell>
-                    </div>
+    <ng-container *ngIf="get_SpellLibraryMenuState()=='in'">
+        <div class="list-item">
+            <strong>Find (in Name, Description or Traits)</strong>
+            <span>
+                <input type=text [(ngModel)]="wordFilter" (keypress)=check_Filter() />
+                <button (click)="set_Filter()" [disabled]="wordFilter.length < 5">Show All</button>
+                <button (click)="wordFilter='';check_Filter()">Clear</button>
+            </span>
+        </div>
+        <div class="list-item">
+            <strong>Show spells from</strong>
+            <select [(ngModel)]="spellSource">
+                <option *ngFor="let source of ['spell library','your spellbook']" [ngValue]="source">
+                    {{source}}
+                </option>
+            </select>
+        </div>
+        <div class="list-item">
+            <button (click)="toggle_Tradition('')" [className]="{'fancy-button':get_ShowTradition()==''}">All except
+                Focus</button>
+            <button (click)="toggle_Tradition('Arcane')"
+                [className]="{'fancy-button':get_ShowTradition()=='Arcane'}">Arcane</button>
+            <button (click)="toggle_Tradition('Divine')"
+                [className]="{'fancy-button':get_ShowTradition()=='Divine'}">Divine</button>
+            <button (click)="toggle_Tradition('Occult')"
+                [className]="{'fancy-button':get_ShowTradition()=='Occult'}">Occult</button>
+            <button (click)="toggle_Tradition('Primal')"
+                [className]="{'fancy-button':get_ShowTradition()=='Primal'}">Primal</button>
+            <button (click)="toggle_Tradition('Focus')"
+                [className]="{'fancy-button':get_ShowTradition()=='Focus'}">Focus</button>
+        </div>
+        <ng-container *ngFor="let casting of [get_WizardSpellCasting()]">
+            <ng-container *ngFor="let descblock of [get_WizardLearningAvailable(casting)]">
+                <div class="list-item" *ngIf="descblock.length">
+                    <ng-container *ngFor="let desc of descblock.split('\n\n')">
+                        <p *ngIf="desc.split('\n').length == 1">{{desc}}</p>
+                        <ul *ngIf="desc.split('\n').length > 1">
+                            <li *ngFor="let line of desc.split('\n')">{{line}}</li>
+                        </ul>
+                    </ng-container>
                 </div>
+            </ng-container>
+            <ng-container *ngFor="let level of [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]">
+                <ng-container *ngFor="let visibleSpells of [get_VisibleSpells(level)]">
+                    <button class="list-item"
+                        [ngStyle]="{'--accent':get_Accent(), 'display':!visibleSpells.length ? 'none' : 'flex' }"
+                        (click)="toggle_List(level)">
+                        <h3 *ngIf="level == 0">Cantrips</h3>
+                        <h3 *ngIf="level > 0">{{"Level "+level}}</h3>
+                    </button>
+                    <ng-container *ngIf="get_ShowList()==level||get_ShowList()==-2">
+                        <div class="list-item"
+                            *ngFor="let spell of visibleSpells|sortBy:'asc':'name'; trackBy:trackByIndex;">
+                            <button class="row sublist-toggle" (click)="toggle_Item(spell.id)"
+                                [className]="{'fancy-button':get_SpellsLearned(spell.name).length}">
+                                <span>
+                                    {{spell.name}}<app-actionIcons [actionString]="spell.actions">
+                                    </app-actionIcons>{{spell.castType}}
+                                </span>
+                            </button>
+                            <div class="list-item sublist lower" *ngIf="get_ShowItem()==spell.id"
+                                [className]="{'fancy-list':get_SpellsLearned(spell.name).length}">
+                                <button class="row center-aligned" (click)="learn_Spell(spell, 'wizard')"
+                                    [disabled]="!can_Learn(casting, level, spell, 'wizard')"
+                                    *ngIf="get_AvailableForLearning(casting, spell)">
+                                    Learn as Wizard
+                                </button>
+                                <button class="row center-aligned" (click)="learn_Spell(spell, 'school')"
+                                    [disabled]="!can_Learn(casting, level, spell, 'school')"
+                                    *ngIf="get_AvailableForLearning(casting, spell)">
+                                    Learn via School
+                                </button>
+                                <button class="row center-aligned" (click)="learn_Spell(spell, 'free')"
+                                    *ngIf="!get_SpellsLearned(spell.name).length && !spell.traditions.includes('Focus')">
+                                    Learn using Learn A Spell activity
+                                </button>
+                                <button class="row center-aligned" (click)="unlearn_Spell(spell)" [disabled]=""
+                                    *ngFor="let learned of get_SpellsLearned(spell.name)">
+                                    Unlearn {{get_LearnedSpellSource(learned.source)}}
+                                </button>
+                                <app-spell [spell]="spell" [spellLevel]="level"></app-spell>
+                            </div>
+                        </div>
+                    </ng-container>
+                </ng-container>
             </ng-container>
         </ng-container>
     </ng-container>

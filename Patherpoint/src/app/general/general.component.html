@@ -44,6 +44,14 @@
                     <strong>Sorcerer Bloodline</strong>
                     {{bloodline.name}}
                 </div>
+                <div class="row" *ngFor="let school of get_WizardSchool()">
+                    <strong>Wizard School</strong>
+                    {{school}}
+                </div>
+                <div class="row" *ngFor="let thesis of get_ArcaneThesis()">
+                    <strong>Arcane Thesis</strong>
+                    {{thesis}}
+                </div>
             </div>
             <div class="fullsize-only list-item" *ngIf="get_Character().class.ancestry.name">
                 <strong>Size</strong>

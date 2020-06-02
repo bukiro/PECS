@@ -16,9 +16,12 @@
                 <input id="{{choice.id+spell.name}}" type="checkbox"
                     (change)="on_SpellTaken(spell.name, $event.target.checked, choice, false)"
                     [checked]="spellTakenByThis(spell, choice)"
-                    [disabled]="cannotTake(spell, choice).length && !spellTakenByThis(spell, choice)">
+                    [disabled]="cannotTake(spell, choice).length && !spellTakenByThis(spell, choice)"
+                    *ngIf="spellCasting.castingType!='Prepared'">
+                <button (click)="on_SpellTaken(spell.name, true, choice, false)" [disabled]="cannotTake(spell, choice).length" *ngIf="spellCasting.castingType=='Prepared'">+</button>
+                <button (click)="on_SpellTaken(spell.name, false, choice, false)" [disabled]="!spellTakenByThis(spell, choice)" *ngIf="spellCasting.castingType=='Prepared'">-</button>
                 <label for="{{choice.id+spell.name}}">
-                    <strong>{{spell.name}}&nbsp;</strong><cite>Level {{spell.levelreq}}</cite>
+                    <strong>{{spellTakenByThis(spell, choice) ? " " + spellTakenByThis(spell, choice) + " " : ""}}{{spell.name}}&nbsp;</strong><cite>Level {{spell.levelreq}}</cite>
                 </label>
             </span>
             <cite class="problem" *ngFor="let reason of cannotTake(spell, choice)">

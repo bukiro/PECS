@@ -7140,9 +7140,98 @@
             {
                 "castingType": "Prepared",
                 "className": "Wizard",
+                "id": "06c09308-14ac-4990-a265-b990b887c339",
+                "available": 1,
+                "level": 0,
+                "source": "Evocation School",
+                "traitFilter": "Evocation"
+            },
+            {
+                "castingType": "Prepared",
+                "className": "Wizard",
                 "id": "154fe018-7e37-415f-9825-5329503e074c",
                 "available": 1,
                 "level": 1,
+                "source": "Evocation School",
+                "traitFilter": "Evocation"
+            },
+            {
+                "castingType": "Prepared",
+                "className": "Wizard",
+                "id": "5fa665c7-b7be-479e-9b81-3dde75abf635",
+                "available": 1,
+                "level": 2,
+                "charLevelAvailable": 3,
+                "source": "Evocation School",
+                "traitFilter": "Evocation"
+            },
+            {
+                "castingType": "Prepared",
+                "className": "Wizard",
+                "id": "8d8d301d-083f-44ee-9eae-787b3d24dce6",
+                "available": 1,
+                "level": 3,
+                "charLevelAvailable": 5,
+                "source": "Evocation School",
+                "traitFilter": "Evocation"
+            },
+            {
+                "castingType": "Prepared",
+                "className": "Wizard",
+                "id": "d6a6a505-2db9-4fb8-b6f4-3920ff7035c7",
+                "available": 1,
+                "level": 4,
+                "charLevelAvailable": 7,
+                "source": "Evocation School",
+                "traitFilter": "Evocation"
+            },
+            {
+                "castingType": "Prepared",
+                "className": "Wizard",
+                "id": "7ad3205a-132d-40d3-b616-6e29dda555fb",
+                "available": 1,
+                "level": 5,
+                "charLevelAvailable": 9,
+                "source": "Evocation School",
+                "traitFilter": "Evocation"
+            },
+            {
+                "castingType": "Prepared",
+                "className": "Wizard",
+                "id": "752126e9-ee73-4d93-accb-d01416eaabbe",
+                "available": 1,
+                "level": 6,
+                "charLevelAvailable": 11,
+                "source": "Evocation School",
+                "traitFilter": "Evocation"
+            },
+            {
+                "castingType": "Prepared",
+                "className": "Wizard",
+                "id": "a18326c2-7fa3-4c33-8c3b-420d52855db5",
+                "available": 1,
+                "level": 7,
+                "charLevelAvailable": 13,
+                "source": "Evocation School",
+                "traitFilter": "Evocation"
+            },
+            {
+                "castingType": "Prepared",
+                "className": "Wizard",
+                "id": "2a412062-49f2-4305-95bd-d60079eca89f",
+                "available": 1,
+                "level": 8,
+                "charLevelAvailable": 15,
+                "source": "Evocation School",
+                "traitFilter": "Evocation"
+            },
+            {
+                "castingType": "Prepared",
+                "className": "Wizard",
+                "id": "bf475442-edf4-4bcc-acfe-8e94664a7bff",
+                "available": 1,
+                "level": 9,
+                "charLevelAvailable": 17,
                 "source": "Evocation School",
                 "traitFilter": "Evocation"
             }

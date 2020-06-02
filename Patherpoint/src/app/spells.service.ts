@@ -128,10 +128,11 @@ export class SpellsService {
                     });
                 } else {
                     spell.gainConditions.forEach(conditionGain => {
-                        let conditionGains = characterService.get_AppliedConditions(targetCreature, conditionGain.name).filter(conditionGain => conditionGain.source == conditionGain.source);
-                        if (conditionGains.length) {
-                            characterService.remove_Condition(targetCreature, conditionGains[0], false);
-                        }
+                        characterService.get_AppliedConditions(targetCreature, conditionGain.name)
+                            .filter(existingConditionGain => existingConditionGain.source == conditionGain.source)
+                            .forEach(existingConditionGain => {
+                            characterService.remove_Condition(targetCreature, existingConditionGain, false);
+                        });
                     })
                 }
             }
@@ -146,6 +147,13 @@ export class SpellsService {
             if (taken.gain.cooldown == 144000) {
                 taken.gain.activeCooldown = 0;
             }
+        });
+        character.class.spellCasting.filter(casting => casting.castingType == "Prepared").forEach(casting => {
+            casting.spellChoices.forEach(choice => {
+                choice.spells.forEach(gain => {
+                    gain.prepared = true;
+                });
+            });
         });
     }
 

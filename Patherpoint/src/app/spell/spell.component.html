@@ -94,4 +94,11 @@
             </ul>
         </div>
     </div>
+    <div class="list-item left-aligned" *ngIf="spell.showSpell">
+        <div *ngFor="let shownSpell of get_Spells(spell.showSpell)">
+            <h4>{{shownSpell.name}}<app-actionIcons [actionString]="shownSpell.actions">
+                </app-actionIcons> {{shownSpell.castType.toString()}}</h4>
+            <app-spell [spell]=shownSpell [spellLevel]="spellLevel || 0"></app-spell>
+        </div>
+    </div>
 </div>

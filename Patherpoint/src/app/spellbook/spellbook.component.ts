@@ -101,14 +101,27 @@ export class SpellbookComponent implements OnInit {
     }
 
     get_SpellsByLevel(levelNumber: number, casting: SpellCasting) {
+        function spellSort(list: {choice:SpellChoice, gain:SpellGain}[]) {
+            return list.sort(function(a,b) {
+                if (a.gain.name > b.gain.name) {
+                    return 1;
+                }
+            
+                if (a.gain.name < b.gain.name) {
+                    return -1;
+                }
+            
+                return 0;
+            });
+        }
         this.id = levelNumber * 1000;
         let character = this.characterService.get_Character();
         if (levelNumber == -1) {
             if (casting.castingType == "Focus") {
-                return character.get_SpellsTaken(this.characterService, 1, character.level, levelNumber, "", casting, "", "", "", "", "", undefined, this.get_SignatureSpellsAllowed());
+                return spellSort(character.get_SpellsTaken(this.characterService, 1, character.level, levelNumber, "", casting, "", "", "", "", "", undefined, this.get_SignatureSpellsAllowed()));
             }
         } else {
-            return character.get_SpellsTaken(this.characterService, 1, character.level, levelNumber, "", casting, "", "", "", "", "", undefined, this.get_SignatureSpellsAllowed());
+            return spellSort(character.get_SpellsTaken(this.characterService, 1, character.level, levelNumber, "", casting, "", "", "", "", "", undefined, this.get_SignatureSpellsAllowed()));
         }
     }
 
@@ -190,8 +203,11 @@ export class SpellbookComponent implements OnInit {
                     return "";
                 }
             case "Prepared":
-                //check prepared spell here - currently not implemented
-                return "";
+                if (!gain.prepared) {
+                    return "Already cast today."
+                } else {
+                    return "";
+                }
             case "Innate":
                 return "";
         }
@@ -216,8 +232,7 @@ export class SpellbookComponent implements OnInit {
             casting.spellSlotsUsed[level] += 1;
         }
         if (casting.castingType == "Prepared" && !spell.traits.includes("Cantrip") && activated) {
-            //spend the spell (but keep it prepared)
-            // Actually implement that some time
+            gain.prepared = false;
         }
         this.spellsService.process_Spell(creature, this.characterService, this.itemsService, this.timeService, gain, spell, level, activated);
         this.characterService.set_Changed();

@@ -17,6 +17,7 @@ import { SpellChoice } from './SpellChoice';
 import { SpellGain } from './SpellGain';
 import { ItemGain } from './ItemGain';
 import { typeWithParameters } from '@angular/compiler/src/render3/util';
+import { SpellLearned } from './SpellLearned';
 
 export class Class {
     public readonly _className: string = this.constructor.name;
@@ -37,6 +38,7 @@ export class Class {
     public name: string = "";
     public sourceBook: string = "";
     public spellCasting: SpellCasting[] = [];
+    public spellBook: SpellLearned[] = [];
     on_ChangeClass(characterService: CharacterService) {
         let character = characterService.get_Character();
         //Of each granted Item, find the item with the stored id and drop it.

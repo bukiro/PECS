@@ -60,6 +60,9 @@ The very latest in Assistive Technologies for Dungeon Master (ATDM)
 - [ ] Stretch Goal: Include optional Stamina & Resolve system
 
 active to do:
+- place Spell library right-bound
+- using up prepared spells
+- drain bonded items > once, once per level
 
 Implement spells:
 - Detect Magic

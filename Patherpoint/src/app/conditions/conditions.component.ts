@@ -22,7 +22,8 @@ export class ConditionsComponent implements OnInit {
     public duration: number = -1;
     public showList: string = "";
     public showItem: string = "";
-
+    public wordFilter: string = "";
+    
     constructor(
         private changeDetector: ChangeDetectorRef,
         private characterService: CharacterService,
@@ -59,6 +60,18 @@ export class ConditionsComponent implements OnInit {
         return this.characterService.get_Accent();
     }
 
+    check_Filter() {
+        if (this.wordFilter.length < 5 && this.showList == "All") {
+            this.showList = "";
+        }
+    }
+
+    set_Filter() {
+        if (this.wordFilter) {
+            this.showList = "All";
+        }
+    }
+
     get_EndOn() {
         return this.endOn;
     }
@@ -91,17 +104,33 @@ export class ConditionsComponent implements OnInit {
         return this.characterService.get_Familiar();
     }
 
-    get_ConditionsSet(type: string) {
+    get_VisibleConditionsSet(type: string) {
+        let typeKey = "";
         switch (type) {
             case "Generic":
-                return this.get_Conditions("", "generic");
+                typeKey = "generic";
+                break;
             case "Alchemical Elixirs":
-                return this.get_Conditions("", "alchemicalelixirs");
+                typeKey = "alchemicalelixirs";
+                break;
             case "Worn Items":
-                return this.get_Conditions("", "wornitems");
+                typeKey = "wornitems";
+                break;
             case "Spells":
-                return this.get_Conditions("", "spells");
+                typeKey = "spells";
+                break;
         }
+        if (typeKey) {
+            return this.get_Conditions("", typeKey).filter(condition => 
+                !this.wordFilter || (
+                    this.wordFilter && (
+                        condition.name.toLowerCase().includes(this.wordFilter.toLowerCase()) ||
+                        condition.desc.toLowerCase().includes(this.wordFilter.toLowerCase())
+                    )
+                )
+            );
+        }
+        
     }
     
     get_Traits(traitName: string = "") {

@@ -73,13 +73,14 @@ export class TimeService {
             //Reset all "once per day" activity cooldowns.
             this.activitiesService.rest(creature, characterService);
             if (creature.type == "Character") {
-                //Reset all "once per day" spell cooldowns.
+                //Reset all "once per day" spell cooldowns and re-prepare spells.
                 this.spellsService.rest(characterService.get_Character(), characterService);
             }
         });
         characterService.get_Character().class.spellCasting.forEach(casting => {
             casting.spellSlotsUsed = [999, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
         });
+        characterService.set_Changed();
     }
 
     tick(characterService: CharacterService, timeService: TimeService, itemsService: ItemsService, spellsService: SpellsService, turns: number = 10) {

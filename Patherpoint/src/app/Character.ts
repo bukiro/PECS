@@ -21,6 +21,9 @@ import { SpellsService } from './spells.service';
 import { SpellGain } from './SpellGain';
 import { Familiar } from './Familiar';
 import { SkillIncrease } from './SkillIncrease';
+import { Spell } from './Spell';
+import { SpellLearned } from './SpellLearned';
+import { FeatTaken } from './FeatTaken';
 
 export class Character extends Creature {
     public readonly _className: string = this.constructor.name;
@@ -459,11 +462,11 @@ export class Character extends Creature {
     }
     get_FeatsTaken(minLevelNumber: number, maxLevelNumber: number, featName: string = "", source: string = "", sourceId: string = "", locked: boolean = undefined) {
         if (this.class) {
-            let featsTaken = [];
+            let featsTaken: FeatTaken[] = [];
             let levels = this.class.levels.filter(level => level.number >= minLevelNumber && level.number <= maxLevelNumber );
             levels.forEach(level => {
                 level.featChoices.forEach(choice => {
-                    choice.feats.filter(feat => 
+                    choice.feats.filter((feat: FeatTaken) => 
                         (feat.name == featName || featName == "") &&
                         (feat.source == source || source == "") &&
                         (feat.sourceId == sourceId || sourceId == "") &&
@@ -521,8 +524,25 @@ export class Character extends Creature {
         if (taken) {
             choice.spells.push(Object.assign(new SpellGain(), {"name":spellName, "locked":locked, "sourceId":choice.id, "source":choice.source, "cooldown":choice.cooldown, "frequency":choice.frequency}));
         } else {
-            choice.spells = choice.spells.filter(gain => gain.name != spellName);
+            let oldChoice = choice.spells.find(gain => gain.name == spellName);
+            choice.spells.splice(choice.spells.indexOf(oldChoice), 1);
         }
+    }
+    learn_Spell(spell: Spell, source: string) {
+        if (!this.class?.spellBook.filter(learned => learned.name == spell.name).length) {
+            let level: number = spell.traits.includes("Cantrip") ? 0 : spell.levelreq;
+            this.class?.spellBook.push({name:spell.name, source:source, level:level});
+        }
+    }
+    unlearn_Spell(spell: Spell) {
+        this.class.spellBook = this.class.spellBook.filter(existingSpell => existingSpell.name != spell.name);
+    }
+    get_SpellsLearned(name: string = "", source: string = "", level: number = -1) {
+        return this.class?.spellBook.filter(learned =>
+            (name ? learned.name == name : true) &&
+            (level > -1 ? learned.level == level : true) &&
+            (source ? learned.source == source : true)
+        );
     }
     remove_Lore(characterService: CharacterService, source: LoreChoice) {
         //Remove the original Lore training

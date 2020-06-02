@@ -8,6 +8,8 @@ import { SortByPipe } from 'src/app/sortBy.pipe';
 import { SpellCasting } from 'src/app/SpellCasting';
 import { EffectsService } from 'src/app/effects.service';
 import { SpellGain } from 'src/app/SpellGain';
+import { ThrowStmt } from '@angular/compiler';
+import { SpellLearned } from 'src/app/SpellLearned';
 
 @Component({
     selector: 'app-spellchoice',
@@ -23,6 +25,8 @@ export class SpellchoiceComponent implements OnInit {
     choice: SpellChoice
     @Input()
     allowHeightened: boolean = false;
+    @Input()
+    allowBorrow: boolean = false;
     @Input()
     showChoice: string = "";
     @Input()
@@ -139,7 +143,16 @@ export class SpellchoiceComponent implements OnInit {
             spellLevel = this.get_DynamicLevel(choice);
         }
         let character = this.get_Character()
+        
         let allSpells = this.spellsService.get_Spells();
+        if (this.spellCasting.castingType == "Prepared" && this.spellCasting.className == "Wizard" && !this.allowBorrow) {
+            allSpells = this.spellsService.get_Spells().filter(spell =>
+                this.spellTakenByThis(spell, choice) ||
+                this.get_Character().class.spellBook.find((learned: SpellLearned) => learned.name == spell.name)
+            );
+        } else {
+            allSpells = this.spellsService.get_Spells();
+        }
         if (choice.filter.length) {
             allSpells = allSpells.filter(spell => choice.filter.includes(spell.name))
         }
@@ -170,6 +183,9 @@ export class SpellchoiceComponent implements OnInit {
             case "Caster":
                 spells = spells.filter(spell => spell.target == "self");
                 break;
+        }
+        if (choice.traitFilter.length) {
+            spells = spells.filter(spell => spell.traits.find(trait => choice.traitFilter.includes(trait)));
         }
         if (spells.length) {
             if (spellLevel == 0) {
@@ -222,15 +238,15 @@ export class SpellchoiceComponent implements OnInit {
         if (!spell.canChoose(this.characterService, spellLevel)) {
             reasons.push("The requirements are not met.")
         }
-        //Has it already been taken at this level by this class, and was that not by this SpellChoice?
-        if (!this.itemSpell && spell.have(this.characterService, this.spellCasting, spellLevel, choice.className) && !this.spellTakenByThis(spell, choice)) {
+        //Has it already been taken at this level by this class, and was that not by this SpellChoice? (Only for spontaneous spellcasters.)
+        if (this.spellCasting.castingType == "Spontaneous" && !this.itemSpell && spell.have(this.characterService, this.spellCasting, spellLevel, choice.className) && !this.spellTakenByThis(spell, choice)) {
             reasons.push("You already have this spell with this class.");
         }
         return reasons;
     }
 
     spellTakenByThis(spell: Spell, choice: SpellChoice) {
-        return choice.spells.filter(takenSpell => takenSpell.name == spell.name).length > 0;
+        return choice.spells.filter(takenSpell => takenSpell.name == spell.name).length;
     }
 
     on_SpellTaken(spellName: string, taken: boolean, choice: SpellChoice, locked: boolean) {

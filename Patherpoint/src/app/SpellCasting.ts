@@ -21,7 +21,11 @@ export class SpellCasting {
     public spellChoices: SpellChoice[] = [];
     public spellDC: SkillChoice = Object.assign(new SkillChoice(),{maxRank:2, type:"Spell DC"});
     public bloodline: Bloodline = null;
+    //SpellSlotsUsed is for spontaneous casters and counts the spells cast on each spell level, where the index is the spell level (0 is cantrips and never changes)
     public spellSlotsUsed: number[] = [999, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+    //SpellBookSlots is for Wizards and describes how many spells you can learn per level, where the index is the level.
+    //Index 0 is for cantrips. Regular wizards get 2 new spells per level and 5 on the first, and the spell level can be up to index/2 (rounded up).
+    public spellBookSlots: number[] = [10, 5, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2];
     public source: string = ""
     constructor(public castingType: "Focus"|"Innate"|"Prepared"|"Spontaneous") {
     }

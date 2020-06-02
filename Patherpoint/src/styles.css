@@ -414,6 +414,10 @@ button:disabled {
     fill: rgb(var(--accent));
 }
 
+.inactive-button {
+    background-color: grey;
+}
+
 .button.lower {
     padding: 1px 6px;
 }
@@ -589,6 +593,11 @@ button.list-item {
 .list-item.sublist.fancy-list {
     border-color: white;
 }
+
+.list-item.sublist.inactive-list {
+    border-color: grey;
+}
+
 
 button:hover~.list-item.sublist {
     border-color: rgba(25, 118, 210, 0.8);

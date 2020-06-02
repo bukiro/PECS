@@ -8,8 +8,7 @@
         <ng-container *ngFor="let casting of get_SpellCastings()">
             <h3>
                 {{(casting.className + " " + casting.get_Tradition() + ((casting.castingType == "Focus") ? (" " + casting.source) : " Spells")).trim()}}
-                <span class="lower"
-                    *ngIf="['Prepared', 'Spontaneous'].includes(casting.castingType)">
+                <span class="lower" *ngIf="['Prepared', 'Spontaneous'].includes(casting.castingType)">
                     <span class="lower">
                         {{casting.castingType}}
                     </span>
@@ -42,45 +41,56 @@
                             </div>
                             <ng-container *ngFor="let spell of get_Spells(spellTaken.gain.name)">
                                 <div class="list-item" *ngFor="let spellID of [get_ID()]">
-                                    <button class="row sublist-toggle left-aligned" (click)="toggle_Spell(casting.castingType+casting.class+spellTaken.gain.name+spellID)">
+                                    <button class="row sublist-toggle left-aligned"
+                                        (click)="toggle_Spell(casting.castingType+casting.class+spellTaken.gain.name+spellID)"
+                                        [className]="{'inactive-button': casting.castingType=='Prepared'&&!spellTaken.gain.prepared }">
                                         {{spell.name}}<app-actionIcons [actionString]="spell.actions">
-                                        </app-actionIcons>{{spell.castType}} {{spellTaken.gain.frequency ? spellTaken.gain.frequency : ""}}
+                                        </app-actionIcons>{{spell.castType}}
+                                        {{spellTaken.gain.frequency ? spellTaken.gain.frequency : ""}}
                                     </button>
-                                    <div class="list-item sublist lower" *ngIf="this.get_showSpell()==casting.castingType+casting.class+spellTaken.gain.name+spellID">
+                                    <div class="list-item sublist lower"
+                                        [className]="{'inactive-list': casting.castingType=='Prepared'&&!spellTaken.gain.prepared }"
+                                        *ngIf="this.get_showSpell()==casting.castingType+casting.class+spellTaken.gain.name+spellID">
                                         <button class="row center-aligned"
                                             (click)="on_Cast(spellTaken.gain, casting, 'Character', spell, true)"
                                             *ngIf="['self', 'ally'].includes(spell.target) && !spellTaken.gain.active"
+                                            title="{{cannot_Cast(spell, level, casting, spellTaken.choice, spellTaken.gain, maxspellslots)}}"
                                             [disabled]="cannot_Cast(spell, level, casting, spellTaken.choice, spellTaken.gain, maxspellslots)">
                                             {{spell.target == 'ally' ? "Cast on yourself" : "Cast"}}
                                         </button>
                                         <button class="row center-aligned"
                                             (click)="on_Cast(spellTaken.gain, casting, 'Companion', spell, true)"
                                             *ngIf="['companion', 'ally'].includes(spell.target) && !spellTaken.gain.active"
+                                            title="{{cannot_Cast(spell, level, casting, spellTaken.choice, spellTaken.gain, maxspellslots)}}"
                                             [disabled]="cannot_Cast(spell, level, casting, spellTaken.choice, spellTaken.gain, maxspellslots)">
                                             Cast on your animal companion
                                         </button>
                                         <button class="row center-aligned"
                                             (click)="on_Cast(spellTaken.gain, casting, 'Familiar', spell, true)"
                                             *ngIf="['companion', 'ally'].includes(spell.target) && !spellTaken.gain.active"
+                                            title="{{cannot_Cast(spell, level, casting, spellTaken.choice, spellTaken.gain, maxspellslots)}}"
                                             [disabled]="cannot_Cast(spell, level, casting, spellTaken.choice, spellTaken.gain, maxspellslots)">
                                             Cast on your Familiar
                                         </button>
                                         <button class="row center-aligned"
                                             (click)="on_Cast(spellTaken.gain, casting, '', spell, true)"
                                             *ngIf="spell.target == 'ally' && !spellTaken.gain.active"
+                                            title="{{cannot_Cast(spell, level, casting, spellTaken.choice, spellTaken.gain, maxspellslots)}}"
                                             [disabled]="cannot_Cast(spell, level, casting, spellTaken.choice, spellTaken.gain, maxspellslots)">
                                             Cast on other targets
                                         </button>
                                         <button class="row center-aligned"
                                             (click)="on_Cast(spellTaken.gain, casting, '', spell, true)"
                                             *ngIf="!spell.target && !spellTaken.gain.active"
+                                            title="{{cannot_Cast(spell, level, casting, spellTaken.choice, spellTaken.gain, maxspellslots)}}"
                                             [disabled]="cannot_Cast(spell, level, casting, spellTaken.choice, spellTaken.gain, maxspellslots)">
                                             Cast
                                         </button>
                                         <button class="row center-aligned"
                                             (click)="on_Cast(spellTaken.gain, casting, spellTaken.gain.target, spell, false)"
                                             *ngIf="spellTaken.gain.active">
-                                            Stop sustaining {{spellTaken.gain.duration ? "(" + get_Duration(spellTaken.gain.duration) + " remaining)" : ""}}
+                                            Stop sustaining
+                                            {{spellTaken.gain.duration ? "(" + get_Duration(spellTaken.gain.duration) + " remaining)" : ""}}
                                         </button>
                                         <app-spell [spell]="spell" [spellLevel]="level"></app-spell>
                                     </div>

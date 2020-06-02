@@ -7,6 +7,7 @@ export class SpellGain {
     public activeCooldown: number = 0;
     //Copied from SpellChoice. How often the spell can be used, human readable for display.
     public frequency: string = "";
+    public prepared: boolean = false;
     //Copied from SpellChoice. Turns * 10 to wait before casting again.
     public cooldown: number = 0;
     //Set to spell's duration when activated, and automatically deactivate if it runs out by ticking time

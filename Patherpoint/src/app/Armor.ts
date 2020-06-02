@@ -150,16 +150,16 @@ export class Armor extends Equipment {
     get_ArmorSpecialization(creature: Character|AnimalCompanion|Familiar, characterService: CharacterService) {
         let SpecializationGains: SpecializationGain[] = [];
         let specializations: Specialization[] = [];
-        if (creature.type == "Character") {
+        if (creature.type == "Character" && this.group) {
             let character = creature as Character;
             let skillLevel = this.profLevel(creature, characterService);
             character.get_FeatsTaken(0, character.level).map(gain => characterService.get_FeatsAndFeatures(gain.name)[0])
                 .filter(feat => feat?.gainSpecialization?.length).forEach(feat => {
                     SpecializationGains.push(...feat.gainSpecialization.filter(spec =>
-                        (spec.group ? spec.group.includes(this.group) : true) &&
-                        (spec.name ? (spec.name.includes(this.name) || spec.name.includes(this.armorBase)) : true) &&
-                        (spec.trait ? this.traits.filter(trait => spec.trait.includes(trait)).length : true) &&
-                        (spec.proficiency ? spec.proficiency.includes(this.prof) : true) &&
+                        (spec.group ? (this.group && spec.group.includes(this.group)) : true) &&
+                        (spec.name ? ((this.name && spec.name.includes(this.name)) || (this.armorBase && spec.name.includes(this.armorBase))) : true) &&
+                        (spec.trait ? this.traits.filter(trait => trait && spec.trait.includes(trait)).length : true) &&
+                        (spec.proficiency ? (this.prof && spec.proficiency.includes(this.prof)) : true) &&
                         (spec.skillLevel ? skillLevel >= spec.skillLevel : true) &&
                         (spec.featreq ? characterService.get_FeatsAndFeatures(spec.featreq)[0]?.have(character, characterService) : true)
                     ))

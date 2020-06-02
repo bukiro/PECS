@@ -19,6 +19,7 @@ export class SpellsComponent implements OnInit {
     public showSpell: string = "";
     public showChoice: string = "";
     public allowHeightened: boolean = false;
+    public allowBorrow: boolean = false;
 
     constructor(
         private changeDetector:ChangeDetectorRef,
@@ -73,6 +74,10 @@ export class SpellsComponent implements OnInit {
 
     get_Character() {
         return this.characterService.get_Character();
+    }
+
+    need_Spellbook(casting: SpellCasting) {
+        return casting.castingType == "Prepared" && casting.className == "Wizard";
     }
 
     get_Spells(name: string = "", type: string = "", tradition: string = "") {
