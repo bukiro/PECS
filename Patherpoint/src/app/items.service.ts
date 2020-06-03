@@ -317,6 +317,46 @@ export class ItemsService {
         }
     }
 
+    rest(creature: Character|AnimalCompanion, characterService: CharacterService) {
+        creature.inventories.forEach(inv => {
+            inv.allItems().filter(item => item.expiration == -2).forEach(item => {
+                item.name = "DELETE";
+            })
+            //Removing an item brings the index out of order, and some items may be skipped. We just keep deleting items named DELETE until none are left.
+            while (inv.allItems().filter(item => item.name == "DELETE").length) {
+                inv.allItems().filter(item => item.name == "DELETE").forEach(item => {
+                    characterService.drop_InventoryItem(creature, inv, item, false, true, true, item.amount);
+                })
+            }
+        })
+    }
+
+    tick_Items(creature: Character|AnimalCompanion, characterService: CharacterService, turns: number) {
+        creature.inventories.forEach(inv => {
+            inv.allItems().filter(item => item.expiration > 0).forEach(item => {
+                item.expiration -= turns;
+                if (item.expiration <= 0) {
+                    item.name = "DELETE";
+                }
+            })
+            //Removing an item brings the index out of order, and some items may be skipped. We just keep deleting items named DELETE until none are left.
+            while (inv.allItems().filter(item => item.name == "DELETE").length) {
+                inv.allItems().filter(item => item.name == "DELETE").forEach(item => {
+                    characterService.drop_InventoryItem(creature, inv, item, false, true, true, item.amount);
+                })
+            }
+            inv.allItems().filter(item => item.oilsApplied && item.oilsApplied.length).forEach(item => {
+                item.oilsApplied.filter(oil => oil.duration != -1).forEach(oil => {
+                    oil.duration -= turns;
+                    if (oil.duration <= 0) {
+                        oil.name = "DELETE";
+                    }
+                })
+                item.oilsApplied = item.oilsApplied.filter(oil => oil.name != "DELETE");
+            });
+        });
+    }
+
     still_loading() {
         return (this.loading_ItemProperties || this.loading_Weapons || this.loading_Armors || this.loading_Shields || this.loading_WornItems || this.loading_AlchemicalElixirs || this.loading_OtherConsumables);
     }

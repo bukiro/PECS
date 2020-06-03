@@ -11,7 +11,6 @@ export class Bulk {
     public $currentbonuses: boolean = false;
     public $current: { value: number, explain: string } = { value: 0, explain: "" };
     public $encumbered: { value: number, explain: string } = { value: 0, explain: "" };
-    public $limit: { value: number, explain: string } = { value: 0, explain: "" };
     public $max: { value: number, explain: string } = { value: 0, explain: "" };
     public $penalties: boolean = false;
     public $currentpenalties: boolean = false;
@@ -21,9 +20,8 @@ export class Bulk {
         this.$bonuses = this.bonuses(creature, effectsService, "Max Bulk");
         this.$currentbonuses = this.bonuses(creature, effectsService, "Bulk");
         this.$current = this.current(creature, characterService, effectsService);
-        this.$limit = this.limit(creature, characterService, effectsService);
-        this.$encumbered = this.encumbered();
-        this.$max = this.max();
+        this.$encumbered = this.encumbered(creature, characterService, effectsService);
+        this.$max = this.max(creature, characterService, effectsService);
         this.$penalties = this.penalties(creature, effectsService, "Max Bulk");
         this.$currentpenalties = this.penalties(creature, effectsService, "Bulk");
     }
@@ -62,10 +60,29 @@ export class Bulk {
         explain = explain.trim();
         return { value: Math.floor(sum), explain: explain };
     }
-    limit(creature: Character | AnimalCompanion, characterService: CharacterService, effectsService: EffectsService) {
+    encumbered(creature: Character | AnimalCompanion, characterService: CharacterService, effectsService: EffectsService) {
         //Gets the basic bulk and adds all effects
-        if (characterService.still_loading()) { return this.$limit; }
-        let result: { value: number, explain: string } = { value: 0, explain: "" };
+        if (characterService.still_loading()) { return this.$encumbered; }
+        let result: { value: number, explain: string } = { value: 5, explain: "Base limit: 5" };
+        let str = characterService.get_Abilities("Strength")[0].mod(creature, characterService, effectsService).result;
+        if (str != 0) {
+            result.value += str;
+            result.explain += "\nStrength Modifier: " + str;
+        }
+        this.absolutes(creature, effectsService, "Encumbered Limit").forEach(effect => {
+            result.value = parseInt(effect.setValue);
+            result.explain = effect.source + ": " + effect.setValue;
+        });
+        this.relatives(creature, effectsService, "Encumbered Limit").forEach(effect => {
+            result.value += parseInt(effect.value);
+            result.explain += "\n" + effect.source + ": " + effect.value;
+        });
+        return result;
+    }
+    max(creature: Character | AnimalCompanion, characterService: CharacterService, effectsService: EffectsService) {
+        //Gets the basic bulk and adds all effects
+        if (characterService.still_loading()) { return this.$max; }
+        let result: { value: number, explain: string } = { value: 10, explain: "Base limit: 10" };
         let str = characterService.get_Abilities("Strength")[0].mod(creature, characterService, effectsService).result;
         if (str != 0) {
             result.value += str;
@@ -79,18 +96,6 @@ export class Bulk {
             result.value += parseInt(effect.value);
             result.explain += "\n" + effect.source + ": " + effect.value;
         });
-        return result;
-    }
-    encumbered() {
-        let result: { value: number, explain: string } = { value: 5, explain: "Base limit: 5" };
-        result.value += this.$limit.value;
-        result.explain += this.$limit.explain;
-        return result;
-    }
-    max() {
-        let result: { value: number, explain: string } = { value: 10, explain: "Base limit: 10" };
-        result.value += this.$limit.value;
-        result.explain += this.$limit.explain;
         return result;
     }
 }

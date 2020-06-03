@@ -16084,7 +16084,7 @@
                 "ability": "Intelligence",
                 "castingType": "Focus",
                 "className": "Wizard",
-                "source": "Domain Spells",
+                "source": "School Spells",
                 "tradition": "Arcane"
             },
             {
@@ -16101,11 +16101,11 @@
                             "locked": true,
                             "maxRank": 2,
                             "name": "Wizard Arcane Spell DC",
-                            "source": "Domain Spells"
+                            "source": "Wizard Spellcasting"
                         }
                     ],
                     "maxRank": 2,
-                    "source": "Domain Spells",
+                    "source": "Wizard Spellcasting",
                     "type": "Spell DC"
                 },
                 "spellChoices": [

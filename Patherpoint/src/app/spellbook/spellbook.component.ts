@@ -10,6 +10,7 @@ import { SpellCasting } from '../SpellCasting';
 import { SpellCast } from '../SpellCast';
 import { EffectsService } from '../effects.service';
 import { SpellChoice } from '../SpellChoice';
+import { Bloodline } from '../Bloodline';
 
 @Component({
     selector: 'app-spellbook',
@@ -79,6 +80,14 @@ export class SpellbookComponent implements OnInit {
 
     toggleSpellsMenu() {
         this.characterService.toggleMenu('spells');
+    }
+
+    get_CompanionAvailable() {
+        return this.characterService.get_CompanionAvailable();
+    }
+
+    get_FamiliarAvailable() {
+        return this.characterService.get_FamiliarAvailable();
     }
 
     get_SpellCastings() {
@@ -234,8 +243,28 @@ export class SpellbookComponent implements OnInit {
         if (casting.castingType == "Prepared" && !spell.traits.includes("Cantrip") && activated) {
             gain.prepared = false;
         }
-        this.spellsService.process_Spell(creature, this.characterService, this.itemsService, this.timeService, gain, spell, level, activated);
+        //Trigger bloodline powers for sorcerers if your main class is Sorcerer.
+        if (this.get_Character().class.name == "Sorcerer" && casting.className == "Sorcerer") {
+            let bloodline: Bloodline = this.get_Character().class.spellCasting.find(casting => casting.castingType == "Spontaneous" && casting.tradition == "Bloodline" && casting.className == "Sorcerer")?.bloodline;
+            if (bloodline.bloodlineSpells.map(bloodlineSpell => bloodlineSpell.name).includes(gain.name) || bloodline.grantedSpells.map(grantedSpell => grantedSpell.name).includes(gain.name)) {
+                bloodline.bloodMagic.forEach(conditionGain => {
+                    this.characterService.add_Condition(this.get_Character(), conditionGain, false);
+                })
+            }
+        }
+        this.spellsService.process_Spell(creature, this.characterService, this.itemsService, this.timeService, gain, spell, level, activated, true);
         this.characterService.set_Changed();
+    }
+
+    on_Restore(gain: SpellGain, casting: SpellCasting, level: number) {
+        if ((casting.bondedItemCharges[level] || casting.bondedItemCharges[0]) && !gain.prepared ) {
+            if (casting.bondedItemCharges[level]) {
+                casting.bondedItemCharges[level] -= 1;
+            } else if (casting.bondedItemCharges[0]) {
+                casting.bondedItemCharges[0] -= 1;
+            }
+            gain.prepared = true;
+        }
     }
 
     finish_Loading() {

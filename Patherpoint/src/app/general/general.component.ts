@@ -109,17 +109,17 @@ export class GeneralComponent implements OnInit {
     }
 
     get_HuntersEdge() {
-        return this.get_Character().get_FeatsTaken(1, this.get_Character().level).find(gain => ["Flurry", "Outwit", "Precision"].includes(gain.name)).name || "";
+        return this.get_Character().get_FeatsTaken(1, this.get_Character().level).filter(gain => ["Flurry", "Outwit", "Precision"].includes(gain.name));
     }
 
     get_WizardSchool() {
         return this.get_Character().get_FeatsTaken(1, this.get_Character().level)
-            .find(gain => ["Abjuration", "Conjuration", "Divination", "Enchantment", "Evocation", "Illusion", "Necromancy", "Transmutation", "Universalist"].includes(gain.name)).name || "";
+            .filter(gain => ["Abjuration", "Conjuration", "Divination", "Enchantment", "Evocation", "Illusion", "Necromancy", "Transmutation", "Universalist"].includes(gain.name));
     }
 
     get_ArcaneThesis() {
         return this.get_Character().get_FeatsTaken(1, this.get_Character().level)
-            .find(gain => ["Improved Familiar Attunement", "Metamagical Experimentation", "Spell Blending", "Spell Substitution"].includes(gain.name)).name || "";
+            .filter(gain => ["Improved Familiar Attunement", "Metamagical Experimentation", "Spell Blending", "Spell Substitution"].includes(gain.name));
     }
 
     get_Languages() {

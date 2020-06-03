@@ -959,20 +959,6 @@ export class CharacterService {
         }
     }
 
-    tick_Oils(creature: Character|AnimalCompanion, turns: number) {
-        creature.inventories.forEach(inv => {
-            inv.allItems().filter(item => item.oilsApplied && item.oilsApplied.length).forEach(item => {
-                item.oilsApplied.filter(oil => oil.duration != -1).forEach(oil => {
-                    oil.duration -= turns;
-                    if (oil.duration <= 0) {
-                        oil.name = "DELETE";
-                    }
-                })
-                item.oilsApplied = item.oilsApplied.filter(oil => oil.name != "DELETE");
-            });
-        });
-    }
-
     process_OnceEffect(creature: Character|AnimalCompanion|Familiar, effectGain: EffectGain) {
         let value = 0;
         try {

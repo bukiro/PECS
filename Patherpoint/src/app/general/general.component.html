@@ -38,7 +38,7 @@
                 {{get_Character().class.name}}
                 <div class="row" *ngFor="let huntersEdge of get_HuntersEdge()">
                     <strong>Hunter's Edge</strong>
-                    {{huntersEdge}}
+                    {{huntersEdge.name}}
                 </div>
                 <div class="row" *ngFor="let bloodline of get_Bloodlines()">
                     <strong>Sorcerer Bloodline</strong>
@@ -46,11 +46,11 @@
                 </div>
                 <div class="row" *ngFor="let school of get_WizardSchool()">
                     <strong>Wizard School</strong>
-                    {{school}}
+                    {{school.name}}
                 </div>
                 <div class="row" *ngFor="let thesis of get_ArcaneThesis()">
                     <strong>Arcane Thesis</strong>
-                    {{thesis}}
+                    {{thesis.name}}
                 </div>
             </div>
             <div class="fullsize-only list-item" *ngIf="get_Character().class.ancestry.name">

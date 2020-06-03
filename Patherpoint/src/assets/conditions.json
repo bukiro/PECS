@@ -189,7 +189,7 @@
     },
     {
         "name": "Dead",
-        "type": "meta",
+        "type": "generic",
         "desc": "You are dead.",
         "overrideConditions": [
             "All"
@@ -400,9 +400,21 @@
         "buff": true
     },
     {
-        "name": "Wind Jump",
+        "name": "Wind Jump (5th level)",
         "type": "spells",
         "desc": "You gain a fly Speed equal to your Speed. You must end your turn on solid ground, or you fall.",
+        "effects": [
+            {
+                "affected": "Fly Speed",
+                "setValue": "Speed('Land Speed')"
+            }
+        ],
+        "buff": true
+    },
+    {
+        "name": "Wind Jump (6th level)",
+        "type": "spells",
+        "desc": "You gain a fly Speed equal to your Speed. You must end your turn on solid ground, or you fall. At the end of your turn, you can attempt a DC 30 Acrobatics check to find purchase in midair. If you succeed, you don't fall.",
         "effects": [
             {
                 "affected": "Fly Speed",
@@ -432,6 +444,8 @@
         "name": "Ethereal Jaunt",
         "type": "spells",
         "desc": "You travel to the Ethereal Plane, which overlaps the Material Plane. Material Plane creatures can't see you, and you can move through things on the Material Plane. You move at half your normal Speeds, but can move in any direction (including up and down).\n\nYou can see onto the Material Plane within a radius of 60 feet; it is gray, hazy, and concealed from you. You can't affect the Material Plane, and you can't be affected by the Material Plane except by force effects and abjurations originating there.\n\nWhen the spell ends, you return to the Material Plane. If you're in the air, you fall (unless you can fly), and if you're inside an object, you're pushed into the nearest open space and take 1d6 damage per 5 feet you were pushed.\n\nIf you cast this spell when not on the Material Plane, it is lost.",
+        "hint": "Material Plane creatures can't see you, and you can move through things on the Material Plane. You move at half your normal Speeds, but can move in any direction (including up and down).\n\nYou can see onto the Material Plane within a radius of 60 feet; it is gray, hazy, and concealed from you. You can't affect the Material Plane, and you can't be affected by the Material Plane except by force effects and abjurations originating there.\n\nWhen the spell ends, you return to the Material Plane.",
+        "showon": "Movement, Perception",
         "buff": true
     },
     {
@@ -660,6 +674,378 @@
                 "value": "+1",
                 "type": "status"
             }
+        ],
+        "buff": true
+    },
+    {
+        "name": "Quivering Palm Immunity",
+        "type": "spells",
+        "desc": "You cannot be killed by quivering palm for the duration.",
+        "buff": true
+    },
+    {
+        "name": "Dancing Lights",
+        "type": "spells",
+        "desc": "You have created up to four floating lights, no two of which are more than 10 feet apart. Each sheds light like a torch. When you Sustain the Spell, you can move any number of lights up to 60 feet. Each light must remain within 120 feet of you and within 10 feet of all others, or it winks out.",
+        "buff": true
+    },
+    {
+        "name": "Ghost Sound",
+        "type": "spells",
+        "desc": "You have created an auditory illusion of simple sounds that has a maximum volume equal to four normal humans shouting. The sounds emanate from a square you designate within range. You can't create intelligible words or other intricate sounds (such as music).",
+        "buff": true
+    },
+    {
+        "name": "Light",
+        "type": "spells",
+        "desc": "The targeted object glows, casting bright light in a 20 (60 on 4th level)-foot radius (and dim light for the next 20 feet) like a torch. If you cast this spell again on a second object, the light spell on the first object ends.",
+        "buff": true
+    },
+    {
+        "name": "Mage Hand",
+        "type": "spells",
+        "desc": "You have created a single magical hand, either invisible or ghostlike, that grasps the target object and moves it slowly up to 20 feet. Because you're levitating the object, you can move it in any direction. When you Sustain the Spell, you can move the object an additional 20 feet. If the object is in the air when the spell ends, the object falls.",
+        "buff": true
+    },
+    {
+        "name": "Prestidigitation",
+        "type": "spells",
+        "desc": "The simplest magic does your bidding. You can perform simple magical effects for as long as you Sustain the Spell. Each time you Sustain the Spell, you can choose one of four options.\n\nCook: Cool, warm, or flavor 1 pound of nonliving material.\nLift: Slowly lift an unattended object of light Bulk or less 1 foot off the ground.\nMake: Create a temporary object of negligible Bulk, made of congealed magical substance. The object looks crude and artificial and is extremely fragile—it can't be used as a tool, weapon, or spell component.\nTidy: Color, clean, or soil an object of light Bulk or less. You can affect an object of 1 Bulk with 10 rounds of concentration, and a larger object a 1 minute per Bulk.\n\nPrestidigitation can't deal damage or cause adverse conditions. Any actual change to an object (beyond what is noted above) persists only as long as you Sustain the Spell.",
+        "buff": true
+    },
+    {
+        "name": "Forbidding Ward (1st level)",
+        "type": "spells",
+        "desc": "You gain a +1 status bonus to Armor Class and saving throws against the target enemy's attacks, spells, and other effects.",
+        "hint": "You gain a +1 status bonus to Armor Class and saving throws against the target enemy's attacks, spells, and other effects.",
+        "showon": "AC, Fortitude, Reflex, Will",
+        "buff": true
+    },
+    {
+        "name": "Forbidding Ward (6th level)",
+        "type": "spells",
+        "desc": "You gain a +2 status bonus to Armor Class and saving throws against the target enemy's attacks, spells, and other effects.",
+        "hint": "You gain a +2 status bonus to Armor Class and saving throws against the target enemy's attacks, spells, and other effects.",
+        "showon": "AC, Fortitude, Reflex, Will",
+        "buff": true
+    },
+    {
+        "name": "Guidance",
+        "type": "spells",
+        "desc": "Divine guidance is granting you a +1 status bonus to one attack roll, Perception check, saving throw, or skill check you attempt before the duration ends. You choose which roll to use the bonus on before rolling. If you use the bonus, the spell ends.",
+        "hint": "Divine guidance is granting you a +1 status bonus to one attack roll, Perception check, saving throw, or skill check you attempt before the duration ends. You choose which roll to use the bonus on before rolling. If you use the bonus, the spell ends.",
+        "showon": "AC, Fortitude, Reflex, Will, Attacks, Perception, Skills",
+        "buff": true
+    },
+    {
+        "name": "Guidance Immunity",
+        "type": "spells",
+        "desc": "You cannot gain the bonus granted by the Guidance spell for the duration."
+    },
+    {
+        "name": "Join Pasts",
+        "type": "spells",
+        "desc": "You can share thoughts and experiences with the other targets of the spell, but not words. When one target attempts to Recall Knowledge, the other can Aid the first target’s skill check, using any Lore skill (even if that Lore wouldn’t normally apply) without having made any preparations to Aid.",
+        "hint": "When one target attempts to Recall Knowledge, the other can Aid the first target’s skill check, using any Lore skill (even if that Lore wouldn’t normally apply) without having made any preparations to Aid.",
+        "showon": "Skills",
+        "buff": true
+    },
+    {
+        "name": "Alarm (1st level)",
+        "type": "spells",
+        "desc": "You have warded an area to alert you when creatures enter without your permission. Whenever a Small or larger corporeal creature enters the spell's area without speaking the password, alarm sends your choice of a mental alert (in which case the spell gains the mental trait) or an audible alarm with the sound and volume of a hand bell (in which case the spell gains the auditory trait). Either option automatically awakens you, and the bell allows each creature in the area to attempt a DC 15 Perception check to wake up. A creature aware of the alarm must succeed at a Stealth check against the spell's DC or trigger the spell when moving into the area.",
+        "buff": true
+    },
+    {
+        "name": "Alarm (3rd level)",
+        "type": "spells",
+        "desc": "You have warded an area to alert you when creatures enter without your permission. Whenever a Small or larger corporeal creature enters the spell's area without speaking the password, alarm sends your choice of a mental alert (in which case the spell gains the mental trait) or an audible alarm with the sound and volume of a hand bell (in which case the spell gains the auditory trait). You can specify criteria for which creatures sound the alarm spell—for instance, orcs or masked people. Either option automatically awakens you, and the bell allows each creature in the area to attempt a DC 15 Perception check to wake up. A creature aware of the alarm must succeed at a Stealth check against the spell's DC or trigger the spell when moving into the area.",
+        "buff": true
+    },
+    {
+        "name": "Ant Haul",
+        "type": "spells",
+        "desc": "Your musculoskeletal system is reinforced to bear more weight. The target can carry 3 more Bulk than normal before becoming encumbered and up to a maximum of 6 more Bulk.",
+        "effects": [
+            {
+                "affected": "Encumbered Limit",
+                "value": "+3"
+            },
+            {
+                "affected": "Max Bulk",
+                "value": "+6"
+            }
+        ],
+        "buff": true
+    },
+    {
+        "name": "Anticipate Peril (1st level)",
+        "type": "spells",
+        "desc": "You gain a +1 status bonus to your next initiative roll, after which the spell ends.",
+        "hint": "You gain a +1 status bonus to your next initiative roll, after which the spell ends.",
+        "showon": "Perception",
+        "buff": true
+    },
+    {
+        "name": "Anticipate Peril (3rd level)",
+        "type": "spells",
+        "desc": "You gain a +2 status bonus to your next initiative roll, after which the spell ends.",
+        "hint": "You gain a +2 status bonus to your next initiative roll, after which the spell ends.",
+        "showon": "Perception",
+        "buff": true
+    },
+    {
+        "name": "Anticipate Peril (5th level)",
+        "type": "spells",
+        "desc": "You gain a +3 status bonus to your next initiative roll, after which the spell ends.",
+        "hint": "You gain a +3 status bonus to your next initiative roll, after which the spell ends.",
+        "showon": "Perception",
+        "buff": true
+    },
+    {
+        "name": "Anticipate Peril (7th level)",
+        "type": "spells",
+        "desc": "You gain a +4 status bonus to your next initiative roll, after which the spell ends.",
+        "hint": "You gain a +4 status bonus to your next initiative roll, after which the spell ends.",
+        "showon": "Perception",
+        "buff": true
+    },
+    {
+        "name": "Bane (Caster)",
+        "type": "spells",
+        "desc": "You fill the minds of your enemies with doubt. Targets that fail their Will saves take a –1 status penalty to attack rolls as long as they are in the area. Once per turn, starting the turn after you cast bane, you can use a single action, which has the concentrate trait, to increase the emanation's radius by 5 feet and force enemies in the area that weren't yet affected to attempt another saving throw. Bane can counteract bless.",
+        "buff": true
+    },
+    {
+        "name": "Bane",
+        "type": "spells",
+        "desc": "Your mind is filled with doubt. You take a –1 status penalty to attack rolls as long as you are in the emanation area.",
+        "effects": [
+            {
+                "affected": "Attack Rolls",
+                "value": "-1",
+                "type": "status"
+            }
         ]
+    },
+    {
+        "name": "Bless (Caster)",
+        "type": "spells",
+        "desc": "Blessings from beyond help your companions strike true. You and your allies in the area gain a +1 status bonus to attack rolls. Once per turn, starting the turn after you cast bless, you can use a single action, which has the concentrate trait, to increase the emanation's radius by 5 feet. Bless can counteract bane.",
+        "effects": [
+            {
+                "affected": "Attack Rolls",
+                "value": "+1",
+                "type": "status"
+            }
+        ],
+        "buff": true
+    },
+    {
+        "name": "Bless",
+        "type": "spells",
+        "desc": "Blessings from beyond help you strike true. You gain a +1 status bonus to attack rolls while in the emanation area.",
+        "effects": [
+            {
+                "affected": "Attack Rolls",
+                "value": "+1",
+                "type": "status"
+            }
+        ],
+        "buff": true
+    },
+    {
+        "name": "Endure",
+        "type": "spells",
+        "desc": "You have been granted a number of temporary Hit Points for the duration of the spell.",
+        "inputRequired": "Raise your temporary Hit Points by the appropriate amount. When the condition ends, remove the temporary Hit Points.",
+        "buff": true
+    },
+    {
+        "name": "Fleet Step",
+        "type": "spells",
+        "desc": "You gain a +30-foot status bonus to your Speed.",
+        "effects": [
+            {
+                "affected": "Land Speed",
+                "value": "+30",
+                "type": "status"
+            }
+        ],
+        "buff": true
+    },
+    {
+        "name": "Floating Disk",
+        "type": "spells",
+        "desc": "This disk is 2 feet in diameter and follows 5 feet behind you, floating just above the ground. It holds up to 5 Bulk of objects (though they must be able to fit and balance on its surface). Any objects atop the disk fall to the ground when the spell ends.\n\nThe spell ends if a creature tries to ride atop the disk, if the disk is overloaded, if anyone tries to lift or force the disk higher above the ground, or if you move more than 30 feet away from the disk.",
+        "hint": "This disk is 2 feet in diameter and follows 5 feet behind you, floating just above the ground. It holds up to 5 Bulk of objects (though they must be able to fit and balance on its surface).",
+        "showon": "Bulk",
+        "effects": [
+            {
+                "affected": "Encumbered Limit",
+                "value": "+5"
+            },
+            {
+                "affected": "Max Bulk",
+                "value": "+5"
+            }
+        ],
+        "buff": true
+    },
+    {
+        "name": "Grease",
+        "type": "spells",
+        "desc": "Grease affects an area or object of your choice.\n\nArea: All solid ground in the area is covered with grease. Each creature standing on the greasy surface must succeed at a Reflex save or an Acrobatics check against your spell DC or fall prone. Creatures using an action to move onto the greasy surface during the spell's duration must attempt either a Reflex save or an Acrobatics check to Balance. A creature that Steps or Crawls doesn't have to attempt a check or save.\nTarget: If you cast the spell on an unattended object, anyone trying to pick up the object must succeed at an Acrobatics check or Reflex save against your spell DC to do so. If you target an attended object, the creature that has the object must attempt an Acrobatics check or Reflex save. On a failure, the holder or wielder takes a –2 circumstance penalty to all checks that involve using the object; on a critical failure, the holder or wielder releases the item. The object lands in an adjacent square of the GM's choice. If you cast this spell on a worn object, the wearer gains a +2 circumstance bonus to Fortitude saves against attempts to grapple them.",
+        "buff": true
+    },
+    {
+        "name": "Gust of Wind",
+        "type": "spells",
+        "desc": "A violent wind issues forth from your palm, blowing from the point where you are when you cast the spell to the line's opposite end. The wind extinguishes small non-magical fires, disperses fog and mist, blows objects of light Bulk or less around, and pushes larger objects. Large or smaller creatures in the area must attempt a Fortitude save. Large or smaller creatures that later move into the gust must attempt the save on entering.\n\nCritical Success: The creature is unaffected.\nSuccess: The creature can't move against the wind.\nFailure: The creature is knocked prone. If it was flying, it suffers the effects of critical failure instead.\nCritical Failure: The creature is pushed 30 feet in the wind's direction, knocked prone, and takes 2d6 bludgeoning damage.",
+        "buff": true
+    },
+    {
+        "name": "Agitate",
+        "type": "spells",
+        "desc": "Your mind and body are sent into overdrive, forcing you to become restless and hyperactive. During the duration, you must Stride at least once each turn or take mental damage according to the spell level that turn."
+    },
+    {
+        "name": "Command (failure)",
+        "type": "spells",
+        "desc": "For the first action on your next turn, you must use a single action to do as you were commanded."
+    },
+    {
+        "name": "Command (critical failure)",
+        "type": "spells",
+        "desc": "You must use all your actions on your next turn to obey the command you were given.",
+        "hint": "You must use all your actions on your next turn to obey the command you were given.",
+        "showon": "Attacks, Skills"
+    },
+    {
+        "name": "Ill Omen (failure)",
+        "type": "spells",
+        "desc": "Every time during the duration that you roll an attack roll or skill check, you must roll twice and take the worse result.",
+        "hint": "Every time during the duration that you roll an attack roll or skill check, you must roll twice and take the worse result.",
+        "showon": "Attacks, Skills"
+    },
+    {
+        "name": "Ill Omen (critical failure)",
+        "type": "spells",
+        "desc": "The first time during the duration that you roll an attack roll or skill check, you must roll twice and take the worse result.",
+        "hint": "The first time during the duration that you roll an attack roll or skill check, you must roll twice and take the worse result.",
+        "showon": "Attacks, Skills"
+    },
+    {
+        "name": "Ill Omen (failure)",
+        "type": "spells",
+        "desc": "Every time during the duration that you roll an attack roll or skill check, you must roll twice and take the worse result.",
+        "hint": "Every time during the duration that you roll an attack roll or skill check, you must roll twice and take the worse result.",
+        "showon": "Attacks, Skills"
+    },
+    {
+        "name": "Illusory Disguise (1st level)",
+        "type": "spells",
+        "desc": "You appear as another creature of your body shape, and with roughly similar height (within 6 inches) and weight (within 50 pounds), as yourself. The disguise is typically good enough to hide your identity, but not to impersonate a specific individual. The spell doesn't change your voice, scent, or mannerisms. You can change the appearance of your clothing and worn items, such as making your armor look like a dress. Held items are unaffected, and any worn item you remove returns to its true appearance.\n\nCasting illusory disguise counts as setting up a disguise for the Impersonate use of Deception; it ignores any circumstance penalties you might take for disguising yourself as a dissimilar creature, it gives you a +4 status bonus to Deception checks to prevent others from seeing through your disguise, and you add your level even if you're untrained. You can Dismiss this spell.",
+        "hint": "Casting illusory disguise counts as setting up a disguise for the Impersonate use of Deception; it ignores any circumstance penalties you might take for disguising yourself as a dissimilar creature, it gives you a +4 status bonus to Deception checks to prevent others from seeing through your disguise, and you add your level even if you're untrained.",
+        "showon": "Deception",
+        "buff": true
+    },
+    {
+        "name": "Illusory Disguise (2nd level)",
+        "type": "spells",
+        "desc": "You appear as another creature of your body shape, and with roughly similar height (within 6 inches) and weight (within 50 pounds), as yourself. The disguise is typically good enough to hide your identity, but not to impersonate a specific individual. The spell also disguises your voice and scent, and it gains the auditory trait. It doesn't disguise your mannerisms. You can change the appearance of your clothing and worn items, such as making your armor look like a dress. Held items are unaffected, and any worn item you remove returns to its true appearance.\n\nCasting illusory disguise counts as setting up a disguise for the Impersonate use of Deception; it ignores any circumstance penalties you might take for disguising yourself as a dissimilar creature, it gives you a +4 status bonus to Deception checks to prevent others from seeing through your disguise, and you add your level even if you're untrained. You can Dismiss this spell.",
+        "hint": "Casting illusory disguise counts as setting up a disguise for the Impersonate use of Deception; it ignores any circumstance penalties you might take for disguising yourself as a dissimilar creature, it gives you a +4 status bonus to Deception checks to prevent others from seeing through your disguise, and you add your level even if you're untrained.",
+        "showon": "Deception",
+        "buff": true
+    },
+    {
+        "name": "Illusory Disguise (3rd level)",
+        "type": "spells",
+        "desc": "You appear as another creature of your body shape, and with roughly similar height (within 6 inches) and weight (within 50 pounds), as yourself. The disguise is typically good enough to hide your identity, but not to impersonate a specific individual. The spell also disguises your voice and scent, and it gains the auditory trait. It doesn't disguise your mannerisms. You can change the appearance of your clothing and worn items, such as making your armor look like a dress. Held items are unaffected, and any worn item you remove returns to its true appearance.\n\nCasting illusory disguise counts as setting up a disguise for the Impersonate use of Deception; it ignores any circumstance penalties you might take for disguising yourself as a dissimilar creature, it gives you a +4 status bonus to Deception checks to prevent others from seeing through your disguise, and you add your level even if you're untrained. You can Dismiss this spell.",
+        "hint": "Casting illusory disguise counts as setting up a disguise for the Impersonate use of Deception; it ignores any circumstance penalties you might take for disguising yourself as a dissimilar creature, it gives you a +4 status bonus to Deception checks to prevent others from seeing through your disguise, and you add your level even if you're untrained.",
+        "showon": "Deception",
+        "buff": true
+    },
+    {
+        "name": "Illusory Object (1st level)",
+        "type": "spells",
+        "desc": "You have created an illusory visual image of a stationary object. The object appears to animate naturally, but it doesn't make sounds or generate smells. For example, water would appear to pour down an illusory waterfall, but it would be silent.\n\nAny creature that touches the image or uses the Seek action to examine it can attempt to disbelieve your illusion.",
+        "buff": true
+    },
+    {
+        "name": "Illusory Object (2nd level)",
+        "type": "spells",
+        "desc": "You have created an illusory visual image of a stationary object. Your image makes appropriate sounds, generates normal smells, and feels right to the touch. The spell gains the auditory trait.\n\nAny creature that touches the image or uses the Seek action to examine it can attempt to disbelieve your illusion.",
+        "buff": true
+    },
+    {
+        "name": "Illusory Object (5th level)",
+        "type": "spells",
+        "desc": "You have created an illusory visual image of a stationary object. Your image makes appropriate sounds, generates normal smells, and feels right to the touch. The spell gains the auditory trait.\n\nAny creature that touches the image or uses the Seek action to examine it can attempt to disbelieve your illusion.",
+        "inputRequired": "Since the duration is permanent, remove the condition when you no longer need this information.",
+        "buff": true
+    },
+    {
+        "name": "Item Facade",
+        "type": "spells",
+        "desc": "You have made the target object look and feel as though it were in much better or worse physical condition. When you cast this spell, decide whether you want to make the object look decrepit or perfect. An item made to look decrepit appears broken and shoddy. An intact item made to look better appears as though it's brand new and highly polished or well maintained. A broken item appears to be intact and functional. Destroyed items can't be affected by this spell. A creature that Interacts with the item can attempt to disbelieve the illusion.",
+        "buff": true
+    },
+    {
+        "name": "Jump",
+        "type": "spells",
+        "desc": "Your legs surge with strength, ready to leap high and far. Whenever you take the Leap action, You jump 30 feet in any direction without touching the ground. You must land on a space of solid ground within 30 feet of you, or else you fall after using your next action.",
+        "buff": true
+    },
+    {
+        "name": "Lock",
+        "type": "spells",
+        "desc": "You have magically locked a target, setting an Athletics and Thievery DC to open it equal to your spell DC or the base lock DC with a +4 status bonus, whichever is higher. Any key or combination that once opened a lock affected by this spell does not do so for the duration of the spell, though the key or combination does grant a +4 circumstance bonus to checks to open the door.\n\nIf the target is opened, the spell ends. Assuming the target is not barred or locked in some additional way, you can unlock and open it with an Interact action during which you touch the target. This does not end the spell. You can Dismiss this spell at any time and from any distance.",
+        "buff": true
+    },
+    {
+        "name": "Longstrider",
+        "type": "spells",
+        "desc": "You lengthen your stride beyond what should be possible. You gain a +10-foot status bonus to your Speed.",
+        "effects": [
+            {
+                "affected": "Land Speed",
+                "value": "+10",
+                "type": "status"
+            }
+        ],
+        "buff": true
+    },
+    {
+        "name": "Magic Aura (1st level)",
+        "type": "spells",
+        "desc": "You have altered the appearance of an item's magic aura, choosing to have the target's aura appear as that of common magic item of twice magic aura's level or lower, or to have it register as being under the effects of a spell of your choice of magic aura's level or lower.\n\nA caster using detect magic or read aura of an equal or higher spell level can attempt to disbelieve the illusion from magic aura. Magic aura doesn't mask the aura of spells that are 9th level or higher or of items that are 19th level or higher.",
+        "buff": true
+    },
+    {
+        "name": "Magic Aura (3rd level)",
+        "type": "spells",
+        "desc": "You have altered the appearance of an item's magic aura, choosing to have the target's aura appear as that of common magic item of twice magic aura's level or lower, or to have it register as being under the effects of a spell of your choice of magic aura's level or lower. Alternatively, you have targeted a creature instead of an object, choosing to either conceal the auras of all magic items it has or have that creature's aura appear as if it were under the effect of a spell you know.\n\nA caster using detect magic or read aura of an equal or higher spell level can attempt to disbelieve the illusion from magic aura. Magic aura doesn't mask the aura of spells that are 9th level or higher or of items that are 19th level or higher.",
+        "buff": true
+    },
+    {
+        "name": "Magic Weapon",
+        "type": "spells",
+        "desc": "The targeted non-magical weapon has become a +1 striking weapon, gaining a +1 item bonus to attack rolls and increasing the number of weapon damage dice to two.",
+        "hint": "One non-magical weapon in your equipment has become a +1 striking weapon, gaining a +1 item bonus to attack rolls and increasing the number of weapon damage dice to two.",
+        "showon": "Attacks",
+        "buff": true
+    },
+    {
+        "name": "Message Rune",
+        "type": "spells",
+        "desc": "You have recorded a message up to 5 minutes long and inscribe a special rune on any flat unattended surface within reach. The nature of the rune’s appearance is up to you, but it is visible to everyone and it must be no smaller than 2 inches in diameter. You have also specified a trigger that creatures must meet to activate the rune. For the duration of the spell, creatures who meet the criteria of the trigger can touch the rune to hear the recorded message in their head as though you were speaking to them telepathically. You know when someone is listening to the message, but you do not know who is listening to it. You can Dismiss the spell.",
+        "buff": true
+    },
+    {
+        "name": "Imprint Message",
+        "type": "spells",
+        "desc": "You have projected psychic vibrations onto the target object, imprinting it with a short message or emotional theme of your design. This imprinted sensation is revealed to anyone casting object reading on the target object, replacing any emotional events the item was present for. If the object is in the area of a retrocognition spell, the imprinted messages appear as major events in the timeline, but they don’t interfere with any other visions. If the object is targeted with read aura of a higher spell level than imprint message, the caster learns that the object has been modified. When you Cast this Spell, any prior vibrations placed in an object by previous castings of imprint message fade.",
+        "buff": true
     }
 ]

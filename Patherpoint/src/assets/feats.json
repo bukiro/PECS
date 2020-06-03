@@ -2530,8 +2530,12 @@
         "desc": "You can carry more than your frame implies. Increase your maximum and encumbered Bulk limits by 2.",
         "effects": [
             {
+                "affected": "Encumbered Limit",
+                "value": "+2"
+            },
+            {
                 "affected": "Max Bulk",
-                "value": "2"
+                "value": "+2"
             }
         ],
         "levelreq": 1,
@@ -7144,7 +7148,9 @@
                 "available": 1,
                 "level": 0,
                 "source": "Evocation School",
-                "traitFilter": "Evocation"
+                "traitFilter": [
+                    "Evocation"
+                ]
             },
             {
                 "castingType": "Prepared",
@@ -7153,7 +7159,9 @@
                 "available": 1,
                 "level": 1,
                 "source": "Evocation School",
-                "traitFilter": "Evocation"
+                "traitFilter": [
+                    "Evocation"
+                ]
             },
             {
                 "castingType": "Prepared",
@@ -7163,7 +7171,9 @@
                 "level": 2,
                 "charLevelAvailable": 3,
                 "source": "Evocation School",
-                "traitFilter": "Evocation"
+                "traitFilter": [
+                    "Evocation"
+                ]
             },
             {
                 "castingType": "Prepared",
@@ -7173,7 +7183,9 @@
                 "level": 3,
                 "charLevelAvailable": 5,
                 "source": "Evocation School",
-                "traitFilter": "Evocation"
+                "traitFilter": [
+                    "Evocation"
+                ]
             },
             {
                 "castingType": "Prepared",
@@ -7183,7 +7195,9 @@
                 "level": 4,
                 "charLevelAvailable": 7,
                 "source": "Evocation School",
-                "traitFilter": "Evocation"
+                "traitFilter": [
+                    "Evocation"
+                ]
             },
             {
                 "castingType": "Prepared",
@@ -7193,7 +7207,9 @@
                 "level": 5,
                 "charLevelAvailable": 9,
                 "source": "Evocation School",
-                "traitFilter": "Evocation"
+                "traitFilter": [
+                    "Evocation"
+                ]
             },
             {
                 "castingType": "Prepared",
@@ -7203,7 +7219,9 @@
                 "level": 6,
                 "charLevelAvailable": 11,
                 "source": "Evocation School",
-                "traitFilter": "Evocation"
+                "traitFilter": [
+                    "Evocation"
+                ]
             },
             {
                 "castingType": "Prepared",
@@ -7213,7 +7231,9 @@
                 "level": 7,
                 "charLevelAvailable": 13,
                 "source": "Evocation School",
-                "traitFilter": "Evocation"
+                "traitFilter": [
+                    "Evocation"
+                ]
             },
             {
                 "castingType": "Prepared",
@@ -7223,7 +7243,9 @@
                 "level": 8,
                 "charLevelAvailable": 15,
                 "source": "Evocation School",
-                "traitFilter": "Evocation"
+                "traitFilter": [
+                    "Evocation"
+                ]
             },
             {
                 "castingType": "Prepared",
@@ -7233,7 +7255,9 @@
                 "level": 9,
                 "charLevelAvailable": 17,
                 "source": "Evocation School",
-                "traitFilter": "Evocation"
+                "traitFilter": [
+                    "Evocation"
+                ]
             }
         ],
         "effects": [
@@ -7263,7 +7287,19 @@
     },
     {
         "name": "Universalist",
-        "desc": ""
+        "desc": "Instead of specializing narrowly in an arcane school, you can become a universalist wizard—by studying all the schools equally, you devote yourself to understanding the full breadth of the arcane arts. For each level of spell you can cast, you can use Drain Bonded item once per day to recall a spell of that level (instead of using it only once per day in total). You gain an extra wizard class feat, and you add one 1st-level spell of your choice to your spellbook.",
+        "hint": "For each level of spell you can cast, you can use Drain Bonded item once per day to recall a spell of that level (instead of using it only once per day in total).",
+        "showon": "Drain Bonded Item",
+        "gainFeatChoice": [
+            {
+                "_className": "FeatChoice",
+                "available": 1,
+                "level": 1,
+                "source": "Feat: Universalist",
+                "type": "Wizard"
+            }
+        ],
+        "internalNote": "The effect on Drain Bonded Item is hardcoded."
     },
     {
         "name": "Improved Familiar Attunement",
@@ -7276,7 +7312,7 @@
             {
                 "_className": "FeatChoice",
                 "available": 1,
-                "level": "1",
+                "level": 1,
                 "source": "Feat: Metamagical Experimentation",
                 "type": "Metamagic,Wizard"
             },

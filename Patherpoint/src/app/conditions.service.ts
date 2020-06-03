@@ -185,6 +185,12 @@ export class ConditionsService {
         creature.conditions = activeConditions;
     }
 
+    rest(creature: Character|AnimalCompanion|Familiar, characterService: CharacterService) {
+        creature.conditions.filter(gain => gain.duration == -2).forEach(gain => {
+            gain.duration == 0;
+        });
+    }
+
     still_loading() {
         return (this.loading);
     }

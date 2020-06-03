@@ -8,5 +8,8 @@ export class ConditionGain {
     public name: string = "";
     public source: string = "";
     public value: number = 0;
+    //Spells choose from multiple conditions those that match their level.
+    //For example, if a spell has a ConditionGain with heightenedFilter 1 and one with heightenedFilter 2, and the spell is cast at 2nd level, only the heightenedFilter 2 ConditionGain is used.
+    public heightenedFilter: number = 0;
     public heightened: number = 0;
 }

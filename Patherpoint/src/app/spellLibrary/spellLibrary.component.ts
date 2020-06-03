@@ -176,9 +176,9 @@ export class SpellLibraryComponent implements OnInit {
                     wizardLearned = wizardAvailable;
                 }
                 if (wizardAvailable || schoolAvailable) {
-                    result += "\n" + (wizardAvailable - wizardLearned) + (level == 0 ? " Arcane Cantrips" : " Arcane spell(s) up to Level " + level);
+                    result += "\n" + (wizardAvailable - wizardLearned) + (level == 0 ? " Arcane Cantrips" : " Arcane spell(s) up to level " + level);
                     if (schoolAvailable) {
-                        result += "\n" + (schoolAvailable - schoolLearned) + " Arcane spell(s) of the " + school + " school up to Level " + level;
+                        result += "\n" + (schoolAvailable - schoolLearned) + " Arcane spell(s) of the " + school + " school up to level " + level;
                     }
                 }
             })

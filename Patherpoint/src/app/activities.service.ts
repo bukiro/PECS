@@ -132,7 +132,7 @@ export class ActivitiesService {
             activity.castSpells.forEach(cast => {
                 cast.spellGain.duration = cast.duration;
                 let librarySpell = spellsService.get_Spells(cast.name)[0];
-                spellsService.process_Spell(creature.type, characterService, itemsService, timeService, cast.spellGain, librarySpell, cast.level, activated);
+                spellsService.process_Spell(creature.type, characterService, itemsService, timeService, cast.spellGain, librarySpell, cast.level, activated, true);
             })
         }
 

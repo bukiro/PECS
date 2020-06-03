@@ -664,11 +664,11 @@ export class CharacterComponent implements OnInit {
     }
 
     get_BloodlineAvailable(levelNumber: number) {
-        return this.get_Character().class.spellCasting.filter(casting => casting.tradition == "Bloodline" && casting.charLevelAvailable == levelNumber).length
+        return this.get_Character().class.spellCasting.filter(casting => casting.castingType == "Spontaneous" && casting.tradition == "Bloodline" && casting.charLevelAvailable == levelNumber).length
     }
 
     get_AvailableBloodlines(levelNumber: number) {
-        return this.get_Character().class.spellCasting.filter(casting => casting.tradition == "Bloodline" && casting.charLevelAvailable == levelNumber);
+        return this.get_Character().class.spellCasting.filter(casting => casting.castingType == "Spontaneous" && casting.tradition == "Bloodline" && casting.charLevelAvailable == levelNumber);
     }
 
     get_Bloodlines() {

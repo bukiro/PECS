@@ -38,7 +38,7 @@ export class SpellsService {
         }
     }
 
-    process_Spell(target: string = "", characterService: CharacterService, itemsService: ItemsService, timeService: TimeService, gain: SpellGain, spell: Spell, level: number, activated: boolean) {
+    process_Spell(target: string = "", characterService: CharacterService, itemsService: ItemsService, timeService: TimeService, gain: SpellGain, spell: Spell, level: number, activated: boolean, manual: boolean) {
         if (activated && spell.sustained) {
             gain.active = true;
             gain.duration = spell.sustained;
@@ -79,9 +79,9 @@ export class SpellsService {
         if (targetCreature) {
             //Gain Items on Activation
             if (targetCreature.type != "Familiar")
-            if (spell.gainItems.length) {
+            if (spell.get_HeightenedItems(level).length) {
                 if (activated) {
-                    gain.gainItems = spell.gainItems.map(itemGain => Object.assign(new ItemGain(), itemGain));
+                    gain.gainItems = spell.get_HeightenedItems(level).map(itemGain => Object.assign(new ItemGain(), itemGain));
                     gain.gainItems.forEach(gainItem => {
                         let newItem: Item = itemsService.get_Items()[gainItem.type].filter(item => item.name == gainItem.name)[0];
                         if (newItem.can_Stack()) {
@@ -89,6 +89,7 @@ export class SpellsService {
                         } else {
                             let grantedItem = characterService.grant_InventoryItem(targetCreature as Character|AnimalCompanion, targetCreature.inventories[0], newItem, true, false, true);
                             gainItem.id = grantedItem.id;
+                            grantedItem.expiration = gainItem.expiration;
                             if (grantedItem.get_Name) {
                                 grantedItem.displayName = grantedItem.name + " (granted by " + spell.name + ")"
                             };
@@ -114,9 +115,13 @@ export class SpellsService {
             }
 
             //Apply conditions.
-            if (spell.gainConditions) {
+            //Remove conditions only if the spell was deactivated manually, i.e. if you want the condition to end.
+            //If the spell ends by the time running out, the condition will also have a timer and run out by itself.
+            //This allows us to manually change the duration for a condition and keep it running when the spell runs out
+            //  (because it's much more difficult to change the spell duration -and- the condition duration).
+            if (spell.get_HeightenedConditions(level)) {
                 if (activated) {
-                    spell.gainConditions.forEach(conditionGain => {
+                    spell.get_HeightenedConditions(level).forEach(conditionGain => {
                         let newConditionGain = Object.assign(new ConditionGain(), conditionGain);
                         //Pass the spell level in case that condition effects change with level
                         newConditionGain.heightened = level;
@@ -126,8 +131,8 @@ export class SpellsService {
                         }
                         characterService.add_Condition(targetCreature, newConditionGain, false);
                     });
-                } else {
-                    spell.gainConditions.forEach(conditionGain => {
+                } else if (manual) {
+                    spell.get_HeightenedConditions(level).forEach(conditionGain => {
                         characterService.get_AppliedConditions(targetCreature, conditionGain.name)
                             .filter(existingConditionGain => existingConditionGain.source == conditionGain.source)
                             .forEach(existingConditionGain => {
@@ -169,7 +174,7 @@ export class SpellsService {
                 if (taken.gain.duration == 0) {
                     let spell: Spell = this.get_Spells(taken.gain.name)[0];
                     if (spell) {
-                        this.process_Spell(taken.gain.target, characterService, itemsService, timeService, taken.gain, spell, 0, false)
+                        this.process_Spell(taken.gain.target, characterService, itemsService, timeService, taken.gain, spell, 0, false, false)
                         taken.gain.activeCooldown = taken.gain.cooldown;
                     }
                 }

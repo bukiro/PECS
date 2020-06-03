@@ -91,8 +91,14 @@ export class EffectsComponent implements OnInit {
         return this.characterService.get_AppliedConditions(this.get_Creature()).filter(condition => condition.apply == apply);
     }
 
+    change_ConditionDuration(gain: ConditionGain, turns: number) {
+        gain.duration += turns;
+    }
+
     get_Duration(duration: number) {
-        if (duration == -1) {
+        if (duration == -2) {
+            return "Until the next time you make your daily preparations";
+        } else if (duration == -1) {
             return "Permanent";
         } else {
             let returnString: string = ""

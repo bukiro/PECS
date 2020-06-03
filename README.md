@@ -60,12 +60,10 @@ The very latest in Assistive Technologies for Dungeon Master (ATDM)
 - [ ] Stretch Goal: Include optional Stamina & Resolve system
 
 active to do:
-- place Spell library right-bound
-- using up prepared spells
-- drain bonded items > once, once per level
+add custom conditions with effects
+add persistent damage conditions
 
 Implement spells:
-- Detect Magic
 - Inspire Courage
 - Counter Performance
 - Hero's Defiance
@@ -77,10 +75,9 @@ Create feats:
 Create items:
 - Messenger Ring
 - Grim Trophy => Talismans
+- Mage Armor on different levels
 
 Create activities:
-
-Implement fields:
 
 Test:
 Fighter - Reusing Fighter Weapon Mastery as both supertype and subtypes

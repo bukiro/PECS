@@ -214,11 +214,11 @@ constructor(
         });
         characterService.get_Creatures().forEach(creature => {
             let appliedConditions = characterService.get_AppliedConditions(creature).filter(condition => condition.apply);
-            appliedConditions.forEach(condition => {
-                let originalCondition = characterService.get_Conditions(condition.name)[0];
+            appliedConditions.forEach(gain => {
+                let originalCondition = characterService.get_Conditions(gain.name)[0];
                 if (originalCondition?.effects?.length) {
                     //Fit the condition effects into the box defined by feat effects
-                    let effectsObject = {name:condition.name, value:condition.value, effects:originalCondition.effects, heightened:condition.heightened}
+                    let effectsObject = {name:gain.name, value:gain.value, effects:originalCondition.effects, heightened:gain.heightened}
                     simpleEffects = simpleEffects.concat(this.get_SimpleEffects(creature, characterService, effectsObject));
                 }
             });

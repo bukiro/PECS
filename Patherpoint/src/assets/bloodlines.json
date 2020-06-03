@@ -17,7 +17,7 @@
             {
                 "_className": "SpellCast",
                 "level": 0,
-                "name": "Elemental Toss (Air)"
+                "name": "Elemental Toss"
             },
             {
                 "_className": "SpellCast",
@@ -27,19 +27,19 @@
             {
                 "_className": "SpellCast",
                 "level": 2,
-                "name": "Elemental Blast (Air)"
+                "name": "Elemental Blast"
             }
         ],
         "grantedSpells": [
             {
                 "_className": "SpellCast",
                 "level": 0,
-                "name": "Produce Flame (Air)"
+                "name": "Produce Flame"
             },
             {
                 "_className": "SpellCast",
                 "level": 1,
-                "name": "Burning Hands (Air)"
+                "name": "Burning Hands"
             },
             {
                 "_className": "SpellCast",
@@ -49,7 +49,7 @@
             {
                 "_className": "SpellCast",
                 "level": 3,
-                "name": "Fireball (Air)"
+                "name": "Fireball"
             },
             {
                 "_className": "SpellCast",

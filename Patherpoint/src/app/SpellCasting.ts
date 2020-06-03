@@ -2,8 +2,6 @@ import { SkillChoice } from './SkillChoice';
 import { SpellChoice } from './SpellChoice';
 import { Bloodline } from './Bloodline';
 import { CharacterService } from './character.service';
-import { Character } from './Character';
-import { InjectSetupWrapper } from '@angular/core/testing';
 
 export class SpellCasting {
     public readonly _className: string = this.constructor.name;
@@ -26,6 +24,9 @@ export class SpellCasting {
     //SpellBookSlots is for Wizards and describes how many spells you can learn per level, where the index is the level.
     //Index 0 is for cantrips. Regular wizards get 2 new spells per level and 5 on the first, and the spell level can be up to index/2 (rounded up).
     public spellBookSlots: number[] = [10, 5, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2];
+    //BondedItemCharges is for Wizards and contains charges to restore a used spell. The index is the spell level, and 0 is for all spell levels.
+    //Universalists get 1 for each level per rest, and all other schools get 1 for all. These are added at Rest.
+    public bondedItemCharges: number[] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
     public source: string = ""
     constructor(public castingType: "Focus"|"Innate"|"Prepared"|"Spontaneous") {
     }

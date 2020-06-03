@@ -15,6 +15,12 @@
             <div class="row fullsize-only">
                 <span>{{get_Duration(conditionGain.duration)}}</span>
             </div>
+            <div class="row fullsize-only" *ngIf="conditionGain.duration != -1">
+                <span><button (click)="change_ConditionDuration(conditionGain, -10)" [disabled]="conditionGain.duration <= 10">- 1 turn</button></span>
+                <span><button (click)="change_ConditionDuration(conditionGain, 10)">+ 1 turn</button></span>
+                <span><button (click)="change_ConditionDuration(conditionGain, 100)">+ 1 minute</button></span>
+                <span><button (click)="change_ConditionDuration(conditionGain, 1000)">+ 10 minutes</button></span>
+            </div>
             <div class="row fullsize-only">
                 <div class="list-item lower row problem" *ngIf="condition.inputRequired">
                     <strong>Player input required:</strong>

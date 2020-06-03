@@ -3,7 +3,7 @@
     <button class="row sublist-toggle" [ngClass]="{'fancy-button':(get_Available(choice) == choice.spells.length)}"
         (click)="toggle_Choice(choice.source+choice.id)">
         {{itemSpell ? "Level "+choice.level : ""}} {{choice.frequency ? capitalize(choice.frequency) : ""}}
-        {{choice.tradition ? choice.tradition : ""}} {{is_SignatureSpell(choice) ? "Signature" : ""}}
+        {{choice.tradition ? choice.tradition : ""}} {{choice.traitFilter.length ? choice.traitFilter.join(" ") : ""}} {{is_SignatureSpell(choice) ? "Signature" : ""}}
         {{choice.className}} Spell{{(get_Available(choice) > 1) ? "s" : ""}}{{!itemSpell ? " ("+choice.source+")" : ""}}{{(get_Available(choice) > 1) ?
             ": "+ choice.spells.length +"/"+ get_Available(choice) : 
             (choice.spells.length) ? ": "+ choice.spells[0].name : ""}}
@@ -18,8 +18,9 @@
                     [checked]="spellTakenByThis(spell, choice)"
                     [disabled]="cannotTake(spell, choice).length && !spellTakenByThis(spell, choice)"
                     *ngIf="spellCasting.castingType!='Prepared'">
-                <button (click)="on_SpellTaken(spell.name, true, choice, false)" [disabled]="cannotTake(spell, choice).length" *ngIf="spellCasting.castingType=='Prepared'">+</button>
                 <button (click)="on_SpellTaken(spell.name, false, choice, false)" [disabled]="!spellTakenByThis(spell, choice)" *ngIf="spellCasting.castingType=='Prepared'">-</button>
+                <button (click)="on_SpellTaken(spell.name, true, choice, false)" [disabled]="cannotTake(spell, choice).length" *ngIf="spellCasting.castingType=='Prepared'">+</button>
+                <span *ngIf="spellCasting.castingType=='Prepared'">&nbsp;</span>
                 <label for="{{choice.id+spell.name}}">
                     <strong>{{spellTakenByThis(spell, choice) ? " " + spellTakenByThis(spell, choice) + " " : ""}}{{spell.name}}&nbsp;</strong><cite>Level {{spell.levelreq}}</cite>
                 </label>

@@ -13,6 +13,9 @@
                         {{casting.castingType}}
                     </span>
                 </span>
+                <strong class="lower" *ngIf="casting.bondedItemCharges[0]">
+                    {{casting.bondedItemCharges[0]}} charge available
+                </strong>
             </h3>
             <ng-container *ngFor="let level of [-1, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10]">
                 <ng-container *ngIf="level <= get_MaxSpellLevel()">
@@ -24,6 +27,9 @@
                                 </strong>
                                 <strong *ngIf="maxspellslots">
                                     {{(maxspellslots - get_UsedSpellSlots(level, casting)) + " / " + maxspellslots}}
+                                </strong>
+                                <strong *ngIf="casting.bondedItemCharges[level] && level != 0">
+                                    {{casting.bondedItemCharges[level]}} charge available
                                 </strong>
                             </div>
                             <div class="list-item" [ngClass]="{'problem':(get_FocusPoints() > get_MaxFocusPoints())}"
@@ -52,6 +58,14 @@
                                         [className]="{'inactive-list': casting.castingType=='Prepared'&&!spellTaken.gain.prepared }"
                                         *ngIf="this.get_showSpell()==casting.castingType+casting.class+spellTaken.gain.name+spellID">
                                         <button class="row center-aligned"
+                                            (click)="on_Restore(spellTaken.gain, casting, level)"
+                                            *ngIf="casting.castingType == 'Prepared' && casting.className == 'Wizard' && !spellTaken.gain.prepared"
+                                            title="{{(!casting.bondedItemCharges[level] && !casting.bondedItemCharges[0]) ? 'No bonded item charges remaining.' : ''}}"
+                                            [disabled]="!casting.bondedItemCharges[level] && !casting.bondedItemCharges[0]">
+                                            <span class="center-aligned">Restore with bonded item <app-actionIcons [actionString]="'Free'">
+                                            </app-actionIcons></span>
+                                        </button>
+                                        <button class="row center-aligned"
                                             (click)="on_Cast(spellTaken.gain, casting, 'Character', spell, true)"
                                             *ngIf="['self', 'ally'].includes(spell.target) && !spellTaken.gain.active"
                                             title="{{cannot_Cast(spell, level, casting, spellTaken.choice, spellTaken.gain, maxspellslots)}}"
@@ -60,14 +74,14 @@
                                         </button>
                                         <button class="row center-aligned"
                                             (click)="on_Cast(spellTaken.gain, casting, 'Companion', spell, true)"
-                                            *ngIf="['companion', 'ally'].includes(spell.target) && !spellTaken.gain.active"
+                                            *ngIf="['companion', 'ally'].includes(spell.target) && !spellTaken.gain.active && get_CompanionAvailable()"
                                             title="{{cannot_Cast(spell, level, casting, spellTaken.choice, spellTaken.gain, maxspellslots)}}"
                                             [disabled]="cannot_Cast(spell, level, casting, spellTaken.choice, spellTaken.gain, maxspellslots)">
                                             Cast on your animal companion
                                         </button>
                                         <button class="row center-aligned"
                                             (click)="on_Cast(spellTaken.gain, casting, 'Familiar', spell, true)"
-                                            *ngIf="['companion', 'ally'].includes(spell.target) && !spellTaken.gain.active"
+                                            *ngIf="['companion', 'ally'].includes(spell.target) && !spellTaken.gain.active && get_FamiliarAvailable()"
                                             title="{{cannot_Cast(spell, level, casting, spellTaken.choice, spellTaken.gain, maxspellslots)}}"
                                             [disabled]="cannot_Cast(spell, level, casting, spellTaken.choice, spellTaken.gain, maxspellslots)">
                                             Cast on your Familiar

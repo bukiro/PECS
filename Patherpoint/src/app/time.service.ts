@@ -6,6 +6,7 @@ import { EffectsService } from './effects.service';
 import { Effect } from './Effect';
 import { SpellsService } from './spells.service';
 import { ItemsService } from './items.service';
+import { Character } from './Character';
 
 @Injectable({
     providedIn: 'root'
@@ -72,14 +73,32 @@ export class TimeService {
             characterService.get_AppliedConditions(creature, "Drained").forEach(gain => {gain.value -= 1});
             //Reset all "once per day" activity cooldowns.
             this.activitiesService.rest(creature, characterService);
+            //Reset all conditions that are "until the next time you make your daily preparations";
+            this.conditionsService.rest(creature, characterService);
+            //Reset all conditions that are "until the next time you make your daily preparations";
+            if (creature.type != "Familiar") {
+                itemsService.rest(creature, characterService);
+            }
+            //For the Character, reset all "once per day" spells, and regenerate spell slots and bonded item charges.
             if (creature.type == "Character") {
+                let character = creature as Character;
                 //Reset all "once per day" spell cooldowns and re-prepare spells.
-                this.spellsService.rest(characterService.get_Character(), characterService);
+                this.spellsService.rest(character, characterService);
+                //Regenerate spell slots.
+                character.class.spellCasting.forEach(casting => {
+                    casting.spellSlotsUsed = [999, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+                });
+                //Regenerate bonded item charges.
+                character.class.spellCasting.filter(casting => casting.castingType == "Prepared" && casting.className == "Wizard").forEach(casting => {
+                    if (character.get_FeatsTaken(1, character.level, "Universalist").length) {
+                        casting.bondedItemCharges = [0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1];
+                    } else {
+                        casting.bondedItemCharges = [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+                    }
+                });
             }
         });
-        characterService.get_Character().class.spellCasting.forEach(casting => {
-            casting.spellSlotsUsed = [999, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
-        });
+        
         characterService.set_Changed();
     }
 
@@ -92,7 +111,7 @@ export class TimeService {
             }
             //Tick down and remove any oils whose effect is running out.
             if (creature.type != "Familiar") {
-                characterService.tick_Oils(creature, turns);
+                itemsService.tick_Items(creature, characterService, turns);
             }
             if (creature.type == "Character") {
                 this.spellsService.tick_Spells(creature, characterService, itemsService, this, turns);

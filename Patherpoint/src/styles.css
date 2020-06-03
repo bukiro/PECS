@@ -263,11 +263,11 @@ ul {
     text-align: left;
 }
 
-.row:not(.left-aligned)>*:first-child {
+.row:not(.left-aligned):not(.center-aligned)>*:first-child {
     text-align: left;
 }
 
-.row:not(.left-aligned)>*:last-child:not(:first-child) {
+.row:not(.left-aligned):not(.center-aligned)>*:last-child:not(:first-child) {
     text-align: right;
 }
 
@@ -594,11 +594,6 @@ button.list-item {
     border-color: white;
 }
 
-.list-item.sublist.inactive-list {
-    border-color: grey;
-}
-
-
 button:hover~.list-item.sublist {
     border-color: rgba(25, 118, 210, 0.8);
     border-color: rgba(var(--accent), 0.8);
@@ -608,6 +603,16 @@ button:hover~.list-item.sublist.fancy-list {
     border-color: white;
     border-color: rgba(255, 255, 255, 0.8);
     border-color: #FFFFFF50;
+}
+
+.list-item.sublist.inactive-list {
+    border-color: grey;
+}
+
+button:hover~.list-item.sublist.inactive-list {
+    border-color: grey;
+    border-color: rgba(128, 128, 128, 0.8);
+    border-color: #80808050;
 }
 
 .itemBox .fancybutton.list-item {
@@ -644,6 +649,10 @@ button:hover~.list-item.sublist.fancy-list {
 
 .center-aligned {
     justify-content: center;
+}
+
+.center-aligned span.center-aligned {
+    text-align: center;
 }
 
 .fullwidth {

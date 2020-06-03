@@ -27,7 +27,7 @@ export class Spell {
     public failure: string = "";
     public gainConditions: ConditionGain[] = [];
     public gainItems: ItemGain[] = [];
-    public heightened = [];
+    public heightened: {variable:string, value:string}[] = [];
     public levelreq: number = 1;
     public name: string = "";
     public range: string = "";
@@ -79,6 +79,66 @@ export class Spell {
             desc = desc.replace(descVar.variable, descVar.value);
         })
         return desc;
+    }
+    get_HeightenedConditions(levelNumber: number) {
+        if (!this.gainConditions.length || this.gainConditions.filter(gain => !gain.heightenedFilter).length) {
+            return this.gainConditions;
+        } else if (this.gainConditions.length) {
+            switch (levelNumber) {
+                case 10: 
+                    if (this.gainConditions.filter(gain => gain.heightenedFilter == 10).length) { return this.gainConditions.filter(gain => gain.heightenedFilter == 10); }
+                case 9: 
+                    if (this.gainConditions.filter(gain => gain.heightenedFilter == 9).length) { return this.gainConditions.filter(gain => gain.heightenedFilter == 9); }
+                case 8: 
+                    if (this.gainConditions.filter(gain => gain.heightenedFilter == 8).length) { return this.gainConditions.filter(gain => gain.heightenedFilter == 8); }
+                case 7: 
+                    if (this.gainConditions.filter(gain => gain.heightenedFilter == 7).length) { return this.gainConditions.filter(gain => gain.heightenedFilter == 7); }
+                case 6: 
+                    if (this.gainConditions.filter(gain => gain.heightenedFilter == 6).length) { return this.gainConditions.filter(gain => gain.heightenedFilter == 6); }
+                case 5: 
+                    if (this.gainConditions.filter(gain => gain.heightenedFilter == 5).length) { return this.gainConditions.filter(gain => gain.heightenedFilter == 5); }
+                case 4: 
+                    if (this.gainConditions.filter(gain => gain.heightenedFilter == 4).length) { return this.gainConditions.filter(gain => gain.heightenedFilter == 4); }
+                case 3: 
+                    if (this.gainConditions.filter(gain => gain.heightenedFilter == 3).length) { return this.gainConditions.filter(gain => gain.heightenedFilter == 3); }
+                case 2: 
+                    if (this.gainConditions.filter(gain => gain.heightenedFilter == 2).length) { return this.gainConditions.filter(gain => gain.heightenedFilter == 2); }
+                case 1:
+                    if (this.gainConditions.filter(gain => gain.heightenedFilter == 1).length) { return this.gainConditions.filter(gain => gain.heightenedFilter == 1); }
+                default:
+                    return this.gainConditions;
+                }
+        }
+    }
+    get_HeightenedItems(levelNumber: number) {
+        if (!this.gainItems.length || this.gainItems.filter(gain => !gain.heightenedFilter).length) {
+            return this.gainItems;
+        } else if (this.gainItems.length) {
+            switch (levelNumber) {
+                case 10: 
+                    if (this.gainItems.filter(gain => gain.heightenedFilter == 10).length) { return this.gainItems.filter(gain => gain.heightenedFilter == 10); }
+                case 9: 
+                    if (this.gainItems.filter(gain => gain.heightenedFilter == 9).length) { return this.gainItems.filter(gain => gain.heightenedFilter == 9); }
+                case 8: 
+                    if (this.gainItems.filter(gain => gain.heightenedFilter == 8).length) { return this.gainItems.filter(gain => gain.heightenedFilter == 8); }
+                case 7: 
+                    if (this.gainItems.filter(gain => gain.heightenedFilter == 7).length) { return this.gainItems.filter(gain => gain.heightenedFilter == 7); }
+                case 6: 
+                    if (this.gainItems.filter(gain => gain.heightenedFilter == 6).length) { return this.gainItems.filter(gain => gain.heightenedFilter == 6); }
+                case 5: 
+                    if (this.gainItems.filter(gain => gain.heightenedFilter == 5).length) { return this.gainItems.filter(gain => gain.heightenedFilter == 5); }
+                case 4: 
+                    if (this.gainItems.filter(gain => gain.heightenedFilter == 4).length) { return this.gainItems.filter(gain => gain.heightenedFilter == 4); }
+                case 3: 
+                    if (this.gainItems.filter(gain => gain.heightenedFilter == 3).length) { return this.gainItems.filter(gain => gain.heightenedFilter == 3); }
+                case 2: 
+                    if (this.gainItems.filter(gain => gain.heightenedFilter == 2).length) { return this.gainItems.filter(gain => gain.heightenedFilter == 2); }
+                case 1:
+                    if (this.gainItems.filter(gain => gain.heightenedFilter == 1).length) { return this.gainItems.filter(gain => gain.heightenedFilter == 1); }
+                default:
+                    return this.gainItems;
+                }
+        }
     }
     meetsLevelReq(characterService: CharacterService, spellLevel: number = Math.ceil(characterService.get_Character().level / 2)) {
         //If the spell has a levelreq, check if the level beats that.

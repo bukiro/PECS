@@ -621,6 +621,12 @@
             },
             {
                 "_className": "EffectGain",
+                "affected": "Encumbered Limit",
+                "value": "+1",
+                "type": "item"
+            },
+            {
+                "_className": "EffectGain",
                 "affected": "Max Bulk",
                 "value": "+1",
                 "type": "item"

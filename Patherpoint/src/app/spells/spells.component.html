@@ -5,8 +5,8 @@
     <ng-container *ngIf="!still_loading() && get_Character().class">
         <div class="list-item">
             <span>
-                <input type="checkbox" [(ngModel)]="allowHeightened">
-                Allow heightened spells
+                <input id="allowHeightened" type="checkbox" [(ngModel)]="allowHeightened">
+                <label for="allowHeightened">Allow heightened spells</label>
             </span>
         </div>
         <ng-container *ngFor="let casting of get_SpellCastings(); let index = index;">
@@ -20,8 +20,8 @@
             </h3>
             <div class="list-item" *ngIf="need_Spellbook(casting)">
                 <span>
-                    <input type="checkbox" [(ngModel)]="allowBorrow">
-                    Allow borrowing spells not in your spellbook
+                    <input id="allowBorrow" type="checkbox" [(ngModel)]="allowBorrow">
+                    <label for="allowBorrow">Allow borrowing spells not in your spellbook</label>
                 </span>
             </div>
             <ng-container *ngFor="let level of [-1, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10]">

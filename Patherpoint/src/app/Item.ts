@@ -30,6 +30,8 @@ export class Item {
     public data: {name:string, value:any}[] = [];
     //Full description of the item, ideally unchanged from the source material
     public desc: string = "";
+    //For summoned items or infused reagents, the expiration ticks down, and the item is then dropped. Expiration is turns * 10.
+    public expiration: number = 0;
     //If this name is set, always show it instead of the expanded base name
     public displayName: string = "";
     //Can this item be equipped (and apply its effect only then)
