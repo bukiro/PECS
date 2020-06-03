@@ -133,7 +133,18 @@ export class GeneralComponent implements OnInit {
     }
 
     get_Bloodlines() {
-        return this.get_Character().class.spellCasting.filter(casting => casting.bloodline).map(casting => casting.bloodline);
+        return this.get_Character().get_FeatsTaken(1, this.get_Character().level)
+        .filter(gain => 
+            ["Aberrant Bloodline",
+            "Angelic Bloodline",
+            "Demonic Bloodline",
+            "Diabolic Bloodline",
+            "Draconic Bloodline",
+            "Elemental Bloodline",
+            "Fey Bloodline",
+            "Hag Bloodline",
+            "Imperial Bloodline",
+            "Undead Bloodline"].includes(gain.name))
     }
 
     get_ClassDCs() {

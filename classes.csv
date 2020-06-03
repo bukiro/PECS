@@ -139,51 +139,56 @@ levels/1/abilityChoices/1/available,4,4,4,4,4,4,4,4,4,4,4,4
 levels/1/abilityChoices/1/baseValuesLost,4,4,4,4,4,4,4,4,4,4,4,4
 levels/1/abilityChoices/1/id,1-Ability-Character Creation-1,1-Ability-Character Creation-1,1-Ability-Character Creation-1,1-Ability-Character Creation-1,1-Ability-Character Creation-1,1-Ability-Character Creation-1,1-Ability-Character Creation-1,1-Ability-Character Creation-1,1-Ability-Character Creation-1,1-Ability-Character Creation-1,1-Ability-Character Creation-1,1-Ability-Character Creation-1
 levels/1/abilityChoices/1/source,Character Creation,Character Creation,Character Creation,Character Creation,Character Creation,Character Creation,Character Creation,Character Creation,Character Creation,Character Creation,Character Creation,Character Creation
-levels/1/featChoices/0/_className,FeatChoice,FeatChoice,,FeatChoice,FeatChoice,FeatChoice,FeatChoice,FeatChoice,FeatChoice,FeatChoice,FeatChoice,FeatChoice
-levels/1/featChoices/0/feats/0/locked,TRUE,TRUE,,TRUE,TRUE,TRUE,TRUE,TRUE,TRUE,TRUE,,TRUE
-levels/1/featChoices/0/feats/0/name,Infused Reagents,Rage,,Champion's Code,Divine Font,Anathema,Attack of Opportunity,Powerful Fist,Hunt Prey,Sneak Attack,,Arcane Bond
-levels/1/featChoices/0/feats/0/source,Alchemist,Barbarian,,Champion,Cleric,Druid,Fighter,Monk,Ranger,Rogue,,Wizard
-levels/1/featChoices/0/feats/0/sourceId,1-Feature-Alchemist-0,1-Feature-Barbarian-0,,1-Feature-Champion-0,1-Feature-Cleric-0,1-Feature-Druid-0,1-Feature-Fighter-0,1-Feature-Monk-0,1-Feature-Ranger-0,1-Feature-Rogue-0,,1-Feature-Wizard-0
-levels/1/featChoices/0/feats/1/locked,TRUE,,,TRUE,TRUE,TRUE,TRUE,TRUE,TRUE,TRUE,,TRUE
-levels/1/featChoices/0/feats/1/name,Advanced Alchemy,,,Champion's Reaction,Anathema,Druidic Language,Shield Block,Flurry of Blows,Hunter's Edge,Surprise Attack,,Surprise Attack
-levels/1/featChoices/0/feats/1/source,Alchemist,,,Champion,Cleric,Druid,Fighter,Monk,Ranger,Rogue,,Wizard
-levels/1/featChoices/0/feats/1/sourceId,1-Feature-Alchemist-0,,,1-Feature-Champion-0,1-Feature-Cleric-0,1-Feature-Druid-0,1-Feature-Fighter-0,1-Feature-Monk-0,1-Feature-Ranger-0,1-Feature-Rogue-0,,1-Feature-Wizard-0
+levels/1/featChoices/0/_className,FeatChoice,FeatChoice,FeatChoice,FeatChoice,FeatChoice,FeatChoice,FeatChoice,FeatChoice,FeatChoice,FeatChoice,FeatChoice,FeatChoice
+levels/1/featChoices/0/feats/0/locked,TRUE,TRUE,TRUE,TRUE,TRUE,TRUE,TRUE,TRUE,TRUE,TRUE,TRUE,TRUE
+levels/1/featChoices/0/feats/0/name,Infused Reagents,Rage,Composition Spells,Champion's Code,Divine Font,Anathema,Attack of Opportunity (Fighter),Powerful Fist,Hunt Prey,Sneak Attack,Bloodline,Arcane Bond
+levels/1/featChoices/0/feats/0/source,Alchemist,Barbarian,Bard,Champion,Cleric,Druid,Fighter,Monk,Ranger,Rogue,Sorcerer,Wizard
+levels/1/featChoices/0/feats/0/sourceId,1-Feature-Alchemist-0,1-Feature-Barbarian-0,1-Feature-Bard-0,1-Feature-Champion-0,1-Feature-Cleric-0,1-Feature-Druid-0,1-Feature-Fighter-0,1-Feature-Monk-0,1-Feature-Ranger-0,1-Feature-Rogue-0,1-Feature-Sorcerer-0,1-Feature-Wizard-0
+levels/1/featChoices/0/feats/1/locked,TRUE,,TRUE,TRUE,TRUE,TRUE,TRUE,TRUE,TRUE,TRUE,,TRUE
+levels/1/featChoices/0/feats/1/name,Advanced Alchemy,,Muse,Champion's Reaction,Anathema,Druidic Language,Shield Block,Flurry of Blows,Hunter's Edge,Surprise Attack,,Arcane Thesis
+levels/1/featChoices/0/feats/1/source,Alchemist,,Bard,Champion,Cleric,Druid,Fighter,Monk,Ranger,Rogue,,Wizard
+levels/1/featChoices/0/feats/1/sourceId,1-Feature-Alchemist-0,,1-Feature-Bard-0,1-Feature-Champion-0,1-Feature-Cleric-0,1-Feature-Druid-0,1-Feature-Fighter-0,1-Feature-Monk-0,1-Feature-Ranger-0,1-Feature-Rogue-0,,1-Feature-Wizard-0
 levels/1/featChoices/0/feats/2/locked,TRUE,,,TRUE,,TRUE,,,,,,
-levels/1/featChoices/0/feats/2/name,Quick Alchemy,,,Deific Weapon,,Shield Block,,,,,,
+levels/1/featChoices/0/feats/2/name,Quick Alchemy,,,Deific Weapon,,Druidic Order,,,,,,
 levels/1/featChoices/0/feats/2/source,Alchemist,,,Champion,,Druid,,,,,,
 levels/1/featChoices/0/feats/2/sourceId,1-Feature-Alchemist-0,,,1-Feature-Champion-0,,1-Feature-Druid-0,,,,,,
 levels/1/featChoices/0/feats/3/locked,TRUE,,,TRUE,,TRUE,,,,,,
-levels/1/featChoices/0/feats/3/name,Alchemical Crafting,,,Shield Block,,Wild Empathy,,,,,,
+levels/1/featChoices/0/feats/3/name,Alchemical Crafting,,,Deity and Cause,,Shield Block,,,,,,
 levels/1/featChoices/0/feats/3/source,Alchemist,,,Champion,,Druid,,,,,,
 levels/1/featChoices/0/feats/3/sourceId,1-Feature-Alchemist-0,,,1-Feature-Champion-0,,1-Feature-Druid-0,,,,,,
-levels/1/featChoices/0/id,1-Feature-Alchemist-0,1-Feature-Barbarian-0,,1-Feature-Champion-0,1-Feature-Cleric-0,1-Feature-Druid-0,1-Feature-Fighter-0,1-Feature-Monk-0,1-Feature-Ranger-0,1-Feature-Rogue-0,1-Feature-Sorcerer-0,1-Feature-Wizard-0
-levels/1/featChoices/0/source,Alchemist,Barbarian,,Champion,Cleric,Druid,Fighter,Monk,Ranger,Rogue,Sorcerer,Wizard
-levels/1/featChoices/0/type,Feature,Feature,,Feature,Feature,Feature,Feature,Feature,Feature,Feature,Feature,Feature
-levels/1/featChoices/1/_className,FeatChoice,FeatChoice,FeatChoice,FeatChoice,FeatChoice,FeatChoice,,,FeatChoice,FeatChoice,,FeatChoice
-levels/1/featChoices/1/available,1,1,1,1,1,1,,,1,1,,1
-levels/1/featChoices/1/filter/0,Bomber,Animal Instinct,Enigma,Paladin,Cloistered Cleric,Animal,,,Flurry,Ruffian,,Abjuration
-levels/1/featChoices/1/filter/1,Chirurgeon,Dragon Instinct,Maestro,Redeemer,Warpriest,Leaf,,,Outwit,Scoundrel,,Conjuration
-levels/1/featChoices/1/filter/2,Mutagenist,Fury Instinct,Polymath,Liberator,,Storm,,,Precision,Thief,,Divination
-levels/1/featChoices/1/filter/3,,Giant Instinct,,,,Wild,,,,,,Enchantment
-levels/1/featChoices/1/filter/4,,Spirit Instinct,,,,,,,,,,Evocation
-levels/1/featChoices/1/filter/5,,,,,,,,,,,,Illusion
-levels/1/featChoices/1/filter/6,,,,,,,,,,,,Necromancy
-levels/1/featChoices/1/filter/7,,,,,,,,,,,,Transmutation
-levels/1/featChoices/1/filter/8,,,,,,,,,,,,Universalist
-levels/1/featChoices/1/id,1-Research Field-Alchemist-1,1-Instinct-Barbarian-1,1-Muse-Bard-1,1-Cause-Champion-1,1-Doctrine-Cleric-1,1-Druidic Order-Druid-1,,,1-Hunter's Edge-Ranger-1,1-Racket-Ranger-1,,1-School-Wizard-1
-levels/1/featChoices/1/source,Alchemist,Barbarian,Bard,Champion,Cleric,Druid,,,Ranger,Ranger,,Wizard
-levels/1/featChoices/1/specialChoice,TRUE,TRUE,TRUE,TRUE,TRUE,TRUE,,,TRUE,TRUE,,TRUE
-levels/1/featChoices/1/type,Research Field,Instinct,Muse,Cause,Doctrine,Druidic Order,,,Hunter's Edge,Racket,,School
+levels/1/featChoices/0/feats/4/locked,,,,TRUE,,TRUE,,,,,,
+levels/1/featChoices/0/feats/4/name,,,,Shield Block,,Wild Empathy,,,,,,
+levels/1/featChoices/0/feats/4/source,,,,Champion,,Druid,,,,,,
+levels/1/featChoices/0/feats/4/sourceId,,,,1-Feature-Champion-0,,1-Feature-Druid-0,,,,,,
+levels/1/featChoices/0/id,1-Feature-Alchemist-0,1-Feature-Barbarian-0,1-Feature-Bard-0,1-Feature-Champion-0,1-Feature-Cleric-0,1-Feature-Druid-0,1-Feature-Fighter-0,1-Feature-Monk-0,1-Feature-Ranger-0,1-Feature-Rogue-0,1-Feature-Sorcerer-0,1-Feature-Wizard-0
+levels/1/featChoices/0/source,Alchemist,Barbarian,Bard,Champion,Cleric,Druid,Fighter,Monk,Ranger,Rogue,Sorcerer,Wizard
+levels/1/featChoices/0/type,Feature,Feature,Feature,Feature,Feature,Feature,Feature,Feature,Feature,Feature,Feature,Feature
+levels/1/featChoices/1/_className,FeatChoice,FeatChoice,FeatChoice,FeatChoice,FeatChoice,FeatChoice,,FeatChoice,FeatChoice,FeatChoice,FeatChoice,FeatChoice
+levels/1/featChoices/1/available,1,1,1,1,1,1,,1,1,1,1,1
+levels/1/featChoices/1/filter/0,Bomber,Animal Instinct,Enigma,Paladin,Cloistered Cleric,Animal,,Divine Ki Spells,Flurry,Ruffian,Aberrant Bloodline,Abjuration
+levels/1/featChoices/1/filter/1,Chirurgeon,Dragon Instinct,Maestro,Redeemer,Warpriest,Leaf,,Occult Ki Spells,Outwit,Scoundrel,Angelic Bloodline,Conjuration
+levels/1/featChoices/1/filter/2,Mutagenist,Fury Instinct,Polymath,Liberator,,Storm,,,Precision,Thief,Demonic Bloodline,Divination
+levels/1/featChoices/1/filter/3,,Giant Instinct,,,,Wild,,,,,Diabolic Bloodline,Enchantment
+levels/1/featChoices/1/filter/4,,Spirit Instinct,,,,,,,,,Draconic Bloodline,Evocation
+levels/1/featChoices/1/filter/5,,,,,,,,,,,Elemental Bloodline,Illusion
+levels/1/featChoices/1/filter/6,,,,,,,,,,,Fey Bloodline,Necromancy
+levels/1/featChoices/1/filter/7,,,,,,,,,,,Hag Bloodline,Transmutation
+levels/1/featChoices/1/filter/8,,,,,,,,,,,Imperial Bloodline,Universalist
+levels/1/featChoices/1/filter/9,,,,,,,,,,,Undead Bloodline,
+levels/1/featChoices/1/id,1-Research Field-Alchemist-1,1-Instinct-Barbarian-1,1-Muse-Bard-1,1-Cause-Champion-1,1-Doctrine-Cleric-1,1-Druidic Order-Druid-1,,1-Ki Spell Tradition-Monk-1,1-Hunter's Edge-Ranger-1,1-Racket-Ranger-1,1-Bloodline-Sorcerer-1,1-School-Wizard-1
+levels/1/featChoices/1/source,Alchemist,Barbarian,Bard,Champion,Cleric,Druid,,Monk,Ranger,Ranger,Sorcerer,Wizard
+levels/1/featChoices/1/specialChoice,TRUE,TRUE,TRUE,TRUE,TRUE,TRUE,,TRUE,TRUE,TRUE,TRUE,TRUE
+levels/1/featChoices/1/type,Research Field,Instinct,Muse,Cause,Doctrine,Druidic Order,,Ki Spell Tradition,Hunter's Edge,Racket,Bloodline,School
 levels/1/featChoices/2/_className,,,,,,,,,,,,FeatChoice
 levels/1/featChoices/2/available,,,,,,,,,,,,1
 levels/1/featChoices/2/filter/0,,,,,,,,,,,,Improved Familiar Attunement
 levels/1/featChoices/2/filter/1,,,,,,,,,,,,Metamagical Experimentation
 levels/1/featChoices/2/filter/2,,,,,,,,,,,,Spell Blending
 levels/1/featChoices/2/filter/3,,,,,,,,,,,,Spell Substitution
-levels/1/featChoices/2/id,,,,,,,,,,,,1-Thesis-Wizard-2
+levels/1/featChoices/2/id,,,,,,,,,,,,1-Arcane Thesis-Wizard-2
 levels/1/featChoices/2/source,,,,,,,,,,,,Wizard
 levels/1/featChoices/2/specialChoice,,,,,,,,,,,,TRUE
-levels/1/featChoices/2/type,,,,,,,,,,,,Thesis
+levels/1/featChoices/2/type,,,,,,,,,,,,Arcane Thesis
 levels/1/featChoices/3/_className,FeatChoice,FeatChoice,FeatChoice,FeatChoice,FeatChoice,FeatChoice,FeatChoice,FeatChoice,FeatChoice,FeatChoice,FeatChoice,FeatChoice
 levels/1/featChoices/3/available,1,1,1,1,1,1,1,,1,1,1,1
 levels/1/featChoices/3/id,1-Ancestry-Class-3,1-Ancestry-Class-3,1-Ancestry-Class-3,1-Ancestry-Class-3,1-Ancestry-Class-3,1-Ancestry-Class-3,1-Ancestry-Class-3,1-Ancestry-Class-3,1-Ancestry-Class-3,1-Ancestry-Class-3,1-Ancestry-Class-3,1-Ancestry-Class-3
@@ -242,66 +247,71 @@ levels/1/skillChoices/0/increases/7/maxRank,2,2,2,2,2,2,2,2,2,2,2,2
 levels/1/skillChoices/0/increases/7/name,Simple Weapons,Athletics,Simple Weapons,Simple Weapons,Unarmed Attacks,Unarmed Attacks,Religion,Simple Weapons,Nature,Stealth,Unarmored Defense,Club
 levels/1/skillChoices/0/increases/7/source,Class,Class,Class,Class,Class,Class,Class,Class,Class,Class,Class,Class
 levels/1/skillChoices/0/increases/7/sourceId,1-Any-Class-0,1-Any-Class-0,1-Any-Class-0,1-Any-Class-0,1-Any-Class-0,1-Any-Class-0,1-Any-Class-0,1-Any-Class-0,1-Any-Class-0,1-Any-Class-0,1-Any-Class-0,1-Any-Class-0
-levels/1/skillChoices/0/increases/8/locked,TRUE,TRUE,TRUE,TRUE,TRUE,TRUE,TRUE,TRUE,TRUE,TRUE,,TRUE
-levels/1/skillChoices/0/increases/8/maxRank,2,2,2,2,2,2,2,2,2,2,,2
-levels/1/skillChoices/0/increases/8/name,Alchemical Bomb,Simple Weapons,Longsword,Martial Weapons,Unarmored Defense,Light Armor,Simple Weapons,Unarmed Attacks,Survival,Simple Weapons,,Crossbow
-levels/1/skillChoices/0/increases/8/source,Class,Class,Class,Class,Class,Class,Class,Class,Class,Class,,Class
-levels/1/skillChoices/0/increases/8/sourceId,1-Any-Class-0,1-Any-Class-0,1-Any-Class-0,1-Any-Class-0,1-Any-Class-0,1-Any-Class-0,1-Any-Class-0,1-Any-Class-0,1-Any-Class-0,1-Any-Class-0,,1-Any-Class-0
-levels/1/skillChoices/0/increases/9/locked,TRUE,TRUE,TRUE,TRUE,,TRUE,TRUE,TRUE,TRUE,TRUE,,TRUE
-levels/1/skillChoices/0/increases/9/maxRank,2,2,2,2,,2,4,2,2,2,,2
-levels/1/skillChoices/0/increases/9/name,Unarmed Attacks,Martial Weapons,Rapier,Unarmed Attacks,,Medium Armor,Simple Weapons,Unarmored Defense,Simple Weapons,Rapier,,Dagger
-levels/1/skillChoices/0/increases/9/source,Class,Class,Class,Class,,Class,Class,Class,Class,Class,,Class
-levels/1/skillChoices/0/increases/9/sourceId,1-Any-Class-0,1-Any-Class-0,1-Any-Class-0,1-Any-Class-0,,1-Any-Class-0,1-Any-Class-0,1-Any-Class-0,1-Any-Class-0,1-Any-Class-0,,1-Any-Class-0
-levels/1/skillChoices/0/increases/10/locked,TRUE,TRUE,TRUE,TRUE,,TRUE,TRUE,TRUE,TRUE,TRUE,,TRUE
-levels/1/skillChoices/0/increases/10/maxRank,2,2,2,2,,2,2,4,2,2,,2
-levels/1/skillChoices/0/increases/10/name,Light Armor,Unarmed Attacks,Sap,Light Armor,,Unarmored Defense,Martial Weapons,Unarmored Defense,Martial Weapons,Sap,,Heavy Crossbow
-levels/1/skillChoices/0/increases/10/source,Class,Class,Class,Class,,Class,Class,Class,Class,Class,,Class
-levels/1/skillChoices/0/increases/10/sourceId,1-Any-Class-0,1-Any-Class-0,1-Any-Class-0,1-Any-Class-0,,1-Any-Class-0,1-Any-Class-0,1-Any-Class-0,1-Any-Class-0,1-Any-Class-0,,1-Any-Class-0
+levels/1/skillChoices/0/increases/8/locked,TRUE,TRUE,TRUE,TRUE,TRUE,TRUE,TRUE,TRUE,TRUE,TRUE,TRUE,TRUE
+levels/1/skillChoices/0/increases/8/maxRank,2,2,2,2,2,2,2,2,2,2,2,2
+levels/1/skillChoices/0/increases/8/name,Alchemical Bomb,Simple Weapons,Longsword,Martial Weapons,Unarmored Defense,Light Armor,Simple Weapons,Unarmed Attacks,Survival,Simple Weapons,Innate Spell DC,Crossbow
+levels/1/skillChoices/0/increases/8/source,Class,Class,Class,Class,Class,Class,Class,Class,Class,Class,#N/A,Class
+levels/1/skillChoices/0/increases/8/sourceId,1-Any-Class-0,1-Any-Class-0,1-Any-Class-0,1-Any-Class-0,1-Any-Class-0,1-Any-Class-0,1-Any-Class-0,1-Any-Class-0,1-Any-Class-0,1-Any-Class-0,#N/A,1-Any-Class-0
+levels/1/skillChoices/0/increases/9/locked,TRUE,TRUE,TRUE,TRUE,TRUE,TRUE,TRUE,TRUE,TRUE,TRUE,,TRUE
+levels/1/skillChoices/0/increases/9/maxRank,2,2,2,2,2,2,4,2,2,2,,2
+levels/1/skillChoices/0/increases/9/name,Unarmed Attacks,Martial Weapons,Rapier,Unarmed Attacks,Cleric Divine Spell DC,Medium Armor,Simple Weapons,Unarmored Defense,Simple Weapons,Rapier,,Dagger
+levels/1/skillChoices/0/increases/9/source,Class,Class,Class,Class,Class,Class,Class,Class,Class,Class,,Class
+levels/1/skillChoices/0/increases/9/sourceId,1-Any-Class-0,1-Any-Class-0,1-Any-Class-0,1-Any-Class-0,1-Any-Class-0,1-Any-Class-0,1-Any-Class-0,1-Any-Class-0,1-Any-Class-0,1-Any-Class-0,,1-Any-Class-0
+levels/1/skillChoices/0/increases/10/locked,TRUE,TRUE,TRUE,TRUE,TRUE,TRUE,TRUE,TRUE,TRUE,TRUE,,TRUE
+levels/1/skillChoices/0/increases/10/maxRank,2,2,2,2,2,2,2,4,2,2,,2
+levels/1/skillChoices/0/increases/10/name,Light Armor,Unarmed Attacks,Sap,Light Armor,Innate Spell DC,Unarmored Defense,Martial Weapons,Unarmored Defense,Martial Weapons,Sap,,Heavy Crossbow
+levels/1/skillChoices/0/increases/10/source,Class,Class,Class,Class,Class,Class,Class,Class,Class,Class,,Class
+levels/1/skillChoices/0/increases/10/sourceId,1-Any-Class-0,1-Any-Class-0,1-Any-Class-0,1-Any-Class-0,1-Any-Class-0,1-Any-Class-0,1-Any-Class-0,1-Any-Class-0,1-Any-Class-0,1-Any-Class-0,,1-Any-Class-0
 levels/1/skillChoices/0/increases/11/locked,TRUE,TRUE,TRUE,TRUE,,TRUE,TRUE,TRUE,TRUE,TRUE,,TRUE
 levels/1/skillChoices/0/increases/11/maxRank,2,2,2,2,,2,4,2,2,2,,2
 levels/1/skillChoices/0/increases/11/name,Unarmored Defense,Light Armor,Shortbow,Medium Armor,,Druid Class DC,Martial Weapons,Monk Class DC,Unarmed Attacks,Shortbow,,Staff
 levels/1/skillChoices/0/increases/11/source,Class,Class,Class,Class,,Class,Class,Class,Class,Class,,Class
 levels/1/skillChoices/0/increases/11/sourceId,1-Any-Class-0,1-Any-Class-0,1-Any-Class-0,1-Any-Class-0,,1-Any-Class-0,1-Any-Class-0,1-Any-Class-0,1-Any-Class-0,1-Any-Class-0,,1-Any-Class-0
-levels/1/skillChoices/0/increases/12/locked,TRUE,TRUE,TRUE,TRUE,,,TRUE,,TRUE,TRUE,,TRUE
-levels/1/skillChoices/0/increases/12/maxRank,2,2,2,2,,,2,,2,2,,2
-levels/1/skillChoices/0/increases/12/name,Alchemist Class DC,Medium Armor,Shortsword,Heavy Armor,,,Advanced Weapons,,Light Armor,Shortsword,,Unarmed Attacks
-levels/1/skillChoices/0/increases/12/source,Class,Class,Class,Class,,,Class,,Class,Class,,Class
-levels/1/skillChoices/0/increases/12/sourceId,1-Any-Class-0,1-Any-Class-0,1-Any-Class-0,1-Any-Class-0,,,1-Any-Class-0,,1-Any-Class-0,1-Any-Class-0,,1-Any-Class-0
-levels/1/skillChoices/0/increases/13/locked,,TRUE,TRUE,TRUE,,,TRUE,,TRUE,TRUE,,TRUE
-levels/1/skillChoices/0/increases/13/maxRank,,2,2,2,,,2,,2,2,,2
-levels/1/skillChoices/0/increases/13/name,,Unarmored Defense,Whip,Unarmored Defense,,,Unarmed Attacks,,Medium Armor,Unarmed Attacks,,Unarmored Defense
-levels/1/skillChoices/0/increases/13/source,,Class,Class,Class,,,Class,,Class,Class,,Class
-levels/1/skillChoices/0/increases/13/sourceId,,1-Any-Class-0,1-Any-Class-0,1-Any-Class-0,,,1-Any-Class-0,,1-Any-Class-0,1-Any-Class-0,,1-Any-Class-0
-levels/1/skillChoices/0/increases/14/locked,,TRUE,TRUE,TRUE,,,TRUE,,TRUE,TRUE,,
-levels/1/skillChoices/0/increases/14/maxRank,,2,2,2,,,4,,2,2,,
-levels/1/skillChoices/0/increases/14/name,,Barbarian Class DC,Unarmed Attacks,Champion Class DC,,,Unarmed Attacks,,Unarmored Defense,Light Armor,,
-levels/1/skillChoices/0/increases/14/source,,Class,Class,Class,,,Class,,Class,Class,,
-levels/1/skillChoices/0/increases/14/sourceId,,1-Any-Class-0,1-Any-Class-0,1-Any-Class-0,,,1-Any-Class-0,,1-Any-Class-0,1-Any-Class-0,,
-levels/1/skillChoices/0/increases/15/locked,,,TRUE,,,,TRUE,,TRUE,TRUE,,
-levels/1/skillChoices/0/increases/15/maxRank,,,2,,,,2,,2,2,,
-levels/1/skillChoices/0/increases/15/name,,,Light Armor,,,,Light Armor,,Ranger Class DC,Unarmored Defense,,
-levels/1/skillChoices/0/increases/15/source,,,Class,,,,Class,,Class,Class,,
-levels/1/skillChoices/0/increases/15/sourceId,,,1-Any-Class-0,,,,1-Any-Class-0,,1-Any-Class-0,1-Any-Class-0,,
-levels/1/skillChoices/0/increases/16/locked,,,TRUE,,,,TRUE,,,TRUE,,
-levels/1/skillChoices/0/increases/16/maxRank,,,2,,,,2,,,2,,
-levels/1/skillChoices/0/increases/16/name,,,Unarmored Defense,,,,Medium Armor,,,Rogue Class DC,,
-levels/1/skillChoices/0/increases/16/source,,,Class,,,,Class,,,Class,,
-levels/1/skillChoices/0/increases/16/sourceId,,,1-Any-Class-0,,,,1-Any-Class-0,,,1-Any-Class-0,,
-levels/1/skillChoices/0/increases/17/locked,,,,,,,TRUE,,,,,
-levels/1/skillChoices/0/increases/17/maxRank,,,,,,,2,,,,,
-levels/1/skillChoices/0/increases/17/name,,,,,,,Heavy Armor,,,,,
-levels/1/skillChoices/0/increases/17/source,,,,,,,Class,,,,,
-levels/1/skillChoices/0/increases/17/sourceId,,,,,,,1-Any-Class-0,,,,,
-levels/1/skillChoices/0/increases/18/locked,,,,,,,TRUE,,,,,
-levels/1/skillChoices/0/increases/18/maxRank,,,,,,,2,,,,,
-levels/1/skillChoices/0/increases/18/name,,,,,,,Unarmored Defense,,,,,
-levels/1/skillChoices/0/increases/18/source,,,,,,,Class,,,,,
-levels/1/skillChoices/0/increases/18/sourceId,,,,,,,1-Any-Class-0,,,,,
+levels/1/skillChoices/0/increases/12/locked,TRUE,TRUE,TRUE,TRUE,,TRUE,TRUE,TRUE,TRUE,TRUE,,TRUE
+levels/1/skillChoices/0/increases/12/maxRank,2,2,2,2,,2,2,2,2,2,,2
+levels/1/skillChoices/0/increases/12/name,Alchemist Class DC,Medium Armor,Shortsword,Heavy Armor,,Druid Primal Spell DC,Advanced Weapons,Innate Spell DC,Light Armor,Shortsword,,Unarmed Attacks
+levels/1/skillChoices/0/increases/12/source,Class,Class,Class,Class,,Class,Class,Class,Class,Class,,Class
+levels/1/skillChoices/0/increases/12/sourceId,1-Any-Class-0,1-Any-Class-0,1-Any-Class-0,1-Any-Class-0,,1-Any-Class-0,1-Any-Class-0,1-Any-Class-0,1-Any-Class-0,1-Any-Class-0,,1-Any-Class-0
+levels/1/skillChoices/0/increases/13/locked,,TRUE,TRUE,TRUE,,TRUE,TRUE,,TRUE,TRUE,,TRUE
+levels/1/skillChoices/0/increases/13/maxRank,,2,2,2,,2,2,,2,2,,2
+levels/1/skillChoices/0/increases/13/name,,Unarmored Defense,Whip,Unarmored Defense,,Innate Spell DC,Unarmed Attacks,,Medium Armor,Unarmed Attacks,,Unarmored Defense
+levels/1/skillChoices/0/increases/13/source,,Class,Class,Class,,Class,Class,,Class,Class,,Class
+levels/1/skillChoices/0/increases/13/sourceId,,1-Any-Class-0,1-Any-Class-0,1-Any-Class-0,,1-Any-Class-0,1-Any-Class-0,,1-Any-Class-0,1-Any-Class-0,,1-Any-Class-0
+levels/1/skillChoices/0/increases/14/locked,,TRUE,TRUE,TRUE,,,TRUE,,TRUE,TRUE,,TRUE
+levels/1/skillChoices/0/increases/14/maxRank,,2,2,2,,,4,,2,2,,2
+levels/1/skillChoices/0/increases/14/name,,Barbarian Class DC,Unarmed Attacks,Champion Class DC,,,Unarmed Attacks,,Unarmored Defense,Light Armor,,Wizard Arcane Spell DC
+levels/1/skillChoices/0/increases/14/source,,Class,Class,Class,,,Class,,Class,Class,,Class
+levels/1/skillChoices/0/increases/14/sourceId,,1-Any-Class-0,1-Any-Class-0,1-Any-Class-0,,,1-Any-Class-0,,1-Any-Class-0,1-Any-Class-0,,1-Any-Class-0
+levels/1/skillChoices/0/increases/15/locked,,TRUE,TRUE,TRUE,,,TRUE,,TRUE,TRUE,,TRUE
+levels/1/skillChoices/0/increases/15/maxRank,,2,2,2,,,2,,2,2,,2
+levels/1/skillChoices/0/increases/15/name,,Innate Spell DC,Light Armor,Champion Divine Spell DC,,,Light Armor,,Ranger Class DC,Unarmored Defense,,Innate Spell DC
+levels/1/skillChoices/0/increases/15/source,,Class,Class,Class,,,Class,,Class,Class,,Class
+levels/1/skillChoices/0/increases/15/sourceId,,1-Any-Class-0,1-Any-Class-0,1-Any-Class-0,,,1-Any-Class-0,,1-Any-Class-0,1-Any-Class-0,,1-Any-Class-0
+levels/1/skillChoices/0/increases/16/locked,,,TRUE,TRUE,,,TRUE,,TRUE,TRUE,,
+levels/1/skillChoices/0/increases/16/maxRank,,,2,2,,,2,,2,2,,
+levels/1/skillChoices/0/increases/16/name,,,Unarmored Defense,Innate Spell DC,,,Medium Armor,,Innate Spell DC,Rogue Class DC,,
+levels/1/skillChoices/0/increases/16/source,,,Class,Class,,,Class,,Class,Class,,
+levels/1/skillChoices/0/increases/16/sourceId,,,1-Any-Class-0,1-Any-Class-0,,,1-Any-Class-0,,1-Any-Class-0,1-Any-Class-0,,
+levels/1/skillChoices/0/increases/17/locked,,,TRUE,,,,TRUE,,,TRUE,,
+levels/1/skillChoices/0/increases/17/maxRank,,,2,,,,2,,,2,,
+levels/1/skillChoices/0/increases/17/name,,,Bard Occult Spell DC,,,,Heavy Armor,,,Innate Spell DC,,
+levels/1/skillChoices/0/increases/17/source,,,Class,,,,Class,,,Class,,
+levels/1/skillChoices/0/increases/17/sourceId,,,1-Any-Class-0,,,,1-Any-Class-0,,,1-Any-Class-0,,
+levels/1/skillChoices/0/increases/18/locked,,,TRUE,,,,TRUE,,,,,
+levels/1/skillChoices/0/increases/18/maxRank,,,2,,,,2,,,,,
+levels/1/skillChoices/0/increases/18/name,,,Innate Spell DC,,,,Unarmored Defense,,,,,
+levels/1/skillChoices/0/increases/18/source,,,Class,,,,Class,,,,,
+levels/1/skillChoices/0/increases/18/sourceId,,,1-Any-Class-0,,,,1-Any-Class-0,,,,,
 levels/1/skillChoices/0/increases/19/locked,,,,,,,TRUE,,,,,
 levels/1/skillChoices/0/increases/19/maxRank,,,,,,,2,,,,,
 levels/1/skillChoices/0/increases/19/name,,,,,,,Fighter Class DC,,,,,
 levels/1/skillChoices/0/increases/19/source,,,,,,,Class,,,,,
 levels/1/skillChoices/0/increases/19/sourceId,,,,,,,1-Any-Class-0,,,,,
+levels/1/skillChoices/0/increases/20/locked,,,,,,,TRUE,,,,,
+levels/1/skillChoices/0/increases/20/maxRank,,,,,,,2,,,,,
+levels/1/skillChoices/0/increases/20/name,,,,,,,Innate Spell DC,,,,,
+levels/1/skillChoices/0/increases/20/source,,,,,,,Class,,,,,
+levels/1/skillChoices/0/increases/20/sourceId,,,,,,,1-Any-Class-0,,,,,
 levels/1/skillChoices/0/maxRank,4,4,4,4,4,4,4,4,4,4,4,4
 levels/1/skillChoices/0/source,Class,Class,Class,Class,Class,Class,Class,Class,Class,Class,Class,Class
 levels/1/skillChoices/0/type,Any,Any,Any,Any,Any,Any,Any,Any,Any,Any,Any,Any
@@ -311,19 +321,19 @@ levels/1/skillChoices/1/id,1-Skill-Class-1,1-Skill-Class-1,1-Skill-Class-1,1-Ski
 levels/1/skillChoices/1/maxRank,2,2,2,2,2,2,2,2,2,2,2,2
 levels/1/skillChoices/1/source,Class,Class,Class,Class,Class,Class,Class,Class,Class,Class,Class,Class
 levels/1/skillChoices/1/type,Skill,Skill,Skill,Skill,Skill,Skill,Skill,Skill,Skill,Skill,Skill,Skill
-levels/2/skillChoices/2/_className,SkillChoice,SkillChoice,SkillChoice,SkillChoice,SkillChoice,SkillChoice,SkillChoice,SkillChoice,SkillChoice,SkillChoice,SkillChoice,SkillChoice
-levels/2/skillChoices/2/id,2-Skill-Intelligence-2,2-Skill-Intelligence-2,2-Skill-Intelligence-2,2-Skill-Intelligence-2,2-Skill-Intelligence-2,2-Skill-Intelligence-2,2-Skill-Intelligence-2,2-Skill-Intelligence-2,2-Skill-Intelligence-2,2-Skill-Intelligence-2,2-Skill-Intelligence-2,2-Skill-Intelligence-2
-levels/2/skillChoices/2/maxRank,2,2,2,2,2,2,2,2,2,2,2,2
-levels/2/skillChoices/2/source,Intelligence,Intelligence,Intelligence,Intelligence,Intelligence,Intelligence,Intelligence,Intelligence,Intelligence,Intelligence,Intelligence,Intelligence
-levels/2/skillChoices/2/type,Skill,Skill,Skill,Skill,Skill,Skill,Skill,Skill,Skill,Skill,Skill,Skill
-levels/2/skillChoices/3/_className,,,,,,,SkillChoice,,,,,
-levels/2/skillChoices/3/available,,,,,,,1,,,,,
-levels/2/skillChoices/3/filter/0,,,,,,,Acrobatics,,,,,
-levels/2/skillChoices/3/filter/1,,,,,,,Athletics,,,,,
-levels/2/skillChoices/3/id,,,,,,,2-Skill-Fighter-3,,,,,
-levels/2/skillChoices/3/maxRank,,,,,,,2,,,,,
-levels/2/skillChoices/3/source,,,,,,,Fighter,,,,,
-levels/2/skillChoices/3/type,,,,,,,Skill,,,,,
+levels/1/skillChoices/2/_className,SkillChoice,SkillChoice,SkillChoice,SkillChoice,SkillChoice,SkillChoice,SkillChoice,SkillChoice,SkillChoice,SkillChoice,SkillChoice,SkillChoice
+levels/1/skillChoices/2/id,1-Skill-Intelligence-2,1-Skill-Intelligence-2,1-Skill-Intelligence-2,1-Skill-Intelligence-2,1-Skill-Intelligence-2,1-Skill-Intelligence-2,1-Skill-Intelligence-2,1-Skill-Intelligence-2,1-Skill-Intelligence-2,1-Skill-Intelligence-2,1-Skill-Intelligence-2,1-Skill-Intelligence-2
+levels/1/skillChoices/2/maxRank,2,2,2,2,2,2,2,2,2,2,2,2
+levels/1/skillChoices/2/source,Intelligence,Intelligence,Intelligence,Intelligence,Intelligence,Intelligence,Intelligence,Intelligence,Intelligence,Intelligence,Intelligence,Intelligence
+levels/1/skillChoices/2/type,Skill,Skill,Skill,Skill,Skill,Skill,Skill,Skill,Skill,Skill,Skill,Skill
+levels/1/skillChoices/3/_className,,,,,,,SkillChoice,,,,,
+levels/1/skillChoices/3/available,,,,,,,1,,,,,
+levels/1/skillChoices/3/filter/0,,,,,,,Acrobatics,,,,,
+levels/1/skillChoices/3/filter/1,,,,,,,Athletics,,,,,
+levels/1/skillChoices/3/id,,,,,,,1-Skill-Fighter-3,,,,,
+levels/1/skillChoices/3/maxRank,,,,,,,2,,,,,
+levels/1/skillChoices/3/source,,,,,,,Fighter,,,,,
+levels/1/skillChoices/3/type,,,,,,,Skill,,,,,
 levels/2/_className,Level,Level,Level,Level,Level,Level,Level,Level,Level,Level,Level,Level
 levels/2/featChoices/0/_className,FeatChoice,FeatChoice,FeatChoice,FeatChoice,FeatChoice,FeatChoice,FeatChoice,FeatChoice,FeatChoice,FeatChoice,FeatChoice,FeatChoice
 levels/2/featChoices/0/available,1,1,1,1,1,1,1,1,1,1,1,1
@@ -350,11 +360,11 @@ levels/2/skillChoices/1/type,,,,,,,,,,Skill,,
 levels/3/_className,Level,Level,Level,Level,Level,Level,Level,Level,Level,Level,Level,Level
 levels/3/featChoices/0/_className,,FeatChoice,FeatChoice,FeatChoice,,FeatChoice,FeatChoice,FeatChoice,FeatChoice,FeatChoice,FeatChoice,
 levels/3/featChoices/0/feats/0/locked,,TRUE,TRUE,TRUE,,TRUE,TRUE,TRUE,TRUE,TRUE,TRUE,
-levels/3/featChoices/0/feats/0/name,,Deny Advantage,Lightning Reflexes,Divine Ally,,Alertness,Bravery,Incredible Movement,Iron Will,Deny Advantage,Signature Spells,
+levels/3/featChoices/0/feats/0/name,,Deny Advantage (Barbarian),Lightning Reflexes,Divine Ally,,Alertness (Druid),Bravery,Incredible Movement,Iron Will,Deny Advantage (Rogue),Signature Spells (Sorcerer),
 levels/3/featChoices/0/feats/0/source,,Barbarian,Bard,Champion,,Druid,Fighter,Monk,Ranger,Rogue,Sorcerer,
 levels/3/featChoices/0/feats/0/sourceId,,3-Feature-Barbarian-0,3-Feature-Bard-0,3-Feature-Champion-0,,3-Feature-Druid-0,3-Feature-Fighter-0,3-Feature-Monk-0,3-Feature-Ranger-0,3-Feature-Rogue-0,3-Feature-Sorcerer-0,
 levels/3/featChoices/0/feats/1/locked,,,TRUE,,,TRUE,,TRUE,,,,
-levels/3/featChoices/0/feats/1/name,,,Signature Spells,,,Great Fortitude,,Mystic Strikes,,,,
+levels/3/featChoices/0/feats/1/name,,,Signature Spells (Bard),,,Great Fortitude,,Mystic Strikes,,,,
 levels/3/featChoices/0/feats/1/source,,,Bard,,,Druid,,Monk,,,,
 levels/3/featChoices/0/feats/1/sourceId,,,3-Feature-Bard-0,,,3-Feature-Druid-0,,3-Feature-Monk-0,,,,
 levels/3/featChoices/0/id,,3-Feature-Barbarian-0,3-Feature-Bard-0,3-Feature-Champion-0,,3-Feature-Druid-0,3-Feature-Fighter-0,3-Feature-Monk-0,3-Feature-Ranger-0,3-Feature-Rogue-0,3-Feature-Sorcerer-0,
@@ -537,11 +547,11 @@ levels/6/skillChoices/1/type,,,,,,,,,,Skill,,
 levels/7/_className,Level,Level,Level,Level,Level,Level,Level,Level,Level,Level,Level,Level
 levels/7/featChoices/0/_className,FeatChoice,FeatChoice,FeatChoice,FeatChoice,,FeatChoice,FeatChoice,FeatChoice,FeatChoice,FeatChoice,FeatChoice,FeatChoice
 levels/7/featChoices/0/feats/0/locked,TRUE,TRUE,TRUE,TRUE,,TRUE,TRUE,TRUE,TRUE,TRUE,TRUE,TRUE
-levels/7/featChoices/0/feats/0/name,Alchemical Weapon Expertise,Juggernaut,Expert Spellcaster,Armor Expertise,,Expert Spellcaster,Battlefield Surveyor,Path to Perfection,Evasion,Evasion,Expert Spellcaster,Expert Spellcaster
+levels/7/featChoices/0/feats/0/name,Alchemical Weapon Expertise,Juggernaut,Expert Spellcaster (Bard),Armor Expertise (Champion),,Expert Spellcaster (Druid),Battlefield Surveyor,Path to Perfection,Evasion,Evasion,Expert Spellcaster (Sorcerer),Expert Spellcaster (Wizard)
 levels/7/featChoices/0/feats/0/source,Alchemist,Barbarian,Bard,Champion,,Druid,Fighter,Monk,Ranger,Rogue,Sorcerer,Wizard
 levels/7/featChoices/0/feats/0/sourceId,7-Feature-Alchemist-0,7-Feature-Barbarian-0,7-Feature-Bard-0,7-Feature-Champion-0,,7-Feature-Druid-0,7-Feature-Fighter-0,7-Feature-Monk-0,7-Feature-Ranger-0,7-Feature-Rogue-0,7-Feature-Sorcerer-0,7-Feature-Wizard-0
 levels/7/featChoices/0/feats/1/locked,TRUE,TRUE,,TRUE,,,TRUE,TRUE,TRUE,TRUE,,
-levels/7/featChoices/0/feats/1/name,Iron Will,Weapon Specialization,,Weapon Specialization,,,Weapon Specialization,Weapon Specialization,Vigilant Senses,Vigilant Senses,,
+levels/7/featChoices/0/feats/1/name,Iron Will (Alchemist),Weapon Specialization (Barbarian),,Weapon Specialization,,,Weapon Specialization,Weapon Specialization,Vigilant Senses,Vigilant Senses,,
 levels/7/featChoices/0/feats/1/source,Alchemist,Barbarian,,Champion,,,Fighter,Monk,Ranger,Rogue,,
 levels/7/featChoices/0/feats/1/sourceId,7-Feature-Alchemist-0,7-Feature-Barbarian-0,,7-Feature-Champion-0,,,7-Feature-Fighter-0,7-Feature-Monk-0,7-Feature-Ranger-0,7-Feature-Rogue-0,,
 levels/7/featChoices/0/feats/2/locked,TRUE,,,,,,,,TRUE,TRUE,,
@@ -677,17 +687,17 @@ levels/9/skillChoices/0/increases/0/sourceId,9-Class DC-Alchemical Expertise-0,9
 levels/9/skillChoices/0/maxRank,4,4,4,4,6,,6,4,4,4,4,4
 levels/9/skillChoices/0/source,Alchemical Expertise,Lightning Reflexes,Great Fortitude,Champion Expertise,Resolve,,Juggernaut,Monk Expertise,Ranger Expertise,Great Fortitude,Lightning Reflexes,Magical Fortitude
 levels/9/skillChoices/0/type,Class DC,Save,Save,Class DC,Save,,Save,Class DC,Class DC,Save,Save,Save
-levels/9/skillChoices/1/_className,SkillChoice,,SkillChoice,SkillChoice,,,,SkillChoice,,,,
-levels/9/skillChoices/1/id,9-Perception-Alertness-1,,9-Save-Resolve-1,9-Spell DC-Champion Expertise-1,,,,9-Spell DC-Monk Expertise-1,,,,
+levels/9/skillChoices/1/_className,SkillChoice,,SkillChoice,SkillChoice,,,,,,,,
+levels/9/skillChoices/1/id,9-Perception-Alertness-1,,9-Save-Resolve-1,9-Spell DC-Champion Expertise-1,,,,,,,,
 levels/9/skillChoices/1/increases/0/locked,TRUE,,TRUE,TRUE,,,,,,,,
 levels/9/skillChoices/1/increases/0/maxRank,4,,6,6,,,,,,,,
 levels/9/skillChoices/1/increases/0/name,Perception,,Will,Champion Divine Spell DC,,,,,,,,
 levels/9/skillChoices/1/increases/0/source,Alertness,,Resolve,Champion Expertise,,,,,,,,
 levels/9/skillChoices/1/increases/0/sourceId,9-Perception-Alertness-1,,9-Save-Resolve-1,9-Spell DC-Champion Expertise-1,,,,,,,,
-levels/9/skillChoices/1/internalNote,,,,,,,,Increases for this choice are added by the Monk Spell Tradition Choice.,,,,
-levels/9/skillChoices/1/maxRank,4,,6,6,,,,4,,,,
-levels/9/skillChoices/1/source,Alertness,,Resolve,Champion Expertise,,,,Monk Expertise,,,,
-levels/9/skillChoices/1/type,Perception,,Save,Spell DC,,,,Spell DC,,,,
+levels/9/skillChoices/1/internalNote,,,,,,,,,,,,
+levels/9/skillChoices/1/maxRank,4,,6,6,,,,,,,,
+levels/9/skillChoices/1/source,Alertness,,Resolve,Champion Expertise,,,,,,,,
+levels/9/skillChoices/1/type,Perception,,Save,Spell DC,,,,,,,,
 levels/9/skillChoices/2/_className,,,,SkillChoice,,,,,,,,
 levels/9/skillChoices/2/id,,,,9-Save-Juggernaut-2,,,,,,,,
 levels/9/skillChoices/2/increases/0/locked,,,,TRUE,,,,,,,,
@@ -751,7 +761,7 @@ levels/10/skillChoices/1/type,,,,,,,,,,Skill,,
 levels/11/_className,Level,Level,Level,Level,Level,Level,Level,Level,Level,Level,Level,Level
 levels/11/featChoices/0/_className,FeatChoice,FeatChoice,FeatChoice,FeatChoice,FeatChoice,FeatChoice,FeatChoice,FeatChoice,FeatChoice,FeatChoice,FeatChoice,FeatChoice
 levels/11/featChoices/0/feats/0/locked,TRUE,TRUE,TRUE,TRUE,TRUE,TRUE,TRUE,TRUE,TRUE,TRUE,TRUE,TRUE
-levels/11/featChoices/0/feats/0/name,Juggernaut,Mighty Rage,Bard Weapon Expertise,Alertness,Lightning Reflexes,Druid Weapon Expertise,Armor Expertise,Second Path to Perfection,Juggernaut,Rogue Expertise,Alertness,Alertness
+levels/11/featChoices/0/feats/0/name,Juggernaut (Alchemist),Mighty Rage,Bard Weapon Expertise,Alertness,Lightning Reflexes,Druid Weapon Expertise,Armor Expertise (Fighter),Second Path to Perfection,Juggernaut,Rogue Expertise,Alertness,Alertness
 levels/11/featChoices/0/feats/0/source,Alchemist,Barbarian,Bard,Champion,Cleric,Druid,Fighter,Monk,Ranger,Rogue,Sorcerer,Wizard
 levels/11/featChoices/0/feats/0/sourceId,11-Feature-Alchemist-0,11-Feature-Barbarian-0,11-Feature-Bard-0,11-Feature-Champion-0,11-Feature-Cleric-0,11-Feature-Druid-0,11-Feature-Fighter-0,11-Feature-Monk-0,11-Feature-Ranger-0,11-Feature-Rogue-0,11-Feature-Sorcerer-0,11-Feature-Wizard-0
 levels/11/featChoices/0/feats/1/locked,TRUE,,TRUE,TRUE,,TRUE,TRUE,,TRUE,,TRUE,TRUE
@@ -873,7 +883,7 @@ levels/13/featChoices/0/feats/0/name,Greater Field Discovery,Greater Juggernaut,
 levels/13/featChoices/0/feats/0/source,Alchemist,Barbarian,Bard,Champion,Cleric,Druid,Fighter,Monk,Ranger,Rogue,Sorcerer,Wizard
 levels/13/featChoices/0/feats/0/sourceId,13-Feature-Alchemist-0,13-Feature-Barbarian-0,13-Feature-Bard-0,13-Feature-Champion-0,13-Feature-Cleric-0,13-Feature-Druid-0,13-Feature-Fighter-0,13-Feature-Monk-0,13-Feature-Ranger-0,13-Feature-Rogue-0,13-Feature-Sorcerer-0,13-Feature-Wizard-0
 levels/13/featChoices/0/feats/1/locked,TRUE,TRUE,TRUE,TRUE,TRUE,TRUE,,TRUE,,TRUE,TRUE,TRUE
-levels/13/featChoices/0/feats/1/name,Light Armor Expertise,Medium Armor Expertise,Weapon Specialization,Weapon Mastery,Weapon Specialization,Weapon Specialization,,Master Strikes,,Incredible Senses,Weapon Specialization,Weapon Specialization
+levels/13/featChoices/0/feats/1/name,Light Armor Expertise,Medium Armor Expertise,Weapon Specialization,Weapon Mastery,Weapon Specialization,Weapon Specialization,,Master Strikes,,Incredible Senses,Weapon Specialization (Sorcerer),Weapon Specialization
 levels/13/featChoices/0/feats/1/source,Alchemist,Barbarian,Bard,Champion,Cleric,Druid,,Monk,,Rogue,Sorcerer,Wizard
 levels/13/featChoices/0/feats/1/sourceId,13-Feature-Alchemist-0,13-Feature-Barbarian-0,13-Feature-Bard-0,13-Feature-Champion-0,13-Feature-Cleric-0,13-Feature-Druid-0,,13-Feature-Monk-0,,13-Feature-Rogue-0,13-Feature-Sorcerer-0,13-Feature-Wizard-0
 levels/13/featChoices/0/feats/2/locked,TRUE,TRUE,,,,,,,,TRUE,,
@@ -1016,7 +1026,7 @@ levels/15/abilityChoices/0/id,15-Ability-Class-0,15-Ability-Class-0,15-Ability-C
 levels/15/abilityChoices/0/source,Class,Class,Class,Class,Class,Class,Class,Class,Class,Class,Class,Class
 levels/15/featChoices/0/_className,FeatChoice,FeatChoice,FeatChoice,FeatChoice,,FeatChoice,FeatChoice,FeatChoice,FeatChoice,FeatChoice,FeatChoice,FeatChoice
 levels/15/featChoices/0/feats/0/locked,TRUE,TRUE,TRUE,TRUE,,TRUE,TRUE,TRUE,TRUE,TRUE,TRUE,TRUE
-levels/15/featChoices/0/feats/0/name,Alchemical Alacrity,Greater Weapon Specialization,Master Spellcaster,Greater Weapon Specialization,,Master Spellcaster,Evasion,Greater Weapon Specialization,Greater Weapon Specialization,Double Debilitation,Master Spellcaster,Master Spellcaster
+levels/15/featChoices/0/feats/0/name,Alchemical Alacrity,Greater Weapon Specialization (Barbarian),Master Spellcaster (Bard),Greater Weapon Specialization,,Master Spellcaster (Druid),Evasion,Greater Weapon Specialization,Greater Weapon Specialization,Double Debilitation,Master Spellcaster (Sorcerer),Master Spellcaster (Wizard)
 levels/15/featChoices/0/feats/0/source,Alchemist,Barbarian,Bard,Champion,,Druid,Fighter,Monk,Ranger,Rogue,Sorcerer,Wizard
 levels/15/featChoices/0/feats/0/sourceId,15-Feature-Alchemist-0,15-Feature-Barbarian-0,15-Feature-Bard-0,15-Feature-Champion-0,,15-Feature-Druid-0,15-Feature-Fighter-0,15-Feature-Monk-0,15-Feature-Ranger-0,15-Feature-Rogue-0,15-Feature-Sorcerer-0,15-Feature-Wizard-0
 levels/15/featChoices/0/feats/1/locked,TRUE,TRUE,,,,,TRUE,TRUE,TRUE,TRUE,,
@@ -1149,8 +1159,8 @@ levels/17/skillChoices/1/increases/0/sourceId,,,,17-Spell DC-Champion Mastery-1,
 levels/17/skillChoices/1/maxRank,,,,6,,,,6,,,,
 levels/17/skillChoices/1/source,,,,Champion Mastery,,,,Graceful Legend,,,,
 levels/17/skillChoices/1/type,,,,Spell DC,,,,Class DC,,,,
-levels/17/skillChoices/2/_className,,,,SkillChoice,,,SkillChoice,SkillChoice,,,,
-levels/17/skillChoices/2/id,,,,17-Armor Proficiency-Legendary Armor-2,,,17-Armor Proficiency-Armor Mastery-2,17-Spell DC-Graceful Legend-2,,,,
+levels/17/skillChoices/2/_className,,,,SkillChoice,,,SkillChoice,,,,,
+levels/17/skillChoices/2/id,,,,17-Armor Proficiency-Legendary Armor-2,,,17-Armor Proficiency-Armor Mastery-2,,,,,
 levels/17/skillChoices/2/increases/0/locked,,,,TRUE,,,TRUE,,,,,
 levels/17/skillChoices/2/increases/0/maxRank,,,,8,,,6,,,,,
 levels/17/skillChoices/2/increases/0/name,,,,Light Armor,,,Light Armor,,,,,
@@ -1171,10 +1181,10 @@ levels/17/skillChoices/2/increases/3/maxRank,,,,8,,,6,,,,,
 levels/17/skillChoices/2/increases/3/name,,,,Unarmored Defense,,,Unarmored Defense,,,,,
 levels/17/skillChoices/2/increases/3/source,,,,Legendary Armor,,,Armor Mastery,,,,,
 levels/17/skillChoices/2/increases/3/sourceId,,,,17-Armor Proficiency-Legendary Armor-2,,,17-Armor Proficiency-Armor Mastery-2,,,,,
-levels/17/skillChoices/2/internalNote,,,,,,,,Increases for this choice are added by the Monk Spell Tradition Choice.,,,,
-levels/17/skillChoices/2/maxRank,,,,8,,,6,6,,,,
-levels/17/skillChoices/2/source,,,,Legendary Armor,,,Armor Mastery,Graceful Legend,,,,
-levels/17/skillChoices/2/type,,,,Armor Proficiency,,,Armor Proficiency,Spell DC,,,,
+levels/17/skillChoices/2/internalNote,,,,,,,,,,,,
+levels/17/skillChoices/2/maxRank,,,,8,,,6,,,,,
+levels/17/skillChoices/2/source,,,,Legendary Armor,,,Armor Mastery,,,,,
+levels/17/skillChoices/2/type,,,,Armor Proficiency,,,Armor Proficiency,,,,,
 levels/17/skillChoices/3/_className,SkillChoice,SkillChoice,SkillChoice,SkillChoice,SkillChoice,SkillChoice,SkillChoice,SkillChoice,SkillChoice,SkillChoice,SkillChoice,SkillChoice
 levels/17/skillChoices/3/available,1,1,1,1,1,1,1,1,1,1,1,1
 levels/17/skillChoices/3/id,17-Skill-Class-3,17-Skill-Class-3,17-Skill-Class-3,17-Skill-Class-3,17-Skill-Class-3,17-Skill-Class-3,17-Skill-Class-3,17-Skill-Class-3,17-Skill-Class-3,17-Skill-Class-3,17-Skill-Class-3,17-Skill-Class-3
@@ -1212,11 +1222,11 @@ levels/18/skillChoices/1/type,,,,,,,,,,Skill,,
 levels/19/_className,Level,Level,Level,Level,Level,Level,Level,Level,Level,Level,Level,Level
 levels/19/featChoices/0/_className,FeatChoice,FeatChoice,FeatChoice,FeatChoice,FeatChoice,FeatChoice,FeatChoice,FeatChoice,FeatChoice,FeatChoice,FeatChoice,FeatChoice
 levels/19/featChoices/0/feats/0/locked,TRUE,TRUE,TRUE,TRUE,TRUE,TRUE,TRUE,TRUE,TRUE,TRUE,TRUE,TRUE
-levels/19/featChoices/0/feats/0/name,Light Armor Mastery,Armor of Fury,Legendary Spellcaster,Hero's Defiance,Miraculous Spell,Legendary Spellcaster,Versatile Legend,Perfected Form,Second Skin,Light Armor Mastery,Bloodline Paragon,Archwizard's Spellcraft
+levels/19/featChoices/0/feats/0/name,Light Armor Mastery,Armor of Fury,Legendary Spellcaster (Bard),Hero's Defiance,Miraculous Spell,Legendary Spellcaster (Druid),Versatile Legend,Perfected Form,Second Skin,Light Armor Mastery,Bloodline Paragon,Archwizard's Spellcraft
 levels/19/featChoices/0/feats/0/source,Alchemist,Barbarian,Bard,Champion,Cleric,Druid,Fighter,Monk,Ranger,Rogue,Sorcerer,Wizard
 levels/19/featChoices/0/feats/0/sourceId,19-Feature-Alchemist-0,19-Feature-Barbarian-0,19-Feature-Bard-0,19-Feature-Champion-0,19-Feature-Cleric-0,19-Feature-Druid-0,19-Feature-Fighter-0,19-Feature-Monk-0,19-Feature-Ranger-0,19-Feature-Rogue-0,19-Feature-Sorcerer-0,19-Feature-Wizard-0
 levels/19/featChoices/0/feats/1/locked,,TRUE,TRUE,,,TRUE,,,TRUE,TRUE,TRUE,TRUE
-levels/19/featChoices/0/feats/1/name,,Devastator,Magnum Opus,,,Primal Hierophant,,,Swift Prey,Master Strike,Legendary Spellcaster,Legendary Spellcaster
+levels/19/featChoices/0/feats/1/name,,Devastator,Magnum Opus,,,Primal Hierophant,,,Swift Prey,Master Strike,Legendary Spellcaster (Sorcerer),Legendary Spellcaster (Wizard)
 levels/19/featChoices/0/feats/1/source,,Barbarian,Bard,,,Druid,,,Ranger,Rogue,Sorcerer,Wizard
 levels/19/featChoices/0/feats/1/sourceId,,19-Feature-Barbarian-0,19-Feature-Bard-0,,,19-Feature-Druid-0,,,19-Feature-Ranger-0,19-Feature-Rogue-0,19-Feature-Sorcerer-0,19-Feature-Wizard-0
 levels/19/featChoices/0/id,19-Feature-Alchemist-0,19-Feature-Barbarian-0,19-Feature-Bard-0,19-Feature-Champion-0,19-Feature-Cleric-0,19-Feature-Druid-0,19-Feature-Fighter-0,19-Feature-Monk-0,19-Feature-Ranger-0,19-Feature-Rogue-0,19-Feature-Sorcerer-0,19-Feature-Wizard-0
@@ -1311,245 +1321,318 @@ spellCasting/0/ability,Charisma,Charisma,Charisma,Charisma,Charisma,Charisma,Cha
 spellCasting/0/castingType,Innate,Innate,Innate,Innate,Innate,Innate,Innate,Innate,Innate,Innate,Innate,Innate
 spellCasting/0/className,Innate,Innate,Innate,Innate,Innate,Innate,Innate,Innate,Innate,Innate,Innate,Innate
 spellCasting/0/source,Innate,Innate,Innate,Innate,Innate,Innate,Innate,Innate,Innate,Innate,Innate,Innate
-spellCasting/0/spellDC/_className,SkillChoice,SkillChoice,SkillChoice,SkillChoice,SkillChoice,SkillChoice,SkillChoice,SkillChoice,SkillChoice,SkillChoice,SkillChoice,SkillChoice
-spellCasting/0/spellDC/increases/0/locked,TRUE,TRUE,TRUE,TRUE,TRUE,TRUE,TRUE,TRUE,TRUE,TRUE,TRUE,TRUE
-spellCasting/0/spellDC/increases/0/maxRank,2,2,2,2,2,2,2,2,2,2,2,2
-spellCasting/0/spellDC/increases/0/name,Innate Spell DC,Innate Spell DC,Innate Spell DC,Innate Spell DC,Innate Spell DC,Innate Spell DC,Innate Spell DC,Innate Spell DC,Innate Spell DC,Innate Spell DC,Innate Spell DC,Innate Spell DC
-spellCasting/0/spellDC/increases/0/source,Innate,Innate,Innate,Innate,Innate,Innate,Innate,Innate,Innate,Innate,Innate,Innate
-spellCasting/0/spellDC/maxRank,2,2,2,2,2,2,2,2,2,2,2,2
-spellCasting/0/spellDC/source,Innate,Innate,Innate,Innate,Innate,Innate,Innate,Innate,Innate,Innate,Innate,Innate
-spellCasting/0/spellDC/type,Spell DC,Spell DC,Spell DC,Spell DC,Spell DC,Spell DC,Spell DC,Spell DC,Spell DC,Spell DC,Spell DC,Spell DC
 spellCasting/1/_className,,,SpellCasting,SpellCasting,SpellCasting,SpellCasting,,SpellCasting,,,SpellCasting,SpellCasting
 spellCasting/1/ability,,,Charisma,Charisma,Wisdom,Wisdom,,Wisdom,,,Charisma,Intelligence
 spellCasting/1/castingType,,,Focus,Focus,Focus,Focus,,Focus,,,Focus,Focus
+spellCasting/1/charLevelAvailable,,,1,1,0,1,,0,,,1,0
 spellCasting/1/className,,,Bard,Champion,Cleric,Druid,,Monk,,,Sorcerer,Wizard
 spellCasting/1/source,,,Composition Spells,Devotion Spells,Domain Spells,Order Spells,,Ki Spells,,,Bloodline Spells,Domain Spells
-spellCasting/1/spellDC/_className,,,,SkillChoice,,,,,,,,
-spellCasting/1/spellDC/increases/0/locked,,,,TRUE,,,,,,,,
-spellCasting/1/spellDC/increases/0/maxRank,,,,2,,,,,,,,
-spellCasting/1/spellDC/increases/0/name,,,,Champion Divine Spell DC,,,,,,,,
-spellCasting/1/spellDC/increases/0/source,,,,Devotion Spells,,,,,,,,
-spellCasting/1/spellDC/increases/0/sourceId,,,,,,,,,,,,
-spellCasting/1/spellDC/maxRank,,,,2,,,,,,,,
-spellCasting/1/spellDC/source,,,,Devotion Spells,,,,,,,,
-spellCasting/1/spellDC/type,,,,Spell DC,,,,,,,,
 spellCasting/1/spellChoices/0/_className,,,SpellChoice,SpellChoice,,,,,,,,
 spellCasting/1/spellChoices/0/className,,,Bard,Champion,,,,,,,,
-spellCasting/1/spellChoices/0/id,,,d064d81e-149c-413d-be4e-672d8b83529c,b9e3c4b9-a1b6-4580-b4ca-dc8d33c0e0f0,,,,,,,,
+spellCasting/1/spellChoices/0/id,,,17d0270c-6bb9-4361-8950-e2e929ff4395,46ceefc8-87ab-48d7-a244-7d1e0005901d,,,,,,,,
 spellCasting/1/spellChoices/0/level,,,0,-1,,,,,,,,
 spellCasting/1/spellChoices/0/charLevelAvailable,,,1,19,,,,,,,,
 spellCasting/1/spellChoices/0/source,,,Composition Spells,Hero's Defiance,,,,,,,,
 spellCasting/1/spellChoices/0/spells/0/_className,,,SpellGain,SpellGain,,,,,,,,
 spellCasting/1/spellChoices/0/spells/0/name,,,Inspire Courage,Hero's Defiance,,,,,,,,
 spellCasting/1/spellChoices/0/spells/0/locked,,,TRUE,TRUE,,,,,,,,
-spellCasting/1/spellChoices/0/spells/0/sourceId,,,d064d81e-149c-413d-be4e-672d8b83529c,b9e3c4b9-a1b6-4580-b4ca-dc8d33c0e0f0,,,,,,,,
+spellCasting/1/spellChoices/0/spells/0/sourceId,,,17d0270c-6bb9-4361-8950-e2e929ff4395,46ceefc8-87ab-48d7-a244-7d1e0005901d,,,,,,,,
 spellCasting/1/spellChoices/0/castingType,,,Focus,Focus,,,,,,,,
 spellCasting/1/spellChoices/1/_className,,,SpellChoice,,,,,,,,,
 spellCasting/1/spellChoices/1/className,,,Bard,,,,,,,,,
-spellCasting/1/spellChoices/1/id,,,60bf879d-826b-4fe8-b858-06db14dbdca8,,,,,,,,,
+spellCasting/1/spellChoices/1/id,,,ad3d9c88-58bf-4560-902e-1d094832f237,,,,,,,,,
 spellCasting/1/spellChoices/1/level,,,-1,,,,,,,,,
 spellCasting/1/spellChoices/1/charLevelAvailable,,,1,,,,,,,,,
 spellCasting/1/spellChoices/1/source,,,Composition Spells,,,,,,,,,
 spellCasting/1/spellChoices/1/spells/0/_className,,,SpellGain,,,,,,,,,
 spellCasting/1/spellChoices/1/spells/0/name,,,Counter Performance,,,,,,,,,
 spellCasting/1/spellChoices/1/spells/0/locked,,,TRUE,,,,,,,,,
-spellCasting/1/spellChoices/1/spells/0/sourceId,,,60bf879d-826b-4fe8-b858-06db14dbdca8,,,,,,,,,
+spellCasting/1/spellChoices/1/spells/0/sourceId,,,ad3d9c88-58bf-4560-902e-1d094832f237,,,,,,,,,
 spellCasting/1/spellChoices/1/castingType,,,Focus,,,,,,,,,
-spellCasting/1/tradition,,,Occult,Divine,Divine,Primal,,,,,Bloodline,Arcane
-spellCasting/1/traditionAvailable,,,,,,,,1,,,,
-spellCasting/1/traditionFilter/0,,,,,,,,Divine,,,,
-spellCasting/1/traditionFilter/1,,,,,,,,Occult,,,,
+spellCasting/1/tradition,,,Occult,Divine,Divine,Primal,,,,,Primal,Arcane
 spellCasting/2/_className,,,SpellCasting,,SpellCasting,SpellCasting,,,,,SpellCasting,SpellCasting
 spellCasting/2/ability,,,Charisma,,Wisdom,Wisdom,,,,,Charisma,Intelligence
 spellCasting/2/castingType,,,Spontaneous,,Prepared,Prepared,,,,,Spontaneous,Prepared
+spellCasting/2/charLevelAvailable,,,1,,1,1,,,,,1,1
 spellCasting/2/className,,,Bard,,Cleric,Druid,,,,,Sorcerer,Wizard
 spellCasting/2/source,,,Bard Spellcasting,,Cleric Spellcasting,Druid Spellcasting,,,,,Sorcerer Spellcasting,Wizard Spellcasting
-spellCasting/2/spellDC/_className,,,SkillChoice,,SkillChoice,SkillChoice,,,,,SkillChoice,SkillChoice
-spellCasting/2/spellDC/increases/0/locked,,,TRUE,,TRUE,TRUE,,,,,,TRUE
-spellCasting/2/spellDC/increases/0/maxRank,,,2,,2,2,,,,,,2
-spellCasting/2/spellDC/increases/0/name,,,Bard Occult Spell DC,,Cleric Divine Spell DC,Druid Primal Spell DC,,,,,,Wizard Arcane Spell DC
-spellCasting/2/spellDC/increases/0/source,,,Composition Spells,,Domain Spells,Order Spells,,,,,,Domain Spells
-spellCasting/2/spellDC/increases/0/sourceId,,,,,,,,,,,,
-spellCasting/2/spellDC/maxRank,,,2,,2,2,,,,,2,2
-spellCasting/2/spellDC/source,,,Bard Spellcasting,,Cleric Spellcasting,Druid Spellcasting,,,,,Bloodline Spells,Domain Spells
-spellCasting/2/spellDC/type,,,Spell DC,,Spell DC,Spell DC,,,,,Spell DC,Spell DC
 spellCasting/2/spellChoices/0/_className,,,SpellChoice,,SpellChoice,SpellChoice,,,,,SpellChoice,SpellChoice
 spellCasting/2/spellChoices/0/available,,,5,,5,5,,,,,5,5
 spellCasting/2/spellChoices/0/className,,,Bard,,Cleric,Druid,,,,,Sorcerer,Wizard
-spellCasting/2/spellChoices/0/id,,,577a9dc1-295f-49dc-8211-35d37d88fadc,,6c5997b6-b440-43c2-8f51-5fc9c0d91237,80be660b-1f7c-42ca-83e5-67f959bad1c8,,,,,671fff6e-b1d7-49f0-a889-0298bc05c1d1,9653fc6e-9b65-4f21-a976-6eeb85d511bb
+spellCasting/2/spellChoices/0/id,,,0d40037c-131e-4758-8eff-e7aa64d6fa49,,8a0c1e6a-5bb6-4205-97ea-3bf74f6705bd,907ed433-3881-47d6-98c5-7aaa80174729,,,,,b9028a41-e8dd-478b-b270-af04637f864c,c273b046-01ec-4c51-9fb7-1fd90d533f26
 spellCasting/2/spellChoices/0/level,,,0,,0,0,,,,,0,0
 spellCasting/2/spellChoices/0/charLevelAvailable,,,1,,1,1,,,,,1,1
 spellCasting/2/spellChoices/0/source,,,Bard Spellcasting,,Cleric Spellcasting,Druid Spellcasting,,,,,Sorcerer Spellcasting,Wizard Spellcasting
 spellCasting/2/spellChoices/0/castingType,,,Spontaneous,,Prepared,Prepared,,,,,Spontaneous,Prepared
 spellCasting/2/spellChoices/1/_className,,,SpellChoice,,SpellChoice,SpellChoice,,,,,SpellChoice,SpellChoice
-spellCasting/2/spellChoices/1/available,,,2,,2,2,,,,,3,2
+spellCasting/2/spellChoices/1/available,,,1,,2,2,,,,,1,2
 spellCasting/2/spellChoices/1/className,,,Bard,,Cleric,Druid,,,,,Sorcerer,Wizard
-spellCasting/2/spellChoices/1/id,,,e939c2cc-7da8-4333-b98e-6aac6e71fd46,,d95a1b25-d83f-48b8-a71f-f1fba23fa489,2d703c63-6508-40a4-aa9b-a957db4b1143,,,,,b38c4d44-1f90-4bce-ba93-7a261aed2f1d,d9483329-2f17-4e3a-b289-69cbe8ac70df
+spellCasting/2/spellChoices/1/id,,,5903828c-a58a-11ea-bb37-0242ac130002,,d6b7fbc6-ecf8-4697-bcbd-c5f439a4ce83,a7ada940-503d-4070-98ab-69df0684311e,,,,,59039c22-a58a-11ea-bb37-0242ac130002,4d9bdb46-9fb4-43e5-9f03-89e6965a0be8
 spellCasting/2/spellChoices/1/level,,,1,,1,1,,,,,1,1
 spellCasting/2/spellChoices/1/charLevelAvailable,,,1,,1,1,,,,,1,1
+spellCasting/2/spellChoices/1/signatureSpell,,,TRUE,,,,,,,,TRUE,
 spellCasting/2/spellChoices/1/source,,,Bard Spellcasting,,Cleric Spellcasting,Druid Spellcasting,,,,,Sorcerer Spellcasting,Wizard Spellcasting
 spellCasting/2/spellChoices/1/castingType,,,Spontaneous,,Prepared,Prepared,,,,,Spontaneous,Prepared
 spellCasting/2/spellChoices/2/_className,,,SpellChoice,,SpellChoice,SpellChoice,,,,,SpellChoice,SpellChoice
-spellCasting/2/spellChoices/2/available,,,1,,1,1,,,,,1,1
+spellCasting/2/spellChoices/2/available,,,1,,1,1,,,,,2,1
 spellCasting/2/spellChoices/2/className,,,Bard,,Cleric,Druid,,,,,Sorcerer,Wizard
-spellCasting/2/spellChoices/2/id,,,859ef670-77a1-4c26-9039-3f30f482b188,,d05c7a11-b260-465e-a706-750d574340a9,cf96d898-0bb7-479e-9ab7-d77afa4846ce,,,,,fe67c7f6-cdf4-4642-aec8-ecc2f1bab67b,c0713b40-33c0-4599-a183-3f2c446dd51c
+spellCasting/2/spellChoices/2/id,,,c17f99eb-733c-42b0-8752-3bd11511057b,,71a2e653-d57f-4d03-a783-d357288140fe,cc052825-a0d5-4687-b502-36b6af3f6589,,,,,7afeedb8-803d-49df-b286-48ecab090e44,0de0ad1f-9e2e-4339-8bc4-f180c54a9cda
 spellCasting/2/spellChoices/2/level,,,1,,1,1,,,,,1,1
-spellCasting/2/spellChoices/2/charLevelAvailable,,,2,,2,2,,,,,2,2
-spellCasting/2/spellChoices/2/signatureSpell,,,TRUE,,,,,,,,TRUE,
+spellCasting/2/spellChoices/2/charLevelAvailable,,,1,,2,2,,,,,1,2
+spellCasting/2/spellChoices/2/signatureSpell,,,,,,,,,,,,
 spellCasting/2/spellChoices/2/source,,,Bard Spellcasting,,Cleric Spellcasting,Druid Spellcasting,,,,,Sorcerer Spellcasting,Wizard Spellcasting
 spellCasting/2/spellChoices/2/castingType,,,Spontaneous,,Prepared,Prepared,,,,,Spontaneous,Prepared
 spellCasting/2/spellChoices/3/_className,,,SpellChoice,,SpellChoice,SpellChoice,,,,,SpellChoice,SpellChoice
-spellCasting/2/spellChoices/3/available,,,2,,2,2,,,,,3,2
+spellCasting/2/spellChoices/3/available,,,1,,2,2,,,,,1,2
 spellCasting/2/spellChoices/3/className,,,Bard,,Cleric,Druid,,,,,Sorcerer,Wizard
-spellCasting/2/spellChoices/3/id,,,9d3ded82-771a-4ec5-bd81-0e24b71a4de7,,ceb9ca6a-c3e0-4665-bcdd-c858ff8b4a23,c324b235-4ec4-44ad-bea2-3afdb6ef319d,,,,,6972ec30-0125-4163-a5b1-45989a815e58,272435bf-93c8-49f6-a900-184327569750
-spellCasting/2/spellChoices/3/level,,,2,,2,2,,,,,2,2
-spellCasting/2/spellChoices/3/charLevelAvailable,,,3,,3,3,,,,,3,3
+spellCasting/2/spellChoices/3/id,,,33e282f6-4b83-49d6-a23d-0f704b27f79e,,a3b9c427-c38f-45bd-b978-4d383ea9a12c,b39d9fba-33aa-4f60-b72d-416252242931,,,,,679299d9-d401-4d2e-8303-275595b5c37d,9c4817a2-697a-4e59-b9a8-49be2976cfd0
+spellCasting/2/spellChoices/3/level,,,1,,2,2,,,,,1,2
+spellCasting/2/spellChoices/3/charLevelAvailable,,,2,,3,3,,,,,2,3
+spellCasting/2/spellChoices/3/signatureSpell,,,TRUE,,,,,,,,,
 spellCasting/2/spellChoices/3/source,,,Bard Spellcasting,,Cleric Spellcasting,Druid Spellcasting,,,,,Sorcerer Spellcasting,Wizard Spellcasting
 spellCasting/2/spellChoices/3/castingType,,,Spontaneous,,Prepared,Prepared,,,,,Spontaneous,Prepared
 spellCasting/2/spellChoices/4/_className,,,SpellChoice,,SpellChoice,SpellChoice,,,,,SpellChoice,SpellChoice
 spellCasting/2/spellChoices/4/available,,,1,,1,1,,,,,1,1
 spellCasting/2/spellChoices/4/className,,,Bard,,Cleric,Druid,,,,,Sorcerer,Wizard
-spellCasting/2/spellChoices/4/id,,,2bd5925f-ef71-426b-8930-3baf0c4e8211,,f7fd6b7a-f1df-4558-8a76-8feedd98d89c,6d53f327-f645-4ae3-a0d1-1b2194bca258,,,,,94e77ebb-9e9d-4bb0-9d56-d3f518ee893f,97d57fe8-03f3-4c89-95f0-12b765f24209
+spellCasting/2/spellChoices/4/id,,,590385c0-a58a-11ea-bb37-0242ac130002,,fbc8d279-9b6b-4a13-be9e-834ca2d902da,6b231e86-cfe5-4aa8-b61f-f945a7101c7c,,,,,59039b64-a58a-11ea-bb37-0242ac130002,7556337e-b19d-4a6d-8dfa-4482fe256a79
 spellCasting/2/spellChoices/4/level,,,2,,2,2,,,,,2,2
-spellCasting/2/spellChoices/4/charLevelAvailable,,,4,,4,4,,,,,4,4
+spellCasting/2/spellChoices/4/charLevelAvailable,,,3,,4,4,,,,,3,4
 spellCasting/2/spellChoices/4/signatureSpell,,,TRUE,,,,,,,,TRUE,
 spellCasting/2/spellChoices/4/source,,,Bard Spellcasting,,Cleric Spellcasting,Druid Spellcasting,,,,,Sorcerer Spellcasting,Wizard Spellcasting
 spellCasting/2/spellChoices/4/castingType,,,Spontaneous,,Prepared,Prepared,,,,,Spontaneous,Prepared
 spellCasting/2/spellChoices/5/_className,,,SpellChoice,,SpellChoice,SpellChoice,,,,,SpellChoice,SpellChoice
-spellCasting/2/spellChoices/5/available,,,2,,2,2,,,,,3,2
+spellCasting/2/spellChoices/5/available,,,1,,2,2,,,,,2,2
 spellCasting/2/spellChoices/5/className,,,Bard,,Cleric,Druid,,,,,Sorcerer,Wizard
-spellCasting/2/spellChoices/5/id,,,c734c8c1-db07-4fa2-b0fc-bd7e13723358,,118a7030-4b4e-479c-bc44-1dfbba2175d6,525aaa63-36e9-49d3-a7e7-9233c0ca710b,,,,,04dbeb0c-65d3-4a38-b818-a5c68e36e423,e24c7a64-adcb-4d98-9f38-8a93a51a6a22
-spellCasting/2/spellChoices/5/level,,,3,,3,3,,,,,3,3
-spellCasting/2/spellChoices/5/charLevelAvailable,,,5,,5,5,,,,,5,5
+spellCasting/2/spellChoices/5/id,,,a71c93cd-2026-41e7-bf4a-93ae41a2dc0d,,9793b619-b5dc-4893-923b-4e946dfb7efc,b1fb51ff-132e-4686-bc08-b7bffe762d04,,,,,20afa305-63f9-463f-b3f9-9d9a63d32813,335dda69-05be-4f19-a799-9423a71837ef
+spellCasting/2/spellChoices/5/level,,,2,,3,3,,,,,2,3
+spellCasting/2/spellChoices/5/charLevelAvailable,,,3,,5,5,,,,,3,5
+spellCasting/2/spellChoices/5/signatureSpell,,,,,,,,,,,,
 spellCasting/2/spellChoices/5/source,,,Bard Spellcasting,,Cleric Spellcasting,Druid Spellcasting,,,,,Sorcerer Spellcasting,Wizard Spellcasting
 spellCasting/2/spellChoices/5/castingType,,,Spontaneous,,Prepared,Prepared,,,,,Spontaneous,Prepared
 spellCasting/2/spellChoices/6/_className,,,SpellChoice,,SpellChoice,SpellChoice,,,,,SpellChoice,SpellChoice
 spellCasting/2/spellChoices/6/available,,,1,,1,1,,,,,1,1
 spellCasting/2/spellChoices/6/className,,,Bard,,Cleric,Druid,,,,,Sorcerer,Wizard
-spellCasting/2/spellChoices/6/id,,,38dab9bb-1159-4906-a058-b3ffd1e9e448,,7a0a4389-4255-417c-84bf-412365d2145c,19f09e9a-c284-4dc3-a068-5910f94f178c,,,,,53a59a1c-e42d-48cd-a48b-303aeba45747,58c29f09-2078-4386-86e1-e72ff057c767
-spellCasting/2/spellChoices/6/level,,,3,,3,3,,,,,3,3
-spellCasting/2/spellChoices/6/charLevelAvailable,,,6,,6,6,,,,,6,6
-spellCasting/2/spellChoices/6/signatureSpell,,,TRUE,,,,,,,,TRUE,
+spellCasting/2/spellChoices/6/id,,,47292d9a-21ef-4aec-9f89-a9402bd3f2c3,,deeb092a-ea91-453f-93d0-2cdf4e9b4907,88456b44-2ff8-434b-a085-80e8b32eb541,,,,,06ddccfe-07ed-4f18-bc76-81ba86c2ec09,6cb092be-cb81-4361-a8c3-3ce554297d6a
+spellCasting/2/spellChoices/6/level,,,2,,3,3,,,,,2,3
+spellCasting/2/spellChoices/6/charLevelAvailable,,,4,,6,6,,,,,4,6
+spellCasting/2/spellChoices/6/signatureSpell,,,,,,,,,,,,
 spellCasting/2/spellChoices/6/source,,,Bard Spellcasting,,Cleric Spellcasting,Druid Spellcasting,,,,,Sorcerer Spellcasting,Wizard Spellcasting
 spellCasting/2/spellChoices/6/castingType,,,Spontaneous,,Prepared,Prepared,,,,,Spontaneous,Prepared
 spellCasting/2/spellChoices/7/_className,,,SpellChoice,,SpellChoice,SpellChoice,,,,,SpellChoice,SpellChoice
-spellCasting/2/spellChoices/7/available,,,2,,2,2,,,,,3,2
+spellCasting/2/spellChoices/7/available,,,1,,2,2,,,,,1,2
 spellCasting/2/spellChoices/7/className,,,Bard,,Cleric,Druid,,,,,Sorcerer,Wizard
-spellCasting/2/spellChoices/7/id,,,b6c82f1a-c51a-4d76-bf95-27a0c5e2082e,,4fa44e34-0ebf-429a-b265-e3a71813deed,0b1de519-9887-4ec2-a35b-e080d76e0e3e,,,,,9ae48ae5-1c03-4161-be4c-003843b9f025,6f14e58a-d42b-4ba3-a28e-c42432443798
-spellCasting/2/spellChoices/7/level,,,4,,4,4,,,,,4,4
-spellCasting/2/spellChoices/7/charLevelAvailable,,,7,,7,7,,,,,7,7
+spellCasting/2/spellChoices/7/id,,,590386d8-a58a-11ea-bb37-0242ac130002,,4c633cf5-8f37-448c-bfa6-0d63238f5c95,3466c71a-62e1-465e-965f-99fa022d3051,,,,,c75791c4-62f1-44f2-8b02-4305b0089cd4,4f3ac4d5-3728-4e4f-97fd-7660f2470cf1
+spellCasting/2/spellChoices/7/level,,,3,,4,4,,,,,3,4
+spellCasting/2/spellChoices/7/charLevelAvailable,,,5,,7,7,,,,,5,7
+spellCasting/2/spellChoices/7/signatureSpell,,,TRUE,,,,,,,,TRUE,
 spellCasting/2/spellChoices/7/source,,,Bard Spellcasting,,Cleric Spellcasting,Druid Spellcasting,,,,,Sorcerer Spellcasting,Wizard Spellcasting
 spellCasting/2/spellChoices/7/castingType,,,Spontaneous,,Prepared,Prepared,,,,,Spontaneous,Prepared
 spellCasting/2/spellChoices/8/_className,,,SpellChoice,,SpellChoice,SpellChoice,,,,,SpellChoice,SpellChoice
-spellCasting/2/spellChoices/8/available,,,1,,1,1,,,,,1,1
+spellCasting/2/spellChoices/8/available,,,1,,1,1,,,,,2,1
 spellCasting/2/spellChoices/8/className,,,Bard,,Cleric,Druid,,,,,Sorcerer,Wizard
-spellCasting/2/spellChoices/8/id,,,c2ea68fb-6a96-4222-b6fa-d9ca4afd2dea,,611ffcbc-3612-46e2-8ec0-dab57355b741,5b0ce666-43da-4d13-9356-111d5a00ef89,,,,,854803ab-c5a3-477d-9f94-dc70a0ec94e3,1d61d1a4-2d3c-4cec-a640-75ea11a018f2
-spellCasting/2/spellChoices/8/level,,,4,,4,4,,,,,4,4
-spellCasting/2/spellChoices/8/charLevelAvailable,,,8,,8,8,,,,,8,8
-spellCasting/2/spellChoices/8/signatureSpell,,,TRUE,,,,,,,,TRUE,
+spellCasting/2/spellChoices/8/id,,,3511f623-279c-4af9-985a-d78f6e5731cd,,d5306116-c6ee-4212-a153-1c620d68abc5,0d72dcde-7d5d-4837-a2a1-5c0c7d48ac1e,,,,,c75791c4-62f1-44f2-8b02-4305b0089cd4,f67f3408-a849-4641-a15a-30bcb6963461
+spellCasting/2/spellChoices/8/level,,,3,,4,4,,,,,3,4
+spellCasting/2/spellChoices/8/charLevelAvailable,,,5,,8,8,,,,,5,8
+spellCasting/2/spellChoices/8/signatureSpell,,,,,,,,,,,,
 spellCasting/2/spellChoices/8/source,,,Bard Spellcasting,,Cleric Spellcasting,Druid Spellcasting,,,,,Sorcerer Spellcasting,Wizard Spellcasting
 spellCasting/2/spellChoices/8/castingType,,,Spontaneous,,Prepared,Prepared,,,,,Spontaneous,Prepared
 spellCasting/2/spellChoices/9/_className,,,SpellChoice,,SpellChoice,SpellChoice,,,,,SpellChoice,SpellChoice
-spellCasting/2/spellChoices/9/available,,,2,,2,2,,,,,3,2
+spellCasting/2/spellChoices/9/available,,,1,,2,2,,,,,1,2
 spellCasting/2/spellChoices/9/className,,,Bard,,Cleric,Druid,,,,,Sorcerer,Wizard
-spellCasting/2/spellChoices/9/id,,,7fa6e223-7dbd-487e-909d-cc91b13d02ec,,2feb5ea0-6554-4480-95f2-170fd18d2e60,b73179a8-3dc2-492f-9817-e080a2881f54,,,,,e6abc348-94ea-491c-bb5b-7e8debd0634f,bbe5e93c-0cf6-43c3-aad1-400f8c34fa79
-spellCasting/2/spellChoices/9/level,,,5,,5,5,,,,,5,5
-spellCasting/2/spellChoices/9/charLevelAvailable,,,9,,9,9,,,,,9,9
+spellCasting/2/spellChoices/9/id,,,1065f18e-d244-4bbf-9c6b-5e5fd995112f,,d3fbf4d4-ea9a-497c-ad5d-9e7d3aee389d,f2d6996f-5509-471c-bf01-fe3e4fb3368c,,,,,d126e3f3-fd78-428a-8827-99e9def662ca,036db2ee-7c58-409b-9ddd-203a69ea6b79
+spellCasting/2/spellChoices/9/level,,,3,,5,5,,,,,3,5
+spellCasting/2/spellChoices/9/charLevelAvailable,,,6,,9,9,,,,,6,9
+spellCasting/2/spellChoices/9/signatureSpell,,,,,,,,,,,,
 spellCasting/2/spellChoices/9/source,,,Bard Spellcasting,,Cleric Spellcasting,Druid Spellcasting,,,,,Sorcerer Spellcasting,Wizard Spellcasting
 spellCasting/2/spellChoices/9/castingType,,,Spontaneous,,Prepared,Prepared,,,,,Spontaneous,Prepared
 spellCasting/2/spellChoices/10/_className,,,SpellChoice,,SpellChoice,SpellChoice,,,,,SpellChoice,SpellChoice
 spellCasting/2/spellChoices/10/available,,,1,,1,1,,,,,1,1
 spellCasting/2/spellChoices/10/className,,,Bard,,Cleric,Druid,,,,,Sorcerer,Wizard
-spellCasting/2/spellChoices/10/id,,,426578ed-03db-4cfd-b65e-128e63d2586c,,1b5e6aec-3d2f-4760-b2c7-ab21806b9de7,a9d426e3-1323-48a9-8b1c-41c59c395ffd,,,,,963ce760-14d4-4ae3-b676-b842e0784f09,30d7557d-626d-4a0a-830c-f057762eba04
-spellCasting/2/spellChoices/10/level,,,5,,5,5,,,,,5,5
-spellCasting/2/spellChoices/10/charLevelAvailable,,,10,,10,10,,,,,10,10
+spellCasting/2/spellChoices/10/id,,,590387be-a58a-11ea-bb37-0242ac130002,,47a06c4c-af1b-4245-9d3b-b16f0b703aaa,54d998f3-7606-4baf-8c4a-be12d88a9545,,,,,59039aa6-a58a-11ea-bb37-0242ac130002,73e30d6c-415c-4f5a-a4a7-238896a98b5f
+spellCasting/2/spellChoices/10/level,,,4,,5,5,,,,,4,5
+spellCasting/2/spellChoices/10/charLevelAvailable,,,7,,10,10,,,,,7,10
 spellCasting/2/spellChoices/10/signatureSpell,,,TRUE,,,,,,,,TRUE,
 spellCasting/2/spellChoices/10/source,,,Bard Spellcasting,,Cleric Spellcasting,Druid Spellcasting,,,,,Sorcerer Spellcasting,Wizard Spellcasting
 spellCasting/2/spellChoices/10/castingType,,,Spontaneous,,Prepared,Prepared,,,,,Spontaneous,Prepared
 spellCasting/2/spellChoices/11/_className,,,SpellChoice,,SpellChoice,SpellChoice,,,,,SpellChoice,SpellChoice
-spellCasting/2/spellChoices/11/available,,,2,,2,2,,,,,3,2
+spellCasting/2/spellChoices/11/available,,,1,,2,2,,,,,2,2
 spellCasting/2/spellChoices/11/className,,,Bard,,Cleric,Druid,,,,,Sorcerer,Wizard
-spellCasting/2/spellChoices/11/id,,,b9cbb1c3-404a-427b-882f-a98fed95a98c,,93bf0d0f-9025-4d09-bc36-54bfd152d535,97a72bcf-d6ae-4cae-a59b-219e1c92fd77,,,,,15dee4dc-6299-476e-9e3e-29ba16cf1ee5,46e83a97-6a04-431a-939a-b14e8124f295
-spellCasting/2/spellChoices/11/level,,,6,,6,6,,,,,6,6
-spellCasting/2/spellChoices/11/charLevelAvailable,,,11,,11,11,,,,,11,11
+spellCasting/2/spellChoices/11/id,,,662e7e56-3200-4674-9523-0f8dac83d608,,38eeca39-0471-450d-81b2-5057e8c72a20,582634cb-f41d-4ba1-89d9-0f916735ff02,,,,,cbce83d6-ffd5-40ad-84c1-c36a084bcad4,7c183691-b84a-48cf-9ba9-c7e0ef797faa
+spellCasting/2/spellChoices/11/level,,,4,,6,6,,,,,4,6
+spellCasting/2/spellChoices/11/charLevelAvailable,,,7,,11,11,,,,,7,11
+spellCasting/2/spellChoices/11/signatureSpell,,,,,,,,,,,,
 spellCasting/2/spellChoices/11/source,,,Bard Spellcasting,,Cleric Spellcasting,Druid Spellcasting,,,,,Sorcerer Spellcasting,Wizard Spellcasting
 spellCasting/2/spellChoices/11/castingType,,,Spontaneous,,Prepared,Prepared,,,,,Spontaneous,Prepared
 spellCasting/2/spellChoices/12/_className,,,SpellChoice,,SpellChoice,SpellChoice,,,,,SpellChoice,SpellChoice
 spellCasting/2/spellChoices/12/available,,,1,,1,1,,,,,1,1
 spellCasting/2/spellChoices/12/className,,,Bard,,Cleric,Druid,,,,,Sorcerer,Wizard
-spellCasting/2/spellChoices/12/id,,,4bfb07ad-a703-480e-9fcc-be46fae540a5,,63eb3ff0-6223-4af6-b3d3-24090ef50e19,1d0b968e-000c-46ec-b967-7accd57fd1a5,,,,,4fc43318-7945-40c8-9903-8eab981be746,0224c700-3fe6-48b2-bdda-b78626f2f1aa
-spellCasting/2/spellChoices/12/level,,,6,,6,6,,,,,6,6
-spellCasting/2/spellChoices/12/charLevelAvailable,,,12,,12,12,,,,,12,12
-spellCasting/2/spellChoices/12/signatureSpell,,,TRUE,,,,,,,,TRUE,
+spellCasting/2/spellChoices/12/id,,,fce00f66-e94f-4508-9ef9-4de110b15c97,,4b338200-828b-4d8c-98ef-91074625018d,e283c29d-c340-4b10-a190-b8269bcb0196,,,,,14f3688f-7d0a-4a16-b8bd-305df9f466ba,a9995e3e-070c-4d6b-9a2c-33d6befca388
+spellCasting/2/spellChoices/12/level,,,4,,6,6,,,,,4,6
+spellCasting/2/spellChoices/12/charLevelAvailable,,,8,,12,12,,,,,8,12
+spellCasting/2/spellChoices/12/signatureSpell,,,,,,,,,,,,
 spellCasting/2/spellChoices/12/source,,,Bard Spellcasting,,Cleric Spellcasting,Druid Spellcasting,,,,,Sorcerer Spellcasting,Wizard Spellcasting
 spellCasting/2/spellChoices/12/castingType,,,Spontaneous,,Prepared,Prepared,,,,,Spontaneous,Prepared
 spellCasting/2/spellChoices/13/_className,,,SpellChoice,,SpellChoice,SpellChoice,,,,,SpellChoice,SpellChoice
-spellCasting/2/spellChoices/13/available,,,2,,2,2,,,,,3,2
+spellCasting/2/spellChoices/13/available,,,1,,2,2,,,,,1,2
 spellCasting/2/spellChoices/13/className,,,Bard,,Cleric,Druid,,,,,Sorcerer,Wizard
-spellCasting/2/spellChoices/13/id,,,2b009323-b232-49ad-9204-f4f4606d3f2f,,0ea744b3-2379-422d-ad6a-99f2e117f7d2,eec8445d-e813-43cb-bfa6-54689a4ec280,,,,,1fbbd26c-aad5-4eed-80e3-19b5877e63f5,1d9b54fe-1487-4a51-87ec-b577ba4de5bc
-spellCasting/2/spellChoices/13/level,,,7,,7,7,,,,,7,7
-spellCasting/2/spellChoices/13/charLevelAvailable,,,13,,13,13,,,,,13,13
+spellCasting/2/spellChoices/13/id,,,59038dfe-a58a-11ea-bb37-0242ac130002,,b370fe88-96d3-4db1-8807-f254e6008c39,21efd300-7770-4e76-87c9-83277f7f466c,,,,,590399f2-a58a-11ea-bb37-0242ac130002,1dc0c5ce-1393-4468-ae4e-8b8c1258015a
+spellCasting/2/spellChoices/13/level,,,5,,7,7,,,,,5,7
+spellCasting/2/spellChoices/13/charLevelAvailable,,,9,,13,13,,,,,9,13
+spellCasting/2/spellChoices/13/signatureSpell,,,TRUE,,,,,,,,TRUE,
 spellCasting/2/spellChoices/13/source,,,Bard Spellcasting,,Cleric Spellcasting,Druid Spellcasting,,,,,Sorcerer Spellcasting,Wizard Spellcasting
 spellCasting/2/spellChoices/13/castingType,,,Spontaneous,,Prepared,Prepared,,,,,Spontaneous,Prepared
 spellCasting/2/spellChoices/14/_className,,,SpellChoice,,SpellChoice,SpellChoice,,,,,SpellChoice,SpellChoice
-spellCasting/2/spellChoices/14/available,,,1,,1,1,,,,,1,1
+spellCasting/2/spellChoices/14/available,,,1,,1,1,,,,,2,1
 spellCasting/2/spellChoices/14/className,,,Bard,,Cleric,Druid,,,,,Sorcerer,Wizard
-spellCasting/2/spellChoices/14/id,,,f5c7c775-35f1-408a-a07d-784793db7092,,b543f0bf-440b-48d3-83f7-be63d16d769b,d21bf519-6f2f-4fdb-8891-459a04c17680,,,,,c2035dff-0a6a-4da9-b1ba-df07cdb2e9ab,a350c360-3ca0-438d-9557-ce20c6e2c5e0
-spellCasting/2/spellChoices/14/level,,,7,,7,7,,,,,7,7
-spellCasting/2/spellChoices/14/charLevelAvailable,,,14,,14,14,,,,,14,14
-spellCasting/2/spellChoices/14/signatureSpell,,,TRUE,,,,,,,,TRUE,
+spellCasting/2/spellChoices/14/id,,,998cb841-5190-45e8-8fda-6cc6ba8e83de,,72405f78-0f56-4e71-aa0d-0075c833b947,46f4e03a-d92e-4b0a-bd36-ed94f8115e5b,,,,,afdc69ca-c228-4918-802e-78d5d05360e1,d0d70b30-0d9e-4304-af0c-db9bb6613e3f
+spellCasting/2/spellChoices/14/level,,,5,,7,7,,,,,5,7
+spellCasting/2/spellChoices/14/charLevelAvailable,,,9,,14,14,,,,,9,14
+spellCasting/2/spellChoices/14/signatureSpell,,,,,,,,,,,,
 spellCasting/2/spellChoices/14/source,,,Bard Spellcasting,,Cleric Spellcasting,Druid Spellcasting,,,,,Sorcerer Spellcasting,Wizard Spellcasting
 spellCasting/2/spellChoices/14/castingType,,,Spontaneous,,Prepared,Prepared,,,,,Spontaneous,Prepared
 spellCasting/2/spellChoices/15/_className,,,SpellChoice,,SpellChoice,SpellChoice,,,,,SpellChoice,SpellChoice
-spellCasting/2/spellChoices/15/available,,,2,,2,2,,,,,3,2
+spellCasting/2/spellChoices/15/available,,,1,,2,2,,,,,1,2
 spellCasting/2/spellChoices/15/className,,,Bard,,Cleric,Druid,,,,,Sorcerer,Wizard
-spellCasting/2/spellChoices/15/id,,,dc7c59d3-bcb4-44c1-908d-155e9638a8d8,,2e8b5fef-0a93-42f9-acb1-65f377805fd3,d8f4fced-d5d7-4bb1-9e1c-7c4ab5e434ed,,,,,bf59b654-2c1a-42e3-871e-af21cf7688cc,846c4fe1-ac52-4e20-8f41-fb2b32691ae3
-spellCasting/2/spellChoices/15/level,,,8,,8,8,,,,,8,8
-spellCasting/2/spellChoices/15/charLevelAvailable,,,15,,15,15,,,,,15,15
+spellCasting/2/spellChoices/15/id,,,07f24325-8186-4b7f-a687-262334f592ac,,90ee7967-b2d8-46a9-8b35-36cbadc33e5e,7dfc82b7-bdee-4ce6-bfa8-ae847ff40a4b,,,,,ae3f9c5f-d042-4eaa-ad34-64de9b7f4c30,bba7f23e-bb35-4bde-81a0-6a00cb03b1b7
+spellCasting/2/spellChoices/15/level,,,5,,8,8,,,,,5,8
+spellCasting/2/spellChoices/15/charLevelAvailable,,,10,,15,15,,,,,10,15
+spellCasting/2/spellChoices/15/signatureSpell,,,,,,,,,,,,
 spellCasting/2/spellChoices/15/source,,,Bard Spellcasting,,Cleric Spellcasting,Druid Spellcasting,,,,,Sorcerer Spellcasting,Wizard Spellcasting
 spellCasting/2/spellChoices/15/castingType,,,Spontaneous,,Prepared,Prepared,,,,,Spontaneous,Prepared
 spellCasting/2/spellChoices/16/_className,,,SpellChoice,,SpellChoice,SpellChoice,,,,,SpellChoice,SpellChoice
 spellCasting/2/spellChoices/16/available,,,1,,1,1,,,,,1,1
 spellCasting/2/spellChoices/16/className,,,Bard,,Cleric,Druid,,,,,Sorcerer,Wizard
-spellCasting/2/spellChoices/16/id,,,6da85a44-c176-4cb0-829b-8a10f87fb346,,bbbe6b58-a8ed-404d-b200-726986b3d2f2,93e3903b-2c37-43e6-868d-6ca860775add,,,,,3c7c6b3f-58c5-413d-8142-ab880249bf8b,f166c783-0522-4365-8a71-646303c4b163
-spellCasting/2/spellChoices/16/level,,,8,,8,8,,,,,8,8
-spellCasting/2/spellChoices/16/charLevelAvailable,,,16,,16,16,,,,,16,16
+spellCasting/2/spellChoices/16/id,,,59038f48-a58a-11ea-bb37-0242ac130002,,b9f89c6f-da76-4dbc-a75f-888ccebcad18,b12ff03c-0fb5-41aa-b5b2-e8fe7b89e4d7,,,,,5903992a-a58a-11ea-bb37-0242ac130002,3c13ec30-7a61-4823-940b-5314164ba922
+spellCasting/2/spellChoices/16/level,,,6,,8,8,,,,,6,8
+spellCasting/2/spellChoices/16/charLevelAvailable,,,11,,16,16,,,,,11,16
 spellCasting/2/spellChoices/16/signatureSpell,,,TRUE,,,,,,,,TRUE,
 spellCasting/2/spellChoices/16/source,,,Bard Spellcasting,,Cleric Spellcasting,Druid Spellcasting,,,,,Sorcerer Spellcasting,Wizard Spellcasting
 spellCasting/2/spellChoices/16/castingType,,,Spontaneous,,Prepared,Prepared,,,,,Spontaneous,Prepared
 spellCasting/2/spellChoices/17/_className,,,SpellChoice,,SpellChoice,SpellChoice,,,,,SpellChoice,SpellChoice
-spellCasting/2/spellChoices/17/available,,,2,,2,2,,,,,3,2
+spellCasting/2/spellChoices/17/available,,,1,,2,2,,,,,2,2
 spellCasting/2/spellChoices/17/className,,,Bard,,Cleric,Druid,,,,,Sorcerer,Wizard
-spellCasting/2/spellChoices/17/id,,,9593449c-f4a6-4251-95a1-f91d98e4e510,,02475610-d718-4b76-bf57-63141def2adb,756b5ef8-9923-470e-a80d-fe28c5df3a76,,,,,ab8a9c9a-8de8-46c6-9ba9-49b843df5908,9382fdcd-e3ef-4637-bb0e-d08f996a3064
-spellCasting/2/spellChoices/17/level,,,9,,9,9,,,,,9,9
-spellCasting/2/spellChoices/17/charLevelAvailable,,,17,,17,17,,,,,17,17
+spellCasting/2/spellChoices/17/id,,,eed082ce-af71-434a-972d-29a9bb88bfe2,,92b41e58-f172-4a1c-8f2d-fccd1274e7a9,a43558eb-be19-4ce4-b8b4-3627b9359ed0,,,,,5dbab9ef-8f3d-4393-8f1d-69a4a1c4cbc4,c2fa3a04-afb6-450f-8b48-3a02d4b6c6a7
+spellCasting/2/spellChoices/17/level,,,6,,9,9,,,,,6,9
+spellCasting/2/spellChoices/17/charLevelAvailable,,,11,,17,17,,,,,11,17
+spellCasting/2/spellChoices/17/signatureSpell,,,,,,,,,,,,
 spellCasting/2/spellChoices/17/source,,,Bard Spellcasting,,Cleric Spellcasting,Druid Spellcasting,,,,,Sorcerer Spellcasting,Wizard Spellcasting
 spellCasting/2/spellChoices/17/castingType,,,Spontaneous,,Prepared,Prepared,,,,,Spontaneous,Prepared
 spellCasting/2/spellChoices/18/_className,,,SpellChoice,,SpellChoice,SpellChoice,,,,,SpellChoice,SpellChoice
 spellCasting/2/spellChoices/18/available,,,1,,1,1,,,,,1,1
 spellCasting/2/spellChoices/18/className,,,Bard,,Cleric,Druid,,,,,Sorcerer,Wizard
-spellCasting/2/spellChoices/18/id,,,14bc60cf-99c7-42de-ae43-9005863819b3,,f0876c2b-d8a0-4259-ac48-aca0832a7b8c,b2fae197-254e-4403-9e33-6185fc7ba986,,,,,86536d06-8fe5-42be-a0bd-2f2a3b6eeff7,a1954f46-4858-4d4e-9827-882e340f4b11
-spellCasting/2/spellChoices/18/level,,,9,,9,9,,,,,9,9
-spellCasting/2/spellChoices/18/charLevelAvailable,,,18,,18,18,,,,,18,18
-spellCasting/2/spellChoices/18/signatureSpell,,,TRUE,,,,,,,,TRUE,
+spellCasting/2/spellChoices/18/id,,,8dd96738-a71c-46e7-82d2-04b66be1e873,,165f5f22-408d-4e45-9718-5e1f0abb8f5d,e21c896a-c38a-4be4-a05c-b35b7b60b6ff,,,,,3e65fb58-a467-426c-9f8b-656e6503b4ae,e471c7ac-1664-4b6b-987a-e9f2ec2e0ca7
+spellCasting/2/spellChoices/18/level,,,6,,9,9,,,,,6,9
+spellCasting/2/spellChoices/18/charLevelAvailable,,,12,,18,18,,,,,12,18
+spellCasting/2/spellChoices/18/signatureSpell,,,,,,,,,,,,
 spellCasting/2/spellChoices/18/source,,,Bard Spellcasting,,Cleric Spellcasting,Druid Spellcasting,,,,,Sorcerer Spellcasting,Wizard Spellcasting
 spellCasting/2/spellChoices/18/castingType,,,Spontaneous,,Prepared,Prepared,,,,,Spontaneous,Prepared
 spellCasting/2/spellChoices/19/_className,,,SpellChoice,,SpellChoice,SpellChoice,,,,,SpellChoice,SpellChoice
-spellCasting/2/spellChoices/19/available,,,2,,1,1,,,,,2,1
+spellCasting/2/spellChoices/19/available,,,1,,1,1,,,,,1,1
 spellCasting/2/spellChoices/19/className,,,Bard,,Cleric,Druid,,,,,Sorcerer,Wizard
-spellCasting/2/spellChoices/19/id,,,6955c09e-3729-4660-8871-90c8469e7042,,211e0c01-17b4-4111-bc85-fffc6205ad8d,ce734c3d-64aa-415d-afc5-a89ab8cf5095,,,,,7ebb275e-9b57-4cd3-83c2-aded9dfb5976,18ec0ce5-563b-404c-b9ad-dc9c6da76743
-spellCasting/2/spellChoices/19/level,,,10,,10,10,,,,,10,10
-spellCasting/2/spellChoices/19/charLevelAvailable,,,19,,19,19,,,,,19,19
+spellCasting/2/spellChoices/19/id,,,59039024-a58a-11ea-bb37-0242ac130002,,2a32206c-4ef2-485d-9252-845f2f6afaae,c463da07-3ca0-4f1e-a2db-f6a71789baf2,,,,,5903972c-a58a-11ea-bb37-0242ac130002,e1ceae24-020d-4d5d-a8c6-4dd6ffe27e5e
+spellCasting/2/spellChoices/19/level,,,7,,10,10,,,,,7,10
+spellCasting/2/spellChoices/19/charLevelAvailable,,,13,,19,19,,,,,13,19
+spellCasting/2/spellChoices/19/signatureSpell,,,TRUE,,,,,,,,TRUE,
 spellCasting/2/spellChoices/19/source,,,Bard Spellcasting,,Cleric Spellcasting,Druid Spellcasting,,,,,Sorcerer Spellcasting,Wizard Spellcasting
 spellCasting/2/spellChoices/19/castingType,,,Spontaneous,,Prepared,Prepared,,,,,Spontaneous,Prepared
-spellCasting/2/spellChoices/20/_className,,,,,SpellChoice,,,,,,,
-spellCasting/2/spellChoices/20/available,,,,,1,,,,,,,
-spellCasting/2/spellChoices/20/className,,,,,Cleric,,,,,,,
-spellCasting/2/spellChoices/20/filter/0,,,,,Harm,,,,,,,
-spellCasting/2/spellChoices/20/filter/1,,,,,Heal,,,,,,,
-spellCasting/2/spellChoices/20/id,,,,,79f51aa9-ea91-4f86-8909-e5b0dd5053ce,,,,,,,
-spellCasting/2/spellChoices/20/dynamicLevel,,,,,highestSpellLevel,,,,,,,
-spellCasting/2/spellChoices/20/charLevelAvailable,,,,,1,,,,,,,
-spellCasting/2/spellChoices/20/source,,,,,Divine Font,,,,,,,
-spellCasting/2/spellChoices/20/castingType,,,,,Prepared,,,,,,,
-spellCasting/2/tradition,,,Occult,,Divine,Primal,,,,,Bloodline,Arcane
+spellCasting/2/spellChoices/20/_className,,,SpellChoice,,,,,,,,SpellChoice,
+spellCasting/2/spellChoices/20/available,,,1,,,,,,,,2,
+spellCasting/2/spellChoices/20/className,,,Bard,,,,,,,,Sorcerer,
+spellCasting/2/spellChoices/20/id,,,4a0da452-2bdc-4f7f-81fe-5cb174cbbb31,,,,,,,,d6b1cab8-4083-4c4a-a903-ae552851c4b8,
+spellCasting/2/spellChoices/20/level,,,7,,,,,,,,7,
+spellCasting/2/spellChoices/20/charLevelAvailable,,,13,,,,,,,,13,
+spellCasting/2/spellChoices/20/signatureSpell,,,,,,,,,,,,
+spellCasting/2/spellChoices/20/source,,,Bard Spellcasting,,,,,,,,Sorcerer Spellcasting,
+spellCasting/2/spellChoices/20/castingType,,,Spontaneous,,,,,,,,Spontaneous,
+spellCasting/2/spellChoices/21/_className,,,SpellChoice,,,,,,,,SpellChoice,
+spellCasting/2/spellChoices/21/available,,,1,,,,,,,,1,
+spellCasting/2/spellChoices/21/className,,,Bard,,,,,,,,Sorcerer,
+spellCasting/2/spellChoices/21/id,,,b36b153c-61fd-496f-b430-cd1a03240f89,,,,,,,,b9ec9b98-e144-4d80-a115-94ac9de8a460,
+spellCasting/2/spellChoices/21/level,,,7,,,,,,,,7,
+spellCasting/2/spellChoices/21/charLevelAvailable,,,14,,,,,,,,14,
+spellCasting/2/spellChoices/21/signatureSpell,,,,,,,,,,,,
+spellCasting/2/spellChoices/21/source,,,Bard Spellcasting,,,,,,,,Sorcerer Spellcasting,
+spellCasting/2/spellChoices/21/castingType,,,Spontaneous,,,,,,,,Spontaneous,
+spellCasting/2/spellChoices/22/_className,,,SpellChoice,,,,,,,,SpellChoice,
+spellCasting/2/spellChoices/22/available,,,1,,,,,,,,1,
+spellCasting/2/spellChoices/22/className,,,Bard,,,,,,,,Sorcerer,
+spellCasting/2/spellChoices/22/id,,,590390ec-a58a-11ea-bb37-0242ac130002,,,,,,,,590395d8-a58a-11ea-bb37-0242ac130002,
+spellCasting/2/spellChoices/22/level,,,8,,,,,,,,8,
+spellCasting/2/spellChoices/22/charLevelAvailable,,,15,,,,,,,,15,
+spellCasting/2/spellChoices/22/signatureSpell,,,TRUE,,,,,,,,TRUE,
+spellCasting/2/spellChoices/22/source,,,Bard Spellcasting,,,,,,,,Sorcerer Spellcasting,
+spellCasting/2/spellChoices/22/castingType,,,Spontaneous,,,,,,,,Spontaneous,
+spellCasting/2/spellChoices/23/_className,,,SpellChoice,,,,,,,,SpellChoice,
+spellCasting/2/spellChoices/23/available,,,1,,,,,,,,2,
+spellCasting/2/spellChoices/23/className,,,Bard,,,,,,,,Sorcerer,
+spellCasting/2/spellChoices/23/id,,,7d4944ec-038a-4872-b958-0447b3e7dcee,,,,,,,,d89ae392-4562-4fb4-a6ae-c8f281a247e4,
+spellCasting/2/spellChoices/23/level,,,8,,,,,,,,8,
+spellCasting/2/spellChoices/23/charLevelAvailable,,,15,,,,,,,,15,
+spellCasting/2/spellChoices/23/signatureSpell,,,,,,,,,,,,
+spellCasting/2/spellChoices/23/source,,,Bard Spellcasting,,,,,,,,Sorcerer Spellcasting,
+spellCasting/2/spellChoices/23/castingType,,,Spontaneous,,,,,,,,Spontaneous,
+spellCasting/2/spellChoices/24/_className,,,SpellChoice,,,,,,,,SpellChoice,
+spellCasting/2/spellChoices/24/available,,,1,,,,,,,,1,
+spellCasting/2/spellChoices/24/className,,,Bard,,,,,,,,Sorcerer,
+spellCasting/2/spellChoices/24/id,,,f6fbdf04-773c-4a1d-afea-b308cd52c46a,,,,,,,,47cf2599-a269-4478-a682-c684d6a613e9,
+spellCasting/2/spellChoices/24/level,,,8,,,,,,,,8,
+spellCasting/2/spellChoices/24/charLevelAvailable,,,16,,,,,,,,16,
+spellCasting/2/spellChoices/24/signatureSpell,,,,,,,,,,,,
+spellCasting/2/spellChoices/24/source,,,Bard Spellcasting,,,,,,,,Sorcerer Spellcasting,
+spellCasting/2/spellChoices/24/castingType,,,Spontaneous,,,,,,,,Spontaneous,
+spellCasting/2/spellChoices/25/_className,,,SpellChoice,,,,,,,,SpellChoice,
+spellCasting/2/spellChoices/25/available,,,1,,,,,,,,1,
+spellCasting/2/spellChoices/25/className,,,Bard,,,,,,,,Sorcerer,
+spellCasting/2/spellChoices/25/id,,,590392e0-a58a-11ea-bb37-0242ac130002,,,,,,,,59039524-a58a-11ea-bb37-0242ac130002,
+spellCasting/2/spellChoices/25/level,,,9,,,,,,,,9,
+spellCasting/2/spellChoices/25/charLevelAvailable,,,17,,,,,,,,17,
+spellCasting/2/spellChoices/25/signatureSpell,,,TRUE,,,,,,,,TRUE,
+spellCasting/2/spellChoices/25/source,,,Bard Spellcasting,,,,,,,,Sorcerer Spellcasting,
+spellCasting/2/spellChoices/25/castingType,,,Spontaneous,,,,,,,,Spontaneous,
+spellCasting/2/spellChoices/26/_className,,,SpellChoice,,,,,,,,SpellChoice,
+spellCasting/2/spellChoices/26/available,,,1,,,,,,,,2,
+spellCasting/2/spellChoices/26/className,,,Bard,,,,,,,,Sorcerer,
+spellCasting/2/spellChoices/26/id,,,a2aa6fcb-942b-451e-9e59-5417d96c970e,,,,,,,,e0d25a47-d68f-4cb5-bf9f-68bbd7a7a5de,
+spellCasting/2/spellChoices/26/level,,,9,,,,,,,,9,
+spellCasting/2/spellChoices/26/charLevelAvailable,,,17,,,,,,,,17,
+spellCasting/2/spellChoices/26/signatureSpell,,,,,,,,,,,,
+spellCasting/2/spellChoices/26/source,,,Bard Spellcasting,,,,,,,,Sorcerer Spellcasting,
+spellCasting/2/spellChoices/26/castingType,,,Spontaneous,,,,,,,,Spontaneous,
+spellCasting/2/spellChoices/27/_className,,,SpellChoice,,,,,,,,SpellChoice,
+spellCasting/2/spellChoices/27/available,,,1,,,,,,,,1,
+spellCasting/2/spellChoices/27/className,,,Bard,,,,,,,,Sorcerer,
+spellCasting/2/spellChoices/27/id,,,29b86d68-517f-4ed3-98a1-6a6c392f3363,,,,,,,,2ed2f22c-94ed-425b-a2bc-faff619ff47c,
+spellCasting/2/spellChoices/27/level,,,9,,,,,,,,9,
+spellCasting/2/spellChoices/27/charLevelAvailable,,,18,,,,,,,,18,
+spellCasting/2/spellChoices/27/signatureSpell,,,,,,,,,,,,
+spellCasting/2/spellChoices/27/source,,,Bard Spellcasting,,,,,,,,Sorcerer Spellcasting,
+spellCasting/2/spellChoices/27/castingType,,,Spontaneous,,,,,,,,Spontaneous,
+spellCasting/2/spellChoices/28/_className,,,SpellChoice,,,,,,,,SpellChoice,
+spellCasting/2/spellChoices/28/available,,,1,,,,,,,,1,
+spellCasting/2/spellChoices/28/className,,,Bard,,,,,,,,Sorcerer,
+spellCasting/2/spellChoices/28/id,,,590393a8-a58a-11ea-bb37-0242ac130002,,,,,,,,59039466-a58a-11ea-bb37-0242ac130002,
+spellCasting/2/spellChoices/28/level,,,10,,,,,,,,10,
+spellCasting/2/spellChoices/28/charLevelAvailable,,,19,,,,,,,,19,
+spellCasting/2/spellChoices/28/signatureSpell,,,TRUE,,,,,,,,TRUE,
+spellCasting/2/spellChoices/28/source,,,Bard Spellcasting,,,,,,,,Sorcerer Spellcasting,
+spellCasting/2/spellChoices/28/castingType,,,Spontaneous,,,,,,,,Spontaneous,
+spellCasting/2/spellChoices/29/_className,,,SpellChoice,,,,,,,,SpellChoice,
+spellCasting/2/spellChoices/29/available,,,1,,,,,,,,1,
+spellCasting/2/spellChoices/29/className,,,Bard,,,,,,,,Sorcerer,
+spellCasting/2/spellChoices/29/id,,,9f19cb22-52b7-4ca4-b9ff-d1f78c73be6f,,,,,,,,47646a40-d247-47ef-9c4d-39dce7b59732,
+spellCasting/2/spellChoices/29/level,,,10,,,,,,,,10,
+spellCasting/2/spellChoices/29/charLevelAvailable,,,19,,,,,,,,19,
+spellCasting/2/spellChoices/29/signatureSpell,,,,,,,,,,,,
+spellCasting/2/spellChoices/29/source,,,Bard Spellcasting,,,,,,,,Sorcerer Spellcasting,
+spellCasting/2/spellChoices/29/castingType,,,Spontaneous,,,,,,,,Spontaneous,
+spellCasting/2/spellChoices/30/_className,,,,,SpellChoice,,,,,,,
+spellCasting/2/spellChoices/30/available,,,,,1,,,,,,,
+spellCasting/2/spellChoices/30/className,,,,,Cleric,,,,,,,
+spellCasting/2/spellChoices/30/filter/0,,,,,Harm,,,,,,,
+spellCasting/2/spellChoices/30/filter/1,,,,,Heal,,,,,,,
+spellCasting/2/spellChoices/30/id,,,,,8b5e3ea0-6116-4d7e-8197-a6cb787a5788,,,,,,,
+spellCasting/2/spellChoices/30/dynamicLevel,,,,,highestSpellLevel,,,,,,,
+spellCasting/2/spellChoices/30/charLevelAvailable,,,,,1,,,,,,,
+spellCasting/2/spellChoices/30/source,,,,,Divine Font,,,,,,,
+spellCasting/2/spellChoices/30/castingType,,,,,Prepared,,,,,,,
+spellCasting/2/tradition,,,Occult,,Divine,Primal,,,,,Primal,Arcane

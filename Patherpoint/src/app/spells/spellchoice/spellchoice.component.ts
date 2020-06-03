@@ -158,7 +158,7 @@ export class SpellchoiceComponent implements OnInit {
         }
         let spells: Spell[] = [];
         if (this.spellCasting) {
-            let traditionFilter = choice.tradition || this.spellCasting.get_Tradition() || "";
+            let traditionFilter = choice.tradition || this.spellCasting.tradition || "";
             if (this.spellCasting.castingType == "Focus") {
                 spells.push(...allSpells.filter(spell => spell.traits.includes(character.class.name) && spell.traditions.includes("Focus")));
             } else {

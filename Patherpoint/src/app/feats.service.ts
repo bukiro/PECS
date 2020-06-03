@@ -68,7 +68,7 @@ export class FeatsService {
         if (feats.length) {
             let feat = feats[0];
 
-            //Gain amother Feat
+            //Gain another Feat
             if (feat.gainFeatChoice.length) {
                 if (taken) {
                     feat.gainFeatChoice.forEach(newFeatChoice => {
@@ -99,7 +99,7 @@ export class FeatsService {
                             }
                             if (a.length) {
                                 //You might have taken this feat multiple times on the same level, so we are only removing one instance of each of its featChoices.
-                                let b: FeatChoice = a.filter(choice => choice.source == 'Feat: '+featName)[0];
+                                let b: FeatChoice = a.filter(choice => choice.source == newFeatChoice.source)[0];
                                 //Feats must explicitly be un-taken instead of just removed from the array, in case they made fixed changes
                                 if (b) {
                                     b?.feats.forEach(feat => {
@@ -132,23 +132,41 @@ export class FeatsService {
             if (feat.gainSkillChoice.length) {
                 if (taken) {
                     feat.gainSkillChoice.forEach(newSkillChoice => {
-                        let newChoice = character.add_SkillChoice(level, newSkillChoice);
-                        //Apply any included Skill increases
-                        newChoice.increases.length = 0;
-                        newSkillChoice.increases.forEach(increase => {
-                            character.increase_Skill(characterService, increase.name, true, newChoice, true);
-                        })
+                        let newChoice: SkillChoice;
+                        if (newSkillChoice.insertClass ? character.class.name == newSkillChoice.insertClass : true) {
+                            //Check if the feat choice gets applied on a certain level and do that, or apply it on the current level.
+                            if (newSkillChoice.insertLevel && character.class.levels[newSkillChoice.insertLevel]) {
+                                newChoice = character.add_SkillChoice(character.class.levels[newSkillChoice.insertLevel], newSkillChoice)
+                            } else {
+                                newChoice = character.add_SkillChoice(level, newSkillChoice);
+                            }
+                            //Apply any included Skill increases
+                            newChoice.increases.length = 0;
+                            newSkillChoice.increases.forEach(increase => {
+                                character.increase_Skill(characterService, increase.name, true, newChoice, true);
+                            })
+                        }
                     });
                 } else {
-                    let a = level.skillChoices;
                     feat.gainSkillChoice.forEach(oldSkillChoice => {
-                        let oldChoice = a.filter(choice => choice.source == oldSkillChoice.source)[0];
-                        //Process and undo included Skill increases
-                        oldChoice.increases.forEach(increase => {
-                            character.increase_Skill(characterService, increase.name, false, oldChoice, increase.locked);
-                        })
-                        character.remove_SkillChoice(oldChoice);
-                    })
+                        //Skip if you don't have the required Class for this granted feat choice, since you didn't get the choice in the first place.
+                        if (oldSkillChoice.insertClass ? (character.class.name == oldSkillChoice.insertClass) : true) {
+                            let a: SkillChoice[];
+                            //If the feat choice got applied on a certain level, it needs to be removed from that level, too.
+                            if (oldSkillChoice.insertLevel && character.class.levels[oldSkillChoice.insertLevel]) {
+                                a = character.class.levels[oldSkillChoice.insertLevel].skillChoices;
+                            } else {
+                                a = level.skillChoices;
+                            }
+                            //We only retrieve one instance of the included SkillChoice, as the feat may have been taken multiple times.
+                            let oldChoice = a.filter(choice => choice.source == oldSkillChoice.source)[0];
+                            //Process and undo included Skill increases
+                            oldChoice?.increases.forEach(increase => {
+                                character.increase_Skill(characterService, increase.name, false, oldChoice, increase.locked);
+                            })
+                            character.remove_SkillChoice(oldChoice);
+                        }
+                    });
                 }
             }
 
@@ -174,23 +192,28 @@ export class FeatsService {
             if (feat.gainSpellChoice.length) {
                 if (taken) {
                     feat.gainSpellChoice.forEach(newSpellChoice => {
-                        let insertSpellChoice: SpellChoice = Object.assign(new SpellChoice(), JSON.parse(JSON.stringify(newSpellChoice)));
-                        //Wellspring Gnome changes:
-                        //"Whenever you gain a primal innate spell from a gnome ancestry feat, change its tradition from primal to your chosen tradition."
-                        if (character.class.heritage.name.includes("Wellspring Gnome")) {
-                            if (insertSpellChoice.tradition && insertSpellChoice.castingType == "Innate" && insertSpellChoice.tradition == "Primal" && feat.traits.includes("Gnome")) {
-                                insertSpellChoice.tradition = character.class.heritage.subType;
+                        if (newSpellChoice.insertClass ? character.class.name == newSpellChoice.insertClass : true) {
+                            let insertSpellChoice: SpellChoice = Object.assign(new SpellChoice(), JSON.parse(JSON.stringify(newSpellChoice)));
+                            //Wellspring Gnome changes:
+                            //"Whenever you gain a primal innate spell from a gnome ancestry feat, change its tradition from primal to your chosen tradition."
+                            if (character.class.heritage.name.includes("Wellspring Gnome")) {
+                                if (insertSpellChoice.tradition && insertSpellChoice.castingType == "Innate" && insertSpellChoice.tradition == "Primal" && feat.traits.includes("Gnome")) {
+                                    insertSpellChoice.tradition = character.class.heritage.subType;
+                                }
                             }
+                            insertSpellChoice.spells.forEach(gain => {
+                                gain.sourceId = insertSpellChoice.id;
+                            })
+                            insertSpellChoice.source == "Feat: "+feat.name;
+                            character.add_SpellChoice(level, insertSpellChoice);
                         }
-                        insertSpellChoice.spells.forEach(gain => {
-                            gain.sourceId = insertSpellChoice.id;
-                        })
-                        insertSpellChoice.source == "Feat: "+feat.name;
-                        character.add_SpellChoice(level, insertSpellChoice);
                     });
                 } else {
                     feat.gainSpellChoice.forEach(newSpellChoice => {
-                        character.remove_SpellChoice(characterService, newSpellChoice);
+                        //Skip if you don't have the required Class for this granted spell choice, since you didn't get the choice in the first place.
+                        if (newSpellChoice.insertClass ? (character.class.name == newSpellChoice.insertClass) : true) {
+                            character.remove_SpellChoice(characterService, newSpellChoice);
+                        }
                     });
                 }
             }
@@ -413,7 +436,7 @@ export class FeatsService {
                         .find(level => level.featChoices
                             .filter(choice => choice.feats
                                 .map(gain => characterService.get_FeatsAndFeatures(gain.name)[0])
-                                .filter(feat => feat.gainFamiliar).length).length
+                                .filter(feat => feat?.gainFamiliar).length).length
                         );
                         character.add_SpellChoice(familiarLevel, newSpellChoice)
                     }

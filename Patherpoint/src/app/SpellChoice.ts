@@ -12,6 +12,9 @@ export class SpellChoice {
     public filter: string[] = [];
     public traitFilter: string[] = [];
     public id = uuidv1();
+    //If insertClass is set, this SpellChoice is only granted by a feat if the character class name matches this name.
+    // This is especially useful for class choices (hunter's edge, rogue racket, bloodline etc.) that don't give certain benefits when multiclassing.
+    public insertClass: string = "";
     public level: number = 0;
     //For spell choices that are "three levels below your highest spell level"
     //Example: "character.get_SpellLevel() - 3"

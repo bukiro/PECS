@@ -472,18 +472,6 @@ export class CharacterComponent implements OnInit {
         }
     }
 
-    get_AvailableTraditionAbilities(choice: SpellCasting) {
-        let abilities = this.get_Abilities();
-        if (choice.abilityFilter.length) {
-            abilities = abilities.filter(ability => choice.abilityFilter.includes(ability.name))
-        }
-        if (abilities.length) {
-            return abilities.filter(ability => (
-                choice.ability == ability.name || !choice.ability
-                )).map(ability => ability.name);
-        }
-    }
-
     get_AvailableTraditions(choice: SpellCasting) {
         let traditions = ["Arcane", "Divine", "Occult", "Primal"];
         if (choice.traditionFilter.length) {
@@ -493,21 +481,6 @@ export class CharacterComponent implements OnInit {
             return traditions.filter(tradition => (
                 choice.tradition == tradition || !choice.tradition
                 ));
-        }
-    }
-
-    on_TraditionChoice(which: "ability"|"tradition", ability: string, tradition: string, boost: boolean, choice: SpellCasting, locked: boolean = false) {
-        //Unset first, before the values change
-        if (boost && ability && tradition) {
-            this.showList="";
-            choice.ability = ability;
-            choice.tradition = tradition as ""|"Arcane"|"Divine"|"Occult"|"Primal"|"Bloodline";
-            choice.set_SpellDC(this.characterService, boost)
-            this.characterService.set_Changed();
-        } else {
-            choice.set_SpellDC(this.characterService, boost)
-            choice[which] = "";
-            this.characterService.set_Changed();
         }
     }
 
@@ -660,40 +633,6 @@ export class CharacterComponent implements OnInit {
             this.characterService.change_Deity(deity);
         } else {
             this.characterService.change_Deity(new Deity());
-        }
-    }
-
-    get_BloodlineAvailable(levelNumber: number) {
-        return this.get_Character().class.spellCasting.filter(casting => casting.castingType == "Spontaneous" && casting.tradition == "Bloodline" && casting.charLevelAvailable == levelNumber).length
-    }
-
-    get_AvailableBloodlines(levelNumber: number) {
-        return this.get_Character().class.spellCasting.filter(casting => casting.castingType == "Spontaneous" && casting.tradition == "Bloodline" && casting.charLevelAvailable == levelNumber);
-    }
-
-    get_Bloodlines() {
-        return this.bloodlinesService.get_Bloodlines();
-    }
-
-    get_BloodlineSpellLevel(levelNumber: number) {
-        switch (levelNumber) {
-            case 0: 
-                return "initial";
-            case 1:
-                return "advanced";
-            case 2:
-                return "greater";
-            default:
-                return "";
-        }
-    }
-
-    on_BloodlineChange(casting: SpellCasting, bloodline: Bloodline, taken: boolean) {
-        if (taken) {
-            this.showList="";
-            this.characterService.change_Bloodline(casting, bloodline);
-        } else {
-            this.characterService.change_Bloodline(casting, null);
         }
     }
 

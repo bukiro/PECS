@@ -143,15 +143,14 @@ export class Character extends Creature {
     add_SpellCasting(characterService: CharacterService, level: Level, newCasting: SpellCasting) {
         let newLength: number = this.class.spellCasting.push(Object.assign(new SpellCasting(newCasting.castingType), JSON.parse(JSON.stringify(newCasting))));
         let newSpellCasting: SpellCasting = this.class.spellCasting[newLength-1];
-        //If the SpellCasting has a charLevelAvailable lower than the current level, you could use it before you get it.
+        //If the SpellCasting has a charLevelAvailable above 0, but lower than the current level, you could use it before you get it.
         //So we raise the charLevelAvailable to either the current level or the original value, whichever is higher.
-        newSpellCasting.charLevelAvailable = Math.max(newSpellCasting.charLevelAvailable, level.number);
-        newSpellCasting.set_SpellDC(characterService, true);
-        newSpellCasting.spellDC.source = newSpellCasting.source;
+        if (newSpellCasting.charLevelAvailable) {
+            newSpellCasting.charLevelAvailable = Math.max(newSpellCasting.charLevelAvailable, level.number);
+        }
         return this.class.spellCasting[newLength-1];
     }
     remove_SpellCasting(characterService: CharacterService, oldCasting: SpellCasting) {
-        oldCasting.set_SpellDC(characterService, false);
         this.class.spellCasting = this.class.spellCasting.filter(casting => casting !== oldCasting);
     }
     add_LoreChoice(level: Level, newChoice: LoreChoice) {
@@ -169,7 +168,7 @@ export class Character extends Creature {
     add_FeatChoice(level: Level, newChoice: FeatChoice) {
         let existingChoices = level.featChoices.filter(choice => choice.source == newChoice.source);
         let tempChoice = Object.assign(new FeatChoice, JSON.parse(JSON.stringify(newChoice)));
-        tempChoice.id = level.number +"-Feat-"+ tempChoice.source +"-"+ existingChoices.length;
+        tempChoice.id = level.number +"-"+ (tempChoice.type ? tempChoice.type : "Feat") +"-"+ tempChoice.source +"-"+ existingChoices.length;
         //eval the level string to convert things like "level.number / 2". "1" is still "1".
         if (tempChoice.dynamicLevel) {
             try {
@@ -211,18 +210,8 @@ export class Character extends Creature {
             casting.spellChoices = casting.spellChoices.filter(choice => choice.id != oldChoice.id);
         })
         //If the spellcasting has no spellchoices left, it is no longer available.
-        //We also unset any ability or tradition choices, because we assume that the feat that gave you the choice was also the one that gave you the first spell.
         this.class.spellCasting.filter(casting => casting.spellChoices.length == 0).forEach(casting => {
             casting.charLevelAvailable = 0;
-            if (casting.abilityAvailable || casting.traditionAvailable) {
-                casting.set_SpellDC(characterService, false)
-            }
-            if (casting.abilityAvailable) {
-                casting.ability = "";
-            }
-            if (casting.traditionAvailable) {
-                casting.tradition = "";
-            }
         })
     }
     gain_Activity(newGain: ActivityGain, levelNumber: number) {
@@ -246,10 +235,6 @@ export class Character extends Creature {
             levels.forEach(level => {
                 choices.push(...level.skillChoices);
                 choices.push(...level.loreChoices);
-            });
-            this.class.spellCasting.filter(casting => casting.charLevelAvailable >= minLevelNumber && casting.charLevelAvailable <= maxLevelNumber).forEach(casting => {
-                casting.bloodline && choices.push(...casting.bloodline.skillChoices);
-                choices.push(casting.spellDC)
             });
             this.inventories.forEach(inventory => {
                 inventory.allEquipment().filter(item => item.propertyRunes.filter(rune => rune.loreChoices && rune.loreChoices.length).length && item.equipped && (item.can_Invest() ? item.invested : true ))
@@ -281,7 +266,7 @@ export class Character extends Creature {
             return [] as SkillIncrease[];
         }
     }
-    increase_Skill(characterService: CharacterService, skillName: string, train: boolean, choice: SkillChoice, locked: boolean, ability: string = "") {
+    increase_Skill(characterService: CharacterService, skillName: string, train: boolean, choice: SkillChoice, locked: boolean) {
         if (train) {
             choice.increases.push({"name":skillName, "source":choice.source, "maxRank":choice.maxRank, "locked":locked, "sourceId":choice.id});
         } else {
@@ -293,9 +278,9 @@ export class Character extends Creature {
                 )[0];
             choice.increases = choice.increases.filter(increase => increase !== oldIncrease);
         }
-        this.process_Skill(characterService, skillName, train, choice, locked, ability);
+        this.process_Skill(characterService, skillName, train, choice, locked);
     }
-    process_Skill(characterService: CharacterService, skillName: string, train: boolean, choice: SkillChoice, locked: boolean, ability: string = "") {
+    process_Skill(characterService: CharacterService, skillName: string, train: boolean, choice: SkillChoice, locked: boolean) {
         if (train) {
             //The skill that you increase with Skilled Heritage at level 1 automatically gets increased at level 5 as well.
             let level = parseInt(choice.id.split("-")[0]);
@@ -365,33 +350,34 @@ export class Character extends Creature {
                             break;
                     }
                 } else if (skillName.includes("Spell DC")) {
-                    characterService.add_CustomSkill(skillName, "Spell DC", ability);
-                    //If this is the choice for the Monk Focus tradition, add further increases on levels 9 and 17
-                    let spellCasting = characterService.get_Character().class.spellCasting.find(casting => casting.spellDC === choice);
-                    if (spellCasting && spellCasting.className == "Monk" && spellCasting.castingType == "Focus") {
-                        characterService.get_Level(9).skillChoices.filter(skillChoice =>
-                            skillChoice.source == "Monk Expertise" && skillChoice.type == "Spell DC").forEach(choice => {
-                            this.increase_Skill(characterService, skillName, true, choice, true);
-                        });
-                        characterService.get_Level(17).skillChoices.filter(skillChoice =>
-                            skillChoice.source == "Graceful Legend" && skillChoice.type == "Spell DC").forEach(choice => {
-                            this.increase_Skill(characterService, skillName, true, choice, true);
-                        });
-                    }
-                    //If this is the choice for the Sorcerer Bloodline tradition (and you are Sorcerer), add further increases on levels 7, 15 and 19
-                    if (spellCasting && spellCasting.className == "Sorcerer" && this.class.name == "Sorcerer" && spellCasting.castingType == "Spontaneous") {
-                        characterService.get_Level(7).skillChoices.filter(skillChoice =>
-                            skillChoice.source == "Expert Spellcaster" && skillChoice.type == "Spell DC").forEach(choice => {
-                            this.increase_Skill(characterService, skillName, true, choice, true);
-                        });
-                        characterService.get_Level(15).skillChoices.filter(skillChoice =>
-                            skillChoice.source == "Master Spellcaster>" && skillChoice.type == "Spell DC").forEach(choice => {
-                            this.increase_Skill(characterService, skillName, true, choice, true);
-                        });
-                        characterService.get_Level(19).skillChoices.filter(skillChoice =>
-                            skillChoice.source == "Legendary Spellcaster>" && skillChoice.type == "Spell DC").forEach(choice => {
-                            this.increase_Skill(characterService, skillName, true, choice, true);
-                        });
+                    switch (skillName.split(" ")[0]) {
+                        case "Bard": 
+                            characterService.add_CustomSkill(skillName, "Spell DC", "Charisma");
+                            break;
+                        case "Champion": 
+                            characterService.add_CustomSkill(skillName, "Spell DC", "Charisma");
+                            break;
+                        case "Cleric": 
+                            characterService.add_CustomSkill(skillName, "Spell DC", "Wisdom");
+                            break;
+                        case "Druid": 
+                            characterService.add_CustomSkill(skillName, "Spell DC", "Wisdom");
+                            break;
+                        case "Monk":
+                            //For Monks, add the tradition to the Monk spellcasting abilities. The tradition is the second word of the skill name.
+                            characterService.get_Character().class.spellCasting.filter(casting => casting.className == "Monk").forEach(casting => {
+                                casting.tradition = skillName.split(" ")[1] as "Divine"|"Occult";
+                            })
+                            characterService.add_CustomSkill(skillName, "Spell DC", "Wisdom");
+                            break;
+                        case "Sorcerer": 
+                            characterService.add_CustomSkill(skillName, "Spell DC", "Charisma");
+                            break;
+                        case "Wizard": 
+                            characterService.add_CustomSkill(skillName, "Spell DC", "Intelligence");
+                            break;
+                        default: 
+                        characterService.add_CustomSkill(skillName, "Spell DC", "");
                     }
                 //One background grants the "Lore" skill. We treat it as a Lore category skill, but don't generate any feats for it.
                 } else if (skillName == "Lore") {
@@ -413,35 +399,6 @@ export class Character extends Creature {
                     this.remove_SkillChoice(oldChoices[0]);
                 }
             }
-            if (skillName.includes("Spell DC")) {
-                //If this is the choice for the Monk Focus tradition, remove the increases from levels 9 and 17
-                let spellCasting = characterService.get_Character().class.spellCasting.find(casting => casting.spellDC === choice);
-                if (spellCasting && spellCasting.className == "Monk" && spellCasting.castingType == "Focus") {
-                    characterService.get_Level(9).skillChoices.filter(skillChoice =>
-                        skillChoice.source == "Monk Expertise" && skillChoice.type == "Spell DC").forEach(choice => {
-                        this.increase_Skill(characterService, skillName, false, choice, true);
-                    });
-                    characterService.get_Level(17).skillChoices.filter(skillChoice =>
-                        skillChoice.source == "Graceful Legend" && skillChoice.type == "Spell DC").forEach(choice => {
-                        this.increase_Skill(characterService, skillName, false, choice, true);
-                    });
-                }
-                //If this is the choice for the Sorcerer Bloodline tradition (and you are Sorcerer), add further increases on levels 7, 15 and 19
-                if (spellCasting && spellCasting.className == "Sorcerer" && this.class.name == "Sorcerer" && spellCasting.castingType == "Spontaneous") {
-                    characterService.get_Level(7).skillChoices.filter(skillChoice =>
-                        skillChoice.source == "Expert Spellcaster" && skillChoice.type == "Spell DC").forEach(choice => {
-                        this.increase_Skill(characterService, skillName, false, choice, true);
-                    });
-                    characterService.get_Level(15).skillChoices.filter(skillChoice =>
-                        skillChoice.source == "Master Spellcaster>" && skillChoice.type == "Spell DC").forEach(choice => {
-                        this.increase_Skill(characterService, skillName, false, choice, true);
-                    });
-                    characterService.get_Level(19).skillChoices.filter(skillChoice =>
-                        skillChoice.source == "Legendary Spellcaster>" && skillChoice.type == "Spell DC").forEach(choice => {
-                        this.increase_Skill(characterService, skillName, false, choice, true);
-                    });
-                }
-            }
             //If you are deselecting Path to Perfection, the selected skill is removed from the filter of Third Path to Perfection.
             //Also add a blank filter if nothing else is left.
             if (choice.source == "Path to Perfection" || choice.source == "Second Path to Perfection") {
@@ -457,6 +414,13 @@ export class Character extends Creature {
             let customSkills = characterService.get_Character().customSkills.filter(skill => skill.name == skillName);
             if (customSkills.length && this.get_SkillIncreases(characterService, 1, 20, skillName).length == 0) {
                 characterService.remove_CustomSkill(customSkills[0]);
+                //For Monks, add the tradition to the Monk spellcasting abilities. The tradition is the second word of the skill name.
+                if (skillName.includes("Monk") && skillName.includes("Spell DC")) {
+                    characterService.get_Character().class.spellCasting.filter(casting => casting.className == "Monk").forEach(casting => {
+                        casting.tradition = "";
+                    })
+                }
+                
             }
         }
     }
@@ -506,7 +470,7 @@ export class Character extends Creature {
                                 choice.spells.filter(gain => 
                                     (gain.name == spellName || spellName == "") &&
                                     (casting.className == className || className == "") &&
-                                    (casting.get_Tradition() == tradition || tradition == "") &&
+                                    (casting.tradition == tradition || tradition == "") &&
                                     (choice.source == source || source == "") &&
                                     (gain.sourceId == sourceId || sourceId == "") &&
                                     (gain.locked == locked || locked == undefined) &&

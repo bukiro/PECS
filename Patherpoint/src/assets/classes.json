@@ -244,6 +244,13 @@
                                 "name": "Alchemist Class DC",
                                 "source": "Class",
                                 "sourceId": "1-Any-Class-0"
+                            },
+                            {
+                                "locked": true,
+                                "maxRank": 2,
+                                "name": "Innate Spell DC",
+                                "source": "Class",
+                                "sourceId": "1-Any-Class-0"
                             }
                         ],
                         "maxRank": 4,
@@ -268,15 +275,6 @@
                 ]
             },
             {
-                "skillChoices": [
-                    {
-                        "_className": "SkillChoice",
-                        "id": "2-Skill-Intelligence-0",
-                        "maxRank": 2,
-                        "source": "Intelligence",
-                        "type": "Skill"
-                    }
-                ],
                 "_className": "Level",
                 "featChoices": [
                     {
@@ -294,7 +292,16 @@
                         "type": "Skill"
                     }
                 ],
-                "number": 2
+                "number": 2,
+                "skillChoices": [
+                    {
+                        "_className": "SkillChoice",
+                        "id": "2-Skill-Intelligence-0",
+                        "maxRank": 2,
+                        "source": "Intelligence",
+                        "type": "Skill"
+                    }
+                ]
             },
             {
                 "_className": "Level",
@@ -727,7 +734,6 @@
                 "skillChoices": [
                     {
                         "_className": "SkillChoice",
-                        "available": 1,
                         "id": "11-Save-Juggernaut-0",
                         "increases": [
                             {
@@ -1052,6 +1058,7 @@
                         "_className": "SkillChoice",
                         "available": 1,
                         "id": "17-Skill-Class-3",
+                        "maxRank": 8,
                         "source": "Class",
                         "type": "Skill"
                     },
@@ -1455,6 +1462,13 @@
                                 "name": "Barbarian Class DC",
                                 "source": "Class",
                                 "sourceId": "1-Any-Class-0"
+                            },
+                            {
+                                "locked": true,
+                                "maxRank": 2,
+                                "name": "Innate Spell DC",
+                                "source": "Class",
+                                "sourceId": "1-Any-Class-0"
                             }
                         ],
                         "maxRank": 4,
@@ -1479,15 +1493,6 @@
                 ]
             },
             {
-                "skillChoices": [
-                    {
-                        "_className": "SkillChoice",
-                        "id": "2-Skill-Intelligence-0",
-                        "maxRank": 2,
-                        "source": "Intelligence",
-                        "type": "Skill"
-                    }
-                ],
                 "_className": "Level",
                 "featChoices": [
                     {
@@ -1505,7 +1510,16 @@
                         "type": "Skill"
                     }
                 ],
-                "number": 2
+                "number": 2,
+                "skillChoices": [
+                    {
+                        "_className": "SkillChoice",
+                        "id": "2-Skill-Intelligence-0",
+                        "maxRank": 2,
+                        "source": "Intelligence",
+                        "type": "Skill"
+                    }
+                ]
             },
             {
                 "_className": "Level",
@@ -2279,6 +2293,7 @@
                         "_className": "SkillChoice",
                         "available": 1,
                         "id": "17-Skill-Class-3",
+                        "maxRank": 8,
                         "source": "Class",
                         "type": "Skill"
                     },
@@ -2620,6 +2635,13 @@
                         "id": "1-Ancestry-Class-3",
                         "source": "Class",
                         "type": "Ancestry"
+                    },
+                    {
+                        "locked": true,
+                        "maxRank": 2,
+                        "name": "Innate Spell DC",
+                        "source": "Class",
+                        "sourceId": "1-Any-Class-0"
                     }
                 ],
                 "number": 1,
@@ -2746,6 +2768,13 @@
                                 "name": "Unarmored Defense",
                                 "source": "Class",
                                 "sourceId": "1-Any-Class-0"
+                            },
+                            {
+                                "locked": true,
+                                "maxRank": 2,
+                                "name": "Bard Occult Spell DC",
+                                "source": "Class",
+                                "sourceId": "1-Any-Class-0"
                             }
                         ],
                         "maxRank": 4,
@@ -2770,15 +2799,6 @@
                 ]
             },
             {
-                "skillChoices": [
-                    {
-                        "_className": "SkillChoice",
-                        "id": "2-Skill-Intelligence-0",
-                        "maxRank": 2,
-                        "source": "Intelligence",
-                        "type": "Skill"
-                    }
-                ],
                 "_className": "Level",
                 "featChoices": [
                     {
@@ -2796,7 +2816,16 @@
                         "type": "Skill"
                     }
                 ],
-                "number": 2
+                "number": 2,
+                "skillChoices": [
+                    {
+                        "_className": "SkillChoice",
+                        "id": "2-Skill-Intelligence-0",
+                        "maxRank": 2,
+                        "source": "Intelligence",
+                        "type": "Skill"
+                    }
+                ]
             },
             {
                 "_className": "Level",
@@ -3574,6 +3603,7 @@
                         "_className": "SkillChoice",
                         "available": 1,
                         "id": "17-Skill-Class-3",
+                        "maxRank": 8,
                         "source": "Class",
                         "type": "Skill"
                     },
@@ -3623,7 +3653,7 @@
                         "feats": [
                             {
                                 "locked": true,
-                                "name": "Legendary Spellcaster",
+                                "name": "Legendary Spellcaster (Bard)",
                                 "source": "Bard",
                                 "sourceId": "19-Feature-Bard-0"
                             },
@@ -3752,7 +3782,7 @@
                     {
                         "_className": "SpellChoice",
                         "className": "Bard",
-                        "id": "0d2714c1-c34c-43ce-9670-50c99ec9a2c3",
+                        "id": "17d0270c-6bb9-4361-8950-e2e929ff4395",
                         "level": 0,
                         "charLevelAvailable": 1,
                         "source": "Composition Spells",
@@ -3761,7 +3791,7 @@
                                 "_className": "SpellGain",
                                 "name": "Inspire Courage",
                                 "locked": true,
-                                "sourceId": "0d2714c1-c34c-43ce-9670-50c99ec9a2c3"
+                                "sourceId": "17d0270c-6bb9-4361-8950-e2e929ff4395"
                             }
                         ],
                         "castingType": "Focus"
@@ -3769,7 +3799,7 @@
                     {
                         "_className": "SpellChoice",
                         "className": "Bard",
-                        "id": "7d95c1ca-e64c-4ce9-8859-ad6eb9d97c8a",
+                        "id": "ad3d9c88-58bf-4560-902e-1d094832f237",
                         "level": -1,
                         "charLevelAvailable": 1,
                         "source": "Composition Spells",
@@ -3778,7 +3808,7 @@
                                 "_className": "SpellGain",
                                 "name": "Counter Performance",
                                 "locked": true,
-                                "sourceId": "7d95c1ca-e64c-4ce9-8859-ad6eb9d97c8a"
+                                "sourceId": "ad3d9c88-58bf-4560-902e-1d094832f237"
                             }
                         ],
                         "castingType": "Focus"
@@ -3793,26 +3823,12 @@
                 "charLevelAvailable": 1,
                 "className": "Bard",
                 "source": "Bard Spellcasting",
-                "spellDC": {
-                    "_className": "SkillChoice",
-                    "increases": [
-                        {
-                            "locked": true,
-                            "maxRank": 2,
-                            "name": "Bard Occult Spell DC",
-                            "source": "Composition Spells"
-                        }
-                    ],
-                    "maxRank": 2,
-                    "source": "Bard Spellcasting",
-                    "type": "Spell DC"
-                },
                 "spellChoices": [
                     {
                         "_className": "SpellChoice",
                         "available": 5,
                         "className": "Bard",
-                        "id": "c2002c60-9286-4d0c-8e71-1e91023c9b0e",
+                        "id": "0d40037c-131e-4758-8eff-e7aa64d6fa49",
                         "level": 0,
                         "charLevelAvailable": 1,
                         "source": "Bard Spellcasting",
@@ -3822,7 +3838,7 @@
                         "_className": "SpellChoice",
                         "available": 1,
                         "className": "Bard",
-                        "id": "149cf5bc-15ed-48b8-80bf-9aaa56226b76",
+                        "id": "5903828c-a58a-11ea-bb37-0242ac130002",
                         "level": 1,
                         "charLevelAvailable": 1,
                         "signatureSpell": true,
@@ -3833,7 +3849,7 @@
                         "_className": "SpellChoice",
                         "available": 1,
                         "className": "Bard",
-                        "id": "ead199f8-5dd2-44e3-bd0b-003e5c29fed8",
+                        "id": "c17f99eb-733c-42b0-8752-3bd11511057b",
                         "level": 1,
                         "charLevelAvailable": 1,
                         "source": "Bard Spellcasting",
@@ -3843,9 +3859,10 @@
                         "_className": "SpellChoice",
                         "available": 1,
                         "className": "Bard",
-                        "id": "751999fa-a95c-4a0e-92e7-585123f6b3a7",
+                        "id": "33e282f6-4b83-49d6-a23d-0f704b27f79e",
                         "level": 1,
                         "charLevelAvailable": 2,
+                        "signatureSpell": true,
                         "source": "Bard Spellcasting",
                         "castingType": "Spontaneous"
                     },
@@ -3853,7 +3870,7 @@
                         "_className": "SpellChoice",
                         "available": 1,
                         "className": "Bard",
-                        "id": "5cc1a5ce-8e40-4e10-bbc2-d77c513a873d",
+                        "id": "590385c0-a58a-11ea-bb37-0242ac130002",
                         "level": 2,
                         "charLevelAvailable": 3,
                         "signatureSpell": true,
@@ -3864,7 +3881,7 @@
                         "_className": "SpellChoice",
                         "available": 1,
                         "className": "Bard",
-                        "id": "73a8c9d3-d1c7-4d1e-bb9a-dd1012edf452",
+                        "id": "a71c93cd-2026-41e7-bf4a-93ae41a2dc0d",
                         "level": 2,
                         "charLevelAvailable": 3,
                         "source": "Bard Spellcasting",
@@ -3874,7 +3891,7 @@
                         "_className": "SpellChoice",
                         "available": 1,
                         "className": "Bard",
-                        "id": "4fbc69bf-08cf-4417-a3a7-c12ee7dcf9ca",
+                        "id": "47292d9a-21ef-4aec-9f89-a9402bd3f2c3",
                         "level": 2,
                         "charLevelAvailable": 4,
                         "source": "Bard Spellcasting",
@@ -3884,7 +3901,7 @@
                         "_className": "SpellChoice",
                         "available": 1,
                         "className": "Bard",
-                        "id": "0b18d0d7-8432-444e-a4b8-dad6cb1e149a",
+                        "id": "590386d8-a58a-11ea-bb37-0242ac130002",
                         "level": 3,
                         "charLevelAvailable": 5,
                         "signatureSpell": true,
@@ -3895,7 +3912,7 @@
                         "_className": "SpellChoice",
                         "available": 1,
                         "className": "Bard",
-                        "id": "89baeeca-5c26-4e34-b069-aab8751fa25d",
+                        "id": "3511f623-279c-4af9-985a-d78f6e5731cd",
                         "level": 3,
                         "charLevelAvailable": 5,
                         "source": "Bard Spellcasting",
@@ -3905,7 +3922,7 @@
                         "_className": "SpellChoice",
                         "available": 1,
                         "className": "Bard",
-                        "id": "946d99a8-d7b9-4f45-a334-fd3f5f1fe9ee",
+                        "id": "1065f18e-d244-4bbf-9c6b-5e5fd995112f",
                         "level": 3,
                         "charLevelAvailable": 6,
                         "source": "Bard Spellcasting",
@@ -3915,7 +3932,7 @@
                         "_className": "SpellChoice",
                         "available": 1,
                         "className": "Bard",
-                        "id": "58bdffbc-8ed1-4e89-8c42-f828b81783de",
+                        "id": "590387be-a58a-11ea-bb37-0242ac130002",
                         "level": 4,
                         "charLevelAvailable": 7,
                         "signatureSpell": true,
@@ -3926,7 +3943,7 @@
                         "_className": "SpellChoice",
                         "available": 1,
                         "className": "Bard",
-                        "id": "1dc6f5f7-cfeb-402f-8ef8-48dd37b452d5",
+                        "id": "662e7e56-3200-4674-9523-0f8dac83d608",
                         "level": 4,
                         "charLevelAvailable": 7,
                         "source": "Bard Spellcasting",
@@ -3936,7 +3953,7 @@
                         "_className": "SpellChoice",
                         "available": 1,
                         "className": "Bard",
-                        "id": "eb9047b0-81a6-4488-9b49-869c0002cc37",
+                        "id": "fce00f66-e94f-4508-9ef9-4de110b15c97",
                         "level": 4,
                         "charLevelAvailable": 8,
                         "source": "Bard Spellcasting",
@@ -3946,7 +3963,7 @@
                         "_className": "SpellChoice",
                         "available": 1,
                         "className": "Bard",
-                        "id": "6b913036-c33d-4c6c-af1d-cbbdf13a2356",
+                        "id": "59038dfe-a58a-11ea-bb37-0242ac130002",
                         "level": 5,
                         "charLevelAvailable": 9,
                         "signatureSpell": true,
@@ -3957,7 +3974,7 @@
                         "_className": "SpellChoice",
                         "available": 1,
                         "className": "Bard",
-                        "id": "92922ae5-8ec5-4bb2-bf70-8665d74477f2",
+                        "id": "998cb841-5190-45e8-8fda-6cc6ba8e83de",
                         "level": 5,
                         "charLevelAvailable": 9,
                         "source": "Bard Spellcasting",
@@ -3967,7 +3984,7 @@
                         "_className": "SpellChoice",
                         "available": 1,
                         "className": "Bard",
-                        "id": "5d047646-7cf4-4cad-8749-a8befe89c3ac",
+                        "id": "07f24325-8186-4b7f-a687-262334f592ac",
                         "level": 5,
                         "charLevelAvailable": 10,
                         "source": "Bard Spellcasting",
@@ -3977,7 +3994,7 @@
                         "_className": "SpellChoice",
                         "available": 1,
                         "className": "Bard",
-                        "id": "9a7168bc-58eb-46bc-9e5e-8f47cdb92cfc",
+                        "id": "59038f48-a58a-11ea-bb37-0242ac130002",
                         "level": 6,
                         "charLevelAvailable": 11,
                         "signatureSpell": true,
@@ -3988,7 +4005,7 @@
                         "_className": "SpellChoice",
                         "available": 1,
                         "className": "Bard",
-                        "id": "b23cb758-341d-48f8-8051-6371b82db9a8",
+                        "id": "eed082ce-af71-434a-972d-29a9bb88bfe2",
                         "level": 6,
                         "charLevelAvailable": 11,
                         "source": "Bard Spellcasting",
@@ -3998,7 +4015,7 @@
                         "_className": "SpellChoice",
                         "available": 1,
                         "className": "Bard",
-                        "id": "96c00c6d-cf87-41fc-80ee-66901b09782e",
+                        "id": "8dd96738-a71c-46e7-82d2-04b66be1e873",
                         "level": 6,
                         "charLevelAvailable": 12,
                         "source": "Bard Spellcasting",
@@ -4008,7 +4025,7 @@
                         "_className": "SpellChoice",
                         "available": 1,
                         "className": "Bard",
-                        "id": "2fe552e6-a6cf-49d1-8abe-8e1ccf30b6f7",
+                        "id": "59039024-a58a-11ea-bb37-0242ac130002",
                         "level": 7,
                         "charLevelAvailable": 13,
                         "signatureSpell": true,
@@ -4019,7 +4036,7 @@
                         "_className": "SpellChoice",
                         "available": 1,
                         "className": "Bard",
-                        "id": "c17cfbf0-f331-45f3-bb9f-08b4ffbcb2a9",
+                        "id": "4a0da452-2bdc-4f7f-81fe-5cb174cbbb31",
                         "level": 7,
                         "charLevelAvailable": 13,
                         "source": "Bard Spellcasting",
@@ -4029,7 +4046,7 @@
                         "_className": "SpellChoice",
                         "available": 1,
                         "className": "Bard",
-                        "id": "b3d53a28-6638-4e71-ac36-32e8785ab4e8",
+                        "id": "b36b153c-61fd-496f-b430-cd1a03240f89",
                         "level": 7,
                         "charLevelAvailable": 14,
                         "source": "Bard Spellcasting",
@@ -4039,7 +4056,7 @@
                         "_className": "SpellChoice",
                         "available": 1,
                         "className": "Bard",
-                        "id": "2701d402-b1de-469d-b335-8ac09b80d4ef",
+                        "id": "590390ec-a58a-11ea-bb37-0242ac130002",
                         "level": 8,
                         "charLevelAvailable": 15,
                         "signatureSpell": true,
@@ -4050,7 +4067,7 @@
                         "_className": "SpellChoice",
                         "available": 1,
                         "className": "Bard",
-                        "id": "fb066f94-ac3d-4eaa-9dea-1ace28992506",
+                        "id": "7d4944ec-038a-4872-b958-0447b3e7dcee",
                         "level": 8,
                         "charLevelAvailable": 15,
                         "source": "Bard Spellcasting",
@@ -4060,7 +4077,7 @@
                         "_className": "SpellChoice",
                         "available": 1,
                         "className": "Bard",
-                        "id": "eb4bdf7e-63de-424e-8a7c-83c4e9e83ced",
+                        "id": "f6fbdf04-773c-4a1d-afea-b308cd52c46a",
                         "level": 8,
                         "charLevelAvailable": 16,
                         "source": "Bard Spellcasting",
@@ -4070,7 +4087,7 @@
                         "_className": "SpellChoice",
                         "available": 1,
                         "className": "Bard",
-                        "id": "b410a85c-1335-46de-acd1-32dd4dc45ef8",
+                        "id": "590392e0-a58a-11ea-bb37-0242ac130002",
                         "level": 9,
                         "charLevelAvailable": 17,
                         "signatureSpell": true,
@@ -4081,7 +4098,7 @@
                         "_className": "SpellChoice",
                         "available": 1,
                         "className": "Bard",
-                        "id": "d8d1b49b-3956-4abc-aa2e-713e20f68a4a",
+                        "id": "a2aa6fcb-942b-451e-9e59-5417d96c970e",
                         "level": 9,
                         "charLevelAvailable": 17,
                         "source": "Bard Spellcasting",
@@ -4091,7 +4108,7 @@
                         "_className": "SpellChoice",
                         "available": 1,
                         "className": "Bard",
-                        "id": "b7d6c29c-d155-4d6a-b3b3-6f643ce78daf",
+                        "id": "29b86d68-517f-4ed3-98a1-6a6c392f3363",
                         "level": 9,
                         "charLevelAvailable": 18,
                         "source": "Bard Spellcasting",
@@ -4101,7 +4118,7 @@
                         "_className": "SpellChoice",
                         "available": 1,
                         "className": "Bard",
-                        "id": "ff4b5485-d045-4cef-bd2d-1845532a48bc",
+                        "id": "590393a8-a58a-11ea-bb37-0242ac130002",
                         "level": 10,
                         "charLevelAvailable": 19,
                         "signatureSpell": true,
@@ -4112,7 +4129,7 @@
                         "_className": "SpellChoice",
                         "available": 1,
                         "className": "Bard",
-                        "id": "a55bad84-66fe-42a2-a675-c875157b0707",
+                        "id": "9f19cb22-52b7-4ca4-b9ff-d1f78c73be6f",
                         "level": 10,
                         "charLevelAvailable": 19,
                         "source": "Bard Spellcasting",
@@ -4382,6 +4399,20 @@
                                 "name": "Champion Class DC",
                                 "source": "Class",
                                 "sourceId": "1-Any-Class-0"
+                            },
+                            {
+                                "locked": true,
+                                "maxRank": 2,
+                                "name": "Champion Divine Spell DC",
+                                "source": "Class",
+                                "sourceId": "1-Any-Class-0"
+                            },
+                            {
+                                "locked": true,
+                                "maxRank": 2,
+                                "name": "Innate Spell DC",
+                                "source": "Class",
+                                "sourceId": "1-Any-Class-0"
                             }
                         ],
                         "maxRank": 4,
@@ -4406,15 +4437,6 @@
                 ]
             },
             {
-                "skillChoices": [
-                    {
-                        "_className": "SkillChoice",
-                        "id": "2-Skill-Intelligence-0",
-                        "maxRank": 2,
-                        "source": "Intelligence",
-                        "type": "Skill"
-                    }
-                ],
                 "_className": "Level",
                 "featChoices": [
                     {
@@ -4432,7 +4454,16 @@
                         "type": "Skill"
                     }
                 ],
-                "number": 2
+                "number": 2,
+                "skillChoices": [
+                    {
+                        "_className": "SkillChoice",
+                        "id": "2-Skill-Intelligence-0",
+                        "maxRank": 2,
+                        "source": "Intelligence",
+                        "type": "Skill"
+                    }
+                ]
             },
             {
                 "_className": "Level",
@@ -5347,6 +5378,7 @@
                         "_className": "SkillChoice",
                         "available": 1,
                         "id": "17-Skill-Class-3",
+                        "maxRank": 8,
                         "source": "Class",
                         "type": "Skill"
                     },
@@ -5499,25 +5531,11 @@
                 "charLevelAvailable": 1,
                 "className": "Champion",
                 "source": "Devotion Spells",
-                "spellDC": {
-                    "_className": "SkillChoice",
-                    "increases": [
-                        {
-                            "locked": true,
-                            "maxRank": 2,
-                            "name": "Champion Divine Spell DC",
-                            "source": "Devotion Spells"
-                        }
-                    ],
-                    "maxRank": 2,
-                    "source": "Devotion Spells",
-                    "type": "Spell DC"
-                },
                 "spellChoices": [
                     {
                         "_className": "SpellChoice",
                         "className": "Champion",
-                        "id": "656a95b5-dd19-401d-8d88-258f542232fb",
+                        "id": "46ceefc8-87ab-48d7-a244-7d1e0005901d",
                         "level": -1,
                         "charLevelAvailable": 19,
                         "source": "Hero's Defiance",
@@ -5526,7 +5544,7 @@
                                 "_className": "SpellGain",
                                 "name": "Hero's Defiance",
                                 "locked": true,
-                                "sourceId": "656a95b5-dd19-401d-8d88-258f542232fb"
+                                "sourceId": "46ceefc8-87ab-48d7-a244-7d1e0005901d"
                             }
                         ],
                         "castingType": "Focus"
@@ -5626,7 +5644,7 @@
                             },
                             {
                                 "locked": true,
-                                "name": "Anathema (Cleric)",
+                                "name": "Anathema",
                                 "source": "Cleric",
                                 "sourceId": "1-Feature-Cleric-0"
                             }
@@ -5723,6 +5741,20 @@
                                 "name": "Unarmored Defense",
                                 "source": "Class",
                                 "sourceId": "1-Any-Class-0"
+                            },
+                            {
+                                "locked": true,
+                                "maxRank": 2,
+                                "name": "Cleric Divine Spell DC",
+                                "source": "Class",
+                                "sourceId": "1-Any-Class-0"
+                            },
+                            {
+                                "locked": true,
+                                "maxRank": 2,
+                                "name": "Innate Spell DC",
+                                "source": "Class",
+                                "sourceId": "1-Any-Class-0"
                             }
                         ],
                         "maxRank": 4,
@@ -5747,15 +5779,6 @@
                 ]
             },
             {
-                "skillChoices": [
-                    {
-                        "_className": "SkillChoice",
-                        "id": "2-Skill-Intelligence-0",
-                        "maxRank": 2,
-                        "source": "Intelligence",
-                        "type": "Skill"
-                    }
-                ],
                 "_className": "Level",
                 "featChoices": [
                     {
@@ -5773,7 +5796,16 @@
                         "type": "Skill"
                     }
                 ],
-                "number": 2
+                "number": 2,
+                "skillChoices": [
+                    {
+                        "_className": "SkillChoice",
+                        "id": "2-Skill-Intelligence-0",
+                        "maxRank": 2,
+                        "source": "Intelligence",
+                        "type": "Skill"
+                    }
+                ]
             },
             {
                 "_className": "Level",
@@ -6355,6 +6387,7 @@
                         "_className": "SkillChoice",
                         "available": 1,
                         "id": "17-Skill-Class-3",
+                        "maxRank": 8,
                         "source": "Class",
                         "type": "Skill"
                     },
@@ -6504,6 +6537,7 @@
                 "_className": "SpellCasting",
                 "ability": "Wisdom",
                 "castingType": "Focus",
+                "charLevelAvailable": 0,
                 "className": "Cleric",
                 "source": "Domain Spells",
                 "tradition": "Divine"
@@ -6515,26 +6549,12 @@
                 "charLevelAvailable": 1,
                 "className": "Cleric",
                 "source": "Cleric Spellcasting",
-                "spellDC": {
-                    "_className": "SkillChoice",
-                    "increases": [
-                        {
-                            "locked": true,
-                            "maxRank": 2,
-                            "name": "Cleric Divine Spell DC",
-                            "source": "Domain Spells"
-                        }
-                    ],
-                    "maxRank": 2,
-                    "source": "Cleric Spellcasting",
-                    "type": "Spell DC"
-                },
                 "spellChoices": [
                     {
                         "_className": "SpellChoice",
                         "available": 5,
                         "className": "Cleric",
-                        "id": "1ee0d1ff-9dd2-4bf7-8eef-e8cccbbc7205",
+                        "id": "8a0c1e6a-5bb6-4205-97ea-3bf74f6705bd",
                         "level": 0,
                         "charLevelAvailable": 1,
                         "source": "Cleric Spellcasting",
@@ -6544,7 +6564,7 @@
                         "_className": "SpellChoice",
                         "available": 2,
                         "className": "Cleric",
-                        "id": "2022ec7b-d7a4-430c-a98f-20e652ba80cb",
+                        "id": "d6b7fbc6-ecf8-4697-bcbd-c5f439a4ce83",
                         "level": 1,
                         "charLevelAvailable": 1,
                         "source": "Cleric Spellcasting",
@@ -6554,7 +6574,7 @@
                         "_className": "SpellChoice",
                         "available": 1,
                         "className": "Cleric",
-                        "id": "b66ec670-739c-4442-88e7-9603e2a78270",
+                        "id": "71a2e653-d57f-4d03-a783-d357288140fe",
                         "level": 1,
                         "charLevelAvailable": 2,
                         "source": "Cleric Spellcasting",
@@ -6564,7 +6584,7 @@
                         "_className": "SpellChoice",
                         "available": 2,
                         "className": "Cleric",
-                        "id": "8d251416-28e4-4522-b0e9-a85d593d1547",
+                        "id": "a3b9c427-c38f-45bd-b978-4d383ea9a12c",
                         "level": 2,
                         "charLevelAvailable": 3,
                         "source": "Cleric Spellcasting",
@@ -6574,7 +6594,7 @@
                         "_className": "SpellChoice",
                         "available": 1,
                         "className": "Cleric",
-                        "id": "e362fe46-f81f-4cc8-b5a7-db5f2cf1c05e",
+                        "id": "fbc8d279-9b6b-4a13-be9e-834ca2d902da",
                         "level": 2,
                         "charLevelAvailable": 4,
                         "source": "Cleric Spellcasting",
@@ -6584,7 +6604,7 @@
                         "_className": "SpellChoice",
                         "available": 2,
                         "className": "Cleric",
-                        "id": "f38c404c-f858-4d78-9b85-4e772161d331",
+                        "id": "9793b619-b5dc-4893-923b-4e946dfb7efc",
                         "level": 3,
                         "charLevelAvailable": 5,
                         "source": "Cleric Spellcasting",
@@ -6594,7 +6614,7 @@
                         "_className": "SpellChoice",
                         "available": 1,
                         "className": "Cleric",
-                        "id": "2e742a29-6e88-4ad0-85ea-8af329e3887d",
+                        "id": "deeb092a-ea91-453f-93d0-2cdf4e9b4907",
                         "level": 3,
                         "charLevelAvailable": 6,
                         "source": "Cleric Spellcasting",
@@ -6604,7 +6624,7 @@
                         "_className": "SpellChoice",
                         "available": 2,
                         "className": "Cleric",
-                        "id": "1f5afd56-8f37-43b7-b70b-207aee5305ae",
+                        "id": "4c633cf5-8f37-448c-bfa6-0d63238f5c95",
                         "level": 4,
                         "charLevelAvailable": 7,
                         "source": "Cleric Spellcasting",
@@ -6614,7 +6634,7 @@
                         "_className": "SpellChoice",
                         "available": 1,
                         "className": "Cleric",
-                        "id": "996ff832-9aff-4a22-9292-0e86928e4091",
+                        "id": "d5306116-c6ee-4212-a153-1c620d68abc5",
                         "level": 4,
                         "charLevelAvailable": 8,
                         "source": "Cleric Spellcasting",
@@ -6624,7 +6644,7 @@
                         "_className": "SpellChoice",
                         "available": 2,
                         "className": "Cleric",
-                        "id": "a43cf40c-c5db-4d45-a4f2-afb0a0c2634b",
+                        "id": "d3fbf4d4-ea9a-497c-ad5d-9e7d3aee389d",
                         "level": 5,
                         "charLevelAvailable": 9,
                         "source": "Cleric Spellcasting",
@@ -6634,7 +6654,7 @@
                         "_className": "SpellChoice",
                         "available": 1,
                         "className": "Cleric",
-                        "id": "a9043bb2-9a7a-4da0-bf71-aea1ab12e1f4",
+                        "id": "47a06c4c-af1b-4245-9d3b-b16f0b703aaa",
                         "level": 5,
                         "charLevelAvailable": 10,
                         "source": "Cleric Spellcasting",
@@ -6644,7 +6664,7 @@
                         "_className": "SpellChoice",
                         "available": 2,
                         "className": "Cleric",
-                        "id": "e6a139cd-750d-4ab9-8d7c-2bc20cd00921",
+                        "id": "38eeca39-0471-450d-81b2-5057e8c72a20",
                         "level": 6,
                         "charLevelAvailable": 11,
                         "source": "Cleric Spellcasting",
@@ -6654,7 +6674,7 @@
                         "_className": "SpellChoice",
                         "available": 1,
                         "className": "Cleric",
-                        "id": "d9f74bf1-f0b9-4a3d-8cd1-a675f52ea470",
+                        "id": "4b338200-828b-4d8c-98ef-91074625018d",
                         "level": 6,
                         "charLevelAvailable": 12,
                         "source": "Cleric Spellcasting",
@@ -6664,7 +6684,7 @@
                         "_className": "SpellChoice",
                         "available": 2,
                         "className": "Cleric",
-                        "id": "318b9f13-75c5-4b8f-8810-6b86592e2f35",
+                        "id": "b370fe88-96d3-4db1-8807-f254e6008c39",
                         "level": 7,
                         "charLevelAvailable": 13,
                         "source": "Cleric Spellcasting",
@@ -6674,7 +6694,7 @@
                         "_className": "SpellChoice",
                         "available": 1,
                         "className": "Cleric",
-                        "id": "b7513b89-b024-4e57-b6bc-4dec06bc09bc",
+                        "id": "72405f78-0f56-4e71-aa0d-0075c833b947",
                         "level": 7,
                         "charLevelAvailable": 14,
                         "source": "Cleric Spellcasting",
@@ -6684,7 +6704,7 @@
                         "_className": "SpellChoice",
                         "available": 2,
                         "className": "Cleric",
-                        "id": "447b39c8-b3df-4cab-898f-58b011389aa0",
+                        "id": "90ee7967-b2d8-46a9-8b35-36cbadc33e5e",
                         "level": 8,
                         "charLevelAvailable": 15,
                         "source": "Cleric Spellcasting",
@@ -6694,7 +6714,7 @@
                         "_className": "SpellChoice",
                         "available": 1,
                         "className": "Cleric",
-                        "id": "caa7ffa0-c31f-43fb-bafd-25d96c1815c5",
+                        "id": "b9f89c6f-da76-4dbc-a75f-888ccebcad18",
                         "level": 8,
                         "charLevelAvailable": 16,
                         "source": "Cleric Spellcasting",
@@ -6704,7 +6724,7 @@
                         "_className": "SpellChoice",
                         "available": 2,
                         "className": "Cleric",
-                        "id": "4f7f3d35-ac7c-4805-bda6-d86744fa992f",
+                        "id": "92b41e58-f172-4a1c-8f2d-fccd1274e7a9",
                         "level": 9,
                         "charLevelAvailable": 17,
                         "source": "Cleric Spellcasting",
@@ -6714,7 +6734,7 @@
                         "_className": "SpellChoice",
                         "available": 1,
                         "className": "Cleric",
-                        "id": "fd3424bd-aa4e-42e6-9a6a-0fffe3e1299b",
+                        "id": "165f5f22-408d-4e45-9718-5e1f0abb8f5d",
                         "level": 9,
                         "charLevelAvailable": 18,
                         "source": "Cleric Spellcasting",
@@ -6724,7 +6744,7 @@
                         "_className": "SpellChoice",
                         "available": 1,
                         "className": "Cleric",
-                        "id": "5862eb03-2149-426c-8061-e2fb43057d8a",
+                        "id": "2a32206c-4ef2-485d-9252-845f2f6afaae",
                         "level": 10,
                         "charLevelAvailable": 19,
                         "source": "Cleric Spellcasting",
@@ -6738,7 +6758,7 @@
                             "Harm",
                             "Heal"
                         ],
-                        "id": "7f50ad71-4d95-4221-a1a4-526fcd39c799",
+                        "id": "8b5e3ea0-6116-4d7e-8197-a6cb787a5788",
                         "dynamicLevel": "highestSpellLevel",
                         "charLevelAvailable": 1,
                         "source": "Divine Font",
@@ -6842,7 +6862,7 @@
                         "feats": [
                             {
                                 "locked": true,
-                                "name": "Anathema (Druid)",
+                                "name": "Anathema",
                                 "source": "Druid",
                                 "sourceId": "1-Feature-Druid-0"
                             },
@@ -6986,6 +7006,20 @@
                                 "name": "Druid Class DC",
                                 "source": "Class",
                                 "sourceId": "1-Any-Class-0"
+                            },
+                            {
+                                "locked": true,
+                                "maxRank": 2,
+                                "name": "Druid Primal Spell DC",
+                                "source": "Class",
+                                "sourceId": "1-Any-Class-0"
+                            },
+                            {
+                                "locked": true,
+                                "maxRank": 2,
+                                "name": "Innate Spell DC",
+                                "source": "Class",
+                                "sourceId": "1-Any-Class-0"
                             }
                         ],
                         "maxRank": 4,
@@ -7010,15 +7044,6 @@
                 ]
             },
             {
-                "skillChoices": [
-                    {
-                        "_className": "SkillChoice",
-                        "id": "2-Skill-Intelligence-0",
-                        "maxRank": 2,
-                        "source": "Intelligence",
-                        "type": "Skill"
-                    }
-                ],
                 "_className": "Level",
                 "featChoices": [
                     {
@@ -7036,7 +7061,16 @@
                         "type": "Skill"
                     }
                 ],
-                "number": 2
+                "number": 2,
+                "skillChoices": [
+                    {
+                        "_className": "SkillChoice",
+                        "id": "2-Skill-Intelligence-0",
+                        "maxRank": 2,
+                        "source": "Intelligence",
+                        "type": "Skill"
+                    }
+                ]
             },
             {
                 "_className": "Level",
@@ -7736,6 +7770,7 @@
                         "_className": "SkillChoice",
                         "available": 1,
                         "id": "17-Skill-Class-3",
+                        "maxRank": 8,
                         "source": "Class",
                         "type": "Skill"
                     },
@@ -7785,7 +7820,7 @@
                         "feats": [
                             {
                                 "locked": true,
-                                "name": "Legendary Spellcaster",
+                                "name": "Legendary Spellcaster (Druid)",
                                 "source": "Druid",
                                 "sourceId": "19-Feature-Druid-0"
                             },
@@ -7919,26 +7954,12 @@
                 "charLevelAvailable": 1,
                 "className": "Druid",
                 "source": "Druid Spellcasting",
-                "spellDC": {
-                    "_className": "SkillChoice",
-                    "increases": [
-                        {
-                            "locked": true,
-                            "maxRank": 2,
-                            "name": "Druid Primal Spell DC",
-                            "source": "Order Spells"
-                        }
-                    ],
-                    "maxRank": 2,
-                    "source": "Druid Spellcasting",
-                    "type": "Spell DC"
-                },
                 "spellChoices": [
                     {
                         "_className": "SpellChoice",
                         "available": 5,
                         "className": "Druid",
-                        "id": "9d3d8169-af2f-4836-8cad-df13bcc0f8a4",
+                        "id": "907ed433-3881-47d6-98c5-7aaa80174729",
                         "level": 0,
                         "charLevelAvailable": 1,
                         "source": "Druid Spellcasting",
@@ -7948,7 +7969,7 @@
                         "_className": "SpellChoice",
                         "available": 2,
                         "className": "Druid",
-                        "id": "060da776-adb7-41cf-b947-6ec92a667bdc",
+                        "id": "a7ada940-503d-4070-98ab-69df0684311e",
                         "level": 1,
                         "charLevelAvailable": 1,
                         "source": "Druid Spellcasting",
@@ -7958,7 +7979,7 @@
                         "_className": "SpellChoice",
                         "available": 1,
                         "className": "Druid",
-                        "id": "35422c48-5e7c-4850-92bc-c3e2a8c14ab0",
+                        "id": "cc052825-a0d5-4687-b502-36b6af3f6589",
                         "level": 1,
                         "charLevelAvailable": 2,
                         "source": "Druid Spellcasting",
@@ -7968,7 +7989,7 @@
                         "_className": "SpellChoice",
                         "available": 2,
                         "className": "Druid",
-                        "id": "7d29c2b2-caf6-408e-a90e-a7877711dd7d",
+                        "id": "b39d9fba-33aa-4f60-b72d-416252242931",
                         "level": 2,
                         "charLevelAvailable": 3,
                         "source": "Druid Spellcasting",
@@ -7978,7 +7999,7 @@
                         "_className": "SpellChoice",
                         "available": 1,
                         "className": "Druid",
-                        "id": "0dca444a-993b-4990-b9ba-f1ffcc020600",
+                        "id": "6b231e86-cfe5-4aa8-b61f-f945a7101c7c",
                         "level": 2,
                         "charLevelAvailable": 4,
                         "source": "Druid Spellcasting",
@@ -7988,7 +8009,7 @@
                         "_className": "SpellChoice",
                         "available": 2,
                         "className": "Druid",
-                        "id": "d6da01b9-943f-4c56-9836-df04ec9ceb78",
+                        "id": "b1fb51ff-132e-4686-bc08-b7bffe762d04",
                         "level": 3,
                         "charLevelAvailable": 5,
                         "source": "Druid Spellcasting",
@@ -7998,7 +8019,7 @@
                         "_className": "SpellChoice",
                         "available": 1,
                         "className": "Druid",
-                        "id": "9809f3c8-3807-45a0-a487-bef75c189f32",
+                        "id": "88456b44-2ff8-434b-a085-80e8b32eb541",
                         "level": 3,
                         "charLevelAvailable": 6,
                         "source": "Druid Spellcasting",
@@ -8008,7 +8029,7 @@
                         "_className": "SpellChoice",
                         "available": 2,
                         "className": "Druid",
-                        "id": "5fa3975f-48fe-4075-aef8-368cc31b5b5c",
+                        "id": "3466c71a-62e1-465e-965f-99fa022d3051",
                         "level": 4,
                         "charLevelAvailable": 7,
                         "source": "Druid Spellcasting",
@@ -8018,7 +8039,7 @@
                         "_className": "SpellChoice",
                         "available": 1,
                         "className": "Druid",
-                        "id": "954c77b2-3bf1-4b31-a533-b3d489a7c7dc",
+                        "id": "0d72dcde-7d5d-4837-a2a1-5c0c7d48ac1e",
                         "level": 4,
                         "charLevelAvailable": 8,
                         "source": "Druid Spellcasting",
@@ -8028,7 +8049,7 @@
                         "_className": "SpellChoice",
                         "available": 2,
                         "className": "Druid",
-                        "id": "93b3a0e9-bfdf-4737-a922-f754aaf0c1fc",
+                        "id": "f2d6996f-5509-471c-bf01-fe3e4fb3368c",
                         "level": 5,
                         "charLevelAvailable": 9,
                         "source": "Druid Spellcasting",
@@ -8038,7 +8059,7 @@
                         "_className": "SpellChoice",
                         "available": 1,
                         "className": "Druid",
-                        "id": "980ccece-cfd9-410b-889a-07f045fedd1d",
+                        "id": "54d998f3-7606-4baf-8c4a-be12d88a9545",
                         "level": 5,
                         "charLevelAvailable": 10,
                         "source": "Druid Spellcasting",
@@ -8048,7 +8069,7 @@
                         "_className": "SpellChoice",
                         "available": 2,
                         "className": "Druid",
-                        "id": "57c0fa57-4a66-4e70-ad7b-4fa8a4781625",
+                        "id": "582634cb-f41d-4ba1-89d9-0f916735ff02",
                         "level": 6,
                         "charLevelAvailable": 11,
                         "source": "Druid Spellcasting",
@@ -8058,7 +8079,7 @@
                         "_className": "SpellChoice",
                         "available": 1,
                         "className": "Druid",
-                        "id": "b470fc98-1ff1-4f99-9e18-66b7cc20f881",
+                        "id": "e283c29d-c340-4b10-a190-b8269bcb0196",
                         "level": 6,
                         "charLevelAvailable": 12,
                         "source": "Druid Spellcasting",
@@ -8068,7 +8089,7 @@
                         "_className": "SpellChoice",
                         "available": 2,
                         "className": "Druid",
-                        "id": "cf505755-a08c-4017-b5da-d520404dcb76",
+                        "id": "21efd300-7770-4e76-87c9-83277f7f466c",
                         "level": 7,
                         "charLevelAvailable": 13,
                         "source": "Druid Spellcasting",
@@ -8078,7 +8099,7 @@
                         "_className": "SpellChoice",
                         "available": 1,
                         "className": "Druid",
-                        "id": "61f5b7f3-2110-4fed-aa07-a879dea73545",
+                        "id": "46f4e03a-d92e-4b0a-bd36-ed94f8115e5b",
                         "level": 7,
                         "charLevelAvailable": 14,
                         "source": "Druid Spellcasting",
@@ -8088,7 +8109,7 @@
                         "_className": "SpellChoice",
                         "available": 2,
                         "className": "Druid",
-                        "id": "a6e626af-8b2b-4d83-a1f2-fbcfbc313b38",
+                        "id": "7dfc82b7-bdee-4ce6-bfa8-ae847ff40a4b",
                         "level": 8,
                         "charLevelAvailable": 15,
                         "source": "Druid Spellcasting",
@@ -8098,7 +8119,7 @@
                         "_className": "SpellChoice",
                         "available": 1,
                         "className": "Druid",
-                        "id": "d43ad2cd-4449-46e5-9d05-c2ab59633c5e",
+                        "id": "b12ff03c-0fb5-41aa-b5b2-e8fe7b89e4d7",
                         "level": 8,
                         "charLevelAvailable": 16,
                         "source": "Druid Spellcasting",
@@ -8108,7 +8129,7 @@
                         "_className": "SpellChoice",
                         "available": 2,
                         "className": "Druid",
-                        "id": "aee1eb3c-d166-4cb4-815e-41f213bc4150",
+                        "id": "a43558eb-be19-4ce4-b8b4-3627b9359ed0",
                         "level": 9,
                         "charLevelAvailable": 17,
                         "source": "Druid Spellcasting",
@@ -8118,7 +8139,7 @@
                         "_className": "SpellChoice",
                         "available": 1,
                         "className": "Druid",
-                        "id": "118bd1b9-555f-47d1-bffe-2da2197c4a89",
+                        "id": "e21c896a-c38a-4be4-a05c-b35b7b60b6ff",
                         "level": 9,
                         "charLevelAvailable": 18,
                         "source": "Druid Spellcasting",
@@ -8128,7 +8149,7 @@
                         "_className": "SpellChoice",
                         "available": 1,
                         "className": "Druid",
-                        "id": "d8c00392-bcaa-4a16-b870-058eebbe152c",
+                        "id": "c463da07-3ca0-4f1e-a2db-f6a71789baf2",
                         "level": 10,
                         "charLevelAvailable": 19,
                         "source": "Druid Spellcasting",
@@ -8393,6 +8414,13 @@
                                 "name": "Fighter Class DC",
                                 "source": "Class",
                                 "sourceId": "1-Any-Class-0"
+                            },
+                            {
+                                "locked": true,
+                                "maxRank": 2,
+                                "name": "Innate Spell DC",
+                                "source": "Class",
+                                "sourceId": "1-Any-Class-0"
                             }
                         ],
                         "maxRank": 4,
@@ -8416,7 +8444,7 @@
                     },
                     {
                         "_className": "SkillChoice",
-                        "available": 2,
+                        "available": 1,
                         "filter": [
                             "Acrobatics",
                             "Athletics"
@@ -8429,15 +8457,6 @@
                 ]
             },
             {
-                "skillChoices": [
-                    {
-                        "_className": "SkillChoice",
-                        "id": "2-Skill-Intelligence-0",
-                        "maxRank": 2,
-                        "source": "Intelligence",
-                        "type": "Skill"
-                    }
-                ],
                 "_className": "Level",
                 "featChoices": [
                     {
@@ -8455,7 +8474,16 @@
                         "type": "Skill"
                     }
                 ],
-                "number": 2
+                "number": 2,
+                "skillChoices": [
+                    {
+                        "_className": "SkillChoice",
+                        "id": "2-Skill-Intelligence-0",
+                        "maxRank": 2,
+                        "source": "Intelligence",
+                        "type": "Skill"
+                    }
+                ]
             },
             {
                 "_className": "Level",
@@ -8768,7 +8796,7 @@
                         "level": 8,
                         "showOnSheet": true,
                         "source": "Combat Flexibility",
-                        "type": "Fighter"
+                        "type": "Class"
                     }
                 ],
                 "number": 9,
@@ -9145,7 +9173,7 @@
                         "level": 14,
                         "showOnSheet": true,
                         "source": "Combat Flexibility",
-                        "type": "Fighter"
+                        "type": "Class"
                     }
                 ],
                 "number": 15,
@@ -9280,6 +9308,7 @@
                         "_className": "SkillChoice",
                         "available": 1,
                         "id": "17-Skill-Class-3",
+                        "maxRank": 8,
                         "source": "Class",
                         "type": "Skill"
                     },
@@ -9560,6 +9589,19 @@
                     },
                     {
                         "_className": "FeatChoice",
+                        "available": 1,
+                        "filter": [
+                            "Divine Ki Spells",
+                            "Occult Ki Spells"
+                        ],
+                        "id": "1-Ki Spell Tradition-Monk-1",
+                        "source": "Monk",
+                        "specialChoice": true,
+                        "type": "Ki Spell Tradition"
+                    },
+                    {
+                        "_className": "FeatChoice",
+                        "available": 1,
                         "id": "1-Ancestry-Class-3",
                         "source": "Class",
                         "type": "Ancestry"
@@ -9661,6 +9703,13 @@
                                 "name": "Monk Class DC",
                                 "source": "Class",
                                 "sourceId": "1-Any-Class-0"
+                            },
+                            {
+                                "locked": true,
+                                "maxRank": 2,
+                                "name": "Innate Spell DC",
+                                "source": "Class",
+                                "sourceId": "1-Any-Class-0"
                             }
                         ],
                         "maxRank": 4,
@@ -9685,15 +9734,6 @@
                 ]
             },
             {
-                "skillChoices": [
-                    {
-                        "_className": "SkillChoice",
-                        "id": "2-Skill-Intelligence-0",
-                        "maxRank": 2,
-                        "source": "Intelligence",
-                        "type": "Skill"
-                    }
-                ],
                 "_className": "Level",
                 "featChoices": [
                     {
@@ -9711,7 +9751,16 @@
                         "type": "Skill"
                     }
                 ],
-                "number": 2
+                "number": 2,
+                "skillChoices": [
+                    {
+                        "_className": "SkillChoice",
+                        "id": "2-Skill-Intelligence-0",
+                        "maxRank": 2,
+                        "source": "Intelligence",
+                        "type": "Skill"
+                    }
+                ]
             },
             {
                 "_className": "Level",
@@ -10056,14 +10105,6 @@
                     },
                     {
                         "_className": "SkillChoice",
-                        "id": "9-Spell DC-Monk Expertise-1",
-                        "internalNote": "Increases for this choice are added by the Monk Spell Tradition Choice.",
-                        "maxRank": 4,
-                        "source": "Monk Expertise",
-                        "type": "Spell DC"
-                    },
-                    {
-                        "_className": "SkillChoice",
                         "available": 1,
                         "id": "9-Skill-Class-4",
                         "maxRank": 6,
@@ -10147,7 +10188,7 @@
                         "_className": "SkillChoice",
                         "available": 1,
                         "id": "11-Save-Second Path to Perfection-0",
-                        "maxRank": 6,
+                        "maxRank": 4,
                         "source": "Second Path to Perfection",
                         "type": "Save"
                     },
@@ -10480,16 +10521,9 @@
                     },
                     {
                         "_className": "SkillChoice",
-                        "id": "17-Spell DC-Graceful Legend-2",
-                        "internalNote": "Increases for this choice are added by the Monk Spell Tradition Choice.",
-                        "maxRank": 6,
-                        "source": "Graceful Legend",
-                        "type": "Spell DC"
-                    },
-                    {
-                        "_className": "SkillChoice",
                         "available": 1,
                         "id": "17-Skill-Class-3",
+                        "maxRank": 8,
                         "source": "Class",
                         "type": "Skill"
                     },
@@ -10639,13 +10673,9 @@
                 "_className": "SpellCasting",
                 "ability": "Wisdom",
                 "castingType": "Focus",
+                "charLevelAvailable": 0,
                 "className": "Monk",
-                "source": "Ki Spells",
-                "traditionAvailable": 1,
-                "traditionFilter": [
-                    "Divine",
-                    "Occult"
-                ]
+                "source": "Ki Spells"
             }
         ]
     },
@@ -10888,6 +10918,13 @@
                                 "name": "Ranger Class DC",
                                 "source": "Class",
                                 "sourceId": "1-Any-Class-0"
+                            },
+                            {
+                                "locked": true,
+                                "maxRank": 2,
+                                "name": "Innate Spell DC",
+                                "source": "Class",
+                                "sourceId": "1-Any-Class-0"
                             }
                         ],
                         "maxRank": 4,
@@ -10912,15 +10949,6 @@
                 ]
             },
             {
-                "skillChoices": [
-                    {
-                        "_className": "SkillChoice",
-                        "id": "2-Skill-Intelligence-0",
-                        "maxRank": 2,
-                        "source": "Intelligence",
-                        "type": "Skill"
-                    }
-                ],
                 "_className": "Level",
                 "featChoices": [
                     {
@@ -10938,7 +10966,16 @@
                         "type": "Skill"
                     }
                 ],
-                "number": 2
+                "number": 2,
+                "skillChoices": [
+                    {
+                        "_className": "SkillChoice",
+                        "id": "2-Skill-Intelligence-0",
+                        "maxRank": 2,
+                        "source": "Intelligence",
+                        "type": "Skill"
+                    }
+                ]
             },
             {
                 "_className": "Level",
@@ -11759,6 +11796,12 @@
                     },
                     {
                         "_className": "FeatChoice",
+                        "id": "17-Hunter's Edge-Ranger-1",
+                        "source": "Ranger",
+                        "type": "Hunter's Edge"
+                    },
+                    {
+                        "_className": "FeatChoice",
                         "available": 1,
                         "id": "17-Ancestry-Class-2",
                         "source": "Class",
@@ -11787,6 +11830,7 @@
                         "_className": "SkillChoice",
                         "available": 1,
                         "id": "17-Skill-Class-3",
+                        "maxRank": 8,
                         "source": "Class",
                         "type": "Skill"
                     },
@@ -12083,8 +12127,8 @@
                             "Scoundrel",
                             "Thief"
                         ],
-                        "id": "1-Racket-Rogue-1",
-                        "source": "Rogue",
+                        "id": "1-Racket-Ranger-1",
+                        "source": "Ranger",
                         "specialChoice": true,
                         "type": "Racket"
                     },
@@ -12234,6 +12278,13 @@
                                 "name": "Rogue Class DC",
                                 "source": "Class",
                                 "sourceId": "1-Any-Class-0"
+                            },
+                            {
+                                "locked": true,
+                                "maxRank": 2,
+                                "name": "Innate Spell DC",
+                                "source": "Class",
+                                "sourceId": "1-Any-Class-0"
                             }
                         ],
                         "maxRank": 4,
@@ -12258,23 +12309,6 @@
                 ]
             },
             {
-                "skillChoices": [
-                    {
-                        "_className": "SkillChoice",
-                        "id": "2-Skill-Intelligence-0",
-                        "maxRank": 2,
-                        "source": "Intelligence",
-                        "type": "Skill"
-                    },
-                    {
-                        "_className": "SkillChoice",
-                        "available": 1,
-                        "id": "2-Skill-Class-1",
-                        "maxRank": 4,
-                        "source": "Class",
-                        "type": "Skill"
-                    }
-                ],
                 "_className": "Level",
                 "featChoices": [
                     {
@@ -12292,7 +12326,24 @@
                         "type": "Skill"
                     }
                 ],
-                "number": 2
+                "number": 2,
+                "skillChoices": [
+                    {
+                        "_className": "SkillChoice",
+                        "id": "2-Skill-Intelligence-0",
+                        "maxRank": 2,
+                        "source": "Intelligence",
+                        "type": "Skill"
+                    },
+                    {
+                        "_className": "SkillChoice",
+                        "available": 1,
+                        "id": "2-Skill-Class-1",
+                        "maxRank": 4,
+                        "source": "Class",
+                        "type": "Skill"
+                    }
+                ]
             },
             {
                 "_className": "Level",
@@ -13251,6 +13302,7 @@
                         "_className": "SkillChoice",
                         "available": 1,
                         "id": "17-Skill-Class-3",
+                        "maxRank": 8,
                         "source": "Class",
                         "type": "Skill"
                     },
@@ -13555,6 +13607,26 @@
                     {
                         "_className": "FeatChoice",
                         "available": 1,
+                        "filter": [
+                            "Aberrant Bloodline",
+                            "Angelic Bloodline",
+                            "Demonic Bloodline",
+                            "Diabolic Bloodline",
+                            "Draconic Bloodline",
+                            "Elemental Bloodline",
+                            "Fey Bloodline",
+                            "Hag Bloodline",
+                            "Imperial Bloodline",
+                            "Undead Bloodline"
+                        ],
+                        "id": "1-Bloodline-Sorcerer-1",
+                        "source": "Sorcerer",
+                        "specialChoice": true,
+                        "type": "Bloodline"
+                    },
+                    {
+                        "_className": "FeatChoice",
+                        "available": 1,
                         "id": "1-Ancestry-Class-3",
                         "source": "Class",
                         "type": "Ancestry"
@@ -13621,6 +13693,13 @@
                                 "name": "Unarmored Defense",
                                 "source": "Class",
                                 "sourceId": "1-Any-Class-0"
+                            },
+                            {
+                                "locked": true,
+                                "maxRank": 2,
+                                "name": "Innate Spell DC",
+                                "source": "Class",
+                                "sourceId": "1-Any-Class-0"
                             }
                         ],
                         "maxRank": 4,
@@ -13645,15 +13724,6 @@
                 ]
             },
             {
-                "skillChoices": [
-                    {
-                        "_className": "SkillChoice",
-                        "id": "2-Skill-Intelligence-0",
-                        "maxRank": 2,
-                        "source": "Intelligence",
-                        "type": "Skill"
-                    }
-                ],
                 "_className": "Level",
                 "featChoices": [
                     {
@@ -13671,7 +13741,16 @@
                         "type": "Skill"
                     }
                 ],
-                "number": 2
+                "number": 2,
+                "skillChoices": [
+                    {
+                        "_className": "SkillChoice",
+                        "id": "2-Skill-Intelligence-0",
+                        "maxRank": 2,
+                        "source": "Intelligence",
+                        "type": "Skill"
+                    }
+                ]
             },
             {
                 "_className": "Level",
@@ -13870,13 +13949,6 @@
                 ],
                 "number": 7,
                 "skillChoices": [
-                    {
-                        "_className": "SkillChoice",
-                        "id": "7-Spell DC-Expert Spellcaster-0",
-                        "maxRank": 4,
-                        "source": "Expert Spellcaster",
-                        "type": "Spell DC"
-                    },
                     {
                         "_className": "SkillChoice",
                         "available": 1,
@@ -14270,13 +14342,6 @@
                 "skillChoices": [
                     {
                         "_className": "SkillChoice",
-                        "id": "15-Spell DC-Master Spellcaster-0",
-                        "maxRank": 6,
-                        "source": "Master Spellcaster",
-                        "type": "Spell DC"
-                    },
-                    {
-                        "_className": "SkillChoice",
                         "available": 1,
                         "id": "15-Skill-Class-2",
                         "maxRank": 8,
@@ -14368,6 +14433,7 @@
                         "_className": "SkillChoice",
                         "available": 1,
                         "id": "17-Skill-Class-3",
+                        "maxRank": 8,
                         "source": "Class",
                         "type": "Skill"
                     },
@@ -14423,7 +14489,7 @@
                             },
                             {
                                 "locked": true,
-                                "name": "Legendary Spellcaster",
+                                "name": "Legendary Spellcaster (Sorcerer)",
                                 "source": "Sorcerer",
                                 "sourceId": "19-Feature-Sorcerer-0"
                             }
@@ -14442,13 +14508,6 @@
                 ],
                 "number": 19,
                 "skillChoices": [
-                    {
-                        "_className": "SkillChoice",
-                        "id": "19-Spell DC-Legendary Spellcaster-0",
-                        "maxRank": 8,
-                        "source": "Legendary Spellcaster",
-                        "type": "Spell DC"
-                    },
                     {
                         "_className": "SkillChoice",
                         "available": 1,
@@ -14525,342 +14584,6 @@
                     "source": "Innate",
                     "type": "Spell DC"
                 }
-            },
-            {
-                "_className": "SpellCasting",
-                "ability": "Charisma",
-                "castingType": "Focus",
-                "charLevelAvailable": 1,
-                "className": "Sorcerer",
-                "source": "Bloodline Spells",
-                "tradition": "Bloodline"
-            },
-            {
-                "_className": "SpellCasting",
-                "ability": "Charisma",
-                "castingType": "Spontaneous",
-                "charLevelAvailable": 1,
-                "className": "Sorcerer",
-                "source": "Sorcerer Spellcasting",
-                "spellDC": {
-                    "_className": "SkillChoice",
-                    "maxRank": 2,
-                    "source": "Bloodline Spells",
-                    "type": "Spell DC"
-                },
-                "spellChoices": [
-                    {
-                        "_className": "SpellChoice",
-                        "available": 5,
-                        "className": "Sorcerer",
-                        "id": "9f1629e4-a8d3-4105-9abd-d6db3566bfe7",
-                        "level": 0,
-                        "charLevelAvailable": 1,
-                        "source": "Sorcerer Spellcasting",
-                        "castingType": "Spontaneous"
-                    },
-                    {
-                        "_className": "SpellChoice",
-                        "available": 1,
-                        "className": "Sorcerer",
-                        "id": "537ac8f4-00a8-425a-8e78-bbd47b57142e",
-                        "level": 1,
-                        "charLevelAvailable": 1,
-                        "signatureSpell": true,
-                        "source": "Sorcerer Spellcasting",
-                        "castingType": "Spontaneous"
-                    },
-                    {
-                        "_className": "SpellChoice",
-                        "available": 2,
-                        "className": "Sorcerer",
-                        "id": "8617c93c-4e27-45b9-be3f-c5a60a6eba08",
-                        "level": 1,
-                        "charLevelAvailable": 1,
-                        "source": "Sorcerer Spellcasting",
-                        "castingType": "Spontaneous"
-                    },
-                    {
-                        "_className": "SpellChoice",
-                        "available": 1,
-                        "className": "Sorcerer",
-                        "id": "8ddae531-3fc5-463b-8914-64d674baba8c",
-                        "level": 1,
-                        "charLevelAvailable": 2,
-                        "source": "Sorcerer Spellcasting",
-                        "castingType": "Spontaneous"
-                    },
-                    {
-                        "_className": "SpellChoice",
-                        "available": 1,
-                        "className": "Sorcerer",
-                        "id": "4149974e-581b-44f2-9b8b-0f17401024fa",
-                        "level": 2,
-                        "charLevelAvailable": 3,
-                        "signatureSpell": true,
-                        "source": "Sorcerer Spellcasting",
-                        "castingType": "Spontaneous"
-                    },
-                    {
-                        "_className": "SpellChoice",
-                        "available": 2,
-                        "className": "Sorcerer",
-                        "id": "6536486d-4ade-47e0-baf2-0bfe675ad7d9",
-                        "level": 2,
-                        "charLevelAvailable": 3,
-                        "source": "Sorcerer Spellcasting",
-                        "castingType": "Spontaneous"
-                    },
-                    {
-                        "_className": "SpellChoice",
-                        "available": 1,
-                        "className": "Sorcerer",
-                        "id": "7f8cd24b-0f1c-4377-8d95-035deceeac77",
-                        "level": 2,
-                        "charLevelAvailable": 4,
-                        "source": "Sorcerer Spellcasting",
-                        "castingType": "Spontaneous"
-                    },
-                    {
-                        "_className": "SpellChoice",
-                        "available": 1,
-                        "className": "Sorcerer",
-                        "id": "d957da47-f476-44b5-9c50-41bcd0496933",
-                        "level": 3,
-                        "charLevelAvailable": 5,
-                        "signatureSpell": true,
-                        "source": "Sorcerer Spellcasting",
-                        "castingType": "Spontaneous"
-                    },
-                    {
-                        "_className": "SpellChoice",
-                        "available": 2,
-                        "className": "Sorcerer",
-                        "id": "92740500-c3e6-428b-aaac-f6d5a9bd231e",
-                        "level": 3,
-                        "charLevelAvailable": 5,
-                        "source": "Sorcerer Spellcasting",
-                        "castingType": "Spontaneous"
-                    },
-                    {
-                        "_className": "SpellChoice",
-                        "available": 1,
-                        "className": "Sorcerer",
-                        "id": "7a32dea1-86f8-44cc-bce3-a7c4a253f392",
-                        "level": 3,
-                        "charLevelAvailable": 6,
-                        "source": "Sorcerer Spellcasting",
-                        "castingType": "Spontaneous"
-                    },
-                    {
-                        "_className": "SpellChoice",
-                        "available": 1,
-                        "className": "Sorcerer",
-                        "id": "fb99f4fc-98ff-4e42-8faa-78944d13e609",
-                        "level": 4,
-                        "charLevelAvailable": 7,
-                        "signatureSpell": true,
-                        "source": "Sorcerer Spellcasting",
-                        "castingType": "Spontaneous"
-                    },
-                    {
-                        "_className": "SpellChoice",
-                        "available": 2,
-                        "className": "Sorcerer",
-                        "id": "e535804b-ebda-4489-9947-a038c16477b8",
-                        "level": 4,
-                        "charLevelAvailable": 7,
-                        "source": "Sorcerer Spellcasting",
-                        "castingType": "Spontaneous"
-                    },
-                    {
-                        "_className": "SpellChoice",
-                        "available": 1,
-                        "className": "Sorcerer",
-                        "id": "9f8ec882-87ff-4482-bf5d-5398c279f59a",
-                        "level": 4,
-                        "charLevelAvailable": 8,
-                        "source": "Sorcerer Spellcasting",
-                        "castingType": "Spontaneous"
-                    },
-                    {
-                        "_className": "SpellChoice",
-                        "available": 1,
-                        "className": "Sorcerer",
-                        "id": "553603a2-23f4-4469-80e2-494c929b079e",
-                        "level": 5,
-                        "charLevelAvailable": 9,
-                        "signatureSpell": true,
-                        "source": "Sorcerer Spellcasting",
-                        "castingType": "Spontaneous"
-                    },
-                    {
-                        "_className": "SpellChoice",
-                        "available": 2,
-                        "className": "Sorcerer",
-                        "id": "997d1c7b-b414-4c5e-a156-ae9c55dd9356",
-                        "level": 5,
-                        "charLevelAvailable": 9,
-                        "source": "Sorcerer Spellcasting",
-                        "castingType": "Spontaneous"
-                    },
-                    {
-                        "_className": "SpellChoice",
-                        "available": 1,
-                        "className": "Sorcerer",
-                        "id": "dc83f524-7e65-42d9-8fa6-aeea8810eb66",
-                        "level": 5,
-                        "charLevelAvailable": 10,
-                        "source": "Sorcerer Spellcasting",
-                        "castingType": "Spontaneous"
-                    },
-                    {
-                        "_className": "SpellChoice",
-                        "available": 1,
-                        "className": "Sorcerer",
-                        "id": "d965aded-2c01-4a58-a6f2-9eb7d69f0afb",
-                        "level": 6,
-                        "charLevelAvailable": 11,
-                        "signatureSpell": true,
-                        "source": "Sorcerer Spellcasting",
-                        "castingType": "Spontaneous"
-                    },
-                    {
-                        "_className": "SpellChoice",
-                        "available": 2,
-                        "className": "Sorcerer",
-                        "id": "af57fffa-f9e7-45c1-b090-716d884ca5cb",
-                        "level": 6,
-                        "charLevelAvailable": 11,
-                        "source": "Sorcerer Spellcasting",
-                        "castingType": "Spontaneous"
-                    },
-                    {
-                        "_className": "SpellChoice",
-                        "available": 1,
-                        "className": "Sorcerer",
-                        "id": "37fbabdd-f7a5-4700-8b46-097e53e43e96",
-                        "level": 6,
-                        "charLevelAvailable": 12,
-                        "source": "Sorcerer Spellcasting",
-                        "castingType": "Spontaneous"
-                    },
-                    {
-                        "_className": "SpellChoice",
-                        "available": 1,
-                        "className": "Sorcerer",
-                        "id": "8634fd89-91eb-4df7-8218-cb08944c2e7a",
-                        "level": 7,
-                        "charLevelAvailable": 13,
-                        "signatureSpell": true,
-                        "source": "Sorcerer Spellcasting",
-                        "castingType": "Spontaneous"
-                    },
-                    {
-                        "_className": "SpellChoice",
-                        "available": 2,
-                        "className": "Sorcerer",
-                        "id": "ba178dff-05cf-4ee5-87e6-60b29c94ed69",
-                        "level": 7,
-                        "charLevelAvailable": 13,
-                        "source": "Sorcerer Spellcasting",
-                        "castingType": "Spontaneous"
-                    },
-                    {
-                        "_className": "SpellChoice",
-                        "available": 1,
-                        "className": "Sorcerer",
-                        "id": "e0f1f1d6-5d5e-47ab-9353-47c4951f83e3",
-                        "level": 7,
-                        "charLevelAvailable": 14,
-                        "source": "Sorcerer Spellcasting",
-                        "castingType": "Spontaneous"
-                    },
-                    {
-                        "_className": "SpellChoice",
-                        "available": 1,
-                        "className": "Sorcerer",
-                        "id": "7e979a0e-0091-4062-afcf-714e8066a82c",
-                        "level": 8,
-                        "charLevelAvailable": 15,
-                        "signatureSpell": true,
-                        "source": "Sorcerer Spellcasting",
-                        "castingType": "Spontaneous"
-                    },
-                    {
-                        "_className": "SpellChoice",
-                        "available": 2,
-                        "className": "Sorcerer",
-                        "id": "52e5dbbd-74d9-4950-a468-9b58a3d71bc5",
-                        "level": 8,
-                        "charLevelAvailable": 15,
-                        "source": "Sorcerer Spellcasting",
-                        "castingType": "Spontaneous"
-                    },
-                    {
-                        "_className": "SpellChoice",
-                        "available": 1,
-                        "className": "Sorcerer",
-                        "id": "51b6185b-1d80-418c-a9ea-750d6e6a1e40",
-                        "level": 8,
-                        "charLevelAvailable": 16,
-                        "source": "Sorcerer Spellcasting",
-                        "castingType": "Spontaneous"
-                    },
-                    {
-                        "_className": "SpellChoice",
-                        "available": 1,
-                        "className": "Sorcerer",
-                        "id": "488da871-fc05-49cc-9881-8a182fea6dcc",
-                        "level": 9,
-                        "charLevelAvailable": 17,
-                        "signatureSpell": true,
-                        "source": "Sorcerer Spellcasting",
-                        "castingType": "Spontaneous"
-                    },
-                    {
-                        "_className": "SpellChoice",
-                        "available": 2,
-                        "className": "Sorcerer",
-                        "id": "df19a090-153d-4468-b0e7-d815342bc9c2",
-                        "level": 9,
-                        "charLevelAvailable": 17,
-                        "source": "Sorcerer Spellcasting",
-                        "castingType": "Spontaneous"
-                    },
-                    {
-                        "_className": "SpellChoice",
-                        "available": 1,
-                        "className": "Sorcerer",
-                        "id": "37d4a6c7-5016-41a5-b0b5-4a771e3ea57c",
-                        "level": 9,
-                        "charLevelAvailable": 18,
-                        "source": "Sorcerer Spellcasting",
-                        "castingType": "Spontaneous"
-                    },
-                    {
-                        "_className": "SpellChoice",
-                        "available": 1,
-                        "className": "Sorcerer",
-                        "id": "6193d61c-6672-4b95-b094-de7142d840e1",
-                        "level": 10,
-                        "charLevelAvailable": 19,
-                        "signatureSpell": true,
-                        "source": "Sorcerer Spellcasting",
-                        "castingType": "Spontaneous"
-                    },
-                    {
-                        "_className": "SpellChoice",
-                        "available": 1,
-                        "className": "Sorcerer",
-                        "id": "7ccd4d65-c9bd-49dc-b9d5-c75166db6445",
-                        "level": 10,
-                        "charLevelAvailable": 19,
-                        "source": "Sorcerer Spellcasting",
-                        "castingType": "Spontaneous"
-                    }
-                ],
-                "tradition": "Bloodline"
             }
         ]
     },
@@ -15133,6 +14856,20 @@
                                 "name": "Unarmored Defense",
                                 "source": "Class",
                                 "sourceId": "1-Any-Class-0"
+                            },
+                            {
+                                "locked": true,
+                                "maxRank": 2,
+                                "name": "Wizard Arcane Spell DC",
+                                "source": "Class",
+                                "sourceId": "1-Any-Class-0"
+                            },
+                            {
+                                "locked": true,
+                                "maxRank": 2,
+                                "name": "Innate Spell DC",
+                                "source": "Class",
+                                "sourceId": "1-Any-Class-0"
                             }
                         ],
                         "maxRank": 4,
@@ -15157,15 +14894,6 @@
                 ]
             },
             {
-                "skillChoices": [
-                    {
-                        "_className": "SkillChoice",
-                        "id": "2-Skill-Intelligence-0",
-                        "maxRank": 2,
-                        "source": "Intelligence",
-                        "type": "Skill"
-                    }
-                ],
                 "_className": "Level",
                 "featChoices": [
                     {
@@ -15183,7 +14911,16 @@
                         "type": "Skill"
                     }
                 ],
-                "number": 2
+                "number": 2,
+                "skillChoices": [
+                    {
+                        "_className": "SkillChoice",
+                        "id": "2-Skill-Intelligence-0",
+                        "maxRank": 2,
+                        "source": "Intelligence",
+                        "type": "Skill"
+                    }
+                ]
             },
             {
                 "_className": "Level",
@@ -15912,6 +15649,7 @@
                         "_className": "SkillChoice",
                         "available": 1,
                         "id": "17-Skill-Class-3",
+                        "maxRank": 8,
                         "source": "Class",
                         "type": "Skill"
                     },
@@ -15967,7 +15705,7 @@
                             },
                             {
                                 "locked": true,
-                                "name": "Legendary Spellcaster",
+                                "name": "Legendary Spellcaster (Wizard)",
                                 "source": "Wizard",
                                 "sourceId": "19-Feature-Wizard-0"
                             }
@@ -16083,8 +15821,9 @@
                 "_className": "SpellCasting",
                 "ability": "Intelligence",
                 "castingType": "Focus",
+                "charLevelAvailable": 0,
                 "className": "Wizard",
-                "source": "School Spells",
+                "source": "Domain Spells",
                 "tradition": "Arcane"
             },
             {
@@ -16094,26 +15833,12 @@
                 "charLevelAvailable": 1,
                 "className": "Wizard",
                 "source": "Wizard Spellcasting",
-                "spellDC": {
-                    "_className": "SkillChoice",
-                    "increases": [
-                        {
-                            "locked": true,
-                            "maxRank": 2,
-                            "name": "Wizard Arcane Spell DC",
-                            "source": "Wizard Spellcasting"
-                        }
-                    ],
-                    "maxRank": 2,
-                    "source": "Wizard Spellcasting",
-                    "type": "Spell DC"
-                },
                 "spellChoices": [
                     {
                         "_className": "SpellChoice",
                         "available": 5,
                         "className": "Wizard",
-                        "id": "bab441cd-c2cd-4e1f-9473-bcdd717ba890",
+                        "id": "c273b046-01ec-4c51-9fb7-1fd90d533f26",
                         "level": 0,
                         "charLevelAvailable": 1,
                         "source": "Wizard Spellcasting",
@@ -16123,7 +15848,7 @@
                         "_className": "SpellChoice",
                         "available": 2,
                         "className": "Wizard",
-                        "id": "591560c0-19df-44f2-8e37-a3e729059ae0",
+                        "id": "4d9bdb46-9fb4-43e5-9f03-89e6965a0be8",
                         "level": 1,
                         "charLevelAvailable": 1,
                         "source": "Wizard Spellcasting",
@@ -16133,7 +15858,7 @@
                         "_className": "SpellChoice",
                         "available": 1,
                         "className": "Wizard",
-                        "id": "f1f45217-b4d7-4123-a7be-2bfcf38d34fe",
+                        "id": "0de0ad1f-9e2e-4339-8bc4-f180c54a9cda",
                         "level": 1,
                         "charLevelAvailable": 2,
                         "source": "Wizard Spellcasting",
@@ -16143,7 +15868,7 @@
                         "_className": "SpellChoice",
                         "available": 2,
                         "className": "Wizard",
-                        "id": "eea97fc6-15bb-4e22-a7b0-2d116924982e",
+                        "id": "9c4817a2-697a-4e59-b9a8-49be2976cfd0",
                         "level": 2,
                         "charLevelAvailable": 3,
                         "source": "Wizard Spellcasting",
@@ -16153,7 +15878,7 @@
                         "_className": "SpellChoice",
                         "available": 1,
                         "className": "Wizard",
-                        "id": "58a4bb57-8213-4746-9371-f46c7ef6a7ce",
+                        "id": "7556337e-b19d-4a6d-8dfa-4482fe256a79",
                         "level": 2,
                         "charLevelAvailable": 4,
                         "source": "Wizard Spellcasting",
@@ -16163,7 +15888,7 @@
                         "_className": "SpellChoice",
                         "available": 2,
                         "className": "Wizard",
-                        "id": "17fd0d01-5d16-4ff7-a588-d8f623f2d01a",
+                        "id": "335dda69-05be-4f19-a799-9423a71837ef",
                         "level": 3,
                         "charLevelAvailable": 5,
                         "source": "Wizard Spellcasting",
@@ -16173,7 +15898,7 @@
                         "_className": "SpellChoice",
                         "available": 1,
                         "className": "Wizard",
-                        "id": "366c8367-09d0-4852-8d6b-35784ea671d8",
+                        "id": "6cb092be-cb81-4361-a8c3-3ce554297d6a",
                         "level": 3,
                         "charLevelAvailable": 6,
                         "source": "Wizard Spellcasting",
@@ -16183,7 +15908,7 @@
                         "_className": "SpellChoice",
                         "available": 2,
                         "className": "Wizard",
-                        "id": "c02e937e-5b81-4f91-9cae-7989c97b277b",
+                        "id": "4f3ac4d5-3728-4e4f-97fd-7660f2470cf1",
                         "level": 4,
                         "charLevelAvailable": 7,
                         "source": "Wizard Spellcasting",
@@ -16193,7 +15918,7 @@
                         "_className": "SpellChoice",
                         "available": 1,
                         "className": "Wizard",
-                        "id": "70f16176-3f2e-43b9-a981-d377e40d3100",
+                        "id": "f67f3408-a849-4641-a15a-30bcb6963461",
                         "level": 4,
                         "charLevelAvailable": 8,
                         "source": "Wizard Spellcasting",
@@ -16203,7 +15928,7 @@
                         "_className": "SpellChoice",
                         "available": 2,
                         "className": "Wizard",
-                        "id": "9e8954ee-8d7f-435a-9c9d-3bd649292338",
+                        "id": "036db2ee-7c58-409b-9ddd-203a69ea6b79",
                         "level": 5,
                         "charLevelAvailable": 9,
                         "source": "Wizard Spellcasting",
@@ -16213,7 +15938,7 @@
                         "_className": "SpellChoice",
                         "available": 1,
                         "className": "Wizard",
-                        "id": "6ea433e5-ffb0-494a-b6f3-730bcfc945d0",
+                        "id": "73e30d6c-415c-4f5a-a4a7-238896a98b5f",
                         "level": 5,
                         "charLevelAvailable": 10,
                         "source": "Wizard Spellcasting",
@@ -16223,7 +15948,7 @@
                         "_className": "SpellChoice",
                         "available": 2,
                         "className": "Wizard",
-                        "id": "df46cfe7-d4f6-4177-aa6b-21c26438357e",
+                        "id": "7c183691-b84a-48cf-9ba9-c7e0ef797faa",
                         "level": 6,
                         "charLevelAvailable": 11,
                         "source": "Wizard Spellcasting",
@@ -16233,7 +15958,7 @@
                         "_className": "SpellChoice",
                         "available": 1,
                         "className": "Wizard",
-                        "id": "6c5eb4cd-1b11-4e6b-994b-96ad4e8b9193",
+                        "id": "a9995e3e-070c-4d6b-9a2c-33d6befca388",
                         "level": 6,
                         "charLevelAvailable": 12,
                         "source": "Wizard Spellcasting",
@@ -16243,7 +15968,7 @@
                         "_className": "SpellChoice",
                         "available": 2,
                         "className": "Wizard",
-                        "id": "4c4ec21a-8f13-4a8c-afb4-ecfe7b2248c1",
+                        "id": "1dc0c5ce-1393-4468-ae4e-8b8c1258015a",
                         "level": 7,
                         "charLevelAvailable": 13,
                         "source": "Wizard Spellcasting",
@@ -16253,7 +15978,7 @@
                         "_className": "SpellChoice",
                         "available": 1,
                         "className": "Wizard",
-                        "id": "be9c81be-82fc-4ac3-9f14-c1bc0ec11c72",
+                        "id": "d0d70b30-0d9e-4304-af0c-db9bb6613e3f",
                         "level": 7,
                         "charLevelAvailable": 14,
                         "source": "Wizard Spellcasting",
@@ -16263,7 +15988,7 @@
                         "_className": "SpellChoice",
                         "available": 2,
                         "className": "Wizard",
-                        "id": "5fc950a4-0a66-42f9-8b51-ab7b3b5367fc",
+                        "id": "bba7f23e-bb35-4bde-81a0-6a00cb03b1b7",
                         "level": 8,
                         "charLevelAvailable": 15,
                         "source": "Wizard Spellcasting",
@@ -16273,7 +15998,7 @@
                         "_className": "SpellChoice",
                         "available": 1,
                         "className": "Wizard",
-                        "id": "b8d564ea-849d-4563-aa28-b64a58cbec25",
+                        "id": "3c13ec30-7a61-4823-940b-5314164ba922",
                         "level": 8,
                         "charLevelAvailable": 16,
                         "source": "Wizard Spellcasting",
@@ -16283,7 +16008,7 @@
                         "_className": "SpellChoice",
                         "available": 2,
                         "className": "Wizard",
-                        "id": "c0b50c6d-baf7-4ebb-8bd8-8ab51f23541b",
+                        "id": "c2fa3a04-afb6-450f-8b48-3a02d4b6c6a7",
                         "level": 9,
                         "charLevelAvailable": 17,
                         "source": "Wizard Spellcasting",
@@ -16293,7 +16018,7 @@
                         "_className": "SpellChoice",
                         "available": 1,
                         "className": "Wizard",
-                        "id": "9d166965-766b-4669-a5eb-e20659ffc630",
+                        "id": "e471c7ac-1664-4b6b-987a-e9f2ec2e0ca7",
                         "level": 9,
                         "charLevelAvailable": 18,
                         "source": "Wizard Spellcasting",
@@ -16303,7 +16028,7 @@
                         "_className": "SpellChoice",
                         "available": 1,
                         "className": "Wizard",
-                        "id": "9ac1646b-7ed9-482f-9249-e5ed7bc3a0fc",
+                        "id": "e1ceae24-020d-4d5d-a8c6-4dd6ffe27e5e",
                         "level": 10,
                         "charLevelAvailable": 19,
                         "source": "Wizard Spellcasting",

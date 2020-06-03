@@ -36,8 +36,8 @@ export class Feat {
     public gainFormulaChoice: FormulaChoice[] = [];
     public gainLore: true;
     public gainSkillChoice: SkillChoice[] = [];
-    public gainSpellChoice: SpellChoice[] = [];
     public gainSpellCasting: SpellCasting[] = [];
+    public gainSpellChoice: SpellChoice[] = [];
     public hide: boolean = false;
     public hint: string = "";
     public levelreq: number = 0;

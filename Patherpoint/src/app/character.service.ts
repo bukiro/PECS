@@ -407,18 +407,6 @@ export class CharacterService {
         this.set_Changed();
     }
 
-    change_Bloodline(casting: SpellCasting, bloodline: Bloodline) {
-        casting.on_ChangeBloodline(this);
-        if (bloodline) {
-            casting.bloodline = Object.assign(new Bloodline(bloodline.spellList), JSON.parse(JSON.stringify(bloodline)));
-            casting.bloodline = this.reassign(casting.bloodline);
-            casting.on_NewBloodline(this);
-        } else {
-            casting.bloodline = null;
-        }
-        this.set_Changed();
-    }
-
     change_Heritage(heritage: Heritage) {
         this.me.class.on_ChangeHeritage(this);
         this.me.class.heritage = new Heritage();

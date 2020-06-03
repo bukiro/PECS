@@ -11,6 +11,7 @@ import { SpellCast } from '../SpellCast';
 import { EffectsService } from '../effects.service';
 import { SpellChoice } from '../SpellChoice';
 import { Bloodline } from '../Bloodline';
+import { ConditionGain } from '../ConditionGain';
 
 @Component({
     selector: 'app-spellbook',
@@ -147,7 +148,7 @@ export class SpellbookComponent implements OnInit {
     }
 
     get_UsedSpellSlots(spellLevel: number, casting: SpellCasting) {
-        if (casting.bloodline) {
+        if (casting.castingType == "Spontaneous") {
             return casting.spellSlotsUsed[spellLevel];
         } else {
             return 0;
@@ -232,24 +233,44 @@ export class SpellbookComponent implements OnInit {
         if (!level || level == -1) {
             level = this.get_MaxSpellLevel();
         }
-        //Focus spells cost Focus points, unless they are Focus cantrips (level 0)
+        //Focus spells cost Focus points.
         if (casting.castingType == "Focus" && activated && choice.level == -1) {
             this.characterService.get_Character().class.focusPoints = Math.min(this.get_Character().class.focusPoints, this.get_MaxFocusPoints());
             this.characterService.get_Character().class.focusPoints -= 1;
         };
+        //Spontaneous spells use up spell slots.
         if (casting.castingType == "Spontaneous" && !spell.traits.includes("Cantrip") && activated) {
             casting.spellSlotsUsed[level] += 1;
         }
+        //Prepared spells get locked until the next preparation.
         if (casting.castingType == "Prepared" && !spell.traits.includes("Cantrip") && activated) {
             gain.prepared = false;
         }
         //Trigger bloodline powers for sorcerers if your main class is Sorcerer.
-        if (this.get_Character().class.name == "Sorcerer" && casting.className == "Sorcerer") {
-            let bloodline: Bloodline = this.get_Character().class.spellCasting.find(casting => casting.castingType == "Spontaneous" && casting.tradition == "Bloodline" && casting.className == "Sorcerer")?.bloodline;
-            if (bloodline.bloodlineSpells.map(bloodlineSpell => bloodlineSpell.name).includes(gain.name) || bloodline.grantedSpells.map(grantedSpell => grantedSpell.name).includes(gain.name)) {
-                bloodline.bloodMagic.forEach(conditionGain => {
+        let character = this.get_Character()
+        if (character.class.name == "Sorcerer" && casting.className == "Sorcerer") {
+            let bloodline: string =  character.get_FeatsTaken(1, character.level).find(gain => 
+                ["Aberrant Bloodline",
+                "Angelic Bloodline",
+                "Demonic Bloodline",
+                "Diabolic Bloodline",
+                "Draconic Bloodline",
+                "Elemental Bloodline",
+                "Fey Bloodline",
+                "Hag Bloodline",
+                "Imperial Bloodline",
+                "Undead Bloodline"].includes(gain.name)
+                )?.name;
+            if (bloodline) {
+                let data = this.characterService.get_Feats(bloodline)[0]?.data[0];
+                let conditionName: string = data?.["bloodmagic"];
+                if (conditionName && data["trigger"].includes(spell.name)) {
+                    let conditionGain = new ConditionGain();
+                    conditionGain.name = conditionName;
+                    conditionGain.duration = 10;
+                    conditionGain.source = bloodline;
                     this.characterService.add_Condition(this.get_Character(), conditionGain, false);
-                })
+                }
             }
         }
         this.spellsService.process_Spell(creature, this.characterService, this.itemsService, this.timeService, gain, spell, level, activated, true);

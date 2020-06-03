@@ -4571,29 +4571,26 @@
         "shortdesc": "Your study of the flow of mystical energy allows you to harness it into your physical strikes.",
         "desc": "Choose a bloodline. You become trained in the bloodline's two skills; for each of these skills in which you were already trained, you become trained in a skill of your choice.\n\nYou cast spells like a sorcerer. You gain access to the Cast a Spell activity. You gain a spell repertoire with two common cantrips from the spell list associated with your bloodline, from the spells granted by your bloodline, or any other cantrips of that tradition you learn or discover. You can add to your repertoire common cantrips of your spellcasting tradition, whether from this book or other cantrips of that tradition you learn or discover. You're trained in spell attack rolls and spell DCs for your tradition's spells. Your key spellcasting ability for sorcerer archetype spells is Charisma, and they are sorcerer spells of your bloodline's tradition. You don't gain any other abilities from your choice of bloodline.",
         "archetype": "Sorcerer",
-        "gainSpellCasting": [
+        "gainFeatChoice": [
             {
-                "ability": "Charisma",
-                "castingType": "Spontaneous",
-                "className": "Sorcerer",
+                "_className": "FeatChoice",
+                "available": 1,
+                "filter": [
+                    "Aberrant Bloodline",
+                    "Angelic Bloodline",
+                    "Demonic Bloodline",
+                    "Diabolic Bloodline",
+                    "Draconic Bloodline",
+                    "Elemental Bloodline",
+                    "Fey Bloodline",
+                    "Hag Bloodline",
+                    "Imperial Bloodline",
+                    "Undead Bloodline"
+                ],
+                "id": "1-Bloodline-Feat: Sorcerer Dedication-1",
                 "source": "Feat: Sorcerer Dedication",
-                "tradition": "Bloodline"
-            },
-            {
-                "ability": "Charisma",
-                "castingType": "Focus",
-                "className": "Sorcerer",
-                "source": "Feat: Sorcerer Dedication"
-            }
-        ],
-        "gainSpellChoice": [
-            {
-                "available": 2,
-                "castingType": "Spontaneous",
-                "className": "Sorcerer",
-                "id": "3cbf6208-9068-11ea-bb37-0242ac130002",
-                "level": 0,
-                "source": "Feat: Sorcerer Dedication"
+                "specialChoice": true,
+                "type": "Bloodline"
             }
         ],
         "levelreq": 2,
@@ -7065,6 +7062,120 @@
         "desc": ""
     },
     {
+        "name": "Divine Ki Spells",
+        "gainSkillChoice": [
+            {
+                "_className": "SkillChoice",
+                "id": "1-Spell DC-Class-0",
+                "increases": [
+                        {
+                        "locked": true,
+                        "maxRank": 4,
+                        "name": "Monk Divine Spell DC",
+                        "source": "Class",
+                        "sourceId": "1-Any-Class-0"
+                    }
+                ],
+                "maxRank": 2,
+                "source": "Class",
+                "type": "Spell DC"
+            },
+            {
+                "_className": "SkillChoice",
+                "id": "9-Spell DC-Monk Expertise-1",
+                "increases": [
+                    {
+                        "locked": true,
+                        "maxRank": 4,
+                        "name": "Monk Divine Spell DC",
+                        "source": "Monk Expertise",
+                        "sourceId": "9-Spell DC-Monk Expertise-1"
+                    }
+                ],
+                "insertClass": "Monk",
+                "insertLevel": 9,
+                "maxRank": 4,
+                "source": "Monk Expertise",
+                "type": "Spell DC"
+            },
+            {
+                "_className": "SkillChoice",
+                "id": "17-Spell DC-Graceful Legend-2",
+                "increases": [
+                    {
+                        "locked": true,
+                        "maxRank": 6,
+                        "name": "Monk Divine Spell DC",
+                        "source": "Graceful Legend",
+                        "sourceId": "17-Spell DC-Graceful Legend-2"
+                    }
+                ],
+                "insertClass": "Monk",
+                "insertLevel": 17,
+                "maxRank": 6,
+                "source": "Graceful Legend",
+                "type": "Spell DC"
+            }
+        ]
+    },
+    {
+        "name": "Occult Ki Spells",
+        "gainSkillChoice": [
+            {
+                "_className": "SkillChoice",
+                "id": "1-Spell DC-Class-0",
+                "increases": [
+                        {
+                        "locked": true,
+                        "maxRank": 4,
+                        "name": "Monk Occult Spell DC",
+                        "source": "Class",
+                        "sourceId": "1-Any-Class-0"
+                    }
+                ],
+                "maxRank": 2,
+                "source": "Class",
+                "type": "Spell DC"
+            },
+            {
+                "_className": "SkillChoice",
+                "id": "9-Spell DC-Monk Expertise-1",
+                "increases": [
+                    {
+                        "locked": true,
+                        "maxRank": 4,
+                        "name": "Monk Occult Spell DC",
+                        "source": "Monk Expertise",
+                        "sourceId": "9-Spell DC-Monk Expertise-1"
+                    }
+                ],
+                "insertClass": "Monk",
+                "insertLevel": 9,
+                "maxRank": 4,
+                "source": "Monk Expertise",
+                "type": "Spell DC"
+            },
+            {
+                "_className": "SkillChoice",
+                "id": "17-Spell DC-Graceful Legend-2",
+                "increases": [
+                    {
+                        "locked": true,
+                        "maxRank": 6,
+                        "name": "Monk Occult Spell DC",
+                        "source": "Graceful Legend",
+                        "sourceId": "17-Spell DC-Graceful Legend-2"
+                    }
+                ],
+                "insertClass": "Monk",
+                "insertLevel": 17,
+                "maxRank": 6,
+                "source": "Graceful Legend",
+                "type": "Spell DC"
+            }
+        ]
+    },
+    {
         "name": "Ruffian",
         "desc": ""
     },
@@ -7107,6 +7218,683 @@
                 "type": "Skill"
             }
         ]
+    },
+    {
+        "name": "Aberrant Bloodline",
+        "desc": ""
+    },
+    {
+        "name": "Angelic Bloodline",
+        "desc": ""
+    },
+    {
+        "name": "Demonic Bloodline",
+        "desc": ""
+    },
+    {
+        "name": "Diabolic Bloodline",
+        "desc": ""
+    },
+    {
+        "name": "Draconic Bloodline",
+        "desc": ""
+    },
+    {
+        "name": "Elemental Bloodline",
+        "desc": "A genie ancestor or some other elemental influence has imbued your blood with primal fury, affecting how the bloodline spells and granted spells marked with an asterisk (*), as well as your blood magic, function.\n\nSpell List: primal\nBloodline Skills: Intimidation, Nature\nGranted Spells: cantrip produce flame*, 1st: burning hands*, 2nd: resist energy, 3rd: fireball*, 4th: freedom of movement, 5th: elemental form, 6th: repulsion, 7th: energy aegis, 8th: prismatic wall, 9th: storm of vengeance\nBloodline Spells: initial: elemental toss*, advanced: elemental motion, greater: elemental blast*\nBlood Magic Elemental energy surrounds you or a target. Either you gain a +1 status bonus to Intimidation checks for 1 round, or a target takes 1 damage per spell level. The damage is bludgeoning or fire, according to your elemental type (see below). If the spell already deals that type of damage, combine it with the spell’s initial damage before determining weaknesses and resistances.",
+        "special": "At 1st level, choose the type of elemental that influenced your bloodline: air, earth, fire, or water. If your element is air, you buffet your foes with powerful winds; if it’s earth, you toss huge chunks of rock; if it’s fire, you incinerate your foes with flame; and if it’s water, you inundate your foes with torrents of water. For fire, all marked spells deal fire damage. For other elements, they deal bludgeoning damage. Replace any existing elemental traits with the trait of the element you chose.",
+        "gainFeatChoice": [
+            {
+                "_className": "FeatChoice",
+                "available": 1,
+                "filter": [
+                    "Elemental Type"
+                ],
+                "id": "1-Elemental Type-Elemental Bloodline-1",
+                "source": "Elemental Bloodline",
+                "specialChoice": true,
+                "type": "Elemental Type"
+            }
+        ],
+        "gainSkillChoice": [
+            {
+                "_className": "SkillChoice",
+                "id": "1-Spell DC-Elemental Bloodline-0",
+                "increases": [
+                    {
+                        "locked": true,
+                        "maxRank": 2,
+                        "name": "Sorcerer Primal Spell DC",
+                        "source": "Elemental Bloodline",
+                        "sourceId": "1-Spell DC-Elemental Bloodline-0"
+                    }
+                ],
+                "maxRank": 2,
+                "source": "Elemental Bloodline",
+                "type": "Spell DC"
+            },
+            {
+                "_className": "SkillChoice",
+                "id": "1-Skill-Elemental Bloodline-1",
+                "increases": [
+                    {
+                        "locked": true,
+                        "maxRank": 2,
+                        "name": "Intimidation",
+                        "source": "Elemental Bloodline",
+                        "sourceId": "1-Skill-Elemental Bloodline-1"
+                    },
+                    {
+                        "locked": true,
+                        "maxRank": 2,
+                        "name": "Nature",
+                        "source": "Elemental Bloodline",
+                        "sourceId": "1-Skill-Elemental Bloodline-1"
+                    }
+                ],
+                "insertClass": "Sorcerer",
+                "maxRank": 4,
+                "source": "Elemental Bloodline",
+                "type": "Skill"
+            },
+            {
+                "_className": "SkillChoice",
+                "available": null,
+                "id": "7-Spell DC-Expert Spellcaster-0",
+                "increases": [
+                    {
+                        "locked": true,
+                        "maxRank": 4,
+                        "name": "Sorcerer Primal Spell DC",
+                        "source": "Expert Spellcaster",
+                        "sourceId": "7-Spell DC-Expert Spellcaster-0"
+                    }
+                ],
+                "insertClass": "Sorcerer",
+                "maxRank": 4,
+                "source": "Expert Spellcaster",
+                "type": "Spell DC"
+            },
+            {
+                "_className": "SkillChoice",
+                "available": null,
+                "id": "15-Spell DC-Master Spellcaster-0",
+                "increases": [
+                    {
+                        "locked": true,
+                        "maxRank": 6,
+                        "name": "Sorcerer Primal Spell DC",
+                        "source": "Master Spellcaster",
+                        "sourceId": "15-Spell DC-Master Spellcaster-0"
+                    }
+                ],
+                "insertClass": "Sorcerer",
+                "maxRank": 6,
+                "source": "Master Spellcaster",
+                "type": "Spell DC"
+            },
+            {
+                "_className": "SkillChoice",
+                "id": "19-Spell DC-Legendary Spellcaster-0",
+                "increases": [
+                    {
+                        "locked": true,
+                        "maxRank": 8,
+                        "name": "Sorcerer Primal Spell DC",
+                        "source": "Legendary Spellcaster",
+                        "sourceId": "19-Spell DC-Legendary Spellcaster-0"
+                    }
+                ],
+                "insertClass": "Sorcerer",
+                "maxRank": 8,
+                "source": "Legendary Spellcaster",
+                "type": "Spell DC"
+            }
+        ],
+        "gainSpellCasting": [
+            {
+                "_className": "SpellCasting",
+                "ability": "Charisma",
+                "castingType": "Focus",
+                "charLevelAvailable": 0,
+                "className": "Sorcerer",
+                "source": "Bloodline Spells",
+                "tradition": "Primal"
+            },
+            {
+                "_className": "SpellCasting",
+                "ability": "Charisma",
+                "castingType": "Spontaneous",
+                "charLevelAvailable": 1,
+                "className": "Sorcerer",
+                "source": "Sorcerer Spellcasting",
+                "tradition": "Primal"
+            }
+        ],
+        "gainSpellChoice": [
+            {
+                "_className": "SpellChoice",
+                "className": "Sorcerer",
+                "id": "2c9eb94e-88fb-4306-adc5-04640ad33788",
+                "insertClass": "Sorcerer",
+                "level": 1,
+                "charLevelAvailable": 1,
+                "source": "Elemental Bloodline",
+                "spells": [
+                    {
+                        "_className": "SpellGain",
+                        "name": "Elemental Toss",
+                        "locked": true,
+                        "sourceId": "2c9eb94e-88fb-4306-adc5-04640ad33788"
+                    }
+                ],
+                "castingType": "Focus"
+            },
+            {
+                "_className": "SpellChoice",
+                "available": 1,
+                "className": "Sorcerer",
+                "id": "54c13d55-8ec0-475c-94e1-8940c6767e9d",
+                "insertClass": "Sorcerer",
+                "level": 0,
+                "charLevelAvailable": 1,
+                "source": "Sorcerer Spellcasting",
+                "spells": [
+                    {
+                        "_className": "SpellGain",
+                        "name": "Produce Flame",
+                        "sourceId": "54c13d55-8ec0-475c-94e1-8940c6767e9d"
+                    }
+                ],
+                "castingType": "Spontaneous"
+            },
+            {
+                "_className": "SpellChoice",
+                "available": 2,
+                "className": "Sorcerer",
+                "id": "b9028a41-e8dd-478b-b270-af04637f864c",
+                "level": 0,
+                "charLevelAvailable": 1,
+                "source": "Sorcerer Spellcasting",
+                "castingType": "Spontaneous"
+            },
+            {
+                "_className": "SpellChoice",
+                "available": 2,
+                "className": "Sorcerer",
+                "id": "91aeaadc-10ba-417a-9415-4ac3c51259bd",
+                "insertClass": "Sorcerer",
+                "level": 0,
+                "charLevelAvailable": 1,
+                "source": "Sorcerer Spellcasting",
+                "castingType": "Spontaneous"
+            },
+            {
+                "_className": "SpellChoice",
+                "available": 1,
+                "className": "Sorcerer",
+                "id": "59039c22-a58a-11ea-bb37-0242ac130002",
+                "insertClass": "Sorcerer",
+                "level": 1,
+                "charLevelAvailable": 1,
+                "signatureSpell": true,
+                "source": "Sorcerer Spellcasting",
+                "spells": [
+                    {
+                        "_className": "SpellGain",
+                        "name": "Burning Hands",
+                        "sourceId": "59039c22-a58a-11ea-bb37-0242ac130002"
+                    }
+                ],
+                "castingType": "Spontaneous"
+            },
+            {
+                "_className": "SpellChoice",
+                "available": 2,
+                "className": "Sorcerer",
+                "id": "7afeedb8-803d-49df-b286-48ecab090e44",
+                "insertClass": "Sorcerer",
+                "level": 1,
+                "charLevelAvailable": 1,
+                "source": "Sorcerer Spellcasting",
+                "castingType": "Spontaneous"
+            },
+            {
+                "_className": "SpellChoice",
+                "available": 1,
+                "className": "Sorcerer",
+                "id": "679299d9-d401-4d2e-8303-275595b5c37d",
+                "insertClass": "Sorcerer",
+                "level": 1,
+                "charLevelAvailable": 2,
+                "source": "Sorcerer Spellcasting",
+                "castingType": "Spontaneous"
+            },
+            {
+                "_className": "SpellChoice",
+                "available": 1,
+                "className": "Sorcerer",
+                "id": "59039b64-a58a-11ea-bb37-0242ac130002",
+                "insertClass": "Sorcerer",
+                "level": 2,
+                "charLevelAvailable": 3,
+                "signatureSpell": true,
+                "source": "Sorcerer Spellcasting",
+                "spells": [
+                    {
+                        "_className": "SpellGain",
+                        "name": "Resist Energy",
+                        "sourceId": "59039b64-a58a-11ea-bb37-0242ac130002"
+                    }
+                ],
+                "castingType": "Spontaneous"
+            },
+            {
+                "_className": "SpellChoice",
+                "available": 2,
+                "className": "Sorcerer",
+                "id": "20afa305-63f9-463f-b3f9-9d9a63d32813",
+                "insertClass": "Sorcerer",
+                "level": 2,
+                "charLevelAvailable": 3,
+                "source": "Sorcerer Spellcasting",
+                "castingType": "Spontaneous"
+            },
+            {
+                "_className": "SpellChoice",
+                "available": 1,
+                "className": "Sorcerer",
+                "id": "06ddccfe-07ed-4f18-bc76-81ba86c2ec09",
+                "insertClass": "Sorcerer",
+                "level": 2,
+                "charLevelAvailable": 4,
+                "source": "Sorcerer Spellcasting",
+                "castingType": "Spontaneous"
+            },
+            {
+                "_className": "SpellChoice",
+                "available": 1,
+                "className": "Sorcerer",
+                "id": "c75791c4-62f1-44f2-8b02-4305b0089cd4",
+                "insertClass": "Sorcerer",
+                "level": 3,
+                "charLevelAvailable": 5,
+                "signatureSpell": true,
+                "source": "Sorcerer Spellcasting",
+                "spells": [
+                    {
+                        "_className": "SpellGain",
+                        "name": "Fireball",
+                        "sourceId": "c75791c4-62f1-44f2-8b02-4305b0089cd4"
+                    }
+                ],
+                "castingType": "Spontaneous"
+            },
+            {
+                "_className": "SpellChoice",
+                "available": 2,
+                "className": "Sorcerer",
+                "id": "c75791c4-62f1-44f2-8b02-4305b0089cd4",
+                "insertClass": "Sorcerer",
+                "level": 3,
+                "charLevelAvailable": 5,
+                "source": "Sorcerer Spellcasting",
+                "castingType": "Spontaneous"
+            },
+            {
+                "_className": "SpellChoice",
+                "available": 1,
+                "className": "Sorcerer",
+                "id": "d126e3f3-fd78-428a-8827-99e9def662ca",
+                "insertClass": "Sorcerer",
+                "level": 3,
+                "charLevelAvailable": 6,
+                "source": "Sorcerer Spellcasting",
+                "castingType": "Spontaneous"
+            },
+            {
+                "_className": "SpellChoice",
+                "available": 1,
+                "className": "Sorcerer",
+                "id": "59039aa6-a58a-11ea-bb37-0242ac130002",
+                "insertClass": "Sorcerer",
+                "level": 4,
+                "charLevelAvailable": 7,
+                "signatureSpell": true,
+                "source": "Sorcerer Spellcasting",
+                "spells": [
+                    {
+                        "_className": "SpellGain",
+                        "name": "Freedom of Movement",
+                        "sourceId": "59039aa6-a58a-11ea-bb37-0242ac130002"
+                    }
+                ],
+                "castingType": "Spontaneous"
+            },
+            {
+                "_className": "SpellChoice",
+                "available": 2,
+                "className": "Sorcerer",
+                "id": "cbce83d6-ffd5-40ad-84c1-c36a084bcad4",
+                "insertClass": "Sorcerer",
+                "level": 4,
+                "charLevelAvailable": 7,
+                "source": "Sorcerer Spellcasting",
+                "castingType": "Spontaneous"
+            },
+            {
+                "_className": "SpellChoice",
+                "available": 1,
+                "className": "Sorcerer",
+                "id": "14f3688f-7d0a-4a16-b8bd-305df9f466ba",
+                "insertClass": "Sorcerer",
+                "level": 4,
+                "charLevelAvailable": 8,
+                "source": "Sorcerer Spellcasting",
+                "castingType": "Spontaneous"
+            },
+            {
+                "_className": "SpellChoice",
+                "available": 1,
+                "className": "Sorcerer",
+                "id": "590399f2-a58a-11ea-bb37-0242ac130002",
+                "insertClass": "Sorcerer",
+                "level": 5,
+                "charLevelAvailable": 9,
+                "signatureSpell": true,
+                "source": "Sorcerer Spellcasting",
+                "spells": [
+                    {
+                        "_className": "SpellGain",
+                        "name": "Elemental Form",
+                        "sourceId": "590399f2-a58a-11ea-bb37-0242ac130002"
+                    }
+                ],
+                "castingType": "Spontaneous"
+            },
+            {
+                "_className": "SpellChoice",
+                "available": 2,
+                "className": "Sorcerer",
+                "id": "afdc69ca-c228-4918-802e-78d5d05360e1",
+                "insertClass": "Sorcerer",
+                "level": 5,
+                "charLevelAvailable": 9,
+                "source": "Sorcerer Spellcasting",
+                "castingType": "Spontaneous"
+            },
+            {
+                "_className": "SpellChoice",
+                "available": 1,
+                "className": "Sorcerer",
+                "id": "ae3f9c5f-d042-4eaa-ad34-64de9b7f4c30",
+                "insertClass": "Sorcerer",
+                "level": 5,
+                "charLevelAvailable": 10,
+                "source": "Sorcerer Spellcasting",
+                "castingType": "Spontaneous"
+            },
+            {
+                "_className": "SpellChoice",
+                "available": 1,
+                "className": "Sorcerer",
+                "id": "c391b12f-3e0e-44a0-94dd-4568c9e7df83",
+                "insertClass": "Sorcerer",
+                "level": 6,
+                "charLevelAvailable": 11,
+                "signatureSpell": true,
+                "source": "Sorcerer Spellcasting",
+                "spells": [
+                    {
+                        "_className": "SpellGain",
+                        "name": "Repulsion",
+                        "sourceId": "c391b12f-3e0e-44a0-94dd-4568c9e7df83"
+                    }
+                ],
+                "castingType": "Spontaneous"
+            },
+            {
+                "_className": "SpellChoice",
+                "available": 2,
+                "className": "Sorcerer",
+                "id": "5dbab9ef-8f3d-4393-8f1d-69a4a1c4cbc4",
+                "insertClass": "Sorcerer",
+                "level": 6,
+                "charLevelAvailable": 11,
+                "source": "Sorcerer Spellcasting",
+                "castingType": "Spontaneous"
+            },
+            {
+                "_className": "SpellChoice",
+                "available": 1,
+                "className": "Sorcerer",
+                "id": "3e65fb58-a467-426c-9f8b-656e6503b4ae",
+                "insertClass": "Sorcerer",
+                "level": 6,
+                "charLevelAvailable": 12,
+                "source": "Sorcerer Spellcasting",
+                "castingType": "Spontaneous"
+            },
+            {
+                "_className": "SpellChoice",
+                "available": 1,
+                "className": "Sorcerer",
+                "id": "78965232-2066-4dd6-930b-717546ea092c",
+                "insertClass": "Sorcerer",
+                "level": 7,
+                "charLevelAvailable": 13,
+                "signatureSpell": true,
+                "source": "Sorcerer Spellcasting",
+                "spells": [
+                    {
+                        "_className": "SpellGain",
+                        "name": "Energy Aegis",
+                        "sourceId": "78965232-2066-4dd6-930b-717546ea092c"
+                    }
+                ],
+                "castingType": "Spontaneous"
+            },
+            {
+                "_className": "SpellChoice",
+                "available": 2,
+                "className": "Sorcerer",
+                "id": "d6b1cab8-4083-4c4a-a903-ae552851c4b8",
+                "insertClass": "Sorcerer",
+                "level": 7,
+                "charLevelAvailable": 13,
+                "source": "Sorcerer Spellcasting",
+                "castingType": "Spontaneous"
+            },
+            {
+                "_className": "SpellChoice",
+                "available": 1,
+                "className": "Sorcerer",
+                "id": "b9ec9b98-e144-4d80-a115-94ac9de8a460",
+                "insertClass": "Sorcerer",
+                "level": 7,
+                "charLevelAvailable": 14,
+                "source": "Sorcerer Spellcasting",
+                "castingType": "Spontaneous"
+            },
+            {
+                "_className": "SpellChoice",
+                "available": 1,
+                "className": "Sorcerer",
+                "id": "1b847c5b-7a3d-4657-8987-77506e6870ce",
+                "insertClass": "Sorcerer",
+                "level": 8,
+                "charLevelAvailable": 15,
+                "signatureSpell": true,
+                "source": "Sorcerer Spellcasting",
+                "spells": [
+                    {
+                        "_className": "SpellGain",
+                        "name": "Prismatic Wall",
+                        "sourceId": "1b847c5b-7a3d-4657-8987-77506e6870ce"
+                    }
+                ],
+                "castingType": "Spontaneous"
+            },
+            {
+                "_className": "SpellChoice",
+                "available": 2,
+                "className": "Sorcerer",
+                "id": "d89ae392-4562-4fb4-a6ae-c8f281a247e4",
+                "insertClass": "Sorcerer",
+                "level": 8,
+                "charLevelAvailable": 15,
+                "source": "Sorcerer Spellcasting",
+                "castingType": "Spontaneous"
+            },
+            {
+                "_className": "SpellChoice",
+                "available": 1,
+                "className": "Sorcerer",
+                "id": "47cf2599-a269-4478-a682-c684d6a613e9",
+                "insertClass": "Sorcerer",
+                "level": 8,
+                "charLevelAvailable": 16,
+                "source": "Sorcerer Spellcasting",
+                "castingType": "Spontaneous"
+            },
+            {
+                "_className": "SpellChoice",
+                "available": 1,
+                "className": "Sorcerer",
+                "id": "95e53c4f-dc12-4cf7-8305-7747a14a4f27",
+                "insertClass": "Sorcerer",
+                "level": 9,
+                "charLevelAvailable": 17,
+                "signatureSpell": true,
+                "source": "Sorcerer Spellcasting",
+                "spells": [
+                    {
+                        "_className": "SpellGain",
+                        "name": "Storm of Vengeance",
+                        "sourceId": "95e53c4f-dc12-4cf7-8305-7747a14a4f27"
+                    }
+                ],
+                "castingType": "Spontaneous"
+            },
+            {
+                "_className": "SpellChoice",
+                "available": 2,
+                "className": "Sorcerer",
+                "id": "e0d25a47-d68f-4cb5-bf9f-68bbd7a7a5de",
+                "insertClass": "Sorcerer",
+                "level": 9,
+                "charLevelAvailable": 17,
+                "source": "Sorcerer Spellcasting",
+                "castingType": "Spontaneous"
+            },
+            {
+                "_className": "SpellChoice",
+                "available": 1,
+                "className": "Sorcerer",
+                "id": "2ed2f22c-94ed-425b-a2bc-faff619ff47c",
+                "insertClass": "Sorcerer",
+                "level": 9,
+                "charLevelAvailable": 18,
+                "source": "Sorcerer Spellcasting",
+                "castingType": "Spontaneous"
+            },
+            {
+                "_className": "SpellChoice",
+                "available": 1,
+                "className": "Sorcerer",
+                "id": "59039466-a58a-11ea-bb37-0242ac130002",
+                "insertClass": "Sorcerer",
+                "level": 10,
+                "charLevelAvailable": 19,
+                "signatureSpell": true,
+                "source": "Sorcerer Spellcasting",
+                "castingType": "Spontaneous"
+            },
+            {
+                "_className": "SpellChoice",
+                "available": 1,
+                "className": "Sorcerer",
+                "id": "47646a40-d247-47ef-9c4d-39dce7b59732",
+                "insertClass": "Sorcerer",
+                "level": 10,
+                "charLevelAvailable": 19,
+                "source": "Sorcerer Spellcasting",
+                "castingType": "Spontaneous"
+            }
+        ],
+        "data": [
+            {
+                "bloodmagic": "Elemental Blood Magic",
+                "trigger": [
+                    "Produce Flame",
+                    "Burning Hands",
+                    "Resist Energy",
+                    "Fireball",
+                    "Freedom of Movement",
+                    "Elemental Form",
+                    "Repulsion",
+                    "Energy Aegis",
+                    "Prismatic Wall",
+                    "Storm of Vengeance",
+                    "Elemental Toss",
+                    "Elemental Motion",
+                    "Elemental Blast"
+                ]
+            }
+        ]
+    },
+    {
+        "name": "Elemental Type",
+        "subTypes": true,
+        "desc": "At 1st level, choose the type of elemental that influenced your bloodline: air, earth, fire, or water. If your element is air, you buffet your foes with powerful winds; if it’s earth, you toss huge chunks of rock; if it’s fire, you incinerate your foes with flame; and if it’s water, you inundate your foes with torrents of water. For fire, all marked spells deal fire damage. For other elements, they deal bludgeoning damage. Replace any existing elemental traits with the trait of the element you chose."
+    },
+    {
+        "name": "Elemental Type: Air",
+        "subType": "Air",
+        "superType": "Elemental Type",
+        "desc": "You buffet your foes with powerful winds. All of the following spells deal bludgeoning damage instead of their elemental damage. Replace any existing elemental traits with the Air trait.\n\nBurning Hands\nElemental Blast\nElemental Toss\nFireball\nProduce Flame",
+        "hint": "This spell deals bludgeoning damage instead of its elemental damage, and any existing elemental trait is replaced with Air.",
+        "showon": "Produce Flame, Burning Hands, Fireball, Elemental Toss, Elemental Blast"
+    },
+    {
+        "name": "Elemental Type: Earth",
+        "subType": "Earth",
+        "superType": "Elemental Type",
+        "desc": "You toss huge chunks of rock at your foes. All of the following spells deal bludgeoning damage instead of their elemental damage. Replace any existing elemental traits with the Earth trait.\n\nBurning Hands\nElemental Blast\nElemental Toss\nFireball\nProduce Flame",
+        "hint": "This spell deals bludgeoning damage instead of its elemental damage, and any existing elemental trait is replaced with the Earth trait.",
+        "showon": "Produce Flame, Burning Hands, Fireball, Elemental Toss, Elemental Blast"
+    },
+    {
+        "name": "Elemental Type: Fire",
+        "subType": "Fire",
+        "superType": "Elemental Type",
+        "desc": "You incinerate your foes with flame. All of the following spells deal fire damage instead of their elemental damage. Replace any existing elemental traits with the Fire trait.\n\nBurning Hands\nElemental Blast\nElemental Toss\nFireball\nProduce Flame",
+        "hint": "This spell deals fire damage instead of its elemental damage, and any existing elemental trait is replaced with the Fire trait.",
+        "showon": "Produce Flame, Burning Hands, Fireball, Elemental Toss, Elemental Blast"
+    },
+    {
+        "name": "Elemental Type: Water",
+        "subType": "Water",
+        "superType": "Elemental Type",
+        "desc": "You inundate your foes with torrents of water. All of the following spells deal bludgeoning damage instead of their elemental damage. Replace any existing elemental traits with the Water trait.\n\nBurning Hands\nElemental Blast\nElemental Toss\nFireball\nProduce Flame",
+        "hint": "This spell deals bludgeoning damage instead of its elemental damage, and any existing elemental trait is replaced with the Earth trait.",
+        "showon": "Produce Flame, Burning Hands, Fireball, Elemental Toss, Elemental Blast"
+    },
+    {
+        "name": "Fey Bloodline",
+        "desc": ""
+    },
+    {
+        "name": "Hag Bloodline",
+        "desc": ""
+    },
+    {
+        "name": "Imperial Bloodline",
+        "desc": ""
+    },
+    {
+        "name": "Undead Bloodline",
+        "desc": ""
     },
     {
         "name": "Abjuration",
@@ -8331,12 +9119,12 @@
         ]
     },
     {
-        "name":"Muse",
-        "desc":"As a bard, you select one muse at 1st level. This muse leads you to great things, and might be a physical creature, a deity, a philosophy, or a captivating mystery."
+        "name": "Muse",
+        "desc": "As a bard, you select one muse at 1st level. This muse leads you to great things, and might be a physical creature, a deity, a philosophy, or a captivating mystery."
     },
     {
-        "name":"Composition Spells",
-        "desc":"You can infuse your performances with magic to create unique effects called compositions. Compositions are a special type of spell that often require you to use the Performance skill when casting them. Composition spells are a type of focus spell. It costs 1 Focus Point to cast a focus spell, and you start with a focus pool of 1 Focus Point. You refill your focus pool during your daily preparations, and you can regain 1 Focus Point by spending 10 minutes using the Refocus activity to perform, write a new composition, or otherwise engage your muse.\n\nFocus spells are automatically heightened to half your level rounded up, much like cantrips. Focus spells don’t require spell slots, and you can’t cast them using spell slots. Taking feats can give you more focus spells and increase the size of your focus pool, though your focus pool can never hold more than 3 Focus Points. The full rules for focus spells appear on page 300.\n\nYou learn the counter performance composition spell (page 386), protecting against auditory and visual effects.",
+        "name": "Composition Spells",
+        "desc": "You can infuse your performances with magic to create unique effects called compositions. Compositions are a special type of spell that often require you to use the Performance skill when casting them. Composition spells are a type of focus spell. It costs 1 Focus Point to cast a focus spell, and you start with a focus pool of 1 Focus Point. You refill your focus pool during your daily preparations, and you can regain 1 Focus Point by spending 10 minutes using the Refocus activity to perform, write a new composition, or otherwise engage your muse.\n\nFocus spells are automatically heightened to half your level rounded up, much like cantrips. Focus spells don’t require spell slots, and you can’t cast them using spell slots. Taking feats can give you more focus spells and increase the size of your focus pool, though your focus pool can never hold more than 3 Focus Points. The full rules for focus spells appear on page 300.\n\nYou learn the counter performance composition spell (page 386), protecting against auditory and visual effects.",
         "effects": [
             {
                 "affected": "Focus Pool",
