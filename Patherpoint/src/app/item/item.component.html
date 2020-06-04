@@ -112,6 +112,14 @@
         <strong>Activate</strong>
         <app-actionIcons [actionString]="item.actions">
         </app-actionIcons>{{item.activationType}}
+        <span *ngIf="item.trigger">
+            <strong>Trigger</strong>
+            {{item.trigger}}
+        </span>
+        <span *ngIf="item.requirements">
+            <strong>Requirements</strong>
+            {{item.requirements}}
+        </span>
     </p>
     <p *ngIf="item.subType">
         <strong>{{item.subType}}</strong>

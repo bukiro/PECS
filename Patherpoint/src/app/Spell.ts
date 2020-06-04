@@ -108,7 +108,7 @@ export class Spell {
                 case 1:
                     if (this.gainConditions.filter(gain => gain.heightenedFilter == 1).length) { return this.gainConditions.filter(gain => gain.heightenedFilter == 1); }
                 default:
-                    return this.gainConditions;
+                    return [];
                 }
         }
     }
@@ -138,7 +138,7 @@ export class Spell {
                 case 1:
                     if (this.gainItems.filter(gain => gain.heightenedFilter == 1).length) { return this.gainItems.filter(gain => gain.heightenedFilter == 1); }
                 default:
-                    return this.gainItems;
+                    return [];
                 }
         }
     }

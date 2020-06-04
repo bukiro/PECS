@@ -39,6 +39,8 @@ export class SpellchoiceComponent implements OnInit {
     level: number;
     @Input()
     itemSpell: boolean = false;
+    @Input()
+    prepared: boolean = false;
 
     constructor(
         private changeDetector: ChangeDetectorRef,
@@ -114,8 +116,13 @@ export class SpellchoiceComponent implements OnInit {
 
     get_DynamicLevel(choice: SpellChoice) {
         let highestSpellLevel = 1;
+        let Character = this.get_Character();
+        function Skill_Level(name: string) {
+            return this.characterService.get_Skills(Character, name)[0]?.level(Character) || 0;
+        }
         if (this.spellCasting) {
-            highestSpellLevel = Math.max(...this.spellCasting.spellChoices.map(choice => choice.level))
+            //Get the available spell level of this casting. This is the higest spell level of the spell choices that are available at your character level.
+            highestSpellLevel = Math.max(...this.spellCasting.spellChoices.filter(spellChoice => spellChoice.charLevelAvailable <= Character.level).map(spellChoice => spellChoice.level));
         }
         try {
             return parseInt(eval(choice.dynamicLevel));
@@ -154,7 +161,7 @@ export class SpellchoiceComponent implements OnInit {
             allSpells = this.spellsService.get_Spells();
         }
         if (choice.filter.length) {
-            allSpells = allSpells.filter(spell => choice.filter.includes(spell.name))
+            allSpells = allSpells.filter(spell => choice.filter.map(filter => filter.toLowerCase()).includes(spell.name.toLowerCase()))
         }
         let spells: Spell[] = [];
         if (this.spellCasting) {
@@ -196,7 +203,7 @@ export class SpellchoiceComponent implements OnInit {
             if (!this.allowHeightened && (spellLevel > 0)) {
                 spells = spells.filter(spell => spell.levelreq == spellLevel || this.spellTakenByThis(spell, choice));
             }
-            if (choice.spells.length < choice.available) {
+            if (choice.spells.length < this.get_Available(choice)) {
                 let availableSpells: Spell[] = spells.filter(spell => 
                     this.cannotTake(spell, choice).length == 0 || this.spellTakenByThis(spell, choice)
                 )
@@ -250,8 +257,9 @@ export class SpellchoiceComponent implements OnInit {
     }
 
     on_SpellTaken(spellName: string, taken: boolean, choice: SpellChoice, locked: boolean) {
-        if (taken && (choice.spells.length == choice.available - 1)) { this.showChoice=""; }
-        this.get_Character().take_Spell(this.characterService, spellName, taken, choice, locked);
+        if (taken && (choice.spells.length == this.get_Available(choice) - 1)) { this.showChoice = ""; }
+        let prepared: boolean = this.prepared && this.get_Character().get_FeatsTaken(1, this.get_Character().level, "Spell Substitution")?.length > 0;
+        this.get_Character().take_Spell(this.characterService, spellName, taken, choice, locked, prepared);
         this.characterService.set_Changed("Character");
     }
 

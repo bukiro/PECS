@@ -25,7 +25,6 @@ import { AlchemicalElixir } from './AlchemicalElixir';
 import { Armor } from './Armor';
 import { ArmorRune } from './ArmorRune';
 import { Background } from './Background';
-import { Bloodline } from './Bloodline';
 import { ConditionGain } from './ConditionGain';
 import { Consumable } from './Consumable';
 import { Feat } from './Feat';
@@ -84,7 +83,6 @@ export class SavegameService {
     private Armor = Armor;
     private ArmorRune = ArmorRune;
     private Background = Background;
-    private Bloodline = Bloodline;
     private Bulk = Bulk;
     private Character = Character;
     private Class = Class;

@@ -41,12 +41,9 @@ import { Deity } from './Deity';
 import { AnimalCompanionsService } from './animalcompanions.service';
 import { AnimalCompanion } from './AnimalCompanion';
 import { Familiar } from './Familiar';
-import { BloodlinesService } from './bloodlines.service';
-import { Bloodline } from './Bloodline';
 import { SavegameService } from './savegame.service';
 import { FamiliarsService } from './familiars.service';
 import { FeatChoice } from './FeatChoice';
-import { SpellCasting } from './SpellCasting';
 import { InventoryGain } from './InventoryGain';
 import { Oil } from './Oil';
 import { WornItem } from './WornItem';
@@ -90,7 +87,6 @@ export class CharacterService {
         public timeService: TimeService,
         public defenseService: DefenseService,
         public deitiesService: DeitiesService,
-        public bloodlinesService: BloodlinesService,
         public animalCompanionsService: AnimalCompanionsService,
         public familiarsService: FamiliarsService
     ) { }
@@ -1225,7 +1221,6 @@ export class CharacterService {
         this.itemsService.initialize();
         this.effectsService.initialize(this);
         this.deitiesService.initialize();
-        this.bloodlinesService.initialize();
         this.animalCompanionsService.initialize();
         this.familiarsService.initialize();
         this.savegameService.initialize(this);

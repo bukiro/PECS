@@ -30,6 +30,7 @@ import { SpellChoice } from './SpellChoice';
 import { Equipment } from './Equipment';
 import { Scroll } from './Scroll';
 import { Oil } from './Oil';
+import { Talisman } from './Talisman';
 
 @Injectable({
     providedIn: 'root'
@@ -72,7 +73,8 @@ export class ItemsService {
     private loading_Scrolls: Boolean = false;
     private loader_Oils = [];
     private loading_Oils: Boolean = false;
-    /*
+    private loader_Talismans = [];
+    private loading_Talismans: Boolean = false;/*
     private loader_REPLACE1 = [];
     private loading_REPLACE1: Boolean = false;
     */
@@ -128,13 +130,13 @@ export class ItemsService {
 
     get_Specializations(group: string = "") {
         if (!this.still_loading()) {
-            return this.specializations.filter(spec => spec.name == group || group == "");
+            return this.specializations.filter(spec => spec.name.toLowerCase() == group.toLowerCase() || group == "");
         } else { return [new Specialization] }
     }
 
     get_ItemsOfType(type: string, name: string = "") {
         if (!this.still_loading()) {
-            return this.items[type].filter(item => item.name == name || name == "");
+            return this.items[type].filter(item => item.name.toLowerCase() == name.toLowerCase() || name == "");
         } else { return [] }
     }
 
@@ -169,6 +171,8 @@ export class ItemsService {
                     return Object.assign(new Scroll(), item);
                 case "oils":
                     return Object.assign(new Oil(), item);
+                case "talismans":
+                    return Object.assign(new Talisman(), item);
             }
         } else if (item._className) {
             return this.cast_ItemByClassName(item)
@@ -208,6 +212,8 @@ export class ItemsService {
                     return Object.assign(new Scroll(), item);
                 case "Oil":
                     return Object.assign(new Oil(), item);
+                case "Talisman":
+                    return Object.assign(new Talisman(), item);
             }
         } else if (item.type) {
             return this.cast_ItemByType(item)
@@ -463,6 +469,12 @@ export class ItemsService {
                     this.loader_Oils = results;
                     this.finish_Oils()
                 });
+            this.loading_Talismans = true;
+            this.load_Talismans()
+                .subscribe((results: String[]) => {
+                    this.loader_Talismans = results;
+                    this.finish_Talismans()
+                });
             /*
             this.loading_REPLACE1 = true;
             this.load_REPLACE1()
@@ -684,6 +696,19 @@ export class ItemsService {
             }
             if (this.loading_Oils) { this.loading_Oils = false; }
         }
+    }
+
+    load_Talismans(): Observable<string[]> {
+        return this.http.get<string[]>('/assets/items/talismans.json');
+    }
+    
+    finish_Talismans() {
+        if (this.loader_Talismans) {
+            this.items.talismans = this.loader_Talismans.map(element => this.initialize_Item(Object.assign(new Talisman(), element), true, false));
+            this.cleanItems.talismans = this.loader_Talismans.map(element => this.initialize_Item(Object.assign(new Talisman(), element), true, false));
+            this.loader_Talismans = [];
+        }
+        if (this.loading_Talismans) { this.loading_Talismans = false; }
     }
 
     /*

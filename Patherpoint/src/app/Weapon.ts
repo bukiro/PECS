@@ -152,7 +152,7 @@ export class Weapon extends Equipment {
         let bonuses: {value:number, setValue:string, source:string, penalty:boolean}[] = [];
         let absolutes: {value:number, setValue:string, source:string, penalty:boolean}[] = [];
         //The Clumsy condition affects all Dexterity attacks
-        let dexEffects = effectsService.get_RelativesOnThis(creature, "Dexterity Attacks");
+        let dexEffects = effectsService.get_RelativesOnThis(creature, "Dexterity-based Checks and DCs");
         let dexPenalty: {value:number, setValue:string, source:string, penalty:boolean}[] = [];
         let dexPenaltySum: number = 0;
         dexEffects.forEach(effect => {
@@ -160,7 +160,7 @@ export class Weapon extends Equipment {
             dexPenaltySum += parseInt(effect.value);
         });
         //The Enfeebled condition affects all Strength attacks
-        let strEffects = effectsService.get_RelativesOnThis(creature, "Strength Attacks");
+        let strEffects = effectsService.get_RelativesOnThis(creature, "Strength-based Checks and DCs");
         let strPenalty: {value:number, setValue:string, source:string, penalty:boolean}[] = [];
         let strPenaltySum: number = 0;
         strEffects.forEach(effect => {
@@ -325,14 +325,13 @@ export class Weapon extends Equipment {
         //Get the basic "xdy" string from the weapon's dice values
         var baseDice = dicenum + "d" + dicesize;
         //The Enfeebled condition affects all Strength damage
-        let strEffects = effectsService.get_RelativesOnThis(creature, "Strength Attacks");
+        let strEffects = effectsService.get_RelativesOnThis(creature, "Strength-based Checks and DCs");
         let strPenalty: {value:number, source:string, penalty:boolean}[] = [];
         let strPenaltySum: number = 0;
         strEffects.forEach(effect => {
             strPenalty.push({value:parseInt(effect.value), source:effect.source, penalty:true});
             strPenaltySum += parseInt(effect.value);
         });
-
         //Check if the Weapon has any traits that affect its damage Bonus, such as Thrown or Propulsive, and run those calculations.
         let abilityMod: number = 0;
         if (range == "ranged") {
@@ -427,13 +426,17 @@ export class Weapon extends Equipment {
         }
         let effectBonus = 0;
         if (range == "melee") {
+            effectsService.get_RelativesOnThis(creature, "Melee Damage").forEach(effect => {
+                effectBonus += parseInt(effect.value);
+                explain += "\n" + effect.source + ": " + parseInt(effect.value);
+            })
             if (this.traits.includes("Agile")) {
                 effectsService.get_RelativesOnThis(creature, "Agile Melee Damage").forEach(effect => {
                     effectBonus += parseInt(effect.value);
                     explain += "\n" + effect.source + ": " + parseInt(effect.value);
                 })
             } else {
-                effectsService.get_RelativesOnThis(creature, "Melee Damage").forEach(effect => {
+                effectsService.get_RelativesOnThis(creature, "Non-Agile Melee Damage").forEach(effect => {
                     effectBonus += parseInt(effect.value);
                     explain += "\n" + effect.source + ": " + parseInt(effect.value);
                 })

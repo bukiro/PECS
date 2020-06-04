@@ -79,8 +79,8 @@ export class ActivityComponent implements OnInit {
         }
     }
 
-    get_Duration(duration: number) {
-        return this.timeService.get_Duration(duration);
+    get_Duration(duration: number, includeTurnState: boolean = true, inASentence: boolean = false) {
+        return this.timeService.get_Duration(duration, includeTurnState, inASentence);
     }
 
     on_Activate(gain: ActivityGain | ItemActivity, activity: Activity | ItemActivity, activated: boolean, target: string) {

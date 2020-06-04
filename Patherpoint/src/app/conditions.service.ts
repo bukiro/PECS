@@ -28,8 +28,8 @@ export class ConditionsService {
     get_Conditions(name: string = "", type: string = "") {
         if (!this.still_loading()) {
             return this.conditions.filter(condition =>
-                (condition.name == name || name == "") &&
-                (condition.type == type || type == "")
+                (condition.name.toLowerCase() == name.toLowerCase() || name == "") &&
+                (condition.type.toLowerCase() == type.toLowerCase() || type == "")
             );
         } else {
             return [new Condition()];

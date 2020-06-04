@@ -47,7 +47,7 @@
     </div>
     <div class="row" *ngIf="gain && gain.activeCooldown && !gain.active">
         <button class="row center-aligned" disabled>
-            Cannot activate for {{get_Duration(gain.activeCooldown)}}
+            Cannot activate for {{get_Duration(gain.activeCooldown, true, true)}}
         </button>
     </div>
     <div class="row left-aligned">

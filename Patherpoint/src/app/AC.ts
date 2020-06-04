@@ -37,16 +37,24 @@ export class AC {
         this.$value[index] = this.value(creature, characterService, defenseService, effectsService);
     }
     absolutes(creature: Character|AnimalCompanion|Familiar, effectsService: EffectsService) {
-        return effectsService.get_AbsolutesOnThis(creature, this.name).concat(effectsService.get_AbsolutesOnThis(creature, "All Checks"));
+        return effectsService.get_AbsolutesOnThis(creature, this.name)
+        .concat(effectsService.get_AbsolutesOnThis(creature, "Dexterity-based Checks and DCs"))
+        .concat(effectsService.get_AbsolutesOnThis(creature, "All Checks"));
     }
     relatives(creature: Character|AnimalCompanion|Familiar, effectsService: EffectsService) {
-        return effectsService.get_RelativesOnThis(creature, this.name).concat(effectsService.get_RelativesOnThis(creature, "All Checks"));
+        return effectsService.get_RelativesOnThis(creature, this.name)
+        .concat(effectsService.get_RelativesOnThis(creature, "Dexterity-based Checks and DCs"))
+        .concat(effectsService.get_RelativesOnThis(creature, "All Checks"));
     }
     bonus(creature: Character|AnimalCompanion|Familiar, effectsService: EffectsService) {
-        return effectsService.show_BonusesOnThis(creature, this.name) || effectsService.show_BonusesOnThis(creature, "All Checks");;
+        return effectsService.show_BonusesOnThis(creature, this.name) ||
+        effectsService.show_BonusesOnThis(creature, "Dexterity-based Checks and DCs") ||
+        effectsService.show_BonusesOnThis(creature, "All Checks");;
     }
     penalty(creature: Character|AnimalCompanion|Familiar, effectsService: EffectsService) {
-        return effectsService.show_PenaltiesOnThis(creature, this.name) || effectsService.show_PenaltiesOnThis(creature, "All Checks");;
+        return effectsService.show_PenaltiesOnThis(creature, this.name) ||
+        effectsService.show_PenaltiesOnThis(creature, "Dexterity-based Checks and DCs") ||
+        effectsService.show_PenaltiesOnThis(creature, "All Checks");;
     }
     value(creature: Character|AnimalCompanion|Familiar, characterService: CharacterService, defenseService: DefenseService, effectsService: EffectsService) {
         if (characterService.still_loading()) { return {result:0, explain:""}; }

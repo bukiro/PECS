@@ -3,6 +3,8 @@
     <h3 class="box-header">Spells</h3>
     <div class="loading" *ngIf="still_loading()">Loading</div>
     <ng-container *ngIf="!still_loading()">
+        <app-tags [creature]="'Character'" [objectName]="'Spellbook'" [showTraits]=true [showFeats]=true [showItems]=true
+            [showActivities]=true [showConditions]=true [showEffects]=true></app-tags>
         <button class="fullsize-only center-aligned list-item" (click)="toggleSpellsMenu()">Get
             Spells</button>
         <ng-container *ngFor="let casting of get_SpellCastings()">

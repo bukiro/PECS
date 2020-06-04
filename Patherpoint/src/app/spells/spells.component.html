@@ -21,7 +21,13 @@
             <div class="list-item" *ngIf="need_Spellbook(casting)">
                 <span>
                     <input id="allowBorrow" type="checkbox" [(ngModel)]="allowBorrow">
-                    <label for="allowBorrow">Allow borrowing spells not in your spellbook</label>
+                    <label for="allowBorrow">Borrow spells: allow selecting spells not in your spellbook</label>
+                </span>
+            </div>
+            <div class="list-item" *ngIf="apply_SpellSubstitution(casting)">
+                <span>
+                    <input id="allowBorrow" type="checkbox" [(ngModel)]="prepared">
+                    <label for="allowBorrow">Spell Substitution: selected spells are immediately prepared</label>
                 </span>
             </div>
             <ng-container *ngFor="let level of [-1, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10]">
@@ -54,7 +60,7 @@
                         <app-spellchoice (showChoiceMessage)="receive_ChoiceMessage($event)"
                             (showSpellMessage)="receive_SpellMessage($event)" [spellCasting]="casting" [choice]="choice"
                             [allowHeightened]="allowHeightened" [allowBorrow]="allowBorrow" [showChoice]="showChoice" [showSpell]="showSpell"
-                            [level]="level"></app-spellchoice>
+                            [level]="level" [prepared]="this.prepared"></app-spellchoice>
                     </ng-container>
                 </ng-container>
             </ng-container>

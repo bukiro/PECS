@@ -20,6 +20,7 @@ export class SpellsComponent implements OnInit {
     public showChoice: string = "";
     public allowHeightened: boolean = false;
     public allowBorrow: boolean = false;
+    public prepared: boolean = false;
 
     constructor(
         private changeDetector:ChangeDetectorRef,
@@ -80,6 +81,12 @@ export class SpellsComponent implements OnInit {
         return casting.castingType == "Prepared" && casting.className == "Wizard";
     }
 
+    apply_SpellSubstitution(casting: SpellCasting) {
+        return casting.castingType == "Prepared" &&
+            casting.className == "Wizard" &&
+            this.get_Character().get_FeatsTaken(1, this.get_Character().level, "Spell Substitution").length > 0;
+    }
+
     get_Spells(name: string = "", type: string = "", tradition: string = "") {
         return this.spellsService.get_Spells(name, type, tradition);
     }
@@ -95,13 +102,13 @@ export class SpellsComponent implements OnInit {
 
     get_DynamicLevel(casting: SpellCasting, choice: SpellChoice) {
         //highestSpellLevel is used in the eval() process.
-        let Character = this.get_Character();
         let highestSpellLevel = 1;
+        let Character = this.get_Character();
         function Skill_Level(name: string) {
-            return this.characterService.get_Skills(Character, name)[0].level(Character);
+            return this.characterService.get_Skills(Character, name)[0]?.level(Character) || 0;
         }
-        //Get the highest level of all available spell choices of this spellcasting.
-        highestSpellLevel = Math.max(...casting.spellChoices.map(spellChoice => spellChoice.level));
+        //Get the available spell level of this casting. This is the higest spell level of the spell choices that are available at your character level.
+        highestSpellLevel = Math.max(...casting.spellChoices.filter(spellChoice => spellChoice.charLevelAvailable <= Character.level).map(spellChoice => spellChoice.level));
         try {
             return parseInt(eval(choice.dynamicLevel));
         } catch (e) {

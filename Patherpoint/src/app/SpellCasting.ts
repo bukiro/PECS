@@ -1,7 +1,4 @@
-import { SkillChoice } from './SkillChoice';
 import { SpellChoice } from './SpellChoice';
-import { Bloodline } from './Bloodline';
-import { CharacterService } from './character.service';
 
 export class SpellCasting {
     public readonly _className: string = this.constructor.name;

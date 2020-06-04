@@ -1,0 +1,46 @@
+[
+    {
+        "desc": "This talisman comes in many forms, most often a severed piece of a humanoid creature displayed in some gruesome manner. When you activate the trophy, select two targets and compare your Intimidation check result to both of their DCs.",
+        "id": "9f7d8f2b-2fd6-41e2-a35a-387d3eb745a7",
+        "level": 7,
+        "name": "Grim Trophy",
+        "usage": "affixed to armor",
+        "targets": [
+            "armors"
+        ],
+        "price": 5500,
+        "traits": [
+            "Consumable",
+            "Enchantment",
+            "Magical",
+            "Talisman"
+        ],
+        "_className": "Talisman",
+        "actions": "Free",
+        "activationType": "Envision",
+        "trigger": "You attempt an Intimidation check to Coerce or Demoralize, but you haven't rolled yet",
+        "requirements": "You are an expert in Intimidation"
+    },
+    {
+        "desc": "This black strand of leather is tied to look like a peace knot when the weapon is stowed, but it doesn’t hamper drawing the weapon. When you activate the knot, the creature you damaged takes 1d6 persistent bleed damage.\n\nIf you have the Twist the Knife feat, the talisman instead deals persistent bleed damage equal to your sneak attack damage.",
+        "id": "f1bcd9af-7088-4ff3-8683-61bfc6cdc971",
+        "level": 7,
+        "name": "Murderer's Knot",
+        "usage": "affixed to armor",
+        "targets": [
+            "armors"
+        ],
+        "price": 6600,
+        "traits": [
+            "Consumable",
+            "Evocation",
+            "Magical",
+            "Talisman"
+        ],
+        "_className": "Talisman",
+        "actions": "Free",
+        "activationType": "Command",
+        "trigger": "You damage a flat-footed creature with a Strike using the Affixed weapon",
+        "requirements": "You are an expert with the affixed weapon"
+    }
+]

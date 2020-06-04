@@ -53,9 +53,6 @@ export class Health {
             effectsSum += parseInt(effect.value);
             explain += "\n" + effect.source + ": " + effect.value;
         });
-        if (this.temporaryHP) {
-            explain += "\nTemporary HP: " + this.temporaryHP;
-        }
         let result = ancestryHP + classHP + effectsSum + this.temporaryHP;
         return { result: result, explain: explain.trim() }
     }
@@ -63,6 +60,9 @@ export class Health {
         let maxHP = this.maxHP(creature, characterService, effectsService)
         let sum = maxHP.result - this.damage;
         let explain = "Max HP: "+maxHP.result;
+        if (this.temporaryHP) {
+            explain += "\nTemporary HP: " + this.temporaryHP;
+        }
         explain += "\nDamage taken: " + (this.damage);
         if (sum < 0) {
             this.damage += sum;
@@ -124,9 +124,8 @@ export class Health {
                 characterService.remove_Condition(creature, gain, false);
             });
         }
-        characterService.set_Changed();
     }
-    heal(creature: Character | AnimalCompanion | Familiar, characterService: CharacterService, effectsService: EffectsService, amount: number, wake: boolean = true, increaseWounded = true) {
+    heal(creature: Character | AnimalCompanion | Familiar, characterService: CharacterService, effectsService: EffectsService, amount: number, wake: boolean = true, increaseWounded: boolean = true) {
         this.damage = Math.max(0, this.damage - amount);
         //Recover from Dying and get Wounded++
         if (this.currentHP(creature, characterService, effectsService).result > 0 && this.$dying > 0) {
@@ -140,6 +139,5 @@ export class Health {
                 characterService.remove_Condition(creature, gain);
             });
         }
-        characterService.set_Changed();
     }
 }

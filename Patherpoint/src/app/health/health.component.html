@@ -74,15 +74,15 @@
                     <strong>Take Damage</strong>
                 </span>
                 <span>
-                    <input id="nonlethal" type="checkbox" [(ngModel)]="this.nonlethal"><label
+                    <input id="nonlethal" type="checkbox" [(ngModel)]="nonlethal"><label
                         for="nonlethal">nonlethal</label>
                 </span>
                 <span>
-                    <input class="number4" type="number" [(ngModel)]="this.damage" maxLength="3">
+                    <input class="number4" type="number" [(ngModel)]="damage" maxLength="3">
                 </span>
                 <span>
-                    <button [disabled]="this.damage <= 0"
-                        (click)="health.takeDamage(get_Creature(), characterService, effectsService, damage, nonlethal)">Ouch!</button>
+                    <button [disabled]="damage <= 0"
+                        (click)="on_TakeDamage(health)">Ouch!</button>
                 </span>
             </div>
             <div class="list-item row">
@@ -91,11 +91,11 @@
                 </span>
                 <span>&nbsp;</span>
                 <span>
-                    <input class="number4" type="number" [(ngModel)]="this.healing" maxLength="3">
+                    <input class="number4" type="number" [(ngModel)]="healing" maxLength="3">
                 </span>
                 <span>
-                    <button [disabled]="this.healing <= 0"
-                        (click)="health.heal(get_Creature(), characterService, effectsService, healing)">Heal</button>
+                    <button [disabled]="healing <= 0"
+                        (click)="on_Heal(health)">Heal</button>
                 </span>
             </div>
             <div class="list-item row" *ngIf="get_NumbToDeath()" [ngClass]="{'fullsize-only':(health.$dying <= 0)}">
@@ -104,7 +104,7 @@
                 </span>
                 <span>
                     <button [disabled]="health.$dying <= 0"
-                        (click)="health.heal(get_Creature(), characterService, effectsService, characterService.get_Character().level, true, false)">Heal
+                        (click)="on_NumbToDeath(health)">Heal
                         and recover</button>
                 </span>
             </div>
@@ -114,10 +114,10 @@
                 </span>
                 <span>&nbsp;</span>
                 <span>
-                    <input class="number4" type="number" [(ngModel)]="this.addTempHP" maxLength="3">
+                    <input class="number4" type="number" [(ngModel)]="addTempHP" maxLength="3">
                 </span>
                 <span>
-                    <button [disabled]="this.addTempHP == 0" (click)="add_TempHP(this.addTempHP)">Add</button>
+                    <button [disabled]="addTempHP == 0" (click)="add_TempHP(addTempHP)">Add</button>
                 </span>
             </div>
             <ng-container *ngFor="let resistances of [get_Resistances()]">

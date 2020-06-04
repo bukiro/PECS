@@ -61,7 +61,6 @@ The very latest in Assistive Technologies for Dungeon Master (ATDM)
 
 active to do:
 add custom conditions with effects
-implement BBs spells and convert spells from xlsx
 
 Implement spells:
 
@@ -74,7 +73,3 @@ Create activities:
 
 Test:
 Fighter - Reusing Fighter Weapon Mastery as both supertype and subtypes
-Personal Rain Cloud - heightened condition values
-Stabilize - zero duration condition with endConditions effect
-Harm/Heal - actionItems in the description
-Shifting Form - various functions

@@ -7,10 +7,8 @@ import { SpellGain } from '../SpellGain';
 import { ItemsService } from '../items.service';
 import { TimeService } from '../time.service';
 import { SpellCasting } from '../SpellCasting';
-import { SpellCast } from '../SpellCast';
 import { EffectsService } from '../effects.service';
 import { SpellChoice } from '../SpellChoice';
-import { Bloodline } from '../Bloodline';
 import { ConditionGain } from '../ConditionGain';
 
 @Component({
@@ -189,13 +187,13 @@ export class SpellbookComponent implements OnInit {
         this.timeService.tick(this.characterService, this.timeService, this.itemsService, this.spellsService, 1000);
     }
 
-    get_Duration(turns: number) {
-        return this.timeService.get_Duration(turns);
+    get_Duration(turns: number, includeTurnState: boolean = true, inASentence: boolean = false) {
+        return this.timeService.get_Duration(turns, includeTurnState, inASentence);
     }
 
     cannot_Cast(spell: Spell, levelNumber: number, casting: SpellCasting, choice: SpellChoice, gain: SpellGain, maxSpellSlots: number) {
         if (gain.activeCooldown) {
-            return "Cannot cast for " + this.get_Duration(gain.activeCooldown);
+            return "Cannot cast " + this.get_Duration(gain.activeCooldown, true, true);
         }
         switch (casting.castingType) {
             case "Focus":
@@ -274,7 +272,6 @@ export class SpellbookComponent implements OnInit {
             }
         }
         this.spellsService.process_Spell(creature, this.characterService, this.itemsService, this.timeService, gain, spell, level, activated, true);
-        this.characterService.set_Changed();
     }
 
     on_Restore(gain: SpellGain, casting: SpellCasting, level: number) {

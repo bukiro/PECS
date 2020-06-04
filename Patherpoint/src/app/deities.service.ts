@@ -19,7 +19,7 @@ export class DeitiesService {
 
     get_Deities(name: string = "") {
         if (!this.still_loading()) {
-            return this.deities.filter(deity => deity.name == name || name == "")
+            return this.deities.filter(deity => deity.name.toLowerCase() == name.toLowerCase() || name == "")
         } else { return [new Deity()] }
     }
 

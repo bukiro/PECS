@@ -2595,7 +2595,7 @@
     },
     {
         "name": "Impeccable Crafter",
-        "shortdesc": "Specialty Crafting Craft items more efficiently.",
+        "shortdesc": "Craft items more efficiently.",
         "desc": "You craft flawless creations with great efficiency. Whenever you roll a success at a Crafting check to make an item of the type you chose with Specialty Crafting, you get a critical success instead.",
         "hint": "Whenever you roll a success at a Crafting check to make an item of the type you chose with Specialty Crafting, you get a critical success instead.",
         "showon": "Crafting",
@@ -8265,7 +8265,9 @@
     },
     {
         "name": "Spell Substitution",
-        "desc": ""
+        "desc": "You don’t accept the fact that once spells are prepared, they can’t be changed until your next daily preparation, and you have uncovered a shortcut allowing you to substitute new spells for those you originally prepared. You can spend 10 minutes to empty one of your prepared spell slots and prepare a different spell from your spellbook in its place. If you are interrupted during such a swap, the original spell remains prepared and can still be cast. You can try again to swap out the spell later, but you must start the process over again.",
+        "hint": "You can spend 10 minutes to empty one of your prepared spell slots and prepare a different spell from your spellbook in its place. If you are interrupted during such a swap, the original spell remains prepared and can still be cast. You can try again to swap out the spell later, but you must start the process over again.",
+        "showon": "Spellbook"
     },
     {
         "name": "FEATURES",
@@ -9102,13 +9104,7 @@
     {
         "name": "Arcane Bond",
         "desc": "You place some of your magical power in a bonded item. Each day when you prepare your spells, you can designate a single item you own as your bonded item. This is typically an item associated with spellcasting, such as a wand, ring, or staff, but you are free to designate a weapon or other item. You gain the Drain Bonded Item free action.",
-        "internalNote": "### Using Arcane Bond is not implemented yet. ###",
-        "effects": [
-            {
-                "affected": "Arcane Bond",
-                "value": "+1"
-            }
-        ],
+        "internalNote": "Using Arcane Bond is hardcoded.",
         "gainActivities": [
             "Drain Bonded Item"
         ]
@@ -9353,7 +9349,27 @@
                 "spells": [
                     {
                         "locked": true,
-                        "name": "Shifting Form"
+                        "name": "Shifting Form (Speed bonus)"
+                    },
+                    {
+                        "locked": true,
+                        "name": "Shifting Form (climb Speed)"
+                    },
+                    {
+                        "locked": true,
+                        "name": "Shifting Form (swim Speed)"
+                    },
+                    {
+                        "locked": true,
+                        "name": "Shifting Form (darkvision)"
+                    },
+                    {
+                        "locked": true,
+                        "name": "Shifting Form (claws)"
+                    },
+                    {
+                        "locked": true,
+                        "name": "Shifting Form (scent)"
                     }
                 ]
             }
@@ -9371,6 +9387,42 @@
             }
         ],
         "traits": [
+            "Wizard"
+        ]
+    },
+    {
+        "name": "Linked Focus",
+        "shortdesc": "You have linked your bonded item to the well of energy that powers your school spells.",
+        "desc": "You have linked your bonded item to the well of energy that powers your school spells. When you Drain your Bonded Item to cast a spell of your arcane school, you also regain 1 Focus Point.",
+        "hint": "When you Drain your Bonded Item to cast a spell of your arcane school, you also regain 1 Focus Point.",
+        "showon": "Drain Bonded Item",
+        "levelreq": 4,
+        "featreq": [
+            "Abjuration School",
+            "Conjuration School",
+            "Divination School",
+            "Enchantment School",
+            "Evocation School",
+            "Illusion School",
+            "Necromancy School",
+            "Transmutation School"
+        ],
+        "traits": [
+            "Wizard"
+        ]
+    },
+    {
+        "name": "Steady Spellcasting",
+        "shortdesc": "You don’t lose spells easily.",
+        "desc": "Confident in your technique, you don’t easily lose your concentration when you Cast a Spell. If a reaction would disrupt your spellcasting action, attempt a DC 15 flat check. If you succeed, your action isn’t disrupted.",
+        "hint": "If a reaction would disrupt your spellcasting action, attempt a DC 15 flat check. If you succeed, your action isn’t disrupted.",
+        "showon": "Spellbook",
+        "levelreq": 6,
+        "traits": [
+            "Bard",
+            "Cleric",
+            "Druid",
+            "Sorcerer",
             "Wizard"
         ]
     }

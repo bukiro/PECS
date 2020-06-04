@@ -230,7 +230,7 @@ export class Character extends Creature {
         if (this.class) {
             let increases: SkillIncrease[] = [];
             let choices: SkillChoice[] = []
-            //Collect all skill choices from spellcasting, bloodline, level and some item runes as well as oils that emulate those runes.
+            //Collect all skill choices from spellcasting, level and some item runes as well as oils that emulate those runes.
             let levels = this.class.levels.filter(level => level.number >= minLevelNumber && level.number <= maxLevelNumber);
             levels.forEach(level => {
                 choices.push(...level.skillChoices);
@@ -460,13 +460,30 @@ export class Character extends Creature {
     get_SpellsTaken(characterService: CharacterService, minLevelNumber: number, maxLevelNumber: number, spellLevel: number = -1, spellName: string = "", spellCasting: SpellCasting = undefined, className: string = "", tradition: string = "", castingType: string = "", source: string = "", sourceId: string = "", locked: boolean = undefined, signatureAllowed: boolean = false) {
         if (this.class) {
             let spellsTaken: {choice:SpellChoice, gain:SpellGain}[] = [];
+            function get_DynamicLevel(choice: SpellChoice, casting: SpellCasting, character: Character, characterService: CharacterService) {
+                let highestSpellLevel = 1;
+                let Character = this;
+                function Skill_Level(name: string) {
+                    return characterService.get_Skills(character, name)[0]?.level(character, characterService, character.level) || 0;
+                }
+                if (casting) {
+                    //Get the available spell level of this casting. This is the higest spell level of the spell choices that are available at your character level.
+                    highestSpellLevel = Math.max(...casting.spellChoices.filter(spellChoice => spellChoice.charLevelAvailable <= character.level).map(spellChoice => spellChoice.level));
+                }
+                try {
+                    return parseInt(eval(choice.dynamicLevel));
+                } catch (e) {
+                    console.log("Error parsing spell level requirement ("+choice.dynamicLevel+"): "+e)
+                    return 1;
+                }
+            }
             this.class.spellCasting
                 .filter(casting => (spellCasting == undefined || casting === spellCasting) &&
                     casting.charLevelAvailable >= minLevelNumber && casting.charLevelAvailable <= maxLevelNumber &&
                     (casting.castingType == castingType || castingType == ""))
                     .forEach(casting => {
                         casting.spellChoices.filter(choice => choice.charLevelAvailable >= minLevelNumber && choice.charLevelAvailable <= maxLevelNumber).forEach(choice => {
-                            if (choice.level == spellLevel || (signatureAllowed && choice.signatureSpell && spellLevel != 0 && spellLevel != -1)) {
+                            if ((choice.level == spellLevel && !choice.dynamicLevel) || (choice.dynamicLevel && get_DynamicLevel(choice, casting, this, characterService) == spellLevel) || (signatureAllowed && choice.signatureSpell && spellLevel != 0 && spellLevel != -1)) {
                                 choice.spells.filter(gain => 
                                     (gain.name == spellName || spellName == "") &&
                                     (casting.className == className || className == "") &&
@@ -484,9 +501,9 @@ export class Character extends Creature {
             return spellsTaken;
         }
     }
-    take_Spell(characterService: CharacterService, spellName: string, taken: boolean, choice: SpellChoice, locked: boolean) {
+    take_Spell(characterService: CharacterService, spellName: string, taken: boolean, choice: SpellChoice, locked: boolean, prepared: boolean = false) {
         if (taken) {
-            choice.spells.push(Object.assign(new SpellGain(), {"name":spellName, "locked":locked, "sourceId":choice.id, "source":choice.source, "cooldown":choice.cooldown, "frequency":choice.frequency}));
+            choice.spells.push(Object.assign(new SpellGain(), {name:spellName, locked:locked, sourceId:choice.id, source:choice.source, cooldown:choice.cooldown, frequency:choice.frequency, prepared:prepared}));
         } else {
             let oldChoice = choice.spells.find(gain => gain.name == spellName);
             choice.spells.splice(choice.spells.indexOf(oldChoice), 1);

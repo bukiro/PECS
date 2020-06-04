@@ -15,7 +15,7 @@
         <div class="fullsize-only list-item">
             <button class="fancybutton" (click)="tick(duration)"
                 *ngFor="let duration of [10, 50, 100, 500, 1000, 6000, 48000, 144000]">
-                Tick {{get_Duration(duration)}}
+                Tick {{get_Duration(duration, false)}}
             </button>
         </div>
     </ng-container>

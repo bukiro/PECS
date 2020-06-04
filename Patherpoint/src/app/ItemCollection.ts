@@ -19,6 +19,7 @@ import { Ammunition } from './Ammunition';
 import { Scroll } from './Scroll';
 import { CharacterService } from './character.service';
 import { Oil } from './Oil';
+import { Talisman } from './Talisman';
 
 export class ItemCollection {
     public readonly _className: string = this.constructor.name;
@@ -43,6 +44,7 @@ export class ItemCollection {
     public wornitems: WornItem[] = [];
     public scrolls: Scroll[] = [];
     public oils: Oil[] = [];
+    public talismans: Talisman[] = [];
     public readonly names: {name: string, key: string}[] = [
         {name:"Weapons",key:"weapons"},
         {name:"Armors",key:"armors"},
@@ -56,6 +58,7 @@ export class ItemCollection {
         {name:"Alchemical Elixirs",key:"alchemicalelixirs"},
         {name:"Potions",key:"potions"},
         {name:"Oils",key:"oils"},
+        {name:"Talismans",key:"talismans"},
         {name:"Ammunition",key:"ammunition"},
         {name:"Other Consumables",key:"otherconsumables"}
     ]
@@ -87,6 +90,7 @@ export class ItemCollection {
         items.push(...this.ammunition);
         items.push(...this.scrolls);
         items.push(...this.oils);
+        items.push(...this.talismans);
         return items;
     }
     allRunes() {

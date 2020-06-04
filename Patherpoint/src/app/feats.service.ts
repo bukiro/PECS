@@ -40,20 +40,24 @@ export class FeatsService {
             //I wrote this function to use indexOf instead of == and don't remember why, but problems arose with feats that contained other feats' names.
             //I checked that all references to the function were specific, and changed it back. If any bugs should come from this, now it's documented.
             //It was probably for featreqs, which have now been changed to be arrays and allow to check for all possible options instead of a matching substring
-            return feats.filter(feat => ((feat.name == name || name == "") && (feat.traits.includes(type) || type == "")));
+            return feats.filter(feat => 
+                ((feat.name.toLowerCase() == name.toLowerCase() || name == "") &&
+                (feat.traits.map(trait => trait.toLowerCase()).includes(type.toLowerCase()) || type == "")));
         } else { return [new Feat()]; }
     }
 
     get_Features(name: string = "") {
         if (!this.still_loading()) {
-            return this.features.filter(feature => (feature.name == name || name == ""));
+            return this.features.filter(feature => (feature.name.toLowerCase() == name.toLowerCase() || name == ""));
         } else { return [new Feat()]; }
     }
 
     get_All(loreFeats: Feat[], name: string = "", type: string = "") {
         if (!this.still_loading()) {
             let feats: Feat[] = this.feats.concat(loreFeats).concat(this.features);
-            return feats.filter(feat => ((feat.name == name || name == "") && (feat.traits.includes(type) || type == "")));
+            return feats.filter(feat =>
+                ((feat.name.toLowerCase() == name.toLowerCase() || name == "") &&
+                (feat.traits.map(trait => trait.toLowerCase()).includes(type.toLowerCase()) || type == "")));
         } else { return [new Feat()]; }
     }
 

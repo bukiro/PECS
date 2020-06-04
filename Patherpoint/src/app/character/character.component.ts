@@ -31,8 +31,6 @@ import { AnimalCompanion } from '../AnimalCompanion';
 import { AnimalCompanionsService } from '../animalcompanions.service';
 import { AnimalCompanionClass } from '../AnimalCompanionClass';
 import { ConditionsService } from '../conditions.service';
-import { BloodlinesService } from '../bloodlines.service';
-import { Bloodline } from '../Bloodline';
 import { AnimalCompanionSpecialization } from '../AnimalCompanionSpecialization';
 import { Familiar } from '../Familiar';
 import { SavegameService } from '../savegame.service';
@@ -66,7 +64,6 @@ export class CharacterComponent implements OnInit {
         private spellsService: SpellsService,
         private animalCompanionsService: AnimalCompanionsService,
         private conditionsService: ConditionsService,
-        private bloodlinesService: BloodlinesService,
         private savegameService: SavegameService,
         private traitsService: TraitsService
     ) { }
@@ -596,6 +593,10 @@ export class CharacterComponent implements OnInit {
         return this.characterService.get_Classes(name);
     }
 
+    get_AvailableClasses() {
+        return this.get_Classes().filter($class => !this.get_Character().class?.name || $class.name == this.get_Character().class.name);
+    }
+
     onClassChange($class: Class, taken: boolean) {
         if (taken) {
             this.showList="";
@@ -607,6 +608,10 @@ export class CharacterComponent implements OnInit {
 
     get_Ancestries(name: string = "") {
         return this.historyService.get_Ancestries(name);
+    }
+
+    get_AvailableAncestries() {
+        return this.get_Ancestries().filter(ancestry => !this.get_Character().class.ancestry?.name || ancestry.name == this.get_Character().class.ancestry.name);
     }
 
     onAncestryChange(ancestry: Ancestry, taken: boolean) {
@@ -644,6 +649,11 @@ export class CharacterComponent implements OnInit {
         return this.historyService.get_Heritages(name, ancestryName);
     }
 
+    get_AvailableHeritages(name: string = "", ancestryName: string = "") {
+        return this.get_Heritages(name, ancestryName)
+            .filter(heritage => !this.get_Character().class.heritage?.name || heritage.name == this.get_Character().class.heritage.name);
+    }
+
     onHeritageChange(heritage: Heritage, taken: boolean) {
         if (taken) {
             this.showList="";
@@ -655,6 +665,13 @@ export class CharacterComponent implements OnInit {
 
     get_Backgrounds(name: string = "") {
         return this.historyService.get_Backgrounds(name).filter(background => !background.subType);
+    }
+
+    get_AvailableBackgrounds() {
+        return this.get_Backgrounds().filter(background =>
+            !this.get_Character().class.background?.name ||
+            background.name == this.get_Character().class.background.name ||
+            background.name == this.get_Character().class.background.superType);
     }
     
     get_SubBackgrounds(superType: string = "") {

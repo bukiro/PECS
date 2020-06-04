@@ -3,62 +3,114 @@
         "name": "Blinded",
         "type": "generic",
         "desc": "You can't see. All normal terrain is difficult terrain to you. You can't detect anything using vision. You automatically critically fail Perception checks that require you to be able to see, and if vision is your only precise sense, you take a -4 status penalty to Perception checks. You are immune to visual effects. Blinded overrides dazzled.",
+        "showon": "Perception, Movement",
         "overrideConditions": [
             "Dazzled"
-        ],
-        "showon": "Perception, Movement"
+        ]
     },
     {
-        "name": "Concealed",
+        "name": "Broken",
         "type": "generic",
-        "buff": true,
-        "desc": "While you are concealed from a creature, such as in a thick fog, you are difficult for that creature to see. You can still be observed, but you're tougher to target. A creature that you're concealed from must succeed at a DC 5 flat check when targeting you with an attack, spell, or other effect. Area effects aren't subject to this flat check. If the check fails, the attack, spell, or effect doesn't affect you.",
-        "showon": "AC"
+        "desc": "Broken is a condition that affects objects. An object is broken when damage has reduced its Hit Points to equal or less than its Broken Threshold. A broken object can’t be used for its normal function, nor does it grant bonuses-with the exception of armor. Broken armor still grants its item bonus to AC, but it also imparts a status penalty to AC depending on its category: -1 for broken light armor, -2 for broken medium armor, or -3 for broken heavy armor.\n\nA broken item still imposes penalties and limitations normally incurred by carrying, holding, or wearing it. For example, broken armor would still impose its Dexterity modifier cap, check penalty, and so forth.\n\nIf an effect makes an item broken automatically and the item has more HP than its Broken Threshold, that effect also reduces the item’s current HP to the Broken Threshold."
     },
     {
         "name": "Clumsy",
-        "hasValue": true,
         "type": "generic",
         "desc": "Your movements become clumsy and inexact. Clumsy always includes a value. You take a status penalty equal to the condition value to Dexterity-based checks and DCs, including AC, Reflex saves, ranged attack rolls, and skill checks using Acrobatics, Stealth, and Thievery.",
         "showon": "Dexterity",
+        "hasValue": true,
         "effects": [
             {
                 "affected": "AC",
-                "value": "-(object.value)",
-                "type": "status"
+                "type": "status",
+                "value": "-(object.value)"
             },
             {
                 "affected": "Reflex",
-                "value": "-(object.value)",
-                "type": "status"
+                "type": "status",
+                "value": "-(object.value)"
             },
             {
                 "affected": "Dexterity Attacks",
-                "value": "-(object.value)",
-                "type": "status"
+                "type": "status",
+                "value": "-(object.value)"
             },
             {
                 "affected": "Acrobatics",
-                "value": "-(object.value)",
-                "type": "status"
+                "type": "status",
+                "value": "-(object.value)"
             },
             {
                 "affected": "Stealth",
-                "value": "-(object.value)",
-                "type": "status"
+                "type": "status",
+                "value": "-(object.value)"
             },
             {
                 "affected": "Thievery",
-                "value": "-(object.value)",
-                "type": "status"
+                "type": "status",
+                "value": "-(object.value)"
             }
         ]
     },
     {
-        "name": "Doomed",
-        "hasValue": true,
+        "name": "Concealed",
         "type": "generic",
-        "desc": "A powerful force has gripped your soul, calling you closer to death. Doomed always includes a value. The dying value at which you die is reduced by your doomed value. If your maximum dying value is reduced to 0, you instantly die. When you die, you’re no longer doomed.\n\nYour doomed value decreases by 1 each time you get a full night’s rest.",
+        "desc": "While you are concealed from a creature, such as in a thick fog, you are difficult for that creature to see. You can still be observed, but you're tougher to target. A creature that you're concealed from must succeed at a DC 5 flat check when targeting you with an attack, spell, or other effect. Area effects aren't subject to this flat check. If the check fails, the attack, spell, or effect doesn't affect you.",
+        "showon": "AC",
+        "buff": true
+    },
+    {
+        "name": "Confused",
+        "type": "generic",
+        "desc": "You don’t have your wits about you, and you attack wildly. You are flat-footed, you don’t treat anyone as your ally (though they might still treat you as theirs), and you can’t Delay, Ready, or use reactions.\n\nYou use all your actions to Strike or cast offensive cantrips, though the GM can have you use other actions to facilitate attack, such as draw a weapon, move so that a target is in reach, and so forth. Your targets are determined randomly by the GM. If you have no other viable targets, you target yourself, automatically hitting but not scoring a critical hit. If it’s impossible for you to attack or cast spells, you babble incoherently, wasting your actions.\n\nEach time you take damage from an attack or spell, you can attempt a DC 11 flat check to recover from your confusion and end the condition.",
+        "hint": "You can’t Delay, Ready, or use reactions. You use all your actions to Strike or cast offensive cantrips, though the GM can have you use other actions to facilitate attack, such as draw a weapon, move so that a target is in reach, and so forth. Your targets are determined randomly by the GM. If you have no other viable targets, you target yourself, automatically hitting but not scoring a critical hit. If it’s impossible for you to attack or cast spells, you babble incoherently, wasting your actions.",
+        "showon": "Attacks, Activities, Skills",
+        "inputRequired": "Each time you take damage from an attack or spell, you can attempt a DC 11 flat check to recover from your confusion and end the condition.",
+        "gainConditions": [
+            {
+                "name": "Flat-Footed"
+            }
+        ]
+    },
+    {
+        "name": "Controlled",
+        "type": "generic",
+        "desc": "Someone else is making your decisions for you, usually because you’re being commanded or magically dominated. The controller dictates how you act and can make you use any of your actions, including attacks, reactions, or even Delay. The controller usually does not have to spend their own actions when controlling you.",
+        "hint": "Someone else is making your decisions for you, usually because you’re being commanded or magically dominated. The controller dictates how you act and can make you use any of your actions, including attacks, reactions, or even Delay. The controller usually does not have to spend their own actions when controlling you.",
+        "showon": "Attacks, Activities, Skills"
+    },
+    {
+        "name": "Dazzled",
+        "type": "generic",
+        "desc": "Your eyes are overstimulated. If vision is your only precise sense, all creatures and objects are concealed from you.",
+        "hint": "If vision is your only precise sense, all creatures and objects are concealed from you.",
+        "showon": "Perception"
+    },
+    {
+        "name": "Deafened",
+        "type": "generic",
+        "desc": "You can’t hear. You automatically critically fail Perception checks that require you to be able to hear. You take a –2 status penalty to Perception checks for initiative and checks that involve sound but also rely on other senses. If you perform an action with the auditory trait, you must succeed at a DC 5 flat check or the action is lost; attempt the check after spending the action but before any effects are applied. You are immune to auditory effects. ",
+        "hint": "You can’t hear. You automatically critically fail Perception checks that require you to be able to hear. You take a –2 status penalty to Perception checks for initiative and checks that involve sound but also rely on other senses. If you perform an action with the auditory trait, you must succeed at a DC 5 flat check or the action is lost; attempt the check after spending the action but before any effects are applied. You are immune to auditory effects. ",
+        "showon": "Activities, Perception, Will"
+    },
+    {
+        "name": "Dead",
+        "type": "generic",
+        "desc": "You are dead. After you die, you can't act or be affected by spells that target creatures (unless they specifically target dead creatures), and for all other purposes you are an object. When you die, you are reduced to 0 Hit Points if you had a different amount, and you can't be brought above 0 Hit Points as long as you remain dead. Some magic can bring creatures back to life, such as the resurrect ritual or the raise dead spell.",
+        "endConditions": [
+            "Dying",
+            "Doomed",
+            "Wounded"
+        ],
+        "overrideConditions": [
+            "All"
+        ]
+    },
+    {
+        "name": "Doomed",
+        "type": "generic",
+        "desc": "A powerful force has gripped your soul, calling you closer to death. Doomed always includes a value. The dying value at which you die is reduced by your doomed value. If your maximum dying value is reduced to 0, you instantly die. When you die, you're no longer doomed.\n\nYour doomed value decreases by 1 each time you get a full night's rest.",
+        "hasValue": true,
         "effects": [
             {
                 "affected": "Max Dying",
@@ -67,15 +119,32 @@
         ]
     },
     {
-        "name": "Dying",
+        "name": "Drained",
+        "type": "generic",
+        "desc": "When a creature successfully drains you of blood or life force, you become less healthy. Drained always includes a value. You take a status penalty equal to your drained value on Constitution-based checks, such as Fortitude saves. You also lose a number of Hit Points equal to your level (minimum 1) times the drained value, and your maximum Hit Points are reduced by the same amount. For example, if you’re hit by an effect that inflicts drained 3 and you’re a 3rd-level character, you lose 9 Hit Points and reduce your maximum Hit Points by 9. Losing these Hit Points doesn’t count as taking damage.\n\nEach time you get a full night’s rest, your drained value decreases by 1. This increases your maximum Hit Points, but you don’t immediately recover the lost Hit Points.",
+        "inputRequired": "Each time you get a full night’s rest, decrease your drained value by 1. When this increases your maximum Hit Points, manually take damage equal to your level.",
         "hasValue": true,
+        "effects": [
+            {
+                "affected": "Max HP",
+                "type": "status",
+                "value": "-(object.value) * Level"
+            },
+            {
+                "affected": "Constitution-based Checks and DCs",
+                "value": "-(object.value)"
+            }
+        ]
+    },
+    {
+        "name": "Dying",
         "type": "generic",
         "desc": "You are bleeding out or otherwise at death's door. While you have this condition, you are unconscious. Dying always includes a value. If this value ever reaches dying 4, you die. If you're dying, you must attempt a recovery check at the start of your turn each round to determine whether you get better or worse.\n\nIf you lose the dying condition by succeeding at a recovery check and are still at 0 Hit Points, you remain unconscious, but you can wake up as described on page 460. You lose the dying condition automatically and wake up if you ever have 1 Hit Point or more. Anytime you lose the dying condition, you gain the wounded 1 condition, or increase your wounded value by 1 if you already have that condition.",
         "inputRequired": "If you're dying, you must attempt a recovery check at the start of your turn each round to determine whether you get better or worse.",
+        "hasValue": true,
         "gainConditions": [
             {
-                "name": "Unconscious",
-                "source": "Dying"
+                "name": "Unconscious"
             }
         ]
     },
@@ -87,9 +156,7 @@
         "gainConditions": [
             {
                 "name": "Clumsy",
-                "value": 1,
-                "source": "Encumbered",
-                "applied": true
+                "value": 1
             }
         ],
         "effects": [
@@ -101,132 +168,384 @@
     },
     {
         "name": "Enfeebled",
-        "hasValue": true,
         "type": "generic",
         "desc": "You're physically weakened. Enfeebled always includes a value. When you are enfeebled, you take a status penalty equal to the condition value to Strength-based rolls and DCs, including Strength-based melee attack rolls, Strength-based damage rolls, and Athletics checks.",
         "showon": "Strength",
+        "hasValue": true,
         "effects": [
             {
                 "affected": "Strength Attacks",
-                "value": "-(object.value)",
-                "type": "status"
+                "type": "status",
+                "value": "-(object.value)"
             },
             {
                 "affected": "Athletics",
-                "value": "-(object.value)",
-                "type": "status"
+                "type": "status",
+                "value": "-(object.value)"
+            }
+        ]
+    },
+    {
+        "name": "Fascinated",
+        "type": "generic",
+        "desc": "You are compelled to focus your attention on something, distracting you from whatever else is going on around you. You take a –2 status penalty to Perception and skill checks, and you can’t use actions with the concentrate trait unless they or their intended consequences are related to the subject of your fascination (as determined by the GM). For instance, you might be able to Seek and Recall Knowledge about the subject, but you likely couldn’t cast a spell targeting a different creature. This condition ends if a creature uses hostile actions against you or any of your allies.",
+        "hint": "You can’t use actions with the concentrate trait unless they or their intended consequences are related to the subject of your fascination (as determined by the GM). For instance, you might be able to Seek and Recall Knowledge about the subject, but you likely couldn’t cast a spell targeting a different creature.",
+        "showon": "Activities, Skills",
+        "effects": [
+            {
+                "affected": "Perception",
+                "type": "status",
+                "value": "-2"
+            },
+            {
+                "affected": "Skill Checks",
+                "type": "status",
+                "value": "-2"
+            }
+        ]
+    },
+    {
+        "name": "Fatigued",
+        "type": "generic",
+        "desc": "You’re tired and can’t summon much energy. You take a –1 status penalty to AC and saving throws. While exploring, you can’t choose an exploration activity.\n\nYou recover from fatigue after a full night’s rest.",
+        "hint": "While exploring, you can’t choose an exploration activity.",
+        "showon": "Activities, Skills",
+        "inputRequired": "You recover from fatigue after a full night’s rest.",
+        "effects": [
+            {
+                "affected": "AC",
+                "type": "status",
+                "value": "-1"
+            },
+            {
+                "affected": "Fortitude",
+                "type": "status",
+                "value": "-1"
+            },
+            {
+                "affected": "Reflex",
+                "type": "status",
+                "value": "-1"
+            },
+            {
+                "affected": "Will",
+                "type": "status",
+                "value": "-1"
             }
         ]
     },
     {
         "name": "Flat-Footed",
         "type": "generic",
-        "desc": "You're distracted or otherwise unable to focus your full attention on defense. You take a -2 circumstance penalty to AC. Some effects give you the flat-footed condition only to certain creatures or against certain attacks. Others—especially conditions—can make you universally flat-footed against everything. If a rule doesn't specify that the condition applies only to certain circumstances, it applies to all of them; for example, many effects simply say “The target is flat-footed.”",
+        "desc": "You're distracted or otherwise unable to focus your full attention on defense. You take a -2 circumstance penalty to AC. Some effects give you the flat-footed condition only to certain creatures or against certain attacks. Othersâ€”especially conditionsâ€”can make you universally flat-footed against everything. If a rule doesn't specify that the condition applies only to certain circumstances, it applies to all of them; for example, many effects simply say \"The target is flat-footed.\"",
         "effects": [
             {
                 "affected": "AC",
-                "value": "-2",
-                "type": "circumstance"
+                "type": "circumstance",
+                "value": "-2"
             }
         ]
     },
     {
+        "name": "Fleeing",
+        "type": "generic",
+        "desc": "You’re forced to run away due to fear or some other compulsion. On your turn, you must spend each of your actions trying to escape the source of the fleeing condition as expediently as possible (such as by using move actions to flee, or opening doors barring your escape). The source is usually the effect or caster that gave you the condition, though some effects might define something else as the source. You can’t Delay or Ready while fleeing.",
+        "hint": "On your turn, you must spend each of your actions trying to escape the source of the fleeing condition as expediently as possible (such as by using move actions to flee, or opening doors barring your escape). The source is usually the effect or caster that gave you the condition, though some effects might define something else as the source. You can’t Delay or Ready while fleeing.",
+        "showon": "Attacks, Activities, Skills"
+    },
+    {
+        "name": "Friendly",
+        "type": "generic",
+        "desc": "This condition reflects a creature’s disposition toward a particular character, and only supernatural effects (like a spell) can impose these conditions on player characters. A creature that is friendly to a character likes that character. The character can attempt to make a Request of a friendly creature, and the friendly creature is likely to agree to a simple and safe request that doesn’t cost it much to fulfill. If the character or one of their allies uses hostile actions against the creature, the creature gains a worse attitude condition depending on the severity of the hostile action, as determined by the GM.",
+        "buff": true
+    },
+    {
         "name": "Frightened",
-        "hasValue": true,
-        "decreasingValue": true,
         "type": "generic",
         "desc": "You're gripped by fear and struggle to control your nerves. The frightened condition always includes a value. You take a status penalty equal to this value to all your checks and DCs. Unless specified otherwise, at the end of each of your turns, the value of your frightened condition decreases by 1.",
+        "decreasingValue": true,
+        "hasValue": true,
         "effects": [
             {
                 "affected": "All Checks",
-                "value": "-(object.value)",
-                "type": "status"
+                "type": "status",
+                "value": "-(object.value)"
+            }
+        ]
+    },
+    {
+        "name": "Grabbed",
+        "type": "generic",
+        "desc": "You're held in place by another creature, giving you the flat-footed and immobilized conditions. If you attempt a manipulate action while grabbed, you must succeed at a DC 5 flat check or it is lost; roll the check after spending the action, but before any effects are applied.",
+        "hint": "If you attempt a manipulate action while grabbed, you must succeed at a DC 5 flat check or it is lost; roll the check after spending the action, but before any effects are applied.",
+        "showon": "Activities, Skills",
+        "gainConditions": [
+            {
+                "name": "Flat-Footed"
+            },
+            {
+                "name": "Immobilized"
+            }
+        ]
+    },
+    {
+        "name": "Helpful",
+        "type": "generic",
+        "desc": "This condition reflects a creature’s disposition toward a particular character, and only supernatural effects (like a spell) can impose these conditions on player characters. A creature that is helpful to a character wishes to actively aid that character. It will accept reasonable Requests from that character, as long as such requests aren’t at the expense of the helpful creature’s goals or quality of life. If the character or one of their allies uses a hostile action against the creature, the creature gains a worse attitude condition depending on the severity of the hostile action, as determined by the GM.",
+        "buff": true
+    },
+    {
+        "name": "Hidden",
+        "type": "generic",
+        "desc": "While you're hidden from a creature, that creature knows the space you're in but can't tell precisely where you are. You typically become hidden by using Stealth to Hide. When Seeking a creature using only imprecise senses, it remains hidden, rather than observed. A creature you're hidden from is flat-footed to you, and it must succeed at a DC 11 flat check when targeting you with an attack, spell, or other effect or it fails affect you. Area effects aren't subject to this flat check.\n\nA creature might be able to use the Seek action to try to observe you.",
+        "hint": "A creature you're hidden from is flat-footed to you, and it must succeed at a DC 11 flat check when targeting you with an attack, spell, or other effect or it fails affect you.",
+        "showon": "Stealth",
+        "buff": true
+    },
+    {
+        "name": "Hostile",
+        "type": "generic",
+        "desc": "This condition reflects a creature’s disposition toward a particular character, and only supernatural effects (like a spell) can impose these conditions on player characters. A creature that is hostile to a character actively seeks to harm that character. It doesn’t necessarily attack, but it won’t accept Requests from the character.",
+        "buff": true
+    },
+    {
+        "name": "Immobilized",
+        "type": "generic",
+        "desc": "You can’t use any action with the move trait. If you’re immobilized by something holding you in place and an external force would move you out of your space, the force must succeed at a check against either the DC of the effect holding you in place or the relevant defense (usually Fortitude DC) of the monster holding you in place.",
+        "hint": "You can’t use any action with the move trait. If you’re immobilized by something holding you in place and an external force would move you out of your space, the force must succeed at a check against either the DC of the effect holding you in place or the relevant defense (usually Fortitude DC) of the monster holding you in place.",
+        "showon": "Activities, Movement, Skills"
+    },
+    {
+        "name": "Indifferent",
+        "type": "generic",
+        "desc": "This condition reflects a creature’s disposition toward a particular character, and only supernatural effects (like a spell) can impose these conditions on player characters. A creature that is indifferent to a character doesn’t really care one way or the other about that character. Assume a creature’s attitude to a given character is indifferent unless specified otherwise.",
+        "buff": true
+    },
+    {
+        "name": "Invisible",
+        "type": "generic",
+        "desc": "While invisible, you can't be seen. You're undetected to everyone. Creatures can Seek to attempt to detect you; if a creature succeeds at its Perception check against your Stealth DC, you become hidden to that creature until you Sneak to become undetected again. If you become invisible while someone can already see you, you start out hidden to the observer (instead of undetected) until you successfully Sneak. You can't become observed while invisible except via special abilities or magic.",
+        "hint": "While invisible, you can't be seen. You're undetected to everyone. Creatures can Seek to attempt to detect you; if a creature succeeds at its Perception check against your Stealth DC, you become hidden to that creature until you Sneak to become undetected again. If you become invisible while someone can already see you, you start out hidden to the observer (instead of undetected) until you successfully Sneak. You can't become observed while invisible except via special abilities or magic.",
+        "showon": "Stealth",
+        "buff": true
+    },
+    {
+        "name": "Observed",
+        "type": "generic",
+        "desc": "Anything in plain view is observed by you. If a creature takes measures to avoid detection, such as by using Stealth to Hide, it can become hidden or undetected instead of observed. If you have another precise sense instead of or in addition to sight, you might be able to observe a creature or object using that sense instead. You can observe a creature only with precise senses. When Seeking a creature using only imprecise senses, it remains hidden, rather than observed."
+    },
+    {
+        "name": "Paralyzed",
+        "type": "generic",
+        "desc": "Your body is frozen in place. You have the flat-footed condition and can't act except to Recall Knowledge and use actions that require only the use of your mind (as determined by the GM). Your senses still function, but only in the areas you can perceive without moving your body, so you can't Seek while paralyzed.",
+        "hint": "You can't act except to Recall Knowledge and use actions that require only the use of your mind (as determined by the GM). Your senses still function, but only in the areas you can perceive without moving your body, so you can't Seek while paralyzed.",
+        "showon": "Perception, Skills",
+        "gainConditions": [
+            {
+                "name": "Flat-Footed"
+            }
+        ]
+    },
+    {
+        "name": "Persistent Damage",
+        "type": "generic",
+        "desc": "Persistent damage comes from effects like acid, being on fire, or many other situations. It appears as \"X persistent [type] damage,\" where \"X\" is the amount of damage dealt and \"[type]\" is the damage type. Instead of taking persistent damage immediately, you take it at the end of each of your turns as long as you have the condition, rolling any damage dice anew each time. After you take persistent damage, roll a DC 15 flat check to see if you recover from the persistent damage. If you succeed, the condition ends.",
+        "inputRequired": "Take the appropriate amount of damage at the end of each of your turns as long as you have the condition, rolling any damage dice anew each time. After you take persistent damage, roll a DC 15 flat check to see if you recover from the persistent damage. If you succeed, the condition ends."
+    },
+    {
+        "name": "Petrified",
+        "type": "generic",
+        "desc": "You have been turned to stone. You can’t act, nor can you sense anything. You become an object with a Bulk double your normal Bulk (typically 12 for a petrified Medium creature or 6 for a petrified Small creature), AC 9, Hardness 8, and the same current Hit Points you had when alive. You don’t have a Broken Threshold. When you’re turned back into flesh, you have the same number of Hit Points you had as a statue. If the statue is destroyed, you immediately die. While petrified, your mind and body are in stasis, so you don’t age or notice the passing of time.",
+        "hint": "You can’t act, nor can you sense anything. You don’t age or notice the passing of time.",
+        "showon": "Activities, Movement, Perception, Skills",
+        "effects": [
+            {
+                "affected": "Bulk",
+                "setValue": "Math.max((Size() + 2) * 6), 6)"
+            },
+            {
+                "affected": "AC",
+                "setValue": "9"
+            },
+            {
+                "affected": "Hardness",
+                "setValue": 8
+            }
+        ]
+    },
+    {
+        "name": "Prone",
+        "type": "generic",
+        "desc": "You’re lying on the ground. You are flat-footed and take a –2 circumstance penalty to attack rolls. The only move actions you can use while you’re prone are Crawl and Stand. Standing up ends the prone condition. You can Take Cover while prone to hunker down and gain cover against ranged attacks, even if you don’t have an object to get behind, gaining a +4 circumstance bonus to AC against ranged attacks (but you remain flat-footed).\n\nIf you would be knocked prone while you’re Climbing or Flying, you fall (see pages 463–464 for the rules on falling). You can’t be knocked prone when Swimming.",
+        "hint": "The only move actions you can use while you’re prone are Crawl and Stand. Standing up ends the prone condition. You can Take Cover while prone to hunker down and gain cover against ranged attacks, even if you don’t have an object to get behind, gaining a +4 circumstance bonus to AC against ranged attacks (but you remain flat-footed).",
+        "showon": "AC, Movement",
+        "gainConditions": [
+            {
+                "name": "Flat-Footed"
+            }
+        ],
+        "effects": [
+            {
+                "affected": "Attack Rolls",
+                "type": "circumstance",
+                "value": "-2"
             }
         ]
     },
     {
         "name": "Quickened",
         "type": "generic",
-        "buff": true,
-        "desc": "You gain 1 additional action at the start of your turn each round. Many effects that make you quickened specify the types of actions you can use with this additional action. If you become quickened from multiple sources, you can use the extra action you've been granted for any single action allowed by any of the effects that made you quickened. Because quickened has its effect at the start of your turn, you don't immediately gain actions if you become quickened during your turn."
+        "desc": "You gain 1 additional action at the start of your turn each round. Many effects that make you quickened specify the types of actions you can use with this additional action. If you become quickened from multiple sources, you can use the extra action you've been granted for any single action allowed by any of the effects that made you quickened. Because quickened has its effect at the start of your turn, you don't immediately gain actions if you become quickened during your turn.",
+        "buff": true
+    },
+    {
+        "name": "Restrained",
+        "type": "generic",
+        "desc": "You’re tied up and can barely move, or a creature has you pinned. You have the flat-footed and immobilized conditions, and you can’t use any actions with the attack or manipulate traits except to attempt to Escape or Force Open your bonds. Restrained overrides grabbed.",
+        "hint": "You can’t use any actions with the attack or manipulate traits except to attempt to Escape or Force Open your bonds.",
+        "showon": "Activities, Attacks, Skills",
+        "gainConditions": [
+            {
+                "name": "Flat-Footed"
+            },
+            {
+                "name": "Immobilized"
+            }
+        ],
+        "overrideConditions": [
+            "Grabbed"
+        ]
+    },
+    {
+        "name": "Sickened",
+        "type": "generic",
+        "desc": "You feel ill. Sickened always includes a value. You take a status penalty equal to this value on all your checks and DCs. You can't willingly ingest anythingâ€”including elixirs and potionsâ€”while sickened.\n\nYou can spend a single action retching in an attempt to recover, which lets you immediately attempt a Fortitude save against the DC of the effect that made you sickened. On a success, you reduce your sickened value by 1 (or by 2 on a critical success).",
+        "hasValue": true,
+        "effects": [
+            {
+                "affected": "All Checks",
+                "type": "status",
+                "value": "-(object.value)"
+            }
+        ]
+    },
+    {
+        "name": "Slowed",
+        "type": "generic",
+        "desc": "You have fewer actions. Slowed always includes a value. When you regain your actions at the start of your turn, reduce the number of actions you regain by your slowed value. Because slowed has its effect at the start of your turn, you don’t immediately lose actions if you become slowed during your turn. ",
+        "hasValue": true,
+        "effects": [
+            {
+                "affected": "Actions per Turn",
+                "value": "-(object.value)"
+            }
+        ]
+    },
+    {
+        "name": "Stunned",
+        "type": "generic",
+        "desc": "You’ve become senseless. You can’t act while stunned. Stunned usually includes a value, which indicates how many total actions you lose, possibly over multiple turns, from being stunned. Each time you regain actions (such as at the start of your turn), reduce the number you regain by your stunned value, then reduce your stunned value by the number of actions you lost. For example, if you were stunned 4, you would lose all 3 of your actions on your turn, reducing you to stunned 1; on your next turn, you would lose 1 more action, and then be able to use your remaining 2 actions normally. Stunned might also have a duration instead of a value, such as “stunned for 1 minute.” In this case, you lose all your actions for the listed duration.\n\nStunned overrides slowed. If the duration of your stunned condition ends while you are slowed, you count the actions lost to the stunned condition toward those lost to being slowed. So, if you were stunned 1 and slowed 2 at the beginning of your turn, you would lose 1 action from stunned, and then lose only 1 additional action by being slowed, so you would still have 1 action remaining to use that turn.",
+        "inputRequired": "If stunned has a value, each time you regain actions (such as at the start of your turn), reduce the number you regain by your stunned value, then reduce your stunned value by the number of actions you lost.",
+        "hasValue": true,
+        "overrideConditions": [
+            "Slowed"
+        ],
+        "effects": [
+            {
+                "affected": "Actions per Turn",
+                "value": "-(object.value)"
+            }
+        ]
+    },
+    {
+        "name": "Stupefied",
+        "type": "generic",
+        "desc": "Your thoughts and instincts are clouded. Stupefied always includes a value. You take a status penalty equal to this value on Intelligence-, Wisdom-, and Charisma-based checks and DCs, including Will saving throws, spell attack rolls, spell DCs, and skill checks that use these ability scores. Any time you attempt to Cast a Spell while stupefied, the spell is disrupted unless you succeed at a flat check with a DC equal to 5 + your stupefied value.",
+        "hint": "Any time you attempt to Cast a Spell while stupefied, the spell is disrupted unless you succeed at a flat check with a DC equal to 5 + your stupefied value.",
+        "showon": "Spellbook",
+        "hasValue": true,
+        "effects": [
+            {
+                "affected": "Intelligence-based Checks and DCs",
+                "value": "-(object.value)"
+            },
+            {
+                "affected": "Wisdom-based Checks and DCs",
+                "value": "-(object.value)"
+            },
+            {
+                "affected": "Charisma-based Checks and DCs",
+                "value": "-(object.value)"
+            }
+        ]
     },
     {
         "name": "Unconscious",
         "type": "generic",
-        "desc": "You're sleeping, or you've been knocked out. You can't act. You take a -4 status penalty to AC, Perception, and Reflex saves, and you have the blinded and flat-footed conditions. When you gain this condition, you fall prone and drop items you are wielding or holding unless the effect states otherwise or the GM determines you're in a position in which you wouldn't.\n\nIf you're unconscious because you're dying, you can't wake up as long as you have 0 Hit Points. If you're restored to 1 Hit Point or more via healing, you lose the dying and unconscious conditions and can act normally on your next turn.\n\nIf you are unconscious and at 0 Hit Points, but not dying, you naturally return to 1 Hit Point and awaken after sufficient time passes. The GM determines how long you remain unconscious, from a minimum of 10 minutes to several hours. If you receive healing during this time, you lose the unconscious condition and can act normally on your next turn.\n\nIf you're unconscious and have more than 1 Hit Point (typically because you are asleep or unconscious due to an effect), you wake up in one of the following ways. Each causes you to lose the unconscious condition.\n\nYou take damage, provided the damage doesn't reduce you to 0 Hit Points. (If the damage reduces you to 0 Hit Points, you remain unconscious and gain the dying condition as normal.)\nYou receive healing, other than the natural healing you get from resting.\nSomeone nudges or shakes you awake using an Interact action.\nLoud noise is being made around you—though this isn't automatic. At the start of your turn, you automatically attempt a Perception check against the noise's DC (or the lowest DC if there is more than one noise), waking up if you succeed. This is often DC 5 for a battle, but if creatures are attempting to stay quiet around you, this Perception check uses their Stealth DC. Some magical effects make you sleep so deeply that they don't allow you to attempt this Perception check.\nIf you are simply asleep, the GM decides you wake up either because you have had a restful night's sleep or something disrupted that rest.",
+        "desc": "You're sleeping, or you've been knocked out. You can't act. You take a -4 status penalty to AC, Perception, and Reflex saves, and you have the blinded and flat-footed conditions. When you gain this condition, you fall prone and drop items you are wielding or holding unless the effect states otherwise or the GM determines you're in a position in which you wouldn't.\n\nIf you're unconscious because you're dying, you can't wake up as long as you have 0 Hit Points. If you're restored to 1 Hit Point or more via healing, you lose the dying and unconscious conditions and can act normally on your next turn.\n\nIf you are unconscious and at 0 Hit Points, but not dying, you naturally return to 1 Hit Point and awaken after sufficient time passes. The GM determines how long you remain unconscious, from a minimum of 10 minutes to several hours. If you receive healing during this time, you lose the unconscious condition and can act normally on your next turn.\n\nIf you're unconscious and have more than 1 Hit Point (typically because you are asleep or unconscious due to an effect), you wake up in one of the following ways. Each causes you to lose the unconscious condition.\n\nYou take damage, provided the damage doesn't reduce you to 0 Hit Points. (If the damage reduces you to 0 Hit Points, you remain unconscious and gain the dying condition as normal.)\nYou receive healing, other than the natural healing you get from resting.\nSomeone nudges or shakes you awake using an Interact action.\nLoud noise is being made around youâ€”though this isn't automatic. At the start of your turn, you automatically attempt a Perception check against the noise's DC (or the lowest DC if there is more than one noise), waking up if you succeed. This is often DC 5 for a battle, but if creatures are attempting to stay quiet around you, this Perception check uses their Stealth DC. Some magical effects make you sleep so deeply that they don't allow you to attempt this Perception check.\nIf you are simply asleep, the GM decides you wake up either because you have had a restful night's sleep or something disrupted that rest.",
         "gainConditions": [
             {
-                "name": "Blinded",
-                "source": "Unconscious"
+                "name": "Blinded"
             },
             {
-                "name": "Flat-Footed",
-                "source": "Unconscious"
+                "name": "Flat-Footed"
             }
         ],
         "effects": [
             {
                 "affected": "AC",
-                "value": "-4",
-                "type": "status"
+                "type": "status",
+                "value": "-4"
             },
             {
                 "affected": "Perception",
-                "value": "-4",
-                "type": "status"
+                "type": "status",
+                "value": "-4"
             },
             {
                 "affected": "Reflex",
-                "value": "-4",
-                "type": "status"
+                "type": "status",
+                "value": "-4"
             }
         ]
+    },
+    {
+        "name": "Undetected",
+        "type": "generic",
+        "desc": "When you are undetected by a creature, that creature cannot see you at all, has no idea what space you occupy, and can’t target you, though you still can be affected by abilities that target an area. When you’re undetected by a creature, that creature is flat-footed to you.\n\nA creature you’re undetected by can guess which square you’re in to try targeting you. It must pick a square and attempt an attack. This works like targeting a hidden creature (requiring a DC 11 flat check), but the flat check and attack roll are rolled in secret by the GM, who doesn’t reveal whether the attack missed due to failing the flat check, failing the attack roll, or choosing the wrong square.\n\nA creature can use the Seek action to try to find you.",
+        "buff": true
+    },
+    {
+        "name": "Unfriendly",
+        "type": "generic",
+        "desc": "This condition reflects a creature’s disposition toward a particular character, and only supernatural effects (like a spell) can impose these conditions on player characters. A creature that is unfriendly to a character dislikes and specifically distrusts that character. The unfriendly creature won’t accept Requests from the character.",
+        "buff": true
+    },
+    {
+        "name": "Unnoticed",
+        "type": "generic",
+        "desc": "If you are unnoticed by a creature, that creature has no idea you are present at all. When you’re unnoticed, you’re also undetected by the creature. This condition matters for abilities that can be used only against targets totally unaware of your presence.",
+        "buff": true
     },
     {
         "name": "Wounded",
-        "hasValue": true,
         "type": "generic",
-        "desc": "You have been seriously injured during a fight. Anytime you lose the dying condition, you become wounded 1 if you didn't already have the wounded condition. If you already have the wounded condition, your wounded condition value instead increases by 1. If you gain the dying condition while wounded, increase the dying condition's value by your wounded value. The wounded condition ends if someone successfully restores Hit Points to you with Treat Wounds, or if you are restored to full Hit Points and rest for 10 minutes."
-    },
-    {
-        "name": "Dead",
-        "type": "generic",
-        "desc": "You are dead.",
-        "overrideConditions": [
-            "All"
-        ],
-        "endConditions": [
-            "Dying",
-            "Doomed",
-            "Wounded"
-        ]
-    },
-    {
-        "name": "Sickened",
-        "hasValue": true,
-        "type": "generic",
-        "desc": "You feel ill. Sickened always includes a value. You take a status penalty equal to this value on all your checks and DCs. You can’t willingly ingest anything—including elixirs and potions—while sickened.\n\nYou can spend a single action retching in an attempt to recover, which lets you immediately attempt a Fortitude save against the DC of the effect that made you sickened. On a success, you reduce your sickened value by 1 (or by 2 on a critical success).",
-        "effects": [
-            {
-                "affected": "All Checks",
-                "value": "-(object.value)",
-                "type": "status"
-            }
-        ]
+        "desc": "You have been seriously injured during a fight. Anytime you lose the dying condition, you become wounded 1 if you didn't already have the wounded condition. If you already have the wounded condition, your wounded condition value instead increases by 1. If you gain the dying condition while wounded, increase the dying condition's value by your wounded value. The wounded condition ends if someone successfully restores Hit Points to you with Treat Wounds, or if you are restored to full Hit Points and rest for 10 minutes.",
+        "hasValue": true
     },
     {
         "name": "Eagle-Eye Elixir (Moderate)",
         "type": "alchemicalelixirs",
         "desc": "You gain an item bonus of +2 to Perception checks that is +3 when attempting to find secret doors and traps. ",
+        "showon": "Perception",
         "buff": true,
         "effects": [
             {
                 "affected": "Perception",
-                "value": "+2",
-                "type": "item"
+                "type": "item",
+                "value": "2"
             }
-        ],
-        "showon": "Perception"
+        ]
     },
     {
         "name": "Juggernaut Mutagen (Lesser)",
@@ -234,21 +553,21 @@
         "desc": "You gain an item bonus of +1 to Fortitude saves and 5 temporary Hit Points.\n\nYou take a -2 penalty to Will saves, Perception checks, and initiative rolls. Whenever you are at maximum Hit Points for at least 1 full minute, you regain the temporary Hit Points.",
         "inputRequired": "Whenever you are at maximum Hit Points for at least 1 full minute, you regain the temporary Hit Points.",
         "buff": true,
+        "onceEffects": [
+            {
+                "affected": "Temporary HP",
+                "value": "5"
+            }
+        ],
         "effects": [
             {
                 "affected": "Fortitude",
-                "value": "+1",
-                "type": "item"
+                "type": "item",
+                "value": "1"
             },
             {
                 "affected": "Will",
                 "value": "-2"
-            }
-        ],
-        "onceEffects": [
-            {
-                "affected": "Temporary HP",
-                "value": "+5"
             }
         ]
     },
@@ -256,15 +575,15 @@
         "name": "Leaper's Elixir (Lesser)",
         "type": "alchemicalelixirs",
         "desc": "You can High Jump or Long Jump as a single action instead of 2 actions. If you do, you don't perform the initial Stride (nor do you fail if you don't Stride 10 feet).",
-        "buff": true,
-        "showon": "Athletics"
+        "showon": "Athletics",
+        "buff": true
     },
     {
         "name": "Dragon's Breath Potion (Silver, Young)",
         "type": "potions",
         "desc": "You can unleash a breath weapon as a 15-foot cone of cold that deals 4d6 cold damage. Each creature in the area must attempt a DC 23 basic Reflex save. Exhaling dragon breath uses a single action. After you use the breath weapon, you can't do so again for 1d4 rounds.",
-        "buff": true,
-        "showon": "Attacks"
+        "showon": "Attacks",
+        "buff": true
     },
     {
         "name": "Candle of Truth",
@@ -276,25 +595,25 @@
         "name": "Slippers of Spider Climbing",
         "type": "wornitems",
         "desc": "You gain a 20-foot climb Speed and you don't need to use your hands to Climb. However, the slippers require decent traction for you to walk on a wall, so they provide no benefit when you're moving across greased, icy, or oiled surfaces.",
+        "showon": "Movement",
+        "buff": true,
         "effects": [
             {
                 "affected": "Climb Speed",
-                "setValue": "20"
+                "value": "20"
             }
-        ],
-        "buff": true,
-        "showon": "Movement"
+        ]
     },
     {
         "name": "Eye of the Arclords",
         "type": "activity",
         "desc": "While the eye is open, you gain the following benefits: you gain the effects of the detect magic arcane innate spell from your Arcane Sense at the start of each of your turns without needing to cast the spell; you gain darkvision; you gain a +2 status bonus to Perception checks to Seek undetected and hidden creatures and to your Perception DC against Hide and Sneak. After your third eye closes, you are dazzled for an amount of time equal to how long you had it open.",
-        "inputRequired": "After your third eye closes, you are dazzled for an amount of time equal to how long you had it open.",
         "showon": "Perception",
+        "inputRequired": "After your third eye closes, you are dazzled for an amount of time equal to how long you had it open.",
+        "buff": true,
         "senses": [
             "Darkvision"
-        ],
-        "buff": true
+        ]
     },
     {
         "name": "Crane Stance",
@@ -304,14 +623,14 @@
         "attackRestrictions": [
             "Crane Wing"
         ],
+        "buff": true,
         "effects": [
             {
                 "affected": "AC",
-                "value": "+1",
-                "type": "circumstance"
+                "type": "circumstance",
+                "value": "1"
             }
-        ],
-        "buff": true
+        ]
     },
     {
         "name": "Dragon Stance",
@@ -325,11 +644,15 @@
         "type": "activity",
         "desc": "While in Mountain Stance, you gain a +4 status bonus to AC and a +2 circumstance bonus to any defenses against being Shoved or Tripped. However, you have a Dexterity modifier cap to your AC of +0, meaning you don't add your Dexterity to your AC, and your Speeds are all reduced by 5 feet.",
         "showon": "Fortitude, Movement",
+        "attackRestrictions": [
+            "Falling Stone"
+        ],
+        "buff": true,
         "effects": [
             {
                 "affected": "AC",
-                "value": "+4",
-                "type": "status"
+                "type": "status",
+                "value": "4"
             },
             {
                 "affected": "AC",
@@ -339,31 +662,27 @@
                 "affected": "Speed",
                 "value": "-5"
             }
-        ],
-        "attackRestrictions": [
-            "Falling Stone"
-        ],
-        "buff": true
+        ]
     },
     {
         "name": "Rain of Embers Stance",
         "type": "activity",
         "desc": "While in Rain of Embers Stance, you gain a +1 status bonus to AC and fire resistance equal to half your level (minimum 1).",
+        "attackRestrictions": [
+            "Fire Talon"
+        ],
+        "buff": true,
         "effects": [
             {
                 "affected": "AC",
-                "value": "+1",
-                "type": "status"
+                "type": "status",
+                "value": "1"
             },
             {
                 "affected": "Fire Resistance",
                 "value": "Math.max(Math.floor(Level / 2), 1)"
             }
-        ],
-        "attackRestrictions": [
-            "Fire Talon"
-        ],
-        "buff": true
+        ]
     },
     {
         "name": "Tiger Stance",
@@ -383,26 +702,26 @@
         "name": "Mountain Stronghold",
         "type": "activity",
         "desc": "You gain a +2 circumstance bonus to AC until the beginning of your next turn.",
+        "buff": true,
         "effects": [
             {
                 "affected": "AC",
-                "value": "+2",
-                "type": "circumstance"
+                "type": "circumstance",
+                "value": "2"
             }
-        ],
-        "buff": true
+        ]
     },
     {
         "name": "Ironblood Stance",
         "type": "activity",
         "desc": "While in Ironblood Stance, you gain resistance 2 to all damage. The resistance increases to 3 at 12th level, to 4 at 16th level, and to 5 at 20th level.",
+        "buff": true,
         "effects": [
             {
                 "affected": "All Damage Resistance",
                 "value": "1 + Math.floor((Level - 4) / 4)"
             }
-        ],
-        "buff": true
+        ]
     },
     {
         "name": "Tangled Forest Stance",
@@ -422,42 +741,42 @@
         "name": "Wind Jump (5th level)",
         "type": "spells",
         "desc": "You gain a fly Speed equal to your Speed. You must end your turn on solid ground, or you fall.",
+        "buff": true,
         "effects": [
             {
                 "affected": "Fly Speed",
-                "setValue": "Speed('Land Speed')"
+                "value": "Speed('Land Speed')"
             }
-        ],
-        "buff": true
+        ]
     },
     {
         "name": "Wind Jump (6th level)",
         "type": "spells",
         "desc": "You gain a fly Speed equal to your Speed. You must end your turn on solid ground, or you fall. At the end of your turn, you can attempt a DC 30 Acrobatics check to find purchase in midair. If you succeed, you don't fall.",
+        "buff": true,
         "effects": [
             {
                 "affected": "Fly Speed",
-                "setValue": "Speed('Land Speed')"
+                "value": "Speed('Land Speed')"
             }
-        ],
-        "buff": true
+        ]
     },
     {
         "name": "Ironblood Surge",
         "type": "activity",
         "desc": "You gain the benefits of your iron sweep's parry trait (a +1 circumstance bonus to AC until the start of your next turn) and your resistance from Ironblood Stance increases to your Strength modifier (if it's higher) for the same duration.",
+        "buff": true,
         "effects": [
             {
                 "affected": "AC",
-                "value": "+1",
-                "type": "circumstance"
+                "type": "circumstance",
+                "value": "1"
             },
             {
                 "affected": "All Damage Resistance",
                 "value": "Math.max(Modifier('Strength') - (1 + Math.floor((Level - 4) / 4)), 0)"
             }
-        ],
-        "buff": true
+        ]
     },
     {
         "name": "Ethereal Jaunt",
@@ -471,13 +790,13 @@
         "name": "Barding of the Zephyr",
         "type": "wornitems",
         "desc": "Your companion wearing the barding is granted a fly Speed of 30 feet. Even if the companion doesn't have the mount special ability, it can still Fly while being ridden.",
+        "buff": true,
         "effects": [
             {
                 "affected": "Fly Speed",
-                "setValue": "30"
+                "value": "30"
             }
-        ],
-        "buff": true
+        ]
     },
     {
         "name": "Feather Fall",
@@ -498,14 +817,14 @@
         "type": "bloodmagic",
         "desc": "Elemental energy surrounds you or a target. Either you gain a +1 status bonus to Intimidation checks for 1 round, or a target takes 1 damage per spell level. The damage is bludgeoning or fire, according to your elemental type (fire for fire, or else bludgeoning). If the spell already deals that kind of damage, combine it with the spell's initial damage before determining weaknesses and resistances.",
         "inputRequired": "If you choose to deal damage instead of gaining the Intimidation bonus, remove this condition.",
+        "buff": true,
         "effects": [
             {
                 "affected": "Intimidation",
-                "value": "+1",
-                "type": "status"
+                "type": "status",
+                "value": "1"
             }
-        ],
-        "buff": true
+        ]
     },
     {
         "name": "Speak with Animals",
@@ -518,59 +837,59 @@
         "name": "Call on Ancient Blood: Fortitude",
         "type": "activity",
         "desc": "You gain a +1 circumstance bonus to Fortitude.",
+        "buff": true,
         "effects": [
             {
                 "affected": "Fortitude",
-                "value": "+1",
-                "type": "circumstance"
+                "type": "circumstance",
+                "value": "1"
             }
-        ],
-        "buff": true
+        ]
     },
     {
         "name": "Call on Ancient Blood: Reflex",
         "type": "activity",
         "desc": "You gain a +1 circumstance bonus to Reflex.",
+        "buff": true,
         "effects": [
             {
                 "affected": "Reflex",
-                "value": "+1",
-                "type": "circumstance"
+                "type": "circumstance",
+                "value": "1"
             }
-        ],
-        "buff": true
+        ]
     },
     {
         "name": "Call on Ancient Blood: Will",
         "type": "activity",
         "desc": "You gain a +1 circumstance bonus to Will.",
+        "buff": true,
         "effects": [
             {
                 "affected": "Will",
-                "value": "+1",
-                "type": "circumstance"
+                "type": "circumstance",
+                "value": "1"
             }
-        ],
-        "buff": true
+        ]
     },
     {
         "name": "Bracelets of Dashing",
         "type": "wornitems",
         "desc": "You gain a +10-foot status bonus to Speed.",
+        "buff": true,
         "effects": [
             {
                 "affected": "Speed",
-                "value": "+10",
-                "type": "status"
+                "type": "status",
+                "value": "10"
             }
-        ],
-        "buff": true
+        ]
     },
     {
         "name": "Collar of Empathy",
         "type": "wornitems",
-        "desc": "You perceive through your animal companion’s senses instead of your own. You can Sustain the Activation. You are unaware of your own surroundings for as long as you are using your animal companion’s senses. In addition to the obvious use when you are separated from your companion, this ability might allow you to notice sounds, scents, and other stimuli that your companion’s senses register but yours alone don’t.",
-        "hint": "You perceive through your animal companion’s senses instead of your own. You can Sustain the Activation. You are unaware of your own surroundings for as long as you are using your animal companion’s senses. In addition to the obvious use when you are separated from your companion, this ability might allow you to notice sounds, scents, and other stimuli that your companion’s senses register but yours alone don’t.",
+        "desc": "You perceive through your animal companion's senses instead of your own. You can Sustain the Activation. You are unaware of your own surroundings for as long as you are using your animal companion's senses. In addition to the obvious use when you are separated from your companion, this ability might allow you to notice sounds, scents, and other stimuli that your companion's senses register but yours alone don't.",
+        "hint": "You perceive through your animal companion's senses instead of your own. You can Sustain the Activation. You are unaware of your own surroundings for as long as you are using your animal companion's senses. In addition to the obvious use when you are separated from your companion, this ability might allow you to notice sounds, scents, and other stimuli that your companion's senses register but yours alone don't.",
         "showon": "Animal Companion",
         "buff": true
     },
@@ -578,6 +897,10 @@
         "name": "Pest Form",
         "type": "spells",
         "desc": "You transform into a the battle form of a Tiny animal, such as a cat, insect, lizard, or rat. On spell level 4, you can turn into a flying creature, such as a bird, which grants you a fly Speed of 20 feet. You can decide the specific type of animal (such as a rat or praying mantis), but this has no effect on the form's Size or statistics. While in this form, you gain the animal trait. You can Dismiss the spell.\n\nYou gain the following statistics and abilities:\n\nAC = 15 + your level. Ignore your armor's check penalty and Speed reduction.\nSpeed 10 feet.\nWeakness 5 to physical damage. (If you take physical damage in this form, you take 5 additional damage.)\nLow-Light Vision and imprecise scent 30 feet.\nAcrobatics and Stealth modifiers of +10, unless your own modifier is higher; Athletics modifier -4.",
+        "senses": [
+            "Low-Light Vision",
+            "Scent 30 feet (imprecise)"
+        ],
         "effects": [
             {
                 "affected": "Size",
@@ -589,7 +912,7 @@
             },
             {
                 "affected": "Land Speed",
-                "setValue": "10"
+                "setValue": 10
             },
             {
                 "affected": "Physical Damage Resistance",
@@ -605,7 +928,7 @@
             },
             {
                 "affected": "Athletics",
-                "value": "-4"
+                "value": -4
             },
             {
                 "affected": "Fly Speed",
@@ -615,66 +938,62 @@
                 "affected": "Ignore Armor Penalty",
                 "toggle": true
             }
-        ],
-        "senses": [
-            "Low-Light Vision",
-            "Scent 30 feet (imprecise)"
         ]
     },
     {
         "name": "Chameleon Gnome",
         "type": "activity",
         "desc": "The color of your hair and skin is designed to help you blend into your surroundings. This grants you a +2 circumstance bonus to Stealth checks until your surroundings shift in coloration or pattern.",
+        "buff": true,
         "effects": [
             {
                 "affected": "Stealth",
-                "value": "+2",
-                "type": "circumstance"
+                "type": "circumstance",
+                "value": "2"
             }
-        ],
-        "buff": true
+        ]
     },
     {
         "name": "Unseen Lizardfolk",
         "type": "activity",
         "desc": "Your skin color has changed to help you blend into your surroundings. This grants you a +2 circumstance bonus to Stealth checks until your surroundings change in coloration or pattern.",
+        "buff": true,
         "effects": [
             {
                 "affected": "Stealth",
-                "value": "+2",
-                "type": "circumstance"
+                "type": "circumstance",
+                "value": "2"
             }
-        ],
-        "buff": true
+        ]
     },
     {
         "name": "Rage",
         "type": "activity",
-        "desc": "You gain a number of temporary Hit Points equal to your level plus your Constitution modifier. This frenzy lasts for 1 minute, until there are no enemies you can perceive, or until you fall unconscious, whichever comes first. You can’t voluntarily stop raging. While you are raging: \n\nYou deal 2 additional damage with melee weapons and unarmed attacks. This additional damage is halved if your weapon or unarmed attack is agile.\nYou take a –1 penalty to AC.\nYou can’t use actions with the concentrate trait unless they also have the rage trait. You can Seek while raging.\n\nAfter you stop raging, you lose any remaining temporary Hit Points from Rage, and you can’t Rage again for 1 minute.",
-        "hint": "You can’t use actions with the concentrate trait unless they also have the rage trait. You can Seek while raging.",
+        "desc": "You gain a number of temporary Hit Points equal to your level plus your Constitution modifier. This frenzy lasts for 1 minute, until there are no enemies you can perceive, or until you fall unconscious, whichever comes first. You can't voluntarily stop raging. While you are raging: \n\nYou deal 2 additional damage with melee weapons and unarmed attacks. This additional damage is halved if your weapon or unarmed attack is agile.\nYou take a â€“1 penalty to AC.\nYou can't use actions with the concentrate trait unless they also have the rage trait. You can Seek while raging.\n\nAfter you stop raging, you lose any remaining temporary Hit Points from Rage, and you can't Rage again for 1 minute.",
+        "hint": "You can't use actions with the concentrate trait unless they also have the rage trait. You can Seek while raging.",
         "showon": "Activities, Perception",
-        "effects": [
-            {
-                "affected": "Melee Damage",
-                "value": "+2"
-            },
-            {
-                "affected": "Agile Melee Damage",
-                "value": "+1"
-            },
-            {
-                "affected": "AC",
-                "value": "-1"
-            }
-        ],
+        "inputRequired": "After you stop raging, you lose any remaining temporary Hit Points from Rage.",
+        "buff": true,
         "onceEffects": [
             {
                 "affected": "Temporary HP",
                 "value": "Level + Modifier('Constitution')"
             }
         ],
-        "inputRequired": "After you stop raging, you lose any remaining temporary Hit Points from Rage.",
-        "buff": true
+        "effects": [
+            {
+                "affected": "Non-Agile Melee Damage",
+                "value": "2"
+            },
+            {
+                "affected": "Agile Melee Damage",
+                "value": "1"
+            },
+            {
+                "affected": "AC",
+                "value": "-1"
+            }
+        ]
     },
     {
         "name": "Inspire Courage",
@@ -682,19 +1001,19 @@
         "desc": "You and all allies in the area gain a +1 status bonus to attack rolls, damage rolls, and saves against fear effects.",
         "hint": "You and all allies in the area gain a +1 status bonus to saves against fear effects.",
         "showon": "Will",
+        "buff": true,
         "effects": [
             {
                 "affected": "Attack Rolls",
-                "value": "+1",
-                "type": "status"
+                "type": "status",
+                "value": "1"
             },
             {
                 "affected": "Damage Rolls",
-                "value": "+1",
-                "type": "status"
+                "type": "status",
+                "value": "1"
             }
-        ],
-        "buff": true
+        ]
     },
     {
         "name": "Quivering Palm Immunity",
@@ -729,7 +1048,7 @@
     {
         "name": "Prestidigitation",
         "type": "spells",
-        "desc": "The simplest magic does your bidding. You can perform simple magical effects for as long as you Sustain the Spell. Each time you Sustain the Spell, you can choose one of four options.\n\nCook: Cool, warm, or flavor 1 pound of nonliving material.\nLift: Slowly lift an unattended object of light Bulk or less 1 foot off the ground.\nMake: Create a temporary object of negligible Bulk, made of congealed magical substance. The object looks crude and artificial and is extremely fragile—it can't be used as a tool, weapon, or spell component.\nTidy: Color, clean, or soil an object of light Bulk or less. You can affect an object of 1 Bulk with 10 rounds of concentration, and a larger object a 1 minute per Bulk.\n\nPrestidigitation can't deal damage or cause adverse conditions. Any actual change to an object (beyond what is noted above) persists only as long as you Sustain the Spell.",
+        "desc": "The simplest magic does your bidding. You can perform simple magical effects for as long as you Sustain the Spell. Each time you Sustain the Spell, you can choose one of four options.\n\nCook: Cool, warm, or flavor 1 pound of nonliving material.\nLift: Slowly lift an unattended object of light Bulk or less 1 foot off the ground.\nMake: Create a temporary object of negligible Bulk, made of congealed magical substance. The object looks crude and artificial and is extremely fragileâ€”it can't be used as a tool, weapon, or spell component.\nTidy: Color, clean, or soil an object of light Bulk or less. You can affect an object of 1 Bulk with 10 rounds of concentration, and a larger object a 1 minute per Bulk.\n\nPrestidigitation can't deal damage or cause adverse conditions. Any actual change to an object (beyond what is noted above) persists only as long as you Sustain the Spell.",
         "buff": true
     },
     {
@@ -754,18 +1073,22 @@
         "desc": "Divine guidance is granting you a +1 status bonus to one attack roll, Perception check, saving throw, or skill check you attempt before the duration ends. You choose which roll to use the bonus on before rolling. If you use the bonus, the spell ends.",
         "hint": "Divine guidance is granting you a +1 status bonus to one attack roll, Perception check, saving throw, or skill check you attempt before the duration ends. You choose which roll to use the bonus on before rolling. If you use the bonus, the spell ends.",
         "showon": "AC, Fortitude, Reflex, Will, Attacks, Perception, Skills",
+        "inputRequired": "If you use the bonus, the spell ends.",
         "buff": true
     },
     {
         "name": "Guidance Immunity",
         "type": "spells",
-        "desc": "You cannot gain the bonus granted by the Guidance spell for the duration."
+        "desc": "You cannot gain the bonus granted by the Guidance spell for the duration.",
+        "overrideConditions": [
+            "Guidance"
+        ]
     },
     {
         "name": "Join Pasts",
         "type": "spells",
-        "desc": "You can share thoughts and experiences with the other targets of the spell, but not words. When one target attempts to Recall Knowledge, the other can Aid the first target’s skill check, using any Lore skill (even if that Lore wouldn’t normally apply) without having made any preparations to Aid.",
-        "hint": "When one target attempts to Recall Knowledge, the other can Aid the first target’s skill check, using any Lore skill (even if that Lore wouldn’t normally apply) without having made any preparations to Aid.",
+        "desc": "You can share thoughts and experiences with the other targets of the spell, but not words. When one target attempts to Recall Knowledge, the other can Aid the first target's skill check, using any Lore skill (even if that Lore wouldn't normally apply) without having made any preparations to Aid.",
+        "hint": "When one target attempts to Recall Knowledge, the other can Aid the first target's skill check, using any Lore skill (even if that Lore wouldn't normally apply) without having made any preparations to Aid.",
         "showon": "Skills",
         "buff": true
     },
@@ -778,24 +1101,24 @@
     {
         "name": "Alarm (3rd level)",
         "type": "spells",
-        "desc": "You have warded an area to alert you when creatures enter without your permission. Whenever a Small or larger corporeal creature enters the spell's area without speaking the password, alarm sends your choice of a mental alert (in which case the spell gains the mental trait) or an audible alarm with the sound and volume of a hand bell (in which case the spell gains the auditory trait). You can specify criteria for which creatures sound the alarm spell—for instance, orcs or masked people. Either option automatically awakens you, and the bell allows each creature in the area to attempt a DC 15 Perception check to wake up. A creature aware of the alarm must succeed at a Stealth check against the spell's DC or trigger the spell when moving into the area.",
+        "desc": "You have warded an area to alert you when creatures enter without your permission. Whenever a Small or larger corporeal creature enters the spell's area without speaking the password, alarm sends your choice of a mental alert (in which case the spell gains the mental trait) or an audible alarm with the sound and volume of a hand bell (in which case the spell gains the auditory trait). You can specify criteria for which creatures sound the alarm spellâ€”for instance, orcs or masked people. Either option automatically awakens you, and the bell allows each creature in the area to attempt a DC 15 Perception check to wake up. A creature aware of the alarm must succeed at a Stealth check against the spell's DC or trigger the spell when moving into the area.",
         "buff": true
     },
     {
         "name": "Ant Haul",
         "type": "spells",
         "desc": "Your musculoskeletal system is reinforced to bear more weight. The target can carry 3 more Bulk than normal before becoming encumbered and up to a maximum of 6 more Bulk.",
+        "buff": true,
         "effects": [
             {
                 "affected": "Encumbered Limit",
-                "value": "+3"
+                "value": "3"
             },
             {
                 "affected": "Max Bulk",
-                "value": "+6"
+                "value": "6"
             }
-        ],
-        "buff": true
+        ]
     },
     {
         "name": "Anticipate Peril (1st level)",
@@ -832,18 +1155,18 @@
     {
         "name": "Bane (Caster)",
         "type": "spells",
-        "desc": "You fill the minds of your enemies with doubt. Targets that fail their Will saves take a –1 status penalty to attack rolls as long as they are in the area. Once per turn, starting the turn after you cast bane, you can use a single action, which has the concentrate trait, to increase the emanation's radius by 5 feet and force enemies in the area that weren't yet affected to attempt another saving throw. Bane can counteract bless.",
+        "desc": "You fill the minds of your enemies with doubt. Targets that fail their Will saves take a â€“1 status penalty to attack rolls as long as they are in the area. Once per turn, starting the turn after you cast bane, you can use a single action, which has the concentrate trait, to increase the emanation's radius by 5 feet and force enemies in the area that weren't yet affected to attempt another saving throw. Bane can counteract bless.",
         "buff": true
     },
     {
         "name": "Bane",
         "type": "spells",
-        "desc": "Your mind is filled with doubt. You take a –1 status penalty to attack rolls as long as you are in the emanation area.",
+        "desc": "Your mind is filled with doubt. You take a â€“1 status penalty to attack rolls as long as you are in the emanation area.",
         "effects": [
             {
                 "affected": "Attack Rolls",
-                "value": "-1",
-                "type": "status"
+                "type": "status",
+                "value": "-1"
             }
         ]
     },
@@ -851,53 +1174,53 @@
         "name": "Bless (Caster)",
         "type": "spells",
         "desc": "Blessings from beyond help your companions strike true. You and your allies in the area gain a +1 status bonus to attack rolls. Once per turn, starting the turn after you cast bless, you can use a single action, which has the concentrate trait, to increase the emanation's radius by 5 feet. Bless can counteract bane.",
+        "buff": true,
         "effects": [
             {
                 "affected": "Attack Rolls",
-                "value": "+1",
-                "type": "status"
+                "type": "status",
+                "value": "1"
             }
-        ],
-        "buff": true
+        ]
     },
     {
         "name": "Bless",
         "type": "spells",
         "desc": "Blessings from beyond help you strike true. You gain a +1 status bonus to attack rolls while in the emanation area.",
+        "buff": true,
         "effects": [
             {
                 "affected": "Attack Rolls",
-                "value": "+1",
-                "type": "status"
+                "type": "status",
+                "value": "1"
             }
-        ],
-        "buff": true
+        ]
     },
     {
         "name": "Endure",
         "type": "spells",
         "desc": "You have been granted a number of temporary Hit Points equal to 5 times the spell level for the duration of the spell.",
         "inputRequired": "When the condition ends, remove the temporary Hit Points.",
+        "buff": true,
         "onceEffects": [
             {
                 "affected": "Temporary HP",
                 "value": "(object.heightened) * 5"
             }
-        ],
-        "buff": true
+        ]
     },
     {
         "name": "Fleet Step",
         "type": "spells",
         "desc": "You gain a +30-foot status bonus to your Speed.",
+        "buff": true,
         "effects": [
             {
                 "affected": "Land Speed",
-                "value": "+30",
-                "type": "status"
+                "type": "status",
+                "value": "30"
             }
-        ],
-        "buff": true
+        ]
     },
     {
         "name": "Floating Disk",
@@ -905,22 +1228,22 @@
         "desc": "This disk is 2 feet in diameter and follows 5 feet behind you, floating just above the ground. It holds up to 5 Bulk of objects (though they must be able to fit and balance on its surface). Any objects atop the disk fall to the ground when the spell ends.\n\nThe spell ends if a creature tries to ride atop the disk, if the disk is overloaded, if anyone tries to lift or force the disk higher above the ground, or if you move more than 30 feet away from the disk.",
         "hint": "This disk is 2 feet in diameter and follows 5 feet behind you, floating just above the ground. It holds up to 5 Bulk of objects (though they must be able to fit and balance on its surface).",
         "showon": "Bulk",
+        "buff": true,
         "effects": [
             {
                 "affected": "Encumbered Limit",
-                "value": "+5"
+                "value": "5"
             },
             {
                 "affected": "Max Bulk",
-                "value": "+5"
+                "value": "5"
             }
-        ],
-        "buff": true
+        ]
     },
     {
         "name": "Grease",
         "type": "spells",
-        "desc": "Grease affects an area or object of your choice.\n\n<strong>Area</strong> All solid ground in the area is covered with grease. Each creature standing on the greasy surface must succeed at a Reflex save or an Acrobatics check against your spell DC or fall prone. Creatures using an action to move onto the greasy surface during the spell's duration must attempt either a Reflex save or an Acrobatics check to Balance. A creature that Steps or Crawls doesn't have to attempt a check or save.\n<strong>Target</strong> If you cast the spell on an unattended object, anyone trying to pick up the object must succeed at an Acrobatics check or Reflex save against your spell DC to do so. If you target an attended object, the creature that has the object must attempt an Acrobatics check or Reflex save. On a failure, the holder or wielder takes a –2 circumstance penalty to all checks that involve using the object; on a critical failure, the holder or wielder releases the item. The object lands in an adjacent square of the GM's choice. If you cast this spell on a worn object, the wearer gains a +2 circumstance bonus to Fortitude saves against attempts to grapple them.",
+        "desc": "Grease affects an area or object of your choice.\n\n<strong>Area</strong> All solid ground in the area is covered with grease. Each creature standing on the greasy surface must succeed at a Reflex save or an Acrobatics check against your spell DC or fall prone. Creatures using an action to move onto the greasy surface during the spell's duration must attempt either a Reflex save or an Acrobatics check to Balance. A creature that Steps or Crawls doesn't have to attempt a check or save.\n<strong>Target</strong> If you cast the spell on an unattended object, anyone trying to pick up the object must succeed at an Acrobatics check or Reflex save against your spell DC to do so. If you target an attended object, the creature that has the object must attempt an Acrobatics check or Reflex save. On a failure, the holder or wielder takes a â€“2 circumstance penalty to all checks that involve using the object; on a critical failure, the holder or wielder releases the item. The object lands in an adjacent square of the GM's choice. If you cast this spell on a worn object, the wearer gains a +2 circumstance bonus to Fortitude saves against attempts to grapple them.",
         "buff": true
     },
     {
@@ -1025,14 +1348,14 @@
         "name": "Longstrider",
         "type": "spells",
         "desc": "You lengthen your stride beyond what should be possible. You gain a +10-foot status bonus to your Speed.",
+        "buff": true,
         "effects": [
             {
                 "affected": "Land Speed",
-                "value": "+10",
-                "type": "status"
+                "type": "status",
+                "value": "10"
             }
-        ],
-        "buff": true
+        ]
     },
     {
         "name": "Magic Aura (1st level)",
@@ -1057,20 +1380,14 @@
     {
         "name": "Message Rune",
         "type": "spells",
-        "desc": "You have recorded a message up to 5 minutes long and inscribe a special rune on any flat unattended surface within reach. The nature of the rune’s appearance is up to you, but it is visible to everyone and it must be no smaller than 2 inches in diameter. You have also specified a trigger that creatures must meet to activate the rune. For the duration of the spell, creatures who meet the criteria of the trigger can touch the rune to hear the recorded message in their head as though you were speaking to them telepathically. You know when someone is listening to the message, but you do not know who is listening to it. You can Dismiss the spell.",
+        "desc": "You have recorded a message up to 5 minutes long and inscribe a special rune on any flat unattended surface within reach. The nature of the rune's appearance is up to you, but it is visible to everyone and it must be no smaller than 2 inches in diameter. You have also specified a trigger that creatures must meet to activate the rune. For the duration of the spell, creatures who meet the criteria of the trigger can touch the rune to hear the recorded message in their head as though you were speaking to them telepathically. You know when someone is listening to the message, but you do not know who is listening to it. You can Dismiss the spell.",
         "buff": true
     },
     {
         "name": "Imprint Message",
         "type": "spells",
-        "desc": "You have projected psychic vibrations onto the target object, imprinting it with a short message or emotional theme of your design. This imprinted sensation is revealed to anyone casting object reading on the target object, replacing any emotional events the item was present for. If the object is in the area of a retrocognition spell, the imprinted messages appear as major events in the timeline, but they don’t interfere with any other visions. If the object is targeted with read aura of a higher spell level than imprint message, the caster learns that the object has been modified. When you Cast this Spell, any prior vibrations placed in an object by previous castings of imprint message fade.",
+        "desc": "You have projected psychic vibrations onto the target object, imprinting it with a short message or emotional theme of your design. This imprinted sensation is revealed to anyone casting object reading on the target object, replacing any emotional events the item was present for. If the object is in the area of a retrocognition spell, the imprinted messages appear as major events in the timeline, but they don't interfere with any other visions. If the object is targeted with read aura of a higher spell level than imprint message, the caster learns that the object has been modified. When you Cast this Spell, any prior vibrations placed in an object by previous castings of imprint message fade.",
         "buff": true
-    },
-    {
-        "name": "Persistent Damage",
-        "type": "generic",
-        "desc": "Persistent damage comes from effects like acid, being on fire, or many other situations. It appears as “X persistent [type] damage,” where “X” is the amount of damage dealt and “[type]” is the damage type. Instead of taking persistent damage immediately, you take it at the end of each of your turns as long as you have the condition, rolling any damage dice anew each time. After you take persistent damage, roll a DC 15 flat check to see if you recover from the persistent damage. If you succeed, the condition ends.",
-        "inputRequired": "Take the appropriate amount of damage at the end of each of your turns as long as you have the condition, rolling any damage dice anew each time. After you take persistent damage, roll a DC 15 flat check to see if you recover from the persistent damage. If you succeed, the condition ends."
     },
     {
         "name": "Negate Aroma",
@@ -1090,14 +1407,14 @@
     {
         "name": "Personal Rain Cloud",
         "type": "spells",
-        "desc": "A 5-foot-wide rain cloud follows you wherever you go. It stays roughly an arm’s length overhead, unless it must drift lower to fit under a ceiling. The cloud rains constantly on you, keeping you wet and dampening the ground in the wake of any movement. The rain extinguishes non-magical flames. You gain twice the spell level as fire resistance. If you have a weakness to water, you take damage equal to your weakness at the end of each turn. You can attempt a Reflex save to avoid the cloud.",
+        "desc": "A 5-foot-wide rain cloud follows you wherever you go. It stays roughly an arm's length overhead, unless it must drift lower to fit under a ceiling. The cloud rains constantly on you, keeping you wet and dampening the ground in the wake of any movement. The rain extinguishes non-magical flames. You gain twice the spell level as fire resistance. If you have a weakness to water, you take damage equal to your weakness at the end of each turn. You can attempt a Reflex save to avoid the cloud.",
+        "buff": true,
         "effects": [
             {
                 "affected": "Fire Resistance",
                 "value": "(object.heightened) * 2"
             }
-        ],
-        "buff": true
+        ]
     },
     {
         "name": "Phantom Pain (Failure)",
@@ -1106,12 +1423,10 @@
         "gainConditions": [
             {
                 "name": "Sickened",
-                "value": 1,
-                "source": "Phantom Pain"
+                "value": 1
             },
             {
                 "name": "Persistent Damage",
-                "source": "Phantom Pain",
                 "persistentDamage": "Mental 1d4 per spell level"
             }
         ]
@@ -1123,12 +1438,10 @@
         "gainConditions": [
             {
                 "name": "Sickened",
-                "value": 2,
-                "source": "Phantom Pain"
+                "value": 2
             },
             {
                 "name": "Persistent Damage",
-                "source": "Phantom Pain",
                 "persistentDamage": "Mental 1d4 per spell level"
             }
         ]
@@ -1150,13 +1463,13 @@
     {
         "name": "Scouring Sand (1st level)",
         "type": "spells",
-        "desc": "You are blasting the area with grit that scours away soil and gets into creatures’ eyes. For the duration of the spell, any plant-based difficult terrain smaller than a tree becomes loose, allowing each 5-foot square of it to be cleared with a single Interact action. In addition, scouring sand attempts to counteract entangle and other effects that create or manipulate plant-based terrain in its area. Successfully counteracting an effect removes only the portion of its area that overlaps with scouring sand’s area. After one such attempt, the effect is temporarily immune to scouring sand’s counteract for 24 hours. Each creature in the area when you Cast this Spell or that ends its turn in the area must attempt a Reflex save.\n\n<strong>Success</strong> The creature is unaffected.\n<strong>Failure</strong> The creature is dazzled for 1 minute or until it uses an Interact action to get the sand out of its eyes.\n<strong>Critical Failure</strong> As failure, but the creature is also blinded for its next action.",
+        "desc": "You are blasting the area with grit that scours away soil and gets into creatures' eyes. For the duration of the spell, any plant-based difficult terrain smaller than a tree becomes loose, allowing each 5-foot square of it to be cleared with a single Interact action. In addition, scouring sand attempts to counteract entangle and other effects that create or manipulate plant-based terrain in its area. Successfully counteracting an effect removes only the portion of its area that overlaps with scouring sand's area. After one such attempt, the effect is temporarily immune to scouring sand's counteract for 24 hours. Each creature in the area when you Cast this Spell or that ends its turn in the area must attempt a Reflex save.\n\n<strong>Success</strong> The creature is unaffected.\n<strong>Failure</strong> The creature is dazzled for 1 minute or until it uses an Interact action to get the sand out of its eyes.\n<strong>Critical Failure</strong> As failure, but the creature is also blinded for its next action.",
         "buff": true
     },
     {
         "name": "Scouring Sand (3rd level)",
         "type": "spells",
-        "desc": "You are blasting the area with grit that scours away soil and gets into creatures’ eyes. For the duration of the spell, any plant-based difficult terrain smaller than a tree becomes loose, allowing each 5-foot square of it to be cleared with a single Interact action. In addition, scouring sand attempts to counteract entangle and other effects that create or manipulate plant-based terrain in its area. Successfully counteracting an effect removes only the portion of its area that overlaps with scouring sand’s area. After one such attempt, the effect is temporarily immune to scouring sand’s counteract for 24 hours. Each creature in the area when you Cast this Spell or that ends its turn in the area must attempt a Reflex save.\n\n<strong>Success</strong> The creature is unaffected.\n<strong>Failure</strong> The creature is dazzled for 1 minute or until it uses an Interact action to get the sand out of its eyes.\n<strong>Critical Failure</strong> As failure, but the creature is also blinded for its next action. Once per round when you Sustain the Spell, you can move the center of the burst to a spot within range.",
+        "desc": "You are blasting the area with grit that scours away soil and gets into creatures' eyes. For the duration of the spell, any plant-based difficult terrain smaller than a tree becomes loose, allowing each 5-foot square of it to be cleared with a single Interact action. In addition, scouring sand attempts to counteract entangle and other effects that create or manipulate plant-based terrain in its area. Successfully counteracting an effect removes only the portion of its area that overlaps with scouring sand's area. After one such attempt, the effect is temporarily immune to scouring sand's counteract for 24 hours. Each creature in the area when you Cast this Spell or that ends its turn in the area must attempt a Reflex save.\n\n<strong>Success</strong> The creature is unaffected.\n<strong>Failure</strong> The creature is dazzled for 1 minute or until it uses an Interact action to get the sand out of its eyes.\n<strong>Critical Failure</strong> As failure, but the creature is also blinded for its next action. Once per round when you Sustain the Spell, you can move the center of the burst to a spot within range.",
         "buff": true
     },
     {
@@ -1213,37 +1526,37 @@
     {
         "name": "Summon Animal",
         "type": "spells",
-        "desc": "You have summoned an animal to fight for you.\n\nA creature called by a conjuration spell or effect gains the summoned trait. A summoned creature can’t summon other creatures, create things of value, or cast spells that require a cost. It has the minion trait. If it tries to cast a spell of equal or higher level than the spell that summoned it, it overpowers the summoning magic, causing the summoned creature’s spell to fail and the summon spell to end. Otherwise, the summoned creature uses the standard abilities for a creature of its kind. It generally attacks your enemies to the best of its abilities. If you can communicate with it, you can attempt to command it, but the GM determines the degree to which it follows your commands.\n\nImmediately when you finish Casting the Spell, the summoned creature uses its 2 actions for that turn. Summoned creatures can be banished by various spells and effects. They are automatically banished if reduced to 0 Hit Points or if the spell that called them ends.",
+        "desc": "You have summoned an animal to fight for you.\n\nA creature called by a conjuration spell or effect gains the summoned trait. A summoned creature can't summon other creatures, create things of value, or cast spells that require a cost. It has the minion trait. If it tries to cast a spell of equal or higher level than the spell that summoned it, it overpowers the summoning magic, causing the summoned creature's spell to fail and the summon spell to end. Otherwise, the summoned creature uses the standard abilities for a creature of its kind. It generally attacks your enemies to the best of its abilities. If you can communicate with it, you can attempt to command it, but the GM determines the degree to which it follows your commands.\n\nImmediately when you finish Casting the Spell, the summoned creature uses its 2 actions for that turn. Summoned creatures can be banished by various spells and effects. They are automatically banished if reduced to 0 Hit Points or if the spell that called them ends.",
         "buff": true
     },
     {
         "name": "Summon Construct",
         "type": "spells",
-        "desc": "You have conjured a construct to fight for you.\n\nA creature called by a conjuration spell or effect gains the summoned trait. A summoned creature can’t summon other creatures, create things of value, or cast spells that require a cost. It has the minion trait. If it tries to cast a spell of equal or higher level than the spell that summoned it, it overpowers the summoning magic, causing the summoned creature’s spell to fail and the summon spell to end. Otherwise, the summoned creature uses the standard abilities for a creature of its kind. It generally attacks your enemies to the best of its abilities. If you can communicate with it, you can attempt to command it, but the GM determines the degree to which it follows your commands.\n\nImmediately when you finish Casting the Spell, the summoned creature uses its 2 actions for that turn. Summoned creatures can be banished by various spells and effects. They are automatically banished if reduced to 0 Hit Points or if the spell that called them ends.",
+        "desc": "You have conjured a construct to fight for you.\n\nA creature called by a conjuration spell or effect gains the summoned trait. A summoned creature can't summon other creatures, create things of value, or cast spells that require a cost. It has the minion trait. If it tries to cast a spell of equal or higher level than the spell that summoned it, it overpowers the summoning magic, causing the summoned creature's spell to fail and the summon spell to end. Otherwise, the summoned creature uses the standard abilities for a creature of its kind. It generally attacks your enemies to the best of its abilities. If you can communicate with it, you can attempt to command it, but the GM determines the degree to which it follows your commands.\n\nImmediately when you finish Casting the Spell, the summoned creature uses its 2 actions for that turn. Summoned creatures can be banished by various spells and effects. They are automatically banished if reduced to 0 Hit Points or if the spell that called them ends.",
         "buff": true
     },
     {
         "name": "Summon Plant or Fungus",
         "type": "spells",
-        "desc": "You have conjured a plant or fungus to fight for you.\n\nA creature called by a conjuration spell or effect gains the summoned trait. A summoned creature can’t summon other creatures, create things of value, or cast spells that require a cost. It has the minion trait. If it tries to cast a spell of equal or higher level than the spell that summoned it, it overpowers the summoning magic, causing the summoned creature’s spell to fail and the summon spell to end. Otherwise, the summoned creature uses the standard abilities for a creature of its kind. It generally attacks your enemies to the best of its abilities. If you can communicate with it, you can attempt to command it, but the GM determines the degree to which it follows your commands.\n\nImmediately when you finish Casting the Spell, the summoned creature uses its 2 actions for that turn. Summoned creatures can be banished by various spells and effects. They are automatically banished if reduced to 0 Hit Points or if the spell that called them ends.",
+        "desc": "You have conjured a plant or fungus to fight for you.\n\nA creature called by a conjuration spell or effect gains the summoned trait. A summoned creature can't summon other creatures, create things of value, or cast spells that require a cost. It has the minion trait. If it tries to cast a spell of equal or higher level than the spell that summoned it, it overpowers the summoning magic, causing the summoned creature's spell to fail and the summon spell to end. Otherwise, the summoned creature uses the standard abilities for a creature of its kind. It generally attacks your enemies to the best of its abilities. If you can communicate with it, you can attempt to command it, but the GM determines the degree to which it follows your commands.\n\nImmediately when you finish Casting the Spell, the summoned creature uses its 2 actions for that turn. Summoned creatures can be banished by various spells and effects. They are automatically banished if reduced to 0 Hit Points or if the spell that called them ends.",
         "buff": true
     },
     {
         "name": "Summon Plant or Fungus",
         "type": "spells",
-        "desc": "You have conjured a fey to fight for you.\n\nA creature called by a conjuration spell or effect gains the summoned trait. A summoned creature can’t summon other creatures, create things of value, or cast spells that require a cost. It has the minion trait. If it tries to cast a spell of equal or higher level than the spell that summoned it, it overpowers the summoning magic, causing the summoned creature’s spell to fail and the summon spell to end. Otherwise, the summoned creature uses the standard abilities for a creature of its kind. It generally attacks your enemies to the best of its abilities. If you can communicate with it, you can attempt to command it, but the GM determines the degree to which it follows your commands.\n\nImmediately when you finish Casting the Spell, the summoned creature uses its 2 actions for that turn. Summoned creatures can be banished by various spells and effects. They are automatically banished if reduced to 0 Hit Points or if the spell that called them ends.",
+        "desc": "You have conjured a fey to fight for you.\n\nA creature called by a conjuration spell or effect gains the summoned trait. A summoned creature can't summon other creatures, create things of value, or cast spells that require a cost. It has the minion trait. If it tries to cast a spell of equal or higher level than the spell that summoned it, it overpowers the summoning magic, causing the summoned creature's spell to fail and the summon spell to end. Otherwise, the summoned creature uses the standard abilities for a creature of its kind. It generally attacks your enemies to the best of its abilities. If you can communicate with it, you can attempt to command it, but the GM determines the degree to which it follows your commands.\n\nImmediately when you finish Casting the Spell, the summoned creature uses its 2 actions for that turn. Summoned creatures can be banished by various spells and effects. They are automatically banished if reduced to 0 Hit Points or if the spell that called them ends.",
         "buff": true
     },
     {
         "name": "Temporary Tool",
         "type": "spells",
-        "desc": "You have conjured a temporary simple tool, such as a shovel or rope into your hands. It lasts until it is used for a single activity or for 1 minute, whichever comes first, after which it disappears. The tool is obviously temporarily conjured, and thus can’t be sold or passed off as a genuine item.",
+        "desc": "You have conjured a temporary simple tool, such as a shovel or rope into your hands. It lasts until it is used for a single activity or for 1 minute, whichever comes first, after which it disappears. The tool is obviously temporarily conjured, and thus can't be sold or passed off as a genuine item.",
         "buff": true
     },
     {
         "name": "Tether",
         "type": "spells",
-        "desc": "You have used magical chains, vines, or other tethers to bind your target to you. The creature can still try to Escape, and it or others can break the tethers by attacking them. The tethers have AC 15 (plus 3 per spell level) and 10 Hit Points (plus 10 per spell level). You must stay within 30 feet of the target while it is tethered; moving more than 30 feet away from your target ends the spell. The target must attempt a Reflex save.\n\n<strong>Critical Success</strong> The target is unaffected.\n<strong>Success</strong> The target takes a –5-foot circumstance penalty to its Speed as long as it is within 30 feet of you.\n<strong>Failure</strong> The target takes a –10-foot circumstance penalty to its Speed and cannot move more than 30 feet away from you until it Escapes or the spell ends.\n<strong>Critical Failure</strong> The target is immobilized until it Escapes or the spell ends.",
+        "desc": "You have used magical chains, vines, or other tethers to bind your target to you. The creature can still try to Escape, and it or others can break the tethers by attacking them. The tethers have AC 15 (plus 3 per spell level) and 10 Hit Points (plus 10 per spell level). You must stay within 30 feet of the target while it is tethered; moving more than 30 feet away from your target ends the spell. The target must attempt a Reflex save.\n\n<strong>Critical Success</strong> The target is unaffected.\n<strong>Success</strong> The target takes a â€“5-foot circumstance penalty to its Speed as long as it is within 30 feet of you.\n<strong>Failure</strong> The target takes a â€“10-foot circumstance penalty to its Speed and cannot move more than 30 feet away from you until it Escapes or the spell ends.\n<strong>Critical Failure</strong> The target is immobilized until it Escapes or the spell ends.",
         "buff": true
     },
     {
@@ -1257,7 +1570,7 @@
     {
         "name": "Unseen Servant",
         "type": "spells",
-        "desc": "You have summoned an unseen servant (Core Rulebook pg. 380), which you can command as part of Sustaining the Spell. It serves you until its Hit Points are reduced to 0, at which point the spell ends, or until you stop Sustaining the Spell. The unseen servant gains the summoned trait.\n\nA creature called by a conjuration spell or effect gains the summoned trait. A summoned creature can’t summon other creatures, create things of value, or cast spells that require a cost. It has the minion trait. If it tries to cast a spell of equal or higher level than the spell that summoned it, it overpowers the summoning magic, causing the summoned creature’s spell to fail and the summon spell to end. Otherwise, the summoned creature uses the standard abilities for a creature of its kind. It generally attacks your enemies to the best of its abilities. If you can communicate with it, you can attempt to command it, but the GM determines the degree to which it follows your commands.\n\nImmediately when you finish Casting the Spell, the summoned creature uses its 2 actions for that turn. Summoned creatures can be banished by various spells and effects. They are automatically banished if reduced to 0 Hit Points or if the spell that called them ends.",
+        "desc": "You have summoned an unseen servant (Core Rulebook pg. 380), which you can command as part of Sustaining the Spell. It serves you until its Hit Points are reduced to 0, at which point the spell ends, or until you stop Sustaining the Spell. The unseen servant gains the summoned trait.\n\nA creature called by a conjuration spell or effect gains the summoned trait. A summoned creature can't summon other creatures, create things of value, or cast spells that require a cost. It has the minion trait. If it tries to cast a spell of equal or higher level than the spell that summoned it, it overpowers the summoning magic, causing the summoned creature's spell to fail and the summon spell to end. Otherwise, the summoned creature uses the standard abilities for a creature of its kind. It generally attacks your enemies to the best of its abilities. If you can communicate with it, you can attempt to command it, but the GM determines the degree to which it follows your commands.\n\nImmediately when you finish Casting the Spell, the summoned creature uses its 2 actions for that turn. Summoned creatures can be banished by various spells and effects. They are automatically banished if reduced to 0 Hit Points or if the spell that called them ends.",
         "buff": true
     },
     {
@@ -1339,54 +1652,269 @@
         "name": "Shifting Form (Speed bonus)",
         "type": "spells",
         "desc": "You gain a 20-foot status bonus to your Speed.",
+        "buff": true,
         "effects": [
             {
                 "affected": "Land Speed",
-                "value": "+20",
-                "type": "status"
+                "type": "status",
+                "value": "20"
             }
-        ],
-        "buff": true
+        ]
     },
     {
         "name": "Shifting Form (climb Speed)",
         "type": "spells",
         "desc": "You gain a climb Speed equal to half your Speed.",
+        "buff": true,
         "effects": [
             {
                 "affected": "Climb Speed",
-                "setValue": "Speed('Land Speed') / 2"
+                "value": "Math.max(Math.floor(Speed('Land Speed') / 2 / 5) * 5, 5)"
             }
-        ],
-        "buff": true
+        ]
     },
     {
         "name": "Shifting Form (swim Speed)",
         "type": "spells",
-        "desc": "You gain a climb Speed equal to half your Speed.",
+        "desc": "You gain a swim Speed equal to half your Speed.",
+        "buff": true,
         "effects": [
             {
                 "affected": "Swim Speed",
-                "setValue": "Speed('Land Speed') / 2"
+                "value": "Math.max(Math.floor(Speed('Land Speed') / 2 / 5) * 5, 5)"
             }
-        ],
-        "buff": true
+        ]
     },
     {
         "name": "Shifting Form (darkvision)",
         "type": "spells",
         "desc": "You gain darkvision.",
+        "buff": true,
         "senses": [
             "Darkvision"
-        ],
-        "buff": true
+        ]
     },
     {
         "name": "Shifting Form (scent)",
         "type": "spells",
         "desc": "You gain scent 60 feet (imprecise).",
+        "buff": true,
         "senses": [
             "Scent 60 feet (imprecise)"
+        ]
+    },
+    {
+        "name": "Enlarge (2nd level)",
+        "type": "spells",
+        "desc": "Bolstered by magical power, you grow to size Large. Your equipment grows with you but returns to natural size if removed. You are clumsy 1. Your reach increases by 5 feet (or by 10 feet if you started out Tiny), and you gain a +2 status bonus to melee damage.",
+        "hint": "Your reach increases by 5 feet (or by 10 feet if you started out Tiny).",
+        "showon": "Attacks",
+        "gainConditions": [
+            {
+                "name": "Clumsy",
+                "value": 1
+            }
+        ],
+        "effects": [
+            {
+                "affected": "Size",
+                "setValue": "1"
+            },
+            {
+                "affected": "Melee Damage",
+                "value": "2"
+            }
+        ],
+        "buff": true
+    },
+    {
+        "name": "Enlarge (4th level)",
+        "type": "spells",
+        "desc": "Bolstered by magical power, you grow to size Huge. Your equipment grows with you but returns to natural size if removed. You are clumsy 1. Your reach increases by 10 feet (or by 15 feet if you started out Tiny), and you gain a +4 status bonus to melee damage.",
+        "hint": "Your reach increases by 5 feet (or by 10 feet if you started out Tiny).",
+        "showon": "Attacks",
+        "gainConditions": [
+            {
+                "name": "Clumsy",
+                "value": 1
+            }
+        ],
+        "effects": [
+            {
+                "affected": "Size",
+                "setValue": "2"
+            },
+            {
+                "affected": "Melee Damage",
+                "value": "4"
+            }
+        ],
+        "buff": true
+    },
+    {
+        "name": "Invisibility (2nd level)",
+        "type": "spells",
+        "desc": "Cloaked in illusion, you become invisible. If you use a hostile action, the spell ends after that hostile action is completed.",
+        "inputRequired": "If you use a hostile action, the spell ends after that hostile action is completed.",
+        "gainConditions": [
+            {
+                "name": "Invisible"
+            }
+        ],
+        "buff": true
+    },
+    {
+        "name": "Invisibility (4th level)",
+        "type": "spells",
+        "desc": "Cloaked in illusion, you become invisible. The spell doesn't end if you use a hostile action.",
+        "gainConditions": [
+            {
+                "name": "Invisible"
+            }
+        ],
+        "buff": true
+    },
+    {
+        "name": "Blur",
+        "type": "spells",
+        "desc": "Your form appears blurry. You become concealed. As the nature of this effect still leaves your location obvious, your can't use this concealment to Hide or Sneak.",
+        "gainConditions": [
+            {
+                "name": "Concealed"
+            }
+        ],
+        "buff": true
+    },
+    {
+        "name": "Haste",
+        "type": "spells",
+        "desc": "Magic empowers you to act faster. You gain the quickened condition and can use the extra action each round only for Strike and Stride actions.",
+        "gainConditions": [
+            {
+                "name": "Quickened"
+            }
+        ],
+        "buff": true
+    },
+    {
+        "name": "Invisibility Sphere",
+        "type": "spells",
+        "desc": "You and all targets are invisible except to each other as long as you remain within the spell's area. If a creature made invisible by this spell leaves the spell's area, it becomes visible and remains so even if it returns to the spell's area. If any creature made invisible by this spell uses a hostile action, the spell ends after the hostile action is completed.\n\nWhile exploring, it's easy to move together slowly and remain invisible. This is untenable in a battle, however. Once an encounter begins, creatures remain invisible until at most the end of the first round, at which point the spell ends.",
+        "gainConditions": [
+            {
+                "name": "Invisible"
+            }
+        ],
+        "buff": true
+    },
+    {
+        "name": "Wall of Fire",
+        "type": "spells",
+        "desc": "You have raised a blazing wall that burns creatures passing through it. Everything on each side of the wall is concealed from creatures on the opposite side. Any creature that crosses the wall or is occupying the wall's area at the start of its turn takes 1d6 fire damage per spell level.",
+        "buff": true
+    },
+    {
+        "name": "Dimension Door Immunity",
+        "type": "spells",
+        "desc": "You cannot be affected by the Dimension Door for the duration.",
+        "buff": true
+    },
+    {
+        "name": "Shrink",
+        "type": "spells",
+        "desc": "You shrink to become Tiny in size. Your equipment shrinks with it but returns to its original size if removed. Your reach changes to 0 feet. This spell has no effect on a Tiny creature.",
+        "hint": "Your reach changes to 0 feet.",
+        "showon": "Attacks",
+        "effects": [
+            {
+                "affected": "Size",
+                "setValue": "-2"
+            }
+        ],
+        "buff": true
+    },
+    {
+        "name": "Levitate (Caster)",
+        "type": "spells",
+        "desc": "You defy gravity and levitate the target 5 feet off the ground. For the duration of the spell, you can move the target up or down 10 feet with a single action, which has the concentrate trait. A creature floating in the air from levitate takes a –2 circumstance penalty to attack rolls. A floating creature can spend an Interact action to stabilize itself and negate this penalty for the remainder of its turn. If the target is adjacent to a fixed object or terrain of suitable stability, it can move across the surface by climbing (if the surface is vertical, like a wall) or crawling (if the surface is horizontal, such as a ceiling). The GM determines which surfaces can be climbed or crawled across.",
+        "buff": true
+    },
+    {
+        "name": "Levitate (Target)",
+        "type": "spells",
+        "desc": "You are levitated 5 feet off the ground, taking a –2 circumstance penalty to attack rolls. You can spend an Interact action to stabilize yourself and negate this penalty for the remainder of your turn. If you're adjacent to a fixed object or terrain of suitable stability, you can move across the surface by climbing (if the surface is vertical, like a wall) or crawling (if the surface is horizontal, such as a ceiling). The GM determines which surfaces can be climbed or crawled across.",
+        "effects": [
+            {
+                "affected": "Attack Rolls",
+                "value": "-2",
+                "type": "circumstance"
+            }
+        ],
+        "buff": true
+    },
+    {
+        "name": "Mirror Image",
+        "type": "spells",
+        "desc": "Three illusory images of you swirl about your space, potentially causing those who attack you to hit one of the images instead of you. Any attack that would hit you has a random chance of hitting one of your images instead of you. If all three images remain, there is a 1 in 4 chance of hitting you (1 on 1d4). With two images remaining, there is a 1 in 3 chance of hitting you (1–2 on 1d6). With only one image, the chances are 1 in 2 (1–3 on 1d6).\n\nOnce an image is hit, it is destroyed. If an attack roll fails to hit your AC but doesn't critically fail, it destroys an image but has no additional effect (even if the attack would normally have an effect on a failure). If an attack roll is a critical success and would hit one of the images, one of the images is destroyed and the attack roll becomes a success against you. Once all the images are destroyed, the spell ends.",
+        "effects": [
+            {
+                "affected": "Mirror Images",
+                "value": "object.value"
+            }
+        ],
+        "hasValue": true,
+        "buff": true
+    },
+    {
+        "name": "Fly",
+        "type": "spells",
+        "desc": "You can soar through the air, gaining a fly Speed equal to your Speed or 20 feet, whichever is greater.",
+        "effects": [
+            {
+                "affected": "Fly Speed",
+                "value": "Math.max(Speed('Land Speed'), 20)"
+            }
+        ],
+        "buff": true
+    },
+    {
+        "name": "Creation (4th level)",
+        "type": "spells",
+        "desc": "You have conjured a temporary object from eldritch energy that is of vegetable matter (such as wood or paper) and 5 cubic feet or smaller. It can't rely on intricate artistry or complex moving parts, never fulfills a cost or the like, and can't be made of precious materials or materials with a rarity of uncommon or higher. It is obviously temporarily conjured, and thus can't be sold or passed off as a genuine item.",
+        "buff": true
+    },
+    {
+        "name": "Creation (5th level)",
+        "type": "spells",
+        "desc": "You have conjured a temporary object from eldritch energy that is metal and 5 cubic feet or smaller, and can include common minerals, like feldspar or quartz. It can't rely on intricate artistry or complex moving parts, never fulfills a cost or the like, and can't be made of precious materials or materials with a rarity of uncommon or higher. It is obviously temporarily conjured, and thus can't be sold or passed off as a genuine item.",
+        "buff": true
+    },
+    {
+        "name": "Physical Boost",
+        "type": "spells",
+        "desc": "Your physique is temporarily improved. You gain a +2 status bonus to the next Acrobatics check, Athletics check, Fortitude save, or Reflex save it attempts.",
+        "inputRequired": "After you apply the bonus to a check, the condition ends.",
+        "effects": [
+            {
+                "affected": "Acrobatics",
+                "value": "+2",
+                "type": "status"
+            },
+            {
+                "affected": "Athletics",
+                "value": "+2",
+                "type": "status"
+            },
+            {
+                "affected": "Fortitude",
+                "value": "+2",
+                "type": "status"
+            },
+            {
+                "affected": "Reflex",
+                "value": "+2",
+                "type": "status"
+            }
         ],
         "buff": true
     }

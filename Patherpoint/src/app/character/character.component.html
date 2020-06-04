@@ -105,7 +105,7 @@
             </button>
             <div class="list-item sublist" [ngClass]="{'fancy-list':get_Character().class.name}"
                 *ngIf="get_showList()==listID">
-                <ng-container *ngFor="let class of get_Classes()|sortBy:'asc':'name'; trackBy:trackByIndex;">
+                <ng-container *ngFor="let class of get_AvailableClasses()|sortBy:'asc':'name'; trackBy:trackByIndex;">
                     <div class="row list-item" *ngFor="let itemID of ['class'+class.name]">
                         <span>
                             <input id="{{class.name}}" type="checkbox"
@@ -152,7 +152,7 @@
                 </button>
                 <div class="list-item sublist" [ngClass]="{'fancy-list':((get_Character().class.ancestry.name))}"
                     *ngIf="get_showList()==listID">
-                    <ng-container *ngFor="let ancestry of get_Ancestries()|sortBy:'asc':'name'; trackBy:trackByIndex;">
+                    <ng-container *ngFor="let ancestry of get_AvailableAncestries()|sortBy:'asc':'name'; trackBy:trackByIndex;">
                         <div class="row list-item" *ngFor="let itemID of ['ancestry'+ancestry.name]">
                             <span>
                                 <input id="{{ancestry.name}}" type="checkbox"
@@ -205,7 +205,7 @@
                 <div class="list-item sublist" [ngClass]="{'fancy-list':((get_Character().class.heritage.name))}"
                     *ngIf="get_showList()==listID">
                     <div class="list-item"
-                        *ngFor="let heritage of get_Heritages('', get_Character().class.ancestry.name)|sortBy:'asc':'name'; trackBy:trackByIndex;">
+                        *ngFor="let heritage of get_AvailableHeritages('', get_Character().class.ancestry.name)|sortBy:'asc':'name'; trackBy:trackByIndex;">
                         <span>
                             <input *ngIf="!heritage.subTypes.length" id="{{heritage.name}}" type="checkbox"
                                 (change)="onHeritageChange(heritage, $event.target.checked)"
@@ -303,7 +303,7 @@
                 </button>
                 <div class="list-item sublist" [ngClass]="{'fancy-list':((get_Character().class.background.name))}"
                     *ngIf="get_showList()==listID">
-                    <ng-container *ngFor="let background of get_Backgrounds()|sortBy:'asc':'name'; trackBy:trackByIndex;">
+                    <ng-container *ngFor="let background of get_AvailableBackgrounds()|sortBy:'asc':'name'; trackBy:trackByIndex;">
                         <div class="row list-item" *ngFor="let itemID of ['background'+background.name]">
                             <span>
                                 <input *ngIf="!background.subTypes" id="{{background.name}}" type="checkbox"

@@ -500,6 +500,8 @@
                 "value": 10
             }
         ],
+        "subType": "Greater",
+        "subTypeDesc": "The bonus to Speed is +10 feet, and the bonus to Athletics checks is +3.",
         "hint": "Your animal companion gains a +3 item bonus to Athletics checks to High Jump and Long Jump. When it Leaps, it can move 5 feet farther if jumping horizontally or 3 feet higher if jumping vertically.",
         "id": "a55f74b4-9a05-11ea-bb37-0242ac130002",
         "level": 14,
@@ -726,6 +728,7 @@
         ],
         "activities": [
             {
+                "actions": "1A",
                 "activationType": "Command",
                 "cooldown": 6000,
                 "desc": "Tiny, hairlike tendrils extend from the slippers' soles, allowing you to walk on vertical surfaces or even to move upside down along ceilings. For 1 minute, you gain a 20-foot climb Speed and you don't need to use your hands to Climb. However, the slippers require decent traction for you to walk on a wall, so they provide no benefit when you're moving across greased, icy, or oiled surfaces.",
@@ -750,5 +753,221 @@
         ],
         "_className": "WornItem",
         "usage": "worn shoes"
+    },
+    {
+        "desc": "These clean, white gloves never show signs of blood, even when used to stitch up wounds or treat other ailments. They give you a +1 item bonus to Medicine checks.",
+        "id": "69f36f9e-bf6c-4878-9d80-206e960e7d3a",
+        "level": 4,
+        "name": "Healer's Gloves",
+        "price": 8000,
+        "bulk": "L",
+        "traits": [
+            "Invested",
+            "Magical",
+            "Necromancy"
+        ],
+        "activities": [
+            {
+                "actions": "1A",
+                "activationType": "Interact",
+                "cooldown": 144000,
+                "desc": "You can soothe a willing, adjacent creature’s wounds, restoring 2d6+7 Hit Points to that creature. This is a positive healing effect. You can’t harm undead with this healing.",
+                "frequency": "once per day",
+                "name": "Healer's Gloves",
+                "traits": [
+                    "Invested",
+                    "Magical",
+                    "Necromancy"
+                ],
+                "_className": "ItemActivity",
+                "source": "69f36f9e-bf6c-4878-9d80-206e960e7d3a"
+            }
+        ],
+        "_className": "WornItem",
+        "usage": "worn gloves",
+        "effects": [
+            {
+                "_className": "EffectGain",
+                "affected": "Medicine",
+                "value": "+1",
+                "type": "item"
+            }
+        ]
+    },
+    {
+        "desc": "These clean, white gloves never show signs of blood, even when used to stitch up wounds or treat other ailments. They give you a +1 item bonus to Medicine checks.",
+        "id": "b3447aa0-062d-4660-bc13-4996eff4b0e7",
+        "level": 9,
+        "name": "Healer's Gloves (Greater)",
+        "price": 70000,
+        "bulk": "L",
+        "traits": [
+            "Invested",
+            "Magical",
+            "Necromancy"
+        ],
+        "activities": [
+            {
+                "actions": "1A",
+                "activationType": "Interact",
+                "cooldown": 144000,
+                "desc": "You can soothe a willing, adjacent creature’s wounds, restoring 2d6+7 Hit Points to that creature. This is a positive healing effect. You can’t harm undead with this healing.",
+                "frequency": "once per day",
+                "name": "Healer's Gloves (Greater)",
+                "traits": [
+                    "Invested",
+                    "Magical",
+                    "Necromancy"
+                ],
+                "_className": "ItemActivity",
+                "source": "b3447aa0-062d-4660-bc13-4996eff4b0e7"
+            }
+        ],
+        "subType": "Greater",
+        "subTypeDesc": "The gloves provide a +2 bonus and restore 4d6+15 Hit Points.",
+        "_className": "WornItem",
+        "usage": "worn gloves",
+        "effects": [
+            {
+                "_className": "EffectGain",
+                "affected": "Medicine",
+                "value": "+2",
+                "type": "item"
+            }
+        ]
+    },
+    {
+        "desc": "This rugged metal eyepiece etched with square patterns is designed to be worn over a single eye. Twisting the lens reveals a faint three-dimensional outline of an item you plan to build or repair, with helpful labels on the component parts. While worn, this eyepiece gives you a +1 item bonus to Crafting checks. When you Repair an item, increase the Hit Points restored by 15 per proficiency rank instead of 10.",
+        "id": "66c0f3c3-3922-4c0a-b368-076213a1d1e8",
+        "hint": "When you Repair an item, increase the Hit Points restored by 15 per proficiency rank instead of 10.",
+        "showon": "Crafting",
+        "level": 3,
+        "name": "Crafter's Eyepiece",
+        "price": 6000,
+        "traits": [
+            "Invested",
+            "Magical",
+            "Transmutation"
+        ],
+        "_className": "WornItem",
+        "usage": "worn eyepiece",
+        "effects": [
+            {
+                "_className": "EffectGain",
+                "affected": "Crafting",
+                "value": "+1",
+                "type": "item"
+            }
+        ]
+    },
+    {
+        "desc": "This rugged metal eyepiece etched with square patterns is designed to be worn over a single eye. Twisting the lens reveals a faint three-dimensional outline of an item you plan to build or repair, with helpful labels on the component parts. While worn, this eyepiece gives you a +1 item bonus to Crafting checks. When you Repair an item, increase the Hit Points restored by 15 per proficiency rank instead of 10.",
+        "id": "66c0f3c3-3922-4c0a-b368-076213a1d1e8",
+        "hint": "When you Repair an item, increase the Hit Points restored by 15 per proficiency rank instead of 10.",
+        "showon": "Crafting",
+        "level": 3,
+        "name": "Crafter's Eyepiece (Greater)",
+        "price": 12000,
+        "traits": [
+            "Invested",
+            "Magical",
+            "Transmutation"
+        ],
+        "activities": [
+            {
+                "actions": "1 minute",
+                "activationType": "Interact",
+                "cooldown": 144000,
+                "desc": "You calibrate the eyepiece to have it cast a 5th-level creation spell over the course of 1 minute to construct a temporary item.",
+                "frequency": "once per day",
+                "name": "Crafter's Eyepiece (Greater)",
+                "traits": [
+                    "Invested",
+                    "Magical",
+                    "Necromancy"
+                ],
+                "castSpells": [
+                    {
+                        "name": "Creation",
+                        "level": 5,
+                        "_className": "SpellCast"
+                    }
+                ],
+                "_className": "ItemActivity",
+                "source": "66c0f3c3-3922-4c0a-b368-076213a1d1e8"
+            }
+        ],
+        "subType": "Greater",
+        "subTypeDesc": "The eyepiece grants a +2 item bonus and can be activated.",
+        "_className": "WornItem",
+        "usage": "worn eyepiece",
+        "effects": [
+            {
+                "_className": "EffectGain",
+                "affected": "Crafting",
+                "value": "+2",
+                "type": "item"
+            }
+        ]
+    },
+    {
+        "desc": "An item can be stored inside these supple leather gloves, held in an extradimensional space. When an item is inside the glove, an image of the item appears as a simple, stitched pattern on the back of each glove. Many gloves of storing are found with an item already inside.",
+        "id": "07119308-8e70-429c-bcce-60adae2d0f81",
+        "level": 7,
+        "name": "Gloves of Storing",
+        "price": 34000,
+        "traits": [
+            "Uncommon",
+            "Extradimensional",
+            "Invested",
+            "Magical",
+            "Transmutation"
+        ],
+        "activities": [
+            {
+                "actions": "1A",
+                "activationType": "Interact",
+                "requirements": "No item is stored in the gloves",
+                "desc": "One item you’re holding with a Bulk of 1 or less vanishes into the gloves’ extradimensional space.",
+                "inputRequired": "Manually move an item to the gloves' container.",
+                "name": "Gloves of Storing: Store",
+                "traits": [
+                    "Uncommon",
+                    "Extradimensional",
+                    "Invested",
+                    "Magical",
+                    "Transmutation"
+                ],
+                "_className": "ItemActivity",
+                "source": "07119308-8e70-429c-bcce-60adae2d0f81"
+            },
+            {
+                "actions": "Free",
+                "activationType": "Interact",
+                "requirements": "An item is stored in the gloves, and you have a free hand",
+                "cooldown": 100,
+                "desc": "The item stored in the gloves appears in your hand. The gloves can’t be activated again for 1 minute.",
+                "inputRequired": "Manually move an item from the gloves' container to your main inventory and equip it as needed.",
+                "name": "Gloves of Storing: Retrieve",
+                "traits": [
+                    "Uncommon",
+                    "Extradimensional",
+                    "Invested",
+                    "Magical",
+                    "Transmutation"
+                ],
+                "_className": "ItemActivity",
+                "source": "07119308-8e70-429c-bcce-60adae2d0f81"
+            }
+        ],
+        "gainInventory": [
+            {
+                "_className": "InventoryGain",
+                "bulkLimit": 1,
+                "bulkReduction": 1
+            }
+        ],
+        "_className": "WornItem",
+        "usage": "worn gloves"
     }
 ]

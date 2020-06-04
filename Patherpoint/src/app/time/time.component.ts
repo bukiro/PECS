@@ -36,8 +36,8 @@ export class TimeComponent implements OnInit {
         return this.characterService.get_Accent();
     }
     
-    get_Duration(duration) {
-        return this.timeService.get_Duration(duration);
+    get_Duration(duration: number, includeTurnState: boolean = true) {
+        return this.timeService.get_Duration(duration, includeTurnState);
     }
 
     still_loading() {

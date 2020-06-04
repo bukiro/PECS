@@ -1012,10 +1012,16 @@
         "cooldown": 144000,
         "requirement": "You haven't acted yet on your turn.",
         "desc": "You expend the power stored in your bonded item. During your turn, you gain the ability to cast one spell you prepared today and already cast, without spending a spell slot. You must still Cast the Spell and meet the spell’s other requirements.",
-        "inputRequired": "You can restore a used spell in the spellbook using your bonded item's charge(s). Using this Activity does not automatically restore a spell or discharge the bonded item.",
+        "inputRequired": "You can restore a used spell in the spellbook using your bonded item's charge(s). Using this Activity does not automatically restore a spell or discharge the bonded item. It does restore a Focus Point if you have the Linked Focus feat.",
         "trait": [
             "Arcane",
             "Wizard"
+        ],
+        "onceEffects": [
+            {
+                "affected": "Focus Points",
+                "value": "Has_Feat('') ? 1 : 0"
+            }
         ]
     },
     {

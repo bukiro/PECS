@@ -121,18 +121,19 @@ export class TimeService {
         characterService.set_Changed();
     }
 
-    get_Duration(duration: number) {
+    get_Duration(duration: number, includeTurnState: boolean = true, inASentence: boolean = false) {
         if (duration == -2) {
-            return "Until the next time you make your daily preparations";
+            return inASentence ? "until the next time you make your daily preparations" : "Until the next time you make your daily preparations";
         } else if (duration == -1) {
-            return "Permanent";
+            return inASentence ? "permanently" : "Permanent";
         } else {
             let returnString: string = ""
             if (duration == this.get_YourTurn()) {
-                return "Rest of turn";
+                return inASentence ? "for rest of turn" : "Rest of turn";
             } else if (duration == 5) {
-                return "To start of next turn";
+                return inASentence ? "until start of next turn" : "To start of next turn";
             }
+            returnString += inASentence ? "for " : "";
             if (duration >= 144000) {
                 returnString += Math.floor(duration / 144000)+" Day"
                 if (duration / 144000 >= 2) { returnString += "s" }
@@ -153,7 +154,7 @@ export class TimeService {
                 if (duration / 10 >= 2) { returnString += "s" }
                 duration %= 10;
             }
-            if (duration == this.get_YourTurn()) {
+            if (includeTurnState && duration == this.get_YourTurn()) {
                 returnString += " to end of turn"
             }
             return returnString;

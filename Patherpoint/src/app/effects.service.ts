@@ -98,6 +98,9 @@ constructor(
                 return characterService.get_Abilities(name)[0].mod(creature, characterService, effectsService).result;
             }
         }
+        function Size() {
+            return creature.get_Size(this);
+        }
         function Skill(name: string) {
             return characterService.get_Skills(creature, name)[0].baseValue(creature, characterService, abilitiesService, effectsService, Level).result;
         }
@@ -128,6 +131,9 @@ constructor(
             } else {
                 return creature.inventories[0].armors.filter(armor => armor.equipped)[0];
             }
+        }
+        function Has_Feat(name: string) {
+            return Character.get_FeatsTaken(1, Character.level, name).length > 0;
         }
         //effects come as {affected, value} where value is a string that contains a statement.
         //This statement is eval'd here. The condition can use characterService to check level, skills, abilities etc.

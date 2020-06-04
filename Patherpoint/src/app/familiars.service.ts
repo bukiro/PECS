@@ -23,7 +23,7 @@ export class FamiliarsService {
 
     get_FamiliarAbilities(name: string = "") {
         if (!this.still_loading()) {
-            return this.familiarAbilities.filter(ability => ability.name == name || name == "")
+            return this.familiarAbilities.filter(ability => ability.name.toLowerCase() == name.toLowerCase() || name == "")
         } else { return [new Feat()] }
     }
 
