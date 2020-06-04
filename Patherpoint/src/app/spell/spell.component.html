@@ -1,7 +1,19 @@
-<div class="row">
+<div class="row" *ngIf="spell">
     <div class="row left-aligned" *ngIf="spell.traits.length">
         <cite class="trait" *ngFor="let trait of spell.traits"
             title="{{get_Traits(trait)[0].description}}">{{trait}}</cite>
+    </div>
+    <div class="row left-aligned" *ngIf="spell.sourceBook">
+        <span>
+            <strong>Source</strong>
+            <i>{{spell.sourceBook}}</i>
+        </span>
+    </div>
+    <div class="row left-aligned" *ngIf="spell.PFSnote">
+        <span>
+            <strong>PFS Note</strong>
+            <i>{{spell.PFSnote}}</i>
+        </span>
     </div>
     <div class="row left-aligned" *ngIf="spell.traditions">
         <span>

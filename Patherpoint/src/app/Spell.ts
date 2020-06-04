@@ -30,10 +30,12 @@ export class Spell {
     public heightened: {variable:string, value:string}[] = [];
     public levelreq: number = 1;
     public name: string = "";
+    public PFSnote: string = "";
     public range: string = "";
     public savingthrow: string = "";
     public shortDesc: string = "";
     public showSpell: string = "";
+    public sourceBook: string = "";
     public success: string = "";
     //Sustained spells are deactivated after this time (or permanent with -1)
     public sustained: number = 0;

@@ -6,8 +6,8 @@
             <div class="row">
                 <span>
                     <strong [className]="condition.buff ? 'bonus' : 'penalty'"
-                        title="{{conditionGain.source}}">{{conditionGain.name}}
-                        {{(conditionGain.value) ? conditionGain.value : ""}}
+                        title="{{conditionGain.source}}">{{conditionGain.name}}{{conditionGain.persistentDamage ? ": "+conditionGain.persistentDamage : ""}}
+                        {{(conditionGain.value) ? conditionGain.value : ""}} 
                     </strong>
                     {{(conditionGain.name != conditionGain.source) ? "("+conditionGain.source+")" : ""}}
                 </span>
@@ -18,8 +18,12 @@
             <div class="row fullsize-only" *ngIf="conditionGain.duration != -1">
                 <span><button (click)="change_ConditionDuration(conditionGain, -10)" [disabled]="conditionGain.duration <= 10">- 1 turn</button></span>
                 <span><button (click)="change_ConditionDuration(conditionGain, 10)">+ 1 turn</button></span>
-                <span><button (click)="change_ConditionDuration(conditionGain, 100)">+ 1 minute</button></span>
-                <span><button (click)="change_ConditionDuration(conditionGain, 1000)">+ 10 minutes</button></span>
+                <span><button (click)="change_ConditionDuration(conditionGain, 100)">+ 1 min.</button></span>
+                <span><button (click)="change_ConditionDuration(conditionGain, 1000)">+ 10 min.</button></span>
+            </div>
+            <div class="row fullsize-only" *ngIf="conditionGain.value">
+                <span><button (click)="change_ConditionValue(conditionGain, -1)">Value - 1</button></span>
+                <span><button (click)="change_ConditionValue(conditionGain, 1)">Value + 1</button></span>
             </div>
             <div class="row fullsize-only">
                 <div class="list-item lower row problem" *ngIf="condition.inputRequired">
@@ -46,9 +50,9 @@
                 <ng-container
                     *ngIf="this.get_ShowItem()==conditionGain.name+conditionGain.source+conditionGain.value+conditionGain.duration+'applied'">
                     <div class="row left-aligned" *ngFor="let desc of condition.desc.split('\n\n')">
-                        <p *ngIf="desc.split('\n').length == 1">{{desc}}</p>
+                        <p *ngIf="desc.split('\n').length == 1" [innerHTML]="desc"></p>
                         <ul *ngIf="desc.split('\n').length > 1">
-                            <li *ngFor="let line of desc.split('\n')">{{line}}</li>
+                            <li *ngFor="let line of desc.split('\n')" [innerHTML]="line"></li>
                         </ul>
                     </div>
                 </ng-container>

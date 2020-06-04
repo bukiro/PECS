@@ -2620,9 +2620,9 @@
                         "_className": "FeatChoice",
                         "available": 1,
                         "filter": [
-                            "Enigma",
-                            "Maestro",
-                            "Polymath"
+                            "Enigma Muse",
+                            "Maestro Muse",
+                            "Polymath Muse"
                         ],
                         "id": "1-Muse-Bard-1",
                         "source": "Bard",
@@ -6899,10 +6899,10 @@
                         "_className": "FeatChoice",
                         "available": 1,
                         "filter": [
-                            "Animal",
-                            "Leaf",
-                            "Storm",
-                            "Wild"
+                            "Animal Order",
+                            "Leaf Order",
+                            "Storm Order",
+                            "Wild Order"
                         ],
                         "id": "1-Druidic Order-Druid-1",
                         "source": "Druid",
@@ -12123,9 +12123,9 @@
                         "_className": "FeatChoice",
                         "available": 1,
                         "filter": [
-                            "Ruffian",
-                            "Scoundrel",
-                            "Thief"
+                            "Ruffian Racket",
+                            "Scoundrel Racket",
+                            "Thief Racket"
                         ],
                         "id": "1-Racket-Ranger-1",
                         "source": "Ranger",
@@ -14716,15 +14716,15 @@
                         "_className": "FeatChoice",
                         "available": 1,
                         "filter": [
-                            "Abjuration",
-                            "Conjuration",
-                            "Divination",
-                            "Enchantment",
-                            "Evocation",
-                            "Illusion",
-                            "Necromancy",
-                            "Transmutation",
-                            "Universalist"
+                            "Abjuration School",
+                            "Conjuration School",
+                            "Divination School",
+                            "Enchantment School",
+                            "Evocation School",
+                            "Illusion School",
+                            "Necromancy School",
+                            "Transmutation School",
+                            "Universalist School"
                         ],
                         "id": "1-School-Wizard-1",
                         "source": "Wizard",

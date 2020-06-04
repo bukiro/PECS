@@ -86,6 +86,9 @@
                                         *ngIf="item.type == 'weapons'">{{(prof == 'Unarmed') ? prof : prof.substr(0, prof.length - 8)}}
                                         {{item.group}}</span>
                                 </div>
+                                <div class="row" *ngIf="item.expiration">
+                                    <span><strong>Duration</strong> {{get_Duration(item.expiration)}}</span>
+                                </div>
                                 <button class="row left-aligned" [disabled]="!item.amount"
                                     (click)="on_ConsumableUse(item, inventory)"
                                     *ngIf="item.amount != undefined && item.actions && (!item.targets || item.targets.length == 0)">

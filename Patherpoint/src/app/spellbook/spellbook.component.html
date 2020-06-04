@@ -49,8 +49,8 @@
                                 <div class="list-item" *ngFor="let spellID of [get_ID()]">
                                     <button class="row sublist-toggle left-aligned"
                                         (click)="toggle_Spell(casting.castingType+casting.class+spellTaken.gain.name+spellID)"
-                                        [className]="{'inactive-button': casting.castingType=='Prepared'&&!spellTaken.gain.prepared }">
-                                        {{spell.name}}<app-actionIcons [actionString]="spell.actions">
+                                        [className]="{'inactive-button': casting.castingType=='Prepared' && !spellTaken.gain.prepared && level > 0}">
+                                        <span title="Signature spell" *ngIf="is_SignatureSpell(spellTaken.choice)">&#9733;&nbsp;</span>{{spell.name}}<app-actionIcons [actionString]="spell.actions">
                                         </app-actionIcons>{{spell.castType}}
                                         {{spellTaken.gain.frequency ? spellTaken.gain.frequency : ""}}
                                     </button>
@@ -59,7 +59,7 @@
                                         *ngIf="this.get_showSpell()==casting.castingType+casting.class+spellTaken.gain.name+spellID">
                                         <button class="row center-aligned"
                                             (click)="on_Restore(spellTaken.gain, casting, level)"
-                                            *ngIf="casting.castingType == 'Prepared' && casting.className == 'Wizard' && !spellTaken.gain.prepared"
+                                            *ngIf="casting.castingType == 'Prepared' && casting.className == 'Wizard' && !spellTaken.gain.prepared && level > 0"
                                             title="{{(!casting.bondedItemCharges[level] && !casting.bondedItemCharges[0]) ? 'No bonded item charges remaining.' : ''}}"
                                             [disabled]="!casting.bondedItemCharges[level] && !casting.bondedItemCharges[0]">
                                             <span class="center-aligned">Restore with bonded item <app-actionIcons [actionString]="'Free'">
@@ -104,7 +104,7 @@
                                             (click)="on_Cast(spellTaken.gain, casting, spellTaken.gain.target, spell, false)"
                                             *ngIf="spellTaken.gain.active">
                                             Stop sustaining
-                                            {{spellTaken.gain.duration ? "(" + get_Duration(spellTaken.gain.duration) + " remaining)" : ""}}
+                                            {{spellTaken.gain.duration ? "(Duration: " + get_Duration(spellTaken.gain.duration) + ")" : ""}}
                                         </button>
                                         <app-spell [spell]="spell" [spellLevel]="level"></app-spell>
                                     </div>

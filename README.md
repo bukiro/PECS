@@ -61,23 +61,20 @@ The very latest in Assistive Technologies for Dungeon Master (ATDM)
 
 active to do:
 add custom conditions with effects
-add persistent damage conditions
+implement BBs spells and convert spells from xlsx
 
 Implement spells:
-- Inspire Courage
-- Counter Performance
-- Hero's Defiance
-- Harm
-- Heal
 
 Create feats:
 
 Create items:
-- Messenger Ring
 - Grim Trophy => Talismans
-- Mage Armor on different levels
 
 Create activities:
 
 Test:
 Fighter - Reusing Fighter Weapon Mastery as both supertype and subtypes
+Personal Rain Cloud - heightened condition values
+Stabilize - zero duration condition with endConditions effect
+Harm/Heal - actionItems in the description
+Shifting Form - various functions

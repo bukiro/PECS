@@ -95,43 +95,12 @@ export class EffectsComponent implements OnInit {
         gain.duration += turns;
     }
 
+    change_ConditionValue(gain: ConditionGain, turns: number) {
+        gain.value += turns;
+    }
+
     get_Duration(duration: number) {
-        if (duration == -2) {
-            return "Until the next time you make your daily preparations";
-        } else if (duration == -1) {
-            return "Permanent";
-        } else {
-            let returnString: string = ""
-            if (duration == this.timeService.get_YourTurn()) {
-                return "Rest of turn";
-            } else if (duration == 5) {
-                return "To start of next turn";
-            }
-            if (duration >= 144000) {
-                returnString += Math.floor(duration / 144000)+" Day"
-                if (duration / 144000 >= 2) { returnString += "s" }
-                duration %= 144000;
-            }
-            if (duration >= 6000) {
-                returnString += " "+Math.floor(duration / 6000)+" Hour"
-                if (duration / 6000 >= 2) { returnString += "s" }
-                duration %= 6000;
-            }
-            if (duration >= 100) {
-                returnString += " "+Math.floor(duration / 100)+" Minute"
-                if (duration / 100 >= 2) { returnString += "s" }
-                duration %= 100;
-            }
-            if (duration >= 10) {
-                returnString += " "+Math.floor(duration / 10)+" Turn"
-                if (duration / 10 >= 2) { returnString += "s" }
-                duration %= 10;
-            }
-            if (duration == this.timeService.get_YourTurn()) {
-                returnString += " to end of turn"
-            }
-            return returnString;
-        }
+        return this.timeService.get_Duration(duration);
     }
 
     remove_Condition(conditionGain: ConditionGain) {

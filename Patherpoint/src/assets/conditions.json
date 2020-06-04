@@ -139,7 +139,8 @@
         "effects": [
             {
                 "affected": "All Checks",
-                "value": "-(object.value)"
+                "value": "-(object.value)",
+                "type": "status"
             }
         ]
     },
@@ -193,6 +194,24 @@
         "desc": "You are dead.",
         "overrideConditions": [
             "All"
+        ],
+        "endConditions": [
+            "Dying",
+            "Doomed",
+            "Wounded"
+        ]
+    },
+    {
+        "name": "Sickened",
+        "hasValue": true,
+        "type": "generic",
+        "desc": "You feel ill. Sickened always includes a value. You take a status penalty equal to this value on all your checks and DCs. You can’t willingly ingest anything—including elixirs and potions—while sickened.\n\nYou can spend a single action retching in an attempt to recover, which lets you immediately attempt a Fortitude save against the DC of the effect that made you sickened. On a success, you reduce your sickened value by 1 (or by 2 on a critical success).",
+        "effects": [
+            {
+                "affected": "All Checks",
+                "value": "-(object.value)",
+                "type": "status"
+            }
         ]
     },
     {
@@ -857,8 +876,14 @@
     {
         "name": "Endure",
         "type": "spells",
-        "desc": "You have been granted a number of temporary Hit Points for the duration of the spell.",
-        "inputRequired": "Raise your temporary Hit Points by the appropriate amount. When the condition ends, remove the temporary Hit Points.",
+        "desc": "You have been granted a number of temporary Hit Points equal to 5 times the spell level for the duration of the spell.",
+        "inputRequired": "When the condition ends, remove the temporary Hit Points.",
+        "onceEffects": [
+            {
+                "affected": "Temporary HP",
+                "value": "(object.heightened) * 5"
+            }
+        ],
         "buff": true
     },
     {
@@ -895,13 +920,13 @@
     {
         "name": "Grease",
         "type": "spells",
-        "desc": "Grease affects an area or object of your choice.\n\nArea: All solid ground in the area is covered with grease. Each creature standing on the greasy surface must succeed at a Reflex save or an Acrobatics check against your spell DC or fall prone. Creatures using an action to move onto the greasy surface during the spell's duration must attempt either a Reflex save or an Acrobatics check to Balance. A creature that Steps or Crawls doesn't have to attempt a check or save.\nTarget: If you cast the spell on an unattended object, anyone trying to pick up the object must succeed at an Acrobatics check or Reflex save against your spell DC to do so. If you target an attended object, the creature that has the object must attempt an Acrobatics check or Reflex save. On a failure, the holder or wielder takes a –2 circumstance penalty to all checks that involve using the object; on a critical failure, the holder or wielder releases the item. The object lands in an adjacent square of the GM's choice. If you cast this spell on a worn object, the wearer gains a +2 circumstance bonus to Fortitude saves against attempts to grapple them.",
+        "desc": "Grease affects an area or object of your choice.\n\n<strong>Area</strong> All solid ground in the area is covered with grease. Each creature standing on the greasy surface must succeed at a Reflex save or an Acrobatics check against your spell DC or fall prone. Creatures using an action to move onto the greasy surface during the spell's duration must attempt either a Reflex save or an Acrobatics check to Balance. A creature that Steps or Crawls doesn't have to attempt a check or save.\n<strong>Target</strong> If you cast the spell on an unattended object, anyone trying to pick up the object must succeed at an Acrobatics check or Reflex save against your spell DC to do so. If you target an attended object, the creature that has the object must attempt an Acrobatics check or Reflex save. On a failure, the holder or wielder takes a –2 circumstance penalty to all checks that involve using the object; on a critical failure, the holder or wielder releases the item. The object lands in an adjacent square of the GM's choice. If you cast this spell on a worn object, the wearer gains a +2 circumstance bonus to Fortitude saves against attempts to grapple them.",
         "buff": true
     },
     {
         "name": "Gust of Wind",
         "type": "spells",
-        "desc": "A violent wind issues forth from your palm, blowing from the point where you are when you cast the spell to the line's opposite end. The wind extinguishes small non-magical fires, disperses fog and mist, blows objects of light Bulk or less around, and pushes larger objects. Large or smaller creatures in the area must attempt a Fortitude save. Large or smaller creatures that later move into the gust must attempt the save on entering.\n\nCritical Success: The creature is unaffected.\nSuccess: The creature can't move against the wind.\nFailure: The creature is knocked prone. If it was flying, it suffers the effects of critical failure instead.\nCritical Failure: The creature is pushed 30 feet in the wind's direction, knocked prone, and takes 2d6 bludgeoning damage.",
+        "desc": "A violent wind issues forth from your palm, blowing from the point where you are when you cast the spell to the line's opposite end. The wind extinguishes small non-magical fires, disperses fog and mist, blows objects of light Bulk or less around, and pushes larger objects. Large or smaller creatures in the area must attempt a Fortitude save. Large or smaller creatures that later move into the gust must attempt the save on entering.\n\n<strong>Critical Success</strong> The creature is unaffected.\nSuccess The creature can't move against the wind.\n<strong>Failure</strong> The creature is knocked prone. If it was flying, it suffers the effects of critical failure instead.\n<strong>Critical Failure</strong> The creature is pushed 30 feet in the wind's direction, knocked prone, and takes 2d6 bludgeoning damage.",
         "buff": true
     },
     {
@@ -933,13 +958,6 @@
         "type": "spells",
         "desc": "The first time during the duration that you roll an attack roll or skill check, you must roll twice and take the worse result.",
         "hint": "The first time during the duration that you roll an attack roll or skill check, you must roll twice and take the worse result.",
-        "showon": "Attacks, Skills"
-    },
-    {
-        "name": "Ill Omen (failure)",
-        "type": "spells",
-        "desc": "Every time during the duration that you roll an attack roll or skill check, you must roll twice and take the worse result.",
-        "hint": "Every time during the duration that you roll an attack roll or skill check, you must roll twice and take the worse result.",
         "showon": "Attacks, Skills"
     },
     {
@@ -1046,6 +1064,330 @@
         "name": "Imprint Message",
         "type": "spells",
         "desc": "You have projected psychic vibrations onto the target object, imprinting it with a short message or emotional theme of your design. This imprinted sensation is revealed to anyone casting object reading on the target object, replacing any emotional events the item was present for. If the object is in the area of a retrocognition spell, the imprinted messages appear as major events in the timeline, but they don’t interfere with any other visions. If the object is targeted with read aura of a higher spell level than imprint message, the caster learns that the object has been modified. When you Cast this Spell, any prior vibrations placed in an object by previous castings of imprint message fade.",
+        "buff": true
+    },
+    {
+        "name": "Persistent Damage",
+        "type": "generic",
+        "desc": "Persistent damage comes from effects like acid, being on fire, or many other situations. It appears as “X persistent [type] damage,” where “X” is the amount of damage dealt and “[type]” is the damage type. Instead of taking persistent damage immediately, you take it at the end of each of your turns as long as you have the condition, rolling any damage dice anew each time. After you take persistent damage, roll a DC 15 flat check to see if you recover from the persistent damage. If you succeed, the condition ends.",
+        "inputRequired": "Take the appropriate amount of damage at the end of each of your turns as long as you have the condition, rolling any damage dice anew each time. After you take persistent damage, roll a DC 15 flat check to see if you recover from the persistent damage. If you succeed, the condition ends."
+    },
+    {
+        "name": "Negate Aroma",
+        "type": "spells",
+        "desc": "You have lost your odor, preventing creatures from passively noticing your presence via smell alone, even if the creatures have precise or imprecise scent. A creature attempting a Perception check to Seek with scent and other senses might notice the lack of natural scent. If the target has any abilities that result from its smell, such as an overpowering scent, those abilities are also negated.",
+        "inputRequired": "Take the appropriate amount of damage at the end of each of your turns as long as you have the condition, rolling any damage dice anew each time. After you take persistent damage, roll a DC 15 flat check to see if you recover from the persistent damage. If you succeed, the condition ends.",
+        "buff": true
+    },
+    {
+        "name": "Penumbral Shroud",
+        "type": "spells",
+        "desc": "You are enveloped in a shroud of shadow. You perceive light as one step lower than it actually is (bright light becomes dim light, for example), affecting your ability to sense creatures and objects accordingly. The shroud also provides a +1 status bonus to saving throws against light effects.",
+        "hint": "You perceive light as one step lower than it actually is (bright light becomes dim light, for example), affecting your ability to sense creatures and objects accordingly. The shroud also provides a +1 status bonus to saving throws against light effects.",
+        "showon": "Perception, Fortitude, Reflex, Will",
+        "buff": true
+    },
+    {
+        "name": "Personal Rain Cloud",
+        "type": "spells",
+        "desc": "A 5-foot-wide rain cloud follows you wherever you go. It stays roughly an arm’s length overhead, unless it must drift lower to fit under a ceiling. The cloud rains constantly on you, keeping you wet and dampening the ground in the wake of any movement. The rain extinguishes non-magical flames. You gain twice the spell level as fire resistance. If you have a weakness to water, you take damage equal to your weakness at the end of each turn. You can attempt a Reflex save to avoid the cloud.",
+        "effects": [
+            {
+                "affected": "Fire Resistance",
+                "value": "(object.heightened) * 2"
+            }
+        ],
+        "buff": true
+    },
+    {
+        "name": "Phantom Pain (Failure)",
+        "type": "spells",
+        "desc": "You are wracked by illusory pain, dealing 2d4 mental damage and 1d4 persistent mental damage per spell level. You are sickened 1. If you recover from being sickened, the persistent damage ends and the spell ends.",
+        "gainConditions": [
+            {
+                "name": "Sickened",
+                "value": 1,
+                "source": "Phantom Pain"
+            },
+            {
+                "name": "Persistent Damage",
+                "source": "Phantom Pain",
+                "persistentDamage": "Mental 1d4 per spell level"
+            }
+        ]
+    },
+    {
+        "name": "Phantom Pain (Critical Failure)",
+        "type": "spells",
+        "desc": "You are wracked by illusory pain, dealing 2d4 mental damage and 1d4 persistent mental damage per spell level. You are sickened 2. If you recover from being sickened, the persistent damage ends and the spell ends.",
+        "gainConditions": [
+            {
+                "name": "Sickened",
+                "value": 2,
+                "source": "Phantom Pain"
+            },
+            {
+                "name": "Persistent Damage",
+                "source": "Phantom Pain",
+                "persistentDamage": "Mental 1d4 per spell level"
+            }
+        ]
+    },
+    {
+        "name": "Protection",
+        "type": "spells",
+        "desc": "You are warded against a specified alignment, chosen from chaotic, evil, good, and lawful when the spell was cast. You gain a +1 status bonus to Armor Class and saving throws against creatures and effects of the chosen alignment. This bonus increases to +3 against effects from such creatures that would directly control you and against attacks made by summoned creatures of the chosen alignment.",
+        "hint": "You gain a +1 status bonus to Armor Class and saving throws against creatures and effects of the chosen alignment. This bonus increases to +3 against effects from such creatures that would directly control you and against attacks made by summoned creatures of the chosen alignment.",
+        "showon": "AC, Fortitude, Reflex, Will",
+        "buff": true
+    },
+    {
+        "name": "Sanctuary",
+        "type": "spells",
+        "desc": "You are warded with protective energy that deters enemy attacks. Creatures attempting to attack you must attempt a Will save each time. If you use a hostile action, the spell ends.\n\n<strong>Critical Success</strong> Sanctuary ends.\n<strong>Success</strong> The creature can attempt its attack and any other attacks against the target this turn.\n<strong>Failure</strong> The creature can't attack the target and wastes the action. It can't attempt further attacks against the target this turn.\n<strong>Critical Failure</strong> The creature wastes the action and can't attempt to attack the target for the rest of sanctuary's duration.",
+        "buff": true
+    },
+    {
+        "name": "Scouring Sand (1st level)",
+        "type": "spells",
+        "desc": "You are blasting the area with grit that scours away soil and gets into creatures’ eyes. For the duration of the spell, any plant-based difficult terrain smaller than a tree becomes loose, allowing each 5-foot square of it to be cleared with a single Interact action. In addition, scouring sand attempts to counteract entangle and other effects that create or manipulate plant-based terrain in its area. Successfully counteracting an effect removes only the portion of its area that overlaps with scouring sand’s area. After one such attempt, the effect is temporarily immune to scouring sand’s counteract for 24 hours. Each creature in the area when you Cast this Spell or that ends its turn in the area must attempt a Reflex save.\n\n<strong>Success</strong> The creature is unaffected.\n<strong>Failure</strong> The creature is dazzled for 1 minute or until it uses an Interact action to get the sand out of its eyes.\n<strong>Critical Failure</strong> As failure, but the creature is also blinded for its next action.",
+        "buff": true
+    },
+    {
+        "name": "Scouring Sand (3rd level)",
+        "type": "spells",
+        "desc": "You are blasting the area with grit that scours away soil and gets into creatures’ eyes. For the duration of the spell, any plant-based difficult terrain smaller than a tree becomes loose, allowing each 5-foot square of it to be cleared with a single Interact action. In addition, scouring sand attempts to counteract entangle and other effects that create or manipulate plant-based terrain in its area. Successfully counteracting an effect removes only the portion of its area that overlaps with scouring sand’s area. After one such attempt, the effect is temporarily immune to scouring sand’s counteract for 24 hours. Each creature in the area when you Cast this Spell or that ends its turn in the area must attempt a Reflex save.\n\n<strong>Success</strong> The creature is unaffected.\n<strong>Failure</strong> The creature is dazzled for 1 minute or until it uses an Interact action to get the sand out of its eyes.\n<strong>Critical Failure</strong> As failure, but the creature is also blinded for its next action. Once per round when you Sustain the Spell, you can move the center of the burst to a spot within range.",
+        "buff": true
+    },
+    {
+        "name": "Share Lore (1st level)",
+        "type": "spells",
+        "desc": "You are sharing your knowledge with the touched creatures. All targets become trained in one chosen Lore skill in which the caster is trained for the duration of the spell.",
+        "hint": "All targets become trained in one chosen Lore skill in which the caster is trained for the duration of the spell.",
+        "showon": "Skills",
+        "buff": true
+    },
+    {
+        "name": "Share Lore (5th level)",
+        "type": "spells",
+        "desc": "You are sharing your knowledge with the touched creatures. All targets become trained in up to two chosen Lore skills in which the caster is trained for the duration of the spell.",
+        "hint": "All targets become trained in two chosen Lore skills in which the caster is trained for the duration of the spell.",
+        "showon": "Skills",
+        "buff": true
+    },
+    {
+        "name": "Shattering Gem",
+        "type": "spells",
+        "desc": "A large gem floats around you in an erratic pattern. The gem has 5 Hit Points per spell level. Each time a creature Strikes you, you attempts a DC 11 flat check. On a success, the gem blocks the attack, so the attack first damages the gem and then applies any remaining damage to you. If the gem is reduced to 0 Hit Points, it shatters, immediately dealing the creature that destroyed it 1d8 slashing damage per spell level (basic Reflex save), as long as that creature is within 10 feet of you.",
+        "hint": "A large gem floats around you in an erratic pattern. The gem has 5 Hit Points per spell level. Each time a creature Strikes you, you attempts a DC 11 flat check. On a success, the gem blocks the attack, so the attack first damages the gem and then applies any remaining damage to you. If the gem is reduced to 0 Hit Points, it shatters, immediately dealing the creature that destroyed it 1d8 slashing damage per spell level (basic Reflex save), as long as that creature is within 10 feet of you.",
+        "showon": "AC",
+        "buff": true
+    },
+    {
+        "name": "Soothe",
+        "type": "spells",
+        "desc": "Your mind's mental defenses are boosted, and your wounds are healed. You regain 1d10+4 Hit Points per spell level when the Spell is Cast and gain a +2 status bonus to saves against mental effects for the duration.",
+        "hint": "You gain a +2 status bonus to saves against mental effects for the duration.",
+        "showon": "Will",
+        "inputRequired": "You regain 1d10+4 Hit Points per spell level when the Spell is Cast.",
+        "buff": true
+    },
+    {
+        "name": "Spirit Link (Caster)",
+        "type": "spells",
+        "desc": "You have formed a spiritual link with another creature, allowing you to take in its pain. When you Cast this Spell and at the start of each of your turns, if the target is below maximum Hit Points, it regains 2 Hit Points per spell level (or the difference between its current and maximum Hit Points, if that's lower). You lose as many Hit Points as the target regained.\n\nThis is a spiritual transfer, so no effects apply that would increase the Hit Points the target regains or decrease the Hit Points you lose. This transfer also ignores any temporary Hit Points you or the target have. Since this effect doesn't involve positive or negative energy, spirit link works even if you or the target is undead. While the duration persists, you gain no benefit from regeneration or fast healing. You can Dismiss this spell, and if you're ever at 0 Hit Points, spirit link ends automatically.",
+        "hint": "At the start of each of your turns, if the target is below maximum Hit Points, it regains 2 Hit Points per spell level (or the difference between its current and maximum Hit Points, if that's lower). You lose as many Hit Points as the target regained.",
+        "showon": "Health",
+        "inputRequired": "When you Cast this Spell and at the start of each of your turns, if the target is below maximum Hit Points, it regains 2 Hit Points per spell level (or the difference between its current and maximum Hit Points, if that's lower). You lose as many Hit Points as the target regained.",
+        "buff": true
+    },
+    {
+        "name": "Spirit Link",
+        "type": "spells",
+        "desc": "You have formed a spiritual link with the caster, allowing them to take in your pain. When the Spell is Cast and at the start of each of your turns, if the you are below maximum Hit Points, you regains 2 Hit Points per spell level (or the difference between your current and maximum Hit Points, if that's lower). The caster loses as many Hit Points as you regained.\n\nThis is a spiritual transfer, so no effects apply that would increase the Hit Points you regain or decrease the Hit Points the caster loses. This transfer also ignores any temporary Hit Points you or the caster have. Since this effect doesn't involve positive or negative energy, spirit link works even if you or the caster is undead.",
+        "hint": "At the start of each of your turns, if you are below maximum Hit Points, you regains 2 Hit Points per spell level (or the difference between its current and maximum Hit Points, if that's lower). The caster loses as many Hit Points as you regained.",
+        "showon": "Health",
+        "inputRequired": "When you Cast this Spell and at the start of each of your turns, if you are below maximum Hit Points, you regain 2 Hit Points per spell level (or the difference between its current and maximum Hit Points, if that's lower). The caster loses as many Hit Points as you regained.",
+        "buff": true
+    },
+    {
+        "name": "Summon Animal",
+        "type": "spells",
+        "desc": "You have summoned an animal to fight for you.\n\nA creature called by a conjuration spell or effect gains the summoned trait. A summoned creature can’t summon other creatures, create things of value, or cast spells that require a cost. It has the minion trait. If it tries to cast a spell of equal or higher level than the spell that summoned it, it overpowers the summoning magic, causing the summoned creature’s spell to fail and the summon spell to end. Otherwise, the summoned creature uses the standard abilities for a creature of its kind. It generally attacks your enemies to the best of its abilities. If you can communicate with it, you can attempt to command it, but the GM determines the degree to which it follows your commands.\n\nImmediately when you finish Casting the Spell, the summoned creature uses its 2 actions for that turn. Summoned creatures can be banished by various spells and effects. They are automatically banished if reduced to 0 Hit Points or if the spell that called them ends.",
+        "buff": true
+    },
+    {
+        "name": "Summon Construct",
+        "type": "spells",
+        "desc": "You have conjured a construct to fight for you.\n\nA creature called by a conjuration spell or effect gains the summoned trait. A summoned creature can’t summon other creatures, create things of value, or cast spells that require a cost. It has the minion trait. If it tries to cast a spell of equal or higher level than the spell that summoned it, it overpowers the summoning magic, causing the summoned creature’s spell to fail and the summon spell to end. Otherwise, the summoned creature uses the standard abilities for a creature of its kind. It generally attacks your enemies to the best of its abilities. If you can communicate with it, you can attempt to command it, but the GM determines the degree to which it follows your commands.\n\nImmediately when you finish Casting the Spell, the summoned creature uses its 2 actions for that turn. Summoned creatures can be banished by various spells and effects. They are automatically banished if reduced to 0 Hit Points or if the spell that called them ends.",
+        "buff": true
+    },
+    {
+        "name": "Summon Plant or Fungus",
+        "type": "spells",
+        "desc": "You have conjured a plant or fungus to fight for you.\n\nA creature called by a conjuration spell or effect gains the summoned trait. A summoned creature can’t summon other creatures, create things of value, or cast spells that require a cost. It has the minion trait. If it tries to cast a spell of equal or higher level than the spell that summoned it, it overpowers the summoning magic, causing the summoned creature’s spell to fail and the summon spell to end. Otherwise, the summoned creature uses the standard abilities for a creature of its kind. It generally attacks your enemies to the best of its abilities. If you can communicate with it, you can attempt to command it, but the GM determines the degree to which it follows your commands.\n\nImmediately when you finish Casting the Spell, the summoned creature uses its 2 actions for that turn. Summoned creatures can be banished by various spells and effects. They are automatically banished if reduced to 0 Hit Points or if the spell that called them ends.",
+        "buff": true
+    },
+    {
+        "name": "Summon Plant or Fungus",
+        "type": "spells",
+        "desc": "You have conjured a fey to fight for you.\n\nA creature called by a conjuration spell or effect gains the summoned trait. A summoned creature can’t summon other creatures, create things of value, or cast spells that require a cost. It has the minion trait. If it tries to cast a spell of equal or higher level than the spell that summoned it, it overpowers the summoning magic, causing the summoned creature’s spell to fail and the summon spell to end. Otherwise, the summoned creature uses the standard abilities for a creature of its kind. It generally attacks your enemies to the best of its abilities. If you can communicate with it, you can attempt to command it, but the GM determines the degree to which it follows your commands.\n\nImmediately when you finish Casting the Spell, the summoned creature uses its 2 actions for that turn. Summoned creatures can be banished by various spells and effects. They are automatically banished if reduced to 0 Hit Points or if the spell that called them ends.",
+        "buff": true
+    },
+    {
+        "name": "Temporary Tool",
+        "type": "spells",
+        "desc": "You have conjured a temporary simple tool, such as a shovel or rope into your hands. It lasts until it is used for a single activity or for 1 minute, whichever comes first, after which it disappears. The tool is obviously temporarily conjured, and thus can’t be sold or passed off as a genuine item.",
+        "buff": true
+    },
+    {
+        "name": "Tether",
+        "type": "spells",
+        "desc": "You have used magical chains, vines, or other tethers to bind your target to you. The creature can still try to Escape, and it or others can break the tethers by attacking them. The tethers have AC 15 (plus 3 per spell level) and 10 Hit Points (plus 10 per spell level). You must stay within 30 feet of the target while it is tethered; moving more than 30 feet away from your target ends the spell. The target must attempt a Reflex save.\n\n<strong>Critical Success</strong> The target is unaffected.\n<strong>Success</strong> The target takes a –5-foot circumstance penalty to its Speed as long as it is within 30 feet of you.\n<strong>Failure</strong> The target takes a –10-foot circumstance penalty to its Speed and cannot move more than 30 feet away from you until it Escapes or the spell ends.\n<strong>Critical Failure</strong> The target is immobilized until it Escapes or the spell ends.",
+        "buff": true
+    },
+    {
+        "name": "True Strike",
+        "type": "spells",
+        "desc": "A glimpse into the future ensures your next blow strikes true. The next time you make an attack roll before the end of your turn, roll the attack twice and use the better result. The attack ignores circumstance penalties to the attack roll and any flat check required due to the target being concealed or hidden.",
+        "hint": "The next time you make an attack roll before the end of your turn, roll the attack twice and use the better result. The attack ignores circumstance penalties to the attack roll and any flat check required due to the target being concealed or hidden.",
+        "showon": "Attacks",
+        "buff": true
+    },
+    {
+        "name": "Unseen Servant",
+        "type": "spells",
+        "desc": "You have summoned an unseen servant (Core Rulebook pg. 380), which you can command as part of Sustaining the Spell. It serves you until its Hit Points are reduced to 0, at which point the spell ends, or until you stop Sustaining the Spell. The unseen servant gains the summoned trait.\n\nA creature called by a conjuration spell or effect gains the summoned trait. A summoned creature can’t summon other creatures, create things of value, or cast spells that require a cost. It has the minion trait. If it tries to cast a spell of equal or higher level than the spell that summoned it, it overpowers the summoning magic, causing the summoned creature’s spell to fail and the summon spell to end. Otherwise, the summoned creature uses the standard abilities for a creature of its kind. It generally attacks your enemies to the best of its abilities. If you can communicate with it, you can attempt to command it, but the GM determines the degree to which it follows your commands.\n\nImmediately when you finish Casting the Spell, the summoned creature uses its 2 actions for that turn. Summoned creatures can be banished by various spells and effects. They are automatically banished if reduced to 0 Hit Points or if the spell that called them ends.",
+        "buff": true
+    },
+    {
+        "name": "Ventriloquism (1st level)",
+        "type": "spells",
+        "desc": "Whenever you speak or make any other sound vocally, you can make your vocalization seem to originate from somewhere else within 60 feet, and you can change that apparent location freely as you vocalize. Any creature that hears the sound can attempt to disbelieve your illusion.",
+        "buff": true
+    },
+    {
+        "name": "Ventriloquism (2nd level)",
+        "type": "spells",
+        "desc": "Whenever you speak or make any other sound vocally, you can make your vocalization seem to originate from somewhere else within 60 feet, and you can change that apparent location freely as you vocalize. You can also change the tone, quality, and other aspects of your voice. Before a creature can attempt to disbelieve your illusion, it must actively attempt a Perception check or otherwise use actions to interact with the sound.",
+        "buff": true
+    },
+    {
+        "name": "Stabilize",
+        "type": "spells",
+        "desc": "Positive energy shuts death's door. The target loses the dying condition, though it remains unconscious at 0 Hit Points.",
+        "buff": true,
+        "endConditions": [
+            "Dying"
+        ]
+    },
+    {
+        "name": "Disrupting Weapons (1st level)",
+        "type": "spells",
+        "desc": "Two of your weapons are infused with positive energy. Attacks with these weapons deal an extra 1d4 positive damage to undead.",
+        "hint": "Two of your weapons are infused with positive energy. Attacks with these weapons deal an extra 1d4 positive damage to undead.",
+        "showon": "Attacks",
+        "buff": true
+    },
+    {
+        "name": "Disrupting Weapons (3rd level)",
+        "type": "spells",
+        "desc": "Two of your weapons are infused with positive energy. Attacks with these weapons deal an extra 2d4 positive damage to undead.",
+        "hint": "Two of your weapons are infused with positive energy. Attacks with these weapons deal an extra 2d4 positive damage to undead.",
+        "showon": "Attacks",
+        "buff": true
+    },
+    {
+        "name": "Disrupting Weapons (5th level)",
+        "type": "spells",
+        "desc": "Three of your weapons are infused with positive energy. Attacks with these weapons deal an extra 3d4 positive damage to undead.",
+        "hint": "Three of your weapons are infused with positive energy. Attacks with these weapons deal an extra 3d4 positive damage to undead.",
+        "showon": "Attacks",
+        "buff": true
+    },
+    {
+        "name": "Magic Fang",
+        "type": "spells",
+        "desc": "One of your unarmed attacks shines with primal energy. The unarmed attack becomes a +1 striking unarmed attack, gaining a +1 item bonus to attack rolls and increasing the number of damage dice to two if it had only one.",
+        "hint": "One of your unarmed attacks becomes a +1 striking unarmed attack, gaining a +1 item bonus to attack rolls and increasing the number of damage dice to two if it had only one.",
+        "showon": "Attacks",
+        "buff": true
+    },
+    {
+        "name": "Pass without Trace",
+        "type": "spells",
+        "desc": "You obscure the tracks you leave behind and make it harder for others to find you. The DC of checks to Track you gains a +4 status bonus or is equal to your spell DC, whichever results in a higher DC. You can benefit from only one pass without trace spell at a time.",
+        "hint": "You obscure the tracks you leave behind and make it harder for others to find you. The DC of checks to Track you gains a +4 status bonus or is equal to your spell DC, whichever results in a higher DC. You can benefit from only one pass without trace spell at a time.",
+        "showon": "Movement",
+        "buff": true
+    },
+    {
+        "name": "Magic Fang",
+        "type": "spells",
+        "desc": "One non-magical club or staff you hold becomes a +1 striking weapon while in your hands, gaining a +1 item bonus to attack rolls and increasing the number of weapon damage dice to two. Additionally, as long as you are on your home plane, attacks you make with the target against aberrations, extraplanar creatures, and undead increase the number of weapon damage dice to three.",
+        "hint": "One non-magical club or staff you hold becomes a +1 striking weapon while in your hands, gaining a +1 item bonus to attack rolls and increasing the number of weapon damage dice to two. Additionally, as long as you are on your home plane, attacks you make with the target against aberrations, extraplanar creatures, and undead increase the number of weapon damage dice to three.",
+        "showon": "Attacks",
+        "buff": true
+    },
+    {
+        "name": "Hero's Defiance Cooldown",
+        "type": "spells",
+        "desc": "Cheating death is difficult, and you can't use hero's defiance again until you Refocus or the next time you prepare.",
+        "inputRequired": "If you Refocus, remove this condition."
+    },
+    {
+        "name": "Shifting Form (Speed bonus)",
+        "type": "spells",
+        "desc": "You gain a 20-foot status bonus to your Speed.",
+        "effects": [
+            {
+                "affected": "Land Speed",
+                "value": "+20",
+                "type": "status"
+            }
+        ],
+        "buff": true
+    },
+    {
+        "name": "Shifting Form (climb Speed)",
+        "type": "spells",
+        "desc": "You gain a climb Speed equal to half your Speed.",
+        "effects": [
+            {
+                "affected": "Climb Speed",
+                "setValue": "Speed('Land Speed') / 2"
+            }
+        ],
+        "buff": true
+    },
+    {
+        "name": "Shifting Form (swim Speed)",
+        "type": "spells",
+        "desc": "You gain a climb Speed equal to half your Speed.",
+        "effects": [
+            {
+                "affected": "Swim Speed",
+                "setValue": "Speed('Land Speed') / 2"
+            }
+        ],
+        "buff": true
+    },
+    {
+        "name": "Shifting Form (darkvision)",
+        "type": "spells",
+        "desc": "You gain darkvision.",
+        "senses": [
+            "Darkvision"
+        ],
+        "buff": true
+    },
+    {
+        "name": "Shifting Form (scent)",
+        "type": "spells",
+        "desc": "You gain scent 60 feet (imprecise).",
+        "senses": [
+            "Scent 60 feet (imprecise)"
+        ],
         "buff": true
     }
 ]

@@ -6872,11 +6872,11 @@
         "desc": ""
     },
     {
-        "name": "Enigma",
+        "name": "Enigma Muse",
         "desc": ""
     },
     {
-        "name": "Maestro",
+        "name": "Maestro Muse",
         "desc": "Your muse is a virtuoso, inspiring you to greater heights. If it’s a creature, it might be a performance-loving creature such as a choral angel or lillend azata; if a deity, it might be Shelyn. As a bard with a maestro muse, you are an inspiration to your allies and confident of your musical and oratorical abilities. You gain the Lingering Composition feat and add soothe to your spell repertoire.",
         "inputRequired": "Add soothe to your repertoire.",
         "gainFeatChoice": [
@@ -6894,7 +6894,7 @@
         ]
     },
     {
-        "name": "Polymath",
+        "name": "Polymath Muse",
         "desc": ""
     },
     {
@@ -6918,19 +6918,19 @@
         "desc": ""
     },
     {
-        "name": "Animal",
+        "name": "Animal Order",
         "desc": ""
     },
     {
-        "name": "Leaf",
+        "name": "Leaf Order",
         "desc": ""
     },
     {
-        "name": "Storm",
+        "name": "Storm Order",
         "desc": ""
     },
     {
-        "name": "Wild",
+        "name": "Wild Order",
         "desc": ""
     },
     {
@@ -7068,7 +7068,7 @@
                 "_className": "SkillChoice",
                 "id": "1-Spell DC-Class-0",
                 "increases": [
-                        {
+                    {
                         "locked": true,
                         "maxRank": 4,
                         "name": "Monk Divine Spell DC",
@@ -7125,7 +7125,7 @@
                 "_className": "SkillChoice",
                 "id": "1-Spell DC-Class-0",
                 "increases": [
-                        {
+                    {
                         "locked": true,
                         "maxRank": 4,
                         "name": "Monk Occult Spell DC",
@@ -7176,15 +7176,15 @@
         ]
     },
     {
-        "name": "Ruffian",
+        "name": "Ruffian Racket",
         "desc": ""
     },
     {
-        "name": "Scoundrel",
+        "name": "Scoundrel Racket",
         "desc": ""
     },
     {
-        "name": "Thief",
+        "name": "Thief Racket",
         "desc": "Nothing beats the thrill of taking something that belongs to someone else, especially if you can do so completely unnoticed. You might be a pickpocket working the streets, a cat burglar sneaking through windows and escaping via rooftops, or a safecracker breaking into carefully guarded vaults. You might even work as a consultant, testing clients’ defenses by trying to steal something precious.\n\nWhen a fight breaks out, you prefer swift, lightweight weapons, and you strike where it hurts. When you attack with a finesse melee weapon, you can add your Dexterity modifier to damage rolls instead of your Strength modifier.\n\nYou are trained in Thievery.",
         "hint": "When you attack with a finesse melee weapon, you can add your Dexterity modifier to damage rolls instead of your Strength modifier.",
         "showon": "Attacks",
@@ -7241,8 +7241,8 @@
     },
     {
         "name": "Elemental Bloodline",
-        "desc": "A genie ancestor or some other elemental influence has imbued your blood with primal fury, affecting how the bloodline spells and granted spells marked with an asterisk (*), as well as your blood magic, function.\n\nSpell List: primal\nBloodline Skills: Intimidation, Nature\nGranted Spells: cantrip produce flame*, 1st: burning hands*, 2nd: resist energy, 3rd: fireball*, 4th: freedom of movement, 5th: elemental form, 6th: repulsion, 7th: energy aegis, 8th: prismatic wall, 9th: storm of vengeance\nBloodline Spells: initial: elemental toss*, advanced: elemental motion, greater: elemental blast*\nBlood Magic Elemental energy surrounds you or a target. Either you gain a +1 status bonus to Intimidation checks for 1 round, or a target takes 1 damage per spell level. The damage is bludgeoning or fire, according to your elemental type (see below). If the spell already deals that type of damage, combine it with the spell’s initial damage before determining weaknesses and resistances.",
-        "special": "At 1st level, choose the type of elemental that influenced your bloodline: air, earth, fire, or water. If your element is air, you buffet your foes with powerful winds; if it’s earth, you toss huge chunks of rock; if it’s fire, you incinerate your foes with flame; and if it’s water, you inundate your foes with torrents of water. For fire, all marked spells deal fire damage. For other elements, they deal bludgeoning damage. Replace any existing elemental traits with the trait of the element you chose.",
+        "desc": "A genie ancestor or some other elemental influence has imbued your blood with primal fury, affecting how the bloodline spells and granted spells marked with an asterisk (*), as well as your blood magic, function.\n\nSpell List: primal\nBloodline Skills: Intimidation, Nature\nGranted Spells: cantrip produce flame*, 1st: burning hands*, 2nd: resist energy, 3rd: fireball*, 4th: freedom of movement, 5th: elemental form, 6th: repulsion, 7th: energy aegis, 8th: prismatic wall, 9th: storm of vengeance\nBloodline Spells: initial: elemental toss*, advanced: elemental motion, greater: elemental blast*\nBlood Magic: Elemental energy surrounds you or a target. Either you gain a +1 status bonus to Intimidation checks for 1 round, or a target takes 1 damage per spell level. The damage is bludgeoning or fire, according to your elemental type (see below). If the spell already deals that type of damage, combine it with the spell’s initial damage before determining weaknesses and resistances.",
+        "specialdesc": "At 1st level, choose the type of elemental that influenced your bloodline: air, earth, fire, or water. If your element is air, you buffet your foes with powerful winds; if it’s earth, you toss huge chunks of rock; if it’s fire, you incinerate your foes with flame; and if it’s water, you inundate your foes with torrents of water. For fire, all marked spells deal fire damage. For other elements, they deal bludgeoning damage. Replace any existing elemental traits with the trait of the element you chose.",
         "gainFeatChoice": [
             {
                 "_className": "FeatChoice",
@@ -7897,23 +7897,23 @@
         "desc": ""
     },
     {
-        "name": "Abjuration",
+        "name": "Abjuration School",
         "desc": ""
     },
     {
-        "name": "Conjuration",
+        "name": "Conjuration School",
         "desc": ""
     },
     {
-        "name": "Divination",
+        "name": "Divination School",
         "desc": ""
     },
     {
-        "name": "Enchantment",
+        "name": "Enchantment School",
         "desc": ""
     },
     {
-        "name": "Evocation",
+        "name": "Evocation School",
         "desc": "As an evoker, you revel in the raw power of magic, using it to create and destroy with ease. You can call forth elements, forces, and energy to devastate your foes or to assist you in other ways. You understand that the most direct approach is the most elegant. You add one 1st-level evocation spell (such as shocking grasp) to your spellbook. You learn the force bolt school spell.",
         "gainSpellChoice": [
             {
@@ -8062,19 +8062,164 @@
         ]
     },
     {
-        "name": "Illusion",
+        "name": "Illusion School",
         "desc": ""
     },
     {
-        "name": "Necromancy",
+        "name": "Necromancy School",
         "desc": ""
     },
     {
-        "name": "Transmutation",
-        "desc": ""
+        "name": "Transmutation School",
+        "desc": "As a transmuter, you alter the physical properties of things, transforming creatures, objects, the natural world, and even yourself at your whim. You understand that change is inevitable. You add one 1st-level transmutation spell (such as magic weapon) to your spellbook. You learn the physical boost school spell.",
+        "gainSpellChoice": [
+            {
+                "castingType": "Focus",
+                "className": "Wizard",
+                "id": "885ef1a8-1eef-4de9-8037-85b71202df29",
+                "level": -1,
+                "source": "Transmutation School",
+                "spells": [
+                    {
+                        "locked": true,
+                        "name": "Physical Boost"
+                    }
+                ]
+            },
+            {
+                "castingType": "Prepared",
+                "className": "Wizard",
+                "id": "c5c28b30-a5f7-11ea-bb37-0242ac130002",
+                "available": 1,
+                "level": 0,
+                "source": "Transmutation School",
+                "traitFilter": [
+                    "Transmutation"
+                ]
+            },
+            {
+                "castingType": "Prepared",
+                "className": "Wizard",
+                "id": "c5c28d56-a5f7-11ea-bb37-0242ac130002",
+                "available": 1,
+                "level": 1,
+                "source": "Transmutation School",
+                "traitFilter": [
+                    "Transmutation"
+                ]
+            },
+            {
+                "castingType": "Prepared",
+                "className": "Wizard",
+                "id": "c5c28e50-a5f7-11ea-bb37-0242ac130002",
+                "available": 1,
+                "level": 2,
+                "charLevelAvailable": 3,
+                "source": "Transmutation School",
+                "traitFilter": [
+                    "Transmutation"
+                ]
+            },
+            {
+                "castingType": "Prepared",
+                "className": "Wizard",
+                "id": "c5c2910c-a5f7-11ea-bb37-0242ac130002",
+                "available": 1,
+                "level": 3,
+                "charLevelAvailable": 5,
+                "source": "Transmutation School",
+                "traitFilter": [
+                    "Transmutation"
+                ]
+            },
+            {
+                "castingType": "Prepared",
+                "className": "Wizard",
+                "id": "c5c29206-a5f7-11ea-bb37-0242ac130002",
+                "available": 1,
+                "level": 4,
+                "charLevelAvailable": 7,
+                "source": "Transmutation School",
+                "traitFilter": [
+                    "Transmutation"
+                ]
+            },
+            {
+                "castingType": "Prepared",
+                "className": "Wizard",
+                "id": "c5c296ac-a5f7-11ea-bb37-0242ac130002",
+                "available": 1,
+                "level": 5,
+                "charLevelAvailable": 9,
+                "source": "Transmutation School",
+                "traitFilter": [
+                    "Transmutation"
+                ]
+            },
+            {
+                "castingType": "Prepared",
+                "className": "Wizard",
+                "id": "c5c297ba-a5f7-11ea-bb37-0242ac130002",
+                "available": 1,
+                "level": 6,
+                "charLevelAvailable": 11,
+                "source": "Transmutation School",
+                "traitFilter": [
+                    "Transmutation"
+                ]
+            },
+            {
+                "castingType": "Prepared",
+                "className": "Wizard",
+                "id": "c5c2988c-a5f7-11ea-bb37-0242ac130002",
+                "available": 1,
+                "level": 7,
+                "charLevelAvailable": 13,
+                "source": "Transmutation School",
+                "traitFilter": [
+                    "Transmutation"
+                ]
+            },
+            {
+                "castingType": "Prepared",
+                "className": "Wizard",
+                "id": "c5c2994a-a5f7-11ea-bb37-0242ac130002",
+                "available": 1,
+                "level": 8,
+                "charLevelAvailable": 15,
+                "source": "Transmutation School",
+                "traitFilter": [
+                    "Transmutation"
+                ]
+            },
+            {
+                "castingType": "Prepared",
+                "className": "Wizard",
+                "id": "c5c29a12-a5f7-11ea-bb37-0242ac130002",
+                "available": 1,
+                "level": 9,
+                "charLevelAvailable": 17,
+                "source": "Transmutation School",
+                "traitFilter": [
+                    "Transmutation"
+                ]
+            }
+        ],
+        "effects": [
+            {
+                "affected": "Focus Pool",
+                "value": "+1"
+            }
+        ],
+        "onceEffects": [
+            {
+                "affected": "Focus Points",
+                "value": "+1"
+            }
+        ]
     },
     {
-        "name": "Universalist",
+        "name": "Universalist School",
         "desc": "Instead of specializing narrowly in an arcane school, you can become a universalist wizard—by studying all the schools equally, you devote yourself to understanding the full breadth of the arcane arts. For each level of spell you can cast, you can use Drain Bonded item once per day to recall a spell of that level (instead of using it only once per day in total). You gain an extra wizard class feat, and you add one 1st-level spell of your choice to your spellbook.",
         "hint": "For each level of spell you can cast, you can use Drain Bonded item once per day to recall a spell of that level (instead of using it only once per day in total).",
         "showon": "Drain Bonded Item",
@@ -9138,5 +9283,95 @@
             }
         ],
         "internalNote": "Spell slots gained through class features are handled in the class object."
+    },
+    {
+        "name": "Advanced School Spell",
+        "shortdesc": "You gain access to a powerful new school spell depending on your arcane school.",
+        "levelreq": 8,
+        "subTypes": true,
+        "desc": "You gain access to a powerful new school spell depending on your arcane school. If you’re an abjurer, you gain energy absorption; if you’re a conjurer, you gain dimensional steps; if you’re a diviner, you gain vigilant eye; if you’re an enchanter, you gain dread aura; if you’re an evoker, you gain elemental tempest; if you’re an illusionist, you gain invisibility cloak; if you’re a necromancer, you gain life siphon; and if you’re a transmuter, you gain shifting form. Increase the number of Focus Points in your focus pool by 1.",
+        "traits": [
+            "Wizard"
+        ]
+    },
+    {
+        "name": "Advanced School Spell: Abjuration",
+        "shortdesc": "You gain access to a powerful new school spell depending on your arcane school.",
+        "subType": "Abjuration",
+        "levelreq": 8,
+        "featreq": [
+            "Abjuration School"
+        ],
+        "superType": "Advanced School Spell",
+        "gainSpellChoice": [
+            {
+                "castingType": "Focus",
+                "className": "Wizard",
+                "id": "e985efdc-e20f-4666-bdce-f43fce5927af",
+                "level": -1,
+                "source": "Feat: Advanced School Spell: Abjuration",
+                "spells": [
+                    {
+                        "locked": true,
+                        "name": "Energy Absorption"
+                    }
+                ]
+            }
+        ],
+        "effects": [
+            {
+                "affected": "Focus Pool",
+                "value": "1"
+            }
+        ],
+        "onceEffects": [
+            {
+                "affected": "Focus Points",
+                "value": "1"
+            }
+        ],
+        "traits": [
+            "Wizard"
+        ]
+    },
+    {
+        "name": "Advanced School Spell: Transmutation",
+        "shortdesc": "You gain access to a powerful new school spell depending on your arcane school.",
+        "subType": "Transmutation",
+        "levelreq": 8,
+        "featreq": [
+            "Transmutation School"
+        ],
+        "superType": "Advanced School Spell",
+        "gainSpellChoice": [
+            {
+                "castingType": "Focus",
+                "className": "Wizard",
+                "id": "f824d183-ab5c-477b-baf4-bcb78a4ad8b9",
+                "level": -1,
+                "source": "Feat: Advanced School Spell: Transmutation",
+                "spells": [
+                    {
+                        "locked": true,
+                        "name": "Shifting Form"
+                    }
+                ]
+            }
+        ],
+        "effects": [
+            {
+                "affected": "Focus Pool",
+                "value": "1"
+            }
+        ],
+        "onceEffects": [
+            {
+                "affected": "Focus Points",
+                "value": "1"
+            }
+        ],
+        "traits": [
+            "Wizard"
+        ]
     }
 ]

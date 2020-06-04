@@ -25,19 +25,34 @@
             </div>
         </div>
         <h3>Add Condition</h3>
-        <ng-container *ngFor="let set of ['Generic','Alchemical Elixirs','Worn Items','Spells']">
-            <ng-container *ngFor="let visibleConditions of [get_VisibleConditionsSet(set)]">
+        <ng-container *ngFor="let set of ['Generic','Alchemical Elixirs','Worn Items','Spells']; trackBy:trackByIndex;">
+            <ng-container *ngFor="let visibleConditions of [get_VisibleConditionsSet(set)]; trackBy:trackByIndex;">
                 <button class="list-item"
                     (click)="toggleList(set)" *ngIf="visibleConditions.length"><h3>{{set}}</h3></button>
                 <ng-container *ngIf="get_ShowList()==set||get_ShowList()=='All'">
-                    <div class="list-item" *ngFor="let condition of visibleConditions">
+                    <div class="list-item" *ngFor="let condition of visibleConditions; trackBy:trackByIndex;">
                         <strong>{{condition.name}}</strong>&nbsp;
-                        <span *ngIf="condition.hasValue">
-                            Value: <select [(ngModel)]="value">
-                                <option *ngFor="let valueNumber of [1,2,3,4,5]" [ngValue]="valueNumber">{{valueNumber}}
-                                </option>
-                            </select><br>
-                        </span>
+                        <div class="row" *ngIf="condition.hasValue">
+                            <span>
+                                Value: <select [(ngModel)]="value">
+                                    <option *ngFor="let valueNumber of [1,2,3,4,5,6,7,8,9,10]" [ngValue]="valueNumber">{{valueNumber}}
+                                    </option>
+                                </select><br>
+                            </span>
+                        </div>
+                        <div class="row" *ngIf="condition.type == 'spells'">
+                            <span>
+                                Spell level (for effect values): <select [(ngModel)]="heightened">
+                                    <option *ngFor="let valueNumber of [1,2,3,4,5,6,7,8,9,10]" [ngValue]="valueNumber">{{valueNumber}}
+                                    </option>
+                                </select><br>
+                            </span>
+                        </div>
+                        <div class="row" *ngIf="condition.name == 'Persistent Damage'">
+                            <span>
+                                Damage type and amount: <input type="text" name="persistentDamage" [(ngModel)]="persistentDamage" maxLength="30">
+                            </span>
+                        </div>
                         <div class="row">
                             <span>
                                 <button (click)="add_Condition(get_Character(), condition)">Add ({{get_Duration()}})</button>
@@ -59,9 +74,9 @@
                         </div>
                         <div class="row left-aligned" *ngIf="get_ShowItem()==set+condition.name">
                             <div *ngFor="let desc of condition.desc.split('\n\n')">
-                                <p *ngIf="desc.split('\n').length == 1">{{desc}}</p>
+                                <p *ngIf="desc.split('\n').length == 1" [innerHTML]="desc"></p>
                                 <ul *ngIf="desc.split('\n').length > 1">
-                                    <li *ngFor="let line of desc.split('\n')">{{line}}</li>
+                                    <li *ngFor="let line of desc.split('\n')" [innerHTML]="line"></li>
                                 </ul>
                             </div>
                         </div>

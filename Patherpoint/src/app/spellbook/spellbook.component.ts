@@ -207,13 +207,13 @@ export class SpellbookComponent implements OnInit {
                     return "";
                 }
             case "Spontaneous":
-                if (maxSpellSlots && this.get_UsedSpellSlots(levelNumber, casting) >= maxSpellSlots) {
+                if (choice.level > 0 && maxSpellSlots && this.get_UsedSpellSlots(levelNumber, casting) >= maxSpellSlots) {
                     return "No spell slots left to cast."
                 } else {
                     return "";
                 }
             case "Prepared":
-                if (!gain.prepared) {
+                if (choice.level > 0 && !gain.prepared) {
                     return "Already cast today."
                 } else {
                     return "";
@@ -286,6 +286,10 @@ export class SpellbookComponent implements OnInit {
             }
             gain.prepared = true;
         }
+    }
+
+    is_SignatureSpell(choice: SpellChoice) {
+        return this.get_SignatureSpellsAllowed() && choice.signatureSpell;
     }
 
     finish_Loading() {

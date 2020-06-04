@@ -2296,5 +2296,22 @@
       "group": "Club",
       "hands": "1",
       "melee": 5
+   },
+   {
+      "hide": true,
+      "id": "415973ca-1768-4968-8d51-bd74dd3f0a4b",
+      "name": "Shifting Form Claws",
+      "traits": [
+         "Finesse",
+         "Unarmed"
+      ],
+      "displayName": "Claws",
+      "moddable": "-",
+      "_className": "Weapon",
+      "dicesize": 8,
+      "dmgType": "S",
+      "group": "Brawling",
+      "melee": 5,
+      "prof": "Unarmed Attacks"
    }
 ]

@@ -15,6 +15,7 @@ export class Condition {
     public effects: EffectGain[] = [];
     public gainConditions: ConditionGain[] = [];
     public overrideConditions: string[] = [];
+    public endConditions: string[] = [];
     public attackRestrictions: string[] = [];
     public source: string = "";
     public senses: string[] = [];

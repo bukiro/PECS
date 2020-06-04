@@ -66,10 +66,13 @@ export class ConditionsService {
                             (otherGain.name == gain.name) &&
                             (otherGain.apply)
                         ).forEach(otherGain => {
-                            //Higher value conditions remain.
+                            //Higher value conditions remain, same persistent damage value are exclusive.
                             if (otherGain.value > gain.value) {
                                 gain.apply = false;
-                            } else if (otherGain.value == gain.value || (!otherGain.value && !gain.value)) {
+                            } else if (
+                                    ((otherGain.persistentDamage || gain.persistentDamage) ? otherGain.persistentDamage == gain.persistentDamage : true) &&
+                                    ((otherGain.value || gain.value) ? otherGain.value == gain.value : true)
+                                ) {
                                 //If the value is the same:
                                 //Deactivate this condition if the other one has a longer duration (and this one is not permanent), or is permanent (no matter if this one is)
                                 //The other condition will not be deactivated because it only gets compared to the ones that aren't deactivated yet
@@ -98,14 +101,20 @@ export class ConditionsService {
         //Use gain once so it isn't marked as unused. It will be used by the eval strings.
         gain = gain
         //One time effects
-        if (condition.onceEffects) {
+        if (condition.onceEffects.length) {
             if (taken) {
                 condition.onceEffects.forEach(effect => {
-                    characterService.process_OnceEffect(creature, effect);
+                    characterService.process_OnceEffect(creature, effect, gain.value, gain.heightened);
                 })
             }
         }
 
+        condition.endConditions.forEach(end => {
+            characterService.get_AppliedConditions(creature, end).forEach(gain => {
+                characterService.remove_Condition(creature, gain, false);
+            })
+        })
+        
         if (gain.name == "Dying") {
             if (taken) {
                 if (creature.health.dying(creature, characterService) >= creature.health.maxDying(creature, effectsService)) {
@@ -134,17 +143,6 @@ export class ConditionsService {
             }
         }
 
-        if (gain.name == "Dead") {
-            characterService.get_AppliedConditions(creature, "Dying").forEach(gain => {
-                characterService.remove_Condition(creature, gain, false);
-            })
-            characterService.get_AppliedConditions(creature, "Doomed").forEach(gain => {
-                characterService.remove_Condition(creature, gain, false);
-            })
-            characterService.get_AppliedConditions(creature, "Wounded").forEach(gain => {
-                characterService.remove_Condition(creature, gain, false);
-            })
-        }
     }
 
     tick_Conditions(creature: Character|AnimalCompanion|Familiar, turns: number = 10, yourTurn: number) {

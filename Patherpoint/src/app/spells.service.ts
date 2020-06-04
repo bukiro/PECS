@@ -67,15 +67,6 @@ export class SpellsService {
                 break;
         }
 
-        //Process various results of casting the spell
-
-        //One time effects
-        /*if (spell.onceEffects) {
-            spell.onceEffects.forEach(effect => {
-                characterService.process_OnceEffect(effect);
-            })
-        }*/
-
         if (targetCreature) {
             //Gain Items on Activation
             if (targetCreature.type != "Familiar")
@@ -83,11 +74,11 @@ export class SpellsService {
                 if (activated) {
                     gain.gainItems = spell.get_HeightenedItems(level).map(itemGain => Object.assign(new ItemGain(), itemGain));
                     gain.gainItems.forEach(gainItem => {
-                        let newItem: Item = itemsService.get_Items()[gainItem.type].filter(item => item.name == gainItem.name)[0];
+                        let newItem: Item = itemsService.get_CleanItems()[gainItem.type].filter(item => item.name == gainItem.name)[0];
                         if (newItem.can_Stack()) {
-                            characterService.grant_InventoryItem(targetCreature as Character|AnimalCompanion, targetCreature.inventories[0], newItem, true, false, false, gainItem.amount);
+                            characterService.grant_InventoryItem(targetCreature as Character|AnimalCompanion, targetCreature.inventories[0], newItem, false, false, false, gainItem.amount);
                         } else {
-                            let grantedItem = characterService.grant_InventoryItem(targetCreature as Character|AnimalCompanion, targetCreature.inventories[0], newItem, true, false, true);
+                            let grantedItem = characterService.grant_InventoryItem(targetCreature as Character|AnimalCompanion, targetCreature.inventories[0], newItem, false, false, true);
                             gainItem.id = grantedItem.id;
                             grantedItem.expiration = gainItem.expiration;
                             if (grantedItem.get_Name) {

@@ -15,6 +15,7 @@ import { AnimalCompanion } from '../AnimalCompanion';
 import { Bulk } from '../Bulk';
 import { ItemCollection } from '../ItemCollection';
 import { WornItem } from '../WornItem';
+import { TimeService } from '../time.service';
 
 @Component({
     selector: 'app-inventory',
@@ -37,6 +38,7 @@ export class InventoryComponent implements OnInit {
         public itemsService: ItemsService,
         public traitsService: TraitsService,
         public effectsService: EffectsService,
+        private timeService: TimeService,
         public sortByPipe: SortByPipe
     ) { }
     minimize() {
@@ -330,6 +332,10 @@ export class InventoryComponent implements OnInit {
 
     get_Traits(traitName: string = "") {
         return this.traitsService.get_Traits(traitName);
+    }
+
+    get_Duration(turns: number) {
+        return this.timeService.get_Duration(turns);
     }
 
     get_Bulk() {

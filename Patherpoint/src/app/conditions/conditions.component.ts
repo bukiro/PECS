@@ -8,6 +8,7 @@ import { TimeService } from '../time.service';
 import { Character } from '../Character';
 import { AnimalCompanion } from '../AnimalCompanion';
 import { Familiar } from '../Familiar';
+import { SortByPipe } from '../sortBy.pipe';
 
 @Component({
     selector: 'app-conditions',
@@ -19,17 +20,20 @@ export class ConditionsComponent implements OnInit {
 
     public endOn: number = 0;
     public value: number = 1;
+    public heightened: number = 1;
+    public persistentDamage: string = "";
     public duration: number = -1;
     public showList: string = "";
     public showItem: string = "";
     public wordFilter: string = "";
-    
+        
     constructor(
         private changeDetector: ChangeDetectorRef,
         private characterService: CharacterService,
         private traitsService: TraitsService,
         private conditionsService: ConditionsService,
-        private timeService: TimeService
+        private timeService: TimeService,
+        private sortByPipe: SortByPipe
     ) { }
 
     toggleList(type) {
@@ -59,7 +63,12 @@ export class ConditionsComponent implements OnInit {
     get_Accent() {
         return this.characterService.get_Accent();
     }
-
+    
+    //If you don't use trackByIndex on certain inputs, you lose focus everytime the value changes. I don't get that, but I'm using it now.
+    trackByIndex(index: number, obj: any): any {
+        return index;
+    }
+    
     check_Filter() {
         if (this.wordFilter.length < 5 && this.showList == "All") {
             this.showList = "";
@@ -121,16 +130,15 @@ export class ConditionsComponent implements OnInit {
                 break;
         }
         if (typeKey) {
-            return this.get_Conditions("", typeKey).filter(condition => 
+            return this.sortByPipe.transform(this.get_Conditions("", typeKey).filter(condition => 
                 !this.wordFilter || (
                     this.wordFilter && (
                         condition.name.toLowerCase().includes(this.wordFilter.toLowerCase()) ||
                         condition.desc.toLowerCase().includes(this.wordFilter.toLowerCase())
                     )
                 )
-            );
+            ), "asc", "name") as Condition[];
         }
-        
     }
     
     get_Traits(traitName: string = "") {
@@ -193,6 +201,13 @@ export class ConditionsComponent implements OnInit {
         }
         if (condition.hasValue) {
             newGain.value = this.value;
+        }
+        if (condition.name == "Persistent Damage") {
+            newGain.persistentDamage = this.persistentDamage;
+            newGain.value = 0;
+        }
+        if (condition.type == "spells") {
+            newGain.heightened = this.heightened;
         }
         newGain.source = "Manual";
         this.characterService.add_Condition(creature, newGain, true);

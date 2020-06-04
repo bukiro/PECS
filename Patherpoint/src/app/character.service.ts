@@ -923,7 +923,10 @@ export class CharacterService {
             let newConditionGain = creature.conditions[newLength - 1];
             this.conditionsService.process_Condition(creature, this, this.effectsService, conditionGain, this.conditionsService.get_Conditions(conditionGain.name)[0], true);
             originalCondition.gainConditions.forEach(extraCondition => {
-                this.add_Condition(creature, Object.assign(new ConditionGain, { name: extraCondition.name, value: extraCondition.value, source: newConditionGain.name, apply: true }), false)
+                let addCondition = Object.assign(new ConditionGain, JSON.parse(JSON.stringify(extraCondition)));
+                addCondition.source = newConditionGain.name;
+                addCondition.apply = true;
+                this.add_Condition(creature, addCondition, false)
             })
             if (reload) {
                 this.set_Changed();
@@ -937,7 +940,9 @@ export class CharacterService {
         let originalCondition = this.get_Conditions(conditionGain.name)[0];
         if (oldConditionGain.length) {
             originalCondition.gainConditions.forEach(extraCondition => {
-                this.remove_Condition(creature, Object.assign(new ConditionGain, { name: extraCondition.name, value: extraCondition.value, source: oldConditionGain[0].name }), false, increaseWounded)
+                let addCondition = Object.assign(new ConditionGain, JSON.parse(JSON.stringify(extraCondition)));
+                addCondition.source = oldConditionGain[0].name;
+                this.remove_Condition(creature, addCondition, false, increaseWounded)
             })
             creature.conditions.splice(creature.conditions.indexOf(oldConditionGain[0]), 1)
             this.conditionsService.process_Condition(creature, this, this.effectsService, conditionGain, this.conditionsService.get_Conditions(conditionGain.name)[0], false, increaseWounded);
@@ -947,11 +952,11 @@ export class CharacterService {
         }
     }
 
-    process_OnceEffect(creature: Character|AnimalCompanion|Familiar, effectGain: EffectGain) {
+    process_OnceEffect(creature: Character|AnimalCompanion|Familiar, effectGain: EffectGain, conditionValue: number = 0, conditionHeightened: number = 0) {
         let value = 0;
         try {
             //we eval the effect value by sending this effect gain to get_SimpleEffects() and receive the resulting effect.
-            let effects = this.effectsService.get_SimpleEffects(this.get_Character(), this, { effects: [effectGain] });
+            let effects = this.effectsService.get_SimpleEffects(this.get_Character(), this, { effects: [effectGain], value: conditionValue, heightened: conditionHeightened });
             if (effects.length) {
                 let effect = effects[0];
                 if (effect && effect.value && effect.value != "0" && (parseInt(effect.value) || parseFloat(effect.value))) {
