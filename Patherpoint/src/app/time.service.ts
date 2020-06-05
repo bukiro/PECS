@@ -157,7 +157,7 @@ export class TimeService {
             if (includeTurnState && duration == this.get_YourTurn()) {
                 returnString += " to end of turn"
             }
-            return returnString;
+            return returnString.trim();
         }
     }
 

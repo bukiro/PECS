@@ -433,6 +433,14 @@ export class InventoryComponent implements OnInit {
         }
     }
 
+    can_ApplyTalismans(item: Item) {
+        return (["armors", "shields", "weapons"].includes(item.type)) &&
+        (
+            (item as Equipment).talismans.length ||
+            this.get_Creature().inventories.filter(inv => inv.oils.length).length
+        )
+    }
+
     get_Price(item: Item) {
         if (item["get_Price"]) {
             return item["get_Price"](this.itemsService);

@@ -49,6 +49,7 @@ import { ActionIcons_FreeComponent } from './actionIcons/actionIcons_Free/action
 import { ActionIcons_ReactionComponent } from './actionIcons/actionIcons_Reaction/actionIcons_Reaction.component';
 import { FeatComponent } from './character/feat/feat.component';
 import { SpellLibraryComponent } from './spellLibrary/spellLibrary.component';
+import { ItemTalismansComponent } from './item/itemTalismans/itemTalismans.component';
 
 @NgModule({
    declarations: [
@@ -93,7 +94,8 @@ import { SpellLibraryComponent } from './spellLibrary/spellLibrary.component';
       ActionIcons_FreeComponent,
       ActionIcons_ReactionComponent,
       FeatComponent,
-      SpellLibraryComponent
+      SpellLibraryComponent,
+      ItemTalismansComponent
    ],
    imports: [
       BrowserModule,

@@ -6,6 +6,7 @@ import { ActivityGain } from './ActivityGain';
 import { Rune } from './Rune';
 import { ItemsService } from './items.service';
 import { InventoryGain } from './InventoryGain';
+import { Talisman } from './Talisman';
 
 export class Equipment extends Item {
     //This is a list of all the attributes that should be saved if a refID exists. All others can be looked up via the refID when loading the character.
@@ -64,6 +65,8 @@ export class Equipment extends Item {
     public strikingRune:number = 0;
     //Should this item show up on a skill, ability, etc.? If so, name the elements here as a comma separated string
     public showon: string = "";
+    //Store any talismans attached to this item.
+    public talismans: Talisman[] = [];
     get_Bulk() {
         //Return either the bulk set by an oil, or else the actual bulk of the item.
         let oilBulk: string = "";
@@ -144,25 +147,28 @@ export class Equipment extends Item {
         let price = this.price;
         if (this.moddable == "weapon") {
             if (this.potencyRune) {
-                price += itemsService.get_Items().weaponrunes.filter(rune => rune.potency == this.potencyRune)[0].price;
+                price += itemsService.get_CleanItems().weaponrunes.filter(rune => rune.potency == this.potencyRune)[0].price;
             }
             if (this.strikingRune) {
-                price += itemsService.get_Items().weaponrunes.filter(rune => rune.striking == this.strikingRune)[0].price;
+                price += itemsService.get_CleanItems().weaponrunes.filter(rune => rune.striking == this.strikingRune)[0].price;
             }
             this.propertyRunes.forEach(rune => {
-                price += itemsService.get_Items().weaponrunes.find(weaponRune => weaponRune.name == rune.name).price;
+                price += itemsService.get_CleanItems().weaponrunes.find(weaponRune => weaponRune.name == rune.name).price;
             })
         } else if (this.moddable == "armor") {
             if (this.potencyRune) {
-                price += itemsService.get_Items().armorrunes.filter(rune => rune.potency == this.potencyRune)[0].price;
+                price += itemsService.get_CleanItems().armorrunes.filter(rune => rune.potency == this.potencyRune)[0].price;
             }
             if (this.strikingRune) {
-                price += itemsService.get_Items().armorrunes.filter(rune => rune.resilient == this.strikingRune)[0].price;
+                price += itemsService.get_CleanItems().armorrunes.filter(rune => rune.resilient == this.strikingRune)[0].price;
             }
             this.propertyRunes.forEach(rune => {
-                price += itemsService.get_Items().armorrunes.find(armorRune => armorRune.name == rune.name).price;
+                price += itemsService.get_CleanItems().armorrunes.find(armorRune => armorRune.name == rune.name).price;
             })
         }
+        this.talismans.forEach(talisman => {
+            price += itemsService.get_CleanItems().talismans.find(cleanTalisman => cleanTalisman.name == talisman.name).price;
+        })
         return price;
     }
 }

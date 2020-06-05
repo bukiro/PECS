@@ -16,4 +16,5 @@ export class Creature {
     public speeds: Speed[] = [new Speed("Speed"), new Speed("Land Speed")];
     public bulk: Bulk = new Bulk();
     public cover: number = 0;
+    public notes: string = "";
 }

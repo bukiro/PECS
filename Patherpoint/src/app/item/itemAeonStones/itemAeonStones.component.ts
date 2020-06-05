@@ -55,7 +55,7 @@ export class ItemAeonStonesComponent implements OnInit {
 
     get_InitialAeonStones(index: number) {
         let item = this.item;
-        //Start with one empty rune to select nothing.
+        //Start with one empty stone to select nothing.
         let allStones: { aeonStone: WornItem, inv: ItemCollection }[] = [{ aeonStone: new WornItem(), inv: null }];
         allStones[0].aeonStone.name = "";
         //Add the current choice, if the item has a rune at that index.

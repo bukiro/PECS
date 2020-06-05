@@ -58,6 +58,7 @@ import { CharacterService } from './character.service';
 import { AnimalCompanionsService } from './animalcompanions.service';
 import { ClassesService } from './classes.service';
 import { HistoryService } from './history.service';
+import { Talisman } from './Talisman';
 
 @Injectable({
     providedIn: 'root'
@@ -117,6 +118,7 @@ export class SavegameService {
     private SpellCasting = SpellCasting;
     private SpellChoice = SpellChoice;
     private SpellGain = SpellGain;
+    private Talisman = Talisman;
     private Weapon = Weapon;
     private WeaponRune = WeaponRune;
     private WornItem = WornItem;

@@ -226,3 +226,13 @@
     <h4>{{stone.name}}</h4>
     <app-item [creature]="creature" [item]=stone [allowActivate]=allowActivate [isSubItem]=true></app-item>
 </div>
+<div class="list-item left-aligned" *ngFor="let talisman of item.talismans; let index = index">
+    <h4>{{talisman.name}}</h4>
+    <button class="row left-aligned" [disabled]="!item.amount"
+        (click)="on_TalismanUse(talisman, index)" *ngIf="allowActivate">
+        <span>Use<app-actionIcons [actionString]="talisman.actions">
+            </app-actionIcons>{{(talisman.activationType) ? talisman.activationType : ""}}
+        </span>
+    </button>
+    <app-item [creature]="creature" [item]=talisman [allowActivate]=allowActivate [isSubItem]=true></app-item>
+</div>

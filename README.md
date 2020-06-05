@@ -61,13 +61,14 @@ The very latest in Assistive Technologies for Dungeon Master (ATDM)
 
 active to do:
 add custom conditions with effects
+implement Talismans
 
 Implement spells:
 
 Create feats:
 
 Create items:
-- Grim Trophy => Talismans
+
 
 Create activities:
 

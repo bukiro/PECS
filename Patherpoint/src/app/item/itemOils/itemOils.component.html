@@ -1,6 +1,6 @@
 <!--Adding Oils-->
-<ng-container *ngIf="item.type!='oils'">
-    <div class="row" *ngIf="get_Oils().length > 1">
+<div class="list-item" *ngIf="get_Oils().length > 1">
+    <div class="row">
         <strong>Apply oil</strong>
         <select [(ngModel)]="newOil"
             (change)="add_Oil()">
@@ -9,9 +9,9 @@
     </div>
     <div class="row" *ngIf="item.oilsApplied.length">
         <strong>Applied oils</strong>
-        <div class="list-item" *ngFor="let oil of item.oilsApplied; let index = index">
-            <strong>{{oil.get_Name()}} ({{get_Duration(oil.duration)}})</strong>
+        <div class="row" *ngFor="let oil of item.oilsApplied; let index = index">
+            {{oil.get_Name()}} ({{get_Duration(oil.duration)}})
             <button class="lower" (click)="remove_Oil(index)">Remove</button>
         </div>
     </div>
-</ng-container>
+</div>

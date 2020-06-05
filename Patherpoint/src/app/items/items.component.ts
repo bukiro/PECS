@@ -177,6 +177,10 @@ export class ItemsComponent implements OnInit {
             );
     }
 
+    can_ApplyTalismans(item: Item) {
+        return (["armors", "shields", "weapons"].includes(item.type));
+    }
+
     grant_Item(creature: string = "Character", item: Item, pay: boolean = false) {
         if (pay && (item["get_Price"] ? item["get_Price"](this.itemsService) : item.price)) {
             this.change_Cash(-1, item.price);

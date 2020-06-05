@@ -26,9 +26,9 @@
         "id": "f1bcd9af-7088-4ff3-8683-61bfc6cdc971",
         "level": 7,
         "name": "Murderer's Knot",
-        "usage": "affixed to armor",
+        "usage": "affixed to a weapon",
         "targets": [
-            "armors"
+            "weapons"
         ],
         "price": 6600,
         "traits": [

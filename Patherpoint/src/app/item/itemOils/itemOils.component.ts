@@ -36,8 +36,8 @@ export class ItemOilsComponent implements OnInit {
         return this.characterService.get_Character();
     }
 
-    get_Items() {
-        return this.itemsService.get_Items();
+    get_CleanItems() {
+        return this.itemsService.get_CleanItems();
     }
 
     get_Duration(turns: number) {
@@ -49,7 +49,7 @@ export class ItemOilsComponent implements OnInit {
         let allOils: { oil: Oil, inv: ItemCollection }[] = [{ oil: new Oil(), inv: null }];
         allOils[0].oil.name = "";
         if (this.itemStore) {
-            allOils.push(...this.get_Items().oils.filter(oil => oil.targets.length).map(oil => ({ oil: oil, inv: null })));
+            allOils.push(...this.get_CleanItems().oils.filter(oil => oil.targets.length).map(oil => ({ oil: oil, inv: null })));
         } else {
             this.get_Character().inventories.forEach(inv => {
                 allOils.push(...inv.oils.filter(oil => oil.targets.length && oil.amount).map(oil => ({ oil: oil, inv: inv })));

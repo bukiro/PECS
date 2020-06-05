@@ -1,5 +1,6 @@
 import { Equipment } from './Equipment';
 import { ItemActivity } from './ItemActivity';
+import { ItemsService } from './items.service';
 
 export class WornItem extends Equipment {
     public readonly _className: string = this.constructor.name;
@@ -25,4 +26,22 @@ export class WornItem extends Equipment {
     public isAeonStone: boolean = false;
     //How is this item worn? Example: "worn belt"
     public usage: string = "";
+    get_Price(itemsService: ItemsService) {
+        let price = this.price;
+        if (this.moddable == "weapon") {
+            if (this.potencyRune) {
+                price += itemsService.get_CleanItems().weaponrunes.filter(rune => rune.potency == this.potencyRune)[0].price;
+            }
+            if (this.strikingRune) {
+                price += itemsService.get_CleanItems().weaponrunes.filter(rune => rune.striking == this.strikingRune)[0].price;
+            }
+            this.propertyRunes.forEach(rune => {
+                price += itemsService.get_CleanItems().weaponrunes.find(weaponRune => weaponRune.name == rune.name).price;
+            })
+        }
+        this.aeonStones.forEach(aeonStone => {
+            price += itemsService.get_CleanItems().wornitems.find(wornItem => wornItem.name == aeonStone.name).price;
+        })
+        return price;
+    }
 }

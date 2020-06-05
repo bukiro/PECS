@@ -7,8 +7,8 @@ import { ItemsService } from '../items.service';
 import { Item } from '../Item';
 import { Character } from '../Character';
 import { AnimalCompanion } from '../AnimalCompanion';
-import { Oil } from '../Oil';
 import { SpellsService } from '../spells.service';
+import { Talisman } from '../Talisman';
 
 @Component({
     selector: 'app-item',
@@ -47,7 +47,7 @@ export class ItemComponent implements OnInit {
     }
     
     get_Creature() {
-        return this.characterService.get_Creature(this.creature);
+        return this.characterService.get_Creature(this.creature) as Character|AnimalCompanion;
     }
 
     get_Traits(name: string = "") {
@@ -95,6 +95,12 @@ export class ItemComponent implements OnInit {
 
     get_Spells(name: string = "", type: string = "", tradition: string = "") {
         return this.spellsService.get_Spells(name, type, tradition);
+    }
+
+    on_TalismanUse(talisman: Talisman, index: number) {
+        this.characterService.on_ConsumableUse(this.get_Creature(), talisman);
+        this.item.talismans.splice(index, 1)
+        this.characterService.set_Changed("inventory");
     }
 
     get_DoublingRingsOptions(ring:string) {
