@@ -301,32 +301,32 @@ input {
 }
 
 input.number2 {
-    width: 30px;
-    margin-bottom: 0px;
-}
-
-input.number3 {
     width: 40px;
     margin-bottom: 0px;
 }
 
-input.number4 {
+input.number3 {
     width: 50px;
     margin-bottom: 0px;
 }
 
-input.number5 {
+input.number4 {
     width: 60px;
     margin-bottom: 0px;
 }
 
-input.number6 {
+input.number5 {
     width: 70px;
     margin-bottom: 0px;
 }
 
-input.number7 {
+input.number6 {
     width: 80px;
+    margin-bottom: 0px;
+}
+
+input.number7 {
+    width: 90px;
     margin-bottom: 0px;
 }
 

@@ -51,15 +51,15 @@
         </button>
     </div>
     <div class="row left-aligned">
-        <cite class="trait" *ngFor="let trait of activity.traits"
+        <cite class="trait" *ngFor="let trait of activity.traits; trackBy:trackByIndex;"
             title="{{get_Traits(trait)[0].description}}">{{trait}}</cite>
-        <cite class="trait" *ngFor="let trait of get_ActivationTraits(activity)"
+        <cite class="trait" *ngFor="let trait of get_ActivationTraits(activity); trackBy:trackByIndex;"
             title="{{get_Traits(trait)[0].description}}">{{trait}}</cite>
     </div>
     <div class="list-item lower row problem" *ngIf="activity.inputRequired">
         <strong>Player input required:</strong>
         <div class="row left-aligned">
-            <p *ngFor="let inputRequired of activity.inputRequired.split('\n')">
+            <p *ngFor="let inputRequired of activity.inputRequired.split('\n'); trackBy:trackByIndex;">
                 {{inputRequired}}
             </p>
         </div>
@@ -88,10 +88,10 @@
             {{activity.requirements}}
         </span>
     </div>
-    <div class="row left-aligned" *ngFor="let desc of activity.desc.split('\n\n')">
+    <div class="row left-aligned" *ngFor="let desc of activity.desc.split('\n\n'); trackBy:trackByIndex;">
         <p *ngIf="desc.split('\n').length == 1">{{desc}}</p>
         <ul *ngIf="desc.split('\n').length > 1">
-            <li *ngFor="let line of desc.split('\n')">{{line}}</li>
+            <li *ngFor="let line of desc.split('\n'); trackBy:trackByIndex;">{{line}}</li>
         </ul>
     </div>
     <div class="row left-aligned" *ngIf="activity.critsuccess">
@@ -118,31 +118,31 @@
             {{activity.critfailure}}
         </span>
     </div>
-    <div class="row left-aligned" *ngFor="let cast of activity.castSpells">
-        <div *ngFor="let spell of get_Spells(cast.name)">
+    <div class="row left-aligned" *ngFor="let cast of activity.castSpells; trackBy:trackByIndex;">
+        <div *ngFor="let spell of get_Spells(cast.name); trackBy:trackByIndex;">
             <h4>{{spell.name}}<app-actionIcons [actionString]="spell.actions">
                 </app-actionIcons>{{spell.castType.toString()}}
             </h4>
             <app-spell [spell]=spell [spellLevel]="(cast.level) ? cast.level : 0"></app-spell>
         </div>
     </div>
-    <div class="row left-aligned" *ngFor="let feat of get_FeatsShowingOn(activity.name)">
+    <div class="row left-aligned" *ngFor="let feat of get_FeatsShowingOn(activity.name); trackBy:trackByIndex;">
         <h4>{{feat.name}}</h4>
         <div class="row left-aligned">
-            <cite class="trait" *ngFor="let trait of feat.traits"
+            <cite class="trait" *ngFor="let trait of feat.traits; trackBy:trackByIndex;"
                 title="{{get_Traits(trait)[0].description}}">{{trait}}</cite>
         </div>
-        <div class="row left-aligned" *ngFor="let desc of feat.desc.split('\n\n')">
+        <div class="row left-aligned" *ngFor="let desc of feat.desc.split('\n\n'); trackBy:trackByIndex;">
             <p *ngIf="desc.split('\n').length == 1">{{desc}}</p>
             <ul *ngIf="desc.split('\n').length > 1">
-                <li *ngFor="let line of desc.split('\n')">{{line}}</li>
+                <li *ngFor="let line of desc.split('\n'); trackBy:trackByIndex;">{{line}}</li>
             </ul>
         </div>
     </div>
     <ng-container *ngIf="allowActivate">
-        <ng-container *ngFor="let related_gain of get_ActivitiesShowingOn(activity.name)">
+        <ng-container *ngFor="let related_gain of get_ActivitiesShowingOn(activity.name); trackBy:trackByIndex;">
             <div class="row left-aligned"
-                *ngFor="let related_activity of (related_gain.can_Activate ? [related_gain] : get_Activities(related_gain.name))">
+                *ngFor="let related_activity of (related_gain.can_Activate ? [related_gain] : get_Activities(related_gain.name)); trackBy:trackByIndex;">
                 <h4>{{related_activity.name}}<app-actionIcons [actionString]="related_activity.actions">
                     </app-actionIcons>{{(related_activity.activationType) ? related_activity.activationType : ""}}
                 </h4>
@@ -151,9 +151,9 @@
             </div>
         </ng-container>
         <ng-container *ngIf="gain.name == 'Fused Stance'">
-            <ng-container *ngFor="let gain of get_FusedStances()">
+            <ng-container *ngFor="let gain of get_FusedStances(); trackBy:trackByIndex;">
                 <div class="row left-aligned"
-                    *ngFor="let related_activity of (gain.can_Activate ? [gain] : get_Activities(gain.name))">
+                    *ngFor="let related_activity of (gain.can_Activate ? [gain] : get_Activities(gain.name)); trackBy:trackByIndex;">
                     <h4>{{related_activity.name}}<app-actionIcons [actionString]="related_activity.actions">
                         </app-actionIcons>{{(related_activity.activationType) ? related_activity.activationType : ""}}
                     </h4>

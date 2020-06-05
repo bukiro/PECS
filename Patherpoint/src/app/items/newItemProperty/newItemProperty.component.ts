@@ -72,6 +72,10 @@ export class NewItemPropertyComponent implements OnInit {
         return this.characterService.get_Accent();
     }
 
+    trackByIndex(index: number, obj: any): any {
+        return index;
+    }
+    
     get_Items() {
         return this.itemsService.get_Items();
     }

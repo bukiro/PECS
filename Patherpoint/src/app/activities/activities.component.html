@@ -5,9 +5,9 @@
     <ng-container *ngIf="!still_loading()">
         <app-tags [creature]="creature" [objectName]="'Activities'" [showTraits]=true [showFeats]=true [showItems]=true
             [showActivities]=true [showConditions]=true [showEffects]=true></app-tags>
-        <ng-container *ngFor="let gain of get_OwnedActivities()">
-            <ng-container *ngFor="let activity of (gain.can_Activate ? [gain] : get_Activities(gain.name))">
-                <div class="list-item" *ngFor="let activityID of [get_ID()]">
+        <ng-container *ngFor="let gain of get_OwnedActivities(); trackBy:trackByIndex;">
+            <ng-container *ngFor="let activity of (gain.can_Activate ? [gain] : get_Activities(gain.name)); trackBy:trackByIndex;">
+                <div class="list-item" *ngFor="let activityID of [get_ID()]; trackBy:trackByIndex;">
                     <button class="row left-aligned sublist-toggle" [ngClass]="{'fancy-button':gain.active}"
                         (click)="toggle_Action(activityID)">
                         <span *ngIf="activity.name == 'Fused Stance'">{{get_FuseStanceName()}}</span>
@@ -22,7 +22,7 @@
                 </div>
             </ng-container>
         </ng-container>
-        <ng-container *ngFor="let choice of get_TemporaryFeatChoices(); let index = index;">
+        <ng-container *ngFor="let choice of get_TemporaryFeatChoices(); let index = index; trackBy:trackByIndex;">
             <h3 class="box-header" *ngIf="index == 0">Temporary Feats</h3>
             <app-featchoice (showChoiceMessage)="receive_ChoiceMessage($event)"
                     (showFeatMessage)="receive_FeatMessage($event)" [choice]="choice.choice" [levelNumber]=choice.level.number

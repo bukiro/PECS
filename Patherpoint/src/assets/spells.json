@@ -212,7 +212,7 @@
         "desc": "You temporarily improve the target's physique. The target gains a +2 status bonus to the next Acrobatics check, Athletics check, Fortitude save, or Reflex save it attempts.",
         "gainConditions": [
             {
-                "duration": 10,
+                "duration": 15,
                 "name": "Physical Boost",
                 "source": "Physical Boost"
             }

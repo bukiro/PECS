@@ -46,6 +46,10 @@ export class TagsComponent implements OnInit {
         return this.characterService.still_loading();
     }
 
+    trackByIndex(index: number, obj: any): any {
+        return index;
+    }
+    
     get_Creature() {
         return this.characterService.get_Creature(this.creature);
     }

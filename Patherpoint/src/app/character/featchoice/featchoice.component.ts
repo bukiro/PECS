@@ -69,6 +69,10 @@ export class FeatchoiceComponent implements OnInit {
         return this.showChoice;
     }
 
+    trackByIndex(index: number, obj: any): any {
+        return index;
+    }
+    
     get_Character() {
         return this.characterService.get_Character();
     }

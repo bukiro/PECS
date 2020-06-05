@@ -23,6 +23,10 @@ export class SpellComponent implements OnInit {
         private spellsService: SpellsService
     ) { }
 
+    trackByIndex(index: number, obj: any): any {
+        return index;
+    }
+    
     get_Traits(name: string = "") {
         return this.traitsService.get_Traits(name);
     }

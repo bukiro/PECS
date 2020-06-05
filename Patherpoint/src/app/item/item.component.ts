@@ -42,6 +42,10 @@ export class ItemComponent implements OnInit {
         return this.characterService.get_Accent();
     }
 
+    trackByIndex(index: number, obj: any): any {
+        return index;
+    }
+    
     set_Changed() {
         this.characterService.set_Changed();
     }

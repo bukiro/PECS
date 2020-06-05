@@ -1,4 +1,4 @@
-<ng-container *ngFor="let phrase of actionString.split(' ')">
+<ng-container *ngFor="let phrase of actionString.split(' '); trackBy:trackByIndex;">
     <app-actionIcons_1A *ngIf="phrase=='1A'"></app-actionIcons_1A>
     <app-actionIcons_2A *ngIf="phrase=='2A'"></app-actionIcons_2A>
     <app-actionIcons_3A *ngIf="phrase=='3A'"></app-actionIcons_3A>

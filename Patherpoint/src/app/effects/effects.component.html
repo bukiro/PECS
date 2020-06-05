@@ -1,8 +1,8 @@
 <button class="minimizebutton lower" (click)="minimize()" *ngIf="creature=='Character'">&#8691;</button>
 <div id="{{creature}}-effects-height" class="attributeBox">
     <h3 class="box-header">Active Conditions</h3>
-    <ng-container *ngFor="let conditionGain of get_AppliedConditions(true)">
-        <div class="list-item" *ngFor="let condition of [get_Conditions(conditionGain.name)[0]]">
+    <ng-container *ngFor="let conditionGain of get_AppliedConditions(true); trackBy:trackByIndex;">
+        <div class="list-item" *ngFor="let condition of [get_Conditions(conditionGain.name)[0]]; trackBy:trackByIndex;">
             <div class="row">
                 <span>
                     <strong [className]="condition.buff ? 'bonus' : 'penalty'"
@@ -29,7 +29,7 @@
                 <div class="list-item lower row problem" *ngIf="condition.inputRequired">
                     <strong>Player input required:</strong>
                     <div class="row left-aligned">
-                        <p *ngFor="let inputRequired of condition.inputRequired.split('\n')">
+                        <p *ngFor="let inputRequired of condition.inputRequired.split('\n'); trackBy:trackByIndex;">
                             {{inputRequired}}
                         </p>
                     </div>
@@ -49,10 +49,10 @@
                 </div>
                 <ng-container
                     *ngIf="this.get_ShowItem()==conditionGain.name+conditionGain.source+conditionGain.value+conditionGain.duration+'applied'">
-                    <div class="row left-aligned" *ngFor="let desc of condition.desc.split('\n\n')">
+                    <div class="row left-aligned" *ngFor="let desc of condition.desc.split('\n\n'); trackBy:trackByIndex;">
                         <p *ngIf="desc.split('\n').length == 1" [innerHTML]="desc"></p>
                         <ul *ngIf="desc.split('\n').length > 1">
-                            <li *ngFor="let line of desc.split('\n')" [innerHTML]="line"></li>
+                            <li *ngFor="let line of desc.split('\n'); trackBy:trackByIndex;" [innerHTML]="line"></li>
                         </ul>
                     </div>
                 </ng-container>
@@ -60,7 +60,7 @@
         </div>
     </ng-container>
     <h3 class="box-header">Active Effects</h3>
-    <div class="list-item row lower" *ngFor="let effect of get_AppliedEffects()">
+    <div class="list-item row lower" *ngFor="let effect of get_AppliedEffects(); trackBy:trackByIndex;">
         <span>
             <strong [ngClass]="{'penalty':effect.penalty, 'bonus':effect.bonus, 'absolute':effect.setValue}"
                 title="{{effect.source}}">{{effect.target}}
@@ -74,7 +74,7 @@
         (click)="toggle_NotApplied()">{{(showNotApplied) ? "Hide not applied" : "Show not applied"}}</button>
     <div class="fullsize-only" *ngIf="showNotApplied">
         <h3 class="box-header">Not Applied Conditions</h3>
-        <div class="list-item notapplied" *ngFor="let conditionGain of get_AppliedConditions(false)">
+        <div class="list-item notapplied" *ngFor="let conditionGain of get_AppliedConditions(false); trackBy:trackByIndex;">
             <div class="row">
                 <span>
                     <strong [className]="conditionGain.buff ? 'bonus' : 'penalty'"
@@ -87,7 +87,7 @@
             <div class="row fullsize-only">
                 <span>{{get_Duration(conditionGain.duration)}}</span>
             </div>
-            <ng-container *ngFor="let condition of [get_Conditions(conditionGain.name)[0]]">
+            <ng-container *ngFor="let condition of [get_Conditions(conditionGain.name)[0]]; trackBy:trackByIndex;">
                 <div class="row">
                     <button
                         (click)="toggle_Item(conditionGain.name+conditionGain.source+conditionGain.value+conditionGain.duration+'notapplied')">
@@ -106,7 +106,7 @@
             </ng-container>
         </div>
         <h3 class="box-header">Not Applied Effects</h3>
-        <div class="list-item row lower notapplied" *ngFor="let effect of get_NotAppliedEffects()">
+        <div class="list-item row lower notapplied" *ngFor="let effect of get_NotAppliedEffects(); trackBy:trackByIndex;">
             <span>
                 <strong [ngClass]="{'penalty':effect.penalty, 'bonus':effect.bonus, 'absolute':effect.setValue}"
                     title="{{effect.source}}">{{effect.target}}
@@ -121,7 +121,7 @@
         (click)="toggle_Hidden()">{{(showHidden) ? "Hide hidden effects" : "Show hidden effects"}}</button>
     <div class="fullsize-only" *ngIf="showHidden">
         <h3 class="box-header">Hidden Effects</h3>
-        <div class="list-item row lower" *ngFor="let effect of get_HiddenEffects()">
+        <div class="list-item row lower" *ngFor="let effect of get_HiddenEffects(); trackBy:trackByIndex;">
             <span>
                 <strong [ngClass]="{'penalty':effect.penalty, 'bonus':effect.bonus, 'absolute':effect.setValue}"
                     title="{{effect.source}}">{{effect.target}}

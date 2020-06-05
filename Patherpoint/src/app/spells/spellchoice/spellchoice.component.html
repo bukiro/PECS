@@ -11,7 +11,7 @@
     <div class="list-item sublist" [ngClass]="{'fancy-list':(get_Available(choice) == choice.spells.length )}"
         *ngIf="get_ShowChoice()==choice.source+choice.id">
         <div title="{{(this.get_ShowSpell()==choice.id+spell.name+'desc') ? '' : spell.shortDesc}}" class="list-item"
-            *ngFor="let spell of get_AvailableSpells(choice)">
+            *ngFor="let spell of get_AvailableSpells(choice); trackBy:trackByIndex;">
             <span>
                 <input id="{{choice.id+spell.name}}" type="checkbox"
                     (change)="on_SpellTaken(spell.name, $event.target.checked, choice, false)"
@@ -25,7 +25,7 @@
                     <strong>{{spellTakenByThis(spell, choice) ? " " + spellTakenByThis(spell, choice) + " " : ""}}{{spell.name}}&nbsp;</strong><cite>Level {{spell.levelreq}}</cite>
                 </label>
             </span>
-            <cite class="problem" *ngFor="let reason of cannotTake(spell, choice)">
+            <cite class="problem" *ngFor="let reason of cannotTake(spell, choice); trackBy:trackByIndex;">
                 {{reason}}
             </cite>
             <button class="right-bound" (click)="toggle_Spell(choice.id+spell.name+'desc')">

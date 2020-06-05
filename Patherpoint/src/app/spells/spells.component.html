@@ -9,7 +9,7 @@
                 <label for="allowHeightened">Allow heightened spells</label>
             </span>
         </div>
-        <ng-container *ngFor="let casting of get_SpellCastings(); let index = index;">
+        <ng-container *ngFor="let casting of get_SpellCastings(); let index = index; trackBy:trackByIndex;">
             <h3>{{(casting.className + " " + casting.tradition + ((casting.castingType == "Focus") ? (" " + casting.source) : " Spells")).trim()}}
                 <span class="lower"
                     *ngIf="['Prepared', 'Spontaneous'].includes(casting.castingType)">
@@ -30,7 +30,7 @@
                     <label for="allowBorrow">Spell Substitution: selected spells are immediately prepared</label>
                 </span>
             </div>
-            <ng-container *ngFor="let level of [-1, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10]">
+            <ng-container *ngFor="let level of [-1, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10]; trackBy:trackByIndex;">
                 <ng-container *ngIf="level <= get_MaxSpellLevel()">
                     <h5 *ngIf="level == -1 && casting.castingType == 'Focus'">Focus Spells</h5>
                     <h5 *ngIf="level == 0">Cantrips</h5>
@@ -44,7 +44,7 @@
                         <div class="list-item sublist fancy-list" *ngIf="get_ShowChoice()==index+'showFixedChanges'+level">
                             <!--Fixed Spells gained-->
                             <div class="list-item"
-                                *ngFor="let spellTaken of get_SpellsTaken(1, get_Character().level, level, '', casting, '', '', true)">
+                                *ngFor="let spellTaken of get_SpellsTaken(1, get_Character().level, level, '', casting, '', '', true); trackBy:trackByIndex;">
                                 {{spellTaken.gain.name}} {{spellTaken.gain.source ? "("+spellTaken.gain.source+")" : ""}}
                                 <button class="right-bound" (click)="toggle_Spell(spellTaken.choice.id+spellTaken.gain.name+'desc')">
                                     Show Description
@@ -56,7 +56,7 @@
                         </div>
                     </div>
                     <!--Spell choices-->
-                    <ng-container *ngFor="let choice of get_SpellChoices(casting, level)">
+                    <ng-container *ngFor="let choice of get_SpellChoices(casting, level); trackBy:trackByIndex;">
                         <app-spellchoice (showChoiceMessage)="receive_ChoiceMessage($event)"
                             (showSpellMessage)="receive_SpellMessage($event)" [spellCasting]="casting" [choice]="choice"
                             [allowHeightened]="allowHeightened" [allowBorrow]="allowBorrow" [showChoice]="showChoice" [showSpell]="showSpell"

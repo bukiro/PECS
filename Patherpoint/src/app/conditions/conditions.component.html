@@ -16,7 +16,7 @@
             <div class="row">
                 <button class="center-aligned"
                     (click)="add_Duration(duration)"
-                    *ngFor="let duration of [-1, 10, 50, 100, 500, 1000, 6000, 48000, 144000]">{{get_Duration(duration)}}</button>
+                    *ngFor="let duration of [-1, 10, 50, 100, 500, 1000, 6000, 48000, 144000]; trackBy:trackByIndex;">{{get_Duration(duration)}}</button>
             </div>
             <div class="row left-aligned">
                 End on:<br>
@@ -35,7 +35,7 @@
                         <div class="row" *ngIf="condition.hasValue">
                             <span>
                                 Value: <select [(ngModel)]="value">
-                                    <option *ngFor="let valueNumber of [1,2,3,4,5,6,7,8,9,10]" [ngValue]="valueNumber">{{valueNumber}}
+                                    <option *ngFor="let valueNumber of [1,2,3,4,5,6,7,8,9,10]; trackBy:trackByIndex;" [ngValue]="valueNumber">{{valueNumber}}
                                     </option>
                                 </select><br>
                             </span>
@@ -43,7 +43,7 @@
                         <div class="row" *ngIf="condition.type == 'spells'">
                             <span>
                                 Spell level (for effect values): <select [(ngModel)]="heightened">
-                                    <option *ngFor="let valueNumber of [1,2,3,4,5,6,7,8,9,10]" [ngValue]="valueNumber">{{valueNumber}}
+                                    <option *ngFor="let valueNumber of [1,2,3,4,5,6,7,8,9,10]; trackBy:trackByIndex;" [ngValue]="valueNumber">{{valueNumber}}
                                     </option>
                                 </select><br>
                             </span>
@@ -73,10 +73,10 @@
                             </span>
                         </div>
                         <div class="row left-aligned" *ngIf="get_ShowItem()==set+condition.name">
-                            <div *ngFor="let desc of condition.desc.split('\n\n')">
+                            <div *ngFor="let desc of condition.desc.split('\n\n'); trackBy:trackByIndex;">
                                 <p *ngIf="desc.split('\n').length == 1" [innerHTML]="desc"></p>
                                 <ul *ngIf="desc.split('\n').length > 1">
-                                    <li *ngFor="let line of desc.split('\n')" [innerHTML]="line"></li>
+                                    <li *ngFor="let line of desc.split('\n'); trackBy:trackByIndex;" [innerHTML]="line"></li>
                                 </ul>
                             </div>
                         </div>

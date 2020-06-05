@@ -7,7 +7,7 @@
             [showActivities]=true [showConditions]=true [showEffects]=true></app-tags>
         <button class="fullsize-only center-aligned list-item" (click)="toggleSpellsMenu()">Get
             Spells</button>
-        <ng-container *ngFor="let casting of get_SpellCastings()">
+        <ng-container *ngFor="let casting of get_SpellCastings(); trackBy:trackByIndex;">
             <h3>
                 {{(casting.className + " " + casting.tradition + ((casting.castingType == "Focus") ? (" " + casting.source) : " Spells")).trim()}}
                 <span class="lower" *ngIf="['Prepared', 'Spontaneous'].includes(casting.castingType)">
@@ -19,10 +19,10 @@
                     {{casting.bondedItemCharges[0]}} charge available
                 </strong>
             </h3>
-            <ng-container *ngFor="let level of [-1, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10]">
+            <ng-container *ngFor="let level of [-1, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10]; trackBy:trackByIndex;">
                 <ng-container *ngIf="level <= get_MaxSpellLevel()">
-                    <ng-container *ngFor="let spellTaken of get_SpellsByLevel(level, casting); let index = index">
-                        <ng-container *ngFor="let maxspellslots of [get_MaxSpellSlots(level, casting)]">
+                    <ng-container *ngFor="let spellTaken of get_SpellsByLevel(level, casting); let index = index; trackBy:trackByIndex;">
+                        <ng-container *ngFor="let maxspellslots of [get_MaxSpellSlots(level, casting)]; trackBy:trackByIndex;">
                             <div class="list-item row" style="background-color:transparent" *ngIf="index == 0">
                                 <strong>
                                     {{level == -1 ? "Focus Spells" : (level == 0 ? "Cantrips" : "Level "+level)}}
@@ -47,8 +47,8 @@
                                 <app-tags [objectName]="'Focus'" [showTraits]=true [showFeats]=true [showItems]=true
                                     [showActivities]=true [showConditions]=true [showEffects]=true></app-tags>
                             </div>
-                            <ng-container *ngFor="let spell of get_Spells(spellTaken.gain.name)">
-                                <div class="list-item" *ngFor="let spellID of [get_ID()]">
+                            <ng-container *ngFor="let spell of get_Spells(spellTaken.gain.name); trackBy:trackByIndex;">
+                                <div class="list-item" *ngFor="let spellID of [get_ID()]; trackBy:trackByIndex;">
                                     <button class="row sublist-toggle left-aligned"
                                         (click)="toggle_Spell(casting.castingType+casting.class+spellTaken.gain.name+spellID)"
                                         [className]="{'inactive-button': casting.castingType=='Prepared' && !spellTaken.gain.prepared && level > 0}">

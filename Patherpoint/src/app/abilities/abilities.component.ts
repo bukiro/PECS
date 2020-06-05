@@ -28,6 +28,10 @@ export class AbilitiesComponent implements OnInit {
         this.characterService.get_Character().settings.abilitiesMinimized = !this.characterService.get_Character().settings.abilitiesMinimized;
     }
 
+    trackByIndex(index: number, obj: any): any {
+        return index;
+    }
+
     set_Span() {
         setTimeout(() => {
             this.characterService.set_Span(this.creature+"-abilities");

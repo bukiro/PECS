@@ -1,6 +1,6 @@
 <button class="minimizebutton lower" (click)="minimize()" *ngIf="creature=='Character'">&#8691;</button>
 <div id="{{creature}}-health-height" class="attributeBox">
-    <ng-container *ngFor="let health of [calculate_Health()]">
+    <ng-container *ngFor="let health of [calculate_Health()]; trackBy:trackByIndex;">
         <h3 class="box-header">Health:
             <span
                 [ngClass]="{'penalty':(health.$currentHP.result <= 0), 'bonus':(health.$currentHP.result > health.$maxHP.result)}"
@@ -120,10 +120,10 @@
                     <button [disabled]="addTempHP == 0" (click)="add_TempHP(addTempHP)">Add</button>
                 </span>
             </div>
-            <ng-container *ngFor="let resistances of [get_Resistances()]">
+            <ng-container *ngFor="let resistances of [get_Resistances()]; trackBy:trackByIndex;">
                 <h5 *ngIf="resistances.length">Resistances</h5>
                 <div class="list-item" *ngIf="resistances.length">
-                    <div class="row" *ngFor="let resistance of resistances">
+                    <div class="row" *ngFor="let resistance of resistances; trackBy:trackByIndex;">
                         <span title="{{resistance.source}}"
                             [className]="(resistance.value < 0) ? 'penalty' : 'bonus'">{{resistance.target}}:
                             {{Math.abs(resistance.value)}}{{(resistance.exception) ? " /"+resistance.exception : ""}}</span>

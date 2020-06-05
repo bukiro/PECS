@@ -3,8 +3,8 @@
     <h3 class="box-header">Abilities</h3>
     <div class="loading" *ngIf="still_loading()">Loading</div>
     <ng-container *ngIf="!still_loading()">
-        <div class="list-item" *ngFor="let $ability of abilitiesService.get_Abilities()">
-            <ng-container *ngFor="let ability of [$ability.calculate(get_Creature(), characterService, effectsService)]">
+        <div class="list-item" *ngFor="let $ability of abilitiesService.get_Abilities(); trackBy:trackByIndex;">
+            <ng-container *ngFor="let ability of [$ability.calculate(get_Creature(), characterService, effectsService)]; trackBy:trackByIndex;">
                 <div class="row">
                     <strong>{{ability.name}}</strong>
                     <span>

@@ -25,6 +25,10 @@ export class FamiliarabilitiesComponent implements OnInit {
         })
     }
 
+    trackByIndex(index: number, obj: any): any {
+        return index;
+    }
+    
     get_Character() {
         return this.characterService.get_Character();
     }

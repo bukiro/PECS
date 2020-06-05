@@ -25,6 +25,10 @@ export class FeatComponent implements OnInit {
         private activitiesService: ActivitiesService
     ) { }
 
+    trackByIndex(index: number, obj: any): any {
+        return index;
+    }
+    
     get_FeatRequirements(choice: FeatChoice, feat: Feat, compare: Feat = undefined) {
         let levelNumber = parseInt(choice?.id?.split("-")[0]) || this.levelNumber;
         let featLevel = 0;

@@ -29,6 +29,10 @@ export class ProficiencyFormComponent implements OnInit {
         private changeDetector: ChangeDetectorRef
     ) { }
     
+    trackByIndex(index: number, obj: any): any {
+        return index;
+    }
+    
     get_Creature() {
         return this.characterService.get_Creature(this.creature) as Character|AnimalCompanion;
     }

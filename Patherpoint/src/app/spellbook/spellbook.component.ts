@@ -60,6 +60,10 @@ export class SpellbookComponent implements OnInit {
         return this.characterService.get_Accent();
     }
 
+    trackByIndex(index: number, obj: any): any {
+        return index;
+    }
+    
     get_ID() {
         this.id++;
         return this.id;

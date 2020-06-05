@@ -1,21 +1,21 @@
 <ng-container *ngIf="feat">
     <div class="row left-aligned">
-        <cite class="trait" *ngFor="let trait of feat.traits">
+        <cite class="trait" *ngFor="let trait of feat.traits; trackBy:trackByIndex;">
             {{trait}}
         </cite>
     </div>
     <div class="row left-aligned">
-        <ng-container *ngFor="let reqs of [get_FeatRequirements(choice, feat)]">
+        <ng-container *ngFor="let reqs of [get_FeatRequirements(choice, feat)]; trackBy:trackByIndex;">
             <p *ngIf="reqs.length">
                 <strong>Requirements&nbsp;</strong>
                 <span [ngClass]="{'problem':(req.met == false)}"
-                    *ngFor="let req of reqs">{{req.desc}}</span>
+                    *ngFor="let req of reqs; trackBy:trackByIndex;">{{req.desc}}</span>
             </p>
         </ng-container>
-        <ng-container *ngFor="let desc of feat.desc.split('\n\n')">
+        <ng-container *ngFor="let desc of feat.desc.split('\n\n'); trackBy:trackByIndex;">
             <p *ngIf="desc.split('\n').length == 1">{{desc}}</p>
             <ul *ngIf="desc.split('\n').length > 1">
-                <li *ngFor="let line of desc.split('\n')">{{line}}</li>
+                <li *ngFor="let line of desc.split('\n'); trackBy:trackByIndex;">{{line}}</li>
             </ul>
         </ng-container>
         <p *ngIf="feat.specialdesc.length">
@@ -23,8 +23,8 @@
             {{feat.specialdesc}}
         </p>
     </div>
-    <ng-container *ngFor="let name of feat.gainActivities">
-        <div class="row left-aligned" *ngFor="let activity of get_Activities(name)">
+    <ng-container *ngFor="let name of feat.gainActivities; trackBy:trackByIndex;">
+        <div class="row left-aligned" *ngFor="let activity of get_Activities(name); trackBy:trackByIndex;">
             <h4 class="left-aligned">{{activity.name}}<app-actionIcons
                     [actionString]="activity.actions"></app-actionIcons>
                 {{(activity.activationType) ? activity.activationType : ""}}
@@ -33,9 +33,9 @@
             </app-activity>
         </div>
     </ng-container>
-    <ng-container *ngFor="let spellChoice of feat.gainSpellChoice">
-        <ng-container *ngFor="let spellGain of spellChoice.spells">
-            <ng-container *ngFor="let spell of get_Spells(spellGain.name)">
+    <ng-container *ngFor="let spellChoice of feat.gainSpellChoice; trackBy:trackByIndex;">
+        <ng-container *ngFor="let spellGain of spellChoice.spells; trackBy:trackByIndex;">
+            <ng-container *ngFor="let spell of get_Spells(spellGain.name); trackBy:trackByIndex;">
                 <h4 class="left-aligned">{{spell.name}}<app-actionIcons
                         [actionString]="spell.actions"></app-actionIcons>
                     {{(spell.castType) ? spell.castType : ""}}

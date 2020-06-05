@@ -21,7 +21,7 @@
                 (click)="sort_Cash();">Sort</button>
         </div>
         <h5>Bulk</h5>
-        <ng-container *ngFor="let bulk of get_Bulk()">
+        <ng-container *ngFor="let bulk of get_Bulk(); trackBy:trackByIndex;">
             <div class="list-item">
                 <strong>Bulk</strong>
                 <input class="number2"
@@ -44,7 +44,7 @@
             </div>
         </ng-container>
         <h3 class="fullsize-only box-header">Items</h3>
-        <div class="fullsize-only list-item" *ngFor="let maxInvested of [get_MaxInvested()]">
+        <div class="fullsize-only list-item" *ngFor="let maxInvested of [get_MaxInvested()]; trackBy:trackByIndex;">
             <strong>Invested</strong><input type="number" class="number2"
                 [ngClass]="{'problem':(get_Invested() > maxInvested.value)}" [ngModel]="get_Invested()" disabled>
             <strong>Max Invested</strong><input type="number" class="number2" title="{{maxInvested.explain}}"
@@ -54,18 +54,18 @@
                 [showItems]=true [showActivities]=true [showConditions]=true [showEffects]=true></app-tags>
         </div>
         <div class="list-item" [ngClass]="{'fullsize-only':inventoryIndex != 0}"
-            *ngFor="let inventory of get_Inventories(creature, true, true); let inventoryIndex = index;">
+            *ngFor="let inventory of get_Inventories(creature, true, true); let inventoryIndex = index; trackBy:trackByIndex;">
             <h3 class="fullsize-only row">{{get_InventoryName(inventory)}}
                 <span
                     *ngIf="inventory.bulkLimit && inventory.bulkLimit % 1 == 0">&nbsp;{{"("+inventory.get_Bulk()+" / "+inventory.bulkLimit+" Bulk)"}}</span>
                 <span
                     *ngIf="inventory.bulkLimit && inventory.bulkLimit % 1 != 0">&nbsp;{{"("+(inventory.get_Bulk(false)*10)+"L / "+(inventory.bulkLimit*10)+"L Bulk)"}}</span>
             </h3>
-            <ng-container *ngFor="let itemSet of inventory.names">
+            <ng-container *ngFor="let itemSet of inventory.names; trackBy:trackByIndex;">
                 <ng-container *ngFor="let listID of [get_ID()*1000]">
                     <h5 class="row" *ngIf="inventory[itemSet.key].length">{{itemSet.name}}</h5>
-                    <ng-container *ngFor="let item of sort_ItemSet(inventory[itemSet.key])">
-                        <div class="list-item" *ngFor="let inventoryID of [item.id]">
+                    <ng-container *ngFor="let item of sort_ItemSet(inventory[itemSet.key]); trackBy:trackByIndex;">
+                        <div class="list-item" *ngFor="let inventoryID of [item.id]; trackBy:trackByIndex;">
                             <button class="row sublist-toggle"
                                 [ngClass]="{'fancy-button':((item.equippable && item.equipped) || (item.can_Invest() && item.invested))}"
                                 (click)="toggleItem(inventoryID)">
@@ -77,7 +77,8 @@
                             <div class="list-item sublist lower"
                                 [ngClass]="{'fancy-list':((item.equippable && item.equipped) || (item.can_Invest() && item.invested))}"
                                 *ngIf="get_ShowItem()==inventoryID">
-                                <div class="row" *ngFor="let prof of [(item.get_Prof ? item.get_Prof() : item.prof)]">
+                                <div class="row"
+                                    *ngFor="let prof of [(item.get_Prof ? item.get_Prof() : item.prof)]; trackBy:trackByIndex;">
                                     <span
                                         *ngIf="item.type == 'armors'">{{(["Light Barding","Heavy Barding"].includes(item.prof)) ? item.prof : item.prof.split(" ")[0]}}
                                         {{item.group}}
@@ -161,7 +162,8 @@
                                         <select [(ngModel)]="targetInventory"
                                             (ngModelChange)="move_InventoryItem(item, inventory)">
                                             <option [ngValue]="null"></option>
-                                            <option *ngFor="let newTargetInventory of get_TargetInventories(item);"
+                                            <option
+                                                *ngFor="let newTargetInventory of get_TargetInventories(item); trackBy:trackByIndex;"
                                                 [ngValue]="newTargetInventory"
                                                 [disabled]="!can_Fit(item, newTargetInventory, inventory)">
                                                 {{get_InventoryName(newTargetInventory)}}
@@ -170,13 +172,20 @@
                                     </span>
                                 </div>
                                 <div class="lift-item row left-aligned">
-                                    <span><input type="checkbox" [(ngModel)]="item.showNotes">Notes</span>
-                                    <span *ngIf="item['get_Name']"><input type="checkbox"
-                                            [(ngModel)]="item.showName">Name</span>
+                                    <span><input id="{{item.id}}shownotes" type="checkbox"
+                                            [(ngModel)]="item.showNotes"><label
+                                            for="{{item.id}}shownotes">Notes</label></span>
+                                    <span *ngIf="item['get_Name']"><input id="{{item.id}}showname" type="checkbox"
+                                            [(ngModel)]="item.showName"><label
+                                            for="{{item.id}}showname">Name</label></span>
                                     <span *ngIf="item.moddable && item.moddable != '-' && item.type != 'shield'"><input
-                                            type="checkbox" [(ngModel)]="item.showRunes">Runes</span>
-                                    <span *ngIf="item.moddable && item.moddable != '-'"><input type="checkbox"
-                                            [(ngModel)]="item.showMaterial">Material</span>
+                                            id="{{item.id}}showrunes" type="checkbox"
+                                            [(ngModel)]="item.showRunes"><label
+                                            for="{{item.id}}showrunes">Runes</label></span>
+                                    <span *ngIf="item.moddable && item.moddable != '-'"><input
+                                            id="{{item.id}}showmaterial" type="checkbox"
+                                            [(ngModel)]="item.showMaterial"><label
+                                            for="{{item.id}}showmaterial">Material</label></span>
                                 </div>
                                 <!--Changing Notes-->
                                 <div class="row" *ngIf="item.showNotes">
@@ -189,10 +198,10 @@
                                 </div>
                                 <app-itemRunes class="list-item" [item]=item [itemStore]=false *ngIf="item.showRunes">
                                 </app-itemRunes>
-                                <app-itemOils [item]=item [itemStore]=false
-                                    *ngIf="item.type != 'oils'">
+                                <app-itemOils [item]=item [itemStore]=false *ngIf="item.type != 'oils'">
                                 </app-itemOils>
-                                <app-itemTalismans [item]=item [itemStore]=false *ngIf="can_ApplyTalismans(item)"></app-itemTalismans>
+                                <app-itemTalismans [item]=item [itemStore]=false *ngIf="can_ApplyTalismans(item)">
+                                </app-itemTalismans>
                                 <app-item [creature]="creature" [item]=item
                                     [allowActivate]="(item.equippable ? item.equipped : true) && (item.can_Invest() ? item.invested : true)"
                                     [armoredSkirt]="item.get_ArmoredSkirt ? item.get_ArmoredSkirt(get_Creature(), characterService) : null">
@@ -205,7 +214,7 @@
             <!--Other Items-->
             <h5 class="fullsize-only">Miscellaneous Items</h5>
             <button class="fullsize-only row center-aligned" (click)="add_NewOtherItem(inventory)">Add</button>
-            <div class="fullsize-only list-item" *ngFor="let item of inventory.otheritems">
+            <div class="fullsize-only list-item" *ngFor="let item of inventory.otheritems; trackBy:trackByIndex;">
                 <strong>Name</strong>
                 <input type="text" [(ngModel)]="item.name">
                 <strong>Bulk</strong>

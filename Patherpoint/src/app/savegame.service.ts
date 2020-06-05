@@ -68,7 +68,8 @@ export class SavegameService {
     private savegames: Savegame[];
     private loading: boolean = false;
     private loader;
-    private server: string = "arne:8080"
+    //private server: string = "arne:8080"
+    private server: string = "91.42.43.243:23480"
 
     private AbilityChoice = AbilityChoice;
     private ActivityGain = ActivityGain;

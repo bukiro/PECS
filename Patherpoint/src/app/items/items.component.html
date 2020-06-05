@@ -21,7 +21,7 @@
     <div class="list-item" *ngIf="get_ItemsMenuTarget()">
         <strong>Give items to</strong>
         <select [(ngModel)]="creature" (ngModelChange)="set_ItemsMenuTarget()">
-            <option *ngFor="let target of ['Character','Companion']" [ngValue]="target">
+            <option *ngFor="let target of ['Character','Companion']; trackBy:trackByIndex;" [ngValue]="target">
                 {{target}}
             </option>
         </select>
@@ -47,11 +47,11 @@
                 </span>
             </div>
         </div>
-    <ng-container *ngFor="let items of [get_Items(true)]">
+    <ng-container *ngFor="let items of [get_Items(true)]; trackBy:trackByIndex;">
         <ng-container *ngFor="let creatureType of ['Character','Companion']">
             <h3>Get {{creatureType == "Companion" ? "Animal Companion " : ""}}Items</h3>
             <ng-container *ngFor="let itemSet of items.names; let index = index; trackBy:trackByIndex;">
-                <ng-container *ngFor="let listID of [creatureType+(index*1000+1000)]">
+                <ng-container *ngFor="let listID of [creatureType+(index*1000+1000)]; trackBy:trackByIndex;">
                     <button class="list-item"
                         [ngStyle]="{'--accent':get_Accent(), 'display':!get_VisibleItems(items[itemSet.key], creatureType).length ? 'none' : 'flex' }"
                         (click)="toggle_List(listID)">
@@ -59,7 +59,7 @@
                     </button>
                     <ng-container *ngIf="get_ShowList()==listID||get_ShowList()=='All'">
                         <ng-container *ngFor="let item of get_VisibleItems(items[itemSet.key], creatureType)|sortBy:'asc':sorting; trackBy:trackByIndex;">
-                            <div class="list-item" *ngFor="let inventoryID of [listID+get_ID()]">
+                            <div class="list-item" *ngFor="let inventoryID of [listID+get_ID()]; trackBy:trackByIndex;">
                                 <button class="row sublist-toggle"
                                     (click)="toggle_Item(inventoryID)">
                                     <span>{{(item.get_Name) ? item.get_Name() : item.name}}</span>
@@ -97,17 +97,17 @@
         <button class="list-item" (click)="toggle_List('CreateNew')">Create custom
             item</button>
         <ng-container *ngIf="get_ShowList()=='CreateNew'">
-            <ng-container *ngFor="let listID of [get_ID()*1000]">
+            <ng-container *ngFor="let listID of [get_ID()*1000]; trackBy:trackByIndex;">
                 <div class="list-item">
                     <span><strong>Type</strong></span>
                     <span><select [(ngModel)]="newItemType" (ngModelChange)="initialize_NewItem()">
-                            <option *ngFor="let name of get_NewItemFilter()" [ngValue]="name.key">
+                            <option *ngFor="let name of get_NewItemFilter(); trackBy:trackByIndex;" [ngValue]="name.key">
                                 {{name.name}}
                             </option>
                         </select></span>
                 </div>
                 <ng-container *ngIf="newItem">
-                    <div class="list-item" *ngFor="let inventoryID of [listID+get_ID()]">
+                    <div class="list-item" *ngFor="let inventoryID of [listID+get_ID()]; trackBy:trackByIndex;">
                         <button class="row sublist-toggle center-aligned"
                             (click)="toggle_Item(inventoryID)">
                             Copy existing item
@@ -115,7 +115,7 @@
                         <div class="list-item sublist lower"
                             *ngIf="get_ShowItem()==inventoryID">
                             <h5>New Items</h5>
-                            <div class="list-item" *ngFor="let item of get_Items()[newItemType]">
+                            <div class="list-item" *ngFor="let item of get_Items()[newItemType]; trackBy:trackByIndex;">
                                 {{(item.get_Name) ? item.get_Name() : item.name}}
                                 <button class="row center-aligned"
                                     (click)="copy_Item(item);toggle_Item(0)">
@@ -123,8 +123,8 @@
                                 </button>
                             </div>
                             <h5>Inventory Items</h5>
-                            <ng-container *ngFor="let itemset of get_InventoryItemSets(newItemType)">
-                                <div class="list-item" *ngFor="let item of itemset">
+                            <ng-container *ngFor="let itemset of get_InventoryItemSets(newItemType); trackBy:trackByIndex;">
+                                <div class="list-item" *ngFor="let item of itemset; trackBy:trackByIndex;">
                                     {{(item.get_Name) ? item.get_Name() : item.name}}
                                     <button class="row center-aligned"
                                         (click)="copy_Item(item);toggle_Item(0)">
@@ -134,7 +134,7 @@
                             </ng-container>
                         </div>
                     </div>
-                    <ng-container *ngFor="let property of get_NewItemProperties()|sortBy:'asc':'priority'|sortBy:'asc':'group'">
+                    <ng-container *ngFor="let property of get_NewItemProperties()|sortBy:'asc':'priority'|sortBy:'asc':'group'; trackBy:trackByIndex;">
                         <ng-container *ngIf="!(property.key == 'equippable' && !newItem['allowEquippable'])">
                             <app-newItemProperty [propertyData]=property [propertyKey]=property.key [newItem]=newItem></app-newItemProperty>
                         </ng-container>

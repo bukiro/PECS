@@ -1,6 +1,6 @@
 <div class="list-item"
     [ngClass]="{'fullsize-only':(skill.$value[get_CalculatedIndex()].result == 0), 'character-only':(skill.$level[get_CalculatedIndex()] == 0 && creature == 'Companion')}"
-    *ngFor="let skill of [skill.calculate(get_Creature(), this.characterService,this.abilitiesService,this.effectsService)]">
+    *ngFor="let skill of [skill.calculate(get_Creature(), this.characterService,this.abilitiesService,this.effectsService)]; trackBy:trackByIndex;">
     <div class="row">
         <strong title="{{skill.ability}}">{{skill.name}}</strong>
         <app-proficiency-form [creature]="creature" [skill]="skill" [characterService]="this.characterService"
@@ -11,7 +11,7 @@
                 [ngClass]="{'penalty':skill.$penalties[get_CalculatedIndex()], 'bonus':skill.$bonuses[get_CalculatedIndex()], 'absolute':skill.$absolutes[get_CalculatedIndex()].length}"
                 type="number" title="{{((isDC) ? 'DC basis: 10\n' : '')+skill.$value[get_CalculatedIndex()].explain}}"
                 value="{{skill.$value[get_CalculatedIndex()].result + ((isDC) ? 10 : 0)}}" disabled>
-            <span class="fullsize-only" *ngFor="let id of [get_LabelID()]"><input id="{{id+'notes'}}" class="invisible"
+            <span class="fullsize-only" *ngFor="let id of [get_LabelID()]; trackBy:trackByIndex;"><input id="{{id+'notes'}}" class="invisible"
                     type="checkbox" [(ngModel)]="skill.showNotes"><label for="{{id+'notes'}}">N</label></span>
         </span>
     </div>

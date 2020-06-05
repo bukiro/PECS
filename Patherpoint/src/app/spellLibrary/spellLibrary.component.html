@@ -13,7 +13,7 @@
         <div class="list-item">
             <strong>Show spells from</strong>
             <select [(ngModel)]="spellSource">
-                <option *ngFor="let source of ['spell library','your spellbook']" [ngValue]="source">
+                <option *ngFor="let source of ['spell library','your spellbook']; trackBy:trackByIndex;" [ngValue]="source">
                     {{source}}
                 </option>
             </select>
@@ -32,19 +32,19 @@
             <button (click)="toggle_Tradition('Focus')"
                 [className]="{'fancy-button':get_ShowTradition()=='Focus'}">Focus</button>
         </div>
-        <ng-container *ngFor="let casting of [get_WizardSpellCasting()]">
-            <ng-container *ngFor="let descblock of [get_WizardLearningAvailable(casting)]">
+        <ng-container *ngFor="let casting of [get_WizardSpellCasting()]; trackBy:trackByIndex;">
+            <ng-container *ngFor="let descblock of [get_WizardLearningAvailable(casting)]; trackBy:trackByIndex;">
                 <div class="list-item" *ngIf="descblock.length">
-                    <ng-container *ngFor="let desc of descblock.split('\n\n')">
+                    <ng-container *ngFor="let desc of descblock.split('\n\n'); trackBy:trackByIndex;">
                         <p *ngIf="desc.split('\n').length == 1">{{desc}}</p>
                         <ul *ngIf="desc.split('\n').length > 1">
-                            <li *ngFor="let line of desc.split('\n')">{{line}}</li>
+                            <li *ngFor="let line of desc.split('\n'); trackBy:trackByIndex;">{{line}}</li>
                         </ul>
                     </ng-container>
                 </div>
             </ng-container>
-            <ng-container *ngFor="let level of [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]">
-                <ng-container *ngFor="let visibleSpells of [get_VisibleSpells(level)]">
+            <ng-container *ngFor="let level of [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]; trackBy:trackByIndex;">
+                <ng-container *ngFor="let visibleSpells of [get_VisibleSpells(level)]; trackBy:trackByIndex;">
                     <button class="list-item"
                         [ngStyle]="{'--accent':get_Accent(), 'display':!visibleSpells.length ? 'none' : 'flex' }"
                         (click)="toggle_List(level)">
@@ -78,7 +78,7 @@
                                     Learn using Learn A Spell activity
                                 </button>
                                 <button class="row center-aligned" (click)="unlearn_Spell(spell)" [disabled]=""
-                                    *ngFor="let learned of get_SpellsLearned(spell.name)">
+                                    *ngFor="let learned of get_SpellsLearned(spell.name); trackBy:trackByIndex;">
                                     Unlearn {{get_LearnedSpellSource(learned.source)}}
                                 </button>
                                 <app-spell [spell]="spell" [spellLevel]="level"></app-spell>

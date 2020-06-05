@@ -5,7 +5,7 @@
     <select [(ngModel)]="newAeonStone[index]"
         (change)="add_AeonStone(index)"
         [disabled]="!item.aeonStones[index-1] && index > 0">
-        <ng-container *ngFor="let stone of get_InitialAeonStones(index); let initialStoneIndex = index">
+        <ng-container *ngFor="let stone of get_InitialAeonStones(index); let initialStoneIndex = index; trackBy:trackByIndex;">
             <option [ngValue]="stone" *ngIf="initialStoneIndex == 0">
                 
             </option>
@@ -15,9 +15,9 @@
                 </option>
             </optgroup>
         </ng-container>
-        <ng-container *ngFor="let inv of get_Inventories()">
+        <ng-container *ngFor="let inv of get_Inventories(); trackBy:trackByIndex;">
             <optgroup label="{{itemStore ? 'Available stones' : inv.get_Name(characterService)}}" *ngIf="get_AeonStones(inv).length">
-                <option *ngFor="let stone of get_AeonStones(inv)" [ngValue]="stone">
+                <option *ngFor="let stone of get_AeonStones(inv); trackBy:trackByIndex;" [ngValue]="stone">
                     {{stone.aeonStone.amount > 1 ? stone.aeonStone.amount+" " : ""}}{{stone.aeonStone.name}}{{get_AeonStoneCooldown(stone.aeonStone)}}
                 </option>
             </optgroup>

@@ -25,7 +25,7 @@
                 {{get_Character().class.ancestry.name}}{{(get_Character().class.heritage.name) ? " - " + get_Character().class.heritage.name : ""}}
                 <div class="row left-aligned" *ngIf="get_Character().class.ancestry.traits.length">
                     <cite class="trait"
-                        *ngFor="let trait of get_Character().class.ancestry.traits">{{trait}}&nbsp;</cite>
+                        *ngFor="let trait of get_Character().class.ancestry.traits; trackBy:trackByIndex;">{{trait}}&nbsp;</cite>
                 </div>
             </div>
             <div class="fullsize-only list-item"
@@ -36,19 +36,19 @@
             <div class="fullsize-only list-item" *ngIf="get_Character().class.name">
                 <strong>Class</strong>
                 {{get_Character().class.name}}
-                <div class="row" *ngFor="let huntersEdge of get_HuntersEdge()">
+                <div class="row" *ngFor="let huntersEdge of get_HuntersEdge(); trackBy:trackByIndex;">
                     <strong>Hunter's Edge</strong>
                     {{huntersEdge.name}}
                 </div>
-                <div class="row" *ngFor="let bloodline of get_Bloodlines()">
+                <div class="row" *ngFor="let bloodline of get_Bloodlines(); trackBy:trackByIndex;">
                     <strong>Sorcerer Bloodline</strong>
                     {{bloodline.name}}
                 </div>
-                <div class="row" *ngFor="let school of get_WizardSchool()">
+                <div class="row" *ngFor="let school of get_WizardSchool(); trackBy:trackByIndex;">
                     <strong>Wizard School</strong>
                     {{school.name}}
                 </div>
-                <div class="row" *ngFor="let thesis of get_ArcaneThesis()">
+                <div class="row" *ngFor="let thesis of get_ArcaneThesis(); trackBy:trackByIndex;">
                     <strong>Arcane Thesis</strong>
                     {{thesis.name}}
                 </div>
@@ -77,7 +77,7 @@
                 <strong>Tenets</strong>
                 <div class="row">
                     <ul >
-                        <li *ngFor="let tenet of get_Tenets()">{{tenet}}</li>
+                        <li *ngFor="let tenet of get_Tenets(); trackBy:trackByIndex;">{{tenet}}</li>
                     </ul>
                 </div>
             </div>
@@ -86,25 +86,25 @@
                 <strong>Anathema</strong>
                 <div class="row">
                     <ul >
-                        <li *ngFor="let anathema of get_Anathema()">{{anathema}}</li>
+                        <li *ngFor="let anathema of get_Anathema(); trackBy:trackByIndex;">{{anathema}}</li>
                     </ul>
                 </div>
             </div>
-            <div class="fullsize-only list-item" *ngFor="let feat of get_DifferentWorldsFeat()">
+            <div class="fullsize-only list-item" *ngFor="let feat of get_DifferentWorldsFeat(); trackBy:trackByIndex;">
                 <strong>Alternative Identity (Different Worlds)</strong>
                 {{feat.data.name}} {{(feat.data.background) ? "("+feat.data.background+")" : ""}}
             </div>
             <h5 class="fullsize-only">Class & Spell DCs</h5>
-            <ng-container *ngFor="let skill of get_ClassDCs()">
+            <ng-container *ngFor="let skill of get_ClassDCs(); trackBy:trackByIndex;">
                 <app-skill [skill]=skill [isDC]=true></app-skill>
             </ng-container>
-            <ng-container *ngFor="let skill of get_SpellDCs()">
+            <ng-container *ngFor="let skill of get_SpellDCs(); trackBy:trackByIndex;">
                 <app-skill [skill]=skill [isDC]=true></app-skill>
             </ng-container>
         </ng-container>
         <ng-container *ngIf="creature=='Companion'">
             <div class="row left-aligned tags" *ngIf="get_Companion().class.ancestry.name">
-                <cite class="trait" *ngFor="let trait of get_Companion().class.ancestry.traits"
+                <cite class="trait" *ngFor="let trait of get_Companion().class.ancestry.traits; trackBy:trackByIndex;"
                     title="{{get_Traits(trait)[0].description}}">{{trait}}</cite>
             </div>
             <app-tags [creature]="'Character'" [objectName]="'Animal Companion'" [showTraits]=true [showFeats]=true
@@ -134,7 +134,7 @@
         </ng-container>
         <ng-container *ngIf="creature=='Familiar'">
             <div class="row left-aligned tags">
-                <cite class="trait" *ngFor="let trait of get_Familiar().traits"
+                <cite class="trait" *ngFor="let trait of get_Familiar().traits; trackBy:trackByIndex;"
                     title="{{get_Traits(trait)[0].description}}">{{trait}}</cite>
             </div>
             <app-tags [creature]="'Character'" [objectName]="'Familiar'" [showTraits]=true [showFeats]=true
@@ -154,10 +154,10 @@
                     [showItems]=true [showActivities]=true [showConditions]=true [showEffects]=true></app-tags>
             </div>
             <h5>Familiar Abilities</h5>
-            <div class="list-item" *ngFor="let ability of get_Familiar().abilities.feats">
+            <div class="list-item" *ngFor="let ability of get_Familiar().abilities.feats; trackBy:trackByIndex;">
                 <strong>{{ability.name}}</strong>
                 <div class="row left-aligned tags">
-                    <cite class="trait" *ngFor="let trait of get_FamiliarAbilities(ability.name)[0].traits"
+                    <cite class="trait" *ngFor="let trait of get_FamiliarAbilities(ability.name)[0].traits; trackBy:trackByIndex;"
                         title="{{get_Traits(trait).length ? get_Traits(trait)[0].description : ''}}">{{trait}}</cite>
                 </div>
                 <div class="row left-aligned">
@@ -166,7 +166,7 @@
             </div>
         </ng-container>
         <h5 class="fullsize-only">Movement</h5>
-        <ng-container *ngFor="let speed of get_Speeds()">
+        <ng-container *ngFor="let speed of get_Speeds(); trackBy:trackByIndex;">
             <div class="list-item">
                 <span>
                     <strong>{{(speed.name=="Speed") ? "All Speeds" : speed.name}}</strong>

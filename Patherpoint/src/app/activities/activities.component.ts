@@ -39,6 +39,10 @@ export class ActivitiesComponent implements OnInit {
     minimize() {
         this.characterService.get_Character().settings.activitiesMinimized = !this.characterService.get_Character().settings.activitiesMinimized;
     }
+    
+    trackByIndex(index: number, obj: any): any {
+        return index;
+    }
 
     set_Span() {
         setTimeout(() => {

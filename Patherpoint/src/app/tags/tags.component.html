@@ -1,20 +1,20 @@
 <div class="fullsize-only row left-aligned">
-    <cite class="trait" *ngFor="let trait of get_TraitsForThis(objectName)" [title]="trait.description">{{trait.name}}
+    <cite class="trait" *ngFor="let trait of get_TraitsForThis(objectName); trackBy:trackByIndex;" [title]="trait.description">{{trait.name}}
         ({{trait.haveOn(get_Creature(), this.characterService, true)}})</cite>
-    <cite class="feat" *ngFor="let feat of get_FeatsShowingOn(objectName, showFeats)"
+    <cite class="feat" *ngFor="let feat of get_FeatsShowingOn(objectName, showFeats); trackBy:trackByIndex;"
         [title]="(feat.hint) ? feat.hint : feat.desc">{{feat.name}}</cite>
-    <ng-container *ngFor="let featName of specialNames">
-        <cite class="feat" *ngFor="let feat of get_FeatsShowingOn(featName, true)"
+    <ng-container *ngFor="let featName of specialNames; trackBy:trackByIndex;">
+        <cite class="feat" *ngFor="let feat of get_FeatsShowingOn(featName, true); trackBy:trackByIndex;"
             [title]="feat.hint ? feat.hint : feat.desc">{{feat.name}}</cite>
     </ng-container>
-    <cite class="item" *ngFor="let item of get_ItemsShowingOn(objectName)"
+    <cite class="item" *ngFor="let item of get_ItemsShowingOn(objectName); trackBy:trackByIndex;"
         [title]="(item.hint) ? item.hint : item.desc">{{item.name}}</cite>
-    <cite class="activity" *ngFor="let activity of get_ActivitiesShowingOn(objectName)"
+    <cite class="activity" *ngFor="let activity of get_ActivitiesShowingOn(objectName); trackBy:trackByIndex;"
         [title]="(activity.hint) ? activity.hint : activity.desc">{{activity.name}}</cite>
-    <cite class="condition" *ngFor="let condition of get_ConditionsShowingOn(objectName)"
+    <cite class="condition" *ngFor="let condition of get_ConditionsShowingOn(objectName); trackBy:trackByIndex;"
         [className]="condition.buff ? 'bonus' : 'penalty'" [title]="condition.hint ? condition.hint : condition.desc">{{condition.name}}&nbsp;</cite>
-    <cite class="effect" *ngFor="let effect of get_EffectsOnThis(objectName)"
+    <cite class="effect" *ngFor="let effect of get_EffectsOnThis(objectName); trackBy:trackByIndex;"
         [ngClass]="{'penalty':effect.penalty, 'bonus':effect.bonus, 'absolute':effect.setValue}">{{parseInt(effect.value) ? effect.value : ''}}{{effect.setValue ? effect.setValue : ''}} ({{effect.source}})&nbsp;</cite>
-    <cite class="effect" *ngFor="let effect of specialEffects"
+    <cite class="effect" *ngFor="let effect of specialEffects; trackBy:trackByIndex;"
         [ngClass]="{'penalty':effect.penalty, 'bonus':effect.bonus, 'absolute':effect.setValue}">{{parseInt(effect.value) ? effect.value : ''}}{{effect.setValue ? effect.setValue : ''}} ({{effect.source}})&nbsp;</cite>
 </div>

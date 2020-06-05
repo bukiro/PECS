@@ -53,6 +53,10 @@ export class AttacksComponent implements OnInit {
         return this.characterService.get_Accent();
     }
 
+    trackByIndex(index: number, obj: any): any {
+        return index;
+    }
+    
     get_CritSpecialization(weapon: Weapon, range: string) {
         return weapon.get_CritSpecialization(this.get_Creature(), this.characterService, range);
     }

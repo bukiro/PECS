@@ -3,23 +3,23 @@
     <div class="loading" *ngIf="still_loading()">Loading</div>
     <ng-container *ngIf="!still_loading()">
         <h3 class="box-header">Perception</h3>
-        <ng-container *ngFor="let skill of get_Skills('', 'Perception')|sortBy:'asc':'name'">
+        <ng-container *ngFor="let skill of get_Skills('', 'Perception')|sortBy:'asc':'name'; trackBy:trackByIndex;">
             <app-skill [creature]="creature" [skill]=skill></app-skill>
         </ng-container>
         <h5>Senses</h5>
-        <div class="list-item lower" title="{{get_SenseDesc(sense)}}" *ngFor="let sense of get_Senses()">
+        <div class="list-item lower" title="{{get_SenseDesc(sense)}}" *ngFor="let sense of get_Senses(); trackBy:trackByIndex;">
             {{sense}}
         </div>
         <ng-container *ngIf="creature=='Familiar'">
             <h3 class="box-header">Attack Rolls</h3>
-            <ng-container *ngFor="let skill of get_Skills('', 'Familiar Proficiency')|sortBy:'asc':'name'">
+            <ng-container *ngFor="let skill of get_Skills('', 'Familiar Proficiency')|sortBy:'asc':'name'; trackBy:trackByIndex;">
                 <app-skill [creature]="creature" [skill]=skill></app-skill>
             </ng-container>
         </ng-container>
         <h3 class="box-header">Skills</h3>
         <app-tags [creature]="creature" [objectName]="'Skills'" [showTraits]=true [showFeats]=true [showItems]=true
             [showActivities]=true [showConditions]=true [showEffects]=true></app-tags>
-        <ng-container *ngFor="let skill of get_Skills('', 'Skill')|sortBy:'asc':'name'">
+        <ng-container *ngFor="let skill of get_Skills('', 'Skill')|sortBy:'asc':'name'; trackBy:trackByIndex;">
             <app-skill [creature]="creature" [skill]=skill></app-skill>
         </ng-container>
     </ng-container>

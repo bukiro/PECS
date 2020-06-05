@@ -45,6 +45,10 @@ export class SkillsComponent implements OnInit {
         return this.characterService.get_Accent();
     }
     
+    trackByIndex(index: number, obj: any): any {
+        return index;
+    }
+    
     get_Creature() {
         return this.characterService.get_Creature(this.creature);
     }

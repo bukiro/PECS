@@ -80,6 +80,10 @@ export class SpellchoiceComponent implements OnInit {
         return this.characterService.get_Accent();
     }
 
+    trackByIndex(index: number, obj: any): any {
+        return index;
+    }
+    
     get_Character() {
         return this.characterService.get_Character();
     }

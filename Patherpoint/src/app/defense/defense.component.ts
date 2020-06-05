@@ -48,6 +48,10 @@ export class DefenseComponent implements OnInit {
         return this.characterService.get_Accent();
     }
     
+    trackByIndex(index: number, obj: any): any {
+        return index;
+    }
+    
     get_ArmorSpecialization(armor: Armor) {
         return armor.get_ArmorSpecialization(this.get_Creature(), this.characterService);
     }

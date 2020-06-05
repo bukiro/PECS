@@ -63,6 +63,10 @@ export class InventoryComponent implements OnInit {
         this.characterService.toggleMenu(menu);
     }
 
+    trackByIndex(index: number, obj: any): any {
+        return index;
+    }
+    
     get_Accent() {
         return this.characterService.get_Accent();
     }

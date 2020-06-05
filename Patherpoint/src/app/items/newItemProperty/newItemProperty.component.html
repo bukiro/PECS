@@ -10,13 +10,13 @@
     </ng-container>
     <ng-container *ngIf="get_IsObject(get_Parent()[propertyKey]) && get_Parent()[propertyKey]!=null">
         <button (click)="add_NewItemObject()">Add</button>
-        <div class="list-item" *ngFor="let object of get_Parent()[propertyKey]; let i = index">
+        <div class="list-item" *ngFor="let object of get_Parent()[propertyKey]; let i = index; trackBy:trackByIndex;">
             <span>{{i+1}}</span>
             <span>
                 <button (click)="remove_NewItemObject(i)">Remove</button>
             </span>
             <ng-container *ngIf="get_IsObject(object)">
-                <ng-container *ngFor="let subProperty of get_NewItemSubProperties(object)|sortBy:'asc':'priority'|sortBy:'asc':'group'">
+                <ng-container *ngFor="let subProperty of get_NewItemSubProperties(object)|sortBy:'asc':'priority'|sortBy:'asc':'group'; trackBy:trackByIndex;">
                     <app-newItemProperty [propertyData]=subProperty [propertyKey]=subProperty.key [parents]=parents.concat(propertyKey,i) [newItem]=newItem></app-newItemProperty>
                 </ng-container>
             </ng-container>
@@ -41,14 +41,14 @@
         <div class="list-item" style="margin: initial 0" *ngIf="propertyData.type!='textarea' && propertyData.type!='checkbox' &&
         !(propertyData.parent == 'gainItems' && propertyData.key == 'type')">
             <select class="row" [(ngModel)]="get_Parent()[propertyKey]" [disabled]="!get_Examples().length" (ngModelChange)="validate()">
-                <option *ngFor="let example of get_Examples()|sortBy:'asc'" [ngValue]="example">
+                <option *ngFor="let example of get_Examples()|sortBy:'asc'; trackBy:trackByIndex;" [ngValue]="example">
                     {{example}}
                 </option>
             </select>
         </div>
         <div class="list-item" style="margin: initial 0" *ngIf="propertyData.parent == 'gainItems' && propertyData.key == 'type'">
             <select class="row" [(ngModel)]="get_Parent()[propertyKey]" (ngModelChange)="set_ItemType()">
-                <option *ngFor="let itemset of get_ItemSets()" [ngValue]="itemset.key">
+                <option *ngFor="let itemset of get_ItemSets(); trackBy:trackByIndex;" [ngValue]="itemset.key">
                     {{itemset.name}}
                 </option>
             </select>

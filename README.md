@@ -61,7 +61,7 @@ The very latest in Assistive Technologies for Dungeon Master (ATDM)
 
 active to do:
 add custom conditions with effects
-implement Talismans
+change Physical Boost duration to 15
 
 Implement spells:
 

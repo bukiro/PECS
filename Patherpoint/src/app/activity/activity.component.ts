@@ -46,6 +46,10 @@ export class ActivityComponent implements OnInit {
         return this.characterService.get_Accent();
     }
     
+    trackByIndex(index: number, obj: any): any {
+        return index;
+    }
+    
     get_Creature(creature: string = this.creature) {
         return this.characterService.get_Creature(creature) as Character|AnimalCompanion|Familiar;
     }

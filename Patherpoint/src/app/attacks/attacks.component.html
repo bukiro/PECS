@@ -5,7 +5,7 @@
     <ng-container *ngIf="!still_loading()">
         <app-tags [creature]="creature" [objectName]="'Attacks'" [showTraits]=true [showFeats]=true [showItems]=true
             [showActivities]=true [showConditions]=true [showEffects]=true></app-tags>
-        <ng-container *ngFor="let weapon of get_EquippedWeapons()">
+        <ng-container *ngFor="let weapon of get_EquippedWeapons(); trackBy:trackByIndex;">
             <div class="list-item" [ngClass]="{'problem fullsize-only':!get_IsAllowed(weapon)}"
                 *ngFor="let attack of get_Attacks(weapon)">
                 <div class="row">
@@ -16,26 +16,26 @@
                         <input [ngClass]="{'penalty':attack[4].length, 'bonus':attack[5].length, 'absolute':attack[6].length}"
                             type="number" class="number2" title="{{attack[2]}}" [ngModel]="attack[1]" disabled>
                         Damage
-                        <ng-container *ngFor="let damage of [get_Damage(weapon, attack[0])]">
-                            <strong *ngFor="let line of damage[0].split('\n')" title="{{damage[1]}}">
+                        <ng-container *ngFor="let damage of [get_Damage(weapon, attack[0])]; trackBy:trackByIndex;">
+                            <strong *ngFor="let line of damage[0].split('\n'); trackBy:trackByIndex;" title="{{damage[1]}}">
                                 {{line}}<br>
                             </strong>
                         </ng-container>
                     </span>
                 </div>
                 <div class="fullsize-only row left-aligned tags" *ngIf="weapon.get_Traits(characterService).length">
-                    <cite class="trait" *ngFor="let trait of weapon.get_Traits(characterService)"
+                    <cite class="trait" *ngFor="let trait of weapon.get_Traits(characterService); trackBy:trackByIndex;"
                         title="{{get_Traits(trait)[0].description}}">{{trait}}</cite>
                 </div>
-                <div class="fullsize-only row left-aligned" *ngFor="let runes of [get_HintRunes(weapon, attack[0])]"
+                <div class="fullsize-only row left-aligned" *ngFor="let runes of [get_HintRunes(weapon, attack[0])]; trackBy:trackByIndex;"
                     style="margin-top:initial">
-                    <cite class="rune" *ngFor="let rune of runes" title="{{rune.hint}}">{{rune.name}}</cite>
+                    <cite class="rune" *ngFor="let rune of runes; trackBy:trackByIndex;" title="{{rune.hint}}">{{rune.name}}</cite>
                 </div>
                 <app-tags [creature]="creature" [objectName]=weapon.name [showTraits]=true [showFeats]=true
                     [showItems]=true [showActivities]=true [showConditions]=true
                     [specialNames]=get_specialShowon(weapon) [specialEffects]=attack[3]></app-tags>
                 <div class="fullsize-only lower row left-aligned"
-                    *ngFor="let talisman of weapon.talismans; let index = index">
+                    *ngFor="let talisman of weapon.talismans; let index = index; trackBy:trackByIndex;">
                     <button title="{{get_TalismanTitle(talisman)}}"
                         (click)="on_TalismanUse(weapon, talisman, index)">
                         <span>Activate {{talisman.name}}<app-actionIcons [actionString]="talisman.actions">
@@ -44,13 +44,13 @@
                     </button>
                 </div>
                 <div class="fullsize-only lower row left-aligned"
-                    *ngFor="let spec of get_CritSpecialization(weapon, attack[0])">
+                    *ngFor="let spec of get_CritSpecialization(weapon, attack[0]); trackBy:trackByIndex;">
                     <strong>Critical specialization effect&nbsp;</strong>{{spec.desc}}
                 </div>
                 <div class="fullsize-only lower row left-aligned" *ngIf="weapon.criticalHint">
                     <strong>Critical hit effect&nbsp;</strong>{{weapon.criticalHint}}
                 </div>
-                <ng-container *ngFor="let rune of get_Runes(weapon, attack[0])" style="margin-top:initial">
+                <ng-container *ngFor="let rune of get_Runes(weapon, attack[0]); trackBy:trackByIndex;" style="margin-top:initial">
                     <div class="fullsize-only lower row left-aligned" *ngIf="rune.criticalHint">
                         <span>
                             <strong>Critical hit effect&nbsp;</strong>{{rune.criticalHint}}
@@ -72,9 +72,9 @@
                 </ng-container>
             </div>
         </ng-container>
-        <ng-container *ngFor="let ammoType of get_AmmoTypes(); let index = index">
+        <ng-container *ngFor="let ammoType of get_AmmoTypes(); let index = index; trackBy:trackByIndex;">
             <h3 class="box-header" *ngIf="index == 0">Ammunition</h3>
-            <ng-container *ngFor="let ammo of get_Ammo(ammoType); let ammoIndex = index">
+            <ng-container *ngFor="let ammo of get_Ammo(ammoType); let ammoIndex = index; trackBy:trackByIndex;">
                 <h5 class="fullsize-only" *ngIf="ammoIndex == 0">{{ammoType}}</h5>
                 <div class="list-item">
                     {{(ammo.item.amount != undefined && ammo.item.amount != 1) ? ammo.item.amount+" " : ""}}
@@ -86,10 +86,10 @@
             </ng-container>
         </ng-container>
         <h3 class="fullsize-only box-header" *ngIf="!still_loading()">Weapon Proficiencies</h3>
-        <ng-container *ngFor="let skill of get_Skills('', 'Weapon Proficiency')">
+        <ng-container *ngFor="let skill of get_Skills('', 'Weapon Proficiency'); trackBy:trackByIndex;">
             <app-skill class="fullsize-only" [creature]="creature" [skill]=skill [showValue]=false></app-skill>
         </ng-container>
-        <ng-container *ngFor="let skill of get_Skills('', 'Specific Weapon Proficiency')">
+        <ng-container *ngFor="let skill of get_Skills('', 'Specific Weapon Proficiency'); trackBy:trackByIndex;">
             <app-skill class="fullsize-only" [creature]="creature" [skill]=skill [showValue]=false></app-skill>
         </ng-container>
     </ng-container>

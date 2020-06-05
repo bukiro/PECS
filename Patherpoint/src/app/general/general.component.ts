@@ -44,6 +44,10 @@ export class GeneralComponent implements OnInit {
         return this.characterService.get_Accent();
     }
     
+    trackByIndex(index: number, obj: any): any {
+        return index;
+    }
+    
     get_Creature() {
         return this.characterService.get_Creature(this.creature);
     }
@@ -114,7 +118,7 @@ export class GeneralComponent implements OnInit {
 
     get_WizardSchool() {
         return this.get_Character().get_FeatsTaken(1, this.get_Character().level)
-            .filter(gain => ["Abjuration", "Conjuration", "Divination", "Enchantment", "Evocation", "Illusion", "Necromancy", "Transmutation", "Universalist"].includes(gain.name));
+            .filter(gain => ["Abjuration School", "Conjuration School", "Divination School", "Enchantment School", "Evocation School", "Illusion School", "Necromancy School", "Transmutation School", "Universalist School"].includes(gain.name));
     }
 
     get_ArcaneThesis() {

@@ -1,5 +1,5 @@
 <div class="row left-aligned tags" *ngIf="(item.get_Traits ? item.get_Traits(get_Creature()) : item.traits).length">
-    <cite class="trait" *ngFor="let trait of (item.get_Traits ? item.get_Traits(get_Creature()) : item.traits)"
+    <cite class="trait" *ngFor="let trait of (item.get_Traits ? item.get_Traits(get_Creature()) : item.traits); trackBy:trackByIndex;"
         title="{{get_Traits(trait)[0].description}}">{{trait}}</cite>
 </div>
 <div class="row left-aligned">
@@ -89,14 +89,14 @@
     </span>
 </div>
 <div class="row left-aligned">
-    <ng-container *ngFor="let desc of item.desc.split('\n\n')">
+    <ng-container *ngFor="let desc of item.desc.split('\n\n'); trackBy:trackByIndex;">
         <p *ngIf="desc.split('\n').length == 1">{{desc}}</p>
         <ul *ngIf="desc.split('\n').length > 1">
-            <li *ngFor="let line of desc.split('\n')">{{line}}</li>
+            <li *ngFor="let line of desc.split('\n'); trackBy:trackByIndex;">{{line}}</li>
         </ul>
     </ng-container>
     <ng-container *ngIf="item.name == 'Grievous'">
-        <p *ngFor="let data of item.data">
+        <p *ngFor="let data of item.data; trackBy:trackByIndex;">
             <strong>{{data.name}}&nbsp;</strong>{{data.value}}
         </p>
     </ng-container>
@@ -148,7 +148,7 @@
     <div class="list-item lower row problem" *ngIf="item.inputRequired">
         <strong>Player input required:</strong>
         <div class="row left-aligned">
-            <p *ngFor="let inputRequired of item.inputRequired.split('\n')">
+            <p *ngFor="let inputRequired of item.inputRequired.split('\n'); trackBy:trackByIndex;">
                 {{inputRequired}}
             </p>
         </div>
@@ -159,14 +159,14 @@
     <div class="row">
         <strong>Weapon wielded in the gold ring hand</strong>
         <select [(ngModel)]="item.data[0].value" (ngModelChange)="set_Changed()">
-            <option *ngFor="let weapon of get_DoublingRingsOptions('gold')" [ngValue]="weapon.id">
+            <option *ngFor="let weapon of get_DoublingRingsOptions('gold'); trackBy:trackByIndex;" [ngValue]="weapon.id">
                 {{weapon.get_Name()}}</option>
         </select>
     </div>
     <div class="row">
         <strong>Weapon wielded in the iron ring hand</strong>
         <select [(ngModel)]="item.data[1].value" (ngModelChange)="set_Changed()">
-            <option *ngFor="let weapon of get_DoublingRingsOptions('iron')" [ngValue]="weapon.id">
+            <option *ngFor="let weapon of get_DoublingRingsOptions('iron'); trackBy:trackByIndex;" [ngValue]="weapon.id">
                 {{weapon.get_Name()}}</option>
         </select>
     </div>
@@ -176,8 +176,8 @@
     </div>
 </div>
 <app-itemAeonStones class="list-item" [item]=item [itemStore]=itemStore *ngIf="item.isWayfinder"></app-itemAeonStones>
-<div class="list-item left-aligned" *ngFor="let cast of item.castSpells">
-    <div *ngFor="let spell of get_Spells(cast.name)">
+<div class="list-item left-aligned" *ngFor="let cast of item.castSpells; trackBy:trackByIndex;">
+    <div *ngFor="let spell of get_Spells(cast.name); trackBy:trackByIndex;">
         <h4>{{spell.name}}<app-actionIcons [actionString]="spell.actions">
             </app-actionIcons> {{spell.castType.toString()}}</h4>
         <app-spell [spell]=spell [spellLevel]="(cast.level) ? cast.level : 0"></app-spell>
@@ -187,11 +187,11 @@
     <h4>Armored Skirt</h4>
     <app-item [item]=armoredSkirt></app-item>
 </div>
-<div class="list-item left-aligned" *ngFor="let choice of item.storedSpells">
+<div class="list-item left-aligned" *ngFor="let choice of item.storedSpells; trackBy:trackByIndex;">
     <app-spellchoice [choice]="choice" [allowHeightened]="true" [level]="choice.level" [itemSpell]="true">
     </app-spellchoice>
 </div>
-<div class="list-item left-aligned" *ngFor="let activity of item.activities">
+<div class="list-item left-aligned" *ngFor="let activity of item.activities; trackBy:trackByIndex;">
     <h4 *ngIf="activity.name">
         {{activity.name}}<app-actionIcons [actionString]="activity.actions">
         </app-actionIcons>{{(activity.activationType) ? activity.activationType : ""}}
@@ -199,8 +199,8 @@
     <app-activity [creature]="creature" [activity]=activity [gain]=activity
         [allowActivate]="allowActivate && (activity.resonant ? isSubItem : true)" [isSubItem]=isSubItem></app-activity>
 </div>
-<ng-container *ngFor="let gain of item.gainActivities">
-    <div class="list-item left-aligned" *ngFor="let activity of get_Activities(gain.name)">
+<ng-container *ngFor="let gain of item.gainActivities; trackBy:trackByIndex;">
+    <div class="list-item left-aligned" *ngFor="let activity of get_Activities(gain.name); trackBy:trackByIndex;">
         <h4>
             {{activity.name}}<app-actionIcons [actionString]="activity.actions">
             </app-actionIcons>{{(activity.activationType) ? activity.activationType : ""}}
@@ -209,7 +209,7 @@
             [isSubItem]=isSubItem></app-activity>
     </div>
 </ng-container>
-<div class="list-item left-aligned" *ngFor="let oil of item.oilsApplied">
+<div class="list-item left-aligned" *ngFor="let oil of item.oilsApplied; trackBy:trackByIndex;">
     <h4>{{oil.get_Name()}}</h4>
     <app-item [creature]="creature" [item]=oil [allowActivate]=allowActivate [isSubItem]=true></app-item>
 </div>
@@ -218,15 +218,15 @@
     <app-item [creature]="creature" [item]=item.runeEffect [allowActivate]=allowActivate [isSubItem]=isSubItem>
     </app-item>
 </div>
-<div class="list-item left-aligned" *ngFor="let rune of item.propertyRunes">
+<div class="list-item left-aligned" *ngFor="let rune of item.propertyRunes; trackBy:trackByIndex;">
     <h4>{{rune.name}}</h4>
     <app-item [creature]="creature" [item]=rune [allowActivate]=allowActivate [isSubItem]=true></app-item>
 </div>
-<div class="list-item left-aligned" *ngFor="let stone of item.aeonStones">
+<div class="list-item left-aligned" *ngFor="let stone of item.aeonStones; trackBy:trackByIndex;">
     <h4>{{stone.name}}</h4>
     <app-item [creature]="creature" [item]=stone [allowActivate]=allowActivate [isSubItem]=true></app-item>
 </div>
-<div class="list-item left-aligned" *ngFor="let talisman of item.talismans; let index = index">
+<div class="list-item left-aligned" *ngFor="let talisman of item.talismans; let index = index; trackBy:trackByIndex;">
     <h4>{{talisman.name}}</h4>
     <button class="row left-aligned"
         (click)="on_TalismanUse(talisman, index)" *ngIf="allowActivate">
