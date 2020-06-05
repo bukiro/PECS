@@ -9,6 +9,7 @@ import { AnimalCompanion } from '../AnimalCompanion';
 import { Ammunition } from '../Ammunition';
 import { SortByPipe } from '../sortBy.pipe';
 import { ItemCollection } from '../ItemCollection';
+import { Talisman } from '../Talisman';
 
 @Component({
     selector: 'app-attacks',
@@ -71,6 +72,17 @@ export class AttacksComponent implements OnInit {
     get_EquippedWeapons() {
         this.get_AttackRestrictions();
         return this.get_Creature().inventories[0].weapons.filter(weapon => weapon.equipped && weapon.equippable);
+    }
+
+    get_TalismanTitle(talisman: Talisman) {
+        return (talisman.trigger ? "Trigger: " + talisman.trigger + "\n\n" : "") + talisman.desc;
+    }
+
+    on_TalismanUse(weapon: Weapon, talisman: Talisman, index: number) {
+        this.characterService.on_ConsumableUse(this.get_Creature(), talisman);
+        weapon.talismans.splice(index, 1)
+        this.characterService.set_Changed("inventory");
+        this.characterService.set_Changed("attacks");
     }
 
     get_AmmoTypes() {

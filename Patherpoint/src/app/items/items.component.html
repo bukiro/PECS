@@ -83,8 +83,8 @@
                                         [disabled]="!have_Funds(get_Price(item)) || !get_Price(item)">
                                         Buy {{item.stack && item.stack > 1 ? item.stack+" " : ""}}for {{creature}}
                                     </button>
-                                    <app-itemRunes class="list-item" [item]=item [itemStore]=true></app-itemRunes>
-                                    <app-itemTalismans class="list-item" [item]=item [itemStore]=true *ngIf="can_ApplyTalismans(item)"></app-itemTalismans>
+                                    <app-itemRunes [item]=item [itemStore]=true></app-itemRunes>
+                                    <app-itemTalismans [item]=item [itemStore]=true *ngIf="can_ApplyTalismans(item)"></app-itemTalismans>
                                     <app-item [item]=item [itemStore]=true></app-item>
                                 </div>
                             </div>

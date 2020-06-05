@@ -2418,6 +2418,30 @@
         "unlimited": true
     },
     {
+        "name": "Clever Improviser",
+        "shortdesc": "You’ve learned how to handle situations when you’re out of your depth.",
+        "desc": "You’ve learned how to handle situations when you’re out of your depth. You gain the Untrained Improvisation general feat. In addition, you can attempt skill actions that normally require you to be trained, even if you are untrained.",
+        "hint": "You can attempt skill actions that normally require you to be trained, even if you are untrained.",
+        "showon": "Skills",
+        "gainFeatChoice": [
+            {
+                "_className": "FeatChoice",
+                "source": "Feat: Clever Improviser",
+                "feats": [
+                    {
+                        "locked": "true",
+                        "name": "Untrained Improvisation"
+                    }
+                ],
+                "type": "General"
+            }
+        ],
+        "levelreq": 5,
+        "traits": [
+            "Human"
+        ]
+    },
+    {
         "name": "Glad-Hand",
         "shortdesc": "Make an Impression on a target you've just met.",
         "desc": "First impressions are your strong suit. When you meet someone in a casual or social situation, you can immediately attempt a Diplomacy check to Make an Impression on that creature rather than needing to converse for 1 minute. You take a -5 penalty to the check. If you fail or critically fail, you can engage in 1 minute of conversation and attempt a new check at the end of that time rather than accepting the failure or critical failure result.",
@@ -3567,6 +3591,24 @@
         "levelreq": 1,
         "traits": [
             "Elf"
+        ]
+    },
+    {
+        "name": "Unburdened Iron",
+        "shortdesc": "You’ve learned techniques first devised by your ancestors during their ancient wars, allowing you to comfortably wear massive suits of armor.",
+        "desc": "You’ve learned techniques first devised by your ancestors during their ancient wars, allowing you to comfortably wear massive suits of armor. Ignore the reduction to your Speed from any armor you wear.\n\nIn addition, any time you’re taking a penalty to your Speed from some other reason (such as from the encumbered condition or from a spell), deduct 5 feet from the penalty. For example, the encumbered condition normally gives a –10-foot penalty to Speed, but it gives you only a –5-foot penalty. If your Speed is taking multiple penalties, pick only one penalty to reduce.",
+        "hint": "Any time you’re taking a penalty to your Speed from any reason other than your armor (such as from the encumbered condition or from a spell), deduct 5 feet from the penalty. For example, the encumbered condition normally gives a –10-foot penalty to Speed, but it gives you only a –5-foot penalty. If your Speed is taking multiple penalties, pick only one penalty to reduce.",
+        "showon": "Movement",
+        "internalNote": "The secondary effect is hardcoded.",
+        "effects": [
+            {
+                "affected": "Ignore Armor Speed Penalty",
+                "toggle": true
+            }
+        ],
+        "levelreq": 1,
+        "traits": [
+            "Dwarf"
         ]
     },
     {
@@ -5661,8 +5703,7 @@
         "effects": [
             {
                 "affected": "Untrained Skills",
-                "setValue": "(Level >= 7) ? Level : Math.max(Math.floor(Level / 2), 0)",
-                "value": ""
+                "setValue": "(Level >= 7) ? Level : Math.max(Math.floor(Level / 2), 0)"
             }
         ],
         "levelreq": 3,

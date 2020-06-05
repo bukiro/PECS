@@ -277,7 +277,7 @@ constructor(
 
                 //Get skill and speed penalties from armor
                 //Skip this if there is an "Ignore Armor Penalty" effect.
-                if (!simpleEffects.filter(effect => effect.creature == creature.id && effect.target == "Ignore Armor Penalty" && effect.toggle).length) {
+                if (!simpleEffects.find(effect => effect.creature == creature.id && effect.target == "Ignore Armor Penalty" && effect.toggle)) {
                     //If an armor has a skillpenalty or a speedpenalty, check if Strength meets its strength requirement.
                     let Strength = characterService.get_Abilities("Strength")[0].value(creature, characterService, this).result;
                     items.armors.filter(item => item.equipped && item.get_SkillPenalty()).forEach(item => {
@@ -289,8 +289,8 @@ constructor(
                             //We push this as an apply:false effect to each so you can see that (and why) you were spared from it.
                             //We also add a note to the source for clarity.
                             if (this.traitsService.have_Trait(characterService, item,"Flexible")) {
-                                itemEffects.push(new Effect(creature.id, 'item', "Acrobatics", item.get_SkillPenalty().toString(), "", false, name + " (Flexible)", true, false));
-                                itemEffects.push(new Effect(creature.id, 'item', "Athletics", item.get_SkillPenalty().toString(), "", false, name + " (Flexible)", true, false));
+                                itemEffects.push(new Effect(creature.id, 'item', "Acrobatics", item.get_SkillPenalty().toString(), "", false, name + " (cancelled by Flexible)", true, false));
+                                itemEffects.push(new Effect(creature.id, 'item', "Athletics", item.get_SkillPenalty().toString(), "", false, name + " (cancelled by Flexible)", true, false));
                             } else {
                                 itemEffects.push(new Effect(creature.id, 'item', "Acrobatics", item.get_SkillPenalty().toString(), "", false, name, true));
                                 itemEffects.push(new Effect(creature.id, 'item', "Athletics", item.get_SkillPenalty().toString(), "", false, name, true));
@@ -300,34 +300,37 @@ constructor(
                                 itemEffects.push(new Effect(creature.id, 'item', "Thievery", item.get_SkillPenalty().toString(), "", false, name, true));
                         } else {
                             //If you ARE strong enough, we push some not applying effects so you can feel good about that
-                            itemEffects.push(new Effect(creature.id, 'item', "Acrobatics", item.get_SkillPenalty().toString(), "", false, name + " (Strength)", true, false));
-                            itemEffects.push(new Effect(creature.id, 'item', "Athletics", item.get_SkillPenalty().toString(), "", false, name + " (Strength)", true, false));
-                            itemEffects.push(new Effect(creature.id, 'item', "Thievery", item.get_SkillPenalty().toString(), "", false, name + " (Strength)", true, false));
+                            itemEffects.push(new Effect(creature.id, 'item', "Acrobatics", item.get_SkillPenalty().toString(), "", false, name + " (cancelled by Strength)", true, false));
+                            itemEffects.push(new Effect(creature.id, 'item', "Athletics", item.get_SkillPenalty().toString(), "", false, name + " (cancelled by Strength)", true, false));
+                            itemEffects.push(new Effect(creature.id, 'item', "Thievery", item.get_SkillPenalty().toString(), "", false, name + " (cancelled by Strength)", true, false));
                             //UNLESS the item is also Noisy, in which case you do get the stealth penalty because you are dummy thicc and the clap of your ass cheeks keeps alerting the guards.
                             if (this.traitsService.have_Trait(characterService, item, "Noisy")) {
                                 itemEffects.push(new Effect(creature.id, 'item', "Stealth", item.get_SkillPenalty().toString(), "", false, name + " (Noisy)", true))
                             } else {
-                                itemEffects.push(new Effect(creature.id, 'item', "Stealth", item.get_SkillPenalty().toString(), "", false, name + " (Strength)", true, false));
+                                itemEffects.push(new Effect(creature.id, 'item', "Stealth", item.get_SkillPenalty().toString(), "", false, name + " (cancelled by Strength)", true, false));
                             }
                         }
                     });
-                    items.armors.filter(item => item.equipped && item.speedpenalty).forEach(item => {
-                        let name = item.get_Name();
-                        if (Strength < item.get_Strength()) {
-                            //You are not strong enough to move unhindered in this armor. You get a speed penalty.
-                            itemEffects.push(new Effect(creature.id, 'untyped', "Speed", item.speedpenalty.toString(), "", false, name, true));
-                        } else {
-                            //You are strong enough, but if the armor is particularly heavy, your penalty is only lessened.
-                            if (item.speedpenalty < -5) {
-                                //In this case we push both the avoided and the actual effect so you can feel at least a little good about yourself.
-                                itemEffects.push(new Effect(creature.id, 'untyped', "Speed", (item.speedpenalty+5).toString(), "", false, name, true));
-                                itemEffects.push(new Effect(creature.id, 'untyped', "Speed", item.speedpenalty.toString(), "", false, name + " (Strength)", true, false));
+                    //Skip this if there is an "Ignore Armor Speed Penalty" effect.
+                    if (!simpleEffects.find(effect => effect.creature == creature.id && effect.target == "Ignore Armor Speed Penalty" && effect.toggle)) {
+                        items.armors.filter(item => item.equipped && item.speedpenalty).forEach(item => {
+                            let name = item.get_Name();
+                            if (Strength < item.get_Strength()) {
+                                //You are not strong enough to move unhindered in this armor. You get a speed penalty.
+                                itemEffects.push(new Effect(creature.id, 'untyped', "Speed", item.speedpenalty.toString(), "", false, name, true));
                             } else {
-                                //If you are strong enough and the armor only gave -5ft penalty, you get a fully avoided effect to gaze at.
-                                itemEffects.push(new Effect(creature.id, 'untyped', "Speed", item.speedpenalty.toString(), "", false, name + " (Strength)", true, false));
+                                //You are strong enough, but if the armor is particularly heavy, your penalty is only lessened.
+                                if (item.speedpenalty < -5) {
+                                    //In this case we push both the avoided and the actual effect so you can feel at least a little good about yourself.
+                                    itemEffects.push(new Effect(creature.id, 'untyped', "Speed", (item.speedpenalty+5).toString(), "", false, name, true));
+                                    itemEffects.push(new Effect(creature.id, 'untyped', "Speed", item.speedpenalty.toString(), "", false, name + " (cancelled by Strength)", true, false));
+                                } else {
+                                    //If you are strong enough and the armor only gave -5ft penalty, you get a fully avoided effect to gaze at.
+                                    itemEffects.push(new Effect(creature.id, 'untyped', "Speed", item.speedpenalty.toString(), "", false, name + " (lessened by Strength)", true, false));
+                                }
                             }
-                        }
-                    });
+                        });
+                    }
                     items.shields.filter(item => item.equipped && item.speedpenalty).forEach(item => {
                         //Shields don't have a strength requirement for speed penalties. In this case, the penalty just alwas applies.
                         itemEffects.push(new Effect(creature.id, 'untyped', "Speed", item.speedpenalty.toString(), "", false, item.get_Name(), true));
@@ -345,13 +348,16 @@ constructor(
         //Process effects from feats
         let featEffects: Effect[] = [];
 
-        //If you have the Untrained Improvisation feat and are at level 7 or higher, change the bonus to level instead of level/2
-        if (character.get_FeatsTaken(0, character.level, "Untrained Improvisation")) {
-            if (character.level >= 7) {
-                allEffects.filter(effect => effect.source == "Untrained Improvisation").forEach(effect => {
-                    effect.value = "+"+(character.level).toString()
-                })
-            }
+        //If you have the Unburdened Iron feat and are taking speed penalties, reduce the first of them by 5.
+        if (character.get_FeatsTaken(0, character.level, "Unburdened Iron")) {
+            let done: boolean = false;
+            allEffects.filter(effect => ["Speed", "Land Speed"].includes(effect.target) && effect.penalty).forEach(effect => {
+                if (!done) {
+                    effect.value = (parseInt(effect.value) + 5).toString();
+                    effect.source = effect.source + " (Lessened by Unburdened Iron)";
+                    done = true;
+                }
+            })
         }
 
         //Push featEffects into allEffects.

@@ -89,8 +89,8 @@
     {
         "name": "Deafened",
         "type": "generic",
-        "desc": "You can’t hear. You automatically critically fail Perception checks that require you to be able to hear. You take a –2 status penalty to Perception checks for initiative and checks that involve sound but also rely on other senses. If you perform an action with the auditory trait, you must succeed at a DC 5 flat check or the action is lost; attempt the check after spending the action but before any effects are applied. You are immune to auditory effects. ",
-        "hint": "You can’t hear. You automatically critically fail Perception checks that require you to be able to hear. You take a –2 status penalty to Perception checks for initiative and checks that involve sound but also rely on other senses. If you perform an action with the auditory trait, you must succeed at a DC 5 flat check or the action is lost; attempt the check after spending the action but before any effects are applied. You are immune to auditory effects. ",
+        "desc": "You can’t hear. You automatically critically fail Perception checks that require you to be able to hear. You take a -2 status penalty to Perception checks for initiative and checks that involve sound but also rely on other senses. If you perform an action with the auditory trait, you must succeed at a DC 5 flat check or the action is lost; attempt the check after spending the action but before any effects are applied. You are immune to auditory effects. ",
+        "hint": "You can’t hear. You automatically critically fail Perception checks that require you to be able to hear. You take a -2 status penalty to Perception checks for initiative and checks that involve sound but also rely on other senses. If you perform an action with the auditory trait, you must succeed at a DC 5 flat check or the action is lost; attempt the check after spending the action but before any effects are applied. You are immune to auditory effects. ",
         "showon": "Activities, Perception, Will"
     },
     {
@@ -188,7 +188,7 @@
     {
         "name": "Fascinated",
         "type": "generic",
-        "desc": "You are compelled to focus your attention on something, distracting you from whatever else is going on around you. You take a –2 status penalty to Perception and skill checks, and you can’t use actions with the concentrate trait unless they or their intended consequences are related to the subject of your fascination (as determined by the GM). For instance, you might be able to Seek and Recall Knowledge about the subject, but you likely couldn’t cast a spell targeting a different creature. This condition ends if a creature uses hostile actions against you or any of your allies.",
+        "desc": "You are compelled to focus your attention on something, distracting you from whatever else is going on around you. You take a -2 status penalty to Perception and skill checks, and you can’t use actions with the concentrate trait unless they or their intended consequences are related to the subject of your fascination (as determined by the GM). For instance, you might be able to Seek and Recall Knowledge about the subject, but you likely couldn’t cast a spell targeting a different creature. This condition ends if a creature uses hostile actions against you or any of your allies.",
         "hint": "You can’t use actions with the concentrate trait unless they or their intended consequences are related to the subject of your fascination (as determined by the GM). For instance, you might be able to Seek and Recall Knowledge about the subject, but you likely couldn’t cast a spell targeting a different creature.",
         "showon": "Activities, Skills",
         "effects": [
@@ -207,7 +207,7 @@
     {
         "name": "Fatigued",
         "type": "generic",
-        "desc": "You’re tired and can’t summon much energy. You take a –1 status penalty to AC and saving throws. While exploring, you can’t choose an exploration activity.\n\nYou recover from fatigue after a full night’s rest.",
+        "desc": "You’re tired and can’t summon much energy. You take a -1 status penalty to AC and saving throws. While exploring, you can’t choose an exploration activity.\n\nYou recover from fatigue after a full night’s rest.",
         "hint": "While exploring, you can’t choose an exploration activity.",
         "showon": "Activities, Skills",
         "inputRequired": "You recover from fatigue after a full night’s rest.",
@@ -376,7 +376,7 @@
     {
         "name": "Prone",
         "type": "generic",
-        "desc": "You’re lying on the ground. You are flat-footed and take a –2 circumstance penalty to attack rolls. The only move actions you can use while you’re prone are Crawl and Stand. Standing up ends the prone condition. You can Take Cover while prone to hunker down and gain cover against ranged attacks, even if you don’t have an object to get behind, gaining a +4 circumstance bonus to AC against ranged attacks (but you remain flat-footed).\n\nIf you would be knocked prone while you’re Climbing or Flying, you fall (see pages 463–464 for the rules on falling). You can’t be knocked prone when Swimming.",
+        "desc": "You’re lying on the ground. You are flat-footed and take a -2 circumstance penalty to attack rolls. The only move actions you can use while you’re prone are Crawl and Stand. Standing up ends the prone condition. You can Take Cover while prone to hunker down and gain cover against ranged attacks, even if you don’t have an object to get behind, gaining a +4 circumstance bonus to AC against ranged attacks (but you remain flat-footed).\n\nIf you would be knocked prone while you’re Climbing or Flying, you fall (see pages 463-464 for the rules on falling). You can’t be knocked prone when Swimming.",
         "hint": "The only move actions you can use while you’re prone are Crawl and Stand. Standing up ends the prone condition. You can Take Cover while prone to hunker down and gain cover against ranged attacks, even if you don’t have an object to get behind, gaining a +4 circumstance bonus to AC against ranged attacks (but you remain flat-footed).",
         "showon": "AC, Movement",
         "gainConditions": [
@@ -600,13 +600,13 @@
         "effects": [
             {
                 "affected": "Climb Speed",
-                "value": "20"
+                "setValues": "20"
             }
         ]
     },
     {
         "name": "Eye of the Arclords",
-        "type": "activity",
+        "type": "activities",
         "desc": "While the eye is open, you gain the following benefits: you gain the effects of the detect magic arcane innate spell from your Arcane Sense at the start of each of your turns without needing to cast the spell; you gain darkvision; you gain a +2 status bonus to Perception checks to Seek undetected and hidden creatures and to your Perception DC against Hide and Sneak. After your third eye closes, you are dazzled for an amount of time equal to how long you had it open.",
         "showon": "Perception",
         "inputRequired": "After your third eye closes, you are dazzled for an amount of time equal to how long you had it open.",
@@ -617,7 +617,7 @@
     },
     {
         "name": "Crane Stance",
-        "type": "activity",
+        "type": "activities",
         "desc": "While in Crane Stance, reduce the DC for High Jump and Long Jump by 5, and when you Leap, you can move an additional 5 feet horizontally or 2 feet vertically.",
         "showon": "Athletics",
         "attackRestrictions": [
@@ -634,14 +634,14 @@
     },
     {
         "name": "Dragon Stance",
-        "type": "activity",
+        "type": "activities",
         "desc": "While in Dragon Stance, you can ignore the first square of difficult terrain while Striding.",
         "showon": "Movement",
         "buff": true
     },
     {
         "name": "Mountain Stance",
-        "type": "activity",
+        "type": "activities",
         "desc": "While in Mountain Stance, you gain a +4 status bonus to AC and a +2 circumstance bonus to any defenses against being Shoved or Tripped. However, you have a Dexterity modifier cap to your AC of +0, meaning you don't add your Dexterity to your AC, and your Speeds are all reduced by 5 feet.",
         "showon": "Fortitude, Movement",
         "attackRestrictions": [
@@ -666,7 +666,7 @@
     },
     {
         "name": "Rain of Embers Stance",
-        "type": "activity",
+        "type": "activities",
         "desc": "While in Rain of Embers Stance, you gain a +1 status bonus to AC and fire resistance equal to half your level (minimum 1).",
         "attackRestrictions": [
             "Fire Talon"
@@ -686,21 +686,21 @@
     },
     {
         "name": "Tiger Stance",
-        "type": "activity",
+        "type": "activities",
         "desc": "As long as your Speed is at least 20 feet while in Tiger Stance, you can Step 10 feet.",
         "showon": "Movement",
         "buff": true
     },
     {
         "name": "Wolf Stance",
-        "type": "activity",
+        "type": "activities",
         "desc": "If you're flanking a target while in Wolf Stance, your wolf jaw unarmed attacks also gain the trip trait.",
         "showon": "Wolf Jaw",
         "buff": true
     },
     {
         "name": "Mountain Stronghold",
-        "type": "activity",
+        "type": "activities",
         "desc": "You gain a +2 circumstance bonus to AC until the beginning of your next turn.",
         "buff": true,
         "effects": [
@@ -713,7 +713,7 @@
     },
     {
         "name": "Ironblood Stance",
-        "type": "activity",
+        "type": "activities",
         "desc": "While in Ironblood Stance, you gain resistance 2 to all damage. The resistance increases to 3 at 12th level, to 4 at 16th level, and to 5 at 20th level.",
         "buff": true,
         "effects": [
@@ -725,7 +725,7 @@
     },
     {
         "name": "Tangled Forest Stance",
-        "type": "activity",
+        "type": "activities",
         "desc": "While you're in Tangled Forest Stance and can act, every enemy in your reach that tries to move away from you must succeed at a Reflex save, Acrobatics check, or Athletics check against your class DC or be immobilized for that action. If you prefer, you can allow the enemy to move.",
         "showon": "Athletics, Attacks, Lashing Branch",
         "buff": true
@@ -745,7 +745,7 @@
         "effects": [
             {
                 "affected": "Fly Speed",
-                "value": "Speed('Land Speed')"
+                "setValue": "Speed('Land Speed')"
             }
         ]
     },
@@ -757,13 +757,13 @@
         "effects": [
             {
                 "affected": "Fly Speed",
-                "value": "Speed('Land Speed')"
+                "setValue": "Speed('Land Speed')"
             }
         ]
     },
     {
         "name": "Ironblood Surge",
-        "type": "activity",
+        "type": "activities",
         "desc": "You gain the benefits of your iron sweep's parry trait (a +1 circumstance bonus to AC until the start of your next turn) and your resistance from Ironblood Stance increases to your Strength modifier (if it's higher) for the same duration.",
         "buff": true,
         "effects": [
@@ -794,7 +794,7 @@
         "effects": [
             {
                 "affected": "Fly Speed",
-                "value": "30"
+                "setValue": "30"
             }
         ]
     },
@@ -835,7 +835,7 @@
     },
     {
         "name": "Call on Ancient Blood: Fortitude",
-        "type": "activity",
+        "type": "activities",
         "desc": "You gain a +1 circumstance bonus to Fortitude.",
         "buff": true,
         "effects": [
@@ -848,7 +848,7 @@
     },
     {
         "name": "Call on Ancient Blood: Reflex",
-        "type": "activity",
+        "type": "activities",
         "desc": "You gain a +1 circumstance bonus to Reflex.",
         "buff": true,
         "effects": [
@@ -861,7 +861,7 @@
     },
     {
         "name": "Call on Ancient Blood: Will",
-        "type": "activity",
+        "type": "activities",
         "desc": "You gain a +1 circumstance bonus to Will.",
         "buff": true,
         "effects": [
@@ -942,7 +942,7 @@
     },
     {
         "name": "Chameleon Gnome",
-        "type": "activity",
+        "type": "activities",
         "desc": "The color of your hair and skin is designed to help you blend into your surroundings. This grants you a +2 circumstance bonus to Stealth checks until your surroundings shift in coloration or pattern.",
         "buff": true,
         "effects": [
@@ -955,7 +955,7 @@
     },
     {
         "name": "Unseen Lizardfolk",
-        "type": "activity",
+        "type": "activities",
         "desc": "Your skin color has changed to help you blend into your surroundings. This grants you a +2 circumstance bonus to Stealth checks until your surroundings change in coloration or pattern.",
         "buff": true,
         "effects": [
@@ -968,7 +968,7 @@
     },
     {
         "name": "Rage",
-        "type": "activity",
+        "type": "activities",
         "desc": "You gain a number of temporary Hit Points equal to your level plus your Constitution modifier. This frenzy lasts for 1 minute, until there are no enemies you can perceive, or until you fall unconscious, whichever comes first. You can't voluntarily stop raging. While you are raging: \n\nYou deal 2 additional damage with melee weapons and unarmed attacks. This additional damage is halved if your weapon or unarmed attack is agile.\nYou take a â€“1 penalty to AC.\nYou can't use actions with the concentrate trait unless they also have the rage trait. You can Seek while raging.\n\nAfter you stop raging, you lose any remaining temporary Hit Points from Rage, and you can't Rage again for 1 minute.",
         "hint": "You can't use actions with the concentrate trait unless they also have the rage trait. You can Seek while raging.",
         "showon": "Activities, Perception",
@@ -1554,7 +1554,7 @@
         "buff": true
     },
     {
-        "name": "Tether",
+        "name": "Tether (Caster)",
         "type": "spells",
         "desc": "You have used magical chains, vines, or other tethers to bind your target to you. The creature can still try to Escape, and it or others can break the tethers by attacking them. The tethers have AC 15 (plus 3 per spell level) and 10 Hit Points (plus 10 per spell level). You must stay within 30 feet of the target while it is tethered; moving more than 30 feet away from your target ends the spell. The target must attempt a Reflex save.\n\n<strong>Critical Success</strong> The target is unaffected.\n<strong>Success</strong> The target takes a â€“5-foot circumstance penalty to its Speed as long as it is within 30 feet of you.\n<strong>Failure</strong> The target takes a â€“10-foot circumstance penalty to its Speed and cannot move more than 30 feet away from you until it Escapes or the spell ends.\n<strong>Critical Failure</strong> The target is immobilized until it Escapes or the spell ends.",
         "buff": true
@@ -1657,7 +1657,7 @@
             {
                 "affected": "Land Speed",
                 "type": "status",
-                "value": "20"
+                "value": "+20"
             }
         ]
     },
@@ -1669,7 +1669,7 @@
         "effects": [
             {
                 "affected": "Climb Speed",
-                "value": "Math.max(Math.floor(Speed('Land Speed') / 2 / 5) * 5, 5)"
+                "setValue": "Math.max(Math.floor(Speed('Land Speed') / 2 / 5) * 5, 5)"
             }
         ]
     },
@@ -1681,7 +1681,7 @@
         "effects": [
             {
                 "affected": "Swim Speed",
-                "value": "Math.max(Math.floor(Speed('Land Speed') / 2 / 5) * 5, 5)"
+                "setValue": "Math.max(Math.floor(Speed('Land Speed') / 2 / 5) * 5, 5)"
             }
         ]
     },
@@ -1836,13 +1836,13 @@
     {
         "name": "Levitate (Caster)",
         "type": "spells",
-        "desc": "You defy gravity and levitate the target 5 feet off the ground. For the duration of the spell, you can move the target up or down 10 feet with a single action, which has the concentrate trait. A creature floating in the air from levitate takes a –2 circumstance penalty to attack rolls. A floating creature can spend an Interact action to stabilize itself and negate this penalty for the remainder of its turn. If the target is adjacent to a fixed object or terrain of suitable stability, it can move across the surface by climbing (if the surface is vertical, like a wall) or crawling (if the surface is horizontal, such as a ceiling). The GM determines which surfaces can be climbed or crawled across.",
+        "desc": "You defy gravity and levitate the target 5 feet off the ground. For the duration of the spell, you can move the target up or down 10 feet with a single action, which has the concentrate trait. A creature floating in the air from levitate takes a -2 circumstance penalty to attack rolls. A floating creature can spend an Interact action to stabilize itself and negate this penalty for the remainder of its turn. If the target is adjacent to a fixed object or terrain of suitable stability, it can move across the surface by climbing (if the surface is vertical, like a wall) or crawling (if the surface is horizontal, such as a ceiling). The GM determines which surfaces can be climbed or crawled across.",
         "buff": true
     },
     {
         "name": "Levitate (Target)",
         "type": "spells",
-        "desc": "You are levitated 5 feet off the ground, taking a –2 circumstance penalty to attack rolls. You can spend an Interact action to stabilize yourself and negate this penalty for the remainder of your turn. If you're adjacent to a fixed object or terrain of suitable stability, you can move across the surface by climbing (if the surface is vertical, like a wall) or crawling (if the surface is horizontal, such as a ceiling). The GM determines which surfaces can be climbed or crawled across.",
+        "desc": "You are levitated 5 feet off the ground, taking a -2 circumstance penalty to attack rolls. You can spend an Interact action to stabilize yourself and negate this penalty for the remainder of your turn. If you're adjacent to a fixed object or terrain of suitable stability, you can move across the surface by climbing (if the surface is vertical, like a wall) or crawling (if the surface is horizontal, such as a ceiling). The GM determines which surfaces can be climbed or crawled across.",
         "effects": [
             {
                 "affected": "Attack Rolls",
@@ -1855,7 +1855,7 @@
     {
         "name": "Mirror Image",
         "type": "spells",
-        "desc": "Three illusory images of you swirl about your space, potentially causing those who attack you to hit one of the images instead of you. Any attack that would hit you has a random chance of hitting one of your images instead of you. If all three images remain, there is a 1 in 4 chance of hitting you (1 on 1d4). With two images remaining, there is a 1 in 3 chance of hitting you (1–2 on 1d6). With only one image, the chances are 1 in 2 (1–3 on 1d6).\n\nOnce an image is hit, it is destroyed. If an attack roll fails to hit your AC but doesn't critically fail, it destroys an image but has no additional effect (even if the attack would normally have an effect on a failure). If an attack roll is a critical success and would hit one of the images, one of the images is destroyed and the attack roll becomes a success against you. Once all the images are destroyed, the spell ends.",
+        "desc": "Three illusory images of you swirl about your space, potentially causing those who attack you to hit one of the images instead of you. Any attack that would hit you has a random chance of hitting one of your images instead of you. If all three images remain, there is a 1 in 4 chance of hitting you (1 on 1d4). With two images remaining, there is a 1 in 3 chance of hitting you (1-2 on 1d6). With only one image, the chances are 1 in 2 (1-3 on 1d6).\n\nOnce an image is hit, it is destroyed. If an attack roll fails to hit your AC but doesn't critically fail, it destroys an image but has no additional effect (even if the attack would normally have an effect on a failure). If an attack roll is a critical success and would hit one of the images, one of the images is destroyed and the attack roll becomes a success against you. Once all the images are destroyed, the spell ends.",
         "effects": [
             {
                 "affected": "Mirror Images",
@@ -1872,7 +1872,7 @@
         "effects": [
             {
                 "affected": "Fly Speed",
-                "value": "Math.max(Speed('Land Speed'), 20)"
+                "setValue": "Math.max(Speed('Land Speed'), 20)"
             }
         ],
         "buff": true
@@ -1914,6 +1914,27 @@
                 "affected": "Reflex",
                 "value": "+2",
                 "type": "status"
+            }
+        ],
+        "buff": true
+    },
+    {
+        "name": "Darkvision Elixir",
+        "type": "alchemicalelixirs",
+        "desc": "Your sight becomes sharper in darkness. You gain darkvision for the duration.",
+        "buff": true,
+        "senses": [
+            "Darkvision"
+        ]
+    },
+    {
+        "name": "Potion of Flying",
+        "type": "spells",
+        "desc": "You gain a fly Speed of 40 feet for the duration.",
+        "effects": [
+            {
+                "affected": "Fly Speed",
+                "setValue": "40"
             }
         ],
         "buff": true

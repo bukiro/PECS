@@ -31,6 +31,32 @@
     },
     {
         "bulk": "L",
+        "desc": "After you drink this elixir, your sight becomes sharper in darkness. You gain darkvision for the listed duration.",
+        "id": "d7a3efe3-cf2d-4802-a9ec-c1d0581c3c92",
+        "level": 1,
+        "name": "Darkvision Elixir (Lesser)",
+        "price": 600,
+        "traits": [
+            "Alchemical",
+            "Consumable",
+            "Elixir"
+        ],
+        "_className": "AlchemicalElixir",
+        "activationType": "Interact",
+        "gainConditions": [
+            {
+                "_className": "ConditionGain",
+                "duration": 1000,
+                "name": "Darkvision Elixir",
+                "source": "Darkvision Elixir"
+            }
+        ],
+        "subType": "Lesser",
+        "subTypeDesc": "The duration is 10 minutes.",
+        "usage": "held in 1 hand"
+    },
+    {
+        "bulk": "L",
         "desc": "This tingly solution increases the elasticity and contraction of your leg muscles. For 1 minute after drinking this elixir, you can High Jump or Long Jump as a single action instead of 2 actions. If you do, you don't perform the initial Stride (nor do you fail if you don't Stride 10 feet).",
         "id": "89bdd233-8e09-11ea-9fab-e92c63c14723",
         "level": 1,
@@ -51,6 +77,32 @@
                 "source": "Leaper's Elixir (Lesser)"
             }
         ],
+        "usage": "held in 1 hand"
+    },
+    {
+        "bulk": "L",
+        "desc": "After you drink this elixir, your sight becomes sharper in darkness. You gain darkvision for the listed duration.",
+        "id": "474f7d7b-e711-4768-b96e-99fd5b874110",
+        "level": 4,
+        "name": "Darkvision Elixir (Moderate)",
+        "price": 1100,
+        "traits": [
+            "Alchemical",
+            "Consumable",
+            "Elixir"
+        ],
+        "_className": "AlchemicalElixir",
+        "activationType": "Interact",
+        "gainConditions": [
+            {
+                "_className": "ConditionGain",
+                "duration": 6000,
+                "name": "Darkvision Elixir",
+                "source": "Darkvision Elixir"
+            }
+        ],
+        "subType": "Moderate",
+        "subTypeDesc": "The duration is 1 hour.",
         "usage": "held in 1 hand"
     },
     {
@@ -77,6 +129,32 @@
                 "source": "Eagle-Eye Elixir (Moderate)"
             }
         ],
+        "usage": "held in 1 hand"
+    },
+    {
+        "bulk": "L",
+        "desc": "After you drink this elixir, your sight becomes sharper in darkness. You gain darkvision for the listed duration.",
+        "id": "b87e538d-6cf0-456d-b094-fb8260119339",
+        "level": 8,
+        "name": "Darkvision Elixir (Greater)",
+        "price": 9000,
+        "traits": [
+            "Alchemical",
+            "Consumable",
+            "Elixir"
+        ],
+        "_className": "AlchemicalElixir",
+        "activationType": "Interact",
+        "gainConditions": [
+            {
+                "_className": "ConditionGain",
+                "duration": 144000,
+                "name": "Darkvision Elixir",
+                "source": "Darkvision Elixir"
+            }
+        ],
+        "subType": "Greater",
+        "subTypeDesc": "The duration is 24 hours.",
         "usage": "held in 1 hand"
     }
 ]

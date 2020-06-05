@@ -41,8 +41,12 @@ export class ItemTalismansComponent implements OnInit {
 
     get_Slots() {
         let indexes: number[] = [];
-        for (let index = 0; index <= this.item.talismans.length; index++) {
+        for (let index = 0; index < this.item.talismans.length; index++) {
             indexes.push(index);
+        }
+        //If Talismans are available, add one more slot.
+        if (this.itemStore || this.get_Character().inventories.filter(inv => this.get_Talismans(inv).length).length) {
+            indexes.push(indexes.length);
         }
         return indexes;
     }

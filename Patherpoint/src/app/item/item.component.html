@@ -228,9 +228,9 @@
 </div>
 <div class="list-item left-aligned" *ngFor="let talisman of item.talismans; let index = index">
     <h4>{{talisman.name}}</h4>
-    <button class="row left-aligned" [disabled]="!item.amount"
+    <button class="row left-aligned"
         (click)="on_TalismanUse(talisman, index)" *ngIf="allowActivate">
-        <span>Use<app-actionIcons [actionString]="talisman.actions">
+        <span>Activate<app-actionIcons [actionString]="talisman.actions">
             </app-actionIcons>{{(talisman.activationType) ? talisman.activationType : ""}}
         </span>
     </button>

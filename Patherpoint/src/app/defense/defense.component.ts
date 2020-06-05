@@ -7,6 +7,8 @@ import { CharacterService } from '../character.service';
 import { AbilitiesService } from '../abilities.service';
 import { Character } from '../Character';
 import { AnimalCompanion } from '../AnimalCompanion';
+import { Talisman } from '../Talisman';
+import { Shield } from '../Shield';
 
 @Component({
     selector: 'app-defense',
@@ -104,6 +106,17 @@ export class DefenseComponent implements OnInit {
 
     get_ArmorBonus(armor: Armor) {
         return this.defenseService.get_ArmorBonus(this.get_Creature() as Character|AnimalCompanion, this.characterService, armor);
+    }
+
+    get_TalismanTitle(talisman: Talisman) {
+        return (talisman.trigger ? "Trigger: " + talisman.trigger + "\n\n" : "") + talisman.desc;
+    }
+
+    on_TalismanUse(item: Armor|Shield, talisman: Talisman, index: number) {
+        this.characterService.on_ConsumableUse(this.get_Creature() as Character|AnimalCompanion, talisman);
+        item.talismans.splice(index, 1)
+        this.characterService.set_Changed("inventory");
+        this.characterService.set_Changed("defense");
     }
 
     set_CharacterChanged() {

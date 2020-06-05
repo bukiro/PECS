@@ -112,7 +112,7 @@ export class Weapon extends Equipment {
         levels.push(characterService.get_Skills(creature, this.prof)[0]?.level(creature, characterService, charLevel) || 0);
         levels.push(...this.traits.map(trait => characterService.get_Skills(creature, trait)[0]?.level(creature, characterService, charLevel) || 0))
         //Get the skill level by applying the result with the most increases, but no higher than 8.
-        skillLevel = Math.min(Math.max(...levels), 8);
+        skillLevel = Math.min(Math.max(...levels.filter(level => level != undefined)), 8);
         //If you have an Ancestral Echoing rune on this weapon, you get to raise the item's proficiency by one level, up to the highest proficiency you have.
         let bestSkillLevel: number = skillLevel;
         if (runeSource.propertyRunes.filter(rune => rune.name == "Ancestral Echoing").length) {

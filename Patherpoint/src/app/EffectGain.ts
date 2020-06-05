@@ -9,6 +9,7 @@ export class EffectGain {
     //Gets eval()-ed to determine the actual value.
     //Gets applied if (setValue);
     //(eval(setValue) == null) will throw out the effect - this can be used for effects that only give a value under a certain condition.
+    // Hint: "you gain an X Speed" effects do not stack and should use setValue.
     public setValue: string = "";
     //Set if the effect does not need a value, but still needs to be applied.
     public toggle: boolean = false;

@@ -192,7 +192,7 @@
                                 <app-itemOils [item]=item [itemStore]=false
                                     *ngIf="item.type != 'oils'">
                                 </app-itemOils>
-                                <app-itemTalismans class="list-item" [item]=item [itemStore]=false *ngIf="can_ApplyTalismans(item)"></app-itemTalismans>
+                                <app-itemTalismans [item]=item [itemStore]=false *ngIf="can_ApplyTalismans(item)"></app-itemTalismans>
                                 <app-item [creature]="creature" [item]=item
                                     [allowActivate]="(item.equippable ? item.equipped : true) && (item.can_Invest() ? item.invested : true)"
                                     [armoredSkirt]="item.get_ArmoredSkirt ? item.get_ArmoredSkirt(get_Creature(), characterService) : null">

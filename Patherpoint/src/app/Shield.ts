@@ -27,4 +27,7 @@ export class Shield extends Equipment {
     public currentHitpoints: number = 0;
     public hardness: number = 0;
     public hitpoints: number = 0;
+    //What kind of shield is this based on?
+    public shieldBase: string = "";
+    
 }

@@ -1,26 +1,28 @@
 <!--Changing Talismans-->
-<div class="row" *ngFor="let index of get_Slots(); trackBy:trackByIndex;">
-    <strong *ngIf="index == 0">Affix Talisman</strong>
-    <span *ngIf="index != 0">&nbsp;</span>
-    <select [(ngModel)]="newTalisman[index]"
-        (change)="add_Talisman(index)"
-        [disabled]="!item.talismans[index-1] && index > 0">
-        <ng-container *ngFor="let talisman of get_InitialTalismans(index); let initialTalismanIndex = index">
-            <option [ngValue]="talisman" *ngIf="initialTalismanIndex == 0">
-                
-            </option>
-            <optgroup *ngIf="initialTalismanIndex == 1" label="Current Talisman">
-                <option [ngValue]="talisman">
-                    {{talisman.talisman.name}}
+<div class="list-item">
+    <div class="row" *ngFor="let index of get_Slots(); trackBy:trackByIndex;">
+        <strong *ngIf="index == 0">Affix Talisman</strong>
+        <span *ngIf="index != 0">&nbsp;</span>
+        <select [(ngModel)]="newTalisman[index]"
+            (change)="add_Talisman(index)"
+            [disabled]="!item.talismans[index-1] && index > 0">
+            <ng-container *ngFor="let talisman of get_InitialTalismans(index); let initialTalismanIndex = index; trackBy:trackByIndex;">
+                <option [ngValue]="talisman" *ngIf="initialTalismanIndex == 0">
+                    
                 </option>
-            </optgroup>
-        </ng-container>
-        <ng-container *ngFor="let inv of get_Inventories()">
-            <optgroup label="{{itemStore ? 'Available talismans' : inv.get_Name(characterService)}}" *ngIf="get_Talismans(inv).length">
-                <option *ngFor="let talisman of get_Talismans(inv)" [ngValue]="talisman">
-                    {{talisman.talisman.amount > 1 ? talisman.talisman.amount+" " : ""}}{{talisman.talisman.name}}
-                </option>
-            </optgroup>
-        </ng-container>
-    </select>
+                <optgroup *ngIf="initialTalismanIndex == 1" label="Current Talisman">
+                    <option [ngValue]="talisman">
+                        {{talisman.talisman.name}}
+                    </option>
+                </optgroup>
+            </ng-container>
+            <ng-container *ngFor="let inv of get_Inventories(); trackBy:trackByIndex;">
+                <optgroup label="{{itemStore ? 'Available talismans' : inv.get_Name(characterService)}}" *ngIf="get_Talismans(inv).length">
+                    <option *ngFor="let talisman of get_Talismans(inv); trackBy:trackByIndex;" [ngValue]="talisman">
+                        {{talisman.talisman.amount > 1 ? talisman.talisman.amount+" " : ""}}{{talisman.talisman.name}}
+                    </option>
+                </optgroup>
+            </ng-container>
+        </select>
+    </div>
 </div>

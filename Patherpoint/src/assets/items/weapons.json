@@ -2313,5 +2313,45 @@
       "group": "Brawling",
       "melee": 5,
       "prof": "Unarmed Attacks"
+   },
+   {
+      "hide": true,
+      "desc": "The lion’s head functions as +1 striking shield boss that can’t be removed from the shield.",
+      "id": "9fbb57c9-51eb-4353-b8e0-0e391776439a",
+      "name": "Lion's Head Shield Boss",
+      "price": 50,
+      "traits": [
+         "Attached to Shield"
+      ],
+      "_className": "Weapon",
+      "potencyRune": 1,
+      "strikingRune": 1,
+      "weaponBase": "Shield Boss",
+      "moddable": "-",
+      "dmgType": "B",
+      "group": "Shield",
+      "hands": "1",
+      "melee": 5,
+      "prof": "Martial Weapons"
+   },
+   {
+      "hide": true,
+      "desc": "The shield’s biting maw is a martial melee weapon that deals 2d6 piercing damage and has the deadly 1d6 trait; it can’t be enhanced by runes. The shield remains animated for 1 minute, during which time you can Strike with it each time you Raise the Shield, as well as with a Strike action.",
+      "id": "d3bbbe0d-65ae-40e3-b83c-574164eea80f",
+      "name": "Lion's Shield Biting Maw",
+      "price": 50,
+      "traits": [
+         "Attached to Shield",
+         "Deadly d6"
+      ],
+      "dicenum": 2,
+      "dicesize": 6,
+      "_className": "Weapon",
+      "moddable": "-",
+      "dmgType": "P",
+      "group": "Shield",
+      "hands": "1",
+      "melee": 5,
+      "prof": "Martial Weapons"
    }
 ]

@@ -47,6 +47,15 @@
                         [showItems]=true [showActivities]=true [showConditions]=true [showEffects]=true></app-tags>
                     <app-tags [creature]="creature" [objectName]="armor.name" [showItems]=true></app-tags>
                     <div class="fullsize-only lower row left-aligned"
+                        *ngFor="let talisman of armor.talismans; let index = index">
+                        <button title="{{get_TalismanTitle(talisman)}}"
+                            (click)="on_TalismanUse(armor, talisman, index)">
+                            <span>Activate {{talisman.name}}<app-actionIcons [actionString]="talisman.actions">
+                                </app-actionIcons>{{(talisman.activationType) ? talisman.activationType : ""}}
+                            </span>
+                        </button>
+                    </div>
+                    <div class="fullsize-only lower row left-aligned"
                         *ngFor="let spec of get_ArmorSpecialization(armor)">
                         <strong>Armor specialization effect&nbsp;</strong>{{spec.desc}}
                     </div>
@@ -74,6 +83,15 @@
                             </div>
                             <app-tags [creature]="creature" [objectName]="'Shield'" [showTraits]=true [showFeats]=true
                                 [showItems]=true [showActivities]=true [showConditions]=true [showEffects]=true></app-tags>
+                            <div class="fullsize-only lower row left-aligned"
+                                *ngFor="let talisman of shield.talismans; let index = index">
+                                <button title="{{get_TalismanTitle(talisman)}}"
+                                    (click)="on_TalismanUse(shield, talisman, index)">
+                                    <span>Activate {{talisman.name}}<app-actionIcons [actionString]="talisman.actions">
+                                        </app-actionIcons>{{(talisman.activationType) ? talisman.activationType : ""}}
+                                    </span>
+                                </button>
+                            </div>
                         </div>
                     </div>
                 </ng-container>

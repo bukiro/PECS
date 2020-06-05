@@ -15,6 +15,43 @@
         "_className": "ArmorRune"
     },
     {
+        "desc": "Light seems to partially penetrate this armor.",
+        "id": "5d2e9eb3-98bc-4489-9992-f32a75268ed1",
+        "level": 8,
+        "name": "Invisibility",
+        "price": 50000,
+        "traits": [
+            "Illusion",
+            "Magical"
+        ],
+        "activities": [
+            {
+                "activationType": "Command",
+                "desc": "Whispering the command word, you become invisible for 1 minute, gaining the effects of a 2nd-level invisibility spell.",
+                "cooldown": 144000,
+                "frequency": "once per day",
+                "name": "Invisibility Rune",
+                "traits": [
+                    "Illusion",
+                    "Magical"
+                ],
+                "castSpells": [
+                    {
+                        "name": "Invisibility",
+                        "level": 2,
+                        "_className": "SpellCast"
+                    }
+                ],
+                "_className": "ItemActivity",
+                "source": "5d2e9eb3-98bc-4489-9992-f32a75268ed1"
+            }
+        ],
+        "craftRequirement": "Supply one casting of invisibility.",
+        "usage": "etched onto light armor",
+        "_className": "ArmorRune",
+        "profreq": "Light Armor"
+    },
+    {
         "desc": "Resilient runes imbue armor with additional protective magic. This grants the wearer a +1 item bonus to saving throws.\n\nYou can upgrade the resilient rune already etched on a suit of armor to a stronger version, increasing the values of the existing rune to those of the new rune. You must have the formula of the stronger rune to do so, and the Price of the upgrade is the difference between the two runes' Prices.",
         "id": "89bf31c3-8e09-11ea-9fab-e92c63c14723",
         "level": 8,
@@ -27,6 +64,85 @@
         "usage": "etched onto a armor",
         "_className": "ArmorRune",
         "resilient": 1
+    },
+    {
+        "desc": "Light seems to partially penetrate this armor.",
+        "id": "db43c69d-8c8e-4ca9-80b5-3112f7182751",
+        "level": 10,
+        "name": "Invisibility (Greater)",
+        "price": 100000,
+        "traits": [
+            "Illusion",
+            "Magical"
+        ],
+        "subType": "Greater",
+        "subTypeDesc": "You can activate the armor up to three times per day.",
+        "activities": [
+            {
+                "activationType": "Command",
+                "desc": "Whispering the command word, you become invisible for 1 minute, gaining the effects of a 2nd-level invisibility spell.",
+                "cooldown": 144000,
+                "frequency": "once per day",
+                "name": "Greater Invisibility Rune: 1st activation",
+                "traits": [
+                    "Illusion",
+                    "Magical"
+                ],
+                "castSpells": [
+                    {
+                        "name": "Invisibility",
+                        "level": 2,
+                        "_className": "SpellCast"
+                    }
+                ],
+                "_className": "ItemActivity",
+                "source": "db43c69d-8c8e-4ca9-80b5-3112f7182751"
+            },
+            {
+                "activationType": "Command",
+                "desc": "Whispering the command word, you become invisible for 1 minute, gaining the effects of a 2nd-level invisibility spell.",
+                "cooldown": 144000,
+                "frequency": "once per day",
+                "name": "Greater Invisibility Rune: 2nd activation",
+                "traits": [
+                    "Illusion",
+                    "Magical"
+                ],
+                "castSpells": [
+                    {
+                        "name": "Invisibility",
+                        "level": 2,
+                        "_className": "SpellCast"
+                    }
+                ],
+                "_className": "ItemActivity",
+                "source": "db43c69d-8c8e-4ca9-80b5-3112f7182751"
+            },
+            {
+                "activationType": "Command",
+                "desc": "Whispering the command word, you become invisible for 1 minute, gaining the effects of a 2nd-level invisibility spell.",
+                "cooldown": 144000,
+                "frequency": "once per day",
+                "name": "Greater Invisibility Rune: 3rd activation",
+                "traits": [
+                    "Illusion",
+                    "Magical"
+                ],
+                "castSpells": [
+                    {
+                        "name": "Invisibility",
+                        "level": 2,
+                        "_className": "SpellCast"
+                    }
+                ],
+                "_className": "ItemActivity",
+                "source": "db43c69d-8c8e-4ca9-80b5-3112f7182751"
+            }
+        ],
+        "craftRequirement": "Supply one casting of invisibility.",
+        "usage": "etched onto light armor",
+        "_className": "ArmorRune",
+        "profreq": "Light Armor"
     },
     {
         "desc": "Magic wards deflect attacks. Increase the armor's item bonus to AC by 1. The armor can be etched with one property rune.\n\nYou can upgrade the armor potency rune already etched on a suit of armor to a stronger version, increasing the values of the existing rune to those of the new rune. You must have the formula of the stronger rune to do so, and the Price of the upgrade is the difference between the two runes' Prices.",

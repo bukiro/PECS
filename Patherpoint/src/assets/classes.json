@@ -8796,7 +8796,7 @@
                         "level": 8,
                         "showOnSheet": true,
                         "source": "Combat Flexibility",
-                        "type": "Class"
+                        "type": "Fighter"
                     }
                 ],
                 "number": 9,
@@ -9173,7 +9173,7 @@
                         "level": 14,
                         "showOnSheet": true,
                         "source": "Combat Flexibility",
-                        "type": "Class"
+                        "type": "Fighter"
                     }
                 ],
                 "number": 15,

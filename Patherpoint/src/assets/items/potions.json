@@ -2,6 +2,27 @@
     {
         "bulk": "L",
         "desc": "A healing potion is a vial of a ruby-red liquid that imparts a tingling sensation as the drinker's wounds heal rapidly. When you drink a healing potion, you regain the listed number of Hit Points.",
+        "id": "06cb3e64-e105-408b-86a0-e75e2eaad5b0",
+        "level": 1,
+        "name": "Healing Potion (Minor)",
+        "price": 400,
+        "subType": "Minor",
+        "subTypeDesc": "The potion restores 1d8 Hit Points.",
+        "traits": [
+            "Consumable",
+            "Healing",
+            "Magical",
+            "Necromancy",
+            "Potion"
+        ],
+        "_className": "Potion",
+        "activationType": "Interact",
+        "usage": "held in 1 hand",
+        "inputRequired": "Restore 1d8 Hit Points."
+    },
+    {
+        "bulk": "L",
+        "desc": "A healing potion is a vial of a ruby-red liquid that imparts a tingling sensation as the drinker's wounds heal rapidly. When you drink a healing potion, you regain the listed number of Hit Points.",
         "id": "89be9581-8e09-11ea-9fab-e92c63c14723",
         "level": 3,
         "name": "Healing Potion (Lesser)",
@@ -24,7 +45,7 @@
         "bulk": "L",
         "desc": "A healing potion is a vial of a ruby-red liquid that imparts a tingling sensation as the drinker's wounds heal rapidly. When you drink a healing potion, you regain the listed number of Hit Points.",
         "id": "89be9583-8e09-11ea-9fab-e92c63c14723",
-        "level": 3,
+        "level": 6,
         "name": "Healing Potion (Moderate)",
         "price": 5000,
         "subType": "Moderate",
@@ -40,6 +61,100 @@
         "activationType": "Interact",
         "usage": "held in 1 hand",
         "inputRequired": "Restore 3d8+10 Hit Points."
+    },
+    {
+        "bulk": "L",
+        "desc": "Upon drinking this effervescent concoction, you gain a fly Speed of 40 feet for 1 minute.",
+        "id": "83013ecd-8ae7-4d76-a6df-0703887fdfe6",
+        "level": 8,
+        "name": "Potion of Flying",
+        "price": 10000,
+        "traits": [
+            "Consumable",
+            "Magical",
+            "Potion",
+            "Transmutation"
+        ],
+        "_className": "Potion",
+        "activationType": "Interact",
+        "gainConditions": [
+            {
+                "_className": "ConditionGain",
+                "duration": 100,
+                "name": "Potion of Flying",
+                "source": "Potion of Flying"
+            }
+        ],
+        "usage": "held in 1 hand"
+    },
+    {
+        "bulk": "L",
+        "desc": "A healing potion is a vial of a ruby-red liquid that imparts a tingling sensation as the drinker's wounds heal rapidly. When you drink a healing potion, you regain the listed number of Hit Points.",
+        "id": "ea8256bb-3d06-42d3-b726-8413fac35f9b",
+        "level": 12,
+        "name": "Healing Potion (Greater)",
+        "price": 40000,
+        "subType": "Greater",
+        "subTypeDesc": "The potion restores 6d8+20 Hit Points.",
+        "traits": [
+            "Consumable",
+            "Healing",
+            "Magical",
+            "Necromancy",
+            "Potion"
+        ],
+        "_className": "Potion",
+        "activationType": "Interact",
+        "usage": "held in 1 hand",
+        "inputRequired": "Restore 6d8+20 Hit Points."
+    },
+    {
+        "bulk": "L",
+        "desc": "Upon drinking this effervescent concoction, you gain a fly Speed of 40 feet for 1 minute.",
+        "id": "6f2f5e39-74e7-4caf-a028-e14295c97d36",
+        "level": 15,
+        "name": "Potion of Flying",
+        "price": 100000,
+        "subType": "Greater",
+        "subTypeDesc": "The fly Speed lasts for 1 hour.",
+        "traits": [
+            "Consumable",
+            "Magical",
+            "Potion",
+            "Transmutation"
+        ],
+        "_className": "Potion",
+        "activationType": "Interact",
+        "gainConditions": [
+            {
+                "_className": "ConditionGain",
+                "duration": 6000,
+                "name": "Potion of Flying",
+                "source": "Potion of Flying"
+            }
+        ],
+        "usage": "held in 1 hand"
+    },
+    {
+        "bulk": "L",
+        "desc": "A healing potion is a vial of a ruby-red liquid that imparts a tingling sensation as the drinker's wounds heal rapidly. When you drink a healing potion, you regain the listed number of Hit Points.",
+        "id": "b268bfa1-6183-4c5c-bfdc-5a20e1e445cf",
+        "level": 18,
+        "name": "Healing Potion (Major)",
+        "price": 500000,
+        "subType": "Major",
+        "subTypeDesc": "The potion restores 8d8+30 Hit Points.",
+        "traits": [
+            "Consumable",
+            "Healing",
+            "Magical",
+            "Necromancy",
+            "Potion"
+        ],
+        "_className": "Potion",
+        "activationType": "Interact",
+        "usage": "held in 1 hand",
+        "inputRequired": "Restore 8d8+30 Hit Points."
     },
     {
         "bulk": "L",
@@ -67,6 +182,23 @@
                 "source": "Dragon's Breath Potion (Silver, Young)"
             }
         ],
+        "usage": "held in 1 hand"
+    },
+    {
+        "bulk": "L",
+        "desc": "Upon drinking this potion, your biology instantly transforms to take on a set of sexual characteristics of your choice, changing your appearance and physiology accordingly. You have mild control over the details of this change, but you retain a strong “family resemblance” to your former appearance.\n\nThe magic functions instantaneously and can’t be counteracted. Your new anatomy is as healthy and functional as your previous body’s, potentially allowing you to procreate (depending on your ancestry’s biology). Drinking a subsequent serum of sex shift allows you to either revert back to your original form or adopt other sexual characteristics, as you choose. The elixir has no effect if you are pregnant or from an ancestry with no sexual differentiation. Most ancestries have a wide spectrum of sexual differentiation, some common, others more rare.",
+        "id": "89d356ac-b117-43a4-bc33-6cbf97d39329",
+        "level": 7,
+        "name": "Serum of Sex Shift",
+        "price": 6000,
+        "traits": [
+            "Consumable",
+            "Magical",
+            "Potion",
+            "Transmutation"
+        ],
+        "_className": "Potion",
+        "activationType": "Interact",
         "usage": "held in 1 hand"
     }
 ]

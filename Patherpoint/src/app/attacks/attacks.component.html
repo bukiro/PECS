@@ -35,6 +35,15 @@
                     [showItems]=true [showActivities]=true [showConditions]=true
                     [specialNames]=get_specialShowon(weapon) [specialEffects]=attack[3]></app-tags>
                 <div class="fullsize-only lower row left-aligned"
+                    *ngFor="let talisman of weapon.talismans; let index = index">
+                    <button title="{{get_TalismanTitle(talisman)}}"
+                        (click)="on_TalismanUse(weapon, talisman, index)">
+                        <span>Activate {{talisman.name}}<app-actionIcons [actionString]="talisman.actions">
+                            </app-actionIcons>{{(talisman.activationType) ? talisman.activationType : ""}}
+                        </span>
+                    </button>
+                </div>
+                <div class="fullsize-only lower row left-aligned"
                     *ngFor="let spec of get_CritSpecialization(weapon, attack[0])">
                     <strong>Critical specialization effect&nbsp;</strong>{{spec.desc}}
                 </div>

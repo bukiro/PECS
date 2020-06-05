@@ -101,6 +101,8 @@ export class ItemComponent implements OnInit {
         this.characterService.on_ConsumableUse(this.get_Creature(), talisman);
         this.item.talismans.splice(index, 1)
         this.characterService.set_Changed("inventory");
+        this.characterService.set_Changed("attacks");
+        this.characterService.set_Changed("defense");
     }
 
     get_DoublingRingsOptions(ring:string) {

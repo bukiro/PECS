@@ -7167,8 +7167,8 @@
         "desc": "You use magical chains, vines, or other tethers to bind your target to you. The creature can still try to Escape, and it or others can break the tethers by attacking them (the tethers have AC <var>var1</var> and <var>var2</var> Hit Points). You must stay within 30 feet of the target while it is tethered; moving more than 30 feet away from your target ends the spell. The target must attempt a Reflex save.",
         "savingthrow": "Reflex",
         "critsuccess": "The target is unaffected.",
-        "success": "The target takes a –5-foot circumstance penalty to its Speed as long as it is within 30 feet of you.",
-        "failure": "The target takes a –10-foot circumstance penalty to its Speed and cannot move more than 30 feet away from you until it Escapes or the spell ends.",
+        "success": "The target takes a -5-foot circumstance penalty to its Speed as long as it is within 30 feet of you.",
+        "failure": "The target takes a -10-foot circumstance penalty to its Speed and cannot move more than 30 feet away from you until it Escapes or the spell ends.",
         "critfailure": "The target is immobilized until it Escapes or the spell ends.",
         "heightened": [
             {
@@ -7179,7 +7179,7 @@
         "gainConditions": [
             {
                 "duration": 100,
-                "name": "Tether",
+                "name": "Tether (Caster)",
                 "source": "Tether"
             }
         ],
@@ -8304,7 +8304,7 @@
         ],
         "target": "self",
         "duration": "1 minute",
-        "desc": "Three illusory images of you swirl about your space, potentially causing those who attack you to hit one of the images instead of you. Any attack that would hit you has a random chance of hitting one of your images instead of you. If all three images remain, there is a 1 in 4 chance of hitting you (1 on 1d4). With two images remaining, there is a 1 in 3 chance of hitting you (1–2 on 1d6). With only one image, the chances are 1 in 2 (1–3 on 1d6).\n\nOnce an image is hit, it is destroyed. If an attack roll fails to hit your AC but doesn't critically fail, it destroys an image but has no additional effect (even if the attack would normally have an effect on a failure). If an attack roll is a critical success and would hit one of the images, one of the images is destroyed and the attack roll becomes a success against you. Once all the images are destroyed, the spell ends.",
+        "desc": "Three illusory images of you swirl about your space, potentially causing those who attack you to hit one of the images instead of you. Any attack that would hit you has a random chance of hitting one of your images instead of you. If all three images remain, there is a 1 in 4 chance of hitting you (1 on 1d4). With two images remaining, there is a 1 in 3 chance of hitting you (1-2 on 1d6). With only one image, the chances are 1 in 2 (1-3 on 1d6).\n\nOnce an image is hit, it is destroyed. If an attack roll fails to hit your AC but doesn't critically fail, it destroys an image but has no additional effect (even if the attack would normally have an effect on a failure). If an attack roll is a critical success and would hit one of the images, one of the images is destroyed and the attack roll becomes a success against you. Once all the images are destroyed, the spell ends.",
         "gainConditions": [
             {
                 "duration": 100,
@@ -9355,7 +9355,7 @@
         "targets": "1 unattended object or willing creature",
         "target": "self",
         "duration": "5 minutes",
-        "desc": "You defy gravity and levitate the target 5 feet off the ground. For the duration of the spell, you can move the target up or down 10 feet with a single action, which has the concentrate trait. A creature floating in the air from levitate takes a –2 circumstance penalty to attack rolls. A floating creature can spend an Interact action to stabilize itself and negate this penalty for the remainder of its turn. If the target is adjacent to a fixed object or terrain of suitable stability, it can move across the surface by climbing (if the surface is vertical, like a wall) or crawling (if the surface is horizontal, such as a ceiling). The GM determines which surfaces can be climbed or crawled across.",
+        "desc": "You defy gravity and levitate the target 5 feet off the ground. For the duration of the spell, you can move the target up or down 10 feet with a single action, which has the concentrate trait. A creature floating in the air from levitate takes a -2 circumstance penalty to attack rolls. A floating creature can spend an Interact action to stabilize itself and negate this penalty for the remainder of its turn. If the target is adjacent to a fixed object or terrain of suitable stability, it can move across the surface by climbing (if the surface is vertical, like a wall) or crawling (if the surface is horizontal, such as a ceiling). The GM determines which surfaces can be climbed or crawled across.",
         "gainConditions": [
             {
                 "duration": 500,

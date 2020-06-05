@@ -1,15 +1,15 @@
 <!--Adding Oils-->
-<div class="list-item" *ngIf="get_Oils().length > 1">
+<div class="list-item" *ngIf="get_Oils().length > 1 || item.oilsApplied.length">
     <div class="row">
         <strong>Apply oil</strong>
         <select [(ngModel)]="newOil"
-            (change)="add_Oil()">
-            <option *ngFor="let oil of get_Oils()" [ngValue]="oil">{{oil.oil.get_Name()}}</option>
+            (ngModelChange)="add_Oil()">
+            <option *ngFor="let oil of get_Oils(); trackBy:trackByIndex;" [ngValue]="oil">{{oil.oil.get_Name()}}</option>
         </select>
     </div>
     <div class="row" *ngIf="item.oilsApplied.length">
         <strong>Applied oils</strong>
-        <div class="row" *ngFor="let oil of item.oilsApplied; let index = index">
+        <div class="row" *ngFor="let oil of item.oilsApplied; let index = index; trackBy:trackByIndex;">
             {{oil.get_Name()}} ({{get_Duration(oil.duration)}})
             <button class="lower" (click)="remove_Oil(index)">Remove</button>
         </div>

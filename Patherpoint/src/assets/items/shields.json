@@ -74,6 +74,54 @@
         "hitpoints": 20
     },
     {
+        "bulk": "1",
+        "desc": "This steel shield (Hardness 6, HP 36, BT 18) is forged into the shape of a roaring lion’s head. The lion’s head functions as +1 striking shield boss that can’t be removed from the shield.",
+        "id": "91a08649-09cd-44aa-9c5f-aac121102a64",
+        "name": "Lion's Shield",
+        "shieldBase": "Steel Shield",
+        "gainItems": [
+            {
+                "_className": "ItemGain",
+                "name": "Lion's Head Shield Boss",
+                "type": "weapons",
+                "on": "equip"
+            }
+        ],
+        "activities": [
+            {
+                "_className": "ItemActivity",
+                "name": "Lion's Shield",
+                "desc": "You animate the lion’s head. You Raise the Shield and make a melee Strike with it as part of the same action. The shield’s biting maw is a martial melee weapon that deals 2d6 piercing damage and has the deadly 1d6 trait; it can’t be enhanced by runes. The shield remains animated for 1 minute, during which time you can Strike with it each time you Raise the Shield, as well as with a Strike action.",
+                "traits": [
+                    "Conjuration",
+                    "Magical"
+                ],
+                "actions": "1A",
+                "activiationType": "Raise a Shield",
+                "frequency": "once per day",
+                "cooldown": 144000,
+                "gainItems": [
+                    {
+                        "name": "Lion's Shield Biting Maw",
+                        "type": "weapons",
+                        "expiration": 100
+                    }
+                ],
+                "source": "91a08649-09cd-44aa-9c5f-aac121102a64"
+            }
+        ],
+        "_className": "Shield",
+        "acbonus": 2,
+        "brokenThreshold": 18,
+        "hardness": 6,
+        "hitpoints": 36,
+        "usage": "held in 1 hand",
+        "traits": [
+            "Conjuration",
+            "Magical"
+        ]
+    },
+    {
         "desc": "You have raised a magical shield of force.\n\nWhile the spell is in effect, you can use the Shield Block reaction with your magic shield. The shield has Hardness <var>var1</var>. After you use Shield Block, the spell ends and you can't cast it again for 10 minutes. Unlike a normal Shield Block, you can use the spell's reaction against the magic missile spell.\n\nHeightening the spell increases the shield's Hardness.",
         "id": "5dd7c22d-fc9f-4bae-b5ca-258856007a77",
         "name": "Force Shield (1st level)",

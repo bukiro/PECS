@@ -10,6 +10,7 @@ import { ItemCollection } from 'src/app/ItemCollection';
 import { WornItem } from 'src/app/WornItem';
 import { Weapon } from 'src/app/Weapon';
 import { TimeService } from 'src/app/time.service';
+import { Armor } from 'src/app/Armor';
 
 @Component({
     selector: 'app-itemRunes',
@@ -133,7 +134,12 @@ export class ItemRunesComponent implements OnInit {
     }
 
     get_WeaponPropertyRunes(index: number, inv: ItemCollection) {
-        let weapon = this.item;
+        let weapon: Weapon|WornItem;
+        if (this.item.type == "wornitems") {
+            weapon = this.item as WornItem
+        } else {
+            weapon = this.item as Weapon
+        }
         //In the case of Handwraps of Mighty Blows, we need to compare the rune's requirements with the Fist weapon, but its potency rune requirements with the Handwraps.
         //For this purpose, we use two different "weapon"s.
         let weapon2 = this.item;
@@ -215,6 +221,48 @@ export class ItemRunesComponent implements OnInit {
                                 $index == 1
                             )
                         )
+                        : true
+                )
+            );
+    }
+
+    get_ArmorPropertyRunes(index: number, inv: ItemCollection) {
+        let armor: Armor = this.item as Armor;
+        let allRunes: { rune: Rune, inv: ItemCollection, disabled?: boolean }[] = [];
+        //Add all runes either from the item store or from the inventories.
+        if (this.itemStore) {
+            inv.armorrunes.forEach(rune => {
+                allRunes.push({ rune: rune, inv: null });
+            });
+        } else {
+            inv.armorrunes.forEach(rune => {
+                allRunes.push({ rune: rune, inv: inv });
+            });
+        }
+        //Set all runes to disabled that have the same name as any that is already equipped.
+        allRunes.forEach((rune: { rune: ArmorRune, inv: ItemCollection, disabled?: boolean }) => {
+            if (armor.propertyRunes
+                .map(propertyRune => propertyRune.name)
+                .includes(rune.rune.name)) {
+                rune.disabled = true;
+            }
+        });
+        //Filter all runes whose requirements are not met.
+        return allRunes
+            .filter((rune: { rune: ArmorRune, inv: ItemCollection, disabled?: boolean }, $index) =>
+                //Don't show potency and striking runes.
+                !rune.rune.potency &&
+                !rune.rune.resilient &&
+                (
+                    //Show runes that require a proficiency if the armor has that proficiency.
+                    rune.rune.profreq ?
+                        rune.rune.profreq.includes(armor.get_Prof())
+                        : true
+                ) && (
+                    //Show runes that require a nonmetallic armor if the armor is one.
+                    // Identifying nonmetallic armors is unclear in the rules, so we exclude Chain, Composite and Plate armors as well as armors with the word "metal" in their description.
+                    rune.rune.nonmetallic ?
+                        !["Chain", "Composite", "Plate"].includes(armor.group) && !armor.desc.includes("metal")
                         : true
                 )
             );
@@ -364,12 +412,40 @@ export class ItemRunesComponent implements OnInit {
         }
     }
 
-    add_ArmorPropertyRune(insertedRuneName: string, index: number) {
-
+    add_ArmorPropertyRune(index: number) {
+        let armor = this.item;
+        let rune = this.newPropertyRune[index].rune;
+        let inv = this.newPropertyRune[index].inv;
+        if (!armor.propertyRunes[index] || rune !== armor.propertyRunes[index]) {
+            //If there is a rune in this slot, return the old rune to the inventory, unless we are in the item store. Then remove it from the item.
+            if (armor.propertyRunes[index]) {
+                if (!this.itemStore) {
+                    this.remove_WeaponPropertyRune(index);
+                }
+                armor.propertyRunes.splice(index, 1);
+            }
+            //Then add the new rune to the item and (unless we are in the item store) remove it from the inventory.
+            if (rune.name != "") {
+                //Add a copy of the rune to the item
+                let newLength = armor.propertyRunes.push(Object.assign(new ArmorRune, JSON.parse(JSON.stringify(rune))));
+                armor.propertyRunes[newLength - 1] = this.characterService.reassign(armor.propertyRunes[newLength - 1]);
+                let newRune = armor.propertyRunes[newLength - 1];
+                newRune.amount = 1;
+                newRune.loreChoices = newRune.loreChoices.map(choice => Object.assign(new LoreChoice(), choice));
+                //If we are not in the item store, remove the inserted rune from the inventory, either by decreasing the amount or by dropping the item.
+                if (!this.itemStore) {
+                    this.characterService.drop_InventoryItem(this.get_Character(), inv, rune, false, false, false, 1);
+                }
+            }
+        }
+        this.set_PropertyRuneNames();
+        this.characterService.set_Changed();
     }
 
     remove_ArmorPropertyRune(index: number) {
-
+        let armor: Equipment = this.item;
+        let oldRune: Rune = armor.propertyRunes[index];
+        this.characterService.grant_InventoryItem(this.get_Character(), this.get_Character().inventories[0], oldRune, false, false, false, 1);
     }
 
     set_PropertyRuneNames() {

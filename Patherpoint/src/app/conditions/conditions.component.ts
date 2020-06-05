@@ -128,6 +128,9 @@ export class ConditionsComponent implements OnInit {
             case "Spells":
                 typeKey = "spells";
                 break;
+            case "Activities":
+                typeKey = "activities";
+                break;
         }
         if (typeKey) {
             return this.sortByPipe.transform(this.get_Conditions("", typeKey).filter(condition => 
