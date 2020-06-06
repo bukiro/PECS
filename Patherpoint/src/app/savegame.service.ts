@@ -69,7 +69,7 @@ export class SavegameService {
     private loading: boolean = false;
     private loader;
     //private server: string = "arne:8080"
-    private server: string = "91.42.43.243:23480"
+    private server: string = "http://glswxiogstum9cgx.myfritz.net:23480"
 
     private AbilityChoice = AbilityChoice;
     private ActivityGain = ActivityGain;
@@ -306,19 +306,19 @@ export class SavegameService {
     }
 
     load_Characters(): Observable<string[]> {
-        return this.http.get<string[]>('http://'+this.server+'/list');
+        return this.http.get<string[]>(this.server+'/list');
     }
 
     load_CharacterFromDB(id: string): Observable<string[]> {
-        return this.http.get<string[]>('http://'+this.server+'/load/' + id);
+        return this.http.get<string[]>(this.server+'/load/' + id);
     }
 
     delete_CharacterFromDB(savegame: Savegame): Observable<string[]> {
-        return this.http.get<string[]>('http://'+this.server+'/delete/' + savegame.id);
+        return this.http.get<string[]>(this.server+'/delete/' + savegame.id);
     }
 
     save_CharacterToDB(savegame): Observable<string[]> {
-        return this.http.post<string[]>('http://'+this.server+'/save/', savegame);
+        return this.http.post<string[]>(this.server+'/save/', savegame);
     }
 
     still_loading() {

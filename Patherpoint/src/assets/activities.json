@@ -1010,7 +1010,7 @@
         "actions": "Free",
         "frequency": "once per day",
         "cooldown": 144000,
-        "requirement": "You haven't acted yet on your turn.",
+        "requirements": "You haven't acted yet on your turn.",
         "desc": "You expend the power stored in your bonded item. During your turn, you gain the ability to cast one spell you prepared today and already cast, without spending a spell slot. You must still Cast the Spell and meet the spell’s other requirements.",
         "inputRequired": "You can restore a used spell in the spellbook using your bonded item's charge(s). Using this Activity does not automatically restore a spell or discharge the bonded item. It does restore a Focus Point if you have the Linked Focus feat.",
         "trait": [
@@ -1060,6 +1060,45 @@
             "Metamagic",
             "Sorcerer",
             "Wizard"
+        ]
+    },
+    {
+        "name": "Power Attack",
+        "actions": "2A",
+        "desc": "You unleash a particularly powerful attack that clobbers your foe but leaves you a bit unsteady. Make a melee Strike. This counts as two attacks when calculating your multiple attack penalty. If this Strike hits, you deal an extra die of weapon damage. If you’re at least 10th level, increase this to two extra dice, and if you’re at least 18th level, increase it to three extra dice.",
+        "traits": [
+            "Fighter", 
+            "Flourish"
+        ]
+    },
+    {
+        "name": "Exacting Strike",
+        "actions": "1A",
+        "desc": "You make a controlled attack, fully accounting for your momentum. Make a Strike. The Strike gains the following failure effect.",
+        "failure": "This attack does not count toward your multiple attack penalty.",
+        "traits": [
+            "Fighter", 
+            "Press"
+        ]
+    },
+    {
+        "name": "Lunge",
+        "actions": "1A",
+        "requirements": "You are wielding a melee weapon.",
+        "desc": "Extending your body to its limits, you attack an enemy that would normally be beyond your reach. Make a Strike with a melee weapon, increasing your reach by 5 feet for that Strike. If the weapon has the disarm, shove, or trip trait, you can use the corresponding action instead of a Strike.",
+        "traits": [
+            "Fighter"
+        ]
+    },
+    {
+        "name": "Quick Reversal",
+        "actions": "1A",
+        "requirements": "You are flanked by at least two enemies.",
+        "desc": "You turn your foes’ flanking against them with a quick reverse. Make a melee Strike against one of the flanking enemies and make a second Strike with the same weapon or unarmed attack against a different enemy that is flanking you. This second Strike has the same multiple attack penalty of the initial attack and doesn’t count toward your multiple attack penalty.",
+        "traits": [
+            "Fighter",
+            "Flourish",
+            "Press"
         ]
     }
 ]

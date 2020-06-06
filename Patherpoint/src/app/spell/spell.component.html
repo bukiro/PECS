@@ -63,25 +63,25 @@
             <li *ngFor="let line of desc.split('\n'); trackBy:trackByIndex;" [innerHTML]="line"></li>
         </ul>
     </div>
-    <div class="row left-aligned" *ngIf="spell.critsuccess">
+    <div class="row lower left-aligned" *ngIf="spell.critsuccess">
         <span>
             <strong>Critical Success&nbsp;</strong>
             <span [innerHTML]="get_Heightened(spell.critsuccess)"></span>
         </span>
     </div>
-    <div class="row left-aligned" *ngIf="spell.success">
+    <div class="row lower left-aligned" *ngIf="spell.success">
         <span>
             <strong>Success&nbsp;</strong>
             <span [innerHTML]="get_Heightened(spell.success)"></span>
         </span>
     </div>
-    <div class="row left-aligned" *ngIf="spell.failure">
+    <div class="row lower left-aligned" *ngIf="spell.failure">
         <span>
             <strong>Failure&nbsp;</strong>
             <span [innerHTML]="get_Heightened(spell.failure)"></span>
         </span>
     </div>
-    <div class="row left-aligned" *ngIf="spell.critfailure">
+    <div class="row lower left-aligned" *ngIf="spell.critfailure">
         <span>
             <strong>Critical Failure&nbsp;</strong>
             <span [innerHTML]="get_Heightened(spell.critfailure)"></span>

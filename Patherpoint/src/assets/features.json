@@ -1,41 +1,8 @@
 [
     {
-        "name": "Flurry of Blows",
-        "desc": "You can attack rapidly with fists, feet, elbows, knees, and other unarmed attacks. You gain the Flurry of Blows action.",
-        "gainActivities": [
-            "Flurry of Blows"
-        ]
-    },
-    {
-        "name": "Rage",
-        "desc": "You can attack rapidly with fists, feet, elbows, knees, and other unarmed attacks. You gain the Flurry of Blows action.",
-        "gainActivities": [
-            "Rage"
-        ]
-    },
-    {
-        "name": "Quick Rage",
-        "desc": "You recover from your Rage quickly, and are soon ready to begin anew. After you spend a full turn without raging, you can Rage again without needing to wait 1 minute.",
-        "hint": "After you spend a full turn without raging, you can Rage again without needing to wait 1 minute.",
-        "showon": "Rage"
-    },
-    
-    {
-        "name": "Powerful Fist",
-        "desc": "You know how to wield your fists as deadly weapons. The damage die for your fist increases to 1d6 instead of 1d4. Most people take a -2 circumstance penalty when making a lethal attack with nonlethal unarmed attacks, because they find it hard to use their fists with deadly force. You don't take this penalty when making a lethal attack with your fist or any other unarmed attacks.",
-        "hint": "You don't take the usual -2 circumstance penalty when making a lethal attack with your fist or any other unarmed attacks.",
-        "showon": "Unarmed Attacks"
-    },
-    {
-        "name": "Incredible Movement",
-        "desc": "You move like the wind. You gain a +10-foot status bonus to your Speed whenever you're not wearing armor. The bonus increases by 5 feet for every 4 levels you have beyond 3rd.",
-        "hint": "You gain a +10-foot status bonus to your Speed whenever you're not wearing armor. The bonus increases by 5 feet for every 4 levels you have beyond 3rd.",
-        "showon": "Land Speed"
-    },
-    {
-        "name": "Mystic Strikes",
-        "desc": "Focusing your will into your physical attacks imbues them with mystical energy. Your unarmed attacks become magical, allowing them to get past resistances to non-magical attacks. However, you still need an item such as handwraps of mighty blows to gain an item bonus to attack rolls or increase your attacks' weapon damage dice.",
-        "hint": "Your unarmed attacks become magical, allowing them to get past resistances to non-magical attacks.",
+        "name": "Adamantine Strikes",
+        "desc": "When you focus your will into your limbs, your blows are as unyielding as the hardest of metals. Your unarmed attacks are treated as adamantine.",
+        "hint": "Your unarmed attacks are treated as adamantine.",
         "showon": "Unarmed Attacks"
     },
     {
@@ -44,21 +11,115 @@
         "internalNote": "Skill increases through class features are handled in the class object."
     },
     {
+        "name": "Evasion",
+        "desc": "You've learned to move quickly to avoid explosions, dragons' breath, and worse. Your proficiency rank for Reflex saves increases to master. When you roll a success on a Reflex save, you get a critical success instead.",
+        "hint": "When you roll a success on a Reflex save, you get a critical success instead.",
+        "showon": "Reflex",
+        "internalNote": "Skill increases through class features are handled in the class object."
+    },
+    {
         "name": "Expert Strikes",
         "desc": "You've practiced martial arts and have now surpassed your former skill. Your proficiency ranks for unarmed attacks and simple weapons increase to expert.",
         "internalNote": "Skill increases through class features are handled in the class object."
     },
     {
-        "name": "Path to Perfection",
-        "desc": "You have progressed along your own path to enlightenment. Choose your Fortitude, Reflex, or Will saving throw. Your proficiency rank for the chosen saving throw increases to master. When you roll a success on the chosen saving throw, you get a critical success instead.",
-        "hint": "When you roll a success on this saving throw, you get a critical success instead.",
-        "showon": "Path to Perfection",
+        "name": "Flurry of Blows",
+        "desc": "You can attack rapidly with fists, feet, elbows, knees, and other unarmed attacks. You gain the Flurry of Blows action.",
+        "gainActivities": [
+            "Flurry of Blows"
+        ]
+    },
+    {
+        "name": "Graceful Legend",
+        "desc": "Your sublime movement grants you unparalleled protection and offense. Your proficiency rank for unarmored defense increases to legendary, and your proficiency rank for your monk class DC increases to master. If you have ki spells, your proficiency rank for spell attack rolls and spell DCs with the tradition of magic you use for your ki spells increases to master.",
         "internalNote": "Skill increases through class features are handled in the class object."
     },
     {
-        "name": "Weapon Specialization",
-        "desc": "You've learned how to inflict greater injuries with the weapons you know best. You deal 2 additional damage with weapons and unarmed attacks in which you are an expert. This damage increases to 3 if you're a master, and 4 if you're legendary.",
+        "name": "Graceful Mastery",
+        "desc": "You move with perpetual grace in battle, eluding and turning aside blows. Your proficiency rank for unarmored defense increases to master.",
+        "internalNote": "Skill increases through class features are handled in the class object."
+    },
+    {
+        "name": "Greater Weapon Specialization",
+        "desc": "Your damage from weapon specialization increases to 4 with weapons and unarmed attacks in which you're an expert, 6 if you're a master, and 8 if you're legendary.",
         "internalNote": "The effect is hardcoded."
+    },
+    {
+        "name": "Hunt Prey",
+        "desc": "When you focus your attention on a single foe, you become unstoppable in your pursuit. You gain the Hunt Prey action.",
+        "gainActivities": [
+            "Hunt Prey"
+        ]
+    },
+    {
+        "name": "Hunter's Edge",
+        "desc": "You have trained for countless hours to become a more skilled hunter and tracker, gaining an additional benefit when you Hunt Prey depending on the focus of your training.",
+        "internalNote": "A feat choice for your hunter's edge focus is written into the class class."
+    },
+    {
+        "name": "Improved Evasion",
+        "desc": "Your ability to elude danger is matchless. Your proficiency rank for Reflex saves increases to legendary. When you roll a critical failure on a Reflex save, you get a failure instead. When you roll a failure on a Reflex save against a damaging effect, you take half damage.",
+        "hint": "When you roll a critical failure on a Reflex save, you get a failure instead. When you roll a failure on a Reflex save against a damaging effect, you take half damage.",
+        "showon": "Reflex",
+        "internalNote": "Skill increases through class features are handled in the class object."
+    },
+    {
+        "name": "Incredible Movement",
+        "desc": "You move like the wind. You gain a +10-foot status bonus to your Speed whenever you're not wearing armor. The bonus increases by 5 feet for every 4 levels you have beyond 3rd.",
+        "hint": "You gain a +10-foot status bonus to your Speed whenever you're not wearing armor. The bonus increases by 5 feet for every 4 levels you have beyond 3rd.",
+        "showon": "Land Speed"
+    },
+    {
+        "name": "Incredible Senses",
+        "desc": "You notice things almost impossible for an ordinary person to detect. Your proficiency rank for Perception increases to legendary.",
+        "internalNote": "Skill increases through class features are handled in the class object."
+    },
+    {
+        "name": "Iron Will",
+        "desc": "Your training has hardened your resolve. Your proficiency rank for Will saves increases to expert.",
+        "internalNote": "Skill increases through class features are handled in the class object."
+    },
+    {
+        "name": "Juggernaut",
+        "desc": "Your body is accustomed to physical hardship and resistant to ailments. Your proficiency rank for Fortitude saves increases to master. When you roll a success on a Fortitude save, you get a critical success instead.",
+        "hint": "When you roll a success on a Fortitude save, you get a critical success instead.",
+        "showon": "Fortitude",
+        "internalNote": "Skill increases through class features are handled in the class object."
+    },
+    {
+        "name": "Master Strikes",
+        "desc": "You have honed your skill in using your body as a weapon. Your proficiency ranks for unarmed attacks and simple weapons increase to master.",
+        "internalNote": "Skill increases through class features are handled in the class object."
+    },
+    {
+        "name": "Masterful Hunter",
+        "desc": "You have honed your abilities as a hunter to incredible levels. Your proficiency rank for your ranger class DC increases to master. When using a ranged weapon that you have master proficiency in, you can ignore the penalty if attacking your hunted prey within the weapon's second and third range increments.\n\nIf you have master proficiency in Perception, you gain a +4 circumstance bonus to Perception checks when you Seek your prey, and if you have master proficiency in Survival, you gain a +4 circumstance bonus to Survival checks when you Track your prey. You also gain an additional benefit depending on your hunter's edge.",
+        "hint": "When using a ranged weapon that you have master proficiency in, you can ignore the penalty if attacking your hunted prey within the weapon's second and third range increments.\n\nIf you have master proficiency in Perception, you gain a +4 circumstance bonus to Perception checks when you Seek your prey, and if you have master proficiency in Survival, you gain a +4 circumstance bonus to Survival checks when you Track your prey.",
+        "showon": "Attacks, Survival",
+        "internalNote": "Skill increases through class features are handled in the class object."
+    },
+    {
+        "name": "Masterful Hunter: Flurry",
+        "desc": "You can blend your weapon mastery with skillful targeting to make a series of precise attacks. If you have master proficiency with your weapon, your multiple attack penalty for attacks against your hunted prey is -2 (-1 with an agile weapon) on your second attack of the turn, and -4 (-2 with an agile weapon) on your third and subsequent attacks of the turn.",
+        "hint": "If you have master proficiency with your weapon, your multiple attack penalty for attacks against your hunted prey is -2 (-1 with an agile weapon) on your second attack of the turn, and -4 (-2 with an agile weapon) on your third and subsequent attacks of the turn.",
+        "showon": "Hunt Prey, Attacks"
+    },
+    {
+        "name": "Masterful Hunter: Outwit",
+        "desc": "Your mastery of skills allows you to overwhelm your prey. If you have master proficiency in Deception, Intimidation, Stealth, or the skill you use to Recall Knowledge about your prey, increase the circumstance bonus against the prey with that skill from +2 to +4. If you have master proficiency with your armor, increase the circumstance bonus to AC against the prey from +1 to +2.",
+        "hint": "If you have master proficiency in Deception, Intimidation, Stealth, or the skill you use to Recall Knowledge about your prey, increase the circumstance bonus against the prey with that skill from +2 to +4. If you have master proficiency with your armor, increase the circumstance bonus to AC against the prey from +1 to +2.",
+        "showon": "Hunt Prey, AC, Arcana, Crafting, Deception, Intimidation, Nature, Occultism, Religion, Society, Stealth"
+    },
+    {
+        "name": "Masterful Hunter: Precision",
+        "desc": "Your weapon mastery allows you to hit your prey's vital areas multiple times. The second time in a round you hit your hunted prey, you also deal 1d8 precision damage. At 19th level, your second hit in a round against your hunted prey deals 2d8 precision damage, and your third hit in a round against your hunted prey deals 1d8 precision damage.",
+        "hint": "The second time in a round you hit your hunted prey, you also deal 1d8 precision damage. At 19th level, your second hit in a round against your hunted prey deals 2d8 precision damage, and your third hit in a round against your hunted prey deals 1d8 precision damage.",
+        "showon": "Hunt Prey, Attacks"
+    },
+    {
+        "name": "Medium Armor Expertise",
+        "desc": "You've learned to defend yourself better against attacks. Your proficiency ranks for light armor, medium armor, and unarmored defense increase to expert.",
+        "internalNote": "Skill increases through class features are handled in the class object."
     },
     {
         "name": "Metal Strikes",
@@ -72,43 +133,22 @@
         "internalNote": "Skill increases through class features are handled in the class object."
     },
     {
-        "name": "Second Path to Perfection",
-        "desc": "You've learned to find perfection in every success. Choose a different saving throw than the one you chose for your path to perfection. Your proficiency rank for the chosen saving throw increases to master. If you roll a success with the chosen saving throw, you instead critically succeed.",
-        "hint": "If you roll a success with this saving throw, you instead critically succeed.",
-        "showon": "Second Path to Perfection",
-        "internalNote": "Skill increases through class features are handled in the class object."
-    },
-    {
-        "name": "Graceful Mastery",
-        "desc": "You move with perpetual grace in battle, eluding and turning aside blows. Your proficiency rank for unarmored defense increases to master.",
-        "internalNote": "Skill increases through class features are handled in the class object."
-    },
-    {
-        "name": "Master Strikes",
-        "desc": "You have honed your skill in using your body as a weapon. Your proficiency ranks for unarmed attacks and simple weapons increase to master.",
-        "internalNote": "Skill increases through class features are handled in the class object."
-    },
-    {
-        "name": "Greater Weapon Specialization",
-        "desc": "Your damage from weapon specialization increases to 4 with weapons and unarmed attacks in which you're an expert, 6 if you're a master, and 8 if you're legendary.",
-        "internalNote":"The effect is hardcoded."
-    },
-    {
-        "name": "Third Path to Perfection",
-        "desc": "You have made great progress in your personal studies of enlightenment. Choose one of the saving throws you selected for path to perfection or second path to perfection. Your proficiency rank for the chosen type of save increases to legendary. When you roll a critical failure on the chosen type of save, you get a failure instead. When you roll a failure on the chosen type of save against an effect that deals damage, you take half damage.",
-        "hint": "When you roll a critical failure on this type of save, you get a failure instead. When you roll a failure on this type of save against an effect that deals damage, you take half damage.",
-        "showon": "Third Path to Perfection",
-        "internalNote": "Skill increases through class features are handled in the class object."
-    },
-    {
-        "name": "Adamantine Strikes",
-        "desc": "When you focus your will into your limbs, your blows are as unyielding as the hardest of metals. Your unarmed attacks are treated as adamantine.",
-        "hint": "Your unarmed attacks are treated as adamantine.",
+        "name": "Mystic Strikes",
+        "desc": "Focusing your will into your physical attacks imbues them with mystical energy. Your unarmed attacks become magical, allowing them to get past resistances to non-magical attacks. However, you still need an item such as handwraps of mighty blows to gain an item bonus to attack rolls or increase your attacks' weapon damage dice.",
+        "hint": "Your unarmed attacks become magical, allowing them to get past resistances to non-magical attacks.",
         "showon": "Unarmed Attacks"
     },
     {
-        "name": "Graceful Legend",
-        "desc": "Your sublime movement grants you unparalleled protection and offense. Your proficiency rank for unarmored defense increases to legendary, and your proficiency rank for your monk class DC increases to master. If you have ki spells, your proficiency rank for spell attack rolls and spell DCs with the tradition of magic you use for your ki spells increases to master.",
+        "name": "Nature's Edge",
+        "desc": "You always find the weak points in your foes' defenses when they're on unfavorable terrain. Enemies are flat-footed to you if they're in natural difficult terrain or in difficult terrain resulting from a snare.",
+        "hint": "Enemies are flat-footed to you if they're in natural difficult terrain or in difficult terrain resulting from a snare.",
+        "showon": "Attacks"
+    },
+    {
+        "name": "Path to Perfection",
+        "desc": "You have progressed along your own path to enlightenment. Choose your Fortitude, Reflex, or Will saving throw. Your proficiency rank for the chosen saving throw increases to master. When you roll a success on the chosen saving throw, you get a critical success instead.",
+        "hint": "When you roll a success on this saving throw, you get a critical success instead.",
+        "showon": "Path to Perfection",
         "internalNote": "Skill increases through class features are handled in the class object."
     },
     {
@@ -118,132 +158,700 @@
         "showon": "Attacks"
     },
     {
-        "name": "Hunt Prey",
-        "desc": "When you focus your attention on a single foe, you become unstoppable in your pursuit. You gain the Hunt Prey action.",
-        "gainActivities":[
-            "Hunt Prey"
-        ]
+        "name": "Powerful Fist",
+        "desc": "You know how to wield your fists as deadly weapons. The damage die for your fist increases to 1d6 instead of 1d4. Most people take a -2 circumstance penalty when making a lethal attack with nonlethal unarmed attacks, because they find it hard to use their fists with deadly force. You don't take this penalty when making a lethal attack with your fist or any other unarmed attacks.",
+        "hint": "You don't take the usual -2 circumstance penalty when making a lethal attack with your fist or any other unarmed attacks.",
+        "showon": "Unarmed Attacks"
     },
     {
-        "name":"Hunter's Edge",
-        "desc":"You have trained for countless hours to become a more skilled hunter and tracker, gaining an additional benefit when you Hunt Prey depending on the focus of your training.",
-        "internalNote":"A feat choice for your hunter's edge focus is written into the class class."
-    },
-    {
-        "name":"Iron Will",
-        "desc":"Your training has hardened your resolve. Your proficiency rank for Will saves increases to expert.",
+        "name": "Ranger Expertise",
+        "desc": "You've practiced your techniques to make them harder to resist. Your proficiency rank for your ranger class DC increases to expert.",
         "internalNote": "Skill increases through class features are handled in the class object."
     },
     {
-        "name":"Ranger Weapon Expertise",
-        "desc":"You've dedicated yourself to learning the intricacies of your weapons. Your proficiency ranks for simple and martial weapons and unarmed attacks increases to expert. You gain access to the critical specialization effects of all simple and martial weapons and unarmed attacks when attacking your hunted prey.",
+        "name": "Ranger Weapon Expertise",
+        "desc": "You've dedicated yourself to learning the intricacies of your weapons. Your proficiency ranks for simple and martial weapons and unarmed attacks increases to expert. You gain access to the critical specialization effects of all simple and martial weapons and unarmed attacks when attacking your hunted prey.",
+        "internalNote": "Skill increases through class features are handled in the class object. The limitation to the hunted prey is hardcoded in the weapon class.",
         "gainSpecialization": [
             {
                 "proficiency": "Simple Weapons, Martial Weapons, Unarmed Attacks",
                 "condition": "hunted prey only"
             }
+        ]
+    },
+    {
+        "name": "Second Path to Perfection",
+        "desc": "You've learned to find perfection in every success. Choose a different saving throw than the one you chose for your path to perfection. Your proficiency rank for the chosen saving throw increases to master. If you roll a success with the chosen saving throw, you instead critically succeed.",
+        "hint": "If you roll a success with this saving throw, you instead critically succeed.",
+        "showon": "Second Path to Perfection",
+        "internalNote": "Skill increases through class features are handled in the class object."
+    },
+    {
+        "name": "Second Skin",
+        "desc": "Your armor has become akin to a second skin for you. Your proficiency ranks for light armor, medium armor, and unarmored defense increase to master. When wearing light or medium armor, you can rest normally, rather than receiving poor rest that leaves you fatigued.",
+        "hint": "When wearing light or medium armor, you can rest normally, rather than receiving poor rest that leaves you fatigued.",
+        "showon": "Defense",
+        "internalNote": "Skill increases through class features are handled in the class object."
+    },
+    {
+        "name": "Swift Prey",
+        "desc": "You size up your prey with only a glance. You can use Hunt Prey as a free action if it's your first action of your turn.",
+        "showon": "Hunt Prey"
+    },
+    {
+        "name": "Third Path to Perfection",
+        "desc": "You have made great progress in your personal studies of enlightenment. Choose one of the saving throws you selected for path to perfection or second path to perfection. Your proficiency rank for the chosen type of save increases to legendary. When you roll a critical failure on the chosen type of save, you get a failure instead. When you roll a failure on the chosen type of save against an effect that deals damage, you take half damage.",
+        "hint": "When you roll a critical failure on this type of save, you get a failure instead. When you roll a failure on this type of save against an effect that deals damage, you take half damage.",
+        "showon": "Third Path to Perfection",
+        "internalNote": "Skill increases through class features are handled in the class object."
+    },
+    {
+        "name": "Trackless Step",
+        "desc": "When you move through natural terrains, you are difficult to track. You always gain the benefits of the Cover Tracks action in such terrains, without moving at half your Speed.",
+        "hint": "You always gain the benefits of the Cover Tracks action in natural terrains, without moving at half your Speed.",
+        "showon": "Survival"
+    },
+    {
+        "name": "Vigilant Senses",
+        "desc": "Through your adventuring, you've developed keen awareness and attention to detail. Your proficiency rank for Perception increases to master.",
+        "internalNote": "Skill increases through class features are handled in the class object."
+    },
+    {
+        "name": "Weapon Mastery",
+        "desc": "You fully understand the intricacies of your weapons. Your proficiency ranks for simple and martial weapons and unarmed attacks increase to master.",
+        "internalNote": "Skill increases through class features are handled in the class object."
+    },
+    {
+        "name": "Weapon Specialization",
+        "desc": "You've learned how to inflict greater injuries with the weapons you know best. You deal 2 additional damage with weapons and unarmed attacks in which you are an expert. This damage increases to 3 if you're a master, and 4 if you're legendary.",
+        "internalNote": "The effect is hardcoded."
+    },
+    {
+        "name": "Wild Stride",
+        "desc": "You move quickly through obstacles, whether they're tumbled stone, tangled undergrowth, or sucking mud. You can ignore the effects of non-magical difficult terrain. As normal for ignoring difficult terrain, this also lets you treat the hindrances of greater difficult terrain as those of difficult terrain.",
+        "hint": "You can ignore the effects of non-magical difficult terrain. As normal for ignoring difficult terrain, this also lets you treat the hindrances of greater difficult terrain as those of difficult terrain.",
+        "showon": "Movement"
+    },
+    {
+        "name": "Armor Mastery",
+        "desc": "Your skill with armor improves, increasing your ability to prevent blows. Your proficiency ranks for light, medium, and heavy armor, as well as for unarmored defense, increase to master.",
+        "internalNote": "Skill increases through class features are handled in the class object."
+    },
+    {
+        "name": "Defensive Robes",
+        "desc": "The flow of magic and your defensive training combine to help you get out of the way before an attack. Your proficiency rank in unarmored defense increases to expert.",
+        "internalNote": "Skill increases through class features are handled in the class object."
+    },
+    {
+        "name": "Great Fortitude",
+        "desc": "Your physique is incredibly hardy. Your proficiency rank for Fortitude saves increases to expert.",
+        "internalNote": "Skill increases through class features are handled in the class object."
+    },
+    {
+        "name": "Light Armor Expertise",
+        "desc": "You’ve learned how to dodge while wearing light or no armor. Your proficiency ranks for light armor and unarmored defense increase to expert.",
+        "internalNote": "Skill increases through class features are handled in the class object."
+    },
+    {
+        "name": "Light Armor Mastery",
+        "desc": "Your skill with light armor improves, increasing your ability to dodge blows. Your proficiency ranks for light armor and unarmored defense increase to master.",
+        "internalNote": "Skill increases through class features are handled in the class object."
+    },
+    {
+        "name": "Lightning Reflexes",
+        "desc": "Your reflexes are lightning fast. Your proficiency rank in Reflex saves increases to expert.",
+        "internalNote": "Skill increases through class features are handled in the class object."
+    },
+    {
+        "name": "Magical Fortitude",
+        "desc": "Magical power has improved your body’s resiliency. Your proficiency rank for Fortitude saves increases to expert.",
+        "internalNote": "Skill increases through class features are handled in the class object."
+    },
+    {
+        "name": "Resolve",
+        "desc": "You’ve steeled your mind with resolve. Your proficiency rank for Will saves increases to master. When you roll a success at a Will save, you get a critical success instead.",
+        "hint": "When you roll a success at a Will save, you get a critical success instead.",
+        "showon": "Will",
+        "internalNote": "Skill increases through class features are handled in the class object."
+    },
+    {
+        "name": "Advanced Alchemy",
+        "desc": "During your daily preparations, after producing new infused reagents, you can spend batches of those infused reagents to create infused alchemical items. You don’t need to attempt a Crafting check to do this, and you ignore both the number of days typically required to create the items and any alchemical reagent requirements. Your advanced alchemy level is equal to your level. For each batch of infused reagents you spend, choose an alchemical item of your advanced alchemy level or lower that’s in your formula book, and make a batch of two of that item. These items have the infused trait and remain potent for 24 hours or until your next daily preparations, whichever comes first.",
+        "internalNote": "##### Not yet implemented #####"
+    },
+    {
+        "name": "Alchemical Alacrity",
+        "desc": "Your comfort in concocting items is such that you can create three at a time. When using the Quick Alchemy action, you can spend up to three batches of infused reagents to make up to three alchemical items as described in that action. These items do not have to be the same.",
+        "hint": "When using the Quick Alchemy action, you can spend up to three batches of infused reagents to make up to three alchemical items as described in that action. These items do not have to be the same.",
+        "showon": "Quick Alchemy"
+    },
+    {
+        "name": "Alchemical Expertise",
+        "desc": "Constant practice has increased the effectiveness of your concoctions. Your proficiency rank for your alchemist class DC increases to expert.",
+        "internalNote": "Skill increases through class features are handled in the class object."
+    },
+    {
+        "name": "Alchemical Mastery",
+        "desc": "Your alchemical concoctions are incredibly effective. Your proficiency rank for your alchemist class DC increases to master.",
+        "internalNote": "Skill increases through class features are handled in the class object."
+    },
+    {
+        "name": "Alchemical Weapon Expertise",
+        "desc": "You’ve trained to more effectively wield the weapons you find in your lab. Your proficiency ranks for simple weapons, unarmed attacks, and alchemical bombs increase to expert.",
+        "internalNote": "Skill increases through class features are handled in the class object."
+    },
+    {
+        "name": "Double Brew",
+        "desc": "You know your formulas so well that you can concoct two items at once. When using the Quick Alchemy action, instead of spending one batch of infused reagents to create a single item, you can spend up to two batches of infused reagents to make up to two alchemical items as described in that action. These items do not have to be the same.",
+        "hint": "When using the Quick Alchemy action, instead of spending one batch of infused reagents to create a single item, you can spend up to two batches of infused reagents to make up to two alchemical items as described in that action. These items do not have to be the same.",
+        "showon": "Quick Alchemy"
+    },
+    {
+        "name": "Field Discovery",
+        "desc": "You learn a special discovery depending on your field. ",
+        "internalNote": "##### Not yet implemented - will be implemented in the research field objects #####"
+    },
+    {
+        "name": "Greater Field Discovery",
+        "desc": "You learn an incredible discovery that advances your understanding of your field.",
+        "internalNote": "##### Not yet implemented - will be implemented in the research field objects #####"
+    },
+    {
+        "name": "Infused Reagents",
+        "desc": "You infuse reagents with your own alchemical essence, allowing you to create alchemical items at no cost. Each day during your daily preparations, you gain a number of batches of infused reagents equal to your level + your Intelligence modifier. You can use these reagents for either advanced alchemy or Quick Alchemy, described below. Together, these infused reagents have light Bulk.\n\nAs soon as you make your next daily preparations, your infused reagents from the previous day’s preparations are instantly destroyed, and nonpermanent effects of your previous day’s infused items immediately end. While infused reagents are physical objects, they can’t be duplicated, preserved, or created in any way other than your daily preparations. Any such artificial reagents lack the infusion and are useless for advanced alchemy or Quick Alchemy.",
+        "internalNote": "##### Not yet implemented #####"
+    },
+    {
+        "name": "Iron Will (Alchemist)",
+        "desc": "Your mental defenses are an iron fortress. Your proficiency rank for Will saves increases to expert.",
+        "internalNote": "Skill increases through class features are handled in the class object."
+    },
+    {
+        "name": "Juggernaut (Alchemist)",
+        "desc": "Your body has become accustomed to physical hazards and resistant to pathogens and ailments. Your proficiency rank for Fortitude saves increases to master. When you roll a success on a Fortitude save, you get a critical success instead.",
+        "hint": "When you roll a success on a Fortitude save, you get a critical success instead.",
+        "showon": "Fortitude",
+        "internalNote": "Skill increases through class features are handled in the class object."
+    },
+    {
+        "name": "Perpetual Infusions",
+        "desc": "You have learned how to create perpetual alchemical infusions that can provide a near-infinite supply of certain simple items. You gain the ability to create two 1st-level alchemical items using Quick Alchemy without spending a batch of infused reagents. The items you can select depend on your research field and must be in your formula book.",
+        "internalNote": "##### Not yet implemented - will be implemented in the research field objects #####"
+    },
+    {
+        "name": "Perpetual Perfection",
+        "desc": "You have perfected your perpetual infusions, allowing you to use Quick Alchemy to create even more powerful items at no cost. The items you can select depend on your research field and must be in your formula book.",
+        "internalNote": "##### Not yet implemented - will be implemented in the research field objects #####"
+    },
+    {
+        "name": "Perpetual Potency",
+        "desc": "Your perpetual infusions improve, allowing you to use Quick Alchemy to create more powerful items with no cost. The items you can select depend on your research field and must be in your formula book.",
+        "internalNote": "##### Not yet implemented - will be implemented in the research field objects #####"
+    },
+    {
+        "name": "Quick Alchemy",
+        "desc": "If you need a specific alchemical item on the fly, you can use your infused reagents to quickly create it with the Quick Alchemy action.",
+        "gainActivities": [
+            "Quick Alchemy"
+        ]
+    },
+    {
+        "name": "Armor of Fury",
+        "desc": "Your training and rage deepen your connection to your armor. Your proficiency ranks for light armor, medium armor, and unarmored defense increase to master.",
+        "internalNote": "Skill increases through class features are handled in the class object."
+    },
+    {
+        "name": "Brutality",
+        "desc": "Your fury makes your weapons lethal. Your proficiency ranks for simple weapons, martial weapons, and unarmed attacks increase to expert. While raging, you gain access to the critical specialization effects for melee weapons and unarmed attacks.",
+        "internalNote": "Skill increases through class features are handled in the class object.",
+        "gainSpecialization": [
+            {
+                "range": "melee",
+                "condition": "while raging"
+            },
+            {
+                "trait": "Unarmed",
+                "condition": "while raging"
+            }
+        ]
+    },
+    {
+        "name": "Deny Advantage (Barbarian)",
+        "desc": "Your foes struggle to pass your defenses. You aren’t flat-footed to hidden, undetected, or flanking creatures of your level or lower, or creatures of your level or lower using surprise attack. However, they can still help their allies flank.",
+        "hint": "You aren’t flat-footed to hidden, undetected, or flanking creatures of your level or lower, or creatures of your level or lower using surprise attack. However, they can still help their allies flank.",
+        "showon": "AC"
+    },
+    {
+        "name": "Devastator",
+        "desc": "Your Strikes are so devastating that you hardly care about resistance, and your barbarian abilities are unparalleled. Your proficiency rank for your barbarian class DC increases to master. Your melee Strikes ignore 10 points of a creature’s resistance to their physical damage.",
+        "hint": "Your melee Strikes ignore 10 points of a creature’s resistance to their physical damage.",
+        "showon": "Attacks",
+        "internalNote": "Skill increases through class features are handled in the class object."
+    },
+    {
+        "name": "Greater Juggernaut",
+        "desc": "You have a stalwart physiology. Your proficiency rank for Fortitude saves increases to legendary. When you roll a critical failure on a Fortitude save, you get a failure instead. When you roll a failure on a Fortitude save against an effect that deals damage, you halve the damage you take.",
+        "hint": "When you roll a critical failure on a Fortitude save, you get a failure instead. When you roll a failure on a Fortitude save against an effect that deals damage, you halve the damage you take.",
+        "showon": "Fortitude",
+        "internalNote": "Skill increases through class features are handled in the class object."
+    },
+    {
+        "name": "Greater Weapon Specialization (Barbarian)",
+        "desc": "The weapons you’ve mastered become truly fearsome in your hands. Your damage from weapon specialization increases to 4 with weapons and unarmed attacks in which you’re an expert, 6 if you’re a master, and 8 if you’re legendary. You gain a greater benefit from your instinct’s specialization ability.",
+        "internalNote": "The effect is hardcoded."
+    },
+    {
+        "name": "Heightened Senses",
+        "desc": "Your instinct heightens each of your senses further. Your proficiency rank for Perception increases to master.",
+        "internalNote": "Skill increases through class features are handled in the class object."
+    },
+    {
+        "name": "Indomitable Will",
+        "desc": "Your rage makes it difficult to control you. Your proficiency rank for Will saves increases to master. When you roll a success on a Will save, you get a critical success instead.",
+        "hint": "When you roll a success on a Will save, you get a critical success instead.",
+        "showon": "Will",
+        "internalNote": "Skill increases through class features are handled in the class object."
+    },
+    {
+        "name": "Mighty Rage",
+        "desc": "Your rage intensifies and lets you burst into action. Your proficiency rank for your barbarian class DC increases to expert. You gain the Mighty Rage free action.",
+        "internalNote": "Skill increases through class features are handled in the class object.",
+        "gainActivities": [
+            "Mighty Rage"
+        ]
+    },
+    {
+        "name": "Quick Rage",
+        "desc": "You recover from your Rage quickly, and are soon ready to begin anew. After you spend a full turn without raging, you can Rage again without needing to wait 1 minute.",
+        "hint": "After you spend a full turn without raging, you can Rage again without needing to wait 1 minute.",
+        "showon": "Rage",
+        "internalNote": "The effect on the Rage activity is hardcoded."
+    },
+    {
+        "name": "Rage",
+        "desc": "You gain the Rage action, which lets you fly into a frenzy.",
+        "gainActivities": [
+            "Rage"
+        ]
+    },
+    {
+        "name": "Raging Resistance",
+        "desc": "Repeated exposure and toughened skin allow you to fend off harm. While raging, you gain resistance equal to 3 + your Constitution modifier to damage types based on your instinct.",
+        "hint": "While raging, you gain resistance equal to 3 + your Constitution modifier to damage types based on your instinct.",
+        "showon": "Rage",
+        "internalNote": "### Not yet implemented - Implemented via the instincts ###"
+    },
+    {
+        "name": "Weapon Fury",
+        "desc": "Your rage makes you even more effective with the weapons you wield. Your proficiency ranks for simple weapons, martial weapons, and unarmed attacks increase to master.",
+        "internalNote": "Skill increases through class features are handled in the class object."
+    },
+    {
+        "name": "Weapon Specialization (Barbarian)",
+        "desc": "Your rage helps you hit harder. You deal an additional 2 damage with weapons and unarmed attacks in which you have expert proficiency. This damage increases to 3 if you’re a master, and 4 if you’re legendary. You gain your instinct’s specialization ability.",
+        "internalNote": "The effect is hardcoded."
+    },
+    {
+        "name": "Bard Weapon Expertise",
+        "desc": "You have become thoroughly adept with bardic weapons. You gain expert proficiency in simple weapons and unarmed attacks, plus the longsword, rapier, sap, shortbow, shortsword, and whip. When you critically succeed at an attack roll using one of these weapons while one of your compositions is active, you apply the critical specialization effect for that weapon.",
+        "internalNote": "Skill increases through class features are handled in the class object.",
+        "gainSpecialization": [
+            {
+                "proficiency": "Simple Weapons, Unarmed Attacks",
+                "condition": "while composition active"
+            },
+            {
+                "weapon": "Longsword, Rapier, Sap, Shortbow, Shortsword, Whip",
+                "condition": "while composition active"
+            }
+        ]
+    },
+    {
+        "name": "Expert Spellcaster (Bard)",
+        "desc": "Your proficiency ranks for occult spell attack rolls and spell DCs increase to expert.",
+        "internalNote": "Skill increases through class features are handled in the class object."
+    },
+    {
+        "name": "Greater Resolve",
+        "desc": "Your unbelievable training grants you mental resiliency. Your proficiency rank for Will saves increases to legendary. When you roll a success at a Will save, you get a critical success. When you roll a critical failure at a Will save, you get a failure instead. When you roll a failure on a Will save against a damaging effect, you take half damage.",
+        "hint": "When you roll a success at a Will save, you get a critical success. When you roll a critical failure at a Will save, you get a failure instead. When you roll a failure on a Will save against a damaging effect, you take half damage.",
+        "showon": "Will",
+        "internalNote": "Skill increases through class features are handled in the class object."
+    },
+    {
+        "name": "Legendary Spellcaster (Bard)",
+        "desc": "Your command of occult magic is the stuff of legends. Your proficiency ranks for occult spell attack rolls and spell DCs increase to legendary.",
+        "internalNote": "Skill increases through class features are handled in the class object."
+    },
+    {
+        "name": "Magnum Opus",
+        "desc": "You have tuned your spellcasting to the highest caliber. Add two common 10th-level occult spells to your repertoire. You gain a single 10th-level spell slot you can use to cast one of those two spells using bard spellcasting. You don’t gain more 10th-level spells as you level up, unlike other spell slots, and you can’t use 10th-level slots with abilities that give you more spell slots or that let you cast spells without expending spell slots.",
+        "internalNote": "Spell slots gained through class features are handled in the class object."
+    },
+    {
+        "name": "Master Spellcaster (Bard)",
+        "desc": "You’ve mastered the occult. Your proficiency ranks for occult spell attack rolls and spell DCs increase to master.",
+        "internalNote": "Skill increases through class features are handled in the class object."
+    },
+    {
+        "name": "Signature Spells (Bard)",
+        "desc": "Experience allows you to cast some spells more flexibly. For each spell level you have access to, choose one spell of that level to be a signature spell. You don’t need to learn heightened versions of signature spells separately; instead, you can heighten these spells freely. If you’ve learned a signature spell at a higher level than its minimum, you can also cast all its lower-level versions without learning those separately. If you swap out a signature spell, you can choose a replacement signature spell of the same spell level at which you learned the previous spell. You can also retrain specifically to change a signature spell to a different spell of that level without swapping any spells; this takes as much time as retraining a spell normally does.",
+        "allowSignatureSpells": true
+    },
+    {
+        "name": "Armor Expertise (Champion)",
+        "desc": "You have spent so much time in armor that you know how to make the most of its protection. Your proficiency ranks for light, medium, and heavy armor, as well as for unarmored defense, increase to expert. You gain the armor specialization effects of medium and heavy armor.",
+        "internalNote": "Skill increases through class features are handled in the class object.",
+        "gainSpecialization": [
+            {
+                "proficiency": "Medium Armor, Heavy Armor"
+            }
+        ]
+    },
+    {
+        "name": "Champion Expertise",
+        "desc": "Prayers strengthen your divine power. Your proficiency ranks for your champion class DC and divine spell attack rolls and DCs increase to expert.",
+        "internalNote": "Skill increases through class features are handled in the class object."
+    },
+    {
+        "name": "Champion Mastery",
+        "desc": "You’ve mastered your arsenal of champion techniques and divine spells. Your proficiency ranks for your champion class DC and for divine spell attack rolls and spell DCs increase to master.",
+        "internalNote": "Skill increases through class features are handled in the class object."
+    },
+    {
+        "name": "Champion's Code",
+        "desc": "You follow a code of conduct, beginning with tenets shared by all champions of an alignment (such as good), and continuing with tenets of your cause. Deities often add additional strictures (for instance, Torag’s champions can’t show mercy to enemies of their people, making it almost impossible for them to follow the redeemer cause). Only rules for good champions appear in this book. Tenets are listed in order of importance, starting with the most important. If a situation places two tenets in conflict, you aren’t in a no-win situation; instead, follow the more important tenet. For instance, as a paladin, if an evil king asked you if you’re hiding refugees so he could execute them, you could lie to him, since the tenet against lying is less important than preventing harm to innocents. Trying to subvert your code by creating a situation that forces a higher tenet to override a lower tenet (for example, promising not to respect authorities and then, to keep your word, disrespecting authorities) is a violation of the champion code.\n\nIf you stray from your alignment or violate your code of conduct, you lose your focus pool and divine ally until you demonstrate your repentance by conducting an atone ritual, but you keep any other champion abilities that don’t require those class features. If your alignment shifts but is still one allowed by your deity, your GM might let you retrain your cause while still following the same deity.\n\nAll champions of good alignment follow these tenets. \n\nYou must never perform acts anathema to your deity or willingly commit an evil act, such as murder, torture, or the casting of an evil spell. \nYou must never knowingly harm an innocent, or allow immediate harm to one through inaction when you know you could reasonably prevent it. This tenet doesn’t force you to take action against possible harm to innocents at an indefinite time in the future, or to sacrifice your life to protect them.",
+        "tenets": [
+            "You must never perform acts anathema to your deity or willingly commit an evil act, such as murder, torture, or the casting of an evil spell. ",
+            "You must never knowingly harm an innocent, or allow immediate harm to one through inaction when you know you could reasonably prevent it. This tenet doesn’t force you to take action against possible harm to innocents at an indefinite time in the future, or to sacrifice your life to protect them."
+        ]
+    },
+    {
+        "name": "Champion's Reaction",
+        "desc": "",
+        "internalNote": "### Not yet implemented - Implemented via the causes. ###"
+    },
+    {
+        "name": "Deific Weapon",
+        "desc": "You zealously bear your deity’s favored weapon. If it’s uncommon, you gain access to it. If it’s an unarmed attack with a d4 damage die or a simple weapon, increase the damage die by one step (d4 to d6, d6 to d8, d8 to d10, d10 to d12).",
+        "internalNote": "The effect is hardcoded."
+    },
+    {
+        "name": "Deity and Cause",
+        "desc": "Champions are divine servants of a deity. Choose a deity to follow; your alignment must be one allowed for followers of your deity. Actions fundamentally opposed to your deity’s ideals or alignment are anathema to your faith. A few examples of acts that would be considered anathema appear in each deity’s entry. You and your GM determine whether other acts are anathema. You have one of the following causes. Your cause must match your alignment exactly. Your cause determines your champion’s reaction, grants you a devotion spell, and defines part of your champion’s code."
+    },
+    {
+        "name": "Divine Ally",
+        "desc": "Your devotion attracts a spirit of your deity’s alignment. Once you choose an ally, your choice can’t be changed.\n\nThe following are divine allies: \n\nBlade Ally: A spirit of battle dwells within your armaments. Select one weapon or handwraps of mighty blows when you make your daily preparations. In your hands, the item gains the effect of a property rune. For a champion following the tenets of good, choose disrupting, ghost touch, returning, or shifting. You also gain the weapon’s critical specialization effect. \n\nShield Ally: A spirit of protection dwells within your shield. In your hands, the shield’s Hardness increases by 2 and its HP and BT increase by half. \n\nSteed Ally: You gain a young animal companion as a mount (page 214). Ordinarily, your animal companion is one that has the mount special ability, such as a horse. You can select a different animal companion (GM’s discretion), but this ability doesn’t grant it the mount special ability.",
+        "internalNote": "### Not yet implemented - Implemented via the Divine Ally feats ###"
+    },
+    {
+        "name": "Divine Smite",
+        "desc": "Your champion’s reaction improves.",
+        "internalNote": "### Not yet implemented - Implemented via the causes ###"
+    },
+    {
+        "name": "Divine Will",
+        "desc": "Your faith grants mastery of your will. Your proficiency rank for Will saves increases to master. When you roll a success on a Will save, you get a critical success instead.",
+        "hint": "When you roll a success on a Will save, you get a critical success instead.",
+        "showon": "Will",
+        "internalNote": "Skill increases through class features are handled in the class object."
+    },
+    {
+        "name": "Exalt",
+        "desc": "Your champion’s reaction exalts nearby allies, allowing them to benefit as well.",
+        "internalNote": "### Not yet implemented - Implemented via the causes ###"
+    },
+    {
+        "name": "Hero's Defiance",
+        "desc": "You can defy fate and continue fighting as long as you have divine energy. You gain the hero’s defiance devotion spell.",
+        "internalNote": "Spells gained through class features are handled in the class object."
+    },
+    {
+        "name": "Legendary Armor",
+        "desc": "You shield yourself with steel as easily as with faith. Your proficiency ranks for light, medium, and heavy armor, as well as for unarmored defense, increase to legendary.",
+        "internalNote": "Skill increases through class features are handled in the class object."
+    },
+    {
+        "name": "Weapon Expertise",
+        "desc": "You’ve dedicated yourself to learning the intricacies of your weapons. Your proficiency ranks for simple weapons, martial weapons, and unarmed attacks increase to expert.",
+        "internalNote": "Skill increases through class features are handled in the class object."
+    },
+    {
+        "name": "Anathema (Cleric)",
+        "desc": "Acts fundamentally opposed to your deity’s alignment or ideals are anathema to your faith. Learning or casting spells, committing acts, and using items that are anathema to your deity remove you from your deity’s good graces.\n\nCasting spells with the evil trait is almost always anathema to good deities, and casting good spells is likewise anathema to evil deities; similarly, casting chaotic spells is anathema to lawful deities, and casting lawful spells is anathema to chaotic deities. A neutral cleric who worships a neutral deity isn’t limited this way, but their alignment might change over time if they frequently cast spells or use abilities with a certain alignment. Similarly, casting spells that are anathema to the tenets or goals of your faith could interfere with your connection to your deity. For example, casting a spell to create undead would be anathema to Pharasma, the goddess of death. For borderline cases, you and your GM determine which acts are anathema.\n\nIf you perform enough acts that are anathema to your deity, or if your alignment changes to one not allowed by your deity, you lose the magical abilities that come from your connection to your deity. The class features that you lose are determined by the GM, but they likely include your divine font and all divine spellcasting. These abilities can be regained only if you demonstrate your repentance by conducting an atone ritual.",
+        "internalNote": "This feat is just information. Anathema are implemented via the deities."
+    },
+    {
+        "name": "Divine Defense",
+        "desc": "Your training and your deity protect you from harm. Your proficiency rank in unarmored defense increases to expert.",
+        "internalNote": "Skill increases through class features are handled in the class object."
+    },
+    {
+        "name": "Divine Font",
+        "desc": "Through your deity’s blessing, you gain additional spells that channel either the life force called positive energy or its counterforce, negative energy. When you prepare your spells each day, you can prepare additional heal or harm spells, depending on your deity. The divine font spell your deity provides is listed in the Divine Font entry for your deity on pages 437–440; if both are listed, you can choose between heal or harm. Once you choose, you can’t change your choice short of an ethical shift or divine intervention.\n\nHealing Font: You gain additional spell slots each day at your highest level of cleric spell slots. You can prepare only heal spells (page 343) in these slots, and the number of slots is equal to 1 plus your Charisma modifier.\n\nHarmful Font: You gain additional spell slots each day at your highest level of cleric spell slots. You can prepare only harm spells (page 343) in these slots, and the number of slots is equal to 1 plus your Charisma modifier.",
+        "internalNote": "### Not yet implemented - Implemented in the deities ###"
+    },
+    {
+        "name": "Miraculous Spell",
+        "desc": "You’re exalted by your deity and gain truly incredible spells. You gain a single 10th-level spell slot and can prepare a spell in that slot using divine spellcasting. You don’t gain more 10th-level spells as you level up, though you can take the Maker of Miracles feat to gain a second slot.",
+        "internalNote": "Spell slots gained through class features are handled in the class object."
+    },
+    {
+        "name": "Alertness (Druid)",
+        "desc": "Experience has made you increasingly aware of threats around you, and you react more quickly to danger. Your proficiency rank for Perception increases to expert.",
+        "internalNote": "Skill increases through class features are handled in the class object."
+    },
+    {
+        "name": "Anathema (Druid)",
+        "desc": "As stewards of the natural order, druids find affronts to nature anathema. If you perform enough acts that are anathema to nature, you lose your magical abilities that come from the druid class, including your primal spellcasting and the benefits of your order. These abilities can be regained only if you demonstrate your repentance by conducting an atone ritual.\n\nThe following acts are anathema to all druids:\n\nUsing metal armor or shields.\nDespoiling natural places.\nTeaching the Druidic language to non-druids.\n\nEach druidic order also has additional anathema acts, detailed in the order’s entry.",
+        "anathema": [
+            "Using metal armor or shields.",
+            "Despoiling natural places.",
+            "Teaching the Druidic language to non-druids."
+        ]
+    },
+    {
+        "name": "Druid Weapon Expertise",
+        "desc": "You have become thoroughly familiar with the weapons of your trade. Your proficiency ranks for all simple weapons and unarmed attacks increase to expert.",
+        "internalNote": "Skill increases through class features are handled in the class object."
+    },
+    {
+        "name": "Druidic Language",
+        "desc": "You know Druidic, a secret language known to only druids, in addition to any languages you know through your ancestry. Druidic has its own alphabet. Teaching the Druidic language to non-druids is anathema.",
+        "effects": [
+            {
+                "affected": "Languages",
+                "value": "+1"
+            }
         ],
-        "internalNote": "Skill increases through class features are handled in the class object. The limitation to the hunted prey is hardcoded in the weapon class."
+        "onceEffects": [
+            {
+                "affected": "Languages",
+                "value": "Druidic Language"
+            }
+        ]
     },
     {
-        "name":"Trackless Step",
-        "desc":"When you move through natural terrains, you are difficult to track. You always gain the benefits of the Cover Tracks action in such terrains, without moving at half your Speed.",
-        "hint":"You always gain the benefits of the Cover Tracks action in natural terrains, without moving at half your Speed.",
-        "showon":"Survival"
+        "name": "Druidic Order",
+        "desc": "Upon becoming a druid, you align yourself with a druidic order, which grants you a class feat, an order spell (see below), and an additional trained skill tied to your order. While you’ll always be a member of your initial order, it’s not unheard of for a druid to request to study with other orders in search of greater understanding of the natural world, and PC druids are among the most likely to blend the powers of different orders.\n\nOrder spells are a type of focus spell. It costs 1 Focus Point to cast a focus spell, and you start with a focus pool of 1 Focus Point. You refill your focus pool during your daily preparations, and you can regain 1 Focus Point by spending 10 minutes using the Refocus activity to commune with local nature spirits or otherwise tend to the wilderness in a way befitting your order.\n\nFocus spells are automatically heightened to half your level rounded up, much like cantrips. Focus spells don’t require spell slots to cast, and you can’t cast them using spell slots. Selecting druid feats can give you more focus spells and increase the size of your focus pool, though your focus pool can never hold more than 3 points. The full rules for focus spells appear in Chapter 7 on page 300."
     },
     {
-        "name":"Evasion",
-        "desc":"You've learned to move quickly to avoid explosions, dragons' breath, and worse. Your proficiency rank for Reflex saves increases to master. When you roll a success on a Reflex save, you get a critical success instead.",
-        "hint":"When you roll a success on a Reflex save, you get a critical success instead.",
-        "showon":"Reflex",
+        "name": "Expert Spellcaster (Druid)",
+        "desc": "Your command of primal forces has deepened, empowering your spells. Your proficiency ranks for primal spell attack rolls and spell DCs increase to expert.",
         "internalNote": "Skill increases through class features are handled in the class object."
     },
     {
-        "name":"Vigilant Senses",
-        "desc":"Through your adventuring, you've developed keen awareness and attention to detail. Your proficiency rank for Perception increases to master.",
+        "name": "Legendary Spellcaster (Druid)",
+        "desc": "You have developed an unparalleled rapport with the magic of nature. Your proficiency ranks for primal spell attack rolls and spell DCs increase to legendary.",
         "internalNote": "Skill increases through class features are handled in the class object."
     },
     {
-        "name":"Nature's Edge",
-        "desc":"You always find the weak points in your foes' defenses when they're on unfavorable terrain. Enemies are flat-footed to you if they're in natural difficult terrain or in difficult terrain resulting from a snare.",
-        "hint":"Enemies are flat-footed to you if they're in natural difficult terrain or in difficult terrain resulting from a snare.",
-        "showon":"Attacks"
-    },
-    {
-        "name":"Ranger Expertise",
-        "desc":"You've practiced your techniques to make them harder to resist. Your proficiency rank for your ranger class DC increases to expert.",
+        "name": "Master Spellcaster (Druid)",
+        "desc": "Primal magic answers your command. Your proficiency ranks for primal spell attack rolls and spell DCs increase to master.",
         "internalNote": "Skill increases through class features are handled in the class object."
     },
     {
-        "name":"Juggernaut",
-        "desc":"Your body is accustomed to physical hardship and resistant to ailments. Your proficiency rank for Fortitude saves increases to master. When you roll a success on a Fortitude save, you get a critical success instead.",
-        "hint":"When you roll a success on a Fortitude save, you get a critical success instead.",
-        "showon":"Fortitude",
+        "name": "Primal Hierophant",
+        "desc": "You command the most potent forces of primal magic and can cast a spell of truly incredible power. You gain a single 10th-level spell slot and can prepare a spell in that slot using primal spellcasting. Unlike with other spell slots, you don’t gain more 10th-level spells as you level up, though you can take the Hierophant’s Power feat to gain a second slot.",
+        "internalNote": "Spell slots gained through class features are handled in the class object."
+    },
+    {
+        "name": "Wild Empathy",
+        "desc": "You have a connection to the creatures of the natural world that allows you to communicate with them on a rudimentary level. You can use Diplomacy to Make an Impression on animals and to make very simple Requests of them. In most cases, wild animals will give you time to make your case.",
+        "hint": "You can use Diplomacy to Make an Impression on animals and to make very simple Requests of them. In most cases, wild animals will give you time to make your case.",
+        "showon": "Diplomacy"
+    },
+    {
+        "name": "Attack of Opportunity (Fighter)",
+        "desc": "Ever watchful for weaknesses, you can quickly attack foes that leave an opening in their defenses. You gain the Attack of Opportunity reaction.",
+        "gainActivities": [
+            "Attack of Opportunity"
+        ]
+    },
+    {
+        "name": "Bravery",
+        "desc": "Having faced countless foes and the chaos of battle, you have learned how to stand strong in the face of fear and keep on fighting. Your proficiency rank for Will saves increases to expert. When you roll a success at a Will save against a fear effect, you get a critical success instead. In addition, anytime you gain the frightened condition, reduce its value by 1.",
+        "hint": "When you roll a success at a Will save against a fear effect, you get a critical success instead. In addition, anytime you gain the frightened condition, reduce its value by 1.",
+        "showon": "Will",
         "internalNote": "Skill increases through class features are handled in the class object."
     },
     {
-        "name":"Medium Armor Expertise",
-        "desc":"You've learned to defend yourself better against attacks. Your proficiency ranks for light armor, medium armor, and unarmored defense increase to expert.",
+        "name": "Battlefield Surveyor",
+        "desc": "Whether taking stock of an enemy army or simply standing guard, you excel at observing your foes. Your proficiency rank for Perception increases to master. In addition, you gain a +2 circumstance bonus to Perception checks for initiative, making you faster to react during combat.",
+        "hint": "You gain a +2 circumstance bonus to Perception checks for initiative, making you faster to react during combat.",
+        "showon": "Perception"
+    },
+    {
+        "name": "Combat Flexibility",
+        "desc": "Through your experience in battle, you can prepare your tactics to suit different situations. When you make your daily preparations, you gain one fighter feat of 8th level or lower that you don’t already have. You can use that feat until your next daily preparations. You must meet all of the feat’s other prerequisites.",
+        "internalNote": "Feat choices through class features are handled in the class object."
+    },
+    {
+        "name": "Armor Expertise (Fighter)",
+        "desc": ""
+    },
+    {
+        "name": "Fighter Expertise",
+        "desc": "You’ve practiced your techniques to make them harder to resist. Your proficiency rank for your fighter class DC increases to expert.",
         "internalNote": "Skill increases through class features are handled in the class object."
     },
     {
-        "name":"Wild Stride",
-        "desc":"You move quickly through obstacles, whether they're tumbled stone, tangled undergrowth, or sucking mud. You can ignore the effects of non-magical difficult terrain. As normal for ignoring difficult terrain, this also lets you treat the hindrances of greater difficult terrain as those of difficult terrain.",
-        "hint":"You can ignore the effects of non-magical difficult terrain. As normal for ignoring difficult terrain, this also lets you treat the hindrances of greater difficult terrain as those of difficult terrain.",
-        "showon":"Movement"
+        "name": "Improved Flexibility",
+        "desc": "",
+        "internalNote": "Feat choices through class features are handled in the class object."
     },
     {
-        "name":"Weapon Mastery",
-        "desc":"You fully understand the intricacies of your weapons. Your proficiency ranks for simple and martial weapons and unarmed attacks increase to master.",
+        "name": "Versatile Legend",
+        "desc": "You are nigh-unmatched with any weapon. Your proficiency ranks for simple weapons, martial weapons, and unarmed attacks increase to legendary, and your proficiency rank for advanced weapons increases to master. Your proficiency rank for your fighter class DC increases to master.",
         "internalNote": "Skill increases through class features are handled in the class object."
     },
     {
-        "name":"Improved Evasion",
-        "desc":"Your ability to elude danger is matchless. Your proficiency rank for Reflex saves increases to legendary. When you roll a critical failure on a Reflex save, you get a failure instead. When you roll a failure on a Reflex save against a damaging effect, you take half damage.",
-        "hint":"When you roll a critical failure on a Reflex save, you get a failure instead. When you roll a failure on a Reflex save against a damaging effect, you take half damage.",
-        "showon":"Reflex",
+        "name": "Weapon Legend",
+        "desc": "You’ve learned fighting techniques that apply to all armaments, and you’ve developed unparalleled skill with your favorite weapons. Your proficiency ranks for simple and martial weapons and unarmed attacks increase to master. Your proficiency rank for advanced weapons increases to expert. You can select one weapon group and increase your proficiency ranks to legendary for all simple and martial weapons in that weapon group, and to master for all advanced weapons in that weapon group.",
+        "internalNote": "### Not yet implemented - Implemented via the Weapon Legend Choices ### Skill increases through class features are handled in the class object."
+    },
+    {
+        "name": "Debilitating Strikes",
+        "desc": "When taking advantage of an opening, you both hinder and harm your foe. You gain the Debilitating Strike free action.",
+        "gainActivities": [
+            "Debilitating Strike"
+        ]
+    },
+    {
+        "name": "Deny Advantage (Rogue)",
+        "desc": "As someone who takes advantage of others’ defenses, you are careful not to leave such openings yourself. You aren’t flat-footed to hidden, undetected, or flanking creatures of your level or lower, or creatures of your level or lower using surprise attack. However, they can still help their allies flank.",
+        "hint": "You aren’t flat-footed to hidden, undetected, or flanking creatures of your level or lower, or creatures of your level or lower using surprise attack. However, they can still help their allies flank.",
+        "showon": "AC"
+    },
+    {
+        "name": "Double Debilitation",
+        "desc": "Your opportunistic attacks are particularly detrimental. When you use Debilitating Strike, you can apply two debilitations simultaneously; removing one removes both.",
+        "hint": "When you use Debilitating Strike, you can apply two debilitations simultaneously; removing one removes both.",
+        "showon": "Debilitating Strike"
+    },
+    {
+        "name": "Master Strike",
+        "desc": ""
+    },
+    {
+        "name": "Master Tricks",
+        "desc": "You’ve mastered a rogue’s fighting moves. Your proficiency ranks increase to master for all simple weapons and unarmed attacks plus the rapier, sap, shortbow, and shortsword.",
         "internalNote": "Skill increases through class features are handled in the class object."
     },
     {
-        "name":"Incredible Senses",
-        "desc":"You notice things almost impossible for an ordinary person to detect. Your proficiency rank for Perception increases to legendary.",
+        "name": "Rogue Expertise",
+        "desc": "Your techniques are now harder to resist. Your proficiency rank for your rogue class DC increases to expert.",
         "internalNote": "Skill increases through class features are handled in the class object."
     },
     {
-        "name":"Masterful Hunter",
-        "desc":"You have honed your abilities as a hunter to incredible levels. Your proficiency rank for your ranger class DC increases to master. When using a ranged weapon that you have master proficiency in, you can ignore the penalty if attacking your hunted prey within the weapon's second and third range increments.\n\nIf you have master proficiency in Perception, you gain a +4 circumstance bonus to Perception checks when you Seek your prey, and if you have master proficiency in Survival, you gain a +4 circumstance bonus to Survival checks when you Track your prey. You also gain an additional benefit depending on your hunter's edge.",
-        "hint":"When using a ranged weapon that you have master proficiency in, you can ignore the penalty if attacking your hunted prey within the weapon's second and third range increments.\n\nIf you have master proficiency in Perception, you gain a +4 circumstance bonus to Perception checks when you Seek your prey, and if you have master proficiency in Survival, you gain a +4 circumstance bonus to Survival checks when you Track your prey.",
-        "showon":"Attacks, Survival",
+        "name": "Slippery Mind",
+        "desc": "You play mental games and employ cognitive tricks to throw off mind-altering effects. Your proficiency rank for Will saves increases to master. When you roll a success at a Will save, you get a critical success instead.",
+        "hint": "When you roll a success at a Will save, you get a critical success instead.",
+        "showon": "Will",
         "internalNote": "Skill increases through class features are handled in the class object."
     },
     {
-       "name":"Masterful Hunter: Flurry",
-       "desc":"You can blend your weapon mastery with skillful targeting to make a series of precise attacks. If you have master proficiency with your weapon, your multiple attack penalty for attacks against your hunted prey is -2 (-1 with an agile weapon) on your second attack of the turn, and -4 (-2 with an agile weapon) on your third and subsequent attacks of the turn.",
-       "hint":"If you have master proficiency with your weapon, your multiple attack penalty for attacks against your hunted prey is -2 (-1 with an agile weapon) on your second attack of the turn, and -4 (-2 with an agile weapon) on your third and subsequent attacks of the turn.",
-       "showon":"Hunt Prey, Attacks"
+        "name": "Sneak Attack",
+        "desc": "When your enemy can’t properly defend itself, you take advantage to deal extra damage. If you Strike a creature that has the flat-footed condition with an agile or finesse melee weapon, an agile or finesse unarmed attack, or a ranged weapon attack, you deal an extra 1d6 precision damage. For a ranged attack with a thrown melee weapon, that weapon must also be agile or finesse.\n\nAs your rogue level increases, so does the number of damage dice for your sneak attack. Increase the number of dice by one at 5th, 11th, and 17th levels.",
+        "hint": "If you Strike a creature that has the flat-footed condition with an agile or finesse melee weapon, an agile or finesse unarmed attack, or a ranged weapon attack, you deal an extra 1d6 precision damage. Increase the number of dice by one at 5th, 11th, and 17th levels. For a ranged attack with a thrown melee weapon, that weapon must also be agile or finesse.",
+        "showon": "Attacks"
     },
     {
-       "name":"Masterful Hunter: Outwit",
-       "desc":"Your mastery of skills allows you to overwhelm your prey. If you have master proficiency in Deception, Intimidation, Stealth, or the skill you use to Recall Knowledge about your prey, increase the circumstance bonus against the prey with that skill from +2 to +4. If you have master proficiency with your armor, increase the circumstance bonus to AC against the prey from +1 to +2.",
-       "hint":"If you have master proficiency in Deception, Intimidation, Stealth, or the skill you use to Recall Knowledge about your prey, increase the circumstance bonus against the prey with that skill from +2 to +4. If you have master proficiency with your armor, increase the circumstance bonus to AC against the prey from +1 to +2.",
-       "showon":"Hunt Prey, AC, Arcana, Crafting, Deception, Intimidation, Nature, Occultism, Religion, Society, Stealth"
+        "name": "Surprise Attack",
+        "desc": "You spring into combat faster than foes can react. On the first round of combat, if you roll Deception or Stealth for initiative, creatures that haven’t acted are flat-footed to you.",
+        "hint": "On the first round of combat, if you roll Deception or Stealth for initiative, creatures that haven’t acted are flat-footed to you.",
+        "showon": "Deception, Stealth"
     },
     {
-       "name":"Masterful Hunter: Precision",
-       "desc":"Your weapon mastery allows you to hit your prey's vital areas multiple times. The second time in a round you hit your hunted prey, you also deal 1d8 precision damage. At 19th level, your second hit in a round against your hunted prey deals 2d8 precision damage, and your third hit in a round against your hunted prey deals 1d8 precision damage.",
-       "hint":"The second time in a round you hit your hunted prey, you also deal 1d8 precision damage. At 19th level, your second hit in a round against your hunted prey deals 2d8 precision damage, and your third hit in a round against your hunted prey deals 1d8 precision damage.",
-       "showon":"Hunt Prey, Attacks"
+        "name": "Weapon Tricks",
+        "desc": "You have become thoroughly familiar with the tools of your trade. You gain expert proficiency in simple weapons and unarmed attacks, as well as the rapier, sap, shortbow, and shortsword. When you critically succeed at an attack roll against a flat-footed creature while using an agile or finesse simple weapon or any of the listed weapons, you apply the critical specialization effect for the weapon you’re wielding.",
+        "internalNote": "Skill increases through class features are handled in the class object.",
+        "gainSpecialization": [
+            {
+                "trait": "Agile, Finesse",
+                "proficiency": "Simple Weapons",
+                "condition": "against flat-footed creature"
+            },
+            {
+                "weapon": "Rapier, Sap, Shortbow, Shortsword",
+                "condition": "against flat-footed creature"
+            }
+        ]
     },
     {
-        "name":"Second Skin",
-        "desc":"Your armor has become akin to a second skin for you. Your proficiency ranks for light armor, medium armor, and unarmored defense increase to master. When wearing light or medium armor, you can rest normally, rather than receiving poor rest that leaves you fatigued.",
-        "hint":"When wearing light or medium armor, you can rest normally, rather than receiving poor rest that leaves you fatigued.",
-        "showon":"Defense",
+        "name": "Bloodline",
+        "desc": "Choose a bloodline that gives you your spellcasting talent. This choice determines the type of spells you cast and the spell list you choose them from, additional spells you learn, and additional trained skills. You also gain Focus Points and special focus spells based on your bloodline. The bloodlines presented in this book are as follows. "
+    },
+    {
+        "name": "Bloodline Paragon",
+        "desc": "You have perfected the magic in your bloodline. Add two common 10th-level spells of your tradition to your repertoire. You gain a single 10th-level spell slot you can use to cast these spells, using sorcerer spellcasting. Unlike other spell slots, you don’t gain more 10th-level spells as you level up, and they can’t be used for abilities that let you cast spells without expending spell slots or abilities that give you more spell slots. You can take the Bloodline Perfection sorcerer feat to gain a second slot.",
+        "internalNote": "Spell slots gained through class features are handled in the class object."
+    },
+    {
+        "name": "Expert Spellcaster (Sorcerer)",
+        "desc": "Your inherent magic responds easily and powerfully to your command. Your proficiency ranks for spell attack rolls and spell DCs for spells of your bloodline’s tradition increase to expert.",
         "internalNote": "Skill increases through class features are handled in the class object."
     },
     {
-        "name":"Swift Prey",
-        "desc":"You size up your prey with only a glance. You can use Hunt Prey as a free action if it's your first action of your turn.",
-        "showon":"Hunt Prey"
+        "name": "Legendary Spellcaster (Sorcerer)",
+        "desc": "You demonstrate prodigious talent for spellcasting. Your proficiency ranks for spell attack rolls and spell DCs for spells of your bloodline’s tradition increase to legendary.",
+        "internalNote": "Skill increases through class features are handled in the class object."
+    },
+    {
+        "name": "Master Spellcaster (Sorcerer)",
+        "desc": "You have achieved mastery over the magic in your blood. Your proficiency ranks for spell attack rolls and spell DCs for spells of your bloodline’s tradition increase to master.",
+        "internalNote": "Skill increases through class features are handled in the class object."
+    },
+    {
+        "name": "Signature Spells (Sorcerer)",
+        "desc": "You’ve learned to cast some of your spells more flexibly. For each spell level you have access to, choose one spell of that level to be a signature spell. You don’t need to learn heightened versions of signature spells separately; instead, you can heighten these spells freely. If you’ve learned a signature spell at a higher level than its minimum, you can also cast all its lower-level versions without learning those separately. If you swap out a signature spell, you can choose a replacement signature spell of the same spell level at which you learned the previous spell. You can also retrain specifically to change a signature spell to a different spell of that level without swapping any spells; this takes as much time as retraining a spell normally does.",
+        "allowSignatureSpells": true
+    },
+    {
+        "name": "Simple Weapon Expertise",
+        "desc": "Training and magic improved your weapon technique. Your proficiency rank for simple weapons and unarmed attacks increases to expert."
+    },
+    {
+        "name": "Weapon Specialization (Sorcerer)",
+        "desc": "You’ve learned to inflict grave wounds with your practiced weapons. You deal 2 additional damage with weapons and unarmed attacks in which you are an expert. This damage increases to 3 if you’re a master, and 4 if you’re legendary.",
+        "internalNote": "The effect is hardcoded."
+    },
+    {
+        "name": "Arcane Bond",
+        "desc": "You place some of your magical power in a bonded item. Each day when you prepare your spells, you can designate a single item you own as your bonded item. This is typically an item associated with spellcasting, such as a wand, ring, or staff, but you are free to designate a weapon or other item. You gain the Drain Bonded Item free action.",
+        "internalNote": "Using Arcane Bond is hardcoded.",
+        "gainActivities": [
+            "Drain Bonded Item"
+        ]
+    },
+    {
+        "name": "Arcane Thesis",
+        "desc": "During your studies to become a full-fledged wizard, you produced a thesis of unique magical research on one of a variety of topics. You gain a special benefit depending on the topic of your thesis research. The arcane thesis topics presented in this book are below; your specific thesis probably has a much longer and more technical title like “On the Methods of Spell Interpolation and the Genesis of a New Understanding of the Building Blocks of Magic.”"
+    },
+    {
+        "name": "Archwizard's Spellcraft",
+        "desc": "You command the most potent arcane magic and can cast a spell of truly incredible power. You gain a single 10th-level spell slot and can prepare a spell in that slot using arcane spellcasting. Unlike with other spell slots, you don’t gain more 10th-level spells as you level up, though you can take the Archwizard’s Might feat to gain a second slot.",
+        "internalNote": "Spell slots gained through class features are handled in the class object."
+    },
+    {
+        "name": "Expert Spellcaster (Wizard)",
+        "desc": "Extended practice of the arcane has improved your capabilities. Your proficiency ranks for arcane spell attack rolls and spell DCs increase to expert.",
+        "internalNote": "Skill increases through class features are handled in the class object."
+    },
+    {
+        "name": "Legendary Spellcaster (Wizard)",
+        "desc": "You are a consummate spellcaster, with a comprehensive understanding of both arcane theory and practical spellcraft. Your proficiency ranks for arcane spell attack rolls and spell DCs increase to legendary.",
+        "internalNote": "Skill increases through class features are handled in the class object."
+    },
+    {
+        "name": "Master Spellcaster (Wizard)",
+        "desc": "You command superlative spellcasting ability. Your proficiency ranks for arcane spell attack rolls and spell DCs increase to master.",
+        "internalNote": "Skill increases through class features are handled in the class object."
+    },
+    {
+        "name": "Wizard Weapon Expertise",
+        "desc": "Through a combination of magic and training, you’ve learned how to wield wizard weapons more effectively. You gain expert proficiency in the club, crossbow, dagger, heavy crossbow, staff, and unarmed attacks.",
+        "internalNote": "Skill increases through class features are handled in the class object."
     }
 ]

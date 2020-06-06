@@ -75,7 +75,7 @@ export class AttacksComponent implements OnInit {
 
     get_EquippedWeapons() {
         this.get_AttackRestrictions();
-        return this.get_Creature().inventories[0].weapons.filter(weapon => weapon.equipped && weapon.equippable);
+        return this.sortByPipe.transform(this.get_Creature().inventories[0].weapons.filter(weapon => weapon.equipped && weapon.equippable), "asc", "name");
     }
 
     get_TalismanTitle(talisman: Talisman) {

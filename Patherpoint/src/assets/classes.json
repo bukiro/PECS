@@ -8594,20 +8594,6 @@
                     },
                     {
                         "_className": "FeatChoice",
-                        "feats": [
-                            {
-                                "locked": true,
-                                "name": "Fighter Weapon Mastery",
-                                "source": "Fighter",
-                                "sourceId": "5-Feature-Fighter-1"
-                            }
-                        ],
-                        "id": "5-Feature-Fighter-1",
-                        "source": "Fighter",
-                        "type": "Feature"
-                    },
-                    {
-                        "_className": "FeatChoice",
                         "available": 1,
                         "filter": "Fighter Weapon Mastery",
                         "id": "5-Fighter Weapon Mastery-Fighter-2",
