@@ -400,7 +400,13 @@ export class FeatchoiceComponent implements OnInit {
         } else {
             this.characterService.get_Changed()
             .subscribe((target) => {
-                if (target == "featchoice" || target == "all" || target == this.creature) {
+                if (target == "featchoices" || target == "all" || target == this.creature) {
+                    this.changeDetector.detectChanges();
+                }
+            });
+            this.characterService.get_ViewChanged()
+            .subscribe((view) => {
+                if (view.creature == this.creature && ["featchoices", "all"].includes(view.target)) {
                     this.changeDetector.detectChanges();
                 }
             });

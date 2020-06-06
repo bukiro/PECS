@@ -475,11 +475,17 @@ export class InventoryComponent implements OnInit {
             setTimeout(() => this.finish_Loading(), 500)
         } else {
             this.characterService.get_Changed()
-                .subscribe((target) => {
-                    if (["inventory", "all", this.creature].includes(target)) {
-                        this.changeDetector.detectChanges();
-                    }
-                });
+            .subscribe((target) => {
+                if (["inventory", "all", this.creature].includes(target)) {
+                    this.changeDetector.detectChanges();
+                }
+            });
+            this.characterService.get_ViewChanged()
+            .subscribe((view) => {
+                if (view.creature == this.creature && ["inventory", "all"].includes(view.target)) {
+                    this.changeDetector.detectChanges();
+                }
+            });
             return true;
         }
     }

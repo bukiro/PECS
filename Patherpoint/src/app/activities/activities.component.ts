@@ -139,10 +139,6 @@ export class ActivitiesComponent implements OnInit {
         }
     }
 
-    on_Activate(gain: ActivityGain, activity: Activity, activated: boolean) {
-        this.activitiesService.activate_Activity(this.get_Creature(), this.characterService, this.timeService, this.itemsService, this.spellsService, gain, activity, activated);
-    }
-
     get_TemporaryFeatChoices() {
         let choices: {choice: FeatChoice, level: Level}[] = [];
         if (this.creature == "Character") {
@@ -163,6 +159,12 @@ export class ActivitiesComponent implements OnInit {
                         this.changeDetector.detectChanges();
                     }
                 });
+            this.characterService.get_ViewChanged()
+            .subscribe((view) => {
+                if (view.creature == this.creature && ["activities", "all"].includes(view.target)) {
+                    this.changeDetector.detectChanges();
+                }
+            });
             return true;
         }
     }

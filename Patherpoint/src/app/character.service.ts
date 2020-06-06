@@ -57,11 +57,14 @@ export class CharacterService {
 
     private me: Character = new Character();
     public characterChanged$: Observable<string>;
+    public viewChanged$: Observable<{creature: string, target: string}>;
     private loader = [];
     private loading: boolean = false;
     private basicItems = []
+    private toChange: {creature: string, target: string}[] = [];
     private changed: BehaviorSubject<string> = new BehaviorSubject<string>("");
-
+    private viewChanged: BehaviorSubject<{creature: string, target: string}> = new BehaviorSubject<{creature: string, target: string}>({target: "", creature: ""});
+    
     itemsMenuState: string = 'out';
     itemsMenuTarget: string = 'Character';
     characterMenuState: string = 'out';
@@ -98,6 +101,36 @@ export class CharacterService {
     get_Changed(): Observable<string> {
         return this.characterChanged$;
     }
+
+    get_ViewChanged(): Observable<{creature: string, target: string}> {
+        return this.viewChanged$;
+    }
+
+    set_ToChange(creature: string = "Character", target: string = "all") {
+        target = target || "all";
+        this.toChange.push({target:target, creature:creature});
+    }
+
+    process_ToChange() {
+        ["Character", "Companion", "Familiar"].forEach(creature => {
+            if (this.toChange.find(view => view.creature == creature && view.target == "all")) {
+                this.toChange == this.toChange.filter(view => view.creature != creature)
+                this.set_ViewChanged({target:"all", creature:creature});
+            } else {
+                let unique: string[] = this.toChange.filter(view => view.creature == creature).map(view => JSON.stringify(view))
+                unique = Array.from(new Set(unique));
+                unique.map(view => JSON.parse(view)).forEach(view => {
+                    this.set_ViewChanged(view);
+                });
+                this.toChange = this.toChange.filter(view => view.creature != creature);
+            }
+        })
+    }
+
+    set_ViewChanged(view: {creature: string, target: string}) {
+        this.viewChanged.next(view);
+    }
+
     set_Changed(target: string = "all") {
         target = target || "all";
         this.changed.next(target);
@@ -222,7 +255,7 @@ export class CharacterService {
 
     set_ItemsMenuTarget(target: string) {
         this.itemsMenuTarget = target;
-        this.set_Changed("items");
+        this.set_Changed("itemstore");
     }
 
     get_Level(number: number) {
@@ -561,12 +594,14 @@ export class CharacterService {
             });
         }
         if (changeAfter) {
+            this.set_ToChange(creature.type, "inventory");
             this.set_Changed(creature.type);
         }
         return returnedInventoryItem;
     }
 
     drop_InventoryItem(creature: Character|AnimalCompanion, inventory: ItemCollection, item: Item, changeAfter: boolean = true, equipBasicItems: boolean = true, including: boolean = true, amount: number = 1) {
+        this.set_ToChange(creature.type, "inventory");
         if (amount < item.amount) {
             item.amount -= amount;
         } else {
@@ -588,14 +623,14 @@ export class CharacterService {
             if (item["activities"]) {
                 item["activities"].forEach(activity => {
                     if (activity.active) {
-                        this.activitiesService.activate_Activity(creature, this, this.timeService, this.itemsService, this.spellsService, activity, activity, false);
+                        this.activitiesService.activate_Activity(creature, "", this, this.timeService, this.itemsService, this.spellsService, activity, activity, false);
                     }
                 })
             }
             if (item["gainActivities"]) {
                 item["gainActivities"].forEach(gain => {
                     if (gain.active) {
-                        this.activitiesService.activate_Activity(creature, this, this.timeService, this.itemsService, this.spellsService, gain, this.activitiesService.get_Activities(gain.name)[0], false);
+                        this.activitiesService.activate_Activity(creature, "", this, this.timeService, this.itemsService, this.spellsService, gain, this.activitiesService.get_Activities(gain.name)[0], false);
                     }
                 })
             }
@@ -718,13 +753,18 @@ export class CharacterService {
     onEquip(creature: Character|AnimalCompanion, inventory: ItemCollection, item: Equipment, equipped: boolean = true, changeAfter: boolean = true, equipBasicItems: boolean = true) {
         if ((creature.type == "Character" && !item.traits.includes("Companion")) || (creature.type == "Companion" && item.traits.includes("Companion")) || item.name == "Unarmored") {
             item.equipped = equipped;
+            this.set_ToChange(creature.type, "inventory");
             if (item.equipped) {
+                if (item.type == "weapons" || item.type == "ammunition") {
+                    this.set_ToChange(creature.type, "attacks");
+                }
                 if (item.type == "armors" || item.type == "shields") {
                     let allOfType = inventory[item.type];
                     allOfType.forEach(typeItem => {
                         this.onEquip(creature, inventory, typeItem, false, false, false);
                     });
                     item.equipped = true;
+                    this.set_ToChange(creature.type, "defense");
                 }
                 //If you get an Activity from an item that doesn't need to be invested, immediately invest it in secret so the Activity is gained
                 if (item.gainActivities && !item.traits.includes("Invested")) {
@@ -809,13 +849,14 @@ export class CharacterService {
 
     onInvest(creature: Character|AnimalCompanion, inventory: ItemCollection, item: Equipment, invested: boolean = true, changeAfter: boolean = true) {
         item.invested = invested;
+        this.set_ToChange(creature.type, "inventory");
         if (item.invested) {
             if (!item.equipped) {
                 this.onEquip(creature, inventory, item, true, false);
             }
         } else {
             item.gainActivities.forEach((gainActivity: ActivityGain) => {
-                this.activitiesService.activate_Activity(creature, this, this.timeService, this.itemsService, this.spellsService, gainActivity, this.activitiesService.get_Activities(gainActivity.name)[0], false);
+                this.activitiesService.activate_Activity(creature, "", this, this.timeService, this.itemsService, this.spellsService, gainActivity, this.activitiesService.get_Activities(gainActivity.name)[0], false);
             });
         }
         if (changeAfter) {
@@ -929,6 +970,7 @@ export class CharacterService {
             }
             return newLength;
         }
+        this.set_ToChange(creature.type, "effects");
     }
 
     remove_Condition(creature: Character|AnimalCompanion|Familiar, conditionGain: ConditionGain, reload: boolean = true, increaseWounded: boolean = true) {
@@ -946,6 +988,7 @@ export class CharacterService {
                 this.set_Changed();
             }
         }
+        this.set_ToChange(creature.type, "effects");
     }
 
     process_OnceEffect(creature: Character|AnimalCompanion|Familiar, effectGain: EffectGain, conditionValue: number = 0, conditionHeightened: number = 0) {
@@ -970,9 +1013,11 @@ export class CharacterService {
             case "Focus Points":
                 //Give the focus point some time. If a feat expands the focus pool and gives a focus point, the pool is not expanded yet at this point of processing.
                 (creature as Character).class.focusPoints += value;
+                this.set_ToChange(creature.type, "spellbook");
                 break;
             case "Temporary HP":
                 creature.health.temporaryHP += value;
+                this.set_ToChange(creature.type, "health");
                 break;
             case "HP":
                 if (value > 0) {
@@ -980,12 +1025,15 @@ export class CharacterService {
                 } else if (value < 0) {
                     creature.health.takeDamage(creature, this, this.effectsService, -value, false)
                 }
+                this.set_ToChange(creature.type, "health");
                 break;
             case "Languages":
                 let languages = (creature as Character).class.languages;
                 if (languages.filter(language => language == effectGain.value).length == 0) {
                     languages.push(effectGain.value);
                 }
+                this.set_ToChange(creature.type, "general");
+                this.set_ToChange(creature.type, "charactersheet");
                 break;
         }
     }
@@ -1275,6 +1323,7 @@ export class CharacterService {
             if (this.loading) { this.loading = false; }
             this.grant_BasicItems();
             this.characterChanged$ = this.changed.asObservable();
+            this.viewChanged$ = this.viewChanged.asObservable();
             //this.set_Changed();
             this.trigger_FinalChange();
         }

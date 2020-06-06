@@ -207,6 +207,12 @@ export class HealthComponent implements OnInit {
                     this.changeDetector.detectChanges();
                 }
             });
+            this.characterService.get_ViewChanged()
+            .subscribe((view) => {
+                if (view.creature == this.creature && ["health", "all"].includes(view.target)) {
+                    this.changeDetector.detectChanges();
+                }
+            });
             return true;
         }
     }

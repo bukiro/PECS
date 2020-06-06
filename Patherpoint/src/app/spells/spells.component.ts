@@ -146,6 +146,12 @@ export class SpellsComponent implements OnInit {
                     this.changeDetector.detectChanges();
                 }
             });
+            this.characterService.get_ViewChanged()
+            .subscribe((view) => {
+                if (view.creature == "Character" && ["spells", "all"].includes(view.target)) {
+                    this.changeDetector.detectChanges();
+                }
+            });
             return true;
         }
     }

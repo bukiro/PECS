@@ -137,6 +137,12 @@ export class DefenseComponent implements OnInit {
                     this.changeDetector.detectChanges();
                 }
             });
+            this.characterService.get_ViewChanged()
+            .subscribe((view) => {
+                if (view.creature == this.creature && ["defense", "all"].includes(view.target)) {
+                    this.changeDetector.detectChanges();
+                }
+            });
             return true;
         }
     }

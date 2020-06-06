@@ -222,7 +222,7 @@ export class Character extends Creature {
     lose_Activity(characterService: CharacterService, timeService: TimeService, itemsService: ItemsService, spellsService: SpellsService, activitiesService: ActivitiesService, oldGain: ActivityGain) {
         let a = this.class.activities;
         if (oldGain.active) {
-            activitiesService.activate_Activity(this, characterService, timeService, itemsService, spellsService, oldGain, activitiesService.get_Activities(oldGain.name)[0], false);
+            activitiesService.activate_Activity(this, "", characterService, timeService, itemsService, spellsService, oldGain, activitiesService.get_Activities(oldGain.name)[0], false);
         }
         a.splice(a.indexOf(oldGain), 1);
     }
@@ -552,7 +552,8 @@ export class Character extends Creature {
                 characterService.remove_CustomFeat(loreFeat);
             })
         }
-        characterService.set_Changed();
+        characterService.set_ToChange("Character", "skills");
+        characterService.set_ToChange("Character", "charactersheet");
     }
     add_Lore(characterService: CharacterService, source: LoreChoice) {
         //Create the skill on the character
@@ -581,6 +582,7 @@ export class Character extends Creature {
             newFeat.lorebase = false;
             newFeat.hide = false;
         })
-        characterService.set_Changed();
+        characterService.set_ToChange("Character", "skills");
+        characterService.set_ToChange("Character", "charactersheet");
     }
 }

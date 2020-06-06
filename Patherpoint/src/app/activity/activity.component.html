@@ -3,7 +3,7 @@
         <ng-container *ngIf="gain.name != 'Fused Stance' && activity.can_Activate() && !gain.activeCooldown">
             <button class="row center-aligned" (click)="on_Activate(gain, activity, true, creature)"
                 *ngIf="!gain.active && ['self', 'ally'].includes(get_SpellTarget())">
-                Activate (Cast spell on yourself)
+                Activate {{get_SpellTarget() == 'ally' ? "(Cast spell on yourself)" : ""}}
             </button>
             <button class="row center-aligned"
                 (click)="on_Activate(gain, activity, true, (creature=='Character' ? 'Companion' : 'Character'))"

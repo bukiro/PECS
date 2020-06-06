@@ -77,6 +77,12 @@ export class AbilitiesComponent implements OnInit {
                     this.changeDetector.detectChanges();
                 }
             });
+            this.characterService.get_ViewChanged()
+            .subscribe((view) => {
+                if (view.creature == this.creature && ["abilities", "all"].includes(view.target)) {
+                    this.changeDetector.detectChanges();
+                }
+            });
             return true;
         }
     }

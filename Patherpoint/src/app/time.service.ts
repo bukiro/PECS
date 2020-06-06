@@ -100,6 +100,7 @@ export class TimeService {
         });
         
         characterService.set_Changed();
+        characterService.process_ToChange();
     }
 
     tick(characterService: CharacterService, timeService: TimeService, itemsService: ItemsService, spellsService: SpellsService, turns: number = 10) {

@@ -269,6 +269,12 @@ export class SpellLibraryComponent implements OnInit {
                     this.changeDetector.detectChanges();
                 }
             });
+            this.characterService.get_ViewChanged()
+            .subscribe((view) => {
+                if (view.creature == "Character" && ["spelllibrary", "all"].includes(view.target)) {
+                    this.changeDetector.detectChanges();
+                }
+            });
             return true;
         }
     }

@@ -88,14 +88,14 @@ export class ActivityComponent implements OnInit {
     }
 
     on_Activate(gain: ActivityGain | ItemActivity, activity: Activity | ItemActivity, activated: boolean, target: string) {
-        this.activitiesService.activate_Activity(this.get_Creature(target), this.characterService, this.timeService, this.itemsService, this.spellsService, gain, activity, activated);
+        this.activitiesService.activate_Activity(this.get_Creature(), target, this.characterService, this.timeService, this.itemsService, this.spellsService, gain, activity, activated);
     }
 
     on_ActivateFuseStance(activated: boolean) {
         this.gain.active = activated;
         this.get_FusedStances().forEach(gain => {
             let activity = (gain["can_Activate"] ? gain as ItemActivity : this.get_Activities(gain.name)[0])
-            this.activitiesService.activate_Activity(this.get_Creature(), this.characterService, this.timeService, this.itemsService, this.spellsService, gain, activity, activated);
+            this.activitiesService.activate_Activity(this.get_Creature(), "Character", this.characterService, this.timeService, this.itemsService, this.spellsService, gain, activity, activated);
         })
     }
 
@@ -147,7 +147,8 @@ export class ActivityComponent implements OnInit {
 
     get_SpellTarget() {
         if (this.activity.castSpells.length) {
-            return this.get_Spells(this.activity.castSpells[0].name)[0].target || "";
+            //The SpellCast may limit the spell targets. If not, get the available targets from the Spell, or return "" for non-allies.
+            return this.activity.castSpells[0].target || this.get_Spells(this.activity.castSpells[0].name)[0]?.target || "";
         } else {
             return "no spell";
         }

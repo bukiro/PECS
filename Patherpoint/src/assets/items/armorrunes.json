@@ -39,6 +39,7 @@
                     {
                         "name": "Invisibility",
                         "level": 2,
+                        "target": "self",
                         "_className": "SpellCast"
                     }
                 ],

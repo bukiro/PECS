@@ -226,7 +226,12 @@ export class ConditionsComponent implements OnInit {
                     this.changeDetector.detectChanges();
                 }
             });
-            return true;
+            this.characterService.get_ViewChanged()
+            .subscribe((view) => {
+                if (view.creature == "Character" && ["conditions", "all"].includes(view.target)) {
+                    this.changeDetector.detectChanges();
+                }
+            });return true;
         }
     }
 

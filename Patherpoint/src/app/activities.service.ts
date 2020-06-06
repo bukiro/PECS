@@ -48,19 +48,7 @@ export class ActivitiesService {
         return this.http.get<string[]>('/assets/activities.json');
     }
 
-    activate_Activity(creature: Character|AnimalCompanion|Familiar, characterService: CharacterService, timeService: TimeService, itemsService: ItemsService, spellsService: SpellsService, gain: ActivityGain|ItemActivity, activity: Activity|ItemActivity, activated: boolean) {
-        if (activated && activity.toggle) {
-            gain.active = true;
-            gain.duration = activity.sustained;
-        } else {
-            gain.active = false;
-            gain.duration = 0;
-            //Start cooldown
-            if (activity.cooldown) {
-                gain.activeCooldown = activity.cooldown + timeService.get_YourTurn();
-            }
-        }
-
+    activate_Activity(creature: Character|AnimalCompanion|Familiar, spellTarget: string, characterService: CharacterService, timeService: TimeService, itemsService: ItemsService, spellsService: SpellsService, gain: ActivityGain|ItemActivity, activity: Activity|ItemActivity, activated: boolean, changeAfter: boolean = true) {
         //Find item, if it exists
         let item: Equipment = null;
         creature.inventories.forEach(inventory => {
@@ -74,6 +62,24 @@ export class ActivitiesService {
             });
         });
         
+        if (activated && activity.toggle) {
+            gain.active = true;
+            if (activity.sustained) {
+                gain.duration = activity.sustained;
+                characterService.set_ToChange(creature.type, "activities");
+                if (item) {characterService.set_ToChange(creature.type, "inventory");}
+            }
+        } else {
+            gain.active = false;
+            gain.duration = 0;
+            //Start cooldown
+            if (activity.cooldown) {
+                gain.activeCooldown = activity.cooldown + timeService.get_YourTurn();
+                characterService.set_ToChange(creature.type, "activities");
+                if (item) {characterService.set_ToChange(creature.type, "inventory");}
+            }
+        }
+
         //Process various results of activating the activity
 
         //One time effects
@@ -94,6 +100,7 @@ export class ActivitiesService {
                     if (newItem) {
                         let grantedItem = characterService.grant_InventoryItem(creature as Character|AnimalCompanion, creature.inventories[0], newItem, false, false, true);
                         gainItem.id = grantedItem.id;
+                        grantedItem.expiration = gainItem.expiration;
                         if (grantedItem.get_Name) {
                             grantedItem.displayName = grantedItem.name + " (granted by " + activity.name + ")"
                         };
@@ -132,7 +139,7 @@ export class ActivitiesService {
             activity.castSpells.forEach(cast => {
                 cast.spellGain.duration = cast.duration;
                 let librarySpell = spellsService.get_Spells(cast.name)[0];
-                spellsService.process_Spell(creature.type, characterService, itemsService, timeService, cast.spellGain, librarySpell, cast.level, activated, true);
+                spellsService.process_Spell(creature, spellTarget, characterService, itemsService, timeService, cast.spellGain, librarySpell, cast.level, activated, true, false);
             })
         }
 
@@ -141,10 +148,10 @@ export class ActivitiesService {
         if (item && activated && activity.toggle) {
             if (item.activities.length + item.gainActivities.length > 1) {
                 item.gainActivities.filter((activityGain: ActivityGain) => activityGain !== gain && activityGain.active).forEach((activityGain: ActivityGain) => {
-                    this.activate_Activity(creature, characterService, timeService, itemsService, spellsService, activityGain, this.get_Activities(activityGain.name)[0], false)
+                    this.activate_Activity(creature, creature.type, characterService, timeService, itemsService, spellsService, activityGain, this.get_Activities(activityGain.name)[0], false, false)
                 })
                 item.activities.filter((itemActivity: ItemActivity) => itemActivity !== gain && itemActivity.active).forEach((itemActivity: ItemActivity) => {
-                    this.activate_Activity(creature, characterService, timeService, itemsService, spellsService, itemActivity, itemActivity, false)
+                    this.activate_Activity(creature, creature.type, characterService, timeService, itemsService, spellsService, itemActivity, itemActivity, false, false)
                 })
             }
         }
@@ -156,9 +163,12 @@ export class ActivitiesService {
                 (creature as Character).get_FeatsTaken(1, creature.level, "Quick Rage")
             ) {
             gain.activeCooldown = 10;
+            characterService.set_ToChange(creature.type, "activities");
         }
 
-        characterService.set_Changed();
+        if (changeAfter) {
+            characterService.process_ToChange();
+        }
     }
 
     rest(creature: Character|AnimalCompanion|Familiar, characterService: CharacterService) {
@@ -194,7 +204,7 @@ export class ActivitiesService {
                         activity = this.get_Activities(gain.name)[0];
                     }
                     if (activity) {
-                        this.activate_Activity(creature, characterService, timeService, itemsService, spellsService, gain, activity, false);
+                        this.activate_Activity(creature, creature.type, characterService, timeService, itemsService, spellsService, gain, activity, false);
                     }
                 }
             }

@@ -38,10 +38,13 @@ export class SpellsService {
         }
     }
 
-    process_Spell(target: string = "", characterService: CharacterService, itemsService: ItemsService, timeService: TimeService, gain: SpellGain, spell: Spell, level: number, activated: boolean, manual: boolean) {
+    process_Spell(creature: Character|AnimalCompanion|Familiar, target: string = "", characterService: CharacterService, itemsService: ItemsService, timeService: TimeService, gain: SpellGain, spell: Spell, level: number, activated: boolean, manual: boolean = false, changeAfter: boolean = true) {
         if (activated && spell.sustained) {
             gain.active = true;
-            gain.duration = spell.sustained;
+            if (spell.sustained) {
+                gain.duration = spell.sustained;
+                characterService.set_ToChange(creature.type, "spellbook");
+            }
             gain.target = target;
         } else {
             gain.active = false;
@@ -50,6 +53,7 @@ export class SpellsService {
             //Start cooldown
             if (gain.cooldown) {
                 gain.activeCooldown = gain.cooldown + timeService.get_YourTurn();
+                characterService.set_ToChange(creature.type, "spellbook");
             }
         }
 
@@ -133,7 +137,10 @@ export class SpellsService {
                 }
             }
         }
-        characterService.set_Changed();
+        if (changeAfter) {
+            characterService.process_ToChange();
+            characterService.set_Changed();
+        }
     }
 
     rest(character: Character, characterService: CharacterService) {
@@ -151,6 +158,7 @@ export class SpellsService {
                 });
             });
         });
+        characterService.set_ToChange("Character", "spellbook");
     }
 
     tick_Spells(character: Character, characterService: CharacterService, itemsService: ItemsService, timeService: TimeService, turns: number = 10) {
@@ -165,13 +173,14 @@ export class SpellsService {
                 if (taken.gain.duration == 0) {
                     let spell: Spell = this.get_Spells(taken.gain.name)[0];
                     if (spell) {
-                        this.process_Spell(taken.gain.target, characterService, itemsService, timeService, taken.gain, spell, 0, false, false)
+                        this.process_Spell(character, taken.gain.target, characterService, itemsService, timeService, taken.gain, spell, 0, false, false)
                         taken.gain.activeCooldown = taken.gain.cooldown;
                     }
                 }
             }
             taken.gain.activeCooldown = Math.max(taken.gain.activeCooldown - individualTurns, 0)
         });
+        characterService.set_ToChange("Character", "spellbook");
     }
 
     still_loading() {

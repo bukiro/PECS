@@ -275,7 +275,7 @@ export class SpellbookComponent implements OnInit {
                 }
             }
         }
-        this.spellsService.process_Spell(creature, this.characterService, this.itemsService, this.timeService, gain, spell, level, activated, true);
+        this.spellsService.process_Spell(character, creature, this.characterService, this.itemsService, this.timeService, gain, spell, level, activated, true);
     }
 
     on_Restore(gain: SpellGain, casting: SpellCasting, level: number) {
@@ -300,6 +300,12 @@ export class SpellbookComponent implements OnInit {
             this.characterService.get_Changed()
             .subscribe((target) => {
                 if (target == "spellbook" || target == "all" || target == "Character") {
+                    this.changeDetector.detectChanges();
+                }
+            });
+            this.characterService.get_ViewChanged()
+            .subscribe((view) => {
+                if (view.creature == "Character" && ["spellbook", "all"].includes(view.target)) {
                     this.changeDetector.detectChanges();
                 }
             });

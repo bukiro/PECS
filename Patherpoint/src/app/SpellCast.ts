@@ -8,4 +8,5 @@ export class SpellCast {
     public duration: number = 0;
     //This is used automatically for sustained spells cast by activities;
     public spellGain: SpellGain = new SpellGain();
+    public target: "ally"|"self"|"" = "";
 }
