@@ -22,7 +22,7 @@
                 <button (click)="on_SpellTaken(spell.name, true, choice, false)" [disabled]="cannotTake(spell, choice).length || choice.spells.length >= get_Available(choice)" *ngIf="spellCasting.castingType=='Prepared'">+</button>
                 <span *ngIf="spellCasting.castingType=='Prepared'">&nbsp;</span>
                 <label for="{{choice.id+spell.name}}">
-                    <strong>{{spellTakenByThis(spell, choice) ? " " + spellTakenByThis(spell, choice) + " " : ""}}{{spell.name}}&nbsp;</strong><cite>Level {{spell.levelreq}}</cite>
+                    <strong>{{choice.tradition == 'prepared' && spellTakenByThis(spell, choice) ? " " + spellTakenByThis(spell, choice) + " " : ""}}{{spell.name}}&nbsp;</strong><cite>Level {{spell.levelreq}}</cite>
                 </label>
             </span>
             <cite class="problem" *ngFor="let reason of cannotTake(spell, choice); trackBy:trackByIndex;">

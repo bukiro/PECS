@@ -273,6 +273,7 @@ export class Weapon extends Equipment {
     //Returns a string in the form of "1d6 +5"
         let explain: string = "";
         let str = characterService.get_Abilities("Strength")[0].mod(creature, characterService, effectsService).result;
+        let dex = characterService.get_Abilities("Dexterity")[0].mod(creature, characterService, effectsService).result;
         let penalty: {value:number, source:string, penalty:boolean}[] = [];
         //Apply any mechanism that copy runes from another item, like Handwraps of Mighty Blows or Doubling Rings.
         //We set runeSource to the respective item and use it whenever runes are concerned.
@@ -332,6 +333,14 @@ export class Weapon extends Equipment {
             strPenalty.push({value:parseInt(effect.value), source:effect.source, penalty:true});
             strPenaltySum += parseInt(effect.value);
         });
+        //The Clumsy condition affects all Dexterity damage
+        let dexEffects = effectsService.get_RelativesOnThis(creature, "Dexterity-based Checks and DCs");
+        let dexPenalty: {value:number, setValue:string, source:string, penalty:boolean}[] = [];
+        let dexPenaltySum: number = 0;
+        dexEffects.forEach(effect => {
+            dexPenalty.push({value:parseInt(effect.value), setValue:"", source:effect.source, penalty:true});
+            dexPenaltySum += parseInt(effect.value);
+        });
         //Check if the Weapon has any traits that affect its damage Bonus, such as Thrown or Propulsive, and run those calculations.
         let abilityMod: number = 0;
         if (range == "ranged") {
@@ -369,14 +378,30 @@ export class Weapon extends Equipment {
                 }
             }
         } else {
-            abilityMod = str;
-            explain += "\nStrength Modifier: "+abilityMod;
-            if (strPenalty.length) {
-                strPenalty.forEach(singleStrPenalty => {
-                    penalty.push(singleStrPenalty);
-                    abilityMod += singleStrPenalty.value;
-                    explain += "\n"+singleStrPenalty.source+": "+singleStrPenalty.value;
-                });
+            //If the weapon is Finesse and you have the Thief Racket, you apply your Dexterity modifier to damage if it is higher.
+            if (characterService.have_Trait(this, "Finesse") &&
+                dex + dexPenaltySum > str + strPenaltySum &&
+                creature.type == "Character" &&
+                (creature as Character).get_FeatsTaken(1, creature.level, "Thief Racket").length) {
+                abilityMod = dex;
+                explain += "\nDexterity Modifier (Thief): "+abilityMod;
+                if (dexPenalty.length) {
+                    dexPenalty.forEach(singleDexPenalty => {
+                        penalty.push(singleDexPenalty);
+                        abilityMod += singleDexPenalty.value;
+                        explain += "\n"+singleDexPenalty.source+": "+singleDexPenalty.value;
+                    });
+                }
+            } else {
+                abilityMod = str;
+                explain += "\nStrength Modifier: "+abilityMod;
+                if (strPenalty.length) {
+                    strPenalty.forEach(singleStrPenalty => {
+                        penalty.push(singleStrPenalty);
+                        abilityMod += singleStrPenalty.value;
+                        explain += "\n"+singleStrPenalty.source+": "+singleStrPenalty.value;
+                    });
+                }
             }
         }
         let featBonus: number = 0;
