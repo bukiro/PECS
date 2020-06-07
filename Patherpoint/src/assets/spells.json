@@ -7566,6 +7566,103 @@
         "traits": [
             "Abjuration",
             "Plant"
+        ],
+        "range": "touch",
+        "targets": "1 willing creature",
+        "duration": "10 minutes",
+        "desc": "The target's skin becomes covered in bark. The target gains resistance <var>var1</var> to bludgeoning and piercing damage and weakness <var>var2</var> to fire. After the target takes fire damage, it can Dismiss the spell as a free action triggered by taking the damage; doing so doesn't reduce the fire damage the target was dealt.",
+        "heightened": [
+            {
+                "desc": "The resistances increase by 2, and the weakness increases by 3.",
+                "level": "(+2)"
+            }
+        ],
+        "gainConditions": [
+            {
+                "duration": 1000,
+                "name": "Barkskin",
+                "source": "Barkskin",
+                "heightenedFilter": 2,
+                "value": 2
+            },
+            {
+                "duration": 1000,
+                "name": "Barkskin",
+                "source": "Barkskin",
+                "heightenedFilter": 4,
+                "value": 4
+            },
+            {
+                "duration": 1000,
+                "name": "Barkskin",
+                "source": "Barkskin",
+                "heightenedFilter": 6,
+                "value": 6
+            },
+            {
+                "duration": 1000,
+                "name": "Barkskin",
+                "source": "Barkskin",
+                "heightenedFilter": 8,
+                "value": 8
+            },
+            {
+                "duration": 1000,
+                "name": "Barkskin",
+                "source": "Barkskin",
+                "heightenedFilter": 10,
+                "value": 10
+            }
+        ],
+        "desc2": [
+            {
+                "value": "2",
+                "variable": "var1"
+            },
+            {
+                "value": "3",
+                "variable": "var2"
+            }
+        ],
+        "desc4": [
+            {
+                "value": "4",
+                "variable": "var1"
+            },
+            {
+                "value": "6",
+                "variable": "var2"
+            }
+        ],
+        "desc6": [
+            {
+                "value": "6",
+                "variable": "var1"
+            },
+            {
+                "value": "9",
+                "variable": "var2"
+            }
+        ],
+        "desc8": [
+            {
+                "value": "8",
+                "variable": "var1"
+            },
+            {
+                "value": "12",
+                "variable": "var2"
+            }
+        ],
+        "desc10": [
+            {
+                "value": "10",
+                "variable": "var1"
+            },
+            {
+                "value": "15",
+                "variable": "var2"
+            }
         ]
     },
     {
@@ -8566,7 +8663,7 @@
         "desc": "<var>var1</var>You warp space to make a creature smaller. The target shrinks to become Tiny in size. Its equipment shrinks with it but returns to its original size if removed. The creature's reach changes to 0 feet. This spell has no effect on a Tiny creature.",
         "heightened": [
             {
-                "desc": "You warp space to make a creature smaller. The target shrinks to become Tiny in size. Its equipment shrinks with it but returns to its original size if removed. The creature's reach changes to 0 feet. This spell has no effect on a Tiny creature.",
+                "desc": "The spell can target up to 10 creatures.",
                 "level": "(6th)"
             }
         ],
@@ -8821,6 +8918,58 @@
         ],
         "traits": [
             "Transmutation"
+        ],
+        "range": "30 feet",
+        "targets": "up to 5 creatures",
+        "duration": "1 hour",
+        "desc": "<var>var1</var>The targets can breathe underwater.",
+        "heightened": [
+            {
+                "desc": "The duration increases to 8 hours.",
+                "level": "(3rd)"
+            },
+            {
+                "desc": "The duration increases to until your next daily preparations.",
+                "level": "(4th)"
+            }
+        ],
+        "gainConditions": [
+            {
+                "duration": 1000,
+                "name": "Water Breathing",
+                "source": "Water Breathing",
+                "heightenedFilter": 2
+            },
+            {
+                "duration": 48000,
+                "name": "Water Breathing",
+                "source": "Water Breathing",
+                "heightenedFilter": 3
+            },
+            {
+                "duration": -2,
+                "name": "Water Breathing",
+                "source": "Water Breathing",
+                "heightenedFilter": 4
+            }
+        ],
+        "desc2": [
+            {
+                "value": "",
+                "variable": "var1"
+            }
+        ],
+        "desc3": [
+            {
+                "value": "The duration increases to 8 hours. ",
+                "variable": "var1"
+            }
+        ],
+        "desc4": [
+            {
+                "value": "The duration increases to until your next daily preparations. ",
+                "variable": "var1"
+            }
         ]
     },
     {
@@ -11904,6 +12053,16 @@
         "traits": [
             "Divination",
             "Revelation"
+        ],
+        "target": "self",
+        "duration": "10 minutes",
+        "desc": "You see things within 60 feet as they actually are. The GM rolls a secret counteract check against any illusion or transmutation in the area, but only for the purpose of determining whether you see through it (for instance, if the check succeeds against a polymorph spell, you can see the creature's true form, but you don't end the polymorph spell).",
+        "gainConditions":[
+            {
+                "duration": 1000,
+                "name": "True Seeing",
+                "source": "True Seeing"
+            }
         ]
     },
     {
@@ -12631,6 +12790,17 @@
         "traits": [
             "Uncommon",
             "Abjuration"
+        ],
+        "range": "30 feet",
+        "targets": "1 creature",
+        "target": "ally",
+        "desc": "Powerful wards hide a creature from divination magic. The target gains a +4 status bonus to saves against mental effects. Mind blank attempts to counteract any detection, revelation, and scrying effects as if its spell level were 1 higher than its actual level. On a success, the divination effect functions normally except that it detects nothing about the target and its possessions. For instance, detect magic would still detect other magic in the area, but not any magic on the target.",
+        "gainConditions":[
+            {
+                "duration": -2,
+                "name": "Mind Blank",
+                "source": "Mind Blank"
+            }
         ]
     },
     {

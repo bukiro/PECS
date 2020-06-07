@@ -39,10 +39,16 @@ export class SpellsService {
     }
 
     process_Spell(creature: Character|AnimalCompanion|Familiar, target: string = "", characterService: CharacterService, itemsService: ItemsService, timeService: TimeService, gain: SpellGain, spell: Spell, level: number, activated: boolean, manual: boolean = false, changeAfter: boolean = true) {
+        //If this spell was cast by an activity, it may have a specified duration. Keep that here before the duration is changed to keep the spell active (or not).
+        let customDuration: number = 0;
+        if (activated && gain.duration) {
+            customDuration = gain.duration;
+        }
+
         if (activated && spell.sustained) {
             gain.active = true;
             if (spell.sustained) {
-                gain.duration = spell.sustained;
+                gain.duration = customDuration || spell.sustained;
                 characterService.set_ToChange(creature.type, "spellbook");
             }
             gain.target = target;
@@ -84,7 +90,7 @@ export class SpellsService {
                         } else {
                             let grantedItem = characterService.grant_InventoryItem(targetCreature as Character|AnimalCompanion, targetCreature.inventories[0], newItem, false, false, true);
                             gainItem.id = grantedItem.id;
-                            grantedItem.expiration = gainItem.expiration;
+                            grantedItem.expiration = customDuration || gainItem.expiration;
                             if (grantedItem.get_Name) {
                                 grantedItem.displayName = grantedItem.name + " (granted by " + spell.name + ")"
                             };
@@ -121,8 +127,8 @@ export class SpellsService {
                         //Pass the spell level in case that condition effects change with level
                         newConditionGain.heightened = level;
                         //If this spell was cast by an activity, it may have a specified duration. Apply that here.
-                        if (gain.duration) {
-                            newConditionGain.duration = gain.duration;
+                        if (customDuration) {
+                            newConditionGain.duration = customDuration;
                         }
                         characterService.add_Condition(targetCreature, newConditionGain, false);
                     });

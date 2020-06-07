@@ -71,6 +71,8 @@
                 *ngIf="get_Character().class.ancestry.languages && get_Character().class.ancestry.languages.length">
                 <strong>Languages</strong>
                 {{get_Languages()}}
+                <app-tags [creature]="creature" [objectName]="'Languages'" [showTraits]=true [showFeats]=true
+                    [showItems]=true [showActivities]=true [showConditions]=true></app-tags>
             </div>
             <div class="fullsize-only list-item"
                 *ngIf="get_Tenets().length">

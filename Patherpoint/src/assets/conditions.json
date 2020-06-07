@@ -579,13 +579,6 @@
         "buff": true
     },
     {
-        "name": "Dragon's Breath Potion (Silver, Young)",
-        "type": "potions",
-        "desc": "You can unleash a breath weapon as a 15-foot cone of cold that deals 4d6 cold damage. Each creature in the area must attempt a DC 23 basic Reflex save. Exhaling dragon breath uses a single action. After you use the breath weapon, you can't do so again for 1d4 rounds.",
-        "showon": "Attacks",
-        "buff": true
-    },
-    {
         "name": "Candle of Truth",
         "type": "otherconsumables",
         "desc": "Creatures within 10 feet of the candle receive a -4 status penalty to Lie.\n\nIn addition, when first entering the affected area, each creature (including you) must succeed at a DC 26 Will save or be unable to tell any deliberate lies while within 10 feet of the lit candle. This lasts for as long as the candle is lit.",
@@ -1249,7 +1242,7 @@
     {
         "name": "Gust of Wind",
         "type": "spells",
-        "desc": "A violent wind issues forth from your palm, blowing from the point where you are when you cast the spell to the line's opposite end. The wind extinguishes small non-magical fires, disperses fog and mist, blows objects of light Bulk or less around, and pushes larger objects. Large or smaller creatures in the area must attempt a Fortitude save. Large or smaller creatures that later move into the gust must attempt the save on entering.\n\n<strong>Critical Success</strong> The creature is unaffected.\nSuccess The creature can't move against the wind.\n<strong>Failure</strong> The creature is knocked prone. If it was flying, it suffers the effects of critical failure instead.\n<strong>Critical Failure</strong> The creature is pushed 30 feet in the wind's direction, knocked prone, and takes 2d6 bludgeoning damage.",
+        "desc": "A violent wind issues forth from your palm, blowing from the point where you are when you cast the spell to the line's opposite end. The wind extinguishes small non-magical fires, disperses fog and mist, blows objects of light Bulk or less around, and pushes larger objects. Large or smaller creatures in the area must attempt a Fortitude save. Large or smaller creatures that later move into the gust must attempt the save on entering.\n\n<strong>Critical Success</strong> The creature is unaffected.\n<strong>Success</strong> The creature can't move against the wind.\n<strong>Failure</strong> The creature is knocked prone. If it was flying, it suffers the effects of critical failure instead.\n<strong>Critical Failure</strong> The creature is pushed 30 feet in the wind's direction, knocked prone, and takes 2d6 bludgeoning damage.",
         "buff": true
     },
     {
@@ -1335,7 +1328,7 @@
     {
         "name": "Jump",
         "type": "spells",
-        "desc": "Your legs surge with strength, ready to leap high and far. Whenever you take the Leap action, You jump 30 feet in any direction without touching the ground. You must land on a space of solid ground within 30 feet of you, or else you fall after using your next action.",
+        "desc": "Your legs surge with strength, ready to leap high and far. Whenever you take the Leap action, you jump 30 feet in any direction without touching the ground. You must land on a space of solid ground within 30 feet of you, or else you fall after using your next action.",
         "buff": true
     },
     {
@@ -1938,5 +1931,545 @@
             }
         ],
         "buff": true
+    },
+    {
+        "name": "Mind Blank",
+        "type": "spells",
+        "desc": "Powerful wards hide you from divination magic. You gain a +4 status bonus to saves against mental effects. Mind blank attempts to counteract any detection, revelation, and scrying effects as if its spell level were 1 higher than its actual level. On a success, the divination effect functions normally except that it detects nothing about you and your possessions. For instance, detect magic would still detect other magic in the area, but not any magic on you.",
+        "hint": "You gain a +4 status bonus to saves against mental effects. Mind blank attempts to counteract any detection, revelation, and scrying effects as if its spell level were 1 higher than its actual level. On a success, the divination effect functions normally except that it detects nothing about the you and your possessions. For instance, detect magic would still detect other magic in the area, but not any magic on you.",
+        "showon": "Will",
+        "buff": true
+    },
+    {
+        "name": "True Seeing",
+        "type": "spells",
+        "desc": "You see things within 60 feet as they actually are. The GM rolls a secret counteract check against any illusion or transmutation in the area, but only for the purpose of determining whether you see through it (for instance, if the check succeeds against a polymorph spell, you can see the creature's true form, but you don't end the polymorph spell).",
+        "hint": "You see things within 60 feet as they actually are. The GM rolls a secret counteract check against any illusion or transmutation in the area, but only for the purpose of determining whether you see through it (for instance, if the check succeeds against a polymorph spell, you can see the creature's true form, but you don't end the polymorph spell).",
+        "showon": "Perception",
+        "buff": true
+    },
+    {
+        "name": "Barkskin",
+        "type": "spells",
+        "desc": "The target's skin becomes covered in bark. The target gains resistance 2 for every second spell level to bludgeoning and piercing damage and weakness 3 for every second spell level to fire. After the target takes fire damage, it can Dismiss the spell as a free action triggered by taking the damage; doing so doesn't reduce the fire damage the target was dealt.",
+        "effects": [
+            {
+                "affected": "Bludgeoning Damage Resistance",
+                "value": "object.value"
+            },
+            {
+                "affected": "Piercing Damage Resistance",
+                "value": "object.value"
+            },
+            {
+                "affected": "Fire Resistance",
+                "value": "-object.value * 1.5"
+            }
+        ],
+        "hasValue": true,
+        "buff": true
+    },
+    {
+        "name": "Water Breathing",
+        "type": "spells",
+        "desc": "You can breathe underwater.",
+        "hint": "You can breathe underwater.",
+        "showon": "Health, Fortitude",
+        "buff": true
+    },
+    {
+        "name": "Potion of Acid Resistance",
+        "type": "spells",
+        "desc": "You gain acid resistance equal to the value.",
+        "effects": [
+            {
+                "affected": "Acid Resistance",
+                "value": "object.value"
+            }
+        ],
+        "hasValue": true,
+        "buff": true
+    },
+    {
+        "name": "Potion of Cold Resistance",
+        "type": "spells",
+        "desc": "You gain cold resistance equal to the value.",
+        "effects": [
+            {
+                "affected": "Cold Resistance",
+                "value": "object.value"
+            }
+        ],
+        "hasValue": true,
+        "buff": true
+    },
+    {
+        "name": "Potion of Electricity Resistance",
+        "type": "spells",
+        "desc": "You gain electricity resistance equal to the value.",
+        "effects": [
+            {
+                "affected": "Electricity Resistance",
+                "value": "object.value"
+            }
+        ],
+        "hasValue": true,
+        "buff": true
+    },
+    {
+        "name": "Potion of Fire Resistance",
+        "type": "spells",
+        "desc": "You gain fire resistance equal to the value.",
+        "effects": [
+            {
+                "affected": "Fire Resistance",
+                "value": "object.value"
+            }
+        ],
+        "hasValue": true,
+        "buff": true
+    },
+    {
+        "name": "Potion of Sonic Resistance",
+        "type": "spells",
+        "desc": "You gain sonic resistance equal to the value.",
+        "effects": [
+            {
+                "affected": "Sonic Resistance",
+                "value": "object.value"
+            }
+        ],
+        "hasValue": true,
+        "buff": true
+    },
+    {
+        "name": "Truth Potion",
+        "type": "spells",
+        "desc": "For 10 minutes after drinking this astringent potion, you can’t intentionally lie and may be compelled to tell the truth. Upon drinking the potion, attempt a DC 19 Will save. You can voluntarily fail or critically fail.\n\n<strong>Success</strong> The potion does not affect you.\n<strong>Failure</strong> When you speak, you must tell the truth.\n<strong>Critical Failure</strong> As failure, and when someone asks you a question, you must attempt another DC 19 Will saving throw. If you fail this saving throw, you must answer the question truthfully if you are able to do so; if you succeed, you are temporarily immune to further attempts to ask the same question within the potion’s duration.",
+        "buff": true
+    },
+    {
+        "name": "Potion of Swimming",
+        "type": "spells",
+        "desc": "You gain a swim Speed equal to your land Speed.",
+        "effects": [
+            {
+                "affected": "Swim Speed",
+                "setValue": "Speed('Land Speed')"
+            }
+        ],
+        "buff": true
+    },
+    {
+        "name": "Shrinking Potion (Greater)",
+        "type": "spells",
+        "desc": "You gain a +2 item bonus to Stealth checks while shrunken.",
+        "effects": [
+            {
+                "affected": "Stealth",
+                "value": "+2",
+                "type": "item"
+            }
+        ],
+        "buff": true
+    },
+    {
+        "name": "Potion of Tongues",
+        "type": "spells",
+        "desc": "This sour potion enlivens your tongue with unusual flavors and uncommon eloquence, allowing you to speak and understand all languages for 4 hours after you drink it.",
+        "hint": "You can speak and understand all languages for the duration.",
+        "showon": "Languages",
+        "buff": true
+    },
+    {
+        "name": "Black Dragon's Breath Potion (Young)",
+        "type": "spells",
+        "desc": "For 1 hour after you imbibe the concoction, you can unleash a breath weapon used by that type of dragon. The potency of the breath depends on the potion’s type, based on the age of the dragon whose blood was used to make the potion. This potion has the trait matching the damage type of the breath weapon.\n\nExhaling dragon breath uses a single action. The damage type and the area of the dragon breath depend on the type of dragon blood in the potion, as shown in the table below. Regardless of the dragon type, the breath weapon deals 4d6 damage, and each creature in the area must attempt a DC 23 basic save of a type determined by the type of the dragon. After you use the breath weapon, you can’t do so again for 1d4 rounds.\n\n<strong>Black</strong> 30-foot line of acid (Reflex)\n<strong>Young</strong> The damage is 4d6 and the save DC is 23.",
+        "gainActivities": [
+            {
+                "_className": "ActivityGain",
+                "name": "Black Dragon's Breath Potion (Young)",
+                "source": "Black Dragon's Breath Potion (Young)"
+            }
+        ],
+        "buff": true
+    },
+    {
+        "name": "Copper Dragon's Breath Potion (Young)",
+        "type": "spells",
+        "desc": "For 1 hour after you imbibe the concoction, you can unleash a breath weapon used by that type of dragon. The potency of the breath depends on the potion’s type, based on the age of the dragon whose blood was used to make the potion. This potion has the trait matching the damage type of the breath weapon.\n\nExhaling dragon breath uses a single action. The damage type and the area of the dragon breath depend on the type of dragon blood in the potion, as shown in the table below. Regardless of the dragon type, the breath weapon deals 4d6 damage, and each creature in the area must attempt a DC 23 basic save of a type determined by the type of the dragon. After you use the breath weapon, you can’t do so again for 1d4 rounds.\n\n<strong>Copper</strong> 30-foot line of acid (Reflex)\n<strong>Young</strong> The damage is 4d6 and the save DC is 23.",
+        "gainActivities": [
+            {
+                "_className": "ActivityGain",
+                "name": "Copper Dragon's Breath Potion (Young)",
+                "source": "Copper Dragon's Breath Potion (Young)"
+            }
+        ],
+        "buff": true
+    },
+    {
+        "name": "Blue Dragon's Breath Potion (Young)",
+        "type": "spells",
+        "desc": "For 1 hour after you imbibe the concoction, you can unleash a breath weapon used by that type of dragon. The potency of the breath depends on the potion’s type, based on the age of the dragon whose blood was used to make the potion. This potion has the trait matching the damage type of the breath weapon.\n\nExhaling dragon breath uses a single action. The damage type and the area of the dragon breath depend on the type of dragon blood in the potion, as shown in the table below. Regardless of the dragon type, the breath weapon deals 4d6 damage, and each creature in the area must attempt a DC 23 basic save of a type determined by the type of the dragon. After you use the breath weapon, you can’t do so again for 1d4 rounds.\n\n<strong>Blue</strong> 30-foot line of electricity (Reflex)\n<strong>Young</strong> The damage is 4d6 and the save DC is 23.",
+        "gainActivities": [
+            {
+                "_className": "ActivityGain",
+                "name": "Blue Dragon's Breath Potion (Young)",
+                "source": "Blue Dragon's Breath Potion (Young)"
+            }
+        ],
+        "buff": true
+    },
+    {
+        "name": "Bronze Dragon's Breath Potion (Young)",
+        "type": "spells",
+        "desc": "For 1 hour after you imbibe the concoction, you can unleash a breath weapon used by that type of dragon. The potency of the breath depends on the potion’s type, based on the age of the dragon whose blood was used to make the potion. This potion has the trait matching the damage type of the breath weapon.\n\nExhaling dragon breath uses a single action. The damage type and the area of the dragon breath depend on the type of dragon blood in the potion, as shown in the table below. Regardless of the dragon type, the breath weapon deals 4d6 damage, and each creature in the area must attempt a DC 23 basic save of a type determined by the type of the dragon. After you use the breath weapon, you can’t do so again for 1d4 rounds.\n\n<strong>Bronze</strong> 30-foot line of electricity (Reflex)\n<strong>Young</strong> The damage is 4d6 and the save DC is 23.",
+        "gainActivities": [
+            {
+                "_className": "ActivityGain",
+                "name": "Bronze Dragon's Breath Potion (Young)",
+                "source": "Bronze Dragon's Breath Potion (Young)"
+            }
+        ],
+        "buff": true
+    },
+    {
+        "name": "Brass Dragon's Breath Potion (Young)",
+        "type": "spells",
+        "desc": "For 1 hour after you imbibe the concoction, you can unleash a breath weapon used by that type of dragon. The potency of the breath depends on the potion’s type, based on the age of the dragon whose blood was used to make the potion. This potion has the trait matching the damage type of the breath weapon.\n\nExhaling dragon breath uses a single action. The damage type and the area of the dragon breath depend on the type of dragon blood in the potion, as shown in the table below. Regardless of the dragon type, the breath weapon deals 4d6 damage, and each creature in the area must attempt a DC 23 basic save of a type determined by the type of the dragon. After you use the breath weapon, you can’t do so again for 1d4 rounds.\n\n<strong>Brass</strong> 30-foot line of fire (Reflex)\n<strong>Young</strong> The damage is 4d6 and the save DC is 23.",
+        "gainActivities": [
+            {
+                "_className": "ActivityGain",
+                "name": "Brass Dragon's Breath Potion (Young)",
+                "source": "Brass Dragon's Breath Potion (Young)"
+            }
+        ],
+        "buff": true
+    },
+    {
+        "name": "Green Dragon's Breath Potion (Young)",
+        "type": "spells",
+        "desc": "For 1 hour after you imbibe the concoction, you can unleash a breath weapon used by that type of dragon. The potency of the breath depends on the potion’s type, based on the age of the dragon whose blood was used to make the potion. This potion has the trait matching the damage type of the breath weapon.\n\nExhaling dragon breath uses a single action. The damage type and the area of the dragon breath depend on the type of dragon blood in the potion, as shown in the table below. Regardless of the dragon type, the breath weapon deals 4d6 damage, and each creature in the area must attempt a DC 23 basic save of a type determined by the type of the dragon. After you use the breath weapon, you can’t do so again for 1d4 rounds.\n\n<strong>Green</strong> 15-foot cone of poison (Fortitude)\n<strong>Young</strong> The damage is 4d6 and the save DC is 23.",
+        "gainActivities": [
+            {
+                "_className": "ActivityGain",
+                "name": "Green Dragon's Breath Potion (Young)",
+                "source": "Green Dragon's Breath Potion (Young)"
+            }
+        ],
+        "buff": true
+    },
+    {
+        "name": "Gold Dragon's Breath Potion (Young)",
+        "type": "spells",
+        "desc": "For 1 hour after you imbibe the concoction, you can unleash a breath weapon used by that type of dragon. The potency of the breath depends on the potion’s type, based on the age of the dragon whose blood was used to make the potion. This potion has the trait matching the damage type of the breath weapon.\n\nExhaling dragon breath uses a single action. The damage type and the area of the dragon breath depend on the type of dragon blood in the potion, as shown in the table below. Regardless of the dragon type, the breath weapon deals 4d6 damage, and each creature in the area must attempt a DC 23 basic save of a type determined by the type of the dragon. After you use the breath weapon, you can’t do so again for 1d4 rounds.\n\n<strong>Gold</strong> 15-foot cone of fire (Refles)\n<strong>Young</strong> The damage is 4d6 and the save DC is 23.",
+        "gainActivities": [
+            {
+                "_className": "ActivityGain",
+                "name": "Gold Dragon's Breath Potion (Young)",
+                "source": "Gold Dragon's Breath Potion (Young)"
+            }
+        ],
+        "buff": true
+    },
+    {
+        "name": "Red Dragon's Breath Potion (Young)",
+        "type": "spells",
+        "desc": "For 1 hour after you imbibe the concoction, you can unleash a breath weapon used by that type of dragon. The potency of the breath depends on the potion’s type, based on the age of the dragon whose blood was used to make the potion. This potion has the trait matching the damage type of the breath weapon.\n\nExhaling dragon breath uses a single action. The damage type and the area of the dragon breath depend on the type of dragon blood in the potion, as shown in the table below. Regardless of the dragon type, the breath weapon deals 4d6 damage, and each creature in the area must attempt a DC 23 basic save of a type determined by the type of the dragon. After you use the breath weapon, you can’t do so again for 1d4 rounds.\n\n<strong>Red</strong> 15-foot cone of fire (Refles)\n<strong>Young</strong> The damage is 4d6 and the save DC is 23.",
+        "gainActivities": [
+            {
+                "_className": "ActivityGain",
+                "name": "Red Dragon's Breath Potion (Young)",
+                "source": "Red Dragon's Breath Potion (Young)"
+            }
+        ],
+        "buff": true
+    },
+    {
+        "name": "Silver Dragon's Breath Potion (Young)",
+        "type": "spells",
+        "desc": "For 1 hour after you imbibe the concoction, you can unleash a breath weapon used by that type of dragon. The potency of the breath depends on the potion’s type, based on the age of the dragon whose blood was used to make the potion. This potion has the trait matching the damage type of the breath weapon.\n\nExhaling dragon breath uses a single action. The damage type and the area of the dragon breath depend on the type of dragon blood in the potion, as shown in the table below. Regardless of the dragon type, the breath weapon deals 4d6 damage, and each creature in the area must attempt a DC 23 basic save of a type determined by the type of the dragon. After you use the breath weapon, you can’t do so again for 1d4 rounds.\n\n<strong>Silver</strong> 15-foot cone of cold (Refles)\n<strong>Young</strong> The damage is 4d6 and the save DC is 23.",
+        "gainActivities": [
+            {
+                "_className": "ActivityGain",
+                "name": "Silver Dragon's Breath Potion (Young)",
+                "source": "Silver Dragon's Breath Potion (Young)"
+            }
+        ],
+        "buff": true
+    },
+    {
+        "name": "White Dragon's Breath Potion (Young)",
+        "type": "spells",
+        "desc": "For 1 hour after you imbibe the concoction, you can unleash a breath weapon used by that type of dragon. The potency of the breath depends on the potion’s type, based on the age of the dragon whose blood was used to make the potion. This potion has the trait matching the damage type of the breath weapon.\n\nExhaling dragon breath uses a single action. The damage type and the area of the dragon breath depend on the type of dragon blood in the potion, as shown in the table below. Regardless of the dragon type, the breath weapon deals 4d6 damage, and each creature in the area must attempt a DC 23 basic save of a type determined by the type of the dragon. After you use the breath weapon, you can’t do so again for 1d4 rounds.\n\n<strong>White</strong> 15-foot cone of cold (Refles)\n<strong>Young</strong> The damage is 4d6 and the save DC is 23.",
+        "gainActivities": [
+            {
+                "_className": "ActivityGain",
+                "name": "White Dragon's Breath Potion (Young)",
+                "source": "White Dragon's Breath Potion (Young)"
+            }
+        ],
+        "buff": true
+    },
+    {
+        "name": "Black Dragon's Breath Potion (Adult)",
+        "type": "spells",
+        "desc": "For 1 hour after you imbibe the concoction, you can unleash a breath weapon used by that type of dragon. The potency of the breath depends on the potion’s type, based on the age of the dragon whose blood was used to make the potion. This potion has the trait matching the damage type of the breath weapon.\n\nExhaling dragon breath uses a single action. The damage type and the area of the dragon breath depend on the type of dragon blood in the potion, as shown in the table below. Regardless of the dragon type, the breath weapon deals 4d6 damage, and each creature in the area must attempt a DC 23 basic save of a type determined by the type of the dragon. After you use the breath weapon, you can’t do so again for 1d4 rounds.\n\n<strong>Black</strong> 30-foot line of acid (Reflex)\n<strong>Adult</strong> The damage is 6d6 and the save DC is 29.",
+        "gainActivities": [
+            {
+                "_className": "ActivityGain",
+                "name": "Black Dragon's Breath Potion (Adult)",
+                "source": "Black Dragon's Breath Potion (Adult)"
+            }
+        ],
+        "buff": true
+    },
+    {
+        "name": "Copper Dragon's Breath Potion (Adult)",
+        "type": "spells",
+        "desc": "For 1 hour after you imbibe the concoction, you can unleash a breath weapon used by that type of dragon. The potency of the breath depends on the potion’s type, based on the age of the dragon whose blood was used to make the potion. This potion has the trait matching the damage type of the breath weapon.\n\nExhaling dragon breath uses a single action. The damage type and the area of the dragon breath depend on the type of dragon blood in the potion, as shown in the table below. Regardless of the dragon type, the breath weapon deals 4d6 damage, and each creature in the area must attempt a DC 23 basic save of a type determined by the type of the dragon. After you use the breath weapon, you can’t do so again for 1d4 rounds.\n\n<strong>Copper</strong> 30-foot line of acid (Reflex)\n<strong>Adult</strong> The damage is 6d6 and the save DC is 29.",
+        "gainActivities": [
+            {
+                "_className": "ActivityGain",
+                "name": "Copper Dragon's Breath Potion (Adult)",
+                "source": "Copper Dragon's Breath Potion (Adult)"
+            }
+        ],
+        "buff": true
+    },
+    {
+        "name": "Blue Dragon's Breath Potion (Adult)",
+        "type": "spells",
+        "desc": "For 1 hour after you imbibe the concoction, you can unleash a breath weapon used by that type of dragon. The potency of the breath depends on the potion’s type, based on the age of the dragon whose blood was used to make the potion. This potion has the trait matching the damage type of the breath weapon.\n\nExhaling dragon breath uses a single action. The damage type and the area of the dragon breath depend on the type of dragon blood in the potion, as shown in the table below. Regardless of the dragon type, the breath weapon deals 4d6 damage, and each creature in the area must attempt a DC 23 basic save of a type determined by the type of the dragon. After you use the breath weapon, you can’t do so again for 1d4 rounds.\n\n<strong>Blue</strong> 30-foot line of electricity (Reflex)\n<strong>Adult</strong> The damage is 6d6 and the save DC is 29.",
+        "gainActivities": [
+            {
+                "_className": "ActivityGain",
+                "name": "Blue Dragon's Breath Potion (Adult)",
+                "source": "Blue Dragon's Breath Potion (Adult)"
+            }
+        ],
+        "buff": true
+    },
+    {
+        "name": "Bronze Dragon's Breath Potion (Adult)",
+        "type": "spells",
+        "desc": "For 1 hour after you imbibe the concoction, you can unleash a breath weapon used by that type of dragon. The potency of the breath depends on the potion’s type, based on the age of the dragon whose blood was used to make the potion. This potion has the trait matching the damage type of the breath weapon.\n\nExhaling dragon breath uses a single action. The damage type and the area of the dragon breath depend on the type of dragon blood in the potion, as shown in the table below. Regardless of the dragon type, the breath weapon deals 4d6 damage, and each creature in the area must attempt a DC 23 basic save of a type determined by the type of the dragon. After you use the breath weapon, you can’t do so again for 1d4 rounds.\n\n<strong>Bronze</strong> 30-foot line of electricity (Reflex)\n<strong>Adult</strong> The damage is 6d6 and the save DC is 29.",
+        "gainActivities": [
+            {
+                "_className": "ActivityGain",
+                "name": "Bronze Dragon's Breath Potion (Adult)",
+                "source": "Bronze Dragon's Breath Potion (Adult)"
+            }
+        ],
+        "buff": true
+    },
+    {
+        "name": "Brass Dragon's Breath Potion (Adult)",
+        "type": "spells",
+        "desc": "For 1 hour after you imbibe the concoction, you can unleash a breath weapon used by that type of dragon. The potency of the breath depends on the potion’s type, based on the age of the dragon whose blood was used to make the potion. This potion has the trait matching the damage type of the breath weapon.\n\nExhaling dragon breath uses a single action. The damage type and the area of the dragon breath depend on the type of dragon blood in the potion, as shown in the table below. Regardless of the dragon type, the breath weapon deals 4d6 damage, and each creature in the area must attempt a DC 23 basic save of a type determined by the type of the dragon. After you use the breath weapon, you can’t do so again for 1d4 rounds.\n\n<strong>Brass</strong> 30-foot line of fire (Reflex)\n<strong>Adult</strong> The damage is 6d6 and the save DC is 29.",
+        "gainActivities": [
+            {
+                "_className": "ActivityGain",
+                "name": "Brass Dragon's Breath Potion (Adult)",
+                "source": "Brass Dragon's Breath Potion (Adult)"
+            }
+        ],
+        "buff": true
+    },
+    {
+        "name": "Green Dragon's Breath Potion (Adult)",
+        "type": "spells",
+        "desc": "For 1 hour after you imbibe the concoction, you can unleash a breath weapon used by that type of dragon. The potency of the breath depends on the potion’s type, based on the age of the dragon whose blood was used to make the potion. This potion has the trait matching the damage type of the breath weapon.\n\nExhaling dragon breath uses a single action. The damage type and the area of the dragon breath depend on the type of dragon blood in the potion, as shown in the table below. Regardless of the dragon type, the breath weapon deals 4d6 damage, and each creature in the area must attempt a DC 23 basic save of a type determined by the type of the dragon. After you use the breath weapon, you can’t do so again for 1d4 rounds.\n\n<strong>Green</strong> 15-foot cone of poison (Fortitude)\n<strong>Adult</strong> The damage is 6d6 and the save DC is 29.",
+        "gainActivities": [
+            {
+                "_className": "ActivityGain",
+                "name": "Green Dragon's Breath Potion (Adult)",
+                "source": "Green Dragon's Breath Potion (Adult)"
+            }
+        ],
+        "buff": true
+    },
+    {
+        "name": "Gold Dragon's Breath Potion (Adult)",
+        "type": "spells",
+        "desc": "For 1 hour after you imbibe the concoction, you can unleash a breath weapon used by that type of dragon. The potency of the breath depends on the potion’s type, based on the age of the dragon whose blood was used to make the potion. This potion has the trait matching the damage type of the breath weapon.\n\nExhaling dragon breath uses a single action. The damage type and the area of the dragon breath depend on the type of dragon blood in the potion, as shown in the table below. Regardless of the dragon type, the breath weapon deals 4d6 damage, and each creature in the area must attempt a DC 23 basic save of a type determined by the type of the dragon. After you use the breath weapon, you can’t do so again for 1d4 rounds.\n\n<strong>Gold</strong> 15-foot cone of fire (Refles)\n<strong>Adult</strong> The damage is 6d6 and the save DC is 29.",
+        "gainActivities": [
+            {
+                "_className": "ActivityGain",
+                "name": "Gold Dragon's Breath Potion (Adult)",
+                "source": "Gold Dragon's Breath Potion (Adult)"
+            }
+        ],
+        "buff": true
+    },
+    {
+        "name": "Red Dragon's Breath Potion (Adult)",
+        "type": "spells",
+        "desc": "For 1 hour after you imbibe the concoction, you can unleash a breath weapon used by that type of dragon. The potency of the breath depends on the potion’s type, based on the age of the dragon whose blood was used to make the potion. This potion has the trait matching the damage type of the breath weapon.\n\nExhaling dragon breath uses a single action. The damage type and the area of the dragon breath depend on the type of dragon blood in the potion, as shown in the table below. Regardless of the dragon type, the breath weapon deals 4d6 damage, and each creature in the area must attempt a DC 23 basic save of a type determined by the type of the dragon. After you use the breath weapon, you can’t do so again for 1d4 rounds.\n\n<strong>Red</strong> 15-foot cone of fire (Refles)\n<strong>Adult</strong> The damage is 6d6 and the save DC is 29.",
+        "gainActivities": [
+            {
+                "_className": "ActivityGain",
+                "name": "Red Dragon's Breath Potion (Adult)",
+                "source": "Red Dragon's Breath Potion (Adult)"
+            }
+        ],
+        "buff": true
+    },
+    {
+        "name": "Silver Dragon's Breath Potion (Adult)",
+        "type": "spells",
+        "desc": "For 1 hour after you imbibe the concoction, you can unleash a breath weapon used by that type of dragon. The potency of the breath depends on the potion’s type, based on the age of the dragon whose blood was used to make the potion. This potion has the trait matching the damage type of the breath weapon.\n\nExhaling dragon breath uses a single action. The damage type and the area of the dragon breath depend on the type of dragon blood in the potion, as shown in the table below. Regardless of the dragon type, the breath weapon deals 4d6 damage, and each creature in the area must attempt a DC 23 basic save of a type determined by the type of the dragon. After you use the breath weapon, you can’t do so again for 1d4 rounds.\n\n<strong>Silver</strong> 15-foot cone of cold (Refles)\n<strong>Adult</strong> The damage is 6d6 and the save DC is 29.",
+        "gainActivities": [
+            {
+                "_className": "ActivityGain",
+                "name": "Silver Dragon's Breath Potion (Adult)",
+                "source": "Silver Dragon's Breath Potion (Adult)"
+            }
+        ],
+        "buff": true
+    },
+    {
+        "name": "White Dragon's Breath Potion (Adult)",
+        "type": "spells",
+        "desc": "For 1 hour after you imbibe the concoction, you can unleash a breath weapon used by that type of dragon. The potency of the breath depends on the potion’s type, based on the age of the dragon whose blood was used to make the potion. This potion has the trait matching the damage type of the breath weapon.\n\nExhaling dragon breath uses a single action. The damage type and the area of the dragon breath depend on the type of dragon blood in the potion, as shown in the table below. Regardless of the dragon type, the breath weapon deals 4d6 damage, and each creature in the area must attempt a DC 23 basic save of a type determined by the type of the dragon. After you use the breath weapon, you can’t do so again for 1d4 rounds.\n\n<strong>White</strong> 15-foot cone of cold (Refles)\n<strong>Adult</strong> The damage is 6d6 and the save DC is 29.",
+        "gainActivities": [
+            {
+                "_className": "ActivityGain",
+                "name": "White Dragon's Breath Potion (Adult)",
+                "source": "White Dragon's Breath Potion (Adult)"
+            }
+        ],
+        "buff": true
+    },
+    {
+        "name": "Black Dragon's Breath Potion (Wyrm)",
+        "type": "spells",
+        "desc": "For 1 hour after you imbibe the concoction, you can unleash a breath weapon used by that type of dragon. The potency of the breath depends on the potion’s type, based on the age of the dragon whose blood was used to make the potion. This potion has the trait matching the damage type of the breath weapon.\n\nExhaling dragon breath uses a single action. The damage type and the area of the dragon breath depend on the type of dragon blood in the potion, as shown in the table below. Regardless of the dragon type, the breath weapon deals 4d6 damage, and each creature in the area must attempt a DC 23 basic save of a type determined by the type of the dragon. After you use the breath weapon, you can’t do so again for 1d4 rounds.\n\n<strong>Black</strong> 30-foot line of acid (Reflex)\n<strong>Wyrm</strong> The damage is 10d6 and the save DC is 37.",
+        "gainActivities": [
+            {
+                "_className": "ActivityGain",
+                "name": "Black Dragon's Breath Potion (Wyrm)",
+                "source": "Black Dragon's Breath Potion (Wyrm)"
+            }
+        ],
+        "buff": true
+    },
+    {
+        "name": "Copper Dragon's Breath Potion (Wyrm)",
+        "type": "spells",
+        "desc": "For 1 hour after you imbibe the concoction, you can unleash a breath weapon used by that type of dragon. The potency of the breath depends on the potion’s type, based on the age of the dragon whose blood was used to make the potion. This potion has the trait matching the damage type of the breath weapon.\n\nExhaling dragon breath uses a single action. The damage type and the area of the dragon breath depend on the type of dragon blood in the potion, as shown in the table below. Regardless of the dragon type, the breath weapon deals 4d6 damage, and each creature in the area must attempt a DC 23 basic save of a type determined by the type of the dragon. After you use the breath weapon, you can’t do so again for 1d4 rounds.\n\n<strong>Copper</strong> 30-foot line of acid (Reflex)\n<strong>Wyrm</strong> The damage is 10d6 and the save DC is 37.",
+        "gainActivities": [
+            {
+                "_className": "ActivityGain",
+                "name": "Copper Dragon's Breath Potion (Wyrm)",
+                "source": "Copper Dragon's Breath Potion (Wyrm)"
+            }
+        ],
+        "buff": true
+    },
+    {
+        "name": "Blue Dragon's Breath Potion (Wyrm)",
+        "type": "spells",
+        "desc": "For 1 hour after you imbibe the concoction, you can unleash a breath weapon used by that type of dragon. The potency of the breath depends on the potion’s type, based on the age of the dragon whose blood was used to make the potion. This potion has the trait matching the damage type of the breath weapon.\n\nExhaling dragon breath uses a single action. The damage type and the area of the dragon breath depend on the type of dragon blood in the potion, as shown in the table below. Regardless of the dragon type, the breath weapon deals 4d6 damage, and each creature in the area must attempt a DC 23 basic save of a type determined by the type of the dragon. After you use the breath weapon, you can’t do so again for 1d4 rounds.\n\n<strong>Blue</strong> 30-foot line of electricity (Reflex)\n<strong>Wyrm</strong> The damage is 10d6 and the save DC is 37.",
+        "gainActivities": [
+            {
+                "_className": "ActivityGain",
+                "name": "Blue Dragon's Breath Potion (Wyrm)",
+                "source": "Blue Dragon's Breath Potion (Wyrm)"
+            }
+        ],
+        "buff": true
+    },
+    {
+        "name": "Bronze Dragon's Breath Potion (Wyrm)",
+        "type": "spells",
+        "desc": "For 1 hour after you imbibe the concoction, you can unleash a breath weapon used by that type of dragon. The potency of the breath depends on the potion’s type, based on the age of the dragon whose blood was used to make the potion. This potion has the trait matching the damage type of the breath weapon.\n\nExhaling dragon breath uses a single action. The damage type and the area of the dragon breath depend on the type of dragon blood in the potion, as shown in the table below. Regardless of the dragon type, the breath weapon deals 4d6 damage, and each creature in the area must attempt a DC 23 basic save of a type determined by the type of the dragon. After you use the breath weapon, you can’t do so again for 1d4 rounds.\n\n<strong>Bronze</strong> 30-foot line of electricity (Reflex)\n<strong>Wyrm</strong> The damage is 10d6 and the save DC is 37.",
+        "gainActivities": [
+            {
+                "_className": "ActivityGain",
+                "name": "Bronze Dragon's Breath Potion (Wyrm)",
+                "source": "Bronze Dragon's Breath Potion (Wyrm)"
+            }
+        ],
+        "buff": true
+    },
+    {
+        "name": "Brass Dragon's Breath Potion (Wyrm)",
+        "type": "spells",
+        "desc": "For 1 hour after you imbibe the concoction, you can unleash a breath weapon used by that type of dragon. The potency of the breath depends on the potion’s type, based on the age of the dragon whose blood was used to make the potion. This potion has the trait matching the damage type of the breath weapon.\n\nExhaling dragon breath uses a single action. The damage type and the area of the dragon breath depend on the type of dragon blood in the potion, as shown in the table below. Regardless of the dragon type, the breath weapon deals 4d6 damage, and each creature in the area must attempt a DC 23 basic save of a type determined by the type of the dragon. After you use the breath weapon, you can’t do so again for 1d4 rounds.\n\n<strong>Brass</strong> 30-foot line of fire (Reflex)\n<strong>Wyrm</strong> The damage is 10d6 and the save DC is 37.",
+        "gainActivities": [
+            {
+                "_className": "ActivityGain",
+                "name": "Brass Dragon's Breath Potion (Wyrm)",
+                "source": "Brass Dragon's Breath Potion (Wyrm)"
+            }
+        ],
+        "buff": true
+    },
+    {
+        "name": "Green Dragon's Breath Potion (Wyrm)",
+        "type": "spells",
+        "desc": "For 1 hour after you imbibe the concoction, you can unleash a breath weapon used by that type of dragon. The potency of the breath depends on the potion’s type, based on the age of the dragon whose blood was used to make the potion. This potion has the trait matching the damage type of the breath weapon.\n\nExhaling dragon breath uses a single action. The damage type and the area of the dragon breath depend on the type of dragon blood in the potion, as shown in the table below. Regardless of the dragon type, the breath weapon deals 4d6 damage, and each creature in the area must attempt a DC 23 basic save of a type determined by the type of the dragon. After you use the breath weapon, you can’t do so again for 1d4 rounds.\n\n<strong>Green</strong> 15-foot cone of poison (Fortitude)\n<strong>Wyrm</strong> The damage is 10d6 and the save DC is 37.",
+        "gainActivities": [
+            {
+                "_className": "ActivityGain",
+                "name": "Green Dragon's Breath Potion (Wyrm)",
+                "source": "Green Dragon's Breath Potion (Wyrm)"
+            }
+        ],
+        "buff": true
+    },
+    {
+        "name": "Gold Dragon's Breath Potion (Wyrm)",
+        "type": "spells",
+        "desc": "For 1 hour after you imbibe the concoction, you can unleash a breath weapon used by that type of dragon. The potency of the breath depends on the potion’s type, based on the age of the dragon whose blood was used to make the potion. This potion has the trait matching the damage type of the breath weapon.\n\nExhaling dragon breath uses a single action. The damage type and the area of the dragon breath depend on the type of dragon blood in the potion, as shown in the table below. Regardless of the dragon type, the breath weapon deals 4d6 damage, and each creature in the area must attempt a DC 23 basic save of a type determined by the type of the dragon. After you use the breath weapon, you can’t do so again for 1d4 rounds.\n\n<strong>Gold</strong> 15-foot cone of fire (Refles)\n<strong>Wyrm</strong> The damage is 10d6 and the save DC is 37.",
+        "gainActivities": [
+            {
+                "_className": "ActivityGain",
+                "name": "Gold Dragon's Breath Potion (Wyrm)",
+                "source": "Gold Dragon's Breath Potion (Wyrm)"
+            }
+        ],
+        "buff": true
+    },
+    {
+        "name": "Red Dragon's Breath Potion (Wyrm)",
+        "type": "spells",
+        "desc": "For 1 hour after you imbibe the concoction, you can unleash a breath weapon used by that type of dragon. The potency of the breath depends on the potion’s type, based on the age of the dragon whose blood was used to make the potion. This potion has the trait matching the damage type of the breath weapon.\n\nExhaling dragon breath uses a single action. The damage type and the area of the dragon breath depend on the type of dragon blood in the potion, as shown in the table below. Regardless of the dragon type, the breath weapon deals 4d6 damage, and each creature in the area must attempt a DC 23 basic save of a type determined by the type of the dragon. After you use the breath weapon, you can’t do so again for 1d4 rounds.\n\n<strong>Red</strong> 15-foot cone of fire (Refles)\n<strong>Wyrm</strong> The damage is 10d6 and the save DC is 37.",
+        "gainActivities": [
+            {
+                "_className": "ActivityGain",
+                "name": "Red Dragon's Breath Potion (Wyrm)",
+                "source": "Red Dragon's Breath Potion (Wyrm)"
+            }
+        ],
+        "buff": true
+    },
+    {
+        "name": "Silver Dragon's Breath Potion (Wyrm)",
+        "type": "spells",
+        "desc": "For 1 hour after you imbibe the concoction, you can unleash a breath weapon used by that type of dragon. The potency of the breath depends on the potion’s type, based on the age of the dragon whose blood was used to make the potion. This potion has the trait matching the damage type of the breath weapon.\n\nExhaling dragon breath uses a single action. The damage type and the area of the dragon breath depend on the type of dragon blood in the potion, as shown in the table below. Regardless of the dragon type, the breath weapon deals 4d6 damage, and each creature in the area must attempt a DC 23 basic save of a type determined by the type of the dragon. After you use the breath weapon, you can’t do so again for 1d4 rounds.\n\n<strong>Silver</strong> 15-foot cone of cold (Refles)\n<strong>Wyrm</strong> The damage is 10d6 and the save DC is 37.",
+        "gainActivities": [
+            {
+                "_className": "ActivityGain",
+                "name": "Silver Dragon's Breath Potion (Wyrm)",
+                "source": "Silver Dragon's Breath Potion (Wyrm)"
+            }
+        ],
+        "buff": true
+    },
+    {
+        "name": "White Dragon's Breath Potion (Wyrm)",
+        "type": "spells",
+        "desc": "For 1 hour after you imbibe the concoction, you can unleash a breath weapon used by that type of dragon. The potency of the breath depends on the potion’s type, based on the age of the dragon whose blood was used to make the potion. This potion has the trait matching the damage type of the breath weapon.\n\nExhaling dragon breath uses a single action. The damage type and the area of the dragon breath depend on the type of dragon blood in the potion, as shown in the table below. Regardless of the dragon type, the breath weapon deals 4d6 damage, and each creature in the area must attempt a DC 23 basic save of a type determined by the type of the dragon. After you use the breath weapon, you can’t do so again for 1d4 rounds.\n\n<strong>White</strong> 15-foot cone of cold (Refles)\n<strong>Wyrm</strong> The damage is 10d6 and the save DC is 37.",
+        "gainActivities": [
+            {
+                "_className": "ActivityGain",
+                "name": "White Dragon's Breath Potion (Wyrm)",
+                "source": "White Dragon's Breath Potion (Wyrm)"
+            }
+        ],
+        "buff": true
     }
+
 ]

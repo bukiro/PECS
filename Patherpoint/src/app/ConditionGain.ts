@@ -1,4 +1,5 @@
 import { Condition } from './Condition';
+import { ActivityGain } from './ActivityGain';
 
 export class ConditionGain {
     public readonly _className: string = this.constructor.name;
@@ -17,4 +18,6 @@ export class ConditionGain {
     //When casting a spell, the spell level is inserted here so it can be used for calculations.
     public heightened: number = 0;
     public customCondition: Condition = null;
+    //A condition's gainActivities gets copied here to track.
+    public gainActivities: ActivityGain[] = [];
 }

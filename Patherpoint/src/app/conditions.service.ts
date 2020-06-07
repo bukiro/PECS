@@ -9,6 +9,7 @@ import { SortByPipe } from './sortBy.pipe';
 import { Character } from './Character';
 import { AnimalCompanion } from './AnimalCompanion';
 import { Familiar } from './Familiar';
+import { ActivityGain } from './ActivityGain';
 
 @Injectable({
     providedIn: 'root'
@@ -100,6 +101,10 @@ export class ConditionsService {
 
         //Use gain once so it isn't marked as unused. It will be used by the eval strings.
         gain = gain
+
+        //Copy the condition's ActivityGains to the ConditionGain so we can track its duration, cooldown etc.
+        gain.gainActivities = Object.assign(new ActivityGain(), JSON.parse(JSON.stringify(condition.gainActivities)));
+
         //One time effects
         if (condition.onceEffects.length) {
             if (taken) {

@@ -11,6 +11,7 @@ import { Familiar } from './Familiar';
 import { AbilitiesService } from './abilities.service';
 import { Creature } from './Creature';
 import { Specialization } from './Specialization';
+import { Feat } from './Feat';
 
 @Injectable({
     providedIn: 'root'
@@ -180,9 +181,8 @@ constructor(
                     penalty = true;
                 }
             }
-            //Hide all relative effects that are untyped and bonuses.
-            //These are usually from feats and permanent, and we don't want values to be green forever from feats.
-            if (!toggle && !setValue && type == "untyped" && !penalty) {
+            //Hide all relative effects that come from feats and are untyped, so we don't see green effects permanently after taking a feat.
+            if (object.constructor == Feat && type == "untyped") {
                 hide = true;
             }
             //Effects that both don't have a value or a toggle and are hidden get ignored.

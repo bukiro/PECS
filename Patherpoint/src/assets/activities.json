@@ -952,7 +952,7 @@
         "cost": "1 batch of infused reagents",
         "requirements": "You have alchemist’s tools, the formula for the alchemical item you’re creating, and a free hand.",
         "desc": "You swiftly mix up a short-lived alchemical item to use at a moment’s notice. You create a single alchemical item of your advanced alchemy level or lower that’s in your formula book without having to spend the normal monetary cost in alchemical reagents or needing to attempt a Crafting check. This item has the infused trait, but it remains potent only until the start of your next turn.",
-        "trait": [
+        "traits": [
             "Alchemist",
             "Manipulate"
         ]
@@ -962,7 +962,7 @@
         "actions": "Free",
         "trigger": "You use the Rage action on your turn.",
         "desc": "Use an action that has the rage trait. Alternatively, you can increase the actions of the triggering Rage to 2 to instead use a 2-action activity with the rage trait.",
-        "trait": [
+        "traits": [
             "Barbarian"
         ]
     },
@@ -1001,7 +1001,7 @@
         "desc": "You apply one of the following debilitations, which lasts until the end of your next turn.\n\nDebilitation The target takes a –10-foot status penalty to its Speeds.\nDebilitation The target becomes enfeebled 1.",
         "showon": "Attacks",
         "hint": "When your strike hits a flat-footed creature and deals damage, you apply debilitations, which last until the end of your next turn.",
-        "trait": [
+        "traits": [
             "Rogue"
         ]
     },
@@ -1013,7 +1013,7 @@
         "requirements": "You haven't acted yet on your turn.",
         "desc": "You expend the power stored in your bonded item. During your turn, you gain the ability to cast one spell you prepared today and already cast, without spending a spell slot. You must still Cast the Spell and meet the spell’s other requirements.",
         "inputRequired": "You can restore a used spell in the spellbook using your bonded item's charge(s). Using this Activity does not automatically restore a spell or discharge the bonded item. It does restore a Focus Point if you have the Linked Focus feat.",
-        "trait": [
+        "traits": [
             "Arcane",
             "Wizard"
         ],
@@ -1031,7 +1031,7 @@
         "cooldown": 144000,
         "trigger": "You fail a skill check or saving throw.",
         "desc": "Your happy-go-lucky nature makes it seem like misfortune avoids you, and to an extent, that might even be true. You can reroll the triggering check, but you must use the new result, even if it’s worse than your first roll.",
-        "trait": [
+        "traits": [
             "Fortune",
             "Halfling"
         ]
@@ -1099,6 +1099,398 @@
             "Fighter",
             "Flourish",
             "Press"
+        ]
+    },
+    {
+        "name": "Black Dragon's Breath Potion (Young)",
+        "actions": "1A",
+        "inputRequired": "After you use the breath weapon, you can’t do so again for 1d4 rounds.",
+        "desc": "You unleash dragon's breath in a 30-foot line of acid. The breath does 4d6 acid damage, and each creature in the area must attempt a DC 23 basic Reflex save. After you use the breath weapon, you can’t do so again for 1d4 rounds.",
+        "traits": [
+            "Acid",
+            "Consumable",
+            "Evocation",
+            "Magical",
+            "Potion"
+        ]
+    },
+    {
+        "name": "Copper Dragon's Breath Potion (Young)",
+        "actions": "1A",
+        "inputRequired": "After you use the breath weapon, you can’t do so again for 1d4 rounds.",
+        "desc": "You unleash dragon's breath in a 30-foot line of acid. The breath does 4d6 acid damage, and each creature in the area must attempt a DC 23 basic Reflex save. After you use the breath weapon, you can’t do so again for 1d4 rounds.",
+        "traits": [
+            "Acid",
+            "Consumable",
+            "Evocation",
+            "Magical",
+            "Potion"
+        ]
+    },
+    {
+        "name": "Blue Dragon's Breath Potion (Young)",
+        "actions": "1A",
+        "inputRequired": "After you use the breath weapon, you can’t do so again for 1d4 rounds.",
+        "desc": "You unleash dragon's breath in a 30-foot line of electricity. The breath does 4d6 electricity damage, and each creature in the area must attempt a DC 23 basic Reflex save. After you use the breath weapon, you can’t do so again for 1d4 rounds.",
+        "traits": [
+            "Consumable",
+            "Electricity",
+            "Evocation",
+            "Magical",
+            "Potion"
+        ]
+    },
+    {
+        "name": "Bronze Dragon's Breath Potion (Young)",
+        "actions": "1A",
+        "inputRequired": "After you use the breath weapon, you can’t do so again for 1d4 rounds.",
+        "desc": "You unleash dragon's breath in a 30-foot line of electricity. The breath does 4d6 electricity damage, and each creature in the area must attempt a DC 23 basic Reflex save. After you use the breath weapon, you can’t do so again for 1d4 rounds.",
+        "traits": [
+            "Consumable",
+            "Electricity",
+            "Evocation",
+            "Magical",
+            "Potion"
+        ]
+    },
+    {
+        "name": "Brass Dragon's Breath Potion (Young)",
+        "actions": "1A",
+        "inputRequired": "After you use the breath weapon, you can’t do so again for 1d4 rounds.",
+        "desc": "You unleash dragon's breath in a 30-foot line of fire. The breath does 4d6 fire damage, and each creature in the area must attempt a DC 23 basic Reflex save. After you use the breath weapon, you can’t do so again for 1d4 rounds.",
+        "traits": [
+            "Consumable",
+            "Fire",
+            "Evocation",
+            "Magical",
+            "Potion"
+        ]
+    },
+    {
+        "name": "Green Dragon's Breath Potion (Young)",
+        "actions": "1A",
+        "inputRequired": "After you use the breath weapon, you can’t do so again for 1d4 rounds.",
+        "desc": "You unleash dragon's breath in a 15-foot cone of poison. The breath does 4d6 poison damage, and each creature in the area must attempt a DC 23 basic Fortitude save. After you use the breath weapon, you can’t do so again for 1d4 rounds.",
+        "traits": [
+            "Consumable",
+            "Evocation",
+            "Magical",
+            "Poison",
+            "Potion"
+        ]
+    },
+    {
+        "name": "Gold Dragon's Breath Potion (Young)",
+        "actions": "1A",
+        "inputRequired": "After you use the breath weapon, you can’t do so again for 1d4 rounds.",
+        "desc": "You unleash dragon's breath in a 15-foot cone of fire. The breath does 4d6 fire damage, and each creature in the area must attempt a DC 23 basic Reflex save. After you use the breath weapon, you can’t do so again for 1d4 rounds.",
+        "traits": [
+            "Consumable",
+            "Fire",
+            "Evocation",
+            "Magical",
+            "Potion"
+        ]
+    },
+    {
+        "name": "Red Dragon's Breath Potion (Young)",
+        "actions": "1A",
+        "inputRequired": "After you use the breath weapon, you can’t do so again for 1d4 rounds.",
+        "desc": "You unleash dragon's breath in a 15-foot cone of fire. The breath does 4d6 fire damage, and each creature in the area must attempt a DC 23 basic Reflex save. After you use the breath weapon, you can’t do so again for 1d4 rounds.",
+        "traits": [
+            "Consumable",
+            "Fire",
+            "Evocation",
+            "Magical",
+            "Potion"
+        ]
+    },
+    {
+        "name": "Silver Dragon's Breath Potion (Young)",
+        "actions": "1A",
+        "inputRequired": "After you use the breath weapon, you can’t do so again for 1d4 rounds.",
+        "desc": "You unleash dragon's breath in a 15-foot cone of cold. The breath does 4d6 cold damage, and each creature in the area must attempt a DC 23 basic Reflex save. After you use the breath weapon, you can’t do so again for 1d4 rounds.",
+        "traits": [
+            "Consumable",
+            "Fire",
+            "Evocation",
+            "Magical",
+            "Potion"
+        ]
+    },
+    {
+        "name": "White Dragon's Breath Potion (Young)",
+        "actions": "1A",
+        "inputRequired": "After you use the breath weapon, you can’t do so again for 1d4 rounds.",
+        "desc": "You unleash dragon's breath in a 15-foot cone of cold. The breath does 4d6 cold damage, and each creature in the area must attempt a DC 23 basic Reflex save. After you use the breath weapon, you can’t do so again for 1d4 rounds.",
+        "traits": [
+            "Consumable",
+            "Fire",
+            "Evocation",
+            "Magical",
+            "Potion"
+        ]
+    },
+    {
+        "name": "Black Dragon's Breath Potion (Adult)",
+        "actions": "1A",
+        "inputRequired": "After you use the breath weapon, you can’t do so again for 1d4 rounds.",
+        "desc": "You unleash dragon's breath in a 30-foot line of acid. The breath does 6d6 acid damage, and each creature in the area must attempt a DC 29 basic Reflex save. After you use the breath weapon, you can’t do so again for 1d4 rounds.",
+        "traits": [
+            "Acid",
+            "Consumable",
+            "Evocation",
+            "Magical",
+            "Potion"
+        ]
+    },
+    {
+        "name": "Copper Dragon's Breath Potion (Adult)",
+        "actions": "1A",
+        "cooldown": 10,
+        "inputRequired": "After you use the breath weapon, you can’t do so again for 1d4 rounds.",
+        "desc": "You unleash dragon's breath in a 30-foot line of acid. The breath does 6d6 acid damage, and each creature in the area must attempt a DC 29 basic Reflex save. After you use the breath weapon, you can’t do so again for 1d4 rounds.",
+        "traits": [
+            "Acid",
+            "Consumable",
+            "Evocation",
+            "Magical",
+            "Potion"
+        ]
+    },
+    {
+        "name": "Blue Dragon's Breath Potion (Adult)",
+        "actions": "1A",
+        "inputRequired": "After you use the breath weapon, you can’t do so again for 1d4 rounds.",
+        "desc": "You unleash dragon's breath in a 30-foot line of electricity. The breath does 6d6 electricity damage, and each creature in the area must attempt a DC 29 basic Reflex save. After you use the breath weapon, you can’t do so again for 1d4 rounds.",
+        "traits": [
+            "Consumable",
+            "Electricity",
+            "Evocation",
+            "Magical",
+            "Potion"
+        ]
+    },
+    {
+        "name": "Bronze Dragon's Breath Potion (Adult)",
+        "actions": "1A",
+        "inputRequired": "After you use the breath weapon, you can’t do so again for 1d4 rounds.",
+        "desc": "You unleash dragon's breath in a 30-foot line of electricity. The breath does 6d6 electricity damage, and each creature in the area must attempt a DC 29 basic Reflex save. After you use the breath weapon, you can’t do so again for 1d4 rounds.",
+        "traits": [
+            "Consumable",
+            "Electricity",
+            "Evocation",
+            "Magical",
+            "Potion"
+        ]
+    },
+    {
+        "name": "Brass Dragon's Breath Potion (Adult)",
+        "actions": "1A",
+        "inputRequired": "After you use the breath weapon, you can’t do so again for 1d4 rounds.",
+        "desc": "You unleash dragon's breath in a 30-foot line of fire. The breath does 6d6 fire damage, and each creature in the area must attempt a DC 29 basic Reflex save. After you use the breath weapon, you can’t do so again for 1d4 rounds.",
+        "traits": [
+            "Consumable",
+            "Fire",
+            "Evocation",
+            "Magical",
+            "Potion"
+        ]
+    },
+    {
+        "name": "Green Dragon's Breath Potion (Adult)",
+        "actions": "1A",
+        "inputRequired": "After you use the breath weapon, you can’t do so again for 1d4 rounds.",
+        "desc": "You unleash dragon's breath in a 15-foot cone of poison. The breath does 6d6 poison damage, and each creature in the area must attempt a DC 29 basic Fortitude save. After you use the breath weapon, you can’t do so again for 1d4 rounds.",
+        "traits": [
+            "Consumable",
+            "Evocation",
+            "Magical",
+            "Poison",
+            "Potion"
+        ]
+    },
+    {
+        "name": "Gold Dragon's Breath Potion (Adult)",
+        "actions": "1A",
+        "inputRequired": "After you use the breath weapon, you can’t do so again for 1d4 rounds.",
+        "desc": "You unleash dragon's breath in a 15-foot cone of fire. The breath does 6d6 fire damage, and each creature in the area must attempt a DC 29 basic Reflex save. After you use the breath weapon, you can’t do so again for 1d4 rounds.",
+        "traits": [
+            "Consumable",
+            "Fire",
+            "Evocation",
+            "Magical",
+            "Potion"
+        ]
+    },
+    {
+        "name": "Red Dragon's Breath Potion (Adult)",
+        "actions": "1A",
+        "inputRequired": "After you use the breath weapon, you can’t do so again for 1d4 rounds.",
+        "desc": "You unleash dragon's breath in a 15-foot cone of fire. The breath does 6d6 fire damage, and each creature in the area must attempt a DC 29 basic Reflex save. After you use the breath weapon, you can’t do so again for 1d4 rounds.",
+        "traits": [
+            "Consumable",
+            "Fire",
+            "Evocation",
+            "Magical",
+            "Potion"
+        ]
+    },
+    {
+        "name": "Silver Dragon's Breath Potion (Adult)",
+        "actions": "1A",
+        "inputRequired": "After you use the breath weapon, you can’t do so again for 1d4 rounds.",
+        "desc": "You unleash dragon's breath in a 15-foot cone of cold. The breath does 6d6 cold damage, and each creature in the area must attempt a DC 29 basic Reflex save. After you use the breath weapon, you can’t do so again for 1d4 rounds.",
+        "traits": [
+            "Consumable",
+            "Fire",
+            "Evocation",
+            "Magical",
+            "Potion"
+        ]
+    },
+    {
+        "name": "White Dragon's Breath Potion (Adult)",
+        "actions": "1A",
+        "inputRequired": "After you use the breath weapon, you can’t do so again for 1d4 rounds.",
+        "desc": "You unleash dragon's breath in a 15-foot cone of cold. The breath does 6d6 cold damage, and each creature in the area must attempt a DC 29 basic Reflex save. After you use the breath weapon, you can’t do so again for 1d4 rounds.",
+        "traits": [
+            "Consumable",
+            "Fire",
+            "Evocation",
+            "Magical",
+            "Potion"
+        ]
+    },
+    {
+        "name": "Black Dragon's Breath Potion (Wyrm)",
+        "actions": "1A",
+        "inputRequired": "After you use the breath weapon, you can’t do so again for 1d4 rounds.",
+        "desc": "You unleash dragon's breath in a 30-foot line of acid. The breath does 10d6 acid damage, and each creature in the area must attempt a DC 37 basic Reflex save. After you use the breath weapon, you can’t do so again for 1d4 rounds.",
+        "traits": [
+            "Acid",
+            "Consumable",
+            "Evocation",
+            "Magical",
+            "Potion"
+        ]
+    },
+    {
+        "name": "Copper Dragon's Breath Potion (Wyrm)",
+        "actions": "1A",
+        "cooldown": 10,
+        "inputRequired": "After you use the breath weapon, you can’t do so again for 1d4 rounds.",
+        "desc": "You unleash dragon's breath in a 30-foot line of acid. The breath does 10d6 acid damage, and each creature in the area must attempt a DC 37 basic Reflex save. After you use the breath weapon, you can’t do so again for 1d4 rounds.",
+        "traits": [
+            "Acid",
+            "Consumable",
+            "Evocation",
+            "Magical",
+            "Potion"
+        ]
+    },
+    {
+        "name": "Blue Dragon's Breath Potion (Wyrm)",
+        "actions": "1A",
+        "inputRequired": "After you use the breath weapon, you can’t do so again for 1d4 rounds.",
+        "desc": "You unleash dragon's breath in a 30-foot line of electricity. The breath does 10d6 electricity damage, and each creature in the area must attempt a DC 37 basic Reflex save. After you use the breath weapon, you can’t do so again for 1d4 rounds.",
+        "traits": [
+            "Consumable",
+            "Electricity",
+            "Evocation",
+            "Magical",
+            "Potion"
+        ]
+    },
+    {
+        "name": "Bronze Dragon's Breath Potion (Wyrm)",
+        "actions": "1A",
+        "inputRequired": "After you use the breath weapon, you can’t do so again for 1d4 rounds.",
+        "desc": "You unleash dragon's breath in a 30-foot line of electricity. The breath does 10d6 electricity damage, and each creature in the area must attempt a DC 37 basic Reflex save. After you use the breath weapon, you can’t do so again for 1d4 rounds.",
+        "traits": [
+            "Consumable",
+            "Electricity",
+            "Evocation",
+            "Magical",
+            "Potion"
+        ]
+    },
+    {
+        "name": "Brass Dragon's Breath Potion (Wyrm)",
+        "actions": "1A",
+        "inputRequired": "After you use the breath weapon, you can’t do so again for 1d4 rounds.",
+        "desc": "You unleash dragon's breath in a 30-foot line of fire. The breath does 10d6 fire damage, and each creature in the area must attempt a DC 37 basic Reflex save. After you use the breath weapon, you can’t do so again for 1d4 rounds.",
+        "traits": [
+            "Consumable",
+            "Fire",
+            "Evocation",
+            "Magical",
+            "Potion"
+        ]
+    },
+    {
+        "name": "Green Dragon's Breath Potion (Wyrm)",
+        "actions": "1A",
+        "inputRequired": "After you use the breath weapon, you can’t do so again for 1d4 rounds.",
+        "desc": "You unleash dragon's breath in a 15-foot cone of poison. The breath does 10d6 poison damage, and each creature in the area must attempt a DC 37 basic Fortitude save. After you use the breath weapon, you can’t do so again for 1d4 rounds.",
+        "traits": [
+            "Consumable",
+            "Evocation",
+            "Magical",
+            "Poison",
+            "Potion"
+        ]
+    },
+    {
+        "name": "Gold Dragon's Breath Potion (Wyrm)",
+        "actions": "1A",
+        "inputRequired": "After you use the breath weapon, you can’t do so again for 1d4 rounds.",
+        "desc": "You unleash dragon's breath in a 15-foot cone of fire. The breath does 10d6 fire damage, and each creature in the area must attempt a DC 37 basic Reflex save. After you use the breath weapon, you can’t do so again for 1d4 rounds.",
+        "traits": [
+            "Consumable",
+            "Fire",
+            "Evocation",
+            "Magical",
+            "Potion"
+        ]
+    },
+    {
+        "name": "Red Dragon's Breath Potion (Wyrm)",
+        "actions": "1A",
+        "inputRequired": "After you use the breath weapon, you can’t do so again for 1d4 rounds.",
+        "desc": "You unleash dragon's breath in a 15-foot cone of fire. The breath does 10d6 fire damage, and each creature in the area must attempt a DC 37 basic Reflex save. After you use the breath weapon, you can’t do so again for 1d4 rounds.",
+        "traits": [
+            "Consumable",
+            "Fire",
+            "Evocation",
+            "Magical",
+            "Potion"
+        ]
+    },
+    {
+        "name": "Silver Dragon's Breath Potion (Wyrm)",
+        "actions": "1A",
+        "inputRequired": "After you use the breath weapon, you can’t do so again for 1d4 rounds.",
+        "desc": "You unleash dragon's breath in a 15-foot cone of cold. The breath does 10d6 cold damage, and each creature in the area must attempt a DC 37 basic Reflex save. After you use the breath weapon, you can’t do so again for 1d4 rounds.",
+        "traits": [
+            "Consumable",
+            "Fire",
+            "Evocation",
+            "Magical",
+            "Potion"
+        ]
+    },
+    {
+        "name": "White Dragon's Breath Potion (Wyrm)",
+        "actions": "1A",
+        "inputRequired": "After you use the breath weapon, you can’t do so again for 1d4 rounds.",
+        "desc": "You unleash dragon's breath in a 15-foot cone of cold. The breath does 10d6 cold damage, and each creature in the area must attempt a DC 37 basic Reflex save. After you use the breath weapon, you can’t do so again for 1d4 rounds.",
+        "traits": [
+            "Consumable",
+            "Fire",
+            "Evocation",
+            "Magical",
+            "Potion"
         ]
     }
 ]

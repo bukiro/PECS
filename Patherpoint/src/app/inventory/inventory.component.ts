@@ -87,6 +87,14 @@ export class InventoryComponent implements OnInit {
         return this.characterService.get_Creature(creature) as Character | AnimalCompanion;
     }
 
+    get_CompanionAvailable() {
+        return this.characterService.get_CompanionAvailable();
+    }
+    
+    get_FamiliarAvailable() {
+        return this.characterService.get_FamiliarAvailable();
+    }
+
     get_Creatures() {
         return this.characterService.get_Creatures();
     }
@@ -430,8 +438,8 @@ export class InventoryComponent implements OnInit {
         return inventory.get_Name(this.characterService);
     }
 
-    on_ConsumableUse(item: Consumable, inventory: ItemCollection) {
-        this.characterService.on_ConsumableUse(this.get_Creature(), item);
+    on_ConsumableUse(item: Consumable, creature: string, inventory: ItemCollection) {
+        this.characterService.on_ConsumableUse(this.get_Creature(creature), item);
         if (this.can_Drop(item) && !item.can_Stack()) {
             this.drop_InventoryItem(item, inventory, false);
         }

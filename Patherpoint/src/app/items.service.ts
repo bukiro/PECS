@@ -31,6 +31,10 @@ import { Equipment } from './Equipment';
 import { Scroll } from './Scroll';
 import { Oil } from './Oil';
 import { Talisman } from './Talisman';
+import { Familiar } from './Familiar';
+import { SpellsService } from './spells.service';
+import { TimeService } from './time.service';
+import { SpellCast } from './SpellCast';
 
 @Injectable({
     providedIn: 'root'
@@ -261,7 +265,7 @@ export class ItemsService {
             if (rune) {
                 newItem.runeEffect = Object.assign(new WeaponRune(), JSON.parse(JSON.stringify(rune)));
                 this.savegameService.reassign(newItem.runeEffect);
-                newItem.runeEffect.activities.forEach((activity: ItemActivity) => {activity.name += " ("+newItem.name+")"});
+                newItem.runeEffect.activities.forEach((activity: ItemActivity) => { activity.name += " (" + newItem.name + ")" });
             }
         }
 
@@ -305,14 +309,23 @@ export class ItemsService {
         return item;
     }
 
-    process_Consumable(creature: Character | AnimalCompanion, characterService: CharacterService, item: Consumable) {
+    process_Consumable(creature: Character | AnimalCompanion | Familiar, characterService: CharacterService, itemsService: ItemsService, timeService: TimeService, spellsService: SpellsService, item: Consumable) {
 
-        //Apply conditions.
+        //Apply conditions
         if (item["gainConditions"]) {
             item["gainConditions"].forEach(gain => {
                 let newConditionGain = Object.assign(new ConditionGain(), gain);
                 characterService.add_Condition(creature, newConditionGain, false);
             });
+        }
+
+        //Cast Spells
+        if (item["castSpells"]) {
+            item["castSpells"].forEach((cast: SpellCast) => {
+                cast.spellGain.duration = cast.duration;
+                let librarySpell = spellsService.get_Spells(cast.name)[0];
+                spellsService.process_Spell(creature, creature.type, characterService, itemsService, timeService, cast.spellGain, librarySpell, cast.level, true, true, false);
+            })
         }
 
         //One time effects
@@ -323,7 +336,7 @@ export class ItemsService {
         }
     }
 
-    rest(creature: Character|AnimalCompanion, characterService: CharacterService) {
+    rest(creature: Character | AnimalCompanion, characterService: CharacterService) {
         creature.inventories.forEach(inv => {
             inv.allItems().filter(item => item.expiration == -2).forEach(item => {
                 item.name = "DELETE";
@@ -337,7 +350,7 @@ export class ItemsService {
         })
     }
 
-    tick_Items(creature: Character|AnimalCompanion, characterService: CharacterService, turns: number) {
+    tick_Items(creature: Character | AnimalCompanion, characterService: CharacterService, turns: number) {
         creature.inventories.forEach(inv => {
             inv.allItems().filter(item => item.expiration > 0).forEach(item => {
                 item.expiration -= turns;
@@ -665,7 +678,7 @@ export class ItemsService {
         }
         if (this.loading_WeaponRunes) { this.loading_WeaponRunes = false; }
     }
-    
+
     load_Scrolls(): Observable<string[]> {
         return this.http.get<string[]>('/assets/items/scrolls.json');
     }
@@ -701,7 +714,7 @@ export class ItemsService {
     load_Talismans(): Observable<string[]> {
         return this.http.get<string[]>('/assets/items/talismans.json');
     }
-    
+
     finish_Talismans() {
         if (this.loader_Talismans) {
             this.items.talismans = this.loader_Talismans.map(element => this.initialize_Item(Object.assign(new Talisman(), element), true, false));

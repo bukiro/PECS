@@ -30,6 +30,7 @@ The very latest in Assistive Technologies for Dungeon Master (ATDM)
 - [ ] - Implement all Armors
 - [ ] - Implement all Shields
 - [ ] - Implement all Consumables
+- [x] -- Implement all Potions
 - [x] - Implement all Adventuring Gear
 - [x] - Implement all Weapon Runes
 - [ ] - Implement all Armor Runes

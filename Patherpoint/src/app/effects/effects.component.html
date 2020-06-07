@@ -6,10 +6,9 @@
             <div class="row">
                 <span>
                     <strong [className]="condition.buff ? 'bonus' : 'penalty'"
-                        title="{{conditionGain.source}}">{{conditionGain.name}}{{conditionGain.persistentDamage ? ": "+conditionGain.persistentDamage : ""}}
+                        title="Source: {{conditionGain.source}}">{{conditionGain.name}}{{conditionGain.persistentDamage ? ": "+conditionGain.persistentDamage : ""}}
                         {{(conditionGain.value) ? conditionGain.value : ""}} 
                     </strong>
-                    {{(conditionGain.name != conditionGain.source) ? "("+conditionGain.source+")" : ""}}
                 </span>
             </div>
             <div class="row fullsize-only">
@@ -49,7 +48,7 @@
                 </div>
                 <ng-container
                     *ngIf="this.get_ShowItem()==conditionGain.name+conditionGain.source+conditionGain.value+conditionGain.duration+'applied'">
-                    <div class="row left-aligned" *ngFor="let desc of condition.desc.split('\n\n'); trackBy:trackByIndex;">
+                    <div class="row  lower left-aligned" *ngFor="let desc of condition.desc.split('\n\n'); trackBy:trackByIndex;">
                         <p *ngIf="desc.split('\n').length == 1" [innerHTML]="desc"></p>
                         <ul *ngIf="desc.split('\n').length > 1">
                             <li *ngFor="let line of desc.split('\n'); trackBy:trackByIndex;" [innerHTML]="line"></li>
@@ -62,12 +61,11 @@
     <h3 class="box-header">Active Effects</h3>
     <div class="list-item row lower" *ngFor="let effect of get_AppliedEffects(); trackBy:trackByIndex;">
         <span>
-            <strong [ngClass]="{'penalty':effect.penalty, 'bonus':effect.bonus, 'absolute':effect.setValue}"
-                title="{{effect.source}}">{{effect.target}}
+            <strong [ngClass]="{'penalty':effect.penalty, 'bonus':!effect.penalty && !effect.setValue, 'absolute':effect.setValue}"
+                title="Source: {{effect.source}}">{{effect.target}}
                 {{parseInt(effect.value) ? effect.value : ''}}{{effect.setValue ? "= "+effect.setValue : ''}}
             </strong>
             {{(effect.type != "untyped") ? effect.type+' ' : ''}}{{(effect.toggle || effect.setValue) ? '' : (effect.penalty ? 'penalty' : 'bonus')}}
-            ({{effect.source}})
         </span>
     </div>
     <button class="list-item fullsize-only center-aligned"
@@ -77,11 +75,10 @@
         <div class="list-item notapplied" *ngFor="let conditionGain of get_AppliedConditions(false); trackBy:trackByIndex;">
             <div class="row">
                 <span>
-                    <strong [className]="conditionGain.buff ? 'bonus' : 'penalty'"
-                        title="{{conditionGain.source}}">{{conditionGain.name}}
+                    <strong [className]="get_Conditions(conditionGain.name)[0]?.buff ? 'bonus' : 'penalty'"
+                        title="Source: {{conditionGain.source}}">{{conditionGain.name}}
                         {{(conditionGain.value) ? conditionGain.value : ""}}
                     </strong>
-                    {{(conditionGain.duration != -1) ? conditionGain.duration / 10 + " turns" : "permanent"}}
                 </span>
             </div>
             <div class="row fullsize-only">
@@ -89,31 +86,37 @@
             </div>
             <ng-container *ngFor="let condition of [get_Conditions(conditionGain.name)[0]]; trackBy:trackByIndex;">
                 <div class="row">
-                    <button
-                        (click)="toggle_Item(conditionGain.name+conditionGain.source+conditionGain.value+conditionGain.duration+'notapplied')">
-                        Show Description
-                    </button>
-                    <button (click)="remove_Condition(conditionGain)">
-                        Remove
-                    </button>
+                    <span>
+                        <button (click)="remove_Condition(conditionGain)">
+                            Remove
+                        </button>
+                    </span>
+                    <span>
+                        <button
+                            (click)="toggle_Item(conditionGain.name+conditionGain.source+conditionGain.value+conditionGain.duration+'notapplied')">
+                            Show Description
+                        </button>
+                    </span>
                 </div>
-                <div class="row"
+                <ng-container
                     *ngIf="this.get_ShowItem()==conditionGain.name+conditionGain.source+conditionGain.value+conditionGain.duration+'notapplied'">
-                    <p *ngFor="let desc of condition.desc.split('\n')">
-                        {{desc}}
-                    </p>
-                </div>
+                    <div class="row  lower left-aligned" *ngFor="let desc of condition.desc.split('\n\n'); trackBy:trackByIndex;">
+                        <p *ngIf="desc.split('\n').length == 1" [innerHTML]="desc"></p>
+                        <ul *ngIf="desc.split('\n').length > 1">
+                            <li *ngFor="let line of desc.split('\n'); trackBy:trackByIndex;" [innerHTML]="line"></li>
+                        </ul>
+                    </div>
+                </ng-container>
             </ng-container>
         </div>
         <h3 class="box-header">Not Applied Effects</h3>
         <div class="list-item row lower notapplied" *ngFor="let effect of get_NotAppliedEffects(); trackBy:trackByIndex;">
             <span>
-                <strong [ngClass]="{'penalty':effect.penalty, 'bonus':effect.bonus, 'absolute':effect.setValue}"
-                    title="{{effect.source}}">{{effect.target}}
+                <strong [ngClass]="{'penalty':effect.penalty, 'bonus':!effect.penalty && !effect.setValue, 'absolute':effect.setValue}"
+                    title="Source: {{effect.source}}">{{effect.target}}
                     {{parseInt(effect.value) ? effect.value : ''}}{{effect.setValue ? "= "+effect.setValue : ''}}
                 </strong>
                 {{(effect.type != "untyped") ? effect.type+' ' : ''}}{{(effect.toggle || effect.setValue) ? '' : (effect.penalty ? 'penalty' : 'bonus')}}
-                ({{effect.source}})
             </span>
         </div>
     </div>
@@ -123,12 +126,11 @@
         <h3 class="box-header">Hidden Effects</h3>
         <div class="list-item row lower" *ngFor="let effect of get_HiddenEffects(); trackBy:trackByIndex;">
             <span>
-                <strong [ngClass]="{'penalty':effect.penalty, 'bonus':effect.bonus, 'absolute':effect.setValue}"
-                    title="{{effect.source}}">{{effect.target}}
+                <strong [ngClass]="{'penalty':effect.penalty, 'bonus':!effect.penalty && !effect.setValue, 'absolute':effect.setValue}"
+                    title="Source: {{effect.source}}">{{effect.target}}
                     {{parseInt(effect.value) ? effect.value : ''}}{{effect.setValue ? "= "+effect.setValue : ''}}
                 </strong>
                 {{(effect.type != "untyped") ? effect.type+' ' : ''}}
-                ({{effect.source}})
             </span>
         </div>
     </div>

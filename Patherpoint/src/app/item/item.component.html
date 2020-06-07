@@ -145,7 +145,7 @@
         <strong>Critical Failure</strong>
         {{item.critfailure}}
     </p>
-    <div class="list-item lower row problem" *ngIf="item.inputRequired">
+    <div class="list-item row problem" *ngIf="item.inputRequired">
         <strong>Player input required:</strong>
         <div class="row left-aligned">
             <p *ngFor="let inputRequired of item.inputRequired.split('\n'); trackBy:trackByIndex;">

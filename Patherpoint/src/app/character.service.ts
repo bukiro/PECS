@@ -866,7 +866,7 @@ export class CharacterService {
 
     on_ConsumableUse(creature: Character|AnimalCompanion, item: Consumable) {
         item.amount--
-        this.itemsService.process_Consumable(creature, this, item);
+        this.itemsService.process_Consumable(creature, this, this.itemsService, this.timeService, this.spellsService, item);
         this.set_Changed();
     }
 
@@ -1145,6 +1145,9 @@ export class CharacterService {
             if (creature.type == "Companion" && creature.class.ancestry.name) {
                 activities.push(...(creature as AnimalCompanion).class.ancestry.activities.filter(gain => gain.level <= levelNumber));
             }
+            this.get_AppliedConditions(creature).filter(gain => gain.apply).forEach(gain => {
+                activities.push(...this.get_Conditions(gain.name)[0]?.gainActivities)
+            });
             creature.inventories[0].allEquipment()
                 .filter(item => 
                     item.equipped &&

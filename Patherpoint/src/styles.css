@@ -242,13 +242,8 @@ h2 {
 }
 
 p {
-    font-size: 90%;
     width: 100%;
     margin: 8px 0px;
-}
-
-ul {
-    font-size: 90%;
 }
 
 .row>* {

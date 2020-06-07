@@ -9,6 +9,7 @@ import { Character } from '../Character';
 import { AnimalCompanion } from '../AnimalCompanion';
 import { SpellsService } from '../spells.service';
 import { Talisman } from '../Talisman';
+import { Equipment } from '../Equipment';
 
 @Component({
     selector: 'app-item',
@@ -104,9 +105,13 @@ export class ItemComponent implements OnInit {
     on_TalismanUse(talisman: Talisman, index: number) {
         this.characterService.on_ConsumableUse(this.get_Creature(), talisman);
         this.item.talismans.splice(index, 1)
-        this.characterService.set_Changed("inventory");
-        this.characterService.set_Changed("attacks");
-        this.characterService.set_Changed("defense");
+        if (["armors", "shields"].includes(this.item.type)) {
+            this.characterService.set_Changed("defense");
+        }
+        if (this.item.type == "weapons") {
+            this.characterService.set_Changed("attacks");
+        }
+        this.characterService.set_Changed("inventory");       
     }
 
     get_DoublingRingsOptions(ring:string) {
