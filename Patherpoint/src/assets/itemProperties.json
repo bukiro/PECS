@@ -493,7 +493,7 @@
         "priority": "5",
         "group": "5-Influence",
         "name": "Grant additional items",
-        "desc": "Add additional items when receiving or equipping this item."
+        "desc": "Add additional items when receiving, equipping or activating this item."
     },
     {
         "parent": "gainItems",
@@ -531,9 +531,19 @@
         "priority": "3",
         "group": "",
         "name": "Granting condition",
-        "desc": "The extra item is either granted when receiving this item, or granted when equipping and lost when unequipping it. The default is on grant, and the choice does not make a difference for an activity.",
+        "desc": "The extra item is either granted when receiving this item, or granted when equipping and lost when unequipping it. For consumables, the extra item can be granted when using this item. The default is on grant, and the choice does not make a difference for an activity.",
         "locked": true,
         "examples": "gainitems on"
+    },
+    {
+        "parent": "gainItems",
+        "key": "expiration",
+        "priority": "4",
+        "group": "",
+        "name": "Expiration",
+        "desc": "For temporary items, the number of turns (* 10) that the item will exist after granting it.",
+        "type": "number",
+        "validation": "-1plus"
     },
     {
         "key": "storedSpells",

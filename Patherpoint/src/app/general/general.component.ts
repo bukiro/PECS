@@ -166,7 +166,7 @@ export class GeneralComponent implements OnInit {
     get_Speeds() {
         let speeds: Speed[] = this.characterService.get_Speeds(this.get_Creature());
         //We don't process the values yet - for now we just collect all Speeds that are mentioned in effects.
-        let speedEffects = this.effectsService.get_Effects().all.filter(effect => effect.creature == this.get_Creature().id && effect.apply && (effect.target.includes("Speed")));
+        let speedEffects = this.effectsService.get_Effects(this.creature).all.filter(effect => effect.apply && (effect.target.includes("Speed")));
         speedEffects.forEach(effect => {
             if (!speeds.filter(speed => speed.name == effect.target).length) {
                 speeds.push(new Speed(effect.target))

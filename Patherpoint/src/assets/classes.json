@@ -10971,7 +10971,7 @@
                         "feats": [
                             {
                                 "locked": true,
-                                "name": "Iron Will (Ranger)",
+                                "name": "Iron Will",
                                 "source": "Ranger",
                                 "sourceId": "3-Feature-Ranger-0"
                             }

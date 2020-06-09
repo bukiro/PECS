@@ -89,25 +89,29 @@ export class Skill {
         return effectsService.get_AbsolutesOnThis(creature, this.name)
             .concat(effectsService.get_AbsolutesOnThis(creature, this.get_Ability(creature, characterService) + "-based Checks and DCs"))
             .concat(effectsService.get_AbsolutesOnThis(creature, "Skill Checks"))
-            .concat(effectsService.get_AbsolutesOnThis(creature, "All Checks"));
+            .concat(effectsService.get_AbsolutesOnThis(creature, "All Checks and DCs"))
+            .concat(this.name.includes("Lore") ? effectsService.get_AbsolutesOnThis(creature, "Lore") : []);
     }
     relatives(creature: Character | AnimalCompanion | Familiar, characterService: CharacterService, effectsService: EffectsService) {
         return effectsService.get_RelativesOnThis(creature, this.name)
             .concat(effectsService.get_RelativesOnThis(creature, this.get_Ability(creature, characterService) + "-based Checks and DCs"))
             .concat(effectsService.get_RelativesOnThis(creature, "Skill Checks"))
-            .concat(effectsService.get_RelativesOnThis(creature, "All Checks"));
+            .concat(effectsService.get_RelativesOnThis(creature, "All Checks and DCs"))
+            .concat(this.name.includes("Lore") ? effectsService.get_RelativesOnThis(creature, "Lore") : []);
     }
     bonuses(creature: Character | AnimalCompanion | Familiar, characterService: CharacterService, effectsService: EffectsService) {
         return effectsService.show_BonusesOnThis(creature, this.name) ||
             effectsService.show_BonusesOnThis(creature, this.get_Ability(creature, characterService) + "-based Checks and DCs") ||
             effectsService.show_BonusesOnThis(creature, "Skill Checks") ||
-            effectsService.show_BonusesOnThis(creature, "All Checks");
+            effectsService.show_BonusesOnThis(creature, "All Checks and DCs") ||
+            (this.name.includes("Lore") && effectsService.show_BonusesOnThis(creature, "Lore"));
     }
     penalties(creature: Character | AnimalCompanion | Familiar, characterService: CharacterService, effectsService: EffectsService) {
         return effectsService.show_PenaltiesOnThis(creature, this.name) ||
             effectsService.show_PenaltiesOnThis(creature, this.get_Ability(creature, characterService) + "-based Checks and DCs") ||
             effectsService.show_PenaltiesOnThis(creature, "Skill Checks") ||
-            effectsService.show_PenaltiesOnThis(creature, "All Checks");
+            effectsService.show_PenaltiesOnThis(creature, "All Checks and DCs") ||
+            (this.name.includes("Lore") && effectsService.show_PenaltiesOnThis(creature, "Lore"));
     }
     get_Ability(creature: Character | AnimalCompanion | Familiar, characterService: CharacterService) {
         if (creature.type == "Familiar") {

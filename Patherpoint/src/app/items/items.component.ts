@@ -269,13 +269,13 @@ export class ItemsComponent implements OnInit {
         } else {
             this.characterService.get_Changed()
             .subscribe((target) => {
-                if (["itemstore", "all"].includes(target)) {
+                if (["items", "all"].includes(target)) {
                     this.changeDetector.detectChanges();
                 }
             });
             this.characterService.get_ViewChanged()
             .subscribe((view) => {
-                if (view.creature == this.creature && ["itemstore", "all"].includes(view.target)) {
+                if (view.creature == this.creature && ["items", "all"].includes(view.target)) {
                     this.changeDetector.detectChanges();
                 }
             });

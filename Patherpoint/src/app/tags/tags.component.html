@@ -14,7 +14,7 @@
     <cite class="condition" *ngFor="let condition of get_ConditionsShowingOn(objectName); trackBy:trackByIndex;"
         [className]="condition.buff ? 'bonus' : 'penalty'" [title]="condition.hint ? condition.hint : condition.desc">{{condition.name}}&nbsp;</cite>
     <cite class="effect" *ngFor="let effect of get_EffectsOnThis(objectName); trackBy:trackByIndex;"
-        [ngClass]="{'penalty':effect.penalty, 'bonus':effect.bonus, 'absolute':effect.setValue}">{{parseInt(effect.value) ? effect.value : ''}}{{effect.setValue ? effect.setValue : ''}} ({{effect.source}})&nbsp;</cite>
+        [ngClass]="{'penalty':effect.penalty, 'bonus':!effect.penalty && !effect.setValue, 'absolute':effect.setValue}">{{parseInt(effect.value) ? effect.value : ''}}{{effect.setValue ? effect.setValue : ''}} ({{effect.source}})&nbsp;</cite>
     <cite class="effect" *ngFor="let effect of specialEffects; trackBy:trackByIndex;"
-        [ngClass]="{'penalty':effect.penalty, 'bonus':effect.bonus, 'absolute':effect.setValue}">{{parseInt(effect.value) ? effect.value : ''}}{{effect.setValue ? effect.setValue : ''}} ({{effect.source}})&nbsp;</cite>
+        [ngClass]="{'penalty':effect.penalty, 'bonus':effect.penalty && !effect.setValue, 'absolute':effect.setValue}">{{parseInt(effect.value) ? effect.value : ''}}{{effect.setValue ? effect.setValue : ''}} ({{effect.source}})&nbsp;</cite>
 </div>

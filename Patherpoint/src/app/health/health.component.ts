@@ -161,7 +161,9 @@ export class HealthComponent implements OnInit {
 
     get_Resistances() {
         //There should be no absolutes in resistances. If there are, they will be treated as relatives here.
-        let effects = this.effectsService.get_Effects().all.filter(effect => effect.creature == this.get_Creature().id && (effect.target.includes("Resistance") || effect.target.includes("Hardness")) && effect.apply);
+        let effects = this.effectsService.get_Effects(this.creature).all.filter(effect =>
+            effect.creature == this.get_Creature().id && (effect.target.includes("Resistance") ||
+            effect.target.includes("Hardness")) && effect.apply);
         let resistances: any[] = [];
         effects.forEach(effect => {
             let value = effect.setValue || effect.value;

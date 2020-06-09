@@ -1,6 +1,7 @@
 import { ConditionGain } from './ConditionGain';
 import { EffectGain } from './EffectGain';
 import { ActivityGain } from './ActivityGain';
+import { SpecializationGain } from './SpecializationGain';
 
 export class Condition {
     public name: string = "";

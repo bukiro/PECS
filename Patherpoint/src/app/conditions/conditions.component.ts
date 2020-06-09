@@ -93,6 +93,10 @@ export class ConditionsComponent implements OnInit {
         this.characterService.toggleMenu("conditions");
     }
 
+    get_ConditionsMenuState() {
+        return this.characterService.get_ConditionsMenuState();
+    }
+
     get_Character() {
         return this.characterService.get_Character();
     }

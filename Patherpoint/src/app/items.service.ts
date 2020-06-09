@@ -311,6 +311,13 @@ export class ItemsService {
 
     process_Consumable(creature: Character | AnimalCompanion | Familiar, characterService: CharacterService, itemsService: ItemsService, timeService: TimeService, spellsService: SpellsService, item: Consumable) {
 
+        //One time effects
+        if (item.onceEffects) {
+            item.onceEffects.forEach(effect => {
+                characterService.process_OnceEffect(creature, effect);
+            })
+        }
+
         //Apply conditions
         if (item["gainConditions"]) {
             item["gainConditions"].forEach(gain => {
@@ -328,12 +335,23 @@ export class ItemsService {
             })
         }
 
-        //One time effects
-        if (item.onceEffects) {
-            item.onceEffects.forEach(effect => {
-                characterService.process_OnceEffect(creature, effect);
-            })
+        //Gain Items on Activation
+        if (item.gainItems.length && creature.type != "Familiar") {
+            item.gainItems.forEach(gainItem => {
+                let newItem: Item = itemsService.get_CleanItems()[gainItem.type].filter(libraryItem => libraryItem.name == gainItem.name)[0];
+                if (newItem) {
+                    let grantedItem = characterService.grant_InventoryItem(creature as Character|AnimalCompanion, creature.inventories[0], newItem, false, false, true);
+                    gainItem.id = grantedItem.id;
+                    grantedItem.expiration = gainItem.expiration;
+                    if (grantedItem.get_Name) {
+                        grantedItem.grantedBy = "(Granted by " + item.name + ")";
+                    };
+                } else {
+                    console.log("Failed granting " + gainItem.type + " " + gainItem.name + " - item not found.")
+                }
+            });
         }
+
     }
 
     rest(creature: Character | AnimalCompanion, characterService: CharacterService) {
@@ -346,6 +364,7 @@ export class ItemsService {
                 inv.allItems().filter(item => item.name == "DELETE").forEach(item => {
                     characterService.drop_InventoryItem(creature, inv, item, false, true, true, item.amount);
                 })
+                characterService.set_ToChange(creature.type, "inventory");
             }
         })
     }
@@ -356,6 +375,13 @@ export class ItemsService {
                 item.expiration -= turns;
                 if (item.expiration <= 0) {
                     item.name = "DELETE";
+                }
+                characterService.set_ToChange(creature.type, "inventory");
+                if (item.type == "weapons" && (item as Equipment).equipped) {
+                    characterService.set_ToChange(creature.type, "attacks");
+                }
+                if (["armors", "shields"].includes(item.type) && (item as Equipment).equipped) {
+                    characterService.set_ToChange(creature.type, "defense");
                 }
             })
             //Removing an item brings the index out of order, and some items may be skipped. We just keep deleting items named DELETE until none are left.
@@ -369,6 +395,13 @@ export class ItemsService {
                     oil.duration -= turns;
                     if (oil.duration <= 0) {
                         oil.name = "DELETE";
+                    }
+                    characterService.set_ToChange(creature.type, "inventory");
+                    if (item.type == "weapons" && (item as Equipment).equipped) {
+                        characterService.set_ToChange(creature.type, "attacks");
+                    }
+                    if (["armors", "shields"].includes(item.type) && (item as Equipment).equipped) {
+                        characterService.set_ToChange(creature.type, "defense");
                     }
                 })
                 item.oilsApplied = item.oilsApplied.filter(oil => oil.name != "DELETE");

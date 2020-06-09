@@ -7,8 +7,7 @@ import { Effect } from '../Effect';
 @Component({
     selector: 'app-tags',
     templateUrl: './tags.component.html',
-    styleUrls: ['./tags.component.css'],
-    changeDetection: ChangeDetectionStrategy.OnPush
+    styleUrls: ['./tags.component.css']
 })
 export class TagsComponent implements OnInit {
 

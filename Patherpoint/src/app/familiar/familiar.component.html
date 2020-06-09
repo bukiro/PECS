@@ -4,7 +4,7 @@
         Close
     </button>
     <div class="loading" *ngIf="still_loading()">Loading</div>
-    <div class="familiar-box" *ngIf="!still_loading() && get_Character().class && get_FamiliarAvailable()">
+    <div class="familiar-box" *ngIf="!still_loading() && get_Character().class && get_FamiliarAvailable() && get_FamiliarMenuState()=='in'">
         <app-familiarabilities id="familiarabilities" class="charactersheet-app" [ngStyle]="{'--accent':get_Accent()}"></app-familiarabilities>
         <app-general [creature]="'Familiar'" id="Familiar-general" class="charactersheet-app" [ngStyle]="{'--accent':get_Accent()}"></app-general>
         <app-effects [creature]="'Familiar'" id="Familiar-effects" class="charactersheet-app" [ngStyle]="{'--accent':get_Accent()}"></app-effects>

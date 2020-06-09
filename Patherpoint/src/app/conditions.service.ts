@@ -19,7 +19,7 @@ export class ConditionsService {
     private conditions: Condition[];
     private loader;
     private loading: boolean = false;
-    private appliedConditions: ConditionGain[] = [];
+    private appliedConditions: ConditionGain[][] = [[], [], []];
 
     constructor(
         private http: HttpClient,
@@ -37,8 +37,20 @@ export class ConditionsService {
         }
     }
 
+    get_CalculatedIndex(creature: string) {
+        switch (creature) {
+            case "Character":
+                return 0;
+            case "Companion":
+                return 1;
+            case "Familiar":
+                return 2;
+        }
+    }
+
     get_AppliedConditions(creature: Character|AnimalCompanion|Familiar, characterService: CharacterService, activeConditions: ConditionGain[]) {
-        if (JSON.stringify(activeConditions) == JSON.stringify(this.appliedConditions)) {
+        let creatureIndex: number = this.get_CalculatedIndex(creature.type);
+        if (JSON.stringify(activeConditions) == JSON.stringify(this.appliedConditions[creatureIndex])) {
             return this.sortByPipe.transform(activeConditions, "asc", "duration") as ConditionGain[];
         } else {
             let overrides: string[] = [];
@@ -85,26 +97,29 @@ export class ConditionsService {
                     }
                 }
             })
-            for (let index = activeConditions.length; index > 0; index--) {
-                let gain = activeConditions[index - 1];
-                if (gain.value == -1) {
-                    characterService.remove_Condition(creature, gain, false);
-                }
+            //Remove all conditions that were marked for deletion by setting its value to -1. We use while so we don't mess up the index.
+            while (activeConditions.filter(gain => gain.value == -1).length) {
+                characterService.remove_Condition(creature, activeConditions.filter(gain => gain.value == -1)[0], false);
             }
-            this.appliedConditions = [];
-            this.appliedConditions = activeConditions.map(gain => Object.assign(new ConditionGain(), gain));
+            this.appliedConditions[creatureIndex] = [];
+            this.appliedConditions[creatureIndex] = activeConditions.map(gain => Object.assign(new ConditionGain(), gain));
             return this.sortByPipe.transform(activeConditions, "asc", "duration") as ConditionGain[];
         }
     }
 
     process_Condition(creature: Character|AnimalCompanion|Familiar, characterService: CharacterService, effectsService: EffectsService, gain: ConditionGain, condition: Condition, taken: boolean, increaseWounded: boolean = true) {
 
-        //Use gain once so it isn't marked as unused. It will be used by the eval strings.
-        gain = gain
+        //Prepare components for refresh
+        if (condition.gainActivities.length) {
+            characterService.set_ToChange(creature.type, "activities");
+        }
+        if (condition.showon) {
+            characterService.set_ToChange(creature.type, "tags");
+        }
 
         //Copy the condition's ActivityGains to the ConditionGain so we can track its duration, cooldown etc.
-        gain.gainActivities = Object.assign(new ActivityGain(), JSON.parse(JSON.stringify(condition.gainActivities)));
-
+        gain.gainActivities = condition.gainActivities.map(activityGain => Object.assign(new ActivityGain(), JSON.parse(JSON.stringify(activityGain))));
+        
         //One time effects
         if (condition.onceEffects.length) {
             if (taken) {
@@ -114,12 +129,16 @@ export class ConditionsService {
             }
         }
 
-        condition.endConditions.forEach(end => {
-            characterService.get_AppliedConditions(creature, end).forEach(gain => {
-                characterService.remove_Condition(creature, gain, false);
+        //Remove other conditions if applicable
+        if (taken) {
+            condition.endConditions.forEach(end => {
+                characterService.get_AppliedConditions(creature, end).forEach(gain => {
+                    characterService.remove_Condition(creature, gain, false);
+                })
             })
-        })
+        }
         
+        //Stuff that happens when your Dying value is raised or lowered beyond a limit.
         if (gain.name == "Dying") {
             if (taken) {
                 if (creature.health.dying(creature, characterService) >= creature.health.maxDying(creature, effectsService)) {

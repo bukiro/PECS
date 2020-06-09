@@ -1,4 +1,3 @@
-import { ItemGain } from './ItemGain';
 import { EffectGain } from './EffectGain';
 import { Item } from './Item';
 import { ItemActivity } from './ItemActivity';
@@ -42,8 +41,6 @@ export class Equipment extends Item {
     public gainActivities: ActivityGain[] = [];
     //If this is a container, list whether it has a limit and a bulk reduction.
     public gainInventory: InventoryGain[] = [];
-    //List ItemGain for every Item that you receive when you get or equip this item (specified in the ItemGain)
-    public gainItems: ItemGain[] = [];
     //What hint should show up for this item? This allows to be more concise and not use the entire description.
     //If no hint is set, desc will show instead
     public hint: string = "";

@@ -162,6 +162,9 @@ export class CharacterService {
                 this.spellMenuState = 'out';
                 this.spelllibraryMenuState = 'out';
                 this.conditionsMenuState = 'out';
+                if (this.characterMenuState == 'in') {
+                    this.set_Changed("charactersheet");
+                }
                 break;
             case "companion":
                 this.characterMenuState = 'out';
@@ -171,6 +174,9 @@ export class CharacterService {
                 this.spellMenuState = 'out';
                 this.spelllibraryMenuState = 'out';
                 this.conditionsMenuState = 'out';
+                if (this.companionMenuState == 'in') {
+                    this.set_Changed("Companion");
+                }
                 break;
             case "familiar":
                 this.characterMenuState = 'out';
@@ -180,6 +186,9 @@ export class CharacterService {
                 this.spellMenuState = 'out';
                 this.spelllibraryMenuState = 'out';
                 this.conditionsMenuState = 'out';
+                if (this.familiarMenuState == 'in') {
+                    this.set_Changed("Familiar");
+                }
                 break;
             case "items":
                 this.characterMenuState = 'out';
@@ -189,6 +198,9 @@ export class CharacterService {
                 this.spellMenuState = 'out';
                 this.spelllibraryMenuState = 'out';
                 this.conditionsMenuState = 'out';
+                if (this.itemsMenuState == 'in') {
+                    this.set_Changed("items");
+                }
                 break;
             case "spells":
                 this.characterMenuState = 'out';
@@ -198,6 +210,9 @@ export class CharacterService {
                 this.spellMenuState = (this.spellMenuState == 'out') ? 'in' : 'out';
                 this.spelllibraryMenuState = 'out';
                 this.conditionsMenuState = 'out';
+                if (this.spellMenuState == 'in') {
+                    this.set_Changed("spells");
+                }
                 break;
             case "spelllibrary":
                 this.characterMenuState = 'out';
@@ -207,6 +222,9 @@ export class CharacterService {
                 this.spellMenuState = 'out';
                 this.spelllibraryMenuState = (this.spelllibraryMenuState == 'out') ? 'in' : 'out';
                 this.conditionsMenuState = 'out';
+                if (this.spelllibraryMenuState == 'in') {
+                    this.set_Changed("spelllibrary");
+                }
                 break;
             case "conditions":
                 this.characterMenuState = 'out';
@@ -216,6 +234,9 @@ export class CharacterService {
                 this.spellMenuState = 'out';
                 this.spelllibraryMenuState = 'out';
                 this.conditionsMenuState = (this.conditionsMenuState == 'out') ? 'in' : 'out';
+                if (this.conditionsMenuState == 'in') {
+                    this.set_Changed("conditions");
+                }
                 break;
         }
         this.set_Changed("top-bar");
@@ -388,6 +409,7 @@ export class CharacterService {
             this.effectsService.get_RelativesOnThis(this.get_Character(), "Max Languages").forEach(effect => {
                 maxLanguages += parseInt(effect.value);
             })
+            let oldLanguages = JSON.stringify(character.class.languages);
             character.class.languages = character.class.languages.sort().filter(language => language != "");
             languages = character.class.languages.length;
             if (languages > maxLanguages) {
@@ -396,6 +418,10 @@ export class CharacterService {
                 while (languages < maxLanguages) {
                     languages = character.class.languages.push("");
                 }
+            }
+            //If the language list has changed, update the character sheet.
+            if (oldLanguages != JSON.stringify(character.class.languages)) {
+                this.set_ToChange("Character", "charactersheet");
             }
         }
     }
@@ -508,6 +534,7 @@ export class CharacterService {
     }
 
     grant_InventoryItem(creature: Character|AnimalCompanion, inventory: ItemCollection, item: Item, resetRunes: boolean = true, changeAfter: boolean = true, equipAfter: boolean = true, amount: number = 1, newId: boolean = true) {
+        this.set_ToChange(creature.type, "inventory");
         let newInventoryItem = this.itemsService.initialize_Item(item, false, newId);
         //Assign the library's item id as the new item's refId. This allows us to read the default information from the library later.
         if (!newInventoryItem.refId) {
@@ -574,8 +601,8 @@ export class CharacterService {
             })
         }
         //Add all Items that you get from being granted this one
-        if (returnedInventoryItem["gainItems"] && returnedInventoryItem["gainItems"].length) {
-            returnedInventoryItem["gainItems"].filter(gainItem => gainItem.on == "grant").forEach(gainItem => {
+        if (returnedInventoryItem.gainItems && returnedInventoryItem.gainItems.length) {
+            returnedInventoryItem.gainItems.filter(gainItem => gainItem.on == "grant").forEach(gainItem => {
                 let newItem: Item = this.get_Items()[gainItem.type].filter(libraryItem => libraryItem.name == gainItem.name)[0];
                 if (newItem.can_Stack()) {
                     this.grant_InventoryItem(creature, inventory, newItem, true, false, false, gainItem.amount);
@@ -588,14 +615,13 @@ export class CharacterService {
                     let grantedItem = this.grant_InventoryItem(creature, inventory, newItem, true, false, equip);
                     gainItem.id = grantedItem.id;
                     if (grantedItem.get_Name) {
-                        grantedItem.displayName = grantedItem.name + " (granted by " + returnedInventoryItem.name + ")"
+                        grantedItem.grantedBy = "(Granted by " + returnedInventoryItem.name + ")";
                     };
                 }
             });
         }
         if (changeAfter) {
-            this.set_ToChange(creature.type, "inventory");
-            this.set_Changed(creature.type);
+            this.process_ToChange();
         }
         return returnedInventoryItem;
     }
@@ -648,7 +674,7 @@ export class CharacterService {
             }
         }
         if (changeAfter) {
-            this.set_Changed();
+            this.process_ToChange()
         }
     }
 
@@ -771,8 +797,8 @@ export class CharacterService {
                     this.onInvest(creature, inventory, item, true, false);
                 }
                 //Add all Items that you get from equipping this one
-                if (item["gainItems"] && item["gainItems"].length) {
-                    item["gainItems"].filter((gainItem: ItemGain) => gainItem.on == "equip").forEach(gainItem => {
+                if (item.gainItems && item.gainItems.length) {
+                    item.gainItems.filter((gainItem: ItemGain) => gainItem.on == "equip").forEach(gainItem => {
                         let newItem: Item = this.itemsService.get_Items()[gainItem.type].filter((libraryItem: Item) => libraryItem.name == gainItem.name)[0]
                         if (newItem.can_Stack()) {
                             this.grant_InventoryItem(creature, inventory, newItem, false, false, false, gainItem.amount);
@@ -785,7 +811,7 @@ export class CharacterService {
                             let grantedItem = this.grant_InventoryItem(creature, inventory, newItem, false, false, equip);
                             gainItem.id = grantedItem.id;
                             if (grantedItem.get_Name) {
-                                grantedItem.displayName = grantedItem.name + " (granted by " + item.name + ")"
+                                grantedItem.grantedBy = "(Granted by " + item.name + ")"
                             };
                         }
                     });
@@ -814,7 +840,7 @@ export class CharacterService {
                 }
             }
             if (changeAfter) {
-                this.set_Changed();
+                this.process_ToChange();
             }
         }
     }
@@ -860,14 +886,14 @@ export class CharacterService {
             });
         }
         if (changeAfter) {
-            this.set_Changed();
+            this.process_ToChange();
         }
     }
 
     on_ConsumableUse(creature: Character|AnimalCompanion, item: Consumable) {
         item.amount--
         this.itemsService.process_Consumable(creature, this, this.itemsService, this.timeService, this.spellsService, item);
-        this.set_Changed();
+        this.set_ToChange(creature.type, "inventory");
     }
 
     grant_BasicItems() {
@@ -965,12 +991,12 @@ export class CharacterService {
                 addCondition.apply = true;
                 this.add_Condition(creature, addCondition, false)
             })
+            this.set_ToChange(creature.type, "effects");
             if (reload) {
-                this.set_Changed();
+                this.process_ToChange();
             }
             return newLength;
         }
-        this.set_ToChange(creature.type, "effects");
     }
 
     remove_Condition(creature: Character|AnimalCompanion|Familiar, conditionGain: ConditionGain, reload: boolean = true, increaseWounded: boolean = true) {
@@ -984,11 +1010,12 @@ export class CharacterService {
             })
             creature.conditions.splice(creature.conditions.indexOf(oldConditionGain[0]), 1)
             this.conditionsService.process_Condition(creature, this, this.effectsService, conditionGain, this.conditionsService.get_Conditions(conditionGain.name)[0], false, increaseWounded);
+            this.set_ToChange(creature.type, "effects");
             if (reload) {
-                this.set_Changed();
+                this.process_ToChange();
             }
         }
-        this.set_ToChange(creature.type, "effects");
+        
     }
 
     process_OnceEffect(creature: Character|AnimalCompanion|Familiar, effectGain: EffectGain, conditionValue: number = 0, conditionHeightened: number = 0) {
@@ -1243,6 +1270,7 @@ export class CharacterService {
             this.me.class.animalCompanion = Object.assign(new AnimalCompanion(), this.me.class.animalCompanion);
             this.me.class.animalCompanion = this.reassign(this.me.class.animalCompanion);
             this.me.class.animalCompanion.class.reset_levels(this);
+            this.me.class.animalCompanion.set_Level(this);
             this.equip_BasicItems(this.me.class.animalCompanion);
         }
     }
@@ -1357,6 +1385,7 @@ export class CharacterService {
             } else {
                 console.log("Created "+(this.get_Character().name || "character")+" on database.");
             }
+            this.set_Changed("charactersheet");
             this.savegameService.initialize(this);
         }, (error) => {
             console.log('Error saving to database: ' + error.message);

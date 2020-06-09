@@ -117,10 +117,10 @@ export class DefenseComponent implements OnInit {
     }
 
     on_TalismanUse(item: Armor|Shield, talisman: Talisman, index: number) {
+        this.characterService.set_ToChange(this.creature, "defense");
         this.characterService.on_ConsumableUse(this.get_Creature() as Character|AnimalCompanion, talisman);
         item.talismans.splice(index, 1)
-        this.characterService.set_Changed("inventory");
-        this.characterService.set_Changed("defense");
+        this.characterService.process_ToChange();
     }
 
     set_CharacterChanged() {

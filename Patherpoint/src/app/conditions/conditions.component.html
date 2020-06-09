@@ -2,7 +2,7 @@
     <button class="list-item"
         (click)="toggleConditionsMenu()">Close</button>
     <div class="loading" *ngIf="still_loading()">Loading</div>
-    <ng-container *ngIf="!still_loading()">
+    <ng-container *ngIf="!still_loading() && get_ConditionsMenuState()=='in'">
         <div class="list-item">
             <strong>Find (in Name or Description)</strong>
             <span>

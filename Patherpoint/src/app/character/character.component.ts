@@ -76,6 +76,10 @@ export class CharacterComponent implements OnInit {
         this.characterService.toggleMenu("character");
     }
 
+    get_CharacterMenuState() {
+        return this.characterService.get_CharacterMenuState();
+    }
+
     toggle_Item(name: string) {
         if (this.showItem == name) {
             this.showItem = "";
@@ -709,7 +713,6 @@ export class CharacterComponent implements OnInit {
             character.class.animalCompanion = new AnimalCompanion();
             character.class.animalCompanion.class = new AnimalCompanionClass();
             this.characterService.initialize_AnimalCompanion();
-            character.class.animalCompanion.level = level.number;
             this.set_Changed();
         }
     }

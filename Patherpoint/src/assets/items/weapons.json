@@ -293,6 +293,138 @@
       "prof": "Unarmed Attacks"
    },
    {
+      "hide": true,
+      "id": "8ddc27ea-a966-11ea-bb37-0242ac130002",
+      "name": "Bestial Mutagen Jaws (Lesser)",
+      "traits": [
+         "Unarmed"
+      ],
+      "displayName": "Bestial Jaws",
+      "moddable": "-",
+      "_className": "Weapon",
+      "dicesize": 6,
+      "dmgType": "P",
+      "group": "Brawling",
+      "melee": 5,
+      "prof": "Unarmed Attacks"
+   },
+   {
+      "hide": true,
+      "id": "922ae412-a966-11ea-bb37-0242ac130002",
+      "name": "Bestial Mutagen Claw (Lesser)",
+      "traits": [
+         "Agile",
+         "Unarmed"
+      ],
+      "displayName": "Bestial Claw",
+      "moddable": "-",
+      "_className": "Weapon",
+      "dicesize": 4,
+      "dmgType": "S",
+      "group": "Brawling",
+      "melee": 5,
+      "prof": "Unarmed Attacks"
+   },
+   {
+      "hide": true,
+      "id": "cf55eba2-a966-11ea-bb37-0242ac130002",
+      "name": "Bestial Mutagen Jaws (Moderate)",
+      "traits": [
+         "Unarmed"
+      ],
+      "displayName": "Bestial Jaws",
+      "moddable": "-",
+      "_className": "Weapon",
+      "dicesize": 8,
+      "dmgType": "P",
+      "group": "Brawling",
+      "melee": 5,
+      "prof": "Unarmed Attacks"
+   },
+   {
+      "hide": true,
+      "id": "cf55eeb8-a966-11ea-bb37-0242ac130002",
+      "name": "Bestial Mutagen Claw (Moderate)",
+      "traits": [
+         "Agile",
+         "Unarmed"
+      ],
+      "displayName": "Bestial Claw",
+      "moddable": "-",
+      "_className": "Weapon",
+      "dicesize": 6,
+      "dmgType": "S",
+      "group": "Brawling",
+      "melee": 5,
+      "prof": "Unarmed Attacks"
+   },
+   {
+      "hide": true,
+      "id": "fb8ef128-a966-11ea-bb37-0242ac130002",
+      "name": "Bestial Mutagen Jaws (Greater)",
+      "traits": [
+         "Unarmed"
+      ],
+      "displayName": "Bestial Jaws",
+      "moddable": "-",
+      "_className": "Weapon",
+      "dicesize": 10,
+      "dmgType": "P",
+      "group": "Brawling",
+      "melee": 5,
+      "prof": "Unarmed Attacks"
+   },
+   {
+      "hide": true,
+      "id": "fb8ef326-a966-11ea-bb37-0242ac130002",
+      "name": "Bestial Mutagen Claw (Greater)",
+      "traits": [
+         "Agile",
+         "Unarmed"
+      ],
+      "displayName": "Bestial Claw",
+      "moddable": "-",
+      "_className": "Weapon",
+      "dicesize": 8,
+      "dmgType": "S",
+      "group": "Brawling",
+      "melee": 5,
+      "prof": "Unarmed Attacks"
+   },
+   {
+      "hide": true,
+      "id": "1c5658e4-a96a-11ea-bb37-0242ac130002",
+      "name": "Bestial Mutagen Jaws (Major)",
+      "traits": [
+         "Unarmed"
+      ],
+      "displayName": "Bestial Jaws",
+      "moddable": "-",
+      "_className": "Weapon",
+      "dicesize": 10,
+      "dmgType": "P",
+      "group": "Brawling",
+      "melee": 5,
+      "prof": "Unarmed Attacks"
+   },
+   {
+      "hide": true,
+      "id": "1c565ca4-a96a-11ea-bb37-0242ac130002",
+      "name": "Bestial Mutagen Claw (Major)",
+      "traits": [
+         "Agile",
+         "Unarmed"
+      ],
+      "displayName": "Bestial Claw",
+      "moddable": "-",
+      "_className": "Weapon",
+      "dicesize": 8,
+      "dmgType": "S",
+      "group": "Brawling",
+      "melee": 5,
+      "prof": "Unarmed Attacks"
+   },
+   {
       "bulk": "L",
       "desc": "This broad dagger is carried by dwarves as a weapon, tool, and designation of clan. Losing or having to surrender a clan dagger is considered a mark of embarrassment to most dwarves.",
       "id": "08693229-8daa-11ea-abca-ffb46fbada73",

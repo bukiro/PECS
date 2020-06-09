@@ -36,6 +36,10 @@ export class SpellsComponent implements OnInit {
         this.characterService.toggleMenu("spells");
     }
 
+    get_SpellMenuState() {
+        return this.characterService.get_SpellMenuState();
+    }
+
     toggle_Spell(name: string) {
         if (this.showSpell == name) {
             this.showSpell = "";

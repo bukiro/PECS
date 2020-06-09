@@ -102,7 +102,7 @@ export class ActivitiesService {
                         gainItem.id = grantedItem.id;
                         grantedItem.expiration = gainItem.expiration;
                         if (grantedItem.get_Name) {
-                            grantedItem.displayName = grantedItem.name + " (granted by " + activity.name + ")"
+                            grantedItem.grantedBy = "(Granted by " + activity.name + ")";
                         };
                     } else {
                         console.log("Failed granting " + gainItem.type + " " + gainItem.name + " - item not found.")
@@ -191,6 +191,7 @@ export class ActivitiesService {
         characterService.get_OwnedActivities(creature).filter(gain => gain.activeCooldown || gain.duration).forEach(gain => {
             //If the spell is running out, take care of that first, and if it has run out, set the cooldown.
             //Afterwards, reduce the cooldown by the remaining turns.
+            characterService.set_ToChange(creature.type, "activities");
             let individualTurns = turns;
             if (gain.duration > 0) {
                 let diff = Math.min(gain.duration, individualTurns);
@@ -200,6 +201,7 @@ export class ActivitiesService {
                     let activity: Activity|ItemActivity
                     if (gain.constructor = ItemActivity) {
                         activity = gain as ItemActivity;
+                        characterService.set_ToChange(creature.type, "inventory");
                     } else {
                         activity = this.get_Activities(gain.name)[0];
                     }

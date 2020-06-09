@@ -33,7 +33,7 @@
         </div>
     </div>
     <div class="loading" *ngIf="still_loading()">Loading</div>
-    <ng-container *ngIf="!still_loading()">
+    <ng-container *ngIf="!still_loading() && get_CharacterMenuState() == 'in'">
         <div class="list-item">
             <span>Color Accent</span>
             <span>

@@ -83,10 +83,10 @@ export class AttacksComponent implements OnInit {
     }
 
     on_TalismanUse(weapon: Weapon, talisman: Talisman, index: number) {
+        this.characterService.set_ToChange(this.creature, "attacks");
         this.characterService.on_ConsumableUse(this.get_Creature(), talisman);
         weapon.talismans.splice(index, 1)
-        this.characterService.set_Changed("inventory");
-        this.characterService.set_Changed("attacks");
+        this.characterService.process_ToChange();
     }
 
     get_AmmoTypes() {

@@ -52,7 +52,7 @@ export class TimeService {
 
     rest(characterService: CharacterService, timeService: TimeService, itemsService: ItemsService, spellsService: SpellsService, ) {
         let charLevel: number = characterService.get_Character().level;
-        this.tick(characterService, timeService, itemsService, spellsService, 48000);
+        this.tick(characterService, timeService, itemsService, spellsService, 48000, false);
         characterService.get_Creatures().forEach(creature => {
             let con = 1;
             if (creature.type != "Familiar") {
@@ -99,16 +99,18 @@ export class TimeService {
             }
         });
         
-        characterService.set_Changed();
         characterService.process_ToChange();
     }
 
-    tick(characterService: CharacterService, timeService: TimeService, itemsService: ItemsService, spellsService: SpellsService, turns: number = 10) {
+    tick(characterService: CharacterService, timeService: TimeService, itemsService: ItemsService, spellsService: SpellsService, turns: number = 10, reload: boolean = true) {
         characterService.get_Creatures().forEach(creature => {
-            this.conditionsService.tick_Conditions(creature, turns, this.yourTurn);
+            if (creature.conditions.length) {
+                this.conditionsService.tick_Conditions(creature, turns, this.yourTurn);
+                characterService.set_ToChange(creature.type, "effects")
+            }
             this.activitiesService.tick_Activities(creature, characterService, timeService, itemsService, spellsService, turns)
             if (turns >= 1000 && characterService.get_Health(creature).damage == 0) {
-                characterService.get_AppliedConditions(creature, "Wounded").forEach(gain => characterService.remove_Condition(creature, gain));
+                characterService.get_AppliedConditions(creature, "Wounded").forEach(gain => characterService.remove_Condition(creature, gain, false));
             }
             //Tick down and remove any oils whose effect is running out.
             if (creature.type != "Familiar") {
@@ -119,7 +121,9 @@ export class TimeService {
             }
         })
         this.yourTurn = (this.yourTurn + turns) % 10;
-        characterService.set_Changed();
+        if (reload) {
+            characterService.process_ToChange();
+        }
     }
 
     get_Duration(duration: number, includeTurnState: boolean = true, inASentence: boolean = false) {

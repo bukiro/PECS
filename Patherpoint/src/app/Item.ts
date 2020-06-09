@@ -2,6 +2,7 @@ import { v1 as uuidv1 } from 'uuid';
 import { SpellChoice } from './SpellChoice';
 import { ItemActivity } from './ItemActivity';
 import { Oil } from './Oil';
+import { ItemGain } from './ItemGain';
 
 export class Item {
     public readonly _className: string = this.constructor.name;
@@ -38,6 +39,10 @@ export class Item {
     public equippable: boolean;
     //Should this item be hidden in the item store
     public hide: boolean = false;
+    //List ItemGain for every Item that you receive when you get, equip or use this item (specified in the ItemGain)
+    public gainItems: ItemGain[] = [];
+    //Set only if the item is granted via an ItemGain
+    public grantedBy: string = "";
     //Every item gets an ID to reference in activities or other items.
     public id = uuidv1();
     //Theoretical Level before which the player should not have this item
@@ -54,6 +59,7 @@ export class Item {
     public refId: string = ""
     //Is the notes input shown in the inventory
     public showNotes: boolean = false;
+    public sourceBook: string = "";
     //This bulk is only valid while in the item store.
     //This is for items like the Adventurer's Pack that is immediately unpacked into its parts and doesn't weigh anything in the inventory.
     public storeBulk: string = "";
@@ -86,7 +92,7 @@ export class Item {
         return (!this.equippable &&
             !this.can_Invest() &&
             (this["gainInventory"] ? !this["gainInventory"].length : true) &&
-            (this["gainItems"] ? !this["gainItems"].length : true) &&
+            (this["gainItems"] ? !this["gainItems"].filter(gain => gain.on != "use").length : true) &&
             (this["gainActivities"] ? !this["gainActivities"].filter((activity: ItemActivity) => !activity.displayOnly).length : true) &&
             (this["activities"] ? !this["activities"].filter((activity: ItemActivity) => !activity.displayOnly).length : true) &&
             (this["storedSpells"] ? !this["storedSpells"].length : true))

@@ -492,7 +492,7 @@ export class NewItemPropertyComponent implements OnInit {
                 examples = this.itemsService.get_Items()[this.get_Parent()["type"]].map((item: Item) => item.name );    
                 break;
             case "gainitems on":
-                examples = ["", "equip", "grant"];
+                examples = ["", "equip", "grant", "use"];
                 break;
             case "dicesize":
                 examples = [1, 2, 3, 4, 6, 8, 10, 12];

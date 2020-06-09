@@ -330,14 +330,13 @@ export class SavegameService {
         this.load_Characters()
             .subscribe((results: string[]) => {
                 this.loader = results;
-                this.finish_loading()
-                characterService.set_Changed("charactersheet");
+                this.finish_loading(characterService)
             }, (error) => {
                 console.log('Error loading characters from database: ' + error.message);
             });
     }
 
-    finish_loading() {
+    finish_loading(characterService: CharacterService) {
         if (this.loader) {
             this.savegames = [];
             this.loader.forEach(savegame => {
@@ -358,6 +357,7 @@ export class SavegameService {
             });
 
             this.loader = [];
+            characterService.set_Changed("charactersheet");
         }
         if (this.loading) { this.loading = false; }
     }

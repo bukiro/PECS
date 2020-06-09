@@ -18,6 +18,7 @@ import { Speed } from './Speed';
 import { SpellCasting } from './SpellCasting';
 import { SpecializationGain } from './SpecializationGain';
 import { AbilityChoice } from './AbilityChoice';
+import { AnimalCompanionClass } from './AnimalCompanionClass';
 
 @Injectable({
     providedIn: 'root'
@@ -375,9 +376,10 @@ export class FeatsService {
 
             //Feats that grant an animal companion
             if (feat.gainAnimalCompanion == 1) {
-                if (!taken) {
-                    //Reset the animal companion
-                    character.class.animalCompanion = new AnimalCompanion();
+                //Reset the animal companion
+                character.class.animalCompanion = new AnimalCompanion();
+                character.class.animalCompanion.class = new AnimalCompanionClass();
+                if (taken) {
                     characterService.initialize_AnimalCompanion();
                 }
             }

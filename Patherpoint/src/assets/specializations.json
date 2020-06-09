@@ -86,7 +86,7 @@
         "desc": "The numerous overlapping pieces of this armor protect you from piercing attacks. You gain resistance to piercing damage equal to 1 + the value of the armor's potency rune for medium armor, or 2 + the value of the armor's potency rune for heavy armor.",
         "effects": [
             {
-                "affected": "Piercing Resistance",
+                "affected": "Piercing Damage Resistance",
                 "value": "Armor() && (Armor().prof == 'Medium Armor' ? 1 + Armor().get_PotencyRune() : 2 + Armor().get_PotencyRune())"
             }
         ],
@@ -97,7 +97,7 @@
         "desc": "The thick second skin of the armor disperses blunt force to reduce bludgeoning damage. You gain resistance to bludgeoning damage equal to 1 + the value of the armor's potency rune for medium armor, or 2 + the value of the armor's potency rune for heavy armor.",
         "effects": [
             {
-                "affected": "Bludgeoning Resistance",
+                "affected": "Bludgeoning Damage Resistance",
                 "value": "Armor() && (Armor().prof == 'Medium Armor' ? 1 + Armor().get_PotencyRune() : 2 + Armor().get_PotencyRune())"
             }
         ],
@@ -108,7 +108,7 @@
         "desc": "The sturdy plate provides no purchase for a cutting edge. You gain resistance to slashing damage equal to 1 + the value of the armor's potency rune for medium armor, or 2 + the value of the armor's potency rune for heavy armor.",
         "effects": [
             {
-                "affected": "Slashing Resistance",
+                "affected": "Slashing Damage Resistance",
                 "value": "Armor() && (Armor().prof == 'Medium Armor' ? 1 + Armor().get_PotencyRune() : 2 + Armor().get_PotencyRune())"
             }
         ],

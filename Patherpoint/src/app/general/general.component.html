@@ -178,12 +178,12 @@
                         title="{{speed.value(get_Creature(), characterService, effectsService)[1]}}"
                         [ngClass]="{'penalty':speed.penalties(get_Creature(), effectsService, speed.name, true),
                             'bonus':speed.bonuses(get_Creature(), effectsService, speed.name, true),
-                            'absolute':speed.absolutes(get_Creature(), effectsService, true).length}"
+                            'absolute':speed.absolutes(get_Creature(), effectsService, speed.name, true).length}"
                         type="number" value="{{speed.value(get_Creature(), characterService, effectsService)[0]}}"
                         disabled>
                 </span>
                 <app-tags [creature]="creature" [objectName]=speed.name [showTraits]=true [showFeats]=true
-                    [showItems]=true [showActivities]=true [showConditions]=true [specialEffects]="speed.absolutes(get_Creature(), effectsService, true).concat(speed.relatives(get_Creature(), effectsService, true))"></app-tags>
+                    [showItems]=true [showActivities]=true [showConditions]=true [specialEffects]="speed.absolutes(get_Creature(), effectsService, speed.name, true).concat(speed.relatives(get_Creature(), effectsService, speed.name, true))"></app-tags>
             </div>
         </ng-container>
         <app-tags [creature]="creature" [objectName]="'Movement'" [showTraits]=true [showFeats]=true [showItems]=true

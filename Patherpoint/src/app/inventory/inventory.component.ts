@@ -237,6 +237,13 @@ export class InventoryComponent implements OnInit {
         return !item.hide
     }
 
+    can_DropAll(item: Item) {
+        //You can use the "Drop All" button if this item grants other items on grant or equip.
+        return item.gainItems && item.gainItems.filter(gain => gain.on != "use").length;
+    }
+
+    
+
     drop_InventoryItem(item: Item, inventory: ItemCollection, pay: boolean = false) {
         this.showItem = 0;
         if (pay) {
@@ -252,7 +259,8 @@ export class InventoryComponent implements OnInit {
                 }
             }
         }
-        this.characterService.drop_InventoryItem(this.get_Creature(), inventory, item, true, true, true, item.amount);
+        this.characterService.drop_InventoryItem(this.get_Creature(), inventory, item, false, true, true, item.amount);
+        this.characterService.process_ToChange();
     }
 
     move_InventoryItem(item: Item, inventory: ItemCollection, changeafter: boolean = true) {
@@ -315,7 +323,8 @@ export class InventoryComponent implements OnInit {
 
     drop_ContainerOnly(item: Item, inventory: ItemCollection) {
         this.showItem = 0;
-        this.characterService.drop_InventoryItem(this.get_Creature(), inventory, item, true, true, false, item.amount);
+        this.characterService.drop_InventoryItem(this.get_Creature(), inventory, item, false, true, false, item.amount);
+        this.characterService.process_ToChange();
     }
 
     add_NewOtherItem(inventory: ItemCollection) {
@@ -443,6 +452,7 @@ export class InventoryComponent implements OnInit {
         if (this.can_Drop(item) && !item.can_Stack()) {
             this.drop_InventoryItem(item, inventory, false);
         }
+        this.characterService.process_ToChange();
     }
 
     can_ApplyTalismans(item: Item) {

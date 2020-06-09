@@ -120,17 +120,17 @@
                     <button [disabled]="addTempHP == 0" (click)="add_TempHP(addTempHP)">Add</button>
                 </span>
             </div>
+            <h5>Resistances</h5>
             <ng-container *ngFor="let resistances of [get_Resistances()]; trackBy:trackByIndex;">
-                <h5 *ngIf="resistances.length">Resistances</h5>
                 <div class="list-item" *ngIf="resistances.length">
                     <div class="row" *ngFor="let resistance of resistances; trackBy:trackByIndex;">
                         <span title="{{resistance.source}}"
                             [className]="(resistance.value < 0) ? 'penalty' : 'bonus'">{{resistance.target}}:
                             {{Math.abs(resistance.value)}}{{(resistance.exception) ? " /"+resistance.exception : ""}}</span>
                     </div>
-                    <app-tags [creature]="creature" [objectName]="'Resistances'" [showTraits]=true [showFeats]=true
-                        [showItems]=true [showActivities]=true [showConditions]=true [showEffects]=true></app-tags>
                 </div>
+                <app-tags [creature]="creature" [objectName]="'Resistances'" [showTraits]=true [showFeats]=true
+                    [showItems]=true [showActivities]=true [showConditions]=true [showEffects]=true></app-tags>
             </ng-container>
         </ng-container>
     </ng-container>

@@ -31,6 +31,7 @@ The very latest in Assistive Technologies for Dungeon Master (ATDM)
 - [ ] - Implement all Shields
 - [ ] - Implement all Consumables
 - [x] -- Implement all Potions
+- [x] -- Implement all Alchemical Elixirs
 - [x] - Implement all Adventuring Gear
 - [x] - Implement all Weapon Runes
 - [ ] - Implement all Armor Runes
@@ -62,7 +63,6 @@ The very latest in Assistive Technologies for Dungeon Master (ATDM)
 
 active to do:
 add custom conditions with effects
-change Physical Boost duration to 15
 
 Implement spells:
 
@@ -70,8 +70,6 @@ Create feats:
 
 Create items:
 
-
 Create activities:
 
 Test:
-Fighter - Reusing Fighter Weapon Mastery as both supertype and subtypes

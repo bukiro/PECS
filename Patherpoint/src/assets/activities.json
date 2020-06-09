@@ -1492,5 +1492,149 @@
             "Magical",
             "Potion"
         ]
+    },
+    {
+        "name": "Energy Mutagen (Acid, Greater)",
+        "actions": "Free",
+        "desc": "You end the benefits of the Energy Mutagen, unleashing a 30-foot cone of energy that deals 2d6 acid damage for every full 10 minutes of duration remaining (DC 25 basic Reflex save).",
+        "traits": [
+            "Consumable",
+            "Acid",
+            "Mutagen",
+            "Polymorph"
+        ],
+        "gainConditions":[
+            {
+                "name":"Energy Mutagen Discharge",
+                "source":"Energy Mutagen (Acid, Greater)",
+                "duration": 0
+            }
+        ]
+    },
+    {
+        "name": "Energy Mutagen (Cold, Greater)",
+        "actions": "Free",
+        "desc": "You end the benefits of the Energy Mutagen, unleashing a 30-foot cone of energy that deals 2d6 cold damage for every full 10 minutes of duration remaining (DC 25 basic Reflex save).",
+        "traits": [
+            "Consumable",
+            "Cold",
+            "Mutagen",
+            "Polymorph"
+        ],
+        "gainConditions":[
+            {
+                "name":"Energy Mutagen Discharge",
+                "source":"Energy Mutagen (Cold, Greater)",
+                "duration": 0
+            }
+        ]
+    },
+    {
+        "name": "Energy Mutagen (Electricity, Greater)",
+        "actions": "Free",
+        "desc": "You end the benefits of the Energy Mutagen, unleashing a 30-foot cone of energy that deals 2d6 electricity damage for every full 10 minutes of duration remaining (DC 25 basic Reflex save).",
+        "traits": [
+            "Consumable",
+            "Electricity",
+            "Mutagen",
+            "Polymorph"
+        ],
+        "gainConditions":[
+            {
+                "name":"Energy Mutagen Discharge",
+                "source":"Energy Mutagen (Electricity, Greater)",
+                "duration": 0
+            }
+        ]
+    },
+    {
+        "name": "Energy Mutagen (Fire, Greater)",
+        "actions": "Free",
+        "desc": "You end the benefits of the Energy Mutagen, unleashing a 30-foot cone of energy that deals 2d6 fire damage for every full 10 minutes of duration remaining (DC 25 basic Reflex save).",
+        "traits": [
+            "Consumable",
+            "Fire",
+            "Mutagen",
+            "Polymorph"
+        ],
+        "gainConditions":[
+            {
+                "name":"Energy Mutagen Discharge",
+                "source":"Energy Mutagen (Fire, Greater)",
+                "duration": 0
+            }
+        ]
+    },
+    {
+        "name": "Energy Mutagen (Acid, Major)",
+        "actions": "Free",
+        "desc": "You end the benefits of the Energy Mutagen, unleashing a 30-foot cone of energy that deals 3d6 acid damage for every full 10 minutes of duration remaining (DC 32 basic Reflex save).",
+        "traits": [
+            "Consumable",
+            "Acid",
+            "Mutagen",
+            "Polymorph"
+        ],
+        "gainConditions":[
+            {
+                "name":"Energy Mutagen Discharge",
+                "source":"Energy Mutagen (Acid, Major)",
+                "duration": 0
+            }
+        ]
+    },
+    {
+        "name": "Energy Mutagen (Cold, Major)",
+        "actions": "Free",
+        "desc": "You end the benefits of the Energy Mutagen, unleashing a 30-foot cone of energy that deals 3d6 cold damage for every full 10 minutes of duration remaining (DC 32 basic Reflex save).",
+        "traits": [
+            "Consumable",
+            "Cold",
+            "Mutagen",
+            "Polymorph"
+        ],
+        "gainConditions":[
+            {
+                "name":"Energy Mutagen Discharge",
+                "source":"Energy Mutagen (Cold, Major)",
+                "duration": 0
+            }
+        ]
+    },
+    {
+        "name": "Energy Mutagen (Electricity, Major)",
+        "actions": "Free",
+        "desc": "You end the benefits of the Energy Mutagen, unleashing a 30-foot cone of energy that deals 3d6 electricity damage for every full 10 minutes of duration remaining (DC 32 basic Reflex save).",
+        "traits": [
+            "Consumable",
+            "Electricity",
+            "Mutagen",
+            "Polymorph"
+        ],
+        "gainConditions":[
+            {
+                "name":"Energy Mutagen Discharge",
+                "source":"Energy Mutagen (Electricity, Major)",
+                "duration": 0
+            }
+        ]
+    },
+    {
+        "name": "Energy Mutagen (Fire, Major)",
+        "actions": "Free",
+        "desc": "You end the benefits of the Energy Mutagen, unleashing a 30-foot cone of energy that deals 3d6 fire damage for every full 10 minutes of duration remaining (DC 32 basic Reflex save).",
+        "traits": [
+            "Consumable",
+            "Fire",
+            "Mutagen",
+            "Polymorph"
+        ],
+        "gainConditions":[
+            {
+                "name":"Energy Mutagen Discharge",
+                "source":"Energy Mutagen (Fire, Major)",
+                "duration": 0
+            }
+        ]
     }
 ]

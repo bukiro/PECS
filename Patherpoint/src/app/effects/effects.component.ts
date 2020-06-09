@@ -72,7 +72,7 @@ export class EffectsComponent implements OnInit {
     }
 
     get_Effects() {
-        return this.effectsService.get_Effects();
+        return this.effectsService.get_Effects(this.creature);
     }
 
     get_Conditions(name: string = "") {

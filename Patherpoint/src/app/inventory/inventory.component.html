@@ -31,11 +31,15 @@
                     [showItems]=true [showActivities]=true [showConditions]=true [showEffects]=true></app-tags>
             </div>
             <div class="fullsize-only list-item">
-                <strong>Encumbrance</strong>
+                <strong>Encumbrance Limit</strong>
                 <input class="number2" type="number"
                     [ngClass]="{'penalty':bulk.$penalties, 'bonus':bulk.$bonuses, 'absolute':bulk.$absolutes.length}"
                     value="{{bulk.$encumbered.value}}" title="{{bulk.$encumbered.explain}}" disabled>
-                <strong>Maximum</strong>
+                <app-tags [creature]="creature" [objectName]="'Encumbered Limit'" [showTraits]=true [showFeats]=true
+                    [showItems]=true [showActivities]=true [showConditions]=true [showEffects]=true></app-tags>
+                </div>
+                <div class="fullsize-only list-item">
+                    <strong>Maximum Bulk</strong>
                 <input class="number2" type="number"
                     [ngClass]="{'penalty':bulk.$penalties, 'bonus':bulk.$bonuses, 'absolute':bulk.$absolutes.length}"
                     value="{{bulk.$max.value}}" title="{{bulk.$max.explain}}" disabled>
@@ -142,18 +146,18 @@
                                         &nbsp;
                                         <!-- This span is a placeholder that appears if no other button is valid on the left side of the Drop button -->
                                     </span>
-                                    <span *ngIf="can_Drop(item) && item.gainItems && item.gainItems.length">
+                                    <span *ngIf="can_Drop(item) && can_DropAll(item)">
                                         <button (click)="drop_ContainerOnly(item, inventory)"
                                             title="Drop this item, but keep all items granted by it">
                                             Drop
                                         </button>
                                     </span>
-                                    <span *ngIf="can_Drop(item) && !(item.gainItems && item.gainItems.length)">
+                                    <span *ngIf="can_Drop(item) && !can_DropAll(item)">
                                         <button (click)="drop_InventoryItem(item, inventory)">
                                             Drop
                                         </button>
                                     </span>
-                                    <span *ngIf="can_Drop(item) && (item.gainItems && item.gainItems.length)">
+                                    <span *ngIf="can_Drop(item) && can_DropAll(item)">
                                         <button (click)="drop_InventoryItem(item, inventory)"
                                             title="Drop this item and all items granted by it">
                                             Drop All

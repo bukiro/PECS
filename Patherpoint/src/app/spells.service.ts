@@ -92,7 +92,7 @@ export class SpellsService {
                             gainItem.id = grantedItem.id;
                             grantedItem.expiration = customDuration || gainItem.expiration;
                             if (grantedItem.get_Name) {
-                                grantedItem.displayName = grantedItem.name + " (granted by " + spell.name + ")"
+                                grantedItem.grantedBy = "(Granted by " + spell.name + ")";
                             };
                         }
                     });
@@ -184,9 +184,9 @@ export class SpellsService {
                     }
                 }
             }
+            characterService.set_ToChange("Character", "spellbook");
             taken.gain.activeCooldown = Math.max(taken.gain.activeCooldown - individualTurns, 0)
         });
-        characterService.set_ToChange("Character", "spellbook");
     }
 
     still_loading() {

@@ -16,7 +16,6 @@ export class Oil extends Consumable {
     public duration: number = 0;
     public failure: string = "";
     public hint: string = "";
-    public inputRequired: string = "";
     public bulkEffect: string = "";
     public potencyEffect: number = 0;
     public strikingEffect: number = 0;

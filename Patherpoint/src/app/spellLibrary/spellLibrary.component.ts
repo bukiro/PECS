@@ -1,15 +1,15 @@
-import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef, ChangeDetectionStrategy } from '@angular/core';
 import { SpellsService } from '../spells.service';
 import { CharacterService } from '../character.service';
 import { SortByPipe } from '../sortBy.pipe';
 import { Spell } from '../Spell';
 import { SpellCasting } from '../SpellCasting';
-import { FeatTaken } from '../FeatTaken';
 
 @Component({
     selector: 'app-spellLibrary',
     templateUrl: './spellLibrary.component.html',
-    styleUrls: ['./spellLibrary.component.css']
+    styleUrls: ['./spellLibrary.component.css'],
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class SpellLibraryComponent implements OnInit {
 

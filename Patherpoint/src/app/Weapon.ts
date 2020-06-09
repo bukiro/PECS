@@ -219,7 +219,11 @@ export class Weapon extends Equipment {
         //Add absolute effects
         effectsService.get_AbsolutesOnThis(creature, this.name)
             .concat(effectsService.get_AbsolutesOnThis(creature, "Attack Rolls"))
-            .concat(effectsService.get_AbsolutesOnThis(creature, "All Checks"))
+            //"Unarmed Attack Rolls", "Simple Attack Rolls" etc.
+            .concat(effectsService.get_AbsolutesOnThis(creature, this.prof.split(" ")[0]+"Attack Rolls"))
+            //"Ranged Attack Rolls", "Melee Attack Rolls"
+            .concat(effectsService.get_AbsolutesOnThis(creature, range+" Attack Rolls"))
+            .concat(effectsService.get_AbsolutesOnThis(creature, "All Checks and DCs"))
             .forEach(effect => {
             attackResult = parseInt(effect.setValue)
             explain = effect.source + ": " + effect.setValue;
@@ -236,7 +240,11 @@ export class Weapon extends Equipment {
         let effectsSum: number = 0;
         effectsService.get_RelativesOnThis(creature, this.name)
             .concat(effectsService.get_RelativesOnThis(creature, "Attack Rolls"))
-            .concat(effectsService.get_RelativesOnThis(creature, "All Checks"))
+            //"Unarmed Attack Rolls", "Simple Attack Rolls" etc.
+            .concat(effectsService.get_RelativesOnThis(creature, this.prof.split(" ")[0]+" Attack Rolls"))
+            //"Ranged Attack Rolls", "Melee Attack Rolls"
+            .concat(effectsService.get_RelativesOnThis(creature, range+" Attack Rolls"))
+            .concat(effectsService.get_RelativesOnThis(creature, "All Checks and DCs"))
             .forEach(effect => {
             if (parseInt(effect.value) < 0) {
                 penalties.push({value:parseInt(effect.value), setValue:"", source:effect.source, penalty:true});
@@ -306,12 +314,20 @@ export class Weapon extends Equipment {
             }
         }
         let dicesize = this.dicesize;
-        //Monks get 1d6 for Fists instead of 1d4 via Powerful Fist
-        if ((this.name == "Fist") && characterService.get_Features("Powerful Fist")[0].have(creature, characterService)) {
-            dicesize = 6;
-            explain += "\nPowerful Fist: Dice size d6";
-        }
-        //Champions get increased dize size via Deific Weapon for unarmed attacks with d4 damage or simple weapons
+        //Monks get 1d6 for Fists instead of 1d4 via Powerful Fist; Stone Fist Elixir has the same effect.
+        effectsService.get_AbsolutesOnThis(creature, this.name+" Dice Size")
+            .concat(effectsService.get_AbsolutesOnThis(creature, this.weaponBase+" Dice Size"))
+            .forEach(effect => {
+                dicesize = parseInt(effect.setValue);
+                explain += "\n"+effect.source+": Dice size d"+dicesize;
+            })
+        effectsService.get_RelativesOnThis(creature, this.name+" Dice Size")
+        .concat(effectsService.get_RelativesOnThis(creature, this.weaponBase+" Dice Size"))
+        .forEach(effect => {
+            dicesize += parseInt(effect.value);
+            explain += "\n"+effect.source+": Dice size d"+dicesize;
+        })
+        //Champions get increased dize size via Deific Weapon for unarmed attacks with d4 damage or simple weapons as long as they are their deity's favored weapon.
         if (((dicesize == 4 && this.prof == "Unarmed Attacks") || this.prof == "Simple Weapons") &&
             characterService.get_Features("Deific Weapon")[0]?.have(creature, characterService)) {
             let favoredWeapons: string[] = [];
@@ -405,11 +421,13 @@ export class Weapon extends Equipment {
             }
         }
         let featBonus: number = 0;
+        //Weapon Specialization grants extra damage according to your proficiency.
+        //For the Major Bestial Mutagen attacks, you gain Weapon Specialization, or greater if it already applies.
         if (characterService.get_Features().filter(feature => feature.name.includes("Weapon Specialization") && feature.have(creature, characterService)).length) {
             let greaterWeaponSpecialization = (characterService.get_Features().filter(feature => feature.name.includes("Greater Weapon Specialization") && feature.have(creature, characterService)).length > 0);
             switch (this.profLevel(creature, characterService, runeSource[1])) {
                 case 4:
-                    if (greaterWeaponSpecialization) {
+                    if (greaterWeaponSpecialization || ["Bestial Mutagen Jaws (Major)", "Bestial Mutagen Claw (Major)"].includes(this.name)) {
                         featBonus += 4;
                         explain += "\nGreater Weapon Specialization: 4";
                     } else {
@@ -418,24 +436,27 @@ export class Weapon extends Equipment {
                     }
                     break;
                 case 6:
-                    if (greaterWeaponSpecialization) {
+                    if (greaterWeaponSpecialization || ["Bestial Mutagen Jaws (Major)", "Bestial Mutagen Claw (Major)"].includes(this.name)) {
                         featBonus += 6;
-                        explain += "\nGreater Weapon Specialization: 4";
+                        explain += "\nGreater Weapon Specialization: 6";
                     } else {
                         featBonus += 3;
-                        explain += "\nWeapon Specialization: 2";
+                        explain += "\nWeapon Specialization: 3";
                     }
                     break;
                 case 8:
-                    if (greaterWeaponSpecialization) {
+                    if (greaterWeaponSpecialization || ["Bestial Mutagen Jaws (Major)", "Bestial Mutagen Claw (Major)"].includes(this.name)) {
                         featBonus += 8;
-                        explain += "\nGreater Weapon Specialization: 4";
+                        explain += "\nGreater Weapon Specialization: 8";
                     } else {
                         featBonus += 4;
-                        explain += "\nWeapon Specialization: 2";
+                        explain += "\nWeapon Specialization: 4";
                     }
                     break;
             }
+        } else if (["Bestial Mutagen Jaws (Major)", "Bestial Mutagen Claw (Major)"].includes(this.name)) {
+            featBonus += 2;
+            explain += "\nWeapon Specialization: 2";
         }
         if (creature.type == "Companion") {
             creature.class.levels.filter(level => level.number <= creature.level).forEach(level => {
@@ -472,6 +493,20 @@ export class Weapon extends Equipment {
             effectBonus += parseInt(effect.value);
             explain += "\n" + effect.source + ": " + parseInt(effect.value);
         })
+
+        //Serene Mutagen reduces your weapon damage by the number of dice.
+        if (this.prof == "Unarmed Attacks") {
+            effectsService.get_RelativesOnThis(creature, "Unarmed Damage per Die").forEach(effect => {
+                effectBonus += parseInt(effect.value) * dicenum;
+                explain += "\n" + effect.source + ": " + (parseInt(effect.value) * dicenum);
+            })
+        } else {
+            effectsService.get_RelativesOnThis(creature, "Weapon Damage per Die").forEach(effect => {
+                effectBonus += parseInt(effect.value) * dicenum;
+                explain += "\n" + effect.source + ": " + (parseInt(effect.value) * dicenum);
+            })
+        }
+        
         
         let dmgBonus: number = abilityMod + featBonus + effectBonus;
         //Make a nice "+5" string from the Ability bonus if there is one, or else make it empty

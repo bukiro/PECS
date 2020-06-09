@@ -39,22 +39,22 @@ export class AC {
     absolutes(creature: Character|AnimalCompanion|Familiar, effectsService: EffectsService) {
         return effectsService.get_AbsolutesOnThis(creature, this.name)
         .concat(effectsService.get_AbsolutesOnThis(creature, "Dexterity-based Checks and DCs"))
-        .concat(effectsService.get_AbsolutesOnThis(creature, "All Checks"));
+        .concat(effectsService.get_AbsolutesOnThis(creature, "All Checks and DCs"));
     }
     relatives(creature: Character|AnimalCompanion|Familiar, effectsService: EffectsService) {
         return effectsService.get_RelativesOnThis(creature, this.name)
         .concat(effectsService.get_RelativesOnThis(creature, "Dexterity-based Checks and DCs"))
-        .concat(effectsService.get_RelativesOnThis(creature, "All Checks"));
+        .concat(effectsService.get_RelativesOnThis(creature, "All Checks and DCs"));
     }
     bonus(creature: Character|AnimalCompanion|Familiar, effectsService: EffectsService) {
         return effectsService.show_BonusesOnThis(creature, this.name) ||
         effectsService.show_BonusesOnThis(creature, "Dexterity-based Checks and DCs") ||
-        effectsService.show_BonusesOnThis(creature, "All Checks");;
+        effectsService.show_BonusesOnThis(creature, "All Checks and DCs");;
     }
     penalty(creature: Character|AnimalCompanion|Familiar, effectsService: EffectsService) {
         return effectsService.show_PenaltiesOnThis(creature, this.name) ||
         effectsService.show_PenaltiesOnThis(creature, "Dexterity-based Checks and DCs") ||
-        effectsService.show_PenaltiesOnThis(creature, "All Checks");;
+        effectsService.show_PenaltiesOnThis(creature, "All Checks and DCs");;
     }
     value(creature: Character|AnimalCompanion|Familiar, characterService: CharacterService, defenseService: DefenseService, effectsService: EffectsService) {
         if (characterService.still_loading()) { return {result:0, explain:""}; }
