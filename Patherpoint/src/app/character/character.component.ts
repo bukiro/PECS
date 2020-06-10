@@ -125,7 +125,15 @@ export class CharacterComponent implements OnInit {
     }
 
     get_Savegames() {
-        return this.savegameService.get_Savegames();
+        return this.savegameService.get_Savegames().sort(function(a,b) {
+            if (a.name > b.name) {
+                return 1;
+            }
+            if (a.name < b.name) {
+                return -1;
+            }
+            return 0;
+        });
     }
 
     change_Name() {
