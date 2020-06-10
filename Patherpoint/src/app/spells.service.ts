@@ -145,7 +145,6 @@ export class SpellsService {
         }
         if (changeAfter) {
             characterService.process_ToChange();
-            characterService.set_Changed();
         }
     }
 

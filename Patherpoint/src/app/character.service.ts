@@ -60,13 +60,13 @@ export class CharacterService {
 
     private me: Character = new Character();
     public characterChanged$: Observable<string>;
-    public viewChanged$: Observable<{creature: string, target: string}>;
+    public viewChanged$: Observable<{creature: string, target: string, subtarget: string}>;
     private loader = [];
     private loading: boolean = false;
     private basicItems = []
-    private toChange: {creature: string, target: string}[] = [];
+    private toChange: {creature: string, target: string, subtarget: string}[] = [];
     private changed: BehaviorSubject<string> = new BehaviorSubject<string>("");
-    private viewChanged: BehaviorSubject<{creature: string, target: string}> = new BehaviorSubject<{creature: string, target: string}>({target: "", creature: ""});
+    private viewChanged: BehaviorSubject<{creature: string, target: string, subtarget: string}> = new BehaviorSubject<{creature: string, target: string, subtarget: string}>({target: "", creature: "", subtarget: ""});
     
     itemsMenuState: string = 'out';
     itemsMenuTarget: string = 'Character';
@@ -105,37 +105,56 @@ export class CharacterService {
         return this.characterChanged$;
     }
 
-    get_ViewChanged(): Observable<{creature: string, target: string}> {
+    get_ViewChanged(): Observable<{creature: string, target: string, subtarget: string}> {
         return this.viewChanged$;
     }
 
-    set_ToChange(creature: string = "Character", target: string = "all") {
+    set_ToChange(creature: string = "Character", target: string = "all", subtarget: string = "") {
         target = target || "all";
-        this.toChange.push({target:target, creature:creature});
+        this.toChange.push({creature:creature, target:target, subtarget:subtarget});
+    }
+
+    set_TagsToChange(creature: string, target: string) {
+        target.split(",").forEach(subtarget => {
+            this.set_ToChange(creature, "tags", subtarget)
+        })
     }
 
     process_ToChange() {
         ["Character", "Companion", "Familiar"].forEach(creature => {
             if (this.toChange.find(view => view.creature == creature && view.target == "all")) {
-                this.toChange == this.toChange.filter(view => view.creature != creature)
-                this.set_ViewChanged({target:"all", creature:creature});
+                this.clear_ToChange(creature);
+                this.set_ViewChanged({creature:creature, target:"all", subtarget:""});
             } else {
-                let unique: string[] = this.toChange.filter(view => view.creature == creature).map(view => JSON.stringify(view))
-                unique = Array.from(new Set(unique));
-                unique.map(view => JSON.parse(view)).forEach(view => {
+                //Process effects first, as effects may stack up more of the others.
+                let unique_effects: string[] = this.toChange.filter(view => view.creature == creature && view.target == "effects").map(view => JSON.stringify(view))
+                unique_effects = Array.from(new Set(unique_effects));
+                unique_effects.map(view => JSON.parse(view)).forEach(view => {
                     this.set_ViewChanged(view);
                 });
-                this.toChange = this.toChange.filter(view => view.creature != creature);
+                let unique_others: string[] = this.toChange.filter(view => view.creature == creature && view.target != "effects").map(view => JSON.stringify(view))
+                unique_others = Array.from(new Set(unique_others));
+                unique_others.map(view => JSON.parse(view)).forEach(view => {
+                    this.set_ViewChanged(view);
+                });
+                this.clear_ToChange(creature);
             }
         })
     }
 
-    set_ViewChanged(view: {creature: string, target: string}) {
+    clear_ToChange(creature: string = "all") {
+        this.toChange = this.toChange.filter(view => view.creature != creature && creature != "all")
+    }
+
+    set_ViewChanged(view: {creature: string, target: string, subtarget: string}) {
         this.viewChanged.next(view);
     }
 
     set_Changed(target: string = "all") {
         target = target || "all";
+        if (["Character", "Companion", "Familiar", "all"].includes(target)) {
+            this.clear_ToChange(target);
+        }
         this.changed.next(target);
     }
 
@@ -445,6 +464,7 @@ export class CharacterService {
                     this.process_OnceEffect(this.get_Character(), effect);
                 })
             })
+        //Update everything because the class changes everything.
         this.set_Changed();
     }
 
@@ -455,14 +475,12 @@ export class CharacterService {
         this.me.class.ancestry = Object.assign(new Ancestry(), JSON.parse(JSON.stringify(ancestry)))
         this.me.class.ancestry = this.reassign(this.me.class.ancestry);
         this.me.class.on_NewAncestry(this, itemsService);
-        this.set_Changed();
     }
 
     change_Deity(deity: Deity) {
         this.me.class.on_ChangeDeity(this, this.deitiesService, this.me.class.deity);
         this.me.class.deity = deity.name;
         this.me.class.on_NewDeity(this, this.deitiesService, this.me.class.deity);
-        this.set_Changed();
     }
 
     change_Heritage(heritage: Heritage) {
@@ -471,7 +489,6 @@ export class CharacterService {
         this.me.class.heritage = Object.assign(new Heritage(), JSON.parse(JSON.stringify(heritage)))
         this.me.class.heritage = this.reassign(this.me.class.heritage);
         this.me.class.on_NewHeritage(this, this.itemsService);
-        this.set_Changed();
     }
 
     change_Background(background: Background) {
@@ -480,7 +497,6 @@ export class CharacterService {
         this.me.class.background = Object.assign(new Background(), JSON.parse(JSON.stringify(background)));
         this.me.class.background = this.reassign(this.me.class.background);
         this.me.class.on_NewBackground(this);
-        this.set_Changed();
     }
 
     get_Items() {
@@ -623,6 +639,9 @@ export class CharacterService {
                 }
             });
         }
+        if (returnedInventoryItem["showon"]) {
+            this.set_TagsToChange(creature.type, item["showon"]);
+        }
         if (changeAfter) {
             this.process_ToChange();
         }
@@ -631,6 +650,9 @@ export class CharacterService {
 
     drop_InventoryItem(creature: Character|AnimalCompanion, inventory: ItemCollection, item: Item, changeAfter: boolean = true, equipBasicItems: boolean = true, including: boolean = true, amount: number = 1) {
         this.set_ToChange(creature.type, "inventory");
+        if (item["showon"]) {
+            this.set_TagsToChange(creature.type, item["showon"]);
+        }
         if (amount < item.amount) {
             item.amount -= amount;
         } else {
@@ -771,6 +793,7 @@ export class CharacterService {
                 this.sort_Cash();
             }
         }
+        this.set_ToChange("Character", "inventory");
     }
 
     sort_Cash() {
@@ -779,42 +802,48 @@ export class CharacterService {
         this.change_Cash(1, sum);
     }
 
+    set_ItemViewChanges(creature: Character|AnimalCompanion, item: Equipment) {
+        //Prepare refresh list according to the item's properties.
+        if (item.showon) {
+            this.set_TagsToChange(creature.type, item.showon);
+        }
+        item.traits.map(trait => this.traitsService.get_Traits(trait)[0])?.filter(trait => trait?.showon).forEach(trait => {
+            this.set_TagsToChange(creature.type, trait.showon);
+        })
+        if (item.effects?.length ||
+            item.constructor == Armor && (item as Armor).get_Strength()) {
+            this.set_ToChange(creature.type, "effects");
+        }
+        if (item.constructor == Weapon || item.constructor == Ammunition) {
+            this.set_ToChange(creature.type, "attacks");
+        }
+        if (item.constructor == Armor ||
+            item.constructor == Shield ||
+            (item.constructor == Weapon && (item as Weapon).parrying)) {
+            this.set_ToChange(creature.type, "defense");
+        }
+        if (item.activities?.length) {
+            this.set_ToChange(creature.type, "activities");
+        }
+        item.propertyRunes?.forEach((rune: Rune) => {
+            if (item.moddable == "armor" && (rune as ArmorRune).showon) {
+                this.set_TagsToChange(creature.type, (rune as ArmorRune).showon);
+            }
+            if (item.moddable == "armor" && (rune as ArmorRune).effects?.length) {
+                this.set_ToChange(creature.type, "effects");
+            }
+            if (rune.activities?.length) {
+                this.set_ToChange(creature.type, "activities");
+            }
+        });
+    }
+
     onEquip(creature: Character|AnimalCompanion, inventory: ItemCollection, item: Equipment, equipped: boolean = true, changeAfter: boolean = true, equipBasicItems: boolean = true) {
         //Only allow equipping or unequipping for items that the creature can wear.
         if ((creature.type == "Character" && !item.traits.includes("Companion")) || (creature.type == "Companion" && item.traits.includes("Companion")) || item.name == "Unarmored") {
             item.equipped = equipped;
             this.set_ToChange(creature.type, "inventory");
-            //Prepare refresh list according to the item's properties.
-            if (item.showon ||
-                item.traits.map(trait => this.traitsService.get_Traits(trait)[0])?.filter(trait => trait?.showon).length) {
-                this.set_ToChange(creature.type, "tags");
-            }
-            if (item.effects?.length ||
-                item.constructor == Armor && (item as Armor).get_Strength()) {
-                this.set_ToChange(creature.type, "effects");
-            }
-            if (item.constructor == Weapon || item.constructor == Ammunition) {
-                this.set_ToChange(creature.type, "attacks");
-            }
-            if (item.constructor == Armor ||
-                item.constructor == Shield ||
-                (item.constructor == Weapon && (item as Weapon).parrying)) {
-                this.set_ToChange(creature.type, "defense");
-            }
-            if (item.activities?.length) {
-                this.set_ToChange(creature.type, "activities");
-            }
-            item.propertyRunes?.forEach((rune: Rune) => {
-                if (item.moddable == "armor" && (rune as ArmorRune).showon) {
-                    this.set_ToChange(creature.type, "tags");
-                }
-                if (item.moddable == "armor" && (rune as ArmorRune).effects?.length) {
-                    this.set_ToChange(creature.type, "effects");
-                }
-                if (rune.activities?.length) {
-                    this.set_ToChange(creature.type, "activities");
-                }
-            });
+            this.set_ItemViewChanges(creature, item);
             if (item.equipped) {
                 if (item.type == "armors" || item.type == "shields") {
                     let allOfType = inventory[item.type];
@@ -917,11 +946,14 @@ export class CharacterService {
         if (item.invested) {
             if (!item.equipped) {
                 this.onEquip(creature, inventory, item, true, false);
+            } else {
+                this.set_ItemViewChanges(creature, item);
             }
         } else {
             item.gainActivities.forEach((gainActivity: ActivityGain) => {
                 this.activitiesService.activate_Activity(creature, "", this, this.timeService, this.itemsService, this.spellsService, gainActivity, this.activitiesService.get_Activities(gainActivity.name)[0], false);
             });
+            this.set_ItemViewChanges(creature, item);
         }
         if (changeAfter) {
             this.process_ToChange();
@@ -973,23 +1005,20 @@ export class CharacterService {
 
     add_CustomSkill(skillName: string, type: string, abilityName: string) {
         this.me.customSkills.push(new Skill(abilityName, skillName, type));
-        //this.set_Changed();
     }
 
     remove_CustomSkill(oldSkill: Skill) {
         this.me.customSkills = this.me.customSkills.filter(skill => skill !== oldSkill);
-        //this.set_Changed();
     }
 
     add_CustomFeat(oldFeat: Feat) {
         let newLength = this.me.customFeats.push(Object.assign(new Feat(), JSON.parse(JSON.stringify(oldFeat))));
-        //this.set_Changed();
+        this.set_ToChange("Character", "charactersheet");
         return newLength;
     }
 
     remove_CustomFeat(oldFeat: Feat) {
         this.me.customFeats = this.me.customFeats.filter(skill => skill !== oldFeat);
-        //this.set_Changed();
     }
 
     get_Conditions(name: string = "", type: string = "") {
@@ -1139,11 +1168,11 @@ export class CharacterService {
         this.featsService.process_Feat(creature, this, featName, choice, level, taken);
     }
 
-    get_FeatsShowingOn(objectName: string) {
+    get_FeatsShowingOn(objectName: string = "all") {
         let returnedFeats = []
         this.me.get_FeatsTaken(0, this.me.level, "", "").map(feat => this.get_FeatsAndFeatures(feat.name)[0]).forEach(feat => {
             feat?.showon.split(",").forEach(showon => {
-                if (showon == objectName || showon.substr(1) == objectName || (objectName.includes("Lore") && (showon == "Lore" || showon.substr(1) == "Lore"))) {
+                if (objectName == "all" || showon == objectName || showon.substr(1) == objectName || (objectName.includes("Lore") && (showon == "Lore" || showon.substr(1) == "Lore"))) {
                     returnedFeats.push(feat);
                 }
             })
@@ -1151,17 +1180,17 @@ export class CharacterService {
         return returnedFeats;
     }
 
-    get_CompanionShowingOn(objectName: string) {
+    get_CompanionShowingOn(objectName: string = "all") {
         let returnedObjects = []
         //Get showon elements from Companion Ancestry and Specialization
         this.get_Companion().class.ancestry.showon.split(",").forEach(showon => {
-            if (showon == objectName || showon.substr(1) == objectName) {
+            if (objectName == "all" || showon == objectName || showon.substr(1) == objectName) {
                 returnedObjects.push(this.get_Companion().class.ancestry.showon);
             }
         });
         this.get_Companion().class.specializations.forEach(spec => {
             spec.showon.split(",").forEach(showon => {
-                if (showon == objectName || showon.substr(1) == objectName) {
+                if (objectName == "all" || showon == objectName || showon.substr(1) == objectName) {
                     returnedObjects.push(spec);
                 }
             });
@@ -1169,12 +1198,12 @@ export class CharacterService {
         return returnedObjects;
     }
 
-    get_FamiliarShowingOn(objectName: string) {
+    get_FamiliarShowingOn(objectName: string = "all") {
         let returnedAbilities = []
         //Get showon elements from Familiar Abilities
         this.get_Familiar().abilities.feats.map(gain => this.familiarsService.get_FamiliarAbilities(gain.name)[0]).filter(feat => feat.showon).forEach(feat => {
             feat?.showon.split(",").forEach(showon => {
-                if (showon == objectName || showon.substr(1) == objectName || (objectName.includes("Lore") && (showon == "Lore" || showon.substr(1) == "Lore"))) {
+                if (objectName == "all" || showon == objectName || showon.substr(1) == objectName || (objectName.includes("Lore") && (showon == "Lore" || showon.substr(1) == "Lore"))) {
                     returnedAbilities.push(feat);
                 }
             })
@@ -1182,7 +1211,7 @@ export class CharacterService {
         return returnedAbilities;
     }
 
-    get_ConditionsShowingOn(creature: Character|AnimalCompanion|Familiar, objectName: string) {
+    get_ConditionsShowingOn(creature: Character|AnimalCompanion|Familiar, objectName: string = "all") {
         let conditions = this.get_AppliedConditions(creature).filter(condition => condition.apply);
         if (objectName.includes("Lore")) {
             objectName = "Lore";
@@ -1192,7 +1221,7 @@ export class CharacterService {
             conditions.forEach(condition => {
                 let originalCondition: Condition = this.get_Conditions(condition.name)[0];
                 originalCondition?.showon.split(",").forEach(showon => {
-                    if (showon == objectName || showon.substr(1) == objectName || (objectName == "Lore" && showon.includes(objectName))) {
+                    if (objectName == "all" || showon == objectName || showon.substr(1) == objectName || (objectName == "Lore" && showon.includes(objectName))) {
                         returnedConditions.push(originalCondition);
                     }
                 });
@@ -1295,13 +1324,13 @@ export class CharacterService {
         })
     }
 
-    get_ActivitiesShowingOn(creature: Character|AnimalCompanion|Familiar, objectName: string) {
+    get_ActivitiesShowingOn(creature: Character|AnimalCompanion|Familiar, objectName: string = "all") {
         let activityGains = this.get_OwnedActivities(creature).filter(gain => gain.active);
         let returnedActivities: Activity[] = [];
         activityGains.forEach(gain => {
             this.activitiesService.get_Activities(gain.name).forEach(activity => {
                 activity?.showon.split(",").forEach(showon => {
-                    if (showon == objectName || showon.substr(1) == objectName || (objectName == "Lore" && showon.includes(objectName))) {
+                    if (objectName == "all" || showon == objectName || showon.substr(1) == objectName || (objectName == "Lore" && showon.includes(objectName))) {
                         returnedActivities.push(activity);
                     }
                 });
@@ -1310,11 +1339,12 @@ export class CharacterService {
         return returnedActivities;
     }
 
-    get_ItemsShowingOn(creature: Character|AnimalCompanion|Familiar, objectName: string) {
+    get_ItemsShowingOn(creature: Character|AnimalCompanion|Familiar, objectName: string = "all") {
         let returnedItems: Item[] = [];
+        //Prepare function to extract showon hints from all items and subitems.
         function get_Hint(item: Equipment|Oil|WornItem|ArmorRune) {
             item.showon.split(",").forEach(showon => {
-                if (showon == objectName || showon.substr(1) == objectName || (objectName == "Lore" && showon.includes(objectName))) {
+                if (objectName == "all" || showon == objectName || showon.substr(1) == objectName || (objectName == "Lore" && showon.includes(objectName))) {
                     returnedItems.push(item);
                 }
             });
@@ -1362,6 +1392,7 @@ export class CharacterService {
             this.me.class.animalCompanion.class.reset_levels(this);
             this.me.class.animalCompanion.set_Level(this);
             this.equip_BasicItems(this.me.class.animalCompanion);
+            this.set_ToChange("Companion", "all");
         }
     }
 
@@ -1375,6 +1406,7 @@ export class CharacterService {
         if (this.me.class.familiar) {
             this.me.class.familiar = Object.assign(new Familiar(), this.me.class.familiar);
             this.me.class.familiar = this.reassign(this.me.class.familiar);
+            this.set_ToChange("Familiar", "all");
         }
     }
 
@@ -1445,7 +1477,6 @@ export class CharacterService {
             this.grant_BasicItems();
             this.characterChanged$ = this.changed.asObservable();
             this.viewChanged$ = this.viewChanged.asObservable();
-            //this.set_Changed();
             this.trigger_FinalChange();
         }
     }
@@ -1464,6 +1495,7 @@ export class CharacterService {
                 this.trigger_FinalChange();
             }, 500)
         } else {
+            //Update everything once.
             this.set_Changed();
         }
     }

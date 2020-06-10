@@ -64,10 +64,13 @@ export class Health {
             explain += "\nTemporary HP: " + this.temporaryHP;
         }
         explain += "\nDamage taken: " + (this.damage);
+        //You can never get under 0 HP. If you do (because you just took damage), that gets corrected here,
+        //  and the health component gets reloaded in case we need to process conditions.
         if (sum < 0) {
             this.damage += sum;
             sum = 0;
-            characterService.set_Changed();
+            characterService.set_ToChange(creature.type, "health");
+            characterService.process_ToChange();
         }
         return { result: sum, explain: explain };
     }

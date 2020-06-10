@@ -79,7 +79,13 @@ export class CharacterSheetComponent implements OnInit {
         } else {
             this.characterService.get_Changed()
             .subscribe((target) => {
-                if (target == "character-sheet" || target == "all" || target == "Character") {
+                if (["character-sheet", "all", "Character"].includes(target)) {
+                    this.changeDetector.detectChanges();
+                }
+            });
+            this.characterService.get_ViewChanged()
+            .subscribe((view) => {
+                if (view.creature == "Character" && ["character-sheet", "all"].includes(view.target)) {
                     this.changeDetector.detectChanges();
                 }
             });

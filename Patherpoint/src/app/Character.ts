@@ -39,9 +39,6 @@ export class Character extends Creature {
     get_Changed(characterService: CharacterService, ) {
         return characterService.get_Changed();
     }
-    set_Changed(characterService: CharacterService, ) {
-        characterService.set_Changed();
-    }
     get_Size(effectsService: EffectsService) {
         let size: number = (this.class.ancestry.size ? this.class.ancestry.size : 0);
 
@@ -106,7 +103,8 @@ export class Character extends Creature {
                 )[0];
             choice.boosts = choice.boosts.filter(boost => boost !== oldBoost);
         }
-        this.set_Changed(characterService);
+        characterService.set_ToChange("Character", "charactersheet");
+        characterService.set_ToChange("Character", "character-sheet");
     }
     add_AbilityChoice(level: Level, newChoice: AbilityChoice) {
         let existingChoices = level.abilityChoices.filter(choice => choice.source == newChoice.source);
@@ -148,10 +146,14 @@ export class Character extends Creature {
         if (newSpellCasting.charLevelAvailable) {
             newSpellCasting.charLevelAvailable = Math.max(newSpellCasting.charLevelAvailable, level.number);
         }
+        characterService.set_ToChange("Character", "spellbook");
+        characterService.set_ToChange("Character", "spells");
         return this.class.spellCasting[newLength-1];
     }
     remove_SpellCasting(characterService: CharacterService, oldCasting: SpellCasting) {
         this.class.spellCasting = this.class.spellCasting.filter(casting => casting !== oldCasting);
+        characterService.set_ToChange("Character", "spellbook");
+        characterService.set_ToChange("Character", "spells");
     }
     add_LoreChoice(level: Level, newChoice: LoreChoice) {
         let existingChoices = level.loreChoices.filter(choice => choice.source == newChoice.source);
@@ -188,7 +190,7 @@ export class Character extends Creature {
         let levelNumber = parseInt(sourceId[0]);
         return this.class.levels[levelNumber].featChoices.filter(choice => choice.id == sourceId)[0];
     }
-    add_SpellChoice(level: Level, newChoice: SpellChoice) {
+    add_SpellChoice(characterService: CharacterService, level: Level, newChoice: SpellChoice) {
         let spellCasting = this.class.spellCasting
             .find(casting => casting.castingType == newChoice.castingType &&
                 (casting.className == newChoice.className || newChoice.className == ""));
@@ -202,6 +204,8 @@ export class Character extends Creature {
         if (!spellCasting.charLevelAvailable) {
             spellCasting.charLevelAvailable = choice.charLevelAvailable;
         }
+        characterService.set_ToChange("Character", "spells");
+        characterService.set_ToChange("Character", "spellbook");
         return choice;
     }
     remove_SpellChoice(characterService: CharacterService, oldChoice: SpellChoice) {
@@ -213,10 +217,13 @@ export class Character extends Creature {
         this.class.spellCasting.filter(casting => casting.spellChoices.length == 0).forEach(casting => {
             casting.charLevelAvailable = 0;
         })
+        characterService.set_ToChange("Character", "spells");
+        characterService.set_ToChange("Character", "spellbook");
     }
-    gain_Activity(newGain: ActivityGain, levelNumber: number) {
+    gain_Activity(characterService: CharacterService, newGain: ActivityGain, levelNumber: number) {
         let newLength = this.class.activities.push(newGain);
         this.class.activities[newLength-1].level = levelNumber;
+        characterService.set_ToChange("Character", "activities");
         return this.class.activities[newLength-1];
     }
     lose_Activity(characterService: CharacterService, timeService: TimeService, itemsService: ItemsService, spellsService: SpellsService, activitiesService: ActivitiesService, oldGain: ActivityGain) {
@@ -225,6 +232,7 @@ export class Character extends Creature {
             activitiesService.activate_Activity(this, "", characterService, timeService, itemsService, spellsService, oldGain, activitiesService.get_Activities(oldGain.name)[0], false);
         }
         a.splice(a.indexOf(oldGain), 1);
+        characterService.set_ToChange("Character", "activities");
     }
     get_SkillIncreases(characterService: CharacterService, minLevelNumber: number, maxLevelNumber: number, skillName: string = "", source: string = "", sourceId: string = "", locked: boolean = undefined) {
         if (this.class) {
@@ -386,6 +394,26 @@ export class Character extends Creature {
                     characterService.add_CustomSkill(skillName, choice.type, "");
                 }
             }
+            //Set components to update according to the skill type.
+            switch (characterService.get_Skills(characterService.get_Character(), skillName)[0]?.type) {
+                case "Skill":
+                    characterService.set_ToChange("Character", "skills");
+                case "Perception":
+                    characterService.set_ToChange("Character", "skills");
+                case "Save":
+                    characterService.set_ToChange("Character", "defense");
+                case "Armor Proficiency":
+                    characterService.set_ToChange("Character", "defense");
+                case "Weapon Proficiency":
+                    characterService.set_ToChange("Character", "attacks");
+                case "Specific Weapon Proficiency":
+                    characterService.set_ToChange("Character", "attacks");
+                case "Spell DC":
+                    characterService.set_ToChange("Character", "general");
+                    characterService.set_ToChange("Character", "spellbook");
+                case "Class DC":
+                    characterService.set_ToChange("Character", "general");
+            }
         } else {
             //If you are deselecting a skill that you increased with Skilled Heritage at level 1, you also lose the skill increase at level 5.
             let level = parseInt(choice.id.split("-")[0]);
@@ -410,17 +438,36 @@ export class Character extends Creature {
                     a.filter.push("none");
                 }
             }
+            //Set components to update according to the skill type.
+            switch (characterService.get_Skills(characterService.get_Character(), skillName)[0]?.type) {
+                case "Skill":
+                    characterService.set_ToChange("Character", "skills");
+                case "Perception":
+                    characterService.set_ToChange("Character", "skills");
+                case "Save":
+                    characterService.set_ToChange("Character", "defense");
+                case "Armor Proficiency":
+                    characterService.set_ToChange("Character", "defense");
+                case "Weapon Proficiency":
+                    characterService.set_ToChange("Character", "attacks");
+                case "Specific Weapon Proficiency":
+                    characterService.set_ToChange("Character", "attacks");
+                case "Spell DC":
+                    characterService.set_ToChange("Character", "general");
+                    characterService.set_ToChange("Character", "spellbook");
+                case "Class DC":
+                    characterService.set_ToChange("Character", "general");
+            }
             //Remove custom skill if previously created and this was the last increase of it
             let customSkills = characterService.get_Character().customSkills.filter(skill => skill.name == skillName);
             if (customSkills.length && this.get_SkillIncreases(characterService, 1, 20, skillName).length == 0) {
                 characterService.remove_CustomSkill(customSkills[0]);
-                //For Monks, add the tradition to the Monk spellcasting abilities. The tradition is the second word of the skill name.
+                //For Monks, remove the tradition from the Monk spellcasting abilities if you removed the Monk Spell DC.
                 if (skillName.includes("Monk") && skillName.includes("Spell DC")) {
                     characterService.get_Character().class.spellCasting.filter(casting => casting.className == "Monk").forEach(casting => {
                         casting.tradition = "";
                     })
                 }
-                
             }
         }
     }
@@ -508,6 +555,7 @@ export class Character extends Creature {
             let oldChoice = choice.spells.find(gain => gain.name == spellName);
             choice.spells.splice(choice.spells.indexOf(oldChoice), 1);
         }
+        characterService.set_ToChange("Character", "spellbook");
     }
     learn_Spell(spell: Spell, source: string) {
         if (!this.class?.spellBook.filter(learned => learned.name == spell.name).length) {

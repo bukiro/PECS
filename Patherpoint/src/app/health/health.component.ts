@@ -112,7 +112,8 @@ export class HealthComponent implements OnInit {
                 this.die("Failed Dying Save");
             }
         }
-        this.characterService.set_Changed();
+        this.characterService.set_ToChange(this.creature, "effects");
+        this.characterService.process_ToChange();
     }
 
     on_HeroPointRecover() {
@@ -120,14 +121,16 @@ export class HealthComponent implements OnInit {
             this.characterService.remove_Condition(this.get_Creature(), gain, false, false);
         });
         this.get_Character().heroPoints = 0;
-        this.characterService.set_Changed();
+        this.characterService.set_ToChange(this.creature, "effects");
+        this.characterService.process_ToChange();
     }
 
     on_HealWounded() {
         this.characterService.get_AppliedConditions(this.get_Creature(), "Wounded").forEach(gain => {
             this.characterService.remove_Condition(this.get_Creature(), gain, false);
         })
-        this.characterService.set_Changed();
+        this.characterService.set_ToChange(this.creature, "effects");
+        this.characterService.process_ToChange();
     }
 
     get_NumbToDeath() {
@@ -136,27 +139,30 @@ export class HealthComponent implements OnInit {
         } else {
             return 0;
         }
-        
     }
 
     on_Heal(health: Health) {
         health.heal(this.get_Creature(), this.characterService, this.effectsService, this.healing);
-        this.characterService.set_Changed("health");
+        this.characterService.set_ToChange(this.creature, "health");
+        this.characterService.process_ToChange();
     }
 
     on_NumbToDeath(health: Health) {
         health.heal(this.get_Creature(), this.characterService, this.effectsService, this.get_Character().level, true, false);
-        this.characterService.set_Changed("health");
+        this.characterService.set_ToChange(this.creature, "health");
+        this.characterService.process_ToChange();
     }
 
     on_TakeDamage(health: Health) {
         health.takeDamage(this.get_Creature(), this.characterService, this.effectsService, this.damage, this.nonlethal);
-        this.characterService.set_Changed("health");
+        this.characterService.set_ToChange(this.creature, "health");
+        this.characterService.process_ToChange();
     }
 
     add_TempHP(amount: number) {
         this.get_Health().temporaryHP = Math.max(0, this.get_Health().temporaryHP + amount);
-        //this.characterService.set_Changed();
+        this.characterService.set_ToChange(this.creature, "health");
+        this.characterService.process_ToChange();
     }
 
     get_Resistances() {

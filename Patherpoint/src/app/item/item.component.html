@@ -158,21 +158,21 @@
     <h4>Doubling Rings</h4>
     <div class="row">
         <strong>Weapon wielded in the gold ring hand</strong>
-        <select [(ngModel)]="item.data[0].value" (ngModelChange)="set_Changed()">
+        <select [(ngModel)]="item.data[0].value" (ngModelChange)="on_DoublingRingsChange()">
             <option *ngFor="let weapon of get_DoublingRingsOptions('gold'); trackBy:trackByIndex;" [ngValue]="weapon.id">
                 {{weapon.get_Name()}}</option>
         </select>
     </div>
     <div class="row">
         <strong>Weapon wielded in the iron ring hand</strong>
-        <select [(ngModel)]="item.data[1].value" (ngModelChange)="set_Changed()">
+        <select [(ngModel)]="item.data[1].value" (ngModelChange)="on_DoublingRingsChange()">
             <option *ngFor="let weapon of get_DoublingRingsOptions('iron'); trackBy:trackByIndex;" [ngValue]="weapon.id">
                 {{weapon.get_Name()}}</option>
         </select>
     </div>
     <div class="row" *ngIf="item.isDoublingRings == 'Doubling Rings (Greater)'">
         <strong>Apply property runes</strong>
-        <input type="checkbox" [(ngModel)]="item.data[2]" (ngModelChange)="set_Changed()">
+        <input type="checkbox" [(ngModel)]="item.data[2]" (ngModelChange)="on_DoublingRingsChange()">
     </div>
 </div>
 <app-itemAeonStones class="list-item" [item]=item [itemStore]=itemStore *ngIf="item.isWayfinder"></app-itemAeonStones>

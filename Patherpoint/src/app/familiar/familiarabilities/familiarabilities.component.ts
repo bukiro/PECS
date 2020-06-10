@@ -47,7 +47,13 @@ export class FamiliarabilitiesComponent implements OnInit {
         } else {
             this.characterService.get_Changed()
             .subscribe((target) => {
-                if (target == "familiarabilities" || target == "all" || target == "Familiar") {
+                if (["familiarabilities", "all", "Familiar"].includes(target)) {
+                    this.changeDetector.detectChanges();
+                }
+            });
+            this.characterService.get_ViewChanged()
+            .subscribe((view) => {
+                if (view.creature == "Familiar" && ["familiarabilities", "all"].includes(view.target)) {
                     this.changeDetector.detectChanges();
                 }
             });

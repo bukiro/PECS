@@ -111,13 +111,17 @@ export class TagsComponent implements OnInit {
         } else {
             this.characterService.get_Changed()
             .subscribe((target) => {
-                if (["tags", "all", this.creature].includes(target)) {
+                if (["tags", "all", this.creature, this.objectName].includes(target)) {
                     this.changeDetector.detectChanges();
                 }
             });
             this.characterService.get_ViewChanged()
             .subscribe((view) => {
-                if (view.creature == this.creature && ["tags", "all"].includes(view.target)) {
+                if (view.creature == this.creature &&
+                    (
+                        view.target == "all" ||
+                        (view.target == "tags" && [this.objectName, ...this.specialNames, "all"].includes(view.subtarget))
+                    )) {
                     this.changeDetector.detectChanges();
                 }
             });

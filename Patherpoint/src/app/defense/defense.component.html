@@ -12,21 +12,21 @@
             <div class="list-item row">
                 <span>
                     <button class="center-aligned" *ngIf="get_Cover() != 1"
-                        (click)="set_Cover(1); set_CharacterChanged()">Lesser cover</button>
+                        (click)="set_Cover(1); set_DefenseChanged()">Lesser cover</button>
                     <button class="center-aligned" *ngIf="get_Cover() == 1"
-                        (click)="set_Cover(0); set_CharacterChanged()">End cover</button>
+                        (click)="set_Cover(0); set_DefenseChanged()">End cover</button>
                 </span>
                 <span>
                     <button class="center-aligned" *ngIf="get_Cover() != 2"
-                        (click)="set_Cover(2); set_CharacterChanged()">Behind cover</button>
+                        (click)="set_Cover(2); set_DefenseChanged()">Behind cover</button>
                     <button class="center-aligned" *ngIf="get_Cover() == 2"
-                        (click)="set_Cover(0); set_CharacterChanged()">End cover</button>
+                        (click)="set_Cover(0); set_DefenseChanged()">End cover</button>
                 </span>
                 <span>
                     <button class="center-aligned" *ngIf="get_Cover() != 4"
-                        (click)="set_Cover(4); set_CharacterChanged()">Take cover</button>
+                        (click)="set_Cover(4); set_DefenseChanged()">Take cover</button>
                     <button class="center-aligned" *ngIf="get_Cover() == 4"
-                        (click)="set_Cover(0); set_CharacterChanged()">End cover</button>
+                        (click)="set_Cover(0); set_DefenseChanged()">End cover</button>
                 </span>
             </div>
             <ng-container *ngIf="creature != 'Familiar'">
@@ -70,16 +70,16 @@
                             </div>
                             <div class="row">
                                 <button class="center-aligned" *ngIf="!shield.raised"
-                                    (click)="shield.raised = true; set_CharacterChanged()">Raise shield</button>
+                                    (click)="shield.raised = true; set_DefenseChanged()">Raise shield</button>
                                 <button class="center-aligned" *ngIf="shield.raised"
-                                    (click)="shield.raised = false; shield.takingCover = false; set_CharacterChanged()">Lower
+                                    (click)="shield.raised = false; shield.takingCover = false; set_DefenseChanged()">Lower
                                     shield</button>
                                 <button class="center-aligned"
                                     *ngIf="shield.raised && shield.coverbonus && !shield.takingCover"
-                                    (click)="shield.takingCover = true; set_CharacterChanged()">Take cover</button>
+                                    (click)="shield.takingCover = true; set_DefenseChanged()">Take cover</button>
                                 <button class="center-aligned"
                                     *ngIf="shield.raised && shield.coverbonus && shield.takingCover"
-                                    (click)="shield.takingCover = false; set_CharacterChanged()">End cover</button>
+                                    (click)="shield.takingCover = false; set_DefenseChanged()">End cover</button>
                             </div>
                             <app-tags [creature]="creature" [objectName]="'Shield'" [showTraits]=true [showFeats]=true
                                 [showItems]=true [showActivities]=true [showConditions]=true [showEffects]=true></app-tags>
@@ -102,9 +102,9 @@
                             disabled>
                         <div class="row">
                             <button class="center-aligned" *ngIf="!parry.parrying"
-                                (click)="parry.parrying = true; set_CharacterChanged()">Raise weapon</button>
+                                (click)="parry.parrying = true; set_DefenseChanged()">Raise weapon</button>
                             <button class="center-aligned" *ngIf="parry.parrying"
-                                (click)="parry.parrying = false; set_CharacterChanged()">Lower weapon</button>
+                                (click)="parry.parrying = false; set_DefenseChanged()">Lower weapon</button>
                         </div>
                     </div>
                     </ng-container>

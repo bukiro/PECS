@@ -60,6 +60,7 @@ export class AnimalCompanion extends Creature {
             .map(gain => characterService.get_FeatsAndFeatures(gain.name)[0])
             .filter(feat => feat)
             .map(feat => feat?.gainAnimalCompanion)));
+        characterService.set_ToChange("Companion", "all");
     }
     get_AbilityBoosts(minLevelNumber: number, maxLevelNumber: number, abilityName: string = "", type: string = "", source: string = "", sourceId: string = "", locked: boolean = undefined ) {
         if (this.class) {

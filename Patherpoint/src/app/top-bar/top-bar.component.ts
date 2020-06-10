@@ -53,6 +53,10 @@ export class TopBarComponent implements OnInit {
         return this.savegameService.get_Savegames();
     }
 
+    set_Changed() {
+        this.characterService.set_Changed();
+    }
+
     get_CharacterMinimized() {
         return this.characterService.get_Character().settings.characterMinimized;
     }
@@ -143,7 +147,13 @@ export class TopBarComponent implements OnInit {
         } else {
             this.characterService.get_Changed()
             .subscribe((target) => {
-                if (target == "top-bar" || target == "all" || target == "Character") {
+                if (["top-bar", "all", "Character"].includes(target)) {
+                    this.changeDetector.detectChanges();
+                }
+            });
+            this.characterService.get_ViewChanged()
+            .subscribe((view) => {
+                if (view.creature == "Character" && ["top-bar", "all"].includes(view.target)) {
                     this.changeDetector.detectChanges();
                 }
             });

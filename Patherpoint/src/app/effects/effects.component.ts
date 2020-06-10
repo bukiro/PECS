@@ -101,7 +101,8 @@ export class EffectsComponent implements OnInit {
 
     change_ConditionValue(gain: ConditionGain, turns: number) {
         gain.value += turns;
-        this.characterService.set_Changed();
+        this.characterService.set_ToChange(this.creature, "effects");
+        this.characterService.process_ToChange();
     }
 
     get_Duration(duration: number) {

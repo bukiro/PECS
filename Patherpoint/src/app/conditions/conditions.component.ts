@@ -226,7 +226,7 @@ export class ConditionsComponent implements OnInit {
         } else {
             this.characterService.get_Changed()
             .subscribe((target) => {
-                if (target == "conditions" || target == "all") {
+                if (["conditions", "all"].includes(target)) {
                     this.changeDetector.detectChanges();
                 }
             });
@@ -235,7 +235,8 @@ export class ConditionsComponent implements OnInit {
                 if (view.creature == "Character" && ["conditions", "all"].includes(view.target)) {
                     this.changeDetector.detectChanges();
                 }
-            });return true;
+            });
+            return true;
         }
     }
 

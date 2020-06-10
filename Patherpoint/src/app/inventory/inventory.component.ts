@@ -315,7 +315,8 @@ export class InventoryComponent implements OnInit {
         }
         if (changeafter) {
             this.targetInventory = null;
-            this.characterService.set_Changed();
+            this.characterService.set_ToChange(this.creature, "inventory");
+            this.characterService.process_ToChange();
         }
 
     }
@@ -328,6 +329,8 @@ export class InventoryComponent implements OnInit {
 
     add_NewOtherItem(inventory: ItemCollection) {
         inventory.otheritems.push(new OtherItem());
+        this.characterService.set_ToChange(this.creature, "inventory");
+        this.characterService.process_ToChange();
     }
 
     bulkOnly(event): boolean {
@@ -340,7 +343,7 @@ export class InventoryComponent implements OnInit {
 
     validate_Bulk(item: OtherItem) {
         if (parseInt(item.bulk) || parseInt(item.bulk) == 0 || item.bulk == "L" || item.bulk == "") {
-
+            //OK - no change needed.
         } else {
             item.bulk = "";
         }
@@ -483,7 +486,7 @@ export class InventoryComponent implements OnInit {
     change_Cash(multiplier: number = 1, sum: number = 0, changeafter: boolean = false) {
         this.characterService.change_Cash(multiplier, sum);
         if (changeafter) {
-            this.characterService.set_Changed();
+            this.characterService.process_ToChange();
         }
     }
 

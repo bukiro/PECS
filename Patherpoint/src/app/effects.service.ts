@@ -479,9 +479,8 @@ export class EffectsService {
             "Unarmed Damage per Die", "Weapon Damage per Die"];
         let attacksWildcard: string[] = ["Attack Rolls", "Melee Damage", "Dice Size"];
         let skills: string[] = ["Perception", "Acrobatics", "Arcana", "Athletics", "Crafting", "Deception", "Diplomacy",
-            "Intimidation", "Medicine", "Nature", "Occultism", "Performance", "Religion", "Society", "Stealth", "Survival", "Thievery",
-            "All Checks and DCs", "Skill Checks", "Untrained Skills"];
-        let skillsWildcard: string[] = ["Lore", "Checks and DCs"];
+            "Intimidation", "Medicine", "Nature", "Occultism", "Performance", "Religion", "Society", "Stealth", "Survival", "Thievery"];
+        let skillsWildcard: string[] = ["Spell DC", "Class DC", "Checks and DCs", "Skill Checks", "Untrained Skills"];
         let inventory: string[] = ["Bulk", "Encumbered Limit", "Max Bulk", "Max Invested"];
         let activities: string[] = [];
         let spellbook: string[] = ["Focus Points", "Focus Pool", "All Checks and DCs"];
@@ -500,7 +499,6 @@ export class EffectsService {
         changedEffects.forEach(effect => {
             if (general.includes(effect.target) || generalWildcard.filter(name => effect.target.includes(name)).length) {
                 characterService.set_ToChange(creature.type, "general");
-                characterService.set_ToChange(creature.type, "individualskills");
             }
             if (abilities.includes(effect.target)) {
                 characterService.set_ToChange(creature.type, "abilities");
@@ -510,14 +508,19 @@ export class EffectsService {
             }
             if (defense.includes(effect.target)) {
                 characterService.set_ToChange(creature.type, "defense");
-                characterService.set_ToChange(creature.type, "individualskills");
             }
             if (attacks.includes(effect.target) || attacksWildcard.filter(name => effect.target.includes(name)).length) {
                 characterService.set_ToChange(creature.type, "attacks");
             }
-            if (skills.includes(effect.target) || skillsWildcard.filter(name => effect.target.includes(name)).length) {
-                characterService.set_ToChange(creature.type, "skills");
-                characterService.set_ToChange(creature.type, "individualskills");
+            if (skills.includes(effect.target)) {
+                characterService.set_ToChange(creature.type, "individualskills", effect.target);
+            }
+            if (skillsWildcard.filter(name => effect.target.includes(name)).length) {
+                if (effect.target.includes("Lore") || effect.target.includes("Class DC") || effect.target.includes("Spell DC")) {
+                    characterService.set_ToChange(creature.type, "individualskills", effect.target);
+                } else {
+                    characterService.set_ToChange(creature.type, "individualskills", "all");
+                }
             }
             if (inventory.includes(effect.target)) {
                 characterService.set_ToChange(creature.type, "inventory");

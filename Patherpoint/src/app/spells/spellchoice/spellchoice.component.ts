@@ -227,12 +227,12 @@ export class SpellchoiceComponent implements OnInit {
             if (this.cannotTake(this.get_Spells(gain.name)[0], choice).length) {
                 if (!gain.locked) {
                     this.get_Character().take_Spell(this.characterService, gain.name, false, choice, gain.locked);
-                    this.characterService.set_Changed();
                 } else {
                     anytrue += 1;
                 }
             }
         });
+        this.characterService.process_ToChange();
         return anytrue;
     }
 

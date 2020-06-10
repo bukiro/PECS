@@ -187,13 +187,13 @@ export class FeatchoiceComponent implements OnInit {
                 if (this.cannotTake(template, choice).length) {
                     if (!feat.locked) {
                         this.get_Character().take_Feat(this.get_Creature(), this.characterService, feat.name, false, choice, feat.locked);
-                        this.characterService.set_Changed();
                     } else {
                         anytrue += 1;
                     }
                 }
             }
         });
+        this.characterService.process_ToChange();
         return anytrue;
     }
 
@@ -375,7 +375,7 @@ export class FeatchoiceComponent implements OnInit {
     on_FeatTaken(featName: string, taken: boolean, choice: FeatChoice, locked: boolean) {
         if (taken && (choice.feats.length == choice.available - 1)) { this.showChoice=""; }
         this.get_Character().take_Feat(this.get_Creature(), this.characterService, featName, taken, choice, locked);
-        this.characterService.set_Changed();
+        this.characterService.process_ToChange();
     }
 
     get_Activities(name: string = "") {

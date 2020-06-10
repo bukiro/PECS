@@ -13,8 +13,8 @@
         <div class="list-item sublist" *ngIf="get_showList()=='load'">
             <div class="list-item">
                 <span>
-                    <input type="checkbox" [(ngModel)]="allowCharacterDelete">
-                    Allow deleting characters
+                    <input if="allowCharacterDelete" type="checkbox" [(ngModel)]="allowCharacterDelete">
+                    <label for="allowCharacterDelete">Allow deleting characters</label>
                 </span>
             </div>
             <div class="list-item" *ngIf="get_Savegames() && !get_Savegames().length">
@@ -37,8 +37,8 @@
         <div class="list-item">
             <span>Color Accent</span>
             <span>
-                <input type="text" name="name" [(ngModel)]="get_Character().settings.accent"
-                    (blur)="this.characterService.set_Changed()" maxLength="7">
+                <input type="color" name="name" [(ngModel)]="get_Character().settings.accent"
+                    (blur)="set_Changed()" maxLength="7">
             </span>
         </div>
         <div class="list-item">
@@ -280,7 +280,7 @@
                 <div class="list-item"
                     *ngFor="let language of get_Character().class.languages; let index = index; trackBy:trackByIndex;">
                     <input class="row" type="text" [(ngModel)]="get_Character().class.languages[index]"
-                        (blur)="set_Changed()">
+                        (blur)="on_LanguageChange()">
                 </div>
             </div>
         </div>
@@ -478,7 +478,7 @@
                         <div class="list-item"
                             *ngFor="let language of get_Character().class.languages; let index = index; trackBy:trackByIndex;">
                             <input class="row" type="text" [(ngModel)]="get_Character().class.languages[index]"
-                                (blur)="set_Changed()">
+                                (blur)="on_LanguageChange()">
                         </div>
                     </div>
                 </div>
@@ -623,7 +623,7 @@
                                 <div class="row" *ngFor="let itemID of ['animaltype'+type.name+'desc']; trackBy:trackByIndex;">
                                     <span>
                                         <input id="{{type.name}}" type="checkbox"
-                                            (change)="on_TypeChange(type, $event.target.checked)"
+                                            (change)="on_CompanionTypeChange(type, $event.target.checked)"
                                             [checked]="type.name === get_Companion().class.ancestry.name">
                                         <label for="{{type.name}}">
                                             <strong>{{type.name}}</strong>
@@ -798,7 +798,7 @@
                             <div class="list-item">
                                 <strong>Name:
                                     <input type="text" [(ngModel)]="feat.data.name"
-                                        (blur)=this.characterService.set_Changed() maxLength="30">
+                                        (blur)=on_NameChange() maxLength="30">
                                 </strong>
                             </div>
                         </div>
@@ -872,7 +872,7 @@
                             <div class="list-item">
                                 <strong>Name:
                                     <input type="text" [(ngModel)]="feat.data.name"
-                                        (blur)=this.characterService.set_Changed() maxLength="30">
+                                        (blur)="on_FuseStanceNameChange()" maxLength="30">
                                 </strong>
                             </div>
                         </div>
@@ -891,7 +891,7 @@
                                 <div class="row" *ngFor="let itemID of ['fuseStance_stance1'+stance.name]; trackBy:trackByIndex;">
                                     <span>
                                         <input id="{{stance.name}}" type="checkbox"
-                                            (change)="onFuseStanceStanceChange(feat, 'stance1', stance.name, $event.target.checked)"
+                                            (change)="on_FuseStanceStanceChange(feat, 'stance1', stance.name, $event.target.checked)"
                                             [checked]="stance.name == feat.data.stance1 || stance.name == feat.data.stance2"
                                             [disabled]="stance.name == feat.data.stance2" *ngIf="!stance.reason">
                                         <label for="{{stance.name}}">
@@ -921,7 +921,7 @@
                                 <div class="row" *ngFor="let itemID of ['fuseStance_stance2'+stance.name]; trackBy:trackByIndex;">
                                     <span>
                                         <input id="{{stance.name}}" type="checkbox"
-                                            (change)="onFuseStanceStanceChange(feat, 'stance2', stance.name, $event.target.checked)"
+                                            (change)="on_FuseStanceStanceChange(feat, 'stance2', stance.name, $event.target.checked)"
                                             [checked]="stance.name == feat.data.stance1 || stance.name == feat.data.stance2"
                                             [disabled]="stance.name == feat.data.stance1" *ngIf="!stance.reason">
                                         <label for="{{stance.name}}">
@@ -962,7 +962,7 @@
                                             <strong>Lore:
                                                 <input type="text" [(ngModel)]="choice.loreName"
                                                     [disabled]="get_SkillIncreases(level.number, level.number, 'Lore: '+choice.loreName, choice.source, choice.id).length"
-                                                    (blur)=this.characterService.set_Changed() maxLength="20">
+                                                    (blur)="on_LoreNameChange" maxLength="20">
                                             </strong>
                                         </label>
                                         <cite class="problem"

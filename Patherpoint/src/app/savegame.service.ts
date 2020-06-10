@@ -358,6 +358,7 @@ export class SavegameService {
 
             this.loader = [];
             characterService.set_Changed("charactersheet");
+            characterService.process_ToChange();
         }
         if (this.loading) { this.loading = false; }
     }

@@ -68,10 +68,20 @@ export class FeatsService {
         let feats = characterService.get_FeatsAndFeatures(featName);
         if (creature.type == "Familiar") {
             feats = characterService.familiarsService.get_FamiliarAbilities(featName);
+            characterService.set_ToChange("Familiar", "familiarabilities");
+        } else {
+            characterService.set_ToChange("Character", "charactersheet");
         }
         
         if (feats.length) {
             let feat = feats[0];
+
+            if (feat.showon) {
+                characterService.set_TagsToChange(creature.type, feat.showon);
+            }
+            if (feat.effects.length) {
+                characterService.set_ToChange(creature.type, "effects");
+            }
 
             //Gain another Feat
             if (feat.gainFeatChoice.length) {
@@ -89,22 +99,28 @@ export class FeatsService {
                             insertedFeatChoice.feats.forEach(gain => {
                                 this.process_Feat(creature, characterService, gain.name, insertedFeatChoice, level, true);
                             })
+                            if (insertedFeatChoice.showOnSheet) {
+                                characterService.set_ToChange(creature.type, "activities");
+                            }
                         }
                     });
                 } else {
-                    feat.gainFeatChoice.forEach(newFeatChoice => {
+                    feat.gainFeatChoice.forEach(oldFeatChoice => {
                         //Skip if you don't have the required Class for this granted feat choice, since you didn't get the choice in the first place.
-                        if (newFeatChoice.insertClass ? (character.class.name == newFeatChoice.insertClass) : true) {
+                        if (oldFeatChoice.insertClass ? (character.class.name == oldFeatChoice.insertClass) : true) {
+                            if (oldFeatChoice.showOnSheet) {
+                                characterService.set_ToChange(creature.type, "activities");
+                            }
                             let a: FeatChoice[] = [];
-                            //If the feat choice got applied on a certain level, it needs to be removed from that level, too.
-                            if (newFeatChoice.insertLevel && character.class.levels[newFeatChoice.insertLevel]) {
-                                a = character.class.levels[newFeatChoice.insertLevel].featChoices;
+                            //If the feat choice got applied on a certain level, it needs to be removed from that level.
+                            if (oldFeatChoice.insertLevel && character.class.levels[oldFeatChoice.insertLevel]) {
+                                a = character.class.levels[oldFeatChoice.insertLevel].featChoices;
                             } else {
                                 a = level.featChoices;
                             }
                             if (a.length) {
                                 //You might have taken this feat multiple times on the same level, so we are only removing one instance of each of its featChoices.
-                                let b: FeatChoice = a.filter(choice => choice.source == newFeatChoice.source)[0];
+                                let b: FeatChoice = a.filter(choice => choice.source == oldFeatChoice.source)[0];
                                 //Feats must explicitly be un-taken instead of just removed from the array, in case they made fixed changes
                                 if (b) {
                                     b?.feats.forEach(feat => {
@@ -131,6 +147,7 @@ export class FeatsService {
                         character.remove_AbilityChoice(oldChoice);
                     })
                 }
+                characterService.set_ToChange(creature.type, "abilities");
             }
 
             //Train free Skill or increase existing Skill
@@ -171,9 +188,8 @@ export class FeatsService {
                                 newChoice = character.add_SkillChoice(level, insertSkillChoice);
                             }
                             //Apply any included Skill increases
-                            newChoice.increases.length = 0;
-                            insertSkillChoice.increases.forEach(increase => {
-                                character.increase_Skill(characterService, increase.name, true, newChoice, true);
+                            newChoice.increases.forEach(increase => {
+                                character.process_Skill(characterService, increase.name, true, newChoice, true);
                             })
                         }
                     });
@@ -235,7 +251,7 @@ export class FeatsService {
                                 gain.sourceId = insertSpellChoice.id;
                             })
                             insertSpellChoice.source == "Feat: "+feat.name;
-                            character.add_SpellChoice(level, insertSpellChoice);
+                            character.add_SpellChoice(characterService, level, insertSpellChoice);
                         }
                     });
                 } else {
@@ -266,7 +282,7 @@ export class FeatsService {
             if (feat.gainActivities.length) {
                 if (taken) {
                     feat.gainActivities.forEach((gainActivity: string) => {
-                        character.gain_Activity(Object.assign(new ActivityGain(), {name:gainActivity, source:feat.name}), level.number);
+                        character.gain_Activity(characterService, Object.assign(new ActivityGain(), {name:gainActivity, source:feat.name}), level.number);
                     });
                     
                 } else {
@@ -314,6 +330,7 @@ export class FeatsService {
                     let a = character.class.ancestry.ancestries;
                     a.splice(a.indexOf(feat.subType), 1);
                 }
+                characterService.set_ToChange("Character", "general");
             }
 
             //Bargain Hunter
@@ -327,6 +344,7 @@ export class FeatsService {
                         character.cash[1] -= 2;
                     };
                 }
+                characterService.set_ToChange("Character", "inventory");
             }
 
             //Different Worlds
@@ -371,17 +389,6 @@ export class FeatsService {
                 }
             }
 
-            //Hunter's Edge
-            //If you take any of the three Hunter's Edge Feats, also add the masterful version on Level 17
-            /*if (feat.name=="Flurry" || feat.name=="Outwit" || feat.name=="Precision") {
-                let huntersEdgeChoice = character.class.levels[17].featChoices.find(choice => choice.type == "Hunter's Edge")
-                if (taken) {
-                    character.take_Feat(character, characterService, "Masterful Hunter: "+feat.name, true, huntersEdgeChoice, true);
-                } else {
-                    character.take_Feat(character, characterService, "Masterful Hunter: "+feat.name, false, huntersEdgeChoice, true);
-                }
-            }*/
-
             //Feats that grant an animal companion
             if (feat.gainFamiliar) {
                 if (taken) {
@@ -397,6 +404,7 @@ export class FeatsService {
                     characterService.cleanup_Familiar();
                     character.class.familiar = new Familiar();
                 }
+                characterService.set_ToChange("Familiar", "all");
             }
 
             //Feats that grant an animal companion
@@ -407,6 +415,7 @@ export class FeatsService {
                 if (taken) {
                     characterService.initialize_AnimalCompanion();
                 }
+                characterService.set_ToChange("Companion", "all");
             }
 
             //Feats that level up the animal companion to Mature, Nimble or Savage
@@ -426,6 +435,7 @@ export class FeatsService {
                     }
                     companion.set_Level(characterService);
                 }
+                characterService.set_ToChange("Companion", "all");
             }
 
             //Feats that grant an animal companion specialization
@@ -439,6 +449,7 @@ export class FeatsService {
                             companion.class.specializations = companion.class.specializations.filter(spec => spec.name != specializations[specializations.length - 1].name)
                         }
                     }
+                    characterService.set_ToChange("Companion", "all");
                 }
             }
 
@@ -469,7 +480,7 @@ export class FeatsService {
                                 .map(gain => characterService.get_FeatsAndFeatures(gain.name)[0])
                                 .filter(feat => feat?.gainFamiliar).length).length
                         );
-                        character.add_SpellChoice(familiarLevel, newSpellChoice)
+                        character.add_SpellChoice(characterService, familiarLevel, newSpellChoice)
                     }
                 } else {
                     let oldSpellChoice = spellCasting.spellChoices.find(choice => choice.source == "Feat: "+feat.name);
@@ -496,7 +507,7 @@ export class FeatsService {
                                 .map(gain => characterService.get_FeatsAndFeatures(gain.name)[0])
                                 .filter(feat => feat?.gainFamiliar).length).length
                         );
-                        character.add_SpellChoice(familiarLevel, newSpellChoice)
+                        character.add_SpellChoice(characterService, familiarLevel, newSpellChoice)
                     }
                 } else {
                     let oldSpellChoice = spellCasting.spellChoices.find(choice => choice.source == "Feat: "+feat.name);

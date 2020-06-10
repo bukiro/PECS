@@ -94,13 +94,17 @@ export class SkillComponent implements OnInit {
         } else {
             this.characterService.get_Changed()
             .subscribe((target) => {
-                if (target == "individualskills" || target == "all" || target == this.creature) {
+                if (["individualskills", "all", this.creature, this.skill.name].includes(target)) {
                     this.changeDetector.detectChanges();
                 }
             });
             this.characterService.get_ViewChanged()
             .subscribe((view) => {
-                if (view.creature == this.creature && ["individualskills", "all"].includes(view.target)) {
+                if (view.creature == this.creature &&
+                    (
+                        view.target == "all" ||
+                        (view.target == "individualskills" && [this.skill.name, "all"].includes(view.subtarget))
+                    )) {
                     this.changeDetector.detectChanges();
                 }
             });

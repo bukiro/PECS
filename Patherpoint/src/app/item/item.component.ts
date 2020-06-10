@@ -46,10 +46,6 @@ export class ItemComponent implements OnInit {
         return index;
     }
     
-    set_Changed() {
-        this.characterService.set_Changed();
-    }
-    
     get_Creature() {
         return this.characterService.get_Creature(this.creature) as Character|AnimalCompanion;
     }
@@ -130,6 +126,16 @@ export class ItemComponent implements OnInit {
             case "iron":
                 return this.get_Creature().inventories[0].weapons.filter(weapon => weapon.melee && weapon.moddable == "weapon");
         }
+    }
+
+    on_DoublingRingsChange() {
+        this.characterService.set_ToChange(this.creature, "inventory");
+        let ironItem = this.get_DoublingRingsOptions("iron").find(weapon => weapon.id == this.item.data[0].value);
+        if (ironItem && this.item.invested) {
+            this.characterService.set_ToChange(this.creature, "attacks");
+            this.characterService.set_ItemViewChanges(this.get_Creature(), ironItem);
+        }
+        this.characterService.process_ToChange();
     }
 
     ngOnInit() {

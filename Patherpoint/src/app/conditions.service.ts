@@ -114,7 +114,7 @@ export class ConditionsService {
             characterService.set_ToChange(creature.type, "activities");
         }
         if (condition.showon) {
-            characterService.set_ToChange(creature.type, "tags");
+            characterService.set_TagsToChange(creature.type, condition.showon);
         }
 
         //Copy the condition's ActivityGains to the ConditionGain so we can track its duration, cooldown etc.

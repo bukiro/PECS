@@ -17,7 +17,6 @@ import { SkillChoice } from '../SkillChoice';
 import { LoreChoice } from '../LoreChoice';
 import { Ability } from '../Ability';
 import { AbilityChoice } from '../AbilityChoice';
-import { SortByPipe } from '../sortBy.pipe';
 import { SpellCasting } from '../SpellCasting';
 import { ActivitiesService } from '../activities.service';
 import { Deity } from '../Deity';
@@ -187,11 +186,25 @@ export class CharacterComponent implements OnInit {
                 });
             }
         }
-        this.characterService.set_Changed();
+        this.characterService.set_ToChange("Character", "abilities");
+        this.characterService.set_ToChange("Character", "charactersheet");
+        this.characterService.process_ToChange();
     }
 
     set_Changed(target: string = "") {
         this.characterService.set_Changed(target);
+    }
+
+    on_LanguageChange() {
+        this.characterService.set_ToChange("Character", "general");
+        this.characterService.set_ToChange("Character", "charactersheet");
+        this.characterService.process_ToChange();
+    }
+
+    on_NameChange() {
+        this.characterService.set_ToChange("Character", "general");
+        this.characterService.set_ToChange("Character", "top-bar");
+        this.characterService.process_ToChange();
     }
 
     numbersOnly(event): boolean {
@@ -220,7 +233,8 @@ export class CharacterComponent implements OnInit {
         if (this.get_Companion()) {
             this.get_Companion().set_Level(this.characterService);
         }
-        this.characterService.set_Changed();
+        this.characterService.set_ToChange("Character", "character-sheet")
+        this.characterService.process_ToChange();
     }
 
     get_LanguagesAvailable(levelNumber: number = 0) {
@@ -288,12 +302,12 @@ export class CharacterComponent implements OnInit {
             if (this.abilityIllegal(parseInt(choice.id.split("-")[0]), this.get_Abilities(boost.name)[0])) {
                 if (!boost.locked) {
                     this.get_Character().boost_Ability(this.characterService, boost.name, false, choice, boost.locked);
-                    this.characterService.set_Changed();
                 } else {
                     anytrue += 1;
                 }
             }
         });
+        this.characterService.process_ToChange();
         return anytrue;
     }
 
@@ -345,6 +359,7 @@ export class CharacterComponent implements OnInit {
     on_AbilityBoost(abilityName: string, boost: boolean, choice: AbilityChoice, locked: boolean) {
         if (boost && choice.boosts.length == choice.available - ((this.get_Character().baseValues.length > 0) ? choice.baseValuesLost : 0) - 1) { this.showList=""; }
         this.get_Character().boost_Ability(this.characterService, abilityName, boost, choice, locked);
+        this.characterService.process_ToChange();
     }
 
     get_Skills(name: string = "", type: string = "") {
@@ -404,12 +419,12 @@ export class CharacterComponent implements OnInit {
             if (!this.get_Skills(increase.name)[0].isLegal(this.get_Character(), this.characterService, parseInt(choice.id.split("-")[0]), choice.maxRank)) {
                 if (!increase.locked) {
                     this.get_Character().increase_Skill(this.characterService, increase.name, false, choice, increase.locked);
-                    this.characterService.set_Changed();
                 } else {
                     anytrue += 1;
                 }
             }
         });
+        this.characterService.process_ToChange();
         return anytrue;
     }
 
@@ -467,7 +482,7 @@ export class CharacterComponent implements OnInit {
     on_SkillIncrease(skillName: string, boost: boolean, choice: SkillChoice|LoreChoice, locked: boolean = false) {
         if (boost && (choice.increases.length == choice.available + this.get_SkillINTBonus(choice) - 1)) { this.showList=""; }
         this.get_Character().increase_Skill(this.characterService, skillName, boost, choice, locked);
-        this.characterService.set_Changed();
+        this.characterService.process_ToChange();
     }
 
     get_FeatChoices(level: Level) {
@@ -499,6 +514,11 @@ export class CharacterComponent implements OnInit {
         } else {
             this.get_Character().remove_Lore(this.characterService, choice);
         }
+    }
+
+    on_LoreNameChange() {
+        this.characterService.set_ToChange("Character", "charactersheet");
+        this.characterService.process_ToChange();
     }
 
     get_Feats(name: string = "", type: string = "") {
@@ -586,14 +606,20 @@ export class CharacterComponent implements OnInit {
         return stances.filter(stance => stance.name != "Fused Stance");
     }
 
-    onFuseStanceStanceChange(feat:Feat, which:string, stance:string, taken:boolean) {
+    on_FuseStanceNameChange() {
+        this.characterService.set_ToChange("Character", "activities");
+        this.characterService.process_ToChange();
+    }
+
+    on_FuseStanceStanceChange(feat:Feat, which:string, stance:string, taken:boolean) {
         if (taken) {
             this.showList="";
             feat.data[which] = stance;
         } else {
             feat.data[which] = "";
         }
-        this.set_Changed();
+        this.characterService.set_ToChange("Character", "activities");
+        this.characterService.process_ToChange();
     }
 
     get_FeatsTaken(minLevelNumber: number, maxLevelNumber: number, featName: string = "", source: string = "", sourceId: string = "", locked: boolean = undefined) {
@@ -632,6 +658,7 @@ export class CharacterComponent implements OnInit {
         } else {
             this.characterService.change_Ancestry(new Ancestry(), this.itemsService);
         }
+        this.characterService.process_ToChange();
     }
 
     get_Deities(name: string = "") {
@@ -650,6 +677,7 @@ export class CharacterComponent implements OnInit {
         } else {
             this.characterService.change_Deity(new Deity());
         }
+        this.characterService.process_ToChange();
     }
 
     get_Conditions(name: string = "") {
@@ -672,6 +700,7 @@ export class CharacterComponent implements OnInit {
         } else {
             this.characterService.change_Heritage(new Heritage());
         }
+        this.characterService.process_ToChange();
     }
 
     get_Backgrounds(name: string = "") {
@@ -696,6 +725,7 @@ export class CharacterComponent implements OnInit {
         } else {
             this.characterService.change_Background(new Background());
         }
+        this.characterService.process_ToChange();
     }
 
     get_INT(levelNumber: number) {
@@ -720,7 +750,7 @@ export class CharacterComponent implements OnInit {
             character.class.animalCompanion = new AnimalCompanion();
             character.class.animalCompanion.class = new AnimalCompanionClass();
             this.characterService.initialize_AnimalCompanion();
-            this.set_Changed();
+            this.characterService.process_ToChange();
         }
     }
 
@@ -729,7 +759,7 @@ export class CharacterComponent implements OnInit {
         return this.animalCompanionsService.get_CompanionTypes().filter(type => type.name == existingCompanionName || !existingCompanionName);
     }
 
-    on_TypeChange(type: AnimalCompanionAncestry, taken: boolean) {
+    on_CompanionTypeChange(type: AnimalCompanionAncestry, taken: boolean) {
         if (taken) {
             this.showList="";
             this.get_Companion().class.on_ChangeAncestry(this.characterService);
@@ -739,7 +769,8 @@ export class CharacterComponent implements OnInit {
             this.get_Companion().class.on_ChangeAncestry(this.characterService);
             this.animalCompanionsService.change_Type(this.get_Companion(), new AnimalCompanionAncestry());
         }
-        this.set_Changed();
+        this.characterService.set_ToChange("Companion", "all");
+        this.characterService.process_ToChange();
     }
 
     on_SpecializationChange(spec: AnimalCompanionSpecialization, taken: boolean, levelNumber: number) {
@@ -748,11 +779,14 @@ export class CharacterComponent implements OnInit {
                 this.showList="";
             }
             this.animalCompanionsService.add_Specialization(this.get_Companion(), spec, levelNumber);
-            this.set_Changed();
         } else {
             this.animalCompanionsService.remove_Specialization(this.get_Companion(), spec);
-            this.set_Changed();
         }
+        this.characterService.set_ToChange("Companion", "abilities");
+        this.characterService.set_ToChange("Companion", "skills");
+        this.characterService.set_ToChange("Companion", "attacks");
+        this.characterService.set_ToChange("Companion", "defense");
+        this.characterService.process_ToChange();
     }
 
     get_CompanionSpecializationsAvailable(levelNumber: number) {
@@ -796,7 +830,7 @@ export class CharacterComponent implements OnInit {
             character.class.familiar = new Familiar();
             character.class.familiar.originClass = originClass;
             this.characterService.initialize_Familiar();
-            this.set_Changed();
+            this.characterService.process_ToChange();
         }
     }
 
@@ -806,7 +840,9 @@ export class CharacterComponent implements OnInit {
         } else {
             this.get_Familiar().speeds[1].name = "Land Speed";
         }
-        this.set_Changed("Familiar");
+        this.characterService.set_ToChange("Familiar", "general");
+        this.characterService.set_ToChange("Familiar", "familiarabilities");
+        this.characterService.process_ToChange();
     }
 
     is_FamiliarSwimmer() {

@@ -98,6 +98,7 @@ export class Class {
             let level = this.levels[1];
             this.ancestry.languages.forEach(ancestryLanguage => {
                 this.languages = this.languages.filter(language => language != ancestryLanguage);
+                characterService.set_ToChange("Character", "general");
             });
             level.abilityChoices = level.abilityChoices.filter(availableBoost => availableBoost.source != "Ancestry")
             //Of each granted Item, find the item with the stored id and drop it.
@@ -131,8 +132,10 @@ export class Class {
             let character = characterService.get_Character();
             let level = this.levels[1];
             this.languages.push(...this.ancestry.languages);
+            characterService.set_ToChange("Character", "general");
             level.abilityChoices.push(...this.ancestry.abilityChoices);
             level.featChoices.push(...this.heritage.featChoices);
+            characterService.set_ToChange("Character", "charactersheet");
             //Grant all items and save their id in the ItemGain.
             this.ancestry.gainItems.forEach((freeItem: ItemGain) => {
                 let item: Equipment = itemsService.get_Items()[freeItem.type].filter((item: Equipment) => item.name == freeItem.name)[0];
@@ -157,12 +160,14 @@ export class Class {
         if (character.class.deity) {
             //In the future, remove cleric skills, spells etc.
         }
+        characterService.set_ToChange("Character", "general");
     }
     on_NewDeity(characterService: CharacterService, deitiesService: DeitiesService, deity: string) {
         let character = characterService.get_Character();
         if (character.class.deity) {
             //In the future, add cleric skills, spells etc.
         }
+        characterService.set_ToChange("Character", "general");
     }
     on_ChangeHeritage(characterService: CharacterService) {
         if (this.heritage.name) {
@@ -173,6 +178,8 @@ export class Class {
             })
             this.heritage.traits.forEach(traitListing => {
                 this.ancestry.traits = this.ancestry.traits.filter(trait => trait != traitListing)
+                characterService.set_ToChange("Character", "general");
+                characterService.set_ToChange("Character", "charactersheet");
             })
             //Of each granted Item, find the item with the stored id and drop it.
             this.heritage.gainItems.forEach((freeItem: ItemGain) => {
@@ -266,7 +273,7 @@ export class Class {
                 }
             }
             this.heritage.gainActivities.forEach((gainActivity: string) => {
-                character.gain_Activity(Object.assign(new ActivityGain(), {name:gainActivity, source:this.heritage.name}), 1);
+                character.gain_Activity(characterService, Object.assign(new ActivityGain(), {name:gainActivity, source:this.heritage.name}), 1);
             });
             //Gain Spell or Spell Option
             this.heritage.spellChoices.forEach(newSpellChoice => {
@@ -277,7 +284,7 @@ export class Class {
                     gain.frequency = insertSpellChoice.frequency;
                     gain.cooldown = insertSpellChoice.cooldown;
                 })
-                character.add_SpellChoice(level, insertSpellChoice);
+                character.add_SpellChoice(characterService, level, insertSpellChoice);
             });
             //Wellspring Gnome changes primal spells to another tradition.
             //We collect all Gnome feats that grant a primal spell and set that spell to the same tradition as the heritage:

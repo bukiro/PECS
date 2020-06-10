@@ -451,6 +451,7 @@ button:disabled {
     padding: 8px 16px;
     flex-grow: initial;
     flex-basis: 0;
+    white-space: nowrap;
 }
 
 #top-bar>button:last-child {

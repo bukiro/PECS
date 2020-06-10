@@ -504,13 +504,13 @@ export class ItemRunesComponent implements OnInit {
     }
 
     set_ToChange(rune: ArmorRune) {
-        if ((rune).showon) {
-            this.characterService.set_ToChange("Character", "tags");
+        if (rune.showon) {
+            this.characterService.set_TagsToChange("Character", rune.showon);
         }
-        if ((rune).effects?.length) {
+        if (rune.effects?.length) {
             this.characterService.set_ToChange("Character", "effects");
         }
-        if ((rune).activities?.length) {
+        if (rune.activities?.length) {
             this.characterService.set_ToChange("Character", "activities");
         }
     }

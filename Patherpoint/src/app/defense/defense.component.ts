@@ -123,8 +123,9 @@ export class DefenseComponent implements OnInit {
         this.characterService.process_ToChange();
     }
 
-    set_CharacterChanged() {
-        this.characterService.set_Changed();
+    set_DefenseChanged() {
+        this.characterService.set_ToChange(this.creature, "effects");
+        this.characterService.process_ToChange();
     }
 
     finish_Loading() {

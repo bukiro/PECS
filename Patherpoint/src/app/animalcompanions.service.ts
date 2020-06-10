@@ -177,11 +177,11 @@ export class AnimalCompanionsService {
     add_Specialization(companion: AnimalCompanion, spec: AnimalCompanionSpecialization, levelNumber: number) {
         let newLength = companion.class.specializations.push(Object.assign(new AnimalCompanionSpecialization(), JSON.parse(JSON.stringify(spec))));
         companion.class.specializations[newLength-1].level = levelNumber;
-        companion.class.specializations[newLength-1] = this.savegameService.reassign(companion.class.specializations[newLength-1])
+        companion.class.specializations[newLength-1] = this.savegameService.reassign(companion.class.specializations[newLength-1]);
     }
 
     remove_Specialization(companion: AnimalCompanion, spec: AnimalCompanionSpecialization) {
-        companion.class.specializations = companion.class.specializations.filter(specialization => specialization.name != spec.name)
+        companion.class.specializations = companion.class.specializations.filter(specialization => specialization.name != spec.name);
     }
 
     initialize() {
