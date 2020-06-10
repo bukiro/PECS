@@ -33,14 +33,14 @@ The very latest in Assistive Technologies for Dungeon Master (ATDM)
 - [x] -- Implement all Potions
 - [x] -- Implement all Alchemical Elixirs
 - [x] - Implement all Adventuring Gear
-- [x] - Implement all Weapon Runes
-- [ ] - Implement all Armor Runes
 - [x] - Implement one full Class with Feats and Features
 - [x] - Feat requirements
 - [x] - Equipment (weapons, armor, shields) -> Abilities, Armor, Attacks, Skills
+- [x] - Actions granted through equipment
 - [x] - More equipment (worn magic items etc.) and effects
 - [x] - Runes
-- [x] - Actions granted through equipment
+- [x] -- Implement all Weapon Runes
+- [x] -- Implement all Armor Runes
 - [x] - Exclusive bonuses: Proficiency, Circumstance, Item, Status, untyped
 - [x] - Classes and Levels
 - [x] - Conditions
@@ -57,19 +57,7 @@ The very latest in Assistive Technologies for Dungeon Master (ATDM)
 - [ ] Implement all Ancestry Feats
 - [x] Implement all Heritages
 - [x] Implement all Backgrounds
+- [ ] Add custom conditions with effects
 - [ ] Item Icons
 - [ ] Initiative tracker, battles, being a battle member, GM-Player-Communication.......
 - [ ] Stretch Goal: Include optional Stamina & Resolve system
-
-active to do:
-add custom conditions with effects
-
-Implement spells:
-
-Create feats:
-
-Create items:
-
-Create activities:
-
-Test:

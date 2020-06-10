@@ -134,6 +134,8 @@ export class Equipment extends Item {
                 let name: string = rune.name;
                 if (rune.name.includes("(Greater)")) {
                     name = "Greater " + rune.name.substr(0, rune.name.indexOf("(Greater)"));
+                } else if (rune.name.includes(", Greater)")) {
+                    name = "Greater " + rune.name.substr(0, rune.name.indexOf(", Greater)")) + ")";
                 }
                 properties += " " + name;
             })

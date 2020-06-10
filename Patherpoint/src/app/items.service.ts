@@ -371,6 +371,7 @@ export class ItemsService {
 
     tick_Items(creature: Character | AnimalCompanion, characterService: CharacterService, turns: number) {
         creature.inventories.forEach(inv => {
+            //Tick down and remove all items that expire.
             inv.allItems().filter(item => item.expiration > 0).forEach(item => {
                 item.expiration -= turns;
                 if (item.expiration <= 0) {

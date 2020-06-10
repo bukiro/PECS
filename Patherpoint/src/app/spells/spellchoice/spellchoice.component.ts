@@ -155,8 +155,8 @@ export class SpellchoiceComponent implements OnInit {
         }
         let character = this.get_Character()
         
-        let allSpells = this.spellsService.get_Spells();
-        if (this.spellCasting.castingType == "Prepared" && this.spellCasting.className == "Wizard" && !this.allowBorrow) {
+        let allSpells: Spell[];
+        if (this.spellCasting?.castingType == "Prepared" && this.spellCasting?.className == "Wizard" && !this.allowBorrow) {
             allSpells = this.spellsService.get_Spells().filter(spell =>
                 this.spellTakenByThis(spell, choice) ||
                 this.get_Character().class.spellBook.find((learned: SpellLearned) => learned.name == spell.name)
@@ -250,7 +250,7 @@ export class SpellchoiceComponent implements OnInit {
             reasons.push("The requirements are not met.")
         }
         //Has it already been taken at this level by this class, and was that not by this SpellChoice? (Only for spontaneous spellcasters.)
-        if (this.spellCasting.castingType == "Spontaneous" && !this.itemSpell && spell.have(this.characterService, this.spellCasting, spellLevel, choice.className) && !this.spellTakenByThis(spell, choice)) {
+        if (this.spellCasting?.castingType == "Spontaneous" && !this.itemSpell && spell.have(this.characterService, this.spellCasting, spellLevel, choice.className) && !this.spellTakenByThis(spell, choice)) {
             reasons.push("You already have this spell with this class.");
         }
         return reasons;

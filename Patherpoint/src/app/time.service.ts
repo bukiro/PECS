@@ -109,15 +109,15 @@ export class TimeService {
                 characterService.set_ToChange(creature.type, "effects")
             }
             this.activitiesService.tick_Activities(creature, characterService, timeService, itemsService, spellsService, turns)
-            if (turns >= 1000 && characterService.get_Health(creature).damage == 0) {
-                characterService.get_AppliedConditions(creature, "Wounded").forEach(gain => characterService.remove_Condition(creature, gain, false));
-            }
-            //Tick down and remove any oils whose effect is running out.
             if (creature.type != "Familiar") {
                 itemsService.tick_Items(creature, characterService, turns);
             }
             if (creature.type == "Character") {
                 this.spellsService.tick_Spells(creature, characterService, itemsService, this, turns);
+            }
+            //If you are at full health and rest for 10 minutes, you lose the wounded condition.
+            if (turns >= 1000 && characterService.get_Health(creature).damage == 0) {
+                characterService.get_AppliedConditions(creature, "Wounded").forEach(gain => characterService.remove_Condition(creature, gain, false));
             }
         })
         this.yourTurn = (this.yourTurn + turns) % 10;

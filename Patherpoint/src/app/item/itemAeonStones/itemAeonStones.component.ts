@@ -108,15 +108,29 @@ export class ItemAeonStonesComponent implements OnInit {
                 }
             }
         }
+        this.set_ToChange(stone);
         this.set_AeonStoneNames();
-        this.characterService.set_Changed();
+        this.characterService.process_ToChange();
     }
 
     remove_AeonStone(index: number) {
         let item: WornItem = this.item;
         let oldStone: WornItem = item.aeonStones[index];
+        this.set_ToChange(oldStone);
         //Add the extracted stone to the inventory, either on an existing stack or as a new item.
         this.characterService.grant_InventoryItem(this.get_Character(), this.get_Character().inventories[0], oldStone, false, false, false, 1);
+    }
+
+    set_ToChange(stone: WornItem) {
+        if (stone.showon) {
+            this.characterService.set_ToChange("Character", "tags");
+        }
+        if (stone.effects.length) {
+            this.characterService.set_ToChange("Character", "effects");
+        }
+        if (stone.activities.length) {
+            this.characterService.set_ToChange("Character", "activities");
+        }
     }
 
     set_AeonStoneNames() {

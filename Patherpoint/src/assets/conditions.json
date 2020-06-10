@@ -4230,5 +4230,19 @@
             "Dead",
             "Dying"
         ]
+    },
+    {
+        "name": "Glamered Rune",
+        "type": "activities",
+        "buff": true,
+        "desc": "Your armor appears as ordinary or fine clothes of your imagining. The armor’s statistics do not change. Only a creature that is benefiting from true seeing or a similar effect can attempt to disbelieve this illusion, with a DC of 25.",
+        "hint": "Your armor appears as ordinary or fine clothes of your imagining. The armor’s statistics do not change. Only a creature that is benefiting from true seeing or a similar effect can attempt to disbelieve this illusion, with a DC of 25.",
+        "showon": "Deception"
+    },
+    {
+        "name": "Sinister Knight Rune",
+        "type": "activities",
+        "buff": true,
+        "desc": "While the sinister knight armor’s disguise is active, any identifying insignia or aesthetic of the armor is replaced by generic malevolent aesthetics such as spikes or demonic faces. While in the disguise, the wearer is always considered to be taking precautions against lifesense, and even a creature that successfully notices the wearer with its lifesense mistakes the wearer for an undead unless it critically succeeds at its Perception check or the wearer critically fails a Deception or Stealth check. Finally, while in the disguise, the rune attempts to counteract any effects that would reveal your alignment; on a successful counteract check, rather than negate the effect, the rune causes the effect to perceive your alignment as evil (maintaining any lawful or chaotic component of your alignment).\n\nThe wearer can Dismiss the disguise, and if the wearer’s armor is removed, the disguise deactivates automatically."
     }
 ]

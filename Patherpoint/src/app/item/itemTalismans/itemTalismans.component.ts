@@ -1,11 +1,12 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { Item } from 'src/app/Item';
 import { Talisman } from 'src/app/Talisman';
 import { ItemCollection } from 'src/app/ItemCollection';
 import { CharacterService } from 'src/app/character.service';
 import { ItemsService } from 'src/app/items.service';
-import { TimeService } from 'src/app/time.service';
 import { Equipment } from 'src/app/Equipment';
+import { Weapon } from 'src/app/Weapon';
+import { Armor } from 'src/app/Armor';
+import { Shield } from 'src/app/Shield';
 
 @Component({
     selector: 'app-itemTalismans',
@@ -105,8 +106,15 @@ export class ItemTalismansComponent implements OnInit {
                 }
             }
         }
+        this.characterService.set_ToChange("Character", "inventory");
+        if (this.item.constructor == Weapon) {
+            this.characterService.set_ToChange("Character", "attacks");
+        }
+        if (this.item.constructor == Armor && this.item.constructor == Shield) {
+            this.characterService.set_ToChange("Character", "defense");
+        }
         this.set_TalismanNames();
-        this.characterService.set_Changed();
+        this.characterService.process_ToChange();
     }
 
     remove_Talisman(index: number) {

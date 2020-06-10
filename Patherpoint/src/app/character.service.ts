@@ -49,6 +49,9 @@ import { Oil } from './Oil';
 import { WornItem } from './WornItem';
 import { Savegame } from './Savegame';
 import { FeatTaken } from './FeatTaken';
+import { ArmorRune } from './ArmorRune';
+import { Ammunition } from './Ammunition';
+import { Shield } from './Shield';
 
 @Injectable({
     providedIn: 'root'
@@ -564,7 +567,7 @@ export class CharacterService {
             if (createdInventoryItem.amount && amount > 1) {
                 createdInventoryItem.amount = amount;
             }
-            if (equipAfter) {
+            if (equipAfter && Object.keys(createdInventoryItem).includes("equipped")) {
                 this.onEquip(creature, inventory, createdInventoryItem, true, false);
             }
             returnedInventoryItem = createdInventoryItem;
@@ -777,21 +780,50 @@ export class CharacterService {
     }
 
     onEquip(creature: Character|AnimalCompanion, inventory: ItemCollection, item: Equipment, equipped: boolean = true, changeAfter: boolean = true, equipBasicItems: boolean = true) {
+        //Only allow equipping or unequipping for items that the creature can wear.
         if ((creature.type == "Character" && !item.traits.includes("Companion")) || (creature.type == "Companion" && item.traits.includes("Companion")) || item.name == "Unarmored") {
             item.equipped = equipped;
             this.set_ToChange(creature.type, "inventory");
-            if (item.equipped) {
-                if (item.type == "weapons" || item.type == "ammunition") {
-                    this.set_ToChange(creature.type, "attacks");
+            //Prepare refresh list according to the item's properties.
+            if (item.showon ||
+                item.traits.map(trait => this.traitsService.get_Traits(trait)[0])?.filter(trait => trait?.showon).length) {
+                this.set_ToChange(creature.type, "tags");
+            }
+            if (item.effects?.length ||
+                item.constructor == Armor && (item as Armor).get_Strength()) {
+                this.set_ToChange(creature.type, "effects");
+            }
+            if (item.constructor == Weapon || item.constructor == Ammunition) {
+                this.set_ToChange(creature.type, "attacks");
+            }
+            if (item.constructor == Armor ||
+                item.constructor == Shield ||
+                (item.constructor == Weapon && (item as Weapon).parrying)) {
+                this.set_ToChange(creature.type, "defense");
+            }
+            if (item.activities?.length) {
+                this.set_ToChange(creature.type, "activities");
+            }
+            item.propertyRunes?.forEach((rune: Rune) => {
+                if (item.moddable == "armor" && (rune as ArmorRune).showon) {
+                    this.set_ToChange(creature.type, "tags");
                 }
+                if (item.moddable == "armor" && (rune as ArmorRune).effects?.length) {
+                    this.set_ToChange(creature.type, "effects");
+                }
+                if (rune.activities?.length) {
+                    this.set_ToChange(creature.type, "activities");
+                }
+            });
+            if (item.equipped) {
                 if (item.type == "armors" || item.type == "shields") {
                     let allOfType = inventory[item.type];
                     allOfType.forEach(typeItem => {
                         this.onEquip(creature, inventory, typeItem, false, false, false);
                     });
                     item.equipped = true;
-                    this.set_ToChange(creature.type, "defense");
                 }
+                
                 //If you get an Activity from an item that doesn't need to be invested, immediately invest it in secret so the Activity is gained
                 if (item.gainActivities && !item.traits.includes("Invested")) {
                     this.onInvest(creature, inventory, item, true, false);
@@ -838,6 +870,12 @@ export class CharacterService {
                         this.lose_GainedItem(creature, gainItem);
                     });
                 }
+                item["propertyRunes"]?.forEach(rune => {
+                    //Deactivate any active toggled activities of inserted runes.
+                    rune.activities.filter(activity => activity.toggle && activity.active).forEach(activity => {
+                    this.activitiesService.activate_Activity(this.get_Character(), "Character", this, this.timeService, this.itemsService, this.spellsService, activity, activity, false);
+                })
+        })
             }
             if (changeAfter) {
                 this.process_ToChange();
@@ -1163,7 +1201,7 @@ export class CharacterService {
         return returnedConditions;
     }
 
-    get_OwnedActivities(creature: Character|AnimalCompanion|Familiar, levelNumber: number = creature.level) {
+    get_OwnedActivities(creature: Character|AnimalCompanion|Familiar, levelNumber: number = creature.level, all: boolean = false) {
         let activities: (ActivityGain | ItemActivity)[] = []
         if (!this.still_loading()) {
             if (creature.type == "Character") {
@@ -1175,7 +1213,45 @@ export class CharacterService {
             this.get_AppliedConditions(creature).filter(gain => gain.apply).forEach(gain => {
                 activities.push(...this.get_Conditions(gain.name)[0]?.gainActivities)
             });
-            creature.inventories[0].allEquipment()
+            //With the all parameter, get all activities of all items regardless of whether they are equipped or invested or slotted.
+            // This is used for ticking down cooldowns.
+            if (all) {
+                creature.inventories.forEach(inv => {
+                    inv.allEquipment().forEach((item: Equipment) => {
+                        if (item.gainActivities.length) {
+                            activities.push(...item.gainActivities);
+                        }
+                        if (item.activities.length) {
+                            activities.push(...item.activities);
+                        }
+                        //Get activities from runes
+                        if (item.propertyRunes) {
+                            item.propertyRunes.filter(rune => rune.activities.length).forEach(rune => {
+                                activities.push(...rune.activities);
+                            });
+                        }
+                        //Get activities from Oils emulating runes
+                        if (item.oilsApplied) {
+                            item.oilsApplied.filter(oil => oil.runeEffect && oil.runeEffect.activities).forEach(oil => {
+                                activities.push(...oil.runeEffect.activities);
+                            });
+                        }
+                        //Get activities from slotted Aeon Stones
+                        if ((item as WornItem).aeonStones) {
+                            (item as WornItem).aeonStones.filter(stone => stone.activities.length).forEach(stone => {
+                                activities.push(...stone.activities);
+                            })
+                        }
+                    })
+                    inv.allRunes().forEach(rune => {
+                        if (rune.activities.length) {
+                            activities.push(...rune.activities);
+                        }
+                    })
+                })
+            } else {
+                //Without the all parameter, get activities only from equipped and invested items and their slotted items.
+                creature.inventories[0].allEquipment()
                 .filter(item => 
                     item.equipped &&
                     (item.can_Invest() ? item.invested : true)
@@ -1185,7 +1261,7 @@ export class CharacterService {
                     }
                     //DO NOT get resonant activities at this point
                     if (item.activities.length) {
-                        activities.push(...item.activities.filter(activity => !activity.resonant));
+                        activities.push(...item.activities.filter(activity => !activity.resonant || all));
                     }
                     //Get activities from runes
                     if (item.propertyRunes) {
@@ -1206,8 +1282,17 @@ export class CharacterService {
                         })
                     }
                 })
+            }
         }
-        return activities;
+        return activities.sort(function(a,b) {
+            if (a.name > b.name) {
+                return 1;
+            }
+            if (a.name < b.name) {
+                return -1;
+            }
+            return 0;
+        })
     }
 
     get_ActivitiesShowingOn(creature: Character|AnimalCompanion|Familiar, objectName: string) {
@@ -1227,7 +1312,7 @@ export class CharacterService {
 
     get_ItemsShowingOn(creature: Character|AnimalCompanion|Familiar, objectName: string) {
         let returnedItems: Item[] = [];
-        function get_Hint(item: Equipment|Oil|WornItem) {
+        function get_Hint(item: Equipment|Oil|WornItem|ArmorRune) {
             item.showon.split(",").forEach(showon => {
                 if (showon == objectName || showon.substr(1) == objectName || (objectName == "Lore" && showon.includes(objectName))) {
                     returnedItems.push(item);
@@ -1243,6 +1328,11 @@ export class CharacterService {
                 if ((item as WornItem).aeonStones) {
                     (item as WornItem).aeonStones.forEach(stone => {
                         get_Hint(stone);
+                    });
+                }
+                if (item.moddable == "armor" && (item as Equipment).propertyRunes) {
+                    (item as Equipment).propertyRunes.forEach(rune => {
+                        get_Hint(rune as ArmorRune);
                     });
                 }
             });

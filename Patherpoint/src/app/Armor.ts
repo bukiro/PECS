@@ -35,6 +35,23 @@ export class Armor extends Equipment {
     public speedpenalty: number = 0;
     //The strength requirement (strength, not STR) to overcome skill and speed penalties
     private strength: number = 0;
+    get_Bulk() {
+        //Return either the bulk set by an oil, or else the actual bulk of the item.
+        let oilBulk: string = "";
+        this.oilsApplied.forEach(oil => {
+            if (oil.bulkEffect) {
+                oilBulk = oil.bulkEffect;
+            }
+        });
+        //Fortification Runes raise the required strength
+        let fortification = this.propertyRunes.filter(rune => rune.name.includes("Fortification")).length ? 1 : 0;
+        if (parseInt(this.bulk)) {
+            return oilBulk || (parseInt(this.bulk) + fortification).toString();
+        } else {
+            return oilBulk || fortification ? fortification.toString() : this.bulk;
+        }
+        
+    }
     get_ArmoredSkirt(creature: Character|AnimalCompanion|Familiar, characterService: CharacterService) {
         if (["Breastplate","Chain Shirt","Chain Mail","Scale Mail"].includes(this.name) ) {
             let armoredSkirt = characterService.get_Inventories(creature).map(inventory => inventory.adventuringgear).filter(gear => gear.filter(item => item.isArmoredSkirt && item.equipped).length);
@@ -74,7 +91,9 @@ export class Armor extends Equipment {
         
     }
     get_Strength() {
-        return this.strength + this.$affectedByArmoredSkirt;
+        //Fortification Runes raise the required strength
+        let fortification = this.propertyRunes.filter(rune => rune.name.includes("Fortification")).length ? 2 : 0;
+        return this.strength + this.$affectedByArmoredSkirt + fortification;
     }
     get_Prof() {
         if (this.$affectedByArmoredSkirt == 1) {

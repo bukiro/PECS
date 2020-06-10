@@ -11,6 +11,8 @@ import { WornItem } from 'src/app/WornItem';
 import { Weapon } from 'src/app/Weapon';
 import { TimeService } from 'src/app/time.service';
 import { Armor } from 'src/app/Armor';
+import { ActivitiesService } from 'src/app/activities.service';
+import { SpellsService } from 'src/app/spells.service';
 
 @Component({
     selector: 'app-itemRunes',
@@ -30,7 +32,9 @@ export class ItemRunesComponent implements OnInit {
     constructor(
         public characterService: CharacterService,
         private itemsService: ItemsService,
-        private timeService: TimeService
+        private timeService: TimeService,
+        private activitiesService: ActivitiesService,
+        private spellsService: SpellsService
     ) { }
 
     trackByIndex(index: number, obj: any): any {
@@ -223,7 +227,15 @@ export class ItemRunesComponent implements OnInit {
                         )
                         : true
                 )
-            );
+            ).sort(function(a,b) {
+                if (a.rune.name > b.rune.name) {
+                    return 1;
+                }
+                if (a.rune.name < b.rune.name) {
+                    return -1;
+                }
+                return 0;
+            });
     }
 
     get_ArmorPropertyRunes(index: number, inv: ItemCollection) {
@@ -255,7 +267,7 @@ export class ItemRunesComponent implements OnInit {
                 !rune.rune.resilient &&
                 (
                     //Show runes that require a proficiency if the armor has that proficiency.
-                    rune.rune.profreq ?
+                    rune.rune.profreq.length ?
                         rune.rune.profreq.includes(armor.get_Prof())
                         : true
                 ) && (
@@ -264,8 +276,32 @@ export class ItemRunesComponent implements OnInit {
                     rune.rune.nonmetallic ?
                         !["Chain", "Composite", "Plate"].includes(armor.group) && !armor.desc.includes("metal")
                         : true
+                ) && (
+                    //Show Saggorak runes only if there are 2 rune slots available,
+                    //  or if one is available and this slot is taken (so you can replace the rune in this slot).
+                    rune.rune.traits.includes("Saggorak") ?
+                        (
+                            armor.freePropertyRunes > 1 ||
+                            (
+                                armor.propertyRunes[index] &&
+                                armor.freePropertyRunes == 1
+                            ) ||
+                            (
+                                armor.propertyRunes[index] &&
+                                $index == 1
+                            )
+                        )
+                        : true
                 )
-            );
+            ).sort(function(a,b) {
+                if (a.rune.name > b.rune.name) {
+                    return 1;
+                }
+                if (a.rune.name < b.rune.name) {
+                    return -1;
+                }
+                return 0;
+            });
     }
 
     on_WeaponRuneChange(runeType: string, previousRune: number) {
@@ -315,7 +351,10 @@ export class ItemRunesComponent implements OnInit {
                 }
                 break;
         }
-        this.characterService.set_Changed();
+        if (this.item.equipped) {
+            this.characterService.set_ToChange("Character", "attacks");
+        }
+        this.characterService.process_ToChange();
     }
 
     on_ArmorRuneChange(runeType: string, previousRune: number) {
@@ -365,7 +404,10 @@ export class ItemRunesComponent implements OnInit {
                 }
                 break;
         }
-        this.characterService.set_Changed();
+        if (this.item.equipped) {
+            this.characterService.set_ToChange("Character", "defense");
+        }
+        this.characterService.process_ToChange();
     }
 
     add_WeaponPropertyRune(index: number) {
@@ -398,13 +440,18 @@ export class ItemRunesComponent implements OnInit {
                 }
             }
         }
+        this.characterService.set_ToChange("Character", "inventory");
         this.set_PropertyRuneNames();
-        this.characterService.set_Changed();
+        this.characterService.process_ToChange();
     }
 
     remove_WeaponPropertyRune(index: number) {
         let weapon: Equipment = this.item;
         let oldRune: Rune = weapon.propertyRunes[index];
+        //Deactivate any active toggled activities of the removed rune.
+        oldRune.activities.filter(activity => activity.toggle && activity.active).forEach(activity => {
+            this.activitiesService.activate_Activity(this.get_Character(), "Character", this.characterService, this.timeService, this.itemsService, this.spellsService, activity, activity, false);
+        })
         this.characterService.grant_InventoryItem(this.get_Character(), this.get_Character().inventories[0], oldRune, false, false, false, 1);
         //Remove the Ancestral Echoing Lore if applicable.
         if (oldRune.loreChoices.length) {
@@ -420,7 +467,7 @@ export class ItemRunesComponent implements OnInit {
             //If there is a rune in this slot, return the old rune to the inventory, unless we are in the item store. Then remove it from the item.
             if (armor.propertyRunes[index]) {
                 if (!this.itemStore) {
-                    this.remove_WeaponPropertyRune(index);
+                    this.remove_ArmorPropertyRune(index);
                 }
                 armor.propertyRunes.splice(index, 1);
             }
@@ -435,17 +482,37 @@ export class ItemRunesComponent implements OnInit {
                 //If we are not in the item store, remove the inserted rune from the inventory, either by decreasing the amount or by dropping the item.
                 if (!this.itemStore) {
                     this.characterService.drop_InventoryItem(this.get_Character(), inv, rune, false, false, false, 1);
+
                 }
             }
         }
+        this.characterService.set_ToChange("Character", "inventory");
+        this.set_ToChange(rune as ArmorRune);
         this.set_PropertyRuneNames();
-        this.characterService.set_Changed();
+        this.characterService.process_ToChange();
     }
 
     remove_ArmorPropertyRune(index: number) {
         let armor: Equipment = this.item;
         let oldRune: Rune = armor.propertyRunes[index];
+        this.set_ToChange(oldRune as ArmorRune);
+        //Deactivate any active toggled activities of the removed rune.
+        oldRune.activities.filter(activity => activity.toggle && activity.active).forEach(activity => {
+            this.activitiesService.activate_Activity(this.get_Character(), "Character", this.characterService, this.timeService, this.itemsService, this.spellsService, activity, activity, false);
+        })
         this.characterService.grant_InventoryItem(this.get_Character(), this.get_Character().inventories[0], oldRune, false, false, false, 1);
+    }
+
+    set_ToChange(rune: ArmorRune) {
+        if ((rune).showon) {
+            this.characterService.set_ToChange("Character", "tags");
+        }
+        if ((rune).effects?.length) {
+            this.characterService.set_ToChange("Character", "effects");
+        }
+        if ((rune).activities?.length) {
+            this.characterService.set_ToChange("Character", "activities");
+        }
     }
 
     set_PropertyRuneNames() {

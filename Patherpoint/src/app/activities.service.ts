@@ -188,7 +188,7 @@ export class ActivitiesService {
     }
 
     tick_Activities(creature: Character|AnimalCompanion|Familiar, characterService: CharacterService, timeService: TimeService, itemsService: ItemsService, spellsService: SpellsService, turns: number = 10) {
-        characterService.get_OwnedActivities(creature).filter(gain => gain.activeCooldown || gain.duration).forEach(gain => {
+        characterService.get_OwnedActivities(creature, undefined, true).filter(gain => gain.activeCooldown || gain.duration).forEach(gain => {
             //If the spell is running out, take care of that first, and if it has run out, set the cooldown.
             //Afterwards, reduce the cooldown by the remaining turns.
             characterService.set_ToChange(creature.type, "activities");
@@ -211,6 +211,9 @@ export class ActivitiesService {
                 }
             }
             gain.activeCooldown = Math.max(gain.activeCooldown - individualTurns, 0)
+            if (gain.constructor = ItemActivity) {
+                characterService.set_ToChange(creature.type, "inventory");
+            }
         });
     }
 

@@ -240,9 +240,7 @@ export class InventoryComponent implements OnInit {
     can_DropAll(item: Item) {
         //You can use the "Drop All" button if this item grants other items on grant or equip.
         return item.gainItems && item.gainItems.filter(gain => gain.on != "use").length;
-    }
-
-    
+    }    
 
     drop_InventoryItem(item: Item, inventory: ItemCollection, pay: boolean = false) {
         this.showItem = 0;
@@ -260,6 +258,7 @@ export class InventoryComponent implements OnInit {
             }
         }
         this.characterService.drop_InventoryItem(this.get_Creature(), inventory, item, false, true, true, item.amount);
+        this.characterService.set_ToChange(this.creature, "inventory");
         this.characterService.process_ToChange();
     }
 

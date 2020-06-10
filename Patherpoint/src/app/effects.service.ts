@@ -229,8 +229,13 @@ export class EffectsService {
         //Create simple effects from equipped items, feats, conditions etc.
         //Character and Companion Items
         if (creature.type != "Familiar") {
-            characterService.get_Inventories(creature)[0].allEquipment().filter(item => item.invested && item.effects?.length).forEach(item => {
+            characterService.get_Inventories(creature)[0].allEquipment().filter(item => item.invested && item.effects?.length && item.type != "armorrunes").forEach(item => {
                 simpleEffects = simpleEffects.concat(this.get_SimpleEffects(creature, characterService, item));
+            });
+            characterService.get_Inventories(creature)[0].allEquipment().filter(item => item.equipped && item.propertyRunes?.length).forEach(item => {
+                item.propertyRunes.filter(rune => rune["effects"]?.length).forEach(rune => {
+                    simpleEffects = simpleEffects.concat(this.get_SimpleEffects(creature, characterService, rune));
+                })
             });
         }
         //Character Feats
@@ -371,11 +376,12 @@ export class EffectsService {
         let featEffects: Effect[] = [];
 
         //If you have the Unburdened Iron feat and are taking speed penalties, reduce the first of them by 5.
-        if (character?.get_FeatsTaken(0, character.level, "Unburdened Iron")) {
+        if (character?.get_FeatsTaken(0, character.level, "Unburdened Iron").length) {
             let done: boolean = false;
-            allEffects.filter(effect => ["Speed", "Land Speed"].includes(effect.target) && effect.penalty).forEach(effect => {
+            allEffects.filter(effect => ["Speed", "Land Speed"].includes(effect.target) && effect.penalty && !effect.toggle).forEach(effect => {
                 if (!done) {
                     effect.value = (parseInt(effect.value) + 5).toString();
+                    if (effect.value == "0" || effect.value == "") { effect.apply = false }
                     effect.source = effect.source + " (Lessened by Unburdened Iron)";
                     done = true;
                 }
@@ -481,12 +487,12 @@ export class EffectsService {
         let spellbook: string[] = ["Focus Points", "Focus Pool", "All Checks and DCs"];
 
         let changedEffects: Effect[] = [];
-        newEffects.forEach(newEffect => {
+        newEffects.filter(effect => effect.apply).forEach(newEffect => {
             if (!oldEffects.filter(oldEffect => JSON.stringify(oldEffect) == JSON.stringify(newEffect)).length) {
                 changedEffects.push(newEffect);
             }
         })
-        oldEffects.forEach(oldEffect => {
+        oldEffects.filter(effect => effect.apply).forEach(oldEffect => {
             if (!newEffects.filter(newEffect => JSON.stringify(newEffect) == JSON.stringify(oldEffect)).length) {
                 changedEffects.push(oldEffect);
             }

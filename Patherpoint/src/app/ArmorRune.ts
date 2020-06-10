@@ -1,4 +1,5 @@
 import { Rune } from './Rune';
+import { EffectGain } from './EffectGain';
 
 export class ArmorRune extends Rune {
     public readonly _className: string = this.constructor.name;
@@ -6,7 +7,9 @@ export class ArmorRune extends Rune {
     readonly type = "armorrunes";
     public resilient: number = 0;
     //Can only be applied to an armor with this proficiency
-    public profreq: ""|"Light Armor"|"Medium Armor"|"Heavy Armor"|"Unarmored Defense" = "";
+    public profreq: string[] = [];
     //Can only be applied to a nonmetallic armor
     public nonmetallic: boolean = false;
+    public showon: string = "";
+    public effects: EffectGain[] = [];
 }

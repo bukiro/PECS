@@ -99,12 +99,6 @@
                 "actions": "2A",
                 "activationType": "Cast a Spell",
                 "desc": "You activate spellstrike ammunition by Casting a Spell into the ammunition. The spell must be of a spell level the ammunition can hold, and the spell must be able to target a creature other than the caster.",
-                "castSpells": [
-                    {
-                        "_className": "SpellCast",
-                        "name": "Sleep"
-                    }
-                ],
                 "name": "Activate",
                 "displayOnly": true,
                 "traits": [
@@ -145,12 +139,6 @@
                 "actions": "2A",
                 "activationType": "Cast a Spell",
                 "desc": "You activate spellstrike ammunition by Casting a Spell into the ammunition. The spell must be of a spell level the ammunition can hold, and the spell must be able to target a creature other than the caster.",
-                "castSpells": [
-                    {
-                        "_className": "SpellCast",
-                        "name": "Sleep"
-                    }
-                ],
                 "name": "Activate",
                 "displayOnly": true,
                 "traits": [

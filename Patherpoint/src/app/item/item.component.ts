@@ -9,7 +9,6 @@ import { Character } from '../Character';
 import { AnimalCompanion } from '../AnimalCompanion';
 import { SpellsService } from '../spells.service';
 import { Talisman } from '../Talisman';
-import { Equipment } from '../Equipment';
 
 @Component({
     selector: 'app-item',
@@ -91,6 +90,16 @@ export class ItemComponent implements OnInit {
             }
         } else {
             return ""
+        }
+    }
+
+    get_BulkDifference(item: Item) {
+        if (!isNaN(+item.get_Bulk()) && !isNaN(+item.bulk)) {
+            return parseInt(item.get_Bulk()) - parseInt(item.bulk)
+        } else if (!isNaN(+item.get_Bulk()) && isNaN(+item.bulk)) {
+            return 1
+        } else if (isNaN(+item.get_Bulk()) && !isNaN(+item.bulk)) {
+            return -1
         }
     }
 
