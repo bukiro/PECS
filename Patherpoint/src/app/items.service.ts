@@ -35,6 +35,8 @@ import { Familiar } from './Familiar';
 import { SpellsService } from './spells.service';
 import { TimeService } from './time.service';
 import { SpellCast } from './SpellCast';
+import { AlchemicalBomb } from './AlchemicalBomb';
+import { AlchemicalTool } from './AlchemicalTool';
 
 @Injectable({
     providedIn: 'root'
@@ -78,7 +80,12 @@ export class ItemsService {
     private loader_Oils = [];
     private loading_Oils: Boolean = false;
     private loader_Talismans = [];
-    private loading_Talismans: Boolean = false;/*
+    private loading_Talismans: Boolean = false;
+    private loader_AlchemicalBombs = [];
+    private loading_AlchemicalBombs: Boolean = false;
+    private loader_AlchemicalTools = [];
+    private loading_AlchemicalTools: Boolean = false;
+    /*
     private loader_REPLACE1 = [];
     private loading_REPLACE1: Boolean = false;
     */
@@ -159,6 +166,10 @@ export class ItemsService {
                     return Object.assign(new HeldItem(), item);
                 case "alchemicalelixirs":
                     return Object.assign(new AlchemicalElixir(), item);
+                case "alchemicalbombs":
+                    return Object.assign(new AlchemicalBomb(), item);
+                case "alchemicaltools":
+                    return Object.assign(new AlchemicalTool(), item);
                 case "potions":
                     return Object.assign(new Potion(), item);
                 case "otherconsumables":
@@ -200,6 +211,10 @@ export class ItemsService {
                     return Object.assign(new HeldItem(), item);
                 case "AlchemicalElixir":
                     return Object.assign(new AlchemicalElixir(), item);
+                case "AlchemicalBomb":
+                    return Object.assign(new AlchemicalBomb(), item);
+                case "AlchemicalTool":
+                    return Object.assign(new AlchemicalTool(), item);
                 case "Potion":
                     return Object.assign(new Potion(), item);
                 case "OtherConsumable":
@@ -522,6 +537,18 @@ export class ItemsService {
                     this.loader_Talismans = results;
                     this.finish_Talismans()
                 });
+            this.loading_AlchemicalBombs = true;
+            this.load_AlchemicalBombs()
+                .subscribe((results: String[]) => {
+                    this.loader_AlchemicalBombs = results;
+                    this.finish_AlchemicalBombs()
+                });
+            this.loading_AlchemicalTools = true;
+            this.load_AlchemicalTools()
+                .subscribe((results: String[]) => {
+                    this.loader_AlchemicalTools = results;
+                    this.finish_AlchemicalTools()
+                });
             /*
             this.loading_REPLACE1 = true;
             this.load_REPLACE1()
@@ -756,6 +783,32 @@ export class ItemsService {
             this.loader_Talismans = [];
         }
         if (this.loading_Talismans) { this.loading_Talismans = false; }
+    }
+
+    load_AlchemicalBombs(): Observable<string[]> {
+        return this.http.get<string[]>('/assets/items/alchemicalbombs.json');
+    }
+
+    finish_AlchemicalBombs() {
+        if (this.loader_AlchemicalBombs) {
+            this.items.alchemicalbombs = this.loader_AlchemicalBombs.map(element => this.initialize_Item(Object.assign(new AlchemicalBomb(), element), true, false));
+            this.cleanItems.alchemicalbombs = this.loader_AlchemicalBombs.map(element => this.initialize_Item(Object.assign(new AlchemicalBomb(), element), true, false));
+            this.loader_AlchemicalBombs = [];
+        }
+        if (this.loading_AlchemicalBombs) { this.loading_AlchemicalBombs = false; }
+    }
+
+    load_AlchemicalTools(): Observable<string[]> {
+        return this.http.get<string[]>('/assets/items/alchemicaltools.json');
+    }
+
+    finish_AlchemicalTools() {
+        if (this.loader_AlchemicalTools) {
+            this.items.alchemicaltools = this.loader_AlchemicalTools.map(element => this.initialize_Item(Object.assign(new AlchemicalTool(), element), true, false));
+            this.cleanItems.alchemicaltools = this.loader_AlchemicalTools.map(element => this.initialize_Item(Object.assign(new AlchemicalTool(), element), true, false));
+            this.loader_AlchemicalTools = [];
+        }
+        if (this.loading_AlchemicalTools) { this.loading_AlchemicalTools = false; }
     }
 
     /*

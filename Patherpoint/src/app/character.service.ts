@@ -52,6 +52,9 @@ import { FeatTaken } from './FeatTaken';
 import { ArmorRune } from './ArmorRune';
 import { Ammunition } from './Ammunition';
 import { Shield } from './Shield';
+import { AlchemicalBomb } from './AlchemicalBomb';
+import { HeldItem } from './HeldItem';
+import { AdventuringGear } from './AdventuringGear';
 
 @Injectable({
     providedIn: 'root'
@@ -639,6 +642,9 @@ export class CharacterService {
                 }
             });
         }
+        if (returnedInventoryItem.constructor == AlchemicalBomb || returnedInventoryItem.constructor == Ammunition) {
+            this.set_ToChange(creature.type, "attacks");
+        }
         if (returnedInventoryItem["showon"]) {
             this.set_TagsToChange(creature.type, item["showon"]);
         }
@@ -650,6 +656,9 @@ export class CharacterService {
 
     drop_InventoryItem(creature: Character|AnimalCompanion, inventory: ItemCollection, item: Item, changeAfter: boolean = true, equipBasicItems: boolean = true, including: boolean = true, amount: number = 1) {
         this.set_ToChange(creature.type, "inventory");
+        if (item.constructor == AlchemicalBomb || item.constructor == Ammunition) {
+            this.set_ToChange(creature.type, "attacks");
+        }
         if (item["showon"]) {
             this.set_TagsToChange(creature.type, item["showon"]);
         }
@@ -802,7 +811,22 @@ export class CharacterService {
         this.change_Cash(1, sum);
     }
 
-    set_ItemViewChanges(creature: Character|AnimalCompanion, item: Equipment) {
+    set_ItemViewChanges(creature: Character|AnimalCompanion, item: Item) {
+        if (item.constructor == AlchemicalBomb || item.constructor == Ammunition) {
+            this.set_ToChange(creature.type, "attacks");
+        }
+        if (item["showon"]) {
+            this.set_TagsToChange(creature.type, item["showon"]);
+        }
+        if (item["effects"]?.length) {
+            this.set_ToChange(creature.type, "effects");
+        }
+        if (item.constructor.prototype instanceof Equipment) {
+            this.set_EquipmentViewChanges(this.get_Character(), item as Equipment);
+        }
+    }
+
+    set_EquipmentViewChanges(creature: Character|AnimalCompanion, item: Equipment) {
         //Prepare refresh list according to the item's properties.
         if (item.showon) {
             this.set_TagsToChange(creature.type, item.showon);
@@ -814,7 +838,7 @@ export class CharacterService {
             item.constructor == Armor && (item as Armor).get_Strength()) {
             this.set_ToChange(creature.type, "effects");
         }
-        if (item.constructor == Weapon || item.constructor == Ammunition) {
+        if (item.constructor == Weapon) {
             this.set_ToChange(creature.type, "attacks");
         }
         if (item.constructor == Armor ||
@@ -843,7 +867,7 @@ export class CharacterService {
         if ((creature.type == "Character" && !item.traits.includes("Companion")) || (creature.type == "Companion" && item.traits.includes("Companion")) || item.name == "Unarmored") {
             item.equipped = equipped;
             this.set_ToChange(creature.type, "inventory");
-            this.set_ItemViewChanges(creature, item);
+            this.set_EquipmentViewChanges(creature, item);
             if (item.equipped) {
                 if (item.type == "armors" || item.type == "shields") {
                     let allOfType = inventory[item.type];
@@ -947,13 +971,13 @@ export class CharacterService {
             if (!item.equipped) {
                 this.onEquip(creature, inventory, item, true, false);
             } else {
-                this.set_ItemViewChanges(creature, item);
+                this.set_EquipmentViewChanges(creature, item);
             }
         } else {
             item.gainActivities.forEach((gainActivity: ActivityGain) => {
                 this.activitiesService.activate_Activity(creature, "", this, this.timeService, this.itemsService, this.spellsService, gainActivity, this.activitiesService.get_Activities(gainActivity.name)[0], false);
             });
-            this.set_ItemViewChanges(creature, item);
+            this.set_EquipmentViewChanges(creature, item);
         }
         if (changeAfter) {
             this.process_ToChange();
@@ -963,6 +987,7 @@ export class CharacterService {
     on_ConsumableUse(creature: Character|AnimalCompanion, item: Consumable) {
         item.amount--
         this.itemsService.process_Consumable(creature, this, this.itemsService, this.timeService, this.spellsService, item);
+        this.set_ItemViewChanges(creature, item);
         this.set_ToChange(creature.type, "inventory");
     }
 
@@ -1507,7 +1532,6 @@ export class CharacterService {
             } else {
                 console.log("Created "+(this.get_Character().name || "character")+" on database.");
             }
-            this.set_Changed("charactersheet");
             this.savegameService.initialize(this);
         }, (error) => {
             console.log('Error saving to database: ' + error.message);

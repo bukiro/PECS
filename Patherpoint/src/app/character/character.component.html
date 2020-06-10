@@ -11,24 +11,23 @@
             Load Character
         </button>
         <div class="list-item sublist" *ngIf="get_showList()=='load'">
-            <div class="list-item">
-                <span>
-                    <input if="allowCharacterDelete" type="checkbox" [(ngModel)]="allowCharacterDelete">
-                    <label for="allowCharacterDelete">Allow deleting characters</label>
-                </span>
-            </div>
             <div class="list-item" *ngIf="get_Savegames() && !get_Savegames().length">
                 No characters available in database.
             </div>
             <div class="list-item" *ngIf="!get_Savegames()">
                 Database connection failed.
             </div>
-            <div class="list-item" *ngFor="let savegame of get_Savegames(); trackBy:trackByIndex;">
+            <div class="list-item" *ngFor="let savegame of get_Savegames(); let index = index; trackBy:trackByIndex;">
                 <span>
                     <strong>{{savegame.name}}</strong> Level {{savegame.level}}
                     {{savegame.heritage ? savegame.heritage : savegame.ancestry}} {{savegame.class}}
                 </span>
-                <span><button (click)="load_CharacterFromDB(savegame)">Load</button> <button (click)="delete_CharacterFromDB(savegame)" [disabled]="!allowCharacterDelete">Delete</button></span>
+                <span>
+                    <button (click)="load_CharacterFromDB(savegame)">Load</button>
+                    <button (click)="delete_CharacterFromDB(savegame, index)" [disabled]="!allowCharacterDelete[index]">Delete</button>
+                    <input id="allowCharacterDelete{{index}}" type="checkbox" [(ngModel)]="allowCharacterDelete[index]">
+                    <label for="allowCharacterDelete{{index}}">Delete</label>
+                </span>
             </div>
         </div>
     </div>
@@ -37,15 +36,22 @@
         <div class="list-item">
             <span>Color Accent</span>
             <span>
-                <input type="color" name="name" [(ngModel)]="get_Character().settings.accent"
-                    (blur)="set_Changed()" maxLength="7">
+                <input type="color" name="coloraccent" style="padding:0 2px" [(ngModel)]="get_Character().settings.accent"
+                    maxLength="7">
             </span>
         </div>
         <div class="list-item">
             <span>Name</span>
             <span>
-                <input type="text" name="name" [(ngModel)]="get_Character().name" (blur)="this.change_Name()"
-                    maxLength="30">
+                <input type="text" name="name" [(ngModel)]="get_Character().name" (blur)="on_NameChange()"
+                    maxLength="100">
+            </span>
+        </div>
+        <div class="list-item">
+            <span>Experience Points</span>
+            <span>
+                <input type="number4" name="experiencePoints" [(ngModel)]="get_Character().experiencePoints" (keypress)="numbersOnly($event)"
+                    maxLength="4" title="{{get_Character().experiencePoints >= 1000 && 'You are ready to level up!'}}" [ngClass]="{'bonus':get_Character().experiencePoints >= 1000}">
             </span>
         </div>
         <div class="list-item">
@@ -53,7 +59,7 @@
                 Alignment
             </span>
             <span>
-                <select [(ngModel)]="get_Character().alignment" (ngModelChange)="set_Changed('Character')">
+                <select [(ngModel)]="get_Character().alignment" (ngModelChange)="on_AlignmentChange()">
                     <option *ngFor="let alignment of get_Alignments(); trackBy:trackByIndex;" [ngValue]="alignment">
                         {{alignment}}
                     </option>
@@ -81,7 +87,7 @@
             <div class="list-item sublist fancy-list" *ngIf="get_showList()=='alternateBaseValues'">
                 <div class="list-item">
                     <span>
-                        <input id="useAlternateBaseValues" type="checkbox" (change)="onBaseValueChange()"
+                        <input id="useAlternateBaseValues" type="checkbox" (change)="on_BaseValueChange()"
                             [checked]="get_Character().baseValues.length">
                         <label for="useAlternateBaseValues">
                             <strong>Enter your own Ability values</strong>
@@ -91,7 +97,7 @@
                 <div class="list-item" *ngFor="let ability of get_Character().baseValues; trackBy:trackByIndex;">
                     {{ability.name}}
                     <input type="number" class="number2" [(ngModel)]="ability.baseValue"
-                        (blur)="set_Changed('Character')" maxlength="2" (keypress)="numbersOnly($event)">
+                        (blur)="on_BaseValueChange" maxlength="2" (keypress)="numbersOnly($event)">
                 </div>
             </div>
         </div>

@@ -430,8 +430,8 @@ export class InventoryComponent implements OnInit {
         this.characterService.onInvest(this.get_Creature(), inventory, item, invested);
     }
 
-    onNameChange() {
-        this.characterService.set_Changed(this.creature);
+    onNameChange(item: Item) {
+        this.characterService.set_ItemViewChanges(this.get_Creature(), item);
     }
 
     onAmountChange(item: Consumable, amount: number, pay: boolean = false) {
@@ -443,6 +443,8 @@ export class InventoryComponent implements OnInit {
                 this.change_Cash(1, Math.floor(this.get_Price(item) / 2));
             }
         }
+        this.characterService.set_ItemViewChanges(this.get_Creature(), item);
+        this.characterService.process_ToChange();
     }
 
     get_InventoryName(inventory: ItemCollection) {

@@ -220,7 +220,7 @@
                                 <!--Changing Name-->
                                 <div class="row" *ngIf="item.showName">
                                     Name <input type="textarea" class="fullwidth" [(ngModel)]="item.displayName"
-                                        (blur)="onNameChange()">
+                                        (blur)="onNameChange(item)">
                                 </div>
                                 <app-itemRunes class="list-item" [item]=item [itemStore]=false *ngIf="item.showRunes">
                                 </app-itemRunes>

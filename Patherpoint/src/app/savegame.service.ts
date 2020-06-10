@@ -59,6 +59,8 @@ import { AnimalCompanionsService } from './animalcompanions.service';
 import { ClassesService } from './classes.service';
 import { HistoryService } from './history.service';
 import { Talisman } from './Talisman';
+import { AlchemicalBomb } from './AlchemicalBomb';
+import { AlchemicalTool } from './AlchemicalTool';
 
 @Injectable({
     providedIn: 'root'
@@ -74,7 +76,9 @@ export class SavegameService {
     private AbilityChoice = AbilityChoice;
     private ActivityGain = ActivityGain;
     private AdventuringGear = AdventuringGear;
+    private AlchemicalBomb = AlchemicalBomb;
     private AlchemicalElixir = AlchemicalElixir;
+    private AlchemicalTool = AlchemicalTool;
     private Ammunition = Ammunition;
     private Ancestry = Ancestry;
     private AnimalCompanion = AnimalCompanion;

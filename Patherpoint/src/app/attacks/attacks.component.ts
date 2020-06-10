@@ -10,6 +10,8 @@ import { Ammunition } from '../Ammunition';
 import { SortByPipe } from '../sortBy.pipe';
 import { ItemCollection } from '../ItemCollection';
 import { Talisman } from '../Talisman';
+import { InventoryComponent } from '../inventory/inventory.component';
+import { AlchemicalBomb } from '../AlchemicalBomb';
 
 @Component({
     selector: 'app-attacks',
@@ -75,7 +77,27 @@ export class AttacksComponent implements OnInit {
 
     get_EquippedWeapons() {
         this.get_AttackRestrictions();
-        return this.sortByPipe.transform(this.get_Creature().inventories[0].weapons.filter(weapon => weapon.equipped && weapon.equippable), "asc", "name");
+        return this.get_Creature().inventories[0].weapons.filter(weapon => weapon.equipped && weapon.equippable)
+            .concat(...this.get_Creature().inventories.map(inv => inv.alchemicalbombs))
+            .sort(function(a,b) {
+                if (a.name > b.name) {
+                    return 1
+                }
+                if (a.name < b.name) {
+                    return -1
+                }
+                return 0;
+            })
+            .sort(function(a,b) {
+                //Sort by weapons first
+                if (a.type < b.type) {
+                    return 1
+                }
+                if (a.type > b.type) {
+                    return -1
+                }
+                return 0;
+            })
     }
 
     get_TalismanTitle(talisman: Talisman) {
@@ -111,13 +133,16 @@ export class AttacksComponent implements OnInit {
         return this.sortByPipe.transform(ammoList, "asc", "name") as Ammunition[];
     }
 
-    on_AmmoUse(ammo: Ammunition, inv: ItemCollection) {
-        if (!ammo.can_Stack()) {
-            this.characterService.drop_InventoryItem(this.get_Creature(), inv, ammo, true, false, false, 1);
+    on_ConsumableUse(item: Ammunition|AlchemicalBomb, inv: ItemCollection) {
+        if (item.can_Stack()) {
+            item.amount -= 1;
+            this.characterService.set_ToChange(this.creature, "inventory");
+            this.characterService.set_ToChange(this.creature, "attacks");
+            this.characterService.process_ToChange();
         } else {
-            ammo.amount -= 1;
-            this.characterService.set_Changed(this.creature);
+            this.characterService.drop_InventoryItem(this.get_Creature(), inv, item, true, false, false, 1);
         }
+        
     }
 
     get_Skills(name: string = "", type: string = "") {

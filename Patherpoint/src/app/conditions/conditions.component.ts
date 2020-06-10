@@ -126,6 +126,9 @@ export class ConditionsComponent implements OnInit {
             case "Alchemical Elixirs":
                 typeKey = "alchemicalelixirs";
                 break;
+            case "Alchemical Tools":
+                typeKey = "alchemicaltools";
+                break;
             case "Worn Items":
                 typeKey = "wornitems";
                 break;

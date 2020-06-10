@@ -27,11 +27,13 @@ The very latest in Assistive Technologies for Dungeon Master (ATDM)
 - [ ] - Implement a spellcasting class
 - [x] - Implement all General and Skill Feats
 - [ ] - Implement all Weapons
+- [x] -- Implement all Alchemical Bombs
 - [ ] - Implement all Armors
 - [ ] - Implement all Shields
 - [ ] - Implement all Consumables
 - [x] -- Implement all Potions
 - [x] -- Implement all Alchemical Elixirs
+- [x] -- Implement all Alchemical Tools
 - [x] - Implement all Adventuring Gear
 - [x] - Implement one full Class with Feats and Features
 - [x] - Feat requirements
@@ -61,3 +63,8 @@ The very latest in Assistive Technologies for Dungeon Master (ATDM)
 - [ ] Item Icons
 - [ ] Initiative tracker, battles, being a battle member, GM-Player-Communication.......
 - [ ] Stretch Goal: Include optional Stamina & Resolve system
+
+Next steps:
+- Add custom conditions with effects
+- Add button press effect
+- Add Materials

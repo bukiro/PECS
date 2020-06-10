@@ -47,7 +47,7 @@ export class CharacterComponent implements OnInit {
     public newClass: Class = new Class();
     private showItem: string = "";
     private showList: string = "";
-    public allowCharacterDelete: Boolean = false;
+    public allowCharacterDelete: Boolean[] = [];
     
     constructor(
         private changeDetector:ChangeDetectorRef,
@@ -136,17 +136,14 @@ export class CharacterComponent implements OnInit {
         });
     }
 
-    change_Name() {
-        this.set_Changed("Character");
-    }
-
     load_CharacterFromDB(savegame: Savegame) {
         this.toggleCharacterMenu();
         this.characterService.reset_Character(savegame.id);
     }
 
-    delete_CharacterFromDB(savegame: Savegame) {
+    delete_CharacterFromDB(savegame: Savegame, index: number) {
         this.characterService.delete_Character(savegame);
+        this.allowCharacterDelete[index] = false;
     }
 
     get_Alignments() {
@@ -179,7 +176,7 @@ export class CharacterComponent implements OnInit {
         return this.get_Character().class.levels[number];
     }
 
-    onBaseValueChange() {
+    on_BaseValueChange() {
         let baseValues = this.get_Character().baseValues;
         if (baseValues.length) {
             baseValues.length = 0;
@@ -212,6 +209,12 @@ export class CharacterComponent implements OnInit {
     on_NameChange() {
         this.characterService.set_ToChange("Character", "general");
         this.characterService.set_ToChange("Character", "top-bar");
+        this.characterService.process_ToChange();
+    }
+
+    on_AlignmentChange() {
+        this.characterService.set_ToChange("Character", "general");
+        this.characterService.set_ToChange("Character", "charactersheet");
         this.characterService.process_ToChange();
     }
 

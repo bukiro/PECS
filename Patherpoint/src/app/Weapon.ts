@@ -18,7 +18,7 @@ export class Weapon extends Equipment {
         "parrying"
     ])
     //Weapons should be type "weapons" to be found in the database
-    readonly type = "weapons";
+    public type = "weapons";
     //Weapons are usually moddable like a weapon. Weapons that cannot be modded should be set to "-"
     moddable = "weapon" as ""|"-"|"weapon"|"armor"|"shield";
     //What type of ammo is used? (Bolts, arrows...)

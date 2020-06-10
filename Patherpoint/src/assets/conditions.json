@@ -4244,5 +4244,65 @@
         "type": "activities",
         "buff": true,
         "desc": "While the sinister knight armor’s disguise is active, any identifying insignia or aesthetic of the armor is replaced by generic malevolent aesthetics such as spikes or demonic faces. While in the disguise, the wearer is always considered to be taking precautions against lifesense, and even a creature that successfully notices the wearer with its lifesense mistakes the wearer for an undead unless it critically succeeds at its Perception check or the wearer critically fails a Deception or Stealth check. Finally, while in the disguise, the rune attempts to counteract any effects that would reveal your alignment; on a successful counteract check, rather than negate the effect, the rune causes the effect to perceive your alignment as evil (maintaining any lawful or chaotic component of your alignment).\n\nThe wearer can Dismiss the disguise, and if the wearer’s armor is removed, the disguise deactivates automatically."
+    },
+    {
+        "name": "Snake Oil",
+        "type": "alchemicaltools",
+        "buff": true,
+        "desc": "You have snake oil applied onto a wound or other outward symptom of an affliction or condition (such as sores from a disease or discoloration from a poison). For the duration, the symptom disappears and you don't feel as if you still have the wound or affliction, though all effects remain. A creature can uncover the ruse by succeeding at a DC 17 Perception check, but only if it uses a Seek action to specifically examine the snake oil’s effects."
+    },
+    {
+        "name": "Smokestick (Lesser)",
+        "type": "alchemicaltools",
+        "buff": true,
+        "desc": "You have created a screen of thick, opaque smoke in a 5-foot burst centered on one corner of your space. All creatures within that area are concealed, and all other creatures are concealed to them. The smoke can be dispersed by a strong wind.",
+        "gainConditions": [
+            {
+                "name": "Concealed"
+            }
+        ]
+    },
+    {
+        "name": "Sunrod",
+        "type": "alchemicaltools",
+        "buff": true,
+        "desc": "The sunrod sheds bright light in a 20-foot radius (and dim light to the next 40 feet)."
+    },
+    {
+        "name": "Silversheen",
+        "type": "activities",
+        "buff": true,
+        "desc": "The melee weapon, thrown weapon, or 10 pieces of ammunition that you have slathered silversheen on count as silver instead of its normal precious material (such as cold iron) for any physical damage they deal.",
+        "hint": "One chosen melee weapon, thrown weapon, or 10 pieces of ammunition count as silver instead of its normal precious material (such as cold iron) for any physical damage they deal.",
+        "showon": "Attacks"
+    },
+    {
+        "name": "Smokestick (Greater)",
+        "type": "alchemicaltools",
+        "buff": true,
+        "desc": "You have created a screen of thick, opaque smoke in a 20-foot burst centered on one corner of your space. All creatures within that area are concealed, and all other creatures are concealed to them. The smoke can be dispersed by a strong wind.",
+        "gainConditions": [
+            {
+                "name": "Concealed"
+            }
+        ]
+    },
+    {
+        "name": "Purple Worm Repellent",
+        "type": "activities",
+        "buff": true,
+        "desc": "The repellent causes purple cave worms to avoid attacking you in melee as long as they have something else nearby to attack. The repellent does not deter a cave worm from making ranged attacks against you. If no creatures are within a cave worm's reach and it wants to approach and make a melee attack, it approaches and attacks a non-coated creature if it can without spending more actions to do so.\n\nIf you are swallowed by a purple cave worm, the cave worm must succeed at a Fortitude save or involuntarily regurgitate you on the next round (a single action)."
+    },
+    {
+        "name": "Azure Worm Repellent",
+        "type": "activities",
+        "buff": true,
+        "desc": "The repellent causes azure cave worms to avoid attacking you in melee as long as they have something else nearby to attack. The repellent does not deter a cave worm from making ranged attacks against you. If no creatures are within a cave worm's reach and it wants to approach and make a melee attack, it approaches and attacks a non-coated creature if it can without spending more actions to do so.\n\nIf you are swallowed by a azure cave worm, the cave worm must succeed at a Fortitude save or involuntarily regurgitate you on the next round (a single action)."
+    },
+    {
+        "name": "Crimson Worm Repellent",
+        "type": "activities",
+        "buff": true,
+        "desc": "The repellent causes crimson cave worms to avoid attacking you in melee as long as they have something else nearby to attack. The repellent does not deter a cave worm from making ranged attacks against you. If no creatures are within a cave worm's reach and it wants to approach and make a melee attack, it approaches and attacks a non-coated creature if it can without spending more actions to do so.\n\nIf you are swallowed by a crimson cave worm, the cave worm must succeed at a Fortitude save or involuntarily regurgitate you on the next round (a single action)."
     }
 ]

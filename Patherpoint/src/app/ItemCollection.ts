@@ -20,6 +20,8 @@ import { Scroll } from './Scroll';
 import { CharacterService } from './character.service';
 import { Oil } from './Oil';
 import { Talisman } from './Talisman';
+import { AlchemicalBomb } from './AlchemicalBomb';
+import { AlchemicalTool } from './AlchemicalTool';
 
 export class ItemCollection {
     public readonly _className: string = this.constructor.name;
@@ -45,13 +47,17 @@ export class ItemCollection {
     public scrolls: Scroll[] = [];
     public oils: Oil[] = [];
     public talismans: Talisman[] = [];
+    public alchemicalbombs: AlchemicalBomb[] = [];
+    public alchemicaltools: AlchemicalTool[] = [];
     public readonly names: {name: string, key: string}[] = [
         {name:"Weapons",key:"weapons"},
         {name:"Armors",key:"armors"},
         {name:"Shields",key:"shields"},
+        {name:"Alchemical Bombs",key:"alchemicalbombs"},
         {name:"Worn Items",key:"wornitems"},
         {name:"Held Items",key:"helditems"},
         {name:"Adventuring Gear",key:"adventuringgear"},
+        {name:"Alchemical Tools",key:"alchemicaltools"},
         {name:"Weapon Runes",key:"weaponrunes"},
         {name:"Armor Runes",key:"armorrunes"},
         {name:"Scrolls",key:"scrolls"},
@@ -74,22 +80,24 @@ export class ItemCollection {
     }
     allEquipment() {
         let items: Equipment[] = [];
-        items.push(...this.weapons);
-        items.push(...this.armors);
-        items.push(...this.shields);
-        items.push(...this.wornitems);
-        items.push(...this.helditems);
         items.push(...this.adventuringgear);
+        items.push(...this.alchemicalbombs);
+        items.push(...this.armors);
+        items.push(...this.helditems);
+        items.push(...this.shields);
+        items.push(...this.weapons);
+        items.push(...this.wornitems);
         return items;
     }
     allConsumables() {
         let items: Consumable[] = [];
         items.push(...this.alchemicalelixirs);
-        items.push(...this.potions);
-        items.push(...this.otherconsumables);
+        items.push(...this.alchemicaltools);
         items.push(...this.ammunition);
-        items.push(...this.scrolls);
         items.push(...this.oils);
+        items.push(...this.otherconsumables);
+        items.push(...this.potions);
+        items.push(...this.scrolls);
         items.push(...this.talismans);
         return items;
     }
@@ -101,8 +109,8 @@ export class ItemCollection {
     }
     allItems() {
         let items: Item[] = [];
-        items.push(...this.allEquipment());
         items.push(...this.allConsumables());
+        items.push(...this.allEquipment());
         items.push(...this.allRunes());
         return items;
     }

@@ -35,6 +35,7 @@ export class Character extends Creature {
     public customFeats: Feat[] = [];
     public customSkills: Skill[] = [];
     public heroPoints: number = 1;
+    public experiencePoints: number = 0;
     public settings: Settings = new Settings();
     get_Changed(characterService: CharacterService, ) {
         return characterService.get_Changed();
