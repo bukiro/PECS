@@ -335,9 +335,8 @@ export class CharacterComponent implements OnInit {
         }
 
     abilityBoostedByThis(ability: Ability, choice: AbilityChoice) {
-            let levelNumber = parseInt(choice.id.split("-")[0]);
-            return this.get_AbilityBoosts(levelNumber, levelNumber, ability.name, "Boost", choice.source, choice.id).length > 0;
-        }
+        return choice.boosts.filter(boost => boost.type == "Boost" && boost.name == ability.name).length
+    }
 
     get_AbilityBoosts(minLevelNumber: number, maxLevelNumber: number, abilityName: string = "", type: string = "", source: string = "", sourceId: string = "", locked: boolean = undefined) {
         return this.get_Character().get_AbilityBoosts(minLevelNumber, maxLevelNumber, abilityName, type, source, sourceId, locked);
@@ -418,6 +417,11 @@ export class CharacterComponent implements OnInit {
     //Returns a string of reasons why the skill cannot be increased, or "". Test the length of the return if you need a boolean.
         let maxRank: number = choice.maxRank;
         let reasons: string[] = [];
+        //The skill may have been increased by the same source, but as a fixed rule.
+        if (choice.increases.filter(increase => increase.name == skill.name && increase.locked).length) {
+            let locked = "Fixed increase.";
+            reasons.push(locked);
+        }
         //If this skill was raised by a feat on a higher level, it can't be raised on this level.
         //This prevents losing the feat bonus or raising the skill too high - feats never give +2, but always set the level
         //An exception is made for Additional Lore, which can be raised on Level 3, 7 and 15 no matter when you learned it
@@ -449,8 +453,11 @@ export class CharacterComponent implements OnInit {
     }
 
     skillIncreasedByThis(skill: Skill, choice: SkillChoice|LoreChoice) {
-        let levelNumber = parseInt(choice.id.split("-")[0]);
-        return this.get_SkillIncreases(levelNumber, levelNumber, skill.name, choice.source, choice.id).length > 0;
+        return choice.increases.filter(increase => increase.name == skill.name).length
+    }
+
+    skillLockedByThis(skill: Skill, choice: SkillChoice|LoreChoice) {
+        return choice.increases.filter(increase => increase.name == skill.name && increase.locked).length
     }
 
     get_SkillIncreases(minLevelNumber: number, maxLevelNumber: number, skillName: string, source: string = "", sourceId: string = "", locked: boolean = undefined) {

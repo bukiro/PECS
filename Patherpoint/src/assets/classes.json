@@ -12113,8 +12113,8 @@
                             "Scoundrel Racket",
                             "Thief Racket"
                         ],
-                        "id": "1-Racket-Ranger-1",
-                        "source": "Ranger",
+                        "id": "1-Racket-Rogue-1",
+                        "source": "Rogue",
                         "specialChoice": true,
                         "type": "Racket"
                     },

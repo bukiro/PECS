@@ -3,6 +3,7 @@ import { trigger, state, style, transition, animate } from '@angular/animations'
 import { CharacterService } from '../character.service';
 import { Subscription } from 'rxjs';
 import { DomSanitizer } from '@angular/platform-browser';
+import { SavegameService } from '../savegame.service';
 
 @Component({
     selector: 'app-top-bar',
@@ -44,8 +45,13 @@ export class TopBarComponent implements OnInit {
     constructor(
         private changeDetector: ChangeDetectorRef,
         private characterService: CharacterService,
+        private savegameService: SavegameService,
         private sanitizer: DomSanitizer
     ) { }
+
+    get_Savegames() {
+        return this.savegameService.get_Savegames();
+    }
 
     get_CharacterMinimized() {
         return this.characterService.get_Character().settings.characterMinimized;

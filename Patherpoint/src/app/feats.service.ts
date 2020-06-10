@@ -137,17 +137,42 @@ export class FeatsService {
             if (feat.gainSkillChoice.length) {
                 if (taken) {
                     feat.gainSkillChoice.forEach(newSkillChoice => {
+                        let insertSkillChoice: SkillChoice = Object.assign(new SkillChoice(), JSON.parse(JSON.stringify(newSkillChoice)));
                         let newChoice: SkillChoice;
-                        if (newSkillChoice.insertClass ? character.class.name == newSkillChoice.insertClass : true) {
-                            //Check if the feat choice gets applied on a certain level and do that, or apply it on the current level.
-                            if (newSkillChoice.insertLevel && character.class.levels[newSkillChoice.insertLevel]) {
-                                newChoice = character.add_SkillChoice(character.class.levels[newSkillChoice.insertLevel], newSkillChoice)
+                        //Check if the skill choice has a class requirement, and if so, only apply it if you have that class.
+                        
+                        if (insertSkillChoice.insertClass ? character.class.name == insertSkillChoice.insertClass : true) {
+                            //For new training skill increases - that is, locked increases with maxRank 2 and type "Skill"
+                            //  - we need to check if you are already trained in it. If so, unlock this skill choice and set one
+                            //  available so that you can pick another skill.
+                            //  We can keep it if this is the first level and the other increase is not locked - the other increase will be freed up automatically.
+                            if (insertSkillChoice.type == "Skill") {
+                                insertSkillChoice.increases.filter(increase => increase.locked && increase.maxRank == 2).forEach(increase => {
+                                    let existingIncreases = character.get_SkillIncreases(characterService, 1, level.number, increase.name);
+                                    if (existingIncreases.filter(existingIncrease => existingIncrease.maxRank == 2).length &&
+                                        (
+                                            level.number > 1 || 
+                                            !existingIncreases.filter(existingIncrease => existingIncrease.maxRank == 2 && !existingIncrease.locked).length)
+                                        ) {
+                                        increase.name = "DELETE";
+                                        insertSkillChoice.available += 1;
+                                    }
+                                })
+                                insertSkillChoice.increases = insertSkillChoice.increases.filter(increase => increase.name != "DELETE");
+                                //Add the still locked increases to the available value so they don't take away from it.
+                                if (insertSkillChoice.available) {
+                                    insertSkillChoice.available += insertSkillChoice.increases.length;
+                                }
+                            }
+                            //Check if the skill choice gets applied on a certain level and do that, or apply it on the current level.
+                            if (insertSkillChoice.insertLevel && character.class.levels[insertSkillChoice.insertLevel]) {
+                                newChoice = character.add_SkillChoice(character.class.levels[insertSkillChoice.insertLevel], insertSkillChoice)
                             } else {
-                                newChoice = character.add_SkillChoice(level, newSkillChoice);
+                                newChoice = character.add_SkillChoice(level, insertSkillChoice);
                             }
                             //Apply any included Skill increases
                             newChoice.increases.length = 0;
-                            newSkillChoice.increases.forEach(increase => {
+                            insertSkillChoice.increases.forEach(increase => {
                                 character.increase_Skill(characterService, increase.name, true, newChoice, true);
                             })
                         }

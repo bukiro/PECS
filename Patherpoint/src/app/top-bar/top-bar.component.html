@@ -11,7 +11,7 @@
   <button class="fancy-button" (click)="toggleMenu('spells')" *ngIf="!still_loading()">Spells</button>
   <button class="fancy-button" (click)="toggleMenu('spelllibrary')" *ngIf="!still_loading()">Spell Library</button>
   <button class="fancy-button" (click)="toggleMenu('conditions')" *ngIf="!still_loading()">Conditions</button>
-  <button class="fancy-button" (click)="save()" *ngIf="!still_loading()">Save</button>
+  <button class="fancy-button" (click)="save()" *ngIf="!still_loading()" title="{{!get_Savegames() && 'Database connection failed.'}}" [disabled]="!get_Savegames()">Save</button>
 </div>
 <app-items [ngStyle]="{'--accent':get_Accent()}" [@slideInOut]="get_ItemsMenuState()" *ngIf="!still_loading()"></app-items>
 <app-spells [ngStyle]="{'--accent':get_Accent()}" [ngClass]="{'minimized':(get_SpellsMinimized())}" [@slideInOut]="get_SpellMenuState()" *ngIf="!still_loading()"></app-spells>

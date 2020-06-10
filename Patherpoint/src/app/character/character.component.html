@@ -549,7 +549,7 @@
                                             <input id="{{itemID}}" type="checkbox"
                                                 (change)="on_SkillIncrease(skill.name, $event.target.checked, choice, false)"
                                                 [checked]="skillIncreasedByThis(skill, choice)"
-                                                [disabled]="cannotIncrease(skill, level, choice).length && !skillIncreasedByThis(skill, choice)">
+                                                [disabled]="skillLockedByThis(skill, choice) || (cannotIncrease(skill, level, choice).length && !skillIncreasedByThis(skill, choice))">
                                             <label for="{{itemID}}">
                                                 <strong>{{skill.name}}{{skill.ability ? " (" + skill.ability.substr(0,3) + ")" : ""}}:</strong>
                                                 <app-proficiency-form [creature]="'Character'" [skill]="skill"
