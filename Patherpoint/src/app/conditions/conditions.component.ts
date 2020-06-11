@@ -126,6 +126,9 @@ export class ConditionsComponent implements OnInit {
             case "Alchemical Elixirs":
                 typeKey = "alchemicalelixirs";
                 break;
+            case "Afflictions":
+                typeKey = "afflictions";
+                break;
             case "Alchemical Tools":
                 typeKey = "alchemicaltools";
                 break;
@@ -200,14 +203,13 @@ export class ConditionsComponent implements OnInit {
         }
     }
 
-    add_Condition(creature: Character|AnimalCompanion|Familiar, condition: Condition) {
+    add_Condition(creature: Character|AnimalCompanion|Familiar, condition: Condition, duration: number = this.duration) {
         let newGain = new ConditionGain();
         newGain.name = condition.name;
-        newGain.decreasingValue = condition.decreasingValue;
-        if (this.duration == -1) {
-            newGain.duration = this.duration;
+        if (duration == -1) {
+            newGain.duration = duration;
         } else {
-            newGain.duration = this.duration + ((this.endOn + this.timeService.get_YourTurn()) % 10);
+            newGain.duration = duration + ((this.endOn + this.timeService.get_YourTurn()) % 10);
         }
         if (condition.hasValue) {
             newGain.value = this.value;

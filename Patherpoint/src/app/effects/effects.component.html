@@ -11,8 +11,11 @@
                     </strong>
                 </span>
             </div>
-            <div class="row fullsize-only">
-                <span>{{get_Duration(conditionGain.duration)}}</span>
+            <div class="row left-aligned fullsize-only">
+                <span>{{get_Duration(conditionGain.duration)}}</span><span *ngIf="conditionGain.persistent" title="This condition will remain if its source is removed.">, persistent</span>
+            </div>
+            <div class="row fullsize-only" *ngIf="conditionGain.nextStage">
+                <span>Affliction onset: {{get_Duration(conditionGain.nextStage)}}</span>
             </div>
             <div class="row fullsize-only" *ngIf="conditionGain.duration != -1">
                 <span><button (click)="change_ConditionDuration(conditionGain, -10)" [disabled]="conditionGain.duration <= 10">- 1 turn</button></span>
@@ -23,6 +26,14 @@
             <div class="row fullsize-only" *ngIf="conditionGain.value">
                 <span><button (click)="change_ConditionValue(conditionGain, -1)">Value - 1</button></span>
                 <span><button (click)="change_ConditionValue(conditionGain, 1)">Value + 1</button></span>
+            </div>
+            <div class="row " *ngIf="conditionGain.nextStage == 0 && (condition.previousCondition || condition.nextCondition)">
+                <strong>Affliction onset reached</strong> Make a saving throw to determine the next stage of the affliction.
+            </div>
+            <div class="row fullsize-only" *ngIf="condition.previousCondition || condition.nextCondition">
+                <span *ngIf="!condition.previousCondition"><button (click)="remove_Condition(conditionGain)">Recover</button></span>
+                <span *ngIf="condition.previousCondition"><button (click)="change_ConditionStage(conditionGain, condition, -1)">Previous stage</button></span>
+                <span><button (click)="change_ConditionStage(conditionGain, condition, 1)" [disabled]="!condition.nextCondition">Next stage</button></span>
             </div>
             <div class="row fullsize-only">
                 <div class="list-item lower row problem" *ngIf="condition.inputRequired">
@@ -81,8 +92,8 @@
                     </strong>
                 </span>
             </div>
-            <div class="row fullsize-only">
-                <span>{{get_Duration(conditionGain.duration)}}</span>
+            <div class="row left-aligned fullsize-only">
+                <span>{{get_Duration(conditionGain.duration)}}</span><span *ngIf="conditionGain.persistent" title="This condition will remain if its source is removed.">, persistent</span>
             </div>
             <ng-container *ngFor="let condition of [get_Conditions(conditionGain.name)[0]]; trackBy:trackByIndex;">
                 <div class="row">

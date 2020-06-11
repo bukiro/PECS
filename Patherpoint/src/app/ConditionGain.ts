@@ -8,6 +8,9 @@ export class ConditionGain {
     public decreasingValue: boolean = false;
     //duration in turns * 10 or -1 for permanent
     public duration: number = -1;
+    //nextStage in turns * 10
+    public nextStage: number = -1;
+    public onset: boolean = false;
     public name: string = "";
     public source: string = "";
     public persistentDamage: string = "";
@@ -20,4 +23,6 @@ export class ConditionGain {
     public customCondition: Condition = null;
     //A condition's gainActivities gets copied here to track.
     public gainActivities: ActivityGain[] = [];
+    //If the gain is persistent, it does not get removed when its source is deactivated.
+    public persistent: boolean = false;
 }

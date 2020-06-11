@@ -62,6 +62,10 @@ export class ActivitiesService {
             });
         });
         
+        if (activity.showon) {
+            characterService.set_TagsToChange(creature.type, activity.showon);
+        }
+
         if (activated && activity.toggle) {
             gain.active = true;
             if (activity.sustained) {

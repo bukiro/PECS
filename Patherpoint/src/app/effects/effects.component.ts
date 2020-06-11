@@ -5,6 +5,8 @@ import { ConditionGain } from '../ConditionGain';
 import { TimeService } from '../time.service';
 import { AnimalCompanion } from '../AnimalCompanion';
 import { Character } from '../Character';
+import { Condition } from '../Condition';
+import { typeWithParameters } from '@angular/compiler/src/render3/util';
 
 @Component({
     selector: 'app-effects',
@@ -99,10 +101,14 @@ export class EffectsComponent implements OnInit {
         gain.duration += turns;
     }
 
-    change_ConditionValue(gain: ConditionGain, turns: number) {
-        gain.value += turns;
+    change_ConditionValue(gain: ConditionGain, change: number) {
+        gain.value += change;
         this.characterService.set_ToChange(this.creature, "effects");
         this.characterService.process_ToChange();
+    }
+
+    change_ConditionStage(gain: ConditionGain, condition: Condition, change: number) {
+        this.characterService.change_ConditionStage(this.get_Creature(), gain, condition, change);
     }
 
     get_Duration(duration: number) {

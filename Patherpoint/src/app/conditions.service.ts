@@ -119,6 +119,8 @@ export class ConditionsService {
 
         //Copy the condition's ActivityGains to the ConditionGain so we can track its duration, cooldown etc.
         gain.gainActivities = condition.gainActivities.map(activityGain => Object.assign(new ActivityGain(), JSON.parse(JSON.stringify(activityGain))));
+
+        gain.onset = condition.onset;
         
         //One time effects
         if (condition.onceEffects.length) {
@@ -173,33 +175,56 @@ export class ConditionsService {
         let activeConditions = creature.conditions;
         while (turns > 0) {
             let activeConditions = creature.conditions;
-            activeConditions = this.sortByPipe.transform(activeConditions, "asc", "duration");
-            if (activeConditions.filter(gain => gain.duration > 0).length || activeConditions.filter(gain => gain.decreasingValue).length) {
+            activeConditions = activeConditions.sort(function(a,b) {
+                let compareA: number[] = [];
+                if (a.nextStage > 0) {compareA.push(a.nextStage);}
+                if (a.duration > 0) {compareA.push(a.duration);}
+                let compareB: number[] = [];
+                if (b.nextStage > 0) {compareB.push(b.nextStage);}
+                if (b.duration > 0) {compareB.push(b.duration);}
+                if (!compareA.length) {
+                    return 1
+                } else if (!compareA.length) {
+                    return -1
+                } else {
+                    return Math.min(...compareA) - Math.min(...compareB)
+                }
+            });
+            if (activeConditions.filter(gain => (gain.duration > 0 && !gain.onset) || gain.nextStage > 0).length || activeConditions.filter(gain => gain.decreasingValue).length) {
                 //Get the first condition that will run out
                 let first: number;
-                if (activeConditions.filter(gain => gain.duration > 0).length) {
-                    first = activeConditions.filter(gain => gain.duration > 0)[0].duration;
-                }
                 //If any condition has a decreasing Value per round, step 5 (to the end of the Turn) if it is your Turn or 10 (1 turn) at most
+                //Otherwise find the next step from either the duration or the nextStage of the first gain of the sorted list.
                 if (activeConditions.filter(gain => gain.decreasingValue).length) {
                     if (yourTurn == 5) {
                         first = 5;
                     } else {
                         first = 10;
                     }
+                } else {
+                    if (activeConditions.filter(gain => (gain.duration > 0 && !gain.onset) || gain.nextStage > 0).length) {
+                        let firstObject: ConditionGain = activeConditions.filter(gain => gain.duration > 0 || gain.nextStage > 0)[0]
+                        let durations: number[] = [];
+                        if (firstObject.duration > 0 && !firstObject.onset) {durations.push(firstObject.duration);}
+                        if (firstObject.nextStage > 0) {durations.push(firstObject.nextStage);}
+                        first = Math.min(...durations);
+                    }
                 }
                 //Either to the next condition to run out or decrease their value or step the given turns, whichever comes first
-                let difference = Math.min(first, turns);
-                activeConditions.filter(gain => gain.duration > 0).forEach(gain => {
-                    gain.duration -= difference;
+                let step = Math.min(first, turns);
+                activeConditions.filter(gain => gain.duration > 0 && !gain.onset).forEach(gain => {
+                    gain.duration -= step;
+                });
+                activeConditions.filter(gain => gain.nextStage > 0).forEach(gain => {
+                    gain.nextStage -= step;
                 });
                 //If any conditions have their value decreasing, do this now.
-                if ((yourTurn == 5 && difference == 5) || (yourTurn == 0 && difference == 10)) {
+                if ((yourTurn == 5 && step == 5) || (yourTurn == 0 && step == 10)) {
                     activeConditions.filter(gain => gain.decreasingValue).forEach(gain => {
                         gain.value--;
                     });
                 }
-                turns -= difference;
+                turns -= step;
             } else {
                 turns = 0;
             }

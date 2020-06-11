@@ -117,9 +117,9 @@ export class CharacterService {
         this.toChange.push({creature:creature, target:target, subtarget:subtarget});
     }
 
-    set_TagsToChange(creature: string, target: string) {
-        target.split(",").forEach(subtarget => {
-            this.set_ToChange(creature, "tags", subtarget)
+    set_TagsToChange(creature: string, showonString: string) {
+        showonString.split(",").forEach(subtarget => {
+            this.set_ToChange(creature, "tags", subtarget.trim())
         })
     }
 
@@ -1060,6 +1060,12 @@ export class CharacterService {
 
     add_Condition(creature: Character|AnimalCompanion|Familiar, conditionGain: ConditionGain, reload: boolean = true) {
         let originalCondition = this.get_Conditions(conditionGain.name)[0];
+        conditionGain.nextStage = originalCondition.nextStage;
+        conditionGain.decreasingValue = originalCondition.decreasingValue;
+        //The gain may be persistent by itself, so don't overwrite it, but definitely set it if the condition is.
+        if (originalCondition.persistent) {
+            conditionGain.persistent = true;
+        }
         let newLength: number = 0;
         if (conditionGain.addValue) {
             let existingConditions = creature.conditions.filter(gain => gain.name == conditionGain.name);
@@ -1091,16 +1097,16 @@ export class CharacterService {
         }
     }
 
-    remove_Condition(creature: Character|AnimalCompanion|Familiar, conditionGain: ConditionGain, reload: boolean = true, increaseWounded: boolean = true) {
-        let oldConditionGain = creature.conditions.filter($condition => $condition.name == conditionGain.name && $condition.value == conditionGain.value && $condition.source == conditionGain.source);
+    remove_Condition(creature: Character|AnimalCompanion|Familiar, conditionGain: ConditionGain, reload: boolean = true, increaseWounded: boolean = true, keepPersistent: boolean = false) {
+        let oldConditionGain: ConditionGain = creature.conditions.find($condition => $condition.name == conditionGain.name && $condition.value == conditionGain.value && $condition.source == conditionGain.source);
         let originalCondition = this.get_Conditions(conditionGain.name)[0];
-        if (oldConditionGain.length) {
+        if (oldConditionGain && !(keepPersistent && oldConditionGain.persistent)) {
             originalCondition.gainConditions.forEach(extraCondition => {
                 let addCondition = Object.assign(new ConditionGain, JSON.parse(JSON.stringify(extraCondition)));
-                addCondition.source = oldConditionGain[0].name;
-                this.remove_Condition(creature, addCondition, false, increaseWounded)
+                addCondition.source = oldConditionGain.name;
+                this.remove_Condition(creature, addCondition, false, increaseWounded, true)
             })
-            creature.conditions.splice(creature.conditions.indexOf(oldConditionGain[0]), 1)
+            creature.conditions.splice(creature.conditions.indexOf(oldConditionGain), 1)
             this.conditionsService.process_Condition(creature, this, this.effectsService, conditionGain, this.conditionsService.get_Conditions(conditionGain.name)[0], false, increaseWounded);
             this.set_ToChange(creature.type, "effects");
             if (reload) {
@@ -1108,6 +1114,20 @@ export class CharacterService {
             }
         }
         
+    }
+
+    change_ConditionStage(creature: Character|AnimalCompanion|Familiar, gain: ConditionGain, condition: Condition, change: number) {
+        let newGain: ConditionGain = new ConditionGain();
+        newGain.duration = gain.duration;
+        newGain.nextStage = condition.nextStage;
+        newGain.source = gain.source;
+        if (change > 0) {
+            newGain.name = condition.nextCondition;
+        } else if (change < 0) {
+            newGain.name = condition.previousCondition;
+        }
+        this.remove_Condition(creature, gain);
+        this.add_Condition(creature, newGain, true);
     }
 
     process_OnceEffect(creature: Character|AnimalCompanion|Familiar, effectGain: EffectGain, conditionValue: number = 0, conditionHeightened: number = 0) {
