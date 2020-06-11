@@ -29,4 +29,5 @@ export class Condition {
     public fixedDuration: number = 0;
     public persistent: boolean = false;
     public restricted: boolean = false;
+    public traits: string[] = [];
 }

@@ -54,6 +54,7 @@ export class TimeService {
         let charLevel: number = characterService.get_Character().level;
         this.tick(characterService, timeService, itemsService, spellsService, 48000, false);
         characterService.get_Creatures().forEach(creature => {
+            characterService.set_ToChange(creature.type, "health");
             let con = 1;
             if (creature.type != "Familiar") {
                 con = Math.max(characterService.abilitiesService.get_Abilities("Constitution")[0].mod(creature, characterService, characterService.effectsService).result, 1);
@@ -105,6 +106,10 @@ export class TimeService {
     tick(characterService: CharacterService, timeService: TimeService, itemsService: ItemsService, spellsService: SpellsService, turns: number = 10, reload: boolean = true) {
         characterService.get_Creatures().forEach(creature => {
             if (creature.conditions.length) {
+                if (creature.conditions.filter(gain => gain.nextStage > 0)) {
+                    characterService.set_ToChange(creature.type, "time");
+                    characterService.set_ToChange(creature.type, "health");
+                }
                 this.conditionsService.tick_Conditions(creature, turns, this.yourTurn);
                 characterService.set_ToChange(creature.type, "effects")
             }

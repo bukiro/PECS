@@ -4332,6 +4332,7 @@
         "desc": "This toxin is a compound of arsenic and other substances. You can’t reduce your sickened condition while affected.\n\n<strong>Saving Throw</strong> DC 18 Fortitude\n\n<strong>Onset</strong> 10 minutes\n<strong>Maximum Duration</strong> 5 minutes\n<var><strong>Stage 1</strong> 1d4 poison damage and sickened 1 (1 minute)</var>\n<strong>Stage 2</strong> 1d6 poison damage and sickened 2 (1 minute)\n<strong>Stage 3</strong> 2d6 poison damage and sickened 3 (1 minute)",
         "nextStage": 100,
         "nextCondition": "Arsenic (Stage 2)",
+        "inputRequired": "Every time you reach this stage, take 1d4 poison damage.",
         "gainConditions": [
             {
                 "name": "Sickened",
@@ -4346,6 +4347,7 @@
         "nextStage": 100,
         "previousCondition": "Arsenic (Stage 1)",
         "nextCondition": "Arsenic (Stage 3)",
+        "inputRequired": "Every time you reach this stage, take 1d6 poison damage.",
         "gainConditions": [
             {
                 "name": "Sickened",
@@ -4359,6 +4361,7 @@
         "desc": "This toxin is a compound of arsenic and other substances. You can’t reduce your sickened condition while affected.\n\n<strong>Saving Throw</strong> DC 18 Fortitude\n\n<strong>Onset</strong> 10 minutes\n<strong>Maximum Duration</strong> 5 minutes\n<strong>Stage 1</strong> 1d4 poison damage and sickened 1 (1 minute)\n<strong>Stage 2</strong> 1d6 poison damage and sickened 2 (1 minute)\n<var><strong>Stage 3</strong> 2d6 poison damage and sickened 3 (1 minute)</var>",
         "nextStage": 100,
         "previousCondition": "Arsenic (Stage 2)",
+        "inputRequired": "Every time you reach this stage or fail your saving throw to reduce the stage, take 2d6 poison damage.",
         "gainConditions": [
             {
                 "name": "Sickened",

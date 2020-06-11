@@ -7,6 +7,7 @@ import { AnimalCompanion } from '../AnimalCompanion';
 import { Character } from '../Character';
 import { Condition } from '../Condition';
 import { typeWithParameters } from '@angular/compiler/src/render3/util';
+import { TraitsService } from '../traits.service';
 
 @Component({
     selector: 'app-effects',
@@ -26,6 +27,7 @@ export class EffectsComponent implements OnInit {
 
     constructor(
         private changeDetector: ChangeDetectorRef,
+        private traitsService: TraitsService,
         private effectsService: EffectsService,
         private characterService: CharacterService,
         private timeService: TimeService
@@ -71,6 +73,10 @@ export class EffectsComponent implements OnInit {
 
     toggle_Hidden() {
         this.showHidden = !this.showHidden;
+    }
+
+    get_Traits(traitName: string = "") {
+        return this.traitsService.get_Traits(traitName);
     }
 
     get_Effects() {

@@ -1060,6 +1060,10 @@ export class CharacterService {
 
     add_Condition(creature: Character|AnimalCompanion|Familiar, conditionGain: ConditionGain, reload: boolean = true) {
         let originalCondition = this.get_Conditions(conditionGain.name)[0];
+        if (originalCondition.nextStage) {
+            this.set_ToChange(creature.type, "time");
+            this.set_ToChange(creature.type, "health");
+        }
         conditionGain.nextStage = originalCondition.nextStage;
         conditionGain.decreasingValue = originalCondition.decreasingValue;
         //The gain may be persistent by itself, so don't overwrite it, but definitely set it if the condition is.
@@ -1101,6 +1105,10 @@ export class CharacterService {
         let oldConditionGain: ConditionGain = creature.conditions.find($condition => $condition.name == conditionGain.name && $condition.value == conditionGain.value && $condition.source == conditionGain.source);
         let originalCondition = this.get_Conditions(conditionGain.name)[0];
         if (oldConditionGain && !(keepPersistent && oldConditionGain.persistent)) {
+            if (oldConditionGain.nextStage) {
+                this.set_ToChange(creature.type, "time");
+                this.set_ToChange(creature.type, "health");
+            }
             originalCondition.gainConditions.forEach(extraCondition => {
                 let addCondition = Object.assign(new ConditionGain, JSON.parse(JSON.stringify(extraCondition)));
                 addCondition.source = oldConditionGain.name;
@@ -1117,17 +1125,30 @@ export class CharacterService {
     }
 
     change_ConditionStage(creature: Character|AnimalCompanion|Familiar, gain: ConditionGain, condition: Condition, change: number) {
-        let newGain: ConditionGain = new ConditionGain();
-        newGain.duration = gain.duration;
-        newGain.nextStage = condition.nextStage;
-        newGain.source = gain.source;
-        if (change > 0) {
-            newGain.name = condition.nextCondition;
-        } else if (change < 0) {
-            newGain.name = condition.previousCondition;
+        if (change == 0) {
+            //If no change, the condition remains, but the onset is reset.
+            gain.nextStage = condition.nextStage;
+            this.set_ToChange(creature.type, "time");
+            this.set_ToChange(creature.type, "health");
+            this.set_ToChange(creature.type, "effects");
+        } else {
+            let newGain: ConditionGain = new ConditionGain();
+            newGain.duration = gain.duration;
+            newGain.nextStage = condition.nextStage;
+            if (condition.nextStage) {
+                this.set_ToChange(creature.type, "time");
+                this.set_ToChange(creature.type, "health");
+            }
+            newGain.source = gain.source;
+            if (change > 0) {
+                newGain.name = condition.nextCondition;
+            } else if (change < 0) {
+                newGain.name = condition.previousCondition;
+            }
+            this.remove_Condition(creature, gain, false);
+            this.add_Condition(creature, newGain, false);
         }
-        this.remove_Condition(creature, gain);
-        this.add_Condition(creature, newGain, true);
+        this.process_ToChange();
     }
 
     process_OnceEffect(creature: Character|AnimalCompanion|Familiar, effectGain: EffectGain, conditionValue: number = 0, conditionHeightened: number = 0) {

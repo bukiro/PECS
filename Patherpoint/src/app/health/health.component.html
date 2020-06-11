@@ -9,7 +9,8 @@
         </h3>
         <div class="loading" *ngIf="still_loading()">Loading</div>
         <ng-container *ngIf="!still_loading()">
-            <button class="list-item center-aligned" (click)="rest()">Rest</button>
+            <button class="list-item center-aligned" (click)="rest()" title="{{get_Waiting(48000)}}"
+                [disabled]="get_Waiting(48000).length" *ngIf="creature=='Character'">Rest</button>
             <app-tags [creature]="creature" [objectName]="'Health'" [showTraits]=true [showFeats]=true [showItems]=true
                 [showActivities]=true [showConditions]=true [showEffects]=true></app-tags>
             <div class="fullsize-only list-item">
@@ -81,8 +82,7 @@
                     <input class="number4" type="number" [(ngModel)]="damage" maxLength="3">
                 </span>
                 <span>
-                    <button [disabled]="damage <= 0"
-                        (click)="on_TakeDamage(health)">Ouch!</button>
+                    <button [disabled]="damage <= 0" (click)="on_TakeDamage(health)">Ouch!</button>
                 </span>
             </div>
             <div class="list-item row">
@@ -94,8 +94,7 @@
                     <input class="number4" type="number" [(ngModel)]="healing" maxLength="3">
                 </span>
                 <span>
-                    <button [disabled]="healing <= 0"
-                        (click)="on_Heal(health)">Heal</button>
+                    <button [disabled]="healing <= 0" (click)="on_Heal(health)">Heal</button>
                 </span>
             </div>
             <div class="list-item row" *ngIf="get_NumbToDeath()" [ngClass]="{'fullsize-only':(health.$dying <= 0)}">
@@ -103,8 +102,7 @@
                     <strong>Numb to Death</strong>
                 </span>
                 <span>
-                    <button [disabled]="health.$dying <= 0"
-                        (click)="on_NumbToDeath(health)">Heal
+                    <button [disabled]="health.$dying <= 0" (click)="on_NumbToDeath(health)">Heal
                         and recover</button>
                 </span>
             </div>

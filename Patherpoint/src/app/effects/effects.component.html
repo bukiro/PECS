@@ -7,8 +7,10 @@
                 <span>
                     <strong [className]="condition.buff ? 'bonus' : 'penalty'"
                         title="Source: {{conditionGain.source}}">{{conditionGain.name}}{{conditionGain.persistentDamage ? ": "+conditionGain.persistentDamage : ""}}
-                        {{(conditionGain.value) ? conditionGain.value : ""}} 
+                        {{(conditionGain.value) ? conditionGain.value : ""}}
                     </strong>
+                    <cite class="trait" *ngFor="let trait of condition.traits; trackBy:trackByIndex;"
+                        title="{{get_Traits(trait)[0].description}}">{{trait}}</cite>
                 </span>
             </div>
             <div class="row left-aligned fullsize-only">
@@ -27,13 +29,17 @@
                 <span><button (click)="change_ConditionValue(conditionGain, -1)">Value - 1</button></span>
                 <span><button (click)="change_ConditionValue(conditionGain, 1)">Value + 1</button></span>
             </div>
-            <div class="row " *ngIf="conditionGain.nextStage == 0 && (condition.previousCondition || condition.nextCondition)">
-                <strong>Affliction onset reached</strong> Make a saving throw to determine the next stage of the affliction.
+            <div class="row">
+                <div class="list-item lower row problem" *ngIf="conditionGain.nextStage == -1 && (condition.previousCondition || condition.nextCondition)">
+                    <strong>Affliction onset reached</strong>
+                    <div class="row left-aligned"><p>Make {{condition.traits.includes("Virulent") ? "two saving throws" : "a saving throw"}} to determine the next stage of the affliction.</p></div>
+                </div>
             </div>
             <div class="row fullsize-only" *ngIf="condition.previousCondition || condition.nextCondition">
-                <span *ngIf="!condition.previousCondition"><button (click)="remove_Condition(conditionGain)">Recover</button></span>
-                <span *ngIf="condition.previousCondition"><button (click)="change_ConditionStage(conditionGain, condition, -1)">Previous stage</button></span>
-                <span><button (click)="change_ConditionStage(conditionGain, condition, 1)" [disabled]="!condition.nextCondition">Next stage</button></span>
+                <span *ngIf="!condition.previousCondition"><button (click)="remove_Condition(conditionGain)">{{conditionGain.nextStage == -1 ? "Success: " : ""}}Recover</button></span>
+                <span *ngIf="condition.previousCondition"><button (click)="change_ConditionStage(conditionGain, condition, -1)">{{conditionGain.nextStage == -1 ? "Success: " : ""}}Previous stage</button></span>
+                <span *ngIf="condition.nextCondition"><button (click)="change_ConditionStage(conditionGain, condition, 1)">{{conditionGain.nextStage == -1 ? "Failure: " : ""}}Next stage</button></span>
+                <span *ngIf="!condition.nextCondition"><button (click)="change_ConditionStage(conditionGain, condition, 0)">{{conditionGain.nextStage == -1 ? "Failure: " : ""}}Remain at this stage</button></span>
             </div>
             <div class="row fullsize-only">
                 <div class="list-item lower row problem" *ngIf="condition.inputRequired">
@@ -83,43 +89,47 @@
         (click)="toggle_NotApplied()">{{(showNotApplied) ? "Hide not applied" : "Show not applied"}}</button>
     <div class="fullsize-only" *ngIf="showNotApplied">
         <h3 class="box-header">Not Applied Conditions</h3>
-        <div class="list-item notapplied" *ngFor="let conditionGain of get_AppliedConditions(false); trackBy:trackByIndex;">
-            <div class="row">
-                <span>
-                    <strong [className]="get_Conditions(conditionGain.name)[0]?.buff ? 'bonus' : 'penalty'"
-                        title="Source: {{conditionGain.source}}">{{conditionGain.name}}
-                        {{(conditionGain.value) ? conditionGain.value : ""}}
-                    </strong>
-                </span>
-            </div>
-            <div class="row left-aligned fullsize-only">
-                <span>{{get_Duration(conditionGain.duration)}}</span><span *ngIf="conditionGain.persistent" title="This condition will remain if its source is removed.">, persistent</span>
-            </div>
-            <ng-container *ngFor="let condition of [get_Conditions(conditionGain.name)[0]]; trackBy:trackByIndex;">
+        <ng-container *ngFor="let conditionGain of get_AppliedConditions(false); trackBy:trackByIndex;">
+            <div class="list-item notapplied" *ngFor="let condition of [get_Conditions(conditionGain.name)[0]]; trackBy:trackByIndex;">
                 <div class="row">
                     <span>
-                        <button (click)="remove_Condition(conditionGain)">
-                            Remove
-                        </button>
-                    </span>
-                    <span>
-                        <button
-                            (click)="toggle_Item(conditionGain.name+conditionGain.source+conditionGain.value+conditionGain.duration+'notapplied')">
-                            Show Description
-                        </button>
+                        <strong [className]="get_Conditions(conditionGain.name)[0]?.buff ? 'bonus' : 'penalty'"
+                            title="Source: {{conditionGain.source}}">{{conditionGain.name}}
+                            {{(conditionGain.value) ? conditionGain.value : ""}}
+                        </strong>
+                        <cite class="trait" *ngFor="let trait of condition.traits; trackBy:trackByIndex;"
+                            title="{{get_Traits(trait)[0].description}}">{{trait}}</cite>
                     </span>
                 </div>
-                <ng-container
-                    *ngIf="this.get_ShowItem()==conditionGain.name+conditionGain.source+conditionGain.value+conditionGain.duration+'notapplied'">
-                    <div class="row  lower left-aligned" *ngFor="let desc of condition.desc.split('\n\n'); trackBy:trackByIndex;">
-                        <p *ngIf="desc.split('\n').length == 1" [innerHTML]="desc"></p>
-                        <ul *ngIf="desc.split('\n').length > 1">
-                            <li *ngFor="let line of desc.split('\n'); trackBy:trackByIndex;" [innerHTML]="line"></li>
-                        </ul>
+                <div class="row left-aligned fullsize-only">
+                    <span>{{get_Duration(conditionGain.duration)}}</span><span *ngIf="conditionGain.persistent" title="This condition will remain if its source is removed.">, persistent</span>
+                </div>
+                <ng-container *ngFor="let condition of [get_Conditions(conditionGain.name)[0]]; trackBy:trackByIndex;">
+                    <div class="row">
+                        <span>
+                            <button (click)="remove_Condition(conditionGain)">
+                                Remove
+                            </button>
+                        </span>
+                        <span>
+                            <button
+                                (click)="toggle_Item(conditionGain.name+conditionGain.source+conditionGain.value+conditionGain.duration+'notapplied')">
+                                Show Description
+                            </button>
+                        </span>
                     </div>
+                    <ng-container
+                        *ngIf="this.get_ShowItem()==conditionGain.name+conditionGain.source+conditionGain.value+conditionGain.duration+'notapplied'">
+                        <div class="row  lower left-aligned" *ngFor="let desc of condition.desc.split('\n\n'); trackBy:trackByIndex;">
+                            <p *ngIf="desc.split('\n').length == 1" [innerHTML]="desc"></p>
+                            <ul *ngIf="desc.split('\n').length > 1">
+                                <li *ngFor="let line of desc.split('\n'); trackBy:trackByIndex;" [innerHTML]="line"></li>
+                            </ul>
+                        </div>
+                    </ng-container>
                 </ng-container>
-            </ng-container>
-        </div>
+            </div>
+        </ng-container>
         <h3 class="box-header">Not Applied Effects</h3>
         <div class="list-item row lower notapplied" *ngFor="let effect of get_NotAppliedEffects(); trackBy:trackByIndex;">
             <span>

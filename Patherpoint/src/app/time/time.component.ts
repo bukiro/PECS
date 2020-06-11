@@ -44,6 +44,16 @@ export class TimeComponent implements OnInit {
         return this.timeService.get_Duration(duration, includeTurnState);
     }
 
+    get_Waiting(duration: number) {
+        let result: string = "";
+        this.characterService.get_Creatures().forEach(creature => {
+            if (this.characterService.get_AppliedConditions(creature).filter(gain => (gain.nextStage < duration && gain.nextStage > 0) || gain.nextStage == -1).length) {
+                result = "One or more conditions need your attention before this time.";
+            }
+        })
+        return result;
+    }
+
     still_loading() {
         return this.characterService.still_loading()
     }
@@ -70,7 +80,7 @@ export class TimeComponent implements OnInit {
         } else {
             this.characterService.get_Changed()
             .subscribe((target) => {
-                if (target == "time" || target == "all" || target == "Character") {
+                if (["time", "all", "Character"].includes(target)) {
                     this.changeDetector.detectChanges();
                 }
             });

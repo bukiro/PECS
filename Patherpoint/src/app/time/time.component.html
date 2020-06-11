@@ -3,18 +3,17 @@
     <div class="loading" *ngIf="still_loading()">Loading</div>
     <ng-container *ngIf="!still_loading()">
         <div class="list-item center-aligned">
-            <button (click)="start_Turn()"
-                [disabled]="get_YourTurn()==5">Start Turn</button>
+            <button (click)="start_Turn()" [disabled]="get_YourTurn()==5 || get_Waiting(5).length" title="{{get_Waiting(5)}}">Start Turn</button>
             <div class="turn-indicator">
                 <strong *ngIf="get_YourTurn() == 0">Not your Turn</strong>
                 <strong class="yourTurn" *ngIf="get_YourTurn() == 5">Your Turn</strong>
             </div>
-            <button (click)="end_Turn()"
-                [disabled]="get_YourTurn()==0">End Turn</button>
+            <button (click)="end_Turn()" [disabled]="get_YourTurn()==0 || get_Waiting(5).length" title="{{get_Waiting(5)}}">End Turn</button>
         </div>
         <div class="fullsize-only list-item">
             <button class="fancybutton" (click)="tick(duration)"
-                *ngFor="let duration of [10, 50, 100, 500, 1000, 6000, 48000, 144000]; trackBy:trackByIndex;">
+                *ngFor="let duration of [10, 50, 100, 500, 1000, 6000, 48000, 144000]; trackBy:trackByIndex;"
+                title="{{get_Waiting(duration)}}" [disabled]="get_Waiting(duration).length">
                 Tick {{get_Duration(duration, false)}}
             </button>
         </div>

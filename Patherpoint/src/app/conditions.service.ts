@@ -103,7 +103,7 @@ export class ConditionsService {
             }
             this.appliedConditions[creatureIndex] = [];
             this.appliedConditions[creatureIndex] = activeConditions.map(gain => Object.assign(new ConditionGain(), gain));
-            return this.sortByPipe.transform(activeConditions, "asc", "duration") as ConditionGain[];
+            return this.sortByPipe.transform(this.sortByPipe.transform(activeConditions, "asc", "name"), "asc", "duration") as ConditionGain[];
         }
     }
 
@@ -217,6 +217,9 @@ export class ConditionsService {
                 });
                 activeConditions.filter(gain => gain.nextStage > 0).forEach(gain => {
                     gain.nextStage -= step;
+                    if (gain.nextStage <= 0) {
+                        gain.nextStage = -1;
+                    }
                 });
                 //If any conditions have their value decreasing, do this now.
                 if ((yourTurn == 5 && step == 5) || (yourTurn == 0 && step == 10)) {

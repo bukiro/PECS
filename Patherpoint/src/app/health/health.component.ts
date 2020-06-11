@@ -65,6 +65,16 @@ export class HealthComponent implements OnInit {
         return index;
     }
     
+    get_Waiting(duration: number) {
+        let result: string = "";
+        this.characterService.get_Creatures().forEach(creature => {
+            if (this.characterService.get_AppliedConditions(creature).filter(gain => (gain.nextStage < duration && gain.nextStage > 0) || gain.nextStage == -1).length) {
+                result = "One or more conditions need your attention before you can rest.";
+            }
+        })
+        return result;
+    }
+
     rest() {
         this.timeService.rest(this.characterService, this.timeService, this.itemsService, this.spellsService);
     }
