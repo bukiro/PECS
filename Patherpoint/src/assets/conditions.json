@@ -4368,5 +4368,11 @@
                 "value": 3
             }
         ]
+    },
+    {
+        "name": "Viper Arrow",
+        "type": "ammunition",
+        "buff": true,
+        "desc": "Your arrow has transformed into a viper (Pathfinder Bestiary 302). The viper has the summoned trait and acts at the end of your turn, even though you didn’t use the Sustain a Spell action. It is under the GM’s control, but it generally attacks the creature the arrow struck. The viper vanishes after the duration or when slain."
     }
 ]

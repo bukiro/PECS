@@ -12,6 +12,7 @@ import { ItemCollection } from '../ItemCollection';
 import { Talisman } from '../Talisman';
 import { InventoryComponent } from '../inventory/inventory.component';
 import { AlchemicalBomb } from '../AlchemicalBomb';
+import { Consumable } from '../Consumable';
 
 @Component({
     selector: 'app-attacks',
@@ -134,13 +135,12 @@ export class AttacksComponent implements OnInit {
     }
 
     on_ConsumableUse(item: Ammunition|AlchemicalBomb, inv: ItemCollection) {
+        this.characterService.on_ConsumableUse(this.get_Creature(), item as Consumable);
         if (item.can_Stack()) {
-            item.amount -= 1;
-            this.characterService.set_ToChange(this.creature, "inventory");
             this.characterService.set_ToChange(this.creature, "attacks");
             this.characterService.process_ToChange();
         } else {
-            this.characterService.drop_InventoryItem(this.get_Creature(), inv, item, true, false, false, 1);
+            this.characterService.drop_InventoryItem(this.get_Creature(), inv, item, true);
         }
         
     }
