@@ -46,7 +46,7 @@
                 </div>
                 <app-tags [creature]="creature" [objectName]=weapon.name [showTraits]=true [showFeats]=true
                     [showItems]=true [showActivities]=true [showConditions]=true
-                    [specialNames]=get_specialShowon(weapon) [specialEffects]=attack[3]></app-tags>
+                    [specialNames]=get_SpecialShowon(weapon) [specialEffects]=attack[3]></app-tags>
                 <div class="fullsize-only lower row left-aligned"
                     *ngFor="let talisman of weapon.talismans; let index = index; trackBy:trackByIndex;">
                     <button title="{{get_TalismanTitle(talisman)}}" (click)="on_TalismanUse(weapon, talisman, index)">

@@ -118,6 +118,12 @@
             {{activity.critfailure}}
         </span>
     </div>
+    <div class="row left-aligned" *ngIf="activity.specialdesc">
+        <span>
+            <strong>Special</strong>
+            {{activity.specialdesc}}
+        </span>
+    </div>
     <div class="row left-aligned" *ngFor="let cast of activity.castSpells; trackBy:trackByIndex;">
         <div *ngFor="let spell of get_Spells(cast.name); trackBy:trackByIndex;">
             <h4>{{spell.name}}<app-actionIcons [actionString]="spell.actions">

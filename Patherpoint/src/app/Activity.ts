@@ -24,6 +24,7 @@ export class Activity {
     public onceEffects: EffectGain[] = [];
     public requirements: string = "";
     public showon: string = "";
+    public specialdesc: string = "";
     public success: string = "";
     public toggle: boolean = false;
     public traits: string[] = [];
@@ -33,6 +34,6 @@ export class Activity {
     can_Activate() {
         //Test any circumstance under which this can be activated
         let isStance: boolean = (this.traits.includes("Stance"))
-        return isStance || this.gainItems.length || this.castSpells.length || this.gainConditions.length || this.cooldown || this.toggle;
+        return isStance || this.gainItems.length || this.castSpells.length || this.gainConditions.length || this.cooldown || this.toggle || this.effects.length || this.onceEffects.length;
     }
 }

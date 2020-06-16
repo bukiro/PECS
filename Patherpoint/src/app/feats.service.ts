@@ -57,7 +57,10 @@ export class FeatsService {
         if (!this.still_loading()) {
             let feats: Feat[] = this.feats.concat(loreFeats).concat(this.features);
             return feats.filter(feat =>
-                ((feat.name.toLowerCase() == name.toLowerCase() || name == "") &&
+                (
+                    //For names like "Aggressive Block or Brutish Shove", split the string into the two feat names and return both.
+                    name.split(" or ").find(alternative => (feat.name.toLowerCase() == alternative.toLowerCase() || alternative == "")
+                ) &&
                 (feat.traits.map(trait => trait.toLowerCase()).includes(type.toLowerCase()) || type == "")));
         } else { return [new Feat()]; }
     }

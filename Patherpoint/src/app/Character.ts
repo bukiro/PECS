@@ -472,13 +472,14 @@ export class Character extends Creature {
             }
         }
     }
-    get_FeatsTaken(minLevelNumber: number, maxLevelNumber: number, featName: string = "", source: string = "", sourceId: string = "", locked: boolean = undefined) {
+    get_FeatsTaken(minLevelNumber: number, maxLevelNumber: number, featName: string = "", source: string = "", sourceId: string = "", locked: boolean = undefined, excludeTemporary: boolean = false) {
         if (this.class) {
             let featsTaken: FeatTaken[] = [];
             let levels = this.class.levels.filter(level => level.number >= minLevelNumber && level.number <= maxLevelNumber );
             levels.forEach(level => {
                 level.featChoices.forEach(choice => {
                     choice.feats.filter((feat: FeatTaken) => 
+                        (excludeTemporary ? !choice.showOnSheet : true) &&
                         (feat.name == featName || featName == "") &&
                         (feat.source == source || source == "") &&
                         (feat.sourceId == sourceId || sourceId == "") &&

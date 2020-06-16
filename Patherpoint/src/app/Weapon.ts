@@ -106,10 +106,15 @@ export class Weapon extends Equipment {
         //There are a lot of ways to be trained with a weapon.
         //To determine the skill level, we have to find skills for the item's proficiency, its name, its weapon base and any of its traits.
         let levels: number[] = [];
+        //Weapon bame, e.g. Demon Sword.
         levels.push(characterService.get_Skills(creature, this.name)[0]?.level(creature, characterService, charLevel) || 0);
+        //Weapon base, e.g. Longsword.
         levels.push(this.weaponBase ? characterService.get_Skills(creature, this.weaponBase)[0]?.level(creature, characterService, charLevel) : 0);
+        //Proficiency and Group, e.g. Martial Sword.
         levels.push(characterService.get_Skills(creature, profAndGroup)[0]?.level(creature, characterService, charLevel) || 0);
+        //Proficiency, e.g. Martial Weapons.
         levels.push(characterService.get_Skills(creature, this.prof)[0]?.level(creature, characterService, charLevel) || 0);
+        //Any traits, e.g. Monk.
         levels.push(...this.traits.map(trait => characterService.get_Skills(creature, trait)[0]?.level(creature, characterService, charLevel) || 0))
         //Get the skill level by applying the result with the most increases, but no higher than 8.
         skillLevel = Math.min(Math.max(...levels.filter(level => level != undefined)), 8);
@@ -288,6 +293,18 @@ export class Weapon extends Equipment {
         let runeSource: (Weapon|WornItem)[] = this.get_RuneSource(creature, range);
         //Add the striking rune or oil of potency effect of the runeSource.
         let dicenum = this.dicenum + runeSource[0].get_StrikingRune();
+        effectsService.get_AbsolutesOnThis(creature, this.name+" Dice Number")
+            .concat(effectsService.get_AbsolutesOnThis(creature, this.weaponBase+" Dice number"))
+            .forEach(effect => {
+                dicenum = parseInt(effect.setValue);
+                explain += "\n"+effect.source+": Dice number "+dicenum;
+            })
+        effectsService.get_RelativesOnThis(creature, this.name+" Dice Number")
+        .concat(effectsService.get_RelativesOnThis(creature, this.weaponBase+" Dice Number"))
+        .forEach(effect => {
+            dicenum += parseInt(effect.value);
+            explain += "\n"+effect.source+": Dice number +"+parseInt(effect.value);
+        })
         if (runeSource[0].get_StrikingRune() > 0) {
             explain += "\n"+runeSource[0].get_Striking(runeSource[0].get_StrikingRune())+": Dice number +"+runeSource[0].get_StrikingRune();
             if (runeSource[2]) {

@@ -156,8 +156,8 @@ export class Feat {
                     testcreature = characterService.get_Character();
                     requiredFeat = characterService.get_FeatsAndFeatures(testfeat);
                 }
-                if (requiredFeat.length > 0) {
-                    if (requiredFeat[0].have(testcreature, characterService, charLevel)) {
+                if (requiredFeat.length) {
+                    if (requiredFeat.find(feat => feat.have(testcreature, characterService, charLevel))) {
                         result.push({met:true, desc:featreq});
                     } else {
                         result.push({met:false, desc:featreq});
@@ -174,11 +174,15 @@ export class Feat {
     meetsSpecialReq(characterService: CharacterService, charLevel: number = characterService.get_Character().level) {
         //If the feat has a specialreq, it comes as a string that contains a condition. Evaluate the condition to find out if the requirement is met.
         //When writing the condition, take care that it only uses variables known in this method,
-        //and that it must remain true even after you take the feat (or the will be automatically removed.)
-        //e.g. if the requirement is (Athletics < 2), also allow (Athletics < 4 && Feat Taken)
+        //and that it must remain true even after you take the feat (or the feat will be automatically removed.)
+        //As an example, if the requirement is:
+        //  (Skill_Level('Athletics') < 2)
+        //also include:
+        //  (Skill_Level('Athletics') < 4 && this.have(character, characterService, charLevel))
         //
-        //character and charLevel are often needed for special requirements, so we keep them defined even if we don't use them in the function.
+        //Here we prepare variables and functions to use in specialreq evaluations.
         let character: Character = characterService.get_Character();
+        charLevel = charLevel;
         let familiar: Familiar = characterService.get_Familiar();
         let deity: Deity = character.class.deity ? characterService.get_Deities(character.class.deity)[0] : null;
         function Skill_Level(creature: string, name: string) {
@@ -196,10 +200,6 @@ export class Feat {
                 return 0;
             }
         }
-        if (!deity) {
-            deity = new Deity();
-        }
-        charLevel = charLevel;
         let result: {met:boolean, desc:string};
         if (this.specialreq) {
             try {

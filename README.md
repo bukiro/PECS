@@ -65,6 +65,7 @@ The very latest in Assistive Technologies for Dungeon Master (ATDM)
 - [ ] Stretch Goal: Include optional Stamina & Resolve system
 
 Next steps:
+- Test fighter feats
 - Add custom conditions with effects
 - Add button press effect
 - Add Materials

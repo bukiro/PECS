@@ -60,6 +60,16 @@ export class Skill {
             unarmedLevel = Math.min(unarmedLevel, 6);
             skillLevel = Math.max(skillLevel, unarmedLevel);
         }
+        //If this is an advanced weapon group and you have the Advanced Weapon Training feat for it,
+        //  you get the same proficiency as for martial weapons of the same group (or martial weapons in general).
+        if (this.name.includes("Advanced ") && this.name != "Advanced Weapons") {
+            if (creature.type == "Character" && (creature as Character).get_FeatsTaken(1, creature.level, "Advanced Weapon Training: "+this.name.split(" ")[1])) {
+                skillLevel = Math.max(
+                    characterService.get_Skills(creature, "Martial "+this.name.split(" ")[1])[0].level(creature, characterService),
+                    characterService.get_Skills(creature, "Martial Weapons")[0].level(creature, characterService),
+                    skillLevel);
+            }
+        }
         skillLevel = Math.min(skillLevel, 8);
         return skillLevel;
     }

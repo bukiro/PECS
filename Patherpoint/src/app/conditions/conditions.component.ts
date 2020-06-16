@@ -135,6 +135,9 @@ export class ConditionsComponent implements OnInit {
             case "Worn Items":
                 typeKey = "wornitems";
                 break;
+            case "Ammunition":
+                typeKey = "ammunition";
+                break;
             case "Spells":
                 typeKey = "spells";
                 break;

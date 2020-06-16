@@ -24,7 +24,7 @@
         </div>
         <h3>Add Condition</h3>
         <ng-container
-            *ngFor="let set of ['Generic','Afflictions','Alchemical Elixirs','Worn Items','Alchemical Tools','Spells','Activities']; trackBy:trackByIndex;">
+            *ngFor="let set of ['Generic','Afflictions','Alchemical Elixirs','Worn Items','Alchemical Tools','Ammunition','Spells','Activities']; trackBy:trackByIndex;">
             <ng-container *ngFor="let visibleConditions of [get_VisibleConditionsSet(set)]; trackBy:trackByIndex;">
                 <button class="list-item" (click)="toggleList(set)" *ngIf="visibleConditions.length">
                     <h3>{{set}}</h3>

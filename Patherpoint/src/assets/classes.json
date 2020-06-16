@@ -2635,13 +2635,6 @@
                         "id": "1-Ancestry-Class-3",
                         "source": "Class",
                         "type": "Ancestry"
-                    },
-                    {
-                        "locked": true,
-                        "maxRank": 2,
-                        "name": "Innate Spell DC",
-                        "source": "Class",
-                        "sourceId": "1-Any-Class-0"
                     }
                 ],
                 "number": 1,
@@ -2773,6 +2766,13 @@
                                 "locked": true,
                                 "maxRank": 2,
                                 "name": "Bard Occult Spell DC",
+                                "source": "Class",
+                                "sourceId": "1-Any-Class-0"
+                            },
+                            {
+                                "locked": true,
+                                "maxRank": 2,
+                                "name": "Innate Spell DC",
                                 "source": "Class",
                                 "sourceId": "1-Any-Class-0"
                             }
@@ -8778,7 +8778,7 @@
                     {
                         "_className": "FeatChoice",
                         "available": 1,
-                        "id": "9-Class-Combat Flexibility-2",
+                        "id": "9-Fighter-Combat Flexibility-2",
                         "level": 8,
                         "showOnSheet": true,
                         "source": "Combat Flexibility",
@@ -9155,10 +9155,10 @@
                     {
                         "_className": "FeatChoice",
                         "available": 1,
-                        "id": "15-Class-Combat Flexibility-2",
+                        "id": "15-Fighter-Improved Flexibility-2",
                         "level": 14,
                         "showOnSheet": true,
-                        "source": "Combat Flexibility",
+                        "source": "Improved Flexibility",
                         "type": "Fighter"
                     }
                 ],

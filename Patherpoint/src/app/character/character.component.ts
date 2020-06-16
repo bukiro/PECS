@@ -244,8 +244,7 @@ export class CharacterComponent implements OnInit {
         if (this.get_Companion()) {
             this.get_Companion().set_Level(this.characterService);
         }
-        this.characterService.set_ToChange("Character", "character-sheet")
-        this.characterService.process_ToChange();
+        this.set_Changed();
     }
 
     get_LanguagesAvailable(levelNumber: number = 0) {

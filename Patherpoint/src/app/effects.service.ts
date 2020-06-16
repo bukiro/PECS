@@ -112,39 +112,36 @@ export class EffectsService {
             if (creature.type == "Familiar") {
                 return 0;
             } else {
-                return characterService.get_Abilities(name)[0].value(creature, characterService, effectsService).result;
+                return characterService.get_Abilities(name)[0]?.value(creature, characterService, effectsService).result;
             }
         }
         function Modifier(name: string) {
             if (creature.type == "Familiar") {
                 return 0;
             } else {
-                return characterService.get_Abilities(name)[0].mod(creature, characterService, effectsService).result;
+                return characterService.get_Abilities(name)[0]?.mod(creature, characterService, effectsService).result;
             }
         }
         function Size() {
             return creature.get_Size(this);
         }
         function Skill(name: string) {
-            return characterService.get_Skills(creature, name)[0].baseValue(creature, characterService, abilitiesService, effectsService, Level).result;
+            return characterService.get_Skills(creature, name)[0]?.baseValue(creature, characterService, abilitiesService, effectsService, Level).result;
         }
         function Skill_Level(name: string) {
             if (creature.type == "Familiar") {
                 return 0;
             } else {
-                return characterService.get_Skills(creature, name)[0].level(creature, characterService, Level);
+                return characterService.get_Skills(creature, name)[0]?.level(creature, characterService, Level);
             }
         }
         function Speed(name: string) {
             let speeds: Speed[] = characterService.get_Speeds(creature).filter(speed => speed.name == name);
             if (speeds.length) {
-                return speeds[0].value(creature, characterService, effectsService)[0];
+                return speeds[0]?.value(creature, characterService, effectsService)[0];
             } else {
                 return 0;
             }
-        }
-        function DexCap() {
-            return creature.inventories[0].armors.filter(armor => armor.equipped)[0].get_DexCap();
         }
         function Has_Condition(name: string) {
             return characterService.get_AppliedConditions(creature, name).length
@@ -153,7 +150,21 @@ export class EffectsService {
             if (creature.type == "Familiar") {
                 return null;
             } else {
-                return creature.inventories[0].armors.filter(armor => armor.equipped)[0];
+                return creature.inventories[0].armors.find(armor => armor.equipped);
+            }
+        }
+        function Shield() {
+            if (creature.type == "Familiar") {
+                return null;
+            } else {
+                return creature.inventories[0].shields.find(shield => shield.equipped);
+            }
+        }
+        function Weapons() {
+            if (creature.type == "Familiar") {
+                return null;
+            } else {
+                return creature.inventories[0].weapons.filter(weapon => weapon.equipped);
             }
         }
         function Has_Feat(name: string) {
@@ -282,13 +293,17 @@ export class EffectsService {
                 itemEffects.push(new Effect(creature.id, 'circumstance', "AC", "+1", "", false, "Parrying", false));
             })
             //Get shield bonuses from raised shields
-            //IF a shield is raised, add its item bonus to AC with a + in front. If you are also taking cover while the shield is raised, add that bonus as well.
+            //If a shield is raised, add its item bonus to AC with a + in front. If you are also taking cover while the shield is raised, add that bonus as well.
             items.shields.filter(item => item.equipped && item.raised).forEach(item => {
                 let shieldBonus = item.acbonus;
                 if (item.takingCover) {
                     shieldBonus += item.coverbonus;
                 }
                 itemEffects.push(new Effect(creature.id, 'circumstance', "AC", "+" + shieldBonus, "", false, item.get_Name(), false));
+                //Reflexive Shield
+                if (character.get_FeatsTaken(1, character.level, "Reflexive Shield").length) {
+                    itemEffects.push(new Effect(creature.id, 'circumstance', "Reflex", "+" + shieldBonus, "", false, "Reflexive Shield", false));
+                }
             });
             items.armors.filter(armor => armor.equipped).forEach(armor => {
                 //For Saving Throws, add any resilient runes on the equipped armor
@@ -477,7 +492,7 @@ export class EffectsService {
             "Wisdom-based Checks and DCs", "All Checks and DCs", "Ignore Armor Penalty", "Ignore Armor Speed Penalty"];
         let attacks: string[] = ["Damage Rolls", "Dexterity-based Checks and DCs", "Strength-based Checks and DCs", "All Checks and DCs",
             "Unarmed Damage per Die", "Weapon Damage per Die"];
-        let attacksWildcard: string[] = ["Attack Rolls", "Melee Damage", "Dice Size"];
+        let attacksWildcard: string[] = ["Attack Rolls", "Melee Damage", "Dice Size", "Dice Number"];
         let skills: string[] = ["Perception", "Acrobatics", "Arcana", "Athletics", "Crafting", "Deception", "Diplomacy",
             "Intimidation", "Medicine", "Nature", "Occultism", "Performance", "Religion", "Society", "Stealth", "Survival", "Thievery"];
         let skillsWildcard: string[] = ["Spell DC", "Class DC", "Checks and DCs", "Skill Checks", "Untrained Skills"];

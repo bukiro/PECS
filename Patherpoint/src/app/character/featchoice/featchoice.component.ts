@@ -237,17 +237,25 @@ export class FeatchoiceComponent implements OnInit {
             }
             //Unless the feat can be taken repeatedly:
             if (!feat.unlimited) {
-                //Has it already been taken up to this level, and was that not by this FeatChoice?
-                if (feat.have(this.get_Character(), this.characterService, levelNumber) && !this.featTakenByThis(feat, choice)) {
-                    reasons.push("This feat cannot be taken more than once.");
-                }
-                //Has it generally been taken more than once, and this is one time?
-                if (feat.have(this.get_Character(), this.characterService, levelNumber) > 1 && this.featTakenByThis(feat, choice)) {
-                    reasons.push("This feat cannot be taken more than once!");
-                }
-                //Has it been taken on a higher level (that is, not up to now, but up to Level 20)?
-                if (!feat.have(this.get_Character(), this.characterService, levelNumber) && feat.have(this.get_Character(), this.characterService, 20)) {
-                    reasons.push("This feat has been taken on a higher level.");
+                //Has it already been taken up to this level, more often than it was taken by this FeatChoice?
+                //  Don't count temporary choices (showOnSheet == true) unless this is also temporary.
+                if (choice.showOnSheet) {
+                    if (this.get_Character().get_FeatsTaken(1, levelNumber, feat.name).length > (this.featTakenByThis(feat, choice) ? 1 : 0)) {
+                        reasons.push("This feat cannot be taken more than once.");
+                    }
+                    //Has it been taken on a higher level (that is, not up to now, but up to Level 20)?
+                    if (!this.get_Character().get_FeatsTaken(1, levelNumber, feat.name).length && this.get_Character().get_FeatsTaken(1, 20, feat.name).length) {
+                        reasons.push("This feat has been taken on a higher level.");
+                    }
+                } else {
+                    if (this.get_Character().get_FeatsTaken(1, levelNumber, feat.name, "", "", undefined, true).length > (this.featTakenByThis(feat, choice) ? 1 : 0)) {
+                        reasons.push("This feat cannot be taken more than once.");
+                    }
+                    //Has it been taken on a higher level (that is, not up to now, but up to Level 20)?
+                    if (!this.get_Character().get_FeatsTaken(1, levelNumber, feat.name, "", "", undefined, true).length &&
+                        this.get_Character().get_FeatsTaken(1, 20, feat.name, "", "", undefined, true).length) {
+                        reasons.push("This feat has been taken on a higher level.");
+                    }
                 }
             }
             //Dedication feats
@@ -373,9 +381,12 @@ export class FeatchoiceComponent implements OnInit {
     }
 
     on_FeatTaken(featName: string, taken: boolean, choice: FeatChoice, locked: boolean) {
-        if (taken && (choice.feats.length == choice.available - 1)) { this.showChoice=""; }
+        if (taken && (choice.feats.length == choice.available - 1)) { this.toggle_List(""); }
         this.get_Character().take_Feat(this.get_Creature(), this.characterService, featName, taken, choice, locked);
+        this.characterService.set_ToChange("Character", "charactersheet");
+        this.characterService.set_ToChange("Character", "featchoices");
         this.characterService.process_ToChange();
+        this.changeDetector.detectChanges();
     }
 
     get_Activities(name: string = "") {

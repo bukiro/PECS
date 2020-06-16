@@ -130,17 +130,18 @@ export class CharacterService {
                 this.set_ViewChanged({creature:creature, target:"all", subtarget:""});
             } else {
                 //Process effects first, as effects may stack up more of the others.
-                let unique_effects: string[] = this.toChange.filter(view => view.creature == creature && view.target == "effects").map(view => JSON.stringify(view))
-                unique_effects = Array.from(new Set(unique_effects));
-                unique_effects.map(view => JSON.parse(view)).forEach(view => {
+                let uniqueEffectsStrings = this.toChange.filter(view => view.creature == creature && view.target == "effects").map(view => JSON.stringify(view))
+                let uniqueEffects = Array.from(new Set(uniqueEffectsStrings)).map(view => JSON.parse(view));
+                uniqueEffects.forEach(view => {
                     this.set_ViewChanged(view);
                 });
-                let unique_others: string[] = this.toChange.filter(view => view.creature == creature && view.target != "effects").map(view => JSON.stringify(view))
-                unique_others = Array.from(new Set(unique_others));
-                unique_others.map(view => JSON.parse(view)).forEach(view => {
-                    this.set_ViewChanged(view);
-                });
+                //For the rest, copy the toChange list and clear it, so we don't get a loop if set_ViewChanged() causes more calls of process_ToChange().
+                let uniqueOthersStrings = this.toChange.filter(view => view.creature == creature && view.target != "effects").map(view => JSON.stringify(view))
+                let uniqueOthers = Array.from(new Set(uniqueOthersStrings)).map(view => JSON.parse(view));
                 this.clear_ToChange(creature);
+                uniqueOthers.forEach(view => {
+                    this.set_ViewChanged(view);
+                });
             }
         })
     }
@@ -828,6 +829,12 @@ export class CharacterService {
 
     set_EquipmentViewChanges(creature: Character|AnimalCompanion, item: Equipment) {
         //Prepare refresh list according to the item's properties.
+        if (item.constructor == Shield || item.constructor == Armor || item.constructor == Weapon) {
+            //There are effects that are based on your currently equipped armor, shield or weapons.
+            //That means we have to check the effects whenever we equip or unequip one of those.
+            this.set_ToChange(creature.type, "effects");
+        }
+        this.set_ToChange(creature.type, "effects");
         if (item.showon) {
             this.set_TagsToChange(creature.type, item.showon);
         }
@@ -1194,6 +1201,18 @@ export class CharacterService {
                 }
                 this.set_ToChange(creature.type, "general");
                 this.set_ToChange(creature.type, "charactersheet");
+                break;
+            case "Raise Shield":
+                let shield = this.get_Character().inventories[0].shields.find(shield => shield.equipped);
+                if (shield) {
+                    if (value > 0) {
+                        shield.raised = true;
+                    } else {
+                        shield.raised = false;
+                    }
+                    this.set_ToChange(creature.type, "defense");
+                    this.set_ToChange(creature.type, "effects");
+                }
                 break;
         }
     }
