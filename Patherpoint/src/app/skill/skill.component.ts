@@ -103,7 +103,7 @@ export class SkillComponent implements OnInit {
                 if (view.creature == this.creature &&
                     (
                         view.target == "all" ||
-                        (view.target == "individualskills" && [this.skill.name, "all"].includes(view.subtarget))
+                        (view.target == "individualskills" && [this.skill.name, this.skill.ability, "all"].includes(view.subtarget))
                     )) {
                     this.changeDetector.detectChanges();
                 }

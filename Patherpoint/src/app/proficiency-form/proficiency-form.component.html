@@ -1,5 +1,3 @@
-<form novalidate [formGroup]="proficiencyGroup">
-    <div>
-        <input *ngFor="let level of [2,4,6,8]; trackBy:trackByIndex;" type="radio" formControlName="proficiencyLevel" [value]="level">
-    </div>
-</form>
+<div>
+    <input *ngFor="let levelValue of [2,4,6,8]; trackBy:trackByIndex;" type="radio" [ngModel]="get_ProficiencyLevel()" [value]="levelValue" disabled>
+</div>

@@ -9,6 +9,7 @@ import { SpellsService } from 'src/app/spells.service';
 import { FamiliarsService } from 'src/app/familiars.service';
 import { Familiar } from 'src/app/Familiar';
 import { Character } from 'src/app/Character';
+import { TraitsService } from 'src/app/traits.service';
 
 @Component({
     selector: 'app-featchoice',
@@ -32,7 +33,11 @@ export class FeatchoiceComponent implements OnInit {
     levelNumber: number;
     @Input()
     creature: string = "Character"
-
+    @Input()
+    sameLevelFeatsOnly: boolean = true;
+    @Input()
+    archetypeFeats: boolean = true;
+    
     constructor(
         private changeDetector: ChangeDetectorRef,
         private characterService: CharacterService,
@@ -40,6 +45,7 @@ export class FeatchoiceComponent implements OnInit {
         private activitiesService: ActivitiesService,
         private spellsService: SpellsService,
         private familiarsService: FamiliarsService,
+        private traitsService: TraitsService,
         private sortByPipe: SortByPipe
     ) { }
 
@@ -79,6 +85,10 @@ export class FeatchoiceComponent implements OnInit {
 
     get_Creature() {
         return this.characterService.get_Creature(this.creature) as Character|Familiar;
+    }
+
+    get_Traits(traitName: string = "") {
+        return this.traitsService.get_Traits(traitName);
     }
 
     get_Feats(name: string = "", type: string = "") {
@@ -130,7 +140,7 @@ export class FeatchoiceComponent implements OnInit {
         let character = this.get_Character()
         //Get all Feats, but no subtype Feats (those that have the supertype attribute set) - those get built within their supertype
         // If a subtype is in the filter
-        let allFeats = this.get_Feats().filter(feat => !feat.superType && !feat.hide);
+        let allFeats: Feat[] = this.get_Feats().filter(feat => !feat.superType && !feat.hide);
         if (choice.filter.length) {
             allFeats = allFeats.filter(feat => choice.filter.includes(feat.name) || 
                 (feat.subTypes && this.get_Feats().filter(subFeat => !subFeat.hide && subFeat.superType == feat.name && choice.filter.includes(subFeat.name)).length))
@@ -159,6 +169,12 @@ export class FeatchoiceComponent implements OnInit {
             }
         }
         if (feats.length) {
+            if (this.sameLevelFeatsOnly && !choice.showOnSheet) {
+                feats = feats.filter(feat => feat.levelreq == (choice.level || this.levelNumber) || !feat.levelreq || this.featTakenByThis(feat, choice));
+            }
+            if (!this.archetypeFeats) {
+                feats = feats.filter(feat => !feat.traits.includes("Archetype") || this.featTakenByThis(feat, choice));
+            }
             if (get_unavailable && choice.feats.length < choice.available) {
                 let unavailableFeats: Feat[] = feats.filter(feat => 
                     (this.cannotTake(feat, choice).length > 0)

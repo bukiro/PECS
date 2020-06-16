@@ -176,7 +176,7 @@ export class AttacksComponent implements OnInit {
         }
     }
 
-    get_SpecialShowon(weapon: Weapon) {
+    get_SpecialShowon(weapon: Weapon, range: string) {
         //Under certain circumstances, some Feats apply to Weapons independently of their name.
         //Return names that get_FeatsShowingOn should run on
         let specialNames: string[] = []
@@ -185,6 +185,7 @@ export class AttacksComponent implements OnInit {
         }
         specialNames.push(weapon.prof);
         specialNames.push(...weapon.traits);
+        specialNames.push(range)
         return specialNames;
     }
 
@@ -193,7 +194,7 @@ export class AttacksComponent implements OnInit {
         if (weapon.melee) {
             attacks.push(weapon.attack(this.get_Creature(), this.characterService, this.effectsService, 'melee'));
         }
-        if (weapon.ranged || weapon.traits.filter(trait => trait.includes("Thrown")).length) {
+        if (weapon.ranged || weapon.traits.find(trait => trait.includes("Thrown"))) {
             attacks.push(weapon.attack(this.get_Creature(), this.characterService, this.effectsService, 'ranged'));
         }
         return attacks;

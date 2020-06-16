@@ -187,7 +187,7 @@ export class Feat {
         let deity: Deity = character.class.deity ? characterService.get_Deities(character.class.deity)[0] : null;
         function Skill_Level(creature: string, name: string) {
             if (creature != "Familiar") {
-                return characterService.get_Skills(characterService.get_Creature(creature), name)[0].level(characterService.get_Creature(creature) as Character|AnimalCompanion, characterService, charLevel);
+                return characterService.get_Skills(characterService.get_Creature(creature), name)[0]?.level(characterService.get_Creature(creature) as Character|AnimalCompanion, characterService, charLevel) || 0;
             } else {
                 return 0;
             }
@@ -228,8 +228,10 @@ export class Feat {
         //Check the skill reqs. True if ANY is true.
         let skillreqs = this.meetsSkillReq(characterService, charLevel)
         let skillreq: boolean = skillreqs.filter(req => req.met == true).length > 0;
+        //Check the feat reqs. True if ALL are true.
         let featreqs = this.meetsFeatReq(characterService, charLevel);
-        let featreq: boolean = featreqs.filter(req => req.met == true).length > 0;
+        let featreq: boolean = featreqs.filter(req => req.met == false).length == 0;
+        //Check the special req. True if returns true.
         let specialreq: boolean = this.meetsSpecialReq(characterService, charLevel).met;
         //Return true if all are true
         return levelreq && abilityreq && skillreq && featreq && specialreq;

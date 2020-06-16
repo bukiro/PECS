@@ -1936,13 +1936,13 @@
                         "increases": [
                             {
                                 "locked": true,
-                                "maxRank": 6,
+                                "maxRank": 4,
                                 "name": "Barbarian Class DC",
                                 "source": "Mighty Rage",
                                 "sourceId": "11-Class DC-Mighty Rage-0"
                             }
                         ],
-                        "maxRank": 6,
+                        "maxRank": 4,
                         "source": "Mighty Rage",
                         "type": "Class DC"
                     },
@@ -8994,20 +8994,6 @@
                 "featChoices": [
                     {
                         "_className": "FeatChoice",
-                        "feats": [
-                            {
-                                "locked": true,
-                                "name": "Weapon Legend",
-                                "source": "Fighter",
-                                "sourceId": "13-Feature-Fighter-0"
-                            }
-                        ],
-                        "id": "13-Feature-Fighter-0",
-                        "source": "Fighter",
-                        "type": "Feature"
-                    },
-                    {
-                        "_className": "FeatChoice",
                         "available": 1,
                         "id": "13-Ancestry-Class-1",
                         "source": "Class",
@@ -9402,15 +9388,31 @@
                     },
                     {
                         "_className": "SkillChoice",
+                        "id": "19-Class DC-Versatile Legend-2",
+                        "increases": [
+                            {
+                                "locked": true,
+                                "maxRank": 6,
+                                "name": "Fighter Class DC",
+                                "source": "Versatile Legend",
+                                "sourceId": "19-Class DC-Versatile Legend-2"
+                            }
+                        ],
+                        "maxRank": 6,
+                        "source": "Versatile Legend",
+                        "type": "Class DC"
+                    },
+                    {
+                        "_className": "SkillChoice",
                         "available": 1,
-                        "id": "19-Skill-Class-2",
+                        "id": "19-Skill-Class-3",
                         "maxRank": 8,
                         "source": "Class",
                         "type": "Skill"
                     },
                     {
                         "_className": "SkillChoice",
-                        "id": "19-Skill-Intelligence-3",
+                        "id": "19-Skill-Intelligence-4",
                         "maxRank": 2,
                         "source": "Intelligence",
                         "type": "Skill"
@@ -10174,7 +10176,7 @@
                         "_className": "SkillChoice",
                         "available": 1,
                         "id": "11-Save-Second Path to Perfection-0",
-                        "maxRank": 4,
+                        "maxRank": 6,
                         "source": "Second Path to Perfection",
                         "type": "Save"
                     },

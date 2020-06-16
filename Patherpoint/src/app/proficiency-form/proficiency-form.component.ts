@@ -9,7 +9,7 @@ import { Character } from '../Character';
     selector: 'app-proficiency-form',
     templateUrl: './proficiency-form.component.html',
     styleUrls: ['./proficiency-form.component.css'],
-    changeDetection: ChangeDetectionStrategy.OnPush
+    changeDetection: ChangeDetectionStrategy.Default
 })
 export class ProficiencyFormComponent implements OnInit {
 
@@ -21,31 +21,40 @@ export class ProficiencyFormComponent implements OnInit {
     characterService: CharacterService;
     @Input()
     level: number;
-    proficiencyGroup: FormGroup;
-    skillLevel:number = 0;
 
     constructor(
-        private formBuilder: FormBuilder,
         private changeDetector: ChangeDetectorRef
     ) { }
-    
+
     trackByIndex(index: number, obj: any): any {
         return index;
     }
-    
+
     get_Creature() {
-        return this.characterService.get_Creature(this.creature) as Character|AnimalCompanion;
+        return this.characterService.get_Creature(this.creature) as Character | AnimalCompanion;
+    }
+
+    get_ProficiencyLevel() {
+        return this.skill.level(this.get_Creature(), this.characterService, this.level);
     }
 
     ngOnInit() {
-        this.proficiencyGroup = this.formBuilder.group({
-            proficiencyLevel: [{value: this.skill.level(this.get_Creature(), this.characterService, this.level), disabled: true}]
-        });
-        this.characterService.characterChanged$
-        .subscribe(() => {
-        this.proficiencyGroup.patchValue({proficiencyLevel: this.skill.level(this.get_Creature(), this.characterService, this.level)});
-        this.changeDetector.detectChanges()
-        })
+        this.characterService.get_Changed()
+            .subscribe((target) => {
+                if (["individualskills", "all", this.creature, this.skill.name].includes(target)) {
+                    this.changeDetector.detectChanges()
+                }
+            });
+        this.characterService.get_ViewChanged()
+            .subscribe((view) => {
+                if (view.creature == this.creature &&
+                    (
+                        view.target == "all" ||
+                        (view.target == "individualskills" && [this.skill.name, this.skill.ability, "all"].includes(view.subtarget))
+                    )) {
+                    this.changeDetector.detectChanges()
+                }
+            });
     }
 
 }

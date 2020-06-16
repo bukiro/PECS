@@ -1,4 +1,5 @@
 import { AbilityBoost } from './AbilityBoost';
+import { Character } from './Character';
 
 export class AbilityChoice {
     public readonly _className: string = this.constructor.name;
@@ -8,8 +9,9 @@ export class AbilityChoice {
     public boosts: AbilityBoost[] = [];
     public filter: string[] = [];
     public id: string = "";
+    public infoOnly: boolean = false;
     public source: string = "";
-    maxAvailable(character) {
+    maxAvailable(character: Character) {
         let lost = 0;
         if (character.baseValues.length > 0) {
             lost = this.baseValuesLost

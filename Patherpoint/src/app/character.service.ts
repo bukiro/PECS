@@ -121,6 +121,9 @@ export class CharacterService {
         showonString.split(",").forEach(subtarget => {
             this.set_ToChange(creature, "tags", subtarget.trim())
         })
+        if (this.get_OwnedActivities(this.get_Creature(creature), this.get_Creature(creature).level).find(activity => showonString.includes(activity.name))) {
+            this.set_ToChange(creature, "activities")
+        }
     }
 
     process_ToChange() {
@@ -1178,8 +1181,11 @@ export class CharacterService {
         }
         switch (effectGain.affected) {
             case "Focus Points":
-                //Give the focus point some time. If a feat expands the focus pool and gives a focus point, the pool is not expanded yet at this point of processing.
                 (creature as Character).class.focusPoints += value;
+                this.get_AppliedConditions(creature, "Hero's Defiance Cooldown").forEach(gain => {
+                    this.remove_Condition(creature, gain);
+                    this.set_ToChange(creature.type, "conditions");
+                });
                 this.set_ToChange(creature.type, "spellbook");
                 break;
             case "Temporary HP":

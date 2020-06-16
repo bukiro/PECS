@@ -14,6 +14,7 @@ export class Condition {
     public showon: string = "";
     public inputRequired: string = "";
     public onceEffects: EffectGain[] = [];
+    public endEffects: EffectGain[] = [];
     public effects: EffectGain[] = [];
     public gainConditions: ConditionGain[] = [];
     public gainActivities: ActivityGain[] = [];

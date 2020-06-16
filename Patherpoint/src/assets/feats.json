@@ -2013,7 +2013,7 @@
         "levelreq": 20,
         "gainConditions": [
             {
-                "name": "Quickened",
+                "name": "Quickened (Enduring Quickness)",
                 "source": "Enduring Quickness"
             }
         ]
@@ -4673,7 +4673,7 @@
         "name": "Sorcerer Dedication",
         "desc": "Choose a bloodline. You become trained in the bloodline's two skills; for each of these skills in which you were already trained, you become trained in a skill of your choice.\n\nYou cast spells like a sorcerer. You gain access to the Cast a Spell activity. You gain a spell repertoire with two common cantrips from the spell list associated with your bloodline, from the spells granted by your bloodline, or any other cantrips of that tradition you learn or discover. You can add to your repertoire common cantrips of your spellcasting tradition, whether from this book or other cantrips of that tradition you learn or discover. You're trained in spell attack rolls and spell DCs for your tradition's spells. Your key spellcasting ability for sorcerer archetype spells is Charisma, and they are sorcerer spells of your bloodline's tradition. You don't gain any other abilities from your choice of bloodline.",
         "specialdesc": "You cannot select another dedication feat until you have gained two other feats from the sorcerer archetype.",
-        "shortdesc": "Your study of the flow of mystical energy allows you to harness it into your physical strikes.",
+        "shortdesc": "You coax the magic power in your blood to manifest, accessing magic others don’t expect you to have.",
         "archetype": "Sorcerer",
         "traits": [
             "Archetype",
@@ -7092,7 +7092,12 @@
         "desc": "Hours spent training with your preferred weapons, learning and developing new combat techniques, have made you particularly effective with axes. Your proficiency rank increases to master with simple and martial axes, and to expert with advanced axes. You gain access to the critical specialization effects (page 283) of all weapons for which you have master proficiency.",
         "subType": "Axe",
         "superType": "Fighter Weapon Mastery",
-        "shortdesc": "",
+        "shortdesc": "Hours spent training with your preferred weapons, learning and developing new combat techniques, have made you particularly effective with axes.",
+        "gainSpecialization": [
+            {
+                "skillLevel": 6
+            }
+        ],
         "gainSkillChoice": [
             {
                 "_className": "SkillChoice",
@@ -7165,7 +7170,12 @@
         "desc": "Hours spent training with your preferred weapons, learning and developing new combat techniques, have made you particularly effective with bombs. Your proficiency rank increases to master with simple and martial bombs, and to expert with advanced bombs. You gain access to the critical specialization effects (page 283) of all weapons for which you have master proficiency.",
         "subType": "Bomb",
         "superType": "Fighter Weapon Mastery",
-        "shortdesc": "",
+        "shortdesc": "Hours spent training with your preferred weapons, learning and developing new combat techniques, have made you particularly effective with bombs.",
+        "gainSpecialization": [
+            {
+                "skillLevel": 6
+            }
+        ],
         "gainSkillChoice": [
             {
                 "_className": "SkillChoice",
@@ -7238,7 +7248,12 @@
         "desc": "Hours spent training with your preferred weapons, learning and developing new combat techniques, have made you particularly effective with bows. Your proficiency rank increases to master with simple and martial bows, and to expert with advanced bows. You gain access to the critical specialization effects (page 283) of all weapons for which you have master proficiency.",
         "subType": "Bow",
         "superType": "Fighter Weapon Mastery",
-        "shortdesc": "",
+        "shortdesc": "Hours spent training with your preferred weapons, learning and developing new combat techniques, have made you particularly effective with bows.",
+        "gainSpecialization": [
+            {
+                "skillLevel": 6
+            }
+        ],
         "gainSkillChoice": [
             {
                 "_className": "SkillChoice",
@@ -7311,7 +7326,12 @@
         "desc": "Hours spent training with your preferred weapons, learning and developing new combat techniques, have made you particularly effective with brawling weapons. Your proficiency rank increases to master with simple and martial brawling weapons, and to expert with advanced brawling weapons. You gain access to the critical specialization effects (page 283) of all weapons for which you have master proficiency.",
         "subType": "Brawling",
         "superType": "Fighter Weapon Mastery",
-        "shortdesc": "",
+        "shortdesc": "Hours spent training with your preferred weapons, learning and developing new combat techniques, have made you particularly effective with brawling weapons.",
+        "gainSpecialization": [
+            {
+                "skillLevel": 6
+            }
+        ],
         "gainSkillChoice": [
             {
                 "_className": "SkillChoice",
@@ -7384,7 +7404,12 @@
         "desc": "Hours spent training with your preferred weapons, learning and developing new combat techniques, have made you particularly effective with clubs. Your proficiency rank increases to master with simple and martial clubs, and to expert with advanced clubs. You gain access to the critical specialization effects (page 283) of all weapons for which you have master proficiency.",
         "subType": "Club",
         "superType": "Fighter Weapon Mastery",
-        "shortdesc": "",
+        "shortdesc": "Hours spent training with your preferred weapons, learning and developing new combat techniques, have made you particularly effective with clubs.",
+        "gainSpecialization": [
+            {
+                "skillLevel": 6
+            }
+        ],
         "gainSkillChoice": [
             {
                 "_className": "SkillChoice",
@@ -7457,7 +7482,12 @@
         "desc": "Hours spent training with your preferred weapons, learning and developing new combat techniques, have made you particularly effective with darts. Your proficiency rank increases to master with simple and martial darts, and to expert with advanced darts. You gain access to the critical specialization effects (page 283) of all weapons for which you have master proficiency.",
         "subType": "Dart",
         "superType": "Fighter Weapon Mastery",
-        "shortdesc": "",
+        "shortdesc": "Hours spent training with your preferred weapons, learning and developing new combat techniques, have made you particularly effective with darts.",
+        "gainSpecialization": [
+            {
+                "skillLevel": 6
+            }
+        ],
         "gainSkillChoice": [
             {
                 "_className": "SkillChoice",
@@ -7530,7 +7560,12 @@
         "desc": "Hours spent training with your preferred weapons, learning and developing new combat techniques, have made you particularly effective with flails. Your proficiency rank increases to master with simple and martial flails, and to expert with advanced flails. You gain access to the critical specialization effects (page 283) of all weapons for which you have master proficiency.",
         "subType": "Flail",
         "superType": "Fighter Weapon Mastery",
-        "shortdesc": "",
+        "shortdesc": "Hours spent training with your preferred weapons, learning and developing new combat techniques, have made you particularly effective with flails.",
+        "gainSpecialization": [
+            {
+                "skillLevel": 6
+            }
+        ],
         "gainSkillChoice": [
             {
                 "_className": "SkillChoice",
@@ -7603,7 +7638,12 @@
         "desc": "Hours spent training with your preferred weapons, learning and developing new combat techniques, have made you particularly effective with hammers. Your proficiency rank increases to master with simple and martial hammers, and to expert with advanced hammers. You gain access to the critical specialization effects (page 283) of all weapons for which you have master proficiency.",
         "subType": "Hammer",
         "superType": "Fighter Weapon Mastery",
-        "shortdesc": "",
+        "shortdesc": "Hours spent training with your preferred weapons, learning and developing new combat techniques, have made you particularly effective with hammers.",
+        "gainSpecialization": [
+            {
+                "skillLevel": 6
+            }
+        ],
         "gainSkillChoice": [
             {
                 "_className": "SkillChoice",
@@ -7676,7 +7716,12 @@
         "desc": "Hours spent training with your preferred weapons, learning and developing new combat techniques, have made you particularly effective with knives. Your proficiency rank increases to master with simple and martial knives, and to expert with advanced knives. You gain access to the critical specialization effects (page 283) of all weapons for which you have master proficiency.",
         "subType": "Knife",
         "superType": "Fighter Weapon Mastery",
-        "shortdesc": "",
+        "shortdesc": "Hours spent training with your preferred weapons, learning and developing new combat techniques, have made you particularly effective with knives.",
+        "gainSpecialization": [
+            {
+                "skillLevel": 6
+            }
+        ],
         "gainSkillChoice": [
             {
                 "_className": "SkillChoice",
@@ -7749,7 +7794,12 @@
         "desc": "Hours spent training with your preferred weapons, learning and developing new combat techniques, have made you particularly effective with picks. Your proficiency rank increases to master with simple and martial picks, and to expert with advanced picks. You gain access to the critical specialization effects (page 283) of all weapons for which you have master proficiency.",
         "subType": "Pick",
         "superType": "Fighter Weapon Mastery",
-        "shortdesc": "",
+        "shortdesc": "Hours spent training with your preferred weapons, learning and developing new combat techniques, have made you particularly effective with picks.",
+        "gainSpecialization": [
+            {
+                "skillLevel": 6
+            }
+        ],
         "gainSkillChoice": [
             {
                 "_className": "SkillChoice",
@@ -7822,7 +7872,12 @@
         "desc": "Hours spent training with your preferred weapons, learning and developing new combat techniques, have made you particularly effective with polearms. Your proficiency rank increases to master with simple and martial polearms, and to expert with advanced polearms. You gain access to the critical specialization effects (page 283) of all weapons for which you have master proficiency.",
         "subType": "Polearm",
         "superType": "Fighter Weapon Mastery",
-        "shortdesc": "",
+        "shortdesc": "Hours spent training with your preferred weapons, learning and developing new combat techniques, have made you particularly effective with polearms.",
+        "gainSpecialization": [
+            {
+                "skillLevel": 6
+            }
+        ],
         "gainSkillChoice": [
             {
                 "_className": "SkillChoice",
@@ -7892,10 +7947,15 @@
     },
     {
         "name": "Fighter Weapon Mastery: Shield",
-        "desc": "Hours spent training with your preferred weapons, learning and developing new combat techniques, have made you particularly effective with shields. Your proficiency rank increases to master with simple and martial shields, and to expert with advanced shields. You gain access to the critical specialization effects (page 283) of all weapons for which you have master proficiency.",
+        "desc": "Hours spent training with your preferred weapons, learning and developing new combat techniques, have made you particularly effective with shield weapons. Your proficiency rank increases to master with simple and martial shield weapons, and to expert with advanced shield weapons. You gain access to the critical specialization effects (page 283) of all weapons for which you have master proficiency.",
         "subType": "Shield",
         "superType": "Fighter Weapon Mastery",
-        "shortdesc": "",
+        "shortdesc": "Hours spent training with your preferred weapons, learning and developing new combat techniques, have made you particularly effective with shield weapons.",
+        "gainSpecialization": [
+            {
+                "skillLevel": 6
+            }
+        ],
         "gainSkillChoice": [
             {
                 "_className": "SkillChoice",
@@ -7968,7 +8028,12 @@
         "desc": "Hours spent training with your preferred weapons, learning and developing new combat techniques, have made you particularly effective with slings. Your proficiency rank increases to master with simple and martial slings, and to expert with advanced slings. You gain access to the critical specialization effects (page 283) of all weapons for which you have master proficiency.",
         "subType": "Sling",
         "superType": "Fighter Weapon Mastery",
-        "shortdesc": "",
+        "shortdesc": "Hours spent training with your preferred weapons, learning and developing new combat techniques, have made you particularly effective with slings.",
+        "gainSpecialization": [
+            {
+                "skillLevel": 6
+            }
+        ],
         "gainSkillChoice": [
             {
                 "_className": "SkillChoice",
@@ -8041,7 +8106,12 @@
         "desc": "Hours spent training with your preferred weapons, learning and developing new combat techniques, have made you particularly effective with spears. Your proficiency rank increases to master with simple and martial spears, and to expert with advanced spears. You gain access to the critical specialization effects (page 283) of all weapons for which you have master proficiency.",
         "subType": "Spear",
         "superType": "Fighter Weapon Mastery",
-        "shortdesc": "",
+        "shortdesc": "Hours spent training with your preferred weapons, learning and developing new combat techniques, have made you particularly effective with spears.",
+        "gainSpecialization": [
+            {
+                "skillLevel": 6
+            }
+        ],
         "gainSkillChoice": [
             {
                 "_className": "SkillChoice",
@@ -8191,14 +8261,14 @@
         "name": "Weapon Legend",
         "desc": "You’ve learned fighting techniques that apply to all armaments, and you’ve developed unparalleled skill with your favorite weapons. Your proficiency ranks for simple and martial weapons and unarmed attacks increase to master. Your proficiency rank for advanced weapons increases to expert. You can select one weapon group and increase your proficiency ranks to legendary for all simple and martial weapons in that weapon group, and to master for all advanced weapons in that weapon group.",
         "subTypes": true,
-        "shortdesc": ""
+        "shortdesc": "You’ve learned fighting techniques that apply to all armaments, and you’ve developed unparalleled skill with your favorite weapons."
     },
     {
         "name": "Weapon Legend: Axe",
         "desc": "You’ve developed unparalleled skill with your favorite weapons. You increase your proficiency ranks to legendary for all simple and martial axes, and to master for all advanced axes.",
         "subType": "Axe",
         "superType": "Weapon Legend",
-        "shortdesc": "",
+        "shortdesc": "You’ve developed unparalleled skill with axes.",
         "gainSkillChoice": [
             {
                 "_className": "SkillChoice",
@@ -8262,19 +8332,19 @@
                     {
                         "locked": true,
                         "maxRank": 2,
-                        "name": "Simple Axe",
+                        "name": "Advanced Axe",
                         "source": "Feat: Weapon Legend: Axe"
                     },
                     {
                         "locked": true,
                         "maxRank": 4,
-                        "name": "Simple Axe",
+                        "name": "Advanced Axe",
                         "source": "Feat: Weapon Legend: Axe"
                     },
                     {
                         "locked": true,
                         "maxRank": 6,
-                        "name": "Simple Axe",
+                        "name": "Advanced Axe",
                         "source": "Feat: Weapon Legend: Axe"
                     }
                 ],
@@ -8289,7 +8359,7 @@
         "desc": "You’ve developed unparalleled skill with your favorite weapons. You increase your proficiency ranks to legendary for all simple and martial bombs, and to master for all advanced bombs.",
         "subType": "Bomb",
         "superType": "Weapon Legend",
-        "shortdesc": "",
+        "shortdesc": "You’ve developed unparalleled skill with bombs.",
         "gainSkillChoice": [
             {
                 "_className": "SkillChoice",
@@ -8353,19 +8423,19 @@
                     {
                         "locked": true,
                         "maxRank": 2,
-                        "name": "Simple Bomb",
+                        "name": "Advanced Bomb",
                         "source": "Feat: Weapon Legend: Bomb"
                     },
                     {
                         "locked": true,
                         "maxRank": 4,
-                        "name": "Simple Bomb",
+                        "name": "Advanced Bomb",
                         "source": "Feat: Weapon Legend: Bomb"
                     },
                     {
                         "locked": true,
                         "maxRank": 6,
-                        "name": "Simple Bomb",
+                        "name": "Advanced Bomb",
                         "source": "Feat: Weapon Legend: Bomb"
                     }
                 ],
@@ -8380,7 +8450,7 @@
         "desc": "You’ve developed unparalleled skill with your favorite weapons. You increase your proficiency ranks to legendary for all simple and martial bows, and to master for all advanced bows.",
         "subType": "Bow",
         "superType": "Weapon Legend",
-        "shortdesc": "",
+        "shortdesc": "You’ve developed unparalleled skill with bows.",
         "gainSkillChoice": [
             {
                 "_className": "SkillChoice",
@@ -8444,19 +8514,19 @@
                     {
                         "locked": true,
                         "maxRank": 2,
-                        "name": "Simple Bow",
+                        "name": "Advanced Bow",
                         "source": "Feat: Weapon Legend: Bow"
                     },
                     {
                         "locked": true,
                         "maxRank": 4,
-                        "name": "Simple Bow",
+                        "name": "Advanced Bow",
                         "source": "Feat: Weapon Legend: Bow"
                     },
                     {
                         "locked": true,
                         "maxRank": 6,
-                        "name": "Simple Bow",
+                        "name": "Advanced Bow",
                         "source": "Feat: Weapon Legend: Bow"
                     }
                 ],
@@ -8471,7 +8541,7 @@
         "desc": "You’ve developed unparalleled skill with your favorite weapons. You increase your proficiency ranks to legendary for all simple and martial brawling weapons, and to master for all advanced brawling weapons.",
         "subType": "Brawling",
         "superType": "Weapon Legend",
-        "shortdesc": "",
+        "shortdesc": "You’ve developed unparalleled skill with brawling weapons.",
         "gainSkillChoice": [
             {
                 "_className": "SkillChoice",
@@ -8535,19 +8605,19 @@
                     {
                         "locked": true,
                         "maxRank": 2,
-                        "name": "Simple Brawling",
+                        "name": "Advanced Brawling",
                         "source": "Feat: Weapon Legend: Brawling"
                     },
                     {
                         "locked": true,
                         "maxRank": 4,
-                        "name": "Simple Brawling",
+                        "name": "Advanced Brawling",
                         "source": "Feat: Weapon Legend: Brawling"
                     },
                     {
                         "locked": true,
                         "maxRank": 6,
-                        "name": "Simple Brawling",
+                        "name": "Advanced Brawling",
                         "source": "Feat: Weapon Legend: Brawling"
                     }
                 ],
@@ -8562,7 +8632,7 @@
         "desc": "You’ve developed unparalleled skill with your favorite weapons. You increase your proficiency ranks to legendary for all simple and martial clubs, and to master for all advanced clubs.",
         "subType": "Club",
         "superType": "Weapon Legend",
-        "shortdesc": "",
+        "shortdesc": "You’ve developed unparalleled skill with clubs.",
         "gainSkillChoice": [
             {
                 "_className": "SkillChoice",
@@ -8626,19 +8696,19 @@
                     {
                         "locked": true,
                         "maxRank": 2,
-                        "name": "Simple Club",
+                        "name": "Advanced Club",
                         "source": "Feat: Weapon Legend: Club"
                     },
                     {
                         "locked": true,
                         "maxRank": 4,
-                        "name": "Simple Club",
+                        "name": "Advanced Club",
                         "source": "Feat: Weapon Legend: Club"
                     },
                     {
                         "locked": true,
                         "maxRank": 6,
-                        "name": "Simple Club",
+                        "name": "Advanced Club",
                         "source": "Feat: Weapon Legend: Club"
                     }
                 ],
@@ -8653,7 +8723,7 @@
         "desc": "You’ve developed unparalleled skill with your favorite weapons. You increase your proficiency ranks to legendary for all simple and martial darts, and to master for all advanced darts.",
         "subType": "Dart",
         "superType": "Weapon Legend",
-        "shortdesc": "",
+        "shortdesc": "You’ve developed unparalleled skill with darts.",
         "gainSkillChoice": [
             {
                 "_className": "SkillChoice",
@@ -8717,19 +8787,19 @@
                     {
                         "locked": true,
                         "maxRank": 2,
-                        "name": "Simple Dart",
+                        "name": "Advanced Dart",
                         "source": "Feat: Weapon Legend: Dart"
                     },
                     {
                         "locked": true,
                         "maxRank": 4,
-                        "name": "Simple Dart",
+                        "name": "Advanced Dart",
                         "source": "Feat: Weapon Legend: Dart"
                     },
                     {
                         "locked": true,
                         "maxRank": 6,
-                        "name": "Simple Dart",
+                        "name": "Advanced Dart",
                         "source": "Feat: Weapon Legend: Dart"
                     }
                 ],
@@ -8744,7 +8814,7 @@
         "desc": "You’ve developed unparalleled skill with your favorite weapons. You increase your proficiency ranks to legendary for all simple and martial flails, and to master for all advanced flails.",
         "subType": "Flail",
         "superType": "Weapon Legend",
-        "shortdesc": "",
+        "shortdesc": "You’ve developed unparalleled skill with flails.",
         "gainSkillChoice": [
             {
                 "_className": "SkillChoice",
@@ -8808,19 +8878,19 @@
                     {
                         "locked": true,
                         "maxRank": 2,
-                        "name": "Simple Flail",
+                        "name": "Advanced Flail",
                         "source": "Feat: Weapon Legend: Flail"
                     },
                     {
                         "locked": true,
                         "maxRank": 4,
-                        "name": "Simple Flail",
+                        "name": "Advanced Flail",
                         "source": "Feat: Weapon Legend: Flail"
                     },
                     {
                         "locked": true,
                         "maxRank": 6,
-                        "name": "Simple Flail",
+                        "name": "Advanced Flail",
                         "source": "Feat: Weapon Legend: Flail"
                     }
                 ],
@@ -8835,7 +8905,7 @@
         "desc": "You’ve developed unparalleled skill with your favorite weapons. You increase your proficiency ranks to legendary for all simple and martial hammers, and to master for all advanced hammers.",
         "subType": "Hammer",
         "superType": "Weapon Legend",
-        "shortdesc": "",
+        "shortdesc": "You’ve developed unparalleled skill with hammers.",
         "gainSkillChoice": [
             {
                 "_className": "SkillChoice",
@@ -8899,19 +8969,19 @@
                     {
                         "locked": true,
                         "maxRank": 2,
-                        "name": "Simple Hammer",
+                        "name": "Advanced Hammer",
                         "source": "Feat: Weapon Legend: Hammer"
                     },
                     {
                         "locked": true,
                         "maxRank": 4,
-                        "name": "Simple Hammer",
+                        "name": "Advanced Hammer",
                         "source": "Feat: Weapon Legend: Hammer"
                     },
                     {
                         "locked": true,
                         "maxRank": 6,
-                        "name": "Simple Hammer",
+                        "name": "Advanced Hammer",
                         "source": "Feat: Weapon Legend: Hammer"
                     }
                 ],
@@ -8926,7 +8996,7 @@
         "desc": "You’ve developed unparalleled skill with your favorite weapons. You increase your proficiency ranks to legendary for all simple and martial knives, and to master for all advanced knives.",
         "subType": "Knife",
         "superType": "Weapon Legend",
-        "shortdesc": "",
+        "shortdesc": "You’ve developed unparalleled skill with knives.",
         "gainSkillChoice": [
             {
                 "_className": "SkillChoice",
@@ -8990,19 +9060,19 @@
                     {
                         "locked": true,
                         "maxRank": 2,
-                        "name": "Simple Knife",
+                        "name": "Advanced Knife",
                         "source": "Feat: Weapon Legend: Knife"
                     },
                     {
                         "locked": true,
                         "maxRank": 4,
-                        "name": "Simple Knife",
+                        "name": "Advanced Knife",
                         "source": "Feat: Weapon Legend: Knife"
                     },
                     {
                         "locked": true,
                         "maxRank": 6,
-                        "name": "Simple Knife",
+                        "name": "Advanced Knife",
                         "source": "Feat: Weapon Legend: Knife"
                     }
                 ],
@@ -9017,7 +9087,7 @@
         "desc": "You’ve developed unparalleled skill with your favorite weapons. You increase your proficiency ranks to legendary for all simple and martial picks, and to master for all advanced picks.",
         "subType": "Pick",
         "superType": "Weapon Legend",
-        "shortdesc": "",
+        "shortdesc": "You’ve developed unparalleled skill with picks.",
         "gainSkillChoice": [
             {
                 "_className": "SkillChoice",
@@ -9081,19 +9151,19 @@
                     {
                         "locked": true,
                         "maxRank": 2,
-                        "name": "Simple Pick",
+                        "name": "Advanced Pick",
                         "source": "Feat: Weapon Legend: Pick"
                     },
                     {
                         "locked": true,
                         "maxRank": 4,
-                        "name": "Simple Pick",
+                        "name": "Advanced Pick",
                         "source": "Feat: Weapon Legend: Pick"
                     },
                     {
                         "locked": true,
                         "maxRank": 6,
-                        "name": "Simple Pick",
+                        "name": "Advanced Pick",
                         "source": "Feat: Weapon Legend: Pick"
                     }
                 ],
@@ -9108,7 +9178,7 @@
         "desc": "You’ve developed unparalleled skill with your favorite weapons. You increase your proficiency ranks to legendary for all simple and martial polearms, and to master for all advanced polearms.",
         "subType": "Polearm",
         "superType": "Weapon Legend",
-        "shortdesc": "",
+        "shortdesc": "You’ve developed unparalleled skill with polearms.",
         "gainSkillChoice": [
             {
                 "_className": "SkillChoice",
@@ -9172,19 +9242,19 @@
                     {
                         "locked": true,
                         "maxRank": 2,
-                        "name": "Simple Polearm",
+                        "name": "Advanced Polearm",
                         "source": "Feat: Weapon Legend: Polearm"
                     },
                     {
                         "locked": true,
                         "maxRank": 4,
-                        "name": "Simple Polearm",
+                        "name": "Advanced Polearm",
                         "source": "Feat: Weapon Legend: Polearm"
                     },
                     {
                         "locked": true,
                         "maxRank": 6,
-                        "name": "Simple Polearm",
+                        "name": "Advanced Polearm",
                         "source": "Feat: Weapon Legend: Polearm"
                     }
                 ],
@@ -9196,10 +9266,10 @@
     },
     {
         "name": "Weapon Legend: Shield",
-        "desc": "You’ve developed unparalleled skill with your favorite weapons. You increase your proficiency ranks to legendary for all simple and martial shields, and to master for all advanced shields.",
+        "desc": "You’ve developed unparalleled skill with your favorite weapons. You increase your proficiency ranks to legendary for all simple and martial shield weapons, and to master for all advanced shield weapons.",
         "subType": "Shield",
         "superType": "Weapon Legend",
-        "shortdesc": "",
+        "shortdesc": "You’ve developed unparalleled skill with shield weapons.",
         "gainSkillChoice": [
             {
                 "_className": "SkillChoice",
@@ -9263,19 +9333,19 @@
                     {
                         "locked": true,
                         "maxRank": 2,
-                        "name": "Simple Shield",
+                        "name": "Advanced Shield",
                         "source": "Feat: Weapon Legend: Shield"
                     },
                     {
                         "locked": true,
                         "maxRank": 4,
-                        "name": "Simple Shield",
+                        "name": "Advanced Shield",
                         "source": "Feat: Weapon Legend: Shield"
                     },
                     {
                         "locked": true,
                         "maxRank": 6,
-                        "name": "Simple Shield",
+                        "name": "Advanced Shield",
                         "source": "Feat: Weapon Legend: Shield"
                     }
                 ],
@@ -9290,7 +9360,7 @@
         "desc": "You’ve developed unparalleled skill with your favorite weapons. You increase your proficiency ranks to legendary for all simple and martial slings, and to master for all advanced slings.",
         "subType": "Sling",
         "superType": "Weapon Legend",
-        "shortdesc": "",
+        "shortdesc": "You’ve developed unparalleled skill with slings.",
         "gainSkillChoice": [
             {
                 "_className": "SkillChoice",
@@ -9354,19 +9424,19 @@
                     {
                         "locked": true,
                         "maxRank": 2,
-                        "name": "Simple Sling",
+                        "name": "Advanced Sling",
                         "source": "Feat: Weapon Legend: Sling"
                     },
                     {
                         "locked": true,
                         "maxRank": 4,
-                        "name": "Simple Sling",
+                        "name": "Advanced Sling",
                         "source": "Feat: Weapon Legend: Sling"
                     },
                     {
                         "locked": true,
                         "maxRank": 6,
-                        "name": "Simple Sling",
+                        "name": "Advanced Sling",
                         "source": "Feat: Weapon Legend: Sling"
                     }
                 ],
@@ -9381,7 +9451,7 @@
         "desc": "You’ve developed unparalleled skill with your favorite weapons. You increase your proficiency ranks to legendary for all simple and martial spears, and to master for all advanced spears.",
         "subType": "Spear",
         "superType": "Weapon Legend",
-        "shortdesc": "",
+        "shortdesc": "You’ve developed unparalleled skill with spears.",
         "gainSkillChoice": [
             {
                 "_className": "SkillChoice",
@@ -9445,19 +9515,19 @@
                     {
                         "locked": true,
                         "maxRank": 2,
-                        "name": "Simple Spear",
+                        "name": "Advanced Spear",
                         "source": "Feat: Weapon Legend: Spear"
                     },
                     {
                         "locked": true,
                         "maxRank": 4,
-                        "name": "Simple Spear",
+                        "name": "Advanced Spear",
                         "source": "Feat: Weapon Legend: Spear"
                     },
                     {
                         "locked": true,
                         "maxRank": 6,
-                        "name": "Simple Spear",
+                        "name": "Advanced Spear",
                         "source": "Feat: Weapon Legend: Spear"
                     }
                 ],
@@ -9472,7 +9542,7 @@
         "desc": "You’ve developed unparalleled skill with your favorite weapons. You increase your proficiency ranks to legendary for all simple and martial swords, and to master for all advanced swords.",
         "subType": "Sword",
         "superType": "Weapon Legend",
-        "shortdesc": "",
+        "shortdesc": "You’ve developed unparalleled skill with swords.",
         "gainSkillChoice": [
             {
                 "_className": "SkillChoice",
@@ -9536,19 +9606,19 @@
                     {
                         "locked": true,
                         "maxRank": 2,
-                        "name": "Simple Sword",
+                        "name": "Advanced Sword",
                         "source": "Feat: Weapon Legend: Sword"
                     },
                     {
                         "locked": true,
                         "maxRank": 4,
-                        "name": "Simple Sword",
+                        "name": "Advanced Sword",
                         "source": "Feat: Weapon Legend: Sword"
                     },
                     {
                         "locked": true,
                         "maxRank": 6,
-                        "name": "Simple Sword",
+                        "name": "Advanced Sword",
                         "source": "Feat: Weapon Legend: Sword"
                     }
                 ],
@@ -9561,7 +9631,7 @@
     {
         "name": "Divine Ki Spells",
         "desc": "Your ki spells are divine spells. You become trained in divine spell attacks and divine spell DCs and your key spellcasting ability is Wisdom.",
-        "shortdesc": "",
+        "shortdesc": "Your ki spells are divine spells.",
         "gainSkillChoice": [
             {
                 "_className": "SkillChoice",
@@ -9618,7 +9688,7 @@
     {
         "name": "Occult Ki Spells",
         "desc": "Your ki spells are occult spells. You become trained in occult spell attacks and occult spell DCs and your key spellcasting ability is Wisdom.",
-        "shortdesc": "",
+        "shortdesc": "Your ki spells are occult spells.",
         "gainSkillChoice": [
             {
                 "_className": "SkillChoice",
@@ -11369,6 +11439,8 @@
     {
         "name": "Knockdown",
         "desc": "You make an attack to knock a foe off balance, then follow up immediately with a sweep to topple them.",
+        "hint": "If the Strike made during Knockdown hits and deals damage, you can attempt an Athletics check to Trip the creature you hit. If you’re wielding a two-handed melee weapon, you can ignore Trip’s requirement that you have a hand free.",
+        "showon": "Athletics",
         "shortdesc": "You make an attack to knock a foe off balance, then follow up immediately with a sweep to topple them.",
         "traits": [
             "Fighter",
@@ -11479,13 +11551,13 @@
                         "locked": true,
                         "maxRank": 2,
                         "name": "Advanced Axe",
-                        "source": "Feat: Fighter Weapon Mastery: Axe"
+                        "source": "Feat: Advanced Weapon Training: Axe"
                     },
                     {
                         "locked": true,
                         "maxRank": 4,
                         "name": "Advanced Axe",
-                        "source": "Feat: Fighter Weapon Mastery: Axe"
+                        "source": "Feat: Advanced Weapon Training: Axe"
                     }
                 ],
                 "maxRank": 4,
@@ -11512,13 +11584,13 @@
                         "locked": true,
                         "maxRank": 2,
                         "name": "Advanced Bomb",
-                        "source": "Feat: Fighter Weapon Mastery: Bomb"
+                        "source": "Feat: Advanced Weapon Training: Bomb"
                     },
                     {
                         "locked": true,
                         "maxRank": 4,
                         "name": "Advanced Bomb",
-                        "source": "Feat: Fighter Weapon Mastery: Bomb"
+                        "source": "Feat: Advanced Weapon Training: Bomb"
                     }
                 ],
                 "maxRank": 4,
@@ -11545,13 +11617,13 @@
                         "locked": true,
                         "maxRank": 2,
                         "name": "Advanced Bow",
-                        "source": "Feat: Fighter Weapon Mastery: Bow"
+                        "source": "Feat: Advanced Weapon Training: Bow"
                     },
                     {
                         "locked": true,
                         "maxRank": 4,
                         "name": "Advanced Bow",
-                        "source": "Feat: Fighter Weapon Mastery: Bow"
+                        "source": "Feat: Advanced Weapon Training: Bow"
                     }
                 ],
                 "maxRank": 4,
@@ -11578,13 +11650,13 @@
                         "locked": true,
                         "maxRank": 2,
                         "name": "Advanced Brawling",
-                        "source": "Feat: Fighter Weapon Mastery: Brawling"
+                        "source": "Feat: Advanced Weapon Training: Brawling"
                     },
                     {
                         "locked": true,
                         "maxRank": 4,
                         "name": "Advanced Brawling",
-                        "source": "Feat: Fighter Weapon Mastery: Brawling"
+                        "source": "Feat: Advanced Weapon Training: Brawling"
                     }
                 ],
                 "maxRank": 4,
@@ -11611,13 +11683,13 @@
                         "locked": true,
                         "maxRank": 2,
                         "name": "Advanced Club",
-                        "source": "Feat: Fighter Weapon Mastery: Club"
+                        "source": "Feat: Advanced Weapon Training: Club"
                     },
                     {
                         "locked": true,
                         "maxRank": 4,
                         "name": "Advanced Club",
-                        "source": "Feat: Fighter Weapon Mastery: Club"
+                        "source": "Feat: Advanced Weapon Training: Club"
                     }
                 ],
                 "maxRank": 4,
@@ -11644,13 +11716,13 @@
                         "locked": true,
                         "maxRank": 2,
                         "name": "Advanced Dart",
-                        "source": "Feat: Fighter Weapon Mastery: Dart"
+                        "source": "Feat: Advanced Weapon Training: Dart"
                     },
                     {
                         "locked": true,
                         "maxRank": 4,
                         "name": "Advanced Dart",
-                        "source": "Feat: Fighter Weapon Mastery: Dart"
+                        "source": "Feat: Advanced Weapon Training: Dart"
                     }
                 ],
                 "maxRank": 4,
@@ -11677,13 +11749,13 @@
                         "locked": true,
                         "maxRank": 2,
                         "name": "Advanced Flail",
-                        "source": "Feat: Fighter Weapon Mastery: Flail"
+                        "source": "Feat: Advanced Weapon Training: Flail"
                     },
                     {
                         "locked": true,
                         "maxRank": 4,
                         "name": "Advanced Flail",
-                        "source": "Feat: Fighter Weapon Mastery: Flail"
+                        "source": "Feat: Advanced Weapon Training: Flail"
                     }
                 ],
                 "maxRank": 4,
@@ -11710,13 +11782,13 @@
                         "locked": true,
                         "maxRank": 2,
                         "name": "Advanced Hammer",
-                        "source": "Feat: Fighter Weapon Mastery: Hammer"
+                        "source": "Feat: Advanced Weapon Training: Hammer"
                     },
                     {
                         "locked": true,
                         "maxRank": 4,
                         "name": "Advanced Hammer",
-                        "source": "Feat: Fighter Weapon Mastery: Hammer"
+                        "source": "Feat: Advanced Weapon Training: Hammer"
                     }
                 ],
                 "maxRank": 4,
@@ -11743,13 +11815,13 @@
                         "locked": true,
                         "maxRank": 2,
                         "name": "Advanced Knife",
-                        "source": "Feat: Fighter Weapon Mastery: Knife"
+                        "source": "Feat: Advanced Weapon Training: Knife"
                     },
                     {
                         "locked": true,
                         "maxRank": 4,
                         "name": "Advanced Knife",
-                        "source": "Feat: Fighter Weapon Mastery: Knife"
+                        "source": "Feat: Advanced Weapon Training: Knife"
                     }
                 ],
                 "maxRank": 4,
@@ -11776,13 +11848,13 @@
                         "locked": true,
                         "maxRank": 2,
                         "name": "Advanced Pick",
-                        "source": "Feat: Fighter Weapon Mastery: Pick"
+                        "source": "Feat: Advanced Weapon Training: Pick"
                     },
                     {
                         "locked": true,
                         "maxRank": 4,
                         "name": "Advanced Pick",
-                        "source": "Feat: Fighter Weapon Mastery: Pick"
+                        "source": "Feat: Advanced Weapon Training: Pick"
                     }
                 ],
                 "maxRank": 4,
@@ -11809,13 +11881,13 @@
                         "locked": true,
                         "maxRank": 2,
                         "name": "Advanced Polearm",
-                        "source": "Feat: Fighter Weapon Mastery: Polearm"
+                        "source": "Feat: Advanced Weapon Training: Polearm"
                     },
                     {
                         "locked": true,
                         "maxRank": 4,
                         "name": "Advanced Polearm",
-                        "source": "Feat: Fighter Weapon Mastery: Polearm"
+                        "source": "Feat: Advanced Weapon Training: Polearm"
                     }
                 ],
                 "maxRank": 4,
@@ -11842,13 +11914,13 @@
                         "locked": true,
                         "maxRank": 2,
                         "name": "Advanced Shield",
-                        "source": "Feat: Fighter Weapon Mastery: Shield"
+                        "source": "Feat: Advanced Weapon Training: Shield"
                     },
                     {
                         "locked": true,
                         "maxRank": 4,
                         "name": "Advanced Shield",
-                        "source": "Feat: Fighter Weapon Mastery: Shield"
+                        "source": "Feat: Advanced Weapon Training: Shield"
                     }
                 ],
                 "maxRank": 4,
@@ -11875,13 +11947,13 @@
                         "locked": true,
                         "maxRank": 2,
                         "name": "Advanced Sling",
-                        "source": "Feat: Fighter Weapon Mastery: Sling"
+                        "source": "Feat: Advanced Weapon Training: Sling"
                     },
                     {
                         "locked": true,
                         "maxRank": 4,
                         "name": "Advanced Sling",
-                        "source": "Feat: Fighter Weapon Mastery: Sling"
+                        "source": "Feat: Advanced Weapon Training: Sling"
                     }
                 ],
                 "maxRank": 4,
@@ -11908,13 +11980,13 @@
                         "locked": true,
                         "maxRank": 2,
                         "name": "Advanced Spear",
-                        "source": "Feat: Fighter Weapon Mastery: Spear"
+                        "source": "Feat: Advanced Weapon Training: Spear"
                     },
                     {
                         "locked": true,
                         "maxRank": 4,
                         "name": "Advanced Spear",
-                        "source": "Feat: Fighter Weapon Mastery: Spear"
+                        "source": "Feat: Advanced Weapon Training: Spear"
                     }
                 ],
                 "maxRank": 4,
@@ -11941,13 +12013,13 @@
                         "locked": true,
                         "maxRank": 2,
                         "name": "Advanced Sword",
-                        "source": "Feat: Fighter Weapon Mastery: Sword"
+                        "source": "Feat: Advanced Weapon Training: Sword"
                     },
                     {
                         "locked": true,
                         "maxRank": 4,
                         "name": "Advanced Sword",
-                        "source": "Feat: Fighter Weapon Mastery: Sword"
+                        "source": "Feat: Advanced Weapon Training: Sword"
                     }
                 ],
                 "maxRank": 4,
@@ -12293,7 +12365,7 @@
         "name": "Fearsome Brute",
         "desc": "Fear makes your foes weak and more vulnerable to your attacks. You gain a circumstance bonus to damage rolls for Strikes against frightened creatures. The bonus is equal to double the target’s frightened value.\n\nIf you have master proficiency in Intimidation, increase the bonus to triple the target’s frightened value.",
         "hint": "You gain a circumstance bonus to damage rolls for Strikes against frightened creatures. The bonus is equal to double the target’s frightened value.\n\nIf you have master proficiency in Intimidation, increase the bonus to triple the target’s frightened value.",
-        "showon": "Attacks",
+        "showon": "Attacks, Intimidation",
         "shortdesc": "Fear makes your foes weak and more vulnerable to your attacks.",
         "traits": [
             "Fighter"
@@ -12304,7 +12376,7 @@
         "name": "Improved Knockdown",
         "desc": "You can dash your foe to the ground with a single blow. When you use Knockdown, instead of making a Strike followed by a Trip, you can attempt a single Strike. If you do and your Strike hits, you also apply the critical success effect of a Trip. If you used a two-handed melee weapon for the Strike, you can use the weapon’s damage die size instead of the regular die size for the damage from a critical Trip.",
         "hint": "When you use Knockdown, instead of making a Strike followed by a Trip, you can attempt a single Strike. If you do and your Strike hits, you also apply the critical success effect of a Trip. If you used a two-handed melee weapon for the Strike, you can use the weapon’s damage die size instead of the regular die size for the damage from a critical Trip.",
-        "showon": "Knockdown, Trip",
+        "showon": "Knockdown, Athletics",
         "shortdesc": "You can dash your foe to the ground with a single blow.",
         "traits": [
             "Fighter"
@@ -12699,8 +12771,539 @@
         "levelreq": 20,
         "gainConditions": [
             {
-                "name": "Quickened",
+                "name": "Quickened (Weapon Supremacy)",
                 "source": "Weapon Supremacy"
+            }
+        ]
+    },
+    {
+        "name": "Fighter Dedication",
+        "desc": "You become trained in simple weapons and martial weapons. You become trained in your choice of Acrobatics or Athletics; if you are already trained in both of these skills, you instead become trained in a skill of your choice. You become trained in fighter class DC.",
+        "specialdesc": "You cannot select another dedication feat until you have gained two other feats from the fighter archetype.",
+        "shortdesc": "You have spent time learning the art of warfare, increasing your skill with martial arms and at wearing armor.",
+        "archetype": "Fighter",
+        "traits": [
+            "Archetype",
+            "Dedication",
+            "Multiclass"
+        ],
+        "levelreq": 2,
+        "abilityreq": [
+            {
+                "ability": "Strength",
+                "value": 14
+            },
+            {
+                "ability": "Dexterity",
+                "value": 14
+            }
+        ],
+        "gainAbilityChoice": [
+            {
+                "_className": "AbilityChoice",
+                "available": 1,
+                "filter": [
+                    "Strength",
+                    "Dexterity"
+                ],
+                "infoOnly": true,
+                "source": "Fighter Key Ability"
+            }
+        ],
+        "gainSkillChoice": [
+            {
+                "_className": "SkillChoice",
+                "available": 1,
+                "filter": [
+                    "Athletics",
+                    "Acrobatics"
+                ],
+                "maxRank": 2,
+                "source": "Feat: Fighter Dedication",
+                "type": "Skill"
+            },
+            {
+                "_className": "SkillChoice",
+                "increases": [
+                    {
+                        "locked": true,
+                        "maxRank": 2,
+                        "name": "Simple Weapons",
+                        "source": "Feat: Fighter Dedication"
+                    },
+                    {
+                        "locked": true,
+                        "maxRank": 2,
+                        "name": "Martial Weapons",
+                        "source": "Feat: Fighter Dedication"
+                    }
+                ],
+                "maxRank": 2,
+                "source": "Feat: Fighter Dedication",
+                "type": "Weapon Proficiency"
+            },
+            {
+                "_className": "SkillChoice",
+                "increases": [
+                    {
+                        "locked": true,
+                        "maxRank": 2,
+                        "name": "Fighter Class DC",
+                        "source": "Feat: Fighter Dedication"
+                    }
+                ],
+                "maxRank": 2,
+                "source": "Feat: Fighter Dedication",
+                "type": "Class DC"
+            }
+        ]
+    },
+    {
+        "name": "Basic Maneuver",
+        "desc": "You gain a 1st- or 2nd-level fighter feat.",
+        "shortdesc": "You gain a 1st- or 2nd-level fighter feat.",
+        "archetype": "Fighter",
+        "traits": [
+            "Archetype"
+        ],
+        "levelreq": 4,
+        "featreq": [
+            "Fighter Dedication"
+        ],
+        "gainFeatChoice": [
+            {
+                "_className": "FeatChoice",
+                "available": 1,
+                "level": 2,
+                "source": "Feat: Basic Maneuver",
+                "type": "Fighter"
+            }
+        ]
+    },
+    {
+        "name": "Fighter Resiliency",
+        "desc": "You gain 3 additional Hit Points for each fighter archetype class feat you have. As you continue selecting fighter archetype class feats, you continue to gain additional Hit Points in this way.",
+        "archetype": "Fighter",
+        "traits": [
+            "Archetype"
+        ],
+        "levelreq": 4,
+        "featreq": [
+            "Fighter Dedication"
+        ],
+        "specialreq": "character.class.hitPoints <= 8",
+        "specialreqdesc": "class granting no more Hit Points per level than 8 + your Constitution modifier",
+        "effects": [
+            {
+                "affected": "Max HP",
+                "value": "Character.get_FeatsTaken(1, Level).filter(gain => characterService.get_Feats(gain.name)[0]?.archetype == \"Fighter\").length * 3"
+            }
+        ]
+    },
+    {
+        "name": "Opportunist",
+        "desc": "You gain the Attack of Opportunity reaction.",
+        "archetype": "Fighter",
+        "traits": [
+            "Archetype"
+        ],
+        "levelreq": 4,
+        "featreq": [
+            "Fighter Dedication"
+        ],
+        "gainActivities": [
+            "Attack of Opportunity"
+        ]
+    },
+    {
+        "name": "Advanced Maneuver",
+        "desc": "You gain a fighter feat. For the purpose of meeting its prerequisites, your fighter level is equal to half your character level.",
+        "specialdesc": "You can select this feat more than once. Each time you select it, you gain another fighter feat.",
+        "archetype": "Fighter",
+        "unlimited": true,
+        "traits": [
+            "Archetype"
+        ],
+        "levelreq": 6,
+        "featreq": [
+            "Basic Maneuver"
+        ],
+        "gainFeatChoice": [
+            {
+                "_className": "FeatChoice",
+                "available": 1,
+                "dynamicLevel": "level.number / 2",
+                "source": "Feat: Advanced Maneuver",
+                "type": "Fighter"
+            }
+        ]
+    },
+    {
+        "name": "Diverse Weapon Expert",
+        "desc": "Your proficiency ranks for simple weapons and martial weapons increase to expert, and your proficiency rank for advanced weapons increases to trained.",
+        "archetype": "Fighter",
+        "traits": [
+            "Archetype"
+        ],
+        "levelreq": 12,
+        "featreq": [
+            "Fighter Dedication"
+        ],
+        "specialreq": "characterService.get_Skills(character, '', 'Weapon Proficiency').concat(characterService.get_Skills(character, '', 'Specific Weapon Proficiency')).find(skill => Skill_Level('Character', skill.name) >= 4)",
+        "specialreqdesc": "expert in any kind of weapon or unarmed attack",
+        "gainSkillChoice": [
+            {
+                "_className": "SkillChoice",
+                "increases": [
+                    {
+                        "locked": true,
+                        "maxRank": 2,
+                        "name": "Simple Weapons",
+                        "source": "Feat: Diverse Weapon Expert"
+                    },
+                    {
+                        "locked": true,
+                        "maxRank": 4,
+                        "name": "Simple Weapons",
+                        "source": "Feat: Diverse Weapon Expert"
+                    },
+                    {
+                        "locked": true,
+                        "maxRank": 2,
+                        "name": "Martial Weapons",
+                        "source": "Feat: Diverse Weapon Expert"
+                    },
+                    {
+                        "locked": true,
+                        "maxRank": 4,
+                        "name": "Martial Weapons",
+                        "source": "Feat: Diverse Weapon Expert"
+                    },
+                    {
+                        "locked": true,
+                        "maxRank": 2,
+                        "name": "Advanced Weapons",
+                        "source": "Feat: Diverse Weapon Expert"
+                    }
+                ],
+                "maxRank": 4,
+                "source": "Feat: Diverse Weapon Expert",
+                "type": "Weapon Proficiency"
+            }
+        ]
+    },
+    {
+        "name": "Monk Dedication",
+        "desc": "You become trained in unarmed attacks and gain the powerful fist class feature. You become trained in your choice of Acrobatics or Athletics; if you are already trained in both of these skills, you become trained in a skill of your choice. You become trained in monk class DC.",
+        "specialdesc": "You can’t select another dedication feat until you have gained two other feats from the monk archetype.",
+        "shortdesc": "Monastic training has taught you martial arts and allowed you to hone your mind, body, and spirit to new heights.",
+        "archetype": "Monk",
+        "traits": [
+            "Archetype",
+            "Dedication",
+            "Multiclass"
+        ],
+        "levelreq": 2,
+        "abilityreq": [
+            {
+                "ability": "Strength",
+                "value": 14
+            },
+            {
+                "ability": "Dexterity",
+                "value": 14
+            }
+        ],
+        "gainAbilityChoice": [
+            {
+                "_className": "AbilityChoice",
+                "available": 1,
+                "infoOnly": true,
+                "filter": [
+                    "Strength",
+                    "Dexterity"
+                ],
+                "source": "Monk Key Ability"
+            }
+        ],
+        "gainFeatChoice": [
+            {
+                "_className": "FeatChoice",
+                "feats": [
+                    {
+                        "locked": true,
+                        "name": "Powerful Fist"
+                    }
+                ],
+                "source": "Feat: Monk Dedication",
+                "type": "Feature"
+            }
+        ],
+        "gainSkillChoice": [
+            {
+                "_className": "SkillChoice",
+                "available": 1,
+                "filter": [
+                    "Athletics",
+                    "Acrobatics"
+                ],
+                "maxRank": 2,
+                "source": "Feat: Monk Dedication",
+                "type": "Skill"
+            },
+            {
+                "_className": "SkillChoice",
+                "increases": [
+                    {
+                        "locked": true,
+                        "maxRank": 2,
+                        "name": "Unarmed Attacks",
+                        "source": "Feat: Monk Dedication"
+                    }
+                ],
+                "maxRank": 2,
+                "source": "Feat: Monk Dedication",
+                "type": "Weapon Proficiency"
+            },
+            {
+                "_className": "SkillChoice",
+                "increases": [
+                    {
+                        "locked": true,
+                        "maxRank": 2,
+                        "name": "Monk Class DC",
+                        "source": "Feat: Monk Dedication"
+                    }
+                ],
+                "maxRank": 2,
+                "source": "Feat: Monk Dedication",
+                "type": "Class DC"
+            }
+        ]
+    },
+    {
+        "name": "Basic Kata",
+        "desc": "You gain a 1st- or 2nd-level monk feat.",
+        "shortdesc": "You gain a 1st- or 2nd-level monk feat.",
+        "archetype": "Monk",
+        "traits": [
+            "Archetype"
+        ],
+        "levelreq": 4,
+        "featreq": [
+            "Monk Dedication"
+        ],
+        "gainFeatChoice": [
+            {
+                "_className": "FeatChoice",
+                "available": 1,
+                "level": 2,
+                "source": "Feat: Basic Maneuver",
+                "type": "Monk"
+            }
+        ]
+    },
+    {
+        "name": "Monk Resiliency",
+        "desc": "You gain 3 additional Hit Points for each monk archetype class feat you have. As you continue selecting monk archetype class feats, you continue to gain additional Hit Points in this way.",
+        "shortdesc": "You gain 3 additional Hit Points for each monk archetype class feat you have.",
+        "archetype": "Monk",
+        "traits": [
+            "Archetype"
+        ],
+        "levelreq": 4,
+        "featreq": [
+            "Monk Dedication"
+        ],
+        "specialreq": "character.class.hitPoints <= 8",
+        "specialreqdesc": "class granting no more Hit Points per level than 8 + your Constitution modifier",
+        "effects": [
+            {
+                "affected": "Max HP",
+                "value": "Character.get_FeatsTaken(1, Level).filter(gain => characterService.get_Feats(gain.name)[0]?.archetype == \"Monk\").length * 3"
+            }
+        ]
+    },
+    {
+        "name": "Advanced Kata",
+        "desc": "You gain one monk feat. For the purpose of meeting its prerequisites, your monk level is equal to half your character level.",
+        "specialdesc": "You can select this feat more than once. Each time you select it, you gain another monk feat.",
+        "shortdesc": "You gain a monk feat.",
+        "archetype": "Monk",
+        "unlimited": true,
+        "traits": [
+            "Archetype"
+        ],
+        "levelreq": 6,
+        "featreq": [
+            "Basic Kata"
+        ],
+        "gainFeatChoice": [
+            {
+                "_className": "FeatChoice",
+                "available": 1,
+                "dynamicLevel": "level.number / 2",
+                "source": "Feat: Advanced Maneuver",
+                "type": "Monk"
+            }
+        ]
+    },
+    {
+        "name": "Monk Moves",
+        "desc": "You gain a +10-foot status bonus to your Speed when you’re not wearing armor.",
+        "shortdesc": "You gain a +10-foot status bonus to your Speed when you’re not wearing armor.",
+        "archetype": "Monk",
+        "traits": [
+            "Archetype"
+        ],
+        "levelreq": 8,
+        "featreq": [
+            "Monk Dedication"
+        ],
+        "effects": [
+            {
+                "affected": "Land Speed",
+                "value": "Armor().get_Prof() == \"Unarmored Defense\" ? 10 : 0"
+            }
+        ]
+    },
+    {
+        "name": "Monk's Flurry",
+        "desc": "You gain the Flurry of Blows action.",
+        "shortdesc": "You gain the Flurry of Blows action.",
+        "archetype": "Monk",
+        "traits": [
+            "Archetype"
+        ],
+        "levelreq": 10,
+        "featreq": [
+            "Monk Dedication"
+        ],
+        "gainActivities": [
+            "Flurry of Blows"
+        ]
+    },
+    {
+        "name": "Perfection's Path",
+        "desc": "Choose one saving throw (Fortitude, Reflex, or Will) in which you are an expert. Your proficiency rank in the chosen saving throw increases to master.",
+        "subTypes": true,
+        "shortdesc": "Your proficiency rank in one saving throw increases to master.",
+        "archetype": "Monk",
+        "traits": [
+            "Archetype"
+        ],
+        "levelreq": 12,
+        "featreq": [
+            "Monk Dedication"
+        ],
+        "specialreq": "characterService.get_Skills(character, '', 'Save').find(skill => Skill_Level('Character', skill.name) >= 4)",
+        "specialreqdesc": "expert in at least one saving throw"
+    },
+    {
+        "name": "Perfection's Path: Fortitude",
+        "subType": "Fortitude",
+        "superType": "Perfection's Path",
+        "shortdesc": "Your proficiency rank in Fortitude saving throws increases to master.",
+        "archetype": "Monk",
+        "traits": [
+            "Archetype"
+        ],
+        "levelreq": 12,
+        "featreq": [
+            "Monk Dedication"
+        ],
+        "skillreq": [
+            {
+                "skill": "Fortitude",
+                "value": 4
+            }
+        ],
+        "gainSkillChoice": [
+            {
+                "_className": "SkillChoice",
+                "increases": [
+                    {
+                        "locked": true,
+                        "maxRank": 6,
+                        "name": "Fortitude",
+                        "source": "Feat: Perfection's Path: Fortitude"
+                    }
+                ],
+                "maxRank": 6,
+                "source": "Feat: Perfection's Path: Fortitude",
+                "type": "Weapon Proficiency"
+            }
+        ]
+    },
+    {
+        "name": "Perfection's Path: Reflex",
+        "subType": "Reflex",
+        "superType": "Perfection's Path",
+        "shortdesc": "Your proficiency rank in Reflex saving throws increases to master.",
+        "archetype": "Monk",
+        "traits": [
+            "Archetype"
+        ],
+        "levelreq": 12,
+        "featreq": [
+            "Monk Dedication"
+        ],
+        "skillreq": [
+            {
+                "skill": "Reflex",
+                "value": 4
+            }
+        ],
+        "gainSkillChoice": [
+            {
+                "_className": "SkillChoice",
+                "increases": [
+                    {
+                        "locked": true,
+                        "maxRank": 6,
+                        "name": "Reflex",
+                        "source": "Feat: Perfection's Path: Reflex"
+                    }
+                ],
+                "maxRank": 6,
+                "source": "Feat: Perfection's Path: Reflex",
+                "type": "Weapon Proficiency"
+            }
+        ]
+    },
+    {
+        "name": "Perfection's Path: Will",
+        "subType": "Will",
+        "superType": "Perfection's Path",
+        "shortdesc": "Your proficiency rank in Will saving throws increases to master.",
+        "archetype": "Monk",
+        "traits": [
+            "Archetype"
+        ],
+        "levelreq": 12,
+        "featreq": [
+            "Monk Dedication"
+        ],
+        "skillreq": [
+            {
+                "skill": "Will",
+                "value": 4
+            }
+        ],
+        "gainSkillChoice": [
+            {
+                "_className": "SkillChoice",
+                "increases": [
+                    {
+                        "locked": true,
+                        "maxRank": 6,
+                        "name": "Will",
+                        "source": "Feat: Perfection's Path: Will"
+                    }
+                ],
+                "maxRank": 6,
+                "source": "Feat: Perfection's Path: Will",
+                "type": "Weapon Proficiency"
             }
         ]
     }

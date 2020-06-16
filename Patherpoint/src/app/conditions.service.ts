@@ -131,6 +131,15 @@ export class ConditionsService {
             }
         }
 
+        //One time effects when ending the condition
+        if (condition.endEffects.length) {
+            if (!taken) {
+                condition.endEffects.forEach(effect => {
+                    characterService.process_OnceEffect(creature, effect, gain.value, gain.heightened);
+                })
+            }
+        }
+
         //Remove other conditions if applicable
         if (taken) {
             condition.endConditions.forEach(end => {

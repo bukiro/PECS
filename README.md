@@ -59,6 +59,9 @@ The very latest in Assistive Technologies for Dungeon Master (ATDM)
 - [ ] Implement all Ancestry Feats
 - [x] Implement all Heritages
 - [x] Implement all Backgrounds
+- [ ] Implement all Classes and Archetypes
+- [x] - Monk
+- [x] - Fighter
 - [ ] Add custom conditions with effects
 - [ ] Item Icons
 - [ ] Initiative tracker, battles, being a battle member, GM-Player-Communication.......

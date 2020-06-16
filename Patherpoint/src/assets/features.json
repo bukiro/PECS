@@ -67,7 +67,13 @@
         "name": "Incredible Movement",
         "desc": "You move like the wind. You gain a +10-foot status bonus to your Speed whenever you're not wearing armor. The bonus increases by 5 feet for every 4 levels you have beyond 3rd.",
         "hint": "You gain a +10-foot status bonus to your Speed whenever you're not wearing armor. The bonus increases by 5 feet for every 4 levels you have beyond 3rd.",
-        "showon": "Land Speed"
+        "showon": "Land Speed",
+        "effects": [
+            {
+                "affected": "Land Speed",
+                "value": "Armor().get_Prof() == 'Unarmored Defense' ? (5 + (Level + 1 - ((Level + 1) % 4)) / 4 * 5) : 0"
+            }
+        ]
     },
     {
         "name": "Incredible Senses",
@@ -203,7 +209,7 @@
     {
         "name": "Swift Prey",
         "desc": "You size up your prey with only a glance. You can use Hunt Prey as a free action if it's your first action of your turn.",
-        "showon": "Hunt Prey"
+        "showon": "Hunt Prey, Activities"
     },
     {
         "name": "Third Path to Perfection",
@@ -216,7 +222,7 @@
         "name": "Trackless Step",
         "desc": "When you move through natural terrains, you are difficult to track. You always gain the benefits of the Cover Tracks action in such terrains, without moving at half your Speed.",
         "hint": "You always gain the benefits of the Cover Tracks action in natural terrains, without moving at half your Speed.",
-        "showon": "Survival"
+        "showon": "Survival, Movement"
     },
     {
         "name": "Vigilant Senses",
@@ -716,11 +722,6 @@
     {
         "name": "Versatile Legend",
         "desc": "You are nigh-unmatched with any weapon. Your proficiency ranks for simple weapons, martial weapons, and unarmed attacks increase to legendary, and your proficiency rank for advanced weapons increases to master. Your proficiency rank for your fighter class DC increases to master.",
-        "internalNote": "Skill increases through class features are handled in the class object."
-    },
-    {
-        "name": "Weapon Legend",
-        "desc": "You’ve learned fighting techniques that apply to all armaments, and you’ve developed unparalleled skill with your favorite weapons. Your proficiency ranks for simple and martial weapons and unarmed attacks increase to master. Your proficiency rank for advanced weapons increases to expert. You can select one weapon group and increase your proficiency ranks to legendary for all simple and martial weapons in that weapon group, and to master for all advanced weapons in that weapon group.",
         "internalNote": "Skill increases through class features are handled in the class object."
     },
     {

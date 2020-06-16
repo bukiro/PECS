@@ -137,7 +137,7 @@ export class FeatsService {
                 }
             }
 
-            //Boost Ability (usually only in )
+            //Boost Ability (may happen in class subtype choices)
             if (feat.gainAbilityChoice.length) {
                 if (taken) {
                     feat.gainAbilityChoice.forEach(newAbilityChoice => {
@@ -192,6 +192,7 @@ export class FeatsService {
                             }
                             //Apply any included Skill increases
                             newChoice.increases.forEach(increase => {
+                                increase.sourceId = newChoice.id;
                                 character.process_Skill(characterService, increase.name, true, newChoice, true);
                             })
                         }
@@ -338,14 +339,10 @@ export class FeatsService {
 
             //Bargain Hunter
             if (feat.name=="Bargain Hunter") {
-                if (taken) {
-                    if (level.number == 1) {
-                        character.cash[1] += 2;
-                    };
-                } else {
-                    if (level.number == 1) {
-                        character.cash[1] -= 2;
-                    };
+                if (taken && level.number == 1) {
+                    character.cash[1] += 2;
+                } else if (level.number == 1) {
+                    character.cash[1] -= 2;
                 }
                 characterService.set_ToChange("Character", "inventory");
             }
@@ -519,6 +516,9 @@ export class FeatsService {
                     }
                 }
             }
+
+            //Some effects change depending on feats. There is no good way to resolve this, so we calculate the effects whenever we take a feat.
+            characterService.set_ToChange(creature.type, "effects");
 
         }
     }

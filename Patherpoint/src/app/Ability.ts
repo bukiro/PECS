@@ -63,6 +63,7 @@ export class Ability {
         //Boosts are +2 until 18, then +1 for Character
         //Boosts are always +2 for Companion
         //Flaws are always -2
+        //Infos are not processed.
         let boosts = creature.get_AbilityBoosts(0, charLevel, this.name);
         if (boosts) {
             boosts.forEach(boost => {

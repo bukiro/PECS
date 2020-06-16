@@ -57,18 +57,6 @@ export class Speed {
                 explain = "\n"+creature.class.ancestry.name+" base speed: "+sum;
             }
         }
-        //Incredible Movement adds 10 to Land Speed on Level 3 and 5 on every fourth level after, provided you are unarmored.
-        if (creature.type == "Character") {
-            let character = creature as Character;
-            if (this.name == "Land Speed" && character.get_FeatsTaken(1, character.level, "Incredible Movement").length) {
-                let equippedArmor = creature.inventories[0].armors.filter(armor => armor.equipped)
-                if (equippedArmor.length && equippedArmor[0].get_Prof() == "Unarmored Defense") {
-                    let incredibleMovementBonus = 5 + (character.level + 1 - ((character.level + 1) % 4)) / 4 * 5;
-                    sum += incredibleMovementBonus;
-                    explain += "\nIncredible Movement: "+incredibleMovementBonus;
-                }
-            }
-        }
         //Absolutes completely replace the baseValue. They are sorted so that the highest value counts last.
         let absolutes = this.absolutes(creature, effectsService, this.name).filter(effect => effect.setValue);
         absolutes.forEach(effect => {

@@ -102,6 +102,9 @@ export class EffectsService {
         let Companion: AnimalCompanion = characterService.get_Companion();
         let Familiar: Familiar = characterService.get_Familiar();
         let Level: number = characterService.get_Character().level;
+        function Temporary_HP() {
+            return creature.health.temporaryHP;
+        }
         function Current_HP() {
             return creature.health.currentHP(creature, characterService, effectsService).result;
         }
@@ -494,7 +497,7 @@ export class EffectsService {
             "Unarmed Damage per Die", "Weapon Damage per Die"];
         let attacksWildcard: string[] = ["Attack Rolls", "Melee Damage", "Dice Size", "Dice Number"];
         let skills: string[] = ["Perception", "Acrobatics", "Arcana", "Athletics", "Crafting", "Deception", "Diplomacy",
-            "Intimidation", "Medicine", "Nature", "Occultism", "Performance", "Religion", "Society", "Stealth", "Survival", "Thievery"];
+            "Intimidation", "Medicine", "Nature", "Occultism", "Performance", "Religion", "Society", "Stealth", "Survival", "Thievery", "Fortitude", "Reflex", "Will"];
         let skillsWildcard: string[] = ["Spell DC", "Class DC", "Checks and DCs", "Skill Checks", "Untrained Skills"];
         let inventory: string[] = ["Bulk", "Encumbered Limit", "Max Bulk", "Max Invested"];
         let activities: string[] = [];

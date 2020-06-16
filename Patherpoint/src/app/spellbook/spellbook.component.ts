@@ -10,6 +10,7 @@ import { SpellCasting } from '../SpellCasting';
 import { EffectsService } from '../effects.service';
 import { SpellChoice } from '../SpellChoice';
 import { ConditionGain } from '../ConditionGain';
+import { EffectGain } from '../EffectGain';
 
 @Component({
     selector: 'app-spellbook',
@@ -182,11 +183,11 @@ export class SpellbookComponent implements OnInit {
         let focusPoints = character.class.focusPoints;
         let maxFocusPoints = this.get_MaxFocusPoints();
         if (character.get_FeatsTaken(0, character.level, "Meditative Wellspring").length && (maxFocusPoints - focusPoints >= 3)) {
-            character.class.focusPoints = Math.min(focusPoints + 3, this.get_MaxFocusPoints());
+            this.characterService.process_OnceEffect(character, Object.assign(new EffectGain(), {affected:"Focus Points", value:"+3"}))
         } else if (character.get_FeatsTaken(0, character.level, "Meditative Focus").length && (maxFocusPoints - focusPoints >= 2)) {
-            character.class.focusPoints = Math.min(focusPoints + 2, this.get_MaxFocusPoints());
+            this.characterService.process_OnceEffect(character, Object.assign(new EffectGain(), {affected:"Focus Points", value:"+2"}))
         } else {
-            character.class.focusPoints = Math.min(focusPoints + 1, this.get_MaxFocusPoints());
+            this.characterService.process_OnceEffect(character, Object.assign(new EffectGain(), {affected:"Focus Points", value:"+1"}))
         }
         this.timeService.tick(this.characterService, this.timeService, this.itemsService, this.spellsService, 1000);
     }

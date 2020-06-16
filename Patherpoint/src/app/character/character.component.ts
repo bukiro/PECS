@@ -35,6 +35,7 @@ import { Familiar } from '../Familiar';
 import { SavegameService } from '../savegame.service';
 import { Savegame } from '../Savegame';
 import { TraitsService } from '../traits.service';
+import { FamiliarsService } from '../familiars.service';
 
 @Component({
     selector: 'app-character',
@@ -48,6 +49,8 @@ export class CharacterComponent implements OnInit {
     private showItem: string = "";
     private showList: string = "";
     public allowCharacterDelete: Boolean[] = [];
+    public sameLevelFeatsOnly: Boolean = true;
+    public archetypeFeats: Boolean = true;
     
     constructor(
         private changeDetector:ChangeDetectorRef,
@@ -64,7 +67,8 @@ export class CharacterComponent implements OnInit {
         private animalCompanionsService: AnimalCompanionsService,
         private conditionsService: ConditionsService,
         private savegameService: SavegameService,
-        private traitsService: TraitsService
+        private traitsService: TraitsService,
+        private familiarsService: FamiliarsService
     ) { }
 
     minimize() {
@@ -192,7 +196,27 @@ export class CharacterComponent implements OnInit {
             }
         }
         this.characterService.set_ToChange("Character", "abilities");
+        this.characterService.set_ToChange("Character", "individualskills", "all");
         this.characterService.set_ToChange("Character", "charactersheet");
+        this.characterService.process_ToChange();
+    }
+
+    on_AbilityChange(name: string) {
+        this.characterService.set_ToChange("Character", "abilities");
+        this.characterService.set_ToChange("Character", "individualskills", name);
+        this.characterService.set_ToChange("Character", "charactersheet");
+        this.characterService.set_ToChange("Character", "effects");
+        if (name == "Strength") {
+            this.characterService.set_ToChange("Character", "inventory");
+            this.characterService.set_ToChange("Character", "attacks");
+        }
+        if (name == "Dexterity") {
+            this.characterService.set_ToChange("Character", "defense");
+            this.characterService.set_ToChange("Character", "attacks");
+        }
+        if (name == "Constitution") {
+            this.characterService.set_ToChange("Character", "health");
+        }
         this.characterService.process_ToChange();
     }
 
@@ -241,10 +265,94 @@ export class CharacterComponent implements OnInit {
                 })
             })
         }
-        if (this.get_Companion()) {
+
+        //Find all the differences between the levels and refresh components accordingly.
+        let lowerLevel = Math.min(oldLevel, newLevel);
+        let higherLevel = Math.max(oldLevel, newLevel);
+        
+        this.get_Character().class.levels.filter(level => level.number >= lowerLevel && level.number <= higherLevel).forEach(level => {
+            level.featChoices.forEach(choice => {
+                if (choice.showOnSheet) {
+                    this.characterService.set_ToChange("Character", "activities");
+                }
+            })
+        })
+        this.characterService.set_ToChange("Character", "charactersheet");
+        this.characterService.set_ToChange("Character", "character-sheet");
+        this.characterService.set_ToChange("Character", "top-bar");
+        this.characterService.set_ToChange("Character", "health");
+        this.characterService.set_ToChange("Character", "defense");
+        this.characterService.set_ToChange("Character", "attacks");
+        this.characterService.set_ToChange("Character", "general");
+        this.characterService.set_ToChange("Character", "skills");
+        this.characterService.set_ToChange("Character", "individualskills", "all");
+        if (this.get_Character().get_AbilityBoosts(lowerLevel, higherLevel).length) {
+            this.characterService.set_ToChange("Character", "abilities");
+        }
+        this.get_Character().get_FeatsTaken(lowerLevel, higherLevel).map(gain => this.get_FeatsAndFeatures(gain.name)[0]).filter(feat => feat).forEach(feat => {
+            if (feat.showon) {
+                this.characterService.set_TagsToChange("Character", feat.showon);
+            }
+            if (feat.effects.length) {
+                this.characterService.set_ToChange("Character", "effects");
+            }
+            feat.gainFeatChoice.forEach(choice => {
+                if (choice.showOnSheet) {
+                    this.characterService.set_ToChange("Character", "activities");
+                }
+            });
+            if (feat.gainAbilityChoice.length) {
+                this.characterService.set_ToChange("Character", "abilities");
+            }
+            if (feat.gainActivities.length) {
+                this.characterService.set_ToChange("Character", "activities");
+            }
+            if (feat.gainConditions.length) {
+                this.characterService.set_ToChange("Character", "effects");
+            }
+            if (feat.gainSpellCasting.length || feat.gainSpellChoice.length) {
+                this.characterService.set_ToChange("Character", "spells");
+                this.characterService.set_ToChange("Character", "spellbook");
+            }
+            if (feat.superType == "Adopted Ancestry") {
+                this.characterService.set_ToChange("Character", "general");
+            }
+            if (feat.name == "Different Worlds") {
+                this.characterService.set_ToChange("Character", "general");
+            }
+            if (feat.name == "Fuse Stance") {
+                this.characterService.set_ToChange("Character", "activities");
+            }
+        });
+        if (this.get_Character().get_SpellsLearned().filter(learned => learned.level >= lowerLevel && learned.level <= higherLevel).length) {
+            this.characterService.set_ToChange("Character", "spells");
+            this.characterService.set_ToChange("Character", "spellbook");
+        }
+        if (this.get_Character().get_SpellsTaken(this.characterService, lowerLevel, higherLevel).length) {
+            this.characterService.set_ToChange("Character", "spells");
+            this.characterService.set_ToChange("Character", "spellbook");
+        }
+        if (this.characterService.get_CompanionAvailable()) {
             this.get_Companion().set_Level(this.characterService);
         }
-        this.set_Changed();
+        if (this.characterService.get_FamiliarAvailable()) {
+            this.characterService.set_ToChange("Familiar", "all");
+            this.get_Familiar().abilities.feats.map(gain => this.familiarsService.get_FamiliarAbilities(gain.name)[0]).filter(feat => feat).forEach(feat => {
+                if (feat.gainActivities.length) {
+                    this.characterService.set_ToChange("Character", "activities");
+                }
+                if (feat.name == "Cantrip Connection") {
+                    this.characterService.set_ToChange("Character", "spells");
+                    this.characterService.set_ToChange("Character", "spellbook");
+                }
+                if (feat.name == "Spell Battery") {
+                    this.characterService.set_ToChange("Character", "spells");
+                    this.characterService.set_ToChange("Character", "spellbook");
+                }
+            })
+        }
+        
+        this.characterService.process_ToChange();
     }
 
     get_LanguagesAvailable(levelNumber: number = 0) {
@@ -330,36 +438,38 @@ export class CharacterComponent implements OnInit {
     }
 
     cannotBoost(ability: Ability, level: Level, choice: AbilityChoice) {
-        //Returns a string of reasons why the abiliyt cannot be boosted, or "". Test the length of the return if you need a boolean.
-            let reasons: string[] = [];
-            let sameBoostsThisLevel = this.get_AbilityBoosts(level.number, level.number, ability.name, "Boost", choice.source);
-            if (sameBoostsThisLevel.length > 0 && sameBoostsThisLevel[0].source == choice.source) {
-                //The ability may have been boosted by the same source, but as a fixed rule (e.g. fixed ancestry boosts vs. free ancestry boosts).
-                //This does not apply to flaws - you can boost a flawed ability.
-                if (sameBoostsThisLevel[0].locked) {
-                    let locked = "Fixed boost by "+sameBoostsThisLevel[0].source+".";
-                    reasons.push(locked);
-                } else
-                //If an ability has been raised by a source of the same name, but not the same id, it cannot be raised again.
-                //This is the case with backgrounds: You get a choice of two abilities, and then a free one.
-                 if (sameBoostsThisLevel[0].sourceId != choice.id) {
-                    let exclusive = "Boosted by "+sameBoostsThisLevel[0].source+".";
-                    reasons.push(exclusive);
-                }
+    //Returns a string of reasons why the abiliyt cannot be boosted, or "". Test the length of the return if you need a boolean.
+        //Info only choices that don't grant a boost (like for the key ability for archetypes) don't need to be checked.
+        if (choice.infoOnly) { return [] };
+        let reasons: string[] = [];
+        let sameBoostsThisLevel = this.get_AbilityBoosts(level.number, level.number, ability.name, "Boost", choice.source);
+        if (sameBoostsThisLevel.length > 0 && sameBoostsThisLevel[0].source == choice.source) {
+            //The ability may have been boosted by the same source, but as a fixed rule (e.g. fixed ancestry boosts vs. free ancestry boosts).
+            //This does not apply to flaws - you can boost a flawed ability.
+            if (sameBoostsThisLevel[0].locked) {
+                let locked = "Fixed boost by "+sameBoostsThisLevel[0].source+".";
+                reasons.push(locked);
+            } else
+            //If an ability has been raised by a source of the same name, but not the same id, it cannot be raised again.
+            //This is the case with backgrounds: You get a choice of two abilities, and then a free one.
+                if (sameBoostsThisLevel[0].sourceId != choice.id) {
+                let exclusive = "Boosted by "+sameBoostsThisLevel[0].source+".";
+                reasons.push(exclusive);
             }
-            //On level 1, boosts are not allowed to raise the ability above 18.
-            //This is only relevant if you haven't boosted the ability on this level yet.
-            //If you have, we don't want to hear that it couldn't be boosted again right away.
-            let cannotBoostHigher = "";
-            if (level.number == 1 && ability.baseValue(this.get_Character(), this.characterService, level.number).result > 16 && sameBoostsThisLevel.length == 0) {
-                cannotBoostHigher = "Cannot boost above 18 on level 1.";
-                reasons.push(cannotBoostHigher);
-            }
-            return reasons;
         }
+        //On level 1, boosts are not allowed to raise the ability above 18.
+        //This is only relevant if you haven't boosted the ability on this level yet.
+        //If you have, we don't want to hear that it couldn't be boosted again right away.
+        let cannotBoostHigher = "";
+        if (level.number == 1 && ability.baseValue(this.get_Character(), this.characterService, level.number).result > 16 && sameBoostsThisLevel.length == 0) {
+            cannotBoostHigher = "Cannot boost above 18 on level 1.";
+            reasons.push(cannotBoostHigher);
+        }
+        return reasons;
+    }
 
     abilityBoostedByThis(ability: Ability, choice: AbilityChoice) {
-        return choice.boosts.filter(boost => boost.type == "Boost" && boost.name == ability.name).length
+        return choice.boosts.filter(boost => ["Boost", "Info"].includes(boost.type) && boost.name == ability.name).length
     }
 
     get_AbilityBoosts(minLevelNumber: number, maxLevelNumber: number, abilityName: string = "", type: string = "", source: string = "", sourceId: string = "", locked: boolean = undefined) {
@@ -411,10 +521,13 @@ export class CharacterComponent implements OnInit {
         }
     }
 
-    get_AvailableSkills(choice: SkillChoice) {
+    get_AvailableSkills(choice: SkillChoice, level: Level) {
         let skills = this.get_Skills('', choice.type);
         if (choice.filter.length) {
-            skills = skills.filter(skill => choice.filter.includes(skill.name))
+            //If all the filter options cannot be raised this level, skip the filter.
+            if (choice.filter.map(skillName => this.get_Skills(skillName)[0]).find(skill => skill && !this.cannotIncrease(skill, level, choice).length)) {
+                skills = skills.filter(skill => choice.filter.includes(skill.name))
+            }
         }
         if (skills.length) {
             return skills.filter(skill => (
@@ -439,7 +552,7 @@ export class CharacterComponent implements OnInit {
     }
 
     cannotIncrease(skill: Skill, level: Level, choice: SkillChoice) {
-    //Returns a string of reasons why the skill cannot be increased, or "". Test the length of the return if you need a boolean.
+    //Returns a string of reasons why the skill cannot be increased, or []. Test the length of the return if you need a boolean.
         let maxRank: number = choice.maxRank;
         let reasons: string[] = [];
         //The skill may have been increased by the same source, but as a fixed rule.

@@ -1173,6 +1173,12 @@
                 "value": "(object.heightened) * 5"
             }
         ],
+        "endEffects": [
+            {
+                "affected": "Temporary HP",
+                "value": "-Math.min((object.heightened) * 5, Temporary_HP())"
+            }
+        ],
         "type": "spells"
     },
     {
@@ -1376,7 +1382,6 @@
         "name": "Negate Aroma",
         "buff": true,
         "desc": "You have lost your odor, preventing creatures from passively noticing your presence via smell alone, even if the creatures have precise or imprecise scent. A creature attempting a Perception check to Seek with scent and other senses might notice the lack of natural scent. If the target has any abilities that result from its smell, such as an overpowering scent, those abilities are also negated.",
-        "inputRequired": "Take the appropriate amount of damage at the end of each of your turns as long as you have the condition, rolling any damage dice anew each time. After you take persistent damage, roll a DC 15 flat check to see if you recover from the persistent damage. If you succeed, the condition ends.",
         "type": "spells"
     },
     {
@@ -1647,7 +1652,6 @@
     {
         "name": "Hero's Defiance Cooldown",
         "desc": "Cheating death is difficult, and you can't use hero's defiance again until you Refocus or the next time you prepare.",
-        "inputRequired": "If you Refocus, remove this condition.",
         "type": "spells"
     },
     {
@@ -4380,7 +4384,7 @@
         "buff": true,
         "desc": "When in this stance, you wield the shield with both hands. When wielding a shield this way, increase the weapon damage die of the shield’s boss or spikes by one step, and increase the shield’s Hardness by 2 when using the Shield Block reaction.",
         "hint": "You wield the shield with both hands. Increase the shield’s Hardness by 2 when using the Shield Block reaction.",
-        "showon": "Attacks, Defense, Shield Block",
+        "showon": "Attacks, Shield, Shield Block",
         "effects": [
             {
                 "affected": "Shield Boss Dice Number",
@@ -4397,7 +4401,7 @@
         "buff": true,
         "desc": "When using a ranged volley weapon while you are in this stance, you don’t take the penalty to your attack rolls from the volley trait. When using a ranged weapon that doesn’t have the volley trait, you gain a +2 circumstance bonus to damage rolls on attacks against targets within the weapon’s first range increment.",
         "hint": "When using a ranged volley weapon while you are in this stance, you don’t take the penalty to your attack rolls from the volley trait. When using a ranged weapon that doesn’t have the volley trait, you gain a +2 circumstance bonus to damage rolls on attacks against targets within the weapon’s first range increment.",
-        "showon": "Attacks"
+        "showon": "Attacks, ranged"
     },
     {
         "name": "Dueling Parry",
@@ -4425,7 +4429,10 @@
     },
     {
         "name": "Disarming Stance",
-        "buff": true
+        "buff": true,
+        "desc": "You adopt a fencing stance that improves your control over your weapon. While you are in this stance, you gain a +1 circumstance bonus to Athletics checks to Disarm and a +2 circumstance bonus to your Reflex DC when defending against checks to Disarm you. In addition, you can attempt to Disarm creatures up to two sizes larger than you.",
+        "hint": "You gain a +1 circumstance bonus to Athletics checks to Disarm and a +2 circumstance bonus to your Reflex DC when defending against checks to Disarm you. In addition, you can attempt to Disarm creatures up to two sizes larger than you.",
+        "showon": "Athletics, Reflex"
     },
     {
         "name": "Impassable Wall Stance",
@@ -4456,6 +4463,17 @@
         "showon": "Attacks, Attack of Opportunity, Attack of Opportunity (Fighter)"
     },
     {
+        "name": "Paragon's Guard",
+        "buff": true,
+        "desc": "Once you’ve had a moment to set your stance, you always have your shield ready without a thought. While you are in this stance, you constantly have your shield raised as if you’d used the Raise a Shield action, as long as you meet that action’s requirements.",
+        "endEffects": [
+            {
+                "affected": "Raise Shield",
+                "value": "-1"
+            }
+        ]
+    },
+    {
         "name": "Graceful Poise",
         "buff": true,
         "desc": "With the right positioning, your off-hand weapon can strike like a scorpion’s stinger. While you are in this stance, if you make your second Strike from Double Slice with an agile weapon, Double Slice counts as one attack when calculating your multiple attack penalty.",
@@ -4467,6 +4485,19 @@
         "buff": true,
         "desc": "You lock yourself in a stable position so you can fire swiftly and accurately. While you are in this stance, your penalty for Double Shot is reduced to -1, or -2 if you add the extra action to make three Strikes. If you move from your position, this stance ends.",
         "hint": "Your penalty for Double Shot is reduced to -1, or -2 if you add the extra action to make three Strikes.",
+        "inputRequired": "If you move from your position, end this stance.",
         "showon": "Attacks, Double Shot"
+    },
+    {
+        "name": "Quickened (Weapon Supremacy)",
+        "buff": true,
+        "desc": "You gain 1 additional action at the start of your turn each round. You can use your extra action only to Strike. If you become quickened from multiple sources, you can use the extra action you've been granted for any single action allowed by any of the effects that made you quickened.",
+        "type": "generic"
+    },
+    {
+        "name": "Quickened (Enduring Quickness)",
+        "buff": true,
+        "desc": "You gain 1 additional action at the start of your turn each round. You can use your extra action to Stride or Leap, or to provide one of the actions needed for a High Jump or Long Jump. If you become quickened from multiple sources, you can use the extra action you've been granted for any single action allowed by any of the effects that made you quickened.",
+        "type": "generic"
     }
 ]

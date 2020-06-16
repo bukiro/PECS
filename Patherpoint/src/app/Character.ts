@@ -92,20 +92,20 @@ export class Character extends Creature {
         }
     }
     boost_Ability(characterService: CharacterService, abilityName: string, boost: boolean, choice: AbilityChoice, locked: boolean) {
+        let type: string = choice.infoOnly ? "Info" : "Boost";
         if (boost) {
-            choice.boosts.push({"name":abilityName, "type":"Boost", "source":choice.source, "locked":locked, "sourceId":choice.id});
+            choice.boosts.push({"name":abilityName, "type":type, "source":choice.source, "locked":locked, "sourceId":choice.id});
         } else {
             let oldBoost = choice.boosts.filter(boost => 
                 boost.name == abilityName &&
-                boost.type == "Boost" &&
-                boost.source == choice.source &&
-                boost.sourceId == choice.id &&
+                boost.type == type &&
                 boost.locked == locked
                 )[0];
             choice.boosts = choice.boosts.filter(boost => boost !== oldBoost);
         }
         characterService.set_ToChange("Character", "charactersheet");
-        characterService.set_ToChange("Character", "character-sheet");
+        characterService.set_ToChange("Character", "abilities");
+        characterService.set_ToChange("Character", "individualskills", "all");
     }
     add_AbilityChoice(level: Level, newChoice: AbilityChoice) {
         let existingChoices = level.abilityChoices.filter(choice => choice.source == newChoice.source);
@@ -281,8 +281,6 @@ export class Character extends Creature {
         } else {
             let oldIncrease = choice.increases.filter(
                 increase => increase.name == skillName &&
-                increase.source == choice.source &&
-                increase.sourceId == choice.id &&
                 increase.locked == locked
                 )[0];
             choice.increases = choice.increases.filter(increase => increase !== oldIncrease);
@@ -290,6 +288,7 @@ export class Character extends Creature {
         this.process_Skill(characterService, skillName, train, choice, locked);
     }
     process_Skill(characterService: CharacterService, skillName: string, train: boolean, choice: SkillChoice, locked: boolean) {
+        characterService.set_ToChange("Character", "individualskills", skillName);
         if (train) {
             //The skill that you increase with Skilled Heritage at level 1 automatically gets increased at level 5 as well.
             let level = parseInt(choice.id.split("-")[0]);

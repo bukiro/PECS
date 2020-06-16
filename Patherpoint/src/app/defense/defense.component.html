@@ -9,6 +9,8 @@
         <ng-container *ngIf="!still_loading()">
             <app-tags [creature]="creature" [objectName]="'AC'" [showTraits]=true [showFeats]=true [showItems]=true
                 [showActivities]=true [showConditions]=true [showEffects]=true></app-tags>
+            <app-tags [creature]="creature" [objectName]="'Defense'" [showTraits]=true [showFeats]=true
+                [showItems]=true [showActivities]=true [showConditions]=true [showEffects]=true></app-tags>
             <div class="list-item row">
                 <span>
                     <button class="center-aligned" *ngIf="get_Cover() != 1"
@@ -43,7 +45,7 @@
                         <cite class="trait" *ngFor="let trait of armor.traits; trackBy:trackByIndex;"
                             title="{{get_Traits(trait)[0].description}}">{{trait}}</cite>
                     </div>
-                    <app-tags [creature]="creature" [objectName]="'Defense'" [showTraits]=true [showFeats]=true
+                    <app-tags [creature]="creature" [objectName]="'Armor'" [showTraits]=true [showFeats]=true
                         [showItems]=true [showActivities]=true [showConditions]=true [showEffects]=true></app-tags>
                     <app-tags [creature]="creature" [objectName]="armor.name" [showItems]=true></app-tags>
                     <div class="fullsize-only lower row left-aligned"

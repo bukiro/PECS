@@ -63,10 +63,10 @@ export class Skill {
         //If this is an advanced weapon group and you have the Advanced Weapon Training feat for it,
         //  you get the same proficiency as for martial weapons of the same group (or martial weapons in general).
         if (this.name.includes("Advanced ") && this.name != "Advanced Weapons") {
-            if (creature.type == "Character" && (creature as Character).get_FeatsTaken(1, creature.level, "Advanced Weapon Training: "+this.name.split(" ")[1])) {
+            if (creature.type == "Character" && (creature as Character).get_FeatsTaken(1, creature.level, "Advanced Weapon Training: "+this.name.split(" ")[1]).length) {
                 skillLevel = Math.max(
-                    characterService.get_Skills(creature, "Martial "+this.name.split(" ")[1])[0].level(creature, characterService),
-                    characterService.get_Skills(creature, "Martial Weapons")[0].level(creature, characterService),
+                    characterService.get_Skills(creature, "Martial "+this.name.split(" ")[1])[0]?.level(creature, characterService) || 0,
+                    characterService.get_Skills(creature, "Martial Weapons")[0]?.level(creature, characterService) || 0,
                     skillLevel);
             }
         }
@@ -134,6 +134,8 @@ export class Skill {
             } else {
                 if (this.name == characterService.get_Character().class.name + " Class DC") {
                     return characterService.get_Character().get_AbilityBoosts(1, 1, "", "", "Class Key Ability")[0]?.name;
+                } else if (this.name.includes(" Class DC") && !this.name.includes(characterService.get_Character().class.name)) {
+                    return characterService.get_Character().get_AbilityBoosts(1, characterService.get_Character().level, "", "", this.name.split(" ")[0] + " Key Ability")[0]?.name;
                 }
             }
         }
@@ -198,7 +200,9 @@ export class Skill {
                 //Add the Ability modifier identified by the skill's ability property
                 var abilityMod = 0;
                 let ability = this.get_Ability(creature, characterService)
-                abilityMod = abilitiesService.get_Abilities(ability)[0].mod(creature, characterService, effectsService).result;
+                if (ability) {
+                    abilityMod = abilitiesService.get_Abilities(ability)[0].mod(creature, characterService, effectsService).result;
+                }
                 if (abilityMod) {
                     explain += "\n" + ability + " Modifier: " + abilityMod;
                 }

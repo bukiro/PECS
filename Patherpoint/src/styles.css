@@ -264,6 +264,7 @@ p {
 
 .row:not(.left-aligned):not(.center-aligned)>*:last-child:not(:first-child) {
     text-align: right;
+    flex-grow: 1;
 }
 
 .row>p:last-child {
@@ -602,8 +603,8 @@ button:hover~.list-item.sublist {
 
 button:hover~.list-item.sublist.fancy-list {
     border-color: white;
-    border-color: rgba(255, 255, 255, 0.8);
     border-color: #FFFFFF50;
+    border-color: rgba(255, 255, 255, 0.8);
 }
 
 .list-item.sublist.inactive-list {
@@ -612,8 +613,8 @@ button:hover~.list-item.sublist.fancy-list {
 
 button:hover~.list-item.sublist.inactive-list {
     border-color: grey;
-    border-color: rgba(128, 128, 128, 0.8);
     border-color: #80808050;
+    border-color: rgba(128, 128, 128, 0.8);
 }
 
 .itemBox .fancybutton.list-item {

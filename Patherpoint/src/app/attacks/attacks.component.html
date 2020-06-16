@@ -9,10 +9,10 @@
             <div class="list-item" [ngClass]="{'problem fullsize-only':!get_IsAllowed(weapon)}"
                 *ngFor="let attack of get_Attacks(weapon)">
                 <div class="row">
-                    <strong *ngIf="weapon.type != 'alchemicalbombs'">{{weapon.get_Name()}}{{(attack[0] == 'melee') ?
+                    <strong style="flex-basis:auto" *ngIf="weapon.type != 'alchemicalbombs'">{{weapon.get_Name()}}{{(attack[0] == 'melee') ?
                         (weapon.ranged ? " melee" : "") : (weapon.melee ? " ranged" : "")}}
                     </strong>
-                    <button [disabled]="!weapon.amount" (click)="on_ConsumableUse(weapon, null)"
+                    <button style="flex-basis:auto" [disabled]="!weapon.amount" (click)="on_ConsumableUse(weapon, null)"
                         *ngIf="weapon.type == 'alchemicalbombs'">
                         <span>{{(weapon.amount != undefined && weapon.amount != 1) ?
                             weapon.amount+" " : ""}}{{weapon.get_Name()}}<app-actionIcons
@@ -20,7 +20,7 @@
                             </app-actionIcons>
                         </span>
                     </button>
-                    <span style="flex-basis:initial">
+                    <span style="flex-basis:auto">
                         Attack
                         <input
                             [ngClass]="{'penalty':attack[4].length, 'bonus':attack[5].length, 'absolute':attack[6].length}"
@@ -46,7 +46,7 @@
                 </div>
                 <app-tags [creature]="creature" [objectName]=weapon.name [showTraits]=true [showFeats]=true
                     [showItems]=true [showActivities]=true [showConditions]=true
-                    [specialNames]=get_SpecialShowon(weapon) [specialEffects]=attack[3]></app-tags>
+                    [specialNames]="get_SpecialShowon(weapon, attack[0])" [specialEffects]=attack[3]></app-tags>
                 <div class="fullsize-only lower row left-aligned"
                     *ngFor="let talisman of weapon.talismans; let index = index; trackBy:trackByIndex;">
                     <button title="{{get_TalismanTitle(talisman)}}" (click)="on_TalismanUse(weapon, talisman, index)">

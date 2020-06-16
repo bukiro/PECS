@@ -26,7 +26,7 @@
                     <button (click)="load_CharacterFromDB(savegame)">Load</button>
                     <button (click)="delete_CharacterFromDB(savegame, index)" [disabled]="!allowCharacterDelete[index]">Delete</button>
                     <input id="allowCharacterDelete{{index}}" type="checkbox" [(ngModel)]="allowCharacterDelete[index]">
-                    <label for="allowCharacterDelete{{index}}">Delete</label>
+                    <label for="allowCharacterDelete{{index}}">Allow deletion</label>
                 </span>
             </div>
         </div>
@@ -50,7 +50,7 @@
         <div class="list-item">
             <span>Experience Points</span>
             <span>
-                <input type="number4" name="experiencePoints" [(ngModel)]="get_Character().experiencePoints" (keypress)="numbersOnly($event)"
+                <input type="number" class="number4" name="experiencePoints" [(ngModel)]="get_Character().experiencePoints" (keypress)="numbersOnly($event)"
                     maxLength="4" title="{{get_Character().experiencePoints >= 1000 && 'You are ready to level up!'}}" [ngClass]="{'bonus':get_Character().experiencePoints >= 1000}">
             </span>
         </div>
@@ -97,7 +97,7 @@
                 <div class="list-item" *ngFor="let ability of get_Character().baseValues; trackBy:trackByIndex;">
                     {{ability.name}}
                     <input type="number" class="number2" [(ngModel)]="ability.baseValue"
-                        (blur)="on_BaseValueChange" maxlength="2" (keypress)="numbersOnly($event)">
+                        (blur)="on_AbilityChange(ability.name)" maxlength="2" (keypress)="numbersOnly($event)">
                 </div>
             </div>
         </div>
@@ -468,6 +468,18 @@
                         </div>
                     </div>
                 </ng-container>
+                <div class="list-item" *ngIf="level.number > 0">
+                    <span>
+                        <input id="sameLevelFeatsOnly{{level.number}}" type="checkbox" [(ngModel)]="sameLevelFeatsOnly">
+                        <label for="sameLevelFeatsOnly{{level.number}}">Show only feats of this level</label>
+                    </span>
+                </div>
+                <div class="list-item" *ngIf="level.number > 0">
+                    <span>
+                        <input id="archetypeFeats{{level.number}}" type="checkbox" [(ngModel)]="archetypeFeats">
+                        <label for="archetypeFeats{{level.number}}">Show archetype feats</label>
+                    </span>
+                </div>
                 <!--Languages - show if you have gained languages this level-->
                 <div class="list-item" [ngClass]="{'fullsize-only':!get_Character().class.languages.includes('')}"
                     *ngIf="level.number > 0 && get_LanguagesAvailable(level.number)">
@@ -496,7 +508,7 @@
                             <button class="row sublist-toggle"
                                 [ngClass]="{'fancy-button':(choice.boosts.length == get_MaxAvailable(choice))}"
                                 (click)="toggle_List(listID)">
-                                Ability Boosts
+                                Ability {{choice.infoOnly ? "Choice (no Boost)" : "Boost"}}{{(get_MaxAvailable(choice) > 1) ? "s" : ""}}
                                 ({{choice.source}}){{(get_MaxAvailable(choice) > 1) ?
                                     ": "+ choice.boosts.length + "/" + (get_MaxAvailable(choice)) :
                                     (choice.boosts.length) ? ": "+ choice.boosts[0].name : ""}}
@@ -547,7 +559,7 @@
                                 [ngClass]="{'fancy-list':(choice.available + get_SkillINTBonus(choice) == choice.increases.length)}"
                                 *ngIf="get_showList()==listID">
                                 <div class="list-item"
-                                    *ngFor="let skill of get_AvailableSkills(choice)|sortBy:'asc':'name'; trackBy:trackByIndex;"
+                                    *ngFor="let skill of get_AvailableSkills(choice, level)|sortBy:'asc':'name'; trackBy:trackByIndex;"
                                     [ngClass]="{'problem':(!skill.isLegal(get_Character(), this.characterService, level.number) ||
                                     (!skill.isLegal(get_Character(), this.characterService, level.number, choice.maxRank) && skillIncreasedByThis(skill, choice)))}">
                                     <div class="row" *ngFor="let itemID of [choice.id+skill.name]; trackBy:trackByIndex;">
@@ -578,10 +590,10 @@
                     </ng-container>
                 </ng-container>
                 <!--Feat choices-->
-                <ng-container *ngFor="let choice of get_FeatChoices(level); trackBy:trackByIndex;">
+                <ng-container *ngFor="let choice of get_FeatChoices(level); let index = index; trackBy:trackByIndex;">
                     <app-featchoice (showChoiceMessage)="receive_ChoiceMessage($event)"
                         (showFeatMessage)="receive_FeatMessage($event)" [choice]="choice" [levelNumber]=level.number
-                        [showFeat]="get_showItem()" [showChoice]="get_showList()">
+                        [showFeat]="get_showItem()" [showChoice]="get_showList()" [sameLevelFeatsOnly]="sameLevelFeatsOnly" [archetypeFeats]="archetypeFeats">
                     </app-featchoice>
                 </ng-container>
                 <!--Animal Companion-->

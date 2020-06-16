@@ -23,9 +23,12 @@
                         <button class="lower left" *ngIf="feat.subTypes" id="{{choice.id+feat.name}}"
                             (click)="toggle_Item(itemID)">v</button>
                         <label for="{{choice.id+feat.name}}">
-                            <strong>{{feat.name}}&nbsp;</strong><cite *ngIf="feat.levelreq">Level
-                                {{feat.levelreq}}</cite>
+                            <strong>{{feat.name}}&nbsp;</strong>
                         </label>
+                        <cite *ngIf="feat.levelreq">Level
+                            {{feat.levelreq}}</cite>
+                        <cite class="trait" *ngIf="feat.traits.includes('Uncommon')"
+                            title="{{get_Traits('Uncommon')[0]?.description}}">Uncommon</cite>
                         <cite class="problem" *ngFor="let reason of cannotTake(feat, choice); trackBy:trackByIndex;">
                             {{reason}}
                         </cite>
@@ -79,11 +82,12 @@
                 title="{{(this.get_showFeat()==choice.id+feat.name+'desc') ? '' : feat.shortDesc}}"
                 *ngFor="let feat of get_AvailableFeats(choice, true)|sortBy:'asc':'name'">
                 <div class="row" *ngFor="let itemID of [choice.id+feat.name+'desc']; trackBy:trackByIndex;">
-                    <span>
-                        <strong>{{feat.name}}&nbsp;</strong><cite *ngIf="feat.levelreq">Level
+                    <span style="flex-grow:2">
+                        <strong>{{feat.name}}&nbsp;</strong>
+                        <cite *ngIf="feat.levelreq">Level
                             {{feat.levelreq}}</cite>
-                    </span>
-                    <span>
+                        <cite class="trait" *ngIf="feat.traits.includes('Uncommon')"
+                            title="{{get_Traits('Uncommon')[0]?.description}}">Uncommon</cite>
                         <cite class="problem" *ngFor="let reason of cannotTake(feat, choice); trackBy:trackByIndex;">
                             {{reason}}
                         </cite>
