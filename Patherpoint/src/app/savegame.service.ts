@@ -61,6 +61,7 @@ import { HistoryService } from './history.service';
 import { Talisman } from './Talisman';
 import { AlchemicalBomb } from './AlchemicalBomb';
 import { AlchemicalTool } from './AlchemicalTool';
+import { Snare } from './Snare';
 
 @Injectable({
     providedIn: 'root'
@@ -118,6 +119,7 @@ export class SavegameService {
     private Shield = Shield;
     private Skill = Skill;
     private SkillChoice = SkillChoice;
+    private Snare = Snare;
     private Speed = Speed;
     private SpellCast = SpellCast;
     private SpellCasting = SpellCasting;

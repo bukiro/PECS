@@ -22,6 +22,7 @@ import { Oil } from './Oil';
 import { Talisman } from './Talisman';
 import { AlchemicalBomb } from './AlchemicalBomb';
 import { AlchemicalTool } from './AlchemicalTool';
+import { Snare } from './Snare';
 
 export class ItemCollection {
     public readonly _className: string = this.constructor.name;
@@ -49,6 +50,7 @@ export class ItemCollection {
     public talismans: Talisman[] = [];
     public alchemicalbombs: AlchemicalBomb[] = [];
     public alchemicaltools: AlchemicalTool[] = [];
+    public snares: Snare[] = [];
     public readonly names: {name: string, key: string}[] = [
         {name:"Weapons",key:"weapons"},
         {name:"Armors",key:"armors"},
@@ -65,6 +67,7 @@ export class ItemCollection {
         {name:"Potions",key:"potions"},
         {name:"Oils",key:"oils"},
         {name:"Talismans",key:"talismans"},
+        {name:"Snares",key:"snares"},
         {name:"Ammunition",key:"ammunition"},
         {name:"Other Consumables",key:"otherconsumables"}
     ]

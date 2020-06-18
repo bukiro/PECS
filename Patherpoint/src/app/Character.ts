@@ -24,6 +24,7 @@ import { SkillIncrease } from './SkillIncrease';
 import { Spell } from './Spell';
 import { SpellLearned } from './SpellLearned';
 import { FeatTaken } from './FeatTaken';
+import { Item } from './Item';
 
 export class Character extends Creature {
     public readonly _className: string = this.constructor.name;
@@ -559,7 +560,7 @@ export class Character extends Creature {
         characterService.set_ToChange("Character", "spellbook");
     }
     learn_Spell(spell: Spell, source: string) {
-        if (!this.class?.spellBook.filter(learned => learned.name == spell.name).length) {
+        if (!this.class?.spellBook.find(learned => learned.name == spell.name)) {
             let level: number = spell.traits.includes("Cantrip") ? 0 : spell.levelreq;
             this.class?.spellBook.push({name:spell.name, source:source, level:level});
         }
@@ -571,6 +572,20 @@ export class Character extends Creature {
         return this.class?.spellBook.filter(learned =>
             (name ? learned.name == name : true) &&
             (level > -1 ? learned.level == level : true) &&
+            (source ? learned.source == source : true)
+        );
+    }
+    learn_Formula(item: Item, source: string) {
+        if (!this.class?.formulaBook.find(learned => learned.id == item.id)) {
+            this.class?.formulaBook.push({id:item.id, source:source});
+        }
+    }
+    unlearn_Formula(item: Item) {
+        this.class.formulaBook = this.class.formulaBook.filter(learned => learned.id != item.id);
+    }
+    get_FormulasLearned(id: string = "", source: string = "") {
+        return this.class?.formulaBook.filter(learned =>
+            (id ? learned.id == id : true) &&
             (source ? learned.source == source : true)
         );
     }

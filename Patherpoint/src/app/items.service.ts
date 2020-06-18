@@ -37,6 +37,7 @@ import { TimeService } from './time.service';
 import { SpellCast } from './SpellCast';
 import { AlchemicalBomb } from './AlchemicalBomb';
 import { AlchemicalTool } from './AlchemicalTool';
+import { Snare } from './Snare';
 
 @Injectable({
     providedIn: 'root'
@@ -85,6 +86,8 @@ export class ItemsService {
     private loading_AlchemicalBombs: Boolean = false;
     private loader_AlchemicalTools = [];
     private loading_AlchemicalTools: Boolean = false;
+    private loader_Snares = [];
+    private loading_Snares: Boolean = false;
     /*
     private loader_REPLACE1 = [];
     private loading_REPLACE1: Boolean = false;
@@ -188,6 +191,8 @@ export class ItemsService {
                     return Object.assign(new Oil(), item);
                 case "talismans":
                     return Object.assign(new Talisman(), item);
+                case "snares":
+                    return Object.assign(new Snare(), item);
             }
         } else if (item._className) {
             return this.cast_ItemByClassName(item)
@@ -233,6 +238,8 @@ export class ItemsService {
                     return Object.assign(new Oil(), item);
                 case "Talisman":
                     return Object.assign(new Talisman(), item);
+                case "Snare":
+                    return Object.assign(new Snare(), item);
             }
         } else if (item.type) {
             return this.cast_ItemByType(item)
@@ -549,6 +556,12 @@ export class ItemsService {
                     this.loader_AlchemicalTools = results;
                     this.finish_AlchemicalTools()
                 });
+            this.loading_Snares = true;
+            this.load_Snares()
+                .subscribe((results: String[]) => {
+                    this.loader_Snares = results;
+                    this.finish_Snares()
+                });
             /*
             this.loading_REPLACE1 = true;
             this.load_REPLACE1()
@@ -809,6 +822,19 @@ export class ItemsService {
             this.loader_AlchemicalTools = [];
         }
         if (this.loading_AlchemicalTools) { this.loading_AlchemicalTools = false; }
+    }
+
+    load_Snares(): Observable<string[]> {
+        return this.http.get<string[]>('/assets/items/snares.json');
+    }
+
+    finish_Snares() {
+        if (this.loader_Snares) {
+            this.items.snares = this.loader_Snares.map(element => this.initialize_Item(Object.assign(new Snare(), element), true, false));
+            this.cleanItems.snares = this.loader_Snares.map(element => this.initialize_Item(Object.assign(new Snare(), element), true, false));
+            this.loader_Snares = [];
+        }
+        if (this.loading_Snares) { this.loading_Snares = false; }
     }
 
     /*

@@ -154,7 +154,7 @@ export class Feat {
                     requiredFeat = characterService.familiarsService.get_FamiliarAbilities(testfeat);
                 } else {
                     testcreature = characterService.get_Character();
-                    requiredFeat = characterService.get_FeatsAndFeatures(testfeat);
+                    requiredFeat = characterService.get_FeatsAndFeatures(testfeat, "", true);
                 }
                 if (requiredFeat.length) {
                     if (requiredFeat.find(feat => feat.have(testcreature, characterService, charLevel))) {

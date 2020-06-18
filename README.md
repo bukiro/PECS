@@ -59,7 +59,7 @@ The very latest in Assistive Technologies for Dungeon Master (ATDM)
 - [ ] Implement all Ancestry Feats
 - [x] Implement all Heritages
 - [x] Implement all Backgrounds
-- [ ] Implement all Classes and Archetypes
+- [ ] Implement all Classes and Multiclass Archetypes
 - [x] - Monk
 - [x] - Fighter
 - [ ] Add custom conditions with effects
@@ -68,7 +68,9 @@ The very latest in Assistive Technologies for Dungeon Master (ATDM)
 - [ ] Stretch Goal: Include optional Stamina & Resolve system
 
 Next steps:
-- Test fighter feats
+1. Prepared Snare Deployment (see Snare Specialist)
+2. Keep implementing Ranger feats
+3. Convert Feats and Activities from XLS
 - Add custom conditions with effects
 - Add button press effect
 - Add Materials

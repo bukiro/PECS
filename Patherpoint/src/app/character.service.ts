@@ -55,6 +55,7 @@ import { Shield } from './Shield';
 import { AlchemicalBomb } from './AlchemicalBomb';
 import { HeldItem } from './HeldItem';
 import { AdventuringGear } from './AdventuringGear';
+import { Snare } from './Snare';
 
 @Injectable({
     providedIn: 'root'
@@ -73,6 +74,7 @@ export class CharacterService {
     
     itemsMenuState: string = 'out';
     itemsMenuTarget: string = 'Character';
+    craftingMenuState: string = 'out';
     characterMenuState: string = 'out';
     companionMenuState: string = 'out';
     familiarMenuState: string = 'out';
@@ -188,6 +190,7 @@ export class CharacterService {
                 this.companionMenuState = 'out';
                 this.familiarMenuState = 'out';
                 this.itemsMenuState = 'out';
+                this.craftingMenuState = 'out';
                 this.spellMenuState = 'out';
                 this.spelllibraryMenuState = 'out';
                 this.conditionsMenuState = 'out';
@@ -200,6 +203,7 @@ export class CharacterService {
                 this.companionMenuState = (this.companionMenuState == 'out') ? 'in' : 'out';
                 this.familiarMenuState = 'out';
                 this.itemsMenuState = 'out';
+                this.craftingMenuState = 'out';
                 this.spellMenuState = 'out';
                 this.spelllibraryMenuState = 'out';
                 this.conditionsMenuState = 'out';
@@ -212,6 +216,7 @@ export class CharacterService {
                 this.companionMenuState = 'out';
                 this.familiarMenuState = (this.familiarMenuState == 'out') ? 'in' : 'out';
                 this.itemsMenuState = 'out';
+                this.craftingMenuState = 'out';
                 this.spellMenuState = 'out';
                 this.spelllibraryMenuState = 'out';
                 this.conditionsMenuState = 'out';
@@ -224,6 +229,7 @@ export class CharacterService {
                 this.companionMenuState = 'out';
                 this.familiarMenuState = 'out';
                 this.itemsMenuState = (this.itemsMenuState == 'out') ? 'in' : 'out';
+                this.craftingMenuState = 'out';
                 this.spellMenuState = 'out';
                 this.spelllibraryMenuState = 'out';
                 this.conditionsMenuState = 'out';
@@ -231,11 +237,25 @@ export class CharacterService {
                     this.set_Changed("items");
                 }
                 break;
+            case "crafting":
+                this.characterMenuState = 'out';
+                this.companionMenuState = 'out';
+                this.familiarMenuState = 'out';
+                this.itemsMenuState = 'out';
+                this.craftingMenuState = (this.craftingMenuState == 'out') ? 'in' : 'out';
+                this.spellMenuState = 'out';
+                this.spelllibraryMenuState = 'out';
+                this.conditionsMenuState = 'out';
+                if (this.craftingMenuState == 'in') {
+                    this.set_Changed("crafting");
+                }
+                break;
             case "spells":
                 this.characterMenuState = 'out';
                 this.companionMenuState = 'out';
                 this.familiarMenuState = 'out';
                 this.itemsMenuState = 'out';
+                this.craftingMenuState = 'out';
                 this.spellMenuState = (this.spellMenuState == 'out') ? 'in' : 'out';
                 this.spelllibraryMenuState = 'out';
                 this.conditionsMenuState = 'out';
@@ -248,6 +268,7 @@ export class CharacterService {
                 this.companionMenuState = 'out';
                 this.familiarMenuState = 'out';
                 this.itemsMenuState = 'out';
+                this.craftingMenuState = 'out';
                 this.spellMenuState = 'out';
                 this.spelllibraryMenuState = (this.spelllibraryMenuState == 'out') ? 'in' : 'out';
                 this.conditionsMenuState = 'out';
@@ -259,6 +280,7 @@ export class CharacterService {
                 this.characterMenuState = 'out';
                 this.companionMenuState = 'out';
                 this.familiarMenuState = 'out';
+                this.craftingMenuState = 'out';
                 this.itemsMenuState = 'out';
                 this.spellMenuState = 'out';
                 this.spelllibraryMenuState = 'out';
@@ -285,6 +307,10 @@ export class CharacterService {
 
     get_ItemsMenuState() {
         return this.itemsMenuState;
+    }
+
+    get_CraftingMenuState() {
+        return this.craftingMenuState;
     }
 
     get_SpellMenuState() {
@@ -646,7 +672,7 @@ export class CharacterService {
                 }
             });
         }
-        if (returnedInventoryItem.constructor == AlchemicalBomb || returnedInventoryItem.constructor == Ammunition) {
+        if (returnedInventoryItem.constructor == AlchemicalBomb || returnedInventoryItem.constructor == Ammunition || returnedInventoryItem.constructor == Snare) {
             this.set_ToChange(creature.type, "attacks");
         }
         if (returnedInventoryItem["showon"]) {
@@ -660,7 +686,7 @@ export class CharacterService {
 
     drop_InventoryItem(creature: Character|AnimalCompanion, inventory: ItemCollection, item: Item, changeAfter: boolean = true, equipBasicItems: boolean = true, including: boolean = true, amount: number = 1) {
         this.set_ToChange(creature.type, "inventory");
-        if (item.constructor == AlchemicalBomb || item.constructor == Ammunition) {
+        if (item.constructor == AlchemicalBomb || item.constructor == Ammunition || item.constructor == Snare) {
             this.set_ToChange(creature.type, "attacks");
         }
         if (item["showon"]) {
@@ -816,7 +842,7 @@ export class CharacterService {
     }
 
     set_ItemViewChanges(creature: Character|AnimalCompanion, item: Item) {
-        if (item.constructor == AlchemicalBomb || item.constructor == Ammunition) {
+        if (item.constructor == AlchemicalBomb || item.constructor == Ammunition || item.constructor == Snare) {
             this.set_ToChange(creature.type, "attacks");
         }
         if (item["showon"]) {
@@ -1243,8 +1269,8 @@ export class CharacterService {
         return this.featsService.get_Features(name);
     }
 
-    get_FeatsAndFeatures(name: string = "", type: string = "") {
-        return this.featsService.get_All(this.me.customFeats, name, type);
+    get_FeatsAndFeatures(name: string = "", type: string = "", includeSubTypes: boolean = false) {
+        return this.featsService.get_All(this.me.customFeats, name, type, includeSubTypes);
     }
 
     get_Health(creature: Character|AnimalCompanion|Familiar) {

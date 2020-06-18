@@ -451,6 +451,37 @@ export class NewItemPropertyComponent implements OnInit {
                     examples.push(...item.onceEffects.map(effect => effect.value ))
                 });
                 break;
+                case "effects setvalue":
+                    this.characterService.get_FeatsAndFeatures().filter(feat => feat.onceEffects.length).forEach(feat => {
+                        examples.push(...feat.onceEffects.map(effect => effect.setValue ))
+                    });
+                    this.characterService.get_FeatsAndFeatures().filter(feat => feat.effects.length).forEach(feat => {
+                        examples.push(...feat.effects.map(effect => effect.setValue ))
+                    });
+                    this.characterService.get_Conditions().filter(condition => condition.onceEffects.length).forEach((condition: Condition) => {
+                        examples.push(...condition.onceEffects.map(effect => effect.setValue ))
+                    });
+                    this.characterService.get_Conditions().filter(condition => condition.effects.length).forEach((condition: Condition) => {
+                        examples.push(...condition.effects.map(effect => effect.setValue ))
+                    });
+                    this.activitiesService.get_Activities().filter(activity => activity.onceEffects.length).forEach((activity: Activity) => {
+                        examples.push(...activity.onceEffects.map(effect => effect.setValue ))
+                    });
+                    this.activitiesService.get_Activities().filter(activity => activity.effects.length).forEach((activity: Activity) => {
+                        examples.push(...activity.effects.map(effect => effect.setValue ))
+                    });
+                    this.get_Items().allEquipment().concat(...this.get_Inventories().map(inventory => inventory.allEquipment())).filter(item => item.activities.length).forEach((item: Equipment) => {
+                        item.activities.filter(activity => activity.onceEffects.length).forEach((activity: Activity) => {
+                            examples.push(...activity.onceEffects.map(effect => effect.setValue ))
+                        });
+                        item.activities.filter(activity => activity.effects.length).forEach((activity: Activity) => {
+                            examples.push(...activity.effects.map(effect => effect.setValue ))
+                        });
+                    });
+                    this.get_Items().allConsumables().concat(...this.get_Inventories().map(inventory => inventory.allConsumables())).filter(item => item.onceEffects.length).forEach((item: Consumable) => {
+                        examples.push(...item.onceEffects.map(effect => effect.setValue ))
+                    });
+                    break;
             case "inputRequired":
                 this.get_Items().allEquipment().concat(...this.get_Inventories().map(inventory => inventory.allEquipment())).filter(item => item.activities.length).forEach((item: Equipment) => {
                     examples.push(...item.activities.filter(activity => activity.inputRequired.length)
@@ -482,7 +513,7 @@ export class NewItemPropertyComponent implements OnInit {
                 });
                 examples.push(...this.get_Items().allEquipment().concat(...this.get_Inventories().map(inventory => inventory.allEquipment())).filter(item => item.showon.length).map((item: Equipment) => item.showon ));
                 break;
-            case "effect type":
+            case "effects type":
                 examples = ["", "item", "circumstance", "status", "proficiency", "untyped"];
                 break;
             case "gaincondition name":

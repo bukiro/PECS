@@ -53,13 +53,16 @@ export class FeatsService {
         } else { return [new Feat()]; }
     }
 
-    get_All(loreFeats: Feat[], name: string = "", type: string = "") {
+    get_All(loreFeats: Feat[], name: string = "", type: string = "", includeSubTypes: boolean = false) {
         if (!this.still_loading()) {
             let feats: Feat[] = this.feats.concat(loreFeats).concat(this.features);
             return feats.filter(feat =>
                 (
                     //For names like "Aggressive Block or Brutish Shove", split the string into the two feat names and return both.
-                    name.split(" or ").find(alternative => (feat.name.toLowerCase() == alternative.toLowerCase() || alternative == "")
+                    name.split(" or ").find(alternative =>
+                        (feat.name.toLowerCase() == alternative.toLowerCase() || 
+                        (includeSubTypes && feat.superType.toLowerCase() == alternative.toLowerCase()) ||
+                        alternative == "")
                 ) &&
                 (feat.traits.map(trait => trait.toLowerCase()).includes(type.toLowerCase()) || type == "")));
         } else { return [new Feat()]; }

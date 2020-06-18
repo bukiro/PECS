@@ -50,6 +50,7 @@ import { ActionIcons_ReactionComponent } from './actionIcons/actionIcons_Reactio
 import { FeatComponent } from './character/feat/feat.component';
 import { SpellLibraryComponent } from './spellLibrary/spellLibrary.component';
 import { ItemTalismansComponent } from './item/itemTalismans/itemTalismans.component';
+import { CraftingComponent } from './crafting/crafting.component';
 
 @NgModule({
    declarations: [
@@ -95,7 +96,8 @@ import { ItemTalismansComponent } from './item/itemTalismans/itemTalismans.compo
       ActionIcons_ReactionComponent,
       FeatComponent,
       SpellLibraryComponent,
-      ItemTalismansComponent
+      ItemTalismansComponent,
+      CraftingComponent
    ],
    imports: [
       BrowserModule,

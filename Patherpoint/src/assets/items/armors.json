@@ -4,7 +4,8 @@
         "name": "Unarmored",
         "moddable": "-",
         "_className": "Armor",
-        "prof": "Unarmored Defense"
+        "prof": "Unarmored Defense",
+        "craftable": false
     },
     {
         "bulk": "2",

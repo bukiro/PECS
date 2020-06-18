@@ -25,6 +25,7 @@ export class Item {
     public amount: number = 1;
     //Bulk: Either "" or "L" or "<number>"
     public bulk: string = "";
+    public craftable: boolean = true;
     //Some items need certain requirements to be crafted.
     public craftRequirement: string = "";
     //Some items need to store data - selected runes, spells, etc...
@@ -71,6 +72,7 @@ export class Item {
     //If you have named a subtype, this description will show up
     //e.g.: "Greater":"The bonus to Athletics is +2"
     public subTypeDesc: string = "";
+    public tradeable: boolean = true;
     //What traits does the item have? Can be expanded under certain circumstances
     public traits: string[] = [];
     //Type of item - very important. Must be set by the specific Item class and decides which database is searched for the item
@@ -95,7 +97,8 @@ export class Item {
             (this["gainItems"] ? !this["gainItems"].filter(gain => gain.on != "use").length : true) &&
             (this["gainActivities"] ? !this["gainActivities"].filter((activity: ItemActivity) => !activity.displayOnly).length : true) &&
             (this["activities"] ? !this["activities"].filter((activity: ItemActivity) => !activity.displayOnly).length : true) &&
-            (this["storedSpells"] ? !this["storedSpells"].length : true))
+            (this["storedSpells"] ? !this["storedSpells"].length : true)) &&
+            (this.constructor.name != "Snare")
     }
     get_Name() {
         if (this.displayName) {

@@ -853,6 +853,38 @@
         "desc": "Add known conditions that will be caused by using this item."
     },
     {
+        "key": "critsuccess",
+        "priority": "5",
+        "group": "9-Consumables",
+        "name": "Critical success effect",
+        "desc": "If you or the target must roll to decide the outcome of the item's activation, describe what happens at a critical success.",
+        "examples": "activity"
+    },
+    {
+        "key": "success",
+        "priority": "6",
+        "group": "9-Consumables",
+        "name": "Success effect",
+        "desc": "If you or the target must roll to decide the outcome of the item's activation, describe what happens at a success.",
+        "examples": "activity"
+    },
+    {
+        "key": "failure",
+        "priority": "7",
+        "group": "9-Consumables",
+        "name": "Failure effect",
+        "desc": "If you or the target must roll to decide the outcome of the item's activation, describe what happens at a failure.",
+        "examples": "activity"
+    },
+    {
+        "key": "critfailure",
+        "priority": "8",
+        "group": "9-Consumables",
+        "name": "Critical failure effect",
+        "desc": "If you or the target must roll to decide the outcome of the item's activation, describe what happens at a critical failure.",
+        "examples": "activity"
+    },
+    {
         "parent": "gainConditions",
         "key": "name",
         "priority": "0",

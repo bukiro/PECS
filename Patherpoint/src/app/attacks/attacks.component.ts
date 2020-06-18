@@ -13,6 +13,7 @@ import { Talisman } from '../Talisman';
 import { InventoryComponent } from '../inventory/inventory.component';
 import { AlchemicalBomb } from '../AlchemicalBomb';
 import { Consumable } from '../Consumable';
+import { Snare } from '../Snare';
 
 @Component({
     selector: 'app-attacks',
@@ -132,6 +133,16 @@ export class AttacksComponent implements OnInit {
             })
         });
         return this.sortByPipe.transform(ammoList, "asc", "name") as Ammunition[];
+    }
+
+    get_Snares() {
+        let snares: {item:Snare, name:string, inventory:ItemCollection}[] = [];
+        this.get_Creature().inventories.forEach(inv => {
+            inv.snares.forEach(snare => {
+                snares.push({item:snare, name:snare.get_Name(), inventory:inv})
+            })
+        });
+        return this.sortByPipe.transform(snares, "asc", "name") as Snare[];
     }
 
     on_ConsumableUse(item: Ammunition|AlchemicalBomb, inv: ItemCollection) {

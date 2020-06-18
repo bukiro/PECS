@@ -37,6 +37,7 @@ export class ItemsComponent implements OnInit {
     public cashG: number = 0;
     public cashS: number = 0;
     public cashC: number = 0;
+    public purpose: string = "items";
     
     constructor(
         private changeDetector: ChangeDetectorRef,
@@ -65,6 +66,10 @@ export class ItemsComponent implements OnInit {
         return index;
     }
 
+    get_Character() {
+        return this.characterService.get_Character();
+    }
+
     toggle_Item(id: number) {
         if (this.showItem == id) {
             this.showItem = 0;
@@ -75,6 +80,14 @@ export class ItemsComponent implements OnInit {
 
     get_ShowItem() {
         return this.showItem;
+    }
+
+    toggle_Purpose(purpose: string) {
+        this.purpose = purpose;
+    }
+
+    get_ShowPurpose() {
+        return this.purpose;
     }
 
     set_ItemsMenuTarget() {
@@ -173,7 +186,8 @@ export class ItemsComponent implements OnInit {
                         item.traits.filter(trait => trait.toLowerCase().includes(this.wordFilter.toLowerCase())).length
                     )
                 )
-            )
+            ) &&
+            (this.purpose == "formulas" ? item.craftable : true)
             );
     }
 
@@ -256,6 +270,121 @@ export class ItemsComponent implements OnInit {
         if (this.newItem != null) {
             this.newItem.id = "";
             this.grant_Item(creature, this.newItem);
+        }
+    }
+
+    get_FormulasLearned(id: string = "", source: string = "") {
+        return this.get_Character().get_FormulasLearned(id, source);
+    }
+
+    learn_Formula(item: Item, source: string) {
+        this.get_Character().learn_Formula(item, source);
+    }
+    
+    unlearn_Formula(item: Item) {
+        this.get_Character().unlearn_Formula(item);
+    }
+
+    get_LearnedFormulaSource(source: string) {
+        switch (source) {
+            case "alchemicalcrafting":
+                return "(learned via Alchemical Crafting)";
+            case "magicalcrafting":
+                return "(learned via Magical Crafting)";
+            case "snarecrafting":
+                return "(learned via Snare Crafting)";
+            case "snarespecialist":
+                return "(learned via Snare Specialist)";
+            case "other":
+                return "(bought, copied or reverse engineered)";
+        }
+    }
+
+    have_Feat(name: string) {
+        return this.get_Character().get_FeatsTaken(1, this.get_Character().level, name).length;
+    }
+
+    get_LearningAvailable() {
+        let result: string = "";
+        if (this.have_Feat("Alchemical Crafting")) {
+            let learned: number = this.get_FormulasLearned("", 'alchemicalcrafting').length;
+            let available = 4;
+            result += "\n" + (available - learned) + " common 1st-level alchemical items";
+        }
+        if (this.have_Feat("Magical Crafting")) {
+            let learned: number = this.get_FormulasLearned("", 'magicalcrafting').length;
+            let available = 4;
+            result += "\n" + (available - learned) + " common magic items of 2nd level or lower";
+        }
+        if (this.have_Feat("Snare Crafting")) {
+            let learned: number = this.get_FormulasLearned("", 'snarecrafting').length;
+            let available = 4;
+            result += "\n" + (available - learned) + " common snares";
+        }
+        if (this.have_Feat("Snare Specialist")) {
+            let learned: number = this.get_FormulasLearned("", 'snarespecialist').length;
+            let available = 0;
+            let character = this.get_Character();
+            let crafting = this.characterService.get_Skills(character, "Crafting")[0]?.level(character, this.characterService, character.level) || 0;
+            if (crafting >= 4) {
+                available += 3;
+            }
+            if (crafting >= 6) {
+                available += 3;
+            }
+            if (crafting >= 8) {
+                available += 3;
+            }
+            result += "\n" + (available - learned) + " common or uncommon snares";
+        }
+        if (result) {
+            result = "You can currently learn the following number of formulas:\n" + result;
+        }
+        return result;
+    }
+
+    can_Learn(item: Item, source: string) {
+        if (source == "alchemicalcrafting") {
+            let learned: number = this.get_FormulasLearned("", 'alchemicalcrafting').length;
+            let available = 0;
+            if (this.have_Feat("Alchemical Crafting")) {
+                available += 4;
+            }
+            return item.level == 1 && available > learned && !item.traits.includes("Uncommon") && !item.traits.includes("Rare");
+        }
+        if (source == "magicalcrafting") {
+            let learned: number = this.get_FormulasLearned("", 'magicalcrafting').length;
+            let available = 0;
+            if (this.have_Feat("Magical Crafting")) {
+                available += 4;
+            }
+            return item.level <= 2 && available > learned && !item.traits.includes("Uncommon") && !item.traits.includes("Rare");
+        }
+        if (source == "snarecrafting") {
+            let learned: number = this.get_FormulasLearned("", 'snarecrafting').length;
+            let available = 0;
+            if (this.have_Feat("Snare Crafting")) {
+                available += 4;
+            }
+            return available > learned && !item.traits.includes("Uncommon") && !item.traits.includes("Rare");
+        }
+        if (source == "snarespecialist") {
+            let learned: number = this.get_FormulasLearned("", 'snarespecialist').length;
+            let available = 0;
+            if (this.have_Feat("Snare Specialist")) {
+                let character = this.get_Character();
+                let crafting = this.characterService.get_Skills(character, "Crafting")[0]?.level(character, this.characterService, character.level) || 0;
+                if (crafting >= 4) {
+                    available += 3;
+                }
+                if (crafting >= 6) {
+                    available += 3;
+                }
+                if (crafting >= 8) {
+                    available += 3;
+                }
+            }
+            return available > learned && !item.traits.includes("Rare");
         }
     }
 

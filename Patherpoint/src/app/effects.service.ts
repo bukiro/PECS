@@ -85,6 +85,10 @@ export class EffectsService {
         return this.effects[index].penalties.filter(effect => effect.creature == creature.id && effect.target.toLowerCase() == ObjectName.toLowerCase() && effect.apply && !effect.hide).length > 0;
     }
 
+    get_TestSpeed(name: string) {
+        return (new Speed(name));
+    }
+
     get_SimpleEffects(creature: Character | AnimalCompanion | Familiar, characterService: CharacterService, object: any) {
         //If an item has a simple instruction in effects, such as "Strength", "+2", turn it into an effect,
         // then mark the effect as a penalty if the change is negative (except for Bulk).
@@ -138,13 +142,10 @@ export class EffectsService {
                 return characterService.get_Skills(creature, name)[0]?.level(creature, characterService, Level);
             }
         }
+        let get_TestSpeed = this.get_TestSpeed;
         function Speed(name: string) {
-            let speeds: Speed[] = characterService.get_Speeds(creature).filter(speed => speed.name == name);
-            if (speeds.length) {
-                return speeds[0]?.value(creature, characterService, effectsService)[0];
-            } else {
-                return 0;
-            }
+            return (get_TestSpeed(name))?.value(creature, characterService, effectsService)[0] || 0;
+
         }
         function Has_Condition(name: string) {
             return characterService.get_AppliedConditions(creature, name).length
@@ -222,8 +223,8 @@ export class EffectsService {
             if (object.constructor == Feat && type == "untyped") {
                 hide = true;
             }
-            //Effects that have neither a value nor a toggle and are hidden get ignored.
-            if (toggle || setValue || parseInt(value) != 0 || !hide) {
+            //Effects that have neither a value nor a toggle get ignored.
+            if (toggle || setValue || parseInt(value) != 0) {
                 objectEffects.push(new Effect(creature.id, type, effect.affected, value, setValue, toggle, name, penalty, undefined, hide));
             }
         });

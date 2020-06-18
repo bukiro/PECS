@@ -108,7 +108,7 @@
         <strong>Drawback</strong>
         {{item.drawback}}
     </p>
-    <p *ngIf="item.activationType || item.actions">
+    <p *ngIf="item.activationType || (item.actions && item.actions != ' ')">
         <strong>Activate</strong>
         <app-actionIcons [actionString]="item.actions">
         </app-actionIcons>{{item.activationType}}

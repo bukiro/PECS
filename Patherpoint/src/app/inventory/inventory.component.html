@@ -7,7 +7,7 @@
             (click)="set_ItemsMenuTarget(creature); toggleMenu('items')">
             Get Items
         </button>
-        <h5 *ngIf="creature=='Character'">Cash</h5>
+        <h5 *ngIf="creature=='Character'">Currency</h5>
         <div class="list-item" *ngIf="creature=='Character'">
             <strong>C</strong>
             <input class="number6" type="number" value="{{this.characterService.get_Character().cash[3]}}" disabled>
@@ -164,7 +164,7 @@
                                         </button>
                                     </span>
                                 </div>
-                                <div class="row" *ngIf="get_Price(item)">
+                                <div class="row" *ngIf="get_Price(item) && item.tradeable">
                                     <span *ngIf="item.can_Stack()">
                                         <button (click)="onAmountChange(item, -1, true)" title="Sell at half price"
                                             [disabled]="item.amount <= 0">Sell 1</button>

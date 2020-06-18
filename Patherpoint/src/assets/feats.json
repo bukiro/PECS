@@ -4155,6 +4155,7 @@
         "desc": "Your study of the Beast of Gluttondark has taught you how to make do in the most trying of circumstances rather than succumb to weakness. As long as your current Hit Points are less than half your maximum Hit Points, you gain a +1 circumstance bonus to Survival and Stealth checks. If your current Hit Points are less than a quarter your maximum Hit Points, the circumstance bonus is +2 instead.",
         "hint": "As long as your current Hit Points are less than half your maximum Hit Points, you gain a +1 circumstance bonus to Survival and Stealth checks. If your current Hit Points are less than a quarter your maximum Hit Points, the circumstance bonus is +2 instead.",
         "showon": "Health",
+        "levelreq": 1,
         "shortdesc": "Your study of the Beast of Gluttondark has taught you how to make do in the most trying of circumstances rather than succumb to weakness.",
         "sourceBook": "Pathfinder #153: Life's Long Shadow",
         "traits": [
@@ -4167,11 +4168,13 @@
         "effects": [
             {
                 "affected": "Survival",
-                "value": "Current_HP() < (Max_HP() / 4) ? 2 : (Current_HP() < (Max_HP() / 2) ? 1 : 0)"
+                "value": "Current_HP() < (Max_HP() / 4) ? 2 : (Current_HP() < (Max_HP() / 2) ? 1 : 0)",
+                "type": "circumstance"
             },
             {
                 "affected": "Stealth",
-                "value": "Current_HP() < (Max_HP() / 4) ? 2 : (Current_HP() < (Max_HP() / 2) ? 1 : 0)"
+                "value": "Current_HP() < (Max_HP() / 4) ? 2 : (Current_HP() < (Max_HP() / 2) ? 1 : 0)",
+                "type": "circumstance"
             }
         ]
     },

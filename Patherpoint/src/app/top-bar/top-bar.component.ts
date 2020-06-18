@@ -85,6 +85,10 @@ export class TopBarComponent implements OnInit {
       return this.characterService.get_ItemsMenuState();
     }
 
+    get_CraftingMenuState() {
+        return this.characterService.get_CraftingMenuState();
+    }
+
     get_CharacterMenuState() {
       return this.characterService.get_CharacterMenuState();
     }

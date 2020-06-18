@@ -15,7 +15,8 @@
       "group": "Brawling",
       "hands": "1",
       "melee": 5,
-      "prof": "Unarmed Attacks"
+      "prof": "Unarmed Attacks",
+      "craftable": false
    },
    {
       "hide": true,

@@ -1,0 +1,87 @@
+<div id="items" class="itemBox">
+    <button class="list-item" (click)="toggleCraftingMenu()">Close</button>
+    <div class="loading" *ngIf="still_loading()">Loading</div>
+    <ng-container *ngIf="get_CraftingMenuState()=='in'">
+        <div class="list-item">
+            <strong>Find (in Name, Description or Traits)</strong>
+            <span>
+                <input type=text [(ngModel)]="wordFilter" (ngModelChange)=check_Filter() />
+                <button (click)="set_Filter()" [disabled]="wordFilter.length < 5"
+                    >Show All</button>
+                <button (click)="wordFilter='';check_Filter()">Clear</button>
+            </span>
+        </div>
+        <div class="list-item">
+            <strong>Sort by</strong>
+            <select [(ngModel)]="sorting">
+                <option *ngFor="let sort of ['Name','Level']" [ngValue]="sort.toLowerCase()">
+                    {{sort}}
+                </option>
+            </select>
+        </div>
+        <h5>Currency</h5>
+        <div class="list-item">
+            <div class="row">
+                <strong>Copper</strong>
+                <input class="number4" type="number" [(ngModel)]="cashC" (keypress)="numbersOnly($event)">
+                <strong>Silver</strong>
+                <input class="number4" type="number" [(ngModel)]="cashS" (keypress)="numbersOnly($event)">
+                <strong>Gold</strong>
+                <input class="number4" type="number" [(ngModel)]="cashG" (keypress)="numbersOnly($event)">
+                <strong>Platinum</strong>
+                <input class="number4" style="text-align: center;" type="number" [(ngModel)]="cashP" (keypress)="numbersOnly($event)">
+            </div>
+            <div class="row">
+                <span>
+                    <button (click)="change_Cash(1, 0, true)" [disabled]="cashP < 0 || cashG < 0 || cashS < 0 || cashC < 0">Gain</button>
+                </span>
+                <span>
+                    <button (click)="change_Cash(-1, 0, true)" [disabled]="cashP < 0 || cashG < 0 || cashS < 0 || cashC < 0" [disabled]="!have_Funds()">Spend</button>
+                </span>
+            </div>
+        </div>
+        <ng-container *ngFor="let items of [get_Items(true)]; trackBy:trackByIndex;">
+            <h3>Craft Items</h3>
+            <div class="list-item">
+                The material cost of Crafting an item can vary depending on your success using the Craft activity. If you Craft an item in any way that requires you to spend materials, manually spend the appropriate amount of currency and any required items.
+            </div>
+            <ng-container *ngFor="let itemSet of items.names; let index = index; trackBy:trackByIndex;">
+                <ng-container *ngFor="let listID of [(index*1000+1000)]; trackBy:trackByIndex;">
+                    <button class="list-item"
+                        [ngStyle]="{'--accent':get_Accent(), 'display':!get_VisibleItems(items[itemSet.key]).length ? 'none' : 'flex' }"
+                        (click)="toggle_List(listID)">
+                        <h3>{{itemSet.name}}</h3>
+                    </button>
+                    <ng-container *ngIf="get_ShowList()==listID||get_ShowList()=='All'">
+                        <ng-container *ngFor="let item of get_VisibleItems(items[itemSet.key])|sortBy:'asc':sorting; trackBy:trackByIndex;">
+                            <div class="list-item" *ngFor="let inventoryID of [listID+get_ID()]; trackBy:trackByIndex;">
+                                <button class="row sublist-toggle"
+                                    (click)="toggle_Item(inventoryID)">
+                                    <span>{{(item.get_Name) ? item.get_Name() : item.name}}</span>
+                                    <span
+                                        *ngIf="item.type == 'armors'">{{(["Light Barding","Heavy Barding"].includes(item.prof)) ? item.prof : item.prof.split(" ")[0]}}
+                                        {{item.group}}
+                                        {{(item.type=="armors" && (!["Unarmored Defense","Light Barding","Heavy Barding"].includes(item.prof))) ? "Armor" : ""}}</span>
+                                    <span
+                                        *ngIf="item.type == 'weapons'">{{(item.prof == 'Unarmed') ? item.prof : item.prof.substr(0, item.prof.length - 8)}}
+                                        {{item.group}}</span>
+                                    <span>{{(item.level) ? "Level "+item.level : "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"}}</span>
+                                </button>
+                                <div class="list-item sublist lower"
+                                    *ngIf="get_ShowItem()==inventoryID">
+                                    <ng-container>
+                                        <button class="row center-aligned"
+                                            (click)="grant_Item(item)" title="{{cannot_Craft(item).join('\n')}}" [disabled]="cannot_Craft(item).length">
+                                            Craft using Craft activity
+                                        </button>
+                                    </ng-container>
+                                    <app-item [item]=item [itemStore]=true></app-item>
+                                </div>
+                            </div>
+                        </ng-container>
+                    </ng-container>
+                </ng-container>
+            </ng-container>
+        </ng-container>
+    </ng-container>
+</div>

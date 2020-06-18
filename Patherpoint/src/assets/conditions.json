@@ -4394,14 +4394,16 @@
                 "affected": "Shield Spikes Dice Number",
                 "value": "1"
             }
-        ]
+        ],
+        "type": "activities"
     },
     {
         "name": "Point-Blank Shot",
         "buff": true,
         "desc": "When using a ranged volley weapon while you are in this stance, you don’t take the penalty to your attack rolls from the volley trait. When using a ranged weapon that doesn’t have the volley trait, you gain a +2 circumstance bonus to damage rolls on attacks against targets within the weapon’s first range increment.",
         "hint": "When using a ranged volley weapon while you are in this stance, you don’t take the penalty to your attack rolls from the volley trait. When using a ranged weapon that doesn’t have the volley trait, you gain a +2 circumstance bonus to damage rolls on attacks against targets within the weapon’s first range increment.",
-        "showon": "Attacks, ranged"
+        "showon": "Attacks, ranged",
+        "type": "activities"
     },
     {
         "name": "Dueling Parry",
@@ -4413,7 +4415,8 @@
                 "type": "circumstance",
                 "value": "2"
             }
-        ]
+        ],
+        "type": "activities"
     },
     {
         "name": "Twin Parry",
@@ -4425,42 +4428,48 @@
                 "type": "circumstance",
                 "value": "Weapons().find(weapon => weapon.traits.includes('Parry')) ? 2 : 1"
             }
-        ]
+        ],
+        "type": "activities"
     },
     {
         "name": "Disarming Stance",
         "buff": true,
         "desc": "You adopt a fencing stance that improves your control over your weapon. While you are in this stance, you gain a +1 circumstance bonus to Athletics checks to Disarm and a +2 circumstance bonus to your Reflex DC when defending against checks to Disarm you. In addition, you can attempt to Disarm creatures up to two sizes larger than you.",
         "hint": "You gain a +1 circumstance bonus to Athletics checks to Disarm and a +2 circumstance bonus to your Reflex DC when defending against checks to Disarm you. In addition, you can attempt to Disarm creatures up to two sizes larger than you.",
-        "showon": "Athletics, Reflex"
+        "showon": "Athletics, Reflex",
+        "type": "activities"
     },
     {
         "name": "Impassable Wall Stance",
         "buff": true,
         "desc": "You refuse to let foes past your guard. As long as you are in this stance, when you critically hit with an Attack of Opportunity triggered by a move action, you disrupt that move action.",
         "hint": "When you critically hit with an Attack of Opportunity triggered by a move action, you disrupt that move action.",
-        "showon": "Attacks, Attack of Opportunity, Attack of Opportunity (Fighter)"
+        "showon": "Attacks, Attack of Opportunity, Attack of Opportunity (Fighter)",
+        "type": "activities"
     },
     {
         "name": "Mobile Shot Stance",
         "buff": true,
         "desc": "Your shots become nimble and deadly. While you’re in this stance, your ranged Strikes don’t trigger Attacks of Opportunity or other reactions that are triggered by a ranged attack. If you have Attack of Opportunity, you can use it with a loaded ranged weapon you’re wielding. The triggering creature must be within 5 feet of you for you to do so.",
         "hint": "Your ranged Strikes don’t trigger Attacks of Opportunity or other reactions that are triggered by a ranged attack. If you have Attack of Opportunity, you can use it with a loaded ranged weapon you’re wielding. The triggering creature must be within 5 feet of you for you to do so.",
-        "showon": "Attacks, Attack of Opportunity, Attack of Opportunity (Fighter)"
+        "showon": "Attacks, Attack of Opportunity, Attack of Opportunity (Fighter)",
+        "type": "activities"
     },
     {
         "name": "Disruptive Stance",
         "buff": true,
         "desc": "The slightest distraction can provoke your wrath, and you’re prepared to foil enemies’ actions. As long as you are in this stance, you can use Attack of Opportunity when a creature within your reach uses a concentrate action, in addition to manipulate and move actions. Furthermore, you disrupt a triggering concentrate or manipulate action if your Strike hits (not only if it’s a critical hit).",
         "hint": "As long as you are in this stance, you can use Attack of Opportunity when a creature within your reach uses a concentrate action, in addition to manipulate and move actions. Furthermore, you disrupt a triggering concentrate or manipulate action if your Strike hits (not only if it’s a critical hit).",
-        "showon": "Attacks, Attack of Opportunity, Attack of Opportunity (Fighter)"
+        "showon": "Attacks, Attack of Opportunity, Attack of Opportunity (Fighter)",
+        "type": "activities"
     },
     {
         "name": "Lunging Stance",
         "buff": true,
         "desc": "Your body coiled to strike, you can lash out at distant enemies. While you are in this stance, you can use Attack of Opportunity against a creature that is outside your reach but within the reach you would have with a Lunge. If you do, you increase your range with the Strike by 5 feet.",
         "hint": "You can use Attack of Opportunity against a creature that is outside your reach but within the reach you would have with a Lunge. If you do, you increase your range with the Strike by 5 feet.",
-        "showon": "Attacks, Attack of Opportunity, Attack of Opportunity (Fighter)"
+        "showon": "Attacks, Attack of Opportunity, Attack of Opportunity (Fighter)",
+        "type": "activities"
     },
     {
         "name": "Paragon's Guard",
@@ -4471,14 +4480,16 @@
                 "affected": "Raise Shield",
                 "value": "-1"
             }
-        ]
+        ],
+        "type": "activities"
     },
     {
         "name": "Graceful Poise",
         "buff": true,
         "desc": "With the right positioning, your off-hand weapon can strike like a scorpion’s stinger. While you are in this stance, if you make your second Strike from Double Slice with an agile weapon, Double Slice counts as one attack when calculating your multiple attack penalty.",
         "hint": "While you are in this stance, if you make your second Strike from Double Slice with an agile weapon, Double Slice counts as one attack when calculating your multiple attack penalty.",
-        "showon": "Attacks, Double Slice"
+        "showon": "Attacks, Double Slice",
+        "type": "activities"
     },
     {
         "name": "Multishot Stance",
@@ -4486,18 +4497,167 @@
         "desc": "You lock yourself in a stable position so you can fire swiftly and accurately. While you are in this stance, your penalty for Double Shot is reduced to -1, or -2 if you add the extra action to make three Strikes. If you move from your position, this stance ends.",
         "hint": "Your penalty for Double Shot is reduced to -1, or -2 if you add the extra action to make three Strikes.",
         "inputRequired": "If you move from your position, end this stance.",
-        "showon": "Attacks, Double Shot"
+        "showon": "Attacks, Double Shot",
+        "type": "activities"
     },
     {
         "name": "Quickened (Weapon Supremacy)",
         "buff": true,
         "desc": "You gain 1 additional action at the start of your turn each round. You can use your extra action only to Strike. If you become quickened from multiple sources, you can use the extra action you've been granted for any single action allowed by any of the effects that made you quickened.",
-        "type": "generic"
+        "type": "feats"
     },
     {
         "name": "Quickened (Enduring Quickness)",
         "buff": true,
         "desc": "You gain 1 additional action at the start of your turn each round. You can use your extra action to Stride or Leap, or to provide one of the actions needed for a High Jump or Long Jump. If you become quickened from multiple sources, you can use the extra action you've been granted for any single action allowed by any of the effects that made you quickened.",
-        "type": "generic"
+        "type": "feats"
+    },
+    {
+        "name": "Favored Terrain: Aquatic",
+        "buff": true,
+        "desc": "You have studied aquatic terrain to overcome its challenges. If you have the wild stride class feature, while you are in aquatic terrain, you gain a swim Speed equal to your Speed. If you already had a swim Speed, you gain a +10-foot status bonus to your swim Speed.",
+        "effects": [
+            {
+                "affected": "Swim Speed",
+                "setValue": "(Has_Feat('Wild Stride') && !effectsService.get_AbsolutesOnThis(creature, 'Swim Speed').concat(effectsService.get_RelativesOnThis(creature, 'Swim Speed')).find(effect => effect.source != name && !effect.penalty)) ? Speed('Land Speed') : null"
+            },
+            {
+                "affected": "Swim Speed",
+                "value": "(Has_Feat('Wild Stride') && effectsService.get_AbsolutesOnThis(creature, 'Swim Speed').concat(effectsService.get_RelativesOnThis(creature, 'Swim Speed')).find(effect => effect.source != name && !effect.penalty)) ? +10 : 0",
+                "type": "status"
+            }
+        ],
+        "type": "activities"
+    },
+    {
+        "name": "Favored Terrain: Arctic",
+        "buff": true,
+        "desc": "You have studied arctic terrain to overcome its challenges. If you have the wild stride class feature, while you are in arctic terrain, you need to eat and drink only one-tenth as much as usual, you aren’t affected by severe or extreme cold, and you can walk across ice and snow at full Speed without needing to Balance.",
+        "hint": "If you have the wild stride class feature, while you are in arctic terrain, you need to eat and drink only one-tenth as much as usual, you aren’t affected by severe or extreme cold, and you can walk across ice and snow at full Speed without needing to Balance.",
+        "showon": "Health, Resistances, Movement",
+        "type": "activities"
+    },
+    {
+        "name": "Favored Terrain: Arctic",
+        "buff": true,
+        "desc": "You have studied desert terrain to overcome its challenges. If you have the wild stride class feature, while you are in desert terrain, you need to eat and drink only one-tenth as much as usual, you aren’t affected by severe or extreme heat, and you can walk along sand at full Speed without needing to Balance.",
+        "hint": "If you have the wild stride class feature, while you are in desert terrain, you need to eat and drink only one-tenth as much as usual, you aren’t affected by severe or extreme heat, and you can walk along sand at full Speed without needing to Balance.",
+        "showon": "Health, Resistances, Movement",
+        "type": "activities"
+    },
+    {
+        "name": "Favored Terrain: Forest",
+        "buff": true,
+        "desc": "You have studied forest terrain to overcome its challenges. If you have the wild stride class feature, while you are in forest terrain, you gain a climb Speed equal to your Speed. If you already had a climb Speed, you gain a +10-foot status bonus to your climb Speed.",
+        "effects": [
+            {
+                "affected": "Climb Speed",
+                "setValue": "(Has_Feat('Wild Stride') && !effectsService.get_AbsolutesOnThis(creature, 'Climb Speed').concat(effectsService.get_RelativesOnThis(creature, 'Climb Speed')).find(effect => effect.source != name && !effect.penalty)) ? Speed('Land Speed') : null"
+            },
+            {
+                "affected": "Climb Speed",
+                "value": "(Has_Feat('Wild Stride') && effectsService.get_AbsolutesOnThis(creature, 'Climb Speed').concat(effectsService.get_RelativesOnThis(creature, 'Climb Speed')).find(effect => effect.source != name && !effect.penalty)) ? +10 : 0",
+                "type": "status"
+            }
+        ],
+        "type": "activities"
+    },
+    {
+        "name": "Favored Terrain: Mountain",
+        "buff": true,
+        "desc": "You have studied mountain terrain to overcome its challenges. If you have the wild stride class feature, while you are in mountain terrain, you gain a climb Speed equal to your Speed. If you already had a climb Speed, you gain a +10-foot status bonus to your climb Speed.",
+        "effects": [
+            {
+                "affected": "Climb Speed",
+                "setValue": "(Has_Feat('Wild Stride') && !effectsService.get_AbsolutesOnThis(creature, 'Climb Speed').concat(effectsService.get_RelativesOnThis(creature, 'Climb Speed')).find(effect => effect.source != name && !effect.penalty)) ? Speed('Land Speed') : null"
+            },
+            {
+                "affected": "Climb Speed",
+                "value": "(Has_Feat('Wild Stride') && effectsService.get_AbsolutesOnThis(creature, 'Climb Speed').concat(effectsService.get_RelativesOnThis(creature, 'Climb Speed')).find(effect => effect.source != name && !effect.penalty)) ? +10 : 0",
+                "type": "status"
+            }
+        ],
+        "type": "activities"
+    },
+    {
+        "name": "Favored Terrain: Plains",
+        "buff": true,
+        "desc": "You have studied plains terrain to overcome its challenges. If you have the wild stride class feature, while you are in plains terrain, you gain a +10-foot status bonus to your land Speed.",
+        "effects": [
+            {
+                "affected": "Land Speed",
+                "value": "Has_Feat('Wild Stride') ? +10 : 0",
+                "type": "status"
+            }
+        ],
+        "type": "activities"
+    },
+    {
+        "name": "Favored Terrain: Sky",
+        "buff": true,
+        "desc": "You have studied sky terrain to overcome its challenges. If you have the wild stride class feature, while you are in sky terrain, you gain a +10-foot status bonus to your fly Speed, if you have one.",
+        "effects": [
+            {
+                "affected": "Fly Speed",
+                "value": "Has_Feat('Wild Stride') && Speed('Fly Speed') ? +10 : 0",
+                "type": "status"
+            }
+        ],
+        "type": "activities"
+    },
+    {
+        "name": "Favored Terrain: Swamp",
+        "buff": true,
+        "desc": "You have studied swamp terrain to overcome its challenges. If you have the wild stride class feature, while you are in swamp terrain, you can move across bogs at full Speed, even if they are deep enough to be greater difficult terrain or to normally require you to Swim.",
+        "hint": "If you have the wild stride class feature, while you are in swamp terrain, you can move across bogs at full Speed, even if they are deep enough to be greater difficult terrain or to normally require you to Swim.",
+        "showon": "Movement",
+        "type": "activities"
+    },
+    {
+        "name": "Favored Terrain: Underground",
+        "buff": true,
+        "desc": "You have studied underground terrain to overcome its challenges. If you have the wild stride class feature, while you are in underground terrain, you gain a climb Speed equal to your Speed. If you already had a climb Speed, you gain a +10-foot status bonus to your climb Speed.",
+        "effects": [
+            {
+                "affected": "Climb Speed",
+                "setValue": "(Has_Feat('Wild Stride') && !effectsService.get_AbsolutesOnThis(creature, 'Climb Speed').concat(effectsService.get_RelativesOnThis(creature, 'Climb Speed')).find(effect => effect.source != name && !effect.penalty)) ? Speed('Land Speed') : null"
+            },
+            {
+                "affected": "Climb Speed",
+                "value": "(Has_Feat('Wild Stride') && effectsService.get_AbsolutesOnThis(creature, 'Climb Speed').concat(effectsService.get_RelativesOnThis(creature, 'Climb Speed')).find(effect => effect.source != name && !effect.penalty)) ? +10 : 0",
+                "type": "status"
+            }
+        ],
+        "type": "activities"
+    },
+    {
+        "name": "Terrain Master",
+        "buff": true,
+        "desc": "You have made the current terrain your favored terrain, replacing your current favored terrain temporarily. You can ignore the effects of non-magical difficult terrain. If you spend a full day out of the new favored terrain, your favored terrain reverts back to your original choice when you took the Favored Terrain feat.",
+        "hint": "You can ignore the effects of non-magical difficult terrain.",
+        "inputRequired": "If you have the wild stride class feature, add the Favored Terrain condition for this terrain to gain its benefits.",
+        "showon": "Movement",
+        "type": "activities"
+    },
+    {
+        "name": "Hunt Prey: Flurry",
+        "buff": true,
+        "desc": "You gain the benefits listed in Hunt Prey and the flurry hunter’s edge benefit against a single creature designated as your prey. You gain a +2 circumstance bonus to Perception checks when you Seek your prey and a +2 circumstance bonus to Survival checks when you Track your prey. You also ignore the penalty for making ranged attacks within your second range increment against the prey you're hunting.\n\nYour multiple attack penalty for attacks against your hunted prey is -3 (-2 with an agile weapon) on your second attack of the turn instead of -5, and -6 (-4 with an agile weapon) on your third or subsequent attack of the turn, instead of -10.",
+        "hint": "You gain a +2 circumstance bonus to Perception checks when you Seek your prey and a +2 circumstance bonus to Survival checks when you Track your prey. You also ignore the penalty for making ranged attacks within your second range increment against the prey you're hunting.\n\nYour multiple attack penalty for attacks against your hunted prey is -3 (-2 with an agile weapon) on your second attack of the turn instead of -5, and -6 (-4 with an agile weapon) on your third or subsequent attack of the turn, instead of -10.",
+        "showon": "Attacks, Perception, Survival"
+    },
+    {
+        "name": "Hunt Prey: Outwit",
+        "buff": true,
+        "desc": "You gain the benefits listed in Hunt Prey and the outwit hunter’s edge benefit against a single creature designated as your prey. You gain a +2 circumstance bonus to Perception checks when you Seek your prey and a +2 circumstance bonus to Survival checks when you Track your prey. You also ignore the penalty for making ranged attacks within your second range increment against the prey you're hunting.\n\nYou gain a +2 circumstance bonus to Deception checks, Intimidation checks, Stealth checks, and any checks to Recall Knowledge about the prey, and a +1 circumstance bonus to AC against your prey’s attacks.",
+        "hint": "You gain a +2 circumstance bonus to Perception checks when you Seek your prey and a +2 circumstance bonus to Survival checks when you Track your prey. You also ignore the penalty for making ranged attacks within your second range increment against the prey you're hunting.\n\nYou gain a +2 circumstance bonus to Deception checks, Intimidation checks, Stealth checks, and any checks to Recall Knowledge about the prey, and a +1 circumstance bonus to AC against your prey’s attacks.",
+        "showon": "AC, Perception, Arcana, Crafting, Deception, Intimidation, Nature, Occultism, Religion, Society, Stealth, Survival"
+    },
+    {
+        "name": "Hunt Prey: Precision",
+        "buff": true,
+        "desc": "You gain the benefits listed in Hunt Prey and the precision hunter’s edge benefit against a single creature designated as your prey. You gain a +2 circumstance bonus to Perception checks when you Seek your prey and a +2 circumstance bonus to Survival checks when you Track your prey. You also ignore the penalty for making ranged attacks within your second range increment against the prey you're hunting.\n\nThe first time you hit your hunted prey in a round, you also deal 1d8 additional precision damage. At 11th level, the extra damage increases to 2d8 precision damage, and at 19th level, the extra damage increases to 3d8 precision damage.",
+        "hint": "You gain a +2 circumstance bonus to Perception checks when you Seek your prey and a +2 circumstance bonus to Survival checks when you Track your prey. You also ignore the penalty for making ranged attacks within your second range increment against the prey you're hunting.\n\nThe first time you hit your hunted prey in a round, you also deal 1d8 additional precision damage. At 11th level, the extra damage increases to 2d8 precision damage, and at 19th level, the extra damage increases to 3d8 precision damage.",
+        "showon": "Attacks, Perception, Survival"
     }
 ]

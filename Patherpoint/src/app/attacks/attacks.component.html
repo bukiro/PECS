@@ -87,6 +87,8 @@
         </ng-container>
         <ng-container *ngFor="let ammoType of get_AmmoTypes(); let index = index; trackBy:trackByIndex;">
             <h3 class="box-header" *ngIf="index == 0">Ammunition</h3>
+            <app-tags [creature]="creature" [objectName]="'Ammunition'" [showTraits]=true [showFeats]=true
+                [showItems]=true [showActivities]=true [showConditions]=true></app-tags>
             <ng-container *ngFor="let ammo of get_Ammo(ammoType); let ammoIndex = index; trackBy:trackByIndex;">
                 <h5 class="fullsize-only" *ngIf="ammoIndex == 0">{{ammoType}}</h5>
                 <div class="list-item">
@@ -94,6 +96,19 @@
                     {{ammo.item.get_Name()}}
                     <button [disabled]="!ammo.item.amount" (click)="on_ConsumableUse(ammo.item, ammo.inventory)">
                         <span>Use</span>
+                    </button>
+                </div>
+            </ng-container>
+        </ng-container>
+        <ng-container *ngIf="get_Snares().length">
+            <h3 class="box-header">Deployed Snares</h3>
+            <app-tags [creature]="creature" [objectName]="'Snares'" [showTraits]=true [showFeats]=true
+                [showItems]=true [showActivities]=true [showConditions]=true></app-tags>
+            <ng-container *ngFor="let snare of get_Snares(); trackBy:trackByIndex;">
+                <div class="list-item">
+                    {{snare.item.get_Name()}}
+                    <button [disabled]="!snare.item.amount" (click)="on_ConsumableUse(snare.item, snare.inventory)">
+                        <span>Trigger/Remove</span>
                     </button>
                 </div>
             </ng-container>
