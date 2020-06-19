@@ -9,9 +9,6 @@ export class AnimalCompanionAncestry {
     public abilityChoices: AbilityChoice[] = [];
     public activities: ActivityGain[] = [];
     public desc: string = "";
-    //effects can be used to add swim, climb or fly speeds as required
-    //Is this actually used?
-    public effects: EffectGain[] = [];
     public gainItems: ItemGain[] = [];
     public hint: string = "";
     public hitPoints: number = 0;
@@ -21,7 +18,7 @@ export class AnimalCompanionAncestry {
     public size: number = 0;
     public skillChoices: SkillChoice[] = [];
     public specialdesc: string = "";
-    public speed: number = 0;
+    public speeds: {name:string, value:number}[] = [];
     public supportBenefit: string = "";
     public traits: string[] = [];
 }

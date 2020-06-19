@@ -16,6 +16,8 @@ import { Bulk } from '../Bulk';
 import { ItemCollection } from '../ItemCollection';
 import { WornItem } from '../WornItem';
 import { TimeService } from '../time.service';
+import { FormulaLearned } from '../FormulaLearned';
+import { Snare } from '../Snare';
 
 @Component({
     selector: 'app-inventory',
@@ -29,6 +31,7 @@ export class InventoryComponent implements OnInit {
     creature: string = "Character";
     private id: number = 0;
     private showItem: number = 0;
+    private showList: string = "";
     public hover: number = 0;
     public targetInventory = null;
 
@@ -70,8 +73,20 @@ export class InventoryComponent implements OnInit {
     get_Accent() {
         return this.characterService.get_Accent();
     }
+    
+    toggle_List(type: string) {
+        if (this.showList == type) {
+            this.showList = "";
+        } else {
+            this.showList = type;
+        }
+    }
 
-    toggleItem(id: number) {
+    get_ShowList() {
+        return this.showList;
+    }
+
+    toggle_Item(id: number) {
         if (this.showItem == id) {
             this.showItem = 0;
         } else {
@@ -81,6 +96,10 @@ export class InventoryComponent implements OnInit {
 
     get_ShowItem() {
         return this.showItem;
+    }
+
+    get_Character() {
+        return this.characterService.get_Character();
     }
 
     get_Creature(creature: string = this.creature) {
@@ -489,6 +508,95 @@ export class InventoryComponent implements OnInit {
         this.characterService.change_Cash(multiplier, sum);
         if (changeafter) {
             this.characterService.process_ToChange();
+        }
+    }
+
+    have_Feat(name: string) {
+        if (this.creature == "Character") {
+            let character = this.get_Character();
+            return character.get_FeatsTaken(1, character.level, name).length;
+        }
+    }
+
+    have_QuickCrafting() {
+        if (this.creature == "Character") {
+            return this.have_Feat("Quick Alchemy") || 
+                this.have_Feat("Snare Specialist");
+        }
+    }
+
+    get_FormulasLearned(id: string = "", source: string = "") {
+        return this.get_Character().get_FormulasLearned(id, source);
+    }
+
+    get_PreparedItems(type: string) {
+        if (type == 'snarespecialist') {
+            return this.get_FormulasLearned()
+                .filter(learned => learned.snareSpecialistPrepared)
+                .map(learned => Object.assign(new Object(), {learned:learned, item:this.itemsService.get_CleanItemByID(learned.id)}))
+                .sort(function(a,b) {
+                    if (a.item.name > b.item.name) {
+                        return 1;
+                    }
+                    if (a.item.name < b.item.name) {
+                        return -1;
+                    }
+                    return 0;
+                })
+        }
+    }
+
+    cannot_Craft(item: Item, learned: FormulaLearned, type: string) {
+        //Return any reasons why you cannot craft an item.
+        let character: Character = this.get_Character();
+        let reasons: string[] = [];
+        if (item.traits.includes("Alchemical") && !character.get_FeatsTaken(1, character.level, "Alchemical Crafting").length) {
+            reasons.push("You need the Alchemical Crafting skill feat to create alchemical items.")
+        }
+        if (item.traits.includes("Magical") && !character.get_FeatsTaken(1, character.level, "Magical Crafting").length) {
+            reasons.push("You need the Magical Crafting skill feat to create magic items.")
+        }
+        if (item.traits.includes("Snare") && !character.get_FeatsTaken(1, character.level, "Snare Crafting").length) {
+            reasons.push("You need the Snare Crafting skill feat to create snares.")
+        }
+        if (item.level > character.level) {
+            reasons.push("The item to craft must be your level or lower.")
+        }
+        if (item.level >= 16 && (this.characterService.get_Skills(character, "Crafting")[0]?.level(character, this.characterService, character.level) || 0) < 8) {
+            reasons.push("You must be legendary in Crafting to craft items of 16th level or higher.")
+        } else if (item.level >= 9 && (this.characterService.get_Skills(character, "Crafting")[0]?.level(character, this.characterService, character.level) || 0) < 6) {
+            reasons.push("You must be a master in Crafting to craft items of 9th level or higher.")
+        }
+        if (type == "snarespecialist" && !learned.snareSpecialistAvailable) {
+            reasons.push("You must do your preparations again before you can deploy more of this item.")
+        }
+        return reasons;
+    }
+
+    craft_Item(item: Item, learned: FormulaLearned, type: string) {
+        let amount = 1;
+        if (item["stack"]) {
+            amount = item["stack"];
+        }
+        this.characterService.grant_InventoryItem(this.characterService.get_Character(), this.characterService.get_Character().inventories[0], item, false, true, true, amount);
+        if (type == "snarespecialist") {
+            learned.snareSpecialistAvailable--
+        }
+        this.characterService.set_ToChange("Character", "inventory");
+        this.characterService.process_ToChange();
+    }
+
+    get_SnareSpecialistActions(item: Snare) {
+        //The rules for snare specialist and lightning snares say that these numbers apply to snares that take 1 minute to craft,
+        //  but there doesn't seem to be any other type of snare.
+        if (item.actions == "1 minute") {
+            if (this.have_Feat("Lightning Snares")) {
+                return "1A"
+            } else {
+                return "3A";
+            }
+        } else {
+            return item.actions;
         }
     }
 

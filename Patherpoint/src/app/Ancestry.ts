@@ -18,6 +18,6 @@ export class Ancestry {
     public senses: string[] = [];
     public sourceBook: string = "";
     public size: number = 0;
-    public speed: number = 0;
+    public speeds: {name:string, value:number}[] = [];
     public traits: string[] = [];
 }

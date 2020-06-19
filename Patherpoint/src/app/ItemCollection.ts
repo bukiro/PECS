@@ -102,6 +102,7 @@ export class ItemCollection {
         items.push(...this.potions);
         items.push(...this.scrolls);
         items.push(...this.talismans);
+        items.push(...this.snares);
         return items;
     }
     allRunes() {

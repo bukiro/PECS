@@ -505,6 +505,17 @@ export class Weapon extends Equipment {
                 })
             }
         }
+        
+        effectsService.get_RelativesOnThis(creature, this.name + " Damage").forEach(effect => {
+            effectBonus += parseInt(effect.value);
+            explain += "\n" + effect.source + ": " + parseInt(effect.value);
+        })
+        if (this.weaponBase) {
+            effectsService.get_RelativesOnThis(creature, this.weaponBase + " Damage").forEach(effect => {
+                effectBonus += parseInt(effect.value);
+                explain += "\n" + effect.source + ": " + parseInt(effect.value);
+            })
+        }
 
         effectsService.get_RelativesOnThis(creature, "Damage Rolls").forEach(effect => {
             effectBonus += parseInt(effect.value);

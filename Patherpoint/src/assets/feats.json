@@ -34,6 +34,7 @@
                 "source": "Feat: Abundant Step",
                 "spells": [
                     {
+                        "_className": "SpellGain",
                         "locked": true,
                         "name": "Abundant Step"
                     }
@@ -240,20 +241,6 @@
         ]
     },
     {
-        "name": "Animal Companion (Ranger)",
-        "desc": "You gain the service of a young animal companion that travels with you on your adventures and obeys any simple commands you give it to the best of its abilities. See Animal Companions on page 214 for more information.\n\nWhen you Hunt Prey, your animal companion gains the action's benefits and your hunter's edge benefit if you have one.",
-        "hint": "When you Hunt Prey, your animal companion gains the action's benefits and your hunter's edge benefit if you have one.",
-        "showon": "Hunt Prey, Animal Companion",
-        "shortdesc": "You gain the service of a young animal companion that travels with you.",
-        "traits": [
-            "Ranger"
-        ],
-        "levelreq": 1,
-        "specialreq": "!character.get_FeatsTaken(1, 20).filter(feat => feat.name != this.name && characterService.get_FeatsAndFeatures(feat.name).length && characterService.get_FeatsAndFeatures(feat.name)[0].gainAnimalCompanion == 1).length",
-        "specialreqdesc": "no animal companion",
-        "gainAnimalCompanion": 1
-    },
-    {
         "name": "Arcane Sense",
         "desc": "Your study of magic allows you to instinctively sense its presence. You can cast 1st-level detect magic at will as an arcane innate spell. If you're a master in Arcana, the spell is heightened to 3rd level; if you're legendary, it is heightened to 4th level.",
         "shortdesc": "Cast detect magic at will as an arcane innate spell.",
@@ -279,6 +266,7 @@
                 "source": "Feat: Arcane Sense",
                 "spells": [
                     {
+                        "_className": "SpellGain",
                         "locked": true,
                         "name": "Detect Magic"
                     }
@@ -1994,6 +1982,7 @@
                 "source": "Feat: Empty Body",
                 "spells": [
                     {
+                        "_className": "SpellGain",
                         "locked": true,
                         "name": "Empty Body"
                     }
@@ -2634,19 +2623,6 @@
         ]
     },
     {
-        "name": "Hunted Shot",
-        "desc": "You take two quick shots against the one you hunt.",
-        "shortdesc": "You take two quick shots against the one you hunt.",
-        "traits": [
-            "Flourish",
-            "Ranger"
-        ],
-        "levelreq": 1,
-        "gainActivities": [
-            "Hunted Shot"
-        ]
-    },
-    {
         "name": "Impeccable Crafter",
         "desc": "You craft flawless creations with great efficiency. Whenever you roll a success at a Crafting check to make an item of the type you chose with Specialty Crafting, you get a critical success instead.",
         "hint": "Whenever you roll a success at a Crafting check to make an item of the type you chose with Specialty Crafting, you get a critical success instead.",
@@ -2714,53 +2690,6 @@
                 "value": 6
             }
         ]
-    },
-    {
-        "name": "Incredible Companion (Ranger)",
-        "desc": "Your animal companion continues to grow and develop. It becomes a nimble or savage animal companion (your choice), gaining additional capabilities determined by the type of companion (page 214).",
-        "subTypes": true,
-        "shortdesc": "Your animal companion continues to grow and develop.",
-        "traits": [
-            "Ranger"
-        ],
-        "levelreq": 10,
-        "featreq": [
-            "Mature Animal Companion (Ranger)"
-        ]
-    },
-    {
-        "name": "Incredible Companion (Ranger): Nimble",
-        "desc": "Your animal companion continues to grow and develop. It becomes a nimble animal companion (your choice), gaining additional capabilities determined by the type of companion (page 214).",
-        "subType": "Nimble",
-        "superType": "Incredible Companion (Ranger)",
-        "shortdesc": "Your animal companion continues to grow and develop.",
-        "traits": [
-            "Ranger"
-        ],
-        "levelreq": 10,
-        "featreq": [
-            "Mature Animal Companion (Ranger)"
-        ],
-        "specialreq": "!character.get_FeatsTaken(1, 20).filter(feat => feat.name != this.name && characterService.get_FeatsAndFeatures(feat.name).length && characterService.get_FeatsAndFeatures(feat.name)[0].gainAnimalCompanion == 5).length",
-        "specialreqdesc": "no savage animal companion",
-        "gainAnimalCompanion": 4
-    },
-    {
-        "name": "Incredible Companion (Ranger): Savage",
-        "desc": "Your animal companion continues to grow and develop. It becomes a nimble animal companion (your choice), gaining additional capabilities determined by the type of companion (page 214).",
-        "subType": "Savage",
-        "superType": "Incredible Companion (Ranger)",
-        "shortdesc": "Your animal companion continues to grow and develop.",
-        "traits": [
-            "Ranger"
-        ],
-        "levelreq": 10,
-        "featreq": [
-            "Mature Animal Companion (Ranger)"
-        ],
-        "specialreq": "!character.get_FeatsTaken(1, 20).filter(feat => feat.name != this.name && characterService.get_FeatsAndFeatures(feat.name).length && characterService.get_FeatsAndFeatures(feat.name)[0].gainAnimalCompanion == 4).length",
-        "specialreqdesc": "no nimble animal companion",
-        "gainAnimalCompanion": 5
     },
     {
         "name": "Incredible Initiative",
@@ -2966,6 +2895,7 @@
                 "source": "Feat: Ki Blast",
                 "spells": [
                     {
+                        "_className": "SpellGain",
                         "locked": true,
                         "name": "Ki Blast"
                     }
@@ -3003,6 +2933,7 @@
                 "source": "Feat: Ki Rush",
                 "spells": [
                     {
+                        "_className": "SpellGain",
                         "locked": true,
                         "name": "Ki Rush"
                     }
@@ -3040,6 +2971,7 @@
                 "source": "Feat: Ki Strike",
                 "spells": [
                     {
+                        "_className": "SpellGain",
                         "locked": true,
                         "name": "Ki Strike"
                     }
@@ -3379,21 +3311,6 @@
         "gainActivities": [
             "Master of Many Styles"
         ]
-    },
-    {
-        "name": "Mature Animal Companion (Ranger)",
-        "desc": "Your animal companion grows up, becoming a mature animal companion and gaining additional capabilities (page 214). If you have the Hunt Prey action, your animal companion assaults the prey even without your orders. During an encounter, even if you don't use the Command an Animal action, your animal companion can still use 1 action that round on your turn to Stride toward or Strike your prey.",
-        "hint": "If you have the Hunt Prey action, your animal companion assaults the prey even without your orders. During an encounter, even if you don't use the Command an Animal action, your animal companion can still use 1 action that round on your turn to Stride toward or Strike your prey.",
-        "showon": "Hunt Prey, Animal Companion",
-        "shortdesc": "Your animal companion grows up, gaining additional capabilities.",
-        "traits": [
-            "Ranger"
-        ],
-        "levelreq": 6,
-        "featreq": [
-            "Animal Companion (Ranger)"
-        ],
-        "gainAnimalCompanion": 2
     },
     {
         "name": "Meditative Focus",
@@ -3837,7 +3754,6 @@
         "desc": "You have trained to aim for your prey's weak points. The first time you hit your hunted prey in a round, you also deal 1d8 additional precision damage. (Precision damage increases the damage you already deal, using the same type, but is ineffective against creatures that lack vital organs or weak points.) At 11th level, the extra damage increases to 2d8 precision damage, and at 19th level, the extra damage increases to 3d8 precision damage.",
         "hint": "The first time you hit your hunted prey in a round, you also deal 1d8 additional precision damage. At 11th level, the extra damage increases to 2d8 precision damage, and at 19th level, the extra damage increases to 3d8 precision damage.",
         "showon": "Hunt Prey, Attacks",
-        "internalNote": "This is not a true feat and will not be available outside of a special choice",
         "shortdesc": "You have trained to aim for your prey's weak points.",
         "gainFeatChoice": [
             {
@@ -4111,6 +4027,7 @@
                 "source": "Feat: Quivering Palm",
                 "spells": [
                     {
+                        "_className": "SpellGain",
                         "locked": true,
                         "name": "Quivering Palm"
                     }
@@ -4155,7 +4072,6 @@
         "desc": "Your study of the Beast of Gluttondark has taught you how to make do in the most trying of circumstances rather than succumb to weakness. As long as your current Hit Points are less than half your maximum Hit Points, you gain a +1 circumstance bonus to Survival and Stealth checks. If your current Hit Points are less than a quarter your maximum Hit Points, the circumstance bonus is +2 instead.",
         "hint": "As long as your current Hit Points are less than half your maximum Hit Points, you gain a +1 circumstance bonus to Survival and Stealth checks. If your current Hit Points are less than a quarter your maximum Hit Points, the circumstance bonus is +2 instead.",
         "showon": "Health",
-        "levelreq": 1,
         "shortdesc": "Your study of the Beast of Gluttondark has taught you how to make do in the most trying of circumstances rather than succumb to weakness.",
         "sourceBook": "Pathfinder #153: Life's Long Shadow",
         "traits": [
@@ -4163,18 +4079,19 @@
             "General",
             "Skill"
         ],
+        "levelreq": 1,
         "specialreq": "Skill_Level('Zevgavizeb Lore') >= 2",
         "specialreqdesc": "trained in Zevgavizeb Lore",
         "effects": [
             {
                 "affected": "Survival",
-                "value": "Current_HP() < (Max_HP() / 4) ? 2 : (Current_HP() < (Max_HP() / 2) ? 1 : 0)",
-                "type": "circumstance"
+                "type": "circumstance",
+                "value": "Current_HP() < (Max_HP() / 4) ? 2 : (Current_HP() < (Max_HP() / 2) ? 1 : 0)"
             },
             {
                 "affected": "Stealth",
-                "value": "Current_HP() < (Max_HP() / 4) ? 2 : (Current_HP() < (Max_HP() / 2) ? 1 : 0)",
-                "type": "circumstance"
+                "type": "circumstance",
+                "value": "Current_HP() < (Max_HP() / 4) ? 2 : (Current_HP() < (Max_HP() / 2) ? 1 : 0)"
             }
         ]
     },
@@ -4676,7 +4593,7 @@
         "name": "Sorcerer Dedication",
         "desc": "Choose a bloodline. You become trained in the bloodline's two skills; for each of these skills in which you were already trained, you become trained in a skill of your choice.\n\nYou cast spells like a sorcerer. You gain access to the Cast a Spell activity. You gain a spell repertoire with two common cantrips from the spell list associated with your bloodline, from the spells granted by your bloodline, or any other cantrips of that tradition you learn or discover. You can add to your repertoire common cantrips of your spellcasting tradition, whether from this book or other cantrips of that tradition you learn or discover. You're trained in spell attack rolls and spell DCs for your tradition's spells. Your key spellcasting ability for sorcerer archetype spells is Charisma, and they are sorcerer spells of your bloodline's tradition. You don't gain any other abilities from your choice of bloodline.",
         "specialdesc": "You cannot select another dedication feat until you have gained two other feats from the sorcerer archetype.",
-        "shortdesc": "You coax the magic power in your blood to manifest, accessing magic others don’t expect you to have.",
+        "shortdesc": "You coax the magic power in your blood to manifest, accessing magic others don't expect you to have.",
         "archetype": "Sorcerer",
         "traits": [
             "Archetype",
@@ -4731,20 +4648,6 @@
         "gainActivities": [
             "Sow Rumor"
         ]
-    },
-    {
-        "name": "Specialized Companion (Ranger)",
-        "desc": "Your animal companion has become cunning enough to become specialized. Your animal companion gains one specialization of your choice. (See the Animal Companion section on page 214.)",
-        "shortdesc": "Your animal companion has become cunning enough to become specialized.",
-        "traits": [
-            "Ranger"
-        ],
-        "levelreq": 16,
-        "featreq": [
-            "Incredible Companion (Ranger): Nimble",
-            "Incredible Companion (Ranger): Savage"
-        ],
-        "gainAnimalCompanion": 6
     },
     {
         "name": "Specialty Crafting",
@@ -6628,6 +6531,7 @@
                 "source": "Feat: Wholeness of Body",
                 "spells": [
                     {
+                        "_className": "SpellGain",
                         "locked": true,
                         "name": "Wholeness of Body"
                     }
@@ -6686,6 +6590,7 @@
                 "source": "Feat: Wild Winds Initiate",
                 "spells": [
                     {
+                        "_className": "SpellGain",
                         "locked": true,
                         "name": "Wild Winds Initiate"
                     }
@@ -6896,6 +6801,7 @@
                 "source": "Feat: Wind Jump",
                 "spells": [
                     {
+                        "_className": "SpellGain",
                         "locked": true,
                         "name": "Wind Jump"
                     }
@@ -8262,16 +8168,16 @@
     },
     {
         "name": "Weapon Legend",
-        "desc": "You’ve learned fighting techniques that apply to all armaments, and you’ve developed unparalleled skill with your favorite weapons. Your proficiency ranks for simple and martial weapons and unarmed attacks increase to master. Your proficiency rank for advanced weapons increases to expert. You can select one weapon group and increase your proficiency ranks to legendary for all simple and martial weapons in that weapon group, and to master for all advanced weapons in that weapon group.",
+        "desc": "You've learned fighting techniques that apply to all armaments, and you've developed unparalleled skill with your favorite weapons. Your proficiency ranks for simple and martial weapons and unarmed attacks increase to master. Your proficiency rank for advanced weapons increases to expert. You can select one weapon group and increase your proficiency ranks to legendary for all simple and martial weapons in that weapon group, and to master for all advanced weapons in that weapon group.",
         "subTypes": true,
-        "shortdesc": "You’ve learned fighting techniques that apply to all armaments, and you’ve developed unparalleled skill with your favorite weapons."
+        "shortdesc": "You've learned fighting techniques that apply to all armaments, and you've developed unparalleled skill with your favorite weapons."
     },
     {
         "name": "Weapon Legend: Axe",
-        "desc": "You’ve developed unparalleled skill with your favorite weapons. You increase your proficiency ranks to legendary for all simple and martial axes, and to master for all advanced axes.",
+        "desc": "You've developed unparalleled skill with your favorite weapons. You increase your proficiency ranks to legendary for all simple and martial axes, and to master for all advanced axes.",
         "subType": "Axe",
         "superType": "Weapon Legend",
-        "shortdesc": "You’ve developed unparalleled skill with axes.",
+        "shortdesc": "You've developed unparalleled skill with axes.",
         "gainSkillChoice": [
             {
                 "_className": "SkillChoice",
@@ -8359,10 +8265,10 @@
     },
     {
         "name": "Weapon Legend: Bomb",
-        "desc": "You’ve developed unparalleled skill with your favorite weapons. You increase your proficiency ranks to legendary for all simple and martial bombs, and to master for all advanced bombs.",
+        "desc": "You've developed unparalleled skill with your favorite weapons. You increase your proficiency ranks to legendary for all simple and martial bombs, and to master for all advanced bombs.",
         "subType": "Bomb",
         "superType": "Weapon Legend",
-        "shortdesc": "You’ve developed unparalleled skill with bombs.",
+        "shortdesc": "You've developed unparalleled skill with bombs.",
         "gainSkillChoice": [
             {
                 "_className": "SkillChoice",
@@ -8450,10 +8356,10 @@
     },
     {
         "name": "Weapon Legend: Bow",
-        "desc": "You’ve developed unparalleled skill with your favorite weapons. You increase your proficiency ranks to legendary for all simple and martial bows, and to master for all advanced bows.",
+        "desc": "You've developed unparalleled skill with your favorite weapons. You increase your proficiency ranks to legendary for all simple and martial bows, and to master for all advanced bows.",
         "subType": "Bow",
         "superType": "Weapon Legend",
-        "shortdesc": "You’ve developed unparalleled skill with bows.",
+        "shortdesc": "You've developed unparalleled skill with bows.",
         "gainSkillChoice": [
             {
                 "_className": "SkillChoice",
@@ -8541,10 +8447,10 @@
     },
     {
         "name": "Weapon Legend: Brawling",
-        "desc": "You’ve developed unparalleled skill with your favorite weapons. You increase your proficiency ranks to legendary for all simple and martial brawling weapons, and to master for all advanced brawling weapons.",
+        "desc": "You've developed unparalleled skill with your favorite weapons. You increase your proficiency ranks to legendary for all simple and martial brawling weapons, and to master for all advanced brawling weapons.",
         "subType": "Brawling",
         "superType": "Weapon Legend",
-        "shortdesc": "You’ve developed unparalleled skill with brawling weapons.",
+        "shortdesc": "You've developed unparalleled skill with brawling weapons.",
         "gainSkillChoice": [
             {
                 "_className": "SkillChoice",
@@ -8632,10 +8538,10 @@
     },
     {
         "name": "Weapon Legend: Club",
-        "desc": "You’ve developed unparalleled skill with your favorite weapons. You increase your proficiency ranks to legendary for all simple and martial clubs, and to master for all advanced clubs.",
+        "desc": "You've developed unparalleled skill with your favorite weapons. You increase your proficiency ranks to legendary for all simple and martial clubs, and to master for all advanced clubs.",
         "subType": "Club",
         "superType": "Weapon Legend",
-        "shortdesc": "You’ve developed unparalleled skill with clubs.",
+        "shortdesc": "You've developed unparalleled skill with clubs.",
         "gainSkillChoice": [
             {
                 "_className": "SkillChoice",
@@ -8723,10 +8629,10 @@
     },
     {
         "name": "Weapon Legend: Dart",
-        "desc": "You’ve developed unparalleled skill with your favorite weapons. You increase your proficiency ranks to legendary for all simple and martial darts, and to master for all advanced darts.",
+        "desc": "You've developed unparalleled skill with your favorite weapons. You increase your proficiency ranks to legendary for all simple and martial darts, and to master for all advanced darts.",
         "subType": "Dart",
         "superType": "Weapon Legend",
-        "shortdesc": "You’ve developed unparalleled skill with darts.",
+        "shortdesc": "You've developed unparalleled skill with darts.",
         "gainSkillChoice": [
             {
                 "_className": "SkillChoice",
@@ -8814,10 +8720,10 @@
     },
     {
         "name": "Weapon Legend: Flail",
-        "desc": "You’ve developed unparalleled skill with your favorite weapons. You increase your proficiency ranks to legendary for all simple and martial flails, and to master for all advanced flails.",
+        "desc": "You've developed unparalleled skill with your favorite weapons. You increase your proficiency ranks to legendary for all simple and martial flails, and to master for all advanced flails.",
         "subType": "Flail",
         "superType": "Weapon Legend",
-        "shortdesc": "You’ve developed unparalleled skill with flails.",
+        "shortdesc": "You've developed unparalleled skill with flails.",
         "gainSkillChoice": [
             {
                 "_className": "SkillChoice",
@@ -8905,10 +8811,10 @@
     },
     {
         "name": "Weapon Legend: Hammer",
-        "desc": "You’ve developed unparalleled skill with your favorite weapons. You increase your proficiency ranks to legendary for all simple and martial hammers, and to master for all advanced hammers.",
+        "desc": "You've developed unparalleled skill with your favorite weapons. You increase your proficiency ranks to legendary for all simple and martial hammers, and to master for all advanced hammers.",
         "subType": "Hammer",
         "superType": "Weapon Legend",
-        "shortdesc": "You’ve developed unparalleled skill with hammers.",
+        "shortdesc": "You've developed unparalleled skill with hammers.",
         "gainSkillChoice": [
             {
                 "_className": "SkillChoice",
@@ -8996,10 +8902,10 @@
     },
     {
         "name": "Weapon Legend: Knife",
-        "desc": "You’ve developed unparalleled skill with your favorite weapons. You increase your proficiency ranks to legendary for all simple and martial knives, and to master for all advanced knives.",
+        "desc": "You've developed unparalleled skill with your favorite weapons. You increase your proficiency ranks to legendary for all simple and martial knives, and to master for all advanced knives.",
         "subType": "Knife",
         "superType": "Weapon Legend",
-        "shortdesc": "You’ve developed unparalleled skill with knives.",
+        "shortdesc": "You've developed unparalleled skill with knives.",
         "gainSkillChoice": [
             {
                 "_className": "SkillChoice",
@@ -9087,10 +8993,10 @@
     },
     {
         "name": "Weapon Legend: Pick",
-        "desc": "You’ve developed unparalleled skill with your favorite weapons. You increase your proficiency ranks to legendary for all simple and martial picks, and to master for all advanced picks.",
+        "desc": "You've developed unparalleled skill with your favorite weapons. You increase your proficiency ranks to legendary for all simple and martial picks, and to master for all advanced picks.",
         "subType": "Pick",
         "superType": "Weapon Legend",
-        "shortdesc": "You’ve developed unparalleled skill with picks.",
+        "shortdesc": "You've developed unparalleled skill with picks.",
         "gainSkillChoice": [
             {
                 "_className": "SkillChoice",
@@ -9178,10 +9084,10 @@
     },
     {
         "name": "Weapon Legend: Polearm",
-        "desc": "You’ve developed unparalleled skill with your favorite weapons. You increase your proficiency ranks to legendary for all simple and martial polearms, and to master for all advanced polearms.",
+        "desc": "You've developed unparalleled skill with your favorite weapons. You increase your proficiency ranks to legendary for all simple and martial polearms, and to master for all advanced polearms.",
         "subType": "Polearm",
         "superType": "Weapon Legend",
-        "shortdesc": "You’ve developed unparalleled skill with polearms.",
+        "shortdesc": "You've developed unparalleled skill with polearms.",
         "gainSkillChoice": [
             {
                 "_className": "SkillChoice",
@@ -9269,10 +9175,10 @@
     },
     {
         "name": "Weapon Legend: Shield",
-        "desc": "You’ve developed unparalleled skill with your favorite weapons. You increase your proficiency ranks to legendary for all simple and martial shield weapons, and to master for all advanced shield weapons.",
+        "desc": "You've developed unparalleled skill with your favorite weapons. You increase your proficiency ranks to legendary for all simple and martial shield weapons, and to master for all advanced shield weapons.",
         "subType": "Shield",
         "superType": "Weapon Legend",
-        "shortdesc": "You’ve developed unparalleled skill with shield weapons.",
+        "shortdesc": "You've developed unparalleled skill with shield weapons.",
         "gainSkillChoice": [
             {
                 "_className": "SkillChoice",
@@ -9360,10 +9266,10 @@
     },
     {
         "name": "Weapon Legend: Sling",
-        "desc": "You’ve developed unparalleled skill with your favorite weapons. You increase your proficiency ranks to legendary for all simple and martial slings, and to master for all advanced slings.",
+        "desc": "You've developed unparalleled skill with your favorite weapons. You increase your proficiency ranks to legendary for all simple and martial slings, and to master for all advanced slings.",
         "subType": "Sling",
         "superType": "Weapon Legend",
-        "shortdesc": "You’ve developed unparalleled skill with slings.",
+        "shortdesc": "You've developed unparalleled skill with slings.",
         "gainSkillChoice": [
             {
                 "_className": "SkillChoice",
@@ -9451,10 +9357,10 @@
     },
     {
         "name": "Weapon Legend: Spear",
-        "desc": "You’ve developed unparalleled skill with your favorite weapons. You increase your proficiency ranks to legendary for all simple and martial spears, and to master for all advanced spears.",
+        "desc": "You've developed unparalleled skill with your favorite weapons. You increase your proficiency ranks to legendary for all simple and martial spears, and to master for all advanced spears.",
         "subType": "Spear",
         "superType": "Weapon Legend",
-        "shortdesc": "You’ve developed unparalleled skill with spears.",
+        "shortdesc": "You've developed unparalleled skill with spears.",
         "gainSkillChoice": [
             {
                 "_className": "SkillChoice",
@@ -9542,10 +9448,10 @@
     },
     {
         "name": "Weapon Legend: Sword",
-        "desc": "You’ve developed unparalleled skill with your favorite weapons. You increase your proficiency ranks to legendary for all simple and martial swords, and to master for all advanced swords.",
+        "desc": "You've developed unparalleled skill with your favorite weapons. You increase your proficiency ranks to legendary for all simple and martial swords, and to master for all advanced swords.",
         "subType": "Sword",
         "superType": "Weapon Legend",
-        "shortdesc": "You’ve developed unparalleled skill with swords.",
+        "shortdesc": "You've developed unparalleled skill with swords.",
         "gainSkillChoice": [
             {
                 "_className": "SkillChoice",
@@ -10525,6 +10431,7 @@
                 "source": "Evocation School",
                 "spells": [
                     {
+                        "_className": "SpellGain",
                         "locked": true,
                         "name": "Force Bolt"
                     }
@@ -10696,6 +10603,7 @@
                 "source": "Transmutation School",
                 "spells": [
                     {
+                        "_className": "SpellGain",
                         "locked": true,
                         "name": "Physical Boost"
                     }
@@ -10957,6 +10865,7 @@
                 "source": "Feat: Lingering Composition",
                 "spells": [
                     {
+                        "_className": "SpellGain",
                         "locked": true,
                         "name": "Lingering Composition"
                     }
@@ -11077,6 +10986,7 @@
                 "source": "Feat: Advanced School Spell: Abjuration",
                 "spells": [
                     {
+                        "_className": "SpellGain",
                         "locked": true,
                         "name": "Energy Absorption"
                     }
@@ -11119,6 +11029,7 @@
                 "source": "Feat: Advanced School Spell: Transmutation",
                 "spells": [
                     {
+                        "_className": "SpellGain",
                         "locked": true,
                         "name": "Shifting Form (Speed bonus)"
                     },
@@ -11211,7 +11122,7 @@
     {
         "name": "Everstand Stance",
         "desc": "You brace your shield with both hands, enhancing its potential for both offense and defense.",
-        "specialdesc": "This class feat is available to Knights of Lastwall. Those with the champion trait are champion class feats. Those with both the champion and fighter traits are both champion class feats and fighter class feats; when you take one of these feats, it loses the trait that doesn’t apply to your class.",
+        "specialdesc": "This class feat is available to Knights of Lastwall. Those with the champion trait are champion class feats. Those with both the champion and fighter traits are both champion class feats and fighter class feats; when you take one of these feats, it loses the trait that doesn't apply to your class.",
         "shortdesc": "You brace your shield with both hands, enhancing its potential for both offense and defense.",
         "sourceBook": "Character Guide",
         "traits": [
@@ -11422,7 +11333,7 @@
     {
         "name": "Everstand Strike",
         "desc": "Your follow-up blow leaves you an opening to set your shield.",
-        "specialdesc": "This class feat is available to Knights of Lastwall. Those with the champion trait are champion class feats. Those with both the champion and fighter traits are both champion class feats and fighter class feats; when you take one of these feats, it loses the trait that doesn’t apply to your class.",
+        "specialdesc": "This class feat is available to Knights of Lastwall. Those with the champion trait are champion class feats. Those with both the champion and fighter traits are both champion class feats and fighter class feats; when you take one of these feats, it loses the trait that doesn't apply to your class.",
         "shortdesc": "Your follow-up blow leaves you an opening to set your shield.",
         "sourceBook": "Character Guide",
         "traits": [
@@ -11442,7 +11353,7 @@
     {
         "name": "Knockdown",
         "desc": "You make an attack to knock a foe off balance, then follow up immediately with a sweep to topple them.",
-        "hint": "If the Strike made during Knockdown hits and deals damage, you can attempt an Athletics check to Trip the creature you hit. If you’re wielding a two-handed melee weapon, you can ignore Trip’s requirement that you have a hand free.",
+        "hint": "If the Strike made during Knockdown hits and deals damage, you can attempt an Athletics check to Trip the creature you hit. If you're wielding a two-handed melee weapon, you can ignore Trip's requirement that you have a hand free.",
         "showon": "Athletics",
         "shortdesc": "You make an attack to knock a foe off balance, then follow up immediately with a sweep to topple them.",
         "traits": [
@@ -11490,10 +11401,10 @@
     },
     {
         "name": "Shielded Stride",
-        "desc": "When your shield is up, your enemies’ blows can’t touch you. When you have your shield raised, you can Stride to move half your Speed without triggering reactions that are triggered by your movement (such as Attacks of Opportunity). You can use Shielded Stride while Flying or Swimming instead of Striding if you have the corresponding movement type.",
+        "desc": "When your shield is up, your enemies' blows can't touch you. When you have your shield raised, you can Stride to move half your Speed without triggering reactions that are triggered by your movement (such as Attacks of Opportunity). You can use Shielded Stride while Flying or Swimming instead of Striding if you have the corresponding movement type.",
         "hint": "When you have your shield raised, you can Stride to move half your Speed without triggering reactions that are triggered by your movement (such as Attacks of Opportunity). You can use Shielded Stride while Flying or Swimming instead of Striding if you have the corresponding movement type.",
         "showon": "Shield, Movement",
-        "shortdesc": "When your shield is up, your enemies’ blows can’t touch you.",
+        "shortdesc": "When your shield is up, your enemies' blows can't touch you.",
         "traits": [
             "Fighter"
         ],
@@ -11528,9 +11439,9 @@
     },
     {
         "name": "Advanced Weapon Training",
-        "desc": "You’ve studied the art of wielding an advanced weapon. Choose a weapon group. You gain proficiency with all advanced weapons in that group as if they were martial weapons of their weapon group.",
+        "desc": "You've studied the art of wielding an advanced weapon. Choose a weapon group. You gain proficiency with all advanced weapons in that group as if they were martial weapons of their weapon group.",
         "subTypes": true,
-        "shortdesc": "You’ve studied the art of wielding an advanced weapon.",
+        "shortdesc": "You've studied the art of wielding an advanced weapon.",
         "traits": [
             "Fighter"
         ],
@@ -11538,10 +11449,10 @@
     },
     {
         "name": "Advanced Weapon Training: Axe",
-        "desc": "You’ve studied the art of wielding advanced axes. You gain proficiency with all advanced axes as if they were martial axes.",
+        "desc": "You've studied the art of wielding advanced axes. You gain proficiency with all advanced axes as if they were martial axes.",
         "subType": "Axe",
         "superType": "Advanced Weapon Training",
-        "shortdesc": "You’ve studied the art of wielding advanced axes.",
+        "shortdesc": "You've studied the art of wielding advanced axes.",
         "traits": [
             "Fighter"
         ],
@@ -11571,10 +11482,10 @@
     },
     {
         "name": "Advanced Weapon Training: Bomb",
-        "desc": "You’ve studied the art of wielding advanced bombs. You gain proficiency with all advanced bombs as if they were martial bombs.",
+        "desc": "You've studied the art of wielding advanced bombs. You gain proficiency with all advanced bombs as if they were martial bombs.",
         "subType": "Bomb",
         "superType": "Advanced Weapon Training",
-        "shortdesc": "You’ve studied the art of wielding advanced bombs.",
+        "shortdesc": "You've studied the art of wielding advanced bombs.",
         "traits": [
             "Fighter"
         ],
@@ -11604,10 +11515,10 @@
     },
     {
         "name": "Advanced Weapon Training: Bow",
-        "desc": "You’ve studied the art of wielding advanced bows. You gain proficiency with all advanced bows as if they were martial bows.",
+        "desc": "You've studied the art of wielding advanced bows. You gain proficiency with all advanced bows as if they were martial bows.",
         "subType": "Bow",
         "superType": "Advanced Weapon Training",
-        "shortdesc": "You’ve studied the art of wielding advanced bows.",
+        "shortdesc": "You've studied the art of wielding advanced bows.",
         "traits": [
             "Fighter"
         ],
@@ -11637,10 +11548,10 @@
     },
     {
         "name": "Advanced Weapon Training: Brawling",
-        "desc": "You’ve studied the art of wielding advanced brawling weapons. You gain proficiency with all advanced brawling weapons as if they were martial brawling weapons.",
+        "desc": "You've studied the art of wielding advanced brawling weapons. You gain proficiency with all advanced brawling weapons as if they were martial brawling weapons.",
         "subType": "Brawling",
         "superType": "Advanced Weapon Training",
-        "shortdesc": "You’ve studied the art of wielding advanced brawling weapons.",
+        "shortdesc": "You've studied the art of wielding advanced brawling weapons.",
         "traits": [
             "Fighter"
         ],
@@ -11670,10 +11581,10 @@
     },
     {
         "name": "Advanced Weapon Training: Club",
-        "desc": "You’ve studied the art of wielding advanced clubs. You gain proficiency with all advanced clubs as if they were martial clubs.",
+        "desc": "You've studied the art of wielding advanced clubs. You gain proficiency with all advanced clubs as if they were martial clubs.",
         "subType": "Club",
         "superType": "Advanced Weapon Training",
-        "shortdesc": "You’ve studied the art of wielding advanced clubs.",
+        "shortdesc": "You've studied the art of wielding advanced clubs.",
         "traits": [
             "Fighter"
         ],
@@ -11703,10 +11614,10 @@
     },
     {
         "name": "Advanced Weapon Training: Dart",
-        "desc": "You’ve studied the art of wielding advanced darts. You gain proficiency with all advanced darts as if they were martial darts.",
+        "desc": "You've studied the art of wielding advanced darts. You gain proficiency with all advanced darts as if they were martial darts.",
         "subType": "Dart",
         "superType": "Advanced Weapon Training",
-        "shortdesc": "You’ve studied the art of wielding advanced darts.",
+        "shortdesc": "You've studied the art of wielding advanced darts.",
         "traits": [
             "Fighter"
         ],
@@ -11736,10 +11647,10 @@
     },
     {
         "name": "Advanced Weapon Training: Flail",
-        "desc": "You’ve studied the art of wielding advanced flails. You gain proficiency with all advanced flails as if they were martial flails.",
+        "desc": "You've studied the art of wielding advanced flails. You gain proficiency with all advanced flails as if they were martial flails.",
         "subType": "Flail",
         "superType": "Advanced Weapon Training",
-        "shortdesc": "You’ve studied the art of wielding advanced flails.",
+        "shortdesc": "You've studied the art of wielding advanced flails.",
         "traits": [
             "Fighter"
         ],
@@ -11769,10 +11680,10 @@
     },
     {
         "name": "Advanced Weapon Training: Hammer",
-        "desc": "You’ve studied the art of wielding advanced hammers. You gain proficiency with all advanced hammers as if they were martial hammers.",
+        "desc": "You've studied the art of wielding advanced hammers. You gain proficiency with all advanced hammers as if they were martial hammers.",
         "subType": "Hammer",
         "superType": "Advanced Weapon Training",
-        "shortdesc": "You’ve studied the art of wielding advanced hammers.",
+        "shortdesc": "You've studied the art of wielding advanced hammers.",
         "traits": [
             "Fighter"
         ],
@@ -11802,10 +11713,10 @@
     },
     {
         "name": "Advanced Weapon Training: Knife",
-        "desc": "You’ve studied the art of wielding advanced knives. You gain proficiency with all advanced knives as if they were martial knives.",
+        "desc": "You've studied the art of wielding advanced knives. You gain proficiency with all advanced knives as if they were martial knives.",
         "subType": "Knife",
         "superType": "Advanced Weapon Training",
-        "shortdesc": "You’ve studied the art of wielding advanced knifes.",
+        "shortdesc": "You've studied the art of wielding advanced knifes.",
         "traits": [
             "Fighter"
         ],
@@ -11835,10 +11746,10 @@
     },
     {
         "name": "Advanced Weapon Training: Pick",
-        "desc": "You’ve studied the art of wielding advanced picks. You gain proficiency with all advanced picks as if they were martial picks.",
+        "desc": "You've studied the art of wielding advanced picks. You gain proficiency with all advanced picks as if they were martial picks.",
         "subType": "Pick",
         "superType": "Advanced Weapon Training",
-        "shortdesc": "You’ve studied the art of wielding advanced picks.",
+        "shortdesc": "You've studied the art of wielding advanced picks.",
         "traits": [
             "Fighter"
         ],
@@ -11868,10 +11779,10 @@
     },
     {
         "name": "Advanced Weapon Training: Polearm",
-        "desc": "You’ve studied the art of wielding advanced polearms. You gain proficiency with all advanced polearms as if they were martial polearms.",
+        "desc": "You've studied the art of wielding advanced polearms. You gain proficiency with all advanced polearms as if they were martial polearms.",
         "subType": "Polearm",
         "superType": "Advanced Weapon Training",
-        "shortdesc": "You’ve studied the art of wielding advanced polearms.",
+        "shortdesc": "You've studied the art of wielding advanced polearms.",
         "traits": [
             "Fighter"
         ],
@@ -11901,10 +11812,10 @@
     },
     {
         "name": "Advanced Weapon Training: Shield",
-        "desc": "You’ve studied the art of wielding advanced shield weapons. You gain proficiency with all advanced shield weapons as if they were martial shield weapons.",
+        "desc": "You've studied the art of wielding advanced shield weapons. You gain proficiency with all advanced shield weapons as if they were martial shield weapons.",
         "subType": "Shield",
         "superType": "Advanced Weapon Training",
-        "shortdesc": "You’ve studied the art of wielding advanced shields.",
+        "shortdesc": "You've studied the art of wielding advanced shields.",
         "traits": [
             "Fighter"
         ],
@@ -11934,10 +11845,10 @@
     },
     {
         "name": "Advanced Weapon Training: Sling",
-        "desc": "You’ve studied the art of wielding advanced slings. You gain proficiency with all advanced slings as if they were martial slings.",
+        "desc": "You've studied the art of wielding advanced slings. You gain proficiency with all advanced slings as if they were martial slings.",
         "subType": "Sling",
         "superType": "Advanced Weapon Training",
-        "shortdesc": "You’ve studied the art of wielding advanced slings.",
+        "shortdesc": "You've studied the art of wielding advanced slings.",
         "traits": [
             "Fighter"
         ],
@@ -11967,10 +11878,10 @@
     },
     {
         "name": "Advanced Weapon Training: Spear",
-        "desc": "You’ve studied the art of wielding advanced spears. You gain proficiency with all advanced spears as if they were martial spears.",
+        "desc": "You've studied the art of wielding advanced spears. You gain proficiency with all advanced spears as if they were martial spears.",
         "subType": "Spear",
         "superType": "Advanced Weapon Training",
-        "shortdesc": "You’ve studied the art of wielding advanced spears.",
+        "shortdesc": "You've studied the art of wielding advanced spears.",
         "traits": [
             "Fighter"
         ],
@@ -12000,10 +11911,10 @@
     },
     {
         "name": "Advanced Weapon Training: Sword",
-        "desc": "You’ve studied the art of wielding advanced swords. You gain proficiency with all advanced spears as if they were martial swords.",
+        "desc": "You've studied the art of wielding advanced swords. You gain proficiency with all advanced spears as if they were martial swords.",
         "subType": "Sword",
         "superType": "Advanced Weapon Training",
-        "shortdesc": "You’ve studied the art of wielding advanced swords.",
+        "shortdesc": "You've studied the art of wielding advanced swords.",
         "traits": [
             "Fighter"
         ],
@@ -12033,8 +11944,8 @@
     },
     {
         "name": "Advantageous Assault",
-        "desc": "When an enemy’s movement is compromised, you deliver a more deadly blow.",
-        "shortdesc": "When an enemy’s movement is compromised, you deliver a more deadly blow.",
+        "desc": "When an enemy's movement is compromised, you deliver a more deadly blow.",
+        "shortdesc": "When an enemy's movement is compromised, you deliver a more deadly blow.",
         "traits": [
             "Fighter",
             "Press"
@@ -12065,10 +11976,10 @@
     },
     {
         "name": "Furious Focus",
-        "desc": "You’ve learned to maintain your balance even when swinging furiously. When you make a Power Attack with a melee weapon you’re wielding in two hands, it counts as one attack toward your multiple attack penalty instead of two.",
-        "hint": "When you make a Power Attack with a melee weapon you’re wielding in two hands, it counts as one attack toward your multiple attack penalty instead of two.",
+        "desc": "You've learned to maintain your balance even when swinging furiously. When you make a Power Attack with a melee weapon you're wielding in two hands, it counts as one attack toward your multiple attack penalty instead of two.",
+        "hint": "When you make a Power Attack with a melee weapon you're wielding in two hands, it counts as one attack toward your multiple attack penalty instead of two.",
         "showon": "Power Attack",
-        "shortdesc": "You’ve learned to maintain your balance even when swinging furiously.",
+        "shortdesc": "You've learned to maintain your balance even when swinging furiously.",
         "traits": [
             "Fighter"
         ],
@@ -12091,8 +12002,8 @@
     },
     {
         "name": "Reflexive Shield",
-        "desc": "You can use your shield to fend off the worst of area effects and other damage. When you Raise your Shield, you gain your shield’s circumstance bonus to Reflex saves. If you have the Shield Block reaction, damage you take as a result of a Reflex save can trigger that reaction, even if the damage isn’t physical damage.",
-        "hint": "When you Raise your Shield, you gain your shield’s circumstance bonus to Reflex saves. If you have the Shield Block reaction, damage you take as a result of a Reflex save can trigger that reaction, even if the damage isn’t physical damage.",
+        "desc": "You can use your shield to fend off the worst of area effects and other damage. When you Raise your Shield, you gain your shield's circumstance bonus to Reflex saves. If you have the Shield Block reaction, damage you take as a result of a Reflex save can trigger that reaction, even if the damage isn't physical damage.",
+        "hint": "When you Raise your Shield, you gain your shield's circumstance bonus to Reflex saves. If you have the Shield Block reaction, damage you take as a result of a Reflex save can trigger that reaction, even if the damage isn't physical damage.",
         "showon": "Shield, Shield Block, Reflex",
         "internalNote": "The effect on Reflex saves is hardcoded.",
         "shortdesc": "You can use your shield to fend off the worst of area effects and other damage.",
@@ -12115,8 +12026,8 @@
     },
     {
         "name": "Shatter Defenses",
-        "desc": "Your offense exploits your enemy’s fear. Make a melee Strike against a frightened creature.",
-        "shortdesc": "Your offense exploits your enemy’s fear. Make a melee Strike against a frightened creature.",
+        "desc": "Your offense exploits your enemy's fear. Make a melee Strike against a frightened creature.",
+        "shortdesc": "Your offense exploits your enemy's fear. Make a melee Strike against a frightened creature.",
         "traits": [
             "Fighter",
             "Press"
@@ -12142,8 +12053,8 @@
     },
     {
         "name": "Triple Shot",
-        "desc": "You can quickly fire multiple shots with greater control. When you use Double Shot, you can make the attacks against the same target. You can add an additional action to Double Shot to make three ranged Strikes instead of two. If you do, the penalty is –4. All attacks count toward your multiple attack penalty, but the penalty doesn’t increase until after you’ve made all of them.",
-        "hint": "When you use Double Shot, you can make the attacks against the same target. You can add an additional action to Double Shot to make three ranged Strikes instead of two. If you do, the penalty is –4. All attacks count toward your multiple attack penalty, but the penalty doesn’t increase until after you’ve made all of them.",
+        "desc": "You can quickly fire multiple shots with greater control. When you use Double Shot, you can make the attacks against the same target. You can add an additional action to Double Shot to make three ranged Strikes instead of two. If you do, the penalty is -4. All attacks count toward your multiple attack penalty, but the penalty doesn't increase until after you've made all of them.",
+        "hint": "When you use Double Shot, you can make the attacks against the same target. You can add an additional action to Double Shot to make three ranged Strikes instead of two. If you do, the penalty is -4. All attacks count toward your multiple attack penalty, but the penalty doesn't increase until after you've made all of them.",
         "showon": "Double Shot",
         "shortdesc": "You can quickly fire multiple shots with greater control.",
         "traits": [
@@ -12161,7 +12072,9 @@
         "showon": "Attacks, Perception",
         "shortdesc": "Your battle instincts make you more aware of concealed and invisible opponents.",
         "traits": [
-            "Fighter"
+            "Fighter",
+            "Ranger",
+            "Rogue"
         ],
         "levelreq": 8,
         "skillreq": [
@@ -12201,7 +12114,7 @@
     {
         "name": "Impassable Wall Stance",
         "desc": "You refuse to let foes past your guard.",
-        "specialdesc": "This class feat is available to Knights of Lastwall. Those with the champion trait are champion class feats. Those with both the champion and fighter traits are both champion class feats and fighter class feats; when you take one of these feats, it loses the trait that doesn’t apply to your class.",
+        "specialdesc": "This class feat is available to Knights of Lastwall. Those with the champion trait are champion class feats. Those with both the champion and fighter traits are both champion class feats and fighter class feats; when you take one of these feats, it loses the trait that doesn't apply to your class.",
         "shortdesc": "You refuse to let foes past your guard.",
         "sourceBook": "Character Guide",
         "traits": [
@@ -12286,8 +12199,8 @@
     },
     {
         "name": "Agile Grace",
-        "desc": "Your graceful moves with agile weapons are beyond compare. Your multiple attack penalty with agile weapons and agile unarmed attacks becomes –3 for your second attack and –6 for subsequent attacks (rather than –4 and –8).",
-        "hint": "Your multiple attack penalty with agile weapons and agile unarmed attacks becomes –3 for your second attack and –6 for subsequent attacks (rather than –4 and –8).",
+        "desc": "Your graceful moves with agile weapons are beyond compare. Your multiple attack penalty with agile weapons and agile unarmed attacks becomes -3 for your second attack and -6 for subsequent attacks (rather than -4 and -8).",
+        "hint": "Your multiple attack penalty with agile weapons and agile unarmed attacks becomes -3 for your second attack and -6 for subsequent attacks (rather than -4 and -8).",
         "showon": "Attacks, Agile",
         "shortdesc": "Your graceful moves with agile weapons are beyond compare.",
         "traits": [
@@ -12297,8 +12210,8 @@
     },
     {
         "name": "Certain Strike",
-        "desc": "Even when you don’t hit squarely, you can still score a glancing blow.",
-        "shortdesc": "Even when you don’t hit squarely, you can still score a glancing blow.",
+        "desc": "Even when you don't hit squarely, you can still score a glancing blow.",
+        "shortdesc": "Even when you don't hit squarely, you can still score a glancing blow.",
         "traits": [
             "Fighter",
             "Press"
@@ -12334,8 +12247,8 @@
     },
     {
         "name": "Disarming Twist",
-        "desc": "After your initial attack redirects your foe’s defenses, your follow-up wrests their weapon from their grasp.",
-        "shortdesc": "After your initial attack redirects your foe’s defenses, your follow-up wrests their weapon from their grasp.",
+        "desc": "After your initial attack redirects your foe's defenses, your follow-up wrests their weapon from their grasp.",
+        "shortdesc": "After your initial attack redirects your foe's defenses, your follow-up wrests their weapon from their grasp.",
         "traits": [
             "Fighter",
             "Press"
@@ -12353,8 +12266,8 @@
     },
     {
         "name": "Disruptive Stance",
-        "desc": "The slightest distraction can provoke your wrath, and you’re prepared to foil enemies’ actions.",
-        "shortdesc": "The slightest distraction can provoke your wrath, and you’re prepared to foil enemies’ actions.",
+        "desc": "The slightest distraction can provoke your wrath, and you're prepared to foil enemies' actions.",
+        "shortdesc": "The slightest distraction can provoke your wrath, and you're prepared to foil enemies' actions.",
         "traits": [
             "Fighter",
             "Stance"
@@ -12366,8 +12279,8 @@
     },
     {
         "name": "Fearsome Brute",
-        "desc": "Fear makes your foes weak and more vulnerable to your attacks. You gain a circumstance bonus to damage rolls for Strikes against frightened creatures. The bonus is equal to double the target’s frightened value.\n\nIf you have master proficiency in Intimidation, increase the bonus to triple the target’s frightened value.",
-        "hint": "You gain a circumstance bonus to damage rolls for Strikes against frightened creatures. The bonus is equal to double the target’s frightened value.\n\nIf you have master proficiency in Intimidation, increase the bonus to triple the target’s frightened value.",
+        "desc": "Fear makes your foes weak and more vulnerable to your attacks. You gain a circumstance bonus to damage rolls for Strikes against frightened creatures. The bonus is equal to double the target's frightened value.\n\nIf you have master proficiency in Intimidation, increase the bonus to triple the target's frightened value.",
+        "hint": "You gain a circumstance bonus to damage rolls for Strikes against frightened creatures. The bonus is equal to double the target's frightened value.\n\nIf you have master proficiency in Intimidation, increase the bonus to triple the target's frightened value.",
         "showon": "Attacks, Intimidation",
         "shortdesc": "Fear makes your foes weak and more vulnerable to your attacks.",
         "traits": [
@@ -12377,8 +12290,8 @@
     },
     {
         "name": "Improved Knockdown",
-        "desc": "You can dash your foe to the ground with a single blow. When you use Knockdown, instead of making a Strike followed by a Trip, you can attempt a single Strike. If you do and your Strike hits, you also apply the critical success effect of a Trip. If you used a two-handed melee weapon for the Strike, you can use the weapon’s damage die size instead of the regular die size for the damage from a critical Trip.",
-        "hint": "When you use Knockdown, instead of making a Strike followed by a Trip, you can attempt a single Strike. If you do and your Strike hits, you also apply the critical success effect of a Trip. If you used a two-handed melee weapon for the Strike, you can use the weapon’s damage die size instead of the regular die size for the damage from a critical Trip.",
+        "desc": "You can dash your foe to the ground with a single blow. When you use Knockdown, instead of making a Strike followed by a Trip, you can attempt a single Strike. If you do and your Strike hits, you also apply the critical success effect of a Trip. If you used a two-handed melee weapon for the Strike, you can use the weapon's damage die size instead of the regular die size for the damage from a critical Trip.",
+        "hint": "When you use Knockdown, instead of making a Strike followed by a Trip, you can attempt a single Strike. If you do and your Strike hits, you also apply the critical success effect of a Trip. If you used a two-handed melee weapon for the Strike, you can use the weapon's damage die size instead of the regular die size for the damage from a critical Trip.",
         "showon": "Knockdown, Athletics",
         "shortdesc": "You can dash your foe to the ground with a single blow.",
         "traits": [
@@ -12416,8 +12329,8 @@
     },
     {
         "name": "Brutal Finish",
-        "desc": "Your final blow can make an impact even if it rebounds off a foe’s defenses.",
-        "shortdesc": "Your final blow can make an impact even if it rebounds off a foe’s defenses.",
+        "desc": "Your final blow can make an impact even if it rebounds off a foe's defenses.",
+        "shortdesc": "Your final blow can make an impact even if it rebounds off a foe's defenses.",
         "traits": [
             "Fighter",
             "Press"
@@ -12473,8 +12386,8 @@
     },
     {
         "name": "Incredible Ricochet",
-        "desc": "After your first shot singles out your opponent’s position, you direct another that ricochets around obstacles and strikes unerringly.",
-        "shortdesc": "After your first shot singles out your opponent’s position, you direct another that ricochets around obstacles and strikes unerringly.",
+        "desc": "After your first shot singles out your opponent's position, you direct another that ricochets around obstacles and strikes unerringly.",
+        "shortdesc": "After your first shot singles out your opponent's position, you direct another that ricochets around obstacles and strikes unerringly.",
         "traits": [
             "Fighter",
             "Concentrate",
@@ -12507,8 +12420,8 @@
     },
     {
         "name": "Paragon's Guard",
-        "desc": "Once you’ve had a moment to set your stance, you always have your shield ready without a thought.",
-        "shortdesc": "Once you’ve had a moment to set your stance, you always have your shield ready without a thought.",
+        "desc": "Once you've had a moment to set your stance, you always have your shield ready without a thought.",
+        "shortdesc": "Once you've had a moment to set your stance, you always have your shield ready without a thought.",
         "traits": [
             "Fighter",
             "Stance"
@@ -12545,8 +12458,8 @@
     },
     {
         "name": "Determination",
-        "desc": "Your training allows you to shrug off your foes’ spells and conditions when the need is dire.",
-        "shortdesc": "Your training allows you to shrug off your foes’ spells and conditions when the need is dire.",
+        "desc": "Your training allows you to shrug off your foes' spells and conditions when the need is dire.",
+        "shortdesc": "Your training allows you to shrug off your foes' spells and conditions when the need is dire.",
         "traits": [
             "Fighter",
             "Concentrate"
@@ -12599,8 +12512,8 @@
     },
     {
         "name": "Stance Savant (Fighter)",
-        "desc": "When there’s imminent danger, you drop into a stance with a mere thought.",
-        "shortdesc": "When there’s imminent danger, you drop into a stance with a mere thought.",
+        "desc": "When there's imminent danger, you drop into a stance with a mere thought.",
+        "shortdesc": "When there's imminent danger, you drop into a stance with a mere thought.",
         "traits": [
             "Fighter"
         ],
@@ -12640,8 +12553,8 @@
     },
     {
         "name": "Graceful Poise",
-        "desc": "With the right positioning, your off-hand weapon can strike like a scorpion’s stinger.",
-        "shortdesc": "With the right positioning, your off-hand weapon can strike like a scorpion’s stinger.",
+        "desc": "With the right positioning, your off-hand weapon can strike like a scorpion's stinger.",
+        "shortdesc": "With the right positioning, your off-hand weapon can strike like a scorpion's stinger.",
         "traits": [
             "Fighter",
             "Stance"
@@ -12686,8 +12599,8 @@
     },
     {
         "name": "Twinned Defense",
-        "desc": "You’re always ready to use your off-hand weapon to interfere with attacks against you.",
-        "shortdesc": "You’re always ready to use your off-hand weapon to interfere with attacks against you.",
+        "desc": "You're always ready to use your off-hand weapon to interfere with attacks against you.",
+        "shortdesc": "You're always ready to use your off-hand weapon to interfere with attacks against you.",
         "traits": [
             "Fighter",
             "Stance"
@@ -12728,8 +12641,8 @@
     },
     {
         "name": "Boundless Reprisals",
-        "desc": "With a sixth sense for the flow of combat, you can quickly react to any situation as required. At the start of each enemy’s turn, you gain a reaction you can use only during that turn.",
-        "hint": "At the start of each enemy’s turn, you gain a reaction you can use only during that turn.",
+        "desc": "With a sixth sense for the flow of combat, you can quickly react to any situation as required. At the start of each enemy's turn, you gain a reaction you can use only during that turn.",
+        "hint": "At the start of each enemy's turn, you gain a reaction you can use only during that turn.",
         "showon": "Attacks, Defense, Activities",
         "shortdesc": "With a sixth sense for the flow of combat, you can quickly react to any situation as required.",
         "traits": [
@@ -12739,9 +12652,9 @@
     },
     {
         "name": "Ultimate Flexibility",
-        "desc": "Your experience keeps you on your toes, allowing you to adapt to even the most dangerous challenges. When you gain a fighter feat using combat flexibility, you gain three fighter feats instead of one. The first feat must still be 8th level or lower, the second feat can be up to 14th level, and the third feat can be up to 18th level. You can use the first feat to meet the prerequisites of the second or third feats and the second feat to meet the prerequisites of the third feat. You must meet all feats’ prerequisites. In addition, you can adapt to the battlefield’s challenges by spending 1 hour to train. If you do, you can reselect the feats chosen with combat flexibility as if you had made your daily preparations.",
-        "specialdesc": "The citizens of Promise represent some of the most capable experts, greatest minds, and powerful warriors on Golarion - ideal teachers and trainers for PCs who want to maximize their own potential. If the PCs secure Visitor’s Pins or an alliance with Mengkare, their access to Promise’s trainers and records unlock this uncommon class feat.",
-        "hint": "You can adapt to the battlefield’s challenges by spending 1 hour to train. If you do, you can reselect the feats chosen with combat flexibility as if you had made your daily preparations.",
+        "desc": "Your experience keeps you on your toes, allowing you to adapt to even the most dangerous challenges. When you gain a fighter feat using combat flexibility, you gain three fighter feats instead of one. The first feat must still be 8th level or lower, the second feat can be up to 14th level, and the third feat can be up to 18th level. You can use the first feat to meet the prerequisites of the second or third feats and the second feat to meet the prerequisites of the third feat. You must meet all feats' prerequisites. In addition, you can adapt to the battlefield's challenges by spending 1 hour to train. If you do, you can reselect the feats chosen with combat flexibility as if you had made your daily preparations.",
+        "specialdesc": "The citizens of Promise represent some of the most capable experts, greatest minds, and powerful warriors on Golarion - ideal teachers and trainers for PCs who want to maximize their own potential. If the PCs secure Visitor's Pins or an alliance with Mengkare, their access to Promise's trainers and records unlock this uncommon class feat.",
+        "hint": "You can adapt to the battlefield's challenges by spending 1 hour to train. If you do, you can reselect the feats chosen with combat flexibility as if you had made your daily preparations.",
         "showon": "Activities",
         "shortdesc": "Gain more feats through combat flexibility.",
         "sourceBook": "Pathfinder #150: Broken Promises",
@@ -12764,8 +12677,8 @@
     },
     {
         "name": "Weapon Supremacy",
-        "desc": "Your skill with weapons lets you attack swiftly at all times. You’re permanently quickened. You can use your extra action only to Strike.",
-        "hint": "You’re permanently quickened. You can use your extra action only to Strike.",
+        "desc": "Your skill with weapons lets you attack swiftly at all times. You're permanently quickened. You can use your extra action only to Strike.",
+        "hint": "You're permanently quickened. You can use your extra action only to Strike.",
         "showon": "Attacks",
         "shortdesc": "Your skill with weapons lets you attack swiftly at all times.",
         "traits": [
@@ -12805,11 +12718,11 @@
             {
                 "_className": "AbilityChoice",
                 "available": 1,
+                "infoOnly": true,
                 "filter": [
                     "Strength",
                     "Dexterity"
                 ],
-                "infoOnly": true,
                 "source": "Fighter Key Ability"
             }
         ],
@@ -12886,6 +12799,7 @@
     {
         "name": "Fighter Resiliency",
         "desc": "You gain 3 additional Hit Points for each fighter archetype class feat you have. As you continue selecting fighter archetype class feats, you continue to gain additional Hit Points in this way.",
+        "shortdesc": "You gain 3 additional Hit Points for each fighter archetype class feat you have.",
         "archetype": "Fighter",
         "traits": [
             "Archetype"
@@ -12906,6 +12820,7 @@
     {
         "name": "Opportunist",
         "desc": "You gain the Attack of Opportunity reaction.",
+        "shortdesc": "You gain the Attack of Opportunity reaction.",
         "archetype": "Fighter",
         "traits": [
             "Archetype"
@@ -12922,6 +12837,7 @@
         "name": "Advanced Maneuver",
         "desc": "You gain a fighter feat. For the purpose of meeting its prerequisites, your fighter level is equal to half your character level.",
         "specialdesc": "You can select this feat more than once. Each time you select it, you gain another fighter feat.",
+        "shortdesc": "You gain a fighter feat.",
         "archetype": "Fighter",
         "unlimited": true,
         "traits": [
@@ -12944,6 +12860,7 @@
     {
         "name": "Diverse Weapon Expert",
         "desc": "Your proficiency ranks for simple weapons and martial weapons increase to expert, and your proficiency rank for advanced weapons increases to trained.",
+        "shortdesc": "Your proficiency ranks for simple weapons and martial weapons increase to expert, and your proficiency rank for advanced weapons increases to trained.",
         "archetype": "Fighter",
         "traits": [
             "Archetype"
@@ -12998,7 +12915,7 @@
     {
         "name": "Monk Dedication",
         "desc": "You become trained in unarmed attacks and gain the powerful fist class feature. You become trained in your choice of Acrobatics or Athletics; if you are already trained in both of these skills, you become trained in a skill of your choice. You become trained in monk class DC.",
-        "specialdesc": "You can’t select another dedication feat until you have gained two other feats from the monk archetype.",
+        "specialdesc": "You can't select another dedication feat until you have gained two other feats from the monk archetype.",
         "shortdesc": "Monastic training has taught you martial arts and allowed you to hone your mind, body, and spirit to new heights.",
         "archetype": "Monk",
         "traits": [
@@ -13153,8 +13070,8 @@
     },
     {
         "name": "Monk Moves",
-        "desc": "You gain a +10-foot status bonus to your Speed when you’re not wearing armor.",
-        "shortdesc": "You gain a +10-foot status bonus to your Speed when you’re not wearing armor.",
+        "desc": "You gain a +10-foot status bonus to your Speed when you're not wearing armor.",
+        "shortdesc": "You gain a +10-foot status bonus to your Speed when you're not wearing armor.",
         "archetype": "Monk",
         "traits": [
             "Archetype"
@@ -13204,6 +13121,7 @@
     },
     {
         "name": "Perfection's Path: Fortitude",
+        "desc": "Your proficiency rank in Fortitude saving throws increases to master.",
         "subType": "Fortitude",
         "superType": "Perfection's Path",
         "shortdesc": "Your proficiency rank in Fortitude saving throws increases to master.",
@@ -13240,6 +13158,7 @@
     },
     {
         "name": "Perfection's Path: Reflex",
+        "desc": "Your proficiency rank in Reflex saving throws increases to master.",
         "subType": "Reflex",
         "superType": "Perfection's Path",
         "shortdesc": "Your proficiency rank in Reflex saving throws increases to master.",
@@ -13276,6 +13195,7 @@
     },
     {
         "name": "Perfection's Path: Will",
+        "desc": "Your proficiency rank in Will saving throws increases to master.",
         "subType": "Will",
         "superType": "Perfection's Path",
         "shortdesc": "Your proficiency rank in Will saving throws increases to master.",
@@ -13307,6 +13227,1274 @@
                 "maxRank": 6,
                 "source": "Feat: Perfection's Path: Will",
                 "type": "Weapon Proficiency"
+            }
+        ]
+    },
+    {
+        "name": "Animal Companion (Ranger)",
+        "desc": "You gain the service of a young animal companion that travels with you on your adventures and obeys any simple commands you give it to the best of its abilities. See Animal Companions on page 214 for more information.\n\nWhen you Hunt Prey, your animal companion gains the action's benefits and your hunter's edge benefit if you have one.",
+        "hint": "When you Hunt Prey, your animal companion gains the action's benefits and your hunter's edge benefit if you have one.",
+        "showon": "Hunt Prey, Animal Companion",
+        "shortdesc": "You gain the service of a young animal companion that travels with you.",
+        "traits": [
+            "Ranger"
+        ],
+        "levelreq": 1,
+        "specialreq": "!character.get_FeatsTaken(1, 20).filter(feat => feat.name != this.name && characterService.get_FeatsAndFeatures(feat.name).length && characterService.get_FeatsAndFeatures(feat.name)[0].gainAnimalCompanion == 1).length",
+        "specialreqdesc": "no animal companion",
+        "gainAnimalCompanion": 1
+    },
+    {
+        "name": "Crossbow Ace",
+        "desc": "You have a deep understanding of the crossbow. When you're wielding a crossbow and use Hunt Prey or use Interact to reload your crossbow, you gain a +2 circumstance bonus to the damage roll on your next Strike with that crossbow. If the crossbow is a simple crossbow, also increase the damage die size for that attack by one step (page 279). You must make the attack before the end of your next turn or these benefits are lost.",
+        "hint": "When you're wielding a crossbow and use Hunt Prey or use Interact to reload your crossbow, you gain a +2 circumstance bonus to the damage roll on your next Strike with that crossbow. If the crossbow is a simple crossbow, also increase the damage die size for that attack by one step (page 279). You must make the attack before the end of your next turn or these benefits are lost.",
+        "showon": "Attacks, Crossbow, Hand Crossbow, Heavy Crossbow",
+        "shortdesc": "You have a deep understanding of the crossbow.",
+        "traits": [
+            "Ranger"
+        ],
+        "levelreq": 1
+    },
+    {
+        "name": "Hunted Shot",
+        "desc": "You take two quick shots against the one you hunt.",
+        "shortdesc": "You take two quick shots against the one you hunt.",
+        "traits": [
+            "Flourish",
+            "Ranger"
+        ],
+        "levelreq": 1,
+        "gainActivities": [
+            "Hunted Shot"
+        ]
+    },
+    {
+        "name": "Monster Hunter",
+        "desc": "You swiftly assess your prey and apply what you know. As part of the action used to Hunt your Prey, you can attempt a check to Recall Knowledge about your prey. When you critically succeed at identifying your hunted prey with Recall Knowledge, you note a weakness in the creature's defenses. You and allies you tell gain a +1 circumstance bonus to your next attack roll against that prey. You can give bonuses from Monster Hunter only once per day against a particular creature.",
+        "hint": "As part of the action used to Hunt your Prey, you can attempt a check to Recall Knowledge about your prey. When you critically succeed at identifying your hunted prey with Recall Knowledge, you note a weakness in the creature's defenses. You and allies you tell gain a +1 circumstance bonus to your next attack roll against that prey. You can give bonuses from Monster Hunter only once per day against a particular creature.",
+        "showon": "Hunt Prey, Hunt Prey: Flurry, Hunt Prey: Outwit, Hunt Prey: Precision, Attacks",
+        "shortdesc": "You swiftly assess your prey and apply what you know.",
+        "traits": [
+            "Ranger"
+        ],
+        "levelreq": 1
+    },
+    {
+        "name": "Twin Takedown",
+        "desc": "You swiftly attack your hunted prey with both weapons.",
+        "shortdesc": "You swiftly attack your hunted prey with both weapons.",
+        "traits": [
+            "Ranger",
+            "Flourish"
+        ],
+        "levelreq": 1,
+        "gainActivities": [
+            "Twin Takedown"
+        ]
+    },
+    {
+        "name": "Favored Terrain",
+        "desc": "You have studied a specific terrain to overcome its challenges. Choose aquatic, arctic, desert, forest, mountain, plains, sky, swamp, or underground as your favored terrain. When in that terrain, you can ignore the effects of non-magical difficult terrain. If you have the wild stride class feature, you gain a second benefit while in your favored terrain, depending on your choice.\n\n<strong>Aquatic</strong> You gain a swim Speed equal to your Speed. If you already had a swim Speed, you gain a +10-foot status bonus to your swim Speed.\n<strong>Arctic</strong> You need to eat and drink only one-tenth as much as usual, you aren't affected by severe or extreme cold, and you can walk across ice and snow at full Speed without needing to Balance.\n<strong>Desert</strong> You need to eat and drink only one-tenth as much as usual, you aren't affected by severe or extreme heat, and you can walk along sand at full Speed without needing to Balance.\n<strong>Forest, Mountain, or Underground</strong> You gain a climb Speed equal to your Speed. If you already had a climb Speed, you gain a +10-foot status bonus to your climb Speed.\n<strong>Plains</strong> You gain a +10-foot status bonus to your land Speed.\n<strong>Sky</strong> You gain a +10-foot status bonus to your fly Speed, if you have one.\n<strong>Swamp</strong> You can move across bogs at full Speed, even if they are deep enough to be greater difficult terrain or to normally require you to Swim.",
+        "subTypes": true,
+        "shortdesc": "You have studied a specific terrain to overcome its challenges.",
+        "traits": [
+            "Ranger"
+        ],
+        "levelreq": 2
+    },
+    {
+        "name": "Favored Terrain: Aquatic",
+        "desc": "You have studied aquatic terrain to overcome its challenges. When in that terrain, you can ignore the effects of non-magical difficult terrain. If you have the wild stride class feature, while you are in aquatic terrain, you gain a swim Speed equal to your Speed. If you already had a swim Speed, you gain a +10-foot status bonus to your swim Speed.",
+        "hint": "When in aquatic terrain, you can ignore the effects of non-magical difficult terrain.",
+        "showon": "Movement",
+        "subType": "Aquatic",
+        "superType": "Favored Terrain",
+        "shortdesc": "You have studied aquatic terrain to overcome its challenges.",
+        "traits": [
+            "Ranger"
+        ],
+        "levelreq": 2,
+        "gainActivities": [
+            "Favored Terrain: Aquatic"
+        ]
+    },
+    {
+        "name": "Favored Terrain: Arctic",
+        "desc": "You have studied arctic terrain to overcome its challenges. When in that terrain, you can ignore the effects of non-magical difficult terrain. If you have the wild stride class feature, while you are in arctic terrain, you need to eat and drink only one-tenth as much as usual, you aren't affected by severe or extreme cold, and you can walk across ice and snow at full Speed without needing to Balance.",
+        "hint": "When in arctic terrain, you can ignore the effects of non-magical difficult terrain.",
+        "showon": "Movement",
+        "subType": "Arctic",
+        "superType": "Favored Terrain",
+        "shortdesc": "You have studied arctic terrain to overcome its challenges.",
+        "traits": [
+            "Ranger"
+        ],
+        "levelreq": 2,
+        "gainActivities": [
+            "Favored Terrain: Arctic"
+        ]
+    },
+    {
+        "name": "Favored Terrain: Desert",
+        "desc": "You have studied desert terrain to overcome its challenges. When in that terrain, you can ignore the effects of non-magical difficult terrain. If you have the wild stride class feature, while you are in desert terrain, you need to eat and drink only one-tenth as much as usual, you aren't affected by severe or extreme heat, and you can walk along sand at full Speed without needing to Balance.",
+        "hint": "When in desert terrain, you can ignore the effects of non-magical difficult terrain.",
+        "showon": "Movement",
+        "subType": "Desert",
+        "superType": "Favored Terrain",
+        "shortdesc": "You have studied desert terrain to overcome its challenges.",
+        "traits": [
+            "Ranger"
+        ],
+        "levelreq": 2,
+        "gainActivities": [
+            "Favored Terrain: Desert"
+        ]
+    },
+    {
+        "name": "Favored Terrain: Forest",
+        "desc": "You have studied forest terrain to overcome its challenges. When in that terrain, you can ignore the effects of non-magical difficult terrain. If you have the wild stride class feature, while you are in forest terrain, you gain a climb Speed equal to your Speed. If you already had a climb Speed, you gain a +10-foot status bonus to your climb Speed.",
+        "hint": "When in forest terrain, you can ignore the effects of non-magical difficult terrain.",
+        "showon": "Movement",
+        "subType": "Forest",
+        "superType": "Favored Terrain",
+        "shortdesc": "You have studied forest terrain to overcome its challenges.",
+        "traits": [
+            "Ranger"
+        ],
+        "levelreq": 2,
+        "gainActivities": [
+            "Favored Terrain: Forest"
+        ]
+    },
+    {
+        "name": "Favored Terrain: Mountain",
+        "desc": "You have studied mountain terrain to overcome its challenges. When in that terrain, you can ignore the effects of non-magical difficult terrain. If you have the wild stride class feature, while you are in mountain terrain, you gain a climb Speed equal to your Speed. If you already had a climb Speed, you gain a +10-foot status bonus to your climb Speed.",
+        "hint": "When in mountain terrain, you can ignore the effects of non-magical difficult terrain.",
+        "showon": "Movement",
+        "subType": "Mountain",
+        "superType": "Favored Terrain",
+        "shortdesc": "You have studied mountain terrain to overcome its challenges.",
+        "traits": [
+            "Ranger"
+        ],
+        "levelreq": 2,
+        "gainActivities": [
+            "Favored Terrain: Mountain"
+        ]
+    },
+    {
+        "name": "Favored Terrain: Plains",
+        "desc": "You have studied plains terrain to overcome its challenges. When in that terrain, you can ignore the effects of non-magical difficult terrain. If you have the wild stride class feature, while you are in plains terrain, you gain a +10-foot status bonus to your land Speed.",
+        "hint": "When in plains terrain, you can ignore the effects of non-magical difficult terrain.",
+        "showon": "Movement",
+        "subType": "Plains",
+        "superType": "Favored Terrain",
+        "shortdesc": "You have studied plains terrain to overcome its challenges.",
+        "traits": [
+            "Ranger"
+        ],
+        "levelreq": 2,
+        "gainActivities": [
+            "Favored Terrain: Plains"
+        ]
+    },
+    {
+        "name": "Favored Terrain: Sky",
+        "desc": "You have studied sky terrain to overcome its challenges. When in that terrain, you can ignore the effects of non-magical difficult terrain. If you have the wild stride class feature, while you are in sky terrain, you gain a +10-foot status bonus to your fly Speed, if you have one.",
+        "hint": "When in sky terrain, you can ignore the effects of non-magical difficult terrain.",
+        "showon": "Movement",
+        "subType": "Sky",
+        "superType": "Favored Terrain",
+        "shortdesc": "You have studied sky terrain to overcome its challenges.",
+        "traits": [
+            "Ranger"
+        ],
+        "levelreq": 2,
+        "gainActivities": [
+            "Favored Terrain: Sky"
+        ]
+    },
+    {
+        "name": "Favored Terrain: Swamp",
+        "desc": "You have studied swamp terrain to overcome its challenges. When in that terrain, you can ignore the effects of non-magical difficult terrain. If you have the wild stride class feature, while you are in swamp terrain, you can move across bogs at full Speed, even if they are deep enough to be greater difficult terrain or to normally require you to Swim.",
+        "hint": "When in swamp terrain, you can ignore the effects of non-magical difficult terrain.",
+        "showon": "Movement",
+        "subType": "Swamp",
+        "superType": "Favored Terrain",
+        "shortdesc": "You have studied swamp terrain to overcome its challenges.",
+        "traits": [
+            "Ranger"
+        ],
+        "levelreq": 2,
+        "gainActivities": [
+            "Favored Terrain: Swamp"
+        ]
+    },
+    {
+        "name": "Favored Terrain: Underground",
+        "desc": "You have studied underground terrain to overcome its challenges. When in that terrain, you can ignore the effects of non-magical difficult terrain. If you have the wild stride class feature, while you are in underground terrain, you gain a climb Speed equal to your Speed. If you already had a climb Speed, you gain a +10-foot status bonus to your climb Speed.",
+        "hint": "When in underground terrain, you can ignore the effects of non-magical difficult terrain.",
+        "showon": "Movement",
+        "subType": "Underground",
+        "superType": "Favored Terrain",
+        "shortdesc": "You have studied underground terrain to overcome its challenges.",
+        "traits": [
+            "Ranger"
+        ],
+        "levelreq": 2,
+        "gainActivities": [
+            "Favored Terrain: Underground"
+        ]
+    },
+    {
+        "name": "Hunter's Aim",
+        "desc": "When you focus on aiming, your attack becomes particularly accurate.",
+        "shortdesc": "When you focus on aiming, your attack becomes particularly accurate.",
+        "traits": [
+            "Ranger",
+            "Concentrate"
+        ],
+        "levelreq": 2,
+        "gainActivities": [
+            "Hunter's Aim"
+        ]
+    },
+    {
+        "name": "Monster Warden",
+        "desc": "You understand how to defend yourself and others against your prey. When you grant bonuses from Monster Hunter, you and your allies also each gain a +1 circumstance bonus to your next saving throw against that particular creature and to your AC against that creature's next attack against you.",
+        "hint": "When you grant bonuses from Monster Hunter, you and your allies also each gain a +1 circumstance bonus to your next saving throw against that particular creature and to your AC against that creature's next attack against you.",
+        "showon": "Hunt Prey, Hunt Prey: Flurry, Hunt Prey: Outwit, Hunt Prey: Precision, Attacks",
+        "shortdesc": "You understand how to defend yourself and others against your prey.",
+        "traits": [
+            "Ranger"
+        ],
+        "levelreq": 2,
+        "featreq": [
+            "Monster Hunter"
+        ]
+    },
+    {
+        "name": "Quick Draw",
+        "desc": "You draw your weapon and attack with the same motion.",
+        "shortdesc": "You draw your weapon and attack with the same motion.",
+        "traits": [
+            "Ranger",
+            "Rogue"
+        ],
+        "levelreq": 2,
+        "gainActivities": [
+            "Quick Draw"
+        ]
+    },
+    {
+        "name": "Relentless Stalker",
+        "desc": "Stay adjacent to your prey when they attempt to move away.",
+        "specialdesc": "By aiding an NPC from The Fall of Plaguestone, the PCs can learn some special woodland survival techniques.",
+        "shortdesc": "Stay adjacent to your prey when they attempt to move away.",
+        "sourceBook": "The Fall of Plaguestone",
+        "traits": [
+            "Uncommon",
+            "Ranger",
+            "Move"
+        ],
+        "levelreq": 2,
+        "gainActivities": [
+            "Relentless Stalker"
+        ]
+    },
+    {
+        "name": "Wild Empathy (Ranger)",
+        "desc": "You have a connection to the creatures of the natural world that allows you to communicate with them on a rudimentary level. You can use Diplomacy to Make an Impression on animals and to make very simple Requests of them. In most cases, wild animals will give you time to make your case.",
+        "hint": "You can use Diplomacy to Make an Impression on animals and to make very simple Requests of them. In most cases, wild animals will give you time to make your case.",
+        "showon": "Diplomacy",
+        "shortdesc": "You have a connection to the creatures of the natural world.",
+        "traits": [
+            "Ranger"
+        ],
+        "levelreq": 2
+    },
+    {
+        "name": "Companion's Cry",
+        "desc": "You can urge your companion to do its utmost. You can spend 2 actions to Command an Animal instead of 1 when commanding your animal companion. If you do, your animal companion uses an additional action.",
+        "hint": "You can spend 2 actions to Command an Animal instead of 1 when commanding your animal companion. If you do, your animal companion uses an additional action.",
+        "showon": "Animal Companion",
+        "shortdesc": "You can urge your companion to do its utmost.",
+        "traits": [
+            "Ranger"
+        ],
+        "levelreq": 4,
+        "specialreq": "characterService.get_CompanionAvailable()",
+        "specialreqdesc": "an animal companion"
+    },
+    {
+        "name": "Disrupt Prey",
+        "desc": "Make a melee Strike against your prey.",
+        "shortdesc": "Make a melee Strike against your prey.",
+        "traits": [
+            "Ranger"
+        ],
+        "levelreq": 4,
+        "gainActivities": [
+            "Disrupt Prey"
+        ]
+    },
+    {
+        "name": "Far Shot",
+        "desc": "Your experience in the field has taught you how to focus your aim at a distance, increasing your accuracy. Double your weapons' range increments.",
+        "hint": "Double your weapons' range increments.",
+        "showon": "Attacks, ranged",
+        "shortdesc": "Your experience in the field has taught you how to focus your aim at a distance.",
+        "traits": [
+            "Ranger"
+        ],
+        "levelreq": 4
+    },
+    {
+        "name": "Favored Enemy",
+        "desc": "You have studied a specific type of wild creature and can hunt it more easily. When you gain this feat, choose animals, beasts, dragons, or both fungi and plants as your favored enemy. When you roll initiative and can see an enemy that belongs to the chosen category, you can Hunt Prey as a free action, designating that enemy.\n\nYou can use this free action even if you haven't identified the creature yet with Recall Knowledge. The benefit doesn't apply against favored enemies disguised as other creatures, and the GM determines whether it applies against a creature disguised as a favored enemy.",
+        "subTypes": true,
+        "shortdesc": "You have studied a specific type of wild creature and can hunt it more easily.",
+        "traits": [
+            "Ranger"
+        ],
+        "levelreq": 4
+    },
+    {
+        "name": "Favored Enemy: Animals",
+        "desc": "You have studied animals and can hunt them more easily. When you roll initiative and can see an enemy that belongs to the animal category, you can Hunt Prey as a free action, designating that enemy.\n\nYou can use this free action even if you haven't identified the creature yet with Recall Knowledge. The benefit doesn't apply against animals disguised as other creatures, and the GM determines whether it applies against a creature disguised as an animal.",
+        "hint": "When you roll initiative and can see an enemy that belongs to the animal category, you can Hunt Prey as a free action, designating that enemy.\n\nYou can use this free action even if you haven't identified the creature yet with Recall Knowledge. The benefit doesn't apply against animals disguised as other creatures, and the GM determines whether it applies against a creature disguised as an animal.",
+        "showon": "Perception, Hunt Prey",
+        "subType": "Animals",
+        "superType": "Favored Enemy",
+        "shortdesc": "You have studied animals and can hunt them more easily.",
+        "traits": [
+            "Ranger"
+        ],
+        "levelreq": 4
+    },
+    {
+        "name": "Favored Enemy: Beasts",
+        "desc": "You have studied beasts and can hunt them more easily. When you roll initiative and can see an enemy that belongs to the beast category, you can Hunt Prey as a free action, designating that enemy.\n\nYou can use this free action even if you haven't identified the creature yet with Recall Knowledge. The benefit doesn't apply against beasts disguised as other creatures, and the GM determines whether it applies against a creature disguised as a beast.",
+        "hint": "When you roll initiative and can see an enemy that belongs to the beast category, you can Hunt Prey as a free action, designating that enemy.\n\nYou can use this free action even if you haven't identified the creature yet with Recall Knowledge. The benefit doesn't apply against beasts disguised as other creatures, and the GM determines whether it applies against a creature disguised as a beast.",
+        "showon": "Perception, Hunt Prey",
+        "subType": "Beasts",
+        "superType": "Favored Enemy",
+        "shortdesc": "You have studied beasts and can hunt them more easily.",
+        "traits": [
+            "Ranger"
+        ],
+        "levelreq": 4
+    },
+    {
+        "name": "Favored Enemy: Dragons",
+        "desc": "You have studied dragons and can hunt them more easily. When you roll initiative and can see an enemy that belongs to the dragon category, you can Hunt Prey as a free action, designating that enemy.\n\nYou can use this free action even if you haven't identified the creature yet with Recall Knowledge. The benefit doesn't apply against dragons disguised as other creatures, and the GM determines whether it applies against a creature disguised as a dragon.",
+        "hint": "When you roll initiative and can see an enemy that belongs to the dragon category, you can Hunt Prey as a free action, designating that enemy.\n\nYou can use this free action even if you haven't identified the creature yet with Recall Knowledge. The benefit doesn't apply against dragons disguised as other creatures, and the GM determines whether it applies against a creature disguised as a dragon.",
+        "showon": "Perception, Hunt Prey",
+        "subType": "Dragons",
+        "superType": "Favored Enemy",
+        "shortdesc": "You have studied dragons and can hunt them more easily.",
+        "traits": [
+            "Ranger"
+        ],
+        "levelreq": 4
+    },
+    {
+        "name": "Favored Enemy: Fungi and Plants",
+        "desc": "You have studied fungi and plants and can hunt them more easily. When you roll initiative and can see an enemy that belongs to the fungus or plant category, you can Hunt Prey as a free action, designating that enemy.\n\nYou can use this free action even if you haven't identified the creature yet with Recall Knowledge. The benefit doesn't apply against fungi and plants disguised as other creatures, and the GM determines whether it applies against a creature disguised as a fungus or plant.",
+        "hint": "When you roll initiative and can see an enemy that belongs to the fungus or plant category, you can Hunt Prey as a free action, designating that enemy.\n\nYou can use this free action even if you haven't identified the creature yet with Recall Knowledge. The benefit doesn't apply against fungi and plants disguised as other creatures, and the GM determines whether it applies against a creature disguised as a fungus or plant.",
+        "showon": "Perception, Hunt Prey",
+        "subType": "Fungi and Plants",
+        "superType": "Favored Enemy",
+        "shortdesc": "You have studied fungi and plants and can hunt them more easily.",
+        "traits": [
+            "Ranger"
+        ],
+        "levelreq": 4
+    },
+    {
+        "name": "Running Reload",
+        "desc": "You can reload your weapon on the move.",
+        "shortdesc": "You can reload your weapon on the move.",
+        "traits": [
+            "Ranger"
+        ],
+        "levelreq": 4,
+        "gainActivities": [
+            "Running Reload"
+        ]
+    },
+    {
+        "name": "Scout's Warning",
+        "desc": "You visually or audibly warn your allies of danger.",
+        "shortdesc": "You visually or audibly warn your allies of danger.",
+        "traits": [
+            "Ranger",
+            "Rogue"
+        ],
+        "levelreq": 4,
+        "gainActivities": [
+            "Scout's Warning"
+        ]
+    },
+    {
+        "name": "Snare Specialist",
+        "desc": "You specialize in creating quick traps to obstruct your enemies on the battlefield. If your proficiency rank in Crafting is expert, you gain the formulas for three common or uncommon snares (page 589). If your rank is master, you gain 6. If your rank is legendary, you gain 9.\n\nEach day during your daily preparations, you can prepare four snares from your formula book for quick deployment; if they normally take 1 minute to Craft, you can Craft them with 3 Interact actions. The number of snares increases to six if you have master proficiency in Crafting and eight if you have legendary proficiency in Crafting. Snares prepared in this way don't cost you any resources to Craft.",
+        "hint": "Snares prepared via Snare Specialist way don't cost you any resources to Craft.",
+        "showon": "Quick Crafting",
+        "internalNote": "The quick deployment allowance is hardcoded.",
+        "shortdesc": "You specialize in creating quick traps to obstruct your enemies on the battlefield.",
+        "traits": [
+            "Ranger"
+        ],
+        "levelreq": 4,
+        "featreq": [
+            "Snare Crafting"
+        ],
+        "skillreq": [
+            {
+                "skill": "Crafting",
+                "value": 4
+            }
+        ]
+    },
+    {
+        "name": "Mature Animal Companion (Ranger)",
+        "desc": "Your animal companion grows up, becoming a mature animal companion and gaining additional capabilities (page 214). If you have the Hunt Prey action, your animal companion assaults the prey even without your orders. During an encounter, even if you don't use the Command an Animal action, your animal companion can still use 1 action that round on your turn to Stride toward or Strike your prey.",
+        "hint": "If you have the Hunt Prey action, your animal companion assaults the prey even without your orders. During an encounter, even if you don't use the Command an Animal action, your animal companion can still use 1 action that round on your turn to Stride toward or Strike your prey.",
+        "showon": "Hunt Prey, Hunt Prey: Flurry, Hunt Prey: Outwit, Hunt Prey: Precision, Animal Companion",
+        "shortdesc": "Your animal companion grows up, gaining additional capabilities.",
+        "traits": [
+            "Ranger"
+        ],
+        "levelreq": 6,
+        "featreq": [
+            "Animal Companion (Ranger) or Animal Companion (Druid)"
+        ],
+        "gainAnimalCompanion": 2
+    },
+    {
+        "name": "Quick Snares",
+        "desc": "You can rig a snare in only moments. You can Craft snares that normally take 1 minute to Craft with 3 Interact actions, even if you haven't prepared them.",
+        "hint": "You can Craft snares that normally take 1 minute to Craft with 3 Interact actions, even if you haven't prepared them.",
+        "showon": "Crafting",
+        "shortdesc": "You can rig a snare in only moments.",
+        "traits": [
+            "Ranger"
+        ],
+        "levelreq": 6,
+        "featreq": [
+            "Snare Specialist"
+        ],
+        "skillreq": [
+            {
+                "skill": "Crafting",
+                "value": 4
+            }
+        ]
+    },
+    {
+        "name": "Skirmish Strike",
+        "desc": "Your feet and weapon move in tandem.",
+        "shortdesc": "Your feet and weapon move in tandem.",
+        "traits": [
+            "Ranger",
+            "Flourish",
+            "Rogue"
+        ],
+        "levelreq": 6,
+        "gainActivities": [
+            "Skirmish Strike"
+        ]
+    },
+    {
+        "name": "Snap Shot",
+        "desc": "You've learned to react with ranged weapons when a creature is in close quarters. You can use a reaction that normally allows you to make a melee weapon Strike to instead make a ranged weapon Strike. You must be Striking an adjacent target. If necessary for the reaction's trigger, you treat your ranged weapon as if it had a reach of 5 feet. If the reaction has other requirements, such as wielding a specific kind of weapon, Snap Shot doesn't allow you to ignore them; it allows you only to replace a melee weapon Strike with a ranged weapon Strike.",
+        "hint": "You can use a reaction that normally allows you to make a melee weapon Strike to instead make a ranged weapon Strike. You must be Striking an adjacent target. If necessary for the reaction's trigger, you treat your ranged weapon as if it had a reach of 5 feet. If the reaction has other requirements, such as wielding a specific kind of weapon, Snap Shot doesn't allow you to ignore them; it allows you only to replace a melee weapon Strike with a ranged weapon Strike.",
+        "showon": "Attacks, Activities",
+        "shortdesc": "You've learned to react with ranged weapons when a creature is in close quarters.",
+        "traits": [
+            "Ranger"
+        ],
+        "levelreq": 6
+    },
+    {
+        "name": "Swift Tracker",
+        "desc": "Your keen eyes catch signs of passage even when you're moving. You can move at your full Speed while you Track. If you have master proficiency in Survival, you don't need to attempt a new Survival check every hour while Tracking. If you have legendary proficiency in Survival, you can use another exploration activity while Tracking.\n\nIf you roll Survival for initiative while tracking your hunted prey, when you start your first turn of the encounter, you can Stride toward your hunted prey as a free action.",
+        "hint": "You can move at your full Speed while you Track. If you have master proficiency in Survival, you don't need to attempt a new Survival check every hour while Tracking. If you have legendary proficiency in Survival, you can use another exploration activity while Tracking.\n\nIf you roll Survival for initiative while tracking your hunted prey, when you start your first turn of the encounter, you can Stride toward your hunted prey as a free action.",
+        "showon": "Movement, Survival",
+        "shortdesc": "Your keen eyes catch signs of passage even when you're moving.",
+        "traits": [
+            "Ranger"
+        ],
+        "levelreq": 6,
+        "featreq": [
+            "Experienced Tracker"
+        ],
+        "skillreq": [
+            {
+                "skill": "Survival",
+                "value": 4
+            }
+        ]
+    },
+    {
+        "name": "Deadly Aim",
+        "desc": "You aim for your prey's weak spots, making your shot more challenging but dealing more damage if you hit.",
+        "shortdesc": "You aim for your prey's weak spots, making your shot more challenging but dealing more damage if you hit.",
+        "traits": [
+            "Ranger",
+            "Open"
+        ],
+        "levelreq": 8,
+        "featreq": [
+            "Weapon Specialization"
+        ],
+        "gainActivities": [
+            "Deadly Aim"
+        ]
+    },
+    {
+        "name": "Hazard Finder",
+        "desc": "You have an intuitive ability to sense hazards. You gain a +1 circumstance bonus to Perception checks to find traps and hazards, to AC against their attacks, and to saves against their effects. You can find hazards that would normally require you to Search even if you aren't Searching.",
+        "hint": "You gain a +1 circumstance bonus to Perception checks to find traps and hazards, to AC against their attacks, and to saves against their effects. You can find hazards that would normally require you to Search even if you aren't Searching.",
+        "showon": "Perception, AC, Fortitude, Reflex, Will",
+        "shortdesc": "You have an intuitive ability to sense hazards.",
+        "traits": [
+            "Ranger"
+        ],
+        "levelreq": 8
+    },
+    {
+        "name": "Powerful Snares",
+        "desc": "Your snares are particularly difficult for enemies to avoid. When you set a snare, the saving throw DC for that snare is equal to its normal DC or your class DC, whichever is higher.",
+        "hint": "When you set a snare, the saving throw DC for that snare is equal to its normal DC or your class DC, whichever is higher.",
+        "showon": "Quick Crafting, Snares",
+        "shortdesc": "Your snares are particularly dif cult for enemies to avoid.",
+        "traits": [
+            "Ranger"
+        ],
+        "levelreq": 8,
+        "featreq": [
+            "Snare Specialist"
+        ],
+        "skillreq": [
+            {
+                "skill": "Crafting",
+                "value": 6
+            }
+        ]
+    },
+    {
+        "name": "Terrain Master",
+        "desc": "You adapt to your surroundings in any natural terrain. You can spend 1 hour practicing in your current terrain in order to make it your favored terrain, replacing your current favored terrain temporarily. If you spend a full day out of the new favored terrain, your favored terrain reverts back to your original choice when you took the Favored Terrain feat.",
+        "hint": "You can spend 1 hour practicing in your current terrain in order to make it your favored terrain, replacing your current favored terrain temporarily. If you spend a full day out of the new favored terrain, your favored terrain reverts back to your original choice when you took the Favored Terrain feat.",
+        "showon": "Activities",
+        "shortdesc": "You adapt to your surroundings in any natural terrain.",
+        "traits": [
+            "Ranger"
+        ],
+        "levelreq": 8,
+        "featreq": [
+            "Favored Terrain"
+        ],
+        "skillreq": [
+            {
+                "skill": "Survival",
+                "value": 6
+            }
+        ],
+        "gainActivities": [
+            "Terrain Master"
+        ]
+    },
+    {
+        "name": "Warden's Boon",
+        "desc": "By pointing out vulnerabilities, you grant an ally benefits from your hunting abilities.",
+        "shortdesc": "By pointing out vulnerabilities, you grant an ally benefits from your hunting abilities.",
+        "traits": [
+            "Ranger"
+        ],
+        "levelreq": 8,
+        "gainActivities": [
+            "Warden's Boon"
+        ]
+    },
+    {
+        "name": "Camouflage",
+        "desc": "You alter your appearance to blend in to the wilderness. In natural terrain, you can Sneak even if you're observed.",
+        "hint": "In natural terrain, you can Sneak even if you're observed.",
+        "showon": "Stealth",
+        "shortdesc": "You alter your appearance to blend in to the wilderness.",
+        "traits": [
+            "Ranger"
+        ],
+        "levelreq": 10,
+        "skillreq": [
+            {
+                "skill": "Stealth",
+                "value": 6
+            }
+        ]
+    },
+    {
+        "name": "Incredible Companion (Ranger)",
+        "desc": "Your animal companion continues to grow and develop. It becomes a nimble or savage animal companion (your choice), gaining additional capabilities determined by the type of companion (page 214).",
+        "subTypes": true,
+        "shortdesc": "Your animal companion continues to grow and develop.",
+        "traits": [
+            "Ranger"
+        ],
+        "levelreq": 10,
+        "featreq": [
+            "Mature Animal Companion (Ranger) or Mature Animal Companion (Druid)"
+        ]
+    },
+    {
+        "name": "Incredible Companion (Ranger): Nimble",
+        "desc": "Your animal companion continues to grow and develop. It becomes a nimble animal companion (your choice), gaining additional capabilities determined by the type of companion (page 214).",
+        "subType": "Nimble",
+        "superType": "Incredible Companion (Ranger)",
+        "shortdesc": "Your animal companion continues to grow and develop.",
+        "traits": [
+            "Ranger"
+        ],
+        "levelreq": 10,
+        "featreq": [
+            "Mature Animal Companion (Ranger) or Mature Animal Companion (Druid)"
+        ],
+        "specialreq": "!character.get_FeatsTaken(1, 20).filter(feat => feat.name != this.name && characterService.get_FeatsAndFeatures(feat.name).length && characterService.get_FeatsAndFeatures(feat.name)[0].gainAnimalCompanion == 5).length",
+        "specialreqdesc": "no savage animal companion",
+        "gainAnimalCompanion": 4
+    },
+    {
+        "name": "Incredible Companion (Ranger): Savage",
+        "desc": "Your animal companion continues to grow and develop. It becomes a nimble animal companion (your choice), gaining additional capabilities determined by the type of companion (page 214).",
+        "subType": "Savage",
+        "superType": "Incredible Companion (Ranger)",
+        "shortdesc": "Your animal companion continues to grow and develop.",
+        "traits": [
+            "Ranger"
+        ],
+        "levelreq": 10,
+        "featreq": [
+            "Mature Animal Companion (Ranger) or Mature Animal Companion (Druid)"
+        ],
+        "specialreq": "!character.get_FeatsTaken(1, 20).filter(feat => feat.name != this.name && characterService.get_FeatsAndFeatures(feat.name).length && characterService.get_FeatsAndFeatures(feat.name)[0].gainAnimalCompanion == 4).length",
+        "specialreqdesc": "no nimble animal companion",
+        "gainAnimalCompanion": 5
+    },
+    {
+        "name": "Master Monster Hunter",
+        "desc": "You have a nearly encyclopedic knowledge of all creatures of the world. You can use Nature to Recall Knowledge to identify any creature. In addition, you gain the benefits of Monster Hunter (and Monster Warden, if you have it) on a success as well as a critical success.",
+        "hint": "You can use Nature to Recall Knowledge to identify any creature. In addition, you gain the benefits of Monster Hunter (and Monster Warden, if you have it) on a success as well as a critical success.",
+        "showon": "Nature, Hunt Prey, Hunt Prey: Flurry, Hunt Prey: Outwit, Hunt Prey: Precision",
+        "shortdesc": "You have a nearly encyclopedic knowledge of all creatures of the world.",
+        "traits": [
+            "Ranger"
+        ],
+        "levelreq": 10,
+        "featreq": [
+            "Monster Hunter"
+        ],
+        "skillreq": [
+            {
+                "skill": "Nature",
+                "value": 6
+            }
+        ]
+    },
+    {
+        "name": "Penetrating Shot",
+        "desc": "You shoot clear through an intervening creature to hit your prey.",
+        "shortdesc": "You shoot clear through an intervening creature to hit your prey.",
+        "traits": [
+            "Ranger",
+            "Open"
+        ],
+        "levelreq": 10,
+        "gainActivities": [
+            "Penetrating Shot"
+        ]
+    },
+    {
+        "name": "Warden's Step",
+        "desc": "You can guide your allies to move quietly through the wilderness. When you Sneak during exploration in natural terrain, you can designate any number of your allies to gain the benefits as if they were using that activity during that exploration. This requires no action on their part.",
+        "hint": "When you Sneak during exploration in natural terrain, you can designate any number of your allies to gain the benefits as if they were using that activity during that exploration. This requires no action on their part.",
+        "showon": "Stealth",
+        "shortdesc": "You can guide your allies to move quietly through the wilderness.",
+        "traits": [
+            "Ranger"
+        ],
+        "levelreq": 10,
+        "skillreq": [
+            {
+                "skill": "Stealth",
+                "value": 6
+            }
+        ]
+    },
+    {
+        "name": "Distracting Shot",
+        "desc": "The sheer power of your attacks, or the overwhelming number of them, leaves an enemy flustered. If you critically hit your hunted prey with a ranged weapon, or hit it at least twice on the same turn with a ranged weapon, it's flat-footed until the start of your next turn.",
+        "hint": "If you critically hit your hunted prey with a ranged weapon, or hit it at least twice on the same turn with a ranged weapon, it's flat-footed until the start of your next turn.",
+        "showon": "Attacks, ranged",
+        "shortdesc": "The sheer power of your attacks, or the overwhelming number of them, leaves an enemy flustered.",
+        "traits": [
+            "Ranger"
+        ],
+        "levelreq": 12
+    },
+    {
+        "name": "Double Prey",
+        "desc": "You can focus on two foes at once, hunting both of them down. When you use the Hunt Prey action, you can pick two creatures as your prey.",
+        "hint": "When you use the Hunt Prey action, you can pick two creatures as your prey.",
+        "showon": "Hunt Prey, Hunt Prey: Flurry, Hunt Prey: Outwit, Hunt Prey: Precision",
+        "shortdesc": "You can focus on two foes at once, hunting both of them down.",
+        "traits": [
+            "Ranger"
+        ],
+        "levelreq": 12
+    },
+    {
+        "name": "Lightning Snares",
+        "desc": "You can rig a trap with incredible speed. When you create a snare that normally takes 1 minute to Craft, you can Craft it using a single Interact action instead.",
+        "hint": "When you create a snare that normally takes 1 minute to Craft, you can Craft it using a single Interact action instead.",
+        "showon": "Crafting, Quick Crafting",
+        "internalNote": "The effect is hardcoded.",
+        "shortdesc": "You can rig a trap with incredible speed.",
+        "traits": [
+            "Ranger"
+        ],
+        "levelreq": 12,
+        "featreq": [
+            "Quick Snares",
+            "Snare Specialist"
+        ],
+        "skillreq": [
+            {
+                "skill": "Crafting",
+                "value": 6
+            }
+        ]
+    },
+    {
+        "name": "Second Sting",
+        "desc": "You read your prey's movements and transform them into openings, so failures with one weapon set up glancing blows with the other.",
+        "shortdesc": "You read your prey's movements and transform them into openings, so failures with one weapon set up glancing blows with the other.",
+        "traits": [
+            "Ranger",
+            "Press"
+        ],
+        "levelreq": 12,
+        "gainActivities": [
+            "Second Sting"
+        ]
+    },
+    {
+        "name": "Side by Side (Ranger)",
+        "desc": "You and your animal companion fight in tandem, distracting your foes and keeping them off balance. Whenever you and your animal companion are adjacent to the same foe, you are both flanking that foe with each other, regardless of your actual positions.",
+        "hint": "Whenever you and your animal companion are adjacent to the same foe, you are both flanking that foe with each other, regardless of your actual positions.",
+        "showon": "Attacks, Animal Companion",
+        "shortdesc": "You and your animal companion fight in tandem, distracting your foes and keeping them of balance.",
+        "traits": [
+            "Ranger"
+        ],
+        "levelreq": 12,
+        "specialreq": "characterService.get_CompanionAvailable()",
+        "specialreqdesc": "an animal companion"
+    },
+    {
+        "name": "Sense the Unseen",
+        "desc": "When you look for foes, you can catch even the slightest cues.",
+        "shortdesc": "When you look for foes, you can catch even the slightest cues.",
+        "traits": [
+            "Ranger",
+            "Rogue"
+        ],
+        "levelreq": 14,
+        "gainActivities": [
+            "Sense the Unseen"
+        ]
+    },
+    {
+        "name": "Shared Prey",
+        "desc": "Hunting as a duo, you and your ally both single out your prey. When you use Hunt Prey and select only one prey, you can grant your Hunt Prey benefits and hunter's edge to an ally in addition to gaining them yourself. The ally retains these benefits until you use Hunt Prey again.",
+        "hint": "When you use Hunt Prey and select only one prey, you can grant your Hunt Prey benefits and hunter's edge to an ally in addition to gaining them yourself. The ally retains these benefits until you use Hunt Prey again.",
+        "showon": "Hunt Prey, Hunt Prey: Flurry, Hunt Prey: Outwit, Hunt Prey: Precision",
+        "shortdesc": "Hunting as a duo, you and your ally both single out your prey.",
+        "traits": [
+            "Ranger"
+        ],
+        "levelreq": 14,
+        "featreq": [
+            "Double Prey",
+            "Warden's Boon"
+        ]
+    },
+    {
+        "name": "Stealthy Companion",
+        "desc": "You've trained your animal companion to blend in to its surroundings. Your animal companion gains the benefit of the Camouflage feat. If your companion is a specialized ambusher, its proficiency rank for Stealth increases to master (or legendary if it was already master).",
+        "internalNote": "The effect is hardcoded.",
+        "hint": "In natural terrain, your companion can Sneak even if it's observed.",
+        "showon": "Companion:Stealth",
+        "shortdesc": "You've trained your animal companion to blend in to its surroundings.",
+        "traits": [
+            "Ranger"
+        ],
+        "levelreq": 14,
+        "featreq": [
+            "Camouflage"
+        ],
+        "specialreq": "characterService.get_CompanionAvailable()",
+        "specialreqdesc": "an animal companion"
+    },
+    {
+        "name": "Targeting Shot",
+        "desc": "You carefully track your prey's position and defenses.",
+        "shortdesc": "You carefully track your prey's position and defenses.",
+        "traits": [
+            "Ranger",
+            "Concentrate",
+            "Press"
+        ],
+        "levelreq": 14,
+        "featreq": [
+            "Hunter's Aim"
+        ],
+        "gainActivities": [
+            "Targeting Shot"
+        ]
+    },
+    {
+        "name": "Warden's Guidance",
+        "desc": "You can convey your prey's location to your allies, no matter how well hidden it is. As long as your hunted prey is observed by you, all your allies who roll failures and critical failures when Seeking it get a success instead. Your allies need to be able to see or hear you to gain this benefit. You have to be able to call out or use gestures for your allies to get this benefit.",
+        "hint": "As long as your hunted prey is observed by you, all your allies who roll failures and critical failures when Seeking it get a success instead. Your allies need to be able to see or hear you to gain this benefit. You have to be able to call out or use gestures for your allies to get this benefit.",
+        "showon": "Perception",
+        "shortdesc": "You can convey your prey's location to your allies, no matter how well hidden it is.",
+        "traits": [
+            "Ranger"
+        ],
+        "levelreq": 14
+    },
+    {
+        "name": "Greater Distracting Shot",
+        "desc": "Even a single missile can throw off your enemy's balance, and more powerful attacks leave it flustered for longer. If you hit your hunted prey with a ranged weapon, it's flat-footed until the start of your next turn. If you critically hit your prey or hit it twice on the same turn with a ranged weapon, it's flat-footed until the end of your next turn instead.",
+        "hint": "If you hit your hunted prey with a ranged weapon, it's flat-footed until the start of your next turn. If you critically hit your prey or hit it twice on the same turn with a ranged weapon, it's flat-footed until the end of your next turn instead.",
+        "showon": "Attacks, ranged",
+        "shortdesc": "Even a single missile can throw of your enemy's balance, and more powerful attacks leave it flustered for longer.",
+        "traits": [
+            "Ranger"
+        ],
+        "levelreq": 16,
+        "featreq": [
+            "Distracting Shot"
+        ]
+    },
+    {
+        "name": "Improved Twin Riposte (Ranger)",
+        "desc": "At the start of each of your turns, you gain an additional reaction that you can use only to perform a Twin Riposte against your hunted prey. You can use this extra reaction even if you are not benefiting from Twin Parry.",
+        "hint": "At the start of each of your turns, you gain an additional reaction that you can use only to perform a Twin Riposte against your hunted prey. You can use this extra reaction even if you are not benefiting from Twin Parry.",
+        "showon": "Attacks, Twin Riposte",
+        "shortdesc": "You are able to riposte an additional time per turn.",
+        "traits": [
+            "Ranger"
+        ],
+        "levelreq": 16,
+        "featreq": [
+            "Twin Riposte"
+        ]
+    },
+    {
+        "name": "Legendary Monster Hunter",
+        "desc": "Your knowledge of monsters is so incredible that it reveals glaring flaws in your prey. Your bonus from Monster Hunter (and the bonus from Monster Warden if you have it) increases from +1 to +2 for you and any allies who benefit.",
+        "hint": "Your bonus from Monster Hunter (and the bonus from Monster Warden if you have it) increases from +1 to +2 for you and any allies who benefit.",
+        "showon": "Hunt Prey, Hunt Prey: Flurry, Hunt Prey: Outwit, Hunt Prey: Precision",
+        "shortdesc": "Your knowledge of monsters is so incredible that it reveals glaring flaws in your prey.",
+        "traits": [
+            "Ranger"
+        ],
+        "levelreq": 16,
+        "featreq": [
+            "Master Monster Hunter"
+        ],
+        "skillreq": [
+            {
+                "skill": "Nature",
+                "value": 8
+            }
+        ]
+    },
+    {
+        "name": "Specialized Companion (Ranger)",
+        "desc": "Your animal companion has become cunning enough to become specialized. Your animal companion gains one specialization of your choice. (See the Animal Companion section on page 214.)\n\nSpecialized animal companions are more intelligent and engage in more complex behaviors. The first time an animal gains a specialization, it gains the following: Its proficiency rank for unarmed attacks increases to expert. Its proficiency ranks for saving throws and Perception increase to master. Increase its Dexterity modifier by 1 and its Intelligence modifier by 2. Its unarmed attack damage increases from two dice to three dice, and it increases its additional damage with unarmed attacks from 2 to 4 or from 3 to 6.",
+        "shortdesc": "Your animal companion has become cunning enough to become specialized.",
+        "traits": [
+            "Ranger"
+        ],
+        "levelreq": 16,
+        "featreq": [
+            "Incredible Companion (Ranger) or Incredible Companion (Druid)"
+        ],
+        "gainAnimalCompanion": 6
+    },
+    {
+        "name": "Ubiquitous Snares",
+        "desc": "You can prepare a seemingly impossible number of snares in advance, and you're ready to spring them on unsuspecting foes. Double the number of prepared snares from Snare Specialist.",
+        "internalNote": "The effect is hardcoded.",
+        "shortdesc": "You can prepare a seemingly impossible number of snares in advance, and you're ready to spring them on unsuspecting foes.",
+        "traits": [
+            "Ranger"
+        ],
+        "levelreq": 16,
+        "featreq": [
+            "Snare Specialist"
+        ]
+    },
+    {
+        "name": "Impossible Flurry",
+        "desc": "You forgo precision to attack at an impossible speed.",
+        "shortdesc": "You forgo precision to attack at an impossible speed.",
+        "traits": [
+            "Ranger",
+            "Flourish",
+            "Open"
+        ],
+        "levelreq": 18,
+        "gainActivities": [
+            "Impossible Flurry"
+        ]
+    },
+    {
+        "name": "Impossible Volley",
+        "desc": "You fire a volley at all foes in an area.",
+        "shortdesc": "You fire a volley at all foes in an area.",
+        "traits": [
+            "Ranger"
+        ],
+        "levelreq": 18,
+        "gainActivities": [
+            "Impossible Volley"
+        ]
+    },
+    {
+        "name": "Manifold Edge",
+        "desc": "You've learned every possible edge to use against your foes. When you use Hunt Prey, you can gain a hunter's edge benefit other than the one you selected at 1st level. If you do, you don't gain the additional benefit from masterful hunter.",
+        "hint": "You've learned every possible edge to use against your foes. When you use Hunt Prey, you can gain a hunter's edge benefit other than the one you selected at 1st level. If you do, you don't gain the additional benefit from masterful hunter.",
+        "showon": "Hunt Prey",
+        "shortdesc": "You've learned every possible edge to use against your foes.",
+        "traits": [
+            "Ranger"
+        ],
+        "levelreq": 18,
+        "featreq": [
+            "Hunter's Edge",
+            "Masterful Hunter"
+        ],
+        "gainActivities": [
+            "Hunt Prey: Flurry",
+            "Hunt Prey: Outwit",
+            "Hunt Prey: Precision"
+        ]
+    },
+    {
+        "name": "Masterful Companion",
+        "desc": "Your animal companion shares your incredible hunting skills, allowing it to take down your shared prey with ease. When you Hunt Prey, your animal companion gains the masterful hunter benefit associated with your hunter's edge, rather than just your original hunter's edge benefit.",
+        "hint": "When you Hunt Prey, your animal companion gains the masterful hunter benefit associated with your hunter's edge, rather than just your original hunter's edge benefit.",
+        "showon": "Animal Companion",
+        "shortdesc": "Your animal companion shares your incredible hunting skills, allowing it to take down your shared prey with ease.",
+        "traits": [
+            "Ranger"
+        ],
+        "levelreq": 18,
+        "featreq": [
+            "Masterful Hunter",
+            "Animal Companion (Ranger) or Animal Companion (Druid)"
+        ]
+    },
+    {
+        "name": "Perfect Shot",
+        "desc": "After watching the motions of combat with incredible intensity and precision, you fire at your prey at the perfect moment to deliver maximum pain.",
+        "shortdesc": "After watching the motions of combat with incredible intensity and precision, you fire at your prey at the perfect moment to deliver maximum pain.",
+        "traits": [
+            "Ranger",
+            "Flourish"
+        ],
+        "levelreq": 18,
+        "gainActivities": [
+            "Perfect Shot"
+        ]
+    },
+    {
+        "name": "Shadow Hunter",
+        "desc": "You blend in to your surroundings so well that others have trouble telling you apart from the terrain. While in natural terrain, you're always concealed from all foes if you choose to be, except for your hunted prey.",
+        "hint": "While in natural terrain, you're always concealed from all foes if you choose to be, except for your hunted prey.",
+        "showon": "Stealth",
+        "shortdesc": "You blend in to your surroundings so well that others have trouble telling you apart from the terrain.",
+        "traits": [
+            "Ranger"
+        ],
+        "levelreq": 18,
+        "featreq": [
+            "Camouflage"
+        ]
+    },
+    {
+        "name": "Legendary Shot",
+        "desc": "You focus on your hunted prey, perceiving angles, air resistance, and every variable that would affect your ranged attack. If you have master proficiency with your ranged weapon, you can ignore the penalty for attacking up to five range increments away when attacking your hunted prey.",
+        "hint": "If you have master proficiency with your ranged weapon, you can ignore the penalty for attacking up to five range increments away when attacking your hunted prey.",
+        "showon": "Attacks, ranged",
+        "shortdesc": "You focus on your hunted prey, perceiving angles, air resistance, and every variable that would af ect your ranged attack.",
+        "traits": [
+            "Ranger"
+        ],
+        "levelreq": 20,
+        "featreq": [
+            "Masterful Hunter",
+            "Far Shot"
+        ],
+        "skillreq": [
+            {
+                "skill": "Perception",
+                "value": 8
+            }
+        ]
+    },
+    {
+        "name": "Superior Sight",
+        "desc": "Your senses are peerless. You gain a +2 circumstance bonus to Perception checks, and you gain low-light vision. If you already have low-light vision, gain darkvision instead. Furthermore, when you target an enemy, you automatically succeed at the flat check if that enemy is concealed, hidden, or undetected.",
+        "specialdesc": "The citizens of Promise represent some of the most capable experts, greatest minds, and powerful warriors on Golarion - ideal teachers and trainers for PCs who want to maximize their own potential. If the PCs secure Visitor's Pins or an alliance with Mengkare, their access to Promise's trainers and records unlock this uncommon class feat.",
+        "hint": "When you target an enemy, you automatically succeed at the flat check if that enemy is concealed, hidden, or undetected.",
+        "showon": "Attacks, Perception",
+        "internalNote": "The vision gain is hardcoded.",
+        "shortdesc": "Increase your visual acuity.",
+        "sourceBook": "Pathfinder #150: Broken Promises",
+        "traits": [
+            "Uncommon",
+            "Ranger"
+        ],
+        "levelreq": 20,
+        "effects": [
+            {
+                "affected": "Perception",
+                "type": "circumstance",
+                "value": "2"
+            }
+        ]
+    },
+    {
+        "name": "To the Ends of the Earth",
+        "desc": "Your ability to track your prey has surpassed explanation, allowing you to trace your prey's movements and predict its location with ease. When you use Hunt Prey on a creature within 100 feet, you can follow that creature's movements, allowing you to know the creature's exact location no matter how far away it becomes, as long as it remains your prey. You must be legendary in Nature to track your prey's location across teleportation or planar travel. This feat gains the detection, divination, and primal traits if you're legendary in Nature.",
+        "hint": "When you use Hunt Prey on a creature within 100 feet, you can follow that creature's movements, allowing you to know the creature's exact location no matter how far away it becomes, as long as it remains your prey. You must be legendary in Nature to track your prey's location across teleportation or planar travel. This feat gains the detection, divination, and primal traits if you're legendary in Nature.",
+        "showon": "Nature",
+        "shortdesc": "Your ability to track your prey has surpassed explanation, allowing you to trace your prey's movements and predict its location with ease.",
+        "traits": [
+            "Ranger"
+        ],
+        "levelreq": 20,
+        "skillreq": [
+            {
+                "skill": "Survival",
+                "value": 8
+            }
+        ]
+    },
+    {
+        "name": "Triple Threat",
+        "desc": "You can divide your attention three ways when hunting. When you use Hunt Prey, you can designate three creatures as prey, designate two creatures as prey and share the effect with one ally (as Shared Prey), or designate one creature as prey and share the effect with two allies.",
+        "hint": "When you use Hunt Prey, you can designate three creatures as prey, designate two creatures as prey and share the effect with one ally (as Shared Prey), or designate one creature as prey and share the effect with two allies.",
+        "showon": "Hunt Prey",
+        "shortdesc": "You can divide your attention three ways when hunting.",
+        "traits": [
+            "Ranger"
+        ],
+        "levelreq": 20,
+        "featreq": [
+            "Shared Prey"
+        ]
+    },
+    {
+        "name": "Ultimate Skirmisher",
+        "desc": "You are so skilled at navigating the wild, your movement is completely unaffected by terrain. You ignore the effects of all difficult terrain, greater difficult terrain, and hazardous terrain, and you don't trigger traps and hazards that are triggered by moving into an area (such as trip wires and pressure plates), unless you want to.",
+        "hint": "You ignore the effects of all difficult terrain, greater difficult terrain, and hazardous terrain, and you don't trigger traps and hazards that are triggered by moving into an area (such as trip wires and pressure plates), unless you want to.",
+        "showon": "Movement",
+        "shortdesc": "You are so skilled at navigating the wild, your movement is completely unaffected by terrain.",
+        "traits": [
+            "Ranger"
+        ],
+        "levelreq": 20,
+        "featreq": [
+            "Wild Stride"
+        ]
+    },
+    {
+        "name": "Ranger Dedication",
+        "desc": "You become trained in Survival; if you were already trained in Survival, you instead become trained in another skill of your choice. You become trained in ranger class DC.\n\nYou can use the Hunt Prey action.",
+        "specialdesc": "You cannot select another dedication feat until you have gained two other feats from the ranger archetype.",
+        "shortdesc": "You have studied hunting, tracking, and wilderness survival, adding a ranger's tools to your skill set.",
+        "archetype": "Ranger",
+        "traits": [
+            "Archetype",
+            "Dedication",
+            "Multiclass"
+        ],
+        "levelreq": 2,
+        "abilityreq": [
+            {
+                "ability": "Dexterity",
+                "value": 14
+            }
+        ],
+        "gainAbilityChoice": [
+            {
+                "_className": "AbilityChoice",
+                "available": 1,
+                "infoOnly": true,
+                "filter": [
+                    "Strength",
+                    "Dexterity"
+                ],
+                "source": "Ranger Key Ability"
+            }
+        ],
+        "gainFeatChoice": [
+            {
+                "_className": "FeatChoice",
+                "feats": [
+                    {
+                        "locked": true,
+                        "name": "Hunt Prey"
+                    }
+                ],
+                "source": "Feat: Ranger Dedication",
+                "type": "Feature"
+            }
+        ],
+        "gainSkillChoice": [
+            {
+                "_className": "SkillChoice",
+                "available": 1,
+                "filter": [
+                    "Survival"
+                ],
+                "maxRank": 2,
+                "source": "Feat: Ranger Dedication",
+                "type": "Skill"
+            },
+            {
+                "_className": "SkillChoice",
+                "increases": [
+                    {
+                        "locked": true,
+                        "maxRank": 2,
+                        "name": "Ranger Class DC",
+                        "source": "Feat: Ranger Dedication"
+                    }
+                ],
+                "maxRank": 2,
+                "source": "Feat: Ranger Dedication",
+                "type": "Class DC"
+            }
+        ]
+    },
+    {
+        "name": "Basic Hunter's Trick",
+        "desc": "You gain a 1st- or 2nd-level ranger feat.",
+        "shortdesc": "You gain a 1st- or 2nd-level ranger feat.",
+        "archetype": "Ranger",
+        "traits": [
+            "Archetype"
+        ],
+        "levelreq": 4,
+        "featreq": [
+            "Ranger Dedication"
+        ],
+        "gainFeatChoice": [
+            {
+                "_className": "FeatChoice",
+                "available": 1,
+                "level": 2,
+                "source": "Feat: Basic Hunter's Trick",
+                "type": "Ranger"
+            }
+        ]
+    },
+    {
+        "name": "Ranger Resiliency",
+        "desc": "You gain 3 additional Hit Points for each ranger archetype class feat you have. As you continue selecting ranger archetype class feats, you continue to gain additional Hit Points in this way.",
+        "shortdesc": "You gain 3 additional Hit Points for each ranger archetype class feat you have.",
+        "archetype": "Ranger",
+        "traits": [
+            "Archetype"
+        ],
+        "levelreq": 4,
+        "featreq": [
+            "Ranger Dedication"
+        ],
+        "specialreq": "character.class.hitPoints <= 8",
+        "specialreqdesc": "class granting no more Hit Points per level than 8 + your Constitution modifier",
+        "effects": [
+            {
+                "affected": "Max HP",
+                "value": "Character.get_FeatsTaken(1, Level).filter(gain => characterService.get_Feats(gain.name)[0]?.archetype == \"Ranger\").length * 3"
+            }
+        ]
+    },
+    {
+        "name": "Advanced Hunter's Trick",
+        "desc": "You gain one ranger feat. For the purpose of meeting its prerequisites, your ranger level is equal to half your character level.",
+        "specialdesc": "You can select this feat more than once. Each time you select it, you gain another ranger feat.",
+        "shortdesc": "You gain one ranger feat.",
+        "archetype": "Ranger",
+        "unlimited": true,
+        "traits": [
+            "Archetype"
+        ],
+        "levelreq": 6,
+        "featreq": [
+            "Basic Hunter's Trick"
+        ],
+        "gainFeatChoice": [
+            {
+                "_className": "FeatChoice",
+                "available": 1,
+                "dynamicLevel": "level.number / 2",
+                "source": "Feat: Advanced Hunter's Trick",
+                "type": "Ranger"
+            }
+        ]
+    },
+    {
+        "name": "Master Spotter",
+        "desc": "Your proficiency rank in Perception increases to master.",
+        "shortdesc": "Your proficiency rank in Perception increases to master.",
+        "archetype": "Ranger",
+        "traits": [
+            "Archetype"
+        ],
+        "levelreq": 12,
+        "featreq": [
+            "Ranger Dedication"
+        ],
+        "skillreq": [
+            {
+                "skill": "Perception",
+                "value": 4
+            }
+        ],
+        "gainSkillChoice": [
+            {
+                "_className": "SkillChoice",
+                "increases": [
+                    {
+                        "locked": true,
+                        "maxRank": 6,
+                        "name": "Perception",
+                        "source": "Feat: Master Spotter"
+                    }
+                ],
+                "maxRank": 6,
+                "source": "Feat: Master Spotter",
+                "type": "Perception"
             }
         ]
     }

@@ -20,6 +20,40 @@
    },
    {
       "hide": true,
+      "id": "5af0d97b-8112-4c07-a9aa-e03f118ee164",
+      "name": "Badger Jaws",
+      "traits": [
+         "Companion",
+         "Unarmed"
+      ],
+      "displayName": "Jaws",
+      "moddable": "-",
+      "_className": "Weapon",
+      "dicesize": 8,
+      "dmgType": "P",
+      "group": "Brawling",
+      "melee": 5,
+      "prof": "Unarmed Attacks"
+   },
+   {
+      "hide": true,
+      "id": "001fc578-8ea0-432f-90e2-2652737e2f9a",
+      "name": "Badger Claw",
+      "traits": [
+         "Agile",
+         "Companion",
+         "Unarmed"
+      ],
+      "displayName": "Claw",
+      "moddable": "-",
+      "_className": "Weapon",
+      "dmgType": "S",
+      "group": "Brawling",
+      "melee": 5,
+      "prof": "Unarmed Attacks"
+   },
+   {
+      "hide": true,
       "id": "08693213-8daa-11ea-abca-ffb46fbada73",
       "name": "Bear Jaws",
       "traits": [
@@ -48,6 +82,58 @@
       "moddable": "-",
       "_className": "Weapon",
       "dmgType": "S",
+      "group": "Brawling",
+      "melee": 5,
+      "prof": "Unarmed Attacks"
+   },
+   {
+      "hide": true,
+      "id": "d0dfc3b6-f5c4-4dbe-9179-fc1b942ea456",
+      "name": "Bird Jaws",
+      "traits": [
+         "Companion",
+         "Finesse",
+         "Unarmed"
+      ],
+      "displayName": "Jaws",
+      "moddable": "-",
+      "_className": "Weapon",
+      "dmgType": "P",
+      "group": "Brawling",
+      "melee": 5,
+      "prof": "Unarmed Attacks"
+   },
+   {
+      "hide": true,
+      "id": "61673f1d-755b-4211-92a6-b0d596d935dc",
+      "name": "Bird Talon",
+      "traits": [
+         "Agile",
+         "Companion",
+         "Finesse",
+         "Unarmed"
+      ],
+      "displayName": "Talon",
+      "moddable": "-",
+      "_className": "Weapon",
+      "dmgType": "S",
+      "dicesize": 4,
+      "group": "Brawling",
+      "melee": 5,
+      "prof": "Unarmed Attacks"
+   },
+   {
+      "hide": true,
+      "id": "bbfacf9e-3c69-4650-ae97-84f801a0c9bf",
+      "name": "Camel Jaws",
+      "traits": [
+         "Companion",
+         "Unarmed"
+      ],
+      "displayName": "Jaws",
+      "moddable": "-",
+      "_className": "Weapon",
+      "dmgType": "P",
       "group": "Brawling",
       "melee": 5,
       "prof": "Unarmed Attacks"
@@ -84,6 +170,201 @@
       "moddable": "-",
       "_className": "Weapon",
       "dmgType": "S",
+      "group": "Brawling",
+      "melee": 5,
+      "prof": "Unarmed Attacks"
+   },
+   {
+      "hide": true,
+      "id": "86f3aeb0-6f59-43ed-9112-ea2e677b84a8",
+      "name": "Cave Gecko Jaws",
+      "traits": [
+         "Companion",
+         "Finesse",
+         "Unarmed"
+      ],
+      "displayName": "Jaws",
+      "moddable": "-",
+      "_className": "Weapon",
+      "dmgType": "P",
+      "group": "Brawling",
+      "melee": 5,
+      "prof": "Unarmed Attacks"
+   },
+   {
+      "hide": true,
+      "id": "d013d54d-3638-4d1a-9075-db37d66fe844",
+      "name": "Cave Pterosaur Beak",
+      "traits": [
+         "Companion",
+         "Finesse",
+         "Unarmed"
+      ],
+      "displayName": "Beak",
+      "moddable": "-",
+      "_className": "Weapon",
+      "dmgType": "P",
+      "group": "Brawling",
+      "melee": 5,
+      "prof": "Unarmed Attacks"
+   },
+   {
+      "hide": true,
+      "id": "57b96128-d269-460c-9290-83a082f349a3",
+      "name": "Cave Pterosaur Talon",
+      "traits": [
+         "Agile",
+         "Companion",
+         "Finesse",
+         "Unarmed"
+      ],
+      "displayName": "Talon",
+      "moddable": "-",
+      "_className": "Weapon",
+      "dmgType": "S",
+      "dicesize": 4,
+      "group": "Brawling",
+      "melee": 5,
+      "prof": "Unarmed Attacks"
+   },
+   {
+      "hide": true,
+      "id": "c9c0e4e0-a27d-4e05-9f25-5db7ad574da3",
+      "name": "Dromaeosaur Jaws",
+      "traits": [
+         "Companion",
+         "Finesse",
+         "Unarmed"
+      ],
+      "displayName": "Jaws",
+      "moddable": "-",
+      "_className": "Weapon",
+      "dmgType": "P",
+      "dicesize": 8,
+      "group": "Brawling",
+      "melee": 5,
+      "prof": "Unarmed Attacks"
+   },
+   {
+      "hide": true,
+      "id": "05c23b59-543b-439a-aaaf-f296e49ebbe9",
+      "name": "Dromaeosaur Talon",
+      "traits": [
+         "Agile",
+         "Companion",
+         "Finesse",
+         "Unarmed"
+      ],
+      "displayName": "Talon",
+      "moddable": "-",
+      "_className": "Weapon",
+      "dmgType": "S",
+      "group": "Brawling",
+      "melee": 5,
+      "prof": "Unarmed Attacks"
+   },
+   {
+      "hide": true,
+      "id": "df41eb0c-2bc5-45b0-862d-45fe5b126b96",
+      "name": "Horse Hoof",
+      "traits": [
+         "Agile",
+         "Companion",
+         "Unarmed"
+      ],
+      "displayName": "Hoof",
+      "moddable": "-",
+      "_className": "Weapon",
+      "dmgType": "B",
+      "group": "Brawling",
+      "melee": 5,
+      "prof": "Unarmed Attacks"
+   },
+   {
+      "hide": true,
+      "id": "81cc8765-fb24-4fad-b3b8-dff67e6fc1da",
+      "name": "Hyena Jaws",
+      "traits": [
+         "Companion",
+         "Finesse",
+         "Unarmed"
+      ],
+      "displayName": "Jaws",
+      "moddable": "-",
+      "_className": "Weapon",
+      "dmgType": "P",
+      "dicesize": 8,
+      "group": "Brawling",
+      "melee": 5,
+      "prof": "Unarmed Attacks"
+   },
+   {
+      "hide": true,
+      "id": "09e14bcd-c5fc-401f-81b4-14920e6eb33d",
+      "name": "Monitor Lizard Jaws",
+      "traits": [
+         "Companion",
+         "Unarmed"
+      ],
+      "displayName": "Jaws",
+      "moddable": "-",
+      "_className": "Weapon",
+      "dmgType": "P",
+      "dicesize": 8,
+      "group": "Brawling",
+      "melee": 5,
+      "prof": "Unarmed Attacks"
+   },
+   {
+      "hide": true,
+      "id": "00f4bdc3-0102-4bd4-b133-baf54bf89015",
+      "name": "Snake Jaws",
+      "traits": [
+         "Companion",
+         "Finesse",
+         "Unarmed"
+      ],
+      "displayName": "Jaws",
+      "moddable": "-",
+      "_className": "Weapon",
+      "dmgType": "P",
+      "dicesize": 8,
+      "group": "Brawling",
+      "melee": 5,
+      "prof": "Unarmed Attacks"
+   },
+   {
+      "hide": true,
+      "id": "63867b0b-94e6-46f7-9ae4-003b35033825",
+      "name": "Vulture Jaws",
+      "traits": [
+         "Companion",
+         "Finesse",
+         "Unarmed"
+      ],
+      "displayName": "Jaws",
+      "moddable": "-",
+      "_className": "Weapon",
+      "dmgType": "P",
+      "dicesize": 8,
+      "group": "Brawling",
+      "melee": 5,
+      "prof": "Unarmed Attacks"
+   },
+   {
+      "hide": true,
+      "id": "c9a40e0e-f448-4d04-9d0c-3ce9123c6258",
+      "name": "Wolf Jaws",
+      "traits": [
+         "Companion",
+         "Finesse",
+         "Unarmed"
+      ],
+      "displayName": "Jaws",
+      "moddable": "-",
+      "_className": "Weapon",
+      "dmgType": "P",
+      "dicesize": 8,
       "group": "Brawling",
       "melee": 5,
       "prof": "Unarmed Attacks"

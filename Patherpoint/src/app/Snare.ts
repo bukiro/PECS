@@ -9,4 +9,5 @@ export class Snare extends Consumable {
     public failure: string = "";
     public success: string = "";
     public tradeable: boolean = false;
+    public actions = "1 minute";
 }

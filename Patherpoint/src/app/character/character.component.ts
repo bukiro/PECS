@@ -279,6 +279,7 @@ export class CharacterComponent implements OnInit {
         })
         this.characterService.set_ToChange("Character", "charactersheet");
         this.characterService.set_ToChange("Character", "character-sheet");
+        this.characterService.set_ToChange("Character", "effects");
         this.characterService.set_ToChange("Character", "top-bar");
         this.characterService.set_ToChange("Character", "health");
         this.characterService.set_ToChange("Character", "defense");
@@ -293,10 +294,7 @@ export class CharacterComponent implements OnInit {
             if (feat.showon) {
                 this.characterService.set_TagsToChange("Character", feat.showon);
             }
-            if (feat.effects.length) {
-                this.characterService.set_ToChange("Character", "effects");
-            }
-            feat.gainFeatChoice.forEach(choice => {
+                        feat.gainFeatChoice.forEach(choice => {
                 if (choice.showOnSheet) {
                     this.characterService.set_ToChange("Character", "activities");
                 }
@@ -306,9 +304,6 @@ export class CharacterComponent implements OnInit {
             }
             if (feat.gainActivities.length) {
                 this.characterService.set_ToChange("Character", "activities");
-            }
-            if (feat.gainConditions.length) {
-                this.characterService.set_ToChange("Character", "effects");
             }
             if (feat.gainSpellCasting.length || feat.gainSpellChoice.length) {
                 this.characterService.set_ToChange("Character", "spells");
@@ -781,6 +776,7 @@ export class CharacterComponent implements OnInit {
         } else {
             this.characterService.change_Ancestry(new Ancestry(), this.itemsService);
         }
+        this.characterService.set_ToChange("Character", "all");
         this.characterService.process_ToChange();
     }
 
@@ -823,6 +819,7 @@ export class CharacterComponent implements OnInit {
         } else {
             this.characterService.change_Heritage(new Heritage());
         }
+        this.characterService.set_ToChange("Character", "all");
         this.characterService.process_ToChange();
     }
 
@@ -848,6 +845,7 @@ export class CharacterComponent implements OnInit {
         } else {
             this.characterService.change_Background(new Background());
         }
+        this.characterService.set_ToChange("Character", "all");
         this.characterService.process_ToChange();
     }
 
@@ -858,7 +856,7 @@ export class CharacterComponent implements OnInit {
         return INT;
     }
 
-    get_AnimalCompanionAvailable(levelNumber: number) {
+    get_CompanionAvailable(levelNumber: number) {
         //Return the number of feats taken this level that granted you an animal companion
         return this.characterService.get_CompanionAvailable(levelNumber, levelNumber);
     }

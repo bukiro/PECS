@@ -92,8 +92,8 @@
             <ng-container *ngFor="let ammo of get_Ammo(ammoType); let ammoIndex = index; trackBy:trackByIndex;">
                 <h5 class="fullsize-only" *ngIf="ammoIndex == 0">{{ammoType}}</h5>
                 <div class="list-item">
-                    {{(ammo.item.amount != undefined && ammo.item.amount != 1) ? ammo.item.amount+" " : ""}}
-                    {{ammo.item.get_Name()}}
+                    <strong>{{(ammo.item.amount != undefined && ammo.item.amount != 1) ? ammo.item.amount+" " : ""}}
+                        {{ammo.item.get_Name()}}</strong>
                     <button [disabled]="!ammo.item.amount" (click)="on_ConsumableUse(ammo.item, ammo.inventory)">
                         <span>Use</span>
                     </button>
@@ -102,16 +102,20 @@
         </ng-container>
         <ng-container *ngIf="get_Snares().length">
             <h3 class="box-header">Deployed Snares</h3>
-            <app-tags [creature]="creature" [objectName]="'Snares'" [showTraits]=true [showFeats]=true
-                [showItems]=true [showActivities]=true [showConditions]=true></app-tags>
-            <ng-container *ngFor="let snare of get_Snares(); trackBy:trackByIndex;">
-                <div class="list-item">
+            <app-tags [creature]="creature" [objectName]="'Snares'" [showTraits]=true [showFeats]=true [showItems]=true
+                [showActivities]=true [showConditions]=true></app-tags>
+            <div class="list-item" *ngFor="let snare of get_Snares(); let snareIndex = index; trackBy:trackByIndex;">
+                <button class="row sublist-toggle" (click)="toggle_Item(snare.item.id+snareIndex)">
                     {{snare.item.get_Name()}}
-                    <button [disabled]="!snare.item.amount" (click)="on_ConsumableUse(snare.item, snare.inventory)">
+                </button>
+                <div class="list-item sublist lower" *ngIf="get_ShowItem()==snare.item.id+snareIndex">
+                    <button class="row center-aligned" [disabled]="!snare.item.amount"
+                        (click)="on_ConsumableUse(snare.item, snare.inventory)">
                         <span>Trigger/Remove</span>
                     </button>
+                    <app-item [item]=snare.item [itemStore]=true></app-item>
                 </div>
-            </ng-container>
+            </div>
         </ng-container>
         <h3 class="fullsize-only box-header" *ngIf="!still_loading()">Weapon Proficiencies</h3>
         <ng-container *ngFor="let skill of get_Skills('', 'Weapon Proficiency'); trackBy:trackByIndex;">

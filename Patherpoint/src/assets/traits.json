@@ -950,6 +950,11 @@
       "showon": ""
     },
     {
+      "name": "Mount",
+      "description": "You or an ally can ride your animal companion as long as it is at least one size larger than the rider. If it is carrying a rider, the animal companion can use only its land Speed, and it can’t move and Support you on the same turn. However, if your companion has the mount special ability, it’s especially suited for riding and ignores both of these restrictions.",
+      "showon": ""
+    },
+    {
       "name": "Move",
       "description": "",
       "showon": ""

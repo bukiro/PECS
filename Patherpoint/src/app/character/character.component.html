@@ -41,6 +41,10 @@
             </span>
         </div>
         <div class="list-item">
+            <label for="darkmode">Dark mode</label>
+            <input id="darkmode" type="checkbox" [(ngModel)]="get_Character().settings.darkmode" (ngModelChange)="set_Changed('character-sheet')">
+        </div>
+        <div class="list-item">
             <span>Name</span>
             <span>
                 <input type="text" name="name" [(ngModel)]="get_Character().name" (blur)="on_NameChange()"
@@ -329,10 +333,6 @@
                                 Show Description
                             </button>
                             <div class="row lower" *ngIf="this.get_showItem()==itemID">
-                                <div class="row left-aligned tags">
-                                    <cite class="trait" *ngFor="let trait of background.traits; trackBy:trackByIndex;"
-                                        title="{{get_Traits(trait)[0]?.description}}">{{trait}}</cite>
-                                </div>
                                 <!--Subbackgrounds-->
                                 <div class="list-item" *ngFor="let subbackground of get_SubBackgrounds(background.name); trackBy:trackByIndex;">
                                     <span>
@@ -345,6 +345,10 @@
                                     </span>
                                 </div>
                                 <!--End Subbackgrounds-->
+                                <div class="row left-aligned tags">
+                                    <cite class="trait" *ngFor="let trait of background.traits; trackBy:trackByIndex;"
+                                        title="{{get_Traits(trait)[0]?.description}}">{{trait}}</cite>
+                                </div>
                                 <div class="row left-aligned" *ngIf="background.sourceBook">
                                     <strong>Source&nbsp;</strong><i>{{background.sourceBook}}</i>
                                 </div>
@@ -522,7 +526,7 @@
                                         <span>
                                             <input id="{{itemID}}" type="checkbox"
                                                 (change)="on_AbilityBoost(ability.name, $event.target.checked, choice, false)"
-                                                [checked]="get_AbilityBoosts(level.number, level.number, ability.name, 'Boost', choice.source).length"
+                                                [checked]="get_AbilityBoosts(level.number, level.number, ability.name, 'Boost', choice.source).length || get_AbilityBoosts(level.number, level.number, ability.name, 'Info', choice.source).length"
                                                 [disabled]="cannotBoost(ability, level, choice).length">
                                             <label for="{{itemID}}">
                                                 <strong>{{ability.name}}:</strong>
@@ -597,7 +601,7 @@
                     </app-featchoice>
                 </ng-container>
                 <!--Animal Companion-->
-                <ng-container *ngIf="get_AnimalCompanionAvailable(level.number)">
+                <ng-container *ngIf="get_CompanionAvailable(level.number)">
                     <div class="list-item"
                         [ngClass]="{'fullsize-only':(get_Companion().name && get_Companion().species)}"
                         *ngFor="let listID of ['animalCompanion']; trackBy:trackByIndex;">
@@ -652,6 +656,13 @@
                                     </button>
                                     <div class="row lower" *ngIf="this.get_showItem()==itemID">
                                         <div class="row left-aligned">
+                                            <div class="row left-aligned tags">
+                                                <cite class="trait" *ngFor="let trait of type.traits; trackBy:trackByIndex;"
+                                                    title="{{get_Traits(trait)[0]?.description}}">{{trait}}</cite>
+                                            </div>
+                                            <div class="row left-aligned" *ngIf="type.sourceBook">
+                                                <strong>Source&nbsp;</strong><i>{{type.sourceBook}}</i>
+                                            </div>
                                             <ng-container *ngFor="let desc of type.desc.split('\n\n'); trackBy:trackByIndex;">
                                                 <p *ngIf="desc.split('\n').length == 1">{{desc}}</p>
                                                 <ul *ngIf="desc.split('\n').length > 1">
@@ -664,7 +675,7 @@
                                             </p>
                                             <ng-container *ngFor="let gain of type.gainItems; trackBy:trackByIndex;">
                                                 <p *ngFor="let item of get_ItemFromGain(gain); trackBy:trackByIndex;">
-                                                    <strong>Melee</strong> {{item.name}}, <strong>Damage</strong>
+                                                    <strong>Melee</strong> {{item.displayName}}, <strong>Damage</strong>
                                                     {{item.dicenum+"d"+item.dicesize}}
                                                 </p>
                                             </ng-container>
@@ -687,7 +698,9 @@
                                             </p>
                                             <p>
                                                 <strong>Speed</strong>
-                                                {{type.speed}}
+                                                <span *ngFor="let speed of type.speeds; let index = index; trackBy:trackByIndex;">
+                                                    {{index > 0 ? ", " : ""}}{{speed.name.split(' ')[0] + " " + speed.value + " feet"}}
+                                                </span>
                                             </p>
                                             <p>
                                                 <strong>Support Benefit</strong>
@@ -698,7 +711,7 @@
                                                 {{type.specialdesc}}
                                             </p>
                                         </div>
-                                        <ng-container *ngFor="let gain of type.activities; trackBy:trackByIndex;">
+                                        <ng-container *ngFor="let gain of [type.activities[1]]; trackBy:trackByIndex;">
                                             <div class="row left-aligned"
                                                 *ngFor="let activity of get_Activities(gain.name); trackBy:trackByIndex;">
                                                 <h4 class="left-aligned">Advanced Maneuver: {{activity.name}}

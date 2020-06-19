@@ -183,6 +183,14 @@ export class CharacterService {
         return span;
     }
 
+    get_Darkmode() {
+        if (!this.still_loading()) {
+            return this.get_Character().settings.darkmode;
+        } else {
+            return false;
+        }
+    }
+
     toggleMenu(menu: string = "", parameter: string = "") {
         switch (menu) {
             case "character":
@@ -1287,13 +1295,25 @@ export class CharacterService {
 
     get_FeatsShowingOn(objectName: string = "all") {
         let returnedFeats = []
-        this.me.get_FeatsTaken(0, this.me.level, "", "").map(feat => this.get_FeatsAndFeatures(feat.name)[0]).forEach(feat => {
+        this.get_FeatsAndFeatures().filter(feat => feat.showon.split(",").find(showon => 
+                objectName == "all" ||
+                showon == objectName ||
+                showon.substr(1) == objectName ||
+                (
+                    objectName.includes("Lore") &&
+                    (showon == "Lore" || showon.substr(1) == "Lore")
+                )
+            ) && feat.have(this.get_Character(), this, this.get_Character().level)).forEach(feat => {
+                returnedFeats.push(feat);
+            });
+
+        /*this.get_Character().get_FeatsTaken(0, this.get_Character().level, "", "").map(feat => this.get_FeatsAndFeatures(feat.name)[0]).forEach(feat => {
             feat?.showon.split(",").forEach(showon => {
                 if (objectName == "all" || showon == objectName || showon.substr(1) == objectName || (objectName.includes("Lore") && (showon == "Lore" || showon.substr(1) == "Lore"))) {
                     returnedFeats.push(feat);
                 }
             })
-        });
+        });*/
         return returnedFeats;
     }
 
@@ -1302,7 +1322,7 @@ export class CharacterService {
         //Get showon elements from Companion Ancestry and Specialization
         this.get_Companion().class.ancestry.showon.split(",").forEach(showon => {
             if (objectName == "all" || showon == objectName || showon.substr(1) == objectName) {
-                returnedObjects.push(this.get_Companion().class.ancestry.showon);
+                returnedObjects.push(this.get_Companion().class.ancestry);
             }
         });
         this.get_Companion().class.specializations.forEach(spec => {
@@ -1312,6 +1332,8 @@ export class CharacterService {
                 }
             });
         })
+        //Return any feats that include e.g. Companion:Athletics
+        returnedObjects.push(...this.get_FeatsShowingOn("Companion:"+objectName));
         return returnedObjects;
     }
 
@@ -1325,6 +1347,8 @@ export class CharacterService {
                 }
             })
         })
+        //Return any feats that include e.g. Companion:Athletics
+        returnedAbilities.push(...this.get_FeatsShowingOn("Familiar:"+objectName));
         return returnedAbilities;
     }
 
@@ -1583,7 +1607,7 @@ export class CharacterService {
     }
 
     finalize_Character() {
-        if (this.itemsService.still_loading()) {
+        if (this.itemsService.still_loading() || this.animalCompanionsService.still_loading()) {
             setTimeout(() => {
                 this.finalize_Character();
             }, 500)

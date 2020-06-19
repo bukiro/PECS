@@ -6,6 +6,7 @@ import { AbilitiesService } from '../abilities.service';
 import { EffectsService } from '../effects.service';
 import { Skill } from '../Skill';
 import { v1 as uuidv1 } from 'uuid';
+import { Character } from '../Character';
 
 @Component({
     selector: 'app-skill',

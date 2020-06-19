@@ -16,8 +16,6 @@ import { Character } from './Character';
 import { AnimalCompanion } from './AnimalCompanion';
 import { Familiar } from './Familiar';
 import { SpellsService } from './spells.service';
-import { SpellGain } from './SpellGain';
-import { createUrlResolverWithoutPackagePrefix } from '@angular/compiler';
 
 @Injectable({
     providedIn: 'root'
@@ -193,7 +191,7 @@ export class ActivitiesService {
 
     tick_Activities(creature: Character|AnimalCompanion|Familiar, characterService: CharacterService, timeService: TimeService, itemsService: ItemsService, spellsService: SpellsService, turns: number = 10) {
         characterService.get_OwnedActivities(creature, undefined, true).filter(gain => gain.activeCooldown || gain.duration).forEach(gain => {
-            //If the spell is running out, take care of that first, and if it has run out, set the cooldown.
+            //If the activity is running out, take care of that first, and if it has run out, set the cooldown.
             //Afterwards, reduce the cooldown by the remaining turns.
             characterService.set_ToChange(creature.type, "activities");
             let individualTurns = turns;
@@ -203,7 +201,7 @@ export class ActivitiesService {
                 individualTurns -= diff;
                 if (gain.duration == 0) {
                     let activity: Activity|ItemActivity
-                    if (gain.constructor = ItemActivity) {
+                    if (gain.constructor == ItemActivity) {
                         activity = gain as ItemActivity;
                         characterService.set_ToChange(creature.type, "inventory");
                     } else {
@@ -215,7 +213,7 @@ export class ActivitiesService {
                 }
             }
             gain.activeCooldown = Math.max(gain.activeCooldown - individualTurns, 0)
-            if (gain.constructor = ItemActivity) {
+            if (gain.constructor == ItemActivity) {
                 characterService.set_ToChange(creature.type, "inventory");
             }
         });

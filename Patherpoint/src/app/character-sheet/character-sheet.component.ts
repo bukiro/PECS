@@ -28,6 +28,10 @@ export class CharacterSheetComponent implements OnInit {
     get_Accent() {
         return this.characterService.get_Accent();
     }
+    
+    get_Darkmode() {
+        return this.characterService.get_Darkmode();
+    }
 
     get_GeneralMinimized() {
        return this.characterService.get_Character().settings.generalMinimized;

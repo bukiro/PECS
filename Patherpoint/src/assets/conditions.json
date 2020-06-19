@@ -493,6 +493,10 @@
                 "name": "Flat-Footed"
             }
         ],
+        "endConditions": [
+            "Rage",
+            "Badger Rage"
+        ],
         "persistent": true,
         "type": "generic"
     },
@@ -934,11 +938,16 @@
                 "value": "-1"
             }
         ],
-        "inputRequired": "After you stop raging, you lose any remaining temporary Hit Points from Rage.",
         "onceEffects": [
             {
                 "affected": "Temporary HP",
                 "value": "Level + Modifier('Constitution')"
+            }
+        ],
+        "endEffects": [
+            {
+                "affected": "Temporary HP",
+                "value": "-Math.min(Level + Modifier('Constitution'), Temporary_HP())"
             }
         ],
         "type": "activities"
@@ -4538,7 +4547,7 @@
         "type": "activities"
     },
     {
-        "name": "Favored Terrain: Arctic",
+        "name": "Favored Terrain: Desert",
         "buff": true,
         "desc": "You have studied desert terrain to overcome its challenges. If you have the wild stride class feature, while you are in desert terrain, you need to eat and drink only one-tenth as much as usual, you aren’t affected by severe or extreme heat, and you can walk along sand at full Speed without needing to Balance.",
         "hint": "If you have the wild stride class feature, while you are in desert terrain, you need to eat and drink only one-tenth as much as usual, you aren’t affected by severe or extreme heat, and you can walk along sand at full Speed without needing to Balance.",
@@ -4634,7 +4643,7 @@
         "name": "Terrain Master",
         "buff": true,
         "desc": "You have made the current terrain your favored terrain, replacing your current favored terrain temporarily. You can ignore the effects of non-magical difficult terrain. If you spend a full day out of the new favored terrain, your favored terrain reverts back to your original choice when you took the Favored Terrain feat.",
-        "hint": "You can ignore the effects of non-magical difficult terrain.",
+        "hint": "While in your new favored terrain, you can ignore the effects of non-magical difficult terrain. You do not gain the benefits of your original favored terrain.",
         "inputRequired": "If you have the wild stride class feature, add the Favored Terrain condition for this terrain to gain its benefits.",
         "showon": "Movement",
         "type": "activities"
@@ -4644,20 +4653,45 @@
         "buff": true,
         "desc": "You gain the benefits listed in Hunt Prey and the flurry hunter’s edge benefit against a single creature designated as your prey. You gain a +2 circumstance bonus to Perception checks when you Seek your prey and a +2 circumstance bonus to Survival checks when you Track your prey. You also ignore the penalty for making ranged attacks within your second range increment against the prey you're hunting.\n\nYour multiple attack penalty for attacks against your hunted prey is -3 (-2 with an agile weapon) on your second attack of the turn instead of -5, and -6 (-4 with an agile weapon) on your third or subsequent attack of the turn, instead of -10.",
         "hint": "You gain a +2 circumstance bonus to Perception checks when you Seek your prey and a +2 circumstance bonus to Survival checks when you Track your prey. You also ignore the penalty for making ranged attacks within your second range increment against the prey you're hunting.\n\nYour multiple attack penalty for attacks against your hunted prey is -3 (-2 with an agile weapon) on your second attack of the turn instead of -5, and -6 (-4 with an agile weapon) on your third or subsequent attack of the turn, instead of -10.",
-        "showon": "Attacks, Perception, Survival"
+        "showon": "Attacks, Perception, Survival",
+        "type": "activities"
     },
     {
         "name": "Hunt Prey: Outwit",
         "buff": true,
         "desc": "You gain the benefits listed in Hunt Prey and the outwit hunter’s edge benefit against a single creature designated as your prey. You gain a +2 circumstance bonus to Perception checks when you Seek your prey and a +2 circumstance bonus to Survival checks when you Track your prey. You also ignore the penalty for making ranged attacks within your second range increment against the prey you're hunting.\n\nYou gain a +2 circumstance bonus to Deception checks, Intimidation checks, Stealth checks, and any checks to Recall Knowledge about the prey, and a +1 circumstance bonus to AC against your prey’s attacks.",
         "hint": "You gain a +2 circumstance bonus to Perception checks when you Seek your prey and a +2 circumstance bonus to Survival checks when you Track your prey. You also ignore the penalty for making ranged attacks within your second range increment against the prey you're hunting.\n\nYou gain a +2 circumstance bonus to Deception checks, Intimidation checks, Stealth checks, and any checks to Recall Knowledge about the prey, and a +1 circumstance bonus to AC against your prey’s attacks.",
-        "showon": "AC, Perception, Arcana, Crafting, Deception, Intimidation, Nature, Occultism, Religion, Society, Stealth, Survival"
+        "showon": "AC, Perception, Arcana, Crafting, Deception, Intimidation, Nature, Occultism, Religion, Society, Stealth, Survival",
+        "type": "activities"
     },
     {
         "name": "Hunt Prey: Precision",
         "buff": true,
         "desc": "You gain the benefits listed in Hunt Prey and the precision hunter’s edge benefit against a single creature designated as your prey. You gain a +2 circumstance bonus to Perception checks when you Seek your prey and a +2 circumstance bonus to Survival checks when you Track your prey. You also ignore the penalty for making ranged attacks within your second range increment against the prey you're hunting.\n\nThe first time you hit your hunted prey in a round, you also deal 1d8 additional precision damage. At 11th level, the extra damage increases to 2d8 precision damage, and at 19th level, the extra damage increases to 3d8 precision damage.",
         "hint": "You gain a +2 circumstance bonus to Perception checks when you Seek your prey and a +2 circumstance bonus to Survival checks when you Track your prey. You also ignore the penalty for making ranged attacks within your second range increment against the prey you're hunting.\n\nThe first time you hit your hunted prey in a round, you also deal 1d8 additional precision damage. At 11th level, the extra damage increases to 2d8 precision damage, and at 19th level, the extra damage increases to 3d8 precision damage.",
-        "showon": "Attacks, Perception, Survival"
+        "showon": "Attacks, Perception, Survival",
+        "type": "activities"
+    },
+    {
+        "name": "Badger Rage",
+        "buff": true,
+        "desc": "The badger enters a state of pure rage that lasts for 1 minute, until there are no enemies it can perceive, or until it falls unconscious, whichever comes first. It can’t voluntarily stop raging. While raging, the badger is affected in the following ways.\n\nIt deals 4 additional damage with its bite attacks and 2 additional damage with its claw attacks.\nIt takes a -1 penalty to AC.\nIt can’t use actions that have the concentrate trait unless they also have the rage trait. The animal companion can Seek even while raging.\n\nAfter it has stopped raging, it can’t use Badger Rage again for 1 minute.",
+        "hint": "The badger can’t use actions that have the concentrate trait unless they also have the rage trait. The animal companion can Seek even while raging.",
+        "showon": "Activities, Perception",
+        "effects": [
+            {
+                "affected": "Badger Jaws Damage",
+                "value": "+4"
+            },
+            {
+                "affected": "Badger Claw Damage",
+                "value": "+2"
+            },
+            {
+                "affected": "AC",
+                "value": "-1"
+            }
+        ],
+        "type": "activities"
     }
 ]

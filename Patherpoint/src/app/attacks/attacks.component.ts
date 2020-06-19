@@ -26,6 +26,7 @@ export class AttacksComponent implements OnInit {
     @Input()
     public creature: string = "Character";
     public attackRestrictions: string[] = []
+    private showItem: string = "";
 
     constructor(
         private changeDetector: ChangeDetectorRef,
@@ -59,6 +60,18 @@ export class AttacksComponent implements OnInit {
 
     trackByIndex(index: number, obj: any): any {
         return index;
+    }
+
+    toggle_Item(id: string) {
+        if (this.showItem == id) {
+            this.showItem = "";
+        } else {
+            this.showItem = id;
+        }
+    }
+
+    get_ShowItem() {
+        return this.showItem;
     }
     
     get_CritSpecialization(weapon: Weapon, range: string) {

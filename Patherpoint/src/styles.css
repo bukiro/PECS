@@ -8,6 +8,10 @@
     -moz-osx-font-smoothing: grayscale;
 }
 
+.darkmode * {
+    color: #AAAAAA;
+}
+
 body {
     margin: 0;
     --accent: 25, 118, 210;
@@ -27,7 +31,7 @@ svg g {
     fill: #616161;
 }
 
-app-character-sheet,
+.charactersheet,
 .animalcompanion-box,
 .familiar-box {
     width: 100%;
@@ -39,6 +43,7 @@ app-character-sheet,
     grid-auto-flow: dense;
     overflow-y: auto;
     padding-bottom: 8px;
+    background-color: white;
 }
 
 .charactersheet-app {
@@ -47,10 +52,19 @@ app-character-sheet,
     margin: 8px;
 }
 
+.darkmode .charactersheet-app {
+    background-color: #101010;
+}
+
 .animalcompanion-box,
 .familiar-box {
-    background-color: white;
     grid-template-columns: 1fr 1fr;
+}
+
+.darkmode.charactersheet,
+.darkmode .animalcompanion-box,
+.darkmode .familiar-box {
+    background-color: black;
 }
 
 app-familiarabilities.charactersheet-app {
@@ -250,6 +264,12 @@ p {
     flex-basis: 0;
     flex-grow: 1;
     text-align: center;
+    margin-top: auto;
+    margin-bottom: auto;
+}
+
+.row>p {
+    margin: 8px 0px;
 }
 
 .row.left-aligned>* {
@@ -294,6 +314,14 @@ input {
     padding: 4px;
     margin-bottom: 0px;
     border: 1px solid #BDBDBD;
+}
+
+.darkmode input:not([disabled]) {
+    background-color: #202020;
+}
+
+.darkmode input[disabled]:not(.bonus):not(.penalty):not(.absolute) {
+    background-color: #404040;
 }
 
 input.number2 {
@@ -347,11 +375,24 @@ button {
     border: none;
 }
 
+.darkmode .button, .darkmode button {
+    background-color: #1976d2;
+    background-color: rgb(var(--accent));
+    color: #AAAAAA;
+}
+
 .button svg,
 .button svg g,
 button svg,
 button svg g {
     fill: white;
+}
+
+.darkmode .button svg,
+.darkmode .button svg g,
+.darkmode button svg,
+.darkmode button svg g {
+    fill: #AAAAAA;
 }
 
 button.minimizebutton {
@@ -389,11 +430,21 @@ button:disabled {
     cursor: auto;
 }
 
-
 /* Fancy Button */
 
 .fancy-button {
     background-color: white;
+    color: #1976d2;
+    color: rgb(var(--accent));
+}
+
+.darkmode .fancy-button {
+    background-color: #C8C8C8;
+    color: #1976d2;
+    color: rgb(var(--accent));
+}
+
+.darkmode .fancy-button * {
     color: #1976d2;
     color: rgb(var(--accent));
 }
@@ -405,7 +456,9 @@ button:disabled {
 }
 
 .fancy-button svg,
-.fancy-button svg g {
+.fancy-button svg g,
+.darkmode .fancy-button svg,
+.darkmode .fancy-button svg g {
     fill: #1976d2;
     fill: rgb(var(--accent));
 }
@@ -483,6 +536,10 @@ button:disabled {
     background-color: #EFEFEF;
 }
 
+.darkmode .itemBox {
+    background-color: #101010;
+}
+
 .topBox {
     width: 100%;
     max-height: 100px;
@@ -555,10 +612,21 @@ h4 app-actionIcons span {
     background-color: rgba(50, 50, 50, 0.1)
 }
 
+.darkmode .list-item {
+    background-color: #404040;
+    background-color: rgba(200, 200, 200, 0.1)
+}
+
 button.list-item {
     background-color: #1976d2;
     background-color: rgb(var(--accent));
     color: white;
+}
+
+.darkmode button.list-item {
+    background-color: #1976d2;
+    background-color: rgb(var(--accent));
+    color: #AAAAAA;
 }
 
 .lower .list-item {
@@ -592,8 +660,16 @@ button.list-item {
     margin-top: 8px;
 }
 
+.darkmode .list-item.sublist {
+    background-color: #101010;
+}
+
 .list-item.sublist.fancy-list {
     border-color: white;
+}
+
+.darkmode .list-item.sublist.fancy-list {
+    border-color: #C8C8C8;
 }
 
 button:hover~.list-item.sublist {
@@ -605,6 +681,12 @@ button:hover~.list-item.sublist.fancy-list {
     border-color: white;
     border-color: #FFFFFF50;
     border-color: rgba(255, 255, 255, 0.8);
+}
+
+.darkmode button:hover~.list-item.sublist.fancy-list {
+    border-color: #C8C8C8;
+    border-color: #C8C8C850;
+    border-color: rgba(200, 200, 200, 0.8);
 }
 
 .list-item.sublist.inactive-list {
@@ -667,6 +749,10 @@ button:hover~.list-item.sublist.inactive-list {
     width: 12em;
 }
 
+strong {
+    line-height: 1.5em;
+}
+
 .turn-indicator strong {
     align-items: center;
     text-align: center;
@@ -691,6 +777,10 @@ cite.effect.absolute {
     color: blue;
 }
 
+.darkmode .absolute {
+    color: aqua;
+}
+
 .bonus,
 cite.condition.bonus,
 cite.effect.bonus {
@@ -700,11 +790,25 @@ cite.effect.bonus {
 .penalty,
 cite.condition.penalty,
 cite.effect.penalty {
-    color: red;
+    color: #500000;
 }
 
 input.invisible {
     display: none;
+}
+
+.proficiency {
+    font-weight: bold;
+    font-style: normal;
+    margin-left: 4px;
+    margin-right: 4px;
+}
+
+.proficiency.checked {
+    font-weight: bolder;
+    color: #1976d2;
+    color: rgb(var(--accent));
+    text-shadow: 0 0 3px rgb(var(--accent));
 }
 
 var,
@@ -721,6 +825,11 @@ var,
     background-color: #DAAAA0;
 }
 
+.darkmode .problem,
+.darkmode .lower.problem {
+    background-color: #500000;
+}
+
 span.problem {
     color: darkred;
     background-color: inherit;
@@ -729,6 +838,11 @@ span.problem {
 .unavailable,
 .lower.unavailable {
     background-color: rgba(50, 50, 50, 0.2)
+}
+
+.darkmode .unavailable,
+.darkmode .lower.unavailable {
+    background-color: rgba(200, 200, 200, 0.2)
 }
 
 .lower {
@@ -742,14 +856,29 @@ input.absolute {
     color: #616161;
 }
 
+.darkmode input.absolute {
+    background-color: blue;
+    color: #AAAAAA;
+}
+
 input.bonus {
     background-color: lightgreen;
     color: #616161;
 }
 
+.darkmode input.bonus {
+    background-color: green;
+    color: #AAAAAA;
+}
+
 input.penalty {
     background-color: lightpink;
     color: #616161;
+}
+
+.darkmode input.penalty {
+    background-color: #500000;
+    color: #AAAAAA;
 }
 
 .notapplied {
@@ -811,6 +940,10 @@ select {
     overflow: hidden;
     text-overflow: ellipsis;
     max-width: 100%;
+}
+
+.darkmode select {
+    background-color: #202020;
 }
 
 select option {

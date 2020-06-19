@@ -25,6 +25,7 @@ import { Spell } from './Spell';
 import { SpellLearned } from './SpellLearned';
 import { FeatTaken } from './FeatTaken';
 import { Item } from './Item';
+import { FormulaLearned } from './FormulaLearned';
 
 export class Character extends Creature {
     public readonly _className: string = this.constructor.name;
@@ -399,21 +400,36 @@ export class Character extends Creature {
             switch (characterService.get_Skills(characterService.get_Character(), skillName)[0]?.type) {
                 case "Skill":
                     characterService.set_ToChange("Character", "skills");
+                    break;
                 case "Perception":
                     characterService.set_ToChange("Character", "skills");
+                    break;
                 case "Save":
                     characterService.set_ToChange("Character", "defense");
+                    break;
                 case "Armor Proficiency":
                     characterService.set_ToChange("Character", "defense");
+                    break;
                 case "Weapon Proficiency":
                     characterService.set_ToChange("Character", "attacks");
+                    break;
                 case "Specific Weapon Proficiency":
                     characterService.set_ToChange("Character", "attacks");
+                    break;
                 case "Spell DC":
                     characterService.set_ToChange("Character", "general");
                     characterService.set_ToChange("Character", "spellbook");
+                    break;
                 case "Class DC":
                     characterService.set_ToChange("Character", "general");
+                    break;
+            }
+            //Set components to update according to the skill name.
+            switch (skillName) {
+                case "Crafting":
+                    characterService.set_ToChange("Character", "crafting");    
+                    characterService.set_ToChange("Character", "inventory");
+                    break;
             }
         } else {
             //If you are deselecting a skill that you increased with Skilled Heritage at level 1, you also lose the skill increase at level 5.
@@ -443,21 +459,36 @@ export class Character extends Creature {
             switch (characterService.get_Skills(characterService.get_Character(), skillName)[0]?.type) {
                 case "Skill":
                     characterService.set_ToChange("Character", "skills");
+                    break;
                 case "Perception":
                     characterService.set_ToChange("Character", "skills");
+                    break;
                 case "Save":
                     characterService.set_ToChange("Character", "defense");
+                    break;
                 case "Armor Proficiency":
                     characterService.set_ToChange("Character", "defense");
+                    break;
                 case "Weapon Proficiency":
                     characterService.set_ToChange("Character", "attacks");
+                    break;
                 case "Specific Weapon Proficiency":
                     characterService.set_ToChange("Character", "attacks");
+                    break;
                 case "Spell DC":
                     characterService.set_ToChange("Character", "general");
                     characterService.set_ToChange("Character", "spellbook");
+                    break;
                 case "Class DC":
                     characterService.set_ToChange("Character", "general");
+                    break;
+            }
+            //Set components to update according to the skill name.
+            switch (skillName) {
+                case "Crafting":
+                    characterService.set_ToChange("Character", "crafting");    
+                    characterService.set_ToChange("Character", "inventory");
+                    break;
             }
             //Remove custom skill if previously created and this was the last increase of it
             let customSkills = characterService.get_Character().customSkills.filter(skill => skill.name == skillName);
@@ -577,7 +608,7 @@ export class Character extends Creature {
     }
     learn_Formula(item: Item, source: string) {
         if (!this.class?.formulaBook.find(learned => learned.id == item.id)) {
-            this.class?.formulaBook.push({id:item.id, source:source});
+            this.class?.formulaBook.push(Object.assign(new FormulaLearned(), {id:item.id, source:source}));
         }
     }
     unlearn_Formula(item: Item) {

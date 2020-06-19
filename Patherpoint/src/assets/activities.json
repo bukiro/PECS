@@ -18,6 +18,7 @@
         "showon": "Attacks",
         "gainConditions": [
             {
+                "duration": -1,
                 "name": "Crane Stance",
                 "source": "Crane Stance"
             }
@@ -41,6 +42,7 @@
         "desc": "You enter the stance of a dragon and make powerful leg strikes like a lashing dragon's tail. You can make dragon tail attacks that deal 1d10 bludgeoning damage. They are in the brawling group and have the backswing, nonlethal, and unarmed traits.\n\nWhile in Dragon Stance, you can ignore the first square of difficult terrain while Striding.",
         "gainConditions": [
             {
+                "duration": -1,
                 "name": "Dragon Stance",
                 "source": "Dragon Stance"
             }
@@ -66,6 +68,7 @@
         "showon": "Attacks",
         "gainConditions": [
             {
+                "duration": -1,
                 "name": "Mountain Stance",
                 "source": "Mountain Stance"
             }
@@ -91,6 +94,7 @@
         "showon": "Attacks",
         "gainConditions": [
             {
+                "duration": -1,
                 "name": "Rain of Embers Stance",
                 "source": "Rain of Embers Stance"
             }
@@ -114,6 +118,7 @@
         "desc": "You enter the stance of a tiger and can make tiger claw attacks. These deal 1d8 slashing damage; are in the brawling group; and have the agile, finesse, nonlethal, and unarmed traits. On a critical success with your tiger claws, if you deal damage, the target takes 1d4 persistent bleed damage.\n\nAs long as your Speed is at least 20 feet while in Tiger Stance, you can Step 10 feet.",
         "gainConditions": [
             {
+                "duration": -1,
                 "name": "Tiger Stance",
                 "source": "Tiger Stance"
             }
@@ -137,6 +142,7 @@
         "desc": "You enter the stance of a wolf, low to the ground with your hands held like fanged teeth. You can make wolf jaw unarmed attacks. These deal 1d8 piercing damage; are in the brawling group; and have the agile, backstabber, finesse, nonlethal, and unarmed traits.\n\nIf you're flanking a target while in Wolf Stance, your wolf jaw unarmed attacks also gain the trip trait.",
         "gainConditions": [
             {
+                "duration": -1,
                 "name": "Wolf Stance",
                 "source": "Wolf Stance"
             }
@@ -193,6 +199,7 @@
         "actions": "1A",
         "requirements": "You are in Dragon Stance.",
         "desc": "You bellow, instilling fear in your enemies. Enemies within a 15-foot emanation must succeed at a Will save against your Intimidation DC or be frightened 1 (frightened 2 on a critical failure). When a creature frightened by the roar begins its turn adjacent to you, it can't reduce its frightened value below 1 on that turn. Your first attack that hits a frightened creature after you roar and before the end of your next turn gains a +4 circumstance bonus to damage.\n\nAfter you use Dragon Roar, you can't use it again for 1d4 rounds. Its effects end immediately if you leave Dragon Stance. Creatures in the area of your roar are then temporarily immune for 1 minute.",
+        "hint": "Enemies within a 15-foot emanation must succeed at a Will save against your Intimidation DC or be frightened 1 (frightened 2 on a critical failure). When a creature frightened by the roar begins its turn adjacent to you, it can't reduce its frightened value below 1 on that turn. Your first attack that hits a frightened creature after you roar and before the end of your next turn gains a +4 circumstance bonus to damage.\n\nAfter you use Dragon Roar, you can't use it again for 1d4 rounds. Its effects end immediately if you leave Dragon Stance. Creatures in the area of your roar are then temporarily immune for 1 minute.",
         "showon": "Dragon Stance",
         "traits": [
             "Auditory",
@@ -207,7 +214,6 @@
         "actions": "1A",
         "requirements": "You are in Mountain Stance.",
         "desc": "You focus on your connection to the earth and call upon the mountain to block attacks against you. You gain a +2 circumstance bonus to AC until the beginning of your next turn.",
-        "showon": "Mountain Stance",
         "gainConditions": [
             {
                 "duration": 10,
@@ -224,7 +230,6 @@
         "actions": "2A",
         "requirements": "You are in Tiger Stance.",
         "desc": "You make a fierce swipe with both hands. Make a tiger claw Strike. It deals two extra weapon damage dice (three extra dice if you're 14th level or higher), and you can push the target 5 feet away as if you had successfully Shoved them. If the attack is a critical success and deals damage, add your Strength modifier to the persistent bleed damage from your tiger claw.",
-        "showon": "Tiger Stance",
         "traits": [
             "Monk"
         ]
@@ -247,7 +252,6 @@
         "actions": "2A",
         "requirements": "You are in Wolf Stance.",
         "desc": "You rip your enemy off their feet. Make a wolf jaw Strike. Your wolf jaw gains the fatal d12 trait for this Strike, and if the attack succeeds, you knock the target prone.",
-        "showon": "Wolf Stance",
         "traits": [
             "Monk"
         ]
@@ -260,6 +264,7 @@
         "desc": "You enter the stance of impenetrable iron, refusing to yield to any blow. You can make iron sweep unarmed attacks. These deal 1d8 bludgeoning damage; are in the brawling group; and have the nonlethal, parry, sweep, and unarmed traits.\n\nWhile in Ironblood Stance, you gain resistance 2 to all damage. The resistance increases to 3 at 12th level, to 4 at 16th level, and to 5 at 20th level.",
         "gainConditions": [
             {
+                "duration": -1,
                 "name": "Ironblood Stance",
                 "source": "Ironblood Stance"
             }
@@ -291,6 +296,7 @@
         "desc": "You extend your arms like gnarled branches to interfere with your foes' movements. You can make lashing branch unarmed attacks. These deal 1d8 slashing damage; are in the brawling group; and have the agile, finesse, nonlethal, and unarmed traits.\n\nWhile you're in Tangled Forest Stance and can act, every enemy in your reach that tries to move away from you must succeed at a Reflex save, Acrobatics check, or Athletics check against your class DC or be immobilized for that action. If you prefer, you can allow the enemy to move.",
         "gainConditions": [
             {
+                "duration": -1,
                 "name": "Tangled Forest Stance",
                 "source": "Tangled Forest Stance"
             }
@@ -319,6 +325,7 @@
         "actions": "2A",
         "desc": "You focus your strength into a blow powerful enough to push an enemy away from you. Make an unarmed Strike. If you hit, attempt an Athletics check to Shove the target. This attack uses the same multiple attack penalty as your Strike, and doesn't count toward your multiple attack penalty.",
         "hint": "If the Knockback Strike hits, attempt an Athletics check to Shove the target. This attack uses the same multiple attack penalty as your Strike, and doesn't count toward your multiple attack penalty.",
+        "showon": "Athletics",
         "traits": [
             "Monk"
         ]
@@ -359,7 +366,6 @@
         "actions": "Free",
         "trigger": "You roll initiative.",
         "desc": "You enter a stance without a thought. Use an action that has the stance trait.",
-        "showon": "Crane Stance, Dragon Stance, Mountain Stance, Rain of Embers Stance, Tiger Stance, Wolf Stance, Ironblood Stance, Tangled Forest Stance",
         "traits": [
             "Monk"
         ]
@@ -369,7 +375,6 @@
         "actions": "1A",
         "requirements": "You are in Ironblood Stance.",
         "desc": "You steel yourself, preparing to resist oncoming attacks and using your muscles to absorb the impact. You gain the benefits of your iron sweep's parry trait (a +1 circumstance bonus to AC until the start of your next turn) and your resistance from Ironblood Stance increases to your Strength modifier (if it's higher) for the same duration.",
-        "showon": "Ironblood Stance",
         "gainConditions": [
             {
                 "duration": 10,
@@ -386,7 +391,6 @@
         "actions": "1A",
         "requirements": "You are in Mountain Stance.",
         "desc": "You stomp, shaking the earth beneath you. Creatures on the ground within a 20-foot emanation take damage equal to your Strength modifier (minimum 0), which they can resist with a basic Fortitude save. On a failure, they also fall prone. After you use this action, you can't use it again for 1d4 rounds.",
-        "showon": "Mountain Stance",
         "traits": [
             "Monk"
         ]
@@ -396,7 +400,6 @@
         "actions": "1A",
         "requirements": "You are in Tangled Forest Stance.",
         "desc": "You reposition foes with raking attacks. Make a lashing branch Strike. If you hit and deal damage, you force the target to move 5 feet into a space within your reach. This follows the forced movement rules.",
-        "showon": "Tangled Forest Stance",
         "traits": [
             "Monk"
         ]
@@ -406,7 +409,6 @@
         "actions": "Free",
         "requirements": "This is the first action of your turn.",
         "desc": "You move between stances in an unceasing dance. You use an action with the stance trait.",
-        "showon": "Crane Stance, Dragon Stance, Mountain Stance, Rain of Embers Stance, Tiger Stance, Wolf Stance, Ironblood Stance, Tangled Forest Stance",
         "traits": [
             "Monk"
         ]
@@ -473,17 +475,6 @@
         "showon": "Perception, Survival, Attacks",
         "traits": [
             "Concentrate",
-            "Ranger"
-        ]
-    },
-    {
-        "name": "Hunted Shot",
-        "actions": "1A",
-        "frequency": "once per round",
-        "requirements": "You are wielding a ranged weapon with reload 0.",
-        "desc": "You take two quick shots against the one you hunt. Make two Strikes against your prey with the required weapon. If both hit the same creature, combine their damage for the purpose of resistances and weaknesses. Apply your multiple attack penalty to each Strike normally.",
-        "traits": [
-            "Flourish",
             "Ranger"
         ]
     },
@@ -912,6 +903,7 @@
         "desc": "The color of your hair and skin is mutable, possibly due to latent magic. You can slowly change the vibrancy and the exact color, and the coloration can be different across your body, allowing you to create patterns or other colorful designs. It takes a single action for minor localized shifts and up to an hour for dramatic shifts throughout your body. While you're asleep, the colors shift on their own in tune with your dreams, giving you an unusual coloration each morning. When you're in an area where your coloration is roughly similar to the environment (for instance, forest green in a forest), you can use the single action to make minor localized shifts designed to help you blend into your surroundings. This grants you a +2 circumstance bonus to Stealth checks until your surroundings shift in coloration or pattern.",
         "gainConditions": [
             {
+                "duration": -1,
                 "name": "Chameleon Gnome",
                 "source": "Chameleon Gnome"
             }
@@ -944,6 +936,7 @@
         "desc": "You can change your skin color to blend in with your surroundings, making minor shifts with a single action and dramatic changes over the course of an hour. When you're in an area where your coloration is roughly similar to the environment (for instance, forest green in a forest), you can use the minor, singleaction application of this ability to make localized changes that help you blend into your surroundings, gaining a +2 circumstance bonus to Stealth checks until your surroundings change in coloration or pattern.",
         "gainConditions": [
             {
+                "duration": -1,
                 "name": "Unseen Lizardfolk",
                 "source": "Unseen Lizardfolk"
             }
@@ -2300,5 +2293,510 @@
             "Incapacitation",
             "Rogue"
         ]
+    },
+    {
+        "name": "Hunted Shot",
+        "actions": "1A",
+        "frequency": "once per round",
+        "requirements": "You are wielding a ranged weapon with reload 0.",
+        "desc": "You take two quick shots against the one you hunt. Make two Strikes against your prey with the required weapon. If both hit the same creature, combine their damage for the purpose of resistances and weaknesses. Apply your multiple attack penalty to each Strike normally.",
+        "traits": [
+            "Flourish",
+            "Ranger"
+        ]
+    },
+    {
+        "name": "Twin Takedown",
+        "actions": "1A",
+        "frequency": "once per round",
+        "requirements": "You are wielding two melee weapons, each in a different hand.",
+        "desc": "You swiftly attack your hunted prey with both weapons. Make two Strikes against your hunted prey, one with each of the required weapons. If both hit the same hunted prey, combine their damage for the purpose of its resistances and weaknesses. Apply your multiple attack penalty to each Strike normally.",
+        "traits": [
+            "Flourish",
+            "Ranger"
+        ]
+    },
+    {
+        "name": "Favored Terrain: Aquatic",
+        "actions": " ",
+        "toggle": true,
+        "desc": "You have studied aquatic terrain to overcome its challenges. If you have the wild stride class feature, while you are in aquatic terrain, you gain a swim Speed equal to your Speed. If you already had a swim Speed, you gain a +10-foot status bonus to your swim Speed.",
+        "gainConditions": [
+            {
+                "duration": -1,
+                "name": "Favored Terrain: Aquatic",
+                "source": "Favored Terrain: Aquatic"
+            }
+        ],
+        "inputRequired": "Activate this activity to gain the benefit of wild stride in aquatic terrain.",
+        "traits": [
+            "Ranger"
+        ]
+    },
+    {
+        "name": "Favored Terrain: Arctic",
+        "actions": " ",
+        "toggle": true,
+        "desc": "You have studied arctic terrain to overcome its challenges. If you have the wild stride class feature, while you are in arctic terrain, you need to eat and drink only one-tenth as much as usual, you aren’t affected by severe or extreme cold, and you can walk across ice and snow at full Speed without needing to Balance.",
+        "gainConditions": [
+            {
+                "duration": -1,
+                "name": "Favored Terrain: Arctic",
+                "source": "Favored Terrain: Arctic"
+            }
+        ],
+        "inputRequired": "Activate this activity to gain the benefit of wild stride in arctic terrain.",
+        "traits": [
+            "Ranger"
+        ]
+    },
+    {
+        "name": "Favored Terrain: Desert",
+        "actions": " ",
+        "toggle": true,
+        "desc": "You have studied desert terrain to overcome its challenges. If you have the wild stride class feature, while you are in desert terrain, you need to eat and drink only one-tenth as much as usual, you aren’t affected by severe or extreme heat, and you can walk along sand at full Speed without needing to Balance.",
+        "gainConditions": [
+            {
+                "duration": -1,
+                "name": "Favored Terrain: Desert",
+                "source": "Favored Terrain: Desert"
+            }
+        ],
+        "inputRequired": "Activate this activity to gain the benefit of wild stride in desert terrain.",
+        "traits": [
+            "Ranger"
+        ]
+    },
+    {
+        "name": "Favored Terrain: Forest",
+        "actions": " ",
+        "toggle": true,
+        "desc": "You have studied forest terrain to overcome its challenges. If you have the wild stride class feature, while you are in forest terrain, you gain a climb Speed equal to your Speed. If you already had a climb Speed, you gain a +10-foot status bonus to your climb Speed.",
+        "gainConditions": [
+            {
+                "duration": -1,
+                "name": "Favored Terrain: Forest",
+                "source": "Favored Terrain: Forest"
+            }
+        ],
+        "inputRequired": "Activate this activity to gain the benefit of wild stride in forest terrain.",
+        "traits": [
+            "Ranger"
+        ]
+    },
+    {
+        "name": "Favored Terrain: Mountain",
+        "actions": " ",
+        "toggle": true,
+        "desc": "You have studied mountain terrain to overcome its challenges. If you have the wild stride class feature, while you are in mountain terrain, you gain a climb Speed equal to your Speed. If you already had a climb Speed, you gain a +10-foot status bonus to your climb Speed.",
+        "gainConditions": [
+            {
+                "duration": -1,
+                "name": "Favored Terrain: Mountain",
+                "source": "Favored Terrain: Mountain"
+            }
+        ],
+        "inputRequired": "Activate this activity to gain the benefit of wild stride in mountain terrain.",
+        "traits": [
+            "Ranger"
+        ]
+    },
+    {
+        "name": "Favored Terrain: Plains",
+        "actions": " ",
+        "toggle": true,
+        "desc": "You have studied plains terrain to overcome its challenges. If you have the wild stride class feature, while you are in plains terrain, you gain a +10-foot status bonus to your land Speed.",
+        "gainConditions": [
+            {
+                "duration": -1,
+                "name": "Favored Terrain: Plains",
+                "source": "Favored Terrain: Plains"
+            }
+        ],
+        "inputRequired": "Activate this activity to gain the benefit of wild stride in plains terrain.",
+        "traits": [
+            "Ranger"
+        ]
+    },
+    {
+        "name": "Favored Terrain: Sky",
+        "actions": " ",
+        "toggle": true,
+        "desc": "You have studied sky terrain to overcome its challenges. If you have the wild stride class feature, while you are in sky terrain, you gain a +10-foot status bonus to your fly Speed, if you have one.",
+        "gainConditions": [
+            {
+                "duration": -1,
+                "name": "Favored Terrain: Sky",
+                "source": "Favored Terrain: Sky"
+            }
+        ],
+        "inputRequired": "Activate this activity to gain the benefit of wild stride in sky terrain.",
+        "traits": [
+            "Ranger"
+        ]
+    },
+    {
+        "name": "Favored Terrain: Swamp",
+        "actions": " ",
+        "toggle": true,
+        "desc": "You have studied swamp terrain to overcome its challenges. If you have the wild stride class feature, while you are in swamp terrain, you can move across bogs at full Speed, even if they are deep enough to be greater difficult terrain or to normally require you to Swim.",
+        "gainConditions": [
+            {
+                "duration": -1,
+                "name": "Favored Terrain: Swamp",
+                "source": "Favored Terrain: Swamp"
+            }
+        ],
+        "inputRequired": "Activate this activity to gain the benefit of wild stride in swamp terrain.",
+        "traits": [
+            "Ranger"
+        ]
+    },
+    {
+        "name": "Favored Terrain: Underground",
+        "actions": " ",
+        "toggle": true,
+        "desc": "You have studied underground terrain to overcome its challenges. If you have the wild stride class feature, while you are in underground terrain, you gain a climb Speed equal to your Speed. If you already had a climb Speed, you gain a +10-foot status bonus to your climb Speed.",
+        "gainConditions": [
+            {
+                "duration": -1,
+                "name": "Favored Terrain: Underground",
+                "source": "Favored Terrain: Underground"
+            }
+        ],
+        "inputRequired": "Activate this activity to gain the benefit of wild stride in underground terrain.",
+        "traits": [
+            "Ranger"
+        ]
+    },
+    {
+        "name": "Hunter's Aim",
+        "actions": "2A",
+        "desc": "When you focus on aiming, your attack becomes particularly accurate. Make a ranged weapon Strike against your hunted prey. On this Strike, you gain a +2 circumstance bonus to the attack roll and ignore your prey’s concealed condition.",
+        "traits": [
+            "Concentrate",
+            "Ranger"
+        ]
+    },
+    {
+        "name": "Quick Draw",
+        "actions": "1A",
+        "desc": "You draw your weapon and attack with the same motion. You Interact to draw a weapon, then Strike with that weapon.",
+        "traits": [
+            "Ranger",
+            "Rogue"
+        ]
+    },
+    {
+        "name": "Relentless Stalker",
+        "actions": "Reaction",
+        "trigger": "An adjacent creature you are hunting attempts to move away from you using an action that has the move trait.",
+        "desc": "Your hunted prey cannot escape your relentless pursuit. Stride up to your Speed in tandem with the triggering creature, remaining adjacent to the foe throughout its movement until it stops moving or you run out of movement. You can ignore difficult terrain during this movement unless the difficult terrain is caused by a magical effect.",
+        "traits": [
+            "Uncommon",
+            "Move",
+            "Ranger"
+        ]
+    },
+    {
+        "name": "Disrupt Prey",
+        "actions": "Reaction",
+        "trigger": "Your hunted prey is within your reach, and it uses a manipulate action, uses a move action, or leaves a square during a move action it’s using.",
+        "desc": "Make a melee Strike against your prey. If the attack is a critical hit, you disrupt the triggering action.",
+        "traits": [
+            "Ranger"
+        ]
+    },
+    {
+        "name": "Running Reload",
+        "actions": "1A",
+        "desc": "You can reload your weapon on the move. You Stride, Step, or Sneak, then Interact to reload.",
+        "traits": [
+            "Ranger"
+        ]
+    },
+    {
+        "name": "Scout's Warning",
+        "actions": "Free",
+        "trigger": "You are about to roll a Perception or Survival check for initiative.",
+        "desc": "You visually or audibly warn your allies of danger, granting them each a +1 circumstance bonus to their initiative rolls. Depending on whether you use gestures or call out, this action gains either the visual or auditory trait, respectively.",
+        "traits": [
+            "Ranger",
+            "Rogue"
+        ]
+    },
+    {
+        "name": "Skirmish Strike",
+        "actions": "1A",
+        "desc": "Your feet and weapon move in tandem. Either Step and then Strike, or Strike and then Step.",
+        "traits": [
+            "Flourish",
+            "Ranger",
+            "Rogue"
+        ]
+    },
+    {
+        "name": "Deadly Aim",
+        "actions": "1A",
+        "desc": "You aim for your prey’s weak spots, making your shot more challenging but dealing more damage if you hit. Make a ranged Strike against your hunted prey at a -2 penalty. You gain a +4 circumstance bonus to damage on that Strike. This bonus increases to +6 at 11th level and +8 at 15th level.",
+        "traits": [
+            "Open",
+            "Ranger"
+        ]
+    },
+    {
+        "name": "Terrain Master",
+        "actions": "1 hour",
+        "toggle": true,
+        "desc": "You adapt to your surroundings in any natural terrain. You can spend 1 hour practicing in your current terrain in order to make it your favored terrain, replacing your current favored terrain temporarily. If you spend a full day out of the new favored terrain, your favored terrain reverts back to your original choice when you took the Favored Terrain feat.",
+        "gainConditions": [
+            {
+                "duration": -1,
+                "name": "Terrain Master",
+                "source": "Terrain Master"
+            }
+        ],
+        "traits": [
+            "Ranger"
+        ]
+    },
+    {
+        "name": "Warden's Boon",
+        "actions": "1A",
+        "desc": "By pointing out vulnerabilities, you grant the benefits listed in Hunt Prey and your hunter’s edge benefit to an ally until the end of their next turn. Depending on whether you call out or use gestures, this action gains either the auditory or visual trait.",
+        "traits": [
+            "Ranger"
+        ]
+    },
+    {
+        "name": "Penetrating Shot",
+        "actions": "2A",
+        "requirements": "You are wielding a ranged weapon.",
+        "desc": "You shoot clear through an intervening creature to hit your prey. Choose a target that is giving lesser cover to your hunted prey. Make a single ranged Strike with the required weapon against the chosen target and your hunted prey. This attack ignores any lesser cover the chosen target provides your hunted prey. Roll damage only once, and apply it to each creature you hit. A Penetrating Shot counts as two attacks for your multiple attack penalty.",
+        "traits": [
+            "Open",
+            "Ranger"
+        ]
+    },
+    {
+        "name": "Second Sting",
+        "actions": "1A",
+        "requirements": "You are wielding two melee weapons, each in a different hand.",
+        "desc": "You read your prey’s movements and transform them into openings, so failures with one weapon set up glancing blows with the other. Make a melee Strike with one of the required weapons against your hunted prey. The Strike gains the following failure effect.",
+        "failure": "You deal the damage the other required weapon would have dealt on a hit, excluding all damage dice. (This removes dice from weapon runes, spells, and special abilities, not just weapon damage dice.)",
+        "traits": [
+            "Press",
+            "Ranger"
+        ]
+    },
+    {
+        "name": "Sense the Unseen",
+        "actions": "Reaction",
+        "trigger": "You fail a check to Seek.",
+        "desc": "When you look for foes, you can catch even the slightest cues, such as their minute movements or the shifting of air currents on your skin. Even though you failed at the triggering check, you automatically sense any undetected creatures in the area where you’re Seeking, making them merely hidden to you.",
+        "traits": [
+            "Ranger",
+            "Rogue"
+        ]
+    },
+    {
+        "name": "Targeting Shot",
+        "actions": "1A",
+        "desc": "You carefully track your prey’s position and defenses, allowing you to follow up around obstacles that block your shot. Make a ranged weapon Strike against your hunted prey. You ignore the target’s concealed condition and all cover.",
+        "traits": [
+            "Concentrate",
+            "Press",
+            "Ranger"
+        ]
+    },
+    {
+        "name": "Impossible Flurry",
+        "actions": "3A",
+        "requirements": "You are wielding two melee weapons, each in a different hand.",
+        "desc": "You forgo precision to attack at an impossible speed. Make three melee Strikes with each of the required weapons. All of these Strikes take the maximum multiple attack penalty, as if you had already made two or more attacks this turn.",
+        "traits": [
+            "Flourish",
+            "Open",
+            "Ranger"
+        ]
+    },
+    {
+        "name": "Impossible Volley",
+        "actions": "3A",
+        "requirements": "You are wielding a ranged weapon with the volley trait and reload 0.",
+        "desc": "You fire a volley at all foes in an area. Make one Strike with a -2 penalty against each enemy within a 10-foot-radius burst centered at or beyond your weapon’s volley range. Roll the damage only once for all targets.\n\nEach attack counts toward your multiple attack penalty, but do not increase your penalty until you have made all your attacks.",
+        "traits": [
+            "Ranger"
+        ]
+    },
+    {
+        "name": "Hunt Prey: Flurry",
+        "toggle": true,
+        "actions": "1A",
+        "desc": "You’ve learned every possible edge to use against your foes. When you use Hunt Prey, you gain the flurry hunter’s edge benefit instead of the one you selected at 1st level. Your multiple attack penalty for attacks against your hunted prey is -3 (-2 with an agile weapon) on your second attack of the turn instead of -5, and -6 (-4 with an agile weapon) on your third or subsequent attack of the turn, instead of -10. You don’t gain the additional benefit from masterful hunter.\n\nYou designate a single creature as your prey and focus your attacks against that creature. You must be able to see or hear the prey, or you must be tracking the prey during exploration.\n\nYou gain a +2 circumstance bonus to Perception checks when you Seek your prey and a +2 circumstance bonus to Survival checks when you Track your prey. You also ignore the penalty for making ranged attacks within your second range increment against the prey you're hunting.\n\nYou can have only one creature designated as your prey at a time. If you use Hunt Prey against a creature when you already have a creature designated, the prior creature loses the designation and the new prey gains the designation. Your designation lasts until your next daily preparations.",
+        "gainConditions": [
+            {
+                "duration": -1,
+                "name": "Hunt Prey: Flurry",
+                "source": "Hunt Prey: Flurry"
+            }
+        ],
+        "traits": [
+            "Concentrate",
+            "Ranger"
+        ]
+    },
+    {
+        "name": "Hunt Prey: Outwit",
+        "toggle": true,
+        "actions": "1A",
+        "desc": "You’ve learned every possible edge to use against your foes. When you use Hunt Prey, you gain the outwit hunter’s edge benefit instead of the one you selected at 1st level. You gain a +2 circumstance bonus to Deception checks, Intimidation checks, Stealth checks, and any checks to Recall Knowledge about the prey, and a +1 circumstance bonus to AC against your prey’s attacks. You don’t gain the additional benefit from masterful hunter.\n\nYou designate a single creature as your prey and focus your attacks against that creature. You must be able to see or hear the prey, or you must be tracking the prey during exploration.\n\nYou gain a +2 circumstance bonus to Perception checks when you Seek your prey and a +2 circumstance bonus to Survival checks when you Track your prey. You also ignore the penalty for making ranged attacks within your second range increment against the prey you're hunting.\n\nYou can have only one creature designated as your prey at a time. If you use Hunt Prey against a creature when you already have a creature designated, the prior creature loses the designation and the new prey gains the designation. Your designation lasts until your next daily preparations.",
+        "gainConditions": [
+            {
+                "duration": -1,
+                "name": "Hunt Prey: Outwit",
+                "source": "Hunt Prey: Outwit"
+            }
+        ],
+        "traits": [
+            "Concentrate",
+            "Ranger"
+        ]
+    },
+    {
+        "name": "Hunt Prey: Precision",
+        "toggle": true,
+        "actions": "1A",
+        "desc": "You’ve learned every possible edge to use against your foes. When you use Hunt Prey, you gain the precision hunter’s edge benefit instead of the one you selected at 1st level. The first time you hit your hunted prey in a round, you also deal 1d8 additional precision damage. (Precision damage increases the damage you already deal, using the same type, but is ineffective against creatures that lack vital organs or weak points.) At 11th level, the extra damage increases to 2d8 precision damage, and at 19th level, the extra damage increases to 3d8 precision damage. You don’t gain the additional benefit from masterful hunter.\n\nYou designate a single creature as your prey and focus your attacks against that creature. You must be able to see or hear the prey, or you must be tracking the prey during exploration.\n\nYou gain a +2 circumstance bonus to Perception checks when you Seek your prey and a +2 circumstance bonus to Survival checks when you Track your prey. You also ignore the penalty for making ranged attacks within your second range increment against the prey you're hunting.\n\nYou can have only one creature designated as your prey at a time. If you use Hunt Prey against a creature when you already have a creature designated, the prior creature loses the designation and the new prey gains the designation. Your designation lasts until your next daily preparations.",
+        "gainConditions": [
+            {
+                "duration": -1,
+                "name": "Hunt Prey: Precision",
+                "source": "Hunt Prey: Precision"
+            }
+        ],
+        "traits": [
+            "Concentrate",
+            "Ranger"
+        ]
+    },
+    {
+        "name": "Perfect Shot",
+        "actions": "3A",
+        "requirements": "You are wielding a loaded ranged weapon with reload 1 or more, and you have not reloaded your weapon since your last turn.",
+        "desc": "After watching the motions of combat with incredible intensity and precision, you fire at your prey at the perfect moment to deliver maximum pain. Make a ranged Strike with the required weapon against your hunted prey. If you hit, the Strike deals maximum damage. After the Strike, your turn ends.",
+        "traits": [
+            "Flourish",
+            "Ranger"
+        ]
+    },
+    {
+        "name": "Badger Rage",
+        "actions": "1A",
+        "sustained": 100,
+        "toggle": true,
+        "cooldown": 100,
+        "requirements": "The badger isn’t fatigued or raging.",
+        "desc": "The badger enters a state of pure rage that lasts for 1 minute, until there are no enemies it can perceive, or until it falls unconscious, whichever comes first. It can’t voluntarily stop raging. While raging, the badger is affected in the following ways.\n\nIt deals 4 additional damage with its bite attacks and 2 additional damage with its claw attacks.\nIt takes a -1 penalty to AC.\nIt can’t use actions that have the concentrate trait unless they also have the rage trait. The animal companion can Seek even while raging.\n\nAfter it has stopped raging, it can’t use Badger Rage again for 1 minute.",
+        "gainConditions": [
+            {
+                "name": "Badger Rage",
+                "source": "Badger Rage",
+                "duration": -1
+            }
+        ],
+        "traits": [
+            "Concentrate",
+            "Emotion",
+            "Mental"
+        ]
+    },
+    {
+        "name": "Flyby Attack",
+        "actions": "2A",
+        "desc": "The bird Flies and makes a talon Strike at any point along the way."
+    },
+    {
+        "name": "Sand Stride",
+        "actions": "2A",
+        "desc": "The camel Strides twice with a +5-foot circumstance bonus to Speed, ignoring difficult terrain caused by rubble, sand, and uneven ground made of earth and stone.",
+        "traits": [
+            "Move"
+        ]
+    },
+    {
+        "name": "Cat Pounce",
+        "actions": "1A",
+        "desc": "The cat Strides and then Strikes. If it was undetected at the start of its Cat Pounce, it remains undetected until after the attack.",
+        "traits": [
+            "Flourish"
+        ]
+    },
+    {
+        "name": "Tongue Pull",
+        "actions": "1A",
+        "desc": "The cave gecko snaps out its tongue, attempting to pull a foe within 10 feet toward it. The gecko attempts an Athletics check against the foe's Fortitude DC. On a success, the cave gecko pulls the foe next to it. This movement is forced movement. On a critical success, the foe is also grabbed until the beginning of your next turn.",
+        "traits": [
+            "Attack"
+        ]
+    },
+    {
+        "name": "Pterosaur Swoop",
+        "actions": "1A",
+        "desc": "The pterosaur Flies up to its Speed and makes one beak Strike at any point during that movement."
+    },
+    {
+        "name": "Darting Attack",
+        "actions": "1A",
+        "desc": "The raptor Steps up to 10 feet and then Strikes, or Strikes and then Steps up to 10 feet.",
+        "traits": [
+            "Flourish"
+        ]
+    },
+    {
+        "name": "Gallop",
+        "actions": "1A",
+        "desc": "The horse Strides twice at a +10-foot circumstance bonus to Speed.",
+        "traits": [
+            "Move"
+        ]
+    },
+    {
+        "name": "Gnaw",
+        "actions": "1A",
+        "requirements": "The animal companion’s last action was a successful jaws Strike.",
+        "desc": "The Strike’s target takes 1d6 persistent bleed damage and takes a -10-foot status penalty to its Speed until it removes the bleed damage. If the hyena is a specialized animal companion, the persistent bleed damage increases to 2d6.",
+        "traits": [
+            "Move"
+        ]
+    },
+    {
+        "name": "Lurching Rush",
+        "actions": "2A",
+        "desc": "The monitor lizard Strides and then makes a jaws Strike. If it moved at least 20 feet away from its starting position, it gains a +2 circumstance bonus to this attack roll."
+    },
+    {
+        "name": "Constrict",
+        "actions": "1A",
+        "requirements": "The snake has a smaller creature grabbed.",
+        "desc": "The snake deals 12 bludgeoning damage to the grabbed creature; the creature must attempt a basic Fortitude save. If the snake is a specialized animal companion, increase this damage to 20."
+    },
+    {
+        "name": "Feast on the Fallen",
+        "frequency": "once per hour",
+        "cooldown": 144000,
+        "trigger": "A creature adjacent to the vulture is reduced to 0 Hit Points",
+        "actions": "Reaction",
+        "desc": "The vulture consumes a piece of the defeated foe, regaining 18 Hit Points. If the vulture is a specialized animal companion, increase the Hit Points regained to 30.",
+        "traits": [
+            "Healing",
+            "Manipulate"
+        ]
+    },
+    {
+        "name": "Knockdown (Wolf)",
+        "actions": "1A",
+        "requirements": "The animal companion’s last action was a successful jaws Strike.",
+        "desc": "The wolf automatically knocks the target of its jaws Strike prone."
     }
 ]

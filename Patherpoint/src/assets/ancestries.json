@@ -49,7 +49,12 @@
         ],
         "hitPoints": 10,
         "size": 0,
-        "speed": 20,
+        "speeds": [
+            {
+                "name": "Land Speed",
+                "value": 20
+            }
+        ],
         "traits": [
             "Dwarf",
             "Humanoid"
@@ -172,7 +177,12 @@
         ],
         "hitPoints": 6,
         "size": 0,
-        "speed": 30,
+        "speeds": [
+            {
+                "name": "Land Speed",
+                "value": 30
+            }
+        ],
         "traits": [
             "Elf",
             "Humanoid"
@@ -288,7 +298,12 @@
         ],
         "hitPoints": 8,
         "size": -1,
-        "speed": 25,
+        "speeds": [
+            {
+                "name": "Land Speed",
+                "value": 25
+            }
+        ],
         "traits": [
             "Gnome",
             "Humanoid"
@@ -404,7 +419,12 @@
         ],
         "hitPoints": 6,
         "size": -1,
-        "speed": 25,
+        "speeds": [
+            {
+                "name": "Land Speed",
+                "value": 25
+            }
+        ],
         "traits": [
             "Goblin",
             "Humanoid"
@@ -520,7 +540,12 @@
         ],
         "hitPoints": 6,
         "size": -1,
-        "speed": 25,
+        "speeds": [
+            {
+                "name": "Land Speed",
+                "value": 25
+            }
+        ],
         "traits": [
             "Halfling",
             "Humanoid"
@@ -647,7 +672,12 @@
         ],
         "hitPoints": 8,
         "size": 0,
-        "speed": 25,
+        "speeds": [
+            {
+                "name": "Land Speed",
+                "value": 25
+            }
+        ],
         "traits": [
             "Uncommon",
             "Goblin",
@@ -754,7 +784,12 @@
         ],
         "hitPoints": 8,
         "size": 0,
-        "speed": 25,
+        "speeds": [
+            {
+                "name": "Land Speed",
+                "value": 25
+            }
+        ],
         "traits": [
             "Human",
             "Humanoid"
@@ -827,7 +862,12 @@
         ],
         "hitPoints": 8,
         "size": -1,
-        "speed": 25,
+        "speeds": [
+            {
+                "name": "Land Speed",
+                "value": 25
+            }
+        ],
         "traits": [
             "Uncommon",
             "Leshy",
@@ -962,7 +1002,12 @@
         ],
         "hitPoints": 8,
         "size": 0,
-        "speed": 25,
+        "speeds": [
+            {
+                "name": "Land Speed",
+                "value": 25
+            }
+        ],
         "traits": [
             "Uncommon",
             "Humanoid",
@@ -1101,7 +1146,12 @@
         ],
         "hitPoints": 6,
         "size": -1,
-        "speed": 25,
+        "speeds": [
+            {
+                "name": "Land Speed",
+                "value": 25
+            }
+        ],
         "traits": [
             "Rare",
             "Humanoid",

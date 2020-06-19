@@ -55,7 +55,7 @@ export class TagsComponent implements OnInit {
 
     get_TraitsForThis(name: string) {
         if (this.showTraits && name) {
-            return this.traitsService.get_TraitsForThis(this.get_Creature(), name);
+            return this.sortByName(this.traitsService.get_TraitsForThis(this.get_Creature(), name));
         } else {
             return [];
         }
@@ -63,11 +63,11 @@ export class TagsComponent implements OnInit {
 
     get_FeatsShowingOn(name: string, show: boolean ) {
         if (show && name && this.creature == "Character") {
-            return this.characterService.get_FeatsShowingOn(name);
+            return this.sortByName(this.characterService.get_FeatsShowingOn(name));
         } else if (show && name && this.creature == "Companion") {
-            return this.characterService.get_CompanionShowingOn(name);
+            return this.sortByName(this.characterService.get_CompanionShowingOn(name));
         } else if (show && name && this.creature == "Familiar") {
-            return this.characterService.get_FamiliarShowingOn(name);
+            return this.sortByName(this.characterService.get_FamiliarShowingOn(name));
         } else {
             return [];
         }
@@ -75,7 +75,7 @@ export class TagsComponent implements OnInit {
 
     get_EffectsOnThis(name: string) {
         if (this.showEffects && name) {
-            return this.effectsService.get_EffectsOnThis(this.get_Creature(), name);
+            return this.sortByName(this.effectsService.get_EffectsOnThis(this.get_Creature(), name));
         } else {
             return [];
         }
@@ -83,7 +83,7 @@ export class TagsComponent implements OnInit {
 
     get_ConditionsShowingOn(name: string) {
         if (this.showConditions && name) {
-            return this.characterService.get_ConditionsShowingOn(this.get_Creature(), name);
+            return this.sortByName(this.characterService.get_ConditionsShowingOn(this.get_Creature(), name));
         } else {
             return [];
         }
@@ -91,7 +91,7 @@ export class TagsComponent implements OnInit {
     
     get_ActivitiesShowingOn(name: string) {
         if (this.showActivities && name) {
-            return this.characterService.get_ActivitiesShowingOn(this.get_Creature(), name);
+            return this.sortByName(this.characterService.get_ActivitiesShowingOn(this.get_Creature(), name));
         } else {
             return [];
         }
@@ -99,7 +99,7 @@ export class TagsComponent implements OnInit {
 
     get_ItemsShowingOn(name: string) {
         if (this.showItems && name) {
-            return this.characterService.get_ItemsShowingOn(this.get_Creature(), name);
+            return this.sortByName(this.characterService.get_ItemsShowingOn(this.get_Creature(), name));
         } else {
             return [];
         }
@@ -127,6 +127,18 @@ export class TagsComponent implements OnInit {
             });
             return true;
         }
+    }
+
+    sortByName(list: any[]) {
+        return list.sort(function(a,b) {
+            if (a.name > b.name) {
+                return 1;
+            }
+            if (a.name < b.name) {
+                return -1;
+            }
+            return 0;
+        })
     }
 
     ngOnInit() {

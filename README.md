@@ -62,6 +62,7 @@ The very latest in Assistive Technologies for Dungeon Master (ATDM)
 - [ ] Implement all Classes and Multiclass Archetypes
 - [x] - Monk
 - [x] - Fighter
+- [x] - Ranger
 - [ ] Add custom conditions with effects
 - [ ] Item Icons
 - [ ] Initiative tracker, battles, being a battle member, GM-Player-Communication.......

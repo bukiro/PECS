@@ -2,6 +2,7 @@ export class Settings {
     public readonly _className: string = this.constructor.name;
     abilitiesMinimized: boolean = false;
     accent: string = "#1976d2";
+    darkmode: boolean = true;
     activitiesMinimized: boolean = false;
     attacksMinimized: boolean = false;
     characterMinimized: boolean = false;

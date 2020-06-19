@@ -52,9 +52,11 @@ export class Speed {
                 explain = "\nBase speed: "+sum;
             }
         } else {
-            if (this.name == "Land Speed" && creature.class.ancestry.name) {
-                sum = creature.class.ancestry.speed;
-                explain = "\n"+creature.class.ancestry.name+" base speed: "+sum;
+            if (creature.class.ancestry.name) {
+                creature.class.ancestry.speeds.filter(speed => speed.name == this.name).forEach(speed => {
+                    sum = speed.value;
+                    explain = "\n"+creature.class.ancestry.name+" base speed: "+sum;
+                });
             }
         }
         //Absolutes completely replace the baseValue. They are sorted so that the highest value counts last.

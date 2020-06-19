@@ -34,6 +34,15 @@ export class ProficiencyFormComponent implements OnInit {
         return this.characterService.get_Creature(this.creature) as Character | AnimalCompanion;
     }
 
+    get_Levels() {
+        return [
+            {value:2, key:"T"},
+            {value:4, key:"E"},
+            {value:6, key:"M"},
+            {value:8, key:"L"}
+        ]
+    }
+
     get_ProficiencyLevel() {
         return this.skill.level(this.get_Creature(), this.characterService, this.level);
     }

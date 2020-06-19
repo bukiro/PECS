@@ -296,7 +296,7 @@ export class ItemsComponent implements OnInit {
             case "snarespecialist":
                 return "(learned via Snare Specialist)";
             case "other":
-                return "(bought, copied or reverse engineered)";
+                return "(bought, copied, invented or reverse engineered)";
         }
     }
 
@@ -309,17 +309,17 @@ export class ItemsComponent implements OnInit {
         if (this.have_Feat("Alchemical Crafting")) {
             let learned: number = this.get_FormulasLearned("", 'alchemicalcrafting').length;
             let available = 4;
-            result += "\n" + (available - learned) + " common 1st-level alchemical items";
+            result += "\n" + (available - learned) + " common 1st-level alchemical items via Alchemical Crafting";
         }
         if (this.have_Feat("Magical Crafting")) {
             let learned: number = this.get_FormulasLearned("", 'magicalcrafting').length;
             let available = 4;
-            result += "\n" + (available - learned) + " common magic items of 2nd level or lower";
+            result += "\n" + (available - learned) + " common magic items of 2nd level or lower via Magical Crafting";
         }
         if (this.have_Feat("Snare Crafting")) {
             let learned: number = this.get_FormulasLearned("", 'snarecrafting').length;
             let available = 4;
-            result += "\n" + (available - learned) + " common snares";
+            result += "\n" + (available - learned) + " common snares via Snare Crafting";
         }
         if (this.have_Feat("Snare Specialist")) {
             let learned: number = this.get_FormulasLearned("", 'snarespecialist').length;
@@ -335,10 +335,10 @@ export class ItemsComponent implements OnInit {
             if (crafting >= 8) {
                 available += 3;
             }
-            result += "\n" + (available - learned) + " common or uncommon snares";
+            result += "\n" + (available - learned) + " common or uncommon snares via Snare Specialist";
         }
         if (result) {
-            result = "You can currently learn the following number of formulas:\n" + result;
+            result = "You can currently learn the following number of formulas through feats:\n" + result;
         }
         return result;
     }

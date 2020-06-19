@@ -9,7 +9,7 @@ import { SavegameService } from './savegame.service';
 })
 export class FamiliarsService {
 
-    private familiarAbilities;
+    private familiarAbilities: Feat[];
     private loading_familiarAbilities: boolean = false;
     private loader_familiarAbilities;
 

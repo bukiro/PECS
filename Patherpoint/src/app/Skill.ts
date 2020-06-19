@@ -70,6 +70,13 @@ export class Skill {
                     skillLevel);
             }
         }
+        //The Stealthy Companion feat increases the Animal Companion's Stealth rank.
+        if (creature.type == "Companion" &&
+            this.name == "Stealth" &&
+            (creature as AnimalCompanion).class.specializations.find(spec => spec.name == "Ambusher") &&
+            characterService.get_Feats("Stealthy Companion")[0]?.have(characterService.get_Character(), characterService)) {
+                skillLevel += 2;
+        }
         skillLevel = Math.min(skillLevel, 8);
         return skillLevel;
     }
@@ -184,7 +191,7 @@ export class Skill {
                 //Gets applied to saves and perception, but they are never untrained
                 let skillLevel = this.level(creature, characterService, charLevel);
                 if (skillLevel) {
-                    explain += "\nProficiency: " + skillLevel;
+                    explain += "\nProficiency Rank: " + skillLevel;
                 }
                 var charLevelBonus = 0;
                 if (skillLevel > 0) {

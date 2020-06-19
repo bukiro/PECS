@@ -97,7 +97,6 @@ export class FeatchoiceComponent implements OnInit {
         } else if (this.creature == "Familiar") {
             return this.familiarsService.get_FamiliarAbilities(name);
         }
-        
     }
 
     get_FeatsAndFeatures(name: string = "", type: string = "") {
@@ -245,11 +244,11 @@ export class FeatchoiceComponent implements OnInit {
             }
             //Does the type not match a trait? (Unless it's a special choice, where the type doesn't matter and is just the title.)
             if (!choice.specialChoice && !feat.traits.find(trait => traits.includes(trait))) {
-                reasons.push("The feat's traits do not match the choice type.")
+                reasons.push("The feat's traits do not match the choice type.");
             }
             //Are the basic requirements (level, ability, feat etc) not met?
             if (!feat.canChoose(this.characterService, featLevel)) {
-                reasons.push("The requirements are not met.")
+                reasons.push("The requirements are not met.");
             }
             //Unless the feat can be taken repeatedly:
             if (!feat.unlimited) {
@@ -276,7 +275,7 @@ export class FeatchoiceComponent implements OnInit {
             }
             //Dedication feats
             if (feat.traits.includes("Dedication")) {
-                //Get all taken dedication feats that aren't this, then check if you have taken 
+                //Get all taken dedication feats that aren't this, then check if you have taken enough to allow a new archetype.
                 this.get_Character().get_FeatsTaken(1, levelNumber).map(gain => this.get_FeatsAndFeatures(gain.name)[0])
                     .filter(libraryfeat => libraryfeat?.name != feat.name && libraryfeat?.traits.includes("Dedication")).forEach(takenfeat => {
                     let archetypeFeats = this.get_Character().get_FeatsTaken(1, levelNumber).map(gain => this.get_FeatsAndFeatures(gain.name)[0])
@@ -288,12 +287,16 @@ export class FeatchoiceComponent implements OnInit {
             }
             //If this feat has any subtypes, check if any of them can be taken. If not, this cannot be taken either.
             if (feat.subTypes) {
-                let subfeats = this.get_Feats().filter(subfeat => subfeat.superType == feat.name && !subfeat.hide);
-                let availableSubfeats = subfeats.filter(feat => 
-                    this.cannotTake(feat, choice).length == 0 || this.featTakenByThis(feat, choice)
+                let subfeats: Feat[] = this.get_Feats().filter(subfeat => subfeat.superType == feat.name && !subfeat.hide);
+                let availableSubfeats = subfeats.filter(subfeat => 
+                    this.cannotTake(subfeat, choice).length == 0 || this.featTakenByThis(subfeat, choice)
                 );
                 if (availableSubfeats.length == 0) {
-                    reasons.push("No option has its requirements met.")
+                    reasons.push("No option has its requirements met.");
+                }
+                //If a subtype has been taken and the feat is not unlimited, no other subfeat can be taken.
+                if (!feat.unlimited && availableSubfeats.length < subfeats.length) {
+                    reasons.push("This feat cannot be taken more than once.");
                 }
             }
             return reasons;

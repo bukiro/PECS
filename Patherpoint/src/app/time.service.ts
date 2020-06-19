@@ -80,7 +80,7 @@ export class TimeService {
             if (creature.type != "Familiar") {
                 itemsService.rest(creature, characterService);
             }
-            //For the Character, reset all "once per day" spells, and regenerate spell slots and bonded item charges.
+            //For the Character, reset all "once per day" spells, and regenerate spell slots, prepared formulas and bonded item charges.
             if (creature.type == "Character") {
                 let character = creature as Character;
                 //Reset all "once per day" spell cooldowns and re-prepare spells.
@@ -89,6 +89,11 @@ export class TimeService {
                 character.class.spellCasting.forEach(casting => {
                     casting.spellSlotsUsed = [999, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
                 });
+                //Regenerate Snare Specialist formulas
+                character.class.formulaBook.filter(learned => learned.snareSpecialistPrepared).forEach(learned => {
+                    learned.snareSpecialistAvailable = learned.snareSpecialistPrepared;
+                });
+                characterService.set_ToChange("Character", "inventory");
                 //Regenerate bonded item charges.
                 character.class.spellCasting.filter(casting => casting.castingType == "Prepared" && casting.className == "Wizard").forEach(casting => {
                     if (character.get_FeatsTaken(1, character.level, "Universalist School").length) {

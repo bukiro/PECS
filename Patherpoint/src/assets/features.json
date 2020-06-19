@@ -209,7 +209,7 @@
     {
         "name": "Swift Prey",
         "desc": "You size up your prey with only a glance. You can use Hunt Prey as a free action if it's your first action of your turn.",
-        "showon": "Hunt Prey, Activities"
+        "showon": "Hunt Prey, Activities, Hunt Prey: Flurry, Hunt Prey: Outwit, Hunt Prey: Precision"
     },
     {
         "name": "Third Path to Perfection",

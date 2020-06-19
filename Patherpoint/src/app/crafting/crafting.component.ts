@@ -1,4 +1,4 @@
-import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef, ChangeDetectionStrategy } from '@angular/core';
 import { Equipment } from '../Equipment';
 import { Consumable } from '../Consumable';
 import { ItemsService } from '../items.service';
@@ -10,7 +10,8 @@ import { Character } from '../Character';
 @Component({
     selector: 'app-crafting',
     templateUrl: './crafting.component.html',
-    styleUrls: ['./crafting.component.css']
+    styleUrls: ['./crafting.component.css'],
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class CraftingComponent implements OnInit {
 
@@ -196,6 +197,49 @@ export class CraftingComponent implements OnInit {
 
     get_FormulasLearned(id: string = "", source: string = "") {
         return this.get_Character().get_FormulasLearned(id, source);
+    }
+
+    have_Feat(name: string) {
+        return this.get_Character().get_FeatsTaken(1, this.get_Character().level, name).length;
+    }
+
+    get_SnareSpecialistPreparations() {
+        if (this.have_Feat("Snare Specialist")) {
+            let prepared: number = this.get_FormulasLearned().reduce((sum, current) => sum + current.snareSpecialistPrepared, 0);
+            let available = 0;
+            let character = this.get_Character();
+            let crafting = this.characterService.get_Skills(character, "Crafting")[0]?.level(character, this.characterService, character.level) || 0;
+            if (crafting >= 4) {
+                available += 4;
+            }
+            if (crafting >= 6) {
+                available += 2;
+            }
+            if (crafting >= 8) {
+                available += 2;
+            }
+            if (this.have_Feat("Ubiquitous Snares")) {
+                available *= 2;
+            }
+            return {available:available, prepared:prepared};
+        }
+    }
+
+    on_PrepareForQuickCrafting(item: Item, amount: number) {
+        if (this.get_FormulasLearned(item.id).length) {
+            this.get_FormulasLearned(item.id)[0].snareSpecialistPrepared += amount;
+        }
+        this.characterService.set_ToChange("Character", "inventory");
+        //this.characterService.set_ToChange("Character", "crafting");
+        this.characterService.process_ToChange();
+    }
+
+    get_PreparedForQuickCrafting(item: Item) {
+        if (this.get_FormulasLearned(item.id).length) {
+            return this.get_FormulasLearned(item.id)[0].snareSpecialistPrepared;
+        } else {
+            return 0;
+        }
     }
 
     still_loading() {

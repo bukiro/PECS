@@ -2,7 +2,6 @@
     {
         "id": "2c1ce9e4-b0e2-11ea-b3de-0242ac130004",
         "_className": "Snare",
-        "actions": " ",
         "name": "Alarm Snare",
         "level": 1,
         "price": 300,
@@ -18,7 +17,6 @@
     {
         "id": "2c1cefca-b0e2-11ea-b3de-0242ac130004",
         "_className": "Snare",
-        "actions": " ",
         "name": "Caltrop Snare",
         "level": 1,
         "price": 300,
@@ -34,7 +32,6 @@
     {
         "id": "2c1cf0ec-b0e2-11ea-b3de-0242ac130004",
         "_className": "Snare",
-        "actions": " ",
         "name": "Hampering Snare",
         "level": 1,
         "price": 300,
@@ -50,7 +47,6 @@
     {
         "id": "2c1cf1c8-b0e2-11ea-b3de-0242ac130004",
         "_className": "Snare",
-        "actions": " ",
         "name": "Marking Snare",
         "level": 1,
         "price": 300,
@@ -68,7 +64,6 @@
     {
         "id": "2c1cf29a-b0e2-11ea-b3de-0242ac130004",
         "_className": "Snare",
-        "actions": " ",
         "name": "Signaling Snare",
         "level": 1,
         "price": 300,
@@ -83,7 +78,6 @@
     {
         "id": "2c1cf36c-b0e2-11ea-b3de-0242ac130004",
         "_className": "Snare",
-        "actions": " ",
         "name": "Spike Snare",
         "level": 1,
         "price": 300,
@@ -98,7 +92,6 @@
     {
         "id": "2c1cf434-b0e2-11ea-b3de-0242ac130004",
         "_className": "Snare",
-        "actions": " ",
         "name": "Dust Pods",
         "level": 1,
         "price": 300,
@@ -118,7 +111,6 @@
     {
         "id": "2c1cf68c-b0e2-11ea-b3de-0242ac130004",
         "_className": "Snare",
-        "actions": " ",
         "name": "Thunder Snare",
         "level": 2,
         "price": 600,
@@ -138,7 +130,6 @@
     {
         "id": "2c1cf75e-b0e2-11ea-b3de-0242ac130004",
         "_className": "Snare",
-        "actions": " ",
         "name": "Grasping Tree",
         "level": 3,
         "price": 900,
@@ -159,7 +150,6 @@
     {
         "id": "2c1cf81c-b0e2-11ea-b3de-0242ac130004",
         "_className": "Snare",
-        "actions": " ",
         "name": "Torrent Snare",
         "level": 3,
         "price": 900,
@@ -179,7 +169,6 @@
     {
         "id": "2c1cf8da-b0e2-11ea-b3de-0242ac130004",
         "_className": "Snare",
-        "actions": " ",
         "name": "Biting Snare",
         "level": 4,
         "price": 1500,
@@ -198,7 +187,6 @@
     {
         "id": "2c1cf998-b0e2-11ea-b3de-0242ac130004",
         "_className": "Snare",
-        "actions": " ",
         "name": "Hobbling Snare",
         "level": 4,
         "price": 1500,
@@ -218,7 +206,6 @@
     {
         "id": "2c1cfa56-b0e2-11ea-b3de-0242ac130004",
         "_className": "Snare",
-        "actions": " ",
         "name": "Stalker Bane Snare",
         "level": 4,
         "price": 1500,
@@ -238,7 +225,6 @@
     {
         "id": "2c1cfb1e-b0e2-11ea-b3de-0242ac130004",
         "_className": "Snare",
-        "actions": " ",
         "name": "Trip Snare",
         "level": 4,
         "price": 1500,
@@ -257,7 +243,6 @@
     {
         "id": "2c1cfbe6-b0e2-11ea-b3de-0242ac130004",
         "_className": "Snare",
-        "actions": " ",
         "name": "Warning Snare",
         "level": 4,
         "price": 1500,
@@ -273,7 +258,6 @@
     {
         "id": "63e5db24-b0e2-11ea-b3de-0242ac130004",
         "_className": "Snare",
-        "actions": " ",
         "name": "Fang Snare",
         "level": 4,
         "price": 1500,
@@ -293,7 +277,6 @@
     {
         "id": "63e5dd36-b0e2-11ea-b3de-0242ac130004",
         "_className": "Snare",
-        "actions": " ",
         "name": "Bomb Snare",
         "level": 8,
         "price": 7500,
@@ -313,8 +296,7 @@
     {
         "id": "63e5de3a-b0e2-11ea-b3de-0242ac130004",
         "_className": "Snare",
-        "actions": " ",
-        "name": "Bomb Snare",
+        "name": "Grasping Snare",
         "level": 8,
         "price": 7500,
         "desc": "You rig vines and ropes to hold a creature in place. The first creature to enter the square must attempt a DC 26 Reflex save, with the following effects.",
@@ -333,7 +315,6 @@
     {
         "id": "63e5df16-b0e2-11ea-b3de-0242ac130004",
         "_className": "Snare",
-        "actions": " ",
         "name": "Striking Snare",
         "level": 8,
         "price": 7500,
@@ -348,7 +329,6 @@
     {
         "id": "63e5dfe8-b0e2-11ea-b3de-0242ac130004",
         "_className": "Snare",
-        "actions": " ",
         "name": "Bleeding Spines Snare",
         "level": 12,
         "price": 32000,
@@ -363,7 +343,6 @@
     {
         "id": "63e5e0b0-b0e2-11ea-b3de-0242ac130004",
         "_className": "Snare",
-        "actions": " ",
         "name": "Bleeding Spines Snare",
         "level": 12,
         "price": 32000,
@@ -378,7 +357,6 @@
     {
         "id": "63e5e2b8-b0e2-11ea-b3de-0242ac130004",
         "_className": "Snare",
-        "actions": " ",
         "name": "Stunning Snare",
         "level": 12,
         "price": 32000,
@@ -397,7 +375,6 @@
     {
         "id": "63e5e38a-b0e2-11ea-b3de-0242ac130004",
         "_className": "Snare",
-        "actions": " ",
         "name": "Hail of Arrows Snare",
         "level": 16,
         "price": 150000,
@@ -412,7 +389,6 @@
     {
         "id": "63e5e45c-b0e2-11ea-b3de-0242ac130004",
         "_className": "Snare",
-        "actions": " ",
         "name": "Omnidirectional Spear Snare",
         "level": 16,
         "price": 150000,
@@ -427,7 +403,6 @@
     {
         "id": "63e5e51a-b0e2-11ea-b3de-0242ac130004",
         "_className": "Snare",
-        "actions": " ",
         "name": "Flying Blade Wheel Snare",
         "level": 20,
         "price": 1000000,
@@ -442,7 +417,6 @@
     {
         "id": "63e5e65a-b0e2-11ea-b3de-0242ac130004",
         "_className": "Snare",
-        "actions": " ",
         "name": "Instant Evisceration Snare",
         "level": 20,
         "price": 1000000,

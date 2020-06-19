@@ -56,7 +56,8 @@
             <ng-container *ngFor="let creatureType of ['Character','Companion']">
                 <h3 *ngIf="get_ShowPurpose()=='items'">Get {{creatureType == "Companion" ? "Animal Companion " : ""}}Items</h3>
                 <h3 *ngIf="get_ShowPurpose()=='formulas'">Get {{creatureType == "Companion" ? "Animal Companion " : ""}}Formulas</h3>
-                <ng-container *ngIf="get_ShowPurpose()=='formulas'">
+                <!--Formulas available through feats-->
+                <ng-container *ngIf="get_ShowPurpose()=='formulas' && creatureType == 'Character'">
                     <ng-container *ngFor="let descblock of [get_LearningAvailable()]; trackBy:trackByIndex;">
                         <div class="list-item" *ngIf="descblock.length">
                             <ng-container *ngFor="let desc of descblock.split('\n\n'); trackBy:trackByIndex;">
@@ -68,17 +69,18 @@
                         </div>
                     </ng-container>
                 </ng-container>
+                <!--End available formulas-->
                 <ng-container *ngFor="let itemSet of items.names; let index = index; trackBy:trackByIndex;">
                     <ng-container *ngFor="let listID of [creatureType+(index*1000+1000)]; trackBy:trackByIndex;">
                         <button class="list-item"
-                            [ngStyle]="{'--accent':get_Accent(), 'display':!get_VisibleItems(items[itemSet.key], creatureType).length ? 'none' : 'flex' }"
+                            [ngStyle]="{'display':!get_VisibleItems(items[itemSet.key], creatureType).length ? 'none' : 'flex' }"
                             (click)="toggle_List(listID)">
                             <h3>{{itemSet.name}}</h3>
                         </button>
                         <ng-container *ngIf="get_ShowList()==listID||get_ShowList()=='All'">
                             <ng-container *ngFor="let item of get_VisibleItems(items[itemSet.key], creatureType)|sortBy:'asc':sorting; trackBy:trackByIndex;">
                                 <div class="list-item" *ngFor="let inventoryID of [listID+get_ID()]; trackBy:trackByIndex;">
-                                    <button class="row sublist-toggle"
+                                    <button class="row sublist-toggle" [ngClass]="{'fancy-button':get_ShowPurpose()=='formulas' && get_FormulasLearned(item.id).length}"
                                         (click)="toggle_Item(inventoryID)">
                                         <span>{{(item.get_Name) ? item.get_Name() : item.name}}</span>
                                         <span
@@ -90,7 +92,7 @@
                                             {{item.group}}</span>
                                         <span>{{(item.level) ? "Level "+item.level : "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"}}</span>
                                     </button>
-                                    <div class="list-item sublist lower"
+                                    <div class="list-item sublist lower" [ngClass]="{'fancy-list':get_ShowPurpose()=='formulas' && get_FormulasLearned(item.id).length}"
                                         *ngIf="get_ShowItem()==inventoryID">
                                         <ng-container *ngIf="get_ShowPurpose()=='items'">
                                             <div class="list-item" *ngIf="itemSet.name == 'Snares'">
@@ -137,11 +139,12 @@
                                             <button class="row center-aligned"
                                                 (click)="learn_Formula(item, 'other')"
                                                 *ngIf="!get_FormulasLearned(item.id).length">
-                                                Learn formula (buy, copy or reverse engineer)
+                                                Learn formula (buy, copy, invent or reverse engineer)
                                             </button>
                                             <button class="row center-aligned"
                                                 (click)="unlearn_Formula(item)"
-                                                *ngFor="let learned of get_FormulasLearned(item.id); trackBy:trackByIndex;">
+                                                *ngFor="let learned of get_FormulasLearned(item.id); trackBy:trackByIndex;"
+                                                title="You must manually expend the necessary cost to learn the formula this way.">
                                                 Unlearn formula {{get_LearnedFormulaSource(learned.source)}}
                                             </button>
                                         </ng-container>

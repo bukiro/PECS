@@ -53,6 +53,10 @@ export class SkillsComponent implements OnInit {
         return this.characterService.get_Creature(this.creature);
     }
 
+    have_Feat(name: string) {
+        return this.characterService.get_Character().get_FeatsTaken(1, this.characterService.get_Character().level, name).length;
+    }
+
     get_Senses() {
         let creature = this.get_Creature();
         let senses: string[] = [];
@@ -86,6 +90,13 @@ export class SkillsComponent implements OnInit {
             .map(gain => this.conditionsService.get_Conditions(gain.name)[0]).filter(condition => condition?.senses.length).forEach(condition => {
                 senses.push(...condition.senses)
             });
+        if (this.have_Feat("Superior Sight")) {
+            if (senses.includes("Low-Light Vision")) {
+                senses.push("Darkvision");
+            } else {
+                senses.push("Low-Light Vision");
+            }
+        }
         return Array.from(new Set(senses));
     }
 

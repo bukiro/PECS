@@ -57,14 +57,22 @@ export class FeatsService {
         if (!this.still_loading()) {
             let feats: Feat[] = this.feats.concat(loreFeats).concat(this.features);
             return feats.filter(feat =>
-                (
+                    name == "" ||
                     //For names like "Aggressive Block or Brutish Shove", split the string into the two feat names and return both.
                     name.split(" or ").find(alternative =>
-                        (feat.name.toLowerCase() == alternative.toLowerCase() || 
-                        (includeSubTypes && feat.superType.toLowerCase() == alternative.toLowerCase()) ||
-                        alternative == "")
-                ) &&
-                (feat.traits.map(trait => trait.toLowerCase()).includes(type.toLowerCase()) || type == "")));
+                        (
+                            feat.name.toLowerCase() == alternative.toLowerCase() || 
+                            (
+                                includeSubTypes &&
+                                feat.superType.toLowerCase() == alternative.toLowerCase()) ||
+                                alternative == ""
+                            )
+                        ) &&
+                    (
+                        type == "" ||
+                        feat.traits.map(trait => trait.toLowerCase()).includes(type.toLowerCase())
+                    )
+                );
         } else { return [new Feat()]; }
     }
 
@@ -518,6 +526,16 @@ export class FeatsService {
                         character.remove_SpellChoice(characterService, oldSpellChoice);
                     }
                 }
+            }
+
+            //Snare Specialists and following feats change inventory aspects.
+            if (feat.name == "Snare Specialist" || feat.featreq.includes("Snare Specialist")) {
+                characterService.set_ToChange(creature.type, "inventory");
+            }
+
+            //Superior Sight gives a hardcoded sense and needs to update the skills list.
+            if (feat.name == "Superior Sight") {
+                characterService.set_ToChange(creature.type, "skills");
             }
 
             //Some effects change depending on feats. There is no good way to resolve this, so we calculate the effects whenever we take a feat.

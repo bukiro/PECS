@@ -37,15 +37,51 @@
                     value="{{bulk.$encumbered.value}}" title="{{bulk.$encumbered.explain}}" disabled>
                 <app-tags [creature]="creature" [objectName]="'Encumbered Limit'" [showTraits]=true [showFeats]=true
                     [showItems]=true [showActivities]=true [showConditions]=true [showEffects]=true></app-tags>
-                </div>
-                <div class="fullsize-only list-item">
-                    <strong>Maximum Bulk</strong>
+            </div>
+            <div class="fullsize-only list-item">
+                <strong>Maximum Bulk</strong>
                 <input class="number2" type="number"
                     [ngClass]="{'penalty':bulk.$penalties, 'bonus':bulk.$bonuses, 'absolute':bulk.$absolutes.length}"
                     value="{{bulk.$max.value}}" title="{{bulk.$max.explain}}" disabled>
                 <app-tags [creature]="creature" [objectName]="'Max Bulk'" [showTraits]=true [showFeats]=true
                     [showItems]=true [showActivities]=true [showConditions]=true [showEffects]=true></app-tags>
             </div>
+        </ng-container>
+        <ng-container *ngIf="have_QuickCrafting()">
+            <h3 class="fullsize-only box-header">Quick Crafting</h3>
+            <app-tags [creature]="creature" [objectName]="'Quick Crafting'" [showTraits]=true [showFeats]=true
+                [showItems]=true [showActivities]=true [showConditions]=true [showEffects]=true></app-tags>
+            <button class="list-item" *ngIf="have_Feat('Snare Specialist')" (click)="toggle_List('snarespecialist')">
+                <h3>Snare Specialist</h3>
+            </button>
+            <ng-container *ngIf="get_ShowList()=='snarespecialist'">
+                <div class="row" *ngIf="!get_PreparedItems('snarespecialist').length">You don't have any snares prepared for quick deployment.</div>
+                <ng-container *ngFor="let preparedItem of get_PreparedItems('snarespecialist'); trackBy:trackByIndex;">
+                    <div class="list-item"
+                        *ngFor="let inventoryID of ['snarespecialist'+preparedItem.item.id]; trackBy:trackByIndex;">
+                        <button class="row sublist-toggle" (click)="toggle_Item(inventoryID)"
+                            [ngClass]="{'inactive-button':!preparedItem.learned.snareSpecialistAvailable}">
+                            <span>{{preparedItem.learned.snareSpecialistAvailable}} {{(preparedItem.item.get_Name) ? preparedItem.item.get_Name() : preparedItem.item.name}}</span>
+                            <span>{{(preparedItem.item.level) ? "Level "+preparedItem.item.level : "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"}}</span>
+                        </button>
+                        <div class="list-item sublist lower" *ngIf="get_ShowItem()==inventoryID"
+                            [ngClass]="{'inactive-list':!preparedItem.learned.snareSpecialistAvailable}">
+                            <ng-container>
+                                <button class="row center-aligned"
+                                    (click)="craft_Item(preparedItem.item, preparedItem.learned, 'snarespecialist')"
+                                    title="{{cannot_Craft(preparedItem.item, preparedItem.learned, 'snarespecialist').join('\n')}}"
+                                    [disabled]="cannot_Craft(preparedItem.item, preparedItem.learned, 'snarespecialist').length">
+                                    <span>Deploy Snare <app-actionIcons
+                                            [actionString]="get_SnareSpecialistActions(preparedItem.item)">
+                                        </app-actionIcons>
+                                    </span>
+                                </button>
+                            </ng-container>
+                            <app-item [item]=preparedItem.item [itemStore]=true></app-item>
+                        </div>
+                    </div>
+                </ng-container>
+            </ng-container>
         </ng-container>
         <h3 class="fullsize-only box-header">Items</h3>
         <div class="fullsize-only list-item" *ngFor="let maxInvested of [get_MaxInvested()]; trackBy:trackByIndex;">
@@ -72,7 +108,7 @@
                         <div class="list-item" *ngFor="let inventoryID of [item.id]; trackBy:trackByIndex;">
                             <button class="row sublist-toggle"
                                 [ngClass]="{'fancy-button':((item.equippable && item.equipped) || (item.can_Invest() && item.invested))}"
-                                (click)="toggleItem(inventoryID)">
+                                (click)="toggle_Item(inventoryID)">
                                 {{(item.amount != undefined && item.amount != 1) ? item.amount+" " : ""}}
                                 {{(item['get_Name']) ? item.get_Name() : item.name}}&nbsp;
                                 <span class="lower"
@@ -101,7 +137,8 @@
                                         </app-actionIcons>{{(item.activationType) ? item.activationType : ""}}
                                     </span>
                                 </button>
-                                <ng-container *ngIf="item.amount != undefined && ['alchemicalelixirs','potions'].includes(item.type) && item.actions && (!item.targets || item.targets.length == 0)">
+                                <ng-container
+                                    *ngIf="item.amount != undefined && ['alchemicalelixirs','potions'].includes(item.type) && item.actions && (!item.targets || item.targets.length == 0)">
                                     <button class="row left-aligned" [disabled]="!item.amount"
                                         (click)="on_ConsumableUse(item, creature, inventory)">
                                         <span>Use<app-actionIcons [actionString]="item.actions">
@@ -111,7 +148,8 @@
                                     <button class="row left-aligned" [disabled]="!item.amount"
                                         (click)="on_ConsumableUse(item, 'Companion', inventory)"
                                         *ngIf="get_CompanionAvailable()">
-                                        <span>Use (Give to your animal companion)<app-actionIcons [actionString]="item.actions">
+                                        <span>Use (Give to your animal companion)<app-actionIcons
+                                                [actionString]="item.actions">
                                             </app-actionIcons>{{(item.activationType) ? item.activationType : ""}}
                                         </span>
                                     </button>

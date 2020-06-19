@@ -155,7 +155,8 @@ export class SavegameService {
             }
             if (character.class.animalCompanion) {
                 if (character.class.animalCompanion.inventories) {
-                    character.class.animalCompanion.inventories = character.class.animalCompanion.inventories.map(inventory => Object.assign(new ItemCollection(), inventory));
+                    character.class.animalCompanion.inventories = character.class.animalCompanion.inventories
+                        .map(inventory => Object.assign(new ItemCollection(), inventory));
                     character.class.animalCompanion.inventories.forEach(inventory => inventory.restore_FromSave(itemsService));
                 }
                 if (character.class.animalCompanion?.class?.ancestry) {
@@ -165,9 +166,8 @@ export class SavegameService {
                     character.class.animalCompanion.class = animalCompanionsService.restore_LevelsFromSave(character.class.animalCompanion.class, this);
                 }
                 if (character.class.animalCompanion.class?.specializations) {
-                    character.class.animalCompanion.class.specializations.forEach(spec => {
-                        spec = animalCompanionsService.restore_SpecializationFromSave(spec, this);
-                    })
+                    character.class.animalCompanion.class.specializations = character.class.animalCompanion.class.specializations
+                        .map(spec => animalCompanionsService.restore_SpecializationFromSave(spec, this));
                 }
             }
             //Restore the class last, so we don't null its components (ancestry, animal companion etc.)

@@ -496,7 +496,7 @@ export class EffectsService {
             "Wisdom-based Checks and DCs", "All Checks and DCs", "Ignore Armor Penalty", "Ignore Armor Speed Penalty"];
         let attacks: string[] = ["Damage Rolls", "Dexterity-based Checks and DCs", "Strength-based Checks and DCs", "All Checks and DCs",
             "Unarmed Damage per Die", "Weapon Damage per Die"];
-        let attacksWildcard: string[] = ["Attack Rolls", "Melee Damage", "Dice Size", "Dice Number"];
+        let attacksWildcard: string[] = ["Attack Rolls", "Damage", "Dice Size", "Dice Number"];
         let skills: string[] = ["Perception", "Acrobatics", "Arcana", "Athletics", "Crafting", "Deception", "Diplomacy",
             "Intimidation", "Medicine", "Nature", "Occultism", "Performance", "Religion", "Society", "Stealth", "Survival", "Thievery", "Fortitude", "Reflex", "Will"];
         let skillsWildcard: string[] = ["Spell DC", "Class DC", "Checks and DCs", "Skill Checks", "Untrained Skills"];

@@ -77,6 +77,10 @@ export class TopBarComponent implements OnInit {
         return this.characterService.get_Character().settings.spelllibraryMinimized;
     }
     
+    get_Darkmode() {
+        return this.characterService.get_Darkmode();
+    }
+   
     toggleMenu(menu: string) {
         this.characterService.toggleMenu(menu);
     }

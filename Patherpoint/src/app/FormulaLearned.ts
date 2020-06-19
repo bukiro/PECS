@@ -1,4 +1,6 @@
-export interface FormulaLearned {
-    id: string,
-    source: string
+export class FormulaLearned {
+    public id: string = "";
+    public source: string = "";
+    public snareSpecialistPrepared: number = 0;
+    public snareSpecialistAvailable: number = 0;
 }
