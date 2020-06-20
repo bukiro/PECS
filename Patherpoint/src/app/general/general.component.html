@@ -12,8 +12,8 @@
                 <span>
                     <strong>Hero Points</strong>
                     {{get_Character().heroPoints}}
-                    <button (click)="add_HeroPoints(1)">+1</button>
                     <button (click)="add_HeroPoints(-1)" [disabled]="get_Character().heroPoints <= 0">-1</button>
+                    <button (click)="add_HeroPoints(1)">+1</button>
                 </span>
             </div>
             <div class="fullsize-only list-item">

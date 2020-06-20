@@ -13,6 +13,44 @@
         "_className": "WornItem"
     },
     {
+        "desc": "This mummified elf hand hangs on a golden chain, its gnarled fingers locked in a peculiar pattern.",
+        "id": "a5aa952e-7eab-4f49-9955-fd19ce8b3e1f",
+        "bulk": "L",
+        "level": 2,
+        "name": "Hand of the Mage",
+        "price": 3000,
+        "traits": [
+            "Evocation",
+            "Invested",
+            "Magical"
+        ],
+        "activities": [
+            {
+                "actions": "2A",
+                "activationType": "Command, Envision",
+                "castSpells": [
+                    {
+                        "_className": "SpellCast",
+                        "name": "Mage Hand"
+                    }
+                ],
+                "toggle": true,
+                "desc": "You cast mage hand.",
+                "frequency": "once per day",
+                "name": "Hand of the Mage",
+                "traits": [
+                    "Evocation",
+                    "Invested",
+                    "Magical"
+                ],
+                "_className": "ItemActivity",
+                "source": "a5aa952e-7eab-4f49-9955-fd19ce8b3e1f"
+            }
+        ],
+        "_className": "WornItem",
+        "usage": "worn"
+    },
+    {
         "desc": "This compact compass repurposes ancient technology to draw fantastic powers from the mysterious magical items called aeon stones. It serves as a badge of office for agents of the Pathfinder Society and as a status symbol among adventurers of any stripe. A wayfinder functions as a compass.\n\nAn indentation in the middle of the wayfinder can hold a single aeon stone. Placing an aeon stone in this indentation provides you all the benefits of having the aeon stone orbiting your head, but it protects the stone from being noticed or stolen as easily. You invest a wayfinder and the aeon stone within it simultaneously, and they count as only one item toward your investiture limit. An invested aeon stone slotted in a wayfinder also grants its resonant power.\n\nIf you have more than one wayfinder with an invested aeon stone on your person at a given time, destructive interference from their resonance prevents you from gaining benefits from any of them. You can still benefit from additional aeon stones orbiting your head, just not in wayfinders.\n\nAll Pathfinders have access.",
         "id": "4c5d0fa0-fb67-4e5a-80af-dd450eba7cf4",
         "level": 2,

@@ -251,8 +251,7 @@ export class SpellbookComponent implements OnInit {
         }
     }
 
-    on_Cast(gain: SpellGain, casting: SpellCasting, creature: string = "", spell: Spell, activated: boolean) {
-        let choice = casting.spellChoices.find(choice => choice.spells.filter(spellgain => spellgain === gain).length);
+    on_Cast(gain: SpellGain, casting: SpellCasting, choice: SpellChoice, creature: string = "", spell: Spell, activated: boolean) {
         let level = choice.level;
         if (gain.cooldown) {
             gain.activeCooldown = gain.cooldown;
@@ -304,6 +303,30 @@ export class SpellbookComponent implements OnInit {
         this.spellsService.process_Spell(character, creature, this.characterService, this.itemsService, this.timeService, gain, spell, level, activated, true);
     }
 
+    can_Counterspell(casting: SpellCasting) {
+        let character = this.get_Character();
+        if (["Prepared", "Spontaneous"].includes(casting.castingType)) {
+            return character.get_FeatsTaken(1, character.level, "Counterspell ("+casting.castingType+")").length;
+        }
+    }
+
+    on_Counterspell(gain: SpellGain, casting: SpellCasting, choice: SpellChoice, spell: Spell) {
+        //Focus spells cost Focus points.
+        if (casting.castingType == "Focus"&& choice.level == -1) {
+            this.characterService.get_Character().class.focusPoints = Math.min(this.get_Character().class.focusPoints, this.get_MaxFocusPoints());
+            this.characterService.get_Character().class.focusPoints -= 1;
+        };
+        //Spontaneous spells use up spell slots.
+        if (casting.castingType == "Spontaneous" && !spell.traits.includes("Cantrip")) {
+            casting.spellSlotsUsed[choice.level] += 1;
+        }
+        //Prepared spells get locked until the next preparation.
+        if (casting.castingType == "Prepared" && !spell.traits.includes("Cantrip")) {
+            gain.prepared = false;
+        }
+        this.characterService.process_ToChange();
+    }
+
     on_Restore(gain: SpellGain, casting: SpellCasting, level: number) {
         if ((casting.bondedItemCharges[level] || casting.bondedItemCharges[0]) && !gain.prepared ) {
             if (casting.bondedItemCharges[level]) {
@@ -333,6 +356,9 @@ export class SpellbookComponent implements OnInit {
             .subscribe((view) => {
                 if (view.creature == "Character" && ["spellbook", "all"].includes(view.target)) {
                     this.changeDetector.detectChanges();
+                }
+                if (view.creature == "Character" && view.target == "span") {
+                    this.set_Span();
                 }
             });
             return true;

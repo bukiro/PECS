@@ -424,7 +424,6 @@ export class FeatchoiceComponent implements OnInit {
         this.characterService.set_ToChange("Character", "charactersheet");
         this.characterService.set_ToChange("Character", "featchoices");
         this.characterService.process_ToChange();
-        this.changeDetector.detectChanges();
     }
 
     get_Activities(name: string = "") {

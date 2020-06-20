@@ -169,6 +169,7 @@
       "displayName": "Claw",
       "moddable": "-",
       "_className": "Weapon",
+      "dicesize": 4,
       "dmgType": "S",
       "group": "Brawling",
       "melee": 5,

@@ -126,6 +126,7 @@ export class CharacterService {
         if (this.get_OwnedActivities(this.get_Creature(creature), this.get_Creature(creature).level).find(activity => showonString.includes(activity.name))) {
             this.set_ToChange(creature, "activities")
         }
+        this.set_ToChange(creature, "character-sheet");
     }
 
     process_ToChange() {
@@ -148,6 +149,7 @@ export class CharacterService {
                     this.set_ViewChanged(view);
                 });
             }
+            this.set_ViewChanged({creature: creature, target: "span", subtarget: ""});
         })
     }
 
@@ -1555,11 +1557,14 @@ export class CharacterService {
         this.set_Changed("top-bar");
         this.loading = true;
         this.traitsService.initialize();
+        this.abilitiesService.initialize();
+        this.activitiesService.initialize();
         this.featsService.initialize();
         this.historyService.initialize();
         this.classesService.initialize();
         this.conditionsService.initialize();
         this.spellsService.initialize();
+        this.skillsService.initialize()
         this.itemsService.initialize();
         this.effectsService.initialize(this);
         this.deitiesService.initialize();

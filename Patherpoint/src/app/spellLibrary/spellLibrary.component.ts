@@ -140,7 +140,8 @@ export class SpellLibraryComponent implements OnInit {
 
     get_School() {
         return this.get_Character().get_FeatsTaken(1, this.get_Character().level).find(taken => 
-            ["Abjuration School", "Conjuration School", "Divination School", "Enchantment School", "Evocation School", "Illusion School", "Necromancy School", "Transmutation School", "Universalist Wizard"].includes(taken.name)
+            ["Abjuration School", "Conjuration School", "Divination School", "Enchantment School", "Evocation School",
+            "Illusion School", "Necromancy School", "Transmutation School", "Universalist Wizard"].includes(taken.name)
         )?.name || "";
     }
 
@@ -178,7 +179,7 @@ export class SpellLibraryComponent implements OnInit {
                 if (wizardAvailable || schoolAvailable) {
                     result += "\n" + (wizardAvailable - wizardLearned) + (level == 0 ? " Arcane Cantrips" : " Arcane spell(s) up to level " + level);
                     if (schoolAvailable) {
-                        result += "\n" + (schoolAvailable - schoolLearned) + " Arcane spell(s) of the " + school + " school up to level " + level;
+                        result += "\n" + (schoolAvailable - schoolLearned) + " Arcane spell(s) of the " + school.toLowerCase() + " up to level " + level;
                     }
                 }
             })
@@ -200,7 +201,6 @@ export class SpellLibraryComponent implements OnInit {
 
     can_Learn(casting: SpellCasting, level: number, spell: Spell, source: string) {
         if (source == "wizard" && spell.traditions.includes("Arcane")) {
-            let school = this.get_School();
             let charLevel: number = this.get_Character().level;
             let wizardLearned: number = this.get_SpellsLearned("", 'wizard').filter(learned => learned.level == level && (learned.level > 0 || level == 0)).length;
             let wizardLearnedAll: number = this.get_SpellsLearned("", 'wizard').filter(learned => (level > 0 && learned.level > 0) || (level == 0 && learned.level == 0)).length;
@@ -217,7 +217,7 @@ export class SpellLibraryComponent implements OnInit {
                     wizardAvailableAll += casting.spellBookSlots[index];
                 }
             }
-            if (level == 1 && school == "Universalist Wizard") {
+            if (level == 1 && this.get_School() == "Universalist Wizard") {
                 wizardAvailable += 1
             }
             return wizardAvailable > wizardLearned && wizardAvailableAll > wizardLearnedAll;

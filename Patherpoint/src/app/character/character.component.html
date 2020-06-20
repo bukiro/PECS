@@ -529,8 +529,9 @@
                                                 [checked]="get_AbilityBoosts(level.number, level.number, ability.name, 'Boost', choice.source).length || get_AbilityBoosts(level.number, level.number, ability.name, 'Info', choice.source).length"
                                                 [disabled]="cannotBoost(ability, level, choice).length">
                                             <label for="{{itemID}}">
-                                                <strong>{{ability.name}}:</strong>
-                                                {{ability.baseValue(get_Character(), characterService, level.number).result}}&nbsp;
+                                                <strong>{{ability.name}}:&nbsp;</strong>
+                                                <input type="number" class="number2" style="padding:0px 2px; border:none;" [ngModel]="baseValue.result" title="{{baseValue.explain}}"
+                                                    maxlength="2" disabled *ngFor="let baseValue of [ability.baseValue(get_Character(), characterService, level.number)]; trackBy:trackByIndex;">
                                                 <cite class="problem"
                                                     *ngFor="let reason of cannotBoost(ability, level, choice); trackBy:trackByIndex;">
                                                     {{reason}}

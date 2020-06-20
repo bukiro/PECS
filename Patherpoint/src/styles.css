@@ -1,4 +1,5 @@
 /* Global Styles */
+/* Original Angular color: #1976d2 */
 
 * {
     font-family: 'Roboto', Arial, sans-serif;
@@ -8,13 +9,13 @@
     -moz-osx-font-smoothing: grayscale;
 }
 
-.darkmode *:not(h4):not(h6):not(.penalty):not(.bonus):not(.problem):not(.absolute):not(.checked):not(.fancy-button):not(var):not(.fancy-button span) {
-    color: #AAAAAA;
+.darkmode :not(.fancy-button) > :not(h4):not(h6):not(.penalty):not(.bonus):not(.problem):not(.absolute):not(.checked):not(.fancy-button):not(var):not(cite):not(.yourTurn):not(.box-header) {
+    color: #CCC;
 }
 
 body {
     margin: 0;
-    --accent: 25, 118, 210;
+    --accent: 70, 90, 140;
     overflow-y: hidden;
     background-color: #333333
 }
@@ -54,7 +55,7 @@ svg g {
 }
 
 .darkmode .charactersheet-app {
-    background-color: #101010;
+    background-color: #303030;
 }
 
 .animalcompanion-box,
@@ -65,7 +66,7 @@ svg g {
 .darkmode.charactersheet,
 .darkmode .animalcompanion-box,
 .darkmode .familiar-box {
-    background-color: black;
+    background-color: #202020;
 }
 
 app-familiarabilities.charactersheet-app {
@@ -189,8 +190,9 @@ app-familiar .character-only {
 }
 
 h3.box-header {
-    color: #1976d2;
+    color: #465A8C;
     color: rgb(var(--accent));
+    text-shadow: 0 0 5px #CCC;
 }
 
 .minimized input {
@@ -297,7 +299,7 @@ p {
 
 a {
     cursor: pointer;
-    color: #1976d2;
+    color: #465A8C;
     color: rgb(var(--accent));
     text-decoration: none;
 }
@@ -317,14 +319,17 @@ input {
     border: 1px solid #BDBDBD;
 }
 
+input[disabled]:not(.bonus):not(.penalty):not(.absolute) {
+    background-color: transparent;
+}
+
 .darkmode input:not([disabled]) {
-    color: #AAAAAA;
+    color: #CCC ;
     background-color: #202020;
 }
 
 .darkmode input[disabled]:not(.bonus):not(.penalty):not(.absolute) {
-    color: #AAAAAA;
-    background-color: #404040;
+    color: #CCC;
 }
 
 input.number2 {
@@ -372,7 +377,7 @@ button {
     border-radius: 2px;
     font-size: 90%;
     cursor: pointer;
-    background-color: #1976d2;
+    background-color: #465A8C;
     background-color: rgb(var(--accent));
     color: white;
     border: none;
@@ -381,9 +386,9 @@ button {
 }
 
 .darkmode .button, .darkmode button {
-    background-color: #1976d2;
+    background-color: #465A8C;
     background-color: rgb(var(--accent));
-    color: #AAAAAA;
+    color: #CCC;
 }
 
 .button svg,
@@ -397,7 +402,7 @@ button svg g {
 .darkmode .button svg g,
 .darkmode button svg,
 .darkmode button svg g {
-    fill: #AAAAAA;
+    fill: #CCC;
 }
 
 button.minimizebutton {
@@ -439,23 +444,28 @@ button:disabled {
 
 .fancy-button {
     background-color: white;
-    color: #1976d2;
+    color: #465A8C;
     color: rgb(var(--accent));
 }
 
 .darkmode .fancy-button {
-    background-color: black;
-    color: #1976d2;
+    background-color: #CCC;
+    color: #465A8C;
+    color: rgb(var(--accent));
+}
+
+.darkmode .fancy-button span {
+    color: #465A8C;
     color: rgb(var(--accent));
 }
 
 .darkmode .fancy-button * {
-    color: #1976d2;
+    color: #465A8C;
     color: rgb(var(--accent));
 }
 
 .fancy-button i.material-icons {
-    color: #1976d2;
+    color: #465A8C;
     color: rgb(var(--accent));
     padding-right: 4px;
 }
@@ -464,11 +474,11 @@ button:disabled {
 .fancy-button svg g,
 .darkmode .fancy-button svg,
 .darkmode .fancy-button svg g {
-    fill: #1976d2;
+    fill: #465A8C;
     fill: rgb(var(--accent));
 }
 
-.inactive-button {
+.inactive-button, .darkmode .inactive-button {
     background-color: grey;
 }
 
@@ -486,7 +496,7 @@ button:disabled {
 
 #top-bar {
     width: 100%;
-    background-color: #1976d2;
+    background-color: #465A8C;
     background-color: rgb(var(--accent));
     padding: 8px;
     display: flex;
@@ -542,7 +552,7 @@ button:disabled {
 }
 
 .darkmode .itemBox {
-    background-color: #101010;
+    background-color: #202020;
 }
 
 .topBox {
@@ -629,15 +639,15 @@ h4 app-actionIcons span {
 }
 
 button.list-item {
-    background-color: #1976d2;
+    background-color: #465A8C;
     background-color: rgb(var(--accent));
     color: white;
 }
 
 .darkmode button.list-item {
-    background-color: #1976d2;
+    background-color: #465A8C;
     background-color: rgb(var(--accent));
-    color: #AAAAAA;
+    color: #CCC;
 }
 
 .lower .list-item {
@@ -654,7 +664,7 @@ button.list-item {
 .list-item.sublist {
     border-width: 4px;
     border-style: solid;
-    border-color: #1976d2;
+    border-color: #465A8C;
     border-color: rgb(var(--accent));
     border-radius: 2px;
     position: absolute;
@@ -672,7 +682,7 @@ button.list-item {
 }
 
 .darkmode .list-item.sublist {
-    background-color: #101010;
+    background-color: #303030;
 }
 
 .list-item.sublist.fancy-list {
@@ -680,7 +690,7 @@ button.list-item {
 }
 
 .darkmode .list-item.sublist.fancy-list {
-    border-color: black;
+    border-color: #CCC;
 }
 
 button:hover~.list-item.sublist {
@@ -695,9 +705,9 @@ button:hover~.list-item.sublist.fancy-list {
 }
 
 .darkmode button:hover~.list-item.sublist.fancy-list {
-    border-color: #000000;
-    border-color: #00000050;
-    border-color: rgba(0, 0, 0, 0.5);
+    border-color: #CCC;
+    border-color: #CCCCCC50;
+    border-color: rgba(204, 204, 204, 0.8);
 }
 
 .list-item.sublist.inactive-list {
@@ -711,7 +721,7 @@ button:hover~.list-item.sublist.inactive-list {
 }
 
 .itemBox .fancybutton.list-item {
-    background-color: #1976d2;
+    background-color: #465A8C;
     background-color: rgb(var(--accent));
 }
 
@@ -822,17 +832,26 @@ input.invisible {
 
 .proficiency.checked {
     font-weight: bolder;
-    color: #1976d2;
+    color: #465A8C;
     color: rgb(var(--accent));
-    text-shadow: 0 0 3px rgb(var(--accent));
+    text-shadow: 0 0 5px #616161;
+}
+
+.darkmode .proficiency.checked {
+    text-shadow: 0 0 5px #CCC;
 }
 
 var,
 .variable {
     font-weight: bold;
     font-style: normal;
-    color: #1976d2;
+    color: #465A8C;
     color: rgb(var(--accent));
+    text-shadow: 0 0 5px #616161;
+}
+
+.darkmode var {
+    text-shadow: 0 0 5px #CCC;
 }
 
 .problem,
@@ -849,7 +868,7 @@ var,
 
 .darkmode .problem *,
 .darkmode .lower.problem * {
-    color: #AAAAAA;
+    color: #CCC;
 }
 
 span.problem {
@@ -880,7 +899,7 @@ input.absolute {
 
 .darkmode input.absolute {
     background-color: blue;
-    color: #AAAAAA;
+    color: #CCC;
 }
 
 input.bonus {
@@ -890,7 +909,7 @@ input.bonus {
 
 .darkmode input.bonus {
     background-color: darkgreen;
-    color: #AAAAAA;
+    color: #CCC;
 }
 
 input.penalty {
@@ -900,7 +919,7 @@ input.penalty {
 
 .darkmode input.penalty {
     background-color: #500000;
-    color: #AAAAAA;
+    color: #CCC;
 }
 
 .notapplied {

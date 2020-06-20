@@ -11,14 +11,17 @@
                 [ngClass]="{'penalty':skill.$penalties[get_CalculatedIndex()], 'bonus':skill.$bonuses[get_CalculatedIndex()], 'absolute':skill.$absolutes[get_CalculatedIndex()].length}"
                 type="number" title="{{((isDC) ? 'DC basis: 10\n' : '')+skill.$value[get_CalculatedIndex()].explain}}"
                 value="{{skill.$value[get_CalculatedIndex()].result + ((isDC) ? 10 : 0)}}" disabled>
-            <span class="fullsize-only" *ngFor="let id of [get_LabelID()]; trackBy:trackByIndex;"><input id="{{id+'notes'}}" class="invisible"
-                    type="checkbox" [(ngModel)]="skill.showNotes"><label for="{{id+'notes'}}">N</label></span>
+            <span class="fullsize-only" *ngFor="let id of [get_LabelID()]; trackBy:trackByIndex;"><input id="{{id+'notes'}}" class=""
+                    type="checkbox" [(ngModel)]="skill.showNotes"><label for="{{id+'notes'}}">Notes</label></span>
         </span>
     </div>
     <app-tags [creature]="creature" [objectName]=skill.name [showTraits]=true [showFeats]=true [showItems]=true
         [showActivities]=true [showConditions]=true [showEffects]=true [specialNames]=get_specialShowon(skill)>
     </app-tags>
-    <div class="fullsize-only row">
-        <input type="textarea" class="fullwidth" [(ngModel)]="skill.notes" *ngIf="skill.showNotes">
+    <div class="fullsize-only row" *ngIf="skill.showNotes">
+        <span>
+            <strong>Notes</strong>
+            <input type="textarea" class="fullwidth" [(ngModel)]="skill.notes">
+        </span>
     </div>
 </div>

@@ -70,6 +70,7 @@ The very latest in Assistive Technologies for Dungeon Master (ATDM)
 - [ ] Stretch Goal: Include optional Stamina & Resolve system
 
 Next steps:
+- Continue Wizard feats with Scroll Savant
 - Add custom conditions with effects
 - Add button press effect
 - Add Materials

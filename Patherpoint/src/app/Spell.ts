@@ -159,6 +159,9 @@ export class Spell {
     }
     canChoose(characterService: CharacterService, spellLevel: number = Math.ceil(characterService.get_Character().level / 2)) {
         if (characterService.still_loading()) { return false }
+        if (spellLevel == -1) {
+            spellLevel = Math.ceil(characterService.get_Character().level / 2);
+        }
         let levelreq: boolean = this.meetsLevelReq(characterService, spellLevel).met;
         return levelreq;
     }

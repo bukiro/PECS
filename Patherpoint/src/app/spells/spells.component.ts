@@ -1,12 +1,8 @@
 import { Component, OnInit, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
 import { CharacterService } from '../character.service';
-import { SortByPipe } from '../sortBy.pipe';
 import { SpellsService } from '../spells.service';
 import { SpellChoice } from '../SpellChoice';
-import { Spell } from '../Spell';
-import { TraitsService } from '../traits.service';
 import { SpellCasting } from '../SpellCasting';
-import { SpellchoiceComponent } from './spellchoice/spellchoice.component';
 
 @Component({
     selector: 'app-spells',
@@ -48,20 +44,20 @@ export class SpellsComponent implements OnInit {
         }
     }
 
-    receive_ChoiceMessage(name: string) {
-        this.toggle_Choice(name);
-    }
-
-    receive_SpellMessage(name: string) {
-        this.toggle_Spell(name);
-    }
-
     toggle_Choice(name: string) {
         if (this.showChoice == name) {
             this.showChoice = "";
         } else {
             this.showChoice = name;
         }
+    }
+
+    receive_ChoiceMessage(name: string) {
+        this.toggle_Choice(name);
+    }
+
+    receive_SpellMessage(name: string) {
+        this.toggle_Spell(name);
     }
 
     get_ShowSpell() {

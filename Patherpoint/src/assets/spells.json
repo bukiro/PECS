@@ -57,11 +57,123 @@
                 "value": "2d6",
                 "variable": "var1"
             }
+        ]
+    },
+    {
+        "id": "e5054e54-b2dd-11ea-b3de-0242ac130004",
+        "levelreq": 1,
+        "name": "Augment Summoning",
+        "actions": "1A",
+        "castType": "verbal",
+        "shortDesc": "You augment the abilities of a summoned creature.",
+        "traditions": [
+            "Focus"
         ],
-        "desc9": [
+        "traits": [
+            "Uncommon",
+            "Conjuration",
+            "Wizard"
+        ],
+        "range": "30 feet",
+        "targets": "1 creature you summoned",
+        "target": "self",
+        "desc": "You augment the abilities of a summoned creature. The target gains a +1 status bonus to all checks (this also applies to the creature's DCs, including its AC) for the duration of its summoning, up to 1 minute.",
+        "gainConditions": [
             {
-                "value": "3d6",
-                "variable": "var1"
+                "duration": 100,
+                "name": "Augment Summoning",
+                "source": "Augment Summoning"
+            }
+        ]
+    },
+    {
+        "id": "e5055192-b2dd-11ea-b3de-0242ac130004",
+        "levelreq": 1,
+        "name": "Call of the Grave",
+        "actions": "2A",
+        "castType": "somatic, vebal",
+        "shortDesc": "You fire a ray of sickening energy.",
+        "traditions": [
+            "Focus"
+        ],
+        "traits": [
+            "Uncommon",
+            "Arcane",
+            "Attack",
+            "Necromancy",
+            "Wizard"
+        ],
+        "range": "30 feet",
+        "targets": "1 living creature",
+        "desc": "You fire a ray of sickening energy. Make a spell attack roll.",
+        "critsuccess": "The target becomes sickened 2 and slowed 1 as long as it's sickened.",
+        "success": "The target becomes sickened 1.",
+        "failure": "The target is unaffected."
+    },
+    {
+        "id": "e50552c8-b2dd-11ea-b3de-0242ac130004",
+        "levelreq": 1,
+        "name": "Charming Words",
+        "actions": "1A",
+        "castType": "verbal",
+        "shortDesc": "You whisper enchanting words to deflect your foe’s ire.",
+        "traditions": [
+            "Focus"
+        ],
+        "traits": [
+            "Uncommon",
+            "Auditory",
+            "Enchantment",
+            "Incapacitation",
+            "Linguistic",
+            "Mental",
+            "Wizard"
+        ],
+        "range": "30 feet",
+        "targets": "1 creature",
+        "target": "self",
+        "duration": "until the start of your next turn",
+        "desc": "You whisper enchanting words to deflect your foe's ire. The target must attempt a Will save.",
+        "savingthrow": "Will",
+        "critsuccess": "The target is unaffected.",
+        "success": "The target takes a –1 circumstance penalty to attack rolls and damage rolls against you.",
+        "failure": "The target can't use hostile actions against you.",
+        "critfailure": "The target is stunned 1 and can't use hostile actions against you.",
+        "gainConditions": [
+            {
+                "duration": 10,
+                "name": "Charming Words",
+                "source": "Charming Words"
+            }
+        ]
+    },
+    {
+        "id": "e50553a4-b2dd-11ea-b3de-0242ac130004",
+        "levelreq": 1,
+        "name": "Diviner's Sight",
+        "actions": "1A",
+        "castType": "verbal",
+        "shortDesc": "You glimpse into the target’s future.",
+        "traditions": [
+            "Focus"
+        ],
+        "traits": [
+            "Uncommon",
+            "Concentrate",
+            "Divination",
+            "Fortune",
+            "Wizard"
+        ],
+        "range": "30 feet",
+        "targets": "1 willing living creature",
+        "target": "self",
+        "duration": "until the end of your next turn",
+        "desc": "You glimpse into the target's future. Roll a d20; when the target attempts a non-secret saving throw or skill check, it can use the number you rolled instead of rolling, and the spell ends. Alternatively, you can instead reveal the result of the die roll for one of the target's secret checks during the duration, and the spell ends. Casting it again ends any active diviner's sight you have cast, as well as any active diviner's sight on the target.",
+        "gainConditions": [
+            {
+                "duration": 15,
+                "name": "Diviner's Sight",
+                "source": "Diviner's Sight"
             }
         ]
     },
@@ -115,6 +227,131 @@
         "desc9": [
             {
                 "value": "5d4+5",
+                "variable": "var1"
+            }
+        ]
+    },
+    {
+        "id": "e5055476-b2dd-11ea-b3de-0242ac130004",
+        "levelreq": 1,
+        "name": "Hand of the Apprentice",
+        "actions": "1A",
+        "castType": "somatic",
+        "shortDesc": "You hurl a held melee weapon, making a spell attack roll.",
+        "traditions": [
+            "Focus"
+        ],
+        "traits": [
+            "Uncommon",
+            "Attack",
+            "Evocation",
+            "Wizard"
+        ],
+        "range": "500 feet",
+        "targets": "1 creature",
+        "desc": "You hurl a held melee weapon with which you are trained at the target, making a spell attack roll. On a success, you deal the weapon's damage as if you had hit with a melee Strike, but adding your spellcasting ability modifier to damage, rather than your Strength modifier. On a critical success, you deal double damage, and you add the weapon's critical specialization effect. Regardless of the outcome, the weapon flies back to you and returns to your hand."
+    },
+    {
+        "id": "bd6154e2-4f8e-4b2e-bdc0-b4c6c6968a83",
+        "levelreq": 1,
+        "name": "\nPhysical Boost",
+        "actions": "1A",
+        "castType": "verbal",
+        "shortDesc": "You temporarily improve the target's physique.",
+        "traditions": [
+            "Focus"
+        ],
+        "traits": [
+            "Uncommon",
+            "Transmutation",
+            "Wizard"
+        ],
+        "range": "touch",
+        "targets": "1 living creature",
+        "target": "ally",
+        "duration": "until the end of the target's next turn",
+        "desc": "You temporarily improve the target's physique. The target gains a +2 status bonus to the next Acrobatics check, Athletics check, Fortitude save, or Reflex save it attempts.",
+        "gainConditions": [
+            {
+                "duration": 15,
+                "name": "Physical Boost",
+                "source": "Physical Boost"
+            }
+        ]
+    },
+    {
+        "id": "e505580e-b2dd-11ea-b3de-0242ac130004",
+        "levelreq": 1,
+        "name": "Protective Ward",
+        "actions": "1A",
+        "castType": "somatic",
+        "shortDesc": "You emanate a shimmering aura of protective magic.",
+        "traditions": [
+            "Focus"
+        ],
+        "traits": [
+            "Uncommon",
+            "Abjuration",
+            "Wizard"
+        ],
+        "area": "5-foot-radius emanation centered on you",
+        "target": "self",
+        "sustained": 100,
+        "duration": "sustained up to 1 minute",
+        "desc": "You emanate a shimmering aura of protective magic. You and any allies in the area gain a +1 status bonus to AC. Each time you Sustain the Spell, the emanation's radius increases by 5 feet, to a maximum of 30 feet.",
+        "gainConditions": [
+            {
+                "duration": 100,
+                "name": "Protective Ward",
+                "source": "Protective Ward",
+                "value": 1
+            }
+        ]
+    },
+    {
+        "id": "e5055908-b2dd-11ea-b3de-0242ac130004",
+        "levelreq": 1,
+        "name": "Warped Terrain",
+        "actions": "1A to 3A",
+        "castType": "somatic, verbal",
+        "shortDesc": "You create illusory hazards that cover all surfaces in the area.",
+        "traditions": [
+            "Focus"
+        ],
+        "traits": [
+            "Uncommon",
+            "Illusion",
+            "Visual",
+            "Wizard"
+        ],
+        "range": "60 feet",
+        "area": "5-foot burst or more",
+        "target": "self",
+        "duration": "1 minute",
+        "desc": "You create illusory hazards that cover all surfaces in the area (typically the ground). <var>var1</var>Any creature moving through the illusion treats the squares as difficult terrain. A creature can attempt to disbelieve the effect as normal after using a Seek action or otherwise spending actions interacting with the illusion. If it successfully disbelieves, it ignores the effect for the remaining duration. For each additional action you use casting the spell, the burst's radius increases by 5 feet, to a maximum of 10 extra feet for 3 actions.",
+        "heightened": [
+            {
+                "desc": "You can make the illusion appear in the air rather than on a surface, causing it to function as difficult terrain for flying creatures.",
+                "level": "(4th)"
+            }
+        ],
+        "gainConditions": [
+            {
+                "duration": 100,
+                "name": "Warped Terrain",
+                "source": "Warped Terrain",
+                "value": 1
+            }
+        ],
+        "desc1": [
+            {
+                "value": "",
+                "variable": "var1"
+            }
+        ],
+        "desc4": [
+            {
+                "value": "You can make the illusion appear in the air rather than on a surface, causing it to function as difficult terrain for flying creatures. ",
                 "variable": "var1"
             }
         ]
@@ -189,32 +426,6 @@
                 "duration": 10,
                 "name": "Inspire Courage",
                 "source": "Inspire Courage"
-            }
-        ]
-    },
-    {
-        "id": "bd6154e2-4f8e-4b2e-bdc0-b4c6c6968a83",
-        "levelreq": 1,
-        "name": "Physical Boost",
-        "actions": "1A",
-        "castType": "verbal",
-        "shortDesc": "You temporarily improve the target's physique.",
-        "traditions": [
-            "Focus"
-        ],
-        "traits": [
-            "Uncommon",
-            "Transmutation",
-            "Wizard"
-        ],
-        "target": "ally",
-        "duration": "until the end of the target's next turn",
-        "desc": "You temporarily improve the target's physique. The target gains a +2 status bonus to the next Acrobatics check, Athletics check, Fortitude save, or Reflex save it attempts.",
-        "gainConditions": [
-            {
-                "duration": 15,
-                "name": "Physical Boost",
-                "source": "Physical Boost"
             }
         ]
     },
@@ -441,23 +652,272 @@
         ]
     },
     {
-        "id": "4a76f5fa-9126-11ea-bb37-0242ac130002",
+        "id": "7f2b3872-b2e3-11ea-b3de-0242ac130004",
         "levelreq": 4,
-        "name": "Abundant Step",
+        "name": "Dimensional Steps",
         "actions": "1A",
         "castType": "somatic",
-        "shortDesc": "You move so fast you blur across planar boundaries.",
+        "shortDesc": "You teleport a short distance.",
         "traditions": [
             "Focus"
         ],
         "traits": [
             "Uncommon",
             "Conjuration",
-            "Monk",
-            "Teleportation"
+            "Teleportation",
+            "Wizard"
         ],
-        "range": "15 feet or more",
-        "desc": "You move so fast you blur across planar boundaries. You teleport up to a distance equal to your Speed within your line of sight."
+        "range": "20 feet",
+        "desc": "You teleport to a location up to <var>var1</var> feet away within your line of sight.",
+        "heightened": [
+            {
+                "desc": "The distance you can teleport increases by 5 feet.",
+                "level": "(+1)"
+            }
+        ],
+        "desc4": [
+            {
+                "value": "20",
+                "variable": "var1"
+            }
+        ],
+        "desc5": [
+            {
+                "value": "25",
+                "variable": "var1"
+            }
+        ],
+        "desc6": [
+            {
+                "value": "30",
+                "variable": "var1"
+            }
+        ],
+        "desc7": [
+            {
+                "value": "35",
+                "variable": "var1"
+            }
+        ],
+        "desc8": [
+            {
+                "value": "40",
+                "variable": "var1"
+            }
+        ],
+        "desc9": [
+            {
+                "value": "45",
+                "variable": "var1"
+            }
+        ],
+        "desc10": [
+            {
+                "value": "50",
+                "variable": "var1"
+            }
+        ]
+    },
+    {
+        "id": "7f2b3a98-b2e3-11ea-b3de-0242ac130004",
+        "levelreq": 4,
+        "name": "Dread Aura",
+        "actions": "2A",
+        "castType": "somatic, verbal",
+        "shortDesc": "You emit an aura of terror.",
+        "traditions": [
+            "Focus"
+        ],
+        "traits": [
+            "Uncommon",
+            "Emotion",
+            "Enchantment",
+            "Fear",
+            "Mental",
+            "Wizard"
+        ],
+        "area": "30-foot-radius emanation centered on you",
+        "target": "self",
+        "sustained": 100,
+        "duration": "sustained up to 1 minute",
+        "desc": "You emit an aura of terror. Foes in the area are frightened 1 and unable to reduce the condition.",
+        "gainConditions": [
+            {
+                "duration": 100,
+                "name": "Dread Aura",
+                "source": "Dread Aura"
+            }
+        ]
+    },
+    {
+        "id": "7f2b3d2c-b2e3-11ea-b3de-0242ac130004",
+        "levelreq": 4,
+        "name": "Elemental Tempest",
+        "actions": "1A",
+        "castType": "verbal",
+        "shortDesc": "Your spellcasting surrounds you in a storm of elemental energy.",
+        "traditions": [
+            "Focus"
+        ],
+        "traits": [
+            "Uncommon",
+            "Evocation",
+            "Metamagic",
+            "Wizard"
+        ],
+        "desc": "Your spellcasting surrounds you in a storm of elemental energy. If the next action you take is to Cast a Spell from your wizard spell slots that's an evocation spell dealing acid, cold, electricity, or fire damage, a 10-foot emanation of energy surrounds you as you cast the spell. Foes in the area take 1d6 damage per spell level of the spell you just cast of the same damage type the spell deals (choose one if it deals multiple types). Combine the damage from both elemental tempest and the other spell against foes who take damage from both before applying bonuses, penalties, resistance, weakness, and the like."
+    },
+    {
+        "id": "7f2b3e12-b2e3-11ea-b3de-0242ac130004",
+        "levelreq": 4,
+        "name": "Energy Absorption",
+        "actions": "Reaction",
+        "castType": "verbal",
+        "shortDesc": "You quickly gain resistance to an energy type of your choice.",
+        "traditions": [
+            "Focus"
+        ],
+        "traits": [
+            "Uncommon",
+            "Abjuration",
+            "Wizard"
+        ],
+        "trigger": "An effect would deal acid, cold, electricity, or fire damage to you.",
+        "desc": "You gain resistance <var>var1</var> to acid, cold, electricity, or fire damage from the triggering effect (one type of your choice). The resistance applies only to the triggering effect's initial damage.",
+        "heightened": [
+            {
+                "desc": "The resistance increases by 5.",
+                "level": "(+1)"
+            }
+        ],
+        "desc4": [
+            {
+                "value": "15",
+                "variable": "var1"
+            }
+        ],
+        "desc5": [
+            {
+                "value": "20",
+                "variable": "var1"
+            }
+        ],
+        "desc6": [
+            {
+                "value": "25",
+                "variable": "var1"
+            }
+        ],
+        "desc7": [
+            {
+                "value": "30",
+                "variable": "var1"
+            }
+        ],
+        "desc8": [
+            {
+                "value": "35",
+                "variable": "var1"
+            }
+        ],
+        "desc9": [
+            {
+                "value": "40",
+                "variable": "var1"
+            }
+        ],
+        "desc10": [
+            {
+                "value": "45",
+                "variable": "var1"
+            }
+        ]
+    },
+    {
+        "id": "7f2b3eda-b2e3-11ea-b3de-0242ac130004",
+        "levelreq": 4,
+        "name": "Invisibility Cloak",
+        "actions": "2A",
+        "castType": "somatic",
+        "shortDesc": "You become invisible.",
+        "traditions": [
+            "Focus"
+        ],
+        "traits": [
+            "Uncommon",
+            "Illusion",
+            "Wizard"
+        ],
+        "target": "self",
+        "duration": "1 minute",
+        "desc": "<var>var1</var>You become invisible, with the same restrictions as the 2nd-level invisibility spell.",
+        "heightened": [
+            {
+                "desc": "The duration increases to 10 minutes.",
+                "level": "(6th)"
+            },
+            {
+                "desc": "The duration increases to 1 hour.",
+                "level": "(8th)"
+            }
+        ],
+        "gainConditions": [
+            {
+                "duration": 100,
+                "name": "Invisibility (2nd level)",
+                "source": "Invisibility Cloak",
+                "heightenedFilter": 4
+            },
+            {
+                "duration": 1000,
+                "name": "Invisibility (2nd level)",
+                "source": "Invisibility Cloak",
+                "heightenedFilter": 6
+            },
+            {
+                "duration": 6000,
+                "name": "Invisibility (2nd level)",
+                "source": "Invisibility Cloak",
+                "heightenedFilter": 8
+            }
+        ],
+        "desc4": [
+            {
+                "value": "",
+                "variable": "var1"
+            }
+        ],
+        "desc6": [
+            {
+                "value": "The duration increases to 10 minutes. ",
+                "variable": "var1"
+            }
+        ],
+        "desc8": [
+            {
+                "value": "The duration increases to 1 hour. ",
+                "variable": "var1"
+            }
+        ]
+    },
+    {
+        "id": "7f2b3fa2-b2e3-11ea-b3de-0242ac130004",
+        "levelreq": 4,
+        "name": "Life Siphon",
+        "actions": "Reaction",
+        "castType": "verbal",
+        "shortDesc": "You use some of the spell’s magic to heal yourself.",
+        "traditions": [
+            "Focus"
+        ],
+        "traits": [
+            "Uncommon",
+            "Healing",
+            "Necromancy",
+            "Wizard"
+        ],
+        "trigger": "You expend one of your wizard spell slots to cast a wizard spell of the necromancy school.",
+        "desc": "You use some of the spell's magic to heal yourself, regaining 1d8 Hit Points per level of the spell."
     },
     {
         "id": "98757e34-a5f3-11ea-bb37-0242ac130002",
@@ -514,7 +974,7 @@
         "gainConditions": [
             {
                 "duration": 100,
-                "name": "Shifting Form (climb Speed)",
+                "name": "Shifting Form (Climb Speed)",
                 "source": "Shifting Form"
             }
         ],
@@ -547,7 +1007,7 @@
         "gainConditions": [
             {
                 "duration": 100,
-                "name": "Shifting Form (swim Speed)",
+                "name": "Shifting Form (Swim Speed)",
                 "source": "Shifting Form"
             }
         ],
@@ -656,6 +1116,52 @@
                 "variable": "var1"
             }
         ]
+    },
+    {
+        "id": "7f2b4128-b2e3-11ea-b3de-0242ac130004",
+        "levelreq": 4,
+        "name": "Vigilant Eye",
+        "actions": "1A",
+        "castType": "somatic",
+        "shortDesc": "You create an invisible eye sensor, as clairvoyance.",
+        "traditions": [
+            "Focus"
+        ],
+        "traits": [
+            "Uncommon",
+            "Divination",
+            "Wizard"
+        ],
+        "range": "500 feet",
+        "target": "self",
+        "duration": "1 hour",
+        "desc": "You create an invisible eye sensor, as clairvoyance.\n\nWhen created, this eye must be in your line of sight. When the spell's duration ends, you can spend 1 Focus Point as a free action to extend the duration for another hour, though as normal, it ends immediately during your next daily preparations.",
+        "gainConditions": [
+            {
+                "duration": 6000,
+                "name": "Clairvoyance",
+                "source": "Vigilant Eye"
+            }
+        ]
+    },
+    {
+        "id": "4a76f5fa-9126-11ea-bb37-0242ac130002",
+        "levelreq": 4,
+        "name": "Abundant Step",
+        "actions": "1A",
+        "castType": "somatic",
+        "shortDesc": "You move so fast you blur across planar boundaries.",
+        "traditions": [
+            "Focus"
+        ],
+        "traits": [
+            "Uncommon",
+            "Conjuration",
+            "Monk",
+            "Teleportation"
+        ],
+        "range": "15 feet or more",
+        "desc": "You move so fast you blur across planar boundaries. You teleport up to a distance equal to your Speed within your line of sight."
     },
     {
         "id": "4a76fa14-9126-11ea-bb37-0242ac130002",
@@ -1914,7 +2420,7 @@
         "target": "self",
         "sustained": -1,
         "duration": "sustained",
-        "desc": "The simplest magic does your bidding. You can perform simple magical effects for as long as you Sustain the Spell. Each time you Sustain the Spell, you can choose one of four options.\n\nCook: Cool, warm, or flavor 1 pound of nonliving material.\nLift: Slowly lift an unattended object of light Bulk or less 1 foot off the ground.\nMake: Create a temporary object of negligible Bulk, made of congealed magical substance. The object looks crude and artificial and is extremely fragile—it can't be used as a tool, weapon, or spell component.\nTidy: Color, clean, or soil an object of light Bulk or less. You can affect an object of 1 Bulk with 10 rounds of concentration, and a larger object a 1 minute per Bulk.\n\nPrestidigitation can't deal damage or cause adverse conditions. Any actual change to an object (beyond what is noted above) persists only as long as you Sustain the Spell.",
+        "desc": "The simplest magic does your bidding. You can perform simple magical effects for as long as you Sustain the Spell. Each time you Sustain the Spell, you can choose one of four options.\n\nCook: Cool, warm, or flavor 1 pound of nonliving material.\nLift: Slowly lift an unattended object of light Bulk or less 1 foot off the ground.\nMake: Create a temporary object of negligible Bulk, made of congealed magical substance. The object looks crude and artificial and is extremely fragile - it can't be used as a tool, weapon, or spell component.\nTidy: Color, clean, or soil an object of light Bulk or less. You can affect an object of 1 Bulk with 10 rounds of concentration, and a larger object a 1 minute per Bulk.\n\nPrestidigitation can't deal damage or cause adverse conditions. Any actual change to an object (beyond what is noted above) persists only as long as you Sustain the Spell.",
         "gainConditions": [
             {
                 "duration": -1,
@@ -2444,7 +2950,7 @@
         ],
         "range": "30 feet",
         "targets": "1 creature",
-        "desc": "You hurl a loose, unattended object that is within range and that has 1 Bulk or less at the target. Make a spell attack against the target. If you hit, you deal bludgeoning, piercing, or slashing damage—as appropriate for the object you hurled—equal to <var>var1</var> plus your spellcasting ability modifier. No specific traits or magic properties of the hurled item affect the attack or the damage.",
+        "desc": "You hurl a loose, unattended object that is within range and that has 1 Bulk or less at the target. Make a spell attack against the target. If you hit, you deal bludgeoning, piercing, or slashing damage - as appropriate for the object you hurled - equal to <var>var1</var> plus your spellcasting ability modifier. No specific traits or magic properties of the hurled item affect the attack or the damage.",
         "critsuccess": "You deal double damage.",
         "success": "You deal full damage.",
         "heightened": [
@@ -2745,7 +3251,7 @@
         "desc": "You ward an area to alert you when creatures enter without your permission. When you cast alarm, select a password. Whenever a Small or larger corporeal creature enters the spell's area without speaking the password, alarm sends your choice of a mental alert (in which case the spell gains the mental trait) or an audible alarm with the sound and volume of a hand bell (in which case the spell gains the auditory trait). <var>var1</var>Either option automatically awakens you, and the bell allows each creature in the area to attempt a DC 15 Perception check to wake up. A creature aware of the alarm must succeed at a Stealth check against the spell's DC or trigger the spell when moving into the area.",
         "heightened": [
             {
-                "desc": "You can specify criteria for which creatures sound the alarm spell—for instance, orcs or masked people.",
+                "desc": "You can specify criteria for which creatures sound the alarm spell - for instance, orcs or masked people.",
                 "level": "(3rd)"
             }
         ],
@@ -2771,7 +3277,7 @@
         ],
         "desc3": [
             {
-                "value": "You can specify criteria for which creatures sound the alarm spell—for instance, orcs or masked people. ",
+                "value": "You can specify criteria for which creatures sound the alarm spell - for instance, orcs or masked people. ",
                 "variable": "var1"
             }
         ]
@@ -2905,7 +3411,8 @@
             {
                 "duration": 100,
                 "name": "Bane (Caster)",
-                "source": "Bane (Caster)"
+                "source": "Bane (Caster)",
+                "value": 1
             }
         ]
     },
@@ -2959,7 +3466,8 @@
             {
                 "duration": 100,
                 "name": "Bless (Caster)",
-                "source": "Bless (Caster)"
+                "source": "Bless (Caster)",
+                "value": 1
             }
         ]
     },
@@ -3300,7 +3808,7 @@
             "Divination"
         ],
         "area": "30-foot emanation",
-        "desc": "Your eyes glow as you sense aligned auras. Choose chaotic, evil, good, or lawful. You detect auras of that alignment. <var>var1</var> You can choose not to detect creatures or effects you're aware have that alignment.\n\nOnly creatures of 6th level or higher—unless divine spellcasters, undead, or beings from the Outer Sphere—have alignment auras.",
+        "desc": "Your eyes glow as you sense aligned auras. Choose chaotic, evil, good, or lawful. You detect auras of that alignment. <var>var1</var> You can choose not to detect creatures or effects you're aware have that alignment.\n\nOnly creatures of 6th level or higher - unless divine spellcasters, undead, or beings from the Outer Sphere - have alignment auras.",
         "heightened": [
             {
                 "desc": "You learn each aura's location and strength.",
@@ -5650,7 +6158,7 @@
         "targets": "1 creature",
         "target": "ally",
         "duration": "1 minute",
-        "desc": "You ward a creature against a specified alignment. Choose chaotic, evil, good, or lawful when you cast this spell. The target gains a +1 status bonus to Armor Class and saving throws against creatures and effects of the chosen alignment. This bonus increases to +3 against effects from such creatures that would directly control the target and against attacks made by summoned creatures of the chosen alignment.\n\nThis spell gains the trait that opposes the alignment you chose—if you choose chaos, this spell gains the lawful trait, and vice versa; if you choose evil, this spell gains the good trait, and vice versa.",
+        "desc": "You ward a creature against a specified alignment. Choose chaotic, evil, good, or lawful when you cast this spell. The target gains a +1 status bonus to Armor Class and saving throws against creatures and effects of the chosen alignment. This bonus increases to +3 against effects from such creatures that would directly control the target and against attacks made by summoned creatures of the chosen alignment.\n\nThis spell gains the trait that opposes the alignment you chose - if you choose chaos, this spell gains the lawful trait, and vice versa; if you choose evil, this spell gains the good trait, and vice versa.",
         "gainConditions": [
             {
                 "duration": 100,
@@ -7413,6 +7921,14 @@
                 "level": "(+1)"
             }
         ],
+        "gainConditions": [
+            {
+                "duration": -1,
+                "name": "Verdant Sprout",
+                "source": "Verdant Sprout",
+                "heightenedFilter": 1
+            }
+        ],
         "desc1": [
             {
                 "value": "",
@@ -7569,6 +8085,7 @@
         ],
         "range": "touch",
         "targets": "1 willing creature",
+        "target": "ally",
         "duration": "10 minutes",
         "desc": "The target's skin becomes covered in bark. The target gains resistance <var>var1</var> to bludgeoning and piercing damage and weakness <var>var2</var> to fire. After the target takes fire damage, it can Dismiss the spell as a free action triggered by taking the damage; doing so doesn't reduce the fire damage the target was dealt.",
         "heightened": [
@@ -8935,7 +9452,7 @@
         ],
         "gainConditions": [
             {
-                "duration": 1000,
+                "duration": 6000,
                 "name": "Water Breathing",
                 "source": "Water Breathing",
                 "heightenedFilter": 2
@@ -10075,6 +10592,17 @@
         "traits": [
             "Divination",
             "Scrying"
+        ],
+        "range": "500 feet",
+        "target": "self",
+        "duration": "10 minutes",
+        "desc": "You create an invisible floating eye at a location within range (even if it's outside your line of sight or line of effect). The eye can't move, but you can see in all directions from that point as if using your normal visual senses.",
+        "gainConditions": [
+            {
+                "duration": 1000,
+                "name": "Clairvoyance",
+                "source": "Clairvoyance"
+            }
         ]
     },
     {
@@ -10093,26 +10621,17 @@
             "Enchantment",
             "Mental"
         ],
-        "savingthrow": "Will"
-    },
-    {
-        "id": "29ee94a4-9122-11ea-bb37-0242ac130002",
-        "levelreq": 4,
-        "name": "Creation",
-        "actions": "1 minute",
-        "castType": "material, somatic, verbal",
-        "shortDesc": "Make a temporary object.",
-        "traditions": [
-            "Arcane",
-            "Primal"
-        ],
-        "traits": [
-            "Conjuration"
-        ],
         "range": "0 feet",
-        "duration":"1 hour",
         "target": "self",
+        "duration": "1 hour",
         "desc": "You conjure a temporary object from eldritch energy. <var>var1</var> It can't rely on intricate artistry or complex moving parts, never fulfills a cost or the like, and can't be made of precious materials or materials with a rarity of uncommon or higher. It is obviously temporarily conjured, and thus can't be sold or passed off as a genuine item.",
+        "savingthrow": "Will",
+        "heightened": [
+            {
+                "desc": "The item is metal and can include common minerals, like feldspar or quartz.",
+                "level": "(5th)"
+            }
+        ],
         "gainConditions": [
             {
                 "duration": 6000,
@@ -10127,12 +10646,6 @@
                 "heightenedFilter": 5
             }
         ],
-        "heightened": [
-            {
-                "desc": "The item is metal and can include common minerals, like feldspar or quartz.",
-                "level": "(5th)"
-            }
-        ],
         "desc4": [
             {
                 "value": "It must be of vegetable matter (such as wood or paper) and 5 cubic feet or smaller.",
@@ -10144,6 +10657,21 @@
                 "value": "The item is metal and can include common minerals, like feldspar or quartz. It must be 5 cubic feet or smaller.",
                 "variable": "var1"
             }
+        ]
+    },
+    {
+        "id": "29ee94a4-9122-11ea-bb37-0242ac130002",
+        "levelreq": 4,
+        "name": "Creation",
+        "actions": "1 minute",
+        "castType": "material, somatic, verbal",
+        "shortDesc": "Make a temporary object.",
+        "traditions": [
+            "Arcane",
+            "Primal"
+        ],
+        "traits": [
+            "Conjuration"
         ]
     },
     {
@@ -10179,7 +10707,7 @@
             "Teleportation"
         ],
         "range": "120 feet",
-        "desc": "<var>var1</var>Opening a door that bypasses normal space, you instantly transport yourself and any items you're wearing and holding from your current space to a clear space within range you can see. <var>var2</var>If this would bring another creature with you—even if you're carrying it in an extradimensional container—the spell is lost. <var>var3</var>",
+        "desc": "<var>var1</var>Opening a door that bypasses normal space, you instantly transport yourself and any items you're wearing and holding from your current space to a clear space within range you can see. <var>var2</var>If this would bring another creature with you - even if you're carrying it in an extradimensional container - the spell is lost. <var>var3</var>",
         "heightened": [
             {
                 "desc": "The range increases to 1 mile. You don't need to be able to see your destination, as long as you have been there in the past and know its relative location and distance from you. You are temporarily immune for 1 hour.",
@@ -12057,7 +12585,7 @@
         "target": "self",
         "duration": "10 minutes",
         "desc": "You see things within 60 feet as they actually are. The GM rolls a secret counteract check against any illusion or transmutation in the area, but only for the purpose of determining whether you see through it (for instance, if the check succeeds against a polymorph spell, you can see the creature's true form, but you don't end the polymorph spell).",
-        "gainConditions":[
+        "gainConditions": [
             {
                 "duration": 1000,
                 "name": "True Seeing",
@@ -12794,8 +13322,9 @@
         "range": "30 feet",
         "targets": "1 creature",
         "target": "ally",
+        "duration": "until the next time you make your daily preparations",
         "desc": "Powerful wards hide a creature from divination magic. The target gains a +4 status bonus to saves against mental effects. Mind blank attempts to counteract any detection, revelation, and scrying effects as if its spell level were 1 higher than its actual level. On a success, the divination effect functions normally except that it detects nothing about the target and its possessions. For instance, detect magic would still detect other magic in the area, but not any magic on the target.",
-        "gainConditions":[
+        "gainConditions": [
             {
                 "duration": -2,
                 "name": "Mind Blank",

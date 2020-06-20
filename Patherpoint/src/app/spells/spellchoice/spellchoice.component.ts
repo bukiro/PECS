@@ -40,6 +40,7 @@ export class SpellchoiceComponent implements OnInit {
     itemSpell: boolean = false;
     @Input()
     prepared: boolean = false;
+    //Are we choosing character spells from the spellbook/repertoire? If not, some functions will be disabled.
     @Input()
     spellbook: boolean = false;
 
@@ -163,6 +164,7 @@ export class SpellchoiceComponent implements OnInit {
                     return 0;
                 }
             } else if (level > highestSpellLevel) {
+                //If the targeted spell level is not available, return -1 so there is a result, but it does not grant any spells.
                 return -1;
             }
         } else {
@@ -330,10 +332,13 @@ export class SpellchoiceComponent implements OnInit {
     }
 
     on_SpellTaken(spellName: string, taken: boolean, choice: SpellChoice, locked: boolean) {
-        if (taken && (choice.spells.length == this.get_Available(choice) - 1)) { this.showChoice = ""; }
+        if (taken && (choice.spells.length == this.get_Available(choice) - 1)) { this.toggle_Choice("") }
         let prepared: boolean = this.prepared && this.get_Character().get_FeatsTaken(1, this.get_Character().level, "Spell Substitution")?.length > 0;
         this.get_Character().take_Spell(this.characterService, spellName, taken, choice, locked, prepared);
-        this.characterService.set_Changed("Character");
+        this.characterService.set_ToChange("Character", "spells");
+        this.characterService.set_ToChange("Character", "spellchoices");
+        this.characterService.set_ToChange("Character", "spellbook");
+        this.characterService.process_ToChange();
     }
 
     still_loading() {

@@ -68,14 +68,14 @@ export class Ability {
         if (boosts) {
             boosts.forEach(boost => {
                 if (boost.type == "Boost") {
-                    baseValue += (baseValue < 18 || creature.type == "Companion") ? 2 : 1;
+                    let weight = (baseValue < 18 || creature.type == "Companion") ? 2 : 1;
+                    baseValue += weight;
+                    explain += "\n"+boost.source+": +"+weight;
                 } else if (boost.type == "Flaw") {
                     baseValue -= 2;
+                    explain += "\n"+boost.source+": -2";
                 }
             })
-        }
-        if (baseValue > 10) {
-            explain += "\nBoosts: " + (baseValue - 10)
         }
         return { result: baseValue, explain: explain };
     }

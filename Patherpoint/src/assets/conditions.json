@@ -437,7 +437,7 @@
             }
         ],
         "hasValue": true,
-        "inputRequired": "If stunned has a value, each time you regain actions (such as at the start of your turn), reduce the number you regain by your stunned value, then reduce your stunned value by the number of actions you lost.",
+        "inputRequired": "If stunned has a value, each time you regain actions (such as at the start of your turn), reduce the number you regain by your stunned value, then reduce your stunned value by the number of actions you lost. Stunned might also have a duration instead of a value, such as “stunned for 1 minute.” In this case, you lose all your actions for the listed duration.",
         "overrideConditions": [
             "Slowed"
         ],
@@ -1131,6 +1131,13 @@
         "name": "Bane (Caster)",
         "buff": true,
         "desc": "You fill the minds of your enemies with doubt. Targets that fail their Will saves take a -1 status penalty to attack rolls as long as they are in the area. Once per turn, starting the turn after you cast bane, you can use a single action, which has the concentrate trait, to increase the emanation's radius by 5 feet and force enemies in the area that weren't yet affected to attempt another saving throw. Bane can counteract bless.",
+        "hasValue": true,
+        "effects": [
+            {
+                "affected": "Bane Radius",
+                "setValue": "object.value * 5"
+            }
+        ],
         "type": "spells"
     },
     {
@@ -1149,11 +1156,16 @@
         "name": "Bless (Caster)",
         "buff": true,
         "desc": "Blessings from beyond help your companions strike true. You and your allies in the area gain a +1 status bonus to attack rolls. Once per turn, starting the turn after you cast bless, you can use a single action, which has the concentrate trait, to increase the emanation's radius by 5 feet. Bless can counteract bane.",
+        "hasValue": true,
         "effects": [
             {
                 "affected": "Attack Rolls",
                 "type": "status",
                 "value": "1"
+            },
+            {
+                "affected": "Bless Radius",
+                "setValue": "object.value * 5"
             }
         ],
         "type": "spells"
@@ -4693,5 +4705,71 @@
             }
         ],
         "type": "activities"
+    },
+    {
+        "name": "Augment Summoning",
+        "buff": true,
+        "desc": "You have augmented the abilities of a chosen summoned creature. It gains a +1 status bonus to all checks (this also applies to the creature's DCs, including its AC) for the duration of its summoning, up to 1 minute.",
+        "hint": "A chosen summoned creature gains a +1 status bonus to all checks (this also applies to the creature's DCs, including its AC).",
+        "showon": "Spellbook",
+        "type": "spells"
+    },
+    {
+        "name": "Charming Words",
+        "buff": true,
+        "desc": "You have whisperer enchanting words to deflect one foe's ire. The effect on the target depends on its initial Will save.\n\n<strong>Critical Success</strong>The target is unaffected.\n<strong>Success</strong> The target takes a –1 circumstance penalty to attack rolls and damage rolls against you.\n<strong>Failure</strong> The target can't use hostile actions against you.\n<strong>Critical Failure</strong> The target is stunned 1 and can't use hostile actions against you.",
+        "type": "spells"
+    },
+    {
+        "name": "Diviner's Sight",
+        "buff": true,
+        "desc": "You have glimpsed into a chosen target's future and rolled a d20. When the target attempts a non-secret saving throw or skill check, it can use the number you rolled instead of rolling, and the spell ends. Alternatively, you can instead reveal the result of the die roll for one of the target's secret checks during the duration, and the spell ends. Casting it again ends any active diviner's sight you have cast, as well as any active diviner's sight on the target.",
+        "type": "spells"
+    },
+    {
+        "name": "Protective Ward",
+        "buff": true,
+        "desc": "You emanate a shimmering aura of protective magic. You and any allies in the area gain a +1 status bonus to AC. Each time you Sustain the Spell, the emanation's radius increases by 5 feet, to a maximum of 30 feet.",
+        "hasValue": true,
+        "effects": [
+            {
+                "affected": "Protective Ward Radius",
+                "setValue": "object.value * 5"
+            }
+        ],
+        "type": "spells"
+    },
+    {
+        "name": "Warped Terrain",
+        "buff": true,
+        "desc": "You have created illusory hazards that cover all surfaces in the area (typically the ground). On 4th level, you can make the illusion appear in the air rather than on a surface. Any creature moving through the illusion treats the squares as difficult terrain. A creature can attempt to disbelieve the effect as normal after using a Seek action or otherwise spending actions interacting with the illusion. If it successfully disbelieves, it ignores the effect for the remaining duration. For each additional action you use casting the spell, the burst's radius increases by 5 feet, to a maximum of 10 extra feet for 3 actions.",
+        "hasValue": true,
+        "effects": [
+            {
+                "affected": "Warped Terrain Radius",
+                "setValue": "object.value * 5"
+            }
+        ],
+        "type": "spells"
+    },
+    {
+        "name": "Clairvoyance",
+        "buff": true,
+        "desc": "You have created an invisible floating eye at a location within range. The eye can't move, but you can see in all directions from that point as if using your normal visual senses.",
+        "hint": "You have created an invisible eye floating at a location within range, and can see in all directions from that point as if using your normal visual senses.",
+        "showon": "Perception",
+        "type": "spells"
+    },
+    {
+        "name": "Dread Aura",
+        "buff": true,
+        "desc": "You emit an aura of terror with a 30-foot radius. Foes in the area are frightened 1 and unable to reduce the condition.",
+        "type": "spells"
+    },
+    {
+        "name": "Verdant Sprout",
+        "buff": true,
+        "desc": "You have imbued one plant seed per spell level with primal energy and thrown it onto a surface, where it gradually sprouts into a Medium plant. After 10 minutes, the plant is sturdy enough to provide standard cover, and its space is difficult terrain. The plant is laden with nutritious nuts or fruit sufficient to feed one Medium creature for a day. The plant has AC 10, Hardness 5, and 20 Hit Points.",
+        "type": "spells"
     }
 ]

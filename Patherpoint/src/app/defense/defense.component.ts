@@ -143,6 +143,9 @@ export class DefenseComponent implements OnInit {
                 if (view.creature == this.creature && ["defense", "all"].includes(view.target)) {
                     this.changeDetector.detectChanges();
                 }
+                if (view.creature == "Character" && view.target == "span") {
+                    this.set_Span();
+                }
             });
             return true;
         }
