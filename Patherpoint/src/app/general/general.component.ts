@@ -118,7 +118,7 @@ export class GeneralComponent implements OnInit {
 
     get_WizardSchool() {
         return this.get_Character().get_FeatsTaken(1, this.get_Character().level)
-            .filter(gain => ["Abjuration School", "Conjuration School", "Divination School", "Enchantment School", "Evocation School", "Illusion School", "Necromancy School", "Transmutation School", "Universalist School"].includes(gain.name));
+            .filter(gain => ["Abjuration School", "Conjuration School", "Divination School", "Enchantment School", "Evocation School", "Illusion School", "Necromancy School", "Transmutation School", "Universalist Wizard"].includes(gain.name));
     }
 
     get_ArcaneThesis() {

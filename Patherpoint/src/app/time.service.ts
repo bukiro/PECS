@@ -96,7 +96,7 @@ export class TimeService {
                 characterService.set_ToChange("Character", "inventory");
                 //Regenerate bonded item charges.
                 character.class.spellCasting.filter(casting => casting.castingType == "Prepared" && casting.className == "Wizard").forEach(casting => {
-                    if (character.get_FeatsTaken(1, character.level, "Universalist School").length) {
+                    if (character.get_FeatsTaken(1, character.level, "Universalist Wizard").length) {
                         casting.bondedItemCharges = [0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1];
                     } else {
                         casting.bondedItemCharges = [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];

@@ -14712,7 +14712,7 @@
                             "Illusion School",
                             "Necromancy School",
                             "Transmutation School",
-                            "Universalist School"
+                            "Universalist Wizard"
                         ],
                         "id": "1-School-Wizard-1",
                         "source": "Wizard",
@@ -15804,15 +15804,6 @@
                     "source": "Innate",
                     "type": "Spell DC"
                 }
-            },
-            {
-                "_className": "SpellCasting",
-                "ability": "Intelligence",
-                "castingType": "Focus",
-                "charLevelAvailable": 0,
-                "className": "Wizard",
-                "source": "Domain Spells",
-                "tradition": "Arcane"
             },
             {
                 "_className": "SpellCasting",

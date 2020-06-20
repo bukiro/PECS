@@ -8,7 +8,7 @@
     -moz-osx-font-smoothing: grayscale;
 }
 
-.darkmode * {
+.darkmode *:not(h4):not(h6):not(.penalty):not(.bonus):not(.problem):not(.absolute):not(.checked):not(.fancy-button):not(var):not(.fancy-button span) {
     color: #AAAAAA;
 }
 
@@ -16,6 +16,7 @@ body {
     margin: 0;
     --accent: 25, 118, 210;
     overflow-y: hidden;
+    background-color: #333333
 }
 
 .container {
@@ -317,20 +318,22 @@ input {
 }
 
 .darkmode input:not([disabled]) {
+    color: #AAAAAA;
     background-color: #202020;
 }
 
 .darkmode input[disabled]:not(.bonus):not(.penalty):not(.absolute) {
+    color: #AAAAAA;
     background-color: #404040;
 }
 
 input.number2 {
-    width: 40px;
+    width: 44px;
     margin-bottom: 0px;
 }
 
 input.number3 {
-    width: 50px;
+    width: 52px;
     margin-bottom: 0px;
 }
 
@@ -340,17 +343,17 @@ input.number4 {
 }
 
 input.number5 {
-    width: 70px;
+    width: 68px;
     margin-bottom: 0px;
 }
 
 input.number6 {
-    width: 80px;
+    width: 76px;
     margin-bottom: 0px;
 }
 
 input.number7 {
-    width: 90px;
+    width: 82px;
     margin-bottom: 0px;
 }
 
@@ -373,6 +376,8 @@ button {
     background-color: rgb(var(--accent));
     color: white;
     border: none;
+    font-weight: bold;
+    white-space: nowrap;
 }
 
 .darkmode .button, .darkmode button {
@@ -421,7 +426,7 @@ button * {
 .button:hover,
 button:hover {
     opacity: 0.8;
-    font-weight: normal;
+    font-weight: bold;
 }
 
 .button:disabled,
@@ -439,7 +444,7 @@ button:disabled {
 }
 
 .darkmode .fancy-button {
-    background-color: #C8C8C8;
+    background-color: black;
     color: #1976d2;
     color: rgb(var(--accent));
 }
@@ -582,6 +587,12 @@ app-spellchoice {
     width: 100%;
 }
 
+app-proficiency-form, .row app-proficiency-form {
+    flex-grow: 0;
+    margin-left: 4px;
+    margin-right: 4px;
+}
+
 app-actionIcons,
 app-actionIcons svg {
     height: 1em;
@@ -669,7 +680,7 @@ button.list-item {
 }
 
 .darkmode .list-item.sublist.fancy-list {
-    border-color: #C8C8C8;
+    border-color: black;
 }
 
 button:hover~.list-item.sublist {
@@ -684,9 +695,9 @@ button:hover~.list-item.sublist.fancy-list {
 }
 
 .darkmode button:hover~.list-item.sublist.fancy-list {
-    border-color: #C8C8C8;
-    border-color: #C8C8C850;
-    border-color: rgba(200, 200, 200, 0.8);
+    border-color: #000000;
+    border-color: #00000050;
+    border-color: rgba(0, 0, 0, 0.5);
 }
 
 .list-item.sublist.inactive-list {
@@ -793,6 +804,11 @@ cite.effect.penalty {
     color: #500000;
 }
 
+.darkmode .penalty {
+    color: red
+}
+
+
 input.invisible {
     display: none;
 }
@@ -827,7 +843,13 @@ var,
 
 .darkmode .problem,
 .darkmode .lower.problem {
+    color: red;
     background-color: #500000;
+}
+
+.darkmode .problem *,
+.darkmode .lower.problem * {
+    color: #AAAAAA;
 }
 
 span.problem {
@@ -867,7 +889,7 @@ input.bonus {
 }
 
 .darkmode input.bonus {
-    background-color: green;
+    background-color: darkgreen;
     color: #AAAAAA;
 }
 

@@ -56,7 +56,6 @@ export class SpellsComponent implements OnInit {
         this.toggle_Spell(name);
     }
 
-
     toggle_Choice(name: string) {
         if (this.showChoice == name) {
             this.showChoice = "";
@@ -105,7 +104,32 @@ export class SpellsComponent implements OnInit {
 
     get_SpellCastings() {
         let character = this.get_Character();
-        return character.class.spellCasting.filter(casting => casting.charLevelAvailable && casting.charLevelAvailable <= character.level);
+        return character.class.spellCasting.filter(casting => casting.charLevelAvailable && casting.charLevelAvailable <= character.level)
+            .sort(function(a,b) {
+                if (a.tradition > b.tradition) {
+                    return 1;
+                }
+                if (a.tradition < b.tradition) {
+                    return -1;
+                }
+                return 0;
+            }).sort(function(a,b) {
+                if (a.className > b.className) {
+                    return 1;
+                }
+                if (a.className < b.className) {
+                    return -1;
+                }
+                return 0;
+            }).sort(function(a,b) {
+                if (a.castingType > b.castingType || (b.castingType == "Innate" ? a.castingType != "Innate" : false)) {
+                    return 1;
+                }
+                if (a.castingType < b.castingType || (a.castingType == "Innate" ? b.castingType != "Innate" : false)) {
+                    return -1;
+                }
+                return 0;
+            })
     }
 
     get_DynamicLevel(casting: SpellCasting, choice: SpellChoice) {

@@ -3,6 +3,7 @@
         "bulk": "L",
         "desc": "This very small shield is a favorite of duelists and quick, lightly armored warriors. It's typically made of steel and strapped to your forearm. You can Raise a Shield with your buckler as long as you have that hand free or are holding a light object that's not a weapon in that hand.",
         "id": "89be2052-8e09-11ea-9fab-e92c63c14723",
+        "price": 100,
         "name": "Buckler",
         "gainItems": [
             {
@@ -21,6 +22,7 @@
         "bulk": "1",
         "desc": "Though they come in a variety of shapes and sizes, the protection offered by wooden shields comes from the stoutness of their materials. While wooden shields are less expensive than steel shields, they break more easily.",
         "id": "89be2055-8e09-11ea-9fab-e92c63c14723",
+        "price": 100,
         "name": "Wooden Shield",
         "gainItems": [
             {
@@ -39,6 +41,7 @@
         "bulk": "1",
         "desc": "Like wooden shields, steel shields come in a variety of shapes and sizes. Though more expensive than wooden shields, they are much more durable.",
         "id": "89be2058-8e09-11ea-9fab-e92c63c14723",
+        "price": 200,
         "name": "Steel Shield",
         "gainItems": [
             {
@@ -57,6 +60,7 @@
         "bulk": "4",
         "desc": "These massive shields can be used to provide cover to nearly the entire body. Due to their size, they are typically made of wood reinforced with metal.\n\nGetting the higher bonus for a tower shield requires using the Take Cover action while the shield is raised.",
         "id": "89be205b-8e09-11ea-9fab-e92c63c14723",
+        "price": 1000,
         "name": "Tower Shield",
         "gainItems": [
             {
@@ -77,6 +81,8 @@
         "bulk": "1",
         "desc": "This steel shield (Hardness 6, HP 36, BT 18) is forged into the shape of a roaring lion’s head. The lion’s head functions as +1 striking shield boss that can’t be removed from the shield.",
         "id": "91a08649-09cd-44aa-9c5f-aac121102a64",
+        "level": 6,
+        "price": 24500,
         "name": "Lion's Shield",
         "shieldBase": "Steel Shield",
         "gainItems": [

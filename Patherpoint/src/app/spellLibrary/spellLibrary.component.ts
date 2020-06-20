@@ -140,7 +140,7 @@ export class SpellLibraryComponent implements OnInit {
 
     get_School() {
         return this.get_Character().get_FeatsTaken(1, this.get_Character().level).find(taken => 
-            ["Abjuration School", "Conjuration School", "Divination School", "Enchantment School", "Evocation School", "Illusion School", "Necromancy School", "Transmutation School", "Universalist School"].includes(taken.name)
+            ["Abjuration School", "Conjuration School", "Divination School", "Enchantment School", "Evocation School", "Illusion School", "Necromancy School", "Transmutation School", "Universalist Wizard"].includes(taken.name)
         )?.name || "";
     }
 
@@ -165,7 +165,7 @@ export class SpellLibraryComponent implements OnInit {
                     }
                 }
                 if (level == 1 && school) {
-                    if (school == "Universalist School") {
+                    if (school == "Universalist Wizard") {
                         wizardAvailable += 1
                     } else {
                         schoolAvailable = 1;
@@ -203,7 +203,7 @@ export class SpellLibraryComponent implements OnInit {
             let school = this.get_School();
             let charLevel: number = this.get_Character().level;
             let wizardLearned: number = this.get_SpellsLearned("", 'wizard').filter(learned => learned.level == level && (learned.level > 0 || level == 0)).length;
-            let wizardLearnedAll: number = this.get_SpellsLearned("", 'wizard').filter(learned => learned.level > 0 || level == 0).length;
+            let wizardLearnedAll: number = this.get_SpellsLearned("", 'wizard').filter(learned => (level > 0 && learned.level > 0) || (level == 0 && learned.level == 0)).length;
             let wizardAvailable = 0;
             let wizardAvailableAll = 0;
             if (level == 0) {
@@ -217,7 +217,7 @@ export class SpellLibraryComponent implements OnInit {
                     wizardAvailableAll += casting.spellBookSlots[index];
                 }
             }
-            if (level == 1 && school == "Universalist School") {
+            if (level == 1 && school == "Universalist Wizard") {
                 wizardAvailable += 1
             }
             return wizardAvailable > wizardLearned && wizardAvailableAll > wizardLearnedAll;
@@ -227,7 +227,7 @@ export class SpellLibraryComponent implements OnInit {
             let schoolAvailable = 0;
             let schoolLearned: number = this.get_SpellsLearned("", 'school', level).length;
             if (level == 1 && school) {
-                if (school != "Universalist School" && spell.traits.includes(school)) {
+                if (school != "Universalist Wizard" && spell.traits.includes(school.split(" ")[0])) {
                     schoolAvailable += 1
                 }
             }
@@ -249,7 +249,7 @@ export class SpellLibraryComponent implements OnInit {
             case "wizard":
                 return "(learned as wizard)";
             case "school":
-                return "(learned via " + this.get_School() + " school)";
+                return "(learned via " + this.get_School().toLowerCase() + ")";
             case "free":
                 return "(learned via Learn A Spell activity)";
         }

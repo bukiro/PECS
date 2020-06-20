@@ -8,7 +8,6 @@ import { SortByPipe } from 'src/app/sortBy.pipe';
 import { SpellCasting } from 'src/app/SpellCasting';
 import { EffectsService } from 'src/app/effects.service';
 import { SpellGain } from 'src/app/SpellGain';
-import { ThrowStmt } from '@angular/compiler';
 import { SpellLearned } from 'src/app/SpellLearned';
 
 @Component({
@@ -41,6 +40,8 @@ export class SpellchoiceComponent implements OnInit {
     itemSpell: boolean = false;
     @Input()
     prepared: boolean = false;
+    @Input()
+    spellbook: boolean = false;
 
     constructor(
         private changeDetector: ChangeDetectorRef,
@@ -59,6 +60,7 @@ export class SpellchoiceComponent implements OnInit {
         }
         this.showSpellMessage.emit(this.showSpell)
     }
+
     toggle_Choice(name: string) {
         if (this.showChoice == name) {
             this.showChoice = "";
@@ -118,15 +120,70 @@ export class SpellchoiceComponent implements OnInit {
         return this.get_SignatureSpellsAllowed() && choice.signatureSpell;
     }
 
+    get_SpellBlendingAllowed() {
+        return (this.choice.level > 0 && !this.choice.dynamicLevel && this.spellCasting.className == "Wizard" && this.spellCasting.castingType == "Prepared" &&
+            this.choice.source != "Spell Blending" && this.get_Character().get_FeatsTaken(1, this.get_Character().level, "Spell Blending").length);
+    }
+
+    get_SpellBlendingUsed() {
+        //Return the amount of spell slots in this choice that have been traded in.
+        return (this.choice.spellBlending.reduce((sum, current) => sum + current, 0));
+    }
+
+    on_SpellBlending(tradeLevel: number, value: number) {
+        this.choice.spellBlending[tradeLevel] += value;
+        this.characterService.set_Changed("spellchoices");
+    }
+
+    get_SpellBlendingUnlocked(level: number) {
+        //This function is used both to unlock the Spell Blending bonus spell slot (choice.source == "Spell Blending")
+        //  and to check if the current choice can be traded in for a spell slot at the given level (get_SpellBlendingAllowed()).
+        if (this.get_SpellBlendingAllowed() || this.choice.source == "Spell Blending") {
+            let highestSpellLevel = this.get_HighestSpellLevel();
+            //Check if there are enough spell choices that have been traded in in this spellcasting to unlock this level.
+            if (level == 0) {
+                return this.spellCasting.spellChoices.filter(choice => choice.level > 0 && choice.spellBlending[0] > 0).length * 2;
+            } else if (level > 0 && level <= highestSpellLevel) {
+                if (
+                        (
+                            this.spellCasting.spellChoices
+                                .filter(choice => choice.level == level - 1 && choice.spellBlending[1] > 0)
+                                .map(choice => choice.spellBlending[1])
+                                .reduce((sum, current) => sum + current, 0) >= 2
+                        ) ||
+                        (
+                            this.spellCasting.spellChoices
+                                .filter(choice => choice.level == level - 2 && choice.spellBlending[2] > 0)
+                                .map(choice => choice.spellBlending[2])
+                                .reduce((sum, current) => sum + current, 0) >= 2
+                        )
+                    ) {
+                    return 1;
+                } else {
+                    return 0;
+                }
+            } else if (level > highestSpellLevel) {
+                return -1;
+            }
+        } else {
+            return 0;
+        }
+    }
+
+    get_HighestSpellLevel() {
+        if (this.spellCasting) {
+            //Get the available spell level of this casting. This is the higest spell level of the spell choices that are available at your character level.
+            return Math.max(...this.spellCasting.spellChoices.filter(spellChoice => spellChoice.charLevelAvailable <= this.get_Character().level).map(spellChoice => spellChoice.level), 0);
+        } else {
+            return 1;
+        }
+    }
+
     get_DynamicLevel(choice: SpellChoice) {
-        let highestSpellLevel = 1;
+        let highestSpellLevel = this.get_HighestSpellLevel();
         let Character = this.get_Character();
         function Skill_Level(name: string) {
             return this.characterService.get_Skills(Character, name)[0]?.level(Character) || 0;
-        }
-        if (this.spellCasting) {
-            //Get the available spell level of this casting. This is the higest spell level of the spell choices that are available at your character level.
-            highestSpellLevel = Math.max(...this.spellCasting.spellChoices.filter(spellChoice => spellChoice.charLevelAvailable <= Character.level).map(spellChoice => spellChoice.level));
         }
         try {
             return parseInt(eval(choice.dynamicLevel));
@@ -141,11 +198,23 @@ export class SpellchoiceComponent implements OnInit {
     }
 
     get_Available(choice: SpellChoice) {
+        let available:number = 0;
         if (choice.source == "Divine Font") {
-            return Math.max(choice.available + this.get_CHA(), 0)
+            available = Math.max(choice.available + this.get_CHA(), 0);
+        } if (choice.source == "Spell Blending") {
+            available = Math.max(choice.available + this.get_SpellBlendingUnlocked(choice.level), 0);
         } else {
-            return choice.available;
+            available = Math.max(this.choice.available - this.get_SpellBlendingUsed(), 0);
         }
+        //If this choice has more spells than it should have (unless they are locked), remove the excess.
+        if (choice.spells.length > available) {
+            choice.spells.filter(gain => !gain.locked).forEach((gain, index) => {
+                if (index >= available) {
+                    this.on_SpellTaken(gain.name, false, choice, false);
+                }
+            })
+        }
+        return available;
     }
 
     get_AvailableSpells(choice: SpellChoice) {

@@ -104,7 +104,7 @@ export class ItemsComponent implements OnInit {
     }
 
     check_Filter() {
-        if (this.wordFilter.length < 5 && this.showList == "All") {
+        if (this.wordFilter.length < 5 && this.showList) {
             this.showList = "";
         }
     }

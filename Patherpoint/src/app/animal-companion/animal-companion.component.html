@@ -4,7 +4,7 @@
         Close
     </button>
     <div class="loading" *ngIf="still_loading()">Loading</div>
-    <div class="animalcompanion-box" *ngIf="!still_loading() && get_Character().class && get_CompanionAvailable()">
+    <div class="animalcompanion-box" *ngIf="!still_loading() && get_Character().class && get_CompanionAvailable() && get_CompanionMenuState() == 'in'">
         <app-general [creature]="'Companion'" id="Companion-general" class="charactersheet-app" [ngStyle]="{'--accent':get_Accent()}"></app-general>
         <app-effects [creature]="'Companion'" id="Companion-effects" class="charactersheet-app" [ngStyle]="{'--accent':get_Accent()}"></app-effects>
         <app-abilities [creature]="'Companion'" id="Companion-abilities" class="charactersheet-app" [ngStyle]="{'--accent':get_Accent()}"></app-abilities>

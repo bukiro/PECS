@@ -30,6 +30,12 @@ export class SpellChoice {
     public tradition: string = "";
     public source: string = "";
     public spells: SpellGain[] = [];
+    //Spellblending is for Wizards and tracks spell blending choices for this spell slot. It contains three numbers.
+    //The numbers are:
+    // [0]: Number of spell slots traded away for cantrips
+    // [1]: Number of spell slots traded away for a spell slot 1 level higher
+    // [2]: Number of spell slots traded away for a spell slot 2 levels higher
+    public spellBlending: number[] = [0,0,0]
     //If target is set to "Others", you can only choose spells with no target, "companion" or "ally"
     //If target is set to "Caster", you can only choose spells with target "self"
     public target: string = "";

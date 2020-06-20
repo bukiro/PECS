@@ -242,7 +242,7 @@ export class Feat {
             let featsTaken = (creature as Character).get_FeatsTaken(1, charLevel, this.name)
             return featsTaken.length;
         } else if (creature.type == "Familiar") {
-            let featsTaken = (creature as Familiar).abilities.feats.filter(gain => gain.name == this.name);
+            let featsTaken = (creature as Familiar).abilities.feats.filter(gain => gain.name.toLowerCase() == this.name.toLowerCase());
             return featsTaken.length;
         } else {
             return 0;

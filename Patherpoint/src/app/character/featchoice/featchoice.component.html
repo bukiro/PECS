@@ -1,15 +1,15 @@
 <ng-container *ngFor="let listID of [choice.source+choice.id]; trackBy:trackByIndex;">
-    <div class="list-item" *ngIf="choice.available"
-        [ngClass]="{'problem':(choice.feats.length > choice.available || cannotTakeSome(choice)), 'fullsize-only':(choice.available == choice.feats.length)}">
-        <button class="row sublist-toggle" [ngClass]="{'fancy-button':(choice.available == choice.feats.length)}"
+    <div class="list-item" *ngIf="get_Available(choice)"
+        [ngClass]="{'problem':(cannotTakeSome(choice) || choice.feats.length > get_Available(choice)), 'fullsize-only':(get_Available(choice) == choice.feats.length)}">
+        <button class="row sublist-toggle" [ngClass]="{'fancy-button':(get_Available(choice) == choice.feats.length)}"
             (click)="toggle_List(listID)">
             {{(choice.level) ? "Level "+choice.level+" " : ""}}{{choice.type}}{{choice.specialChoice ?
                 '' : (creature == 'Familiar' ? ' Abilities' : ' Feats')}}{{creature == 'Familiar' ?
-                '' : ' ('+choice.source+')'}}{{(choice.available > 1) ?
-                ": "+ choice.feats.length +"/"+ choice.available : 
+                '' : ' ('+choice.source+')'}}{{(get_Available(choice) > 1) ?
+                ": "+ choice.feats.length +"/"+ get_Available(choice) : 
                 (choice.feats.length) ? ": "+ choice.feats[0].name : ""}}
         </button>
-        <div class="list-item sublist" [ngClass]="{'fancy-list':(choice.available == choice.feats.length )}"
+        <div class="list-item sublist" [ngClass]="{'fancy-list':(get_Available(choice) == choice.feats.length )}"
             *ngIf="get_showChoice()==listID">
             <div title="{{(this.get_showFeat()==choice.id+feat.name+'desc') ? '' : feat.shortDesc}}" class="list-item"
                 *ngFor="let feat of get_AvailableFeats(choice)|sortBy:'asc':'levelreq'; trackBy:trackByIndex;"

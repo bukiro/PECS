@@ -528,6 +528,14 @@ export class FeatsService {
                 }
             }
 
+            if (feat.name == "Spell Blending") {
+                character.class.spellCasting.forEach(casting => {
+                    casting.spellChoices.forEach(choice => {
+                        choice.spellBlending = [0,0,0];
+                    })
+                })
+            }
+
             //Snare Specialists and following feats change inventory aspects.
             if (feat.name == "Snare Specialist" || feat.featreq.includes("Snare Specialist")) {
                 characterService.set_ToChange(creature.type, "inventory");

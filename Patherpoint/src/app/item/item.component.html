@@ -13,7 +13,7 @@
     </span>
     <span *ngIf="(item.get_ACBonus ? item.get_ACBonus() : item.acbonus)">
         <strong>AC Bonus</strong>
-        <span [ngClass]="{'penalty':item.get_ACBonus() > item.acbonus, 'bonus':item.get_ACBonus() < item.acbonus}">
+        <span [ngClass]="{'penalty':item.get_ACBonus && item.get_ACBonus() > item.acbonus, 'bonus':item.get_ACBonus && item.get_ACBonus() < item.acbonus}">
             &nbsp;{{item.get_ACBonus ? item.get_ACBonus() : item.acbonus}}{{item.coverbonus ? " (" + (item.acbonus+item.coverbonus) + ")" : ""}}&nbsp;
         </span>
     </span>

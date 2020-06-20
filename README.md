@@ -63,15 +63,13 @@ The very latest in Assistive Technologies for Dungeon Master (ATDM)
 - [x] - Monk
 - [x] - Fighter
 - [x] - Ranger
+- [ ] - Wizard
 - [ ] Add custom conditions with effects
 - [ ] Item Icons
 - [ ] Initiative tracker, battles, being a battle member, GM-Player-Communication.......
 - [ ] Stretch Goal: Include optional Stamina & Resolve system
 
 Next steps:
-1. Prepared Snare Deployment (see Snare Specialist)
-2. Keep implementing Ranger feats
-3. Convert Feats and Activities from XLS
 - Add custom conditions with effects
 - Add button press effect
 - Add Materials

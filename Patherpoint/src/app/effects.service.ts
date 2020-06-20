@@ -490,6 +490,7 @@ export class EffectsService {
         let generalWildcard: string[] = ["Speed", "Checks and DCs"];
         let effects: string[] = [];
         let abilities: string[] = ["Strength", "Dexterity", "Constitution", "Intelligence", "Wisdom", "Charisma"];
+        let abilitiesWildcard: string[] = ["Strength", "Dexterity", "Constitution", "Intelligence", "Wisdom", "Charisma"];
         let health: string[] = ["HP", "Fast Healing", "Hardness", "Max Dying", "Max HP", "Resting HP Gain", "Temporary HP"];
         let healthWildcard: string[] = ["Resistance"];
         let defense: string[] = ["AC", "Fortitude", "Reflex", "Will", "Dexterity-based Checks and DCs", "Constitution-based Checks and DCs",
@@ -497,14 +498,16 @@ export class EffectsService {
         let attacks: string[] = ["Damage Rolls", "Dexterity-based Checks and DCs", "Strength-based Checks and DCs", "All Checks and DCs",
             "Unarmed Damage per Die", "Weapon Damage per Die"];
         let attacksWildcard: string[] = ["Attack Rolls", "Damage", "Dice Size", "Dice Number"];
-        let skills: string[] = ["Perception", "Acrobatics", "Arcana", "Athletics", "Crafting", "Deception", "Diplomacy",
-            "Intimidation", "Medicine", "Nature", "Occultism", "Performance", "Religion", "Society", "Stealth", "Survival", "Thievery", "Fortitude", "Reflex", "Will"];
-        let skillsWildcard: string[] = ["Spell DC", "Class DC", "Checks and DCs", "Skill Checks", "Untrained Skills"];
+        let skills: string[] = ["Perception", "Fortitude", "Reflex", "Will", "Acrobatics", "Arcana", "Athletics", "Crafting", "Deception", "Diplomacy", "Intimidation", "Medicine",
+            "Nature", "Occultism", "Performance", "Religion", "Society", "Stealth", "Survival", "Thievery", "Fortitude", "Reflex", "Will"];
+        let individualSkillsWildcard: string[] = ["Lore", "Class DC", "Spell DC"];
+        let skillsWildcard: string[] = ["All Checks and DCs", "Skill Checks", "Untrained Skills"];
         let inventory: string[] = ["Bulk", "Encumbered Limit", "Max Bulk", "Max Invested"];
         let activities: string[] = [];
         let spellbook: string[] = ["Focus Points", "Focus Pool", "All Checks and DCs"];
 
         let changedEffects: Effect[] = [];
+        //Collect all new feats that don't exist in the old list or old feats that don't exist in the new list - that is, everything that has changed.
         newEffects.filter(effect => effect.apply).forEach(newEffect => {
             if (!oldEffects.filter(oldEffect => JSON.stringify(oldEffect) == JSON.stringify(newEffect)).length) {
                 changedEffects.push(newEffect);
@@ -515,6 +518,7 @@ export class EffectsService {
                 changedEffects.push(oldEffect);
             }
         })
+        //Then prepare changes for everything that should be updated according to the effect.
         changedEffects.forEach(effect => {
             if (general.includes(effect.target) || generalWildcard.filter(name => effect.target.includes(name)).length) {
                 characterService.set_ToChange(creature.type, "general");
@@ -522,6 +526,9 @@ export class EffectsService {
             if (abilities.includes(effect.target)) {
                 characterService.set_ToChange(creature.type, "abilities");
             }
+            abilitiesWildcard.filter(name => effect.target.includes(name)).forEach(name => {
+                characterService.set_ToChange(creature.type, "individualskills", name);
+            });
             if (health.includes(effect.target) || healthWildcard.filter(name => effect.target.includes(name)).length) {
                 characterService.set_ToChange(creature.type, "health");
             }
@@ -534,18 +541,21 @@ export class EffectsService {
             if (skills.includes(effect.target)) {
                 characterService.set_ToChange(creature.type, "individualskills", effect.target);
             }
+            if (individualSkillsWildcard.filter(name => effect.target.includes(name)).length) {
+                characterService.set_ToChange(creature.type, "individualskills", effect.target);
+            }
             if (skillsWildcard.filter(name => effect.target.includes(name)).length) {
-                if (effect.target.includes("Lore") || effect.target.includes("Class DC") || effect.target.includes("Spell DC")) {
-                    characterService.set_ToChange(creature.type, "individualskills", effect.target);
-                } else {
-                    characterService.set_ToChange(creature.type, "individualskills", "all");
-                }
+                characterService.set_ToChange(creature.type, "individualskills", "all");
             }
             if (inventory.includes(effect.target)) {
                 characterService.set_ToChange(creature.type, "inventory");
             }
             if (spellbook.includes(effect.target)) {
                 characterService.set_ToChange(creature.type, "spellbook");
+            }
+            //Specific triggers
+            if (effect.target == "Familiar Abilities") {
+                characterService.set_ToChange("Familiar", "featchoices");
             }
         })
     }

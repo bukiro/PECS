@@ -34,6 +34,10 @@ export class AnimalCompanionComponent implements OnInit {
         this.characterService.toggleMenu("companion");
     }
 
+    get_CompanionMenuState() {
+        return this.characterService.get_CompanionMenuState();
+    }
+
     toggle_Item(name: string) {
         if (this.showItem == name) {
             this.showItem = "";

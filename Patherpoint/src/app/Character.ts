@@ -511,8 +511,8 @@ export class Character extends Creature {
                 level.featChoices.forEach(choice => {
                     choice.feats.filter((feat: FeatTaken) => 
                         (excludeTemporary ? !choice.showOnSheet : true) &&
-                        (feat.name == featName || featName == "") &&
-                        (feat.source == source || source == "") &&
+                        (feat.name.toLowerCase() == featName.toLowerCase() || featName == "") &&
+                        (feat.source.toLowerCase() == source.toLowerCase() || source == "") &&
                         (feat.sourceId == sourceId || sourceId == "") &&
                         (feat.locked == locked || locked == undefined)
                         ).forEach(feat => {

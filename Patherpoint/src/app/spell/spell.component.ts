@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, ChangeDetectionStrategy } from '@angular/core';
+import { Component, OnInit, Input, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
 import { Spell } from '../Spell';
 import { TraitsService } from '../traits.service';
 import { CharacterService } from '../character.service';
@@ -18,6 +18,7 @@ export class SpellComponent implements OnInit {
     spellLevel: number;
 
     constructor(
+        private changeDetector: ChangeDetectorRef,
         public characterService: CharacterService,
         private traitsService: TraitsService,
         private spellsService: SpellsService
@@ -47,7 +48,32 @@ export class SpellComponent implements OnInit {
         return this.spellsService.get_Spells(name);
     }
 
+    finish_Loading() {
+        if (this.characterService.still_loading()) {
+            setTimeout(() => this.finish_Loading(), 500)
+        } else {
+            this.characterService.get_Changed()
+            .subscribe((target) => {
+                if (target == "individualspells" || target == "all" || target == "Character") {
+                    this.changeDetector.detectChanges();
+                }
+            });
+            this.characterService.get_ViewChanged()
+            .subscribe((view) => {
+                if (view.creature == "Character" && 
+                    (
+                        view.target == "all" ||
+                        (view.target == "individualspells" && [this.spell.name, "all"].includes(view.subtarget))
+                    )) {
+                    this.changeDetector.detectChanges();
+                }
+            });
+            return true;
+        }
+    }
+
     ngOnInit() {
+        this.finish_Loading();
     }
 
 }

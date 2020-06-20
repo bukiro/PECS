@@ -287,6 +287,7 @@ export class CharacterComponent implements OnInit {
         this.characterService.set_ToChange("Character", "general");
         this.characterService.set_ToChange("Character", "skills");
         this.characterService.set_ToChange("Character", "individualskills", "all");
+        this.characterService.set_ToChange("Character", "individualspells", "all");
         if (this.get_Character().get_AbilityBoosts(lowerLevel, higherLevel).length) {
             this.characterService.set_ToChange("Character", "abilities");
         }
@@ -294,7 +295,7 @@ export class CharacterComponent implements OnInit {
             if (feat.showon) {
                 this.characterService.set_TagsToChange("Character", feat.showon);
             }
-                        feat.gainFeatChoice.forEach(choice => {
+            feat.gainFeatChoice.forEach(choice => {
                 if (choice.showOnSheet) {
                     this.characterService.set_ToChange("Character", "activities");
                 }
@@ -306,6 +307,10 @@ export class CharacterComponent implements OnInit {
                 this.characterService.set_ToChange("Character", "activities");
             }
             if (feat.gainSpellCasting.length || feat.gainSpellChoice.length) {
+                this.characterService.set_ToChange("Character", "spells");
+                this.characterService.set_ToChange("Character", "spellbook");
+            }
+            if (feat.gainSpellChoice.length) {
                 this.characterService.set_ToChange("Character", "spells");
                 this.characterService.set_ToChange("Character", "spellbook");
             }

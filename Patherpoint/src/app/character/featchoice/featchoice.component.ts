@@ -10,6 +10,7 @@ import { FamiliarsService } from 'src/app/familiars.service';
 import { Familiar } from 'src/app/Familiar';
 import { Character } from 'src/app/Character';
 import { TraitsService } from 'src/app/traits.service';
+import { EffectsService } from 'src/app/effects.service';
 
 @Component({
     selector: 'app-featchoice',
@@ -46,6 +47,7 @@ export class FeatchoiceComponent implements OnInit {
         private spellsService: SpellsService,
         private familiarsService: FamiliarsService,
         private traitsService: TraitsService,
+        private effectsService: EffectsService,
         private sortByPipe: SortByPipe
     ) { }
 
@@ -91,6 +93,20 @@ export class FeatchoiceComponent implements OnInit {
         return this.traitsService.get_Traits(traitName);
     }
 
+    get_Available(choice: FeatChoice) {
+        if (this.creature == "Familiar") {
+            let available = choice.available;
+            this.effectsService.get_AbsolutesOnThis(this.get_Character(), "Familiar Abilities").forEach(effect => {
+                available = parseInt(effect.setValue);
+            });
+            this.effectsService.get_RelativesOnThis(this.get_Character(), "Familiar Abilities").forEach(effect => {
+                available += parseInt(effect.value);
+            });
+            return available;
+        }
+        return choice.available
+    }
+
     get_Feats(name: string = "", type: string = "") {
         if (this.creature == "Character") {
             return this.featsService.get_Feats(this.get_Character().customFeats, name, type);
@@ -110,16 +126,17 @@ export class FeatchoiceComponent implements OnInit {
 
     get_SubFeats(feat: Feat, choice: FeatChoice, get_unavailable: boolean = false) {
         if (feat.subTypes) {
+            let available = this.get_Available(choice)
             let feats: Feat[] = this.get_Feats().filter((subFeat: Feat) => subFeat.superType == feat.name && !subFeat.hide);
             if (choice.filter.length) {
                 feats = feats.filter(subFeat => choice.filter.includes(subFeat.name) || choice.filter.includes(subFeat.superType))
             }
-            if (get_unavailable && choice.feats.length < choice.available) {
+            if (get_unavailable && choice.feats.length < available) {
                 let unavailableSubfeats = feats.filter(feat => 
                     this.cannotTake(feat, choice).length > 0
                 )
                 return this.sortByPipe.transform(unavailableSubfeats, "asc", "name");
-            } else if (!get_unavailable &&choice.feats.length < choice.available) {
+            } else if (!get_unavailable &&choice.feats.length < available) {
                 let availableSubfeats = feats.filter(feat => 
                     this.cannotTake(feat, choice).length == 0 || this.featTakenByThis(feat, choice)
                 )
@@ -137,6 +154,7 @@ export class FeatchoiceComponent implements OnInit {
 
     get_AvailableFeats(choice: FeatChoice, get_unavailable: boolean = false) {
         let character = this.get_Character()
+        let available = this.get_Available(choice);
         //Get all Feats, but no subtype Feats (those that have the supertype attribute set) - those get built within their supertype
         // If a subtype is in the filter
         let allFeats: Feat[] = this.get_Feats().filter(feat => !feat.superType && !feat.hide);
@@ -174,12 +192,12 @@ export class FeatchoiceComponent implements OnInit {
             if (!this.archetypeFeats) {
                 feats = feats.filter(feat => !feat.traits.includes("Archetype") || this.featTakenByThis(feat, choice));
             }
-            if (get_unavailable && choice.feats.length < choice.available) {
+            if (get_unavailable && choice.feats.length < available) {
                 let unavailableFeats: Feat[] = feats.filter(feat => 
                     (this.cannotTake(feat, choice).length > 0)
                 )
                 return this.sortByPipe.transform(unavailableFeats, "asc", "name")
-            } else if (!get_unavailable && choice.feats.length < choice.available) {
+            } else if (!get_unavailable && choice.feats.length < available) {
                 let availableFeats: Feat[] = feats.filter(feat => 
                     this.cannotTake(feat, choice).length == 0 || this.featTakenByThis(feat, choice) || this.subFeatTakenByThis(feat, choice)
                 )
@@ -196,10 +214,11 @@ export class FeatchoiceComponent implements OnInit {
     
     cannotTakeSome(choice: FeatChoice) {
         let anytrue = 0;
-        choice.feats.forEach(feat => {
+        let available = this.get_Available(choice);
+        choice.feats.forEach((feat, index) => {
             let template: Feat = this.get_Feats(feat.name)[0];
             if (template?.name) {
-                if (this.cannotTake(template, choice).length) {
+                if (this.cannotTake(template, choice).length || index >= available) {
                     if (!feat.locked) {
                         this.get_Character().take_Feat(this.get_Creature(), this.characterService, feat.name, false, choice, feat.locked);
                     } else {
@@ -400,7 +419,7 @@ export class FeatchoiceComponent implements OnInit {
     }
 
     on_FeatTaken(featName: string, taken: boolean, choice: FeatChoice, locked: boolean) {
-        if (taken && (choice.feats.length == choice.available - 1)) { this.toggle_List(""); }
+        if (taken && (choice.feats.length == this.get_Available(choice) - 1)) { this.toggle_List(""); }
         this.get_Character().take_Feat(this.get_Creature(), this.characterService, featName, taken, choice, locked);
         this.characterService.set_ToChange("Character", "charactersheet");
         this.characterService.set_ToChange("Character", "featchoices");
