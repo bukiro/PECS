@@ -32,7 +32,7 @@ export class Item {
     public data: {name:string, value:any}[] = [];
     //Full description of the item, ideally unchanged from the source material
     public desc: string = "";
-    //For summoned items or infused reagents, the expiration ticks down, and the item is then dropped. Expiration is turns * 10.
+    //For summoned items or infused reagents, the expiration ticks down, and the item is then dropped or the amount reduced. Expiration is turns * 10.
     public expiration: number = 0;
     //If this name is set, always show it instead of the expanded base name
     public displayName: string = "";
@@ -65,6 +65,7 @@ export class Item {
     //This is for items like the Adventurer's Pack that is immediately unpacked into its parts and doesn't weigh anything in the inventory.
     public storeBulk: string = "";
     //What spells are stored in this item, or can be?
+    //Only the first spell will be cast when using the item.
     public storedSpells: SpellChoice[] = [];
     //Does this item come in different types? Like lesser, greater, major...
     //If so, name the subtype here

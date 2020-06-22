@@ -589,7 +589,7 @@
         "priority": "3",
         "group": "",
         "name": "Spell target",
-        "desc": "Choose spells that can target other creatures or only the caster, or leave empty to allow all targets.",
+        "desc": "Choose spells that can target enemies, other creatures or only the caster, or leave empty to allow all targets.",
         "locked": true,
         "examples": "spelltargets"
     },

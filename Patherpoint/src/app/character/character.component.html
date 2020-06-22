@@ -390,7 +390,7 @@
                 </button>
                 <div class="list-item sublist" [ngClass]="{'fancy-list':get_Character().class.deity}"
                     *ngIf="get_showList()==listID">
-                    <ng-container *ngFor="let deity of get_Deities(); trackBy:trackByIndex;">
+                    <ng-container *ngFor="let deity of get_AvailableDeities(); trackBy:trackByIndex;">
                         <div class="row list-item" *ngFor="let itemID of ['deity'+deity.name]; trackBy:trackByIndex;">
                             <span>
                                 <input id="{{deity.name}}" type="checkbox"

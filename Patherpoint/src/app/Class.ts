@@ -285,7 +285,7 @@ export class Class {
                     gain.frequency = insertSpellChoice.frequency;
                     gain.cooldown = insertSpellChoice.cooldown;
                 })
-                character.add_SpellChoice(characterService, level, insertSpellChoice);
+                character.add_SpellChoice(characterService, level.number, insertSpellChoice);
             });
             //Wellspring Gnome changes primal spells to another tradition.
             //We collect all Gnome feats that grant a primal spell and set that spell to the same tradition as the heritage:

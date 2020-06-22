@@ -274,11 +274,11 @@ export class FeatchoiceComponent implements OnInit {
                 //Has it already been taken up to this level, more often than it was taken by this FeatChoice?
                 //  Don't count temporary choices (showOnSheet == true) unless this is also temporary.
                 if (choice.showOnSheet) {
-                    if (this.get_Character().get_FeatsTaken(1, levelNumber, feat.name).length > (this.featTakenByThis(feat, choice) ? 1 : 0)) {
+                    if (feat.have(this.get_Character(), this.characterService, levelNumber) > (this.featTakenByThis(feat, choice) ? 1 : 0)) {
                         reasons.push("This feat cannot be taken more than once.");
                     }
                     //Has it been taken on a higher level (that is, not up to now, but up to Level 20)?
-                    if (!this.get_Character().get_FeatsTaken(1, levelNumber, feat.name).length && this.get_Character().get_FeatsTaken(1, 20, feat.name).length) {
+                    if (!feat.have(this.get_Character(), this.characterService, levelNumber) && feat.have(this.get_Character(), this.characterService, 20)) {
                         reasons.push("This feat has been taken on a higher level.");
                     }
                 } else {
@@ -313,8 +313,14 @@ export class FeatchoiceComponent implements OnInit {
                 if (availableSubfeats.length == 0) {
                     reasons.push("No option has its requirements met.");
                 }
+                
+            }
+            //If a subtype has been taken and the feat is not unlimited, no other subfeat can be taken.
+            if (feat.superType) {
+                let superfeat: Feat = this.get_Feats().find(superfeat => superfeat.name == feat.superType && !superfeat.hide);
+                let takenSubfeats: Feat[] = this.get_Feats().filter(subfeat => subfeat.superType == feat.superType && subfeat.name != feat.name && !subfeat.hide && subfeat.have(this.get_Character(), this.characterService, levelNumber));
                 //If a subtype has been taken and the feat is not unlimited, no other subfeat can be taken.
-                if (!feat.unlimited && availableSubfeats.length < subfeats.length) {
+                if (!superfeat.unlimited && takenSubfeats.length) {
                     reasons.push("This feat cannot be taken more than once.");
                 }
             }

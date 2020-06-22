@@ -4,7 +4,7 @@
         [ngClass]="{'fancy-button':(get_Available(choice) == choice.spells.length)}"
         (click)="toggle_Choice(choice.source+choice.id)">
         <span title="Signature spell"
-            *ngIf="is_SignatureSpell(choice)">&#9733;&nbsp;</span>{{itemSpell ? "Level "+choice.level : ""}}
+            *ngIf="is_SignatureSpell(choice)">&#9733;&nbsp;</span>{{itemSpell || choice.showOnSheet ? "Level "+choice.level : ""}}
         {{choice.frequency ? capitalize(choice.frequency) : ""}}
         {{choice.tradition ? choice.tradition : ""}} {{choice.traitFilter.length ? choice.traitFilter.join(" ") : ""}}
         {{is_SignatureSpell(choice) ? "Signature" : ""}}
@@ -14,10 +14,12 @@
     </button>
     <div class="list-item sublist" [ngClass]="{'fancy-list':(get_Available(choice) == choice.spells.length )}"
         *ngIf="get_ShowChoice()==choice.source+choice.id">
+        <!-- Spell Blending -->
         <ng-container *ngIf="spellbook && get_SpellBlendingAllowed()">
             <div class="list-item">
                 <strong>Spell Blending</strong>
-                <div class="row" *ngIf="get_SpellBlendingUnlocked(0) && get_SpellBlendingUnlocked(choice.level + 1) && get_SpellBlendingUnlocked(choice.level + 2) && choice.spellBlending.toString() == '0,0,0'">
+                <div class="row"
+                    *ngIf="get_SpellBlendingUnlocked(0) && get_SpellBlendingUnlocked(choice.level + 1) && get_SpellBlendingUnlocked(choice.level + 2) && choice.spellBlending.toString() == '0,0,0'">
                     No bonus spell slots can currently be unlocked by trading in this spell slot.
                 </div>
                 <div class="row" *ngIf="!get_SpellBlendingUnlocked(0) || choice.spellBlending[0]">
@@ -26,7 +28,8 @@
                         <button
                             [disabled]="get_SpellBlendingUnlocked(0) || get_Available(choice) <= choice.spells.length"
                             (click)="on_SpellBlending(0, 1)">+</button>
-                        {{choice.spellBlending[0]}} traded in for 2 cantrip slots
+                        {{choice.spellBlending[0]}} spell slot{{choice.spellBlending[0] ? "" : "s"}} traded in for 2
+                        cantrip slots
                     </span>
                 </div>
                 <div class="row" *ngIf="!get_SpellBlendingUnlocked(choice.level + 1) || choice.spellBlending[1]">
@@ -35,7 +38,8 @@
                         <button
                             [disabled]="get_SpellBlendingUnlocked(choice.level + 1) || get_Available(choice) <= choice.spells.length"
                             (click)="on_SpellBlending(1, 1)">+</button>
-                        {{choice.spellBlending[1]}} traded in for level {{choice.level + 1}} spell slot (2 needed for 1)
+                        {{choice.spellBlending[1]}} spell slot{{choice.spellBlending[1] != 1 ? "s" : ""}} traded in for
+                        level {{choice.level + 1}} spell slot (2 needed for 1)
                     </span>
                 </div>
                 <div class="row" *ngIf="!get_SpellBlendingUnlocked(choice.level + 2) || choice.spellBlending[2]">
@@ -44,11 +48,33 @@
                         <button
                             [disabled]="get_SpellBlendingUnlocked(choice.level + 2) || get_Available(choice) <= choice.spells.length"
                             (click)="on_SpellBlending(2, 1)">+</button>
-                        {{choice.spellBlending[2]}} traded in for level {{choice.level + 2}} spell slot (2 needed for 1)
+                        {{choice.spellBlending[2]}} spell slot{{choice.spellBlending[2] != 1 ? "s" : ""}} traded in for
+                        level {{choice.level + 2}} spell slot (2 needed for 1)
                     </span>
                 </div>
             </div>
         </ng-container>
+        <!-- End Spell Blending -->
+        <!-- Infinite Possibilities -->
+        <ng-container *ngIf="spellbook && get_InfinitePossibilitiesAllowed()">
+            <div class="list-item">
+                <strong>Infinite Possibilities</strong>
+                <div class="row"
+                    *ngIf="get_InfinitePossibilitiesUnlocked() && !choice.infinitePossibilities">
+                    There is already an Infinite Possibilities spell slot unlocked.
+                </div>
+                <div class="row" *ngIf="!get_InfinitePossibilitiesUnlocked() || choice.infinitePossibilities">
+                    <span>
+                        <input id="{{choice.id}}infinitePossibilities" type="checkbox"
+                            [(ngModel)]="choice.infinitePossibilities" (ngModelChange)="on_InfinitePossibilities()"
+                            [disabled]="get_Available(choice) <= choice.spells.length">
+                        <label for="{{choice.id}}infinitePossibilities">Trade one spell slot in for a level
+                            {{choice.level - 2}} Infinite Possibilities spell slot.</label>
+                    </span>
+                </div>
+            </div>
+        </ng-container>
+        <!-- End Infinite Possibilities -->
         <div title="{{(this.get_ShowSpell()==choice.id+spell.name+'desc') ? '' : spell.shortDesc}}" class="list-item"
             *ngFor="let spell of get_AvailableSpells(choice); trackBy:trackByIndex;">
             <span>

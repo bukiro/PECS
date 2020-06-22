@@ -152,7 +152,7 @@ export class CharacterComponent implements OnInit {
 
     get_Alignments() {
         //Champions and Clerics need to pick an alignment matching their deity
-        let deity: Deity = this.get_Character().class?.deity ? this.get_Deities(this.get_Character().class.deity)[0] : null;
+        let deity: Deity = this.get_Character().class?.deity ? this.get_AvailableDeities(this.get_Character().class.deity)[0] : null;
         let alignments = [
             "",
             "Lawful Good",
@@ -785,12 +785,13 @@ export class CharacterComponent implements OnInit {
         this.characterService.process_ToChange();
     }
 
-    get_Deities(name: string = "") {
+    get_AvailableDeities(name: string = "") {
+        let currentDeity = this.get_Character().class?.deity || "";
         //Champions and Clerics need to choose a deity matching their alignment.
         if (!["Champion", "Cleric"].includes(this.get_Character().class.name)) {
-            return this.deitiesService.get_Deities(name);
+            return this.deitiesService.get_Deities(name).filter(deity => !currentDeity || deity.name == currentDeity);
         } else {
-            return this.deitiesService.get_Deities(name).filter((deity: Deity) => !this.get_Character().alignment || deity.followerAlignments.includes(this.get_Character().alignment));
+            return this.deitiesService.get_Deities(name).filter((deity: Deity) => (!currentDeity || deity.name == currentDeity) && !this.get_Character().alignment || deity.followerAlignments.includes(this.get_Character().alignment));
         }
     }
 
@@ -976,7 +977,7 @@ export class CharacterComponent implements OnInit {
     }
 
     get_ItemFromGain(gain: ItemGain) {
-        return this.characterService.get_Items()[gain.type].filter(item => item.name == gain.name);
+        return this.characterService.get_CleanItems()[gain.type].filter(item => item.name == gain.name);
     }
 
     get_AnimalCompanionAbilities(type: AnimalCompanionAncestry) {

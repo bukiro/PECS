@@ -1,4 +1,5 @@
 import { SpellChoice } from './SpellChoice';
+import { Scroll } from './Scroll';
 
 export class SpellCasting {
     public readonly _className: string = this.constructor.name;
@@ -21,6 +22,7 @@ export class SpellCasting {
     //Universalists get 1 for each level per rest, and all other schools get 1 for all. These are added at Rest.
     public bondedItemCharges: number[] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
     public source: string = ""
+    public scrollSavant: Scroll[] = [];
     constructor(public castingType: "Focus"|"Innate"|"Prepared"|"Spontaneous") {
     }    
 }

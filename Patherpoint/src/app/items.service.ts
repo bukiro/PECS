@@ -154,6 +154,12 @@ export class ItemsService {
         } else { return [] }
     }
 
+    get_CleanItemsOfType(type: string, name: string = "") {
+        if (!this.still_loading()) {
+            return this.items[type].filter(item => item.name.toLowerCase() == name.toLowerCase() || name == "");
+        } else { return [] }
+    }
+
     cast_ItemByType(item: Item, type: string = item.type) {
         if (type) {
             switch (type) {
@@ -389,6 +395,35 @@ export class ItemsService {
                 characterService.set_ToChange(creature.type, "inventory");
             }
         })
+        if (creature.type == "Character") {
+            let character = creature as Character;
+            //If you have Scroll Savant, get a copy of each prepared scroll that lasts until the next rest.
+            if (character.get_FeatsTaken(1, character.level, "Scroll Savant").length) {
+                character.class.spellCasting.filter(casting => casting.scrollSavant.length).forEach(casting => {
+                    casting.scrollSavant.forEach(scroll => {
+                        characterService.grant_InventoryItem(character, character.inventories[0], scroll, false, false, false);
+                    });
+                });
+            }
+
+            //For feats that grant you an item on rest, grant these here and set an expiration until the next rest.
+            characterService.featsService.get_All(creature.customFeats)
+                .filter(feat => feat.gainItems.find(gain => gain.on == "rest") && feat.have(creature, characterService, creature.level))
+                .forEach(feat => {
+                    feat.gainItems.filter(gain => gain.on == "rest").forEach(gainItem => {
+                        let newItem: Item = this.get_CleanItemsOfType(gainItem.type, gainItem.name)[0];
+                        let grantedItem: Item;
+                        if (newItem && newItem.can_Stack()) {
+                            grantedItem = characterService.grant_InventoryItem(creature, creature.inventories[0], newItem, true, false, false, gainItem.amount);
+                        } else {
+                            grantedItem = characterService.grant_InventoryItem(creature, creature.inventories[0], newItem, true, false, true);
+                        }
+                        if (grantedItem) {
+                            grantedItem.expiration = gainItem.expiration;
+                        }
+                    });
+                });
+        }
     }
 
     tick_Items(creature: Character | AnimalCompanion, characterService: CharacterService, turns: number) {

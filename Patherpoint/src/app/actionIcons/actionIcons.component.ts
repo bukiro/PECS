@@ -12,6 +12,10 @@ export class ActionIconsComponent implements OnInit {
     
     constructor() { }
 
+    get_Phrases() {
+        return this.actionString?.split(' ') || [];
+    }
+
     trackByIndex(index: number, obj: any): any {
         return index;
     }

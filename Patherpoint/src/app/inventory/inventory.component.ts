@@ -18,6 +18,8 @@ import { WornItem } from '../WornItem';
 import { TimeService } from '../time.service';
 import { FormulaLearned } from '../FormulaLearned';
 import { Snare } from '../Snare';
+import { SpellsService } from '../spells.service';
+import { SpellGain } from '../SpellGain';
 
 @Component({
     selector: 'app-inventory',
@@ -42,6 +44,7 @@ export class InventoryComponent implements OnInit {
         public traitsService: TraitsService,
         public effectsService: EffectsService,
         private timeService: TimeService,
+        private spellsService: SpellsService,
         public sortByPipe: SortByPipe
     ) { }
     minimize() {
@@ -470,6 +473,24 @@ export class InventoryComponent implements OnInit {
         return inventory.get_Name(this.characterService);
     }
 
+    on_SpellItemUse(item: Item, creature: string, inventory: ItemCollection) {
+        let spellName = item.storedSpells[0]?.spells[0]?.name || "";
+        let spellChoice = item.storedSpells[0];
+        if (spellChoice && spellName) {
+            let spell = this.get_Spells(item.storedSpells[0]?.spells[0]?.name)[0];
+            if (spell) {
+                let tempGain: SpellGain = new SpellGain();
+                this.spellsService.process_Spell(this.get_Character(), creature, this.characterService, this.itemsService, this.timeService, tempGain, spell, spellChoice.level, true, true, false);
+            }
+            spellChoice.spells.shift();
+        }
+        if (item instanceof Consumable) {
+            this.on_ConsumableUse(item, creature, inventory)
+        } else {
+            this.characterService.process_ToChange();
+        }
+    }
+
     on_ConsumableUse(item: Consumable, creature: string, inventory: ItemCollection) {
         this.characterService.on_ConsumableUse(this.get_Creature(creature), item);
         if (this.can_Drop(item) && !item.can_Stack()) {
@@ -597,6 +618,23 @@ export class InventoryComponent implements OnInit {
             }
         } else {
             return item.actions;
+        }
+    }
+
+    get_Spells(name: string = "", type: string = "", tradition: string = "") {
+        return this.spellsService.get_Spells(name, type, tradition);
+    }
+
+    get_ItemSpell(item: Item) {
+        if (item.storedSpells.length && item.storedSpells[0].spells.length) {
+            let spell = this.get_Spells(item.storedSpells[0].spells[0].name)[0];
+            if (spell) {
+                return [spell];
+            } else {
+                return [];
+            }
+        } else {
+            return [];
         }
     }
 

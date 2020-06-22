@@ -15,6 +15,11 @@ import { Consumable } from '../Consumable';
 import { Equipment } from '../Equipment';
 import { Potion } from '../Potion';
 import { Ammunition } from '../Ammunition';
+import { Scroll } from '../Scroll';
+import { VirtualTimeScheduler } from 'rxjs';
+import { SpellCasting } from '../SpellCasting';
+import { InventoryComponent } from '../inventory/inventory.component';
+import { ItemCollection } from '../ItemCollection';
 
 @Component({
     selector: 'app-items',
@@ -172,8 +177,14 @@ export class ItemsComponent implements OnInit {
     }
 
     get_VisibleItems(items: Item[], creatureType: string) {
+        let casting: SpellCasting;
+        let character = this.get_Character();
+        if (this.purpose == "scrollsavant") {
+            casting = this.get_ScrollSavantCasting();
+        }
         return items.filter((item: Item) =>
             (
+                //Show companion items in the companion list and not in the character list.
                 (creatureType == "Character" && !item.traits.includes("Companion")) ||
                 (creatureType == "Companion" && item.traits.includes("Companion"))
             ) &&
@@ -187,7 +198,17 @@ export class ItemsComponent implements OnInit {
                     )
                 )
             ) &&
-            (this.purpose == "formulas" ? item.craftable : true)
+            (this.purpose == "formulas" ? item.craftable : true) &&
+            (
+                this.purpose == "scrollsavant" ? 
+                    (
+                        creatureType == "Character" &&
+                        item.type == "scrolls" &&
+                        (item as Scroll).storedSpells[0]?.level <= character.get_SpellLevel(character.level) - 2 &&
+                        casting && !casting.scrollSavant.find(scroll => scroll.refId == item.id)
+                    )
+                : true
+                )
             );
     }
 
@@ -309,17 +330,17 @@ export class ItemsComponent implements OnInit {
         if (this.have_Feat("Alchemical Crafting")) {
             let learned: number = this.get_FormulasLearned("", 'alchemicalcrafting').length;
             let available = 4;
-            result += "\n" + (available - learned) + " common 1st-level alchemical items via Alchemical Crafting";
+            result += "\n" + (available - learned) + " of " + available + " common 1st-level alchemical items via Alchemical Crafting";
         }
         if (this.have_Feat("Magical Crafting")) {
             let learned: number = this.get_FormulasLearned("", 'magicalcrafting').length;
             let available = 4;
-            result += "\n" + (available - learned) + " common magic items of 2nd level or lower via Magical Crafting";
+            result += "\n" + (available - learned) + " of " + available + " common magic items of 2nd level or lower via Magical Crafting";
         }
         if (this.have_Feat("Snare Crafting")) {
             let learned: number = this.get_FormulasLearned("", 'snarecrafting').length;
             let available = 4;
-            result += "\n" + (available - learned) + " common snares via Snare Crafting";
+            result += "\n" + (available - learned) + " of " + available + " common snares via Snare Crafting";
         }
         if (this.have_Feat("Snare Specialist")) {
             let learned: number = this.get_FormulasLearned("", 'snarespecialist').length;
@@ -335,7 +356,7 @@ export class ItemsComponent implements OnInit {
             if (crafting >= 8) {
                 available += 3;
             }
-            result += "\n" + (available - learned) + " common or uncommon snares via Snare Specialist";
+            result += "\n" + (available - learned) + " of " + available + " common or uncommon snares via Snare Specialist";
         }
         if (result) {
             result = "You can currently learn the following number of formulas through feats:\n" + result;
@@ -386,6 +407,56 @@ export class ItemsComponent implements OnInit {
             }
             return available > learned && !item.traits.includes("Rare");
         }
+    }
+
+    get_ScrollSavantCasting() {
+        return this.get_Character().class.spellCasting
+        .find(casting => casting.castingType == "Prepared" && casting.className == "Wizard" && casting.tradition == "Arcane");
+    }
+
+    get_ScrollSavantDCLevel() {
+        let character = this.get_Character();
+        return Math.max(...this.characterService.get_Skills(character)
+            .filter(skill => skill.name.includes ("Arcane Spell DC"))
+            .map(skill => skill.level(character, this.characterService, character.level)), 0)
+    }
+
+    get_ScrollSavantAvailable() {
+        let casting = this.get_ScrollSavantCasting();
+        if (casting) {
+            let result: string = "";
+            if (this.have_Feat("Scroll Savant")) {
+                let available = this.get_ScrollSavantDCLevel() / 2;
+                //Remove all prepared scrolls that are of a higher level than allowed.
+                casting.scrollSavant
+                    .filter(scroll => scroll.storedSpells[0].level > this.get_Character().get_SpellLevel(this.get_Character().level))
+                    .forEach(scroll => {
+                        scroll.amount = 0;
+                });
+                casting.scrollSavant = casting.scrollSavant.filter(scroll => scroll.amount);
+                while (casting.scrollSavant.length > available) {
+                    casting.scrollSavant.pop();
+                }
+                let prepared: number = casting.scrollSavant.length;
+                if (available) {
+                    result = "You can currently prepare " + (available - prepared) + " of " + available + " temporary scrolls of different spell levels up to level " + (this.get_Character().get_SpellLevel(this.get_Character().level) - 2) + ".";
+                }
+            }
+            return result;
+        }
+    }
+
+    prepare_Scroll(scroll: Item) {
+        let casting = this.get_ScrollSavantCasting();
+        let tempInv = new ItemCollection();
+        let newScroll = this.characterService.grant_InventoryItem(this.characterService.get_Character(), tempInv, scroll, false, false, false, 1) as Scroll;
+        newScroll.expiration = -2;
+        newScroll.storedSpells.forEach(spell => {spell.spellBookOnly = true;});
+        casting.scrollSavant.push(Object.assign(new Scroll(), newScroll));
+    }
+
+    unprepare_Scroll(scroll: Item, casting: SpellCasting) {
+        casting.scrollSavant = casting.scrollSavant.filter(oldScroll => oldScroll !== scroll);
     }
 
     still_loading() {

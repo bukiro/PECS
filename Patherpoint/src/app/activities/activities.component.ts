@@ -23,17 +23,13 @@ export class ActivitiesComponent implements OnInit {
     creature: string = "Character";
     private id: number = 0;
     private showAction: number = 0;
-    public hover: number = 0;
     private showItem: string = "";
     private showList: string = "";
 
     constructor(
         private changeDetector: ChangeDetectorRef,
         public characterService: CharacterService,
-        private activitiesService: ActivitiesService,
-        private itemsService: ItemsService,
-        private spellsService: SpellsService,
-        private timeService: TimeService
+        private activitiesService: ActivitiesService
     ) { }
 
     minimize() {

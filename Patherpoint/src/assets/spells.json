@@ -254,7 +254,7 @@
     {
         "id": "bd6154e2-4f8e-4b2e-bdc0-b4c6c6968a83",
         "levelreq": 1,
-        "name": "\nPhysical Boost",
+        "name": "Physical Boost",
         "actions": "1A",
         "castType": "verbal",
         "shortDesc": "You temporarily improve the target's physique.",

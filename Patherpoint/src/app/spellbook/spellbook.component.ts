@@ -11,6 +11,7 @@ import { EffectsService } from '../effects.service';
 import { SpellChoice } from '../SpellChoice';
 import { ConditionGain } from '../ConditionGain';
 import { EffectGain } from '../EffectGain';
+import { Level } from '../Level';
 
 @Component({
     selector: 'app-spellbook',
@@ -24,6 +25,8 @@ export class SpellbookComponent implements OnInit {
     private id: number = 0;
     public hover: number = 0;
     public Math = Math;
+    private showItem: string = "";
+    private showList: string = "";
 
     constructor(
         private changeDetector: ChangeDetectorRef,
@@ -34,7 +37,7 @@ export class SpellbookComponent implements OnInit {
         private timeService: TimeService,
         private effectsService: EffectsService
     ) { }
-    
+
     minimize() {
         this.characterService.get_Character().settings.spellbookMinimized = !this.characterService.get_Character().settings.spellbookMinimized;
     }
@@ -53,8 +56,42 @@ export class SpellbookComponent implements OnInit {
         }
     }
 
+    toggle_Item(name: string) {
+        if (this.showItem == name) {
+            this.showItem = "";
+        } else {
+            this.showItem = name;
+            this.showList = "";
+        }
+    }
+
+    toggle_List(name: string) {
+        if (this.showList == name) {
+            this.showList = "";
+        } else {
+            this.showList = name;
+            this.showSpell = 0;
+        }
+    }
+
+    receive_ChoiceMessage(name: string) {
+        this.toggle_List(name);
+    }
+
+    receive_SpellMessage(name: string) {
+        this.toggle_Item(name);
+    }
+
     get_showSpell() {
         return this.showSpell;
+    }
+
+    get_showItem() {
+        return this.showItem;
+    }
+
+    get_showList() {
+        return this.showList;
     }
 
     get_Accent() {
@@ -64,7 +101,7 @@ export class SpellbookComponent implements OnInit {
     trackByIndex(index: number, obj: any): any {
         return index;
     }
-    
+
     get_ID() {
         this.id++;
         return this.id;
@@ -97,7 +134,7 @@ export class SpellbookComponent implements OnInit {
     get_SpellCastings() {
         let character = this.get_Character();
         return character.class.spellCasting.filter(casting => casting.charLevelAvailable && casting.charLevelAvailable <= character.level)
-            .sort(function(a,b) {
+            .sort(function (a, b) {
                 if (a.tradition > b.tradition) {
                     return 1;
                 }
@@ -105,7 +142,7 @@ export class SpellbookComponent implements OnInit {
                     return -1;
                 }
                 return 0;
-            }).sort(function(a,b) {
+            }).sort(function (a, b) {
                 if (a.className > b.className) {
                     return 1;
                 }
@@ -113,7 +150,7 @@ export class SpellbookComponent implements OnInit {
                     return -1;
                 }
                 return 0;
-            }).sort(function(a,b) {
+            }).sort(function (a, b) {
                 if (a.castingType > b.castingType || (b.castingType == "Innate" ? a.castingType != "Innate" : false)) {
                     return 1;
                 }
@@ -139,16 +176,16 @@ export class SpellbookComponent implements OnInit {
     }
 
     get_SpellsByLevel(levelNumber: number, casting: SpellCasting) {
-        function spellSort(list: {choice:SpellChoice, gain:SpellGain}[]) {
-            return list.sort(function(a,b) {
+        function spellSort(list: { choice: SpellChoice, gain: SpellGain }[]) {
+            return list.sort(function (a, b) {
                 if (a.gain.name > b.gain.name) {
                     return 1;
                 }
-            
+
                 if (a.gain.name < b.gain.name) {
                     return -1;
                 }
-            
+
                 return 0;
             });
         }
@@ -203,16 +240,23 @@ export class SpellbookComponent implements OnInit {
         }
     }
 
+    have_Feat(name: string) {
+        let character = this.characterService.get_Character();
+        return character.get_FeatsTaken(0, character.level, name).length
+    }
+
     refocus() {
         let character = this.characterService.get_Character();
         let focusPoints = character.class.focusPoints;
         let maxFocusPoints = this.get_MaxFocusPoints();
-        if (character.get_FeatsTaken(0, character.level, "Meditative Wellspring").length && (maxFocusPoints - focusPoints >= 3)) {
-            this.characterService.process_OnceEffect(character, Object.assign(new EffectGain(), {affected:"Focus Points", value:"+3"}))
-        } else if (character.get_FeatsTaken(0, character.level, "Meditative Focus").length && (maxFocusPoints - focusPoints >= 2)) {
-            this.characterService.process_OnceEffect(character, Object.assign(new EffectGain(), {affected:"Focus Points", value:"+2"}))
+        if (this.have_Feat("Meditative Wellspring") && (maxFocusPoints - focusPoints >= 3)) {
+            this.characterService.process_OnceEffect(character, Object.assign(new EffectGain(), { affected: "Focus Points", value: "+3" }))
+        } else if (this.have_Feat("Meditative Focus") && (maxFocusPoints - focusPoints >= 2)) {
+            this.characterService.process_OnceEffect(character, Object.assign(new EffectGain(), { affected: "Focus Points", value: "+2" }))
+        } else if (this.have_Feat("Bonded Focus") && (maxFocusPoints - focusPoints >= 2)) {
+            this.characterService.process_OnceEffect(character, Object.assign(new EffectGain(), { affected: "Focus Points", value: "+2" }))
         } else {
-            this.characterService.process_OnceEffect(character, Object.assign(new EffectGain(), {affected:"Focus Points", value:"+1"}))
+            this.characterService.process_OnceEffect(character, Object.assign(new EffectGain(), { affected: "Focus Points", value: "+1" }))
         }
         this.timeService.tick(this.characterService, this.timeService, this.itemsService, this.spellsService, 1000);
     }
@@ -276,18 +320,18 @@ export class SpellbookComponent implements OnInit {
         //Trigger bloodline powers for sorcerers if your main class is Sorcerer.
         let character = this.get_Character()
         if (character.class.name == "Sorcerer" && casting.className == "Sorcerer") {
-            let bloodline: string =  character.get_FeatsTaken(1, character.level).find(gain => 
+            let bloodline: string = character.get_FeatsTaken(1, character.level).find(gain =>
                 ["Aberrant Bloodline",
-                "Angelic Bloodline",
-                "Demonic Bloodline",
-                "Diabolic Bloodline",
-                "Draconic Bloodline",
-                "Elemental Bloodline",
-                "Fey Bloodline",
-                "Hag Bloodline",
-                "Imperial Bloodline",
-                "Undead Bloodline"].includes(gain.name)
-                )?.name;
+                    "Angelic Bloodline",
+                    "Demonic Bloodline",
+                    "Diabolic Bloodline",
+                    "Draconic Bloodline",
+                    "Elemental Bloodline",
+                    "Fey Bloodline",
+                    "Hag Bloodline",
+                    "Imperial Bloodline",
+                    "Undead Bloodline"].includes(gain.name)
+            )?.name;
             if (bloodline) {
                 let data = this.characterService.get_Feats(bloodline)[0]?.data[0];
                 let conditionName: string = data?.["bloodmagic"];
@@ -306,13 +350,13 @@ export class SpellbookComponent implements OnInit {
     can_Counterspell(casting: SpellCasting) {
         let character = this.get_Character();
         if (["Prepared", "Spontaneous"].includes(casting.castingType)) {
-            return character.get_FeatsTaken(1, character.level, "Counterspell ("+casting.castingType+")").length;
+            return character.get_FeatsTaken(1, character.level, "Counterspell (" + casting.castingType + ")").length;
         }
     }
 
     on_Counterspell(gain: SpellGain, casting: SpellCasting, choice: SpellChoice, spell: Spell) {
         //Focus spells cost Focus points.
-        if (casting.castingType == "Focus"&& choice.level == -1) {
+        if (casting.castingType == "Focus" && choice.level == -1) {
             this.characterService.get_Character().class.focusPoints = Math.min(this.get_Character().class.focusPoints, this.get_MaxFocusPoints());
             this.characterService.get_Character().class.focusPoints -= 1;
         };
@@ -327,19 +371,76 @@ export class SpellbookComponent implements OnInit {
         this.characterService.process_ToChange();
     }
 
-    on_Restore(gain: SpellGain, casting: SpellCasting, level: number) {
-        if ((casting.bondedItemCharges[level] || casting.bondedItemCharges[0]) && !gain.prepared ) {
-            if (casting.bondedItemCharges[level]) {
-                casting.bondedItemCharges[level] -= 1;
-            } else if (casting.bondedItemCharges[0]) {
-                casting.bondedItemCharges[0] -= 1;
-            }
-            gain.prepared = true;
+    can_Restore(casting: SpellCasting, level: number) {
+        //True if you have the "Free Bonded Item Charge" effect (usually from Bond Conversation)
+        if (this.effectsService.get_EffectsOnThis(this.get_Character(), "Free Bonded Item Charge").length) {
+            return true;
         }
+        //True if there is a charge available for this level
+        if (casting.bondedItemCharges[level]) {
+            return true;
+        }
+        //True if there is more than one general charge available - it means we have Superior Bond, and the first charge can be applied to every level.
+        if (casting.bondedItemCharges[0] > 1) {
+            return true;
+        }
+        //If there is only one charge, we need to check if this came from the Superior Bond feat.
+        //If we have that feat, the last charge is the Superior Bond charge and can only be applied to a spell 2 or more levels lower than the highest-level spell.
+        if (casting.bondedItemCharges[0] > 0) {
+            if (level <= this.get_MaxSpellLevel() - 2) {
+                return true;
+            } else {
+                if (this.have_Feat("Superior Bond")) {
+                    return false;
+                } else {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    on_Restore(gain: SpellGain, casting: SpellCasting, level: number) {
+        let character = this.get_Character();
+        if (this.have_Feat("Linked Focus")) {
+            this.characterService.process_OnceEffect(character, Object.assign(new EffectGain(), { affected: "Focus Points", value: "+1" }))
+        }
+        if (this.effectsService.get_EffectsOnThis(character, "Free Bonded Item Charge").length) {
+            this.effectsService.get_EffectsOnThis(character, "Free Bonded Item Charge").forEach(effect => {
+                this.characterService.get_AppliedConditions(character, effect.source).forEach(gain => {
+                    this.characterService.remove_Condition(character, gain, false, false);
+                });
+            });
+        } else {
+            if ((casting.bondedItemCharges[level] || casting.bondedItemCharges[0]) && !gain.prepared) {
+                if (casting.bondedItemCharges[level]) {
+                    casting.bondedItemCharges[level] -= 1;
+                } else if (casting.bondedItemCharges[0]) {
+                    casting.bondedItemCharges[0] -= 1;
+                }
+            }
+        }
+        gain.prepared = true;
+        this.characterService.process_ToChange();
+    }
+
+    can_Reprepare(level: number, spell: Spell) {
+        return level <= 4 &&
+            !spell.duration &&
+            this.have_Feat("Reprepare Spell") &&
+            !this.have_Feat("Spell Substitution")
+    }
+
+    on_Reprepare(gain: SpellGain) {
+        gain.prepared = true;
     }
 
     is_SignatureSpell(choice: SpellChoice) {
         return this.get_SignatureSpellsAllowed() && choice.signatureSpell;
+    }
+
+    get_TemporarySpellChoices(casting: SpellCasting) {
+        return casting.spellChoices.filter(choice => choice.showOnSheet);
     }
 
     finish_Loading() {
@@ -347,20 +448,20 @@ export class SpellbookComponent implements OnInit {
             setTimeout(() => this.finish_Loading(), 500)
         } else {
             this.characterService.get_Changed()
-            .subscribe((target) => {
-                if (target == "spellbook" || target == "all" || target == "Character") {
-                    this.changeDetector.detectChanges();
-                }
-            });
+                .subscribe((target) => {
+                    if (target == "spellbook" || target == "all" || target == "Character") {
+                        this.changeDetector.detectChanges();
+                    }
+                });
             this.characterService.get_ViewChanged()
-            .subscribe((view) => {
-                if (view.creature == "Character" && ["spellbook", "all"].includes(view.target)) {
-                    this.changeDetector.detectChanges();
-                }
-                if (view.creature == "Character" && view.target == "span") {
-                    this.set_Span();
-                }
-            });
+                .subscribe((view) => {
+                    if (view.creature == "Character" && ["spellbook", "all"].includes(view.target)) {
+                        this.changeDetector.detectChanges();
+                    }
+                    if (view.creature == "Character" && view.target == "span") {
+                        this.set_Span();
+                    }
+                });
             return true;
         }
     }

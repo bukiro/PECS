@@ -14,6 +14,7 @@ import { InventoryComponent } from '../inventory/inventory.component';
 import { AlchemicalBomb } from '../AlchemicalBomb';
 import { Consumable } from '../Consumable';
 import { Snare } from '../Snare';
+import { SpellGain } from '../SpellGain';
 
 @Component({
     selector: 'app-attacks',
@@ -50,8 +51,8 @@ export class AttacksComponent implements OnInit {
         return this.characterService.still_loading()
     }
     
-    get_Creature() {
-        return this.characterService.get_Creature(this.creature) as Character|AnimalCompanion;
+    get_Creature(type: string = this.creature) {
+        return this.characterService.get_Creature(type) as Character|AnimalCompanion;
     }
 
     get_Accent() {
@@ -158,7 +159,27 @@ export class AttacksComponent implements OnInit {
         return this.sortByPipe.transform(snares, "asc", "name") as Snare[];
     }
 
+    get_Spells(name: string = "", type: string = "", tradition: string = "") {
+        return this.characterService.spellsService.get_Spells(name, type, tradition);
+    }
+
     on_ConsumableUse(item: Ammunition|AlchemicalBomb, inv: ItemCollection) {
+        if (item.storedSpells.length) {
+            let spellName = item.storedSpells[0]?.spells[0]?.name || "";
+            let spellChoice = item.storedSpells[0];
+            if (spellChoice && spellName) {
+                let spell = this.get_Spells(item.storedSpells[0]?.spells[0]?.name)[0];
+                if (spell) {
+                    let tempGain: SpellGain = new SpellGain();
+                    let target: string = "";
+                    if (spell.target == 'self') {
+                        target = "Character";
+                    }
+                    this.characterService.spellsService.process_Spell(this.get_Creature('Character'), target, this.characterService, this.characterService.itemsService, this.characterService.timeService, tempGain, spell, spellChoice.level, true, true, false);
+                }
+                spellChoice.spells.shift();
+            }
+        }
         this.characterService.on_ConsumableUse(this.get_Creature(), item as Consumable);
         if (item.can_Stack()) {
             this.characterService.set_ToChange(this.creature, "attacks");

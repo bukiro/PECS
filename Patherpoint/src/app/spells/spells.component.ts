@@ -90,6 +90,12 @@ export class SpellsComponent implements OnInit {
             this.get_Character().get_FeatsTaken(1, this.get_Character().level, "Spell Substitution").length > 0;
     }
 
+    apply_ReprepareSpell(casting: SpellCasting) {
+        return casting.castingType == "Prepared" &&
+            casting.className == "Wizard" &&
+            this.get_Character().get_FeatsTaken(1, this.get_Character().level, "Reprepare Spell").length > 0;
+    }
+
     get_Spells(name: string = "", type: string = "", tradition: string = "") {
         return this.spellsService.get_Spells(name, type, tradition);
     }
@@ -147,7 +153,7 @@ export class SpellsComponent implements OnInit {
 
     get_SpellChoices(casting: SpellCasting, levelNumber: number) {
         //Get all spellchoices that have this spell level and are available at this character level.
-        return casting.spellChoices.filter(choice => choice.charLevelAvailable <= this.get_Character().level && 
+        return casting.spellChoices.filter(choice => choice.charLevelAvailable <= this.get_Character().level && !choice.showOnSheet && 
             ((choice.level == levelNumber && !choice.dynamicLevel) || (choice.dynamicLevel && this.get_DynamicLevel(casting, choice) == levelNumber))
         )
     }

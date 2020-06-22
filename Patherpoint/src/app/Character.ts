@@ -193,7 +193,7 @@ export class Character extends Creature {
         let levelNumber = parseInt(sourceId[0]);
         return this.class.levels[levelNumber].featChoices.filter(choice => choice.id == sourceId)[0];
     }
-    add_SpellChoice(characterService: CharacterService, level: Level, newChoice: SpellChoice) {
+    add_SpellChoice(characterService: CharacterService, levelNumber: number, newChoice: SpellChoice) {
         let spellCasting = this.class.spellCasting
             .find(casting => casting.castingType == newChoice.castingType &&
                 (casting.className == newChoice.className || newChoice.className == ""));
@@ -202,7 +202,7 @@ export class Character extends Creature {
         choice.spells = choice.spells.map(gain => Object.assign(new SpellGain(), gain));
         //If the choice has a charLevelAvailable lower than the current level, you could choose spells before you officially get this choice.
         //So we raise the charLevelAvailable to either the current level or the original value, whichever is higher.
-        choice.charLevelAvailable = Math.max(choice.charLevelAvailable, level.number);
+        choice.charLevelAvailable = Math.max(choice.charLevelAvailable, levelNumber);
         //If the spellcasting was not available so far, it is now.
         if (!spellCasting.charLevelAvailable) {
             spellCasting.charLevelAvailable = choice.charLevelAvailable;

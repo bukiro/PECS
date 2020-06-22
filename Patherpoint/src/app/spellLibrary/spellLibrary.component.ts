@@ -4,6 +4,9 @@ import { CharacterService } from '../character.service';
 import { SortByPipe } from '../sortBy.pipe';
 import { Spell } from '../Spell';
 import { SpellCasting } from '../SpellCasting';
+import { SpellChoice } from '../SpellChoice';
+import { SpellGain } from '../SpellGain';
+import { Level } from '../Level';
 
 @Component({
     selector: 'app-spellLibrary',
@@ -177,9 +180,9 @@ export class SpellLibraryComponent implements OnInit {
                     wizardLearned = wizardAvailable;
                 }
                 if (wizardAvailable || schoolAvailable) {
-                    result += "\n" + (wizardAvailable - wizardLearned) + (level == 0 ? " Arcane Cantrips" : " Arcane spell(s) up to level " + level);
+                    result += "\n" + (wizardAvailable - wizardLearned) + " of " + wizardAvailable + (level == 0 ? " Arcane Cantrips" : " Arcane spell(s) up to level " + level);
                     if (schoolAvailable) {
-                        result += "\n" + (schoolAvailable - schoolLearned) + " Arcane spell(s) of the " + school.toLowerCase() + " up to level " + level;
+                        result += "\n" + (schoolAvailable - schoolLearned) + " of " + schoolAvailable + " Arcane spell(s) of the " + school.toLowerCase() + " up to level " + level;
                     }
                 }
             })
@@ -253,6 +256,84 @@ export class SpellLibraryComponent implements OnInit {
             case "free":
                 return "(learned via Learn A Spell activity)";
         }
+    }
+
+    have_Feat(name: string) {
+        return this.get_Character().get_FeatsTaken(1, this.get_Character().level, name).length
+    }
+
+    get_SpellMasteryAvailable(casting: SpellCasting) {
+        if (casting.className == "Wizard" && casting.castingType == "Prepared" && (this.traditionFilter == "" || this.traditionFilter == "Arcane")) {
+            if (this.have_Feat("Spell Mastery")) {
+                let available = 4;
+                let selected: SpellChoice[] = this.get_SpellMasterySpells(casting);
+                let result: string = "You can select " + (available - selected.length) + " of " + (available) + " spells of different levels up to 9th level to automatically prepare via Spell Mastery.";
+                if (selected.length) {
+                    result += " You have already selected the following spells:\n"
+                }
+                selected.sort(function(a,b) {
+                    if (a.level > b.level) {
+                        return 1
+                    }
+                    if (a.level < b.level) {
+                        return -1
+                    }
+                    return 0;
+                }).forEach(choice => {
+                    result += "\n"+choice.spells[0].name+" (level "+choice.level+")"
+                });
+                return result;
+            } else {
+                return ""
+            }
+        } else {
+            return ""
+        }
+    }
+
+    get_AvailableForSpellMastery(casting: SpellCasting, spell: Spell) {
+        if (spell.levelreq > 0 &&
+            !spell.traits.includes("Cantrip") &&
+            casting.className == "Wizard" &&
+            casting.castingType == "Prepared" &&
+            (this.traditionFilter == "" || this.traditionFilter == "Arcane") &&
+            this.have_Feat("Spell Mastery")) {
+            return spell.traditions.includes(casting.tradition) && !this.get_SpellMasterySelected(casting, spell);
+        }
+    }
+
+    get_SpellMasterySelected(casting: SpellCasting, spell: Spell) {
+        return casting.spellChoices.find(choice => choice.source == "Spell Mastery" && choice.spells.find(spellTaken => spellTaken.name == spell.name));
+    }
+
+    get_SpellMasterySpells(casting: SpellCasting) {
+        return casting.spellChoices.filter(choice => choice.source == "Spell Mastery" && choice.spells.length);
+    }
+
+    get_SpellMasteryAllowed(casting: SpellCasting, levelNumber: number, spell: Spell) {
+        return !casting.spellChoices.find(choice => choice.source == "Spell Mastery" && (choice.level == levelNumber || choice.spells.find(spellTaken => spellTaken.name == spell.name)));
+    }
+
+    add_SpellMasterySpell(spell: Spell) {
+        let newChoice: SpellChoice = new SpellChoice();
+        let newSpellTaken: SpellGain = new SpellGain();
+        newChoice.className = "Wizard";
+        newChoice.castingType = "Prepared";
+        newChoice.source = "Spell Mastery";
+        newChoice.level = spell.levelreq;
+        newSpellTaken.name = spell.name;
+        newSpellTaken.locked = true;
+        newChoice.spells.push(newSpellTaken);
+        this.get_Character().add_SpellChoice(this.characterService, spell.levelreq, newChoice);
+        this.characterService.process_ToChange();
+    }
+
+    remove_SpellMasterySpell(casting: SpellCasting, spell: Spell) {
+        let oldChoice: SpellChoice = casting.spellChoices.find(choice => choice.source == "Spell Mastery" && choice.spells.find(spellTaken => spellTaken.name == spell.name));
+        if (oldChoice) {
+            this.get_Character().remove_SpellChoice(this.characterService, oldChoice);
+        }
+        this.characterService.process_ToChange();
     }
 
     still_loading() {

@@ -1367,6 +1367,7 @@
         "name": "Canny Acumen",
         "desc": "Your avoidance or observation is beyond the ken of most in your profession. Choose Fortitude saves, Reflex saves, Will saves, or Perception. You become an expert in your choice. At 17th level, you become a master in your choice.",
         "subTypes": true,
+        "unlimited": true,
         "shortdesc": "Become an expert in a saving throw or Perception.",
         "traits": [
             "General"
@@ -4075,7 +4076,7 @@
         "shortdesc": "Your study of the Beast of Gluttondark has taught you how to make do in the most trying of circumstances rather than succumb to weakness.",
         "sourceBook": "Pathfinder #153: Life's Long Shadow",
         "traits": [
-            "Uncomon",
+            "Uncommon",
             "General",
             "Skill"
         ],
@@ -4652,6 +4653,7 @@
     {
         "name": "Specialty Crafting",
         "desc": "Your training focused on Crafting one particular kind of item. Select one of the specialties listed below; you gain a +1 circumstance bonus to Crafting checks to Craft items of that type. If you are a master in Crafting, this bonus increases to +2. If it's unclear whether the specialty applies, the GM decides. Some specialties might apply only partially. For example, if you were making a morningstar and had specialty in woodworking, the GM might give you half your bonus because the item requires both blacksmithing and woodworking.",
+        "unlimited": true,
         "subTypes": true,
         "shortdesc": "Gain bonuses to Craft certain items.",
         "traits": [
@@ -10657,16 +10659,8 @@
             "Wizard"
         ],
         "levelreq": 4,
-        "featreq": [
-            "Abjuration School",
-            "Conjuration School",
-            "Divination School",
-            "Enchantment School",
-            "Evocation School",
-            "Illusion School",
-            "Necromancy School",
-            "Transmutation School"
-        ]
+        "specialreq": "character.get_FeatsTaken(1, charLevel).find(gain => ['Abjuration School', 'Conjuration School', 'Divination School', 'Enchantment School', 'Evocation School', 'Illusion School', 'Necromancy School', 'Transmutation School'].includes(gain.name))",
+        "specialreqdesc": "arcane school"
     },
     {
         "name": "Steady Spellcasting",
@@ -14454,7 +14448,7 @@
     },
     {
         "name": "Divination School",
-        "desc": "As a diviner, you master remote viewing and prescience, learning information that can transform investigations, research, and battle strategies. You understand that knowledge is power. You add one 1st-level divination spell (such as true strike) to your spellbook. You learn the diviner’s sight school spell.",
+        "desc": "As a diviner, you master remote viewing and prescience, learning information that can transform investigations, research, and battle strategies. You understand that knowledge is power. You add one 1st-level divination spell (such as true strike) to your spellbook. You learn the diviner's sight school spell.",
         "shortdesc": "As a diviner, you master remote viewing and prescience, learning information that can transform investigations, research, and battle strategies.",
         "effects": [
             {
@@ -14636,8 +14630,8 @@
     },
     {
         "name": "Enchantment School",
-        "desc": "As an enchanter, you use magic to manipulate others’ minds. You might use your abilities to subtly influence others or seize control over them. You understand that the mind surpasses matter. You add one 1st-level enchantment spell (such as charm) to your spellbook. You learn the charming words school spell.",
-        "shortdesc": "As an enchanter, you use magic to manipulate others’ minds.",
+        "desc": "As an enchanter, you use magic to manipulate others' minds. You might use your abilities to subtly influence others or seize control over them. You understand that the mind surpasses matter. You add one 1st-level enchantment spell (such as charm) to your spellbook. You learn the charming words school spell.",
+        "shortdesc": "As an enchanter, you use magic to manipulate others' minds.",
         "effects": [
             {
                 "affected": "Focus Pool",
@@ -15563,8 +15557,8 @@
     },
     {
         "name": "Improved Familiar Attunement",
-        "desc": "You’ve long held that fine-tuning the magic that bonds wizard and familiar can improve the mystic connection, compared to the safe yet generic bond most wizards currently use. You’ve formed such a pact with your familiar, gaining more advantages from it than most wizards. You gain the Familiar wizard feat as a bonus feat. Your familiar gains an extra ability, and it gains an additional extra ability when you reach 6th, 12th, and 18th levels. Your connection with your familiar alters your arcane bond class feature so that you store your magical energy in your familiar, rather than an item you own; you also gain the Drain Familiar free action instead of Drain Bonded Item. Drain Familiar can be used any time an ability would allow you to use Drain Bonded Item and functions identically, except that you draw magic from your familiar instead of an item.",
-        "shortdesc": "You’ve long held that fine-tuning the magic that bonds wizard and familiar can improve the mystic connection, compared to the safe yet generic bond most wizards currently use.",
+        "desc": "You've long held that fine-tuning the magic that bonds wizard and familiar can improve the mystic connection, compared to the safe yet generic bond most wizards currently use. You've formed such a pact with your familiar, gaining more advantages from it than most wizards. You gain the Familiar wizard feat as a bonus feat. Your familiar gains an extra ability, and it gains an additional extra ability when you reach 6th, 12th, and 18th levels. Your connection with your familiar alters your arcane bond class feature so that you store your magical energy in your familiar, rather than an item you own; you also gain the Drain Familiar free action instead of Drain Bonded Item. Drain Familiar can be used any time an ability would allow you to use Drain Bonded Item and functions identically, except that you draw magic from your familiar instead of an item.",
+        "shortdesc": "You've long held that fine-tuning the magic that bonds wizard and familiar can improve the mystic connection, compared to the safe yet generic bond most wizards currently use.",
         "effects": [
             {
                 "affected": "Familiar Abilities",
@@ -15615,9 +15609,9 @@
     },
     {
         "name": "Spell Blending",
-        "desc": "You theorize that spell slots are a shorthand for an underlying energy that powers all spellcasting, and you’ve found a way to tinker with the hierarchy of spell slots, combining them to fuel more powerful spells. When you make your daily preparations, you can trade two spell slots of the same level for a bonus spell slot of up to 2 levels higher than the traded spell slots. You can exchange as many spell slots as you have available. Bonus spell slots must be of a level you can normally cast, and each bonus spell slot must be of a different spell level. You can also trade any spell slot for two additional cantrips, though you cannot trade more than one spell slot at a time for additional cantrips in this way.",
+        "desc": "You theorize that spell slots are a shorthand for an underlying energy that powers all spellcasting, and you've found a way to tinker with the hierarchy of spell slots, combining them to fuel more powerful spells. When you make your daily preparations, you can trade two spell slots of the same level for a bonus spell slot of up to 2 levels higher than the traded spell slots. You can exchange as many spell slots as you have available. Bonus spell slots must be of a level you can normally cast, and each bonus spell slot must be of a different spell level. You can also trade any spell slot for two additional cantrips, though you cannot trade more than one spell slot at a time for additional cantrips in this way.",
         "internalNote": "Spell Blending is hardcoded.",
-        "shortdesc": "You theorize that spell slots are a shorthand for an underlying energy that powers all spellcasting, and you’ve found a way to tinker with the hierarchy of spell slots, combining them to fuel more powerful spells.",
+        "shortdesc": "You theorize that spell slots are a shorthand for an underlying energy that powers all spellcasting, and you've found a way to tinker with the hierarchy of spell slots, combining them to fuel more powerful spells.",
         "gainActivities": [
             "Drain Bonded Item"
         ],
@@ -15629,15 +15623,6 @@
                 "className": "Wizard",
                 "id": "9d1bc0a4-6f8a-48aa-9713-60daaa030ae3",
                 "level": 0,
-                "source": "Spell Blending"
-            },
-            {
-                "_className": "SpellChoice",
-                "available": 0,
-                "castingType": "Prepared",
-                "className": "Wizard",
-                "id": "89d0a10b-0882-4b21-8617-5c828561a1f8",
-                "level": 1,
                 "source": "Spell Blending"
             },
             {
@@ -15731,6 +15716,113 @@
         "shortdesc": "You don't accept the fact that once spells are prepared, they can't be changed until your next daily preparation, and you have uncovered a shortcut allowing you to substitute new spells for those you originally prepared.",
         "gainActivities": [
             "Drain Bonded Item"
+        ]
+    },
+    {
+        "name": "Infinite Possibilities",
+        "desc": "You've found a way to prepare a spell slot that exists in your mind as many different possibilities at once. Once during your daily preparations, you can use a spell slot to hold that infinite potential, rather than using it to prepare a spell. You can use this spell slot to cast any spell from your spellbook that's at least 2 levels lower than the slot you designate; the spell acts in all ways as a spell of 2 levels lower. You don't have any particular spell prepared in that slot until you cast it.",
+        "internalNote": "Designating a spell slot for Infinite Possibilities is hardcoded.",
+        "shortdesc": "You've found a way to prepare a spell slot that exists in your mind as many different possibilities at once.",
+        "hint": "Once during your daily preparations, you can trade in a spell slot for a bonus spell slot that holds infinite potential, rather than using it to prepare a spell. You make this choice in the spellbook menu. You can use this spell slot to cast any spell from your spellbook that's at least 2 levels lower than the slot you designate; the spell acts in all ways as a spell of 2 levels lower. You choose the spell to cast with this spell slot in the spells menu instead of the spellbook menu.",
+        "showon": "Health, Wizard Prepared Spells",
+        "gainSpellChoice": [
+            {
+                "_className": "SpellChoice",
+                "available": 0,
+                "castingType": "Prepared",
+                "className": "Wizard",
+                "id": "bb3c7072-fce4-4691-bc8b-ea03ddb779f5",
+                "level": 1,
+                "showOnSheet": true,
+                "source": "Infinite Possibilities"
+            },
+            {
+                "_className": "SpellChoice",
+                "available": 0,
+                "castingType": "Prepared",
+                "className": "Wizard",
+                "id": "35f1227e-e7a7-4372-87e2-e173ec47a0fb",
+                "level": 2,
+                "showOnSheet": true,
+                "source": "Infinite Possibilities"
+            },
+            {
+                "_className": "SpellChoice",
+                "available": 0,
+                "castingType": "Prepared",
+                "className": "Wizard",
+                "id": "2cb1c90f-dc03-4462-be5b-510847d5256d",
+                "level": 3,
+                "showOnSheet": true,
+                "source": "Infinite Possibilities"
+            },
+            {
+                "_className": "SpellChoice",
+                "available": 0,
+                "castingType": "Prepared",
+                "className": "Wizard",
+                "id": "df2c8ffb-2a50-433d-9e8f-2c54df5d38f9",
+                "level": 4,
+                "showOnSheet": true,
+                "source": "Infinite Possibilities"
+            },
+            {
+                "_className": "SpellChoice",
+                "available": 0,
+                "castingType": "Prepared",
+                "className": "Wizard",
+                "id": "f13e960e-67fa-4f2a-9aff-a1dc0f4d6bc6",
+                "level": 5,
+                "showOnSheet": true,
+                "source": "Infinite Possibilities"
+            },
+            {
+                "_className": "SpellChoice",
+                "available": 0,
+                "castingType": "Prepared",
+                "className": "Wizard",
+                "id": "c66de3e2-b252-4bc6-a09c-ec672c645319",
+                "level": 6,
+                "showOnSheet": true,
+                "source": "Infinite Possibilities"
+            },
+            {
+                "_className": "SpellChoice",
+                "available": 0,
+                "castingType": "Prepared",
+                "className": "Wizard",
+                "id": "a5b6d8a6-5c46-4300-9017-1efda5523811",
+                "level": 7,
+                "showOnSheet": true,
+                "source": "Infinite Possibilities"
+            },
+            {
+                "_className": "SpellChoice",
+                "available": 0,
+                "castingType": "Prepared",
+                "className": "Wizard",
+                "id": "8806f426-996b-4ae2-9e20-ef00100ea5e0",
+                "level": 8,
+                "showOnSheet": true,
+                "source": "Infinite Possibilities"
+            }
+        ],
+        "levelreq": 18,
+        "traits": [
+            "Wizard"
+        ]
+    },
+    {
+        "name": "Spell Mastery",
+        "desc": "You have mastered a handful of spells to such a degree that you can cast them even if you haven’t prepared them. Select any four spells of 9th level or lower that you have access to. Each spell you select must be of a different level. These spells are automatically prepared when you make your daily preparations and have their own spell slots. You can select a different array of spells by spending 1 week of downtime retraining your mastered spells.",
+        "internalNote": "You get a number of spell slots that you can prepare as usual. Choosing the level for each spell slot is hardcoded.",
+        "shortdesc": "You have mastered a handful of spells to such a degree that you can cast them even if you haven’t prepared them.",
+        "hint": "You can prepare four additional spells of 9th level or lower that you have access to. Each spell you select must be of a different level. You can choose the four different spell levels in the spellbook menu. You can select a different array of spells by spending 1 week of downtime retraining your mastered spells.",
+        "showon": "Health, Wizard Prepared Spells",
+        "levelreq": 20,
+        "traits": [
+            "Uncommon",
+            "Wizard"
         ]
     }
 ]

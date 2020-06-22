@@ -71,8 +71,8 @@ export class SavegameService {
     private savegames: Savegame[];
     private loading: boolean = false;
     private loader;
-    //private server: string = "http://arne:8080"
-    private server: string = "http://glswxiogstum9cgx.myfritz.net:23480"
+    private server: string = "http://arne:8080"
+    //private server: string = "http://glswxiogstum9cgx.myfritz.net:23480"
 
     private AbilityChoice = AbilityChoice;
     private ActivityGain = ActivityGain;

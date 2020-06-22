@@ -361,7 +361,7 @@ export class NewItemPropertyComponent implements OnInit {
                 examples = ["", "Arcane", "Divine", "Occult", "Primal"];
                 break;
             case "spelltargets":
-                examples = ["", "Others", "Only yourself"];
+                examples = ["", "Enemies", "Others", "Caster"];
                 break;
             case "onceEffects affected":
                 examples.push(...["Focus", "HP", "Temporary HP"])

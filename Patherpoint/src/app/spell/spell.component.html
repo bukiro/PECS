@@ -23,7 +23,7 @@
     </div>
     <div class="row left-aligned" *ngIf="spell.castType">
         <strong>Cast</strong>
-        <app-actionIcons [actionString]="spell.actions"></app-actionIcons>{{spell.castType}}&nbsp;
+        <app-actionIcons [actionString]="spell.actions"></app-actionIcons><span>{{spell.castType}}&nbsp;</span>
         <span *ngIf="spell.trigger">
             <strong>Trigger</strong>
             {{spell.trigger}}

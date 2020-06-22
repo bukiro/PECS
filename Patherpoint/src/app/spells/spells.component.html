@@ -18,6 +18,8 @@
                     </span>
                 </span>
             </h3>
+            <app-tags [creature]="'Character'" [objectName]="casting.className + ' ' + casting.castingType + ' Spells'" [showTraits]=true [showFeats]=true
+            [showItems]=true [showActivities]=true [showConditions]=true [showEffects]=true></app-tags>
             <div class="list-item" *ngIf="need_Spellbook(casting)">
                 <span>
                     <input id="allowBorrow" type="checkbox" [(ngModel)]="allowBorrow">
@@ -29,14 +31,16 @@
                     <input id="allowSpellSubstitution" type="checkbox" [(ngModel)]="prepared">
                     <label for="allowSpellSubstitution" title="Selected spells are immediately prepared">Spell Substitution</label>
                 </span>
+                <app-tags [creature]="'Character'" [objectName]="'Spell Substitution'" [showTraits]=true [showFeats]=true
+                    [showItems]=true [showActivities]=true [showConditions]=true [showEffects]=true></app-tags>
             </div>
             <ng-container *ngFor="let level of [-1, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10]; trackBy:trackByIndex;">
                 <ng-container *ngIf="level <= get_MaxSpellLevel()">
-                    <h5 *ngIf="level == -1 && casting.castingType == 'Focus'">Focus Spells</h5>
-                    <h5 *ngIf="level == 0">Cantrips</h5>
-                    <h5 *ngIf="level > 0 && casting.castingType != 'Focus'">{{"Level "+level}}</h5>
+                    <h5 *ngIf="level == -1 && casting.castingType == 'Focus' && get_SpellChoices(casting, level).length">Focus Spells</h5>
+                    <h5 *ngIf="level == 0 && get_SpellChoices(casting, level).length">Cantrips</h5>
+                    <h5 *ngIf="level > 0 && casting.castingType != 'Focus' && get_SpellChoices(casting, level).length">{{"Level "+level}}</h5>
                     <!--Fixed information-->
-                    <div class="fullsize-only list-item fancy-button" *ngIf="get_SpellsTaken(1, get_Character().level, level, '', casting, '', '', true).length" >
+                    <div class="fullsize-only list-item" *ngIf="get_SpellsTaken(1, get_Character().level, level, '', casting, '', '', true).length" >
                         <button class="row sublist-toggle fancy-button"
                             (click)="toggle_Choice(index+'showFixedChanges'+level)">
                             Show fixed changes

@@ -55,13 +55,15 @@
                 <h3>Snare Specialist</h3>
             </button>
             <ng-container *ngIf="get_ShowList()=='snarespecialist'">
-                <div class="row" *ngIf="!get_PreparedItems('snarespecialist').length">You don't have any snares prepared for quick deployment.</div>
+                <div class="row" *ngIf="!get_PreparedItems('snarespecialist').length">You don't have any snares prepared
+                    for quick deployment.</div>
                 <ng-container *ngFor="let preparedItem of get_PreparedItems('snarespecialist'); trackBy:trackByIndex;">
                     <div class="list-item"
                         *ngFor="let inventoryID of ['snarespecialist'+preparedItem.item.id]; trackBy:trackByIndex;">
                         <button class="row sublist-toggle" (click)="toggle_Item(inventoryID)"
                             [ngClass]="{'inactive-button':!preparedItem.learned.snareSpecialistAvailable}">
-                            <span>{{preparedItem.learned.snareSpecialistAvailable}} {{(preparedItem.item.get_Name) ? preparedItem.item.get_Name() : preparedItem.item.name}}</span>
+                            <span>{{preparedItem.learned.snareSpecialistAvailable}}
+                                {{(preparedItem.item.get_Name) ? preparedItem.item.get_Name() : preparedItem.item.name}}</span>
                             <span>{{(preparedItem.item.level) ? "Level "+preparedItem.item.level : "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"}}</span>
                         </button>
                         <div class="list-item sublist lower" *ngIf="get_ShowItem()==inventoryID"
@@ -137,6 +139,44 @@
                                         </app-actionIcons>{{(item.activationType) ? item.activationType : ""}}
                                     </span>
                                 </button>
+                                <ng-container *ngIf="item.amount != undefined && item.storedSpells.length && !['weaponrunes', 'armorrunes', 'oils'].includes(this.item.type)">
+                                    <ng-container *ngFor="let spell of get_ItemSpell(item); trackBy:trackByIndex;">
+                                        <button class="row center-aligned"
+                                            (click)="on_SpellItemUse(item, creature, inventory)"
+                                            *ngIf="['self', 'ally'].includes(spell.target)">
+                                            <span>Use<app-actionIcons [actionString]="spell.actions">
+                                            </app-actionIcons>{{(spell.activationType) ? spell.activationType : ""}} {{spell.target == 'ally' ? "(Cast spell on yourself)" : "(Cast spell)"}}
+                                            </span>
+                                        </button>
+                                        <button class="row center-aligned"
+                                            (click)="on_SpellItemUse(item, (creature=='Character' ? 'Companion' : 'Character'), inventory)"
+                                            *ngIf="['companion', 'ally'].includes(spell.target) && get_CompanionAvailable()">
+                                            <span>Use<app-actionIcons [actionString]="spell.actions">
+                                            </app-actionIcons>{{(spell.activationType) ? spell.activationType : ""}} (Cast spell on
+                                            {{creature == "Character" ? "your animal companion" : "your master"}})
+                                            </span>
+                                        </button>
+                                        <button class="row center-aligned"
+                                            (click)="on_SpellItemUse(item, 'Familiar', inventory)"
+                                            *ngIf="['companion', 'ally'].includes(spell.target) && get_FamiliarAvailable()">
+                                            <span>Use<app-actionIcons [actionString]="spell.actions">
+                                            </app-actionIcons>{{(spell.activationType) ? spell.activationType : ""}} (Cast spell on your familiar)
+                                            </span>
+                                        </button>
+                                        <button class="row center-aligned" (click)="on_SpellItemUse(item, '', inventory)"
+                                            *ngIf="spell.target == 'ally'">
+                                            <span>Use<app-actionIcons [actionString]="spell.actions">
+                                            </app-actionIcons>{{(spell.activationType) ? spell.activationType : ""}} (Cast spell on ally)
+                                            </span>
+                                        </button>
+                                        <button class="row center-aligned" (click)="on_SpellItemUse(item, '', inventory)"
+                                            *ngIf="spell.target == ''">
+                                            <span>Use<app-actionIcons [actionString]="spell.actions">
+                                            </app-actionIcons>{{(spell.activationType) ? spell.activationType : ""}} (Cast spell)
+                                            </span>
+                                        </button>
+                                    </ng-container>
+                                </ng-container>
                                 <ng-container
                                     *ngIf="item.amount != undefined && ['alchemicalelixirs','potions'].includes(item.type) && item.actions && (!item.targets || item.targets.length == 0)">
                                     <button class="row left-aligned" [disabled]="!item.amount"

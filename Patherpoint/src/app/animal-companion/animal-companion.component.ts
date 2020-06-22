@@ -23,7 +23,8 @@ export class AnimalCompanionComponent implements OnInit {
 
     minimize() {
         this.characterService.get_Character().settings.companionMinimized = !this.characterService.get_Character().settings.companionMinimized;
-        this.set_Changed("Companion");
+        this.characterService.set_ToChange("Companion", "companion");
+        this.characterService.process_ToChange();
     }
 
     still_loading() {
@@ -34,32 +35,12 @@ export class AnimalCompanionComponent implements OnInit {
         this.characterService.toggleMenu("companion");
     }
 
+    get_Character() {
+        return this.characterService.get_Character();
+    }
+
     get_CompanionMenuState() {
         return this.characterService.get_CompanionMenuState();
-    }
-
-    toggle_Item(name: string) {
-        if (this.showItem == name) {
-            this.showItem = "";
-        } else {
-            this.showItem = name;
-        }
-    }
-
-    toggle_List(name: string) {
-        if (this.showList == name) {
-            this.showList = "";
-        } else {
-            this.showList = name;
-        }
-    }
-
-    get_showItem() {
-        return this.showItem;
-    }
-
-    get_showList() {
-        return this.showList;
     }
 
     get_Accent() {
@@ -75,20 +56,8 @@ export class AnimalCompanionComponent implements OnInit {
         return index;
     }
 
-    get_Character() {
-        return this.characterService.get_Character();
-    }
-
     get_CompanionAvailable() {
         return this.characterService.get_CompanionAvailable();
-    }
-
-    get_CompanionTypes() {
-        return this.animalCompanionsService.get_CompanionTypes();
-    }
-
-    get_Item(gain: ItemGain) {
-        return this.characterService.get_Items()[gain.type].filter(item => item.name == gain.name);
     }
 
     finish_Loading() {
@@ -97,7 +66,7 @@ export class AnimalCompanionComponent implements OnInit {
         } else {
             this.characterService.get_Changed()
             .subscribe((target) => {
-                if (target == "companion" || target == "all" || target == "Companion") {
+                if (["Companion", "companion", "all"].includes(target)) {
                     this.changeDetector.detectChanges();
                 }
             });

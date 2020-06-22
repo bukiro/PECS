@@ -87,7 +87,7 @@ export class CharacterService {
         public abilitiesService: AbilitiesService,
         private skillsService: SkillsService,
         private classesService: ClassesService,
-        private featsService: FeatsService,
+        public featsService: FeatsService,
         private traitsService: TraitsService,
         private historyService: HistoryService,
         private conditionsService: ConditionsService,
@@ -542,8 +542,8 @@ export class CharacterService {
         this.me.class.on_NewBackground(this);
     }
 
-    get_Items() {
-        return this.itemsService.get_Items();
+    get_CleanItems() {
+        return this.itemsService.get_CleanItems();
     }
 
     get_Inventories(creature: Character|AnimalCompanion|Familiar) {
@@ -626,7 +626,7 @@ export class CharacterService {
             if (createdInventoryItem.amount && amount > 1) {
                 createdInventoryItem.amount = amount;
             }
-            if (equipAfter && Object.keys(createdInventoryItem).includes("equipped")) {
+            if (equipAfter && Object.keys(createdInventoryItem).includes("equipped") && item.equippable) {
                 this.onEquip(creature, inventory, createdInventoryItem, true, false);
             }
             returnedInventoryItem = createdInventoryItem;
@@ -665,7 +665,7 @@ export class CharacterService {
         //Add all Items that you get from being granted this one
         if (returnedInventoryItem.gainItems && returnedInventoryItem.gainItems.length) {
             returnedInventoryItem.gainItems.filter(gainItem => gainItem.on == "grant").forEach(gainItem => {
-                let newItem: Item = this.get_Items()[gainItem.type].filter(libraryItem => libraryItem.name == gainItem.name)[0];
+                let newItem: Item = this.get_CleanItems()[gainItem.type].filter(libraryItem => libraryItem.name == gainItem.name)[0];
                 if (newItem.can_Stack()) {
                     this.grant_InventoryItem(creature, inventory, newItem, true, false, false, gainItem.amount);
                 } else {

@@ -19,6 +19,7 @@ import { SpellCasting } from './SpellCasting';
 import { SpecializationGain } from './SpecializationGain';
 import { AbilityChoice } from './AbilityChoice';
 import { AnimalCompanionClass } from './AnimalCompanionClass';
+import { ItemCollection } from './ItemCollection';
 
 @Injectable({
     providedIn: 'root'
@@ -266,7 +267,7 @@ export class FeatsService {
                                 gain.sourceId = insertSpellChoice.id;
                             })
                             insertSpellChoice.source == "Feat: "+feat.name;
-                            character.add_SpellChoice(characterService, level, insertSpellChoice);
+                            character.add_SpellChoice(characterService, level.number, insertSpellChoice);
                         }
                     });
                 } else {
@@ -491,7 +492,7 @@ export class FeatsService {
                                 .map(gain => characterService.get_FeatsAndFeatures(gain.name)[0])
                                 .filter(feat => feat?.gainFamiliar).length).length
                         );
-                        character.add_SpellChoice(characterService, familiarLevel, newSpellChoice)
+                        character.add_SpellChoice(characterService, familiarLevel.number, newSpellChoice)
                     }
                 } else {
                     let oldSpellChoice = spellCasting.spellChoices.find(choice => choice.source == "Feat: "+feat.name);
@@ -518,7 +519,7 @@ export class FeatsService {
                                 .map(gain => characterService.get_FeatsAndFeatures(gain.name)[0])
                                 .filter(feat => feat?.gainFamiliar).length).length
                         );
-                        character.add_SpellChoice(characterService, familiarLevel, newSpellChoice)
+                        character.add_SpellChoice(characterService, familiarLevel.number, newSpellChoice)
                     }
                 } else {
                     let oldSpellChoice = spellCasting.spellChoices.find(choice => choice.source == "Feat: "+feat.name);
@@ -528,10 +529,20 @@ export class FeatsService {
                 }
             }
 
+            //Reset changes made with Spell Blending
             if (feat.name == "Spell Blending") {
                 character.class.spellCasting.forEach(casting => {
                     casting.spellChoices.forEach(choice => {
                         choice.spellBlending = [0,0,0];
+                    })
+                })
+            }
+
+            //Reset changes made with Infinite Possibilities
+            if (feat.name == "Infinite Possibilities") {
+                character.class.spellCasting.forEach(casting => {
+                    casting.spellChoices.forEach(choice => {
+                        choice.infinitePossibilities = false;
                     })
                 })
             }

@@ -14,6 +14,7 @@ import { Deity } from './Deity';
 import { Speed } from './Speed';
 import { SpecializationGain } from './SpecializationGain';
 import { AbilityChoice } from './AbilityChoice';
+import { ItemGain } from './ItemGain';
 
 export class Feat {
     public readonly _className: string = this.constructor.name;
@@ -34,6 +35,7 @@ export class Feat {
     public gainConditions: ConditionGain[] = [];
     public gainFeatChoice: FeatChoice[] = [];
     public gainFormulaChoice: FormulaChoice[] = [];
+    public gainItems: ItemGain[] = [];
     public gainLore: true;
     public gainSkillChoice: SkillChoice[] = [];
     public gainSpellCasting: SpellCasting[] = [];
@@ -239,11 +241,9 @@ export class Feat {
     have(creature: Character|AnimalCompanion|Familiar, characterService: CharacterService, charLevel: number = characterService.get_Character().level) {
         if (characterService.still_loading()) { return false }
         if (creature.type == "Character") {
-            let featsTaken = (creature as Character).get_FeatsTaken(1, charLevel, this.name)
-            return featsTaken.length;
+            return (creature as Character).get_FeatsTaken(1, charLevel, this.name)?.length || 0;
         } else if (creature.type == "Familiar") {
-            let featsTaken = (creature as Familiar).abilities.feats.filter(gain => gain.name.toLowerCase() == this.name.toLowerCase());
-            return featsTaken.length;
+            return (creature as Familiar).abilities.feats.filter(gain => gain.name.toLowerCase() == this.name.toLowerCase())?.length || 0;
         } else {
             return 0;
         }

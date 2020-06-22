@@ -9,6 +9,7 @@ import { Character } from '../Character';
 import { AnimalCompanion } from '../AnimalCompanion';
 import { SpellsService } from '../spells.service';
 import { Talisman } from '../Talisman';
+import { SpellGain } from '../SpellGain';
 
 @Component({
     selector: 'app-item',
@@ -46,8 +47,8 @@ export class ItemComponent implements OnInit {
         return index;
     }
     
-    get_Creature() {
-        return this.characterService.get_Creature(this.creature) as Character|AnimalCompanion;
+    get_Creature(type: string = this.creature) {
+        return this.characterService.get_Creature(type) as Character|AnimalCompanion;
     }
 
     get_Traits(name: string = "") {
@@ -135,6 +136,38 @@ export class ItemComponent implements OnInit {
             this.characterService.set_ToChange(this.creature, "attacks");
             this.characterService.set_EquipmentViewChanges(this.get_Creature(), ironItem);
         }
+        this.characterService.process_ToChange();
+    }
+
+    get_ItemSpell(item: Item) {
+        if (item.storedSpells.length && item.storedSpells[0].spells.length) {
+            let spell = this.get_Spells(item.storedSpells[0].spells[0].name)[0];
+            if (spell) {
+                return [spell];
+            } else {
+                return [];
+            }
+        } else {
+            return [];
+        }
+    }
+
+    on_SpellItemUse(item: Item) {
+        let spellName = item.storedSpells[0]?.spells[0]?.name || "";
+        let spellChoice = item.storedSpells[0];
+        if (spellChoice && spellName) {
+            let spell = this.get_Spells(item.storedSpells[0]?.spells[0]?.name)[0];
+            let target = "";
+            if (spell.target == "self") {
+                target = "Character";
+            }
+            if (spell) {
+                let tempGain: SpellGain = new SpellGain();
+                this.spellsService.process_Spell(this.get_Creature("Character"), target, this.characterService, this.itemsService, this.characterService.timeService, tempGain, spell, spellChoice.level, true, true, false);
+            }
+            spellChoice.spells.shift();
+        }
+        this.characterService.set_ToChange("Character", "spellchoices")
         this.characterService.process_ToChange();
     }
 

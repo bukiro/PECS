@@ -94,7 +94,7 @@
                 <div class="list-item">
                     <strong>{{(ammo.item.amount != undefined && ammo.item.amount != 1) ? ammo.item.amount+" " : ""}}
                         {{ammo.item.get_Name()}}</strong>
-                    <button [disabled]="!ammo.item.amount" (click)="on_ConsumableUse(ammo.item, ammo.inventory)">
+                    <button [disabled]="!ammo.item.amount" title="{{ammo.item.storedSpells.length ? 'Cast spell on your enemy. To choose another target (if applicable), use the item in the inventory instead.' : ''}}" (click)="on_ConsumableUse(ammo.item, ammo.inventory)">
                         <span>Use</span>
                     </button>
                 </div>

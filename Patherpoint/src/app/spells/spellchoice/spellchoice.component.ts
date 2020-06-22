@@ -86,7 +86,7 @@ export class SpellchoiceComponent implements OnInit {
     trackByIndex(index: number, obj: any): any {
         return index;
     }
-    
+
     get_Character() {
         return this.characterService.get_Character();
     }
@@ -122,8 +122,15 @@ export class SpellchoiceComponent implements OnInit {
     }
 
     get_SpellBlendingAllowed() {
+        //You can trade in a spell slot if:
+        // - This choice is not a cantrip or focus spell and is above level 2
+        // - This choice does not have a dynamic level (because what does that mean for unlocking a bonus spell slot 1 level higher)
+        // - This choice is part of prepared wizard spellcasting
+        // - This choice is not itself a bonus slot gained by trading in
+        // - You have the Spell Blending feat
         return (this.choice.level > 0 && !this.choice.dynamicLevel && this.spellCasting.className == "Wizard" && this.spellCasting.castingType == "Prepared" &&
-            this.choice.source != "Spell Blending" && this.get_Character().get_FeatsTaken(1, this.get_Character().level, "Spell Blending").length);
+            !["Spell Blending", "Infinite Possibilities", "Spell Combination", "Spell Mastery"].includes(this.choice.source) &&
+            this.get_Character().get_FeatsTaken(1, this.get_Character().level, "Spell Blending").length);
     }
 
     get_SpellBlendingUsed() {
@@ -134,6 +141,7 @@ export class SpellchoiceComponent implements OnInit {
     on_SpellBlending(tradeLevel: number, value: number) {
         this.choice.spellBlending[tradeLevel] += value;
         this.characterService.set_Changed("spellchoices");
+        this.characterService.process_ToChange();
     }
 
     get_SpellBlendingUnlocked(level: number) {
@@ -146,19 +154,19 @@ export class SpellchoiceComponent implements OnInit {
                 return this.spellCasting.spellChoices.filter(choice => choice.level > 0 && choice.spellBlending[0] > 0).length * 2;
             } else if (level > 0 && level <= highestSpellLevel) {
                 if (
-                        (
-                            this.spellCasting.spellChoices
-                                .filter(choice => choice.level == level - 1 && choice.spellBlending[1] > 0)
-                                .map(choice => choice.spellBlending[1])
-                                .reduce((sum, current) => sum + current, 0) >= 2
-                        ) ||
-                        (
-                            this.spellCasting.spellChoices
-                                .filter(choice => choice.level == level - 2 && choice.spellBlending[2] > 0)
-                                .map(choice => choice.spellBlending[2])
-                                .reduce((sum, current) => sum + current, 0) >= 2
-                        )
-                    ) {
+                    (
+                        this.spellCasting.spellChoices
+                            .filter(choice => choice.level == level - 1 && choice.spellBlending[1] > 0)
+                            .map(choice => choice.spellBlending[1])
+                            .reduce((sum, current) => sum + current, 0) >= 2
+                    ) ||
+                    (
+                        this.spellCasting.spellChoices
+                            .filter(choice => choice.level == level - 2 && choice.spellBlending[2] > 0)
+                            .map(choice => choice.spellBlending[2])
+                            .reduce((sum, current) => sum + current, 0) >= 2
+                    )
+                ) {
                     return 1;
                 } else {
                     return 0;
@@ -166,6 +174,44 @@ export class SpellchoiceComponent implements OnInit {
             } else if (level > highestSpellLevel) {
                 //If the targeted spell level is not available, return -1 so there is a result, but it does not grant any spells.
                 return -1;
+            }
+        } else {
+            return 0;
+        }
+    }
+
+    get_InfinitePossibilitiesAllowed() {
+        //You can trade in a spell slot if:
+        // - This choice is not a cantrip or focus spell and is above level 2
+        // - This choice does not have a dynamic level (because what does that mean for unlocking a bonus spell slot 2 levels lower)
+        // - This choice is part of prepared wizard spellcasting
+        // - This choice is not itself a bonus slot gained by trading in
+        // - You have the Infinite Possibilities feat
+        return (this.choice.level > 2 && !this.choice.dynamicLevel && this.spellCasting.className == "Wizard" && this.spellCasting.castingType == "Prepared" &&
+            !["Spell Blending", "Infinite Possibilities", "Spell Combination", "Spell Mastery"].includes(this.choice.source) &&
+            this.get_Character().get_FeatsTaken(1, this.get_Character().level, "Infinite Possibilities").length);
+    }
+
+    get_InfinitePossibilitiesUsed() {
+        //Return the amount of spell slots in this choice that have been traded in (so either 0 or 1).
+        return (this.choice.infinitePossibilities ? 1 : 0);
+    }
+
+    on_InfinitePossibilities() {
+        this.characterService.set_Changed("spellchoices");
+        this.characterService.set_Changed("spellbook");
+        this.characterService.process_ToChange();
+    }
+
+    get_InfinitePossibilitiesUnlocked(level: number = 0) {
+        //This function is used both to unlock the Infinite Possibilities bonus spell slot (choice.source == "Infinite Possibilities")
+        //  and to check if the current choice can be traded in for a spell slot at the given level (get_SpellBlendingAllowed()).
+        if (this.get_SpellBlendingAllowed() || this.choice.source == "Infinite Possibilities") {
+            //Check if any spell slots have been traded in for IP (level == 0) or if the one on this level has been unlocked.
+            if (level == 0) {
+                return this.spellCasting.spellChoices.find(choice => choice.infinitePossibilities) ? 1 : 0;
+            } else {
+                return this.spellCasting.spellChoices.find(choice => choice.level == level + 2 && choice.infinitePossibilities) ? 1 : 0;
             }
         } else {
             return 0;
@@ -190,7 +236,7 @@ export class SpellchoiceComponent implements OnInit {
         try {
             return parseInt(eval(choice.dynamicLevel));
         } catch (e) {
-            console.log("Error parsing spell level requirement ("+choice.dynamicLevel+"): "+e)
+            console.log("Error parsing spell level requirement (" + choice.dynamicLevel + "): " + e)
             return 1;
         }
     }
@@ -200,13 +246,15 @@ export class SpellchoiceComponent implements OnInit {
     }
 
     get_Available(choice: SpellChoice) {
-        let available:number = 0;
+        let available: number = 0;
         if (choice.source == "Divine Font") {
             available = Math.max(choice.available + this.get_CHA(), 0);
         } if (choice.source == "Spell Blending") {
             available = Math.max(choice.available + this.get_SpellBlendingUnlocked(choice.level), 0);
+        } if (choice.source == "Infinite Possibilities") {
+            available = Math.max(choice.available + this.get_InfinitePossibilitiesUnlocked(choice.level), 0);
         } else {
-            available = Math.max(this.choice.available - this.get_SpellBlendingUsed(), 0);
+            available = Math.max(this.choice.available - this.get_SpellBlendingUsed() - this.get_InfinitePossibilitiesUsed(), 0);
         }
         //If this choice has more spells than it should have (unless they are locked), remove the excess.
         if (choice.spells.length > available) {
@@ -225,9 +273,9 @@ export class SpellchoiceComponent implements OnInit {
             spellLevel = this.get_DynamicLevel(choice);
         }
         let character = this.get_Character()
-        
+
         let allSpells: Spell[];
-        if (this.spellCasting?.castingType == "Prepared" && this.spellCasting?.className == "Wizard" && !this.allowBorrow) {
+        if ((this.spellCasting?.castingType == "Prepared" && this.spellCasting?.className == "Wizard" && !this.allowBorrow) || this.choice.spellBookOnly) {
             allSpells = this.spellsService.get_Spells().filter(spell =>
                 this.spellTakenByThis(spell, choice) ||
                 this.get_Character().class.spellBook.find((learned: SpellLearned) => learned.name == spell.name)
@@ -260,11 +308,13 @@ export class SpellchoiceComponent implements OnInit {
         }
         switch (choice.target) {
             case "Others":
-                spells = spells.filter(spell => !spell.target || spell.target == "ally" || spell.target == "companion");
+                spells = spells.filter(spell => spell.targets);
                 break;
             case "Caster":
-                spells = spells.filter(spell => spell.target == "self");
+                spells = spells.filter(spell => !spell.targets && spell.target == "self");
                 break;
+            case "Enemies":
+                spells = spells.filter(spell => spell.targets && spell.target != "ally")
         }
         if (choice.traitFilter.length) {
             spells = spells.filter(spell => spell.traits.find(trait => choice.traitFilter.includes(trait)));
@@ -279,12 +329,12 @@ export class SpellchoiceComponent implements OnInit {
                 spells = spells.filter(spell => spell.levelreq == spellLevel || this.spellTakenByThis(spell, choice));
             }
             if (choice.spells.length < this.get_Available(choice)) {
-                let availableSpells: Spell[] = spells.filter(spell => 
+                let availableSpells: Spell[] = spells.filter(spell =>
                     this.cannotTake(spell, choice).length == 0 || this.spellTakenByThis(spell, choice)
                 )
                 return this.sortByPipe.transform(availableSpells, "asc", "name")
             } else {
-                let availableSpells: Spell[] = spells.filter(spell => 
+                let availableSpells: Spell[] = spells.filter(spell =>
                     this.spellTakenByThis(spell, choice)
                 )
                 return this.sortByPipe.transform(availableSpells, "asc", "name")
@@ -350,17 +400,17 @@ export class SpellchoiceComponent implements OnInit {
             setTimeout(() => this.finish_Loading(), 500)
         } else {
             this.characterService.get_Changed()
-            .subscribe((target) => {
-                if (["spellchoices", "all", "Character"].includes(target)) {
-                    this.changeDetector.detectChanges();
-                }
-            });
+                .subscribe((target) => {
+                    if (["spellchoices", "all", "Character"].includes(target)) {
+                        this.changeDetector.detectChanges();
+                    }
+                });
             this.characterService.get_ViewChanged()
-            .subscribe((view) => {
-                if (view.creature == "Character" && ["spellchoices", "all"].includes(view.target)) {
-                    this.changeDetector.detectChanges();
-                }
-            });
+                .subscribe((view) => {
+                    if (view.creature == "Character" && ["spellchoices", "all"].includes(view.target)) {
+                        this.changeDetector.detectChanges();
+                    }
+                });
             return true;
         }
     }
