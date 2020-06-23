@@ -4,13 +4,15 @@
         [ngClass]="{'fancy-button':(get_Available(choice) == choice.spells.length)}"
         (click)="toggle_Choice(choice.source+choice.id)">
         <span title="Signature spell"
-            *ngIf="is_SignatureSpell(choice)">&#9733;&nbsp;</span>{{itemSpell || choice.showOnSheet ? "Level "+choice.level : ""}}
+            *ngIf="is_SignatureSpell(choice)">&#9733;&nbsp;</span><span title="Combination spell"
+            *ngIf="choice.spellCombinationAllowed">&#8853;&nbsp;</span>{{itemSpell || choice.showOnSheet ? "Level "+choice.level : ""}}
         {{choice.frequency ? capitalize(choice.frequency) : ""}}
         {{choice.tradition ? choice.tradition : ""}} {{choice.traitFilter.length ? choice.traitFilter.join(" ") : ""}}
-        {{is_SignatureSpell(choice) ? "Signature" : ""}}
-        {{choice.className}} Spell{{(get_Available(choice) != 1) ? "s" : ""}}{{!itemSpell ? " ("+choice.source+")" : ""}}{{(get_Available(choice) != 1) ?
+        {{is_SignatureSpell(choice) ? "Signature" : ""}} {{choice.spellCombinationAllowed ? "Combination" : ""}}
+        {{choice.className}}
+        Spell{{(get_Available(choice) != 1) ? "s" : ""}}{{!itemSpell ? " ("+choice.source+")" : ""}}{{(get_Available(choice) != 1) ?
             ": "+ choice.spells.length +"/"+ get_Available(choice) : 
-            (choice.spells.length) ? ": "+ choice.spells[0].name : ""}}
+            (choice.spells.length) ? ": "+ choice.spells[0].name + (choice.spells[0].combinationSpellName ? " & " + choice.spells[0].combinationSpellName : "") : ""}}
     </button>
     <div class="list-item sublist" [ngClass]="{'fancy-list':(get_Available(choice) == choice.spells.length )}"
         *ngIf="get_ShowChoice()==choice.source+choice.id">
@@ -59,8 +61,7 @@
         <ng-container *ngIf="spellbook && get_InfinitePossibilitiesAllowed()">
             <div class="list-item">
                 <strong>Infinite Possibilities</strong>
-                <div class="row"
-                    *ngIf="get_InfinitePossibilitiesUnlocked() && !choice.infinitePossibilities">
+                <div class="row" *ngIf="get_InfinitePossibilitiesUnlocked() && !choice.infinitePossibilities">
                     There is already an Infinite Possibilities spell slot unlocked.
                 </div>
                 <div class="row" *ngIf="!get_InfinitePossibilitiesUnlocked() || choice.infinitePossibilities">
@@ -75,6 +76,27 @@
             </div>
         </ng-container>
         <!-- End Infinite Possibilities -->
+        <!-- Spell Combination -->
+        <ng-container *ngIf="choice.spellCombinationAllowed">
+            <div class="list-item">
+                <strong>Spell Combination</strong>
+                <div class="row">
+                    <span>
+                        <input id="{{choice.id}}spellCombination" type="checkbox" [(ngModel)]="choice.spellCombination"
+                            (ngModelChange)="on_SpellCombination(choice)"
+                            [disabled]="get_Available(choice) <= choice.spells.length">
+                        <label for="{{choice.id}}spellCombination">Use this spell slot as a spell combination
+                            slot.</label>
+                    </span>
+                </div>
+                <div class="row" *ngIf="choice.spellCombination">
+                    The second spell you choose for this spell slot must have the same means of determining whether it
+                    has an effect as the first spell - both spells must require a ranged spell attack roll, require the
+                    same type of saving throw, or automatically affect the target.
+                </div>
+            </div>
+        </ng-container>
+        <!-- End Spell Combination -->
         <div title="{{(this.get_ShowSpell()==choice.id+spell.name+'desc') ? '' : spell.shortDesc}}" class="list-item"
             *ngFor="let spell of get_AvailableSpells(choice); trackBy:trackByIndex;">
             <span>
@@ -83,12 +105,28 @@
                     [checked]="spellTakenByThis(spell, choice)"
                     [disabled]="cannotTake(spell, choice).length && !spellTakenByThis(spell, choice)"
                     *ngIf="spellCasting?.castingType!='Prepared'">
-                <button (click)="on_SpellTaken(spell.name, false, choice, false)"
-                    [disabled]="!spellTakenByThis(spell, choice)"
-                    *ngIf="spellCasting?.castingType=='Prepared'">-</button>
-                <button (click)="on_SpellTaken(spell.name, true, choice, false)"
-                    [disabled]="cannotTake(spell, choice).length || choice.spells.length >= get_Available(choice)"
-                    *ngIf="spellCasting?.castingType=='Prepared'">+</button>
+                <ng-container
+                    *ngIf="!choice.spellCombination || (choice.spellCombination && (!choice.spells.length || choice.spells[0].name == spell.name))">
+                    <span
+                        *ngIf="choice.spellCombination && (!choice.spells.length || choice.spells[0].name == spell.name)">1&nbsp;</span>
+                    <button (click)="on_SpellTaken(spell.name, false, choice, false)"
+                        [disabled]="!spellTakenByThis(spell, choice)"
+                        *ngIf="spellCasting?.castingType=='Prepared'">-</button>
+                    <button (click)="on_SpellTaken(spell.name, true, choice, false)"
+                        [disabled]="cannotTake(spell, choice).length || choice.spells.length >= get_Available(choice)"
+                        *ngIf="spellCasting?.castingType=='Prepared'">+</button>
+                </ng-container>
+                <ng-container
+                    *ngIf="choice.spellCombination && choice.spells.length && choice.spells[0].name != spell.name && (!choice.spells[0].combinationSpellName || choice.spells[0].combinationSpellName == spell.name)">
+                    <span
+                        *ngIf="choice.spellCombination && choice.spells.length && (!choice.spells[0].combinationSpellName || choice.spells[0].combinationSpellName == spell.name)">2&nbsp;</span>
+                    <button (click)="on_SpellCombinationTaken(spell.name, false, choice)"
+                        [disabled]="!spellTakenByThis(spell, choice)"
+                        *ngIf="spellCasting?.castingType=='Prepared'">-</button>
+                    <button (click)="on_SpellCombinationTaken(spell.name, true, choice)"
+                        [disabled]="cannotTake(spell, choice).length || choice.spells.length >= get_Available(choice) && choice.spells[0]?.combinationSpellName"
+                        *ngIf="spellCasting?.castingType=='Prepared'">+</button>
+                </ng-container>
                 <span *ngIf="spellCasting?.castingType=='Prepared'">&nbsp;</span>
                 <label for="{{choice.id+spell.name}}">
                     <strong>{{choice.tradition == 'prepared' && spellTakenByThis(spell, choice) ? " " + spellTakenByThis(spell, choice) + " " : ""}}{{spell.name}}&nbsp;</strong><cite>Level

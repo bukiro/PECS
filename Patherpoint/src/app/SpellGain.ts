@@ -16,6 +16,7 @@ export class SpellGain {
     public gainItems: ItemGain[] = [];
     public locked: boolean = false;
     public name: string = "";
+    public combinationSpellName: string = "";
     public source: string = "";
     //Copied from SpellChoice. For looking up details in the Choice - ideally always include the choice in the function so we don't have to look it up.
     public sourceId: string = "";

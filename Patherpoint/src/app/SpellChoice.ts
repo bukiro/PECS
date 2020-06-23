@@ -25,6 +25,10 @@ export class SpellChoice {
     public charLevelAvailable: number = 0;
     //The CastingType is mostly there to identify the proper SpellCasting to sort this into if it comes from a feat.
     public castingType: "Focus"|"Innate"|"Spontaneous"|"Prepared";
+    //Spell Combination is for wizards and designates this spell choice as one that fits two spells in one spell slot.
+    public spellCombinationAllowed: boolean = false;
+    //You can choose to use a combination slot for a spell combination, which changes the available spells.
+    public spellCombination: boolean = false;
     public signatureSpell: boolean = false;
     //For some innate spells, there may be a tradition prerequisite.
     public tradition: string = "";
@@ -35,7 +39,7 @@ export class SpellChoice {
     //Only allow spells from your spellbook.
     public spellBookOnly: boolean = false;
     public spells: SpellGain[] = [];
-    //Spellblending is for Wizards and tracks spell blending choices for this spell choice. It contains three numbers.
+    //Spell Blending is for Wizards and tracks spell blending choices for this spell choice. It contains three numbers.
     //The numbers are:
     // [0]: Number of spell slots traded away for cantrips
     // [1]: Number of spell slots traded away for a spell slot 1 level higher

@@ -46,6 +46,7 @@ export class Spell {
     //For "", the spell button will just say "Cast"
     public target: string = "";
     public targets: string = "";
+    public singleTarget: boolean = false;
     public traditions: string[] = [];
     public traits: string[] = [];
     public trigger: string = "";

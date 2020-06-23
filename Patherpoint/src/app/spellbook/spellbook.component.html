@@ -61,9 +61,12 @@
                                         (click)="toggle_Spell(casting.castingType+casting.class+spellTaken.gain.name+spellID)"
                                         [className]="{'inactive-button': casting.castingType=='Prepared' && !spellTaken.gain.prepared && level > 0}">
                                         <span title="Signature spell"
-                                            *ngIf="is_SignatureSpell(spellTaken.choice)">&#9733;&nbsp;</span>{{spell.name}}
-                                        <app-actionIcons [actionString]="spell.actions">
-                                        </app-actionIcons>{{spell.castType}}
+                                            *ngIf="is_SignatureSpell(spellTaken.choice)">&#9733;&nbsp;</span>
+                                        <span title="Combination spell"
+                                            *ngIf="spellTaken.choice.spellCombination">&#8853;&nbsp;</span>
+                                        {{spell.name}} {{spellTaken.gain.combinationSpellName ? " & " + spellTaken.gain.combinationSpellName : ""}}
+                                        <span *ngIf="!spellTaken.gain.combinationSpellName"><app-actionIcons [actionString]="spell.actions">
+                                        </app-actionIcons>{{spell.castType}}</span>
                                         {{spellTaken.gain.frequency ? spellTaken.gain.frequency : ""}}
                                     </button>
                                     <div class="list-item sublist lower"
@@ -133,7 +136,23 @@
                                             [disabled]="cannot_Cast(spell, level, casting, spellTaken.choice, spellTaken.gain, maxspellslots)">
                                             Use for Counterspells
                                         </button>
-                                        <app-spell class="list-item" [spell]="spell" [spellLevel]="level"></app-spell>
+                                        <ng-container *ngIf="!spellTaken.gain.combinationSpellName">
+                                            <app-spell class="list-item" [spell]="spell" [spellLevel]="level"></app-spell>
+                                        </ng-container>
+                                        <ng-container *ngIf="spellTaken.gain.combinationSpellName">
+                                            <h4 class="left-aligned">{{spell.name}}<app-actionIcons
+                                                [actionString]="spell.actions"></app-actionIcons>
+                                                {{(spell.castType) ? spell.castType : ""}}
+                                            </h4>
+                                            <app-spell class="list-item" [spell]="spell" [spellLevel]="level"></app-spell>
+                                            <ng-container *ngFor="let secondSpell of get_Spells(spellTaken.gain.combinationSpellName)">
+                                                <h4 class="left-aligned">{{secondSpell.name}}<app-actionIcons
+                                                    [actionString]="secondSpell.actions"></app-actionIcons>
+                                                    {{(secondSpell.castType) ? secondSpell.castType : ""}}
+                                                </h4>
+                                                <app-spell class="list-item" [spell]="secondSpell" [spellLevel]="level"></app-spell>
+                                            </ng-container>
+                                        </ng-container>
                                     </div>
                                 </div>
                             </ng-container>

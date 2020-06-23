@@ -536,6 +536,8 @@ export class FeatsService {
                         choice.spellBlending = [0,0,0];
                     })
                 })
+                characterService.set_ToChange(creature.type, "spells");
+                characterService.set_ToChange(creature.type, "spellbook");
             }
 
             //Reset changes made with Infinite Possibilities
@@ -545,6 +547,40 @@ export class FeatsService {
                         choice.infinitePossibilities = false;
                     })
                 })
+                characterService.set_ToChange(creature.type, "spells");
+                characterService.set_ToChange(creature.type, "spellbook");
+            }
+
+            //Spell Combination changes certain spell choices permanently.
+            if (feat.name == "Spell Combination") {
+                if (taken) {
+                    character.class.spellCasting.filter(casting => casting.className == "Wizard" && casting.castingType == "Prepared").forEach(casting => {
+                        [3,4,5,6,7,8,9,10].forEach(spellLevel => {
+                            casting.spellChoices.find(choice => choice.level == spellLevel && choice.available == 1).spellCombinationAllowed = true;
+                        });
+                    });
+                    characterService.set_ToChange(creature.type, "spells");
+                    characterService.set_ToChange(creature.type, "spellbook");
+                } else {
+                    character.class.spellCasting.filter(casting => casting.className == "Wizard" && casting.castingType == "Prepared").forEach(casting => {
+                        casting.spellChoices.filter(choice => choice.spellCombinationAllowed).forEach(choice => {
+                            choice.spellCombinationAllowed = false;
+                            choice.spellCombination = false;
+                            choice.spells.forEach(gain => gain.combinationSpellName = "");
+                        });
+                    });
+                    characterService.set_ToChange(creature.type, "spells");
+                    characterService.set_ToChange(creature.type, "spellbook");
+                }
+            }
+
+            //Reset changes made with Spell Mastery
+            if (feat.name == "Spell Mastery") {
+                character.class.spellCasting.forEach(casting => {
+                    casting.spellChoices = casting.spellChoices.filter(choice => choice.source != "Spell Mastery");
+                })
+                characterService.set_ToChange(creature.type, "spells");
+                characterService.set_ToChange(creature.type, "spellbook");
             }
 
             //Snare Specialists and following feats change inventory aspects.
@@ -552,12 +588,12 @@ export class FeatsService {
                 characterService.set_ToChange(creature.type, "inventory");
             }
 
-            //Superior Sight gives a hardcoded sense and needs to update the skills list.
+            //Superior Sight gives a hardcoded sense and needs to update the skills list (where senses are listed).
             if (feat.name == "Superior Sight") {
                 characterService.set_ToChange(creature.type, "skills");
             }
 
-            //Some effects change depending on feats. There is no good way to resolve this, so we calculate the effects whenever we take a feat.
+            //Some hardcoded effects change depending on feats. There is no good way to resolve this, so we calculate the effects whenever we take a feat.
             characterService.set_ToChange(creature.type, "effects");
 
         }

@@ -345,6 +345,12 @@ export class SpellbookComponent implements OnInit {
             }
         }
         this.spellsService.process_Spell(character, creature, this.characterService, this.itemsService, this.timeService, gain, spell, level, activated, true);
+        if (gain.combinationSpellName) {
+            let secondSpell = this.get_Spells(gain.combinationSpellName)[0];
+            if (secondSpell) {
+                this.spellsService.process_Spell(character, creature, this.characterService, this.itemsService, this.timeService, gain, secondSpell, level, activated, true);
+            }
+        }
     }
 
     can_Counterspell(casting: SpellCasting) {

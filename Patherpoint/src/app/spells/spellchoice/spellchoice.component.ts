@@ -218,6 +218,13 @@ export class SpellchoiceComponent implements OnInit {
         }
     }
 
+    on_SpellCombination(choice: SpellChoice) {
+        choice.spells.length = 0;
+        this.characterService.set_Changed("spellchoices");
+        this.characterService.set_Changed("spellbook");
+        this.characterService.process_ToChange();
+    }
+
     get_HighestSpellLevel() {
         if (this.spellCasting) {
             //Get the available spell level of this casting. This is the higest spell level of the spell choices that are available at your character level.
@@ -325,6 +332,38 @@ export class SpellchoiceComponent implements OnInit {
             } else {
                 spells = spells.filter(spell => !spell.traits.includes("Cantrip") || this.spellTakenByThis(spell, choice));
             }
+            if (choice.spellCombination) {
+                spells = spells.filter(spell =>
+                    (spell.levelreq <= spellLevel - 2) &&
+                    (!this.allowHeightened ? spell.levelreq == spellLevel - 2 : true) //&&
+                    //spell.singleTarget
+                )
+                if (choice.spells.length) {
+                    if (choice.spells[0].name && choice.spells[0].combinationSpellName) {
+                        let availableSpells: Spell[] = spells.filter(spell =>
+                            this.spellTakenByThis(spell, choice)
+                        );
+                        return availableSpells.sort(function(a,b) {
+                            if (choice.spells[0].name == a.name) {
+                                return -1;
+                            }
+                            if (choice.spells[0].name == b.name) {
+                                return 1;
+                            }
+                            return 0
+                        });
+                    }
+                    let existingSpell = this.get_Spells(choice.spells[0].name)[0];
+                    spells = spells.filter(spell =>
+                        (existingSpell.traits.includes("Attack") == spell.traits.includes("Attack")) &&
+                        (existingSpell.savingthrow == spell.savingthrow)
+                    )
+                }
+                let availableSpells: Spell[] = spells.filter(spell =>
+                    this.cannotTake(spell, choice).length == 0 || this.spellTakenByThis(spell, choice)
+                )
+                return this.sortByPipe.transform(availableSpells, "asc", "name")
+            }
             if (!this.allowHeightened && (spellLevel > 0)) {
                 spells = spells.filter(spell => spell.levelreq == spellLevel || this.spellTakenByThis(spell, choice));
             }
@@ -358,7 +397,7 @@ export class SpellchoiceComponent implements OnInit {
     }
 
     cannotTake(spell: Spell, choice: SpellChoice, gain: SpellGain = null) {
-        if (this.spellTakenByThis(spell, choice) && choice.spells.find(gain => gain.name == spell.name && gain.locked)) {
+        if (this.spellTakenByThis(spell, choice) && choice.spells.find(spellGain => spellGain.name == spell.name && spellGain.locked)) {
             return "";
         }
         let spellLevel = choice.level;
@@ -378,17 +417,26 @@ export class SpellchoiceComponent implements OnInit {
     }
 
     spellTakenByThis(spell: Spell, choice: SpellChoice) {
-        return choice.spells.filter(takenSpell => takenSpell.name == spell.name).length;
+        return choice.spells.filter(takenSpell => takenSpell.name == spell.name || takenSpell.combinationSpellName == spell.name).length;
     }
 
     on_SpellTaken(spellName: string, taken: boolean, choice: SpellChoice, locked: boolean) {
-        if (taken && (choice.spells.length == this.get_Available(choice) - 1)) { this.toggle_Choice("") }
+        if (taken && !choice.spellCombination && (choice.spells.length == this.get_Available(choice) - 1)) { this.toggle_Choice("") }
         let prepared: boolean = this.prepared && this.get_Character().get_FeatsTaken(1, this.get_Character().level, "Spell Substitution")?.length > 0;
         this.get_Character().take_Spell(this.characterService, spellName, taken, choice, locked, prepared);
         this.characterService.set_ToChange("Character", "spells");
         this.characterService.set_ToChange("Character", "spellchoices");
         this.characterService.set_ToChange("Character", "spellbook");
         this.characterService.process_ToChange();
+    }
+
+    on_SpellCombinationTaken(spellName: string, taken: boolean, choice: SpellChoice) {
+        if (taken) {
+            this.toggle_Choice("")
+            choice.spells[0].combinationSpellName = spellName;
+        } else {
+            choice.spells[0].combinationSpellName = "";
+        }
     }
 
     still_loading() {

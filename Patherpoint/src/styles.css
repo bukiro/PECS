@@ -9,7 +9,7 @@
     -moz-osx-font-smoothing: grayscale;
 }
 
-.darkmode :not(.fancy-button):not(app-actionIcons) > :not(h4):not(h6):not(.penalty):not(.bonus):not(.problem):not(.absolute):not(.checked):not(.fancy-button):not(var):not(cite):not(.yourTurn):not(.box-header) {
+.darkmode :not(.fancy-button):not(app-actionIcons):not(h4) > :not(h4):not(h6):not(.penalty):not(.bonus):not(.problem):not(.absolute):not(.checked):not(.fancy-button):not(var):not(cite):not(.yourTurn):not(.box-header) {
     color: #CCC;
 }
 
@@ -33,7 +33,7 @@ svg g {
     fill: #616161;
 }
 
-.darkmode :not(.fancy-button) > svg, .darkmode :not(.fancy-button) > svg g {
+.darkmode :not(.fancy-button):not(h4) > app-actionIcons svg, .darkmode :not(.fancy-button):not(h4) > app-actionIcons svg g {
     fill: #CCC;
 }
 
