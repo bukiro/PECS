@@ -28,7 +28,7 @@ export class TimeComponent implements OnInit {
     
     set_Span() {
         setTimeout(() => {
-            this.characterService.set_Span("time");
+            this.characterService.set_Span("time", 1);
         })
     }
 

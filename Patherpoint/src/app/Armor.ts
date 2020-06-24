@@ -107,7 +107,8 @@ export class Armor extends Equipment {
             return this.prof;
         }
     }
-    get_Traits() {
+    get_Traits(characterService: CharacterService, creature: Character|AnimalCompanion|Familiar) {
+        //characterService and creature are not needed for armors, but for other types of item.
         if (this.$affectedByArmoredSkirt != 0) {
             if (this.traits.includes("Noisy")) {
                 return this.traits.concat("Noisy");

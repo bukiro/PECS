@@ -82,7 +82,8 @@ export class Weapon extends Equipment {
         }
         return runeSource;
     }
-    get_Traits(creature: Character|AnimalCompanion|Familiar) {
+    get_Traits(characterService: CharacterService, creature: Character|AnimalCompanion|Familiar) {
+        //characterService is not needed for armors, but for other types of item.
         if (this.prof == "Unarmed Attacks") {
             let traits = JSON.parse(JSON.stringify(this.traits));
             if (creature.type == "Character") {

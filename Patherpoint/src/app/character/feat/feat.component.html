@@ -6,7 +6,7 @@
     </div>
     <div class="row left-aligned">
         <div class="row left-aligned" *ngIf="feat.sourceBook">
-            <strong>Source&nbsp;</strong><i>{{feat.sourceBook}}</i>
+            <strong>Source</strong><i>&nbsp;{{feat.sourceBook}}</i>
         </div>
         <ng-container *ngFor="let reqs of [get_FeatRequirements(choice, feat)]; trackBy:trackByIndex;">
             <p *ngIf="reqs.length">

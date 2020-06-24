@@ -386,7 +386,6 @@ button {
     color: white;
     border: none;
     font-weight: bold;
-    white-space: nowrap;
 }
 
 .darkmode .button, .darkmode button {
@@ -527,6 +526,15 @@ button:disabled {
     flex-grow: initial;
     flex-basis: 0;
     white-space: nowrap;
+    border-style: solid;
+    border-color: white;
+    border-radius: 2px;
+    border-width: 2px;
+    box-sizing: border-box;
+}
+
+#top-bar.darkmode button {
+    border-color: #CCC;
 }
 
 #top-bar>button:last-child {
@@ -646,6 +654,11 @@ h4 app-actionIcons span {
 .darkmode .list-item {
     background-color: #404040;
     background-color: rgba(200, 200, 200, 0.1)
+}
+
+.list-item > *:not(.list-item) {
+    margin-top: auto;
+    margin-bottom: auto;
 }
 
 button.list-item {
@@ -793,11 +806,11 @@ strong {
 .turn-indicator strong {
     align-items: center;
     text-align: center;
-    padding: 2px 16px;
+    padding: 0px 16px;
 }
 
 .turn-indicator strong.yourTurn {
-    font-size: 1.5em;
+    font-size: 1.25em;
     color: green;
     padding: 0px;
     margin-top: -.1em;
@@ -867,7 +880,9 @@ var,
 }
 
 .darkmode var {
-    text-shadow: 0 0 5px #CCC;
+    box-shadow: 0 0 3px 3px #CCC;
+    background: #CCC;
+    border-radius: 10px;
 }
 
 .problem,
@@ -889,6 +904,11 @@ var,
 
 span.problem {
     color: darkred;
+    background-color: inherit;
+}
+
+.darkmode span.problem {
+    color: red;
     background-color: inherit;
 }
 

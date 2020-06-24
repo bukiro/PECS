@@ -132,9 +132,9 @@
                                 <div class="row" *ngIf="item.expiration">
                                     <span><strong>Duration</strong> {{get_Duration(item.expiration)}}</span>
                                 </div>
-                                <button class="row left-aligned" [disabled]="!item.amount"
+                                <button class="row center-aligned" [disabled]="!item.amount"
                                     (click)="on_ConsumableUse(item, creature, inventory)"
-                                    *ngIf="item.amount != undefined && !['alchemicalelixirs','potions'].includes(item.type) && item.actions && (!item.targets || item.targets.length == 0)">
+                                    *ngIf="item.amount != undefined && !['alchemicalelixirs','potions','scrolls'].includes(item.type) && item.actions && (!item.targets || item.targets.length == 0)">
                                     <span>Use<app-actionIcons [actionString]="item.actions">
                                         </app-actionIcons>{{(item.activationType) ? item.activationType : ""}}
                                     </span>
@@ -179,13 +179,13 @@
                                 </ng-container>
                                 <ng-container
                                     *ngIf="item.amount != undefined && ['alchemicalelixirs','potions'].includes(item.type) && item.actions && (!item.targets || item.targets.length == 0)">
-                                    <button class="row left-aligned" [disabled]="!item.amount"
+                                    <button class="row center-aligned" [disabled]="!item.amount"
                                         (click)="on_ConsumableUse(item, creature, inventory)">
                                         <span>Use<app-actionIcons [actionString]="item.actions">
                                             </app-actionIcons>{{(item.activationType) ? item.activationType : ""}}
                                         </span>
                                     </button>
-                                    <button class="row left-aligned" [disabled]="!item.amount"
+                                    <button class="row center-aligned" [disabled]="!item.amount"
                                         (click)="on_ConsumableUse(item, 'Companion', inventory)"
                                         *ngIf="get_CompanionAvailable()">
                                         <span>Use (Give to your animal companion)<app-actionIcons
@@ -193,7 +193,7 @@
                                             </app-actionIcons>{{(item.activationType) ? item.activationType : ""}}
                                         </span>
                                     </button>
-                                    <button class="row left-aligned" [disabled]="!item.amount"
+                                    <button class="row center-aligned" [disabled]="!item.amount"
                                         (click)="on_ConsumableUse(item, 'Familiar', inventory)"
                                         *ngIf="get_FamiliarAvailable()">
                                         <span>Use (Give to your familiar)<app-actionIcons [actionString]="item.actions">

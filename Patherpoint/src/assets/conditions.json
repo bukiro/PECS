@@ -1873,7 +1873,7 @@
         "type": "spells"
     },
     {
-        "name": "Levitate (Target)",
+        "name": "Levitate",
         "buff": true,
         "desc": "You are levitated 5 feet off the ground, taking a -2 circumstance penalty to attack rolls. You can spend an Interact action to stabilize yourself and negate this penalty for the remainder of your turn. If you're adjacent to a fixed object or terrain of suitable stability, you can move across the surface by climbing (if the surface is vertical, like a wall) or crawling (if the surface is horizontal, such as a ceiling). The GM determines which surfaces can be climbed or crawled across.",
         "effects": [

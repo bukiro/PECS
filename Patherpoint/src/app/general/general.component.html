@@ -96,6 +96,10 @@
                 <strong>Alternative Identity (Different Worlds)</strong>
                 {{feat.data.name}} {{(feat.data.background) ? "("+feat.data.background+")" : ""}}
             </div>
+            <h5 class="fullsize-only">Spell Attacks</h5>
+            <ng-container *ngFor="let skill of get_SpellDCs(); trackBy:trackByIndex;">
+                <app-skill [skill]=skill [isDC]=false></app-skill>
+            </ng-container>
             <h5 class="fullsize-only">Class & Spell DCs</h5>
             <ng-container *ngFor="let skill of get_ClassDCs(); trackBy:trackByIndex;">
                 <app-skill [skill]=skill [isDC]=true></app-skill>

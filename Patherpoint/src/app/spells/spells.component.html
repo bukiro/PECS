@@ -2,7 +2,7 @@
 <div id="spells-height" class="itemBox">
     <button class="list-item" (click)="toggleSpellMenu()">Close</button>
     <div class="loading" *ngIf="still_loading()">Loading</div>
-    <ng-container *ngIf="!still_loading() && get_Character().class && get_SpellMenuState()=='in'">
+    <ng-container *ngIf="!still_loading() && get_Character().class && get_SpellsMenuState()=='in'">
         <div class="list-item">
             <span>
                 <input id="allowHeightened" type="checkbox" [(ngModel)]="allowHeightened">
@@ -64,7 +64,7 @@
                         <app-spellchoice (showChoiceMessage)="receive_ChoiceMessage($event)"
                             (showSpellMessage)="receive_SpellMessage($event)" [spellCasting]="casting" [choice]="choice"
                             [allowHeightened]="allowHeightened" [allowBorrow]="allowBorrow" [showChoice]="showChoice" [showSpell]="showSpell"
-                            [level]="level" [prepared]="this.prepared" [spellbook]="true"></app-spellchoice>
+                            [level]="level" [prepared]="prepared" [spellbook]="true"></app-spellchoice>
                     </ng-container>
                 </ng-container>
             </ng-container>

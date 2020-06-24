@@ -136,10 +136,10 @@ export class ActivitiesComponent implements OnInit {
     }
 
     get_TemporaryFeatChoices() {
-        let choices: {choice: FeatChoice, level: Level}[] = [];
+        let choices: FeatChoice[] = [];
         if (this.creature == "Character") {
             (this.get_Creature() as Character).class.levels.filter(level => level.number <= this.get_Creature().level).forEach(level => {
-                choices.push(...level.featChoices.filter(choice => choice.showOnSheet).map(choice => Object.assign(new Object(), {choice:choice, level:level})))
+                choices.push(...level.featChoices.filter(choice => choice.showOnSheet))
             })
         }
         return choices;

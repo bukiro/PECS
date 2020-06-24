@@ -24,7 +24,8 @@
                 </span>
                 <span>
                     <button (click)="load_CharacterFromDB(savegame)">Load</button>
-                    <button (click)="delete_CharacterFromDB(savegame, index)" [disabled]="!allowCharacterDelete[index]">Delete</button>
+                    <button (click)="delete_CharacterFromDB(savegame, index)"
+                        [disabled]="!allowCharacterDelete[index]">Delete</button>
                     <input id="allowCharacterDelete{{index}}" type="checkbox" [(ngModel)]="allowCharacterDelete[index]">
                     <label for="allowCharacterDelete{{index}}">Allow deletion</label>
                 </span>
@@ -36,13 +37,14 @@
         <div class="list-item">
             <span>Color Accent</span>
             <span>
-                <input type="color" name="coloraccent" style="padding:0 2px" [(ngModel)]="get_Character().settings.accent"
-                    maxLength="7">
+                <input type="color" name="coloraccent" style="padding:0 2px"
+                    [(ngModel)]="get_Character().settings.accent" maxLength="7">
             </span>
         </div>
         <div class="list-item">
             <label for="darkmode">Dark mode</label>
-            <input id="darkmode" type="checkbox" [(ngModel)]="get_Character().settings.darkmode" (ngModelChange)="set_Changed('character-sheet')">
+            <input id="darkmode" type="checkbox" [(ngModel)]="get_Character().settings.darkmode"
+                (ngModelChange)="set_Changed('character-sheet')">
         </div>
         <div class="list-item">
             <span>Name</span>
@@ -54,8 +56,10 @@
         <div class="list-item">
             <span>Experience Points</span>
             <span>
-                <input type="number" class="number4" name="experiencePoints" [(ngModel)]="get_Character().experiencePoints" (keypress)="numbersOnly($event)"
-                    maxLength="4" title="{{get_Character().experiencePoints >= 1000 && 'You are ready to level up!'}}" [ngClass]="{'bonus':get_Character().experiencePoints >= 1000}">
+                <input type="number" class="number4" name="experiencePoints"
+                    [(ngModel)]="get_Character().experiencePoints" (keypress)="numbersOnly($event)" maxLength="4"
+                    title="{{get_Character().experiencePoints >= 1000 && 'You are ready to level up!'}}"
+                    [ngClass]="{'bonus':get_Character().experiencePoints >= 1000}">
             </span>
         </div>
         <div class="list-item">
@@ -76,7 +80,8 @@
             </span>
             <span>
                 <select [(ngModel)]="get_Character().level" (ngModelChange)="on_LevelChange(oldLevel)">
-                    <option *ngFor="let level of [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20]; trackBy:trackByIndex;"
+                    <option
+                        *ngFor="let level of [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20]; trackBy:trackByIndex;"
                         [ngValue]="level">
                         {{level}}
                     </option>
@@ -103,6 +108,25 @@
                     <input type="number" class="number2" [(ngModel)]="ability.baseValue"
                         (blur)="on_AbilityChange(ability.name)" maxlength="2" (keypress)="numbersOnly($event)">
                 </div>
+            </div>
+        </div>
+        <div class="list-item">
+            <strong>Feat choices</strong>
+            <div class="list-item">
+                <span>
+                    <label for="lowerLevelFeats">Show lower level feats</label>
+                </span>
+                <span>
+                    <input id="lowerLevelFeats" type="checkbox" [(ngModel)]="lowerLevelFeats">
+                </span>
+            </div>
+            <div class="list-item">
+                <span>
+                    <label for="archetypeFeats">Show archetype feats</label>
+                </span>
+                <span>
+                    <input id="archetypeFeats" type="checkbox" [(ngModel)]="archetypeFeats">
+                </span>
             </div>
         </div>
         <h3>History</h3>
@@ -134,13 +158,14 @@
                                     title="{{get_Traits(trait)[0]?.description}}">{{trait}}</cite>
                             </div>
                             <div class="row left-aligned" *ngIf="class.sourceBook">
-                                <strong>Source&nbsp;</strong><i>{{class.sourceBook}}</i>
+                                <strong>Source</strong><i>&nbsp;{{class.sourceBook}}</i>
                             </div>
                             <div class="row left-aligned" *ngFor="let desc of class.desc; trackBy:trackByIndex;">
-                                <ng-container *ngFor="let text of desc.value.split('\n\n'); let textIndex = index; trackBy:trackByIndex;">
+                                <ng-container
+                                    *ngFor="let text of desc.value.split('\n\n'); let textIndex = index; trackBy:trackByIndex;">
                                     <h6 *ngIf="textIndex == 0">{{desc.name}}</h6>
                                     <p *ngIf="text.split('\n').length == 1">
-                                         {{text}}
+                                        {{text}}
                                     </p>
                                     <ul *ngIf="text.split('\n').length > 1">
                                         <li *ngFor="let line of text.split('\n'); trackBy:trackByIndex;">{{line}}</li>
@@ -162,18 +187,20 @@
                 </button>
                 <div class="list-item sublist" [ngClass]="{'fancy-list':((get_Character().class.ancestry.name))}"
                     *ngIf="get_showList()==listID">
-                    <ng-container *ngFor="let ancestry of get_AvailableAncestries()|sortBy:'asc':'name'; trackBy:trackByIndex;">
-                        <div class="row list-item" *ngFor="let itemID of ['ancestry'+ancestry.name]; trackBy:trackByIndex;">
+                    <ng-container
+                        *ngFor="let ancestry of get_AvailableAncestries()|sortBy:'asc':'name'; trackBy:trackByIndex;">
+                        <div class="row list-item"
+                            *ngFor="let itemID of ['ancestry'+ancestry.name]; trackBy:trackByIndex;">
                             <span>
                                 <input id="{{ancestry.name}}" type="checkbox"
                                     (change)="onAncestryChange(ancestry, $event.target.checked)"
                                     [checked]="ancestry.name === get_Character().class.ancestry.name">
                                 <label for="{{ancestry.name}}">
                                     <strong>{{ancestry.name}}&nbsp;</strong>
-                                <cite class="trait" *ngIf="ancestry.traits.includes('Rare')"
-                                    title="{{get_Traits('Rare')[0]?.description}}">Rare</cite>
-                                <cite class="trait" *ngIf="ancestry.traits.includes('Uncommon')"
-                                    title="{{get_Traits('Uncommon')[0]?.description}}">Uncommon</cite>
+                                    <cite class="trait" *ngIf="ancestry.traits.includes('Rare')"
+                                        title="{{get_Traits('Rare')[0]?.description}}">Rare</cite>
+                                    <cite class="trait" *ngIf="ancestry.traits.includes('Uncommon')"
+                                        title="{{get_Traits('Uncommon')[0]?.description}}">Uncommon</cite>
                                 </label>
                             </span>
                             <button (click)="toggle_Item(itemID)">
@@ -185,16 +212,18 @@
                                         title="{{get_Traits(trait)[0]?.description}}">{{trait}}</cite>
                                 </div>
                                 <div class="row left-aligned" *ngIf="ancestry.sourceBook">
-                                    <strong>Source&nbsp;</strong><i>{{ancestry.sourceBook}}</i>
+                                    <strong>Source</strong><i>&nbsp;{{ancestry.sourceBook}}</i>
                                 </div>
                                 <div class="row left-aligned" *ngFor="let desc of ancestry.desc; trackBy:trackByIndex;">
-                                    <ng-container *ngFor="let text of desc.value.split('\n\n'); let textIndex = index; trackBy:trackByIndex;">
+                                    <ng-container
+                                        *ngFor="let text of desc.value.split('\n\n'); let textIndex = index; trackBy:trackByIndex;">
                                         <h6 *ngIf="textIndex == 0">{{desc.name}}</h6>
                                         <p *ngIf="text.split('\n').length == 1">
-                                             {{text}}
+                                            {{text}}
                                         </p>
                                         <ul *ngIf="text.split('\n').length > 1">
-                                            <li *ngFor="let line of text.split('\n'); trackBy:trackByIndex;">{{line}}</li>
+                                            <li *ngFor="let line of text.split('\n'); trackBy:trackByIndex;">{{line}}
+                                            </li>
                                         </ul>
                                     </ng-container>
                                 </div>
@@ -247,7 +276,7 @@
                             </div>
                             <!--End Subheritages-->
                             <div class="row left-aligned" *ngIf="heritage.sourceBook">
-                                <strong>Source&nbsp;</strong><i>{{heritage.sourceBook}}</i>
+                                <strong>Source</strong><i>&nbsp;{{heritage.sourceBook}}</i>
                             </div>
                             <div class="row left-aligned">
                                 <ng-container *ngFor="let desc of heritage.desc.split('\n\n'); trackBy:trackByIndex;">
@@ -277,7 +306,8 @@
         <!--Languages-->
         <div class="list-item" [ngClass]="{'fullsize-only':(!get_Character().class.languages.includes(''))}"
             *ngIf="get_LanguagesAvailable()">
-            <button class="row sublist-toggle" [ngClass]="{'fancy-button':(!get_Character().class.languages.includes(''))}"
+            <button class="row sublist-toggle"
+                [ngClass]="{'fancy-button':(!get_Character().class.languages.includes(''))}"
                 (click)="toggle_List('languages')">
                 Languages
             </button>
@@ -313,8 +343,10 @@
                 </button>
                 <div class="list-item sublist" [ngClass]="{'fancy-list':((get_Character().class.background.name))}"
                     *ngIf="get_showList()==listID">
-                    <ng-container *ngFor="let background of get_AvailableBackgrounds()|sortBy:'asc':'name'; trackBy:trackByIndex;">
-                        <div class="row list-item" *ngFor="let itemID of ['background'+background.name]; trackBy:trackByIndex;">
+                    <ng-container
+                        *ngFor="let background of get_AvailableBackgrounds()|sortBy:'asc':'name'; trackBy:trackByIndex;">
+                        <div class="row list-item"
+                            *ngFor="let itemID of ['background'+background.name]; trackBy:trackByIndex;">
                             <span>
                                 <input *ngIf="!background.subTypes" id="{{background.name}}" type="checkbox"
                                     (change)="onBackgroundChange(background, $event.target.checked)"
@@ -334,7 +366,8 @@
                             </button>
                             <div class="row lower" *ngIf="this.get_showItem()==itemID">
                                 <!--Subbackgrounds-->
-                                <div class="list-item" *ngFor="let subbackground of get_SubBackgrounds(background.name); trackBy:trackByIndex;">
+                                <div class="list-item"
+                                    *ngFor="let subbackground of get_SubBackgrounds(background.name); trackBy:trackByIndex;">
                                     <span>
                                         <input id="{{subbackground.name}}" type="checkbox"
                                             (change)="onBackgroundChange(subbackground, $event.target.checked)"
@@ -350,26 +383,29 @@
                                         title="{{get_Traits(trait)[0]?.description}}">{{trait}}</cite>
                                 </div>
                                 <div class="row left-aligned" *ngIf="background.sourceBook">
-                                    <strong>Source&nbsp;</strong><i>{{background.sourceBook}}</i>
+                                    <strong>Source</strong><i>&nbsp;{{background.sourceBook}}</i>
                                 </div>
                                 <div class="row left-aligned" *ngIf="background.prerequisites">
-                                    <strong>Prerequisites&nbsp;</strong>{{background.prerequisites}}
+                                    <strong>Prerequisites</strong>&nbsp;{{background.prerequisites}}
                                 </div>
                                 <div class="row left-aligned" *ngIf="background.region">
-                                    <strong>Region&nbsp;</strong>{{background.region}}
+                                    <strong>Region</strong>&nbsp;{{background.region}}
                                 </div>
                                 <div class="row left-aligned">
-                                    <ng-container *ngFor="let desc of background.desc.split('\n\n'); trackBy:trackByIndex;">
+                                    <ng-container
+                                        *ngFor="let desc of background.desc.split('\n\n'); trackBy:trackByIndex;">
                                         <p *ngIf="desc.split('\n').length == 1">{{desc}}</p>
                                         <ul *ngIf="desc.split('\n').length > 1">
-                                            <li *ngFor="let line of desc.split('\n'); trackBy:trackByIndex;">{{line}}</li>
+                                            <li *ngFor="let line of desc.split('\n'); trackBy:trackByIndex;">{{line}}
+                                            </li>
                                         </ul>
                                     </ng-container>
                                 </div>
                                 <div class="list-item lower row problem" *ngIf="background.inputRequired">
                                     <strong>Player input required:</strong>
                                     <div class="row left-aligned">
-                                        <p *ngFor="let inputRequired of background.inputRequired.split('\n'); trackBy:trackByIndex;">
+                                        <p
+                                            *ngFor="let inputRequired of background.inputRequired.split('\n'); trackBy:trackByIndex;">
                                             {{inputRequired}}
                                         </p>
                                     </div>
@@ -425,7 +461,8 @@
                                 <div class="row left-aligned">
                                     <strong>Cleric Spells</strong>
                                 </div>
-                                <div class="list-item lower left-aligned" *ngFor="let spell of deity.clericSpells; trackBy:trackByIndex;">
+                                <div class="list-item lower left-aligned"
+                                    *ngFor="let spell of deity.clericSpells; trackBy:trackByIndex;">
                                     <strong>Level
                                         {{spell.level}}&nbsp;</strong>{{spell.name}}{{(spell.note ? "("+spell.note+")" : "")}}
                                 </div>
@@ -441,7 +478,8 @@
                 <h3 *ngIf="level.number > 0">Level {{level.number}}</h3>
                 <!--Fixed information-->
                 <ng-container *ngIf="level.number > 0">
-                    <div class="fullsize-only list-item" *ngFor="let listID of ['showFixedChanges'+level.number]; trackBy:trackByIndex;">
+                    <div class="fullsize-only list-item"
+                        *ngFor="let listID of ['showFixedChanges'+level.number]; trackBy:trackByIndex;">
                         <button class="row sublist-toggle fancy-button" (click)="toggle_List(listID)">
                             Show fixed changes
                         </button>
@@ -449,49 +487,48 @@
                             <!--Fixed Ability boosts-->
                             <div class="list-item"
                                 *ngFor="let boost of get_AbilityBoosts(level.number, level.number, '', '', '', '', true); trackBy:trackByIndex;">
-                                Ability {{(boost.type == 'Flaw') ? 'Flaw' : 'Boost'}} ({{boost.source}}): {{boost.name}}
+                                <span>
+                                    Ability {{(boost.type == 'Flaw') ? 'Flaw' : 'Boost'}} ({{boost.source}}): {{boost.name}}
+                                </span>
                             </div>
                             <!--Fixed Skill Increases-->
                             <div class="list-item"
                                 *ngFor="let skillIncrease of get_SkillIncreases(level.number, level.number, '', '', '', true); trackBy:trackByIndex;">
-                                {{(skillIncrease.name.includes("Lore:")) ? "Lore " : ""}}Skill Training
-                                ({{skillIncrease.source}}): {{skillIncrease.name}}
+                                <span>
+                                    {{(skillIncrease.name.includes("Lore:")) ? "Lore " : ""}} Proficiency Training
+                                    ({{skillIncrease.source}}): {{skillIncrease.name}}
+                                </span>
                             </div>
                             <!--Fixed Feats-->
                             <div title="{{get_FeatsAndFeatures(feat.name)[0]?.desc}}" class="list-item"
                                 *ngFor="let feat of get_FeatsTaken(level.number, level.number, '', '', '', true); trackBy:trackByIndex;">
-                                Feat ({{feat.source}}): {{feat.name}}
-                                <button class="right-bound" (click)="toggle_Item(level.number+feat.name+feat.source+'desc')">
+                                <span>
+                                    Feat ({{feat.source}}): {{feat.name}}
+                                </span>
+                                <button class="right-bound"
+                                    (click)="toggle_Item(level.number+feat.name+feat.source+'desc')">
                                     Show Description
                                 </button>
-                                <div class="row left-aligned" *ngIf="this.get_showItem()==level.number+feat.name+feat.source+'desc'">
-                                    <app-feat [feat]="get_FeatsAndFeatures(feat.name)[0]" [choice]="null" [levelNumber]="level.number"></app-feat>
+                                <div class="row left-aligned"
+                                    *ngIf="this.get_showItem()==level.number+feat.name+feat.source+'desc'">
+                                    <app-feat [feat]="get_FeatsAndFeatures(feat.name)[0]" [choice]="null"
+                                        [levelNumber]="level.number"></app-feat>
                                 </div>
-                                
+
                             </div>
                         </div>
                     </div>
                 </ng-container>
-                <div class="list-item" *ngIf="level.number > 0">
-                    <span>
-                        <input id="sameLevelFeatsOnly{{level.number}}" type="checkbox" [(ngModel)]="sameLevelFeatsOnly">
-                        <label for="sameLevelFeatsOnly{{level.number}}">Show only feats of this level</label>
-                    </span>
-                </div>
-                <div class="list-item" *ngIf="level.number > 0">
-                    <span>
-                        <input id="archetypeFeats{{level.number}}" type="checkbox" [(ngModel)]="archetypeFeats">
-                        <label for="archetypeFeats{{level.number}}">Show archetype feats</label>
-                    </span>
-                </div>
                 <!--Languages - show if you have gained languages this level-->
                 <div class="list-item" [ngClass]="{'fullsize-only':!get_Character().class.languages.includes('')}"
                     *ngIf="level.number > 0 && get_LanguagesAvailable(level.number)">
-                    <button class="row sublist-toggle" [ngClass]="{'fancy-button':!get_Character().class.languages.includes('')}"
+                    <button class="row sublist-toggle"
+                        [ngClass]="{'fancy-button':!get_Character().class.languages.includes('')}"
                         (click)="toggle_List('languages'+level.number)">
                         Languages
                     </button>
-                    <div class="list-item sublist" [ngClass]="{'fancy-list':!get_Character().class.languages.includes('')}"
+                    <div class="list-item sublist"
+                        [ngClass]="{'fancy-list':!get_Character().class.languages.includes('')}"
                         *ngIf="get_showList()=='languages'+level.number">
                         <div class="row left-aligned">
                             <strong *ngIf="get_Character().class.ancestry.recommendedLanguages.length">Recommended
@@ -512,7 +549,8 @@
                             <button class="row sublist-toggle"
                                 [ngClass]="{'fancy-button':(choice.boosts.length == get_MaxAvailable(choice))}"
                                 (click)="toggle_List(listID)">
-                                Ability {{choice.infoOnly ? "Choice (no Boost)" : "Boost"}}{{(get_MaxAvailable(choice) > 1) ? "s" : ""}}
+                                Ability
+                                {{choice.infoOnly ? "Choice (no Boost)" : "Boost"}}{{(get_MaxAvailable(choice) > 1) ? "s" : ""}}
                                 ({{choice.source}}){{(get_MaxAvailable(choice) > 1) ?
                                     ": "+ choice.boosts.length + "/" + (get_MaxAvailable(choice)) :
                                     (choice.boosts.length) ? ": "+ choice.boosts[0].name : ""}}
@@ -520,9 +558,11 @@
                             <div class="list-item sublist"
                                 [ngClass]="{'fancy-list':(choice.boosts.length == get_MaxAvailable(choice))}"
                                 *ngIf="get_showList()==listID">
-                                <div class="list-item" *ngFor="let ability of get_AvailableAbilities(choice); trackBy:trackByIndex;"
+                                <div class="list-item"
+                                    *ngFor="let ability of get_AvailableAbilities(choice); trackBy:trackByIndex;"
                                     [ngClass]="{'problem':abilityIllegal(level.number, ability)}">
-                                    <div class="row" *ngFor="let itemID of [choice.id+ability.name]; trackBy:trackByIndex;">
+                                    <div class="row"
+                                        *ngFor="let itemID of [choice.id+ability.name]; trackBy:trackByIndex;">
                                         <span>
                                             <input id="{{itemID}}" type="checkbox"
                                                 (change)="on_AbilityBoost(ability.name, $event.target.checked, choice, false)"
@@ -530,8 +570,10 @@
                                                 [disabled]="cannotBoost(ability, level, choice).length">
                                             <label for="{{itemID}}">
                                                 <strong>{{ability.name}}:&nbsp;</strong>
-                                                <input type="number" class="number2" style="padding:0px 2px; border:none;" [ngModel]="baseValue.result" title="{{baseValue.explain}}"
-                                                    maxlength="2" disabled *ngFor="let baseValue of [ability.baseValue(get_Character(), characterService, level.number)]; trackBy:trackByIndex;">
+                                                <input type="number" class="number2"
+                                                    style="padding:0px 2px; border:none;" [ngModel]="baseValue.result"
+                                                    title="{{baseValue.explain}}" maxlength="2" disabled
+                                                    *ngFor="let baseValue of [ability.baseValue(get_Character(), characterService, level.number)]; trackBy:trackByIndex;">
                                                 <cite class="problem"
                                                     *ngFor="let reason of cannotBoost(ability, level, choice); trackBy:trackByIndex;">
                                                     {{reason}}
@@ -567,7 +609,8 @@
                                     *ngFor="let skill of get_AvailableSkills(choice, level)|sortBy:'asc':'name'; trackBy:trackByIndex;"
                                     [ngClass]="{'problem':(!skill.isLegal(get_Character(), this.characterService, level.number) ||
                                     (!skill.isLegal(get_Character(), this.characterService, level.number, choice.maxRank) && skillIncreasedByThis(skill, choice)))}">
-                                    <div class="row" *ngFor="let itemID of [choice.id+skill.name]; trackBy:trackByIndex;">
+                                    <div class="row"
+                                        *ngFor="let itemID of [choice.id+skill.name]; trackBy:trackByIndex;">
                                         <span>
                                             <input id="{{itemID}}" type="checkbox"
                                                 (change)="on_SkillIncrease(skill.name, $event.target.checked, choice, false)"
@@ -598,7 +641,8 @@
                 <ng-container *ngFor="let choice of get_FeatChoices(level); let index = index; trackBy:trackByIndex;">
                     <app-featchoice (showChoiceMessage)="receive_ChoiceMessage($event)"
                         (showFeatMessage)="receive_FeatMessage($event)" [choice]="choice" [levelNumber]=level.number
-                        [showFeat]="get_showItem()" [showChoice]="get_showList()" [sameLevelFeatsOnly]="sameLevelFeatsOnly" [archetypeFeats]="archetypeFeats">
+                        [showFeat]="get_showItem()" [showChoice]="get_showList()" [lowerLevelFeats]="lowerLevelFeats"
+                        [archetypeFeats]="archetypeFeats">
                     </app-featchoice>
                 </ng-container>
                 <!--Animal Companion-->
@@ -642,8 +686,10 @@
                         </button>
                         <div class="list-item sublist" [ngClass]="{'fancy-list':(get_Companion().class.ancestry.name)}"
                             *ngIf="get_showList()==listID">
-                            <div class="list-item" *ngFor="let type of get_AvailableCompanionTypes()|sortBy:'asc':'name'; trackBy:trackByIndex;">
-                                <div class="row" *ngFor="let itemID of ['animaltype'+type.name+'desc']; trackBy:trackByIndex;">
+                            <div class="list-item"
+                                *ngFor="let type of get_AvailableCompanionTypes()|sortBy:'asc':'name'; trackBy:trackByIndex;">
+                                <div class="row"
+                                    *ngFor="let itemID of ['animaltype'+type.name+'desc']; trackBy:trackByIndex;">
                                     <span>
                                         <input id="{{type.name}}" type="checkbox"
                                             (change)="on_CompanionTypeChange(type, $event.target.checked)"
@@ -658,16 +704,19 @@
                                     <div class="row lower" *ngIf="this.get_showItem()==itemID">
                                         <div class="row left-aligned">
                                             <div class="row left-aligned tags">
-                                                <cite class="trait" *ngFor="let trait of type.traits; trackBy:trackByIndex;"
+                                                <cite class="trait"
+                                                    *ngFor="let trait of type.traits; trackBy:trackByIndex;"
                                                     title="{{get_Traits(trait)[0]?.description}}">{{trait}}</cite>
                                             </div>
                                             <div class="row left-aligned" *ngIf="type.sourceBook">
-                                                <strong>Source&nbsp;</strong><i>{{type.sourceBook}}</i>
+                                                <strong>Source</strong><i>&nbsp;{{type.sourceBook}}</i>
                                             </div>
-                                            <ng-container *ngFor="let desc of type.desc.split('\n\n'); trackBy:trackByIndex;">
+                                            <ng-container
+                                                *ngFor="let desc of type.desc.split('\n\n'); trackBy:trackByIndex;">
                                                 <p *ngIf="desc.split('\n').length == 1">{{desc}}</p>
                                                 <ul *ngIf="desc.split('\n').length > 1">
-                                                    <li *ngFor="let line of desc.split('\n'); trackBy:trackByIndex;">{{line}}</li>
+                                                    <li *ngFor="let line of desc.split('\n'); trackBy:trackByIndex;">
+                                                        {{line}}</li>
                                                 </ul>
                                             </ng-container>
                                             <p>
@@ -699,7 +748,8 @@
                                             </p>
                                             <p>
                                                 <strong>Speed</strong>
-                                                <span *ngFor="let speed of type.speeds; let index = index; trackBy:trackByIndex;">
+                                                <span
+                                                    *ngFor="let speed of type.speeds; let index = index; trackBy:trackByIndex;">
                                                     {{index > 0 ? ", " : ""}}{{speed.name.split(' ')[0] + " " + speed.value + " feet"}}
                                                 </span>
                                             </p>
@@ -732,7 +782,8 @@
                 </ng-container>
                 <!--Animal Specializations-->
                 <ng-container *ngIf="get_CompanionSpecializationsAvailable(level.number)">
-                    <ng-container *ngFor="let available of [get_CompanionSpecializationsAvailable(level.number)]; trackBy:trackByIndex;">
+                    <ng-container
+                        *ngFor="let available of [get_CompanionSpecializationsAvailable(level.number)]; trackBy:trackByIndex;">
                         <div class="list-item"
                             [ngClass]="{'fullsize-only':(get_TakenCompanionSpecializations(level.number).length == available)}"
                             *ngFor="let listID of ['animalspecialization'+level.number]; trackBy:trackByIndex;">
@@ -807,9 +858,10 @@
                             <div class="list-item">
                                 <span>Swimmer</span>
                                 <span>
-                                    <input type="checkbox" name="familiar-swimmer"
+                                    <input type="checkbox" id="familiar-swimmer{{level.number}}"
                                         (click)="on_FamiliarSpeedChange($event.target.checked)"
-                                        [checked]="is_FamiliarSwimmer()"><label for="familiar-swimmer">Gain Swim Speed
+                                        [checked]="is_FamiliarSwimmer()"><label
+                                        for="familiar-swimmer{{level.number}}">Gain Swim Speed
                                         instead of Land Speed</label>
                                 </span>
                             </div>
@@ -829,8 +881,8 @@
                             *ngIf="get_showList()==listID">
                             <div class="list-item">
                                 <strong>Name:
-                                    <input type="text" [(ngModel)]="feat.data.name"
-                                        (blur)=on_NameChange() maxLength="30">
+                                    <input type="text" [(ngModel)]="feat.data.name" (blur)=on_NameChange()
+                                        maxLength="30">
                                 </strong>
                             </div>
                         </div>
@@ -846,15 +898,15 @@
                         <div class="list-item sublist" [ngClass]="{'fancy-list':((feat.data.background))}"
                             *ngIf="get_showList()==listID">
                             <div class="list-item" *ngFor="let background of get_Backgrounds(); trackBy:trackByIndex;">
-                                <div class="row" *ngFor="let itemID of ['differentWorlds_Background'+background.name]; trackBy:trackByIndex;">
+                                <div class="row"
+                                    *ngFor="let itemID of ['differentWorlds_Background'+background.name]; trackBy:trackByIndex;">
                                     <span>
-                                        <input *ngIf="!background.subTypes" id="{{background.name}}"
-                                            type="checkbox"
+                                        <input *ngIf="!background.subTypes" id="{{background.name}}" type="checkbox"
                                             (change)="onDifferentWorldsBackgroundChange(level, feat, background, $event.target.checked)"
                                             [checked]="background.name === feat.data.background || background.name === get_Character().class.background.name"
                                             [disabled]="background.name === get_Character().class.background.name">
-                                        <button class="lower left" *ngIf="background.subTypes"
-                                            id="{{background.name}}" (click)="toggle_Item(itemID)">v</button>
+                                        <button class="lower left" *ngIf="background.subTypes" id="{{background.name}}"
+                                            (click)="toggle_Item(itemID)">v</button>
                                         <label for="{{background.name}}">
                                             <strong>{{background.name}}</strong>
                                         </label>
@@ -864,7 +916,8 @@
                                     </button>
                                     <div class="row lower" *ngIf="this.get_showItem()==itemID">
                                         <!--Subbackgrounds-->
-                                        <div class="list-item" *ngFor="let subbackground of get_SubBackgrounds(background.name); trackBy:trackByIndex;">
+                                        <div class="list-item"
+                                            *ngFor="let subbackground of get_SubBackgrounds(background.name); trackBy:trackByIndex;">
                                             <span>
                                                 <input id="{{subbackground.name}}" type="checkbox"
                                                     (change)="onDifferentWorldsBackgroundChange(level, feat, subbackground, $event.target.checked)"
@@ -877,10 +930,12 @@
                                         </div>
                                         <!--End Subbackgrounds-->
                                         <div class="row left-aligned">
-                                            <ng-container *ngFor="let desc of background.desc.split('\n\n'); trackBy:trackByIndex;">
+                                            <ng-container
+                                                *ngFor="let desc of background.desc.split('\n\n'); trackBy:trackByIndex;">
                                                 <p *ngIf="desc.split('\n').length == 1">{{desc}}</p>
                                                 <ul *ngIf="desc.split('\n').length > 1">
-                                                    <li *ngFor="let line of desc.split('\n'); trackBy:trackByIndex;">{{line}}</li>
+                                                    <li *ngFor="let line of desc.split('\n'); trackBy:trackByIndex;">
+                                                        {{line}}</li>
                                                 </ul>
                                             </ng-container>
                                         </div>
@@ -903,8 +958,8 @@
                             *ngIf="get_showList()==listID">
                             <div class="list-item">
                                 <strong>Name:
-                                    <input type="text" [(ngModel)]="feat.data.name"
-                                        (blur)="on_FuseStanceNameChange()" maxLength="30">
+                                    <input type="text" [(ngModel)]="feat.data.name" (blur)="on_FuseStanceNameChange()"
+                                        maxLength="30">
                                 </strong>
                             </div>
                         </div>
@@ -920,7 +975,8 @@
                             *ngIf="get_showList()==listID">
                             <div class="list-item" [ngClass]="{'unavailable':stance.reason}"
                                 *ngFor="let stance of get_StancesToFuse(level.number); trackBy:trackByIndex;">
-                                <div class="row" *ngFor="let itemID of ['fuseStance_stance1'+stance.name]; trackBy:trackByIndex;">
+                                <div class="row"
+                                    *ngFor="let itemID of ['fuseStance_stance1'+stance.name]; trackBy:trackByIndex;">
                                     <span>
                                         <input id="{{stance.name}}" type="checkbox"
                                             (change)="on_FuseStanceStanceChange(feat, 'stance1', stance.name, $event.target.checked)"
@@ -950,7 +1006,8 @@
                             *ngIf="get_showList()==listID">
                             <div class="list-item" [ngClass]="{'unavailable':stance.reason}"
                                 *ngFor="let stance of get_StancesToFuse(level.number); trackBy:trackByIndex;">
-                                <div class="row" *ngFor="let itemID of ['fuseStance_stance2'+stance.name]; trackBy:trackByIndex;">
+                                <div class="row"
+                                    *ngFor="let itemID of ['fuseStance_stance2'+stance.name]; trackBy:trackByIndex;">
                                     <span>
                                         <input id="{{stance.name}}" type="checkbox"
                                             (change)="on_FuseStanceStanceChange(feat, 'stance2', stance.name, $event.target.checked)"
@@ -984,7 +1041,8 @@
                             <div class="list-item sublist"
                                 [ngClass]="{'fancy-list':(choice.available == choice.increases.length)}"
                                 *ngIf="get_showList()==listID">
-                                <div class="list-item" *ngFor="let itemID of [choice.id+'LoreIncreaseBox']; trackBy:trackByIndex;">
+                                <div class="list-item"
+                                    *ngFor="let itemID of [choice.id+'LoreIncreaseBox']; trackBy:trackByIndex;">
                                     <span>
                                         <input id="{{itemID}}" type="checkbox"
                                             (change)="on_LoreChange($event.target.checked, choice)"

@@ -406,7 +406,7 @@ export class FeatsService {
                 if (taken) {
                     //Set the originClass to be the same as the feat choice type.
                     //If the type is not a class name, set your main class name.
-                    if (["","General","Skill","Ancestry","Class"].includes(choice.type)) {
+                    if (["","General","Skill","Ancestry","Class","Feat"].includes(choice.type)) {
                         character.class.familiar.originClass = character.class.name;
                     } else {
                         character.class.familiar.originClass = choice.type;
@@ -529,7 +529,49 @@ export class FeatsService {
                 }
             }
 
-            //Reset changes made with Spell Blending
+            //Feats that let you learn more spells.
+            if (feat.gainSpellBookSlots.length) {
+                if (taken) {
+                    feat.gainSpellBookSlots.forEach(slots => {
+                        let spellCasting = character.class.spellCasting.find(casting => casting.className == slots.className && casting.castingType == "Prepared");
+                        if (spellCasting) {
+                            for (let index = 0; index < spellCasting.spellBookSlots.length; index++) {
+                                spellCasting.spellBookSlots[index] += slots.spellBookSlots[index];
+                            }
+                        }
+                    });
+                } else {
+                    feat.gainSpellBookSlots.forEach(slots => {
+                        let spellCasting = character.class.spellCasting.find(casting => casting.className == slots.className && casting.castingType == "Prepared");
+                        if (spellCasting) {
+                            for (let index = 0; index < spellCasting.spellBookSlots.length; index++) {
+                                spellCasting.spellBookSlots[index] -= slots.spellBookSlots[index];
+                            }
+                        }
+                    });
+                }
+            }
+
+            //Reset bonded item charges when selecting or deselecting Wizard schools.
+            if (["Abjuration School", "Conjuration School", "Divination School", "Enchantment School", "Evocation School",
+                "Illusion School", "Necromancy School", "Transmutation School", "Universalist Wizard"].includes(feat.name)) {
+                if (taken) {
+                    character.class.spellCasting.filter(casting => casting.castingType == "Prepared" && casting.className == "Wizard").forEach(casting => {
+                        let superiorBond = character.get_FeatsTaken(1, character.level, "Superior Bond").length;
+                        if (feat.name == "Universalist Wizard") {
+                            casting.bondedItemCharges = [superiorBond, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1];
+                        } else {
+                            casting.bondedItemCharges = [1 + superiorBond, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+                        }
+                    });
+                } else {
+                    character.class.spellCasting.filter(casting => casting.castingType == "Prepared" && casting.className == "Wizard").forEach(casting => {
+                        casting.bondedItemCharges = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+                    });
+                }
+            }
+
+            //Reset changes made with Spell Blending.
             if (feat.name == "Spell Blending") {
                 character.class.spellCasting.forEach(casting => {
                     casting.spellChoices.forEach(choice => {
@@ -540,7 +582,7 @@ export class FeatsService {
                 characterService.set_ToChange(creature.type, "spellbook");
             }
 
-            //Reset changes made with Infinite Possibilities
+            //Reset changes made with Infinite Possibilities.
             if (feat.name == "Infinite Possibilities") {
                 character.class.spellCasting.forEach(casting => {
                     casting.spellChoices.forEach(choice => {

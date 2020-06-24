@@ -174,14 +174,6 @@ export class Character extends Creature {
         let existingChoices = level.featChoices.filter(choice => choice.source == newChoice.source);
         let tempChoice = Object.assign(new FeatChoice, JSON.parse(JSON.stringify(newChoice)));
         tempChoice.id = level.number +"-"+ (tempChoice.type ? tempChoice.type : "Feat") +"-"+ tempChoice.source +"-"+ existingChoices.length;
-        //eval the level string to convert things like "level.number / 2". "1" is still "1".
-        if (tempChoice.dynamicLevel) {
-            try {
-            tempChoice.level = parseInt(eval(tempChoice.dynamicLevel));
-            } catch {
-                tempChoice.level = level.number;
-            }
-        }
         let newLength: number = level.featChoices.push(tempChoice);
         level.featChoices[newLength-1].feats.forEach(feat => {
             feat.source = level.featChoices[newLength-1].source;

@@ -34,8 +34,8 @@
                         </ng-container>
                     </span>
                 </div>
-                <div class="fullsize-only row left-aligned tags" *ngIf="weapon.get_Traits(characterService).length">
-                    <cite class="trait" *ngFor="let trait of weapon.get_Traits(characterService); trackBy:trackByIndex;"
+                <div class="fullsize-only row left-aligned tags" *ngIf="weapon.get_Traits(characterService, get_Creature()).length">
+                    <cite class="trait" *ngFor="let trait of weapon.get_Traits(characterService, get_Creature()); trackBy:trackByIndex;"
                         title="{{get_Traits(trait)[0].description}}">{{trait}}</cite>
                 </div>
                 <div class="fullsize-only row left-aligned"

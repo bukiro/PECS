@@ -23,7 +23,6 @@ import { Deity } from '../Deity';
 import { DeitiesService } from '../deities.service';
 import { SpellsService } from '../spells.service';
 import { FeatTaken } from '../FeatTaken';
-import { AbilityBoost } from '../AbilityBoost';
 import { AnimalCompanionAncestry } from '../AnimalCompanionAncestry';
 import { ItemGain } from '../ItemGain';
 import { AnimalCompanion } from '../AnimalCompanion';
@@ -49,7 +48,7 @@ export class CharacterComponent implements OnInit {
     private showItem: string = "";
     private showList: string = "";
     public allowCharacterDelete: Boolean[] = [];
-    public sameLevelFeatsOnly: Boolean = true;
+    public lowerLevelFeats: Boolean = true;
     public archetypeFeats: Boolean = true;
     
     constructor(
@@ -288,6 +287,7 @@ export class CharacterComponent implements OnInit {
         this.characterService.set_ToChange("Character", "skills");
         this.characterService.set_ToChange("Character", "individualskills", "all");
         this.characterService.set_ToChange("Character", "individualspells", "all");
+        this.characterService.set_ToChange("Character", "activities");
         if (this.get_Character().get_AbilityBoosts(lowerLevel, higherLevel).length) {
             this.characterService.set_ToChange("Character", "abilities");
         }
@@ -295,16 +295,8 @@ export class CharacterComponent implements OnInit {
             if (feat.showon) {
                 this.characterService.set_TagsToChange("Character", feat.showon);
             }
-            feat.gainFeatChoice.forEach(choice => {
-                if (choice.showOnSheet) {
-                    this.characterService.set_ToChange("Character", "activities");
-                }
-            });
             if (feat.gainAbilityChoice.length) {
                 this.characterService.set_ToChange("Character", "abilities");
-            }
-            if (feat.gainActivities.length) {
-                this.characterService.set_ToChange("Character", "activities");
             }
             if (feat.gainSpellCasting.length || feat.gainSpellChoice.length) {
                 this.characterService.set_ToChange("Character", "spells");
@@ -319,9 +311,6 @@ export class CharacterComponent implements OnInit {
             }
             if (feat.name == "Different Worlds") {
                 this.characterService.set_ToChange("Character", "general");
-            }
-            if (feat.name == "Fuse Stance") {
-                this.characterService.set_ToChange("Character", "activities");
             }
         });
         if (this.get_Character().get_SpellsLearned().filter(learned => learned.level >= lowerLevel && learned.level <= higherLevel).length) {
@@ -338,9 +327,6 @@ export class CharacterComponent implements OnInit {
         if (this.characterService.get_FamiliarAvailable()) {
             this.characterService.set_ToChange("Familiar", "all");
             this.get_Familiar().abilities.feats.map(gain => this.familiarsService.get_FamiliarAbilities(gain.name)[0]).filter(feat => feat).forEach(feat => {
-                if (feat.gainActivities.length) {
-                    this.characterService.set_ToChange("Character", "activities");
-                }
                 if (feat.name == "Cantrip Connection") {
                     this.characterService.set_ToChange("Character", "spells");
                     this.characterService.set_ToChange("Character", "spellbook");
@@ -511,14 +497,14 @@ export class CharacterComponent implements OnInit {
     }
 
     get_SkillINTBonus(choice: SkillChoice|LoreChoice) {
-        //Allow INT more skills if any INT boosts have happened on this level, or less if INT is negative on the first level.
+        //Allow INT more skills if INT has been raised since the last level.
         let levelNumber = parseInt(choice.id.split("-")[0]);
-        let boosts: AbilityBoost[] = this.characterService.get_Character().get_AbilityBoosts(levelNumber,levelNumber,"Intelligence")
-        if (boosts.length && choice.source == "Intelligence") {
-            return boosts.filter(boost => boost.type == "Boost").length - boosts.filter(boost => boost.type == "Flaw").length;
+        if (choice.source == "Intelligence") {
+            return this.get_INT(levelNumber) - this.get_INT(levelNumber - 1);
         } else {
             return 0;
         }
+        
     }
 
     get_AvailableSkills(choice: SkillChoice, level: Level) {
@@ -856,6 +842,9 @@ export class CharacterComponent implements OnInit {
     }
 
     get_INT(levelNumber: number) {
+        if (!levelNumber) {
+            return 0;
+        }
         //We have to calculate the modifier instead of getting .mod() because we don't want any effects in the character building interface.
         let intelligence: number = this.get_Abilities("Intelligence")[0].baseValue(this.get_Character(), this.characterService, levelNumber).result;
         let INT: number = Math.floor((intelligence-10)/2);

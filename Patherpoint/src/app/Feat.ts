@@ -38,6 +38,7 @@ export class Feat {
     public gainItems: ItemGain[] = [];
     public gainLore: true;
     public gainSkillChoice: SkillChoice[] = [];
+    public gainSpellBookSlots: {spellBookSlots:number[], className:string}[] = [];
     public gainSpellCasting: SpellCasting[] = [];
     public gainSpellChoice: SpellChoice[] = [];
     public hide: boolean = false;
@@ -219,11 +220,12 @@ export class Feat {
         }
         return result;
     }
-    canChoose(characterService: CharacterService, charLevel: number = characterService.get_Character().level) {
+    canChoose(characterService: CharacterService, charLevel: number = characterService.get_Character().level, skipLevel: boolean = false) {
     //This function evaluates ALL the possible requirements for taking a feat
     //Returns true only if all the requirements are true. If the feat doesn't have a requirement, it is always true.
         if (characterService.still_loading()) { return false }
-        let levelreq: boolean = this.meetsLevelReq(characterService, charLevel).met;
+        //Don't check the level if skipLevel is set. We don't want to list level mismatch when it's obvious.
+        let levelreq: boolean = skipLevel || this.meetsLevelReq(characterService, charLevel).met;
         //Check the ability reqs. True if ALL are true.
         let abilityreqs = this.meetsAbilityReq(characterService, charLevel)
         let abilityreq: boolean = abilityreqs.filter(req => req.met == false).length == 0;

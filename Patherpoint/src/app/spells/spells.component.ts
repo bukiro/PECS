@@ -32,8 +32,8 @@ export class SpellsComponent implements OnInit {
         this.characterService.toggleMenu("spells");
     }
 
-    get_SpellMenuState() {
-        return this.characterService.get_SpellMenuState();
+    get_SpellsMenuState() {
+        return this.characterService.get_SpellsMenuState();
     }
 
     toggle_Spell(name: string) {

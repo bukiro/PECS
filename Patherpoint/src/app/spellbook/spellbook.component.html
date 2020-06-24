@@ -16,13 +16,11 @@
                     </span>
                 </span>
                 <ng-container *ngFor="let superiorBond of [have_Feat('Superior Bond')]">
-                    <strong class="lower" *ngIf="casting.bondedItemCharges[0]">
-                        <span
-                            title="{{superiorBond ? 'You can use Drain Bonded Item one additional time per day, but only to cast a spell 2 or more levels lower than your highest-level spell.' : ''}}">
-                            {{casting.bondedItemCharges[0]}}{{superiorBond ? "*" : ""}}
-                            charge{{casting.bondedItemCharges[0] ? "s" : ""}} available
-                        </span>
-                    </strong>
+                    <div class="row lower" *ngIf="casting.bondedItemCharges[0]"
+                        title="{{superiorBond ? 'You can use Drain Bonded Item one additional time per day, but only to cast a spell 2 or more levels lower than your highest-level spell.' : ''}}">
+                        {{casting.bondedItemCharges[0]}}{{superiorBond ? "*" : ""}}
+                        charge{{casting.bondedItemCharges[0] != 1 ? "s" : ""}} available
+                    </div>
                 </ng-container>
             </h3>
             <ng-container *ngFor="let level of [-1, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10]; trackBy:trackByIndex;">
@@ -131,10 +129,10 @@
                                         </button>
                                         <button class="row center-aligned"
                                             (click)="on_Counterspell(spellTaken.gain, casting, spellTaken.choice, spell)"
-                                            *ngIf="can_Counterspell(casting) && !spellTaken.gain.active"
+                                            *ngIf="can_Counterspell(casting) && !spellTaken.gain.active && level > 0"
                                             title="{{cannot_Cast(spell, level, casting, spellTaken.choice, spellTaken.gain, maxspellslots)}}"
                                             [disabled]="cannot_Cast(spell, level, casting, spellTaken.choice, spellTaken.gain, maxspellslots)">
-                                            Use for Counterspells
+                                            Expend to counter spell
                                         </button>
                                         <ng-container *ngIf="!spellTaken.gain.combinationSpellName">
                                             <app-spell class="list-item" [spell]="spell" [spellLevel]="level"></app-spell>

@@ -25,4 +25,6 @@ export class ConditionGain {
     public gainActivities: ActivityGain[] = [];
     //If the gain is persistent, it does not get removed when its source is deactivated.
     public persistent: boolean = false;
+    //For spells, designate if the condition is meant for the caster or "" for the normal target creature.
+    public targetFilter: string = "";
 }

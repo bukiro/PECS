@@ -65,6 +65,14 @@ export class SkillComponent implements OnInit {
         return uuidv1();
     }
 
+    get_Name(skill: Skill) {
+        if (!this.isDC && skill.name.includes("Spell DC")) {
+            return skill.name.replace("Spell DC", "Spell Attacks");
+        } else {
+            return skill.name;
+        }
+    }
+
     get_specialShowon(skill: Skill) {
         let creature = this.get_Creature();
         //Under certain circumstances, some Feats apply to skills independently of their name.

@@ -129,7 +129,7 @@
                 </ng-container>
                 <span *ngIf="spellCasting?.castingType=='Prepared'">&nbsp;</span>
                 <label for="{{choice.id+spell.name}}">
-                    <strong>{{choice.tradition == 'prepared' && spellTakenByThis(spell, choice) ? " " + spellTakenByThis(spell, choice) + " " : ""}}{{spell.name}}&nbsp;</strong><cite>Level
+                    <strong>{{(spellCasting?.castingType == 'Prepared' && spellTakenByThis(spell, choice)) ? " " + spellTakenByThis(spell, choice) + " " : ""}}{{spell.name}}&nbsp;</strong><cite>Level
                         {{spell.levelreq}}</cite>
                 </label>
             </span>

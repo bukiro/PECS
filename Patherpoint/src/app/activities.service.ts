@@ -16,6 +16,7 @@ import { Character } from './Character';
 import { AnimalCompanion } from './AnimalCompanion';
 import { Familiar } from './Familiar';
 import { SpellsService } from './spells.service';
+import { SpellCast } from './SpellCast';
 
 @Injectable({
     providedIn: 'root'
@@ -139,7 +140,9 @@ export class ActivitiesService {
         //Cast Spells
         if (activity.castSpells) {
             activity.castSpells.forEach(cast => {
-                cast.spellGain.duration = cast.duration;
+                if (activity.constructor == ItemActivity) {
+                    cast.spellGain.duration = cast.duration;
+                }
                 let librarySpell = spellsService.get_Spells(cast.name)[0];
                 spellsService.process_Spell(creature, spellTarget, characterService, itemsService, timeService, cast.spellGain, librarySpell, cast.level, activated, true, false);
             })
@@ -234,7 +237,9 @@ export class ActivitiesService {
         if (this.loader) {
             this.activities = this.loader.map(activity => Object.assign(new Activity(), activity));
 
-            //Don't reassign activities because they don't have changing parts and never get stored in the Character
+            this.activities.forEach(activity => {
+                activity.castSpells = activity.castSpells.map(cast => Object.assign(new SpellCast(), cast));
+            });
 
             this.loader = [];
         }

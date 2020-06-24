@@ -55,6 +55,8 @@
             title="{{get_Traits(trait)[0].description}}">{{trait}}</cite>
         <cite class="trait" *ngFor="let trait of get_ActivationTraits(activity); trackBy:trackByIndex;"
             title="{{get_Traits(trait)[0].description}}">{{trait}}</cite>
+        <app-tags [creature]="creature" [objectName]="activity.name" [showTraits]=true [showFeats]=true [showItems]=true
+            [showActivities]=true [showConditions]=true [showEffects]=true></app-tags>
     </div>
     <div class="list-item lower row problem" *ngIf="activity.inputRequired">
         <strong>Player input required:</strong>
@@ -168,7 +170,5 @@
                 </div>
             </ng-container>
         </ng-container>
-        <app-tags [creature]="creature" [objectName]="activity.name" [showTraits]=true [showFeats]=true [showItems]=true
-            [showActivities]=true [showConditions]=true [showEffects]=true></app-tags>
     </ng-container>
 </ng-container>

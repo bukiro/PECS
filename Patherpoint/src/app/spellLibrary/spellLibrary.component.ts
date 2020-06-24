@@ -252,7 +252,7 @@ export class SpellLibraryComponent implements OnInit {
             case "wizard":
                 return "(learned as wizard)";
             case "school":
-                return "(learned via " + this.get_School().toLowerCase() + ")";
+                return "(learned via " + (this.get_School()?.toLowerCase() || "school") + ")";
             case "free":
                 return "(learned via Learn A Spell activity)";
         }

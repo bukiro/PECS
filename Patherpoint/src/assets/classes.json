@@ -14792,13 +14792,6 @@
                             {
                                 "locked": true,
                                 "maxRank": 2,
-                                "name": "Simple Weapons",
-                                "source": "Class",
-                                "sourceId": "1-Any-Class-0"
-                            },
-                            {
-                                "locked": true,
-                                "maxRank": 2,
                                 "name": "Club",
                                 "source": "Class",
                                 "sourceId": "1-Any-Class-0"

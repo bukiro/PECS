@@ -451,7 +451,11 @@ export class ItemsComponent implements OnInit {
         let tempInv = new ItemCollection();
         let newScroll = this.characterService.grant_InventoryItem(this.characterService.get_Character(), tempInv, scroll, false, false, false, 1) as Scroll;
         newScroll.expiration = -2;
-        newScroll.storedSpells.forEach(spell => {spell.spellBookOnly = true;});
+        newScroll.price = 0;
+        newScroll.storedSpells.forEach(spell => {
+            spell.spellBookOnly = true;
+            spell.spells.length = 0;
+        });
         casting.scrollSavant.push(Object.assign(new Scroll(), newScroll));
     }
 

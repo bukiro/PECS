@@ -130,10 +130,18 @@ export class SpellsService {
                         if (customDuration) {
                             newConditionGain.duration = customDuration;
                         }
-                        characterService.add_Condition(targetCreature, newConditionGain, false);
+                        let conditionTarget = targetCreature;
+                        if (conditionGain.targetFilter == "caster") {
+                            conditionTarget = creature;
+                        }
+                        characterService.add_Condition(conditionTarget, newConditionGain, false);
                     });
                 } else if (manual) {
                     spell.get_HeightenedConditions(level).forEach(conditionGain => {
+                        let conditionTarget = targetCreature;
+                        if (conditionGain.targetFilter == "caster") {
+                            conditionTarget = creature;
+                        }
                         characterService.get_AppliedConditions(targetCreature, conditionGain.name)
                             .filter(existingConditionGain => existingConditionGain.source == conditionGain.source)
                             .forEach(existingConditionGain => {

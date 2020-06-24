@@ -1,6 +1,6 @@
-<div class="row left-aligned tags" *ngIf="(item.get_Traits ? item.get_Traits(get_Creature()) : item.traits).length">
+<div class="row left-aligned tags" *ngIf="(item.get_Traits ? item.get_Traits(characterService, get_Creature()) : item.traits).length">
     <cite class="trait"
-        *ngFor="let trait of (item.get_Traits ? item.get_Traits(get_Creature()) : item.traits); trackBy:trackByIndex;"
+        *ngFor="let trait of (item.get_Traits ? item.get_Traits(characterService, get_Creature()) : item.traits); trackBy:trackByIndex;"
         title="{{get_Traits(trait)[0].description}}">{{trait}}</cite>
 </div>
 <div class="row left-aligned">

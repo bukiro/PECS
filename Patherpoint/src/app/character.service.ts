@@ -78,7 +78,7 @@ export class CharacterService {
     characterMenuState: string = 'out';
     companionMenuState: string = 'out';
     familiarMenuState: string = 'out';
-    spellMenuState: string = 'out';
+    spellsMenuState: string = 'out';
     spelllibraryMenuState: string = 'out';
     conditionsMenuState: string = 'out';
 
@@ -169,9 +169,9 @@ export class CharacterService {
         this.changed.next(target);
     }
 
-    set_Span(name: string) {
+    set_Span(name: string, steps: number = 2) {
         if (document.getElementById(name)) {
-            document.getElementById(name).style.gridRow = "span " + this.get_Span(name+"-height");
+            document.getElementById(name).style.gridRow = "span " + this.get_Span(name+"-height", steps);
         }
     }
     
@@ -201,7 +201,7 @@ export class CharacterService {
                 this.familiarMenuState = 'out';
                 this.itemsMenuState = 'out';
                 this.craftingMenuState = 'out';
-                this.spellMenuState = 'out';
+                this.spellsMenuState = 'out';
                 this.spelllibraryMenuState = 'out';
                 this.conditionsMenuState = 'out';
                 if (this.characterMenuState == 'in') {
@@ -214,7 +214,7 @@ export class CharacterService {
                 this.familiarMenuState = 'out';
                 this.itemsMenuState = 'out';
                 this.craftingMenuState = 'out';
-                this.spellMenuState = 'out';
+                this.spellsMenuState = 'out';
                 this.spelllibraryMenuState = 'out';
                 this.conditionsMenuState = 'out';
                 if (this.companionMenuState == 'in') {
@@ -227,7 +227,7 @@ export class CharacterService {
                 this.familiarMenuState = (this.familiarMenuState == 'out') ? 'in' : 'out';
                 this.itemsMenuState = 'out';
                 this.craftingMenuState = 'out';
-                this.spellMenuState = 'out';
+                this.spellsMenuState = 'out';
                 this.spelllibraryMenuState = 'out';
                 this.conditionsMenuState = 'out';
                 if (this.familiarMenuState == 'in') {
@@ -240,7 +240,7 @@ export class CharacterService {
                 this.familiarMenuState = 'out';
                 this.itemsMenuState = (this.itemsMenuState == 'out') ? 'in' : 'out';
                 this.craftingMenuState = 'out';
-                this.spellMenuState = 'out';
+                this.spellsMenuState = 'out';
                 this.spelllibraryMenuState = 'out';
                 this.conditionsMenuState = 'out';
                 if (this.itemsMenuState == 'in') {
@@ -253,7 +253,7 @@ export class CharacterService {
                 this.familiarMenuState = 'out';
                 this.itemsMenuState = 'out';
                 this.craftingMenuState = (this.craftingMenuState == 'out') ? 'in' : 'out';
-                this.spellMenuState = 'out';
+                this.spellsMenuState = 'out';
                 this.spelllibraryMenuState = 'out';
                 this.conditionsMenuState = 'out';
                 if (this.craftingMenuState == 'in') {
@@ -266,10 +266,10 @@ export class CharacterService {
                 this.familiarMenuState = 'out';
                 this.itemsMenuState = 'out';
                 this.craftingMenuState = 'out';
-                this.spellMenuState = (this.spellMenuState == 'out') ? 'in' : 'out';
+                this.spellsMenuState = (this.spellsMenuState == 'out') ? 'in' : 'out';
                 this.spelllibraryMenuState = 'out';
                 this.conditionsMenuState = 'out';
-                if (this.spellMenuState == 'in') {
+                if (this.spellsMenuState == 'in') {
                     this.set_Changed("spells");
                 }
                 break;
@@ -279,7 +279,7 @@ export class CharacterService {
                 this.familiarMenuState = 'out';
                 this.itemsMenuState = 'out';
                 this.craftingMenuState = 'out';
-                this.spellMenuState = 'out';
+                this.spellsMenuState = 'out';
                 this.spelllibraryMenuState = (this.spelllibraryMenuState == 'out') ? 'in' : 'out';
                 this.conditionsMenuState = 'out';
                 if (this.spelllibraryMenuState == 'in') {
@@ -292,7 +292,7 @@ export class CharacterService {
                 this.familiarMenuState = 'out';
                 this.craftingMenuState = 'out';
                 this.itemsMenuState = 'out';
-                this.spellMenuState = 'out';
+                this.spellsMenuState = 'out';
                 this.spelllibraryMenuState = 'out';
                 this.conditionsMenuState = (this.conditionsMenuState == 'out') ? 'in' : 'out';
                 if (this.conditionsMenuState == 'in') {
@@ -323,8 +323,8 @@ export class CharacterService {
         return this.craftingMenuState;
     }
 
-    get_SpellMenuState() {
-        return this.spellMenuState;
+    get_SpellsMenuState() {
+        return this.spellsMenuState;
     }
 
     get_SpellLibraryMenuState() {
@@ -1112,7 +1112,7 @@ export class CharacterService {
         }
         conditionGain.nextStage = originalCondition.nextStage;
         conditionGain.decreasingValue = originalCondition.decreasingValue;
-        //The gain may be persistent by itself, so don't overwrite it, but definitely set it if the condition is.
+        //The gain may be persistent by itself, so don't overwrite it with the condition's persistence, but definitely set it if the condition is.
         if (originalCondition.persistent) {
             conditionGain.persistent = true;
         }

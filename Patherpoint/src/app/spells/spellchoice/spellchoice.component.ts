@@ -121,6 +121,10 @@ export class SpellchoiceComponent implements OnInit {
         return this.get_SignatureSpellsAllowed() && choice.signatureSpell;
     }
 
+    have_Feat(name: string) {
+        return this.get_Character().get_FeatsTaken(1, this.get_Character().level, name).length;
+    }
+
     get_SpellBlendingAllowed() {
         //You can trade in a spell slot if:
         // - This choice is not a cantrip or focus spell and is above level 2
@@ -130,7 +134,7 @@ export class SpellchoiceComponent implements OnInit {
         // - You have the Spell Blending feat
         return (this.choice.level > 0 && !this.choice.dynamicLevel && this.spellCasting.className == "Wizard" && this.spellCasting.castingType == "Prepared" &&
             !["Spell Blending", "Infinite Possibilities", "Spell Combination", "Spell Mastery"].includes(this.choice.source) &&
-            this.get_Character().get_FeatsTaken(1, this.get_Character().level, "Spell Blending").length);
+            this.have_Feat("Spell Blending"));
     }
 
     get_SpellBlendingUsed() {
@@ -189,7 +193,7 @@ export class SpellchoiceComponent implements OnInit {
         // - You have the Infinite Possibilities feat
         return (this.choice.level > 2 && !this.choice.dynamicLevel && this.spellCasting.className == "Wizard" && this.spellCasting.castingType == "Prepared" &&
             !["Spell Blending", "Infinite Possibilities", "Spell Combination", "Spell Mastery"].includes(this.choice.source) &&
-            this.get_Character().get_FeatsTaken(1, this.get_Character().level, "Infinite Possibilities").length);
+            this.have_Feat("Infinite Possibilities"));
     }
 
     get_InfinitePossibilitiesUsed() {
@@ -256,10 +260,13 @@ export class SpellchoiceComponent implements OnInit {
         let available: number = 0;
         if (choice.source == "Divine Font") {
             available = Math.max(choice.available + this.get_CHA(), 0);
-        } if (choice.source == "Spell Blending") {
+        } else if (choice.source == "Spell Blending") {
             available = Math.max(choice.available + this.get_SpellBlendingUnlocked(choice.level), 0);
-        } if (choice.source == "Infinite Possibilities") {
+        } else if (choice.source == "Infinite Possibilities") {
             available = Math.max(choice.available + this.get_InfinitePossibilitiesUnlocked(choice.level), 0);
+        } else if (["Basic Wizard Spellcasting", "Expert Wizard Spellcasting", "Master Wizard Spellcasting"].includes(choice.source) &&
+                    choice.level <= this.get_HighestSpellLevel() - 2) {
+            available = Math.max(choice.available + this.have_Feat("Arcane Breadth") - this.get_SpellBlendingUsed() - this.get_InfinitePossibilitiesUsed(), 0);
         } else {
             available = Math.max(this.choice.available - this.get_SpellBlendingUsed() - this.get_InfinitePossibilitiesUsed(), 0);
         }
@@ -315,13 +322,13 @@ export class SpellchoiceComponent implements OnInit {
         }
         switch (choice.target) {
             case "Others":
-                spells = spells.filter(spell => spell.targets);
+                spells = spells.filter(spell => spell.target != "self");
                 break;
             case "Caster":
-                spells = spells.filter(spell => !spell.targets && spell.target == "self");
+                spells = spells.filter(spell => spell.target == "self");
                 break;
             case "Enemies":
-                spells = spells.filter(spell => spell.targets && spell.target != "ally")
+                spells = spells.filter(spell => spell.target == "")
         }
         if (choice.traitFilter.length) {
             spells = spells.filter(spell => spell.traits.find(trait => choice.traitFilter.includes(trait)));
@@ -332,11 +339,17 @@ export class SpellchoiceComponent implements OnInit {
             } else {
                 spells = spells.filter(spell => !spell.traits.includes("Cantrip") || this.spellTakenByThis(spell, choice));
             }
+
+            //Spell combination spell choices have special requirements, but they are also transformed from existing spell choices, so we don't want to change their properties.
+            //The requirements are as follows:
+            // - Spell Level is up to 2 lower than the spell slot
+            // - The spell must be able to target a single creature other than the caster. This is ensured by the "singletarget" property in the spell.
+            // - The second spell must have the same method of determining its success as the first - Attack trait, the same saving throw or neither.
             if (choice.spellCombination) {
                 spells = spells.filter(spell =>
                     (spell.levelreq <= spellLevel - 2) &&
-                    (!this.allowHeightened ? spell.levelreq == spellLevel - 2 : true) //&&
-                    //spell.singleTarget
+                    (!this.allowHeightened ? spell.levelreq == spellLevel - 2 : true) &&
+                    spell.singleTarget
                 )
                 if (choice.spells.length) {
                     if (choice.spells[0].name && choice.spells[0].combinationSpellName) {
@@ -356,7 +369,9 @@ export class SpellchoiceComponent implements OnInit {
                     let existingSpell = this.get_Spells(choice.spells[0].name)[0];
                     spells = spells.filter(spell =>
                         (existingSpell.traits.includes("Attack") == spell.traits.includes("Attack")) &&
-                        (existingSpell.savingthrow == spell.savingthrow)
+                        (existingSpell.savingthrow.includes("Fortitude") == spell.savingthrow.includes("Fortitude")) &&
+                        (existingSpell.savingthrow.includes("Reflex") == spell.savingthrow.includes("Reflex")) &&
+                        (existingSpell.savingthrow.includes("Will") == spell.savingthrow.includes("Will"))
                     )
                 }
                 let availableSpells: Spell[] = spells.filter(spell =>
@@ -422,7 +437,7 @@ export class SpellchoiceComponent implements OnInit {
 
     on_SpellTaken(spellName: string, taken: boolean, choice: SpellChoice, locked: boolean) {
         if (taken && !choice.spellCombination && (choice.spells.length == this.get_Available(choice) - 1)) { this.toggle_Choice("") }
-        let prepared: boolean = this.prepared && this.get_Character().get_FeatsTaken(1, this.get_Character().level, "Spell Substitution")?.length > 0;
+        let prepared: boolean = this.prepared;
         this.get_Character().take_Spell(this.characterService, spellName, taken, choice, locked, prepared);
         this.characterService.set_ToChange("Character", "spells");
         this.characterService.set_ToChange("Character", "spellchoices");

@@ -47,9 +47,8 @@ export class SpellChoice {
     public spellBlending: number[] = [0,0,0]
     //Infinite Possibilities is for Wizards and tracks whether one of the spell slots of this choice has been traded away for an Infinite Possibilities slot.
     public infinitePossibilities: boolean = false;
-    //If target is set to "Others", you can only choose spells with a targets property, which in the database usually means there is a target other than the caster.
-    //  Some spells with a targets property still apply a condition on the caster, so we don't use target != "self" to distinguish them.
-    //If target is set to "Caster", you can only choose spells with no targets property (so it is meant to target the caster in the database) and target "self"
-    //If target is set to "Enemies", you can only choose spells with a targets property (so it has a "targets: " text in the database) and target != "ally" (so it's likely not beneficial).
+    //If target is set to "Others", you can only choose spells with target != "self".
+    //If target is set to "Caster", you can only choose spells with target "self".
+    //If target is set to "Enemies", you can only choose spells with no target property (so it's likely not beneficial).
     public target: string = "";
 }

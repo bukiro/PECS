@@ -1,23 +1,23 @@
 <div id="top-bar" class="row" [ngClass]="{'darkmode':get_Darkmode()}" [ngStyle]="{'--accent':get_Accent()}">
   <a [routerLink]="['/']">
-    <h1>Patherpoint</h1>
+    <h1 title="Pathfinder Excessive Character Sheet">P.E.C.S.</h1>
   </a>
   <div class="filler"></div>
   <button class="fancy-button loading" *ngIf="still_loading()">Loading</button>
-  <button class="fancy-button" (click)="toggleMenu('character')" *ngIf="!still_loading()">{{get_Character().name ? get_Character().name : "Character"}}</button>
-  <button class="fancy-button" (click)="toggleMenu('companion')" *ngIf="!still_loading() && get_CompanionAvailable()">{{get_Companion().name ? get_Companion().name : "Animal Companion"}}</button>
-  <button class="fancy-button" (click)="toggleMenu('familiar')" *ngIf="!still_loading() && get_FamiliarAvailable()">{{get_Familiar().name ? get_Familiar().name : "Familiar"}}</button>
-  <button class="fancy-button" (click)="toggleMenu('items')" *ngIf="!still_loading()">Items</button>
-  <button class="fancy-button" (click)="toggleMenu('crafting')" *ngIf="!still_loading()">Crafting</button>
-  <button class="fancy-button" (click)="toggleMenu('spells')" *ngIf="!still_loading()">Spellbook</button>
-  <button class="fancy-button" (click)="toggleMenu('spelllibrary')" *ngIf="!still_loading()">Spell Library</button>
-  <button class="fancy-button" (click)="toggleMenu('conditions')" *ngIf="!still_loading()">Conditions</button>
+  <button [ngClass]="{'fancy-button':get_CharacterMenuState()=='out'}" (click)="toggleMenu('character')" *ngIf="!still_loading()">{{get_Character().name ? get_Character().name : "Character"}}</button>
+  <button [ngClass]="{'fancy-button':get_CompanionMenuState()=='out'}" (click)="toggleMenu('companion')" *ngIf="!still_loading() && get_CompanionAvailable()">{{get_Companion().name ? get_Companion().name : "Animal Companion"}}</button>
+  <button [ngClass]="{'fancy-button':get_FamiliarMenuState()=='out'}" (click)="toggleMenu('familiar')" *ngIf="!still_loading() && get_FamiliarAvailable()">{{get_Familiar().name ? get_Familiar().name : "Familiar"}}</button>
+  <button [ngClass]="{'fancy-button':get_ItemsMenuState()=='out'}" (click)="toggleMenu('items')" *ngIf="!still_loading()">Items</button>
+  <button [ngClass]="{'fancy-button':get_CraftingMenuState()=='out'}" (click)="toggleMenu('crafting')" *ngIf="!still_loading()">Crafting</button>
+  <button [ngClass]="{'fancy-button':get_SpellsMenuState()=='out'}" (click)="toggleMenu('spells')" *ngIf="!still_loading()">Spellbook</button>
+  <button [ngClass]="{'fancy-button':get_SpellLibraryMenuState()=='out'}" (click)="toggleMenu('spelllibrary')" *ngIf="!still_loading()">Spell Library</button>
+  <button [ngClass]="{'fancy-button':get_ConditionsMenuState()=='out'}" (click)="toggleMenu('conditions')" *ngIf="!still_loading()">Conditions</button>
   <button class="fancy-button" (click)="save()" *ngIf="!still_loading()" title="{{!get_Savegames() && 'Database connection failed.'}}" [disabled]="!get_Savegames()">Save</button>
   <button class="fancy-button" (click)="set_Changed()" *ngIf="!still_loading()" title="Refresh all">⟳</button>
 </div>
 <app-items [ngStyle]="{'--accent':get_Accent()}" [ngClass]="{'darkmode':get_Darkmode()}" [@slideInOut]="get_ItemsMenuState()" *ngIf="!still_loading()"></app-items>
 <app-crafting [ngStyle]="{'--accent':get_Accent()}" [ngClass]="{'darkmode':get_Darkmode()}" [@slideInOut]="get_CraftingMenuState()" *ngIf="!still_loading()"></app-crafting>
-<app-spells [ngStyle]="{'--accent':get_Accent()}" [ngClass]="{'darkmode':get_Darkmode(), 'minimized':(get_SpellsMinimized())}" [@slideInOut]="get_SpellMenuState()" *ngIf="!still_loading()"></app-spells>
+<app-spells [ngStyle]="{'--accent':get_Accent()}" [ngClass]="{'darkmode':get_Darkmode(), 'minimized':(get_SpellsMinimized())}" [@slideInOut]="get_SpellsMenuState()" *ngIf="!still_loading()"></app-spells>
 <app-spellLibrary [ngStyle]="{'--accent':get_Accent()}" [ngClass]="{'darkmode':get_Darkmode()}" [@slideInOut]="get_SpellLibraryMenuState()" *ngIf="!still_loading()"></app-spellLibrary>
 <app-conditions [ngStyle]="{'--accent':get_Accent()}" [ngClass]="{'darkmode':get_Darkmode()}" [@slideInOut]="get_ConditionsMenuState()" *ngIf="!still_loading()"></app-conditions>
 <app-character [ngStyle]="{'--accent':get_Accent()}" [ngClass]="{'darkmode':get_Darkmode(), 'minimized':(get_CharacterMinimized())}" [@slideInOut]="get_CharacterMenuState()" *ngIf="!still_loading()"></app-character>

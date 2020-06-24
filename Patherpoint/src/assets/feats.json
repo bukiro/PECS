@@ -197,7 +197,7 @@
             {
                 "_className": "FeatChoice",
                 "available": 1,
-                "dynamicLevel": "level.number / 2",
+                "dynamicLevel": "level.number / 2" ,
                 "source": "Feat: Advanced Blood Potency",
                 "type": "Sorcerer"
             }
@@ -233,7 +233,7 @@
         "gainFeatChoice": [
             {
                 "_className": "FeatChoice",
-                "available": 1,
+                "available": 1 ,
                 "level": 1,
                 "source": "Feat: Ancestral Paragon",
                 "type": "Ancestry"
@@ -293,6 +293,7 @@
         "specialdesc": "You can select this feat more than once. Each time, you become trained in the next type of armor above.",
         "subTypes": true,
         "shortdesc": "Become trained in a type of armor.",
+        "unlimited": true,
         "traits": [
             "General"
         ],
@@ -420,6 +421,7 @@
         "specialdesc": "You can select this feat multiple times. Each time, choose a different skill and gain the benefits for that skill.",
         "subTypes": true,
         "shortdesc": "Receive a fixed result on a skill check.",
+        "unlimited": true,
         "traits": [
             "General",
             "Fortune",
@@ -793,6 +795,7 @@
         "specialdesc": "You can select this feat multiple times, choosing a different skill each time. You can use Automatic Knowledge with any skills you have chosen, but you can still use Automatic Knowledge only once per round.",
         "subTypes": true,
         "shortdesc": "Recall Knowledge as a free action once per round.",
+        "unlimited": true,
         "traits": [
             "General",
             "Skill"
@@ -1017,7 +1020,7 @@
         "gainFeatChoice": [
             {
                 "_className": "FeatChoice",
-                "available": 1,
+                "available": 1 ,
                 "level": 2,
                 "source": "Feat: Basic Blood Potency",
                 "type": "Sorcerer"
@@ -1328,7 +1331,7 @@
                 "value": 4
             }
         ],
-        "specialreq": "!character.get_FeatsTaken(1, 20).filter(feat => feat.name != this.name && characterService.get_FeatsAndFeatures(feat.name).length && characterService.get_FeatsAndFeatures(feat.name)[0].gainAnimalCompanion == 1).length",
+        "specialreq": "!characterService.get_CompanionAvailable()",
         "specialreqdesc": "no animal companion"
     },
     {
@@ -1367,8 +1370,8 @@
         "name": "Canny Acumen",
         "desc": "Your avoidance or observation is beyond the ken of most in your profession. Choose Fortitude saves, Reflex saves, Will saves, or Perception. You become an expert in your choice. At 17th level, you become a master in your choice.",
         "subTypes": true,
-        "unlimited": true,
         "shortdesc": "Become an expert in a saving throw or Perception.",
+        "unlimited": true,
         "traits": [
             "General"
         ],
@@ -2189,19 +2192,6 @@
         ]
     },
     {
-        "name": "Familiar",
-        "desc": "You make a pact with creature that serves you and assists your spellcasting. You gain a familiar (page 217).",
-        "shortdesc": "An animal serves you and assists your spellcasting.",
-        "traits": [
-            "Sorcerer",
-            "Wizard"
-        ],
-        "levelreq": 1,
-        "specialreq": "!character.get_FeatsTaken(1, 20).filter(feat => feat.name != this.name && characterService.get_FeatsAndFeatures(feat.name).length && characterService.get_FeatsAndFeatures(feat.name)[0].gainFamiliar == true).length",
-        "specialreqdesc": "no familiar",
-        "gainFamiliar": true
-    },
-    {
         "name": "Fascinating Performance",
         "desc": "When you Perform, compare your result to the Will DC of one observer. If you succeed, the target is fascinated by you for 1 round. If the observer is in a situation that demands immediate attention, such as combat, you must critically succeed to fascinate it and the Perform action gains the incapacitation trait. You must choose which creature you're trying to fascinate before you roll your check, and the target is then temporarily immune for 1 hour. If you're an expert in Performance, you can fascinate up to four observers; if you're a master, you can fascinate up to 10 observers; and if you're legendary, you can fascinate any number of observers at the same time.",
         "showon": "Performance",
@@ -2425,7 +2415,7 @@
         "gainFeatChoice": [
             {
                 "_className": "FeatChoice",
-                "available": 1,
+                "available": 1 ,
                 "level": 1,
                 "source": "Feat: General Training",
                 "type": "General"
@@ -3491,7 +3481,7 @@
         "gainFeatChoice": [
             {
                 "_className": "FeatChoice",
-                "available": 1,
+                "available": 1 ,
                 "level": 1,
                 "source": "Feat: Natural Ambition",
                 "type": "Class"
@@ -3895,7 +3885,19 @@
         ],
         "skillreq": [
             {
-                "skill": "Arcana, 6 OR Nature, 6 OR Occultism, 6 OR Religion",
+                "skill": "Arcana",
+                "value": 6
+            },
+            {
+                "skill": "Nature",
+                "value": 6
+            },
+            {
+                "skill": "Occultism",
+                "value": 6
+            },
+            {
+                "skill": "Religion",
                 "value": 6
             }
         ]
@@ -4509,6 +4511,7 @@
             {
                 "_className": "SkillChoice",
                 "available": 1,
+                "increases": [],
                 "maxRank": 2,
                 "source": "Feat: Skill Training",
                 "type": "Skill"
@@ -4607,7 +4610,7 @@
         "gainFeatChoice": [
             {
                 "_className": "FeatChoice",
-                "available": 1,
+                "available": 1 ,
                 "filter": [
                     "Aberrant Bloodline",
                     "Angelic Bloodline",
@@ -4653,9 +4656,9 @@
     {
         "name": "Specialty Crafting",
         "desc": "Your training focused on Crafting one particular kind of item. Select one of the specialties listed below; you gain a +1 circumstance bonus to Crafting checks to Craft items of that type. If you are a master in Crafting, this bonus increases to +2. If it's unclear whether the specialty applies, the GM decides. Some specialties might apply only partially. For example, if you were making a morningstar and had specialty in woodworking, the GM might give you half your bonus because the item requires both blacksmithing and woodworking.",
-        "unlimited": true,
         "subTypes": true,
         "shortdesc": "Gain bonuses to Craft certain items.",
+        "unlimited": true,
         "traits": [
             "General",
             "Skill"
@@ -5120,6 +5123,7 @@
         "showon": "Survival",
         "subTypes": true,
         "shortdesc": "+1 to Survival checks in certain terrain.",
+        "unlimited": true,
         "traits": [
             "General",
             "Skill"
@@ -5309,6 +5313,7 @@
         "specialdesc": "You can select this feat multiple times. Each time, choose a different type of terrain.",
         "subTypes": true,
         "shortdesc": "Sneak in certain terrain without attempting a check.",
+        "unlimited": true,
         "traits": [
             "General",
             "Skill"
@@ -6015,6 +6020,7 @@
         "specialdesc": "You can select this feat more than once. Each time you do, you become trained in additional weapons as appropriate, following the above progression.",
         "subTypes": true,
         "shortdesc": "Become trained in a weapon type.",
+        "unlimited": true,
         "traits": [
             "General"
         ],
@@ -6879,49 +6885,31 @@
         "shortdesc": "You're adapted to life in the forest or the deep jungle, and you know how to climb trees and use foliage to your advantage."
     },
     {
-        "name": "Bomber",
-        "desc": "",
-        "shortdesc": ""
+        "name": "Bomber"
     },
     {
-        "name": "Chirurgeon",
-        "desc": "",
-        "shortdesc": ""
+        "name": "Chirurgeon"
     },
     {
-        "name": "Mutagenist",
-        "desc": "",
-        "shortdesc": ""
+        "name": "Mutagenist"
     },
     {
-        "name": "Animal Instinct",
-        "desc": "",
-        "shortdesc": ""
+        "name": "Animal Instinct"
     },
     {
-        "name": "Dragon Instinct",
-        "desc": "",
-        "shortdesc": ""
+        "name": "Dragon Instinct"
     },
     {
-        "name": "Fury Instinct",
-        "desc": "",
-        "shortdesc": ""
+        "name": "Fury Instinct"
     },
     {
-        "name": "Giant Instinct",
-        "desc": "",
-        "shortdesc": ""
+        "name": "Giant Instinct"
     },
     {
-        "name": "Spirit Instinct",
-        "desc": "",
-        "shortdesc": ""
+        "name": "Spirit Instinct"
     },
     {
-        "name": "Enigma Muse",
-        "desc": "",
-        "shortdesc": ""
+        "name": "Enigma Muse"
     },
     {
         "name": "Maestro Muse",
@@ -6943,54 +6931,34 @@
         ]
     },
     {
-        "name": "Polymath Muse",
-        "desc": "",
-        "shortdesc": ""
+        "name": "Polymath Muse"
     },
     {
-        "name": "Paladin",
-        "desc": "",
-        "shortdesc": ""
+        "name": "Paladin"
     },
     {
-        "name": "Redeemer",
-        "desc": "",
-        "shortdesc": ""
+        "name": "Redeemer"
     },
     {
-        "name": "Liberator",
-        "desc": "",
-        "shortdesc": ""
+        "name": "Liberator"
     },
     {
-        "name": "Cloistered Cleric",
-        "desc": "",
-        "shortdesc": ""
+        "name": "Cloistered Cleric"
     },
     {
-        "name": "Warpriest",
-        "desc": "",
-        "shortdesc": ""
+        "name": "Warpriest"
     },
     {
-        "name": "Animal Order",
-        "desc": "",
-        "shortdesc": ""
+        "name": "Animal Order"
     },
     {
-        "name": "Leaf Order",
-        "desc": "",
-        "shortdesc": ""
+        "name": "Leaf Order"
     },
     {
-        "name": "Storm Order",
-        "desc": "",
-        "shortdesc": ""
+        "name": "Storm Order"
     },
     {
-        "name": "Wild Order",
-        "desc": "",
-        "shortdesc": ""
+        "name": "Wild Order"
     },
     {
         "name": "Fighter Weapon Mastery",
@@ -9550,7 +9518,7 @@
                 "increases": [
                     {
                         "locked": true,
-                        "maxRank": 4,
+                        "maxRank": 2,
                         "name": "Monk Divine Spell DC",
                         "source": "Class"
                     }
@@ -9607,7 +9575,7 @@
                 "increases": [
                     {
                         "locked": true,
-                        "maxRank": 4,
+                        "maxRank": 2,
                         "name": "Monk Occult Spell DC",
                         "source": "Class"
                     }
@@ -9654,14 +9622,10 @@
         ]
     },
     {
-        "name": "Ruffian Racket",
-        "desc": "",
-        "shortdesc": ""
+        "name": "Ruffian Racket"
     },
     {
-        "name": "Scoundrel Racket",
-        "desc": "",
-        "shortdesc": ""
+        "name": "Scoundrel Racket"
     },
     {
         "name": "Thief Racket",
@@ -9701,29 +9665,19 @@
         ]
     },
     {
-        "name": "Aberrant Bloodline",
-        "desc": "",
-        "shortdesc": ""
+        "name": "Aberrant Bloodline"
     },
     {
-        "name": "Angelic Bloodline",
-        "desc": "",
-        "shortdesc": ""
+        "name": "Angelic Bloodline"
     },
     {
-        "name": "Demonic Bloodline",
-        "desc": "",
-        "shortdesc": ""
+        "name": "Demonic Bloodline"
     },
     {
-        "name": "Diabolic Bloodline",
-        "desc": "",
-        "shortdesc": ""
+        "name": "Diabolic Bloodline"
     },
     {
-        "name": "Draconic Bloodline",
-        "desc": "",
-        "shortdesc": ""
+        "name": "Draconic Bloodline"
     },
     {
         "name": "Elemental Bloodline",
@@ -9753,7 +9707,7 @@
         "gainFeatChoice": [
             {
                 "_className": "FeatChoice",
-                "available": 1,
+                "available": 1 ,
                 "filter": [
                     "Elemental Type"
                 ],
@@ -10368,24 +10322,16 @@
         "shortdesc": "You inundate your foes with torrents of water."
     },
     {
-        "name": "Fey Bloodline",
-        "desc": "",
-        "shortdesc": ""
+        "name": "Fey Bloodline"
     },
     {
-        "name": "Hag Bloodline",
-        "desc": "",
-        "shortdesc": ""
+        "name": "Hag Bloodline"
     },
     {
-        "name": "Imperial Bloodline",
-        "desc": "",
-        "shortdesc": ""
+        "name": "Imperial Bloodline"
     },
     {
-        "name": "Undead Bloodline",
-        "desc": "",
-        "shortdesc": ""
+        "name": "Undead Bloodline"
     },
     {
         "name": "Trap Finder",
@@ -10466,40 +10412,6 @@
         ]
     },
     {
-        "name": "Widen Spell",
-        "desc": "You manipulate the energy of your spell, causing it to spread out and affect a wider area. If the next action you use is to Cast a Spell that has an area of a burst, cone, or line and does not have a duration, increase the area of that spell. Add 5 feet to the radius of a burst that normally has a radius of at least 10 feet (a burst with a smaller radius is not affected). Add 5 feet to the length of a cone or line that is normally 15 feet long or smaller, and add 10 feet to the length of a larger cone or line.",
-        "shortdesc": "You manipulate the energy of your spell, causing it to spread out and affect a wider area.",
-        "traits": [
-            "Druid",
-            "Manipulate",
-            "Metamagic",
-            "Sorcerer",
-            "Wizard"
-        ],
-        "levelreq": 1,
-        "gainActivities": [
-            "Widen Spell"
-        ]
-    },
-    {
-        "name": "Reach Spell",
-        "desc": "You can extend the range of your spells. If the next action you use is to Cast a Spell that has a range, increase that spell's range by 30 feet. As is standard for increasing spell ranges, if the spell normally has a range of touch, you extend its range to 30 feet.",
-        "shortdesc": "You can extend the range of your spells.",
-        "traits": [
-            "Bard",
-            "Cleric",
-            "Concentrate",
-            "Druid",
-            "Metamagic",
-            "Sorcerer",
-            "Wizard"
-        ],
-        "levelreq": 1,
-        "gainActivities": [
-            "Reach Spell"
-        ]
-    },
-    {
         "name": "Parthenogenic Hatchling",
         "desc": "You were hatched from an unfertilized egg during hard times for your people, and you are a biological copy of your mother. You gain a +1 circumstance bonus to saving throws against diseases. Each of your successful saving throws against a disease reduces its stage by 2, or by 1 for a virulent disease. Each critical success against an ongoing disease reduces its stage by 3, or by 2 for a virulent disease. You take damage only every 2 hours from thirst and every 2 days from starvation, rather than every hour and every day.",
         "hint": "You gain a +1 circumstance bonus to saving throws against diseases. Each of your successful saving throws against a disease reduces its stage by 2, or by 1 for a virulent disease. Each critical success against an ongoing disease reduces its stage by 3, or by 2 for a virulent disease. You take damage only every 2 hours from thirst and every 2 days from starvation, rather than every hour and every day.",
@@ -10532,150 +10444,6 @@
                 "value": "1"
             }
         ]
-    },
-    {
-        "name": "Advanced School Spell",
-        "desc": "You gain access to a powerful new school spell depending on your arcane school. If you're an abjurer, you gain energy absorption; if you're a conjurer, you gain dimensional steps; if you're a diviner, you gain vigilant eye; if you're an enchanter, you gain dread aura; if you're an evoker, you gain elemental tempest; if you're an illusionist, you gain invisibility cloak; if you're a necromancer, you gain life siphon; and if you're a transmuter, you gain shifting form. Increase the number of Focus Points in your focus pool by 1.",
-        "subTypes": true,
-        "shortdesc": "You gain access to a powerful new school spell depending on your arcane school.",
-        "traits": [
-            "Wizard"
-        ],
-        "levelreq": 8
-    },
-    {
-        "name": "Advanced School Spell: Abjuration",
-        "desc": "You gain access to a powerful new school spell depending on your arcane school. As an abjurer, you gain energy absorption. Increase the number of Focus Points in your focus pool by 1.",
-        "subType": "Abjuration: Energy Absorption",
-        "superType": "Advanced School Spell",
-        "shortdesc": "You gain access to a powerful new school spell depending on your arcane school.",
-        "traits": [
-            "Wizard"
-        ],
-        "levelreq": 8,
-        "featreq": [
-            "Abjuration School"
-        ],
-        "effects": [
-            {
-                "affected": "Focus Pool",
-                "value": "1"
-            }
-        ],
-        "onceEffects": [
-            {
-                "affected": "Focus Points",
-                "value": "1"
-            }
-        ],
-        "gainSpellChoice": [
-            {
-                "_className": "SpellChoice",
-                "castingType": "Focus",
-                "className": "Wizard",
-                "id": "e985efdc-e20f-4666-bdce-f43fce5927af",
-                "level": -1,
-                "source": "Feat: Advanced School Spell: Abjuration",
-                "spells": [
-                    {
-                        "_className": "SpellGain",
-                        "locked": true,
-                        "name": "Energy Absorption"
-                    }
-                ]
-            }
-        ]
-    },
-    {
-        "name": "Advanced School Spell: Transmutation",
-        "desc": "You gain access to a powerful new school spell depending on your arcane school. As a transmuter, you gain shifting form. Increase the number of Focus Points in your focus pool by 1.",
-        "subType": "Transmutation: Shifting Form",
-        "superType": "Advanced School Spell",
-        "shortdesc": "You gain access to a powerful new school spell depending on your arcane school.",
-        "traits": [
-            "Wizard"
-        ],
-        "levelreq": 8,
-        "featreq": [
-            "Transmutation School"
-        ],
-        "effects": [
-            {
-                "affected": "Focus Pool",
-                "value": "1"
-            }
-        ],
-        "onceEffects": [
-            {
-                "affected": "Focus Points",
-                "value": "1"
-            }
-        ],
-        "gainSpellChoice": [
-            {
-                "_className": "SpellChoice",
-                "castingType": "Focus",
-                "className": "Wizard",
-                "id": "f824d183-ab5c-477b-baf4-bcb78a4ad8b9",
-                "level": -1,
-                "source": "Feat: Advanced School Spell: Transmutation",
-                "spells": [
-                    {
-                        "_className": "SpellGain",
-                        "locked": true,
-                        "name": "Shifting Form (Speed bonus)"
-                    },
-                    {
-                        "locked": true,
-                        "name": "Shifting Form (climb Speed)"
-                    },
-                    {
-                        "locked": true,
-                        "name": "Shifting Form (swim Speed)"
-                    },
-                    {
-                        "locked": true,
-                        "name": "Shifting Form (darkvision)"
-                    },
-                    {
-                        "locked": true,
-                        "name": "Shifting Form (claws)"
-                    },
-                    {
-                        "locked": true,
-                        "name": "Shifting Form (scent)"
-                    }
-                ]
-            }
-        ]
-    },
-    {
-        "name": "Linked Focus",
-        "desc": "You have linked your bonded item to the well of energy that powers your school spells. When you Drain your Bonded Item to cast a spell of your arcane school, you also regain 1 Focus Point.",
-        "hint": "When you Drain your Bonded Item to cast a spell of your arcane school, you also regain 1 Focus Point.",
-        "showon": "Drain Bonded Item",
-        "shortdesc": "You have linked your bonded item to the well of energy that powers your school spells.",
-        "traits": [
-            "Wizard"
-        ],
-        "levelreq": 4,
-        "specialreq": "character.get_FeatsTaken(1, charLevel).find(gain => ['Abjuration School', 'Conjuration School', 'Divination School', 'Enchantment School', 'Evocation School', 'Illusion School', 'Necromancy School', 'Transmutation School'].includes(gain.name))",
-        "specialreqdesc": "arcane school"
-    },
-    {
-        "name": "Steady Spellcasting",
-        "desc": "Confident in your technique, you don't easily lose your concentration when you Cast a Spell. If a reaction would disrupt your spellcasting action, attempt a DC 15 flat check. If you succeed, your action isn't disrupted.",
-        "hint": "If a reaction would disrupt your spellcasting action, attempt a DC 15 flat check. If you succeed, your action isn't disrupted.",
-        "showon": "Spellbook",
-        "shortdesc": "You don't lose spells easily.",
-        "traits": [
-            "Bard",
-            "Cleric",
-            "Druid",
-            "Sorcerer",
-            "Wizard"
-        ],
-        "levelreq": 6
     },
     {
         "name": "Shield Warden (Champion)",
@@ -10988,7 +10756,7 @@
         "desc": "When your shield is up, your enemies' blows can't touch you. When you have your shield raised, you can Stride to move half your Speed without triggering reactions that are triggered by your movement (such as Attacks of Opportunity). You can use Shielded Stride while Flying or Swimming instead of Striding if you have the corresponding movement type.",
         "hint": "When you have your shield raised, you can Stride to move half your Speed without triggering reactions that are triggered by your movement (such as Attacks of Opportunity). You can use Shielded Stride while Flying or Swimming instead of Striding if you have the corresponding movement type.",
         "showon": "Shield, Movement",
-        "shortdesc": "When your shield is up, your enemies' blows can't touch you.",
+        "shortdesc": "When your shield is up, your enemies' blows can't touch you.",
         "traits": [
             "Fighter"
         ],
@@ -11656,9 +11424,7 @@
         "showon": "Attacks, Perception",
         "shortdesc": "Your battle instincts make you more aware of concealed and invisible opponents.",
         "traits": [
-            "Fighter",
-            "Ranger",
-            "Rogue"
+            "Fighter"
         ],
         "levelreq": 8,
         "skillreq": [
@@ -12250,7 +12016,7 @@
         "gainFeatChoice": [
             {
                 "_className": "FeatChoice",
-                "available": 1,
+                "available": 1 ,
                 "id": "20-Fighter-Ultimate Flexibility-1",
                 "level": 18,
                 "showOnSheet": true,
@@ -12303,6 +12069,7 @@
                 "_className": "AbilityChoice",
                 "available": 1,
                 "infoOnly": true,
+                "boosts": [],
                 "filter": [
                     "Strength",
                     "Dexterity"
@@ -12318,6 +12085,7 @@
                     "Athletics",
                     "Acrobatics"
                 ],
+                "increases": [],
                 "maxRank": 2,
                 "source": "Feat: Fighter Dedication",
                 "type": "Skill"
@@ -12373,7 +12141,7 @@
         "gainFeatChoice": [
             {
                 "_className": "FeatChoice",
-                "available": 1,
+                "available": 1 ,
                 "level": 2,
                 "source": "Feat: Basic Maneuver",
                 "type": "Fighter"
@@ -12435,7 +12203,7 @@
             {
                 "_className": "FeatChoice",
                 "available": 1,
-                "dynamicLevel": "level.number / 2",
+                "dynamicLevel": "level.number / 2" ,
                 "source": "Feat: Advanced Maneuver",
                 "type": "Fighter"
             }
@@ -12523,6 +12291,7 @@
                 "_className": "AbilityChoice",
                 "available": 1,
                 "infoOnly": true,
+                "boosts": [],
                 "filter": [
                     "Strength",
                     "Dexterity"
@@ -12551,6 +12320,7 @@
                     "Athletics",
                     "Acrobatics"
                 ],
+                "increases": [],
                 "maxRank": 2,
                 "source": "Feat: Monk Dedication",
                 "type": "Skill"
@@ -12600,7 +12370,7 @@
         "gainFeatChoice": [
             {
                 "_className": "FeatChoice",
-                "available": 1,
+                "available": 1 ,
                 "level": 2,
                 "source": "Feat: Basic Maneuver",
                 "type": "Monk"
@@ -12646,7 +12416,7 @@
             {
                 "_className": "FeatChoice",
                 "available": 1,
-                "dynamicLevel": "level.number / 2",
+                "dynamicLevel": "level.number / 2" ,
                 "source": "Feat: Advanced Maneuver",
                 "type": "Monk"
             }
@@ -12824,7 +12594,7 @@
             "Ranger"
         ],
         "levelreq": 1,
-        "specialreq": "!character.get_FeatsTaken(1, 20).filter(feat => feat.name != this.name && characterService.get_FeatsAndFeatures(feat.name).length && characterService.get_FeatsAndFeatures(feat.name)[0].gainAnimalCompanion == 1).length",
+        "specialreq": "!characterService.get_CompanionAvailable()",
         "specialreqdesc": "no animal companion",
         "gainAnimalCompanion": 1
     },
@@ -12880,7 +12650,7 @@
         "name": "Favored Terrain",
         "desc": "You have studied a specific terrain to overcome its challenges. Choose aquatic, arctic, desert, forest, mountain, plains, sky, swamp, or underground as your favored terrain. When in that terrain, you can ignore the effects of non-magical difficult terrain. If you have the wild stride class feature, you gain a second benefit while in your favored terrain, depending on your choice.\n\n<strong>Aquatic</strong> You gain a swim Speed equal to your Speed. If you already had a swim Speed, you gain a +10-foot status bonus to your swim Speed.\n<strong>Arctic</strong> You need to eat and drink only one-tenth as much as usual, you aren't affected by severe or extreme cold, and you can walk across ice and snow at full Speed without needing to Balance.\n<strong>Desert</strong> You need to eat and drink only one-tenth as much as usual, you aren't affected by severe or extreme heat, and you can walk along sand at full Speed without needing to Balance.\n<strong>Forest, Mountain, or Underground</strong> You gain a climb Speed equal to your Speed. If you already had a climb Speed, you gain a +10-foot status bonus to your climb Speed.\n<strong>Plains</strong> You gain a +10-foot status bonus to your land Speed.\n<strong>Sky</strong> You gain a +10-foot status bonus to your fly Speed, if you have one.\n<strong>Swamp</strong> You can move across bogs at full Speed, even if they are deep enough to be greater difficult terrain or to normally require you to Swim.",
         "subTypes": true,
-        "shortdesc": "You have studied a specific terrain to overcome its challenges.",
+        "shortdesc": "You have studied a specific terrain to overcome its challenges.",
         "traits": [
             "Ranger"
         ],
@@ -13087,7 +12857,7 @@
         ]
     },
     {
-        "name": "Wild Empathy (Ranger)",
+        "name": "Wild Empathy",
         "desc": "You have a connection to the creatures of the natural world that allows you to communicate with them on a rudimentary level. You can use Diplomacy to Make an Impression on animals and to make very simple Requests of them. In most cases, wild animals will give you time to make your case.",
         "hint": "You can use Diplomacy to Make an Impression on animals and to make very simple Requests of them. In most cases, wild animals will give you time to make your case.",
         "showon": "Diplomacy",
@@ -13618,9 +13388,9 @@
     {
         "name": "Stealthy Companion",
         "desc": "You've trained your animal companion to blend in to its surroundings. Your animal companion gains the benefit of the Camouflage feat. If your companion is a specialized ambusher, its proficiency rank for Stealth increases to master (or legendary if it was already master).",
-        "internalNote": "The effect is hardcoded.",
         "hint": "In natural terrain, your companion can Sneak even if it's observed.",
         "showon": "Companion:Stealth",
+        "internalNote": "The effect is hardcoded.",
         "shortdesc": "You've trained your animal companion to blend in to its surroundings.",
         "traits": [
             "Ranger"
@@ -13933,6 +13703,7 @@
                 "_className": "AbilityChoice",
                 "available": 1,
                 "infoOnly": true,
+                "boosts": [],
                 "filter": [
                     "Strength",
                     "Dexterity"
@@ -13960,6 +13731,7 @@
                 "filter": [
                     "Survival"
                 ],
+                "increases": [],
                 "maxRank": 2,
                 "source": "Feat: Ranger Dedication",
                 "type": "Skill"
@@ -13995,7 +13767,7 @@
         "gainFeatChoice": [
             {
                 "_className": "FeatChoice",
-                "available": 1,
+                "available": 1 ,
                 "level": 2,
                 "source": "Feat: Basic Hunter's Trick",
                 "type": "Ranger"
@@ -14041,7 +13813,7 @@
             {
                 "_className": "FeatChoice",
                 "available": 1,
-                "dynamicLevel": "level.number / 2",
+                "dynamicLevel": "level.number / 2" ,
                 "source": "Feat: Advanced Hunter's Trick",
                 "type": "Ranger"
             }
@@ -14095,7 +13867,7 @@
         "onceEffects": [
             {
                 "affected": "Focus Points",
-                "value": 1
+                "value": "1"
             }
         ],
         "gainSpellCasting": [
@@ -14113,9 +13885,9 @@
                 "_className": "SpellChoice",
                 "castingType": "Focus",
                 "className": "Wizard",
-                "id": "ebd98d40-5640-4e27-b53f-4bfacdbbda69",
+                "id": "3f60c363-8d2e-47ae-bb2d-596e682a8f53",
                 "level": -1,
-                "source": "Abjuration School",
+                "source": "School Spells",
                 "spells": [
                     {
                         "_className": "SpellGain",
@@ -14129,7 +13901,7 @@
                 "available": 1,
                 "castingType": "Prepared",
                 "className": "Wizard",
-                "id": "ec1e166d-5302-40a7-b65a-b939de4846de",
+                "id": "0d6188d8-9919-42fa-a9fe-af8504bf5667",
                 "insertClass": "Wizard",
                 "level": 0,
                 "source": "Abjuration School",
@@ -14142,7 +13914,7 @@
                 "available": 1,
                 "castingType": "Prepared",
                 "className": "Wizard",
-                "id": "08657066-0211-47e0-9c26-1a3bfa2f2808",
+                "id": "fc9adbdd-dfce-4f9f-bb50-ed3666dc337a",
                 "insertClass": "Wizard",
                 "level": 1,
                 "source": "Abjuration School",
@@ -14156,7 +13928,7 @@
                 "castingType": "Prepared",
                 "charLevelAvailable": 3,
                 "className": "Wizard",
-                "id": "8271d5b8-867e-48d7-bc55-4d5ea3ac5657",
+                "id": "e56151b8-f56c-4cf1-bfe2-97b3845f62b6",
                 "insertClass": "Wizard",
                 "level": 2,
                 "source": "Abjuration School",
@@ -14170,7 +13942,7 @@
                 "castingType": "Prepared",
                 "charLevelAvailable": 5,
                 "className": "Wizard",
-                "id": "39a21996-bf3c-42ce-a100-ab29791fbc56",
+                "id": "15643453-729e-4a38-8ce8-b5f03fba850e",
                 "insertClass": "Wizard",
                 "level": 3,
                 "source": "Abjuration School",
@@ -14184,7 +13956,7 @@
                 "castingType": "Prepared",
                 "charLevelAvailable": 7,
                 "className": "Wizard",
-                "id": "e09939e9-8e3c-441f-93e9-793759f0b4f1",
+                "id": "e100dff8-1816-4fc4-b6e2-3255709acd1b",
                 "insertClass": "Wizard",
                 "level": 4,
                 "source": "Abjuration School",
@@ -14198,7 +13970,7 @@
                 "castingType": "Prepared",
                 "charLevelAvailable": 9,
                 "className": "Wizard",
-                "id": "2aaff6e2-fac6-4009-bb16-fa344702ff0b",
+                "id": "710d2b76-d6bc-4c5b-a850-7af2fe1a70da",
                 "insertClass": "Wizard",
                 "level": 5,
                 "source": "Abjuration School",
@@ -14212,7 +13984,7 @@
                 "castingType": "Prepared",
                 "charLevelAvailable": 11,
                 "className": "Wizard",
-                "id": "8c1392a8-6c4f-4d7c-b2c1-e1852ad1624a",
+                "id": "1eabdc51-57b7-4172-bbd6-186da09aa611",
                 "insertClass": "Wizard",
                 "level": 6,
                 "source": "Abjuration School",
@@ -14226,7 +13998,7 @@
                 "castingType": "Prepared",
                 "charLevelAvailable": 13,
                 "className": "Wizard",
-                "id": "820233eb-e174-47f6-b8de-d8a5bcb9edd5",
+                "id": "e6d8a8e3-6fe3-4d88-8935-dfa565e6624d",
                 "insertClass": "Wizard",
                 "level": 7,
                 "source": "Abjuration School",
@@ -14240,7 +14012,7 @@
                 "castingType": "Prepared",
                 "charLevelAvailable": 15,
                 "className": "Wizard",
-                "id": "35daa4ed-6fbf-4029-8283-566e3c0b1781",
+                "id": "9cbeb228-3b90-45eb-8ae8-d151f62eb108",
                 "insertClass": "Wizard",
                 "level": 8,
                 "source": "Abjuration School",
@@ -14254,7 +14026,7 @@
                 "castingType": "Prepared",
                 "charLevelAvailable": 17,
                 "className": "Wizard",
-                "id": "44179e5c-f6cb-4fad-87fe-640fc215e0fa",
+                "id": "94644de7-d30e-4610-a1af-17d2284f5fca",
                 "insertClass": "Wizard",
                 "level": 9,
                 "source": "Abjuration School",
@@ -14277,7 +14049,7 @@
         "onceEffects": [
             {
                 "affected": "Focus Points",
-                "value": 1
+                "value": "1"
             }
         ],
         "gainSpellCasting": [
@@ -14295,9 +14067,9 @@
                 "_className": "SpellChoice",
                 "castingType": "Focus",
                 "className": "Wizard",
-                "id": "152c6b9e-7a4a-4d29-9760-df86d2d6af69",
+                "id": "e68cf0ad-ae3c-4718-a93c-7900bdf8beb2",
                 "level": -1,
-                "source": "Conjuration School",
+                "source": "School Spells",
                 "spells": [
                     {
                         "_className": "SpellGain",
@@ -14311,7 +14083,7 @@
                 "available": 1,
                 "castingType": "Prepared",
                 "className": "Wizard",
-                "id": "e7885d50-33a7-4047-877e-d9154f88df7d",
+                "id": "34662c69-ac17-42a1-91a1-e4f9d47b912d",
                 "insertClass": "Wizard",
                 "level": 0,
                 "source": "Conjuration School",
@@ -14324,7 +14096,7 @@
                 "available": 1,
                 "castingType": "Prepared",
                 "className": "Wizard",
-                "id": "f600f789-a466-4915-9eec-31c80e26ed8f",
+                "id": "ffae5426-4710-406e-8882-afd15df6afe0",
                 "insertClass": "Wizard",
                 "level": 1,
                 "source": "Conjuration School",
@@ -14338,7 +14110,7 @@
                 "castingType": "Prepared",
                 "charLevelAvailable": 3,
                 "className": "Wizard",
-                "id": "c8a84cad-9b40-4742-ad82-0ec48fd3e054",
+                "id": "60bbd88e-a73f-47ed-8b88-00f0bd531bb6",
                 "insertClass": "Wizard",
                 "level": 2,
                 "source": "Conjuration School",
@@ -14352,7 +14124,7 @@
                 "castingType": "Prepared",
                 "charLevelAvailable": 5,
                 "className": "Wizard",
-                "id": "018bce6e-8d1d-42b0-a0be-2c66d1e2ebb4",
+                "id": "fae8892f-1e79-41e6-aed6-4a063e405d64",
                 "insertClass": "Wizard",
                 "level": 3,
                 "source": "Conjuration School",
@@ -14366,7 +14138,7 @@
                 "castingType": "Prepared",
                 "charLevelAvailable": 7,
                 "className": "Wizard",
-                "id": "4f38bc3c-4c1a-4ea7-b18b-5ea125916246",
+                "id": "5a012f8d-cf44-483f-a2f3-275af34f0c32",
                 "insertClass": "Wizard",
                 "level": 4,
                 "source": "Conjuration School",
@@ -14380,7 +14152,7 @@
                 "castingType": "Prepared",
                 "charLevelAvailable": 9,
                 "className": "Wizard",
-                "id": "2900435a-7feb-474a-aabd-a6be19099524",
+                "id": "461c69b5-4ce9-41c5-ab6e-faf1ddcc0268",
                 "insertClass": "Wizard",
                 "level": 5,
                 "source": "Conjuration School",
@@ -14394,7 +14166,7 @@
                 "castingType": "Prepared",
                 "charLevelAvailable": 11,
                 "className": "Wizard",
-                "id": "f9f19ebd-aa19-45d7-8808-53c43d5d4f55",
+                "id": "ba1bf782-69dd-4c8b-aa54-ce61845b53bf",
                 "insertClass": "Wizard",
                 "level": 6,
                 "source": "Conjuration School",
@@ -14408,7 +14180,7 @@
                 "castingType": "Prepared",
                 "charLevelAvailable": 13,
                 "className": "Wizard",
-                "id": "c5c728fa-dd46-4fcd-a546-19a23420852e",
+                "id": "cbc497c1-16df-43ac-8ab2-c6fa99b8b337",
                 "insertClass": "Wizard",
                 "level": 7,
                 "source": "Conjuration School",
@@ -14422,7 +14194,7 @@
                 "castingType": "Prepared",
                 "charLevelAvailable": 15,
                 "className": "Wizard",
-                "id": "81228feb-ad65-41aa-8a7f-f8d0309dc014",
+                "id": "94991e70-49db-4d9a-9e63-bcfc3dc06f5d",
                 "insertClass": "Wizard",
                 "level": 8,
                 "source": "Conjuration School",
@@ -14436,7 +14208,7 @@
                 "castingType": "Prepared",
                 "charLevelAvailable": 17,
                 "className": "Wizard",
-                "id": "de963cbd-e3e0-483e-ab5d-cd3040facf18",
+                "id": "59f43ba2-89b2-4886-8ded-dfadc2bec149",
                 "insertClass": "Wizard",
                 "level": 9,
                 "source": "Conjuration School",
@@ -14459,7 +14231,7 @@
         "onceEffects": [
             {
                 "affected": "Focus Points",
-                "value": 1
+                "value": "1"
             }
         ],
         "gainSpellCasting": [
@@ -14477,9 +14249,9 @@
                 "_className": "SpellChoice",
                 "castingType": "Focus",
                 "className": "Wizard",
-                "id": "1eec993b-bfda-4fb6-898a-7db0cd30e80a",
+                "id": "65d7dca4-3eef-48ee-b47d-49cd9b350390",
                 "level": -1,
-                "source": "Divination School",
+                "source": "School Spells",
                 "spells": [
                     {
                         "_className": "SpellGain",
@@ -14493,7 +14265,7 @@
                 "available": 1,
                 "castingType": "Prepared",
                 "className": "Wizard",
-                "id": "604a4a74-e52c-416d-9be0-da57607920fd",
+                "id": "e599622c-b4fa-41ec-a486-4bfaf9fe5f60",
                 "insertClass": "Wizard",
                 "level": 0,
                 "source": "Divination School",
@@ -14506,7 +14278,7 @@
                 "available": 1,
                 "castingType": "Prepared",
                 "className": "Wizard",
-                "id": "8757b54b-095f-4680-9cba-f0305a409a41",
+                "id": "cfee4c60-708e-4b77-97bd-489fbe656d67",
                 "insertClass": "Wizard",
                 "level": 1,
                 "source": "Divination School",
@@ -14520,7 +14292,7 @@
                 "castingType": "Prepared",
                 "charLevelAvailable": 3,
                 "className": "Wizard",
-                "id": "5ea91df1-bc38-42cd-ad48-ee0f5b58f575",
+                "id": "2c4db243-c34f-41dc-b399-7d895b7dfc2b",
                 "insertClass": "Wizard",
                 "level": 2,
                 "source": "Divination School",
@@ -14534,7 +14306,7 @@
                 "castingType": "Prepared",
                 "charLevelAvailable": 5,
                 "className": "Wizard",
-                "id": "f9c85f02-af03-4323-bdc5-7defc1bdc990",
+                "id": "1b1f3c0e-2a87-41df-9afb-fbeb8f16dcdd",
                 "insertClass": "Wizard",
                 "level": 3,
                 "source": "Divination School",
@@ -14548,7 +14320,7 @@
                 "castingType": "Prepared",
                 "charLevelAvailable": 7,
                 "className": "Wizard",
-                "id": "a644058f-6a2f-4d90-8b56-10da406eb8da",
+                "id": "a585477b-2247-44cc-a95c-30ef86c849fd",
                 "insertClass": "Wizard",
                 "level": 4,
                 "source": "Divination School",
@@ -14562,7 +14334,7 @@
                 "castingType": "Prepared",
                 "charLevelAvailable": 9,
                 "className": "Wizard",
-                "id": "56757a37-085b-49e9-9501-c2cf60ca9101",
+                "id": "9a254368-19a1-4faf-9c30-6bc0be8038a5",
                 "insertClass": "Wizard",
                 "level": 5,
                 "source": "Divination School",
@@ -14576,7 +14348,7 @@
                 "castingType": "Prepared",
                 "charLevelAvailable": 11,
                 "className": "Wizard",
-                "id": "28e923da-a4a8-4e26-8a03-5e6042f86457",
+                "id": "a3b4c2aa-902f-4347-9166-45ae75147855",
                 "insertClass": "Wizard",
                 "level": 6,
                 "source": "Divination School",
@@ -14590,7 +14362,7 @@
                 "castingType": "Prepared",
                 "charLevelAvailable": 13,
                 "className": "Wizard",
-                "id": "22220c3e-1910-403e-9737-9f7e1833d974",
+                "id": "9605e1f7-61be-4530-8d98-162031e7e462",
                 "insertClass": "Wizard",
                 "level": 7,
                 "source": "Divination School",
@@ -14604,7 +14376,7 @@
                 "castingType": "Prepared",
                 "charLevelAvailable": 15,
                 "className": "Wizard",
-                "id": "23657da0-0504-4266-817f-82fbb4798b2d",
+                "id": "4686dae6-1ce9-4e7e-9a4c-f60adefbd3f8",
                 "insertClass": "Wizard",
                 "level": 8,
                 "source": "Divination School",
@@ -14618,7 +14390,7 @@
                 "castingType": "Prepared",
                 "charLevelAvailable": 17,
                 "className": "Wizard",
-                "id": "a7888427-19a4-427d-880b-f9bf8f3e4d66",
+                "id": "c02a8f8d-1f64-48a1-9f6c-ad6e316ae9ef",
                 "insertClass": "Wizard",
                 "level": 9,
                 "source": "Divination School",
@@ -14641,7 +14413,7 @@
         "onceEffects": [
             {
                 "affected": "Focus Points",
-                "value": 1
+                "value": "1"
             }
         ],
         "gainSpellCasting": [
@@ -14659,9 +14431,9 @@
                 "_className": "SpellChoice",
                 "castingType": "Focus",
                 "className": "Wizard",
-                "id": "9bdd01df-f071-4fd3-b2c0-c259182d1d9a",
+                "id": "4773b38a-0e79-4e92-b75b-2a873f61b20c",
                 "level": -1,
-                "source": "Enchantment School",
+                "source": "School Spells",
                 "spells": [
                     {
                         "_className": "SpellGain",
@@ -14675,7 +14447,7 @@
                 "available": 1,
                 "castingType": "Prepared",
                 "className": "Wizard",
-                "id": "50bf58f6-4233-49c5-9f64-fd5d4bc361e6",
+                "id": "5c9a756b-f9d1-4ad3-a958-32bdb356f146",
                 "insertClass": "Wizard",
                 "level": 0,
                 "source": "Enchantment School",
@@ -14688,7 +14460,7 @@
                 "available": 1,
                 "castingType": "Prepared",
                 "className": "Wizard",
-                "id": "6d63d2d9-47ae-49e6-a1d6-b6939992b646",
+                "id": "4fa3a3db-214c-4c42-9d3d-92a5eea7e9f7",
                 "insertClass": "Wizard",
                 "level": 1,
                 "source": "Enchantment School",
@@ -14702,7 +14474,7 @@
                 "castingType": "Prepared",
                 "charLevelAvailable": 3,
                 "className": "Wizard",
-                "id": "6af4a05d-e7d3-413b-90d5-abb13949fa43",
+                "id": "97ba71d7-ca26-42ce-a9f6-e6a1f110bbce",
                 "insertClass": "Wizard",
                 "level": 2,
                 "source": "Enchantment School",
@@ -14716,7 +14488,7 @@
                 "castingType": "Prepared",
                 "charLevelAvailable": 5,
                 "className": "Wizard",
-                "id": "01d61d43-84d3-4ca9-b19c-e234080dcfce",
+                "id": "722f964c-86ed-45f4-b2f5-e7c54a92be60",
                 "insertClass": "Wizard",
                 "level": 3,
                 "source": "Enchantment School",
@@ -14730,7 +14502,7 @@
                 "castingType": "Prepared",
                 "charLevelAvailable": 7,
                 "className": "Wizard",
-                "id": "7ce43ecf-8e56-4f84-8101-d8c3c5a865c4",
+                "id": "58a84c27-15c6-4b40-a411-2a3975851dd2",
                 "insertClass": "Wizard",
                 "level": 4,
                 "source": "Enchantment School",
@@ -14744,7 +14516,7 @@
                 "castingType": "Prepared",
                 "charLevelAvailable": 9,
                 "className": "Wizard",
-                "id": "c2ff9234-c340-4bf3-8158-675c3526ecdd",
+                "id": "27cee2d5-a370-4c35-ad15-5302abb16008",
                 "insertClass": "Wizard",
                 "level": 5,
                 "source": "Enchantment School",
@@ -14758,7 +14530,7 @@
                 "castingType": "Prepared",
                 "charLevelAvailable": 11,
                 "className": "Wizard",
-                "id": "cca5ef43-d6b0-473e-8003-d55fe7238a9c",
+                "id": "02c5060e-0391-4866-ab96-eb26d34c426c",
                 "insertClass": "Wizard",
                 "level": 6,
                 "source": "Enchantment School",
@@ -14772,7 +14544,7 @@
                 "castingType": "Prepared",
                 "charLevelAvailable": 13,
                 "className": "Wizard",
-                "id": "bb17d5e1-7bd4-407d-8a3c-9a4080d03a63",
+                "id": "c9431f65-4cfa-40c6-a92e-f698361ac973",
                 "insertClass": "Wizard",
                 "level": 7,
                 "source": "Enchantment School",
@@ -14786,7 +14558,7 @@
                 "castingType": "Prepared",
                 "charLevelAvailable": 15,
                 "className": "Wizard",
-                "id": "5c8f629f-c6aa-4aba-bc4a-a1260f7a56d5",
+                "id": "7e0042df-780d-42ea-9af3-62c5db8f7ddc",
                 "insertClass": "Wizard",
                 "level": 8,
                 "source": "Enchantment School",
@@ -14800,7 +14572,7 @@
                 "castingType": "Prepared",
                 "charLevelAvailable": 17,
                 "className": "Wizard",
-                "id": "2076ca56-bab2-4cde-bdbd-edeefb3ffcec",
+                "id": "e53d7d99-7e62-42d0-9cb2-cd3bc3df1add",
                 "insertClass": "Wizard",
                 "level": 9,
                 "source": "Enchantment School",
@@ -14823,7 +14595,14 @@
         "onceEffects": [
             {
                 "affected": "Focus Points",
-                "value": 1
+                "value": "1"
+            }
+        ],
+        "gainSpecialization": [
+            {
+                "condition": "using Hand of the Apprentice",
+                "range": "melee",
+                "skillLevel": 2
             }
         ],
         "gainSpellCasting": [
@@ -14843,7 +14622,7 @@
                 "className": "Wizard",
                 "id": "9bdebd4e-4965-4352-b7fe-ecbe124f9098",
                 "level": -1,
-                "source": "Evocation School",
+                "source": "School Spells",
                 "spells": [
                     {
                         "_className": "SpellGain",
@@ -15005,7 +14784,7 @@
         "onceEffects": [
             {
                 "affected": "Focus Points",
-                "value": 1
+                "value": "1"
             }
         ],
         "gainSpellCasting": [
@@ -15023,9 +14802,9 @@
                 "_className": "SpellChoice",
                 "castingType": "Focus",
                 "className": "Wizard",
-                "id": "f6fb034e-2c6f-47a9-bd32-8177cfdc0e5c",
+                "id": "599f9430-325b-4717-9b51-58b1326716fc",
                 "level": -1,
-                "source": "Illusion School",
+                "source": "School Spells",
                 "spells": [
                     {
                         "_className": "SpellGain",
@@ -15039,7 +14818,7 @@
                 "available": 1,
                 "castingType": "Prepared",
                 "className": "Wizard",
-                "id": "b59cc2ed-040b-46a2-8ebf-24cc9d24b611",
+                "id": "248cbb56-e856-4e27-8977-441dae788471",
                 "insertClass": "Wizard",
                 "level": 0,
                 "source": "Illusion School",
@@ -15052,7 +14831,7 @@
                 "available": 1,
                 "castingType": "Prepared",
                 "className": "Wizard",
-                "id": "d32537cf-f6c1-46e4-93e5-bb8daf9fe7cc",
+                "id": "1ec7c4f7-738a-4137-8373-bb22a845db2f",
                 "insertClass": "Wizard",
                 "level": 1,
                 "source": "Illusion School",
@@ -15066,7 +14845,7 @@
                 "castingType": "Prepared",
                 "charLevelAvailable": 3,
                 "className": "Wizard",
-                "id": "83a36cab-5a37-4cfe-bf8b-f832b4fcbcae",
+                "id": "a7320bc8-97ad-446a-ab69-bf173329dbd4",
                 "insertClass": "Wizard",
                 "level": 2,
                 "source": "Illusion School",
@@ -15080,7 +14859,7 @@
                 "castingType": "Prepared",
                 "charLevelAvailable": 5,
                 "className": "Wizard",
-                "id": "74b186f6-3ec0-424c-a4fd-e298508d496e",
+                "id": "527f43f1-77df-49ed-b929-a484fc27943a",
                 "insertClass": "Wizard",
                 "level": 3,
                 "source": "Illusion School",
@@ -15094,7 +14873,7 @@
                 "castingType": "Prepared",
                 "charLevelAvailable": 7,
                 "className": "Wizard",
-                "id": "96f16e09-395c-44e8-9502-ae9c8332485d",
+                "id": "0b1caa65-2769-40fa-8115-431ed91b9d9c",
                 "insertClass": "Wizard",
                 "level": 4,
                 "source": "Illusion School",
@@ -15108,7 +14887,7 @@
                 "castingType": "Prepared",
                 "charLevelAvailable": 9,
                 "className": "Wizard",
-                "id": "34e10c56-170f-4b16-b440-8b94638d0b75",
+                "id": "c10e06d8-b6d2-42f6-a208-b54b8a0157eb",
                 "insertClass": "Wizard",
                 "level": 5,
                 "source": "Illusion School",
@@ -15122,7 +14901,7 @@
                 "castingType": "Prepared",
                 "charLevelAvailable": 11,
                 "className": "Wizard",
-                "id": "c3fc70db-339c-472d-9ef4-6c645ea90ae3",
+                "id": "2bc61346-233c-4811-be65-15e3328dae4b",
                 "insertClass": "Wizard",
                 "level": 6,
                 "source": "Illusion School",
@@ -15136,7 +14915,7 @@
                 "castingType": "Prepared",
                 "charLevelAvailable": 13,
                 "className": "Wizard",
-                "id": "95bc9760-bd04-45bd-9123-f02854716a7d",
+                "id": "11f60646-71a7-46cb-ae1b-8b0bf30ff77d",
                 "insertClass": "Wizard",
                 "level": 7,
                 "source": "Illusion School",
@@ -15150,7 +14929,7 @@
                 "castingType": "Prepared",
                 "charLevelAvailable": 15,
                 "className": "Wizard",
-                "id": "dfd12625-5bce-4d45-a7c8-b07bcbe52b89",
+                "id": "8050f25f-bd8d-421d-b571-e7dd455cdc71",
                 "insertClass": "Wizard",
                 "level": 8,
                 "source": "Illusion School",
@@ -15164,7 +14943,7 @@
                 "castingType": "Prepared",
                 "charLevelAvailable": 17,
                 "className": "Wizard",
-                "id": "54577908-13a7-4264-a194-935a6585b659",
+                "id": "f70ad15f-1eb3-4147-9d05-4bc925686743",
                 "insertClass": "Wizard",
                 "level": 9,
                 "source": "Illusion School",
@@ -15176,7 +14955,7 @@
     },
     {
         "name": "Necromancy School",
-        "desc": "As a necromancer, you call upon the powers of life and death. While your school is often vilified for its association with raising the undead, you understand that control over life also means control over healing. You add one 1st-level necromancy spell (such as grim tendrils) to your spellbook. You learn the call of the grave school spell.",
+        "desc": "As a necromancer, you call upon the powers of life and death. While your school is often vilified for its association with raising the undead, you understand that control over life also means control over healing. You add one 1st-level necromancy spell (such as grim tendrils) to your spellbook. You learn the call of the grave school spell.",
         "shortdesc": "As a necromancer, you call upon the powers of life and death.",
         "effects": [
             {
@@ -15187,7 +14966,7 @@
         "onceEffects": [
             {
                 "affected": "Focus Points",
-                "value": 1
+                "value": "1"
             }
         ],
         "gainSpellCasting": [
@@ -15205,9 +14984,9 @@
                 "_className": "SpellChoice",
                 "castingType": "Focus",
                 "className": "Wizard",
-                "id": "f7f063c4-27aa-4c99-a3e1-c0eae769e517",
+                "id": "1dc59d7d-700e-4a39-bce3-e68e54b322bd",
                 "level": -1,
-                "source": "Necromancy School",
+                "source": "School Spells",
                 "spells": [
                     {
                         "_className": "SpellGain",
@@ -15221,7 +15000,7 @@
                 "available": 1,
                 "castingType": "Prepared",
                 "className": "Wizard",
-                "id": "1eb453e8-670a-4bc7-87b0-059bd9a39e5c",
+                "id": "eead53f9-9a7b-41ea-8857-0711e0f563c0",
                 "insertClass": "Wizard",
                 "level": 0,
                 "source": "Necromancy School",
@@ -15234,7 +15013,7 @@
                 "available": 1,
                 "castingType": "Prepared",
                 "className": "Wizard",
-                "id": "28f5054f-cbe8-4b59-b164-22814251d71e",
+                "id": "65bb350c-a2a7-4644-8931-6f94dab0439c",
                 "insertClass": "Wizard",
                 "level": 1,
                 "source": "Necromancy School",
@@ -15248,7 +15027,7 @@
                 "castingType": "Prepared",
                 "charLevelAvailable": 3,
                 "className": "Wizard",
-                "id": "bcc0676d-1b84-47d5-ace6-fc8b70892f9e",
+                "id": "2a8530bc-7904-4a41-b094-1e33d516ee5c",
                 "insertClass": "Wizard",
                 "level": 2,
                 "source": "Necromancy School",
@@ -15262,7 +15041,7 @@
                 "castingType": "Prepared",
                 "charLevelAvailable": 5,
                 "className": "Wizard",
-                "id": "00ad5e55-2d02-4ec2-834b-152dc320b496",
+                "id": "af684059-099c-47d0-b9bf-01fd9d2b608b",
                 "insertClass": "Wizard",
                 "level": 3,
                 "source": "Necromancy School",
@@ -15276,7 +15055,7 @@
                 "castingType": "Prepared",
                 "charLevelAvailable": 7,
                 "className": "Wizard",
-                "id": "d09226e0-ee88-4051-bdf2-fdc82f5ae9a4",
+                "id": "a3bbfee5-1304-4b00-8abb-110aa6329e78",
                 "insertClass": "Wizard",
                 "level": 4,
                 "source": "Necromancy School",
@@ -15290,7 +15069,7 @@
                 "castingType": "Prepared",
                 "charLevelAvailable": 9,
                 "className": "Wizard",
-                "id": "97b837dc-51f3-40c8-968a-4c4361176de0",
+                "id": "f7784179-9fa1-4c46-95c6-6d7397deb155",
                 "insertClass": "Wizard",
                 "level": 5,
                 "source": "Necromancy School",
@@ -15304,7 +15083,7 @@
                 "castingType": "Prepared",
                 "charLevelAvailable": 11,
                 "className": "Wizard",
-                "id": "7f9eeca9-a286-4e74-ad8c-30ebc0706c0e",
+                "id": "5c402b73-bf55-48a1-b9fb-a3e35a97f3f3",
                 "insertClass": "Wizard",
                 "level": 6,
                 "source": "Necromancy School",
@@ -15318,7 +15097,7 @@
                 "castingType": "Prepared",
                 "charLevelAvailable": 13,
                 "className": "Wizard",
-                "id": "3233dbb5-f90a-4c4f-b6f0-f57d200f9ce8",
+                "id": "15447814-ea11-4be7-b8ea-17f8ea996c2e",
                 "insertClass": "Wizard",
                 "level": 7,
                 "source": "Necromancy School",
@@ -15332,7 +15111,7 @@
                 "castingType": "Prepared",
                 "charLevelAvailable": 15,
                 "className": "Wizard",
-                "id": "c94aeae6-70f5-45d0-8815-acf7d89afffb",
+                "id": "23346dc3-353a-4703-ac9a-d46ef02f7abb",
                 "insertClass": "Wizard",
                 "level": 8,
                 "source": "Necromancy School",
@@ -15346,7 +15125,7 @@
                 "castingType": "Prepared",
                 "charLevelAvailable": 17,
                 "className": "Wizard",
-                "id": "9ee31282-076e-438f-9720-efb100a0f09a",
+                "id": "22b6bdea-b2fa-4257-b447-1baf94162df5",
                 "insertClass": "Wizard",
                 "level": 9,
                 "source": "Necromancy School",
@@ -15369,7 +15148,7 @@
         "onceEffects": [
             {
                 "affected": "Focus Points",
-                "value": 1
+                "value": "1"
             }
         ],
         "gainSpellCasting": [
@@ -15389,7 +15168,7 @@
                 "className": "Wizard",
                 "id": "885ef1a8-1eef-4de9-8037-85b71202df29",
                 "level": -1,
-                "source": "Transmutation School",
+                "source": "School Spells",
                 "spells": [
                     {
                         "_className": "SpellGain",
@@ -15548,7 +15327,7 @@
         "gainFeatChoice": [
             {
                 "_className": "FeatChoice",
-                "available": 1,
+                "available": 1 ,
                 "level": 1,
                 "source": "Feat: Universalist",
                 "type": "Wizard"
@@ -15578,7 +15357,7 @@
                     }
                 ],
                 "source": "Feat: Improved Familiar Attunement",
-                "type": "Feat"
+                "type": "Wizard"
             }
         ]
     },
@@ -15587,12 +15366,12 @@
         "desc": "You've realized that the practice known as metamagic is a holdover from a time long ago, when wizards had to work out their own spells and variations rather than rely on spells recorded by others and passed down over the years. This allows you efficient access to various metamagic effects. You gain a 1st-level metamagic wizard feat as a bonus feat. Starting at 4th level, during your daily preparations, you can gain a metamagic wizard feat of your choice that has a level requirement of no more than half your level, which you can use until your next daily preparations.",
         "shortdesc": "You've realized that the practice known as metamagic is a holdover from a time long ago, when wizards had to work out their own spells and variations rather than rely on spells recorded by others and passed down over the years.",
         "gainActivities": [
-            "Drain Bonded Item"
+            "Drain Bonded Item"
         ],
         "gainFeatChoice": [
             {
                 "_className": "FeatChoice",
-                "available": 1,
+                "available": 1 ,
                 "level": 1,
                 "source": "Feat: Metamagical Experimentation",
                 "type": "Metamagic,Wizard"
@@ -15602,6 +15381,7 @@
                 "available": 1,
                 "dynamicLevel": "level.number / 2",
                 "insertLevel": 4,
+                "showOnSheet": true,
                 "source": "Feat: Metamagical Experimentation",
                 "type": "Metamagic,Wizard"
             }
@@ -15611,9 +15391,11 @@
         "name": "Spell Blending",
         "desc": "You theorize that spell slots are a shorthand for an underlying energy that powers all spellcasting, and you've found a way to tinker with the hierarchy of spell slots, combining them to fuel more powerful spells. When you make your daily preparations, you can trade two spell slots of the same level for a bonus spell slot of up to 2 levels higher than the traded spell slots. You can exchange as many spell slots as you have available. Bonus spell slots must be of a level you can normally cast, and each bonus spell slot must be of a different spell level. You can also trade any spell slot for two additional cantrips, though you cannot trade more than one spell slot at a time for additional cantrips in this way.",
         "internalNote": "Spell Blending is hardcoded.",
+        "hint": "When you make your daily preparations, you can trade two spell slots of the same level for a bonus spell slot of up to 2 levels higher than the traded spell slots. You can exchange as many spell slots as you have available. Bonus spell slots must be of a level you can normally cast, and each bonus spell slot must be of a different spell level. You can also trade any spell slot for two additional cantrips, though you cannot trade more than one spell slot at a time for additional cantrips in this way.",
+        "showon": "Health, Wizard Prepared Spells",
         "shortdesc": "You theorize that spell slots are a shorthand for an underlying energy that powers all spellcasting, and you've found a way to tinker with the hierarchy of spell slots, combining them to fuel more powerful spells.",
         "gainActivities": [
-            "Drain Bonded Item"
+            "Drain Bonded Item"
         ],
         "gainSpellChoice": [
             {
@@ -15621,8 +15403,17 @@
                 "available": 0,
                 "castingType": "Prepared",
                 "className": "Wizard",
-                "id": "9d1bc0a4-6f8a-48aa-9713-60daaa030ae3",
+                "id": "355eb66a-a438-444d-b665-d74a97be0789",
                 "level": 0,
+                "source": "Spell Blending"
+            },
+            {
+                "_className": "SpellChoice",
+                "available": 0,
+                "castingType": "Prepared",
+                "className": "Wizard",
+                "id": "ed5c1fba-f914-47e9-af31-b744f9910361",
+                "level": 1,
                 "source": "Spell Blending"
             },
             {
@@ -15631,7 +15422,7 @@
                 "castingType": "Prepared",
                 "charLevelAvailable": 3,
                 "className": "Wizard",
-                "id": "4de04c6f-0c77-4530-8a31-2dbb6dab77c1",
+                "id": "a71930ed-699e-4217-a808-ae06e05e2f53",
                 "level": 2,
                 "source": "Spell Blending"
             },
@@ -15641,7 +15432,7 @@
                 "castingType": "Prepared",
                 "charLevelAvailable": 5,
                 "className": "Wizard",
-                "id": "35a5772d-be5a-426d-bb13-ebbddf44daa8",
+                "id": "0298d72f-78e8-4697-8b9a-2f1d2345ea62",
                 "level": 3,
                 "source": "Spell Blending"
             },
@@ -15651,7 +15442,7 @@
                 "castingType": "Prepared",
                 "charLevelAvailable": 7,
                 "className": "Wizard",
-                "id": "1d8210e2-429c-4354-90d4-00cfc1132e75",
+                "id": "43cac48e-2226-4909-af9e-934ac31d5861",
                 "level": 4,
                 "source": "Spell Blending"
             },
@@ -15661,7 +15452,7 @@
                 "castingType": "Prepared",
                 "charLevelAvailable": 9,
                 "className": "Wizard",
-                "id": "b674d008-315b-4ef8-b0f9-894a03c58015",
+                "id": "8049cd98-507f-4af1-92c2-d17fdb77771c",
                 "level": 5,
                 "source": "Spell Blending"
             },
@@ -15671,7 +15462,7 @@
                 "castingType": "Prepared",
                 "charLevelAvailable": 11,
                 "className": "Wizard",
-                "id": "99b1b011-a3fc-4934-92c3-5e856f0a2c85",
+                "id": "66f8bd30-1151-45e9-9a9d-85cd8f9932ae",
                 "level": 6,
                 "source": "Spell Blending"
             },
@@ -15681,7 +15472,7 @@
                 "castingType": "Prepared",
                 "charLevelAvailable": 13,
                 "className": "Wizard",
-                "id": "26f0515e-e381-4e12-b571-05e8a2f8889d",
+                "id": "896fa40f-f195-4d83-ac84-0b6f047dc911",
                 "level": 7,
                 "source": "Spell Blending"
             },
@@ -15691,7 +15482,7 @@
                 "castingType": "Prepared",
                 "charLevelAvailable": 15,
                 "className": "Wizard",
-                "id": "6ab5e6b4-3dcf-46d8-ba91-1c69bb4857ce",
+                "id": "3cf034fa-72cf-45f1-8978-9b2aac59e7ab",
                 "level": 8,
                 "source": "Spell Blending"
             },
@@ -15701,8 +15492,18 @@
                 "castingType": "Prepared",
                 "charLevelAvailable": 17,
                 "className": "Wizard",
-                "id": "0304f530-92c2-4ce7-bbd6-45b52cce20c9",
+                "id": "76a7f891-bd25-430a-80bc-7a3fc46adb07",
                 "level": 9,
+                "source": "Spell Blending"
+            },
+            {
+                "_className": "SpellChoice",
+                "available": 0,
+                "castingType": "Prepared",
+                "charLevelAvailable": 19,
+                "className": "Wizard",
+                "id": "56c39db5-b975-46ea-8c01-7c3937bc1204",
+                "level": 10,
                 "source": "Spell Blending"
             }
         ]
@@ -15710,12 +15511,1720 @@
     {
         "name": "Spell Substitution",
         "desc": "You don't accept the fact that once spells are prepared, they can't be changed until your next daily preparation, and you have uncovered a shortcut allowing you to substitute new spells for those you originally prepared. You can spend 10 minutes to empty one of your prepared spell slots and prepare a different spell from your spellbook in its place. If you are interrupted during such a swap, the original spell remains prepared and can still be cast. You can try again to swap out the spell later, but you must start the process over again.",
-        "hint": "You can spend 10 minutes to empty one of your prepared spell slots and prepare a different spell from your spellbook in its place. If you are interrupted during such a swap, the original spell remains prepared and can still be cast. You can try again to swap out the spell later, but you must start the process over again.",
-        "showon": "Spellbook",
+        "hint": "You can spend 10 minutes to empty one of your prepared spell slots and prepare a different spell from your spellbook in its place. You can make this change in the spellbook menu. If you are interrupted during such a swap, the original spell remains prepared and can still be cast. You can try again to swap out the spell later, but you must start the process over again.",
+        "showon": "Spellbook, Wizard Prepared Spells",
         "internalNote": "Spell Substitution is hardcoded.",
         "shortdesc": "You don't accept the fact that once spells are prepared, they can't be changed until your next daily preparation, and you have uncovered a shortcut allowing you to substitute new spells for those you originally prepared.",
         "gainActivities": [
-            "Drain Bonded Item"
+            "Drain Bonded Item"
+        ]
+    },
+    {
+        "name": "Counterspell (Prepared)",
+        "desc": "When a foe Casts a Spell and you can see its manifestations, you can use your own magic to disrupt it.",
+        "internalNote": "Using a spell to counterspell is hardcoded.",
+        "shortdesc": "When a foe Casts a Spell and you can see its manifestations, you can use your own magic to disrupt it.",
+        "traits": [
+            "Abjuration",
+            "Arcane",
+            "Wizard"
+        ],
+        "levelreq": 1,
+        "gainActivities": [
+            "Counterspell (Prepared)"
+        ]
+    },
+    {
+        "name": "Eschew Materials",
+        "desc": "You can use clever workarounds to replicate the arcane essence of certain materials. When Casting a Spell that requires material components, you can provide these material components without a spell component pouch by drawing intricate replacement sigils in the air. Unlike when providing somatic components, you still must have a hand completely free. This doesn't remove the need for any materials listed in the spell's cost entry.",
+        "hint": "When Casting a Spell that requires material components, you can provide these material components without a spell component pouch by drawing intricate replacement sigils in the air. Unlike when providing somatic components, you still must have a hand completely free. This doesn't remove the need for any materials listed in the spell's cost entry.",
+        "showon": "Spellbook",
+        "shortdesc": "You can use clever workarounds to replicate the arcane essence of certain materials.",
+        "traits": [
+            "Wizard"
+        ],
+        "levelreq": 1
+    },
+    {
+        "name": "Familiar",
+        "desc": "You make a pact with creature that serves you and assists your spellcasting. You gain a familiar (page 217).",
+        "shortdesc": "An animal serves you and assists your spellcasting.",
+        "traits": [
+            "Sorcerer",
+            "Wizard"
+        ],
+        "levelreq": 1,
+        "specialreq": "!character.get_FeatsTaken(1, 20).filter(feat => feat.name != this.name && characterService.get_FeatsAndFeatures(feat.name).length && characterService.get_FeatsAndFeatures(feat.name)[0].gainFamiliar == true).length",
+        "specialreqdesc": "no familiar",
+        "gainFamiliar": true
+    },
+    {
+        "name": "Hand of the Apprentice",
+        "desc": "You can magically hurl your weapon at your foe. You gain the hand of the apprentice universalist spell. Universalist spells are a type of focus spell, much like school spells. You start with a focus pool of 1 Focus Point. See Arcane Schools on page 207 for more information about focus spells.",
+        "shortdesc": "You can magically hurl your weapon at your foe.",
+        "traits": [
+            "Wizard"
+        ],
+        "levelreq": 1,
+        "featreq": [
+            "Universalist Wizard"
+        ],
+        "effects": [
+            {
+                "affected": "Focus Pool",
+                "value": "1"
+            }
+        ],
+        "onceEffects": [
+            {
+                "affected": "Focus Points",
+                "value": "1"
+            }
+        ],
+        "gainSpellCasting": [
+            {
+                "_className": "SpellCasting",
+                "ability": "Intelligence",
+                "castingType": "Focus",
+                "className": "Wizard",
+                "source": "School Spells",
+                "tradition": "Arcane"
+            }
+        ],
+        "gainSpellChoice": [
+            {
+                "_className": "SpellChoice",
+                "castingType": "Focus",
+                "className": "Wizard",
+                "id": "8f8b6f1e-2279-4f4e-ab0e-f6b53e0292ec",
+                "level": -1,
+                "source": "Feat: Hand of the Apprentice",
+                "spells": [
+                    {
+                        "_className": "SpellGain",
+                        "locked": true,
+                        "name": "Hand of the Apprentice"
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "name": "Reach Spell",
+        "desc": "You can extend the range of your spells. If the next action you use is to Cast a Spell that has a range, increase that spell's range by 30 feet. As is standard for increasing spell ranges, if the spell normally has a range of touch, you extend its range to 30 feet.",
+        "shortdesc": "You can extend the range of your spells.",
+        "traits": [
+            "Bard",
+            "Cleric",
+            "Concentrate",
+            "Druid",
+            "Metamagic",
+            "Sorcerer",
+            "Wizard"
+        ],
+        "levelreq": 1,
+        "gainActivities": [
+            "Reach Spell"
+        ]
+    },
+    {
+        "name": "Widen Spell",
+        "desc": "You manipulate the energy of your spell, causing it to spread out and affect a wider area. If the next action you use is to Cast a Spell that has an area of a burst, cone, or line and does not have a duration, increase the area of that spell. Add 5 feet to the radius of a burst that normally has a radius of at least 10 feet (a burst with a smaller radius is not affected). Add 5 feet to the length of a cone or line that is normally 15 feet long or smaller, and add 10 feet to the length of a larger cone or line.",
+        "shortdesc": "You manipulate the energy of your spell, causing it to spread out and affect a wider area.",
+        "traits": [
+            "Druid",
+            "Manipulate",
+            "Metamagic",
+            "Sorcerer",
+            "Wizard"
+        ],
+        "levelreq": 1,
+        "gainActivities": [
+            "Widen Spell"
+        ]
+    },
+    {
+        "name": "Cantrip Expansion (Prepared)",
+        "desc": "A greater understanding of your magic broadens your range of simple spells. You can prepare two additional cantrips each day.",
+        "shortdesc": "Study broadens your range of simple spells.",
+        "traits": [
+            "Cleric",
+            "Wizard"
+        ],
+        "levelreq": 2,
+        "gainSpellChoice": [
+            {
+                "_className": "SpellChoice",
+                "available": 2,
+                "castingType": "Prepared",
+                "className": "Wizard",
+                "id": "f9b37378-2bd3-46f3-a6ec-910c14cb1a26",
+                "level": 0,
+                "source": "Cantrip Expansion (Prepared)"
+            }
+        ]
+    },
+    {
+        "name": "Conceal Spell",
+        "desc": "Hiding your gestures and incantations within other speech and movement, you attempt to conceal the fact that you are casting a spell.",
+        "shortdesc": "Hiding your gestures and incantations within other speech and movement, you attempt to conceal the fact that you are casting a spell.",
+        "traits": [
+            "Concentrate",
+            "Manipulate",
+            "Metamagic",
+            "Wizard"
+        ],
+        "levelreq": 2,
+        "gainActivities": [
+            "Conceal Spell"
+        ]
+    },
+    {
+        "name": "Enhanced Familiar",
+        "desc": "You infuse your familiar with additional magical energy. You can select four familiar or master abilities each day, instead of two.",
+        "specialdesc": "(Wizard) If your arcane thesis is improved familiar attunement, your familiar's base number of familiar abilities, before adding any extra abilities from the arcane thesis, is four.",
+        "shortdesc": "You infuse your familiar with additional primal energy, increasing its abilities.",
+        "traits": [
+            "Druid",
+            "Sorcerer",
+            "Wizard"
+        ],
+        "levelreq": 2,
+        "specialreq": "characterService.get_FamiliarAvailable()",
+        "specialreqdesc": "a familiar",
+        "effects": [
+            {
+                "affected": "Familiar Abilities",
+                "value": "+2"
+            }
+        ]
+    },
+    {
+        "name": "Bespell Weapon",
+        "desc": "You siphon the residual energy from the last spell you cast into one weapon you're wielding.",
+        "shortdesc": "You siphon the residual energy from the last spell you cast into one weapon you're wielding.",
+        "traits": [
+            "Sorcerer",
+            "Wizard"
+        ],
+        "levelreq": 4,
+        "gainActivities": [
+            "Bespell Weapon (Abjuration)",
+            "Bespell Weapon (Conjuration or Transmutation)",
+            "Bespell Weapon (Divination, Enchantment or Illusion)",
+            "Bespell Weapon (Evocation)",
+            "Bespell Weapon (Necromancy)"
+        ]
+    },
+    {
+        "name": "Linked Focus",
+        "desc": "You have linked your bonded item to the well of energy that powers your school spells. When you Drain your Bonded Item to cast a spell of your arcane school, you also regain 1 Focus Point.",
+        "hint": "When you Drain your Bonded Item to cast a spell of your arcane school, you also regain 1 Focus Point.",
+        "showon": "Drain Bonded Item",
+        "internalNote": "The effect is part of the Drain Bonded Item mechanism.",
+        "shortdesc": "You have linked your bonded item to the well of energy that powers your school spells.",
+        "traits": [
+            "Wizard"
+        ],
+        "levelreq": 4,
+        "featreq": [
+            "Arcane Bond"
+        ],
+        "specialreq": "character.get_FeatsTaken(1, charLevel).find(gain => ['Abjuration School', 'Conjuration School', 'Divination School', 'Enchantment School', 'Evocation School', 'Illusion School', 'Necromancy School', 'Transmutation School'].includes(gain.name))",
+        "specialreqdesc": "arcane school"
+    },
+    {
+        "name": "Silent Spell",
+        "desc": "You've learned how to cast many of your spells without speaking the words of power you would normally need to provide.",
+        "shortdesc": "You've learned how to cast many of your spells without speaking the words of power you would normally need to provide.",
+        "traits": [
+            "Concentrate",
+            "Metamagic",
+            "Wizard"
+        ],
+        "levelreq": 4,
+        "featreq": [
+            "Conceal Spell"
+        ],
+        "gainActivities": [
+            "Silent Spell"
+        ]
+    },
+    {
+        "name": "Spell Penetration",
+        "desc": "You've studied ways of overcoming the innate magical resistance that dragons, otherworldly beings, and certain other powerful creatures have. Any creature that has a status bonus to saving throws against magic reduces that bonus by 1 against your spells.",
+        "hint": "Any creature that has a status bonus to saving throws against magic reduces that bonus by 1 against your spells.",
+        "showon": "Spellbook",
+        "shortdesc": "You've studied ways of overcoming the innate magical resistance that certain powerful creatures have.",
+        "traits": [
+            "Wizard"
+        ],
+        "levelreq": 6
+    },
+    {
+        "name": "Steady Spellcasting",
+        "desc": "Confident in your technique, you don't easily lose your concentration when you Cast a Spell. If a reaction would disrupt your spellcasting action, attempt a DC 15 flat check. If you succeed, your action isn't disrupted.",
+        "hint": "If a reaction would disrupt your spellcasting action, attempt a DC 15 flat check. If you succeed, your action isn't disrupted.",
+        "showon": "Spellbook",
+        "shortdesc": "You don't lose spells easily.",
+        "traits": [
+            "Bard",
+            "Cleric",
+            "Druid",
+            "Sorcerer",
+            "Wizard"
+        ],
+        "levelreq": 6
+    },
+    {
+        "name": "Advanced School Spell",
+        "desc": "You gain access to a powerful new school spell depending on your arcane school. If you're an abjurer, you gain energy absorption; if you're a conjurer, you gain dimensional steps; if you're a diviner, you gain vigilant eye; if you're an enchanter, you gain dread aura; if you're an evoker, you gain elemental tempest; if you're an illusionist, you gain invisibility cloak; if you're a necromancer, you gain life siphon; and if you're a transmuter, you gain shifting form. Increase the number of Focus Points in your focus pool by 1.",
+        "subTypes": true,
+        "shortdesc": "You gain access to a powerful new school spell depending on your arcane school.",
+        "traits": [
+            "Wizard"
+        ],
+        "levelreq": 8,
+        "specialreq": "character.get_FeatsTaken(1, charLevel).find(gain => ['Abjuration School', 'Conjuration School', 'Divination School', 'Enchantment School', 'Evocation School', 'Illusion School', 'Necromancy School', 'Transmutation School'].includes(gain.name))",
+        "specialreqdesc": "arcane school"
+    },
+    {
+        "name": "Advanced School Spell: Abjuration",
+        "desc": "You gain access to a powerful new school spell depending on your arcane school. As an abjurer, you gain energy absorption. Increase the number of Focus Points in your focus pool by 1.",
+        "subType": "Abjuration: Energy Absorption",
+        "superType": "Advanced School Spell",
+        "shortdesc": "You gain access to a powerful new school spell depending on your arcane school.",
+        "traits": [
+            "Wizard"
+        ],
+        "levelreq": 8,
+        "featreq": [
+            "Abjuration School"
+        ],
+        "effects": [
+            {
+                "affected": "Focus Pool",
+                "value": "1"
+            }
+        ],
+        "onceEffects": [
+            {
+                "affected": "Focus Points",
+                "value": "1"
+            }
+        ],
+        "gainSpellChoice": [
+            {
+                "_className": "SpellChoice",
+                "castingType": "Focus",
+                "className": "Wizard",
+                "id": "e985efdc-e20f-4666-bdce-f43fce5927af",
+                "level": -1,
+                "source": "Feat: Advanced School Spell: Abjuration",
+                "spells": [
+                    {
+                        "_className": "SpellGain",
+                        "locked": true,
+                        "name": "Energy Absorption"
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "name": "Advanced School Spell: Conjuration",
+        "desc": "You gain access to a powerful new school spell depending on your arcane school. As a conjurer, you gain dimensional steps. Increase the number of Focus Points in your focus pool by 1.",
+        "subType": "Conjuration: Dimensional Steps",
+        "superType": "Advanced School Spell",
+        "shortdesc": "You gain access to a powerful new school spell depending on your arcane school.",
+        "traits": [
+            "Wizard"
+        ],
+        "levelreq": 8,
+        "featreq": [
+            "Conjuration School"
+        ],
+        "effects": [
+            {
+                "affected": "Focus Pool",
+                "value": "1"
+            }
+        ],
+        "onceEffects": [
+            {
+                "affected": "Focus Points",
+                "value": "1"
+            }
+        ],
+        "gainSpellChoice": [
+            {
+                "_className": "SpellChoice",
+                "castingType": "Focus",
+                "className": "Wizard",
+                "id": "10c9e4de-d580-48ce-b7bd-8ce077ae1478",
+                "level": -1,
+                "source": "Feat: Advanced School Spell: Conjuration",
+                "spells": [
+                    {
+                        "_className": "SpellGain",
+                        "locked": true,
+                        "name": "Dimensional Steps"
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "name": "Advanced School Spell: Divination",
+        "desc": "You gain access to a powerful new school spell depending on your arcane school. As a diviner, you gain vigilant eye. Increase the number of Focus Points in your focus pool by 1.",
+        "subType": "Divination: Vigilant Eye",
+        "superType": "Advanced School Spell",
+        "shortdesc": "You gain access to a powerful new school spell depending on your arcane school.",
+        "traits": [
+            "Wizard"
+        ],
+        "levelreq": 8,
+        "featreq": [
+            "Divination School"
+        ],
+        "effects": [
+            {
+                "affected": "Focus Pool",
+                "value": "1"
+            }
+        ],
+        "onceEffects": [
+            {
+                "affected": "Focus Points",
+                "value": "1"
+            }
+        ],
+        "gainSpellChoice": [
+            {
+                "_className": "SpellChoice",
+                "castingType": "Focus",
+                "className": "Wizard",
+                "id": "eb999d44-08b3-49ba-bfa6-d0416dc16afa",
+                "level": -1,
+                "source": "Feat: Advanced School Spell: Divination",
+                "spells": [
+                    {
+                        "_className": "SpellGain",
+                        "locked": true,
+                        "name": "Vigilant Eye"
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "name": "Advanced School Spell: Enchantment",
+        "desc": "You gain access to a powerful new school spell depending on your arcane school. As an enchanter, you gain dread aura. Increase the number of Focus Points in your focus pool by 1.",
+        "subType": "Enchantment: Dread Aura",
+        "superType": "Advanced School Spell",
+        "shortdesc": "You gain access to a powerful new school spell depending on your arcane school.",
+        "traits": [
+            "Wizard"
+        ],
+        "levelreq": 8,
+        "featreq": [
+            "Enchantment School"
+        ],
+        "effects": [
+            {
+                "affected": "Focus Pool",
+                "value": "1"
+            }
+        ],
+        "onceEffects": [
+            {
+                "affected": "Focus Points",
+                "value": "1"
+            }
+        ],
+        "gainSpellChoice": [
+            {
+                "_className": "SpellChoice",
+                "castingType": "Focus",
+                "className": "Wizard",
+                "id": "ef0792b6-8c0b-4f7c-b479-9dbc5c4312c9",
+                "level": -1,
+                "source": "Feat: Advanced School Spell: Enchantment",
+                "spells": [
+                    {
+                        "_className": "SpellGain",
+                        "locked": true,
+                        "name": "Dread Aura"
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "name": "Advanced School Spell: Evocation",
+        "desc": "You gain access to a powerful new school spell depending on your arcane school. As an evoker, you gain elemental tempest. Increase the number of Focus Points in your focus pool by 1.",
+        "subType": "Evocation: Elemental Tempest",
+        "superType": "Advanced School Spell",
+        "shortdesc": "You gain access to a powerful new school spell depending on your arcane school.",
+        "traits": [
+            "Wizard"
+        ],
+        "levelreq": 8,
+        "featreq": [
+            "Evocation School"
+        ],
+        "effects": [
+            {
+                "affected": "Focus Pool",
+                "value": "1"
+            }
+        ],
+        "onceEffects": [
+            {
+                "affected": "Focus Points",
+                "value": "1"
+            }
+        ],
+        "gainSpellChoice": [
+            {
+                "_className": "SpellChoice",
+                "castingType": "Focus",
+                "className": "Wizard",
+                "id": "007a6eb9-912f-4f85-9630-9e0adf01bdd8",
+                "level": -1,
+                "source": "Feat: Advanced School Spell: Evocation",
+                "spells": [
+                    {
+                        "_className": "SpellGain",
+                        "locked": true,
+                        "name": "Elemental Tempest"
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "name": "Advanced School Spell: Illusion",
+        "desc": "You gain access to a powerful new school spell depending on your arcane school. As an illusionist, you gain invisibility cloak. Increase the number of Focus Points in your focus pool by 1.",
+        "subType": "Illusion: Invisibility Cloak",
+        "superType": "Advanced School Spell",
+        "shortdesc": "You gain access to a powerful new school spell depending on your arcane school.",
+        "traits": [
+            "Wizard"
+        ],
+        "levelreq": 8,
+        "featreq": [
+            "Illusion School"
+        ],
+        "effects": [
+            {
+                "affected": "Focus Pool",
+                "value": "1"
+            }
+        ],
+        "onceEffects": [
+            {
+                "affected": "Focus Points",
+                "value": "1"
+            }
+        ],
+        "gainSpellChoice": [
+            {
+                "_className": "SpellChoice",
+                "castingType": "Focus",
+                "className": "Wizard",
+                "id": "cc354b1e-7b6b-4481-a4c6-a0a633631cd6",
+                "level": -1,
+                "source": "Feat: Advanced School Spell: Illusion",
+                "spells": [
+                    {
+                        "_className": "SpellGain",
+                        "locked": true,
+                        "name": "Invisibility Cloak"
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "name": "Advanced School Spell: Necromancy",
+        "desc": "You gain access to a powerful new school spell depending on your arcane school. As a necromancer, you gain life siphon. Increase the number of Focus Points in your focus pool by 1.",
+        "subType": "Necromancy: Life Siphon",
+        "superType": "Advanced School Spell",
+        "shortdesc": "You gain access to a powerful new school spell depending on your arcane school.",
+        "traits": [
+            "Wizard"
+        ],
+        "levelreq": 8,
+        "featreq": [
+            "Necromancy School"
+        ],
+        "effects": [
+            {
+                "affected": "Focus Pool",
+                "value": "1"
+            }
+        ],
+        "onceEffects": [
+            {
+                "affected": "Focus Points",
+                "value": "1"
+            }
+        ],
+        "gainSpellChoice": [
+            {
+                "_className": "SpellChoice",
+                "castingType": "Focus",
+                "className": "Wizard",
+                "id": "a5bc02f7-f806-4270-a8a0-4e065fd1a1fe",
+                "level": -1,
+                "source": "Feat: Advanced School Spell: Necromancy",
+                "spells": [
+                    {
+                        "_className": "SpellGain",
+                        "locked": true,
+                        "name": "Life Siphon"
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "name": "Advanced School Spell: Transmutation",
+        "desc": "You gain access to a powerful new school spell depending on your arcane school. As a transmuter, you gain shifting form. Increase the number of Focus Points in your focus pool by 1.",
+        "subType": "Transmutation: Shifting Form",
+        "superType": "Advanced School Spell",
+        "shortdesc": "You gain access to a powerful new school spell depending on your arcane school.",
+        "traits": [
+            "Wizard"
+        ],
+        "levelreq": 8,
+        "featreq": [
+            "Transmutation School"
+        ],
+        "effects": [
+            {
+                "affected": "Focus Pool",
+                "value": "1"
+            }
+        ],
+        "onceEffects": [
+            {
+                "affected": "Focus Points",
+                "value": "1"
+            }
+        ],
+        "gainSpellChoice": [
+            {
+                "_className": "SpellChoice",
+                "castingType": "Focus",
+                "className": "Wizard",
+                "id": "f824d183-ab5c-477b-baf4-bcb78a4ad8b9",
+                "level": -1,
+                "source": "Feat: Advanced School Spell: Transmutation",
+                "spells": [
+                    {
+                        "_className": "SpellGain",
+                        "locked": true,
+                        "name": "Shifting Form (Speed bonus)"
+                    },
+                    {
+                        "locked": true,
+                        "name": "Shifting Form (climb Speed)"
+                    },
+                    {
+                        "locked": true,
+                        "name": "Shifting Form (swim Speed)"
+                    },
+                    {
+                        "locked": true,
+                        "name": "Shifting Form (darkvision)"
+                    },
+                    {
+                        "locked": true,
+                        "name": "Shifting Form (claws)"
+                    },
+                    {
+                        "locked": true,
+                        "name": "Shifting Form (scent)"
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "name": "Bond Conservation",
+        "desc": "By carefully manipulating the arcane energies stored in your bonded item as you drain it, you can conserve just enough power to cast another, slightly weaker spell.",
+        "shortdesc": "By carefully manipulating the arcane energies stored in your bonded item as you drain it, you can conserve just enough power to cast another, slightly weaker spell.",
+        "traits": [
+            "Manipulate",
+            "Metamagic",
+            "Wizard"
+        ],
+        "levelreq": 8,
+        "featreq": [
+            "Arcane Bond"
+        ],
+        "gainActivities": [
+            "Bond Conservation"
+        ]
+    },
+    {
+        "name": "Universal Versatility",
+        "desc": "You can access the fundamental abilities of any school of magic. During your daily preparations, choose one of the eight school spells gained by 1st-level specialist wizards. You can use that school spell until your next daily preparations. When you Refocus, you can choose a different school spell from among those eight school spells, replacing the previous one. Increase the number of Focus Points in your focus pool by 1.",
+        "hint": "During your daily preparations, and when you refocus, you can choose one of the eight school spells gained by 1st-level specialist wizards to use until your next daily prepararations. You can make this selection in the spellbook menu.",
+        "showon": "Health, Focus",
+        "shortdesc": "You can access the fundamental abilities of any school of magic.",
+        "traits": [
+            "Wizard"
+        ],
+        "levelreq": 8,
+        "featreq": [
+            "Universalist Wizard",
+            "Hand of the Apprentice"
+        ],
+        "effects": [
+            {
+                "affected": "Focus Pool",
+                "value": "1"
+            }
+        ],
+        "onceEffects": [
+            {
+                "affected": "Focus Points",
+                "value": "1"
+            }
+        ],
+        "gainSpellChoice": [
+            {
+                "_className": "SpellChoice",
+                "available": 1,
+                "castingType": "Focus",
+                "className": "Wizard",
+                "filter": [
+                    "Protective Ward",
+                    "Augment Summoning",
+                    "Diviner's Sight",
+                    "Charming Words",
+                    "Force Bolt",
+                    "Warped Terrain",
+                    "Call of the Grave",
+                    "Physical Boost"
+                ],
+                "id": "6516ec4d-4b96-4094-8659-5cc62b2823f5",
+                "level": -1,
+                "source": "Feat: Advanced School Spell: Necromancy"
+            }
+        ]
+    },
+    {
+        "name": "Overwhelming Energy",
+        "desc": "You alter your spells to overcome resistances.",
+        "shortdesc": "You alter your spells to overcome resistances.",
+        "traits": [
+            "Druid",
+            "Manipulate",
+            "Metamagic",
+            "Sorcerer",
+            "Wizard"
+        ],
+        "levelreq": 10,
+        "gainActivities": [
+            "Overwhelming Energy"
+        ]
+    },
+    {
+        "name": "Quickened Casting",
+        "desc": "You are able to quickly cast a spell.",
+        "shortdesc": "You are able to quickly cast a spell.",
+        "traits": [
+            "Bard",
+            "Concentrate",
+            "Metamagic",
+            "Sorcerer",
+            "Wizard"
+        ],
+        "levelreq": 10,
+        "gainActivities": [
+            "Quickened Casting"
+        ]
+    },
+    {
+        "name": "Scroll Savant",
+        "desc": "During your daily preparations, you can create two temporary scrolls containing arcane spells from your spellbook. These scrolls follow the normal rules for scrolls (page 564), with some additional restrictions. Each scroll must be of a different spell level, and both spell levels must be 2 or more levels lower than your highest-level spell. Any scrolls you create this way become non-magical the next time you make your daily preparations. A temporary scroll has no value.\n\nIf you have master proficiency in arcane spell DCs, you can create three temporary scrolls during your daily preparations, and if you have legendary proficiency, you can create four temporary scrolls.",
+        "hint": "During your daily preparations, you can create temporary scrolls containing arcane spells from your spellbook. You can select these scrolls in the items menu.",
+        "showon": "Health",
+        "inputRequired": "Scroll Savant is hardcoded.",
+        "shortdesc": "During your daily preparations, you can create two temporary scrolls containing arcane spells from your spellbook.",
+        "traits": [
+            "Wizard"
+        ],
+        "levelreq": 10,
+        "skillreq": [
+            {
+                "skill": "Crafting",
+                "value": 4
+            }
+        ]
+    },
+    {
+        "name": "Clever Counterspell",
+        "desc": "You creatively apply your prepared spells to Counterspell a much wider variety of your opponents' magic. Instead of being able to counter a foe's spell with Counterspell only if you have that same spell prepared, you can use Counterspell as long as you have the spell the foe is casting in your spellbook. When you use Counterspell in this way, the prepared spell you expend must share a trait other than its tradition with the triggering spell. At the GM's discretion, you can instead use a spell that has an opposing trait or that otherwise logically would counter the triggering spell (such as using a cold or water spell to counter fireball or using remove fear to counter a fear spell). Regardless of what spell you expend, you take a -2 penalty to your counteract check, though the GM can waive this penalty if the expended spell is especially appropriate.",
+        "hint": "You can use Counterspell as long as you have the spell the foe is casting in your spellbook. When you use Counterspell in this way, the prepared spell you expend must share a trait other than its tradition with the triggering spell. At the GM's discretion, you can instead use a spell that has an opposing trait or that otherwise logically would counter the triggering spell (such as using a cold or water spell to counter fireball or using remove fear to counter a fear spell). Regardless of what spell you expend, you take a -2 penalty to your counteract check, though the GM can waive this penalty if the expended spell is especially appropriate.",
+        "showon": "Counterspell (Prepared), Counterspell (Spontaneous)",
+        "shortdesc": "You creatively apply your prepared spells to counterspell a much wider variety of your opponents' magic.",
+        "traits": [
+            "Wizard"
+        ],
+        "levelreq": 12,
+        "featreq": [
+            "Counterspell (Prepared) or Counterspell (Spontaneous)",
+            "Quick Recognition"
+        ]
+    },
+    {
+        "name": "Magic Sense (Wizard)",
+        "desc": "You have a literal sixth sense for ambient magic in your vicinity. You can sense the presence of magic auras as though you were always using a 1st-level detect magic spell. This detects magic in your field of vision only. When you Seek, you gain the benefits of a 3rd-level detect magic spell on things you see (in addition to the normal benefits of Seeking). You can turn this sense off and on with a free action at the start or the end of your turn.",
+        "specialdesc": "(Wizard) This feat has the Arcane trait.",
+        "hint": "You can sense the presence of magic auras as though you were always using a 1st-level detect magic spell. This detects magic in your field of vision only. When you Seek, you gain the benefits of a 3rd-level detect magic spell on things you see (in addition to the normal benefits of Seeking). You can turn this sense off and on with a free action at the start or the end of your turn.",
+        "showon": "Perception",
+        "shortdesc": "You have a literal sixth sense for magic.",
+        "traits": [
+            "Arcane",
+            "Detection",
+            "Divination",
+            "Wizard"
+        ],
+        "levelreq": 12,
+        "gainActivities": [
+            "Magic Sense"
+        ]
+    },
+    {
+        "name": "Magic Sense (Sorcerer)",
+        "desc": "You have a literal sixth sense for ambient magic in your vicinity. You can sense the presence of magic auras as though you were always using a 1st-level detect magic spell. This detects magic in your field of vision only. When you Seek, you gain the benefits of a 3rd-level detect magic spell on things you see (in addition to the normal benefits of Seeking). You can turn this sense off and on with a free action at the start or the end of your turn.",
+        "hint": "You can sense the presence of magic auras as though you were always using a 1st-level detect magic spell. This detects magic in your field of vision only. When you Seek, you gain the benefits of a 3rd-level detect magic spell on things you see (in addition to the normal benefits of Seeking). You can turn this sense off and on with a free action at the start or the end of your turn.",
+        "showon": "Perception",
+        "shortdesc": "You have a literal sixth sense for magic.",
+        "traits": [
+            "Detection",
+            "Divination",
+            "Sorcerer"
+        ],
+        "levelreq": 12,
+        "gainActivities": [
+            "Magic Sense"
+        ]
+    },
+    {
+        "name": "Bonded Focus",
+        "desc": "Your connection to your bonded item increases your focus pool. If you have spent at least 2 Focus Points since the last time you Refocused and your bonded item is in your possession, you recover 2 Focus Points when you Refocus instead of 1.",
+        "hint": "If you have spent at least 2 Focus Points since the last time you Refocused and your bonded item is in your possession, you recover 2 Focus Points when you Refocus instead of 1.",
+        "showon": "Focus",
+        "internalNote": "The effect is hardcoded.",
+        "shortdesc": "Your connection to your bonded item increases your focus pool.",
+        "traits": [
+            "Wizard"
+        ],
+        "levelreq": 14,
+        "featreq": [
+            "Arcane Bond"
+        ]
+    },
+    {
+        "name": "Reflect Spell",
+        "desc": "When you successfully use Counterspell to counteract a spell that affects targeted creatures or an area, you can turn that spell’s effect back on its caster. When reflected, the spell affects only the original caster, even if it’s an area spell or it would normally affect more than one creature. The original caster can attempt a save and use other defenses against the reflected spell as normal.",
+        "hint": "When you successfully use Counterspell to counteract a spell that affects targeted creatures or an area, you can turn that spell’s effect back on its caster. When reflected, the spell affects only the original caster, even if it’s an area spell or it would normally affect more than one creature. The original caster can attempt a save and use other defenses against the reflected spell as normal.",
+        "showon": "Counterspell (Prepared), Counterspell (Spontaneous)",
+        "shortdesc": "You cause a spell to fire back at its caster.",
+        "traits": [
+            "Sorcerer",
+            "Wizard"
+        ],
+        "levelreq": 14,
+        "featreq": [
+            "Counterspell (Prepared) or Counterspell (Spontaneous)"
+        ]
+    },
+    {
+        "name": "Superior Bond",
+        "desc": "When you draw upon your bonded item, you can leave a bit of energy within it for later use. You can use Drain Bonded Item one additional time per day, but only to cast a spell 2 or more levels lower than your highest-level spell.",
+        "hint": "You can use Drain Bonded Item one additional time per day, but only to cast a spell 2 or more levels lower than your highest-level spell.",
+        "showon": "Spellbook",
+        "internalNote": "The effect is hardcoded.",
+        "shortdesc": "When you draw upon your bonded item, you can leave a bit of energy within it for later use.",
+        "traits": [
+            "Wizard"
+        ],
+        "levelreq": 14,
+        "featreq": [
+            "Arcane Bond"
+        ]
+    },
+    {
+        "name": "Effortless Concentration",
+        "desc": "You can maintain a spell with hardly a thought.",
+        "shortdesc": "You can maintain a spell with hardly a thought.",
+        "traits": [
+            "Bard",
+            "Druid",
+            "Sorcerer",
+            "Wizard"
+        ],
+        "levelreq": 16,
+        "gainActivities": [
+            "Effortless Concentration"
+        ]
+    },
+    {
+        "name": "Spell Tinker",
+        "desc": "You've learned to alter choices you make when casting spells on yourself.",
+        "shortdesc": "You've learned to alter choices you make when casting spells on yourself.",
+        "traits": [
+            "Concentrate",
+            "Wizard"
+        ],
+        "levelreq": 16,
+        "gainActivities": [
+            "Spell Tinker"
+        ]
+    },
+    {
+        "name": "Infinite Possibilities",
+        "desc": "You've found a way to prepare a spell slot that exists in your mind as many different possibilities at once. Once during your daily preparations, you can use a spell slot to hold that infinite potential, rather than using it to prepare a spell. You can use this spell slot to cast any spell from your spellbook that's at least 2 levels lower than the slot you designate; the spell acts in all ways as a spell of 2 levels lower. You don't have any particular spell prepared in that slot until you cast it.",
+        "hint": "Once during your daily preparations, you can trade in a spell slot for a bonus spell slot that holds infinite potential, rather than using it to prepare a spell. You make this choice in the spellbook menu. You can use this spell slot to cast any spell from your spellbook that's at least 2 levels lower than the slot you designate; the spell acts in all ways as a spell of 2 levels lower. You choose the spell to cast with this spell slot in the spells menu instead of the spellbook menu.",
+        "showon": "Health, Spellbook, Wizard Prepared Spells",
+        "internalNote": "Designating a spell slot for Infinite Possibilities is hardcoded.",
+        "shortdesc": "You've found a way to prepare a spell slot that exists in your mind as many different possibilities at once.",
+        "traits": [
+            "Wizard"
+        ],
+        "levelreq": 18,
+        "gainSpellChoice": [
+            {
+                "_className": "SpellChoice",
+                "available": 0,
+                "castingType": "Prepared",
+                "className": "Wizard",
+                "id": "31bcd5cd-838c-4100-95c3-7b1e07e26e8c",
+                "level": 1,
+                "source": "Infinite Possibilities"
+            },
+            {
+                "_className": "SpellChoice",
+                "available": 0,
+                "castingType": "Prepared",
+                "className": "Wizard",
+                "id": "e04e232e-f207-4cb6-b142-99992a3c745e",
+                "level": 2,
+                "source": "Infinite Possibilities"
+            },
+            {
+                "_className": "SpellChoice",
+                "available": 0,
+                "castingType": "Prepared",
+                "className": "Wizard",
+                "id": "33baaff5-5534-4201-b3b1-be8cd736d7bb",
+                "level": 3,
+                "source": "Infinite Possibilities"
+            },
+            {
+                "_className": "SpellChoice",
+                "available": 0,
+                "castingType": "Prepared",
+                "className": "Wizard",
+                "id": "2a578f79-664d-4b9d-bfe6-79811bc5d942",
+                "level": 4,
+                "source": "Infinite Possibilities"
+            },
+            {
+                "_className": "SpellChoice",
+                "available": 0,
+                "castingType": "Prepared",
+                "className": "Wizard",
+                "id": "e1a14fd1-5728-41cb-a3d2-17e50649e418",
+                "level": 5,
+                "source": "Infinite Possibilities"
+            },
+            {
+                "_className": "SpellChoice",
+                "available": 0,
+                "castingType": "Prepared",
+                "className": "Wizard",
+                "id": "bb0fbe01-2391-43c6-b281-46ae7c602ed0",
+                "level": 6,
+                "source": "Infinite Possibilities"
+            },
+            {
+                "_className": "SpellChoice",
+                "available": 0,
+                "castingType": "Prepared",
+                "className": "Wizard",
+                "id": "a746f342-218a-4e08-8141-35d5d263450a",
+                "level": 7,
+                "source": "Infinite Possibilities"
+            },
+            {
+                "_className": "SpellChoice",
+                "available": 0,
+                "castingType": "Prepared",
+                "className": "Wizard",
+                "id": "5fd432e9-b951-4b45-8bd0-7e6ffbf267ec",
+                "level": 8,
+                "source": "Infinite Possibilities"
+            }
+        ]
+    },
+    {
+        "name": "Reprepare Spell",
+        "desc": "You’ve discovered how to reuse some of your spell slots over and over. You can spend 10 minutes to prepare a spell that you already cast today, regaining access to that spell slot. The spell must be of 4th level or lower and one that does not have a duration. You can reprepare a spell in this way even if you’ve already reprepared that spell previously in the same day. If you have the spell substitution arcane thesis, you can instead prepare a different spell in an expended slot, as long as the new spell doesn’t have a duration. Once you’ve reprepared a spell in that slot even once, you can use your arcane thesis to substitute only spells without durations into that spell slot.",
+        "hint": "You can spend 10 minutes to prepare a spell that you already cast today, regaining access to that spell slot. The spell must be of 4th level or lower and one that does not have a duration. You can reprepare a spell in this way even if you’ve already reprepared that spell previously in the same day. If you have the spell substitution arcane thesis, you can instead prepare a different spell in an expended slot (in the spellbook menu), as long as the new spell doesn’t have a duration. Once you’ve reprepared a spell in that slot even once, you can use your arcane thesis to substitute only spells without durations into that spell slot.",
+        "showon": "Spellbook, Spell Substitution",
+        "internalNote": "Repreparing Spells is hardcoded.",
+        "shortdesc": "You've discovered how to reuse some of your spell slots over and over.",
+        "traits": [
+            "Wizard"
+        ],
+        "levelreq": 18
+    },
+    {
+        "name": "Archwizard's Might",
+        "desc": "You have mastered the greatest secrets of arcane magic. You gain an additional 10th-level spell slot.",
+        "shortdesc": "You have mastered the greatest secrets of arcane magic.",
+        "traits": [
+            "Wizard"
+        ],
+        "levelreq": 20,
+        "featreq": [
+            "Archwizard's Spellcraft"
+        ],
+        "gainSpellChoice": [
+            {
+                "_className": "SpellChoice",
+                "available": 1,
+                "castingType": "Prepared",
+                "className": "Wizard",
+                "id": "e30bbbc8-b823-4cd6-b7f3-e516aba8a475",
+                "level": 10,
+                "source": "Archwizard's Might"
+            }
+        ]
+    },
+    {
+        "name": "Metamagic Mastery",
+        "desc": "Altering your spells doesn’t take any longer than casting them normally. You can use metamagic single actions as free actions.",
+        "hint": "You can use metamagic single actions as free actions.",
+        "showon": "Bloodline Conduit, Bond Conservation, Cast Down, Command Undead, Conceal Spell, Defensive Recovery, Dualistic Synergy, Echoing Channel, Form Control, Harmonize, Healing Transformation, Heroic Recovery, Interweave Dispel, Leyline Conduit, Melodious Spell, Mercy, Necrotic Infusion, Overwhelming Energy, Reach Spell, Silent Spell, Synergistic Spell, Tempest-Sun Redirection, Unusual Composition, Widen Spell",
+        "shortdesc": "Altering your spells doesn't take any longer than casting them normally.",
+        "traits": [
+            "Sorcerer",
+            "Wizard"
+        ],
+        "levelreq": 20
+    },
+    {
+        "name": "Spell Combination",
+        "desc": "You can merge spells, producing multiple effects with a single casting. One slot of each level of spell you can cast, except 2nd level and 1st level, becomes a spell combination slot (this doesn’t apply to cantrips). When you prepare your spells, you can fill a combination slot with a combination of two spells. Each spell in the combination must be 2 or more spell levels below the slot’s level, and both must target only one creature or object or have the option to target only one creature or object. Each spell in the combination must also have the same means of determining whether it has an effect—both spells must require a ranged spell attack roll, require the same type of saving throw, or automatically affect the target.\n\nWhen you cast a combined spell, it affects only one target, even if the component spells normally affect more than one. If any spell in the combination has further restrictions (such as targeting only living creatures), you must abide by all restrictions. The combined spell uses the shorter of the component spells’ ranges. Resolve a combined spell as if were a single spell, but apply the effects of both component spells. For example, if the spell’s target succeeded at the save against a combined spell, it would apply the success effect of each spell, and if it critically failed, it would apply the critical failure effect of both spells.",
+        "hint": "When you prepare your spells, you can fill a combination slot with a combination of two spells. Each spell in the combination must be 2 or more spell levels below the slot’s level, and both must target only one creature or object or have the option to target only one creature or object. Each spell in the combination must also have the same means of determining whether it has an effect—both spells must require a ranged spell attack roll, require the same type of saving throw, or automatically affect the target.\n\nWhen you cast a combined spell, it affects only one target, even if the component spells normally affect more than one. If any spell in the combination has further restrictions (such as targeting only living creatures), you must abide by all restrictions. The combined spell uses the shorter of the component spells’ ranges. Resolve a combined spell as if were a single spell, but apply the effects of both component spells. For example, if the spell’s target succeeded at the save against a combined spell, it would apply the success effect of each spell, and if it critically failed, it would apply the critical failure effect of both spells.",
+        "showon": "Spellbook, Wizard Prepared Spells",
+        "internalNote": "Very much hardcoded.",
+        "shortdesc": "You can merge spells, producing multiple effects with a single casting.",
+        "traits": [
+            "Wizard"
+        ],
+        "levelreq": 20
+    },
+    {
+        "name": "Spell Mastery",
+        "desc": "You have mastered a handful of spells to such a degree that you can cast them even if you haven’t prepared them. Select any four spells of 9th level or lower that you have access to. Each spell you select must be of a different level. These spells are automatically prepared when you make your daily preparations and have their own spell slots. You can select a different array of spells by spending 1 week of downtime retraining your mastered spells.",
+        "specialdesc": "The citizens of Promise represent some of the most capable experts, greatest minds, and powerful warriors on Golarion - ideal teachers and trainers for PCs who want to maximize their own potential. If the PCs secure Visitor's Pins or an alliance with Mengkare, their access to Promise's trainers and records unlock this uncommon class feat.",
+        "hint": "You can select any four spells of 9th level or lower that you have access to. Each spell you select must be of a different level. These spells are automatically prepared when you make your daily preparations and have their own spell slots. You can select these spells in the spell library, and you can select a different array of spells by spending 1 week of downtime retraining your mastered spells.",
+        "showon": "Health, Wizard Prepared Spells",
+        "internalNote": "Selecting Spell Mastery spells is hardcoded.",
+        "shortdesc": "Master 4 spells.",
+        "sourceBook": "Pathfinder #150: Broken Promises",
+        "traits": [
+            "Uncommon",
+            "Wizard"
+        ],
+        "levelreq": 20
+    },
+    {
+        "name": "Wizard Dedication",
+        "desc": "You cast spells like a wizard, gaining a spellbook with four common arcane cantrips of your choice. You gain the Cast a Spell activity. You can prepare two cantrips each day from your spellbook. You're trained in arcane spell attack rolls and spell DCs. Your key spellcasting ability for wizard archetype spells is Intelligence, and they are arcane wizard spells. You become trained in Arcana; if you were already trained in Arcana, you instead become trained in a skill of your choice.",
+        "specialdesc": "You can't select another dedication feat until you have gained two other feats from the wizard archetype.",
+        "shortdesc": "You have dabbled in the arcane arts and, through discipline and academic study, learned how to cast a few spells.",
+        "archetype": "Wizard",
+        "traits": [
+            "Archetype",
+            "Dedication",
+            "Multiclass"
+        ],
+        "levelreq": 2,
+        "abilityreq": [
+            {
+                "ability": "Intelligence",
+                "value": 14
+            }
+        ],
+        "gainSkillChoice": [
+            {
+                "_className": "SkillChoice",
+                "available": 1,
+                "filter": [
+                    "Arcana"
+                ],
+                "maxRank": 2,
+                "source": "Feat: Wizard Dedication",
+                "type": "Skill"
+            },
+            {
+                "_className": "SkillChoice",
+                "increases": [
+                    {
+                        "locked": true,
+                        "maxRank": 2,
+                        "name": "Wizard Arcane Spell DC",
+                        "source": "Feat: Wizard Dedication"
+                    }
+                ],
+                "maxRank": 2,
+                "source": "Feat: Wizard Dedication",
+                "type": "Spell DC"
+            }
+        ],
+        "gainSpellCasting": [
+            {
+                "_className": "SpellCasting",
+                "ability": "Intelligence",
+                "castingType": "Prepared",
+                "className": "Wizard",
+                "source": "Wizard Dedication",
+                "spellBookSlots": "[4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]",
+                "tradition": "Arcane"
+            }
+        ],
+        "gainSpellChoice": [
+            {
+                "_className": "SpellChoice",
+                "available": 2,
+                "castingType": "Prepared",
+                "className": "Wizard",
+                "id": "74e33581-aa55-49dd-93ce-d27ab11716d9",
+                "level": 0,
+                "source": "Wizard Dedication"
+            }
+        ]
+    },
+    {
+        "name": "Arcane School Spell",
+        "desc": "Select one arcane school of magic. You gain the school's initial school spell. If you don't already have one, you gain a focus pool of 1 Focus Point, which you can Refocus by studying.",
+        "subTypes": true,
+        "shortdesc": "Select one arcane school of magic. You gain the school's initial school spell.",
+        "archetype": "Wizard",
+        "traits": [
+            "Archetype"
+        ],
+        "levelreq": 4,
+        "featreq": [
+            "Wizard Dedication"
+        ]
+    },
+    {
+        "name": "Arcane School Spell: Abjuration",
+        "desc": "You gain the abjurations school's protective ward spell. If you don't already have one, you gain a focus pool of 1 Focus Point, which you can Refocus by studying.",
+        "subType": "Abjuration: Protective Ward",
+        "superType": "Arcane School Spell",
+        "shortdesc": "You gain the abjurations school's protective ward spell.",
+        "archetype": "Wizard",
+        "traits": [
+            "Archetype"
+        ],
+        "levelreq": 4,
+        "featreq": [
+            "Wizard Dedication"
+        ],
+        "effects": [
+            {
+                "affected": "Focus Pool",
+                "value": 1
+            }
+        ],
+        "onceEffects": [
+            {
+                "affected": "Focus Points",
+                "value": 1
+            }
+        ],
+        "gainSpellChoice": [
+            {
+                "_className": "SpellChoice",
+                "castingType": "Focus",
+                "className": "Wizard",
+                "id": "1b421bd7-e060-42b2-8546-ca5a00790564",
+                "level": -1,
+                "source": "Feat: Arcane School Spell: Abjuration",
+                "spells": [
+                    {
+                        "_className": "SpellGain",
+                        "locked": true,
+                        "name": "Protective Ward"
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "name": "Arcane School Spell: Conjuration",
+        "desc": "You gain the conjurations school's augment summoning spell. If you don't already have one, you gain a focus pool of 1 Focus Point, which you can Refocus by studying.",
+        "subType": "Conjuration: Augment Summoning",
+        "superType": "Arcane School Spell",
+        "shortdesc": "You gain the conjurations school's augment summoning spell.",
+        "archetype": "Wizard",
+        "traits": [
+            "Archetype"
+        ],
+        "levelreq": 4,
+        "featreq": [
+            "Wizard Dedication"
+        ],
+        "effects": [
+            {
+                "affected": "Focus Pool",
+                "value": 1
+            }
+        ],
+        "onceEffects": [
+            {
+                "affected": "Focus Points",
+                "value": 1
+            }
+        ],
+        "gainSpellChoice": [
+            {
+                "_className": "SpellChoice",
+                "castingType": "Focus",
+                "className": "Wizard",
+                "id": "912ad4e2-05be-4cb4-b7d9-4b848a311c6e",
+                "level": -1,
+                "source": "Feat: Arcane School Spell: Conjuration",
+                "spells": [
+                    {
+                        "_className": "SpellGain",
+                        "locked": true,
+                        "name": "Augment Summoning"
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "name": "Arcane School Spell: Divination",
+        "desc": "You gain the divinations school's diviner's sight spell. If you don't already have one, you gain a focus pool of 1 Focus Point, which you can Refocus by studying.",
+        "subType": "Divination: Diviner's Sight",
+        "superType": "Arcane School Spell",
+        "shortdesc": "You gain the divinations school's diviner's sight spell.",
+        "archetype": "Wizard",
+        "traits": [
+            "Archetype"
+        ],
+        "levelreq": 4,
+        "featreq": [
+            "Wizard Dedication"
+        ],
+        "effects": [
+            {
+                "affected": "Focus Pool",
+                "value": 1
+            }
+        ],
+        "onceEffects": [
+            {
+                "affected": "Focus Points",
+                "value": 1
+            }
+        ],
+        "gainSpellChoice": [
+            {
+                "_className": "SpellChoice",
+                "castingType": "Focus",
+                "className": "Wizard",
+                "id": "6a759670-e7b2-43e4-ac1c-a485632bc552",
+                "level": -1,
+                "source": "Feat: Arcane School Spell: Divination",
+                "spells": [
+                    {
+                        "_className": "SpellGain",
+                        "locked": true,
+                        "name": "Diviner's Sight"
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "name": "Arcane School Spell: Enchantment",
+        "desc": "You gain the enchantment school's charming words spell. If you don't already have one, you gain a focus pool of 1 Focus Point, which you can Refocus by studying.",
+        "subType": "Enchantment: Charming Words",
+        "superType": "Arcane School Spell",
+        "shortdesc": "You gain the enchantment school's charming words spell.",
+        "archetype": "Wizard",
+        "traits": [
+            "Archetype"
+        ],
+        "levelreq": 4,
+        "featreq": [
+            "Wizard Dedication"
+        ],
+        "effects": [
+            {
+                "affected": "Focus Pool",
+                "value": 1
+            }
+        ],
+        "onceEffects": [
+            {
+                "affected": "Focus Points",
+                "value": 1
+            }
+        ],
+        "gainSpellChoice": [
+            {
+                "_className": "SpellChoice",
+                "castingType": "Focus",
+                "className": "Wizard",
+                "id": "0711f199-64b6-465d-ac40-ae6a26b91a04",
+                "level": -1,
+                "source": "Feat: Arcane School Spell: Enchantment",
+                "spells": [
+                    {
+                        "_className": "SpellGain",
+                        "locked": true,
+                        "name": "Charming Words"
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "name": "Arcane School Spell: Evocation",
+        "desc": "You gain the evocations school's force bolt spell. If you don't already have one, you gain a focus pool of 1 Focus Point, which you can Refocus by studying.",
+        "subType": "Evocation: Force Bolt",
+        "superType": "Arcane School Spell",
+        "shortdesc": "You gain the evocations school's force bolt spell.",
+        "archetype": "Wizard",
+        "traits": [
+            "Archetype"
+        ],
+        "levelreq": 4,
+        "featreq": [
+            "Wizard Dedication"
+        ],
+        "effects": [
+            {
+                "affected": "Focus Pool",
+                "value": 1
+            }
+        ],
+        "onceEffects": [
+            {
+                "affected": "Focus Points",
+                "value": 1
+            }
+        ],
+        "gainSpellChoice": [
+            {
+                "_className": "SpellChoice",
+                "castingType": "Focus",
+                "className": "Wizard",
+                "id": "2eb2f3b3-1513-4c87-85fb-dda30f8d48d0",
+                "level": -1,
+                "source": "Feat: Arcane School Spell: Evocation",
+                "spells": [
+                    {
+                        "_className": "SpellGain",
+                        "locked": true,
+                        "name": "Force Bolt"
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "name": "Arcane School Spell: Illusion",
+        "desc": "You gain the illusion school's protective warped terrain. If you don't already have one, you gain a focus pool of 1 Focus Point, which you can Refocus by studying.",
+        "subType": "Illusion: Warped Terrain",
+        "superType": "Arcane School Spell",
+        "shortdesc": "You gain the illusion school's protective warped terrain.",
+        "archetype": "Wizard",
+        "traits": [
+            "Archetype"
+        ],
+        "levelreq": 4,
+        "featreq": [
+            "Wizard Dedication"
+        ],
+        "effects": [
+            {
+                "affected": "Focus Pool",
+                "value": 1
+            }
+        ],
+        "onceEffects": [
+            {
+                "affected": "Focus Points",
+                "value": 1
+            }
+        ],
+        "gainSpellChoice": [
+            {
+                "_className": "SpellChoice",
+                "castingType": "Focus",
+                "className": "Wizard",
+                "id": "1b9241ed-dc66-433c-a196-04fa1fa1fd9c",
+                "level": -1,
+                "source": "Feat: Arcane School Spell: Illusion",
+                "spells": [
+                    {
+                        "_className": "SpellGain",
+                        "locked": true,
+                        "name": "Warped Terrain"
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "name": "Arcane School Spell: Necromancy",
+        "desc": "You gain the necromancy school's call of the grave spell. If you don't already have one, you gain a focus pool of 1 Focus Point, which you can Refocus by studying.",
+        "subType": "Necromancy: Call of the Grave",
+        "superType": "Arcane School Spell",
+        "shortdesc": "You gain the necromancy school's call of the grave spell.",
+        "archetype": "Wizard",
+        "traits": [
+            "Archetype"
+        ],
+        "levelreq": 4,
+        "featreq": [
+            "Wizard Dedication"
+        ],
+        "effects": [
+            {
+                "affected": "Focus Pool",
+                "value": 1
+            }
+        ],
+        "onceEffects": [
+            {
+                "affected": "Focus Points",
+                "value": 1
+            }
+        ],
+        "gainSpellChoice": [
+            {
+                "_className": "SpellChoice",
+                "castingType": "Focus",
+                "className": "Wizard",
+                "id": "ea7c46f5-0ed0-498d-ac25-958f726ba6f6",
+                "level": -1,
+                "source": "Feat: Arcane School Spell: Necromancy",
+                "spells": [
+                    {
+                        "_className": "SpellGain",
+                        "locked": true,
+                        "name": "Call of the Grave"
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "name": "Arcane School Spell: Transmutation",
+        "desc": "You gain the transmutations school's physical boost spell. If you don't already have one, you gain a focus pool of 1 Focus Point, which you can Refocus by studying.",
+        "subType": "Transmutation: Physical Boost",
+        "superType": "Arcane School Spell",
+        "shortdesc": "You gain the transmutations school's physical boost spell.",
+        "archetype": "Wizard",
+        "traits": [
+            "Archetype"
+        ],
+        "levelreq": 4,
+        "featreq": [
+            "Wizard Dedication"
+        ],
+        "effects": [
+            {
+                "affected": "Focus Pool",
+                "value": 1
+            }
+        ],
+        "onceEffects": [
+            {
+                "affected": "Focus Points",
+                "value": 1
+            }
+        ],
+        "gainSpellChoice": [
+            {
+                "_className": "SpellChoice",
+                "castingType": "Focus",
+                "className": "Wizard",
+                "id": "035abe63-af3d-4cf8-b4fd-ef15ae2bd91d",
+                "level": -1,
+                "source": "Feat: Arcane School Spell: Transmutation",
+                "spells": [
+                    {
+                        "_className": "SpellGain",
+                        "locked": true,
+                        "name": "Physical Boost"
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "name": "Basic Arcana",
+        "desc": "You gain a 1st- or 2nd-level wizard feat of your choice.",
+        "shortdesc": "You gain a 1st- or 2nd-level wizard feat of your choice.",
+        "archetype": "Wizard",
+        "traits": [
+            "Archetype"
+        ],
+        "levelreq": 4,
+        "featreq": [
+            "Wizard Dedication"
+        ],
+        "gainFeatChoice": [
+            {
+                "_className": "FeatChoice",
+                "available": 1,
+                "level": 2,
+                "source": "Feat: Basic Arcana",
+                "type": "Ranger"
+            }
+        ]
+    },
+    {
+        "name": "Basic Wizard Spellcasting",
+        "desc": "You gain the basic spellcasting benefits. Each time you gain a spell slot of a new level from the wizard archetype, add two common spells of that level to your spellbook.",
+        "shortdesc": "You gain the basic spellcasting benefits.",
+        "archetype": "Wizard",
+        "traits": [
+            "Archetype"
+        ],
+        "levelreq": 4,
+        "featreq": [
+            "Wizard Dedication"
+        ],
+        "gainSpellBookSlots": [
+            {
+                "spellBookSlots": "[0, 1, 0, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]",
+                "className": "Wizard"
+            }
+        ],
+        "gainSpellChoice": [
+            {
+                "_className": "SpellChoice",
+                "available": 1,
+                "castingType": "Prepared",
+                "charLevelAvailable": 4,
+                "className": "Wizard",
+                "id": "c588829d-7958-45c5-9e8a-d1c742263141",
+                "level": 1,
+                "source": "Basic Wizard Spellcasting"
+            },
+            {
+                "_className": "SpellChoice",
+                "available": 1,
+                "castingType": "Prepared",
+                "charLevelAvailable": 6,
+                "className": "Wizard",
+                "id": "3c983635-f3a9-4c8d-a388-1f8fa3e7f35a",
+                "level": 2,
+                "source": "Basic Wizard Spellcasting"
+            },
+            {
+                "available": 1,
+                "castingType": "Prepared",
+                "charLevelAvailable": 8,
+                "className": "Wizard",
+                "id": "baaca5a3-ded0-4d9e-ba33-9d63d674c76f",
+                "level": 3,
+                "source": "Basic Wizard Spellcasting"
+            }
+        ]
+    },
+    {
+        "name": "Advanced Arcana",
+        "desc": "You gain one wizard feat. For the purpose of meeting its prerequisites, your wizard level is equal to half your character level.",
+        "specialdesc": "You can select this feat more than once. Each time you select it, you gain another wizard feat.",
+        "shortdesc": "You gain one wizard feat.",
+        "archetype": "Wizard",
+        "unlimited": true,
+        "traits": [
+            "Archetype"
+        ],
+        "levelreq": 6,
+        "featreq": [
+            "Basic Arcana"
+        ],
+        "gainFeatChoice": [
+            {
+                "_className": "FeatChoice",
+                "available": 1,
+                "dynamicLevel": "level.number / 2",
+                "source": "Feat: Advanced Arcana",
+                "type": "Ranger"
+            }
+        ]
+    },
+    {
+        "name": "Arcane Breadth",
+        "desc": "You can cast more arcane spells each day. Increase the spell slots you gain from wizard archetype feats by 1 for each spell level other than your two highest spell levels.",
+        "internalNote": "The effect is hardcoded.",
+        "shortdesc": "You can cast more arcane spells each day.",
+        "archetype": "Wizard",
+        "traits": [
+            "Archetype"
+        ],
+        "levelreq": 8,
+        "featreq": [
+            "Basic Wizard Spellcasting"
+        ]
+    },
+    {
+        "name": "Expert Wizard Spellcasting",
+        "desc": "You gain the expert spellcasting benefits.",
+        "shortdesc": "You gain the expert spellcasting benefits.",
+        "archetype": "Wizard",
+        "traits": [
+            "Archetype"
+        ],
+        "levelreq": 12,
+        "featreq": [
+            "Basic Wizard Spellcasting"
+        ],
+        "skillreq": [
+            {
+                "skill": "Arcana",
+                "value": 6
+            }
+        ],
+        "gainSkillChoice": [
+            {
+                "_className": "SkillChoice",
+                "increases": [
+                    {
+                        "locked": true,
+                        "maxRank": 4,
+                        "name": "Wizard Arcane Spell DC",
+                        "source": "Feat: Expert Wizard Spellcasting"
+                    }
+                ],
+                "maxRank": 4,
+                "source": "Feat: Expert Wizard Spellcasting",
+                "type": "Spell DC"
+            }
+        ],
+        "gainSpellBookSlots": [
+            {
+                "spellBookSlots": "[0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0]",
+                "className": "Wizard"
+            }
+        ],
+        "gainSpellChoice": [
+            {
+                "_className": "SpellChoice",
+                "available": 1,
+                "castingType": "Prepared",
+                "charLevelAvailable": 12,
+                "className": "Wizard",
+                "id": "d1bf7e50-7032-4452-89b0-2caa79ce8a71",
+                "level": 4,
+                "source": "Expert Wizard Spellcasting"
+            },
+            {
+                "_className": "SpellChoice",
+                "available": 1,
+                "castingType": "Prepared",
+                "charLevelAvailable": 14,
+                "className": "Wizard",
+                "id": "41156279-a162-44d3-99aa-e1dcff35185f",
+                "level": 5,
+                "source": "Expert Wizard Spellcasting"
+            },
+            {
+                "available": 1,
+                "castingType": "Prepared",
+                "charLevelAvailable": 16,
+                "className": "Wizard",
+                "id": "952d2578-e280-43d1-a771-18da3ee4f4c6",
+                "level": 6,
+                "source": "Expert Wizard Spellcasting"
+            }
+        ]
+    },
+    {
+        "name": "Master Wizard Spellcasting",
+        "desc": "You gain the master spellcasting benefits.",
+        "shortdesc": "You gain the master spellcasting benefits.",
+        "archetype": "Wizard",
+        "traits": [
+            "Archetype"
+        ],
+        "levelreq": 18,
+        "featreq": [
+            "Expert Wizard Spellcasting"
+        ],
+        "skillreq": [
+            {
+                "skill": "Arcana",
+                "value": 8
+            }
+        ],
+        "gainSkillChoice": [
+            {
+                "_className": "SkillChoice",
+                "increases": [
+                    {
+                        "locked": true,
+                        "maxRank": 6,
+                        "name": "Wizard Arcane Spell DC",
+                        "source": "Feat: Master Wizard Spellcasting"
+                    }
+                ],
+                "maxRank": 6,
+                "source": "Feat: Master Wizard Spellcasting",
+                "type": "Spell DC"
+            }
+        ],
+        "gainSpellBookSlots": [
+            {
+                "spellBookSlots": "[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 0, 0, 0, 0, 0]",
+                "className": "Wizard"
+            }
+        ],
+        "gainSpellChoice": [
+            {
+                "_className": "SpellChoice",
+                "available": 1,
+                "castingType": "Prepared",
+                "charLevelAvailable": 18,
+                "className": "Wizard",
+                "id": "6f2f31b5-fe6e-427e-9898-b8360bcafa42",
+                "level": 7,
+                "source": "Master Wizard Spellcasting"
+            },
+            {
+                "_className": "SpellChoice",
+                "available": 1,
+                "castingType": "Prepared",
+                "charLevelAvailable": 20,
+                "className": "Wizard",
+                "id": "7f50f400-23ca-4176-a0db-32a0a4766453",
+                "level": 8,
+                "source": "Master Wizard Spellcasting"
+            }
         ]
     }
 ]
