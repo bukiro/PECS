@@ -5,6 +5,7 @@ import { ConditionGain } from './ConditionGain';
 import { ItemGain } from './ItemGain';
 import { SpellCasting } from './SpellCasting';
 import { SpellChoice } from './SpellChoice';
+import { SpellCast } from './SpellCast';
 
 export class Spell {
     public actions: string = "1A";
@@ -34,7 +35,7 @@ export class Spell {
     public range: string = "";
     public savingthrow: string = "";
     public shortDesc: string = "";
-    public showSpell: string = "";
+    public showSpells: SpellCast[] = [];
     public sourceBook: string = "";
     public success: string = "";
     //Sustained spells are deactivated after this time (or permanent with -1)

@@ -96,6 +96,9 @@ export class EffectsService {
         //Return an array of Effect objects
         let objectEffects: Effect[] = [];
         let name = (object.get_Name) ? object.get_Name() : object.name;
+        let Value = object.value;
+        let Heightened = object.heightened;
+        let Choice = object.choice;
         //define some values that may be relevant for effect values
         let effectsService = this;
         effectsService = effectsService;
@@ -175,7 +178,7 @@ export class EffectsService {
             return Character.get_FeatsTaken(1, Character.level, name).length > 0;
         }
         //effects come as {affected, value} where value is a string that contains a statement.
-        //This statement is eval'd here. The condition can use characterService to check level, skills, abilities etc.
+        //This statement is eval'd here. The statement can use characterService to check level, skills, abilities etc.
         object.effects.forEach((effect: EffectGain) => {
             let hide: boolean = false;
             let type: string = "untyped";
@@ -275,7 +278,7 @@ export class EffectsService {
             let originalCondition = characterService.get_Conditions(gain.name)[0];
             if (originalCondition?.effects?.length) {
                 //Fit the condition effects into the box defined by feat effects
-                let effectsObject = { name: gain.name, value: gain.value, effects: originalCondition.effects, heightened: gain.heightened }
+                let effectsObject = { name: gain.name, value: gain.value, choice: gain.choice, effects: originalCondition.effects, heightened: gain.heightened }
                 simpleEffects = simpleEffects.concat(this.get_SimpleEffects(creature, characterService, effectsObject));
             }
         });

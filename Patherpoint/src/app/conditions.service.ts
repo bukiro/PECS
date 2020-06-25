@@ -83,10 +83,10 @@ export class ConditionsService {
                             if (otherGain.value > gain.value) {
                                 gain.apply = false;
                             } else if (
-                                    ((otherGain.persistentDamage || gain.persistentDamage) ? otherGain.persistentDamage == gain.persistentDamage : true) &&
-                                    ((otherGain.value || gain.value) ? otherGain.value == gain.value : true)
+                                    otherGain.choice == gain.choice &&
+                                    otherGain.value == gain.value
                                 ) {
-                                //If the value is the same:
+                                //If the value and choice is the same:
                                 //Deactivate this condition if the other one has a longer duration (and this one is not permanent), or is permanent (no matter if this one is)
                                 //The other condition will not be deactivated because it only gets compared to the ones that aren't deactivated yet
                                 if (otherGain.duration == -1 || (gain.duration >= 0 && otherGain.duration >= gain.duration)) {
@@ -176,6 +176,10 @@ export class ConditionsService {
                     }
                 }
             }
+        }
+
+        if (condition.senses) {
+            characterService.set_ToChange(creature.type, "skills");
         }
 
     }

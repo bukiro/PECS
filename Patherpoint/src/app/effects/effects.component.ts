@@ -100,7 +100,15 @@ export class EffectsComponent implements OnInit {
     }
 
     get_AppliedConditions(apply: boolean) {
-        return this.characterService.get_AppliedConditions(this.get_Creature()).filter(condition => condition.apply == apply);
+        return this.characterService.get_AppliedConditions(this.get_Creature()).filter(condition => condition.apply == apply).sort(function(a,b) {
+            if (a.name + a.value + a.choice > b.name + b.value + b.choice) {
+                return 1;
+            }
+            if (a.name + a.value + a.choice < b.name + b.value + b.choice) {
+                return -1;
+            }
+            return 0;
+        });
     }
 
     change_ConditionDuration(gain: ConditionGain, turns: number) {
@@ -109,6 +117,11 @@ export class EffectsComponent implements OnInit {
 
     change_ConditionValue(gain: ConditionGain, change: number) {
         gain.value += change;
+        this.characterService.set_ToChange(this.creature, "effects");
+        this.characterService.process_ToChange();
+    }
+
+    change_ConditionChoice() {
         this.characterService.set_ToChange(this.creature, "effects");
         this.characterService.process_ToChange();
     }

@@ -79,7 +79,7 @@ export class SpellbookComponent implements OnInit {
     }
 
     receive_SpellMessage(name: string) {
-        this.toggle_Item(name);
+        this.toggle_Spell(0);
     }
 
     get_showSpell() {
@@ -194,6 +194,8 @@ export class SpellbookComponent implements OnInit {
         if (levelNumber == -1) {
             if (casting.castingType == "Focus") {
                 return spellSort(character.get_SpellsTaken(this.characterService, 1, character.level, levelNumber, "", casting, "", "", "", "", "", undefined, this.get_SignatureSpellsAllowed()));
+            } else {
+                return [];
             }
         } else {
             return spellSort(character.get_SpellsTaken(this.characterService, 1, character.level, levelNumber, "", casting, "", "", "", "", "", undefined, this.get_SignatureSpellsAllowed()));
@@ -445,8 +447,26 @@ export class SpellbookComponent implements OnInit {
         return this.get_SignatureSpellsAllowed() && choice.signatureSpell;
     }
 
-    get_TemporarySpellChoices(casting: SpellCasting) {
-        return casting.spellChoices.filter(choice => choice.showOnSheet);
+    is_InfinitePossibilitiesSpell(choice: SpellChoice) {
+        return choice.source == "Infinite Possibilities";
+    }
+
+    is_SpellMasterySpell(choice: SpellChoice) {
+        return choice.source == "Spell Mastery";
+    }
+
+    get_TemporarySpellChoices(casting: SpellCasting, level: number) {
+        return casting.spellChoices.filter(choice => choice.showOnSheet && choice.level == level && this.get_TemporarySpellChoiceUnlocked(casting, choice, level));
+    }
+
+    get_TemporarySpellChoiceUnlocked(casting: SpellCasting, choice: SpellChoice, level: number = 0) {
+        //This function is so far only used to unlock the Infinite Possibilities bonus spell slot.
+        if (choice.source == "Infinite Possibilities") {
+            //Check if the spell slot on this level has been unlocked.
+            return casting.spellChoices.find(choice => choice.level == level + 2 && choice.infinitePossibilities) ? 1 : 0;
+        } else {
+            return 0;
+        }
     }
 
     finish_Loading() {

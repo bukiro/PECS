@@ -288,6 +288,7 @@ export class CharacterComponent implements OnInit {
         this.characterService.set_ToChange("Character", "individualskills", "all");
         this.characterService.set_ToChange("Character", "individualspells", "all");
         this.characterService.set_ToChange("Character", "activities");
+        this.characterService.set_ToChange("Character", "spells");
         if (this.get_Character().get_AbilityBoosts(lowerLevel, higherLevel).length) {
             this.characterService.set_ToChange("Character", "abilities");
         }
@@ -299,11 +300,9 @@ export class CharacterComponent implements OnInit {
                 this.characterService.set_ToChange("Character", "abilities");
             }
             if (feat.gainSpellCasting.length || feat.gainSpellChoice.length) {
-                this.characterService.set_ToChange("Character", "spells");
                 this.characterService.set_ToChange("Character", "spellbook");
             }
             if (feat.gainSpellChoice.length) {
-                this.characterService.set_ToChange("Character", "spells");
                 this.characterService.set_ToChange("Character", "spellbook");
             }
             if (feat.superType == "Adopted Ancestry") {
@@ -314,11 +313,9 @@ export class CharacterComponent implements OnInit {
             }
         });
         if (this.get_Character().get_SpellsLearned().filter(learned => learned.level >= lowerLevel && learned.level <= higherLevel).length) {
-            this.characterService.set_ToChange("Character", "spells");
             this.characterService.set_ToChange("Character", "spellbook");
         }
         if (this.get_Character().get_SpellsTaken(this.characterService, lowerLevel, higherLevel).length) {
-            this.characterService.set_ToChange("Character", "spells");
             this.characterService.set_ToChange("Character", "spellbook");
         }
         if (this.characterService.get_CompanionAvailable()) {
@@ -328,11 +325,9 @@ export class CharacterComponent implements OnInit {
             this.characterService.set_ToChange("Familiar", "all");
             this.get_Familiar().abilities.feats.map(gain => this.familiarsService.get_FamiliarAbilities(gain.name)[0]).filter(feat => feat).forEach(feat => {
                 if (feat.name == "Cantrip Connection") {
-                    this.characterService.set_ToChange("Character", "spells");
                     this.characterService.set_ToChange("Character", "spellbook");
                 }
                 if (feat.name == "Spell Battery") {
-                    this.characterService.set_ToChange("Character", "spells");
                     this.characterService.set_ToChange("Character", "spellbook");
                 }
             })

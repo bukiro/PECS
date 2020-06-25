@@ -568,6 +568,7 @@ export class FeatsService {
                     character.class.spellCasting.filter(casting => casting.castingType == "Prepared" && casting.className == "Wizard").forEach(casting => {
                         casting.bondedItemCharges = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
                     });
+                    character.class.spellBook = character.class.spellBook.filter(learned => learned.source != "school")
                 }
             }
 
@@ -633,6 +634,11 @@ export class FeatsService {
             //Superior Sight gives a hardcoded sense and needs to update the skills list (where senses are listed).
             if (feat.name == "Superior Sight") {
                 characterService.set_ToChange(creature.type, "skills");
+            }
+            
+            //Arcane Breadth gives hardcoded spell slots and needs to update the spellbook menu.
+            if (feat.name == "Arcane Breadth") {
+                characterService.set_ToChange(creature.type, "spells");
             }
 
             //Some hardcoded effects change depending on feats. There is no good way to resolve this, so we calculate the effects whenever we take a feat.

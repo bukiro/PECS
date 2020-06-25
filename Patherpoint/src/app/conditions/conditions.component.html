@@ -55,7 +55,16 @@
                                 <div class="row" *ngIf="condition.name == 'Persistent Damage'">
                                     <span>
                                         Damage type and amount: <input type="text" name="persistentDamage"
-                                            [(ngModel)]="persistentDamage" maxLength="30">
+                                            [(ngModel)]="condition.choice" maxLength="30">
+                                    </span>
+                                </div>
+                                <div class="row" *ngIf="condition.choices.length">
+                                    <span>Effect selection:
+                                        <select [(ngModel)]="condition.choice">
+                                            <option *ngFor="let choice of condition.choices; trackBy:trackByIndex;" [ngValue]="choice">
+                                                {{choice}}
+                                            </option>
+                                        </select>
                                     </span>
                                 </div>
                                 <div class="row" *ngIf="condition.fixedDuration">

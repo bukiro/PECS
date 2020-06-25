@@ -13,7 +13,6 @@ export class ConditionGain {
     public onset: boolean = false;
     public name: string = "";
     public source: string = "";
-    public persistentDamage: string = "";
     public value: number = 0;
     //Spells choose from multiple conditions those that match their level.
     //For example, if a spell has a ConditionGain with heightenedFilter 1 and one with heightenedFilter 2, and the spell is cast at 2nd level, only the heightenedFilter 2 ConditionGain is used.
@@ -27,4 +26,6 @@ export class ConditionGain {
     public persistent: boolean = false;
     //For spells, designate if the condition is meant for the caster or "" for the normal target creature.
     public targetFilter: string = "";
+    //Some conditions have a choice that you can make. That is stored in this value.
+    public choice: string = "";
 }

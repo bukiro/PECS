@@ -77,80 +77,83 @@ export class SpellsService {
                 break;
         }
 
-        if (targetCreature) {
-            //Gain Items on Activation
-            if (targetCreature.type != "Familiar")
-            if (spell.get_HeightenedItems(level).length) {
-                if (activated) {
-                    gain.gainItems = spell.get_HeightenedItems(level).map(itemGain => Object.assign(new ItemGain(), itemGain));
-                    gain.gainItems.forEach(gainItem => {
-                        let newItem: Item = itemsService.get_CleanItems()[gainItem.type].filter(item => item.name == gainItem.name)[0];
-                        if (newItem.can_Stack()) {
-                            characterService.grant_InventoryItem(targetCreature as Character|AnimalCompanion, targetCreature.inventories[0], newItem, false, false, false, gainItem.amount);
-                        } else {
-                            let grantedItem = characterService.grant_InventoryItem(targetCreature as Character|AnimalCompanion, targetCreature.inventories[0], newItem, false, false, true);
-                            gainItem.id = grantedItem.id;
-                            grantedItem.expiration = customDuration || gainItem.expiration;
-                            if (grantedItem.get_Name) {
-                                grantedItem.grantedBy = "(Granted by " + spell.name + ")";
-                            };
+        //Gain Items on Activation
+        if (targetCreature && targetCreature.type != "Familiar")
+        if (spell.get_HeightenedItems(level).length) {
+            if (activated) {
+                gain.gainItems = spell.get_HeightenedItems(level).map(itemGain => Object.assign(new ItemGain(), itemGain));
+                gain.gainItems.forEach(gainItem => {
+                    let newItem: Item = itemsService.get_CleanItems()[gainItem.type].filter(item => item.name == gainItem.name)[0];
+                    if (newItem.can_Stack()) {
+                        characterService.grant_InventoryItem(targetCreature as Character|AnimalCompanion, targetCreature.inventories[0], newItem, false, false, false, gainItem.amount);
+                    } else {
+                        let grantedItem = characterService.grant_InventoryItem(targetCreature as Character|AnimalCompanion, targetCreature.inventories[0], newItem, false, false, true);
+                        gainItem.id = grantedItem.id;
+                        grantedItem.expiration = customDuration || gainItem.expiration;
+                        if (grantedItem.get_Name) {
+                            grantedItem.grantedBy = "(Granted by " + spell.name + ")";
+                        };
+                    }
+                });
+            } else {
+                gain.gainItems.forEach(gainItem => {
+                    if (itemsService.get_Items()[gainItem.type].filter((item: Item) => item.name == gainItem.name)[0].can_Stack()) {
+                        let items: Item[] = targetCreature.inventories[0][gainItem.type].filter((item: Item) => item.name == gainItem.name);
+                        if (items.length) {
+                            characterService.drop_InventoryItem(targetCreature as Character|AnimalCompanion, targetCreature.inventories[0], items[0], false, false, true, gainItem.amount);
                         }
-                    });
-                } else {
-                    gain.gainItems.forEach(gainItem => {
-                        if (itemsService.get_Items()[gainItem.type].filter((item: Item) => item.name == gainItem.name)[0].can_Stack()) {
-                            let items: Item[] = targetCreature.inventories[0][gainItem.type].filter((item: Item) => item.name == gainItem.name);
-                            if (items.length) {
-                                characterService.drop_InventoryItem(targetCreature as Character|AnimalCompanion, targetCreature.inventories[0], items[0], false, false, true, gainItem.amount);
-                            }
-                        } else {
-                            let items: Item[] = targetCreature.inventories[0][gainItem.type].filter((item: Item) => item.id == gainItem.id);
-                            if (items.length) {
-                                characterService.drop_InventoryItem(targetCreature as Character|AnimalCompanion, targetCreature.inventories[0], items[0], false, false, true);
-                            }
-                            gainItem.id = "";
+                    } else {
+                        let items: Item[] = targetCreature.inventories[0][gainItem.type].filter((item: Item) => item.id == gainItem.id);
+                        if (items.length) {
+                            characterService.drop_InventoryItem(targetCreature as Character|AnimalCompanion, targetCreature.inventories[0], items[0], false, false, true);
                         }
-                    });
-                    gain.gainItems = [];
-                }
-            }
-
-            //Apply conditions.
-            //Remove conditions only if the spell was deactivated manually, i.e. if you want the condition to end.
-            //If the spell ends by the time running out, the condition will also have a timer and run out by itself.
-            //This allows us to manually change the duration for a condition and keep it running when the spell runs out
-            //  (because it's much more difficult to change the spell duration -and- the condition duration).
-            if (spell.get_HeightenedConditions(level)) {
-                if (activated) {
-                    spell.get_HeightenedConditions(level).forEach(conditionGain => {
-                        let newConditionGain = Object.assign(new ConditionGain(), conditionGain);
-                        //Pass the spell level in case that condition effects change with level
-                        newConditionGain.heightened = level;
-                        //If this spell was cast by an activity, it may have a specified duration. Apply that here.
-                        if (customDuration) {
-                            newConditionGain.duration = customDuration;
-                        }
-                        let conditionTarget = targetCreature;
-                        if (conditionGain.targetFilter == "caster") {
-                            conditionTarget = creature;
-                        }
-                        characterService.add_Condition(conditionTarget, newConditionGain, false);
-                    });
-                } else if (manual) {
-                    spell.get_HeightenedConditions(level).forEach(conditionGain => {
-                        let conditionTarget = targetCreature;
-                        if (conditionGain.targetFilter == "caster") {
-                            conditionTarget = creature;
-                        }
-                        characterService.get_AppliedConditions(targetCreature, conditionGain.name)
-                            .filter(existingConditionGain => existingConditionGain.source == conditionGain.source)
-                            .forEach(existingConditionGain => {
-                            characterService.remove_Condition(targetCreature, existingConditionGain, false);
-                        });
-                    })
-                }
+                        gainItem.id = "";
+                    }
+                });
+                gain.gainItems = [];
             }
         }
+
+        //Apply conditions.
+        //Remove conditions only if the spell was deactivated manually, i.e. if you want the condition to end.
+        //If the spell ends by the time running out, the condition will also have a timer and run out by itself.
+        //This allows us to manually change the duration for a condition and keep it running when the spell runs out
+        //  (because it's much more difficult to change the spell duration -and- the condition duration).
+        if (spell.get_HeightenedConditions(level)) {
+            if (activated) {
+                spell.get_HeightenedConditions(level).forEach(conditionGain => {
+                    let newConditionGain = Object.assign(new ConditionGain(), conditionGain);
+                    //Pass the spell level in case that condition effects change with level
+                    newConditionGain.heightened = level;
+                    //If this spell was cast by an activity, it may have a specified duration. Apply that here.
+                    if (customDuration) {
+                        newConditionGain.duration = customDuration;
+                    }
+                    let conditionTarget = targetCreature;
+                    if (conditionGain.targetFilter == "caster") {
+                        conditionTarget = creature;
+                    }
+                    if (conditionTarget) {
+                        characterService.add_Condition(conditionTarget, newConditionGain, false);
+                    }
+                });
+            } else if (manual) {
+                spell.get_HeightenedConditions(level).forEach(conditionGain => {
+                    let conditionTarget = targetCreature;
+                    if (conditionGain.targetFilter == "caster") {
+                        conditionTarget = creature;
+                    }
+                    if (conditionTarget) {
+                        characterService.get_AppliedConditions(targetCreature, conditionGain.name)
+                        .filter(existingConditionGain => existingConditionGain.source == conditionGain.source)
+                        .forEach(existingConditionGain => {
+                        characterService.remove_Condition(targetCreature, existingConditionGain, false);
+                    });
+                    }
+                })
+            }
+        }
+
         if (changeAfter) {
             characterService.process_ToChange();
         }

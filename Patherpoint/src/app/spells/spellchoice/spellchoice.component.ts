@@ -209,8 +209,8 @@ export class SpellchoiceComponent implements OnInit {
 
     get_InfinitePossibilitiesUnlocked(level: number = 0) {
         //This function is used both to unlock the Infinite Possibilities bonus spell slot (choice.source == "Infinite Possibilities")
-        //  and to check if the current choice can be traded in for a spell slot at the given level (get_SpellBlendingAllowed()).
-        if (this.get_SpellBlendingAllowed() || this.choice.source == "Infinite Possibilities") {
+        //  and to check if the current choice can be traded in for a spell slot at the given level (get_InfinitePossibilitiesAllowed()).
+        if (this.get_InfinitePossibilitiesAllowed() || this.choice.source == "Infinite Possibilities") {
             //Check if any spell slots have been traded in for IP (level == 0) or if the one on this level has been unlocked.
             if (level == 0) {
                 return this.spellCasting.spellChoices.find(choice => choice.infinitePossibilities) ? 1 : 0;
@@ -220,6 +220,10 @@ export class SpellchoiceComponent implements OnInit {
         } else {
             return 0;
         }
+    }
+
+    is_InfinitePossibilitiesSpell(choice: SpellChoice) {
+        return choice.source == "Infinite Possibilities";
     }
 
     on_SpellCombination(choice: SpellChoice) {
@@ -239,6 +243,7 @@ export class SpellchoiceComponent implements OnInit {
     }
 
     get_DynamicLevel(choice: SpellChoice) {
+        //Prepare highest spell level for eval().
         let highestSpellLevel = this.get_HighestSpellLevel();
         let Character = this.get_Character();
         function Skill_Level(name: string) {

@@ -189,19 +189,23 @@ export class Character extends Creature {
         let spellCasting = this.class.spellCasting
             .find(casting => casting.castingType == newChoice.castingType &&
                 (casting.className == newChoice.className || newChoice.className == ""));
-        let newLength: number = spellCasting.spellChoices.push(Object.assign(new SpellChoice(), JSON.parse(JSON.stringify(newChoice))));
-        let choice = spellCasting.spellChoices[newLength-1];
-        choice.spells = choice.spells.map(gain => Object.assign(new SpellGain(), gain));
-        //If the choice has a charLevelAvailable lower than the current level, you could choose spells before you officially get this choice.
-        //So we raise the charLevelAvailable to either the current level or the original value, whichever is higher.
-        choice.charLevelAvailable = Math.max(choice.charLevelAvailable, levelNumber);
-        //If the spellcasting was not available so far, it is now.
-        if (!spellCasting.charLevelAvailable) {
-            spellCasting.charLevelAvailable = choice.charLevelAvailable;
+        if (spellCasting) {
+            let newLength: number = spellCasting.spellChoices.push(Object.assign(new SpellChoice(), JSON.parse(JSON.stringify(newChoice))));
+            let choice = spellCasting.spellChoices[newLength-1];
+            choice.spells = choice.spells.map(gain => Object.assign(new SpellGain(), gain));
+            //If the choice has a charLevelAvailable lower than the current level, you could choose spells before you officially get this choice.
+            //So we raise the charLevelAvailable to either the current level or the original value, whichever is higher.
+            choice.charLevelAvailable = Math.max(choice.charLevelAvailable, levelNumber);
+            //If the spellcasting was not available so far, it is now.
+            if (!spellCasting.charLevelAvailable) {
+                spellCasting.charLevelAvailable = choice.charLevelAvailable;
+            }
+            characterService.set_ToChange("Character", "spells");
+            characterService.set_ToChange("Character", "spellbook");
+            return choice;
+        } else {
+            console.log("No suitable spell casting ability found to add spell choice.")
         }
-        characterService.set_ToChange("Character", "spells");
-        characterService.set_ToChange("Character", "spellbook");
-        return choice;
     }
     remove_SpellChoice(characterService: CharacterService, oldChoice: SpellChoice) {
         //Remove the spellChoice by ID

@@ -219,8 +219,7 @@
                 "skill": "Crafting",
                 "value": 2
             }
-        ],
-        "gainFormulaChoice": "##########Formulas are not yet implemented.##########"
+        ]
     },
     {
         "name": "Ancestral Paragon",
@@ -3255,8 +3254,7 @@
                 "skill": "Crafting",
                 "value": 4
             }
-        ],
-        "gainFormulaChoice": "##########Formulas are not yet implemented.##########"
+        ]
     },
     {
         "name": "Magical Shorthand",
@@ -4577,8 +4575,7 @@
                 "skill": "Crafting",
                 "value": 2
             }
-        ],
-        "gainFormulaChoice": "##########Formulas are not yet implemented.##########"
+        ]
     },
     {
         "name": "Snow Goblin",
@@ -4604,9 +4601,13 @@
             "Dedication",
             "Multiclass"
         ],
+        "abilityreq": [
+            {
+                "ability": "Charisma",
+                "value": 14
+            }
+        ],
         "levelreq": 2,
-        "specialreq": "character.class != 'Sorcerer'",
-        "specialreqdesc": "not Sorcerer class",
         "gainFeatChoice": [
             {
                 "_className": "FeatChoice",
@@ -16213,7 +16214,7 @@
                 ],
                 "id": "6516ec4d-4b96-4094-8659-5cc62b2823f5",
                 "level": -1,
-                "source": "Feat: Advanced School Spell: Necromancy"
+                "source": "Feat: Universal Versatility"
             }
         ]
     },
@@ -16408,6 +16409,7 @@
                 "className": "Wizard",
                 "id": "31bcd5cd-838c-4100-95c3-7b1e07e26e8c",
                 "level": 1,
+                "showOnSheet": true,
                 "source": "Infinite Possibilities"
             },
             {
@@ -16417,6 +16419,7 @@
                 "className": "Wizard",
                 "id": "e04e232e-f207-4cb6-b142-99992a3c745e",
                 "level": 2,
+                "showOnSheet": true,
                 "source": "Infinite Possibilities"
             },
             {
@@ -16426,6 +16429,7 @@
                 "className": "Wizard",
                 "id": "33baaff5-5534-4201-b3b1-be8cd736d7bb",
                 "level": 3,
+                "showOnSheet": true,
                 "source": "Infinite Possibilities"
             },
             {
@@ -16435,6 +16439,7 @@
                 "className": "Wizard",
                 "id": "2a578f79-664d-4b9d-bfe6-79811bc5d942",
                 "level": 4,
+                "showOnSheet": true,
                 "source": "Infinite Possibilities"
             },
             {
@@ -16444,6 +16449,7 @@
                 "className": "Wizard",
                 "id": "e1a14fd1-5728-41cb-a3d2-17e50649e418",
                 "level": 5,
+                "showOnSheet": true,
                 "source": "Infinite Possibilities"
             },
             {
@@ -16453,6 +16459,7 @@
                 "className": "Wizard",
                 "id": "bb0fbe01-2391-43c6-b281-46ae7c602ed0",
                 "level": 6,
+                "showOnSheet": true,
                 "source": "Infinite Possibilities"
             },
             {
@@ -16462,6 +16469,7 @@
                 "className": "Wizard",
                 "id": "a746f342-218a-4e08-8141-35d5d263450a",
                 "level": 7,
+                "showOnSheet": true,
                 "source": "Infinite Possibilities"
             },
             {
@@ -16471,6 +16479,7 @@
                 "className": "Wizard",
                 "id": "5fd432e9-b951-4b45-8bd0-7e6ffbf267ec",
                 "level": 8,
+                "showOnSheet": true,
                 "source": "Infinite Possibilities"
             }
         ]
@@ -16524,8 +16533,8 @@
     },
     {
         "name": "Spell Combination",
-        "desc": "You can merge spells, producing multiple effects with a single casting. One slot of each level of spell you can cast, except 2nd level and 1st level, becomes a spell combination slot (this doesn’t apply to cantrips). When you prepare your spells, you can fill a combination slot with a combination of two spells. Each spell in the combination must be 2 or more spell levels below the slot’s level, and both must target only one creature or object or have the option to target only one creature or object. Each spell in the combination must also have the same means of determining whether it has an effect—both spells must require a ranged spell attack roll, require the same type of saving throw, or automatically affect the target.\n\nWhen you cast a combined spell, it affects only one target, even if the component spells normally affect more than one. If any spell in the combination has further restrictions (such as targeting only living creatures), you must abide by all restrictions. The combined spell uses the shorter of the component spells’ ranges. Resolve a combined spell as if were a single spell, but apply the effects of both component spells. For example, if the spell’s target succeeded at the save against a combined spell, it would apply the success effect of each spell, and if it critically failed, it would apply the critical failure effect of both spells.",
-        "hint": "When you prepare your spells, you can fill a combination slot with a combination of two spells. Each spell in the combination must be 2 or more spell levels below the slot’s level, and both must target only one creature or object or have the option to target only one creature or object. Each spell in the combination must also have the same means of determining whether it has an effect—both spells must require a ranged spell attack roll, require the same type of saving throw, or automatically affect the target.\n\nWhen you cast a combined spell, it affects only one target, even if the component spells normally affect more than one. If any spell in the combination has further restrictions (such as targeting only living creatures), you must abide by all restrictions. The combined spell uses the shorter of the component spells’ ranges. Resolve a combined spell as if were a single spell, but apply the effects of both component spells. For example, if the spell’s target succeeded at the save against a combined spell, it would apply the success effect of each spell, and if it critically failed, it would apply the critical failure effect of both spells.",
+        "desc": "You can merge spells, producing multiple effects with a single casting. One slot of each level of spell you can cast, except 2nd level and 1st level, becomes a spell combination slot (this doesn’t apply to cantrips). When you prepare your spells, you can fill a combination slot with a combination of two spells. Each spell in the combination must be 2 or more spell levels below the slot’s level, and both must target only one creature or object or have the option to target only one creature or object. Each spell in the combination must also have the same means of determining whether it has an effect - both spells must require a ranged spell attack roll, require the same type of saving throw, or automatically affect the target.\n\nWhen you cast a combined spell, it affects only one target, even if the component spells normally affect more than one. If any spell in the combination has further restrictions (such as targeting only living creatures), you must abide by all restrictions. The combined spell uses the shorter of the component spells’ ranges. Resolve a combined spell as if were a single spell, but apply the effects of both component spells. For example, if the spell’s target succeeded at the save against a combined spell, it would apply the success effect of each spell, and if it critically failed, it would apply the critical failure effect of both spells.",
+        "hint": "When you prepare your spells, you can fill a combination slot with a combination of two spells. Each spell in the combination must be 2 or more spell levels below the slot’s level, and both must target only one creature or object or have the option to target only one creature or object. Each spell in the combination must also have the same means of determining whether it has an effect - both spells must require a ranged spell attack roll, require the same type of saving throw, or automatically affect the target.\n\nWhen you cast a combined spell, it affects only one target, even if the component spells normally affect more than one. If any spell in the combination has further restrictions (such as targeting only living creatures), you must abide by all restrictions. The combined spell uses the shorter of the component spells’ ranges. Resolve a combined spell as if were a single spell, but apply the effects of both component spells. For example, if the spell’s target succeeded at the save against a combined spell, it would apply the success effect of each spell, and if it critically failed, it would apply the critical failure effect of both spells.",
         "showon": "Spellbook, Wizard Prepared Spells",
         "internalNote": "Very much hardcoded.",
         "shortdesc": "You can merge spells, producing multiple effects with a single casting.",
@@ -16600,7 +16609,7 @@
                 "castingType": "Prepared",
                 "className": "Wizard",
                 "source": "Wizard Dedication",
-                "spellBookSlots": "[4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]",
+                "spellBookSlots": [4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
                 "tradition": "Arcane"
             }
         ],
@@ -16656,6 +16665,16 @@
                 "value": 1
             }
         ],
+        "gainSpellCasting": [
+            {
+                "_className": "SpellCasting",
+                "ability": "Intelligence",
+                "castingType": "Focus",
+                "className": "Wizard",
+                "source": "Feat: Arcane School Spell: Abjuration",
+                "tradition": "Arcane"
+            }
+        ],
         "gainSpellChoice": [
             {
                 "_className": "SpellChoice",
@@ -16698,6 +16717,16 @@
             {
                 "affected": "Focus Points",
                 "value": 1
+            }
+        ],
+        "gainSpellCasting": [
+            {
+                "_className": "SpellCasting",
+                "ability": "Intelligence",
+                "castingType": "Focus",
+                "className": "Wizard",
+                "source": "Feat: Arcane School Spell: Conjuration",
+                "tradition": "Arcane"
             }
         ],
         "gainSpellChoice": [
@@ -16744,6 +16773,16 @@
                 "value": 1
             }
         ],
+        "gainSpellCasting": [
+            {
+                "_className": "SpellCasting",
+                "ability": "Intelligence",
+                "castingType": "Focus",
+                "className": "Wizard",
+                "source": "Feat: Arcane School Spell: Divination",
+                "tradition": "Arcane"
+            }
+        ],
         "gainSpellChoice": [
             {
                 "_className": "SpellChoice",
@@ -16786,6 +16825,16 @@
             {
                 "affected": "Focus Points",
                 "value": 1
+            }
+        ],
+        "gainSpellCasting": [
+            {
+                "_className": "SpellCasting",
+                "ability": "Intelligence",
+                "castingType": "Focus",
+                "className": "Wizard",
+                "source": "Feat: Arcane School Spell: Enchantment",
+                "tradition": "Arcane"
             }
         ],
         "gainSpellChoice": [
@@ -16832,6 +16881,16 @@
                 "value": 1
             }
         ],
+        "gainSpellCasting": [
+            {
+                "_className": "SpellCasting",
+                "ability": "Intelligence",
+                "castingType": "Focus",
+                "className": "Wizard",
+                "source": "Feat: Arcane School Spell: Evocation",
+                "tradition": "Arcane"
+            }
+        ],
         "gainSpellChoice": [
             {
                 "_className": "SpellChoice",
@@ -16874,6 +16933,16 @@
             {
                 "affected": "Focus Points",
                 "value": 1
+            }
+        ],
+        "gainSpellCasting": [
+            {
+                "_className": "SpellCasting",
+                "ability": "Intelligence",
+                "castingType": "Focus",
+                "className": "Wizard",
+                "source": "Feat: Arcane School Spell: Illusion",
+                "tradition": "Arcane"
             }
         ],
         "gainSpellChoice": [
@@ -16920,6 +16989,16 @@
                 "value": 1
             }
         ],
+        "gainSpellCasting": [
+            {
+                "_className": "SpellCasting",
+                "ability": "Intelligence",
+                "castingType": "Focus",
+                "className": "Wizard",
+                "source": "Feat: Arcane School Spell: Necromancy",
+                "tradition": "Arcane"
+            }
+        ],
         "gainSpellChoice": [
             {
                 "_className": "SpellChoice",
@@ -16964,6 +17043,16 @@
                 "value": 1
             }
         ],
+        "gainSpellCasting": [
+            {
+                "_className": "SpellCasting",
+                "ability": "Intelligence",
+                "castingType": "Focus",
+                "className": "Wizard",
+                "source": "Feat: Arcane School Spell: Transmutation",
+                "tradition": "Arcane"
+            }
+        ],
         "gainSpellChoice": [
             {
                 "_className": "SpellChoice",
@@ -17000,7 +17089,7 @@
                 "available": 1,
                 "level": 2,
                 "source": "Feat: Basic Arcana",
-                "type": "Ranger"
+                "type": "Wizard"
             }
         ]
     },
@@ -17018,7 +17107,7 @@
         ],
         "gainSpellBookSlots": [
             {
-                "spellBookSlots": "[0, 1, 0, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]",
+                "spellBookSlots": [0, 2, 0, 2, 0, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
                 "className": "Wizard"
             }
         ],
@@ -17074,7 +17163,7 @@
                 "available": 1,
                 "dynamicLevel": "level.number / 2",
                 "source": "Feat: Advanced Arcana",
-                "type": "Ranger"
+                "type": "Wizard"
             }
         ]
     },
@@ -17128,7 +17217,7 @@
         ],
         "gainSpellBookSlots": [
             {
-                "spellBookSlots": "[0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0]",
+                "spellBookSlots": [0, 0, 0, 0, 0, 0, 0, 2, 0, 2, 0, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0],
                 "className": "Wizard"
             }
         ],
@@ -17200,7 +17289,7 @@
         ],
         "gainSpellBookSlots": [
             {
-                "spellBookSlots": "[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 0, 0, 0, 0, 0]",
+                "spellBookSlots": [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 0, 2, 0, 0, 0, 0, 0],
                 "className": "Wizard"
             }
         ],

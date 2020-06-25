@@ -137,7 +137,7 @@ export class SpellLibraryComponent implements OnInit {
     }
 
     get_WizardSpellCasting() {
-        let casting: SpellCasting = this.get_Character().class?.spellCasting.find(casting => casting.className == "Wizard" && casting.castingType == "Prepared");
+        let casting: SpellCasting = this.get_Character().class?.spellCasting.find(casting => casting.className == "Wizard" && casting.castingType == "Prepared" && casting.charLevelAvailable <= this.get_Character().level);
         return casting || new SpellCasting("Innate");
     }
 
@@ -222,6 +222,7 @@ export class SpellLibraryComponent implements OnInit {
             }
             if (level == 1 && this.get_School() == "Universalist Wizard") {
                 wizardAvailable += 1
+                wizardAvailableAll += 1;
             }
             return wizardAvailable > wizardLearned && wizardAvailableAll > wizardLearnedAll;
         }
@@ -311,7 +312,15 @@ export class SpellLibraryComponent implements OnInit {
     }
 
     get_SpellMasteryAllowed(casting: SpellCasting, levelNumber: number, spell: Spell) {
-        return !casting.spellChoices.find(choice => choice.source == "Spell Mastery" && (choice.level == levelNumber || choice.spells.find(spellTaken => spellTaken.name == spell.name)));
+        //Allow taking this spell if this spell or a spell of this level is not taken yet, and if no more than 3 of 4 spells are taken.
+        return !casting.spellChoices.find(choice => 
+            choice.source == "Spell Mastery" &&
+                (
+                    choice.level == levelNumber ||
+                    choice.spells.find(spellTaken => spellTaken.name == spell.name)
+                )
+            ) &&
+            casting.spellChoices.filter(choice => choice.source == "Spell Mastery").length < 4;
     }
 
     add_SpellMasterySpell(spell: Spell) {
@@ -323,6 +332,7 @@ export class SpellLibraryComponent implements OnInit {
         newChoice.level = spell.levelreq;
         newSpellTaken.name = spell.name;
         newSpellTaken.locked = true;
+        newSpellTaken.source = "Spell Mastery";
         newChoice.spells.push(newSpellTaken);
         this.get_Character().add_SpellChoice(this.characterService, spell.levelreq, newChoice);
         this.characterService.process_ToChange();

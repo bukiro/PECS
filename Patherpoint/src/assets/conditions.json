@@ -22,7 +22,7 @@
             {
                 "affected": "Dexterity-based Checks and DCs",
                 "type": "status",
-                "value": "-(object.value)"
+                "value": "-(Value)"
             }
         ],
         "hasValue": true,
@@ -95,7 +95,7 @@
         "effects": [
             {
                 "affected": "Max Dying",
-                "value": "-(object.value)"
+                "value": "-(Value)"
             }
         ],
         "hasValue": true,
@@ -109,11 +109,11 @@
             {
                 "affected": "Max HP",
                 "type": "status",
-                "value": "-(object.value) * Level"
+                "value": "-(Value) * Level"
             },
             {
                 "affected": "Constitution-based Checks and DCs",
-                "value": "-(object.value)"
+                "value": "-(Value)"
             }
         ],
         "hasValue": true,
@@ -160,7 +160,7 @@
             {
                 "affected": "Strength-based Checks and DCs",
                 "type": "status",
-                "value": "-(object.value)"
+                "value": "-(Value)"
             }
         ],
         "hasValue": true,
@@ -250,7 +250,7 @@
             {
                 "affected": "All Checks and DCs",
                 "type": "status",
-                "value": "-(object.value)"
+                "value": "-(Value)"
             }
         ],
         "hasValue": true,
@@ -409,7 +409,7 @@
             {
                 "affected": "All Checks and DCs",
                 "type": "status",
-                "value": "-(object.value)"
+                "value": "-(Value)"
             }
         ],
         "hasValue": true,
@@ -421,7 +421,7 @@
         "effects": [
             {
                 "affected": "Actions per Turn",
-                "value": "-(object.value)"
+                "value": "-(Value)"
             }
         ],
         "hasValue": true,
@@ -433,7 +433,7 @@
         "effects": [
             {
                 "affected": "Actions per Turn",
-                "value": "-(object.value)"
+                "value": "-(Value)"
             }
         ],
         "hasValue": true,
@@ -451,15 +451,15 @@
         "effects": [
             {
                 "affected": "Intelligence-based Checks and DCs",
-                "value": "-(object.value)"
+                "value": "-(Value)"
             },
             {
                 "affected": "Wisdom-based Checks and DCs",
-                "value": "-(object.value)"
+                "value": "-(Value)"
             },
             {
                 "affected": "Charisma-based Checks and DCs",
-                "value": "-(object.value)"
+                "value": "-(Value)"
             }
         ],
         "hasValue": true,
@@ -879,7 +879,7 @@
             },
             {
                 "affected": "Fly Speed",
-                "setValue": "object.heightened >= 4 ? 20 : null"
+                "setValue": "Heightened >= 4 ? 20 : null"
             },
             {
                 "affected": "Ignore Armor Penalty",
@@ -1135,7 +1135,7 @@
         "effects": [
             {
                 "affected": "Bane Radius",
-                "setValue": "object.value * 5"
+                "setValue": "Value * 5"
             }
         ],
         "type": "spells"
@@ -1165,7 +1165,7 @@
             },
             {
                 "affected": "Bless Radius",
-                "setValue": "object.value * 5"
+                "setValue": "Value * 5"
             }
         ],
         "type": "spells"
@@ -1191,13 +1191,13 @@
         "onceEffects": [
             {
                 "affected": "Temporary HP",
-                "value": "(object.heightened) * 5"
+                "value": "(Heightened) * 5"
             }
         ],
         "endEffects": [
             {
                 "affected": "Temporary HP",
-                "value": "-Math.min((object.heightened) * 5, Temporary_HP())"
+                "value": "-Math.min((Heightened) * 5, Temporary_HP())"
             }
         ],
         "type": "spells"
@@ -1420,14 +1420,14 @@
         "effects": [
             {
                 "affected": "Fire Resistance",
-                "value": "(object.heightened) * 2"
+                "value": "(Heightened) * 2"
             }
         ],
         "type": "spells"
     },
     {
         "name": "Phantom Pain (Failure)",
-        "desc": "You are wracked by illusory pain, dealing 2d4 mental damage and 1d4 persistent mental damage per spell level. You are sickened 1. If you recover from being sickened, the persistent damage ends and the spell ends.",
+        "desc": "You are wracked by illusory pain, taking 2d4 mental damage and 1d4 persistent mental damage per spell level. You are sickened 1. If you recover from being sickened, the persistent damage ends and the spell ends.",
         "gainConditions": [
             {
                 "name": "Sickened",
@@ -1435,14 +1435,14 @@
             },
             {
                 "name": "Persistent Damage",
-                "persistentDamage": "Mental 1d4 per spell level"
+                "choice": "Mental 1d4 per spell level"
             }
         ],
         "type": "spells"
     },
     {
         "name": "Phantom Pain (Critical Failure)",
-        "desc": "You are wracked by illusory pain, dealing 2d4 mental damage and 1d4 persistent mental damage per spell level. You are sickened 2. If you recover from being sickened, the persistent damage ends and the spell ends.",
+        "desc": "You are wracked by illusory pain, taking 2d4 mental damage and 1d4 persistent mental damage per spell level. You are sickened 2. If you recover from being sickened, the persistent damage ends and the spell ends.",
         "gainConditions": [
             {
                 "name": "Sickened",
@@ -1450,7 +1450,7 @@
             },
             {
                 "name": "Persistent Damage",
-                "persistentDamage": "Mental 1d4 per spell level"
+                "choice": "Mental 1d4 per spell level"
             }
         ],
         "overrideConditions": [
@@ -1892,7 +1892,7 @@
         "effects": [
             {
                 "affected": "Mirror Images",
-                "value": "object.value"
+                "value": "Value"
             }
         ],
         "hasValue": true,
@@ -1928,29 +1928,36 @@
     {
         "name": "Physical Boost",
         "buff": true,
-        "desc": "Your physique is temporarily improved. You gain a +2 status bonus to the next Acrobatics check, Athletics check, Fortitude save, or Reflex save it attempts.",
+        "desc": "Your physique is temporarily improved. You gain a +2 status bonus to the next Acrobatics check, Athletics check, Fortitude save, or Reflex save you attempt.",
         "effects": [
             {
                 "affected": "Acrobatics",
                 "type": "status",
-                "value": "2"
+                "value": "Choice == 'Acrobatics' ? 2 : 0"
             },
             {
                 "affected": "Athletics",
                 "type": "status",
-                "value": "2"
+                "value": "Choice == 'Athletics' ? 2 : 0"
             },
             {
                 "affected": "Fortitude",
                 "type": "status",
-                "value": "2"
+                "value": "Choice == 'Fortitude' ? 2 : 0"
             },
             {
                 "affected": "Reflex",
                 "type": "status",
-                "value": "2"
+                "value": "Choice == 'Reflex' ? 2 : 0"
             }
         ],
+        "choices": [
+            "Acrobatics",
+            "Athletics",
+            "Fortitude",
+            "Reflex"
+        ],
+        "choice": "Acrobatics",
         "inputRequired": "After you apply the bonus to a check, the condition ends.",
         "type": "spells"
     },
@@ -1998,15 +2005,15 @@
         "effects": [
             {
                 "affected": "Bludgeoning Damage Resistance",
-                "value": "object.value"
+                "value": "Value"
             },
             {
                 "affected": "Piercing Damage Resistance",
-                "value": "object.value"
+                "value": "Value"
             },
             {
                 "affected": "Fire Resistance",
-                "value": "-object.value * 1.5"
+                "value": "-Value * 1.5"
             }
         ],
         "hasValue": true,
@@ -2027,7 +2034,7 @@
         "effects": [
             {
                 "affected": "Acid Resistance",
-                "value": "object.value"
+                "value": "Value"
             }
         ],
         "hasValue": true,
@@ -2040,7 +2047,7 @@
         "effects": [
             {
                 "affected": "Cold Resistance",
-                "value": "object.value"
+                "value": "Value"
             }
         ],
         "hasValue": true,
@@ -2053,7 +2060,7 @@
         "effects": [
             {
                 "affected": "Electricity Resistance",
-                "value": "object.value"
+                "value": "Value"
             }
         ],
         "hasValue": true,
@@ -2066,7 +2073,7 @@
         "effects": [
             {
                 "affected": "Fire Resistance",
-                "value": "object.value"
+                "value": "Value"
             }
         ],
         "hasValue": true,
@@ -2079,7 +2086,7 @@
         "effects": [
             {
                 "affected": "Sonic Resistance",
-                "value": "object.value"
+                "value": "Value"
             }
         ],
         "hasValue": true,
@@ -2688,7 +2695,7 @@
             {
                 "affected": "Land Speed",
                 "type": "status",
-                "value": "object.value"
+                "value": "Value"
             }
         ],
         "hasValue": true,
@@ -2980,22 +2987,22 @@
             {
                 "affected": "Deception",
                 "type": "item",
-                "value": "object.value"
+                "value": "Value"
             },
             {
                 "affected": "Diplomacy",
                 "type": "item",
-                "value": "object.value"
+                "value": "Value"
             },
             {
                 "affected": "Intimidation",
                 "type": "item",
-                "value": "object.value"
+                "value": "Value"
             },
             {
                 "affected": "Performance",
                 "type": "item",
-                "value": "object.value"
+                "value": "Value"
             },
             {
                 "affected": "Arcana",
@@ -3034,12 +3041,12 @@
             {
                 "affected": "Athletics",
                 "type": "item",
-                "value": "object.value"
+                "value": "Value"
             },
             {
                 "affected": "Unarmed Attack Rolls",
                 "type": "item",
-                "value": "object.value"
+                "value": "Value"
             },
             {
                 "affected": "AC",
@@ -3293,32 +3300,32 @@
             {
                 "affected": "Acrobatics",
                 "type": "item",
-                "value": "object.value"
+                "value": "Value"
             },
             {
                 "affected": "Stealth",
                 "type": "item",
-                "value": "object.value"
+                "value": "Value"
             },
             {
                 "affected": "Thievery",
                 "type": "item",
-                "value": "object.value"
+                "value": "Value"
             },
             {
                 "affected": "Reflex",
                 "type": "item",
-                "value": "object.value"
+                "value": "Value"
             },
             {
                 "affected": "Ranged Attack Rolls",
                 "type": "item",
-                "value": "object.value"
+                "value": "Value"
             },
             {
                 "affected": "Land Speed",
                 "type": "status",
-                "value": "object.value * 5"
+                "value": "Value * 5"
             },
             {
                 "affected": "Fortitude",
@@ -3339,7 +3346,7 @@
             {
                 "affected": "Perception",
                 "type": "item",
-                "value": "object.value"
+                "value": "Value"
             }
         ],
         "hasValue": true,
@@ -3355,7 +3362,7 @@
             {
                 "affected": "Perception",
                 "type": "item",
-                "value": "object.value"
+                "value": "Value"
             }
         ],
         "hasValue": true,
@@ -4067,7 +4074,7 @@
             {
                 "affected": "Will",
                 "type": "item",
-                "value": "object.value"
+                "value": "Value"
             }
         ],
         "hasValue": true,
@@ -4083,7 +4090,7 @@
             {
                 "affected": "Will",
                 "type": "item",
-                "value": "object.value"
+                "value": "Value"
             }
         ],
         "hasValue": true,
@@ -4247,7 +4254,7 @@
         "effects": [
             {
                 "affected": "Physical Damage Resistance (except Bludgeoning)",
-                "value": "object.value * 5"
+                "value": "Value * 5"
             },
             {
                 "affected": "Speed",
@@ -4734,7 +4741,7 @@
         "effects": [
             {
                 "affected": "Protective Ward Radius",
-                "setValue": "object.value * 5"
+                "setValue": "Value * 5"
             },
             {
                 "affected": "AC",
@@ -4753,7 +4760,7 @@
         "effects": [
             {
                 "affected": "Warped Terrain Radius",
-                "setValue": "object.value * 5"
+                "setValue": "Value * 5"
             }
         ],
         "type": "spells"

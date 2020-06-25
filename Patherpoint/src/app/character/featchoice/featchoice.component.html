@@ -14,7 +14,7 @@
             <div title="{{(this.get_showFeat()==choice.id+featSet.feat.name+'desc') ? '' : featSet.feat.shortDesc}}" class="list-item"
                 *ngFor="let featSet of get_AvailableFeats(choice)|sortBy:'asc':'levelreq'; trackBy:trackByIndex;"
                 [ngClass]="{'unavailable':(!featSet.available)}">
-                <div class="row" *ngFor="let itemID of [choice.id+featSet.feat.name+'desc']; trackBy:trackByIndex;">
+                <div class="row left-aligned" style="justify-content: flex-end;" *ngFor="let itemID of [choice.id+featSet.feat.name+'desc']; trackBy:trackByIndex;">
                     <span style="flex-grow:2">
                         <input *ngIf="!featSet.feat.subTypes && featSet.available" id="{{choice.id+featSet.feat.name}}" type="checkbox"
                             (change)="on_FeatTaken(featSet.feat.name, $event.target.checked, choice, false)"

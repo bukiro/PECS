@@ -6,7 +6,7 @@
             <div class="row">
                 <span>
                     <strong [className]="condition.buff ? 'bonus' : 'penalty'"
-                        title="Source: {{conditionGain.source}}">{{conditionGain.name}}{{conditionGain.persistentDamage ? ": "+conditionGain.persistentDamage : ""}}
+                        title="Source: {{conditionGain.source}}">{{conditionGain.name}}{{conditionGain.choice ? ": "+conditionGain.choice : ""}}
                         {{(conditionGain.value) ? conditionGain.value : ""}}
                     </strong>
                     <cite class="trait" *ngFor="let trait of condition.traits; trackBy:trackByIndex;"
@@ -40,6 +40,21 @@
                 <span *ngIf="condition.previousCondition"><button (click)="change_ConditionStage(conditionGain, condition, -1)">{{conditionGain.nextStage == -1 ? "Success: " : ""}}Previous stage</button></span>
                 <span *ngIf="condition.nextCondition"><button (click)="change_ConditionStage(conditionGain, condition, 1)">{{conditionGain.nextStage == -1 ? "Failure: " : ""}}Next stage</button></span>
                 <span *ngIf="!condition.nextCondition"><button (click)="change_ConditionStage(conditionGain, condition, 0)">{{conditionGain.nextStage == -1 ? "Failure: " : ""}}Remain at this stage</button></span>
+            </div>
+            <div class="row" *ngIf="condition.name == 'Persistent Damage'">
+                <span>
+                    Damage type and amount: <input type="text" name="persistentDamage"
+                        [(ngModel)]="conditionGain.choice" maxLength="30">
+                </span>
+            </div>
+            <div class="row" *ngIf="condition.choices.length">
+                <span>Effect selection:
+                    <select [(ngModel)]="conditionGain.choice">
+                        <option *ngFor="let choice of condition.choices; trackBy:trackByIndex;" [ngValue]="choice" (ngModelChange)="change_ConditionChoice()">
+                            {{choice}}
+                        </option>
+                    </select>
+                </span>
             </div>
             <div class="row fullsize-only">
                 <div class="list-item lower row problem" *ngIf="condition.inputRequired">

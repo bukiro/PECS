@@ -21,7 +21,6 @@ export class ConditionsComponent implements OnInit {
     public endOn: number = 0;
     public value: number = 1;
     public heightened: number = 1;
-    public persistentDamage: string = "";
     public duration: number = -1;
     public showList: string = "";
     public showItem: string = "";
@@ -214,12 +213,9 @@ export class ConditionsComponent implements OnInit {
         } else {
             newGain.duration = duration + ((this.endOn + this.timeService.get_YourTurn()) % 10);
         }
+        newGain.choice = condition.choice;
         if (condition.hasValue) {
             newGain.value = this.value;
-        }
-        if (condition.name == "Persistent Damage") {
-            newGain.persistentDamage = this.persistentDamage;
-            newGain.value = 0;
         }
         if (condition.type == "spells") {
             newGain.heightened = this.heightened;

@@ -63,7 +63,7 @@ The very latest in Assistive Technologies for Dungeon Master (ATDM)
 - [x] - Monk
 - [x] - Fighter
 - [x] - Ranger
-- [ ] - Wizard
+- [x] - Wizard
 - [ ] Add custom conditions with effects
 - [ ] Item Icons
 - [ ] Initiative tracker, battles, being a battle member, GM-Player-Communication.......

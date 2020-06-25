@@ -860,6 +860,12 @@
             "Illusion",
             "Wizard"
         ],
+        "showSpells": [
+            {
+                "name": "Invisibility",
+                "level": 2
+            }
+        ],
         "target": "self",
         "duration": "1 minute",
         "desc": "<var>var1</var>You become invisible, with the same restrictions as the 2nd-level invisibility spell.",
@@ -1332,7 +1338,11 @@
             "Teleportation"
         ],
         "target": "self",
-        "showSpell": "Ethereal Jaunt",
+        "showSpells": [
+            {
+                "name": "Ethereal Jaunt"
+            }
+        ],
         "sustained": 100,
         "duration": "1 minute",
         "desc": "You turn ethereal, with the effects of ethereal jaunt, but you don't need to concentrate.",
@@ -4099,7 +4109,11 @@
         ],
         "range": "touch",
         "targets": "you and 1 other humanoid",
-        "showSpell": "Illusory Disguise",
+        "showSpells": [
+            {
+                "name": "Illusory Disguise"
+            }
+        ],
         "duration": "varies",
         "desc": "To mislead pursuers, the Lacunafex developed the means to swap visages. You trade appearances with the target, with the effects depending on the result of the target’s Will saving throw. Willing and unconscious targets automatically critically fail this saving throw.",
         "critsuccess": "No effect.",
@@ -4614,7 +4628,7 @@
         "targets": "1 willing living creature or 1 undead",
         "target": "ally",
         "singleTarget": true,
-        "desc": "You channel positive energy to heal the living or damage the undead. If the target is a willing living creature, you restore 1d8 Hit Points. If the target is undead, you deal that amount of positive damage to it, and it gets a basic Fortitude save. The number of actions you spend when Casting this Spell determines its targets, range, area, and other parameters.\n\n<strong>1 action (somatic)</strong> The spell has a range of touch.\n<strong>2 actions (verbal, somatic)</strong> The spell has a range of 30 feet. If you're healing a living creature, increase the Hit Points restored by <var>var2</var>.\n<strong>3 actions (material, verbal, somatic) </strong> You disperse negative energy in a 30-foot emanation. This targets all living and undead creatures in the area.",
+        "desc": "You channel positive energy to heal the living or damage the undead. If the target is a willing living creature, you restore <var>var1</var> Hit Points. If the target is undead, you deal that amount of positive damage to it, and it gets a basic Fortitude save. The number of actions you spend when Casting this Spell determines its targets, range, area, and other parameters.\n\n<strong>1 action (somatic)</strong> The spell has a range of touch.\n<strong>2 actions (verbal, somatic)</strong> The spell has a range of 30 feet. If you're healing a living creature, increase the Hit Points restored by <var>var2</var>.\n<strong>3 actions (material, verbal, somatic) </strong> You disperse negative energy in a 30-foot emanation. This targets all living and undead creatures in the area.",
         "savingthrow": "basic Fortitude",
         "heightened": [
             {
@@ -7352,7 +7366,11 @@
         ],
         "range": "30 feet",
         "target": "self",
-        "showSpell": "Summon Animal",
+        "showSpells": [
+            {
+                "name": "Summon Animal"
+            }
+        ],
         "sustained": 100,
         "duration": "sustained up to 1 minute",
         "desc": "You conjure a construct to fight for you. This works like summon animal, except you summon a common creature that has the construct trait and whose level is <var>var1</var>.",
@@ -7478,7 +7496,11 @@
         ],
         "range": "30 feet",
         "target": "self",
-        "showSpell": "Summon Animal",
+        "showSpells": [
+            {
+                "name": "Summon Animal"
+            }
+        ],
         "sustained": 100,
         "duration": "sustained up to 1 minute",
         "desc": "You conjure a fey to fight for you. This works like summon animal, except you summon a common creature that has the construct trait and whose level is <var>var1</var>.",
@@ -7604,7 +7626,11 @@
         ],
         "range": "30 feet",
         "target": "self",
-        "showSpell": "Summon Animal",
+        "showSpells": [
+            {
+                "name": "Summon Animal"
+            }
+        ],
         "sustained": 100,
         "duration": "sustained up to 1 minute",
         "desc": "You conjure a plant or fungus to fight for you. This works like summon animal, except you summon a common creature that has the plant or fungus trait and whose level is <var>var1</var>.",

@@ -64,8 +64,10 @@
                     <ng-container *ngIf="get_ShowList()==level||get_ShowList()==-2">
                         <div class="list-item"
                             *ngFor="let spell of visibleSpells|sortBy:'asc':'name'; trackBy:trackByIndex;">
-                            <button class="row sublist-toggle" (click)="toggle_Item(spell.id)"
+                            <button class="row left-aligned sublist-toggle" (click)="toggle_Item(spell.id)"
                                 [className]="{'fancy-button':get_SpellsLearned(spell.name).length}">
+                                <span title="Spell Mastery spell"
+                                    *ngIf="get_SpellMasterySelected(casting, spell)">&#9884;&nbsp;</span>
                                 <span>
                                     {{spell.name}}<app-actionIcons [actionString]="spell.actions">
                                     </app-actionIcons>{{spell.castType}}
