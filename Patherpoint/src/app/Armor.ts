@@ -6,6 +6,7 @@ import { Familiar } from './Familiar';
 import { Character } from './Character';
 import { SpecializationGain } from './SpecializationGain';
 import { Specialization } from './Specialization';
+import { ArmorMaterial } from './ArmorMaterial';
 
 export class Armor extends Equipment {
     public readonly _className: string = this.constructor.name;

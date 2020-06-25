@@ -50,59 +50,171 @@ export class ItemRunesComponent implements OnInit {
     }
 
     get_WeaponPotencyRunes() {
-        if (this.itemStore) {
-            return [0].concat(this.get_CleanItems().weaponrunes.filter(rune => rune.potency > 0).map(rune => rune.potency));
-        } else {
-            let runes: number[] = [0, this.item.potencyRune];
-            this.get_Character().inventories.forEach(inv => {
-                runes.push(...inv.weaponrunes.filter(rune => rune.potency > 0).map(rune => rune.potency));
-            })
-            return Array.from(new Set(runes));
+        let runes: { rune: number, disabled?: boolean }[] = [{ rune: 0 }];
+        if (this.item.potencyRune) {
+            runes.push({ rune: this.item.potencyRune, disabled: true });
         }
+        if (this.itemStore) {
+            let runeLimit = this.item.material?.[0]?.runeLimit || 0;
+            this.get_CleanItems().weaponrunes.filter(rune => rune.potency && rune.potency != this.item.potencyRune).forEach(rune => {
+                if (
+                    //Don't show runes that the item material doesn't support.
+                    runeLimit ?
+                        runeLimit >= rune.level
+                        : true
+                ) {
+                    runes.push({ rune: rune.potency, disabled: false })
+                } else {
+                    runes.push({ rune: rune.potency, disabled: true })
+                }
+            })
+        } else {
+            let runeLimit = this.item.material?.[0]?.runeLimit || 0;
+            this.get_Character().inventories.forEach(inv => {
+                inv.weaponrunes.filter(rune => rune.potency && rune.potency != this.item.potencyRune).forEach(rune => {
+                    if (
+                        //Don't show runes that the item material doesn't support.
+                        runeLimit ?
+                            runeLimit >= rune.level
+                            : true
+                    ) {
+                        runes.push({ rune: rune.potency, disabled: false })
+                    } else {
+                        runes.push({ rune: rune.potency, disabled: true })
+                    }
+                })
+            })
+        }
+        return Array.from(new Set(runes));
     }
 
     get_ArmorPotencyRunes() {
-        if (this.itemStore) {
-            return [0].concat(this.get_CleanItems().armorrunes.filter(rune => rune.potency > 0).map(rune => rune.potency));
-        } else {
-            let runes: number[] = [0, this.item.potencyRune];
-            this.get_Character().inventories.forEach(inv => {
-                runes.push(...inv.armorrunes.filter(rune => rune.potency > 0).map(rune => rune.potency));
-            })
-            return Array.from(new Set(runes));
+        let runes: { rune: number, disabled?: boolean }[] = [{ rune: 0 }];
+        if (this.item.potencyRune) {
+            runes.push({ rune: this.item.potencyRune, disabled: true });
         }
+        if (this.itemStore) {
+            let runeLimit = this.item.material?.[0]?.runeLimit || 0;
+            this.get_CleanItems().armorrunes.filter(rune => rune.potency && rune.potency != this.item.potencyRune).forEach(rune => {
+                if (
+                    //Don't show runes that the item material doesn't support.
+                    runeLimit ?
+                        runeLimit >= rune.level
+                        : true
+                ) {
+                    runes.push({ rune: rune.potency, disabled: false })
+                } else {
+                    runes.push({ rune: rune.potency, disabled: true })
+                }
+            })
+        } else {
+            let runeLimit = this.item.material?.[0]?.runeLimit || 0;
+            this.get_Character().inventories.forEach(inv => {
+                inv.armorrunes.filter(rune => rune.potency && rune.potency != this.item.potencyRune).forEach(rune => {
+                    if (
+                        //Don't show runes that the item material doesn't support.
+                        runeLimit ?
+                            runeLimit >= rune.level
+                            : true
+                    ) {
+                        runes.push({ rune: rune.potency, disabled: false })
+                    } else {
+                        runes.push({ rune: rune.potency, disabled: true })
+                    }
+                })
+            })
+        }
+        return Array.from(new Set(runes));
     }
 
     get_StrikingRunes() {
-        if (this.itemStore) {
-            return [0].concat(this.get_CleanItems().weaponrunes.filter(rune => rune.striking > 0 && rune.striking <= this.item.potencyRune).map(rune => rune.striking));
-        } else {
-            let runes: number[] = [0, this.item.strikingRune];
-            this.get_Character().inventories.forEach(inv => {
-                runes.push(...inv.weaponrunes.filter(rune => rune.striking > 0 && rune.striking <= this.item.potencyRune).map(rune => rune.striking));
-            })
-            return Array.from(new Set(runes));
+        let runes: { rune: number, disabled?: boolean }[] = [{ rune: 0 }];
+        if (this.item.strikingRune) {
+            runes.push({ rune: this.item.strikingRune, disabled: true });
         }
+        let runeLimit = this.item.material?.[0]?.runeLimit || 0;
+        if (this.itemStore) {
+            this.get_CleanItems().weaponrunes.filter(rune => rune.striking && rune.striking != this.item.strikingRune).forEach(rune => {
+                if (
+                    //Don't show runes that the item material doesn't support.
+                    runeLimit ?
+                        runeLimit >= rune.level
+                        : true
+                ) {
+                    runes.push({ rune: rune.striking, disabled: false })
+                } else {
+                    runes.push({ rune: rune.striking, disabled: true })
+                }
+            })
+        } else {
+            this.get_Character().inventories.forEach(inv => {
+                inv.weaponrunes.filter(rune => rune.striking && rune.striking != this.item.strikingRune).forEach(rune => {
+                    if (
+                        //Don't show runes that the item material doesn't support.
+                        runeLimit ?
+                            runeLimit >= rune.level
+                            : true
+                    ) {
+                        runes.push({ rune: rune.striking, disabled: false })
+                    } else {
+                        runes.push({ rune: rune.striking, disabled: true })
+                    }
+                })
+            })
+        }
+        return Array.from(new Set(runes));
     }
 
     get_ResilientRunes() {
-        if (this.itemStore) {
-            return [0].concat(this.get_CleanItems().armorrunes.filter(rune => rune.resilient > 0 && rune.resilient <= this.item.potencyRune).map(rune => rune.resilient));
-        } else {
-            let runes: number[] = [0, this.item.resilientRune];
-            this.get_Character().inventories.forEach(inv => {
-                runes.push(...inv.armorrunes.filter(rune => rune.resilient > 0 && rune.resilient <= this.item.potencyRune).map(rune => rune.resilient));
-            })
-            return Array.from(new Set(runes));
+        let runes: { rune: number, disabled?: boolean }[] = [{ rune: 0 }];
+        if (this.item.resilientRune) {
+            runes.push({ rune: this.item.resilientRune, disabled: true });
         }
+        let runeLimit = this.item.material?.[0]?.runeLimit || 0;
+        if (this.itemStore) {
+            this.get_CleanItems().armorrunes.filter(rune => rune.resilient && rune.resilient != this.item.resilientRune).forEach(rune => {
+                if (
+                    //Don't show runes that the item material doesn't support.
+                    runeLimit ?
+                        runeLimit >= rune.level
+                        : true
+                ) {
+                    runes.push({ rune: rune.resilient, disabled: false })
+                } else {
+                    runes.push({ rune: rune.resilient, disabled: true })
+                }
+            })
+        } else {
+            this.get_Character().inventories.forEach(inv => {
+                inv.armorrunes.filter(rune => rune.resilient && rune.resilient != this.item.resilientRune).forEach(rune => {
+                    if (
+                        //Don't show runes that the item material doesn't support.
+                        runeLimit ?
+                            runeLimit >= rune.level
+                            : true
+                    ) {
+                        runes.push({ rune: rune.resilient, disabled: false })
+                    } else {
+                        runes.push({ rune: rune.resilient, disabled: true })
+                    }
+                })
+            })
+        }
+        return Array.from(new Set(runes));
     }
 
     get_PropertyRunes() {
         let indexes: number[] = [];
         //For each rune with the Saggorak trait, provide one less field.
-        let saggorak = this.item.propertyRunes.filter(rune => rune.traits.includes("Saggorak")).length
+        let saggorak = this.item.propertyRunes.filter(rune => rune.traits.includes("Saggorak")).length;
         for (let index = 0; index < this.item.potencyRune - saggorak; index++) {
             indexes.push(index);
+        }
+        let extraRune = this.item.material?.[0]?.extraRune || 0;
+        if (this.item.potencyRune == 3 && extraRune) {
+            for (let index = 0; index < extraRune; index++) {
+                indexes.push(indexes.length);
+            }
         }
         return indexes;
     }
@@ -111,7 +223,7 @@ export class ItemRunesComponent implements OnInit {
         //If any activity on this rune has a cooldown, return the lowest of these in a human readable format.
         if (rune.activities && rune.activities.length && rune.activities.filter(activity => activity.activeCooldown).length) {
             let lowestCooldown = Math.min(...rune.activities.filter(activity => activity.activeCooldown).map(activity => activity.activeCooldown));
-            return " (Cooldown "+this.timeService.get_Duration(lowestCooldown)+")";
+            return " (Cooldown " + this.timeService.get_Duration(lowestCooldown) + ")";
         } else {
             return "";
         }
@@ -138,7 +250,7 @@ export class ItemRunesComponent implements OnInit {
     }
 
     get_WeaponPropertyRunes(index: number, inv: ItemCollection) {
-        let weapon: Weapon|WornItem;
+        let weapon: Weapon | WornItem;
         if (this.item.type == "wornitems") {
             weapon = this.item as WornItem
         } else {
@@ -169,73 +281,82 @@ export class ItemRunesComponent implements OnInit {
                 rune.disabled = true;
             }
         });
+        allRunes = allRunes.filter((rune: { rune: WeaponRune, inv: ItemCollection, disabled?: boolean }) => !rune.rune.potency && !rune.rune.striking);
         //Filter all runes whose requirements are not met.
-        return allRunes
-            .filter((rune: { rune: WeaponRune, inv: ItemCollection, disabled?: boolean }, $index) =>
-                //Don't show potency and striking runes.
-                !rune.rune.potency &&
-                !rune.rune.striking &&
-                (
-                    //Show runes that can only be applied to this item (by name).
-                    rune.rune.namereq ?
-                        weapon2.name == rune.rune.namereq
-                        : true
-                ) && (
-                    //Don't show runes whose opposite runes are equipped.
-                    rune.rune.runeblock ?
-                        !weapon.propertyRunes
-                            .map(propertyRune => propertyRune.name)
-                            .includes(rune.rune.runeblock)
-                        : true
-                ) && (
-                    //Show runes that require a trait if that trait is present on the weapon.
-                    rune.rune.traitreq ?
-                        weapon2.traits
-                            .filter(trait => trait.includes(rune.rune.traitreq)).length
-                        : true
-                ) && (
-                    //Show runes that require a range if the weapon has a value for that range.
-                    rune.rune.rangereq ?
-                        weapon2[rune.rune.rangereq] > 0
-                        : true
-                ) && (
-                    //Show runes that require a damage type if the weapon's dmgType contains either of the letters in the requirement.
-                    rune.rune.damagereq ?
-                        (
-                            (weapon2 as Weapon).dmgType &&
+        allRunes.forEach((rune: { rune: WeaponRune, inv: ItemCollection, disabled?: boolean }, $index) => {
+                if (
+                    (
+                        //Don't show runes that the item material doesn't support.
+                        this.item.material?.[0]?.runeLimit ?
+                            this.item.material[0].runeLimit >= rune.rune.level
+                            : true
+                    ) && (
+                        //Show runes that can only be applied to this item (by name).
+                        rune.rune.namereq ?
+                            weapon2.name == rune.rune.namereq
+                            : true
+                    ) && (
+                        //Don't show runes whose opposite runes are equipped.
+                        rune.rune.runeblock ?
+                            !weapon.propertyRunes
+                                .map(propertyRune => propertyRune.name)
+                                .includes(rune.rune.runeblock)
+                            : true
+                    ) && (
+                        //Show runes that require a trait if that trait is present on the weapon.
+                        rune.rune.traitreq ?
+                            weapon2.traits
+                                .filter(trait => trait.includes(rune.rune.traitreq)).length
+                            : true
+                    ) && (
+                        //Show runes that require a range if the weapon has a value for that range.
+                        rune.rune.rangereq ?
+                            weapon2[rune.rune.rangereq] > 0
+                            : true
+                    ) && (
+                        //Show runes that require a damage type if the weapon's dmgType contains either of the letters in the requirement.
+                        rune.rune.damagereq ?
                             (
-                                rune.rune.damagereq.split("")
-                                    .filter(req => (weapon2 as Weapon).dmgType.includes(req)).length ||
-                                (weapon2 as Weapon).dmgType == "modular"
+                                (weapon2 as Weapon).dmgType &&
+                                (
+                                    rune.rune.damagereq.split("")
+                                        .filter(req => (weapon2 as Weapon).dmgType.includes(req)).length ||
+                                    (weapon2 as Weapon).dmgType == "modular"
+                                )
                             )
-                        )
-                        : true
-                ) && (
-                    //Show Saggorak runes only if there are 2 rune slots available,
-                    //  or if one is available and this slot is taken (so you can replace the rune in this slot).
-                    rune.rune.traits.includes("Saggorak") ?
-                        (
-                            weapon.freePropertyRunes > 1 ||
+                            : true
+                    ) && (
+                        //Show Saggorak runes only if there are 2 rune slots available,
+                        //  or if one is available and this slot is taken (so you can replace the rune in this slot).
+                        rune.rune.traits.includes("Saggorak") ?
                             (
-                                weapon.propertyRunes[index] &&
-                                weapon.freePropertyRunes == 1
-                            ) ||
-                            (
-                                weapon.propertyRunes[index] &&
-                                $index == 1
+                                weapon.freePropertyRunes > 1 ||
+                                (
+                                    weapon.propertyRunes[index] &&
+                                    weapon.freePropertyRunes == 1
+                                ) ||
+                                (
+                                    weapon.propertyRunes[index] &&
+                                    $index == 1
+                                )
                             )
-                        )
-                        : true
-                )
-            ).sort(function(a,b) {
-                if (a.rune.name > b.rune.name) {
-                    return 1;
+                            : true
+                    )
+                ) {
+                    rune.disabled = false;
+                } else {
+                    rune.disabled = true;
                 }
-                if (a.rune.name < b.rune.name) {
-                    return -1;
-                }
-                return 0;
-            });
+            })
+        return allRunes.sort(function (a, b) {
+            if (a.rune.name > b.rune.name) {
+                return 1;
+            }
+            if (a.rune.name < b.rune.name) {
+                return -1;
+            }
+            return 0;
+        }).sort((a, b) => a.rune.level - b.rune.level);
     }
 
     get_ArmorPropertyRunes(index: number, inv: ItemCollection) {
@@ -259,49 +380,59 @@ export class ItemRunesComponent implements OnInit {
                 rune.disabled = true;
             }
         });
+        allRunes = allRunes.filter((rune: { rune: ArmorRune, inv: ItemCollection, disabled?: boolean }) => !rune.rune.potency && !rune.rune.resilient);
         //Filter all runes whose requirements are not met.
-        return allRunes
-            .filter((rune: { rune: ArmorRune, inv: ItemCollection, disabled?: boolean }, $index) =>
-                //Don't show potency and striking runes.
-                !rune.rune.potency &&
-                !rune.rune.resilient &&
-                (
-                    //Show runes that require a proficiency if the armor has that proficiency.
-                    rune.rune.profreq.length ?
-                        rune.rune.profreq.includes(armor.get_Prof())
-                        : true
-                ) && (
-                    //Show runes that require a nonmetallic armor if the armor is one.
-                    // Identifying nonmetallic armors is unclear in the rules, so we exclude Chain, Composite and Plate armors as well as armors with the word "metal" in their description.
-                    rune.rune.nonmetallic ?
-                        !["Chain", "Composite", "Plate"].includes(armor.group) && !armor.desc.includes("metal")
-                        : true
-                ) && (
-                    //Show Saggorak runes only if there are 2 rune slots available,
-                    //  or if one is available and this slot is taken (so you can replace the rune in this slot).
-                    rune.rune.traits.includes("Saggorak") ?
-                        (
-                            armor.freePropertyRunes > 1 ||
+        allRunes.forEach((rune: { rune: ArmorRune, inv: ItemCollection, disabled?: boolean }, $index) => {
+                if (
+                    (
+                        //Don't show runes that the item material doesn't support.
+                        this.item.material?.[0]?.runeLimit ?
+                            this.item.material[0].runeLimit >= rune.rune.level
+                            : true
+                    ) && (
+                        //Show runes that require a proficiency if the armor has that proficiency.
+                        rune.rune.profreq.length ?
+                            rune.rune.profreq.includes(armor.get_Prof())
+                            : true
+                    ) && (
+                        //Show runes that require a nonmetallic armor if the armor is one.
+                        // Identifying nonmetallic armors is unclear in the rules, so we exclude Chain, Composite and Plate armors as well as armors with the word "metal" in their description.
+                        rune.rune.nonmetallic ?
+                            !["Chain", "Composite", "Plate"].includes(armor.group) && !armor.desc.includes("metal")
+                            : true
+                    ) && (
+                        //Show Saggorak runes only if there are 2 rune slots available,
+                        //  or if one is available and this slot is taken (so you can replace the rune in this slot).
+                        rune.rune.traits.includes("Saggorak") ?
                             (
-                                armor.propertyRunes[index] &&
-                                armor.freePropertyRunes == 1
-                            ) ||
-                            (
-                                armor.propertyRunes[index] &&
-                                $index == 1
+                                armor.freePropertyRunes > 1 ||
+                                (
+                                    armor.propertyRunes[index] &&
+                                    armor.freePropertyRunes == 1
+                                ) ||
+                                (
+                                    armor.propertyRunes[index] &&
+                                    $index == 1
+                                )
                             )
-                        )
-                        : true
-                )
-            ).sort(function(a,b) {
-                if (a.rune.name > b.rune.name) {
-                    return 1;
+                            : true
+                    )
+                ) {
+                    rune.disabled = false;
+                } else {
+                    rune.disabled = true;
                 }
-                if (a.rune.name < b.rune.name) {
-                    return -1;
-                }
-                return 0;
-            });
+            })
+
+        return allRunes.sort(function (a, b) {
+            if (a.rune.name > b.rune.name) {
+                return 1;
+            }
+            if (a.rune.name < b.rune.name) {
+                return -1;
+            }
+            return 0;
+        }).sort((a, b) => a.rune.level - b.rune.level);
     }
 
     on_WeaponRuneChange(runeType: string, previousRune: number) {
@@ -520,7 +651,8 @@ export class ItemRunesComponent implements OnInit {
             (this.item.propertyRunes ? [
                 (this.item.propertyRunes[0] ? { rune: this.item.propertyRunes[0], inv: null } : { rune: new Rune(), inv: null }),
                 (this.item.propertyRunes[1] ? { rune: this.item.propertyRunes[1], inv: null } : { rune: new Rune(), inv: null }),
-                (this.item.propertyRunes[2] ? { rune: this.item.propertyRunes[2], inv: null } : { rune: new Rune(), inv: null })
+                (this.item.propertyRunes[2] ? { rune: this.item.propertyRunes[2], inv: null } : { rune: new Rune(), inv: null }),
+                (this.item.propertyRunes[3] ? { rune: this.item.propertyRunes[3], inv: null } : { rune: new Rune(), inv: null })
             ] : [{ rune: new Rune(), inv: null }, { rune: new Rune(), inv: null }, { rune: new Rune(), inv: null }])
         this.newPropertyRune.filter(rune => rune.rune.name == "New Item").forEach(rune => {
             rune.rune.name = "";

@@ -62,6 +62,9 @@ import { Talisman } from './Talisman';
 import { AlchemicalBomb } from './AlchemicalBomb';
 import { AlchemicalTool } from './AlchemicalTool';
 import { Snare } from './Snare';
+import { WeaponMaterial } from './WeaponMaterial';
+import { ArmorMaterial } from './ArmorMaterial';
+import { ShieldMaterial } from './ShieldMaterial';
 
 @Injectable({
     providedIn: 'root'
@@ -88,6 +91,7 @@ export class SavegameService {
     private AnimalCompanionLevel = AnimalCompanionLevel;
     private AnimalCompanionSpecialization = AnimalCompanionSpecialization;
     private Armor = Armor;
+    private ArmorMaterial = ArmorMaterial;
     private ArmorRune = ArmorRune;
     private Background = Background;
     private Bulk = Bulk;
@@ -117,6 +121,7 @@ export class SavegameService {
     private Scroll = Scroll;
     private Settings = Settings;
     private Shield = Shield;
+    private Shieldmaterial = ShieldMaterial;
     private Skill = Skill;
     private SkillChoice = SkillChoice;
     private Snare = Snare;
@@ -127,6 +132,7 @@ export class SavegameService {
     private SpellGain = SpellGain;
     private Talisman = Talisman;
     private Weapon = Weapon;
+    private WeaponMaterial = WeaponMaterial;
     private WeaponRune = WeaponRune;
     private WornItem = WornItem;
 

@@ -38,6 +38,7 @@ import { SpellCast } from './SpellCast';
 import { AlchemicalBomb } from './AlchemicalBomb';
 import { AlchemicalTool } from './AlchemicalTool';
 import { Snare } from './Snare';
+import { WeaponMaterial } from './WeaponMaterial';
 
 @Injectable({
     providedIn: 'root'
@@ -47,9 +48,12 @@ export class ItemsService {
     private items: ItemCollection;
     private cleanItems: ItemCollection;
     private itemProperties: ItemProperty[];
+    private weaponMaterials: WeaponMaterial[];
     private specializations: Specialization[];
     private loader_ItemProperties = [];
     private loading_ItemProperties: Boolean = false;
+    private loader_WeaponMaterials = [];
+    private loading_WeaponMaterials: Boolean = false;
     private loader_Specializations = [];
     private loading_Specializations: Boolean = false;
     private loader_Weapons = [];
@@ -140,6 +144,12 @@ export class ItemsService {
         if (!this.still_loading()) {
             return this.itemProperties;
         } else { return [new ItemProperty] }
+    }
+
+    get_WeaponMaterials() {
+        if (!this.still_loading()) {
+            return this.weaponMaterials;
+        } else { return [new WeaponMaterial] }
     }
 
     get_Specializations(group: string = "") {
@@ -480,6 +490,13 @@ export class ItemsService {
                     this.loader_ItemProperties = results;
                     this.finish_ItemProperties()
                 });
+            this.weaponMaterials = [];
+            this.loading_WeaponMaterials = true;
+            this.load_WeaponMaterials()
+                .subscribe((results: String[]) => {
+                    this.loader_WeaponMaterials = results;
+                    this.finish_WeaponMaterials()
+                });
             this.specializations = [];
             this.loading_Specializations = true;
             this.load_Specializations()
@@ -618,6 +635,18 @@ export class ItemsService {
             this.loader_ItemProperties = [];
         }
         if (this.loading_ItemProperties) { this.loading_ItemProperties = false; }
+    }
+
+    load_WeaponMaterials(): Observable<string[]> {
+        return this.http.get<string[]>('/assets/weaponMaterials.json');
+    }
+
+    finish_WeaponMaterials() {
+        if (this.loader_WeaponMaterials) {
+            this.weaponMaterials = this.loader_WeaponMaterials.map(element => Object.assign(new ItemProperty(), element));
+            this.loader_WeaponMaterials = [];
+        }
+        if (this.loading_WeaponMaterials) { this.loading_WeaponMaterials = false; }
     }
 
     load_Specializations(): Observable<string[]> {

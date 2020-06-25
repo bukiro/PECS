@@ -6,6 +6,7 @@ import { Rune } from './Rune';
 import { ItemsService } from './items.service';
 import { InventoryGain } from './InventoryGain';
 import { Talisman } from './Talisman';
+import { Material } from './Material';
 
 export class Equipment extends Item {
     //This is a list of all the attributes that should be saved if a refID exists. All others can be looked up via the refID when loading the character.
@@ -35,7 +36,14 @@ export class Equipment extends Item {
     //Amount of propertyRunes you can still apply
     public get freePropertyRunes(): number {
         //You can apply as many property runes as the level of your potency rune. Each rune with the Saggorak trait counts double.
-        return this.potencyRune - this.propertyRunes.length - this.propertyRunes.filter(rune => rune.traits.includes("Saggorak")).length;
+        let runes = this.potencyRune - this.propertyRunes.length - this.propertyRunes.filter(rune => rune.traits.includes("Saggorak")).length;
+        let extraRune = this.material?.[0]?.extraRune || 0;
+        if (this.potencyRune == 3 && extraRune) {
+            for (let index = 0; index < extraRune; index++) {
+                runes++;
+            }
+        }
+        return runes;
     };
     //Name any common activity that becomes available when you equip and invest this item
     public gainActivities: ActivityGain[] = [];
@@ -46,8 +54,7 @@ export class Equipment extends Item {
     public hint: string = "";
     //Is the item currently invested - items without the Invested trait are always invested and don't count against the limit
     public invested: boolean = false;
-    //Material for weapons, armor and shields
-    public material: string = "";
+    public material: Material[] = [];
     //What kind of runes and material can be applied to this item? Some items that are not weapons can be modded like weapons, some weapons cannot be modded, etc.
     public moddable: ""|"-"|"weapon"|"armor"|"shield" = "";
     //Potency Rune level for weapons and armor
@@ -65,14 +72,23 @@ export class Equipment extends Item {
     //Store any talismans attached to this item.
     public talismans: Talisman[] = [];
     get_Bulk() {
-        //Return either the bulk set by an oil, or else the actual bulk of the item.
+        //Return either the bulk set by an oil, or the bulk of the item reduced by the material (no lower than L).
+        let bulk: string = this.bulk;
+        this.material.forEach(mat => {
+            if (parseInt(this.bulk) && parseInt(this.bulk) != 0) {
+                bulk = (parseInt(this.bulk) - mat.bulkReduction).toString();
+                if (parseInt(bulk) == 0 && parseInt(this.bulk) != 0) {
+                    bulk = "L";
+                }
+            }
+        })
         let oilBulk: string = "";
         this.oilsApplied.forEach(oil => {
             if (oil.bulkEffect) {
                 oilBulk = oil.bulkEffect
             }
         });
-        let bulk = (this.carryingBulk && !this.equipped) ? this.carryingBulk : this.bulk;
+        bulk = (this.carryingBulk && !this.equipped) ? this.carryingBulk : bulk;
         return oilBulk || bulk;
     }
     get_PotencyRune() {
@@ -125,6 +141,7 @@ export class Equipment extends Item {
             let potency = this.get_Potency(this.get_PotencyRune());
             let secondary: string = "";
             let properties: string = "";
+            let material: string = "";
             if (this.moddable == "weapon") {
                 secondary = this.get_Striking(this.get_StrikingRune());
             } else if (this.moddable == "armor") {
@@ -139,32 +156,52 @@ export class Equipment extends Item {
                 }
                 properties += " " + name;
             })
-            return (potency + " " + (secondary + " " + (properties + " " + this.name).trim()).trim()).trim();
+            this.material.forEach(mat => {
+                let name: string = mat.name;
+                if(mat.name.includes("(")) {
+                    name = mat.name.substr(0, mat.name.indexOf(" ("));
+                }
+                material += " " + name;
+            })
+            return (potency + " " + (secondary + " " + (properties + " " + (material + " " + this.name).trim()).trim()).trim()).trim();
         }
     }
     get_Price(itemsService: ItemsService) {
         let price = this.price;
         if (this.moddable == "weapon") {
             if (this.potencyRune) {
-                price += itemsService.get_CleanItems().weaponrunes.filter(rune => rune.potency == this.potencyRune)[0].price;
+                price += itemsService.get_CleanItems().weaponrunes.find(rune => rune.potency == this.potencyRune).price;
             }
             if (this.strikingRune) {
-                price += itemsService.get_CleanItems().weaponrunes.filter(rune => rune.striking == this.strikingRune)[0].price;
+                price += itemsService.get_CleanItems().weaponrunes.find(rune => rune.striking == this.strikingRune).price;
             }
             this.propertyRunes.forEach(rune => {
-                price += itemsService.get_CleanItems().weaponrunes.find(weaponRune => weaponRune.name == rune.name).price;
+                let cleanRune = itemsService.get_CleanItems().weaponrunes.find(weaponRune => weaponRune.name == rune.name);
+                if (cleanRune) {
+                    if (cleanRune.name == "Speed" && this.material?.[0]?.name.includes("Orichalcum")) {
+                        price += Math.floor(cleanRune.price / 2);
+                    } else {
+                        price += cleanRune.price;
+                    }
+                }
             })
         } else if (this.moddable == "armor") {
             if (this.potencyRune) {
-                price += itemsService.get_CleanItems().armorrunes.filter(rune => rune.potency == this.potencyRune)[0].price;
+                price += itemsService.get_CleanItems().armorrunes.find(rune => rune.potency == this.potencyRune).price;
             }
             if (this.strikingRune) {
-                price += itemsService.get_CleanItems().armorrunes.filter(rune => rune.resilient == this.strikingRune)[0].price;
+                price += itemsService.get_CleanItems().armorrunes.find(rune => rune.resilient == this.strikingRune).price;
             }
             this.propertyRunes.forEach(rune => {
                 price += itemsService.get_CleanItems().armorrunes.find(armorRune => armorRune.name == rune.name).price;
             })
         }
+        this.material.forEach(mat => {
+            price += mat.price;
+            if (parseInt(this.bulk)) {
+                price += (mat.bulkPrice * parseInt(this.bulk));
+            }
+        })
         this.talismans.forEach(talisman => {
             price += itemsService.get_CleanItems().talismans.find(cleanTalisman => cleanTalisman.name == talisman.name).price;
         })

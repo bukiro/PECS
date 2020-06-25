@@ -1,4 +1,5 @@
 import { Equipment } from './Equipment';
+import { ShieldMaterial } from './ShieldMaterial';
 
 export class Shield extends Equipment {
     public readonly _className: string = this.constructor.name;

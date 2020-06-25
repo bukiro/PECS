@@ -93,14 +93,14 @@ export class ItemTalismansComponent implements OnInit {
                 }
                 item.talismans.splice(index, 1);
             }
-            //Then add the new Aeon Stone to the item and (unless we are in the item store) remove it from the inventory.
+            //Then add the new Talisman to the item and (unless we are in the item store) remove it from the inventory.
             if (talisman.name != "") {
-                //Add a copy of the stone to the item
+                //Add a copy of Talisman to the item
                 let newLength = item.talismans.push(Object.assign(new Talisman, JSON.parse(JSON.stringify(talisman))));
                 item.talismans[newLength - 1] = this.characterService.reassign(item.talismans[newLength - 1]);
-                let newStone = item.talismans[newLength - 1];
-                newStone.amount = 1;
-                //If we are not in the item store, remove the inserted Aeon Stone from the inventory, either by decreasing the amount or by dropping the item.
+                let newTalisman = item.talismans[newLength - 1];
+                newTalisman.amount = 1;
+                //If we are not in the item store, remove the inserted Talisman from the inventory, either by decreasing the amount or by dropping the item.
                 if (!this.itemStore) {
                     this.characterService.drop_InventoryItem(this.get_Character(), inv, talisman, false, false, false, 1);
                 }
@@ -110,7 +110,7 @@ export class ItemTalismansComponent implements OnInit {
         if (this.item.constructor == Weapon) {
             this.characterService.set_ToChange("Character", "attacks");
         }
-        if (this.item.constructor == Armor && this.item.constructor == Shield) {
+        if (this.item.constructor == Armor || this.item.constructor == Shield) {
             this.characterService.set_ToChange("Character", "defense");
         }
         this.set_TalismanNames();
@@ -125,11 +125,18 @@ export class ItemTalismansComponent implements OnInit {
     }
 
     set_TalismanNames() {
-        this.newTalisman = 
-        (this.item.talismans ? [
-            (this.item.talismans[0] ? { talisman: this.item.talismans[0], inv: null } : { talisman: new Talisman(), inv: null }),
-            (this.item.talismans[1] ? { talisman: this.item.talismans[1], inv: null } : { talisman: new Talisman(), inv: null }),
-        ] : [{ talisman: new Talisman(), inv: null }, { talisman: new Talisman(), inv: null }]);
+        this.newTalisman = [];
+        if (this.item.talismans) {
+            for (let index = 0; index < this.item.talismans.length; index++) {
+                if (this.item.talismans[index]) {
+                    this.newTalisman.push({ talisman: this.item.talismans[index], inv: null })
+                } else {
+                    this.newTalisman.push({ talisman: new Talisman(), inv: null })
+                }
+            }
+        } else {
+            this.newTalisman = [{ talisman: new Talisman(), inv: null }];
+        }
         this.newTalisman.filter(talisman => talisman.talisman.name == "New Item").forEach(talisman => {
             talisman.talisman.name = "";
         });

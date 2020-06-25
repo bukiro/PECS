@@ -70,7 +70,6 @@ The very latest in Assistive Technologies for Dungeon Master (ATDM)
 - [ ] Stretch Goal: Include optional Stamina & Resolve system
 
 Next steps:
-- Convert wizard feats from xls
+- Continue Weapon Materials: Add information to crafting menu and weapons with materials on them
 - Add custom conditions with effects
 - Add button press effect
-- Add Materials

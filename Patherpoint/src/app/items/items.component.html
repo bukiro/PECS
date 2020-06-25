@@ -149,6 +149,7 @@
                                                 *ngIf="itemSet.name != 'Snares'">
                                                 Buy {{item.stack && item.stack > 1 ? item.stack+" " : ""}}for {{creature}}
                                             </button>
+                                            <app-itemMaterial [item]=item [craftingStation]="false" *ngIf="can_ChangeMaterial(item)"></app-itemMaterial>
                                             <app-itemRunes [item]=item [itemStore]=true></app-itemRunes>
                                             <app-itemTalismans [item]=item [itemStore]=true *ngIf="can_ApplyTalismans(item)"></app-itemTalismans>
                                         </ng-container>
@@ -251,6 +252,10 @@
                                     <app-newItemProperty [propertyData]=property [propertyKey]=property.key [newItem]=newItem></app-newItemProperty>
                                 </ng-container>
                             </ng-container>
+                            <div class="list-item row" *ngIf="newItem['moddable'] && newItem['moddable'] != '-' && can_ChangeMaterial(newItem)">
+                                <strong>Material</strong>
+                                <app-itemMaterial class="row" [item]=newItem [craftingStation]="false"></app-itemMaterial>
+                            </div>
                             <div class="list-item row" *ngIf="newItem['moddable'] && newItem['moddable'] != '-'">
                                 <strong>Runes</strong>
                                 <app-itemRunes class="row" [item]=newItem [itemStore]=true></app-itemRunes>

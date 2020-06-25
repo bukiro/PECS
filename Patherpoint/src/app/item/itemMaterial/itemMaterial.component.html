@@ -1,0 +1,26 @@
+<!--Changing Weapon Material-->
+<div class="list-item" *ngIf="['weapon', 'armor'].includes(item.moddable)">
+    <ng-container *ngIf="item.material && item.moddable=='weapon' && item.constructor.name == 'Weapon'">
+        <div class="row">
+            <strong>Material</strong>
+            <select [(ngModel)]="newWeaponMaterial[0]"
+                (ngModelChange)="add_WeaponMaterial()">
+                <ng-container *ngFor="let material of get_InitialWeaponMaterials(); let initialRuneIndex = index; trackBy:trackByIndex;">
+                    <option [ngValue]="material" *ngIf="initialRuneIndex == 0" [selected]=!item.material[0]>
+                        
+                    </option>
+                    <optgroup *ngIf="initialRuneIndex == 1" label="Current material">
+                        <option [ngValue]="material">
+                            {{material.material.name}}
+                        </option>
+                    </optgroup>
+                </ng-container>
+                <optgroup label="Available materials" *ngIf="get_WeaponMaterials().length">
+                    <option *ngFor="let material of get_WeaponMaterials(); trackBy:trackByIndex;" [ngValue]="material" [disabled]="material.disabled">
+                        {{material.material.name}}
+                    </option>
+                </optgroup>
+            </select>
+        </div>
+    </ng-container>
+</div>
