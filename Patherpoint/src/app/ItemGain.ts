@@ -1,6 +1,8 @@
 export class ItemGain {
     public readonly _className: string = this.constructor.name;
     public amount: number = 1;
+    //Only for on=rest: Gain this amount per level additionally to the amount.
+    public amountPerLevel: number = 1;
     public expiration: number = 0;
     //The id is copied from the item after granting it, so that it can be removed again.
     public id: string = "";

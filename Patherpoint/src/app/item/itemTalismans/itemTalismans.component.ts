@@ -124,6 +124,39 @@ export class ItemTalismansComponent implements OnInit {
         this.characterService.grant_InventoryItem(this.get_Character(), this.get_Character().inventories[0], oldTalisman, false, false, false, 1);
     }
 
+    get_Title(talisman: Talisman) {
+        if (this.itemStore && talisman.price) {
+            return "Price " + this.get_Price(talisman);
+        }
+    }
+
+    get_Price(talisman: Talisman) {
+        if (talisman.price) {
+            if (talisman.price == 0) {
+                return "";
+            } else {
+                let price: number = talisman.price;
+                let priceString: string = "";
+                if (price >= 100) {
+                    priceString += Math.floor(price / 100)+"gp";
+                    price %= 100;
+                    if (price >= 10) {priceString += " ";}
+                }
+                if (price >= 10) {
+                    priceString += Math.floor(price / 10)+"sp";
+                    price %= 10;
+                    if (price >= 1) {priceString += " ";}
+                }
+                if (price >= 1) {
+                    priceString += price+"cp";
+                }
+                return priceString;
+            }
+        } else {
+            return ""
+        }
+    }
+
     set_TalismanNames() {
         this.newTalisman = [];
         if (this.item.talismans) {

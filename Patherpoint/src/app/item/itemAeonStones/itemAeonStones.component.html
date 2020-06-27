@@ -17,7 +17,8 @@
         </ng-container>
         <ng-container *ngFor="let inv of get_Inventories(); trackBy:trackByIndex;">
             <optgroup label="{{itemStore ? 'Available stones' : inv.get_Name(characterService)}}" *ngIf="get_AeonStones(inv).length">
-                <option *ngFor="let stone of get_AeonStones(inv); trackBy:trackByIndex;" [ngValue]="stone">
+                <option *ngFor="let stone of get_AeonStones(inv); trackBy:trackByIndex;" [ngValue]="stone"
+                title="{{get_Title(stone.aeonStone)}}">
                     {{stone.aeonStone.amount > 1 ? stone.aeonStone.amount+" " : ""}}{{stone.aeonStone.name}}{{get_AeonStoneCooldown(stone.aeonStone)}}
                 </option>
             </optgroup>

@@ -43,7 +43,7 @@
                 </span>
             </div>
         </div>
-        <ng-container *ngFor="let items of [get_Items(true)]; trackBy:trackByIndex;">
+        <ng-container *ngFor="let items of [get_Items()]; trackBy:trackByIndex;">
             <ng-container *ngIf="have_Feat('Snare Specialist')">
                 <ng-container *ngFor="let preparations of [get_SnareSpecialistPreparations()]">
                     <h3>Snare Specialist</h3>
@@ -62,7 +62,7 @@
                                 *ngFor="let item of get_VisibleItems(items.snares)|sortBy:'asc':sorting; trackBy:trackByIndex;">
                                 <ng-container *ngFor="let prepared of [get_PreparedForQuickCrafting(item)]">
                                     <div class="list-item"
-                                        *ngFor="let inventoryID of [listID+get_ID()]; trackBy:trackByIndex;">
+                                        *ngFor="let inventoryID of [listID+item.id]; trackBy:trackByIndex;">
                                         <button class="row sublist-toggle" [ngClass]="{'fancy-button':prepared}"
                                             (click)="toggle_Item(inventoryID)">
                                             <span>{{get_PreparedForQuickCrafting(item)}}
@@ -111,7 +111,7 @@
                     <ng-container *ngIf="get_ShowList()==listID||get_ShowList()=='All'">
                         <ng-container
                             *ngFor="let item of get_VisibleItems(items[itemSet.key])|sortBy:'asc':sorting; trackBy:trackByIndex;">
-                            <div class="list-item" *ngFor="let inventoryID of [listID+get_ID()]; trackBy:trackByIndex;">
+                            <div class="list-item" *ngFor="let inventoryID of [listID+item.id]; trackBy:trackByIndex;">
                                 <button class="row sublist-toggle" (click)="toggle_Item(inventoryID)">
                                     <span>{{(item.get_Name) ? item.get_Name() : item.name}}</span>
                                     <span

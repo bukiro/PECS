@@ -22,6 +22,7 @@ import { Oil } from './Oil';
 import { Talisman } from './Talisman';
 import { AlchemicalBomb } from './AlchemicalBomb';
 import { AlchemicalTool } from './AlchemicalTool';
+import { AlchemicalPoison } from './AlchemicalPoison';
 import { Snare } from './Snare';
 
 export class ItemCollection {
@@ -50,6 +51,7 @@ export class ItemCollection {
     public talismans: Talisman[] = [];
     public alchemicalbombs: AlchemicalBomb[] = [];
     public alchemicaltools: AlchemicalTool[] = [];
+    public alchemicalpoisons: AlchemicalPoison[] = [];
     public snares: Snare[] = [];
     public readonly names: {name: string, key: string}[] = [
         {name:"Weapons",key:"weapons"},
@@ -103,6 +105,7 @@ export class ItemCollection {
         items.push(...this.scrolls);
         items.push(...this.talismans);
         items.push(...this.snares);
+        items.push(...this.alchemicalpoisons);
         return items;
     }
     allRunes() {

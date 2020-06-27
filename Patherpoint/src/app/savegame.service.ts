@@ -65,6 +65,7 @@ import { Snare } from './Snare';
 import { WeaponMaterial } from './WeaponMaterial';
 import { ArmorMaterial } from './ArmorMaterial';
 import { ShieldMaterial } from './ShieldMaterial';
+import { AlchemicalPoison } from './AlchemicalPoison';
 
 @Injectable({
     providedIn: 'root'
@@ -82,6 +83,7 @@ export class SavegameService {
     private AdventuringGear = AdventuringGear;
     private AlchemicalBomb = AlchemicalBomb;
     private AlchemicalElixir = AlchemicalElixir;
+    private AlchemicalPoison = AlchemicalPoison;
     private AlchemicalTool = AlchemicalTool;
     private Ammunition = Ammunition;
     private Ancestry = Ancestry;

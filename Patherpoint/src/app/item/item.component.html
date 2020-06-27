@@ -1,4 +1,5 @@
-<div class="row left-aligned tags" *ngIf="(item.get_Traits ? item.get_Traits(characterService, get_Creature()) : item.traits).length">
+<div class="row left-aligned tags"
+    *ngIf="(item.get_Traits ? item.get_Traits(characterService, get_Creature()) : item.traits).length">
     <cite class="trait"
         *ngFor="let trait of (item.get_Traits ? item.get_Traits(characterService, get_Creature()) : item.traits); trackBy:trackByIndex;"
         title="{{get_Traits(trait)[0].description}}">{{trait}}</cite>
@@ -112,6 +113,16 @@
         <strong>Drawback</strong>
         {{item.drawback}}
     </p>
+    <p *ngIf="item.savingThrow || item.maxDuration || item.stages?.length">
+        <span *ngIf="item.savingThrow"><strong>Saving Throw&nbsp;</strong>{{item.savingThrow}}</span>
+        <span *ngIf="item.stages[0]"><strong>Onset&nbsp;</strong>{{item.stages[0]}}</span>
+        <span *ngIf="item.maxDuration"><strong>Maximum Duration&nbsp;</strong>{{item.maxDuration}}</span>
+        <ng-container *ngFor="let stage of item.stages; let stageIndex = index; trackBy:trackByIndex;">
+            <span *ngIf="stageIndex > 0">
+                <strong>Stage [stageIndex]&nbsp;</strong>{{item.stages[stageIndex]}}
+            </span>
+        </ng-container>
+    </p>
     <p *ngIf="item.activationType || (item.actions && item.actions != ' ')">
         <strong>Activate</strong>
         <app-actionIcons [actionString]="item.actions">
@@ -189,6 +200,15 @@
         <app-spell [spell]=spell [spellLevel]="(cast.level) ? cast.level : 0"></app-spell>
     </div>
 </div>
+<div class="list-item left-aligned" *ngFor="let material of item.material">
+    <h4>{{material.name}}</h4>
+    <ng-container *ngFor="let desc of material.desc.split('\n\n'); trackBy:trackByIndex;">
+        <p *ngIf="desc.split('\n').length == 1">{{desc}}</p>
+        <ul *ngIf="desc.split('\n').length > 1">
+            <li *ngFor="let line of desc.split('\n'); trackBy:trackByIndex;">{{line}}</li>
+        </ul>
+    </ng-container>
+</div>
 <div class="list-item left-aligned" *ngIf="armoredSkirt">
     <h4>Armored Skirt</h4>
     <app-item [item]=armoredSkirt></app-item>
@@ -225,7 +245,7 @@
     </app-item>
 </div>
 <div class="list-item left-aligned" *ngFor="let rune of item.propertyRunes; trackBy:trackByIndex;">
-    <h4>{{rune.name}}</h4>
+    <h4>{{rune.name}} Rune</h4>
     <ng-container *ngFor="let spell of get_ItemSpell(rune)">
         <button class="row center-aligned" (click)="on_SpellItemUse(rune)">
             <span>Use<app-actionIcons [actionString]="spell.actions">

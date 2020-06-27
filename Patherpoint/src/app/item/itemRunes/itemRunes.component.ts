@@ -50,9 +50,9 @@ export class ItemRunesComponent implements OnInit {
     }
 
     get_WeaponPotencyRunes() {
-        let runes: { rune: number, disabled?: boolean }[] = [{ rune: 0 }];
+        let runes: { potency: number, rune?: Rune, disabled?: boolean }[] = [{ potency: 0 }];
         if (this.item.potencyRune) {
-            runes.push({ rune: this.item.potencyRune, disabled: true });
+            runes.push({ potency: this.item.potencyRune, disabled: true });
         }
         if (this.itemStore) {
             let runeLimit = this.item.material?.[0]?.runeLimit || 0;
@@ -63,9 +63,9 @@ export class ItemRunesComponent implements OnInit {
                         runeLimit >= rune.level
                         : true
                 ) {
-                    runes.push({ rune: rune.potency, disabled: false })
+                    runes.push({ potency: rune.potency, rune: rune, disabled: false })
                 } else {
-                    runes.push({ rune: rune.potency, disabled: true })
+                    runes.push({ potency: rune.potency, rune: rune, disabled: true })
                 }
             })
         } else {
@@ -78,9 +78,9 @@ export class ItemRunesComponent implements OnInit {
                             runeLimit >= rune.level
                             : true
                     ) {
-                        runes.push({ rune: rune.potency, disabled: false })
+                        runes.push({ potency: rune.potency, rune: rune, disabled: false })
                     } else {
-                        runes.push({ rune: rune.potency, disabled: true })
+                        runes.push({ potency: rune.potency, rune: rune, disabled: true })
                     }
                 })
             })
@@ -89,9 +89,9 @@ export class ItemRunesComponent implements OnInit {
     }
 
     get_ArmorPotencyRunes() {
-        let runes: { rune: number, disabled?: boolean }[] = [{ rune: 0 }];
+        let runes: { potency: number, rune?: Rune, disabled?: boolean }[] = [{ potency: 0 }];
         if (this.item.potencyRune) {
-            runes.push({ rune: this.item.potencyRune, disabled: true });
+            runes.push({ potency: this.item.potencyRune, disabled: true });
         }
         if (this.itemStore) {
             let runeLimit = this.item.material?.[0]?.runeLimit || 0;
@@ -102,9 +102,9 @@ export class ItemRunesComponent implements OnInit {
                         runeLimit >= rune.level
                         : true
                 ) {
-                    runes.push({ rune: rune.potency, disabled: false })
+                    runes.push({ potency: rune.potency, rune: rune, disabled: false })
                 } else {
-                    runes.push({ rune: rune.potency, disabled: true })
+                    runes.push({ potency: rune.potency, rune: rune, disabled: true })
                 }
             })
         } else {
@@ -117,9 +117,9 @@ export class ItemRunesComponent implements OnInit {
                             runeLimit >= rune.level
                             : true
                     ) {
-                        runes.push({ rune: rune.potency, disabled: false })
+                        runes.push({ potency: rune.potency, rune: rune, disabled: false })
                     } else {
-                        runes.push({ rune: rune.potency, disabled: true })
+                        runes.push({ potency: rune.potency, rune: rune, disabled: true })
                     }
                 })
             })
@@ -128,9 +128,9 @@ export class ItemRunesComponent implements OnInit {
     }
 
     get_StrikingRunes() {
-        let runes: { rune: number, disabled?: boolean }[] = [{ rune: 0 }];
+        let runes: { striking: number, rune?: Rune, disabled?: boolean }[] = [{ striking: 0, rune: new Rune() }];
         if (this.item.strikingRune) {
-            runes.push({ rune: this.item.strikingRune, disabled: true });
+            runes.push({ striking: this.item.strikingRune, disabled: true });
         }
         let runeLimit = this.item.material?.[0]?.runeLimit || 0;
         if (this.itemStore) {
@@ -141,9 +141,9 @@ export class ItemRunesComponent implements OnInit {
                         runeLimit >= rune.level
                         : true
                 ) {
-                    runes.push({ rune: rune.striking, disabled: false })
+                    runes.push({ striking: rune.striking, rune: rune, disabled: false })
                 } else {
-                    runes.push({ rune: rune.striking, disabled: true })
+                    runes.push({ striking: rune.striking, rune: rune, disabled: true })
                 }
             })
         } else {
@@ -155,9 +155,9 @@ export class ItemRunesComponent implements OnInit {
                             runeLimit >= rune.level
                             : true
                     ) {
-                        runes.push({ rune: rune.striking, disabled: false })
+                        runes.push({ striking: rune.striking, rune: rune, disabled: false })
                     } else {
-                        runes.push({ rune: rune.striking, disabled: true })
+                        runes.push({ striking: rune.striking, rune: rune, disabled: true })
                     }
                 })
             })
@@ -166,9 +166,9 @@ export class ItemRunesComponent implements OnInit {
     }
 
     get_ResilientRunes() {
-        let runes: { rune: number, disabled?: boolean }[] = [{ rune: 0 }];
+        let runes: { resilient: number, rune?: Rune, disabled?: boolean }[] = [{ resilient: 0, rune: new Rune() }];
         if (this.item.resilientRune) {
-            runes.push({ rune: this.item.resilientRune, disabled: true });
+            runes.push({ resilient: this.item.resilientRune, disabled: true });
         }
         let runeLimit = this.item.material?.[0]?.runeLimit || 0;
         if (this.itemStore) {
@@ -179,9 +179,9 @@ export class ItemRunesComponent implements OnInit {
                         runeLimit >= rune.level
                         : true
                 ) {
-                    runes.push({ rune: rune.resilient, disabled: false })
+                    runes.push({ resilient: rune.resilient, rune: rune, disabled: false })
                 } else {
-                    runes.push({ rune: rune.resilient, disabled: true })
+                    runes.push({ resilient: rune.resilient, rune: rune, disabled: true })
                 }
             })
         } else {
@@ -193,9 +193,9 @@ export class ItemRunesComponent implements OnInit {
                             runeLimit >= rune.level
                             : true
                     ) {
-                        runes.push({ rune: rune.resilient, disabled: false })
+                        runes.push({ resilient: rune.resilient, rune: rune, disabled: false })
                     } else {
-                        runes.push({ rune: rune.resilient, disabled: true })
+                        runes.push({ resilient: rune.resilient, rune: rune, disabled: true })
                     }
                 })
             })
@@ -632,6 +632,39 @@ export class ItemRunesComponent implements OnInit {
             this.activitiesService.activate_Activity(this.get_Character(), "Character", this.characterService, this.timeService, this.itemsService, this.spellsService, activity, activity, false);
         })
         this.characterService.grant_InventoryItem(this.get_Character(), this.get_Character().inventories[0], oldRune, false, false, false, 1);
+    }
+
+    get_Title(rune: Rune) {
+        if (this.itemStore && rune?.price) {
+            return "Price " + this.get_Price(rune);
+        }
+    }
+
+    get_Price(rune: Rune) {
+        if (rune.price) {
+            if (rune.price == 0) {
+                return "";
+            } else {
+                let price: number = rune.price;
+                let priceString: string = "";
+                if (price >= 100) {
+                    priceString += Math.floor(price / 100)+"gp";
+                    price %= 100;
+                    if (price >= 10) {priceString += " ";}
+                }
+                if (price >= 10) {
+                    priceString += Math.floor(price / 10)+"sp";
+                    price %= 10;
+                    if (price >= 1) {priceString += " ";}
+                }
+                if (price >= 1) {
+                    priceString += price+"cp";
+                }
+                return priceString;
+            }
+        } else {
+            return ""
+        }
     }
 
     set_ToChange(rune: ArmorRune) {

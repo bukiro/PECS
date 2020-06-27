@@ -24,6 +24,7 @@ export class Activity {
     public onceEffects: EffectGain[] = [];
     public requirements: string = "";
     public showon: string = "";
+    public showSpells: string[] = [];
     public specialdesc: string = "";
     public success: string = "";
     public toggle: boolean = false;

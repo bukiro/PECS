@@ -9,6 +9,7 @@ export class ActivityGain {
     public level: number = 0;
     public name: string = "";
     public source: string = "";
+    public data: {name:string, value:any}[] = [];
     //We copy the activities ItemGains here whenever we activate it, so we can store the item ID.
     public gainItems: ItemGain[] = [];
 }

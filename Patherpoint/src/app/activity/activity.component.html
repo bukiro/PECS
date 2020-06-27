@@ -91,9 +91,9 @@
         </span>
     </div>
     <div class="row left-aligned" *ngFor="let desc of activity.desc.split('\n\n'); trackBy:trackByIndex;">
-        <p *ngIf="desc.split('\n').length == 1">{{desc}}</p>
+        <p *ngIf="desc.split('\n').length == 1" [innerHTML]="desc"></p>
         <ul *ngIf="desc.split('\n').length > 1">
-            <li *ngFor="let line of desc.split('\n'); trackBy:trackByIndex;">{{line}}</li>
+            <li *ngFor="let line of desc.split('\n'); trackBy:trackByIndex;" [innerHTML]="line"></li>
         </ul>
     </div>
     <div class="row left-aligned" *ngIf="activity.critsuccess">
@@ -126,12 +126,25 @@
             {{activity.specialdesc}}
         </span>
     </div>
+    <div class="row left-aligned" *ngIf="gain.data.length && gain.data[0].name == 'Trigger'">
+        <span>
+            <strong>Trigger</strong>
+            <input type="text" [(ngModel)]="gain.data[0].value">
+        </span>
+    </div>
     <div class="row left-aligned" *ngFor="let cast of activity.castSpells; trackBy:trackByIndex;">
         <div *ngFor="let spell of get_Spells(cast.name); trackBy:trackByIndex;">
             <h4>{{spell.name}}<app-actionIcons [actionString]="spell.actions">
                 </app-actionIcons>{{spell.castType.toString()}}
             </h4>
             <app-spell [spell]=spell [spellLevel]="(cast.level) ? cast.level : 0"></app-spell>
+        </div>
+    </div>
+    <div class="list-item left-aligned" *ngFor="let shownSpellSet of activity.showSpells; trackBy:trackByIndex;">
+        <div *ngFor="let shownSpell of get_Spells(shownSpellSet.name); trackBy:trackByIndex;">
+            <h4>{{shownSpell.name}}<app-actionIcons [actionString]="shownSpell.actions">
+                </app-actionIcons> {{shownSpell.castType.toString()}}</h4>
+            <app-spell [spell]=shownSpell [spellLevel]="shownSpellSet.level || 0"></app-spell>
         </div>
     </div>
     <div class="row left-aligned" *ngFor="let feat of get_FeatsShowingOn(activity.name); trackBy:trackByIndex;">

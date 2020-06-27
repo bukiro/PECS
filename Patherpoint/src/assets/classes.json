@@ -12075,11 +12075,6 @@
                 "abilityChoices": [
                     {
                         "_className": "AbilityChoice",
-                        "id": "1-Ability-Class Key Ability-0",
-                        "source": "Class Key Ability"
-                    },
-                    {
-                        "_className": "AbilityChoice",
                         "available": 4,
                         "baseValuesLost": 4,
                         "id": "1-Ability-Character Creation-1",

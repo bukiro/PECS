@@ -12,7 +12,8 @@
         "craftRequirement": "You are an expert in Crafting.",
         "potency": 1,
         "usage": "etched onto a weapon",
-        "_className": "WeaponRune"
+        "_className": "WeaponRune",
+        "craftingRequirement": 4
     },
     {
         "desc": "A kin-warding clan dagger can deflect attacks aimed at your allies. When you use the weapon's parry trait, you can point the clan dagger at an adjacent ally instead of defending yourself, creating a shield of runes around them. The runic barrier grants your ally the weapon's circumstance bonus to AC, but you do not gain the bonus yourself.",
@@ -321,7 +322,8 @@
         "craftRequirement": "You are a master in Crafting.",
         "potency": 2,
         "usage": "etched onto a weapon",
-        "_className": "WeaponRune"
+        "_className": "WeaponRune",
+        "craftingRequirement": 6
     },
     {
         "desc": "A serrating weapon's bladed edge separates into jagged, swirling shards that spin along the blade. When dealing slashing damage, the weapon deals an additional 1d4 damage.",
@@ -756,7 +758,8 @@
         "craftRequirement": "You are legendary in Crafting.",
         "potency": 3,
         "usage": "etched onto a weapon",
-        "_className": "WeaponRune"
+        "_className": "WeaponRune",
+        "craftingRequirement": 8
     },
     {
         "desc": "Attacks with a speed weapon are supernaturally swift. While wielding a speed weapon, you gain the quickened condition, but you can use the additional action granted only to make a Strike with the etched weapon.",

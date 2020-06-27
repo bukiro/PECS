@@ -142,7 +142,7 @@
         "singleTarget": true,
         "duration": "until the start of your next turn",
         "desc": "You whisper enchanting words to deflect your foe's ire. The target must attempt a Will save.",
-        "savingthrow": "Will",
+        "savingThrow": "Will",
         "critsuccess": "The target is unaffected.",
         "success": "The target takes a -1 circumstance penalty to attack rolls and damage rolls against you.",
         "failure": "The target can't use hostile actions against you.",
@@ -539,7 +539,7 @@
         ],
         "area": "15-foot cone or more",
         "desc": "You unleash your ki as a powerful blast of force that deals <var>var1</var> force damage. If you use 2 actions to cast ki blast, increase the size of the cone to 30 feet and the damage to <var>var2</var>. If you use 3 actions to cast ki blast, increase the size of the cone to 60 feet and the damage to <var>var3</var>. Each creature in the area must attempt a Fortitude saving throw.",
-        "savingthrow": "Fortitude",
+        "savingThrow": "Fortitude",
         "critsuccess": "The creature is unaffected.",
         "success": "The creature takes half damage.",
         "failure": "The creature takes full damage and is pushed 5 feet.",
@@ -1279,7 +1279,7 @@
         ],
         "duration": "1 month",
         "desc": "Make a melee unarmed Strike. If you hit and the target is alive, anytime during the duration, you can spend a single action, which has the auditory and concentrate traits, to speak a word of death that could instantly slay it. The target must attempt a Fortitude save.\n\nIf you cast quivering palm again, the effects of any quivering palm you had previously cast end.",
-        "savingthrow": "Fortitude",
+        "savingThrow": "Fortitude",
         "critsuccess": "The target survives, the spell ends, and the target is then temporarily immune for 24 hours.",
         "success": "The target is stunned 1 and takes <var>var1</var> damage, the spell ends, and the target is then temporarily immune for 24 hours.",
         "failure": "The target is stunned 3 and takes <var>var2</var> damage. The spell's duration continues, but the target is then temporarily immune for 24 hours against being killed by quivering palm.",
@@ -1512,7 +1512,7 @@
         "targets": "1 living or undead creature",
         "singleTarget": true,
         "desc": "Siphoning negative energy into yourself, your hand radiates a pale darkness. Your touch weakens the living and disorients undead, possibly even causing them to flee. The effect depends on whether the target is living or undead.\n\nLiving Creature The spell deals negative damage equal to <var>var1</var> plus your spellcasting modifier. The target attempts a basic Fortitude save, but is also enfeebled 1 for 1 round on a critical failure.\nUndead Creature The target is flat-footed for 1 round on a failed Fortitude save. On a critical failure, the target is also fleeing for 1 round unless it succeeds at a Will save.",
-        "savingthrow": "Fortitude",
+        "savingThrow": "Fortitude",
         "heightened": [
             {
                 "desc": "The negative damage to living creatures increases by 1d4.",
@@ -1633,7 +1633,7 @@
         "singleTarget": true,
         "duration": "1 round",
         "desc": "You cloud the target's mind and daze it with a mental jolt. The jolt deals mental damage equal to <var>var1</var>your spellcasting ability modifier; the target must attempt a basic Will save. If the target critically fails the save, it is also stunned 1.",
-        "savingthrow": "Will",
+        "savingThrow": "Will",
         "heightened": [
             {
                 "desc": "The damage increases by 1d6.",
@@ -1739,7 +1739,7 @@
         "range": "30 feet",
         "area": "1 undead creature",
         "desc": "You lance the target with energy. You deal <var>var1</var> positive damage plus your spellcasting ability modifier. The target must attempt a basic Fortitude save. If the creature critically fails the save, it is also enfeebled 1 for 1 round.",
-        "savingthrow": "Fortitude",
+        "savingThrow": "Fortitude",
         "heightened": [
             {
                 "desc": "The damage increases by 1d6.",
@@ -1913,7 +1913,7 @@
         "targets": "1 or 2 creatures",
         "singleTarget": true,
         "desc": "An arc of lightning leaps from one target to another. You deal electricity damage equal to <var>var1</var> plus your spellcasting ability modifier.",
-        "savingthrow": "basic Reflex",
+        "savingThrow": "basic Reflex",
         "heightened": [
             {
                 "desc": "The damage increases by 1d4.",
@@ -3075,7 +3075,7 @@
         ],
         "area": "5-foot emanation",
         "desc": "You create a shell of acid around yourself that immediately bursts outward, dealing <var>var1</var> acid damage to each creature in the area.",
-        "savingthrow": "basic Reflex",
+        "savingThrow": "basic Reflex",
         "heightened": [
             {
                 "desc": "The damage increases by 2d6.",
@@ -3164,7 +3164,7 @@
         "singleTarget": true,
         "duration": "varies",
         "desc": "You send the target’s mind and body into overdrive, forcing it to become restless and hyperactive. During the duration, the target must Stride at least once each turn or take <var>var1</var> mental damage that turn. The duration of this effect depends on the target’s Will save.",
-        "savingthrow": "Will",
+        "savingThrow": "Will",
         "critsuccess": "The spell has no effect.",
         "success": "The duration is 1 round.",
         "failure": "The duration is 2 rounds.",
@@ -3447,7 +3447,7 @@
         "targets": "enemies in the area",
         "duration": "1 minute",
         "desc": "You fill the minds of your enemies with doubt. Targets that fail their Will saves take a -1 status penalty to attack rolls as long as they are in the area. Once per turn, starting the turn after you cast bane, you can use a single action, which has the concentrate trait, to increase the emanation's radius by 5 feet and force enemies in the area that weren't yet affected to attempt another saving throw. Bane can counteract bless.",
-        "savingthrow": "Will",
+        "savingThrow": "Will",
         "gainConditions": [
             {
                 "duration": 100,
@@ -3479,7 +3479,7 @@
         "singleTarget": true,
         "duration": "1 round",
         "desc": "You sow seeds of confusion in your target’s mind, causing their actions and thoughts to become clumsy.",
-        "savingthrow": "Will",
+        "savingThrow": "Will",
         "critsuccess": "The target is unaffected.",
         "success": "The target is clumsy 1 and stupefied 1.",
         "failure": "The target is clumsy 2 and stupefied 2.",
@@ -3532,7 +3532,7 @@
         ],
         "area": "15-foot cone",
         "desc": "Gouts of flame rush from your hands. You deal <var>var1</var> fire damage to creatures in the area.",
-        "savingthrow": "basic Reflex",
+        "savingThrow": "basic Reflex",
         "heightened": [
             {
                 "desc": "The damage increases by 2d6.",
@@ -3623,7 +3623,7 @@
         "singleTarget": true,
         "duration": "1 hour",
         "desc": "To the target, your words are honey and your visage seems bathed in a dreamy haze. It must attempt a Will save, with a +4 circumstance bonus if you or your allies recently threatened it or used hostile actions against it. <var>var1</var>\n\nYou can Dismiss the spell. If you use hostile actions against the target, the spell ends. When the spell ends, the target doesn't necessarily realize it was charmed unless its friendship with you or the actions you convinced it to take clash with its expectations, meaning you could potentially convince the target to continue being your friend via mundane means.",
-        "savingthrow": "Will",
+        "savingThrow": "Will",
         "critsuccess": "The target is unaffected and aware you tried to charm it.",
         "success": "The target is unaffected but thinks your spell was something harmless instead of charm, unless it identifies the spell (see Identifying Magic).",
         "failure": "The target's attitude becomes friendly toward you. If it was friendly, it becomes helpful. It can't use hostile actions against you.",
@@ -3675,7 +3675,7 @@
         ],
         "area": "15-foot cone",
         "desc": "A cone of icy shards bursts from your spread hands and coats the target in a layer of frost. You deal <var>var1</var> cold damage to creatures in the area; they must each attempt a Reflex save.",
-        "savingthrow": "Will",
+        "savingThrow": "Will",
         "critsuccess": "The creature takes no damage.",
         "success": "The creature takes half damage.",
         "failure": "The creature takes full damage and takes a -5-foot status penalty to its Speeds for 2 rounds.",
@@ -3766,7 +3766,7 @@
         "area": "15-foot cone",
         "duration": "1 or more rounds (see below)",
         "desc": "Swirling colors affect viewers based on their Will saves.",
-        "savingthrow": "Will",
+        "savingThrow": "Will",
         "critsuccess": "The creature is unaffected.",
         "success": "The creature is dazzled for 1 round.",
         "failure": "The creature is stunned 1, blinded for 1 round, and dazzled for 1 minute.",
@@ -3795,7 +3795,7 @@
         "singleTarget": true,
         "duration": "until the end of the target's next turn",
         "desc": "You shout a command that's hard to ignore. <var>var1</var>You can command the target to approach you, run away (as if it had the fleeing condition), release what it's holding, drop prone, or stand in place. It can't Delay or take any reactions until it has obeyed your command. The effects depend on the target's Will save.",
-        "savingthrow": "Will",
+        "savingThrow": "Will",
         "success": "The creature is unaffected.",
         "failure": "For the first action on its next turn, the creature must use a single action to do as you command.",
         "critfailure": "The target must use all its actions on its next turn to obey your command.",
@@ -4168,7 +4168,7 @@
         "singleTarget": true,
         "duration": "varies",
         "desc": "<var>var1</var>You plant fear in the target; it must attempt a Will save.",
-        "savingthrow": "Will",
+        "savingThrow": "Will",
         "critsuccess": "The target is unaffected.",
         "success": "The target is frightened 1.",
         "failure": "The target is frightened 2.",
@@ -4289,7 +4289,7 @@
         "range": "touch",
         "targets": "1 creature",
         "desc": "Your touch afflicts the target with goblin pox, an irritating allergenic rash. The target must attempt a Fortitude save.\n\n<strong>Goblin Pox</strong> (disease); <strong>Level</strong> 1. Goblins and goblin dogs are immune. <strong>Stage 1</strong> sickened 1 (1 round); <strong>Stage 2</strong> sickened 1 and slowed 1 (1 round); <strong>Stage</strong> 3 sickened 1 and the creature can't reduce its sickened value below 1 (1 day)",
-        "savingthrow": "Fortitude",
+        "savingThrow": "Fortitude",
         "critsuccess": "The target is unaffected.",
         "success": "The target is sickened 1.",
         "failure": "The target is afflicted with goblin pox at stage 1.",
@@ -4340,7 +4340,7 @@
         ],
         "range": "30-foot line",
         "desc": "Tendrils of darkness curl out from your fingertips and race through the air. You deal <var>var1</var> negative damage and <var>var2</var> persistent bleed damage to living creatures in the line. Each living creature in the line must attempt a Fortitude save.",
-        "savingthrow": "Fortitude",
+        "savingThrow": "Fortitude",
         "critsuccess": "The creature is unaffected.",
         "success": "The creature takes half the negative damage and no persistent bleed damage.",
         "failure": "The creature takes full damage.",
@@ -4501,7 +4501,7 @@
         "target": "ally",
         "singleTarget": true,
         "desc": "You channel negative energy to harm the living or heal the undead. If the target is a living creature, you deal <var>var1</var> negative damage to it, and it gets a basic Fortitude save. If the target is a willing undead creature, you restore that amount of Hit Points. The number of actions you spend when Casting this Spell determines its targets, range, area, and other parameters.\n\n<strong>1 action (somatic)</strong> The spell has a range of touch.\n<strong>2 actions (verbal, somatic)</strong> The spell has a range of 30 feet. If you're healing an undead creature, increase the Hit Points restored by <var>var2</var>.\n<strong>3 actions (material, verbal, somatic) </strong> You disperse negative energy in a 30-foot emanation. This targets all living and undead creatures in the area.",
-        "savingthrow": "basic Fortitude",
+        "savingThrow": "basic Fortitude",
         "heightened": [
             {
                 "desc": "The amount of healing or damage increases by 1d8, and the extra healing for the 2-action version increases by 8.",
@@ -4629,7 +4629,7 @@
         "target": "ally",
         "singleTarget": true,
         "desc": "You channel positive energy to heal the living or damage the undead. If the target is a willing living creature, you restore <var>var1</var> Hit Points. If the target is undead, you deal that amount of positive damage to it, and it gets a basic Fortitude save. The number of actions you spend when Casting this Spell determines its targets, range, area, and other parameters.\n\n<strong>1 action (somatic)</strong> The spell has a range of touch.\n<strong>2 actions (verbal, somatic)</strong> The spell has a range of 30 feet. If you're healing a living creature, increase the Hit Points restored by <var>var2</var>.\n<strong>3 actions (material, verbal, somatic) </strong> You disperse negative energy in a 30-foot emanation. This targets all living and undead creatures in the area.",
-        "savingthrow": "basic Fortitude",
+        "savingThrow": "basic Fortitude",
         "heightened": [
             {
                 "desc": "The amount of healing or damage increases by 1d8, and the extra healing for the 2-action version increases by 8.",
@@ -5969,7 +5969,7 @@
         "singleTarget": true,
         "duration": "1 minute",
         "desc": "You conjure a 5-foot-wide rain cloud that follows the target wherever it goes. It stays roughly an arm’s length overhead, unless it must drift lower to fit under a ceiling. The cloud rains constantly on the target, keeping it wet and dampening the ground in the wake of any movement. The rain extinguishes non-magical flames. The target gains fire resistance <var>var1</var>. Creatures with weakness to water take damage equal to their weakness at the end of each of their turns. Creatures can attempt a Reflex save to avoid the cloud.",
-        "savingthrow": "Reflex",
+        "savingThrow": "Reflex",
         "heightened": [
             {
                 "desc": "The amount of fire resistance increases by 2.",
@@ -6108,7 +6108,7 @@
         "singleTarget": true,
         "duration": "1 minute",
         "desc": "Illusory pain wracks the target, dealing <var>var1</var> mental damage and <var>var2</var> persistent mental damage. The target must attempt a Will save.",
-        "savingthrow": "Will",
+        "savingThrow": "Will",
         "critsuccess": "The target is unaffected.",
         "success": "The target takes full initial damage but no persistent damage, and the spell ends immediately.",
         "failure": "The target takes full initial and persistent damage, and the target is sickened 1. If the target recovers from being sickened, the persistent damage ends and the spell ends.",
@@ -6288,7 +6288,7 @@
         "singleTarget": true,
         "duration": "1 minute",
         "desc": "A ray with the power to sap a foe's strength flashes from your hand. Attempt a ranged spell attack against the target. If you succeed, that creature attempts a Fortitude save in order to determine the spell's effect. If you critically succeed on your attack roll, use the outcome for one degree of success worse than the result of its save.",
-        "savingthrow": "Fortitude",
+        "savingThrow": "Fortitude",
         "critsuccess": "The target is unaffected.",
         "success": "The target becomes enfeebled 1.",
         "failure": "The target becomes enfeebled 2.",
@@ -6788,7 +6788,7 @@
         ],
         "area": "15-foot cone",
         "desc": "<var>var1</var>You create a wave of energy that ripples through the earth. Terrestrial creatures in the affected area must attempt a Reflex save to avoid stumbling as the shockwave shakes the ground.",
-        "savingthrow": "Reflex",
+        "savingThrow": "Reflex",
         "critsuccess": "The creature is unaffected.",
         "success": "The creature is flat-footed until the start of its next turn.",
         "failure": "The creature falls prone.",
@@ -6880,7 +6880,7 @@
         "range": "30 feet",
         "area": "5-foot burst",
         "desc": "Each creature in the area becomes drowsy and might fall asleep. A creature that falls unconscious from this spell doesn't fall prone or release what it's holding. This spell doesn't prevent creatures from waking up due to a successful Perception check, limiting its utility in combat.",
-        "savingthrow": "Will",
+        "savingThrow": "Will",
         "critsuccess": "The creature is unaffected.",
         "success": "The creature takes a -1 status penalty to Perception checks for 1 round.",
         "failure": "<var>var1</var>",
@@ -7119,7 +7119,7 @@
         "targets": "1 creature",
         "singleTarget": true,
         "desc": "You magically duplicate a spider's venomous sting. You deal 1d4 piercing damage to the touched creature and afflict it with spider venom. The target must attempt a Fortitude save.\n\n<strong>Spider Venom</strong> (poison); <strong>Level</strong> 1; <strong>Maximum Duration</strong> 4 rounds. <strong>Stage 1</strong> 1d4 poison damage and enfeebled 1 (1 round); <strong>Stage 2</strong> 1d4 poison damage and enfeebled 2 (1 round).",
-        "savingthrow": "Fortitude",
+        "savingThrow": "Fortitude",
         "critsuccess": "The target is unaffected.",
         "success": "The target takes 1d4 poison damage.",
         "failure": "The target is afflicted with spider venom at stage 1.",
@@ -7785,7 +7785,7 @@
         "singleTarget": true,
         "duration": "1 minute or until dismissed; see text",
         "desc": "You use magical chains, vines, or other tethers to bind your target to you. The creature can still try to Escape, and it or others can break the tethers by attacking them (the tethers have AC <var>var1</var> and <var>var2</var> Hit Points). You must stay within 30 feet of the target while it is tethered; moving more than 30 feet away from your target ends the spell. The target must attempt a Reflex save.",
-        "savingthrow": "Reflex",
+        "savingThrow": "Reflex",
         "critsuccess": "The target is unaffected.",
         "success": "The target takes a -5-foot circumstance penalty to its Speed as long as it is within 30 feet of you.",
         "failure": "The target takes a -10-foot circumstance penalty to its Speed and cannot move more than 30 feet away from you until it Escapes or the spell ends.",
@@ -8168,7 +8168,7 @@
             "Abjuration",
             "Mental"
         ],
-        "savingthrow": "Will"
+        "savingThrow": "Will"
     },
     {
         "name": "Augury",
@@ -8343,7 +8343,7 @@
             "Abjuration",
             "Curse"
         ],
-        "savingthrow": "Fortitude"
+        "savingThrow": "Fortitude"
     },
     {
         "name": "Calm Emotions",
@@ -8362,7 +8362,7 @@
             "Incapacitation",
             "Mental"
         ],
-        "savingthrow": "Will"
+        "savingThrow": "Will"
     },
     {
         "name": "Comprehend Language",
@@ -8508,7 +8508,7 @@
         "traits": [
             "Necromancy"
         ],
-        "savingthrow": "Fortitude"
+        "savingThrow": "Fortitude"
     },
     {
         "name": "Death Knell",
@@ -8525,7 +8525,7 @@
             "Death",
             "Necromancy"
         ],
-        "savingthrow": "Will"
+        "savingThrow": "Will"
     },
     {
         "name": "Dispel Magic",
@@ -8782,7 +8782,7 @@
             "Curse",
             "Necromancy"
         ],
-        "savingthrow": "Fortitude"
+        "savingThrow": "Fortitude"
     },
     {
         "name": "Flaming Sphere",
@@ -8799,7 +8799,7 @@
             "Evocation",
             "Fire"
         ],
-        "savingthrow": "Reflex"
+        "savingThrow": "Reflex"
     },
     {
         "name": "Fungal Hyphae",
@@ -8849,7 +8849,7 @@
             "Evil",
             "Necromancy"
         ],
-        "savingthrow": "Fortitude"
+        "savingThrow": "Fortitude"
     },
     {
         "name": "Glitterdust",
@@ -8865,7 +8865,7 @@
         "traits": [
             "Evocation"
         ],
-        "savingthrow": "Reflex"
+        "savingThrow": "Reflex"
     },
     {
         "name": "Hideous Laughter",
@@ -8883,7 +8883,7 @@
             "Enchantment",
             "Mental"
         ],
-        "savingthrow": "Will"
+        "savingThrow": "Will"
     },
     {
         "name": "Humanoid Form",
@@ -9096,7 +9096,7 @@
             "Illusion",
             "Mental"
         ],
-        "savingthrow": "Will"
+        "savingThrow": "Will"
     },
     {
         "name": "Phantom Steed",
@@ -9375,7 +9375,7 @@
             "Evocation",
             "Sonic"
         ],
-        "savingthrow": "Fortitude"
+        "savingThrow": "Fortitude"
     },
     {
         "name": "Speak with Animals",
@@ -9513,7 +9513,7 @@
             "Enchantment",
             "Mental"
         ],
-        "savingthrow": "Will"
+        "savingThrow": "Will"
     },
     {
         "name": "Tree Shape",
@@ -9696,7 +9696,7 @@
             "Incapacitation",
             "Necromancy"
         ],
-        "savingthrow": "Fortitude"
+        "savingThrow": "Fortitude"
     },
     {
         "name": "Chilling Darkness",
@@ -9762,7 +9762,7 @@
             "Enchantment",
             "Mental"
         ],
-        "savingthrow": "Will"
+        "savingThrow": "Will"
     },
     {
         "name": "Cup of Dust",
@@ -9780,7 +9780,7 @@
             "Curse",
             "Necromancy"
         ],
-        "savingthrow": "Fortitude"
+        "savingThrow": "Fortitude"
     },
     {
         "name": "Dream Message",
@@ -9813,7 +9813,7 @@
         "traits": [
             "Transmutation"
         ],
-        "savingthrow": "Fortitude"
+        "savingThrow": "Fortitude"
     },
     {
         "name": "Enthrall",
@@ -9831,7 +9831,7 @@
             "Emotion",
             "Enchantment"
         ],
-        "savingthrow": "Will"
+        "savingThrow": "Will"
     },
     {
         "name": "Feet to Fins",
@@ -9867,7 +9867,7 @@
         "range": "500 feet",
         "area": "20-foot burst",
         "desc": "A roaring blast of fire appears at a spot you designate, dealing <var>var1</var> fire damage.",
-        "savingthrow": "basic Reflex",
+        "savingThrow": "basic Reflex",
         "heightened": [
             {
                 "desc": "The damage increases by 2d6.",
@@ -9969,7 +9969,7 @@
         "traits": [
             "Evocation"
         ],
-        "savingthrow": "Reflex"
+        "savingThrow": "Reflex"
     },
     {
         "name": "Haste",
@@ -10063,7 +10063,7 @@
             "Illusion",
             "Visual"
         ],
-        "savingthrow": "Will"
+        "savingThrow": "Will"
     },
     {
         "name": "Insect Form",
@@ -10181,7 +10181,7 @@
             "Electricity",
             "Evocation"
         ],
-        "savingthrow": "basic Reflex"
+        "savingThrow": "basic Reflex"
     },
     {
         "name": "Locate",
@@ -10234,7 +10234,7 @@
             "Divination",
             "Mental"
         ],
-        "savingthrow": "Will"
+        "savingThrow": "Will"
     },
     {
         "name": "Neutralize Poison",
@@ -10290,7 +10290,7 @@
         "singleTarget": true,
         "duration": "varies",
         "desc": "<var>var1</var>You block the target's motor impulses before they can leave its mind, threatening to freeze the target in place. The target must attempt a Will save.",
-        "savingthrow": "Will",
+        "savingThrow": "Will",
         "critsuccess": "The target is unaffected.",
         "success": "The target is stunned 1.",
         "failure": "The target is paralyzed for 1 round.",
@@ -10534,7 +10534,7 @@
         "traits": [
             "Transmutation"
         ],
-        "savingthrow": "Fortitude"
+        "savingThrow": "Fortitude"
     },
     {
         "name": "Stinking Cloud",
@@ -10551,7 +10551,7 @@
             "Conjuration",
             "Poison"
         ],
-        "savingthrow": "Fortitude"
+        "savingThrow": "Fortitude"
     },
     {
         "name": "Vampiric Touch",
@@ -10570,7 +10570,7 @@
             "Necromancy",
             "Negative"
         ],
-        "savingthrow": "basic Fortitude"
+        "savingThrow": "basic Fortitude"
     },
     {
         "name": "Wall of Thorns",
@@ -10650,7 +10650,7 @@
             "Enchantment",
             "Mental"
         ],
-        "savingthrow": "Will"
+        "savingThrow": "Will"
     },
     {
         "name": "Aerial Form",
@@ -10698,7 +10698,7 @@
             "Enchantment",
             "Mental"
         ],
-        "savingthrow": "Will"
+        "savingThrow": "Will"
     },
     {
         "name": "Blink",
@@ -10763,7 +10763,7 @@
         "targets": "1 creature",
         "singleTarget": true,
         "desc": "<var>var1</var>You befuddle your target with strange impulses, causing it to act randomly. The effects are determined by the target's Will save. You can Dismiss the spell.",
-        "savingthrow": "Will",
+        "savingThrow": "Will",
         "critsuccess": "The target is unaffected.",
         "success": "The target babbles incoherently and is stunned 1.",
         "failure": "The target is confused for 1 minute. It can attempt a new save at the end of each of its turns to end the confusion.",
@@ -10930,7 +10930,7 @@
         "traits": [
             "Abjuration"
         ],
-        "savingthrow": "Will"
+        "savingThrow": "Will"
     },
     {
         "name": "Dinosaur Form",
@@ -10979,7 +10979,7 @@
         "traits": [
             "Evocation"
         ],
-        "savingthrow": "Fortitude"
+        "savingThrow": "Fortitude"
     },
     {
         "name": "Fire Shield",
@@ -11150,7 +11150,7 @@
             "Positive",
             "Water"
         ],
-        "savingthrow": "basic Reflex"
+        "savingThrow": "basic Reflex"
     },
     {
         "name": "Hydraulic Torrent",
@@ -11166,7 +11166,7 @@
             "Evocation",
             "Water"
         ],
-        "savingthrow": "Fortitude"
+        "savingThrow": "Fortitude"
     },
     {
         "name": "Modify Memory",
@@ -11183,7 +11183,7 @@
             "Divination",
             "Mental"
         ],
-        "savingthrow": "Will"
+        "savingThrow": "Will"
     },
     {
         "name": "Nightmare",
@@ -11200,7 +11200,7 @@
             "Illusion",
             "Mental"
         ],
-        "savingthrow": "Will"
+        "savingThrow": "Will"
     },
     {
         "name": "Outcast's Curse",
@@ -11220,7 +11220,7 @@
             "Mental",
             "Misfortune"
         ],
-        "savingthrow": "Will"
+        "savingThrow": "Will"
     },
     {
         "name": "Phantasmal Killer",
@@ -11240,7 +11240,7 @@
             "Illusion",
             "Mental"
         ],
-        "savingthrow": "Will"
+        "savingThrow": "Will"
     },
     {
         "name": "Private Sanctum",
@@ -11442,7 +11442,7 @@
             "Linguistic",
             "Mental"
         ],
-        "savingthrow": "Will"
+        "savingThrow": "Will"
     },
     {
         "name": "Talking Corpse",
@@ -11459,7 +11459,7 @@
             "Uncommon",
             "Necromancy"
         ],
-        "savingthrow": "Will"
+        "savingThrow": "Will"
     },
     {
         "name": "Telepathy",
@@ -11600,7 +11600,7 @@
         "traits": [
             "Evocation"
         ],
-        "savingthrow": "Reflex"
+        "savingThrow": "Reflex"
     },
     {
         "name": "Abyssal Plague",
@@ -11619,7 +11619,7 @@
             "Evil",
             "Necromancy"
         ],
-        "savingthrow": "Fortitude"
+        "savingThrow": "Fortitude"
     },
     {
         "name": "Acid Storm",
@@ -11654,7 +11654,7 @@
             "Abjuration",
             "Incapacitation"
         ],
-        "savingthrow": "Will"
+        "savingThrow": "Will"
     },
     {
         "name": "Black Tentacles",
@@ -11734,7 +11734,7 @@
             "Necromancy",
             "Poison"
         ],
-        "savingthrow": "basic Fortitude"
+        "savingThrow": "basic Fortitude"
     },
     {
         "name": "Cone of Cold",
@@ -11751,7 +11751,7 @@
             "Cold",
             "Evocation"
         ],
-        "savingthrow": "basic Reflex"
+        "savingThrow": "basic Reflex"
     },
     {
         "name": "Control Water",
@@ -11785,7 +11785,7 @@
             "Enchantment",
             "Mental"
         ],
-        "savingthrow": "Will"
+        "savingThrow": "Will"
     },
     {
         "name": "Death Ward",
@@ -11881,7 +11881,7 @@
             "Evocation",
             "Fire"
         ],
-        "savingthrow": "basic Reflex"
+        "savingThrow": "basic Reflex"
     },
     {
         "name": "Hallucination",
@@ -11933,7 +11933,7 @@
             "Curse",
             "Necromancy"
         ],
-        "savingthrow": "Will"
+        "savingThrow": "Will"
     },
     {
         "name": "Mind Probe",
@@ -11952,7 +11952,7 @@
             "Linguistic",
             "Mental"
         ],
-        "savingthrow": "Will"
+        "savingThrow": "Will"
     },
     {
         "name": "Moon Frenzy",
@@ -12051,7 +12051,7 @@
             "Evocation",
             "Shadow"
         ],
-        "savingthrow": "basic Reflex or Will (target's choice)"
+        "savingThrow": "basic Reflex or Will (target's choice)"
     },
     {
         "name": "Shadow Siphon",
@@ -12120,7 +12120,7 @@
             "Linguistic",
             "Mental"
         ],
-        "savingthrow": "Will"
+        "savingThrow": "Will"
     },
     {
         "name": "Summon Celestial",
@@ -12207,7 +12207,7 @@
             "Incapacitation",
             "Mental"
         ],
-        "savingthrow": "Will"
+        "savingThrow": "Will"
     },
     {
         "name": "Synesthesia",
@@ -12223,7 +12223,7 @@
             "Divination",
             "Mental"
         ],
-        "savingthrow": "Will"
+        "savingThrow": "Will"
     },
     {
         "name": "Telekinetic Haul",
@@ -12340,7 +12340,7 @@
             "Polymorph",
             "Transmutation"
         ],
-        "savingthrow": "Fortitude"
+        "savingThrow": "Fortitude"
     },
     {
         "name": "Blade Barrier",
@@ -12372,7 +12372,7 @@
             "Electricity",
             "Evocation"
         ],
-        "savingthrow": "Reflex"
+        "savingThrow": "Reflex"
     },
     {
         "name": "Collective Transposition",
@@ -12404,7 +12404,7 @@
             "Attack",
             "Evocation"
         ],
-        "savingthrow": "Fortitude"
+        "savingThrow": "Fortitude"
     },
     {
         "name": "Dominate",
@@ -12423,7 +12423,7 @@
             "Incapacitation",
             "Mental"
         ],
-        "savingthrow": "Will"
+        "savingThrow": "Will"
     },
     {
         "name": "Dragon Form",
@@ -12458,7 +12458,7 @@
             "Incapacitation",
             "Mental"
         ],
-        "savingthrow": "Will"
+        "savingThrow": "Will"
     },
     {
         "name": "Field of Life",
@@ -12492,7 +12492,7 @@
             "Fire",
             "Plant"
         ],
-        "savingthrow": "basic Reflex"
+        "savingThrow": "basic Reflex"
     },
     {
         "name": "Flesh to Stone",
@@ -12508,7 +12508,7 @@
         "traits": [
             "Transmutation"
         ],
-        "savingthrow": "Fortitude"
+        "savingThrow": "Fortitude"
     },
     {
         "name": "Mislead",
@@ -12523,6 +12523,17 @@
         ],
         "traits": [
             "Illusion"
+        ],
+        "target": "self",
+        "sustained": 100,
+        "duration": "sustained up to 1 minute",
+        "desc": "You turn yourself invisible and create an illusory duplicate of yourself. When you Sustain the Spell, you can mentally dictate a course of action for your duplicate to follow that round. Your duplicate acts as though it had your full number of actions, though it can't actually affect anything in the environment. Both the duplicate and your invisibility persist for the spell's duration. Performing a hostile action doesn't end mislead's invisibility, just like a 4th-level invisibility spell. A creature that determines the duplicate is an illusion doesn't necessarily know you're invisible, and one that can see your invisible form doesn't necessarily know your duplicate is an illusion.\n\nIf you Cast a Spell, attack, or otherwise interact with another creature, as a part of that action you can attempt a Deception check against observers' Perception DCs to convince them your duplicate used that action. This doesn't fool anyone who's aware your duplicate is an illusion, nor does it work if the attack obviously couldn't have come from the duplicate. For instance, if you fired a ray, you could make it look like it came from the duplicate as long as the duplicate was positioned appropriately, but if you attacked with a sword and your duplicate was across the room from the target, your Deception check would automatically fail.",
+        "gainConditions": [
+            {
+                "duration": 100,
+                "name": "Mislead",
+                "source": "Mislead"
+            }
         ]
     },
     {
@@ -12540,7 +12551,7 @@
             "Illusion",
             "Mental"
         ],
-        "savingthrow": "Will"
+        "savingThrow": "Will"
     },
     {
         "name": "Purple Worm Sting",
@@ -12557,7 +12568,7 @@
             "Necromancy",
             "Poison"
         ],
-        "savingthrow": "Fortitude"
+        "savingThrow": "Fortitude"
     },
     {
         "name": "Raise Dead",
@@ -12592,7 +12603,7 @@
             "Aura",
             "Mental"
         ],
-        "savingthrow": "Will"
+        "savingThrow": "Will"
     },
     {
         "name": "Righteous Might",
@@ -12625,7 +12636,7 @@
             "Divination",
             "Scrying"
         ],
-        "savingthrow": "Will"
+        "savingThrow": "Will"
     },
     {
         "name": "Spellwrack",
@@ -12644,7 +12655,7 @@
             "Curse",
             "Force"
         ],
-        "savingthrow": "Will"
+        "savingThrow": "Will"
     },
     {
         "name": "Spirit Blast",
@@ -12661,7 +12672,7 @@
             "Force",
             "Necromancy"
         ],
-        "savingthrow": "basic Fortitude"
+        "savingThrow": "basic Fortitude"
     },
     {
         "name": "Stone Tell",
@@ -12777,7 +12788,7 @@
             "Necromancy",
             "Negative"
         ],
-        "savingthrow": "basic Fortitude"
+        "savingThrow": "basic Fortitude"
     },
     {
         "name": "Vibrant Pattern",
@@ -12795,7 +12806,7 @@
             "Incapacitation",
             "Visual"
         ],
-        "savingthrow": "Will"
+        "savingThrow": "Will"
     },
     {
         "name": "Wall of Force",
@@ -12872,7 +12883,7 @@
         "traits": [
             "Evocation"
         ],
-        "savingthrow": "Fortitude"
+        "savingThrow": "Fortitude"
     },
     {
         "name": "Divine Vessel",
@@ -12903,7 +12914,7 @@
         "traits": [
             "Conjuration"
         ],
-        "savingthrow": "Fortitude"
+        "savingThrow": "Fortitude"
     },
     {
         "name": "Eclipse Burst",
@@ -12923,7 +12934,7 @@
             "Necromancy",
             "Negative"
         ],
-        "savingthrow": "Reflex"
+        "savingThrow": "Reflex"
     },
     {
         "name": "Energy Aegis",
@@ -13020,7 +13031,7 @@
             "Death",
             "Necromancy"
         ],
-        "savingthrow": "basic Fortitude"
+        "savingThrow": "basic Fortitude"
     },
     {
         "name": "Magnificent Mansion",
@@ -13095,7 +13106,7 @@
             "Necromancy",
             "Possession"
         ],
-        "savingthrow": "Will"
+        "savingThrow": "Will"
     },
     {
         "name": "Power Word Blind",
@@ -13225,7 +13236,7 @@
             "Light",
             "Positive"
         ],
-        "savingthrow": "Reflex"
+        "savingThrow": "Reflex"
     },
     {
         "name": "Time Beacon",
@@ -13288,7 +13299,7 @@
             "Illusion",
             "Visual"
         ],
-        "savingthrow": "Will"
+        "savingThrow": "Will"
     },
     {
         "name": "Volcanic Eruption",
@@ -13304,7 +13315,7 @@
             "Evocation",
             "Fire"
         ],
-        "savingthrow": "Reflex"
+        "savingThrow": "Reflex"
     },
     {
         "name": "Warp Mind",
@@ -13323,7 +13334,7 @@
             "Incapacitation",
             "Mental"
         ],
-        "savingthrow": "Will"
+        "savingThrow": "Will"
     },
     {
         "name": "Antimagic Field",
@@ -13452,7 +13463,7 @@
             "Necromancy",
             "Negative"
         ],
-        "savingthrow": "basic Fortitude"
+        "savingThrow": "basic Fortitude"
     },
     {
         "name": "Maze",
@@ -13612,7 +13623,7 @@
             "Incapacitation",
             "Visual"
         ],
-        "savingthrow": "Will"
+        "savingThrow": "Will"
     },
     {
         "name": "Spirit Song",
@@ -13628,7 +13639,7 @@
             "Force",
             "Necromancy"
         ],
-        "savingthrow": "basic Fortitude"
+        "savingThrow": "basic Fortitude"
     },
     {
         "name": "Spiritual Epidemic",
@@ -13645,7 +13656,7 @@
             "Curse",
             "Necromancy"
         ],
-        "savingthrow": "Will"
+        "savingThrow": "Will"
     },
     {
         "name": "Uncontrollable Dance",
@@ -13663,7 +13674,7 @@
             "Incapacitation",
             "Mental"
         ],
-        "savingthrow": "Will"
+        "savingThrow": "Will"
     },
     {
         "name": "Unrelenting Observation",
@@ -13778,7 +13789,7 @@
         "traits": [
             "Evocation"
         ],
-        "savingthrow": "basic Fortitude"
+        "savingThrow": "basic Fortitude"
     },
     {
         "name": "Massacre",
@@ -13797,7 +13808,7 @@
             "Necromancy",
             "Negative"
         ],
-        "savingthrow": "Fortitude"
+        "savingThrow": "Fortitude"
     },
     {
         "name": "Meteor Swarm",
@@ -13814,7 +13825,7 @@
             "Evocation",
             "Fire"
         ],
-        "savingthrow": "basic Reflex"
+        "savingThrow": "basic Reflex"
     },
     {
         "name": "Nature's Enmity",
@@ -13848,7 +13859,7 @@
             "Mental",
             "Visual"
         ],
-        "savingthrow": "Will"
+        "savingThrow": "Will"
     },
     {
         "name": "Power Word Kill",
@@ -13949,7 +13960,7 @@
             "Linguistic",
             "Mental"
         ],
-        "savingthrow": "Will"
+        "savingThrow": "Will"
     },
     {
         "name": "Unfathomable Song",
@@ -13969,7 +13980,7 @@
             "Incapacitation",
             "Mental"
         ],
-        "savingthrow": "Will"
+        "savingThrow": "Will"
     },
     {
         "name": "Wail of the Banshee",
@@ -13988,7 +13999,7 @@
             "Necromancy",
             "Negative"
         ],
-        "savingthrow": "Fortitude"
+        "savingThrow": "Fortitude"
     },
     {
         "name": "Weapon of Judgement",
@@ -14023,7 +14034,7 @@
             "Illusion",
             "Mental"
         ],
-        "savingthrow": "Will"
+        "savingThrow": "Will"
     },
     {
         "name": "Alter Reality",
@@ -14075,7 +14086,7 @@
             "Fire",
             "Water"
         ],
-        "savingthrow": "basic Reflex"
+        "savingThrow": "basic Reflex"
     },
     {
         "name": "Fabricated Truth",
@@ -14092,7 +14103,7 @@
             "Incapacitation",
             "Mental"
         ],
-        "savingthrow": "Will"
+        "savingThrow": "Will"
     },
     {
         "name": "Gate",

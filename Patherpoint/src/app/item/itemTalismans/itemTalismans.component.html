@@ -18,7 +18,8 @@
             </ng-container>
             <ng-container *ngFor="let inv of get_Inventories(); trackBy:trackByIndex;">
                 <optgroup label="{{itemStore ? 'Available talismans' : inv.get_Name(characterService)}}" *ngIf="get_Talismans(inv).length">
-                    <option *ngFor="let talisman of get_Talismans(inv); trackBy:trackByIndex;" [ngValue]="talisman">
+                    <option *ngFor="let talisman of get_Talismans(inv); trackBy:trackByIndex;" [ngValue]="talisman"
+                    title="{{get_Title(talisman.talisman)}}">
                         {{talisman.talisman.amount > 1 ? talisman.talisman.amount+" " : ""}}{{talisman.talisman.name}}
                     </option>
                 </optgroup>

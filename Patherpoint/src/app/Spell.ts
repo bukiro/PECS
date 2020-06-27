@@ -33,7 +33,7 @@ export class Spell {
     public name: string = "";
     public PFSnote: string = "";
     public range: string = "";
-    public savingthrow: string = "";
+    public savingThrow: string = "";
     public shortDesc: string = "";
     public showSpells: SpellCast[] = [];
     public sourceBook: string = "";

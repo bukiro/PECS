@@ -129,6 +129,40 @@ export class CharacterService {
         this.set_ToChange(creature, "character-sheet");
     }
 
+    set_AbilityToChange(creature: string, ability: string) {
+        //Set refresh commands for all components of the application depending this ability.
+        let abilities: string[] = ["Strength", "Dexterity", "Constitution", "Intelligence", "Wisdom", "Charisma"];
+        let attacks: string[] = ["Dexterity", "Strength"];
+        let defense: string[] = ["Constitution", "Dexterity", "Wisdom"];
+        let general: string[] = ["Strength", "Dexterity", "Intelligence", "Wisdom", "Charisma"];
+        let health: string[] = ["Constitution"];
+        let inventory: string[] = ["Strength"];
+
+        //Prepare changes for everything that should be updated according to the ability.
+        this.set_ToChange(creature, "abilities");
+        if (abilities.includes(ability)) {
+            this.set_ToChange(creature, "abilities");
+            this.set_ToChange(creature, "individualskills", ability);
+        }
+        if (attacks.includes(ability)) {
+            this.set_ToChange(creature, "attacks");
+        }
+        if (defense.includes(ability)) {
+            this.set_ToChange(creature, "defense");
+        }
+        if (general.includes(ability)) {
+            this.set_ToChange(creature, "general");
+        }
+        if (health.includes(ability)) {
+            this.set_ToChange(creature, "health");
+        }
+        if (inventory.includes(ability)) {
+            this.set_ToChange(creature, "inventory");
+        }
+
+        this.process_ToChange();
+    }
+
     process_ToChange() {
         ["Character", "Companion", "Familiar"].forEach(creature => {
             if (this.toChange.find(view => view.creature == creature && view.target == "all")) {
@@ -664,10 +698,10 @@ export class CharacterService {
         }
         //Add all Items that you get from being granted this one
         if (returnedInventoryItem.gainItems && returnedInventoryItem.gainItems.length) {
-            returnedInventoryItem.gainItems.filter(gainItem => gainItem.on == "grant").forEach(gainItem => {
+            returnedInventoryItem.gainItems.filter((gainItem: ItemGain) => gainItem.on == "grant").forEach(gainItem => {
                 let newItem: Item = this.get_CleanItems()[gainItem.type].filter(libraryItem => libraryItem.name == gainItem.name)[0];
                 if (newItem.can_Stack()) {
-                    this.grant_InventoryItem(creature, inventory, newItem, true, false, false, gainItem.amount);
+                    this.grant_InventoryItem(creature, inventory, newItem, true, false, false, gainItem.amount + (gainItem.amountPerLevel * creature.level));
                 } else {
                     let equip = true;
                     //Don't equip the new item if it's a shield or armor and this one is too - only one shield or armor can be equipped
@@ -932,7 +966,7 @@ export class CharacterService {
                     item.gainItems.filter((gainItem: ItemGain) => gainItem.on == "equip").forEach(gainItem => {
                         let newItem: Item = this.itemsService.get_Items()[gainItem.type].filter((libraryItem: Item) => libraryItem.name == gainItem.name)[0]
                         if (newItem.can_Stack()) {
-                            this.grant_InventoryItem(creature, inventory, newItem, false, false, false, gainItem.amount);
+                            this.grant_InventoryItem(creature, inventory, newItem, false, false, false, gainItem.amount + (gainItem.amountPerLevel * creature.level));
                         } else {
                             let equip = true;
                             //Don't equip the new item if it's a shield or armor and this one is too - only one shield or armor can be equipped

@@ -201,6 +201,14 @@ h3.box-header {
     color: rgb(var(--accent));
 }
 
+.darkmode h3.box-header {
+    text-shadow: 0 0 3px var(--textcolor), 0 0 3px var(--textcolor), 0 0 3px var(--textcolor), 0 0 3px var(--textcolor), 0 0 3px var(--textcolor);
+}
+
+.darkmode h3.box-header span {
+    text-shadow: none;
+}
+
 .minimized input {
     font-size: 90%;
     border: none;
@@ -643,7 +651,7 @@ h4 app-actionIcons span {
     background-color: rgba(200, 200, 200, 0.1)
 }
 
-.list-item > *:not(.list-item) {
+.list-item > *:not(.list-item):not(h3):not(p) {
     margin-top: auto;
     margin-bottom: auto;
 }
@@ -863,14 +871,11 @@ var:not(:empty),
     font-style: normal;
     color: #465A8C;
     color: rgb(var(--accent));
-    text-shadow: 0 0 5px #616161;
 }
 
-.darkmode var:not(:empty) {
-    box-shadow: 0 0 3px 3px #CCC;
-    background: #CCC;
-    border-radius: 10px;
-    text-shadow: none;
+.darkmode var:not(:empty),
+.darkmode .variable {
+    text-shadow: 0 0 3px var(--textcolor), 0 0 3px var(--textcolor), 0 0 3px var(--textcolor), 0 0 3px var(--textcolor), 0 0 3px var(--textcolor);
 }
 
 .problem,

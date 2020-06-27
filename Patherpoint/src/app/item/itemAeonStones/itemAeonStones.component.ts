@@ -133,6 +133,39 @@ export class ItemAeonStonesComponent implements OnInit {
         }
     }
 
+    get_Title(stone: WornItem) {
+        if (this.itemStore && stone.price) {
+            return "Price " + this.get_Price(stone);
+        }
+    }
+
+    get_Price(stone: WornItem) {
+        if (stone.price) {
+            if (stone.price == 0) {
+                return "";
+            } else {
+                let price: number = stone.price;
+                let priceString: string = "";
+                if (price >= 100) {
+                    priceString += Math.floor(price / 100)+"gp";
+                    price %= 100;
+                    if (price >= 10) {priceString += " ";}
+                }
+                if (price >= 10) {
+                    priceString += Math.floor(price / 10)+"sp";
+                    price %= 10;
+                    if (price >= 1) {priceString += " ";}
+                }
+                if (price >= 1) {
+                    priceString += price+"cp";
+                }
+                return priceString;
+            }
+        } else {
+            return ""
+        }
+    }
+
     set_AeonStoneNames() {
         this.newAeonStone = 
         (this.item.aeonStones ? [

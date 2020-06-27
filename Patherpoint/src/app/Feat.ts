@@ -44,6 +44,7 @@ export class Feat {
     public hide: boolean = false;
     public hint: string = "";
     public levelreq: number = 0;
+    public limited: number = 0;
     public lorebase: boolean = false;
     public name: string = "";
     public onceEffects: any[] = [];
@@ -240,10 +241,10 @@ export class Feat {
         //Return true if all are true
         return levelreq && abilityreq && skillreq && featreq && specialreq;
     }
-    have(creature: Character|AnimalCompanion|Familiar, characterService: CharacterService, charLevel: number = characterService.get_Character().level) {
-        if (characterService.still_loading()) { return false }
+    have(creature: Character|AnimalCompanion|Familiar, characterService: CharacterService, charLevel: number = characterService.get_Character().level, excludeTemporary: boolean = false) {
+        if (characterService.still_loading()) { return 0 }
         if (creature.type == "Character") {
-            return (creature as Character).get_FeatsTaken(1, charLevel, this.name)?.length || 0;
+            return (creature as Character).get_FeatsTaken(1, charLevel, this.name, "", "", undefined, excludeTemporary)?.length || 0;
         } else if (creature.type == "Familiar") {
             return (creature as Familiar).abilities.feats.filter(gain => gain.name.toLowerCase() == this.name.toLowerCase())?.length || 0;
         } else {

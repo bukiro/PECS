@@ -1,7 +1,6 @@
 import { CharacterService } from './character.service';
 import { EffectsService } from './effects.service';
 import { WornItem } from './WornItem';
-import { Effect } from './Effect';
 import { Equipment } from './Equipment';
 import { WeaponRune } from './WeaponRune';
 import { Specialization } from './Specialization';
@@ -10,7 +9,6 @@ import { AnimalCompanion } from './AnimalCompanion';
 import { Familiar } from './Familiar';
 import { Oil } from './Oil';
 import { SpecializationGain } from './SpecializationGain';
-import { WeaponMaterial } from './WeaponMaterial';
 
 export class Weapon extends Equipment {
     public readonly _className: string = this.constructor.name;

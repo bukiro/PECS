@@ -16,11 +16,22 @@
                     </optgroup>
                 </ng-container>
                 <optgroup label="Available materials" *ngIf="get_WeaponMaterials().length">
-                    <option *ngFor="let material of get_WeaponMaterials(); trackBy:trackByIndex;" [ngValue]="material" [disabled]="material.disabled">
+                    <option *ngFor="let material of get_WeaponMaterials(); trackBy:trackByIndex;" [ngValue]="material" [disabled]="material.disabled"
+                    title="{{get_Title(material.material)}}">
                         {{material.material.name}}
                     </option>
                 </optgroup>
             </select>
         </div>
+        <ng-container *ngIf="craftingStation">
+            <ng-container *ngFor="let material of item.material">
+                <div class="row" *ngIf="material.craftRequirement">
+                    <span>
+                        <strong>Craft Requirement&nbsp;</strong>
+                        <span>{{material.craftRequirement}}</span>
+                    </span>
+                </div>
+            </ng-container>
+        </ng-container>
     </ng-container>
 </div>

@@ -197,7 +197,7 @@
             {
                 "_className": "FeatChoice",
                 "available": 1,
-                "dynamicLevel": "level.number / 2" ,
+                "dynamicLevel": "level.number / 2",
                 "source": "Feat: Advanced Blood Potency",
                 "type": "Sorcerer"
             }
@@ -232,7 +232,7 @@
         "gainFeatChoice": [
             {
                 "_className": "FeatChoice",
-                "available": 1 ,
+                "available": 1,
                 "level": 1,
                 "source": "Feat: Ancestral Paragon",
                 "type": "Ancestry"
@@ -1019,7 +1019,7 @@
         "gainFeatChoice": [
             {
                 "_className": "FeatChoice",
-                "available": 1 ,
+                "available": 1,
                 "level": 2,
                 "source": "Feat: Basic Blood Potency",
                 "type": "Sorcerer"
@@ -2414,7 +2414,7 @@
         "gainFeatChoice": [
             {
                 "_className": "FeatChoice",
-                "available": 1 ,
+                "available": 1,
                 "level": 1,
                 "source": "Feat: General Training",
                 "type": "General"
@@ -3479,7 +3479,7 @@
         "gainFeatChoice": [
             {
                 "_className": "FeatChoice",
-                "available": 1 ,
+                "available": 1,
                 "level": 1,
                 "source": "Feat: Natural Ambition",
                 "type": "Class"
@@ -4509,7 +4509,6 @@
             {
                 "_className": "SkillChoice",
                 "available": 1,
-                "increases": [],
                 "maxRank": 2,
                 "source": "Feat: Skill Training",
                 "type": "Skill"
@@ -4611,7 +4610,7 @@
         "gainFeatChoice": [
             {
                 "_className": "FeatChoice",
-                "available": 1 ,
+                "available": 1,
                 "filter": [
                     "Aberrant Bloodline",
                     "Angelic Bloodline",
@@ -9623,49 +9622,6 @@
         ]
     },
     {
-        "name": "Ruffian Racket"
-    },
-    {
-        "name": "Scoundrel Racket"
-    },
-    {
-        "name": "Thief Racket",
-        "desc": "Nothing beats the thrill of taking something that belongs to someone else, especially if you can do so completely unnoticed. You might be a pickpocket working the streets, a cat burglar sneaking through windows and escaping via rooftops, or a safecracker breaking into carefully guarded vaults. You might even work as a consultant, testing clients' defenses by trying to steal something precious.\n\nWhen a fight breaks out, you prefer swift, lightweight weapons, and you strike where it hurts. When you attack with a finesse melee weapon, you can add your Dexterity modifier to damage rolls instead of your Strength modifier.\n\nYou are trained in Thievery.",
-        "hint": "When you attack with a finesse melee weapon, you can add your Dexterity modifier to damage rolls instead of your Strength modifier.",
-        "showon": "Attacks",
-        "shortdesc": "Nothing beats the thrill of taking something that belongs to someone else, especially if you can do so completely unnoticed.",
-        "gainAbilityChoice": [
-            {
-                "_className": "AbilityChoice",
-                "boosts": [
-                    {
-                        "locked": true,
-                        "name": "Dexterity",
-                        "source": "Class Key Ability",
-                        "type": "Boost"
-                    }
-                ],
-                "source": "Class Key Ability"
-            }
-        ],
-        "gainSkillChoice": [
-            {
-                "_className": "SkillChoice",
-                "increases": [
-                    {
-                        "locked": true,
-                        "maxRank": 2,
-                        "name": "Thievery",
-                        "source": "Feat: Thief"
-                    }
-                ],
-                "maxRank": 2,
-                "source": "Feat: Thief",
-                "type": "Skill"
-            }
-        ]
-    },
-    {
         "name": "Aberrant Bloodline"
     },
     {
@@ -9708,7 +9664,7 @@
         "gainFeatChoice": [
             {
                 "_className": "FeatChoice",
-                "available": 1 ,
+                "available": 1,
                 "filter": [
                     "Elemental Type"
                 ],
@@ -11419,23 +11375,6 @@
         ]
     },
     {
-        "name": "Blind-Fight",
-        "desc": "Your battle instincts make you more aware of concealed and invisible opponents. You don't need to succeed at a flat check to target concealed creatures. You're not flat-footed to creatures that are hidden from you (unless you're flat-footed to them for reasons other than the hidden condition), and you need only a successful DC 5 flat check to target a hidden creature.\n\nWhile you're adjacent to an undetected creature of your level or lower, it is instead only hidden from you.",
-        "hint": "You don't need to succeed at a flat check to target concealed creatures. You're not flat-footed to creatures that are hidden from you (unless you're flat-footed to them for reasons other than the hidden condition), and you need only a successful DC 5 flat check to target a hidden creature.\n\nWhile you're adjacent to an undetected creature of your level or lower, it is instead only hidden from you.",
-        "showon": "Attacks, Perception",
-        "shortdesc": "Your battle instincts make you more aware of concealed and invisible opponents.",
-        "traits": [
-            "Fighter"
-        ],
-        "levelreq": 8,
-        "skillreq": [
-            {
-                "skill": "Perception",
-                "value": 6
-            }
-        ]
-    },
-    {
         "name": "Dueling Riposte",
         "desc": "You riposte against your flailing enemy.",
         "shortdesc": "You riposte against your flailing enemy.",
@@ -12017,7 +11956,7 @@
         "gainFeatChoice": [
             {
                 "_className": "FeatChoice",
-                "available": 1 ,
+                "available": 1,
                 "id": "20-Fighter-Ultimate Flexibility-1",
                 "level": 18,
                 "showOnSheet": true,
@@ -12070,7 +12009,6 @@
                 "_className": "AbilityChoice",
                 "available": 1,
                 "infoOnly": true,
-                "boosts": [],
                 "filter": [
                     "Strength",
                     "Dexterity"
@@ -12086,7 +12024,6 @@
                     "Athletics",
                     "Acrobatics"
                 ],
-                "increases": [],
                 "maxRank": 2,
                 "source": "Feat: Fighter Dedication",
                 "type": "Skill"
@@ -12142,7 +12079,7 @@
         "gainFeatChoice": [
             {
                 "_className": "FeatChoice",
-                "available": 1 ,
+                "available": 1,
                 "level": 2,
                 "source": "Feat: Basic Maneuver",
                 "type": "Fighter"
@@ -12204,7 +12141,7 @@
             {
                 "_className": "FeatChoice",
                 "available": 1,
-                "dynamicLevel": "level.number / 2" ,
+                "dynamicLevel": "level.number / 2",
                 "source": "Feat: Advanced Maneuver",
                 "type": "Fighter"
             }
@@ -12292,7 +12229,6 @@
                 "_className": "AbilityChoice",
                 "available": 1,
                 "infoOnly": true,
-                "boosts": [],
                 "filter": [
                     "Strength",
                     "Dexterity"
@@ -12321,7 +12257,6 @@
                     "Athletics",
                     "Acrobatics"
                 ],
-                "increases": [],
                 "maxRank": 2,
                 "source": "Feat: Monk Dedication",
                 "type": "Skill"
@@ -12371,7 +12306,7 @@
         "gainFeatChoice": [
             {
                 "_className": "FeatChoice",
-                "available": 1 ,
+                "available": 1,
                 "level": 2,
                 "source": "Feat: Basic Maneuver",
                 "type": "Monk"
@@ -12417,7 +12352,7 @@
             {
                 "_className": "FeatChoice",
                 "available": 1,
-                "dynamicLevel": "level.number / 2" ,
+                "dynamicLevel": "level.number / 2",
                 "source": "Feat: Advanced Maneuver",
                 "type": "Monk"
             }
@@ -12829,19 +12764,6 @@
         ]
     },
     {
-        "name": "Quick Draw",
-        "desc": "You draw your weapon and attack with the same motion.",
-        "shortdesc": "You draw your weapon and attack with the same motion.",
-        "traits": [
-            "Ranger",
-            "Rogue"
-        ],
-        "levelreq": 2,
-        "gainActivities": [
-            "Quick Draw"
-        ]
-    },
-    {
         "name": "Relentless Stalker",
         "desc": "Stay adjacent to your prey when they attempt to move away.",
         "specialdesc": "By aiding an NPC from The Fall of Plaguestone, the PCs can learn some special woodland survival techniques.",
@@ -12976,19 +12898,6 @@
         "levelreq": 4,
         "gainActivities": [
             "Running Reload"
-        ]
-    },
-    {
-        "name": "Scout's Warning",
-        "desc": "You visually or audibly warn your allies of danger.",
-        "shortdesc": "You visually or audibly warn your allies of danger.",
-        "traits": [
-            "Ranger",
-            "Rogue"
-        ],
-        "levelreq": 4,
-        "gainActivities": [
-            "Scout's Warning"
         ]
     },
     {
@@ -13359,19 +13268,6 @@
         "specialreqdesc": "an animal companion"
     },
     {
-        "name": "Sense the Unseen",
-        "desc": "When you look for foes, you can catch even the slightest cues.",
-        "shortdesc": "When you look for foes, you can catch even the slightest cues.",
-        "traits": [
-            "Ranger",
-            "Rogue"
-        ],
-        "levelreq": 14,
-        "gainActivities": [
-            "Sense the Unseen"
-        ]
-    },
-    {
         "name": "Shared Prey",
         "desc": "Hunting as a duo, you and your ally both single out your prey. When you use Hunt Prey and select only one prey, you can grant your Hunt Prey benefits and hunter's edge to an ally in addition to gaining them yourself. The ally retains these benefits until you use Hunt Prey again.",
         "hint": "When you use Hunt Prey and select only one prey, you can grant your Hunt Prey benefits and hunter's edge to an ally in addition to gaining them yourself. The ally retains these benefits until you use Hunt Prey again.",
@@ -13704,7 +13600,6 @@
                 "_className": "AbilityChoice",
                 "available": 1,
                 "infoOnly": true,
-                "boosts": [],
                 "filter": [
                     "Strength",
                     "Dexterity"
@@ -13732,7 +13627,6 @@
                 "filter": [
                     "Survival"
                 ],
-                "increases": [],
                 "maxRank": 2,
                 "source": "Feat: Ranger Dedication",
                 "type": "Skill"
@@ -13768,7 +13662,7 @@
         "gainFeatChoice": [
             {
                 "_className": "FeatChoice",
-                "available": 1 ,
+                "available": 1,
                 "level": 2,
                 "source": "Feat: Basic Hunter's Trick",
                 "type": "Ranger"
@@ -13814,7 +13708,7 @@
             {
                 "_className": "FeatChoice",
                 "available": 1,
-                "dynamicLevel": "level.number / 2" ,
+                "dynamicLevel": "level.number / 2",
                 "source": "Feat: Advanced Hunter's Trick",
                 "type": "Ranger"
             }
@@ -15328,7 +15222,7 @@
         "gainFeatChoice": [
             {
                 "_className": "FeatChoice",
-                "available": 1 ,
+                "available": 1,
                 "level": 1,
                 "source": "Feat: Universalist",
                 "type": "Wizard"
@@ -15372,7 +15266,7 @@
         "gainFeatChoice": [
             {
                 "_className": "FeatChoice",
-                "available": 1 ,
+                "available": 1,
                 "level": 1,
                 "source": "Feat: Metamagical Experimentation",
                 "type": "Metamagic,Wizard"
@@ -16609,7 +16503,29 @@
                 "castingType": "Prepared",
                 "className": "Wizard",
                 "source": "Wizard Dedication",
-                "spellBookSlots": [4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+                "spellBookSlots": [
+                    4,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0
+                ],
                 "tradition": "Arcane"
             }
         ],
@@ -17107,7 +17023,29 @@
         ],
         "gainSpellBookSlots": [
             {
-                "spellBookSlots": [0, 2, 0, 2, 0, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+                "spellBookSlots": [
+                    0,
+                    2,
+                    0,
+                    2,
+                    0,
+                    2,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0
+                ],
                 "className": "Wizard"
             }
         ],
@@ -17217,7 +17155,29 @@
         ],
         "gainSpellBookSlots": [
             {
-                "spellBookSlots": [0, 0, 0, 0, 0, 0, 0, 2, 0, 2, 0, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+                "spellBookSlots": [
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    2,
+                    0,
+                    2,
+                    0,
+                    2,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0
+                ],
                 "className": "Wizard"
             }
         ],
@@ -17289,7 +17249,29 @@
         ],
         "gainSpellBookSlots": [
             {
-                "spellBookSlots": [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 0, 2, 0, 0, 0, 0, 0],
+                "spellBookSlots": [
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    2,
+                    0,
+                    2,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0
+                ],
                 "className": "Wizard"
             }
         ],
@@ -17313,6 +17295,1363 @@
                 "id": "7f50f400-23ca-4176-a0db-32a0a4766453",
                 "level": 8,
                 "source": "Master Wizard Spellcasting"
+            }
+        ]
+    },
+    {
+        "name": "Ruffian Racket",
+        "desc": "You prefer to strong-arm or intimidate others rather than rely on finesse or fancy tricks. You might be an enforcer for organized crime, a highway bandit, or a noble who bullies others with threats of your family’s power. Or, you might use your skills on the up and up, in a private security detail or as a guard in a city with the right temperament.\n\nYou use whatever tools you have at hand to get the job done. You can deal sneak attack damage with any simple weapon, in addition to the weapons listed in the sneak attack class feature. When you critically succeed at an attack roll using a simple weapon and the target has the flat-footed condition (unable to focus on defending itself), you also apply the critical specialization effect for the weapon you’re wielding (page 283). You don’t gain these benefits if the weapon has a damage die larger than d8 (after applying any abilities that alter its damage die size).\n\nYou’re trained in Intimidation and medium armor. You can choose Strength as your key ability score. When you gain light armor expertise, you also gain expert proficiency in medium armor, and when you gain light armor mastery, you also gain master proficiency in medium armor.",
+        "hint": "You can deal sneak attack damage with any simple weapon, in addition to the weapons listed in the sneak attack class feature. When you critically succeed at an attack roll using a simple weapon and the target has the flat-footed condition (unable to focus on defending itself), you also apply the critical specialization effect for the weapon you’re wielding (page 283). You don’t gain these benefits if the weapon has a damage die larger than d8 (after applying any abilities that alter its damage die size).",
+        "showon": "Attacks",
+        "shortdesc": "You prefer to strong-arm or intimidate others rather than rely on finesse or fancy tricks.",
+        "gainSpecialization": [
+            {
+                "condition": "against flat-footed creature, damage die up to d8",
+                "proficiency": "Simple Weapons"
+            }
+        ],
+        "gainAbilityChoice": [
+            {
+                "_className": "AbilityChoice",
+                "available": 1,
+                "filter": [
+                    "Strength",
+                    "Dexterity"
+                ],
+                "source": "Class Key Ability"
+            }
+        ],
+        "gainSkillChoice": [
+            {
+                "_className": "SkillChoice",
+                "available": 1,
+                "filter": [
+                    "Intimidation"
+                ],
+                "maxRank": 2,
+                "source": "Feat: Ruffian Racket",
+                "type": "Skill"
+            },
+            {
+                "_className": "SkillChoice",
+                "increases": [
+                    {
+                        "locked": true,
+                        "maxRank": 2,
+                        "name": "Medium Armor",
+                        "source": "Feat: Ruffian Racket"
+                    }
+                ],
+                "maxRank": 2,
+                "source": "Feat: Ruffian Racket",
+                "type": "Armor Proficiency"
+            },
+            {
+                "_className": "SkillChoice",
+                "increases": [
+                    {
+                        "locked": true,
+                        "maxRank": 4,
+                        "name": "Medium Armor",
+                        "source": "Feat: Ruffian Racket"
+                    }
+                ],
+                "insertLevel": 13,
+                "maxRank": 4,
+                "source": "Feat: Ruffian Racket",
+                "type": "Armor Proficiency"
+            },
+            {
+                "_className": "SkillChoice",
+                "increases": [
+                    {
+                        "locked": true,
+                        "maxRank": 6,
+                        "name": "Medium Armor",
+                        "source": "Feat: Ruffian Racket"
+                    }
+                ],
+                "insertLevel": 19,
+                "maxRank": 6,
+                "source": "Feat: Ruffian Racket",
+                "type": "Armor Proficiency"
+            }
+        ]
+    },
+    {
+        "name": "Scoundrel Racket",
+        "desc": "You use fast-talking, flattery, and a silver tongue to avoid danger and escape tricky situations. You might be a grifter or con artist, traveling from place to place with a new story or scheme. Your racket is also ideal for certain reputable professions, like barrister, diplomat, or politician.\n\nWhen you successfully Feint, the target is flat-footed against melee attacks you attempt against it until the end of your next turn. On a critical success, the target is flat-footed against all melee attacks until the end of your next turn, not just yours.\n\nYou’re trained in Deception and Diplomacy. You can choose Charisma as your key ability score.",
+        "hint": "When you successfully Feint, the target is flat-footed against melee attacks you attempt against it until the end of your next turn. On a critical success, the target is flat-footed against all melee attacks until the end of your next turn, not just yours.",
+        "showon": "Deception",
+        "shortdesc": "You use fast-talking, flattery, and a silver tongue to avoid danger and escape tricky situations.",
+        "gainAbilityChoice": [
+            {
+                "_className": "AbilityChoice",
+                "available": 1,
+                "filter": [
+                    "Dexterity",
+                    "Charisma"
+                ],
+                "source": "Class Key Ability"
+            }
+        ],
+        "gainSkillChoice": [
+            {
+                "_className": "SkillChoice",
+                "available": 2,
+                "filter": [
+                    "Deception",
+                    "Diplomacy"
+                ],
+                "maxRank": 2,
+                "source": "Feat: Scoundrel Racket",
+                "type": "Skill"
+            }
+        ]
+    },
+    {
+        "name": "Thief Racket",
+        "desc": "Nothing beats the thrill of taking something that belongs to someone else, especially if you can do so completely unnoticed. You might be a pickpocket working the streets, a cat burglar sneaking through windows and escaping via rooftops, or a safecracker breaking into carefully guarded vaults. You might even work as a consultant, testing clients' defenses by trying to steal something precious.\n\nWhen a fight breaks out, you prefer swift, lightweight weapons, and you strike where it hurts. When you attack with a finesse melee weapon, you can add your Dexterity modifier to damage rolls instead of your Strength modifier.\n\nYou are trained in Thievery.",
+        "hint": "When you attack with a finesse melee weapon, you can add your Dexterity modifier to damage rolls instead of your Strength modifier.",
+        "showon": "Attacks",
+        "shortdesc": "Nothing beats the thrill of taking something that belongs to someone else, especially if you can do so completely unnoticed.",
+        "gainAbilityChoice": [
+            {
+                "_className": "AbilityChoice",
+                "boosts": [
+                    {
+                        "locked": true,
+                        "name": "Dexterity",
+                        "source": "Class Key Ability",
+                        "type": "Boost"
+                    }
+                ],
+                "source": "Class Key Ability"
+            }
+        ],
+        "gainSkillChoice": [
+            {
+                "_className": "SkillChoice",
+                "available": 1,
+                "filter": [
+                    "Thievery"
+                ],
+                "maxRank": 2,
+                "source": "Feat: Thief Racket",
+                "type": "Skill"
+            }
+        ]
+    },
+    {
+        "name": "Nimble Dodge",
+        "desc": "You deftly dodge out of the way.",
+        "shortdesc": "You deftly dodge out of the way.",
+        "traits": [
+            "Rogue"
+        ],
+        "levelreq": 1,
+        "gainActivities": [
+            "Nimble Dodge"
+        ]
+    },
+    {
+        "name": "Trap Finder",
+        "desc": "You have an intuitive sense that alerts you to the dangers and presence of traps. You gain a +1 circumstance bonus to Perception checks to find traps, to AC against attacks made by traps, and to saves against traps. Even if you aren't Searching, you get a check to find traps that normally require you to be Searching. You still need to meet any other requirements to find the trap.\n\nYou can disable traps that require a proficiency rank of master in Thievery. If you have master proficiency in Thievery, you can disable traps that require a proficiency rank of legendary instead, and your circumstance bonuses against traps increase to +2.",
+        "hint": "You gain a +1 circumstance bonus to Perception checks to find traps, to AC against attacks made by traps, and to saves against traps. Even if you aren't Searching, you get a check to find traps that normally require you to be Searching. You still need to meet any other requirements to find the trap.\n\nYou can disable traps that require a proficiency rank of master in Thievery. If you have master proficiency in Thievery, you can disable traps that require a proficiency rank of legendary instead, and your circumstance bonuses against traps increase to +2.",
+        "showon": "Perception, AC, Thievery",
+        "shortdesc": "You have an intuitive sense that alerts you to the dangers and presence of traps.",
+        "traits": [
+            "Rogue"
+        ],
+        "levelreq": 1
+    },
+    {
+        "name": "Twin Feint",
+        "desc": "You make a dazzling series of attacks with both weapons, using the first attack to throw your foe of guard against a second attack at a different angle.",
+        "shortdesc": "You make a dazzling series of attacks with both weapons, using the first attack to throw your foe of guard against a second attack at a different angle.",
+        "traits": [
+            "Rogue"
+        ],
+        "levelreq": 1,
+        "gainActivities": [
+            "Twin Feint"
+        ]
+    },
+    {
+        "name": "You're Next",
+        "desc": "After downing a foe, you menacingly remind another foe that you’re coming after them next.",
+        "shortdesc": "After downing a foe, you menacingly remind another foe that you’re coming after them next.",
+        "traits": [
+            "Rogue",
+            "Emotion",
+            "Fear",
+            "Mental"
+        ],
+        "levelreq": 1,
+        "skillreq": [
+            {
+                "skill": "Intimidation",
+                "value": 2
+            }
+        ],
+        "gainActivities": [
+            "You're Next"
+        ]
+    },
+    {
+        "name": "Brutal Beating",
+        "desc": "The brutality of your critical hits shakes your foes’ confidence. Whenever your Strike is a critical hit and deals damage, the target is frightened 1.",
+        "hint": "Whenever your Strike is a critical hit and deals damage, the target is frightened 1.",
+        "showon": "Attacks",
+        "shortdesc": "The brutality of your critical hits shakes your foes’ confidence.",
+        "traits": [
+            "Rogue"
+        ],
+        "levelreq": 2,
+        "featreq": [
+            "Ruffian Racket"
+        ]
+    },
+    {
+        "name": "Distracting Feint",
+        "desc": "Your Feints are far more distracting than normal, drawing your foes’ attention and allowing you and your allies to take greater advantage. While a creature is flat-footed by your Feint, it also takes a –2 circumstance penalty to Perception checks and Reflex saves.",
+        "hint": "While a creature is flat-footed by your Feint, it also takes a –2 circumstance penalty to Perception checks and Reflex saves.",
+        "showon": "Deception",
+        "shortdesc": "Your Feints are far more distracting than normal, drawing your foes’ attention and allowing you and your allies to take greater advantage.",
+        "traits": [
+            "Rogue"
+        ],
+        "levelreq": 2,
+        "featreq": [
+            "Scoundrel Racket"
+        ]
+    },
+    {
+        "name": "Minor Magic",
+        "desc": "You’ve dabbled in a variety of tricks, gaining minor magical abilities from a particular tradition. Choose arcane, divine, occult, or primal magic, and gain two cantrips from the common cantrips available to that tradition. Your key spellcasting ability is Charisma, and you're trained in spell attack rolls and DCs for the tradition of your chosen cantrips.",
+        "subTypes": true,
+        "shortdesc": "You’ve dabbled in a variety of tricks, gaining minor magical abilities from a particular tradition.",
+        "traits": [
+            "Rogue"
+        ],
+        "levelreq": 2
+    },
+    {
+        "name": "Minor Magic: Arcane",
+        "desc": "You’ve dabbled in a variety of tricks, gaining minor magical abilities. You gain two common arcane cantrips. Your key spellcasting ability is Charisma, and you're trained in arcane spell attack rolls and DCs.",
+        "subType": "Arcane",
+        "superType": "Minor Magic",
+        "shortdesc": "You’ve dabbled in a variety of tricks, gaining two common arcane cantrips.",
+        "traits": [
+            "Rogue"
+        ],
+        "levelreq": 2,
+        "gainSkillChoice": [
+            {
+                "_className": "SkillChoice",
+                "increases": [
+                    {
+                        "locked": true,
+                        "maxRank": 2,
+                        "name": "Rogue Arcane Spell DC",
+                        "source": "Feat: Minor Magic: Arcane"
+                    }
+                ],
+                "maxRank": 2,
+                "source": "Feat: Minor Magic: Arcane",
+                "type": "Spell DC"
+            }
+        ],
+        "gainSpellCasting": [
+            {
+                "_className": "SpellCasting",
+                "ability": "Charisma",
+                "castingType": "Spontaneous",
+                "className": "Rogue",
+                "source": "Feat: Minor Magic: Arcane",
+                "tradition": "Arcane"
+            }
+        ],
+        "gainSpellChoice": [{
+                "_className": "SpellChoice",
+                "available": 2,
+                "castingType": "Spontaneous",
+                "className": "Rogue",
+                "id": "102a82b2-2770-4671-aa1e-0fd891f6460c",
+                "level": 0,
+                "source": "Feat: Minor Magic: Arcane"
+            }
+        ]
+    },
+    {
+        "name": "Minor Magic: Divine",
+        "desc": "You’ve dabbled in a variety of tricks, gaining minor magical abilities. You gain two common divine cantrips. Your key spellcasting ability is Charisma, and you're trained in divine spell attack rolls and DCs.",
+        "subType": "Divine",
+        "superType": "Minor Magic",
+        "shortdesc": "You’ve dabbled in a variety of tricks, gaining two common divine cantrips.",
+        "traits": [
+            "Rogue"
+        ],
+        "levelreq": 2,
+        "gainSkillChoice": [
+            {
+                "_className": "SkillChoice",
+                "increases": [
+                    {
+                        "locked": true,
+                        "maxRank": 2,
+                        "name": "Rogue Divine Spell DC",
+                        "source": "Feat: Minor Magic: Divine"
+                    }
+                ],
+                "maxRank": 2,
+                "source": "Feat: Minor Magic: Divine",
+                "type": "Spell DC"
+            }
+        ],
+        "gainSpellCasting": [
+            {
+                "_className": "SpellCasting",
+                "ability": "Charisma",
+                "castingType": "Spontaneous",
+                "className": "Rogue",
+                "source": "Feat: Minor Magic: Divine",
+                "tradition": "Arcane"
+            }
+        ],
+        "gainSpellChoice": [{
+                "_className": "SpellChoice",
+                "available": 2,
+                "castingType": "Spontaneous",
+                "className": "Rogue",
+                "id": "14eddaa6-5c97-4801-99eb-b2080f3a6b6f",
+                "level": 0,
+                "source": "Feat: Minor Magic: Divine"
+            }
+        ]
+    },
+    {
+        "name": "Minor Magic: Occult",
+        "desc": "You’ve dabbled in a variety of tricks, gaining minor magical abilities. You gain two common occult cantrips. Your key spellcasting ability is Charisma, and you're trained in occult spell attack rolls and DCs.",
+        "subType": "Occult",
+        "superType": "Minor Magic",
+        "shortdesc": "You’ve dabbled in a variety of tricks, gaining two common occult cantrips.",
+        "traits": [
+            "Rogue"
+        ],
+        "levelreq": 2,
+        "gainSkillChoice": [
+            {
+                "_className": "SkillChoice",
+                "increases": [
+                    {
+                        "locked": true,
+                        "maxRank": 2,
+                        "name": "Rogue Occult Spell DC",
+                        "source": "Feat: Minor Magic: Occult"
+                    }
+                ],
+                "maxRank": 2,
+                "source": "Feat: Minor Magic: Occult",
+                "type": "Spell DC"
+            }
+        ],
+        "gainSpellCasting": [
+            {
+                "_className": "SpellCasting",
+                "ability": "Charisma",
+                "castingType": "Spontaneous",
+                "className": "Rogue",
+                "source": "Feat: Minor Magic: Occult",
+                "tradition": "Arcane"
+            }
+        ],
+        "gainSpellChoice": [{
+                "_className": "SpellChoice",
+                "available": 2,
+                "castingType": "Spontaneous",
+                "className": "Rogue",
+                "id": "ea739e5c-3181-46da-9b41-07e8498e497a",
+                "level": 0,
+                "source": "Feat: Minor Magic: Occult"
+            }
+        ]
+    },
+    {
+        "name": "Minor Magic: Primal",
+        "desc": "You’ve dabbled in a variety of tricks, gaining minor magical abilities. You gain two common primal cantrips. Your key spellcasting ability is Charisma, and you're trained in primal spell attack rolls and DCs.",
+        "subType": "Primal",
+        "superType": "Minor Magic",
+        "shortdesc": "You’ve dabbled in a variety of tricks, gaining two common primal cantrips.",
+        "traits": [
+            "Rogue"
+        ],
+        "levelreq": 2,
+        "gainSkillChoice": [
+            {
+                "_className": "SkillChoice",
+                "increases": [
+                    {
+                        "locked": true,
+                        "maxRank": 2,
+                        "name": "Rogue Primal Spell DC",
+                        "source": "Feat: Minor Magic: Primal"
+                    }
+                ],
+                "maxRank": 2,
+                "source": "Feat: Minor Magic: Primal",
+                "type": "Spell DC"
+            }
+        ],
+        "gainSpellCasting": [
+            {
+                "_className": "SpellCasting",
+                "ability": "Charisma",
+                "castingType": "Spontaneous",
+                "className": "Rogue",
+                "source": "Feat: Minor Magic: Primal",
+                "tradition": "Arcane"
+            }
+        ],
+        "gainSpellChoice": [{
+                "_className": "SpellChoice",
+                "available": 2,
+                "castingType": "Spontaneous",
+                "className": "Rogue",
+                "id": "f2a5f350-b98c-4bf7-a848-30ebcade92fc",
+                "level": 0,
+                "source": "Feat: Minor Magic: Primal"
+            }
+        ]
+    },
+    {
+        "name": "Mobility",
+        "desc": "You move in a way that denies your enemies the opportunity to retaliate. When you take a Stride action to move half your Speed or less, that movement does not trigger reactions. You can use Mobility when Climbing, Flying, or Swimming instead of Striding if you have the corresponding movement type.",
+        "hint": "When you take a Stride action to move half your Speed or less, that movement does not trigger reactions. You can use Mobility when Climbing, Flying, or Swimming instead of Striding if you have the corresponding movement type.",
+        "showon": "Movement",
+        "shortdesc": "You move in a way that denies your enemies the opportunity to retaliate.",
+        "traits": [
+            "Rogue"
+        ],
+        "levelreq": 2
+    },
+    {
+        "name": "Quick Draw",
+        "desc": "You draw your weapon and attack with the same motion.",
+        "shortdesc": "You draw your weapon and attack with the same motion.",
+        "traits": [
+            "Ranger",
+            "Rogue"
+        ],
+        "levelreq": 2,
+        "gainActivities": [
+            "Quick Draw"
+        ]
+    },
+    {
+        "name": "Unbalancing Blow",
+        "desc": "Interweaving your most powerful attacks in a graceful flow, you temporarily unbalance your foes. Whenever your Strike is a critical hit and deals damage, the target is flat-footed against your attacks until the end of your next turn.",
+        "hint": "Whenever your Strike is a critical hit and deals damage, the target is flat-footed against your attacks until the end of your next turn.",
+        "showon": "Attacks",
+        "shortdesc": "Interweaving your most powerful attacks in a graceful flow, you temporarily unbalance your foes. Whenever your Strike is a critical hit and deals damage, the target is flat-footed against your attacks until the end of your next turn.",
+        "traits": [
+            "Rogue"
+        ],
+        "levelreq": 2,
+        "featreq": [
+            "Thief Racket"
+        ]
+    },
+    {
+        "name": "Battle Assessment",
+        "desc": "With careful observation during battle, you identify an enemy’s strengths and weaknesses.",
+        "shortdesc": "With careful observation during battle, you identify an enemy’s strengths and weaknesses.",
+        "traits": [
+            "Rogue",
+            "Secret"
+        ],
+        "levelreq": 4,
+        "gainActivities": [
+            "Battle Assessment"
+        ]
+    },
+    {
+        "name": "Dread Striker",
+        "desc": "You capitalize on your enemies’ fear to slip past their defenses. Any creature that has the frightened condition is also flat-footed against your attacks.",
+        "hint": "Any creature that has the frightened condition is also flat-footed against your attacks.",
+        "showon": "Attacks",
+        "shortdesc": "You capitalize on your enemies’ fear to slip past their defenses.",
+        "traits": [
+            "Rogue"
+        ],
+        "levelreq": 4
+    },
+    {
+        "name": "Magical Trickster",
+        "desc": "Whether you’re using magic items, wielding innate magic, or dabbling in spellcasting, you can sneak spells past your foes’ defenses as easily as any blade. When you succeed at a spell attack roll against a flat-footed foe’s AC and the spell deals damage, you can add your sneak attack damage to the damage roll. If your single spell leads to multiple separate damage rolls, apply your sneak attack damage only once per target.",
+        "hint": "When you succeed at a spell attack roll against a flat-footed foe’s AC and the spell deals damage, you can add your sneak attack damage to the damage roll. If your single spell leads to multiple separate damage rolls, apply your sneak attack damage only once per target.",
+        "showon": "Spellbook",
+        "shortdesc": "You can sneak spells past your foes’ defenses as easily as any blade.",
+        "traits": [
+            "Rogue"
+        ],
+        "levelreq": 4
+    },
+    {
+        "name": "Poison Weapon",
+        "desc": "You apply poison to a weapon.",
+        "specialdesc": "During your daily preparations, you can prepare a number of simple injury poisons equal to your rogue level. These poisons deal 1d4 poison damage. Only you can apply these poisons properly, and they expire the next time you prepare.",
+        "shortdesc": "You apply poison to a weapon.",
+        "traits": [
+            "Rogue",
+            "Manipulate"
+        ],
+        "levelreq": 4,
+        "gainActivities": [
+            "Poison Weapon"
+        ],
+        "gainItems": [
+            {
+                "name": "Rogue Poison",
+                "amountPerLevel": 1,
+                "on": "rest",
+                "type": "alchemicalpoisons"
+            }
+        ]
+    },
+    {
+        "name": "Reactive Pursuit",
+        "desc": "You keep pace with a retreating foe.",
+        "shortdesc": "You keep pace with a retreating foe.",
+        "traits": [
+            "Rogue"
+        ],
+        "levelreq": 4,
+        "gainActivities": [
+            "Reactive Pursuit"
+        ]
+    },
+    {
+        "name": "Sabotage",
+        "desc": "You subtly damage others’ equipment.",
+        "shortdesc": "You subtly damage others’ equipment.",
+        "traits": [
+            "Rogue",
+            "Incapacitation"
+        ],
+        "levelreq": 4,
+        "gainActivities": [
+            "Sabotage"
+        ]
+    },
+    {
+        "name": "Scout's Warning",
+        "desc": "You visually or audibly warn your allies of danger.",
+        "shortdesc": "You visually or audibly warn your allies of danger.",
+        "traits": [
+            "Ranger",
+            "Rogue"
+        ],
+        "levelreq": 4,
+        "gainActivities": [
+            "Scout's Warning"
+        ]
+    },
+    {
+        "name": "Gang Up",
+        "desc": "You and your allies harry an opponent in concert. Any enemy is flat-footed against your melee attacks due to flanking as long as the enemy is within both your reach and your ally’s. Your allies must still flank an enemy for it to be flat-footed to them.",
+        "hint": "Any enemy is flat-footed against your melee attacks due to flanking as long as the enemy is within both your reach and your ally’s. Your allies must still flank an enemy for it to be flat-footed to them.",
+        "showon": "Attacks",
+        "shortdesc": "You and your allies harry an opponent in concert.",
+        "traits": [
+            "Rogue"
+        ],
+        "levelreq": 6
+    },
+    {
+        "name": "Light Step",
+        "desc": "You aren’t bothered by tricky footing. When you Stride or Step, you can ignore difficult terrain.",
+        "hint": "When you Stride or Step, you can ignore difficult terrain.",
+        "showon": "Movement",
+        "shortdesc": "You aren’t bothered by tricky footing.",
+        "traits": [
+            "Rogue"
+        ],
+        "levelreq": 6
+    },
+    {
+        "name": "Skirmish Strike",
+        "desc": "Your feet and weapon move in tandem.",
+        "shortdesc": "Your feet and weapon move in tandem.",
+        "traits": [
+            "Ranger",
+            "Flourish",
+            "Rogue"
+        ],
+        "levelreq": 6,
+        "gainActivities": [
+            "Skirmish Strike"
+        ]
+    },
+    {
+        "name": "Twist the Knife",
+        "desc": "After stabbing your opponent in a weak spot, you tear the wound open.",
+        "shortdesc": "After stabbing your opponent in a weak spot, you tear the wound open.",
+        "traits": [
+            "Rogue"
+        ],
+        "levelreq": 6,
+        "gainActivities": [
+            "Twist the Knife"
+        ]
+    },
+    {
+        "name": "Blind-Fight",
+        "desc": "Your battle instincts make you more aware of concealed and invisible opponents. You don't need to succeed at a flat check to target concealed creatures. You're not flat-footed to creatures that are hidden from you (unless you're flat-footed to them for reasons other than the hidden condition), and you need only a successful DC 5 flat check to target a hidden creature.\n\nWhile you're adjacent to an undetected creature of your level or lower, it is instead only hidden from you.",
+        "hint": "You don't need to succeed at a flat check to target concealed creatures. You're not flat-footed to creatures that are hidden from you (unless you're flat-footed to them for reasons other than the hidden condition), and you need only a successful DC 5 flat check to target a hidden creature.\n\nWhile you're adjacent to an undetected creature of your level or lower, it is instead only hidden from you.",
+        "showon": "Attacks, Perception",
+        "shortdesc": "Your battle instincts make you more aware of concealed and invisible opponents.",
+        "traits": [
+            "Fighter",
+            "Ranger",
+            "Rogue"
+        ],
+        "levelreq": 8,
+        "skillreq": [
+            {
+                "skill": "Perception",
+                "value": 6
+            }
+        ]
+    },
+    {
+        "name": "Delay Trap",
+        "desc": "You can jam the workings of a trap to delay its effects.",
+        "shortdesc": "You can jam the workings of a trap to delay its effects.",
+        "traits": [
+            "Rogue"
+        ],
+        "levelreq": 8,
+        "gainActivities": [
+            "Delay Trap"
+        ]
+    },
+    {
+        "name": "Improved Poison Weapon",
+        "desc": "You deliver poisons in ways that maximize their harmful effects. When you apply a simple poison with Poison Weapon, the poison deals 2d4 poison damage instead of 1d4 poison damage. You don’t waste a poison you apply with Poison Weapon on a critically failed attack roll.",
+        "hint": "When you apply a simple poison with Poison Weapon, the poison deals 2d4 poison damage instead of 1d4 poison damage. You don’t waste a poison you apply with Poison Weapon on a critically failed attack roll.",
+        "showon": "Poison Weapon, Rogue Poison",
+        "shortdesc": "You deliver poisons in ways that maximize their harmful effects.",
+        "traits": [
+            "Rogue"
+        ],
+        "levelreq": 8,
+        "featreq": [
+            "Poison Weapon"
+        ]
+    },
+    {
+        "name": "Nimble Roll",
+        "desc": "You throw yourself into a roll to escape imminent danger. You can use Nimble Dodge before attempting a Reflex save in addition to its original trigger. If you do, the circumstance bonus applies to your Reflex save against the triggering effect.\n\nWhen you use Nimble Dodge and the triggering attack fails or critically fails, or when you succeed or critically succeed at the saving throw, you can also Stride up to 10 feet as part of the reaction. If you do, the reaction gains the move trait. You can use Nimble Roll while Flying or Swimming instead of Striding if you have the corresponding movement type.",
+        "hint": "You can use Nimble Dodge before attempting a Reflex save in addition to its original trigger. If you do, the circumstance bonus applies to your Reflex save against the triggering effect.\n\nWhen you use Nimble Dodge and the triggering attack fails or critically fails, or when you succeed or critically succeed at the saving throw, you can also Stride up to 10 feet as part of the reaction. If you do, the reaction gains the move trait. You can use Nimble Roll while Flying or Swimming instead of Striding if you have the corresponding movement type.",
+        "showon": "Nimble Dodge, Movement",
+        "shortdesc": "You throw yourself into a roll to escape imminent danger.",
+        "traits": [
+            "Rogue"
+        ],
+        "levelreq": 8,
+        "featreq": [
+            "Nimble Dodge"
+        ]
+    },
+    {
+        "name": "Opportune Backstab",
+        "desc": "When your enemy is hit by your ally, you capitalize upon the distraction.",
+        "shortdesc": "When your enemy is hit by your ally, you capitalize upon the distraction.",
+        "traits": [
+            "Rogue"
+        ],
+        "levelreq": 8,
+        "gainActivities": [
+            "Opportune Backstab"
+        ]
+    },
+    {
+        "name": "Sidestep",
+        "desc": "You deftly step out of the way of an attack, letting the blow continue to the creature next to you.",
+        "shortdesc": "You deftly step out of the way of an attack, letting the blow continue to the creature next to you.",
+        "traits": [
+            "Rogue"
+        ],
+        "levelreq": 8,
+        "gainActivities": [
+            "Sidestep"
+        ]
+    },
+    {
+        "name": "Sly Striker",
+        "desc": "Your attacks deal more damage, even against creatures that aren’t flat-footed. When you succeed or critically succeed at a Strike against a creature that isn’t flat-footed, you also deal 1d6 precision damage. This applies only if you’re using a weapon or unarmed attack you could deal sneak attack damage with. At 14th level, if you would normally deal 3d6 or more sneak attack damage to flat-footed creatures, you deal 2d6 precision damage to creatures that aren’t flat-footed.",
+        "hint": "When you succeed or critically succeed at a Strike against a creature that isn’t flat-footed, you also deal 1d6 precision damage. This applies only if you’re using a weapon or unarmed attack you could deal sneak attack damage with. At 14th level, if you would normally deal 3d6 or more sneak attack damage to flat-footed creatures, you deal 2d6 precision damage to creatures that aren’t flat-footed.",
+        "showon": "Attacks",
+        "shortdesc": "Your attacks deal more damage, even against creatures that aren’t flat-footed.",
+        "traits": [
+            "Rogue"
+        ],
+        "levelreq": 8,
+        "featreq": [
+            "Sneak Attack or Sneak Attacker"
+        ]
+    },
+    {
+        "name": "Precise Debilitation",
+        "desc": "You carefully aim and gracefully deliver your debilitations. Add the following debilitations to the list you can choose from when you use Debilitating Strike.\n\n<strong>Debilitation</strong> The target takes an additional 2d6 precision damage from your attacks.\n<strong>Debilitation</strong> The target becomes flat-footed.",
+        "hint": "Add the following debilitations to the list you can choose from when you use Debilitating Strike.\n\nDebilitation The target takes an additional 2d6 precision damage from your attacks.\nDebilitation The target becomes flat-footed.",
+        "showon": "Debilitating Strike",
+        "shortdesc": "You carefully aim and gracefully deliver your debilitations.",
+        "traits": [
+            "Rogue"
+        ],
+        "levelreq": 10,
+        "featreq": [
+            "Thief Racket",
+            "Debilitating Strike"
+        ]
+    },
+    {
+        "name": "Sneak Savant",
+        "desc": "It is almost impossible to spot you without taking effort to look. When you roll a failure on a Sneak action, you get a success instead. You can still critically fail.",
+        "hint": "When you roll a failure on a Sneak action, you get a success instead. You can still critically fail.",
+        "showon": "Stealth",
+        "shortdesc": "It is almost impossible to spot you without taking effort to look.",
+        "traits": [
+            "Rogue"
+        ],
+        "levelreq": 10,
+        "skillreq": [
+            {
+                "skill": "Stealth",
+                "value": 6
+            }
+        ]
+    },
+    {
+        "name": "Tactical Debilitations",
+        "desc": "You learn new debilitations that grant you tactical advantages against your foes. Add the following debilitations to the list you can choose from when you use Debilitating Strike.\n\n<strong>Debilitation</strong> The target can’t use reactions.\n<strong>Debilitation</strong> The target can’t flank or contribute to allies’ flanking.",
+        "hint": "Add the following debilitations to the list you can choose from when you use Debilitating Strike.\n\nDebilitation The target can’t use reactions.\nDebilitation The target can’t flank or contribute to allies’ flanking.",
+        "showon": "Debilitating Strike",
+        "shortdesc": "You learn new debilitations that grant you tactical advantages against your foes.",
+        "traits": [
+            "Rogue"
+        ],
+        "levelreq": 10,
+        "featreq": [
+            "Scoundrel Racket",
+            "Debilitating Strike"
+        ]
+    },
+    {
+        "name": "Vicious Debilitations",
+        "desc": "The debilitations you dish out seriously impair your foes. Add the following debilitations to the list you can choose from when you use Debilitating Strike.\n\n<strong>Debilitation</strong> The target gains weakness 5 to your choice of bludgeoning, piercing, or slashing damage.\n<strong>Debilitation</strong> The target becomes clumsy 1.",
+        "hint": "Add the following debilitations to the list you can choose from when you use Debilitating Strike.\n\nDebilitation The target gains weakness 5 to your choice of bludgeoning, piercing, or slashing damage.\nDebilitation The target becomes clumsy 1.",
+        "showon": "Debilitating Strike",
+        "shortdesc": "The debilitations you dish out seriously impair your foes.",
+        "traits": [
+            "Rogue"
+        ],
+        "levelreq": 10,
+        "featreq": [
+            "Ruffian Racket",
+            "Debilitating Strike"
+        ]
+    },
+    {
+        "name": "Critical Debilitations",
+        "desc": "Your debilitations are especially effective on your most powerful attacks. Whenever you critically succeed at an attack roll against an enemy and use Debilitating Strike, add the following debilitation to the list you can choose from.\n\n<strong>Debilitation</strong> The target attempts a Fortitude save against your class DC with the following effects.\n<strong>Critical Success</strong> The target is unaffected.\n<strong>Success</strong> The target is slowed 1 until the end of your next turn.\n<strong>Failure</strong> The target is slowed 2 until the end of your next turn.\n<strong>Critical Failure</strong> The target is paralyzed until the end of your next turn.",
+        "hint": "Whenever you critically succeed at an attack roll against an enemy and use Debilitating Strike, add the following debilitation to the list you can choose from.\n\nDebilitation The target attempts a Fortitude save against your class DC with the following effects.\nCritical Success The target is unaffected.\nSuccess The target is slowed 1 until the end of your next turn.\nFailure The target is slowed 2 until the end of your next turn.\nCritical Failure The target is paralyzed until the end of your next turn.",
+        "shortdesc": "Your debilitations are especially effective on your most powerful attacks.",
+        "traits": [
+            "Rogue",
+            "Incapacitation"
+        ],
+        "levelreq": 12,
+        "featreq": [
+            "Debilitating Strike"
+        ]
+    },
+    {
+        "name": "Deadly Poison Weapon",
+        "desc": "Your poisons are devastatingly potent. When you apply a simple poison with Poison Weapon, the poison deals 4d4 poison damage instead of 1d4 poison damage. When you apply an injury poison to your weapon, the DC to resist that poison increases by 2, to a maximum of your class DC.",
+        "hint": "When you apply a simple poison with Poison Weapon, the poison deals 4d4 poison damage instead of 1d4 poison damage. When you apply an injury poison to your weapon, the DC to resist that poison increases by 2, to a maximum of your class DC.",
+        "showon": "Poison Weapon, Rogue Poison",
+        "shortdesc": "Your poisons are devastatingly potent.",
+        "sourceBook": "Pathfinder #149: Against the Scarlet Triad",
+        "traits": [
+            "Rogue",
+            "Uncommon"
+        ],
+        "levelreq": 12,
+        "featreq": [
+            "Improved Poison Weapon"
+        ]
+    },
+    {
+        "name": "Fantastic Leap",
+        "desc": "You launch yourself through the air at a foe.",
+        "shortdesc": "You launch yourself through the air at a foe.",
+        "traits": [
+            "Rogue"
+        ],
+        "levelreq": 12,
+        "gainActivities": [
+            "Fantastic Leap"
+        ]
+    },
+    {
+        "name": "Felling Shot",
+        "desc": "Your ranged attacks can shoot an unprepared foe right out of the air.",
+        "shortdesc": "Your ranged attacks can shoot an unprepared foe right out of the air.",
+        "traits": [
+            "Rogue"
+        ],
+        "levelreq": 12,
+        "gainActivities": [
+            "Felling Shot"
+        ]
+    },
+    {
+        "name": "Reactive Interference",
+        "desc": "You reflexively foil an enemy’s response.",
+        "shortdesc": "You reflexively foil an enemy’s response.",
+        "traits": [
+            "Rogue"
+        ],
+        "levelreq": 12,
+        "gainActivities": [
+            "Reactive Interference"
+        ]
+    },
+    {
+        "name": "Spring from the Shadows",
+        "desc": "Leaping out from hiding, you assail your target when they least expect it.",
+        "shortdesc": "Leaping out from hiding, you assail your target when they least expect it.",
+        "traits": [
+            "Rogue",
+            "Flourish"
+        ],
+        "levelreq": 12,
+        "gainActivities": [
+            "Spring from the Shadows"
+        ]
+    },
+    {
+        "name": "Defensive Roll",
+        "desc": "Dropping into a roll to disperse the force of the blow, you can partially evade a lethal attack and stay conscious.",
+        "shortdesc": "Dropping into a roll to disperse the force of the blow, you can partially evade a lethal attack and stay conscious.",
+        "traits": [
+            "Rogue"
+        ],
+        "levelreq": 14,
+        "gainActivities": [
+            "Defensive Roll"
+        ]
+    },
+    {
+        "name": "Instant Opening",
+        "desc": "You distract your opponent with a few choice words or a rude gesture.",
+        "shortdesc": "You distract your opponent with a few choice words or a rude gesture.",
+        "traits": [
+            "Rogue",
+            "Concentrate"
+        ],
+        "levelreq": 14,
+        "gainActivities": [
+            "Instant Opening"
+        ]
+    },
+    {
+        "name": "Leave an Opening",
+        "desc": "When you hit hard enough, you leave an opening so your ally can jump in on the action. Whenever you critically hit a flat-footed opponent with a melee attack and deal damage, the target triggers an Attack of Opportunity reaction from one ally of your choice who has that reaction, as if the enemy had used a manipulate action.",
+        "hint": "Whenever you critically hit a flat-footed opponent with a melee attack and deal damage, the target triggers an Attack of Opportunity reaction from one ally of your choice who has that reaction, as if the enemy had used a manipulate action.",
+        "showon": "Attacks",
+        "shortdesc": "When you hit hard enough, you leave an opening so your ally can jump in on the action.",
+        "traits": [
+            "Rogue"
+        ],
+        "levelreq": 14
+    },
+    {
+        "name": "Sense the Unseen",
+        "desc": "When you look for foes, you can catch even the slightest cues.",
+        "shortdesc": "When you look for foes, you can catch even the slightest cues.",
+        "traits": [
+            "Ranger",
+            "Rogue"
+        ],
+        "levelreq": 14,
+        "gainActivities": [
+            "Sense the Unseen"
+        ]
+    },
+    {
+        "name": "Blank Slate",
+        "desc": "Your deceptions confound even the most powerful mortal divinations. Detection, revelation, and scrying effects pass right over you, your possessions, and your auras, detecting nothing unless the detecting effect has a counteract level of 20 or higher. For example, detect magic would still detect other magic in the area but not any magic on you, true seeing wouldn’t reveal you, locate or scrying wouldn’t find you, and so on.",
+        "hint": "Detection, revelation, and scrying effects pass right over you, your possessions, and your auras, detecting nothing unless the detecting effect has a counteract level of 20 or higher. For example, detect magic would still detect other magic in the area but not any magic on you, true seeing wouldn’t reveal you, locate or scrying wouldn’t find you, and so on.",
+        "showon": "Deception",
+        "shortdesc": "Your deceptions confound even the most powerful mortal divinations.",
+        "traits": [
+            "Rogue"
+        ],
+        "levelreq": 16,
+        "skillreq": [
+            {
+                "skill": "Deception",
+                "value": 8
+            }
+        ]
+    },
+    {
+        "name": "Cloud Step",
+        "desc": "Using fantastic acrobatic skill, you can walk for brief stretches across insubstantial surfaces. When you Stride, you can move across water, air, and solid surfaces that can hold only limited weight as if they were normal ground. If you Stride over a trap with a weight-sensitive pressure plate, you don’t trigger it. At the end of your turn, you sink, fall, break fragile surfaces, or trigger traps as normal for your current location.",
+        "hint": "When you Stride, you can move across water, air, and solid surfaces that can hold only limited weight as if they were normal ground. If you Stride over a trap with a weight-sensitive pressure plate, you don’t trigger it. At the end of your turn, you sink, fall, break fragile surfaces, or trigger traps as normal for your current location.",
+        "showon": "Movement",
+        "shortdesc": "Using fantastic acrobatic skill, you can walk for brief stretches across insubstantial surfaces.",
+        "traits": [
+            "Rogue"
+        ],
+        "levelreq": 16,
+        "skillreq": [
+            {
+                "skill": "Acrobatics",
+                "value": 8
+            }
+        ]
+    },
+    {
+        "name": "Cognitive Loophole",
+        "desc": "You can find a loophole in a mental effect to temporarily overcome it.",
+        "shortdesc": "You can find a loophole in a mental effect to temporarily overcome it.",
+        "traits": [
+            "Rogue"
+        ],
+        "levelreq": 16,
+        "gainActivities": [
+            "Cognitive Loophole"
+        ]
+    },
+    {
+        "name": "Dispelling Slice",
+        "desc": "Your sneak attack slices through the threads binding magic to a target.",
+        "shortdesc": "Your sneak attack slices through the threads binding magic to a target.",
+        "traits": [
+            "Rogue"
+        ],
+        "levelreq": 16,
+        "gainActivities": [
+            "Dispelling Slice"
+        ]
+    },
+    {
+        "name": "Perfect Distraction",
+        "desc": "You use clever tactics to mislead your foes as you sneak away. You Sneak while leaving a decoy behind.",
+        "shortdesc": "You use clever tactics to mislead your foes as you sneak away. You Sneak while leaving a decoy behind.",
+        "traits": [
+            "Rogue"
+        ],
+        "levelreq": 16,
+        "skillreq": [
+            {
+                "skill": "Deception",
+                "value": 8
+            }
+        ],
+        "gainActivities": [
+            "Perfect Distraction"
+        ]
+    },
+    {
+        "name": "Implausible Infiltration",
+        "desc": "You find tiny holes or imperfections that no one else could see and try to somehow fit yourself through them.",
+        "shortdesc": "You find tiny holes or imperfections that no one else could see and try to somehow fit yourself through them.",
+        "traits": [
+            "Rogue",
+            "Magical",
+            "Move"
+        ],
+        "levelreq": 18,
+        "featreq": [
+            "Quick Squeeze"
+        ],
+        "skillreq": [
+            {
+                "skill": "Acrobatics",
+                "value": 8
+            }
+        ],
+        "gainActivities": [
+            "Implausible Infiltration"
+        ]
+    },
+    {
+        "name": "Powerful Sneak",
+        "desc": "You have learned to exploit your enemies’ lowered defenses. When you succeed or critically succeed at a Strike using your Strength modifier on the attack roll and you would deal sneak attack damage, you can change the additional damage from sneak attack into ordinary damage of the same type as your Strike, rather than precision damage.",
+        "hint": "When you succeed or critically succeed at a Strike using your Strength modifier on the attack roll and you would deal sneak attack damage, you can change the additional damage from sneak attack into ordinary damage of the same type as your Strike, rather than precision damage.",
+        "showon": "Attacks",
+        "shortdesc": "You have learned to exploit your enemies’ lowered defenses.",
+        "traits": [
+            "Rogue"
+        ],
+        "levelreq": 18
+    },
+    {
+        "name": "Trickster's Ace",
+        "desc": "You have a contingency in your back pocket for desperate situations.",
+        "shortdesc": "You have a contingency in your back pocket for desperate situations.",
+        "traits": [
+            "Rogue",
+            "Concentrate"
+        ],
+        "levelreq": 18,
+        "gainActivities": [
+            "Trickster's Ace"
+        ],
+        "gainSpellCasting": [
+            {
+                "_className": "SpellCasting",
+                "ability": "Charisma",
+                "castingType": "Prepared",
+                "className": "Rogue",
+                "source": "Feat: Trickster's Ace"
+            }
+        ],
+        "gainSpellChoice": [{
+                "_className": "SpellChoice",
+                "available": 1,
+                "castingType": "Prepared",
+                "className": "Rogue",
+                "id": "b859b6d4-8e66-485f-ba29-5e2dda632011",
+                "level": 4,
+                "showOnSheet": true,
+                "singleTarget": 1,
+                "source": "Feat: Trickster's Ace"
+            }
+        ]
+    },
+    {
+        "name": "Enduring Debilitation",
+        "desc": "Your debilitations last for 1 minute.",
+        "specialdesc": "The citizens of Promise represent some of the most capable experts, greatest minds, and powerful warriors on Golarion - ideal teachers and trainers for PCs who want to maximize their own potential. If the PCs secure Visitor's Pins or an alliance with Mengkare, their access to Promise's trainers and records unlock this uncommon class feat.",
+        "shortdesc": "Your debilitations last for 1 minute.",
+        "sourceBook": "Pathfinder #150: Broken Promises",
+        "traits": [
+            "Rogue",
+            "Uncommon"
+        ],
+        "levelreq": 20,
+        "featreq": [
+            "Debilitating Strike"
+        ],
+        "gainActivities": [
+            "Enduring Debilitation"
+        ]
+    },
+    {
+        "name": "Hidden Paragon",
+        "desc": "When you put your mind to slipping out of sight, you disappear completely.",
+        "shortdesc": "When you put your mind to slipping out of sight, you disappear completely.",
+        "traits": [
+            "Rogue"
+        ],
+        "levelreq": 20,
+        "skillreq": [
+            {
+                "skill": "Stealth",
+                "value": 8
+            }
+        ],
+        "gainActivities": [
+            "Hidden Paragon"
+        ]
+    },
+    {
+        "name": "Impossible Striker",
+        "desc": "Your attacks are swift and deadly beyond explanation. Nothing can prevent you from making a sneak attack, even if your opponent can see every blow coming. Instead of dealing the damage from Sly Striker, you can deal your full sneak attack damage to a target even if the target isn’t flat-footed.",
+        "hint": "Nothing can prevent you from making a sneak attack, even if your opponent can see every blow coming. Instead of dealing the damage from Sly Striker, you can deal your full sneak attack damage to a target even if the target isn’t flat-footed.",
+        "showon": "Attacks",
+        "shortdesc": "Your attacks are swift and deadly beyond explanation.",
+        "traits": [
+            "Rogue"
+        ],
+        "levelreq": 20,
+        "featreq": [
+            "Sly Striker"
+        ]
+    },
+    {
+        "name": "Reactive Distraction",
+        "desc": "You reactively switch with your decoy to foil your foe.",
+        "shortdesc": "You reactively switch with your decoy to foil your foe.",
+        "traits": [
+            "Rogue",
+            "Concentrate",
+            "Manipulate"
+        ],
+        "levelreq": 20,
+        "featreq": [
+            "Perfect Distraction"
+        ],
+        "skillreq": [
+            {
+                "skill": "Deception",
+                "value": 8
+            }
+        ],
+        "gainActivities": [
+            "Reactive Distraction"
+        ]
+    },
+    {
+        "name": "Rogue Dedication",
+        "desc": "You gain a skill feat and the rogue’s surprise attack class feature. You become trained in light armor. In addition, you become trained in Stealth or Thievery plus one skill of your choice; if you are already trained in both Stealth and Thievery, you become trained in an additional skill of your choice. You become trained in rogue class DC.",
+        "specialdesc": "You cannot gain another dedication feat until you have gained two other feats from the rogue archetype.",
+        "shortdesc": "You’ve learned to sneak, steal, and disable traps. With time and luck, you’ll become capable of moving through the shadows, striking unseen, and escaping without notice.",
+        "archetype": "Rogue",
+        "traits": [
+            "Archetype",
+            "Dedication",
+            "Multiclass"
+        ],
+        "levelreq": 2,
+        "abilityreq": [
+            {
+                "ability": "Dexterity",
+                "value": 14
+            }
+        ],
+        "gainAbilityChoice": [
+            {
+                "_className": "AbilityChoice",
+                "available": 1,
+                "infoOnly": true,
+                "filter": [
+                    "Strength",
+                    "Dexterity",
+                    "Charisma"
+                ],
+                "source": "Rogue Key Ability"
+            }
+        ],
+        "gainFeatChoice": [
+            {
+                "_className": "FeatChoice",
+                "feats": [
+                    {
+                        "locked": true,
+                        "name": "Surprise Attack"
+                    }
+                ],
+                "source": "Feat: Rogue Dedication",
+                "type": "Feature"
+            },
+            {
+                "_className": "FeatChoice",
+                "available": 1,
+                "source": "Feat: Rogue Dedication",
+                "type": "Skill"
+            }
+        ],
+        "gainSkillChoice": [
+            {
+                "_className": "SkillChoice",
+                "available": 1,
+                "filter": [
+                    "Stealth",
+                    "Thievery"
+                ],
+                "maxRank": 2,
+                "source": "Feat: Rogue Dedication",
+                "type": "Skill"
+            },
+            {
+                "_className": "SkillChoice",
+                "increases": [
+                    {
+                        "locked": true,
+                        "maxRank": 2,
+                        "name": "Rogue Class DC",
+                        "source": "Feat: Rogue Dedication"
+                    }
+                ],
+                "maxRank": 2,
+                "source": "Feat: Rogue Dedication",
+                "type": "Class DC"
+            },
+            {
+                "_className": "SkillChoice",
+                "available": 1,
+                "maxRank": 2,
+                "source": "Feat: Rogue Dedication",
+                "type": "Skill"
+            },
+            {
+                "_className": "SkillChoice",
+                "increases": [
+                    {
+                        "locked": true,
+                        "maxRank": 2,
+                        "name": "Light Armor",
+                        "source": "Feat: Rogue Dedication"
+                    }
+                ],
+                "maxRank": 2,
+                "source": "Feat: Rogue Dedication",
+                "type": "Armor Proficiency"
+            }
+        ]
+    },
+    {
+        "name": "Basic Trickery",
+        "desc": "You gain a 1st- or 2nd-level rogue feat.",
+        "shortdesc": "You gain a 1st- or 2nd-level rogue feat.",
+        "archetype": "Rogue",
+        "traits": [
+            "Archetype"
+        ],
+        "levelreq": 4,
+        "featreq": [
+            "Rogue Dedication"
+        ],
+        "gainFeatChoice": [
+            {
+                "_className": "FeatChoice",
+                "available": 1,
+                "level": 2,
+                "source": "Feat: Basic Trickery",
+                "type": "Rogue"
+            }
+        ]
+    },
+    {
+        "name": "Sneak Attacker",
+        "desc": "You gain the sneak attack class feature, except it deals 1d4 damage, increasing to 1d6 at 6th level. You don’t increase the number of dice as you gain levels.",
+        "hint": "If you Strike a creature that has the flat-footed condition with an agile or finesse melee weapon, an agile or finesse unarmed attack, or a ranged weapon attack, you deal an extra 1d4 precision damage. Increase the damage to 1d6 at 6th level. For a ranged attack with a thrown melee weapon, that weapon must also be agile or finesse.",
+        "showon": "Attacks",
+        "shortdesc": "You gain the sneak attack class feature, except it deals 1d4 damage.",
+        "archetype": "Rogue",
+        "traits": [
+            "Archetype"
+        ],
+        "levelreq": 4,
+        "featreq": [
+            "Rogue Dedication"
+        ]
+    },
+    {
+        "name": "Advanced Trickery",
+        "desc": "You gain one rogue feat. For the purpose of meeting its prerequisites, your rogue level is equal to half your character level.",
+        "specialdesc": "You can select this feat more than once. Each time you select it, you gain another rogue feat.",
+        "shortdesc": "You gain one rogue feat.",
+        "archetype": "Rogue",
+        "unlimited": true,
+        "traits": [
+            "Archetype"
+        ],
+        "levelreq": 6,
+        "featreq": [
+            "Basic Trickery"
+        ],
+        "gainFeatChoice": [
+            {
+                "_className": "FeatChoice",
+                "available": 1,
+                "dynamicLevel": "level.number / 2",
+                "source": "Feat: Advanced Trickery",
+                "type": "Rogue"
+            }
+        ]
+    },
+    {
+        "name": "Skill Mastery",
+        "desc": "Increase your proficiency rank in one of your skills from expert to master and in another of your skills from trained to expert. You gain a skill feat associated with one of the skills you chose.",
+        "specialdesc": "You can select this feat up to five times.",
+        "shortdesc": "You gain 3 additional Hit Points for each ranger archetype class feat you have.",
+        "archetype": "Rogue",
+        "limited": 5,
+        "traits": [
+            "Archetype"
+        ],
+        "levelreq": 8,
+        "featreq": [
+            "Rogue Dedication"
+        ],
+        "specialreq": "(characterService.get_Skills(character).find(skill => Skill_Level(\"Character\", skill.name) == 2) && characterService.get_Skills(character).find(skill => Skill_Level(\"Character\", skill.name) == 4))",
+        "specialreqdesc": "trained in at least one skill and expert in at least one skill",
+        "gainFeatChoice": [
+            {
+                "_className": "FeatChoice",
+                "available": 1,
+                "source": "Feat: Skill Mastery",
+                "type": "Skill"
+            }
+        ]
+    },
+    {
+        "name": "Uncanny Dodge",
+        "desc": "You gain the deny advantage class feature.",
+        "shortdesc": "You gain the deny advantage class feature.",
+        "archetype": "Rogue",
+        "traits": [
+            "Archetype"
+        ],
+        "levelreq": 10,
+        "featreq": [
+            "Rogue Dedication"
+        ],
+        "gainFeatChoice": [
+            {
+                "_className": "FeatChoice",
+                "feats": [
+                    {
+                        "locked": true,
+                        "name": "Deny Advantage (Rogue)"
+                    }
+                ],
+                "source": "Feat: Uncanny Dodge",
+                "type": "Feature"
+            }
+        ]
+    },
+    {
+        "name": "Evasiveness",
+        "desc": "Your proficiency rank for Reflex saves increases to master.",
+        "shortdesc": "Your proficiency rank for Reflex saves increases to master.",
+        "archetype": "Rogue",
+        "traits": [
+            "Archetype"
+        ],
+        "levelreq": 12,
+        "featreq": [
+            "Rogue Dedication"
+        ],
+        "skillreq": [
+            {
+                "skill": "Reflex",
+                "value": 4
+            }
+        ],
+        "gainSkillChoice": [
+            {
+                "_className": "SkillChoice",
+                "increases": [
+                    {
+                        "locked": true,
+                        "maxRank": 6,
+                        "name": "Reflex",
+                        "source": "Feat: Evasiveness"
+                    }
+                ],
+                "maxRank": 6,
+                "source": "Feat: Evasiveness",
+                "type": "Save"
             }
         ]
     }

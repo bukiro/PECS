@@ -69,7 +69,11 @@ The very latest in Assistive Technologies for Dungeon Master (ATDM)
 - [ ] Initiative tracker, battles, being a battle member, GM-Player-Communication.......
 - [ ] Stretch Goal: Include optional Stamina & Resolve system
 
+Active to-do
+- Bug: When you deselect Thief Racket, the tag doesn't disappear from the Attacks component.
+- Convert Rogue Feats and Activities from xls
+- Implement Poisons as far as the Rogue needs them
+
 Next steps:
-- Continue Weapon Materials: Add information to crafting menu and weapons with materials on them
 - Add custom conditions with effects
 - Add button press effect

@@ -4350,7 +4350,7 @@
         "type": "activities"
     },
     {
-        "name": "Arsenic",
+        "name": "Arsenic (Onset)",
         "desc": "This toxin is a compound of arsenic and other substances. You can’t reduce your sickened condition while affected.\n\n<strong>Saving Throw</strong> DC 18 Fortitude\n\n<var><strong>Onset</strong> 10 minutes</var>\n<strong>Maximum Duration</strong> 5 minutes\n<strong>Stage 1</strong> 1d4 poison damage and sickened 1 (1 minute)\n<strong>Stage 2</strong> 1d6 poison damage and sickened 2 (1 minute)\n<strong>Stage 3</strong> 2d6 poison damage and sickened 3 (1 minute)",
         "fixedDuration": 500,
         "nextCondition": "Arsenic (Stage 1)",
@@ -4835,14 +4835,90 @@
                 "toggle": true
             }
         ],
-        "type": "activity"
+        "type": "activities"
     },
     {
         "name": "Magic Sense",
         "buff": true,
         "desc": "You have a literal sixth sense for ambient magic in your vicinity. You can sense the presence of magic auras as though you were always using a 1st-level detect magic spell. This detects magic in your field of vision only. When you Seek, you gain the benefits of a 3rd-level detect magic spell on things you see (in addition to the normal benefits of Seeking). You can turn this sense off and on with a free action at the start or the end of your turn.",
-        "hint": "When you Seek, you gain the benefits of a 3rd-level detect magic spell on things you see (in addition to the normal benefits of Seeking)",
+        "hint": "When you Seek, you gain the benefits of a 3rd-level detect magic spell on things you see (in addition to the normal benefits of Seeking).",
         "showon": "Perception",
         "type": "activities"
+    },
+    {
+        "name": "Black Adder Venom (Stage 1)",
+        "desc": "Adder venom is a simple but effective way to enhance a weapon.\n\n<strong>Saving Throw</strong> DC 18 Fortitude\n\n<strong>Maximum Duration</strong> 3 rounds\n<var><strong>Stage 1</strong> 1d8 poison damage (1 round)</var>\n<strong>Stage 2</strong> 1d10 poison damage (1 round)\n<strong>Stage 3</strong> 2d6 poison damage (1 round)",
+        "fixedDuration": 30,
+        "nextCondition": "Black Adder Venom (Stage 2)",
+        "nextStage": 10,
+        "type": "afflictions"
+    },
+    {
+        "name": "Black Adder Venom (Stage 2)",
+        "desc": "Adder venom is a simple but effective way to enhance a weapon.\n\n<strong>Saving Throw</strong> DC 18 Fortitude\n\n<strong>Maximum Duration</strong> 3 rounds\n<strong>Stage 1</strong> 1d8 poison damage (1 round)\n<var><strong>Stage 2</strong> 1d10 poison damage (1 round)</var>\n<strong>Stage 3</strong> 2d6 poison damage (1 round)",
+        "inputRequired": "Every time you reach this stage, take 1d4 poison damage.",
+        "nextCondition": "Black Adder Venom (Stage 3)",
+        "nextStage": 10,
+        "previousCondition": "Black Adder Venom (Stage 1)",
+        "type": "hidden"
+    },
+    {
+        "name": "Black Adder Venom (Stage 3)",
+        "desc": "Adder venom is a simple but effective way to enhance a weapon.\n\n<strong>Saving Throw</strong> DC 18 Fortitude\n\n<strong>Maximum Duration</strong> 3 rounds\n<strong>Stage 1</strong> 1d8 poison damage (1 round)\n<strong>Stage 2</strong> 1d10 poison damage (1 round)\n<var><strong>Stage 3</strong> 2d6 poison damage (1 round)</var>",
+        "inputRequired": "Every time you reach this stage, take 1d6 poison damage.",
+        "nextStage": 10,
+        "previousCondition": "Black Adder Venom (Stage 2)",
+        "type": "hidden"
+    },
+    {
+        "name": "Cognitive Loophole",
+        "buff": true,
+        "desc": "You can find a loophole in a mental effect to temporarily overcome it. You ignore a single mental effect that you gained by failing, but not critically failing, a saving throw. You can suppress a particular effect using Cognitive Loophole only once.",
+        "hint": "You ignore a single mental effect that you gained by failing, but not critically failing, a saving throw.",
+        "showon": "Will",
+        "type": "activities"
+    },
+    {
+        "name": "Mislead",
+        "buff": true,
+        "desc": "You have turned yourself invisible and created an illusory duplicate of yourself. When you Sustain the Spell, you can mentally dictate a course of action for your duplicate to follow that round. Your duplicate acts as though it had your full number of actions, though it can't actually affect anything in the environment. Both the duplicate and your invisibility persist for the spell's duration. Performing a hostile action doesn't end mislead's invisibility, just like a 4th-level invisibility spell. A creature that determines the duplicate is an illusion doesn't necessarily know you're invisible, and one that can see your invisible form doesn't necessarily know your duplicate is an illusion.\n\nIf you Cast a Spell, attack, or otherwise interact with another creature, as a part of that action you can attempt a Deception check against observers' Perception DCs to convince them your duplicate used that action. This doesn't fool anyone who's aware your duplicate is an illusion, nor does it work if the attack obviously couldn't have come from the duplicate. For instance, if you fired a ray, you could make it look like it came from the duplicate as long as the duplicate was positioned appropriately, but if you attacked with a sword and your duplicate was across the room from the target, your Deception check would automatically fail.",
+        "type": "spells",
+        "gainConditions": [
+            {
+                "name": "Invisible"
+            }
+        ]
+    },
+    {
+        "name": "Perfect Disctraction",
+        "buff": true,
+        "desc": "You have become undetected and left a decoy behind. You can concentrate to mentally dictate a course of action for your duplicate to follow that round. Your decoy acts as though it had your full number of actions, though it can't actually affect anything in the environment. A creature that determines the decoy is an illusion doesn't necessarily know you're Sneaking, and one that can see you doesn't necessarily know your decoy is an illusion.\n\nIf you Cast a Spell, attack, or otherwise interact with another creature, as a part of that action you can attempt a Deception check against observers' Perception DCs to convince them your decoy used that action. This doesn't fool anyone who's aware your decoy is an illusion, nor does it work if the attack obviously couldn't have come from the decoy. For instance, if you fired a ray, you could make it look like it came from the duplicate as long as the decoy was positioned appropriately, but if you attacked with a sword and your decoy was across the room from the target, your Deception check would automatically fail.",
+        "type": "activities",
+        "gainConditions": [
+            {
+                "name": "Invisible"
+            },
+            {
+                "name": "Perfect Distraction Exhaustion"
+            }
+        ]
+    },
+    {
+        "name": "Perfect Disctraction Exhaustion",
+        "buff": true,
+        "desc": "You have used up your decoy and can't use Perfect Distraction anymore. You need to spend 10 minutes to set up another decoy before you can use it again.",
+        "inputRequired": "After you spend 10 minutes setting up another decoy, remove this condition.",
+        "type": "hidden"
+    },
+    {
+        "name": "Hidden Paragon",
+        "buff": true,
+        "desc": "You put your mind to slipping out of sight and disappear completely. You are invisible for the duration, even if you use a hostile action. Not even glitterdust, see invisibility, or similar effects can reveal you, though creatures can still use the Seek action to locate you as normal.",
+        "type": "activities",
+        "gainConditions": [
+            {
+                "name": "Invisible"
+            }
+        ]
     }
 ]

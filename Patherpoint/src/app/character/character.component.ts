@@ -505,8 +505,8 @@ export class CharacterComponent implements OnInit {
     get_AvailableSkills(choice: SkillChoice, level: Level) {
         let skills = this.get_Skills('', choice.type);
         if (choice.filter.length) {
-            //If all the filter options cannot be raised this level, skip the filter.
-            if (choice.filter.map(skillName => this.get_Skills(skillName)[0]).find(skill => skill && !this.cannotIncrease(skill, level, choice).length)) {
+            //Only filter the choice if enough of the filtered skills can be raised.
+            if (choice.filter.map(skillName => this.get_Skills(skillName)[0]).filter(skill => skill && !this.cannotIncrease(skill, level, choice).length).length >= choice.available) {
                 skills = skills.filter(skill => choice.filter.includes(skill.name))
             }
         }

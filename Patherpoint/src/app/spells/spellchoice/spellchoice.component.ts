@@ -329,6 +329,9 @@ export class SpellchoiceComponent implements OnInit {
             case "Others":
                 spells = spells.filter(spell => spell.target != "self");
                 break;
+            case "Allies":
+                spells = spells.filter(spell => spell.target == "ally");
+                break;
             case "Caster":
                 spells = spells.filter(spell => spell.target == "self");
                 break;
@@ -337,6 +340,9 @@ export class SpellchoiceComponent implements OnInit {
         }
         if (choice.traitFilter.length) {
             spells = spells.filter(spell => spell.traits.find(trait => choice.traitFilter.includes(trait)));
+        }
+        if (choice.singleTarget) {
+            spells = spells.filter(spell => spell.singleTarget);
         }
         if (spells.length) {
             if (spellLevel == 0) {
@@ -374,9 +380,9 @@ export class SpellchoiceComponent implements OnInit {
                     let existingSpell = this.get_Spells(choice.spells[0].name)[0];
                     spells = spells.filter(spell =>
                         (existingSpell.traits.includes("Attack") == spell.traits.includes("Attack")) &&
-                        (existingSpell.savingthrow.includes("Fortitude") == spell.savingthrow.includes("Fortitude")) &&
-                        (existingSpell.savingthrow.includes("Reflex") == spell.savingthrow.includes("Reflex")) &&
-                        (existingSpell.savingthrow.includes("Will") == spell.savingthrow.includes("Will"))
+                        (existingSpell.savingThrow.includes("Fortitude") == spell.savingThrow.includes("Fortitude")) &&
+                        (existingSpell.savingThrow.includes("Reflex") == spell.savingThrow.includes("Reflex")) &&
+                        (existingSpell.savingThrow.includes("Will") == spell.savingThrow.includes("Will"))
                     )
                 }
                 let availableSpells: Spell[] = spells.filter(spell =>

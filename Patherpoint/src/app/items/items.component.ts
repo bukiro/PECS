@@ -42,7 +42,7 @@ export class ItemsComponent implements OnInit {
     public cashG: number = 0;
     public cashS: number = 0;
     public cashC: number = 0;
-    public purpose: string = "items";
+    public purpose: "items"|"formulas"|"scrollsavant" = "items";
     
     constructor(
         private changeDetector: ChangeDetectorRef,
@@ -87,7 +87,7 @@ export class ItemsComponent implements OnInit {
         return this.showItem;
     }
 
-    toggle_Purpose(purpose: string) {
+    toggle_Purpose(purpose: "items"|"formulas"|"scrollsavant") {
         this.purpose = purpose;
     }
 
@@ -169,7 +169,12 @@ export class ItemsComponent implements OnInit {
         if (newIDs) {
             this.id = 0;
         }
-        return this.itemsService.get_Items();
+        if (this.get_ShowPurpose() == "formulas") {
+            return this.itemsService.get_CraftingItems();
+        } else {
+            return this.itemsService.get_Items();
+        }
+        
     }
 
     get_InventoryItemSets(type: string) {

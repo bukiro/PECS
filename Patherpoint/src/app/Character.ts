@@ -376,6 +376,9 @@ export class Character extends Creature {
                             })
                             characterService.add_CustomSkill(skillName, "Spell DC", "Wisdom");
                             break;
+                        case "Rogue": 
+                            characterService.add_CustomSkill(skillName, "Spell DC", "Charisma");
+                            break;
                         case "Sorcerer": 
                             characterService.add_CustomSkill(skillName, "Spell DC", "Charisma");
                             break;

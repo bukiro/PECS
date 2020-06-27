@@ -4,31 +4,29 @@
         <strong>Potency rune</strong>
         <ng-container *ngFor="let previousRune of [item.potencyRune]; trackBy:trackByIndex;">
             <select [(ngModel)]="item.potencyRune" (ngModelChange)="on_WeaponRuneChange('potency', previousRune)">
-                <option *ngFor="let potency of get_WeaponPotencyRunes()|sortBy:'asc'; trackBy:trackByIndex;" [ngValue]="potency.rune"
-                [disabled]="potency.disabled">
-                    {{item.get_Potency(potency.rune)}}</option>
+                <option *ngFor="let potency of get_WeaponPotencyRunes()|sortBy:'asc'; trackBy:trackByIndex;" [ngValue]="potency.potency"
+                [disabled]="potency.disabled" title="{{get_Title(potency.rune)}}">
+                    {{item.get_Potency(potency.potency)}}</option>
             </select>
         </ng-container>
-        
     </div>
     <div class="row" *ngIf="item.moddable=='armor'">
         <strong>Potency rune</strong>
         <ng-container *ngFor="let previousRune of [item.potencyRune]; trackBy:trackByIndex;">
             <select [(ngModel)]="item.potencyRune" (ngModelChange)="on_ArmorRuneChange('potency', previousRune)">
-                <option *ngFor="let potency of get_ArmorPotencyRunes()|sortBy:'asc'; trackBy:trackByIndex;" [ngValue]="potency.rune"
-                [disabled]="potency.disabled">
-                    {{item.get_Potency(potency.rune)}}</option>
+                <option *ngFor="let potency of get_ArmorPotencyRunes()|sortBy:'asc'; trackBy:trackByIndex;" [ngValue]="potency.potency"
+                [disabled]="potency.disabled" title="{{get_Title(potency.rune)}}">
+                    {{item.get_Potency(potency.potency)}}</option>
             </select>
         </ng-container>
-        
     </div>
     <div class="row" *ngIf="item.potencyRune > 0 && item.moddable=='weapon'">
         <strong>Striking rune</strong>
         <ng-container *ngFor="let previousRune of [item.strikingRune]; trackBy:trackByIndex;">
             <select [(ngModel)]="item.strikingRune" (ngModelChange)="on_WeaponRuneChange('striking', previousRune)">
-                <option *ngFor="let striking of get_StrikingRunes()|sortBy:'asc'; trackBy:trackByIndex;" [ngValue]="striking.rune"
-                [disabled]="striking.disabled">
-                    {{item.get_Striking(striking.rune)}}</option>
+                <option *ngFor="let striking of get_StrikingRunes()|sortBy:'asc'; trackBy:trackByIndex;" [ngValue]="striking.striking"
+                [disabled]="striking.disabled" title="{{get_Title(striking.rune)}}">
+                    {{item.get_Striking(striking.striking)}}</option>
             </select>
         </ng-container>
     </div>
@@ -36,9 +34,9 @@
         <strong>Resilient rune</strong>
         <ng-container *ngFor="let previousRune of [item.resilientRune]; trackBy:trackByIndex;">
             <select [(ngModel)]="item.resilientRune" (ngModelChange)="on_ArmorRuneChange('resilient', previousRune)">
-                <option *ngFor="let resilient of get_ResilientRunes()|sortBy:'asc'; trackBy:trackByIndex;" [ngValue]="resilient.rune"
-                [disabled]="resilient.disabled">
-                    {{item.get_Resilient(resilient.rune)}}</option>
+                <option *ngFor="let resilient of get_ResilientRunes()|sortBy:'asc'; trackBy:trackByIndex;" [ngValue]="resilient.resilient"
+                [disabled]="resilient.disabled" title="{{get_Title(resilient.rune)}}">
+                    {{item.get_Resilient(resilient.resilient)}}</option>
             </select>
         </ng-container>
     </div>
@@ -51,7 +49,7 @@
                 [disabled]="!item.propertyRunes[index-1] && index > 0">
                 <ng-container *ngFor="let rune of get_InitialPropertyRunes(index); let initialRuneIndex = index; trackBy:trackByIndex;">
                     <option [ngValue]="rune" *ngIf="initialRuneIndex == 0" [selected]=!item.propertyRunes[index]>
-                        
+                        <!--Blank option to deselect-->
                     </option>
                     <optgroup *ngIf="initialRuneIndex == 1" label="Current rune">
                         <option [ngValue]="rune">
@@ -61,7 +59,8 @@
                 </ng-container>
                 <ng-container *ngFor="let inv of get_Inventories(); trackBy:trackByIndex;">
                     <optgroup label="{{itemStore ? 'Available runes' : inv.get_Name(characterService)}}" *ngIf="get_WeaponPropertyRunes(index, inv).length">
-                        <option *ngFor="let rune of get_WeaponPropertyRunes(index, inv); trackBy:trackByIndex;" [ngValue]="rune" [disabled]="rune.disabled">
+                        <option *ngFor="let rune of get_WeaponPropertyRunes(index, inv); trackBy:trackByIndex;" [ngValue]="rune" [disabled]="rune.disabled"
+                        title="{{get_Title(rune.rune)}}">
                             {{rune.rune.amount > 1 ? rune.rune.amount+" " : ""}}{{rune.rune.name}}{{get_RuneCooldown(rune.rune)}}
                         </option>
                     </optgroup>
@@ -78,7 +77,7 @@
                 [disabled]="!item.propertyRunes[index-1] && index > 0">
                 <ng-container *ngFor="let rune of get_InitialPropertyRunes(index); let initialRuneIndex = index; trackBy:trackByIndex;">
                     <option [ngValue]="rune" *ngIf="initialRuneIndex == 0" [selected]=!item.propertyRunes[index]>
-                        
+                        <!--Blank option to deselect-->
                     </option>
                     <optgroup *ngIf="initialRuneIndex == 1" label="Current rune">
                         <option [ngValue]="rune">
@@ -88,7 +87,8 @@
                 </ng-container>
                 <ng-container *ngFor="let inv of get_Inventories(); trackBy:trackByIndex;">
                     <optgroup label="{{itemStore ? 'Available runes' : inv.get_Name(characterService)}}" *ngIf="get_ArmorPropertyRunes(index, inv).length">
-                        <option *ngFor="let rune of get_ArmorPropertyRunes(index, inv); trackBy:trackByIndex;" [ngValue]="rune" [disabled]="rune.disabled">
+                        <option *ngFor="let rune of get_ArmorPropertyRunes(index, inv); trackBy:trackByIndex;" [ngValue]="rune" [disabled]="rune.disabled"
+                        title="{{get_Title(rune.rune)}}">
                             {{rune.rune.amount > 1 ? rune.rune.amount+" " : ""}}{{rune.rune.name}}{{get_RuneCooldown(rune.rune)}}
                         </option>
                     </optgroup>

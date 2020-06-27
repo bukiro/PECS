@@ -51,10 +51,10 @@
             {{spell.duration}}
         </span>
     </div>
-    <div class="row left-aligned" *ngIf="spell.savingthrow">
+    <div class="row left-aligned" *ngIf="spell.savingThrow">
         <span>
             <strong>Saving Throw</strong>
-            {{spell.savingthrow}}
+            {{spell.savingThrow}}
         </span>
     </div>
     <div class="row left-aligned" *ngFor="let desc of get_Heightened(spell.desc).split('\n\n'); trackBy:trackByIndex;">

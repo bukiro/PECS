@@ -153,7 +153,7 @@ export class FeatsService {
             if (feat.gainAbilityChoice.length) {
                 if (taken) {
                     feat.gainAbilityChoice.forEach(newAbilityChoice => {
-                        let newChoice = character.add_AbilityChoice(level, newAbilityChoice);
+                        character.add_AbilityChoice(level, newAbilityChoice);
                     });
                 } else {
                     let a = level.abilityChoices;
@@ -163,6 +163,12 @@ export class FeatsService {
                     })
                 }
                 characterService.set_ToChange(creature.type, "abilities");
+                feat.gainAbilityChoice.forEach(abilityChoice => {
+                    abilityChoice.boosts.forEach(boost => {
+                        characterService.set_AbilityToChange(creature.type, boost.name);
+                    })
+                })
+                
             }
 
             //Train free Skill or increase existing Skill
@@ -298,7 +304,11 @@ export class FeatsService {
             if (feat.gainActivities.length) {
                 if (taken) {
                     feat.gainActivities.forEach((gainActivity: string) => {
-                        character.gain_Activity(characterService, Object.assign(new ActivityGain(), {name:gainActivity, source:feat.name}), level.number);
+                        if (feat.name == "Trickster's Ace") {
+                            character.gain_Activity(characterService, Object.assign(new ActivityGain(), {name:gainActivity, source:feat.name, data:{name:"Trigger", value:""}}), level.number);
+                        } else {
+                            character.gain_Activity(characterService, Object.assign(new ActivityGain(), {name:gainActivity, source:feat.name}), level.number);
+                        }
                     });
                     
                 } else {
@@ -387,14 +397,14 @@ export class FeatsService {
             //We copy the original feat so that we can change the included data property persistently
             if (feat.name=="Fuse Stance") {
                 if (taken) {
-                    if (character.customFeats.filter(customFeat => customFeat.name == "Different Worlds").length == 0) {
+                    if (character.customFeats.filter(customFeat => customFeat.name == "Fuse Stance").length == 0) {
                         let newLength = characterService.add_CustomFeat(feat);
                         let newFeat = character.customFeats[newLength -1];
                         newFeat.hide = true;
                         newFeat.data = {name:"", stance1:"", stance2:""}
                     }
                 } else {
-                    let oldFeats = character.customFeats.filter(customFeat => customFeat.name == "Different Worlds")
+                    let oldFeats = character.customFeats.filter(customFeat => customFeat.name == "Fuse Stance")
                     if (oldFeats.length) {
                         character.customFeats.splice(character.customFeats.indexOf(oldFeats[0], 1));
                     }

@@ -10,4 +10,5 @@ export class ItemActivity extends Activity {
     public source: string = "";
     //Resonant item activities are only available when the item is slotted into a wayfinder.
     public resonant: boolean = false;
+    public data: {name:string, value:any}[] = [];
 }

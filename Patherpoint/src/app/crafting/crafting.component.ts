@@ -85,11 +85,6 @@ export class CraftingComponent implements OnInit {
         }
     }
 
-    get_ID() {
-        this.id++;
-        return this.id;
-    }
-
     toggleCraftingMenu() {
         this.characterService.toggleMenu("crafting");
     }
@@ -130,11 +125,8 @@ export class CraftingComponent implements OnInit {
         }
     }
 
-    get_Items(newIDs: boolean = false) {
-        if (newIDs) {
-            this.id = 0;
-        }
-        return this.itemsService.get_Items();
+    get_Items() {
+        return this.itemsService.get_CraftingItems();
     }
 
     get_InventoryItemSets(type: string) {

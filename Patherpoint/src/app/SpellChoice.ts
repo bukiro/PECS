@@ -36,6 +36,7 @@ export class SpellChoice {
     //If showOnSheet is set, this choice is intended to be made on the character sheet instead of while building the character.
     //  This is relevant for features like Infinite Possibilities.
     public showOnSheet: boolean = false;
+    public singleTarget: boolean = false;
     //Only allow spells from your spellbook.
     public spellBookOnly: boolean = false;
     public spells: SpellGain[] = [];
@@ -49,6 +50,7 @@ export class SpellChoice {
     public infinitePossibilities: boolean = false;
     //If target is set to "Others", you can only choose spells with target != "self".
     //If target is set to "Caster", you can only choose spells with target "self".
+    //If target is set to "Allies", you can only choose spells with target "ally".
     //If target is set to "Enemies", you can only choose spells with no target property (so it's likely not beneficial).
     public target: string = "";
 }

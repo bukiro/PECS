@@ -52,7 +52,8 @@
         "traits": [
             "Abjuration",
             "Magical"
-        ]
+        ],
+        "craftingRequirement": 4
     },
     {
         "name": "Glamered",
@@ -416,7 +417,8 @@
             "Magical"
         ],
         "subType": "2",
-        "subTypeDesc": "Increase the armor's item bonus to AC by 2, and the armor can be etched with two property runes."
+        "subTypeDesc": "Increase the armor's item bonus to AC by 2, and the armor can be etched with two property runes.",
+        "craftingRequirement": 6
     },
     {
         "name": "Energy-Resistant (Acid, Greater)",
@@ -700,7 +702,8 @@
             "Magical"
         ],
         "subType": "3",
-        "subTypeDesc": "Increase the armor's item bonus to AC by 3, and the armor can be etched with three property runes."
+        "subTypeDesc": "Increase the armor's item bonus to AC by 3, and the armor can be etched with three property runes.",
+        "craftingRequirement": 8
     },
     {
         "name": "Fortification (Greater)",

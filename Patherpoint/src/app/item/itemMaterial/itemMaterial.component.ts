@@ -59,9 +59,11 @@ export class ItemMaterialComponent implements OnInit {
                 material.disabled = true;
             }
         });
+        let charLevel = 0;
         let crafting = 0;
         if (this.craftingStation) {
             let character = this.get_Character();
+            charLevel = character.level;
             crafting = this.characterService.get_Skills(character, "Crafting")[0]?.level(character, this.characterService, character.level) || 0;
         }
         //Disable all materials whose requirements are not met.
@@ -70,7 +72,7 @@ export class ItemMaterialComponent implements OnInit {
                 (
                     //If you are crafting this item yourself, you must fulfill the crafting skill requirement.
                     !this.craftingStation ||
-                    material.material.craftingRequirement <= crafting
+                    material.material.craftingRequirement <= crafting && material.material.level <= charLevel
                 ) &&
                 (
                     //You can't change to a material that doesn't support the currently equipped runes.
@@ -119,6 +121,44 @@ export class ItemMaterialComponent implements OnInit {
         }
         this.set_MaterialNames();
         this.characterService.process_ToChange();
+    }
+
+    get_Title(material: Material) {
+        if (!this.craftingStation && material.price) {
+            return "Price " + this.get_Price(material.price) + (material.bulkPrice ? " (+" + this.get_Price(material.bulkPrice) + " per Bulk)" : "");
+        }
+        if (this.craftingStation && material.craftingRequirement) {
+            switch (material.craftingRequirement) {
+                case 4:
+                    return "Requires Crafting E and Level " + material.level;
+                case 6:
+                    return "Requires Crafting M and Level " + material.level;
+                case 8:
+                    return "Requires Crafting L and Level " + material.level;
+            }
+        }
+    }
+
+    get_Price(price: number) {
+        if (price == 0) {
+            return "";
+        } else {
+            let priceString: string = "";
+            if (price >= 100) {
+                priceString += Math.floor(price / 100)+"gp";
+                price %= 100;
+                if (price >= 10) {priceString += " ";}
+            }
+            if (price >= 10) {
+                priceString += Math.floor(price / 10)+"sp";
+                price %= 10;
+                if (price >= 1) {priceString += " ";}
+            }
+            if (price >= 1) {
+                priceString += price+"cp";
+            }
+            return priceString;
+        }
     }
 
     set_MaterialNames() {
