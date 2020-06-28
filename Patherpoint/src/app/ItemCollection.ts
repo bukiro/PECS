@@ -67,6 +67,7 @@ export class ItemCollection {
         {name:"Scrolls",key:"scrolls"},
         {name:"Alchemical Elixirs",key:"alchemicalelixirs"},
         {name:"Potions",key:"potions"},
+        {name:"Alchemical Poisons",key:"alchemicalpoisons"},
         {name:"Oils",key:"oils"},
         {name:"Talismans",key:"talismans"},
         {name:"Snares",key:"snares"},

@@ -443,13 +443,10 @@ export class ItemsService {
                     feat.gainItems.filter(gain => gain.on == "rest").forEach(gainItem => {
                         let newItem: Item = this.get_CleanItemsOfType(gainItem.type, gainItem.name)[0];
                         let grantedItem: Item;
-                        if (newItem && newItem.can_Stack()) {
-                            grantedItem = characterService.grant_InventoryItem(creature, creature.inventories[0], newItem, true, false, false, gainItem.amount + (gainItem.amountPerLevel * creature.level));
-                        } else {
-                            grantedItem = characterService.grant_InventoryItem(creature, creature.inventories[0], newItem, true, false, true);
-                        }
-                        if (grantedItem) {
-                            grantedItem.expiration = gainItem.expiration;
+                        if (newItem && newItem.can_Stack() && (gainItem.amount ? gainItem.amount : 0) + (gainItem.amountPerLevel ? gainItem.amountPerLevel : 0 * creature.level)) {
+                            grantedItem = characterService.grant_InventoryItem(creature, creature.inventories[0], newItem, true, false, false, (gainItem.amount ? gainItem.amount : 0) + (gainItem.amountPerLevel ? gainItem.amountPerLevel : 0 * creature.level), undefined, -2);
+                        } else if (newItem) {
+                            grantedItem = characterService.grant_InventoryItem(creature, creature.inventories[0], newItem, true, false, true, 1, undefined, -2);
                         }
                     });
                 });

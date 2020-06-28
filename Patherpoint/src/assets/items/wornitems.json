@@ -271,11 +271,11 @@
         "usage": "worn gloves"
     },
     {
-        "desc": "You don’t need to eat or drink while this aeon stone is invested by you. This aeon stone doesn’t function until it has been worn continuously for a week and invested each day therein. If it’s invested by someone else, this interval starts over.",
+        "desc": "You don't need to eat or drink while this aeon stone is invested by you. This aeon stone doesn't function until it has been worn continuously for a week and invested each day therein. If it's invested by someone else, this interval starts over.",
         "id": "046845de-4cb0-411a-9f6e-85a669e5e12b",
         "level": 7,
         "name": "Aeon Stone (Clear Spindle)",
-        "hint": "You don’t need to eat or drink while the clear spindle aeon stone is invested by you. This aeon stone doesn’t function until it has been worn continuously for a week and invested each day therein. If it’s invested by someone else, this interval starts over.",
+        "hint": "You don't need to eat or drink while the clear spindle aeon stone is invested by you. This aeon stone doesn't function until it has been worn continuously for a week and invested each day therein. If it's invested by someone else, this interval starts over.",
         "showon": "Health",
         "price": 32500,
         "traits": [
@@ -390,7 +390,7 @@
             }
         ],
         "bulk": "1",
-        "desc": "This leather collar’s worn and almost threadbare look belies its magical nature. When your companion wears and invests the collar, it gains the ability to change its appearance from that of a ferocious animal into a more inconspicuous form.",
+        "desc": "This leather collar's worn and almost threadbare look belies its magical nature. When your companion wears and invests the collar, it gains the ability to change its appearance from that of a ferocious animal into a more inconspicuous form.",
         "id": "a55f7068-9a05-11ea-bb37-0242ac130002",
         "level": 8,
         "price": 47500,
@@ -406,7 +406,7 @@
         "name": "Collar of Empathy",
         "_className": "WornItem",
         "bulk": "1",
-        "desc": "This ornate collar of intertwined leather strips of contrasting colors is paired with a bracelet of a similar construction. When you wear and invest the bracelet and your companion wears and invests the collar, you gain a stronger connection to each other. You and your companion can always sense each others’ emotional states and basic physical wants and needs.",
+        "desc": "This ornate collar of intertwined leather strips of contrasting colors is paired with a bracelet of a similar construction. When you wear and invest the bracelet and your companion wears and invests the collar, you gain a stronger connection to each other. You and your companion can always sense each others' emotional states and basic physical wants and needs.",
         "gainItems": [
             {
                 "_className": "ItemGain",
@@ -433,7 +433,7 @@
                 "_className": "ItemActivity",
                 "actions": "2A",
                 "activationType": "Interact",
-                "desc": "You perceive through your animal companion’s senses instead of your own. You can Sustain the Activation. You are unaware of your own surroundings for as long as you are using your animal companion’s senses. In addition to the obvious use when you are separated from your companion, this ability might allow you to notice sounds, scents, and other stimuli that your companion’s senses register but yours alone don’t.",
+                "desc": "You perceive through your animal companion's senses instead of your own. You can Sustain the Activation. You are unaware of your own surroundings for as long as you are using your animal companion's senses. In addition to the obvious use when you are separated from your companion, this ability might allow you to notice sounds, scents, and other stimuli that your companion's senses register but yours alone don't.",
                 "gainConditions": [
                     {
                         "_className": "ConditionGain",
@@ -452,7 +452,7 @@
                 ]
             }
         ],
-        "desc": "This ornate bracelet of intertwined leather strips of contrasting colors comes with the Collar of Empathy. When you wear and invest the bracelet and your companion wears and invests the collar, you gain a stronger connection to each other. You and your companion can always sense each others’ emotional states and basic physical wants and needs.",
+        "desc": "This ornate bracelet of intertwined leather strips of contrasting colors comes with the Collar of Empathy. When you wear and invest the bracelet and your companion wears and invests the collar, you gain a stronger connection to each other. You and your companion can always sense each others' emotional states and basic physical wants and needs.",
         "hide": true,
         "id": "def56a5a-92b9-4edb-94a1-1379f2acd1c1",
         "level": 9,
@@ -641,7 +641,7 @@
             {
                 "actions": "2A",
                 "activationType": "Interact",
-                "desc": "You lift an object of up to 8 Bulk as though it were weightless. This requires two hands, and if the object is locked or otherwise held in place, you can attempt to Force it Open using Athletics as part of this activation. The object still has its full weight and Bulk for all other purposes—you just ignore that weight. The effect lasts until the end of your next turn.",
+                "desc": "You lift an object of up to 8 Bulk as though it were weightless. This requires two hands, and if the object is locked or otherwise held in place, you can attempt to Force it Open using Athletics as part of this activation. The object still has its full weight and Bulk for all other purposes - you just ignore that weight. The effect lasts until the end of your next turn.",
                 "name": "Lifting Belt",
                 "traits": [
                     "Invested",
@@ -809,7 +809,7 @@
                 "actions": "1A",
                 "activationType": "Interact",
                 "cooldown": 144000,
-                "desc": "You can soothe a willing, adjacent creature’s wounds, restoring 2d6+7 Hit Points to that creature. This is a positive healing effect. You can’t harm undead with this healing.",
+                "desc": "You can soothe a willing, adjacent creature's wounds, restoring 2d6+7 Hit Points to that creature. This is a positive healing effect. You can't harm undead with this healing.",
                 "frequency": "once per day",
                 "name": "Healer's Gloves",
                 "traits": [
@@ -849,7 +849,7 @@
                 "actions": "1A",
                 "activationType": "Interact",
                 "cooldown": 144000,
-                "desc": "You can soothe a willing, adjacent creature’s wounds, restoring 2d6+7 Hit Points to that creature. This is a positive healing effect. You can’t harm undead with this healing.",
+                "desc": "You can soothe a willing, adjacent creature's wounds, restoring 2d6+7 Hit Points to that creature. This is a positive healing effect. You can't harm undead with this healing.",
                 "frequency": "once per day",
                 "name": "Healer's Gloves (Greater)",
                 "traits": [
@@ -966,7 +966,7 @@
                 "actions": "1A",
                 "activationType": "Interact",
                 "requirements": "No item is stored in the gloves",
-                "desc": "One item you’re holding with a Bulk of 1 or less vanishes into the gloves’ extradimensional space.",
+                "desc": "One item you're holding with a Bulk of 1 or less vanishes into the gloves' extradimensional space.",
                 "inputRequired": "Manually move an item to the gloves' container.",
                 "name": "Gloves of Storing: Store",
                 "traits": [
@@ -984,7 +984,7 @@
                 "activationType": "Interact",
                 "requirements": "An item is stored in the gloves, and you have a free hand",
                 "cooldown": 100,
-                "desc": "The item stored in the gloves appears in your hand. The gloves can’t be activated again for 1 minute.",
+                "desc": "The item stored in the gloves appears in your hand. The gloves can't be activated again for 1 minute.",
                 "inputRequired": "Manually move an item from the gloves' container to your main inventory and equip it as needed.",
                 "name": "Gloves of Storing: Retrieve",
                 "traits": [

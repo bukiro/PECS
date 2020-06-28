@@ -71,9 +71,13 @@
                                 <span>
                                     {{spell.name}}<app-actionIcons [actionString]="spell.actions">
                                     </app-actionIcons>{{spell.castType}}
+                                    <cite class="trait" *ngIf="spell.traits.includes('Rare')"
+                                        title="{{get_Traits('Rare')[0]?.description}}">Rare</cite>
+                                    <cite class="trait" *ngIf="spell.traits.includes('Uncommon')"
+                                        title="{{get_Traits('Uncommon')[0]?.description}}">Uncommon</cite>
                                 </span>
                             </button>
-                            <div class="list-item sublist lower" *ngIf="get_ShowItem()==spell.id"
+                            <div class="list-item sublist" *ngIf="get_ShowItem()==spell.id"
                                 [className]="{'fancy-list':get_SpellsLearned(spell.name).length}">
                                 <button class="row center-aligned" (click)="learn_Spell(spell, 'wizard')"
                                     [disabled]="!can_Learn(casting, level, spell, 'wizard')"

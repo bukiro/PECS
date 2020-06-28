@@ -305,7 +305,7 @@ export class FeatsService {
                 if (taken) {
                     feat.gainActivities.forEach((gainActivity: string) => {
                         if (feat.name == "Trickster's Ace") {
-                            character.gain_Activity(characterService, Object.assign(new ActivityGain(), {name:gainActivity, source:feat.name, data:{name:"Trigger", value:""}}), level.number);
+                            character.gain_Activity(characterService, Object.assign(new ActivityGain(), {name:gainActivity, source:feat.name, data:[{name:"Trigger", value:""}]}), level.number);
                         } else {
                             character.gain_Activity(characterService, Object.assign(new ActivityGain(), {name:gainActivity, source:feat.name}), level.number);
                         }
@@ -649,6 +649,12 @@ export class FeatsService {
             //Arcane Breadth gives hardcoded spell slots and needs to update the spellbook menu.
             if (feat.name == "Arcane Breadth") {
                 characterService.set_ToChange(creature.type, "spells");
+            }
+
+            //Feats that grant specializations need to update defense and attacks.
+            if (feat.gainSpecialization) {
+                characterService.set_ToChange(creature.type, "defense");
+                characterService.set_ToChange(creature.type, "attacks");
             }
 
             //Some hardcoded effects change depending on feats. There is no good way to resolve this, so we calculate the effects whenever we take a feat.

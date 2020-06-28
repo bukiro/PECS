@@ -310,7 +310,7 @@
         "name": "Truth Potion",
         "id": "192cedda-a8c6-11ea-bb37-0242ac130002",
         "bulk": "L",
-        "desc": "For 10 minutes after drinking this astringent potion, you can’t intentionally lie and may be compelled to tell the truth. Upon drinking the potion, attempt a DC 19 Will save. You can voluntarily fail or critically fail.",
+        "desc": "For 10 minutes after drinking this astringent potion, you can't intentionally lie and may be compelled to tell the truth. Upon drinking the potion, attempt a DC 19 Will save. You can voluntarily fail or critically fail.",
         "level": 6,
         "price": 4600,
         "traits": [
@@ -334,7 +334,7 @@
         ],
         "success": "The potion does not affect you.",
         "failure": "When you speak, you must tell the truth.",
-        "critfailure": "As failure, and when someone asks you a question, you must attempt another DC 19 Will saving throw. If you fail this saving throw, you must answer the question truthfully if you are able to do so; if you succeed, you are temporarily immune to further attempts to ask the same question within the potion’s duration."
+        "critfailure": "As failure, and when someone asks you a question, you must attempt another DC 19 Will saving throw. If you fail this saving throw, you must answer the question truthfully if you are able to do so; if you succeed, you are temporarily immune to further attempts to ask the same question within the potion's duration."
     },
     {
         "name": "Healing Potion (Moderate)",
@@ -933,7 +933,7 @@
         "name": "Potion of Tongues",
         "id": "192ce740-a8c6-11ea-bb37-0242ac130002",
         "bulk": "L",
-        "desc": "This sour potion enlivens your tongue with unusual flavors and uncommon eloquence, allowing you to speak and understand all languages for 4 hours after you drink it. This doesn’t allow you to read these languages in their written form.",
+        "desc": "This sour potion enlivens your tongue with unusual flavors and uncommon eloquence, allowing you to speak and understand all languages for 4 hours after you drink it. This doesn't allow you to read these languages in their written form.",
         "level": 12,
         "price": 32000,
         "traits": [
@@ -1751,7 +1751,7 @@
         "name": "Potion of Undetectability",
         "id": "192ced26-a8c6-11ea-bb37-0242ac130002",
         "bulk": "L",
-        "desc": "Drinking this dull-black liquid makes you undetectable to divinations. This grants the same effects as mind blank, but without the bonus against mental effects. You also gain the effects of a 4th-level invisibility spell, which protects against see invisibility spells of 8th level and lower and has a DC of 36 against true seeing. The potion’s effects last for 10 minutes. ",
+        "desc": "Drinking this dull-black liquid makes you undetectable to divinations. This grants the same effects as mind blank, but without the bonus against mental effects. You also gain the effects of a 4th-level invisibility spell, which protects against see invisibility spells of 8th level and lower and has a DC of 36 against true seeing. The potion's effects last for 10 minutes. ",
         "level": 18,
         "price": 440000,
         "traits": [

@@ -39,6 +39,7 @@
             "Consumable",
             "Injury",
             "Poison"
-        ]
+        ],
+        "hide": true
     }
 ]

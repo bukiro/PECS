@@ -222,7 +222,7 @@
                 "source": "Background"
             }
         ],
-        "desc": "The aiudara of Alseta’s Ring have become more well known, and you are interested in learning more about them.\n\nChoose two ability boosts. One must be to Intelligence or Wisdom, and one is a free ability boost.\n\nYou're trained in the Arcana skill and the Portal Lore skill. You gain the Quick Identification skill feat.",
+        "desc": "The aiudara of Alseta's Ring have become more well known, and you are interested in learning more about them.\n\nChoose two ability boosts. One must be to Intelligence or Wisdom, and one is a free ability boost.\n\nYou're trained in the Arcana skill and the Portal Lore skill. You gain the Quick Identification skill feat.",
         "featChoices": [
             {
                 "_className": "FeatChoice",
@@ -411,7 +411,7 @@
     {
         "_className": "Background",
         "name": "Animal Wrangler",
-        "desc": "You have a long history of working with large circus animals for the Celestial Menagerie, such as performing in an animal act, jostling animals back into their cages, or even sweeping dung out of squalid pens. Mistress Dusklight’s ongoing mistreatment of her animals compelled you to quit, and you now strive to ensure animals aren’t abused.\n\nChoose two ability boosts. One must be to Strength or Wisdom, and one is a free ability boost.\n\nYou're trained in your choice of either the Athletics or Nature skill, as well as a Lore skill related to a particular kind of common animal (such as Equine Lore, Feline Lore, or Pachyderm Lore) You gain a skill feat: Titan Wrestler if you chose Athletics, or Train Animal if you chose Nature.",
+        "desc": "You have a long history of working with large circus animals for the Celestial Menagerie, such as performing in an animal act, jostling animals back into their cages, or even sweeping dung out of squalid pens. Mistress Dusklight's ongoing mistreatment of her animals compelled you to quit, and you now strive to ensure animals aren't abused.\n\nChoose two ability boosts. One must be to Strength or Wisdom, and one is a free ability boost.\n\nYou're trained in your choice of either the Athletics or Nature skill, as well as a Lore skill related to a particular kind of common animal (such as Equine Lore, Feline Lore, or Pachyderm Lore) You gain a skill feat: Titan Wrestler if you chose Athletics, or Train Animal if you chose Nature.",
         "subTypes": true
     },
     {
@@ -436,7 +436,7 @@
                 "source": "Background"
             }
         ],
-        "desc": "You have a long history of working with large circus animals for the Celestial Menagerie, such as performing in an animal act, jostling animals back into their cages, or even sweeping dung out of squalid pens. Mistress Dusklight’s ongoing mistreatment of her animals compelled you to quit, and you now strive to ensure animals aren’t abused.\n\nChoose two ability boosts. One must be to Strength or Wisdom, and one is a free ability boost.\n\nYou're trained in the Athletics skill, as well as a Lore skill related to a particular kind of common animal (such as Equine Lore, Feline Lore, or Pachyderm Lore) You gain the Titan Wrestler skill feat.",
+        "desc": "You have a long history of working with large circus animals for the Celestial Menagerie, such as performing in an animal act, jostling animals back into their cages, or even sweeping dung out of squalid pens. Mistress Dusklight's ongoing mistreatment of her animals compelled you to quit, and you now strive to ensure animals aren't abused.\n\nChoose two ability boosts. One must be to Strength or Wisdom, and one is a free ability boost.\n\nYou're trained in the Athletics skill, as well as a Lore skill related to a particular kind of common animal (such as Equine Lore, Feline Lore, or Pachyderm Lore) You gain the Titan Wrestler skill feat.",
         "featChoices": [
             {
                 "_className": "FeatChoice",
@@ -506,7 +506,7 @@
                 "source": "Background"
             }
         ],
-        "desc": "You have a long history of working with large circus animals for the Celestial Menagerie, such as performing in an animal act, jostling animals back into their cages, or even sweeping dung out of squalid pens. Mistress Dusklight’s ongoing mistreatment of her animals compelled you to quit, and you now strive to ensure animals aren’t abused.\n\nChoose two ability boosts. One must be to Strength or Wisdom, and one is a free ability boost.\n\nYou're trained in the Nature skill, as well as a Lore skill related to a particular kind of common animal (such as Equine Lore, Feline Lore, or Pachyderm Lore) You gain the Train Animal skill feat.",
+        "desc": "You have a long history of working with large circus animals for the Celestial Menagerie, such as performing in an animal act, jostling animals back into their cages, or even sweeping dung out of squalid pens. Mistress Dusklight's ongoing mistreatment of her animals compelled you to quit, and you now strive to ensure animals aren't abused.\n\nChoose two ability boosts. One must be to Strength or Wisdom, and one is a free ability boost.\n\nYou're trained in the Nature skill, as well as a Lore skill related to a particular kind of common animal (such as Equine Lore, Feline Lore, or Pachyderm Lore) You gain the Train Animal skill feat.",
         "featChoices": [
             {
                 "_className": "FeatChoice",
@@ -576,7 +576,7 @@
                 "source": "Background"
             }
         ],
-        "desc": "As an apprentice, you practiced a particular form of building or crafting, developing specialized skill. You might have been a blacksmith’s apprentice toiling over the forge for countless hours, a young tailor sewing garments of all kinds, or a shipwright shaping the hulls of ships.\n\nChoose two ability boosts. One must be to Strength or Intelligence, and one is a free ability boost.\n\nYou're trained in the Crafting skill and the Guild Lore skill. You gain the Specialty Crafting skill feat.",
+        "desc": "As an apprentice, you practiced a particular form of building or crafting, developing specialized skill. You might have been a blacksmith's apprentice toiling over the forge for countless hours, a young tailor sewing garments of all kinds, or a shipwright shaping the hulls of ships.\n\nChoose two ability boosts. One must be to Strength or Intelligence, and one is a free ability boost.\n\nYou're trained in the Crafting skill and the Guild Lore skill. You gain the Specialty Crafting skill feat.",
         "featChoices": [
             {
                 "_className": "FeatChoice",
@@ -973,7 +973,7 @@
                 "source": "Background"
             }
         ],
-        "desc": "You’re skilled at shouting to catch and keep the attention of passersby. A few well-timed and forcefully spoken words not only get people to notice you but also engage them to respond to you. You may have previously worked as a crier or in a more formal barker capacity with Mistress Dusklight’s Celestial Menagerie. Either way, your ability to bully a crowd is impressive.\n\nChoose two ability boosts. One must be to Constitution or Charisma, and one is a free ability boost.\n\nYou're trained in the Intimidation skill and the Crowd Lore skill. You gain the Group Coercion skill feat.",
+        "desc": "You're skilled at shouting to catch and keep the attention of passersby. A few well-timed and forcefully spoken words not only get people to notice you but also engage them to respond to you. You may have previously worked as a crier or in a more formal barker capacity with Mistress Dusklight's Celestial Menagerie. Either way, your ability to bully a crowd is impressive.\n\nChoose two ability boosts. One must be to Constitution or Charisma, and one is a free ability boost.\n\nYou're trained in the Intimidation skill and the Crowd Lore skill. You gain the Group Coercion skill feat.",
         "featChoices": [
             {
                 "_className": "FeatChoice",
@@ -1040,7 +1040,7 @@
                 "source": "Background"
             }
         ],
-        "desc": "Piles of legal manuals, stern teachers, and experience in the courtroom have instructed you in legal matters. You’re capable of mounting a prosecution or defense in court, and you tend to keep abreast of local laws, as you never can tell when you might need to know them on short notice.\n\nChoose two ability boosts. One must be to Intelligence or Charisma, and one is a free ability boost.\n\nYou're trained in the Diplomacy skill and the Legal Lore skill. You gain the Group Impression skill feat.",
+        "desc": "Piles of legal manuals, stern teachers, and experience in the courtroom have instructed you in legal matters. You're capable of mounting a prosecution or defense in court, and you tend to keep abreast of local laws, as you never can tell when you might need to know them on short notice.\n\nChoose two ability boosts. One must be to Intelligence or Charisma, and one is a free ability boost.\n\nYou're trained in the Diplomacy skill and the Legal Lore skill. You gain the Group Impression skill feat.",
         "featChoices": [
             {
                 "_className": "FeatChoice",
@@ -1107,7 +1107,7 @@
                 "source": "Background"
             }
         ],
-        "desc": "Though many Bekyars worship demons, you seek to pave a different path for yourself and your kindred, while also attempting to change other Mwangi’s treatment of your culture.\n\nChoose two ability boosts. One must be to Wisdom or Charisma, and one is a free ability boost.\n\nYou're trained in the Diplomacy skill and the Abyss Lore skill. You gain the Group Impression skill feat.",
+        "desc": "Though many Bekyars worship demons, you seek to pave a different path for yourself and your kindred, while also attempting to change other Mwangi's treatment of your culture.\n\nChoose two ability boosts. One must be to Wisdom or Charisma, and one is a free ability boost.\n\nYou're trained in the Diplomacy skill and the Abyss Lore skill. You gain the Group Impression skill feat.",
         "featChoices": [
             {
                 "_className": "FeatChoice",
@@ -1311,7 +1311,7 @@
                 "source": "Background"
             }
         ],
-        "desc": "You know how to work the less-than-legal side of the region’s markets and know how to slip contraband past the authorities.\n\nChoose two ability boosts. One must be to Wisdom or Charisma, and one is a free ability boost.\n\nYou're trained in the Stealth skill and the Underworld Lore skill. You gain the Experienced Smuggler skill feat.",
+        "desc": "You know how to work the less-than-legal side of the region's markets and know how to slip contraband past the authorities.\n\nChoose two ability boosts. One must be to Wisdom or Charisma, and one is a free ability boost.\n\nYou're trained in the Stealth skill and the Underworld Lore skill. You gain the Experienced Smuggler skill feat.",
         "featChoices": [
             {
                 "_className": "FeatChoice",
@@ -1360,7 +1360,7 @@
     {
         "_className": "Background",
         "name": "Blow-In",
-        "desc": "You never expected to join a circus, but you were looking for a good place to lie low for reasons of your own. The Circus of Wayward Wonders came together with several different workers and performers a few months ago. Many came from a circus in Escadar called the Celestial Menagerie, but not all of them. It was easy to slip in among the roustabouts. Although you’d planned to move on quickly, the circus folk have adopted you as one of their own, and they don’t ask questions about your past.\n\nChoose two ability boosts. One must be to Dexterity or Charisma, and one is a free ability boost.\n\nYou're trained in your choice of either the Deception or Thievery skill, as well as the Underworld Lore skill. You gain a skill feat: Lengthy Diversion if you chose Deception, or Subtle Theft if you chose Thievery.",
+        "desc": "You never expected to join a circus, but you were looking for a good place to lie low for reasons of your own. The Circus of Wayward Wonders came together with several different workers and performers a few months ago. Many came from a circus in Escadar called the Celestial Menagerie, but not all of them. It was easy to slip in among the roustabouts. Although you'd planned to move on quickly, the circus folk have adopted you as one of their own, and they don't ask questions about your past.\n\nChoose two ability boosts. One must be to Dexterity or Charisma, and one is a free ability boost.\n\nYou're trained in your choice of either the Deception or Thievery skill, as well as the Underworld Lore skill. You gain a skill feat: Lengthy Diversion if you chose Deception, or Subtle Theft if you chose Thievery.",
         "subTypes": true
     },
     {
@@ -1385,7 +1385,7 @@
                 "source": "Background"
             }
         ],
-        "desc": "You never expected to join a circus, but you were looking for a good place to lie low for reasons of your own. The Circus of Wayward Wonders came together with several different workers and performers a few months ago. Many came from a circus in Escadar called the Celestial Menagerie, but not all of them. It was easy to slip in among the roustabouts. Although you’d planned to move on quickly, the circus folk have adopted you as one of their own, and they don’t ask questions about your past.\n\nChoose two ability boosts. One must be to Dexterity or Charisma, and one is a free ability boost.\n\nYou're trained in the Deception skill, as well as the Underworld Lore skill. You gain the Lengthy Diversion skill feat.",
+        "desc": "You never expected to join a circus, but you were looking for a good place to lie low for reasons of your own. The Circus of Wayward Wonders came together with several different workers and performers a few months ago. Many came from a circus in Escadar called the Celestial Menagerie, but not all of them. It was easy to slip in among the roustabouts. Although you'd planned to move on quickly, the circus folk have adopted you as one of their own, and they don't ask questions about your past.\n\nChoose two ability boosts. One must be to Dexterity or Charisma, and one is a free ability boost.\n\nYou're trained in the Deception skill, as well as the Underworld Lore skill. You gain the Lengthy Diversion skill feat.",
         "featChoices": [
             {
                 "_className": "FeatChoice",
@@ -1454,7 +1454,7 @@
                 "source": "Background"
             }
         ],
-        "desc": "You never expected to join a circus, but you were looking for a good place to lie low for reasons of your own. The Circus of Wayward Wonders came together with several different workers and performers a few months ago. Many came from a circus in Escadar called the Celestial Menagerie, but not all of them. It was easy to slip in among the roustabouts. Although you’d planned to move on quickly, the circus folk have adopted you as one of their own, and they don’t ask questions about your past.\n\nChoose two ability boosts. One must be to Dexterity or Charisma, and one is a free ability boost.\n\nYou're trained in the Thievery skill, as well as the Underworld Lore skill. You gain the Subtle Theft skill feat.",
+        "desc": "You never expected to join a circus, but you were looking for a good place to lie low for reasons of your own. The Circus of Wayward Wonders came together with several different workers and performers a few months ago. Many came from a circus in Escadar called the Celestial Menagerie, but not all of them. It was easy to slip in among the roustabouts. Although you'd planned to move on quickly, the circus folk have adopted you as one of their own, and they don't ask questions about your past.\n\nChoose two ability boosts. One must be to Dexterity or Charisma, and one is a free ability boost.\n\nYou're trained in the Thievery skill, as well as the Underworld Lore skill. You gain the Subtle Theft skill feat.",
         "featChoices": [
             {
                 "_className": "FeatChoice",
@@ -1523,7 +1523,7 @@
                 "source": "Background"
             }
         ],
-        "desc": "You are a child of the Bonuwat people, and the sea’s salt flows through your veins. You’ve taken to sailing and swimming gracefully and with ease, earning you the honorific “wavetouched.”\n\nChoose two ability boosts. One must be to Strength or Wisdom, and one is a free ability boost.\n\nYou're trained in the Athletics skill and the Ocean Lore skill. You gain the Underwater Marauder skill feat.",
+        "desc": "You are a child of the Bonuwat people, and the sea's salt flows through your veins. You've taken to sailing and swimming gracefully and with ease, earning you the honorific “wavetouched.”\n\nChoose two ability boosts. One must be to Strength or Wisdom, and one is a free ability boost.\n\nYou're trained in the Athletics skill and the Ocean Lore skill. You gain the Underwater Marauder skill feat.",
         "featChoices": [
             {
                 "_className": "FeatChoice",
@@ -1658,7 +1658,7 @@
                 "source": "Background"
             }
         ],
-        "desc": "You are a member of the Bright Lions and seek to overthrow the tyrannical reign of Walkena and free Mzali from his cruel whims. You’re experienced operating undercover and have had to be cautious of what you say and who you trust, lest you fall afoul of the god-king’s terrible punishments.\n\nChoose two ability boosts. One must be to Strength or Charisma, and one is a free ability boost.\n\nYou're trained in the Deception skill and the Mzali Lore skill. You gain the Lie to Me skill feat.",
+        "desc": "You are a member of the Bright Lions and seek to overthrow the tyrannical reign of Walkena and free Mzali from his cruel whims. You're experienced operating undercover and have had to be cautious of what you say and who you trust, lest you fall afoul of the god-king's terrible punishments.\n\nChoose two ability boosts. One must be to Strength or Charisma, and one is a free ability boost.\n\nYou're trained in the Deception skill and the Mzali Lore skill. You gain the Lie to Me skill feat.",
         "featChoices": [
             {
                 "_className": "FeatChoice",
@@ -1726,7 +1726,7 @@
                 "source": "Background"
             }
         ],
-        "desc": "You’ve spent uncounted hours walking up and down crowded and noisy circus stands, inventing innovative means to sell refreshments, food, and novelties at inflated prices. (You might know very little about slaughtering animals; “butcher” is a circus slang term for a vendor.) The Celestial Menagerie constantly pushed you to figure out how to sell increasingly shoddy toys to children and how to conceal the taste of spoiled treats that should have been discarded days earlier. You peddled disappointment and hated it, so you left to seek a new line of work—although you’re not yet willing to leave the circus life altogether.\n\nChoose two ability boosts. One must be to Constitution or Intelligence, and one is a free ability boost.\n\nYou're trained in the Society skill and the Mercantile Lore skill. You gain the Read Lips skill feat.",
+        "desc": "You've spent uncounted hours walking up and down crowded and noisy circus stands, inventing innovative means to sell refreshments, food, and novelties at inflated prices. (You might know very little about slaughtering animals; “butcher” is a circus slang term for a vendor.) The Celestial Menagerie constantly pushed you to figure out how to sell increasingly shoddy toys to children and how to conceal the taste of spoiled treats that should have been discarded days earlier. You peddled disappointment and hated it, so you left to seek a new line of work - although you're not yet willing to leave the circus life altogether.\n\nChoose two ability boosts. One must be to Constitution or Intelligence, and one is a free ability boost.\n\nYou're trained in the Society skill and the Mercantile Lore skill. You gain the Read Lips skill feat.",
         "featChoices": [
             {
                 "_className": "FeatChoice",
@@ -1793,7 +1793,7 @@
                 "source": "Background"
             }
         ],
-        "desc": "You traveled from place to place, peddling false fortunes and snake oil in one town, pretending to be royalty in exile to seduce a wealthy heir in the next. Becoming an adventurer might be your next big scam or an attempt to put your talents to use for a greater cause. Perhaps it’s a bit of both, as you realize that after pretending to be a hero, you’ve become the mask.\n\nChoose two ability boosts. One must be to Intelligence or Charisma, and one is a free ability boost.\n\nYou're trained in the Deception skill and the Underworld Lore skill. You gain the Charming Liar skill feat.",
+        "desc": "You traveled from place to place, peddling false fortunes and snake oil in one town, pretending to be royalty in exile to seduce a wealthy heir in the next. Becoming an adventurer might be your next big scam or an attempt to put your talents to use for a greater cause. Perhaps it's a bit of both, as you realize that after pretending to be a hero, you've become the mask.\n\nChoose two ability boosts. One must be to Intelligence or Charisma, and one is a free ability boost.\n\nYou're trained in the Deception skill and the Underworld Lore skill. You gain the Charming Liar skill feat.",
         "featChoices": [
             {
                 "_className": "FeatChoice",
@@ -1860,7 +1860,7 @@
                 "source": "Background"
             }
         ],
-        "desc": "You joined the fight against House Thrune. You may have helped liberate the nation of Ravounel, or you might be involved in another rebellion, such as Pezzack’s, that studied Ravounel’s successes.\n\nChoose two ability boosts. One must be to Dexterity or Charisma, and one is a free ability boost.\n\nYou're trained in the Society skill and the Kintargo Lore skill. You gain the Streetwise skill feat.",
+        "desc": "You joined the fight against House Thrune. You may have helped liberate the nation of Ravounel, or you might be involved in another rebellion, such as Pezzack's, that studied Ravounel's successes.\n\nChoose two ability boosts. One must be to Dexterity or Charisma, and one is a free ability boost.\n\nYou're trained in the Society skill and the Kintargo Lore skill. You gain the Streetwise skill feat.",
         "featChoices": [
             {
                 "_className": "FeatChoice",
@@ -1928,7 +1928,7 @@
                 "source": "Background"
             }
         ],
-        "desc": "You grew up in the soggy, squalid quarter of Absalom known as the Puddles. You’re at home in tightly packed urban environments.\n\nChoose two ability boosts. One must be to Dexterity or Intelligence, and one is a free ability boost.\n\nYou're trained in the Acrobatics skill and the Absalom Lore skill. You gain the Steady Balance skill feat.",
+        "desc": "You grew up in the soggy, squalid quarter of Absalom known as the Puddles. You're at home in tightly packed urban environments.\n\nChoose two ability boosts. One must be to Dexterity or Intelligence, and one is a free ability boost.\n\nYou're trained in the Acrobatics skill and the Absalom Lore skill. You gain the Steady Balance skill feat.",
         "featChoices": [
             {
                 "_className": "FeatChoice",
@@ -2064,7 +2064,7 @@
                 "source": "Background"
             }
         ],
-        "desc": "The itinerant life of a traveling circus performer is nothing new to you; you were born and raised in the circus. You’ve seen more acts than you can count and grew up hearing the tall tales of circus performers while gathered around their campfires. You’ve experienced the thrill of captivating crowd ever since you were young. You may have tried a few times to settle down, but the lure of the open road and the glamor of the big top always called you back.\n\nChoose two ability boosts. One must be to Intelligence or Charisma, and one is a free ability boost.\n\nYou're trained in the Performance skill and the Circus Lore skill. You gain the Experienced Professional skill feat.",
+        "desc": "The itinerant life of a traveling circus performer is nothing new to you; you were born and raised in the circus. You've seen more acts than you can count and grew up hearing the tall tales of circus performers while gathered around their campfires. You've experienced the thrill of captivating crowd ever since you were young. You may have tried a few times to settle down, but the lure of the open road and the glamor of the big top always called you back.\n\nChoose two ability boosts. One must be to Intelligence or Charisma, and one is a free ability boost.\n\nYou're trained in the Performance skill and the Circus Lore skill. You gain the Experienced Professional skill feat.",
         "featChoices": [
             {
                 "_className": "FeatChoice",
@@ -2131,7 +2131,7 @@
                 "source": "Background"
             }
         ],
-        "desc": "Although you’ve spent time in greasepaint and colorful clothing to amuse crowds, your skills with buffoonery and physical comedy are exceptional whether or not you’re in costume. In the employ of Mistress Dusklight’s Celestial Menagerie, you spent too many routines distracting an audience from an ill-timed accident or evidence of abused animals or performers. You’ve had enough of that, and the Celestial Menagerie isn’t your home any longer.\n\nChoose two ability boosts. One must be to Dexterity or Charisma, and one is a free ability boost.\n\nYou're trained in the Performance skill and the Clown Lore skill. You gain the Virtuosic Performer skill feat (comedy)",
+        "desc": "Although you've spent time in greasepaint and colorful clothing to amuse crowds, your skills with buffoonery and physical comedy are exceptional whether or not you're in costume. In the employ of Mistress Dusklight's Celestial Menagerie, you spent too many routines distracting an audience from an ill-timed accident or evidence of abused animals or performers. You've had enough of that, and the Celestial Menagerie isn't your home any longer.\n\nChoose two ability boosts. One must be to Dexterity or Charisma, and one is a free ability boost.\n\nYou're trained in the Performance skill and the Clown Lore skill. You gain the Virtuosic Performer skill feat (comedy)",
         "featChoices": [
             {
                 "_className": "FeatChoice",
@@ -2333,7 +2333,7 @@
                 "source": "Background"
             }
         ],
-        "desc": "You’re at home blazing trails in the burning sands, and you made a living guiding or following creatures in the desert. You might be a native nomad, an experienced desert guide, a naturalist, a bandit driven into the dunes by the law—or all of the above.\n\nChoose two ability boosts. One must be to Constitution or Wisdom, and one is a free ability boost.\n\nYou're trained in the Survival skill and the Desert Lore skill. You gain the Experienced Tracker skill feat.",
+        "desc": "You're at home blazing trails in the burning sands, and you made a living guiding or following creatures in the desert. You might be a native nomad, an experienced desert guide, a naturalist, a bandit driven into the dunes by the law - or all of the above.\n\nChoose two ability boosts. One must be to Constitution or Wisdom, and one is a free ability boost.\n\nYou're trained in the Survival skill and the Desert Lore skill. You gain the Experienced Tracker skill feat.",
         "featChoices": [
             {
                 "_className": "FeatChoice",
@@ -2536,7 +2536,7 @@
                 "source": "Background"
             }
         ],
-        "desc": "Dragons have fascinated you for as long as you can remember. The potent power they possess, the long lives they lead, the ancient traditions they inspire—whatever the source of your interest, you’ve spent much of your life to this point immersed in all things draconic. These studies have bolstered your self-confidence and given you a wide range of methods and tactics you can use to impose your will on others.\n\nYou’ve likely chosen to attend the Call for Heroes as a way to seek funds as an adventurer to afford more texts about dragons or perhaps out of a desire to encounter one in real life.\n\nChoose two ability boosts. One must be to Strength or Charisma, and one is a free ability boost.\n\nYou're trained in the Intimidation skill and the Dragon Lore skill. You gain the Intimidating Glare skill feat.",
+        "desc": "Dragons have fascinated you for as long as you can remember. The potent power they possess, the long lives they lead, the ancient traditions they inspire - whatever the source of your interest, you've spent much of your life to this point immersed in all things draconic. These studies have bolstered your self-confidence and given you a wide range of methods and tactics you can use to impose your will on others.\n\nYou've likely chosen to attend the Call for Heroes as a way to seek funds as an adventurer to afford more texts about dragons or perhaps out of a desire to encounter one in real life.\n\nChoose two ability boosts. One must be to Strength or Charisma, and one is a free ability boost.\n\nYou're trained in the Intimidation skill and the Dragon Lore skill. You gain the Intimidating Glare skill feat.",
         "featChoices": [
             {
                 "_className": "FeatChoice",
@@ -2604,7 +2604,7 @@
                 "source": "Background"
             }
         ],
-        "desc": "You spent your early days in the aftermath of one of the great ravenings. You survived thanks to your resourcefulness and perhaps your patron’s favor and were blessed with skills and drive thereafter, but you must always hold to his standards, lest the hunger from the depths seek you out once again.\n\nChoose two ability boosts. One must be to Strength or Wisdom, and one is a free ability boost.\n\nYou're trained in the Survival skill and the Zevgavizeb Lore skill. You gain the Ravening's Desperation skill feat.",
+        "desc": "You spent your early days in the aftermath of one of the great ravenings. You survived thanks to your resourcefulness and perhaps your patron's favor and were blessed with skills and drive thereafter, but you must always hold to his standards, lest the hunger from the depths seek you out once again.\n\nChoose two ability boosts. One must be to Strength or Wisdom, and one is a free ability boost.\n\nYou're trained in the Survival skill and the Zevgavizeb Lore skill. You gain the Ravening's Desperation skill feat.",
         "featChoices": [
             {
                 "_className": "FeatChoice",
@@ -2743,7 +2743,7 @@
                 "source": "Background"
             }
         ],
-        "desc": "Until recently, the nation of Ravounel was part of the larger nation of Cheliax, where the church of Asmodeus is the law and slaves are traded freely in the open market. You had the poor fortune to be born into slavery, but the good luck to have grown up in the city of Kintargo. When Ravounel seceded from Cheliax, the leaders of this new nation freed all slaves, and you’ve wasted no time in exploring and establishing your new life. How and why you’ve come to Breachill is left to you to decide—but the fact that you feel empowered to determine your own destiny continues to drive you!\n\nThe chance to become an adventurer has excited you for some time, as you hope to build a new life for yourself as a hero rewarded with fame and fortune. Joining the Call for Heroes is a great opportunity to find a group to adventure with.\n\nChoose two ability boosts. One must be to Dexterity or Charisma, and one is a free ability boost.\n\nYou're trained in the Stealth skill and the Kintargo Lore skill. You gain the Terrain Stalker skill feat.",
+        "desc": "Until recently, the nation of Ravounel was part of the larger nation of Cheliax, where the church of Asmodeus is the law and slaves are traded freely in the open market. You had the poor fortune to be born into slavery, but the good luck to have grown up in the city of Kintargo. When Ravounel seceded from Cheliax, the leaders of this new nation freed all slaves, and you've wasted no time in exploring and establishing your new life. How and why you've come to Breachill is left to you to decide - but the fact that you feel empowered to determine your own destiny continues to drive you!\n\nThe chance to become an adventurer has excited you for some time, as you hope to build a new life for yourself as a hero rewarded with fame and fortune. Joining the Call for Heroes is a great opportunity to find a group to adventure with.\n\nChoose two ability boosts. One must be to Dexterity or Charisma, and one is a free ability boost.\n\nYou're trained in the Stealth skill and the Kintargo Lore skill. You gain the Terrain Stalker skill feat.",
         "featChoices": [
             {
                 "_className": "FeatChoice",
@@ -3075,7 +3075,7 @@
                 "source": "Background"
             }
         ],
-        "desc": "You are a leshy from Finadar Forest, originally created under the corruption of a cyclopean monolith. Though the Pathfinder Society managed to sever the monolith’s connection, freeing the forest and your people from its influence, you retain a trace, unnerving connection to the Abyss.\n\nChoose two ability boosts. One must be to Constitution or Charisma, and one is a free ability boost.\n\nYou're trained in the Intimidation skill and the Abyssal Lore skill. You gain the Intimidating Glare skill feat.",
+        "desc": "You are a leshy from Finadar Forest, originally created under the corruption of a cyclopean monolith. Though the Pathfinder Society managed to sever the monolith's connection, freeing the forest and your people from its influence, you retain a trace, unnerving connection to the Abyss.\n\nChoose two ability boosts. One must be to Constitution or Charisma, and one is a free ability boost.\n\nYou're trained in the Intimidation skill and the Abyssal Lore skill. You gain the Intimidating Glare skill feat.",
         "featChoices": [
             {
                 "_className": "FeatChoice",
@@ -3144,7 +3144,7 @@
                 "source": "Background"
             }
         ],
-        "desc": "You fell prey to the whims of the Galtan mob and were scheduled for execution by final blade, but through skill—or sheer luck—you managed to talk your way out of it.\n\nChoose two ability boosts. One must be to Charisma or Wisdom, and one is a free ability boost.\n\nYou're trained in the Deception skill and the Revolution Lore skill. You gain the Charming Liar skill feat.",
+        "desc": "You fell prey to the whims of the Galtan mob and were scheduled for execution by final blade, but through skill - or sheer luck - you managed to talk your way out of it.\n\nChoose two ability boosts. One must be to Charisma or Wisdom, and one is a free ability boost.\n\nYou're trained in the Deception skill and the Revolution Lore skill. You gain the Charming Liar skill feat.",
         "featChoices": [
             {
                 "_className": "FeatChoice",
@@ -3279,7 +3279,7 @@
                 "source": "Background"
             }
         ],
-        "desc": "As a recently freed slave in Absalom, you belong to a new, close-knit social class at the heart of the city’s most important trades.\n\nChoose two ability boosts. One must be to Constitution or Intelligence, and one is a free ability boost.\n\nYou're trained in the Society skill and the Absalom Lore skill. You gain the Streetwise skill feat.",
+        "desc": "As a recently freed slave in Absalom, you belong to a new, close-knit social class at the heart of the city's most important trades.\n\nChoose two ability boosts. One must be to Constitution or Intelligence, and one is a free ability boost.\n\nYou're trained in the Society skill and the Absalom Lore skill. You gain the Streetwise skill feat.",
         "featChoices": [
             {
                 "_className": "FeatChoice",
@@ -3482,7 +3482,7 @@
                 "source": "Background"
             }
         ],
-        "desc": "The bloody games of the arena taught you the art of combat. Before you attained true fame, you departed—or escaped—the arena to explore the world. Your skill at drawing both blood and a crowd’s attention pay off in a new adventuring life.\n\nChoose two ability boosts. One must be to Strength or Charisma, and one is a free ability boost.\n\nYou're trained in the Performance skill and the Gladiatorial Lore skill. You gain the Impressive Performance skill feat.",
+        "desc": "The bloody games of the arena taught you the art of combat. Before you attained true fame, you departed - or escaped - the arena to explore the world. Your skill at drawing both blood and a crowd's attention pay off in a new adventuring life.\n\nChoose two ability boosts. One must be to Strength or Charisma, and one is a free ability boost.\n\nYou're trained in the Performance skill and the Gladiatorial Lore skill. You gain the Impressive Performance skill feat.",
         "featChoices": [
             {
                 "_className": "FeatChoice",
@@ -3617,7 +3617,7 @@
                 "source": "Background"
             }
         ],
-        "desc": "You spent years working as a clerk to a functionary in Absalom’s government. Your service taught you a thing or two about rousing speeches and manipulating the city’s bureaucracy.\n\nChoose two ability boosts. One must be to Charisma or Intelligence, and one is a free ability boost.\n\nYou're trained in the Society skill and the Government Lore skill. You gain the Group Impression skill feat.",
+        "desc": "You spent years working as a clerk to a functionary in Absalom's government. Your service taught you a thing or two about rousing speeches and manipulating the city's bureaucracy.\n\nChoose two ability boosts. One must be to Charisma or Intelligence, and one is a free ability boost.\n\nYou're trained in the Society skill and the Government Lore skill. You gain the Group Impression skill feat.",
         "featChoices": [
             {
                 "_className": "FeatChoice",
@@ -3752,7 +3752,7 @@
                 "source": "Background"
             }
         ],
-        "desc": "You’ve been haunted by frightening dreams of fires your whole life. This could be the result of a past, near-death experience with fire or it might have no obvious source that you know of. Recently, you stumbled upon an image, story, or other omen featuring the dragon god of destruction, Dahak, and you were struck with an unnerving sense of deja vu—you’ve come to think that the draconic deity might have something to do with your dreams, and as such have been studying all you can about the god. Your visions have bolstered your faith as well; even if you don’t worship a specific deity, you have a deep passion for matters of faith.\n\nYour latest dream, for the first time, had enough details to identify its setting—in this last dream, you saw the town of Breachill burning. You’ve decided to join the Call for Heroes hoping to save the town you fear might burn to the ground soon.\n\nChoose two ability boosts. One must be to Constitution or Wisdom, and one is a free ability boost.\n\nYou're trained in the Religion skill and the Dahak Lore skill. You gain the Student of the Canon skill feat.",
+        "desc": "You've been haunted by frightening dreams of fires your whole life. This could be the result of a past, near-death experience with fire or it might have no obvious source that you know of. Recently, you stumbled upon an image, story, or other omen featuring the dragon god of destruction, Dahak, and you were struck with an unnerving sense of deja vu - you've come to think that the draconic deity might have something to do with your dreams, and as such have been studying all you can about the god. Your visions have bolstered your faith as well; even if you don't worship a specific deity, you have a deep passion for matters of faith.\n\nYour latest dream, for the first time, had enough details to identify its setting - in this last dream, you saw the town of Breachill burning. You've decided to join the Call for Heroes hoping to save the town you fear might burn to the ground soon.\n\nChoose two ability boosts. One must be to Constitution or Wisdom, and one is a free ability boost.\n\nYou're trained in the Religion skill and the Dahak Lore skill. You gain the Student of the Canon skill feat.",
         "featChoices": [
             {
                 "_className": "FeatChoice",
@@ -3819,7 +3819,7 @@
                 "source": "Background"
             }
         ],
-        "desc": "The various Hellknight Orders intrigue you, whether you seek to become one of their number yourself, wish to oppose their goals at every turn, or are merely inspired by or curious to learn more about them. You’ve heard that when the Order of the Nail abandoned Citadel Altaerein, they left behind the deed to the castle so anyone brave enough to explore the ruins and the defenses no doubt left behind would be rewarded with ownership of the abandoned fortress.\n\nYou decided to join the Call for Heroes to hoping to gain an opportunity to explore Citadel Altaerein.\n\nChoose two ability boosts. One must be to Strength or Intelligence, and one is a free ability boost.\n\nYou're trained in the Society skill and the Architecture Lore skill. You gain the Courtly Graces skill feat.",
+        "desc": "The various Hellknight Orders intrigue you, whether you seek to become one of their number yourself, wish to oppose their goals at every turn, or are merely inspired by or curious to learn more about them. You've heard that when the Order of the Nail abandoned Citadel Altaerein, they left behind the deed to the castle so anyone brave enough to explore the ruins and the defenses no doubt left behind would be rewarded with ownership of the abandoned fortress.\n\nYou decided to join the Call for Heroes to hoping to gain an opportunity to explore Citadel Altaerein.\n\nChoose two ability boosts. One must be to Strength or Intelligence, and one is a free ability boost.\n\nYou're trained in the Society skill and the Architecture Lore skill. You gain the Courtly Graces skill feat.",
         "featChoices": [
             {
                 "_className": "FeatChoice",
@@ -3886,7 +3886,7 @@
                 "source": "Background"
             }
         ],
-        "desc": "As a formally trained apothecary or a rural practitioner of folk medicine, you learned the healing properties of various herbs. You’re adept at collecting the right natural cures in all sorts of environments and preparing them properly.\n\nChoose two ability boosts. One must be to Constitution or Wisdom, and one is a free ability boost.\n\nYou're trained in the Nature skill and the Herbalism Lore skill. You gain the Natural Medicine skill feat.",
+        "desc": "As a formally trained apothecary or a rural practitioner of folk medicine, you learned the healing properties of various herbs. You're adept at collecting the right natural cures in all sorts of environments and preparing them properly.\n\nChoose two ability boosts. One must be to Constitution or Wisdom, and one is a free ability boost.\n\nYou're trained in the Nature skill and the Herbalism Lore skill. You gain the Natural Medicine skill feat.",
         "featChoices": [
             {
                 "_className": "FeatChoice",
@@ -3953,7 +3953,7 @@
                 "source": "Background"
             }
         ],
-        "desc": "You have been exiled from Hermea, perhaps of your own accord or perhaps because you didn’t measure up. However, you take with you some of the benefits of the excellent education afforded to its citizenry.\n\nChoose two ability boosts. One must be to Intelligence or Charisma, and one is a free ability boost.\n\nYou're trained in the Society skill and the Dragon Lore skill. You gain the Skill Training skill feat.",
+        "desc": "You have been exiled from Hermea, perhaps of your own accord or perhaps because you didn't measure up. However, you take with you some of the benefits of the excellent education afforded to its citizenry.\n\nChoose two ability boosts. One must be to Intelligence or Charisma, and one is a free ability boost.\n\nYou're trained in the Society skill and the Dragon Lore skill. You gain the Skill Training skill feat.",
         "featChoices": [
             {
                 "_className": "FeatChoice",
@@ -4071,7 +4071,7 @@
     {
         "_className": "Background",
         "name": "Hermit",
-        "desc": "In an isolated place—like a cave, remote oasis, or secluded mansion—you lived a life of solitude. Adventuring might represent your first foray out among other people in some time. This might be a welcome reprieve from solitude or an unwanted change, but in either case, you're likely still rough around the edges.\n\nChoose two ability boosts. One must be to Constitution or Intelligence, and one is a free ability boost.\n\nYou're trained in your choice of either the Nature or Occultism skill, as well as a Lore skill related to the terrain you lived in as a hermit (such as Cave Lore or Desert Lore). You gain the Dubious Knowledge skill feat.",
+        "desc": "In an isolated place - like a cave, remote oasis, or secluded mansion - you lived a life of solitude. Adventuring might represent your first foray out among other people in some time. This might be a welcome reprieve from solitude or an unwanted change, but in either case, you're likely still rough around the edges.\n\nChoose two ability boosts. One must be to Constitution or Intelligence, and one is a free ability boost.\n\nYou're trained in your choice of either the Nature or Occultism skill, as well as a Lore skill related to the terrain you lived in as a hermit (such as Cave Lore or Desert Lore). You gain the Dubious Knowledge skill feat.",
         "subTypes": true
     },
     {
@@ -4096,7 +4096,7 @@
                 "source": "Background"
             }
         ],
-        "desc": "In an isolated place—like a cave, remote oasis, or secluded mansion—you lived a life of solitude. Adventuring might represent your first foray out among other people in some time. This might be a welcome reprieve from solitude or an unwanted change, but in either case, you're likely still rough around the edges.\n\nChoose two ability boosts. One must be to Constitution or Intelligence, and one is a free ability boost.\n\nYou're trained in your choice of either the Nature or Occultism skill, as well as a Lore skill related to the terrain you lived in as a hermit (such as Cave Lore or Desert Lore). You gain the Dubious Knowledge skill feat.",
+        "desc": "In an isolated place - like a cave, remote oasis, or secluded mansion - you lived a life of solitude. Adventuring might represent your first foray out among other people in some time. This might be a welcome reprieve from solitude or an unwanted change, but in either case, you're likely still rough around the edges.\n\nChoose two ability boosts. One must be to Constitution or Intelligence, and one is a free ability boost.\n\nYou're trained in your choice of either the Nature or Occultism skill, as well as a Lore skill related to the terrain you lived in as a hermit (such as Cave Lore or Desert Lore). You gain the Dubious Knowledge skill feat.",
         "featChoices": [
             {
                 "_className": "FeatChoice",
@@ -4166,7 +4166,7 @@
                 "source": "Background"
             }
         ],
-        "desc": "In an isolated place—like a cave, remote oasis, or secluded mansion—you lived a life of solitude. Adventuring might represent your first foray out among other people in some time. This might be a welcome reprieve from solitude or an unwanted change, but in either case, you're likely still rough around the edges.\n\nChoose two ability boosts. One must be to Constitution or Intelligence, and one is a free ability boost.\n\nYou're trained in your choice of either the Nature or Occultism skill, as well as a Lore skill related to the terrain you lived in as a hermit (such as Cave Lore or Desert Lore). You gain the Dubious Knowledge skill feat.",
+        "desc": "In an isolated place - like a cave, remote oasis, or secluded mansion - you lived a life of solitude. Adventuring might represent your first foray out among other people in some time. This might be a welcome reprieve from solitude or an unwanted change, but in either case, you're likely still rough around the edges.\n\nChoose two ability boosts. One must be to Constitution or Intelligence, and one is a free ability boost.\n\nYou're trained in your choice of either the Nature or Occultism skill, as well as a Lore skill related to the terrain you lived in as a hermit (such as Cave Lore or Desert Lore). You gain the Dubious Knowledge skill feat.",
         "featChoices": [
             {
                 "_className": "FeatChoice",
@@ -4575,7 +4575,7 @@
                 "source": "Background"
             }
         ],
-        "desc": "You’ve spent years performing arduous physical labor. It was a difficult life, but you somehow survived. You may have embraced adventuring as an easier method to make your way in the world, or you might adventure under someone else’s command.\n\nChoose two ability boosts. One must be to Strength or Constitution, and one is a free ability boost.\n\nYou're trained in the Athletics skill and the Labor Lore skill. You gain the Hefty Hauler skill feat in Athletics.",
+        "desc": "You've spent years performing arduous physical labor. It was a difficult life, but you somehow survived. You may have embraced adventuring as an easier method to make your way in the world, or you might adventure under someone else's command.\n\nChoose two ability boosts. One must be to Strength or Constitution, and one is a free ability boost.\n\nYou're trained in the Athletics skill and the Labor Lore skill. You gain the Hefty Hauler skill feat in Athletics.",
         "featChoices": [
             {
                 "_className": "FeatChoice",
@@ -4642,7 +4642,7 @@
                 "source": "Background"
             }
         ],
-        "desc": "You managed to escape the devastation that the Whispering Tyrant brought to your nation, but you lost everything to the lich-king’s minions, including your home and many friends and family.\n\nChoose two ability boosts. One must be to Constitution or Wisdom, and one is a free ability boost.\n\nYou're trained in the Medicine skill and the Undead Lore skill. You gain the Battle Medicine skill feat.",
+        "desc": "You managed to escape the devastation that the Whispering Tyrant brought to your nation, but you lost everything to the lich-king's minions, including your home and many friends and family.\n\nChoose two ability boosts. One must be to Constitution or Wisdom, and one is a free ability boost.\n\nYou're trained in the Medicine skill and the Undead Lore skill. You gain the Battle Medicine skill feat.",
         "featChoices": [
             {
                 "_className": "FeatChoice",
@@ -4849,7 +4849,7 @@
                 "source": "Background"
             }
         ],
-        "desc": "You’re from Breachill and have lived there most, if not all, of your life. You might be the son or daughter of a well-known local adventuring family, or a family with a storied tradition of military or other martial service. You likely also have some sort of skill with your hands, as the people of Breachill are very self-sufficient.\n\nThe Call for Heroes is one of your hometown’s most iconic traditions, and you want to attend so you can prove your own merits to the council—beyond simply those of your family’s name.\n\nChoose two ability boosts. One must be to Constitution or Charisma, and one is a free ability boost.\n\nYou're trained in the Crafting skill and the Breachill Lore skill. You gain the Specialty Crafting skill feat.",
+        "desc": "You're from Breachill and have lived there most, if not all, of your life. You might be the son or daughter of a well-known local adventuring family, or a family with a storied tradition of military or other martial service. You likely also have some sort of skill with your hands, as the people of Breachill are very self-sufficient.\n\nThe Call for Heroes is one of your hometown's most iconic traditions, and you want to attend so you can prove your own merits to the council - beyond simply those of your family's name.\n\nChoose two ability boosts. One must be to Constitution or Charisma, and one is a free ability boost.\n\nYou're trained in the Crafting skill and the Breachill Lore skill. You gain the Specialty Crafting skill feat.",
         "featChoices": [
             {
                 "_className": "FeatChoice",
@@ -5194,7 +5194,7 @@
                 "source": "Background"
             }
         ],
-        "desc": "You have learned the secrets of taming the mighty mammoths and other megafauna of the far north. Perhaps these talents are a part of your people’s traditional customs, or perhaps you sought out these massive animals of your own accord.\n\nChoose two ability boosts. One must be to Constitution or Wisdom, and one is a free ability boost.\n\nYou're trained in the Nature skill and the Animal Lore skill. You gain the Train Animal skill feat.",
+        "desc": "You have learned the secrets of taming the mighty mammoths and other megafauna of the far north. Perhaps these talents are a part of your people's traditional customs, or perhaps you sought out these massive animals of your own accord.\n\nChoose two ability boosts. One must be to Constitution or Wisdom, and one is a free ability boost.\n\nYou're trained in the Nature skill and the Animal Lore skill. You gain the Train Animal skill feat.",
         "featChoices": [
             {
                 "_className": "FeatChoice",
@@ -5262,7 +5262,7 @@
                 "source": "Background"
             }
         ],
-        "desc": "Exposure to the corrupting influence of the Mana Wastes’ strange energies has warped your inner essence, resulting in unpredictable interactions with magic items and more than a little know-how about surviving under bizarre and adverse natural conditions.\n\nChoose two ability boosts. One must be to Constitution or Intelligence, and one is a free ability boost.\n\nYou're trained in the Arcana skill and the Wilderness Lore skill. You gain the Trick Magic Item skill feat.",
+        "desc": "Exposure to the corrupting influence of the Mana Wastes' strange energies has warped your inner essence, resulting in unpredictable interactions with magic items and more than a little know-how about surviving under bizarre and adverse natural conditions.\n\nChoose two ability boosts. One must be to Constitution or Intelligence, and one is a free ability boost.\n\nYou're trained in the Arcana skill and the Wilderness Lore skill. You gain the Trick Magic Item skill feat.",
         "featChoices": [
             {
                 "_className": "FeatChoice",
@@ -5542,7 +5542,7 @@
                 "source": "Background"
             }
         ],
-        "desc": "Whether you washed warrior beasts below the Irorium’s arena floor or tended to the mutated animals of a Puddle sideshow, you are experienced with all manner of weird wildlife.\n\nChoose two ability boosts. One must be to Constitution or Wisdom, and one is a free ability boost.\n\nYou're trained in the Nature skill and the Animal Lore skill. You gain the Train Animal skill feat.",
+        "desc": "Whether you washed warrior beasts below the Irorium's arena floor or tended to the mutated animals of a Puddle sideshow, you are experienced with all manner of weird wildlife.\n\nChoose two ability boosts. One must be to Constitution or Wisdom, and one is a free ability boost.\n\nYou're trained in the Nature skill and the Animal Lore skill. You gain the Train Animal skill feat.",
         "featChoices": [
             {
                 "_className": "FeatChoice",
@@ -5745,7 +5745,7 @@
                 "source": "Background"
             }
         ],
-        "desc": "You earned a living wrenching precious minerals from the lightless depths of the earth. Adventuring might have seemed lucrative or glamorous compared to this backbreaking labor— and if you have to head back underground, this time you plan to do so armed with a real weapon instead of a miner’s pick.\n\nChoose two ability boosts. One must be to Strength or Wisdom, and one is a free ability boost.\n\nYou're trained in the Survival skill and the Mining Lore skill. You gain the Terrain Expertise skill feat with underground terrain.",
+        "desc": "You earned a living wrenching precious minerals from the lightless depths of the earth. Adventuring might have seemed lucrative or glamorous compared to this backbreaking labor -  and if you have to head back underground, this time you plan to do so armed with a real weapon instead of a miner's pick.\n\nChoose two ability boosts. One must be to Strength or Wisdom, and one is a free ability boost.\n\nYou're trained in the Survival skill and the Mining Lore skill. You gain the Terrain Expertise skill feat with underground terrain.",
         "featChoices": [
             {
                 "_className": "FeatChoice",
@@ -5812,7 +5812,7 @@
                 "source": "Background"
             }
         ],
-        "desc": "You received training from clergy in a faraway temple, who sent you out into the world to spread the faith. Although you are relatively new at this, you are always on the lookout for new places in need of your deity’s teachings and guidance. When play begins, you are riding along in a caravan making your way through sparsely populated regions of Isger, spreading the news of your faith to those who will listen.\n\nChoose two ability boosts. One must be to Constitution or Wisdom, and one is a free ability boost.\n\nYou're trained in the Diplomacy skill and the Scribing Lore skill. You gain the Group Impression skill feat.",
+        "desc": "You received training from clergy in a faraway temple, who sent you out into the world to spread the faith. Although you are relatively new at this, you are always on the lookout for new places in need of your deity's teachings and guidance. When play begins, you are riding along in a caravan making your way through sparsely populated regions of Isger, spreading the news of your faith to those who will listen.\n\nChoose two ability boosts. One must be to Constitution or Wisdom, and one is a free ability boost.\n\nYou're trained in the Diplomacy skill and the Scribing Lore skill. You gain the Group Impression skill feat.",
         "featChoices": [
             {
                 "_className": "FeatChoice",
@@ -5879,7 +5879,7 @@
                 "source": "Background"
             }
         ],
-        "desc": "Whether you sought citizenship or simply needed a steady paycheck, you spent some of your time as a paid mercenary in the armed forces of Molthune, where you fought against Molthune’s enemies such as Nirmathas or the Ironfang Legion. Alternatively, you might have worked at sea, protecting Molthune’s military and trading ships against pirates on Lake Encarthan.\n\nChoose two ability boosts. One must be to Constitution or Strength, and one is a free ability boost.\n\nYou're trained in the Athletics skill and the Mercenary Lore skill. You gain the Experienced Professional skill feat.",
+        "desc": "Whether you sought citizenship or simply needed a steady paycheck, you spent some of your time as a paid mercenary in the armed forces of Molthune, where you fought against Molthune's enemies such as Nirmathas or the Ironfang Legion. Alternatively, you might have worked at sea, protecting Molthune's military and trading ships against pirates on Lake Encarthan.\n\nChoose two ability boosts. One must be to Constitution or Strength, and one is a free ability boost.\n\nYou're trained in the Athletics skill and the Mercenary Lore skill. You gain the Experienced Professional skill feat.",
         "featChoices": [
             {
                 "_className": "FeatChoice",
@@ -6151,7 +6151,7 @@
                 "source": "Background"
             }
         ],
-        "desc": "To the common folk, the life of a noble seems one of idyllic luxury, but growing up as a noble or member of the aspiring gentry, you know the reality: a noble’s lot is obligation and intrigue. Whether you seek to escape your duties by adventuring or to better your station, you have traded silks and pageantry for an adventurer’s life.\n\nChoose two ability boosts. One must be to Intelligence or Charisma, and one is a free ability boost.\n\nYou're trained in the Society skill and the Genealogy Lore skill or Heraldry Lore skill. You gain the Courtly Graces skill feat.",
+        "desc": "To the common folk, the life of a noble seems one of idyllic luxury, but growing up as a noble or member of the aspiring gentry, you know the reality: a noble's lot is obligation and intrigue. Whether you seek to escape your duties by adventuring or to better your station, you have traded silks and pageantry for an adventurer's life.\n\nChoose two ability boosts. One must be to Intelligence or Charisma, and one is a free ability boost.\n\nYou're trained in the Society skill and the Genealogy Lore skill or Heraldry Lore skill. You gain the Courtly Graces skill feat.",
         "featChoices": [
             {
                 "_className": "FeatChoice",
@@ -6287,7 +6287,7 @@
                 "source": "Background"
             }
         ],
-        "desc": "Your apprenticeship in one of Oenopion’s unorthodox arcane and alchemical academies instilled in you a deep reservoir of mostly reliable esoteric knowledge, not to mention a deep resentment born of countless hours spent mucking ooze pens and feeding helpless creatures to ravenous, belching jellies and gelatinous puddings.\n\nChoose two ability boosts. One must be to Constitution or Intelligence, and one is a free ability boost.\n\nYou're trained in the Crafting skill and the Ooze Lore skill. You gain the Dubious Knowledge skill feat.",
+        "desc": "Your apprenticeship in one of Oenopion's unorthodox arcane and alchemical academies instilled in you a deep reservoir of mostly reliable esoteric knowledge, not to mention a deep resentment born of countless hours spent mucking ooze pens and feeding helpless creatures to ravenous, belching jellies and gelatinous puddings.\n\nChoose two ability boosts. One must be to Constitution or Intelligence, and one is a free ability boost.\n\nYou're trained in the Crafting skill and the Ooze Lore skill. You gain the Dubious Knowledge skill feat.",
         "featChoices": [
             {
                 "_className": "FeatChoice",
@@ -6355,7 +6355,7 @@
                 "source": "Background"
             }
         ],
-        "desc": "Oprak doesn’t share the secrets of the Onyx Vault with many, but you are one of the lucky few to be permitted into the heart of the nation. You have traveled the extradimensional paths of the Stone Roads and traded goods across a wide variety of lands. You’ve learned to step lively in foreign markets of all types.\n\nChoose two ability boosts. One must be to Dexterity or Charisma, and one is a free ability boost.\n\nYou're trained in the Society skill and the Mercantile Lore skill. You gain the Multilingual skill feat.",
+        "desc": "Oprak doesn't share the secrets of the Onyx Vault with many, but you are one of the lucky few to be permitted into the heart of the nation. You have traveled the extradimensional paths of the Stone Roads and traded goods across a wide variety of lands. You've learned to step lively in foreign markets of all types.\n\nChoose two ability boosts. One must be to Dexterity or Charisma, and one is a free ability boost.\n\nYou're trained in the Society skill and the Mercantile Lore skill. You gain the Multilingual skill feat.",
         "featChoices": [
             {
                 "_className": "FeatChoice",
@@ -6423,7 +6423,7 @@
                 "source": "Background"
             }
         ],
-        "desc": "Whether you’re a fascinated outsider or a local proud of your nation’s storied past, you’re a devoted student of Osirion’s history. You might be a traveling professor, a member of a society like the Pathfinders or the Esoteric Order of the Palatine Eye, or even a simple tomb robber cashing in on the glories of the past.\n\nChoose two ability boosts. One must be to Constitution or Intelligence, and one is a free ability boost.\n\nYou're trained in the Occultism skill and the Ancient Osirion Lore skill. You gain the Oddity Identification skill feat.",
+        "desc": "Whether you're a fascinated outsider or a local proud of your nation's storied past, you're a devoted student of Osirion's history. You might be a traveling professor, a member of a society like the Pathfinders or the Esoteric Order of the Palatine Eye, or even a simple tomb robber cashing in on the glories of the past.\n\nChoose two ability boosts. One must be to Constitution or Intelligence, and one is a free ability boost.\n\nYou're trained in the Occultism skill and the Ancient Osirion Lore skill. You gain the Oddity Identification skill feat.",
         "featChoices": [
             {
                 "_className": "FeatChoice",
@@ -6491,7 +6491,7 @@
                 "source": "Background"
             }
         ],
-        "desc": "You’ve never been to Breachill, nor do you have roots in the town, but as chance has it you find yourself visiting. You might be here traveling with a friend, visiting an old acquaintance, or merely here to see a new part of the world. Before coming to town, though, you spent many years living with an ancestry other than your own, and your diverse childhood has left you with an open mind and a curious nature.\n\nYou’re excited to meet new people and cultures, and answering the Call for Heroes seems to be an interesting way to do so.\n\nChoose two ability boosts. One must be to Constitution or Intelligence, and one is a free ability boost.\n\nYou're trained in the Diplomacy skill and a Lore skill thematically associated with the members of the ancestry you grew up with: Dwarf, Elf, Gnome, Goblin, or Halfling. You gain the Hobnobber skill feat.",
+        "desc": "You've never been to Breachill, nor do you have roots in the town, but as chance has it you find yourself visiting. You might be here traveling with a friend, visiting an old acquaintance, or merely here to see a new part of the world. Before coming to town, though, you spent many years living with an ancestry other than your own, and your diverse childhood has left you with an open mind and a curious nature.\n\nYou're excited to meet new people and cultures, and answering the Call for Heroes seems to be an interesting way to do so.\n\nChoose two ability boosts. One must be to Constitution or Intelligence, and one is a free ability boost.\n\nYou're trained in the Diplomacy skill and a Lore skill thematically associated with the members of the ancestry you grew up with: Dwarf, Elf, Gnome, Goblin, or Halfling. You gain the Hobnobber skill feat.",
         "featChoices": [
             {
                 "_className": "FeatChoice",
@@ -6559,7 +6559,7 @@
                 "source": "Background"
             }
         ],
-        "desc": "You’ve long wanted to join the adventurous Pathfinder Society. You have taken up the dangerous life of an adventurer in hopes of earning a spot among the Pathfinders.\n\nChoose two ability boosts. One must be to Constitution or Intelligence, and one is a free ability boost.\n\nYou're trained in the Society skill and the Pathfinder Society Lore skill. You gain the Additional Lore skill feat.",
+        "desc": "You've long wanted to join the adventurous Pathfinder Society. You have taken up the dangerous life of an adventurer in hopes of earning a spot among the Pathfinders.\n\nChoose two ability boosts. One must be to Constitution or Intelligence, and one is a free ability boost.\n\nYou're trained in the Society skill and the Pathfinder Society Lore skill. You gain the Additional Lore skill feat.",
         "featChoices": [
             {
                 "_className": "FeatChoice",
@@ -6627,7 +6627,7 @@
                 "source": "Background"
             }
         ],
-        "desc": "You aspire to perfect your body and mind in the tradition of Jalmeray’s Houses of Perfection, honing your acrobatic skills and mental faculties in preparation for a lifetime pushing the edge of what most consider possible.\n\nChoose two ability boosts. One must be to Dexterity or Wisdom, and one is a free ability boost.\n\nYou're trained in the Acrobatics skill and the Warfare Lore skill. You gain the Cat Fall skill feat.",
+        "desc": "You aspire to perfect your body and mind in the tradition of Jalmeray's Houses of Perfection, honing your acrobatic skills and mental faculties in preparation for a lifetime pushing the edge of what most consider possible.\n\nChoose two ability boosts. One must be to Dexterity or Wisdom, and one is a free ability boost.\n\nYou're trained in the Acrobatics skill and the Warfare Lore skill. You gain the Cat Fall skill feat.",
         "featChoices": [
             {
                 "_className": "FeatChoice",
@@ -6695,7 +6695,7 @@
                 "source": "Background"
             }
         ],
-        "desc": "You were forced into service as a sailor against your will. Perhaps you were punished for a crime, were drafted into military service, are repaying a debt, or simply were abducted. Though you were initially trained as a simple deckhand, you may have subsequently studied a trade under one of the vessel’s specialists.\n\nChoose two ability boosts. One must be to Strength or Wisdom, and one is a free ability boost.\n\nYou're trained in the Society skill and the Sailing Lore skill. You gain the Experienced Professional skill feat.",
+        "desc": "You were forced into service as a sailor against your will. Perhaps you were punished for a crime, were drafted into military service, are repaying a debt, or simply were abducted. Though you were initially trained as a simple deckhand, you may have subsequently studied a trade under one of the vessel's specialists.\n\nChoose two ability boosts. One must be to Strength or Wisdom, and one is a free ability boost.\n\nYou're trained in the Society skill and the Sailing Lore skill. You gain the Experienced Professional skill feat.",
         "featChoices": [
             {
                 "_className": "FeatChoice",
@@ -6830,7 +6830,7 @@
                 "source": "Background"
             }
         ],
-        "desc": "Whether in Katapesh or one of the bustling markets along the Path of Salt, you’ve spent enough time buying and selling ancient or unusual items to give you an instinctive ability to quickly sort valuable trinkets from worthless baubles.\n\nChoose two ability boosts. One must be to Intelligence or Wisdom, and one is a free ability boost.\n\nYou're trained in the Arcana skill and the Mercantile Lore skill. You gain the Quick Identification skill feat.",
+        "desc": "Whether in Katapesh or one of the bustling markets along the Path of Salt, you've spent enough time buying and selling ancient or unusual items to give you an instinctive ability to quickly sort valuable trinkets from worthless baubles.\n\nChoose two ability boosts. One must be to Intelligence or Wisdom, and one is a free ability boost.\n\nYou're trained in the Arcana skill and the Mercantile Lore skill. You gain the Quick Identification skill feat.",
         "featChoices": [
             {
                 "_className": "FeatChoice",
@@ -6962,7 +6962,7 @@
                 "source": "Background"
             }
         ],
-        "desc": "Whether in a monastery, a religious household, or just as part of your everyday life, your upbringing was steeped in the traditions of a faith or philosophy. You might remain committed or you may have turned from your childhood creed, but your skills are still founded in your devotion.\n\nChoose two ability boosts. One boost must be to an ability specified in the Divine Ability entry for your deity, and one is a free ability boost.\n\nYou’re trained in your deity’s associated skill, and you gain Assurance with that skill. You gain a Lore skill with a subcategory associated with your deity (Abadar Lore, for instance).",
+        "desc": "Whether in a monastery, a religious household, or just as part of your everyday life, your upbringing was steeped in the traditions of a faith or philosophy. You might remain committed or you may have turned from your childhood creed, but your skills are still founded in your devotion.\n\nChoose two ability boosts. One boost must be to an ability specified in the Divine Ability entry for your deity, and one is a free ability boost.\n\nYou're trained in your deity's associated skill, and you gain Assurance with that skill. You gain a Lore skill with a subcategory associated with your deity (Abadar Lore, for instance).",
         "featChoices": [
             {
                 "_className": "FeatChoice",
@@ -7137,7 +7137,7 @@
     {
         "_className": "Background",
         "name": "Reputation Seeker",
-        "desc": "You’re likely from Breachill, but unlike the Local Scion, your family has no notable legacy in the area. You might not even have much of a family at all to call your own, and could be an orphan. You’ve seen so many people make names for themselves that you set out on your own and spent some time abroad in the jungles or deserts of Garund or in the upper reaches of the Darklands—regions that proved too dangerous to remain in for long on your own. You returned home with more caution and knowledge of the world beyond Breachill’s borders, but still determined to win fame.\n\nYou’ve decided that joining an adventuring group would be the best way to secure aid in your quest to build your own reputation, and are attending the Call for Heroes to find such allies.\n\nChoose two ability boosts. One must be to Dexterity or Intelligence, and one is a free ability boost.\n\nYou're trained in the Survival skill and the Darklands, Desert, or Jungle Lore skill. You gain the Terrain Expertise skill feat (underground if you have Darklands Lore, desert if you have Desert Lore, or forest if you have Jungle Lore).",
+        "desc": "You're likely from Breachill, but unlike the Local Scion, your family has no notable legacy in the area. You might not even have much of a family at all to call your own, and could be an orphan. You've seen so many people make names for themselves that you set out on your own and spent some time abroad in the jungles or deserts of Garund or in the upper reaches of the Darklands - regions that proved too dangerous to remain in for long on your own. You returned home with more caution and knowledge of the world beyond Breachill's borders, but still determined to win fame.\n\nYou've decided that joining an adventuring group would be the best way to secure aid in your quest to build your own reputation, and are attending the Call for Heroes to find such allies.\n\nChoose two ability boosts. One must be to Dexterity or Intelligence, and one is a free ability boost.\n\nYou're trained in the Survival skill and the Darklands, Desert, or Jungle Lore skill. You gain the Terrain Expertise skill feat (underground if you have Darklands Lore, desert if you have Desert Lore, or forest if you have Jungle Lore).",
         "subTypes": true
     },
     {
@@ -7162,7 +7162,7 @@
                 "source": "Background"
             }
         ],
-        "desc": "You’re likely from Breachill, but unlike the Local Scion, your family has no notable legacy in the area. You might not even have much of a family at all to call your own, and could be an orphan. You’ve seen so many people make names for themselves that you set out on your own and spent some time abroad in the jungles or deserts of Garund or in the upper reaches of the Darklands—regions that proved too dangerous to remain in for long on your own. You returned home with more caution and knowledge of the world beyond Breachill’s borders, but still determined to win fame.\n\nYou’ve decided that joining an adventuring group would be the best way to secure aid in your quest to build your own reputation, and are attending the Call for Heroes to find such allies.\n\nChoose two ability boosts. One must be to Dexterity or Intelligence, and one is a free ability boost.\n\nYou're trained in the Survival skill and the Darklands Lore skill. You gain the Terrain Expertise skill feat (underground).",
+        "desc": "You're likely from Breachill, but unlike the Local Scion, your family has no notable legacy in the area. You might not even have much of a family at all to call your own, and could be an orphan. You've seen so many people make names for themselves that you set out on your own and spent some time abroad in the jungles or deserts of Garund or in the upper reaches of the Darklands - regions that proved too dangerous to remain in for long on your own. You returned home with more caution and knowledge of the world beyond Breachill's borders, but still determined to win fame.\n\nYou've decided that joining an adventuring group would be the best way to secure aid in your quest to build your own reputation, and are attending the Call for Heroes to find such allies.\n\nChoose two ability boosts. One must be to Dexterity or Intelligence, and one is a free ability boost.\n\nYou're trained in the Survival skill and the Darklands Lore skill. You gain the Terrain Expertise skill feat (underground).",
         "featChoices": [
             {
                 "_className": "FeatChoice",
@@ -7231,7 +7231,7 @@
                 "source": "Background"
             }
         ],
-        "desc": "You’re likely from Breachill, but unlike the Local Scion, your family has no notable legacy in the area. You might not even have much of a family at all to call your own, and could be an orphan. You’ve seen so many people make names for themselves that you set out on your own and spent some time abroad in the jungles or deserts of Garund or in the upper reaches of the Darklands—regions that proved too dangerous to remain in for long on your own. You returned home with more caution and knowledge of the world beyond Breachill’s borders, but still determined to win fame.\n\nYou’ve decided that joining an adventuring group would be the best way to secure aid in your quest to build your own reputation, and are attending the Call for Heroes to find such allies.\n\nChoose two ability boosts. One must be to Dexterity or Intelligence, and one is a free ability boost.\n\nYou're trained in the Survival skill and the Desert Lore skill. You gain the Terrain Expertise skill feat (desert).",
+        "desc": "You're likely from Breachill, but unlike the Local Scion, your family has no notable legacy in the area. You might not even have much of a family at all to call your own, and could be an orphan. You've seen so many people make names for themselves that you set out on your own and spent some time abroad in the jungles or deserts of Garund or in the upper reaches of the Darklands - regions that proved too dangerous to remain in for long on your own. You returned home with more caution and knowledge of the world beyond Breachill's borders, but still determined to win fame.\n\nYou've decided that joining an adventuring group would be the best way to secure aid in your quest to build your own reputation, and are attending the Call for Heroes to find such allies.\n\nChoose two ability boosts. One must be to Dexterity or Intelligence, and one is a free ability boost.\n\nYou're trained in the Survival skill and the Desert Lore skill. You gain the Terrain Expertise skill feat (desert).",
         "featChoices": [
             {
                 "_className": "FeatChoice",
@@ -7300,7 +7300,7 @@
                 "source": "Background"
             }
         ],
-        "desc": "You’re likely from Breachill, but unlike the Local Scion, your family has no notable legacy in the area. You might not even have much of a family at all to call your own, and could be an orphan. You’ve seen so many people make names for themselves that you set out on your own and spent some time abroad in the jungles or deserts of Garund or in the upper reaches of the Darklands—regions that proved too dangerous to remain in for long on your own. You returned home with more caution and knowledge of the world beyond Breachill’s borders, but still determined to win fame.\n\nYou’ve decided that joining an adventuring group would be the best way to secure aid in your quest to build your own reputation, and are attending the Call for Heroes to find such allies.\n\nChoose two ability boosts. One must be to Dexterity or Intelligence, and one is a free ability boost.\n\nYou're trained in the Survival skill and the Jungle Lore skill. You gain the Terrain Expertise skill feat (forest).",
+        "desc": "You're likely from Breachill, but unlike the Local Scion, your family has no notable legacy in the area. You might not even have much of a family at all to call your own, and could be an orphan. You've seen so many people make names for themselves that you set out on your own and spent some time abroad in the jungles or deserts of Garund or in the upper reaches of the Darklands - regions that proved too dangerous to remain in for long on your own. You returned home with more caution and knowledge of the world beyond Breachill's borders, but still determined to win fame.\n\nYou've decided that joining an adventuring group would be the best way to secure aid in your quest to build your own reputation, and are attending the Call for Heroes to find such allies.\n\nChoose two ability boosts. One must be to Dexterity or Intelligence, and one is a free ability boost.\n\nYou're trained in the Survival skill and the Jungle Lore skill. You gain the Terrain Expertise skill feat (forest).",
         "featChoices": [
             {
                 "_className": "FeatChoice",
@@ -7369,7 +7369,7 @@
                 "source": "Background"
             }
         ],
-        "desc": "You aren’t from Breachill yourself—you might not even be from Isger or Avistan at all. You’ve lived a hard life, in any event. You have often had to make tough decisions, and have developed a knack for understanding how things work (and the best way to take them apart) that has helped you support yourself. Recently you discovered that an ancestor was from the town of Breachill and had a modest career as an adventurer. You can’t help but wonder if you would have had an easier life if you’d grown up there instead, and have decided to seek out this small town to learn more about it.\n\nYou’ve decided to respond to the Call for Heroes to follow in your ancestor’s footsteps, either to honor their memory or accomplish the great deeds they did not.\n\nChoose two ability boosts. One must be to Dexterity or Wisdom, and one is a free ability boost.\n\nYou're trained in the Thievery skill and the Engineering Lore skill. You gain the Pickpocket skill feat.",
+        "desc": "You aren't from Breachill yourself - you might not even be from Isger or Avistan at all. You've lived a hard life, in any event. You have often had to make tough decisions, and have developed a knack for understanding how things work (and the best way to take them apart) that has helped you support yourself. Recently you discovered that an ancestor was from the town of Breachill and had a modest career as an adventurer. You can't help but wonder if you would have had an easier life if you'd grown up there instead, and have decided to seek out this small town to learn more about it.\n\nYou've decided to respond to the Call for Heroes to follow in your ancestor's footsteps, either to honor their memory or accomplish the great deeds they did not.\n\nChoose two ability boosts. One must be to Dexterity or Wisdom, and one is a free ability boost.\n\nYou're trained in the Thievery skill and the Engineering Lore skill. You gain the Pickpocket skill feat.",
         "featChoices": [
             {
                 "_className": "FeatChoice",
@@ -7436,7 +7436,7 @@
                 "source": "Background"
             }
         ],
-        "desc": "You’ve worked as a roustabout to erect tents and set up rigging for acrobatic performances; you’ve sometimes even aided aerialists and acrobats in their death-defying training. Even though your work is often done before the crowds arrive, you know your skills contribute to the success and safety of the circus. Mistress Dusklight treats her roustabouts as little more than slaves, and you’ve resolved to join a company where your expertise is appreciated.\n\nChoose two ability boosts. One must be to Strength or Dexterity, and one is a free ability boost.\n\nYou're trained in the Athletics skill and the Circus Lore skill. You gain the Combat Climber skill feat.",
+        "desc": "You've worked as a roustabout to erect tents and set up rigging for acrobatic performances; you've sometimes even aided aerialists and acrobats in their death-defying training. Even though your work is often done before the crowds arrive, you know your skills contribute to the success and safety of the circus. Mistress Dusklight treats her roustabouts as little more than slaves, and you've resolved to join a company where your expertise is appreciated.\n\nChoose two ability boosts. One must be to Strength or Dexterity, and one is a free ability boost.\n\nYou're trained in the Athletics skill and the Circus Lore skill. You gain the Combat Climber skill feat.",
         "featChoices": [
             {
                 "_className": "FeatChoice",
@@ -7571,7 +7571,7 @@
                 "source": "Background"
             }
         ],
-        "desc": "You grew up among the southern houses of Brevoy in old Rostland. You’re accustomed to arguing from a position of underappreciated worth.\n\nChoose two ability boosts. One must be to Constitution or Charisma, and one is a free ability boost.\n\nYou're trained in the Diplomacy skill and the Politics Lore skill. You gain the Group Impression skill feat.",
+        "desc": "You grew up among the southern houses of Brevoy in old Rostland. You're accustomed to arguing from a position of underappreciated worth.\n\nChoose two ability boosts. One must be to Constitution or Charisma, and one is a free ability boost.\n\nYou're trained in the Diplomacy skill and the Politics Lore skill. You gain the Group Impression skill feat.",
         "featChoices": [
             {
                 "_className": "FeatChoice",
@@ -7639,7 +7639,7 @@
                 "source": "Background"
             }
         ],
-        "desc": "You heard the call of the sea from a young age. Perhaps you signed onto a merchant’s vessel, joined the navy, or even fell in with a crew of pirates and scalawags.\n\nChoose two ability boosts. One must be to Strength or Dexterity, and one is a free ability boost.\n\nYou're trained in the Athletics skill and the Sailing Lore skill. You gain the Underwater Marauder skill feat.",
+        "desc": "You heard the call of the sea from a young age. Perhaps you signed onto a merchant's vessel, joined the navy, or even fell in with a crew of pirates and scalawags.\n\nChoose two ability boosts. One must be to Strength or Dexterity, and one is a free ability boost.\n\nYou're trained in the Athletics skill and the Sailing Lore skill. You gain the Underwater Marauder skill feat.",
         "featChoices": [
             {
                 "_className": "FeatChoice",
@@ -7706,7 +7706,7 @@
                 "source": "Background"
             }
         ],
-        "desc": "Whether you trace your heritage to lost Sarkoris or are a crusader trying to atone for past fanatics’ wrongs, you seek to liberate the Sarkorian homeland from the demons who have defiled it.\n\nChoose two ability boosts. One must be to Constitution or Wisdom, and one is a free ability boost.\n\nYou're trained in the Medicine skill and the Abyssal Lore skill. You gain the Battle Medicine skill feat.",
+        "desc": "Whether you trace your heritage to lost Sarkoris or are a crusader trying to atone for past fanatics' wrongs, you seek to liberate the Sarkorian homeland from the demons who have defiled it.\n\nChoose two ability boosts. One must be to Constitution or Wisdom, and one is a free ability boost.\n\nYou're trained in the Medicine skill and the Abyssal Lore skill. You gain the Battle Medicine skill feat.",
         "featChoices": [
             {
                 "_className": "FeatChoice",
@@ -7823,7 +7823,7 @@
     {
         "_className": "Background",
         "name": "Scholar",
-        "desc": "You have a knack for learning, and sequestered yourself from the outside world to learn all you could. You read about so many wondrous places and things in your books, and always dreamed about one day seeing the real things. Eventually, that curiosity led you to leave your studies and become an adventurer.\n\nChoose two ability boosts. One must be to Intelligence or Wisdom, and one is a free ability boost.\n\nYou’re trained in your choice of the Arcana, Nature, Occultism, or Religion skill, and the Academia Lore skill. You gain the Assurance skill feat in your chosen skill.",
+        "desc": "You have a knack for learning, and sequestered yourself from the outside world to learn all you could. You read about so many wondrous places and things in your books, and always dreamed about one day seeing the real things. Eventually, that curiosity led you to leave your studies and become an adventurer.\n\nChoose two ability boosts. One must be to Intelligence or Wisdom, and one is a free ability boost.\n\nYou're trained in your choice of the Arcana, Nature, Occultism, or Religion skill, and the Academia Lore skill. You gain the Assurance skill feat in your chosen skill.",
         "subTypes": true
     },
     {
@@ -7848,7 +7848,7 @@
                 "source": "Background"
             }
         ],
-        "desc": "You have a knack for learning, and sequestered yourself from the outside world to learn all you could. You read about so many wondrous places and things in your books, and always dreamed about one day seeing the real things. Eventually, that curiosity led you to leave your studies and become an adventurer.\n\nChoose two ability boosts. One must be to Intelligence or Wisdom, and one is a free ability boost.\n\nYou’re trained in the Arcana, skill and the Academia Lore skill. You gain the Assurance skill feat in Arcana.",
+        "desc": "You have a knack for learning, and sequestered yourself from the outside world to learn all you could. You read about so many wondrous places and things in your books, and always dreamed about one day seeing the real things. Eventually, that curiosity led you to leave your studies and become an adventurer.\n\nChoose two ability boosts. One must be to Intelligence or Wisdom, and one is a free ability boost.\n\nYou're trained in the Arcana, skill and the Academia Lore skill. You gain the Assurance skill feat in Arcana.",
         "featChoices": [
             {
                 "_className": "FeatChoice",
@@ -7917,7 +7917,7 @@
                 "source": "Background"
             }
         ],
-        "desc": "You have a knack for learning, and sequestered yourself from the outside world to learn all you could. You read about so many wondrous places and things in your books, and always dreamed about one day seeing the real things. Eventually, that curiosity led you to leave your studies and become an adventurer.\n\nChoose two ability boosts. One must be to Intelligence or Wisdom, and one is a free ability boost.\n\nYou’re trained in the Nature, skill and the Academia Lore skill. You gain the Assurance skill feat in Nature.",
+        "desc": "You have a knack for learning, and sequestered yourself from the outside world to learn all you could. You read about so many wondrous places and things in your books, and always dreamed about one day seeing the real things. Eventually, that curiosity led you to leave your studies and become an adventurer.\n\nChoose two ability boosts. One must be to Intelligence or Wisdom, and one is a free ability boost.\n\nYou're trained in the Nature, skill and the Academia Lore skill. You gain the Assurance skill feat in Nature.",
         "featChoices": [
             {
                 "_className": "FeatChoice",
@@ -7986,7 +7986,7 @@
                 "source": "Background"
             }
         ],
-        "desc": "You have a knack for learning, and sequestered yourself from the outside world to learn all you could. You read about so many wondrous places and things in your books, and always dreamed about one day seeing the real things. Eventually, that curiosity led you to leave your studies and become an adventurer.\n\nChoose two ability boosts. One must be to Intelligence or Wisdom, and one is a free ability boost.\n\nYou’re trained in the Occultism, skill and the Academia Lore skill. You gain the Assurance skill feat in Occultism.",
+        "desc": "You have a knack for learning, and sequestered yourself from the outside world to learn all you could. You read about so many wondrous places and things in your books, and always dreamed about one day seeing the real things. Eventually, that curiosity led you to leave your studies and become an adventurer.\n\nChoose two ability boosts. One must be to Intelligence or Wisdom, and one is a free ability boost.\n\nYou're trained in the Occultism, skill and the Academia Lore skill. You gain the Assurance skill feat in Occultism.",
         "featChoices": [
             {
                 "_className": "FeatChoice",
@@ -8055,7 +8055,7 @@
                 "source": "Background"
             }
         ],
-        "desc": "You have a knack for learning, and sequestered yourself from the outside world to learn all you could. You read about so many wondrous places and things in your books, and always dreamed about one day seeing the real things. Eventually, that curiosity led you to leave your studies and become an adventurer.\n\nChoose two ability boosts. One must be to Intelligence or Wisdom, and one is a free ability boost.\n\nYou’re trained in the Religion, skill and the Academia Lore skill. You gain the Assurance skill feat in Religion.",
+        "desc": "You have a knack for learning, and sequestered yourself from the outside world to learn all you could. You read about so many wondrous places and things in your books, and always dreamed about one day seeing the real things. Eventually, that curiosity led you to leave your studies and become an adventurer.\n\nChoose two ability boosts. One must be to Intelligence or Wisdom, and one is a free ability boost.\n\nYou're trained in the Religion, skill and the Academia Lore skill. You gain the Assurance skill feat in Religion.",
         "featChoices": [
             {
                 "_className": "FeatChoice",
@@ -8124,7 +8124,7 @@
                 "source": "Background"
             }
         ],
-        "desc": "You’re fascinated by the lost Azlanti Empire and have dedicated yourself to seeking out and studying every broken artifact or scrap of knowledge that remains, whether as an academic pursuit or simply for the joy of treasure hunting.\n\nChoose two ability boosts. One must be to Intelligence or Charisma, and one is a free ability boost.\n\nYou're trained in the Arcana skill and the Azlant Lore skill. You gain the Quick Identification skill feat.",
+        "desc": "You're fascinated by the lost Azlanti Empire and have dedicated yourself to seeking out and studying every broken artifact or scrap of knowledge that remains, whether as an academic pursuit or simply for the joy of treasure hunting.\n\nChoose two ability boosts. One must be to Intelligence or Charisma, and one is a free ability boost.\n\nYou're trained in the Arcana skill and the Azlant Lore skill. You gain the Quick Identification skill feat.",
         "featChoices": [
             {
                 "_className": "FeatChoice",
@@ -8260,7 +8260,7 @@
                 "source": "Background"
             }
         ],
-        "desc": "You’re from Rahadoum, where the Laws of Mortality taught you to reject the gods, yet you’ve seen firsthand how dangerous it can be to go without healing magic. As a result, you’ve thrown yourself into the study of medicine, so you can save lives without saving souls.\n\nChoose two ability boosts. One must be to Wisdom or Dexterity, and one is a free ability boost.\n\nYou're trained in the Medicine skill and the Anatomy Lore skill. You gain the Battle Medicine skill feat.",
+        "desc": "You're from Rahadoum, where the Laws of Mortality taught you to reject the gods, yet you've seen firsthand how dangerous it can be to go without healing magic. As a result, you've thrown yourself into the study of medicine, so you can save lives without saving souls.\n\nChoose two ability boosts. One must be to Wisdom or Dexterity, and one is a free ability boost.\n\nYou're trained in the Medicine skill and the Anatomy Lore skill. You gain the Battle Medicine skill feat.",
         "featChoices": [
             {
                 "_className": "FeatChoice",
@@ -8396,7 +8396,7 @@
                 "source": "Background"
             }
         ],
-        "desc": "You are from Nidal, and regardless of your personal values, Zon-Kuthon has a claim on your soul due to an ancient pact. The Midnight Lord’s unsettling influence is bred deep into your bones.\n\nChoose two ability boosts. One must be to Intelligence or Wisdom, and one is a free ability boost.\n\nYou're trained in the Intimidation skill and the Shadow Plane Lore skill. You gain the Quick Coercion skill feat.",
+        "desc": "You are from Nidal, and regardless of your personal values, Zon-Kuthon has a claim on your soul due to an ancient pact. The Midnight Lord's unsettling influence is bred deep into your bones.\n\nChoose two ability boosts. One must be to Intelligence or Wisdom, and one is a free ability boost.\n\nYou're trained in the Intimidation skill and the Shadow Plane Lore skill. You gain the Quick Coercion skill feat.",
         "featChoices": [
             {
                 "_className": "FeatChoice",
@@ -8532,7 +8532,7 @@
                 "source": "Background"
             }
         ],
-        "desc": "You’ve dedicated your life to unraveling the secrets of the ancient Shory Empire, either through meticulous research or by traveling into dangerous and distant ruins to track down long- lost artifacts.\n\nChoose two ability boosts. One must be to Dexterity or Intelligence, and one is a free ability boost.\n\nYou're trained in the Crafting skill and the Shory Lore skill. You gain the Specialty Crafting skill feat.",
+        "desc": "You've dedicated your life to unraveling the secrets of the ancient Shory Empire, either through meticulous research or by traveling into dangerous and distant ruins to track down long- lost artifacts.\n\nChoose two ability boosts. One must be to Dexterity or Intelligence, and one is a free ability boost.\n\nYou're trained in the Crafting skill and the Shory Lore skill. You gain the Specialty Crafting skill feat.",
         "featChoices": [
             {
                 "_className": "FeatChoice",
@@ -8600,7 +8600,7 @@
                 "source": "Background"
             }
         ],
-        "desc": "You’ve managed to eke out an existence in the storm-wracked Sodden Lands and have become an expert at scavenging food and tools.\n\nChoose two ability boosts. One must be to Constitution or Wisdom, and one is a free ability boost.\n\nYou're trained in the Survival skill and the Swamp Lore skill. You gain the Forager skill feat.",
+        "desc": "You've managed to eke out an existence in the storm-wracked Sodden Lands and have become an expert at scavenging food and tools.\n\nChoose two ability boosts. One must be to Constitution or Wisdom, and one is a free ability boost.\n\nYou're trained in the Survival skill and the Swamp Lore skill. You gain the Forager skill feat.",
         "featChoices": [
             {
                 "_className": "FeatChoice",
@@ -8736,7 +8736,7 @@
                 "source": "Background"
             }
         ],
-        "desc": "You eked out a living by picking pockets on the streets of a major city, never knowing where you’d find your next meal. While some folk adventure for the glory, you do so to survive.\n\nChoose two ability boosts. One must be to Dexterity or Constitution, and one is a free ability boost.\n\nYou're trained in the Thievery skill and a Lore skill for the city you lived in as a street urchin (such as Absalom Lore or Magnimar Lore). You gain the Pickpocket skill feat.",
+        "desc": "You eked out a living by picking pockets on the streets of a major city, never knowing where you'd find your next meal. While some folk adventure for the glory, you do so to survive.\n\nChoose two ability boosts. One must be to Dexterity or Constitution, and one is a free ability boost.\n\nYou're trained in the Thievery skill and a Lore skill for the city you lived in as a street urchin (such as Absalom Lore or Magnimar Lore). You gain the Pickpocket skill feat.",
         "featChoices": [
             {
                 "_className": "FeatChoice",
@@ -8872,7 +8872,7 @@
                 "source": "Background"
             }
         ],
-        "desc": "You left your home a few months back for a life on the road, working for one caravan company and then another, always on the lookout for a new job and a better life. Last week, you were hired by the Bort Bargith’s company in Elidir. You don’t know anyone from the company just yet, but most of its members seem to be honest merchants and traders.\n\nChoose two ability boosts. One must be to Strength or Wisdom, and one is a free ability boost.\n\nYou're trained in the Nature skill and the Mercantile Lore skill. You gain the Train Animal skill feat.",
+        "desc": "You left your home a few months back for a life on the road, working for one caravan company and then another, always on the lookout for a new job and a better life. Last week, you were hired by the Bort Bargith's company in Elidir. You don't know anyone from the company just yet, but most of its members seem to be honest merchants and traders.\n\nChoose two ability boosts. One must be to Strength or Wisdom, and one is a free ability boost.\n\nYou're trained in the Nature skill and the Mercantile Lore skill. You gain the Train Animal skill feat.",
         "featChoices": [
             {
                 "_className": "FeatChoice",
@@ -9075,7 +9075,7 @@
                 "source": "Background"
             }
         ],
-        "desc": "You believe the city-states of Thuvia should be united into one nation under the rule of your home city (most commonly Aspenthar), and you’re willing to do whatever it takes to make it happen.\n\nChoose two ability boosts. One must be to Strength or Charisma, and one is a free ability boost.\n\nYou're trained in the Intimidation skill and the Politics Lore skill. You gain the Quick Coercion skill feat.",
+        "desc": "You believe the city-states of Thuvia should be united into one nation under the rule of your home city (most commonly Aspenthar), and you're willing to do whatever it takes to make it happen.\n\nChoose two ability boosts. One must be to Strength or Charisma, and one is a free ability boost.\n\nYou're trained in the Intimidation skill and the Politics Lore skill. You gain the Quick Coercion skill feat.",
         "featChoices": [
             {
                 "_className": "FeatChoice",
@@ -9143,7 +9143,7 @@
                 "source": "Background"
             }
         ],
-        "desc": "Creating all sorts of minor inventions scratches your itch for problem-solving. Your engineering skills take a particularly creative bent, and no one know what you’ll come up with next. It might be a genius device with tremendous potential... or it might explode.\n\nChoose two ability boosts. One must be to Dexterity or Intelligence, and one is a free ability boost.\n\nYou're trained in the Crafting skill and the Engineering Lore skill. You gain the Specialty Crafting skill feat.",
+        "desc": "Creating all sorts of minor inventions scratches your itch for problem-solving. Your engineering skills take a particularly creative bent, and no one know what you'll come up with next. It might be a genius device with tremendous potential... or it might explode.\n\nChoose two ability boosts. One must be to Dexterity or Intelligence, and one is a free ability boost.\n\nYou're trained in the Crafting skill and the Engineering Lore skill. You gain the Specialty Crafting skill feat.",
         "featChoices": [
             {
                 "_className": "FeatChoice",
@@ -9206,7 +9206,7 @@
                 "source": "Background"
             }
         ],
-        "desc": "As the manifestation of Dahak was destroyed, a shard of the dragon god’s wrathful nature infused you, resulting in a violent temper, strange apocalyptic dreams, an obsession with dragon hunting, or some other touch of his influence.\n\nChoose two ability boosts. One must be to Strength or Charisma, and one is a free ability boost.\n\nYou're trained in the Athletics skill and the Dragon Lore skill. You gain the Titan Wrestler skill feat.",
+        "desc": "As the manifestation of Dahak was destroyed, a shard of the dragon god's wrathful nature infused you, resulting in a violent temper, strange apocalyptic dreams, an obsession with dragon hunting, or some other touch of his influence.\n\nChoose two ability boosts. One must be to Strength or Charisma, and one is a free ability boost.\n\nYou're trained in the Athletics skill and the Dragon Lore skill. You gain the Titan Wrestler skill feat.",
         "featChoices": [
             {
                 "_className": "FeatChoice",
@@ -9278,7 +9278,7 @@
                 "source": "Background"
             }
         ],
-        "desc": "Your experience as a ledger-keeper for one of Absalom’s trade guilds has made you a canny investor and shrewd entrepreneur.\n\nChoose two ability boosts. One must be to Intelligence or Wisdom, and one is a free ability boost.\n\nYou're trained in the Society skill and the Business Lore skill. You gain the Experienced Professional skill feat.",
+        "desc": "Your experience as a ledger-keeper for one of Absalom's trade guilds has made you a canny investor and shrewd entrepreneur.\n\nChoose two ability boosts. One must be to Intelligence or Wisdom, and one is a free ability boost.\n\nYou're trained in the Society skill and the Business Lore skill. You gain the Experienced Professional skill feat.",
         "featChoices": [
             {
                 "_className": "FeatChoice",
@@ -9346,7 +9346,7 @@
                 "source": "Background"
             }
         ],
-        "desc": "Whether you are a local or from out of town, you’ve heard rumors that Breachill’s past contains a hidden secret. Perhaps you’ve heard strange rumors that the town’s founder, Lamond Breachton, was not the hero everyone touts, or maybe your grandmother heard stories from her own grandmother that contradict the town’s accepted narrative of its establishment. In the pursuit of the truth, you’ve learned to navigate the tangles of politics, and to never take anyone’s word at face value.\n\nYou plan to join the Call for Heroes so that you can make yourself known to the council, or perhaps even ingratiating yourself to them, so you can seek the truth and eventually uncover Breachill’s secrets!\n\nChoose two ability boosts. One must be to Strength or Wisdom, and one is a free ability boost.\n\nYou're trained in the Deception skill and the Politics Lore skill. You gain the Lie to Me skill feat.",
+        "desc": "Whether you are a local or from out of town, you've heard rumors that Breachill's past contains a hidden secret. Perhaps you've heard strange rumors that the town's founder, Lamond Breachton, was not the hero everyone touts, or maybe your grandmother heard stories from her own grandmother that contradict the town's accepted narrative of its establishment. In the pursuit of the truth, you've learned to navigate the tangles of politics, and to never take anyone's word at face value.\n\nYou plan to join the Call for Heroes so that you can make yourself known to the council, or perhaps even ingratiating yourself to them, so you can seek the truth and eventually uncover Breachill's secrets!\n\nChoose two ability boosts. One must be to Strength or Wisdom, and one is a free ability boost.\n\nYou're trained in the Deception skill and the Politics Lore skill. You gain the Lie to Me skill feat.",
         "featChoices": [
             {
                 "_className": "FeatChoice",
@@ -9481,7 +9481,7 @@
                 "source": "Background"
             }
         ],
-        "desc": "You love diving and exploring the world beneath the waves, and long periods of swimming have trained you to move easily through the water. You’re also fascinated by undersea creatures and cultures—and may even have a trace of one of them in your own lineage.\n\nChoose two ability boosts. One must be to Strength or Constitution, and one is a free ability boost.\n\nYou're trained in the Athletics skill and the Ocean Lore skill. You gain the Underwater Marauder skill feat.",
+        "desc": "You love diving and exploring the world beneath the waves, and long periods of swimming have trained you to move easily through the water. You're also fascinated by undersea creatures and cultures - and may even have a trace of one of them in your own lineage.\n\nChoose two ability boosts. One must be to Strength or Constitution, and one is a free ability boost.\n\nYou're trained in the Athletics skill and the Ocean Lore skill. You gain the Underwater Marauder skill feat.",
         "featChoices": [
             {
                 "_className": "FeatChoice",
@@ -9617,7 +9617,7 @@
                 "source": "Background"
             }
         ],
-        "desc": "You have spent your youth wandering the lands of Varisia and beyond among the brightly painted wagons of a Varisian caravan. You have heard endless tales of your people’s history and lore, and have learned many songs and stories from the disparate people you have met.\n\nChoose two ability boosts. One must be to Dexterity or Charisma, and one is a free ability boost.\n\nYou're trained in the Performance skill and the Circus Lore skill. You gain the Fascinating Performance skill feat.",
+        "desc": "You have spent your youth wandering the lands of Varisia and beyond among the brightly painted wagons of a Varisian caravan. You have heard endless tales of your people's history and lore, and have learned many songs and stories from the disparate people you have met.\n\nChoose two ability boosts. One must be to Dexterity or Charisma, and one is a free ability boost.\n\nYou're trained in the Performance skill and the Circus Lore skill. You gain the Fascinating Performance skill feat.",
         "featChoices": [
             {
                 "_className": "FeatChoice",
@@ -9685,7 +9685,7 @@
                 "source": "Background"
             }
         ],
-        "desc": "You know that the only way your homeland of Vidrian can remain free from outside conquerors is by forging a strong and unified government. As such, you seek to bind your fellow citizens together through careful diplomacy and force of personality—or, if necessary, subterfuge and intrigue.\n\nChoose two ability boosts. One must be to Dexterity or Charisma, and one is a free ability boost.\n\nYou're trained in the Diplomacy skill and the Politics Lore skill. You gain the Hobnobber skill feat.",
+        "desc": "You know that the only way your homeland of Vidrian can remain free from outside conquerors is by forging a strong and unified government. As such, you seek to bind your fellow citizens together through careful diplomacy and force of personality - or, if necessary, subterfuge and intrigue.\n\nChoose two ability boosts. One must be to Dexterity or Charisma, and one is a free ability boost.\n\nYou're trained in the Diplomacy skill and the Politics Lore skill. You gain the Hobnobber skill feat.",
         "featChoices": [
             {
                 "_className": "FeatChoice",
@@ -9820,7 +9820,7 @@
                 "source": "Background"
             }
         ],
-        "desc": "Your family has long been associated with the enigmatic death cult known as the Whispering Way, which was recently responsible for the terrible devastation in the nation of Lastwall. Whether or not you have followed in their footsteps, you know many of the philosophy’s secrets.\n\nChoose two ability boosts. One must be to Intelligence or Wisdom, and one is a free ability boost.\n\nYou're trained in the Religion skill and the Undead Lore skill. You gain the Student of the Canon skill feat.",
+        "desc": "Your family has long been associated with the enigmatic death cult known as the Whispering Way, which was recently responsible for the terrible devastation in the nation of Lastwall. Whether or not you have followed in their footsteps, you know many of the philosophy's secrets.\n\nChoose two ability boosts. One must be to Intelligence or Wisdom, and one is a free ability boost.\n\nYou're trained in the Religion skill and the Undead Lore skill. You gain the Student of the Canon skill feat.",
         "featChoices": [
             {
                 "_className": "FeatChoice",
@@ -9956,7 +9956,7 @@
                 "source": "Background"
             }
         ],
-        "desc": "Your or one of your ancestors hails from Irrisen, and some spark of the icy region’s magic has manifested itself within your bones. The blood of Baba Yaga’s legacy runs in your veins, and you are at one with the mysteries and dangers of the frozen land.\n\nChoose two ability boosts. One must be to Constitution or Charisma, and one is a free ability boost.\n\nYou're trained in the Arcana skill and the Weather Lore skill. You gain the Arcane Sense skill feat.",
+        "desc": "Your or one of your ancestors hails from Irrisen, and some spark of the icy region's magic has manifested itself within your bones. The blood of Baba Yaga's legacy runs in your veins, and you are at one with the mysteries and dangers of the frozen land.\n\nChoose two ability boosts. One must be to Constitution or Charisma, and one is a free ability boost.\n\nYou're trained in the Arcana skill and the Weather Lore skill. You gain the Arcane Sense skill feat.",
         "featChoices": [
             {
                 "_className": "FeatChoice",

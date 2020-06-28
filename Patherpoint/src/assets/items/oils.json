@@ -7,7 +7,7 @@
         "price": 300,
         "bulk": "L",
         "usage": "held in 1 hand",
-        "desc": "A shimmering liquid, nectar of purification is often stored in bottles similar to those used for vinegar. This oil casts a 1st-level purify food and drink spell over any food or drink onto which it’s poured. The nectar evaporates as it takes effect, leaving the taste and texture of the food or drink unaltered.",
+        "desc": "A shimmering liquid, nectar of purification is often stored in bottles similar to those used for vinegar. This oil casts a 1st-level purify food and drink spell over any food or drink onto which it's poured. The nectar evaporates as it takes effect, leaving the taste and texture of the food or drink unaltered.",
         "actions": "1A",
         "activationType": "Interact",
         "castSpells": [
@@ -64,7 +64,7 @@
         "potencyEffect": 1,
         "strikingEffect": 1,
         "resilientEffect": 1,
-        "desc": "When you apply this thick, viscous oil to a non-magical weapon or suit of armor, that item immediately becomes magically potent. If the item is a weapon, it temporarily becomes a +1 striking weapon, or, if it’s armor, it temporarily becomes +1 resilient armor. This lasts for 1 minute.",
+        "desc": "When you apply this thick, viscous oil to a non-magical weapon or suit of armor, that item immediately becomes magically potent. If the item is a weapon, it temporarily becomes a +1 striking weapon, or, if it's armor, it temporarily becomes +1 resilient armor. This lasts for 1 minute.",
         "actions": "1A",
         "activationType": "Interact",
         "traits": [
@@ -184,7 +184,7 @@
         "price": 7000,
         "usage": "held in 1 hand",
         "inputRequired": "Restore 3d8+10 Hit Points to a creature within reach.",
-        "desc": "This luminescent paste is made from the powdered bones of a long-forgotten saint, mixed with herbs and blessed by a priest. It typically comes in a tightly sealed, palm-sized dish etched with holy symbols. Applying saints’ balm to yourself or a creature within reach restores 3d8+10 Hit Points to the creature to which it’s applied. ",
+        "desc": "This luminescent paste is made from the powdered bones of a long-forgotten saint, mixed with herbs and blessed by a priest. It typically comes in a tightly sealed, palm-sized dish etched with holy symbols. Applying saints' balm to yourself or a creature within reach restores 3d8+10 Hit Points to the creature to which it's applied. ",
         "actions": "1A",
         "activationType": "Interact",
         "traits": [
@@ -438,7 +438,7 @@
         ],
         "weightLimit": 3,
         "duration": -1,
-        "desc": "You can spread this blue-gray gel on a single item with a Bulk of 3 or less to ward it against magical detection. It becomes immune to divination magic of 8th level or lower (such as locate). This oil is permanent, but it can be removed with acid. Removing the oil in this way usually takes 1 minute for objects with Bulk of 1 or less, or a number of minutes equal to the item’s Bulk.",
+        "desc": "You can spread this blue-gray gel on a single item with a Bulk of 3 or less to ward it against magical detection. It becomes immune to divination magic of 8th level or lower (such as locate). This oil is permanent, but it can be removed with acid. Removing the oil in this way usually takes 1 minute for objects with Bulk of 1 or less, or a number of minutes equal to the item's Bulk.",
         "actions": "1A",
         "activationType": "Interact",
         "traits": [
@@ -462,7 +462,7 @@
         "duration": 100,
         "hint": "You are immune to all spells, effects of magic items (yours and those of others), and effects with the magical trait for 1 minute. The oil affects neither the magic of the armor nor the fundamental runes of weapons attacking you. Magical effects from a source of 20th level or higher, such as a deity, still function on the you.",
         "showon": "Defense",
-        "desc": "This oil contains energy that repels nearly all types of magic. When you apply this oil to armor, the creature wearing the armor becomes immune to all spells, effects of magic items (the wearer’s and those of others), and effects with the magical trait for 1 minute. The oil affects neither the magic of the armor nor the fundamental runes of weapons attacking the wearer. Magical effects from a source of 20th level or higher, such as a deity, still function on the armor’s wearer.",
+        "desc": "This oil contains energy that repels nearly all types of magic. When you apply this oil to armor, the creature wearing the armor becomes immune to all spells, effects of magic items (the wearer's and those of others), and effects with the magical trait for 1 minute. The oil affects neither the magic of the armor nor the fundamental runes of weapons attacking the wearer. Magical effects from a source of 20th level or higher, such as a deity, still function on the armor's wearer.",
         "actions": "1A",
         "activationType": "Interact",
         "traits": [

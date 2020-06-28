@@ -15,6 +15,7 @@ import { AlchemicalBomb } from '../AlchemicalBomb';
 import { Consumable } from '../Consumable';
 import { Snare } from '../Snare';
 import { SpellGain } from '../SpellGain';
+import { AlchemicalPoison } from '../AlchemicalPoison';
 
 @Component({
     selector: 'app-attacks',
@@ -120,10 +121,21 @@ export class AttacksComponent implements OnInit {
         return (talisman.trigger ? "Trigger: " + talisman.trigger + "\n\n" : "") + talisman.desc;
     }
 
+    get_PoisonTitle(poison: AlchemicalPoison) {
+        return poison.desc;
+    }
+
     on_TalismanUse(weapon: Weapon, talisman: Talisman, index: number) {
         this.characterService.set_ToChange(this.creature, "attacks");
         this.characterService.on_ConsumableUse(this.get_Creature(), talisman);
         weapon.talismans.splice(index, 1)
+        this.characterService.process_ToChange();
+    }
+
+    on_PoisonUse(weapon: Weapon, poison: AlchemicalPoison) {
+        this.characterService.set_ToChange(this.creature, "attacks");
+        this.characterService.on_ConsumableUse(this.get_Creature(), poison);
+        weapon.poisonsApplied.length = 0;
         this.characterService.process_ToChange();
     }
 

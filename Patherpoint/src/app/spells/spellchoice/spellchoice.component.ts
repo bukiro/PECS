@@ -270,7 +270,7 @@ export class SpellchoiceComponent implements OnInit {
         } else if (choice.source == "Infinite Possibilities") {
             available = Math.max(choice.available + this.get_InfinitePossibilitiesUnlocked(choice.level), 0);
         } else if (["Basic Wizard Spellcasting", "Expert Wizard Spellcasting", "Master Wizard Spellcasting"].includes(choice.source) &&
-                    choice.level <= this.get_HighestSpellLevel() - 2) {
+            choice.level <= this.get_HighestSpellLevel() - 2) {
             available = Math.max(choice.available + this.have_Feat("Arcane Breadth") - this.get_SpellBlendingUsed() - this.get_InfinitePossibilitiesUsed(), 0);
         } else {
             available = Math.max(this.choice.available - this.get_SpellBlendingUsed() - this.get_InfinitePossibilitiesUsed(), 0);
@@ -339,7 +339,22 @@ export class SpellchoiceComponent implements OnInit {
                 spells = spells.filter(spell => spell.target == "")
         }
         if (choice.traitFilter.length) {
-            spells = spells.filter(spell => spell.traits.find(trait => choice.traitFilter.includes(trait)));
+            //There is no actual Common trait. If a spell choice is limited to common spells,
+            //  exclude all uncommon and rare spells, then process the rest of the trait filter.
+            if (choice.traitFilter.includes("Common")) {
+                let traitFilter = choice.traitFilter.filter(trait => trait != "Common");
+                spells = spells.filter(spell =>
+                    !spell.traits.includes("Uncommon") &&
+                    !spell.traits.includes("Rare") &&
+                    (
+                        traitFilter.length ?
+                            spell.traits.find(trait => traitFilter.includes(trait))
+                            : true
+                    )
+                );
+            } else {
+                spells = spells.filter(spell => spell.traits.find(trait => choice.traitFilter.includes(trait)));
+            }
         }
         if (choice.singleTarget) {
             spells = spells.filter(spell => spell.singleTarget);
@@ -367,7 +382,7 @@ export class SpellchoiceComponent implements OnInit {
                         let availableSpells: Spell[] = spells.filter(spell =>
                             this.spellTakenByThis(spell, choice)
                         );
-                        return availableSpells.sort(function(a,b) {
+                        return availableSpells.sort(function (a, b) {
                             if (choice.spells[0].name == a.name) {
                                 return -1;
                             }

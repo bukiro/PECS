@@ -71,7 +71,7 @@
             {
                 "_className": "ItemActivity",
                 "activationType": "Envision",
-                "desc": "You change the shape and appearance of this armor to appear as ordinary or fine clothes of your imagining. The armor’s statistics do not change. Only a creature that is benefiting from true seeing or a similar effect can attempt to disbelieve this illusion, with a DC of 25.",
+                "desc": "You change the shape and appearance of this armor to appear as ordinary or fine clothes of your imagining. The armor's statistics do not change. Only a creature that is benefiting from true seeing or a similar effect can attempt to disbelieve this illusion, with a DC of 25.",
                 "gainConditions": [
                     {
                         "name": "Glamered Rune",
@@ -238,7 +238,7 @@
         "profreq": [
             "Heavy Armor"
         ],
-        "desc": "Sinister knight armor shrouds the wearer’s identity in secrecy, allowing Crimson Reclaimers to pass among foes without being immediately unmasked. The wearer gains a +1 item bonus to Deception checks.",
+        "desc": "Sinister knight armor shrouds the wearer's identity in secrecy, allowing Crimson Reclaimers to pass among foes without being immediately unmasked. The wearer gains a +1 item bonus to Deception checks.",
         "traits": [
             "Uncommon",
             "Abjuration",
@@ -256,7 +256,7 @@
             {
                 "_className": "ItemActivity",
                 "activationType": "Envision",
-                "desc": "With a thought, the wearer activates a disguise. While the sinister knight armor’s disguise is active, any identifying insignia or aesthetic of the armor is replaced by generic malevolent aesthetics such as spikes or demonic faces. While in the disguise, the wearer is always considered to be taking precautions against lifesense, and even a creature that successfully notices the wearer with its lifesense mistakes the wearer for an undead unless it critically succeeds at its Perception check or the wearer critically fails a Deception or Stealth check. Finally, while in the disguise, the rune attempts to counteract any effects that would reveal your alignment; on a successful counteract check, rather than negate the effect, the rune causes the effect to perceive your alignment as evil (maintaining any lawful or chaotic component of your alignment).\n\nThe wearer can Dismiss the disguise, and if the wearer’s armor is removed, the disguise deactivates automatically.",
+                "desc": "With a thought, the wearer activates a disguise. While the sinister knight armor's disguise is active, any identifying insignia or aesthetic of the armor is replaced by generic malevolent aesthetics such as spikes or demonic faces. While in the disguise, the wearer is always considered to be taking precautions against lifesense, and even a creature that successfully notices the wearer with its lifesense mistakes the wearer for an undead unless it critically succeeds at its Perception check or the wearer critically fails a Deception or Stealth check. Finally, while in the disguise, the rune attempts to counteract any effects that would reveal your alignment; on a successful counteract check, rather than negate the effect, the rune causes the effect to perceive your alignment as evil (maintaining any lawful or chaotic component of your alignment).\n\nThe wearer can Dismiss the disguise, and if the wearer's armor is removed, the disguise deactivates automatically.",
                 "gainConditions": [
                     {
                         "name": "Sinister Knight Rune",
@@ -515,12 +515,12 @@
             "Medium Armor",
             "Heavy Armor"
         ],
-        "desc": "A fortification rune wards against the most deadly attacks. Each time you’re critically hit while wearing the etched armor, attempt a DC 17 flat check. On a success, it becomes a normal hit. This property thickens the armor, increasing its Bulk by 1 and the Strength required to reduce its penalties by 2.",
+        "desc": "A fortification rune wards against the most deadly attacks. Each time you're critically hit while wearing the etched armor, attempt a DC 17 flat check. On a success, it becomes a normal hit. This property thickens the armor, increasing its Bulk by 1 and the Strength required to reduce its penalties by 2.",
         "traits": [
             "Abjuration",
             "Magical"
         ],
-        "hint": "Each time you’re critically hit while wearing the etched armor, attempt a DC 17 flat check. On a success, it becomes a normal hit.",
+        "hint": "Each time you're critically hit while wearing the etched armor, attempt a DC 17 flat check. On a success, it becomes a normal hit.",
         "showon": "Defense"
     },
     {
@@ -648,7 +648,7 @@
                     }
                 ],
                 "cooldown": 144000,
-                "desc": "You gain the effects of an ethereal jaunt spell. This doesn’t require concentration and lasts for 10 minutes or until you choose to return to material form as a free action.",
+                "desc": "You gain the effects of an ethereal jaunt spell. This doesn't require concentration and lasts for 10 minutes or until you choose to return to material form as a free action.",
                 "frequency": "once per day",
                 "name": "Ethereal Rune",
                 "source": "9caa6036-aa4a-11ea-bb37-0242ac130002",
@@ -716,14 +716,14 @@
             "Medium Armor",
             "Heavy Armor"
         ],
-        "desc": "A fortification rune wards against the most deadly attacks. Each time you’re critically hit while wearing the etched armor, attempt a DC 17 flat check. On a success, it becomes a normal hit. This property thickens the armor, increasing its Bulk by 1 and the Strength required to reduce its penalties by 2.",
+        "desc": "A fortification rune wards against the most deadly attacks. Each time you're critically hit while wearing the etched armor, attempt a DC 17 flat check. On a success, it becomes a normal hit. This property thickens the armor, increasing its Bulk by 1 and the Strength required to reduce its penalties by 2.",
         "traits": [
             "Abjuration",
             "Magical"
         ],
         "subType": "Greater",
         "subTypeDesc": "The flat check DC is 14.",
-        "hint": "Each time you’re critically hit while wearing the etched armor, attempt a DC 14 flat check. On a success, it becomes a normal hit.",
+        "hint": "Each time you're critically hit while wearing the etched armor, attempt a DC 14 flat check. On a success, it becomes a normal hit.",
         "showon": "Defense"
     },
     {

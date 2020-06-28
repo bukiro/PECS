@@ -238,7 +238,7 @@
         "name": "Whirling Throw",
         "actions": "1A",
         "requirements": "You have a creature grabbed or restrained.",
-        "desc": "You propel your grabbed or restrained foe a great distance. You can throw the creature any distance up to 10 feet, plus 5 feet Ã— your Strength modifier. If you successfully throw the creature, it takes bludgeoning damage equal to your Strength modifier plus 1d6 per 10 feet you threw it.\n\nAttempt an Athletics check against the foe's Fortitude DC. You take a -2 circumstance penalty to your check if the target is one size larger than you and a -4 circumstance penalty if it's larger than that. You gain a +2 circumstance bonus to your check if the target is one size smaller than you and a +4 circumstance bonus if it's smaller than that.",
+        "desc": "You propel your grabbed or restrained foe a great distance. You can throw the creature any distance up to 10 feet, plus 5 feet * your Strength modifier. If you successfully throw the creature, it takes bludgeoning damage equal to your Strength modifier plus 1d6 per 10 feet you threw it.\n\nAttempt an Athletics check against the foe's Fortitude DC. You take a -2 circumstance penalty to your check if the target is one size larger than you and a -4 circumstance penalty if it's larger than that. You gain a +2 circumstance bonus to your check if the target is one size smaller than you and a +4 circumstance bonus if it's smaller than that.",
         "critsuccess": "You throw the creature the desired distance and it lands prone.",
         "success": "You throw the creature the desired distance.",
         "failure": "You don't throw the creature.",
@@ -1603,7 +1603,7 @@
         "name": "Double Slice",
         "actions": "2A",
         "requirements": "You are wielding two melee weapons, each in a different hand.",
-        "desc": "You lash out at your foe with both weapons. Make two Strikes, one with each of your two melee weapons, each using your current multiple attack penalty. Both Strikes must have the same target. If the second Strike is made with a weapon that doesn’t have the agile trait, it takes a -2 penalty.\n\nIf both attacks hit, combine their damage, and then add any other applicable effects from both weapons. You add any precision damage only once, to the attack of your choice. Combine the damage from both Strikes and apply resistances and weaknesses only once. This counts as two attacks when calculating your multiple attack penalty.",
+        "desc": "You lash out at your foe with both weapons. Make two Strikes, one with each of your two melee weapons, each using your current multiple attack penalty. Both Strikes must have the same target. If the second Strike is made with a weapon that doesn't have the agile trait, it takes a -2 penalty.\n\nIf both attacks hit, combine their damage, and then add any other applicable effects from both weapons. You add any precision damage only once, to the attack of your choice. Combine the damage from both Strikes and apply resistances and weaknesses only once. This counts as two attacks when calculating your multiple attack penalty.",
         "traits": [
             "Fighter"
         ]
@@ -1613,7 +1613,7 @@
         "actions": "1A",
         "toggle": true,
         "requirements": "You are wielding a shield.",
-        "desc": "You brace your shield with both hands, enhancing its potential for both offense and defense. When in this stance, you wield the shield with both hands. When wielding a shield this way, increase the weapon damage die of the shield’s boss or spikes by one step, and increase the shield’s Hardness by 2 when using the Shield Block reaction.",
+        "desc": "You brace your shield with both hands, enhancing its potential for both offense and defense. When in this stance, you wield the shield with both hands. When wielding a shield this way, increase the weapon damage die of the shield's boss or spikes by one step, and increase the shield's Hardness by 2 when using the Shield Block reaction.",
         "gainConditions": [
             {
                 "duration": -1,
@@ -1643,7 +1643,7 @@
         "actions": "1A",
         "toggle": true,
         "requirements": "You are wielding a ranged weapon.",
-        "desc": "You take aim to pick off nearby enemies quickly. When using a ranged volley weapon while you are in this stance, you don’t take the penalty to your attack rolls from the volley trait. When using a ranged weapon that doesn’t have the volley trait, you gain a +2 circumstance bonus to damage rolls on attacks against targets within the weapon’s first range increment.",
+        "desc": "You take aim to pick off nearby enemies quickly. When using a ranged volley weapon while you are in this stance, you don't take the penalty to your attack rolls from the volley trait. When using a ranged weapon that doesn't have the volley trait, you gain a +2 circumstance bonus to damage rolls on attacks against targets within the weapon's first range increment.",
         "gainConditions": [
             {
                 "duration": -1,
@@ -1671,7 +1671,7 @@
         "actions": "Reaction",
         "requirements": "You are wielding a shield.",
         "trigger": "An enemy hits you with a melee Strike.",
-        "desc": "You can snap your shield into place just as you would take a blow, avoiding the hit at the last second. You immediately use the Raise a Shield action and gain your shield’s bonus to AC. The circumstance bonus from the shield applies to your AC when you’re determining the outcome of the triggering attack.",
+        "desc": "You can snap your shield into place just as you would take a blow, avoiding the hit at the last second. You immediately use the Raise a Shield action and gain your shield's bonus to AC. The circumstance bonus from the shield applies to your AC when you're determining the outcome of the triggering attack.",
         "onceEffects": [
             {
                 "affected": "Raise Shield",
@@ -1686,7 +1686,7 @@
         "name": "Snagging Strike",
         "actions": "1A",
         "requirements": "You have one hand free, and your target is within reach of that hand.",
-        "desc": "You combine an attack with quick grappling moves to throw an enemy off balance as long as it stays in your reach. Make a Strike while keeping one hand free. If this Strike hits, the target is flat-footed until the start of your next turn or until it’s no longer within the reach of your hand, whichever comes first.",
+        "desc": "You combine an attack with quick grappling moves to throw an enemy off balance as long as it stays in your reach. Make a Strike while keeping one hand free. If this Strike hits, the target is flat-footed until the start of your next turn or until it's no longer within the reach of your hand, whichever comes first.",
         "traits": [
             "Fighter"
         ]
@@ -1706,7 +1706,7 @@
         "name": "Aggressive Block",
         "actions": "Free",
         "trigger": "You use the Shield Block reaction, and the opponent that triggered Shield Block is adjacent to you and is your size or smaller.",
-        "desc": "You push back as you block the attack, knocking your foe away or off balance. You use your shield to push the triggering creature, either automatically Shoving it 5 feet or causing it to become flat-footed until the start of your next turn. The triggering creature chooses whether to be moved or become flat-footed. If it chooses to be moved, you choose the direction. If the Shove would cause it to hit a solid object, enter a square of difficult terrain, or enter another creature’s space, it must become flat-footed instead of being moved.",
+        "desc": "You push back as you block the attack, knocking your foe away or off balance. You use your shield to push the triggering creature, either automatically Shoving it 5 feet or causing it to become flat-footed until the start of your next turn. The triggering creature chooses whether to be moved or become flat-footed. If it chooses to be moved, you choose the direction. If the Shove would cause it to hit a solid object, enter a square of difficult terrain, or enter another creature's space, it must become flat-footed instead of being moved.",
         "traits": [
             "Fighter"
         ]
@@ -1723,9 +1723,9 @@
         "name": "Brutish Shove",
         "actions": "1A",
         "requirements": "You are wielding a two-handed melee weapon.",
-        "desc": "Throwing your weight behind your attack, you hit your opponent hard enough to make it stumble back. Make a Strike with a two-handed melee weapon. If you hit a target that is your size or smaller, that creature is flat-footed until the end of your current turn, and you can automatically Shove it, with the same benefits as the Shove action (including the critical success effect, if your Strike was a critical hit). If you move to follow the target, your movement doesn’t trigger reactions.\n\nThis Strike has the following failure effect.",
+        "desc": "Throwing your weight behind your attack, you hit your opponent hard enough to make it stumble back. Make a Strike with a two-handed melee weapon. If you hit a target that is your size or smaller, that creature is flat-footed until the end of your current turn, and you can automatically Shove it, with the same benefits as the Shove action (including the critical success effect, if your Strike was a critical hit). If you move to follow the target, your movement doesn't trigger reactions.\n\nThis Strike has the following failure effect.",
         "failure": "The target becomes flat-footed until the end of your current turn.",
-        "hint": "If the Strike made during Brutish Shove hit a target that is your size or smaller, that creature is flat-footed until the end of your current turn, and you can automatically Shove it, with the same benefits as the Shove action (including the critical success effect, if your Strike was a critical hit). If you move to follow the target, your movement doesn’t trigger reactions.",
+        "hint": "If the Strike made during Brutish Shove hit a target that is your size or smaller, that creature is flat-footed until the end of your current turn, and you can automatically Shove it, with the same benefits as the Shove action (including the critical success effect, if your Strike was a critical hit). If you move to follow the target, your movement doesn't trigger reactions.",
         "showon": "Athletics",
         "traits": [
             "Fighter",
@@ -1782,7 +1782,7 @@
         "name": "Double Shot",
         "actions": "2A",
         "requirements": "You are wielding a ranged weapon with reload 0.",
-        "desc": "You shoot twice in blindingly fast succession. Make two Strikes, each against a separate target and with a -2 penalty. Both attacks count toward your multiple attack penalty, but the penalty doesn’t increase until after you’ve made both of them.",
+        "desc": "You shoot twice in blindingly fast succession. Make two Strikes, each against a separate target and with a -2 penalty. Both attacks count toward your multiple attack penalty, but the penalty doesn't increase until after you've made both of them.",
         "traits": [
             "Fighter",
             "Flourish"
@@ -1792,7 +1792,7 @@
         "name": "Dual-Handed Assault",
         "actions": "1A",
         "requirements": "You are wielding a one-handed melee weapon and have a free hand.",
-        "desc": "You snap your free hand over to grip your weapon just long enough to add momentum and deliver a more powerful blow to your opponent. Make a Strike with the required weapon. You quickly switch your grip during the Strike in order to make the attack with two hands. If the weapon doesn’t normally have the two-hand trait, increase its weapon damage die by one step for this attack. (Rules on increasing die size appear on page 279.) If the weapon has the two-hand trait, you gain the benefit of that trait and a circumstance bonus to damage equal to the weapon’s number of damage dice. When the Strike is complete, you resume gripping the weapon with only one hand. This action doesn’t end any stance or fighter feat effect that requires you to have one hand free.",
+        "desc": "You snap your free hand over to grip your weapon just long enough to add momentum and deliver a more powerful blow to your opponent. Make a Strike with the required weapon. You quickly switch your grip during the Strike in order to make the attack with two hands. If the weapon doesn't normally have the two-hand trait, increase its weapon damage die by one step for this attack. (Rules on increasing die size appear on page 279.) If the weapon has the two-hand trait, you gain the benefit of that trait and a circumstance bonus to damage equal to the weapon's number of damage dice. When the Strike is complete, you resume gripping the weapon with only one hand. This action doesn't end any stance or fighter feat effect that requires you to have one hand free.",
         "traits": [
             "Fighter",
             "Flourish"
@@ -1814,7 +1814,7 @@
     {
         "name": "Knockdown",
         "actions": "2A",
-        "desc": "You make an attack to knock a foe off balance, then follow up immediately with a sweep to topple them. Make a melee Strike. If it hits and deals damage, you can attempt an Athletics check to Trip the creature you hit. If you’re wielding a two-handed melee weapon, you can ignore Trip’s requirement that you have a hand free. Both attacks count toward your multiple attack penalty, but the penalty doesn’t increase until after you’ve made both of them.",
+        "desc": "You make an attack to knock a foe off balance, then follow up immediately with a sweep to topple them. Make a melee Strike. If it hits and deals damage, you can attempt an Athletics check to Trip the creature you hit. If you're wielding a two-handed melee weapon, you can ignore Trip's requirement that you have a hand free. Both attacks count toward your multiple attack penalty, but the penalty doesn't increase until after you've made both of them.",
         "traits": [
             "Fighter",
             "Flourish"
@@ -1834,7 +1834,7 @@
     {
         "name": "Swipe",
         "actions": "2A",
-        "desc": "You make a wide, arcing swing. Make a single melee Strike and compare the attack roll result to the ACs of up to two foes, each of whom must be within your melee reach and adjacent to the other. Roll damage only once and apply it to each creature you hit. A Swipe counts as two attacks for your multiple attack penalty. If you’re using a weapon with the sweep trait, its modifier applies to all your Swipe attacks.",
+        "desc": "You make a wide, arcing swing. Make a single melee Strike and compare the attack roll result to the ACs of up to two foes, each of whom must be within your melee reach and adjacent to the other. Roll damage only once and apply it to each creature you hit. A Swipe counts as two attacks for your multiple attack penalty. If you're using a weapon with the sweep trait, its modifier applies to all your Swipe attacks.",
         "traits": [
             "Barbarian",
             "Fighter",
@@ -1845,7 +1845,7 @@
         "name": "Twin Parry",
         "actions": "1A",
         "requirements": "You are wielding two melee weapons, one in each hand.",
-        "desc": "You use your two weapons to parry attacks. You gain a +1 circumstance bonus to AC until the start of your next turn, or a +2 circumstance bonus if either weapon has the parry trait. You lose this circumstance bonus if you no longer meet this feat’s requirement.",
+        "desc": "You use your two weapons to parry attacks. You gain a +1 circumstance bonus to AC until the start of your next turn, or a +2 circumstance bonus if either weapon has the parry trait. You lose this circumstance bonus if you no longer meet this feat's requirement.",
         "gainConditions": [
             {
                 "duration": 10,
@@ -1861,8 +1861,8 @@
     {
         "name": "Advantageous Assault",
         "actions": "1A",
-        "desc": "When an enemy’s movement is compromised, you deliver a more deadly blow. Make a Strike against a creature that is grabbed, prone, or restrained. You gain a circumstance bonus to damage on this Strike equal to the number of weapon damage dice, or that number + 2 if you’re wielding the weapon in two hands. The Strike gains the following failure effect.",
-        "failure": "You deal damage to the target equal to the number of weapon damage dice, or that number + 2 if you’re wielding the weapon in two hands. This damage has the same damage type as the weapon.",
+        "desc": "When an enemy's movement is compromised, you deliver a more deadly blow. Make a Strike against a creature that is grabbed, prone, or restrained. You gain a circumstance bonus to damage on this Strike equal to the number of weapon damage dice, or that number + 2 if you're wielding the weapon in two hands. The Strike gains the following failure effect.",
+        "failure": "You deal damage to the target equal to the number of weapon damage dice, or that number + 2 if you're wielding the weapon in two hands. This damage has the same damage type as the weapon.",
         "traits": [
             "Fighter",
             "Press"
@@ -1900,7 +1900,7 @@
         "name": "Revealing Stab",
         "actions": "2A",
         "requirements": "You are wielding a melee weapon that deals piercing damage.",
-        "desc": "You drive your piercing weapon into an imperceptible foe, revealing its location to your allies. Make a Strike with the required melee weapon. You don’t have to attempt a flat check to hit a concealed creature, and you have to succeed at only a DC 5 flat check to target a hidden creature. If you hit and deal damage, you can drive the required weapon into a corporeal target, revealing its current position. You Release the weapon, and it becomes lodged in the target. If the target is concealed, other creatures don’t need to succeed at a flat check to hit it. If the target is hidden, other creatures have to succeed at only a DC 5 flat check to target it. The creatures need to be able to see your weapon to gain any of these benefits, and the target can’t become undetected to anyone who sees your weapon. If the target is invisible, the weapon remains visible while lodged in it.\n\nThis benefit lasts until the weapon is removed from the creature. An adjacent creature or the target can remove the weapon with 2 Interact actions.",
+        "desc": "You drive your piercing weapon into an imperceptible foe, revealing its location to your allies. Make a Strike with the required melee weapon. You don't have to attempt a flat check to hit a concealed creature, and you have to succeed at only a DC 5 flat check to target a hidden creature. If you hit and deal damage, you can drive the required weapon into a corporeal target, revealing its current position. You Release the weapon, and it becomes lodged in the target. If the target is concealed, other creatures don't need to succeed at a flat check to hit it. If the target is hidden, other creatures have to succeed at only a DC 5 flat check to target it. The creatures need to be able to see your weapon to gain any of these benefits, and the target can't become undetected to anyone who sees your weapon. If the target is invisible, the weapon remains visible while lodged in it.\n\nThis benefit lasts until the weapon is removed from the creature. An adjacent creature or the target can remove the weapon with 2 Interact actions.",
         "traits": [
             "Fighter"
         ]
@@ -1909,7 +1909,7 @@
         "name": "Shatter Defenses",
         "actions": "1A",
         "requirements": "A frightened creature is in your melee reach.",
-        "desc": "Your offense exploits your enemy’s fear. Make a melee Strike against a frightened creature. If you hit and deal damage, the target becomes flat-footed until its frightened condition ends. If the target was already flat-footed to you when you damaged it with this Strike, it can’t reduce its frightened value below 1 until the start of your next turn.",
+        "desc": "Your offense exploits your enemy's fear. Make a melee Strike against a frightened creature. If you hit and deal damage, the target becomes flat-footed until its frightened condition ends. If the target was already flat-footed to you when you damaged it with this Strike, it can't reduce its frightened value below 1 until the start of your next turn.",
         "traits": [
             "Fighter",
             "Press"
@@ -1928,7 +1928,7 @@
     {
         "name": "Felling Strike",
         "actions": "2A",
-        "desc": "Your attack can ground an airborne foe. Make a Strike. If it hits and deals damage to a flying target, the target falls up to 120 feet. The fall is gradual enough that if it causes the target to hit the ground, the target takes no damage from the fall. If the attack is a critical hit, the target can’t Fly, Leap, levitate, or otherwise leave the ground until the end of your next turn.",
+        "desc": "Your attack can ground an airborne foe. Make a Strike. If it hits and deals damage to a flying target, the target falls up to 120 feet. The fall is gradual enough that if it causes the target to hit the ground, the target takes no damage from the fall. If the attack is a critical hit, the target can't Fly, Leap, levitate, or otherwise leave the ground until the end of your next turn.",
         "traits": [
             "Fighter"
         ]
@@ -1954,7 +1954,7 @@
     {
         "name": "Incredible Aim",
         "actions": "2A",
-        "desc": "By spending a moment to focus, you can ensure your attack strikes true. Make a ranged weapon Strike. On this Strike, you gain a +2 circumstance bonus to the attack roll and ignore the target’s concealed condition.",
+        "desc": "By spending a moment to focus, you can ensure your attack strikes true. Make a ranged weapon Strike. On this Strike, you gain a +2 circumstance bonus to the attack roll and ignore the target's concealed condition.",
         "traits": [
             "Concentrate",
             "Fighter"
@@ -1964,7 +1964,7 @@
         "name": "Mobile Shot Stance",
         "actions": "1A",
         "toggle": true,
-        "desc": "Your shots become nimble and deadly. While you’re in this stance, your ranged Strikes don’t trigger Attacks of Opportunity or other reactions that are triggered by a ranged attack. If you have Attack of Opportunity, you can use it with a loaded ranged weapon you’re wielding. The triggering creature must be within 5 feet of you for you to do so.",
+        "desc": "Your shots become nimble and deadly. While you're in this stance, your ranged Strikes don't trigger Attacks of Opportunity or other reactions that are triggered by a ranged attack. If you have Attack of Opportunity, you can use it with a loaded ranged weapon you're wielding. The triggering creature must be within 5 feet of you for you to do so.",
         "gainConditions": [
             {
                 "duration": -1,
@@ -1990,7 +1990,7 @@
     {
         "name": "Sudden Leap",
         "actions": "2A",
-        "desc": "You make an impressive leap and swing while you soar. Make a Leap, High Jump, or Long Jump and attempt one melee Strike at any point during your jump. Immediately after the Strike, you fall to the ground if you’re in the air, even if you haven’t reached the maximum distance of your jump. If the distance you fall is no more than the height of your jump, you take no damage and land upright.\n\nWhen attempting a High Jump or Long Jump during a Sudden Leap, determine the DC using the Long Jump DCs, and increase your maximum distance to double your Speed.",
+        "desc": "You make an impressive leap and swing while you soar. Make a Leap, High Jump, or Long Jump and attempt one melee Strike at any point during your jump. Immediately after the Strike, you fall to the ground if you're in the air, even if you haven't reached the maximum distance of your jump. If the distance you fall is no more than the height of your jump, you take no damage and land upright.\n\nWhen attempting a High Jump or Long Jump during a Sudden Leap, determine the DC using the Long Jump DCs, and increase your maximum distance to double your Speed.",
         "specialdesc": "If you have Felling Strike, you can spend 3 actions to make a Sudden Leap and use Felling Strike instead of a normal Strike.",
         "traits": [
             "Barbarian",
@@ -2000,7 +2000,7 @@
     {
         "name": "Certain Strike",
         "actions": "1A",
-        "desc": "Even when you don’t hit squarely, you can still score a glancing blow. Make a melee Strike. It gains the following failure effect.",
+        "desc": "Even when you don't hit squarely, you can still score a glancing blow. Make a melee Strike. It gains the following failure effect.",
         "failure": "Your attack deals any damage it would have dealt on a hit, excluding all damage dice. (This removes damage dice from weapon runes, spells, and special abilities, in addition to weapon damage dice.)",
         "traits": [
             "Fighter",
@@ -2020,7 +2020,7 @@
         "name": "Disarming Twist",
         "actions": "1A",
         "requirements": "You are wielding only a single one-handed melee weapon and have your other hand or hands free.",
-        "desc": "After your initial attack redirects your foe’s defenses, your follow-up wrests their weapon from their grasp. Make a melee Strike with the required weapon. In addition to its other effects, this Strike gains the success and critical success effects of the Disarm action. The Strike also has the following failure effect.",
+        "desc": "After your initial attack redirects your foe's defenses, your follow-up wrests their weapon from their grasp. Make a melee Strike with the required weapon. In addition to its other effects, this Strike gains the success and critical success effects of the Disarm action. The Strike also has the following failure effect.",
         "failure": "The target is flat-footed until the end of your current turn.",
         "traits": [
             "Fighter",
@@ -2031,7 +2031,7 @@
         "name": "Disruptive Stance",
         "actions": "1A",
         "toggle": true,
-        "desc": "The slightest distraction can provoke your wrath, and you’re prepared to foil enemies’ actions. As long as you are in this stance, you can use Attack of Opportunity when a creature within your reach uses a concentrate action, in addition to manipulate and move actions. Furthermore, you disrupt a triggering concentrate or manipulate action if your Strike hits (not only if it’s a critical hit).",
+        "desc": "The slightest distraction can provoke your wrath, and you're prepared to foil enemies' actions. As long as you are in this stance, you can use Attack of Opportunity when a creature within your reach uses a concentrate action, in addition to manipulate and move actions. Furthermore, you disrupt a triggering concentrate or manipulate action if your Strike hits (not only if it's a critical hit).",
         "gainConditions": [
             {
                 "duration": -1,
@@ -2069,8 +2069,8 @@
         "name": "Brutal Finish",
         "actions": "1A",
         "requirements": "You are wielding a melee weapon in two hands.",
-        "desc": "Your final blow can make an impact even if it rebounds off a foe’s defenses. Make a Strike with the required weapon. After the Strike, your turn ends. The Strike deals one extra weapon damage die, or two extra weapon damage dice if you’re at least 18th level. The Strike also gains the following failure effect.",
-        "failure": "You deal damage equal to one weapon damage die of the required weapon. Increase this to two dice if you’re at least 18th level.",
+        "desc": "Your final blow can make an impact even if it rebounds off a foe's defenses. Make a Strike with the required weapon. After the Strike, your turn ends. The Strike deals one extra weapon damage die, or two extra weapon damage dice if you're at least 18th level. The Strike also gains the following failure effect.",
+        "failure": "You deal damage equal to one weapon damage die of the required weapon. Increase this to two dice if you're at least 18th level.",
         "traits": [
             "Fighter",
             "Press"
@@ -2097,7 +2097,7 @@
     {
         "name": "Incredible Ricochet",
         "actions": "1A",
-        "desc": "After your first shot singles out your opponent’s position, you direct another that ricochets around obstacles and strikes unerringly. Make a ranged weapon Strike against a creature you previously attacked this turn. You ignore the target’s concealed condition and all cover.",
+        "desc": "After your first shot singles out your opponent's position, you direct another that ricochets around obstacles and strikes unerringly. Make a ranged weapon Strike against a creature you previously attacked this turn. You ignore the target's concealed condition and all cover.",
         "traits": [
             "Concentrate",
             "Fighter",
@@ -2126,7 +2126,7 @@
         "name": "Paragon's Guard",
         "actions": "1A",
         "toggle": true,
-        "desc": "Once you’ve had a moment to set your stance, you always have your shield ready without a thought. While you are in this stance, you constantly have your shield raised as if you’d used the Raise a Shield action, as long as you meet that action’s requirements.",
+        "desc": "Once you've had a moment to set your stance, you always have your shield ready without a thought. While you are in this stance, you constantly have your shield raised as if you'd used the Raise a Shield action, as long as you meet that action's requirements.",
         "gainConditions": [
             {
                 "duration": -1,
@@ -2170,7 +2170,7 @@
         "actions": "1A",
         "frequency": "once per day",
         "cooldown": 144000,
-        "desc": "Your training allows you to shrug off your foes’ spells and conditions when the need is dire. Choose a single nonpermanent spell or condition that is affecting you. If you chose a condition, its effect on you ends. If you chose a spell, attempt to counteract the spell (your level is your counteract level, and you attempt a Will save as your counteract check).\n\nThis doesn’t remove any Hit Point damage normally dealt by the spell or condition, and it doesn’t prevent the spell or debilitating effect from affecting other allies or the environment around you. It can’t remove an ongoing affliction or prevent such an affliction from inflicting conditions on you later. It can’t remove conditions from the situation (such as prone or flanked). If the effect comes from a creature, hazard, or item of 20th level or higher, Determination can’t remove its effect on you.",
+        "desc": "Your training allows you to shrug off your foes' spells and conditions when the need is dire. Choose a single nonpermanent spell or condition that is affecting you. If you chose a condition, its effect on you ends. If you chose a spell, attempt to counteract the spell (your level is your counteract level, and you attempt a Will save as your counteract check).\n\nThis doesn't remove any Hit Point damage normally dealt by the spell or condition, and it doesn't prevent the spell or debilitating effect from affecting other allies or the environment around you. It can't remove an ongoing affliction or prevent such an affliction from inflicting conditions on you later. It can't remove conditions from the situation (such as prone or flanked). If the effect comes from a creature, hazard, or item of 20th level or higher, Determination can't remove its effect on you.",
         "inputRequired": "Remove one condition or counteract one spell that is affecting you.",
         "traits": [
             "Concentrate",
@@ -2192,7 +2192,7 @@
         "name": "Stance Savant (Fighter)",
         "actions": "Free",
         "trigger": "You roll initiative.",
-        "desc": "When there’s imminent danger, you drop into a stance with a mere thought. Use an action that has the stance trait.",
+        "desc": "When there's imminent danger, you drop into a stance with a mere thought. Use an action that has the stance trait.",
         "traits": [
             "Fighter"
         ]
@@ -2223,7 +2223,7 @@
         "name": "Graceful Poise",
         "actions": "1A",
         "toggle": true,
-        "desc": "With the right positioning, your off-hand weapon can strike like a scorpion’s stinger. While you are in this stance, if you make your second Strike from Double Slice with an agile weapon, Double Slice counts as one attack when calculating your multiple attack penalty.",
+        "desc": "With the right positioning, your off-hand weapon can strike like a scorpion's stinger. While you are in this stance, if you make your second Strike from Double Slice with an agile weapon, Double Slice counts as one attack when calculating your multiple attack penalty.",
         "gainConditions": [
             {
                 "duration": -1,
@@ -2259,7 +2259,7 @@
         "actions": "1A",
         "toggle": true,
         "requirements": "You are wielding two melee weapons, one in each hand.",
-        "desc": "You’re always ready to use your off-hand weapon to interfere with attacks against you. While you are in this stance, you constantly gain the benefits of the Twin Parry action.",
+        "desc": "You're always ready to use your off-hand weapon to interfere with attacks against you. While you are in this stance, you constantly gain the benefits of the Twin Parry action.",
         "gainConditions": [
             {
                 "duration": -1,
@@ -2276,7 +2276,7 @@
         "name": "Impossible Volley (Fighter)",
         "actions": "3A",
         "requirements": "You are wielding a ranged weapon with the volley trait and reload 0.",
-        "desc": "You fire a volley at all foes in an area. Make one Strike with a -2 penalty against each enemy within a 10-foot-radius burst centered at or beyond your weapon’s volley range. Roll the damage only once for all targets.\n\nEach attack counts toward your multiple attack penalty, but do not increase your penalty until you have made all your attacks.",
+        "desc": "You fire a volley at all foes in an area. Make one Strike with a -2 penalty against each enemy within a 10-foot-radius burst centered at or beyond your weapon's volley range. Roll the damage only once for all targets.\n\nEach attack counts toward your multiple attack penalty, but do not increase your penalty until you have made all your attacks.",
         "specialdesc": "When taken as a Fighter feat, this feat has the Flourish and Open traits.",
         "traits": [
             "Fighter",
@@ -2342,7 +2342,7 @@
         "name": "Favored Terrain: Arctic",
         "actions": " ",
         "toggle": true,
-        "desc": "You have studied arctic terrain to overcome its challenges. If you have the wild stride class feature, while you are in arctic terrain, you need to eat and drink only one-tenth as much as usual, you aren’t affected by severe or extreme cold, and you can walk across ice and snow at full Speed without needing to Balance.",
+        "desc": "You have studied arctic terrain to overcome its challenges. If you have the wild stride class feature, while you are in arctic terrain, you need to eat and drink only one-tenth as much as usual, you aren't affected by severe or extreme cold, and you can walk across ice and snow at full Speed without needing to Balance.",
         "gainConditions": [
             {
                 "duration": -1,
@@ -2359,7 +2359,7 @@
         "name": "Favored Terrain: Desert",
         "actions": " ",
         "toggle": true,
-        "desc": "You have studied desert terrain to overcome its challenges. If you have the wild stride class feature, while you are in desert terrain, you need to eat and drink only one-tenth as much as usual, you aren’t affected by severe or extreme heat, and you can walk along sand at full Speed without needing to Balance.",
+        "desc": "You have studied desert terrain to overcome its challenges. If you have the wild stride class feature, while you are in desert terrain, you need to eat and drink only one-tenth as much as usual, you aren't affected by severe or extreme heat, and you can walk along sand at full Speed without needing to Balance.",
         "gainConditions": [
             {
                 "duration": -1,
@@ -2477,7 +2477,7 @@
     {
         "name": "Hunter's Aim",
         "actions": "2A",
-        "desc": "When you focus on aiming, your attack becomes particularly accurate. Make a ranged weapon Strike against your hunted prey. On this Strike, you gain a +2 circumstance bonus to the attack roll and ignore your prey’s concealed condition.",
+        "desc": "When you focus on aiming, your attack becomes particularly accurate. Make a ranged weapon Strike against your hunted prey. On this Strike, you gain a +2 circumstance bonus to the attack roll and ignore your prey's concealed condition.",
         "traits": [
             "Concentrate",
             "Ranger"
@@ -2506,7 +2506,7 @@
     {
         "name": "Disrupt Prey",
         "actions": "Reaction",
-        "trigger": "Your hunted prey is within your reach, and it uses a manipulate action, uses a move action, or leaves a square during a move action it’s using.",
+        "trigger": "Your hunted prey is within your reach, and it uses a manipulate action, uses a move action, or leaves a square during a move action it's using.",
         "desc": "Make a melee Strike against your prey. If the attack is a critical hit, you disrupt the triggering action.",
         "traits": [
             "Ranger"
@@ -2543,7 +2543,7 @@
     {
         "name": "Deadly Aim",
         "actions": "1A",
-        "desc": "You aim for your prey’s weak spots, making your shot more challenging but dealing more damage if you hit. Make a ranged Strike against your hunted prey at a -2 penalty. You gain a +4 circumstance bonus to damage on that Strike. This bonus increases to +6 at 11th level and +8 at 15th level.",
+        "desc": "You aim for your prey's weak spots, making your shot more challenging but dealing more damage if you hit. Make a ranged Strike against your hunted prey at a -2 penalty. You gain a +4 circumstance bonus to damage on that Strike. This bonus increases to +6 at 11th level and +8 at 15th level.",
         "traits": [
             "Open",
             "Ranger"
@@ -2568,7 +2568,7 @@
     {
         "name": "Warden's Boon",
         "actions": "1A",
-        "desc": "By pointing out vulnerabilities, you grant the benefits listed in Hunt Prey and your hunter’s edge benefit to an ally until the end of their next turn. Depending on whether you call out or use gestures, this action gains either the auditory or visual trait.",
+        "desc": "By pointing out vulnerabilities, you grant the benefits listed in Hunt Prey and your hunter's edge benefit to an ally until the end of their next turn. Depending on whether you call out or use gestures, this action gains either the auditory or visual trait.",
         "traits": [
             "Ranger"
         ]
@@ -2587,7 +2587,7 @@
         "name": "Second Sting",
         "actions": "1A",
         "requirements": "You are wielding two melee weapons, each in a different hand.",
-        "desc": "You read your prey’s movements and transform them into openings, so failures with one weapon set up glancing blows with the other. Make a melee Strike with one of the required weapons against your hunted prey. The Strike gains the following failure effect.",
+        "desc": "You read your prey's movements and transform them into openings, so failures with one weapon set up glancing blows with the other. Make a melee Strike with one of the required weapons against your hunted prey. The Strike gains the following failure effect.",
         "failure": "You deal the damage the other required weapon would have dealt on a hit, excluding all damage dice. (This removes dice from weapon runes, spells, and special abilities, not just weapon damage dice.)",
         "traits": [
             "Press",
@@ -2598,7 +2598,7 @@
         "name": "Sense the Unseen",
         "actions": "Reaction",
         "trigger": "You fail a check to Seek.",
-        "desc": "When you look for foes, you can catch even the slightest cues, such as their minute movements or the shifting of air currents on your skin. Even though you failed at the triggering check, you automatically sense any undetected creatures in the area where you’re Seeking, making them merely hidden to you.",
+        "desc": "When you look for foes, you can catch even the slightest cues, such as their minute movements or the shifting of air currents on your skin. Even though you failed at the triggering check, you automatically sense any undetected creatures in the area where you're Seeking, making them merely hidden to you.",
         "traits": [
             "Ranger",
             "Rogue"
@@ -2607,7 +2607,7 @@
     {
         "name": "Targeting Shot",
         "actions": "1A",
-        "desc": "You carefully track your prey’s position and defenses, allowing you to follow up around obstacles that block your shot. Make a ranged weapon Strike against your hunted prey. You ignore the target’s concealed condition and all cover.",
+        "desc": "You carefully track your prey's position and defenses, allowing you to follow up around obstacles that block your shot. Make a ranged weapon Strike against your hunted prey. You ignore the target's concealed condition and all cover.",
         "traits": [
             "Concentrate",
             "Press",
@@ -2629,7 +2629,7 @@
         "name": "Impossible Volley",
         "actions": "3A",
         "requirements": "You are wielding a ranged weapon with the volley trait and reload 0.",
-        "desc": "You fire a volley at all foes in an area. Make one Strike with a -2 penalty against each enemy within a 10-foot-radius burst centered at or beyond your weapon’s volley range. Roll the damage only once for all targets.\n\nEach attack counts toward your multiple attack penalty, but do not increase your penalty until you have made all your attacks.",
+        "desc": "You fire a volley at all foes in an area. Make one Strike with a -2 penalty against each enemy within a 10-foot-radius burst centered at or beyond your weapon's volley range. Roll the damage only once for all targets.\n\nEach attack counts toward your multiple attack penalty, but do not increase your penalty until you have made all your attacks.",
         "traits": [
             "Ranger"
         ]
@@ -2638,7 +2638,7 @@
         "name": "Hunt Prey: Flurry",
         "toggle": true,
         "actions": "1A",
-        "desc": "You’ve learned every possible edge to use against your foes. When you use Hunt Prey, you gain the flurry hunter’s edge benefit instead of the one you selected at 1st level. Your multiple attack penalty for attacks against your hunted prey is -3 (-2 with an agile weapon) on your second attack of the turn instead of -5, and -6 (-4 with an agile weapon) on your third or subsequent attack of the turn, instead of -10. You don’t gain the additional benefit from masterful hunter.\n\nYou designate a single creature as your prey and focus your attacks against that creature. You must be able to see or hear the prey, or you must be tracking the prey during exploration.\n\nYou gain a +2 circumstance bonus to Perception checks when you Seek your prey and a +2 circumstance bonus to Survival checks when you Track your prey. You also ignore the penalty for making ranged attacks within your second range increment against the prey you're hunting.\n\nYou can have only one creature designated as your prey at a time. If you use Hunt Prey against a creature when you already have a creature designated, the prior creature loses the designation and the new prey gains the designation. Your designation lasts until your next daily preparations.",
+        "desc": "You've learned every possible edge to use against your foes. When you use Hunt Prey, you gain the flurry hunter's edge benefit instead of the one you selected at 1st level. Your multiple attack penalty for attacks against your hunted prey is -3 (-2 with an agile weapon) on your second attack of the turn instead of -5, and -6 (-4 with an agile weapon) on your third or subsequent attack of the turn, instead of -10. You don't gain the additional benefit from masterful hunter.\n\nYou designate a single creature as your prey and focus your attacks against that creature. You must be able to see or hear the prey, or you must be tracking the prey during exploration.\n\nYou gain a +2 circumstance bonus to Perception checks when you Seek your prey and a +2 circumstance bonus to Survival checks when you Track your prey. You also ignore the penalty for making ranged attacks within your second range increment against the prey you're hunting.\n\nYou can have only one creature designated as your prey at a time. If you use Hunt Prey against a creature when you already have a creature designated, the prior creature loses the designation and the new prey gains the designation. Your designation lasts until your next daily preparations.",
         "gainConditions": [
             {
                 "duration": -1,
@@ -2655,7 +2655,7 @@
         "name": "Hunt Prey: Outwit",
         "toggle": true,
         "actions": "1A",
-        "desc": "You’ve learned every possible edge to use against your foes. When you use Hunt Prey, you gain the outwit hunter’s edge benefit instead of the one you selected at 1st level. You gain a +2 circumstance bonus to Deception checks, Intimidation checks, Stealth checks, and any checks to Recall Knowledge about the prey, and a +1 circumstance bonus to AC against your prey’s attacks. You don’t gain the additional benefit from masterful hunter.\n\nYou designate a single creature as your prey and focus your attacks against that creature. You must be able to see or hear the prey, or you must be tracking the prey during exploration.\n\nYou gain a +2 circumstance bonus to Perception checks when you Seek your prey and a +2 circumstance bonus to Survival checks when you Track your prey. You also ignore the penalty for making ranged attacks within your second range increment against the prey you're hunting.\n\nYou can have only one creature designated as your prey at a time. If you use Hunt Prey against a creature when you already have a creature designated, the prior creature loses the designation and the new prey gains the designation. Your designation lasts until your next daily preparations.",
+        "desc": "You've learned every possible edge to use against your foes. When you use Hunt Prey, you gain the outwit hunter's edge benefit instead of the one you selected at 1st level. You gain a +2 circumstance bonus to Deception checks, Intimidation checks, Stealth checks, and any checks to Recall Knowledge about the prey, and a +1 circumstance bonus to AC against your prey's attacks. You don't gain the additional benefit from masterful hunter.\n\nYou designate a single creature as your prey and focus your attacks against that creature. You must be able to see or hear the prey, or you must be tracking the prey during exploration.\n\nYou gain a +2 circumstance bonus to Perception checks when you Seek your prey and a +2 circumstance bonus to Survival checks when you Track your prey. You also ignore the penalty for making ranged attacks within your second range increment against the prey you're hunting.\n\nYou can have only one creature designated as your prey at a time. If you use Hunt Prey against a creature when you already have a creature designated, the prior creature loses the designation and the new prey gains the designation. Your designation lasts until your next daily preparations.",
         "gainConditions": [
             {
                 "duration": -1,
@@ -2672,7 +2672,7 @@
         "name": "Hunt Prey: Precision",
         "toggle": true,
         "actions": "1A",
-        "desc": "You’ve learned every possible edge to use against your foes. When you use Hunt Prey, you gain the precision hunter’s edge benefit instead of the one you selected at 1st level. The first time you hit your hunted prey in a round, you also deal 1d8 additional precision damage. (Precision damage increases the damage you already deal, using the same type, but is ineffective against creatures that lack vital organs or weak points.) At 11th level, the extra damage increases to 2d8 precision damage, and at 19th level, the extra damage increases to 3d8 precision damage. You don’t gain the additional benefit from masterful hunter.\n\nYou designate a single creature as your prey and focus your attacks against that creature. You must be able to see or hear the prey, or you must be tracking the prey during exploration.\n\nYou gain a +2 circumstance bonus to Perception checks when you Seek your prey and a +2 circumstance bonus to Survival checks when you Track your prey. You also ignore the penalty for making ranged attacks within your second range increment against the prey you're hunting.\n\nYou can have only one creature designated as your prey at a time. If you use Hunt Prey against a creature when you already have a creature designated, the prior creature loses the designation and the new prey gains the designation. Your designation lasts until your next daily preparations.",
+        "desc": "You've learned every possible edge to use against your foes. When you use Hunt Prey, you gain the precision hunter's edge benefit instead of the one you selected at 1st level. The first time you hit your hunted prey in a round, you also deal 1d8 additional precision damage. (Precision damage increases the damage you already deal, using the same type, but is ineffective against creatures that lack vital organs or weak points.) At 11th level, the extra damage increases to 2d8 precision damage, and at 19th level, the extra damage increases to 3d8 precision damage. You don't gain the additional benefit from masterful hunter.\n\nYou designate a single creature as your prey and focus your attacks against that creature. You must be able to see or hear the prey, or you must be tracking the prey during exploration.\n\nYou gain a +2 circumstance bonus to Perception checks when you Seek your prey and a +2 circumstance bonus to Survival checks when you Track your prey. You also ignore the penalty for making ranged attacks within your second range increment against the prey you're hunting.\n\nYou can have only one creature designated as your prey at a time. If you use Hunt Prey against a creature when you already have a creature designated, the prior creature loses the designation and the new prey gains the designation. Your designation lasts until your next daily preparations.",
         "gainConditions": [
             {
                 "duration": -1,
@@ -2701,8 +2701,8 @@
         "sustained": 100,
         "toggle": true,
         "cooldown": 100,
-        "requirements": "The badger isn’t fatigued or raging.",
-        "desc": "The badger enters a state of pure rage that lasts for 1 minute, until there are no enemies it can perceive, or until it falls unconscious, whichever comes first. It can’t voluntarily stop raging. While raging, the badger is affected in the following ways.\n\nIt deals 4 additional damage with its bite attacks and 2 additional damage with its claw attacks.\nIt takes a -1 penalty to AC.\nIt can’t use actions that have the concentrate trait unless they also have the rage trait. The animal companion can Seek even while raging.\n\nAfter it has stopped raging, it can’t use Badger Rage again for 1 minute.",
+        "requirements": "The badger isn't fatigued or raging.",
+        "desc": "The badger enters a state of pure rage that lasts for 1 minute, until there are no enemies it can perceive, or until it falls unconscious, whichever comes first. It can't voluntarily stop raging. While raging, the badger is affected in the following ways.\n\nIt deals 4 additional damage with its bite attacks and 2 additional damage with its claw attacks.\nIt takes a -1 penalty to AC.\nIt can't use actions that have the concentrate trait unless they also have the rage trait. The animal companion can Seek even while raging.\n\nAfter it has stopped raging, it can't use Badger Rage again for 1 minute.",
         "gainConditions": [
             {
                 "name": "Badger Rage",
@@ -2769,8 +2769,8 @@
     {
         "name": "Gnaw",
         "actions": "1A",
-        "requirements": "The animal companion’s last action was a successful jaws Strike.",
-        "desc": "The Strike’s target takes 1d6 persistent bleed damage and takes a -10-foot status penalty to its Speed until it removes the bleed damage. If the hyena is a specialized animal companion, the persistent bleed damage increases to 2d6.",
+        "requirements": "The animal companion's last action was a successful jaws Strike.",
+        "desc": "The Strike's target takes 1d6 persistent bleed damage and takes a -10-foot status penalty to its Speed until it removes the bleed damage. If the hyena is a specialized animal companion, the persistent bleed damage increases to 2d6.",
         "traits": [
             "Move"
         ]
@@ -2801,14 +2801,14 @@
     {
         "name": "Knockdown (Wolf)",
         "actions": "1A",
-        "requirements": "The animal companion’s last action was a successful jaws Strike.",
+        "requirements": "The animal companion's last action was a successful jaws Strike.",
         "desc": "The wolf automatically knocks the target of its jaws Strike prone."
     },
     {
         "name": "Counterspell (Prepared)",
         "actions": "Reaction",
         "trigger": "A creature Casts a Spell that you have prepared.",
-        "desc": "When a foe Casts a Spell and you can see its manifestations, you can use your own magic to disrupt it. You expend a prepared spell to counter the triggering creature’s casting of that same spell. You lose your spell slot as if you had cast the triggering spell. You then attempt to counteract the triggering spell.",
+        "desc": "When a foe Casts a Spell and you can see its manifestations, you can use your own magic to disrupt it. You expend a prepared spell to counter the triggering creature's casting of that same spell. You lose your spell slot as if you had cast the triggering spell. You then attempt to counteract the triggering spell.",
         "traits": [
             "Abjuration",
             "Arcane",
@@ -2818,7 +2818,7 @@
     {
         "name": "Conceal Spell",
         "actions": "1A",
-        "desc": "Hiding your gestures and incantations within other speech and movement, you attempt to conceal the fact that you are Casting a Spell. If the next action you use is to Cast a Spell, attempt a Stealth check against one or more observers’ Perception DCs; if the spell has verbal components, you must also attempt a Deception check against the observers’ Perception DC. If you succeed at your check (or checks) against an observer’s DC, that observer doesn’t notice you’re casting a spell, even though material, somatic, and verbal components are usually noticeable and spells normally have sensory manifestations that would make spellcasting obvious to those nearby.\n\nThis ability hides only the spell’s spellcasting actions and manifestations, not its effects, so an observer might still see a ray streak out from you or see you vanish into thin air.",
+        "desc": "Hiding your gestures and incantations within other speech and movement, you attempt to conceal the fact that you are Casting a Spell. If the next action you use is to Cast a Spell, attempt a Stealth check against one or more observers' Perception DCs; if the spell has verbal components, you must also attempt a Deception check against the observers' Perception DC. If you succeed at your check (or checks) against an observer's DC, that observer doesn't notice you're casting a spell, even though material, somatic, and verbal components are usually noticeable and spells normally have sensory manifestations that would make spellcasting obvious to those nearby.\n\nThis ability hides only the spell's spellcasting actions and manifestations, not its effects, so an observer might still see a ray streak out from you or see you vanish into thin air.",
         "traits": [
             "Concentrate",
             "Manipulate",
@@ -2831,7 +2831,7 @@
         "frequency": "once per turn",
         "cooldown": 10,
         "requirements": "Your most recent action was to cast a non-cantrip abjuration spell.",
-        "desc": "You siphon the residual energy from the last spell you cast into one weapon you’re wielding. Until the end of your turn, the weapon deals an extra 1d6 force damage.",
+        "desc": "You siphon the residual energy from the last spell you cast into one weapon you're wielding. Until the end of your turn, the weapon deals an extra 1d6 force damage.",
         "gainConditions": [
             {
                 "duration": 5,
@@ -2850,7 +2850,7 @@
         "frequency": "once per turn",
         "cooldown": 10,
         "requirements": "Your most recent action was to cast a non-cantrip conjuration or transmutation spell.",
-        "desc": "You siphon the residual energy from the last spell you cast into one weapon you’re wielding. Until the end of your turn, the weapon deals an extra 1d6 damage.",
+        "desc": "You siphon the residual energy from the last spell you cast into one weapon you're wielding. Until the end of your turn, the weapon deals an extra 1d6 damage.",
         "gainConditions": [
             {
                 "duration": 5,
@@ -2869,7 +2869,7 @@
         "frequency": "once per turn",
         "cooldown": 10,
         "requirements": "Your most recent action was to cast a non-cantrip divination, enchantment or illusion spell.",
-        "desc": "You siphon the residual energy from the last spell you cast into one weapon you’re wielding. Until the end of your turn, the weapon deals an extra 1d6 mental damage.",
+        "desc": "You siphon the residual energy from the last spell you cast into one weapon you're wielding. Until the end of your turn, the weapon deals an extra 1d6 mental damage.",
         "gainConditions": [
             {
                 "duration": 5,
@@ -2888,7 +2888,7 @@
         "frequency": "once per turn",
         "cooldown": 10,
         "requirements": "Your most recent action was to cast a non-cantrip evocation spell.",
-        "desc": "You siphon the residual energy from the last spell you cast into one weapon you’re wielding. Until the end of your turn, the weapon deals an extra 1d6 damage of a type the spell dealt, or 1d6 force damage if the spell didn't deal damage.",
+        "desc": "You siphon the residual energy from the last spell you cast into one weapon you're wielding. Until the end of your turn, the weapon deals an extra 1d6 damage of a type the spell dealt, or 1d6 force damage if the spell didn't deal damage.",
         "gainConditions": [
             {
                 "duration": 5,
@@ -2907,7 +2907,7 @@
         "frequency": "once per turn",
         "cooldown": 10,
         "requirements": "Your most recent action was to cast a non-cantrip necromancy spell.",
-        "desc": "You siphon the residual energy from the last spell you cast into one weapon you’re wielding. Until the end of your turn, the weapon deals an extra 1d6 negative damage.",
+        "desc": "You siphon the residual energy from the last spell you cast into one weapon you're wielding. Until the end of your turn, the weapon deals an extra 1d6 negative damage.",
         "gainConditions": [
             {
                 "duration": 5,
@@ -2923,7 +2923,7 @@
     {
         "name": "Silent Spell",
         "actions": "1A",
-        "desc": "You’ve learned how to cast many of your spells without speaking the words of power you would normally need to provide. If the next action you use is Casting a Spell that has a verbal component and at least one other component, you can remove the verbal component. This makes the spell quieter and allows you to cast it in areas where sound can’t carry. However, the spell still has visual manifestations, so this doesn’t make the spell any less obvious to someone who sees you casting it. When you use Silent Spell, you can choose to gain the benefits of Conceal Spell, and you don’t need to attempt a Deception check because the spell has no verbal components.",
+        "desc": "You've learned how to cast many of your spells without speaking the words of power you would normally need to provide. If the next action you use is Casting a Spell that has a verbal component and at least one other component, you can remove the verbal component. This makes the spell quieter and allows you to cast it in areas where sound can't carry. However, the spell still has visual manifestations, so this doesn't make the spell any less obvious to someone who sees you casting it. When you use Silent Spell, you can choose to gain the benefits of Conceal Spell, and you don't need to attempt a Deception check because the spell has no verbal components.",
         "traits": [
             "Concentrate",
             "Metamagic",
@@ -2952,7 +2952,7 @@
     {
         "name": "Overwhelming Energy",
         "actions": "1A",
-        "desc": "You alter your spells to overcome resistances. If the next action you use is to Cast a Spell, the spell ignores an amount of the target’s resistance to acid, cold, electricity, fire, or sonic damage equal to your level. This applies to all damage the spell deals, including persistent damage and damage caused by an ongoing effect of the spell, such as the wall created by wall of fire. A creature’s immunities are unaffected.",
+        "desc": "You alter your spells to overcome resistances. If the next action you use is to Cast a Spell, the spell ignores an amount of the target's resistance to acid, cold, electricity, fire, or sonic damage equal to your level. This applies to all damage the spell deals, including persistent damage and damage caused by an ongoing effect of the spell, such as the wall created by wall of fire. A creature's immunities are unaffected.",
         "traits": [
             "Druid",
             "Manipulate",
@@ -3023,7 +3023,7 @@
     {
         "name": "Spell Tinker",
         "actions": "2A",
-        "desc": "You’ve learned to alter choices you make when casting spells on yourself. After casting a spell on only yourself that offers several choices of effect (such as resist energy, spell immunity, or a polymorph spell that offers several potential forms), you can alter the choice you made when Casting the Spell (for instance, choosing a different type of damage for resist energy). However, your tinkering weakens the spell’s integrity, reducing its remaining duration by half.\n\nYou can’t use this feat if the benefits of the spell have already been used up or if the effects of the first choice would persist in any way after switching (for instance, if one of the choices was to create a consumable item you already used, or to heal you), or if the feat would create an effect more powerful than that offered by the base spell. The GM is the final arbiter of what Spell Tinker can be applied to.",
+        "desc": "You've learned to alter choices you make when casting spells on yourself. After casting a spell on only yourself that offers several choices of effect (such as resist energy, spell immunity, or a polymorph spell that offers several potential forms), you can alter the choice you made when Casting the Spell (for instance, choosing a different type of damage for resist energy). However, your tinkering weakens the spell's integrity, reducing its remaining duration by half.\n\nYou can't use this feat if the benefits of the spell have already been used up or if the effects of the first choice would persist in any way after switching (for instance, if one of the choices was to create a consumable item you already used, or to heal you), or if the feat would create an effect more powerful than that offered by the base spell. The GM is the final arbiter of what Spell Tinker can be applied to.",
         "inputRequired": "For spells where the chosen effect makes a mechanical difference, you can change the effect selection on the condition or select the alternative condition from the conditions menu and set the duration appropriately before removing the original condition.",
         "traits": [
             "Concentrate",
@@ -3047,7 +3047,7 @@
         "name": "You're Next",
         "actions": "Reaction",
         "trigger": "You reduce an enemy to 0 hit points.",
-        "desc": "After downing a foe, you menacingly remind another foe that you’re coming after them next. Attempt an Intimidation check with a +2 circumstance bonus to Demoralize a single creature that you can see and that can see you. If you have legendary proficiency in Intimidation, you can use this as a free action with the same trigger.",
+        "desc": "After downing a foe, you menacingly remind another foe that you're coming after them next. Attempt an Intimidation check with a +2 circumstance bonus to Demoralize a single creature that you can see and that can see you. If you have legendary proficiency in Intimidation, you can use this as a free action with the same trigger.",
         "traits": [
             "Emotion",
             "Fear",
@@ -3058,8 +3058,8 @@
     {
         "name": "Battle Assessment",
         "actions": "1A",
-        "desc": "With careful observation during battle, you identify an enemy’s strengths and weaknesses. The GM rolls a secret Perception check for you against the Deception or Stealth DC (whichever is higher) of an enemy of your choice who is not concealed from you, hidden from you, or undetected by you, and who is engaged in combat. The GM might apply a penalty for the distance between you and the enemy. The enemy is then temporarily immune to your Battle Assessment for 1 day.",
-        "critsuccess": "The GM chooses two of the following pieces of information about the enemy to tell you: which of the enemy’s weaknesses is highest, which of the enemy’s saving throws has the lowest modifier, one immunity the enemy has, or which of the enemy’s resistances is highest. If the event of a tie, the GM should pick one at random.",
+        "desc": "With careful observation during battle, you identify an enemy's strengths and weaknesses. The GM rolls a secret Perception check for you against the Deception or Stealth DC (whichever is higher) of an enemy of your choice who is not concealed from you, hidden from you, or undetected by you, and who is engaged in combat. The GM might apply a penalty for the distance between you and the enemy. The enemy is then temporarily immune to your Battle Assessment for 1 day.",
+        "critsuccess": "The GM chooses two of the following pieces of information about the enemy to tell you: which of the enemy's weaknesses is highest, which of the enemy's saving throws has the lowest modifier, one immunity the enemy has, or which of the enemy's resistances is highest. If the event of a tie, the GM should pick one at random.",
         "success": "The GM chooses one piece of information from the above list to tell you about the enemy.",
         "critfailure": "The GM gives you false information (the GM makes up the information).",
         "traits": [
@@ -3088,7 +3088,7 @@
         "name": "Sabotage",
         "actions": "1A",
         "requirements": "You have a free hand.",
-        "desc": "You subtly damage others’ equipment. Choose one item that a creature within your reach wields or carries. The item must have moving parts that you could possibly sabotage (a shortbow could be sabotaged, but a longsword could not). Attempt a Thievery check against the Reflex DC of the creature. Damage dealt by Sabotage can’t take the item below its Break Threshold.",
+        "desc": "You subtly damage others' equipment. Choose one item that a creature within your reach wields or carries. The item must have moving parts that you could possibly sabotage (a shortbow could be sabotaged, but a longsword could not). Attempt a Thievery check against the Reflex DC of the creature. Damage dealt by Sabotage can't take the item below its Break Threshold.",
         "critsuccess": "You deal damage equal to four times your Thievery proficiency bonus.",
         "success": "You deal damage equal to double your Thievery proficiency bonus.",
         "critfailure": "Temporarily immune to your Sabotage for 1 day.",
@@ -3101,7 +3101,10 @@
         "name": "Twist the Knife",
         "actions": "1A",
         "requirements": "Your last action was a melee Strike that dealt sneak attack damage to a flat-footed target.",
-        "desc": "After stabbing your opponent in a weak spot, you tear the wound open. You deal persistent bleed damage to the target equal to your number of sneak attack damage dice."
+        "desc": "After stabbing your opponent in a weak spot, you tear the wound open. You deal persistent bleed damage to the target equal to your number of sneak attack damage dice.",
+        "traits": [
+            "Rogue"
+        ]
     },
     {
         "name": "Delay Trap",
@@ -3109,26 +3112,38 @@
         "trigger": "A trap within your reach is triggered.",
         "desc": "You can jam the workings of a trap to delay its effects. Attempt a Thievery check to Disable a Device on the trap; the DC to do so is increased by 5, and the effects are as follows.",
         "critsuccess": "You prevent the trap from being triggered, or you delay the activation until the start or end of your next turn (your choice).",
-        "success": "You prevent the trap from being triggered, or you delay the activation until the end of your next turn (whichever is worse for you; GM’s choice).",
+        "success": "You prevent the trap from being triggered, or you delay the activation until the end of your next turn (whichever is worse for you; GM's choice).",
         "failure": "No effect.",
-        "critfailure": "You’re flat-footed until the start of your next turn."
+        "critfailure": "You're flat-footed until the start of your next turn.",
+        "traits": [
+            "Rogue"
+        ]
     },
     {
         "name": "Opportune Backstab",
         "actions": "Reaction",
         "trigger": "A creature within your melee reach is hit by a melee attack from one of your allies.",
-        "desc": "When your enemy is hit by your ally, you capitalize upon the distraction. Make a Strike against the triggering creature."
+        "desc": "When your enemy is hit by your ally, you capitalize upon the distraction. Make a Strike against the triggering creature.",
+        "traits": [
+            "Rogue"
+        ]
     },
     {
         "name": "Sidestep",
         "actions": "Reaction",
         "trigger": "The attack roll for a Strike targeting you fails or critically fails.",
-        "desc": "You deftly step out of the way of an attack, letting the blow continue to the creature next to you. You redirect the attack to a creature of your choice that is adjacent to you and within the reach of the triggering attack. The attacker rerolls the Strike’s attack roll against the new target."
+        "desc": "You deftly step out of the way of an attack, letting the blow continue to the creature next to you. You redirect the attack to a creature of your choice that is adjacent to you and within the reach of the triggering attack. The attacker rerolls the Strike's attack roll against the new target.",
+        "traits": [
+            "Rogue"
+        ]
     },
     {
         "name": "Fantastic Leap",
         "actions": "2A",
-        "desc": "You launch yourself through the air at a foe. Attempt a High Jump or Long Jump. If you attempt a High Jump, determine the distance you can travel using the scale of a Long Jump. At the end of your jump, you can make a melee Strike.\n\nAfter your Strike, you fall to the ground if you’re in the air. If the distance of your fall is no more than the height of your jump, you take no damage and land upright."
+        "desc": "You launch yourself through the air at a foe. Attempt a High Jump or Long Jump. If you attempt a High Jump, determine the distance you can travel using the scale of a Long Jump. At the end of your jump, you can make a melee Strike.\n\nAfter your Strike, you fall to the ground if you're in the air. If the distance of your fall is no more than the height of your jump, you take no damage and land upright.",
+        "traits": [
+            "Rogue"
+        ]
     },
     {
         "name": "Felling Shot",
@@ -3136,18 +3151,24 @@
         "desc": "Your ranged attacks can shoot an unprepared foe right out of the air. Make a Strike with a ranged weapon or a thrown weapon against a flat-footed creature. If the Strike is a success and deals damage, the target must attempt a Reflex save against your class DC with the following effects.",
         "success": "The target is unaffected.",
         "failure": "The target falls up to 120 feet. If it hits the ground, it takes no damage from the fall.",
-        "critfailure": "As failure, and the target can’t fiy, jump, levitate, or otherwise leave the ground until the end of your next turn."
+        "critfailure": "As failure, and the target can't fiy, jump, levitate, or otherwise leave the ground until the end of your next turn.",
+        "traits": [
+            "Rogue"
+        ]
     },
     {
         "name": "Reactive Interference",
         "actions": "Reaction",
         "trigger": "An adjacent enemy begins to use a reaction.",
-        "desc": "Grabbing a sleeve, swiping with your weapon, or creating another obstruction, you reflexively foil an enemy’s response. If the triggering creature’s level is equal to or lower than yours, you disrupt the triggering reaction. If the triggering creature’s level is higher than yours, you must make an attack roll against its AC. On a success, you disrupt the reaction."
+        "desc": "Grabbing a sleeve, swiping with your weapon, or creating another obstruction, you reflexively foil an enemy's response. If the triggering creature's level is equal to or lower than yours, you disrupt the triggering reaction. If the triggering creature's level is higher than yours, you must make an attack roll against its AC. On a success, you disrupt the reaction.",
+        "traits": [
+            "Rogue"
+        ]
     },
     {
         "name": "Spring from the Shadows",
         "actions": "1A",
-        "desc": "Leaping out from hiding, you assail your target when they least expect it. You Stride up to your Speed, but you must end your movement next to an enemy you’re hidden from or undetected by. You then Strike that enemy; you remain hidden from or undetected by that creature until after you Strike. You can use Spring from the Shadows while Burrowing, Climbing, Flying, or Swimming instead of Striding if you have the corresponding movement type.",
+        "desc": "Leaping out from hiding, you assail your target when they least expect it. You Stride up to your Speed, but you must end your movement next to an enemy you're hidden from or undetected by. You then Strike that enemy; you remain hidden from or undetected by that creature until after you Strike. You can use Spring from the Shadows while Burrowing, Climbing, Flying, or Swimming instead of Striding if you have the corresponding movement type.",
         "traits": [
             "Flourish",
             "Rogue"
@@ -3159,12 +3180,15 @@
         "frequency": "once per 10 minutes",
         "cooldown": 1000,
         "trigger": "A physical attack would reduce you to 0 Hit Points.",
-        "desc": "Dropping into a roll to disperse the force of the blow, you can partially evade a lethal attack and stay conscious. You take half damage from the triggering attack."
+        "desc": "Dropping into a roll to disperse the force of the blow, you can partially evade a lethal attack and stay conscious. You take half damage from the triggering attack.",
+        "traits": [
+            "Rogue"
+        ]
     },
     {
         "name": "Instant Opening",
         "actions": "1A",
-        "desc": "You distract your opponent with a few choice words or a rude gesture. Choose a target within 30 feet. It’s flat-footed against your attacks until the end of your next turn. Depending on the way you describe your distraction, this action gains either the auditory or visual trait.",
+        "desc": "You distract your opponent with a few choice words or a rude gesture. Choose a target within 30 feet. It's flat-footed against your attacks until the end of your next turn. Depending on the way you describe your distraction, this action gains either the auditory or visual trait.",
         "traits": [
             "Concentrate",
             "Rogue"
@@ -3183,20 +3207,29 @@
                 "name": "Cognitive Loophole",
                 "source": "Cognitive Loophole"
             }
+        ],
+        "traits": [
+            "Rogue"
         ]
     },
     {
         "name": "Dispelling Slice",
         "actions": "2A",
-        "desc": "Your sneak attack slices through the threads binding magic to a target. Make a Strike against a flat-footed creature (your choice). If your Strike deals sneak attack damage, you attempt to counteract a single spell active on the target. Your counteract level is equal to your rogue level, and your counteract check modifier is equal to your class DC - 10."
+        "desc": "Your sneak attack slices through the threads binding magic to a target. Make a Strike against a flat-footed creature (your choice). If your Strike deals sneak attack damage, you attempt to counteract a single spell active on the target. Your counteract level is equal to your rogue level, and your counteract check modifier is equal to your class DC - 10.",
+        "traits": [
+            "Rogue"
+        ]
     },
     {
         "name": "Perfect Distraction",
         "actions": "1A",
         "sustained": 100,
-        "desc": "You use clever tactics to mislead your foes as you sneak away. You Sneak while leaving a decoy behind. The decoy acts as the spell mislead, though you aren’t invisible, just undetected. You can continue to concentrate to move your decoy, as with the spell, whether or not you remain hidden throughout the duration. Once you use Perfect Distraction, you need to spend 10 minutes to set up another decoy before you can use it again.",
+        "desc": "You use clever tactics to mislead your foes as you sneak away. You Sneak while leaving a decoy behind. The decoy acts as the spell mislead, though you aren't invisible, just undetected. You can continue to concentrate to move your decoy, as with the spell, whether or not you remain hidden throughout the duration. Once you use Perfect Distraction, you need to spend 10 minutes to set up another decoy before you can use it again.",
         "showSpells": [
-            "Mislead"
+            {
+                "name": "Mislead",
+                "level": 6
+            }
         ],
         "gainConditions": [
             {
@@ -3204,6 +3237,9 @@
                 "name": "Perfect Distraction",
                 "source": "Perfect Distraction"
             }
+        ],
+        "traits": [
+            "Rogue"
         ]
     },
     {
@@ -3220,10 +3256,10 @@
     {
         "name": "Trickster's Ace",
         "actions": "Reaction",
-        "requirements": "When you make your daily preparations, you must specify a trigger for this reaction using the same restrictions as the triggers for the Ready action. You also choose a single spell from the arcane, divine, occult, or primal list of 4th level or lower. The spell can’t have a cost, nor can its casting time be more than 10 minutes. The spell must be able to target a single creature, and you must be a valid target for it.",
+        "requirements": "When you make your daily preparations, you must specify a trigger for this reaction using the same restrictions as the triggers for the Ready action. You also choose a single spell from the arcane, divine, occult, or primal list of 4th level or lower. The spell can't have a cost, nor can its casting time be more than 10 minutes. The spell must be able to target a single creature, and you must be a valid target for it.",
         "trigger": "You specify the trigger when you make your daily preparations (see Requirements below).",
         "desc": "Whether from jury-rigged magic items, stolen magical essence, or other means, you have a contingency in your back pocket for desperate situations. When the trigger occurs, you cause the spell to come into effect. The spell targets only you, no matter how many creatures it would affect normally. If you define particularly complicated conditions, as determined by the GM, the trigger might fail. Once the contingency is triggered, the spell is expended until your next daily preparations.",
-        "inputRequired": "You gain a spell slot for this purpose. When the trigger occurs, you can use the prepared spell as a Reaction.",
+        "inputRequired": "You gain a spell slot for this purpose. When the trigger occurs, you can use the prepared spell as a Reaction. When choosing the spell in the spells menu, you must determine whether the chosen spell fulfills the requirements of Trickster's Ace.",
         "traits": [
             "Concentrate",
             "Rogue"
@@ -3254,14 +3290,17 @@
                 "name": "Hidden Paragon",
                 "source": "Hidden Paragon"
             }
+        ],
+        "traits": [
+            "Rogue"
         ]
     },
     {
         "name": "Reactive Distraction",
         "actions": "Reaction",
         "requirements": "You have Perfect Distraction ready to use.",
-        "trigger": "You would be hit by an attack or targeted by an effect, or you are within an effect’s area.",
-        "desc": "You reactively switch with your decoy to foil your foe. You use Perfection Distraction, even if you were observed, as long as you end the movement of your Sneak while concealed or in a location with cover or greater cover. Your decoy is targeted by the attack or effect instead of you. In the case of an area effect, if your Sneak doesn’t move you out of the area, both you and the decoy are targeted by the effect.",
+        "trigger": "You would be hit by an attack or targeted by an effect, or you are within an effect's area.",
+        "desc": "You reactively switch with your decoy to foil your foe. You use Perfect Distraction, even if you were observed, as long as you end the movement of your Sneak while concealed or in a location with cover or greater cover. Your decoy is targeted by the attack or effect instead of you. In the case of an area effect, if your Sneak doesn't move you out of the area, both you and the decoy are targeted by the effect.",
         "gainConditions": [
             {
                 "duration": 100,

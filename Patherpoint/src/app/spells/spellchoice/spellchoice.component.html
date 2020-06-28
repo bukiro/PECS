@@ -148,6 +148,10 @@
                     <label for="{{choice.id+spell.name}}">
                         <strong>{{(spellCasting?.castingType == 'Prepared' && spellTakenByThis(spell, choice)) ? " " + spellTakenByThis(spell, choice) + " " : ""}}{{spell.name}}&nbsp;</strong><cite>Level
                             {{spell.levelreq}}</cite>
+                        <cite class="trait" *ngIf="spell.traits.includes('Rare')"
+                            title="{{get_Traits('Rare')[0]?.description}}">Rare</cite>
+                        <cite class="trait" *ngIf="spell.traits.includes('Uncommon')"
+                            title="{{get_Traits('Uncommon')[0]?.description}}">Uncommon</cite>
                     </label>
                 </span>
                 <cite class="problem" *ngFor="let reason of cannotTake(spell, choice); trackBy:trackByIndex;">

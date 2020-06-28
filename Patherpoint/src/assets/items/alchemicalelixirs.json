@@ -63,7 +63,7 @@
         "actions": "1A",
         "activationType": "Interact",
         "usage": "held in 1 hand",
-        "desc": "Antiplague can fortify the body’s defenses against diseases. Upon drinking an antiplague, you gain an item bonus to Fortitude saving throws against diseases for 24 hours; this applies to your daily save against a disease’s progression.",
+        "desc": "Antiplague can fortify the body's defenses against diseases. Upon drinking an antiplague, you gain an item bonus to Fortitude saving throws against diseases for 24 hours; this applies to your daily save against a disease's progression.",
         "subType": "Lesser",
         "subTypeDesc": "You gain a +2 item bonus.",
         "traits": [
@@ -118,7 +118,7 @@
         "actions": "1A",
         "activationType": "Interact",
         "usage": "held in 1 hand",
-        "desc": "Elixirs of life accelerate the body’s natural healing processes and immune system. Upon drinking this elixir, you regain the listed number of Hit Points and gain an item bonus to saving throws against diseases and poisons for 10 minutes.",
+        "desc": "Elixirs of life accelerate the body's natural healing processes and immune system. Upon drinking this elixir, you regain the listed number of Hit Points and gain an item bonus to saving throws against diseases and poisons for 10 minutes.",
         "inputRequired": "Upon drinking this elixir, you regain the listed number of Hit Points.",
         "subType": "Minor",
         "subTypeDesc": "The elixir restores 1d6 Hit Points, and the bonus is +1.",
@@ -399,7 +399,7 @@
             }
         ],
         "benefit": "You gain an item bonus to Acrobatics checks, Stealth checks, Thievery checks, Reflex saves, and ranged attack rolls, and you gain the listed status bonus to your Speed.",
-        "drawback": "You take damage equal to twice your level; you can’t recover Hit Points lost in this way by any means while the mutagen lasts. You take a -2 penalty to Fortitude saves."
+        "drawback": "You take damage equal to twice your level; you can't recover Hit Points lost in this way by any means while the mutagen lasts. You take a -2 penalty to Fortitude saves."
     },
     {
         "name": "Energy Mutagen (Acid, Lesser)",
@@ -570,7 +570,7 @@
         "actions": "1A",
         "activationType": "Interact",
         "usage": "held in 1 hand",
-        "desc": "Favored by spies and tricksters, an infiltrator’s elixir is used to alter your appearance. When imbibed, you take the shape of a humanoid creature of your size, but different enough so you might be unrecognizable. If you aren’t a humanoid, you might take on a form more similar to your own, at the GM’s discretion.\n\nThe creator of the elixir decides the basics of the appearance you transform into when you imbibe the elixir, including eye color, skin tone, and hair color. The elixir can’t change your form into that of a specific person. After the form takes hold, you retain it for the next 10 minutes. \n\nDrinking this elixir counts as setting up a disguise to Impersonate. You gain a +4 status bonus to your Deception DC to avoid others seeing through your disguise, and you add your level to this DC even if untrained. ",
+        "desc": "Favored by spies and tricksters, an infiltrator's elixir is used to alter your appearance. When imbibed, you take the shape of a humanoid creature of your size, but different enough so you might be unrecognizable. If you aren't a humanoid, you might take on a form more similar to your own, at the GM's discretion.\n\nThe creator of the elixir decides the basics of the appearance you transform into when you imbibe the elixir, including eye color, skin tone, and hair color. The elixir can't change your form into that of a specific person. After the form takes hold, you retain it for the next 10 minutes. \n\nDrinking this elixir counts as setting up a disguise to Impersonate. You gain a +4 status bonus to your Deception DC to avoid others seeing through your disguise, and you add your level to this DC even if untrained. ",
         "traits": [
             "Alchemical",
             "Consumable",
@@ -625,7 +625,7 @@
         "actions": "1A",
         "activationType": "Interact",
         "usage": "held in 1 hand",
-        "desc": "After you consume this elixir, your vision sharpens and you become sensitive to even the most minute movements. For the next minute, you reduce the flat check to target hidden creatures to 5, and you don’t need to attempt a flat check to target concealed creatures. These benefits apply only against creatures within 30 feet of you. ",
+        "desc": "After you consume this elixir, your vision sharpens and you become sensitive to even the most minute movements. For the next minute, you reduce the flat check to target hidden creatures to 5, and you don't need to attempt a flat check to target concealed creatures. These benefits apply only against creatures within 30 feet of you. ",
         "traits": [
             "Alchemical",
             "Consumable",
@@ -650,7 +650,7 @@
         "actions": "1A",
         "activationType": "Interact",
         "usage": "held in 1 hand",
-        "desc": "This bitter draught opens your mind to the potential of the written word. For the listed duration after drinking this elixir, you can understand any words you read, so long as they are written in a common language. This elixir doesn’t automatically allow you to understand codes or extremely esoteric passages—you still need to attempt a skill check to Decipher Writing.",
+        "desc": "This bitter draught opens your mind to the potential of the written word. For the listed duration after drinking this elixir, you can understand any words you read, so long as they are written in a common language. This elixir doesn't automatically allow you to understand codes or extremely esoteric passages - you still need to attempt a skill check to Decipher Writing.",
         "subType": "Lesser",
         "subTypeDesc": "The duration is 1 minute.",
         "traits": [
@@ -877,7 +877,7 @@
             }
         ],
         "benefit": "You gain an item bonus to Acrobatics checks, Stealth checks, Thievery checks, Reflex saves, and ranged attack rolls, and you gain the listed status bonus to your Speed.",
-        "drawback": "You take damage equal to twice your level; you can’t recover Hit Points lost in this way by any means while the mutagen lasts. You take a -2 penalty to Fortitude saves."
+        "drawback": "You take damage equal to twice your level; you can't recover Hit Points lost in this way by any means while the mutagen lasts. You take a -2 penalty to Fortitude saves."
     },
     {
         "name": "Energy Mutagen (Acid, Moderate)",
@@ -1076,7 +1076,7 @@
         "usage": "held in 1 hand",
         "desc": "This tincture lets you pinpoint your foes. For the next 5 minutes, your alchemical bomb Strikes reduce the circumstance bonus to AC your targets gain from cover.",
         "subType": "Lesser",
-        "subTypeDesc": "Reduce your targets’ circumstance bonus by 1.",
+        "subTypeDesc": "Reduce your targets' circumstance bonus by 1.",
         "traits": [
             "Alchemical",
             "Consumable",
@@ -1151,7 +1151,7 @@
         "actions": "1A",
         "activationType": "Interact",
         "usage": "held in 1 hand",
-        "desc": "A faint mist emanates from your skin, making you concealed for the listed duration. As usual being concealed when your position is still obvious, you can’t use this concealment to Hide or Sneak.",
+        "desc": "A faint mist emanates from your skin, making you concealed for the listed duration. As usual being concealed when your position is still obvious, you can't use this concealment to Hide or Sneak.",
         "subType": "Lesser",
         "subTypeDesc": "The duration is 3 rounds.",
         "traits": [
@@ -1298,7 +1298,7 @@
         "actions": "1A",
         "activationType": "Interact",
         "usage": "held in 1 hand",
-        "desc": "Elixirs of life accelerate the body’s natural healing processes and immune system. Upon drinking this elixir, you regain the listed number of Hit Points and gain an item bonus to saving throws against diseases and poisons for 10 minutes.",
+        "desc": "Elixirs of life accelerate the body's natural healing processes and immune system. Upon drinking this elixir, you regain the listed number of Hit Points and gain an item bonus to saving throws against diseases and poisons for 10 minutes.",
         "inputRequired": "Upon drinking this elixir, you regain the listed number of Hit Points.",
         "subType": "Lesser",
         "subTypeDesc": "The elixir restores 3d6+6 Hit Points and the bonus is +1.",
@@ -1354,7 +1354,7 @@
         "actions": "1A",
         "activationType": "Interact",
         "usage": "held in 1 hand",
-        "desc": "Antiplague can fortify the body’s defenses against diseases. Upon drinking an antiplague, you gain an item bonus to Fortitude saving throws against diseases for 24 hours; this applies to your daily save against a disease’s progression.",
+        "desc": "Antiplague can fortify the body's defenses against diseases. Upon drinking an antiplague, you gain an item bonus to Fortitude saving throws against diseases for 24 hours; this applies to your daily save against a disease's progression.",
         "subType": "Moderate",
         "subTypeDesc": "You gain a +3 item bonus.",
         "traits": [
@@ -1381,7 +1381,7 @@
         "actions": "1A",
         "activationType": "Interact",
         "usage": "held in 1 hand",
-        "desc": "A faint mist emanates from your skin, making you concealed for the listed duration. As usual being concealed when your position is still obvious, you can’t use this concealment to Hide or Sneak.",
+        "desc": "A faint mist emanates from your skin, making you concealed for the listed duration. As usual being concealed when your position is still obvious, you can't use this concealment to Hide or Sneak.",
         "subType": "Moderate",
         "subTypeDesc": "The duration is 1 minute.",
         "traits": [
@@ -1410,7 +1410,7 @@
         "actions": "1A",
         "activationType": "Interact",
         "usage": "held in 1 hand",
-        "desc": "This bitter draught opens your mind to the potential of the written word. For the listed duration after drinking this elixir, you can understand any words you read, so long as they are written in a common language. This elixir doesn’t automatically allow you to understand codes or extremely esoteric passages—you still need to attempt a skill check to Decipher Writing.",
+        "desc": "This bitter draught opens your mind to the potential of the written word. For the listed duration after drinking this elixir, you can understand any words you read, so long as they are written in a common language. This elixir doesn't automatically allow you to understand codes or extremely esoteric passages - you still need to attempt a skill check to Decipher Writing.",
         "subType": "Lesser",
         "subTypeDesc": "The duration is 10 minutes.",
         "traits": [
@@ -1520,7 +1520,7 @@
         "actions": "1A",
         "activationType": "Interact",
         "usage": "held in 1 hand",
-        "desc": "Elixirs of life accelerate the body’s natural healing processes and immune system. Upon drinking this elixir, you regain the listed number of Hit Points and gain an item bonus to saving throws against diseases and poisons for 10 minutes.",
+        "desc": "Elixirs of life accelerate the body's natural healing processes and immune system. Upon drinking this elixir, you regain the listed number of Hit Points and gain an item bonus to saving throws against diseases and poisons for 10 minutes.",
         "inputRequired": "Upon drinking this elixir, you regain the listed number of Hit Points.",
         "subType": "Moderate",
         "subTypeDesc": "The elixir restores 5d6+12 Hit Points, and the bonus is +2.",
@@ -1605,7 +1605,7 @@
         "actions": "1A",
         "activationType": "Interact",
         "usage": "held in 1 hand",
-        "desc": "Antiplague can fortify the body’s defenses against diseases. Upon drinking an antiplague, you gain an item bonus to Fortitude saving throws against diseases for 24 hours; this applies to your daily save against a disease’s progression.",
+        "desc": "Antiplague can fortify the body's defenses against diseases. Upon drinking an antiplague, you gain an item bonus to Fortitude saving throws against diseases for 24 hours; this applies to your daily save against a disease's progression.",
         "subType": "Greater",
         "subTypeDesc": "You gain a +4 item bonus.",
         "traits": [
@@ -1632,7 +1632,7 @@
         "actions": "1A",
         "activationType": "Interact",
         "usage": "held in 1 hand",
-        "desc": "A faint mist emanates from your skin, making you concealed for the listed duration. As usual being concealed when your position is still obvious, you can’t use this concealment to Hide or Sneak.",
+        "desc": "A faint mist emanates from your skin, making you concealed for the listed duration. As usual being concealed when your position is still obvious, you can't use this concealment to Hide or Sneak.",
         "subType": "Greater",
         "subTypeDesc": "The duration is 5 minutes.",
         "traits": [
@@ -1888,7 +1888,7 @@
             }
         ],
         "benefit": "You gain an item bonus to Acrobatics checks, Stealth checks, Thievery checks, Reflex saves, and ranged attack rolls, and you gain the listed status bonus to your Speed.",
-        "drawback": "You take damage equal to twice your level; you can’t recover Hit Points lost in this way by any means while the mutagen lasts. You take a -2 penalty to Fortitude saves."
+        "drawback": "You take damage equal to twice your level; you can't recover Hit Points lost in this way by any means while the mutagen lasts. You take a -2 penalty to Fortitude saves."
     },
     {
         "name": "Energy Mutagen (Acid, Greater)",
@@ -2096,7 +2096,7 @@
         "usage": "held in 1 hand",
         "desc": "This elixir warms your core and improves your circulation. For 24 hours, you are protected from the effects of severe cold.",
         "subType": "Moderate",
-        "subTypeDesc": "You’re also protected from extreme cold.",
+        "subTypeDesc": "You're also protected from extreme cold.",
         "traits": [
             "Alchemical",
             "Consumable",
@@ -2123,7 +2123,7 @@
         "usage": "held in 1 hand",
         "desc": "This elixir is made from salamander scales to withstand fire. For 24 hours, you are protected from the effects of severe heat.",
         "subType": "Moderate",
-        "subTypeDesc": "You’re also protected from extreme heat.",
+        "subTypeDesc": "You're also protected from extreme heat.",
         "traits": [
             "Alchemical",
             "Consumable",
@@ -2148,7 +2148,7 @@
         "actions": "1A",
         "activationType": "Interact",
         "usage": "held in 1 hand",
-        "desc": "Elixirs of life accelerate the body’s natural healing processes and immune system. Upon drinking this elixir, you regain the listed number of Hit Points and gain an item bonus to saving throws against diseases and poisons for 10 minutes.",
+        "desc": "Elixirs of life accelerate the body's natural healing processes and immune system. Upon drinking this elixir, you regain the listed number of Hit Points and gain an item bonus to saving throws against diseases and poisons for 10 minutes.",
         "inputRequired": "Upon drinking this elixir, you regain the listed number of Hit Points.",
         "subType": "Greater",
         "subTypeDesc": "The elixir restores 7d6+18 Hit Points, and the bonus is +2.",
@@ -2204,7 +2204,7 @@
         "actions": "1A",
         "activationType": "Interact",
         "usage": "held in 1 hand",
-        "desc": "Antiplague can fortify the body’s defenses against diseases. Upon drinking an antiplague, you gain an item bonus to Fortitude saving throws against diseases for 24 hours; this applies to your daily save against a disease’s progression.",
+        "desc": "Antiplague can fortify the body's defenses against diseases. Upon drinking an antiplague, you gain an item bonus to Fortitude saving throws against diseases for 24 hours; this applies to your daily save against a disease's progression.",
         "subType": "Major",
         "subTypeDesc": "You gain a +4 item bonus, and when you drink the antiplague, you can immediately attempt a saving throw against one disease of 14th level or lower affecting you. If you succeed, you are cured of the disease.",
         "traits": [
@@ -2233,7 +2233,7 @@
         "usage": "held in 1 hand",
         "desc": "This tincture lets you pinpoint your foes. For the next 5 minutes, your alchemical bomb Strikes reduce the circumstance bonus to AC your targets gain from cover.",
         "subType": "Greater",
-        "subTypeDesc": "Reduce your targets’ circumstance bonus by 2.",
+        "subTypeDesc": "Reduce your targets' circumstance bonus by 2.",
         "traits": [
             "Alchemical",
             "Consumable",
@@ -2349,7 +2349,7 @@
         "actions": "1A",
         "activationType": "Interact",
         "usage": "held in 1 hand",
-        "desc": "Elixirs of life accelerate the body’s natural healing processes and immune system. Upon drinking this elixir, you regain the listed number of Hit Points and gain an item bonus to saving throws against diseases and poisons for 10 minutes.",
+        "desc": "Elixirs of life accelerate the body's natural healing processes and immune system. Upon drinking this elixir, you regain the listed number of Hit Points and gain an item bonus to saving throws against diseases and poisons for 10 minutes.",
         "inputRequired": "Upon drinking this elixir, you regain the listed number of Hit Points.",
         "subType": "Major",
         "subTypeDesc": "The elixir restores 8d6+21 Hit Points, and the bonus is +3.",
@@ -2380,7 +2380,7 @@
         "usage": "held in 1 hand",
         "desc": "This elixir warms your core and improves your circulation. For 24 hours, you are protected from the effects of severe cold.",
         "subType": "Greater",
-        "subTypeDesc": "You’re also protected from extreme and incredible cold.",
+        "subTypeDesc": "You're also protected from extreme and incredible cold.",
         "traits": [
             "Alchemical",
             "Consumable",
@@ -2407,7 +2407,7 @@
         "usage": "held in 1 hand",
         "desc": "This elixir is made from salamander scales to withstand fire. For 24 hours, you are protected from the effects of severe heat.",
         "subType": "Greater",
-        "subTypeDesc": "You’re also protected from extreme and incredible heat.",
+        "subTypeDesc": "You're also protected from extreme and incredible heat.",
         "traits": [
             "Alchemical",
             "Consumable",
@@ -2659,7 +2659,7 @@
             }
         ],
         "benefit": "You gain an item bonus to Acrobatics checks, Stealth checks, Thievery checks, Reflex saves, and ranged attack rolls, and you gain the listed status bonus to your Speed.",
-        "drawback": "You take damage equal to twice your level; you can’t recover Hit Points lost in this way by any means while the mutagen lasts. You take a -2 penalty to Fortitude saves."
+        "drawback": "You take damage equal to twice your level; you can't recover Hit Points lost in this way by any means while the mutagen lasts. You take a -2 penalty to Fortitude saves."
     },
     {
         "name": "Energy Mutagen (Acid, Major)",
@@ -2803,7 +2803,7 @@
         "actions": "1A",
         "activationType": "Interact",
         "usage": "held in 1 hand",
-        "desc": "Elixirs of life accelerate the body’s natural healing processes and immune system. Upon drinking this elixir, you regain the listed number of Hit Points and gain an item bonus to saving throws against diseases and poisons for 10 minutes.",
+        "desc": "Elixirs of life accelerate the body's natural healing processes and immune system. Upon drinking this elixir, you regain the listed number of Hit Points and gain an item bonus to saving throws against diseases and poisons for 10 minutes.",
         "inputRequired": "Upon drinking this elixir, you regain the listed number of Hit Points.",
         "subType": "TRUE",
         "subTypeDesc": "The elixir restores 10d6+27 Hit Points, and the bonus is +4.",
@@ -2831,9 +2831,9 @@
         "actions": "1A",
         "activationType": "Interact",
         "sourceBook": "World Guide",
-        "craftRequirement": "Unlike Crafting most items, brewing the sun orchid elixir takes 1 month’s time. While an individual vial of sun orchid elixir isn’t unique, the formula is unique, and it’s known only to Artokus Kirran of Thuvia.",
+        "craftRequirement": "Unlike Crafting most items, brewing the sun orchid elixir takes 1 month's time. While an individual vial of sun orchid elixir isn't unique, the formula is unique, and it's known only to Artokus Kirran of Thuvia.",
         "usage": "held in 1 hand",
-        "desc": "When you drink this elixir, you physically become as you were in whatever phase of your youth you desire. Your new body begins in peak health, regardless of what your actual condition was at that age. Any physical or mental imperfections— including scars, lost limbs, and curses, diseases, poisons of 20th level or lower— are removed, and you regain your full Hit Points. You immediately begin to age normally again, with your natural lifespan extended as if you had never aged past your new apparent age. You retain all your memories.",
+        "desc": "When you drink this elixir, you physically become as you were in whatever phase of your youth you desire. Your new body begins in peak health, regardless of what your actual condition was at that age. Any physical or mental imperfections -  including scars, lost limbs, and curses, diseases, poisons of 20th level or lower -  are removed, and you regain your full Hit Points. You immediately begin to age normally again, with your natural lifespan extended as if you had never aged past your new apparent age. You retain all your memories.",
         "traits": [
             "Rare",
             "Alchemical",
@@ -2856,9 +2856,9 @@
         "id": "eee1ca72-a916-11ea-bb37-0242ac130002",
         "actions": "1A",
         "activationType": "Interact",
-        "craftRequirement": "philosopher’s stone, true elixir of life",
+        "craftRequirement": "philosopher's stone, true elixir of life",
         "usage": "held in 1 hand",
-        "desc": "The elixir of rejuvenation restores a creature to full health and eradicates toxins affecting it. When you drink this elixir, you’re restored to your maximum Hit Points, and all afflictions of 20th level or lower affecting you are removed.\n\nYou can instead administer this elixir to a creature that has been dead for a week or less. When you do, that creature is instantly brought back to life with 1 Hit Point and no spell slots, Focus Points, or other daily resources.",
+        "desc": "The elixir of rejuvenation restores a creature to full health and eradicates toxins affecting it. When you drink this elixir, you're restored to your maximum Hit Points, and all afflictions of 20th level or lower affecting you are removed.\n\nYou can instead administer this elixir to a creature that has been dead for a week or less. When you do, that creature is instantly brought back to life with 1 Hit Point and no spell slots, Focus Points, or other daily resources.",
         "inputRequired": "Remove all afflictions (curses, diseases and drug side effects) of 20th level or lower affecting you. If this elixir brings a creature back to life, their daily resources do not change.",
         "traits": [
             "Uncommon",

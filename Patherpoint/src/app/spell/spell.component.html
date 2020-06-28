@@ -1,4 +1,4 @@
-<div class="row" *ngIf="spell">
+<div class="row lower" *ngIf="spell">
     <div class="row left-aligned" *ngIf="spell.traits.length">
         <cite class="trait" *ngFor="let trait of spell.traits; trackBy:trackByIndex;"
             title="{{get_Traits(trait)[0].description}}">{{trait}}</cite>

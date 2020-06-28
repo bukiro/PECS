@@ -1726,7 +1726,7 @@
    },
    {
       "bulk": "1",
-      "desc": "The polytool is a small metal rod with a number of simple tools folded inside. The user can extend a long ceramic blade, as well as an awl, a chisel, a file, flint and steel, a hook, an inkpen, a magnifying glass, pliers, scissors, and a small saw. The flint and steel can be used up to 10 times before needing to be replaced. Though inspired by advanced Numerian technology, the polytool is a simple enough feat of metalworking that any blacksmith could produce it— perfect for the goddess Casandalee to spread innovation farther than actual Numerian tech could reach.\n\nCharacters from Numeria have access to the polytool.",
+      "desc": "The polytool is a small metal rod with a number of simple tools folded inside. The user can extend a long ceramic blade, as well as an awl, a chisel, a file, flint and steel, a hook, an inkpen, a magnifying glass, pliers, scissors, and a small saw. The flint and steel can be used up to 10 times before needing to be replaced. Though inspired by advanced Numerian technology, the polytool is a simple enough feat of metalworking that any blacksmith could produce it -  perfect for the goddess Casandalee to spread innovation farther than actual Numerian tech could reach.\n\nCharacters from Numeria have access to the polytool.",
       "id": "0869592e-8daa-11ea-abca-ffb46fbada73",
       "level": 1,
       "name": "Polytool",
@@ -1858,7 +1858,7 @@
    },
    {
       "bulk": "1",
-      "desc": "A scourge—also known as a cat-o'-nine-tails—is a set of several knotted cords made from cotton or leather and attached to a handle. While most scourges are more suitable for torture than combat, the weapons used by the Order of the Scourge have metal barbs woven in to pierce clothing and armor. The scourge is a martial melee weapon.",
+      "desc": "A scourge - also known as a cat-o'-nine-tails - is a set of several knotted cords made from cotton or leather and attached to a handle. While most scourges are more suitable for torture than combat, the weapons used by the Order of the Scourge have metal barbs woven in to pierce clothing and armor. The scourge is a martial melee weapon.",
       "id": "0869593c-8daa-11ea-abca-ffb46fbada73",
       "name": "Scourge",
       "price": 10,
@@ -2731,7 +2731,7 @@
    },
    {
       "hide": true,
-      "desc": "The lion’s head functions as +1 striking shield boss that can’t be removed from the shield.",
+      "desc": "The lion's head functions as +1 striking shield boss that can't be removed from the shield.",
       "id": "9fbb57c9-51eb-4353-b8e0-0e391776439a",
       "name": "Lion's Head Shield Boss",
       "price": 50,
@@ -2751,7 +2751,7 @@
    },
    {
       "hide": true,
-      "desc": "The shield’s biting maw is a martial melee weapon that deals 2d6 piercing damage and has the deadly 1d6 trait; it can’t be enhanced by runes. The shield remains animated for 1 minute, during which time you can Strike with it each time you Raise the Shield, as well as with a Strike action.",
+      "desc": "The shield's biting maw is a martial melee weapon that deals 2d6 piercing damage and has the deadly 1d6 trait; it can't be enhanced by runes. The shield remains animated for 1 minute, during which time you can Strike with it each time you Raise the Shield, as well as with a Strike action.",
       "id": "d3bbbe0d-65ae-40e3-b83c-574164eea80f",
       "name": "Lion's Shield Biting Maw",
       "price": 50,

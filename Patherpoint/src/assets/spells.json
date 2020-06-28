@@ -124,7 +124,7 @@
         "levelreq": 1,
         "actions": "1A",
         "castType": "verbal",
-        "shortDesc": "You whisper enchanting words to deflect your foe’s ire.",
+        "shortDesc": "You whisper enchanting words to deflect your foe's ire.",
         "traditions": [
             "Focus"
         ],
@@ -162,7 +162,7 @@
         "levelreq": 1,
         "actions": "1A",
         "castType": "verbal",
-        "shortDesc": "You glimpse into the target’s future.",
+        "shortDesc": "You glimpse into the target's future.",
         "traditions": [
             "Focus"
         ],
@@ -924,7 +924,7 @@
         "levelreq": 4,
         "actions": "Reaction",
         "castType": "verbal",
-        "shortDesc": "You use some of the spell’s magic to heal yourself.",
+        "shortDesc": "You use some of the spell's magic to heal yourself.",
         "traditions": [
             "Focus"
         ],
@@ -2148,10 +2148,10 @@
         "targets": "2 willing creatures",
         "target": "ally",
         "duration": "1 round",
-        "desc": "<var>var1</var>With touches to the targets’ foreheads, you bring them into mental communion. The targets can share thoughts and experiences, but not words. When one target attempts to Recall Knowledge, the other can Aid the first target’s skill check, using any Lore skill (even if that Lore wouldn’t normally apply) without having made any preparations to Aid.",
+        "desc": "<var>var1</var>With touches to the targets' foreheads, you bring them into mental communion. The targets can share thoughts and experiences, but not words. When one target attempts to Recall Knowledge, the other can Aid the first target's skill check, using any Lore skill (even if that Lore wouldn't normally apply) without having made any preparations to Aid.",
         "heightened": [
             {
-                "desc": "You can touch one additional target to include them in the spell’s effects. Multiple targets can attempt checks to Aid the target who is attempting to Recall Knowledge.",
+                "desc": "You can touch one additional target to include them in the spell's effects. Multiple targets can attempt checks to Aid the target who is attempting to Recall Knowledge.",
                 "level": "(+1)"
             }
         ],
@@ -2170,55 +2170,55 @@
         ],
         "desc2": [
             {
-                "value": "You can touch one additional target to include them in the spell’s effects. Multiple targets can attempt checks to Aid the target who is attempting to Recall Knowledge. ",
+                "value": "You can touch one additional target to include them in the spell's effects. Multiple targets can attempt checks to Aid the target who is attempting to Recall Knowledge. ",
                 "variable": "var1"
             }
         ],
         "desc3": [
             {
-                "value": "You can touch two additional targets to include them in the spell’s effects. Multiple targets can attempt checks to Aid the target who is attempting to Recall Knowledge. ",
+                "value": "You can touch two additional targets to include them in the spell's effects. Multiple targets can attempt checks to Aid the target who is attempting to Recall Knowledge. ",
                 "variable": "var1"
             }
         ],
         "desc4": [
             {
-                "value": "You can touch three additional targets to include them in the spell’s effects. Multiple targets can attempt checks to Aid the target who is attempting to Recall Knowledge. ",
+                "value": "You can touch three additional targets to include them in the spell's effects. Multiple targets can attempt checks to Aid the target who is attempting to Recall Knowledge. ",
                 "variable": "var1"
             }
         ],
         "desc5": [
             {
-                "value": "You can touch four additional targets to include them in the spell’s effects. Multiple targets can attempt checks to Aid the target who is attempting to Recall Knowledge. ",
+                "value": "You can touch four additional targets to include them in the spell's effects. Multiple targets can attempt checks to Aid the target who is attempting to Recall Knowledge. ",
                 "variable": "var1"
             }
         ],
         "desc6": [
             {
-                "value": "You can touch five additional targets to include them in the spell’s effects. Multiple targets can attempt checks to Aid the target who is attempting to Recall Knowledge. ",
+                "value": "You can touch five additional targets to include them in the spell's effects. Multiple targets can attempt checks to Aid the target who is attempting to Recall Knowledge. ",
                 "variable": "var1"
             }
         ],
         "desc7": [
             {
-                "value": "You can touch six additional targets to include them in the spell’s effects. Multiple targets can attempt checks to Aid the target who is attempting to Recall Knowledge. ",
+                "value": "You can touch six additional targets to include them in the spell's effects. Multiple targets can attempt checks to Aid the target who is attempting to Recall Knowledge. ",
                 "variable": "var1"
             }
         ],
         "desc8": [
             {
-                "value": "You can touch seven additional targets to include them in the spell’s effects. Multiple targets can attempt checks to Aid the target who is attempting to Recall Knowledge. ",
+                "value": "You can touch seven additional targets to include them in the spell's effects. Multiple targets can attempt checks to Aid the target who is attempting to Recall Knowledge. ",
                 "variable": "var1"
             }
         ],
         "desc9": [
             {
-                "value": "You can touch eight additional targets to include them in the spell’s effects. Multiple targets can attempt checks to Aid the target who is attempting to Recall Knowledge. ",
+                "value": "You can touch eight additional targets to include them in the spell's effects. Multiple targets can attempt checks to Aid the target who is attempting to Recall Knowledge. ",
                 "variable": "var1"
             }
         ],
         "desc10": [
             {
-                "value": "You can touch nine additional targets to include them in the spell’s effects. Multiple targets can attempt checks to Aid the target who is attempting to Recall Knowledge. ",
+                "value": "You can touch nine additional targets to include them in the spell's effects. Multiple targets can attempt checks to Aid the target who is attempting to Recall Knowledge. ",
                 "variable": "var1"
             }
         ]
@@ -2451,7 +2451,7 @@
         "singleTarget": true,
         "sustained": -1,
         "duration": "sustained",
-        "desc": "The simplest magic does your bidding. You can perform simple magical effects for as long as you Sustain the Spell. Each time you Sustain the Spell, you can choose one of four options.\n\nCook: Cool, warm, or flavor 1 pound of nonliving material.\nLift: Slowly lift an unattended object of light Bulk or less 1 foot off the ground.\nMake: Create a temporary object of negligible Bulk, made of congealed magical substance. The object looks crude and artificial and is extremely fragile—it can't be used as a tool, weapon, or spell component.\nTidy: Color, clean, or soil an object of light Bulk or less. You can affect an object of 1 Bulk with 10 rounds of concentration, and a larger object a 1 minute per Bulk.\n\nPrestidigitation can't deal damage or cause adverse conditions. Any actual change to an object (beyond what is noted above) persists only as long as you Sustain the Spell.",
+        "desc": "The simplest magic does your bidding. You can perform simple magical effects for as long as you Sustain the Spell. Each time you Sustain the Spell, you can choose one of four options.\n\nCook: Cool, warm, or flavor 1 pound of nonliving material.\nLift: Slowly lift an unattended object of light Bulk or less 1 foot off the ground.\nMake: Create a temporary object of negligible Bulk, made of congealed magical substance. The object looks crude and artificial and is extremely fragile - it can't be used as a tool, weapon, or spell component.\nTidy: Color, clean, or soil an object of light Bulk or less. You can affect an object of 1 Bulk with 10 rounds of concentration, and a larger object a 1 minute per Bulk.\n\nPrestidigitation can't deal damage or cause adverse conditions. Any actual change to an object (beyond what is noted above) persists only as long as you Sustain the Spell.",
         "gainConditions": [
             {
                 "duration": -1,
@@ -2988,7 +2988,7 @@
         "range": "30 feet",
         "targets": "1 creature",
         "singleTarget": true,
-        "desc": "You hurl a loose, unattended object that is within range and that has 1 Bulk or less at the target. Make a spell attack against the target. If you hit, you deal bludgeoning, piercing, or slashing damage—as appropriate for the object you hurled—equal to <var>var1</var> plus your spellcasting ability modifier. No specific traits or magic properties of the hurled item affect the attack or the damage.",
+        "desc": "You hurl a loose, unattended object that is within range and that has 1 Bulk or less at the target. Make a spell attack against the target. If you hit, you deal bludgeoning, piercing, or slashing damage - as appropriate for the object you hurled - equal to <var>var1</var> plus your spellcasting ability modifier. No specific traits or magic properties of the hurled item affect the attack or the damage.",
         "critsuccess": "You deal double damage.",
         "success": "You deal full damage.",
         "heightened": [
@@ -3163,7 +3163,7 @@
         "targets": "1 creature",
         "singleTarget": true,
         "duration": "varies",
-        "desc": "You send the target’s mind and body into overdrive, forcing it to become restless and hyperactive. During the duration, the target must Stride at least once each turn or take <var>var1</var> mental damage that turn. The duration of this effect depends on the target’s Will save.",
+        "desc": "You send the target's mind and body into overdrive, forcing it to become restless and hyperactive. During the duration, the target must Stride at least once each turn or take <var>var1</var> mental damage that turn. The duration of this effect depends on the target's Will save.",
         "savingThrow": "Will",
         "critsuccess": "The spell has no effect.",
         "success": "The duration is 1 round.",
@@ -3291,7 +3291,7 @@
         "desc": "You ward an area to alert you when creatures enter without your permission. When you cast alarm, select a password. Whenever a Small or larger corporeal creature enters the spell's area without speaking the password, alarm sends your choice of a mental alert (in which case the spell gains the mental trait) or an audible alarm with the sound and volume of a hand bell (in which case the spell gains the auditory trait). <var>var1</var>Either option automatically awakens you, and the bell allows each creature in the area to attempt a DC 15 Perception check to wake up. A creature aware of the alarm must succeed at a Stealth check against the spell's DC or trigger the spell when moving into the area.",
         "heightened": [
             {
-                "desc": "You can specify criteria for which creatures sound the alarm spell—for instance, orcs or masked people.",
+                "desc": "You can specify criteria for which creatures sound the alarm spell - for instance, orcs or masked people.",
                 "level": "(3rd)"
             }
         ],
@@ -3317,7 +3317,7 @@
         ],
         "desc3": [
             {
-                "value": "You can specify criteria for which creatures sound the alarm spell—for instance, orcs or masked people. ",
+                "value": "You can specify criteria for which creatures sound the alarm spell - for instance, orcs or masked people. ",
                 "variable": "var1"
             }
         ]
@@ -3478,7 +3478,7 @@
         "targets": "1 creature",
         "singleTarget": true,
         "duration": "1 round",
-        "desc": "You sow seeds of confusion in your target’s mind, causing their actions and thoughts to become clumsy.",
+        "desc": "You sow seeds of confusion in your target's mind, causing their actions and thoughts to become clumsy.",
         "savingThrow": "Will",
         "critsuccess": "The target is unaffected.",
         "success": "The target is clumsy 1 and stupefied 1.",
@@ -3854,7 +3854,7 @@
             "Divination"
         ],
         "area": "30-foot emanation",
-        "desc": "Your eyes glow as you sense aligned auras. Choose chaotic, evil, good, or lawful. You detect auras of that alignment. <var>var1</var> You can choose not to detect creatures or effects you're aware have that alignment.\n\nOnly creatures of 6th level or higher—unless divine spellcasters, undead, or beings from the Outer Sphere—have alignment auras.",
+        "desc": "Your eyes glow as you sense aligned auras. Choose chaotic, evil, good, or lawful. You detect auras of that alignment. <var>var1</var> You can choose not to detect creatures or effects you're aware have that alignment.\n\nOnly creatures of 6th level or higher - unless divine spellcasters, undead, or beings from the Outer Sphere - have alignment auras.",
         "heightened": [
             {
                 "desc": "You learn each aura's location and strength.",
@@ -4015,7 +4015,7 @@
         "target": "ally",
         "singleTarget": true,
         "duration": "1 round",
-        "desc": "You invigorate the touched creature’s mind and urge it to press on. You grant the touched creature <var>var1</var> temporary Hit Points.",
+        "desc": "You invigorate the touched creature's mind and urge it to press on. You grant the touched creature <var>var1</var> temporary Hit Points.",
         "heightened": [
             {
                 "desc": "Increase the temporary Hit Points by 5.",
@@ -4115,9 +4115,9 @@
             }
         ],
         "duration": "varies",
-        "desc": "To mislead pursuers, the Lacunafex developed the means to swap visages. You trade appearances with the target, with the effects depending on the result of the target’s Will saving throw. Willing and unconscious targets automatically critically fail this saving throw.",
+        "desc": "To mislead pursuers, the Lacunafex developed the means to swap visages. You trade appearances with the target, with the effects depending on the result of the target's Will saving throw. Willing and unconscious targets automatically critically fail this saving throw.",
         "critsuccess": "No effect.",
-        "success": "You take on the target’s appearance, and they take yours. This has the same effects as a 1st-level illusory disguise spell, except that the target can’t Dismiss the disguise. The duration is 1 minute or until Dismissed.",
+        "success": "You take on the target's appearance, and they take yours. This has the same effects as a 1st-level illusory disguise spell, except that the target can't Dismiss the disguise. The duration is 1 minute or until Dismissed.",
         "failure": "As success, but the duration is 1 hour or until Dismissed.",
         "critfailure": "As success, but the duration is 24 hours.",
         "gainConditions": [
@@ -5045,7 +5045,7 @@
         "range": "touch",
         "targets": "1 object",
         "singleTarget": true,
-        "desc": "You project psychic vibrations onto the target object, imprinting it with a short message or emotional theme of your design. This imprinted sensation is revealed to anyone casting object reading on the target object, replacing any emotional events the item was present for. If the object is in the area of a retrocognition spell, the imprinted messages appear as major events in the timeline, but they don’t interfere with any other visions. If the object is targeted with read aura of a higher spell level than imprint message, the caster learns that the object has been modified. When you Cast this Spell, any prior vibrations placed in an object by previous castings of imprint message fade.",
+        "desc": "You project psychic vibrations onto the target object, imprinting it with a short message or emotional theme of your design. This imprinted sensation is revealed to anyone casting object reading on the target object, replacing any emotional events the item was present for. If the object is in the area of a retrocognition spell, the imprinted messages appear as major events in the timeline, but they don't interfere with any other visions. If the object is targeted with read aura of a higher spell level than imprint message, the caster learns that the object has been modified. When you Cast this Spell, any prior vibrations placed in an object by previous castings of imprint message fade.",
         "gainConditions": [
             {
                 "duration": -1,
@@ -5493,7 +5493,7 @@
         "target": "ally",
         "singleTarget": true,
         "duration": "1 minute",
-        "desc": "Choose one of the target’s unarmed attacks. You cause that unarmed attack to shine with primal energy. The unarmed attack becomes a +1 striking unarmed attack, gaining a +1 item bonus to attack rolls and increasing the number of damage dice to two if it had only one.",
+        "desc": "Choose one of the target's unarmed attacks. You cause that unarmed attack to shine with primal energy. The unarmed attack becomes a +1 striking unarmed attack, gaining a +1 item bonus to attack rolls and increasing the number of damage dice to two if it had only one.",
         "gainConditions": [
             {
                 "duration": 100,
@@ -5696,7 +5696,7 @@
         "range": "touch",
         "targets": "1 flat unattended surface",
         "duration": "1 day",
-        "desc": "You record a message up to 5 minutes long and inscribe a special rune on any flat unattended surface within reach. The nature of the rune’s appearance is up to you, but it is visible to everyone and it must be no smaller than 2 inches in diameter. You also specify a trigger that creatures must meet to activate the rune. For the duration of the spell, creatures who meet the criteria of the trigger can touch the rune to hear the recorded message in their head as though you were speaking to them telepathically. You know when someone is listening to the message, but you do not know who is listening to it. You can Dismiss the spell.",
+        "desc": "You record a message up to 5 minutes long and inscribe a special rune on any flat unattended surface within reach. The nature of the rune's appearance is up to you, but it is visible to everyone and it must be no smaller than 2 inches in diameter. You also specify a trigger that creatures must meet to activate the rune. For the duration of the spell, creatures who meet the criteria of the trigger can touch the rune to hear the recorded message in their head as though you were speaking to them telepathically. You know when someone is listening to the message, but you do not know who is listening to it. You can Dismiss the spell.",
         "gainConditions": [
             {
                 "duration": 144000,
@@ -5807,7 +5807,7 @@
                 "level": "(8th)"
             },
             {
-                "desc": "You can learn about an event that occurred within the entirety of the object’s history.",
+                "desc": "You can learn about an event that occurred within the entirety of the object's history.",
                 "level": "(9th)"
             }
         ],
@@ -5843,7 +5843,7 @@
         ],
         "desc9": [
             {
-                "value": "the entirety of the object’s history",
+                "value": "the entirety of the object's history",
                 "variable": "var1"
             }
         ]
@@ -5968,7 +5968,7 @@
         "target": "ally",
         "singleTarget": true,
         "duration": "1 minute",
-        "desc": "You conjure a 5-foot-wide rain cloud that follows the target wherever it goes. It stays roughly an arm’s length overhead, unless it must drift lower to fit under a ceiling. The cloud rains constantly on the target, keeping it wet and dampening the ground in the wake of any movement. The rain extinguishes non-magical flames. The target gains fire resistance <var>var1</var>. Creatures with weakness to water take damage equal to their weakness at the end of each of their turns. Creatures can attempt a Reflex save to avoid the cloud.",
+        "desc": "You conjure a 5-foot-wide rain cloud that follows the target wherever it goes. It stays roughly an arm's length overhead, unless it must drift lower to fit under a ceiling. The cloud rains constantly on the target, keeping it wet and dampening the ground in the wake of any movement. The rain extinguishes non-magical flames. The target gains fire resistance <var>var1</var>. Creatures with weakness to water take damage equal to their weakness at the end of each of their turns. Creatures can attempt a Reflex save to avoid the cloud.",
         "savingThrow": "Reflex",
         "heightened": [
             {
@@ -6240,7 +6240,7 @@
         "target": "ally",
         "singleTarget": true,
         "duration": "1 minute",
-        "desc": "You ward a creature against a specified alignment. Choose chaotic, evil, good, or lawful when you cast this spell. The target gains a +1 status bonus to Armor Class and saving throws against creatures and effects of the chosen alignment. This bonus increases to +3 against effects from such creatures that would directly control the target and against attacks made by summoned creatures of the chosen alignment.\n\nThis spell gains the trait that opposes the alignment you chose—if you choose chaos, this spell gains the lawful trait, and vice versa; if you choose evil, this spell gains the good trait, and vice versa.",
+        "desc": "You ward a creature against a specified alignment. Choose chaotic, evil, good, or lawful when you cast this spell. The target gains a +1 status bonus to Armor Class and saving throws against creatures and effects of the chosen alignment. This bonus increases to +3 against effects from such creatures that would directly control the target and against attacks made by summoned creatures of the chosen alignment.\n\nThis spell gains the trait that opposes the alignment you chose - if you choose chaos, this spell gains the lawful trait, and vice versa; if you choose evil, this spell gains the good trait, and vice versa.",
         "gainConditions": [
             {
                 "duration": 100,
@@ -6332,7 +6332,7 @@
         "levelreq": 1,
         "actions": "2A",
         "castType": "somatic, verbal",
-        "shortDesc": "You blast the area with grit that scours away soil and gets into creatures’ eyes.",
+        "shortDesc": "You blast the area with grit that scours away soil and gets into creatures' eyes.",
         "sourceBook": "Pathfinder #151: The Show Must Go On",
         "traditions": [
             "Arcane",
@@ -6347,7 +6347,7 @@
         "area": "10-foot burst",
         "sustained": 100,
         "duration": "sustained for up to 1 minute",
-        "desc": "<var>var1</var>You blast the area with grit that scours away soil and gets into creatures’ eyes. For the duration of the spell, any plant-based difficult terrain smaller than a tree becomes loose, allowing each 5-foot square of it to be cleared with a single Interact action. In addition, scouring sand attempts to counteract entangle and other effects that create or manipulate plant-based terrain in its area. Successfully counteracting an effect removes only the portion of its area that overlaps with scouring sand’s area. After one such attempt, the effect is temporarily immune to scouring sand’s counteract for 24 hours. Each creature in the area when you Cast this Spell or that ends its turn in the area must attempt a Reflex save. <var>var2</var>",
+        "desc": "<var>var1</var>You blast the area with grit that scours away soil and gets into creatures' eyes. For the duration of the spell, any plant-based difficult terrain smaller than a tree becomes loose, allowing each 5-foot square of it to be cleared with a single Interact action. In addition, scouring sand attempts to counteract entangle and other effects that create or manipulate plant-based terrain in its area. Successfully counteracting an effect removes only the portion of its area that overlaps with scouring sand's area. After one such attempt, the effect is temporarily immune to scouring sand's counteract for 24 hours. Each creature in the area when you Cast this Spell or that ends its turn in the area must attempt a Reflex save. <var>var2</var>",
         "success": "The creature is unaffected.",
         "failure": "The creature is dazzled for 1 minute or until it uses an Interact action to get the sand out of its eyes.",
         "critfailure": "As failure, but the creature is also blinded for its next action.",
@@ -7756,7 +7756,7 @@
         ],
         "target": "self",
         "duration": "until used or 1 minute; see text",
-        "desc": "You conjure a temporary simple tool, such as a shovel or rope into your hands. It lasts until it is used for a single activity or for 1 minute, whichever comes first, after which it disappears. The tool is obviously temporarily conjured, and thus can’t be sold or passed off as a genuine item.",
+        "desc": "You conjure a temporary simple tool, such as a shovel or rope into your hands. It lasts until it is used for a single activity or for 1 minute, whichever comes first, after which it disappears. The tool is obviously temporarily conjured, and thus can't be sold or passed off as a genuine item.",
         "gainConditions": [
             {
                 "duration": 100,
@@ -7792,7 +7792,7 @@
         "critfailure": "The target is immobilized until it Escapes or the spell ends.",
         "heightened": [
             {
-                "desc": "The tethers’ AC increases by 3 and their Hit Points increase by 10.",
+                "desc": "The tethers' AC increases by 3 and their Hit Points increase by 10.",
                 "level": "(+1)"
             }
         ],
@@ -10871,7 +10871,7 @@
             "Teleportation"
         ],
         "range": "120 feet",
-        "desc": "<var>var1</var>Opening a door that bypasses normal space, you instantly transport yourself and any items you're wearing and holding from your current space to a clear space within range you can see. <var>var2</var>If this would bring another creature with you—even if you're carrying it in an extradimensional container—the spell is lost. <var>var3</var>",
+        "desc": "<var>var1</var>Opening a door that bypasses normal space, you instantly transport yourself and any items you're wearing and holding from your current space to a clear space within range you can see. <var>var2</var>If this would bring another creature with you - even if you're carrying it in an extradimensional container - the spell is lost. <var>var3</var>",
         "heightened": [
             {
                 "desc": "The range increases to 1 mile. You don't need to be able to see your destination, as long as you have been there in the past and know its relative location and distance from you. You are temporarily immune for 1 hour.",

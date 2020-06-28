@@ -108,9 +108,10 @@
                     <h5 class="row" *ngIf="inventory[itemSet.key].length">{{itemSet.name}}</h5>
                     <ng-container *ngFor="let item of sort_ItemSet(inventory[itemSet.key]); trackBy:trackByIndex;">
                         <div class="list-item" *ngFor="let inventoryID of [item.id]; trackBy:trackByIndex;">
-                            <button class="row sublist-toggle"
+                            <button class="row left-aligned sublist-toggle"
                                 [ngClass]="{'fancy-button':((item.equippable && item.equipped) || (item.can_Invest() && item.invested))}"
                                 (click)="toggle_Item(inventoryID)">
+                                <span title="Temporary Item" *ngIf="item.expiration">&#9851;&nbsp;</span>
                                 {{(item.amount != undefined && item.amount != 1) ? item.amount+" " : ""}}
                                 {{(item['get_Name']) ? item.get_Name() : item.name}}&nbsp;
                                 <span class="lower"
@@ -304,6 +305,8 @@
                                 </app-itemRunes>
                                 <app-itemOils [item]=item [itemStore]=false *ngIf="item.type != 'oils'">
                                 </app-itemOils>
+                                <app-itemPoisons [item]=item [itemStore]=false *ngIf="item.type == 'weapons'">
+                                </app-itemPoisons>
                                 <app-itemTalismans [item]=item [itemStore]=false *ngIf="can_ApplyTalismans(item)">
                                 </app-itemTalismans>
                                 <app-item class="lower" [creature]="creature" [item]=item

@@ -84,6 +84,10 @@
             {{activity.trigger}}
         </span>
     </div>
+    <div class="row left-aligned" *ngIf="gain && gain.data && gain.data.length && gain.data[0].name == 'Trigger'">
+        <strong>Trigger</strong>
+        <input class="row" type="text" [(ngModel)]="gain.data[0].value">
+    </div>
     <div class="row left-aligned" *ngIf="activity.requirements">
         <span>
             <strong>Requirements</strong>
@@ -126,12 +130,6 @@
             {{activity.specialdesc}}
         </span>
     </div>
-    <div class="row left-aligned" *ngIf="gain.data.length && gain.data[0].name == 'Trigger'">
-        <span>
-            <strong>Trigger</strong>
-            <input type="text" [(ngModel)]="gain.data[0].value">
-        </span>
-    </div>
     <div class="row left-aligned" *ngFor="let cast of activity.castSpells; trackBy:trackByIndex;">
         <div *ngFor="let spell of get_Spells(cast.name); trackBy:trackByIndex;">
             <h4>{{spell.name}}<app-actionIcons [actionString]="spell.actions">
@@ -154,9 +152,9 @@
                 title="{{get_Traits(trait)[0].description}}">{{trait}}</cite>
         </div>
         <div class="row left-aligned" *ngFor="let desc of feat.desc.split('\n\n'); trackBy:trackByIndex;">
-            <p *ngIf="desc.split('\n').length == 1">{{desc}}</p>
+            <p *ngIf="desc.split('\n').length == 1" [innerHTML]="desc"></p>
             <ul *ngIf="desc.split('\n').length > 1">
-                <li *ngFor="let line of desc.split('\n'); trackBy:trackByIndex;">{{line}}</li>
+                <li *ngFor="let line of desc.split('\n'); trackBy:trackByIndex;" [innerHTML]="line"></li>
             </ul>
         </div>
     </div>

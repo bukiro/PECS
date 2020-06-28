@@ -38,7 +38,7 @@
         "usage": "held in 1 hand"
     },
     {
-        "desc": "This item looks like an ordinary glass flask full of water. The stopper can’t be removed unless you speak one of the item’s three command words, each of which causes water to pour forth in a different way. Pulling the stopper straight out creates fresh water, and rotating it as you pull creates salt water. Any effect of the decanter lasts until the decanter is plugged (with its own stopper, a finger, or the like).",
+        "desc": "This item looks like an ordinary glass flask full of water. The stopper can't be removed unless you speak one of the item's three command words, each of which causes water to pour forth in a different way. Pulling the stopper straight out creates fresh water, and rotating it as you pull creates salt water. Any effect of the decanter lasts until the decanter is plugged (with its own stopper, a finger, or the like).",
         "id": "2416b51a-3002-4227-b786-0eca68887977",
         "level": 7,
         "bulk": "L",
@@ -114,7 +114,7 @@
             {
                 "actions": "1A",
                 "activationType": "Interact",
-                "desc": "You push the button to anchor the rod in place. It doesn’t move, defying gravity if need be. If the button is pushed again, the rod deactivates, ending the anchoring magic. While anchored, the rod can be moved only if 8,000 pounds of pressure are applied to it or if a creature uses Athletics to Force Open the rod with a DC of 40 (though most intelligent creatures can just push the button to release the rod).",
+                "desc": "You push the button to anchor the rod in place. It doesn't move, defying gravity if need be. If the button is pushed again, the rod deactivates, ending the anchoring magic. While anchored, the rod can be moved only if 8,000 pounds of pressure are applied to it or if a creature uses Athletics to Force Open the rod with a DC of 40 (though most intelligent creatures can just push the button to release the rod).",
                 "name": "Immovable Rod",
                 "traits": [
                     "Magical",

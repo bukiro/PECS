@@ -10291,17 +10291,6 @@
         "name": "Undead Bloodline"
     },
     {
-        "name": "Trap Finder",
-        "desc": "You have an intuitive sense that alerts you to the dangers and presence of traps. You gain a +1 circumstance bonus to Perception checks to find traps, to AC against attacks made by traps, and to saves against traps. Even if you aren't Searching, you get a check to find traps that normally require you to be Searching. You still need to meet any other requirements to find the trap.\n\nYou can disable traps that require a proficiency rank of master in Thievery. If you have master proficiency in Thievery, you can disable traps that require a proficiency rank of legendary instead, and your circumstance bonuses against traps increase to +2.",
-        "hint": "You gain a +1 circumstance bonus to Perception checks to find traps, to AC against attacks made by traps, and to saves against traps. Even if you aren't Searching, you get a check to find traps that normally require you to be Searching. You still need to meet any other requirements to find the trap.\n\nYou can disable traps that require a proficiency rank of master in Thievery. If you have master proficiency in Thievery, you can disable traps that require a proficiency rank of legendary instead, and your circumstance bonuses against traps increase to +2.",
-        "showon": "Perception, AC, Thievery",
-        "shortdesc": "You have an intuitive sense that alerts you to the dangers and presence of traps.",
-        "traits": [
-            "Rogue"
-        ],
-        "levelreq": 1
-    },
-    {
         "name": "Very Sneaky",
         "desc": "Taller folk rarely pay attention to the shadows at their feet, and you take full advantage of this. You can move 5 feet farther when you take the Sneak action, up to your Speed. In addition, as long as you continue to use Sneak actions and succeed at your Stealth check, you don't become observed if you don't have cover or greater cover and aren't concealed at the end of the Sneak action, as long as you have cover or greater cover or are concealed at the end of your turn.",
         "hint": "You can move 5 feet farther when you take the Sneak action, up to your Speed. In addition, as long as you continue to use Sneak actions and succeed at your Stealth check, you don't become observed if you don't have cover or greater cover and aren't concealed at the end of the Sneak action, as long as you have cover or greater cover or are concealed at the end of your turn.",
@@ -12954,20 +12943,6 @@
                 "skill": "Crafting",
                 "value": 4
             }
-        ]
-    },
-    {
-        "name": "Skirmish Strike",
-        "desc": "Your feet and weapon move in tandem.",
-        "shortdesc": "Your feet and weapon move in tandem.",
-        "traits": [
-            "Ranger",
-            "Flourish",
-            "Rogue"
-        ],
-        "levelreq": 6,
-        "gainActivities": [
-            "Skirmish Strike"
         ]
     },
     {
@@ -16228,8 +16203,8 @@
     },
     {
         "name": "Reflect Spell",
-        "desc": "When you successfully use Counterspell to counteract a spell that affects targeted creatures or an area, you can turn that spell’s effect back on its caster. When reflected, the spell affects only the original caster, even if it’s an area spell or it would normally affect more than one creature. The original caster can attempt a save and use other defenses against the reflected spell as normal.",
-        "hint": "When you successfully use Counterspell to counteract a spell that affects targeted creatures or an area, you can turn that spell’s effect back on its caster. When reflected, the spell affects only the original caster, even if it’s an area spell or it would normally affect more than one creature. The original caster can attempt a save and use other defenses against the reflected spell as normal.",
+        "desc": "When you successfully use Counterspell to counteract a spell that affects targeted creatures or an area, you can turn that spell's effect back on its caster. When reflected, the spell affects only the original caster, even if it's an area spell or it would normally affect more than one creature. The original caster can attempt a save and use other defenses against the reflected spell as normal.",
+        "hint": "When you successfully use Counterspell to counteract a spell that affects targeted creatures or an area, you can turn that spell's effect back on its caster. When reflected, the spell affects only the original caster, even if it's an area spell or it would normally affect more than one creature. The original caster can attempt a save and use other defenses against the reflected spell as normal.",
         "showon": "Counterspell (Prepared), Counterspell (Spontaneous)",
         "shortdesc": "You cause a spell to fire back at its caster.",
         "traits": [
@@ -16380,8 +16355,8 @@
     },
     {
         "name": "Reprepare Spell",
-        "desc": "You’ve discovered how to reuse some of your spell slots over and over. You can spend 10 minutes to prepare a spell that you already cast today, regaining access to that spell slot. The spell must be of 4th level or lower and one that does not have a duration. You can reprepare a spell in this way even if you’ve already reprepared that spell previously in the same day. If you have the spell substitution arcane thesis, you can instead prepare a different spell in an expended slot, as long as the new spell doesn’t have a duration. Once you’ve reprepared a spell in that slot even once, you can use your arcane thesis to substitute only spells without durations into that spell slot.",
-        "hint": "You can spend 10 minutes to prepare a spell that you already cast today, regaining access to that spell slot. The spell must be of 4th level or lower and one that does not have a duration. You can reprepare a spell in this way even if you’ve already reprepared that spell previously in the same day. If you have the spell substitution arcane thesis, you can instead prepare a different spell in an expended slot (in the spellbook menu), as long as the new spell doesn’t have a duration. Once you’ve reprepared a spell in that slot even once, you can use your arcane thesis to substitute only spells without durations into that spell slot.",
+        "desc": "You've discovered how to reuse some of your spell slots over and over. You can spend 10 minutes to prepare a spell that you already cast today, regaining access to that spell slot. The spell must be of 4th level or lower and one that does not have a duration. You can reprepare a spell in this way even if you've already reprepared that spell previously in the same day. If you have the spell substitution arcane thesis, you can instead prepare a different spell in an expended slot, as long as the new spell doesn't have a duration. Once you've reprepared a spell in that slot even once, you can use your arcane thesis to substitute only spells without durations into that spell slot.",
+        "hint": "You can spend 10 minutes to prepare a spell that you already cast today, regaining access to that spell slot. The spell must be of 4th level or lower and one that does not have a duration. You can reprepare a spell in this way even if you've already reprepared that spell previously in the same day. If you have the spell substitution arcane thesis, you can instead prepare a different spell in an expended slot (in the spellbook menu), as long as the new spell doesn't have a duration. Once you've reprepared a spell in that slot even once, you can use your arcane thesis to substitute only spells without durations into that spell slot.",
         "showon": "Spellbook, Spell Substitution",
         "internalNote": "Repreparing Spells is hardcoded.",
         "shortdesc": "You've discovered how to reuse some of your spell slots over and over.",
@@ -16415,7 +16390,7 @@
     },
     {
         "name": "Metamagic Mastery",
-        "desc": "Altering your spells doesn’t take any longer than casting them normally. You can use metamagic single actions as free actions.",
+        "desc": "Altering your spells doesn't take any longer than casting them normally. You can use metamagic single actions as free actions.",
         "hint": "You can use metamagic single actions as free actions.",
         "showon": "Bloodline Conduit, Bond Conservation, Cast Down, Command Undead, Conceal Spell, Defensive Recovery, Dualistic Synergy, Echoing Channel, Form Control, Harmonize, Healing Transformation, Heroic Recovery, Interweave Dispel, Leyline Conduit, Melodious Spell, Mercy, Necrotic Infusion, Overwhelming Energy, Reach Spell, Silent Spell, Synergistic Spell, Tempest-Sun Redirection, Unusual Composition, Widen Spell",
         "shortdesc": "Altering your spells doesn't take any longer than casting them normally.",
@@ -16427,8 +16402,8 @@
     },
     {
         "name": "Spell Combination",
-        "desc": "You can merge spells, producing multiple effects with a single casting. One slot of each level of spell you can cast, except 2nd level and 1st level, becomes a spell combination slot (this doesn’t apply to cantrips). When you prepare your spells, you can fill a combination slot with a combination of two spells. Each spell in the combination must be 2 or more spell levels below the slot’s level, and both must target only one creature or object or have the option to target only one creature or object. Each spell in the combination must also have the same means of determining whether it has an effect - both spells must require a ranged spell attack roll, require the same type of saving throw, or automatically affect the target.\n\nWhen you cast a combined spell, it affects only one target, even if the component spells normally affect more than one. If any spell in the combination has further restrictions (such as targeting only living creatures), you must abide by all restrictions. The combined spell uses the shorter of the component spells’ ranges. Resolve a combined spell as if were a single spell, but apply the effects of both component spells. For example, if the spell’s target succeeded at the save against a combined spell, it would apply the success effect of each spell, and if it critically failed, it would apply the critical failure effect of both spells.",
-        "hint": "When you prepare your spells, you can fill a combination slot with a combination of two spells. Each spell in the combination must be 2 or more spell levels below the slot’s level, and both must target only one creature or object or have the option to target only one creature or object. Each spell in the combination must also have the same means of determining whether it has an effect - both spells must require a ranged spell attack roll, require the same type of saving throw, or automatically affect the target.\n\nWhen you cast a combined spell, it affects only one target, even if the component spells normally affect more than one. If any spell in the combination has further restrictions (such as targeting only living creatures), you must abide by all restrictions. The combined spell uses the shorter of the component spells’ ranges. Resolve a combined spell as if were a single spell, but apply the effects of both component spells. For example, if the spell’s target succeeded at the save against a combined spell, it would apply the success effect of each spell, and if it critically failed, it would apply the critical failure effect of both spells.",
+        "desc": "You can merge spells, producing multiple effects with a single casting. One slot of each level of spell you can cast, except 2nd level and 1st level, becomes a spell combination slot (this doesn't apply to cantrips). When you prepare your spells, you can fill a combination slot with a combination of two spells. Each spell in the combination must be 2 or more spell levels below the slot's level, and both must target only one creature or object or have the option to target only one creature or object. Each spell in the combination must also have the same means of determining whether it has an effect - both spells must require a ranged spell attack roll, require the same type of saving throw, or automatically affect the target.\n\nWhen you cast a combined spell, it affects only one target, even if the component spells normally affect more than one. If any spell in the combination has further restrictions (such as targeting only living creatures), you must abide by all restrictions. The combined spell uses the shorter of the component spells' ranges. Resolve a combined spell as if were a single spell, but apply the effects of both component spells. For example, if the spell's target succeeded at the save against a combined spell, it would apply the success effect of each spell, and if it critically failed, it would apply the critical failure effect of both spells.",
+        "hint": "When you prepare your spells, you can fill a combination slot with a combination of two spells. Each spell in the combination must be 2 or more spell levels below the slot's level, and both must target only one creature or object or have the option to target only one creature or object. Each spell in the combination must also have the same means of determining whether it has an effect - both spells must require a ranged spell attack roll, require the same type of saving throw, or automatically affect the target.\n\nWhen you cast a combined spell, it affects only one target, even if the component spells normally affect more than one. If any spell in the combination has further restrictions (such as targeting only living creatures), you must abide by all restrictions. The combined spell uses the shorter of the component spells' ranges. Resolve a combined spell as if were a single spell, but apply the effects of both component spells. For example, if the spell's target succeeded at the save against a combined spell, it would apply the success effect of each spell, and if it critically failed, it would apply the critical failure effect of both spells.",
         "showon": "Spellbook, Wizard Prepared Spells",
         "internalNote": "Very much hardcoded.",
         "shortdesc": "You can merge spells, producing multiple effects with a single casting.",
@@ -16439,7 +16414,7 @@
     },
     {
         "name": "Spell Mastery",
-        "desc": "You have mastered a handful of spells to such a degree that you can cast them even if you haven’t prepared them. Select any four spells of 9th level or lower that you have access to. Each spell you select must be of a different level. These spells are automatically prepared when you make your daily preparations and have their own spell slots. You can select a different array of spells by spending 1 week of downtime retraining your mastered spells.",
+        "desc": "You have mastered a handful of spells to such a degree that you can cast them even if you haven't prepared them. Select any four spells of 9th level or lower that you have access to. Each spell you select must be of a different level. These spells are automatically prepared when you make your daily preparations and have their own spell slots. You can select a different array of spells by spending 1 week of downtime retraining your mastered spells.",
         "specialdesc": "The citizens of Promise represent some of the most capable experts, greatest minds, and powerful warriors on Golarion - ideal teachers and trainers for PCs who want to maximize their own potential. If the PCs secure Visitor's Pins or an alliance with Mengkare, their access to Promise's trainers and records unlock this uncommon class feat.",
         "hint": "You can select any four spells of 9th level or lower that you have access to. Each spell you select must be of a different level. These spells are automatically prepared when you make your daily preparations and have their own spell slots. You can select these spells in the spell library, and you can select a different array of spells by spending 1 week of downtime retraining your mastered spells.",
         "showon": "Health, Wizard Prepared Spells",
@@ -17300,8 +17275,8 @@
     },
     {
         "name": "Ruffian Racket",
-        "desc": "You prefer to strong-arm or intimidate others rather than rely on finesse or fancy tricks. You might be an enforcer for organized crime, a highway bandit, or a noble who bullies others with threats of your family’s power. Or, you might use your skills on the up and up, in a private security detail or as a guard in a city with the right temperament.\n\nYou use whatever tools you have at hand to get the job done. You can deal sneak attack damage with any simple weapon, in addition to the weapons listed in the sneak attack class feature. When you critically succeed at an attack roll using a simple weapon and the target has the flat-footed condition (unable to focus on defending itself), you also apply the critical specialization effect for the weapon you’re wielding (page 283). You don’t gain these benefits if the weapon has a damage die larger than d8 (after applying any abilities that alter its damage die size).\n\nYou’re trained in Intimidation and medium armor. You can choose Strength as your key ability score. When you gain light armor expertise, you also gain expert proficiency in medium armor, and when you gain light armor mastery, you also gain master proficiency in medium armor.",
-        "hint": "You can deal sneak attack damage with any simple weapon, in addition to the weapons listed in the sneak attack class feature. When you critically succeed at an attack roll using a simple weapon and the target has the flat-footed condition (unable to focus on defending itself), you also apply the critical specialization effect for the weapon you’re wielding (page 283). You don’t gain these benefits if the weapon has a damage die larger than d8 (after applying any abilities that alter its damage die size).",
+        "desc": "You prefer to strong-arm or intimidate others rather than rely on finesse or fancy tricks. You might be an enforcer for organized crime, a highway bandit, or a noble who bullies others with threats of your family's power. Or, you might use your skills on the up and up, in a private security detail or as a guard in a city with the right temperament.\n\nYou use whatever tools you have at hand to get the job done. You can deal sneak attack damage with any simple weapon, in addition to the weapons listed in the sneak attack class feature. When you critically succeed at an attack roll using a simple weapon and the target has the flat-footed condition (unable to focus on defending itself), you also apply the critical specialization effect for the weapon you're wielding (page 283). You don't gain these benefits if the weapon has a damage die larger than d8 (after applying any abilities that alter its damage die size).\n\nYou're trained in Intimidation and medium armor. You can choose Strength as your key ability score. When you gain light armor expertise, you also gain expert proficiency in medium armor, and when you gain light armor mastery, you also gain master proficiency in medium armor.",
+        "hint": "You can deal sneak attack damage with any simple weapon, in addition to the weapons listed in the sneak attack class feature.",
         "showon": "Attacks",
         "shortdesc": "You prefer to strong-arm or intimidate others rather than rely on finesse or fancy tricks.",
         "gainSpecialization": [
@@ -17380,7 +17355,7 @@
     },
     {
         "name": "Scoundrel Racket",
-        "desc": "You use fast-talking, flattery, and a silver tongue to avoid danger and escape tricky situations. You might be a grifter or con artist, traveling from place to place with a new story or scheme. Your racket is also ideal for certain reputable professions, like barrister, diplomat, or politician.\n\nWhen you successfully Feint, the target is flat-footed against melee attacks you attempt against it until the end of your next turn. On a critical success, the target is flat-footed against all melee attacks until the end of your next turn, not just yours.\n\nYou’re trained in Deception and Diplomacy. You can choose Charisma as your key ability score.",
+        "desc": "You use fast-talking, flattery, and a silver tongue to avoid danger and escape tricky situations. You might be a grifter or con artist, traveling from place to place with a new story or scheme. Your racket is also ideal for certain reputable professions, like barrister, diplomat, or politician.\n\nWhen you successfully Feint, the target is flat-footed against melee attacks you attempt against it until the end of your next turn. On a critical success, the target is flat-footed against all melee attacks until the end of your next turn, not just yours.\n\nYou're trained in Deception and Diplomacy. You can choose Charisma as your key ability score.",
         "hint": "When you successfully Feint, the target is flat-footed against melee attacks you attempt against it until the end of your next turn. On a critical success, the target is flat-footed against all melee attacks until the end of your next turn, not just yours.",
         "showon": "Deception",
         "shortdesc": "You use fast-talking, flattery, and a silver tongue to avoid danger and escape tricky situations.",
@@ -17479,8 +17454,8 @@
     },
     {
         "name": "You're Next",
-        "desc": "After downing a foe, you menacingly remind another foe that you’re coming after them next.",
-        "shortdesc": "After downing a foe, you menacingly remind another foe that you’re coming after them next.",
+        "desc": "After downing a foe, you menacingly remind another foe that you're coming after them next.",
+        "shortdesc": "After downing a foe, you menacingly remind another foe that you're coming after them next.",
         "traits": [
             "Rogue",
             "Emotion",
@@ -17500,10 +17475,10 @@
     },
     {
         "name": "Brutal Beating",
-        "desc": "The brutality of your critical hits shakes your foes’ confidence. Whenever your Strike is a critical hit and deals damage, the target is frightened 1.",
+        "desc": "The brutality of your critical hits shakes your foes' confidence. Whenever your Strike is a critical hit and deals damage, the target is frightened 1.",
         "hint": "Whenever your Strike is a critical hit and deals damage, the target is frightened 1.",
         "showon": "Attacks",
-        "shortdesc": "The brutality of your critical hits shakes your foes’ confidence.",
+        "shortdesc": "The brutality of your critical hits shakes your foes' confidence.",
         "traits": [
             "Rogue"
         ],
@@ -17514,10 +17489,10 @@
     },
     {
         "name": "Distracting Feint",
-        "desc": "Your Feints are far more distracting than normal, drawing your foes’ attention and allowing you and your allies to take greater advantage. While a creature is flat-footed by your Feint, it also takes a –2 circumstance penalty to Perception checks and Reflex saves.",
+        "desc": "Your Feints are far more distracting than normal, drawing your foes' attention and allowing you and your allies to take greater advantage. While a creature is flat-footed by your Feint, it also takes a –2 circumstance penalty to Perception checks and Reflex saves.",
         "hint": "While a creature is flat-footed by your Feint, it also takes a –2 circumstance penalty to Perception checks and Reflex saves.",
         "showon": "Deception",
-        "shortdesc": "Your Feints are far more distracting than normal, drawing your foes’ attention and allowing you and your allies to take greater advantage.",
+        "shortdesc": "Your Feints are far more distracting than normal, drawing your foes' attention and allowing you and your allies to take greater advantage.",
         "traits": [
             "Rogue"
         ],
@@ -17528,9 +17503,9 @@
     },
     {
         "name": "Minor Magic",
-        "desc": "You’ve dabbled in a variety of tricks, gaining minor magical abilities from a particular tradition. Choose arcane, divine, occult, or primal magic, and gain two cantrips from the common cantrips available to that tradition. Your key spellcasting ability is Charisma, and you're trained in spell attack rolls and DCs for the tradition of your chosen cantrips.",
+        "desc": "You've dabbled in a variety of tricks, gaining minor magical abilities from a particular tradition. Choose arcane, divine, occult, or primal magic, and gain two cantrips from the common cantrips available to that tradition. Your key spellcasting ability is Charisma, and you're trained in spell attack rolls and DCs for the tradition of your chosen cantrips.",
         "subTypes": true,
-        "shortdesc": "You’ve dabbled in a variety of tricks, gaining minor magical abilities from a particular tradition.",
+        "shortdesc": "You've dabbled in a variety of tricks, gaining minor magical abilities from a particular tradition.",
         "traits": [
             "Rogue"
         ],
@@ -17538,10 +17513,10 @@
     },
     {
         "name": "Minor Magic: Arcane",
-        "desc": "You’ve dabbled in a variety of tricks, gaining minor magical abilities. You gain two common arcane cantrips. Your key spellcasting ability is Charisma, and you're trained in arcane spell attack rolls and DCs.",
+        "desc": "You've dabbled in a variety of tricks, gaining minor magical abilities. You gain two common arcane cantrips. Your key spellcasting ability is Charisma, and you're trained in arcane spell attack rolls and DCs.",
         "subType": "Arcane",
         "superType": "Minor Magic",
-        "shortdesc": "You’ve dabbled in a variety of tricks, gaining two common arcane cantrips.",
+        "shortdesc": "You've dabbled in a variety of tricks, gaining two common arcane cantrips.",
         "traits": [
             "Rogue"
         ],
@@ -17579,16 +17554,19 @@
                 "className": "Rogue",
                 "id": "102a82b2-2770-4671-aa1e-0fd891f6460c",
                 "level": 0,
-                "source": "Feat: Minor Magic: Arcane"
+                "source": "Feat: Minor Magic: Arcane",
+                "traitFilter": [
+                    "Common"
+                ]
             }
         ]
     },
     {
         "name": "Minor Magic: Divine",
-        "desc": "You’ve dabbled in a variety of tricks, gaining minor magical abilities. You gain two common divine cantrips. Your key spellcasting ability is Charisma, and you're trained in divine spell attack rolls and DCs.",
+        "desc": "You've dabbled in a variety of tricks, gaining minor magical abilities. You gain two common divine cantrips. Your key spellcasting ability is Charisma, and you're trained in divine spell attack rolls and DCs.",
         "subType": "Divine",
         "superType": "Minor Magic",
-        "shortdesc": "You’ve dabbled in a variety of tricks, gaining two common divine cantrips.",
+        "shortdesc": "You've dabbled in a variety of tricks, gaining two common divine cantrips.",
         "traits": [
             "Rogue"
         ],
@@ -17616,7 +17594,7 @@
                 "castingType": "Spontaneous",
                 "className": "Rogue",
                 "source": "Feat: Minor Magic: Divine",
-                "tradition": "Arcane"
+                "tradition": "Divine"
             }
         ],
         "gainSpellChoice": [{
@@ -17626,16 +17604,19 @@
                 "className": "Rogue",
                 "id": "14eddaa6-5c97-4801-99eb-b2080f3a6b6f",
                 "level": 0,
-                "source": "Feat: Minor Magic: Divine"
+                "source": "Feat: Minor Magic: Divine",
+                "traitFilter": [
+                    "Common"
+                ]
             }
         ]
     },
     {
         "name": "Minor Magic: Occult",
-        "desc": "You’ve dabbled in a variety of tricks, gaining minor magical abilities. You gain two common occult cantrips. Your key spellcasting ability is Charisma, and you're trained in occult spell attack rolls and DCs.",
+        "desc": "You've dabbled in a variety of tricks, gaining minor magical abilities. You gain two common occult cantrips. Your key spellcasting ability is Charisma, and you're trained in occult spell attack rolls and DCs.",
         "subType": "Occult",
         "superType": "Minor Magic",
-        "shortdesc": "You’ve dabbled in a variety of tricks, gaining two common occult cantrips.",
+        "shortdesc": "You've dabbled in a variety of tricks, gaining two common occult cantrips.",
         "traits": [
             "Rogue"
         ],
@@ -17663,7 +17644,7 @@
                 "castingType": "Spontaneous",
                 "className": "Rogue",
                 "source": "Feat: Minor Magic: Occult",
-                "tradition": "Arcane"
+                "tradition": "Occult"
             }
         ],
         "gainSpellChoice": [{
@@ -17673,16 +17654,19 @@
                 "className": "Rogue",
                 "id": "ea739e5c-3181-46da-9b41-07e8498e497a",
                 "level": 0,
-                "source": "Feat: Minor Magic: Occult"
+                "source": "Feat: Minor Magic: Occult",
+                "traitFilter": [
+                    "Common"
+                ]
             }
         ]
     },
     {
         "name": "Minor Magic: Primal",
-        "desc": "You’ve dabbled in a variety of tricks, gaining minor magical abilities. You gain two common primal cantrips. Your key spellcasting ability is Charisma, and you're trained in primal spell attack rolls and DCs.",
+        "desc": "You've dabbled in a variety of tricks, gaining minor magical abilities. You gain two common primal cantrips. Your key spellcasting ability is Charisma, and you're trained in primal spell attack rolls and DCs.",
         "subType": "Primal",
         "superType": "Minor Magic",
-        "shortdesc": "You’ve dabbled in a variety of tricks, gaining two common primal cantrips.",
+        "shortdesc": "You've dabbled in a variety of tricks, gaining two common primal cantrips.",
         "traits": [
             "Rogue"
         ],
@@ -17710,7 +17694,7 @@
                 "castingType": "Spontaneous",
                 "className": "Rogue",
                 "source": "Feat: Minor Magic: Primal",
-                "tradition": "Arcane"
+                "tradition": "Primal"
             }
         ],
         "gainSpellChoice": [{
@@ -17720,7 +17704,10 @@
                 "className": "Rogue",
                 "id": "f2a5f350-b98c-4bf7-a848-30ebcade92fc",
                 "level": 0,
-                "source": "Feat: Minor Magic: Primal"
+                "source": "Feat: Minor Magic: Primal",
+                "traitFilter": [
+                    "Common"
+                ]
             }
         ]
     },
@@ -17764,8 +17751,8 @@
     },
     {
         "name": "Battle Assessment",
-        "desc": "With careful observation during battle, you identify an enemy’s strengths and weaknesses.",
-        "shortdesc": "With careful observation during battle, you identify an enemy’s strengths and weaknesses.",
+        "desc": "With careful observation during battle, you identify an enemy's strengths and weaknesses.",
+        "shortdesc": "With careful observation during battle, you identify an enemy's strengths and weaknesses.",
         "traits": [
             "Rogue",
             "Secret"
@@ -17777,10 +17764,10 @@
     },
     {
         "name": "Dread Striker",
-        "desc": "You capitalize on your enemies’ fear to slip past their defenses. Any creature that has the frightened condition is also flat-footed against your attacks.",
+        "desc": "You capitalize on your enemies' fear to slip past their defenses. Any creature that has the frightened condition is also flat-footed against your attacks.",
         "hint": "Any creature that has the frightened condition is also flat-footed against your attacks.",
         "showon": "Attacks",
-        "shortdesc": "You capitalize on your enemies’ fear to slip past their defenses.",
+        "shortdesc": "You capitalize on your enemies' fear to slip past their defenses.",
         "traits": [
             "Rogue"
         ],
@@ -17788,10 +17775,10 @@
     },
     {
         "name": "Magical Trickster",
-        "desc": "Whether you’re using magic items, wielding innate magic, or dabbling in spellcasting, you can sneak spells past your foes’ defenses as easily as any blade. When you succeed at a spell attack roll against a flat-footed foe’s AC and the spell deals damage, you can add your sneak attack damage to the damage roll. If your single spell leads to multiple separate damage rolls, apply your sneak attack damage only once per target.",
-        "hint": "When you succeed at a spell attack roll against a flat-footed foe’s AC and the spell deals damage, you can add your sneak attack damage to the damage roll. If your single spell leads to multiple separate damage rolls, apply your sneak attack damage only once per target.",
+        "desc": "Whether you're using magic items, wielding innate magic, or dabbling in spellcasting, you can sneak spells past your foes' defenses as easily as any blade. When you succeed at a spell attack roll against a flat-footed foe's AC and the spell deals damage, you can add your sneak attack damage to the damage roll. If your single spell leads to multiple separate damage rolls, apply your sneak attack damage only once per target.",
+        "hint": "When you succeed at a spell attack roll against a flat-footed foe's AC and the spell deals damage, you can add your sneak attack damage to the damage roll. If your single spell leads to multiple separate damage rolls, apply your sneak attack damage only once per target.",
         "showon": "Spellbook",
-        "shortdesc": "You can sneak spells past your foes’ defenses as easily as any blade.",
+        "shortdesc": "You can sneak spells past your foes' defenses as easily as any blade.",
         "traits": [
             "Rogue"
         ],
@@ -17801,6 +17788,8 @@
         "name": "Poison Weapon",
         "desc": "You apply poison to a weapon.",
         "specialdesc": "During your daily preparations, you can prepare a number of simple injury poisons equal to your rogue level. These poisons deal 1d4 poison damage. Only you can apply these poisons properly, and they expire the next time you prepare.",
+        "hint": "During your daily preparations, you gain a number of simple injury poisons equal to your rogue level. These poisons deal 1d4 poison damage. Only you can apply these poisons properly, and they expire the next time you prepare.",
+        "showon": "Health",
         "shortdesc": "You apply poison to a weapon.",
         "traits": [
             "Rogue",
@@ -17833,8 +17822,8 @@
     },
     {
         "name": "Sabotage",
-        "desc": "You subtly damage others’ equipment.",
-        "shortdesc": "You subtly damage others’ equipment.",
+        "desc": "You subtly damage others' equipment.",
+        "shortdesc": "You subtly damage others' equipment.",
         "traits": [
             "Rogue",
             "Incapacitation"
@@ -17859,8 +17848,8 @@
     },
     {
         "name": "Gang Up",
-        "desc": "You and your allies harry an opponent in concert. Any enemy is flat-footed against your melee attacks due to flanking as long as the enemy is within both your reach and your ally’s. Your allies must still flank an enemy for it to be flat-footed to them.",
-        "hint": "Any enemy is flat-footed against your melee attacks due to flanking as long as the enemy is within both your reach and your ally’s. Your allies must still flank an enemy for it to be flat-footed to them.",
+        "desc": "You and your allies harry an opponent in concert. Any enemy is flat-footed against your melee attacks due to flanking as long as the enemy is within both your reach and your ally's. Your allies must still flank an enemy for it to be flat-footed to them.",
+        "hint": "Any enemy is flat-footed against your melee attacks due to flanking as long as the enemy is within both your reach and your ally's. Your allies must still flank an enemy for it to be flat-footed to them.",
         "showon": "Attacks",
         "shortdesc": "You and your allies harry an opponent in concert.",
         "traits": [
@@ -17870,10 +17859,10 @@
     },
     {
         "name": "Light Step",
-        "desc": "You aren’t bothered by tricky footing. When you Stride or Step, you can ignore difficult terrain.",
+        "desc": "You aren't bothered by tricky footing. When you Stride or Step, you can ignore difficult terrain.",
         "hint": "When you Stride or Step, you can ignore difficult terrain.",
         "showon": "Movement",
-        "shortdesc": "You aren’t bothered by tricky footing.",
+        "shortdesc": "You aren't bothered by tricky footing.",
         "traits": [
             "Rogue"
         ],
@@ -17938,8 +17927,8 @@
     },
     {
         "name": "Improved Poison Weapon",
-        "desc": "You deliver poisons in ways that maximize their harmful effects. When you apply a simple poison with Poison Weapon, the poison deals 2d4 poison damage instead of 1d4 poison damage. You don’t waste a poison you apply with Poison Weapon on a critically failed attack roll.",
-        "hint": "When you apply a simple poison with Poison Weapon, the poison deals 2d4 poison damage instead of 1d4 poison damage. You don’t waste a poison you apply with Poison Weapon on a critically failed attack roll.",
+        "desc": "You deliver poisons in ways that maximize their harmful effects. When you apply a simple poison with Poison Weapon, the poison deals 2d4 poison damage instead of 1d4 poison damage. You don't waste a poison you apply with Poison Weapon on a critically failed attack roll.",
+        "hint": "When you apply a simple poison with Poison Weapon, the poison deals 2d4 poison damage instead of 1d4 poison damage. You don't waste a poison you apply with Poison Weapon on a critically failed attack roll.",
         "showon": "Poison Weapon, Rogue Poison",
         "shortdesc": "You deliver poisons in ways that maximize their harmful effects.",
         "traits": [
@@ -17990,10 +17979,10 @@
     },
     {
         "name": "Sly Striker",
-        "desc": "Your attacks deal more damage, even against creatures that aren’t flat-footed. When you succeed or critically succeed at a Strike against a creature that isn’t flat-footed, you also deal 1d6 precision damage. This applies only if you’re using a weapon or unarmed attack you could deal sneak attack damage with. At 14th level, if you would normally deal 3d6 or more sneak attack damage to flat-footed creatures, you deal 2d6 precision damage to creatures that aren’t flat-footed.",
-        "hint": "When you succeed or critically succeed at a Strike against a creature that isn’t flat-footed, you also deal 1d6 precision damage. This applies only if you’re using a weapon or unarmed attack you could deal sneak attack damage with. At 14th level, if you would normally deal 3d6 or more sneak attack damage to flat-footed creatures, you deal 2d6 precision damage to creatures that aren’t flat-footed.",
+        "desc": "Your attacks deal more damage, even against creatures that aren't flat-footed. When you succeed or critically succeed at a Strike against a creature that isn't flat-footed, you also deal 1d6 precision damage. This applies only if you're using a weapon or unarmed attack you could deal sneak attack damage with. At 14th level, if you would normally deal 3d6 or more sneak attack damage to flat-footed creatures, you deal 2d6 precision damage to creatures that aren't flat-footed.",
+        "hint": "When you succeed or critically succeed at a Strike against a creature that isn't flat-footed, you also deal 1d6 precision damage. This applies only if you're using a weapon or unarmed attack you could deal sneak attack damage with. At 14th level, if you would normally deal 3d6 or more sneak attack damage to flat-footed creatures, you deal 2d6 precision damage to creatures that aren't flat-footed.",
         "showon": "Attacks",
-        "shortdesc": "Your attacks deal more damage, even against creatures that aren’t flat-footed.",
+        "shortdesc": "Your attacks deal more damage, even against creatures that aren't flat-footed.",
         "traits": [
             "Rogue"
         ],
@@ -18014,7 +18003,7 @@
         "levelreq": 10,
         "featreq": [
             "Thief Racket",
-            "Debilitating Strike"
+            "Debilitating Strikes"
         ]
     },
     {
@@ -18036,8 +18025,8 @@
     },
     {
         "name": "Tactical Debilitations",
-        "desc": "You learn new debilitations that grant you tactical advantages against your foes. Add the following debilitations to the list you can choose from when you use Debilitating Strike.\n\n<strong>Debilitation</strong> The target can’t use reactions.\n<strong>Debilitation</strong> The target can’t flank or contribute to allies’ flanking.",
-        "hint": "Add the following debilitations to the list you can choose from when you use Debilitating Strike.\n\nDebilitation The target can’t use reactions.\nDebilitation The target can’t flank or contribute to allies’ flanking.",
+        "desc": "You learn new debilitations that grant you tactical advantages against your foes. Add the following debilitations to the list you can choose from when you use Debilitating Strike.\n\n<strong>Debilitation</strong> The target can't use reactions.\n<strong>Debilitation</strong> The target can't flank or contribute to allies' flanking.",
+        "hint": "Add the following debilitations to the list you can choose from when you use Debilitating Strike.\n\nDebilitation The target can't use reactions.\nDebilitation The target can't flank or contribute to allies' flanking.",
         "showon": "Debilitating Strike",
         "shortdesc": "You learn new debilitations that grant you tactical advantages against your foes.",
         "traits": [
@@ -18046,7 +18035,7 @@
         "levelreq": 10,
         "featreq": [
             "Scoundrel Racket",
-            "Debilitating Strike"
+            "Debilitating Strikes"
         ]
     },
     {
@@ -18061,13 +18050,14 @@
         "levelreq": 10,
         "featreq": [
             "Ruffian Racket",
-            "Debilitating Strike"
+            "Debilitating Strikes"
         ]
     },
     {
         "name": "Critical Debilitations",
         "desc": "Your debilitations are especially effective on your most powerful attacks. Whenever you critically succeed at an attack roll against an enemy and use Debilitating Strike, add the following debilitation to the list you can choose from.\n\n<strong>Debilitation</strong> The target attempts a Fortitude save against your class DC with the following effects.\n<strong>Critical Success</strong> The target is unaffected.\n<strong>Success</strong> The target is slowed 1 until the end of your next turn.\n<strong>Failure</strong> The target is slowed 2 until the end of your next turn.\n<strong>Critical Failure</strong> The target is paralyzed until the end of your next turn.",
         "hint": "Whenever you critically succeed at an attack roll against an enemy and use Debilitating Strike, add the following debilitation to the list you can choose from.\n\nDebilitation The target attempts a Fortitude save against your class DC with the following effects.\nCritical Success The target is unaffected.\nSuccess The target is slowed 1 until the end of your next turn.\nFailure The target is slowed 2 until the end of your next turn.\nCritical Failure The target is paralyzed until the end of your next turn.",
+        "showon": "Debilitating Strike",
         "shortdesc": "Your debilitations are especially effective on your most powerful attacks.",
         "traits": [
             "Rogue",
@@ -18075,7 +18065,7 @@
         ],
         "levelreq": 12,
         "featreq": [
-            "Debilitating Strike"
+            "Debilitating Strikes"
         ]
     },
     {
@@ -18120,8 +18110,8 @@
     },
     {
         "name": "Reactive Interference",
-        "desc": "You reflexively foil an enemy’s response.",
-        "shortdesc": "You reflexively foil an enemy’s response.",
+        "desc": "You reflexively foil an enemy's response.",
+        "shortdesc": "You reflexively foil an enemy's response.",
         "traits": [
             "Rogue"
         ],
@@ -18194,8 +18184,8 @@
     },
     {
         "name": "Blank Slate",
-        "desc": "Your deceptions confound even the most powerful mortal divinations. Detection, revelation, and scrying effects pass right over you, your possessions, and your auras, detecting nothing unless the detecting effect has a counteract level of 20 or higher. For example, detect magic would still detect other magic in the area but not any magic on you, true seeing wouldn’t reveal you, locate or scrying wouldn’t find you, and so on.",
-        "hint": "Detection, revelation, and scrying effects pass right over you, your possessions, and your auras, detecting nothing unless the detecting effect has a counteract level of 20 or higher. For example, detect magic would still detect other magic in the area but not any magic on you, true seeing wouldn’t reveal you, locate or scrying wouldn’t find you, and so on.",
+        "desc": "Your deceptions confound even the most powerful mortal divinations. Detection, revelation, and scrying effects pass right over you, your possessions, and your auras, detecting nothing unless the detecting effect has a counteract level of 20 or higher. For example, detect magic would still detect other magic in the area but not any magic on you, true seeing wouldn't reveal you, locate or scrying wouldn't find you, and so on.",
+        "hint": "Detection, revelation, and scrying effects pass right over you, your possessions, and your auras, detecting nothing unless the detecting effect has a counteract level of 20 or higher. For example, detect magic would still detect other magic in the area but not any magic on you, true seeing wouldn't reveal you, locate or scrying wouldn't find you, and so on.",
         "showon": "Deception",
         "shortdesc": "Your deceptions confound even the most powerful mortal divinations.",
         "traits": [
@@ -18211,8 +18201,8 @@
     },
     {
         "name": "Cloud Step",
-        "desc": "Using fantastic acrobatic skill, you can walk for brief stretches across insubstantial surfaces. When you Stride, you can move across water, air, and solid surfaces that can hold only limited weight as if they were normal ground. If you Stride over a trap with a weight-sensitive pressure plate, you don’t trigger it. At the end of your turn, you sink, fall, break fragile surfaces, or trigger traps as normal for your current location.",
-        "hint": "When you Stride, you can move across water, air, and solid surfaces that can hold only limited weight as if they were normal ground. If you Stride over a trap with a weight-sensitive pressure plate, you don’t trigger it. At the end of your turn, you sink, fall, break fragile surfaces, or trigger traps as normal for your current location.",
+        "desc": "Using fantastic acrobatic skill, you can walk for brief stretches across insubstantial surfaces. When you Stride, you can move across water, air, and solid surfaces that can hold only limited weight as if they were normal ground. If you Stride over a trap with a weight-sensitive pressure plate, you don't trigger it. At the end of your turn, you sink, fall, break fragile surfaces, or trigger traps as normal for your current location.",
+        "hint": "When you Stride, you can move across water, air, and solid surfaces that can hold only limited weight as if they were normal ground. If you Stride over a trap with a weight-sensitive pressure plate, you don't trigger it. At the end of your turn, you sink, fall, break fragile surfaces, or trigger traps as normal for your current location.",
         "showon": "Movement",
         "shortdesc": "Using fantastic acrobatic skill, you can walk for brief stretches across insubstantial surfaces.",
         "traits": [
@@ -18293,10 +18283,10 @@
     },
     {
         "name": "Powerful Sneak",
-        "desc": "You have learned to exploit your enemies’ lowered defenses. When you succeed or critically succeed at a Strike using your Strength modifier on the attack roll and you would deal sneak attack damage, you can change the additional damage from sneak attack into ordinary damage of the same type as your Strike, rather than precision damage.",
+        "desc": "You have learned to exploit your enemies' lowered defenses. When you succeed or critically succeed at a Strike using your Strength modifier on the attack roll and you would deal sneak attack damage, you can change the additional damage from sneak attack into ordinary damage of the same type as your Strike, rather than precision damage.",
         "hint": "When you succeed or critically succeed at a Strike using your Strength modifier on the attack roll and you would deal sneak attack damage, you can change the additional damage from sneak attack into ordinary damage of the same type as your Strike, rather than precision damage.",
         "showon": "Attacks",
-        "shortdesc": "You have learned to exploit your enemies’ lowered defenses.",
+        "shortdesc": "You have learned to exploit your enemies' lowered defenses.",
         "traits": [
             "Rogue"
         ],
@@ -18348,7 +18338,7 @@
         ],
         "levelreq": 20,
         "featreq": [
-            "Debilitating Strike"
+            "Debilitating Strikes"
         ],
         "gainActivities": [
             "Enduring Debilitation"
@@ -18374,8 +18364,8 @@
     },
     {
         "name": "Impossible Striker",
-        "desc": "Your attacks are swift and deadly beyond explanation. Nothing can prevent you from making a sneak attack, even if your opponent can see every blow coming. Instead of dealing the damage from Sly Striker, you can deal your full sneak attack damage to a target even if the target isn’t flat-footed.",
-        "hint": "Nothing can prevent you from making a sneak attack, even if your opponent can see every blow coming. Instead of dealing the damage from Sly Striker, you can deal your full sneak attack damage to a target even if the target isn’t flat-footed.",
+        "desc": "Your attacks are swift and deadly beyond explanation. Nothing can prevent you from making a sneak attack, even if your opponent can see every blow coming. Instead of dealing the damage from Sly Striker, you can deal your full sneak attack damage to a target even if the target isn't flat-footed.",
+        "hint": "Instead of dealing the damage from Sly Striker, you can deal your full sneak attack damage to a target even if the target isn't flat-footed.",
         "showon": "Attacks",
         "shortdesc": "Your attacks are swift and deadly beyond explanation.",
         "traits": [
@@ -18411,9 +18401,9 @@
     },
     {
         "name": "Rogue Dedication",
-        "desc": "You gain a skill feat and the rogue’s surprise attack class feature. You become trained in light armor. In addition, you become trained in Stealth or Thievery plus one skill of your choice; if you are already trained in both Stealth and Thievery, you become trained in an additional skill of your choice. You become trained in rogue class DC.",
+        "desc": "You gain a skill feat and the rogue's surprise attack class feature. You become trained in light armor. In addition, you become trained in Stealth or Thievery plus one skill of your choice; if you are already trained in both Stealth and Thievery, you become trained in an additional skill of your choice. You become trained in rogue class DC.",
         "specialdesc": "You cannot gain another dedication feat until you have gained two other feats from the rogue archetype.",
-        "shortdesc": "You’ve learned to sneak, steal, and disable traps. With time and luck, you’ll become capable of moving through the shadows, striking unseen, and escaping without notice.",
+        "shortdesc": "You've learned to sneak, steal, and disable traps. With time and luck, you'll become capable of moving through the shadows, striking unseen, and escaping without notice.",
         "archetype": "Rogue",
         "traits": [
             "Archetype",
@@ -18532,7 +18522,7 @@
     },
     {
         "name": "Sneak Attacker",
-        "desc": "You gain the sneak attack class feature, except it deals 1d4 damage, increasing to 1d6 at 6th level. You don’t increase the number of dice as you gain levels.",
+        "desc": "You gain the sneak attack class feature, except it deals 1d4 damage, increasing to 1d6 at 6th level. You don't increase the number of dice as you gain levels.",
         "hint": "If you Strike a creature that has the flat-footed condition with an agile or finesse melee weapon, an agile or finesse unarmed attack, or a ranged weapon attack, you deal an extra 1d4 precision damage. Increase the damage to 1d6 at 6th level. For a ranged attack with a thrown melee weapon, that weapon must also be agile or finesse.",
         "showon": "Attacks",
         "shortdesc": "You gain the sneak attack class feature, except it deals 1d4 damage.",
@@ -18583,13 +18573,31 @@
         "featreq": [
             "Rogue Dedication"
         ],
-        "specialreq": "(characterService.get_Skills(character).find(skill => Skill_Level(\"Character\", skill.name) == 2) && characterService.get_Skills(character).find(skill => Skill_Level(\"Character\", skill.name) == 4))",
+        "specialreq": "((characterService.get_Skills(character, '', 'Skill').find(skill => Skill_Level('Character', skill.name) == 2) && characterService.get_Skills(character, '', 'Skill').find(skill => Skill_Level('Character', skill.name) == 4))) || (this.have(character, characterService, charLevel) && (characterService.get_Skills(character, '', 'Skill').find(skill => Skill_Level('Character', skill.name) >= 2) && characterService.get_Skills(character, '', 'Skill').find(skill => Skill_Level('Character', skill.name) >= 4)))",
         "specialreqdesc": "trained in at least one skill and expert in at least one skill",
         "gainFeatChoice": [
             {
                 "_className": "FeatChoice",
                 "available": 1,
                 "source": "Feat: Skill Mastery",
+                "type": "Skill"
+            }
+        ],
+        "gainSkillChoice": [
+            {
+                "_className": "SkillChoice",
+                "available": 1,
+                "source": "Feat: Skill Mastery",
+                "maxRank": 4,
+                "minRank": 2,
+                "type": "Skill"
+            },
+            {
+                "_className": "SkillChoice",
+                "available": 1,
+                "source": "Feat: Skill Mastery",
+                "maxRank": 6,
+                "minRank": 4,
                 "type": "Skill"
             }
         ]
@@ -18612,7 +18620,7 @@
                 "feats": [
                     {
                         "locked": true,
-                        "name": "Deny Advantage (Rogue)"
+                        "name": "Deny Advantage (Rogue)"
                     }
                 ],
                 "source": "Feat: Uncanny Dodge",

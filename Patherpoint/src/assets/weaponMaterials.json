@@ -44,7 +44,7 @@
         "level": 11,
         "price": 140000,
         "bulkPrice": 14000,
-        "desc": "Adamantine weapons have a shiny black appearance and cut through lesser items with ease. They treat any object they hit as if it had half as much Hardness as usual, unless the object’s Hardness is greater than that of the adamantine weapon.\n\nStandard-grade items can be used to create magic items of up to 15th level and can hold runes of up to 15th level.",
+        "desc": "Adamantine weapons have a shiny black appearance and cut through lesser items with ease. They treat any object they hit as if it had half as much Hardness as usual, unless the object's Hardness is greater than that of the adamantine weapon.\n\nStandard-grade items can be used to create magic items of up to 15th level and can hold runes of up to 15th level.",
         "traits": [
             "Uncommon"
         ],
@@ -57,7 +57,7 @@
         "level": 11,
         "price": 140000,
         "bulkPrice": 14000,
-        "desc": "Darkwood weapons are as dark as ebony, with a slight purple tint. A darkwood weapon’s Bulk is reduced by 1 (or to light Bulk if its normal Bulk is 1, with no effect on a weapon that normally has light Bulk).\n\nStandard-grade items can be used to create magic items of up to 15th level and can hold runes of up to 15th level.",
+        "desc": "Darkwood weapons are as dark as ebony, with a slight purple tint. A darkwood weapon's Bulk is reduced by 1 (or to light Bulk if its normal Bulk is 1, with no effect on a weapon that normally has light Bulk).\n\nStandard-grade items can be used to create magic items of up to 15th level and can hold runes of up to 15th level.",
         "bulkReduction": 1,
         "traits": [
             "Uncommon"
@@ -103,7 +103,7 @@
         "level": 17,
         "price": 1350000,
         "bulkPrice": 1350000,
-        "desc": "Adamantine weapons have a shiny black appearance and cut through lesser items with ease. They treat any object they hit as if it had half as much Hardness as usual, unless the object’s Hardness is greater than that of the adamantine weapon.\n\nHigh-grade items use the purest form of the precious material, and can be used to Craft magic items of any level holding any runes.",
+        "desc": "Adamantine weapons have a shiny black appearance and cut through lesser items with ease. They treat any object they hit as if it had half as much Hardness as usual, unless the object's Hardness is greater than that of the adamantine weapon.\n\nHigh-grade items use the purest form of the precious material, and can be used to Craft magic items of any level holding any runes.",
         "traits": [
             "Uncommon"
         ],
@@ -115,7 +115,7 @@
         "level": 17,
         "price": 1350000,
         "bulkPrice": 135000,
-        "desc": "Darkwood weapons are as dark as ebony, with a slight purple tint. A darkwood weapon’s Bulk is reduced by 1 (or to light Bulk if its normal Bulk is 1, with no effect on a weapon that normally has light Bulk).\n\nHigh-grade items use the purest form of the precious material, and can be used to Craft magic items of any level holding any runes.",
+        "desc": "Darkwood weapons are as dark as ebony, with a slight purple tint. A darkwood weapon's Bulk is reduced by 1 (or to light Bulk if its normal Bulk is 1, with no effect on a weapon that normally has light Bulk).\n\nHigh-grade items use the purest form of the precious material, and can be used to Craft magic items of any level holding any runes.",
         "bulkReduction": 1,
         "traits": [
             "Uncommon"
@@ -141,7 +141,7 @@
         "level": 18,
         "price": 2250000,
         "bulkPrice": 225000,
-        "desc": "Orichalcum weapons can have four magic property runes instead of three. Due to orichalcum’s temporal properties, etching the speed weapon property rune onto an orichalcum weapon costs half the normal Price (though transferring the rune to a weapon made of another material requires you to first pay the remaining Price and then pay the cost to transfer).\n\nHigh-grade items use the purest form of the precious material, and can be used to Craft magic items of any level holding any runes.",
+        "desc": "Orichalcum weapons can have four magic property runes instead of three. Due to orichalcum's temporal properties, etching the speed weapon property rune onto an orichalcum weapon costs half the normal Price (though transferring the rune to a weapon made of another material requires you to first pay the remaining Price and then pay the cost to transfer).\n\nHigh-grade items use the purest form of the precious material, and can be used to Craft magic items of any level holding any runes.",
         "traits": [
             "Rare"
         ],

@@ -52,6 +52,7 @@ import { SpellLibraryComponent } from './spellLibrary/spellLibrary.component';
 import { ItemTalismansComponent } from './item/itemTalismans/itemTalismans.component';
 import { CraftingComponent } from './crafting/crafting.component';
 import { ItemMaterialComponent } from './item/itemMaterial/itemMaterial.component';
+import { ItemPoisonsComponent } from './item/itemPoisons/itemPoisons.component';
 
 @NgModule({
    declarations: [
@@ -99,7 +100,8 @@ import { ItemMaterialComponent } from './item/itemMaterial/itemMaterial.componen
       SpellLibraryComponent,
       ItemTalismansComponent,
       CraftingComponent,
-      ItemMaterialComponent
+      ItemMaterialComponent,
+      ItemPoisonsComponent
    ],
    imports: [
       BrowserModule,

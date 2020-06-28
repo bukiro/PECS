@@ -355,7 +355,7 @@
     {
         "_className": "Heritage",
         "name": "Chameleon Gnome",
-        "desc": "The color of your hair and skin is mutable, possibly due to latent magic. You can slowly change the vibrancy and the exact color, and the coloration can be different across your body, allowing you to create patterns or other colorful designs. It takes a single action for minor localized shifts and up to an hour for dramatic shifts throughout your body. While you’re asleep, the colors shift on their own in tune with your dreams, giving you an unusual coloration each morning. When you’re in an area where your coloration is roughly similar to the environment (for instance, forest green in a forest), you can use the single action to make minor localized shifts designed to help you blend into your surroundings. This grants you a +2 circumstance bonus to Stealth checks until your surroundings shift in coloration or pattern.",
+        "desc": "The color of your hair and skin is mutable, possibly due to latent magic. You can slowly change the vibrancy and the exact color, and the coloration can be different across your body, allowing you to create patterns or other colorful designs. It takes a single action for minor localized shifts and up to an hour for dramatic shifts throughout your body. While you're asleep, the colors shift on their own in tune with your dreams, giving you an unusual coloration each morning. When you're in an area where your coloration is roughly similar to the environment (for instance, forest green in a forest), you can use the single action to make minor localized shifts designed to help you blend into your surroundings. This grants you a +2 circumstance bonus to Stealth checks until your surroundings shift in coloration or pattern.",
         "gainActivities": [
             "Chameleon Gnome"
         ]
@@ -363,7 +363,7 @@
     {
         "_className": "Heritage",
         "name": "Fey-Touched Gnome",
-        "desc": "The blood of the fey is so strong within you that you’re truly one of them. You gain the fey trait, in addition to the gnome and humanoid traits. Choose one cantrip from the primal spell list. You can cast this spell as a primal innate spell at will. A cantrip is heightened to a spell level equal to half your level rounded up. You can change this cantrip to a different one from the same list once per day by meditating to realign yourself with the First World; this is a 10-minute activity that has the concentrate trait.",
+        "desc": "The blood of the fey is so strong within you that you're truly one of them. You gain the fey trait, in addition to the gnome and humanoid traits. Choose one cantrip from the primal spell list. You can cast this spell as a primal innate spell at will. A cantrip is heightened to a spell level equal to half your level rounded up. You can change this cantrip to a different one from the same list once per day by meditating to realign yourself with the First World; this is a 10-minute activity that has the concentrate trait.",
         "gainActivities": [
             "Fey-Touched Gnome"
         ],
@@ -386,7 +386,7 @@
     {
         "_className": "Heritage",
         "name": "Sensate Gnome",
-        "desc": "You see all colors as brighter, hear all sounds as richer, and especially smell all scents with incredible detail. You gain a special sense: imprecise scent with a range of 30 feet. This means you can use your sense of smell to determine the exact location of a creature. The GM will usually double the range if you’re downwind from the creature or halve the range if you’re upwind.\n\nIn addition, you gain a +2 circumstance bonus to Perception checks whenever you’re trying to locate an undetected creature that is within the range of your scent.",
+        "desc": "You see all colors as brighter, hear all sounds as richer, and especially smell all scents with incredible detail. You gain a special sense: imprecise scent with a range of 30 feet. This means you can use your sense of smell to determine the exact location of a creature. The GM will usually double the range if you're downwind from the creature or halve the range if you're upwind.\n\nIn addition, you gain a +2 circumstance bonus to Perception checks whenever you're trying to locate an undetected creature that is within the range of your scent.",
         "featChoices": [
             {
                 "_className": "FeatChoice",
@@ -440,7 +440,7 @@
     {
         "_className": "Heritage",
         "name": "Wellspring Gnome",
-        "desc": "Some other source of magic has a greater hold on you than the primal magic of your fey lineage does. This connection might come from an occult plane or an ancient occult song; a deity, celestial, or fiend; magical effluent left behind by a mage war; or ancient rune magic.\n\nChoose arcane, divine, or occult. You gain one cantrip from that magical tradition’s spell list. You can cast this spell as an innate spell at will, as a spell of your chosen tradition. A cantrip is heightened to a spell level equal to half your level rounded up. Whenever you gain a primal innate spell from a gnome ancestry feat, change its tradition from primal to your chosen tradition.",
+        "desc": "Some other source of magic has a greater hold on you than the primal magic of your fey lineage does. This connection might come from an occult plane or an ancient occult song; a deity, celestial, or fiend; magical effluent left behind by a mage war; or ancient rune magic.\n\nChoose arcane, divine, or occult. You gain one cantrip from that magical tradition's spell list. You can cast this spell as an innate spell at will, as a spell of your chosen tradition. A cantrip is heightened to a spell level equal to half your level rounded up. Whenever you gain a primal innate spell from a gnome ancestry feat, change its tradition from primal to your chosen tradition.",
         "subTypes": [
             {
                 "name": "Wellspring Gnome (Arcane)",
@@ -543,7 +543,7 @@
     {
         "_className": "Heritage",
         "name": "Razortooth Goblin",
-        "desc": "Your family’s teeth are formidable weapons. You gain a jaws unarmed attack that deals 1d6 piercing damage. Your jaws are in the brawling group and have the finesse and unarmed traits.",
+        "desc": "Your family's teeth are formidable weapons. You gain a jaws unarmed attack that deals 1d6 piercing damage. Your jaws are in the brawling group and have the finesse and unarmed traits.",
         "gainItems": [
             {
                 "name": "Goblin Jaws",
@@ -625,7 +625,7 @@
     {
         "_className": "Heritage",
         "name": "Unbreakable Goblin",
-        "desc": "You’re able to bounce back from injuries easily due to an exceptionally thick skull, cartilaginous bones, or some other mixed blessing. You gain 10 Hit Points from your ancestry instead of 6. When you fall, reduce the falling damage you take as though you had fallen half the distance.",
+        "desc": "You're able to bounce back from injuries easily due to an exceptionally thick skull, cartilaginous bones, or some other mixed blessing. You gain 10 Hit Points from your ancestry instead of 6. When you fall, reduce the falling damage you take as though you had fallen half the distance.",
         "featChoices": [
             {
                 "_className": "FeatChoice",
@@ -739,7 +739,7 @@
     {
         "_className": "Heritage",
         "name": "Wildwood Halfling",
-        "desc": "You hail from deep in a jungle or forest, and you’ve learned how to use your small size to wriggle through undergrowth, vines, and other obstacles. You ignore difficult terrain from trees, foliage, and undergrowth.",
+        "desc": "You hail from deep in a jungle or forest, and you've learned how to use your small size to wriggle through undergrowth, vines, and other obstacles. You ignore difficult terrain from trees, foliage, and undergrowth.",
         "featChoices": [
             {
                 "_className": "FeatChoice",
@@ -1039,7 +1039,7 @@
         "_className": "Heritage",
         "name": "Cliffscale Lizardfolk",
         "sourceBook": "Character Guide",
-        "desc": "Your toes are adapted for gripping and climbing. You gain the Combat Climber feat as a bonus feat, and as long as you aren’t wearing footwear, you can use the sticky pads on your feet to climb, leaving your hands free. Additionally, if you roll a success on an Athletics check to climb, you get a critical success instead.",
+        "desc": "Your toes are adapted for gripping and climbing. You gain the Combat Climber feat as a bonus feat, and as long as you aren't wearing footwear, you can use the sticky pads on your feet to climb, leaving your hands free. Additionally, if you roll a success on an Athletics check to climb, you get a critical success instead.",
         "featChoices": [
             {
                 "_className": "FeatChoice",
@@ -1067,7 +1067,7 @@
         "_className": "Heritage",
         "name": "Frilled Lizardfolk",
         "sourceBook": "Character Guide",
-        "desc": "You can flare your neck frill and flex your dorsal spines, Demoralizing your foes. When you do, Demoralize loses the auditory trait and gains the visual trait, and you don’t take a penalty when you attempt to Demoralize a creature that doesn’t understand your language. You also gain the Threatening Approach action.",
+        "desc": "You can flare your neck frill and flex your dorsal spines, Demoralizing your foes. When you do, Demoralize loses the auditory trait and gains the visual trait, and you don't take a penalty when you attempt to Demoralize a creature that doesn't understand your language. You also gain the Threatening Approach action.",
         "featChoices": [
             {
                 "_className": "FeatChoice",
@@ -1092,7 +1092,7 @@
         "_className": "Heritage",
         "name": "Sandstrider Lizardfolk",
         "sourceBook": "Character Guide",
-        "desc": "Your thick scales help you retain water and combat the sun’s glare. You gain fire resistance equal to half your level (minimum 1). Environmental heat effects are one step less extreme for you, and you can go 10 times as long as normal before you are affected by starvation or thirst. However, unless you wear protective gear or take shelter, environmental cold effects are one step more extreme for you.",
+        "desc": "Your thick scales help you retain water and combat the sun's glare. You gain fire resistance equal to half your level (minimum 1). Environmental heat effects are one step less extreme for you, and you can go 10 times as long as normal before you are affected by starvation or thirst. However, unless you wear protective gear or take shelter, environmental cold effects are one step more extreme for you.",
         "featChoices": [
             {
                 "_className": "FeatChoice",
@@ -1120,7 +1120,7 @@
         "_className": "Heritage",
         "name": "Unseen Lizardfolk",
         "sourceBook": "Character Guide",
-        "desc": "You can change your skin color to blend in with your surroundings, making minor shifts with a single action and dramatic changes over the course of an hour. When you’re in an area where your coloration is roughly similar to the environment (for instance, forest green in a forest), you can use the minor, singleaction application of this ability to make localized changes that help you blend into your surroundings, gaining a +2 circumstance bonus to Stealth checks until your surroundings change in coloration or pattern.",
+        "desc": "You can change your skin color to blend in with your surroundings, making minor shifts with a single action and dramatic changes over the course of an hour. When you're in an area where your coloration is roughly similar to the environment (for instance, forest green in a forest), you can use the minor, singleaction application of this ability to make localized changes that help you blend into your surroundings, gaining a +2 circumstance bonus to Stealth checks until your surroundings change in coloration or pattern.",
         "gainActivities": [
             "Unseen Lizardfolk"
         ]
@@ -1226,7 +1226,7 @@
         "_className": "Heritage",
         "name": "Thickcoat Shoony",
         "sourceBook": "Pathfinder #153: Life's Long Shadow",
-        "desc": "You are a rare shoony who hails from colder climes. You gain cold resistance equal to half your level (minimum 1), and you treat environmental cold effects as if they were one step less extreme (incredible cold becomes extreme, extreme cold becomes severe, and so on). You don’t need to succeed at a flat check to target a concealed creature if that creature is concealed only by snow. Unless you wear protective gear or take shelter, environmental heat effects are one step more extreme for you. ",
+        "desc": "You are a rare shoony who hails from colder climes. You gain cold resistance equal to half your level (minimum 1), and you treat environmental cold effects as if they were one step less extreme (incredible cold becomes extreme, extreme cold becomes severe, and so on). You don't need to succeed at a flat check to target a concealed creature if that creature is concealed only by snow. Unless you wear protective gear or take shelter, environmental heat effects are one step more extreme for you. ",
         "featChoices": [
             {
                 "_className": "FeatChoice",

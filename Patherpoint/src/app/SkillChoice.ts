@@ -12,6 +12,8 @@ export class SkillChoice {
     //If insertClass is set, this SkillChoice is only granted by a feat if the character class name matches this name.
     // This is especially useful for class choices (hunter's edge, rogue racket, bloodline etc.) that don't give certain benefits when multiclassing.
     public insertClass: string = "";
+    //minRank: you may only increase skills that already have at least this level.
+    public minRank: number = 0;
     //maxRank: the highest rank you are allowed to achieve with this choice.
     //This means that only skills are allowed which currently have maxRank-2 !
     public maxRank: number = 8;

@@ -199,6 +199,7 @@ app-familiar .character-only {
 h3.box-header {
     color: #465A8C;
     color: rgb(var(--accent));
+    text-shadow: 0 0 3px invert(rgb(var(--accent))), 0 0 3px invert(rgb(var(--accent))), 0 0 3px invert(rgb(var(--accent))), 0 0 3px invert(rgb(var(--accent))), 0 0 3px invert(rgb(var(--accent)));
 }
 
 .darkmode h3.box-header {
@@ -603,6 +604,7 @@ app-item,
 app-activity,
 app-itemMaterial,
 app-itemOils,
+app-itemPoisons,
 app-itemRunes,
 app-itemTalismans,
 app-itemAeonStones,
@@ -707,6 +709,17 @@ button.list-item {
 
 .darkmode .list-item.sublist {
     background-color: #303030;
+}
+
+.list-item.sublist :not(.list-item) > strong,
+.list-item.sublist :not(.list-item) > span > strong {
+    color: rgb(var(--accent));
+    text-shadow: 0 0 3px white, 0 0 3px white, 0 0 3px white, 0 0 3px white, 0 0 3px white;
+}
+
+.darkmode .list-item.sublist :not(.list-item) > strong,
+.darkmode .list-item.sublist :not(.list-item) > span > strong {
+    text-shadow: 0 0 3px var(--textcolor), 0 0 3px var(--textcolor), 0 0 3px var(--textcolor), 0 0 3px var(--textcolor), 0 0 3px var(--textcolor);
 }
 
 .list-item.sublist.fancy-list {
@@ -869,13 +882,9 @@ var:not(:empty),
 .variable {
     font-weight: bold;
     font-style: normal;
-    color: #465A8C;
-    color: rgb(var(--accent));
-}
-
-.darkmode var:not(:empty),
-.darkmode .variable {
-    text-shadow: 0 0 3px var(--textcolor), 0 0 3px var(--textcolor), 0 0 3px var(--textcolor), 0 0 3px var(--textcolor), 0 0 3px var(--textcolor);
+    color: var(--textcolor);
+    text-shadow: 0 0 3px rgb(var(--accent)), 0 0 3px rgb(var(--accent)), 0 0 3px rgb(var(--accent)), 0 0 3px rgb(var(--accent)), 0 0 3px rgb(var(--accent));
+    color: var(--textcolor);
 }
 
 .problem,
@@ -886,6 +895,7 @@ var:not(:empty),
 
 .darkmode .problem,
 .darkmode .lower.problem {
+    color: red;
     background-color: #500000;
 }
 

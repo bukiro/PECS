@@ -48,6 +48,12 @@
                     [showItems]=true [showActivities]=true [showConditions]=true
                     [specialNames]="get_SpecialShowon(weapon, attack[0])" [specialEffects]=attack[3]></app-tags>
                 <div class="fullsize-only lower row left-aligned"
+                    *ngFor="let poison of weapon.poisonsApplied; let index = index; trackBy:trackByIndex;">
+                    <button title="{{get_PoisonTitle(poison)}}" (click)="on_PoisonUse(weapon, poison)">
+                        <span>Spend/Remove {{poison.name}}</span>
+                    </button>
+                </div>
+                    <div class="fullsize-only lower row left-aligned"
                     *ngFor="let talisman of weapon.talismans; let index = index; trackBy:trackByIndex;">
                     <button title="{{get_TalismanTitle(talisman)}}" (click)="on_TalismanUse(weapon, talisman, index)">
                         <span>Activate {{talisman.name}}<app-actionIcons [actionString]="talisman.actions">

@@ -60,9 +60,10 @@ The very latest in Assistive Technologies for Dungeon Master (ATDM)
 - [x] Implement all Heritages
 - [x] Implement all Backgrounds
 - [ ] Implement all Classes and Multiclass Archetypes
-- [x] - Monk
 - [x] - Fighter
+- [x] - Monk
 - [x] - Ranger
+- [x] - Rogue
 - [x] - Wizard
 - [ ] Add custom conditions with effects
 - [ ] Item Icons
@@ -70,10 +71,9 @@ The very latest in Assistive Technologies for Dungeon Master (ATDM)
 - [ ] Stretch Goal: Include optional Stamina & Resolve system
 
 Active to-do
-- Bug: When you deselect Thief Racket, the tag doesn't disappear from the Attacks component.
-- Convert Rogue Feats and Activities from xls
-- Implement Poisons as far as the Rogue needs them
 
 Next steps:
+- Add all poisons
 - Add custom conditions with effects
 - Add button press effect
+- Implement Bard

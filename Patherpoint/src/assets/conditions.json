@@ -10,7 +10,7 @@
     },
     {
         "name": "Broken",
-        "desc": "Broken is a condition that affects objects. An object is broken when damage has reduced its Hit Points to equal or less than its Broken Threshold. A broken object can’t be used for its normal function, nor does it grant bonuses-with the exception of armor. Broken armor still grants its item bonus to AC, but it also imparts a status penalty to AC depending on its category: -1 for broken light armor, -2 for broken medium armor, or -3 for broken heavy armor.\n\nA broken item still imposes penalties and limitations normally incurred by carrying, holding, or wearing it. For example, broken armor would still impose its Dexterity modifier cap, check penalty, and so forth.\n\nIf an effect makes an item broken automatically and the item has more HP than its Broken Threshold, that effect also reduces the item’s current HP to the Broken Threshold.",
+        "desc": "Broken is a condition that affects objects. An object is broken when damage has reduced its Hit Points to equal or less than its Broken Threshold. A broken object can't be used for its normal function, nor does it grant bonuses-with the exception of armor. Broken armor still grants its item bonus to AC, but it also imparts a status penalty to AC depending on its category: -1 for broken light armor, -2 for broken medium armor, or -3 for broken heavy armor.\n\nA broken item still imposes penalties and limitations normally incurred by carrying, holding, or wearing it. For example, broken armor would still impose its Dexterity modifier cap, check penalty, and so forth.\n\nIf an effect makes an item broken automatically and the item has more HP than its Broken Threshold, that effect also reduces the item's current HP to the Broken Threshold.",
         "restricted": true,
         "type": "generic"
     },
@@ -37,8 +37,8 @@
     },
     {
         "name": "Confused",
-        "desc": "You don’t have your wits about you, and you attack wildly. You are flat-footed, you don’t treat anyone as your ally (though they might still treat you as theirs), and you can’t Delay, Ready, or use reactions.\n\nYou use all your actions to Strike or cast offensive cantrips, though the GM can have you use other actions to facilitate attack, such as draw a weapon, move so that a target is in reach, and so forth. Your targets are determined randomly by the GM. If you have no other viable targets, you target yourself, automatically hitting but not scoring a critical hit. If it’s impossible for you to attack or cast spells, you babble incoherently, wasting your actions.\n\nEach time you take damage from an attack or spell, you can attempt a DC 11 flat check to recover from your confusion and end the condition.",
-        "hint": "You can’t Delay, Ready, or use reactions. You use all your actions to Strike or cast offensive cantrips, though the GM can have you use other actions to facilitate attack, such as draw a weapon, move so that a target is in reach, and so forth. Your targets are determined randomly by the GM. If you have no other viable targets, you target yourself, automatically hitting but not scoring a critical hit. If it’s impossible for you to attack or cast spells, you babble incoherently, wasting your actions.",
+        "desc": "You don't have your wits about you, and you attack wildly. You are flat-footed, you don't treat anyone as your ally (though they might still treat you as theirs), and you can't Delay, Ready, or use reactions.\n\nYou use all your actions to Strike or cast offensive cantrips, though the GM can have you use other actions to facilitate attack, such as draw a weapon, move so that a target is in reach, and so forth. Your targets are determined randomly by the GM. If you have no other viable targets, you target yourself, automatically hitting but not scoring a critical hit. If it's impossible for you to attack or cast spells, you babble incoherently, wasting your actions.\n\nEach time you take damage from an attack or spell, you can attempt a DC 11 flat check to recover from your confusion and end the condition.",
+        "hint": "You can't Delay, Ready, or use reactions. You use all your actions to Strike or cast offensive cantrips, though the GM can have you use other actions to facilitate attack, such as draw a weapon, move so that a target is in reach, and so forth. Your targets are determined randomly by the GM. If you have no other viable targets, you target yourself, automatically hitting but not scoring a critical hit. If it's impossible for you to attack or cast spells, you babble incoherently, wasting your actions.",
         "showon": "Attacks, Activities, Skills",
         "gainConditions": [
             {
@@ -50,8 +50,8 @@
     },
     {
         "name": "Controlled",
-        "desc": "Someone else is making your decisions for you, usually because you’re being commanded or magically dominated. The controller dictates how you act and can make you use any of your actions, including attacks, reactions, or even Delay. The controller usually does not have to spend their own actions when controlling you.",
-        "hint": "Someone else is making your decisions for you, usually because you’re being commanded or magically dominated. The controller dictates how you act and can make you use any of your actions, including attacks, reactions, or even Delay. The controller usually does not have to spend their own actions when controlling you.",
+        "desc": "Someone else is making your decisions for you, usually because you're being commanded or magically dominated. The controller dictates how you act and can make you use any of your actions, including attacks, reactions, or even Delay. The controller usually does not have to spend their own actions when controlling you.",
+        "hint": "Someone else is making your decisions for you, usually because you're being commanded or magically dominated. The controller dictates how you act and can make you use any of your actions, including attacks, reactions, or even Delay. The controller usually does not have to spend their own actions when controlling you.",
         "showon": "Attacks, Activities, Skills",
         "type": "generic"
     },
@@ -64,8 +64,8 @@
     },
     {
         "name": "Deafened",
-        "desc": "You can’t hear. You automatically critically fail Perception checks that require you to be able to hear. You take a -2 status penalty to Perception checks for initiative and checks that involve sound but also rely on other senses. If you perform an action with the auditory trait, you must succeed at a DC 5 flat check or the action is lost; attempt the check after spending the action but before any effects are applied. You are immune to auditory effects. ",
-        "hint": "You can’t hear. You automatically critically fail Perception checks that require you to be able to hear. You take a -2 status penalty to Perception checks for initiative and checks that involve sound but also rely on other senses. If you perform an action with the auditory trait, you must succeed at a DC 5 flat check or the action is lost; attempt the check after spending the action but before any effects are applied. You are immune to auditory effects. ",
+        "desc": "You can't hear. You automatically critically fail Perception checks that require you to be able to hear. You take a -2 status penalty to Perception checks for initiative and checks that involve sound but also rely on other senses. If you perform an action with the auditory trait, you must succeed at a DC 5 flat check or the action is lost; attempt the check after spending the action but before any effects are applied. You are immune to auditory effects. ",
+        "hint": "You can't hear. You automatically critically fail Perception checks that require you to be able to hear. You take a -2 status penalty to Perception checks for initiative and checks that involve sound but also rely on other senses. If you perform an action with the auditory trait, you must succeed at a DC 5 flat check or the action is lost; attempt the check after spending the action but before any effects are applied. You are immune to auditory effects. ",
         "showon": "Activities, Perception, Will",
         "type": "generic"
     },
@@ -104,7 +104,7 @@
     },
     {
         "name": "Drained",
-        "desc": "When a creature successfully drains you of blood or life force, you become less healthy. Drained always includes a value. You take a status penalty equal to your drained value on Constitution-based checks, such as Fortitude saves. You also lose a number of Hit Points equal to your level (minimum 1) times the drained value, and your maximum Hit Points are reduced by the same amount. For example, if you’re hit by an effect that inflicts drained 3 and you’re a 3rd-level character, you lose 9 Hit Points and reduce your maximum Hit Points by 9. Losing these Hit Points doesn’t count as taking damage.\n\nEach time you get a full night’s rest, your drained value decreases by 1. This increases your maximum Hit Points, but you don’t immediately recover the lost Hit Points.",
+        "desc": "When a creature successfully drains you of blood or life force, you become less healthy. Drained always includes a value. You take a status penalty equal to your drained value on Constitution-based checks, such as Fortitude saves. You also lose a number of Hit Points equal to your level (minimum 1) times the drained value, and your maximum Hit Points are reduced by the same amount. For example, if you're hit by an effect that inflicts drained 3 and you're a 3rd-level character, you lose 9 Hit Points and reduce your maximum Hit Points by 9. Losing these Hit Points doesn't count as taking damage.\n\nEach time you get a full night's rest, your drained value decreases by 1. This increases your maximum Hit Points, but you don't immediately recover the lost Hit Points.",
         "effects": [
             {
                 "affected": "Max HP",
@@ -117,7 +117,7 @@
             }
         ],
         "hasValue": true,
-        "inputRequired": "Each time you get a full night’s rest, decrease your drained value by 1. When this increases your maximum Hit Points, manually take damage equal to your level to represent the lost Hit Points.",
+        "inputRequired": "Each time you get a full night's rest, decrease your drained value by 1. When this increases your maximum Hit Points, manually take damage equal to your level to represent the lost Hit Points.",
         "persistent": true,
         "type": "generic"
     },
@@ -168,8 +168,8 @@
     },
     {
         "name": "Fascinated",
-        "desc": "You are compelled to focus your attention on something, distracting you from whatever else is going on around you. You take a -2 status penalty to Perception and skill checks, and you can’t use actions with the concentrate trait unless they or their intended consequences are related to the subject of your fascination (as determined by the GM). For instance, you might be able to Seek and Recall Knowledge about the subject, but you likely couldn’t cast a spell targeting a different creature. This condition ends if a creature uses hostile actions against you or any of your allies.",
-        "hint": "You can’t use actions with the concentrate trait unless they or their intended consequences are related to the subject of your fascination (as determined by the GM). For instance, you might be able to Seek and Recall Knowledge about the subject, but you likely couldn’t cast a spell targeting a different creature.",
+        "desc": "You are compelled to focus your attention on something, distracting you from whatever else is going on around you. You take a -2 status penalty to Perception and skill checks, and you can't use actions with the concentrate trait unless they or their intended consequences are related to the subject of your fascination (as determined by the GM). For instance, you might be able to Seek and Recall Knowledge about the subject, but you likely couldn't cast a spell targeting a different creature. This condition ends if a creature uses hostile actions against you or any of your allies.",
+        "hint": "You can't use actions with the concentrate trait unless they or their intended consequences are related to the subject of your fascination (as determined by the GM). For instance, you might be able to Seek and Recall Knowledge about the subject, but you likely couldn't cast a spell targeting a different creature.",
         "showon": "Activities, Skills",
         "effects": [
             {
@@ -187,8 +187,8 @@
     },
     {
         "name": "Fatigued",
-        "desc": "You’re tired and can’t summon much energy. You take a -1 status penalty to AC and saving throws. While exploring, you can’t choose an exploration activity.\n\nYou recover from fatigue after a full night’s rest.",
-        "hint": "While exploring, you can’t choose an exploration activity.",
+        "desc": "You're tired and can't summon much energy. You take a -1 status penalty to AC and saving throws. While exploring, you can't choose an exploration activity.\n\nYou recover from fatigue after a full night's rest.",
+        "hint": "While exploring, you can't choose an exploration activity.",
         "showon": "Activities, Skills",
         "effects": [
             {
@@ -212,7 +212,7 @@
                 "value": "-1"
             }
         ],
-        "inputRequired": "You recover from fatigue after a full night’s rest.",
+        "inputRequired": "You recover from fatigue after a full night's rest.",
         "persistent": true,
         "type": "generic"
     },
@@ -230,15 +230,15 @@
     },
     {
         "name": "Fleeing",
-        "desc": "You’re forced to run away due to fear or some other compulsion. On your turn, you must spend each of your actions trying to escape the source of the fleeing condition as expediently as possible (such as by using move actions to flee, or opening doors barring your escape). The source is usually the effect or caster that gave you the condition, though some effects might define something else as the source. You can’t Delay or Ready while fleeing.",
-        "hint": "On your turn, you must spend each of your actions trying to escape the source of the fleeing condition as expediently as possible (such as by using move actions to flee, or opening doors barring your escape). The source is usually the effect or caster that gave you the condition, though some effects might define something else as the source. You can’t Delay or Ready while fleeing.",
+        "desc": "You're forced to run away due to fear or some other compulsion. On your turn, you must spend each of your actions trying to escape the source of the fleeing condition as expediently as possible (such as by using move actions to flee, or opening doors barring your escape). The source is usually the effect or caster that gave you the condition, though some effects might define something else as the source. You can't Delay or Ready while fleeing.",
+        "hint": "On your turn, you must spend each of your actions trying to escape the source of the fleeing condition as expediently as possible (such as by using move actions to flee, or opening doors barring your escape). The source is usually the effect or caster that gave you the condition, though some effects might define something else as the source. You can't Delay or Ready while fleeing.",
         "showon": "Attacks, Activities, Skills",
         "type": "generic"
     },
     {
         "name": "Friendly",
         "buff": true,
-        "desc": "This condition reflects a creature’s disposition toward a particular character, and only supernatural effects (like a spell) can impose these conditions on player characters. A creature that is friendly to a character likes that character. The character can attempt to make a Request of a friendly creature, and the friendly creature is likely to agree to a simple and safe request that doesn’t cost it much to fulfill. If the character or one of their allies uses hostile actions against the creature, the creature gains a worse attitude condition depending on the severity of the hostile action, as determined by the GM.",
+        "desc": "This condition reflects a creature's disposition toward a particular character, and only supernatural effects (like a spell) can impose these conditions on player characters. A creature that is friendly to a character likes that character. The character can attempt to make a Request of a friendly creature, and the friendly creature is likely to agree to a simple and safe request that doesn't cost it much to fulfill. If the character or one of their allies uses hostile actions against the creature, the creature gains a worse attitude condition depending on the severity of the hostile action, as determined by the GM.",
         "restricted": true,
         "type": "generic"
     },
@@ -274,7 +274,7 @@
     {
         "name": "Helpful",
         "buff": true,
-        "desc": "This condition reflects a creature’s disposition toward a particular character, and only supernatural effects (like a spell) can impose these conditions on player characters. A creature that is helpful to a character wishes to actively aid that character. It will accept reasonable Requests from that character, as long as such requests aren’t at the expense of the helpful creature’s goals or quality of life. If the character or one of their allies uses a hostile action against the creature, the creature gains a worse attitude condition depending on the severity of the hostile action, as determined by the GM.",
+        "desc": "This condition reflects a creature's disposition toward a particular character, and only supernatural effects (like a spell) can impose these conditions on player characters. A creature that is helpful to a character wishes to actively aid that character. It will accept reasonable Requests from that character, as long as such requests aren't at the expense of the helpful creature's goals or quality of life. If the character or one of their allies uses a hostile action against the creature, the creature gains a worse attitude condition depending on the severity of the hostile action, as determined by the GM.",
         "restricted": true,
         "type": "generic"
     },
@@ -289,21 +289,21 @@
     {
         "name": "Hostile",
         "buff": true,
-        "desc": "This condition reflects a creature’s disposition toward a particular character, and only supernatural effects (like a spell) can impose these conditions on player characters. A creature that is hostile to a character actively seeks to harm that character. It doesn’t necessarily attack, but it won’t accept Requests from the character.",
+        "desc": "This condition reflects a creature's disposition toward a particular character, and only supernatural effects (like a spell) can impose these conditions on player characters. A creature that is hostile to a character actively seeks to harm that character. It doesn't necessarily attack, but it won't accept Requests from the character.",
         "restricted": true,
         "type": "generic"
     },
     {
         "name": "Immobilized",
-        "desc": "You can’t use any action with the move trait. If you’re immobilized by something holding you in place and an external force would move you out of your space, the force must succeed at a check against either the DC of the effect holding you in place or the relevant defense (usually Fortitude DC) of the monster holding you in place.",
-        "hint": "You can’t use any action with the move trait. If you’re immobilized by something holding you in place and an external force would move you out of your space, the force must succeed at a check against either the DC of the effect holding you in place or the relevant defense (usually Fortitude DC) of the monster holding you in place.",
+        "desc": "You can't use any action with the move trait. If you're immobilized by something holding you in place and an external force would move you out of your space, the force must succeed at a check against either the DC of the effect holding you in place or the relevant defense (usually Fortitude DC) of the monster holding you in place.",
+        "hint": "You can't use any action with the move trait. If you're immobilized by something holding you in place and an external force would move you out of your space, the force must succeed at a check against either the DC of the effect holding you in place or the relevant defense (usually Fortitude DC) of the monster holding you in place.",
         "showon": "Activities, Movement, Skills",
         "type": "generic"
     },
     {
         "name": "Indifferent",
         "buff": true,
-        "desc": "This condition reflects a creature’s disposition toward a particular character, and only supernatural effects (like a spell) can impose these conditions on player characters. A creature that is indifferent to a character doesn’t really care one way or the other about that character. Assume a creature’s attitude to a given character is indifferent unless specified otherwise.",
+        "desc": "This condition reflects a creature's disposition toward a particular character, and only supernatural effects (like a spell) can impose these conditions on player characters. A creature that is indifferent to a character doesn't really care one way or the other about that character. Assume a creature's attitude to a given character is indifferent unless specified otherwise.",
         "restricted": true,
         "type": "generic"
     },
@@ -340,8 +340,8 @@
     },
     {
         "name": "Petrified",
-        "desc": "You have been turned to stone. You can’t act, nor can you sense anything. You become an object with a Bulk double your normal Bulk (typically 12 for a petrified Medium creature or 6 for a petrified Small creature), AC 9, Hardness 8, and the same current Hit Points you had when alive. You don’t have a Broken Threshold. When you’re turned back into flesh, you have the same number of Hit Points you had as a statue. If the statue is destroyed, you immediately die. While petrified, your mind and body are in stasis, so you don’t age or notice the passing of time.",
-        "hint": "You can’t act, nor can you sense anything. You don’t age or notice the passing of time.",
+        "desc": "You have been turned to stone. You can't act, nor can you sense anything. You become an object with a Bulk double your normal Bulk (typically 12 for a petrified Medium creature or 6 for a petrified Small creature), AC 9, Hardness 8, and the same current Hit Points you had when alive. You don't have a Broken Threshold. When you're turned back into flesh, you have the same number of Hit Points you had as a statue. If the statue is destroyed, you immediately die. While petrified, your mind and body are in stasis, so you don't age or notice the passing of time.",
+        "hint": "You can't act, nor can you sense anything. You don't age or notice the passing of time.",
         "showon": "Activities, Movement, Perception, Skills",
         "effects": [
             {
@@ -361,8 +361,8 @@
     },
     {
         "name": "Prone",
-        "desc": "You’re lying on the ground. You are flat-footed and take a -2 circumstance penalty to attack rolls. The only move actions you can use while you’re prone are Crawl and Stand. Standing up ends the prone condition. You can Take Cover while prone to hunker down and gain cover against ranged attacks, even if you don’t have an object to get behind, gaining a +4 circumstance bonus to AC against ranged attacks (but you remain flat-footed).\n\nIf you would be knocked prone while you’re Climbing or Flying, you fall (see pages 463-464 for the rules on falling). You can’t be knocked prone when Swimming.",
-        "hint": "The only move actions you can use while you’re prone are Crawl and Stand. Standing up ends the prone condition. You can Take Cover while prone to hunker down and gain cover against ranged attacks, even if you don’t have an object to get behind, gaining a +4 circumstance bonus to AC against ranged attacks (but you remain flat-footed).",
+        "desc": "You're lying on the ground. You are flat-footed and take a -2 circumstance penalty to attack rolls. The only move actions you can use while you're prone are Crawl and Stand. Standing up ends the prone condition. You can Take Cover while prone to hunker down and gain cover against ranged attacks, even if you don't have an object to get behind, gaining a +4 circumstance bonus to AC against ranged attacks (but you remain flat-footed).\n\nIf you would be knocked prone while you're Climbing or Flying, you fall (see pages 463-464 for the rules on falling). You can't be knocked prone when Swimming.",
+        "hint": "The only move actions you can use while you're prone are Crawl and Stand. Standing up ends the prone condition. You can Take Cover while prone to hunker down and gain cover against ranged attacks, even if you don't have an object to get behind, gaining a +4 circumstance bonus to AC against ranged attacks (but you remain flat-footed).",
         "showon": "AC, Movement",
         "effects": [
             {
@@ -386,8 +386,8 @@
     },
     {
         "name": "Restrained",
-        "desc": "You’re tied up and can barely move, or a creature has you pinned. You have the flat-footed and immobilized conditions, and you can’t use any actions with the attack or manipulate traits except to attempt to Escape or Force Open your bonds. Restrained overrides grabbed.",
-        "hint": "You can’t use any actions with the attack or manipulate traits except to attempt to Escape or Force Open your bonds.",
+        "desc": "You're tied up and can barely move, or a creature has you pinned. You have the flat-footed and immobilized conditions, and you can't use any actions with the attack or manipulate traits except to attempt to Escape or Force Open your bonds. Restrained overrides grabbed.",
+        "hint": "You can't use any actions with the attack or manipulate traits except to attempt to Escape or Force Open your bonds.",
         "showon": "Activities, Attacks, Skills",
         "gainConditions": [
             {
@@ -417,7 +417,7 @@
     },
     {
         "name": "Slowed",
-        "desc": "You have fewer actions. Slowed always includes a value. When you regain your actions at the start of your turn, reduce the number of actions you regain by your slowed value. Because slowed has its effect at the start of your turn, you don’t immediately lose actions if you become slowed during your turn. ",
+        "desc": "You have fewer actions. Slowed always includes a value. When you regain your actions at the start of your turn, reduce the number of actions you regain by your slowed value. Because slowed has its effect at the start of your turn, you don't immediately lose actions if you become slowed during your turn. ",
         "effects": [
             {
                 "affected": "Actions per Turn",
@@ -429,7 +429,7 @@
     },
     {
         "name": "Stunned",
-        "desc": "You’ve become senseless. You can’t act while stunned. Stunned usually includes a value, which indicates how many total actions you lose, possibly over multiple turns, from being stunned. Each time you regain actions (such as at the start of your turn), reduce the number you regain by your stunned value, then reduce your stunned value by the number of actions you lost. For example, if you were stunned 4, you would lose all 3 of your actions on your turn, reducing you to stunned 1; on your next turn, you would lose 1 more action, and then be able to use your remaining 2 actions normally. Stunned might also have a duration instead of a value, such as “stunned for 1 minute.” In this case, you lose all your actions for the listed duration.\n\nStunned overrides slowed. If the duration of your stunned condition ends while you are slowed, you count the actions lost to the stunned condition toward those lost to being slowed. So, if you were stunned 1 and slowed 2 at the beginning of your turn, you would lose 1 action from stunned, and then lose only 1 additional action by being slowed, so you would still have 1 action remaining to use that turn.",
+        "desc": "You've become senseless. You can't act while stunned. Stunned usually includes a value, which indicates how many total actions you lose, possibly over multiple turns, from being stunned. Each time you regain actions (such as at the start of your turn), reduce the number you regain by your stunned value, then reduce your stunned value by the number of actions you lost. For example, if you were stunned 4, you would lose all 3 of your actions on your turn, reducing you to stunned 1; on your next turn, you would lose 1 more action, and then be able to use your remaining 2 actions normally. Stunned might also have a duration instead of a value, such as “stunned for 1 minute.” In this case, you lose all your actions for the listed duration.\n\nStunned overrides slowed. If the duration of your stunned condition ends while you are slowed, you count the actions lost to the stunned condition toward those lost to being slowed. So, if you were stunned 1 and slowed 2 at the beginning of your turn, you would lose 1 action from stunned, and then lose only 1 additional action by being slowed, so you would still have 1 action remaining to use that turn.",
         "effects": [
             {
                 "affected": "Actions per Turn",
@@ -503,20 +503,20 @@
     {
         "name": "Undetected",
         "buff": true,
-        "desc": "When you are undetected by a creature, that creature cannot see you at all, has no idea what space you occupy, and can’t target you, though you still can be affected by abilities that target an area. When you’re undetected by a creature, that creature is flat-footed to you.\n\nA creature you’re undetected by can guess which square you’re in to try targeting you. It must pick a square and attempt an attack. This works like targeting a hidden creature (requiring a DC 11 flat check), but the flat check and attack roll are rolled in secret by the GM, who doesn’t reveal whether the attack missed due to failing the flat check, failing the attack roll, or choosing the wrong square.\n\nA creature can use the Seek action to try to find you.",
+        "desc": "When you are undetected by a creature, that creature cannot see you at all, has no idea what space you occupy, and can't target you, though you still can be affected by abilities that target an area. When you're undetected by a creature, that creature is flat-footed to you.\n\nA creature you're undetected by can guess which square you're in to try targeting you. It must pick a square and attempt an attack. This works like targeting a hidden creature (requiring a DC 11 flat check), but the flat check and attack roll are rolled in secret by the GM, who doesn't reveal whether the attack missed due to failing the flat check, failing the attack roll, or choosing the wrong square.\n\nA creature can use the Seek action to try to find you.",
         "type": "generic"
     },
     {
         "name": "Unfriendly",
         "buff": true,
-        "desc": "This condition reflects a creature’s disposition toward a particular character, and only supernatural effects (like a spell) can impose these conditions on player characters. A creature that is unfriendly to a character dislikes and specifically distrusts that character. The unfriendly creature won’t accept Requests from the character.",
+        "desc": "This condition reflects a creature's disposition toward a particular character, and only supernatural effects (like a spell) can impose these conditions on player characters. A creature that is unfriendly to a character dislikes and specifically distrusts that character. The unfriendly creature won't accept Requests from the character.",
         "restricted": true,
         "type": "generic"
     },
     {
         "name": "Unnoticed",
         "buff": true,
-        "desc": "If you are unnoticed by a creature, that creature has no idea you are present at all. When you’re unnoticed, you’re also undetected by the creature. This condition matters for abilities that can be used only against targets totally unaware of your presence.",
+        "desc": "If you are unnoticed by a creature, that creature has no idea you are present at all. When you're unnoticed, you're also undetected by the creature. This condition matters for abilities that can be used only against targets totally unaware of your presence.",
         "type": "generic"
     },
     {
@@ -2095,7 +2095,7 @@
     {
         "name": "Truth Potion",
         "buff": true,
-        "desc": "For 10 minutes after drinking this astringent potion, you can’t intentionally lie and may be compelled to tell the truth. Upon drinking the potion, attempt a DC 19 Will save. You can voluntarily fail or critically fail.\n\n<strong>Success</strong> The potion does not affect you.\n<strong>Failure</strong> When you speak, you must tell the truth.\n<strong>Critical Failure</strong> As failure, and when someone asks you a question, you must attempt another DC 19 Will saving throw. If you fail this saving throw, you must answer the question truthfully if you are able to do so; if you succeed, you are temporarily immune to further attempts to ask the same question within the potion’s duration.",
+        "desc": "For 10 minutes after drinking this astringent potion, you can't intentionally lie and may be compelled to tell the truth. Upon drinking the potion, attempt a DC 19 Will save. You can voluntarily fail or critically fail.\n\n<strong>Success</strong> The potion does not affect you.\n<strong>Failure</strong> When you speak, you must tell the truth.\n<strong>Critical Failure</strong> As failure, and when someone asks you a question, you must attempt another DC 19 Will saving throw. If you fail this saving throw, you must answer the question truthfully if you are able to do so; if you succeed, you are temporarily immune to further attempts to ask the same question within the potion's duration.",
         "type": "potions"
     },
     {
@@ -2134,7 +2134,7 @@
     {
         "name": "Black Dragon's Breath Potion (Young)",
         "buff": true,
-        "desc": "For 1 hour after you imbibe the concoction, you can unleash a breath weapon used by that type of dragon. The potency of the breath depends on the potion’s type, based on the age of the dragon whose blood was used to make the potion. This potion has the trait matching the damage type of the breath weapon.\n\nExhaling dragon breath uses a single action. The damage type and the area of the dragon breath depend on the type of dragon blood in the potion, as shown in the table below. Regardless of the dragon type, the breath weapon deals 4d6 damage, and each creature in the area must attempt a DC 23 basic save of a type determined by the type of the dragon. After you use the breath weapon, you can’t do so again for 1d4 rounds.\n\n<strong>Black</strong> 30-foot line of acid (Reflex)\n<strong>Young</strong> The damage is 4d6 and the save DC is 23.",
+        "desc": "For 1 hour after you imbibe the concoction, you can unleash a breath weapon used by that type of dragon. The potency of the breath depends on the potion's type, based on the age of the dragon whose blood was used to make the potion. This potion has the trait matching the damage type of the breath weapon.\n\nExhaling dragon breath uses a single action. The damage type and the area of the dragon breath depend on the type of dragon blood in the potion, as shown in the table below. Regardless of the dragon type, the breath weapon deals 4d6 damage, and each creature in the area must attempt a DC 23 basic save of a type determined by the type of the dragon. After you use the breath weapon, you can't do so again for 1d4 rounds.\n\n<strong>Black</strong> 30-foot line of acid (Reflex)\n<strong>Young</strong> The damage is 4d6 and the save DC is 23.",
         "gainActivities": [
             {
                 "_className": "ActivityGain",
@@ -2147,7 +2147,7 @@
     {
         "name": "Copper Dragon's Breath Potion (Young)",
         "buff": true,
-        "desc": "For 1 hour after you imbibe the concoction, you can unleash a breath weapon used by that type of dragon. The potency of the breath depends on the potion’s type, based on the age of the dragon whose blood was used to make the potion. This potion has the trait matching the damage type of the breath weapon.\n\nExhaling dragon breath uses a single action. The damage type and the area of the dragon breath depend on the type of dragon blood in the potion, as shown in the table below. Regardless of the dragon type, the breath weapon deals 4d6 damage, and each creature in the area must attempt a DC 23 basic save of a type determined by the type of the dragon. After you use the breath weapon, you can’t do so again for 1d4 rounds.\n\n<strong>Copper</strong> 30-foot line of acid (Reflex)\n<strong>Young</strong> The damage is 4d6 and the save DC is 23.",
+        "desc": "For 1 hour after you imbibe the concoction, you can unleash a breath weapon used by that type of dragon. The potency of the breath depends on the potion's type, based on the age of the dragon whose blood was used to make the potion. This potion has the trait matching the damage type of the breath weapon.\n\nExhaling dragon breath uses a single action. The damage type and the area of the dragon breath depend on the type of dragon blood in the potion, as shown in the table below. Regardless of the dragon type, the breath weapon deals 4d6 damage, and each creature in the area must attempt a DC 23 basic save of a type determined by the type of the dragon. After you use the breath weapon, you can't do so again for 1d4 rounds.\n\n<strong>Copper</strong> 30-foot line of acid (Reflex)\n<strong>Young</strong> The damage is 4d6 and the save DC is 23.",
         "gainActivities": [
             {
                 "_className": "ActivityGain",
@@ -2160,7 +2160,7 @@
     {
         "name": "Blue Dragon's Breath Potion (Young)",
         "buff": true,
-        "desc": "For 1 hour after you imbibe the concoction, you can unleash a breath weapon used by that type of dragon. The potency of the breath depends on the potion’s type, based on the age of the dragon whose blood was used to make the potion. This potion has the trait matching the damage type of the breath weapon.\n\nExhaling dragon breath uses a single action. The damage type and the area of the dragon breath depend on the type of dragon blood in the potion, as shown in the table below. Regardless of the dragon type, the breath weapon deals 4d6 damage, and each creature in the area must attempt a DC 23 basic save of a type determined by the type of the dragon. After you use the breath weapon, you can’t do so again for 1d4 rounds.\n\n<strong>Blue</strong> 30-foot line of electricity (Reflex)\n<strong>Young</strong> The damage is 4d6 and the save DC is 23.",
+        "desc": "For 1 hour after you imbibe the concoction, you can unleash a breath weapon used by that type of dragon. The potency of the breath depends on the potion's type, based on the age of the dragon whose blood was used to make the potion. This potion has the trait matching the damage type of the breath weapon.\n\nExhaling dragon breath uses a single action. The damage type and the area of the dragon breath depend on the type of dragon blood in the potion, as shown in the table below. Regardless of the dragon type, the breath weapon deals 4d6 damage, and each creature in the area must attempt a DC 23 basic save of a type determined by the type of the dragon. After you use the breath weapon, you can't do so again for 1d4 rounds.\n\n<strong>Blue</strong> 30-foot line of electricity (Reflex)\n<strong>Young</strong> The damage is 4d6 and the save DC is 23.",
         "gainActivities": [
             {
                 "_className": "ActivityGain",
@@ -2173,7 +2173,7 @@
     {
         "name": "Bronze Dragon's Breath Potion (Young)",
         "buff": true,
-        "desc": "For 1 hour after you imbibe the concoction, you can unleash a breath weapon used by that type of dragon. The potency of the breath depends on the potion’s type, based on the age of the dragon whose blood was used to make the potion. This potion has the trait matching the damage type of the breath weapon.\n\nExhaling dragon breath uses a single action. The damage type and the area of the dragon breath depend on the type of dragon blood in the potion, as shown in the table below. Regardless of the dragon type, the breath weapon deals 4d6 damage, and each creature in the area must attempt a DC 23 basic save of a type determined by the type of the dragon. After you use the breath weapon, you can’t do so again for 1d4 rounds.\n\n<strong>Bronze</strong> 30-foot line of electricity (Reflex)\n<strong>Young</strong> The damage is 4d6 and the save DC is 23.",
+        "desc": "For 1 hour after you imbibe the concoction, you can unleash a breath weapon used by that type of dragon. The potency of the breath depends on the potion's type, based on the age of the dragon whose blood was used to make the potion. This potion has the trait matching the damage type of the breath weapon.\n\nExhaling dragon breath uses a single action. The damage type and the area of the dragon breath depend on the type of dragon blood in the potion, as shown in the table below. Regardless of the dragon type, the breath weapon deals 4d6 damage, and each creature in the area must attempt a DC 23 basic save of a type determined by the type of the dragon. After you use the breath weapon, you can't do so again for 1d4 rounds.\n\n<strong>Bronze</strong> 30-foot line of electricity (Reflex)\n<strong>Young</strong> The damage is 4d6 and the save DC is 23.",
         "gainActivities": [
             {
                 "_className": "ActivityGain",
@@ -2186,7 +2186,7 @@
     {
         "name": "Brass Dragon's Breath Potion (Young)",
         "buff": true,
-        "desc": "For 1 hour after you imbibe the concoction, you can unleash a breath weapon used by that type of dragon. The potency of the breath depends on the potion’s type, based on the age of the dragon whose blood was used to make the potion. This potion has the trait matching the damage type of the breath weapon.\n\nExhaling dragon breath uses a single action. The damage type and the area of the dragon breath depend on the type of dragon blood in the potion, as shown in the table below. Regardless of the dragon type, the breath weapon deals 4d6 damage, and each creature in the area must attempt a DC 23 basic save of a type determined by the type of the dragon. After you use the breath weapon, you can’t do so again for 1d4 rounds.\n\n<strong>Brass</strong> 30-foot line of fire (Reflex)\n<strong>Young</strong> The damage is 4d6 and the save DC is 23.",
+        "desc": "For 1 hour after you imbibe the concoction, you can unleash a breath weapon used by that type of dragon. The potency of the breath depends on the potion's type, based on the age of the dragon whose blood was used to make the potion. This potion has the trait matching the damage type of the breath weapon.\n\nExhaling dragon breath uses a single action. The damage type and the area of the dragon breath depend on the type of dragon blood in the potion, as shown in the table below. Regardless of the dragon type, the breath weapon deals 4d6 damage, and each creature in the area must attempt a DC 23 basic save of a type determined by the type of the dragon. After you use the breath weapon, you can't do so again for 1d4 rounds.\n\n<strong>Brass</strong> 30-foot line of fire (Reflex)\n<strong>Young</strong> The damage is 4d6 and the save DC is 23.",
         "gainActivities": [
             {
                 "_className": "ActivityGain",
@@ -2199,7 +2199,7 @@
     {
         "name": "Green Dragon's Breath Potion (Young)",
         "buff": true,
-        "desc": "For 1 hour after you imbibe the concoction, you can unleash a breath weapon used by that type of dragon. The potency of the breath depends on the potion’s type, based on the age of the dragon whose blood was used to make the potion. This potion has the trait matching the damage type of the breath weapon.\n\nExhaling dragon breath uses a single action. The damage type and the area of the dragon breath depend on the type of dragon blood in the potion, as shown in the table below. Regardless of the dragon type, the breath weapon deals 4d6 damage, and each creature in the area must attempt a DC 23 basic save of a type determined by the type of the dragon. After you use the breath weapon, you can’t do so again for 1d4 rounds.\n\n<strong>Green</strong> 15-foot cone of poison (Fortitude)\n<strong>Young</strong> The damage is 4d6 and the save DC is 23.",
+        "desc": "For 1 hour after you imbibe the concoction, you can unleash a breath weapon used by that type of dragon. The potency of the breath depends on the potion's type, based on the age of the dragon whose blood was used to make the potion. This potion has the trait matching the damage type of the breath weapon.\n\nExhaling dragon breath uses a single action. The damage type and the area of the dragon breath depend on the type of dragon blood in the potion, as shown in the table below. Regardless of the dragon type, the breath weapon deals 4d6 damage, and each creature in the area must attempt a DC 23 basic save of a type determined by the type of the dragon. After you use the breath weapon, you can't do so again for 1d4 rounds.\n\n<strong>Green</strong> 15-foot cone of poison (Fortitude)\n<strong>Young</strong> The damage is 4d6 and the save DC is 23.",
         "gainActivities": [
             {
                 "_className": "ActivityGain",
@@ -2212,7 +2212,7 @@
     {
         "name": "Gold Dragon's Breath Potion (Young)",
         "buff": true,
-        "desc": "For 1 hour after you imbibe the concoction, you can unleash a breath weapon used by that type of dragon. The potency of the breath depends on the potion’s type, based on the age of the dragon whose blood was used to make the potion. This potion has the trait matching the damage type of the breath weapon.\n\nExhaling dragon breath uses a single action. The damage type and the area of the dragon breath depend on the type of dragon blood in the potion, as shown in the table below. Regardless of the dragon type, the breath weapon deals 4d6 damage, and each creature in the area must attempt a DC 23 basic save of a type determined by the type of the dragon. After you use the breath weapon, you can’t do so again for 1d4 rounds.\n\n<strong>Gold</strong> 15-foot cone of fire (Refles)\n<strong>Young</strong> The damage is 4d6 and the save DC is 23.",
+        "desc": "For 1 hour after you imbibe the concoction, you can unleash a breath weapon used by that type of dragon. The potency of the breath depends on the potion's type, based on the age of the dragon whose blood was used to make the potion. This potion has the trait matching the damage type of the breath weapon.\n\nExhaling dragon breath uses a single action. The damage type and the area of the dragon breath depend on the type of dragon blood in the potion, as shown in the table below. Regardless of the dragon type, the breath weapon deals 4d6 damage, and each creature in the area must attempt a DC 23 basic save of a type determined by the type of the dragon. After you use the breath weapon, you can't do so again for 1d4 rounds.\n\n<strong>Gold</strong> 15-foot cone of fire (Refles)\n<strong>Young</strong> The damage is 4d6 and the save DC is 23.",
         "gainActivities": [
             {
                 "_className": "ActivityGain",
@@ -2225,7 +2225,7 @@
     {
         "name": "Red Dragon's Breath Potion (Young)",
         "buff": true,
-        "desc": "For 1 hour after you imbibe the concoction, you can unleash a breath weapon used by that type of dragon. The potency of the breath depends on the potion’s type, based on the age of the dragon whose blood was used to make the potion. This potion has the trait matching the damage type of the breath weapon.\n\nExhaling dragon breath uses a single action. The damage type and the area of the dragon breath depend on the type of dragon blood in the potion, as shown in the table below. Regardless of the dragon type, the breath weapon deals 4d6 damage, and each creature in the area must attempt a DC 23 basic save of a type determined by the type of the dragon. After you use the breath weapon, you can’t do so again for 1d4 rounds.\n\n<strong>Red</strong> 15-foot cone of fire (Refles)\n<strong>Young</strong> The damage is 4d6 and the save DC is 23.",
+        "desc": "For 1 hour after you imbibe the concoction, you can unleash a breath weapon used by that type of dragon. The potency of the breath depends on the potion's type, based on the age of the dragon whose blood was used to make the potion. This potion has the trait matching the damage type of the breath weapon.\n\nExhaling dragon breath uses a single action. The damage type and the area of the dragon breath depend on the type of dragon blood in the potion, as shown in the table below. Regardless of the dragon type, the breath weapon deals 4d6 damage, and each creature in the area must attempt a DC 23 basic save of a type determined by the type of the dragon. After you use the breath weapon, you can't do so again for 1d4 rounds.\n\n<strong>Red</strong> 15-foot cone of fire (Refles)\n<strong>Young</strong> The damage is 4d6 and the save DC is 23.",
         "gainActivities": [
             {
                 "_className": "ActivityGain",
@@ -2238,7 +2238,7 @@
     {
         "name": "Silver Dragon's Breath Potion (Young)",
         "buff": true,
-        "desc": "For 1 hour after you imbibe the concoction, you can unleash a breath weapon used by that type of dragon. The potency of the breath depends on the potion’s type, based on the age of the dragon whose blood was used to make the potion. This potion has the trait matching the damage type of the breath weapon.\n\nExhaling dragon breath uses a single action. The damage type and the area of the dragon breath depend on the type of dragon blood in the potion, as shown in the table below. Regardless of the dragon type, the breath weapon deals 4d6 damage, and each creature in the area must attempt a DC 23 basic save of a type determined by the type of the dragon. After you use the breath weapon, you can’t do so again for 1d4 rounds.\n\n<strong>Silver</strong> 15-foot cone of cold (Refles)\n<strong>Young</strong> The damage is 4d6 and the save DC is 23.",
+        "desc": "For 1 hour after you imbibe the concoction, you can unleash a breath weapon used by that type of dragon. The potency of the breath depends on the potion's type, based on the age of the dragon whose blood was used to make the potion. This potion has the trait matching the damage type of the breath weapon.\n\nExhaling dragon breath uses a single action. The damage type and the area of the dragon breath depend on the type of dragon blood in the potion, as shown in the table below. Regardless of the dragon type, the breath weapon deals 4d6 damage, and each creature in the area must attempt a DC 23 basic save of a type determined by the type of the dragon. After you use the breath weapon, you can't do so again for 1d4 rounds.\n\n<strong>Silver</strong> 15-foot cone of cold (Refles)\n<strong>Young</strong> The damage is 4d6 and the save DC is 23.",
         "gainActivities": [
             {
                 "_className": "ActivityGain",
@@ -2251,7 +2251,7 @@
     {
         "name": "White Dragon's Breath Potion (Young)",
         "buff": true,
-        "desc": "For 1 hour after you imbibe the concoction, you can unleash a breath weapon used by that type of dragon. The potency of the breath depends on the potion’s type, based on the age of the dragon whose blood was used to make the potion. This potion has the trait matching the damage type of the breath weapon.\n\nExhaling dragon breath uses a single action. The damage type and the area of the dragon breath depend on the type of dragon blood in the potion, as shown in the table below. Regardless of the dragon type, the breath weapon deals 4d6 damage, and each creature in the area must attempt a DC 23 basic save of a type determined by the type of the dragon. After you use the breath weapon, you can’t do so again for 1d4 rounds.\n\n<strong>White</strong> 15-foot cone of cold (Refles)\n<strong>Young</strong> The damage is 4d6 and the save DC is 23.",
+        "desc": "For 1 hour after you imbibe the concoction, you can unleash a breath weapon used by that type of dragon. The potency of the breath depends on the potion's type, based on the age of the dragon whose blood was used to make the potion. This potion has the trait matching the damage type of the breath weapon.\n\nExhaling dragon breath uses a single action. The damage type and the area of the dragon breath depend on the type of dragon blood in the potion, as shown in the table below. Regardless of the dragon type, the breath weapon deals 4d6 damage, and each creature in the area must attempt a DC 23 basic save of a type determined by the type of the dragon. After you use the breath weapon, you can't do so again for 1d4 rounds.\n\n<strong>White</strong> 15-foot cone of cold (Refles)\n<strong>Young</strong> The damage is 4d6 and the save DC is 23.",
         "gainActivities": [
             {
                 "_className": "ActivityGain",
@@ -2264,7 +2264,7 @@
     {
         "name": "Black Dragon's Breath Potion (Adult)",
         "buff": true,
-        "desc": "For 1 hour after you imbibe the concoction, you can unleash a breath weapon used by that type of dragon. The potency of the breath depends on the potion’s type, based on the age of the dragon whose blood was used to make the potion. This potion has the trait matching the damage type of the breath weapon.\n\nExhaling dragon breath uses a single action. The damage type and the area of the dragon breath depend on the type of dragon blood in the potion, as shown in the table below. Regardless of the dragon type, the breath weapon deals 4d6 damage, and each creature in the area must attempt a DC 23 basic save of a type determined by the type of the dragon. After you use the breath weapon, you can’t do so again for 1d4 rounds.\n\n<strong>Black</strong> 30-foot line of acid (Reflex)\n<strong>Adult</strong> The damage is 6d6 and the save DC is 29.",
+        "desc": "For 1 hour after you imbibe the concoction, you can unleash a breath weapon used by that type of dragon. The potency of the breath depends on the potion's type, based on the age of the dragon whose blood was used to make the potion. This potion has the trait matching the damage type of the breath weapon.\n\nExhaling dragon breath uses a single action. The damage type and the area of the dragon breath depend on the type of dragon blood in the potion, as shown in the table below. Regardless of the dragon type, the breath weapon deals 4d6 damage, and each creature in the area must attempt a DC 23 basic save of a type determined by the type of the dragon. After you use the breath weapon, you can't do so again for 1d4 rounds.\n\n<strong>Black</strong> 30-foot line of acid (Reflex)\n<strong>Adult</strong> The damage is 6d6 and the save DC is 29.",
         "gainActivities": [
             {
                 "_className": "ActivityGain",
@@ -2280,7 +2280,7 @@
     {
         "name": "Copper Dragon's Breath Potion (Adult)",
         "buff": true,
-        "desc": "For 1 hour after you imbibe the concoction, you can unleash a breath weapon used by that type of dragon. The potency of the breath depends on the potion’s type, based on the age of the dragon whose blood was used to make the potion. This potion has the trait matching the damage type of the breath weapon.\n\nExhaling dragon breath uses a single action. The damage type and the area of the dragon breath depend on the type of dragon blood in the potion, as shown in the table below. Regardless of the dragon type, the breath weapon deals 4d6 damage, and each creature in the area must attempt a DC 23 basic save of a type determined by the type of the dragon. After you use the breath weapon, you can’t do so again for 1d4 rounds.\n\n<strong>Copper</strong> 30-foot line of acid (Reflex)\n<strong>Adult</strong> The damage is 6d6 and the save DC is 29.",
+        "desc": "For 1 hour after you imbibe the concoction, you can unleash a breath weapon used by that type of dragon. The potency of the breath depends on the potion's type, based on the age of the dragon whose blood was used to make the potion. This potion has the trait matching the damage type of the breath weapon.\n\nExhaling dragon breath uses a single action. The damage type and the area of the dragon breath depend on the type of dragon blood in the potion, as shown in the table below. Regardless of the dragon type, the breath weapon deals 4d6 damage, and each creature in the area must attempt a DC 23 basic save of a type determined by the type of the dragon. After you use the breath weapon, you can't do so again for 1d4 rounds.\n\n<strong>Copper</strong> 30-foot line of acid (Reflex)\n<strong>Adult</strong> The damage is 6d6 and the save DC is 29.",
         "gainActivities": [
             {
                 "_className": "ActivityGain",
@@ -2296,7 +2296,7 @@
     {
         "name": "Blue Dragon's Breath Potion (Adult)",
         "buff": true,
-        "desc": "For 1 hour after you imbibe the concoction, you can unleash a breath weapon used by that type of dragon. The potency of the breath depends on the potion’s type, based on the age of the dragon whose blood was used to make the potion. This potion has the trait matching the damage type of the breath weapon.\n\nExhaling dragon breath uses a single action. The damage type and the area of the dragon breath depend on the type of dragon blood in the potion, as shown in the table below. Regardless of the dragon type, the breath weapon deals 4d6 damage, and each creature in the area must attempt a DC 23 basic save of a type determined by the type of the dragon. After you use the breath weapon, you can’t do so again for 1d4 rounds.\n\n<strong>Blue</strong> 30-foot line of electricity (Reflex)\n<strong>Adult</strong> The damage is 6d6 and the save DC is 29.",
+        "desc": "For 1 hour after you imbibe the concoction, you can unleash a breath weapon used by that type of dragon. The potency of the breath depends on the potion's type, based on the age of the dragon whose blood was used to make the potion. This potion has the trait matching the damage type of the breath weapon.\n\nExhaling dragon breath uses a single action. The damage type and the area of the dragon breath depend on the type of dragon blood in the potion, as shown in the table below. Regardless of the dragon type, the breath weapon deals 4d6 damage, and each creature in the area must attempt a DC 23 basic save of a type determined by the type of the dragon. After you use the breath weapon, you can't do so again for 1d4 rounds.\n\n<strong>Blue</strong> 30-foot line of electricity (Reflex)\n<strong>Adult</strong> The damage is 6d6 and the save DC is 29.",
         "gainActivities": [
             {
                 "_className": "ActivityGain",
@@ -2312,7 +2312,7 @@
     {
         "name": "Bronze Dragon's Breath Potion (Adult)",
         "buff": true,
-        "desc": "For 1 hour after you imbibe the concoction, you can unleash a breath weapon used by that type of dragon. The potency of the breath depends on the potion’s type, based on the age of the dragon whose blood was used to make the potion. This potion has the trait matching the damage type of the breath weapon.\n\nExhaling dragon breath uses a single action. The damage type and the area of the dragon breath depend on the type of dragon blood in the potion, as shown in the table below. Regardless of the dragon type, the breath weapon deals 4d6 damage, and each creature in the area must attempt a DC 23 basic save of a type determined by the type of the dragon. After you use the breath weapon, you can’t do so again for 1d4 rounds.\n\n<strong>Bronze</strong> 30-foot line of electricity (Reflex)\n<strong>Adult</strong> The damage is 6d6 and the save DC is 29.",
+        "desc": "For 1 hour after you imbibe the concoction, you can unleash a breath weapon used by that type of dragon. The potency of the breath depends on the potion's type, based on the age of the dragon whose blood was used to make the potion. This potion has the trait matching the damage type of the breath weapon.\n\nExhaling dragon breath uses a single action. The damage type and the area of the dragon breath depend on the type of dragon blood in the potion, as shown in the table below. Regardless of the dragon type, the breath weapon deals 4d6 damage, and each creature in the area must attempt a DC 23 basic save of a type determined by the type of the dragon. After you use the breath weapon, you can't do so again for 1d4 rounds.\n\n<strong>Bronze</strong> 30-foot line of electricity (Reflex)\n<strong>Adult</strong> The damage is 6d6 and the save DC is 29.",
         "gainActivities": [
             {
                 "_className": "ActivityGain",
@@ -2328,7 +2328,7 @@
     {
         "name": "Brass Dragon's Breath Potion (Adult)",
         "buff": true,
-        "desc": "For 1 hour after you imbibe the concoction, you can unleash a breath weapon used by that type of dragon. The potency of the breath depends on the potion’s type, based on the age of the dragon whose blood was used to make the potion. This potion has the trait matching the damage type of the breath weapon.\n\nExhaling dragon breath uses a single action. The damage type and the area of the dragon breath depend on the type of dragon blood in the potion, as shown in the table below. Regardless of the dragon type, the breath weapon deals 4d6 damage, and each creature in the area must attempt a DC 23 basic save of a type determined by the type of the dragon. After you use the breath weapon, you can’t do so again for 1d4 rounds.\n\n<strong>Brass</strong> 30-foot line of fire (Reflex)\n<strong>Adult</strong> The damage is 6d6 and the save DC is 29.",
+        "desc": "For 1 hour after you imbibe the concoction, you can unleash a breath weapon used by that type of dragon. The potency of the breath depends on the potion's type, based on the age of the dragon whose blood was used to make the potion. This potion has the trait matching the damage type of the breath weapon.\n\nExhaling dragon breath uses a single action. The damage type and the area of the dragon breath depend on the type of dragon blood in the potion, as shown in the table below. Regardless of the dragon type, the breath weapon deals 4d6 damage, and each creature in the area must attempt a DC 23 basic save of a type determined by the type of the dragon. After you use the breath weapon, you can't do so again for 1d4 rounds.\n\n<strong>Brass</strong> 30-foot line of fire (Reflex)\n<strong>Adult</strong> The damage is 6d6 and the save DC is 29.",
         "gainActivities": [
             {
                 "_className": "ActivityGain",
@@ -2344,7 +2344,7 @@
     {
         "name": "Green Dragon's Breath Potion (Adult)",
         "buff": true,
-        "desc": "For 1 hour after you imbibe the concoction, you can unleash a breath weapon used by that type of dragon. The potency of the breath depends on the potion’s type, based on the age of the dragon whose blood was used to make the potion. This potion has the trait matching the damage type of the breath weapon.\n\nExhaling dragon breath uses a single action. The damage type and the area of the dragon breath depend on the type of dragon blood in the potion, as shown in the table below. Regardless of the dragon type, the breath weapon deals 4d6 damage, and each creature in the area must attempt a DC 23 basic save of a type determined by the type of the dragon. After you use the breath weapon, you can’t do so again for 1d4 rounds.\n\n<strong>Green</strong> 15-foot cone of poison (Fortitude)\n<strong>Adult</strong> The damage is 6d6 and the save DC is 29.",
+        "desc": "For 1 hour after you imbibe the concoction, you can unleash a breath weapon used by that type of dragon. The potency of the breath depends on the potion's type, based on the age of the dragon whose blood was used to make the potion. This potion has the trait matching the damage type of the breath weapon.\n\nExhaling dragon breath uses a single action. The damage type and the area of the dragon breath depend on the type of dragon blood in the potion, as shown in the table below. Regardless of the dragon type, the breath weapon deals 4d6 damage, and each creature in the area must attempt a DC 23 basic save of a type determined by the type of the dragon. After you use the breath weapon, you can't do so again for 1d4 rounds.\n\n<strong>Green</strong> 15-foot cone of poison (Fortitude)\n<strong>Adult</strong> The damage is 6d6 and the save DC is 29.",
         "gainActivities": [
             {
                 "_className": "ActivityGain",
@@ -2360,7 +2360,7 @@
     {
         "name": "Gold Dragon's Breath Potion (Adult)",
         "buff": true,
-        "desc": "For 1 hour after you imbibe the concoction, you can unleash a breath weapon used by that type of dragon. The potency of the breath depends on the potion’s type, based on the age of the dragon whose blood was used to make the potion. This potion has the trait matching the damage type of the breath weapon.\n\nExhaling dragon breath uses a single action. The damage type and the area of the dragon breath depend on the type of dragon blood in the potion, as shown in the table below. Regardless of the dragon type, the breath weapon deals 4d6 damage, and each creature in the area must attempt a DC 23 basic save of a type determined by the type of the dragon. After you use the breath weapon, you can’t do so again for 1d4 rounds.\n\n<strong>Gold</strong> 15-foot cone of fire (Refles)\n<strong>Adult</strong> The damage is 6d6 and the save DC is 29.",
+        "desc": "For 1 hour after you imbibe the concoction, you can unleash a breath weapon used by that type of dragon. The potency of the breath depends on the potion's type, based on the age of the dragon whose blood was used to make the potion. This potion has the trait matching the damage type of the breath weapon.\n\nExhaling dragon breath uses a single action. The damage type and the area of the dragon breath depend on the type of dragon blood in the potion, as shown in the table below. Regardless of the dragon type, the breath weapon deals 4d6 damage, and each creature in the area must attempt a DC 23 basic save of a type determined by the type of the dragon. After you use the breath weapon, you can't do so again for 1d4 rounds.\n\n<strong>Gold</strong> 15-foot cone of fire (Refles)\n<strong>Adult</strong> The damage is 6d6 and the save DC is 29.",
         "gainActivities": [
             {
                 "_className": "ActivityGain",
@@ -2376,7 +2376,7 @@
     {
         "name": "Red Dragon's Breath Potion (Adult)",
         "buff": true,
-        "desc": "For 1 hour after you imbibe the concoction, you can unleash a breath weapon used by that type of dragon. The potency of the breath depends on the potion’s type, based on the age of the dragon whose blood was used to make the potion. This potion has the trait matching the damage type of the breath weapon.\n\nExhaling dragon breath uses a single action. The damage type and the area of the dragon breath depend on the type of dragon blood in the potion, as shown in the table below. Regardless of the dragon type, the breath weapon deals 4d6 damage, and each creature in the area must attempt a DC 23 basic save of a type determined by the type of the dragon. After you use the breath weapon, you can’t do so again for 1d4 rounds.\n\n<strong>Red</strong> 15-foot cone of fire (Refles)\n<strong>Adult</strong> The damage is 6d6 and the save DC is 29.",
+        "desc": "For 1 hour after you imbibe the concoction, you can unleash a breath weapon used by that type of dragon. The potency of the breath depends on the potion's type, based on the age of the dragon whose blood was used to make the potion. This potion has the trait matching the damage type of the breath weapon.\n\nExhaling dragon breath uses a single action. The damage type and the area of the dragon breath depend on the type of dragon blood in the potion, as shown in the table below. Regardless of the dragon type, the breath weapon deals 4d6 damage, and each creature in the area must attempt a DC 23 basic save of a type determined by the type of the dragon. After you use the breath weapon, you can't do so again for 1d4 rounds.\n\n<strong>Red</strong> 15-foot cone of fire (Refles)\n<strong>Adult</strong> The damage is 6d6 and the save DC is 29.",
         "gainActivities": [
             {
                 "_className": "ActivityGain",
@@ -2392,7 +2392,7 @@
     {
         "name": "Silver Dragon's Breath Potion (Adult)",
         "buff": true,
-        "desc": "For 1 hour after you imbibe the concoction, you can unleash a breath weapon used by that type of dragon. The potency of the breath depends on the potion’s type, based on the age of the dragon whose blood was used to make the potion. This potion has the trait matching the damage type of the breath weapon.\n\nExhaling dragon breath uses a single action. The damage type and the area of the dragon breath depend on the type of dragon blood in the potion, as shown in the table below. Regardless of the dragon type, the breath weapon deals 4d6 damage, and each creature in the area must attempt a DC 23 basic save of a type determined by the type of the dragon. After you use the breath weapon, you can’t do so again for 1d4 rounds.\n\n<strong>Silver</strong> 15-foot cone of cold (Refles)\n<strong>Adult</strong> The damage is 6d6 and the save DC is 29.",
+        "desc": "For 1 hour after you imbibe the concoction, you can unleash a breath weapon used by that type of dragon. The potency of the breath depends on the potion's type, based on the age of the dragon whose blood was used to make the potion. This potion has the trait matching the damage type of the breath weapon.\n\nExhaling dragon breath uses a single action. The damage type and the area of the dragon breath depend on the type of dragon blood in the potion, as shown in the table below. Regardless of the dragon type, the breath weapon deals 4d6 damage, and each creature in the area must attempt a DC 23 basic save of a type determined by the type of the dragon. After you use the breath weapon, you can't do so again for 1d4 rounds.\n\n<strong>Silver</strong> 15-foot cone of cold (Refles)\n<strong>Adult</strong> The damage is 6d6 and the save DC is 29.",
         "gainActivities": [
             {
                 "_className": "ActivityGain",
@@ -2408,7 +2408,7 @@
     {
         "name": "White Dragon's Breath Potion (Adult)",
         "buff": true,
-        "desc": "For 1 hour after you imbibe the concoction, you can unleash a breath weapon used by that type of dragon. The potency of the breath depends on the potion’s type, based on the age of the dragon whose blood was used to make the potion. This potion has the trait matching the damage type of the breath weapon.\n\nExhaling dragon breath uses a single action. The damage type and the area of the dragon breath depend on the type of dragon blood in the potion, as shown in the table below. Regardless of the dragon type, the breath weapon deals 4d6 damage, and each creature in the area must attempt a DC 23 basic save of a type determined by the type of the dragon. After you use the breath weapon, you can’t do so again for 1d4 rounds.\n\n<strong>White</strong> 15-foot cone of cold (Refles)\n<strong>Adult</strong> The damage is 6d6 and the save DC is 29.",
+        "desc": "For 1 hour after you imbibe the concoction, you can unleash a breath weapon used by that type of dragon. The potency of the breath depends on the potion's type, based on the age of the dragon whose blood was used to make the potion. This potion has the trait matching the damage type of the breath weapon.\n\nExhaling dragon breath uses a single action. The damage type and the area of the dragon breath depend on the type of dragon blood in the potion, as shown in the table below. Regardless of the dragon type, the breath weapon deals 4d6 damage, and each creature in the area must attempt a DC 23 basic save of a type determined by the type of the dragon. After you use the breath weapon, you can't do so again for 1d4 rounds.\n\n<strong>White</strong> 15-foot cone of cold (Refles)\n<strong>Adult</strong> The damage is 6d6 and the save DC is 29.",
         "gainActivities": [
             {
                 "_className": "ActivityGain",
@@ -2424,7 +2424,7 @@
     {
         "name": "Black Dragon's Breath Potion (Wyrm)",
         "buff": true,
-        "desc": "For 1 hour after you imbibe the concoction, you can unleash a breath weapon used by that type of dragon. The potency of the breath depends on the potion’s type, based on the age of the dragon whose blood was used to make the potion. This potion has the trait matching the damage type of the breath weapon.\n\nExhaling dragon breath uses a single action. The damage type and the area of the dragon breath depend on the type of dragon blood in the potion, as shown in the table below. Regardless of the dragon type, the breath weapon deals 4d6 damage, and each creature in the area must attempt a DC 23 basic save of a type determined by the type of the dragon. After you use the breath weapon, you can’t do so again for 1d4 rounds.\n\n<strong>Black</strong> 30-foot line of acid (Reflex)\n<strong>Wyrm</strong> The damage is 10d6 and the save DC is 37.",
+        "desc": "For 1 hour after you imbibe the concoction, you can unleash a breath weapon used by that type of dragon. The potency of the breath depends on the potion's type, based on the age of the dragon whose blood was used to make the potion. This potion has the trait matching the damage type of the breath weapon.\n\nExhaling dragon breath uses a single action. The damage type and the area of the dragon breath depend on the type of dragon blood in the potion, as shown in the table below. Regardless of the dragon type, the breath weapon deals 4d6 damage, and each creature in the area must attempt a DC 23 basic save of a type determined by the type of the dragon. After you use the breath weapon, you can't do so again for 1d4 rounds.\n\n<strong>Black</strong> 30-foot line of acid (Reflex)\n<strong>Wyrm</strong> The damage is 10d6 and the save DC is 37.",
         "gainActivities": [
             {
                 "_className": "ActivityGain",
@@ -2441,7 +2441,7 @@
     {
         "name": "Copper Dragon's Breath Potion (Wyrm)",
         "buff": true,
-        "desc": "For 1 hour after you imbibe the concoction, you can unleash a breath weapon used by that type of dragon. The potency of the breath depends on the potion’s type, based on the age of the dragon whose blood was used to make the potion. This potion has the trait matching the damage type of the breath weapon.\n\nExhaling dragon breath uses a single action. The damage type and the area of the dragon breath depend on the type of dragon blood in the potion, as shown in the table below. Regardless of the dragon type, the breath weapon deals 4d6 damage, and each creature in the area must attempt a DC 23 basic save of a type determined by the type of the dragon. After you use the breath weapon, you can’t do so again for 1d4 rounds.\n\n<strong>Copper</strong> 30-foot line of acid (Reflex)\n<strong>Wyrm</strong> The damage is 10d6 and the save DC is 37.",
+        "desc": "For 1 hour after you imbibe the concoction, you can unleash a breath weapon used by that type of dragon. The potency of the breath depends on the potion's type, based on the age of the dragon whose blood was used to make the potion. This potion has the trait matching the damage type of the breath weapon.\n\nExhaling dragon breath uses a single action. The damage type and the area of the dragon breath depend on the type of dragon blood in the potion, as shown in the table below. Regardless of the dragon type, the breath weapon deals 4d6 damage, and each creature in the area must attempt a DC 23 basic save of a type determined by the type of the dragon. After you use the breath weapon, you can't do so again for 1d4 rounds.\n\n<strong>Copper</strong> 30-foot line of acid (Reflex)\n<strong>Wyrm</strong> The damage is 10d6 and the save DC is 37.",
         "gainActivities": [
             {
                 "_className": "ActivityGain",
@@ -2458,7 +2458,7 @@
     {
         "name": "Blue Dragon's Breath Potion (Wyrm)",
         "buff": true,
-        "desc": "For 1 hour after you imbibe the concoction, you can unleash a breath weapon used by that type of dragon. The potency of the breath depends on the potion’s type, based on the age of the dragon whose blood was used to make the potion. This potion has the trait matching the damage type of the breath weapon.\n\nExhaling dragon breath uses a single action. The damage type and the area of the dragon breath depend on the type of dragon blood in the potion, as shown in the table below. Regardless of the dragon type, the breath weapon deals 4d6 damage, and each creature in the area must attempt a DC 23 basic save of a type determined by the type of the dragon. After you use the breath weapon, you can’t do so again for 1d4 rounds.\n\n<strong>Blue</strong> 30-foot line of electricity (Reflex)\n<strong>Wyrm</strong> The damage is 10d6 and the save DC is 37.",
+        "desc": "For 1 hour after you imbibe the concoction, you can unleash a breath weapon used by that type of dragon. The potency of the breath depends on the potion's type, based on the age of the dragon whose blood was used to make the potion. This potion has the trait matching the damage type of the breath weapon.\n\nExhaling dragon breath uses a single action. The damage type and the area of the dragon breath depend on the type of dragon blood in the potion, as shown in the table below. Regardless of the dragon type, the breath weapon deals 4d6 damage, and each creature in the area must attempt a DC 23 basic save of a type determined by the type of the dragon. After you use the breath weapon, you can't do so again for 1d4 rounds.\n\n<strong>Blue</strong> 30-foot line of electricity (Reflex)\n<strong>Wyrm</strong> The damage is 10d6 and the save DC is 37.",
         "gainActivities": [
             {
                 "_className": "ActivityGain",
@@ -2475,7 +2475,7 @@
     {
         "name": "Bronze Dragon's Breath Potion (Wyrm)",
         "buff": true,
-        "desc": "For 1 hour after you imbibe the concoction, you can unleash a breath weapon used by that type of dragon. The potency of the breath depends on the potion’s type, based on the age of the dragon whose blood was used to make the potion. This potion has the trait matching the damage type of the breath weapon.\n\nExhaling dragon breath uses a single action. The damage type and the area of the dragon breath depend on the type of dragon blood in the potion, as shown in the table below. Regardless of the dragon type, the breath weapon deals 4d6 damage, and each creature in the area must attempt a DC 23 basic save of a type determined by the type of the dragon. After you use the breath weapon, you can’t do so again for 1d4 rounds.\n\n<strong>Bronze</strong> 30-foot line of electricity (Reflex)\n<strong>Wyrm</strong> The damage is 10d6 and the save DC is 37.",
+        "desc": "For 1 hour after you imbibe the concoction, you can unleash a breath weapon used by that type of dragon. The potency of the breath depends on the potion's type, based on the age of the dragon whose blood was used to make the potion. This potion has the trait matching the damage type of the breath weapon.\n\nExhaling dragon breath uses a single action. The damage type and the area of the dragon breath depend on the type of dragon blood in the potion, as shown in the table below. Regardless of the dragon type, the breath weapon deals 4d6 damage, and each creature in the area must attempt a DC 23 basic save of a type determined by the type of the dragon. After you use the breath weapon, you can't do so again for 1d4 rounds.\n\n<strong>Bronze</strong> 30-foot line of electricity (Reflex)\n<strong>Wyrm</strong> The damage is 10d6 and the save DC is 37.",
         "gainActivities": [
             {
                 "_className": "ActivityGain",
@@ -2492,7 +2492,7 @@
     {
         "name": "Brass Dragon's Breath Potion (Wyrm)",
         "buff": true,
-        "desc": "For 1 hour after you imbibe the concoction, you can unleash a breath weapon used by that type of dragon. The potency of the breath depends on the potion’s type, based on the age of the dragon whose blood was used to make the potion. This potion has the trait matching the damage type of the breath weapon.\n\nExhaling dragon breath uses a single action. The damage type and the area of the dragon breath depend on the type of dragon blood in the potion, as shown in the table below. Regardless of the dragon type, the breath weapon deals 4d6 damage, and each creature in the area must attempt a DC 23 basic save of a type determined by the type of the dragon. After you use the breath weapon, you can’t do so again for 1d4 rounds.\n\n<strong>Brass</strong> 30-foot line of fire (Reflex)\n<strong>Wyrm</strong> The damage is 10d6 and the save DC is 37.",
+        "desc": "For 1 hour after you imbibe the concoction, you can unleash a breath weapon used by that type of dragon. The potency of the breath depends on the potion's type, based on the age of the dragon whose blood was used to make the potion. This potion has the trait matching the damage type of the breath weapon.\n\nExhaling dragon breath uses a single action. The damage type and the area of the dragon breath depend on the type of dragon blood in the potion, as shown in the table below. Regardless of the dragon type, the breath weapon deals 4d6 damage, and each creature in the area must attempt a DC 23 basic save of a type determined by the type of the dragon. After you use the breath weapon, you can't do so again for 1d4 rounds.\n\n<strong>Brass</strong> 30-foot line of fire (Reflex)\n<strong>Wyrm</strong> The damage is 10d6 and the save DC is 37.",
         "gainActivities": [
             {
                 "_className": "ActivityGain",
@@ -2509,7 +2509,7 @@
     {
         "name": "Green Dragon's Breath Potion (Wyrm)",
         "buff": true,
-        "desc": "For 1 hour after you imbibe the concoction, you can unleash a breath weapon used by that type of dragon. The potency of the breath depends on the potion’s type, based on the age of the dragon whose blood was used to make the potion. This potion has the trait matching the damage type of the breath weapon.\n\nExhaling dragon breath uses a single action. The damage type and the area of the dragon breath depend on the type of dragon blood in the potion, as shown in the table below. Regardless of the dragon type, the breath weapon deals 4d6 damage, and each creature in the area must attempt a DC 23 basic save of a type determined by the type of the dragon. After you use the breath weapon, you can’t do so again for 1d4 rounds.\n\n<strong>Green</strong> 15-foot cone of poison (Fortitude)\n<strong>Wyrm</strong> The damage is 10d6 and the save DC is 37.",
+        "desc": "For 1 hour after you imbibe the concoction, you can unleash a breath weapon used by that type of dragon. The potency of the breath depends on the potion's type, based on the age of the dragon whose blood was used to make the potion. This potion has the trait matching the damage type of the breath weapon.\n\nExhaling dragon breath uses a single action. The damage type and the area of the dragon breath depend on the type of dragon blood in the potion, as shown in the table below. Regardless of the dragon type, the breath weapon deals 4d6 damage, and each creature in the area must attempt a DC 23 basic save of a type determined by the type of the dragon. After you use the breath weapon, you can't do so again for 1d4 rounds.\n\n<strong>Green</strong> 15-foot cone of poison (Fortitude)\n<strong>Wyrm</strong> The damage is 10d6 and the save DC is 37.",
         "gainActivities": [
             {
                 "_className": "ActivityGain",
@@ -2526,7 +2526,7 @@
     {
         "name": "Gold Dragon's Breath Potion (Wyrm)",
         "buff": true,
-        "desc": "For 1 hour after you imbibe the concoction, you can unleash a breath weapon used by that type of dragon. The potency of the breath depends on the potion’s type, based on the age of the dragon whose blood was used to make the potion. This potion has the trait matching the damage type of the breath weapon.\n\nExhaling dragon breath uses a single action. The damage type and the area of the dragon breath depend on the type of dragon blood in the potion, as shown in the table below. Regardless of the dragon type, the breath weapon deals 4d6 damage, and each creature in the area must attempt a DC 23 basic save of a type determined by the type of the dragon. After you use the breath weapon, you can’t do so again for 1d4 rounds.\n\n<strong>Gold</strong> 15-foot cone of fire (Refles)\n<strong>Wyrm</strong> The damage is 10d6 and the save DC is 37.",
+        "desc": "For 1 hour after you imbibe the concoction, you can unleash a breath weapon used by that type of dragon. The potency of the breath depends on the potion's type, based on the age of the dragon whose blood was used to make the potion. This potion has the trait matching the damage type of the breath weapon.\n\nExhaling dragon breath uses a single action. The damage type and the area of the dragon breath depend on the type of dragon blood in the potion, as shown in the table below. Regardless of the dragon type, the breath weapon deals 4d6 damage, and each creature in the area must attempt a DC 23 basic save of a type determined by the type of the dragon. After you use the breath weapon, you can't do so again for 1d4 rounds.\n\n<strong>Gold</strong> 15-foot cone of fire (Refles)\n<strong>Wyrm</strong> The damage is 10d6 and the save DC is 37.",
         "gainActivities": [
             {
                 "_className": "ActivityGain",
@@ -2543,7 +2543,7 @@
     {
         "name": "Red Dragon's Breath Potion (Wyrm)",
         "buff": true,
-        "desc": "For 1 hour after you imbibe the concoction, you can unleash a breath weapon used by that type of dragon. The potency of the breath depends on the potion’s type, based on the age of the dragon whose blood was used to make the potion. This potion has the trait matching the damage type of the breath weapon.\n\nExhaling dragon breath uses a single action. The damage type and the area of the dragon breath depend on the type of dragon blood in the potion, as shown in the table below. Regardless of the dragon type, the breath weapon deals 4d6 damage, and each creature in the area must attempt a DC 23 basic save of a type determined by the type of the dragon. After you use the breath weapon, you can’t do so again for 1d4 rounds.\n\n<strong>Red</strong> 15-foot cone of fire (Refles)\n<strong>Wyrm</strong> The damage is 10d6 and the save DC is 37.",
+        "desc": "For 1 hour after you imbibe the concoction, you can unleash a breath weapon used by that type of dragon. The potency of the breath depends on the potion's type, based on the age of the dragon whose blood was used to make the potion. This potion has the trait matching the damage type of the breath weapon.\n\nExhaling dragon breath uses a single action. The damage type and the area of the dragon breath depend on the type of dragon blood in the potion, as shown in the table below. Regardless of the dragon type, the breath weapon deals 4d6 damage, and each creature in the area must attempt a DC 23 basic save of a type determined by the type of the dragon. After you use the breath weapon, you can't do so again for 1d4 rounds.\n\n<strong>Red</strong> 15-foot cone of fire (Refles)\n<strong>Wyrm</strong> The damage is 10d6 and the save DC is 37.",
         "gainActivities": [
             {
                 "_className": "ActivityGain",
@@ -2560,7 +2560,7 @@
     {
         "name": "Silver Dragon's Breath Potion (Wyrm)",
         "buff": true,
-        "desc": "For 1 hour after you imbibe the concoction, you can unleash a breath weapon used by that type of dragon. The potency of the breath depends on the potion’s type, based on the age of the dragon whose blood was used to make the potion. This potion has the trait matching the damage type of the breath weapon.\n\nExhaling dragon breath uses a single action. The damage type and the area of the dragon breath depend on the type of dragon blood in the potion, as shown in the table below. Regardless of the dragon type, the breath weapon deals 4d6 damage, and each creature in the area must attempt a DC 23 basic save of a type determined by the type of the dragon. After you use the breath weapon, you can’t do so again for 1d4 rounds.\n\n<strong>Silver</strong> 15-foot cone of cold (Refles)\n<strong>Wyrm</strong> The damage is 10d6 and the save DC is 37.",
+        "desc": "For 1 hour after you imbibe the concoction, you can unleash a breath weapon used by that type of dragon. The potency of the breath depends on the potion's type, based on the age of the dragon whose blood was used to make the potion. This potion has the trait matching the damage type of the breath weapon.\n\nExhaling dragon breath uses a single action. The damage type and the area of the dragon breath depend on the type of dragon blood in the potion, as shown in the table below. Regardless of the dragon type, the breath weapon deals 4d6 damage, and each creature in the area must attempt a DC 23 basic save of a type determined by the type of the dragon. After you use the breath weapon, you can't do so again for 1d4 rounds.\n\n<strong>Silver</strong> 15-foot cone of cold (Refles)\n<strong>Wyrm</strong> The damage is 10d6 and the save DC is 37.",
         "gainActivities": [
             {
                 "_className": "ActivityGain",
@@ -2577,7 +2577,7 @@
     {
         "name": "White Dragon's Breath Potion (Wyrm)",
         "buff": true,
-        "desc": "For 1 hour after you imbibe the concoction, you can unleash a breath weapon used by that type of dragon. The potency of the breath depends on the potion’s type, based on the age of the dragon whose blood was used to make the potion. This potion has the trait matching the damage type of the breath weapon.\n\nExhaling dragon breath uses a single action. The damage type and the area of the dragon breath depend on the type of dragon blood in the potion, as shown in the table below. Regardless of the dragon type, the breath weapon deals 4d6 damage, and each creature in the area must attempt a DC 23 basic save of a type determined by the type of the dragon. After you use the breath weapon, you can’t do so again for 1d4 rounds.\n\n<strong>White</strong> 15-foot cone of cold (Refles)\n<strong>Wyrm</strong> The damage is 10d6 and the save DC is 37.",
+        "desc": "For 1 hour after you imbibe the concoction, you can unleash a breath weapon used by that type of dragon. The potency of the breath depends on the potion's type, based on the age of the dragon whose blood was used to make the potion. This potion has the trait matching the damage type of the breath weapon.\n\nExhaling dragon breath uses a single action. The damage type and the area of the dragon breath depend on the type of dragon blood in the potion, as shown in the table below. Regardless of the dragon type, the breath weapon deals 4d6 damage, and each creature in the area must attempt a DC 23 basic save of a type determined by the type of the dragon. After you use the breath weapon, you can't do so again for 1d4 rounds.\n\n<strong>White</strong> 15-foot cone of cold (Refles)\n<strong>Wyrm</strong> The damage is 10d6 and the save DC is 37.",
         "gainActivities": [
             {
                 "_className": "ActivityGain",
@@ -2646,16 +2646,16 @@
     {
         "name": "Antiplague (Lesser)",
         "buff": true,
-        "desc": "Antiplague can fortify the body’s defenses against diseases. You gain an item bonus to Fortitude saving throws against diseases for 24 hours; this applies to your daily save against a disease’s progression.",
-        "hint": "You gain an item bonus to Fortitude saving throws against diseases for 24 hours; this applies to your daily save against a disease’s progression.",
+        "desc": "Antiplague can fortify the body's defenses against diseases. You gain an item bonus to Fortitude saving throws against diseases for 24 hours; this applies to your daily save against a disease's progression.",
+        "hint": "You gain an item bonus to Fortitude saving throws against diseases for 24 hours; this applies to your daily save against a disease's progression.",
         "showon": "Fortitude",
         "type": "alchemicalelixirs"
     },
     {
         "name": "Antiplague (Moderate)",
         "buff": true,
-        "desc": "Antiplague can fortify the body’s defenses against diseases. You gain an item bonus to Fortitude saving throws against diseases for 24 hours; this applies to your daily save against a disease’s progression.",
-        "hint": "You gain an item bonus to Fortitude saving throws against diseases for 24 hours; this applies to your daily save against a disease’s progression.",
+        "desc": "Antiplague can fortify the body's defenses against diseases. You gain an item bonus to Fortitude saving throws against diseases for 24 hours; this applies to your daily save against a disease's progression.",
+        "hint": "You gain an item bonus to Fortitude saving throws against diseases for 24 hours; this applies to your daily save against a disease's progression.",
         "showon": "Fortitude",
         "overrideConditions": [
             "Antiplague (Lesser)"
@@ -2665,8 +2665,8 @@
     {
         "name": "Antiplague (Greater)",
         "buff": true,
-        "desc": "Antiplague can fortify the body’s defenses against diseases. You gain an item bonus to Fortitude saving throws against diseases for 24 hours; this applies to your daily save against a disease’s progression.",
-        "hint": "You gain an item bonus to Fortitude saving throws against diseases for 24 hours; this applies to your daily save against a disease’s progression.",
+        "desc": "Antiplague can fortify the body's defenses against diseases. You gain an item bonus to Fortitude saving throws against diseases for 24 hours; this applies to your daily save against a disease's progression.",
+        "hint": "You gain an item bonus to Fortitude saving throws against diseases for 24 hours; this applies to your daily save against a disease's progression.",
         "showon": "Fortitude",
         "overrideConditions": [
             "Antiplague (Moderate)",
@@ -2677,8 +2677,8 @@
     {
         "name": "Antiplague (Major)",
         "buff": true,
-        "desc": "Antiplague can fortify the body’s defenses against diseases. You gain an item bonus to Fortitude saving throws against diseases for 24 hours; this applies to your daily save against a disease’s progression.",
-        "hint": "You gain an item bonus to Fortitude saving throws against diseases for 24 hours; this applies to your daily save against a disease’s progression.",
+        "desc": "Antiplague can fortify the body's defenses against diseases. You gain an item bonus to Fortitude saving throws against diseases for 24 hours; this applies to your daily save against a disease's progression.",
+        "hint": "You gain an item bonus to Fortitude saving throws against diseases for 24 hours; this applies to your daily save against a disease's progression.",
         "showon": "Fortitude",
         "overrideConditions": [
             "Antiplague (Greater)",
@@ -2704,7 +2704,7 @@
     {
         "name": "Elixir of Life (Minor)",
         "buff": true,
-        "desc": "Elixirs of life accelerate the body’s natural healing processes and immune system. You gain a +1 item bonus to saving throws against diseases and poisons for the duration.",
+        "desc": "Elixirs of life accelerate the body's natural healing processes and immune system. You gain a +1 item bonus to saving throws against diseases and poisons for the duration.",
         "hint": "You gain a +1 item bonus to saving throws against diseases and poisons.",
         "showon": "Fortitude",
         "type": "alchemicalelixirs"
@@ -2712,7 +2712,7 @@
     {
         "name": "Elixir of Life (Lesser)",
         "buff": true,
-        "desc": "Elixirs of life accelerate the body’s natural healing processes and immune system. You gain a +1 item bonus to saving throws against diseases and poisons for the duration.",
+        "desc": "Elixirs of life accelerate the body's natural healing processes and immune system. You gain a +1 item bonus to saving throws against diseases and poisons for the duration.",
         "hint": "You gain a +1 item bonus to saving throws against diseases and poisons.",
         "showon": "Fortitude",
         "overrideConditions": [
@@ -2723,7 +2723,7 @@
     {
         "name": "Elixir of Life (Moderate)",
         "buff": true,
-        "desc": "Elixirs of life accelerate the body’s natural healing processes and immune system. You gain a +2 item bonus to saving throws against diseases and poisons for the duration.",
+        "desc": "Elixirs of life accelerate the body's natural healing processes and immune system. You gain a +2 item bonus to saving throws against diseases and poisons for the duration.",
         "hint": "You gain a +2 item bonus to saving throws against diseases and poisons.",
         "showon": "Fortitude",
         "overrideConditions": [
@@ -2735,7 +2735,7 @@
     {
         "name": "Elixir of Life (Greater)",
         "buff": true,
-        "desc": "Elixirs of life accelerate the body’s natural healing processes and immune system. You gain a +2 item bonus to saving throws against diseases and poisons for the duration.",
+        "desc": "Elixirs of life accelerate the body's natural healing processes and immune system. You gain a +2 item bonus to saving throws against diseases and poisons for the duration.",
         "hint": "You gain a +2 item bonus to saving throws against diseases and poisons.",
         "showon": "Fortitude",
         "overrideConditions": [
@@ -2748,7 +2748,7 @@
     {
         "name": "Elixir of Life (Major)",
         "buff": true,
-        "desc": "Elixirs of life accelerate the body’s natural healing processes and immune system. You gain a +3 item bonus to saving throws against diseases and poisons for the duration.",
+        "desc": "Elixirs of life accelerate the body's natural healing processes and immune system. You gain a +3 item bonus to saving throws against diseases and poisons for the duration.",
         "hint": "You gain a +3 item bonus to saving throws against diseases and poisons.",
         "showon": "Fortitude",
         "overrideConditions": [
@@ -2762,7 +2762,7 @@
     {
         "name": "Elixir of Life (True)",
         "buff": true,
-        "desc": "Elixirs of life accelerate the body’s natural healing processes and immune system. You gain a +4 item bonus to saving throws against diseases and poisons for the duration.",
+        "desc": "Elixirs of life accelerate the body's natural healing processes and immune system. You gain a +4 item bonus to saving throws against diseases and poisons for the duration.",
         "hint": "You gain a +4 item bonus to saving throws against diseases and poisons.",
         "showon": "Fortitude",
         "overrideConditions": [
@@ -3295,7 +3295,7 @@
     {
         "name": "Quicksilver Mutagen",
         "buff": true,
-        "desc": "Your features become thin and angular. You become swifter and nimbler, but your body also becomes fragile. \n\n<strong>Benefit</strong> You gain an item bonus equal to the value to Acrobatics checks, Stealth checks, Thievery checks, Reflex saves, and ranged attack rolls, and you gain a status bonus equal to the value * 5 to your Speed.\n<strong>Drawback</strong> You take damage equal to twice your level; you can’t recover Hit Points lost in this way by any means while the mutagen lasts. You take a -2 penalty to Fortitude saves.",
+        "desc": "Your features become thin and angular. You become swifter and nimbler, but your body also becomes fragile. \n\n<strong>Benefit</strong> You gain an item bonus equal to the value to Acrobatics checks, Stealth checks, Thievery checks, Reflex saves, and ranged attack rolls, and you gain a status bonus equal to the value * 5 to your Speed.\n<strong>Drawback</strong> You take damage equal to twice your level; you can't recover Hit Points lost in this way by any means while the mutagen lasts. You take a -2 penalty to Fortitude saves.",
         "effects": [
             {
                 "affected": "Acrobatics",
@@ -3333,7 +3333,7 @@
             }
         ],
         "hasValue": true,
-        "inputRequired": "You have taken damage equal to twice your level; you can’t recover Hit Points lost in this way by any means while the mutagen lasts.",
+        "inputRequired": "You have taken damage equal to twice your level; you can't recover Hit Points lost in this way by any means while the mutagen lasts.",
         "type": "alchemicalelixirs"
     },
     {
@@ -4059,7 +4059,7 @@
     {
         "name": "Infiltrator's Elixir",
         "buff": true,
-        "desc": "You take the shape of a humanoid creature of your size, but different enough so you might be unrecognizable. If you aren’t a humanoid, you might take on a form more similar to your own, at the GM’s discretion.\n\nThe creator of the elixir decides the basics of the appearance you transform into when you imbibe the elixir, including eye color, skin tone, and hair color. The elixir can’t change your form into that of a specific person.\n\nDrinking this elixir counts as setting up a disguise to Impersonate. You gain a +4 status bonus to your Deception DC to avoid others seeing through your disguise, and you add your level to this DC even if untrained.",
+        "desc": "You take the shape of a humanoid creature of your size, but different enough so you might be unrecognizable. If you aren't a humanoid, you might take on a form more similar to your own, at the GM's discretion.\n\nThe creator of the elixir decides the basics of the appearance you transform into when you imbibe the elixir, including eye color, skin tone, and hair color. The elixir can't change your form into that of a specific person.\n\nDrinking this elixir counts as setting up a disguise to Impersonate. You gain a +4 status bonus to your Deception DC to avoid others seeing through your disguise, and you add your level to this DC even if untrained.",
         "hint": "You gain a +4 status bonus to your Deception DC to avoid others seeing through your disguise, and you add your level to this DC even if untrained.",
         "showon": "Deception",
         "type": "alchemicalelixirs"
@@ -4102,16 +4102,16 @@
     {
         "name": "Cat's Eye Elixir",
         "buff": true,
-        "desc": "Your vision sharpens and you become sensitive to even the most minute movements. You reduce the flat check to target hidden creatures to 5, and you don’t need to attempt a flat check to target concealed creatures. These benefits apply only against creatures within 30 feet of you. ",
-        "hint": "You reduce the flat check to target hidden creatures to 5, and you don’t need to attempt a flat check to target concealed creatures. These benefits apply only against creatures within 30 feet of you. ",
+        "desc": "Your vision sharpens and you become sensitive to even the most minute movements. You reduce the flat check to target hidden creatures to 5, and you don't need to attempt a flat check to target concealed creatures. These benefits apply only against creatures within 30 feet of you. ",
+        "hint": "You reduce the flat check to target hidden creatures to 5, and you don't need to attempt a flat check to target concealed creatures. These benefits apply only against creatures within 30 feet of you. ",
         "showon": "Perception",
         "type": "alchemicalelixirs"
     },
     {
         "name": "Comprehension Elixir",
         "buff": true,
-        "desc": "You can understand any words you read, so long as they are written in a common language. This elixir doesn’t automatically allow you to understand codes or extremely esoteric passages - you still need to attempt a skill check to Decipher Writing.",
-        "hint": "You can understand any words you read, so long as they are written in a common language. This elixir doesn’t automatically allow you to understand codes or extremely esoteric passages - you still need to attempt a skill check to Decipher Writing.",
+        "desc": "You can understand any words you read, so long as they are written in a common language. This elixir doesn't automatically allow you to understand codes or extremely esoteric passages - you still need to attempt a skill check to Decipher Writing.",
+        "hint": "You can understand any words you read, so long as they are written in a common language. This elixir doesn't automatically allow you to understand codes or extremely esoteric passages - you still need to attempt a skill check to Decipher Writing.",
         "showon": "Languages",
         "type": "alchemicalelixirs"
     },
@@ -4213,7 +4213,7 @@
     {
         "name": "Mistform Elixir",
         "buff": true,
-        "desc": "A faint mist emanates from your skin, making you concealed for the duration. As usual being concealed when your position is still obvious, you can’t use this concealment to Hide or Sneak.",
+        "desc": "A faint mist emanates from your skin, making you concealed for the duration. As usual being concealed when your position is still obvious, you can't use this concealment to Hide or Sneak.",
         "gainConditions": [
             {
                 "name": "Concealed"
@@ -4278,21 +4278,21 @@
     {
         "name": "Glamered Rune",
         "buff": true,
-        "desc": "Your armor appears as ordinary or fine clothes of your imagining. The armor’s statistics do not change. Only a creature that is benefiting from true seeing or a similar effect can attempt to disbelieve this illusion, with a DC of 25.",
-        "hint": "Your armor appears as ordinary or fine clothes of your imagining. The armor’s statistics do not change. Only a creature that is benefiting from true seeing or a similar effect can attempt to disbelieve this illusion, with a DC of 25.",
+        "desc": "Your armor appears as ordinary or fine clothes of your imagining. The armor's statistics do not change. Only a creature that is benefiting from true seeing or a similar effect can attempt to disbelieve this illusion, with a DC of 25.",
+        "hint": "Your armor appears as ordinary or fine clothes of your imagining. The armor's statistics do not change. Only a creature that is benefiting from true seeing or a similar effect can attempt to disbelieve this illusion, with a DC of 25.",
         "showon": "Deception",
         "type": "activities"
     },
     {
         "name": "Sinister Knight Rune",
         "buff": true,
-        "desc": "While the sinister knight armor’s disguise is active, any identifying insignia or aesthetic of the armor is replaced by generic malevolent aesthetics such as spikes or demonic faces. While in the disguise, the wearer is always considered to be taking precautions against lifesense, and even a creature that successfully notices the wearer with its lifesense mistakes the wearer for an undead unless it critically succeeds at its Perception check or the wearer critically fails a Deception or Stealth check. Finally, while in the disguise, the rune attempts to counteract any effects that would reveal your alignment; on a successful counteract check, rather than negate the effect, the rune causes the effect to perceive your alignment as evil (maintaining any lawful or chaotic component of your alignment).\n\nThe wearer can Dismiss the disguise, and if the wearer’s armor is removed, the disguise deactivates automatically.",
+        "desc": "While the sinister knight armor's disguise is active, any identifying insignia or aesthetic of the armor is replaced by generic malevolent aesthetics such as spikes or demonic faces. While in the disguise, the wearer is always considered to be taking precautions against lifesense, and even a creature that successfully notices the wearer with its lifesense mistakes the wearer for an undead unless it critically succeeds at its Perception check or the wearer critically fails a Deception or Stealth check. Finally, while in the disguise, the rune attempts to counteract any effects that would reveal your alignment; on a successful counteract check, rather than negate the effect, the rune causes the effect to perceive your alignment as evil (maintaining any lawful or chaotic component of your alignment).\n\nThe wearer can Dismiss the disguise, and if the wearer's armor is removed, the disguise deactivates automatically.",
         "type": "activities"
     },
     {
         "name": "Snake Oil",
         "buff": true,
-        "desc": "You have snake oil applied onto a wound or other outward symptom of an affliction or condition (such as sores from a disease or discoloration from a poison). For the duration, the symptom disappears and you don't feel as if you still have the wound or affliction, though all effects remain. A creature can uncover the ruse by succeeding at a DC 17 Perception check, but only if it uses a Seek action to specifically examine the snake oil’s effects.",
+        "desc": "You have snake oil applied onto a wound or other outward symptom of an affliction or condition (such as sores from a disease or discoloration from a poison). For the duration, the symptom disappears and you don't feel as if you still have the wound or affliction, though all effects remain. A creature can uncover the ruse by succeeding at a DC 17 Perception check, but only if it uses a Seek action to specifically examine the snake oil's effects.",
         "type": "alchemicaltools"
     },
     {
@@ -4351,7 +4351,7 @@
     },
     {
         "name": "Arsenic (Onset)",
-        "desc": "This toxin is a compound of arsenic and other substances. You can’t reduce your sickened condition while affected.\n\n<strong>Saving Throw</strong> DC 18 Fortitude\n\n<var><strong>Onset</strong> 10 minutes</var>\n<strong>Maximum Duration</strong> 5 minutes\n<strong>Stage 1</strong> 1d4 poison damage and sickened 1 (1 minute)\n<strong>Stage 2</strong> 1d6 poison damage and sickened 2 (1 minute)\n<strong>Stage 3</strong> 2d6 poison damage and sickened 3 (1 minute)",
+        "desc": "This toxin is a compound of arsenic and other substances. You can't reduce your sickened condition while affected.\n\n<strong>Saving Throw</strong> DC 18 Fortitude\n\n<var><strong>Onset</strong> 10 minutes</var>\n<strong>Maximum Duration</strong> 5 minutes\n<strong>Stage 1</strong> 1d4 poison damage and sickened 1 (1 minute)\n<strong>Stage 2</strong> 1d6 poison damage and sickened 2 (1 minute)\n<strong>Stage 3</strong> 2d6 poison damage and sickened 3 (1 minute)",
         "fixedDuration": 500,
         "nextCondition": "Arsenic (Stage 1)",
         "nextStage": 1000,
@@ -4360,7 +4360,7 @@
     },
     {
         "name": "Arsenic (Stage 1)",
-        "desc": "This toxin is a compound of arsenic and other substances. You can’t reduce your sickened condition while affected.\n\n<strong>Saving Throw</strong> DC 18 Fortitude\n\n<strong>Onset</strong> 10 minutes\n<strong>Maximum Duration</strong> 5 minutes\n<var><strong>Stage 1</strong> 1d4 poison damage and sickened 1 (1 minute)</var>\n<strong>Stage 2</strong> 1d6 poison damage and sickened 2 (1 minute)\n<strong>Stage 3</strong> 2d6 poison damage and sickened 3 (1 minute)",
+        "desc": "This toxin is a compound of arsenic and other substances. You can't reduce your sickened condition while affected.\n\n<strong>Saving Throw</strong> DC 18 Fortitude\n\n<strong>Onset</strong> 10 minutes\n<strong>Maximum Duration</strong> 5 minutes\n<var><strong>Stage 1</strong> 1d4 poison damage and sickened 1 (1 minute)</var>\n<strong>Stage 2</strong> 1d6 poison damage and sickened 2 (1 minute)\n<strong>Stage 3</strong> 2d6 poison damage and sickened 3 (1 minute)",
         "gainConditions": [
             {
                 "name": "Sickened",
@@ -4374,7 +4374,7 @@
     },
     {
         "name": "Arsenic (Stage 2)",
-        "desc": "This toxin is a compound of arsenic and other substances. You can’t reduce your sickened condition while affected.\n\n<strong>Saving Throw</strong> DC 18 Fortitude\n\n<strong>Onset</strong> 10 minutes\n<strong>Maximum Duration</strong> 5 minutes\n<strong>Stage 1</strong> 1d4 poison damage and sickened 1 (1 minute)\n<var><strong>Stage 2</strong> 1d6 poison damage and sickened 2 (1 minute)</var>\n<strong>Stage 3</strong> 2d6 poison damage and sickened 3 (1 minute)",
+        "desc": "This toxin is a compound of arsenic and other substances. You can't reduce your sickened condition while affected.\n\n<strong>Saving Throw</strong> DC 18 Fortitude\n\n<strong>Onset</strong> 10 minutes\n<strong>Maximum Duration</strong> 5 minutes\n<strong>Stage 1</strong> 1d4 poison damage and sickened 1 (1 minute)\n<var><strong>Stage 2</strong> 1d6 poison damage and sickened 2 (1 minute)</var>\n<strong>Stage 3</strong> 2d6 poison damage and sickened 3 (1 minute)",
         "gainConditions": [
             {
                 "name": "Sickened",
@@ -4389,7 +4389,7 @@
     },
     {
         "name": "Arsenic (Stage 3)",
-        "desc": "This toxin is a compound of arsenic and other substances. You can’t reduce your sickened condition while affected.\n\n<strong>Saving Throw</strong> DC 18 Fortitude\n\n<strong>Onset</strong> 10 minutes\n<strong>Maximum Duration</strong> 5 minutes\n<strong>Stage 1</strong> 1d4 poison damage and sickened 1 (1 minute)\n<strong>Stage 2</strong> 1d6 poison damage and sickened 2 (1 minute)\n<var><strong>Stage 3</strong> 2d6 poison damage and sickened 3 (1 minute)</var>",
+        "desc": "This toxin is a compound of arsenic and other substances. You can't reduce your sickened condition while affected.\n\n<strong>Saving Throw</strong> DC 18 Fortitude\n\n<strong>Onset</strong> 10 minutes\n<strong>Maximum Duration</strong> 5 minutes\n<strong>Stage 1</strong> 1d4 poison damage and sickened 1 (1 minute)\n<strong>Stage 2</strong> 1d6 poison damage and sickened 2 (1 minute)\n<var><strong>Stage 3</strong> 2d6 poison damage and sickened 3 (1 minute)</var>",
         "gainConditions": [
             {
                 "name": "Sickened",
@@ -4404,14 +4404,14 @@
     {
         "name": "Viper Arrow",
         "buff": true,
-        "desc": "Your arrow has transformed into a viper (Pathfinder Bestiary 302). The viper has the summoned trait and acts at the end of your turn, even though you didn’t use the Sustain a Spell action. It is under the GM’s control, but it generally attacks the creature the arrow struck. The viper vanishes after the duration or when slain.",
+        "desc": "Your arrow has transformed into a viper (Pathfinder Bestiary 302). The viper has the summoned trait and acts at the end of your turn, even though you didn't use the Sustain a Spell action. It is under the GM's control, but it generally attacks the creature the arrow struck. The viper vanishes after the duration or when slain.",
         "type": "ammunition"
     },
     {
         "name": "Everstand Stance",
         "buff": true,
-        "desc": "When in this stance, you wield the shield with both hands. When wielding a shield this way, increase the weapon damage die of the shield’s boss or spikes by one step, and increase the shield’s Hardness by 2 when using the Shield Block reaction.",
-        "hint": "You wield the shield with both hands. Increase the shield’s Hardness by 2 when using the Shield Block reaction.",
+        "desc": "When in this stance, you wield the shield with both hands. When wielding a shield this way, increase the weapon damage die of the shield's boss or spikes by one step, and increase the shield's Hardness by 2 when using the Shield Block reaction.",
+        "hint": "You wield the shield with both hands. Increase the shield's Hardness by 2 when using the Shield Block reaction.",
         "showon": "Attacks, Shield, Shield Block",
         "effects": [
             {
@@ -4428,8 +4428,8 @@
     {
         "name": "Point-Blank Shot",
         "buff": true,
-        "desc": "When using a ranged volley weapon while you are in this stance, you don’t take the penalty to your attack rolls from the volley trait. When using a ranged weapon that doesn’t have the volley trait, you gain a +2 circumstance bonus to damage rolls on attacks against targets within the weapon’s first range increment.",
-        "hint": "When using a ranged volley weapon while you are in this stance, you don’t take the penalty to your attack rolls from the volley trait. When using a ranged weapon that doesn’t have the volley trait, you gain a +2 circumstance bonus to damage rolls on attacks against targets within the weapon’s first range increment.",
+        "desc": "When using a ranged volley weapon while you are in this stance, you don't take the penalty to your attack rolls from the volley trait. When using a ranged weapon that doesn't have the volley trait, you gain a +2 circumstance bonus to damage rolls on attacks against targets within the weapon's first range increment.",
+        "hint": "When using a ranged volley weapon while you are in this stance, you don't take the penalty to your attack rolls from the volley trait. When using a ranged weapon that doesn't have the volley trait, you gain a +2 circumstance bonus to damage rolls on attacks against targets within the weapon's first range increment.",
         "showon": "Attacks, ranged",
         "type": "activities"
     },
@@ -4478,16 +4478,16 @@
     {
         "name": "Mobile Shot Stance",
         "buff": true,
-        "desc": "Your shots become nimble and deadly. While you’re in this stance, your ranged Strikes don’t trigger Attacks of Opportunity or other reactions that are triggered by a ranged attack. If you have Attack of Opportunity, you can use it with a loaded ranged weapon you’re wielding. The triggering creature must be within 5 feet of you for you to do so.",
-        "hint": "Your ranged Strikes don’t trigger Attacks of Opportunity or other reactions that are triggered by a ranged attack. If you have Attack of Opportunity, you can use it with a loaded ranged weapon you’re wielding. The triggering creature must be within 5 feet of you for you to do so.",
+        "desc": "Your shots become nimble and deadly. While you're in this stance, your ranged Strikes don't trigger Attacks of Opportunity or other reactions that are triggered by a ranged attack. If you have Attack of Opportunity, you can use it with a loaded ranged weapon you're wielding. The triggering creature must be within 5 feet of you for you to do so.",
+        "hint": "Your ranged Strikes don't trigger Attacks of Opportunity or other reactions that are triggered by a ranged attack. If you have Attack of Opportunity, you can use it with a loaded ranged weapon you're wielding. The triggering creature must be within 5 feet of you for you to do so.",
         "showon": "Attacks, Attack of Opportunity, Attack of Opportunity (Fighter)",
         "type": "activities"
     },
     {
         "name": "Disruptive Stance",
         "buff": true,
-        "desc": "The slightest distraction can provoke your wrath, and you’re prepared to foil enemies’ actions. As long as you are in this stance, you can use Attack of Opportunity when a creature within your reach uses a concentrate action, in addition to manipulate and move actions. Furthermore, you disrupt a triggering concentrate or manipulate action if your Strike hits (not only if it’s a critical hit).",
-        "hint": "As long as you are in this stance, you can use Attack of Opportunity when a creature within your reach uses a concentrate action, in addition to manipulate and move actions. Furthermore, you disrupt a triggering concentrate or manipulate action if your Strike hits (not only if it’s a critical hit).",
+        "desc": "The slightest distraction can provoke your wrath, and you're prepared to foil enemies' actions. As long as you are in this stance, you can use Attack of Opportunity when a creature within your reach uses a concentrate action, in addition to manipulate and move actions. Furthermore, you disrupt a triggering concentrate or manipulate action if your Strike hits (not only if it's a critical hit).",
+        "hint": "As long as you are in this stance, you can use Attack of Opportunity when a creature within your reach uses a concentrate action, in addition to manipulate and move actions. Furthermore, you disrupt a triggering concentrate or manipulate action if your Strike hits (not only if it's a critical hit).",
         "showon": "Attacks, Attack of Opportunity, Attack of Opportunity (Fighter)",
         "type": "activities"
     },
@@ -4502,7 +4502,7 @@
     {
         "name": "Paragon's Guard",
         "buff": true,
-        "desc": "Once you’ve had a moment to set your stance, you always have your shield ready without a thought. While you are in this stance, you constantly have your shield raised as if you’d used the Raise a Shield action, as long as you meet that action’s requirements.",
+        "desc": "Once you've had a moment to set your stance, you always have your shield ready without a thought. While you are in this stance, you constantly have your shield raised as if you'd used the Raise a Shield action, as long as you meet that action's requirements.",
         "endEffects": [
             {
                 "affected": "Raise Shield",
@@ -4514,7 +4514,7 @@
     {
         "name": "Graceful Poise",
         "buff": true,
-        "desc": "With the right positioning, your off-hand weapon can strike like a scorpion’s stinger. While you are in this stance, if you make your second Strike from Double Slice with an agile weapon, Double Slice counts as one attack when calculating your multiple attack penalty.",
+        "desc": "With the right positioning, your off-hand weapon can strike like a scorpion's stinger. While you are in this stance, if you make your second Strike from Double Slice with an agile weapon, Double Slice counts as one attack when calculating your multiple attack penalty.",
         "hint": "While you are in this stance, if you make your second Strike from Double Slice with an agile weapon, Double Slice counts as one attack when calculating your multiple attack penalty.",
         "showon": "Attacks, Double Slice",
         "type": "activities"
@@ -4560,16 +4560,16 @@
     {
         "name": "Favored Terrain: Arctic",
         "buff": true,
-        "desc": "You have studied arctic terrain to overcome its challenges. If you have the wild stride class feature, while you are in arctic terrain, you need to eat and drink only one-tenth as much as usual, you aren’t affected by severe or extreme cold, and you can walk across ice and snow at full Speed without needing to Balance.",
-        "hint": "If you have the wild stride class feature, while you are in arctic terrain, you need to eat and drink only one-tenth as much as usual, you aren’t affected by severe or extreme cold, and you can walk across ice and snow at full Speed without needing to Balance.",
+        "desc": "You have studied arctic terrain to overcome its challenges. If you have the wild stride class feature, while you are in arctic terrain, you need to eat and drink only one-tenth as much as usual, you aren't affected by severe or extreme cold, and you can walk across ice and snow at full Speed without needing to Balance.",
+        "hint": "If you have the wild stride class feature, while you are in arctic terrain, you need to eat and drink only one-tenth as much as usual, you aren't affected by severe or extreme cold, and you can walk across ice and snow at full Speed without needing to Balance.",
         "showon": "Health, Resistances, Movement",
         "type": "activities"
     },
     {
         "name": "Favored Terrain: Desert",
         "buff": true,
-        "desc": "You have studied desert terrain to overcome its challenges. If you have the wild stride class feature, while you are in desert terrain, you need to eat and drink only one-tenth as much as usual, you aren’t affected by severe or extreme heat, and you can walk along sand at full Speed without needing to Balance.",
-        "hint": "If you have the wild stride class feature, while you are in desert terrain, you need to eat and drink only one-tenth as much as usual, you aren’t affected by severe or extreme heat, and you can walk along sand at full Speed without needing to Balance.",
+        "desc": "You have studied desert terrain to overcome its challenges. If you have the wild stride class feature, while you are in desert terrain, you need to eat and drink only one-tenth as much as usual, you aren't affected by severe or extreme heat, and you can walk along sand at full Speed without needing to Balance.",
+        "hint": "If you have the wild stride class feature, while you are in desert terrain, you need to eat and drink only one-tenth as much as usual, you aren't affected by severe or extreme heat, and you can walk along sand at full Speed without needing to Balance.",
         "showon": "Health, Resistances, Movement",
         "type": "activities"
     },
@@ -4670,7 +4670,7 @@
     {
         "name": "Hunt Prey: Flurry",
         "buff": true,
-        "desc": "You gain the benefits listed in Hunt Prey and the flurry hunter’s edge benefit against a single creature designated as your prey. You gain a +2 circumstance bonus to Perception checks when you Seek your prey and a +2 circumstance bonus to Survival checks when you Track your prey. You also ignore the penalty for making ranged attacks within your second range increment against the prey you're hunting.\n\nYour multiple attack penalty for attacks against your hunted prey is -3 (-2 with an agile weapon) on your second attack of the turn instead of -5, and -6 (-4 with an agile weapon) on your third or subsequent attack of the turn, instead of -10.",
+        "desc": "You gain the benefits listed in Hunt Prey and the flurry hunter's edge benefit against a single creature designated as your prey. You gain a +2 circumstance bonus to Perception checks when you Seek your prey and a +2 circumstance bonus to Survival checks when you Track your prey. You also ignore the penalty for making ranged attacks within your second range increment against the prey you're hunting.\n\nYour multiple attack penalty for attacks against your hunted prey is -3 (-2 with an agile weapon) on your second attack of the turn instead of -5, and -6 (-4 with an agile weapon) on your third or subsequent attack of the turn, instead of -10.",
         "hint": "You gain a +2 circumstance bonus to Perception checks when you Seek your prey and a +2 circumstance bonus to Survival checks when you Track your prey. You also ignore the penalty for making ranged attacks within your second range increment against the prey you're hunting.\n\nYour multiple attack penalty for attacks against your hunted prey is -3 (-2 with an agile weapon) on your second attack of the turn instead of -5, and -6 (-4 with an agile weapon) on your third or subsequent attack of the turn, instead of -10.",
         "showon": "Attacks, Perception, Survival",
         "type": "activities"
@@ -4678,15 +4678,15 @@
     {
         "name": "Hunt Prey: Outwit",
         "buff": true,
-        "desc": "You gain the benefits listed in Hunt Prey and the outwit hunter’s edge benefit against a single creature designated as your prey. You gain a +2 circumstance bonus to Perception checks when you Seek your prey and a +2 circumstance bonus to Survival checks when you Track your prey. You also ignore the penalty for making ranged attacks within your second range increment against the prey you're hunting.\n\nYou gain a +2 circumstance bonus to Deception checks, Intimidation checks, Stealth checks, and any checks to Recall Knowledge about the prey, and a +1 circumstance bonus to AC against your prey’s attacks.",
-        "hint": "You gain a +2 circumstance bonus to Perception checks when you Seek your prey and a +2 circumstance bonus to Survival checks when you Track your prey. You also ignore the penalty for making ranged attacks within your second range increment against the prey you're hunting.\n\nYou gain a +2 circumstance bonus to Deception checks, Intimidation checks, Stealth checks, and any checks to Recall Knowledge about the prey, and a +1 circumstance bonus to AC against your prey’s attacks.",
+        "desc": "You gain the benefits listed in Hunt Prey and the outwit hunter's edge benefit against a single creature designated as your prey. You gain a +2 circumstance bonus to Perception checks when you Seek your prey and a +2 circumstance bonus to Survival checks when you Track your prey. You also ignore the penalty for making ranged attacks within your second range increment against the prey you're hunting.\n\nYou gain a +2 circumstance bonus to Deception checks, Intimidation checks, Stealth checks, and any checks to Recall Knowledge about the prey, and a +1 circumstance bonus to AC against your prey's attacks.",
+        "hint": "You gain a +2 circumstance bonus to Perception checks when you Seek your prey and a +2 circumstance bonus to Survival checks when you Track your prey. You also ignore the penalty for making ranged attacks within your second range increment against the prey you're hunting.\n\nYou gain a +2 circumstance bonus to Deception checks, Intimidation checks, Stealth checks, and any checks to Recall Knowledge about the prey, and a +1 circumstance bonus to AC against your prey's attacks.",
         "showon": "AC, Perception, Arcana, Crafting, Deception, Intimidation, Nature, Occultism, Religion, Society, Stealth, Survival",
         "type": "activities"
     },
     {
         "name": "Hunt Prey: Precision",
         "buff": true,
-        "desc": "You gain the benefits listed in Hunt Prey and the precision hunter’s edge benefit against a single creature designated as your prey. You gain a +2 circumstance bonus to Perception checks when you Seek your prey and a +2 circumstance bonus to Survival checks when you Track your prey. You also ignore the penalty for making ranged attacks within your second range increment against the prey you're hunting.\n\nThe first time you hit your hunted prey in a round, you also deal 1d8 additional precision damage. At 11th level, the extra damage increases to 2d8 precision damage, and at 19th level, the extra damage increases to 3d8 precision damage.",
+        "desc": "You gain the benefits listed in Hunt Prey and the precision hunter's edge benefit against a single creature designated as your prey. You gain a +2 circumstance bonus to Perception checks when you Seek your prey and a +2 circumstance bonus to Survival checks when you Track your prey. You also ignore the penalty for making ranged attacks within your second range increment against the prey you're hunting.\n\nThe first time you hit your hunted prey in a round, you also deal 1d8 additional precision damage. At 11th level, the extra damage increases to 2d8 precision damage, and at 19th level, the extra damage increases to 3d8 precision damage.",
         "hint": "You gain a +2 circumstance bonus to Perception checks when you Seek your prey and a +2 circumstance bonus to Survival checks when you Track your prey. You also ignore the penalty for making ranged attacks within your second range increment against the prey you're hunting.\n\nThe first time you hit your hunted prey in a round, you also deal 1d8 additional precision damage. At 11th level, the extra damage increases to 2d8 precision damage, and at 19th level, the extra damage increases to 3d8 precision damage.",
         "showon": "Attacks, Perception, Survival",
         "type": "activities"
@@ -4694,8 +4694,8 @@
     {
         "name": "Badger Rage",
         "buff": true,
-        "desc": "The badger enters a state of pure rage that lasts for 1 minute, until there are no enemies it can perceive, or until it falls unconscious, whichever comes first. It can’t voluntarily stop raging. While raging, the badger is affected in the following ways.\n\nIt deals 4 additional damage with its bite attacks and 2 additional damage with its claw attacks.\nIt takes a -1 penalty to AC.\nIt can’t use actions that have the concentrate trait unless they also have the rage trait. The animal companion can Seek even while raging.\n\nAfter it has stopped raging, it can’t use Badger Rage again for 1 minute.",
-        "hint": "The badger can’t use actions that have the concentrate trait unless they also have the rage trait. The animal companion can Seek even while raging.",
+        "desc": "The badger enters a state of pure rage that lasts for 1 minute, until there are no enemies it can perceive, or until it falls unconscious, whichever comes first. It can't voluntarily stop raging. While raging, the badger is affected in the following ways.\n\nIt deals 4 additional damage with its bite attacks and 2 additional damage with its claw attacks.\nIt takes a -1 penalty to AC.\nIt can't use actions that have the concentrate trait unless they also have the rage trait. The animal companion can Seek even while raging.\n\nAfter it has stopped raging, it can't use Badger Rage again for 1 minute.",
+        "hint": "The badger can't use actions that have the concentrate trait unless they also have the rage trait. The animal companion can Seek even while raging.",
         "showon": "Activities, Perception",
         "effects": [
             {
@@ -4788,7 +4788,7 @@
     {
         "name": "Bespell Weapon (Abjuration)",
         "buff": true,
-        "desc": "You have siphoned the residual energy from the last spell you cast into one weapon you’re wielding. Until the end of your turn, the weapon deals an extra 1d6 force damage.",
+        "desc": "You have siphoned the residual energy from the last spell you cast into one weapon you're wielding. Until the end of your turn, the weapon deals an extra 1d6 force damage.",
         "hint": "One chosen weapon deals an extra 1d6 force damage.",
         "showon": "Attacks",
         "type": "spells"
@@ -4796,7 +4796,7 @@
     {
         "name": "Bespell Weapon (Conjuration or Transmutation)",
         "buff": true,
-        "desc": "You have siphoned the residual energy from the last spell you cast into one weapon you’re wielding. Until the end of your turn, the weapon deals an extra 1d6 damage.",
+        "desc": "You have siphoned the residual energy from the last spell you cast into one weapon you're wielding. Until the end of your turn, the weapon deals an extra 1d6 damage.",
         "hint": "One chosen weapon deals an extra 1d6 damage.",
         "showon": "Attacks",
         "type": "spells"
@@ -4804,7 +4804,7 @@
     {
         "name": "Bespell Weapon (Divination, Enchantment or Illusion)",
         "buff": true,
-        "desc": "You have siphoned the residual energy from the last spell you cast into one weapon you’re wielding. Until the end of your turn, the weapon deals an extra 1d6 mental damage.",
+        "desc": "You have siphoned the residual energy from the last spell you cast into one weapon you're wielding. Until the end of your turn, the weapon deals an extra 1d6 mental damage.",
         "hint": "One chosen weapon deals an extra 1d6 mental damage.",
         "showon": "Attacks",
         "type": "spells"
@@ -4812,7 +4812,7 @@
     {
         "name": "Bespell Weapon (Evocation)",
         "buff": true,
-        "desc": "You have siphoned the residual energy from the last spell you cast into one weapon you’re wielding. Until the end of your turn, the weapon deals an extra 1d6 damage of a type the spell dealt, or 1d6 force damage if the spell didn't deal damage.",
+        "desc": "You have siphoned the residual energy from the last spell you cast into one weapon you're wielding. Until the end of your turn, the weapon deals an extra 1d6 damage of a type the spell dealt, or 1d6 force damage if the spell didn't deal damage.",
         "hint": "One chosen weapon deals an extra 1d6 damage of a type the last spell dealt, or 1d6 force damage if the spell didn't deal damage.",
         "showon": "Attacks",
         "type": "spells"
@@ -4820,7 +4820,7 @@
     {
         "name": "Bespell Weapon (Necromancy)",
         "buff": true,
-        "desc": "You have siphoned the residual energy from the last spell you cast into one weapon you’re wielding. Until the end of your turn, the weapon deals an extra 1d6 negative damage.",
+        "desc": "You have siphoned the residual energy from the last spell you cast into one weapon you're wielding. Until the end of your turn, the weapon deals an extra 1d6 negative damage.",
         "hint": "One chosen weapon deals an extra 1d6 negative damage.",
         "showon": "Attacks",
         "type": "spells"
@@ -4890,7 +4890,7 @@
         ]
     },
     {
-        "name": "Perfect Disctraction",
+        "name": "Perfect Distraction",
         "buff": true,
         "desc": "You have become undetected and left a decoy behind. You can concentrate to mentally dictate a course of action for your duplicate to follow that round. Your decoy acts as though it had your full number of actions, though it can't actually affect anything in the environment. A creature that determines the decoy is an illusion doesn't necessarily know you're Sneaking, and one that can see you doesn't necessarily know your decoy is an illusion.\n\nIf you Cast a Spell, attack, or otherwise interact with another creature, as a part of that action you can attempt a Deception check against observers' Perception DCs to convince them your decoy used that action. This doesn't fool anyone who's aware your decoy is an illusion, nor does it work if the attack obviously couldn't have come from the decoy. For instance, if you fired a ray, you could make it look like it came from the duplicate as long as the decoy was positioned appropriately, but if you attacked with a sword and your decoy was across the room from the target, your Deception check would automatically fail.",
         "type": "activities",
@@ -4904,11 +4904,12 @@
         ]
     },
     {
-        "name": "Perfect Disctraction Exhaustion",
+        "name": "Perfect Distraction Exhaustion",
         "buff": true,
         "desc": "You have used up your decoy and can't use Perfect Distraction anymore. You need to spend 10 minutes to set up another decoy before you can use it again.",
         "inputRequired": "After you spend 10 minutes setting up another decoy, remove this condition.",
-        "type": "hidden"
+        "type": "hidden",
+        "persistent": true
     },
     {
         "name": "Hidden Paragon",

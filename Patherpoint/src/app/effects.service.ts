@@ -490,7 +490,7 @@ export class EffectsService {
         //Set refresh commands for all components of the application depending on whether there are new effects affecting their data,
         // or old effects have been removed.
         let general: string[] = ["Languages", "Size"];
-        let generalWildcard: string[] = ["Speed", "Checks and DCs"];
+        let generalWildcard: string[] = ["Speed", "Checks and DCs"];
         let effects: string[] = [];
         let abilities: string[] = ["Strength", "Dexterity", "Constitution", "Intelligence", "Wisdom", "Charisma"];
         let abilitiesWildcard: string[] = ["Strength", "Dexterity", "Constitution", "Intelligence", "Wisdom", "Charisma"];

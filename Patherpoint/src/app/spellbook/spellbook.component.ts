@@ -465,7 +465,8 @@ export class SpellbookComponent implements OnInit {
             //Check if the spell slot on this level has been unlocked.
             return casting.spellChoices.find(choice => choice.level == level + 2 && choice.infinitePossibilities) ? 1 : 0;
         } else {
-            return 0;
+            //If the spell slot doesn't need to be unlocked, just return a positive value.
+            return 1;
         }
     }
 

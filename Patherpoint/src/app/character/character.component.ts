@@ -401,12 +401,12 @@ export class CharacterComponent implements OnInit {
             if (this.abilityIllegal(parseInt(choice.id.split("-")[0]), this.get_Abilities(boost.name)[0])) {
                 if (!boost.locked) {
                     this.get_Character().boost_Ability(this.characterService, boost.name, false, choice, boost.locked);
+                    this.characterService.process_ToChange();
                 } else {
                     anytrue += 1;
                 }
             }
         });
-        this.characterService.process_ToChange();
         return anytrue;
     }
 
@@ -460,6 +460,7 @@ export class CharacterComponent implements OnInit {
     on_AbilityBoost(abilityName: string, boost: boolean, choice: AbilityChoice, locked: boolean) {
         if (boost && choice.boosts.length == choice.available - ((this.get_Character().baseValues.length > 0) ? choice.baseValuesLost : 0) - 1) { this.showList=""; }
         this.get_Character().boost_Ability(this.characterService, abilityName, boost, choice, locked);
+        this.characterService.set_AbilityToChange("Character", abilityName);
         this.characterService.process_ToChange();
     }
 
@@ -510,6 +511,10 @@ export class CharacterComponent implements OnInit {
                 skills = skills.filter(skill => choice.filter.includes(skill.name))
             }
         }
+        if (choice.minRank) {
+            let character = this.get_Character();
+            skills = skills.filter(skill => skill.level(character, this.characterService, level.number) >= choice.minRank);
+        }
         if (skills.length) {
             return skills.filter(skill => (
                 this.skillIncreasedByThis(skill, choice) || choice.increases.length < choice.available + this.get_SkillINTBonus(choice)
@@ -523,12 +528,12 @@ export class CharacterComponent implements OnInit {
             if (!this.get_Skills(increase.name)[0].isLegal(this.get_Character(), this.characterService, parseInt(choice.id.split("-")[0]), choice.maxRank)) {
                 if (!increase.locked) {
                     this.get_Character().increase_Skill(this.characterService, increase.name, false, choice, increase.locked);
+                    this.characterService.process_ToChange();
                 } else {
                     anytrue += 1;
                 }
             }
         });
-        this.characterService.process_ToChange();
         return anytrue;
     }
 

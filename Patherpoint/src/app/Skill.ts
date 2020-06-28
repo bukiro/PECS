@@ -8,6 +8,7 @@ import { Character } from './Character';
 
 export class Skill {
     public readonly _className: string = this.constructor.name;
+    public $ability: string[] = ["","",""];
     public $baseValue: { result: number, explain: string }[] = [{ result: 0, explain: "" }, { result: 0, explain: "" }, { result: 0, explain: "" }];
     public $bonuses: (boolean)[] = [false, false, false];
     public $absolutes: (Effect[])[] = [[], [], []];
@@ -32,6 +33,7 @@ export class Skill {
                 index = 2;
                 break;
         }
+        this.$ability[index] = this.get_Ability(creature, characterService);
         this.$absolutes[index] = this.absolutes(creature, characterService, effectsService);
         this.$relatives[index] = this.relatives(creature, characterService, effectsService);
         this.$penalties[index] = this.penalties(creature, characterService, effectsService);
@@ -85,7 +87,7 @@ export class Skill {
             return (this.level(creature, characterService, levelNumber) < Math.min(8, maxRank))
         } else if (levelNumber >= 7) {
             return (this.level(creature, characterService, levelNumber) < Math.min(6, maxRank))
-        } else if (levelNumber >= 3) {
+        } else if (levelNumber >= 2) {
             return (this.level(creature, characterService, levelNumber) < Math.min(4, maxRank))
         } else {
             return (this.level(creature, characterService, levelNumber) < Math.min(2, maxRank))
@@ -96,7 +98,7 @@ export class Skill {
             return (creature.get_SkillIncreases(characterService, 0, levelNumber, this.name).length * 2 <= Math.min(8, maxRank))
         } else if (levelNumber >= 7) {
             return (creature.get_SkillIncreases(characterService, 0, levelNumber, this.name).length * 2 <= Math.min(6, maxRank))
-        } else if (levelNumber >= 3) {
+        } else if (levelNumber >= 2) {
             return (creature.get_SkillIncreases(characterService, 0, levelNumber, this.name).length * 2 <= Math.min(4, maxRank))
         } else {
             return (creature.get_SkillIncreases(characterService, 0, levelNumber, this.name).length * 2 <= Math.min(2, maxRank))

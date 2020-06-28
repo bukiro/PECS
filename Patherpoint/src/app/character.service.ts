@@ -56,6 +56,7 @@ import { AlchemicalBomb } from './AlchemicalBomb';
 import { HeldItem } from './HeldItem';
 import { AdventuringGear } from './AdventuringGear';
 import { Snare } from './Snare';
+import { AlchemicalPoison } from './AlchemicalPoison';
 
 @Injectable({
     providedIn: 'root'
@@ -160,7 +161,6 @@ export class CharacterService {
             this.set_ToChange(creature, "inventory");
         }
 
-        this.process_ToChange();
     }
 
     process_ToChange() {
@@ -629,7 +629,7 @@ export class CharacterService {
         }
     }
 
-    grant_InventoryItem(creature: Character|AnimalCompanion, inventory: ItemCollection, item: Item, resetRunes: boolean = true, changeAfter: boolean = true, equipAfter: boolean = true, amount: number = 1, newId: boolean = true) {
+    grant_InventoryItem(creature: Character|AnimalCompanion, inventory: ItemCollection, item: Item, resetRunes: boolean = true, changeAfter: boolean = true, equipAfter: boolean = true, amount: number = 1, newId: boolean = true, expiration: number = 0) {
         this.set_ToChange(creature.type, "inventory");
         let newInventoryItem = this.itemsService.initialize_Item(item, false, newId);
         //Assign the library's item id as the new item's refId. This allows us to read the default information from the library later.
@@ -637,10 +637,13 @@ export class CharacterService {
             newInventoryItem.refId = item.id;
         }
         let returnedInventoryItem;
-        //Check if this item already exists in the inventory, and if it is stackable.
-        let existingItems = inventory[item.type].filter((existing: Item) =>
-            existing.name == newInventoryItem.name && newInventoryItem.can_Stack()
-        );
+        //Check if this item already exists in the inventory, and if it is stackable and doesn't expire. Don't make that check if this item expires.
+        let existingItems: Item[] = [];
+        if (!expiration) {
+            existingItems = inventory[item.type].filter((existing: Item) =>
+                existing.name == newInventoryItem.name && newInventoryItem.can_Stack() && !item.expiration
+            );
+        }
         //If any existing, stackable items are found, try parsing the amount and set it to 1 if failed, then raise the amount on the first of the existing items.
         //The amount must be parsed because it could be set to anything during custom item creation.
         //If no items are found, add the new item to the inventory.
@@ -695,6 +698,9 @@ export class CharacterService {
                 newInventory.bulkLimit = gain.bulkLimit;
                 newInventory.bulkReduction = gain.bulkReduction;
             })
+        }
+        if (expiration) {
+            returnedInventoryItem.expiration = expiration;
         }
         //Add all Items that you get from being granted this one
         if (returnedInventoryItem.gainItems && returnedInventoryItem.gainItems.length) {
@@ -886,7 +892,7 @@ export class CharacterService {
     }
 
     set_ItemViewChanges(creature: Character|AnimalCompanion, item: Item) {
-        if (item.constructor == AlchemicalBomb || item.constructor == Ammunition || item.constructor == Snare) {
+        if (item.constructor == AlchemicalBomb  || item.constructor == AlchemicalPoison || item.constructor == Ammunition || item.constructor == Snare) {
             this.set_ToChange(creature.type, "attacks");
         }
         if (item["showon"]) {

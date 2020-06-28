@@ -9,6 +9,7 @@ import { AnimalCompanion } from './AnimalCompanion';
 import { Familiar } from './Familiar';
 import { Oil } from './Oil';
 import { SpecializationGain } from './SpecializationGain';
+import { AlchemicalPoison } from './AlchemicalPoison';
 
 export class Weapon extends Equipment {
     public readonly _className: string = this.constructor.name;
@@ -40,6 +41,8 @@ export class Weapon extends Equipment {
     public melee: number = 0;
     //Is the weapon currently raised to parry?
     public parrying: boolean = false;
+    //Store any poisons applied to this item. There should be only one poison at a time.
+    public poisonsApplied: AlchemicalPoison[] = [];
     //What proficiency is used? "Simple Weapons", "Unarmed Attacks"?
     public prof: string = "Simple Weapons";
     //Ranged range in ft - also add for thrown weapons

@@ -10,6 +10,8 @@ import { AnimalCompanion } from '../AnimalCompanion';
 import { SpellsService } from '../spells.service';
 import { Talisman } from '../Talisman';
 import { SpellGain } from '../SpellGain';
+import { AlchemicalPoison } from '../AlchemicalPoison';
+import { Weapon } from '../Weapon';
 
 @Component({
     selector: 'app-item',
@@ -114,7 +116,16 @@ export class ItemComponent implements OnInit {
         if (["armors", "shields"].includes(this.item.type)) {
             this.characterService.set_ToChange(this.creature, "defense");
         }
-        if (this.item.type == "weapons") {
+        if (this.item.constructor == Weapon) {
+            this.characterService.set_ToChange(this.creature, "attacks");
+        }
+        this.characterService.process_ToChange();
+    }
+
+    on_PoisonUse(poison: AlchemicalPoison) {
+        this.characterService.on_ConsumableUse(this.get_Creature(), poison);
+        if (this.item.constructor == Weapon) {
+            this.item.poisonsApplied.length = 0;
             this.characterService.set_ToChange(this.creature, "attacks");
         }
         this.characterService.process_ToChange();

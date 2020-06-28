@@ -7,6 +7,7 @@ import { SpellCasting } from '../SpellCasting';
 import { SpellChoice } from '../SpellChoice';
 import { SpellGain } from '../SpellGain';
 import { Level } from '../Level';
+import { TraitsService } from '../traits.service';
 
 @Component({
     selector: 'app-spellLibrary',
@@ -28,6 +29,7 @@ export class SpellLibraryComponent implements OnInit {
         private changeDetector: ChangeDetectorRef,
         private spellsService: SpellsService,
         private characterService: CharacterService,
+        private traitsService: TraitsService,
         public sortByPipe: SortByPipe
     ) { }
 
@@ -53,6 +55,10 @@ export class SpellLibraryComponent implements OnInit {
     
     get_Accent() {
         return this.characterService.get_Accent();
+    }
+
+    get_Traits(name: string = "") {
+        return this.traitsService.get_Traits(name);
     }
 
     trackByIndex(index: number, obj: any): any {

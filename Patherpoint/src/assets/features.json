@@ -262,7 +262,7 @@
     },
     {
         "name": "Light Armor Expertise",
-        "desc": "You’ve learned how to dodge while wearing light or no armor. Your proficiency ranks for light armor and unarmored defense increase to expert.",
+        "desc": "You've learned how to dodge while wearing light or no armor. Your proficiency ranks for light armor and unarmored defense increase to expert.",
         "internalNote": "Skill increases through class features are handled in the class object."
     },
     {
@@ -277,19 +277,19 @@
     },
     {
         "name": "Magical Fortitude",
-        "desc": "Magical power has improved your body’s resiliency. Your proficiency rank for Fortitude saves increases to expert.",
+        "desc": "Magical power has improved your body's resiliency. Your proficiency rank for Fortitude saves increases to expert.",
         "internalNote": "Skill increases through class features are handled in the class object."
     },
     {
         "name": "Resolve",
-        "desc": "You’ve steeled your mind with resolve. Your proficiency rank for Will saves increases to master. When you roll a success at a Will save, you get a critical success instead.",
+        "desc": "You've steeled your mind with resolve. Your proficiency rank for Will saves increases to master. When you roll a success at a Will save, you get a critical success instead.",
         "hint": "When you roll a success at a Will save, you get a critical success instead.",
         "showon": "Will",
         "internalNote": "Skill increases through class features are handled in the class object."
     },
     {
         "name": "Advanced Alchemy",
-        "desc": "During your daily preparations, after producing new infused reagents, you can spend batches of those infused reagents to create infused alchemical items. You don’t need to attempt a Crafting check to do this, and you ignore both the number of days typically required to create the items and any alchemical reagent requirements. Your advanced alchemy level is equal to your level. For each batch of infused reagents you spend, choose an alchemical item of your advanced alchemy level or lower that’s in your formula book, and make a batch of two of that item. These items have the infused trait and remain potent for 24 hours or until your next daily preparations, whichever comes first.",
+        "desc": "During your daily preparations, after producing new infused reagents, you can spend batches of those infused reagents to create infused alchemical items. You don't need to attempt a Crafting check to do this, and you ignore both the number of days typically required to create the items and any alchemical reagent requirements. Your advanced alchemy level is equal to your level. For each batch of infused reagents you spend, choose an alchemical item of your advanced alchemy level or lower that's in your formula book, and make a batch of two of that item. These items have the infused trait and remain potent for 24 hours or until your next daily preparations, whichever comes first.",
         "internalNote": "##### Not yet implemented #####"
     },
     {
@@ -310,7 +310,7 @@
     },
     {
         "name": "Alchemical Weapon Expertise",
-        "desc": "You’ve trained to more effectively wield the weapons you find in your lab. Your proficiency ranks for simple weapons, unarmed attacks, and alchemical bombs increase to expert.",
+        "desc": "You've trained to more effectively wield the weapons you find in your lab. Your proficiency ranks for simple weapons, unarmed attacks, and alchemical bombs increase to expert.",
         "internalNote": "Skill increases through class features are handled in the class object."
     },
     {
@@ -331,7 +331,7 @@
     },
     {
         "name": "Infused Reagents",
-        "desc": "You infuse reagents with your own alchemical essence, allowing you to create alchemical items at no cost. Each day during your daily preparations, you gain a number of batches of infused reagents equal to your level + your Intelligence modifier. You can use these reagents for either advanced alchemy or Quick Alchemy, described below. Together, these infused reagents have light Bulk.\n\nAs soon as you make your next daily preparations, your infused reagents from the previous day’s preparations are instantly destroyed, and nonpermanent effects of your previous day’s infused items immediately end. While infused reagents are physical objects, they can’t be duplicated, preserved, or created in any way other than your daily preparations. Any such artificial reagents lack the infusion and are useless for advanced alchemy or Quick Alchemy.",
+        "desc": "You infuse reagents with your own alchemical essence, allowing you to create alchemical items at no cost. Each day during your daily preparations, you gain a number of batches of infused reagents equal to your level + your Intelligence modifier. You can use these reagents for either advanced alchemy or Quick Alchemy, described below. Together, these infused reagents have light Bulk.\n\nAs soon as you make your next daily preparations, your infused reagents from the previous day's preparations are instantly destroyed, and nonpermanent effects of your previous day's infused items immediately end. While infused reagents are physical objects, they can't be duplicated, preserved, or created in any way other than your daily preparations. Any such artificial reagents lack the infusion and are useless for advanced alchemy or Quick Alchemy.",
         "internalNote": "##### Not yet implemented #####"
     },
     {
@@ -390,14 +390,14 @@
     },
     {
         "name": "Deny Advantage (Barbarian)",
-        "desc": "Your foes struggle to pass your defenses. You aren’t flat-footed to hidden, undetected, or flanking creatures of your level or lower, or creatures of your level or lower using surprise attack. However, they can still help their allies flank.",
-        "hint": "You aren’t flat-footed to hidden, undetected, or flanking creatures of your level or lower, or creatures of your level or lower using surprise attack. However, they can still help their allies flank.",
+        "desc": "Your foes struggle to pass your defenses. You aren't flat-footed to hidden, undetected, or flanking creatures of your level or lower, or creatures of your level or lower using surprise attack. However, they can still help their allies flank.",
+        "hint": "You aren't flat-footed to hidden, undetected, or flanking creatures of your level or lower, or creatures of your level or lower using surprise attack. However, they can still help their allies flank.",
         "showon": "AC"
     },
     {
         "name": "Devastator",
-        "desc": "Your Strikes are so devastating that you hardly care about resistance, and your barbarian abilities are unparalleled. Your proficiency rank for your barbarian class DC increases to master. Your melee Strikes ignore 10 points of a creature’s resistance to their physical damage.",
-        "hint": "Your melee Strikes ignore 10 points of a creature’s resistance to their physical damage.",
+        "desc": "Your Strikes are so devastating that you hardly care about resistance, and your barbarian abilities are unparalleled. Your proficiency rank for your barbarian class DC increases to master. Your melee Strikes ignore 10 points of a creature's resistance to their physical damage.",
+        "hint": "Your melee Strikes ignore 10 points of a creature's resistance to their physical damage.",
         "showon": "Attacks",
         "internalNote": "Skill increases through class features are handled in the class object."
     },
@@ -410,7 +410,7 @@
     },
     {
         "name": "Greater Weapon Specialization (Barbarian)",
-        "desc": "The weapons you’ve mastered become truly fearsome in your hands. Your damage from weapon specialization increases to 4 with weapons and unarmed attacks in which you’re an expert, 6 if you’re a master, and 8 if you’re legendary. You gain a greater benefit from your instinct’s specialization ability.",
+        "desc": "The weapons you've mastered become truly fearsome in your hands. Your damage from weapon specialization increases to 4 with weapons and unarmed attacks in which you're an expert, 6 if you're a master, and 8 if you're legendary. You gain a greater benefit from your instinct's specialization ability.",
         "internalNote": "The effect is hardcoded."
     },
     {
@@ -461,7 +461,7 @@
     },
     {
         "name": "Weapon Specialization (Barbarian)",
-        "desc": "Your rage helps you hit harder. You deal an additional 2 damage with weapons and unarmed attacks in which you have expert proficiency. This damage increases to 3 if you’re a master, and 4 if you’re legendary. You gain your instinct’s specialization ability.",
+        "desc": "Your rage helps you hit harder. You deal an additional 2 damage with weapons and unarmed attacks in which you have expert proficiency. This damage increases to 3 if you're a master, and 4 if you're legendary. You gain your instinct's specialization ability.",
         "internalNote": "The effect is hardcoded."
     },
     {
@@ -498,17 +498,17 @@
     },
     {
         "name": "Magnum Opus",
-        "desc": "You have tuned your spellcasting to the highest caliber. Add two common 10th-level occult spells to your repertoire. You gain a single 10th-level spell slot you can use to cast one of those two spells using bard spellcasting. You don’t gain more 10th-level spells as you level up, unlike other spell slots, and you can’t use 10th-level slots with abilities that give you more spell slots or that let you cast spells without expending spell slots.",
+        "desc": "You have tuned your spellcasting to the highest caliber. Add two common 10th-level occult spells to your repertoire. You gain a single 10th-level spell slot you can use to cast one of those two spells using bard spellcasting. You don't gain more 10th-level spells as you level up, unlike other spell slots, and you can't use 10th-level slots with abilities that give you more spell slots or that let you cast spells without expending spell slots.",
         "internalNote": "Spell slots gained through class features are handled in the class object."
     },
     {
         "name": "Master Spellcaster (Bard)",
-        "desc": "You’ve mastered the occult. Your proficiency ranks for occult spell attack rolls and spell DCs increase to master.",
+        "desc": "You've mastered the occult. Your proficiency ranks for occult spell attack rolls and spell DCs increase to master.",
         "internalNote": "Skill increases through class features are handled in the class object."
     },
     {
         "name": "Signature Spells (Bard)",
-        "desc": "Experience allows you to cast some spells more flexibly. For each spell level you have access to, choose one spell of that level to be a signature spell. You don’t need to learn heightened versions of signature spells separately; instead, you can heighten these spells freely. If you’ve learned a signature spell at a higher level than its minimum, you can also cast all its lower-level versions without learning those separately. If you swap out a signature spell, you can choose a replacement signature spell of the same spell level at which you learned the previous spell. You can also retrain specifically to change a signature spell to a different spell of that level without swapping any spells; this takes as much time as retraining a spell normally does.",
+        "desc": "Experience allows you to cast some spells more flexibly. For each spell level you have access to, choose one spell of that level to be a signature spell. You don't need to learn heightened versions of signature spells separately; instead, you can heighten these spells freely. If you've learned a signature spell at a higher level than its minimum, you can also cast all its lower-level versions without learning those separately. If you swap out a signature spell, you can choose a replacement signature spell of the same spell level at which you learned the previous spell. You can also retrain specifically to change a signature spell to a different spell of that level without swapping any spells; this takes as much time as retraining a spell normally does.",
         "allowSignatureSpells": true
     },
     {
@@ -528,15 +528,15 @@
     },
     {
         "name": "Champion Mastery",
-        "desc": "You’ve mastered your arsenal of champion techniques and divine spells. Your proficiency ranks for your champion class DC and for divine spell attack rolls and spell DCs increase to master.",
+        "desc": "You've mastered your arsenal of champion techniques and divine spells. Your proficiency ranks for your champion class DC and for divine spell attack rolls and spell DCs increase to master.",
         "internalNote": "Skill increases through class features are handled in the class object."
     },
     {
         "name": "Champion's Code",
-        "desc": "You follow a code of conduct, beginning with tenets shared by all champions of an alignment (such as good), and continuing with tenets of your cause. Deities often add additional strictures (for instance, Torag’s champions can’t show mercy to enemies of their people, making it almost impossible for them to follow the redeemer cause). Only rules for good champions appear in this book. Tenets are listed in order of importance, starting with the most important. If a situation places two tenets in conflict, you aren’t in a no-win situation; instead, follow the more important tenet. For instance, as a paladin, if an evil king asked you if you’re hiding refugees so he could execute them, you could lie to him, since the tenet against lying is less important than preventing harm to innocents. Trying to subvert your code by creating a situation that forces a higher tenet to override a lower tenet (for example, promising not to respect authorities and then, to keep your word, disrespecting authorities) is a violation of the champion code.\n\nIf you stray from your alignment or violate your code of conduct, you lose your focus pool and divine ally until you demonstrate your repentance by conducting an atone ritual, but you keep any other champion abilities that don’t require those class features. If your alignment shifts but is still one allowed by your deity, your GM might let you retrain your cause while still following the same deity.\n\nAll champions of good alignment follow these tenets. \n\nYou must never perform acts anathema to your deity or willingly commit an evil act, such as murder, torture, or the casting of an evil spell. \nYou must never knowingly harm an innocent, or allow immediate harm to one through inaction when you know you could reasonably prevent it. This tenet doesn’t force you to take action against possible harm to innocents at an indefinite time in the future, or to sacrifice your life to protect them.",
+        "desc": "You follow a code of conduct, beginning with tenets shared by all champions of an alignment (such as good), and continuing with tenets of your cause. Deities often add additional strictures (for instance, Torag's champions can't show mercy to enemies of their people, making it almost impossible for them to follow the redeemer cause). Only rules for good champions appear in this book. Tenets are listed in order of importance, starting with the most important. If a situation places two tenets in conflict, you aren't in a no-win situation; instead, follow the more important tenet. For instance, as a paladin, if an evil king asked you if you're hiding refugees so he could execute them, you could lie to him, since the tenet against lying is less important than preventing harm to innocents. Trying to subvert your code by creating a situation that forces a higher tenet to override a lower tenet (for example, promising not to respect authorities and then, to keep your word, disrespecting authorities) is a violation of the champion code.\n\nIf you stray from your alignment or violate your code of conduct, you lose your focus pool and divine ally until you demonstrate your repentance by conducting an atone ritual, but you keep any other champion abilities that don't require those class features. If your alignment shifts but is still one allowed by your deity, your GM might let you retrain your cause while still following the same deity.\n\nAll champions of good alignment follow these tenets. \n\nYou must never perform acts anathema to your deity or willingly commit an evil act, such as murder, torture, or the casting of an evil spell. \nYou must never knowingly harm an innocent, or allow immediate harm to one through inaction when you know you could reasonably prevent it. This tenet doesn't force you to take action against possible harm to innocents at an indefinite time in the future, or to sacrifice your life to protect them.",
         "tenets": [
             "You must never perform acts anathema to your deity or willingly commit an evil act, such as murder, torture, or the casting of an evil spell. ",
-            "You must never knowingly harm an innocent, or allow immediate harm to one through inaction when you know you could reasonably prevent it. This tenet doesn’t force you to take action against possible harm to innocents at an indefinite time in the future, or to sacrifice your life to protect them."
+            "You must never knowingly harm an innocent, or allow immediate harm to one through inaction when you know you could reasonably prevent it. This tenet doesn't force you to take action against possible harm to innocents at an indefinite time in the future, or to sacrifice your life to protect them."
         ]
     },
     {
@@ -546,21 +546,21 @@
     },
     {
         "name": "Deific Weapon",
-        "desc": "You zealously bear your deity’s favored weapon. If it’s uncommon, you gain access to it. If it’s an unarmed attack with a d4 damage die or a simple weapon, increase the damage die by one step (d4 to d6, d6 to d8, d8 to d10, d10 to d12).",
+        "desc": "You zealously bear your deity's favored weapon. If it's uncommon, you gain access to it. If it's an unarmed attack with a d4 damage die or a simple weapon, increase the damage die by one step (d4 to d6, d6 to d8, d8 to d10, d10 to d12).",
         "internalNote": "The effect is hardcoded."
     },
     {
         "name": "Deity and Cause",
-        "desc": "Champions are divine servants of a deity. Choose a deity to follow; your alignment must be one allowed for followers of your deity. Actions fundamentally opposed to your deity’s ideals or alignment are anathema to your faith. A few examples of acts that would be considered anathema appear in each deity’s entry. You and your GM determine whether other acts are anathema. You have one of the following causes. Your cause must match your alignment exactly. Your cause determines your champion’s reaction, grants you a devotion spell, and defines part of your champion’s code."
+        "desc": "Champions are divine servants of a deity. Choose a deity to follow; your alignment must be one allowed for followers of your deity. Actions fundamentally opposed to your deity's ideals or alignment are anathema to your faith. A few examples of acts that would be considered anathema appear in each deity's entry. You and your GM determine whether other acts are anathema. You have one of the following causes. Your cause must match your alignment exactly. Your cause determines your champion's reaction, grants you a devotion spell, and defines part of your champion's code."
     },
     {
         "name": "Divine Ally",
-        "desc": "Your devotion attracts a spirit of your deity’s alignment. Once you choose an ally, your choice can’t be changed.\n\nThe following are divine allies: \n\nBlade Ally: A spirit of battle dwells within your armaments. Select one weapon or handwraps of mighty blows when you make your daily preparations. In your hands, the item gains the effect of a property rune. For a champion following the tenets of good, choose disrupting, ghost touch, returning, or shifting. You also gain the weapon’s critical specialization effect. \n\nShield Ally: A spirit of protection dwells within your shield. In your hands, the shield’s Hardness increases by 2 and its HP and BT increase by half. \n\nSteed Ally: You gain a young animal companion as a mount (page 214). Ordinarily, your animal companion is one that has the mount special ability, such as a horse. You can select a different animal companion (GM’s discretion), but this ability doesn’t grant it the mount special ability.",
+        "desc": "Your devotion attracts a spirit of your deity's alignment. Once you choose an ally, your choice can't be changed.\n\nThe following are divine allies: \n\nBlade Ally: A spirit of battle dwells within your armaments. Select one weapon or handwraps of mighty blows when you make your daily preparations. In your hands, the item gains the effect of a property rune. For a champion following the tenets of good, choose disrupting, ghost touch, returning, or shifting. You also gain the weapon's critical specialization effect. \n\nShield Ally: A spirit of protection dwells within your shield. In your hands, the shield's Hardness increases by 2 and its HP and BT increase by half. \n\nSteed Ally: You gain a young animal companion as a mount (page 214). Ordinarily, your animal companion is one that has the mount special ability, such as a horse. You can select a different animal companion (GM's discretion), but this ability doesn't grant it the mount special ability.",
         "internalNote": "### Not yet implemented - Implemented via the Divine Ally feats ###"
     },
     {
         "name": "Divine Smite",
-        "desc": "Your champion’s reaction improves.",
+        "desc": "Your champion's reaction improves.",
         "internalNote": "### Not yet implemented - Implemented via the causes ###"
     },
     {
@@ -572,12 +572,12 @@
     },
     {
         "name": "Exalt",
-        "desc": "Your champion’s reaction exalts nearby allies, allowing them to benefit as well.",
+        "desc": "Your champion's reaction exalts nearby allies, allowing them to benefit as well.",
         "internalNote": "### Not yet implemented - Implemented via the causes ###"
     },
     {
         "name": "Hero's Defiance",
-        "desc": "You can defy fate and continue fighting as long as you have divine energy. You gain the hero’s defiance devotion spell.",
+        "desc": "You can defy fate and continue fighting as long as you have divine energy. You gain the hero's defiance devotion spell.",
         "internalNote": "Spells gained through class features are handled in the class object."
     },
     {
@@ -587,12 +587,12 @@
     },
     {
         "name": "Weapon Expertise",
-        "desc": "You’ve dedicated yourself to learning the intricacies of your weapons. Your proficiency ranks for simple weapons, martial weapons, and unarmed attacks increase to expert.",
+        "desc": "You've dedicated yourself to learning the intricacies of your weapons. Your proficiency ranks for simple weapons, martial weapons, and unarmed attacks increase to expert.",
         "internalNote": "Skill increases through class features are handled in the class object."
     },
     {
         "name": "Anathema (Cleric)",
-        "desc": "Acts fundamentally opposed to your deity’s alignment or ideals are anathema to your faith. Learning or casting spells, committing acts, and using items that are anathema to your deity remove you from your deity’s good graces.\n\nCasting spells with the evil trait is almost always anathema to good deities, and casting good spells is likewise anathema to evil deities; similarly, casting chaotic spells is anathema to lawful deities, and casting lawful spells is anathema to chaotic deities. A neutral cleric who worships a neutral deity isn’t limited this way, but their alignment might change over time if they frequently cast spells or use abilities with a certain alignment. Similarly, casting spells that are anathema to the tenets or goals of your faith could interfere with your connection to your deity. For example, casting a spell to create undead would be anathema to Pharasma, the goddess of death. For borderline cases, you and your GM determine which acts are anathema.\n\nIf you perform enough acts that are anathema to your deity, or if your alignment changes to one not allowed by your deity, you lose the magical abilities that come from your connection to your deity. The class features that you lose are determined by the GM, but they likely include your divine font and all divine spellcasting. These abilities can be regained only if you demonstrate your repentance by conducting an atone ritual.",
+        "desc": "Acts fundamentally opposed to your deity's alignment or ideals are anathema to your faith. Learning or casting spells, committing acts, and using items that are anathema to your deity remove you from your deity's good graces.\n\nCasting spells with the evil trait is almost always anathema to good deities, and casting good spells is likewise anathema to evil deities; similarly, casting chaotic spells is anathema to lawful deities, and casting lawful spells is anathema to chaotic deities. A neutral cleric who worships a neutral deity isn't limited this way, but their alignment might change over time if they frequently cast spells or use abilities with a certain alignment. Similarly, casting spells that are anathema to the tenets or goals of your faith could interfere with your connection to your deity. For example, casting a spell to create undead would be anathema to Pharasma, the goddess of death. For borderline cases, you and your GM determine which acts are anathema.\n\nIf you perform enough acts that are anathema to your deity, or if your alignment changes to one not allowed by your deity, you lose the magical abilities that come from your connection to your deity. The class features that you lose are determined by the GM, but they likely include your divine font and all divine spellcasting. These abilities can be regained only if you demonstrate your repentance by conducting an atone ritual.",
         "internalNote": "This feat is just information. Anathema are implemented via the deities."
     },
     {
@@ -602,12 +602,12 @@
     },
     {
         "name": "Divine Font",
-        "desc": "Through your deity’s blessing, you gain additional spells that channel either the life force called positive energy or its counterforce, negative energy. When you prepare your spells each day, you can prepare additional heal or harm spells, depending on your deity. The divine font spell your deity provides is listed in the Divine Font entry for your deity on pages 437–440; if both are listed, you can choose between heal or harm. Once you choose, you can’t change your choice short of an ethical shift or divine intervention.\n\nHealing Font: You gain additional spell slots each day at your highest level of cleric spell slots. You can prepare only heal spells (page 343) in these slots, and the number of slots is equal to 1 plus your Charisma modifier.\n\nHarmful Font: You gain additional spell slots each day at your highest level of cleric spell slots. You can prepare only harm spells (page 343) in these slots, and the number of slots is equal to 1 plus your Charisma modifier.",
+        "desc": "Through your deity's blessing, you gain additional spells that channel either the life force called positive energy or its counterforce, negative energy. When you prepare your spells each day, you can prepare additional heal or harm spells, depending on your deity. The divine font spell your deity provides is listed in the Divine Font entry for your deity on pages 437–440; if both are listed, you can choose between heal or harm. Once you choose, you can't change your choice short of an ethical shift or divine intervention.\n\nHealing Font: You gain additional spell slots each day at your highest level of cleric spell slots. You can prepare only heal spells (page 343) in these slots, and the number of slots is equal to 1 plus your Charisma modifier.\n\nHarmful Font: You gain additional spell slots each day at your highest level of cleric spell slots. You can prepare only harm spells (page 343) in these slots, and the number of slots is equal to 1 plus your Charisma modifier.",
         "internalNote": "### Not yet implemented - Implemented in the deities ###"
     },
     {
         "name": "Miraculous Spell",
-        "desc": "You’re exalted by your deity and gain truly incredible spells. You gain a single 10th-level spell slot and can prepare a spell in that slot using divine spellcasting. You don’t gain more 10th-level spells as you level up, though you can take the Maker of Miracles feat to gain a second slot.",
+        "desc": "You're exalted by your deity and gain truly incredible spells. You gain a single 10th-level spell slot and can prepare a spell in that slot using divine spellcasting. You don't gain more 10th-level spells as you level up, though you can take the Maker of Miracles feat to gain a second slot.",
         "internalNote": "Spell slots gained through class features are handled in the class object."
     },
     {
@@ -617,7 +617,7 @@
     },
     {
         "name": "Anathema (Druid)",
-        "desc": "As stewards of the natural order, druids find affronts to nature anathema. If you perform enough acts that are anathema to nature, you lose your magical abilities that come from the druid class, including your primal spellcasting and the benefits of your order. These abilities can be regained only if you demonstrate your repentance by conducting an atone ritual.\n\nThe following acts are anathema to all druids:\n\nUsing metal armor or shields.\nDespoiling natural places.\nTeaching the Druidic language to non-druids.\n\nEach druidic order also has additional anathema acts, detailed in the order’s entry.",
+        "desc": "As stewards of the natural order, druids find affronts to nature anathema. If you perform enough acts that are anathema to nature, you lose your magical abilities that come from the druid class, including your primal spellcasting and the benefits of your order. These abilities can be regained only if you demonstrate your repentance by conducting an atone ritual.\n\nThe following acts are anathema to all druids:\n\nUsing metal armor or shields.\nDespoiling natural places.\nTeaching the Druidic language to non-druids.\n\nEach druidic order also has additional anathema acts, detailed in the order's entry.",
         "anathema": [
             "Using metal armor or shields.",
             "Despoiling natural places.",
@@ -647,7 +647,7 @@
     },
     {
         "name": "Druidic Order",
-        "desc": "Upon becoming a druid, you align yourself with a druidic order, which grants you a class feat, an order spell (see below), and an additional trained skill tied to your order. While you’ll always be a member of your initial order, it’s not unheard of for a druid to request to study with other orders in search of greater understanding of the natural world, and PC druids are among the most likely to blend the powers of different orders.\n\nOrder spells are a type of focus spell. It costs 1 Focus Point to cast a focus spell, and you start with a focus pool of 1 Focus Point. You refill your focus pool during your daily preparations, and you can regain 1 Focus Point by spending 10 minutes using the Refocus activity to commune with local nature spirits or otherwise tend to the wilderness in a way befitting your order.\n\nFocus spells are automatically heightened to half your level rounded up, much like cantrips. Focus spells don’t require spell slots to cast, and you can’t cast them using spell slots. Selecting druid feats can give you more focus spells and increase the size of your focus pool, though your focus pool can never hold more than 3 points. The full rules for focus spells appear in Chapter 7 on page 300."
+        "desc": "Upon becoming a druid, you align yourself with a druidic order, which grants you a class feat, an order spell (see below), and an additional trained skill tied to your order. While you'll always be a member of your initial order, it's not unheard of for a druid to request to study with other orders in search of greater understanding of the natural world, and PC druids are among the most likely to blend the powers of different orders.\n\nOrder spells are a type of focus spell. It costs 1 Focus Point to cast a focus spell, and you start with a focus pool of 1 Focus Point. You refill your focus pool during your daily preparations, and you can regain 1 Focus Point by spending 10 minutes using the Refocus activity to commune with local nature spirits or otherwise tend to the wilderness in a way befitting your order.\n\nFocus spells are automatically heightened to half your level rounded up, much like cantrips. Focus spells don't require spell slots to cast, and you can't cast them using spell slots. Selecting druid feats can give you more focus spells and increase the size of your focus pool, though your focus pool can never hold more than 3 points. The full rules for focus spells appear in Chapter 7 on page 300."
     },
     {
         "name": "Expert Spellcaster (Druid)",
@@ -666,7 +666,7 @@
     },
     {
         "name": "Primal Hierophant",
-        "desc": "You command the most potent forces of primal magic and can cast a spell of truly incredible power. You gain a single 10th-level spell slot and can prepare a spell in that slot using primal spellcasting. Unlike with other spell slots, you don’t gain more 10th-level spells as you level up, though you can take the Hierophant’s Power feat to gain a second slot.",
+        "desc": "You command the most potent forces of primal magic and can cast a spell of truly incredible power. You gain a single 10th-level spell slot and can prepare a spell in that slot using primal spellcasting. Unlike with other spell slots, you don't gain more 10th-level spells as you level up, though you can take the Hierophant's Power feat to gain a second slot.",
         "internalNote": "Spell slots gained through class features are handled in the class object."
     },
     {
@@ -697,7 +697,7 @@
     },
     {
         "name": "Combat Flexibility",
-        "desc": "Through your experience in battle, you can prepare your tactics to suit different situations. When you make your daily preparations, you gain one fighter feat of 8th level or lower that you don’t already have. You can use that feat until your next daily preparations. You must meet all of the feat’s other prerequisites.",
+        "desc": "Through your experience in battle, you can prepare your tactics to suit different situations. When you make your daily preparations, you gain one fighter feat of 8th level or lower that you don't already have. You can use that feat until your next daily preparations. You must meet all of the feat's other prerequisites.",
         "internalNote": "Feat choices through class features are handled in the class object."
     },
     {
@@ -711,12 +711,12 @@
     },
     {
         "name": "Fighter Expertise",
-        "desc": "You’ve practiced your techniques to make them harder to resist. Your proficiency rank for your fighter class DC increases to expert.",
+        "desc": "You've practiced your techniques to make them harder to resist. Your proficiency rank for your fighter class DC increases to expert.",
         "internalNote": "Skill increases through class features are handled in the class object."
     },
     {
         "name": "Improved Flexibility",
-        "desc": "Your extensive experience gives you even greater ability to adapt to each day’s challenges. When you use combat flexibility, you can gain two fighter feats instead of one. While the first feat must still be 8th level or lower, the second feat can be up to 14th level, and you can use the first feat to meet the prerequisites of the second feat. You must meet all of the feats’ prerequisites.",
+        "desc": "Your extensive experience gives you even greater ability to adapt to each day's challenges. When you use combat flexibility, you can gain two fighter feats instead of one. While the first feat must still be 8th level or lower, the second feat can be up to 14th level, and you can use the first feat to meet the prerequisites of the second feat. You must meet all of the feats' prerequisites.",
         "internalNote": "Feat choices through class features are handled in the class object."
     },
     {
@@ -733,8 +733,8 @@
     },
     {
         "name": "Deny Advantage (Rogue)",
-        "desc": "As someone who takes advantage of others’ defenses, you are careful not to leave such openings yourself. You aren’t flat-footed to hidden, undetected, or flanking creatures of your level or lower, or creatures of your level or lower using surprise attack. However, they can still help their allies flank.",
-        "hint": "You aren’t flat-footed to hidden, undetected, or flanking creatures of your level or lower, or creatures of your level or lower using surprise attack. However, they can still help their allies flank.",
+        "desc": "As someone who takes advantage of others' defenses, you are careful not to leave such openings yourself. You aren't flat-footed to hidden, undetected, or flanking creatures of your level or lower, or creatures of your level or lower using surprise attack. However, they can still help their allies flank.",
+        "hint": "You aren't flat-footed to hidden, undetected, or flanking creatures of your level or lower, or creatures of your level or lower using surprise attack. However, they can still help their allies flank.",
         "showon": "AC"
     },
     {
@@ -753,7 +753,7 @@
     },
     {
         "name": "Master Tricks",
-        "desc": "You’ve mastered a rogue’s fighting moves. Your proficiency ranks increase to master for all simple weapons and unarmed attacks plus the rapier, sap, shortbow, and shortsword.",
+        "desc": "You've mastered a rogue's fighting moves. Your proficiency ranks increase to master for all simple weapons and unarmed attacks plus the rapier, sap, shortbow, and shortsword.",
         "internalNote": "Skill increases through class features are handled in the class object."
     },
     {
@@ -770,19 +770,19 @@
     },
     {
         "name": "Sneak Attack",
-        "desc": "When your enemy can’t properly defend itself, you take advantage to deal extra damage. If you Strike a creature that has the flat-footed condition with an agile or finesse melee weapon, an agile or finesse unarmed attack, or a ranged weapon attack, you deal an extra 1d6 precision damage. For a ranged attack with a thrown melee weapon, that weapon must also be agile or finesse.\n\nAs your rogue level increases, so does the number of damage dice for your sneak attack. Increase the number of dice by one at 5th, 11th, and 17th levels.",
+        "desc": "When your enemy can't properly defend itself, you take advantage to deal extra damage. If you Strike a creature that has the flat-footed condition with an agile or finesse melee weapon, an agile or finesse unarmed attack, or a ranged weapon attack, you deal an extra 1d6 precision damage. For a ranged attack with a thrown melee weapon, that weapon must also be agile or finesse.\n\nAs your rogue level increases, so does the number of damage dice for your sneak attack. Increase the number of dice by one at 5th, 11th, and 17th levels.",
         "hint": "If you Strike a creature that has the flat-footed condition with an agile or finesse melee weapon, an agile or finesse unarmed attack, or a ranged weapon attack, you deal an extra 1d6 precision damage. Increase the number of dice by one at 5th, 11th, and 17th levels. For a ranged attack with a thrown melee weapon, that weapon must also be agile or finesse.",
         "showon": "Attacks"
     },
     {
         "name": "Surprise Attack",
-        "desc": "You spring into combat faster than foes can react. On the first round of combat, if you roll Deception or Stealth for initiative, creatures that haven’t acted are flat-footed to you.",
-        "hint": "On the first round of combat, if you roll Deception or Stealth for initiative, creatures that haven’t acted are flat-footed to you.",
+        "desc": "You spring into combat faster than foes can react. On the first round of combat, if you roll Deception or Stealth for initiative, creatures that haven't acted are flat-footed to you.",
+        "hint": "On the first round of combat, if you roll Deception or Stealth for initiative, creatures that haven't acted are flat-footed to you.",
         "showon": "Deception, Stealth"
     },
     {
         "name": "Weapon Tricks",
-        "desc": "You have become thoroughly familiar with the tools of your trade. You gain expert proficiency in simple weapons and unarmed attacks, as well as the rapier, sap, shortbow, and shortsword. When you critically succeed at an attack roll against a flat-footed creature while using an agile or finesse simple weapon or any of the listed weapons, you apply the critical specialization effect for the weapon you’re wielding.",
+        "desc": "You have become thoroughly familiar with the tools of your trade. You gain expert proficiency in simple weapons and unarmed attacks, as well as the rapier, sap, shortbow, and shortsword. When you critically succeed at an attack roll against a flat-footed creature while using an agile or finesse simple weapon or any of the listed weapons, you apply the critical specialization effect for the weapon you're wielding.",
         "internalNote": "Skill increases through class features are handled in the class object.",
         "gainSpecialization": [
             {
@@ -802,27 +802,27 @@
     },
     {
         "name": "Bloodline Paragon",
-        "desc": "You have perfected the magic in your bloodline. Add two common 10th-level spells of your tradition to your repertoire. You gain a single 10th-level spell slot you can use to cast these spells, using sorcerer spellcasting. Unlike other spell slots, you don’t gain more 10th-level spells as you level up, and they can’t be used for abilities that let you cast spells without expending spell slots or abilities that give you more spell slots. You can take the Bloodline Perfection sorcerer feat to gain a second slot.",
+        "desc": "You have perfected the magic in your bloodline. Add two common 10th-level spells of your tradition to your repertoire. You gain a single 10th-level spell slot you can use to cast these spells, using sorcerer spellcasting. Unlike other spell slots, you don't gain more 10th-level spells as you level up, and they can't be used for abilities that let you cast spells without expending spell slots or abilities that give you more spell slots. You can take the Bloodline Perfection sorcerer feat to gain a second slot.",
         "internalNote": "Spell slots gained through class features are handled in the class object."
     },
     {
         "name": "Expert Spellcaster (Sorcerer)",
-        "desc": "Your inherent magic responds easily and powerfully to your command. Your proficiency ranks for spell attack rolls and spell DCs for spells of your bloodline’s tradition increase to expert.",
+        "desc": "Your inherent magic responds easily and powerfully to your command. Your proficiency ranks for spell attack rolls and spell DCs for spells of your bloodline's tradition increase to expert.",
         "internalNote": "Skill increases through class features are handled in the class object."
     },
     {
         "name": "Legendary Spellcaster (Sorcerer)",
-        "desc": "You demonstrate prodigious talent for spellcasting. Your proficiency ranks for spell attack rolls and spell DCs for spells of your bloodline’s tradition increase to legendary.",
+        "desc": "You demonstrate prodigious talent for spellcasting. Your proficiency ranks for spell attack rolls and spell DCs for spells of your bloodline's tradition increase to legendary.",
         "internalNote": "Skill increases through class features are handled in the class object."
     },
     {
         "name": "Master Spellcaster (Sorcerer)",
-        "desc": "You have achieved mastery over the magic in your blood. Your proficiency ranks for spell attack rolls and spell DCs for spells of your bloodline’s tradition increase to master.",
+        "desc": "You have achieved mastery over the magic in your blood. Your proficiency ranks for spell attack rolls and spell DCs for spells of your bloodline's tradition increase to master.",
         "internalNote": "Skill increases through class features are handled in the class object."
     },
     {
         "name": "Signature Spells (Sorcerer)",
-        "desc": "You’ve learned to cast some of your spells more flexibly. For each spell level you have access to, choose one spell of that level to be a signature spell. You don’t need to learn heightened versions of signature spells separately; instead, you can heighten these spells freely. If you’ve learned a signature spell at a higher level than its minimum, you can also cast all its lower-level versions without learning those separately. If you swap out a signature spell, you can choose a replacement signature spell of the same spell level at which you learned the previous spell. You can also retrain specifically to change a signature spell to a different spell of that level without swapping any spells; this takes as much time as retraining a spell normally does.",
+        "desc": "You've learned to cast some of your spells more flexibly. For each spell level you have access to, choose one spell of that level to be a signature spell. You don't need to learn heightened versions of signature spells separately; instead, you can heighten these spells freely. If you've learned a signature spell at a higher level than its minimum, you can also cast all its lower-level versions without learning those separately. If you swap out a signature spell, you can choose a replacement signature spell of the same spell level at which you learned the previous spell. You can also retrain specifically to change a signature spell to a different spell of that level without swapping any spells; this takes as much time as retraining a spell normally does.",
         "allowSignatureSpells": true
     },
     {
@@ -831,7 +831,7 @@
     },
     {
         "name": "Weapon Specialization (Sorcerer)",
-        "desc": "You’ve learned to inflict grave wounds with your practiced weapons. You deal 2 additional damage with weapons and unarmed attacks in which you are an expert. This damage increases to 3 if you’re a master, and 4 if you’re legendary.",
+        "desc": "You've learned to inflict grave wounds with your practiced weapons. You deal 2 additional damage with weapons and unarmed attacks in which you are an expert. This damage increases to 3 if you're a master, and 4 if you're legendary.",
         "internalNote": "The effect is hardcoded."
     },
     {
@@ -845,7 +845,7 @@
     },
     {
         "name": "Archwizard's Spellcraft",
-        "desc": "You command the most potent arcane magic and can cast a spell of truly incredible power. You gain a single 10th-level spell slot and can prepare a spell in that slot using arcane spellcasting. Unlike with other spell slots, you don’t gain more 10th-level spells as you level up, though you can take the Archwizard’s Might feat to gain a second slot.",
+        "desc": "You command the most potent arcane magic and can cast a spell of truly incredible power. You gain a single 10th-level spell slot and can prepare a spell in that slot using arcane spellcasting. Unlike with other spell slots, you don't gain more 10th-level spells as you level up, though you can take the Archwizard's Might feat to gain a second slot.",
         "internalNote": "Spell slots gained through class features are handled in the class object."
     },
     {
@@ -865,7 +865,7 @@
     },
     {
         "name": "Wizard Weapon Expertise",
-        "desc": "Through a combination of magic and training, you’ve learned how to wield wizard weapons more effectively. You gain expert proficiency in the club, crossbow, dagger, heavy crossbow, staff, and unarmed attacks.",
+        "desc": "Through a combination of magic and training, you've learned how to wield wizard weapons more effectively. You gain expert proficiency in the club, crossbow, dagger, heavy crossbow, staff, and unarmed attacks.",
         "internalNote": "Skill increases through class features are handled in the class object."
     }
 ]
