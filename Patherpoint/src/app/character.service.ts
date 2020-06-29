@@ -335,6 +335,9 @@ export class CharacterService {
                 break;
         }
         this.set_Changed("top-bar");
+        if (this.toChange.length) {
+            this.process_ToChange();
+        }
     }
 
     get_CharacterMenuState() {
@@ -418,10 +421,14 @@ export class CharacterService {
         return this.get_Character().class.familiar;
     }
 
-    get_Creatures() {
+    get_Creatures(companionAvailable: boolean = undefined, familiarAvailable: boolean = undefined) {
         if (!this.still_loading()) {
-            let companionAvailable = this.get_CompanionAvailable();
-            let familiarAvailable = this.get_FamiliarAvailable();
+            if (companionAvailable == undefined) {
+                companionAvailable = this.get_CompanionAvailable() != 0;
+            }
+            if (familiarAvailable == undefined) {
+                familiarAvailable = this.get_FamiliarAvailable() != 0;
+            }
             if (companionAvailable && familiarAvailable) {
                 return ([] as (Character|AnimalCompanion|Familiar)[]).concat(this.get_Character()).concat(this.get_Companion()).concat(this.get_Familiar());
             } else if (companionAvailable) {

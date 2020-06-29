@@ -16,9 +16,7 @@ import { Equipment } from '../Equipment';
 import { Potion } from '../Potion';
 import { Ammunition } from '../Ammunition';
 import { Scroll } from '../Scroll';
-import { VirtualTimeScheduler } from 'rxjs';
 import { SpellCasting } from '../SpellCasting';
-import { InventoryComponent } from '../inventory/inventory.component';
 import { ItemCollection } from '../ItemCollection';
 
 @Component({
@@ -242,7 +240,18 @@ export class ItemsComponent implements OnInit {
     }
 
     get_NewItemFilter() {
-        return [{name:'', key:''}].concat(this.get_Items().names.filter(name => name.key != "weaponrunes" && name.key != "armorrunes"));
+        return [{name:'', key:''}].concat(this.get_Items().names.filter(name => 
+            ![
+                "weaponrunes",
+                "alchemicalbombs",
+                "armorrunes",
+                "alchemicaltools",
+                "scrolls",
+                "alchemicalpoisons",
+                "oils",
+                "talismans",
+                "snares"
+            ].includes(name.key)));
     }
     
     initialize_NewItem() {

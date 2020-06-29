@@ -98,6 +98,7 @@
                 {{parseInt(effect.value) ? effect.value : ''}}{{effect.setValue ? "= "+effect.setValue : ''}}
             </strong>
             {{(effect.type != "untyped") ? effect.type+' ' : ''}}{{(effect.toggle || effect.setValue) ? '' : (effect.penalty ? 'penalty' : 'bonus')}}
+            {{effect.duration ? "(" + get_Duration(effect.duration) + ")" : ''}}
         </span>
     </div>
     <button class="list-item fullsize-only center-aligned"

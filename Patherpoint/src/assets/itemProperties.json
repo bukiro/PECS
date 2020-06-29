@@ -462,15 +462,6 @@
     },
     {
         "parent": "effects",
-        "key": "value",
-        "priority": "1",
-        "group": "",
-        "name": "Effect value",
-        "desc": "This is the number by which the attribute will change. You can use simple calculations and variables like: Level, Modifier('Strength'), Skill_Level('Acrobatics').",
-        "examples": "effects value"
-    },
-    {
-        "parent": "effects",
         "key": "setValue",
         "priority": "1",
         "group": "",
@@ -480,8 +471,26 @@
     },
     {
         "parent": "effects",
-        "key": "type",
+        "key": "value",
         "priority": "2",
+        "group": "",
+        "name": "Effect value",
+        "desc": "This is the number by which the attribute will change. You can use simple calculations and variables like: Level, Modifier('Strength'), Skill_Level('Acrobatics').",
+        "examples": "effects value"
+    },
+    {
+        "parent": "effects",
+        "key": "toggle",
+        "priority": "3",
+        "group": "",
+        "name": "On/Off effect",
+        "desc": "If this is set, the effect doesn't need a value, but just sets a certain state. Some effects like 'Ignore Armor Penalty' use this.",
+        "type": "checkbox"
+    },
+    {
+        "parent": "effects",
+        "key": "type",
+        "priority": "4",
         "group": "",
         "name": "Effect type",
         "desc": "Items usually grant 'item' type bonuses. Bonuses and penalties of the same type do not stack, except for untyped effects. Keep the field blank to have an untyped bonus.",

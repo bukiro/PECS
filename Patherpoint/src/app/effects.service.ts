@@ -12,6 +12,9 @@ import { AbilitiesService } from './abilities.service';
 import { Creature } from './Creature';
 import { Feat } from './Feat';
 import { createUrlResolverWithoutPackagePrefix } from '@angular/compiler';
+import { ItemProperty } from './ItemProperty';
+import { Observable } from 'rxjs';
+import { HttpClient } from '@angular/common/http';
 
 @Injectable({
     providedIn: 'root'
@@ -22,8 +25,12 @@ export class EffectsService {
     //The bonus types are hardcoded. If Paizo ever adds a new bonus type, this is where we need to change them.
     private bonusTypes: string[] = ["item", "circumstance", "status", "proficiency", "untyped"];
     private lastGenerated = Date.now()
+    private effectProperties: ItemProperty[];
+    private loader_EffectProperties = [];
+    private loading_EffectProperties: Boolean = false;
 
     constructor(
+        private http: HttpClient,
         private traitsService: TraitsService,
         private abilitiesService: AbilitiesService
     ) { }
@@ -85,6 +92,10 @@ export class EffectsService {
         return this.effects[index].penalties.filter(effect => effect.creature == creature.id && effect.target.toLowerCase() == ObjectName.toLowerCase() && effect.apply && !effect.hide).length > 0;
     }
 
+    get_EffectProperties() {
+        return this.effectProperties;
+    }
+
     get_TestSpeed(name: string) {
         return (new Speed(name));
     }
@@ -96,6 +107,9 @@ export class EffectsService {
         //Return an array of Effect objects
         let objectEffects: Effect[] = [];
         let name = (object.get_Name) ? object.get_Name() : object.name;
+        if (object === creature) {
+            name = "Custom effect"
+        }
         let Value = object.value;
         let Heightened = object.heightened;
         let Choice = object.choice;
@@ -228,7 +242,7 @@ export class EffectsService {
             }
             //Effects that have neither a value nor a toggle get ignored.
             if (toggle || setValue || parseInt(value) != 0) {
-                objectEffects.push(new Effect(creature.id, type, effect.affected, value, setValue, toggle, name, penalty, undefined, hide));
+                objectEffects.push(new Effect(creature.id, type, effect.affected, value, setValue, toggle, name, penalty, undefined, hide, effect.duration));
             }
         });
         return objectEffects;
@@ -245,6 +259,9 @@ export class EffectsService {
         let familiar: Familiar = (creature.type == "Familiar") ? creature : null;
 
         //Create simple effects from equipped items, feats, conditions etc.
+        //Creature Effects
+        simpleEffects = simpleEffects.concat(this.get_SimpleEffects(creature, characterService, creature));
+        
         //Character and Companion Items
         if (creature.type != "Familiar") {
             characterService.get_Inventories(creature)[0].allEquipment().filter(item => item.invested && item.effects?.length && item.type != "armorrunes").forEach(item => {
@@ -563,10 +580,31 @@ export class EffectsService {
         })
     }
 
+    tick_CustomEffects(creature: Character|AnimalCompanion|Familiar, characterService: CharacterService, turns: number) {
+        //Tick down all custom effects and set them to remove when they expire.
+        creature.effects.filter(gain => gain.duration > 0).forEach(gain => {
+            //Tick down all custom effects and set them to remove when they expire.
+            gain.duration -= turns;
+            if (gain.duration <= 0) {
+                gain.type = "DELETE";
+            }
+            characterService.set_ToChange(creature.type, "effects");
+        });
+        //Remove all effects that were marked for removal.
+        creature.effects = creature.effects.filter(gain => gain.type != "DELETE"); 
+    }
+
     initialize(characterService: CharacterService) {
         if (characterService.still_loading()) {
             setTimeout(() => this.initialize(characterService), 500)
         } else {
+            this.effectProperties = [];
+            this.loading_EffectProperties = true;
+            this.load_EffectProperties()
+                .subscribe((results: String[]) => {
+                    this.loader_EffectProperties = results;
+                    this.finish_EffectProperties()
+                });
             characterService.get_Changed()
                 .subscribe((target) => {
                     if (["effects", "all", "Character", "Companion", "Familiar"].includes(target)) {
@@ -594,6 +632,18 @@ export class EffectsService {
                 });
             return true;
         }
+    }
+
+    load_EffectProperties(): Observable<string[]> {
+        return this.http.get<string[]>('/assets/effectProperties.json');
+    }
+
+    finish_EffectProperties() {
+        if (this.loader_EffectProperties) {
+            this.effectProperties = this.loader_EffectProperties.map(element => Object.assign(new ItemProperty(), element));
+            this.loader_EffectProperties = [];
+        }
+        if (this.loading_EffectProperties) { this.loading_EffectProperties = false; }
     }
 
 }

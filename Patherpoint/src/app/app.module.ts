@@ -53,6 +53,7 @@ import { ItemTalismansComponent } from './item/itemTalismans/itemTalismans.compo
 import { CraftingComponent } from './crafting/crafting.component';
 import { ItemMaterialComponent } from './item/itemMaterial/itemMaterial.component';
 import { ItemPoisonsComponent } from './item/itemPoisons/itemPoisons.component';
+import { CustomEffectPropertyComponent } from './conditions/customEffectProperty/customEffectProperty.component';
 
 @NgModule({
    declarations: [
@@ -101,7 +102,8 @@ import { ItemPoisonsComponent } from './item/itemPoisons/itemPoisons.component';
       ItemTalismansComponent,
       CraftingComponent,
       ItemMaterialComponent,
-      ItemPoisonsComponent
+      ItemPoisonsComponent,
+      CustomEffectPropertyComponent
    ],
    imports: [
       BrowserModule,

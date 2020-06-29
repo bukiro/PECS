@@ -2590,7 +2590,7 @@
         "effects": [
             {
                 "affected": "Resting HP Gain",
-                "value": "#NAME?"
+                "value": "+Level"
             }
         ]
     },

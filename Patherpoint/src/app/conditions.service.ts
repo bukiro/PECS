@@ -10,6 +10,7 @@ import { Character } from './Character';
 import { AnimalCompanion } from './AnimalCompanion';
 import { Familiar } from './Familiar';
 import { ActivityGain } from './ActivityGain';
+import { Creature } from './Creature';
 
 @Injectable({
     providedIn: 'root'

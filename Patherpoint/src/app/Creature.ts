@@ -4,6 +4,7 @@ import { Speed } from './Speed';
 import { Bulk } from './Bulk';
 import { ConditionGain } from './ConditionGain';
 import { v1 as uuidv1 } from 'uuid';
+import { EffectGain } from './EffectGain';
 
 export class Creature {
     public name: string = "";
@@ -12,6 +13,7 @@ export class Creature {
     public level: number = 1;
     public health: Health = new Health();
     public conditions: ConditionGain[] = [];
+    public effects: EffectGain[] = [];
     public inventories: ItemCollection[] = [new ItemCollection()];
     public speeds: Speed[] = [new Speed("Speed"), new Speed("Land Speed")];
     public bulk: Bulk = new Bulk();

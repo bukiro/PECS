@@ -119,6 +119,7 @@ export class TimeService {
                 this.conditionsService.tick_Conditions(creature, turns, this.yourTurn);
                 characterService.set_ToChange(creature.type, "effects")
             }
+            this.effectsService.tick_CustomEffects(creature, characterService, turns);
             this.activitiesService.tick_Activities(creature, characterService, timeService, itemsService, spellsService, turns)
             if (creature.type != "Familiar") {
                 itemsService.tick_Items(creature, characterService, turns);

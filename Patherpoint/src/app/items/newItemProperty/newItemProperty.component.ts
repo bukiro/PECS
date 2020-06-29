@@ -514,7 +514,7 @@ export class NewItemPropertyComponent implements OnInit {
                 examples.push(...this.get_Items().allEquipment().concat(...this.get_Inventories().map(inventory => inventory.allEquipment())).filter(item => item.showon.length).map((item: Equipment) => item.showon ));
                 break;
             case "effects type":
-                examples = ["", "item", "circumstance", "status", "proficiency", "untyped"];
+                examples = ["", "item", "circumstance", "status", "proficiency"];
                 break;
             case "gaincondition name":
                 examples.push(...this.characterService.get_Conditions().map((condition: Condition) => condition.name ));

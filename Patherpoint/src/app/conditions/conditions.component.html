@@ -12,7 +12,7 @@
         </div>
         <h3>Duration: {{get_Duration()}}</h3>
         <div class="list-item">
-            <div class="row">
+            <div class="row" style="white-space:nowrap;">
                 <button class="center-aligned" (click)="add_Duration(duration)"
                     *ngFor="let duration of [-1, 10, 50, 100, 500, 1000, 6000, 48000, 144000]; trackBy:trackByIndex;">{{get_Duration(duration)}}</button>
             </div>
@@ -22,9 +22,9 @@
                 <input type="radio" [(ngModel)]="endOn" [value]="0">Turn End
             </div>
         </div>
-        <h3>Add Condition</h3>
         <ng-container *ngFor="let companionAvailable of [get_CompanionAvailable()]">
             <ng-container *ngFor="let familiarAvailable of [get_FamiliarAvailable()]">
+                <h3>Add Condition</h3>
                 <ng-container
                 *ngFor="let set of ['Generic','Afflictions','Alchemical Elixirs','Worn Items','Alchemical Tools','Ammunition','Spells','Activities']; trackBy:trackByIndex;">
                     <ng-container *ngFor="let visibleConditions of [get_VisibleConditionsSet(set)]; trackBy:trackByIndex;">
@@ -124,6 +124,17 @@
                                     </div>
                                 </div>
                             </div>
+                        </ng-container>
+                    </ng-container>
+                </ng-container>
+                <h3>Custom Effects</h3>
+                <ng-container *ngFor="let creature of get_Creatures(companionAvailable, familiarAvailable); trackBy:trackByIndex">
+                    <button class="list-item" (click)="toggleList('customEffects'+creature.type); update_Effects(creature.type)">
+                        <h3>{{creature.type}}</h3>
+                    </button>
+                    <ng-container *ngIf="get_ShowList()=='customEffects'+creature.type">
+                        <ng-container *ngFor="let property of [get_EffectsProperty()] trackBy:trackByIndex;">
+                            <app-customEffectProperty [propertyData]="property" [propertyKey]="property.key" [creature]="creature" [duration]="duration"></app-customEffectProperty>
                         </ng-container>
                     </ng-container>
                 </ng-container>

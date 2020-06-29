@@ -9,6 +9,7 @@ import { Character } from '../Character';
 import { AnimalCompanion } from '../AnimalCompanion';
 import { Familiar } from '../Familiar';
 import { SortByPipe } from '../sortBy.pipe';
+import { EffectsService } from '../effects.service';
 
 @Component({
     selector: 'app-conditions',
@@ -32,6 +33,7 @@ export class ConditionsComponent implements OnInit {
         private traitsService: TraitsService,
         private conditionsService: ConditionsService,
         private timeService: TimeService,
+        private effectsService: EffectsService,
         private sortByPipe: SortByPipe
     ) { }
 
@@ -116,6 +118,10 @@ export class ConditionsComponent implements OnInit {
         return this.characterService.get_Familiar();
     }
 
+    get_Creatures(companionAvailable: boolean = undefined, familiarAvailable: boolean = undefined) {
+        return this.characterService.get_Creatures(companionAvailable, familiarAvailable);
+    }
+
     get_VisibleConditionsSet(type: string) {
         let typeKey = "";
         switch (type) {
@@ -173,36 +179,7 @@ export class ConditionsComponent implements OnInit {
     }
 
     get_Duration(duration: number = this.duration) {
-        if (duration == -1) {
-            return "Permanent";
-        } else {
-            let durationNum = duration;
-            let returnString: string = ""
-            if (durationNum / 144000 >= 1) {
-                returnString += Math.floor(durationNum / 144000)+" Day"
-                if (durationNum / 144000 >= 2) { returnString += "s" }
-                durationNum %= 144000;
-            }
-            if (durationNum / 6000 >= 1) {
-                returnString += " "+Math.floor(durationNum / 6000)+" Hour"
-                if (durationNum / 6000 >= 2) { returnString += "s" }
-                durationNum %= 6000;
-            }
-            if (durationNum / 100 >= 1) {
-                returnString += " "+Math.floor(durationNum / 100)+" Minute"
-                if (durationNum / 100 >= 2) { returnString += "s" }
-                durationNum %= 100;
-            }
-            if (durationNum >= 10) {
-                returnString += " "+Math.floor(durationNum / 10)+" Turn"
-                if (durationNum / 10 > 1) { returnString += "s" }
-                durationNum %= 10;
-            }
-            if (returnString.substr(0,1) == " ") {
-                returnString = returnString.substr(1);
-            }
-            return returnString;
-        }
+        return this.timeService.get_Duration(duration, false);
     }
 
     add_Condition(creature: Character|AnimalCompanion|Familiar, condition: Condition, duration: number = this.duration) {
@@ -222,6 +199,15 @@ export class ConditionsComponent implements OnInit {
         }
         newGain.source = "Manual";
         this.characterService.add_Condition(creature, newGain, true);
+    }
+
+    get_EffectsProperty() {
+        return this.effectsService.get_EffectProperties().find(property => !property.parent && property.key == "effects");
+    }
+
+    update_Effects(creature: string) {
+        this.characterService.set_ToChange(creature, "effects");
+        this.characterService.process_ToChange();
     }
 
     finish_Loading() {
