@@ -5,8 +5,8 @@
         title="{{get_Traits(trait)[0].description}}">{{trait}}</cite>
 </div>
 <div class="row left-aligned tags">
-    <app-tags [creature]="creature" [objectName]="item.name" [showTraits]=true [showFeats]=true
-        [showItems]=true [showActivities]=true [showConditions]=true [showEffects]=true></app-tags>
+    <app-tags [creature]="creature" [objectName]="item.name" [showTraits]=true [showFeats]=true [showItems]=true
+        [showActivities]=true [showConditions]=true [showEffects]=true></app-tags>
 </div>
 <div class="row left-aligned">
     <span *ngIf="item.price">
@@ -21,7 +21,7 @@
         <strong>AC Bonus</strong>
         <span
             [ngClass]="{'penalty':item.get_ACBonus && item.get_ACBonus() > item.acbonus, 'bonus':item.get_ACBonus && item.get_ACBonus() < item.acbonus}">
-            &nbsp;{{item.get_ACBonus ? item.get_ACBonus() : item.acbonus}}{{item.coverbonus ? " (" + (item.acbonus+item.coverbonus) + ")" : ""}}&nbsp;
+            {{item.get_ACBonus ? item.get_ACBonus() : item.acbonus}}{{item.coverbonus ? " (" + (item.acbonus+item.coverbonus) + ")" : ""}}&nbsp;
         </span>
     </span>
     <span *ngIf="(item.type == 'armors' && (item.get_DexCap ? item.get_DexCap() != -1 : item.dexcap != -1))">
@@ -47,6 +47,10 @@
         <span [ngClass]="{'penalty':item.get_Strength() > item.strength, 'bonus':item.get_Strength() < item.strength}">
             {{(item.get_Strength ? item.get_Strength() : item.strength)}}&nbsp;
         </span>
+    </span>
+    <span *ngIf="item.usage">
+        <strong>Usage</strong>
+        {{item.usage}}&nbsp;
     </span>
     <span *ngIf="item.storeBulk">
         <strong>Bulk</strong>
@@ -86,10 +90,19 @@
     </span>
 </div>
 <div class="row left-aligned">
-    <span *ngIf="item.usage">
-        <strong>Usage</strong>
-        {{item.usage}}&nbsp;
-    </span>
+    <p *ngIf="(item.activationType || (item.actions && item.actions != ' ')) && (!item.trigger && !item.requirements)">
+        <strong>Activate</strong>
+        <app-actionIcons [actionString]="item.actions">
+        </app-actionIcons>{{item.activationType}}
+        <span *ngIf="item.trigger">
+            <strong>Trigger</strong>
+            {{item.trigger}}
+        </span>
+        <span *ngIf="item.requirements">
+            <strong>Requirements</strong>
+            {{item.requirements}}
+        </span>
+    </p>
 </div>
 <div class="row left-aligned">
     <span *ngIf="item.ammunition">
@@ -98,6 +111,7 @@
     </span>
 </div>
 <div class="row left-aligned">
+    <hr class="row">
     <ng-container *ngFor="let desc of item.desc.split('\n\n'); trackBy:trackByIndex;">
         <p *ngIf="desc.split('\n').length == 1">{{desc}}</p>
         <ul *ngIf="desc.split('\n').length > 1">
@@ -127,7 +141,7 @@
             </span>
         </ng-container>
     </p>
-    <p *ngIf="item.activationType || (item.actions && item.actions != ' ')">
+    <p *ngIf="(item.activationType || (item.actions && item.actions != ' ')) && (item.trigger || item.requirements)">
         <strong>Activate</strong>
         <app-actionIcons [actionString]="item.actions">
         </app-actionIcons>{{item.activationType}}

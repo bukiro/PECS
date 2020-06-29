@@ -199,11 +199,10 @@ app-familiar .character-only {
 h3.box-header {
     color: #465A8C;
     color: rgb(var(--accent));
-    text-shadow: 0 0 3px invert(rgb(var(--accent))), 0 0 3px invert(rgb(var(--accent))), 0 0 3px invert(rgb(var(--accent))), 0 0 3px invert(rgb(var(--accent))), 0 0 3px invert(rgb(var(--accent)));
 }
 
 .darkmode h3.box-header {
-    text-shadow: 0 0 3px var(--textcolor), 0 0 3px var(--textcolor), 0 0 3px var(--textcolor), 0 0 3px var(--textcolor), 0 0 3px var(--textcolor);
+    text-shadow: 0 0 5px var(--textcolor), 0 0 5px var(--textcolor), 0 0 5px var(--textcolor), 0 0 5px var(--textcolor), 0 0 5px var(--textcolor);
 }
 
 .darkmode h3.box-header span {
@@ -392,6 +391,7 @@ button {
     color: white;
     border: none;
     font-weight: bold;
+    position: relative;
 }
 
 .darkmode .button, .darkmode button {
@@ -442,6 +442,13 @@ button:hover {
 button:disabled {
     opacity: 0.5;
     cursor: auto;
+}
+
+.ripple {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
 }
 
 /* Fancy Button */
@@ -714,12 +721,12 @@ button.list-item {
 .list-item.sublist :not(.list-item) > strong,
 .list-item.sublist :not(.list-item) > span > strong {
     color: rgb(var(--accent));
-    text-shadow: 0 0 3px white, 0 0 3px white, 0 0 3px white, 0 0 3px white, 0 0 3px white;
+    text-shadow: 0 0 2px white, 0 0 2px white, 0 0 2px white, 0 0 2px white, 0 0 2px white;
 }
 
 .darkmode .list-item.sublist :not(.list-item) > strong,
 .darkmode .list-item.sublist :not(.list-item) > span > strong {
-    text-shadow: 0 0 3px var(--textcolor), 0 0 3px var(--textcolor), 0 0 3px var(--textcolor), 0 0 3px var(--textcolor), 0 0 3px var(--textcolor);
+    text-shadow: 0 0 2px var(--textcolor), 0 0 2px var(--textcolor), 0 0 2px var(--textcolor), 0 0 2px var(--textcolor), 0 0 2px var(--textcolor);
 }
 
 .list-item.sublist.fancy-list {
@@ -882,8 +889,12 @@ var:not(:empty),
 .variable {
     font-weight: bold;
     font-style: normal;
-    color: var(--textcolor);
-    text-shadow: 0 0 3px rgb(var(--accent)), 0 0 3px rgb(var(--accent)), 0 0 3px rgb(var(--accent)), 0 0 3px rgb(var(--accent)), 0 0 3px rgb(var(--accent));
+    color: white;
+    text-shadow: 0 0 2px rgb(var(--accent)), 0 0 2px rgb(var(--accent)), 0 0 2px rgb(var(--accent)), 0 0 2px rgb(var(--accent)), 0 0 2px rgb(var(--accent));
+}
+
+.darkmode var:not(:empty),
+.darkmode .variable {
     color: var(--textcolor);
 }
 
@@ -1067,6 +1078,58 @@ select option {
     25% {
         color: transparent;
     }
+}
+
+@-webkit-keyframes ripple {
+    0% {
+      width: 0;
+      height: 0;
+      opacity: .5;
+    }
+    100% {
+      width: 150px;
+      height: 150px;
+      opacity: 0;
+    }
+  }
+   
+  @keyframes ripple {
+    0% {
+      width: 0;
+      height: 0;
+      opacity: .5;
+    }
+    100% {
+      width: 150px;
+      height: 150px;
+      opacity: 0;
+    }
+  }
+
+button > .ripple:before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    -webkit-transform: translate(-50%, -50%);
+            transform: translate(-50%, -50%);
+    border-radius: 50%;
+    background-color: currentColor;
+    visibility: hidden;
+    z-index: 2;
+}
+
+button:not(:active) > .ripple:before {
+    -webkit-animation: ripple 0.4s cubic-bezier(0, 0, 0.2, 1);
+            animation: ripple 0.4s cubic-bezier(0, 0, 0.2, 1);
+    -webkit-transition: visibility .4s step-end;
+    transition: visibility .4s step-end;
+}
+
+button:active > .ripple:before {
+    visibility: visible;
 }
 
 .loading {

@@ -73,7 +73,6 @@ The very latest in Assistive Technologies for Dungeon Master (ATDM)
 Active to-do
 
 Next steps:
-- Add all poisons
 - Add custom conditions with effects
 - Add button press effect
 - Implement Bard
