@@ -4351,7 +4351,7 @@
     },
     {
         "name": "Arsenic (Onset)",
-        "desc": "This toxin is a compound of arsenic and other substances. You can't reduce your sickened condition while affected.\n\n<strong>Saving Throw</strong> DC 18 Fortitude\n\n<var><strong>Onset</strong> 10 minutes</var>\n<strong>Maximum Duration</strong> 5 minutes\n<strong>Stage 1</strong> 1d4 poison damage and sickened 1 (1 minute)\n<strong>Stage 2</strong> 1d6 poison damage and sickened 2 (1 minute)\n<strong>Stage 3</strong> 2d6 poison damage and sickened 3 (1 minute)",
+        "desc": "This toxin is a compound of arsenic and other substances. You can't reduce your sickened condition while affected.\n\n<strong>Saving Throw</strong> DC 18 Fortitude\n<var><strong>Onset</strong> 10 minutes</var>\n<strong>Maximum Duration</strong> 5 minutes\n<strong>Stage 1</strong> 1d4 poison damage and sickened 1 (1 minute)\n<strong>Stage 2</strong> 1d6 poison damage and sickened 2 (1 minute)\n<strong>Stage 3</strong> 2d6 poison damage and sickened 3 (1 minute)",
         "fixedDuration": 500,
         "nextCondition": "Arsenic (Stage 1)",
         "nextStage": 1000,
@@ -4360,7 +4360,7 @@
     },
     {
         "name": "Arsenic (Stage 1)",
-        "desc": "This toxin is a compound of arsenic and other substances. You can't reduce your sickened condition while affected.\n\n<strong>Saving Throw</strong> DC 18 Fortitude\n\n<strong>Onset</strong> 10 minutes\n<strong>Maximum Duration</strong> 5 minutes\n<var><strong>Stage 1</strong> 1d4 poison damage and sickened 1 (1 minute)</var>\n<strong>Stage 2</strong> 1d6 poison damage and sickened 2 (1 minute)\n<strong>Stage 3</strong> 2d6 poison damage and sickened 3 (1 minute)",
+        "desc": "This toxin is a compound of arsenic and other substances. You can't reduce your sickened condition while affected.\n\n<strong>Saving Throw</strong> DC 18 Fortitude\n<strong>Onset</strong> 10 minutes\n<strong>Maximum Duration</strong> 5 minutes\n<var><strong>Stage 1</strong> 1d4 poison damage and sickened 1 (1 minute)</var>\n<strong>Stage 2</strong> 1d6 poison damage and sickened 2 (1 minute)\n<strong>Stage 3</strong> 2d6 poison damage and sickened 3 (1 minute)",
         "gainConditions": [
             {
                 "name": "Sickened",
@@ -4374,7 +4374,7 @@
     },
     {
         "name": "Arsenic (Stage 2)",
-        "desc": "This toxin is a compound of arsenic and other substances. You can't reduce your sickened condition while affected.\n\n<strong>Saving Throw</strong> DC 18 Fortitude\n\n<strong>Onset</strong> 10 minutes\n<strong>Maximum Duration</strong> 5 minutes\n<strong>Stage 1</strong> 1d4 poison damage and sickened 1 (1 minute)\n<var><strong>Stage 2</strong> 1d6 poison damage and sickened 2 (1 minute)</var>\n<strong>Stage 3</strong> 2d6 poison damage and sickened 3 (1 minute)",
+        "desc": "This toxin is a compound of arsenic and other substances. You can't reduce your sickened condition while affected.\n\n<strong>Saving Throw</strong> DC 18 Fortitude\n<strong>Onset</strong> 10 minutes\n<strong>Maximum Duration</strong> 5 minutes\n<strong>Stage 1</strong> 1d4 poison damage and sickened 1 (1 minute)\n<var><strong>Stage 2</strong> 1d6 poison damage and sickened 2 (1 minute)</var>\n<strong>Stage 3</strong> 2d6 poison damage and sickened 3 (1 minute)",
         "gainConditions": [
             {
                 "name": "Sickened",
@@ -4389,7 +4389,7 @@
     },
     {
         "name": "Arsenic (Stage 3)",
-        "desc": "This toxin is a compound of arsenic and other substances. You can't reduce your sickened condition while affected.\n\n<strong>Saving Throw</strong> DC 18 Fortitude\n\n<strong>Onset</strong> 10 minutes\n<strong>Maximum Duration</strong> 5 minutes\n<strong>Stage 1</strong> 1d4 poison damage and sickened 1 (1 minute)\n<strong>Stage 2</strong> 1d6 poison damage and sickened 2 (1 minute)\n<var><strong>Stage 3</strong> 2d6 poison damage and sickened 3 (1 minute)</var>",
+        "desc": "This toxin is a compound of arsenic and other substances. You can't reduce your sickened condition while affected.\n\n<strong>Saving Throw</strong> DC 18 Fortitude\n<strong>Onset</strong> 10 minutes\n<strong>Maximum Duration</strong> 5 minutes\n<strong>Stage 1</strong> 1d4 poison damage and sickened 1 (1 minute)\n<strong>Stage 2</strong> 1d6 poison damage and sickened 2 (1 minute)\n<var><strong>Stage 3</strong> 2d6 poison damage and sickened 3 (1 minute)</var>",
         "gainConditions": [
             {
                 "name": "Sickened",
@@ -4847,7 +4847,7 @@
     },
     {
         "name": "Black Adder Venom (Stage 1)",
-        "desc": "Adder venom is a simple but effective way to enhance a weapon.\n\n<strong>Saving Throw</strong> DC 18 Fortitude\n\n<strong>Maximum Duration</strong> 3 rounds\n<var><strong>Stage 1</strong> 1d8 poison damage (1 round)</var>\n<strong>Stage 2</strong> 1d10 poison damage (1 round)\n<strong>Stage 3</strong> 2d6 poison damage (1 round)",
+        "desc": "Adder venom is a simple but effective way to enhance a weapon.\n\n<strong>Saving Throw</strong> DC 18 Fortitude\n<strong>Maximum Duration</strong> 3 rounds\n<var><strong>Stage 1</strong> 1d8 poison damage (1 round)</var>\n<strong>Stage 2</strong> 1d10 poison damage (1 round)\n<strong>Stage 3</strong> 2d6 poison damage (1 round)",
         "fixedDuration": 30,
         "nextCondition": "Black Adder Venom (Stage 2)",
         "nextStage": 10,
@@ -4855,7 +4855,7 @@
     },
     {
         "name": "Black Adder Venom (Stage 2)",
-        "desc": "Adder venom is a simple but effective way to enhance a weapon.\n\n<strong>Saving Throw</strong> DC 18 Fortitude\n\n<strong>Maximum Duration</strong> 3 rounds\n<strong>Stage 1</strong> 1d8 poison damage (1 round)\n<var><strong>Stage 2</strong> 1d10 poison damage (1 round)</var>\n<strong>Stage 3</strong> 2d6 poison damage (1 round)",
+        "desc": "Adder venom is a simple but effective way to enhance a weapon.\n\n<strong>Saving Throw</strong> DC 18 Fortitude\n<strong>Maximum Duration</strong> 3 rounds\n<strong>Stage 1</strong> 1d8 poison damage (1 round)\n<var><strong>Stage 2</strong> 1d10 poison damage (1 round)</var>\n<strong>Stage 3</strong> 2d6 poison damage (1 round)",
         "inputRequired": "Every time you reach this stage, take 1d4 poison damage.",
         "nextCondition": "Black Adder Venom (Stage 3)",
         "nextStage": 10,
@@ -4864,7 +4864,7 @@
     },
     {
         "name": "Black Adder Venom (Stage 3)",
-        "desc": "Adder venom is a simple but effective way to enhance a weapon.\n\n<strong>Saving Throw</strong> DC 18 Fortitude\n\n<strong>Maximum Duration</strong> 3 rounds\n<strong>Stage 1</strong> 1d8 poison damage (1 round)\n<strong>Stage 2</strong> 1d10 poison damage (1 round)\n<var><strong>Stage 3</strong> 2d6 poison damage (1 round)</var>",
+        "desc": "Adder venom is a simple but effective way to enhance a weapon.\n\n<strong>Saving Throw</strong> DC 18 Fortitude\n<strong>Maximum Duration</strong> 3 rounds\n<strong>Stage 1</strong> 1d8 poison damage (1 round)\n<strong>Stage 2</strong> 1d10 poison damage (1 round)\n<var><strong>Stage 3</strong> 2d6 poison damage (1 round)</var>",
         "inputRequired": "Every time you reach this stage, take 1d6 poison damage.",
         "nextStage": 10,
         "previousCondition": "Black Adder Venom (Stage 2)",

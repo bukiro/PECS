@@ -404,13 +404,14 @@ export class CharacterService {
         } else { return new Character() }
     }
 
-    get_CompanionAvailable(minLevelNumber: number = 1, maxLevelNumber: number = this.get_Character().level) {
-        //Return the number of feats taken this level that granted you an animal companion
-        return this.get_Character().get_FeatsTaken(minLevelNumber, maxLevelNumber).filter(gain => this.get_FeatsAndFeatures(gain.name)[0]?.gainAnimalCompanion == 1).length
+    get_CompanionAvailable(charLevel: number = this.get_Character().level) {
+        //Return any feat that grants an animal companion that you own.
+        return this.get_FeatsAndFeatures().find(feat => feat.gainAnimalCompanion == 1 && feat.have(this.get_Character(), this, charLevel));
     }
     
-    get_FamiliarAvailable() {
-        return this.get_Character().get_FeatsTaken(1, this.get_Character().level).filter(gain => this.get_FeatsAndFeatures(gain.name)[0]?.gainFamiliar).length
+    get_FamiliarAvailable(charLevel: number = this.get_Character().level) {
+        //Return any feat that grants an animal companion that you own.
+        return this.get_FeatsAndFeatures().find(feat => feat.gainFamiliar && feat.have(this.get_Character(), this, charLevel));
     }
 
     get_Companion() {
@@ -424,10 +425,10 @@ export class CharacterService {
     get_Creatures(companionAvailable: boolean = undefined, familiarAvailable: boolean = undefined) {
         if (!this.still_loading()) {
             if (companionAvailable == undefined) {
-                companionAvailable = this.get_CompanionAvailable() != 0;
+                companionAvailable = this.get_CompanionAvailable() != null;
             }
             if (familiarAvailable == undefined) {
-                familiarAvailable = this.get_FamiliarAvailable() != 0;
+                familiarAvailable = this.get_FamiliarAvailable() != null;
             }
             if (companionAvailable && familiarAvailable) {
                 return ([] as (Character|AnimalCompanion|Familiar)[]).concat(this.get_Character()).concat(this.get_Companion()).concat(this.get_Familiar());

@@ -853,7 +853,7 @@ export class CharacterComponent implements OnInit {
 
     get_CompanionAvailable(levelNumber: number) {
         //Return the number of feats taken this level that granted you an animal companion
-        return this.characterService.get_CompanionAvailable(levelNumber, levelNumber);
+        return this.get_Character().get_FeatsTaken(levelNumber, levelNumber).filter(gain => this.characterService.get_FeatsAndFeatures(gain.name)[0]?.gainAnimalCompanion == 1).length
     }
 
     get_Companion() {

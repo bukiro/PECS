@@ -13,26 +13,22 @@ import { Ability } from 'src/app/Ability';
 import { Equipment } from 'src/app/Equipment';
 import { Consumable } from 'src/app/Consumable';
 import { TimeService } from 'src/app/time.service';
+import { stringify } from 'querystring';
 
 @Component({
-    selector: 'app-customEffectProperty',
-    templateUrl: './customEffectProperty.component.html',
-    styleUrls: ['./customEffectProperty.component.css']
+    selector: 'app-customEffect',
+    templateUrl: './customEffect.component.html',
+    styleUrls: ['./customEffect.component.css']
 })
-export class CustomEffectPropertyComponent implements OnInit {
+export class CustomEffectComponent implements OnInit {
 
     @Input()
-    propertyKey: string;
-    @Input()
-    parents: string[] = [];
-    @Input()
     creature: Creature;
-    @Input()
-    propertyData: ItemProperty;
     @Input()
     duration: number;
     @Input()
     noTitle: boolean = false;
+    public newEffect: EffectGain = new EffectGain();
 
     public validationError: string = "";
     public validationResult: string = "";
@@ -44,14 +40,6 @@ export class CustomEffectPropertyComponent implements OnInit {
         private activitiesService: ActivitiesService,
         private timeService: TimeService
     ) { }
-
-    get_Parent() {
-        let creature = this.creature;
-        this.parents.forEach(parent => {
-            creature = creature[parent];
-        })
-        return creature;
-    }
 
     numbersOnly(event): boolean {
         const charCode = (event.which) ? event.which : event.keyCode;
@@ -85,9 +73,9 @@ export class CustomEffectPropertyComponent implements OnInit {
         return this.get_Character().inventories;
     }
 
-    validate() {
-        let value = this.get_Parent()[this.propertyKey]
-        if (this.propertyKey == "value" && this.propertyData.parent == "effects") {
+    validate(propertyData: ItemProperty, propertyKey: string) {
+        let value = this.newEffect[propertyKey]
+        if (propertyKey == "value" && propertyData.parent == "effects") {
             if (value && value != "0") {
                 let effectGain = new EffectGain;
                 effectGain.value = value;
@@ -111,7 +99,7 @@ export class CustomEffectPropertyComponent implements OnInit {
                     this.validationResult = "";
                 }
             }
-        } else if (this.propertyKey == "setValue" && this.propertyData.parent == "effects") {
+        } else if (propertyKey == "setValue" && propertyData.parent == "effects") {
             if (value && value != "0") {
                 let effectGain = new EffectGain;
                 effectGain.value = value;
@@ -135,29 +123,29 @@ export class CustomEffectPropertyComponent implements OnInit {
                     this.validationResult = "";
                 }
             }
-        } else if (this.propertyData.validation == "1plus") {
+        } else if (propertyData.validation == "1plus") {
             if (parseInt(value) >= 1) {
 
             } else {
-                this.get_Parent()[this.propertyKey] = 1
+                this.newEffect[propertyKey] = 1
             }
-        } else if (this.propertyData.validation == "0plus") {
+        } else if (propertyData.validation == "0plus") {
             if (parseInt(value) >= 0) {
 
             } else {
-                this.get_Parent()[this.propertyKey] = 0
+                this.newEffect[propertyKey] = 0
             }
-        } else if (this.propertyData.validation == "=1plus") {
+        } else if (propertyData.validation == "=1plus") {
             if (parseInt(value) >= -1) {
 
             } else {
-                this.get_Parent()[this.propertyKey] = -1
+                this.newEffect[propertyKey] = -1
             }
-        } else if (this.propertyData.validation == "0minus") {
+        } else if (propertyData.validation == "0minus") {
             if (parseInt(value) <= 0) {
 
             } else {
-                this.get_Parent()[this.propertyKey] = 0
+                this.newEffect[propertyKey] = 0
             }
         }
     }
@@ -167,27 +155,29 @@ export class CustomEffectPropertyComponent implements OnInit {
     }
 
     add_NewItemObject() {
-        if (this.propertyKey = "effects") {
-            let newLength = this.get_Parent()[this.propertyKey].push(new EffectGain())
-            this.get_Parent()[this.propertyKey][newLength - 1].duration = this.duration;
-            this.characterService.set_ToChange(this.creature.type, "effects");
-        }
-    }
-
-    remove_NewItemObject(index: number) {
-        this.get_Parent()[this.propertyKey].splice(index, 1);
+        let newLength = this.creature.effects.push(this.newEffect)
+        this.creature.effects[newLength - 1].duration = this.duration;
         this.characterService.set_ToChange(this.creature.type, "effects");
         this.characterService.process_ToChange();
     }
 
-    get_NewItemSubProperties(object: object) {
-        return Object.keys(object).map((key) => 
-            this.effectsService.get_EffectProperties().find(property => property.parent == this.propertyData.key && property.key == key)
-            ).filter(property => property != undefined);
+    remove_NewItemObject(index: number) {
+        this.creature.effects.splice(index, 1);
+        this.characterService.set_ToChange(this.creature.type, "effects");
+        this.characterService.process_ToChange();
     }
 
-    get_Examples() {
-        let examples: (string | number)[] = [""];
+    get_PropertyKeys() {
+        return Object.keys(this.newEffect);
+    }
+
+    get_PropertyData(key: string) {
+        //Return an array of one ItemProperty
+        return this.effectsService.get_EffectProperties().filter(property => property.key == key);
+    }
+
+    get_Examples(propertyData: ItemProperty) {
+        let examples: string[] = [""];
 
         function extract_Example(element, key: string, isObject: Function, parent: string = "") {
             if (parent) {
@@ -211,7 +201,7 @@ export class CustomEffectPropertyComponent implements OnInit {
             }
         }
 
-        switch (this.propertyData.examples) {
+        switch (propertyData.examples) {
             case "effects affected":
                 examples.push(...this.characterService.get_Skills(this.get_Character()).map((skill: Skill) =>  skill.name ));
                 examples.push(...this.characterService.get_Abilities().map((ability: Ability) => {return ability.name}));
@@ -260,6 +250,7 @@ export class CustomEffectPropertyComponent implements OnInit {
                 this.get_Items().allConsumables().concat(...this.get_Inventories().map(inventory => inventory.allConsumables())).filter(item => item.onceEffects.length).forEach((item: Consumable) => {
                     examples.push(...item.onceEffects.map(effect => effect.value ))
                 });
+                examples = examples.filter(example => typeof example == "string" && !example.toLowerCase().includes("object") && !example.toLowerCase().includes("heightened") && !example.toLowerCase().includes("value"));
                 break;
             case "effects setvalue":
                 this.characterService.get_FeatsAndFeatures().filter(feat => feat.onceEffects.length).forEach(feat => {
@@ -291,6 +282,7 @@ export class CustomEffectPropertyComponent implements OnInit {
                 this.get_Items().allConsumables().concat(...this.get_Inventories().map(inventory => inventory.allConsumables())).filter(item => item.onceEffects.length).forEach((item: Consumable) => {
                     examples.push(...item.onceEffects.map(effect => effect.setValue ))
                 });
+                examples = examples.filter(example => typeof example == "string" && !example.toLowerCase().includes("object") && !example.toLowerCase().includes("heightened") && !example.toLowerCase().includes("value"));
                 break;
             case "effects type":
                 examples = ["", "item", "circumstance", "status", "proficiency"];

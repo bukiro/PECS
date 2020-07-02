@@ -19,13 +19,18 @@ import { EffectsService } from '../effects.service';
 })
 export class ConditionsComponent implements OnInit {
 
-    public endOn: number = 0;
+    public endOn: number = 5;
     public value: number = 1;
     public heightened: number = 1;
-    public duration: number = -1;
     public showList: string = "";
     public showItem: string = "";
     public wordFilter: string = "";
+    public permanent: boolean = true;
+    public days: number = 0;
+    public hours: number = 0;
+    public minutes: number = 0;
+    public turns: number = 0;
+    private purpose: "conditions"|"customeffects" = "conditions";
         
     constructor(
         private changeDetector: ChangeDetectorRef,
@@ -59,6 +64,14 @@ export class ConditionsComponent implements OnInit {
 
     get_ShowList() {
         return this.showList;
+    }
+
+    toggle_Purpose(purpose: "conditions"|"customeffects") {
+        this.purpose = purpose;
+    }
+
+    get_ShowPurpose() {
+        return this.purpose;
     }
 
     get_Accent() {
@@ -170,25 +183,47 @@ export class ConditionsComponent implements OnInit {
         return this.conditionsService.get_Conditions(name, type);
     }
 
-    add_Duration(turns: number) {
-        if (this.duration == -1 || turns == -1) {
-            this.duration = turns;
-        } else {
-            this.duration = this.duration + turns;
+    set_Permanent() {
+        this.permanent = true;
+        this.days = 0;
+        this.hours = 0;
+        this.minutes = 0;
+        this.turns = 0;
+    }
+
+    add_Day(days: number) {
+        this.days = Math.max(this.days + days, 0);
+        this.permanent = false;
+    }
+
+    set_Duration() {
+        if (this.permanent) {
+            this.permanent = false;
         }
     }
 
-    get_Duration(duration: number = this.duration) {
-        return this.timeService.get_Duration(duration, false);
+    get_ConditionDuration(includeTurn: boolean = true) {
+        return this.permanent ? -1 : 
+            (
+                this.days * 144000 + 
+                this.hours * 6000 + 
+                this.minutes * 100 + 
+                this.turns * 10 +
+                (includeTurn ? (5 + (this.endOn + this.timeService.get_YourTurn()) % 10) : 0)
+            )
     }
 
-    add_Condition(creature: Character|AnimalCompanion|Familiar, condition: Condition, duration: number = this.duration) {
+    get_Duration(duration: number = this.get_ConditionDuration()) {
+        return this.timeService.get_Duration(duration, true);
+    }
+
+    add_Condition(creature: Character|AnimalCompanion|Familiar, condition: Condition, duration: number = this.get_ConditionDuration(false)) {
         let newGain = new ConditionGain();
         newGain.name = condition.name;
         if (duration == -1) {
             newGain.duration = duration;
         } else {
-            newGain.duration = duration + ((this.endOn + this.timeService.get_YourTurn()) % 10);
+            newGain.duration = duration + (5 + (this.endOn + this.timeService.get_YourTurn()) % 10);
         }
         newGain.choice = condition.choice;
         if (condition.hasValue) {

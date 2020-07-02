@@ -1,0 +1,39 @@
+<div class="row list-item">
+    <ng-container *ngFor="let propertyKey of get_PropertyKeys()">
+        <div class="row list-item" *ngFor="let propertyData of get_PropertyData(propertyKey)">
+            <ng-container *ngIf="!noTitle">
+                <div class="row left-aligned">
+                    <strong title="{{propertyData.desc}}">{{propertyData.name}}</strong>
+                </div>
+            </ng-container>
+            <div class="row">
+                <input class="row" type="text" [(ngModel)]="newEffect[propertyKey]"
+                    (blur)="validate(propertyData, propertyKey)" *ngIf="!propertyData.type && !propertyData.locked">
+                <textarea class="row" rows=3 [(ngModel)]="newEffect[propertyKey]"
+                    *ngIf="propertyData.type=='textarea'"></textarea>
+                <input type="checkbox" [(ngModel)]="newEffect[propertyKey]" *ngIf="propertyData.type=='checkbox'">
+                <input type="number" [(ngModel)]="newEffect[propertyKey]" (blur)="validate(propertyData, propertyKey)"
+                    (keypress)="numbersOnly($event)" *ngIf="propertyData.type=='number'">
+            </div>
+            <div class="row" *ngIf="validationError.length">
+                <span class="problem">{{validationError}}</span>
+            </div>
+            <div class="row" *ngIf="validationResult.length">
+                <span>Current result: {{validationResult}}</span>
+            </div>
+            <div class="list-item" style="margin: initial 0"
+                *ngIf="propertyData.type!='textarea' && propertyData.type!='checkbox'">
+                <select class="row" [(ngModel)]="newEffect[propertyKey]" [disabled]="!get_Examples(propertyData).length"
+                    (ngModelChange)="validate(propertyData, propertyKey)">
+                    <option *ngFor="let example of get_Examples(propertyData)|sortBy:'asc'; trackBy:trackByIndex;"
+                        [ngValue]="example">
+                        {{example}}
+                    </option>
+                </select>
+            </div>
+        </div>
+    </ng-container>
+    <ng-container>
+
+    </ng-container>
+</div>

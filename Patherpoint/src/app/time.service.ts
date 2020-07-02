@@ -152,27 +152,30 @@ export class TimeService {
             }
             returnString += inASentence ? "for " : "";
             if (duration >= 144000) {
-                returnString += Math.floor(duration / 144000)+" Day"
-                if (duration / 144000 >= 2) { returnString += "s" }
+                returnString += Math.floor(duration / 144000)+" Day";
+                if (duration / 144000 >= 2) { returnString += "s"; }
                 duration %= 144000;
             }
             if (duration >= 6000) {
-                returnString += " "+Math.floor(duration / 6000)+" Hour"
-                if (duration / 6000 >= 2) { returnString += "s" }
+                returnString += " "+Math.floor(duration / 6000)+" Hour";
+                if (duration / 6000 >= 2) { returnString += "s"; }
                 duration %= 6000;
             }
             if (duration >= 100) {
-                returnString += " "+Math.floor(duration / 100)+" Minute"
-                if (duration / 100 >= 2) { returnString += "s" }
+                returnString += " "+Math.floor(duration / 100)+" Minute";
+                if (duration / 100 >= 2) { returnString += "s"; }
                 duration %= 100;
             }
             if (duration >= 10) {
-                returnString += " "+Math.floor(duration / 10)+" Turn"
-                if (duration / 10 >= 2) { returnString += "s" }
+                returnString += " "+Math.floor(duration / 10)+" Turn";
+                if (duration / 10 >= 2) { returnString += "s"; }
                 duration %= 10;
             }
             if (includeTurnState && duration == this.get_YourTurn()) {
-                returnString += " to end of turn"
+                returnString += " to end of turn";
+            }
+            if (!returnString) {
+                returnString = "0 Turns";
             }
             return returnString.trim();
         }

@@ -12519,7 +12519,7 @@
             "Ranger"
         ],
         "levelreq": 1,
-        "specialreq": "!characterService.get_CompanionAvailable()",
+        "specialreq": "!characterService.get_CompanionAvailable() || this.have(character, characterService, charLevel)",
         "specialreqdesc": "no animal companion",
         "gainAnimalCompanion": 1
     },
