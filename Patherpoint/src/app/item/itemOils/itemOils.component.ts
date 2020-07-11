@@ -6,13 +6,6 @@ import { Oil } from 'src/app/Oil';
 import { ItemCollection } from 'src/app/ItemCollection';
 import { TimeService } from 'src/app/time.service';
 import { Weapon } from 'src/app/Weapon';
-import { Armor } from 'src/app/Armor';
-import { Shield } from 'src/app/Shield';
-import { WornItem } from 'src/app/WornItem';
-import { HeldItem } from 'src/app/HeldItem';
-import { AdventuringGear } from 'src/app/AdventuringGear';
-import { AlchemicalBomb } from 'src/app/AlchemicalBomb';
-import { Equipment } from 'src/app/Equipment';
 
 @Component({
     selector: 'app-itemOils',

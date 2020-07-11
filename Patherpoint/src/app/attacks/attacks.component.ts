@@ -10,12 +10,12 @@ import { Ammunition } from '../Ammunition';
 import { SortByPipe } from '../sortBy.pipe';
 import { ItemCollection } from '../ItemCollection';
 import { Talisman } from '../Talisman';
-import { InventoryComponent } from '../inventory/inventory.component';
 import { AlchemicalBomb } from '../AlchemicalBomb';
 import { Consumable } from '../Consumable';
 import { Snare } from '../Snare';
 import { SpellGain } from '../SpellGain';
 import { AlchemicalPoison } from '../AlchemicalPoison';
+import { OtherConsumableBomb } from '../OtherConsumableBOmb';
 
 @Component({
     selector: 'app-attacks',
@@ -96,21 +96,12 @@ export class AttacksComponent implements OnInit {
         this.get_AttackRestrictions();
         return this.get_Creature().inventories[0].weapons.filter(weapon => weapon.equipped && weapon.equippable)
             .concat(...this.get_Creature().inventories.map(inv => inv.alchemicalbombs))
+            .concat(...this.get_Creature().inventories.map(inv => inv.otherconsumablesbombs))
             .sort(function(a,b) {
-                if (a.name > b.name) {
+                if (a.type+a.name > b.type+b.name) {
                     return 1
                 }
-                if (a.name < b.name) {
-                    return -1
-                }
-                return 0;
-            })
-            .sort(function(a,b) {
-                //Sort by weapons first
-                if (a.type < b.type) {
-                    return 1
-                }
-                if (a.type > b.type) {
+                if (a.type+a.name < b.type+b.name) {
                     return -1
                 }
                 return 0;
@@ -175,7 +166,7 @@ export class AttacksComponent implements OnInit {
         return this.characterService.spellsService.get_Spells(name, type, tradition);
     }
 
-    on_ConsumableUse(item: Ammunition|AlchemicalBomb, inv: ItemCollection) {
+    on_ConsumableUse(item: Ammunition|AlchemicalBomb|OtherConsumableBomb, inv: ItemCollection) {
         if (item.storedSpells.length) {
             let spellName = item.storedSpells[0]?.spells[0]?.name || "";
             let spellChoice = item.storedSpells[0];

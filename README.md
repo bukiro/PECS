@@ -71,8 +71,7 @@ The very latest in Assistive Technologies for Dungeon Master (ATDM)
 - [ ] Stretch Goal: Include optional Stamina & Resolve system
 
 Active to-do
+Add and remove custom effects
 
 Next steps:
-- Add custom conditions with effects
-- Add button press effect
 - Implement Bard

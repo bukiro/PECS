@@ -40,6 +40,7 @@ import { AlchemicalTool } from './AlchemicalTool';
 import { Snare } from './Snare';
 import { WeaponMaterial } from './WeaponMaterial';
 import { AlchemicalPoison } from './AlchemicalPoison';
+import { OtherConsumableBomb } from './OtherConsumableBOmb';
 
 @Injectable({
     providedIn: 'root'
@@ -76,6 +77,8 @@ export class ItemsService {
     private loading_Potions: Boolean = false;
     private loader_OtherConsumables = [];
     private loading_OtherConsumables: Boolean = false;
+    private loader_OtherConsumablesBombs  = [];
+    private loading_OtherConsumablesBombs : Boolean = false;
     private loader_AdventuringGear = [];
     private loading_AdventuringGear: Boolean = false;
     private loader_ArmorRunes = [];
@@ -211,6 +214,8 @@ export class ItemsService {
                     return Object.assign(new Potion(), item);
                 case "otherconsumables":
                     return Object.assign(new OtherConsumable(), item);
+                case "otherconsumablesbombs":
+                    return Object.assign(new OtherConsumableBomb(), item);
                 case "adventuringgear":
                     return Object.assign(new AdventuringGear(), item);
                 case "ammunition":
@@ -260,6 +265,8 @@ export class ItemsService {
                     return Object.assign(new Potion(), item);
                 case "OtherConsumable":
                     return Object.assign(new OtherConsumable(), item);
+                case "OtherConsumableBomb":
+                    return Object.assign(new OtherConsumableBomb(), item);
                 case "AdventuringGear":
                     return Object.assign(new AdventuringGear(), item);
                 case "Ammunition":
@@ -578,6 +585,12 @@ export class ItemsService {
                     this.loader_OtherConsumables = results;
                     this.finish_OtherConsumables()
                 });
+            this.loading_OtherConsumablesBombs  = true;
+            this.load_OtherConsumablesBombs ()
+                .subscribe((results: String[]) => {
+                    this.loader_OtherConsumablesBombs  = results;
+                    this.finish_OtherConsumablesBombs ()
+                });
             this.loading_AdventuringGear = true;
             this.load_AdventuringGear()
                 .subscribe((results: String[]) => {
@@ -809,6 +822,20 @@ export class ItemsService {
             this.loader_OtherConsumables = [];
         }
         if (this.loading_OtherConsumables) { this.loading_OtherConsumables = false; }
+    }
+
+    load_OtherConsumablesBombs (): Observable<string[]> {
+        return this.http.get<string[]>('/assets/items/otherconsumablesbombs.json');
+    }
+
+    finish_OtherConsumablesBombs () {
+        if (this.loader_OtherConsumablesBombs ) {
+            this.items.otherconsumablesbombs = this.loader_OtherConsumablesBombs .map(element => this.initialize_Item(Object.assign(new OtherConsumableBomb(), element), true, false));
+            this.cleanItems.otherconsumablesbombs = this.loader_OtherConsumablesBombs .map(element => this.initialize_Item(Object.assign(new OtherConsumableBomb(), element), true, false));
+            this.craftingItems.otherconsumablesbombs = this.loader_OtherConsumablesBombs .map(element => this.initialize_Item(Object.assign(new OtherConsumableBomb(), element), true, false));
+            this.loader_OtherConsumablesBombs  = [];
+        }
+        if (this.loading_OtherConsumablesBombs ) { this.loading_OtherConsumablesBombs  = false; }
     }
 
     load_AdventuringGear(): Observable<string[]> {

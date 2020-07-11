@@ -251,7 +251,7 @@ export class ConditionsService {
 
     rest(creature: Character|AnimalCompanion|Familiar, characterService: CharacterService) {
         creature.conditions.filter(gain => gain.duration == -2).forEach(gain => {
-            gain.duration == 0;
+            gain.duration = 0;
         });
     }
 

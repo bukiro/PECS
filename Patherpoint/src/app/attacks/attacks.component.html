@@ -9,15 +9,15 @@
             <div class="list-item" [ngClass]="{'problem fullsize-only':!get_IsAllowed(weapon)}"
                 *ngFor="let attack of get_Attacks(weapon)">
                 <div class="row">
-                    <strong style="flex-basis:auto" *ngIf="weapon.type != 'alchemicalbombs'">{{weapon.get_Name()}}{{(attack[0] == 'melee') ?
+                    <strong style="flex-basis:auto" *ngIf="!['alchemicalbombs', 'otherconsumablesbombs'].includes(weapon.type)">{{weapon.get_Name()}}{{(attack[0] == 'melee') ?
                         (weapon.ranged ? " melee" : "") : (weapon.melee ? " ranged" : "")}}
                     </strong>
                     <button style="flex-basis:auto" [disabled]="!weapon.amount" (click)="on_ConsumableUse(weapon, null)"
-                        *ngIf="weapon.type == 'alchemicalbombs'">
+                        *ngIf="['alchemicalbombs', 'otherconsumablesbombs'].includes(weapon.type)">
                         <span>{{(weapon.amount != undefined && weapon.amount != 1) ?
                             weapon.amount+" " : ""}}{{weapon.get_Name()}}<app-actionIcons
                                 [actionString]="weapon.actions">
-                            </app-actionIcons>
+                            </app-actionIcons>{{weapon.activationType ? weapon.activationType : ""}}
                         </span>
                     </button>
                     <span style="flex-basis:auto">

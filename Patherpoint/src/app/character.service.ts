@@ -53,10 +53,9 @@ import { ArmorRune } from './ArmorRune';
 import { Ammunition } from './Ammunition';
 import { Shield } from './Shield';
 import { AlchemicalBomb } from './AlchemicalBomb';
-import { HeldItem } from './HeldItem';
-import { AdventuringGear } from './AdventuringGear';
 import { Snare } from './Snare';
 import { AlchemicalPoison } from './AlchemicalPoison';
+import { OtherConsumableBomb } from './OtherConsumableBOmb';
 
 @Injectable({
     providedIn: 'root'
@@ -730,7 +729,7 @@ export class CharacterService {
                 }
             });
         }
-        if (returnedInventoryItem.constructor == AlchemicalBomb || returnedInventoryItem.constructor == Ammunition || returnedInventoryItem.constructor == Snare) {
+        if (returnedInventoryItem.constructor == AlchemicalBomb || returnedInventoryItem.constructor == OtherConsumableBomb || returnedInventoryItem.constructor == Ammunition || returnedInventoryItem.constructor == Snare) {
             this.set_ToChange(creature.type, "attacks");
         }
         if (returnedInventoryItem["showon"]) {
@@ -744,7 +743,7 @@ export class CharacterService {
 
     drop_InventoryItem(creature: Character|AnimalCompanion, inventory: ItemCollection, item: Item, changeAfter: boolean = true, equipBasicItems: boolean = true, including: boolean = true, amount: number = 1) {
         this.set_ToChange(creature.type, "inventory");
-        if (item.constructor == AlchemicalBomb || item.constructor == Ammunition || item.constructor == Snare) {
+        if (item.constructor == AlchemicalBomb || item.constructor == OtherConsumableBomb || item.constructor == Ammunition || item.constructor == Snare) {
             this.set_ToChange(creature.type, "attacks");
         }
         if (item["showon"]) {
@@ -900,7 +899,7 @@ export class CharacterService {
     }
 
     set_ItemViewChanges(creature: Character|AnimalCompanion, item: Item) {
-        if (item.constructor == AlchemicalBomb  || item.constructor == AlchemicalPoison || item.constructor == Ammunition || item.constructor == Snare) {
+        if (item.constructor == AlchemicalBomb || item.constructor == OtherConsumableBomb || item.constructor == AlchemicalPoison || item.constructor == Ammunition || item.constructor == Snare) {
             this.set_ToChange(creature.type, "attacks");
         }
         if (item["showon"]) {

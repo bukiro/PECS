@@ -442,6 +442,40 @@
         ]
     },
     {
+        "name": "Inspire Competence",
+        "id": "6b068771-12ab-42c4-adef-0a062f58530b",
+        "levelreq": 1,
+        "actions": "1A",
+        "castType": "verbal",
+        "shortDesc": "Your encouragement inspires your ally to succeed at a task.",
+        "traditions": [
+            "Focus"
+        ],
+        "traits": [
+            "Uncommon",
+            "Bard",
+            "Cantrip",
+            "Composition",
+            "Emotion",
+            "Enchantment",
+            "Mental"
+        ],
+        "area": "60 feet",
+        "targets": "1 ally",
+        "target": "ally",
+        "singleTarget": true,
+        "duration": "1 round",
+        "desc": "Your encouragement inspires your ally to succeed at a task. This counts as having taken sufficient preparatory actions to Aid your ally on a skill check of your choice, regardless of the circumstances. When you later use the Aid reaction, you can roll Performance instead of the normal skill check, and if you roll a failure, you get a success instead. If you are legendary in Performance, you automatically critically succeed.\n\nThe GM might rule that you can't use this ability if the act of encouraging your ally would interfere with the skill check (such as a check to Sneak quietly or maintain a disguise).",
+        "gainConditions": [
+            {
+                "duration": 10,
+                "name": "Inspire Competence",
+                "source": "Inspire Competence",
+                "targetFilter": "caster"
+            }
+        ]
+    },
+    {
         "name": "Wholeness of Body",
         "id": "4a76f528-9126-11ea-bb37-0242ac130002",
         "levelreq": 2,
@@ -1511,7 +1545,7 @@
         "range": "touch",
         "targets": "1 living or undead creature",
         "singleTarget": true,
-        "desc": "Siphoning negative energy into yourself, your hand radiates a pale darkness. Your touch weakens the living and disorients undead, possibly even causing them to flee. The effect depends on whether the target is living or undead.\n\nLiving Creature The spell deals negative damage equal to <var>var1</var> plus your spellcasting modifier. The target attempts a basic Fortitude save, but is also enfeebled 1 for 1 round on a critical failure.\nUndead Creature The target is flat-footed for 1 round on a failed Fortitude save. On a critical failure, the target is also fleeing for 1 round unless it succeeds at a Will save.",
+        "desc": "Siphoning negative energy into yourself, your hand radiates a pale darkness. Your touch weakens the living and disorients undead, possibly even causing them to flee. The effect depends on whether the target is living or undead.\n\n<strong>Living Creature</strong> The spell deals negative damage equal to <var>var1</var> plus your spellcasting modifier. The target attempts a basic Fortitude save, but is also enfeebled 1 for 1 round on a critical failure.\n<strong>Undead Creature</strong> The target is flat-footed for 1 round on a failed Fortitude save. On a critical failure, the target is also fleeing for 1 round unless it succeeds at a Will save.",
         "savingThrow": "Fortitude",
         "heightened": [
             {

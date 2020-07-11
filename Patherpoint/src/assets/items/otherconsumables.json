@@ -1,5 +1,34 @@
 [
     {
+        "_className": "AlchemicalBomb",
+        "id": "85e00a17-cd1e-43a3-87fb-e1c823046343",
+        "name": "Holy Water",
+        "actions": "1A",
+        "activationType": "Strike",
+        "bulk": "L",
+        "desc": "This vial contains water blessed by a good deity. You activate a vial of holy water by throwing it as a Strike. It’s a simple thrown weapon with a range increment of 20 feet. Unlike an alchemical bomb, it doesn’t add the manipulate trait to the attack made with it.\n\nHoly water deals 1d6 good damage and 1 good splash damage. It damages only fiends, undead, and creatures that have a weakness to good damage.",
+        "dicenum": 1,
+        "dicesize": 6,
+        "dmgType": "Good",
+        "extraDamage": "+1 Good Splash",
+        "group": "Bomb",
+        "hands": 1,
+        "level": 1,
+        "price": 300,
+        "prof": "Simple Weapons",
+        "ranged": 20,
+        "subType": "Lesser",
+        "subTypeDesc": "The bomb deals 1d8 fire damage, 1 persistent fire damage, and 1 fire splash damage.",
+        "traits": [
+            "Consumable",
+            "Divine",
+            "Good",
+            "Splash",
+            "Thrown 20 ft."
+        ],
+        "usage": "held in 1 hand"
+    },
+    {
         "desc": "This token can be activated only on an unoccupied patch of earth or soil. When activated, this token transforms into an oak tree, 60 feet tall with a 5-foot-wide trunk. The tree continues to live and grow if conditions are favorable.",
         "id": "a99db049-c745-4751-9062-676a757232c3",
         "level": 7,

@@ -144,10 +144,10 @@ export class SpellsService {
                         conditionTarget = creature;
                     }
                     if (conditionTarget) {
-                        characterService.get_AppliedConditions(targetCreature, conditionGain.name)
+                        characterService.get_AppliedConditions(conditionTarget, conditionGain.name)
                         .filter(existingConditionGain => existingConditionGain.source == conditionGain.source)
                         .forEach(existingConditionGain => {
-                        characterService.remove_Condition(targetCreature, existingConditionGain, false);
+                        characterService.remove_Condition(conditionTarget, existingConditionGain, false);
                     });
                     }
                 })

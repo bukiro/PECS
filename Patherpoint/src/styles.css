@@ -461,14 +461,14 @@ button:before {
     z-index: 2;
 }
 
-button:not(:active):before {
+button:not([disabled]):not(:active):before {
     -webkit-animation: flash 0.4s cubic-bezier(0, 0, 0.2, 1);
             animation: flash 0.4s cubic-bezier(0, 0, 0.2, 1);
     -webkit-transition: visibility .4s step-end;
     transition: visibility .4s step-end;
 }
 
-button:active:before {
+button:not([disabled]):active:before {
     visibility: visible;
 }
 

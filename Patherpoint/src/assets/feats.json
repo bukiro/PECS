@@ -18662,5 +18662,34 @@
                 "type": "Save"
             }
         ]
+    },
+    {
+        "name": "Inspire Competence",
+        "desc": "You learn the inspire competence composition cantrip, which aids your allies’ skills.",
+        "shortdesc": "You learn the inspire competence composition cantrip, which aids your allies’ skills.",
+        "traits": [
+            "Bard"
+        ],
+        "levelreq": 2,
+        "featreq": [
+            "Maestro Muse"
+        ],
+        "gainSpellChoice": [
+            {
+                "_className": "SpellChoice",
+                "castingType": "Focus",
+                "className": "Bard",
+                "id": "e7b357cb-1141-4829-a535-00b851dd0553",
+                "level": 0,
+                "source": "Feat: Inspire Competence",
+                "spells": [
+                    {
+                        "_className": "SpellGain",
+                        "locked": true,
+                        "name": "Inspire Competence"
+                    }
+                ]
+            }
+        ]
     }
 ]

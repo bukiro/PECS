@@ -24,6 +24,7 @@ import { AlchemicalBomb } from './AlchemicalBomb';
 import { AlchemicalTool } from './AlchemicalTool';
 import { AlchemicalPoison } from './AlchemicalPoison';
 import { Snare } from './Snare';
+import { OtherConsumableBomb } from './OtherConsumableBOmb';
 
 export class ItemCollection {
     public readonly _className: string = this.constructor.name;
@@ -40,6 +41,7 @@ export class ItemCollection {
     //If an item grants an inventory, this is the item's ID.
     public itemId: string = "";
     public otherconsumables: OtherConsumable[] = [];
+    public otherconsumablesbombs: OtherConsumableBomb[] = [];
     public otheritems: OtherItem[] = [];
     public potions: Potion[] = [];
     public shields: Shield[] = [];
@@ -72,7 +74,8 @@ export class ItemCollection {
         {name:"Talismans",key:"talismans"},
         {name:"Snares",key:"snares"},
         {name:"Ammunition",key:"ammunition"},
-        {name:"Other Consumables",key:"otherconsumables"}
+        {name:"Other Consumables",key:"otherconsumables"},
+        {name:"Other Consumables (Bombs)",key:"otherconsumablesbombs"}
     ]
     restore_FromSave(itemsService: ItemsService) {
         this.names.forEach(name => {
@@ -88,6 +91,7 @@ export class ItemCollection {
         let items: Equipment[] = [];
         items.push(...this.adventuringgear);
         items.push(...this.alchemicalbombs);
+        items.push(...this.otherconsumablesbombs);
         items.push(...this.armors);
         items.push(...this.helditems);
         items.push(...this.shields);

@@ -23,8 +23,6 @@ import { stringify } from 'querystring';
 export class CustomEffectComponent implements OnInit {
 
     @Input()
-    creature: Creature;
-    @Input()
     duration: number;
     @Input()
     noTitle: boolean = false;
@@ -63,6 +61,10 @@ export class CustomEffectComponent implements OnInit {
     
     get_Items() {
         return this.itemsService.get_Items();
+    }
+
+    get_Creatures() {
+        return this.characterService.get_Creatures();
     }
 
     get_Character() {
@@ -154,16 +156,16 @@ export class CustomEffectComponent implements OnInit {
         return (typeof property == 'object');
     }
 
-    add_NewItemObject() {
-        let newLength = this.creature.effects.push(this.newEffect)
-        this.creature.effects[newLength - 1].duration = this.duration;
-        this.characterService.set_ToChange(this.creature.type, "effects");
+    add_Effect(creature: Creature) {
+        let newLength = creature.effects.push(this.newEffect);
+        creature.effects[newLength - 1].duration = this.duration;
+        this.characterService.set_ToChange(creature.type, "effects");
         this.characterService.process_ToChange();
     }
 
-    remove_NewItemObject(index: number) {
-        this.creature.effects.splice(index, 1);
-        this.characterService.set_ToChange(this.creature.type, "effects");
+    remove_Effect(creature: Creature, index: number) {
+        creature.effects.splice(index, 1);
+        this.characterService.set_ToChange(creature.type, "effects");
         this.characterService.process_ToChange();
     }
 
@@ -293,8 +295,8 @@ export class CustomEffectComponent implements OnInit {
         return uniqueExamples;
     }
 
-    update_Effects() {
-        this.characterService.set_ToChange(this.creature.type, "effects");
+    update_Effects(creature: Creature) {
+        this.characterService.set_ToChange(creature.type, "effects");
         this.characterService.process_ToChange();
     }
 
