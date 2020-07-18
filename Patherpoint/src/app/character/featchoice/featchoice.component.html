@@ -12,7 +12,7 @@
         <div class="list-item sublist" [ngClass]="{'fancy-list':(get_Available(choice) == choice.feats.length )}"
             *ngIf="get_showChoice()==listID">
             <div title="{{(this.get_showFeat()==choice.id+featSet.feat.name+'desc') ? '' : featSet.feat.shortDesc}}" class="list-item"
-                *ngFor="let featSet of get_AvailableFeats(choice)|sortBy:'asc':'levelreq'; trackBy:trackByIndex;"
+                *ngFor="let featSet of get_AvailableFeats(choice); trackBy:trackByIndex;"
                 [ngClass]="{'unavailable':(!featSet.available)}">
                 <div class="row left-aligned" style="justify-content: flex-end;" *ngFor="let itemID of [choice.id+featSet.feat.name+'desc']; trackBy:trackByIndex;">
                     <span style="flex-grow:2">
@@ -22,7 +22,7 @@
                         <button class="lower left" *ngIf="featSet.feat.subTypes" id="{{choice.id+featSet.feat.name}}"
                             (click)="toggle_Item(itemID)">v</button>
                         <label for="{{choice.id+featSet.feat.name}}">
-                            <strong>{{featSet.feat.name}}&nbsp;</strong>
+                            <strong>{{["General", "Skill"].includes(choice.type) && featSet.feat.skillreq.length == 1 ? "(" + featSet.feat.skillreq[0].skill + ") " : ""}}{{featSet.feat.name}}&nbsp;</strong>
                         </label>
                         <cite [ngClass]="{'problem':featSet.feat.levelreq > featLevel}" *ngIf="featSet.feat.levelreq">Level
                             {{featSet.feat.levelreq}}</cite>

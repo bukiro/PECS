@@ -258,22 +258,24 @@ export class FeatchoiceComponent implements OnInit {
                     let available = (this.cannotTake(feat, choice).length == 0 || this.featTakenByThis(feat, choice) || this.subFeatTakenByThis(feat, choice));
                     return {available:available, feat:feat};
                 }).sort(function(a,b) {
-                    if (a.feat.name < b.feat.name) {
+                    //Sort by level, then name.
+                    //For skill feat choices and general feat choices, sort by the associated skill (if exactly one), then level and name.
+                    //Feats with less or more required skills are sorted first.
+                    let sort_a = a.feat.levelreq + a.feat.name;
+                    let sort_b = b.feat.levelreq + b.feat.name;
+                    if (["General", "Skill"].includes(choice.type)) {
+                        sort_a = (a.feat.skillreq.length == 1 ? a.feat.skillreq[0]?.skill : "0") + sort_a;
+                        sort_b = (b.feat.skillreq.length == 1 ? b.feat.skillreq[0]?.skill : "0") + sort_b;
+                    }
+                    if (sort_a < sort_b) {
                         return -1;
                     }
-                    if (a.feat.name > b.feat.name) {
+                    if (sort_a > sort_b) {
                         return 1;
                     }
                     return 0;
                 }).sort(function(a,b) {
-                    if (a.feat.levelreq < b.feat.levelreq) {
-                        return -1;
-                    }
-                    if (a.feat.levelreq > b.feat.levelreq) {
-                        return 1;
-                    }
-                    return 0;
-                }).sort(function(a,b) {
+                    //Lastly, sort by availability.
                     if (a.available && !b.available) {
                         return -1;
                     }
@@ -286,10 +288,19 @@ export class FeatchoiceComponent implements OnInit {
                 return feats.filter(feat => 
                     this.featTakenByThis(feat, choice) || this.subFeatTakenByThis(feat, choice)
                 ).map(feat => {return {available:true, feat:feat}}).sort(function(a,b) {
-                    if (a.feat.name < b.feat.name) {
+                    //Sort by level, then name.
+                    //For skill feat choices and general feat choices, sort by the associated skill (if exactly one), then level and name.
+                    //Feats with less or more required skills are sorted first.
+                    let sort_a = a.feat.levelreq + a.feat.name;
+                    let sort_b = b.feat.levelreq + b.feat.name;
+                    if (["General", "Skill"].includes(choice.type)) {
+                        sort_a = (a.feat.skillreq.length == 1 ? a.feat.skillreq[0]?.skill : "_") + sort_a;
+                        sort_b = (b.feat.skillreq.length == 1 ? b.feat.skillreq[0]?.skill : "_") + sort_b;
+                    }
+                    if (sort_a < sort_b) {
                         return -1;
                     }
-                    if (a.feat.name > b.feat.name) {
+                    if (sort_a > sort_b) {
                         return 1;
                     }
                     return 0;

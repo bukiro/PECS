@@ -316,7 +316,7 @@
             }
         ],
         "specialreq": "characterService.get_Skills(character, this.subType)[0].level(character, characterService, charLevel) < 2 || (this.have(character, characterService, charLevel) && characterService.get_Skills(character, this.subType)[0].level(character, characterService, charLevel) < 4)",
-        "specialreqdesc": "Heavy Armor < T",
+        "specialreqdesc": "Untrained in Heavy Armor",
         "gainSkillChoice": [
             {
                 "_className": "SkillChoice",
@@ -346,7 +346,7 @@
         ],
         "levelreq": 1,
         "specialreq": "characterService.get_Skills(character, this.subType)[0].level(character, characterService, charLevel) < 2 || (this.have(character, characterService, charLevel) && characterService.get_Skills(character, this.subType)[0].level(character, characterService, charLevel) < 4)",
-        "specialreqdesc": "Light Armor < T",
+        "specialreqdesc": "Untrained in Light Armor",
         "gainSkillChoice": [
             {
                 "_className": "SkillChoice",
@@ -382,7 +382,7 @@
             }
         ],
         "specialreq": "characterService.get_Skills(character, this.subType)[0].level(character, characterService, charLevel) < 2 || (this.have(character, characterService, charLevel) && characterService.get_Skills(character, this.subType)[0].level(character, characterService, charLevel) < 4)",
-        "specialreqdesc": "Medium Armor < T",
+        "specialreqdesc": "Untrained in Medium Armor",
         "gainSkillChoice": [
             {
                 "_className": "SkillChoice",
@@ -6045,7 +6045,7 @@
             }
         ],
         "specialreq": "!characterService.get_Skills(character, this.subType).length || characterService.get_Skills(character, this.subType)[0].level(character, characterService) < 2 || (this.have(character, characterService, charLevel) && characterService.get_Skills(character, this.subType)[0].level(character, characterService, charLevel) < 4)",
-        "specialreqdesc": "Advanced Weapon < T",
+        "specialreqdesc": "Untrained in Advanced Weapon",
         "gainSkillChoice": [
             {
                 "_className": "SkillChoice",
@@ -6080,7 +6080,7 @@
             }
         ],
         "specialreq": "!characterService.get_Skills(character, this.subType).length || characterService.get_Skills(character, this.subType)[0].level(character, characterService) < 2 || (this.have(character, characterService, charLevel) && characterService.get_Skills(character, this.subType)[0].level(character, characterService, charLevel) < 4)",
-        "specialreqdesc": "Aklys < T",
+        "specialreqdesc": "Untrained in Aklys",
         "gainSkillChoice": [
             {
                 "_className": "SkillChoice",
@@ -6115,7 +6115,7 @@
             }
         ],
         "specialreq": "!characterService.get_Skills(character, this.subType).length || characterService.get_Skills(character, this.subType)[0].level(character, characterService) < 2 || (this.have(character, characterService, charLevel) && characterService.get_Skills(character, this.subType)[0].level(character, characterService, charLevel) < 4)",
-        "specialreqdesc": "Aldori Dueling Sword < T",
+        "specialreqdesc": "Untrained in Aldori Dueling Sword",
         "gainSkillChoice": [
             {
                 "_className": "SkillChoice",
@@ -6150,7 +6150,7 @@
             }
         ],
         "specialreq": "!characterService.get_Skills(character, this.subType).length || characterService.get_Skills(character, this.subType)[0].level(character, characterService) < 2 || (this.have(character, characterService, charLevel) && characterService.get_Skills(character, this.subType)[0].level(character, characterService, charLevel) < 4)",
-        "specialreqdesc": "Bladed Diabolo < T",
+        "specialreqdesc": "Untrained in Bladed Diabolo",
         "gainSkillChoice": [
             {
                 "_className": "SkillChoice",
@@ -6185,7 +6185,7 @@
             }
         ],
         "specialreq": "!characterService.get_Skills(character, this.subType).length || characterService.get_Skills(character, this.subType)[0].level(character, characterService) < 2 || (this.have(character, characterService, charLevel) && characterService.get_Skills(character, this.subType)[0].level(character, characterService, charLevel) < 4)",
-        "specialreqdesc": "Bladed Hoop < T",
+        "specialreqdesc": "Untrained in Bladed Hoop",
         "gainSkillChoice": [
             {
                 "_className": "SkillChoice",
@@ -6220,7 +6220,7 @@
             }
         ],
         "specialreq": "!characterService.get_Skills(character, this.subType).length || characterService.get_Skills(character, this.subType)[0].level(character, characterService) < 2 || (this.have(character, characterService, charLevel) && characterService.get_Skills(character, this.subType)[0].level(character, characterService, charLevel) < 4)",
-        "specialreqdesc": "Dwarven War Axe < T",
+        "specialreqdesc": "Untrained in Dwarven War Axe",
         "gainSkillChoice": [
             {
                 "_className": "SkillChoice",
@@ -6255,7 +6255,7 @@
             }
         ],
         "specialreq": "!characterService.get_Skills(character, this.subType).length || characterService.get_Skills(character, this.subType)[0].level(character, characterService) < 2 || (this.have(character, characterService, charLevel) && characterService.get_Skills(character, this.subType)[0].level(character, characterService, charLevel) < 4)",
-        "specialreqdesc": "Fire Poi < T",
+        "specialreqdesc": "Untrained in Fire Poi",
         "gainSkillChoice": [
             {
                 "_className": "SkillChoice",
@@ -6290,7 +6290,7 @@
             }
         ],
         "specialreq": "!characterService.get_Skills(character, this.subType).length || characterService.get_Skills(character, this.subType)[0].level(character, characterService) < 2 || (this.have(character, characterService, charLevel) && characterService.get_Skills(character, this.subType)[0].level(character, characterService, charLevel) < 4)",
-        "specialreqdesc": "Gnome Flickmace < T",
+        "specialreqdesc": "Untrained in Gnome Flickmace",
         "gainSkillChoice": [
             {
                 "_className": "SkillChoice",
@@ -6325,7 +6325,7 @@
             }
         ],
         "specialreq": "characterService.get_Skills(character, this.subType)[0].level(character, characterService, charLevel) < 2 || (this.have(character, characterService, charLevel) && characterService.get_Skills(character, this.subType)[0].level(character, characterService, charLevel) < 4)",
-        "specialreqdesc": "Martial Weapons < T",
+        "specialreqdesc": "Untrained in Martial Weapons",
         "gainSkillChoice": [
             {
                 "_className": "SkillChoice",
@@ -6360,7 +6360,7 @@
             }
         ],
         "specialreq": "!characterService.get_Skills(character, this.subType).length || characterService.get_Skills(character, this.subType)[0].level(character, characterService) < 2 || (this.have(character, characterService, charLevel) && characterService.get_Skills(character, this.subType)[0].level(character, characterService, charLevel) < 4)",
-        "specialreqdesc": "Ogre Hook < T",
+        "specialreqdesc": "Untrained in Ogre Hook",
         "gainSkillChoice": [
             {
                 "_className": "SkillChoice",
@@ -6395,7 +6395,7 @@
             }
         ],
         "specialreq": "!characterService.get_Skills(character, this.subType).length || characterService.get_Skills(character, this.subType)[0].level(character, characterService) < 2 || (this.have(character, characterService, charLevel) && characterService.get_Skills(character, this.subType)[0].level(character, characterService, charLevel) < 4)",
-        "specialreqdesc": "Orc Necksplitter < T",
+        "specialreqdesc": "Untrained in Orc Necksplitter",
         "gainSkillChoice": [
             {
                 "_className": "SkillChoice",
@@ -6430,7 +6430,7 @@
             }
         ],
         "specialreq": "!characterService.get_Skills(character, this.subType).length || characterService.get_Skills(character, this.subType)[0].level(character, characterService) < 2 || (this.have(character, characterService, charLevel) && characterService.get_Skills(character, this.subType)[0].level(character, characterService, charLevel) < 4)",
-        "specialreqdesc": "Sawtooth Saber < T",
+        "specialreqdesc": "Untrained in Sawtooth Saber",
         "gainSkillChoice": [
             {
                 "_className": "SkillChoice",
@@ -6459,7 +6459,7 @@
         ],
         "levelreq": 1,
         "specialreq": "characterService.get_Skills(character, this.subType)[0].level(character, characterService, charLevel) < 2 || (this.have(character, characterService, charLevel) && characterService.get_Skills(character, this.subType)[0].level(character, characterService, charLevel) < 4)",
-        "specialreqdesc": "Simple Weapons < T",
+        "specialreqdesc": "Untrained in Simple Weapons",
         "gainSkillChoice": [
             {
                 "_className": "SkillChoice",

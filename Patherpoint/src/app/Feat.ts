@@ -66,13 +66,13 @@ export class Feat {
     prof(skillLevel: number) {
         switch (skillLevel) {
             case 2:
-                return "T"
+                return "Trained in "
             case 4:
-                return "E"
+                return "Expert in "
             case 6:
-                return "M"
+                return "Master in "
             case 8:
-                return "L"
+                return "Legendary in "
         }
     }
     meetsLevelReq(characterService: CharacterService, charLevel: number = characterService.get_Character().level) {
@@ -118,7 +118,7 @@ export class Feat {
     meetsSkillReq(characterService: CharacterService, charLevel: number = characterService.get_Character().level) {
         //If the feat has a skillreq, first split it into all different requirements,
         //Then check if every one of these requirements {skill, value} are met by the skill's level
-        //When evaluating the result, these should be treatet as OR requirements - you never need two skills for a feat.
+        //When evaluating the result, these should be treated as OR requirements - you never need two skillreqs for a feat.
         //Returns an array of [requirement met, requirement description]
         let character = characterService.get_Character();
         let result: Array<{met?:boolean, desc?:string}> = [];
@@ -130,9 +130,9 @@ export class Feat {
                 if (requiredSkill.length > 0) {
                     requiredSkill.forEach(skill => {
                         if (skill.level(character, characterService, charLevel) >= expected) {
-                            result.push({met:true, desc:skill.name+" "+this.prof(expected)});
+                            result.push({met:true, desc:this.prof(expected)+requirement.skill});
                         } else {
-                            result.push({met:false, desc:skill.name+" "+this.prof(expected)});
+                            result.push({met:false, desc:this.prof(expected)+requirement.skill});
                         }
                     })
                 }
