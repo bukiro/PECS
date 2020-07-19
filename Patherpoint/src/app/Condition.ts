@@ -2,6 +2,7 @@ import { ConditionGain } from './ConditionGain';
 import { EffectGain } from './EffectGain';
 import { ActivityGain } from './ActivityGain';
 import { SpecializationGain } from './SpecializationGain';
+import { ItemGain } from './ItemGain';
 
 export class Condition {
     public name: string = "";
@@ -16,8 +17,9 @@ export class Condition {
     public onceEffects: EffectGain[] = [];
     public endEffects: EffectGain[] = [];
     public effects: EffectGain[] = [];
-    public gainConditions: ConditionGain[] = [];
     public gainActivities: ActivityGain[] = [];
+    public gainConditions: ConditionGain[] = [];
+    public gainItems: ItemGain[] = [];
     public overrideConditions: string[] = [];
     public endConditions: string[] = [];
     public attackRestrictions: string[] = [];

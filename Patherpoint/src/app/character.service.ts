@@ -1163,6 +1163,9 @@ export class CharacterService {
         if (originalCondition.persistent) {
             conditionGain.persistent = true;
         }
+        if (originalCondition.choices.length && !conditionGain.choice) {
+            conditionGain.choice = originalCondition.choices[0];
+        }
         let newLength: number = 0;
         if (conditionGain.addValue) {
             let existingConditions = creature.conditions.filter(gain => gain.name == conditionGain.name);
@@ -1179,7 +1182,7 @@ export class CharacterService {
         }
         if (newLength) {
             let newConditionGain = creature.conditions[newLength - 1];
-            this.conditionsService.process_Condition(creature, this, this.effectsService, conditionGain, this.conditionsService.get_Conditions(conditionGain.name)[0], true);
+            this.conditionsService.process_Condition(creature, this, this.effectsService, this.itemsService, conditionGain, this.conditionsService.get_Conditions(conditionGain.name)[0], true);
             originalCondition.gainConditions.forEach(extraCondition => {
                 let addCondition = Object.assign(new ConditionGain, JSON.parse(JSON.stringify(extraCondition)));
                 addCondition.source = newConditionGain.name;
@@ -1208,7 +1211,7 @@ export class CharacterService {
                 this.remove_Condition(creature, addCondition, false, increaseWounded, true)
             })
             creature.conditions.splice(creature.conditions.indexOf(oldConditionGain), 1)
-            this.conditionsService.process_Condition(creature, this, this.effectsService, conditionGain, this.conditionsService.get_Conditions(conditionGain.name)[0], false, increaseWounded);
+            this.conditionsService.process_Condition(creature, this, this.effectsService, this.itemsService, conditionGain, this.conditionsService.get_Conditions(conditionGain.name)[0], false, increaseWounded);
             this.set_ToChange(creature.type, "effects");
             if (reload) {
                 this.process_ToChange();

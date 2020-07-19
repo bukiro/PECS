@@ -28,6 +28,7 @@ export class AttacksComponent implements OnInit {
     @Input()
     public creature: string = "Character";
     public attackRestrictions: string[] = []
+    public showRestricted: boolean = false;
     private showItem: string = "";
 
     constructor(
@@ -86,6 +87,13 @@ export class AttacksComponent implements OnInit {
         restrictionCollection.forEach(coll => {
             this.attackRestrictions.push(...coll);
         })
+        //For Animal Form, only allow the weapons for the chosen form.
+        let animalForm = this.characterService.get_AppliedConditions(this.get_Creature()).filter(gain => gain.apply && gain.name.includes("Animal Form"))[0];
+        if (animalForm) {
+            this.attackRestrictions.filter(restriction => restriction.includes("Animal Form") && !restriction.includes(animalForm.choice)).forEach(restriction => {
+                this.attackRestrictions.splice((this.attackRestrictions.indexOf(restriction)), 1);
+            })
+        }
     }
 
     get_IsAllowed(weapon: Weapon) {

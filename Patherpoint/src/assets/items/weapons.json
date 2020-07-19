@@ -2768,5 +2768,421 @@
       "hands": "1",
       "melee": 5,
       "prof": "Martial Weapons"
+   },
+   {
+      "hide": true,
+      "id": "b62757a3-9220-4a72-8b09-27c3bbf24776",
+      "name": "Animal Form Ape Fist",
+      "traits": [
+         "Unarmed"
+      ],
+      "displayName": "Fist",
+      "moddable": "-",
+      "_className": "Weapon",
+      "dicenum": 2,
+      "dicesize": 6,
+      "dmgType": "B",
+      "group": "Brawling",
+      "melee": 5,
+      "prof": "Unarmed Attacks"
+   },
+   {
+      "hide": true,
+      "id": "28e045eb-008b-44bc-aa84-35cd0a28c9c7",
+      "name": "Animal Form Bear Jaws",
+      "traits": [
+         "Unarmed"
+      ],
+      "displayName": "Jaws",
+      "moddable": "-",
+      "_className": "Weapon",
+      "dicenum": 2,
+      "dicesize": 8,
+      "dmgType": "P",
+      "group": "Brawling",
+      "melee": 5,
+      "prof": "Unarmed Attacks"
+   },
+   {
+      "hide": true,
+      "id": "84e43725-627e-4699-8566-dd7ed4191fe3",
+      "name": "Animal Form Bear Claw",
+      "traits": [
+         "Agile",
+         "Unarmed"
+      ],
+      "displayName": "Claw",
+      "moddable": "-",
+      "_className": "Weapon",
+      "dicenum": 1,
+      "dicesize": 8,
+      "dmgType": "S",
+      "group": "Brawling",
+      "melee": 5,
+      "prof": "Unarmed Attacks"
+   },
+   {
+      "hide": true,
+      "id": "ca05a1ce-f15d-486e-8af0-c54b41300a0d",
+      "name": "Animal Form Bull Horn",
+      "traits": [
+         "Unarmed"
+      ],
+      "displayName": "Horn",
+      "moddable": "-",
+      "_className": "Weapon",
+      "dicenum": 2,
+      "dicesize": 8,
+      "dmgType": "P",
+      "group": "Brawling",
+      "melee": 5,
+      "prof": "Unarmed Attacks"
+   },
+   {
+      "hide": true,
+      "id": "0bc9fdff-76b3-4b64-ac28-84d63df300c8",
+      "name": "Animal Form Canine Jaws",
+      "traits": [
+         "Unarmed"
+      ],
+      "displayName": "Jaws",
+      "moddable": "-",
+      "_className": "Weapon",
+      "dicenum": 2,
+      "dicesize": 8,
+      "dmgType": "P",
+      "group": "Brawling",
+      "melee": 5,
+      "prof": "Unarmed Attacks"
+   },
+   {
+      "hide": true,
+      "id": "4604539d-c1a3-40ef-8ee4-b0601f4665f8",
+      "name": "Animal Form Cat Jaws",
+      "traits": [
+         "Unarmed"
+      ],
+      "displayName": "Jaws",
+      "moddable": "-",
+      "_className": "Weapon",
+      "dicenum": 2,
+      "dicesize": 6,
+      "dmgType": "P",
+      "group": "Brawling",
+      "melee": 5,
+      "prof": "Unarmed Attacks"
+   },
+   {
+      "hide": true,
+      "id": "965b0682-14eb-4552-bac4-588f9c8bb424",
+      "name": "Animal Form Cat Claw",
+      "traits": [
+         "Agile",
+         "Unarmed"
+      ],
+      "displayName": "Claw",
+      "moddable": "-",
+      "_className": "Weapon",
+      "dicenum": 1,
+      "dicesize": 10,
+      "dmgType": "S",
+      "group": "Brawling",
+      "melee": 5,
+      "prof": "Unarmed Attacks"
+   },
+   {
+      "hide": true,
+      "id": "77e95414-209f-4b44-8b46-92dd161213aa",
+      "name": "Animal Form Deer Antler",
+      "traits": [
+         "Unarmed"
+      ],
+      "displayName": "Antler",
+      "moddable": "-",
+      "_className": "Weapon",
+      "dicenum": 2,
+      "dicesize": 6,
+      "dmgType": "P",
+      "group": "Brawling",
+      "melee": 5,
+      "prof": "Unarmed Attacks"
+   },
+   {
+      "hide": true,
+      "id": "3339e51d-36cb-4dbc-a536-ab5a938ab08a",
+      "name": "Animal Form Frog Jaws",
+      "traits": [
+         "Unarmed"
+      ],
+      "displayName": "Jaws",
+      "moddable": "-",
+      "_className": "Weapon",
+      "dicenum": 2,
+      "dicesize": 6,
+      "dmgType": "B",
+      "group": "Brawling",
+      "melee": 5,
+      "prof": "Unarmed Attacks"
+   },
+   {
+      "hide": true,
+      "id": "8d431e7b-9ab0-4061-8fac-02afa7ad3512",
+      "name": "Animal Form Frog Tongue",
+      "traits": [
+         "Reach 15 feet",
+         "Unarmed"
+      ],
+      "displayName": "Tongue",
+      "moddable": "-",
+      "_className": "Weapon",
+      "dicenum": 2,
+      "dicesize": 4,
+      "dmgType": "B",
+      "group": "Brawling",
+      "melee": 5,
+      "prof": "Unarmed Attacks"
+   },
+   {
+      "hide": true,
+      "id": "4e41de90-3395-401a-9792-9f0996fbbf4b",
+      "name": "Animal Form Shark Jaws",
+      "traits": [
+         "Unarmed"
+      ],
+      "displayName": "Jaws",
+      "moddable": "-",
+      "_className": "Weapon",
+      "dicenum": 2,
+      "dicesize": 8,
+      "dmgType": "P",
+      "group": "Brawling",
+      "melee": 5,
+      "prof": "Unarmed Attacks"
+   },
+   {
+      "hide": true,
+      "id": "373b4735-7370-478b-8e43-2616138c51d1",
+      "name": "Animal Form Snake Fangs",
+      "traits": [
+         "Unarmed"
+      ],
+      "displayName": "Fangs",
+      "moddable": "-",
+      "_className": "Weapon",
+      "dicenum": 2,
+      "dicesize": 4,
+      "dmgType": "P",
+      "extraDamage": "+1d6 Poison",
+      "group": "Brawling",
+      "melee": 5,
+      "prof": "Unarmed Attacks"
+   },
+   {
+      "hide": true,
+      "id": "e4cf01e4-b71c-4035-8007-0804ed2667c9",
+      "name": "Animal Form Ape Fist (5th level)",
+      "traits": [
+         "Unarmed"
+      ],
+      "displayName": "Fist",
+      "moddable": "-",
+      "_className": "Weapon",
+      "dicenum": 4,
+      "dicesize": 6,
+      "dmgType": "B",
+      "group": "Brawling",
+      "melee": 5,
+      "prof": "Unarmed Attacks"
+   },
+   {
+      "hide": true,
+      "id": "cc6e12ea-99aa-43dd-aba7-a950c130b6ad",
+      "name": "Animal Form Bear Jaws (5th level)",
+      "traits": [
+         "Unarmed"
+      ],
+      "displayName": "Jaws",
+      "moddable": "-",
+      "_className": "Weapon",
+      "dicenum": 4,
+      "dicesize": 8,
+      "dmgType": "P",
+      "group": "Brawling",
+      "melee": 5,
+      "prof": "Unarmed Attacks"
+   },
+   {
+      "hide": true,
+      "id": "347a4015-d379-4719-baa0-23e7b24cd117",
+      "name": "Animal Form Bear Claw (5th level)",
+      "traits": [
+         "Agile",
+         "Unarmed"
+      ],
+      "displayName": "Claw",
+      "moddable": "-",
+      "_className": "Weapon",
+      "dicenum": 2,
+      "dicesize": 8,
+      "dmgType": "S",
+      "group": "Brawling",
+      "melee": 5,
+      "prof": "Unarmed Attacks"
+   },
+   {
+      "hide": true,
+      "id": "9f89b5db-fc40-4733-8d22-8186cf084db7",
+      "name": "Animal Form Bull Horn (5th level)",
+      "traits": [
+         "Unarmed"
+      ],
+      "displayName": "Horn",
+      "moddable": "-",
+      "_className": "Weapon",
+      "dicenum": 4,
+      "dicesize": 8,
+      "dmgType": "P",
+      "group": "Brawling",
+      "melee": 5,
+      "prof": "Unarmed Attacks"
+   },
+   {
+      "hide": true,
+      "id": "c2a1c4ef-a2f4-4e6e-a09f-941a53fa1ff9",
+      "name": "Animal Form Canine Jaws (5th level)",
+      "traits": [
+         "Unarmed"
+      ],
+      "displayName": "Jaws",
+      "moddable": "-",
+      "_className": "Weapon",
+      "dicenum": 4,
+      "dicesize": 8,
+      "dmgType": "P",
+      "group": "Brawling",
+      "melee": 5,
+      "prof": "Unarmed Attacks"
+   },
+   {
+      "hide": true,
+      "id": "2d0f12ee-cb8b-4d6b-99cd-c5fe96a6fd59",
+      "name": "Animal Form Cat Jaws (5th level)",
+      "traits": [
+         "Unarmed"
+      ],
+      "displayName": "Jaws",
+      "moddable": "-",
+      "_className": "Weapon",
+      "dicenum": 4,
+      "dicesize": 6,
+      "dmgType": "P",
+      "group": "Brawling",
+      "melee": 5,
+      "prof": "Unarmed Attacks"
+   },
+   {
+      "hide": true,
+      "id": "64ed63dd-a317-4a36-8b44-59cfe1c260bf",
+      "name": "Animal Form Cat Claw (5th level)",
+      "traits": [
+         "Agile",
+         "Unarmed"
+      ],
+      "displayName": "Claw",
+      "moddable": "-",
+      "_className": "Weapon",
+      "dicenum": 2,
+      "dicesize": 10,
+      "dmgType": "S",
+      "group": "Brawling",
+      "melee": 5,
+      "prof": "Unarmed Attacks"
+   },
+   {
+      "hide": true,
+      "id": "7ea9a231-ebf1-4f3e-bf40-4818135c615b",
+      "name": "Animal Form Deer Antler (5th level)",
+      "traits": [
+         "Unarmed"
+      ],
+      "displayName": "Antler",
+      "moddable": "-",
+      "_className": "Weapon",
+      "dicenum": 4,
+      "dicesize": 6,
+      "dmgType": "P",
+      "group": "Brawling",
+      "melee": 5,
+      "prof": "Unarmed Attacks"
+   },
+   {
+      "hide": true,
+      "id": "883357ab-9635-468a-93a5-1749ac19a842",
+      "name": "Animal Form Frog Jaws (5th level)",
+      "traits": [
+         "Unarmed"
+      ],
+      "displayName": "Jaws",
+      "moddable": "-",
+      "_className": "Weapon",
+      "dicenum": 4,
+      "dicesize": 6,
+      "dmgType": "B",
+      "group": "Brawling",
+      "melee": 5,
+      "prof": "Unarmed Attacks"
+   },
+   {
+      "hide": true,
+      "id": "04cdfd97-f83a-456c-b094-fef670c7d4a5",
+      "name": "Animal Form Frog Tongue (5th level)",
+      "traits": [
+         "Reach 15 feet",
+         "Unarmed"
+      ],
+      "displayName": "Tongue",
+      "moddable": "-",
+      "_className": "Weapon",
+      "dicenum": 4,
+      "dicesize": 4,
+      "dmgType": "B",
+      "group": "Brawling",
+      "melee": 5,
+      "prof": "Unarmed Attacks"
+   },
+   {
+      "hide": true,
+      "id": "55eb1009-f99f-4aec-8ade-30c4b0ebf3b7",
+      "name": "Animal Form Shark Jaws (5th level)",
+      "traits": [
+         "Unarmed"
+      ],
+      "displayName": "Jaws",
+      "moddable": "-",
+      "_className": "Weapon",
+      "dicenum": 4,
+      "dicesize": 8,
+      "dmgType": "P",
+      "group": "Brawling",
+      "melee": 5,
+      "prof": "Unarmed Attacks"
+   },
+   {
+      "hide": true,
+      "id": "a2daeeaf-c00b-421d-9c86-6f6efda2a67f",
+      "name": "Animal Form Snake Fangs (5th level)",
+      "traits": [
+         "Unarmed"
+      ],
+      "displayName": "Fangs",
+      "moddable": "-",
+      "_className": "Weapon",
+      "dicenum": 4,
+      "dicesize": 4,
+      "dmgType": "P",
+      "extraDamage": "+2d6 Poison",
+      "group": "Brawling",
+      "melee": 5,
+      "prof": "Unarmed Attacks"
    }
 ]

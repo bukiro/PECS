@@ -22,7 +22,7 @@
     { "name":"Simple Weapons", "type":"Weapon Proficiency" },
     { "name":"Martial Weapons", "type":"Weapon Proficiency" },
     { "name":"Advanced Weapons", "type":"Weapon Proficiency" },
-    { "name":"Unarmed Attacks", "type":"Weapon Proficiency" },
+    { "name":"Unarmed Attacks", "type":"Weapon Proficiency", "ability":"Strength" },
     { "name":"Light Armor", "type":"Armor Proficiency" },
     { "name":"Medium Armor", "type":"Armor Proficiency" },
     { "name":"Heavy Armor", "type":"Armor Proficiency" },

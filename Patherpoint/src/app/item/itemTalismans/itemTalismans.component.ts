@@ -75,10 +75,24 @@ export class ItemTalismansComponent implements OnInit {
     get_Talismans(inv: ItemCollection) {
         return inv.talismans.filter(talisman => talisman.targets.length && talisman.amount)
             .map(talisman => ({ talisman: talisman, inv: (this.itemStore ? null : inv) }))
-            .filter((talisman: { talisman: Talisman, inv: ItemCollection }, index) =>
-                    talisman.talisman.targets.length &&
-                    talisman.talisman.targets.includes(this.item.type)
-            );
+            .filter((talisman: { talisman: Talisman, inv: ItemCollection }) =>
+                talisman.talisman.targets.length &&
+                (
+                    talisman.talisman.targets.includes(this.item.type) ||
+                    (
+                        //One Exception: The jade bauble is affixed to a melee weapon, which is not a weapon type.
+                        (this.item as Weapon).melee && talisman.talisman.targets.includes("melee weapons")
+                    )
+                )
+            ).sort(function (a, b) {
+                if (a.talisman.name > b.talisman.name) {
+                    return 1;
+                }
+                if (a.talisman.name < b.talisman.name) {
+                    return -1;
+                }
+                return 0;
+            }).sort((a, b) => a.talisman.level - b.talisman.level);;
     }
 
     add_Talisman(index: number) {

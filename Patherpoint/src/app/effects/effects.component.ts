@@ -121,8 +121,11 @@ export class EffectsComponent implements OnInit {
         this.characterService.process_ToChange();
     }
 
-    change_ConditionChoice() {
+    change_ConditionChoice(condition: Condition) {
         this.characterService.set_ToChange(this.creature, "effects");
+        if (condition.attackRestrictions.length) {
+            this.characterService.set_ToChange(this.creature, "attacks");
+        }
         this.characterService.process_ToChange();
     }
 

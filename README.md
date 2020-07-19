@@ -72,6 +72,7 @@ The very latest in Assistive Technologies for Dungeon Master (ATDM)
 
 Active to-do
 Add and remove custom effects
+Implement Level 2 spells
 
 Next steps:
 - Implement Bard

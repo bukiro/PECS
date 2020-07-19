@@ -80,7 +80,8 @@ export class Spell {
     }
     get_Heightened(desc: string, levelNumber: number) {
         this.get_DescriptionSet(levelNumber).forEach((descVar: SpellDesc) => {
-            desc = desc.replace(descVar.variable, descVar.value);
+            let regex = new RegExp(descVar.variable,"g")
+            desc = desc.replace(regex, descVar.value);
         })
         return desc;
     }

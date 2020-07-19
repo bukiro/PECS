@@ -8,6 +8,12 @@
     <app-tags [creature]="creature" [objectName]="item.name" [showTraits]=true [showFeats]=true [showItems]=true
         [showActivities]=true [showConditions]=true [showEffects]=true></app-tags>
 </div>
+<div class="row left-aligned" *ngIf="item.sourceBook">
+    <span>
+        <strong>Source</strong>
+        <i>&nbsp;{{item.sourceBook}}</i>
+    </span>
+</div>
 <div class="row left-aligned">
     <span *ngIf="item.price">
         <strong>Price</strong>
@@ -250,6 +256,16 @@
             </app-actionIcons>{{(activity.activationType) ? activity.activationType : ""}}
         </h4>
         <app-activity [creature]="creature" [activity]=activity [gain]=gain [allowActivate]=allowActivate
+            [isSubItem]=isSubItem></app-activity>
+    </div>
+</ng-container>
+<ng-container *ngFor="let activityName of item.showActivities; trackBy:trackByIndex;">
+    <div class="list-item left-aligned" *ngFor="let activity of get_Activities(activityName); trackBy:trackByIndex;">
+        <h4>
+            {{activity.name}}<app-actionIcons [actionString]="activity.actions">
+            </app-actionIcons>{{(activity.activationType) ? activity.activationType : ""}}
+        </h4>
+        <app-activity [creature]="creature" [activity]=activity [gain]=null [allowActivate]=false
             [isSubItem]=isSubItem></app-activity>
     </div>
 </ng-container>

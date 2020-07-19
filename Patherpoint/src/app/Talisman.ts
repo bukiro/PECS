@@ -4,8 +4,13 @@ export class Talisman extends Consumable {
     public readonly _className: string = this.constructor.name;
     //Other Consumables should be type "talismans" to be found in the database
     readonly type = "talismans";
+    public critfailure: string = "";
+    public critsuccess: string = "";
+    public failure: string = "";
+    public success: string = "";
     public requirements: string = "";
-    //You can only choose this talisman for an item if its type is in the targets list
+    public showActivities: string[] = [];
+    //You can only choose this talisman for an item if its type is in the targets list (with a hardcoded exception for "melee weapons")
     public targets: string[] = [];
     public trigger: string = "";
 }

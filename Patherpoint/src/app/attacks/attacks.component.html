@@ -5,8 +5,12 @@
     <ng-container *ngIf="!still_loading()">
         <app-tags [creature]="creature" [objectName]="'Attacks'" [showTraits]=true [showFeats]=true [showItems]=true
             [showActivities]=true [showConditions]=true [showEffects]=true></app-tags>
-        <ng-container *ngFor="let weapon of get_EquippedWeapons(); trackBy:trackByIndex;">
-            <div class="list-item" [ngClass]="{'problem fullsize-only':!get_IsAllowed(weapon)}"
+        <ng-container *ngFor="let weapon of get_EquippedWeapons(); let weaponIndex = index; trackBy:trackByIndex;">
+            <div class="list-item" *ngIf="attackRestrictions.length && weaponIndex == 0">
+                <label for="showRestricted">Show restricted attacks</label>
+                <input id="showRestricted" type="checkbox" [(ngModel)]="showRestricted">
+            </div>
+            <div class="list-item" [ngClass]="{'problem fullsize-only':!get_IsAllowed(weapon), 'invisible':!get_IsAllowed(weapon) && !showRestricted}"
                 *ngFor="let attack of get_Attacks(weapon)">
                 <div class="row">
                     <strong style="flex-basis:auto" *ngIf="!['alchemicalbombs', 'otherconsumablesbombs'].includes(weapon.type)">{{weapon.get_Name()}}{{(attack[0] == 'melee') ?

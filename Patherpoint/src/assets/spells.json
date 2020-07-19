@@ -8171,6 +8171,201 @@
         "traits": [
             "Polymorph",
             "Transmutation"
+        ],
+        "target": "self",
+        "duration": "1 minute",
+        "desc": "You transform into a <var>var1</var> animal battle form. You can choose ape, bear, bull, canine, cat, deer, frog, shark, or snake. While in this form, you gain the animal trait. You can Dismiss the spell.\n\nYou gain the following statistics and abilities regardless of which battle form you choose:\n\nAC = <var>var2</var> + your level. Ignore your armor's check penalty and Speed reduction.\n<var>var3</var> temporary Hit Points.\nLow-light vision and imprecise scent 30 feet.\nOne or more unarmed melee attacks specific to the battle form you choose, which are the only attacks you can use. You're trained with them. Your attack modifier is <var>var4</var>, and your damage bonus is <var>var5</var>. These attacks are Strength based (for the purpose of the enfeebled condition, for example)<var>var9</var>. If your unarmed attack bonus is higher, you can use it instead.\nAthletics modifier of <var>var6</var>, unless your own modifier is higher.\n\nYou also gain specific abilities based on the type of animal you choose:\n\n<strong>Ape</strong> Speed 25 feet, climb Speed 20 feet; <strong>Melee</strong> fist, <strong>Damage</strong> <var>var7</var>d6 bludgeoning.\n<strong>Bear</strong> Speed 30 feet; <strong>Melee</strong> jaws, <strong>Damage</strong> <var>var7</var>d8 piercing; <strong>Melee</strong> claw (agile), <strong>Damage</strong> <var>var8</var>d8 slashing.\n<strong>Bull</strong> Speed 30 feet; <strong>Melee</strong> horn, <strong>Damage</strong> <var>var7</var>d8 piercing.\n<strong>Canine</strong> Speed 40 feet; <strong>Melee</strong> jaws, <strong>Damage</strong> <var>var7</var>d8 piercing.\n<strong>Cat</strong> Speed 40 feet; <strong>Melee</strong> jaws, <strong>Damage</strong> <var>var7</var>d6 piercing; <strong>Melee</strong> claw (agile), <strong>Damage</strong> <var>var8</var>d10 slashing.\n<strong>Deer</strong> Speed 50 feet; <strong>Melee</strong> antler, <strong>Damage</strong> <var>var7</var>d6 piercing.\n<strong>Frog</strong> Speed 25 feet, swim Speed 25 feet; <strong>Melee</strong> jaws, <strong>Damage</strong> <var>var7</var>d6 bludgeoning; <strong>Melee</strong> tongue (reach 15 feet), <strong>Damage</strong> <var>var7</var>d4 bludgeoning.\n<strong>Shark</strong> swim Speed 35 feet; <strong>Melee</strong> jaws, <strong>Damage</strong> <var>var7</var>d8 piercing; breathe underwater but not in air.\n<strong>Snake</strong> Speed 20 feet, climb Speed 20 feet, swim Speed 20 feet; <strong>Melee</strong> fangs, <strong>Damage</strong> <var>var7</var>d4 piercing plus 1d6 poison.",
+        "heightened": [
+            {
+                "desc": "You instead gain 10 temporary HP, AC = 17 + your level, attack modifier +14, damage bonus +5, and Athletics +14.",
+                "level": "(3rd)"
+            },
+            {
+                "desc": "Your battle form is Large and your attacks have 10-foot reach. You must have enough space to expand into or the spell is lost. You instead gain 15 temporary HP, AC = 18 + your level, attack modifier +16, damage bonus +9, and Athletics +16.",
+                "level": "(4th)"
+            },
+            {
+                "desc": "Your battle form is Huge and your attacks have 15-foot reach. You must have enough space to expand into or the spell is lost. You instead gain 20 temporary HP, AC = 18 + your level, attack modifier +18, damage bonus +7 and double the number of damage dice, and Athletics +20.",
+                "level": "(5th)"
+            }
+        ],
+        "gainConditions": [
+            {
+                "duration": 100,
+                "heightenedFilter": 2,
+                "name": "Animal Form (2nd level)",
+                "source": "Animal Form"
+            },
+            {
+                "duration": 100,
+                "heightenedFilter": 3,
+                "name": "Animal Form (3rd level)",
+                "source": "Animal Form"
+            },
+            {
+                "duration": 100,
+                "heightenedFilter": 4,
+                "name": "Animal Form (4th level)",
+                "source": "Animal Form"
+            },
+            {
+                "duration": 100,
+                "heightenedFilter": 5,
+                "name": "Animal Form (5th level)",
+                "source": "Animal Form"
+            }
+        ],
+        "desc2": [
+            {
+                "value": "Medium",
+                "variable": "var1"
+            },
+            {
+                "value": 16,
+                "variable": "var2"
+            },
+            {
+                "value": 5,
+                "variable": "var3"
+            },
+            {
+                "value": "+9",
+                "variable": "var4"
+            },
+            {
+                "value": "+1",
+                "variable": "var5"
+            },
+            {
+                "value": "+9",
+                "variable": "var6"
+            },
+            {
+                "value": 2,
+                "variable": "var7"
+            },
+            {
+                "value": 1,
+                "variable": "var8"
+            },
+            {
+                "value": "",
+                "variable": "var9"
+            }
+        ],
+        "desc3": [
+            {
+                "value": "Medium",
+                "variable": "var1"
+            },
+            {
+                "value": 17,
+                "variable": "var2"
+            },
+            {
+                "value": 10,
+                "variable": "var3"
+            },
+            {
+                "value": "+14",
+                "variable": "var4"
+            },
+            {
+                "value": "+5",
+                "variable": "var5"
+            },
+            {
+                "value": "+14",
+                "variable": "var6"
+            },
+            {
+                "value": 2,
+                "variable": "var7"
+            },
+            {
+                "value": 1,
+                "variable": "var8"
+            },
+            {
+                "value": "",
+                "variable": "var9"
+            }
+        ],
+        "desc4": [
+            {
+                "value": "Large",
+                "variable": "var1"
+            },
+            {
+                "value": 18,
+                "variable": "var2"
+            },
+            {
+                "value": 15,
+                "variable": "var3"
+            },
+            {
+                "value": "+16",
+                "variable": "var4"
+            },
+            {
+                "value": "+9",
+                "variable": "var5"
+            },
+            {
+                "value": "+16",
+                "variable": "var6"
+            },
+            {
+                "value": 2,
+                "variable": "var7"
+            },
+            {
+                "value": 1,
+                "variable": "var8"
+            },
+            {
+                "value": " and have 10-foot reach",
+                "variable": "var9"
+            }
+        ],
+        "desc5": [
+            {
+                "value": "Huge",
+                "variable": "var1"
+            },
+            {
+                "value": 18,
+                "variable": "var2"
+            },
+            {
+                "value": 20,
+                "variable": "var3"
+            },
+            {
+                "value": "+18",
+                "variable": "var4"
+            },
+            {
+                "value": "+7",
+                "variable": "var5"
+            },
+            {
+                "value": "+20",
+                "variable": "var6"
+            },
+            {
+                "value": 4,
+                "variable": "var7"
+            },
+            {
+                "value": 2,
+                "variable": "var8"
+            },
+            {
+                "value": " and have 15-foot reach",
+                "variable": "var9"
+            }
         ]
     },
     {

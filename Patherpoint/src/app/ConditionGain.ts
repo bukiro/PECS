@@ -1,5 +1,6 @@
 import { Condition } from './Condition';
 import { ActivityGain } from './ActivityGain';
+import { ItemGain } from './ItemGain';
 
 export class ConditionGain {
     public readonly _className: string = this.constructor.name;
@@ -22,6 +23,8 @@ export class ConditionGain {
     public customCondition: Condition = null;
     //A condition's gainActivities gets copied here to track.
     public gainActivities: ActivityGain[] = [];
+    //A condition's gainItems gets copied here to track.
+    public gainItems: ItemGain[] = [];
     //If the gain is persistent, it does not get removed when its source is deactivated.
     public persistent: boolean = false;
     //For spells, designate if the condition is meant for the caster or "" for the normal target creature.

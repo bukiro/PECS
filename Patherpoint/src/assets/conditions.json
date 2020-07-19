@@ -4929,5 +4929,736 @@
         "hint": "You can roll Performance to use the Aid reaction on a skill check of your choice. You are considered to have taken sufficient preparatory actions for this Aid reaction, regardless of the circumstances. If you roll a failure, you get a success instead. If you are legendary in Performance, you automatically critically succeed.",
         "showon": "Performance",
         "type": "spells"
+    },
+    {
+        "name": "Potency Crystal",
+        "buff": true,
+        "desc": "The weapon that the potency crystal is affixed to becomes a +1 striking weapon for the duration, gaining a +1 item bonus to the attack roll and increasing the damage on a hit to two weapon damage dice.",
+        "hint": "The weapon that the potency crystal is affixed to becomes a +1 striking weapon, gaining a +1 item bonus to the attack roll and increasing the damage on a hit to two weapon damage dice.",
+        "showon": "Attacks",
+        "type": "talismans"
+    },
+    {
+        "name": "Jade Cat",
+        "buff": true,
+        "desc": "You treat all falls as 20 feet shorter, you are not flat-footed when you Balance, and narrow surfaces and uneven ground are not difficult terrain for you.",
+        "hint": "You treat all falls as 20 feet shorter, you are not flat-footed when you Balance, and narrow surfaces and uneven ground are not difficult terrain for you.",
+        "showon": "Movement, Acrobatics",
+        "type": "talismans"
+    },
+    {
+        "name": "Effervescent Ampoule",
+        "buff": true,
+        "desc": "The effervescent ampoule lets you move across water and other liquids as if they were solid ground. If you Stride or Step over a weight-sensitive pressure plate, you don’t cause the plate to depress, which prevents you from triggering any device or hazard attached to the pressure plate. When the ampoule’s effect ends, you sink, fall, break through flimsy ground, or land on pressure plates as normal for your current location.",
+        "hint": "You can move across water and other liquids as if they were solid ground. If you Stride or Step over a weight-sensitive pressure plate, you don’t cause the plate to depress, which prevents you from triggering any device or hazard attached to the pressure plate. When the effect ends, you sink, fall, break through flimsy ground, or land on pressure plates as normal for your current location.",
+        "showon": "Movement",
+        "type": "talismans"
+    },
+    {
+        "name": "Onyx Panther",
+        "buff": true,
+        "desc": "You can move your full Speed (instead of half) whenever you Sneak for the duration.",
+        "hint": "You can move your full Speed (instead of half) whenever you Sneak.",
+        "showon": "Movement, Stealth",
+        "type": "talismans"
+    },
+    {
+        "name": "Feather Step Stone",
+        "buff": true,
+        "desc": "You ignore the effects of any difficult terrain and greater difficult terrain you move through.",
+        "hint": "You ignore the effects of any difficult terrain and greater difficult terrain you move through.",
+        "showon": "Movement",
+        "type": "talismans"
+    },
+    {
+        "name": "Snapleaf",
+        "buff": true,
+        "desc": "You gain the benefits of feather fall and a 2nd-level invisibility spell for the duration or until you stop falling, whichever comes first.",
+        "inputRequired": "The condition ends when you stop falling.",
+        "type": "talismans",
+        "gainConditions": [
+            {
+                "name": "Invisibility (2nd Level)"
+            },
+            {
+                "name": "Feather Fall"
+            }
+        ]
+    },
+    {
+        "name": "Dragon Turtle Scale",
+        "buff": true,
+        "desc": "You gain a swim Speed equal to half your land Speed.",
+        "effects": [
+            {
+                "affected": "Swim Speed",
+                "setValue": "Math.max(Math.floor(Speed('Land Speed') / 2 / 5) * 5, 5)"
+            }
+        ],
+        "type": "talismans"
+    },
+    {
+        "name": "Sneaky Key",
+        "buff": true,
+        "desc": "For the duration, if the outcome of any your attempts to Pick a Lock is a critical failure, you get a failure instead.",
+        "hint": "If the outcome of any your attempts to Pick a Lock is a critical failure, you get a failure instead.",
+        "showon": "Thievery",
+        "type": "talismans"
+    },
+    {
+        "name": "Tiger Menuki",
+        "buff": true,
+        "desc": "The weapon that the tiger menuki is affixed to gains the sweep trait for the triggering attack and all other attacks for the duration.",
+        "hint": "The weapon that the tiger menuki is affixed to gains the sweep trait for the triggering attack and all other attacks for the duration.",
+        "showon": "Attacks",
+        "type": "talismans"
+    },
+    {
+        "name": "Jade Bauble",
+        "buff": true,
+        "desc": "The jade bauble magically draws the attention of foes. Enemies within the reach of the weapon the talisman is affixed to are flat-footed.",
+        "hint": "Enemies within the reach of the weapon the jade bauble is affixed to are flat-footed.",
+        "showon": "Attacks",
+        "type": "talismans"
+    },
+    {
+        "name": "Iron Medallion",
+        "buff": true,
+        "desc": "You gain a +2 status bonus to saves against fear for the duration.",
+        "hint": "You gain a +2 status bonus to saves against fear for the duration.",
+        "showon": "Will",
+        "type": "talismans"
+    },
+    {
+        "name": "Mummified Bat",
+        "buff": true,
+        "desc": "The weapon that the mummified bat is affixed to detects vibrations around you and guides your perception. You gain the benefits of the fighter Blind-Fight class feat for 1 minute:\n\nYou don’t need to succeed at a flat check to target concealed creatures.\nYou’re not flat-footed to creatures that are hidden from you (unless you’re flat-footed to them for reasons other than the hidden condition).\nYou need only a successful DC 5 flat check to target a hidden creature.\nWhile you’re adjacent to an undetected creature of your level or lower, it is instead only hidden from you.",
+        "hint": "You don't need to succeed at a flat check to target concealed creatures. You're not flat-footed to creatures that are hidden from you (unless you're flat-footed to them for reasons other than the hidden condition), and you need only a successful DC 5 flat check to target a hidden creature.\n\nWhile you're adjacent to an undetected creature of your level or lower, it is instead only hidden from you.",
+        "showon": "Attacks, Perception",
+        "type": "talismans"
+    },
+    {
+        "name": "Animal Form (2nd level)",
+        "buff": true,
+        "desc": "You transform into a Medium animal battle form. You can choose ape, bear, bull, canine, cat, deer, frog, shark, or snake. While in this form, you gain the animal trait. You can Dismiss the spell.\n\nYou gain the following statistics and abilities regardless of which battle form you choose:\n\nAC = 16 + your level. Ignore your armor's check penalty and Speed reduction.\n5 temporary Hit Points.\nLow-light vision and imprecise scent 30 feet.\nOne or more unarmed melee attacks specific to the battle form you choose, which are the only attacks you can use. You're trained with them. Your attack modifier is +9, and your damage bonus is +1. These attacks are Strength based (for the purpose of the enfeebled condition, for example). If your unarmed attack bonus is higher, you can use it instead.\nAthletics modifier of +9, unless your own modifier is higher.\n\nYou also gain specific abilities based on the type of animal you choose:\n\n<strong>Ape</strong> Speed 25 feet, climb Speed 20 feet; <strong>Melee</strong> fist, <strong>Damage</strong> 2d6 bludgeoning.\n<strong>Bear</strong> Speed 30 feet; <strong>Melee</strong> jaws, <strong>Damage</strong> 2d8 piercing; <strong>Melee</strong> claw (agile), <strong>Damage</strong> 1d8 slashing.\n<strong>Bull</strong> Speed 30 feet; <strong>Melee</strong> horn, <strong>Damage</strong> 2d8 piercing.\n<strong>Canine</strong> Speed 40 feet; <strong>Melee</strong> jaws, <strong>Damage</strong> 2d8 piercing.\n<strong>Cat</strong> Speed 40 feet; <strong>Melee</strong> jaws, <strong>Damage</strong> 2d6 piercing; <strong>Melee</strong> claw (agile), <strong>Damage</strong> 1d10 slashing.\n<strong>Deer</strong> Speed 50 feet; <strong>Melee</strong> antler, <strong>Damage</strong> 2d6 piercing.\n<strong>Frog</strong> Speed 25 feet, swim Speed 25 feet; <strong>Melee</strong> jaws, <strong>Damage</strong> 2d6 bludgeoning; <strong>Melee</strong> tongue (reach 15 feet), <strong>Damage</strong> 2d4 bludgeoning.\n<strong>Shark</strong> swim Speed 35 feet; <strong>Melee</strong> jaws, <strong>Damage</strong> 2d8 piercing; breathe underwater but not in air.\n<strong>Snake</strong> Speed 20 feet, climb Speed 20 feet, swim Speed 20 feet; <strong>Melee</strong> fangs, <strong>Damage</strong> 2d4 piercing plus 1d6 poison.",
+        "hint": "If your animal form is that of a shark type animal, you can breathe underwater but not in air.",
+        "showon": "Health",
+        "effects": [
+            {
+                "affected": "Size",
+                "setValue": "0"
+            },
+            {
+                "affected": "AC",
+                "setValue": "16 + Level"
+            },
+            {
+                "affected": "Melee Attack Rolls",
+                "setValue": "Skill('Unarmed Attacks') >= 9 ? null : 9"
+            },
+            {
+                "affected": "Melee Damage",
+                "value": "+1"
+            },
+            {
+                "affected": "Athletics",
+                "setValue": "Skill('Athletics') >= 9 ? null : 9"
+            },
+            {
+                "affected": "Land Speed",
+                "setValue": "Choice == 'Snake' ? 20 : null"
+            },
+            {
+                "affected": "Land Speed",
+                "setValue": "['Ape', 'Frog'].includes(Choice) ? 25 : null"
+            },
+            {
+                "affected": "Land Speed",
+                "setValue": "['Bear', 'Bull'].includes(Choice) ? 30 : null"
+            },
+            {
+                "affected": "Land Speed",
+                "setValue": "['Canine', 'Cat'].includes(Choice) ? 40 : null"
+            },
+            {
+                "affected": "Land Speed",
+                "setValue": "Choice == 'Deer' ? 50 : null"
+            },
+            {
+                "affected": "Climb Speed",
+                "setValue": "['Ape', 'Snake'].includes(Choice) ? 20 : null"
+            },
+            {
+                "affected": "Swim Speed",
+                "setValue": "Choice == 'Snake' ? 20 : null"
+            },
+            {
+                "affected": "Swim Speed",
+                "setValue": "Choice == 'Frog' ? 25 : null"
+            },
+            {
+                "affected": "Swim Speed",
+                "setValue": "Choice == 'Shark' ? 35 : null"
+            },
+            {
+                "affected": "Ignore Armor Penalty",
+                "toggle": true
+            }
+        ],
+        "onceEffects": [
+            {
+                "affected": "Temporary HP",
+                "value": "5"
+            }
+        ],
+        "choices": [
+            "Ape",
+            "Bear",
+            "Bull",
+            "Canine",
+            "Cat",
+            "Deer",
+            "Frog",
+            "Shark",
+            "Snake"
+        ],
+        "choice": "Ape",
+        "senses": [
+            "Low-Light Vision",
+            "Scent 30 feet (imprecise)"
+        ],
+        "type": "spells",
+        "attackRestrictions": [
+            "Animal Form Ape Fist",
+            "Animal Form Bear Jaws",
+            "Animal Form Bear Claw",
+            "Animal Form Bull Horn",
+            "Animal Form Canine Jaws",
+            "Animal Form Cat Jaws",
+            "Animal Form Cat Claw",
+            "Animal Form Deer Antler",
+            "Animal Form Frog Jaws",
+            "Animal Form Frog Tongue",
+            "Animal Form Shark Jaws",
+            "Animal Form Snake Fangs"
+        ],
+        "gainItems": [
+            {
+                "name": "Animal Form Ape Fist",
+                "type": "weapons"
+            },
+            {
+                "name": "Animal Form Bear Jaws",
+                "type": "weapons"
+            },
+            {
+                "name": "Animal Form Bear Claw",
+                "type": "weapons"
+            },
+            {
+                "name": "Animal Form Bull Horn",
+                "type": "weapons"
+            },
+            {
+                "name": "Animal Form Canine Jaws",
+                "type": "weapons"
+            },
+            {
+                "name": "Animal Form Cat Jaws",
+                "type": "weapons"
+            },
+            {
+                "name": "Animal Form Cat Claw",
+                "type": "weapons"
+            },
+            {
+                "name": "Animal Form Deer Antler",
+                "type": "weapons"
+            },
+            {
+                "name": "Animal Form Frog Jaws",
+                "type": "weapons"
+            },
+            {
+                "name": "Animal Form Frog Tongue",
+                "type": "weapons"
+            },
+            {
+                "name": "Animal Form Shark Jaws",
+                "type": "weapons"
+            },
+            {
+                "name": "Animal Form Snake Fangs",
+                "type": "weapons"
+            }
+        ]
+    },
+    {
+        "name": "Animal Form (3rd level)",
+        "buff": true,
+        "desc": "You transform into a Medium animal battle form. You can choose ape, bear, bull, canine, cat, deer, frog, shark, or snake. While in this form, you gain the animal trait. You can Dismiss the spell.\n\nYou gain the following statistics and abilities regardless of which battle form you choose:\n\nAC = 17 + your level. Ignore your armor's check penalty and Speed reduction.\n10 temporary Hit Points.\nLow-light vision and imprecise scent 30 feet.\nOne or more unarmed melee attacks specific to the battle form you choose, which are the only attacks you can use. You're trained with them. Your attack modifier is +14, and your damage bonus is +5. These attacks are Strength based (for the purpose of the enfeebled condition, for example). If your unarmed attack bonus is higher, you can use it instead.\nAthletics modifier of +14, unless your own modifier is higher.\n\nYou also gain specific abilities based on the type of animal you choose:\n\n<strong>Ape</strong> Speed 25 feet, climb Speed 20 feet; <strong>Melee</strong> fist, <strong>Damage</strong> 2d6 bludgeoning.\n<strong>Bear</strong> Speed 30 feet; <strong>Melee</strong> jaws, <strong>Damage</strong> 2d8 piercing; <strong>Melee</strong> claw (agile), <strong>Damage</strong> 1d8 slashing.\n<strong>Bull</strong> Speed 30 feet; <strong>Melee</strong> horn, <strong>Damage</strong> 2d8 piercing.\n<strong>Canine</strong> Speed 40 feet; <strong>Melee</strong> jaws, <strong>Damage</strong> 2d8 piercing.\n<strong>Cat</strong> Speed 40 feet; <strong>Melee</strong> jaws, <strong>Damage</strong> 2d6 piercing; <strong>Melee</strong> claw (agile), <strong>Damage</strong> 1d10 slashing.\n<strong>Deer</strong> Speed 50 feet; <strong>Melee</strong> antler, <strong>Damage</strong> 2d6 piercing.\n<strong>Frog</strong> Speed 25 feet, swim Speed 25 feet; <strong>Melee</strong> jaws, <strong>Damage</strong> 2d6 bludgeoning; <strong>Melee</strong> tongue (reach 15 feet), <strong>Damage</strong> 2d4 bludgeoning.\n<strong>Shark</strong> swim Speed 35 feet; <strong>Melee</strong> jaws, <strong>Damage</strong> 2d8 piercing; breathe underwater but not in air.\n<strong>Snake</strong> Speed 20 feet, climb Speed 20 feet, swim Speed 20 feet; <strong>Melee</strong> fangs, <strong>Damage</strong> 2d4 piercing plus 1d6 poison.",
+        "hint": "If your animal form is that of a shark type animal, you can breathe underwater but not in air.",
+        "showon": "Health",
+        "effects": [
+            {
+                "affected": "Size",
+                "setValue": "0"
+            },
+            {
+                "affected": "AC",
+                "setValue": "17 + Level"
+            },
+            {
+                "affected": "Melee Attack Rolls",
+                "setValue": "Skill('Unarmed Attacks') > 14 ? null : 14"
+            },
+            {
+                "affected": "Melee Damage",
+                "value": "+5"
+            },
+            {
+                "affected": "Athletics",
+                "setValue": "Skill('Athletics') > 14 ? null : 14"
+            },
+            {
+                "affected": "Land Speed",
+                "setValue": "Choice == 'Snake' ? 20 : null"
+            },
+            {
+                "affected": "Land Speed",
+                "setValue": "['Ape', 'Frog'].includes(Choice) ? 25 : null"
+            },
+            {
+                "affected": "Land Speed",
+                "setValue": "['Bear', 'Bull'].includes(Choice) ? 30 : null"
+            },
+            {
+                "affected": "Land Speed",
+                "setValue": "['Canine', 'Cat'].includes(Choice) ? 40 : null"
+            },
+            {
+                "affected": "Land Speed",
+                "setValue": "Choice == 'Deer' ? 50 : null"
+            },
+            {
+                "affected": "Climb Speed",
+                "setValue": "['Ape', 'Snake'].includes(Choice) ? 20 : null"
+            },
+            {
+                "affected": "Swim Speed",
+                "setValue": "Choice == 'Snake' ? 20 : null"
+            },
+            {
+                "affected": "Swim Speed",
+                "setValue": "Choice == 'Frog' ? 25 : null"
+            },
+            {
+                "affected": "Swim Speed",
+                "setValue": "Choice == 'Shark' ? 35 : null"
+            },
+            {
+                "affected": "Ignore Armor Penalty",
+                "toggle": true
+            }
+        ],
+        "onceEffects": [
+            {
+                "affected": "Temporary HP",
+                "value": "10"
+            }
+        ],
+        "choices": [
+            "Ape",
+            "Bear",
+            "Bull",
+            "Canine",
+            "Cat",
+            "Deer",
+            "Frog",
+            "Shark",
+            "Snake"
+        ],
+        "choice": "Ape",
+        "senses": [
+            "Low-Light Vision",
+            "Scent 30 feet (imprecise)"
+        ],
+        "type": "spells",
+        "attackRestrictions": [
+            "Animal Form Ape Fist",
+            "Animal Form Bear Jaws",
+            "Animal Form Bear Claw",
+            "Animal Form Bull Horn",
+            "Animal Form Canine Jaws",
+            "Animal Form Cat Jaws",
+            "Animal Form Cat Claw",
+            "Animal Form Deer Antler",
+            "Animal Form Frog Jaws",
+            "Animal Form Frog Tongue",
+            "Animal Form Shark Jaws",
+            "Animal Form Snake Fangs"
+        ],
+        "gainItems": [
+            {
+                "name": "Animal Form Ape Fist",
+                "type": "weapons"
+            },
+            {
+                "name": "Animal Form Bear Jaws",
+                "type": "weapons"
+            },
+            {
+                "name": "Animal Form Bear Claw",
+                "type": "weapons"
+            },
+            {
+                "name": "Animal Form Bull Horn",
+                "type": "weapons"
+            },
+            {
+                "name": "Animal Form Canine Jaws",
+                "type": "weapons"
+            },
+            {
+                "name": "Animal Form Cat Jaws",
+                "type": "weapons"
+            },
+            {
+                "name": "Animal Form Cat Claw",
+                "type": "weapons"
+            },
+            {
+                "name": "Animal Form Deer Antler",
+                "type": "weapons"
+            },
+            {
+                "name": "Animal Form Frog Jaws",
+                "type": "weapons"
+            },
+            {
+                "name": "Animal Form Frog Tongue",
+                "type": "weapons"
+            },
+            {
+                "name": "Animal Form Shark Jaws",
+                "type": "weapons"
+            },
+            {
+                "name": "Animal Form Snake Fangs",
+                "type": "weapons"
+            }
+        ]
+    },
+    {
+        "name": "Animal Form (4th level)",
+        "buff": true,
+        "desc": "You transform into a Large animal battle form. You can choose ape, bear, bull, canine, cat, deer, frog, shark, or snake. While in this form, you gain the animal trait. You can Dismiss the spell.\n\nYou gain the following statistics and abilities regardless of which battle form you choose:\n\nAC = 18 + your level. Ignore your armor's check penalty and Speed reduction.\n15 temporary Hit Points.\nLow-light vision and imprecise scent 30 feet.\nOne or more unarmed melee attacks specific to the battle form you choose, which are the only attacks you can use. You're trained with them. Your attack modifier is +16, and your damage bonus is +9. These attacks are Strength based (for the purpose of the enfeebled condition, for example) and have 10-feet reach. If your unarmed attack bonus is higher, you can use it instead.\nAthletics modifier of +16, unless your own modifier is higher.\n\nYou also gain specific abilities based on the type of animal you choose:\n\n<strong>Ape</strong> Speed 25 feet, climb Speed 20 feet; <strong>Melee</strong> fist, <strong>Damage</strong> 2d6 bludgeoning.\n<strong>Bear</strong> Speed 30 feet; <strong>Melee</strong> jaws, <strong>Damage</strong> 2d8 piercing; <strong>Melee</strong> claw (agile), <strong>Damage</strong> 1d8 slashing.\n<strong>Bull</strong> Speed 30 feet; <strong>Melee</strong> horn, <strong>Damage</strong> 2d8 piercing.\n<strong>Canine</strong> Speed 40 feet; <strong>Melee</strong> jaws, <strong>Damage</strong> 2d8 piercing.\n<strong>Cat</strong> Speed 40 feet; <strong>Melee</strong> jaws, <strong>Damage</strong> 2d6 piercing; <strong>Melee</strong> claw (agile), <strong>Damage</strong> 1d10 slashing.\n<strong>Deer</strong> Speed 50 feet; <strong>Melee</strong> antler, <strong>Damage</strong> 2d6 piercing.\n<strong>Frog</strong> Speed 25 feet, swim Speed 25 feet; <strong>Melee</strong> jaws, <strong>Damage</strong> 2d6 bludgeoning; <strong>Melee</strong> tongue (reach 15 feet), <strong>Damage</strong> 2d4 bludgeoning.\n<strong>Shark</strong> swim Speed 35 feet; <strong>Melee</strong> jaws, <strong>Damage</strong> 2d8 piercing; breathe underwater but not in air.\n<strong>Snake</strong> Speed 20 feet, climb Speed 20 feet, swim Speed 20 feet; <strong>Melee</strong> fangs, <strong>Damage</strong> 2d4 piercing plus 1d6 poison.",
+        "hint": "Your attacks have 10-feet reach. If your animal form is that of a shark type animal, you can breathe underwater but not in air.",
+        "showon": "Attacks, Health",
+        "effects": [
+            {
+                "affected": "Size",
+                "setValue": "1"
+            },
+            {
+                "affected": "AC",
+                "setValue": "18 + Level"
+            },
+            {
+                "affected": "Melee Attack Rolls",
+                "setValue": "Skill('Unarmed Attacks') > 16 ? null : 16"
+            },
+            {
+                "affected": "Melee Damage",
+                "value": "+9"
+            },
+            {
+                "affected": "Athletics",
+                "setValue": "Skill('Athletics') > 16 ? null : 16"
+            },
+            {
+                "affected": "Land Speed",
+                "setValue": "Choice == 'Snake' ? 20 : null"
+            },
+            {
+                "affected": "Land Speed",
+                "setValue": "['Ape', 'Frog'].includes(Choice) ? 25 : null"
+            },
+            {
+                "affected": "Land Speed",
+                "setValue": "['Bear', 'Bull'].includes(Choice) ? 30 : null"
+            },
+            {
+                "affected": "Land Speed",
+                "setValue": "['Canine', 'Cat'].includes(Choice) ? 40 : null"
+            },
+            {
+                "affected": "Land Speed",
+                "setValue": "Choice == 'Deer' ? 50 : null"
+            },
+            {
+                "affected": "Climb Speed",
+                "setValue": "['Ape', 'Snake'].includes(Choice) ? 20 : null"
+            },
+            {
+                "affected": "Swim Speed",
+                "setValue": "Choice == 'Snake' ? 20 : null"
+            },
+            {
+                "affected": "Swim Speed",
+                "setValue": "Choice == 'Frog' ? 25 : null"
+            },
+            {
+                "affected": "Swim Speed",
+                "setValue": "Choice == 'Shark' ? 35 : null"
+            },
+            {
+                "affected": "Ignore Armor Penalty",
+                "toggle": true
+            }
+        ],
+        "onceEffects": [
+            {
+                "affected": "Temporary HP",
+                "value": "15"
+            }
+        ],
+        "choices": [
+            "Ape",
+            "Bear",
+            "Bull",
+            "Canine",
+            "Cat",
+            "Deer",
+            "Frog",
+            "Shark",
+            "Snake"
+        ],
+        "choice": "Ape",
+        "senses": [
+            "Low-Light Vision",
+            "Scent 30 feet (imprecise)"
+        ],
+        "type": "spells",
+        "attackRestrictions": [
+            "Animal Form Ape Fist",
+            "Animal Form Bear Jaws",
+            "Animal Form Bear Claw",
+            "Animal Form Bull Horn",
+            "Animal Form Canine Jaws",
+            "Animal Form Cat Jaws",
+            "Animal Form Cat Claw",
+            "Animal Form Deer Antler",
+            "Animal Form Frog Jaws",
+            "Animal Form Frog Tongue",
+            "Animal Form Shark Jaws",
+            "Animal Form Snake Fangs"
+        ],
+        "gainItems": [
+            {
+                "name": "Animal Form Ape Fist",
+                "type": "weapons"
+            },
+            {
+                "name": "Animal Form Bear Jaws",
+                "type": "weapons"
+            },
+            {
+                "name": "Animal Form Bear Claw",
+                "type": "weapons"
+            },
+            {
+                "name": "Animal Form Bull Horn",
+                "type": "weapons"
+            },
+            {
+                "name": "Animal Form Canine Jaws",
+                "type": "weapons"
+            },
+            {
+                "name": "Animal Form Cat Jaws",
+                "type": "weapons"
+            },
+            {
+                "name": "Animal Form Cat Claw",
+                "type": "weapons"
+            },
+            {
+                "name": "Animal Form Deer Antler",
+                "type": "weapons"
+            },
+            {
+                "name": "Animal Form Frog Jaws",
+                "type": "weapons"
+            },
+            {
+                "name": "Animal Form Frog Tongue",
+                "type": "weapons"
+            },
+            {
+                "name": "Animal Form Shark Jaws",
+                "type": "weapons"
+            },
+            {
+                "name": "Animal Form Snake Fangs",
+                "type": "weapons"
+            }
+        ]
+    },
+    {
+        "name": "Animal Form (5th level)",
+        "buff": true,
+        "desc": "You transform into a Huge animal battle form. You can choose ape, bear, bull, canine, cat, deer, frog, shark, or snake. While in this form, you gain the animal trait. You can Dismiss the spell.\n\nYou gain the following statistics and abilities regardless of which battle form you choose:\n\nAC = 18 + your level. Ignore your armor's check penalty and Speed reduction.\n20 temporary Hit Points.\nLow-light vision and imprecise scent 30 feet.\nOne or more unarmed melee attacks specific to the battle form you choose, which are the only attacks you can use. You're trained with them. Your attack modifier is +18, and your damage bonus is +7 with double the usual number of damage dice. These attacks are Strength based (for the purpose of the enfeebled condition, for example) and have 15-feet reach. If your unarmed attack bonus is higher, you can use it instead.\nAthletics modifier of +20, unless your own modifier is higher.\n\nYou also gain specific abilities based on the type of animal you choose:\n\n<strong>Ape</strong> Speed 25 feet, climb Speed 20 feet; <strong>Melee</strong> fist, <strong>Damage</strong> 4d6 bludgeoning.\n<strong>Bear</strong> Speed 30 feet; <strong>Melee</strong> jaws, <strong>Damage</strong> 4d8 piercing; <strong>Melee</strong> claw (agile), <strong>Damage</strong> 2d8 slashing.\n<strong>Bull</strong> Speed 30 feet; <strong>Melee</strong> horn, <strong>Damage</strong> 4d8 piercing.\n<strong>Canine</strong> Speed 40 feet; <strong>Melee</strong> jaws, <strong>Damage</strong> 4d8 piercing.\n<strong>Cat</strong> Speed 40 feet; <strong>Melee</strong> jaws, <strong>Damage</strong> 4d6 piercing; <strong>Melee</strong> claw (agile), <strong>Damage</strong> 2d10 slashing.\n<strong>Deer</strong> Speed 50 feet; <strong>Melee</strong> antler, <strong>Damage</strong> 4d6 piercing.\n<strong>Frog</strong> Speed 25 feet, swim Speed 25 feet; <strong>Melee</strong> jaws, <strong>Damage</strong> 4d6 bludgeoning; <strong>Melee</strong> tongue (reach 15 feet), <strong>Damage</strong> 4d4 bludgeoning.\n<strong>Shark</strong> swim Speed 35 feet; <strong>Melee</strong> jaws, <strong>Damage</strong> 4d8 piercing; breathe underwater but not in air.\n<strong>Snake</strong> Speed 20 feet, climb Speed 20 feet, swim Speed 20 feet; <strong>Melee</strong> fangs, <strong>Damage</strong> 4d4 piercing plus 2d6 poison.",
+        "hint": "Your attacks have 10-feet reach. If your animal form is that of a shark type animal, you can breathe underwater but not in air.",
+        "showon": "Attacks, Health",
+        "effects": [
+            {
+                "affected": "Size",
+                "setValue": "2"
+            },
+            {
+                "affected": "AC",
+                "setValue": "18 + Level"
+            },
+            {
+                "affected": "Melee Attack Rolls",
+                "setValue": "Skill('Unarmed Attacks') > 18 ? null : 18"
+            },
+            {
+                "affected": "Melee Damage",
+                "value": "+7"
+            },
+            {
+                "affected": "Athletics",
+                "setValue": "Skill('Athletics') > 20 ? null : 20"
+            },
+            {
+                "affected": "Land Speed",
+                "setValue": "Choice == 'Snake' ? 20 : null"
+            },
+            {
+                "affected": "Land Speed",
+                "setValue": "['Ape', 'Frog'].includes(Choice) ? 25 : null"
+            },
+            {
+                "affected": "Land Speed",
+                "setValue": "['Bear', 'Bull'].includes(Choice) ? 30 : null"
+            },
+            {
+                "affected": "Land Speed",
+                "setValue": "['Canine', 'Cat'].includes(Choice) ? 40 : null"
+            },
+            {
+                "affected": "Land Speed",
+                "setValue": "Choice == 'Deer' ? 50 : null"
+            },
+            {
+                "affected": "Climb Speed",
+                "setValue": "['Ape', 'Snake'].includes(Choice) ? 20 : null"
+            },
+            {
+                "affected": "Swim Speed",
+                "setValue": "Choice == 'Snake' ? 20 : null"
+            },
+            {
+                "affected": "Swim Speed",
+                "setValue": "Choice == 'Frog' ? 25 : null"
+            },
+            {
+                "affected": "Swim Speed",
+                "setValue": "Choice == 'Shark' ? 35 : null"
+            },
+            {
+                "affected": "Ignore Armor Penalty",
+                "toggle": true
+            }
+        ],
+        "onceEffects": [
+            {
+                "affected": "Temporary HP",
+                "value": "20"
+            }
+        ],
+        "choices": [
+            "Ape",
+            "Bear",
+            "Bull",
+            "Canine",
+            "Cat",
+            "Deer",
+            "Frog",
+            "Shark",
+            "Snake"
+        ],
+        "choice": "Ape",
+        "senses": [
+            "Low-Light Vision",
+            "Scent 30 feet (imprecise)"
+        ],
+        "type": "spells",
+        "attackRestrictions": [
+            "Animal Form Ape Fist (5th level)",
+            "Animal Form Bear Jaws (5th level)",
+            "Animal Form Bear Claw (5th level)",
+            "Animal Form Bull Horn (5th level)",
+            "Animal Form Canine Jaws (5th level)",
+            "Animal Form Cat Jaws (5th level)",
+            "Animal Form Cat Claw (5th level)",
+            "Animal Form Deer Antler (5th level)",
+            "Animal Form Frog Jaws (5th level)",
+            "Animal Form Frog Tongue (5th level)",
+            "Animal Form Shark Jaws (5th level)",
+            "Animal Form Snake Fangs (5th level)"
+        ],
+        "gainItems": [
+            {
+                "name": "Animal Form Ape Fist (5th level)",
+                "type": "weapons"
+            },
+            {
+                "name": "Animal Form Bear Jaws (5th level)",
+                "type": "weapons"
+            },
+            {
+                "name": "Animal Form Bear Claw (5th level)",
+                "type": "weapons"
+            },
+            {
+                "name": "Animal Form Bull Horn (5th level)",
+                "type": "weapons"
+            },
+            {
+                "name": "Animal Form Canine Jaws (5th level)",
+                "type": "weapons"
+            },
+            {
+                "name": "Animal Form Cat Jaws (5th level)",
+                "type": "weapons"
+            },
+            {
+                "name": "Animal Form Cat Claw (5th level)",
+                "type": "weapons"
+            },
+            {
+                "name": "Animal Form Deer Antler (5th level)",
+                "type": "weapons"
+            },
+            {
+                "name": "Animal Form Frog Jaws (5th level)",
+                "type": "weapons"
+            },
+            {
+                "name": "Animal Form Frog Tongue (5th level)",
+                "type": "weapons"
+            },
+            {
+                "name": "Animal Form Shark Jaws (5th level)",
+                "type": "weapons"
+            },
+            {
+                "name": "Animal Form Snake Fangs (5th level)",
+                "type": "weapons"
+            }
+        ]
     }
 ]

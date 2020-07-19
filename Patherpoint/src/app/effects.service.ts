@@ -110,10 +110,7 @@ export class EffectsService {
         if (object === creature) {
             name = "Custom effect"
         }
-        let Value = object.value;
-        let Heightened = object.heightened;
-        let Choice = object.choice;
-        //define some values that may be relevant for effect values
+        //Define some values that may be relevant for effect values
         let effectsService = this;
         effectsService = effectsService;
         characterService = characterService;
@@ -123,6 +120,11 @@ export class EffectsService {
         let Companion: AnimalCompanion = characterService.get_Companion();
         let Familiar: Familiar = characterService.get_Familiar();
         let Level: number = characterService.get_Character().level;
+        //Some values specific to conditions for effect values
+        let Value = object.value;
+        let Heightened = object.heightened;
+        let Choice = object.choice;
+        //Some Functions for effect values
         function Temporary_HP() {
             return creature.health.temporaryHP;
         }
@@ -508,7 +510,6 @@ export class EffectsService {
         // or old effects have been removed.
         let general: string[] = ["Languages", "Size"];
         let generalWildcard: string[] = ["Speed", "Checks and DCs"];
-        let effects: string[] = [];
         let abilities: string[] = ["Strength", "Dexterity", "Constitution", "Intelligence", "Wisdom", "Charisma"];
         let abilitiesWildcard: string[] = ["Strength", "Dexterity", "Constitution", "Intelligence", "Wisdom", "Charisma"];
         let health: string[] = ["HP", "Fast Healing", "Hardness", "Max Dying", "Max HP", "Resting HP Gain", "Temporary HP"];
@@ -523,7 +524,6 @@ export class EffectsService {
         let individualSkillsWildcard: string[] = ["Lore", "Class DC", "Spell DC"];
         let skillsWildcard: string[] = ["All Checks and DCs", "Skill Checks", "Untrained Skills"];
         let inventory: string[] = ["Bulk", "Encumbered Limit", "Max Bulk", "Max Invested"];
-        let activities: string[] = [];
         let spellbook: string[] = ["Focus Points", "Focus Pool", "All Checks and DCs"];
 
         let changedEffects: Effect[] = [];

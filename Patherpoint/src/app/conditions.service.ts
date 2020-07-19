@@ -11,6 +11,9 @@ import { AnimalCompanion } from './AnimalCompanion';
 import { Familiar } from './Familiar';
 import { ActivityGain } from './ActivityGain';
 import { Creature } from './Creature';
+import { ItemGain } from './ItemGain';
+import { Item } from './Item';
+import { ItemsService } from './items.service';
 
 @Injectable({
     providedIn: 'root'
@@ -108,7 +111,7 @@ export class ConditionsService {
         }
     }
 
-    process_Condition(creature: Character|AnimalCompanion|Familiar, characterService: CharacterService, effectsService: EffectsService, gain: ConditionGain, condition: Condition, taken: boolean, increaseWounded: boolean = true) {
+    process_Condition(creature: Character|AnimalCompanion|Familiar, characterService: CharacterService, effectsService: EffectsService, itemsService: ItemsService, gain: ConditionGain, condition: Condition, taken: boolean, increaseWounded: boolean = true) {
 
         //Prepare components for refresh
         if (condition.gainActivities.length) {
@@ -175,6 +178,44 @@ export class ConditionsService {
                             characterService.add_Condition(creature, Object.assign(new ConditionGain, { name: "Unconscious", source: "0 Hit Points" }), false)
                         }
                     }
+                }
+            }
+        }
+
+        //Gain Items
+        if (creature && creature.type != "Familiar") {
+            if (condition.gainItems.length) {
+                characterService.set_ToChange(creature.type, "attacks");
+                if (taken) {
+                    gain.gainItems = condition.gainItems.map(itemGain => Object.assign(new ItemGain(), itemGain));
+                    gain.gainItems.forEach(gainItem => {
+                        let newItem: Item = itemsService.get_CleanItems()[gainItem.type].filter(item => item.name == gainItem.name)[0];
+                        if (newItem.can_Stack()) {
+                            characterService.grant_InventoryItem(creature as Character|AnimalCompanion, creature.inventories[0], newItem, false, false, false, gainItem.amount);
+                        } else {
+                            let grantedItem = characterService.grant_InventoryItem(creature as Character|AnimalCompanion, creature.inventories[0], newItem, false, false, true);
+                            gainItem.id = grantedItem.id;
+                            if (grantedItem.get_Name) {
+                                grantedItem.grantedBy = "(Granted by " + condition.name + ")";
+                            };
+                        }
+                    });
+                } else {
+                    gain.gainItems.forEach(gainItem => {
+                        if (itemsService.get_Items()[gainItem.type].filter((item: Item) => item.name == gainItem.name)[0].can_Stack()) {
+                            let items: Item[] = creature.inventories[0][gainItem.type].filter((item: Item) => item.name == gainItem.name);
+                            if (items.length) {
+                                characterService.drop_InventoryItem(creature as Character|AnimalCompanion, creature.inventories[0], items[0], false, false, true, gainItem.amount);
+                            }
+                        } else {
+                            let items: Item[] = creature.inventories[0][gainItem.type].filter((item: Item) => item.id == gainItem.id);
+                            if (items.length) {
+                                characterService.drop_InventoryItem(creature as Character|AnimalCompanion, creature.inventories[0], items[0], false, false, true);
+                            }
+                            gainItem.id = "";
+                        }
+                    });
+                    gain.gainItems = [];
                 }
             }
         }
