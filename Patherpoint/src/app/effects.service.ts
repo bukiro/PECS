@@ -11,7 +11,6 @@ import { Familiar } from './Familiar';
 import { AbilitiesService } from './abilities.service';
 import { Creature } from './Creature';
 import { Feat } from './Feat';
-import { createUrlResolverWithoutPackagePrefix } from '@angular/compiler';
 import { ItemProperty } from './ItemProperty';
 import { Observable } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
@@ -225,6 +224,7 @@ export class EffectsService {
             }
             if (setValue) {
                 penalty = false;
+                value = "0";
             } else if (parseInt(value) < 0) {
                 if (effect.affected != "Bulk") {
                     penalty = true;
@@ -237,6 +237,10 @@ export class EffectsService {
                 } else {
                     penalty = true;
                 }
+            }
+            if (toggle) {
+                setValue = "0";
+                value = "0";
             }
             //Hide all relative effects that come from feats and are untyped, so we don't see green effects permanently after taking a feat.
             if (object.constructor == Feat && type == "untyped") {

@@ -23,12 +23,6 @@
                 "source": "Crane Stance"
             }
         ],
-        "gainItems": [
-            {
-                "name": "Crane Wing",
-                "type": "weapons"
-            }
-        ],
         "traits": [
             "Monk",
             "Stance"
@@ -45,12 +39,6 @@
                 "duration": -1,
                 "name": "Dragon Stance",
                 "source": "Dragon Stance"
-            }
-        ],
-        "gainItems": [
-            {
-                "name": "Dragon Tail",
-                "type": "weapons"
             }
         ],
         "traits": [
@@ -73,12 +61,6 @@
                 "source": "Mountain Stance"
             }
         ],
-        "gainItems": [
-            {
-                "name": "Falling Stone",
-                "type": "weapons"
-            }
-        ],
         "traits": [
             "Monk",
             "Stance"
@@ -99,12 +81,6 @@
                 "source": "Rain of Embers Stance"
             }
         ],
-        "gainItems": [
-            {
-                "name": "Fire Talon",
-                "type": "weapons"
-            }
-        ],
         "traits": [
             "Monk",
             "Stance"
@@ -123,12 +99,6 @@
                 "source": "Tiger Stance"
             }
         ],
-        "gainItems": [
-            {
-                "name": "Tiger Claw",
-                "type": "weapons"
-            }
-        ],
         "traits": [
             "Monk",
             "Stance"
@@ -145,12 +115,6 @@
                 "duration": -1,
                 "name": "Wolf Stance",
                 "source": "Wolf Stance"
-            }
-        ],
-        "gainItems": [
-            {
-                "name": "Wolf Jaw",
-                "type": "weapons"
             }
         ],
         "traits": [
@@ -269,12 +233,6 @@
                 "source": "Ironblood Stance"
             }
         ],
-        "gainItems": [
-            {
-                "name": "Iron Sweep",
-                "type": "weapons"
-            }
-        ],
         "traits": [
             "Monk",
             "Stance"
@@ -299,12 +257,6 @@
                 "duration": -1,
                 "name": "Tangled Forest Stance",
                 "source": "Tangled Forest Stance"
-            }
-        ],
-        "gainItems": [
-            {
-                "name": "Lashing Branch",
-                "type": "weapons"
             }
         ],
         "traits": [

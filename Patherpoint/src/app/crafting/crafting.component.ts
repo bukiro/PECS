@@ -1,6 +1,4 @@
 import { Component, OnInit, ChangeDetectorRef, ChangeDetectionStrategy } from '@angular/core';
-import { Equipment } from '../Equipment';
-import { Consumable } from '../Consumable';
 import { ItemsService } from '../items.service';
 import { CharacterService } from '../character.service';
 import { SortByPipe } from '../sortBy.pipe';

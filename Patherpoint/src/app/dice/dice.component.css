@@ -1,0 +1,9 @@
+:host {
+    position:fixed;
+    top:0;
+    left:30%;
+    right:30%;
+    bottom:auto;
+    z-index:999;
+    overflow-x: hidden;
+}

@@ -54,6 +54,13 @@ import { CraftingComponent } from './crafting/crafting.component';
 import { ItemMaterialComponent } from './item/itemMaterial/itemMaterial.component';
 import { ItemPoisonsComponent } from './item/itemPoisons/itemPoisons.component';
 import { CustomEffectComponent } from './conditions/customEffect/customEffect.component';
+import { DiceComponent } from './dice/dice.component';
+import { DiceIcons_D4Component } from './dice/diceIcons_D4/diceIcons_D4.component';
+import { DiceIcons_D6Component } from './dice/diceIcons_D6/diceIcons_D6.component';
+import { DiceIcons_D8Component } from './dice/diceIcons_D8/diceIcons_D8.component';
+import { DiceIcons_D10Component } from './dice/diceIcons_D10/diceIcons_D10.component';
+import { DiceIcons_D12Component } from './dice/diceIcons_D12/diceIcons_D12.component';
+import { DiceIcons_D20Component } from './dice/diceIcons_D20/diceIcons_D20.component';
 
 @NgModule({
    declarations: [
@@ -103,7 +110,14 @@ import { CustomEffectComponent } from './conditions/customEffect/customEffect.co
       CraftingComponent,
       ItemMaterialComponent,
       ItemPoisonsComponent,
-      CustomEffectComponent
+      CustomEffectComponent,
+      DiceComponent,
+      DiceIcons_D4Component,
+      DiceIcons_D6Component,
+      DiceIcons_D8Component,
+      DiceIcons_D10Component,
+      DiceIcons_D12Component,
+      DiceIcons_D20Component
    ],
    imports: [
       BrowserModule,

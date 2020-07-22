@@ -81,6 +81,7 @@ export class CharacterService {
     spellsMenuState: string = 'out';
     spelllibraryMenuState: string = 'out';
     conditionsMenuState: string = 'out';
+    diceMenuState: string = 'out';
 
     constructor(
         private savegameService: SavegameService,
@@ -237,6 +238,7 @@ export class CharacterService {
                 this.spellsMenuState = 'out';
                 this.spelllibraryMenuState = 'out';
                 this.conditionsMenuState = 'out';
+                this.diceMenuState = 'out';
                 if (this.characterMenuState == 'in') {
                     this.set_Changed("charactersheet");
                 }
@@ -250,6 +252,7 @@ export class CharacterService {
                 this.spellsMenuState = 'out';
                 this.spelllibraryMenuState = 'out';
                 this.conditionsMenuState = 'out';
+                this.diceMenuState = 'out';
                 if (this.companionMenuState == 'in') {
                     this.set_Changed("Companion");
                 }
@@ -263,6 +266,7 @@ export class CharacterService {
                 this.spellsMenuState = 'out';
                 this.spelllibraryMenuState = 'out';
                 this.conditionsMenuState = 'out';
+                this.diceMenuState = 'out';
                 if (this.familiarMenuState == 'in') {
                     this.set_Changed("Familiar");
                 }
@@ -276,6 +280,7 @@ export class CharacterService {
                 this.spellsMenuState = 'out';
                 this.spelllibraryMenuState = 'out';
                 this.conditionsMenuState = 'out';
+                this.diceMenuState = 'out';
                 if (this.itemsMenuState == 'in') {
                     this.set_Changed("items");
                 }
@@ -289,6 +294,7 @@ export class CharacterService {
                 this.spellsMenuState = 'out';
                 this.spelllibraryMenuState = 'out';
                 this.conditionsMenuState = 'out';
+                this.diceMenuState = 'out';
                 if (this.craftingMenuState == 'in') {
                     this.set_Changed("crafting");
                 }
@@ -302,6 +308,7 @@ export class CharacterService {
                 this.spellsMenuState = (this.spellsMenuState == 'out') ? 'in' : 'out';
                 this.spelllibraryMenuState = 'out';
                 this.conditionsMenuState = 'out';
+                this.diceMenuState = 'out';
                 if (this.spellsMenuState == 'in') {
                     this.set_Changed("spells");
                 }
@@ -315,6 +322,7 @@ export class CharacterService {
                 this.spellsMenuState = 'out';
                 this.spelllibraryMenuState = (this.spelllibraryMenuState == 'out') ? 'in' : 'out';
                 this.conditionsMenuState = 'out';
+                this.diceMenuState = 'out';
                 if (this.spelllibraryMenuState == 'in') {
                     this.set_Changed("spelllibrary");
                 }
@@ -328,9 +336,21 @@ export class CharacterService {
                 this.spellsMenuState = 'out';
                 this.spelllibraryMenuState = 'out';
                 this.conditionsMenuState = (this.conditionsMenuState == 'out') ? 'in' : 'out';
+                this.diceMenuState = 'out';
                 if (this.conditionsMenuState == 'in') {
                     this.set_Changed("conditions");
                 }
+                break;
+            case "dice":
+                this.characterMenuState = 'out';
+                this.companionMenuState = 'out';
+                this.familiarMenuState = 'out';
+                this.craftingMenuState = 'out';
+                this.itemsMenuState = 'out';
+                this.spellsMenuState = 'out';
+                this.spelllibraryMenuState = 'out';
+                this.conditionsMenuState = 'out';
+                this.diceMenuState = (this.diceMenuState == 'out') ? 'in' : 'out';
                 break;
         }
         this.set_Changed("top-bar");
@@ -369,6 +389,10 @@ export class CharacterService {
 
     get_ConditionsMenuState() {
         return this.conditionsMenuState;
+    }
+
+    get_DiceMenuState() {
+        return this.diceMenuState;
     }
 
     get_ItemsMenuTarget() {

@@ -14,7 +14,7 @@
                 </span>
             </div>
             <div class="row left-aligned fullsize-only">
-                <span>{{get_Duration(conditionGain.duration)}}</span><span *ngIf="conditionGain.persistent" title="This condition will remain if its source is removed.">, persistent</span>
+                <span>{{(conditionGain.heightened) ? "Spell level " + conditionGain.heightened + "; " : ""}}{{get_Duration(conditionGain.duration)}}</span><span *ngIf="conditionGain.persistent" title="This condition will remain if its source is removed.">, persistent</span>
             </div>
             <div class="row fullsize-only" *ngIf="conditionGain.nextStage">
                 <span>Affliction onset: {{get_Duration(conditionGain.nextStage)}}</span>

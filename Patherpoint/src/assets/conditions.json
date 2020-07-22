@@ -574,6 +574,12 @@
                 "value": "1"
             }
         ],
+        "gainItems": [
+            {
+                "name": "Crane Wing",
+                "type": "weapons"
+            }
+        ],
         "type": "activities"
     },
     {
@@ -582,6 +588,12 @@
         "desc": "While in Dragon Stance, you can ignore the first square of difficult terrain while Striding.",
         "hint": "While in Dragon Stance, you can ignore the first square of difficult terrain while Striding.",
         "showon": "Movement",
+        "gainItems": [
+            {
+                "name": "Dragon Tail",
+                "type": "weapons"
+            }
+        ],
         "type": "activities"
     },
     {
@@ -608,6 +620,12 @@
                 "value": "-5"
             }
         ],
+        "gainItems": [
+            {
+                "name": "Falling Stone",
+                "type": "weapons"
+            }
+        ],
         "type": "activities"
     },
     {
@@ -628,6 +646,12 @@
                 "value": "Math.max(Math.floor(Level / 2), 1)"
             }
         ],
+        "gainItems": [
+            {
+                "name": "Fire Talon",
+                "type": "weapons"
+            }
+        ],
         "type": "activities"
     },
     {
@@ -636,6 +660,12 @@
         "desc": "As long as your Speed is at least 20 feet while in Tiger Stance, you can Step 10 feet.",
         "hint": "As long as your Speed is at least 20 feet while in Tiger Stance, you can Step 10 feet.",
         "showon": "Movement",
+        "gainItems": [
+            {
+                "name": "Tiger Claw",
+                "type": "weapons"
+            }
+        ],
         "type": "activities"
     },
     {
@@ -644,6 +674,12 @@
         "desc": "If you're flanking a target while in Wolf Stance, your wolf jaw unarmed attacks also gain the trip trait.",
         "hint": "If you're flanking a target while in Wolf Stance, your wolf jaw unarmed attacks also gain the trip trait.",
         "showon": "Wolf Jaw",
+        "gainItems": [
+            {
+                "name": "Wolf Jaw",
+                "type": "weapons"
+            }
+        ],
         "type": "activities"
     },
     {
@@ -669,6 +705,12 @@
                 "value": "1 + Math.floor((Level - 4) / 4)"
             }
         ],
+        "gainItems": [
+            {
+                "name": "Iron Sweep",
+                "type": "weapons"
+            }
+        ],
         "type": "activities"
     },
     {
@@ -677,6 +719,12 @@
         "desc": "While you're in Tangled Forest Stance and can act, every enemy in your reach that tries to move away from you must succeed at a Reflex save, Acrobatics check, or Athletics check against your class DC or be immobilized for that action. If you prefer, you can allow the enemy to move.",
         "hint": "While you're in Tangled Forest Stance and can act, every enemy in your reach that tries to move away from you must succeed at a Reflex save, Acrobatics check, or Athletics check against your class DC or be immobilized for that action. If you prefer, you can allow the enemy to move.",
         "showon": "Athletics, Attacks, Lashing Branch",
+        "gainItems": [
+            {
+                "name": "Lashing Branch",
+                "type": "weapons"
+            }
+        ],
         "type": "activities"
     },
     {
@@ -684,6 +732,12 @@
         "buff": true,
         "desc": "While in wild winds stance, you gain a +2 circumstance bonus to AC against ranged attacks.",
         "showon": "AC",
+        "gainItems": [
+            {
+                "name": "Wind Crash",
+                "type": "weapons"
+            }
+        ],
         "type": "spells"
     },
     {
@@ -1758,7 +1812,7 @@
         "name": "Enlarge (4th level)",
         "buff": true,
         "desc": "Bolstered by magical power, you grow to size Huge. Your equipment grows with you but returns to natural size if removed. You are clumsy 1. Your reach increases by 10 feet (or by 15 feet if you started out Tiny), and you gain a +4 status bonus to melee damage.",
-        "hint": "Your reach increases by 5 feet (or by 10 feet if you started out Tiny).",
+        "hint": "Your reach increases by 10 feet (or by 15 feet if you started out Tiny).",
         "showon": "Attacks",
         "effects": [
             {
@@ -2005,18 +2059,17 @@
         "effects": [
             {
                 "affected": "Bludgeoning Damage Resistance",
-                "value": "Value"
+                "value": "Math.floor(Heightened / 2) * 2"
             },
             {
                 "affected": "Piercing Damage Resistance",
-                "value": "Value"
+                "value": "Math.floor(Heightened / 2) * 2"
             },
             {
                 "affected": "Fire Resistance",
-                "value": "-Value * 1.5"
+                "value": "-Math.floor(Heightened / 2) * 3"
             }
         ],
-        "hasValue": true,
         "type": "spells"
     },
     {

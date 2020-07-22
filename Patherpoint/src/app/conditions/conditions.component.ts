@@ -20,6 +20,7 @@ import { Activity } from '../Activity';
 import { ActivitiesService } from '../activities.service';
 import { Equipment } from '../Equipment';
 import { Consumable } from '../Consumable';
+import { Effect } from '../Effect';
 
 @Component({
     selector: 'app-conditions',
@@ -42,8 +43,9 @@ export class ConditionsComponent implements OnInit {
     public turns: number = 0;
     private purpose: "conditions"|"customeffects" = "conditions";
     public newEffect: EffectGain = new EffectGain();
-    public validationError: string = "";
-    public validationResult: string = "";
+    public validationError: string[] = [];
+    public validationResult: string[] = [];
+    public parseInt = parseInt;
         
     constructor(
         private changeDetector: ChangeDetectorRef,
@@ -156,28 +158,44 @@ export class ConditionsComponent implements OnInit {
             case "Generic":
                 typeKey = "generic";
                 break;
-            case "Alchemical Elixirs":
-                typeKey = "alchemicalelixirs";
+            case "Activities":
+                typeKey = "activities";
                 break;
             case "Afflictions":
                 typeKey = "afflictions";
                 break;
+            case "Alchemical Elixirs":
+                typeKey = "alchemicalelixirs";
+                break;
             case "Alchemical Tools":
                 typeKey = "alchemicaltools";
-                break;
-            case "Worn Items":
-                typeKey = "wornitems";
                 break;
             case "Ammunition":
                 typeKey = "ammunition";
                 break;
+            case "Blood Magic":
+                typeKey = "bloodmagic";
+                break;
+            case "Feats":
+                typeKey = "feats";
+                break;  
+            case "Other Consumables":
+                typeKey = "otherconsumables";
+                break;
+            case "Potions":
+                typeKey = "potions";
+                break;
             case "Spells":
                 typeKey = "spells";
                 break;
-            case "Activities":
-                typeKey = "activities";
+            case "Talismans":
+                typeKey = "talismans";
                 break;
+            case "Worn Items":
+                typeKey = "wornitems";
+                break;         
         }
+
         if (typeKey) {
             return this.sortByPipe.transform(this.get_Conditions("", typeKey).filter(condition => 
                 !this.wordFilter || (
@@ -255,8 +273,11 @@ export class ConditionsComponent implements OnInit {
         return this.effectsService.get_EffectProperties().find(property => !property.parent && property.key == "effects");
     }
 
-    
-    
+    get_EffectValue(creature: Character|AnimalCompanion|Familiar, effect: EffectGain) {
+        //Fit the custom effect into the box defined by get_SimpleEffects
+        let effectsObject = { effects: [effect] }
+        return this.effectsService.get_SimpleEffects(creature, this.characterService, effectsObject);
+    }
 
     numbersOnly(event): boolean {
         const charCode = (event.which) ? event.which : event.keyCode;
@@ -274,7 +295,25 @@ export class ConditionsComponent implements OnInit {
         return this.get_Character().inventories;
     }
 
-    validate(propertyData: ItemProperty, propertyKey: string) {
+    add_Effect(creature: Creature) {
+        let newLength = creature.effects.push(this.newEffect);
+        creature.effects[newLength - 1].duration = this.get_ConditionDuration(false);
+        this.characterService.set_ToChange(creature.type, "effects");
+        this.characterService.process_ToChange();
+    }
+
+    remove_Effect(creature: Creature, index: number) {
+        creature.effects.splice(index, 1);
+        this.characterService.set_ToChange(creature.type, "effects");
+        this.characterService.process_ToChange();
+    }
+
+    update_Effects(creature: Creature) {
+        this.characterService.set_ToChange(creature.type, "effects");
+        this.characterService.process_ToChange();
+    }
+
+    validate(propertyData: ItemProperty, propertyKey: string, index: number) {
         let value = this.newEffect[propertyKey]
         if (propertyKey == "value" && propertyData.parent == "effects") {
             if (value && value != "0") {
@@ -285,19 +324,19 @@ export class ConditionsComponent implements OnInit {
                     let effect = effects[0];
                     if (effect && effect.value && effect.value != "0" && (parseInt(effect.value) || parseFloat(effect.value))) {
                         if (parseFloat(effect.value) == parseInt(effect.value)) {
-                            this.validationError = "";
-                            this.validationResult = parseInt(effect.value).toString();
+                            this.validationError[index] = "";
+                            this.validationResult[index] = parseInt(effect.value).toString();
                         } else {
-                            this.validationError = "This may result in a decimal value and be turned into a whole number."
-                            this.validationResult = parseInt(effect.value).toString();
+                            this.validationError[index] = "This may result in a decimal value and be turned into a whole number."
+                            this.validationResult[index] = parseInt(effect.value).toString();
                         }
                     } else {
-                        this.validationError = "This may result in an invalid value or 0. Invalid values will default to 0, and untyped effects without a value will not be displayed."
-                        this.validationResult = parseInt(effect.value).toString();
+                        this.validationError[index] = "This may result in an invalid value or 0. Invalid values will default to 0, and untyped effects without a value will not be displayed."
+                        this.validationResult[index] = parseInt(effect.value).toString();
                     }
                 } else {
-                    this.validationError = "This may result in an invalid value or 0. Invalid values will default to 0, and untyped effects without a value will not be displayed."
-                    this.validationResult = "";
+                    this.validationError[index] = "This may result in an invalid value or 0. Invalid values will default to 0, and untyped effects without a value will not be displayed."
+                    this.validationResult[index] = "";
                 }
             }
         } else if (propertyKey == "setValue" && propertyData.parent == "effects") {
@@ -309,19 +348,19 @@ export class ConditionsComponent implements OnInit {
                     let effect = effects[0];
                     if (effect && effect.value && (parseInt(effect.value) || parseFloat(effect.value)) || parseInt(effect.value) == 0) {
                         if (parseFloat(effect.value) == parseInt(effect.value)) {
-                            this.validationError = "";
-                            this.validationResult = parseInt(effect.value).toString();
+                            this.validationError[index] = "";
+                            this.validationResult[index] = parseInt(effect.value).toString();
                         } else {
-                            this.validationError = "This may result in a decimal value and be turned into a whole number."
-                            this.validationResult = parseInt(effect.value).toString();
+                            this.validationError[index] = "This may result in a decimal value and be turned into a whole number."
+                            this.validationResult[index] = parseInt(effect.value).toString();
                         }
                     } else {
-                        this.validationError = "This may result in an invalid value. Absolute effects with an invalid value will not be applied."
-                        this.validationResult = parseInt(effect.value).toString();
+                        this.validationError[index] = "This may result in an invalid value. Absolute effects with an invalid value will not be applied."
+                        this.validationResult[index] = parseInt(effect.value).toString();
                     }
                 } else {
-                    this.validationError = "This may result in an invalid value. Absolute effects with an invalid value will not be applied."
-                    this.validationResult = "";
+                    this.validationError[index] = "This may result in an invalid value. Absolute effects with an invalid value will not be applied."
+                    this.validationResult[index] = "";
                 }
             }
         } else if (propertyData.validation == "1plus") {
@@ -349,23 +388,6 @@ export class ConditionsComponent implements OnInit {
                 this.newEffect[propertyKey] = 0
             }
         }
-    }
-
-    get_IsObject(property) {
-        return (typeof property == 'object');
-    }
-
-    add_Effect(creature: Creature) {
-        let newLength = creature.effects.push(this.newEffect);
-        creature.effects[newLength - 1].duration = this.get_ConditionDuration();
-        this.characterService.set_ToChange(creature.type, "effects");
-        this.characterService.process_ToChange();
-    }
-
-    remove_Effect(creature: Creature, index: number) {
-        creature.effects.splice(index, 1);
-        this.characterService.set_ToChange(creature.type, "effects");
-        this.characterService.process_ToChange();
     }
 
     get_PropertyKeys() {
@@ -493,12 +515,7 @@ export class ConditionsComponent implements OnInit {
         let uniqueExamples = Array.from(new Set(examples))
         return uniqueExamples;
     }
-
-    update_Effects(creature: Creature) {
-        this.characterService.set_ToChange(creature.type, "effects");
-        this.characterService.process_ToChange();
-    }
-
+    
     finish_Loading() {
         if (this.still_loading()) {
             setTimeout(() => this.finish_Loading(), 500)

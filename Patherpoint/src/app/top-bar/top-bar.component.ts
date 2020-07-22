@@ -30,6 +30,16 @@ import { SavegameService } from '../savegame.service';
             transition('in => out', animate('400ms ease-in-out')),
             transition('out => in', animate('400ms ease-in-out'))
         ]),
+        trigger('slideInOutVert', [
+            state('in', style({
+                transform: 'translate3d(0,0,0)'
+            })),
+            state('out', style({
+                transform: 'translate3d(0, -100%, 0)'
+            })),
+            transition('in => out', animate('400ms ease-in-out')),
+            transition('out => in', animate('400ms ease-in-out'))
+        ]),
     ],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
@@ -99,7 +109,7 @@ export class TopBarComponent implements OnInit {
 
     get_CompanionMenuState() {
         return this.characterService.get_CompanionMenuState();
-      }
+    }
 
     get_FamiliarMenuState() {
         return this.characterService.get_FamiliarMenuState();
@@ -115,6 +125,10 @@ export class TopBarComponent implements OnInit {
     
     get_ConditionsMenuState() {
         return this.characterService.get_ConditionsMenuState();
+    }
+
+    get_DiceMenuState() {
+        return this.characterService.get_DiceMenuState();
     }
 
     get_Character() {

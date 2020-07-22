@@ -28,8 +28,8 @@ export class CustomEffectComponent implements OnInit {
     noTitle: boolean = false;
     public newEffect: EffectGain = new EffectGain();
 
-    public validationError: string = "";
-    public validationResult: string = "";
+    public validationError: string[] = [];
+    public validationResult: string[] = [];
 
     constructor(
         private itemsService: ItemsService,
@@ -75,7 +75,7 @@ export class CustomEffectComponent implements OnInit {
         return this.get_Character().inventories;
     }
 
-    validate(propertyData: ItemProperty, propertyKey: string) {
+    validate(propertyData: ItemProperty, propertyKey: string, index: number) {
         let value = this.newEffect[propertyKey]
         if (propertyKey == "value" && propertyData.parent == "effects") {
             if (value && value != "0") {
@@ -86,19 +86,19 @@ export class CustomEffectComponent implements OnInit {
                     let effect = effects[0];
                     if (effect && effect.value && effect.value != "0" && (parseInt(effect.value) || parseFloat(effect.value))) {
                         if (parseFloat(effect.value) == parseInt(effect.value)) {
-                            this.validationError = "";
-                            this.validationResult = parseInt(effect.value).toString();
+                            this.validationError[index] = "";
+                            this.validationResult[index] = parseInt(effect.value).toString();
                         } else {
-                            this.validationError = "This may result in a decimal value and be turned into a whole number."
-                            this.validationResult = parseInt(effect.value).toString();
+                            this.validationError[index] = "This may result in a decimal value and be turned into a whole number."
+                            this.validationResult[index] = parseInt(effect.value).toString();
                         }
                     } else {
-                        this.validationError = "This may result in an invalid value or 0. Invalid values will default to 0, and untyped effects without a value will not be displayed."
-                        this.validationResult = parseInt(effect.value).toString();
+                        this.validationError[index] = "This may result in an invalid value or 0. Invalid values will default to 0, and untyped effects without a value will not be displayed."
+                        this.validationResult[index] = parseInt(effect.value).toString();
                     }
                 } else {
-                    this.validationError = "This may result in an invalid value or 0. Invalid values will default to 0, and untyped effects without a value will not be displayed."
-                    this.validationResult = "";
+                    this.validationError[index] = "This may result in an invalid value or 0. Invalid values will default to 0, and untyped effects without a value will not be displayed."
+                    this.validationResult[index] = "";
                 }
             }
         } else if (propertyKey == "setValue" && propertyData.parent == "effects") {
@@ -110,19 +110,19 @@ export class CustomEffectComponent implements OnInit {
                     let effect = effects[0];
                     if (effect && effect.value && (parseInt(effect.value) || parseFloat(effect.value)) || parseInt(effect.value) == 0) {
                         if (parseFloat(effect.value) == parseInt(effect.value)) {
-                            this.validationError = "";
-                            this.validationResult = parseInt(effect.value).toString();
+                            this.validationError[index] = "";
+                            this.validationResult[index] = parseInt(effect.value).toString();
                         } else {
-                            this.validationError = "This may result in a decimal value and be turned into a whole number."
-                            this.validationResult = parseInt(effect.value).toString();
+                            this.validationError[index] = "This may result in a decimal value and be turned into a whole number."
+                            this.validationResult[index] = parseInt(effect.value).toString();
                         }
                     } else {
-                        this.validationError = "This may result in an invalid value. Absolute effects with an invalid value will not be applied."
-                        this.validationResult = parseInt(effect.value).toString();
+                        this.validationError[index] = "This may result in an invalid value. Absolute effects with an invalid value will not be applied."
+                        this.validationResult[index] = parseInt(effect.value).toString();
                     }
                 } else {
-                    this.validationError = "This may result in an invalid value. Absolute effects with an invalid value will not be applied."
-                    this.validationResult = "";
+                    this.validationError[index] = "This may result in an invalid value. Absolute effects with an invalid value will not be applied."
+                    this.validationResult[index] = "";
                 }
             }
         } else if (propertyData.validation == "1plus") {
@@ -150,10 +150,6 @@ export class CustomEffectComponent implements OnInit {
                 this.newEffect[propertyKey] = 0
             }
         }
-    }
-
-    get_IsObject(property) {
-        return (typeof property == 'object');
     }
 
     add_Effect(creature: Creature) {

@@ -1242,12 +1242,6 @@
                 "name": "Wild Winds Stance",
                 "source": "Wild Winds Stance"
             }
-        ],
-        "gainItems": [
-            {
-                "name": "Wind Crash",
-                "type": "weapons"
-            }
         ]
     },
     {

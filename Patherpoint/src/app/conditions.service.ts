@@ -84,11 +84,12 @@ export class ConditionsService {
                             (otherGain.apply)
                         ).forEach(otherGain => {
                             //Higher value conditions remain, same persistent damage value are exclusive.
-                            if (otherGain.value > gain.value) {
+                            if (otherGain.value + otherGain.heightened > gain.value + gain.heightened) {
                                 gain.apply = false;
                             } else if (
                                     otherGain.choice == gain.choice &&
-                                    otherGain.value == gain.value
+                                    otherGain.value == gain.value &&
+                                    otherGain.heightened == gain.heightened
                                 ) {
                                 //If the value and choice is the same:
                                 //Deactivate this condition if the other one has a longer duration (and this one is not permanent), or is permanent (no matter if this one is)

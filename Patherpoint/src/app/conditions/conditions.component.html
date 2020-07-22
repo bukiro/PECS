@@ -34,9 +34,6 @@
                 <input type="radio" [(ngModel)]="endOn" [value]="5">Turn End
             </div>
         </div>
-        <ng-container *ngIf="get_ShowPurpose()=='customeffects' && get_ShowList()=='addCustomEffect'">
-            <app-customEffect></app-customEffect>
-        </ng-container>
         <ng-container *ngIf="get_ShowPurpose()=='conditions'">
             <h3>Add Conditions</h3>
             <div class="list-item">
@@ -48,7 +45,7 @@
                 </span>
             </div>
             <ng-container
-                *ngFor="let set of ['Generic','Afflictions','Alchemical Elixirs','Worn Items','Alchemical Tools','Ammunition','Spells','Activities']; trackBy:trackByIndex;">
+                *ngFor="let set of ['Generic','Activities','Afflictions','Alchemical Elixirs','Alchemical Tools','Ammunition','Blood Magic','Feats','Other Consumables','Potions','Spells','Talismans','Worn Items']; trackBy:trackByIndex;">
                 <ng-container *ngFor="let visibleConditions of [get_VisibleConditionsSet(set)]; trackBy:trackByIndex;">
                     <button class="list-item" (click)="toggleList(set)" *ngIf="visibleConditions.length">
                         <h3>{{set}}</h3>
@@ -167,61 +164,70 @@
                 </ng-container>
             </ng-container>
         </ng-container>
-        <div class="row list-item" *ngIf="get_ShowPurpose()=='customeffects'">
-            <ng-container *ngFor="let propertyKey of get_PropertyKeys()">
-                <div class="row list-item" *ngFor="let propertyData of get_PropertyData(propertyKey)">
-                    <div class="row left-aligned">
-                        <strong title="{{propertyData.desc}}">{{propertyData.name}}</strong>
+        <ng-container *ngIf="get_ShowPurpose()=='customeffects'">
+            <div class="row list-item" *ngIf="get_ShowPurpose()=='customeffects' && get_ShowList()=='addCustomEffect'">
+                <ng-container *ngFor="let propertyKey of get_PropertyKeys(); let index = index; trackBy:trackByIndex;">
+                    <div class="row list-item" *ngFor="let propertyData of get_PropertyData(propertyKey); trackBy:trackByIndex;">
+                        <div class="row left-aligned">
+                            <strong title="{{propertyData.desc}}">{{propertyData.name}}</strong>
+                        </div>
+                        <div class="row">
+                            <input class="row" type="text" [(ngModel)]="newEffect[propertyKey]"
+                                (blur)="validate(propertyData, propertyKey, index)" *ngIf="!propertyData.type && !propertyData.locked">
+                            <textarea class="row" rows=3 [(ngModel)]="newEffect[propertyKey]"
+                                *ngIf="propertyData.type=='textarea'"></textarea>
+                            <input type="checkbox" [(ngModel)]="newEffect[propertyKey]" *ngIf="propertyData.type=='checkbox'">
+                            <input type="number" [(ngModel)]="newEffect[propertyKey]" (blur)="validate(propertyData, propertyKey, index)"
+                                (keypress)="numbersOnly($event)" *ngIf="propertyData.type=='number'">
+                        </div>
+                        <div class="row" *ngIf="validationError[index]">
+                            <span class="problem">{{validationError[index]}}</span>
+                        </div>
+                        <div class="row" *ngIf="validationResult[index]">
+                            <span>Current result: {{validationResult[index]}}</span>
+                        </div>
+                        <div class="list-item" style="margin: initial 0"
+                            *ngIf="propertyData.type!='textarea' && propertyData.type!='checkbox'">
+                            <select class="row" [(ngModel)]="newEffect[propertyKey]" [disabled]="!get_Examples(propertyData).length"
+                                (ngModelChange)="validate(propertyData, propertyKey, index)">
+                                <option *ngFor="let example of get_Examples(propertyData)|sortBy:'asc'; trackBy:trackByIndex;"
+                                    [ngValue]="example">
+                                    {{example}}
+                                </option>
+                            </select>
+                        </div>
                     </div>
-                    <div class="row">
-                        <input class="row" type="text" [(ngModel)]="newEffect[propertyKey]"
-                            (blur)="validate(propertyData, propertyKey)" *ngIf="!propertyData.type && !propertyData.locked">
-                        <textarea class="row" rows=3 [(ngModel)]="newEffect[propertyKey]"
-                            *ngIf="propertyData.type=='textarea'"></textarea>
-                        <input type="checkbox" [(ngModel)]="newEffect[propertyKey]" *ngIf="propertyData.type=='checkbox'">
-                        <input type="number" [(ngModel)]="newEffect[propertyKey]" (blur)="validate(propertyData, propertyKey)"
-                            (keypress)="numbersOnly($event)" *ngIf="propertyData.type=='number'">
-                    </div>
-                    <div class="row" *ngIf="validationError.length">
-                        <span class="problem">{{validationError}}</span>
-                    </div>
-                    <div class="row" *ngIf="validationResult.length">
-                        <span>Current result: {{validationResult}}</span>
-                    </div>
-                    <div class="list-item" style="margin: initial 0"
-                        *ngIf="propertyData.type!='textarea' && propertyData.type!='checkbox'">
-                        <select class="row" [(ngModel)]="newEffect[propertyKey]" [disabled]="!get_Examples(propertyData).length"
-                            (ngModelChange)="validate(propertyData, propertyKey)">
-                            <option *ngFor="let example of get_Examples(propertyData)|sortBy:'asc'; trackBy:trackByIndex;"
-                                [ngValue]="example">
-                                {{example}}
-                            </option>
-                        </select>
-                    </div>
-                </div>
-            </ng-container>
+                </ng-container>
+                <ng-container *ngFor="let creature of get_Creatures()">
+                    <button class="list-item row" (click)="add_Effect(creature)">
+                        <h3>Add to {{creature.type}}</h3>
+                    </button>
+                </ng-container>
+            </div>
             <ng-container *ngFor="let creature of get_Creatures()">
-                <button class="list-item row" (click)="add_Effect(creature)">
-                    <h3>Add to {{creature.type}}</h3>
-                </button>
-            </ng-container>
-            <ng-container *ngFor="let creature of get_Creatures()">
-                <button class="list-item row" (click)="toggleList('customEffects'+creature.type)">
-                    <h3>{{creature.type}}</h3>
-                </button>
-                <ng-container *ngIf="get_ShowList()=='customEffects'+creature.type">
-                    <ng-container *ngFor="let effect of creature.effects|sortBy:'affected'; trackBy:trackByIndex;">
-                        <!--<div class="list-item row left-aligned" *ngFor="let effectResult of get_EffectValue(effect)">-->
-                            <strong>
-                                {{effect.affected}}
-                                {{effect.setValue ? "= " + effect.setValue : ""}}
-                                {{effect.value ? effect.value : ""}}
-                            </strong>
-                            {{get_Duration(effect.duration)}}
-                        <!--</div>-->
+                <ng-container *ngIf="creature.effects.length">
+                    <button class="list-item" (click)="toggleList('customEffects'+creature.type)">
+                        <h3>Custom effects on {{creature.type}}</h3>
+                    </button>
+                    <ng-container *ngIf="get_ShowList()=='customEffects'+creature.type">
+                        <ng-container *ngFor="let effect of creature.effects|sortBy:'affected'; let index = index; trackBy:trackByIndex;">
+                            <div class="list-item" *ngFor="let effectResult of get_EffectValue(creature, effect)">
+                                <span>
+                                    <strong [ngClass]="{'penalty':effectResult.penalty, 'bonus':!effectResult.penalty && !effectResult.setValue, 'absolute':effectResult.setValue}"
+                                        title="{{effect.setValue ? effect.setValue : (effect.value ? effect.value : '')}}">{{effectResult.target}}
+                                        {{parseInt(effectResult.value) ? effectResult.value : ''}}{{effectResult.setValue ? "= "+effectResult.setValue : ''}}
+                                    </strong>
+                                    {{(effectResult.type != "untyped") ? effectResult.type+' ' : ''}}{{(effectResult.toggle || effectResult.setValue) ? '' : (effectResult.penalty ? 'penalty' : 'bonus')}}
+                                    {{effect.duration ? "(" + get_Duration(effect.duration) + ")" : ''}}
+                                </span>
+                                <button class="list-item row" (click)="remove_Effect(creature, index)">
+                                    Remove
+                                </button>
+                            </div>
+                        </ng-container>
                     </ng-container>
                 </ng-container>
             </ng-container>
-        </div>
+        </ng-container>
     </ng-container>
 </div>

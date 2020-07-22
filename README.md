@@ -71,8 +71,33 @@ The very latest in Assistive Technologies for Dungeon Master (ATDM)
 - [ ] Stretch Goal: Include optional Stamina & Resolve system
 
 Active to-do
-Add and remove custom effects
 Implement Level 2 spells
 
+Implement:
+- Conditions
+    - Animal Messenger
+    - Animus Mine
+    - Breath of Drought
+    - Calm Emotions
+    - Comprehend Language
+    - Continual Flame
+    - Darkness
+    - Darkvision
+    - Death Knell (remove if you did not kill the creature)
+    - Endure Elements (2nd, 2rd and 5th level)
+    - Enhance Victuals
+    - Entangle
+    - Faerie Fire
+    - False Life
+    - Feast of Ashes (failure and critical failure)
+    - Flaming Sphere
+    - Fungal Hyphae
+    - Ghoul Fever
+    - Spider Venom
+    - Invisibility Negation
+    - Hideous Laughter
+    - Humanoid Form (2nd, 3rd, 5th level and Small, Medium, Large)
+    - Illusory Creature
+    
 Next steps:
 - Implement Bard

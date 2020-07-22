@@ -18,7 +18,7 @@
         "key": "setValue",
         "priority": "1",
         "name": "Absolute effect value",
-        "desc": "If this field has a number value (even 0), the attribute will be set to this exact value before circumstance and status bonuses are applied. You can use simple calculations and variables like: Level, Modifier('Strength'), Skill_Level('Acrobatics').",
+        "desc": "If this field has a number value (even 0), the attribute will be set to this exact value before circumstance and status bonuses are applied. You can use simple calculations and variables like: Level, Modifier('Strength'), Skill_Level('Acrobatics'). Overrides relative values on this effect.",
         "examples": "effects setvalue"
     },
     {
@@ -34,7 +34,7 @@
         "key": "toggle",
         "priority": "3",
         "name": "On/Off effect",
-        "desc": "If this is set, the effect doesn't need a value, but just sets a certain state. Some effects like 'Ignore Armor Penalty' use this.",
+        "desc": "If this is set, the effect doesn't need a value, but just sets a certain state. Some effects like 'Ignore Armor Penalty' use this. Overrides both absolute and relative values on this effect.",
         "type": "checkbox"
     },
     {

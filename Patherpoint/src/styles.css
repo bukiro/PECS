@@ -34,11 +34,14 @@ svg,
 svg g {
     fill: #616161;
     fill: var(--textcolor);
+    stroke: #616161;
+    stroke: var(--textcolor);
 }
 
-/*.darkmode :not(.fancy-button):not(h4) > app-actionIcons svg, .darkmode :not(.fancy-button):not(h4) > app-actionIcons svg g {
-    fill: #CCC;
-}*/
+.darkmode .diceBox button svg g {
+    stroke: #616161;
+    stroke: var(--textcolor);
+}
 
 .charactersheet,
 .animalcompanion-box,
@@ -405,6 +408,11 @@ button {
 button svg,
 button svg g {
     fill: white;
+    stroke: white;
+}
+
+.diceBox button svg g {
+    fill: none;
 }
 
 button.minimizebutton {
@@ -482,23 +490,17 @@ button:not([disabled]):active:before {
 
 .darkmode .fancy-button {
     background-color: #CCC;
-    color: #465A8C;
-    color: rgb(var(--accent));
 }
 
-.darkmode .fancy-button span {
-    color: #465A8C;
-    color: rgb(var(--accent));
-}
-
+.darkmode .fancy-button,
+.darkmode .fancy-button span,
+.fancy-button i.material-icons,
 .darkmode .fancy-button * {
     color: #465A8C;
     color: rgb(var(--accent));
 }
 
 .fancy-button i.material-icons {
-    color: #465A8C;
-    color: rgb(var(--accent));
     padding-right: 4px;
 }
 
@@ -508,6 +510,8 @@ button:not([disabled]):active:before {
 .darkmode .fancy-button svg g {
     fill: #465A8C;
     fill: rgb(var(--accent));
+    stroke: #465A8C;
+    stroke: rgb(var(--accent));
 }
 
 .inactive-button, .darkmode .inactive-button {
@@ -526,7 +530,6 @@ button:not([disabled]):active:before {
 .slider {
     -webkit-appearance: none;
     width: 100%;
-    background: var(--textcolor);
     outline: none;
     opacity: 1;
     -webkit-transition: .2s;
@@ -623,7 +626,19 @@ button:not([disabled]):active:before {
     background-color: #EFEFEF;
 }
 
-.darkmode .itemBox {
+.diceBox {
+    padding: 16px 32px;
+    border-radius: 2px;
+    background-color: white;
+}
+
+.dice-result {
+    margin-block-start: .5em;
+    margin-block-end: .5em;
+    font-size: 200%;
+}
+
+.darkmode .itemBox, .darkmode .diceBox {
     background-color: #202020;
 }
 
