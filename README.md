@@ -98,6 +98,14 @@ Implement:
     - Hideous Laughter
     - Humanoid Form (2nd, 3rd, 5th level and Small, Medium, Large)
     - Illusory Creature
+    - Iron Gut
+    - Magic Mouth
+    - Misdirection
+    - Obscuring Mist
+    - Paranoia (normal and critical failure)
+    - Phantom Steed (2nd, 4th, 5th and 6th level)
+    - Resist Energy
+
     
 Next steps:
 - Implement Bard

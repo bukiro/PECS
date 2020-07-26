@@ -276,7 +276,13 @@ export class ConditionsComponent implements OnInit {
     get_EffectValue(creature: Character|AnimalCompanion|Familiar, effect: EffectGain) {
         //Fit the custom effect into the box defined by get_SimpleEffects
         let effectsObject = { effects: [effect] }
-        return this.effectsService.get_SimpleEffects(creature, this.characterService, effectsObject);
+        let result = this.effectsService.get_SimpleEffects(creature, this.characterService, effectsObject);
+        if (result.length) {
+            return result;
+        } else {
+            //If the EffectGain did not produce an effect, return a blank effect instead.
+            return [new Effect()];
+        }
     }
 
     numbersOnly(event): boolean {
@@ -295,21 +301,36 @@ export class ConditionsComponent implements OnInit {
         return this.get_Character().inventories;
     }
 
+    get_EffectInvalid() {
+        if (!this.newEffect.affected || (!this.newEffect.toggle && !this.newEffect.setValue && this.newEffect.value == "0")) {
+            return "This effect will not do anything."
+        };
+    }
+
     add_Effect(creature: Creature) {
-        let newLength = creature.effects.push(this.newEffect);
-        creature.effects[newLength - 1].duration = this.get_ConditionDuration(false);
+        let duration: number = this.get_ConditionDuration(false);
+        let newLength = creature.effects.push(Object.assign(new ConditionGain(), JSON.parse(JSON.stringify(this.newEffect))));
+        
+        if (duration == -1) {
+            creature.effects[newLength - 1].duration = duration;
+        } else {
+            creature.effects[newLength - 1].duration = duration + (5 + (this.endOn + this.timeService.get_YourTurn()) % 10);
+        }
         this.characterService.set_ToChange(creature.type, "effects");
+        this.characterService.set_ToChange(creature.type, "conditions");
         this.characterService.process_ToChange();
     }
 
     remove_Effect(creature: Creature, index: number) {
         creature.effects.splice(index, 1);
         this.characterService.set_ToChange(creature.type, "effects");
+        this.characterService.set_ToChange(creature.type, "conditions");
         this.characterService.process_ToChange();
     }
 
     update_Effects(creature: Creature) {
         this.characterService.set_ToChange(creature.type, "effects");
+        this.characterService.set_ToChange(creature.type, "conditions");
         this.characterService.process_ToChange();
     }
 
@@ -401,28 +422,6 @@ export class ConditionsComponent implements OnInit {
 
     get_Examples(propertyData: ItemProperty) {
         let examples: string[] = [""];
-
-        function extract_Example(element, key: string, isObject: Function, parent: string = "") {
-            if (parent) {
-                if (element[parent]) {
-                    element[parent].forEach(parent => {
-                        if (parent[key]) {
-                            if (!isObject(parent[key])) {
-                                examples.push(parent[key]);
-                            } else {
-                                examples.push(...parent[key]);
-                            }
-                        }
-                    });
-                }
-            } else if (element[key]) {
-                if (!isObject(element[key])) {
-                    examples.push(element[key]);
-                } else {
-                    examples.push(...element[key]);
-                }
-            }
-        }
 
         switch (propertyData.examples) {
             case "effects affected":

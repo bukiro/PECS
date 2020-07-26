@@ -23,7 +23,7 @@ export class Skill {
         public name: string = "",
         public type: string = "",
     ) { }
-    calculate(creature: Character | AnimalCompanion | Familiar, characterService: CharacterService, abilitiesService: AbilitiesService, effectsService: EffectsService, charLevel: number = characterService.get_Character().level) {
+    calculate(creature: Character | AnimalCompanion | Familiar, characterService: CharacterService, abilitiesService: AbilitiesService, effectsService: EffectsService, charLevel: number = characterService.get_Character().level, isDC: boolean = false) {
         let index = 0;
         switch (creature.type) {
             case "Companion":
@@ -34,10 +34,10 @@ export class Skill {
                 break;
         }
         this.$ability[index] = this.get_Ability(creature, characterService);
-        this.$absolutes[index] = this.absolutes(creature, characterService, effectsService);
-        this.$relatives[index] = this.relatives(creature, characterService, effectsService);
-        this.$penalties[index] = this.penalties(creature, characterService, effectsService);
-        this.$bonuses[index] = this.bonuses(creature, characterService, effectsService);
+        this.$absolutes[index] = this.absolutes(creature, characterService, effectsService, isDC);
+        this.$relatives[index] = this.relatives(creature, characterService, effectsService, isDC);
+        this.$penalties[index] = this.penalties(creature, characterService, effectsService, isDC);
+        this.$bonuses[index] = this.bonuses(creature, characterService, effectsService, isDC);
         if (creature.type == "Familiar") {
             this.$level[index] = 0;
         } else {
@@ -104,33 +104,37 @@ export class Skill {
             return (creature.get_SkillIncreases(characterService, 0, levelNumber, this.name).length * 2 <= Math.min(2, maxRank))
         }
     }
-    absolutes(creature: Character | AnimalCompanion | Familiar, characterService: CharacterService, effectsService: EffectsService) {
+    absolutes(creature: Character | AnimalCompanion | Familiar, characterService: CharacterService, effectsService: EffectsService, isDC: boolean = false) {
         return effectsService.get_AbsolutesOnThis(creature, this.name)
             .concat(effectsService.get_AbsolutesOnThis(creature, this.get_Ability(creature, characterService) + "-based Checks and DCs"))
             .concat(effectsService.get_AbsolutesOnThis(creature, "Skill Checks"))
             .concat(effectsService.get_AbsolutesOnThis(creature, "All Checks and DCs"))
-            .concat(this.name.includes("Lore") ? effectsService.get_AbsolutesOnThis(creature, "Lore") : []);
+            .concat(this.name.includes("Lore") ? effectsService.get_AbsolutesOnThis(creature, "Lore") : [])
+            .concat(this.name.includes("Spell DC") && !isDC ? effectsService.get_AbsolutesOnThis(creature, "Attack Rolls") : []);
     }
-    relatives(creature: Character | AnimalCompanion | Familiar, characterService: CharacterService, effectsService: EffectsService) {
+    relatives(creature: Character | AnimalCompanion | Familiar, characterService: CharacterService, effectsService: EffectsService, isDC: boolean = false) {
         return effectsService.get_RelativesOnThis(creature, this.name)
             .concat(effectsService.get_RelativesOnThis(creature, this.get_Ability(creature, characterService) + "-based Checks and DCs"))
             .concat(effectsService.get_RelativesOnThis(creature, "Skill Checks"))
             .concat(effectsService.get_RelativesOnThis(creature, "All Checks and DCs"))
-            .concat(this.name.includes("Lore") ? effectsService.get_RelativesOnThis(creature, "Lore") : []);
+            .concat(this.name.includes("Lore") ? effectsService.get_RelativesOnThis(creature, "Lore") : [])
+            .concat(this.name.includes("Spell DC") && !isDC ? effectsService.get_RelativesOnThis(creature, "Attack Rolls") : []);
     }
-    bonuses(creature: Character | AnimalCompanion | Familiar, characterService: CharacterService, effectsService: EffectsService) {
+    bonuses(creature: Character | AnimalCompanion | Familiar, characterService: CharacterService, effectsService: EffectsService, isDC: boolean = false) {
         return effectsService.show_BonusesOnThis(creature, this.name) ||
             effectsService.show_BonusesOnThis(creature, this.get_Ability(creature, characterService) + "-based Checks and DCs") ||
             effectsService.show_BonusesOnThis(creature, "Skill Checks") ||
             effectsService.show_BonusesOnThis(creature, "All Checks and DCs") ||
-            (this.name.includes("Lore") && effectsService.show_BonusesOnThis(creature, "Lore"));
+            (this.name.includes("Lore") && effectsService.show_BonusesOnThis(creature, "Lore")) ||
+            (this.name.includes("Spell DC") && !isDC && effectsService.show_BonusesOnThis(creature, "Attack Rolls"));
     }
-    penalties(creature: Character | AnimalCompanion | Familiar, characterService: CharacterService, effectsService: EffectsService) {
+    penalties(creature: Character | AnimalCompanion | Familiar, characterService: CharacterService, effectsService: EffectsService, isDC: boolean = false) {
         return effectsService.show_PenaltiesOnThis(creature, this.name) ||
             effectsService.show_PenaltiesOnThis(creature, this.get_Ability(creature, characterService) + "-based Checks and DCs") ||
             effectsService.show_PenaltiesOnThis(creature, "Skill Checks") ||
             effectsService.show_PenaltiesOnThis(creature, "All Checks and DCs") ||
-            (this.name.includes("Lore") && effectsService.show_PenaltiesOnThis(creature, "Lore"));
+            (this.name.includes("Lore") && effectsService.show_PenaltiesOnThis(creature, "Lore")) ||
+            (this.name.includes("Spell DC") && !isDC && effectsService.show_PenaltiesOnThis(creature, "Attack Rolls"));
     }
     get_Ability(creature: Character | AnimalCompanion | Familiar, characterService: CharacterService) {
         if (creature.type == "Familiar") {
@@ -222,7 +226,7 @@ export class Skill {
         }
         return { result: result, explain: explain };
     }
-    value(creature: Character | AnimalCompanion | Familiar, characterService: CharacterService, abilitiesService: AbilitiesService, effectsService: EffectsService, charLevel: number = characterService.get_Character().level) {
+    value(creature: Character | AnimalCompanion | Familiar, characterService: CharacterService, abilitiesService: AbilitiesService, effectsService: EffectsService, charLevel: number = characterService.get_Character().level, isDC: boolean = false) {
         //Calculates the effective bonus of the given Skill
         let index = 0;
         switch (creature.type) {
@@ -241,7 +245,7 @@ export class Skill {
             result = baseValue.result;
             explain = baseValue.explain;
             //Absolutes completely replace the baseValue. They are sorted so that the highest value counts last.
-            this.absolutes(creature, characterService, effectsService).forEach(effect => {
+            this.absolutes(creature, characterService, effectsService, isDC).forEach(effect => {
                 result = parseInt(effect.setValue)
                 explain = effect.source + ": " + effect.setValue;
             });
@@ -251,15 +255,15 @@ export class Skill {
                 let character = characterService.get_Character();
                 if (["Fortitude", "Reflex", "Will"].includes(this.name)) {
                     baseValue = (this.$baseValue[0].result ? this.$baseValue[0] : this.baseValue(character, characterService, abilitiesService, effectsService, charLevel))
-                    this.absolutes(character, characterService, effectsService).forEach(effect => {
+                    this.absolutes(character, characterService, effectsService, isDC).forEach(effect => {
                         baseValue.result = parseInt(effect.setValue)
                         baseValue.explain = effect.source + ": " + effect.setValue;
                     });
-                    relatives.push(...this.relatives(character, characterService, effectsService).filter(effect => effect.type != "circumstance" && effect.type != "status"));
+                    relatives.push(...this.relatives(character, characterService, effectsService, isDC).filter(effect => effect.type != "circumstance" && effect.type != "status"));
                 }
             }
             //Get all active relative effects on this and sum them up
-            relatives.push(...this.relatives(creature, characterService, effectsService));
+            relatives.push(...this.relatives(creature, characterService, effectsService, isDC));
             relatives.forEach(effect => {
                 result += parseInt(effect.value);
                 explain += "\n" + effect.source + ": " + effect.value;

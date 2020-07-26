@@ -53,7 +53,6 @@ import { ItemTalismansComponent } from './item/itemTalismans/itemTalismans.compo
 import { CraftingComponent } from './crafting/crafting.component';
 import { ItemMaterialComponent } from './item/itemMaterial/itemMaterial.component';
 import { ItemPoisonsComponent } from './item/itemPoisons/itemPoisons.component';
-import { CustomEffectComponent } from './conditions/customEffect/customEffect.component';
 import { DiceComponent } from './dice/dice.component';
 import { DiceIcons_D4Component } from './dice/diceIcons_D4/diceIcons_D4.component';
 import { DiceIcons_D6Component } from './dice/diceIcons_D6/diceIcons_D6.component';
@@ -110,7 +109,6 @@ import { DiceIcons_D20Component } from './dice/diceIcons_D20/diceIcons_D20.compo
       CraftingComponent,
       ItemMaterialComponent,
       ItemPoisonsComponent,
-      CustomEffectComponent,
       DiceComponent,
       DiceIcons_D4Component,
       DiceIcons_D6Component,

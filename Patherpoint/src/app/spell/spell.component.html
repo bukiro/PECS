@@ -15,7 +15,7 @@
             <i>&nbsp;{{spell.PFSnote}}</i>
         </span>
     </div>
-    <div class="row left-aligned" *ngIf="spell.traditions">
+    <div class="row left-aligned" *ngIf="spell.traditions && !spell.traditions.includes('Focus')">
         <span>
             <strong>Traditions</strong>
             {{spell.traditions.join(', ')}}
@@ -29,20 +29,20 @@
             {{spell.trigger}}
         </span>
     </div>
-    <div class="row left-aligned" *ngIf="spell.range || spell.targets">
+    <div class="row left-aligned" *ngIf="spell.range || spell.area">
         <span *ngIf="spell.range">
             <strong>Range</strong>
             {{spell.range}}&nbsp;
         </span>
-        <span *ngIf="spell.targets">
-            <strong>Targets</strong>
-            {{spell.targets}}
-        </span>
-    </div>
-    <div class="row left-aligned" *ngIf="spell.area">
-        <span>
+        <span *ngIf="spell.area">
             <strong>Area</strong>
             {{spell.area}}
+        </span>
+    </div>
+    <div class="row left-aligned" *ngIf="spell.targets">
+        <span>
+            <strong>Targets</strong>
+            {{spell.targets}}
         </span>
     </div>
     <div class="row left-aligned" *ngIf="spell.duration">

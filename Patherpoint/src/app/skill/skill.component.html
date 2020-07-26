@@ -1,6 +1,6 @@
 <div class="list-item"
     [ngClass]="{'fullsize-only':(skill.$value[get_CalculatedIndex()].result == 0), 'character-only':(skill.$level[get_CalculatedIndex()] == 0 && creature == 'Companion')}"
-    *ngFor="let skill of [skill.calculate(get_Creature(), this.characterService,this.abilitiesService,this.effectsService)]; trackBy:trackByIndex;">
+    *ngFor="let skill of [skill.calculate(get_Creature(), this.characterService,this.abilitiesService,this.effectsService, get_Character().level, isDC)]; trackBy:trackByIndex;">
     <div class="row">
         <strong title="{{skill.$ability[get_CalculatedIndex()]}}">{{get_Name(skill)}}</strong>
         <app-proficiency-form style="flex-grow:0" [creature]="creature" [skill]="skill"

@@ -57,6 +57,10 @@ export class SkillComponent implements OnInit {
         }
     }
 
+    get_Character() {
+        return this.characterService.get_Character();
+    }
+
     get_Creature() {
         return this.characterService.get_Creature(this.creature);
     }
@@ -112,7 +116,15 @@ export class SkillComponent implements OnInit {
                 if (view.creature == this.creature &&
                     (
                         view.target == "all" ||
-                        (view.target == "individualskills" && [this.skill.name, this.skill.ability, "all"].includes(view.subtarget))
+                        (view.target == "individualskills" &&
+                            (
+                                [this.skill.name, this.skill.ability, "all"].includes(view.subtarget) ||
+                                (
+                                    this.get_Name(this.skill).includes("Attacks") &&
+                                    view.subtarget == "attacks"
+                                )
+                            )
+                        )
                     )) {
                     this.changeDetector.detectChanges();
                 }

@@ -455,7 +455,8 @@ button:disabled {
 
 /* Button Flash */
 
-button:before {
+button:before,
+button ~ .list-item.sublist:before {
     content:'';
     position: absolute;
     width: 100%;
@@ -473,7 +474,7 @@ button:not([disabled]):not(:active):before {
     -webkit-animation: flash 0.4s cubic-bezier(0, 0, 0.2, 1);
             animation: flash 0.4s cubic-bezier(0, 0, 0.2, 1);
     -webkit-transition: visibility .4s step-end;
-    transition: visibility .4s step-end;
+            transition: visibility .4s step-end;
 }
 
 button:not([disabled]):active:before {
@@ -548,6 +549,7 @@ button:not([disabled]):active:before {
     border-radius: 2px;
     background: rgb(var(--accent));
     cursor: pointer;
+    content: var(--thumbNumber);
   }
   
   .slider::-moz-range-thumb {

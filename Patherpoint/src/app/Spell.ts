@@ -11,6 +11,7 @@ export class Spell {
     public actions: string = "1A";
     public area: string = "";
     public castType: string = "";
+    public cost: string = "";
     public critfailure: string = "";
     public critsuccess: string = "";
     public desc10: SpellDesc[] = [];
@@ -29,6 +30,7 @@ export class Spell {
     public gainConditions: ConditionGain[] = [];
     public gainItems: ItemGain[] = [];
     public heightened: {variable:string, value:string}[] = [];
+    public inputRequired: string = "";
     public levelreq: number = 1;
     public name: string = "";
     public PFSnote: string = "";
@@ -38,7 +40,7 @@ export class Spell {
     public showSpells: SpellCast[] = [];
     public sourceBook: string = "";
     public success: string = "";
-    //Sustained spells are deactivated after this time (or permanent with -1)
+    //Sustained spells are deactivated after this time (or permanent with -1, or when resting with -2)
     public sustained: number = 0;
     //target is used internally to determine whether you can cast this spell on yourself or your companion/familiar
     //Should be "", "self", "companion" or "ally"
@@ -78,12 +80,12 @@ export class Spell {
                 return [];
             }
     }
-    get_Heightened(desc: string, levelNumber: number) {
+    get_Heightened(text: string, levelNumber: number) {
         this.get_DescriptionSet(levelNumber).forEach((descVar: SpellDesc) => {
             let regex = new RegExp(descVar.variable,"g")
-            desc = desc.replace(regex, descVar.value);
+            text = text.replace(regex, descVar.value);
         })
-        return desc;
+        return text;
     }
     get_HeightenedConditions(levelNumber: number) {
         if (!this.gainConditions.length || this.gainConditions.filter(gain => !gain.heightenedFilter).length) {

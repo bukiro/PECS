@@ -326,7 +326,7 @@ export class ItemsService {
         }
         //For items (oils) that apply the same effect as a rune, load the rune into the item here.
         if (newItem.runeEffect && newItem.runeEffect.name) {
-            let rune = this.get_CleanItems().weaponrunes.find(rune => rune.name == newItem.runeEffect.name);
+            let rune = this.cleanItems.weaponrunes.find(rune => rune.name == newItem.runeEffect.name);
             if (rune) {
                 newItem.runeEffect = Object.assign(new WeaponRune(), JSON.parse(JSON.stringify(rune)));
                 this.savegameService.reassign(newItem.runeEffect);

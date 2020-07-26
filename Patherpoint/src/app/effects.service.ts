@@ -239,7 +239,7 @@ export class EffectsService {
                 }
             }
             if (toggle) {
-                setValue = "0";
+                setValue = "";
                 value = "0";
             }
             //Hide all relative effects that come from feats and are untyped, so we don't see green effects permanently after taking a feat.
@@ -512,7 +512,7 @@ export class EffectsService {
     set_ToChange(creature: Character | AnimalCompanion | Familiar, newEffects: Effect[], oldEffects: Effect[], characterService: CharacterService) {
         //Set refresh commands for all components of the application depending on whether there are new effects affecting their data,
         // or old effects have been removed.
-        let general: string[] = ["Languages", "Size"];
+        let general: string[] = ["Languages", "Size", "Attack Rolls"];
         let generalWildcard: string[] = ["Speed", "Checks and DCs"];
         let abilities: string[] = ["Strength", "Dexterity", "Constitution", "Intelligence", "Wisdom", "Charisma"];
         let abilitiesWildcard: string[] = ["Strength", "Dexterity", "Constitution", "Intelligence", "Wisdom", "Charisma"];
@@ -561,6 +561,7 @@ export class EffectsService {
             }
             if (attacks.includes(effect.target) || attacksWildcard.filter(name => effect.target.includes(name)).length) {
                 characterService.set_ToChange(creature.type, "attacks");
+                characterService.set_ToChange(creature.type, "individualskills", "attacks");
             }
             if (skills.includes(effect.target)) {
                 characterService.set_ToChange(creature.type, "individualskills", effect.target);

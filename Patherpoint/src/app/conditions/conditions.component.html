@@ -199,7 +199,7 @@
                     </div>
                 </ng-container>
                 <ng-container *ngFor="let creature of get_Creatures()">
-                    <button class="list-item row" (click)="add_Effect(creature)">
+                    <button class="list-item row" (click)="add_Effect(creature)" title="{{get_EffectInvalid()}}" [disabled]="get_EffectInvalid()">
                         <h3>Add to {{creature.type}}</h3>
                     </button>
                 </ng-container>
@@ -210,15 +210,16 @@
                         <h3>Custom effects on {{creature.type}}</h3>
                     </button>
                     <ng-container *ngIf="get_ShowList()=='customEffects'+creature.type">
-                        <ng-container *ngFor="let effect of creature.effects|sortBy:'affected'; let index = index; trackBy:trackByIndex;">
-                            <div class="list-item" *ngFor="let effectResult of get_EffectValue(creature, effect)">
+                        <ng-container *ngFor="let effectGain of creature.effects; let index = index; trackBy:trackByIndex;">
+                            <div class="list-item" *ngFor="let effectResult of get_EffectValue(creature, effectGain)">
                                 <span>
                                     <strong [ngClass]="{'penalty':effectResult.penalty, 'bonus':!effectResult.penalty && !effectResult.setValue, 'absolute':effectResult.setValue}"
-                                        title="{{effect.setValue ? effect.setValue : (effect.value ? effect.value : '')}}">{{effectResult.target}}
+                                        title="{{effectGain.setValue ? effectGain.setValue : (effectGain.value ? effectGain.value : '')}}">{{effectGain.affected}}
                                         {{parseInt(effectResult.value) ? effectResult.value : ''}}{{effectResult.setValue ? "= "+effectResult.setValue : ''}}
                                     </strong>
-                                    {{(effectResult.type != "untyped") ? effectResult.type+' ' : ''}}{{(effectResult.toggle || effectResult.setValue) ? '' : (effectResult.penalty ? 'penalty' : 'bonus')}}
-                                    {{effect.duration ? "(" + get_Duration(effect.duration) + ")" : ''}}
+                                    <span *ngIf="effectResult.value || effectResult.setValue || effectResult.toggle">{{(effectResult.type != "untyped") ? effectResult.type+' ' : ''}}{{(effectResult.toggle || effectResult.setValue) ? '' : (effectResult.penalty ? 'penalty' : 'bonus')}}</span>
+                                    <span *ngIf="!effectResult.value && !effectResult.setValue && !effectResult.toggle">no effect</span>
+                                    {{effectGain.duration ? "(" + get_Duration(effectGain.duration) + ")" : ''}}
                                 </span>
                                 <button class="list-item row" (click)="remove_Effect(creature, index)">
                                     Remove
