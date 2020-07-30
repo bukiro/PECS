@@ -10,7 +10,7 @@ The very latest in Assistive Technologies for Dungeon Master (ATDM)
 - [x] We are using Angular now
 - [x] Learn a language
 - [x] Get SSH key working in VSC >:|
-- [ ] Fill character sheet
+- [x] Fill character sheet
 - [x] - Abilities
 - [x] - Armor
 - [x] - Attacks
@@ -24,10 +24,10 @@ The very latest in Assistive Technologies for Dungeon Master (ATDM)
 - [x] - Implement Ohm
 - [x] - Implement Finn
 - [x] - Animal companion
-- [ ] - Implement a spellcasting class
+- [x] - Implement a spellcasting class
 - [x] - Implement all General and Skill Feats
 - [ ] - Implement all Weapons
-- [x] -- Implement all Alchemical Bombs
+- [x] -- Implement all Alchemical Bombs and Consumable Bombs
 - [ ] - Implement all Armors
 - [ ] - Implement all Shields
 - [ ] - Implement all Consumables
@@ -65,7 +65,7 @@ The very latest in Assistive Technologies for Dungeon Master (ATDM)
 - [x] - Ranger
 - [x] - Rogue
 - [x] - Wizard
-- [ ] Add custom conditions with effects
+- [x] Add custom conditions with effects
 - [ ] Item Icons
 - [ ] Initiative tracker, battles, being a battle member, GM-Player-Communication.......
 - [ ] Stretch Goal: Include optional Stamina & Resolve system
@@ -83,8 +83,8 @@ Implement:
     - Continual Flame
     - Darkness
     - Darkvision
-    - Death Knell (remove if you did not kill the creature)
-    - Endure Elements (2nd, 2rd and 5th level)
+    - Death Knell
+    - Endure Elements (2nd, 3rd and 5th level)
     - Enhance Victuals
     - Entangle
     - Faerie Fire
@@ -98,14 +98,29 @@ Implement:
     - Hideous Laughter
     - Humanoid Form (2nd, 3rd, 5th level and Small, Medium, Large)
     - Illusory Creature
-    - Iron Gut
+    - Iron Gut (remember to test the inventory and what happens when the spell ends)
     - Magic Mouth
     - Misdirection
     - Obscuring Mist
     - Paranoia (normal and critical failure)
     - Phantom Steed (2nd, 4th, 5th and 6th level)
     - Resist Energy
-
+    - Rime Slick
+    - Sea Surge
+    - Shield Other (target and caster)
+    - Silence
+    - Slough Skin
+    - Spectral Hand
+    - Spider Climb
+    - Spiritual Weapon
+    Next:
+    - Status (target and caster)
+    - Summon Elemental
+    - Tree Shape
+    - Undetectable Alignment
+    - Water Walk
+    - Web (normal, failure, critical failure)
     
 Next steps:
 - Implement Bard
+- Implement Conditions for Poisons

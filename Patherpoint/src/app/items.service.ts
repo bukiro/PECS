@@ -374,6 +374,62 @@ export class ItemsService {
         return item;
     }
 
+    move_InventoryItem(creature: Character|AnimalCompanion, item: Item, targetInventory: ItemCollection, inventory: ItemCollection, characterService: CharacterService) {
+        if (targetInventory && targetInventory != inventory) {
+            let fromCreature = characterService.get_Creatures().find(creature => creature.inventories.find(inv => inv === inventory)) as Character | AnimalCompanion;
+            let toCreature = characterService.get_Creatures().find(creature => creature.inventories.find(inv => inv === targetInventory)) as Character | AnimalCompanion;
+            if ((item as Equipment).gainInventory && (item as Equipment).gainInventory.length && fromCreature == toCreature) {
+                //If this item is a container and is moved between inventories of the same creature, you don't need to drop it explicitly.
+                //Just push it to the new inventory and remove it from the old, but unequip it either way.
+                let movedItem = JSON.parse(JSON.stringify(item));
+                movedItem = characterService.reassign(movedItem);
+                targetInventory[item.type].push(movedItem);
+                inventory[item.type] = inventory[item.type].filter((inventoryItem: Item) => inventoryItem !== item)
+                if ((movedItem as Equipment).equipped) {
+                    characterService.onEquip(creature, inventory, movedItem as Equipment, false)
+                }
+                if ((movedItem as Equipment).invested) {
+                    characterService.onInvest(creature, inventory, movedItem as Equipment, false)
+                }
+            } else {
+                let movedItem = JSON.parse(JSON.stringify(item));
+                let movedInventories: ItemCollection[]
+                //If this item is a container and is moved between creatures, the attached inventories need to be moved as well.
+                //Because we lose the inventory when we drop the item, but automatically gain one when we grant the item to the other creature,
+                // we need to first save the inventory, then recreate it and remove the new ones after moving the item.
+                //Here, we save the inventories and take care of any containers within the container.
+                if ((item as Equipment).gainInventory && (item as Equipment).gainInventory.length) {
+                    //First, move all inventory items within this inventory item to the same target. They get 
+                    fromCreature.inventories.filter(inv => inv.itemId == item.id).forEach(inv => {
+                        inv.allItems().filter(invItem => (invItem as Equipment).gainInventory && (invItem as Equipment).gainInventory.length).forEach(invItem => {
+                            this.move_InventoryItem(creature, invItem, targetInventory, inv, characterService);
+                        });
+                    });
+                    movedInventories = fromCreature.inventories.filter(inv => inv.itemId == item.id).map(inv => JSON.parse(JSON.stringify(inv)))
+                    movedInventories = movedInventories.map(inv => characterService.reassign(inv));
+                }
+                let newItem = characterService.grant_InventoryItem(toCreature, targetInventory, movedItem, false, false, false, movedItem.amount, false);
+                characterService.drop_InventoryItem(fromCreature, inventory, item, false, true, true, item.amount);
+                //Below, we reinsert the saved inventories and remove any newly created ones.
+                if ((item as Equipment).gainInventory && (item as Equipment).gainInventory.length) {
+                    toCreature.inventories = toCreature.inventories.filter(inv => inv.itemId != newItem.id);
+                    let newLength = toCreature.inventories.push(...movedInventories);
+                    toCreature.inventories.slice(newLength - movedInventories.length, newLength).forEach(inv => {
+                        inv.itemId = newItem.id;
+                    })
+                }
+                if ((newItem as Equipment).equipped) {
+                    characterService.onEquip(creature, targetInventory, newItem as Equipment, false)
+                }
+                if ((newItem as Equipment).invested) {
+                    characterService.onInvest(creature, targetInventory, newItem as Equipment, false)
+                }
+            }
+
+        }
+
+    }
+
     process_Consumable(creature: Character | AnimalCompanion | Familiar, characterService: CharacterService, itemsService: ItemsService, timeService: TimeService, spellsService: SpellsService, item: Consumable) {
 
         //One time effects
@@ -474,6 +530,14 @@ export class ItemsService {
                 }
                 if (["armors", "shields"].includes(item.type) && (item as Equipment).equipped) {
                     characterService.set_ToChange(creature.type, "defense");
+                }
+                if ((item as Equipment).gainInventory && (item as Equipment).gainInventory.length) {
+                    //If a temporary container is destroyed, return all contained items to the main inventory.
+                    creature.inventories.filter(inv => inv.itemId == item.id).forEach(inv => {
+                        inv.allItems().filter(invItem => (invItem as Equipment).gainInventory && (invItem as Equipment).gainInventory.length).forEach(invItem => {
+                            this.move_InventoryItem(creature, invItem, creature.inventories[0], inv, characterService);
+                        });
+                    });
                 }
             })
             //Removing an item brings the index out of order, and some items may be skipped. We just keep deleting items named DELETE until none are left.

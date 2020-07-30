@@ -19,8 +19,11 @@ export class Familiar extends Creature {
     public senses: string[] = ["Low-Light Vision"];
     public species: string = "";
     public traits: string[] = ["Minion"];
+    get_BaseSize() {
+        return -2;
+    }
     get_Size(effectsService: EffectsService) {
-        let size: number = (-2);
+        let size: number = this.get_BaseSize();
         
         let setSizeEffects = effectsService.get_AbsolutesOnThis(this, "Size");
         if (setSizeEffects.length) {

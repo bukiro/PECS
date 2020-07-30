@@ -82,7 +82,7 @@
         ],
         "range": "30 feet",
         "targets": "1 creature you summoned",
-        "singleTarget": true,
+        "singleTarget": "TRUE",
         "desc": "You augment the abilities of a summoned creature. The target gains a +1 status bonus to all checks (this also applies to the creature's DCs, including its AC) for the duration of its summoning, up to 1 minute.",
         "gainConditions": [
             {
@@ -112,7 +112,7 @@
         ],
         "range": "30 feet",
         "targets": "1 living creature",
-        "singleTarget": true,
+        "singleTarget": "TRUE",
         "desc": "You fire a ray of sickening energy. Make a spell attack roll.",
         "critsuccess": "The target becomes sickened 2 and slowed 1 as long as it's sickened.",
         "success": "The target becomes sickened 1.",
@@ -139,7 +139,7 @@
         ],
         "range": "30 feet",
         "targets": "1 creature",
-        "singleTarget": true,
+        "singleTarget": "TRUE",
         "duration": "until the start of your next turn",
         "desc": "You whisper enchanting words to deflect your foe's ire. The target must attempt a Will save.",
         "savingThrow": "Will",
@@ -175,7 +175,7 @@
         ],
         "range": "30 feet",
         "targets": "1 willing living creature",
-        "singleTarget": true,
+        "singleTarget": "TRUE",
         "duration": "until the end of your next turn",
         "desc": "You glimpse into the target's future. Roll a d20; when the target attempts a non-secret saving throw or skill check, it can use the number you rolled instead of rolling, and the spell ends. Alternatively, you can instead reveal the result of the die roll for one of the target's secret checks during the duration, and the spell ends. Casting it again ends any active diviner's sight you have cast, as well as any active diviner's sight on the target.",
         "gainConditions": [
@@ -259,7 +259,7 @@
         ],
         "range": "500 feet",
         "targets": "1 creature",
-        "singleTarget": true,
+        "singleTarget": "TRUE",
         "desc": "You hurl a held melee weapon with which you are trained at the target, making a spell attack roll. On a success, you deal the weapon's damage as if you had hit with a melee Strike, but adding your spellcasting ability modifier to damage, rather than your Strength modifier. On a critical success, you deal double damage, and you add the weapon's critical specialization effect. Regardless of the outcome, the weapon flies back to you and returns to your hand."
     },
     {
@@ -280,7 +280,7 @@
         "range": "touch",
         "targets": "1 living creature",
         "target": "ally",
-        "singleTarget": true,
+        "singleTarget": "TRUE",
         "duration": "until the end of the target's next turn",
         "desc": "You temporarily improve the target's physique. The target gains a +2 status bonus to the next Acrobatics check, Athletics check, Fortitude save, or Reflex save it attempts.",
         "gainConditions": [
@@ -463,7 +463,7 @@
         "area": "60 feet",
         "targets": "1 ally",
         "target": "ally",
-        "singleTarget": true,
+        "singleTarget": "TRUE",
         "duration": "1 round",
         "desc": "Your encouragement inspires your ally to succeed at a task. This counts as having taken sufficient preparatory actions to Aid your ally on a skill check of your choice, regardless of the circumstances. When you later use the Aid reaction, you can roll Performance instead of the normal skill check, and if you roll a failure, you get a success instead. If you are legendary in Performance, you automatically critically succeed.\n\nThe GM might rule that you can't use this ability if the act of encouraging your ally would interfere with the skill check (such as a check to Sneak quietly or maintain a disguise).",
         "gainConditions": [
@@ -894,13 +894,13 @@
             "Illusion",
             "Wizard"
         ],
+        "target": "self",
         "showSpells": [
             {
-                "name": "Invisibility",
-                "level": 2
+                "level": 2,
+                "name": "Invisibility"
             }
         ],
-        "target": "self",
         "duration": "1 minute",
         "desc": "<var>var1</var>You become invisible, with the same restrictions as the 2nd-level invisibility spell.",
         "heightened": [
@@ -916,21 +916,21 @@
         "gainConditions": [
             {
                 "duration": 100,
+                "heightenedFilter": 4,
                 "name": "Invisibility (2nd level)",
-                "source": "Invisibility Cloak",
-                "heightenedFilter": 4
+                "source": "Invisibility Cloak"
             },
             {
                 "duration": 1000,
+                "heightenedFilter": 6,
                 "name": "Invisibility (2nd level)",
-                "source": "Invisibility Cloak",
-                "heightenedFilter": 6
+                "source": "Invisibility Cloak"
             },
             {
                 "duration": 6000,
+                "heightenedFilter": 8,
                 "name": "Invisibility (2nd level)",
-                "source": "Invisibility Cloak",
-                "heightenedFilter": 8
+                "source": "Invisibility Cloak"
             }
         ],
         "desc4": [
@@ -1428,7 +1428,7 @@
         ],
         "range": "30 feet",
         "targets": "1 creature or object",
-        "singleTarget": true,
+        "singleTarget": "TRUE",
         "desc": "You splash a glob of acid that splatters creatures and objects alike. Make a spell attack. If you hit, you deal <var>var1</var> acid damage plus <var>var2</var> splash acid damage. On a critical success, the target also takes <var>var3</var> persistent acid damage.",
         "heightened": [
             {
@@ -1538,7 +1538,7 @@
         ],
         "range": "touch",
         "targets": "1 living or undead creature",
-        "singleTarget": true,
+        "singleTarget": "TRUE",
         "desc": "Siphoning negative energy into yourself, your hand radiates a pale darkness. Your touch weakens the living and disorients undead, possibly even causing them to flee. The effect depends on whether the target is living or undead.\n\n<strong>Living Creature</strong> The spell deals negative damage equal to <var>var1</var> plus your spellcasting modifier. The target attempts a basic Fortitude save, but is also enfeebled 1 for 1 round on a critical failure.\n<strong>Undead Creature</strong> The target is flat-footed for 1 round on a failed Fortitude save. On a critical failure, the target is also fleeing for 1 round unless it succeeds at a Will save.",
         "savingThrow": "Fortitude",
         "heightened": [
@@ -1658,7 +1658,7 @@
         ],
         "range": "60 feet",
         "targets": "1 creature",
-        "singleTarget": true,
+        "singleTarget": "TRUE",
         "duration": "1 round",
         "desc": "You cloud the target's mind and daze it with a mental jolt. The jolt deals mental damage equal to <var>var1</var>your spellcasting ability modifier; the target must attempt a basic Will save. If the target critically fails the save, it is also stunned 1.",
         "savingThrow": "Will",
@@ -1852,7 +1852,7 @@
         ],
         "range": "30 feet",
         "targets": "1 creature",
-        "singleTarget": true,
+        "singleTarget": "TRUE",
         "desc": "You unleash a beam of divine energy. Choose an alignment your deity has (chaotic, evil, good, or lawful). You can't cast this spell if you don't have a deity or if your deity is true neutral. Make a ranged spell attack roll against the target's AC. On a hit, the target takes damage of the chosen alignment type equal to <var>var1</var> + your spellcasting ability modifier (double damage on a critical hit). The spell gains the trait of the alignment you chose.",
         "heightened": [
             {
@@ -1939,7 +1939,7 @@
         ],
         "range": "30 feet",
         "targets": "1 or 2 creatures",
-        "singleTarget": true,
+        "singleTarget": "TRUE",
         "desc": "An arc of lightning leaps from one target to another. You deal electricity damage equal to <var>var1</var> plus your spellcasting ability modifier.",
         "savingThrow": "basic Reflex",
         "heightened": [
@@ -2039,26 +2039,26 @@
         "gainConditions": [
             {
                 "duration": 100,
+                "heightenedFilter": 1,
                 "name": "Forbidding Ward (1st level)",
-                "source": "Forbidding Ward",
-                "heightenedFilter": 1
+                "source": "Forbidding Ward"
             },
             {
                 "duration": 100,
+                "heightenedFilter": 6,
                 "name": "Forbidding Ward (6th level)",
-                "source": "Forbidding Ward",
-                "heightenedFilter": 6
+                "source": "Forbidding Ward"
             }
         ],
         "desc1": [
             {
-                "value": "+1",
+                "value": "1",
                 "variable": "var1"
             }
         ],
         "desc6": [
             {
-                "value": "+2",
+                "value": "2",
                 "variable": "var1"
             }
         ]
@@ -2139,7 +2139,7 @@
         "range": "30 feet",
         "targets": "1 creature",
         "target": "ally",
-        "singleTarget": true,
+        "singleTarget": "TRUE",
         "duration": "until the start of your next turn",
         "desc": "You ask for divine guidance, granting the target a +1 status bonus to one attack roll, Perception check, saving throw, or skill check the target attempts before the duration ends. The target chooses which roll to use the bonus on before rolling. If the target uses the bonus, the spell ends. Either way, the target is then temporarily immune for 1 hour.",
         "gainConditions": [
@@ -2308,7 +2308,7 @@
         ],
         "range": "touch",
         "targets": "1 object of 1 Bulk or less, either unattended or possessed by you or a willing ally",
-        "singleTarget": true,
+        "singleTarget": "TRUE",
         "duration": "until the next time you make your daily preparations",
         "desc": "The object glows, casting bright light in a <var>var1</var>-foot radius (and dim light for the next <var>var2</var> feet) like a torch. If you cast this spell again on a second object, the light spell on the first object ends.",
         "heightened": [
@@ -2363,7 +2363,7 @@
         ],
         "range": "30 feet",
         "targets": "1 unattended object of light Bulk or less",
-        "singleTarget": true,
+        "singleTarget": "TRUE",
         "sustained": -1,
         "duration": "sustained",
         "desc": "<var>var1</var>You create a single magical hand, either invisible or ghostlike, that grasps the target object and moves it slowly up to 20 feet. Because you're levitating the object, you can move it in any direction. When you Sustain the Spell, you can move the object an additional 20 feet. If the object is in the air when the spell ends, the object falls.",
@@ -2435,7 +2435,7 @@
         ],
         "range": "120 feet",
         "targets": "1 creature",
-        "singleTarget": true,
+        "singleTarget": "TRUE",
         "duration": "see below",
         "desc": "<var>var1</var>You mouth words quietly, but instead of coming out of your mouth, they're transferred directly to the ears of the target. While others can't hear your words any better than if you normally mouthed them, the target can hear your words as if they were standing next to you. The target can give a brief response as a reaction, or as a free action on their next turn if they wish, but they must be able to see you and be within range to do so. If they respond, their response is delivered directly to your ear, just like the original message.",
         "heightened": [
@@ -2476,7 +2476,7 @@
         ],
         "range": "10 feet",
         "targets": "1 object (cook, lift, or tidy only)",
-        "singleTarget": true,
+        "singleTarget": "TRUE",
         "sustained": -1,
         "duration": "sustained",
         "desc": "The simplest magic does your bidding. You can perform simple magical effects for as long as you Sustain the Spell. Each time you Sustain the Spell, you can choose one of four options.\n\nCook: Cool, warm, or flavor 1 pound of nonliving material.\nLift: Slowly lift an unattended object of light Bulk or less 1 foot off the ground.\nMake: Create a temporary object of negligible Bulk, made of congealed magical substance. The object looks crude and artificial and is extremely fragile - it can't be used as a tool, weapon, or spell component.\nTidy: Color, clean, or soil an object of light Bulk or less. You can affect an object of 1 Bulk with 10 rounds of concentration, and a larger object a 1 minute per Bulk.\n\nPrestidigitation can't deal damage or cause adverse conditions. Any actual change to an object (beyond what is noted above) persists only as long as you Sustain the Spell.",
@@ -2508,7 +2508,7 @@
         ],
         "range": "30 feet",
         "targets": "1 creature",
-        "singleTarget": true,
+        "singleTarget": "TRUE",
         "desc": "A small ball of flame appears in the palm of your hand, and you lash out with it either in melee or at range. Make a spell attack roll against your target's AC. This is normally a ranged attack, but you can also make a melee attack against a creature in your unarmed reach. On a success, you deal <var>var1</var> fire damage plus your spellcasting ability modifier. On a critical success, the target takes double damage and <var>var2</var> persistent fire damage.",
         "heightened": [
             {
@@ -2636,7 +2636,7 @@
         ],
         "range": "120 feet",
         "targets": "1 creature",
-        "singleTarget": true,
+        "singleTarget": "TRUE",
         "desc": "You blast an icy ray. Make a spell attack roll. The ray deals cold damage equal to <var>var1</var> plus your spellcasting ability modifier.",
         "critsuccess": "The target takes double damage and takes a -10-foot status penalty to its Speeds for 1 round.",
         "success": "The target takes normal damage.",
@@ -2727,7 +2727,7 @@
         ],
         "range": "30 feet",
         "targets": "1 object",
-        "singleTarget": true,
+        "singleTarget": "TRUE",
         "desc": "<var>var1</var>You focus on the target object, opening your mind to perceive magical auras. When the casting is complete, you know whether that item is magical, and if it is, you learn the school of magic.\n\nIf the object is illusory, you detect this only if the effect's level is lower than the level of your read aura spell.",
         "heightened": [
             {
@@ -2793,33 +2793,33 @@
         "gainItems": [
             {
                 "expiration": 10,
+                "heightenedFilter": 1,
                 "name": "Force Shield (1st level)",
-                "type": "shields",
-                "heightenedFilter": 1
+                "type": "shields"
             },
             {
                 "expiration": 10,
+                "heightenedFilter": 3,
                 "name": "Force Shield (3rd level)",
-                "type": "shields",
-                "heightenedFilter": 3
+                "type": "shields"
             },
             {
                 "expiration": 10,
+                "heightenedFilter": 5,
                 "name": "Force Shield (5th level)",
-                "type": "shields",
-                "heightenedFilter": 5
+                "type": "shields"
             },
             {
                 "expiration": 10,
+                "heightenedFilter": 7,
                 "name": "Force Shield (7th level)",
-                "type": "shields",
-                "heightenedFilter": 7
+                "type": "shields"
             },
             {
                 "expiration": 10,
+                "heightenedFilter": 9,
                 "name": "Force Shield (9th level)",
-                "type": "shields",
-                "heightenedFilter": 9
+                "type": "shields"
             }
         ],
         "desc1": [
@@ -2873,7 +2873,7 @@
         "internalNote": "The effect is not implemented and will not be implemented.",
         "range": "touch",
         "targets": "1 creature or object",
-        "singleTarget": true,
+        "singleTarget": "TRUE",
         "duration": "unlimited (see below)",
         "desc": "You harmlessly place your unique magical sigil, which is about 1 square inch in size, on the targeted creature or object. The mark can be visible or invisible, and you can change it from one state to another by using an Interact action to touch the target. The mark can be scrubbed or scraped off with 5 minutes of work. <var>var1</var>The time before the mark fades increases depending on your heightened level.",
         "heightened": [
@@ -2935,7 +2935,7 @@
         "range": "30 feet",
         "targets": "1 dying creature",
         "target": "ally",
-        "singleTarget": true,
+        "singleTarget": "TRUE",
         "desc": "Positive energy shuts death's door. The target loses the dying condition, though it remains unconscious at 0 Hit Points.",
         "gainConditions": [
             {
@@ -2963,7 +2963,7 @@
         ],
         "range": "30 feet",
         "targets": "1 creature",
-        "singleTarget": true,
+        "singleTarget": "TRUE",
         "desc": "A vine covered in sticky sap appears from thin air, flicking from your hand and lashing itself to the target. Attempt a spell attack against the target.",
         "critsuccess": "The target gains the immobilized condition and takes a -10-foot circumstance penalty to its Speeds for <var>var1</var>. It can attempt to Escape against your spell DC to remove the penalty and the immobilized condition.",
         "success": "The target takes a -10-foot circumstance penalty to its Speeds for <var>var1</var>. It can attempt to Escape against your spell DC to remove the penalty.",
@@ -3015,7 +3015,7 @@
         ],
         "range": "30 feet",
         "targets": "1 creature",
-        "singleTarget": true,
+        "singleTarget": "TRUE",
         "desc": "You hurl a loose, unattended object that is within range and that has 1 Bulk or less at the target. Make a spell attack against the target. If you hit, you deal bludgeoning, piercing, or slashing damage - as appropriate for the object you hurled - equal to <var>var1</var> plus your spellcasting ability modifier. No specific traits or magic properties of the hurled item affect the attack or the damage.",
         "critsuccess": "You deal double damage.",
         "success": "You deal full damage.",
@@ -3189,7 +3189,7 @@
         ],
         "range": "30 feet",
         "targets": "1 creature",
-        "singleTarget": true,
+        "singleTarget": "TRUE",
         "duration": "varies",
         "desc": "You send the target's mind and body into overdrive, forcing it to become restless and hyperactive. During the duration, the target must Stride at least once each turn or take <var>var1</var> mental damage that turn. The duration of this effect depends on the target's Will save.",
         "savingThrow": "Will",
@@ -3283,7 +3283,7 @@
         "range": "60 feet",
         "targets": "the triggering creature",
         "target": "ally",
-        "singleTarget": true,
+        "singleTarget": "TRUE",
         "trigger": "A creature within range enters an environment where it can't breathe.",
         "duration": "1 minute",
         "desc": "A bubble of pure air appears around the target's head, allowing it to breathe normally. The effect ends as soon as the target returns to an environment where it can breathe normally.",
@@ -3326,15 +3326,15 @@
         "gainConditions": [
             {
                 "duration": 48000,
+                "heightenedFilter": 1,
                 "name": "Alarm (1st level)",
-                "source": "Alarm",
-                "heightenedFilter": 1
+                "source": "Alarm"
             },
             {
                 "duration": 48000,
+                "heightenedFilter": 3,
                 "name": "Alarm (3rd level)",
-                "source": "Alarm",
-                "heightenedFilter": 3
+                "source": "Alarm"
             }
         ],
         "desc1": [
@@ -3367,7 +3367,7 @@
         "range": "touch",
         "targets": "1 creature",
         "target": "ally",
-        "singleTarget": true,
+        "singleTarget": "TRUE",
         "duration": "8 hours",
         "desc": "You reinforce the target's musculoskeletal system to bear more weight. The target can carry 3 more Bulk than normal before becoming encumbered and up to a maximum of 6 more Bulk.",
         "gainConditions": [
@@ -3396,7 +3396,7 @@
         "range": "30 feet",
         "targets": "1 creature",
         "target": "ally",
-        "singleTarget": true,
+        "singleTarget": "TRUE",
         "duration": "10 minutes",
         "desc": "You grant the target brief foresight. The target gains a <var>var1</var> status bonus to its next initiative roll, after which the spell ends.",
         "heightened": [
@@ -3408,50 +3408,50 @@
         "gainConditions": [
             {
                 "duration": 1000,
+                "heightenedFilter": 1,
                 "name": "Anticipate Peril (1st level)",
-                "source": "Anticipate Peril",
-                "heightenedFilter": 1
+                "source": "Anticipate Peril"
             },
             {
                 "duration": 1000,
+                "heightenedFilter": 3,
                 "name": "Anticipate Peril (3rd level)",
-                "source": "Anticipate Peril",
-                "heightenedFilter": 3
+                "source": "Anticipate Peril"
             },
             {
                 "duration": 1000,
+                "heightenedFilter": 5,
                 "name": "Anticipate Peril (5th level)",
-                "source": "Anticipate Peril",
-                "heightenedFilter": 5
+                "source": "Anticipate Peril"
             },
             {
                 "duration": 1000,
+                "heightenedFilter": 7,
                 "name": "Anticipate Peril (7th level)",
-                "source": "Anticipate Peril",
-                "heightenedFilter": 7
+                "source": "Anticipate Peril"
             }
         ],
         "desc1": [
             {
-                "value": "+1",
+                "value": "1",
                 "variable": "var1"
             }
         ],
         "desc3": [
             {
-                "value": "+2",
+                "value": "2",
                 "variable": "var1"
             }
         ],
         "desc5": [
             {
-                "value": "+3",
+                "value": "3",
                 "variable": "var1"
             }
         ],
         "desc7": [
             {
-                "value": "+4",
+                "value": "4",
                 "variable": "var1"
             }
         ]
@@ -3504,7 +3504,7 @@
         ],
         "range": "30 feet",
         "targets": "1 creature",
-        "singleTarget": true,
+        "singleTarget": "TRUE",
         "duration": "1 round",
         "desc": "You sow seeds of confusion in your target's mind, causing their actions and thoughts to become clumsy.",
         "savingThrow": "Will",
@@ -3648,7 +3648,7 @@
         ],
         "range": "30 feet",
         "targets": "1 creature",
-        "singleTarget": true,
+        "singleTarget": "TRUE",
         "duration": "1 hour",
         "desc": "To the target, your words are honey and your visage seems bathed in a dreamy haze. It must attempt a Will save, with a +4 circumstance bonus if you or your allies recently threatened it or used hostile actions against it. <var>var1</var>\n\nYou can Dismiss the spell. If you use hostile actions against the target, the spell ends. When the spell ends, the target doesn't necessarily realize it was charmed unless its friendship with you or the actions you convinced it to take clash with its expectations, meaning you could potentially convince the target to continue being your friend via mundane means.",
         "savingThrow": "Will",
@@ -3820,7 +3820,7 @@
         ],
         "area": "30 feet",
         "targets": "1 creature",
-        "singleTarget": true,
+        "singleTarget": "TRUE",
         "duration": "until the end of the target's next turn",
         "desc": "You shout a command that's hard to ignore. <var>var1</var>You can command the target to approach you, run away (as if it had the fleeing condition), release what it's holding, drop prone, or stand in place. It can't Delay or take any reactions until it has obeyed your command. The effects depend on the target's Will save.",
         "savingThrow": "Will",
@@ -3920,7 +3920,7 @@
         ],
         "area": "30 feet",
         "targets": "1 object or creature",
-        "singleTarget": true,
+        "singleTarget": "TRUE",
         "desc": "You detect whether a creature is venomous or poisonous, or if an object is poison or has been poisoned. <var>var1</var> Certain substances, like lead and alcohol, are poisons and so mask other poisons.",
         "heightened": [
             {
@@ -3958,7 +3958,7 @@
         "area": "touch",
         "targets": "up to two weapons, each of which must be wielded by you or a willing ally, or else unattended",
         "target": "ally",
-        "singleTarget": true,
+        "singleTarget": "TRUE",
         "duration": "1 minute",
         "desc": "<var>var1</var>You infuse weapons with positive energy. Attacks with these weapons deal an extra <var>var2</var> positive damage to undead.",
         "heightened": [
@@ -3974,21 +3974,21 @@
         "gainConditions": [
             {
                 "duration": 100,
+                "heightenedFilter": 1,
                 "name": "Disrupting Weapons (1st level)",
-                "source": "Disrupting Weapons",
-                "heightenedFilter": 1
+                "source": "Disrupting Weapons"
             },
             {
                 "duration": 100,
+                "heightenedFilter": 3,
                 "name": "Disrupting Weapons (3rd level)",
-                "source": "Disrupting Weapons",
-                "heightenedFilter": 3
+                "source": "Disrupting Weapons"
             },
             {
                 "duration": 100,
+                "heightenedFilter": 3,
                 "name": "Disrupting Weapons (5th level)",
-                "source": "Disrupting Weapons",
-                "heightenedFilter": 3
+                "source": "Disrupting Weapons"
             }
         ],
         "desc1": [
@@ -4041,7 +4041,7 @@
         "range": "touch",
         "targets": "1 creature",
         "target": "ally",
-        "singleTarget": true,
+        "singleTarget": "TRUE",
         "duration": "1 round",
         "desc": "You invigorate the touched creature's mind and urge it to press on. You grant the touched creature <var>var1</var> temporary Hit Points.",
         "heightened": [
@@ -4151,23 +4151,23 @@
         "gainConditions": [
             {
                 "duration": 6000,
+                "heightenedFilter": 1,
                 "name": "Illusory Disguise (1st level)",
                 "source": "Illusory Disguise",
-                "heightenedFilter": 1,
                 "targetFilter": "caster"
             },
             {
                 "duration": 6000,
+                "heightenedFilter": 2,
                 "name": "Illusory Disguise (2nd level)",
                 "source": "Illusory Disguise",
-                "heightenedFilter": 2,
                 "targetFilter": "caster"
             },
             {
                 "duration": 6000,
+                "heightenedFilter": 3,
                 "name": "Illusory Disguise (3rd level)",
                 "source": "Illusory Disguise",
-                "heightenedFilter": 3,
                 "targetFilter": "caster"
             }
         ]
@@ -4193,7 +4193,7 @@
         ],
         "range": "30 feet",
         "targets": "1 creature",
-        "singleTarget": true,
+        "singleTarget": "TRUE",
         "duration": "varies",
         "desc": "<var>var1</var>You plant fear in the target; it must attempt a Will save.",
         "savingThrow": "Will",
@@ -4237,7 +4237,7 @@
         "range": "60 feet",
         "targets": "1 falling creature",
         "target": "ally",
-        "singleTarget": true,
+        "singleTarget": "TRUE",
         "duration": "1 minute",
         "desc": "You cause the air itself to arrest a fall. The target's fall slows to 60 feet per round, and the portion of the fall during the spell's duration doesn't count when calculating falling damage. If the target reaches the ground while the spell is in effect, it takes no damage from the fall. The spell ends as soon as the target lands.",
         "gainConditions": [
@@ -4527,7 +4527,7 @@
         "range": "varies",
         "targets": "1 living creature or 1 willing undead creature",
         "target": "ally",
-        "singleTarget": true,
+        "singleTarget": "TRUE",
         "desc": "You channel negative energy to harm the living or heal the undead. If the target is a living creature, you deal <var>var1</var> negative damage to it, and it gets a basic Fortitude save. If the target is a willing undead creature, you restore that amount of Hit Points. The number of actions you spend when Casting this Spell determines its targets, range, area, and other parameters.\n\n<strong>1 action (somatic)</strong> The spell has a range of touch.\n<strong>2 actions (verbal, somatic)</strong> The spell has a range of 30 feet. If you're healing an undead creature, increase the Hit Points restored by <var>var2</var>.\n<strong>3 actions (material, verbal, somatic) </strong> You disperse negative energy in a 30-foot emanation. This targets all living and undead creatures in the area.",
         "savingThrow": "basic Fortitude",
         "heightened": [
@@ -4655,7 +4655,7 @@
         "range": "varies",
         "targets": "1 willing living creature or 1 undead",
         "target": "ally",
-        "singleTarget": true,
+        "singleTarget": "TRUE",
         "desc": "You channel positive energy to heal the living or damage the undead. If the target is a willing living creature, you restore <var>var1</var> Hit Points. If the target is undead, you deal that amount of positive damage to it, and it gets a basic Fortitude save. The number of actions you spend when Casting this Spell determines its targets, range, area, and other parameters.\n\n<strong>1 action (somatic)</strong> The spell has a range of touch.\n<strong>2 actions (verbal, somatic)</strong> The spell has a range of 30 feet. If you're healing a living creature, increase the Hit Points restored by <var>var2</var>.\n<strong>3 actions (material, verbal, somatic) </strong> You disperse negative energy in a 30-foot emanation. This targets all living and undead creatures in the area.",
         "savingThrow": "basic Fortitude",
         "heightened": [
@@ -4783,7 +4783,7 @@
         ],
         "range": "60 feet",
         "targets": "1 creature or object",
-        "singleTarget": true,
+        "singleTarget": "TRUE",
         "desc": "You call forth a powerful blast of pressurized water that bludgeons the target and knocks it back. Make a ranged spell attack roll.",
         "critsuccess": "The target takes <var>var2</var> bludgeoning damage and is knocked back 10 feet.",
         "success": "The target takes <var>var1</var> bludgeoning damage and is knocked back 5 feet.",
@@ -4912,7 +4912,7 @@
         ],
         "range": "30 feet",
         "targets": "1 creature",
-        "singleTarget": true,
+        "singleTarget": "TRUE",
         "duration": "1 round",
         "desc": "The target is struck with misfortune, which throws them off balance. The target must attempt a Will save.",
         "success": "The target is unaffected.",
@@ -4950,21 +4950,21 @@
         "gainConditions": [
             {
                 "duration": 6000,
+                "heightenedFilter": 1,
                 "name": "Illusory Disguise (1st level)",
-                "source": "Illusory Disguise",
-                "heightenedFilter": 1
+                "source": "Illusory Disguise"
             },
             {
                 "duration": 6000,
+                "heightenedFilter": 2,
                 "name": "Illusory Disguise (2nd level)",
-                "source": "Illusory Disguise",
-                "heightenedFilter": 2
+                "source": "Illusory Disguise"
             },
             {
                 "duration": 6000,
+                "heightenedFilter": 3,
                 "name": "Illusory Disguise (3rd level)",
-                "source": "Illusory Disguise",
-                "heightenedFilter": 3
+                "source": "Illusory Disguise"
             }
         ],
         "desc1": [
@@ -5019,21 +5019,21 @@
         "gainConditions": [
             {
                 "duration": 1000,
+                "heightenedFilter": 1,
                 "name": "Illusory Object (1st level)",
-                "source": "Illusory Object",
-                "heightenedFilter": 1
+                "source": "Illusory Object"
             },
             {
                 "duration": 6000,
+                "heightenedFilter": 2,
                 "name": "Illusory Object (2nd level)",
-                "source": "Illusory Object",
-                "heightenedFilter": 2
+                "source": "Illusory Object"
             },
             {
                 "duration": -1,
+                "heightenedFilter": 5,
                 "name": "Illusory Object (5th level)",
-                "source": "Illusory Object",
-                "heightenedFilter": 5
+                "source": "Illusory Object"
             }
         ],
         "desc1": [
@@ -5072,7 +5072,7 @@
         ],
         "range": "touch",
         "targets": "1 object",
-        "singleTarget": true,
+        "singleTarget": "TRUE",
         "desc": "You project psychic vibrations onto the target object, imprinting it with a short message or emotional theme of your design. This imprinted sensation is revealed to anyone casting object reading on the target object, replacing any emotional events the item was present for. If the object is in the area of a retrocognition spell, the imprinted messages appear as major events in the timeline, but they don't interfere with any other visions. If the object is targeted with read aura of a higher spell level than imprint message, the caster learns that the object has been modified. When you Cast this Spell, any prior vibrations placed in an object by previous castings of imprint message fade.",
         "gainConditions": [
             {
@@ -5099,7 +5099,7 @@
         ],
         "range": "touch",
         "targets": "1 object no more than 10 feet by 10 feet by 10 feet",
-        "singleTarget": true,
+        "singleTarget": "TRUE",
         "duration": "1 hour",
         "desc": "You make the target object look and feel as though it were in much better or worse physical condition. <var>var1</var>When you cast this spell, decide whether you want to make the object look decrepit or perfect. An item made to look decrepit appears broken and shoddy. An intact item made to look better appears as though it's brand new and highly polished or well maintained. A broken item appears to be intact and functional. Destroyed items can't be affected by this spell. A creature that Interacts with the item can attempt to disbelieve the illusion.",
         "heightened": [
@@ -5115,23 +5115,23 @@
         "gainConditions": [
             {
                 "duration": 6000,
+                "heightenedFilter": 1,
                 "name": "Item Facade",
                 "source": "Item Facade",
-                "heightenedFilter": 1,
                 "targetFilter": "caster"
             },
             {
                 "duration": 144000,
+                "heightenedFilter": 2,
                 "name": "Item Facade",
                 "source": "Item Facade",
-                "heightenedFilter": 2,
                 "targetFilter": "caster"
             },
             {
                 "duration": -1,
+                "heightenedFilter": 3,
                 "name": "Item Facade",
                 "source": "Item Facade",
-                "heightenedFilter": 3,
                 "targetFilter": "caster"
             }
         ],
@@ -5180,15 +5180,15 @@
         "gainConditions": [
             {
                 "duration": 0,
+                "heightenedFilter": 1,
                 "name": "Jump",
-                "source": "Jump",
-                "heightenedFilter": 1
+                "source": "Jump"
             },
             {
                 "duration": 100,
+                "heightenedFilter": 3,
                 "name": "Jump",
-                "source": "Jump",
-                "heightenedFilter": 3
+                "source": "Jump"
             }
         ],
         "desc1": [
@@ -5222,7 +5222,7 @@
         "range": "60 feet",
         "targets": "1 creature",
         "target": "ally",
-        "singleTarget": true,
+        "singleTarget": "TRUE",
         "desc": "You call out a liberating cry, urging an ally to break free of an effect that holds them in place. If the target is grabbed, immobilized, or restrained, it can immediately use a reaction to attempt to Escape."
     },
     {
@@ -5242,7 +5242,7 @@
         ],
         "range": "touch",
         "targets": "1 lock, or a door or container with a latch",
-        "singleTarget": true,
+        "singleTarget": "TRUE",
         "duration": "1 day",
         "desc": "<var>var1</var>The target's latch mechanism clinks shut, held fast by unseen magical restraints. When you magically lock a target, you set an Athletics and Thievery DC to open it equal to your spell DC or the base lock DC with a +4 status bonus, whichever is higher. Any key or combination that once opened a lock affected by this spell does not do so for the duration of the spell, though the key or combination does grant a +4 circumstance bonus to checks to open the door.\n\nIf the target is opened, the spell ends. Assuming the target is not barred or locked in some additional way, you can unlock and open it with an Interact action during which you touch the target. This does not end the spell. You can Dismiss this spell at any time and from any distance.",
         "heightened": [
@@ -5254,16 +5254,16 @@
         "gainConditions": [
             {
                 "duration": 144000,
+                "heightenedFilter": 1,
                 "name": "Lock",
                 "source": "Lock",
-                "heightenedFilter": 1,
                 "targetFilter": "caster"
             },
             {
                 "duration": -1,
+                "heightenedFilter": 2,
                 "name": "Lock",
                 "source": "Lock",
-                "heightenedFilter": 2,
                 "targetFilter": "caster"
             }
         ],
@@ -5306,15 +5306,15 @@
         "gainConditions": [
             {
                 "duration": 6000,
+                "heightenedFilter": 1,
                 "name": "Longstrider",
-                "source": "Longstrider",
-                "heightenedFilter": 1
+                "source": "Longstrider"
             },
             {
                 "duration": 48000,
+                "heightenedFilter": 2,
                 "name": "Longstrider",
-                "source": "Longstrider",
-                "heightenedFilter": 2
+                "source": "Longstrider"
             }
         ],
         "desc1": [
@@ -5368,38 +5368,38 @@
         "gainItems": [
             {
                 "expiration": -2,
+                "heightenedFilter": 1,
                 "name": "Mage Armor (1st level)",
-                "type": "armors",
-                "heightenedFilter": 1
+                "type": "armors"
             },
             {
                 "expiration": -2,
+                "heightenedFilter": 4,
                 "name": "Mage Armor (4th level)",
-                "type": "armors",
-                "heightenedFilter": 4
+                "type": "armors"
             },
             {
                 "expiration": -2,
+                "heightenedFilter": 6,
                 "name": "Mage Armor (6th level)",
-                "type": "armors",
-                "heightenedFilter": 6
+                "type": "armors"
             },
             {
                 "expiration": -2,
+                "heightenedFilter": 8,
                 "name": "Mage Armor (8th level)",
-                "type": "armors",
-                "heightenedFilter": 8
+                "type": "armors"
             },
             {
                 "expiration": -2,
+                "heightenedFilter": 10,
                 "name": "Mage Armor (10th level)",
-                "type": "armors",
-                "heightenedFilter": 10
+                "type": "armors"
             }
         ],
         "desc1": [
             {
-                "value": "+1",
+                "value": "1",
                 "variable": "var1"
             },
             {
@@ -5409,7 +5409,7 @@
         ],
         "desc4": [
             {
-                "value": "+1",
+                "value": "1",
                 "variable": "var1"
             },
             {
@@ -5419,7 +5419,7 @@
         ],
         "desc6": [
             {
-                "value": "+2",
+                "value": "2",
                 "variable": "var1"
             },
             {
@@ -5429,7 +5429,7 @@
         ],
         "desc8": [
             {
-                "value": "+2",
+                "value": "2",
                 "variable": "var1"
             },
             {
@@ -5439,7 +5439,7 @@
         ],
         "desc10": [
             {
-                "value": "+3",
+                "value": "3",
                 "variable": "var1"
             },
             {
@@ -5465,7 +5465,7 @@
         ],
         "range": "touch",
         "targets": "1 object of 3 bulk or less",
-        "singleTarget": true,
+        "singleTarget": "TRUE",
         "duration": "until the next time you make your daily preparations",
         "desc": "You alter the appearance of an item's magic aura. You can choose to have the target's aura appear as that of common magic item of twice magic aura's level or lower, or to have it register as being under the effects of a spell of your choice of magic aura's level or lower. If the target is magical, you can instead choose to have it appear as entirely non-magical. <var>var1</var>\n\nA caster using detect magic or read aura of an equal or higher spell level can attempt to disbelieve the illusion from magic aura. Magic aura doesn't mask the aura of spells that are 9th level or higher or of items that are 19th level or higher.",
         "heightened": [
@@ -5477,16 +5477,16 @@
         "gainConditions": [
             {
                 "duration": -2,
+                "heightenedFilter": 1,
                 "name": "Magic Aura (1st level)",
                 "source": "Magic Aura",
-                "heightenedFilter": 1,
                 "targetFilter": "caster"
             },
             {
                 "duration": -2,
+                "heightenedFilter": 3,
                 "name": "Magic Aura (3rd level)",
                 "source": "Magic Aura",
-                "heightenedFilter": 3,
                 "targetFilter": "caster"
             }
         ],
@@ -5519,7 +5519,7 @@
         "range": "touch",
         "targets": "1 willing creature",
         "target": "ally",
-        "singleTarget": true,
+        "singleTarget": "TRUE",
         "duration": "1 minute",
         "desc": "Choose one of the target's unarmed attacks. You cause that unarmed attack to shine with primal energy. The unarmed attack becomes a +1 striking unarmed attack, gaining a +1 item bonus to attack rolls and increasing the number of damage dice to two if it had only one.",
         "gainConditions": [
@@ -5547,7 +5547,7 @@
         ],
         "range": "120 feet",
         "targets": "1 creature",
-        "singleTarget": true,
+        "singleTarget": "TRUE",
         "desc": "You send <var>var1</var> of force streaking toward a creature that you can see. It automatically hits and deals 1d4+1 force damage. For each additional action you use when Casting the Spell, increase the number of missiles you shoot by <var>var2</var>, to a maximum of <var>var3</var> missiles for 3 actions. You choose the target for each missile individually. If you shoot more than one missile at the same target, combine the damage before applying bonuses or penalties to damage, resistances, weaknesses, and so forth.",
         "heightened": [
             {
@@ -5644,7 +5644,7 @@
         "range": "touch",
         "targets": "1 non-magical weapon that is unattended or wielded by you or a willing ally",
         "target": "ally",
-        "singleTarget": true,
+        "singleTarget": "TRUE",
         "duration": "1 minute",
         "desc": "The weapon glimmers with magic and energy. The target becomes a +1 striking weapon, gaining a +1 item bonus to attack rolls and increasing the number of weapon damage dice to two.",
         "gainConditions": [
@@ -5673,7 +5673,7 @@
         ],
         "range": "touch",
         "targets": "non-magical object of light Bulk or less",
-        "singleTarget": true,
+        "singleTarget": "TRUE",
         "desc": "<var>var1</var>You repair the target item. You restore 5 Hit Points per spell level to the target, potentially removing the broken condition if this repairs it past the item's Broken Threshold. You can't replace lost pieces or repair an object that's been completely destroyed.",
         "heightened": [
             {
@@ -5750,7 +5750,7 @@
         ],
         "range": "touch",
         "targets": "1 willing creature",
-        "singleTarget": true,
+        "singleTarget": "TRUE",
         "desc": "You link your mind to the target's mind and mentally impart to that target an amount of information in an instant that could otherwise be communicated in 10 minutes."
     },
     {
@@ -5770,7 +5770,7 @@
         "range": "touch",
         "targets": "1 willing creature",
         "target": "ally",
-        "singleTarget": true,
+        "singleTarget": "TRUE",
         "duration": "1 hour",
         "desc": "<var>var1</var>The target loses its odor, preventing creatures from passively noticing its presence via smell alone, even if the creatures have precise or imprecise scent. A creature attempting a Perception check to Seek with scent and other senses might notice the lack of natural scent. If the target has any abilities that result from its smell, such as an overpowering scent, those abilities are also negated.",
         "heightened": [
@@ -5905,21 +5905,21 @@
         "gainConditions": [
             {
                 "duration": 6000,
+                "heightenedFilter": 1,
                 "name": "Pass without Trace",
-                "source": "Pass without Trace",
-                "heightenedFilter": 1
+                "source": "Pass without Trace"
             },
             {
                 "duration": 48000,
+                "heightenedFilter": 2,
                 "name": "Pass without Trace",
-                "source": "Pass without Trace",
-                "heightenedFilter": 2
+                "source": "Pass without Trace"
             },
             {
                 "duration": 48000,
+                "heightenedFilter": 4,
                 "name": "Pass without Trace",
-                "source": "Pass without Trace",
-                "heightenedFilter": 4
+                "source": "Pass without Trace"
             }
         ],
         "desc1": [
@@ -5960,7 +5960,7 @@
         "range": "30 feet",
         "targets": "1 creature",
         "target": "ally",
-        "singleTarget": true,
+        "singleTarget": "TRUE",
         "duration": "10 minutes",
         "desc": "You envelop the target in a shroud of shadow. The target perceives light as one step lower than it actually is (bright light becomes dim light, for example), affecting their ability to sense creatures and objects accordingly. The shroud also provides the target a +1 status bonus to saving throws against light effects. While this effect is helpful to creatures sensitive to light, if the creature is unwilling, it can attempt a Reflex save to avoid the shroud and reduce the effect.",
         "critsuccess": "The target is unaffected.",
@@ -5994,7 +5994,7 @@
         "range": "60 feet",
         "targets": "1 creature",
         "target": "ally",
-        "singleTarget": true,
+        "singleTarget": "TRUE",
         "duration": "1 minute",
         "desc": "You conjure a 5-foot-wide rain cloud that follows the target wherever it goes. It stays roughly an arm's length overhead, unless it must drift lower to fit under a ceiling. The cloud rains constantly on the target, keeping it wet and dampening the ground in the wake of any movement. The rain extinguishes non-magical flames. The target gains fire resistance <var>var1</var>. Creatures with weakness to water take damage equal to their weakness at the end of each of their turns. Creatures can attempt a Reflex save to avoid the cloud.",
         "savingThrow": "Reflex",
@@ -6133,7 +6133,7 @@
         ],
         "range": "30 feet",
         "targets": "1 creature",
-        "singleTarget": true,
+        "singleTarget": "TRUE",
         "duration": "1 minute",
         "desc": "Illusory pain wracks the target, dealing <var>var1</var> mental damage and <var>var2</var> persistent mental damage. The target must attempt a Will save.",
         "savingThrow": "Will",
@@ -6266,7 +6266,7 @@
         "range": "touch",
         "targets": "1 creature",
         "target": "ally",
-        "singleTarget": true,
+        "singleTarget": "TRUE",
         "duration": "1 minute",
         "desc": "You ward a creature against a specified alignment. Choose chaotic, evil, good, or lawful when you cast this spell. The target gains a +1 status bonus to Armor Class and saving throws against creatures and effects of the chosen alignment. This bonus increases to +3 against effects from such creatures that would directly control the target and against attacks made by summoned creatures of the chosen alignment.\n\nThis spell gains the trait that opposes the alignment you chose - if you choose chaos, this spell gains the lawful trait, and vice versa; if you choose evil, this spell gains the good trait, and vice versa.",
         "gainConditions": [
@@ -6313,7 +6313,7 @@
         ],
         "range": "30 feet",
         "targets": "1 creature",
-        "singleTarget": true,
+        "singleTarget": "TRUE",
         "duration": "1 minute",
         "desc": "A ray with the power to sap a foe's strength flashes from your hand. Attempt a ranged spell attack against the target. If you succeed, that creature attempts a Fortitude save in order to determine the spell's effect. If you critically succeed on your attack roll, use the outcome for one degree of success worse than the result of its save.",
         "savingThrow": "Fortitude",
@@ -6339,7 +6339,7 @@
         "range": "touch",
         "targets": "1 creature",
         "target": "ally",
-        "singleTarget": true,
+        "singleTarget": "TRUE",
         "duration": "1 minute",
         "desc": "You ward a creature with protective energy that deters enemy attacks. Creatures attempting to attack the target must attempt a Will save each time. If the target uses a hostile action, the spell ends.",
         "critsuccess": "Sanctuary ends.",
@@ -6392,16 +6392,16 @@
         "gainConditions": [
             {
                 "duration": 100,
+                "heightenedFilter": 1,
                 "name": "Scouring Sand (1st level)",
                 "source": "Scouring Sand",
-                "heightenedFilter": 1,
                 "targetFilter": "caster"
             },
             {
                 "duration": 100,
+                "heightenedFilter": 3,
                 "name": "Scouring Sand (3rd level)",
                 "source": "Scouring Sand",
-                "heightenedFilter": 3,
                 "targetFilter": "caster"
             }
         ],
@@ -6468,23 +6468,23 @@
         "gainConditions": [
             {
                 "duration": 1000,
+                "heightenedFilter": 1,
                 "name": "Share Lore (1st level)",
                 "source": "Share Lore",
-                "heightenedFilter": 1,
                 "targetFilter": "caster"
             },
             {
                 "duration": 6000,
+                "heightenedFilter": 3,
                 "name": "Share Lore (1st level)",
                 "source": "Share Lore",
-                "heightenedFilter": 3,
                 "targetFilter": "caster"
             },
             {
                 "duration": 48000,
+                "heightenedFilter": 5,
                 "name": "Share Lore (5th level)",
                 "source": "Share Lore",
-                "heightenedFilter": 5,
                 "targetFilter": "caster"
             }
         ],
@@ -6526,7 +6526,7 @@
         "range": "touch",
         "targets": "1 creature",
         "target": "ally",
-        "singleTarget": true,
+        "singleTarget": "TRUE",
         "duration": "1 minute",
         "desc": "A large gem floats around the target in an erratic pattern. The gem has <var>var1</var> Hit Points. Each time a creature Strikes the target, the target attempts a DC 11 flat check. On a success, the gem blocks the attack, so the attack first damages the gem and then applies any remaining damage to the target. If the gem is reduced to 0 Hit Points, it shatters, immediately dealing the creature that destroyed it <var>var2</var> slashing damage (basic Reflex save), as long as that creature is within 10 feet of the target.",
         "heightened": [
@@ -6659,7 +6659,7 @@
         ],
         "range": "touch",
         "targets": "1 non-magical club or staff you hold",
-        "singleTarget": true,
+        "singleTarget": "TRUE",
         "duration": "1 minute",
         "desc": "The target grows vines and leaves, brimming with primal energy. The target becomes a +1 striking weapon while in your hands, gaining a +1 item bonus to attack rolls and increasing the number of weapon damage dice to two. Additionally, as long as you are on your home plane, attacks you make with the target against aberrations, extraplanar creatures, and undead increase the number of weapon damage dice to three.",
         "gainConditions": [
@@ -6689,7 +6689,7 @@
         ],
         "range": "touch",
         "targets": "1 creature",
-        "singleTarget": true,
+        "singleTarget": "TRUE",
         "desc": "You shroud your hands in a crackling field of lightning. Make a melee spell attack roll. On a hit, the target takes <var>var1</var> electricity damage. If the target is wearing metal armor or is made of metal, you gain a +1 circumstance bonus to your attack roll with shocking grasp, and the target also takes <var>var2</var> persistent electricity damage on a hit. On a critical hit, double the initial damage, but not the persistent damage.",
         "heightened": [
             {
@@ -6960,7 +6960,7 @@
         ],
         "range": "30 feet",
         "targets": "1 creature",
-        "singleTarget": true,
+        "singleTarget": "TRUE",
         "desc": "You throw a magically propelled and chilled ball of dense snow. The target takes <var>var1</var> cold damage and potentially other effects, depending on the result of your spell attack roll.",
         "critsuccess": "The target takes double damage and a -10-foot status penalty to its Speeds for 1 round.",
         "success": "The target takes full damage and a -5-foot status penalty to its Speeds for 1 round.",
@@ -7051,7 +7051,7 @@
         "range": "30 feet",
         "targets": "1 willing living creature",
         "target": "ally",
-        "singleTarget": true,
+        "singleTarget": "TRUE",
         "duration": "1 minute",
         "desc": "You grace the target's mind, boosting its mental defenses and healing its wounds. The target regains <var>var1</var> Hit Points when you Cast the Spell and gains a +2 status bonus to saves against mental effects for the duration.",
         "heightened": [
@@ -7145,7 +7145,7 @@
         ],
         "range": "touch",
         "targets": "1 creature",
-        "singleTarget": true,
+        "singleTarget": "TRUE",
         "desc": "You magically duplicate a spider's venomous sting. You deal 1d4 piercing damage to the touched creature and afflict it with spider venom. The target must attempt a Fortitude save.\n\n<strong>Spider Venom</strong> (poison); <strong>Level</strong> 1; <strong>Maximum Duration</strong> 4 rounds. <strong>Stage 1</strong> 1d4 poison damage and enfeebled 1 (1 round); <strong>Stage 2</strong> 1d4 poison damage and enfeebled 2 (1 round).",
         "savingThrow": "Fortitude",
         "critsuccess": "The target is unaffected.",
@@ -7171,7 +7171,7 @@
         "range": "30 feet",
         "targets": "1 willing creature",
         "target": "ally",
-        "singleTarget": true,
+        "singleTarget": "TRUE",
         "duration": "10 minutes",
         "desc": "You form a spiritual link with another creature, allowing you to take in its pain. When you Cast this Spell and at the start of each of your turns, if the target is below maximum Hit Points, it regains <var>var1</var> Hit Points (or the difference between its current and maximum Hit Points, if that's lower). You lose as many Hit Points as the target regained.\n\nThis is a spiritual transfer, so no effects apply that would increase the Hit Points the target regains or decrease the Hit Points you lose. This transfer also ignores any temporary Hit Points you or the target have. Since this effect doesn't involve positive or negative energy, spirit link works even if you or the target is undead. While the duration persists, you gain no benefit from regeneration or fast healing. You can Dismiss this spell, and if you're ever at 0 Hit Points, spirit link ends automatically.",
         "heightened": [
@@ -7810,7 +7810,7 @@
         ],
         "range": "30 feet",
         "targets": "1 creature",
-        "singleTarget": true,
+        "singleTarget": "TRUE",
         "duration": "1 minute or until dismissed; see text",
         "desc": "You use magical chains, vines, or other tethers to bind your target to you. The creature can still try to Escape, and it or others can break the tethers by attacking them (the tethers have AC <var>var1</var> and <var>var2</var> Hit Points). You must stay within 30 feet of the target while it is tethered; moving more than 30 feet away from your target ends the spell. The target must attempt a Reflex save.",
         "savingThrow": "Reflex",
@@ -8008,6 +8008,7 @@
             "Auditory",
             "Illusion"
         ],
+        "target": "self",
         "duration": "10 minutes",
         "desc": "Whenever you speak or make any other sound vocally, you can make your vocalization seem to originate from somewhere else within 60 feet, and you can change that apparent location freely as you vocalize. <var>var1</var>",
         "heightened": [
@@ -8019,15 +8020,15 @@
         "gainConditions": [
             {
                 "duration": 1000,
+                "heightenedFilter": 1,
                 "name": "Ventriloquism (1st level)",
-                "source": "Ventriloquism",
-                "heightenedFilter": 1
+                "source": "Ventriloquism"
             },
             {
                 "duration": 6000,
+                "heightenedFilter": 2,
                 "name": "Ventriloquism (2nd level)",
-                "source": "Ventriloquism",
-                "heightenedFilter": 2
+                "source": "Ventriloquism"
             }
         ],
         "desc1": [
@@ -8060,6 +8061,7 @@
             "Plant"
         ],
         "range": "30 feet",
+        "target": "self",
         "desc": "You imbue a single ordinary, inexpensive plant seed with primal energy and throw it onto a surface, where it gradually sprouts into a Medium plant. After 10 minutes, the plant is sturdy enough to provide standard cover, and its space is difficult terrain. The plant is laden with nutritious nuts or fruit sufficient to feed one Medium creature for a day. The plant has AC 10, Hardness 5, and 20 Hit Points. <var>var1</var>",
         "heightened": [
             {
@@ -8150,6 +8152,66 @@
             "Acid",
             "Attack",
             "Evocation"
+        ],
+        "range": "120 feet",
+        "targets": "1 creature or object",
+        "singleTarget": "TRUE",
+        "desc": "You conjure an arrow of acid that continues corroding the target after it hits. Make a spell attack against the target. On a hit, you deal <var>var1</var> acid damage plus <var>var2</var> persistent acid damage. On a critical hit, double the initial damage, but not the persistent damage.",
+        "heightened": [
+            {
+                "desc": "The initial damage increases by 2d8, and the persistent acid damage increases by 1d6.",
+                "level": "(+2)"
+            }
+        ],
+        "desc2": [
+            {
+                "value": "3d8",
+                "variable": "var1"
+            },
+            {
+                "value": "1d6",
+                "variable": "var2"
+            }
+        ],
+        "desc4": [
+            {
+                "value": "5d8",
+                "variable": "var1"
+            },
+            {
+                "value": "2d6",
+                "variable": "var2"
+            }
+        ],
+        "desc6": [
+            {
+                "value": "7d8",
+                "variable": "var1"
+            },
+            {
+                "value": "3d6",
+                "variable": "var2"
+            }
+        ],
+        "desc8": [
+            {
+                "value": "9d8",
+                "variable": "var1"
+            },
+            {
+                "value": "4d6",
+                "variable": "var2"
+            }
+        ],
+        "desc10": [
+            {
+                "value": "11d8",
+                "variable": "var1"
+            },
+            {
+                "value": "5d6",
+                "variable": "var2"
+            }
         ]
     },
     {
@@ -8166,9 +8228,10 @@
             "Polymorph",
             "Transmutation"
         ],
+        "internalNote": "Restricting the available attacks to the chosen animal is hardcoded.",
         "target": "self",
         "duration": "1 minute",
-        "desc": "You transform into a <var>var1</var> animal battle form. You can choose ape, bear, bull, canine, cat, deer, frog, shark, or snake. While in this form, you gain the animal trait. You can Dismiss the spell.\n\nYou gain the following statistics and abilities regardless of which battle form you choose:\n\nAC = <var>var2</var> + your level. Ignore your armor's check penalty and Speed reduction.\n<var>var3</var> temporary Hit Points.\nLow-light vision and imprecise scent 30 feet.\nOne or more unarmed melee attacks specific to the battle form you choose, which are the only attacks you can use. You're trained with them. Your attack modifier is <var>var4</var>, and your damage bonus is <var>var5</var>. These attacks are Strength based (for the purpose of the enfeebled condition, for example)<var>var9</var>. If your unarmed attack bonus is higher, you can use it instead.\nAthletics modifier of <var>var6</var>, unless your own modifier is higher.\n\nYou also gain specific abilities based on the type of animal you choose:\n\n<strong>Ape</strong> Speed 25 feet, climb Speed 20 feet; <strong>Melee</strong> fist, <strong>Damage</strong> <var>var7</var>d6 bludgeoning.\n<strong>Bear</strong> Speed 30 feet; <strong>Melee</strong> jaws, <strong>Damage</strong> <var>var7</var>d8 piercing; <strong>Melee</strong> claw (agile), <strong>Damage</strong> <var>var8</var>d8 slashing.\n<strong>Bull</strong> Speed 30 feet; <strong>Melee</strong> horn, <strong>Damage</strong> <var>var7</var>d8 piercing.\n<strong>Canine</strong> Speed 40 feet; <strong>Melee</strong> jaws, <strong>Damage</strong> <var>var7</var>d8 piercing.\n<strong>Cat</strong> Speed 40 feet; <strong>Melee</strong> jaws, <strong>Damage</strong> <var>var7</var>d6 piercing; <strong>Melee</strong> claw (agile), <strong>Damage</strong> <var>var8</var>d10 slashing.\n<strong>Deer</strong> Speed 50 feet; <strong>Melee</strong> antler, <strong>Damage</strong> <var>var7</var>d6 piercing.\n<strong>Frog</strong> Speed 25 feet, swim Speed 25 feet; <strong>Melee</strong> jaws, <strong>Damage</strong> <var>var7</var>d6 bludgeoning; <strong>Melee</strong> tongue (reach 15 feet), <strong>Damage</strong> <var>var7</var>d4 bludgeoning.\n<strong>Shark</strong> swim Speed 35 feet; <strong>Melee</strong> jaws, <strong>Damage</strong> <var>var7</var>d8 piercing; breathe underwater but not in air.\n<strong>Snake</strong> Speed 20 feet, climb Speed 20 feet, swim Speed 20 feet; <strong>Melee</strong> fangs, <strong>Damage</strong> <var>var7</var>d4 piercing plus 1d6 poison.",
+        "desc": "You transform into a <var>var1</var> animal battle form. You can choose ape, bear, bull, canine, cat, deer, frog, shark, or snake. While in this form, you gain the animal trait. You can Dismiss the spell.\n\nYou gain the following statistics and abilities regardless of which battle form you choose:\n\nAC = <var>var2</var> + your level. Ignore your armor's check penalty and Speed reduction.\n<var>var3</var> temporary Hit Points.\nLow-light vision and imprecise scent 30 feet.\nOne or more unarmed melee attacks specific to the battle form you choose, which are the only attacks you can use. You're trained with them. Your attack modifier is <var>var4</var>, and your damage bonus is <var>var5</var>. These attacks are Strength based (for the purpose of the enfeebled condition, for example)<var>var9</var>. If your unarmed attack bonus is higher, you can use it instead.\nAthletics modifier of <var>var6</var>, unless your own modifier is higher.\n\nYou also gain specific abilities based on the type of animal you choose:\n\n<strong>Ape</strong> Speed 25 feet, climb Speed 20 feet; <strong>Melee</strong> fist, <strong>Damage</strong> <var>var7</var>d6 bludgeoning.\n<strong>Bear</strong> Speed 30 feet; <strong>Melee</strong> jaws, <strong>Damage</strong> <var>var7</var>d8 piercing; <strong>Melee</strong> claw (agile), <strong>Damage</strong> <var>var8</var>d8 slashing.\n<strong>Bull</strong> Speed 30 feet; <strong>Melee</strong> horn, <strong>Damage</strong> <var>var7</var>d8 piercing.\n<strong>Canine</strong> Speed 40 feet; <strong>Melee</strong> jaws, <strong>Damage</strong> <var>var7</var>d8 piercing.\n<strong>Cat</strong> Speed 40 feet; <strong>Melee</strong> jaws, <strong>Damage</strong> <var>var7</var>d6 piercing; <strong>Melee</strong> claw (agile), <strong>Damage</strong> <var>var8</var>d10 slashing.\n<strong>Deer</strong> Speed 50 feet; <strong>Melee</strong> antler, <strong>Damage</strong> <var>var7</var>d6 piercing.\n<strong>Frog</strong> Speed 25 feet, swim Speed 25 feet; <strong>Melee</strong> jaws, <strong>Damage</strong> <var>var7</var>d6 bludgeoning; <strong>Melee</strong> EN15tongue (reach 15 feet), <strong>Damage</strong> <var>var7</var>d4 bludgeoning.\n<strong>Shark</strong> swim Speed 35 feet; <strong>Melee</strong> jaws, <strong>Damage</strong> <var>var7</var>d8 piercing; breathe underwater but not in air.\n<strong>Snake</strong> Speed 20 feet, climb Speed 20 feet, swim Speed 20 feet; <strong>Melee</strong> fangs , <strong>Damage</strong> <var>var7</var>d4 piercing plus 1d6 poison.",
         "heightened": [
             {
                 "desc": "You instead gain 10 temporary HP, AC = 17 + your level, attack modifier +14, damage bonus +5, and Athletics +14.",
@@ -8215,11 +8278,11 @@
                 "variable": "var1"
             },
             {
-                "value": 16,
+                "value": "16",
                 "variable": "var2"
             },
             {
-                "value": 5,
+                "value": "5",
                 "variable": "var3"
             },
             {
@@ -8231,7 +8294,7 @@
                 "variable": "var5"
             },
             {
-                "value": "+9",
+                "value": 9,
                 "variable": "var6"
             },
             {
@@ -8253,23 +8316,23 @@
                 "variable": "var1"
             },
             {
-                "value": 17,
+                "value": "17",
                 "variable": "var2"
             },
             {
-                "value": 10,
+                "value": "10",
                 "variable": "var3"
             },
             {
-                "value": "+14",
+                "value": 14,
                 "variable": "var4"
             },
             {
-                "value": "+5",
+                "value": 5,
                 "variable": "var5"
             },
             {
-                "value": "+14",
+                "value": 14,
                 "variable": "var6"
             },
             {
@@ -8291,11 +8354,11 @@
                 "variable": "var1"
             },
             {
-                "value": 18,
+                "value": "18",
                 "variable": "var2"
             },
             {
-                "value": 15,
+                "value": "15",
                 "variable": "var3"
             },
             {
@@ -8307,7 +8370,7 @@
                 "variable": "var5"
             },
             {
-                "value": "+16",
+                "value": 16,
                 "variable": "var6"
             },
             {
@@ -8329,23 +8392,23 @@
                 "variable": "var1"
             },
             {
-                "value": 18,
+                "value": "18",
                 "variable": "var2"
             },
             {
-                "value": 20,
+                "value": "20",
                 "variable": "var3"
             },
             {
-                "value": "+18",
+                "value": 18,
                 "variable": "var4"
             },
             {
-                "value": "+7",
+                "value": 7,
                 "variable": "var5"
             },
             {
-                "value": "+20",
+                "value": 20,
                 "variable": "var6"
             },
             {
@@ -8375,6 +8438,17 @@
         "traits": [
             "Enchantment",
             "Mental"
+        ],
+        "range": "120 feet",
+        "target": "self",
+        "duration": "see text",
+        "desc": "You offer a gift of food, and an ordinary Tiny wild animal within range approaches to eat it. You imprint the image, direction, and distance of an obvious place or landmark well known to you within the animal. Optionally, you can attach a small object or note up to light Bulk to it. The animal does its best to reach the destination; if it makes it there, it waits nearby until the duration expires, allowing other nonhostile creatures to approach it and remove the attached object. The spell ends after 24 hours or when a creature removes the attached object, whichever happens first.\n\nIf there are no Tiny wild animals in range, the spell is lost.",
+        "gainConditions": [
+            {
+                "duration": 144000,
+                "name": "Animal Messenger",
+                "source": "Animal Messenger"
+            }
         ]
     },
     {
@@ -8384,6 +8458,7 @@
         "actions": "2A",
         "castType": "somatic, verbal",
         "shortDesc": "You implant a mental mine within your psyche that detonates against anyone attempting to manipulate your thoughts.",
+        "sourceBook": "Gods & Magic",
         "traditions": [
             "Occult"
         ],
@@ -8391,7 +8466,81 @@
             "Abjuration",
             "Mental"
         ],
-        "savingThrow": "Will"
+        "target": "self",
+        "duration": "1 hour",
+        "desc": "You implant a mental mine within your psyche that detonates against anyone attempting to manipulate your thoughts. You can use a single action, which has the concentrate trait, to suppress the effects of the mine for 1 round to allow someone to safely use a mental effect on you. You can Dismiss the spell.\n\nThe first creature that uses a mental effect against you triggers the animus mine, causing the spell to end. The animus mine deals <var>var1</var> mental damage to the triggering creature, which must attempt a Will save.",
+        "savingThrow": "Will",
+        "critsuccess": "The creature is unaffected.",
+        "success": "The creature takes half damage.",
+        "failure": "The creature takes full damage and is stunned 1.",
+        "critfailure": "The creature takes double damage and is stunned 1. You are unaffected by the triggering mental effect.",
+        "heightened": [
+            {
+                "desc": "The damage increases by 2d8.",
+                "level": "(+1)"
+            }
+        ],
+        "gainConditions": [
+            {
+                "duration": 6000,
+                "name": "Animus Mine",
+                "source": "Animus Mine"
+            }
+        ],
+        "desc2": [
+            {
+                "value": "4d8",
+                "variable": "var1"
+            }
+        ],
+        "desc3": [
+            {
+                "value": "6d8",
+                "variable": "var1"
+            }
+        ],
+        "desc4": [
+            {
+                "value": "8d8",
+                "variable": "var1"
+            }
+        ],
+        "desc5": [
+            {
+                "value": "10d8",
+                "variable": "var1"
+            }
+        ],
+        "desc6": [
+            {
+                "value": "12d8",
+                "variable": "var1"
+            }
+        ],
+        "desc7": [
+            {
+                "value": "14d8",
+                "variable": "var1"
+            }
+        ],
+        "desc8": [
+            {
+                "value": "16d8",
+                "variable": "var1"
+            }
+        ],
+        "desc9": [
+            {
+                "value": "18d8",
+                "variable": "var1"
+            }
+        ],
+        "desc10": [
+            {
+                "value": "20d8",
+                "variable": "var1"
+            }
+        ]
     },
     {
         "name": "Augury",
@@ -8407,7 +8556,8 @@
         "traits": [
             "Divination",
             "Prediction"
-        ]
+        ],
+        "desc": "You gain a vague glimpse of the future. During the casting of this spell, ask about the results of a particular course of action. The spell can predict results up to 30 minutes into the future and reveals the GM's best guess among the following outcomes:\n\n<strong>Weal</strong> The results will be good.\n<strong>Woe</strong> The results will be bad.\n<strong>Weal and Woe</strong> The results will be a mix of good and bad.\n<strong>Nothing</strong> There won't be particularly good or bad results.\n\nThe GM rolls a secret DC 6 flat check. On a failure, the result is always “nothing.” This makes it impossible to tell whether a “nothing” result is accurate. If anyone asks about the same topic as the first casting of augury during an additional casting, the GM uses the secret roll result from the first casting. If circumstances change, though, it's possible to get a different result."
     },
     {
         "name": "Barkskin",
@@ -8426,7 +8576,7 @@
         "range": "touch",
         "targets": "1 willing creature",
         "target": "ally",
-        "singleTarget": true,
+        "singleTarget": "TRUE",
         "duration": "10 minutes",
         "desc": "The target's skin becomes covered in bark. The target gains resistance <var>var1</var> to bludgeoning and piercing damage and weakness <var>var2</var> to fire. After the target takes fire damage, it can Dismiss the spell as a free action triggered by taking the damage; doing so doesn't reduce the fire damage the target was dealt.",
         "heightened": [
@@ -8438,38 +8588,9 @@
         "gainConditions": [
             {
                 "duration": 1000,
-                "name": "Barkskin",
-                "source": "Barkskin",
                 "heightenedFilter": 2,
-                "value": 2
-            },
-            {
-                "duration": 1000,
                 "name": "Barkskin",
-                "source": "Barkskin",
-                "heightenedFilter": 4,
-                "value": 4
-            },
-            {
-                "duration": 1000,
-                "name": "Barkskin",
-                "source": "Barkskin",
-                "heightenedFilter": 6,
-                "value": 6
-            },
-            {
-                "duration": 1000,
-                "name": "Barkskin",
-                "source": "Barkskin",
-                "heightenedFilter": 8,
-                "value": 8
-            },
-            {
-                "duration": 1000,
-                "name": "Barkskin",
-                "source": "Barkskin",
-                "heightenedFilter": 10,
-                "value": 10
+                "source": "Barkskin"
             }
         ],
         "desc2": [
@@ -8541,7 +8662,7 @@
         "range": "touch",
         "targets": "1 creature",
         "target": "ally",
-        "singleTarget": true,
+        "singleTarget": "TRUE",
         "duration": "1 minute",
         "desc": "The target's form appears blurry. It becomes concealed. As the nature of this effect still leaves the target's location obvious, the target can't use this concealment to Hide or Sneak.",
         "gainConditions": [
@@ -8559,6 +8680,7 @@
         "actions": "2A",
         "castType": "somatic, verbal",
         "shortDesc": "You brand the target with an ethereal copy of your deity's religious symbol.",
+        "sourceBook": "Gods & Magic",
         "traditions": [
             "Divine"
         ],
@@ -8566,7 +8688,89 @@
             "Abjuration",
             "Curse"
         ],
-        "savingThrow": "Fortitude"
+        "range": "touch",
+        "targets": "1 creature",
+        "singleTarget": "TRUE",
+        "duration": "varies",
+        "desc": "You brand the target with an ethereal copy of your deity’s religious symbol. This brand can’t be hidden, but it is visible only to followers of your faith, who see it as clearly as a lit torch. Followers of your faith ignore the target’s concealed condition, if any, and the target gains a -1 status penalty to AC against attacks by followers of your faith. If the target is a follower of your deity in good standing, the spell fails.",
+        "savingThrow": "Fortitude",
+        "critsuccess": "The target is unaffected.",
+        "success": "The spell lasts for 1 round.",
+        "failure": "The spell lasts for 1 minute.",
+        "critfailure": "The spell has an unlimited duration."
+    },
+    {
+        "name": "Breath of Drought",
+        "id": "4f676c63-ad20-4e70-8924-5a554b03fe84",
+        "levelreq": 2,
+        "actions": "2A",
+        "castType": "somatic, verbal",
+        "shortDesc": "You fill the area with an oppressive, arid swelter that overwhelms creatures with heat exhaustion.",
+        "sourceBook": "Pathfinder #151: The Show Must Go On",
+        "traditions": [
+            "Primal"
+        ],
+        "traits": [
+            "Uncommon",
+            "Evocation",
+            "Fire"
+        ],
+        "range": "30 feet",
+        "area": "10-foot burst",
+        "target": "self",
+        "sustained": -1,
+        "duration": "sustained",
+        "desc": "<var>var1</var>You fill the area with an oppressive, arid swelter that overwhelms creatures with heat exhaustion. Objects are unaffected. Each creature in the area when the spell is cast or that ends its turn in the area afterward must attempt a Fortitude save. Water creatures and plant creatures use the outcome one degree of success worse than the result of their saving throw. Creatures whose bodies contain no significant moisture (such as fire elementals) are immune to breath of drought.<var>var2</var>",
+        "success": "The creature is unaffected.",
+        "failure": "The creature is sickened 1.",
+        "critfailure": "The creature is sickened 2.",
+        "heightened": [
+            {
+                "desc": "Once per round when you Sustain the Spell, you can move the center of the burst to a new location within range.",
+                "level": "(4th)"
+            },
+            {
+                "desc": "As the 4th-level version, except the range is 120 feet and the area is a 20-foot burst.",
+                "level": "(7th)"
+            }
+        ],
+        "gainConditions": [
+            {
+                "duration": -1,
+                "name": "Breath of Drought",
+                "source": "Breath of Drought"
+            }
+        ],
+        "desc2": [
+            {
+                "value": "",
+                "variable": "var1"
+            },
+            {
+                "value": "",
+                "variable": "var2"
+            }
+        ],
+        "desc4": [
+            {
+                "value": "",
+                "variable": "var1"
+            },
+            {
+                "value": " Once per round when you Sustain the Spell, you can move the center of the burst to a new location within range.",
+                "variable": "var2"
+            }
+        ],
+        "desc7": [
+            {
+                "value": "The range is 120 feet and the area is a 20-foot burst. ",
+                "variable": "var1"
+            },
+            {
+                "value": " Once per round when you Sustain the Spell, you can move the center of the burst to a new location within range.",
+                "variable": "var2"
+            }
+        ]
     },
     {
         "name": "Calm Emotions",
@@ -8585,7 +8789,24 @@
             "Incapacitation",
             "Mental"
         ],
-        "savingThrow": "Will"
+        "range": "120 feet",
+        "area": "10-foot burst",
+        "target": "self",
+        "sustained": 100,
+        "duration": "sustained up to 1 minute",
+        "desc": "You forcibly calm creatures in the area, soothing them into a nonviolent state; each creature must attempt a Will save.",
+        "savingThrow": "Will",
+        "critsuccess": "The creature is unaffected.",
+        "success": "Calming urges impose a -1 status penalty to the creature's attack rolls.",
+        "failure": "Any emotion effects that would affect the creature are suppressed and the creature can't use hostile actions. If the target is subject to hostility from any other creature, it ceases to be affected by calm emotions.",
+        "critfailure": "As failure, but hostility doesn't end the effect.",
+        "gainConditions": [
+            {
+                "duration": 100,
+                "name": "Calm Emotions",
+                "source": "Calm Emotions"
+            }
+        ]
     },
     {
         "name": "Comprehend Language",
@@ -8601,6 +8822,59 @@
         ],
         "traits": [
             "Divination"
+        ],
+        "range": "30 feet",
+        "targets": "1 creature",
+        "target": "ally",
+        "singleTarget": "TRUE",
+        "duration": "1 hour",
+        "desc": "<var>var1</var>The target can understand <var>var2</var>the meaning of a single language it is hearing or reading when you cast the spell. This doesn't let it understand codes, language couched in metaphor, and the like (subject to GM discretion). If the target can hear multiple languages and knows that, it can choose which language to understand; otherwise, choose one of the languages randomly.",
+        "heightened": [
+            {
+                "desc": "The target can also speak the language.",
+                "level": "(3rd)"
+            },
+            {
+                "desc": "You can target up to 10 creatures, and targets can also speak the language.",
+                "level": "(4th)"
+            }
+        ],
+        "gainConditions": [
+            {
+                "duration": 6000,
+                "name": "Comprehend Language",
+                "source": "Comprehend Language"
+            }
+        ],
+        "desc2": [
+            {
+                "value": "",
+                "variable": "var1"
+            },
+            {
+                "value": "",
+                "variable": "var2"
+            }
+        ],
+        "desc3": [
+            {
+                "value": "",
+                "variable": "var1"
+            },
+            {
+                "value": "and speak ",
+                "variable": "var2"
+            }
+        ],
+        "desc4": [
+            {
+                "value": "You can target up to 10 creatures. ",
+                "variable": "var1"
+            },
+            {
+                "value": "and speak ",
+                "variable": "var2"
+            }
         ]
     },
     {
@@ -8619,6 +8893,80 @@
         "traits": [
             "Evocation",
             "Light"
+        ],
+        "cost": "6 gp of ruby dust",
+        "range": "touch",
+        "targets": "1 object",
+        "target": "self",
+        "singleTarget": "TRUE",
+        "duration": "unlimited",
+        "desc": "<var>var1</var>A magical flame springs up from the object, as bright as a torch. It doesn't need oxygen, react to water, or generate heat.",
+        "heightened": [
+            {
+                "desc": "The cost increases as follows: 16 gp for 3rd level; 30 gp for 4th, 60 gp for 5th, 120 gp for 6th,; 270 gp for 7th, 540 gp for 8th, 1,350 gp for 9th, and 3,350 gp for 10th.",
+                "level": "(+1)"
+            }
+        ],
+        "gainConditions": [
+            {
+                "duration": -1,
+                "name": "Continual Flame",
+                "source": "Continual Flame"
+            }
+        ],
+        "desc2": [
+            {
+                "value": "",
+                "variable": "var1"
+            }
+        ],
+        "desc3": [
+            {
+                "value": "The cost increases to 16 gp. ",
+                "variable": "var1"
+            }
+        ],
+        "desc4": [
+            {
+                "value": "The cost increases to 30 gp. ",
+                "variable": "var1"
+            }
+        ],
+        "desc5": [
+            {
+                "value": "The cost increases to 60 gp. ",
+                "variable": "var1"
+            }
+        ],
+        "desc6": [
+            {
+                "value": "The cost increases to 120 gp. ",
+                "variable": "var1"
+            }
+        ],
+        "desc7": [
+            {
+                "value": "The cost increases to 270 gp. ",
+                "variable": "var1"
+            }
+        ],
+        "desc8": [
+            {
+                "value": "The cost increases to 540 gp. ",
+                "variable": "var1"
+            }
+        ],
+        "desc9": [
+            {
+                "value": "The cost increases to 1350 gp. ",
+                "variable": "var1"
+            }
+        ],
+        "desc10": [
+            {
+                "value": "The cost increases to 3350 gp. ",
+                "variable": "var1"
+            }
         ]
     },
     {
@@ -8636,6 +8984,7 @@
         "traits": [
             "Conjuration"
         ],
+        "range": "30 feet",
         "desc": "You create enough food to feed <var>var1</var> Medium creatures for a day. This food is bland and unappealing, but it is nourishing. After 1 day, if no one has eaten the food, it decays and becomes inedible. Most Small creatures eat one-quarter as much as a Medium creature (one-sixteenth as much for most Tiny creatures), and most Large creatures eat 10 times as much (100 times as much for Huge creatures and so on).",
         "heightened": [
             {
@@ -8696,6 +9045,36 @@
         "traits": [
             "Darkness",
             "Evocation"
+        ],
+        "range": "120 feet",
+        "area": "20-foot burst",
+        "target": "self",
+        "duration": "1 minute",
+        "desc": "You create a shroud of darkness that prevents light from penetrating or emanating within the area. Light does not enter the area and any non-magical light sources, such as a torch or lantern, do not emanate any light while inside the area, even if their light radius would extend beyond the darkness. This also suppresses magical light of your darkness spell's level or lower. Light can't pass through, so creatures in the area can't see outside. From outside, it appears as a globe of pure darkness.<var>var1</var>",
+        "heightened": [
+            {
+                "desc": "Even creatures with darkvision (but not greater darkvision) can barely see through the darkness. They treat targets seen through the darkness as concealed.",
+                "level": "(4th)"
+            }
+        ],
+        "gainConditions": [
+            {
+                "duration": 100,
+                "name": "Darkness",
+                "source": "Darkness"
+            }
+        ],
+        "desc2": [
+            {
+                "value": "",
+                "variable": "var1"
+            }
+        ],
+        "desc4": [
+            {
+                "value": " Even creatures with darkvision (but not greater darkvision) can barely see through the darkness. They treat targets seen through the darkness as concealed.",
+                "variable": "var1"
+            }
         ]
     },
     {
@@ -8713,6 +9092,59 @@
         ],
         "traits": [
             "Divination"
+        ],
+        "target": "ally",
+        "singleTarget": "TRUE",
+        "duration": "1 hour",
+        "desc": "<var>var1</var>You grant yourself supernatural sight in areas of darkness. You gain darkvision.",
+        "heightened": [
+            {
+                "desc": "The spell's range is touch and it targets 1 willing creature.",
+                "level": "(3rd)"
+            },
+            {
+                "desc": "The spell's range is touch and it targets 1 willing creature. The duration is until the next time you make your daily preparations.",
+                "level": "(5th)"
+            }
+        ],
+        "gainConditions": [
+            {
+                "duration": 6000,
+                "heightenedFilter": 2,
+                "name": "Darkvision",
+                "source": "Darkvision",
+                "targetFilter": "caster"
+            },
+            {
+                "duration": 6000,
+                "heightenedFilter": 3,
+                "name": "Darkvision",
+                "source": "Darkvision"
+            },
+            {
+                "duration": -2,
+                "heightenedFilter": 5,
+                "name": "Darkvision",
+                "source": "Darkvision"
+            }
+        ],
+        "desc2": [
+            {
+                "value": "",
+                "variable": "var1"
+            }
+        ],
+        "desc3": [
+            {
+                "value": "The spell's range is touch and it targets 1 willing creature. ",
+                "variable": "var1"
+            }
+        ],
+        "desc5": [
+            {
+                "value": "The spell's range is touch and it targets 1 willing creature. The duration is until the next time you make your daily preparations. ",
+                "variable": "var1"
+            }
         ]
     },
     {
@@ -8731,7 +9163,15 @@
         "traits": [
             "Necromancy"
         ],
-        "savingThrow": "Fortitude"
+        "range": "30 feet",
+        "targets": "1 creature",
+        "singleTarget": "TRUE",
+        "desc": "The target loses hearing; it must attempt a Fortitude save. The target is then temporarily immune for 1 minute.",
+        "savingThrow": "Fortitude",
+        "critsuccess": "The target is unaffected.",
+        "success": "The target is deafened for 1 round.",
+        "failure": "The target is deafened for 10 minutes.",
+        "critfailure": "The target is deafened permanently."
     },
     {
         "name": "Death Knell",
@@ -8748,7 +9188,15 @@
             "Death",
             "Necromancy"
         ],
-        "savingThrow": "Will"
+        "inputRequired": "If Death Knell kills the target creature, grant yourself the Death Knell condition for 10 minutes.",
+        "range": "touch",
+        "targets": "1 living creature that has 0 HP",
+        "singleTarget": "TRUE",
+        "desc": "You snuff the life out of a creature on the brink of death. The target must attempt a Will save. If this kills it, you gain 10 temporary HP and a +1 status bonus to attack and damage rolls for 10 minutes.",
+        "savingThrow": "Will",
+        "critsuccess": "The target is unaffected.",
+        "failure": "The target's dying value increases by 1.",
+        "critfailure": "The target dies."
     },
     {
         "name": "Dispel Magic",
@@ -8768,7 +9216,7 @@
         ],
         "range": "120 feet",
         "targets": "1 spell effect or unattended magic item",
-        "singleTarget": true,
+        "singleTarget": "TRUE",
         "desc": "You unravel the magic behind a spell or effect. Attempt a counteract check against the target. If you succeed against a spell effect, you counteract it. If you succeed against a magic item, the item becomes a mundane item of its type for 10 minutes. This doesn't change the item's non-magical properties. If the target is an artifact or similar item, you automatically fail."
     },
     {
@@ -8785,6 +9233,60 @@
         ],
         "traits": [
             "Abjuration"
+        ],
+        "range": "touch",
+        "targets": "1 willing creature",
+        "target": "ally",
+        "singleTarget": "TRUE",
+        "duration": "until the next time you make your daily preparations",
+        "desc": "You shield the target against dangerous temperatures. <var>var1</var>",
+        "heightened": [
+            {
+                "desc": "The target is protected from severe cold and heat.",
+                "level": "(3rd)"
+            },
+            {
+                "desc": "The target is protected from severe cold, severe heat, extreme cold, and extreme heat.",
+                "level": "(5th)"
+            }
+        ],
+        "gainConditions": [
+            {
+                "duration": -2,
+                "heightenedFilter": 2,
+                "name": "Endure Elements (2nd level)",
+                "source": "Endure Elements"
+            },
+            {
+                "duration": -2,
+                "heightenedFilter": 3,
+                "name": "Endure Elements (3rd level)",
+                "source": "Endure Elements"
+            },
+            {
+                "duration": -2,
+                "heightenedFilter": 5,
+                "name": "Endure Elements (5th level)",
+                "source": "Endure Elements"
+            }
+        ],
+        "desc2": [
+            {
+                "value": "Choose severe cold or heat. The target is protected from the temperature you chose (but not extreme cold or heat).",
+                "variable": "var1"
+            }
+        ],
+        "desc3": [
+            {
+                "value": "The target is protected from severe cold and heat (but not extreme cold or heat).",
+                "variable": "var1"
+            }
+        ],
+        "desc5": [
+            {
+                "value": "The target is protected from severe cold, severe heat, extreme cold, and extreme heat.",
+                "variable": "var1"
+            }
         ]
     },
     {
@@ -8800,6 +9302,78 @@
         ],
         "traits": [
             "Transmutation"
+        ],
+        "range": "touch",
+        "targets": "up to 1 gallon of non-magical water or up to 5 pounds of food",
+        "singleTarget": "TRUE",
+        "duration": "1 hour",
+        "desc": "<var>var1</var>You transform the target into delicious fare, changing water into wine or another fine beverage or enhancing the food's taste and ingredients to make it a gourmet treat.\n\nPrior to the transformation, the spell attempts to counteract any poisons in the food or water. The food turns back to normal if not consumed before the duration expires, though any poisons that were counteracted are still gone.",
+        "heightened": [
+            {
+                "desc": "The number of gallons of water you can target increases by 1, or the number of pounds of food you can target increases by 5.",
+                "level": "(+1)"
+            }
+        ],
+        "gainConditions": [
+            {
+                "duration": 6000,
+                "name": "Enhance Victuals",
+                "source": "Enhance Victuals"
+            }
+        ],
+        "desc2": [
+            {
+                "value": "",
+                "variable": "var1"
+            }
+        ],
+        "desc3": [
+            {
+                "value": "You can target up to 2 gallons of water and up to 10 pounds of food. ",
+                "variable": "var1"
+            }
+        ],
+        "desc4": [
+            {
+                "value": "You can target up to 3 gallons of water and up to 15 pounds of food. ",
+                "variable": "var1"
+            }
+        ],
+        "desc5": [
+            {
+                "value": "You can target up to 4 gallons of water and up to 20 pounds of food. ",
+                "variable": "var1"
+            }
+        ],
+        "desc6": [
+            {
+                "value": "You can target up to 5 gallons of water and up to 10 pounds of food. ",
+                "variable": "var1"
+            }
+        ],
+        "desc7": [
+            {
+                "value": "You can target up to 6 gallons of water and up to 30 pounds of food. ",
+                "variable": "var1"
+            }
+        ],
+        "desc8": [
+            {
+                "value": "You can target up to 7 gallons of water and up to 35 pounds of food. ",
+                "variable": "var1"
+            }
+        ],
+        "desc9": [
+            {
+                "value": "You can target up to 8 gallons of water and up to 40 pounds of food. ",
+                "variable": "var1"
+            }
+        ],
+        "desc10": [
+            {
+                "value": "You can target up to 9 gallons of water and up to 45 pounds of food. ",
+                "variable": "var1"
+            }
         ]
     },
     {
@@ -8820,7 +9394,7 @@
         "range": "30 feet",
         "targets": "1 willing creature",
         "target": "ally",
-        "singleTarget": true,
+        "singleTarget": "TRUE",
         "duration": "5 minutes",
         "desc": "<var>var1</var>Bolstered by magical power, the target grows to size <var>var2</var>. Its equipment grows with it but returns to natural size if removed. The creature is clumsy 1. Its reach increases by <var>var3</var>, and it gains a <var>var4</var>. This spell has no effect on a <var>var5</var> or larger creature.",
         "heightened": [
@@ -8836,27 +9410,27 @@
         "gainConditions": [
             {
                 "duration": 500,
+                "heightenedFilter": 2,
                 "name": "Enlarge (2nd level)",
-                "source": "Enlarge",
-                "heightenedFilter": 2
+                "source": "Enlarge"
             },
             {
                 "duration": 500,
+                "heightenedFilter": 4,
                 "name": "Enlarge (4th level)",
-                "source": "Enlarge",
-                "heightenedFilter": 4
+                "source": "Enlarge"
             },
             {
                 "duration": 500,
+                "heightenedFilter": 6,
                 "name": "Enlarge (2nd level)",
-                "source": "Enlarge",
-                "heightenedFilter": 6
+                "source": "Enlarge"
             },
             {
                 "duration": 500,
+                "heightenedFilter": 6,
                 "name": "Enlarge (4th level)",
-                "source": "Enlarge",
-                "heightenedFilter": 6
+                "source": "Enlarge"
             }
         ],
         "desc2": [
@@ -8939,6 +9513,18 @@
         "traits": [
             "Plant",
             "Transmutation"
+        ],
+        "range": "120 feet",
+        "area": "all squares in a 20-foot-radius burst that contain plants",
+        "target": "self",
+        "duration": "1 minute",
+        "desc": "Plants in the area entangle creatures. The area counts as difficult terrain. Each round that a creature starts its turn in the area, it must attempt a Reflex save. On a failure, it takes a -10-foot circumstance penalty to its Speeds until it leaves the area, and on a critical failure, it is also immobilized for 1 round. Creatures can attempt to Escape at entangle's DC to remove these effects.",
+        "gainConditions": [
+            {
+                "duration": 100,
+                "name": "Entangle",
+                "source": "Entangle"
+            }
         ]
     },
     {
@@ -8948,6 +9534,7 @@
         "actions": "2A",
         "castType": "somatic, verbal",
         "shortDesc": "You remove loose dirt, dust, gravel, sand, and the like from the area.",
+        "sourceBook": "Gods & Magic",
         "traditions": [
             "Arcane",
             "Primal"
@@ -8955,6 +9542,68 @@
         "traits": [
             "Earth",
             "Transmutation"
+        ],
+        "range": "touch",
+        "area": "cube of dirt 5 feet across or smaller",
+        "desc": "You remove loose dirt, dust, gravel, sand, and the like (though not solid stone) up to the size of <var>var1</var>. Any Medium or smaller creature standing atop the earth when the spell is cast must attempt a Reflex save or Acrobatics check.<var>var1</var>",
+        "success": "The creature is unaffected and can choose to either descend the pit without damage or move to the nearest available space of its choice.",
+        "failure": "The creature falls prone in the nearest available space of its choice, or falls into the pit if it prefers.",
+        "critfailure": "The creature falls into the pit excavated by the spell and lands prone, taking falling damage as normal.",
+        "heightened": [
+            {
+                "desc": "The spell can excavate an additional 5-foot cube of earth. If you excavate all four 5-foot cubes beneath a Large creature, it must attempt a Reflex save or Acrobatics check, as above.",
+                "level": "(+2)"
+            }
+        ],
+        "desc2": [
+            {
+                "value": "a 5-foot cube",
+                "variable": "var1"
+            },
+            {
+                "value": "",
+                "variable": "var2"
+            }
+        ],
+        "desc4": [
+            {
+                "value": "two 5-foot cubes",
+                "variable": "var1"
+            },
+            {
+                "value": " If you excavate all four 5-foot cubes beneath a Large creature, it must attempt a Reflex save or Acrobatics check, as above.",
+                "variable": "var2"
+            }
+        ],
+        "desc6": [
+            {
+                "value": "three 5-foot cubes",
+                "variable": "var1"
+            },
+            {
+                "value": " If you excavate all four 5-foot cubes beneath a Large creature, it must attempt a Reflex save or Acrobatics check, as above.",
+                "variable": "var2"
+            }
+        ],
+        "desc8": [
+            {
+                "value": "four 5-foot cubes",
+                "variable": "var1"
+            },
+            {
+                "value": " If you excavate all four 5-foot cubes beneath a Large creature, it must attempt a Reflex save or Acrobatics check, as above.",
+                "variable": "var2"
+            }
+        ],
+        "desc10": [
+            {
+                "value": "five 5-foot cubes",
+                "variable": "var1"
+            },
+            {
+                "value": " If you excavate all four 5-foot cubes beneath a Large creature, it must attempt a Reflex save or Acrobatics check, as above.",
+                "variable": "var2"
+            }
         ]
     },
     {
@@ -8972,6 +9621,17 @@
         "traits": [
             "Evocation",
             "Light"
+        ],
+        "range": "120 feet",
+        "area": "10-foot burst",
+        "duration": "5 minutes",
+        "desc": "All creatures in the area when you cast the spell are limned in colorful, heatless fire of a color of your choice for the duration. Visible creatures can't be concealed while affected by faerie fire. If the creatures are invisible, they are concealed while affected by faerie fire, rather than being undetected.",
+        "gainConditions": [
+            {
+                "duration": 500,
+                "name": "Faerie Fire",
+                "source": "Faerie Fire"
+            }
         ]
     },
     {
@@ -8987,6 +9647,70 @@
         ],
         "traits": [
             "Necromancy"
+        ],
+        "target": "self",
+        "duration": "8 hours",
+        "desc": "You create a reservoir of vitality from necromantic energy, gaining a number of temporary Hit Points equal to <var>var1</var> plus your spellcasting ability modifier.",
+        "gainConditions": [
+            {
+                "duration": 48000,
+                "name": "False Life",
+                "source": "False Life"
+            }
+        ],
+        "desc2": [
+            {
+                "value": "6",
+                "variable": "var1"
+            }
+        ],
+        "desc3": [
+            {
+                "value": "9",
+                "variable": "var1"
+            }
+        ],
+        "desc4": [
+            {
+                "value": "12",
+                "variable": "var1"
+            }
+        ],
+        "desc5": [
+            {
+                "value": "15",
+                "variable": "var1"
+            }
+        ],
+        "desc6": [
+            {
+                "value": "18",
+                "variable": "var1"
+            }
+        ],
+        "desc7": [
+            {
+                "value": "21",
+                "variable": "var1"
+            }
+        ],
+        "desc8": [
+            {
+                "value": "24",
+                "variable": "var1"
+            }
+        ],
+        "desc9": [
+            {
+                "value": "27",
+                "variable": "var1"
+            }
+        ],
+        "desc10": [
+            {
+                "value": "30",
+                "variable": "var1"
+            }
         ]
     },
     {
@@ -8996,6 +9720,7 @@
         "actions": "3A",
         "castType": "material, somatic, verbal",
         "shortDesc": "You curse the target with a hunger no food can sate.",
+        "sourceBook": "Gods & Magic",
         "traditions": [
             "Arcane",
             "Occult",
@@ -9005,7 +9730,111 @@
             "Curse",
             "Necromancy"
         ],
-        "savingThrow": "Fortitude"
+        "range": "30 feet",
+        "targets": "1 living creature",
+        "duration": "1 week",
+        "desc": "You curse the target with a hunger no food can sate. You can Dismiss the spell. The target must attempt a Fortitude save.",
+        "savingThrow": "Fortitude",
+        "critsuccess": "The creature is unaffected and is temporarily immune for 1 hour.",
+        "success": "The creature is fatigued for 1 round.",
+        "failure": "The creature is immediately afflicted by hunger as if it hadn’t eaten food in days. It becomes fatigued and takes <var>var1</var> damage each day that can’t be healed until it sates its hunger. No amount of eating can sate the creature’s hunger during the spell’s duration. After the spell’s duration, the creature takes damage from starvation.",
+        "critfailure": "As failure but the creature takes <var>var2</var> damage each day, twice as much as usual for hunger.",
+        "heightened": [
+            {
+                "desc": "The hunger becomes more unbearable, increasing the damage each day by 1d4, or by 2d4 on a critical failure.",
+                "level": "(+1)"
+            }
+        ],
+        "desc2": [
+            {
+                "value": "1d4",
+                "variable": "var1"
+            },
+            {
+                "value": "2d4",
+                "variable": "var2"
+            }
+        ],
+        "desc3": [
+            {
+                "value": "2d4",
+                "variable": "var1"
+            },
+            {
+                "value": "4d4",
+                "variable": "var2"
+            }
+        ],
+        "desc4": [
+            {
+                "value": "3d4",
+                "variable": "var1"
+            },
+            {
+                "value": "6d4",
+                "variable": "var2"
+            }
+        ],
+        "desc5": [
+            {
+                "value": "4d4",
+                "variable": "var1"
+            },
+            {
+                "value": "8d4",
+                "variable": "var2"
+            }
+        ],
+        "desc6": [
+            {
+                "value": "5d4",
+                "variable": "var1"
+            },
+            {
+                "value": "10d4",
+                "variable": "var2"
+            }
+        ],
+        "desc7": [
+            {
+                "value": "6d4",
+                "variable": "var1"
+            },
+            {
+                "value": "12d4",
+                "variable": "var2"
+            }
+        ],
+        "desc8": [
+            {
+                "value": "7d4",
+                "variable": "var1"
+            },
+            {
+                "value": "14d4",
+                "variable": "var2"
+            }
+        ],
+        "desc9": [
+            {
+                "value": "8d4",
+                "variable": "var1"
+            },
+            {
+                "value": "16d4",
+                "variable": "var2"
+            }
+        ],
+        "desc10": [
+            {
+                "value": "9d4",
+                "variable": "var1"
+            },
+            {
+                "value": "18d4",
+                "variable": "var2"
+            }
+        ]
     },
     {
         "name": "Flaming Sphere",
@@ -9022,7 +9851,79 @@
             "Evocation",
             "Fire"
         ],
-        "savingThrow": "Reflex"
+        "range": "30 feet",
+        "targets": "1 5-foot square",
+        "sustained": 100,
+        "duration": "sustained up to 1 minute",
+        "desc": "You create a sphere of flame in a square within range. The sphere must be supported by a solid surface, such as a stone floor. The sphere deals <var>var1</var> fire damage to each creature in the square where it first appears; each creature must attempt a basic Reflex save. On subsequent rounds, you can Sustain this Spell, leaving the sphere in its square or rolling it to another square within range and dealing <var>var1</var> fire damage; each creature in its square must attempt a basic Reflex save.\n\nCreatures that succeed at their save take no damage (instead of half).",
+        "savingThrow": "Reflex",
+        "heightened": [
+            {
+                "desc": "The damage increases by 1d6.",
+                "level": "(+1)"
+            }
+        ],
+        "gainConditions": [
+            {
+                "duration": 100,
+                "name": "Flaming Sphere",
+                "source": "Flaming Sphere"
+            }
+        ],
+        "desc2": [
+            {
+                "value": "3d6",
+                "variable": "var1"
+            }
+        ],
+        "desc3": [
+            {
+                "value": "4d6",
+                "variable": "var1"
+            }
+        ],
+        "desc4": [
+            {
+                "value": "5d6",
+                "variable": "var1"
+            }
+        ],
+        "desc5": [
+            {
+                "value": "6d6",
+                "variable": "var1"
+            }
+        ],
+        "desc6": [
+            {
+                "value": "7d6",
+                "variable": "var1"
+            }
+        ],
+        "desc7": [
+            {
+                "value": "8d6",
+                "variable": "var1"
+            }
+        ],
+        "desc8": [
+            {
+                "value": "9d6",
+                "variable": "var1"
+            }
+        ],
+        "desc9": [
+            {
+                "value": "10d6",
+                "variable": "var1"
+            }
+        ],
+        "desc10": [
+            {
+                "value": "11d6",
+                "variable": "var1"
+            }
+        ]
     },
     {
         "name": "Fungal Hyphae",
@@ -9037,6 +9938,56 @@
         "traits": [
             "Fungus",
             "Necromancy"
+        ],
+        "duration": "1 minute",
+        "desc": "Thin hyphae grow from your feet and plunge into the earth, creating a symbiotic fungal network that attaches to plants within 30 feet and connects you to their root systems. You gain an imprecise tremorsense allowing you to sense anything directly touching plants within that distance. <var>var1</var>If you move, the hyphae snap and the spell ends.",
+        "heightened": [
+            {
+                "desc": "You can control plants in the area to a small degree, allowing you to make Strikes with tree branches, exposed roots, or similarly solid plants. To do so, you use a Strike action, but you can Strike any creature you can detect with your tremorsense. These are melee spell attacks that deal 2d8 bludgeoning damage plus your spellcasting ability modifier. Unusual plants, such as thorny vines, might deal a different type of damage at the GM’s discretion. You can’t make any other attacks through these plants, or take any other actions through them, other than these Strikes.",
+                "level": "(4th)"
+            },
+            {
+                "desc": "As 4th level, but you can use other simple manipulate actions through the plants, including having a branch pick an object up or open a door, though more complex actions, such as picking a lock or disabling a trap, remain impossible.",
+                "level": "(6th)"
+            }
+        ],
+        "gainConditions": [
+            {
+                "duration": 100,
+                "heightenedFilter": 2,
+                "name": "Fungal Hyphae (2nd level)",
+                "source": "Fungal Hyphae"
+            },
+            {
+                "duration": 100,
+                "heightenedFilter": 4,
+                "name": "Fungal Hyphae (4th level)",
+                "source": "Fungal Hyphae"
+            },
+            {
+                "duration": 100,
+                "heightenedFilter": 6,
+                "name": "Fungal Hyphae (6th level)",
+                "source": "Fungal Hyphae"
+            }
+        ],
+        "desc2": [
+            {
+                "value": "",
+                "variable": "var1"
+            }
+        ],
+        "desc4": [
+            {
+                "value": "You can control plants in the area to a small degree, allowing you to make Strikes with tree branches, exposed roots, or similarly solid plants. To do so, you use a Strike action, but you can Strike any creature you can detect with your tremorsense. These are melee spell attacks that deal 2d8 bludgeoning damage plus your spellcasting ability modifier. Unusual plants, such as thorny vines, might deal a different type of damage at the GM’s discretion. You can’t make any other attacks through these plants, or take any other actions through them, other than these Strikes. ",
+                "variable": "var1"
+            }
+        ],
+        "desc6": [
+            {
+                "value": "You can control plants in the area to a small degree, allowing you to make Strikes with tree branches, exposed roots, or similarly solid plants. To do so, you use a Strike action, but you can Strike any creature you can detect with your tremorsense. These are melee spell attacks that deal 2d8 bludgeoning damage plus your spellcasting ability modifier. Unusual plants, such as thorny vines, might deal a different type of damage at the GM’s discretion. You can’t make any other attacks through these plants than these Strikes. You can use other simple manipulate actions through the plants, including having a branch pick an object up or open a door, though more complex actions, such as picking a lock or disabling a trap, remain impossible.",
+                "variable": "var1"
+            }
         ]
     },
     {
@@ -9054,6 +10005,44 @@
         ],
         "traits": [
             "Necromancy"
+        ],
+        "range": "touch",
+        "targets": "1 corpse",
+        "target": "self",
+        "singleTarget": "TRUE",
+        "duration": "until the next time you make your daily preparations",
+        "desc": "<var>var1</var>The targeted corpse doesn't decay, nor can it be transformed into an undead. If the corpse is subject to a spell that requires the corpse to have died within a certain amount of time (for example, raise dead), do not count the duration of gentle repose against that time. This spell also prevents ordinary bugs and pests (such as maggots) from consuming the body.",
+        "heightened": [
+            {
+                "desc": "The spell's duration is unlimited, but the spell takes one more action to cast and requires a material component and a cost (embalming fluid worth 6 gp).",
+                "level": "(5th)"
+            }
+        ],
+        "gainConditions": [
+            {
+                "duration": -2,
+                "heightenedFilter": 2,
+                "name": "Gentle Repose",
+                "source": "Gentle Repose"
+            },
+            {
+                "duration": -1,
+                "heightenedFilter": 5,
+                "name": "Gentle Repose",
+                "source": "Gentle Repose"
+            }
+        ],
+        "desc2": [
+            {
+                "value": "",
+                "variable": "var1"
+            }
+        ],
+        "desc5": [
+            {
+                "value": "The spell's duration is unlimited, but the spell takes one more action to cast and requires a material component and a cost (embalming fluid worth 6 gp). ",
+                "variable": "var1"
+            }
         ]
     },
     {
@@ -9072,7 +10061,15 @@
             "Evil",
             "Necromancy"
         ],
-        "savingThrow": "Fortitude"
+        "range": "touch",
+        "targets": "1 creature",
+        "singleTarget": "TRUE",
+        "desc": "You touch the target to afflict it with ghoul fever, infesting it with hunger and a steadily decreasing connection to positive energy; the target must attempt a Fortitude save.\n\n<strong>Ghoul Fever</strong> (disease); <strong>Level</strong> 3; <strong>Stage 1</strong> carrier with no ill effects (1 day); <strong>Stage 2</strong> 3d8 negative damage and the creature regains half as many Hit Points from all healing (1 day); <strong>Stage 3</strong> as stage 2 (1 day); <strong>Stage 4</strong> 3d8 negative damage and the creature gains no benefit from healing (1 day); <strong>Stage 5</strong> as stage 4 (1 day); <strong>Stage 6</strong> the creature dies and rises as a ghoul at the next midnight",
+        "savingThrow": "Fortitude",
+        "critsuccess": "The target is unaffected.",
+        "success": "The target is afflicted with ghoul fever at stage 1.",
+        "failure": "The target is afflicted with ghoul fever at stage 2.",
+        "critfailure": "The target is afflicted with ghoul fever at stage 3."
     },
     {
         "name": "Glitterdust",
@@ -9088,7 +10085,14 @@
         "traits": [
             "Evocation"
         ],
-        "savingThrow": "Reflex"
+        "range": "120 feet",
+        "area": "10-foot burst",
+        "desc": "Creatures in the area are outlined by glittering dust. Each creature must attempt a Reflex save. If a creature has its invisibility negated by this spell, it is concealed instead of invisible. This applies both if the creature was already invisible and if it benefits from new invisibility effects before the end of the invisibility negation effect from this spell.",
+        "savingThrow": "Reflex",
+        "critsuccess": "The target is unaffected.",
+        "success": "The target's invisibility is negated for 2 rounds.",
+        "failure": "The target is dazzled for 1 minute and its invisibility is negated for 1 minute.",
+        "critfailure": "The target is blinded for 1 round and dazzled for 10 minutes. Its invisibility is negated for 10 minutes."
     },
     {
         "name": "Hideous Laughter",
@@ -9106,7 +10110,15 @@
             "Enchantment",
             "Mental"
         ],
-        "savingThrow": "Will"
+        "range": "30 feet",
+        "targets": "1 living creature",
+        "singleTarget": "TRUE",
+        "desc": "The target is overtaken with uncontrollable laughter. It must attempt a Will save.",
+        "savingThrow": "Will",
+        "critsuccess": "The target is unaffected.",
+        "success": "The target is plagued with uncontrollable laugher. It can't use reactions.",
+        "failure": "The target is slowed 1 and can't use reactions.",
+        "critfailure": "The target falls prone and can't use actions or reactions for 1 round. It then suffers the failure effects."
     },
     {
         "name": "Humanoid Form",
@@ -9123,6 +10135,69 @@
         "traits": [
             "Polymorph",
             "Transmutation"
+        ],
+        "target": "self",
+        "duration": "10 minutes",
+        "desc": "You transform your appearance to that of a <var>var1</var>. You gain the humanoid trait in addition to your other traits while in this form, as well as any trait related to the creature's kind (such as goblin or human). If this transformation reduces your size, it reduces your reach accordingly (as the shrink spell). This transformation doesn't change your statistics in any way, and you don't gain any special abilities of the humanoid form you assume. You can still wear and use your gear, which changes size (if necessary) to match your new form. If items leave your person, they return to their usual size.<var>var2</var>\n\nHumanoid form grants you a +4 status bonus to Deception checks to pass as a generic member of the chosen ancestry, and you add your level even if you're untrained, but you can't make yourself look like a specific person. If you want to Impersonate an individual, you still need to create a disguise, though the GM won't factor in the difference in ancestry when determining the DC of your Deception check. You can Dismiss this spell.",
+        "heightened": [
+            {
+                "desc": "You gain darkvision or low-light vision if the form you assume has that ability.",
+                "level": "(3rd)"
+            },
+            {
+                "desc": "You can take on the appearance of a Large humanoid. If this increases your size, you gain the effects of the enlarge spell.",
+                "level": "(5th)"
+            }
+        ],
+        "gainConditions": [
+            {
+                "duration": 1000,
+                "heightenedFilter": 2,
+                "name": "Humanoid Form (2nd level)",
+                "source": "Humanoid Form"
+            },
+            {
+                "duration": 1000,
+                "heightenedFilter": 3,
+                "name": "Humanoid Form (3rd level)",
+                "source": "Humanoid Form"
+            },
+            {
+                "duration": 1000,
+                "heightenedFilter": 5,
+                "name": "Humanoid Form (5th level)",
+                "source": "Humanoid Form"
+            }
+        ],
+        "desc2": [
+            {
+                "value": "Small or Medium humanoid, such as a dwarf, elf, goblin, halfling, human, orc, or lizardfolk",
+                "variable": "var1"
+            },
+            {
+                "value": "",
+                "variable": "var2"
+            }
+        ],
+        "desc3": [
+            {
+                "value": "Small or Medium humanoid, such as a dwarf, elf, goblin, halfling, human, orc, or lizardfolk",
+                "variable": "var1"
+            },
+            {
+                "value": " You gain darkvision or low-light vision if the form you assume has that ability.",
+                "variable": "var2"
+            }
+        ],
+        "desc5": [
+            {
+                "value": "Small, Medium or Large humanoid",
+                "variable": "var1"
+            },
+            {
+                "value": "If the transformation increases your size, you gain the effects of the enlarge spell. You gain darkvision or low-light vision if the form you assume has that ability.",
+                "variable": "var2"
+            }
         ]
     },
     {
@@ -9140,6 +10215,113 @@
             "Auditory",
             "Illusion",
             "Visual"
+        ],
+        "range": "500 feet",
+        "sustained": -1,
+        "duration": "sustained",
+        "desc": "You create an illusory image of a <var>var1</var> or smaller creature. It generates the appropriate sounds, smells, and feels believable to the touch. If you and the image are ever farther than 500 feet apart, the spell ends.\n\nThe image can't speak, but you can use your actions to speak through the creature, with the spell disguising your voice as appropriate. You might need to attempt a Deception or Performance check to mimic the creature, as determined by the GM. This is especially likely if you're trying to imitate a specific person and engage with someone that person knows.\n\nIn combat, the illusion can use 2 actions per turn, which it uses when you Sustain the Spell. It uses your spell attack roll for attack rolls and your spell DC for its AC. Its saving throw modifiers are equal to your spell DC - 10. It is substantial enough that it can flank other creatures. If the image is hit by an attack or fails a save, the spell ends.\n\nThe illusion can cause damage by making the target believe the illusion's attacks are real, but it cannot otherwise directly affect the physical world. If the illusory creature hits with a Strike, the target takes mental damage equal to <var>var2</var> plus your spellcasting ability modifier. This is a mental effect. The illusion's Strikes are nonlethal. If the damage doesn't correspond to the image of the monster - for example, if an illusory Large dragon deals only 5 damage - the GM might allow the target to attempt a Perception check to disbelieve the spell as a free action. Any relevant resistances and weaknesses apply if the target thinks they do, as judged by the GM. For example, if the illusion wields a warhammer and attacks a creature resistant to bludgeoning damage, the creature would take less mental damage. However, illusory damage does not deactivate regeneration or trigger other effects that require a certain damage type. The GM should track illusory damage dealt by the illusion.\n\nAny creature that touches the image or uses the Seek action to examine it can attempt to disbelieve your illusion. When a creature disbelieves the illusion, it recovers from half the damage it had taken from it (if any) and doesn't take any further damage from it.",
+        "heightened": [
+            {
+                "desc": "The damage of the image's Strikes increases by 1d4, and the maximum size of creature you can create increases by one (to a maximum of Gargantuan).",
+                "level": "(+1)"
+            }
+        ],
+        "gainConditions": [
+            {
+                "duration": -1,
+                "name": "Illusory Creature",
+                "source": "Illusory Creature"
+            }
+        ],
+        "desc2": [
+            {
+                "value": "Large",
+                "variable": "var1"
+            },
+            {
+                "value": "1d4",
+                "variable": "var2"
+            }
+        ],
+        "desc3": [
+            {
+                "value": "Huge",
+                "variable": "var1"
+            },
+            {
+                "value": "2d4",
+                "variable": "var2"
+            }
+        ],
+        "desc4": [
+            {
+                "value": "Gargantuan",
+                "variable": "var1"
+            },
+            {
+                "value": "3d4",
+                "variable": "var2"
+            }
+        ],
+        "desc5": [
+            {
+                "value": "Gargantuan",
+                "variable": "var1"
+            },
+            {
+                "value": "4d4",
+                "variable": "var2"
+            }
+        ],
+        "desc6": [
+            {
+                "value": "Gargantuan",
+                "variable": "var1"
+            },
+            {
+                "value": "5d4",
+                "variable": "var2"
+            }
+        ],
+        "desc7": [
+            {
+                "value": "Gargantuan",
+                "variable": "var1"
+            },
+            {
+                "value": "6d4",
+                "variable": "var2"
+            }
+        ],
+        "desc8": [
+            {
+                "value": "Gargantuan",
+                "variable": "var1"
+            },
+            {
+                "value": "7d4",
+                "variable": "var2"
+            }
+        ],
+        "desc9": [
+            {
+                "value": "Gargantuan",
+                "variable": "var1"
+            },
+            {
+                "value": "8d4",
+                "variable": "var2"
+            }
+        ],
+        "desc10": [
+            {
+                "value": "Gargantuan",
+                "variable": "var1"
+            },
+            {
+                "value": "9d4",
+                "variable": "var2"
+            }
         ]
     },
     {
@@ -9159,7 +10341,7 @@
         "range": "touch",
         "targets": "1 creature",
         "target": "ally",
-        "singleTarget": true,
+        "singleTarget": "TRUE",
         "duration": "10 minutes",
         "desc": "Cloaked in illusion, the target becomes invisible. This makes it undetected to all creatures, though the creatures can attempt to find the target, making it hidden to them instead. <var>var1</var>",
         "heightened": [
@@ -9171,15 +10353,15 @@
         "gainConditions": [
             {
                 "duration": 1000,
+                "heightenedFilter": 2,
                 "name": "Invisibility (2nd level)",
-                "source": "Invisibility",
-                "heightenedFilter": 2
+                "source": "Invisibility"
             },
             {
                 "duration": 1000,
+                "heightenedFilter": 4,
                 "name": "Invisibility (4th level)",
-                "source": "Invisibility",
-                "heightenedFilter": 4
+                "source": "Invisibility"
             }
         ],
         "desc2": [
@@ -9202,12 +10384,47 @@
         "actions": "2A",
         "castType": "material, somatic",
         "shortDesc": "Your mouth, esophagus, and stomach become incredibly elastic and tougher than metal.",
+        "sourceBook": "Gods & Magic",
         "traditions": [
             "Arcane",
             "Primal"
         ],
         "traits": [
             "Transmutation"
+        ],
+        "duration": "1 hour",
+        "desc": "<var>var1</var>Your mouth, esophagus, and stomach become incredibly elastic and tougher than metal. For the duration of the spell, you can reach down your throat to store or retrieve a single object of light or negligible Bulk in your stomach, as though your stomach were a backpack or other container. Storing and retrieving an item in this way requires an Interact action. The object must be small enough to reasonably fit within your stomach. It is very difficult for other creatures to notice that you are hiding an object in this way; passive observers can’t possibly notice and you gain a +4 circumstance bonus to your Stealth checks to Conceal the Object unless the searcher specifically searches your mouth and stomach. If at the end of the spell’s duration you still have an object stored in your stomach, it is violently expelled, dealing 1d6 damage to you.",
+        "heightened": [
+            {
+                "desc": "The duration increases to 8 hours.",
+                "level": "(3rd)"
+            }
+        ],
+        "gainConditions": [
+            {
+                "duration": 6000,
+                "heightenedFilter": 2,
+                "name": "Iron Gut",
+                "source": "Iron Gut"
+            },
+            {
+                "duration": 48000,
+                "heightenedFilter": 3,
+                "name": "Iron Gut",
+                "source": "Iron Gut"
+            }
+        ],
+        "desc2": [
+            {
+                "value": "",
+                "variable": "var1"
+            }
+        ],
+        "desc3": [
+            {
+                "value": "The duration increases to 8 hours. ",
+                "variable": "var1"
+            }
         ]
     },
     {
@@ -9226,7 +10443,7 @@
         ],
         "range": "30 feet",
         "targets": "1 door, lock or container",
-        "singleTarget": true,
+        "singleTarget": "TRUE",
         "duration": "1 minute",
         "desc": "You make the target easier to open. Knock grants a +4 status bonus to any creature that tries to open the target door, lock, or container with an Athletics or a Thievery check. You can attempt a Thievery check to open the target as part of casting knock, and you add your level even if you're untrained.\n\nKnock counteracts lock."
     },
@@ -9245,6 +10462,19 @@
             "Auditory",
             "Illusion",
             "Visual"
+        ],
+        "range": "touch",
+        "targets": "1 creature or object",
+        "singleTarget": "TRUE",
+        "duration": "unlimited",
+        "desc": "You specify a trigger and a message up to 25 words long. When the specified trigger occurs within 30 feet of the target, an illusory mouth appears on the target and speaks the message, and the magic mouth spell ends.",
+        "gainConditions": [
+            {
+                "duration": -1,
+                "name": "Magic Mouth",
+                "source": "Magic Mouth",
+                "targetFilter": "caster"
+            }
         ]
     },
     {
@@ -9287,6 +10517,18 @@
         ],
         "traits": [
             "Illusion"
+        ],
+        "range": "30 feet",
+        "targets": "2 creatures or objects",
+        "duration": "until the next time you make your daily preparations",
+        "desc": "You reshape the magic aura of one creature or object to resemble that of another. You designate one target as the primary target and the other as the secondary target. Effects that would detect auras on the primary target instead detect the same types of auras from the secondary target. A creature reading the aura can attempt to disbelieve the illusion. You can Dismiss the spell from up to a mile away.",
+        "gainConditions": [
+            {
+                "duration": -2,
+                "name": "Misdirection",
+                "source": "Misdirection",
+                "targetFilter": "caster"
+            }
         ]
     },
     {
@@ -9303,6 +10545,18 @@
         "traits": [
             "Conjuration",
             "Water"
+        ],
+        "range": "120 feet",
+        "area": "20-foot burst",
+        "target": "self",
+        "duration": "1 minute",
+        "desc": "You call forth a cloud of mist. All creatures within the mist become concealed, and all creatures outside the mist become concealed to creatures within it. You can Dismiss the cloud.",
+        "gainConditions": [
+            {
+                "duration": 100,
+                "name": "Obscuring Mist",
+                "source": "Obscuring Mist"
+            }
         ]
     },
     {
@@ -9319,7 +10573,30 @@
             "Illusion",
             "Mental"
         ],
-        "savingThrow": "Will"
+        "range": "30 feet",
+        "targets": "1 creature",
+        "singleTarget": "TRUE",
+        "duration": "1 minute",
+        "desc": "<var>var1</var>You cause the target to see all other creatures as dire threats. The target is stricken by intense paranoia toward all creatures around it and must attempt a Will save.",
+        "savingThrow": "Will",
+        "heightened": [
+            {
+                "desc": "You can target up to 5 creatures.",
+                "level": "(6th)"
+            }
+        ],
+        "desc2": [
+            {
+                "value": "",
+                "variable": "var1"
+            }
+        ],
+        "desc3": [
+            {
+                "value": "You can target up to 5 creatures. ",
+                "variable": "var1"
+            }
+        ]
     },
     {
         "name": "Phantom Steed",
@@ -9335,6 +10612,74 @@
         ],
         "traits": [
             "Conjuration"
+        ],
+        "range": "30 feet",
+        "target": "self",
+        "duration": "8 hours",
+        "desc": "You conjure a Large, magical, equine creature that only you (or another Medium or Small creature you choose) can ride. The horse is clearly phantasmal in nature, has 20 AC and 10 Hit Points, and automatically fails all saves. If it's reduced to 0 Hit Points, it disappears and the spell ends. <var>var1</var>",
+        "heightened": [
+            {
+                "desc": "The steed has a Speed of 60 feet, can walk on water, and ignores areas of natural difficult terrain.",
+                "level": "(4th)"
+            },
+            {
+                "desc": "The steed has a Speed of 60 feet, can walk on water, and ignores areas of natural difficult terrain. It can also air walk but must end its turn on solid ground or fall.",
+                "level": "(5th)"
+            },
+            {
+                "desc": "The steed can walk or fly at a Speed of 80 feet, can walk on water, and ignores natural difficult terrain.",
+                "level": "(6th)"
+            }
+        ],
+        "gainConditions": [
+            {
+                "duration": 48000,
+                "heightenedFilter": 2,
+                "name": "Phantom Steed (2nd level)",
+                "source": "Phantom Steed"
+            },
+            {
+                "duration": 48000,
+                "heightenedFilter": 4,
+                "name": "Phantom Steed (4th level)",
+                "source": "Phantom Steed"
+            },
+            {
+                "duration": 48000,
+                "heightenedFilter": 5,
+                "name": "Phantom Steed (5th level)",
+                "source": "Phantom Steed"
+            },
+            {
+                "duration": 48000,
+                "heightenedFilter": 6,
+                "name": "Phantom Steed (6th level)",
+                "source": "Phantom Steed"
+            }
+        ],
+        "desc2": [
+            {
+                "value": "The steed has a Speed of 40 feet and can hold its rider's body weight, plus 20 Bulk.",
+                "variable": "var1"
+            }
+        ],
+        "desc4": [
+            {
+                "value": "The steed has a Speed of 60 feet, can walk on water, and ignores areas of natural difficult terrain. It can hold its rider's body weight, plus 20 Bulk.",
+                "variable": "var1"
+            }
+        ],
+        "desc5": [
+            {
+                "value": "The steed has a Speed of 60 feet, can walk on water, and ignores areas of natural difficult terrain. It can also air walk but must end its turn on solid ground or fall. It can hold its rider's body weight, plus 20 Bulk.",
+                "variable": "var1"
+            }
+        ],
+        "desc6": [
+            {
+                "value": "The steed can walk or fly at a Speed of 80 feet, can walk on water, and ignores natural difficult terrain. It can hold its rider's body weight, plus 20 Bulk.",
+                "variable": "var1"
+            }
         ]
     },
     {
@@ -9351,6 +10696,29 @@
         ],
         "traits": [
             "Enchantment"
+        ],
+        "inputRequired": "You can attempt to counteract a single fear effect that the target suffers from.",
+        "range": "touch",
+        "targets": "1 creature",
+        "target": "ally",
+        "desc": "<var>var1</var>With a touch, you ease a creature's fears. You can attempt to counteract a single fear effect that the target suffers from. This frees only the target, not any other creatures under the fear effect.",
+        "heightened": [
+            {
+                "desc": "The spell's range increases to 30 feet, and you can target up to 10 creatures.",
+                "level": "(6th)"
+            }
+        ],
+        "desc2": [
+            {
+                "value": "",
+                "variable": "var1"
+            }
+        ],
+        "desc6": [
+            {
+                "value": "The spell's range increases to 30 feet, and you can target up to 10 creatures. ",
+                "variable": "var1"
+            }
         ]
     },
     {
@@ -9369,10 +10737,11 @@
             "Healing",
             "Necromancy"
         ],
+        "inputRequired": "You can attempt to counteract a single effect imposing the paralyzed condition on the target.",
         "range": "touch",
         "targets": "1 creature",
         "target": "ally",
-        "singleTarget": true,
+        "singleTarget": "TRUE",
         "desc": "<var>var1</var>A surge of energy frees a paralyzed creature. You can attempt to counteract a single effect imposing the paralyzed condition on the target. This does not cure someone who is paralyzed from some natural state or effect, such as paralysis caused by non-magical wounds or toxins.",
         "heightened": [
             {
@@ -9408,6 +10777,59 @@
         ],
         "traits": [
             "Abjuration"
+        ],
+        "range": "touch",
+        "targets": "1 creature",
+        "target": "ally",
+        "singleTarget": "TRUE",
+        "duration": "10 minutes",
+        "desc": "<var>var1</var>A shield of elemental energy protects a creature against one type of energy damage. Choose acid, cold, electricity, fire, or sonic damage. The target and its gear gain resistance <var>var2</var> against the damage type you chose.",
+        "heightened": [
+            {
+                "desc": "The resistance increases to 10, and you can target up to two creatures.",
+                "level": "(4th)"
+            },
+            {
+                "desc": "The resistance increases to 15, and you can target up to five creatures.",
+                "level": "(7th)"
+            }
+        ],
+        "gainConditions": [
+            {
+                "duration": 1000,
+                "name": "Resist Energy",
+                "source": "Resist Energy"
+            }
+        ],
+        "desc2": [
+            {
+                "value": "",
+                "variable": "var1"
+            },
+            {
+                "value": "5",
+                "variable": "var2"
+            }
+        ],
+        "desc4": [
+            {
+                "value": "You can target up to two creatures.",
+                "variable": "var1"
+            },
+            {
+                "value": "10",
+                "variable": "var2"
+            }
+        ],
+        "desc7": [
+            {
+                "value": "You can target up to five creatures.",
+                "variable": "var1"
+            },
+            {
+                "value": "15",
+                "variable": "var2"
+            }
         ]
     },
     {
@@ -9425,6 +10847,64 @@
         "traits": [
             "Healing",
             "Necromancy"
+        ],
+        "inputRequired": "The target can reduce the stage of a toxin or the value of a condition as described.",
+        "range": "touch",
+        "targets": "1 creature",
+        "target": "ally",
+        "singleTarget": "TRUE",
+        "desc": "Restorative magic counters the effects of toxins or conditions that prevent a creature from functioning at its best. When you cast restoration, choose to either reduce a condition or lessen the effect of a toxin. A creature can benefit from only one restoration spell each day, and it can't benefit from restoration more than once to reduce the stage of the same exposure to a given toxin.\n\n<strong>Lessen a Toxin</strong> Reduce the stage of one toxin the target suffers from by <var>var1</var>. This can't reduce the stage below stage 1 or cure the affliction.\n<strong>Reduce a Condition</strong> Reduce the value of the target's clumsy, <var>var2</var>enfeebled, or stupefied condition by 2. You can instead reduce two of the listed conditions by 1 each.\n<var>var3</var>",
+        "heightened": [
+            {
+                "desc": "Add drained to the list of conditions you can reduce. When you lessen a toxin, reduce the stage by two. You also gain a third option that allows you to reduce the target's doomed value by 1. You can't use this to reduce a permanent doomed condition.",
+                "level": "(4th)"
+            },
+            {
+                "desc": "As the 4th-level restoration, but you can reduce a permanent doomed condition if you add a spellcasting action and a material component while Casting the Spell, during which you provide 100 gp worth of diamond dust as a cost.",
+                "level": "(6th)"
+            }
+        ],
+        "desc2": [
+            {
+                "value": "one stage",
+                "variable": "var1"
+            },
+            {
+                "value": "",
+                "variable": "var2"
+            },
+            {
+                "value": "",
+                "variable": "var3"
+            }
+        ],
+        "desc4": [
+            {
+                "value": "two stages",
+                "variable": "var1"
+            },
+            {
+                "value": "drained, ",
+                "variable": "var2"
+            },
+            {
+                "value": "<strong>Reduce the target's doomed value</strong> Reduce the target's doomed value by 1. You can't use this to reduce a permanent doomed condition.",
+                "variable": "var3"
+            }
+        ],
+        "desc6": [
+            {
+                "value": "two stages",
+                "variable": "var1"
+            },
+            {
+                "value": "drained, ",
+                "variable": "var2"
+            },
+            {
+                "value": "<strong>Reduce the target's doomed value</strong> Reduce the target's doomed value by 1. You can't use this to reduce a permanent doomed condition. You can reduce a permanent doomed condition if you add a spellcasting action and a material component while Casting the Spell, during which you provide 100 gp worth of diamond dust as a cost.",
+                "variable": "var3"
+            }
         ]
     },
     {
@@ -9442,6 +10922,162 @@
         "traits": [
             "Healing",
             "Necromancy"
+        ],
+        "inputRequired": "You attempt to counteract a single effect imposing the blinded or deafened conditions on the target, restoring its vision or hearing.",
+        "range": "touch",
+        "targets": "1 creature",
+        "target": "ally",
+        "singleTarget": "TRUE",
+        "desc": "<var>var1</var>You attempt to counteract a single effect imposing the blinded or deafened conditions on the target, restoring its vision or hearing. This can counteract both temporary magic and permanent consequences of magic, but it doesn't cure someone who does not have the sense due to some natural state or effect, such as from birth or from a non-magical wound or toxin.",
+        "heightened": [
+            {
+                "desc": "The spell's range increases to 30 feet, and you can target up to 10 creatures. You can choose the effect to counteract separately for each selected creature.",
+                "level": "(6th)"
+            }
+        ],
+        "desc2": [
+            {
+                "value": "",
+                "variable": "var1"
+            }
+        ],
+        "desc6": [
+            {
+                "value": "The spell's range increases to 30 feet, and you can target up to 10 creatures. You can choose the effect to counteract separately for each selected creature. ",
+                "variable": "var1"
+            }
+        ]
+    },
+    {
+        "name": "Rime Slick",
+        "id": "e3b0a736-661c-455d-a0e0-0cb51e2fb27e",
+        "levelreq": 2,
+        "actions": "2A",
+        "castType": "somatic, verbal",
+        "shortDesc": "You call down a chill wind.",
+        "sourceBook": "Pathfinder #151: The Show Must Go On",
+        "traditions": [
+            "Arcane",
+            "Primal"
+        ],
+        "traits": [
+            "Uncommon",
+            "Cold",
+            "Evocation"
+        ],
+        "range": "60 feet",
+        "area": "15-foot burst",
+        "duration": "1 minute",
+        "desc": "<var>var1</var>You call down a chill wind. When you Cast this Spell, you deal <var>var2</var> cold damage to each creature in the area (basic Reflex save). If a creature in the area critically fails its Reflex save and was standing, it also falls prone.\n\nYou also create a layer of ice on all surfaces in the area, which become difficult terrain. Unattended objects in the area become slick with ice, and picking them up requires a successful Reflex save or Acrobatics check against your spell DC. The ice melts on any object that takes fire damage as well as in any square included in the area of a higher-level spell or effect with the fire trait.",
+        "savingThrow": "basic Reflex",
+        "heightened": [
+            {
+                "desc": "The damage increases to 8d4 cold damage and the area is a 30-foot burst.",
+                "level": "(5th)"
+            },
+            {
+                "desc": "The damage increases to 14d4 cold damage and the area is a 60-foot burst.",
+                "level": "(8th)"
+            }
+        ],
+        "gainConditions": [
+            {
+                "duration": 100,
+                "name": "Rime Slick",
+                "source": "Rime Slick",
+                "targetFilter": "caster"
+            }
+        ],
+        "desc2": [
+            {
+                "value": "",
+                "variable": "var1"
+            },
+            {
+                "value": "2d4",
+                "variable": "var2"
+            }
+        ],
+        "desc5": [
+            {
+                "value": "The area is a 30-foot burst. ",
+                "variable": "var1"
+            },
+            {
+                "value": "8d4",
+                "variable": "var2"
+            }
+        ],
+        "desc8": [
+            {
+                "value": "The area is a 60-foot burst. ",
+                "variable": "var1"
+            },
+            {
+                "value": "14d4",
+                "variable": "var2"
+            }
+        ]
+    },
+    {
+        "name": "Sea Surge",
+        "id": "8f8aa561-b706-44c3-ac0e-63f9964b2c98",
+        "levelreq": 2,
+        "actions": "2A",
+        "castType": "somatic, verbal",
+        "shortDesc": "You slap or stomp on a nearby solid or liquid surface, sending a surge of water rushing away from you.",
+        "sourceBook": "Pathfinder #151: The Show Must Go On",
+        "traditions": [
+            "Arcane",
+            "Primal"
+        ],
+        "traits": [
+            "Uncommon",
+            "Evocation",
+            "Water"
+        ],
+        "duration": "until the start of your next turn",
+        "desc": "You slap or stomp on a nearby solid or liquid surface, sending a surge of water rushing away from you. The water forms a flat, 5-foot-thick, 10-foot-high wall of water between 5 and 15 feet wide (you decide). It moves 60 feet in a direction of your choice along the struck surface, extinguishing all non-magical fires, carrying along unattended objects of 1 Bulk or less, and pushing larger objects. The wave moves another 60 feet in the same direction at the start of your next turn, then vanishes. Large or smaller creatures in the area or that enter the area the wave moves through must attempt a Fortitude save.",
+        "success": "The creature is unaffected.",
+        "failure": "The creature is knocked prone. If the creature was Swimming, it gets a critical failure instead.",
+        "critfailure": "The creature is pushed 20 feet in the wave’s direction, is knocked prone, and takes 3d6 bludgeoning damage.",
+        "gainConditions": [
+            {
+                "duration": 10,
+                "name": "Sea Surge",
+                "source": "Sea Surge",
+                "targetFilter": "caster"
+            }
+        ],
+        "desc2": [
+            {
+                "value": "",
+                "variable": "var1"
+            },
+            {
+                "value": "2d4",
+                "variable": "var2"
+            }
+        ],
+        "desc5": [
+            {
+                "value": "The area is a 30-foot burst. ",
+                "variable": "var1"
+            },
+            {
+                "value": "8d4",
+                "variable": "var2"
+            }
+        ],
+        "desc8": [
+            {
+                "value": "The area is a 60-foot burst. ",
+                "variable": "var1"
+            },
+            {
+                "value": "14d4",
+                "variable": "var2"
+            }
         ]
     },
     {
@@ -9459,6 +11095,41 @@
         "traits": [
             "Divination",
             "Revelation"
+        ],
+        "target": "self",
+        "duration": "10 minutes",
+        "desc": "<var>var1</var>You can see invisible creatures and objects. They appear to you as translucent shapes, and they are concealed to you.",
+        "heightened": [
+            {
+                "desc": "The spell has a duration of 8 hours.",
+                "level": "(5th)"
+            }
+        ],
+        "gainConditions": [
+            {
+                "duration": 1000,
+                "heightenedFilter": 2,
+                "name": "See Invisibility",
+                "source": "See Invisibility"
+            },
+            {
+                "duration": 48000,
+                "heightenedFilter": 5,
+                "name": "See Invisibility",
+                "source": "See Invisibility"
+            }
+        ],
+        "desc2": [
+            {
+                "value": "",
+                "variable": "var1"
+            }
+        ],
+        "desc5": [
+            {
+                "value": "The spell has a duration of 8 hours. ",
+                "variable": "var1"
+            }
         ]
     },
     {
@@ -9474,7 +11145,11 @@
         "traits": [
             "Plant",
             "Transmutation"
-        ]
+        ],
+        "range": "touch",
+        "targets": "an unworked piece of wood up to 20 cubic feet in volume",
+        "singleTarget": "TRUE",
+        "desc": "You shape the wood into a rough shape of your choice. The shaping power is too crude to produce with intricate parts, fine details, moving pieces, or the like. You cannot use this spell to enhance the value of the wooden object you are shaping."
     },
     {
         "name": "Shatter",
@@ -9490,6 +11165,106 @@
         "traits": [
             "Evocation",
             "Sonic"
+        ],
+        "range": "30 feet",
+        "targets": "1 unattended object",
+        "singleTarget": "TRUE",
+        "desc": "A high-frequency sonic attack shatters a nearby object. You deal <var>var1</var> sonic damage to the object, ignoring the object's Hardness if it is <var>var2</var> or lower.",
+        "heightened": [
+            {
+                "desc": "The damage increases by 1d10, and the Hardness the spell ignores increases by 2.",
+                "level": "(+1)"
+            }
+        ],
+        "desc2": [
+            {
+                "value": "2d10",
+                "variable": "var1"
+            },
+            {
+                "value": "4",
+                "variable": "var2"
+            }
+        ],
+        "desc3": [
+            {
+                "value": "3d10",
+                "variable": "var1"
+            },
+            {
+                "value": "6",
+                "variable": "var2"
+            }
+        ],
+        "desc4": [
+            {
+                "value": "4d10",
+                "variable": "var1"
+            },
+            {
+                "value": "8",
+                "variable": "var2"
+            }
+        ],
+        "desc5": [
+            {
+                "value": "5d10",
+                "variable": "var1"
+            },
+            {
+                "value": "10",
+                "variable": "var2"
+            }
+        ],
+        "desc6": [
+            {
+                "value": "6d10",
+                "variable": "var1"
+            },
+            {
+                "value": "12",
+                "variable": "var2"
+            }
+        ],
+        "desc7": [
+            {
+                "value": "7d10",
+                "variable": "var1"
+            },
+            {
+                "value": "14",
+                "variable": "var2"
+            }
+        ],
+        "desc8": [
+            {
+                "value": "8d10",
+                "variable": "var1"
+            },
+            {
+                "value": "16",
+                "variable": "var2"
+            }
+        ],
+        "desc9": [
+            {
+                "value": "9d10",
+                "variable": "var1"
+            },
+            {
+                "value": "18",
+                "variable": "var2"
+            }
+        ],
+        "desc10": [
+            {
+                "value": "10d10",
+                "variable": "var1"
+            },
+            {
+                "value": "20",
+                "variable": "var2"
+            }
         ]
     },
     {
@@ -9504,6 +11279,26 @@
         ],
         "traits": [
             "Necromancy"
+        ],
+        "range": "30 feet",
+        "targets": "1 creature",
+        "target": "ally",
+        "singleTarget": "TRUE",
+        "duration": "10 minutes",
+        "desc": "You forge a temporary link between the target's life essence and your own. The target takes half damage from all effects that deal Hit Point damage, and you take the remainder of the damage. When you take damage through this link, you don't apply any resistances, weaknesses, or other abilities you have to that damage; you simply take that amount of damage. The spell ends if the target is ever more than 30 feet away from you. If either you or the target is reduced to 0 Hit Points, any damage from this spell is resolved and then the spell ends.",
+        "gainConditions": [
+            {
+                "duration": 1000,
+                "name": "Shield Other",
+                "source": "Shield Other",
+                "targetFilter": "target"
+            },
+            {
+                "duration": 1000,
+                "name": "Shield Other (Caster)",
+                "source": "Shield Other",
+                "targetFilter": "caster"
+            }
         ]
     },
     {
@@ -9524,7 +11319,7 @@
         "range": "30 feet",
         "targets": "1 willing creature",
         "target": "ally",
-        "singleTarget": true,
+        "singleTarget": "TRUE",
         "duration": "5 minutes",
         "desc": "<var>var1</var>You warp space to make a creature smaller. The target shrinks to become Tiny in size. Its equipment shrinks with it but returns to its original size if removed. The creature's reach changes to 0 feet. This spell has no effect on a Tiny creature.",
         "heightened": [
@@ -9566,6 +11361,37 @@
         ],
         "traits": [
             "Illusion"
+        ],
+        "range": "touch",
+        "targets": "1 willing creature",
+        "target": "ally",
+        "singleTarget": "TRUE",
+        "duration": "1 minute",
+        "desc": "The target makes no sound, preventing creatures from noticing it using hearing or other senses alone. <var>var1</var>The target can't use sonic attacks, nor can it use actions with the auditory trait. This prevents it from casting spells that include verbal components.",
+        "heightened": [
+            {
+                "desc": "The spell effect emanates from the touched creature, silencing all sound in or passing through a 10- foot radius and preventing any auditory and sonic effects in the affected area. While within the radius, creatures are subject to the same effects as the target. Depending upon the position of the effect, a creature might notice the lack of sound reaching it (blocking off the noise coming from a party, for example).",
+                "level": "(4th)"
+            }
+        ],
+        "gainConditions": [
+            {
+                "duration": 100,
+                "name": "Silence",
+                "source": "Silence"
+            }
+        ],
+        "desc2": [
+            {
+                "value": "",
+                "variable": "var1"
+            }
+        ],
+        "desc4": [
+            {
+                "value": "The spell effect emanates from the touched creature, silencing all sound in or passing through a 10- foot radius and preventing any auditory and sonic effects in the affected area. While within the radius, creatures are subject to the same effects as the target. Depending upon the position of the effect, a creature might notice the lack of sound reaching it (blocking off the noise coming from a party, for example). ",
+                "variable": "var1"
+            }
         ]
     },
     {
@@ -9581,6 +11407,16 @@
         ],
         "traits": [
             "Necromancy"
+        ],
+        "target": "self",
+        "duration": "1 hour",
+        "desc": "You continually and harmlessly slough off the top layer of your skin while new skin regenerates immediately, quickly moving damaging substances away from your body. The flat check to remove persistent damage from effects that coat your skin (such as most persistent acid damage) is reduced to 5, and you gain a +2 status bonus to your initial save against contact poison (but not to further saves, since by that point, the toxin has already entered your system). If you’re suffering from an effect other than persistent damage that depends on continuous contact with your skin, if that effect allows a saving throw, you receive a new saving throw against that effect at the end of each turn when you attempt your flat checks against persistent damage, and you also receive a +2 status bonus to those saving throws.\n\nWhile affected by this spell, your continually shedding skin makes you much easier to Track. Anyone Tracking you gains a +2 circumstance bonus to do so, and you cannot Hide Your Tracks.",
+        "gainConditions": [
+            {
+                "duration": 6000,
+                "name": "Slough Skin",
+                "source": "Slough Skin"
+            }
         ]
     },
     {
@@ -9598,7 +11434,74 @@
             "Evocation",
             "Sonic"
         ],
-        "savingThrow": "Fortitude"
+        "range": "30 feet",
+        "area": "10-foot burst",
+        "desc": "A cacophonous noise blasts out, dealing <var>var1</var> sonic damage. Each creature must attempt a Fortitude save.",
+        "savingThrow": "Fortitude",
+        "critsuccess": "The creature is unaffected.",
+        "success": "The creature takes half damage.",
+        "failure": "The creature takes full damage and is deafened for 1 round.",
+        "critfailure": "The creature takes double damage and is deafened for 1 minute, and stunned 1.",
+        "heightened": [
+            {
+                "desc": "The damage increases by 1d10.",
+                "level": "(+1)"
+            }
+        ],
+        "desc2": [
+            {
+                "value": "2d10",
+                "variable": "var1"
+            }
+        ],
+        "desc3": [
+            {
+                "value": "3d10",
+                "variable": "var1"
+            }
+        ],
+        "desc4": [
+            {
+                "value": "4d10",
+                "variable": "var1"
+            }
+        ],
+        "desc5": [
+            {
+                "value": "5d10",
+                "variable": "var1"
+            }
+        ],
+        "desc6": [
+            {
+                "value": "6d10",
+                "variable": "var1"
+            }
+        ],
+        "desc7": [
+            {
+                "value": "7d10",
+                "variable": "var1"
+            }
+        ],
+        "desc8": [
+            {
+                "value": "8d10",
+                "variable": "var1"
+            }
+        ],
+        "desc9": [
+            {
+                "value": "9d10",
+                "variable": "var1"
+            }
+        ],
+        "desc10": [
+            {
+                "value": "10d10",
+                "variable": "var1"
+            }
+        ]
     },
     {
         "name": "Speak with Animals",
@@ -9638,6 +11541,17 @@
         ],
         "traits": [
             "Necromancy"
+        ],
+        "range": "120 feet",
+        "target": "self",
+        "duration": "1 minute",
+        "desc": "You create a semicorporeal hand out of your essence that delivers touch spells for you. Whenever you Cast a Spell with a range of touch, you can have the hand crawl to a target within range along the ground, touch it, and then crawl back to you. When making a melee spell attack with the hand, you use your normal bonuses. The hand can move as far as it needs to within range. The hand has your AC and saves, but any damage to the hand destroys it and causes you to take 1d6 damage.",
+        "gainConditions": [
+            {
+                "duration": 100,
+                "name": "Spectral Hand",
+                "source": "Spectral Hand"
+            }
         ]
     },
     {
@@ -9653,6 +11567,25 @@
         ],
         "traits": [
             "Transmutation"
+        ],
+        "range": "touch",
+        "targets": "1 creature",
+        "target": "ally",
+        "singleTarget": "TRUE",
+        "duration": "10 minutes",
+        "desc": "Tiny clinging hairs sprout across the creature's hands and feet, offering purchase on nearly any surface. The target gains a climb Speed equal to its Speed.",
+        "heightened": [
+            {
+                "desc": "The duration increases to 1 hour.",
+                "level": "(5th)"
+            }
+        ],
+        "gainConditions": [
+            {
+                "duration": 1000,
+                "name": "Spider Climb",
+                "source": "Spider Climb"
+            }
         ]
     },
     {
@@ -9670,6 +11603,55 @@
             "Attack",
             "Evocation",
             "Force"
+        ],
+        "requirements": "You have a deity.",
+        "range": "120 feet",
+        "target": "self",
+        "sustained": 100,
+        "duration": "sustained up to 1 minute",
+        "desc": "A weapon made of pure magical force materializes and attacks foes you designate within range. This weapon has a ghostly appearance and manifests as your deity's favored weapon.\n\nWhen you cast the spell, the weapon appears next to a foe you choose within range and makes a Strike against it. Each time you Sustain the Spell, you can move the weapon to a new target within range (if needed) and Strike with it. The spiritual weapon uses and contributes to your multiple attack penalty.\n\nThe weapon's Strikes are melee spell attacks. Regardless of its appearance, the weapon deals force damage equal to <var>var1</var> plus your spellcasting ability modifier. You can deal damage of the type normally dealt by the weapon instead of force damage (or any of the available damage types for a versatile weapon). No other statistics or traits of the weapon apply, and even a ranged weapon attacks adjacent creatures only. Despite making a spell attack, the spiritual weapon is a weapon for purposes of triggers, resistances, and so forth.\n\nThe weapon doesn't take up space, grant flanking, or have any other attributes a creature would. The weapon can't make any attack other than its Strike, and feats or spells that affect weapons do not apply to it.",
+        "heightened": [
+            {
+                "desc": "The weapon's damage increases by 1d8.",
+                "level": "(+2)"
+            }
+        ],
+        "gainConditions": [
+            {
+                "duration": 100,
+                "name": "Spiritual Weapon",
+                "source": "Spiritual Weapon"
+            }
+        ],
+        "desc2": [
+            {
+                "value": "1d8",
+                "variable": "var1"
+            }
+        ],
+        "desc4": [
+            {
+                "value": "2d8",
+                "variable": "var1"
+            }
+        ],
+        "desc6": [
+            {
+                "value": "3d8",
+                "variable": "var1"
+            }
+        ],
+        "desc8": [
+            {
+                "value": "4d8",
+                "variable": "var1"
+            }
+        ],
+        "desc10": [
+            {
+                "value": "5d8",
+                "variable": "var1"
+            }
         ]
     },
     {
@@ -9687,6 +11669,127 @@
         "traits": [
             "Detection",
             "Divination"
+        ],
+        "range": "touch",
+        "targets": "1 willing living creature",
+        "target": "ally",
+        "singleTarget": "TRUE",
+        "duration": "1 day",
+        "desc": "<var>var1</var>As long as you and the target are on the same plane of existence and both alive, you remain aware of its present state. You know the target's direction from you, distance from you, and any conditions affecting it.",
+        "heightened": [
+            {
+                "desc": "The spell's range increases to 30 feet, and you can target up to 10 creatures.",
+                "level": "(4th)"
+            }
+        ],
+        "gainConditions": [
+            {
+                "duration": 144000,
+                "name": "Status",
+                "source": "Status",
+                "targetFilter": "caster"
+            },
+            {
+                "duration": 144000,
+                "name": "Status (Caster)",
+                "source": "Status",
+                "targetFilter": "caster"
+            }
+        ],
+        "desc2": [
+            {
+                "value": "",
+                "variable": "var1"
+            }
+        ],
+        "desc4": [
+            {
+                "value": "The spell's range increases to 30 feet, and you can target up to 10 creatures. ",
+                "variable": "var1"
+            }
+        ]
+    },
+    {
+        "name": "Sudden Bolt",
+        "id": "07890ead-e85f-48ac-944e-05224a03153e",
+        "levelreq": 2,
+        "actions": "2A",
+        "castType": "somatic, verbal",
+        "shortDesc": "You call down a small bolt of lightning on the target.",
+        "sourceBook": "Pathfinder #151: The Show Must Go On",
+        "traditions": [
+            "Arcane",
+            "Primal"
+        ],
+        "traits": [
+            "Uncomon",
+            "Electricity",
+            "Evocation"
+        ],
+        "range": "60 feet",
+        "targets": "1 creature or object",
+        "singleTarget": "TRUE",
+        "desc": "You call down a small bolt of lightning on the target, dealing <var>var1</var> electricity damage.",
+        "savingThrow": "basic Reflex",
+        "heightened": [
+            {
+                "desc": "The damage increases by 1d12.",
+                "level": "(+1)"
+            }
+        ],
+        "desc2": [
+            {
+                "value": "4d12",
+                "variable": "var1"
+            }
+        ],
+        "desc3": [
+            {
+                "value": "5d12",
+                "variable": "var1"
+            }
+        ],
+        "desc4": [
+            {
+                "value": "6d12",
+                "variable": "var1"
+            }
+        ],
+        "desc5": [
+            {
+                "value": "7d12",
+                "variable": "var1"
+            }
+        ],
+        "desc6": [
+            {
+                "value": "8d12",
+                "variable": "var1"
+            }
+        ],
+        "desc7": [
+            {
+                "value": "9d12",
+                "variable": "var1"
+            }
+        ],
+        "desc8": [
+            {
+                "value": "10d12",
+                "variable": "var1"
+            }
+        ],
+        "desc9": [
+            {
+                "value": "11d12",
+                "variable": "var1"
+            }
+        ],
+        "desc10": [
+            {
+                "value": "12d12",
+                "variable": "var1"
+            }
         ]
     },
     {
@@ -9702,6 +11805,117 @@
         ],
         "traits": [
             "Conjuration"
+        ],
+        "range": "30 feet",
+        "target": "self",
+        "showSpells": [
+            {
+                "name": "Summon Animal"
+            }
+        ],
+        "sustained": 100,
+        "duration": "sustained up to 1 minute",
+        "desc": "You conjure an elemental to fight for you. This works like summon animal, except you summon a common creature that has the elemental trait and whose level is 1 or lower.",
+        "heightened": [
+            {
+                "desc": "Level 2.",
+                "level": "(3rd)"
+            },
+            {
+                "desc": "Level 3.",
+                "level": "(4th)"
+            },
+            {
+                "desc": "Level 5.",
+                "level": "(5th)"
+            },
+            {
+                "desc": "Level 7.",
+                "level": "(6th)"
+            },
+            {
+                "desc": "Level 9.",
+                "level": "(7th)"
+            },
+            {
+                "desc": "Level 11.",
+                "level": "(8th)"
+            },
+            {
+                "desc": "Level 13.",
+                "level": "(9th)"
+            },
+            {
+                "desc": "Level 15.",
+                "level": "(10th)"
+            }
+        ],
+        "gainConditions": [
+            {
+                "duration": 100,
+                "name": "Summon Elemental",
+                "source": "Summon Elemental"
+            }
+        ],
+        "desc1": [
+            {
+                "value": "-1",
+                "variable": "var1"
+            }
+        ],
+        "desc2": [
+            {
+                "value": "1",
+                "variable": "var1"
+            }
+        ],
+        "desc3": [
+            {
+                "value": "2",
+                "variable": "var1"
+            }
+        ],
+        "desc4": [
+            {
+                "value": "3",
+                "variable": "var1"
+            }
+        ],
+        "desc5": [
+            {
+                "value": "5",
+                "variable": "var1"
+            }
+        ],
+        "desc6": [
+            {
+                "value": "7",
+                "variable": "var1"
+            }
+        ],
+        "desc7": [
+            {
+                "value": "9",
+                "variable": "var1"
+            }
+        ],
+        "desc8": [
+            {
+                "value": "11",
+                "variable": "var1"
+            }
+        ],
+        "desc9": [
+            {
+                "value": "13",
+                "variable": "var1"
+            }
+        ],
+        "desc10": [
+            {
+                "value": "15",
+                "variable": "var1"
+            }
         ]
     },
     {
@@ -9719,7 +11933,11 @@
             "Attack",
             "Evocation",
             "Force"
-        ]
+        ],
+        "range": "60 feet",
+        "targets": "1 creature",
+        "singleTarget": "TRUE",
+        "desc": "With a rush of telekinetic power, you move a foe or something they carry. You can attempt to Disarm, Shove, or Trip the target using a spell attack roll instead of an Athletics check."
     },
     {
         "name": "Touch of Idiocy",
@@ -9736,7 +11954,15 @@
             "Enchantment",
             "Mental"
         ],
-        "savingThrow": "Will"
+        "range": "touch",
+        "targets": "1 living creature",
+        "singleTarget": "TRUE",
+        "duration": "1 minute",
+        "desc": "You dull the target's mind; the target must attempt a Will save.",
+        "savingThrow": "Will",
+        "success": "The target is unaffected.",
+        "failure": "The target is stupefied 2.",
+        "critfailure": "The target is stupefied 4."
     },
     {
         "name": "Tree Shape",
@@ -9752,6 +11978,16 @@
             "Plant",
             "Polymorph",
             "Transmutation"
+        ],
+        "target": "self",
+        "duration": "8 hours",
+        "desc": "You transform into a Large tree. Perception checks don't reveal your true nature, but a successful Nature or Survival check against your spell DC reveals that you appear to be a tree that is strangely new to the area. While in tree form, you can observe everything around you, but you can't act other than to end the spell, and your turn, by using a single action, which has the concentrate trait. As a tree, your AC is 20, and only status bonuses, status penalties, circumstance bonuses, and circumstance penalties affect you. Any successes and critical successes you roll on Reflex saves are failures.",
+        "gainConditions": [
+            {
+                "duration": 48000,
+                "name": "Tree Shape",
+                "source": "Tree Shape"
+            }
         ]
     },
     {
@@ -9768,6 +12004,19 @@
         "traits": [
             "Uncommon",
             "Abjuration"
+        ],
+        "range": "touch",
+        "targets": "1 creature or object",
+        "target": "ally",
+        "singleTarget": "rue",
+        "duration": "until the next time you make your daily preparations",
+        "desc": "You shroud a creature in wards that hide its alignment. The target appears to be neutral to all effects that would detect its alignment.",
+        "gainConditions": [
+            {
+                "duration": -2,
+                "name": "Undetectable Alignment",
+                "source": "Undetectable Alignment"
+            }
         ]
     },
     {
@@ -9788,7 +12037,7 @@
         "range": "30 feet",
         "targets": "up to 5 creatures",
         "target": "ally",
-        "singleTarget": true,
+        "singleTarget": "TRUE",
         "duration": "1 hour",
         "desc": "<var>var1</var>The targets can breathe underwater.",
         "heightened": [
@@ -9804,21 +12053,21 @@
         "gainConditions": [
             {
                 "duration": 6000,
+                "heightenedFilter": 2,
                 "name": "Water Breathing",
-                "source": "Water Breathing",
-                "heightenedFilter": 2
+                "source": "Water Breathing"
             },
             {
                 "duration": 48000,
+                "heightenedFilter": 3,
                 "name": "Water Breathing",
-                "source": "Water Breathing",
-                "heightenedFilter": 3
+                "source": "Water Breathing"
             },
             {
                 "duration": -2,
+                "heightenedFilter": 4,
                 "name": "Water Breathing",
-                "source": "Water Breathing",
-                "heightenedFilter": 4
+                "source": "Water Breathing"
             }
         ],
         "desc2": [
@@ -9854,6 +12103,44 @@
         ],
         "traits": [
             "Transmutation"
+        ],
+        "range": "touch",
+        "targets": "1 creature",
+        "target": "ally",
+        "singleTarget": "TRUE",
+        "duration": "10 minutes",
+        "desc": "<var>var1</var>The target can walk on the surface of water and other liquids without falling through. It can go underwater if it wishes, but in that case it must Swim normally. This spell doesn't grant the ability to breathe underwater.",
+        "heightened": [
+            {
+                "desc": "The spell's range increases to 30 feet, the duration increases to 1 hour, and you can target up to 10 creatures.",
+                "level": "(4th)"
+            }
+        ],
+        "gainConditions": [
+            {
+                "duration": 1000,
+                "heightenedFilter": 2,
+                "name": "Water Walk",
+                "source": "Water Walk"
+            },
+            {
+                "duration": 6000,
+                "heightenedFilter": 4,
+                "name": "Water Walk",
+                "source": "Water Walk"
+            }
+        ],
+        "desc2": [
+            {
+                "value": "",
+                "variable": "var1"
+            }
+        ],
+        "desc4": [
+            {
+                "value": "The spell's range increases to 30 feet, the duration increases to 1 hour, and you can target up to 10 creatures. ",
+                "variable": "var1"
+            }
         ]
     },
     {
@@ -9869,6 +12156,40 @@
         ],
         "traits": [
             "Conjuration"
+        ],
+        "range": "30 feet",
+        "targets": "10-foot burst",
+        "target": "self",
+        "duration": "1 minute",
+        "desc": "<var>var1</var>You create a sticky web in the area that impedes creatures' movement each time they try to move through it. Squares filled with the web are difficult terrain. Each square can be cleared of the web by a single attack or effect that deals at least 5 slashing damage or 1 fire damage. A square has AC 5, and it automatically fails its saving throws.\n\nEach time a creature in the web begins to use a move action or enters the web during a move action, it must attempt an Athletics check or Reflex save against your spell DC to avoid taking a circumstance penalty to its Speeds or becoming immobilized. A creature that gets out of the web ceases to take a circumstance penalty to its Speed from the web.\n\nCritical Success The creature is unaffected, and it doesn't need to attempt further Athletics checks or saving throws against the web this turn. If it used an Athletics check, it clears the web from every square it leaves after leaving the square.\nSuccess The creature is unaffected during its action. If it used an Athletics check, it clears the web from every square it leaves after leaving the square.\nFailure The creature takes a -10-foot circumstance penalty to its Speeds until the start of its next turn.\nCritical Failure The creature is immobilized until the start of its next turn, after which it takes a -10-foot circumstance penalty to its Speeds for 1 round. It can attempt to Escape to remove its immobilized condition.",
+        "critsuccess": "The creature is unaffected, and it doesn't need to attempt further Athletics checks or saving throws against the web this turn. If it used an Athletics check, it clears the web from every square it leaves after leaving the square.",
+        "success": "The creature is unaffected during its action. If it used an Athletics check, it clears the web from every square it leaves after leaving the square.",
+        "failure": "The creature takes a -10-foot circumstance penalty to its Speeds until the start of its next turn.",
+        "critfailure": "The creature is immobilized until the start of its next turn, after which it takes a -10-foot circumstance penalty to its Speeds for 1 round. It can attempt to Escape to remove its immobilized condition.",
+        "heightened": [
+            {
+                "desc": "The spell's area increases to a 20-foot burst, and its range increases to 60 feet.",
+                "level": "(4th)"
+            }
+        ],
+        "gainConditions": [
+            {
+                "duration": 100,
+                "name": "Web",
+                "source": "Web"
+            }
+        ],
+        "desc2": [
+            {
+                "value": "",
+                "variable": "var1"
+            }
+        ],
+        "desc4": [
+            {
+                "value": "The spell's area increases to a 20-foot burst, and its range increases to 60 feet. ",
+                "variable": "var1"
+            }
         ]
     },
     {
@@ -10212,7 +12533,7 @@
         "range": "30 feet",
         "targets": "1 creature",
         "target": "ally",
-        "singleTarget": true,
+        "singleTarget": "TRUE",
         "duration": "1 minute",
         "desc": "<var>var1</var>Magic empowers the target to act faster. It gains the quickened condition and can use the extra action each round only for Strike and Stride actions.",
         "heightened": [
@@ -10331,15 +12652,15 @@
         "gainConditions": [
             {
                 "duration": 1000,
+                "heightenedFilter": 3,
                 "name": "Invisibility Sphere",
-                "source": "Invisibility Sphere",
-                "heightenedFilter": 3
+                "source": "Invisibility Sphere"
             },
             {
                 "duration": 6000,
+                "heightenedFilter": 5,
                 "name": "Invisibility Sphere",
-                "source": "Invisibility Sphere",
-                "heightenedFilter": 5
+                "source": "Invisibility Sphere"
             }
         ],
         "desc3": [
@@ -10372,7 +12693,7 @@
         "range": "touch",
         "targets": "1 unattended object or willing creature",
         "target": "ally",
-        "singleTarget": true,
+        "singleTarget": "TRUE",
         "duration": "5 minutes",
         "desc": "You defy gravity and levitate the target 5 feet off the ground. For the duration of the spell, you can move the target up or down 10 feet with a single action, which has the concentrate trait. A creature floating in the air from levitate takes a -2 circumstance penalty to attack rolls. A floating creature can spend an Interact action to stabilize itself and negate this penalty for the remainder of its turn. If the target is adjacent to a fixed object or terrain of suitable stability, it can move across the surface by climbing (if the surface is vertical, like a wall) or crawling (if the surface is horizontal, such as a ceiling). The GM determines which surfaces can be climbed or crawled across.",
         "gainConditions": [
@@ -10510,7 +12831,7 @@
         ],
         "range": "30 feet",
         "targets": "1 creature",
-        "singleTarget": true,
+        "singleTarget": "TRUE",
         "duration": "varies",
         "desc": "<var>var1</var>You block the target's motor impulses before they can leave its mind, threatening to freeze the target in place. The target must attempt a Will save.",
         "savingThrow": "Will",
@@ -10588,7 +12909,7 @@
         ],
         "range": "120 feet",
         "targets": "1 creature",
-        "singleTarget": true,
+        "singleTarget": "TRUE",
         "desc": "You shoot a blazing ray of light tinged with holy energy. Make a ranged spell attack. The ray deals <var>var1</var> fire damage. If the target is a fiend or undead, you deal an extra <var>var2</var> good damage.\n\nIf the light passes through an area of magical darkness or targets a creature affected by magical darkness, searing light attempts to counteract the darkness. If you need to determine whether the light passes through an area of darkness, draw a line between yourself and the spell's target.",
         "critsuccess": "The target takes double fire damage, as well as double good damage if a fiend or undead.",
         "success": "The target takes full damage.",
@@ -10984,7 +13305,7 @@
         ],
         "range": "30 feet",
         "targets": "1 creature",
-        "singleTarget": true,
+        "singleTarget": "TRUE",
         "desc": "<var>var1</var>You befuddle your target with strange impulses, causing it to act randomly. The effects are determined by the target's Will save. You can Dismiss the spell.",
         "savingThrow": "Will",
         "critsuccess": "The target is unaffected.",
@@ -11037,15 +13358,15 @@
         "gainConditions": [
             {
                 "duration": 6000,
+                "heightenedFilter": 4,
                 "name": "Creation (4th level)",
-                "source": "Creation",
-                "heightenedFilter": 4
+                "source": "Creation"
             },
             {
                 "duration": 6000,
+                "heightenedFilter": 5,
                 "name": "Creation (5th level)",
-                "source": "Creation",
-                "heightenedFilter": 5
+                "source": "Creation"
             }
         ],
         "desc4": [
@@ -11104,9 +13425,9 @@
         "gainConditions": [
             {
                 "duration": 6000,
+                "heightenedFilter": 5,
                 "name": "Dimension Door Immunity",
-                "source": "Dimension Door",
-                "heightenedFilter": 5
+                "source": "Dimension Door"
             }
         ],
         "desc4": [
@@ -11238,7 +13559,7 @@
         "range": "touch",
         "targets": "1 creature",
         "target": "ally",
-        "singleTarget": true,
+        "singleTarget": "TRUE",
         "duration": "5 minutes",
         "desc": "<var>var1</var>The target can soar through the air, gaining a fly Speed equal to its Speed or 20 feet, whichever is greater.",
         "heightened": [
@@ -11250,15 +13571,15 @@
         "gainConditions": [
             {
                 "duration": 500,
+                "heightenedFilter": 4,
                 "name": "Fly",
-                "source": "Fly",
-                "heightenedFilter": 4
+                "source": "Fly"
             },
             {
                 "duration": 6000,
+                "heightenedFilter": 7,
                 "name": "Fly",
-                "source": "Fly",
-                "heightenedFilter": 7
+                "source": "Fly"
             }
         ],
         "desc4": [
@@ -11579,7 +13900,7 @@
         ],
         "range": "touch",
         "targets": "cube of stone 10 feet across or smaller",
-        "singleTarget": true,
+        "singleTarget": "TRUE",
         "desc": "You shape the stone into a rough shape of your choice. The shaping process is too crude to produce intricate parts, fine details, moving pieces, or the like. Any creatures standing atop the stone when you reshape it must each attempt a Reflex save or Acrobatics check.",
         "success": "The creature is unaffected.",
         "failure": "The creature falls prone atop the stone.",
@@ -12931,7 +15252,7 @@
         ],
         "range": "touch",
         "targets": "petrified creature or human-size stone object",
-        "singleTarget": true,
+        "singleTarget": "TRUE",
         "desc": "Manipulating the fundamental particles of matter, you convert stone into flesh and blood. You restore a petrified creature to its normal state or transform a stone object into a mass of inert flesh (without stone's Hardness) in roughly the same shape."
     },
     {
@@ -13723,7 +16044,7 @@
         "range": "30 feet",
         "targets": "1 creature",
         "target": "ally",
-        "singleTarget": true,
+        "singleTarget": "TRUE",
         "duration": "until the next time you make your daily preparations",
         "desc": "Powerful wards hide a creature from divination magic. The target gains a +4 status bonus to saves against mental effects. Mind blank attempts to counteract any detection, revelation, and scrying effects as if its spell level were 1 higher than its actual level. On a success, the divination effect functions normally except that it detects nothing about the target and its possessions. For instance, detect magic would still detect other magic in the area, but not any magic on the target.",
         "gainConditions": [

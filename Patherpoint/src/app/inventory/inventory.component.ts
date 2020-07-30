@@ -285,56 +285,7 @@ export class InventoryComponent implements OnInit {
     }
 
     move_InventoryItem(item: Item, inventory: ItemCollection, changeafter: boolean = true) {
-        if (this.targetInventory && this.targetInventory != inventory) {
-            let fromCreature = this.get_Creatures().find(creature => creature.inventories.find(inv => inv === inventory)) as Character | AnimalCompanion;
-            let toCreature = this.get_Creatures().find(creature => creature.inventories.find(inv => inv === this.targetInventory)) as Character | AnimalCompanion;
-            if ((item as Equipment).gainInventory && (item as Equipment).gainInventory.length && fromCreature == toCreature) {
-                let movedItem = JSON.parse(JSON.stringify(item));
-                movedItem = this.characterService.reassign(movedItem);
-                this.targetInventory[item.type].push(movedItem);
-                inventory[item.type] = inventory[item.type].filter((inventoryItem: Item) => inventoryItem !== item)
-                if ((movedItem as Equipment).equipped) {
-                    this.on_Equip(movedItem as Equipment, inventory, false)
-                }
-                if ((movedItem as Equipment).invested) {
-                    this.on_Invest(movedItem as Equipment, inventory, false)
-                }
-            } else {
-                let movedItem = JSON.parse(JSON.stringify(item));
-                let movedInventories: ItemCollection[]
-                //If this item is a container and is moved between creature, the attached inventories need to be moved as well.
-                //Because we lose the inventory when we drop the item, but automatically gain one when we grant the item to the other creature,
-                // we need to first save the inventory, then recreate it and remove the new ones after moving the item.
-                //Here, we save the inventories and take care of any containers within the container.
-                if ((item as Equipment).gainInventory && (item as Equipment).gainInventory.length) {
-                    //First, move all inventory items within this inventory item to the same target. They get 
-                    fromCreature.inventories.filter(inv => inv.itemId == item.id).forEach(inv => {
-                        inv.allItems().filter(invItem => (invItem as Equipment).gainInventory && (invItem as Equipment).gainInventory.length).forEach(invItem => {
-                            this.move_InventoryItem(invItem, inv, false);
-                        });
-                    });
-                    movedInventories = fromCreature.inventories.filter(inv => inv.itemId == item.id).map(inv => JSON.parse(JSON.stringify(inv)))
-                    movedInventories = movedInventories.map(inv => this.characterService.reassign(inv));
-                }
-                let newItem = this.characterService.grant_InventoryItem(toCreature, this.targetInventory, movedItem, false, false, false, movedItem.amount, false);
-                this.characterService.drop_InventoryItem(fromCreature, inventory, item, false, true, true, item.amount);
-                //Below, we reinsert the saved inventories and remove any newly created ones.
-                if ((item as Equipment).gainInventory && (item as Equipment).gainInventory.length) {
-                    toCreature.inventories = toCreature.inventories.filter(inv => inv.itemId != newItem.id);
-                    let newLength = toCreature.inventories.push(...movedInventories);
-                    toCreature.inventories.slice(newLength - movedInventories.length, newLength).forEach(inv => {
-                        inv.itemId = newItem.id;
-                    })
-                }
-                if ((newItem as Equipment).equipped) {
-                    this.on_Equip(newItem as Equipment, this.targetInventory, false)
-                }
-                if ((newItem as Equipment).invested) {
-                    this.on_Invest(newItem as Equipment, this.targetInventory, false)
-                }
-            }
-
-        }
+        this.itemsService.move_InventoryItem(this.get_Creature(), item, this.targetInventory, inventory, this.characterService)
         if (changeafter) {
             this.targetInventory = null;
             this.characterService.set_ToChange(this.creature, "inventory");

@@ -42,8 +42,11 @@ export class Character extends Creature {
     get_Changed(characterService: CharacterService, ) {
         return characterService.get_Changed();
     }
+    get_BaseSize() {
+        return this.class.ancestry.size ? this.class.ancestry.size : 0;
+    }
     get_Size(effectsService: EffectsService) {
-        let size: number = (this.class.ancestry.size ? this.class.ancestry.size : 0);
+        let size: number = this.get_BaseSize();
 
         let setSizeEffects = effectsService.get_AbsolutesOnThis(this, "Size");
         if (setSizeEffects.length) {

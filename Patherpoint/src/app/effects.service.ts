@@ -147,6 +147,9 @@ export class EffectsService {
                 return characterService.get_Abilities(name)[0]?.mod(creature, characterService, effectsService).result;
             }
         }
+        function BaseSize() {
+            return creature.get_BaseSize();
+        }
         function Size() {
             return creature.get_Size(this);
         }

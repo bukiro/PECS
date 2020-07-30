@@ -17,13 +17,17 @@ export class AnimalCompanion extends Creature {
     ];
     public species: string = "";
     public readonly type = "Companion";
-    get_Size(effectsService: EffectsService) {
+    get_BaseSize() {
         let size: number = (this.class.ancestry.size ? this.class.ancestry.size : 0);
         this.class.levels.filter(level => level.number <= this.level).forEach(level => {
             if (level.sizeChange) {
                 size = Math.min(size + level.sizeChange, 1)
             }
         })
+        return size;
+    }
+    get_Size(effectsService: EffectsService) {
+        let size: number = this.get_BaseSize()
         
         let setSizeEffects = effectsService.get_AbsolutesOnThis(this, "Size");
         if (setSizeEffects.length) {
