@@ -242,7 +242,7 @@ export class ConditionsComponent implements OnInit {
                 this.hours * 6000 + 
                 this.minutes * 100 + 
                 this.turns * 10 +
-                (includeTurn ? (5 + (this.endOn + this.timeService.get_YourTurn()) % 10) : 0)
+                (includeTurn ? ((5 + this.endOn + this.timeService.get_YourTurn())) % 10 : 0)
             )
     }
 
@@ -256,7 +256,7 @@ export class ConditionsComponent implements OnInit {
         if (duration == -1) {
             newGain.duration = duration;
         } else {
-            newGain.duration = duration + (5 + (this.endOn + this.timeService.get_YourTurn()) % 10);
+            newGain.duration = duration + ((5 + this.endOn + this.timeService.get_YourTurn()) % 10);
         }
         newGain.choice = condition.choice;
         if (condition.hasValue) {
@@ -314,7 +314,7 @@ export class ConditionsComponent implements OnInit {
         if (duration == -1) {
             creature.effects[newLength - 1].duration = duration;
         } else {
-            creature.effects[newLength - 1].duration = duration + (5 + (this.endOn + this.timeService.get_YourTurn()) % 10);
+            creature.effects[newLength - 1].duration = duration + ((5 + this.endOn + this.timeService.get_YourTurn()) % 10);
         }
         this.characterService.set_ToChange(creature.type, "effects");
         this.characterService.set_ToChange(creature.type, "conditions");

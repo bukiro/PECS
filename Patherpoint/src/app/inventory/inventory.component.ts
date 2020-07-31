@@ -202,7 +202,8 @@ export class InventoryComponent implements OnInit {
             return false;
         } else if (targetInventory.bulkLimit) {
             let itemBulk = 0;
-            switch (item.get_Bulk()) {
+            //Moving items will always unequip them. If the item has a carrying bulk, use that for the check.
+            switch ((item as Equipment).carryingBulk ? (item as Equipment).carryingBulk : item.get_Bulk()) {
                 case "":
                     break;
                 case "-":
@@ -291,7 +292,6 @@ export class InventoryComponent implements OnInit {
             this.characterService.set_ToChange(this.creature, "inventory");
             this.characterService.process_ToChange();
         }
-
     }
 
     drop_ContainerOnly(item: Item, inventory: ItemCollection) {

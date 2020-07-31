@@ -65,62 +65,29 @@ The very latest in Assistive Technologies for Dungeon Master (ATDM)
 - [x] - Ranger
 - [x] - Rogue
 - [x] - Wizard
+- [ ] Implement all Spells
+- [ ] - Focus Spells
+- [x] - Cantrips
+- [x] - Level 1 Spells
+- [x] - Level 2 Spells
+- [ ] - Level 3 Spells
+- [ ] - Level 4 Spells
+- [ ] - Level 5 Spells
+- [ ] - Level 6 Spells
+- [ ] - Level 7 Spells
+- [ ] - Level 8 Spells
+- [ ] - Level 9 Spells
+- [ ] - Level 10 Spells
 - [x] Add custom conditions with effects
 - [ ] Item Icons
 - [ ] Initiative tracker, battles, being a battle member, GM-Player-Communication.......
 - [ ] Stretch Goal: Include optional Stamina & Resolve system
 
 Active to-do
-Implement Level 2 spells
 
 Implement:
-- Conditions
-    - Animal Messenger
-    - Animus Mine
-    - Breath of Drought
-    - Calm Emotions
-    - Comprehend Language
-    - Continual Flame
-    - Darkness
-    - Darkvision
-    - Death Knell
-    - Endure Elements (2nd, 3rd and 5th level)
-    - Enhance Victuals
-    - Entangle
-    - Faerie Fire
-    - False Life
-    - Feast of Ashes (failure and critical failure)
-    - Flaming Sphere
-    - Fungal Hyphae
-    - Ghoul Fever
-    - Spider Venom
-    - Invisibility Negation
-    - Hideous Laughter
-    - Humanoid Form (2nd, 3rd, 5th level and Small, Medium, Large)
-    - Illusory Creature
-    - Iron Gut (remember to test the inventory and what happens when the spell ends)
-    - Magic Mouth
-    - Misdirection
-    - Obscuring Mist
-    - Paranoia (normal and critical failure)
-    - Phantom Steed (2nd, 4th, 5th and 6th level)
-    - Resist Energy
-    - Rime Slick
-    - Sea Surge
-    - Shield Other (target and caster)
-    - Silence
-    - Slough Skin
-    - Spectral Hand
-    - Spider Climb
-    - Spiritual Weapon
-    Next:
-    - Status (target and caster)
-    - Summon Elemental
-    - Tree Shape
-    - Undetectable Alignment
-    - Water Walk
-    - Web (normal, failure, critical failure)
-    
+
 Next steps:
 - Implement Bard
 - Implement Conditions for Poisons
+c1b048b9-81bf-45c7-8eb5-11e5d164f80e

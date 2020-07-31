@@ -7531,7 +7531,7 @@
         ],
         "sustained": 100,
         "duration": "sustained up to 1 minute",
-        "desc": "You conjure a fey to fight for you. This works like summon animal, except you summon a common creature that has the construct trait and whose level is <var>var1</var>.",
+        "desc": "You conjure a fey to fight for you. This works like summon animal, except you summon a common creature that has the construct trait and whose level is <var>var1</var>",
         "heightened": [
             {
                 "desc": "Level 1.",
@@ -9318,7 +9318,8 @@
             {
                 "duration": 6000,
                 "name": "Enhance Victuals",
-                "source": "Enhance Victuals"
+                "source": "Enhance Victuals",
+                "targetFilter": "caster"
             }
         ],
         "desc2": [
@@ -9624,6 +9625,7 @@
         ],
         "range": "120 feet",
         "area": "10-foot burst",
+        "target": "self",
         "duration": "5 minutes",
         "desc": "All creatures in the area when you cast the spell are limned in colorful, heatless fire of a color of your choice for the duration. Visible creatures can't be concealed while affected by faerie fire. If the creatures are invisible, they are concealed while affected by faerie fire, rather than being undetected.",
         "gainConditions": [
@@ -9656,6 +9658,12 @@
                 "duration": 48000,
                 "name": "False Life",
                 "source": "False Life"
+            }
+        ],
+        "heightened": [
+            {
+                "desc": "The temporary Hit Points increase by 3.",
+                "level": "(+1)"
             }
         ],
         "desc2": [
@@ -9867,7 +9875,8 @@
             {
                 "duration": 100,
                 "name": "Flaming Sphere",
-                "source": "Flaming Sphere"
+                "source": "Flaming Sphere",
+                "targetFilter": "caster"
             }
         ],
         "desc2": [
@@ -9939,6 +9948,7 @@
             "Fungus",
             "Necromancy"
         ],
+        "target": "self",
         "duration": "1 minute",
         "desc": "Thin hyphae grow from your feet and plunge into the earth, creating a symbiotic fungal network that attaches to plants within 30 feet and connects you to their root systems. You gain an imprecise tremorsense allowing you to sense anything directly touching plants within that distance. <var>var1</var>If you move, the hyphae snap and the spell ends.",
         "heightened": [
@@ -10217,6 +10227,7 @@
             "Visual"
         ],
         "range": "500 feet",
+        "target": "self",
         "sustained": -1,
         "duration": "sustained",
         "desc": "You create an illusory image of a <var>var1</var> or smaller creature. It generates the appropriate sounds, smells, and feels believable to the touch. If you and the image are ever farther than 500 feet apart, the spell ends.\n\nThe image can't speak, but you can use your actions to speak through the creature, with the spell disguising your voice as appropriate. You might need to attempt a Deception or Performance check to mimic the creature, as determined by the GM. This is especially likely if you're trying to imitate a specific person and engage with someone that person knows.\n\nIn combat, the illusion can use 2 actions per turn, which it uses when you Sustain the Spell. It uses your spell attack roll for attack rolls and your spell DC for its AC. Its saving throw modifiers are equal to your spell DC - 10. It is substantial enough that it can flank other creatures. If the image is hit by an attack or fails a save, the spell ends.\n\nThe illusion can cause damage by making the target believe the illusion's attacks are real, but it cannot otherwise directly affect the physical world. If the illusory creature hits with a Strike, the target takes mental damage equal to <var>var2</var> plus your spellcasting ability modifier. This is a mental effect. The illusion's Strikes are nonlethal. If the damage doesn't correspond to the image of the monster - for example, if an illusory Large dragon deals only 5 damage - the GM might allow the target to attempt a Perception check to disbelieve the spell as a free action. Any relevant resistances and weaknesses apply if the target thinks they do, as judged by the GM. For example, if the illusion wields a warhammer and attacks a creature resistant to bludgeoning damage, the creature would take less mental damage. However, illusory damage does not deactivate regeneration or trigger other effects that require a certain damage type. The GM should track illusory damage dealt by the illusion.\n\nAny creature that touches the image or uses the Seek action to examine it can attempt to disbelieve your illusion. When a creature disbelieves the illusion, it recovers from half the damage it had taken from it (if any) and doesn't take any further damage from it.",
@@ -10392,6 +10403,7 @@
         "traits": [
             "Transmutation"
         ],
+        "target": "self",
         "duration": "1 hour",
         "desc": "<var>var1</var>Your mouth, esophagus, and stomach become incredibly elastic and tougher than metal. For the duration of the spell, you can reach down your throat to store or retrieve a single object of light or negligible Bulk in your stomach, as though your stomach were a backpack or other container. Storing and retrieving an item in this way requires an Interact action. The object must be small enough to reasonably fit within your stomach. It is very difficult for other creatures to notice that you are hiding an object in this way; passive observers can’t possibly notice and you gain a +4 circumstance bonus to your Stealth checks to Conceal the Object unless the searcher specifically searches your mouth and stomach. If at the end of the spell’s duration you still have an object stored in your stomach, it is violently expelled, dealing 1d6 damage to you.",
         "heightened": [
@@ -10579,6 +10591,10 @@
         "duration": "1 minute",
         "desc": "<var>var1</var>You cause the target to see all other creatures as dire threats. The target is stricken by intense paranoia toward all creatures around it and must attempt a Will save.",
         "savingThrow": "Will",
+        "critsuccess": "The target is unaffected.",
+        "success": "The target believes everyone it sees is a potential threat. It becomes unfriendly to all creatures to which it wasn't already hostile, even those that were previously allies. It treats no one as an ally. The spell ends after 1 round.",
+        "failure": "As success, but the effect lasts 1 minute.",
+        "critfailure": "As failure, except the target believes that everyone it sees is a mortal enemy. It uses its reactions and free actions against everyone, regardless of whether they were previously its allies, as determined by the GM. It otherwise acts as rationally as it normally does and likely prefers to attack creatures that are actively attacking or hindering it over those leaving it alone.",
         "heightened": [
             {
                 "desc": "You can target up to 5 creatures.",
@@ -10591,7 +10607,7 @@
                 "variable": "var1"
             }
         ],
-        "desc3": [
+        "desc6": [
             {
                 "value": "You can target up to 5 creatures. ",
                 "variable": "var1"
@@ -11688,12 +11704,6 @@
                 "name": "Status",
                 "source": "Status",
                 "targetFilter": "caster"
-            },
-            {
-                "duration": 144000,
-                "name": "Status (Caster)",
-                "source": "Status",
-                "targetFilter": "caster"
             }
         ],
         "desc2": [
@@ -11815,7 +11825,7 @@
         ],
         "sustained": 100,
         "duration": "sustained up to 1 minute",
-        "desc": "You conjure an elemental to fight for you. This works like summon animal, except you summon a common creature that has the elemental trait and whose level is 1 or lower.",
+        "desc": "You conjure an elemental to fight for you. This works like summon animal, except you summon a common creature that has the elemental trait and whose level is <var>var1</var> or lower.",
         "heightened": [
             {
                 "desc": "Level 2.",
@@ -11855,12 +11865,6 @@
                 "duration": 100,
                 "name": "Summon Elemental",
                 "source": "Summon Elemental"
-            }
-        ],
-        "desc1": [
-            {
-                "value": "-1",
-                "variable": "var1"
             }
         ],
         "desc2": [
@@ -12159,7 +12163,6 @@
         ],
         "range": "30 feet",
         "targets": "10-foot burst",
-        "target": "self",
         "duration": "1 minute",
         "desc": "<var>var1</var>You create a sticky web in the area that impedes creatures' movement each time they try to move through it. Squares filled with the web are difficult terrain. Each square can be cleared of the web by a single attack or effect that deals at least 5 slashing damage or 1 fire damage. A square has AC 5, and it automatically fails its saving throws.\n\nEach time a creature in the web begins to use a move action or enters the web during a move action, it must attempt an Athletics check or Reflex save against your spell DC to avoid taking a circumstance penalty to its Speeds or becoming immobilized. A creature that gets out of the web ceases to take a circumstance penalty to its Speed from the web.\n\nCritical Success The creature is unaffected, and it doesn't need to attempt further Athletics checks or saving throws against the web this turn. If it used an Athletics check, it clears the web from every square it leaves after leaving the square.\nSuccess The creature is unaffected during its action. If it used an Athletics check, it clears the web from every square it leaves after leaving the square.\nFailure The creature takes a -10-foot circumstance penalty to its Speeds until the start of its next turn.\nCritical Failure The creature is immobilized until the start of its next turn, after which it takes a -10-foot circumstance penalty to its Speeds for 1 round. It can attempt to Escape to remove its immobilized condition.",
         "critsuccess": "The creature is unaffected, and it doesn't need to attempt further Athletics checks or saving throws against the web this turn. If it used an Athletics check, it clears the web from every square it leaves after leaving the square.",
@@ -12175,8 +12178,15 @@
         "gainConditions": [
             {
                 "duration": 100,
+                "name": "Web (caster)",
+                "source": "Web",
+                "targetFilter": "caster"
+            },
+            {
+                "duration": 100,
                 "name": "Web",
-                "source": "Web"
+                "source": "Web",
+                "targetFilter": "target"
             }
         ],
         "desc2": [

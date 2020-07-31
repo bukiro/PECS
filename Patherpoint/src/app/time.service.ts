@@ -64,14 +64,7 @@ export class TimeService {
                 heal += parseInt(effect.value);
             })
             characterService.get_Health(creature).heal(creature, characterService, characterService.effectsService, heal, true, true);
-            //After resting with full HP, the Wounded condition is removed.
-            if (characterService.get_Health(creature).damage == 0) {
-                characterService.get_AppliedConditions(creature, "Wounded").forEach(gain => characterService.remove_Condition(creature, gain));
-            }
-            //After resting, the Fatigued condition is removed, and the value of Doomed and Drained is reduced.
-            characterService.get_AppliedConditions(creature, "Fatigued").forEach(gain => characterService.remove_Condition(creature, gain));
-            characterService.get_AppliedConditions(creature, "Doomed").forEach(gain => {gain.value -= 1});
-            characterService.get_AppliedConditions(creature, "Drained").forEach(gain => {gain.value -= 1});
+            
             //Reset all "once per day" activity cooldowns.
             this.activitiesService.rest(creature, characterService);
             //Reset all conditions that are "until the next time you make your daily preparations";

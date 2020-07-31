@@ -25,8 +25,8 @@ export class Condition {
     public attackRestrictions: string[] = [];
     public source: string = "";
     public senses: string[] = [];
-    public nextCondition: string = "";
-    public previousCondition: string = "";
+    public nextCondition: ConditionGain = null;
+    public previousCondition: ConditionGain = null;
     public nextStage: number = 0;
     public onset: boolean = false;
     public fixedDuration: number = 0;

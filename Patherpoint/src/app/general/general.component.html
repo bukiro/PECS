@@ -62,6 +62,8 @@
             <div class="fullsize-only list-item" *ngIf="get_Character().alignment && get_Character().alignment.length">
                 <strong>Alignment</strong>
                 {{get_Character().alignment}}
+                <app-tags [creature]="creature" [objectName]="'Alignment'" [showTraits]=true [showFeats]=true
+                    [showItems]=true [showActivities]=true [showConditions]=true [showEffects]=true></app-tags>
             </div>
             <div class="fullsize-only list-item" *ngIf="get_Character().class.deity">
                 <strong>Deity</strong>

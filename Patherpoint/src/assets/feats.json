@@ -15527,7 +15527,6 @@
                 "_className": "SpellChoice",
                 "available": 2,
                 "castingType": "Prepared",
-                "className": "Wizard",
                 "id": "f9b37378-2bd3-46f3-a6ec-910c14cb1a26",
                 "level": 0,
                 "source": "Cantrip Expansion (Prepared)"

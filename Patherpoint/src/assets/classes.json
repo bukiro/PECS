@@ -3862,7 +3862,6 @@
                         "id": "33e282f6-4b83-49d6-a23d-0f704b27f79e",
                         "level": 1,
                         "charLevelAvailable": 2,
-                        "signatureSpell": true,
                         "source": "Bard Spellcasting",
                         "castingType": "Spontaneous"
                     },

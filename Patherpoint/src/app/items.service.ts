@@ -523,6 +523,14 @@ export class ItemsService {
                 item.expiration -= turns;
                 if (item.expiration <= 0) {
                     item.name = "DELETE";
+                    if ((item as Equipment).gainInventory && (item as Equipment).gainInventory.length) {
+                        //If a temporary container is destroyed, return all contained items to the main inventory.
+                        creature.inventories.filter(inv => inv.itemId == item.id).forEach(inv => {
+                            inv.allItems().forEach(invItem => {
+                                this.move_InventoryItem(creature, invItem, creature.inventories[0], inv, characterService);
+                            });
+                        });
+                    }
                 }
                 characterService.set_ToChange(creature.type, "inventory");
                 if (item.type == "weapons" && (item as Equipment).equipped) {
@@ -530,14 +538,6 @@ export class ItemsService {
                 }
                 if (["armors", "shields"].includes(item.type) && (item as Equipment).equipped) {
                     characterService.set_ToChange(creature.type, "defense");
-                }
-                if ((item as Equipment).gainInventory && (item as Equipment).gainInventory.length) {
-                    //If a temporary container is destroyed, return all contained items to the main inventory.
-                    creature.inventories.filter(inv => inv.itemId == item.id).forEach(inv => {
-                        inv.allItems().filter(invItem => (invItem as Equipment).gainInventory && (invItem as Equipment).gainInventory.length).forEach(invItem => {
-                            this.move_InventoryItem(creature, invItem, creature.inventories[0], inv, characterService);
-                        });
-                    });
                 }
             })
             //Removing an item brings the index out of order, and some items may be skipped. We just keep deleting items named DELETE until none are left.

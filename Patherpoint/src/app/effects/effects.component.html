@@ -16,10 +16,10 @@
             <div class="row left-aligned fullsize-only">
                 <span>{{(conditionGain.heightened) ? "Spell level " + conditionGain.heightened + "; " : ""}}{{get_Duration(conditionGain.duration)}}</span><span *ngIf="conditionGain.persistent" title="This condition will remain if its source is removed.">, persistent</span>
             </div>
-            <div class="row fullsize-only" *ngIf="conditionGain.nextStage">
+            <div class="row fullsize-only" *ngIf="conditionGain.nextStage && conditionGain.nextStage != -1">
                 <span>Affliction onset: {{get_Duration(conditionGain.nextStage)}}</span>
             </div>
-            <div class="row fullsize-only" *ngIf="conditionGain.duration != -1">
+            <div class="row fullsize-only" *ngIf="conditionGain.duration > -1">
                 <span><button (click)="change_ConditionDuration(conditionGain, -10)" [disabled]="conditionGain.duration <= 10">- 1 turn</button></span>
                 <span><button (click)="change_ConditionDuration(conditionGain, 10)">+ 1 turn</button></span>
                 <span><button (click)="change_ConditionDuration(conditionGain, 100)">+ 1 min.</button></span>
@@ -153,7 +153,7 @@
                     title="Source: {{effect.source}}">{{effect.target}}
                     {{parseInt(effect.value) ? effect.value : ''}}{{effect.setValue ? "= "+effect.setValue : ''}}
                 </strong>
-                {{(effect.type != "untyped") ? effect.type+' ' : ''}}{{(effect.toggle || effect.setValue) ? '' : (effect.penalty ? 'penalty' : 'bonus')}}
+                <span *ngIf="effect.type != 'untyped' && !effect.toggle && !effect.setValue">{{effect.type + " " + effect.penalty ? 'penalty' : 'bonus'}}</span>
             </span>
         </div>
     </div>

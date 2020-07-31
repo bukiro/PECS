@@ -464,21 +464,28 @@ export class EffectsService {
                     })
                 } else {
                     //For all bonus types except untyped, check all.
-                    //Get all the active effects with this target and the current bonus type
-                    let bonusEffects: Effect[] = allEffects.filter(effect => effect.creature == creature.id && effect.type == type && effect.target == target && effect.penalty == false && effect.apply == undefined);
-                    if (bonusEffects.length > 0) {
-                        //If we have any bonuses for this target and this type, figure out which one is the largest and only get that one.
-                        let maxvalue = Math.max.apply(Math, bonusEffects.map((effect) => { return parseInt(effect.value) }));
-                        //Then apply the first effect with that value, that target and that type.
-                        // Multiple effects might have the same value, but it doesn't matter so long as one of them applies.
-                        bonusEffects.filter(effect => effect.value == maxvalue)[0].apply = true;
-                    }
-                    let penaltyEffects: Effect[] = allEffects.filter(effect => effect.creature == creature.id && effect.type == type && effect.target == target && effect.penalty == true && effect.apply == undefined);
-                    if (penaltyEffects.length > 0) {
-                        //If we have any PENALTIES for this target and this type, we proceed as with bonuses,
-                        // only we pick the lowest number (that is, the worst penalty).
-                        let maxvalue = Math.min.apply(Math, penaltyEffects.map((effect) => { return parseInt(effect.value) }));
-                        penaltyEffects.filter(effect => effect.value == maxvalue)[0].apply = true;
+                    //If an effect with the target "Ignore [type] bonuses and penalties" exists, all effects of that type are disabled.
+                    if (allEffects.find(effect => effect.target.toLowerCase() == "ignore "+type+" bonuses and penalties")) {
+                        allEffects.filter(effect => effect.type == type && effect.apply == undefined).forEach(effect => {
+                            effect.apply = false;
+                        })
+                    } else {
+                        //Get all the active effects with this target and the current bonus type
+                        let bonusEffects: Effect[] = allEffects.filter(effect => effect.creature == creature.id && effect.type == type && effect.target == target && effect.penalty == false && effect.apply == undefined);
+                        if (bonusEffects.length > 0) {
+                            //If we have any bonuses for this target and this type, figure out which one is the largest and only get that one.
+                            let maxvalue = Math.max.apply(Math, bonusEffects.map((effect) => { return parseInt(effect.value) }));
+                            //Then apply the first effect with that value, that target and that type.
+                            // Multiple effects might have the same value, but it doesn't matter so long as one of them applies.
+                            bonusEffects.filter(effect => effect.value == maxvalue)[0].apply = true;
+                        }
+                        let penaltyEffects: Effect[] = allEffects.filter(effect => effect.creature == creature.id && effect.type == type && effect.target == target && effect.penalty == true && effect.apply == undefined);
+                        if (penaltyEffects.length > 0) {
+                            //If we have any PENALTIES for this target and this type, we proceed as with bonuses,
+                            // only we pick the lowest number (that is, the worst penalty).
+                            let maxvalue = Math.min.apply(Math, penaltyEffects.map((effect) => { return parseInt(effect.value) }));
+                            penaltyEffects.filter(effect => effect.value == maxvalue)[0].apply = true;
+                        }
                     }
                 }
             })

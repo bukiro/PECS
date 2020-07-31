@@ -3,6 +3,14 @@
         <cite class="trait" *ngFor="let trait of spell.traits; trackBy:trackByIndex;"
             title="{{get_Traits(trait)[0].description}}">{{trait}}</cite>
     </div>
+    <div class="list-item lower row problem" *ngIf="spell.inputRequired">
+        <strong>Player input required:</strong>
+        <div class="row left-aligned">
+            <p *ngFor="let inputRequired of spell.inputRequired.split('\n'); trackBy:trackByIndex;">
+                {{inputRequired}}
+            </p>
+        </div>
+    </div>
     <div class="row left-aligned" *ngIf="spell.sourceBook">
         <span>
             <strong>Source</strong>

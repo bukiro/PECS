@@ -14,6 +14,7 @@ import { Creature } from './Creature';
 import { ItemGain } from './ItemGain';
 import { Item } from './Item';
 import { ItemsService } from './items.service';
+import { Equipment } from './Equipment';
 
 @Injectable({
     providedIn: 'root'
@@ -183,6 +184,11 @@ export class ConditionsService {
             }
         }
 
+        //Conditions that start when this ends. This happens if there is a nextCondition and no nextStage value.
+        if (!taken && condition.nextCondition && !gain.nextStage) {
+            characterService.change_ConditionStage(creature, gain, condition, 1);
+        }
+
         //Gain Items
         if (creature && creature.type != "Familiar") {
             if (condition.gainItems.length) {
@@ -209,9 +215,17 @@ export class ConditionsService {
                                 characterService.drop_InventoryItem(creature as Character|AnimalCompanion, creature.inventories[0], items[0], false, false, true, gainItem.amount);
                             }
                         } else {
-                            let items: Item[] = creature.inventories[0][gainItem.type].filter((item: Item) => item.id == gainItem.id);
-                            if (items.length) {
-                                characterService.drop_InventoryItem(creature as Character|AnimalCompanion, creature.inventories[0], items[0], false, false, true);
+                            let item: Item = creature.inventories[0][gainItem.type].find((item: Item) => item.id == gainItem.id);
+                            if (item) {
+                                if ((item as Equipment).gainInventory && (item as Equipment).gainInventory.length) {
+                                    //If a temporary container is destroyed, return all contained items to the main inventory.
+                                    creature.inventories.filter(inv => inv.itemId == item.id).forEach(inv => {
+                                        inv.allItems().forEach(invItem => {
+                                            itemsService.move_InventoryItem(creature, invItem, creature.inventories[0], inv, characterService);
+                                        });
+                                    });
+                                }
+                                characterService.drop_InventoryItem(creature as Character|AnimalCompanion, creature.inventories[0], item, false, false, true);
                             }
                             gainItem.id = "";
                         }
@@ -295,6 +309,18 @@ export class ConditionsService {
         creature.conditions.filter(gain => gain.duration == -2).forEach(gain => {
             gain.duration = 0;
         });
+        
+        //After resting with full HP, the Wounded condition is removed.
+        if (characterService.get_Health(creature).damage == 0) {
+            creature.conditions.filter(gain => gain.name == "Wounded").forEach(gain => characterService.remove_Condition(creature, gain));
+        }
+        //After resting, the Fatigued condition is removed (unless another condition is making you fatigued), and the value of Doomed and Drained is reduced.
+        if (!creature.conditions.find(gain => this.get_Conditions(gain.name)?.[0]?.gainConditions.find(subgain => subgain.name == "Fatigued"))) {
+            creature.conditions.filter(gain => gain.name == "Fatigued").forEach(gain => characterService.remove_Condition(creature, gain));
+        }
+        
+        creature.conditions.filter(gain => gain.name == "Doomed").forEach(gain => {gain.value -= 1});
+        creature.conditions.filter(gain => gain.name == "Drained").forEach(gain => {gain.value -= 1});
     }
 
     still_loading() {

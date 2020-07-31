@@ -262,6 +262,16 @@ export class FeatsService {
                     feat.gainSpellChoice.forEach(newSpellChoice => {
                         if (newSpellChoice.insertClass ? character.class.name == newSpellChoice.insertClass : true) {
                             let insertSpellChoice: SpellChoice = Object.assign(new SpellChoice(), JSON.parse(JSON.stringify(newSpellChoice)));
+                            //Allow adding Spellchoices without a class to automatically add the correct class.
+                            // This finds the correct class either from the choice (if its type is a class name) or from the character's main class.
+                            if (!insertSpellChoice.className) {
+                                let classNames: string[] = characterService.classesService.get_Classes().map(characterclass => characterclass.name);
+                                if (classNames.includes(choice.type)) {
+                                    insertSpellChoice.className = choice.type;
+                                } else {
+                                    insertSpellChoice.className = characterService.get_Character().class.name;
+                                }
+                            }
                             //Wellspring Gnome changes:
                             //"Whenever you gain a primal innate spell from a gnome ancestry feat, change its tradition from primal to your chosen tradition."
                             if (character.class.heritage.name.includes("Wellspring Gnome")) {

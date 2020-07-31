@@ -87,7 +87,7 @@ export class CharacterService {
         private savegameService: SavegameService,
         public abilitiesService: AbilitiesService,
         private skillsService: SkillsService,
-        private classesService: ClassesService,
+        public classesService: ClassesService,
         public featsService: FeatsService,
         private traitsService: TraitsService,
         private historyService: HistoryService,
@@ -1188,7 +1188,7 @@ export class CharacterService {
             conditionGain.persistent = true;
         }
         if (originalCondition.choices.length && !conditionGain.choice) {
-            conditionGain.choice = originalCondition.choices[0];
+            conditionGain.choice = originalCondition.choice ? originalCondition.choice : originalCondition.choices[0];
         }
         let newLength: number = 0;
         if (conditionGain.addValue) {
@@ -1253,7 +1253,6 @@ export class CharacterService {
             this.set_ToChange(creature.type, "effects");
         } else {
             let newGain: ConditionGain = new ConditionGain();
-            newGain.duration = gain.duration;
             newGain.nextStage = condition.nextStage;
             if (condition.nextStage) {
                 this.set_ToChange(creature.type, "time");
@@ -1261,9 +1260,11 @@ export class CharacterService {
             }
             newGain.source = gain.source;
             if (change > 0) {
-                newGain.name = condition.nextCondition;
+                newGain.name = condition.nextCondition.name;
+                newGain.duration = condition.nextCondition.duration ? condition.nextCondition.duration : gain.duration;
             } else if (change < 0) {
-                newGain.name = condition.previousCondition;
+                newGain.name = condition.previousCondition.name;
+                newGain.duration = condition.previousCondition.duration ? condition.previousCondition.duration : gain.duration;
             }
             this.remove_Condition(creature, gain, false);
             this.add_Condition(creature, newGain, false);
