@@ -320,7 +320,10 @@ export class ConditionsService {
         }
         
         creature.conditions.filter(gain => gain.name == "Doomed").forEach(gain => {gain.value -= 1});
-        creature.conditions.filter(gain => gain.name == "Drained").forEach(gain => {gain.value -= 1});
+        creature.conditions.filter(gain => gain.name == "Drained").forEach(gain => {
+            gain.value -= 1;
+            creature.health.damage += creature.level;
+        });
     }
 
     still_loading() {

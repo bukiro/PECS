@@ -117,6 +117,12 @@ export class EffectsComponent implements OnInit {
 
     change_ConditionValue(gain: ConditionGain, change: number) {
         gain.value += change;
+        if (gain.name == "Drained" && change < 0) {
+            //When you lower your drained value, you regain Max HP, but not the lost HP.
+            //Because HP is Max HP - Damage, we increase damage to represent not regaining the HP.
+            //We subtract level*change from damage because change is negative.
+            this.get_Creature().health.damage -= this.get_Creature().level * change;
+        }
         this.characterService.set_ToChange(this.creature, "effects");
         this.characterService.process_ToChange();
     }

@@ -67,9 +67,9 @@ export class TimeService {
             
             //Reset all "once per day" activity cooldowns.
             this.activitiesService.rest(creature, characterService);
-            //Reset all conditions that are "until the next time you make your daily preparations";
+            //Reset all conditions that are "until the next time you make your daily preparations".
             this.conditionsService.rest(creature, characterService);
-            //Reset all conditions that are "until the next time you make your daily preparations";
+            //Remove all items that expire when you make your daily preparations.
             if (creature.type != "Familiar") {
                 itemsService.rest(creature, characterService);
             }

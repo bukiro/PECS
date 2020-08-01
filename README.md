@@ -84,10 +84,11 @@ The very latest in Assistive Technologies for Dungeon Master (ATDM)
 - [ ] Stretch Goal: Include optional Stamina & Resolve system
 
 Active to-do
+- If your proficiency in spell attack rolls or spell DCs is expert or better, apply that proficiency to your innate spells, too.
+- Get the extra <li> out of Restoration
 
 Implement:
 
 Next steps:
 - Implement Bard
 - Implement Conditions for Poisons
-c1b048b9-81bf-45c7-8eb5-11e5d164f80e
