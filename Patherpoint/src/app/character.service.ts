@@ -1145,8 +1145,8 @@ export class CharacterService {
         }
     }
 
-    add_CustomSkill(skillName: string, type: string, abilityName: string) {
-        this.me.customSkills.push(new Skill(abilityName, skillName, type));
+    add_CustomSkill(skillName: string, type: string, abilityName: string, locked: boolean = false) {
+        this.me.customSkills.push(new Skill(abilityName, skillName, type, locked));
     }
 
     remove_CustomSkill(oldSkill: Skill) {
@@ -1342,8 +1342,8 @@ export class CharacterService {
         return this.abilitiesService.get_Abilities(name)
     }
 
-    get_Skills(creature: Character|AnimalCompanion|Familiar, name: string = "", type: string = "") {
-        return this.skillsService.get_Skills(creature.customSkills, name, type)
+    get_Skills(creature: Character|AnimalCompanion|Familiar, name: string = "", type: string = "", locked: boolean = undefined) {
+        return this.skillsService.get_Skills(creature.customSkills, name, type, locked)
     }
 
     get_Feats(name: string = "", type: string = "") {

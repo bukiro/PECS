@@ -5,6 +5,7 @@ import { Effect } from './Effect';
 import { AnimalCompanion } from './AnimalCompanion';
 import { Familiar } from './Familiar';
 import { Character } from './Character';
+import { ThrowStmt } from '@angular/compiler';
 
 export class Skill {
     public readonly _className: string = this.constructor.name;
@@ -22,6 +23,8 @@ export class Skill {
         public ability: string = "",
         public name: string = "",
         public type: string = "",
+        //Locked skills don't show up in skill increase choices.
+        public locked: boolean = false
     ) { }
     calculate(creature: Character | AnimalCompanion | Familiar, characterService: CharacterService, abilitiesService: AbilitiesService, effectsService: EffectsService, charLevel: number = characterService.get_Character().level, isDC: boolean = false) {
         let index = 0;
@@ -57,10 +60,19 @@ export class Skill {
             skillLevel = Math.min(skillLevel + 2, increase.maxRank);
         })
         //If you have Monastic Weaponry, you can use your unarmed proficiency (up to Master) for Monk weapons
-        if (this.name == "Monk" && characterService.get_Feats("Monastic Weaponry")[0].have(creature, characterService)) {
-            let unarmedLevel = characterService.get_Skills(creature, "Unarmed Attacks")[0].level(creature, characterService);
+        if (this.name == "Monk" && characterService.get_Feats("Monastic Weaponry")[0]?.have(creature, characterService)) {
+            let unarmedLevel = characterService.get_Skills(creature, "Unarmed Attacks")[0]?.level(creature, characterService) || 0;
             unarmedLevel = Math.min(unarmedLevel, 6);
             skillLevel = Math.max(skillLevel, unarmedLevel);
+        }
+        //If you have legendary proficiency in Occultism, you gain expert proficiency in Bardic Lore.
+        if (this.name == "Lore: Bardic" && characterService.get_Skills(creature, "Occultism")[0]?.level(creature, characterService) >= 8) {
+            skillLevel = 4;
+        }
+        //If your proficiency in spell attack rolls or spell DCs is expert or better, apply that proficiency to your innate spells, too.
+        if (this.name == "Innate Spell DC") {
+            let spellDCs = characterService.get_Skills(creature).filter(skill => skill !== this && skill.name.includes("Spell DC"));
+            skillLevel = Math.max(skillLevel, ...spellDCs.map(skill => skill.level(creature, characterService, charLevel)));
         }
         //If this is an advanced weapon group and you have the Advanced Weapon Training feat for it,
         //  you get the same proficiency as for martial weapons of the same group (or martial weapons in general).

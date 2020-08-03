@@ -131,6 +131,10 @@ export class SpellbookComponent implements OnInit {
         return this.characterService.get_FamiliarAvailable();
     }
 
+    get_SpellDCs() {
+        return this.characterService.get_Skills(this.get_Character(), "", "Spell DC").filter(skill => skill.level(this.get_Character(), this.characterService) > 0);
+    }
+
     get_SpellCastings() {
         let character = this.get_Character();
         return character.class.spellCasting.filter(casting => casting.charLevelAvailable && casting.charLevelAvailable <= character.level)
@@ -225,11 +229,18 @@ export class SpellbookComponent implements OnInit {
     get_MaxSpellSlots(spellLevel: number, casting: SpellCasting) {
         if (casting.castingType == "Spontaneous" && spellLevel > 0) {
             let spellslots: number = 0;
+            //You have as many spontaneous spell slots as you have original spells (e.g. spells with source "*Sorcerer Spellcasting" for Sorcerers),
+            //  except for Level 10, where you have 1 (before effects).
             if (spellLevel == 10) {
                 spellslots = 1;
+            } else if (spellLevel == 0 && casting.className == "Bard" && this.have_Feat("Studious Capacity")) {
+                spellslots = 1;
             } else {
-                casting.spellChoices.filter(choice => choice.level == spellLevel && choice.charLevelAvailable <= this.get_Character().level).forEach(choice => {
-                    //You have as many spell slots as you have spells (as a sorcerer) except for Level 10, where you have 1 (before effects).
+                casting.spellChoices.filter(choice => 
+                        choice.level == spellLevel &&
+                        choice.charLevelAvailable <= this.get_Character().level &&
+                        choice.source.includes(casting.className + " Spellcasting")
+                    ).forEach(choice => {
                     spellslots += choice.available;
                 });
             }
@@ -257,6 +268,8 @@ export class SpellbookComponent implements OnInit {
             this.characterService.process_OnceEffect(character, Object.assign(new EffectGain(), { affected: "Focus Points", value: "+2" }))
         } else if (this.have_Feat("Bonded Focus") && (maxFocusPoints - focusPoints >= 2)) {
             this.characterService.process_OnceEffect(character, Object.assign(new EffectGain(), { affected: "Focus Points", value: "+2" }))
+        } else if (this.have_Feat("Inspirational Focus") && (maxFocusPoints - focusPoints >= 2)) {
+            this.characterService.process_OnceEffect(character, Object.assign(new EffectGain(), { affected: "Focus Points", value: "+2" }))
         } else {
             this.characterService.process_OnceEffect(character, Object.assign(new EffectGain(), { affected: "Focus Points", value: "+1" }))
         }
@@ -281,7 +294,17 @@ export class SpellbookComponent implements OnInit {
                     return "";
                 }
             case "Spontaneous":
-                if (choice.level > 0 && maxSpellSlots && this.get_UsedSpellSlots(levelNumber, casting) >= maxSpellSlots) {
+                //For spontanous spells, allow casting a spell if you don't have spell slots of that level left,
+                //  but you have a extra global spell slots (except for your highest spell level).
+                if (
+                    levelNumber > 0 &&
+                    maxSpellSlots &&
+                    this.get_UsedSpellSlots(levelNumber, casting) >= maxSpellSlots &&
+                    (
+                        this.get_UsedSpellSlots(0, casting) >= this.get_MaxSpellSlots(0, casting) ||
+                        levelNumber == this.get_MaxSpellLevel()
+                    )
+                ) {
                     return "No spell slots left to cast."
                 } else {
                     return "";
@@ -297,23 +320,26 @@ export class SpellbookComponent implements OnInit {
         }
     }
 
-    on_Cast(gain: SpellGain, casting: SpellCasting, choice: SpellChoice, creature: string = "", spell: Spell, activated: boolean) {
-        let level = choice.level;
+    on_Cast(levelNumber: number, gain: SpellGain, casting: SpellCasting, choice: SpellChoice, creature: string = "", spell: Spell, activated: boolean) {
         if (gain.cooldown) {
             gain.activeCooldown = gain.cooldown;
         }
         //Cantrips and Focus spells are automatically heightened to your maximum available spell level.
-        if (!level || level == -1) {
-            level = this.get_MaxSpellLevel();
+        if (!levelNumber || levelNumber == -1) {
+            levelNumber = this.get_MaxSpellLevel();
         }
         //Focus spells cost Focus points.
         if (casting.castingType == "Focus" && activated && choice.level == -1) {
             this.characterService.get_Character().class.focusPoints = Math.min(this.get_Character().class.focusPoints, this.get_MaxFocusPoints());
             this.characterService.get_Character().class.focusPoints -= 1;
         };
-        //Spontaneous spells use up spell slots.
+        //Spontaneous spells use up spell slots. If you don't have spell slots of this level left, use a global one (0th level).
         if (casting.castingType == "Spontaneous" && !spell.traits.includes("Cantrip") && activated) {
-            casting.spellSlotsUsed[level] += 1;
+            if (this.get_UsedSpellSlots(levelNumber, casting) < this.get_MaxSpellSlots(levelNumber, casting)) {
+                casting.spellSlotsUsed[levelNumber] += 1;
+            } else {
+                casting.spellSlotsUsed[0] += 1;
+            }
         }
         //Prepared spells get locked until the next preparation.
         if (casting.castingType == "Prepared" && !spell.traits.includes("Cantrip") && activated) {
@@ -346,11 +372,11 @@ export class SpellbookComponent implements OnInit {
                 }
             }
         }
-        this.spellsService.process_Spell(character, creature, this.characterService, this.itemsService, this.timeService, gain, spell, level, activated, true);
+        this.spellsService.process_Spell(character, creature, this.characterService, this.itemsService, this.timeService, gain, spell, levelNumber, activated, true);
         if (gain.combinationSpellName) {
             let secondSpell = this.get_Spells(gain.combinationSpellName)[0];
             if (secondSpell) {
-                this.spellsService.process_Spell(character, creature, this.characterService, this.itemsService, this.timeService, gain, secondSpell, level, activated, true);
+                this.spellsService.process_Spell(character, creature, this.characterService, this.itemsService, this.timeService, gain, secondSpell, levelNumber, activated, true);
             }
         }
     }

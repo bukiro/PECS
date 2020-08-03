@@ -214,11 +214,16 @@ export class Class {
             this.heritage.spellChoices.forEach(oldSpellChoice => {
                 character.remove_SpellChoice(characterService, oldSpellChoice);
             });
-            //Undo all Wellspring Gnome changes.
-            //We collect all Gnome feats that grant a primal spell and return that spell to Primal on the character:
+            //Undo all Wellspring Gnome changes, where we turned Primal spells into other traditions.
+            //We collect all Gnome feats that grant a primal spell, and for all of those spells that you own, set the spell tradition to Primal on the character:
             if (this.heritage.name.includes("Wellspring Gnome")) {
                 let feats: string[] = characterService.get_Feats("", "Gnome")
-                .filter(feat => feat.gainSpellChoice.filter(choice => choice.castingType == "Innate" && choice.tradition == "Primal").length).map(feat => feat.name);
+                    .filter(feat => 
+                        feat.gainSpellChoice.filter(choice => 
+                            choice.castingType == "Innate" &&
+                            choice.tradition == "Primal"
+                        ).length)
+                    .map(feat => feat.name);
                 this.spellCasting.find(casting => casting.castingType == "Innate")
                     .spellChoices.filter(choice => feats.includes(choice.source.substr(6))).forEach(choice => {
                     choice.tradition = "Primal";

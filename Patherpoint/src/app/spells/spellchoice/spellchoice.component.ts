@@ -9,6 +9,7 @@ import { SpellCasting } from 'src/app/SpellCasting';
 import { EffectsService } from 'src/app/effects.service';
 import { SpellGain } from 'src/app/SpellGain';
 import { SpellLearned } from 'src/app/SpellLearned';
+import { VirtualTimeScheduler } from 'rxjs';
 
 @Component({
     selector: 'app-spellchoice',
@@ -226,6 +227,33 @@ export class SpellchoiceComponent implements OnInit {
         return choice.source == "Infinite Possibilities";
     }
 
+    get_EsotericPolymathAllowed(casting: SpellCasting, tradition: string) {
+        if (casting.className == "Bard" && casting.castingType == "Spontaneous" && this.have_Feat("Esoteric Polymath")) {
+            if (["", "Occult"].includes(tradition)) {
+                return true;
+            } else if (this.have_Feat("Impossible Polymath")) {
+                let character = this.get_Character();
+                let skill: string = "";
+                switch(tradition) {
+                    case "Arcane":
+                        skill = "Arcana";
+                        break;
+                    case "Divine":
+                        skill = "Divine";
+                        break;
+                    case "Primal":
+                        skill = "Primal";
+                        break;
+                }
+                return this.characterService.get_Skills(character, skill)[0].level(character, this.characterService, character.level) >= 2
+            } else {
+                return false;
+            }
+        } else {
+            return false;
+        }
+    }
+
     on_SpellCombination(choice: SpellChoice) {
         choice.spells.length = 0;
         this.characterService.set_Changed("spellchoices");
@@ -294,6 +322,7 @@ export class SpellchoiceComponent implements OnInit {
         let character = this.get_Character()
 
         let allSpells: Spell[];
+        //Get spells from your spellbook for prepared wizard spells or if the choice requires it, otherwise get all spells.
         if ((this.spellCasting?.castingType == "Prepared" && this.spellCasting?.className == "Wizard" && !this.allowBorrow) || this.choice.spellBookOnly) {
             allSpells = this.spellsService.get_Spells().filter(spell =>
                 this.spellTakenByThis(spell, choice) ||
@@ -311,7 +340,10 @@ export class SpellchoiceComponent implements OnInit {
             if (this.spellCasting.castingType == "Focus") {
                 spells.push(...allSpells.filter(spell => spell.traits.includes(character.class.name) && spell.traditions.includes("Focus")));
             } else {
-                if (traditionFilter) {
+                //With Impossible Polymath, you can choose spells of any tradition in the Esoteric Polymath choice so long as you are trained in the associated skill.
+                if (choice.source == "Feat: Esoteric Polymath") {
+                    spells.push(...allSpells.filter(spell => spell.traditions.find(tradition => this.get_EsotericPolymathAllowed(this.spellCasting, tradition)) && !spell.traditions.includes("Focus")));
+                } else if (traditionFilter) {
                     spells.push(...allSpells.filter(spell => spell.traditions.includes(traditionFilter) && !spell.traditions.includes("Focus")));
                 } else {
                     spells.push(...allSpells.filter(spell => !spell.traditions.includes("Focus")));
@@ -464,7 +496,19 @@ export class SpellchoiceComponent implements OnInit {
     on_SpellTaken(spellName: string, taken: boolean, choice: SpellChoice, locked: boolean) {
         if (taken && !choice.spellCombination && (choice.spells.length == this.get_Available(choice) - 1)) { this.toggle_Choice("") }
         let prepared: boolean = this.prepared;
-        this.get_Character().take_Spell(this.characterService, spellName, taken, choice, locked, prepared);
+        let character = this.get_Character();
+        character.take_Spell(this.characterService, spellName, taken, choice, locked, prepared);
+        //For the Esoteric Polymath feat, if you choose a spell that is in your repertoire (i.e. if other spell choices have this spell in it),
+        //The choice is turned into a signature spell choice. If you drop the spell, turn signature spell off.
+        if (this.choice.source == "Feat: Esoteric Polymath") {
+            if (taken) {
+                if (this.spellCasting.spellChoices.find(choice => choice !== this.choice && choice.spells.find(taken => taken.name == spellName))) {
+                    this.choice.signatureSpell = true;
+                }
+            } else {
+                this.choice.signatureSpell = false;
+            }
+        }
         this.characterService.set_ToChange("Character", "spells");
         this.characterService.set_ToChange("Character", "spellchoices");
         this.characterService.set_ToChange("Character", "spellbook");

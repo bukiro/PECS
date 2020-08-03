@@ -4596,6 +4596,12 @@
         "buff": true
     },
     {
+        "name": "Quickened (Eternal Composition)",
+        "type": "feats",
+        "desc": "You gain 1 additional action at the start of your turn each round. You can use your extra action only to cast a composition cantrip that requires 1 action to cast. If you become quickened from multiple sources, you can use the extra action you've been granted for any single action allowed by any of the effects that made you quickened.",
+        "buff": true
+    },
+    {
         "name": "Favored Terrain: Aquatic",
         "type": "activities",
         "desc": "You have studied aquatic terrain to overcome its challenges. If you have the wild stride class feature, while you are in aquatic terrain, you gain a swim Speed equal to your Speed. If you already had a swim Speed, you gain a +10-foot status bonus to your swim Speed.",

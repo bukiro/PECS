@@ -15,13 +15,27 @@ export class SkillsService {
         private http: HttpClient,
     ) { }
 
-    get_Skills(customSkills: Skill[], name: string = "", type: string = "") {
+    get_Skills(customSkills: Skill[], name: string = "", type: string = "", locked: boolean = undefined) {
         if (!this.still_loading()) {
             let skills: Skill[] = this.skills.concat(customSkills);
             if (name == "Lore") {
-                return skills.filter(skill => (skill.name.toLowerCase().includes(name.toLowerCase())) && (skill.type.toLowerCase() == type.toLowerCase() || type == ""));
+                return skills.filter(skill => 
+                (
+                    skill.name.toLowerCase().includes(name.toLowerCase())
+                ) && (
+                    type ? skill.type.toLowerCase() == type.toLowerCase() : true
+                ) && (
+                    locked != undefined ? skill.locked == locked : true
+                ));
             }
-            return skills.filter(skill => (skill.name.toLowerCase() == name.toLowerCase() || name == "") && (skill.type.toLowerCase() == type.toLowerCase() || type == ""));
+            return skills.filter(skill => 
+                (
+                    name ? skill.name.toLowerCase() == name.toLowerCase() : true
+                ) && (
+                    type ? skill.type.toLowerCase() == type.toLowerCase() : true
+                ) && (
+                    locked != undefined ? skill.locked == locked : true
+                ));
         } else { return [new Skill()] }
     }    
 

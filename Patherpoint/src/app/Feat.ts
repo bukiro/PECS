@@ -122,8 +122,18 @@ export class Feat {
         //Returns an array of [requirement met, requirement description]
         let character = characterService.get_Character();
         let result: Array<{met?:boolean, desc?:string}> = [];
-        if (this.skillreq.length) {
-            this.skillreq.forEach(requirement => {
+        let skillreq = JSON.parse(JSON.stringify(this.skillreq));
+        //The Versatile Performance feat allows to use Performance instead of Deception, Diplomacy or Intimidation to meet skill requirements for feats.
+        //If you have the feat and any of these skills are required, add Performance to the requirements with the lowest required value.
+        if (character.get_FeatsTaken(1, charLevel, "Versatile Performance")) {
+            let matchingreqs = skillreq.filter(requirement => ["Deception","Diplomacy","Intimidation"].includes(requirement.skill));
+            if (matchingreqs.length) {
+                let lowest = Math.min(matchingreqs.map(requirement => requirement.value));
+                skillreq.push({skill:"Performance", value:lowest});
+            }
+        }
+        if (skillreq.length) {
+            skillreq.forEach(requirement => {
                 let requiredSkillName: string = requirement.skill;
                 let requiredSkill: Skill[] = characterService.get_Skills(character, requiredSkillName);
                 let expected: number = requirement.value;

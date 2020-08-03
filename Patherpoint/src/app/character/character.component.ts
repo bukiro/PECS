@@ -464,8 +464,8 @@ export class CharacterComponent implements OnInit {
         this.characterService.process_ToChange();
     }
 
-    get_Skills(name: string = "", type: string = "") {
-        return this.characterService.get_Skills(this.get_Character(), name, type)
+    get_Skills(name: string = "", type: string = "", locked: boolean = undefined) {
+        return this.characterService.get_Skills(this.get_Character(), name, type, locked)
     }
 
     prof(skillLevel: number) {
@@ -504,7 +504,7 @@ export class CharacterComponent implements OnInit {
     }
 
     get_AvailableSkills(choice: SkillChoice, level: Level) {
-        let skills = this.get_Skills('', choice.type);
+        let skills = this.get_Skills('', choice.type, false);
         if (choice.filter.length) {
             //Only filter the choice if enough of the filtered skills can be raised.
             if (choice.filter.map(skillName => this.get_Skills(skillName)[0]).filter(skill => skill && !this.cannotIncrease(skill, level, choice).length).length >= choice.available) {

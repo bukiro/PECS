@@ -8,6 +8,7 @@ import { SpellChoice } from '../SpellChoice';
 import { SpellGain } from '../SpellGain';
 import { Level } from '../Level';
 import { TraitsService } from '../traits.service';
+import { FamiliarsService } from '../familiars.service';
 
 @Component({
     selector: 'app-spellLibrary',
@@ -152,6 +153,16 @@ export class SpellLibraryComponent implements OnInit {
         return casting || new SpellCasting("Innate");
     }
 
+    get_BardSpellCasting() {
+        let character = this.get_Character();
+        let casting: SpellCasting = character.class?.spellCasting.find(casting => casting.className == "Bard" && casting.castingType == "Spontaneous" && casting.charLevelAvailable <= character.level);
+        if (this.have_Feat("Esoteric Polymath")) {
+            return casting || new SpellCasting("Innate");
+        } else {
+            return new SpellCasting("Innate");
+        }
+    }
+
     get_School() {
         return this.get_Character().get_FeatsTaken(1, this.get_Character().level).find(taken => 
             ["Abjuration School", "Conjuration School", "Divination School", "Enchantment School", "Evocation School",
@@ -159,8 +170,8 @@ export class SpellLibraryComponent implements OnInit {
         )?.name || "";
     }
 
-    get_WizardLearningAvailable(casting: SpellCasting) {
-        if (casting.className == "Wizard" && casting.castingType == "Prepared" && (this.traditionFilter == "" || this.traditionFilter == "Arcane")) {
+    get_LearningAvailable(wizardCasting: SpellCasting, bardCasting: SpellCasting) {
+        if (wizardCasting.className == "Wizard" && wizardCasting.castingType == "Prepared" && (this.traditionFilter == "" || this.traditionFilter == "Arcane")) {
             let result: string = "You can currently learn the following number of spells as a wizard:\n";
             let school = this.get_School();
             let charLevel: number = this.get_Character().level;
@@ -173,10 +184,10 @@ export class SpellLibraryComponent implements OnInit {
                 let wizardAvailable: number = 0;
                 let schoolAvailable: number = 0;
                 if (level == 0) {
-                    wizardAvailable = casting.spellBookSlots[level];
+                    wizardAvailable = wizardCasting.spellBookSlots[level];
                 } else {
                     for (let index = level * 2 - 1; index <= charLevel && index <= level * 2; index++) {
-                        wizardAvailable += casting.spellBookSlots[index];
+                        wizardAvailable += wizardCasting.spellBookSlots[index];
                     }
                 }
                 if (level == 1 && school) {
@@ -198,6 +209,8 @@ export class SpellLibraryComponent implements OnInit {
                 }
             })
             return result || "";
+        } else if (bardCasting.className == "Bard" && bardCasting.castingType == "Spontaneous" && (this.get_EsotericPolymathAllowed(bardCasting, this.traditionFilter))) {
+            return "You can add any spell in your repertoire to your spellbook for free via esoteric polymath."
         } else {
             return ""
         }
@@ -207,6 +220,9 @@ export class SpellLibraryComponent implements OnInit {
         if (casting.className == "Wizard" && casting.castingType == "Prepared" && (this.traditionFilter == "" || this.traditionFilter == "Arcane")) {
             return !this.get_SpellsLearned(spell.name).length;
         }
+        if (casting.className == "Bard" && casting.castingType == "Spontaneous" && (this.traditionFilter == "" || this.traditionFilter == "Occult")) {
+            return !this.get_SpellsLearned(spell.name).length;
+        }
     }
 
     get_SpellsLearned(name: string = "", source: string = "", level: number = -1) {
@@ -214,8 +230,9 @@ export class SpellLibraryComponent implements OnInit {
     }
 
     can_Learn(casting: SpellCasting, level: number, spell: Spell, source: string) {
-        if (source == "wizard" && spell.traditions.includes("Arcane")) {
-            let charLevel: number = this.get_Character().level;
+        let character = this.get_Character();
+        if (source == "wizard" && casting.className == "Wizard" && spell.traditions.includes("Arcane")) {
+            let charLevel: number = character.level;
             let wizardLearned: number = this.get_SpellsLearned("", 'wizard').filter(learned => learned.level == level && (learned.level > 0 || level == 0)).length;
             let wizardLearnedAll: number = this.get_SpellsLearned("", 'wizard').filter(learned => (level > 0 && learned.level > 0) || (level == 0 && learned.level == 0)).length;
             let wizardAvailable = 0;
@@ -237,7 +254,7 @@ export class SpellLibraryComponent implements OnInit {
             }
             return wizardAvailable > wizardLearned && wizardAvailableAll > wizardLearnedAll;
         }
-        if (source == "school" && spell.traditions.includes("Arcane")) {
+        if (source == "school" && casting.className == "Wizard" && spell.traditions.includes("Arcane")) {
             let school = this.get_School();
             let schoolAvailable = 0;
             let schoolLearned: number = this.get_SpellsLearned("", 'school', level).length;
@@ -247,6 +264,14 @@ export class SpellLibraryComponent implements OnInit {
                 }
             }
             return schoolAvailable > schoolLearned;
+        }
+        if (source == "esotericpolymath" && casting.className == "Bard") {
+            if (spell.traditions.find(tradition => this.get_EsotericPolymathAllowed(casting, tradition))) {
+                //You can learn a spell via esoteric polymath if it is in your spell repertoire, i.e. if you have chosen it for any spell slot.
+                if (casting.spellChoices.find(choice => choice.spells.find(taken => taken.name == spell.name))) {
+                    return true;
+                }
+            }
         }
     }
 
@@ -263,6 +288,8 @@ export class SpellLibraryComponent implements OnInit {
         switch (source) {
             case "wizard":
                 return "(learned as wizard)";
+            case "esoteric polymath":
+                return "(learned via esoteric polymath)";
             case "school":
                 return "(learned via " + (this.get_School()?.toLowerCase() || "school") + ")";
             case "free":
@@ -355,6 +382,33 @@ export class SpellLibraryComponent implements OnInit {
             this.get_Character().remove_SpellChoice(this.characterService, oldChoice);
         }
         this.characterService.process_ToChange();
+    }
+
+    get_EsotericPolymathAllowed(casting: SpellCasting, tradition: string) {
+        if (casting.className == "Bard" && casting.castingType == "Spontaneous" && this.have_Feat("Esoteric Polymath")) {
+            if (["", "Occult"].includes(tradition)) {
+                return true;
+            } else if (this.have_Feat("Impossible Polymath")) {
+                let character = this.get_Character();
+                let skill: string = "";
+                switch(tradition) {
+                    case "Arcane":
+                        skill = "Arcana";
+                        break;
+                    case "Divine":
+                        skill = "Divine";
+                        break;
+                    case "Primal":
+                        skill = "Primal";
+                        break;
+                }
+                return this.characterService.get_Skills(character, skill)[0].level(character, this.characterService, character.level) >= 2
+            } else {
+                return false;
+            }
+        } else {
+            return false;
+        }
     }
 
     still_loading() {

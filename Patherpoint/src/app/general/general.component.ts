@@ -155,10 +155,6 @@ export class GeneralComponent implements OnInit {
         return this.characterService.get_Skills(this.get_Creature(), "", "Class DC").filter(skill => skill.level(this.get_Creature() as Character|AnimalCompanion, this.characterService) > 0);
     }
 
-    get_SpellDCs() {
-        return this.characterService.get_Skills(this.get_Creature(), "", "Spell DC").filter(skill => skill.level(this.get_Creature() as Character|AnimalCompanion, this.characterService) > 0);
-    }
-
     get_Traits(name: string = "") {
         return this.traitsService.get_Traits(name);
     }

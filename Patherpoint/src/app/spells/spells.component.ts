@@ -141,7 +141,7 @@ export class SpellsComponent implements OnInit {
         function Skill_Level(name: string) {
             return this.characterService.get_Skills(Character, name)[0]?.level(Character) || 0;
         }
-        //Get the available spell level of this casting. This is the higest spell level of the spell choices that are available at your character level.
+        //Get the available spell level of this casting. This is the highest spell level of the spell choices that are available at your character level.
         highestSpellLevel = Math.max(...casting.spellChoices.filter(spellChoice => spellChoice.charLevelAvailable <= Character.level).map(spellChoice => spellChoice.level));
         try {
             return parseInt(eval(choice.dynamicLevel));

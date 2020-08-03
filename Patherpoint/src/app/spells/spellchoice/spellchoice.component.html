@@ -11,6 +11,7 @@
         {{choice.tradition ? choice.tradition : ""}} {{choice.traitFilter.length ? choice.traitFilter.join(" ") : ""}}
         {{is_SignatureSpell(choice) ? "Signature" : ""}} {{choice.spellCombinationAllowed ? "Combination" : ""}}
         {{choice.className}}
+        {{choice.spellBookOnly ? "Spellbook" : ""}}
         Spell{{(get_Available(choice) != 1) ? "s" : ""}}{{!itemSpell ? " ("+choice.source+")" : ""}}{{(get_Available(choice) != 1) ?
             ": "+ choice.spells.length +"/"+ get_Available(choice) : 
             (choice.spells.length) ? ": "+ choice.spells[0].name + (choice.spells[0].combinationSpellName ? " & " + choice.spells[0].combinationSpellName : "") : ""}}
@@ -100,6 +101,25 @@
                         The second spell you choose for this spell slot must have the same means of determining whether
                         it has an effect as the first spell - both spells must require a ranged spell attack roll,
                         require the same type of saving throw, or automatically affect the target.
+                    </p>
+                </div>
+            </div>
+        </ng-container>
+        <!-- End Spell Combination -->
+        <!-- Esoteric Polymath -->
+        <ng-container *ngIf="choice.spellCombinationAllowed">
+            <div class="list-item">
+                <strong>Esoteric Polymath</strong>
+                <div class="row left-aligned" *ngIf="choice.spellCombination">
+                    <p>
+                        During your daily preparations, choose any one spell from your book of occult spells.
+                        If that spell is already in your spell repertoire, you can treat it as an additional signature spell that day.
+                        If it isn’t in your repertoire, treat it as though it were until your next daily preparations.
+                    </p>
+                    <p>
+                        You may add all spells from your repertoire to this book for free,
+                        and you can use the Occultism skill to Learn Spells (page 238) and add them to your spellbook by paying the approptiate cost,
+                        similar to a wizard.
                     </p>
                 </div>
             </div>

@@ -80,7 +80,7 @@ export class TimeService {
                 this.spellsService.rest(character, characterService);
                 //Regenerate spell slots.
                 character.class.spellCasting.forEach(casting => {
-                    casting.spellSlotsUsed = [999, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+                    casting.spellSlotsUsed = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
                 });
                 //Regenerate Snare Specialist formulas
                 character.class.formulaBook.filter(learned => learned.snareSpecialistPrepared).forEach(learned => {

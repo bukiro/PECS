@@ -394,6 +394,10 @@ export class Character extends Creature {
                 //One background grants the "Lore" skill. We treat it as a Lore category skill, but don't generate any feats for it.
                 } else if (skillName == "Lore") {
                     characterService.add_CustomSkill(skillName, "Skill", "Intelligence");
+                //Bardic Lore is granted by the feat of the same name. It cannot be increased in any way.
+                } else if (skillName == "Lore: Bardic") {
+                    characterService.add_CustomSkill(skillName, "Skill", "Intelligence", true);
+                    this.add_LoreFeats(characterService, "Bardic");
                 } else {
                     characterService.add_CustomSkill(skillName, choice.type, "");
                 }
@@ -496,13 +500,19 @@ export class Character extends Creature {
             let customSkills = characterService.get_Character().customSkills.filter(skill => skill.name == skillName);
             if (customSkills.length && this.get_SkillIncreases(characterService, 1, 20, skillName).length == 0) {
                 characterService.remove_CustomSkill(customSkills[0]);
-                //For Monks, remove the tradition from the Monk spellcasting abilities if you removed the Monk Spell DC.
+                //For Monks, remove the tradition from the Monk spellcasting abilities if you removed the Monk Divine/Occult Spell DC.
                 if (skillName.includes("Monk") && skillName.includes("Spell DC")) {
                     characterService.get_Character().class.spellCasting.filter(casting => casting.className == "Monk").forEach(casting => {
                         casting.tradition = "";
                     })
                 }
+                //If you are removing Bardic Lore, also remove the lore feats.
+                if (skillName == "Lore: Bardic") {
+                    this.remove_LoreFeats(characterService, skillName);
+                }
             }
+
+
         }
     }
     get_FeatsTaken(minLevelNumber: number, maxLevelNumber: number, featName: string = "", source: string = "", sourceId: string = "", locked: boolean = undefined, excludeTemporary: boolean = false) {
@@ -636,14 +646,16 @@ export class Character extends Creature {
             level.skillChoices = level.skillChoices.filter(choice => choice.filter.filter(filter => filter == 'Lore: '+source.loreName).length == 0);
         });
         let loreSkills: Skill[] = [];
-        let loreFeats: Feat[] = [];
         loreSkills.push(...characterService.get_Character().customSkills.filter(skill => skill.name == 'Lore: '+source.loreName));
-        loreFeats.push(...characterService.get_Character().customFeats.filter(feat => feat.showon == 'Lore: '+source.loreName));
         if (loreSkills.length) {
             loreSkills.forEach(loreSkill => {
                 characterService.remove_CustomSkill(loreSkill);
             })
         }
+    }
+    remove_LoreFeats(characterService: CharacterService, loreName: string) {
+        let loreFeats: Feat[] = [];
+        loreFeats.push(...characterService.get_Character().customFeats.filter(feat => feat.showon == 'Lore: '+loreName));
         if (loreFeats.length) {
             loreFeats.forEach(loreFeat => {
                 characterService.remove_CustomFeat(loreFeat);
@@ -666,20 +678,23 @@ export class Character extends Creature {
             this.add_SkillChoice(characterService.get_Level(7), Object.assign(new SkillChoice(), {available:1, increases:[], filter:['Lore: '+source.loreName], type:"Skill", maxRank:6, source:"Feat: Additional Lore", id:""}))
             this.add_SkillChoice(characterService.get_Level(15), Object.assign(new SkillChoice(), {available:1, increases:[], filter:['Lore: '+source.loreName], type:"Skill", maxRank:8, source:"Feat: Additional Lore", id:""}))
         }
+        this.add_LoreFeats(characterService, source.loreName);
+    }
+    add_LoreFeats(characterService: CharacterService, loreName: string) {
         characterService.get_Feats().filter(feat => feat.lorebase).forEach(lorebaseFeat =>{
             let newLength = characterService.add_CustomFeat(lorebaseFeat);
             let newFeat = characterService.get_Character().customFeats[newLength -1];
-            newFeat.name = newFeat.name.replace('Lore', 'Lore: '+source.loreName);
-            newFeat.subType = newFeat.subType.replace('Lore', 'Lore: '+source.loreName);
+            newFeat.name = newFeat.name.replace('Lore', 'Lore: '+loreName);
+            newFeat.subType = newFeat.subType.replace('Lore', 'Lore: '+loreName);
             newFeat.skillreq.forEach(requirement => {
-                requirement.skill = requirement.skill.replace('Lore', 'Lore: '+source.loreName);
+                requirement.skill = requirement.skill.replace('Lore', 'Lore: '+loreName);
             })
-            newFeat.showon = newFeat.showon.replace('Lore', 'Lore: '+source.loreName);
-            newFeat.featreq = newFeat.featreq.map(featreq => featreq.replace('Lore', 'Lore: '+source.loreName));
+            newFeat.showon = newFeat.showon.replace('Lore', 'Lore: '+loreName);
+            newFeat.featreq = newFeat.featreq.map(featreq => featreq.replace('Lore', 'Lore: '+loreName));
             newFeat.lorebase = false;
             newFeat.hide = false;
+            characterService.set_ToChange("Character", "skills");
+            characterService.set_ToChange("Character", "charactersheet");
         })
-        characterService.set_ToChange("Character", "skills");
-        characterService.set_ToChange("Character", "charactersheet");
     }
 }
