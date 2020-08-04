@@ -9,6 +9,7 @@ import { SpellCast } from './SpellCast';
 
 export class Spell {
     public actions: string = "1A";
+    public allowReturnFocusPoint: boolean = false;
     public area: string = "";
     public castType: string = "";
     public cost: string = "";

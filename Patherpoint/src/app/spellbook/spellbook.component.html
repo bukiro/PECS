@@ -36,7 +36,7 @@
                 </ng-container>
             </h3>
             <ng-container *ngFor="let level of [-1, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10]; trackBy:trackByIndex;">
-                <ng-container *ngIf="level <= get_MaxSpellLevel()">
+                <ng-container *ngIf="level <= get_MaxSpellLevel(casting)">
                     <ng-container
                         *ngFor="let spellTakenList of [get_SpellsByLevel(level, casting)]; trackBy:trackByIndex;">
                         <ng-container
@@ -109,6 +109,13 @@
                                             <div class="list-item sublist lower"
                                                 [className]="{'inactive-list': casting.castingType=='Prepared'&&!spellTaken.gain.prepared && level > 0}"
                                                 *ngIf="this.get_showSpell()==casting.castingType+casting.class+spellTaken.gain.name+spellID">
+                                                <button class="row center-aligned"
+                                                    (click)="on_RestoreFocusPoint()"
+                                                    *ngIf="casting.castingType == 'Focus' && spell.allowReturnFocusPoint"
+                                                    title="{{get_FocusPoints() >= get_MaxFocusPoints() ? 'Focus points are full.' : ''}}"
+                                                    [disabled]="get_FocusPoints() >= get_MaxFocusPoints()">
+                                                    <span class="center-aligned">Return Focus Point</span>
+                                                </button>
                                                 <button class="row center-aligned"
                                                     (click)="on_Restore(spellTaken.gain, casting, level)"
                                                     *ngIf="casting.castingType == 'Prepared' && casting.className == 'Wizard' && !spellTaken.gain.prepared && level > 0"

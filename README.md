@@ -84,29 +84,13 @@ The very latest in Assistive Technologies for Dungeon Master (ATDM)
 - [ ] Stretch Goal: Include optional Stamina & Resolve system
 
 Active to-do
-- If your proficiency in spell attack rolls or spell DCs is expert or better, apply that proficiency to your innate spells, too.
-- Get the extra <li> out of the Restoration spell
+- Make signature spell a choice for every spell choice (with limit 1 per level)
 
 Implement:
-- Activities
--- Melodious Spell
--- Harmonize
--- Unusual Composition
--- True Hypercognition
--- Ringmaster's Introduction
-- Spells
--- Loremaster's Etude
--- Inspire Defense
--- Triple Time
--- Dirge of Doom
--- Inspire Heroics
--- House of Imaginary Walls
--- Silver's Refrain
--- Allegro
--- Soothing Ballad
--- Fatal Aria
+
 
 Next steps:
 - Test Bard
-- Implement Bard Archetype
+- Test Bard Archetype
 - Implement Conditions for Poisons
+

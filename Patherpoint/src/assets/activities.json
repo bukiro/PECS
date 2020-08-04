@@ -3265,5 +3265,62 @@
             "Manipulate",
             "Rogue"
         ]
+    },
+    {
+        "name": "Melodious Spell",
+        "actions": "1A",
+        "desc": "You subtly weave your spellcasting into your performance. If the next action you take is to Cast a Spell, attempt a Performance check against all observers' Perception DCs. If your Performance check is successful against an observer's Perception DC, that observer doesn't notice that you are Casting a Spell, even though normally spells have sensory manifestations that would make spellcasting obvious to those around you, and verbal, somatic, and material components are extremely overt. You hide all of these as part of an ordinary performance.\n\nThis hides only the spell's spellcasting actions and manifestations, not its effects, so an observer might still see a ray streak out from you or see you vanish.",
+        "traits": [
+            "Bard",
+            "Concentrate",
+            "Manipulate",
+            "Metamagic"
+        ]
+    },
+    {
+        "name": "Harmonize",
+        "actions": "1A",
+        "inputRequired": "Treat your next composition as a harmonized composition. You do not need to remove the conditions it caused if you cast another composition within its duration.",
+        "desc": "You can perform multiple compositions simultaneously. If your next action is to cast a composition, it becomes a harmonized composition. Unlike a normal composition, a harmonized composition doesn't end if you cast another composition, and you can cast another composition on the same turn as a harmonized one. Casting another harmonized composition ends any harmonized composition you have in effect.",
+        "traits": [
+            "Bard",
+            "Concentrate",
+            "Manipulate",
+            "Metamagic"
+        ]
+    },
+    {
+        "name": "Unusual Composition",
+        "actions": "1A",
+        "desc": "You can translate the emotion and power of a composition to other mediums. If your next action is to cast a composition spell, you can use a different kind of performance than usual for the composition to change any of its somatic components to verbal components or vice versa. As usual for composition spells, this changes whether the composition is auditory or visual.",
+        "traits": [
+            "Bard",
+            "Concentrate",
+            "Manipulate",
+            "Metamagic"
+        ]
+    },
+    {
+        "name": "True Hypercognition",
+        "actions": "1A",
+        "desc": "Your mind works at an incredible pace. You instantly use up to five Recall Knowledge actions. If you have any special abilities or free actions that would normally be triggered when you Recall Knowledge, you can't use them for these actions.",
+        "traits": [
+            "Bard",
+            "Concentrate",
+            "Manipulate",
+            "Metamagic"
+        ]
+    },
+    {
+        "name": "Ringmaster's Introduction",
+        "actions": "Reaction",
+        "requirements": "The ally hasn't acted in the current combat.",
+        "trigger": "An ally's turn begins.",
+        "desc": "You announce the triggering ally with a litany of their legendary achievements, spurring them to action. The target is quickened this turn and can spend the extra action to Stride, Strike, Demoralize, Feint, or Perform.",
+        "traits": [
+            "Uncommon",
+            "Auditory",
+            "Bard"
+        ]
     }
 ]

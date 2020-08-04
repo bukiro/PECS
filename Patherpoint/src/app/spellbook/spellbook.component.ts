@@ -165,8 +165,9 @@ export class SpellbookComponent implements OnInit {
             })
     }
 
-    get_MaxSpellLevel() {
-        return this.get_Character().get_SpellLevel();
+    get_MaxSpellLevel(casting: SpellCasting) {
+        //Get the available spell level of this casting. This is the higest spell level of the spell choices that are available at your character level.
+        return Math.max(...casting.spellChoices.filter(spellChoice => spellChoice.charLevelAvailable <= this.get_Character().level).map(spellChoice => spellChoice.level), 0);
     }
 
     get_SignatureSpellsAllowed() {
@@ -242,8 +243,12 @@ export class SpellbookComponent implements OnInit {
                         choice.source.includes(casting.className + " Spellcasting")
                     ).forEach(choice => {
                     spellslots += choice.available;
+                    if (spellLevel <= this.get_MaxSpellLevel(casting) - 2 && this.have_Feat("Occult Breadth")) {
+                        spellslots += 1;
+                    }
                 });
             }
+            if (casting.className)
             this.effectsService.get_RelativesOnThis(this.get_Character(), casting.className + " " + casting.castingType + " Level " + spellLevel + " Spell Slots").forEach(effect => {
                 spellslots += parseInt(effect.value);
             });
@@ -276,6 +281,10 @@ export class SpellbookComponent implements OnInit {
         this.timeService.tick(this.characterService, this.timeService, this.itemsService, this.spellsService, 1000);
     }
 
+    on_RestoreFocusPoint() {
+        this.characterService.process_OnceEffect(this.characterService.get_Character(), Object.assign(new EffectGain(), { affected: "Focus Points", value: "+1" }));
+    }
+
     get_Duration(turns: number, includeTurnState: boolean = true, inASentence: boolean = false) {
         return this.timeService.get_Duration(turns, includeTurnState, inASentence);
     }
@@ -294,15 +303,15 @@ export class SpellbookComponent implements OnInit {
                     return "";
                 }
             case "Spontaneous":
-                //For spontanous spells, allow casting a spell if you don't have spell slots of that level left,
-                //  but you have a extra global spell slots (except for your highest spell level).
                 if (
                     levelNumber > 0 &&
                     maxSpellSlots &&
                     this.get_UsedSpellSlots(levelNumber, casting) >= maxSpellSlots &&
                     (
+                        //For spontanous spells, allow casting a spell if you don't have spell slots of that level left,
+                        //  but you have a extra global spell slots. You can't use the global spell slots for your highest spell level.
                         this.get_UsedSpellSlots(0, casting) >= this.get_MaxSpellSlots(0, casting) ||
-                        levelNumber == this.get_MaxSpellLevel()
+                        levelNumber == this.get_MaxSpellLevel(casting)
                     )
                 ) {
                     return "No spell slots left to cast."
@@ -326,7 +335,7 @@ export class SpellbookComponent implements OnInit {
         }
         //Cantrips and Focus spells are automatically heightened to your maximum available spell level.
         if (!levelNumber || levelNumber == -1) {
-            levelNumber = this.get_MaxSpellLevel();
+            levelNumber = this.get_MaxSpellLevel(casting);
         }
         //Focus spells cost Focus points.
         if (casting.castingType == "Focus" && activated && choice.level == -1) {
@@ -421,7 +430,7 @@ export class SpellbookComponent implements OnInit {
         //If there is only one charge, we need to check if this came from the Superior Bond feat.
         //If we have that feat, the last charge is the Superior Bond charge and can only be applied to a spell 2 or more levels lower than the highest-level spell.
         if (casting.bondedItemCharges[0] > 0) {
-            if (level <= this.get_MaxSpellLevel() - 2) {
+            if (level <= this.get_MaxSpellLevel(casting) - 2) {
                 return true;
             } else {
                 if (this.have_Feat("Superior Bond")) {

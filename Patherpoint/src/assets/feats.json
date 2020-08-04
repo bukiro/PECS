@@ -54,7 +54,7 @@
         ],
         "levelreq": 1,
         "specialreq": "character.get_SkillIncreases(characterService,1,charLevel).filter(increase => increase.name.includes('Lore')).length",
-        "specialreqdesc": "Any Lore T",
+        "specialreqdesc": "Trained in any Lore",
         "gainLore": true
     },
     {
@@ -427,7 +427,7 @@
             "Skill"
         ],
         "levelreq": 1,
-        "specialreqdesc": "Any skill T"
+        "specialreqdesc": "Trained in any skill"
     },
     {
         "name": "Assurance: Acrobatics",
@@ -1344,9 +1344,6 @@
         "levelreq": 2,
         "gainSpecialization": [
             {
-                "group": "Brawling"
-            },
-            {
                 "featreq": [
                     "Monastic Weaponry"
                 ],
@@ -1388,7 +1385,7 @@
         ],
         "levelreq": 1,
         "specialreq": "characterService.get_Skills(character, this.subType)[0].level(character, characterService, charLevel) < 4 || (this.have(character, characterService, charLevel) && characterService.get_Skills(character, this.subType)[0].level(character, characterService, charLevel) < 6)",
-        "specialreqdesc": "Fortitude < E",
+        "specialreqdesc": "not expert in Fortitude",
         "gainSkillChoice": [
             {
                 "_className": "SkillChoice",
@@ -1418,7 +1415,7 @@
         ],
         "levelreq": 1,
         "specialreq": "characterService.get_Skills(character, this.subType)[0].level(character, characterService, charLevel) < 4 || (this.have(character, characterService, charLevel) && characterService.get_Skills(character, this.subType)[0].level(character, characterService, charLevel) < 6)",
-        "specialreqdesc": "Perception < E",
+        "specialreqdesc": "not expert in Perception",
         "gainSkillChoice": [
             {
                 "_className": "SkillChoice",
@@ -1448,7 +1445,7 @@
         ],
         "levelreq": 1,
         "specialreq": "characterService.get_Skills(character, this.subType)[0].level(character, characterService, charLevel) < 4 || (this.have(character, characterService, charLevel) && characterService.get_Skills(character, this.subType)[0].level(character, characterService, charLevel) < 6)",
-        "specialreqdesc": "Reflex < E",
+        "specialreqdesc": "not expert in Reflex",
         "gainSkillChoice": [
             {
                 "_className": "SkillChoice",
@@ -1478,7 +1475,7 @@
         ],
         "levelreq": 1,
         "specialreq": "characterService.get_Skills(character, this.subType)[0].level(character, characterService, charLevel) < 4 || (this.have(character, characterService, charLevel) && characterService.get_Skills(character, this.subType)[0].level(character, characterService, charLevel) < 6)",
-        "specialreqdesc": "Will < E",
+        "specialreqdesc": "not expert in Will",
         "gainSkillChoice": [
             {
                 "_className": "SkillChoice",
@@ -2590,7 +2587,7 @@
         "effects": [
             {
                 "affected": "Resting HP Gain",
-                "value": "+Level"
+                "value": "#NAME?"
             }
         ]
     },
@@ -4600,13 +4597,13 @@
             "Dedication",
             "Multiclass"
         ],
+        "levelreq": 2,
         "abilityreq": [
             {
                 "ability": "Charisma",
                 "value": 14
             }
         ],
-        "levelreq": 2,
         "gainFeatChoice": [
             {
                 "_className": "FeatChoice",
@@ -6907,31 +6904,6 @@
     },
     {
         "name": "Spirit Instinct"
-    },
-    {
-        "name": "Enigma Muse"
-    },
-    {
-        "name": "Maestro Muse",
-        "desc": "Your muse is a virtuoso, inspiring you to greater heights. If it's a creature, it might be a performance-loving creature such as a choral angel or lillend azata; if a deity, it might be Shelyn. As a bard with a maestro muse, you are an inspiration to your allies and confident of your musical and oratorical abilities. You gain the Lingering Composition feat and add soothe to your spell repertoire.",
-        "inputRequired": "Add soothe to your repertoire.",
-        "shortdesc": "Your muse is a virtuoso, inspiring you to greater heights.",
-        "gainFeatChoice": [
-            {
-                "_className": "FeatChoice",
-                "feats": [
-                    {
-                        "locked": true,
-                        "name": "Lingering Composition"
-                    }
-                ],
-                "source": "Feat: Maestro Muse",
-                "type": "Class"
-            }
-        ]
-    },
-    {
-        "name": "Polymath Muse"
     },
     {
         "name": "Paladin"
@@ -9518,7 +9490,7 @@
                 "increases": [
                     {
                         "locked": true,
-                        "maxRank": 2,
+                        "maxRank": 4,
                         "name": "Monk Divine Spell DC",
                         "source": "Class"
                     }
@@ -9575,7 +9547,7 @@
                 "increases": [
                     {
                         "locked": true,
-                        "maxRank": 2,
+                        "maxRank": 4,
                         "name": "Monk Occult Spell DC",
                         "source": "Class"
                     }
@@ -9949,7 +9921,7 @@
                 "castingType": "Spontaneous",
                 "charLevelAvailable": 5,
                 "className": "Sorcerer",
-                "id": "e8e2a57c-234e-4e7e-93e1-c1a938a30488",
+                "id": "c75791c4-62f1-44f2-8b02-4305b0089cd4",
                 "insertClass": "Sorcerer",
                 "level": 3,
                 "source": "Sorcerer Spellcasting"
@@ -10312,49 +10284,6 @@
         "levelreq": 1,
         "gainActivities": [
             "Halfling Luck"
-        ]
-    },
-    {
-        "name": "Lingering Composition",
-        "desc": "By adding a flourish, you make your compositions last longer. You learn the lingering composition focus spell. Increase the number of Focus Points in your focus pool by 1.",
-        "shortdesc": "By adding a flourish, you make your compositions last longer.",
-        "traits": [
-            "Bard"
-        ],
-        "levelreq": 1,
-        "featreq": [
-            "Maestro Muse"
-        ],
-        "specialreq": "character.class.spellCasting.filter(casting => casting.castingType == 'Focus' && casting.spellChoices.length).length",
-        "specialreqdesc": "focus pool",
-        "effects": [
-            {
-                "affected": "Focus Pool",
-                "value": "1"
-            }
-        ],
-        "onceEffects": [
-            {
-                "affected": "Focus Points",
-                "value": "1"
-            }
-        ],
-        "gainSpellChoice": [
-            {
-                "_className": "SpellChoice",
-                "castingType": "Focus",
-                "className": "Bard",
-                "id": "6f85d4a9-d078-4f96-b447-81468ca371f1",
-                "level": -1,
-                "source": "Feat: Lingering Composition",
-                "spells": [
-                    {
-                        "_className": "SpellGain",
-                        "locked": true,
-                        "name": "Lingering Composition"
-                    }
-                ]
-            }
         ]
     },
     {
@@ -15227,7 +15156,7 @@
                     }
                 ],
                 "source": "Feat: Improved Familiar Attunement",
-                "type": "Wizard"
+                "type": "Feat"
             }
         ]
     },
@@ -15243,6 +15172,7 @@
                 "_className": "FeatChoice",
                 "available": 1,
                 "level": 1,
+                "showOnSheet": true,
                 "source": "Feat: Metamagical Experimentation",
                 "type": "Metamagic,Wizard"
             },
@@ -15251,7 +15181,6 @@
                 "available": 1,
                 "dynamicLevel": "level.number / 2",
                 "insertLevel": 4,
-                "showOnSheet": true,
                 "source": "Feat: Metamagical Experimentation",
                 "type": "Metamagic,Wizard"
             }
@@ -15260,9 +15189,9 @@
     {
         "name": "Spell Blending",
         "desc": "You theorize that spell slots are a shorthand for an underlying energy that powers all spellcasting, and you've found a way to tinker with the hierarchy of spell slots, combining them to fuel more powerful spells. When you make your daily preparations, you can trade two spell slots of the same level for a bonus spell slot of up to 2 levels higher than the traded spell slots. You can exchange as many spell slots as you have available. Bonus spell slots must be of a level you can normally cast, and each bonus spell slot must be of a different spell level. You can also trade any spell slot for two additional cantrips, though you cannot trade more than one spell slot at a time for additional cantrips in this way.",
-        "internalNote": "Spell Blending is hardcoded.",
         "hint": "When you make your daily preparations, you can trade two spell slots of the same level for a bonus spell slot of up to 2 levels higher than the traded spell slots. You can exchange as many spell slots as you have available. Bonus spell slots must be of a level you can normally cast, and each bonus spell slot must be of a different spell level. You can also trade any spell slot for two additional cantrips, though you cannot trade more than one spell slot at a time for additional cantrips in this way.",
         "showon": "Health, Wizard Prepared Spells",
+        "internalNote": "Spell Blending is hardcoded.",
         "shortdesc": "You theorize that spell slots are a shorthand for an underlying energy that powers all spellcasting, and you've found a way to tinker with the hierarchy of spell slots, combining them to fuel more powerful spells.",
         "gainActivities": [
             "Drain Bonded Item"
@@ -15529,7 +15458,7 @@
                 "castingType": "Prepared",
                 "id": "f9b37378-2bd3-46f3-a6ec-910c14cb1a26",
                 "level": 0,
-                "source": "Cantrip Expansion (Prepared)"
+                "source": "Feat: Cantrip Expansion (Prepared)"
             }
         ]
     },
@@ -15564,7 +15493,7 @@
         "effects": [
             {
                 "affected": "Familiar Abilities",
-                "value": "+2"
+                "value": "2"
             }
         ]
     },
@@ -16278,7 +16207,7 @@
                 "id": "31bcd5cd-838c-4100-95c3-7b1e07e26e8c",
                 "level": 1,
                 "showOnSheet": true,
-                "source": "Infinite Possibilities"
+                "source": "Feat: Infinite Possibilities"
             },
             {
                 "_className": "SpellChoice",
@@ -16288,7 +16217,7 @@
                 "id": "e04e232e-f207-4cb6-b142-99992a3c745e",
                 "level": 2,
                 "showOnSheet": true,
-                "source": "Infinite Possibilities"
+                "source": "Feat: Infinite Possibilities"
             },
             {
                 "_className": "SpellChoice",
@@ -16298,7 +16227,7 @@
                 "id": "33baaff5-5534-4201-b3b1-be8cd736d7bb",
                 "level": 3,
                 "showOnSheet": true,
-                "source": "Infinite Possibilities"
+                "source": "Feat: Infinite Possibilities"
             },
             {
                 "_className": "SpellChoice",
@@ -16308,7 +16237,7 @@
                 "id": "2a578f79-664d-4b9d-bfe6-79811bc5d942",
                 "level": 4,
                 "showOnSheet": true,
-                "source": "Infinite Possibilities"
+                "source": "Feat: Infinite Possibilities"
             },
             {
                 "_className": "SpellChoice",
@@ -16318,7 +16247,7 @@
                 "id": "e1a14fd1-5728-41cb-a3d2-17e50649e418",
                 "level": 5,
                 "showOnSheet": true,
-                "source": "Infinite Possibilities"
+                "source": "Feat: Infinite Possibilities"
             },
             {
                 "_className": "SpellChoice",
@@ -16328,7 +16257,7 @@
                 "id": "bb0fbe01-2391-43c6-b281-46ae7c602ed0",
                 "level": 6,
                 "showOnSheet": true,
-                "source": "Infinite Possibilities"
+                "source": "Feat: Infinite Possibilities"
             },
             {
                 "_className": "SpellChoice",
@@ -16338,7 +16267,7 @@
                 "id": "a746f342-218a-4e08-8141-35d5d263450a",
                 "level": 7,
                 "showOnSheet": true,
-                "source": "Infinite Possibilities"
+                "source": "Feat: Infinite Possibilities"
             },
             {
                 "_className": "SpellChoice",
@@ -16348,7 +16277,7 @@
                 "id": "5fd432e9-b951-4b45-8bd0-7e6ffbf267ec",
                 "level": 8,
                 "showOnSheet": true,
-                "source": "Infinite Possibilities"
+                "source": "Feat: Infinite Possibilities"
             }
         ]
     },
@@ -16383,7 +16312,7 @@
                 "className": "Wizard",
                 "id": "e30bbbc8-b823-4cd6-b7f3-e516aba8a475",
                 "level": 10,
-                "source": "Archwizard's Might"
+                "source": "Feat: Archwizard's Might"
             }
         ]
     },
@@ -16477,29 +16406,7 @@
                 "castingType": "Prepared",
                 "className": "Wizard",
                 "source": "Wizard Dedication",
-                "spellBookSlots": [
-                    4,
-                    0,
-                    0,
-                    0,
-                    0,
-                    0,
-                    0,
-                    0,
-                    0,
-                    0,
-                    0,
-                    0,
-                    0,
-                    0,
-                    0,
-                    0,
-                    0,
-                    0,
-                    0,
-                    0,
-                    0
-                ],
+                "spellBookSlots": "[4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]",
                 "tradition": "Arcane"
             }
         ],
@@ -16511,7 +16418,7 @@
                 "className": "Wizard",
                 "id": "74e33581-aa55-49dd-93ce-d27ab11716d9",
                 "level": 0,
-                "source": "Wizard Dedication"
+                "source": "Feat: Wizard Dedication"
             }
         ]
     },
@@ -16546,13 +16453,13 @@
         "effects": [
             {
                 "affected": "Focus Pool",
-                "value": 1
+                "value": "1"
             }
         ],
         "onceEffects": [
             {
                 "affected": "Focus Points",
-                "value": 1
+                "value": "1"
             }
         ],
         "gainSpellCasting": [
@@ -16600,13 +16507,13 @@
         "effects": [
             {
                 "affected": "Focus Pool",
-                "value": 1
+                "value": "1"
             }
         ],
         "onceEffects": [
             {
                 "affected": "Focus Points",
-                "value": 1
+                "value": "1"
             }
         ],
         "gainSpellCasting": [
@@ -16654,13 +16561,13 @@
         "effects": [
             {
                 "affected": "Focus Pool",
-                "value": 1
+                "value": "1"
             }
         ],
         "onceEffects": [
             {
                 "affected": "Focus Points",
-                "value": 1
+                "value": "1"
             }
         ],
         "gainSpellCasting": [
@@ -16708,13 +16615,13 @@
         "effects": [
             {
                 "affected": "Focus Pool",
-                "value": 1
+                "value": "1"
             }
         ],
         "onceEffects": [
             {
                 "affected": "Focus Points",
-                "value": 1
+                "value": "1"
             }
         ],
         "gainSpellCasting": [
@@ -16762,13 +16669,13 @@
         "effects": [
             {
                 "affected": "Focus Pool",
-                "value": 1
+                "value": "1"
             }
         ],
         "onceEffects": [
             {
                 "affected": "Focus Points",
-                "value": 1
+                "value": "1"
             }
         ],
         "gainSpellCasting": [
@@ -16816,13 +16723,13 @@
         "effects": [
             {
                 "affected": "Focus Pool",
-                "value": 1
+                "value": "1"
             }
         ],
         "onceEffects": [
             {
                 "affected": "Focus Points",
-                "value": 1
+                "value": "1"
             }
         ],
         "gainSpellCasting": [
@@ -16870,13 +16777,13 @@
         "effects": [
             {
                 "affected": "Focus Pool",
-                "value": 1
+                "value": "1"
             }
         ],
         "onceEffects": [
             {
                 "affected": "Focus Points",
-                "value": 1
+                "value": "1"
             }
         ],
         "gainSpellCasting": [
@@ -16924,13 +16831,13 @@
         "effects": [
             {
                 "affected": "Focus Pool",
-                "value": 1
+                "value": "1"
             }
         ],
         "onceEffects": [
             {
                 "affected": "Focus Points",
-                "value": 1
+                "value": "1"
             }
         ],
         "gainSpellCasting": [
@@ -16997,29 +16904,7 @@
         ],
         "gainSpellBookSlots": [
             {
-                "spellBookSlots": [
-                    0,
-                    2,
-                    0,
-                    2,
-                    0,
-                    2,
-                    0,
-                    0,
-                    0,
-                    0,
-                    0,
-                    0,
-                    0,
-                    0,
-                    0,
-                    0,
-                    0,
-                    0,
-                    0,
-                    0,
-                    0
-                ],
+                "spellBookSlots": "[0, 2, 0, 2, 0, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]",
                 "className": "Wizard"
             }
         ],
@@ -17032,7 +16917,7 @@
                 "className": "Wizard",
                 "id": "c588829d-7958-45c5-9e8a-d1c742263141",
                 "level": 1,
-                "source": "Basic Wizard Spellcasting"
+                "source": "Feat: Basic Wizard Spellcasting"
             },
             {
                 "_className": "SpellChoice",
@@ -17042,16 +16927,17 @@
                 "className": "Wizard",
                 "id": "3c983635-f3a9-4c8d-a388-1f8fa3e7f35a",
                 "level": 2,
-                "source": "Basic Wizard Spellcasting"
+                "source": "Feat: Basic Wizard Spellcasting"
             },
             {
+                "_className": "SpellChoice",
                 "available": 1,
                 "castingType": "Prepared",
                 "charLevelAvailable": 8,
                 "className": "Wizard",
                 "id": "baaca5a3-ded0-4d9e-ba33-9d63d674c76f",
                 "level": 3,
-                "source": "Basic Wizard Spellcasting"
+                "source": "Feat: Basic Wizard Spellcasting"
             }
         ]
     },
@@ -17082,7 +16968,7 @@
     {
         "name": "Arcane Breadth",
         "desc": "You can cast more arcane spells each day. Increase the spell slots you gain from wizard archetype feats by 1 for each spell level other than your two highest spell levels.",
-        "internalNote": "The effect is hardcoded.",
+        "internalNote": "The effect is hardcoded in the spellchoice component.",
         "shortdesc": "You can cast more arcane spells each day.",
         "archetype": "Wizard",
         "traits": [
@@ -17129,29 +17015,7 @@
         ],
         "gainSpellBookSlots": [
             {
-                "spellBookSlots": [
-                    0,
-                    0,
-                    0,
-                    0,
-                    0,
-                    0,
-                    0,
-                    2,
-                    0,
-                    2,
-                    0,
-                    2,
-                    0,
-                    0,
-                    0,
-                    0,
-                    0,
-                    0,
-                    0,
-                    0,
-                    0
-                ],
+                "spellBookSlots": "[0, 0, 0, 0, 0, 0, 0, 2, 0, 2, 0, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0]",
                 "className": "Wizard"
             }
         ],
@@ -17164,7 +17028,7 @@
                 "className": "Wizard",
                 "id": "d1bf7e50-7032-4452-89b0-2caa79ce8a71",
                 "level": 4,
-                "source": "Expert Wizard Spellcasting"
+                "source": "Feat: Expert Wizard Spellcasting"
             },
             {
                 "_className": "SpellChoice",
@@ -17174,16 +17038,17 @@
                 "className": "Wizard",
                 "id": "41156279-a162-44d3-99aa-e1dcff35185f",
                 "level": 5,
-                "source": "Expert Wizard Spellcasting"
+                "source": "Feat: Expert Wizard Spellcasting"
             },
             {
+                "_className": "SpellChoice",
                 "available": 1,
                 "castingType": "Prepared",
                 "charLevelAvailable": 16,
                 "className": "Wizard",
                 "id": "952d2578-e280-43d1-a771-18da3ee4f4c6",
                 "level": 6,
-                "source": "Expert Wizard Spellcasting"
+                "source": "Feat: Expert Wizard Spellcasting"
             }
         ]
     },
@@ -17223,29 +17088,7 @@
         ],
         "gainSpellBookSlots": [
             {
-                "spellBookSlots": [
-                    0,
-                    0,
-                    0,
-                    0,
-                    0,
-                    0,
-                    0,
-                    0,
-                    0,
-                    0,
-                    0,
-                    0,
-                    0,
-                    2,
-                    0,
-                    2,
-                    0,
-                    0,
-                    0,
-                    0,
-                    0
-                ],
+                "spellBookSlots": "[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 0, 2, 0, 0, 0, 0, 0]",
                 "className": "Wizard"
             }
         ],
@@ -17258,7 +17101,7 @@
                 "className": "Wizard",
                 "id": "6f2f31b5-fe6e-427e-9898-b8360bcafa42",
                 "level": 7,
-                "source": "Master Wizard Spellcasting"
+                "source": "Feat: Master Wizard Spellcasting"
             },
             {
                 "_className": "SpellChoice",
@@ -17268,14 +17111,14 @@
                 "className": "Wizard",
                 "id": "7f50f400-23ca-4176-a0db-32a0a4766453",
                 "level": 8,
-                "source": "Master Wizard Spellcasting"
+                "source": "Feat: Master Wizard Spellcasting"
             }
         ]
     },
     {
         "name": "Ruffian Racket",
         "desc": "You prefer to strong-arm or intimidate others rather than rely on finesse or fancy tricks. You might be an enforcer for organized crime, a highway bandit, or a noble who bullies others with threats of your family's power. Or, you might use your skills on the up and up, in a private security detail or as a guard in a city with the right temperament.\n\nYou use whatever tools you have at hand to get the job done. You can deal sneak attack damage with any simple weapon, in addition to the weapons listed in the sneak attack class feature. When you critically succeed at an attack roll using a simple weapon and the target has the flat-footed condition (unable to focus on defending itself), you also apply the critical specialization effect for the weapon you're wielding (page 283). You don't gain these benefits if the weapon has a damage die larger than d8 (after applying any abilities that alter its damage die size).\n\nYou're trained in Intimidation and medium armor. You can choose Strength as your key ability score. When you gain light armor expertise, you also gain expert proficiency in medium armor, and when you gain light armor mastery, you also gain master proficiency in medium armor.",
-        "hint": "You can deal sneak attack damage with any simple weapon, in addition to the weapons listed in the sneak attack class feature.",
+        "hint": "You can deal sneak attack damage with any simple weapon, in addition to the weapons listed in the sneak attack class feature. When you critically succeed at an attack roll using a simple weapon and the target has the flat-footed condition (unable to focus on defending itself), you also apply the critical specialization effect for the weapon you're wielding (page 283). You don't gain these benefits if the weapon has a damage die larger than d8 (after applying any abilities that alter its damage die size).",
         "showon": "Attacks",
         "shortdesc": "You prefer to strong-arm or intimidate others rather than rely on finesse or fancy tricks.",
         "gainSpecialization": [
@@ -17546,7 +17389,8 @@
                 "tradition": "Arcane"
             }
         ],
-        "gainSpellChoice": [{
+        "gainSpellChoice": [
+            {
                 "_className": "SpellChoice",
                 "available": 2,
                 "castingType": "Spontaneous",
@@ -17596,7 +17440,8 @@
                 "tradition": "Divine"
             }
         ],
-        "gainSpellChoice": [{
+        "gainSpellChoice": [
+            {
                 "_className": "SpellChoice",
                 "available": 2,
                 "castingType": "Spontaneous",
@@ -17646,7 +17491,8 @@
                 "tradition": "Occult"
             }
         ],
-        "gainSpellChoice": [{
+        "gainSpellChoice": [
+            {
                 "_className": "SpellChoice",
                 "available": 2,
                 "castingType": "Spontaneous",
@@ -17696,7 +17542,8 @@
                 "tradition": "Primal"
             }
         ],
-        "gainSpellChoice": [{
+        "gainSpellChoice": [
+            {
                 "_className": "SpellChoice",
                 "available": 2,
                 "castingType": "Spontaneous",
@@ -17787,8 +17634,6 @@
         "name": "Poison Weapon",
         "desc": "You apply poison to a weapon.",
         "specialdesc": "During your daily preparations, you can prepare a number of simple injury poisons equal to your rogue level. These poisons deal 1d4 poison damage. Only you can apply these poisons properly, and they expire the next time you prepare.",
-        "hint": "During your daily preparations, you gain a number of simple injury poisons equal to your rogue level. These poisons deal 1d4 poison damage. Only you can apply these poisons properly, and they expire the next time you prepare.",
-        "showon": "Health",
         "shortdesc": "You apply poison to a weapon.",
         "traits": [
             "Rogue",
@@ -18002,7 +17847,7 @@
         "levelreq": 10,
         "featreq": [
             "Thief Racket",
-            "Debilitating Strikes"
+            "Debilitating Strike"
         ]
     },
     {
@@ -18034,7 +17879,7 @@
         "levelreq": 10,
         "featreq": [
             "Scoundrel Racket",
-            "Debilitating Strikes"
+            "Debilitating Strike"
         ]
     },
     {
@@ -18049,7 +17894,7 @@
         "levelreq": 10,
         "featreq": [
             "Ruffian Racket",
-            "Debilitating Strikes"
+            "Debilitating Strike"
         ]
     },
     {
@@ -18064,7 +17909,7 @@
         ],
         "levelreq": 12,
         "featreq": [
-            "Debilitating Strikes"
+            "Debilitating Strike"
         ]
     },
     {
@@ -18312,7 +18157,8 @@
                 "source": "Feat: Trickster's Ace"
             }
         ],
-        "gainSpellChoice": [{
+        "gainSpellChoice": [
+            {
                 "_className": "SpellChoice",
                 "available": 1,
                 "castingType": "Prepared",
@@ -18337,7 +18183,7 @@
         ],
         "levelreq": 20,
         "featreq": [
-            "Debilitating Strikes"
+            "Debilitating Strike"
         ],
         "gainActivities": [
             "Enduring Debilitation"
@@ -18364,7 +18210,7 @@
     {
         "name": "Impossible Striker",
         "desc": "Your attacks are swift and deadly beyond explanation. Nothing can prevent you from making a sneak attack, even if your opponent can see every blow coming. Instead of dealing the damage from Sly Striker, you can deal your full sneak attack damage to a target even if the target isn't flat-footed.",
-        "hint": "Instead of dealing the damage from Sly Striker, you can deal your full sneak attack damage to a target even if the target isn't flat-footed.",
+        "hint": "Nothing can prevent you from making a sneak attack, even if your opponent can see every blow coming. Instead of dealing the damage from Sly Striker, you can deal your full sneak attack damage to a target even if the target isn't flat-footed.",
         "showon": "Attacks",
         "shortdesc": "Your attacks are swift and deadly beyond explanation.",
         "traits": [
@@ -18572,7 +18418,7 @@
         "featreq": [
             "Rogue Dedication"
         ],
-        "specialreq": "((characterService.get_Skills(character, '', 'Skill').find(skill => Skill_Level('Character', skill.name) == 2) && characterService.get_Skills(character, '', 'Skill').find(skill => Skill_Level('Character', skill.name) == 4))) || (this.have(character, characterService, charLevel) && (characterService.get_Skills(character, '', 'Skill').find(skill => Skill_Level('Character', skill.name) >= 2) && characterService.get_Skills(character, '', 'Skill').find(skill => Skill_Level('Character', skill.name) >= 4)))",
+        "specialreq": "((characterService.get_Skills(character, '', 'Skill').find(skill => Skill_Level('Character', skill.name) == 2) && characterService.get_Skills(character, '', 'Skill').find(skill => Skill_Level('Character', skill.name) == 4))) || (this.have(character, characterService, charLevel) && (characterService.get_Skills(character, '', 'Skill').find(skill => Skill_Level('Character', skill.name) >= 2) && characterService.get_Skills(character, '', 'Skill').find(skill => Skill_Level('Character', skill.name) >= 4)))",
         "specialreqdesc": "trained in at least one skill and expert in at least one skill",
         "gainFeatChoice": [
             {
@@ -18586,17 +18432,17 @@
             {
                 "_className": "SkillChoice",
                 "available": 1,
-                "source": "Feat: Skill Mastery",
                 "maxRank": 4,
                 "minRank": 2,
+                "source": "Feat: Skill Mastery",
                 "type": "Skill"
             },
             {
                 "_className": "SkillChoice",
                 "available": 1,
-                "source": "Feat: Skill Mastery",
                 "maxRank": 6,
                 "minRank": 4,
+                "source": "Feat: Skill Mastery",
                 "type": "Skill"
             }
         ]
@@ -18619,7 +18465,7 @@
                 "feats": [
                     {
                         "locked": true,
-                        "name": "Deny Advantage (Rogue)"
+                        "name": "Deny Advantage (Rogue)"
                     }
                 ],
                 "source": "Feat: Uncanny Dodge",
@@ -18663,15 +18509,267 @@
         ]
     },
     {
-        "name": "Inspire Competence",
-        "desc": "You learn the inspire competence composition cantrip, which aids your allies’ skills.",
-        "shortdesc": "You learn the inspire competence composition cantrip, which aids your allies’ skills.",
+        "name": "Enigma Muse",
+        "desc": "Your muse is a mystery, driving you to uncover the hidden secrets of the multiverse. If your muse is a creature, it might be a dragon or otherworldly being; if a deity, it might be Irori or Nethys. You gain the Bardic Lore feat and add true strike to your spell repertoire.",
+        "inputRequired": "Add True Strike to your repertoire.",
+        "shortdesc": "Your muse is a mystery, driving you to uncover the hidden secrets of the multiverse.",
+        "gainFeatChoice": [
+            {
+                "_className": "FeatChoice",
+                "feats": [
+                    {
+                        "locked": true,
+                        "name": "Bardic Lore"
+                    }
+                ],
+                "insertClass": "Bard",
+                "source": "Enigma Muse",
+                "type": "Class"
+            }
+        ],
+        "gainSpellChoice": [
+            {
+                "_className": "SpellChoice",
+                "available": 1,
+                "castingType": "Spontaneous",
+                "charLevelAvailable": 1,
+                "className": "Bard",
+                "id": "66c8a698-74e0-4cb8-af02-6ec016989b80",
+                "insertClass": "Bard",
+                "level": 1,
+                "signatureSpell": true,
+                "source": "Bard Spellcasting",
+                "spells": [
+                    {
+                        "_className": "SpellGain",
+                        "name": "True Strike"
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "name": "Maestro Muse",
+        "desc": "Your muse is a virtuoso, inspiring you to greater heights. If it's a creature, it might be a performance-loving creature such as a choral angel or lillend azata; if a deity, it might be Shelyn. As a bard with a Maestro Muse, you are an inspiration to your allies and confident of your musical and oratorical abilities. You gain the Lingering Composition feat and add soothe to your spell repertoire.",
+        "inputRequired": "Add Soothe to your repertoire.",
+        "shortdesc": "Your muse is a virtuoso, inspiring you to greater heights.",
+        "gainFeatChoice": [
+            {
+                "_className": "FeatChoice",
+                "feats": [
+                    {
+                        "locked": true,
+                        "name": "Lingering Composition"
+                    }
+                ],
+                "insertClass": "Bard",
+                "source": "Maestro Muse",
+                "type": "Class"
+            }
+        ],
+        "gainSpellChoice": [
+            {
+                "_className": "SpellChoice",
+                "available": 1,
+                "castingType": "Spontaneous",
+                "charLevelAvailable": 1,
+                "className": "Bard",
+                "id": "dcef5c6f-3da6-43e2-bf2d-6be402b4fe29",
+                "insertClass": "Bard",
+                "level": 1,
+                "signatureSpell": true,
+                "source": "Bard Spellcasting",
+                "spells": [
+                    {
+                        "_className": "SpellGain",
+                        "name": "Soothe"
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "name": "Polymath Muse",
+        "desc": "Your muse is a jack of all trades, flitting between skills and pursuits. If it’s is a creature, it might be an eclectic creature like a fey; if a deity, it might be Desna or Calistria. As a bard with a polymath muse, you are interested in a wide array of topics but rarely dedicated to any one, and you rarely make up your mind—you want to try everything. You gain the Versatile Performance feat and add unseen servant to your spell repertoire.",
+        "inputRequired": "Add Unseen Servant to your repertoire.",
+        "shortdesc": "Your muse is a jack of all trades, flitting between skills and pursuits.",
+        "gainFeatChoice": [
+            {
+                "_className": "FeatChoice",
+                "feats": [
+                    {
+                        "locked": true,
+                        "name": "Versatile Performance"
+                    }
+                ],
+                "insertClass": "Bard",
+                "source": "Polymath Muse",
+                "type": "Class"
+            }
+        ],
+        "gainSpellChoice": [
+            {
+                "_className": "SpellChoice",
+                "available": 1,
+                "castingType": "Spontaneous",
+                "charLevelAvailable": 1,
+                "className": "Bard",
+                "id": "ae509967-967e-40e1-ba97-9adbc543de4d",
+                "insertClass": "Bard",
+                "level": 1,
+                "signatureSpell": true,
+                "source": "Bard Spellcasting",
+                "spells": [
+                    {
+                        "_className": "SpellGain",
+                        "name": "Unseen Servant"
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "name": "Bardic Lore",
+        "desc": "Your studies make you informed on every subject. You are trained in Bardic Lore, a special Lore skill that can be used only to Recall Knowledge, but on any topic. If you have legendary proficiency in Occultism, you gain expert proficiency in Bardic Lore, but you can't increase your proficiency rank in Bardic Lore by any other means.",
+        "hint": "Bardic Lore can be used only to Recall Knowledge, but on any topic.",
+        "showon": "Bardic Lore",
+        "internalNote": "Adding the lore feats is hardcoded since this is the only specific lore gained by a feat. Also hardcoded is the increase from Occultism.",
+        "shortdesc": "Your studies make you informed on every subject.",
+        "traits": [
+            "Bard"
+        ],
+        "levelreq": 1,
+        "featreq": [
+            "Enigma Muse or Multifarious Muse: Enigma Muse"
+        ],
+        "gainSkillChoice": [
+            {
+                "_className": "SkillChoice",
+                "increases": [
+                    {
+                        "locked": true,
+                        "maxRank": 2,
+                        "name": "Lore: Bardic",
+                        "source": "Feat: Bardic Lore"
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "name": "Lingering Composition",
+        "desc": "By adding a flourish, you make your compositions last longer. You learn the lingering composition focus spell. Increase the number of Focus Points in your focus pool by 1.",
+        "shortdesc": "By adding a flourish, you make your compositions last longer.",
+        "traits": [
+            "Bard"
+        ],
+        "levelreq": 1,
+        "featreq": [
+            "Maestro Muse or Multifarious Muse: Maestro Muse"
+        ],
+        "specialreq": "character.class.spellCasting.filter(casting => casting.castingType == 'Focus' && casting.spellChoices.length).length",
+        "specialreqdesc": "focus pool",
+        "effects": [
+            {
+                "affected": "Focus Pool",
+                "value": "1"
+            }
+        ],
+        "onceEffects": [
+            {
+                "affected": "Focus Points",
+                "value": "1"
+            }
+        ],
+        "gainSpellChoice": [
+            {
+                "_className": "SpellChoice",
+                "castingType": "Focus",
+                "className": "Bard",
+                "id": "6f85d4a9-d078-4f96-b447-81468ca371f1",
+                "level": -1,
+                "source": "Feat: Lingering Composition",
+                "spells": [
+                    {
+                        "_className": "SpellGain",
+                        "locked": true,
+                        "name": "Lingering Composition"
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "name": "Versatile Performance",
+        "desc": "You can rely on the grandeur of your performances rather than ordinary social skills. You can use Performance instead of Diplomacy to Make an Impression and instead of Intimidation to Demoralize. You can also use an acting Performance instead of Deception to Impersonate. You can use your proficiency rank in Performance to meet the requirements of skill feats that require a particular rank in Deception, Diplomacy, or Intimidation.",
+        "hint": "You can use Performance instead of Diplomacy to Make an Impression and instead of Intimidation to Demoralize. You can also use an acting Performance instead of Deception to Impersonate.",
+        "showon": "Deception, Diplomacy, Intimidation",
+        "internalNote": "Using Performance for skill requirements is hardcoded.",
+        "shortdesc": "You can rely on the grandeur of your performances rather than ordinary social skills.",
+        "traits": [
+            "Bard"
+        ],
+        "levelreq": 1,
+        "featreq": [
+            "Polymath Muse or Multifarious Muse: Polymath Muse"
+        ]
+    },
+    {
+        "name": "Cantrip Expansion (Spontaneous)",
+        "desc": "A greater understanding of your magic broadens your range of simple spells. Add two additional cantrips from your spell list to your repertoire.",
+        "shortdesc": "Study broadens your range of simple spells.",
+        "traits": [
+            "Bard",
+            "Sorcerer"
+        ],
+        "levelreq": 2,
+        "gainSpellChoice": [
+            {
+                "_className": "SpellChoice",
+                "available": 2,
+                "castingType": "Spontaneous",
+                "id": "1ee48507-69d4-4dce-8405-c7590b8500de",
+                "level": 0,
+                "source": "Feat: Cantrip Expansion (Spontaneous)"
+            }
+        ]
+    },
+    {
+        "name": "Esoteric Polymath",
+        "desc": "You keep a book of occult spells, similar to a wizard's spellbook, and can use its spells to supplement your spell repertoire. Add all the spells in your repertoire to this book for free. You can use the Occultism skill to Learn Spells (page 238) and add them to your spellbook by paying the appropriate cost, similar to a wizard.\n\nDuring your daily preparations, choose any one spell from your book of occult spells. If that spell is already in your spell repertoire, you can treat it as an additional signature spell that day. If it isn't in your repertoire, treat it as though it were until your next daily preparations.",
+        "internalNote": "The mechanism is hardcoded to decide whether the spell is a signature spell.",
+        "shortdesc": "You keep a book of occult spells, similar to a wizard's spellbook.",
         "traits": [
             "Bard"
         ],
         "levelreq": 2,
         "featreq": [
-            "Maestro Muse"
+            "Polymath Muse or Multifarious Muse: Polymath Muse"
+        ],
+        "gainSpellChoice": [
+            {
+                "_className": "SpellChoice",
+                "available": 1,
+                "castingType": "Prepared",
+                "className": "Bard",
+                "dynamicLevel": "highestSpellLevel",
+                "id": "cebd89ea-6ae6-4148-a4ab-b2a396fea275",
+                "source": "Feat: Esoteric Polymath",
+                "spellBookOnly": true,
+                "tradition": "Occult"
+            }
+        ]
+    },
+    {
+        "name": "Inspire Competence",
+        "desc": "You learn the inspire competence composition cantrip, which aids your allies' skills.",
+        "shortdesc": "You learn the inspire competence composition cantrip, which aids your allies' skills.",
+        "traits": [
+            "Bard"
+        ],
+        "levelreq": 2,
+        "featreq": [
+            "Maestro Muse or Multifarious Muse: Maestro Muse"
         ],
         "gainSpellChoice": [
             {
@@ -18688,6 +18786,1244 @@
                         "name": "Inspire Competence"
                     }
                 ]
+            }
+        ]
+    },
+    {
+        "name": "Loremaster's Etude",
+        "desc": "You magically unlock memories, making them easier to recall. You learn the loremaster's etude composition spell. Increase the number of Focus Points in your focus pool by 1.",
+        "shortdesc": "You magically unlock memories, making them easier to recall.",
+        "traits": [
+            "Bard",
+            "Fortune"
+        ],
+        "levelreq": 2,
+        "featreq": [
+            "Enigma Muse or Multifarious Muse: Enigma Muse"
+        ],
+        "specialreq": "character.class.spellCasting.filter(casting => casting.castingType == 'Focus' && casting.spellChoices.length).length",
+        "specialreqdesc": "focus pool",
+        "effects": [
+            {
+                "affected": "Focus Pool",
+                "value": "1"
+            }
+        ],
+        "onceEffects": [
+            {
+                "affected": "Focus Points",
+                "value": "1"
+            }
+        ],
+        "gainSpellChoice": [
+            {
+                "_className": "SpellChoice",
+                "castingType": "Focus",
+                "className": "Bard",
+                "id": "6dd7ee17-a4b8-45ce-ad7e-3d7d4c50e2d4",
+                "level": -1,
+                "source": "Feat: Loremaster's Etude",
+                "spells": [
+                    {
+                        "_className": "SpellGain",
+                        "locked": true,
+                        "name": "Loremaster's Etude"
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "name": "Multifarious Muse",
+        "desc": "Your muse doesn't fall into a single label. Choose a type of muse other than that of your own. You gain a 1st-level feat that requires that muse, and your muse is now also a muse of that type, allowing you to take feats with the other muse as a prerequisite. You don't gain any of the other effects of the muse you chose.",
+        "specialdesc": "You can take this feat multiple times. Each time you do, you must choose a different type of muse other than that of your own.",
+        "subTypes": true,
+        "shortdesc": "Your muse doesn't fall into a single label.",
+        "traits": [
+            "Bard"
+        ],
+        "levelreq": 2
+    },
+    {
+        "name": "Multifarious Muse: Enigma Muse",
+        "desc": "Your muse doesn't fall into a single label. You gain a 1st-level feat that requires the enigma muse, and your muse is now also an enigma muse, allowing you to take feats with it as a prerequisite. You don't gain any of the other effects of the enigma muse.",
+        "subType": "Enigma Muse",
+        "superType": "Multifarious Muse",
+        "shortdesc": "Your muse doesn't fall into a single label.",
+        "specialreq": "!character.get_FeatsTaken(1, charLevel, 'Enigma Muse').length",
+        "specialreqdesc": "no enigma muse",
+        "gainFeatChoice": [
+            {
+                "_className": "FeatChoice",
+                "available": 1,
+                "filter": [
+                    "Bardic Lore",
+                    "Lingering Composition",
+                    "Versatile Performance"
+                ],
+                "id": "1-Class-Feat: Multifarious Muse: Enigma Muse-1",
+                "source": "Feat: Multifarious Muse: Enigma Muse",
+                "specialChoice": true,
+                "type": "Class"
+            }
+        ]
+    },
+    {
+        "name": "Multifarious Muse: Maestro Muse",
+        "desc": "Your muse doesn't fall into a single label. You gain a 1st-level feat that requires the maestro muse, and your muse is now also a maestro muse, allowing you to take feats with it as a prerequisite. You don't gain any of the other effects of the maestro muse.",
+        "subType": "Maestro Muse",
+        "superType": "Multifarious Muse",
+        "shortdesc": "Your muse doesn't fall into a single label.",
+        "specialreq": "!character.get_FeatsTaken(1, charLevel, 'Maestro Muse').length",
+        "specialreqdesc": "no maestro muse",
+        "gainFeatChoice": [
+            {
+                "_className": "FeatChoice",
+                "available": 1,
+                "filter": [
+                    "Bardic Lore",
+                    "Lingering Composition",
+                    "Versatile Performance"
+                ],
+                "id": "1-Class-Feat: Multifarious Muse: Enigma Muse-1",
+                "source": "Feat: Multifarious Muse: Enigma Muse",
+                "specialChoice": true,
+                "type": "Class"
+            }
+        ]
+    },
+    {
+        "name": "Multifarious Muse: Polymath Muse",
+        "desc": "Your muse doesn't fall into a single label. You gain a 1st-level feat that requires the polymath muse, and your muse is now also a polymath muse, allowing you to take feats with it as a prerequisite. You don't gain any of the other effects of the polymath muse.",
+        "subType": "Polymath Muse",
+        "superType": "Multifarious Muse",
+        "shortdesc": "Your muse doesn't fall into a single label.",
+        "specialreq": "!character.get_FeatsTaken(1, charLevel, 'Polymath Muse').length",
+        "specialreqdesc": "no polymath muse",
+        "gainFeatChoice": [
+            {
+                "_className": "FeatChoice",
+                "available": 1,
+                "filter": [
+                    "Bardic Lore",
+                    "Lingering Composition",
+                    "Versatile Performance"
+                ],
+                "id": "1-Class-Feat: Multifarious Muse: Enigma Muse-1",
+                "source": "Feat: Multifarious Muse: Enigma Muse",
+                "specialChoice": true,
+                "type": "Class"
+            }
+        ]
+    },
+    {
+        "name": "Inspire Defense",
+        "desc": "You learn the inspire defense composition cantrip, which protects you and allies.",
+        "shortdesc": "You learn the inspire defense composition cantrip, which protects you and allies.",
+        "traits": [
+            "Bard"
+        ],
+        "levelreq": 4,
+        "featreq": [
+            "Maestro Muse or Multifarious Muse: Maestro Muse"
+        ],
+        "gainSpellChoice": [
+            {
+                "_className": "SpellChoice",
+                "castingType": "Focus",
+                "className": "Bard",
+                "id": "e69df029-d310-4584-b7e5-e4c9976e7237",
+                "level": 0,
+                "source": "Feat: Inspire Defense",
+                "spells": [
+                    {
+                        "_className": "SpellGain",
+                        "locked": true,
+                        "name": "Inspire Defense"
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "name": "Melodious Spell",
+        "desc": "You subtly weave your spellcasting into your performance.",
+        "shortdesc": "You subtly weave your spellcasting into your performance.",
+        "traits": [
+            "Bard",
+            "Concentrate",
+            "Manipulate",
+            "Metamagic"
+        ],
+        "levelreq": 4,
+        "gainActivities": [
+            "Melodious Spell"
+        ]
+    },
+    {
+        "name": "Triple Time",
+        "desc": "You learn the triple time composition cantrip, which speeds up you and your allies for a round.",
+        "shortdesc": "You learn to speed up yourself and your allies with your performance.",
+        "traits": [
+            "Bard"
+        ],
+        "levelreq": 4,
+        "gainSpellChoice": [
+            {
+                "_className": "SpellChoice",
+                "castingType": "Focus",
+                "className": "Bard",
+                "id": "898994a4-66ea-4a5e-8084-cf0bab94c314",
+                "level": 0,
+                "source": "Feat: Triple Time",
+                "spells": [
+                    {
+                        "_className": "SpellGain",
+                        "locked": true,
+                        "name": "Triple Time"
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "name": "Versatile Signature",
+        "desc": "While most bards are known for certain signature performances and spells, you’re always tweaking your available repertoire. When you make your daily preparations, you can change one of your signature spells to a different spell of that level from your repertoire.",
+        "hint": "When you make your daily preparations, you can change one of your signature spells to a different spell of that level from your repertoire.",
+        "showon": "Bard Spontaneous Spells",
+        "inputRequired": "To perform this change, you can exchange spells between your signature spell slot and another spell slot of the same level.",
+        "internalNote": "There is no mechanical difference. This feat gives you official permission to change your spells every day.",
+        "shortdesc": "You're always tweaking your available repertoire.",
+        "traits": [
+            "Bard"
+        ],
+        "levelreq": 4,
+        "featreq": [
+            "Polymath Muse or Multifarious Muse: Polymath Muse"
+        ]
+    },
+    {
+        "name": "Dirge of Doom",
+        "desc": "You learn the dirge of doom composition cantrip, which frightens your enemies.",
+        "shortdesc": "You learn to frighten your enemies with your performance.",
+        "traits": [
+            "Bard"
+        ],
+        "levelreq": 6,
+        "gainSpellChoice": [
+            {
+                "_className": "SpellChoice",
+                "castingType": "Focus",
+                "className": "Bard",
+                "id": "a1e0ccdd-4232-46a2-8549-916168d17650",
+                "level": 0,
+                "source": "Feat: Dirge of Doom",
+                "spells": [
+                    {
+                        "_className": "SpellGain",
+                        "locked": true,
+                        "name": "Dirge of Doom"
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "name": "Harmonize",
+        "desc": "You can perform multiple compositions simultaneously.",
+        "shortdesc": "You can perform multiple compositions simultaneously.",
+        "traits": [
+            "Bard",
+            "Concentrate",
+            "Manipulate",
+            "Metamagic"
+        ],
+        "levelreq": 6,
+        "featreq": [
+            "Maestro Muse or Multifarious Muse: Maestro Muse"
+        ],
+        "gainActivities": [
+            "Harmonize"
+        ]
+    },
+    {
+        "name": "Eclectic Skill",
+        "desc": "Your broad experiences translate to a range of skills. Your proficiency bonus to untrained skill checks is equal to your level. You can attempt any skill check that normally requires you to be trained, even if you are untrained. If you have legendary proficiency in Occultism, you can attempt any skill check that normally requires you to have expert proficiency, even if untrained or trained.",
+        "hint": "You can attempt any skill check that normally requires you to be trained, even if you are untrained. If you have legendary proficiency in Occultism, you can attempt any skill check that normally requires you to have expert proficiency, even if untrained or trained.",
+        "showon": "Skills",
+        "shortdesc": "Your broad experiences translate to a range of skills.",
+        "traits": [
+            "Bard"
+        ],
+        "levelreq": 8,
+        "featreq": [
+            "Polymath Muse or Multifarious Muse: Polymath Muse"
+        ],
+        "skillreq": [
+            {
+                "skill": "Occultism",
+                "value": 6
+            }
+        ],
+        "effects": [
+            {
+                "affected": "Untrained Skills",
+                "setValue": "Level"
+            }
+        ]
+    },
+    {
+        "name": "Inspire Heroics",
+        "desc": "Your performances inspire even greater deeds in your allies. You learn the inspire heroics metamagic focus spell. Increase the number of Focus Points in your focus pool by 1.",
+        "shortdesc": "Your performances inspire even greater deeds in your allies.",
+        "traits": [
+            "Bard"
+        ],
+        "levelreq": 8,
+        "featreq": [
+            "Maestro Muse or Multifarious Muse: Maestro Muse"
+        ],
+        "specialreq": "character.class.spellCasting.filter(casting => casting.castingType == 'Focus' && casting.spellChoices.length).length",
+        "specialreqdesc": "focus pool",
+        "effects": [
+            {
+                "affected": "Focus Pool",
+                "value": "1"
+            }
+        ],
+        "onceEffects": [
+            {
+                "affected": "Focus Points",
+                "value": "1"
+            }
+        ],
+        "gainSpellChoice": [
+            {
+                "_className": "SpellChoice",
+                "castingType": "Focus",
+                "className": "Bard",
+                "id": "0e46f531-9bd4-4d6b-8ebf-6907b8ad510c",
+                "level": -1,
+                "source": "Feat: Inspire Heroics",
+                "spells": [
+                    {
+                        "_className": "SpellGain",
+                        "locked": true,
+                        "name": "Inspire Heroics"
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "name": "Know-It-All",
+        "desc": "When you succeed at a Knowledge check, you gain additional information or context. When you critically succeed at a Knowledge check, at the GM’s discretion you might gain even more additional information or context than normal.",
+        "hint": "When you critically succeed at a Knowledge check, at the GM’s discretion you might gain even more additional information or context than normal.",
+        "showon": "Arcana, Crafting, Lore, Medicine, Nature, Occultism, Religion, Society",
+        "shortdesc": "Your knowledge of the world expands beyond what you have read.",
+        "traits": [
+            "Bard"
+        ],
+        "levelreq": 8,
+        "featreq": [
+            "Enigma Muse or Multifarious Muse: Enigma Muse"
+        ]
+    },
+    {
+        "name": "House of Imaginary Walls",
+        "desc": "You erect an imaginary barrier others believe to be real. You learn the house of imaginary walls composition cantrip.",
+        "shortdesc": "You erect an imaginary barrier others believe to be real.",
+        "traits": [
+            "Bard"
+        ],
+        "levelreq": 10,
+        "gainSpellChoice": [
+            {
+                "_className": "SpellChoice",
+                "castingType": "Focus",
+                "className": "Bard",
+                "id": "0e46f531-9bd4-4d6b-8ebf-6907b8ad510c",
+                "level": 0,
+                "source": "Feat: House of Imaginary Walls",
+                "spells": [
+                    {
+                        "_className": "SpellGain",
+                        "locked": true,
+                        "name": "House of Imaginary Walls"
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "name": "Unusual Composition",
+        "desc": "You can translate the emotion and power of a composition to other mediums.",
+        "shortdesc": "You can translate the emotion and power of a composition to other mediums.",
+        "traits": [
+            "Bard",
+            "Concentrate",
+            "Manipulate",
+            "Metamagic"
+        ],
+        "levelreq": 10,
+        "featreq": [
+            "Polymath Muse or Multifarious Muse: Polymath Muse"
+        ],
+        "gainActivities": [
+            "Unusual Composition"
+        ]
+    },
+    {
+        "name": "Eclectic Polymath",
+        "desc": "Your flexible mind can quickly shift spells. If you add a spell to your repertoire during your daily preparations using Esoteric Polymath, when you prepare again, you can choose to keep the new spell from Esoteric Polymath in your repertoire and instead lose access to another spell of the same level in your repertoire.",
+        "hint": "If you add a spell to your repertoire during your daily preparations using Esoteric Polymath, when you prepare again, you can choose to keep the new spell from Esoteric Polymath in your repertoire and instead lose access to another spell of the same level in your repertoire.",
+        "showon": "Bard Spontaneous Spells",
+        "inputRequired": "To perform this change, you can change a spell slot in your repertoire to the spell you chose with Esoteric Polymath.",
+        "internalNote": "There is no mechanical difference. This feat gives you official permission to change your spells every day.",
+        "shortdesc": "Your flexible mind can quickly shift spells.",
+        "traits": [
+            "Bard"
+        ],
+        "levelreq": 12,
+        "featreq": [
+            "Esoteric Polymath"
+        ]
+    },
+    {
+        "name": "Inspirational Focus",
+        "desc": "Your connection to your muse has granted you unusual focus. If you have spent at least 2 Focus Points since the last time you Refocused, you recover 2 Focus Points when you Refocus instead of 1.",
+        "hint": "If you have spent at least 2 Focus Points since the last time you Refocused, you recover 2 Focus Points when you Refocus instead of 1.",
+        "showon": "Focus",
+        "internalNote": "The effect is hardcoded.",
+        "shortdesc": "Your connection to your muse has granted you unusual focus.",
+        "traits": [
+            "Bard"
+        ],
+        "levelreq": 12
+    },
+    {
+        "name": "Silver's Refrain",
+        "desc": "You learn the silver’s refrain composition cantrip, which aids you when fighting devils.",
+        "shortdesc": "Learn the silver's refrain composition cantrip.",
+        "sourceBook": "Pathfinder #147: Tomorrow Must Burn",
+        "traits": [
+            "Rare",
+            "Bard"
+        ],
+        "levelreq": 12,
+        "gainSpellChoice": [
+            {
+                "_className": "SpellChoice",
+                "castingType": "Focus",
+                "className": "Bard",
+                "id": "07d8514a-0e48-45a5-ac47-803e006919bb",
+                "level": 0,
+                "source": "Feat: Silver's Refrain",
+                "spells": [
+                    {
+                        "_className": "SpellGain",
+                        "locked": true,
+                        "name": "Silver's Refrain"
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "name": "Allegro",
+        "desc": "You can quicken your allies with a fast-paced performance. You learn the allegro composition cantrip.",
+        "shortdesc": "You can quicken your allies with a fast-paced performance.",
+        "traits": [
+            "Bard"
+        ],
+        "levelreq": 14,
+        "gainSpellChoice": [
+            {
+                "_className": "SpellChoice",
+                "castingType": "Focus",
+                "className": "Bard",
+                "id": "d14cca19-6978-40e4-834e-e30863f7a446",
+                "level": 0,
+                "source": "Feat: Allegro",
+                "spells": [
+                    {
+                        "_className": "SpellGain",
+                        "locked": true,
+                        "name": "Allegro"
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "name": "Soothing Ballad",
+        "desc": "You soothe your allies' wounds with the power of your performance. You learn the soothing ballad composition spell. Increase the number of Focus Points in your focus pool by 1.",
+        "shortdesc": "You soothe your allies' wounds with the power of your performance.",
+        "traits": [
+            "Bard"
+        ],
+        "levelreq": 14,
+        "specialreq": "character.class.spellCasting.filter(casting => casting.castingType == 'Focus' && casting.spellChoices.length).length",
+        "specialreqdesc": "focus pool",
+        "effects": [
+            {
+                "affected": "Focus Pool",
+                "value": "1"
+            }
+        ],
+        "onceEffects": [
+            {
+                "affected": "Focus Points",
+                "value": "1"
+            }
+        ],
+        "gainSpellChoice": [
+            {
+                "_className": "SpellChoice",
+                "castingType": "Focus",
+                "className": "Bard",
+                "id": "59f264ae-95c8-4ca4-9fec-e778b93c55f6",
+                "level": -1,
+                "source": "Feat: Soothing Ballad",
+                "spells": [
+                    {
+                        "_className": "SpellGain",
+                        "locked": true,
+                        "name": "Soothing Ballad"
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "name": "True Hypercognition",
+        "desc": "Your mind works at an incredible pace.",
+        "shortdesc": "Your mind works at an incredible pace.",
+        "traits": [
+            "Bard"
+        ],
+        "levelreq": 14,
+        "featreq": [
+            "Enigma Muse or Multifarious Muse: Enigma Muse"
+        ],
+        "gainActivities": [
+            "True Hypercognition"
+        ]
+    },
+    {
+        "name": "Studious Capacity",
+        "desc": "Your continued study of occult magic has increased your magical capacity, allowing you to cast spells even when it seems impossible. You can cast one spell each day even after you’ve run out of spell slots of the appropriate spell level, but you can’t use this ability to cast a spell of your highest spell level.",
+        "internalNote": "The effect is hardcoded.",
+        "shortdesc": "Your continued study of occult magic has increased your magical capacity.",
+        "traits": [
+            "Bard"
+        ],
+        "levelreq": 16,
+        "featreq": [
+            "Enigma Muse or Multifarious Muse: Enigma Muse"
+        ],
+        "skillreq": [
+            {
+                "skill": "Occultism",
+                "value": 8
+            }
+        ]
+    },
+    {
+        "name": "Deep Lore",
+        "desc": "Your repertoire is vast, containing far more spells than usual. Add one spell to your repertoire of each level you can cast.",
+        "shortdesc": "Your repertoire is vast, containing far more spells than usual.",
+        "traits": [
+            "Bard"
+        ],
+        "levelreq": 18,
+        "featreq": [
+            "Enigma Muse or Multifarious Muse: Enigma Muse"
+        ],
+        "skillreq": [
+            {
+                "skill": "Occultism",
+                "value": 8
+            }
+        ],
+        "gainSpellChoice": [
+            {
+                "_className": "SpellChoice",
+                "available": 1,
+                "castingType": "Spontaneous",
+                "charLevelAvailable": 1,
+                "className": "Bard",
+                "id": "b91c8ede-b4fc-462e-aa48-4b15b9e4e139",
+                "level": 1,
+                "source": "Feat: Deep Lore"
+            },
+            {
+                "_className": "SpellChoice",
+                "available": 1,
+                "castingType": "Spontaneous",
+                "charLevelAvailable": 3,
+                "className": "Bard",
+                "id": "9d9fe25e-7852-4743-aed7-6331c31c9eb6",
+                "insertClass": "Bard",
+                "level": 2,
+                "source": "Feat: Deep Lore"
+            },
+            {
+                "_className": "SpellChoice",
+                "available": 1,
+                "castingType": "Spontaneous",
+                "charLevelAvailable": 5,
+                "className": "Bard",
+                "id": "d7eeb8aa-99bc-48a3-959b-cbb85aebe01b",
+                "insertClass": "Bard",
+                "level": 3,
+                "source": "Feat: Deep Lore"
+            },
+            {
+                "_className": "SpellChoice",
+                "available": 1,
+                "castingType": "Spontaneous",
+                "charLevelAvailable": 7,
+                "className": "Bard",
+                "id": "3056f7e7-a030-41d1-919f-73274c4c05b1",
+                "insertClass": "Bard",
+                "level": 4,
+                "source": "Feat: Deep Lore"
+            },
+            {
+                "_className": "SpellChoice",
+                "available": 1,
+                "castingType": "Spontaneous",
+                "charLevelAvailable": 9,
+                "className": "Bard",
+                "id": "799532ad-d695-48b6-bfe9-8870b316e59a",
+                "insertClass": "Bard",
+                "level": 5,
+                "source": "Feat: Deep Lore"
+            },
+            {
+                "_className": "SpellChoice",
+                "available": 1,
+                "castingType": "Spontaneous",
+                "charLevelAvailable": 11,
+                "className": "Bard",
+                "id": "fee90809-6b0f-4ca5-9b7a-fb368ce0b947",
+                "insertClass": "Bard",
+                "level": 6,
+                "source": "Feat: Deep Lore"
+            },
+            {
+                "_className": "SpellChoice",
+                "available": 1,
+                "castingType": "Spontaneous",
+                "charLevelAvailable": 13,
+                "className": "Bard",
+                "id": "a635c46a-7c31-4284-997a-eab39b0c46f6",
+                "insertClass": "Bard",
+                "level": 7,
+                "source": "Feat: Deep Lore"
+            },
+            {
+                "_className": "SpellChoice",
+                "available": 1,
+                "castingType": "Spontaneous",
+                "charLevelAvailable": 15,
+                "className": "Bard",
+                "id": "e4f5e126-d421-414a-b279-e2dfcde8779b",
+                "insertClass": "Bard",
+                "level": 8,
+                "source": "Feat: Deep Lore"
+            },
+            {
+                "_className": "SpellChoice",
+                "available": 1,
+                "castingType": "Spontaneous",
+                "charLevelAvailable": 17,
+                "className": "Bard",
+                "id": "cd60d4c9-da03-48b3-9899-0ffded8c7456",
+                "insertClass": "Bard",
+                "level": 9,
+                "source": "Feat: Deep Lore"
+            },
+            {
+                "_className": "SpellChoice",
+                "available": 1,
+                "castingType": "Spontaneous",
+                "charLevelAvailable": 19,
+                "className": "Bard",
+                "id": "eaf5191d-f3a8-4cf7-ad37-690071bacd56",
+                "insertClass": "Bard",
+                "level": 10,
+                "source": "Feat: Deep Lore"
+            }
+        ]
+    },
+    {
+        "name": "Eternal Composition",
+        "desc": "The world is a stage upon which you are always playing. You are permanently quickened; you can use your extra action only to cast a composition cantrip that requires 1 action to cast. While in exploration mode, you can declare that you are performing an eligible composition cantrip while using any exploration tactic. Even before your first turn in a combat encounter, that cantrip is active as if you had cast it on your previous turn.",
+        "hint": "You are permanently quickened; you can use your extra action only to cast a composition cantrip that requires 1 action to cast. While in exploration mode, you can declare that you are performing an eligible composition cantrip while using any exploration tactic. Even before your first turn in a combat encounter, that cantrip is active as if you had cast it on your previous turn.",
+        "showon": "Spellbook",
+        "shortdesc": "The world is a stage upon which you are always playing.",
+        "traits": [
+            "Bard"
+        ],
+        "levelreq": 18,
+        "featreq": [
+            "Maestro Muse or Multifarious Muse: Maestro Muse"
+        ],
+        "gainConditions": [
+            {
+                "name": "Quickened (Eternal Composition)",
+                "source": "Enduring Quickness"
+            }
+        ]
+    },
+    {
+        "name": "Impossible Polymath",
+        "desc": "Your esoteric formulas are so unusual that they allow you to dabble in magic from diverse traditions that other bards don’t understand. As long as you’re trained in Arcana, you can add arcane spells to your book from Esoteric Polymath; as long as you’re trained in Nature, you can add primal spells to your book; and as long as you are trained in Religion, you can add divine spells to your book.\n\nLike your other spells in your book, you can add one of these spells from another tradition to your repertoire as an occult spell each day using Esoteric Polymath, but you can’t retain any spells from another tradition when you prepare again, even if you have Eclectic Polymath.",
+        "hint": "As long as you’re trained in Arcana, you can add arcane spells to your book from Esoteric Polymath; as long as you’re trained in Nature, you can add primal spells to your book; and as long as you are trained in Religion, you can add divine spells to your book.\n\nLike your other spells in your book, you can add one of these spells from another tradition to your repertoire as an occult spell each day using Esoteric Polymath, but you can’t retain any spells from another tradition when you prepare again, even if you have Eclectic Polymath.",
+        "showon": "Bard Spontaneous Spells",
+        "internalNote": "The effect is hardcoded.",
+        "shortdesc": "Your esoteric formulas are so unusual that they allow you to dabble in magic from diverse traditions.",
+        "traits": [
+            "Bard"
+        ],
+        "levelreq": 18,
+        "featreq": [
+            "Esoteric Polymath"
+        ],
+        "skillreq": [
+            {
+                "skill": "Arcana",
+                "value": 2
+            },
+            {
+                "skill": "Nature",
+                "value": 2
+            },
+            {
+                "skill": "Religion",
+                "value": 2
+            }
+        ]
+    },
+    {
+        "name": "Fatal Aria",
+        "desc": "Your songs overwhelm the target with unbearable emotion, potentially striking them dead on the spot. You learn the fatal aria composition spell. Increase the number of Focus Points in your focus pool by 1.",
+        "shortdesc": "Your songs overwhelm the target with unbearable emotion.",
+        "traits": [
+            "Bard"
+        ],
+        "levelreq": 20,
+        "specialreq": "character.class.spellCasting.filter(casting => casting.castingType == 'Focus' && casting.spellChoices.length).length",
+        "specialreqdesc": "focus pool",
+        "effects": [
+            {
+                "affected": "Focus Pool",
+                "value": "1"
+            }
+        ],
+        "onceEffects": [
+            {
+                "affected": "Focus Points",
+                "value": "1"
+            }
+        ],
+        "gainSpellChoice": [
+            {
+                "_className": "SpellChoice",
+                "castingType": "Focus",
+                "className": "Bard",
+                "id": "1f404177-f88b-4bd9-a759-bf62ea29580c",
+                "level": -1,
+                "source": "Feat: Fatal Aria",
+                "spells": [
+                    {
+                        "_className": "SpellGain",
+                        "locked": true,
+                        "name": "Fatal Aria"
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "name": "Perfect Encore",
+        "desc": "You develop another incredible creation. You gain an additional 10th-level spell slot.",
+        "shortdesc": "You develop another incredible creation.",
+        "traits": [
+            "Bard"
+        ],
+        "levelreq": 20,
+        "featreq": [
+            "Magnum Opus"
+        ],
+        "effects": [
+            {
+                "affected": "Bard Spontaneous Level 10 Spell Slots",
+                "value": "1"
+            }
+        ]
+    },
+    {
+        "name": "Ringmaster's Introduction",
+        "desc": "You announce the triggering ally with a litany of their legendary achievements, spurring them to action.",
+        "shortdesc": "You announce the triggering ally with a litany of their legendary achievements, spurring them to action.",
+        "sourceBook": "Pathfinder #156: The Apocalypse Prophet",
+        "traits": [
+            "Uncommon",
+            "Auditory",
+            "Bard"
+        ],
+        "levelreq": 20,
+        "gainActivities": [
+            "Ringmaster's Introduction"
+        ]
+    },
+    {
+        "name": "Song of the Fallen",
+        "desc": "The moving power of your songs can stir the spirits of the dead to rise once more and fight alongside you. You learn the song of the fallen composition spell. Increase the number of Focus Points in your focus pool by 1.",
+        "specialdesc": "The citizens of Promise represent some of the most capable experts, greatest minds, and powerful warriors on Golarion - ideal teachers and trainers for PCs who want to maximize their own potential. If the PCs secure Visitor's Pins or an alliance with Mengkare, their access to Promise's trainers and records unlock this uncommon class feat.",
+        "shortdesc": "Gain the song of the fallen focus spell.",
+        "sourceBook": "Pathfinder #150: Broken Promises",
+        "traits": [
+            "Uncommon",
+            "Bard"
+        ],
+        "levelreq": 20,
+        "specialreq": "character.class.spellCasting.filter(casting => casting.castingType == 'Focus' && casting.spellChoices.length).length",
+        "specialreqdesc": "focus pool",
+        "effects": [
+            {
+                "affected": "Focus Pool",
+                "value": "1"
+            }
+        ],
+        "onceEffects": [
+            {
+                "affected": "Focus Points",
+                "value": "1"
+            }
+        ],
+        "gainSpellChoice": [
+            {
+                "_className": "SpellChoice",
+                "castingType": "Focus",
+                "className": "Bard",
+                "id": "ad00f547-3232-42e6-b06a-4453f7f7649a",
+                "level": -1,
+                "source": "Feat: Song of the Fallen",
+                "spells": [
+                    {
+                        "_className": "SpellGain",
+                        "locked": true,
+                        "name": "Song of the Fallen"
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "name": "Symphony of the Muses",
+        "desc": "You are able to weave countless performances together into a solo symphony. You are no longer limited to a single composition each turn or a single composition at a time; when you use a new composition, all previous compositions’ effects continue for their remaining duration.",
+        "hint": "You are no longer limited to a single composition each turn or a single composition at a time; when you use a new composition, all previous compositions’ effects continue for their remaining duration.",
+        "shortdesc": "You are able to weave countless performances together into a solo symphony.",
+        "traits": [
+            "Bard"
+        ],
+        "levelreq": 20,
+        "featreq": [
+            "Harmonize"
+        ]
+    },
+    {
+        "name": "Bard Dedication",
+        "desc": "You cast spells like a bard and gain the Cast a Spell activity. You gain a spell repertoire with two common cantrips from the occult spell list, or any other cantrips you learn or discover. You can add to your repertoire common cantrips of your spellcasting tradition, whether from this book or other cantrips of that tradition you learn or discover. You’re trained in spell attack rolls and spell DCs for occult spells. Your key spellcasting ability for bard archetype spells is Charisma, and they are occult bard spells. You become trained in Occultism and Performance; for each of these skills in which you were already trained, you instead become trained in a skill of your choice.\n\nChoose a muse as you would if you were a bard. You have that muse for all purposes, allowing you to take that muse’s feats, but you don’t gain any of the other abilities it grants.",
+        "specialdesc": "You cannot select another dedication feat until you have gained two other feats from the bard archetype.",
+        "shortdesc": "A muse has called you to dabble in occult lore, allowing you to cast a few spells. The deeper you delve, the more powerful your performances become.",
+        "archetype": "Bard",
+        "traits": [
+            "Archetype",
+            "Dedication",
+            "Multiclass"
+        ],
+        "levelreq": 2,
+        "abilityreq": [
+            {
+                "ability": "Charisma",
+                "value": 14
+            }
+        ],
+        "gainFeatChoice": [
+            {
+                "_className": "FeatChoice",
+                "available": 1,
+                "filter": [
+                    "Enigma Muse",
+                    "Maestro Muse",
+                    "Polymath Muse"
+                ],
+                "id": "1-Muse-Feat: Bard Dedication-1",
+                "source": "Feat: Bard Dedication",
+                "specialChoice": true,
+                "type": "Muse"
+            }
+        ],
+        "gainSkillChoice": [
+            {
+                "_className": "SkillChoice",
+                "available": 2,
+                "filter": [
+                    "Occultism",
+                    "Performance"
+                ],
+                "maxRank": 2,
+                "source": "Feat: Bard Dedication",
+                "type": "Skill"
+            },
+            {
+                "_className": "SkillChoice",
+                "increases": [
+                    {
+                        "locked": true,
+                        "maxRank": 2,
+                        "name": "Bard Occult Spell DC",
+                        "source": "Feat: Bard Dedication"
+                    }
+                ],
+                "maxRank": 2,
+                "source": "Feat: Bard Dedication",
+                "type": "Spell DC"
+            }
+        ],
+        "gainSpellCasting": [
+            {
+                "_className": "SpellCasting",
+                "ability": "Charisma",
+                "castingType": "Spontaneous",
+                "className": "Bard",
+                "source": "Bard Dedication",
+                "tradition": "Occult"
+            },
+            {
+                "_className": "SpellCasting",
+                "ability": "Charisma",
+                "castingType": "Focus",
+                "className": "Bard",
+                "source": "Bard Dedication",
+                "tradition": "Occult"
+            }
+        ],
+        "gainSpellChoice": [
+            {
+                "_className": "SpellChoice",
+                "available": 2,
+                "castingType": "Spontaneous",
+                "className": "Bard",
+                "id": "91d119fd-06e6-4830-b619-9b5596274b42",
+                "level": 0,
+                "source": "Feat: Bard Dedication"
+            }
+        ]
+    },
+    {
+        "name": "Basic Bard Spellcasting",
+        "desc": "You gain the basic spellcasting benefits. Each time you gain a spell slot of a new level from the bard archetype, add a common occult spell or another spell you learned or discovered to your repertoire, of the appropriate spell level.",
+        "shortdesc": "You gain the basic spellcasting benefits.",
+        "archetype": "Bard",
+        "traits": [
+            "Archetype"
+        ],
+        "levelreq": 4,
+        "featreq": [
+            "Bard Dedication"
+        ],
+        "gainSpellChoice": [
+            {
+                "_className": "SpellChoice",
+                "available": 1,
+                "castingType": "Spontaneous",
+                "charLevelAvailable": 4,
+                "className": "Bard",
+                "id": "c6f91820-b871-4aa4-b05e-2946e9c1f272",
+                "level": 1,
+                "source": "Feat: Basic Bard Spellcasting"
+            },
+            {
+                "_className": "SpellChoice",
+                "available": 1,
+                "castingType": "Spontaneous",
+                "charLevelAvailable": 6,
+                "className": "Bard",
+                "id": "86828222-6ec2-42d1-b7f5-eae7d1ed748c",
+                "level": 2,
+                "source": "Feat: Basic Bard Spellcasting"
+            },
+            {
+                "_className": "SpellChoice",
+                "available": 1,
+                "castingType": "Spontaneous",
+                "charLevelAvailable": 8,
+                "className": "Bard",
+                "id": "8ac4b749-a807-4255-b390-16cc766da49d",
+                "level": 3,
+                "source": "Feat: Basic Bard Spellcasting"
+            }
+        ]
+    },
+    {
+        "name": "Basic Muse's Whispers",
+        "desc": "You gain a 1st- or 2nd-level bard feat.",
+        "shortdesc": "You gain a 1st- or 2nd-level bard feat.",
+        "archetype": "Bard",
+        "traits": [
+            "Archetype"
+        ],
+        "levelreq": 4,
+        "featreq": [
+            "Bard Dedication"
+        ],
+        "gainFeatChoice": [
+            {
+                "_className": "FeatChoice",
+                "available": 1,
+                "level": 2,
+                "source": "Feat: Basic Muse's Whispers",
+                "type": "Bard"
+            }
+        ]
+    },
+    {
+        "name": "Advanced Muse's Whispers",
+        "desc": "You gain one bard feat. For the purpose of meeting its prerequisites, your bard level is equal to half your character level.",
+        "specialdesc": "Special You can select this feat more than once. Each time you select it, you gain another bard feat.",
+        "shortdesc": "You gain one wizard feat.",
+        "archetype": "Bard",
+        "unlimited": true,
+        "traits": [
+            "Archetype"
+        ],
+        "levelreq": 6,
+        "featreq": [
+            "Basic Muse's Whispers"
+        ],
+        "gainFeatChoice": [
+            {
+                "_className": "FeatChoice",
+                "available": 1,
+                "dynamicLevel": "level.number / 2",
+                "source": "Feat: Advanced Muse's Whispers",
+                "type": "Bard"
+            }
+        ]
+    },
+    {
+        "name": "Counter Perform",
+        "desc": "You gain the counter performance composition spell. If you don’t already have one, you gain a focus pool of 1 Focus Point, which you can Refocus by engaging your muse.",
+        "shortdesc": "You gain the counter performance composition spell.",
+        "archetype": "Bard",
+        "traits": [
+            "Archetype"
+        ],
+        "levelreq": 6,
+        "featreq": [
+            "Bard Dedication"
+        ],
+        "effects": [
+            {
+                "affected": "Focus Pool",
+                "value": "character.class.spellCasting.filter(casting => casting.castingType == 'Focus' && casting.spellChoices.length).length ? 0 : 1"
+            }
+        ],
+        "onceEffects": [
+            {
+                "affected": "Focus Points",
+                "value": "1"
+            }
+        ],
+        "gainSpellChoice": [
+            {
+                "_className": "SpellChoice",
+                "castingType": "Focus",
+                "className": "Bard",
+                "id": "0d2e6118-f950-426d-b39d-c253b6df6644",
+                "level": 1,
+                "source": "Feat: Counter Perform",
+                "spells": [
+                    {
+                        "_className": "SpellGain",
+                        "locked": true,
+                        "name": "Counter Performance"
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "name": "Inspirational Performance",
+        "desc": "You gain the inspire courage composition cantrip.",
+        "shortdesc": "You gain the inspire courage composition cantrip.",
+        "archetype": "Bard",
+        "traits": [
+            "Archetype"
+        ],
+        "levelreq": 8,
+        "featreq": [
+            "Bard Dedication"
+        ],
+        "gainSpellChoice": [
+            {
+                "_className": "SpellChoice",
+                "castingType": "Focus",
+                "className": "Bard",
+                "id": "838f534f-29fc-4fc9-be9b-85559102c59a",
+                "level": 1,
+                "source": "Feat: Inspirational Performance",
+                "spells": [
+                    {
+                        "_className": "SpellGain",
+                        "locked": true,
+                        "name": "Inspire Courage"
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "name": "Occult Breadth",
+        "desc": "Your repertoire expands, and you can cast more occult spells each day. Increase the number of spells in your repertoire and the number of spell slots you gain from bard archetype feats by 1 for each spell level other than your two highest spell levels.",
+        "internalNote": "The effect is hardcoded in the spellchoice component.",
+        "shortdesc": "Your repertoire expands, and you can cast more occult spells each day.",
+        "archetype": "Bard",
+        "traits": [
+            "Archetype"
+        ],
+        "levelreq": 8,
+        "featreq": [
+            "Basic Bard Spellcasting"
+        ]
+    },
+    {
+        "name": "Expert Bard Spellcasting",
+        "desc": "You gain the expert spellcasting benefits.",
+        "shortdesc": "You gain the expert spellcasting benefits.",
+        "archetype": "Bard",
+        "traits": [
+            "Archetype"
+        ],
+        "levelreq": 12,
+        "featreq": [
+            "Basic Bard Spellcasting"
+        ],
+        "skillreq": [
+            {
+                "skill": "Occultism",
+                "value": 6
+            }
+        ],
+        "gainSkillChoice": [
+            {
+                "_className": "SkillChoice",
+                "increases": [
+                    {
+                        "locked": true,
+                        "maxRank": 4,
+                        "name": "Bard Occult Spell DC",
+                        "source": "Feat: Expert Bard Spellcasting"
+                    }
+                ],
+                "maxRank": 4,
+                "source": "Feat: Expert Bard Spellcasting",
+                "type": "Spell DC"
+            }
+        ],
+        "gainSpellChoice": [
+            {
+                "_className": "SpellChoice",
+                "available": 1,
+                "castingType": "Spontaneous",
+                "charLevelAvailable": 12,
+                "className": "Bard",
+                "id": "b15a9e2b-1572-4534-a4f5-1db27e1ef2bf",
+                "level": 4,
+                "source": "Feat: Expert Bard Spellcasting"
+            },
+            {
+                "_className": "SpellChoice",
+                "available": 1,
+                "castingType": "Spontaneous",
+                "charLevelAvailable": 14,
+                "className": "Bard",
+                "id": "67d03ca8-2e7f-41ae-a7b2-e1187141fcf8",
+                "level": 5,
+                "source": "Feat: Expert Bard Spellcasting"
+            },
+            {
+                "_className": "SpellChoice",
+                "available": 1,
+                "castingType": "Spontaneous",
+                "charLevelAvailable": 16,
+                "className": "Bard",
+                "id": "2c7ef8b3-f8f0-4b16-a10b-182b339d0480",
+                "level": 6,
+                "source": "Feat: Expert Bard Spellcasting"
+            }
+        ]
+    },
+    {
+        "name": "Master Bard Spellcasting",
+        "desc": "You gain the master spellcasting benefits.",
+        "shortdesc": "You gain the master spellcasting benefits.",
+        "archetype": "Bard",
+        "traits": [
+            "Archetype"
+        ],
+        "levelreq": 18,
+        "featreq": [
+            "Expert Bard Spellcasting"
+        ],
+        "skillreq": [
+            {
+                "skill": "Occultism",
+                "value": 8
+            }
+        ],
+        "gainSkillChoice": [
+            {
+                "_className": "SkillChoice",
+                "increases": [
+                    {
+                        "locked": true,
+                        "maxRank": 6,
+                        "name": "Bard Occult Spell DC",
+                        "source": "Feat: Master Bard Spellcasting"
+                    }
+                ],
+                "maxRank": 6,
+                "source": "Feat: Master Bard Spellcasting",
+                "type": "Spell DC"
+            }
+        ],
+        "gainSpellChoice": [
+            {
+                "_className": "SpellChoice",
+                "available": 1,
+                "castingType": "Spontaneous",
+                "charLevelAvailable": 18,
+                "className": "Bard",
+                "id": "f910dd8f-9309-4e20-b794-0268b3bed7dc",
+                "level": 7,
+                "source": "Feat: Master Bard Spellcasting"
+            },
+            {
+                "_className": "SpellChoice",
+                "available": 1,
+                "castingType": "Spontaneous",
+                "charLevelAvailable": 20,
+                "className": "Bard",
+                "id": "ae4ed648-0290-46d0-b81e-53c9db8ad36e",
+                "level": 8,
+                "source": "Feat: Master Bard Spellcasting"
             }
         ]
     }

@@ -297,10 +297,17 @@ export class SpellchoiceComponent implements OnInit {
             available = Math.max(choice.available + this.get_SpellBlendingUnlocked(choice.level), 0);
         } else if (choice.source == "Infinite Possibilities") {
             available = Math.max(choice.available + this.get_InfinitePossibilitiesUnlocked(choice.level), 0);
-        } else if (["Basic Wizard Spellcasting", "Expert Wizard Spellcasting", "Master Wizard Spellcasting"].includes(choice.source) &&
-            choice.level <= this.get_HighestSpellLevel() - 2) {
+        } else if (
+                ["Feat: Basic Wizard Spellcasting", "Feat: Expert Wizard Spellcasting", "Feat: Master Wizard Spellcasting"].includes(choice.source) &&
+                choice.level <= this.get_HighestSpellLevel() - 2
+            ) {
             available = Math.max(choice.available + this.have_Feat("Arcane Breadth") - this.get_SpellBlendingUsed() - this.get_InfinitePossibilitiesUsed(), 0);
-        } else {
+        } else if (
+                ["Feat: Basic Bard Spellcasting", "Feat: Expert Bard Spellcasting", "Feat: Master Bard Spellcasting"].includes(choice.source) &&
+                choice.level <= this.get_HighestSpellLevel() - 2
+            ) {
+            available = Math.max(choice.available + this.have_Feat("Occult Breadth"), 0);
+    } else {
             available = Math.max(this.choice.available - this.get_SpellBlendingUsed() - this.get_InfinitePossibilitiesUsed(), 0);
         }
         //If this choice has more spells than it should have (unless they are locked), remove the excess.

@@ -3838,17 +3838,6 @@
                         "_className": "SpellChoice",
                         "available": 1,
                         "className": "Bard",
-                        "id": "5903828c-a58a-11ea-bb37-0242ac130002",
-                        "level": 1,
-                        "charLevelAvailable": 1,
-                        "signatureSpell": true,
-                        "source": "Bard Spellcasting",
-                        "castingType": "Spontaneous"
-                    },
-                    {
-                        "_className": "SpellChoice",
-                        "available": 1,
-                        "className": "Bard",
                         "id": "c17f99eb-733c-42b0-8752-3bd11511057b",
                         "level": 1,
                         "charLevelAvailable": 1,
