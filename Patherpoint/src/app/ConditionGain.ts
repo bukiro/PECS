@@ -31,4 +31,6 @@ export class ConditionGain {
     public targetFilter: string = "";
     //Some conditions have a choice that you can make. That is stored in this value.
     public choice: string = "";
+    //If acknowledgedInputRequired is true, the inputRequired message is not shown.
+    public acknowledgedInputRequired: boolean = false;
 }

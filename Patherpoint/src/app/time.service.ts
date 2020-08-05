@@ -7,6 +7,7 @@ import { Effect } from './Effect';
 import { SpellsService } from './spells.service';
 import { ItemsService } from './items.service';
 import { Character } from './Character';
+import { EffectGain } from './EffectGain';
 
 @Injectable({
     providedIn: 'root'
@@ -78,11 +79,13 @@ export class TimeService {
                 let character = creature as Character;
                 //Reset all "once per day" spell cooldowns and re-prepare spells.
                 this.spellsService.rest(character, characterService);
+                //Regenerate Focus Points.
+                characterService.process_OnceEffect(character, Object.assign(new EffectGain(), { affected: "Focus Points", value: "+3" }));
                 //Regenerate spell slots.
                 character.class.spellCasting.forEach(casting => {
                     casting.spellSlotsUsed = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
                 });
-                //Regenerate Snare Specialist formulas
+                //Regenerate Snare Specialist formulas.
                 character.class.formulaBook.filter(learned => learned.snareSpecialistPrepared).forEach(learned => {
                     learned.snareSpecialistAvailable = learned.snareSpecialistPrepared;
                 });

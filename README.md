@@ -65,6 +65,7 @@ The very latest in Assistive Technologies for Dungeon Master (ATDM)
 - [x] - Ranger
 - [x] - Rogue
 - [x] - Wizard
+- [x] - Bard
 - [ ] Implement all Spells
 - [ ] - Focus Spells
 - [x] - Cantrips
@@ -84,13 +85,15 @@ The very latest in Assistive Technologies for Dungeon Master (ATDM)
 - [ ] Stretch Goal: Include optional Stamina & Resolve system
 
 Active to-do
-- Make signature spell a choice for every spell choice (with limit 1 per level)
 
 Implement:
 
-
 Next steps:
-- Test Bard
-- Test Bard Archetype
+- Implement Ancestry Feats
+-- Human
+-- Halfling
+-- Goblin
+-- Half-Orc
+-- Half-Elf
+-- Lizardfolk
 - Implement Conditions for Poisons
-

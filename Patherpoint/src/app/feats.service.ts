@@ -640,7 +640,7 @@ export class FeatsService {
             //Reset changes made with Spell Mastery
             if (feat.name == "Spell Mastery") {
                 character.class.spellCasting.forEach(casting => {
-                    casting.spellChoices = casting.spellChoices.filter(choice => choice.source != "Spell Mastery");
+                    casting.spellChoices = casting.spellChoices.filter(choice => choice.source != "Feat: Spell Mastery");
                 })
                 characterService.set_ToChange(creature.type, "spells");
                 characterService.set_ToChange(creature.type, "spellbook");

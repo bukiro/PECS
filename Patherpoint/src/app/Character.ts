@@ -436,6 +436,9 @@ export class Character extends Creature {
                     characterService.set_ToChange("Character", "crafting");    
                     characterService.set_ToChange("Character", "inventory");
                     break;
+                case "Occultism":
+                    characterService.set_ToChange("Character", "individualskills", "Lore: Bardic");
+                    break;
             }
         } else {
             //If you are deselecting a skill that you increased with Skilled Heritage at level 1, you also lose the skill increase at level 5.
@@ -465,6 +468,7 @@ export class Character extends Creature {
             switch (characterService.get_Skills(characterService.get_Character(), skillName)[0]?.type) {
                 case "Skill":
                     characterService.set_ToChange("Character", "skills");
+                    characterService.set_ToChange("Character", "individualskills", "all");
                     break;
                 case "Perception":
                     characterService.set_ToChange("Character", "skills");
@@ -494,6 +498,9 @@ export class Character extends Creature {
                 case "Crafting":
                     characterService.set_ToChange("Character", "crafting");    
                     characterService.set_ToChange("Character", "inventory");
+                    break;
+                case "Occultism":
+                    characterService.set_ToChange("Character", "individualskills", "Lore: Bardic");
                     break;
             }
             //Remove custom skill if previously created and this was the last increase of it

@@ -7,11 +7,13 @@
                 title="{{health.$currentHP.explain}}">{{health.$currentHP.result}}</span>
             Hit Points
         </h3>
+        <app-tags [creature]="creature" [objectName]="'Health'" [showTraits]=true [showFeats]=true [showItems]=true
+                [showActivities]=true [showConditions]=true [showEffects]=true></app-tags>
         <div class="loading" *ngIf="still_loading()">Loading</div>
         <ng-container *ngIf="!still_loading()">
             <button class="list-item center-aligned" (click)="rest()" title="{{get_Waiting(48000)}}"
                 [disabled]="get_Waiting(48000).length" *ngIf="creature=='Character'">Rest</button>
-            <app-tags [creature]="creature" [objectName]="'Health'" [showTraits]=true [showFeats]=true [showItems]=true
+            <app-tags [creature]="creature" [objectName]="'Rest'" [showTraits]=true [showFeats]=true [showItems]=true
                 [showActivities]=true [showConditions]=true [showEffects]=true></app-tags>
             <div class="fullsize-only list-item">
                 <div class="row">

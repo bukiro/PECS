@@ -232,8 +232,8 @@ export class SavegameService {
             } else {
                 let blank = new object.constructor();
                 Object.keys(object).forEach(key => {
-                    //Don't cleanup the "_className" attribute
-                    if (key != "_className" && key.substr(0, 1) != "$") {
+                    //Don't cleanup the "_className" or any attributes that are in the "save" list.
+                    if ((!object["save"] || !object["save"].includes(key)) && key != "_className" && key.substr(0, 1) != "$") {
                         //If the attribute has the same value as the default, delete it from the object.
                         if (JSON.stringify(object[key]) == JSON.stringify(blank[key])) {
                             delete object[key];
@@ -244,6 +244,10 @@ export class SavegameService {
                         delete object[key];
                     }
                 })
+                //Delete the "save" list last so it can be referenced during the cleanup, but still updated when loading.
+                if (object["save"]) {
+                    delete object["save"];
+                }
             }
         }
         return object;

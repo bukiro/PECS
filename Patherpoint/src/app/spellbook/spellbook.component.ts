@@ -167,6 +167,10 @@ export class SpellbookComponent implements OnInit {
 
     get_MaxSpellLevel(casting: SpellCasting) {
         //Get the available spell level of this casting. This is the higest spell level of the spell choices that are available at your character level.
+        //Focus spells are heightened to half your level rounded up.
+        if (casting.castingType == "Focus") {
+            return this.get_Character().get_SpellLevel();
+        }
         return Math.max(...casting.spellChoices.filter(spellChoice => spellChoice.charLevelAvailable <= this.get_Character().level).map(spellChoice => spellChoice.level), 0);
     }
 
@@ -228,7 +232,7 @@ export class SpellbookComponent implements OnInit {
     }
 
     get_MaxSpellSlots(spellLevel: number, casting: SpellCasting) {
-        if (casting.castingType == "Spontaneous" && spellLevel > 0) {
+        if (casting.castingType == "Spontaneous") {
             let spellslots: number = 0;
             //You have as many spontaneous spell slots as you have original spells (e.g. spells with source "*Sorcerer Spellcasting" for Sorcerers),
             //  except for Level 10, where you have 1 (before effects).
@@ -236,17 +240,17 @@ export class SpellbookComponent implements OnInit {
                 spellslots = 1;
             } else if (spellLevel == 0 && casting.className == "Bard" && this.have_Feat("Studious Capacity")) {
                 spellslots = 1;
-            } else {
+            } else if (spellLevel > 0) {
                 casting.spellChoices.filter(choice => 
                         choice.level == spellLevel &&
                         choice.charLevelAvailable <= this.get_Character().level &&
                         choice.source.includes(casting.className + " Spellcasting")
                     ).forEach(choice => {
                     spellslots += choice.available;
-                    if (spellLevel <= this.get_MaxSpellLevel(casting) - 2 && this.have_Feat("Occult Breadth")) {
-                        spellslots += 1;
-                    }
                 });
+                if (spellLevel <= this.get_MaxSpellLevel(casting) - 2 && (casting.className == "Bard" && this.have_Feat("Occult Breadth"))) {
+                    spellslots += 1;
+                }
             }
             if (casting.className)
             this.effectsService.get_RelativesOnThis(this.get_Character(), casting.className + " " + casting.castingType + " Level " + spellLevel + " Spell Slots").forEach(effect => {
@@ -483,11 +487,11 @@ export class SpellbookComponent implements OnInit {
     }
 
     is_InfinitePossibilitiesSpell(choice: SpellChoice) {
-        return choice.source == "Infinite Possibilities";
+        return choice.source == "Feat: Infinite Possibilities";
     }
 
     is_SpellMasterySpell(choice: SpellChoice) {
-        return choice.source == "Spell Mastery";
+        return choice.source == "Feat: Spell Mastery";
     }
 
     get_TemporarySpellChoices(casting: SpellCasting, level: number) {

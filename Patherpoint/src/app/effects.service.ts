@@ -539,6 +539,7 @@ export class EffectsService {
         let skillsWildcard: string[] = ["All Checks and DCs", "Skill Checks", "Untrained Skills"];
         let inventory: string[] = ["Bulk", "Encumbered Limit", "Max Bulk", "Max Invested"];
         let spellbook: string[] = ["Focus Points", "Focus Pool", "All Checks and DCs"];
+        let spellbookWildcard: string[] = ["Spell Slots"];
 
         let changedEffects: Effect[] = [];
         //Collect all new feats that don't exist in the old list or old feats that don't exist in the new list - that is, everything that has changed.
@@ -586,6 +587,9 @@ export class EffectsService {
                 characterService.set_ToChange(creature.type, "inventory");
             }
             if (spellbook.includes(effect.target)) {
+                characterService.set_ToChange(creature.type, "spellbook");
+            }
+            if (spellbookWildcard.filter(name => effect.target.includes(name)).length) {
                 characterService.set_ToChange(creature.type, "spellbook");
             }
             //Specific triggers

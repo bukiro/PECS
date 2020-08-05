@@ -219,7 +219,7 @@ export class Skill {
                     let untrainedImprovisation = effectsService.get_AbsolutesOnThis(creature, "Untrained Skills");
                     untrainedImprovisation.forEach(effect => {
                         charLevelBonus = parseInt(effect.setValue);
-                        explain = "Character Level Bonus (Untrained Improvisation): " + charLevelBonus;
+                        explain = "Character Level Bonus (" + effect.source + "): " + charLevelBonus;
                     })
                 }
                 //Add the Ability modifier identified by the skill's ability property

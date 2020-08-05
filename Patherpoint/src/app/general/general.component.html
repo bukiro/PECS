@@ -36,6 +36,14 @@
             <div class="fullsize-only list-item" *ngIf="get_Character().class.name">
                 <strong>Class</strong>
                 {{get_Character().class.name}}
+                <div class="row" *ngFor="let archetype of get_Archetypes(); trackBy:trackByIndex;">
+                    <strong>Archetype</strong>
+                    {{archetype.archetype}}
+                </div>
+                <div class="row" *ngFor="let muse of get_Muse(); trackBy:trackByIndex;">
+                    <strong>Muse</strong>
+                    {{muse.name}}
+                </div>
                 <div class="row" *ngFor="let huntersEdge of get_HuntersEdge(); trackBy:trackByIndex;">
                     <strong>Hunter's Edge</strong>
                     {{huntersEdge.name}}

@@ -6,9 +6,7 @@ import { Spell } from '../Spell';
 import { SpellCasting } from '../SpellCasting';
 import { SpellChoice } from '../SpellChoice';
 import { SpellGain } from '../SpellGain';
-import { Level } from '../Level';
 import { TraitsService } from '../traits.service';
-import { FamiliarsService } from '../familiars.service';
 
 @Component({
     selector: 'app-spellLibrary',
@@ -210,7 +208,13 @@ export class SpellLibraryComponent implements OnInit {
             })
             return result || "";
         } else if (bardCasting.className == "Bard" && bardCasting.castingType == "Spontaneous" && (this.get_EsotericPolymathAllowed(bardCasting, this.traditionFilter))) {
-            return "You can add any spell in your repertoire to your spellbook for free via esoteric polymath."
+            let result = "You can add any spell in your repertoire to your spellbook for free via esoteric polymath. You can learn and cast spells of the following traditions using esoteric polymath:\n";
+            ["Arcane", "Divine", "Occult", "Primal"].forEach(tradition => {
+                if (this.get_EsotericPolymathAllowed(bardCasting, tradition)) {
+                    result += "\n" + tradition
+                }
+            });
+            return result || "";
         } else {
             return ""
         }
@@ -287,9 +291,9 @@ export class SpellLibraryComponent implements OnInit {
     get_LearnedSpellSource(source: string) {
         switch (source) {
             case "wizard":
-                return "(learned as wizard)";
-            case "esoteric polymath":
-                return "(learned via esoteric polymath)";
+                return "(learned as Wizard)";
+            case "esotericpolymath":
+                return "(learned via Esoteric Polymath)";
             case "school":
                 return "(learned via " + (this.get_School()?.toLowerCase() || "school") + ")";
             case "free":
@@ -342,23 +346,23 @@ export class SpellLibraryComponent implements OnInit {
     }
 
     get_SpellMasterySelected(casting: SpellCasting, spell: Spell) {
-        return casting.spellChoices.find(choice => choice.source == "Spell Mastery" && choice.spells.find(spellTaken => spellTaken.name == spell.name));
+        return casting.spellChoices.find(choice => choice.source == "Feat: Spell Mastery" && choice.spells.find(spellTaken => spellTaken.name == spell.name));
     }
 
     get_SpellMasterySpells(casting: SpellCasting) {
-        return casting.spellChoices.filter(choice => choice.source == "Spell Mastery" && choice.spells.length);
+        return casting.spellChoices.filter(choice => choice.source == "Feat: Spell Mastery" && choice.spells.length);
     }
 
     get_SpellMasteryAllowed(casting: SpellCasting, levelNumber: number, spell: Spell) {
         //Allow taking this spell if this spell or a spell of this level is not taken yet, and if no more than 3 of 4 spells are taken.
         return !casting.spellChoices.find(choice => 
-            choice.source == "Spell Mastery" &&
+            choice.source == "Feat: Spell Mastery" &&
                 (
                     choice.level == levelNumber ||
                     choice.spells.find(spellTaken => spellTaken.name == spell.name)
                 )
             ) &&
-            casting.spellChoices.filter(choice => choice.source == "Spell Mastery").length < 4;
+            casting.spellChoices.filter(choice => choice.source == "Feat: Spell Mastery").length < 4;
     }
 
     add_SpellMasterySpell(spell: Spell) {
@@ -366,18 +370,18 @@ export class SpellLibraryComponent implements OnInit {
         let newSpellTaken: SpellGain = new SpellGain();
         newChoice.className = "Wizard";
         newChoice.castingType = "Prepared";
-        newChoice.source = "Spell Mastery";
+        newChoice.source = "Feat: Spell Mastery";
         newChoice.level = spell.levelreq;
         newSpellTaken.name = spell.name;
         newSpellTaken.locked = true;
-        newSpellTaken.source = "Spell Mastery";
+        newSpellTaken.source = "Feat: Spell Mastery";
         newChoice.spells.push(newSpellTaken);
         this.get_Character().add_SpellChoice(this.characterService, spell.levelreq, newChoice);
         this.characterService.process_ToChange();
     }
 
     remove_SpellMasterySpell(casting: SpellCasting, spell: Spell) {
-        let oldChoice: SpellChoice = casting.spellChoices.find(choice => choice.source == "Spell Mastery" && choice.spells.find(spellTaken => spellTaken.name == spell.name));
+        let oldChoice: SpellChoice = casting.spellChoices.find(choice => choice.source == "Feat: Spell Mastery" && choice.spells.find(spellTaken => spellTaken.name == spell.name));
         if (oldChoice) {
             this.get_Character().remove_SpellChoice(this.characterService, oldChoice);
         }
@@ -396,10 +400,10 @@ export class SpellLibraryComponent implements OnInit {
                         skill = "Arcana";
                         break;
                     case "Divine":
-                        skill = "Divine";
+                        skill = "Religion";
                         break;
                     case "Primal":
-                        skill = "Primal";
+                        skill = "Nature";
                         break;
                 }
                 return this.characterService.get_Skills(character, skill)[0].level(character, this.characterService, character.level) >= 2

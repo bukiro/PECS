@@ -3316,6 +3316,7 @@
         "actions": "Reaction",
         "requirements": "The ally hasn't acted in the current combat.",
         "trigger": "An ally's turn begins.",
+        "inputRequired": "The ally may grant themselves the Ringmaster's Introduction condition for 1 turn.",
         "desc": "You announce the triggering ally with a litany of their legendary achievements, spurring them to action. The target is quickened this turn and can spend the extra action to Stride, Strike, Demoralize, Feint, or Perform.",
         "traits": [
             "Uncommon",

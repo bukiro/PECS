@@ -112,8 +112,20 @@ export class GeneralComponent implements OnInit {
             .map(feat => feat.anathema))
     }
 
+    get_Archetypes() {
+        return this.get_Character().get_FeatsTaken(1, this.get_Character().level).map(gain => this.characterService.get_FeatsAndFeatures(gain.name)[0]).filter(feat => feat?.traits.includes("Dedication"));
+    }
+
+    get_Muse() {
+        return this.get_Character().get_FeatsTaken(1, this.get_Character().level).filter(gain => ["Enigma Muse", "Maestro Muse", "Polymath Muse", "Multifarious Muse: Enigma Muse", "Multifarious Muse: Maestro Muse", "Multifarious Muse: Polymath Muse"].includes(gain.name));
+    }
+
     get_HuntersEdge() {
         return this.get_Character().get_FeatsTaken(1, this.get_Character().level).filter(gain => ["Flurry", "Outwit", "Precision"].includes(gain.name));
+    }
+
+    get_Racket() {
+        return this.get_Character().get_FeatsTaken(1, this.get_Character().level).filter(gain => ["Ruffian Racket", "Scoundrel Racket", "Thief Racket", "Multifarious Muse: Enigma Muse", "Multifarious Muse: Maestro Muse", "Multifarious Muse: Polymath Muse"].includes(gain.name));
     }
 
     get_WizardSchool() {

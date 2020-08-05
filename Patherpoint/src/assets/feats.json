@@ -2003,7 +2003,7 @@
         "gainConditions": [
             {
                 "name": "Quickened (Enduring Quickness)",
-                "source": "Enduring Quickness"
+                "source": "Feat: Enduring Quickness"
             }
         ]
     },
@@ -2208,7 +2208,7 @@
         "name": "Fast Recovery",
         "desc": "Your body quickly bounces back from afflictions. You regain twice as many Hit Points from resting. Each time you succeed at a Fortitude save against an ongoing disease or poison, you reduce its stage by 2, or by 1 against a virulent disease or poison. Each critical success you achieve against an ongoing disease or poison reduces its stage by 3, or by 2 against a virulent disease or poison. In addition, you reduce the severity of your drained condition by 2 when you rest for a night instead of by 1.",
         "hint": "You regain twice as many Hit Points from resting. Each time you succeed at a Fortitude save against an ongoing disease or poison, you reduce its stage by 2, or by 1 against a virulent disease or poison. Each critical success you achieve against an ongoing disease or poison reduces its stage by 3, or by 2 against a virulent disease or poison. In addition, you reduce the severity of your drained condition by 2 when you rest for a night instead of by 1.",
-        "showon": "Health, Fortitude",
+        "showon": "Rest, Fortitude",
         "shortdesc": "Regain more HP from rest, recover faster from disease and poisons.",
         "traits": [
             "General"
@@ -9697,6 +9697,7 @@
                     }
                 ],
                 "insertClass": "Sorcerer",
+                "insertLevel": 7,
                 "maxRank": 4,
                 "source": "Expert Spellcaster",
                 "type": "Spell DC"
@@ -9714,6 +9715,7 @@
                     }
                 ],
                 "insertClass": "Sorcerer",
+                "insertLevel": 15,
                 "maxRank": 6,
                 "source": "Master Spellcaster",
                 "type": "Spell DC"
@@ -9731,6 +9733,7 @@
                     }
                 ],
                 "insertClass": "Sorcerer",
+                "insertLevel": 19,
                 "maxRank": 8,
                 "source": "Legendary Spellcaster",
                 "type": "Spell DC"
@@ -9764,7 +9767,7 @@
                 "className": "Sorcerer",
                 "id": "2c9eb94e-88fb-4306-adc5-04640ad33788",
                 "insertClass": "Sorcerer",
-                "level": 1,
+                "level": -1,
                 "source": "Elemental Bloodline",
                 "spells": [
                     {
@@ -9777,7 +9780,7 @@
             },
             {
                 "_className": "SpellChoice",
-                "available": 1,
+                "available": 5,
                 "castingType": "Spontaneous",
                 "charLevelAvailable": 1,
                 "className": "Sorcerer",
@@ -9792,27 +9795,6 @@
                         "sourceId": "54c13d55-8ec0-475c-94e1-8940c6767e9d"
                     }
                 ]
-            },
-            {
-                "_className": "SpellChoice",
-                "available": 2,
-                "castingType": "Spontaneous",
-                "charLevelAvailable": 1,
-                "className": "Sorcerer",
-                "id": "b9028a41-e8dd-478b-b270-af04637f864c",
-                "level": 0,
-                "source": "Sorcerer Spellcasting"
-            },
-            {
-                "_className": "SpellChoice",
-                "available": 2,
-                "castingType": "Spontaneous",
-                "charLevelAvailable": 1,
-                "className": "Sorcerer",
-                "id": "91aeaadc-10ba-417a-9415-4ac3c51259bd",
-                "insertClass": "Sorcerer",
-                "level": 0,
-                "source": "Sorcerer Spellcasting"
             },
             {
                 "_className": "SpellChoice",
@@ -9835,11 +9817,22 @@
             },
             {
                 "_className": "SpellChoice",
-                "available": 2,
+                "available": 1,
                 "castingType": "Spontaneous",
                 "charLevelAvailable": 1,
                 "className": "Sorcerer",
                 "id": "7afeedb8-803d-49df-b286-48ecab090e44",
+                "insertClass": "Sorcerer",
+                "level": 1,
+                "source": "Sorcerer Spellcasting"
+            },
+            {
+                "_className": "SpellChoice",
+                "available": 1,
+                "castingType": "Spontaneous",
+                "charLevelAvailable": 1,
+                "className": "Sorcerer",
+                "id": "fe08c6a6-4e04-4aa3-91c0-753af86dec03",
                 "insertClass": "Sorcerer",
                 "level": 1,
                 "source": "Sorcerer Spellcasting"
@@ -9876,11 +9869,22 @@
             },
             {
                 "_className": "SpellChoice",
-                "available": 2,
+                "available": 1,
                 "castingType": "Spontaneous",
                 "charLevelAvailable": 3,
                 "className": "Sorcerer",
                 "id": "20afa305-63f9-463f-b3f9-9d9a63d32813",
+                "insertClass": "Sorcerer",
+                "level": 2,
+                "source": "Sorcerer Spellcasting"
+            },
+            {
+                "_className": "SpellChoice",
+                "available": 1,
+                "castingType": "Spontaneous",
+                "charLevelAvailable": 3,
+                "className": "Sorcerer",
+                "id": "f92e0bef-e8b3-455e-8131-8e5f7c7ad717",
                 "insertClass": "Sorcerer",
                 "level": 2,
                 "source": "Sorcerer Spellcasting"
@@ -9917,11 +9921,22 @@
             },
             {
                 "_className": "SpellChoice",
-                "available": 2,
+                "available": 1,
                 "castingType": "Spontaneous",
                 "charLevelAvailable": 5,
                 "className": "Sorcerer",
-                "id": "c75791c4-62f1-44f2-8b02-4305b0089cd4",
+                "id": "bb47a634-d133-4ef0-8c12-4bca0ee1e464",
+                "insertClass": "Sorcerer",
+                "level": 3,
+                "source": "Sorcerer Spellcasting"
+            },
+            {
+                "_className": "SpellChoice",
+                "available": 1,
+                "castingType": "Spontaneous",
+                "charLevelAvailable": 5,
+                "className": "Sorcerer",
+                "id": "92e03b5b-96ce-4a69-811c-e6ec14445f03",
                 "insertClass": "Sorcerer",
                 "level": 3,
                 "source": "Sorcerer Spellcasting"
@@ -9958,11 +9973,22 @@
             },
             {
                 "_className": "SpellChoice",
-                "available": 2,
+                "available": 1,
                 "castingType": "Spontaneous",
                 "charLevelAvailable": 7,
                 "className": "Sorcerer",
                 "id": "cbce83d6-ffd5-40ad-84c1-c36a084bcad4",
+                "insertClass": "Sorcerer",
+                "level": 4,
+                "source": "Sorcerer Spellcasting"
+            },
+            {
+                "_className": "SpellChoice",
+                "available": 1,
+                "castingType": "Spontaneous",
+                "charLevelAvailable": 7,
+                "className": "Sorcerer",
+                "id": "d1d95e04-7deb-4181-b8d7-705accd0a851",
                 "insertClass": "Sorcerer",
                 "level": 4,
                 "source": "Sorcerer Spellcasting"
@@ -9999,11 +10025,22 @@
             },
             {
                 "_className": "SpellChoice",
-                "available": 2,
+                "available": 1,
                 "castingType": "Spontaneous",
                 "charLevelAvailable": 9,
                 "className": "Sorcerer",
                 "id": "afdc69ca-c228-4918-802e-78d5d05360e1",
+                "insertClass": "Sorcerer",
+                "level": 5,
+                "source": "Sorcerer Spellcasting"
+            },
+            {
+                "_className": "SpellChoice",
+                "available": 1,
+                "castingType": "Spontaneous",
+                "charLevelAvailable": 9,
+                "className": "Sorcerer",
+                "id": "b2017a60-3d4b-43aa-b173-cf9e37873fab",
                 "insertClass": "Sorcerer",
                 "level": 5,
                 "source": "Sorcerer Spellcasting"
@@ -10040,11 +10077,22 @@
             },
             {
                 "_className": "SpellChoice",
-                "available": 2,
+                "available": 1,
                 "castingType": "Spontaneous",
                 "charLevelAvailable": 11,
                 "className": "Sorcerer",
                 "id": "5dbab9ef-8f3d-4393-8f1d-69a4a1c4cbc4",
+                "insertClass": "Sorcerer",
+                "level": 6,
+                "source": "Sorcerer Spellcasting"
+            },
+            {
+                "_className": "SpellChoice",
+                "available": 1,
+                "castingType": "Spontaneous",
+                "charLevelAvailable": 11,
+                "className": "Sorcerer",
+                "id": "20f43245-793d-471b-8f50-9a8c5561eb00",
                 "insertClass": "Sorcerer",
                 "level": 6,
                 "source": "Sorcerer Spellcasting"
@@ -10081,11 +10129,22 @@
             },
             {
                 "_className": "SpellChoice",
-                "available": 2,
+                "available": 1,
                 "castingType": "Spontaneous",
                 "charLevelAvailable": 13,
                 "className": "Sorcerer",
                 "id": "d6b1cab8-4083-4c4a-a903-ae552851c4b8",
+                "insertClass": "Sorcerer",
+                "level": 7,
+                "source": "Sorcerer Spellcasting"
+            },
+            {
+                "_className": "SpellChoice",
+                "available": 1,
+                "castingType": "Spontaneous",
+                "charLevelAvailable": 13,
+                "className": "Sorcerer",
+                "id": "180c2ca2-b287-4242-b58f-37fb5a7b7afb",
                 "insertClass": "Sorcerer",
                 "level": 7,
                 "source": "Sorcerer Spellcasting"
@@ -10122,11 +10181,22 @@
             },
             {
                 "_className": "SpellChoice",
-                "available": 2,
+                "available": 1,
                 "castingType": "Spontaneous",
                 "charLevelAvailable": 15,
                 "className": "Sorcerer",
                 "id": "d89ae392-4562-4fb4-a6ae-c8f281a247e4",
+                "insertClass": "Sorcerer",
+                "level": 8,
+                "source": "Sorcerer Spellcasting"
+            },
+            {
+                "_className": "SpellChoice",
+                "available": 1,
+                "castingType": "Spontaneous",
+                "charLevelAvailable": 15,
+                "className": "Sorcerer",
+                "id": "a5e8cb2d-40ac-4bf5-b6cd-7bc64625d3e6",
                 "insertClass": "Sorcerer",
                 "level": 8,
                 "source": "Sorcerer Spellcasting"
@@ -10163,11 +10233,22 @@
             },
             {
                 "_className": "SpellChoice",
-                "available": 2,
+                "available": 1,
                 "castingType": "Spontaneous",
                 "charLevelAvailable": 17,
                 "className": "Sorcerer",
                 "id": "e0d25a47-d68f-4cb5-bf9f-68bbd7a7a5de",
+                "insertClass": "Sorcerer",
+                "level": 9,
+                "source": "Sorcerer Spellcasting"
+            },
+            {
+                "_className": "SpellChoice",
+                "available": 1,
+                "castingType": "Spontaneous",
+                "charLevelAvailable": 17,
+                "className": "Sorcerer",
+                "id": "fbe6e0bf-6533-49ad-a1b1-6150200539ae",
                 "insertClass": "Sorcerer",
                 "level": 9,
                 "source": "Sorcerer Spellcasting"
@@ -11896,7 +11977,7 @@
         "gainConditions": [
             {
                 "name": "Quickened (Weapon Supremacy)",
-                "source": "Weapon Supremacy"
+                "source": "Feat: Weapon Supremacy"
             }
         ]
     },
@@ -15190,7 +15271,7 @@
         "name": "Spell Blending",
         "desc": "You theorize that spell slots are a shorthand for an underlying energy that powers all spellcasting, and you've found a way to tinker with the hierarchy of spell slots, combining them to fuel more powerful spells. When you make your daily preparations, you can trade two spell slots of the same level for a bonus spell slot of up to 2 levels higher than the traded spell slots. You can exchange as many spell slots as you have available. Bonus spell slots must be of a level you can normally cast, and each bonus spell slot must be of a different spell level. You can also trade any spell slot for two additional cantrips, though you cannot trade more than one spell slot at a time for additional cantrips in this way.",
         "hint": "When you make your daily preparations, you can trade two spell slots of the same level for a bonus spell slot of up to 2 levels higher than the traded spell slots. You can exchange as many spell slots as you have available. Bonus spell slots must be of a level you can normally cast, and each bonus spell slot must be of a different spell level. You can also trade any spell slot for two additional cantrips, though you cannot trade more than one spell slot at a time for additional cantrips in this way.",
-        "showon": "Health, Wizard Prepared Spells",
+        "showon": "Rest, Wizard Prepared Spells",
         "internalNote": "Spell Blending is hardcoded.",
         "shortdesc": "You theorize that spell slots are a shorthand for an underlying energy that powers all spellcasting, and you've found a way to tinker with the hierarchy of spell slots, combining them to fuel more powerful spells.",
         "gainActivities": [
@@ -15971,7 +16052,7 @@
         "name": "Universal Versatility",
         "desc": "You can access the fundamental abilities of any school of magic. During your daily preparations, choose one of the eight school spells gained by 1st-level specialist wizards. You can use that school spell until your next daily preparations. When you Refocus, you can choose a different school spell from among those eight school spells, replacing the previous one. Increase the number of Focus Points in your focus pool by 1.",
         "hint": "During your daily preparations, and when you refocus, you can choose one of the eight school spells gained by 1st-level specialist wizards to use until your next daily prepararations. You can make this selection in the spellbook menu.",
-        "showon": "Health, Focus",
+        "showon": "Rest, Focus",
         "shortdesc": "You can access the fundamental abilities of any school of magic.",
         "traits": [
             "Wizard"
@@ -16051,7 +16132,7 @@
         "name": "Scroll Savant",
         "desc": "During your daily preparations, you can create two temporary scrolls containing arcane spells from your spellbook. These scrolls follow the normal rules for scrolls (page 564), with some additional restrictions. Each scroll must be of a different spell level, and both spell levels must be 2 or more levels lower than your highest-level spell. Any scrolls you create this way become non-magical the next time you make your daily preparations. A temporary scroll has no value.\n\nIf you have master proficiency in arcane spell DCs, you can create three temporary scrolls during your daily preparations, and if you have legendary proficiency, you can create four temporary scrolls.",
         "hint": "During your daily preparations, you can create temporary scrolls containing arcane spells from your spellbook. You can select these scrolls in the items menu.",
-        "showon": "Health",
+        "showon": "Rest",
         "inputRequired": "Scroll Savant is hardcoded.",
         "shortdesc": "During your daily preparations, you can create two temporary scrolls containing arcane spells from your spellbook.",
         "traits": [
@@ -16191,7 +16272,7 @@
         "name": "Infinite Possibilities",
         "desc": "You've found a way to prepare a spell slot that exists in your mind as many different possibilities at once. Once during your daily preparations, you can use a spell slot to hold that infinite potential, rather than using it to prepare a spell. You can use this spell slot to cast any spell from your spellbook that's at least 2 levels lower than the slot you designate; the spell acts in all ways as a spell of 2 levels lower. You don't have any particular spell prepared in that slot until you cast it.",
         "hint": "Once during your daily preparations, you can trade in a spell slot for a bonus spell slot that holds infinite potential, rather than using it to prepare a spell. You make this choice in the spellbook menu. You can use this spell slot to cast any spell from your spellbook that's at least 2 levels lower than the slot you designate; the spell acts in all ways as a spell of 2 levels lower. You choose the spell to cast with this spell slot in the spells menu instead of the spellbook menu.",
-        "showon": "Health, Spellbook, Wizard Prepared Spells",
+        "showon": "Rest, Spellbook, Wizard Prepared Spells",
         "internalNote": "Designating a spell slot for Infinite Possibilities is hardcoded.",
         "shortdesc": "You've found a way to prepare a spell slot that exists in your mind as many different possibilities at once.",
         "traits": [
@@ -16345,7 +16426,7 @@
         "desc": "You have mastered a handful of spells to such a degree that you can cast them even if you haven't prepared them. Select any four spells of 9th level or lower that you have access to. Each spell you select must be of a different level. These spells are automatically prepared when you make your daily preparations and have their own spell slots. You can select a different array of spells by spending 1 week of downtime retraining your mastered spells.",
         "specialdesc": "The citizens of Promise represent some of the most capable experts, greatest minds, and powerful warriors on Golarion - ideal teachers and trainers for PCs who want to maximize their own potential. If the PCs secure Visitor's Pins or an alliance with Mengkare, their access to Promise's trainers and records unlock this uncommon class feat.",
         "hint": "You can select any four spells of 9th level or lower that you have access to. Each spell you select must be of a different level. These spells are automatically prepared when you make your daily preparations and have their own spell slots. You can select these spells in the spell library, and you can select a different array of spells by spending 1 week of downtime retraining your mastered spells.",
-        "showon": "Health, Wizard Prepared Spells",
+        "showon": "Rest, Wizard Prepared Spells",
         "internalNote": "Selecting Spell Mastery spells is hardcoded.",
         "shortdesc": "Master 4 spells.",
         "sourceBook": "Pathfinder #150: Broken Promises",
@@ -16468,7 +16549,7 @@
                 "ability": "Intelligence",
                 "castingType": "Focus",
                 "className": "Wizard",
-                "source": "Feat: Arcane School Spell: Abjuration",
+                "source": "School Spells",
                 "tradition": "Arcane"
             }
         ],
@@ -16522,7 +16603,7 @@
                 "ability": "Intelligence",
                 "castingType": "Focus",
                 "className": "Wizard",
-                "source": "Feat: Arcane School Spell: Conjuration",
+                "source": "School Spells",
                 "tradition": "Arcane"
             }
         ],
@@ -16576,7 +16657,7 @@
                 "ability": "Intelligence",
                 "castingType": "Focus",
                 "className": "Wizard",
-                "source": "Feat: Arcane School Spell: Divination",
+                "source": "School Spells",
                 "tradition": "Arcane"
             }
         ],
@@ -16630,7 +16711,7 @@
                 "ability": "Intelligence",
                 "castingType": "Focus",
                 "className": "Wizard",
-                "source": "Feat: Arcane School Spell: Enchantment",
+                "source": "School Spells",
                 "tradition": "Arcane"
             }
         ],
@@ -16684,7 +16765,7 @@
                 "ability": "Intelligence",
                 "castingType": "Focus",
                 "className": "Wizard",
-                "source": "Feat: Arcane School Spell: Evocation",
+                "source": "School Spells",
                 "tradition": "Arcane"
             }
         ],
@@ -16738,7 +16819,7 @@
                 "ability": "Intelligence",
                 "castingType": "Focus",
                 "className": "Wizard",
-                "source": "Feat: Arcane School Spell: Illusion",
+                "source": "School Spells",
                 "tradition": "Arcane"
             }
         ],
@@ -16792,7 +16873,7 @@
                 "ability": "Intelligence",
                 "castingType": "Focus",
                 "className": "Wizard",
-                "source": "Feat: Arcane School Spell: Necromancy",
+                "source": "School Spells",
                 "tradition": "Arcane"
             }
         ],
@@ -16846,7 +16927,7 @@
                 "ability": "Intelligence",
                 "castingType": "Focus",
                 "className": "Wizard",
-                "source": "Feat: Arcane School Spell: Transmutation",
+                "source": "School Spells",
                 "tradition": "Arcane"
             }
         ],
@@ -18537,7 +18618,6 @@
                 "id": "66c8a698-74e0-4cb8-af02-6ec016989b80",
                 "insertClass": "Bard",
                 "level": 1,
-                "signatureSpell": true,
                 "source": "Bard Spellcasting",
                 "spells": [
                     {
@@ -18577,7 +18657,6 @@
                 "id": "dcef5c6f-3da6-43e2-bf2d-6be402b4fe29",
                 "insertClass": "Bard",
                 "level": 1,
-                "signatureSpell": true,
                 "source": "Bard Spellcasting",
                 "spells": [
                     {
@@ -18590,7 +18669,7 @@
     },
     {
         "name": "Polymath Muse",
-        "desc": "Your muse is a jack of all trades, flitting between skills and pursuits. If it’s is a creature, it might be an eclectic creature like a fey; if a deity, it might be Desna or Calistria. As a bard with a polymath muse, you are interested in a wide array of topics but rarely dedicated to any one, and you rarely make up your mind—you want to try everything. You gain the Versatile Performance feat and add unseen servant to your spell repertoire.",
+        "desc": "Your muse is a jack of all trades, flitting between skills and pursuits. If it's is a creature, it might be an eclectic creature like a fey; if a deity, it might be Desna or Calistria. As a bard with a polymath muse, you are interested in a wide array of topics but rarely dedicated to any one, and you rarely make up your mind—you want to try everything. You gain the Versatile Performance feat and add unseen servant to your spell repertoire.",
         "inputRequired": "Add Unseen Servant to your repertoire.",
         "shortdesc": "Your muse is a jack of all trades, flitting between skills and pursuits.",
         "gainFeatChoice": [
@@ -18617,7 +18696,6 @@
                 "id": "ae509967-967e-40e1-ba97-9adbc543de4d",
                 "insertClass": "Bard",
                 "level": 1,
-                "signatureSpell": true,
                 "source": "Bard Spellcasting",
                 "spells": [
                     {
@@ -18632,7 +18710,7 @@
         "name": "Bardic Lore",
         "desc": "Your studies make you informed on every subject. You are trained in Bardic Lore, a special Lore skill that can be used only to Recall Knowledge, but on any topic. If you have legendary proficiency in Occultism, you gain expert proficiency in Bardic Lore, but you can't increase your proficiency rank in Bardic Lore by any other means.",
         "hint": "Bardic Lore can be used only to Recall Knowledge, but on any topic.",
-        "showon": "Bardic Lore",
+        "showon": "Lore: Bardic",
         "internalNote": "Adding the lore feats is hardcoded since this is the only specific lore gained by a feat. Also hardcoded is the increase from Occultism.",
         "shortdesc": "Your studies make you informed on every subject.",
         "traits": [
@@ -18750,13 +18828,12 @@
             {
                 "_className": "SpellChoice",
                 "available": 1,
-                "castingType": "Prepared",
+                "castingType": "Spontaneous",
                 "className": "Bard",
                 "dynamicLevel": "highestSpellLevel",
                 "id": "cebd89ea-6ae6-4148-a4ab-b2a396fea275",
                 "source": "Feat: Esoteric Polymath",
-                "spellBookOnly": true,
-                "tradition": "Occult"
+                "spellBookOnly": true
             }
         ]
     },
@@ -18839,6 +18916,7 @@
         "specialdesc": "You can take this feat multiple times. Each time you do, you must choose a different type of muse other than that of your own.",
         "subTypes": true,
         "shortdesc": "Your muse doesn't fall into a single label.",
+        "unlimited": true,
         "traits": [
             "Bard"
         ],
@@ -18850,6 +18928,10 @@
         "subType": "Enigma Muse",
         "superType": "Multifarious Muse",
         "shortdesc": "Your muse doesn't fall into a single label.",
+        "traits": [
+            "Bard"
+        ],
+        "levelreq": 2,
         "specialreq": "!character.get_FeatsTaken(1, charLevel, 'Enigma Muse').length",
         "specialreqdesc": "no enigma muse",
         "gainFeatChoice": [
@@ -18874,6 +18956,10 @@
         "subType": "Maestro Muse",
         "superType": "Multifarious Muse",
         "shortdesc": "Your muse doesn't fall into a single label.",
+        "traits": [
+            "Bard"
+        ],
+        "levelreq": 2,
         "specialreq": "!character.get_FeatsTaken(1, charLevel, 'Maestro Muse').length",
         "specialreqdesc": "no maestro muse",
         "gainFeatChoice": [
@@ -18885,8 +18971,8 @@
                     "Lingering Composition",
                     "Versatile Performance"
                 ],
-                "id": "1-Class-Feat: Multifarious Muse: Enigma Muse-1",
-                "source": "Feat: Multifarious Muse: Enigma Muse",
+                "id": "1-Class-Feat: Multifarious Muse: Maestro Muse-1",
+                "source": "Feat: Multifarious Muse: Maestro Muse",
                 "specialChoice": true,
                 "type": "Class"
             }
@@ -18898,6 +18984,10 @@
         "subType": "Polymath Muse",
         "superType": "Multifarious Muse",
         "shortdesc": "Your muse doesn't fall into a single label.",
+        "traits": [
+            "Bard"
+        ],
+        "levelreq": 2,
         "specialreq": "!character.get_FeatsTaken(1, charLevel, 'Polymath Muse').length",
         "specialreqdesc": "no polymath muse",
         "gainFeatChoice": [
@@ -18909,8 +18999,8 @@
                     "Lingering Composition",
                     "Versatile Performance"
                 ],
-                "id": "1-Class-Feat: Multifarious Muse: Enigma Muse-1",
-                "source": "Feat: Multifarious Muse: Enigma Muse",
+                "id": "1-Class-Feat: Multifarious Muse: Polymath Muse-1",
+                "source": "Feat: Multifarious Muse: Polymath Muse",
                 "specialChoice": true,
                 "type": "Class"
             }
@@ -18988,9 +19078,9 @@
     },
     {
         "name": "Versatile Signature",
-        "desc": "While most bards are known for certain signature performances and spells, you’re always tweaking your available repertoire. When you make your daily preparations, you can change one of your signature spells to a different spell of that level from your repertoire.",
+        "desc": "While most bards are known for certain signature performances and spells, you're always tweaking your available repertoire. When you make your daily preparations, you can change one of your signature spells to a different spell of that level from your repertoire.",
         "hint": "When you make your daily preparations, you can change one of your signature spells to a different spell of that level from your repertoire.",
-        "showon": "Bard Spontaneous Spells",
+        "showon": "Rest, Bard Spontaneous Spells",
         "inputRequired": "To perform this change, you can exchange spells between your signature spell slot and another spell slot of the same level.",
         "internalNote": "There is no mechanical difference. This feat gives you official permission to change your spells every day.",
         "shortdesc": "You're always tweaking your available repertoire.",
@@ -19117,8 +19207,8 @@
     },
     {
         "name": "Know-It-All",
-        "desc": "When you succeed at a Knowledge check, you gain additional information or context. When you critically succeed at a Knowledge check, at the GM’s discretion you might gain even more additional information or context than normal.",
-        "hint": "When you critically succeed at a Knowledge check, at the GM’s discretion you might gain even more additional information or context than normal.",
+        "desc": "When you succeed at a Knowledge check, you gain additional information or context. When you critically succeed at a Knowledge check, at the GM's discretion you might gain even more additional information or context than normal.",
+        "hint": "When you critically succeed at a Knowledge check, at the GM's discretion you might gain even more additional information or context than normal.",
         "showon": "Arcana, Crafting, Lore, Medicine, Nature, Occultism, Religion, Society",
         "shortdesc": "Your knowledge of the world expands beyond what you have read.",
         "traits": [
@@ -19177,7 +19267,7 @@
         "name": "Eclectic Polymath",
         "desc": "Your flexible mind can quickly shift spells. If you add a spell to your repertoire during your daily preparations using Esoteric Polymath, when you prepare again, you can choose to keep the new spell from Esoteric Polymath in your repertoire and instead lose access to another spell of the same level in your repertoire.",
         "hint": "If you add a spell to your repertoire during your daily preparations using Esoteric Polymath, when you prepare again, you can choose to keep the new spell from Esoteric Polymath in your repertoire and instead lose access to another spell of the same level in your repertoire.",
-        "showon": "Bard Spontaneous Spells",
+        "showon": "Rest, Bard Spontaneous Spells",
         "inputRequired": "To perform this change, you can change a spell slot in your repertoire to the spell you chose with Esoteric Polymath.",
         "internalNote": "There is no mechanical difference. This feat gives you official permission to change your spells every day.",
         "shortdesc": "Your flexible mind can quickly shift spells.",
@@ -19203,7 +19293,7 @@
     },
     {
         "name": "Silver's Refrain",
-        "desc": "You learn the silver’s refrain composition cantrip, which aids you when fighting devils.",
+        "desc": "You learn the silver's refrain composition cantrip, which aids you when fighting devils.",
         "shortdesc": "Learn the silver's refrain composition cantrip.",
         "sourceBook": "Pathfinder #147: Tomorrow Must Burn",
         "traits": [
@@ -19312,7 +19402,7 @@
     },
     {
         "name": "Studious Capacity",
-        "desc": "Your continued study of occult magic has increased your magical capacity, allowing you to cast spells even when it seems impossible. You can cast one spell each day even after you’ve run out of spell slots of the appropriate spell level, but you can’t use this ability to cast a spell of your highest spell level.",
+        "desc": "Your continued study of occult magic has increased your magical capacity, allowing you to cast spells even when it seems impossible. You can cast one spell each day even after you've run out of spell slots of the appropriate spell level, but you can't use this ability to cast a spell of your highest spell level.",
         "internalNote": "The effect is hardcoded.",
         "shortdesc": "Your continued study of occult magic has increased your magical capacity.",
         "traits": [
@@ -19474,14 +19564,14 @@
         "gainConditions": [
             {
                 "name": "Quickened (Eternal Composition)",
-                "source": "Enduring Quickness"
+                "source": "Feat: Eternal Composition"
             }
         ]
     },
     {
         "name": "Impossible Polymath",
-        "desc": "Your esoteric formulas are so unusual that they allow you to dabble in magic from diverse traditions that other bards don’t understand. As long as you’re trained in Arcana, you can add arcane spells to your book from Esoteric Polymath; as long as you’re trained in Nature, you can add primal spells to your book; and as long as you are trained in Religion, you can add divine spells to your book.\n\nLike your other spells in your book, you can add one of these spells from another tradition to your repertoire as an occult spell each day using Esoteric Polymath, but you can’t retain any spells from another tradition when you prepare again, even if you have Eclectic Polymath.",
-        "hint": "As long as you’re trained in Arcana, you can add arcane spells to your book from Esoteric Polymath; as long as you’re trained in Nature, you can add primal spells to your book; and as long as you are trained in Religion, you can add divine spells to your book.\n\nLike your other spells in your book, you can add one of these spells from another tradition to your repertoire as an occult spell each day using Esoteric Polymath, but you can’t retain any spells from another tradition when you prepare again, even if you have Eclectic Polymath.",
+        "desc": "Your esoteric formulas are so unusual that they allow you to dabble in magic from diverse traditions that other bards don't understand. As long as you're trained in Arcana, you can add arcane spells to your book from Esoteric Polymath; as long as you're trained in Nature, you can add primal spells to your book; and as long as you are trained in Religion, you can add divine spells to your book.\n\nLike your other spells in your book, you can add one of these spells from another tradition to your repertoire as an occult spell each day using Esoteric Polymath, but you can't retain any spells from another tradition when you prepare again, even if you have Eclectic Polymath.",
+        "hint": "As long as you're trained in Arcana, you can add arcane spells to your book from Esoteric Polymath; as long as you're trained in Nature, you can add primal spells to your book; and as long as you are trained in Religion, you can add divine spells to your book.\n\nLike your other spells in your book, you can add one of these spells from another tradition to your repertoire as an occult spell each day using Esoteric Polymath, but you can't retain any spells from another tradition when you prepare again, even if you have Eclectic Polymath.",
         "showon": "Bard Spontaneous Spells",
         "internalNote": "The effect is hardcoded.",
         "shortdesc": "Your esoteric formulas are so unusual that they allow you to dabble in magic from diverse traditions.",
@@ -19625,8 +19715,9 @@
     },
     {
         "name": "Symphony of the Muses",
-        "desc": "You are able to weave countless performances together into a solo symphony. You are no longer limited to a single composition each turn or a single composition at a time; when you use a new composition, all previous compositions’ effects continue for their remaining duration.",
-        "hint": "You are no longer limited to a single composition each turn or a single composition at a time; when you use a new composition, all previous compositions’ effects continue for their remaining duration.",
+        "desc": "You are able to weave countless performances together into a solo symphony. You are no longer limited to a single composition each turn or a single composition at a time; when you use a new composition, all previous compositions' effects continue for their remaining duration.",
+        "hint": "You are no longer limited to a single composition each turn or a single composition at a time; when you use a new composition, all previous compositions' effects continue for their remaining duration.",
+        "showon": "Harmonize, Spellbook",
         "shortdesc": "You are able to weave countless performances together into a solo symphony.",
         "traits": [
             "Bard"
@@ -19638,7 +19729,7 @@
     },
     {
         "name": "Bard Dedication",
-        "desc": "You cast spells like a bard and gain the Cast a Spell activity. You gain a spell repertoire with two common cantrips from the occult spell list, or any other cantrips you learn or discover. You can add to your repertoire common cantrips of your spellcasting tradition, whether from this book or other cantrips of that tradition you learn or discover. You’re trained in spell attack rolls and spell DCs for occult spells. Your key spellcasting ability for bard archetype spells is Charisma, and they are occult bard spells. You become trained in Occultism and Performance; for each of these skills in which you were already trained, you instead become trained in a skill of your choice.\n\nChoose a muse as you would if you were a bard. You have that muse for all purposes, allowing you to take that muse’s feats, but you don’t gain any of the other abilities it grants.",
+        "desc": "You cast spells like a bard and gain the Cast a Spell activity. You gain a spell repertoire with two common cantrips from the occult spell list, or any other cantrips you learn or discover. You can add to your repertoire common cantrips of your spellcasting tradition, whether from this book or other cantrips of that tradition you learn or discover. You're trained in spell attack rolls and spell DCs for occult spells. Your key spellcasting ability for bard archetype spells is Charisma, and they are occult bard spells. You become trained in Occultism and Performance; for each of these skills in which you were already trained, you instead become trained in a skill of your choice.\n\nChoose a muse as you would if you were a bard. You have that muse for all purposes, allowing you to take that muse's feats, but you don't gain any of the other abilities it grants.",
         "specialdesc": "You cannot select another dedication feat until you have gained two other feats from the bard archetype.",
         "shortdesc": "A muse has called you to dabble in occult lore, allowing you to cast a few spells. The deeper you delve, the more powerful your performances become.",
         "archetype": "Bard",
@@ -19710,7 +19801,7 @@
                 "ability": "Charisma",
                 "castingType": "Focus",
                 "className": "Bard",
-                "source": "Bard Dedication",
+                "source": "Composition Spells",
                 "tradition": "Occult"
             }
         ],
@@ -19819,7 +19910,7 @@
     },
     {
         "name": "Counter Perform",
-        "desc": "You gain the counter performance composition spell. If you don’t already have one, you gain a focus pool of 1 Focus Point, which you can Refocus by engaging your muse.",
+        "desc": "You gain the counter performance composition spell. If you don't already have one, you gain a focus pool of 1 Focus Point, which you can Refocus by engaging your muse.",
         "shortdesc": "You gain the counter performance composition spell.",
         "archetype": "Bard",
         "traits": [
@@ -19847,7 +19938,7 @@
                 "castingType": "Focus",
                 "className": "Bard",
                 "id": "0d2e6118-f950-426d-b39d-c253b6df6644",
-                "level": 1,
+                "level": -1,
                 "source": "Feat: Counter Perform",
                 "spells": [
                     {
@@ -19877,7 +19968,7 @@
                 "castingType": "Focus",
                 "className": "Bard",
                 "id": "838f534f-29fc-4fc9-be9b-85559102c59a",
-                "level": 1,
+                "level": -1,
                 "source": "Feat: Inspirational Performance",
                 "spells": [
                     {

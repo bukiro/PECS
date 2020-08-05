@@ -2652,6 +2652,13 @@
                             },
                             {
                                 "locked": true,
+                                "maxRank": 4,
+                                "name": "Perception",
+                                "source": "Class",
+                                "sourceId": "1-Any-Class-0"
+                            },
+                            {
+                                "locked": true,
                                 "maxRank": 2,
                                 "name": "Fortitude",
                                 "source": "Class",
@@ -3841,6 +3848,7 @@
                         "id": "c17f99eb-733c-42b0-8752-3bd11511057b",
                         "level": 1,
                         "charLevelAvailable": 1,
+                        "signatureSpell": true,
                         "source": "Bard Spellcasting",
                         "castingType": "Spontaneous"
                     },

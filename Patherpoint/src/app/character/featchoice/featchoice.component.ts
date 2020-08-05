@@ -123,7 +123,6 @@ export class FeatchoiceComponent implements OnInit {
         } else if (this.creature == "Familiar") {
             return this.familiarsService.get_FamiliarAbilities(name);
         }
-
     }
 
     get_SubFeats(feat: Feat, choice: FeatChoice) {
@@ -258,11 +257,11 @@ export class FeatchoiceComponent implements OnInit {
                     let available = (this.cannotTake(feat, choice).length == 0 || this.featTakenByThis(feat, choice) || this.subFeatTakenByThis(feat, choice));
                     return {available:available, feat:feat};
                 }).sort(function(a,b) {
-                    //Sort by level, then name.
+                    //Sort by level, then name. Divide level by 100 to create leading zeroes (and not sort 10 before 2).
                     //For skill feat choices and general feat choices, sort by the associated skill (if exactly one), then level and name.
                     //Feats with less or more required skills are sorted first.
-                    let sort_a = a.feat.levelreq + a.feat.name;
-                    let sort_b = b.feat.levelreq + b.feat.name;
+                    let sort_a = (a.feat.levelreq / 100) + a.feat.name;
+                    let sort_b = (b.feat.levelreq / 100) + b.feat.name;
                     if (["General", "Skill"].includes(choice.type)) {
                         sort_a = (a.feat.skillreq.length == 1 ? a.feat.skillreq[0]?.skill : "0") + sort_a;
                         sort_b = (b.feat.skillreq.length == 1 ? b.feat.skillreq[0]?.skill : "0") + sort_b;
@@ -288,11 +287,11 @@ export class FeatchoiceComponent implements OnInit {
                 return feats.filter(feat => 
                     this.featTakenByThis(feat, choice) || this.subFeatTakenByThis(feat, choice)
                 ).map(feat => {return {available:true, feat:feat}}).sort(function(a,b) {
-                    //Sort by level, then name.
+                    //Sort by level, then name. Divide level by 100 to create leading zeroes (and not sort 10 before 2).
                     //For skill feat choices and general feat choices, sort by the associated skill (if exactly one), then level and name.
                     //Feats with less or more required skills are sorted first.
-                    let sort_a = a.feat.levelreq + a.feat.name;
-                    let sort_b = b.feat.levelreq + b.feat.name;
+                    let sort_a = (a.feat.levelreq / 100) + a.feat.name;
+                    let sort_b = (b.feat.levelreq / 100) + b.feat.name;
                     if (["General", "Skill"].includes(choice.type)) {
                         sort_a = (a.feat.skillreq.length == 1 ? a.feat.skillreq[0]?.skill : "_") + sort_a;
                         sort_b = (b.feat.skillreq.length == 1 ? b.feat.skillreq[0]?.skill : "_") + sort_b;

@@ -1005,6 +1005,11 @@
         "desc": "You and all allies in the area gain a status bonus to attack rolls, damage rolls, and saves against fear effects equal to the value.",
         "buff": true,
         "hasValue": true,
+        "choice": "",
+        "choices": [
+            "",
+            "harmonized"
+        ],
         "hint": "You and all allies in the area gain a status bonus to saves against fear effects equal to the condition's value.",
         "showon": "Will",
         "effects": [
@@ -4997,7 +5002,12 @@
         "desc": "Your encouragement inspires your ally to succeed at a task. This counts as having taken sufficient preparatory actions to Aid your ally on a skill check of your choice, regardless of the circumstances. When you later use the Aid reaction, you can roll Performance instead of the normal skill check, and if you roll a failure, you get a success instead. If you are legendary in Performance, you automatically critically succeed.\n\nThe GM might rule that you can't use this ability if the act of encouraging your ally would interfere with the skill check (such as a check to Sneak quietly or maintain a disguise).",
         "buff": true,
         "hint": "You can roll Performance to use the Aid reaction on a skill check of your choice. You are considered to have taken sufficient preparatory actions for this Aid reaction, regardless of the circumstances. If you roll a failure, you get a success instead. If you are legendary in Performance, you automatically critically succeed.",
-        "showon": "Performance"
+        "showon": "Performance",
+        "choice": "",
+        "choices": [
+            "",
+            "harmonized"
+        ]
     },
     {
         "name": "Potency Crystal",
@@ -6443,6 +6453,11 @@
         "desc": "You and all allies in the area gain a status bonus to AC and saving throws equal to the value, as well as resistance equal to half the spell's level to physical damage.",
         "buff": true,
         "hasValue": true,
+        "choice": "",
+        "choices": [
+            "",
+            "harmonized"
+        ],
         "effects": [
             {
                 "affected": "AC",
@@ -6466,7 +6481,6 @@
             },
             {
                 "affected": "Physical Damage Resistance",
-                "type": "status",
                 "value": "Math.floor(Heightened / 2)"
             }
         ]
@@ -6476,6 +6490,11 @@
         "type": "spells",
         "desc": "You dance at a lively tempo, speeding your allies' movement. You and all allies in the area gain a +10-foot status bonus to all Speeds for 1 round.",
         "buff": true,
+        "choice": "",
+        "choices": [
+            "",
+            "harmonized"
+        ],
         "effects": [
             {
                 "affected": "Speed",
@@ -6488,6 +6507,11 @@
         "name": "Dirge of Doom",
         "type": "spells",
         "desc": "Foes within the target area are frightened 1. They can't reduce their frightened value below 1 while they remain in the area.",
+        "choice": "",
+        "choices": [
+            "",
+            "harmonized"
+        ],
         "buff": true
     },
     {
@@ -6495,6 +6519,11 @@
         "type": "spells",
         "desc": "You have created an imaginary, invisible 10-foot-by-10-foot stretch of wall adjacent to you and within your reach. The wall is solid to those creatures that don't disbelieve it, even incorporeal creatures. You and your allies can voluntarily believe the wall exists to continue to treat it as solid, for instance to climb onto it. A creature that disbelieves the illusion is temporarily immune to your house of imaginary walls for 1 minute. The wall doesn't block creatures that didn't see your visual performance, nor does it block objects. The wall has AC 10, Hardness equal to double the spell's level, and HP equal to quadruple the spell's level.",
         "hasValue": true,
+        "choice": "",
+        "choices": [
+            "",
+            "harmonized"
+        ],
         "effects": [
             {
                 "affected": "Imaginary Wall HP",
@@ -6513,7 +6542,12 @@
         "desc": "Weapon and unarmed attacks by allies in the area are treated as silver. In addition, this spell automatically attempts to counteract any dimension door cast by a devil within the area or cast by a devil attempting to enter the area using dimension door. If a devil attempts to enter the area using dimension door and the spell is counteracted, the devil remains where it started.",
         "hint": "Your weapon and unarmed attacks are treated as silver. This spell automatically attempts to counteract any dimension door cast by a devil within the area or cast by a devil attempting to enter the area using dimension door.",
         "showon": "Attacks, Spellbook",
-        "buff": true
+        "buff": true,
+        "choice": "",
+        "choices": [
+            "",
+            "harmonized"
+        ]
     },
     {
         "name": "Silver's Refrain",
@@ -6529,11 +6563,29 @@
         "desc": "You are quickened and can use the additional action to Strike, Stride, or Step.",
         "hint": "You are quickened and can use the additional action to Strike, Stride, or Step.",
         "showon": "Movement, Attacks",
+        "choice": "",
+        "choices": [
+            "",
+            "harmonized"
+        ],
         "gainConditions": [
             {
                 "name": "Quickened"
             }
         ],
+        "buff": true
+    },
+    {
+        "name": "Fatal Aria Immunity",
+        "type": "spells",
+        "desc": "You cannot be affected by Fatal Aria for the duration.",
+        "buff": true
+    },
+    {
+        "name": "Song of the Fallen",
+        "type": "spells",
+        "desc": "You chant a dirge or an elegy that either rouses the dead to action or reminds undead that they should lay to rest.\n\nIf you have targeted dead creatures, the bodies animate and can continue acting as if they were alive. A creature animated in this way has 60 temporary Hit Points. The animated creatures are slowed 1 but can otherwise act normally. Creatures animated with this spell die again once the spell ends.\n\nIf you have targeted undead creatures, they take damage according to the spell description. This condition is not needed in that case.",
+        "inputRequired": "If you have targeted undead creatures, remove this condition.",
         "buff": true
     }
 ]

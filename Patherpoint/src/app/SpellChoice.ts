@@ -3,6 +3,12 @@ import { v1 as uuidv1 } from 'uuid';
 
 export class SpellChoice {
     public readonly _className: string = this.constructor.name;
+    //This is a list of all the attributes that should not be discarded when saving the character.
+    public readonly save = [
+        "_className",
+        "save",
+        "signatureSpell"
+    ];
     public available: number = 0;
     //className is used to identify the proper SpellCasting to sort this into
     //If "", the main class is used.
