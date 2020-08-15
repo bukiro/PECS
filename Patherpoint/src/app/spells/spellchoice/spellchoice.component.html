@@ -11,6 +11,7 @@
             {{itemSpell || choice.showOnSheet ? "Level "+choice.level : ""}}
             {{choice.frequency ? capitalize(choice.frequency) : ""}}
             {{choice.tradition ? choice.tradition : ""}}
+            {{choice.source == 'Feat: Adapted Cantrip' ? "non-"+spellCasting.tradition : ""}}
             {{choice.traitFilter.length ? choice.traitFilter.join(" ") : ""}}
             {{is_SignatureSpell(choice, signatureSpellsAllowed) ? "Signature" : ""}}
             {{choice.spellCombinationAllowed ? "Combination" : ""}}
@@ -33,7 +34,7 @@
                         <span>
                             <input id="{{choice.id}}signaturespell" type="checkbox"
                                 [(ngModel)]="choice.signatureSpell" (ngModelChange)="on_SignatureSpell()">
-                            <label for="{{choice.id}}infinitePossibilities">Choose this spell as a signature spell.</label>
+                            <label for="{{choice.id}}signaturespell">Choose this spell as a signature spell.</label>
                         </span>
                     </div>
                 </div>

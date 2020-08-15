@@ -1020,5 +1020,57 @@
             }
         ],
         "_className": "WornItem"
+    },
+    {
+        "desc": "Skilled awl work has imprinted images of a muscled weightlifter into these tiered leather bands, which grant you enhanced stamina and skill when performing athletic exercises. While fastened to your upper arms, the armbands give you a +2 item bonus to Athletics checks. In addition, whenever you use an action to Climb or Swim and you succeed at the Athletics check, add a +5-foot item bonus to the distance you move.",
+        "id": "83ad0d05-f2bb-4f60-bc27-a87e6565631b",
+        "hint": "Whenever you use an action to Climb or Swim and you succeed at the Athletics check, add a +5-foot item bonus to the distance you move.",
+        "showon": "Athletics",
+        "level": 9,
+        "name": "Armbands of Athleticism",
+        "price": 64500,
+        "bulk": "L",
+        "traits": [
+            "Invested",
+            "Magical",
+            "Transmutation"
+        ],
+        "_className": "WornItem",
+        "usage": "worn armbands",
+        "effects": [
+            {
+                "_className": "EffectGain",
+                "affected": "Athletics",
+                "value": "+2",
+                "type": "item"
+            }
+        ]
+    },
+    {
+        "desc": "Skilled awl work has imprinted images of a muscled weightlifter into these tiered leather bands, which grant you enhanced stamina and skill when performing athletic exercises. While fastened to your upper arms, the armbands give you a +2 item bonus to Athletics checks. In addition, whenever you use an action to Climb or Swim and you succeed at the Athletics check, add a +5-foot item bonus to the distance you move.",
+        "id": "02546135-7000-40b4-8cc0-cac0200bc812",
+        "hint": "Whenever you use an action to Climb or Swim and you succeed at the Athletics check, add a +10-foot item bonus to the distance you move.",
+        "showon": "Athletics",
+        "level": 17,
+        "name": "Armbands of Athleticism (Greater)",
+        "price": 130000,
+        "bulk": "L",
+        "traits": [
+            "Invested",
+            "Magical",
+            "Transmutation"
+        ],
+        "subType": "Greater",
+        "subTypeDesc": "The bonus to Athletics checks is +3, and the bonus to a successful check to Climb or Swim is +10 feet.",
+        "_className": "WornItem",
+        "usage": "worn armbands",
+        "effects": [
+            {
+                "_className": "EffectGain",
+                "affected": "Athletics",
+                "value": "+3",
+                "type": "item"
+            }
+        ]
     }
 ]

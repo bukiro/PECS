@@ -95,6 +95,11 @@
                                         *ngIf="get_AvailableForLearning(bardCasting, spell)">
                                         Learn via Esoteric Polymath
                                     </button>
+                                    <button class="row center-aligned" (click)="learn_Spell(spell, 'adaptedcantrip')"
+                                        [disabled]="!can_Learn(wizardCasting, level, spell, 'adaptedcantrip')"
+                                        *ngIf="get_AvailableForLearning(wizardCasting, spell, true)">
+                                        Learn via Adapted Cantrip
+                                    </button>
                                     <button class="row center-aligned" (click)="learn_Spell(spell, 'free')"
                                         *ngIf="!get_SpellsLearned(spell.name).length && !spell.traditions.includes('Focus')">
                                         Learn using Learn A Spell activity

@@ -111,9 +111,10 @@ export class SpellchoiceComponent implements OnInit {
     get_SignatureSpellsAllowed() {
         if (
             this.get_Available(this.choice) == 1 &&
+            this.choice.level > 0 &&
             this.characterService.get_FeatsAndFeatures()
-            .filter(feature => feature.allowSignatureSpells)
-            .filter(feature => feature.have(this.get_Character(), this.characterService)).length &&
+                .filter(feature => feature.allowSignatureSpells)
+                .filter(feature => feature.have(this.get_Character(), this.characterService)).length &&
             this.choice.source != "Feat: Esoteric Polymath" &&
             this.spellCasting.className == this.get_Character().class.name
             ) {
@@ -329,6 +330,9 @@ export class SpellchoiceComponent implements OnInit {
             available = Math.max(choice.available + this.have_Feat("Occult Breadth"), 0);
         } else {
             available = Math.max(this.choice.available - this.get_SpellBlendingUsed() - this.get_InfinitePossibilitiesUsed(), 0);
+            if (this.have_Feat("Adapted Cantrip") && this.choice === this.get_Character().get_DefaultSpellcasting().spellChoices.find(spellChoice => spellChoice.level == 0)) {
+                available -= 1;
+            }
         }
         //If this choice has more spells than it should have (unless they are locked), remove the excess.
         if (choice.spells.length > available) {
@@ -376,6 +380,9 @@ export class SpellchoiceComponent implements OnInit {
                 //With Impossible Polymath, you can choose spells of any tradition in the Esoteric Polymath choice so long as you are trained in the associated skill.
                 if (choice.source == "Feat: Esoteric Polymath") {
                     spells.push(...allSpells.filter(spell => spell.traditions.find(tradition => this.get_EsotericPolymathAllowed(this.spellCasting, tradition)) && !spell.traditions.includes("Focus")));
+                //With Adapted Cantrip, you can choose spells of any tradition except your own.
+                } else if (choice.source == "Feat: Adapted Cantrip") {
+                    spells.push(...allSpells.filter(spell => !spell.traditions.includes(this.spellCasting.tradition) && !spell.traditions.includes("Focus")));
                 } else if (traditionFilter) {
                     spells.push(...allSpells.filter(spell => spell.traditions.includes(traditionFilter) && !spell.traditions.includes("Focus")));
                 } else {

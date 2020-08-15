@@ -470,6 +470,12 @@ export class FeatchoiceComponent implements OnInit {
                         result.push(req);
                     });
                 }
+                if (JSON.stringify(feat.heritagereq) != JSON.stringify(compare.heritagereq)) {
+                    feat.meetsHeritageReq(this.characterService, this.levelNumber).forEach(req => {
+                        result.push({ met: true, desc: ", " });
+                        result.push(req);
+                    });
+                }
                 if (feat.specialreqdesc && feat.specialreqdesc != compare.specialreqdesc) {
                     result.push({ met: true, desc: ", " });
                     result.push(feat.meetsSpecialReq(this.characterService, this.levelNumber));
@@ -497,6 +503,12 @@ export class FeatchoiceComponent implements OnInit {
             }
             if (feat.featreq.length) {
                 feat.meetsFeatReq(this.characterService, this.levelNumber).forEach(req => {
+                    result.push({ met: true, desc: ", " });
+                    result.push(req);
+                });
+            }
+            if (feat.heritagereq) {
+                feat.meetsHeritageReq(this.characterService, this.levelNumber).forEach(req => {
                     result.push({ met: true, desc: ", " });
                     result.push(req);
                 });

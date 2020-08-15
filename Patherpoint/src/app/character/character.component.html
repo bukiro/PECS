@@ -20,7 +20,8 @@
             <div class="list-item" *ngFor="let savegame of get_Savegames(); let index = index; trackBy:trackByIndex;">
                 <span>
                     <strong>{{savegame.name}}</strong> Level {{savegame.level}}
-                    {{savegame.heritage ? savegame.heritage : savegame.ancestry}} {{savegame.class}}
+                    {{savegame.heritage ? savegame.heritage + (!savegame.heritage.includes(savegame.ancestry) ? " " + savegame.ancestry : "") : savegame.ancestry}}
+                    {{savegame.class}}
                 </span>
                 <span>
                     <button (click)="load_CharacterFromDB(savegame)">Load</button>
@@ -488,7 +489,8 @@
                             <div class="list-item"
                                 *ngFor="let boost of get_AbilityBoosts(level.number, level.number, '', '', '', '', true); trackBy:trackByIndex;">
                                 <span>
-                                    Ability {{(boost.type == 'Flaw') ? 'Flaw' : 'Boost'}} ({{boost.source}}): {{boost.name}}
+                                    Ability {{(boost.type == 'Flaw') ? 'Flaw' : 'Boost'}} ({{boost.source}}):
+                                    {{boost.name}}
                                 </span>
                             </div>
                             <!--Fixed Skill Increases-->

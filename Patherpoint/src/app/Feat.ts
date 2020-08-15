@@ -15,6 +15,7 @@ import { Speed } from './Speed';
 import { SpecializationGain } from './SpecializationGain';
 import { AbilityChoice } from './AbilityChoice';
 import { ItemGain } from './ItemGain';
+import { Heritage } from './Heritage';
 
 export class Feat {
     public readonly _className: string = this.constructor.name;
@@ -27,6 +28,7 @@ export class Feat {
     public desc: string = "";
     public effects: any[] = [];
     public featreq: string[] = [];
+    public heritagereq: string = "";
     public gainAbilityChoice: AbilityChoice[] = [];
     public gainActivities: string[] = [];
     public gainAnimalCompanion: number = 0;
@@ -153,8 +155,9 @@ export class Feat {
         return result;
     }
     meetsFeatReq(characterService: CharacterService, charLevel: number = characterService.get_Character().level) {
-        //If the feat has a levelreq, check if the level beats that.
+        //If the feat has a featreq, check if you meet that.
         //Returns [requirement met, requirement description]
+        //Requirements like "Aggressive Block or Brutish Shove" are split when receiving the feats to compare.
         let result: Array<{met?:boolean, desc?:string}> = [];
         if (this.featreq.length) {
             this.featreq.forEach(featreq => {
@@ -180,6 +183,22 @@ export class Feat {
                     result.push({met:false, desc:featreq});
                 }
             })
+        } else {
+            result.push({met:true, desc:""});
+        }
+        return result;
+    }
+    meetsHeritageReq(characterService: CharacterService, charLevel: number = characterService.get_Character().level) {
+        //If the feat has a heritagereq, check if your heritage matches that.
+        //Requirements like "irongut goblin heritage or razortooth goblin heritage" are split into each heritage and succeed if either matches your heritage.
+        //Returns [requirement met, requirement description]
+        let result: Array<{met?:boolean, desc?:string}> = [];
+        if (this.heritagereq) {
+            if (this.heritagereq.split(" or ").find(heritage => characterService.get_Character().class?.heritage?.name == heritage)) {
+                result.push({met:true, desc:this.heritagereq});
+            } else {
+                result.push({met:false, desc:this.heritagereq});
+            }
         } else {
             result.push({met:true, desc:""});
         }
@@ -246,10 +265,13 @@ export class Feat {
         //Check the feat reqs. True if ALL are true.
         let featreqs = this.meetsFeatReq(characterService, charLevel);
         let featreq: boolean = featreqs.filter(req => req.met == false).length == 0;
+        //Check the heritage reqs. True if ALL are true. (There is only one.)
+        let heritagereqs = this.meetsHeritageReq(characterService, charLevel);
+        let heritagereq: boolean = heritagereqs.filter(req => req.met == false).length == 0;
         //Check the special req. True if returns true.
         let specialreq: boolean = this.meetsSpecialReq(characterService, charLevel).met;
         //Return true if all are true
-        return levelreq && abilityreq && skillreq && featreq && specialreq;
+        return levelreq && abilityreq && skillreq && featreq && specialreq && heritagereq;
     }
     have(creature: Character|AnimalCompanion|Familiar, characterService: CharacterService, charLevel: number = characterService.get_Character().level, excludeTemporary: boolean = false) {
         if (characterService.still_loading()) { return 0 }

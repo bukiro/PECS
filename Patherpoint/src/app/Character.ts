@@ -76,6 +76,10 @@ export class Character extends Creature {
     get_SpellLevel(levelNumber: number = this.level) {
         return Math.ceil(levelNumber / 2);
     }
+    get_DefaultSpellcasting() {
+        //Return the spellcasting that is assigned to this class, named "<class> Spellcasting" and neither focus not innate. Useful for feat requirements and assigning spell choices to the default spellcasting.
+        return this.class.spellCasting.find(casting => casting.className == this.class.name && !["Focus","Innate"].includes(casting.castingType) && casting.source == this.class.name + " Spellcasting");
+    }
     get_AbilityBoosts(minLevelNumber: number, maxLevelNumber: number, abilityName: string = "", type: string = "", source: string = "", sourceId: string = "", locked: boolean = undefined ) {
         if (this.class) {
             let boosts = [];
@@ -189,11 +193,23 @@ export class Character extends Creature {
         return this.class.levels[levelNumber].featChoices.filter(choice => choice.id == sourceId)[0];
     }
     add_SpellChoice(characterService: CharacterService, levelNumber: number, newChoice: SpellChoice) {
+        let insertChoice = Object.assign(new SpellChoice(), JSON.parse(JSON.stringify(newChoice)));
+        if (insertChoice.className == "Default") {
+            insertChoice.className = this.class.name;
+        }
+        if (insertChoice.castingType == "Default") {
+            insertChoice.castingType = this.get_DefaultSpellcasting()?.castingType || "";
+        }
         let spellCasting = this.class.spellCasting
-            .find(casting => casting.castingType == newChoice.castingType &&
-                (casting.className == newChoice.className || newChoice.className == ""));
+            .find(casting => 
+                casting.castingType == insertChoice.castingType &&
+                (
+                    casting.className == insertChoice.className ||
+                    insertChoice.className == ""
+                )
+            );
         if (spellCasting) {
-            let newLength: number = spellCasting.spellChoices.push(Object.assign(new SpellChoice(), JSON.parse(JSON.stringify(newChoice))));
+            let newLength: number = spellCasting.spellChoices.push(insertChoice);
             let choice = spellCasting.spellChoices[newLength-1];
             choice.spells = choice.spells.map(gain => Object.assign(new SpellGain(), gain));
             //If the choice has a charLevelAvailable lower than the current level, you could choose spells before you officially get this choice.

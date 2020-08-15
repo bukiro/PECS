@@ -134,7 +134,7 @@ export class ItemRunesComponent implements OnInit {
         }
         let runeLimit = this.item.material?.[0]?.runeLimit || 0;
         if (this.itemStore) {
-            this.get_CleanItems().weaponrunes.filter(rune => rune.striking && rune.striking != this.item.strikingRune).forEach(rune => {
+            this.get_CleanItems().weaponrunes.filter(rune => rune.striking && rune.striking != this.item.strikingRune && rune.striking <= this.item.potencyRune).forEach(rune => {
                 if (
                     //Don't show runes that the item material doesn't support.
                     runeLimit ?
@@ -148,7 +148,7 @@ export class ItemRunesComponent implements OnInit {
             })
         } else {
             this.get_Character().inventories.forEach(inv => {
-                inv.weaponrunes.filter(rune => rune.striking && rune.striking != this.item.strikingRune).forEach(rune => {
+                inv.weaponrunes.filter(rune => rune.striking && rune.striking != this.item.strikingRune && rune.striking <= this.item.potencyRune).forEach(rune => {
                     if (
                         //Don't show runes that the item material doesn't support.
                         runeLimit ?
@@ -172,7 +172,7 @@ export class ItemRunesComponent implements OnInit {
         }
         let runeLimit = this.item.material?.[0]?.runeLimit || 0;
         if (this.itemStore) {
-            this.get_CleanItems().armorrunes.filter(rune => rune.resilient && rune.resilient != this.item.resilientRune).forEach(rune => {
+            this.get_CleanItems().armorrunes.filter(rune => rune.resilient && rune.resilient != this.item.resilientRune && rune.resilient <= this.item.potencyRune).forEach(rune => {
                 if (
                     //Don't show runes that the item material doesn't support.
                     runeLimit ?
@@ -186,7 +186,7 @@ export class ItemRunesComponent implements OnInit {
             })
         } else {
             this.get_Character().inventories.forEach(inv => {
-                inv.armorrunes.filter(rune => rune.resilient && rune.resilient != this.item.resilientRune).forEach(rune => {
+                inv.armorrunes.filter(rune => rune.resilient && rune.resilient != this.item.resilientRune && rune.resilient <= this.item.potencyRune).forEach(rune => {
                     if (
                         //Don't show runes that the item material doesn't support.
                         runeLimit ?

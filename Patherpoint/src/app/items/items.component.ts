@@ -212,7 +212,17 @@ export class ItemsComponent implements OnInit {
                     )
                 : true
                 )
-            );
+            ).sort((a,b) => {
+                if ((a.level / 100) + a.name > (b.level / 100) + b.name) {
+                    return 1;
+                }
+                
+                if ((a.level / 100) + a.name < (b.level / 100) + b.name) {
+                    return -1;
+                }
+                
+                return 0;
+            });
     }
 
     can_ApplyTalismans(item: Item) {
