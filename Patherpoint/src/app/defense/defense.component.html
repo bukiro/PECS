@@ -112,6 +112,8 @@
                     </ng-container>
                 </ng-container>
                 <h3 class="fullsize-only box-header" *ngIf="!still_loading()">Saving Throws</h3>
+                <app-tags [creature]="creature" [objectName]="'Saving Throws'" [showTraits]=true [showFeats]=true
+                        [showItems]=true [showActivities]=true [showConditions]=true [showEffects]=true></app-tags>
                 <ng-container *ngFor="let skill of get_Skills('', 'Save')|sortBy:'asc':'name'; trackBy:trackByIndex;">
                     <app-skill [creature]="creature" [skill]=skill></app-skill>
                 </ng-container>

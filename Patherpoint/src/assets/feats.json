@@ -20426,5 +20426,12 @@
                 "value": "Level"
             }
         ]
+    },
+    {
+        "name": "Elf Atavism",
+        "traits": [
+            "Half-Elf"
+        ],
+        "levelreq": 1
     }
 ]

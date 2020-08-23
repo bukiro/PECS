@@ -3323,5 +3323,17 @@
             "Auditory",
             "Bard"
         ]
+    },
+    {
+        "name": "Courteous Comeback",
+        "actions": "Reaction",
+        "requirements": "You’re in a settlement or community, and you haven’t used Courteous Comeback in this settlement or community within the past month.",
+        "trigger": "You critically fail a Diplomacy check.",
+        "desc": "You grew up in the proud Padishah Empire, where even insults have a certain poetic wit. Reroll the triggering Diplomacy check, using the second result.",
+        "traits": [
+            "Uncommon",
+            "Fortune",
+            "Human"
+        ]
     }
 ]

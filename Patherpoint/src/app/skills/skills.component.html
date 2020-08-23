@@ -17,6 +17,12 @@
             </ng-container>
         </ng-container>
         <h3 class="box-header">Skills</h3>
+        <!--Skill Increases-->
+        <ng-container *ngFor="let choice of get_SkillChoices(); trackBy:trackByIndex;">
+            <app-skillchoice (showChoiceMessage)="receive_ChoiceMessage($event)"
+                [choice]="choice" [showChoice]="get_showList()">
+            </app-skillchoice>
+        </ng-container>
         <app-tags [creature]="creature" [objectName]="'Skills'" [showTraits]=true [showFeats]=true [showItems]=true
             [showActivities]=true [showConditions]=true [showEffects]=true></app-tags>
         <ng-container *ngFor="let skill of get_Skills('', 'Skill')|sortBy:'asc':'name'; trackBy:trackByIndex;">

@@ -60,6 +60,7 @@ import { DiceIcons_D8Component } from './dice/diceIcons_D8/diceIcons_D8.componen
 import { DiceIcons_D10Component } from './dice/diceIcons_D10/diceIcons_D10.component';
 import { DiceIcons_D12Component } from './dice/diceIcons_D12/diceIcons_D12.component';
 import { DiceIcons_D20Component } from './dice/diceIcons_D20/diceIcons_D20.component';
+import { SkillchoiceComponent } from './character/skillchoice/skillchoice.component';
 
 @NgModule({
    declarations: [
@@ -115,7 +116,8 @@ import { DiceIcons_D20Component } from './dice/diceIcons_D20/diceIcons_D20.compo
       DiceIcons_D8Component,
       DiceIcons_D10Component,
       DiceIcons_D12Component,
-      DiceIcons_D20Component
+      DiceIcons_D20Component,
+      SkillchoiceComponent
    ],
    imports: [
       BrowserModule,

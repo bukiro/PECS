@@ -21,6 +21,8 @@ export class ProficiencyFormComponent implements OnInit {
     characterService: CharacterService;
     @Input()
     level: number;
+    @Input()
+    excludeTemporary: boolean = false;
 
     constructor(
         private changeDetector: ChangeDetectorRef
@@ -44,7 +46,7 @@ export class ProficiencyFormComponent implements OnInit {
     }
 
     get_ProficiencyLevel() {
-        return this.skill.level(this.get_Creature(), this.characterService, this.level);
+        return this.skill.level(this.get_Creature(), this.characterService, this.level, this.excludeTemporary);
     }
 
     ngOnInit() {

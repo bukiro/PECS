@@ -11,10 +11,11 @@ export class Heritage {
     public desc: string = "";
     public featChoices: FeatChoice[] = [];
     public gainItems: ItemGain[] = [];
-    public increase: string = "";
     public name: string = "";
     public senses: string[] = [];
     public skillChoices: SkillChoice[] = [];
+    //Some feats may add additional heritages. We use the source here so we can identify and remove them.
+    public source: string = "";
     public sourceBook: string = "";
     public spellChoices: SpellChoice[] = [];
     public subType: string = "";

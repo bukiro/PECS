@@ -252,14 +252,14 @@ export class Character extends Creature {
         a.splice(a.indexOf(oldGain), 1);
         characterService.set_ToChange("Character", "activities");
     }
-    get_SkillIncreases(characterService: CharacterService, minLevelNumber: number, maxLevelNumber: number, skillName: string = "", source: string = "", sourceId: string = "", locked: boolean = undefined) {
+    get_SkillIncreases(characterService: CharacterService, minLevelNumber: number, maxLevelNumber: number, skillName: string = "", source: string = "", sourceId: string = "", locked: boolean = undefined, excludeTemporary: boolean = false) {
         if (this.class) {
             let increases: SkillIncrease[] = [];
             let choices: SkillChoice[] = []
             //Collect all skill choices from spellcasting, level and some item runes as well as oils that emulate those runes.
             let levels = this.class.levels.filter(level => level.number >= minLevelNumber && level.number <= maxLevelNumber);
             levels.forEach(level => {
-                choices.push(...level.skillChoices);
+                choices.push(...level.skillChoices.filter(choice => excludeTemporary ? !choice.showOnSheet : true));
                 choices.push(...level.loreChoices);
             });
             this.inventories.forEach(inventory => {
@@ -306,6 +306,7 @@ export class Character extends Creature {
     }
     process_Skill(characterService: CharacterService, skillName: string, train: boolean, choice: SkillChoice, locked: boolean) {
         characterService.set_ToChange("Character", "individualskills", skillName);
+        characterService.set_ToChange("Character", "skillchoices", skillName);
         if (train) {
             //The skill that you increase with Skilled Heritage at level 1 automatically gets increased at level 5 as well.
             let level = parseInt(choice.id.split("-")[0]);

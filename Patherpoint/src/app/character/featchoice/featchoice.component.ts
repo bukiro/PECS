@@ -11,7 +11,6 @@ import { Familiar } from 'src/app/Familiar';
 import { Character } from 'src/app/Character';
 import { TraitsService } from 'src/app/traits.service';
 import { EffectsService } from 'src/app/effects.service';
-import { typeWithParameters } from '@angular/compiler/src/render3/util';
 
 @Component({
     selector: 'app-featchoice',
@@ -45,12 +44,9 @@ export class FeatchoiceComponent implements OnInit {
         private changeDetector: ChangeDetectorRef,
         private characterService: CharacterService,
         private featsService: FeatsService,
-        private activitiesService: ActivitiesService,
-        private spellsService: SpellsService,
         private familiarsService: FamiliarsService,
         private traitsService: TraitsService,
         private effectsService: EffectsService,
-        private sortByPipe: SortByPipe
     ) { }
 
     toggle_Item(name: string) {
@@ -256,7 +252,8 @@ export class FeatchoiceComponent implements OnInit {
                 return feats.map(feat => {
                     let available = (this.cannotTake(feat, choice).length == 0 || this.featTakenByThis(feat, choice) || this.subFeatTakenByThis(feat, choice));
                     return {available:available, feat:feat};
-                }).sort(function(a,b) {
+                //Don't show unavailable feats if this choice is visible on the character sheet.
+                }).filter((featObj: {available:boolean, feat:Feat}) => choice.showOnSheet ? featObj.available : true).sort(function(a,b) {
                     //Sort by level, then name. Divide level by 100 to create leading zeroes (and not sort 10 before 2).
                     //For skill feat choices and general feat choices, sort by the associated skill (if exactly one), then level and name.
                     //Feats with less or more required skills are sorted first.

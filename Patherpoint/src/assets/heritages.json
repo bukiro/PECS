@@ -21,26 +21,26 @@
                 "filter": [
                     "Specialty Crafting"
                 ],
-                "id": "1-Feat-Heritage-0",
+                "id": "1-Feat-Anvil Dwarf-0",
                 "level": 0,
-                "source": "Heritage",
+                "source": "Anvil Dwarf",
                 "type": "Skill"
             }
         ],
         "skillChoices": [
             {
                 "_className": "SkillChoice",
-                "id": "1-Skill-Heritage-0",
+                "id": "1-Skill-Anvil Dwarf-0",
                 "increases": [
                     {
                         "locked": true,
                         "name": "Crafting",
-                        "source": "Heritage",
-                        "sourceId": "1-Skill-Heritage-0"
+                        "source": "Anvil Dwarf",
+                        "sourceId": "1-Skill-Anvil Dwarf-0"
                     }
                 ],
                 "maxRank": 2,
-                "source": "Heritage",
+                "source": "Anvil Dwarf",
                 "type": "Skill"
             }
         ]
@@ -56,13 +56,13 @@
                     {
                         "locked": true,
                         "name": "Death Warden Dwarf",
-                        "source": "Heritage",
-                        "sourceId": "1-Feat-Heritage-0"
+                        "source": "Death Warden Dwarf",
+                        "sourceId": "1-Feat-Death Warden Dwarf-0"
                     }
                 ],
-                "id": "1-Feat-Heritage-0",
+                "id": "1-Feat-Death Warden Dwarf-0",
                 "level": 0,
-                "source": "Heritage"
+                "source": "Death Warden Dwarf"
             }
         ]
     },
@@ -113,13 +113,13 @@
                     {
                         "locked": true,
                         "name": "Forge Dwarf",
-                        "source": "Heritage",
-                        "sourceId": "1-Feat-Heritage-0"
+                        "source": "Forge Dwarf",
+                        "sourceId": "1-Feat-Forge Dwarf-0"
                     }
                 ],
-                "id": "1-Feat-Heritage-0",
+                "id": "1-Feat-Forge Dwarf-0",
                 "level": 0,
-                "source": "Heritage"
+                "source": "Forge Dwarf"
             }
         ]
     },
@@ -135,25 +135,25 @@
                     {
                         "locked": true,
                         "name": "Oathkeeper Dwarf Perception",
-                        "source": "Heritage",
-                        "sourceId": "1-Feat-Heritage-0"
+                        "source": "Oathkeeper Dwarf",
+                        "sourceId": "1-Feat-Oathkeeper Dwarf-0"
                     },
                     {
                         "locked": true,
                         "name": "Oathkeeper Dwarf Diplomacy",
-                        "source": "Heritage",
-                        "sourceId": "1-Feat-Heritage-0"
+                        "source": "Oathkeeper Dwarf",
+                        "sourceId": "1-Feat-Oathkeeper Dwarf-0"
                     },
                     {
                         "locked": true,
                         "name": "Oathkeeper Dwarf Deception",
-                        "source": "Heritage",
-                        "sourceId": "1-Feat-Heritage-0"
+                        "source": "Oathkeeper Dwarf",
+                        "sourceId": "1-Feat-Oathkeeper Dwarf-0"
                     }
                 ],
-                "id": "1-Feat-Heritage-0",
+                "id": "1-Feat-Oathkeeper Dwarf-0",
                 "level": 0,
-                "source": "Heritage"
+                "source": "Oathkeeper Dwarf"
             }
         ]
     },
@@ -168,13 +168,13 @@
                     {
                         "locked": true,
                         "name": "Rock Dwarf",
-                        "source": "Heritage",
-                        "sourceId": "1-Feat-Heritage-0"
+                        "source": "Rock Dwarf",
+                        "sourceId": "1-Feat-Rock Dwarf-0"
                     }
                 ],
-                "id": "1-Feat-Heritage-0",
+                "id": "1-Feat-Rock Dwarf-0",
                 "level": 0,
-                "source": "Heritage"
+                "source": "Rock Dwarf"
             }
         ]
     },
@@ -189,13 +189,13 @@
                     {
                         "locked": true,
                         "name": "Strong-Blooded Dwarf",
-                        "source": "Heritage",
-                        "sourceId": "1-Feat-Heritage-0"
+                        "source": "Strong-Blooded Dwarf",
+                        "sourceId": "1-Feat-Strong-Blooded Dwarf-0"
                     }
                 ],
-                "id": "1-Feat-Heritage-0",
+                "id": "1-Feat-Strong-Blooded Dwarf-0",
                 "level": 0,
-                "source": "Heritage"
+                "source": "Strong-Blooded Dwarf"
             }
         ]
     },
@@ -208,9 +208,9 @@
             {
                 "_className": "FeatChoice",
                 "available": 1,
-                "id": "1-Feat-Heritage-0",
+                "id": "1-Feat-Ancient Elf-0",
                 "level": 2,
-                "source": "Heritage",
+                "source": "Ancient Elf",
                 "type": "Multiclass"
             }
         ]
@@ -226,13 +226,13 @@
                     {
                         "locked": true,
                         "name": "Arctic Elf",
-                        "source": "Heritage",
-                        "sourceId": "1-Feat-Heritage-0"
+                        "source": "Arctic Elf",
+                        "sourceId": "1-Feat-Arctic Elf-0"
                     }
                 ],
-                "id": "1-Feat-Heritage-0",
+                "id": "1-Feat-Arctic Elf-0",
                 "level": 0,
-                "source": "Heritage"
+                "source": "Arctic Elf"
             }
         ]
     },
@@ -256,13 +256,13 @@
                     {
                         "locked": true,
                         "name": "Desert Elf",
-                        "source": "Heritage",
-                        "sourceId": "1-Feat-Heritage-0"
+                        "source": "Desert Elf",
+                        "sourceId": "1-Feat-Desert Elf-0"
                     }
                 ],
-                "id": "1-Feat-Heritage-0",
+                "id": "1-Feat-Desert Elf-0",
                 "level": 0,
-                "source": "Heritage"
+                "source": "Desert Elf"
             }
         ]
     },
@@ -277,13 +277,13 @@
                     {
                         "locked": true,
                         "name": "Seer Elf",
-                        "source": "Heritage",
-                        "sourceId": "1-Feat-Heritage-0"
+                        "source": "Seer Elf",
+                        "sourceId": "1-Feat-Seer Elf-0"
                     }
                 ],
-                "id": "1-Feat-Heritage-0",
+                "id": "1-Feat-Seer Elf-0",
                 "level": 0,
-                "source": "Heritage"
+                "source": "Seer Elf"
             }
         ],
         "spellChoices": [
@@ -315,13 +315,13 @@
                     {
                         "locked": true,
                         "name": "Whisper Elf",
-                        "source": "Heritage",
-                        "sourceId": "1-Feat-Heritage-0"
+                        "source": "Whisper Elf",
+                        "sourceId": "1-Feat-Whisper Elf-0"
                     }
                 ],
-                "id": "1-Feat-Heritage-0",
+                "id": "1-Feat-Whisper Elf-0",
                 "level": 0,
-                "source": "Heritage"
+                "source": "Whisper Elf"
             }
         ]
     },
@@ -336,19 +336,19 @@
                     {
                         "locked": true,
                         "name": "Woodland Elf Climbing",
-                        "source": "Heritage",
-                        "sourceId": "1-Feat-Heritage-0"
+                        "source": "Woodland Elf",
+                        "sourceId": "1-Feat-Woodland Elf-0"
                     },
                     {
                         "locked": true,
                         "name": "Woodland Elf Cover",
-                        "source": "Heritage",
-                        "sourceId": "1-Feat-Heritage-0"
+                        "source": "Woodland Elf",
+                        "sourceId": "1-Feat-Woodland Elf-0"
                     }
                 ],
-                "id": "1-Feat-Heritage-0",
+                "id": "1-Feat-Woodland Elf-0",
                 "level": 0,
-                "source": "Heritage"
+                "source": "Woodland Elf"
             }
         ]
     },
@@ -394,13 +394,13 @@
                     {
                         "locked": true,
                         "name": "Sensate Gnome",
-                        "source": "Heritage",
-                        "sourceId": "1-Feat-Heritage-0"
+                        "source": "Sensate Gnome",
+                        "sourceId": "1-Feat-Sensate Gnome-0"
                     }
                 ],
-                "id": "1-Feat-Heritage-0",
+                "id": "1-Feat-Sensate Gnome-0",
                 "level": 0,
-                "source": "Heritage"
+                "source": "Sensate Gnome"
             }
         ],
         "senses": [
@@ -427,13 +427,13 @@
                     {
                         "locked": true,
                         "name": "Vivacious Gnome",
-                        "source": "Heritage",
-                        "sourceId": "1-Feat-Heritage-0"
+                        "source": "Vivacious Gnome",
+                        "sourceId": "1-Feat-Vivacious Gnome-0"
                     }
                 ],
-                "id": "1-Feat-Heritage-0",
+                "id": "1-Feat-Vivacious Gnome-0",
                 "level": 0,
-                "source": "Heritage"
+                "source": "Vivacious Gnome"
             }
         ]
     },
@@ -503,13 +503,13 @@
                     {
                         "locked": true,
                         "name": "Charhide Goblin",
-                        "source": "Heritage",
-                        "sourceId": "1-Feat-Heritage-0"
+                        "source": "Charhide Goblin",
+                        "sourceId": "1-Feat-Charhide Goblin-0"
                     }
                 ],
-                "id": "1-Feat-Heritage-0",
+                "id": "1-Feat-Charhide Goblin-0",
                 "level": 0,
-                "source": "Heritage"
+                "source": "Charhide Goblin"
             }
         ]
     },
@@ -524,19 +524,19 @@
                     {
                         "locked": true,
                         "name": "Irongut Goblin",
-                        "source": "Heritage",
-                        "sourceId": "1-Feat-Heritage-0"
+                        "source": "Irongut Goblin",
+                        "sourceId": "1-Feat-Irongut Goblin-0"
                     },
                     {
                         "locked": true,
                         "name": "Irongut Goblin Fortitude",
-                        "source": "Heritage",
-                        "sourceId": "1-Feat-Heritage-0"
+                        "source": "Irongut Goblin",
+                        "sourceId": "1-Feat-Irongut Goblin-0"
                     }
                 ],
-                "id": "1-Feat-Heritage-0",
+                "id": "1-Feat-Irongut Goblin-0",
                 "level": 0,
-                "source": "Heritage"
+                "source": "Irongut Goblin"
             }
         ]
     },
@@ -562,13 +562,13 @@
                     {
                         "locked": true,
                         "name": "Snow Goblin",
-                        "source": "Heritage",
-                        "sourceId": "1-Feat-Heritage-0"
+                        "source": "Snow Goblin",
+                        "sourceId": "1-Feat-Snow Goblin-0"
                     }
                 ],
-                "id": "1-Feat-Heritage-0",
+                "id": "1-Feat-Snow Goblin-0",
                 "level": 0,
-                "source": "Heritage"
+                "source": "Snow Goblin"
             }
         ]
     },
@@ -584,19 +584,19 @@
                     {
                         "locked": true,
                         "name": "Combat Climber",
-                        "source": "Heritage",
-                        "sourceId": "1-Feat-Heritage-0"
+                        "source": "Tailed Goblin",
+                        "sourceId": "1-Feat-Tailed Goblin-0"
                     },
                     {
                         "locked": true,
                         "name": "Tailed Goblin",
-                        "source": "Heritage",
-                        "sourceId": "1-Feat-Heritage-0"
+                        "source": "Tailed Goblin",
+                        "sourceId": "1-Feat-Tailed Goblin-0"
                     }
                 ],
-                "id": "1-Feat-Heritage-0",
+                "id": "1-Feat-Tailed Goblin-0",
                 "level": 0,
-                "source": "Heritage"
+                "source": "Tailed Goblin"
             }
         ]
     },
@@ -612,13 +612,13 @@
                     {
                         "locked": true,
                         "name": "Treedweller Goblin",
-                        "source": "Heritage",
-                        "sourceId": "1-Feat-Heritage-0"
+                        "source": "Treedweller Goblin",
+                        "sourceId": "1-Feat-Treedweller Goblin-0"
                     }
                 ],
-                "id": "1-Feat-Heritage-0",
+                "id": "1-Feat-Treedweller Goblin-0",
                 "level": 0,
-                "source": "Heritage"
+                "source": "Treedweller Goblin"
             }
         ]
     },
@@ -633,13 +633,13 @@
                     {
                         "locked": true,
                         "name": "Unbreakable Goblin",
-                        "source": "Heritage",
-                        "sourceId": "1-Feat-Heritage-0"
+                        "source": "Unbreakable Goblin",
+                        "sourceId": "1-Feat-Unbreakable Goblin-0"
                     }
                 ],
-                "id": "1-Feat-Heritage-0",
+                "id": "1-Feat-Unbreakable Goblin-0",
                 "level": 0,
-                "source": "Heritage"
+                "source": "Unbreakable Goblin"
             }
         ]
     },
@@ -654,13 +654,13 @@
                     {
                         "locked": true,
                         "name": "Gutsy Halfling",
-                        "source": "Heritage",
-                        "sourceId": "1-Feat-Heritage-0"
+                        "source": "Gutsy Halfling",
+                        "sourceId": "1-Feat-Gutsy Halfling-0"
                     }
                 ],
-                "id": "1-Feat-Heritage-0",
+                "id": "1-Feat-Gutsy Halfling-0",
                 "level": 0,
-                "source": "Heritage"
+                "source": "Gutsy Halfling"
             }
         ]
     },
@@ -675,13 +675,13 @@
                     {
                         "locked": true,
                         "name": "Hillock Halfling",
-                        "source": "Heritage",
-                        "sourceId": "1-Feat-Heritage-0"
+                        "source": "Hillock Halfling",
+                        "sourceId": "1-Feat-Hillock Halfling-0"
                     }
                 ],
-                "id": "1-Feat-Heritage-0",
+                "id": "1-Feat-Hillock Halfling-0",
                 "level": 0,
-                "source": "Heritage"
+                "source": "Hillock Halfling"
             }
         ]
     },
@@ -696,13 +696,13 @@
                     {
                         "locked": true,
                         "name": "Nomadic Halfling",
-                        "source": "Heritage",
-                        "sourceId": "1-Feat-Heritage-0"
+                        "source": "Nomadic Halfling",
+                        "sourceId": "1-Feat-Nomadic Halfling-0"
                     }
                 ],
-                "id": "1-Feat-Heritage-0",
+                "id": "1-Feat-Nomadic Halfling-0",
                 "level": 0,
-                "source": "Heritage"
+                "source": "Nomadic Halfling"
             }
         ]
     },
@@ -718,13 +718,13 @@
                     {
                         "locked": true,
                         "name": "Observant Halfling",
-                        "source": "Heritage",
-                        "sourceId": "1-Feat-Heritage-0"
+                        "source": "Observant Halfling",
+                        "sourceId": "1-Feat-Observant Halfling-0"
                     }
                 ],
-                "id": "1-Feat-Heritage-0",
+                "id": "1-Feat-Observant Halfling-0",
                 "level": 0,
-                "source": "Heritage"
+                "source": "Observant Halfling"
             }
         ]
     },
@@ -747,13 +747,13 @@
                     {
                         "locked": true,
                         "name": "Wildwood Halfling",
-                        "source": "Heritage",
-                        "sourceId": "1-Feat-Heritage-0"
+                        "source": "Wildwood Halfling",
+                        "sourceId": "1-Feat-Wildwood Halfling-0"
                     }
                 ],
-                "id": "1-Feat-Heritage-0",
+                "id": "1-Feat-Wildwood Halfling-0",
                 "level": 0,
-                "source": "Heritage"
+                "source": "Wildwood Halfling"
             }
         ]
     },
@@ -778,19 +778,19 @@
                     {
                         "locked": true,
                         "name": "Group Coercion",
-                        "source": "Heritage",
-                        "sourceId": "1-Feat-Heritage-0"
+                        "source": "Runtboss Hobgoblin",
+                        "sourceId": "1-Feat-Runtboss Hobgoblin-0"
                     },
                     {
                         "locked": true,
                         "name": "Runtboss Hobgoblin",
-                        "source": "Heritage",
-                        "sourceId": "1-Feat-Heritage-0"
+                        "source": "Runtboss Hobgoblin",
+                        "sourceId": "1-Feat-Runtboss Hobgoblin-0"
                     }
                 ],
-                "id": "1-Feat-Heritage-0",
+                "id": "1-Feat-Runtboss Hobgoblin-0",
                 "level": 0,
-                "source": "Heritage"
+                "source": "Runtboss Hobgoblin"
             }
         ]
     },
@@ -806,13 +806,13 @@
                     {
                         "locked": true,
                         "name": "Smokeworker Hobgoblin",
-                        "source": "Heritage",
-                        "sourceId": "1-Feat-Heritage-0"
+                        "source": "Smokeworker Hobgoblin",
+                        "sourceId": "1-Feat-Smokeworker Hobgoblin-0"
                     }
                 ],
-                "id": "1-Feat-Heritage-0",
+                "id": "1-Feat-Smokeworker Hobgoblin-0",
                 "level": 0,
-                "source": "Heritage"
+                "source": "Smokeworker Hobgoblin"
             }
         ]
     },
@@ -828,19 +828,19 @@
                     {
                         "locked": true,
                         "name": "Warmarch Hobgoblin",
-                        "source": "Heritage",
-                        "sourceId": "1-Feat-Heritage-0"
+                        "source": "Warmarch Hobgoblin",
+                        "sourceId": "1-Feat-Warmarch Hobgoblin-0"
                     },
                     {
                         "locked": true,
                         "name": "Warmarch Hobgoblin Hustle",
-                        "source": "Heritage",
-                        "sourceId": "1-Feat-Heritage-0"
+                        "source": "Warmarch Hobgoblin",
+                        "sourceId": "1-Feat-Warmarch Hobgoblin-0"
                     }
                 ],
-                "id": "1-Feat-Heritage-0",
+                "id": "1-Feat-Warmarch Hobgoblin-0",
                 "level": 0,
-                "source": "Heritage"
+                "source": "Warmarch Hobgoblin"
             }
         ]
     },
@@ -856,19 +856,19 @@
                     {
                         "locked": true,
                         "name": "Warrenbred Hobgoblin",
-                        "source": "Heritage",
-                        "sourceId": "1-Feat-Heritage-0"
+                        "source": "Warrenbred Hobgoblin",
+                        "sourceId": "1-Feat-Warrenbred Hobgoblin-0"
                     },
                     {
                         "locked": true,
                         "name": "Warrenbred Hobgoblin Perception",
-                        "source": "Heritage",
-                        "sourceId": "1-Feat-Heritage-0"
+                        "source": "Warrenbred Hobgoblin",
+                        "sourceId": "1-Feat-Warrenbred Hobgoblin-0"
                     }
                 ],
-                "id": "1-Feat-Heritage-0",
+                "id": "1-Feat-Warrenbred Hobgoblin-0",
                 "level": 0,
-                "source": "Heritage"
+                "source": "Warrenbred Hobgoblin"
             }
         ]
     },
@@ -925,9 +925,9 @@
             {
                 "_className": "FeatChoice",
                 "available": 1,
-                "id": "1-Feat-Heritage-0",
+                "id": "1-Feat-Versatile Heritage-0",
                 "level": 0,
-                "source": "Heritage",
+                "source": "Versatile Heritage",
                 "type": "General"
             }
         ]
@@ -944,13 +944,13 @@
                     {
                         "locked": true,
                         "name": "Wintertouched Human",
-                        "source": "Heritage",
-                        "sourceId": "1-Feat-Heritage-0"
+                        "source": "Wintertouched Human",
+                        "sourceId": "1-Feat-Wintertouched Heritage-0"
                     }
                 ],
-                "id": "1-Feat-Heritage-0",
+                "id": "1-Feat-Wintertouched Heritage-0",
                 "level": 0,
-                "source": "Heritage"
+                "source": "Wintertouched Human"
             }
         ]
     },
@@ -975,13 +975,13 @@
                     {
                         "locked": true,
                         "name": "Gourd Leshy",
-                        "source": "Heritage",
-                        "sourceId": "1-Feat-Heritage-0"
+                        "source": "Gourd Leshy",
+                        "sourceId": "1-Feat-Gourd Leshy-0"
                     }
                 ],
-                "id": "1-Feat-Heritage-0",
+                "id": "1-Feat-Gourd Leshy-0",
                 "level": 0,
-                "source": "Heritage"
+                "source": "Gourd Leshy"
             }
         ],
         "gainItems": [
@@ -1003,13 +1003,13 @@
                     {
                         "locked": true,
                         "name": "Leaf Leshy",
-                        "source": "Heritage",
-                        "sourceId": "1-Feat-Heritage-0"
+                        "source": "Leaf Leshy",
+                        "sourceId": "1-Feat-Leaf Leshy-0"
                     }
                 ],
-                "id": "1-Feat-Heritage-0",
+                "id": "1-Feat-Leaf Leshy-0",
                 "level": 0,
-                "source": "Heritage"
+                "source": "Leaf Leshy"
             }
         ]
     },
@@ -1025,13 +1025,13 @@
                     {
                         "locked": true,
                         "name": "Vine Leshy",
-                        "source": "Heritage",
-                        "sourceId": "1-Feat-Heritage-0"
+                        "source": "Vine Leshy",
+                        "sourceId": "1-Feat-Vine Leshy-0"
                     }
                 ],
-                "id": "1-Feat-Heritage-0",
+                "id": "1-Feat-Vine Leshy-0",
                 "level": 0,
-                "source": "Heritage"
+                "source": "Vine Leshy"
             }
         ]
     },
@@ -1047,19 +1047,19 @@
                     {
                         "locked": true,
                         "name": "Combat Climber",
-                        "source": "Heritage",
-                        "sourceId": "1-Feat-Heritage-0"
+                        "source": "Cliffscale Lizardfolk",
+                        "sourceId": "1-Feat-Cliffscale Lizardfolk-0"
                     },
                     {
                         "locked": true,
                         "name": "Cliffscale Lizardfolk",
-                        "source": "Heritage",
-                        "sourceId": "1-Feat-Heritage-0"
+                        "source": "Cliffscale Lizardfolk",
+                        "sourceId": "1-Feat-Cliffscale Lizardfolk-0"
                     }
                 ],
-                "id": "1-Feat-Heritage-0",
+                "id": "1-Feat-Cliffscale Lizardfolk-0",
                 "level": 0,
-                "source": "Heritage"
+                "source": "Cliffscale Lizardfolk"
             }
         ]
     },
@@ -1075,13 +1075,13 @@
                     {
                         "locked": true,
                         "name": "Frilled Lizardfolk",
-                        "source": "Heritage",
-                        "sourceId": "1-Feat-Heritage-0"
+                        "source": "Frilled Lizardfolk",
+                        "sourceId": "1-Feat-Frilled Lizardfolk-0"
                     }
                 ],
-                "id": "1-Feat-Heritage-0",
+                "id": "1-Feat-Frilled Lizardfolk-0",
                 "level": 0,
-                "source": "Heritage"
+                "source": "Frilled Lizardfolk"
             }
         ],
         "gainActivities": [
@@ -1100,19 +1100,19 @@
                     {
                         "locked": true,
                         "name": "Sandstrider Lizardfolk",
-                        "source": "Heritage",
-                        "sourceId": "1-Feat-Heritage-0"
+                        "source": "Sandstrider Lizardfolk",
+                        "sourceId": "1-Feat-Sandstrider Lizardfolk-0"
                     },
                     {
                         "locked": true,
                         "name": "Sandstrider Lizardfolk Resilience",
-                        "source": "Heritage",
-                        "sourceId": "1-Feat-Heritage-0"
+                        "source": "Sandstrider Lizardfolk",
+                        "sourceId": "1-Feat-Sandstrider Lizardfolk-0"
                     }
                 ],
-                "id": "1-Feat-Heritage-0",
+                "id": "1-Feat-Sandstrider Lizardfolk-0",
                 "level": 0,
-                "source": "Heritage"
+                "source": "Sandstrider Lizardfolk"
             }
         ]
     },
@@ -1137,13 +1137,13 @@
                     {
                         "locked": true,
                         "name": "Wetlander Lizardfolk",
-                        "source": "Heritage",
-                        "sourceId": "1-Feat-Heritage-0"
+                        "source": "Wetlander Lizardfolk",
+                        "sourceId": "1-Feat-Wetlander Lizardfolk-0"
                     }
                 ],
-                "id": "1-Feat-Heritage-0",
+                "id": "1-Feat-Wetlander Lizardfolk-0",
                 "level": 0,
-                "source": "Heritage"
+                "source": "Wetlander Lizardfolk"
             }
         ]
     },
@@ -1159,13 +1159,13 @@
                     {
                         "locked": true,
                         "name": "Bloodhound Shoony",
-                        "source": "Heritage",
-                        "sourceId": "1-Feat-Heritage-0"
+                        "source": "Bloodhound Shoony",
+                        "sourceId": "1-Feat-Bloodhound Shoony-0"
                     }
                 ],
-                "id": "1-Feat-Heritage-0",
+                "id": "1-Feat-Bloodhound Shoony-0",
                 "level": 0,
-                "source": "Heritage"
+                "source": "Bloodhound Shoony"
             }
         ],
         "senses": [
@@ -1184,13 +1184,13 @@
                     {
                         "locked": true,
                         "name": "Fishseeker Shoony",
-                        "source": "Heritage",
-                        "sourceId": "1-Feat-Heritage-0"
+                        "source": "Fishseeker Shoony",
+                        "sourceId": "1-Feat-Fishseeker Shoony-0"
                     }
                 ],
-                "id": "1-Feat-Heritage-0",
+                "id": "1-Feat-Fishseeker Shoony-0",
                 "level": 0,
-                "source": "Heritage"
+                "source": "Fishseeker Shoony"
             }
         ]
     },
@@ -1206,19 +1206,19 @@
                     {
                         "locked": true,
                         "name": "Paddler Shoony",
-                        "source": "Heritage",
-                        "sourceId": "1-Feat-Heritage-0"
+                        "source": "Paddler Shoony",
+                        "sourceId": "1-Feat-Paddler Shoony-0"
                     },
                     {
                         "locked": true,
                         "name": "Paddler Shoony Swimming",
-                        "source": "Heritage",
-                        "sourceId": "1-Feat-Heritage-0"
+                        "source": "Paddler Shoony",
+                        "sourceId": "1-Feat-Paddler Shoony-0"
                     }
                 ],
-                "id": "1-Feat-Heritage-0",
+                "id": "1-Feat-Paddler Shoony-0",
                 "level": 0,
-                "source": "Heritage"
+                "source": "Paddler Shoony"
             }
         ]
     },
@@ -1234,19 +1234,19 @@
                     {
                         "locked": true,
                         "name": "Thickcoat Shoony",
-                        "source": "Heritage",
-                        "sourceId": "1-Feat-Heritage-0"
+                        "source": "Thickcoat Shoony",
+                        "sourceId": "1-Feat-Thickcoat Shoony-0"
                     },
                     {
                         "locked": true,
                         "name": "Thickcoat Shoony Perception",
-                        "source": "Heritage",
-                        "sourceId": "1-Feat-Heritage-0"
+                        "source": "Thickcoat Shoony",
+                        "sourceId": "1-Feat-Thickcoat Shoony-0"
                     }
                 ],
-                "id": "1-Feat-Heritage-0",
+                "id": "1-Feat-Thickcoat Shoony-0",
                 "level": 0,
-                "source": "Heritage"
+                "source": "Thickcoat Shoony"
             }
         ]
     }

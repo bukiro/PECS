@@ -6,6 +6,7 @@ import { Character } from '../Character';
 import { ConditionsService } from '../conditions.service';
 import { Familiar } from '../Familiar';
 import { FamiliarsService } from '../familiars.service';
+import { SkillChoice } from '../SkillChoice';
 
 @Component({
     selector: 'app-skills',
@@ -17,6 +18,7 @@ export class SkillsComponent implements OnInit {
 
     @Input()
     creature: string = "Character";
+    private showList: string = "";
 
     constructor(
         private changeDetector: ChangeDetectorRef,
@@ -35,6 +37,22 @@ export class SkillsComponent implements OnInit {
         setTimeout(() => {
             this.characterService.set_Span(this.creature+"-skills");
         })
+    }
+
+    toggle_List(name: string) {
+        if (this.showList == name) {
+            this.showList = "";
+        } else {
+            this.showList = name;
+        }
+    }
+
+    get_showList() {
+        return this.showList;
+    }
+
+    receive_ChoiceMessage(name: string) {
+        this.toggle_List(name);
     }
 
     get_Skills(name: string = "", type: string = "") {
@@ -98,6 +116,17 @@ export class SkillsComponent implements OnInit {
             }
         }
         return Array.from(new Set(senses));
+    }
+
+    get_SkillChoices() {
+        if (this.creature == "Character") {
+            let character = (this.get_Creature() as Character);
+            let choices: SkillChoice[] = [];
+            character.class.levels.filter(level => level.number <= character.level).forEach(level => {
+                choices.push(...level.skillChoices.filter(choice => choice.showOnSheet))
+            });
+            return choices;
+        }
     }
 
     get_SenseDesc(sense: string) {

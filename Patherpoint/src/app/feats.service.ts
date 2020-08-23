@@ -20,6 +20,7 @@ import { SpecializationGain } from './SpecializationGain';
 import { AbilityChoice } from './AbilityChoice';
 import { AnimalCompanionClass } from './AnimalCompanionClass';
 import { ItemCollection } from './ItemCollection';
+import { Heritage } from './Heritage';
 
 @Injectable({
     providedIn: 'root'
@@ -213,6 +214,9 @@ export class FeatsService {
                                 increase.sourceId = newChoice.id;
                                 character.process_Skill(characterService, increase.name, true, newChoice, true);
                             })
+                            if (newChoice.showOnSheet) {
+                                characterService.set_ToChange(creature.type, "skills");
+                            }
                         }
                     });
                 } else {
@@ -233,6 +237,9 @@ export class FeatsService {
                                 character.increase_Skill(characterService, increase.name, false, oldChoice, increase.locked);
                             })
                             character.remove_SkillChoice(oldChoice);
+                            if (oldChoice.showOnSheet) {
+                                characterService.set_ToChange(creature.type, "skills");
+                            }
                         }
                     });
                 }
@@ -400,6 +407,20 @@ export class FeatsService {
                     if (oldFeats.length) {
                         character.customFeats.splice(character.customFeats.indexOf(oldFeats[0], 1));
                     }
+                }
+            }
+
+            //Elf Atavism
+            //We add an additional heritage to the character so we can work with it.
+            if (feat.name=="Elf Atavism") {
+                if (taken) {
+                    let newLength = character.class.additionalHeritages.push(new Heritage());
+                    character.class.additionalHeritages[newLength - 1].source = "Elf Atavism";
+                } else {
+                    let oldHeritage = character.class.additionalHeritages.find(heritage => heritage.source == "Elf Atavism");
+                    let heritageIndex = character.class.additionalHeritages.indexOf(oldHeritage);
+                    character.class.on_ChangeHeritage(characterService, heritageIndex);
+                    character.class.additionalHeritages.splice(heritageIndex, 1);
                 }
             }
 

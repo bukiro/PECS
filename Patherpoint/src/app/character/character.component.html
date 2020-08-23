@@ -592,52 +592,10 @@
                     </ng-container>
                 </ng-container>
                 <!--Skill Increases-->
-                <ng-container *ngFor="let choice of level.skillChoices; trackBy:trackByIndex;">
-                    <ng-container *ngFor="let listID of [choice.id]; trackBy:trackByIndex;">
-                        <div class="list-item" *ngIf="choice.available + get_SkillINTBonus(choice)"
-                            [ngClass]="{'problem':(choice.increases.length > choice.available + get_SkillINTBonus(choice) || someIllegal(choice)), 'fullsize-only':(choice.increases.length == choice.available + get_SkillINTBonus(choice))}">
-                            <button class="row sublist-toggle"
-                                [ngClass]="{'fancy-button':(choice.increases.length == choice.available + get_SkillINTBonus(choice))}"
-                                (click)="toggle_List(listID)">
-                                Skill Training
-                                ({{choice.source}}){{(choice.available + get_SkillINTBonus(choice) > 1) ?
-                                    (": "+ choice.increases.length +"/"+ (choice.available + get_SkillINTBonus(choice)) ) : 
-                                    (choice.increases.length) ? ": "+ choice.increases[0].name : ""}}
-                            </button>
-                            <div class="list-item sublist"
-                                [ngClass]="{'fancy-list':(choice.available + get_SkillINTBonus(choice) == choice.increases.length)}"
-                                *ngIf="get_showList()==listID">
-                                <div class="list-item"
-                                    *ngFor="let skill of get_AvailableSkills(choice, level)|sortBy:'asc':'name'; trackBy:trackByIndex;"
-                                    [ngClass]="{'problem':(!skill.isLegal(get_Character(), this.characterService, level.number) ||
-                                    (!skill.isLegal(get_Character(), this.characterService, level.number, choice.maxRank) && skillIncreasedByThis(skill, choice)))}">
-                                    <div class="row"
-                                        *ngFor="let itemID of [choice.id+skill.name]; trackBy:trackByIndex;">
-                                        <span>
-                                            <input id="{{itemID}}" type="checkbox"
-                                                (change)="on_SkillIncrease(skill.name, $event.target.checked, choice, false)"
-                                                [checked]="skillIncreasedByThis(skill, choice)"
-                                                [disabled]="skillLockedByThis(skill, choice) || (cannotIncrease(skill, level, choice).length && !skillIncreasedByThis(skill, choice))">
-                                            <label for="{{itemID}}">
-                                                <strong>{{skill.name}}{{skill.ability ? " (" + skill.ability.substr(0,3) + ")" : ""}}:</strong>
-                                                <app-proficiency-form [creature]="'Character'" [skill]="skill"
-                                                    [characterService]="this.characterService" [level]="level.number">
-                                                </app-proficiency-form>
-                                                <cite class="problem"
-                                                    *ngFor="let reason of cannotIncrease(skill, level, choice); trackBy:trackByIndex;">
-                                                    {{reason}}
-                                                </cite>
-                                                <cite class="problem"
-                                                    *ngIf="!skill.isLegal(get_Character(), this.characterService, level.number) || (!skill.isLegal(get_Character(), this.characterService, level.number, choice.maxRank) && skillIncreasedByThis(skill, choice))">
-                                                    This skill was raised higher than allowed!
-                                                </cite>
-                                            </label>
-                                        </span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </ng-container>
+                <ng-container *ngFor="let choice of get_SkillChoices(level); trackBy:trackByIndex;">
+                    <app-skillchoice (showChoiceMessage)="receive_ChoiceMessage($event)"
+                        [choice]="choice" [showChoice]="get_showList()" [level]="level" [excludeTemporary]="true">
+                    </app-skillchoice>
                 </ng-container>
                 <!--Feat choices-->
                 <ng-container *ngFor="let choice of get_FeatChoices(level); let index = index; trackBy:trackByIndex;">
@@ -946,6 +904,78 @@
                             </div>
                         </div>
                     </div>
+                </ng-container>
+                <!--Elf Atavism-->
+                <ng-container *ngIf="get_ElfAtavismFeat(level.number)">
+                    <ng-container *ngFor="let heritageIndex of get_ElfAtavismHeritageIndex()">
+                        <div class="list-item" [ngClass]="{'fullsize-only':(get_Character().class.additionalHeritages[heritageIndex].name)}"
+                            *ngFor="let listID of [level.number+'elfAtavism']; trackBy:trackByIndex;">
+                            <button class="row sublist-toggle" [ngClass]="{'fancy-button':((get_Character().class.additionalHeritages[heritageIndex].name))}"
+                                (click)="toggle_List(listID)">
+                                Heritage (Elf Atavism){{(get_Character().class.additionalHeritages[heritageIndex].name) ? ": "+ get_Character().class.additionalHeritages[heritageIndex].name : ""}}
+                            </button>
+                            <div class="list-item sublist" [ngClass]="{'fancy-list':((get_Character().class.additionalHeritages[heritageIndex].name))}"
+                                *ngIf="get_showList()==listID">
+                                <div class="list-item"
+                                    *ngFor="let heritage of get_AvailableHeritages('', 'Elf', heritageIndex)|sortBy:'asc':'name'; trackBy:trackByIndex;">
+                                    <span>
+                                        <input *ngIf="!heritage.subTypes.length" id="{{heritage.name}}" type="checkbox"
+                                            (change)="on_ElfAtavismHeritageChange(heritage, $event.target.checked, heritageIndex)"
+                                            [checked]="heritage.name === get_Character().class.additionalHeritages[heritageIndex].name">
+                                        <button class="lower left" *ngIf="heritage.subTypes.length" id="{{heritage.name}}"
+                                            (click)="toggle_Item(heritage.name+'desc')">v</button>
+                                        <label for="{{heritage.name}}">
+                                            <strong>{{heritage.name}}&nbsp;</strong>
+                                            <cite class="trait" *ngIf="heritage.traits.includes('Rare')"
+                                                title="{{get_Traits('Rare')[0]?.description}}">Rare</cite>
+                                            <cite class="trait" *ngIf="heritage.traits.includes('Uncommon')"
+                                                title="{{get_Traits('Uncommon')[0]?.description}}">Uncommon</cite>
+                                        </label>
+                                    </span>
+                                    <button (click)="toggle_Item(heritage.name+'desc')">
+                                        Show Description
+                                    </button>
+                                    <div class="row lower" *ngIf="this.get_showItem()==heritage.name+'desc'">
+                                        <!--Subheritages-->
+                                        <div class="list-item" *ngFor="let subheritage of heritage.subTypes; trackBy:trackByIndex;">
+                                            <span>
+                                                <input id="{{subheritage.name}}" type="checkbox"
+                                                    (change)="on_ElfAtavismHeritageChange(subheritage, $event.target.checked, heritageIndex)"
+                                                    [checked]="subheritage.name === get_Character().class.heritage.name">
+                                                <label for="{{subheritage.name}}">
+                                                    <strong>{{subheritage.subType}}</strong>
+                                                </label>
+                                            </span>
+                                        </div>
+                                        <!--End Subheritages-->
+                                        <div class="row left-aligned" *ngIf="heritage.sourceBook">
+                                            <strong>Source</strong><i>&nbsp;{{heritage.sourceBook}}</i>
+                                        </div>
+                                        <div class="row left-aligned">
+                                            <ng-container *ngFor="let desc of heritage.desc.split('\n\n'); trackBy:trackByIndex;">
+                                                <p *ngIf="desc.split('\n').length == 1">{{desc}}</p>
+                                                <ul *ngIf="desc.split('\n').length > 1">
+                                                    <li *ngFor="let line of desc.split('\n'); trackBy:trackByIndex;">{{line}}</li>
+                                                </ul>
+                                            </ng-container>
+                                        </div>
+                                        <ng-container *ngFor="let activityName of heritage.gainActivities; trackBy:trackByIndex;">
+                                            <div class="row left-aligned"
+                                                *ngFor="let activity of get_Activities(activityName); trackBy:trackByIndex;">
+                                                <h4 class="left-aligned">{{activity.name}}
+                                                    <app-actionIcons [actionString]="activity.actions">
+                                                    </app-actionIcons>
+                                                    {{(activity.activationType) ? activity.activationType : ""}}
+                                                </h4>
+                                                <app-activity class="row" [activity]=activity [allowActivate]=false>
+                                                </app-activity>
+                                            </div>
+                                        </ng-container>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </ng-container>
                 </ng-container>
                 <!--Fuse Stance-->
                 <ng-container *ngFor="let feat of get_FuseStanceFeat(level.number); trackBy:trackByIndex;">

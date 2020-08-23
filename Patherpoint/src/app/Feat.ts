@@ -141,7 +141,7 @@ export class Feat {
                 let expected: number = requirement.value;
                 if (requiredSkill.length > 0) {
                     requiredSkill.forEach(skill => {
-                        if (skill.level(character, characterService, charLevel) >= expected) {
+                        if (skill.level(character, characterService, charLevel, true) >= expected) {
                             result.push({met:true, desc:this.prof(expected)+requirement.skill});
                         } else {
                             result.push({met:false, desc:this.prof(expected)+requirement.skill});

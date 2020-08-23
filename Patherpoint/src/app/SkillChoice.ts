@@ -17,6 +17,9 @@ export class SkillChoice {
     //maxRank: the highest rank you are allowed to achieve with this choice.
     //This means that only skills are allowed which currently have maxRank-2 !
     public maxRank: number = 8;
+    //If showOnSheet is set, this choice is intended to be made on the character sheet instead of while building the character.
+    //  This is relevant for feats like Ancestral Longevity.
+    public showOnSheet: boolean = false;
     public source: string = "";
     public type: string = "";
 }

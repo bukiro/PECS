@@ -13,7 +13,6 @@ import { Ancestry } from '../Ancestry';
 import { Heritage } from '../Heritage';
 import { ItemsService } from '../items.service';
 import { Background } from '../Background';
-import { SkillChoice } from '../SkillChoice';
 import { LoreChoice } from '../LoreChoice';
 import { Ability } from '../Ability';
 import { AbilityChoice } from '../AbilityChoice';
@@ -284,13 +283,16 @@ export class CharacterComponent implements OnInit {
         this.characterService.set_ToChange("Character", "defense");
         this.characterService.set_ToChange("Character", "attacks");
         this.characterService.set_ToChange("Character", "general");
-        this.characterService.set_ToChange("Character", "skills");
         this.characterService.set_ToChange("Character", "individualskills", "all");
         this.characterService.set_ToChange("Character", "individualspells", "all");
         this.characterService.set_ToChange("Character", "activities");
         this.characterService.set_ToChange("Character", "spells");
         if (this.get_Character().get_AbilityBoosts(lowerLevel, higherLevel).length) {
             this.characterService.set_ToChange("Character", "abilities");
+        }
+        if (this.get_Character().get_SkillIncreases(this.characterService, lowerLevel, higherLevel)) {
+            this.characterService.set_ToChange("Character", "skillchoices");
+            this.characterService.set_ToChange("Character", "skills");
         }
         this.get_Character().get_FeatsTaken(lowerLevel, higherLevel).map(gain => this.get_FeatsAndFeatures(gain.name)[0]).filter(feat => feat).forEach(feat => {
             if (feat.showon) {
@@ -464,21 +466,12 @@ export class CharacterComponent implements OnInit {
         this.characterService.process_ToChange();
     }
 
-    get_Skills(name: string = "", type: string = "", locked: boolean = undefined) {
-        return this.characterService.get_Skills(this.get_Character(), name, type, locked)
+    get_SkillIncreases(minLevelNumber: number, maxLevelNumber: number, skillName: string, source: string = "", sourceId: string = "", locked: boolean = undefined) {
+        return this.get_Character().get_SkillIncreases(this.characterService, minLevelNumber, maxLevelNumber, skillName, source, sourceId, locked);
     }
 
-    prof(skillLevel: number) {
-        switch (skillLevel) {
-            case 2:
-                return "T"
-            case 4:
-                return "E"
-            case 6:
-                return "M"
-            case 8:
-                return "L"
-        }
+    get_Skills(name: string = "", type: string = "", locked: boolean = undefined) {
+        return this.characterService.get_Skills(this.get_Character(), name, type, locked)
     }
 
     size(size: number) {
@@ -492,108 +485,10 @@ export class CharacterComponent implements OnInit {
         }
     }
 
-    get_SkillINTBonus(choice: SkillChoice|LoreChoice) {
-        //Allow INT more skills if INT has been raised since the last level.
-        let levelNumber = parseInt(choice.id.split("-")[0]);
-        if (choice.source == "Intelligence") {
-            return this.get_INT(levelNumber) - this.get_INT(levelNumber - 1);
-        } else {
-            return 0;
-        }
-        
+    get_SkillChoices(level: Level) {
+        return level.skillChoices.filter(choice => !choice.showOnSheet);
     }
-
-    get_AvailableSkills(choice: SkillChoice, level: Level) {
-        let skills = this.get_Skills('', choice.type, false);
-        if (choice.filter.length) {
-            //Only filter the choice if enough of the filtered skills can be raised.
-            if (choice.filter.map(skillName => this.get_Skills(skillName)[0]).filter(skill => skill && !this.cannotIncrease(skill, level, choice).length).length >= choice.available) {
-                skills = skills.filter(skill => choice.filter.includes(skill.name))
-            }
-        }
-        if (choice.minRank) {
-            let character = this.get_Character();
-            skills = skills.filter(skill => skill.level(character, this.characterService, level.number) >= choice.minRank);
-        }
-        if (skills.length) {
-            return skills.filter(skill => (
-                this.skillIncreasedByThis(skill, choice) || choice.increases.length < choice.available + this.get_SkillINTBonus(choice)
-                ));
-        }
-    }
-
-    someIllegal(choice: SkillChoice) {
-        let anytrue = 0;
-        choice.increases.forEach(increase => {
-            if (!this.get_Skills(increase.name)[0].isLegal(this.get_Character(), this.characterService, parseInt(choice.id.split("-")[0]), choice.maxRank)) {
-                if (!increase.locked) {
-                    this.get_Character().increase_Skill(this.characterService, increase.name, false, choice, increase.locked);
-                    this.characterService.process_ToChange();
-                } else {
-                    anytrue += 1;
-                }
-            }
-        });
-        return anytrue;
-    }
-
-    cannotIncrease(skill: Skill, level: Level, choice: SkillChoice) {
-    //Returns a string of reasons why the skill cannot be increased, or []. Test the length of the return if you need a boolean.
-        let maxRank: number = choice.maxRank;
-        let reasons: string[] = [];
-        //The skill may have been increased by the same source, but as a fixed rule.
-        if (choice.increases.filter(increase => increase.name == skill.name && increase.locked).length) {
-            let locked = "Fixed increase.";
-            reasons.push(locked);
-        }
-        //If this skill was raised by a feat on a higher level, it can't be raised on this level.
-        //This prevents losing the feat bonus or raising the skill too high - feats never give +2, but always set the level
-        //An exception is made for Additional Lore, which can be raised on Level 3, 7 and 15 no matter when you learned it
-        let allIncreases = this.get_SkillIncreases(level.number+1, 20, skill.name, '');
-        if (allIncreases.length > 0) {
-            if (allIncreases[0].locked && allIncreases[0].source.includes("Feat: ") && allIncreases[0].source != "Feat: Additional Lore") {
-                let trainedOnHigherLevel = "Trained on a higher level by "+allIncreases[0].source+".";
-                reasons.push(trainedOnHigherLevel);
-            }
-        }
-        //Check if this skill cannot be raised higher at this level, or if this method only allows a certain rank
-        // (e.g. for Feats that TRAIN a skill)
-        //This is only relevant if you haven't raised the skill on this level yet.
-        //If you have, we don't want to hear that it couldn't be raised again right away
-        let cannotIncreaseHigher = "";
-        //You can never raise a skill higher than Legendary (8)
-        if (skill.level(this.get_Character(), this.characterService, level.number) == 8 && !this.skillIncreasedByThis(skill, choice)) {
-            cannotIncreaseHigher = "Cannot increase any higher.";
-            reasons.push(cannotIncreaseHigher);
-        } else if (!skill.canIncrease(this.get_Character(), this.characterService, level.number, maxRank) && !this.skillIncreasedByThis(skill, choice)) {
-            if (!skill.canIncrease(this.get_Character(), this.characterService, level.number)) {
-                cannotIncreaseHigher = "Cannot increase any higher on this level.";
-            } else {
-                cannotIncreaseHigher = "Cannot increase any higher with this method.";
-            }
-            reasons.push(cannotIncreaseHigher);
-        }
-        return reasons;
-    }
-
-    skillIncreasedByThis(skill: Skill, choice: SkillChoice|LoreChoice) {
-        return choice.increases.filter(increase => increase.name == skill.name).length
-    }
-
-    skillLockedByThis(skill: Skill, choice: SkillChoice|LoreChoice) {
-        return choice.increases.filter(increase => increase.name == skill.name && increase.locked).length
-    }
-
-    get_SkillIncreases(minLevelNumber: number, maxLevelNumber: number, skillName: string, source: string = "", sourceId: string = "", locked: boolean = undefined) {
-        return this.get_Character().get_SkillIncreases(this.characterService, minLevelNumber, maxLevelNumber, skillName, source, sourceId, locked);
-    }
-
-    on_SkillIncrease(skillName: string, boost: boolean, choice: SkillChoice|LoreChoice, locked: boolean = false) {
-        if (boost && (choice.increases.length == choice.available + this.get_SkillINTBonus(choice) - 1)) { this.showList=""; }
-        this.get_Character().increase_Skill(this.characterService, skillName, boost, choice, locked);
-        this.characterService.process_ToChange();
-    }
-
+    
     get_FeatChoices(level: Level) {
         return level.featChoices.filter(choice => !choice.showOnSheet);
     }
@@ -650,10 +545,34 @@ export class CharacterComponent implements OnInit {
         return Math.ceil(levelNumber / 2);
     }
 
-    get_DifferentWorldsFeat(levelNumber) {
+    get_DifferentWorldsFeat(levelNumber: number) {
         if (this.get_Character().get_FeatsTaken(levelNumber, levelNumber, "Different Worlds").length) {
             return this.get_Character().customFeats.filter(feat => feat.name == "Different Worlds");
         }
+    }
+
+    get_ElfAtavismFeat(levelNumber: number) {
+        return this.get_Character().get_FeatsTaken(levelNumber, levelNumber, "Elf Atavism").length
+    }
+
+    get_ElfAtavismHeritageIndex() {
+        let oldHeritage = this.get_Character().class.additionalHeritages.find(heritage => heritage.source == "Elf Atavism");
+        if (oldHeritage) {
+            return [this.get_Character().class.additionalHeritages.indexOf(oldHeritage)];
+        } else {
+            return []
+        }
+    }
+
+    on_ElfAtavismHeritageChange(heritage: Heritage, taken: boolean, index: number) {
+        if (taken) {
+            this.showList="";
+            this.characterService.change_Heritage(heritage, index);
+        } else {
+            this.characterService.change_Heritage(new Heritage(), index);
+        }
+        this.characterService.set_ToChange("Character", "all");
+        this.characterService.process_ToChange();
     }
 
     onDifferentWorldsBackgroundChange(level: Level, feat: Feat, background: Background, taken: boolean) {
@@ -799,9 +718,13 @@ export class CharacterComponent implements OnInit {
         return this.historyService.get_Heritages(name, ancestryName);
     }
 
-    get_AvailableHeritages(name: string = "", ancestryName: string = "") {
+    get_AvailableHeritages(name: string = "", ancestryName: string = "", index: number = -1) {
+        let heritage = this.get_Character().class.heritage;
+        if (index != -1) {
+            heritage = this.get_Character().class.additionalHeritages[index];
+        }
         return this.get_Heritages(name, ancestryName)
-            .filter(heritage => !this.get_Character().class.heritage?.name || heritage.name == this.get_Character().class.heritage.name);
+            .filter(availableHeritage => !heritage?.name || availableHeritage.name == heritage.name);
     }
 
     onHeritageChange(heritage: Heritage, taken: boolean) {
@@ -841,15 +764,7 @@ export class CharacterComponent implements OnInit {
         this.characterService.process_ToChange();
     }
 
-    get_INT(levelNumber: number) {
-        if (!levelNumber) {
-            return 0;
-        }
-        //We have to calculate the modifier instead of getting .mod() because we don't want any effects in the character building interface.
-        let intelligence: number = this.get_Abilities("Intelligence")[0].baseValue(this.get_Character(), this.characterService, levelNumber).result;
-        let INT: number = Math.floor((intelligence-10)/2);
-        return INT;
-    }
+    
 
     get_CompanionAvailable(levelNumber: number) {
         //Return the number of feats taken this level that granted you an animal companion

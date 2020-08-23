@@ -50,10 +50,10 @@ export class Skill {
         this.$value[index] = this.value(creature, characterService, abilitiesService, effectsService, charLevel);
         return this;
     }
-    level(creature: Character | AnimalCompanion, characterService: CharacterService, charLevel: number = characterService.get_Character().level) {
+    level(creature: Character | AnimalCompanion, characterService: CharacterService, charLevel: number = characterService.get_Character().level, excludeTemporary: boolean = false) {
         if (characterService.still_loading()) { return 0; }
         let skillLevel: number = 0;
-        let increases = creature.get_SkillIncreases(characterService, 0, charLevel, this.name);
+        let increases = creature.get_SkillIncreases(characterService, 0, charLevel, this.name, "", "", undefined, excludeTemporary);
         // Add 2 for each increase, but keep them to their max Rank
         increases = increases.sort((a, b) => (a.maxRank > b.maxRank) ? 1 : -1)
         increases.forEach(increase => {
@@ -61,26 +61,26 @@ export class Skill {
         })
         //If you have Monastic Weaponry, you can use your unarmed proficiency (up to Master) for Monk weapons
         if (this.name == "Monk" && characterService.get_Feats("Monastic Weaponry")[0]?.have(creature, characterService)) {
-            let unarmedLevel = characterService.get_Skills(creature, "Unarmed Attacks")[0]?.level(creature, characterService) || 0;
+            let unarmedLevel = characterService.get_Skills(creature, "Unarmed Attacks")[0]?.level(creature, characterService, charLevel, excludeTemporary) || 0;
             unarmedLevel = Math.min(unarmedLevel, 6);
             skillLevel = Math.max(skillLevel, unarmedLevel);
         }
         //If you have legendary proficiency in Occultism, you gain expert proficiency in Bardic Lore.
-        if (this.name == "Lore: Bardic" && characterService.get_Skills(creature, "Occultism")[0]?.level(creature, characterService) >= 8) {
+        if (this.name == "Lore: Bardic" && characterService.get_Skills(creature, "Occultism")[0]?.level(creature, characterService, charLevel, excludeTemporary) >= 8) {
             skillLevel = 4;
         }
         //If your proficiency in spell attack rolls or spell DCs is expert or better, apply that proficiency to your innate spells, too.
         if (this.name == "Innate Spell DC") {
             let spellDCs = characterService.get_Skills(creature).filter(skill => skill !== this && skill.name.includes("Spell DC"));
-            skillLevel = Math.max(skillLevel, ...spellDCs.map(skill => skill.level(creature, characterService, charLevel)));
+            skillLevel = Math.max(skillLevel, ...spellDCs.map(skill => skill.level(creature, characterService, charLevel, excludeTemporary)));
         }
         //If this is an advanced weapon group and you have the Advanced Weapon Training feat for it,
         //  you get the same proficiency as for martial weapons of the same group (or martial weapons in general).
         if (this.name.includes("Advanced ") && this.name != "Advanced Weapons") {
             if (creature.type == "Character" && (creature as Character).get_FeatsTaken(1, creature.level, "Advanced Weapon Training: "+this.name.split(" ")[1]).length) {
                 skillLevel = Math.max(
-                    characterService.get_Skills(creature, "Martial "+this.name.split(" ")[1])[0]?.level(creature, characterService) || 0,
-                    characterService.get_Skills(creature, "Martial Weapons")[0]?.level(creature, characterService) || 0,
+                    characterService.get_Skills(creature, "Martial "+this.name.split(" ")[1])[0]?.level(creature, characterService, charLevel, excludeTemporary) || 0,
+                    characterService.get_Skills(creature, "Martial Weapons")[0]?.level(creature, characterService, charLevel, excludeTemporary) || 0,
                     skillLevel);
             }
         }
@@ -96,13 +96,13 @@ export class Skill {
     }
     canIncrease(creature: Character, characterService: CharacterService, levelNumber: number, maxRank: number = 8) {
         if (levelNumber >= 15) {
-            return (this.level(creature, characterService, levelNumber) < Math.min(8, maxRank))
+            return (this.level(creature, characterService, levelNumber, true) < Math.min(8, maxRank))
         } else if (levelNumber >= 7) {
-            return (this.level(creature, characterService, levelNumber) < Math.min(6, maxRank))
+            return (this.level(creature, characterService, levelNumber, true) < Math.min(6, maxRank))
         } else if (levelNumber >= 2) {
-            return (this.level(creature, characterService, levelNumber) < Math.min(4, maxRank))
+            return (this.level(creature, characterService, levelNumber, true) < Math.min(4, maxRank))
         } else {
-            return (this.level(creature, characterService, levelNumber) < Math.min(2, maxRank))
+            return (this.level(creature, characterService, levelNumber, true) < Math.min(2, maxRank))
         }
     }
     isLegal(creature: Character, characterService: CharacterService, levelNumber: number, maxRank: number = 8) {

@@ -32,6 +32,7 @@ export class Class {
     public focusPoints: number = 0;
     public gainItems: ItemGain[] = [];
     public heritage: Heritage = new Heritage();
+    public additionalHeritages: Heritage[] = [];
     public hitPoints: number = 0;
     public languages: string[] = [];
     public levels: Level[] = [];
@@ -135,7 +136,6 @@ export class Class {
             this.languages.push(...this.ancestry.languages);
             characterService.set_ToChange("Character", "general");
             level.abilityChoices.push(...this.ancestry.abilityChoices);
-            level.featChoices.push(...this.heritage.featChoices);
             characterService.set_ToChange("Character", "charactersheet");
             //Grant all items and save their id in the ItemGain.
             this.ancestry.gainItems.forEach((freeItem: ItemGain) => {
@@ -170,20 +170,24 @@ export class Class {
         }
         characterService.set_ToChange("Character", "general");
     }
-    on_ChangeHeritage(characterService: CharacterService) {
-        if (this.heritage.name) {
+    on_ChangeHeritage(characterService: CharacterService, index: number = -1) {
+        let heritage: Heritage = this.heritage;
+        if (index != -1) {
+            heritage = this.additionalHeritages[index];
+        }
+        if (heritage?.name) {
             let level = this.levels[1];
             let character = characterService.get_Character();
-            this.heritage.ancestries.forEach(ancestryListing => {
+            heritage.ancestries.forEach(ancestryListing => {
                 this.ancestry.ancestries = this.ancestry.ancestries.filter(ancestry => ancestry != ancestryListing)
             })
-            this.heritage.traits.forEach(traitListing => {
+            heritage.traits.forEach(traitListing => {
                 this.ancestry.traits = this.ancestry.traits.filter(trait => trait != traitListing)
                 characterService.set_ToChange("Character", "general");
                 characterService.set_ToChange("Character", "charactersheet");
             })
             //Of each granted Item, find the item with the stored id and drop it.
-            this.heritage.gainItems.forEach((freeItem: ItemGain) => {
+            heritage.gainItems.forEach((freeItem: ItemGain) => {
                 if (freeItem.id) {
                     character.inventories.forEach(inv => {
                         inv[freeItem.type].filter((item: Equipment) => item.id == freeItem.id).forEach(item => {
@@ -195,28 +199,30 @@ export class Class {
             });
             //Some feats get specially processed when taken.
             //We can't just delete these feats, but must specifically un-take them to undo their effects.
-            this.heritage.featChoices.filter(choice => choice.available).forEach(choice => {
+            heritage.featChoices.filter(choice => choice.available).forEach(choice => {
                 choice.feats.forEach(feat => {
                     character.take_Feat(character, characterService, feat.name, false, choice, false);
                 });
             });
-            level.featChoices = level.featChoices.filter(choice => choice.source != "Heritage");
-            level.skillChoices = level.skillChoices.filter(choice => choice.source != "Heritage" && choice.source != "Skilled Heritage");
-            //Also remove the 5th level skill increase from Skilled Heritage
-            this.levels[5].skillChoices = this.levels[5].skillChoices.filter(choice => choice.source != "Skilled Heritage");
-            this.heritage.gainActivities.forEach((gainActivity: string) => {
-                let oldGain = character.class.activities.find(gain => gain.name == gainActivity && gain.source == this.heritage.name);
+            level.featChoices = level.featChoices.filter(choice => choice.source != heritage.name);
+            level.skillChoices = level.skillChoices.filter(choice => choice.source != heritage.name);
+            //Also remove the 1st and 5th level skill increase from Skilled Heritage if you are removing Skilled Heritage
+            if (heritage.name == "Skilled Heritage") {
+                this.levels[5].skillChoices = this.levels[5].skillChoices.filter(choice => choice.source != heritage.name);
+            }
+            heritage.gainActivities.forEach((gainActivity: string) => {
+                let oldGain = character.class.activities.find(gain => gain.name == gainActivity && gain.source == heritage.name);
                 if (oldGain) {
                     character.lose_Activity(characterService, characterService.timeService, characterService.itemsService, characterService.spellsService, characterService.activitiesService, oldGain);
                 }
             });
             //Gain Spell or Spell Option
-            this.heritage.spellChoices.forEach(oldSpellChoice => {
+            heritage.spellChoices.forEach(oldSpellChoice => {
                 character.remove_SpellChoice(characterService, oldSpellChoice);
             });
             //Undo all Wellspring Gnome changes, where we turned Primal spells into other traditions.
             //We collect all Gnome feats that grant a primal spell, and for all of those spells that you own, set the spell tradition to Primal on the character:
-            if (this.heritage.name.includes("Wellspring Gnome")) {
+            if (heritage.name.includes("Wellspring Gnome")) {
                 let feats: string[] = characterService.get_Feats("", "Gnome")
                     .filter(feat => 
                         feat.gainSpellChoice.filter(choice => 
@@ -234,16 +240,20 @@ export class Class {
             }
         }
     }
-    on_NewHeritage(characterService: CharacterService, itemsService: ItemsService) {
-        if (this.heritage.name) {
+    on_NewHeritage(characterService: CharacterService, itemsService: ItemsService, index: number = -1) {
+        let heritage: Heritage = this.heritage;
+        if (index != -1) {
+            heritage = this.additionalHeritages[index];
+        }
+        if (heritage?.name) {
             let character = characterService.get_Character();
             let level = this.levels[1];
-            this.ancestry.traits.push(...this.heritage.traits)
-            this.ancestry.ancestries.push(...this.heritage.ancestries);
-            level.featChoices.push(...this.heritage.featChoices);
-            level.skillChoices.push(...this.heritage.skillChoices);
+            this.ancestry.traits.push(...heritage.traits)
+            this.ancestry.ancestries.push(...heritage.ancestries);
+            level.featChoices.push(...heritage.featChoices);
+            level.skillChoices.push(...heritage.skillChoices);
             //Grant all items and save their id in the ItemGain.
-            this.heritage.gainItems.forEach((freeItem: ItemGain) => {
+            heritage.gainItems.forEach((freeItem: ItemGain) => {
                 let item: Equipment = itemsService.get_CleanItems()[freeItem.type].filter((item: Equipment) => item.name == freeItem.name)[0];
                 let grantedItem = characterService.grant_InventoryItem(characterService.get_Character(), characterService.get_Character().inventories[0], item, false, false, true, freeItem.amount);
                 freeItem.id = grantedItem.id;
@@ -251,7 +261,7 @@ export class Class {
             //Some feats get specially processed when taken.
             //We have to explicitly take these feats to process them.
             //So we remove them and then "take" them again.
-            level.featChoices.filter(choice => choice.source == "Heritage").forEach(choice => {
+            level.featChoices.filter(choice => choice.source == heritage.name).forEach(choice => {
                 let count: number = 0;
                 choice.feats.forEach(feat => {
                     count++;
@@ -263,26 +273,26 @@ export class Class {
             //If you have already trained this skill from another source:
             //Check if it is a free training (not locked). If so, remove it and reimburse the skill point, then replace it with the heritage's.
             //If it is locked, we better not replace it. Instead, you get a free Heritage skill increase.
-            if (this.heritage.skillChoices.length && this.heritage.skillChoices[0].increases.length) {
-                let existingIncreases = character.get_SkillIncreases(characterService, 1, 1, this.heritage.skillChoices[0].increases[0].name, '');
+            if (heritage.skillChoices.length && heritage.skillChoices[0].increases.length) {
+                let existingIncreases = character.get_SkillIncreases(characterService, 1, 1, heritage.skillChoices[0].increases[0].name, '');
                 if (existingIncreases.length) {
                     let existingIncrease = existingIncreases[0];
                     let existingSkillChoice: SkillChoice = character.get_SkillChoice(existingIncrease.sourceId);
-                    if (existingSkillChoice !== this.heritage.skillChoices[0]) {
+                    if (existingSkillChoice !== heritage.skillChoices[0]) {
                         if (!existingIncrease.locked) {
                             character.increase_Skill(characterService, existingIncrease.name, false, existingSkillChoice, false);
                         } else {
-                            this.heritage.skillChoices[0].increases.pop();
-                            this.heritage.skillChoices[0].available = 1;
+                            heritage.skillChoices[0].increases.pop();
+                            heritage.skillChoices[0].available = 1;
                         }
                     }
                 }
             }
-            this.heritage.gainActivities.forEach((gainActivity: string) => {
-                character.gain_Activity(characterService, Object.assign(new ActivityGain(), {name:gainActivity, source:this.heritage.name}), 1);
+            heritage.gainActivities.forEach((gainActivity: string) => {
+                character.gain_Activity(characterService, Object.assign(new ActivityGain(), {name:gainActivity, source:heritage.name}), 1);
             });
             //Gain Spell or Spell Option
-            this.heritage.spellChoices.forEach(newSpellChoice => {
+            heritage.spellChoices.forEach(newSpellChoice => {
                 let insertSpellChoice = Object.assign(new SpellChoice(), JSON.parse(JSON.stringify(newSpellChoice)));
                 insertSpellChoice.spells.forEach((gain: SpellGain) => {
                     gain.sourceId = insertSpellChoice.id;
@@ -294,12 +304,12 @@ export class Class {
             });
             //Wellspring Gnome changes primal spells to another tradition.
             //We collect all Gnome feats that grant a primal spell and set that spell to the same tradition as the heritage:
-            if (this.heritage.name.includes("Wellspring Gnome")) {
+            if (heritage.name.includes("Wellspring Gnome")) {
                 let feats: string[] = characterService.get_Feats("", "Gnome")
                 .filter(feat => feat.gainSpellChoice.filter(choice => choice.castingType == "Innate" && choice.tradition == "Primal").length).map(feat => feat.name);
                 this.spellCasting.find(casting => casting.castingType == "Innate")
                     .spellChoices.filter(choice => feats.includes(choice.source.substr(6))).forEach(choice => {
-                    choice.tradition = this.heritage.subType;
+                    choice.tradition = heritage.subType;
                     if (choice.available) {
                         choice.spells.length = 0;
                     }
